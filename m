@@ -1,50 +1,28 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 07E1471BFC
+Return-Path: <maxin.john@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 85C8F65CC6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 07:48:19 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id r197so4672591vke.2
+	Thu, 22 Mar 2018 08:49:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2018 01:49:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,343,1517904000"; d="scan'208";a="39611007"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2018 01:49:26 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id E034B580382
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 00:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Elw+jnvSjdrtr2GgyISpPVMLE3y/FU359P04635lRqs=;
-	b=WYNz1LQLiDalF0RlyAxg53KDzRrWYl4PAau+I/aLYTW/69ISr8l84PMFkW4yhxa7Fz
-	XYx5ho5avFNXCO3WTWsah9oToB0Bw2ygM6cRb3hTN/wpgqsyiZQX+6gOrwb6fdEDqtN/
-	3qI7Q0NQe3+74lYYqmiKz7wMcXPnD2f/q79XzgziucMy/NBfe7VGJNz/h8pq8yiFkpSF
-	CCF+D7JKeaCuOO6sUYBp+7PGLRdCtKx/Vf4ul5gLAC/BZIsDJ0t8OVjF/gvXLtei6YPG
-	Rbj8qrwZWfeW2yw7a8gC6FrAQUpBt+Dq7lBK9Nh2D7ZMHV0zpqgrOj2icsAOzZUWNpfj
-	gSlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Elw+jnvSjdrtr2GgyISpPVMLE3y/FU359P04635lRqs=;
-	b=FjGrHS/2CD8/gjpLelGPIplbNs7FB6dWc1JZNBs4hCyFHIHE2oCq2qCtGQZqXgTJEY
-	mr/aBZB9+MsTbj0DxmBexcqj/J9kNbzAxxRQ1/DoNhKLMEvjwS8UIyJ8Wn+nFQuxniVr
-	cfVm3sHFCfwOhXykhrqMJCAR2jfLgcVWPIC1unMnzKfFza+PFt8O/N8ik+gMD07h3zYe
-	WB1d+qfZce+LzFG83MVcfHY3g/e8SedQP2+fa8cjxIbGjd3wf73U4pvDj20l/BWvRWiJ
-	MzWJlAL3uibopbdkTo643BNVJ3gBSqT5+ymMSfl78ExZZOPq6EAtZnrx0gFt5HuUZwKY
-	h9/w==
-X-Gm-Message-State: AElRT7GzUC8KsD/zjixu7ks7NUX0k3e7yQ6RvHlRxIdkaKtdG8vkOVVo
-	b65dN+7akW8gBahG6u6BMHw+JaoR7K6g+f+/dls=
-X-Google-Smtp-Source: AG47ELvojJiyQ4PKtCLuIy7BIiAybOsNPsOi2kwx58ksLXfWqrrsijLPc7EfMzxhX5/QdncxfJV6wVwNknElgulBBqk=
-X-Received: by 10.31.198.131 with SMTP id w125mr14960347vkf.158.1521704901038; 
-	Thu, 22 Mar 2018 00:48:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.34.4 with HTTP; Thu, 22 Mar 2018 00:48:20 -0700 (PDT)
-In-Reply-To: <CAPGMVzEsGUc8XjKFu-VkE=M7A1NvLABriELEFAFn+A3eOCDTiQ@mail.gmail.com>
-References: <CAPGMVzHjT8cpXrDo0JVWph9t+RUSE-b-ZPpi+ZMg8kH1LPq-Zg@mail.gmail.com>
-	<CAPGMVzEhY3iagj0z3w=6QXWhMe2o8UXYwhQCUjjFVPodsoFHug@mail.gmail.com>
-	<CAB2nKc-kdosjmpEk0cBVP4=B304MZc9sF4D6mY=2j1hUeCFW-A@mail.gmail.com>
-	<CAPGMVzEsGUc8XjKFu-VkE=M7A1NvLABriELEFAFn+A3eOCDTiQ@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Thu, 22 Mar 2018 13:18:20 +0530
-Message-ID: <CAPGMVzHEDDk4OTY2y4suGD93j6x2GFYeneEU9yL4WC-_RVNn3w@mail.gmail.com>
-To: Vincent Prince <vincent.prince.fr@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: QUERY regarding package inclusion - Yocto
+	Thu, 22 Mar 2018 01:49:25 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2018 10:53:07 +0200
+Message-Id: <1521708787-30071-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [morty][PATCH] grub-efi: fix build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,199 +35,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 07:48:20 -0000
-Content-Type: multipart/alternative; boundary="001a114db6c21459a70567fb8848"
+X-List-Received-Date: Thu, 22 Mar 2018 08:49:25 -0000
 
---001a114db6c21459a70567fb8848
-Content-Type: text/plain; charset="UTF-8"
+grub-efi build fails with the following error on Fedora 26:
 
-i'd like to know if the recipe named 'tensorrt' in the layer 'meta-tegra'
-equivalent to tensorflow? Because i need to install tensorflow packages on
-to my yocto image and there are no recipes for it
+| ../grub-2.00/util/raid.c: In function 'grub_util_raid_getmembers':
+| ../grub-2.00/util/raid.c:91:13: error: In the GNU C Library, "makedev"
+is defined
+|  by <sys/sysmacros.h>. For historical compatibility, it is
+|  currently defined by <sys/types.h> as well, but we plan to
+|  remove this soon. To use "makedev", include <sys/sysmacros.h>
+|  directly. If you did not intend to use a system-defined macro
+|  "makedev", you should undefine it after including <sys/types.h>.
+[-Werror]
+|         makedev (disk.major, disk.minor));
+|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Rajath C S,
-9964182112,
-Bangalore - 560060
+Resolve the build error by backporting the fix from upstream.
 
-On Thu, Mar 22, 2018 at 1:16 PM, Rajath C S <rajathcs.1996@gmail.com> wrote:
+[YOCTO #12595]
 
-> Hi Vincent,
->
->
-> where should i be adding this line i mean in which file?
-> DEPENDS = "python3-numpy python3-dev python3-pip python3-wheel"
->
-> Thanks
->
-> Rajath C S,
-> 9964182112,
-> Bangalore - 560060
->
-> On Wed, Mar 21, 2018 at 3:24 PM, Vincent Prince <
-> vincent.prince.fr@gmail.com> wrote:
->
->> Hi,
->>
->> There is no support for those yet, so you need to create recipes for
->> them.
->>
->> You can use devtool workflow to do so, i suggest you to look at this
->> video
->> https://www.youtube.com/watch?v=CiD7rB35CRE
->>
->> Every recipes are quite different and reflects how you build them by
->> hand.
->>
->> For tensorflow, first step will be
->> devtool add tensorflow https://github.com/tensorflow/tensorflow
->>
->> Then, you need to look at https://www.tensorflow.org/
->> install/install_sources, and translate it into yocto recipe.
->> For instance, it says it depends on several python packages, so in recipe
->> you will probably need to add those with:
->>
->> DEPENDS = "python3-numpy python3-dev python3-pip python3-wheel"
->>
->> You can look at those url too:
->> https://github.com/snipsco/tensorflow-build
->> https://github.com/madisongh/meta-tegra/blob/master/recipes-
->> devtools/gie/tensorrt_2.1-20170614-1-1.bb
->> https://groups.google.com/forum/?utm_medium=email&utm_source
->> =footer#!msg/bazel-discuss/TmBDKmoEvlI/GXng74b_AAAJ
->> https://stackoverflow.com/questions/36545388/use-pip-install
->> -command-in-recipes-yocto-project
->>
->> It's a hard job, and as seems new to Yocto, I suggest you to hire some
->> guy, or at least try to create easier recipes before.
->>
->> Cheers
->>
->>
->>
->> 2018-03-20 5:37 GMT+01:00 Rajath C S <rajathcs.1996@gmail.com>:
->>
->>> Dear Vincent,
->>>
->>> I am working on yocto from few weeks and my current goal is to include
->>> few set of packages.
->>> Initially i thought i will download the repo of those packages and
->>> compile them and copy the compiled binaries to yocto image, apparently
->>> which i dint know how exactly to be done. So, i followed the method of
->>> recipe & layers.
->>>
->>> Now i need to include *'keras'* and* 'tensorflow'* packages in Poky, i
->>> am not able to find any source that helps me do it and i dont know how to
->>> do it from source. Could you please guide me through this (either the
->>> recipe way or compiling from source way is fine)
->>>
->>> Thank You,
->>>
->>> Rajath C S,
->>> 9964182112,
->>> Bangalore - 560060
->>>
->>>
->>>
->>
->
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...ix-check-for-sys-sysmacros.h-under-glibc-.patch | 48 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
 
---001a114db6c21459a70567fb8848
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch b/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
+new file mode 100644
+index 0000000..23717e3
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
+@@ -0,0 +1,48 @@
++From 07662af7aed55bcec448bc2a6610de1f0cb62100 Mon Sep 17 00:00:00 2001
++From: Andrei Borzenkov <arvidjaar@gmail.com>
++Date: Thu, 22 Dec 2016 22:48:25 +0300
++Subject: [PATCH] configure: fix check for sys/sysmacros.h under glibc 2.25+
++
++glibc 2.25 still includes sys/sysmacros.h in sys/types.h but also emits
++deprecation warning. So test for sys/types.h succeeds in configure but later
++compilation fails because we use -Werror by default.
++
++While this is fixed in current autoconf GIT, we really cannot force everyone
++to use bleeding edge (that is not even released right now). So run test under
++-Werror as well to force proper detection.
++
++This should have no impact on autoconf 2.70+ as AC_HEADER_MAJOR in this version
++simply checks for header existence.
++
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/grub.git/commit/?id=07662af7aed55bcec448bc2a6610de1f0cb62100]
++
++Reported and tested by Khem Raj <raj.khem@gmail.com>
++
++Signed-off-by: Andrei Borzenkov <arvidjaar@gmail.com>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ configure.ac | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index dc56564..4e980c5 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -389,7 +389,14 @@ fi
++ # Check for functions and headers.
++ AC_CHECK_FUNCS(posix_memalign memalign getextmntent)
++ AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h limits.h)
+++
+++# glibc 2.25 still includes sys/sysmacros.h in sys/types.h but emits deprecation
+++# warning which causes compilation failure later with -Werror. So use -Werror here
+++# as well to force proper sys/sysmacros.h detection.
+++SAVED_CFLAGS="$CFLAGS"
+++CFLAGS="$HOST_CFLAGS -Werror"
++ AC_HEADER_MAJOR
+++CFLAGS="$SAVED_CFLAGS"
++ 
++ AC_CHECK_MEMBERS([struct statfs.f_fstypename],,,[$ac_includes_default
++ #include <sys/param.h>
++-- 
++2.4.0
++
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index 5a0dc95..013fe42 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -6,6 +6,7 @@ PR = "r3"
+ 
+ SRC_URI += " \
+            file://cfg \
++           file://0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch \
+           "
+ 
+ S = "${WORKDIR}/grub-${PV}"
+-- 
+2.4.0
 
-<div dir=3D"ltr">i&#39;d like to know if the recipe named &#39;tensorrt&#39=
-; in the layer=20
-&#39;meta-tegra&#39; equivalent to tensorflow? Because i need to install=20
-tensorflow packages on to my yocto image and there are no recipes for it<br=
-></div><div class=3D"gmail_extra"><br clear=3D"all"><div><div class=3D"gmai=
-l_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>=
-Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></div=
-></div>
-<br><div class=3D"gmail_quote">On Thu, Mar 22, 2018 at 1:16 PM, Rajath C S =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"=
-_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr"><div>Hi Vincent,<br><br><div><br></div>where=
- should i be adding this line i mean in which file?<span class=3D""><br>DEP=
-ENDS =3D &quot;python3-numpy python3-dev python3-pip python3-wheel&quot;<br=
-><br></span></div>Thanks<br></div><div class=3D"gmail_extra"><span class=3D=
-""><br clear=3D"all"><div><div class=3D"m_-8029520054667909826gmail_signatu=
-re" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>Rajath C =
-S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></div></div>
-<br></span><div><div class=3D"h5"><div class=3D"gmail_quote">On Wed, Mar 21=
-, 2018 at 3:24 PM, Vincent Prince <span dir=3D"ltr">&lt;<a href=3D"mailto:v=
-incent.prince.fr@gmail.com" target=3D"_blank">vincent.prince.fr@gmail.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Hi,=
-=C2=A0<div><br></div><div>There is no support for those yet, so you need to=
- create recipes for them.=C2=A0</div><div><br></div><div>You can use devtoo=
-l workflow to do so, i suggest you to look at this video=C2=A0</div><div><a=
- href=3D"https://www.youtube.com/watch?v=3DCiD7rB35CRE" target=3D"_blank">h=
-ttps://www.youtube.com/watch?<wbr>v=3DCiD7rB35CRE</a></div><div><br></div><=
-div>Every recipes are quite different and reflects how you build them by ha=
-nd.=C2=A0<br></div><div><br></div><div>For tensorflow, first step will be=
-=C2=A0</div><div>devtool add tensorflow <a href=3D"https://github.com/tenso=
-rflow/tensorflow" target=3D"_blank">https://github.com/tensorflow/<wbr>tens=
-orflow</a><br></div><div><br></div><div>
 
-<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:s=
-mall;font-style:normal;font-variant-ligatures:normal;font-variant-caps:norm=
-al;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;t=
-ext-transform:none;white-space:normal;word-spacing:0px;background-color:rgb=
-(255,255,255);text-decoration-style:initial;text-decoration-color:initial;f=
-loat:none;display:inline">Then, you need to look at=C2=A0<a href=3D"https:/=
-/www.tensorflow.org/install/install_sources" target=3D"_blank">https://www.=
-tensorflow.org/<wbr>install/install_sources</a>, and translate it into yoct=
-o recipe.</span>
-
-<br></div><div>For instance, it says it depends on several python packages,=
- so in recipe you will probably need to add those with:</div><div><br></div=
->DEPENDS =3D &quot;python3-numpy python3-dev python3-pip python3-wheel&quot=
-;<div><br></div><div>You can look at those url too:</div><div><a href=3D"ht=
-tps://github.com/snipsco/tensorflow-build" target=3D"_blank">https://github=
-.com/snipsco/ten<wbr>sorflow-build</a></div><div><a href=3D"https://github.=
-com/madisongh/meta-tegra/blob/master/recipes-devtools/gie/tensorrt_2.1-2017=
-0614-1-1.bb" target=3D"_blank">https://github.com/madisongh/m<wbr>eta-tegra=
-/blob/master/recipes-<wbr>devtools/gie/tensorrt_2.1-2017<wbr>0614-1-1.bb</a=
-></div><div><a href=3D"https://groups.google.com/forum/?utm_medium=3Demail&=
-amp;utm_source=3Dfooter#!msg/bazel-discuss/TmBDKmoEvlI/GXng74b_AAAJ" target=
-=3D"_blank">https://groups.google.com/foru<wbr>m/?utm_medium=3Demail&amp;ut=
-m_source<wbr>=3Dfooter#!msg/bazel-discuss/TmB<wbr>DKmoEvlI/GXng74b_AAAJ</a>=
-<br></div><div><a href=3D"https://stackoverflow.com/questions/36545388/use-=
-pip-install-command-in-recipes-yocto-project" target=3D"_blank">https://sta=
-ckoverflow.com/ques<wbr>tions/36545388/use-pip-install<wbr>-command-in-reci=
-pes-yocto-proj<wbr>ect</a><br></div><div><br></div><div>It&#39;s a hard job=
-, and as seems new to Yocto, I suggest you to hire some guy, or at least tr=
-y to create easier recipes before.=C2=A0</div><div><br></div><div>Cheers<br=
-><div><br></div><div><br></div></div><div><div class=3D"m_-8029520054667909=
-826h5"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">2018-03-20=
- 5:37 GMT+01:00 Rajath C S <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs=
-.1996@gmail.com" target=3D"_blank">rajathcs.1996@gmail.com</a>&gt;</span>:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quot=
-e"><div dir=3D"ltr"><div>Dear Vincent,<br><br></div><div>I am working on yo=
-cto from few weeks and my current goal is to include few set of packages. <=
-br></div><div>Initially
- i thought i will download the repo of those packages and compile them=20
-and copy the compiled binaries to yocto image, apparently which i dint=20
-know how exactly to be done. So, i followed the method of recipe &amp;=20
-layers.<br><br></div><div>Now i need to include <b>&#39;keras&#39;</b> and<=
-b> &#39;tensorflow&#39;</b>
- packages in Poky, i am not able to find any source that helps me do it=20
-and i dont know how to do it from source. Could you please guide me=20
-through this (either the recipe way or compiling from source way is=20
-fine) <br><br></div><div>Thank You,<br><br></div><div><div><div><div class=
-=3D"m_-8029520054667909826m_420428235224155962m_-7525334218778509529m_-2010=
-27261988464234m_4005454784460524205gmail-m_-2512251676014381749gmail-m_6400=
-405892118559791gmail_signature"><div dir=3D"ltr"><div><div>Rajath C S,<br>9=
-964182112,<br></div></div>Bangalore - 560060</div></div></div></div></div><=
-div><div class=3D"m_-8029520054667909826m_420428235224155962m_-752533421877=
-8509529m_-201027261988464234m_4005454784460524205gmail_signature" data-smar=
-tmail=3D"gmail_signature"><div dir=3D"ltr"><br></div></div></div>
-</div>
-</div><br></div>
-</blockquote></div><br></div></div></div></div>
-</blockquote></div><br></div></div></div>
-</blockquote></div><br></div>
-
---001a114db6c21459a70567fb8848--
