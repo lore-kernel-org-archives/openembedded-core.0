@@ -1,33 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A0C1E788E0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E729788E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 11:45:04 +0000 (UTC)
+	Thu, 22 Mar 2018 13:54:15 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2018 04:45:05 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2018 06:54:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,344,1517904000"; d="scan'208";a="44359589"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 22 Mar 2018 04:45:04 -0700
-To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1521503987-70014-1-git-send-email-ee.peng.yeoh@intel.com>
-	<cec1c204-c8c1-74da-d89d-bba2ed0d369c@linux.intel.com>
-	<9DDD2658D1FE414E99172D2DB1E4D04335DFA1B9@PGSMSX109.gar.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.48,345,1517904000"; d="scan'208";a="26130870"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga007.fm.intel.com with ESMTP; 22 Mar 2018 06:54:16 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <a60cf40f-d4f3-c8a1-fa2b-42e31cc91518@linux.intel.com>
-Date: Thu, 22 Mar 2018 13:38:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <9DDD2658D1FE414E99172D2DB1E4D04335DFA1B9@PGSMSX109.gar.corp.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] oe-selftest: crosstap: add tests for crosstap script
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2018 15:47:37 +0200
+Message-Id: <20180322134737.10510-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.16.1
+Subject: [PATCH] systemd: link udev statically with systemd internal libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,54 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 11:45:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Mar 2018 13:54:16 -0000
 
-On 03/22/2018 02:50 AM, Yeoh, Ee Peng wrote:
->  From my understanding, oeqa.utils.commands.runqemu will start and stop qemu in a single call.
+This was the default behavior with autotools, but is not with meson.
+Otherwise, udev package will pull in the rest of systemd even
+that is not desired.
 
-That's not the case at all. Please look at the example below again:
+[YOCTO #12618]
 
-                     with runqemu('core-image-minimal') as qemu:
-                          # Make the test echo a string and search for 
-that as
-                          # run_serial()'s status code is useless.'
-                          for filename in ("rootfs", "delayed-a",
-"delayed-b"):
-                              status, output = qemu.run_serial("test -f 
-%s && echo found" % os.path.join(targettestdir, filename))
-                              self.assertEqual(output, "found", "%s was 
-not present on boot" % filename)
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-core/systemd/systemd_237.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-It starts qemu, then does things (qemu.run_serial() ) with that running 
-qemu instance. How and where qemu gets stopped is the 'magic' of 'with' 
-statement.
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index ecf8e749406..c67e9f21fcf 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -167,6 +167,11 @@ rootprefix ?= "${root_prefix}"
+ rootlibdir ?= "${base_libdir}"
+ rootlibexecdir = "${rootprefix}/lib"
+ 
++# This links udev statically with systemd helper library.
++# Otherwise udev package would depend on systemd package (which has the needed shared library),
++# and always pull it into images.
++EXTRA_OEMESON += "-Dlink-udev-shared=false"
++
+ EXTRA_OEMESON += "-Dnobody-user=nobody \
+                   -Dnobody-group=nobody \
+                   -Droothomedir=${ROOTHOME} \
+-- 
+2.16.1
 
-The key part is that runqemu() has a @contextmanager decorator and 
-contains this statement inside:
-
-	yield qemu
-
-which 'suspends' the runqemu() execution and resumes the caller 
-function, passing it the qemu object. Once the 'with' block completes in 
-the caller, the runqemu() function is allowed to resume and clean up the 
-running qemu instance. It's definitely not a synchronous call/return 
-thing. You can read all about it here:
-
-https://docs.python.org/3/library/contextlib.html
-
-
-> For crosstap testcase, it require the steps below:
-> 	- start qemu
-> 	- call to crosstap to ssh into qemu to use systemtap
-> 	- stop qemu
-> 
-> Therefore, crosstap testcase use the oeqa.targetcontrol.QemuTarget (used by runqemu) to first start qemu, perform call to crosstap, then stop qemu.
-
-runqemu() was written for precisely this use case.
-
-
-Alex
 
