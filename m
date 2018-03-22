@@ -1,28 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 85C8F65CC6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F87605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 08:49:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2018 01:49:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,343,1517904000"; d="scan'208";a="39611007"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2018 01:49:26 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id E034B580382
+	Thu, 22 Mar 2018 09:13:50 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id j2so3094058pff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 01:49:25 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2018 10:53:07 +0200
-Message-Id: <1521708787-30071-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [morty][PATCH] grub-efi: fix build failure
+	Thu, 22 Mar 2018 02:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TKsVwRQMTPsUFDmxF4VCyeP9qzwvDA0Ao7TxKdkDO3E=;
+	b=D2lL82gbKoB3dSbOa+OycCXLAexGCN3ImyfrOiHMctLj9wsYraAEG5qlajEgzq7laq
+	/3UbvpAMO7RIYbD3OhrYeDFjoqU+htvQRqIH4EV2g7Whg8Fj96BhDnNMSqYGEL3XC0/m
+	9/8AIj86TBGumcDQBKInHEhtI6S+bD+OqA2nl/nXHBWf+z/h4To0zBLEXZm76iUA3YWz
+	kpfVoJIEPrenUtJeCH/mPDRJFopmopAbwoslrdAx+vKqcpGd+qshyarVBgjLbC3M4Qgi
+	V0bErnAiHDF8Ls8VttEvK/e57TAg7VebKc+5fOhj2Neadn7RWoJ+0jq588I394P0WohM
+	MZbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TKsVwRQMTPsUFDmxF4VCyeP9qzwvDA0Ao7TxKdkDO3E=;
+	b=VGAivRaOnm5nnpe5ykEo5Qzg+3ngP+Cu74RHS9NELAHlfH1ksne4Tf/JqSpMTeZSTx
+	UrsnhXqri6nbJpd1rIPRziADAAN8aRVruk+/Elv2RStysLiiFTgbyayHRz6OBQsQKEq9
+	o9lkR+i8b9diJTNpBKkgylnTAgqrwYtIA1DUEAit/pLReuj4K0EfwmjbI1aURFOCTX3t
+	g78FCkjtfIX/KSUk1muhsD9063CBtpGb4JI/ft241kExTCcKON84EPaYFZnQ079+VnTw
+	smdzdHTiSAYEBEiPhyLA8pfNHltMVfgYzuCA6tbTBaSNcxNtT7hp/NFU04x/zERLCLqS
+	+8eQ==
+X-Gm-Message-State: AElRT7FLtyU+LaZ/OQATsOCHiGHMdw5/TMSXT7iUdZcuab940Osnvgzo
+	z0qAsIOZJEwWT7ZS+UmPHViKJmOMbGNGkB8Nnxg=
+X-Google-Smtp-Source: AG47ELs9/uYuKkqawNQi5z+lS+o3H1UxoavBB+ukKf0/Fgl/hdn4jPFJfrRgJX+RYviHsRss8vcvtdf2KmwLb0Kx/EQ=
+X-Received: by 10.101.73.207 with SMTP id t15mr3122066pgs.204.1521710031389;
+	Thu, 22 Mar 2018 02:13:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.241.68 with HTTP; Thu, 22 Mar 2018 02:13:20 -0700 (PDT)
+In-Reply-To: <CAPGMVzF+sVEzWbTfuYdKkVHv+ktcUU7Lxdv_2C_ArEBbDiSUsw@mail.gmail.com>
+References: <CAPGMVzF+sVEzWbTfuYdKkVHv+ktcUU7Lxdv_2C_ArEBbDiSUsw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Mar 2018 02:13:20 -0700
+Message-ID: <CAMKF1sr+NAJEDVProHEExtHZk96Zygbiwq7+5V0wTO6KRB8pMw@mail.gmail.com>
+To: Rajath C S <rajathcs.1996@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: package inclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 08:49:25 -0000
+X-List-Received-Date: Thu, 22 Mar 2018 09:13:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-grub-efi build fails with the following error on Fedora 26:
+On Wed, Mar 21, 2018 at 9:58 PM, Rajath C S <rajathcs.1996@gmail.com> wrote:
+> Can i install tensorflow and h5py (since they are not there as recipes)
+> using Internet on yocto? (just the way they are installed on ubuntu or other
+> host OS)
+>
 
-| ../grub-2.00/util/raid.c: In function 'grub_util_raid_getmembers':
-| ../grub-2.00/util/raid.c:91:13: error: In the GNU C Library, "makedev"
-is defined
-|  by <sys/sysmacros.h>. For historical compatibility, it is
-|  currently defined by <sys/types.h> as well, but we plan to
-|  remove this soon. To use "makedev", include <sys/sysmacros.h>
-|  directly. If you did not intend to use a system-defined macro
-|  "makedev", you should undefine it after including <sys/types.h>.
-[-Werror]
-|         makedev (disk.major, disk.minor));
-|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+may be you can use on device SDK and build it natively on
+your target
 
-Resolve the build error by backporting the fix from upstream.
+EXTRA_IMAGE_FEATURES_append = " tools-sdk"
+IMAGE_INSTALL_append = " python coreutils findutils git zlib tar"
 
-[YOCTO #12595]
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...ix-check-for-sys-sysmacros.h-under-glibc-.patch | 48 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
-
-diff --git a/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch b/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
-new file mode 100644
-index 0000000..23717e3
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
-@@ -0,0 +1,48 @@
-+From 07662af7aed55bcec448bc2a6610de1f0cb62100 Mon Sep 17 00:00:00 2001
-+From: Andrei Borzenkov <arvidjaar@gmail.com>
-+Date: Thu, 22 Dec 2016 22:48:25 +0300
-+Subject: [PATCH] configure: fix check for sys/sysmacros.h under glibc 2.25+
-+
-+glibc 2.25 still includes sys/sysmacros.h in sys/types.h but also emits
-+deprecation warning. So test for sys/types.h succeeds in configure but later
-+compilation fails because we use -Werror by default.
-+
-+While this is fixed in current autoconf GIT, we really cannot force everyone
-+to use bleeding edge (that is not even released right now). So run test under
-+-Werror as well to force proper detection.
-+
-+This should have no impact on autoconf 2.70+ as AC_HEADER_MAJOR in this version
-+simply checks for header existence.
-+
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/grub.git/commit/?id=07662af7aed55bcec448bc2a6610de1f0cb62100]
-+
-+Reported and tested by Khem Raj <raj.khem@gmail.com>
-+
-+Signed-off-by: Andrei Borzenkov <arvidjaar@gmail.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ configure.ac | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index dc56564..4e980c5 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -389,7 +389,14 @@ fi
-+ # Check for functions and headers.
-+ AC_CHECK_FUNCS(posix_memalign memalign getextmntent)
-+ AC_CHECK_HEADERS(sys/param.h sys/mount.h sys/mnttab.h limits.h)
-++
-++# glibc 2.25 still includes sys/sysmacros.h in sys/types.h but emits deprecation
-++# warning which causes compilation failure later with -Werror. So use -Werror here
-++# as well to force proper sys/sysmacros.h detection.
-++SAVED_CFLAGS="$CFLAGS"
-++CFLAGS="$HOST_CFLAGS -Werror"
-+ AC_HEADER_MAJOR
-++CFLAGS="$SAVED_CFLAGS"
-+ 
-+ AC_CHECK_MEMBERS([struct statfs.f_fstypename],,,[$ac_includes_default
-+ #include <sys/param.h>
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-index 5a0dc95..013fe42 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -6,6 +6,7 @@ PR = "r3"
- 
- SRC_URI += " \
-            file://cfg \
-+           file://0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch \
-           "
- 
- S = "${WORKDIR}/grub-${PV}"
--- 
-2.4.0
-
+then checkout the sources on target and build it. You might need more
+packages then keep adding them to IMAGE_INSTALL and rebuilding image
 
