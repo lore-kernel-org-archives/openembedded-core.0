@@ -1,24 +1,26 @@
 Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AEF577F76
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 894A17891A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 19:12:12 +0000 (UTC)
+	Thu, 22 Mar 2018 19:12:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2018 12:12:14 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2018 12:12:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,345,1517904000"; d="scan'208";a="27222348"
+X-IronPort-AV: E=Sophos;i="5.48,345,1517904000"; d="scan'208";a="41343266"
 Received: from aurora.jf.intel.com ([10.7.198.68])
-	by orsmga007.jf.intel.com with ESMTP; 22 Mar 2018 12:12:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 22 Mar 2018 12:12:15 -0700
 From: Amanda Brindle <amanda.r.brindle@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2018 12:12:00 -0700
-Message-Id: <cover.1521745841.git.amanda.r.brindle@intel.com>
+Date: Thu, 22 Mar 2018 12:12:15 -0700
+Message-Id: <4c681ca4c996f8d8dd6855282442576383e3a858.1521745841.git.amanda.r.brindle@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1521745841.git.amanda.r.brindle@intel.com>
+References: <cover.1521745841.git.amanda.r.brindle@intel.com>
 Cc: Amanda Brindle <amanda.r.brindle@intel.com>, stephano.cetola@intel.com
-Subject: [PATCH v2 0/1] waf.bbclass: Throw error if waf doesn't exist
+Subject: [PATCH v2 1/1] waf.bbclass: Throw error if waf doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 19:12:13 -0000
+X-List-Received-Date: Thu, 22 Mar 2018 19:12:14 -0000
 
-In v2, change bb.warn to bb.fatal
+Before, waf.bbclass would fail to catch FileNotFoundError. Now, it will
+catch this error and say that waf doesn't exist.
 
-The following changes since commit f49ee61422c867516db252054e993df29f775136:
+Fixes [YOCTO 12553]
 
-  systemd-boot: upgrade to 237 (2018-03-20 09:59:33 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib abrindle/waf_error
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/waf_error
-
-Amanda Brindle (1):
-  waf.bbclass: Throw error if waf doesn't exist
-
+Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+---
  meta/classes/waf.bbclass | 2 ++
  1 file changed, 2 insertions(+)
 
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index f9a851d..19e9376 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -15,6 +15,8 @@ python waf_preconfigure() {
+             d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
+     except subprocess.CalledProcessError as e:
+         bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % e.returncode)
++    except FileNotFoundError:
++        bb.fatal("waf does not exist in %s" % subsrcdir)
+ }
+ 
+ do_configure[prefuncs] += "waf_preconfigure"
 -- 
 2.7.4
 
