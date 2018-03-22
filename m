@@ -1,26 +1,33 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C7874788DF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D02F788E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 07:33:39 +0000 (UTC)
+	Thu, 22 Mar 2018 07:36:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2M7XeGu000660
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 00:33:40 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 22 Mar 2018 00:33:39 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Mar 2018 15:34:18 +0800
-Message-ID: <f87e2ee554c4b32d31d0799ffea86488d20e9f38.1521704011.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1521704011.git.Qi.Chen@windriver.com>
-References: <cover.1521704011.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2M7a76m004592
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Mar 2018 00:36:08 -0700 (PDT)
+Received: from [128.224.162.197] (128.224.162.197) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 22 Mar 2018 00:36:07 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <cover.1520841539.git.Qi.Chen@windriver.com>
+	<e0d90ab0b0aea86e2955dfa749fdad1add65e6ac.1520841539.git.Qi.Chen@windriver.com>
+	<CAO5Uq5RBUztJ5uLdONZ0apJzCko_oXQ6L3D-9s-59Yvip9+BiQ@mail.gmail.com>
+	<CAMKF1srb-oT6pXiE+1db8E9+4j=Rp+PURe5bdBUnVF3zMANnag@mail.gmail.com>
+	<CAJTo0Lba_b2Hgd27movji5BQ5yqCrt5bqmXbwrJYuwth_oKKvA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <24e50a62-5980-19d6-812b-d2eb4d408dca@windriver.com>
+Date: Thu, 22 Mar 2018 15:36:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: change PACKAGECONFIG 'resolve' back to 'resolved'
+In-Reply-To: <CAJTo0Lba_b2Hgd27movji5BQ5yqCrt5bqmXbwrJYuwth_oKKvA@mail.gmail.com>
+X-Originating-IP: [128.224.162.197]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] systemd: upgrade to 237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +40,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 07:33:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Mar 2018 07:36:11 -0000
+Content-Type: multipart/alternative;
+	boundary="------------16BA872FA18C6A53AFD4B50A"
 
-When systemd was upgraded from 234 to 237, the PACKAGECONFIG item
-'resolved' is changed to 'resolve', this is because meson_options.txt
-uses the word 'resolve' instead of 'resolved'.
+--------------16BA872FA18C6A53AFD4B50A
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-However, this causes trouble for users. Backward compatibility is obviously
-more important, because we might have bbappend files in other layers
-using this PACKAGECONFIG item.
-
-So change the name back to 'resolved'.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/systemd/systemd_237.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
-index ecf8e7494..96308b9 100644
---- a/meta/recipes-core/systemd/systemd_237.bb
-+++ b/meta/recipes-core/systemd/systemd_237.bb
-@@ -81,7 +81,7 @@ PACKAGECONFIG ??= " \
-     polkit \
-     quotacheck \
-     randomseed \
--    resolve \
-+    resolved \
-     smack \
-     sysusers \
-     timedated \
-@@ -95,7 +95,7 @@ PACKAGECONFIG_remove_libc-musl = " \
-     localed \
-     myhostname \
-     nss \
--    resolve \
-+    resolved \
-     selinux \
-     smack \
-     sysusers \
-@@ -143,7 +143,7 @@ PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
- PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
- PACKAGECONFIG[quotacheck] = "-Dquotacheck=true,-Dquotacheck=false"
- PACKAGECONFIG[randomseed] = "-Drandomseed=true,-Drandomseed=false"
--PACKAGECONFIG[resolve] = "-Dresolve=true,-Dresolve=false"
-+PACKAGECONFIG[resolved] = "-Dresolve=true,-Dresolve=false"
- PACKAGECONFIG[rfkill] = "-Drfkill=true,-Drfkill=false"
- # libseccomp is found in meta-security
- PACKAGECONFIG[seccomp] = "-Dseccomp=true,-Dseccomp=false,libseccomp"
-@@ -246,7 +246,7 @@ do_install() {
- 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
- 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
- 	fi
--	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolve', 'true', 'false', d)}; then
-+	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
- 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
- 		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
- 		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
-@@ -300,7 +300,7 @@ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'journal-upload',
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
--USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolve', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit-1 polkitd;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
- USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
--- 
-1.9.1
+On 03/21/2018 02:00 AM, Burton, Ross wrote:
+> On 20 March 2018 at 17:36, Khem Raj <raj.khem@gmail.com 
+> <mailto:raj.khem@gmail.com>> wrote:
+>
+>     >> @@ -80,7 +78,7 @@ PACKAGECONFIG ??= " \
+>     >>      polkit \
+>     >>      quotacheck \
+>     >>      randomseed \
+>     >> -    resolved \
+>     >> +    resolve \
+>     >
+>     > I guess this was deliberate, but does it need picking up in release
+>     > notes? Tripped up my builds off of master - clearly a trivial fix
+>     > though.
+>
+>     hmm good catch but why change ?
+>
+>
+> Bah, didn't notice this.
+>
+> Chen, can you submit a patch to change this back?
+>
+> Ross
 
 
+Hi All,
+
+I've sent out a patch to change 'resolve' back to 'resolved'.
+
+Sorry for causing troubles for you.
+I used 'resolve' because meson_options.txt uses the word 'resolve' 
+instead of 'resolved'.
+But I now know that backward compatibility is more important.
+
+Best Regards,
+Chen Qi
+
+--------------16BA872FA18C6A53AFD4B50A
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 03/21/2018 02:00 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0Lba_b2Hgd27movji5BQ5yqCrt5bqmXbwrJYuwth_oKKvA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">On 20 March 2018 at 17:36, Khem Raj <span
+          dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:raj.khem@gmail.com" target="_blank">raj.khem@gmail.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
+                class="">&gt;&gt; @@ -80,7 +78,7 @@ PACKAGECONFIG ??= "
+                \<br>
+                &gt;&gt;      polkit \<br>
+                &gt;&gt;      quotacheck \<br>
+                &gt;&gt;      randomseed \<br>
+                &gt;&gt; -    resolved \<br>
+                &gt;&gt; +    resolve \<br>
+                &gt;<br>
+                &gt; I guess this was deliberate, but does it need
+                picking up in release<br>
+                &gt; notes? Tripped up my builds off of master - clearly
+                a trivial fix<br>
+                &gt; though.<br>
+                <br>
+              </span>hmm good catch but why change ?</blockquote>
+            <div><br>
+            </div>
+            <div>Bah, didn't notice this.</div>
+            <div><br>
+            </div>
+            <div>Chen, can you submit a patch to change this back?</div>
+            <div><br>
+            </div>
+            <div>Ross</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    Hi All,<br>
+    <br>
+    I've sent out a patch to change 'resolve' back to 'resolved'.<br>
+    <br>
+    Sorry for causing troubles for you.<br>
+    I used 'resolve' because meson_options.txt uses the word 'resolve'
+    instead of 'resolved'.<br>
+    But I now know that backward compatibility is more important.<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+  </body>
+</html>
+
+--------------16BA872FA18C6A53AFD4B50A--
