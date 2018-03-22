@@ -1,29 +1,24 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C929C7806D
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 101F9788D7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 06:37:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Mar 2018 23:37:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,343,1517904000"; d="scan'208";a="27034514"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.20.224])
-	([10.221.20.224])
-	by orsmga007.jf.intel.com with ESMTP; 21 Mar 2018 23:37:18 -0700
-To: Rajath C S <rajathcs.1996@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <CAPGMVzE+s2x_3LE1q+j+ovb4JoBrX4TCLjwf4cyyLyUxAXgSMg@mail.gmail.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <518278bc-ebcf-8ae9-bd8e-535bf45f2fdc@intel.com>
-Date: Thu, 22 Mar 2018 14:37:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Thu, 22 Mar 2018 07:33:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2M7XdBI004583
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2018 00:33:39 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 22 Mar 2018 00:33:38 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Mar 2018 15:34:17 +0800
+Message-ID: <cover.1521704011.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAPGMVzE+s2x_3LE1q+j+ovb4JoBrX4TCLjwf4cyyLyUxAXgSMg@mail.gmail.com>
-Subject: Re: devtool add query
+Subject: [PATCH 0/1] systemd: change PACKAGECONFIG 'resolve' back to 'resolved'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Mar 2018 06:37:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Mar 2018 07:33:38 -0000
+Content-Type: text/plain
 
-On 03/22/2018 02:26 PM, Rajath C S wrote:
-> hello all,
-> 
-> i am working on devtool and when i use 'devtool add' followed by the
-> url, can  this URL be a github repo because from the video source i was
-> learning dev tools the person teaching had added a tar.gz URL only; i
-> wanted to know if this URL can be a github repo too..??
+The following changes since commit f49ee61422c867516db252054e993df29f775136:
 
-One easy way to find out is to try it out :)
+  systemd-boot: upgrade to 237 (2018-03-20 09:59:33 +0000)
 
-devtool add <recipe_name> <URI>
+are available in the git repository at:
 
-Please refer to the manual for detailed explanation on the options
-available:
+  git://git.pokylinux.org/poky-contrib ChenQi/systemd-resolved
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-resolved
 
-https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ref-devtool-reference
+Chen Qi (1):
+  systemd: change PACKAGECONFIG 'resolve' back to 'resolved'
 
-And to this page for some FAQs:
+ meta/recipes-core/systemd/systemd_237.bb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-https://wiki.yoctoproject.org/wiki/Technical_FAQ
-
-> Thanks
-> 
-> 
+-- 
+1.9.1
 
 
