@@ -1,50 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A7C2978889
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1999260722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 05:26:28 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id k22-v6so6826771pls.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 22:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=d5nuHqxSwgtidIAovHhIckn/hlTbtZMq4w2wIE/zdgE=;
-	b=VQaRQZ4wDg5Cj3VyadOB8bPlQW0gW5zcDKAbHEBwMZpLA1q2mHxPxYSy1Ab9ZxfKLQ
-	qSfuvAz7cP7pKafLcIQ5XrGNDPj1cl1K/Gl2Ws+/RR6+8onc9JMnSUnIZx6yAtgQ/u7l
-	c+HGWGq3uQxgMt81jfhpqpVnVqdau1JYHzDIbmaxWi6jg0/0xE2BwvGsUE0xywmMxAyL
-	6tH0mrDdUwCqguYxQ2SQDtRAqgm5DSwsXNJXNcXuha5n86MO3L8I6CcJJt91kO3D8azI
-	L2pLPicY6ljGacTF79nQ8TQHKltGMv8V7IzEg7oT7xxSR9ZwKGK29xlNgMwFriq90xJt
-	WQ9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=d5nuHqxSwgtidIAovHhIckn/hlTbtZMq4w2wIE/zdgE=;
-	b=PMqZlcKOMvggSPP9FD2Z19NdE9SdvTd97xmj2ju1GpSAVxKhLn5EuO+KN14ZT9N6N8
-	H038XjwXy35XBSJSw6XX2ZlpiRyzIJ4mdETTviMKI17RdizdS7m3fZ4ibPXQT53FQemd
-	kDVAPWbLNpduH9Zmy387ilkhZEsmaMA3m1cf3papGHwjZl7AchMbpo5y3H8Ub9wNxq9j
-	RKARapV2GSH+dIsqHHgdnypsDkxKNlBjwZFinYMVbxiSFwThOqRGUPeVlpTnk6xYpDhX
-	O64hINgmBACkrkGCZTYIcki3AgBPC5DC8oPnXhFrnL2TrmuyGtsxP+YhAlAQkyC4rkh0
-	j92Q==
-X-Gm-Message-State: AElRT7GzFkKnkPC7bUJ7JXmRdmqjvlVBIL1FoAaw9fYC901Np4pycq7Y
-	q0FshqhIr/O/4HnPyhCEtBGlHJXVpHLe1aWjPfE=
-X-Google-Smtp-Source: AG47ELuEh5EuP45Tug91k60JnsmjJGC1JLSi3XjYq6bxAWVdggkAF1kI8Oa/2Araxmvj09Eqwf2/lw0H9nTv5SDvb7s=
-X-Received: by 2002:a17:902:6e01:: with SMTP id
-	u1-v6mr17941163plk.96.1521782789807; 
-	Thu, 22 Mar 2018 22:26:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.236.173.149 with HTTP; Thu, 22 Mar 2018 22:25:59 -0700 (PDT)
-In-Reply-To: <1521781486-20919-1-git-send-email-akuster808@gmail.com>
-References: <1521781486-20919-1-git-send-email-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Mar 2018 22:25:59 -0700
-Message-ID: <CAMKF1sreT7Pm9k7C74S7JggUOA7i52YefxoGGKyq5HhOkspaew@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][v2][PATCH] distcc: Change SRC_URI
+	Fri, 23 Mar 2018 05:29:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Mar 2018 22:29:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,348,1517904000"; d="scan'208";a="27731754"
+Received: from chiron.jf.intel.com ([10.7.159.63])
+	by orsmga008.jf.intel.com with ESMTP; 22 Mar 2018 22:29:41 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Mar 2018 22:29:39 -0700
+Message-Id: <20180323052939.64091-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] maintainers.inc: drop lsb4 perl modules no longer in core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +30,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 05:26:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 23 Mar 2018 05:29:41 -0000
 
-On Thu, Mar 22, 2018 at 10:04 PM, Armin Kuster <akuster808@gmail.com> wrote:
-> From: Armin Kuster <akuster@mvista.com>
->
-> ERROR: distcc-3.2-r0 do_fetch: Fetcher failure: Unable to find revision d8b18df3e9dcbe4f092bed565835d3975e99432c in branch 3.2 even from upstream
-> ERROR: distcc-3.2-r0 do_fetch: Fetcher failure for URL: 'git://github.com/distcc/distcc.git;branch=3.2'. Unable to fetch URL from any source.
-> ERROR: distcc-3.2-r0 do_fetch: Function failed: base_do_fetch
->
-> [v2]
-> upstream deleted the branch and the hash no longer exists.
->
-> Took the git snapshot from yocto and created a copy on my github.
-> There was no offical 3.2 release, only rc versions.
->
+The following perl module packages were removed from oe-core
+with commit: 30fb4c8f329fe3aa3c528ffeba60ee7d702e873e
+  - libclass-isa-perl
+  - libenv-perl
+  - libdumpvalue-perl
+  - libfile-checktree-perl
+  - libi18n-collate-perl
+  - libpod-plainer-perl
 
+Remove these from the maintainers list
 
-I think V1 was ok. Is there any difference in the 3.2-maint branch that
-we may not be able to use it on rocko
+Fixes: [Yocto #12582]
 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/recipes-devtools/distcc/distcc_3.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.2.bb
-> index b6da65a..e6f159c 100644
-> --- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-> +++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-> @@ -14,7 +14,7 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
->
->  RRECOMMENDS_${PN} = "avahi-daemon"
->
-> -SRC_URI = "git://github.com/distcc/distcc.git;branch=${PV} \
-> +SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
->             file://separatebuilddir.patch \
->             file://0001-zeroconf-Include-fcntl.h.patch \
->             file://default \
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ meta/conf/distro/include/maintainers.inc | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 60397f3607..bcfa200799 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -319,7 +319,6 @@ RECIPE_MAINTAINER_pn-libcap = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libcgroup = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER_pn-libclass-isa-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
+ RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
+@@ -327,8 +326,6 @@ RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alexander.kanavin@intel.com
+ RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libdnf = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+-RECIPE_MAINTAINER_pn-libdumpvalue-perl = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libenv-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libepoxy = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-liberation-fonts = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-liberror-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+@@ -337,7 +334,6 @@ RECIPE_MAINTAINER_pn-libevent = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libexif = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libfakekey = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libffi = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-RECIPE_MAINTAINER_pn-libfile-checktree-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libfm = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libfm-extra = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libfontenc = "Armin Kuster <akuster@mvista.com>"
+@@ -349,7 +345,6 @@ RECIPE_MAINTAINER_pn-libglade = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libglu = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libgpg-error = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-libgudev = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libi18n-collate-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libical = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libiconv = "Alexander Kanavin <alexander.kanavin@intel.com>"
+@@ -380,7 +375,6 @@ RECIPE_MAINTAINER_pn-libpfm4 = "Matthew McClintock <msm@freescale.com>"
+ RECIPE_MAINTAINER_pn-libpipeline = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libpng = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libpng12 = "Maxin B. John <maxin.john@intel.com>"
+-RECIPE_MAINTAINER_pn-libpod-plainer-perl = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libproxy = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-librepo = "Alexander Kanavin <alexander.kanavin@intel.com>"
+-- 
+2.14.3
+
 
