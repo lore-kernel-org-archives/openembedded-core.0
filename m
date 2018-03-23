@@ -1,43 +1,43 @@
 Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id AD4B37888F
+Received: from mail-ua0-f178.google.com (mail-ua0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 301337888D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 06:36:30 +0000 (UTC)
-Received: by mail-vk0-f54.google.com with SMTP id y127so6713613vky.9
+	Fri, 23 Mar 2018 07:01:27 +0000 (UTC)
+Received: by mail-ua0-f178.google.com with SMTP id q12so7174136uae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Mar 2018 23:36:32 -0700 (PDT)
+	Fri, 23 Mar 2018 00:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=bQjWusUxHMKnTAbryRSEJiKBguEQAnVHU1szVca3c54=;
-	b=CQub7o1e5vMxQJZSdlfb8QrSGY3KzJL2kdMh0Zo2urlX6qIwn25fTPblT67kRlA4Ld
-	8FhQSdMSj55uEsnGn3Yi9kAcz8mWlZxtQm7l6aFttBT6g7PVnqU+BrnKVVughu89X+8c
-	5FbHWtIdque9WlfgoHtkGHjnmWwqPlKalEQzflRJ1e966V69yIcZDs7ze3IygfN9aNXj
-	ez3X3LHSlLJpPbxflhdVg4r/9W5ArWZpQWKUiEISt+P74HEKC6h8XpTPbBFkAHDAdlz7
-	epxl8bohmMPMT0ApuZtnuqTjq8T8oSObi1QARrqcjgtv0Lrg01qf1rd6LK8ZUwJH+7cJ
-	RfGw==
+	bh=iz2NA7hto0qPA/fwP3Mh45+6/OqWLUAKKU+LTYkpLcA=;
+	b=HttluqVIH1m94bz+Cgsywqm2t+kclGc4RImo/XpAqDvVIzj2rrhlHTLWuOam5M/meo
+	xVZJdYec/IKiFlQ4mlw2KAq3iH6MRNP2lEWaOneNXS/lNBcXehHN3ZIyBuA9+HnSjNmo
+	E2pLmk6QYgCQcmfnZbT+e34EWlYB9vNfgd5RQW1i4RbIWtD8PxIKG+0llVZUvjGj56fn
+	KdcJA0EFnAuFHyQcR6NSAHwkmAxZdoh46oK/kdP6nu8yESC3W3WzGERh2rQ/snMeJHe6
+	lE3HPB7goOmRzrKQ0NcSlxWvAzSfy3/WQ7CIQ4Kf6gCnuIvESWH6FIyNw4xRFeyEZlop
+	7PUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=bQjWusUxHMKnTAbryRSEJiKBguEQAnVHU1szVca3c54=;
-	b=Btjqd/nueZ2Sbkxcbj0pypezKl7ojbrVyfgEEZrONble1wqOcQxOyp/mUHJ12qv6CA
-	vcW+AMdcBoMl+GYShBeyKseKLrMsCm+NxOfMWRx32Q6GAEM8UIapGwr54NdbjlGMIfYE
-	WWQdUsljuC9Ai3AodhFuUEYUv44C4/yFge1RDYO7iSiINDilqgM69rdW4lA/GSIzl5zD
-	y676mcNRVW59+MxyYtBJ9LBOLJL09ZfhVD3j2q+CLCqT8KwnliWOTXfX5X2wVvaKbeh4
-	KxtiJco7JU4A5+zECoNEMLGAsTOb97Y7Znc7VG2rhqRGPmifj7bbRdBrs1yBbv0ySpgO
-	tKiw==
-X-Gm-Message-State: AElRT7GIf18LFKyuDO0nuHtAoh7SlxDvW7BGtdh1amsphDyJzjNg2Iit
-	XwtQ2Vfv+s/KQsPHATVUbPofmehAyNkKlV6ahO3Z64OH
-X-Google-Smtp-Source: AG47ELsZg1ge2rzzUMtwBcoyRA62Xg8xMUZl4O1cLXZtmRmD8zRmMLsQErazIeHx7IO2E7OBmU773jzHMFTYMaERsXg=
-X-Received: by 10.31.7.132 with SMTP id 126mr7891337vkh.42.1521786991228; Thu,
-	22 Mar 2018 23:36:31 -0700 (PDT)
+	bh=iz2NA7hto0qPA/fwP3Mh45+6/OqWLUAKKU+LTYkpLcA=;
+	b=BvUGzhq9BNXKKWdIU+IaS7i/DJetmsdlww0OdcmPrkzL/bsTzG0NUNVsOxppo0W/zM
+	S+zvhNL404qisGwfJ4kjjI9BhgqB7tN3GsuUOM6X24tC3WZzbjxcajObdqgCnJruW0nU
+	VwBhsO/UryeKAGg/WnbXu40ZldrwBf6Q5Sy8CVYt8XrCMFRZ2BMBOytEQvzOeXJ176eQ
+	DIVm0K6qA42+K0gdni1gJv45n9Pos76iBvTsPU774JZU2NlSr+aTwPL8MAjVKrsS6zcB
+	W8HT2fnLEm06tUbQzCnNqX4Gb1JRBQoh1hqh/iuViDk1akYXeMcW3yvqKBSpNpFSn+Fw
+	Blvw==
+X-Gm-Message-State: AElRT7FrMmPsJKJzUlFBhOzoOtFiZ5VxAe3pxQrFQpT9dy2kkKt4/eqW
+	7VSkfull9cSxbukNpQOg2c9f3DkOLy9H59gq2cMS5XQR
+X-Google-Smtp-Source: AG47ELsKtg2HtsFH5kZ3QLjkri/GAAgm8Q5elT9wzn/eOltR4EuvGwm1sHPq0SCpiKHzXDTgQ0W4f8/OTTGJ49ueWs4=
+X-Received: by 10.176.29.147 with SMTP id l19mr16254999uak.23.1521788488713;
+	Fri, 23 Mar 2018 00:01:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.34.4 with HTTP; Thu, 22 Mar 2018 23:36:30 -0700 (PDT)
+Received: by 10.103.34.4 with HTTP; Fri, 23 Mar 2018 00:01:28 -0700 (PDT)
 From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Fri, 23 Mar 2018 12:06:30 +0530
-Message-ID: <CAPGMVzEP9hJqngopC_AFsVLNPEJda+R5AZSecW4JPWhZTUcwmg@mail.gmail.com>
+Date: Fri, 23 Mar 2018 12:31:28 +0530
+Message-ID: <CAPGMVzHwvpvzpRVhh_EN0r8K9BsUv8gAQtkb2qOYdVwg0bj3nA@mail.gmail.com>
 To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: [meta-ros] ros package import problem
+Subject: dependency query
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +50,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 06:36:30 -0000
-Content-Type: multipart/alternative; boundary="001a11441a20093b7605680ea51f"
+X-List-Received-Date: Fri, 23 Mar 2018 07:01:28 -0000
+Content-Type: multipart/alternative; boundary="089e08264cd84b0bae05680efee6"
 
---001a11441a20093b7605680ea51f
+--089e08264cd84b0bae05680efee6
 Content-Type: text/plain; charset="UTF-8"
 
-i have added rospy and roslib to CORE_IMAGE_EXTRA_INSTALL += in local.conf
-but when i go to the python terminal in poky and import rospy and roslib it
-is unable to do so
+when i open a particular recipe on layer.openembeded site it showcases
+something called dependencies does it mean that those list under the
+dependencies should be included in CORE_IMAGE_EXTRA_INSTALL??
 
-any solution would be of great help thanks
+Thanks
 
-Rajath C S
-
---001a11441a20093b7605680ea51f
+--089e08264cd84b0bae05680efee6
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div>i have added rospy and roslib to CORE_IMAGE_EXTR=
-A_INSTALL +=3D in local.conf but when i go to the python terminal in poky a=
-nd import rospy and roslib it is unable to do so<br><br></div>any solution =
-would be of great help thanks<br><br></div>Rajath C S<br><div><br></div></d=
-iv>
+<div dir="ltr"><div>when i open a particular recipe on layer.openembeded site it showcases something called dependencies does it mean that those list under the dependencies should be included in CORE_IMAGE_EXTRA_INSTALL??<br><br></div>Thanks<br></div>
 
---001a11441a20093b7605680ea51f--
+--089e08264cd84b0bae05680efee6--
