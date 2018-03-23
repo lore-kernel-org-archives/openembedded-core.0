@@ -1,47 +1,61 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3107778866
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 2832C788B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 16:06:47 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id z7-v6so5703382iti.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 09:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KBSp+4XoH7QfTJdn6dETWZR0FRVOIWLpXi8lGC9ZO1E=;
-	b=Kiw4l9k3avH/KaYHTAfFTCeukeLaMcw27hxxZrCJfcJ2cj6QpBAruRgzcjDgMy7HzW
-	CW9+NWWPKpfnE+XULjcff0a2awUR3vFlKk8zY3bQZERD6Pqvinjh9OGMLdbFKTl00wqm
-	4tepzY8+KiYJegYQlHUc+Nw0mfgRSVj9gTcl6pXj0nFn3KwNZoavOj3vsAylxRTAhGiW
-	+XxQUn0iYP8BHzz4qOFTBYQ/2DNrCGY6nRsSTCWbVvNBR9A0uvVAfknSIqeueCmw0dom
-	MTe39gI87Rc8GrCb+N1BS5+d14I+T/9fhjXpqgimYCm0oFs/nbd0n0ALL2nvuCNBWJHP
-	GzTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KBSp+4XoH7QfTJdn6dETWZR0FRVOIWLpXi8lGC9ZO1E=;
-	b=qIldhgqaidCIKk2CXbl32NViLMbM0mvYwH4g3v4bT8K1a48xvAKAZKhGsSrelLie6d
-	Dp8AmMaqUEVYG0q5kFoTJfbIoQzGslyoConDrU8T7z0zly+N2OVEq9ecFB+R4INGuBIR
-	WclzV7v97tvBVZKbA6GzycLysUPi9Ge5wbpW5ZKjBc1wAOa76hsZZvP9aDLv9fdsQFex
-	3fiBTW6luv2h+hGVwnfV1qZCKl+Qfx+RkvMAKEu2WVOR6qR8eEd1JC2aLaA5tYx/benZ
-	1272umacC6C+CmqMrnBkVlPPrUtz6hWso/9eYys8pFSEKQ9gHbwgZQNvSc7zqmBBNhCT
-	8b9Q==
-X-Gm-Message-State: AElRT7Fw2lPu/Hl6UyvASwu6bOXmHcKHobPvL7AtHkZ2GO4CrwuVcqeD
-	FbtNOzD8yR5HY3hbLwfAucgGQxKwdAqjOeslIws6YA==
-X-Google-Smtp-Source: AG47ELu99OMLN/fAxU8180/5lOlSLpHSdKaq6El9CcLZ9hizmAuVkOw45zSV9vPNzZX6L4qkbwF4JFWaVfZfzLTmfck=
-X-Received: by 2002:a24:22c2:: with SMTP id
-	o185-v6mr14224940ito.60.1521821209096; 
-	Fri, 23 Mar 2018 09:06:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Fri, 23 Mar 2018 09:06:28 -0700 (PDT)
-In-Reply-To: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	Fri, 23 Mar 2018 16:10:43 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2NGAiWN030285
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Mar 2018 17:10:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1521821444;
+	bh=vThxJDcmC3eJiqCVUYUpl0xkCQ/vT+cjps8zJF1OdaA=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=Qs+at2sTKLyxFFHnFibmRPZPtAr6BTtvWOtZuZqWZOaW0DyDebRuC9qj20U6pRIDs
+	Iu3uTg59IsB9hIR5PP7xSQw3NGmL//FoozRMyZyJXbNjMUfx+wtUfz5V5vxAxYFoTM
+	g3NDQPR1kIyiO35VGEsnwT7FwmAtN2OTprXfltIM=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2NGAav4003660 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Fri, 23 Mar 2018 17:10:37 +0100
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 8832D84FBE4;
+	Fri, 23 Mar 2018 17:01:19 +0100
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2NGAaAF003657
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Fri, 23 Mar 2018 17:10:36 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1ezPH1-0002wi-TJ; Fri, 23 Mar 2018 17:10:36 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: "Burton\, Ross" <ross.burton@intel.com>
 References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 23 Mar 2018 16:06:28 +0000
-Message-ID: <CAJTo0LbqnZk6K2AEbRSFREXOLb3jM=mnoDCJhA74mKRyomo_JQ@mail.gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
+Date: Fri, 23 Mar 2018 17:10:35 +0100
+In-Reply-To: <CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
+	(Ross Burton's message of "Fri, 23 Mar 2018 16:05:13 +0000")
+Message-ID: <lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.83
+X-Spam-Score: -4.6
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.83
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,71 +70,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 16:06:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 23 Mar 2018 16:10:44 -0000
+Content-Type: text/plain
 
-Ah, I just read this other message of yours, which includes the fact
-that you're on F27.
+"Burton, Ross" <ross.burton@intel.com> writes:
 
-Yes, something in F27 has just broken pseudo quite dramatically.  No
-idea what, so far.
+>> do_install() {
+>>         install -D -p -m 0644 bar ${D}/bin/bar
+>>         install -d -m 0755 ${D}/usr/bin
+>>         mv ${D}/bin/bar ${D}/usr/bin/bar
+>>         ln -s /usr/bin/bar ${D}/bin/bar
+>> }
+>>
+>> FILES_${PN} = "/bin/* /usr/bin/*"
+>> ---
+>>
+>> WARNING: foo-1.0-r0 do_package_qa: QA Issue: foo: /foo/usr/bin/bar
+>> is owned by uid 505, which is the same as the user running
+>> bitbake. This may be due to host contamination
+>> [host-user-contaminated]
+>
+> Works for me: install correctly changes owner to root:root as it
+> should.
 
-Ross
+I think, 'mv' is the culprit.  It calls 'renameat2()' directly over
+'syscall()':
 
-On 23 March 2018 at 15:33, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Hello,
->
-> in some packages (e.g. ncurses or glibc) I get package-qa warnings due
-> to host user contamination; e.g.
->
-> | WARNING: ncurses-6.0+20170715-r0 do_package_qa: QA Issue: ncurses: /ncurses-terminfo-base/etc/terminfo/a/ansi is owned by uid 505, which is the same as the user running bitbake. This may be due to host contamination
-> | ncurses: /ncurses-terminfo-base/etc/terminfo/d/dumb is owned by uid 505, which is the same as the user running bitbake. This may be due to host contamination
-> | ...
-> | ncurses: /ncurses-terminfo-base/etc/terminfo/x/xterm-256color is owned by uid 505, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
->
->
-> This is 100% reproducible by 'bitbake ncurses -c cleansstate && bitbake
-> ncurses'.
->
->
-> Pseudo log contains
->
-> | debug_logfile: fd 2
-> | pid 16096 [parent 16095], doing new pid setup and server start
-> | Setup complete, sending SIGUSR1 to pid 16095.
-> | path mismatch [2 links]: ino 382716451 db '/dev/shm/sem.mp-6eoy3v9n' req '/dev/shm/8JXYzj'.
-> | inode mismatch: '..../ncurses/6.0+20170715-r0/image/usr/share/terminfo/a/ansi' ino 39261519 in db, 39262517 in request.
-> | symlink mismatch: '..../ncurses/6.0+20170715-r0/image/usr/share/terminfo/a/ansi' [39261519] db mode 0100644, header mode 0120777 (unlinking db)
->
-> for all the reported files.and a lot of
->
-> | path mismatch [91 links]: ino 1605070 db ...
->
-> like messages for unrelated files (e.g  sysroot components).
->
->
-> Seen on recent rocko and master (1-2 weeks before).
->
-> System is Fedora 27 in a docker container; rootfs is on an overlaysfs,
-> recipes on a bind-mounted btrfs fs and build (TMPDIR) happens in an ext4
-> fs.  SELinux is active.
->
->
->
-> Is this issue known resp. does a solution exist?
->
->
->
-> Enrico
-> --
-> SIGMA Chemnitz GmbH       Registergericht:   Amtsgericht Chemnitz HRB 1750
-> Am Erlenwald 13           Geschaeftsfuehrer: Grit Freitag, Frank Pyritz
-> 09128 Chemnitz
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+| $ ltrace mv foo bar
+| ...
+| syscall(316, 0xffffff9c, 0x7fff1564a341, 0xffffff9c)                                            = 0
+
+
+Perhaps, 'pseudo' does not catch this?
+
+
+Enrico
 
