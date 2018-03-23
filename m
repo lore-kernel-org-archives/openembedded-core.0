@@ -1,31 +1,34 @@
-Return-Path: <oobitots@cisco.com>
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B27F7887D
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E6A4478557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 14:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3347; q=dns/txt; s=iport;
-	t=1521816062; x=1523025662;
-	h=from:to:cc:subject:date:message-id;
-	bh=NfIAZ92iJH+9+WQMqv+tcvcad0wssZibW+ZQn0bU6UM=;
-	b=QbdfiX0Cpfy3xBexhk7i6P9Jk93iYV20DGY2sYKGpBC35skyavpgLvfs
-	bjoN/jhRFrQa/jjJxR42nHh+LNHy9gEdnjIfFHA7Wyi7HyjibTQAh10KG
-	1HxQA7om/nBVuFuZOYwfzukmRLgUFD1M2ODxm6xV5/PDD+lrZkUL/KK3G g=;
-X-IronPort-AV: E=Sophos;i="5.48,350,1517875200"; d="scan'208";a="364670318"
-Received: from alln-core-10.cisco.com ([173.36.13.132])
-	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Mar 2018 14:41:01 +0000
-Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
-	by alln-core-10.cisco.com (8.14.5/8.14.5) with ESMTP id w2NEf1Ah026634; 
-	Fri, 23 Mar 2018 14:41:01 GMT
-Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
-	id 36B94647; Fri, 23 Mar 2018 07:41:00 -0700 (PDT)
-From: Oleksiy Obitotskyy <oobitots@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Mar 2018 07:40:58 -0700
-Message-Id: <20180323144058.31088-1-oobitots@cisco.com>
-X-Mailer: git-send-email 2.10.3.dirty
-Subject: [PATCH V2] tcp-wrappers: Fix build with clang
+	Fri, 23 Mar 2018 15:03:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Mar 2018 08:03:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,350,1517904000"; d="scan'208";a="44725155"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2018 08:03:13 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, akuster808 <akuster808@gmail.com>
+References: <1521781486-20919-1-git-send-email-akuster808@gmail.com>
+	<CAMKF1sreT7Pm9k7C74S7JggUOA7i52YefxoGGKyq5HhOkspaew@mail.gmail.com>
+	<bcd2bae7-cbfb-8fbf-8a24-458d2c10d6fc@gmail.com>
+	<CAJTo0Laa5a=KcaurORaN=nYXO8T5LZWJUAQpt=o9Z-doP9o=ng@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <a582a169-310b-c51e-fece-4900b5f5a664@linux.intel.com>
+Date: Fri, 23 Mar 2018 16:56:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Laa5a=KcaurORaN=nYXO8T5LZWJUAQpt=o9Z-doP9o=ng@mail.gmail.com>
+Cc: akuster <akuster@mvista.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [rocko][v2][PATCH] distcc: Change SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,104 +41,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 14:41:00 -0000
+X-List-Received-Date: Fri, 23 Mar 2018 15:03:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Fix non-void function 'fix_options' should return a value.
-Add function prototype to tcpd.c and miscd.c.
+On 03/23/2018 04:31 PM, Burton, Ross wrote:
+> So many questions.
+> 
+> What did we ship?  Why doesn't it exist upstream anymore?
+> 
+> Shipping a fork in a personal repo sounds like a good solution for the
+> stable branches following the principle of least surprise: they're
+> shipping what they always did.  For master/2.5 though, I'm not happy
+> about it (but will pull this in for now to get it building again).
+> 
 
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
----
- v2 - add function prototypes
+We might yet get a functional 3.3 upgrade for master in time for 2.5?
 
- .../0001-Fix-build-with-clang.patch                | 65 ++++++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb               |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-with-clang.patch
-
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-with-clang.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-with-clang.patch
-new file mode 100644
-index 0000000..9d1e05d
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-build-with-clang.patch
-@@ -0,0 +1,65 @@
-+From 7f8878ac1aaf4a19992d39379797c151301bedb1 Mon Sep 17 00:00:00 2001
-+From: Oleksiy Obitotskyy <oobitots@cisco.com>
-+Date: Mon, 5 Feb 2018 08:29:10 -0800
-+Subject: [PATCH] Fix build with clang
-+
-+Fix "error: non-void function 'fix_options' should return a value".
-+Add function prototype to tcpd.c and miscd.c.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-+---
-+ v2 - add function prototypes
-+
-+ fix_options.c | 2 +-
-+ miscd.c       | 4 ++++
-+ tcpd.c        | 4 ++++
-+ 3 files changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/fix_options.c b/fix_options.c
-+index b5e81b8..9958ff4 100644
-+--- a/fix_options.c
-++++ b/fix_options.c
-+@@ -29,7 +29,7 @@ static char sccsid[] = "@(#) fix_options.c 1.6 97/04/08 02:29:19";
-+ 
-+ /* fix_options - get rid of IP-level socket options */
-+ 
-+-fix_options(request)
-++void fix_options(request)
-+ struct request_info *request;
-+ {
-+ #ifdef IP_OPTIONS
-+diff --git a/miscd.c b/miscd.c
-+index 1ab835c..723b83a 100644
-+--- a/miscd.c
-++++ b/miscd.c
-+@@ -40,6 +40,10 @@ static char sccsid[] = "@(#) miscd.c 1.10 96/02/11 17:01:30";
-+ #include "patchlevel.h"
-+ #include "tcpd.h"
-+ 
-++#ifdef KILL_IP_OPTIONS
-++void fix_options(struct request_info *);
-++#endif
-++
-+ int     allow_severity = SEVERITY;	/* run-time adjustable */
-+ int     deny_severity = LOG_WARNING;	/* ditto */
-+ 
-+diff --git a/tcpd.c b/tcpd.c
-+index d865b9c..a179891 100644
-+--- a/tcpd.c
-++++ b/tcpd.c
-+@@ -38,6 +38,10 @@ static char sccsid[] = "@(#) tcpd.c 1.10 96/02/11 17:01:32";
-+ #include "patchlevel.h"
-+ #include "tcpd.h"
-+ 
-++#ifdef KILL_IP_OPTIONS
-++void fix_options(struct request_info *);
-++#endif
-++
-+ int     allow_severity = SEVERITY;	/* run-time adjustable */
-+ int     deny_severity = LOG_WARNING;	/* ditto */
-+ 
-+-- 
-+2.10.3.dirty
-+
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 5fdbbce..8519da6 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -44,6 +44,7 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://safe_finger.8 \
-            file://makefile-fix-parallel.patch \
-            file://musl-decls.patch \
-+           file://0001-Fix-build-with-clang.patch \
-            "
- 
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
--- 
-2.10.3.dirty
-
+Alex
 
