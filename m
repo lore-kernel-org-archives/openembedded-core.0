@@ -1,23 +1,43 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1999260722
+Return-Path: <rajathcs.1996@gmail.com>
+Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id AD4B37888F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 05:29:40 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Mar 2018 22:29:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,348,1517904000"; d="scan'208";a="27731754"
-Received: from chiron.jf.intel.com ([10.7.159.63])
-	by orsmga008.jf.intel.com with ESMTP; 22 Mar 2018 22:29:41 -0700
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Mar 2018 22:29:39 -0700
-Message-Id: <20180323052939.64091-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] maintainers.inc: drop lsb4 perl modules no longer in core
+	Fri, 23 Mar 2018 06:36:30 +0000 (UTC)
+Received: by mail-vk0-f54.google.com with SMTP id y127so6713613vky.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Mar 2018 23:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=bQjWusUxHMKnTAbryRSEJiKBguEQAnVHU1szVca3c54=;
+	b=CQub7o1e5vMxQJZSdlfb8QrSGY3KzJL2kdMh0Zo2urlX6qIwn25fTPblT67kRlA4Ld
+	8FhQSdMSj55uEsnGn3Yi9kAcz8mWlZxtQm7l6aFttBT6g7PVnqU+BrnKVVughu89X+8c
+	5FbHWtIdque9WlfgoHtkGHjnmWwqPlKalEQzflRJ1e966V69yIcZDs7ze3IygfN9aNXj
+	ez3X3LHSlLJpPbxflhdVg4r/9W5ArWZpQWKUiEISt+P74HEKC6h8XpTPbBFkAHDAdlz7
+	epxl8bohmMPMT0ApuZtnuqTjq8T8oSObi1QARrqcjgtv0Lrg01qf1rd6LK8ZUwJH+7cJ
+	RfGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=bQjWusUxHMKnTAbryRSEJiKBguEQAnVHU1szVca3c54=;
+	b=Btjqd/nueZ2Sbkxcbj0pypezKl7ojbrVyfgEEZrONble1wqOcQxOyp/mUHJ12qv6CA
+	vcW+AMdcBoMl+GYShBeyKseKLrMsCm+NxOfMWRx32Q6GAEM8UIapGwr54NdbjlGMIfYE
+	WWQdUsljuC9Ai3AodhFuUEYUv44C4/yFge1RDYO7iSiINDilqgM69rdW4lA/GSIzl5zD
+	y676mcNRVW59+MxyYtBJ9LBOLJL09ZfhVD3j2q+CLCqT8KwnliWOTXfX5X2wVvaKbeh4
+	KxtiJco7JU4A5+zECoNEMLGAsTOb97Y7Znc7VG2rhqRGPmifj7bbRdBrs1yBbv0ySpgO
+	tKiw==
+X-Gm-Message-State: AElRT7GIf18LFKyuDO0nuHtAoh7SlxDvW7BGtdh1amsphDyJzjNg2Iit
+	XwtQ2Vfv+s/KQsPHATVUbPofmehAyNkKlV6ahO3Z64OH
+X-Google-Smtp-Source: AG47ELsZg1ge2rzzUMtwBcoyRA62Xg8xMUZl4O1cLXZtmRmD8zRmMLsQErazIeHx7IO2E7OBmU773jzHMFTYMaERsXg=
+X-Received: by 10.31.7.132 with SMTP id 126mr7891337vkh.42.1521786991228; Thu,
+	22 Mar 2018 23:36:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.103.34.4 with HTTP; Thu, 22 Mar 2018 23:36:30 -0700 (PDT)
+From: Rajath C S <rajathcs.1996@gmail.com>
+Date: Fri, 23 Mar 2018 12:06:30 +0530
+Message-ID: <CAPGMVzEP9hJqngopC_AFsVLNPEJda+R5AZSecW4JPWhZTUcwmg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: [meta-ros] ros package import problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,72 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 05:29:41 -0000
+X-List-Received-Date: Fri, 23 Mar 2018 06:36:30 -0000
+Content-Type: multipart/alternative; boundary="001a11441a20093b7605680ea51f"
 
-The following perl module packages were removed from oe-core
-with commit: 30fb4c8f329fe3aa3c528ffeba60ee7d702e873e
-  - libclass-isa-perl
-  - libenv-perl
-  - libdumpvalue-perl
-  - libfile-checktree-perl
-  - libi18n-collate-perl
-  - libpod-plainer-perl
+--001a11441a20093b7605680ea51f
+Content-Type: text/plain; charset="UTF-8"
 
-Remove these from the maintainers list
+i have added rospy and roslib to CORE_IMAGE_EXTRA_INSTALL += in local.conf
+but when i go to the python terminal in poky and import rospy and roslib it
+is unable to do so
 
-Fixes: [Yocto #12582]
+any solution would be of great help thanks
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- meta/conf/distro/include/maintainers.inc | 6 ------
- 1 file changed, 6 deletions(-)
+Rajath C S
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 60397f3607..bcfa200799 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -319,7 +319,6 @@ RECIPE_MAINTAINER_pn-libcap = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libcgroup = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-libclass-isa-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
-@@ -327,8 +326,6 @@ RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alexander.kanavin@intel.com
- RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libdnf = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
--RECIPE_MAINTAINER_pn-libdumpvalue-perl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libenv-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libepoxy = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-liberation-fonts = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-liberror-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
-@@ -337,7 +334,6 @@ RECIPE_MAINTAINER_pn-libevent = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libexif = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libfakekey = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libffi = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libfile-checktree-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libfm = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libfm-extra = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libfontenc = "Armin Kuster <akuster@mvista.com>"
-@@ -349,7 +345,6 @@ RECIPE_MAINTAINER_pn-libglade = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libglu = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libgpg-error = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libgudev = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libi18n-collate-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libical = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-libiconv = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -380,7 +375,6 @@ RECIPE_MAINTAINER_pn-libpfm4 = "Matthew McClintock <msm@freescale.com>"
- RECIPE_MAINTAINER_pn-libpipeline = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libpng = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libpng12 = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libpod-plainer-perl = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libproxy = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-librepo = "Alexander Kanavin <alexander.kanavin@intel.com>"
--- 
-2.14.3
+--001a11441a20093b7605680ea51f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div><div>i have added rospy and roslib to CORE_IMAGE_EXTR=
+A_INSTALL +=3D in local.conf but when i go to the python terminal in poky a=
+nd import rospy and roslib it is unable to do so<br><br></div>any solution =
+would be of great help thanks<br><br></div>Rajath C S<br><div><br></div></d=
+iv>
 
+--001a11441a20093b7605680ea51f--
