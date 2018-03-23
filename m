@@ -1,43 +1,23 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f178.google.com (mail-ua0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 301337888D
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 725AE78873
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 07:01:27 +0000 (UTC)
-Received: by mail-ua0-f178.google.com with SMTP id q12so7174136uae.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Mar 2018 00:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=iz2NA7hto0qPA/fwP3Mh45+6/OqWLUAKKU+LTYkpLcA=;
-	b=HttluqVIH1m94bz+Cgsywqm2t+kclGc4RImo/XpAqDvVIzj2rrhlHTLWuOam5M/meo
-	xVZJdYec/IKiFlQ4mlw2KAq3iH6MRNP2lEWaOneNXS/lNBcXehHN3ZIyBuA9+HnSjNmo
-	E2pLmk6QYgCQcmfnZbT+e34EWlYB9vNfgd5RQW1i4RbIWtD8PxIKG+0llVZUvjGj56fn
-	KdcJA0EFnAuFHyQcR6NSAHwkmAxZdoh46oK/kdP6nu8yESC3W3WzGERh2rQ/snMeJHe6
-	lE3HPB7goOmRzrKQ0NcSlxWvAzSfy3/WQ7CIQ4Kf6gCnuIvESWH6FIyNw4xRFeyEZlop
-	7PUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=iz2NA7hto0qPA/fwP3Mh45+6/OqWLUAKKU+LTYkpLcA=;
-	b=BvUGzhq9BNXKKWdIU+IaS7i/DJetmsdlww0OdcmPrkzL/bsTzG0NUNVsOxppo0W/zM
-	S+zvhNL404qisGwfJ4kjjI9BhgqB7tN3GsuUOM6X24tC3WZzbjxcajObdqgCnJruW0nU
-	VwBhsO/UryeKAGg/WnbXu40ZldrwBf6Q5Sy8CVYt8XrCMFRZ2BMBOytEQvzOeXJ176eQ
-	DIVm0K6qA42+K0gdni1gJv45n9Pos76iBvTsPU774JZU2NlSr+aTwPL8MAjVKrsS6zcB
-	W8HT2fnLEm06tUbQzCnNqX4Gb1JRBQoh1hqh/iuViDk1akYXeMcW3yvqKBSpNpFSn+Fw
-	Blvw==
-X-Gm-Message-State: AElRT7FrMmPsJKJzUlFBhOzoOtFiZ5VxAe3pxQrFQpT9dy2kkKt4/eqW
-	7VSkfull9cSxbukNpQOg2c9f3DkOLy9H59gq2cMS5XQR
-X-Google-Smtp-Source: AG47ELsKtg2HtsFH5kZ3QLjkri/GAAgm8Q5elT9wzn/eOltR4EuvGwm1sHPq0SCpiKHzXDTgQ0W4f8/OTTGJ49ueWs4=
-X-Received: by 10.176.29.147 with SMTP id l19mr16254999uak.23.1521788488713;
-	Fri, 23 Mar 2018 00:01:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.34.4 with HTTP; Fri, 23 Mar 2018 00:01:28 -0700 (PDT)
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Fri, 23 Mar 2018 12:31:28 +0530
-Message-ID: <CAPGMVzHwvpvzpRVhh_EN0r8K9BsUv8gAQtkb2qOYdVwg0bj3nA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: dependency query
+	Fri, 23 Mar 2018 08:17:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Mar 2018 01:17:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,349,1517904000"; d="scan'208";a="44641309"
+Received: from chiron.jf.intel.com ([10.7.159.63])
+	by orsmga002.jf.intel.com with ESMTP; 23 Mar 2018 01:17:28 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Mar 2018 01:17:22 -0700
+Message-Id: <20180323081723.65091-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH 1/2] libxml-simple-perl: upgrade 2.24 -> 2.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,21 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 07:01:28 -0000
-Content-Type: multipart/alternative; boundary="089e08264cd84b0bae05680efee6"
+X-List-Received-Date: Fri, 23 Mar 2018 08:17:28 -0000
 
---089e08264cd84b0bae05680efee6
-Content-Type: text/plain; charset="UTF-8"
+* Fix RDEPENDS
 
-when i open a particular recipe on layer.openembeded site it showcases
-something called dependencies does it mean that those list under the
-dependencies should be included in CORE_IMAGE_EXTRA_INSTALL??
+Upstream release notes:
+2.25      2018-03-18 16:18:24+13:00 Pacific/Auckland
+  - disable entity expansion when using XML::Parser, for more secure default
+    behaviour (patch from Ray Morris)
+  - call to XML::Parser constructor is now in its own method to ease overriding
 
-Thanks
+License-Update: update year to 2018
+---
+ ...l-simple-perl_2.24.bb => libxml-simple-perl_2.25.bb} | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/perl/{libxml-simple-perl_2.24.bb => libxml-simple-perl_2.25.bb} (65%)
 
---089e08264cd84b0bae05680efee6
-Content-Type: text/html; charset="UTF-8"
+diff --git a/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+similarity index 65%
+rename from meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb
+rename to meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+index f9d00d2e28..53788d5585 100644
+--- a/meta/recipes-devtools/perl/libxml-simple-perl_2.24.bb
++++ b/meta/recipes-devtools/perl/libxml-simple-perl_2.25.bb
+@@ -7,13 +7,13 @@ where the original uses plain Perl or SAX parsers."
+ HOMEPAGE = "http://search.cpan.org/~markov/XML-LibXML-Simple-0.93/lib/XML/LibXML/Simple.pod"
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=23477e18a0d04392cdf44ae70e49b495"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=cf206df8c9fe775f1d4c484386491eac"
+ DEPENDS += "libxml-parser-perl"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Simple-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "1cd2e8e3421160c42277523d5b2f4dd2"
+-SRC_URI[sha256sum] = "9a14819fd17c75fbb90adcec0446ceab356cab0ccaff870f2e1659205dc2424f"
++SRC_URI[md5sum] = "bb841dce889a26c89a1c2739970e9fbc"
++SRC_URI[sha256sum] = "531fddaebea2416743eb5c4fdfab028f502123d9a220405a4100e68fc480dbf8"
+ 
+ S = "${WORKDIR}/XML-Simple-${PV}"
+ 
+@@ -21,4 +21,15 @@ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+ inherit cpan ptest-perl
+ 
++RDEPENDS_${PN} += " \
++    libxml-namespacesupport-perl \
++    libxml-parser-perl \
++    libxml-sax-perl \
++"
++
++RDEPENDS_${PN}-ptest += " \
++    perl-module-file-temp \
++    perl-module-test-more \
++"
++
+ BBCLASSEXTEND = "native"
+-- 
+2.14.3
 
-<div dir="ltr"><div>when i open a particular recipe on layer.openembeded site it showcases something called dependencies does it mean that those list under the dependencies should be included in CORE_IMAGE_EXTRA_INSTALL??<br><br></div>Thanks<br></div>
 
---089e08264cd84b0bae05680efee6--
