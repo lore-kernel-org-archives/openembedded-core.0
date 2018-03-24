@@ -1,31 +1,55 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 40BAC78213
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f42.google.com (mail-pl0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B4277FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Mar 2018 15:12:38 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 128552E8938;
-	Sat, 24 Mar 2018 10:12:39 -0500 (CDT)
-Date: Sat, 24 Mar 2018 10:12:38 -0500
-From: Seebs <seebs@seebs.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20180324101238.3d59f137@seebsdell>
-In-Reply-To: <1521894988.11431.42.camel@linuxfoundation.org>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-	<CAJTo0LYfzA2i6GwJA0mODvNse8gy+=gYBk-T9dAUbR65bAVDZA@mail.gmail.com>
-	<20180323114939.218c0607@seebsdell>
-	<1521848850.11431.36.camel@linuxfoundation.org>
-	<20180323185655.51d96c05@seebsdell>
-	<1521894988.11431.42.camel@linuxfoundation.org>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Sat, 24 Mar 2018 15:35:12 +0000 (UTC)
+Received: by mail-pl0-f42.google.com with SMTP id u11-v6so9256784plq.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2018 08:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding:content-language;
+	bh=a2B7WHmO5E0H4VqeqvGYzeJguDhQBJwY1U4wwTHPxL4=;
+	b=LQG5BEyYJQKJY5HyvoJS+JjbDpmPRnl0YkhxzoPrX7E7qFq2hImeIdpc73HfIHuMdH
+	ikkz67a88hIBFMJRJUtBYdZhbJsaO/C1sqxAM4OAxi18CePrMiS5PZFg0ijmcophjJes
+	DLtgWxuzoUrwTALLjAdR6k2Estt3uBZBfyXJj0rdmblUDhI+93YNO8L4QHos62OoLnH1
+	vcemzIxVcIrcm1LBJ0IFM9qjIcdrchD/ThTh+hNw0ZoWH0sA6+0nhsWKYMeLAZ8RiC/f
+	WUKAVYirx3FcZsv+qhxppfpR422yWs0Lar0SqWT6wnGSoModdT2wJ1E2fOPq8XbVnn9P
+	SoWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=a2B7WHmO5E0H4VqeqvGYzeJguDhQBJwY1U4wwTHPxL4=;
+	b=VTjvco9pQ2fjAVxQ5M1+PexB//FKefLK8OosKNEYNigrExyusa94tM7dCM8Sdbj7sF
+	qBBXTmMKKiogQkC3J0Cr6lvyixNJnDRRezqUvJnEvly0qIX3C47kJ6ssBLNBCOIP6GLY
+	bPNHBbtb4JJeJC9hb43FxnGMQluHo7TTMEq4Vp3HiJEVXS7z9lPbyWkEqsBox5xtmwz+
+	c2hp7M+IF1CFSGSvY6OqmGhvaQklySYUCFNwGYeVfu9gVeSu2z1o76OLdijgbbcPyOsj
+	nPkaaj7+vo3Xi7cSxG+yzxUr+iR9ZtztEhZvWbwQbMzC/EpY2ZOHozrTNvcoB1Hz4+45
+	eAWw==
+X-Gm-Message-State: AElRT7H1QEhHA1UYHjgwxePtFi/5ZUfGzfCvNHoRZxzfNkCFAADEobYp
+	hFf2RpefEqSnPIeSEaW7vSw3QA==
+X-Google-Smtp-Source: AG47ELsUo09J0btngp7cMcSp54NnrjFU2DsSDBmm6JYkCKNQbw/nDcqqApePEEGTI5ntS5k9Wl5bsQ==
+X-Received: by 2002:a17:902:2a43:: with SMTP id
+	i61-v6mr33866131plb.54.1521905713410; 
+	Sat, 24 Mar 2018 08:35:13 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:310f:6de9:43b4:b287?
+	([2601:202:4000:1184:310f:6de9:43b4:b287])
+	by smtp.gmail.com with ESMTPSA id
+	b73sm19222429pga.62.2018.03.24.08.35.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 24 Mar 2018 08:35:12 -0700 (PDT)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <62e48d71-f219-2d7d-ea58-b99e1caaaecf@gmail.com>
+Date: Sat, 24 Mar 2018 08:35:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+Subject: Bind update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +62,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2018 15:12:39 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 24 Mar 2018 15:35:12 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sat, 24 Mar 2018 12:36:28 +0000
-Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+Hello,
 
-> I think, at least in principle, pseudo could wrap that and intercept
-> this particular syscall, check syscall_number (the numbering having
-> its own set of issues) and then only handle the specific problem case
-> we have.
+While working on updating the current bind to the next patch level, I
+noticed our current version 9.10.6 will EOL June 2018. I know we are
+under feature freeze for the Sumo release.
 
-I think the problem is the lack of a generic mechanism for "oops
-nevermind just pass the arguments along to the child".
+Could we make an exception and allow an update of bind to the ESV
+version 9.11.3 ?, it EOL's Dec 2021.
 
-There's actually a neat post in Go land pointing out a mechanism
-for a somewhat-similar circumstance in which their compiler just
-plain cheats, and does not actually do the full function call setup,
-just leaves the stack in a place that works *as if* the parent had
-called something else.
- 
-> The unfortunate reality is we will have to figure out some solution to
-> this as f27 is in the wild now. Explaining why this causes problems
-> for debian/yocto to the upstream is also obviously a good idea.
+regards,
 
-I would like to put in a (weak, and i know it's impractical) vote for
-just labeling this a host system requirement, "don't use versions of
-coreutils that jumped to a not-yet-fully-supported new system call."
+armin
 
--s
 
