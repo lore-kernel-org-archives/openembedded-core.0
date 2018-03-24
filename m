@@ -1,42 +1,17 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3306B787C6
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 1963878757
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Mar 2018 20:27:04 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id z73so15245058wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Mar 2018 13:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zYiB9tGqxVr2UgBC7jKn9/QEyUDx539p8KTPPi609Xk=;
-	b=nkPpWngNwvLWuQxp7SVhCAZxvc3Irg+BHRnkTrNTyuVBX5FlRzykojKU53dbazUTaG
-	0O7SiQBF5jSpk8xOm5XJOXcjm+oZ49DPqCIoLmukSg73jJlJscZfLNtqkWx5U3OSpl/T
-	Y8k0cN70lTiIAzMj/NjmISNQ9gXiMlPPgbC4Lx/X1w4yc5C5JM140ly/94Q5m29QvRSQ
-	zH6nds99F3aEcVgr7I6fC66u5CFnBdYU0Egub1otiIOFEHBGcO696+n7BJ+uZ9oF7q8Y
-	8Phm3WW7QbI+RJfTxRYvhMLZpf/aVFNVnt1pGs4q4ohvcwAB7b0drTKYg9tGY9mYwYJe
-	IGEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zYiB9tGqxVr2UgBC7jKn9/QEyUDx539p8KTPPi609Xk=;
-	b=A5dD0k/e9WWLbdprJqI61OEvZB/K2PFD6I2s4y/Pb2fq6BPWIhG0M3f8KEuYRMzhch
-	35eBlg9GNPkKujJhTvbqMsQYa/MoX/r1C7Og2261HSFkiuCFD0vEiC0VjLX801/2Hw4g
-	caHisMt1B1VFhSnxcFYKhH49TuT7lpyaKwwypGXY5Hz3/VTyhn3JjGD5CMIA7mAWYbYn
-	THHF+TvmAbPPzrOC/I/nXU4KOTMjtVMhi9nGB/KJ58tgIP7r1oQsSPyLbU+LOavMwC7B
-	TBLID4+NhWi0QQcKwTSz1Tnt7VDc1UtgWcAssrmOSP6OCA1AkOlWJR4p7rCgaoV1S+mC
-	A/2g==
-X-Gm-Message-State: AElRT7F17CKiU3WeSxfgBQ+gzlKYS9fK411ItUnRLlGQb4kjffDH4gQO
-	R99/gbvQQgpcUO2g9B7I980NIuwv6Z5e7ANsHmw=
-X-Google-Smtp-Source: AG47ELstRlFN9k5EV6Es6DiO79S0YAhTfo2A2rmD0DCH00yWFkIWUKEb564Wu/wKhM2kcbj1bboVaBRprlF/OBQxgj0=
-X-Received: by 10.223.134.47 with SMTP id 44mr18678247wrv.114.1521923225912;
-	Sat, 24 Mar 2018 13:27:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Sat, 24 Mar 2018 13:27:05 -0700 (PDT)
-In-Reply-To: <20180324145044.168f7e3f@seebsdell>
+	Sat, 24 Mar 2018 21:01:03 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 12CEE2E892F;
+	Sat, 24 Mar 2018 16:01:04 -0500 (CDT)
+Date: Sat, 24 Mar 2018 16:01:00 -0500
+From: Seebs <seebs@seebs.net>
+To: Joshua Watt <jpewhacker@gmail.com>
+Message-ID: <20180324160100.6906ac9c@seebsdell>
+In-Reply-To: <CAJdd5Gb0VWNqUN0ci-4-w6KJ6j4E5fLvNk0Tshp_pDeKXvJ7Og@mail.gmail.com>
 References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
 	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<20180323112820.12bc94a4@seebsdell>
@@ -53,10 +28,9 @@ References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<20180324142427.53da953d@seebsdell>
 	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
 	<20180324145044.168f7e3f@seebsdell>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Sat, 24 Mar 2018 13:27:05 -0700
-Message-ID: <CAJ86T=U3Eba_3qQ0gdvpF1kTZXLOJKgqE=SmrKt5VjqNPMxy6w@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
+	<CAJdd5Gb0VWNqUN0ci-4-w6KJ6j4E5fLvNk0Tshp_pDeKXvJ7Og@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: pseudo: host user contamination
@@ -72,25 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2018 20:27:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 24 Mar 2018 21:01:04 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 24, 2018 at 12:50 PM, Seebs <seebs@seebs.net> wrote:
->
-> pseudo's call sequence:
->         various_setup()
->         real_syscall() // sets a3
->         other system calls // also set a3
->         return
+On Sat, 24 Mar 2018 15:22:47 -0500
+Joshua Watt <jpewhacker@gmail.com> wrote:
 
-You don't need to know that the kernel returns a result in any
-particular register. The libc syscall() internal implementation will
-take care of collecting the result from the kernel and returning it
-via the normal function call ABI. Therefore pseudo's call sequence
-becomes something like:
+> I don't think that is true. libc's syscall() must conform to the *C*
+> ABI for the system... if the kernel does things that aren't in line
+> with the C ABI (like return things in registers that aren't expected,
+> fail to preserve registers that require preservation, or whatever),
+> wouldn't the libc syscall() be *required* to paper over it so that it
+> looks like a valid C call? Otherwise, it could never be safely called
+> from C code.
 
-        various_setup()
-        temp = real_syscall()
-        other system calls
-        return temp
+I think this is only partially true. There's extra warnings in
+syscall(2) about weird kinds of non-conformance with the usual ABI,
+like the magic for 64-bit values on EABI (or possibly 32-bit EABI), and
+I think the point about the extra registers or possible
+register-smashing is just "at this point, you get the behavior of the
+actual syscall, which may violate the ABI."
+
+And yeah, it returns correctly, but if code's written to interact with
+what syscall() is *supposed* to do, and we trample that in some way,
+that's potentially bad.
+
+I honestly have no idea how much scope there is for weird problems,
+or whether I'm reading too much into the man page. But there's comments
+in the man page that seem like very things to say if libc's syscall
+really is just hiding all this complexity. Why on earth would the man
+page need to mention those things? What is their relevance, if the
+implementation covers all of that?
+
+Practical answer: I'm probably going to attempt the thing, with
+the first pass being (1) implement a wrapper for renameat2(), (2)
+implement a wrapper for syscall, (3) try to change syscall's behavior
+only in the case where the call is renameat2, (4) make this available
+and let people try it on a variety of architectures and hope for the
+best.
+
+-s
 
