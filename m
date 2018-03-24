@@ -1,32 +1,37 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 182E565C8F
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DD47787B4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Mar 2018 17:23:58 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 353AD2E8922;
-	Sat, 24 Mar 2018 12:23:59 -0500 (CDT)
-Date: Sat, 24 Mar 2018 12:23:57 -0500
-From: Seebs <seebs@seebs.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180324122357.668e6afc@seebsdell>
-In-Reply-To: <CAJTo0LbahOFYjBjonmfn5on78fFinG1Vk7R4kKtKX2mpmriEMA@mail.gmail.com>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-	<CAJTo0LYfzA2i6GwJA0mODvNse8gy+=gYBk-T9dAUbR65bAVDZA@mail.gmail.com>
-	<20180323114939.218c0607@seebsdell>
-	<1521848850.11431.36.camel@linuxfoundation.org>
-	<20180323185655.51d96c05@seebsdell>
-	<1521894988.11431.42.camel@linuxfoundation.org>
-	<CAJTo0LbahOFYjBjonmfn5on78fFinG1Vk7R4kKtKX2mpmriEMA@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+	Sat, 24 Mar 2018 17:27:09 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id d18so3323626qtl.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2018 10:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TBCZX672hdFA7lrojFzp/vZ6vjRDNopFX7mytmCgZ/Y=;
+	b=uaDjpAl5NSt+uLcE4aStCjBVhm3MOsngCgWl3cWRXXI0sOMrNJsey5rIwfnO+9y0lc
+	rl1dn9/pyRgq+qSefwuDyANa73xdcMgfTPTCQSptHOZmX6IQOWrQXUaBBcwdn9M9kt09
+	1w3FpWyaFwy095IwJxWncQpqUo+XqoLHREjh1Nb3Zms5H1gZUAVkqzjzbkmrWRUXPplj
+	y8YnF/oBI9mfdrJLG+5QjV2DV0uddeLSYDuAGJswO4Kx0bTaCkVWYzJ1lugl1QD0lMME
+	CMbS3G41LGdV9JCvhfZMVJYtQrt1EhvFOxu20fLbEin0kNYCYeE5n3jkWLFuk2I/G/v9
+	6w/g==
+X-Gm-Message-State: AElRT7Gxiand6jghKd4Dqe8MV7MlVuPESwK3xfNM56u89KXedNW4yea4
+	Y9bNsYVCjqVK6wg7HP/c3+2kQAYA
+X-Google-Smtp-Source: AG47ELtIomQ65buh6n3PbaMmFcDGVPwdeFxhLMfbEcwhxqaE9HFEXle2zEPxiDTf2EkrJkpOpabi0Q==
+X-Received: by 10.200.58.229 with SMTP id x92mr21527665qte.46.1521912429968;
+	Sat, 24 Mar 2018 10:27:09 -0700 (PDT)
+Received: from sparta.ny.asterius.io ([68.132.72.199])
+	by smtp.gmail.com with ESMTPSA id e30sm8504059qtg.1.2018.03.24.10.27.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 24 Mar 2018 10:27:09 -0700 (PDT)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 24 Mar 2018 13:26:53 -0400
+Message-Id: <1521912413-6148-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python3-pycairo: update to version 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,56 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Mar 2018 17:23:59 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 24 Mar 2018 17:27:09 -0000
 
-On Sat, 24 Mar 2018 17:10:47 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+Update to the latest stable release
 
-> On 24 March 2018 at 12:36, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > I think, at least in principle, pseudo could wrap that and intercept
-> > this particular syscall, check syscall_number (the numbering having
-> > its own set of issues) and then only handle the specific problem
-> > case we have.
-> 
-> And to make things easier I think we could even just ENOTSUPP
-> renameat2 in the short term (i.e. for 2.5), before looking at a more
-> comprehensive intercepting
-> which could solve the Go issue.
+Changes in this update:
+  Add the .pc file to the list of -dev files
+  Move py3cairo header to -dev package
+  Added a comment for why the .pc and .h file are re-installed
 
-In the Go case, we would basically have to do something more like
-debugger traps. They're not using libc *at all*, and unless something's
-built with cgo or requires C-type libraries, it's not even going to be
-dynamically linked. No dynamic linker => LD_PRELOAD is irrelevant.
+Verified native build and dependency builds (python3-pygobject and bootchart2)
+Tested in qemux86-64 running core-image-minimal
 
-> I filed a bug with coreutils yesterday.  "Just intercept syscall()"
-> they said.
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ ...ython3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb} | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.16.3.bb} (58%)
 
-If they can describe a mechanism for intercepting syscall that they can
-guarantee will work across all Linux architectures including possible
-future architectures not yet in use, I'd love to know what it is.
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+similarity index 58%
+rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+index 5c3e1e6..85f3752 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.16.3.bb
+@@ -13,8 +13,8 @@ DEPENDS = "cairo"
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+-SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+-SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
++SRC_URI[md5sum] = "d2a115037ccd128219f43d5ed3df7926"
++SRC_URI[sha256sum] = "5bb321e5d4f8b3a51f56fc6a35c143f1b72ce0d748b43d8b623596e8215f01f7"
+ 
+ S = "${WORKDIR}/pycairo-${PV}"
+ 
+@@ -25,7 +25,14 @@ CFLAGS += "-fPIC"
+ BBCLASSEXTEND = "native"
+ 
+ do_install_append() {
+-    install -d ${D}${includedir}/pycairo/
++    # setup.py uses --install-data which points to a non-standard datadir  to install the header and .pc files
++    # Fix the paths here to install in the standard locations as well
++    install -d ${D}${includedir}/pycairo/ -d ${D}${nonarch_libdir}/pkgconfig
+     install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
++    install -m 0644 ${D}${datadir}/lib/pkgconfig/py3cairo.pc ${D}${nonarch_libdir}/pkgconfig/
+ }
+-FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
++
++FILES_${PN}-dev += " \
++    ${datadir}/include/pycairo/py3cairo.h \
++    ${datadir}/lib/pkgconfig/py3cairo.pc \
++"
+-- 
+2.7.4
 
-See syscall(2) for some examples of the kinds of things that could be
-concerns, such as the EABI calling convention. We can sort of hope for
-the best if we just treat everything as a chain of unsigned longs, but
-that's really *not* safe, and it should not be expected to work
-reliably across architectures.
-
-Honestly, reading it more closely, I don't think we can actually
-produce behavior that precisely mimics the behavior of syscall() for
-generic cases on architectures we currently run on. There's magic like
-setting values in other registers, clobbering registers, and so on,
-because *this function does not obey general architecture calling
-conventions*. And if the wrapper does, the wrapper will break at least
-some of the expected behaviors, by not behaving the same way.
-
-Basically: I don't think we can promise that we will correctly pass
-through both parameters to syscall() and returns from it in on existing
-architectures we're actually running on today, for the whole set of
-possible syscalls. So if we intercept syscall(), at least some
-previously-valid programs break.
-
--s
 
