@@ -1,52 +1,51 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
-	[209.85.161.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 24CF571AD1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DAFF71AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 21:18:20 +0000 (UTC)
-Received: by mail-yw0-f172.google.com with SMTP id z82so5559528ywd.9
+	Sun, 25 Mar 2018 21:58:09 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id z143-v6so10482177itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 14:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Sun, 25 Mar 2018 14:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=03Ppi135m1s9bXlBEg7In5/g0dLE3cDGf6dgV8BAAqY=;
-	b=rdQ46V3dCNmE4phFVNhG1go3YFiWZTS7rVK6Yt6Wjy5Ww8wSobThJSyFDgDn8D44uX
-	SmwF50Mfd4bAngICKYtt63k8b+vkqh1qCR7goLZB6XXAN+548caW6IoT1Eun35a5+xuJ
-	FWPDfV/wMrqn5dkk82irJy8dZSZynFKspaHEljXEdQ7XWS6r0jstwhOt9CG56CwsTLxJ
-	160MmoRV+EbCycGrGrXigiSqPZmfkSGJAPExBsr+j+DeyIqAoMUJZGv7tT8IZVxT4iPp
-	Ba8QmcIQjm/MGN47UEJQ8UAm1GGxArYzcLp4NWpDEN3akWJcJMdjzIoTixNdci3bXayj
-	ojAQ==
+	:cc; bh=gRvuFF9EmN/pFzPnShBUvZeA4ltyuVi99/RUPespOYc=;
+	b=eX38HdNwvISz9V4pt+LsNeAut96zIxLGfm0PxzRQjnexBHluVWwCIlU3G40MHt/dxj
+	ubNV/rUO9Js5PJi23OSWvW8ueSfvYzVaTxfi6DT6JcdmO+/aYHjCrN77FB+vmmTNTmL9
+	R+dt1PbjHKW9JBO2ySVEPqcnf2v8/FllHqt6WXpbCwSCBnXqrbbGAs8nTboZYUHqgUet
+	7+0Ivd36J01pCo3WrZutAjyVV0jRgzE6LaNq8dXWDied5bNoR4GQvYClh56GFugN3Rty
+	qA6Fll49RcOya7yZrLz3ADyuV4FDlqA7Lzat5ZOg12xOYPVNcij1SGiIMt7sa0CUaHaX
+	A5pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=03Ppi135m1s9bXlBEg7In5/g0dLE3cDGf6dgV8BAAqY=;
-	b=FMxYbwShkwpRwpwul6LtLgiQdE9U8LeklDn/YSvsJ9MS1RktdmYmz936danJ5khiDT
-	RcT03e0HFnaVCMI9EWY2z5djisKen4XPI3TL6uKNux92FkS20t73fq1r4aNlThd0oCkX
-	8rEkqz92vyhQrVRusomfCQmNiHHM/94hXWpffCH6j/2W3L3W/m5vJEkR4UjzORBNLBor
-	Lg2d+sHNN0RdNFPEqTII2M1HEv5AkBcjwm0O9rpt8bLbXOtyqHNkcp63gTORFkMiwohz
-	J4qHbG76XDnk8Q7KLRN+dQnwwR8uUfUoiJFqiTuWu/ToYkx5oplaFq7bQgSQyP99BJEk
-	Osxw==
-X-Gm-Message-State: AElRT7GHx26U9G7FD17t8HGhMiv31HFEcPaYiYTJfPsN3hJ4WlnLUQzu
-	HBsyA+6Jnhev50h1pWoBtvgEh9gidfTWVHGaGb8=
-X-Google-Smtp-Source: AG47ELszb2+kDxOPoRu5HXyxotCzzo2jkk+VrBsCO5zRAumuQxkudO+JibtYz2DK2zoG3zE7OuOTmA/BzrmRxd5pYdo=
-X-Received: by 10.13.249.197 with SMTP id j188mr21941351ywf.318.1522012702007; 
-	Sun, 25 Mar 2018 14:18:22 -0700 (PDT)
+	bh=gRvuFF9EmN/pFzPnShBUvZeA4ltyuVi99/RUPespOYc=;
+	b=kYvBdrX9v8lXAbbP97Sq+z60PhzNnWpXfus/6WgIpz60824zGbhQzUVDWbJZSZ2GF4
+	qiAuxKAeK8MUGpp5Vya9ZI881PRCC+pIS40s5bqoASpH++DrkfizWI4xXQ1UAc9u2BnD
+	U0IzoBuspI5SL0wUn0ilE45HDl2yS7UnlYPdYNtLxCV1efyUQCU0tT7Xb+ZCgd8E9CFK
+	605BBHsoc0mYmJpnVa9AoEVbDY+pLsR+vq3pHBNzMSzec12rNTLHYWqI8ghn/MCnMBYz
+	3EzuWAM4d4GmgtKXmeR2TPPT/zRbHt5l0XxhlutcRe6H6YNaVdJKbnlClGE99PGBOrbl
+	otiQ==
+X-Gm-Message-State: AElRT7HWdMxE1CERyLt/AAiurTFOBLAYCxZ80pYrdMDkllCMjg9jSUrd
+	pFhQFDumAEjZe9JKljmuXNPB7tbZG+L5atupEaDlJw==
+X-Google-Smtp-Source: AG47ELtH0fdOroIUX3p4QlhnCh3WASn/Z4U1NErkd4AAzf0oEhfgY+bAWrUnGC8h85p+9ZyqD74eBWf/vzGP4QqaBZ4=
+X-Received: by 2002:a24:f685:: with SMTP id
+	u127-v6mr20049662ith.131.1522015091329; 
+	Sun, 25 Mar 2018 14:58:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a25:d105:0:0:0:0:0 with HTTP; Sun, 25 Mar 2018 14:18:21
-	-0700 (PDT)
-In-Reply-To: <CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
-References: <CAPGMVzHQwth9b6MxA79OEwCVPMCwJTZ+j-WKwz-uemgXoPZy7g@mail.gmail.com>
-	<CAJTo0LbL6BA5sNeOi+sH8VCdDBDhvdkztFxbQSkAsau2FRuNUQ@mail.gmail.com>
-	<CAPGMVzEA52STvoMh=cAHqxsYc++pmxmhywVM082thHuB_OJ_0w@mail.gmail.com>
-	<CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Sun, 25 Mar 2018 23:18:21 +0200
-Message-ID: <CALbNGRQn-1vmg_pa8VeKM4UwgHyMq82zSJHZ--gaxCiDesgqKw@mail.gmail.com>
-To: Rajath C S <rajathcs.1996@gmail.com>
-Cc: kazuhiro3.hayashi@toshiba.co.jp, yoshitake.kobayashi@toshiba.co.jp,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-debian] build error
+Received: by 10.107.30.9 with HTTP; Sun, 25 Mar 2018 14:57:51 -0700 (PDT)
+In-Reply-To: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
+References: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 25 Mar 2018 22:57:51 +0100
+Message-ID: <CAJTo0Lb8zOtBb72hdhL4BzfTPss4JM00-WZOiOnqk5_tRUJyOw@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: X11 proto changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 21:18:21 -0000
+X-List-Received-Date: Sun, 25 Mar 2018 21:58:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Mar 25, 2018 at 9:58 PM, Rajath C S <rajathcs.1996@gmail.com> wrote:
-> Error while building opencv
->
-> ERROR:
-> opencv-3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0
-> do_compile: Function failed: do_compile (log file is located at
-> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688)
-> ERROR: Logfile of failure stored in:
-> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688
->
-> may i know what this error is precisely referring to  i dint have this error
-> when i was trying to build opencv yesterday
->
-> Thanks
->
-My opinion: meta-debian is by far the worst layer I've ever seen. It
-overwrites many (and tries to move from many to all) recipes with own
-ones [1].
+On 24 March 2018 at 19:07, akuster808 <akuster808@gmail.com> wrote:
+> It appears Xorg is deprecating most of it's proto header repos for a new
+> all-in-1 repo xorgproto. This will most likely affect down stream
+> layers. The question I have, is do we want this big churn to happen for
+> Sumo or wait for 2.6 ?
 
-My suggestion: Remove meta-debian from bblayers.conf and try again.
+Pretty late for Sumo and if the worst case thing happens and they
+delete the repos (which would be unusual) then we can just point the
+SRC_URI at the yoctoproject mirror site.
 
-* If you are fine - open an issue at meta-debian/github (error was
-caused by meta-debian)
-* If build failure persists, it would help to attach the log files the
-error message referrers to.
+Moving forward in master I guess a xorgprotos recipe which PROVIDES
+that bundle should be seamless.
 
-[1] https://layers.openembedded.org/layerindex/branch/master/layer/meta-debian/
-
-Andreas
+Ross
 
