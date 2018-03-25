@@ -1,46 +1,52 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9390278591
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
+	[209.85.161.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 24CF571AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 20:38:21 +0000 (UTC)
-Received: by mail-ua0-f173.google.com with SMTP id o34so8005542uae.9
+	Sun, 25 Mar 2018 21:18:20 +0000 (UTC)
+Received: by mail-yw0-f172.google.com with SMTP id z82so5559528ywd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 13:38:22 -0700 (PDT)
+	Sun, 25 Mar 2018 14:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2tpcZ6sEcc845bBU9qmtIkftn4x3DYR0G639QM/CuPo=;
-	b=MfazsCXLkY9DLDg/GTmwfaLpCVaNgpyFE1i2ETu4XR18A3TR1rmZ/Dh4nWClWijC+h
-	AhGCiOWGgKuBkCFnjkgAxW2jwX31OXjbXT35EarM053Igf4gb7zhgKlOskUrllswqRLq
-	6OjRzgtEFOU14nh+tJITBvc5Rv4f3E/iqiSv0FuPNQESknHEIE/o+ITQOTNGwqJCWfot
-	TT4GSlXf6q9/O4/MQS6ajwoVMCOibEqvDlR2roKT3wuw8kc/6qqobtq5/v5gsh7X/n4q
-	pTfnuUSRt7Rkjoi6DNoeQcLXuM0CYOd/XjUNXxDzo2N4Vm2oAyB6qAAfmo+BJgC7YP0X
-	J41w==
+	:cc; bh=03Ppi135m1s9bXlBEg7In5/g0dLE3cDGf6dgV8BAAqY=;
+	b=rdQ46V3dCNmE4phFVNhG1go3YFiWZTS7rVK6Yt6Wjy5Ww8wSobThJSyFDgDn8D44uX
+	SmwF50Mfd4bAngICKYtt63k8b+vkqh1qCR7goLZB6XXAN+548caW6IoT1Eun35a5+xuJ
+	FWPDfV/wMrqn5dkk82irJy8dZSZynFKspaHEljXEdQ7XWS6r0jstwhOt9CG56CwsTLxJ
+	160MmoRV+EbCycGrGrXigiSqPZmfkSGJAPExBsr+j+DeyIqAoMUJZGv7tT8IZVxT4iPp
+	Ba8QmcIQjm/MGN47UEJQ8UAm1GGxArYzcLp4NWpDEN3akWJcJMdjzIoTixNdci3bXayj
+	ojAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=2tpcZ6sEcc845bBU9qmtIkftn4x3DYR0G639QM/CuPo=;
-	b=Fm4FYocZzvMupr/Kowv0OGAthhTF/OzU2QfhJvBHXOHxjSdCNRMDPUF4WBPa3DywuK
-	7hGjyQ2ixHENI6EOoIzwjYNHinutW2CmXDagFA9CbJYNzl+OEnouZGjXd57RvOpDp9bg
-	jE+8ZY/hZgCtQJ4FpeAJ+7EmuhBrZk1j0gumCBjfUEf5jFkWgAKO24rHXw7ME/l2mKp8
-	Max3r6Zro4/YsGlEQGk4h3SdetBej+Nvu3DbRUWjaWqP9ulxRUvw4iau4/fEMwpbvX3c
-	Kfz3rSe8Mw+EN1Sx3TlhhGs+XcsK2so7YhZPD6g1S1VmKnqLl8LNv9+fgUgdPpwTnLQE
-	fuiw==
-X-Gm-Message-State: AElRT7Fq72h+SG9BQdpQmxAtECpeq2JbuGzIAiWHkKiFdF6/4xMuLN9z
-	je3Z/iIQ8a2wfUvr6OTUVtBSs8tF8cdgw4vAQTk=
-X-Google-Smtp-Source: AG47ELvsZCnKybxo5eYQ93wXtEkNPlp33Wyq9K02DAp0d3zexeY1L9/JPMVJ2gcWCFfAq1Jok+dHv1SJQKLwqmKYKyI=
-X-Received: by 10.176.29.147 with SMTP id l19mr22084730uak.23.1522010302290;
-	Sun, 25 Mar 2018 13:38:22 -0700 (PDT)
+	bh=03Ppi135m1s9bXlBEg7In5/g0dLE3cDGf6dgV8BAAqY=;
+	b=FMxYbwShkwpRwpwul6LtLgiQdE9U8LeklDn/YSvsJ9MS1RktdmYmz936danJ5khiDT
+	RcT03e0HFnaVCMI9EWY2z5djisKen4XPI3TL6uKNux92FkS20t73fq1r4aNlThd0oCkX
+	8rEkqz92vyhQrVRusomfCQmNiHHM/94hXWpffCH6j/2W3L3W/m5vJEkR4UjzORBNLBor
+	Lg2d+sHNN0RdNFPEqTII2M1HEv5AkBcjwm0O9rpt8bLbXOtyqHNkcp63gTORFkMiwohz
+	J4qHbG76XDnk8Q7KLRN+dQnwwR8uUfUoiJFqiTuWu/ToYkx5oplaFq7bQgSQyP99BJEk
+	Osxw==
+X-Gm-Message-State: AElRT7GHx26U9G7FD17t8HGhMiv31HFEcPaYiYTJfPsN3hJ4WlnLUQzu
+	HBsyA+6Jnhev50h1pWoBtvgEh9gidfTWVHGaGb8=
+X-Google-Smtp-Source: AG47ELszb2+kDxOPoRu5HXyxotCzzo2jkk+VrBsCO5zRAumuQxkudO+JibtYz2DK2zoG3zE7OuOTmA/BzrmRxd5pYdo=
+X-Received: by 10.13.249.197 with SMTP id j188mr21941351ywf.318.1522012702007; 
+	Sun, 25 Mar 2018 14:18:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.219.149 with HTTP; Sun, 25 Mar 2018 13:38:21 -0700 (PDT)
-In-Reply-To: <CAPGMVzEP9hJqngopC_AFsVLNPEJda+R5AZSecW4JPWhZTUcwmg@mail.gmail.com>
-References: <CAPGMVzEP9hJqngopC_AFsVLNPEJda+R5AZSecW4JPWhZTUcwmg@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Mon, 26 Mar 2018 02:08:21 +0530
-Message-ID: <CAPGMVzGzXx7iDovEPuj-t5m1a+A9bHgU6u0O6_Yq-PArUpxsoA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-ros] ros package import problem
+Received: by 2002:a25:d105:0:0:0:0:0 with HTTP; Sun, 25 Mar 2018 14:18:21
+	-0700 (PDT)
+In-Reply-To: <CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
+References: <CAPGMVzHQwth9b6MxA79OEwCVPMCwJTZ+j-WKwz-uemgXoPZy7g@mail.gmail.com>
+	<CAJTo0LbL6BA5sNeOi+sH8VCdDBDhvdkztFxbQSkAsau2FRuNUQ@mail.gmail.com>
+	<CAPGMVzEA52STvoMh=cAHqxsYc++pmxmhywVM082thHuB_OJ_0w@mail.gmail.com>
+	<CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sun, 25 Mar 2018 23:18:21 +0200
+Message-ID: <CALbNGRQn-1vmg_pa8VeKM4UwgHyMq82zSJHZ--gaxCiDesgqKw@mail.gmail.com>
+To: Rajath C S <rajathcs.1996@gmail.com>
+Cc: kazuhiro3.hayashi@toshiba.co.jp, yoshitake.kobayashi@toshiba.co.jp,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-debian] build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 20:38:21 -0000
-Content-Type: multipart/alternative; boundary="089e08264cd869a80b056842a30b"
-
---089e08264cd869a80b056842a30b
+X-List-Received-Date: Sun, 25 Mar 2018 21:18:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Can i get a reply from the respective maintainers?
-
-Rajath C S,
-9964182112,
-Bangalore - 560060
-
-On Fri, Mar 23, 2018 at 12:06 PM, Rajath C S <rajathcs.1996@gmail.com>
-wrote:
-
-> i have added rospy and roslib to CORE_IMAGE_EXTRA_INSTALL += in local.conf
-> but when i go to the python terminal in poky and import rospy and roslib it
-> is unable to do so
+On Sun, Mar 25, 2018 at 9:58 PM, Rajath C S <rajathcs.1996@gmail.com> wrote:
+> Error while building opencv
 >
-> any solution would be of great help thanks
+> ERROR:
+> opencv-3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0
+> do_compile: Function failed: do_compile (log file is located at
+> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688)
+> ERROR: Logfile of failure stored in:
+> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688
 >
-> Rajath C S
+> may i know what this error is precisely referring to  i dint have this error
+> when i was trying to build opencv yesterday
 >
+> Thanks
 >
+My opinion: meta-debian is by far the worst layer I've ever seen. It
+overwrites many (and tries to move from many to all) recipes with own
+ones [1].
 
---089e08264cd869a80b056842a30b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+My suggestion: Remove meta-debian from bblayers.conf and try again.
 
-<div dir=3D"ltr">Can i get a reply from the respective maintainers?<br></di=
-v><div class=3D"gmail_extra"><br clear=3D"all"><div><div class=3D"gmail_sig=
-nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div>Rajat=
-h C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></div></di=
-v>
-<br><div class=3D"gmail_quote">On Fri, Mar 23, 2018 at 12:06 PM, Rajath C S=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D=
-"_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr"><div><div>i have added rospy and roslib to C=
-ORE_IMAGE_EXTRA_INSTALL +=3D in local.conf but when i go to the python term=
-inal in poky and import rospy and roslib it is unable to do so<br><br></div=
->any solution would be of great help thanks<span class=3D"HOEnZb"><font col=
-or=3D"#888888"><br><br></font></span></div><span class=3D"HOEnZb"><font col=
-or=3D"#888888">Rajath C S<br><div><br></div></font></span></div>
-</blockquote></div><br></div>
+* If you are fine - open an issue at meta-debian/github (error was
+caused by meta-debian)
+* If build failure persists, it would help to attach the log files the
+error message referrers to.
 
---089e08264cd869a80b056842a30b--
+[1] https://layers.openembedded.org/layerindex/branch/master/layer/meta-debian/
+
+Andreas
+
