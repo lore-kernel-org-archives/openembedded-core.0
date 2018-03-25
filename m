@@ -1,44 +1,54 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BA4E6FEFA;
-	Sun, 25 Mar 2018 15:23:40 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id l4-v6so20279387lfg.12;
-	Sun, 25 Mar 2018 08:23:41 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B5F667865E;
+	Sun, 25 Mar 2018 16:08:40 +0000 (UTC)
+Received: by mail-pl0-f41.google.com with SMTP id f5-v6so10404418plj.13;
+	Sun, 25 Mar 2018 09:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tNDQo6SJ5vDvCnWqKHSmQrFNHC5gQtnijhQ9nDLjCeo=;
-	b=l1kSupmxiLkUDvqJBElFvFk4DSp20EYx0rEBYkhNhBu4d9hZsoPS8UCZs9CZ3H+1TH
-	LtAoUYRYBCgWtMiOGl1SUSq96fQoKBe/fzeCnbje4SiXNWVOZFtRK+iM5SPeUlchLWYP
-	4SQrh1NVjZ9g0vuxB37/NDJQiVBf5mipr+wKaqWakYz7eJFbKIDXbUPdmWp1TQTGKtef
-	4Kk9VnUk740KWDpQj/qx6mWKhrdxmMxNsi9Z21h4wLMrFUcI+hEHg6T6ruqGck3LUi8r
-	DSMechvVuZau0DOVXCEdw0UfYn9LUu0aB8nYvxtCRxr/Mekqtqisj2pdKIsPrXcBxQFw
-	T9sQ==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=1nKr74DgGfsLpFPbi3XHkAJG8RWSu5Jl0P8wUXw1Vkk=;
+	b=ef+Nx/DpLqxOVCeYgeVfSsn4oiXT1Xts13138MRhIZgH+oRPjWgulCflkYERZzgKKi
+	yj5wHehKh6RhZ2+k72QaYgo/3jW180uSf1jbtG4vpkTTSjXg/ZKPFaQNZrPXeDT/ChRV
+	KY4phfnuR1A23yJZCX7d3oJE2SpSI+mAajCTRW1n/nYqQNAyvjrxm38IDN2QEZS6WoHy
+	QNURlDj+9IRbv6IrEdRFhC/QA9McxjvoxmHITwBHtvzakxDBKpWbhvthUgdExIQrMZc5
+	JJ9ddxVIy18JgYwT3FF4PtREzJxU8yUbeQauurmtwD8p/TsSTOhaNbwtW4YqVY7oBAlw
+	bIcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tNDQo6SJ5vDvCnWqKHSmQrFNHC5gQtnijhQ9nDLjCeo=;
-	b=MTuOKQ4EMpDpzEyTf3Ax322axzHBqM/oIBkda3H0g+Ek9vGhPrMCNjczn+5o1azkkV
-	17xK+FPYGI/ZZXuil/wgCmbureU5c493I5d6O8G/ypEYj7QDas1x4u4keUOXTjtKT9NT
-	f+Pu4LImqllSnX5NXJH7yb4XmCGc9ZJV5iv1JU2OL0iHaAi+NUM8z6OANX9MVFmI7NC0
-	27vwQTV7yof07eZGfPPxaom6DnNa5rXwiqFretd+8q+Oba95mLdyX2RUTIkJUGUR4T0d
-	bPIGqmCkWDjq//QuS0YiCBIN+tJ5KUzG7vt3znfeWNhVx+N7WWn5kSENUxB0frP5SzNt
-	ihtQ==
-X-Gm-Message-State: AElRT7GSGrp+Jx8G4TrinRUnZ/NVOqlnmc6T9U577zSK4xNGvas20RPw
-	iUyHo2sp/4AyDDCRGsFW5xIRwXpLajTr7NMWgU8=
-X-Google-Smtp-Source: AG47ELv9zzlLlriEG5KTW9iHvYLYkQtrAx3SFYVDA5oaYgfj3JU33dfeVK96gIgmsb0+nQuxhXjMXNcvdtFCOVpcYfk=
-X-Received: by 10.46.16.85 with SMTP id j82mr21958431lje.139.1521991421047;
-	Sun, 25 Mar 2018 08:23:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a19:d80f:0:0:0:0:0 with HTTP; Sun, 25 Mar 2018 08:23:40
-	-0700 (PDT)
-In-Reply-To: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=1nKr74DgGfsLpFPbi3XHkAJG8RWSu5Jl0P8wUXw1Vkk=;
+	b=ROt3QcoryFmwUOCKwuU6/NyIjwuiCbmsBIM+1JISfS8n3Af3UbjY766ze5YGsZRfqS
+	JJvf/N0Pq3dDTIyEGOEhCtYX6Z625B8tdbS6S9IVwyVYsehV3v+PAPkClAZ9IyczZDcf
+	GE2FHA1ck0NOuA9x0hHEHox4+rSIW/OE2Nst8cbRj7DtAVSWuiKTggIlGGR4ALELRsHw
+	c+VsMEi1PFbt+B6X1vvnSmGmohwoQwAysyg+rWK4YGj+ZLwJzvZpf/RKlkhwg4HOfUiq
+	XD0TyxMVsugBScleUgUsNvKNbCFx2RGs5bx2ThU3M204vzx989c+J56pZfeEBw5bvY93
+	8QzA==
+X-Gm-Message-State: AElRT7E3REbs2vGIE0B1YcCH0Fpn/5ngPnOTXqDVQpfvdJ9ditjcXH11
+	cg+Rkz9iEoZRgz1kXkahnw6h4A==
+X-Google-Smtp-Source: AG47ELu7oDQnP6WqHDJQkhPrJDNFm4XM4Smw96gVIHVBeiDvQ2oEnaUs9QBBHm/h3jAcV3MZ1mE2AQ==
+X-Received: by 2002:a17:902:2c83:: with SMTP id
+	n3-v6mr26039996plb.140.1521994121560; 
+	Sun, 25 Mar 2018 09:08:41 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:2db3:d824:9df5:a117?
+	([2601:202:4000:1184:2db3:d824:9df5:a117])
+	by smtp.gmail.com with ESMTPSA id
+	i127sm27481383pfc.136.2018.03.25.09.08.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 25 Mar 2018 09:08:40 -0700 (PDT)
+To: Trevor Woerner <twoerner@gmail.com>
 References: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sun, 25 Mar 2018 11:23:40 -0400
-Message-ID: <CAHUNapSXZk0Ocmc9xeG2NAcVioF=5xjpzSxMXVxa9hAcGDKLZA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
+	<CAHUNapSXZk0Ocmc9xeG2NAcVioF=5xjpzSxMXVxa9hAcGDKLZA@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <d6f1a3fc-f65f-8ca2-f9f5-576f5d01df48@gmail.com>
+Date: Sun, 25 Mar 2018 09:08:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAHUNapSXZk0Ocmc9xeG2NAcVioF=5xjpzSxMXVxa9hAcGDKLZA@mail.gmail.com>
 Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -55,17 +65,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 15:23:40 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1a5ed000bd2b05683e3e74"
+X-List-Received-Date: Sun, 25 Mar 2018 16:08:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---94eb2c1a5ed000bd2b05683e3e74
-Content-Type: text/plain; charset="UTF-8"
+Trevor,
 
-Have the Xorg developers provided any sort of timeline for this switch?
 
---94eb2c1a5ed000bd2b05683e3e74
-Content-Type: text/html; charset="UTF-8"
+On 03/25/2018 08:23 AM, Trevor Woerner wrote:
+> Have the Xorg developers provided any sort of timeline for this switch?
 
-<div dir="ltr">Have the Xorg developers provided any sort of timeline for this switch?<br></div>
+https://lists.x.org/archives/xorg-announce/2018-February/002835.html
 
---94eb2c1a5ed000bd2b05683e3e74--
+As of 3/1/2018 the last commit in all the proto headers indicate they
+are deprecated.
+
+- armin
+
