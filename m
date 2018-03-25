@@ -1,51 +1,44 @@
 Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 24AE67803F
+Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 23DE06093E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 19:58:07 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id c40so10819146uae.2
+	Sun, 25 Mar 2018 20:33:59 +0000 (UTC)
+Received: by mail-ua0-f170.google.com with SMTP id j18so321140uae.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 12:58:09 -0700 (PDT)
+	Sun, 25 Mar 2018 13:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Hyh+0UDYyU31LiFeRZ+GsgIHcrCgQKBYpoDDKZ8ByL4=;
-	b=Z5A8HIb1+tqbzD3NzNn733KDYPsmAq/e+zluFgYtQdfSi4LWleWZ+puisjZqJ+1AoK
-	vxMMQwFCpNP1uxaoRYzXN+YdfVDMLCrcBZMiPz1pJNu7qqWVV3nsumz+yAQVgH2bBkX5
-	IsL/5xDnlLWZmpP0Y+fGmj+DUC61jIkAnlZHbMJodNMOpfMsuWufSka6tC+5PDsKB9vI
-	OX1xLJEmhIfFrA3d0jb5kbEWqzzaSZaWTG+cPw7q746tWvZ8Vb+M+DkC4fIq9WJF5EHH
-	y4QY8ERd27SzVRkI/CpbuVVUDJTlDUCNjYJFx5qxtZJMOE5HDTlibwh6+4Zoho1b2Spl
-	L+Kw==
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=U5kbS8c1yVpKrE4pENcuug33cYVWsZgI7d2gm04J+Kg=;
+	b=WWtj7guLmMBwOBHsux6WKjJg/P/pXlOVYr2Gsi2e+9qquY6qhnrY7cT/IJUJNbzTlE
+	RhS1ZvmAAfQK1BiHcOrqmC4AEOba2FurBTPepiK2BRNdSFiI2QgwFJMl8ShD5oV+M107
+	3Kj6Blf0k9nT+qFPhwh3gr2rjuxEVo4/4ca9fvAsS8F/8jIf27VvHDk9L/0rnXVX97sF
+	JYevpl/jegHT/uxv5IXquEjJj6l4+IhPYu6mM5M74K6s79WEXX8h9bPGM7buibZahc+P
+	lBI3tK+RqWXL/4eaN/HKzvoH49kqD5CDlL3bF2X9+28bGp3AJSANWCkMukJ3fPDEKWL/
+	Qy4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Hyh+0UDYyU31LiFeRZ+GsgIHcrCgQKBYpoDDKZ8ByL4=;
-	b=HEeT1Ob8mB/CpFqKQHBWbDaQ3C7Rg7RGB+PHlSiLdxpPqA9ffRvLcQxVHIx0VcUW6s
-	OlEpQO5hACe6qDMrHL3j6ILbtvUweOD5gk30TXZ4P6WN1Y9ZPP0cKEC1y8Jq5Z4Mj0JZ
-	UKcBoH3mtAQS9B/9vS2MlAvzC5o/Wzp3zqwOOdz4UUl73shfFwGhTXlggvUEW4IDEfna
-	1KszaWjt3xjXdSLUgr24yduyu1apEz3X7JcNSjnAMdxPx40k55jjYVDp/RnW3y1FIb9G
-	wHKahReWNFnWXbC+oqKMNa0JJNvfyHWyGGPEgk9bCTE3Kaqi+mdxmRcznxj1JG2s5tbV
-	0ubw==
-X-Gm-Message-State: AElRT7FVM3wF1hv9qiB2+dkow+J3iwG+tI2tCpMiI1lPZ/CGE15YakNC
-	PBkI1BN+mA1vnVUy4QP453KSdie0MBS5iQbemZE=
-X-Google-Smtp-Source: AG47ELsOq58NDqUekSe6cFpRhhItCyEF3fW3dq2U/G67GaJv0H/m2VB5lTfGxPhiJxMe9X3yCHtWZ6LDHoRTWc6mnC8=
-X-Received: by 10.176.78.167 with SMTP id l39mr26068707uah.193.1522007888632; 
-	Sun, 25 Mar 2018 12:58:08 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=U5kbS8c1yVpKrE4pENcuug33cYVWsZgI7d2gm04J+Kg=;
+	b=Y05hKIlUVfNNblS1tT8XpETbw1LwgAtIsICwKenl/RZDHTHvH6sHfOjLhSKD61fKBP
+	MH7kF6hECvTqd/C2sUe44dFSBC8cc4M9SJWetJrX1T3CnTKBXKTDQ/JyCwTZ/U4ajCkv
+	dG/WxqZJ+7rLbdM7u6M/FXFsD3ZwqYkylxs/TtY9A3lwn6dMwpi3PFDB+8go7eLnGfsA
+	m6l4YwZvCdXEWdsLngWzDQ59Cac9n/ojZixHk1dTHgPEsYfNWQ2uagZ3zisFVcIF1DW5
+	DONBAw6iXoDH/iZR3itR8D6UDcyg0jlL6PwMV9c+xWv0K7xfKffZa+FTMi5duK23959r
+	5VOw==
+X-Gm-Message-State: AElRT7G27zZeUgY6y926w0dUZIpkKFtJhV8y4hPzfKHsSxV/5YHB67QC
+	8yo3Gbv4S0Tm65jg7YRRFRfULvXU5wiggTsEZmg=
+X-Google-Smtp-Source: AG47ELth36C9QwWcFavJggl2pvfbu561RlGVQ32+XKyjPCaFYsoV+TycKavoEOt/wnWfhAHZH+F+JhBaJYcoXxynIVc=
+X-Received: by 10.159.53.105 with SMTP id o96mr26130139uao.33.1522010040564;
+	Sun, 25 Mar 2018 13:34:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.219.149 with HTTP; Sun, 25 Mar 2018 12:58:08 -0700 (PDT)
-In-Reply-To: <CAPGMVzEA52STvoMh=cAHqxsYc++pmxmhywVM082thHuB_OJ_0w@mail.gmail.com>
-References: <CAPGMVzHQwth9b6MxA79OEwCVPMCwJTZ+j-WKwz-uemgXoPZy7g@mail.gmail.com>
-	<CAJTo0LbL6BA5sNeOi+sH8VCdDBDhvdkztFxbQSkAsau2FRuNUQ@mail.gmail.com>
-	<CAPGMVzEA52STvoMh=cAHqxsYc++pmxmhywVM082thHuB_OJ_0w@mail.gmail.com>
+Received: by 10.103.219.149 with HTTP; Sun, 25 Mar 2018 13:34:00 -0700 (PDT)
 From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Mon, 26 Mar 2018 01:28:08 +0530
-Message-ID: <CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
+Date: Mon, 26 Mar 2018 02:04:00 +0530
+Message-ID: <CAPGMVzGiRpUt0vDJtKiijz419a5atjxRc+emOy8koXc3manCkw@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: kazuhiro3.hayashi@toshiba.co.jp,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	yoshitake.kobayashi@toshiba.co.jp
-Subject: Re: [meta-debian] build error
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: package import error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,890 +51,227 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 19:58:08 -0000
-Content-Type: multipart/alternative; boundary="f403043eee748c1e8d056842133e"
+X-List-Received-Date: Sun, 25 Mar 2018 20:34:00 -0000
+X-Groupsio-MsgNum: 109794
+Content-Type: multipart/related; boundary="94eb2c04c644d044ba056842937c"
 
---f403043eee748c1e8d056842133e
+--94eb2c04c644d044ba056842937c
+Content-Type: multipart/alternative; boundary="94eb2c04c644d044b7056842937b"
+
+--94eb2c04c644d044b7056842937b
 Content-Type: text/plain; charset="UTF-8"
 
-Error while building opencv
+why is my cv2 import (of opencv) saying illegal instruction (last line of
+pic)
 
-ERROR:
-opencv-3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0
-do_compile: Function failed: do_compile (log file is located at
-/home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688)
-ERROR: Logfile of failure stored in:
-/home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688
-
-may i know what this error is precisely referring to  i dint have this
-error when i was trying to build opencv yesterday
-
-Thanks
-
-
-
-Rajath C S,
-9964182112,
-Bangalore - 560060
-
-On Mon, Mar 26, 2018 at 1:22 AM, Rajath C S <rajathcs.1996@gmail.com> wrote:
-
-> Ok, thanks for the clarification.
->
-> On Mon, 26 Mar 2018, 01:21 Burton, Ross, <ross.burton@intel.com> wrote:
->
->> Speaking as an oe-core maintainer, we don't support meta-debian: use
->> it at your own risk.
->>
->> Ross
->>
->> On 25 March 2018 at 20:49, Rajath C S <rajathcs.1996@gmail.com> wrote:
->> > Hi,
->> >
->> > I am encountering the below error while building meta-debian (which is
->> added
->> > in bblayer.conf)
->> >
->> > ERROR: /home/jarvis/poky/meta-debian/recipes-misc/ltp/ltp_git.bb: Error
->> > executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${MISC_GIT_URI}/${MISC_GIT_PREFIX}ltp.git;protocol=${MISC_GIT_PROTOCOL}'
->> is
->> > invalid and cannot be interpreted
->> >
->> > ERROR:
->> > /home/jarvis/poky/meta-debian/recipes-misc/qemu/qemu-bios-
->> native_1.7.0.bb:
->> > Error executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${MISC_GIT_URI}/${MISC_GIT_PREFIX}qemu.git;protocol=${
->> MISC_GIT_PROTOCOL};branch=stable-2.1'
->> > is invalid and cannot be interpreted
->> >
->> > ERROR:
->> > /home/jarvis/poky/meta-debian/recipes-kernel/linux-libc-headers/
->> linux-libc-headers-base_git.bb:
->> > Error executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${LINUX_GIT_URI}/${LINUX_GIT_PREFIX}${LINUX_GIT_REPO};
->> branch=${LINUX_GIT_SRCREV};protocol=${LINUX_GIT_PROTOCOL}'
->> > is invalid and cannot be interpreted
->> >
->> > ERROR: /home/jarvis/poky/meta-debian/recipes-kernel/linux/linux-
->> base_git.bb:
->> > Error executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${LINUX_GIT_URI}/${LINUX_GIT_PREFIX}${LINUX_GIT_REPO};
->> branch=${LINUX_GIT_SRCREV};protocol=${LINUX_GIT_PROTOCOL}'
->> > is invalid and cannot be interpreted
->> >
->> > ERROR: Failed to parse recipe:
->> > /home/jarvis/poky/meta-debian/recipes-misc/ltp/ltp_git.bb
->> > ERROR: /home/jarvis/poky/meta-debian/recipes-debian/zlib/zlib_debian.bb
->> :
->> > Error executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${DEBIAN_GIT_URI}/${DEBIAN_GIT_PREFIX}zlib.git;protocol=$
->> {DEBIAN_GIT_PROTOCOL};branch=rocko-master'
->> > is invalid and cannot be interpreted
->> >
->> > ERROR:
->> > /home/jarvis/poky/meta-debian/recipes-debian/zeromq3/zeromq3_debian.bb:
->> > Error executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${DEBIAN_GIT_URI}/${DEBIAN_GIT_PREFIX}zeromq3.git;
->> protocol=${DEBIAN_GIT_PROTOCOL};branch=rocko-master'
->> > is invalid and cannot be interpreted
->> >
->> > ERROR: /home/jarvis/poky/meta-debian/recipes-debian/zip/zip_debian.bb:
->> Error
->> > executing a python function in <code>:
->> >
->> > The stack trace of python calls that resulted in this exception/failure
->> was:
->> > File: '<code>', lineno: 3, function: <module>
->> >      0001:__anon_25__home_jarvis_poky_meta_classes_patch_bbclass(d)
->> >      0002:__anon_160__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >  *** 0003:__anon_686__home_jarvis_poky_meta_classes_base_bbclass(d)
->> >      0004:__anon_1305__home_jarvis_poky_meta_classes_insane_bbclass(d)
->> >      0005:__anon_250__home_jarvis_poky_meta_classes_package_bbclass(d)
->> >      0006:__anon_352__home_jarvis_poky_meta_classes_package_deb_
->> bbclass(d)
->> >      0007:__anon_25__home_jarvis_poky_meta_classes_debian_bbclass(d)
->> > File: '/home/jarvis/poky/meta/classes/base.bbclass', lineno: 587,
->> function:
->> > __anon_686__home_jarvis_poky_meta_classes_base_bbclass
->> >      0583:    needsrcrev = False
->> >      0584:    srcuri = d.getVar('SRC_URI')
->> >      0585:    for uri in srcuri.split():
->> >      0586:        (scheme, _ , path) = bb.fetch.decodeurl(uri)[:3]
->> >  *** 0587:
->> >      0588:        # HTTP/FTP use the wget fetcher
->> >      0589:        if scheme in ("http", "https", "ftp"):
->> >      0590:            d.appendVarFlag('do_fetch', 'depends', '
->> > wget-native:do_populate_sysroot')
->> >      0591:
->> > File: '/home/jarvis/poky/bitbake/lib/bb/fetch2/__init__.py', lineno:
->> 368,
->> > function: decodeurl
->> >      0364:    """
->> >      0365:
->> >      0366:    m =
->> > re.compile('(?P<type>[^:]*)://((?P<user>[^/;]+)@)?(?P<
->> location>[^;]+)(;(?P<parm>.*))?').match(url)
->> >      0367:    if not m:
->> >  *** 0368:        raise MalformedUrl(url)
->> >      0369:
->> >      0370:    type = m.group('type')
->> >      0371:    location = m.group('location')
->> >      0372:    if not location:
->> > Exception: bb.fetch2.MalformedUrl: The URL:
->> > '${DEBIAN_GIT_URI}/${DEBIAN_GIT_PREFIX}zip.git;protocol=${
->> DEBIAN_GIT_PROTOCOL};branch=rocko-master'
->> > is invalid and cannot be interpreted
->> >
->> > Do help me with the solution
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
->>
->
-
---f403043eee748c1e8d056842133e
+--94eb2c04c644d044b7056842937b
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Error while building opencv<br><div><br>ERROR: opencv-3.3+=
-gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0 do_com=
-pile: Function failed: do_compile (log file is located at /home/jarvis/poky=
-/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed=
-_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile.7688)<br>ERROR: Lo=
-gfile of failure stored in: /home/jarvis/poky/build/tmp/work/i586-poky-linu=
-x/opencv/3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd=
-6a4-r0/temp/log.do_compile.7688<br><br></div><div>may i know what this erro=
-r is precisely referring to=C2=A0 i dint have this error when i was trying =
-to build opencv yesterday<br><br></div><div>Thanks<br></div><div><br><br></=
-div></div><div class=3D"gmail_extra"><br clear=3D"all"><div><div class=3D"g=
-mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
-iv>Rajath C S,<br>9964182112,<br></div></div>Bangalore - 560060<br></div></=
-div></div>
-<br><div class=3D"gmail_quote">On Mon, Mar 26, 2018 at 1:22 AM, Rajath C S =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"=
-_blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"auto">Ok, thanks for the clarification.=C2=A0</di=
-v><div class=3D"HOEnZb"><div class=3D"h5"><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr">On Mon, 26 Mar 2018, 01:21 Burton, Ross, &lt;<a href=3D"mail=
-to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">Speaking as an oe-core mainta=
-iner, we don&#39;t support meta-debian: use<br>
-it at your own risk.<br>
-<br>
-Ross<br>
-<br>
-On 25 March 2018 at 20:49, Rajath C S &lt;<a href=3D"mailto:rajathcs.1996@g=
-mail.com" rel=3D"noreferrer" target=3D"_blank">rajathcs.1996@gmail.com</a>&=
-gt; wrote:<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; I am encountering the below error while building meta-debian (which is=
- added<br>
-&gt; in bblayer.conf)<br>
-&gt;<br>
-&gt; ERROR: /home/jarvis/poky/meta-debian/<wbr>recipes-misc/ltp/<a href=3D"=
-http://ltp_git.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">ltp_git.=
-bb</a>: Error<br>
-&gt; executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${MISC_GIT_URI}/${MISC_GIT_<wbr>PREFIX}ltp.git;protocol=3D${<wbr>=
-MISC_GIT_PROTOCOL}&#39; is<br>
-&gt; invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR:<br>
-&gt; /home/jarvis/poky/meta-debian/<wbr>recipes-misc/qemu/<a href=3D"http:/=
-/qemu-bios-native_1.7.0.bb" rel=3D"noreferrer noreferrer" target=3D"_blank"=
->qemu-bios-<wbr>native_1.7.0.bb</a>:<br>
-&gt; Error executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${MISC_GIT_URI}/${MISC_GIT_<wbr>PREFIX}qemu.git;protocol=3D${<wbr=
->MISC_GIT_PROTOCOL};branch=3D<wbr>stable-2.1&#39;<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR:<br>
-&gt; /home/jarvis/poky/meta-debian/<wbr>recipes-kernel/linux-libc-<wbr>head=
-ers/<a href=3D"http://linux-libc-headers-base_git.bb" rel=3D"noreferrer nor=
-eferrer" target=3D"_blank">linux-libc-headers-<wbr>base_git.bb</a>:<br>
-&gt; Error executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${LINUX_GIT_URI}/${LINUX_GIT_<wbr>PREFIX}${LINUX_GIT_REPO};<wbr>b=
-ranch=3D${LINUX_GIT_SRCREV};<wbr>protocol=3D${LINUX_GIT_PROTOCOL}<wbr>&#39;=
-<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR: /home/jarvis/poky/meta-debian/<wbr>recipes-kernel/linux/<a href=
-=3D"http://linux-base_git.bb" rel=3D"noreferrer noreferrer" target=3D"_blan=
-k">linux-<wbr>base_git.bb</a>:<br>
-&gt; Error executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${LINUX_GIT_URI}/${LINUX_GIT_<wbr>PREFIX}${LINUX_GIT_REPO};<wbr>b=
-ranch=3D${LINUX_GIT_SRCREV};<wbr>protocol=3D${LINUX_GIT_PROTOCOL}<wbr>&#39;=
-<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR: Failed to parse recipe:<br>
-&gt; /home/jarvis/poky/meta-debian/<wbr>recipes-misc/ltp/<a href=3D"http://=
-ltp_git.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">ltp_git.bb</a><=
-br>
-&gt; ERROR: /home/jarvis/poky/meta-debian/<wbr>recipes-debian/zlib/<a href=
-=3D"http://zlib_debian.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-zlib_<wbr>debian.bb</a>:<br>
-&gt; Error executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${DEBIAN_GIT_URI}/${DEBIAN_<wbr>GIT_PREFIX}zlib.git;protocol=3D$<=
-wbr>{DEBIAN_GIT_PROTOCOL};branch=3D<wbr>rocko-master&#39;<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR:<br>
-&gt; /home/jarvis/poky/meta-debian/<wbr>recipes-debian/zeromq3/<a href=3D"h=
-ttp://zeromq3_debian.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">ze=
-romq3<wbr>_debian.bb</a>:<br>
-&gt; Error executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${DEBIAN_GIT_URI}/${DEBIAN_<wbr>GIT_PREFIX}zeromq3.git;<wbr>proto=
-col=3D${DEBIAN_GIT_<wbr>PROTOCOL};branch=3Drocko-master&#39;<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; ERROR: /home/jarvis/poky/meta-debian/<wbr>recipes-debian/zip/<a href=
-=3D"http://zip_debian.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">z=
-ip_debian.<wbr>bb</a>: Error<br>
-&gt; executing a python function in &lt;code&gt;:<br>
-&gt;<br>
-&gt; The stack trace of python calls that resulted in this exception/failur=
-e was:<br>
-&gt; File: &#39;&lt;code&gt;&#39;, lineno: 3, function: &lt;module&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0001:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_patch_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0002:__anon_160__home_jarvis_<wbr>poky_meta_classe=
-s_base_<wbr>bbclass(d)<br>
-&gt;=C2=A0 *** 0003:__anon_686__home_jarvis_<wbr>poky_meta_classes_base_<wb=
-r>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0004:__anon_1305__home_jarvis_<wbr>poky_meta_class=
-es_insane_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0005:__anon_250__home_jarvis_<wbr>poky_meta_classe=
-s_package_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0006:__anon_352__home_jarvis_<wbr>poky_meta_classe=
-s_package_deb_<wbr>bbclass(d)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0007:__anon_25__home_jarvis_<wbr>poky_meta_classes=
-_debian_<wbr>bbclass(d)<br>
-&gt; File: &#39;/home/jarvis/poky/meta/<wbr>classes/base.bbclass&#39;, line=
-no: 587, function:<br>
-&gt; __anon_686__home_jarvis_poky_<wbr>meta_classes_base_bbclass<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0583:=C2=A0 =C2=A0 needsrcrev =3D False<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0584:=C2=A0 =C2=A0 srcuri =3D d.getVar(&#39;SRC_UR=
-I&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0585:=C2=A0 =C2=A0 for uri in srcuri.split():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0586:=C2=A0 =C2=A0 =C2=A0 =C2=A0 (scheme, _ , path=
-) =3D bb.fetch.decodeurl(uri)[:3]<br>
-&gt;=C2=A0 *** 0587:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0588:=C2=A0 =C2=A0 =C2=A0 =C2=A0 # HTTP/FTP use th=
-e wget fetcher<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0589:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if scheme in (&qu=
-ot;http&quot;, &quot;https&quot;, &quot;ftp&quot;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0590:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.a=
-ppendVarFlag(&#39;do_fetch&#39;, &#39;depends&#39;, &#39;<br>
-&gt; wget-native:do_populate_<wbr>sysroot&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0591:<br>
-&gt; File: &#39;/home/jarvis/poky/bitbake/<wbr>lib/bb/fetch2/__init__.py&#3=
-9;, lineno: 368,<br>
-&gt; function: decodeurl<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0364:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0365:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0366:=C2=A0 =C2=A0 m =3D<br>
-&gt; re.compile(&#39;(?P&lt;type&gt;[^:]*)://<wbr>((?P&lt;user&gt;[^/;]+)@)=
-?(?P&lt;<wbr>location&gt;[^;]+)(;(?P&lt;parm&gt;.*))<wbr>?&#39;).match(url)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0367:=C2=A0 =C2=A0 if not m:<br>
-&gt;=C2=A0 *** 0368:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise MalformedUrl(url)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0369:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0370:=C2=A0 =C2=A0 type =3D m.group(&#39;type&#39;=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0371:=C2=A0 =C2=A0 location =3D m.group(&#39;locat=
-ion&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 0372:=C2=A0 =C2=A0 if not location:<br>
-&gt; Exception: bb.fetch2.MalformedUrl: The URL:<br>
-&gt; &#39;${DEBIAN_GIT_URI}/${DEBIAN_<wbr>GIT_PREFIX}zip.git;protocol=3D${<=
-wbr>DEBIAN_GIT_PROTOCOL};branch=3D<wbr>rocko-master&#39;<br>
-&gt; is invalid and cannot be interpreted<br>
-&gt;<br>
-&gt; Do help me with the solution<br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" rel=3D"nor=
-eferrer" target=3D"_blank">Openembedded-core@lists.<wbr>openembedded.org</a=
-><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openemb=
-edded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt;<br>
-</blockquote></div></div></div></blockquote></div><br></div>
+<div dir="ltr">why is my cv2 import (of opencv) saying illegal instruction (last line of pic)<br><br><br><div><img src="cid:ii_jf79fh4q1_1625edce29943c8c" width="155" height="256"><br><br></div></div>
 
---f403043eee748c1e8d056842133e--
+--94eb2c04c644d044b7056842937b--
+
+--94eb2c04c644d044ba056842937c
+Content-Type: image/png; name="image.png"
+Content-Disposition: inline; filename="image.png"
+Content-Transfer-Encoding: base64
+Content-ID: <ii_jf79fh4q1_1625edce29943c8c>
+X-Attachment-Id: ii_jf79fh4q1_1625edce29943c8c
+
+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
+
+--94eb2c04c644d044ba056842937c--
