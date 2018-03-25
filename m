@@ -1,51 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DAFF71AD1
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 8090178526
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 21:58:09 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id z143-v6so10482177itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 14:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gRvuFF9EmN/pFzPnShBUvZeA4ltyuVi99/RUPespOYc=;
-	b=eX38HdNwvISz9V4pt+LsNeAut96zIxLGfm0PxzRQjnexBHluVWwCIlU3G40MHt/dxj
-	ubNV/rUO9Js5PJi23OSWvW8ueSfvYzVaTxfi6DT6JcdmO+/aYHjCrN77FB+vmmTNTmL9
-	R+dt1PbjHKW9JBO2ySVEPqcnf2v8/FllHqt6WXpbCwSCBnXqrbbGAs8nTboZYUHqgUet
-	7+0Ivd36J01pCo3WrZutAjyVV0jRgzE6LaNq8dXWDied5bNoR4GQvYClh56GFugN3Rty
-	qA6Fll49RcOya7yZrLz3ADyuV4FDlqA7Lzat5ZOg12xOYPVNcij1SGiIMt7sa0CUaHaX
-	A5pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gRvuFF9EmN/pFzPnShBUvZeA4ltyuVi99/RUPespOYc=;
-	b=kYvBdrX9v8lXAbbP97Sq+z60PhzNnWpXfus/6WgIpz60824zGbhQzUVDWbJZSZ2GF4
-	qiAuxKAeK8MUGpp5Vya9ZI881PRCC+pIS40s5bqoASpH++DrkfizWI4xXQ1UAc9u2BnD
-	U0IzoBuspI5SL0wUn0ilE45HDl2yS7UnlYPdYNtLxCV1efyUQCU0tT7Xb+ZCgd8E9CFK
-	605BBHsoc0mYmJpnVa9AoEVbDY+pLsR+vq3pHBNzMSzec12rNTLHYWqI8ghn/MCnMBYz
-	3EzuWAM4d4GmgtKXmeR2TPPT/zRbHt5l0XxhlutcRe6H6YNaVdJKbnlClGE99PGBOrbl
-	otiQ==
-X-Gm-Message-State: AElRT7HWdMxE1CERyLt/AAiurTFOBLAYCxZ80pYrdMDkllCMjg9jSUrd
-	pFhQFDumAEjZe9JKljmuXNPB7tbZG+L5atupEaDlJw==
-X-Google-Smtp-Source: AG47ELtH0fdOroIUX3p4QlhnCh3WASn/Z4U1NErkd4AAzf0oEhfgY+bAWrUnGC8h85p+9ZyqD74eBWf/vzGP4QqaBZ4=
-X-Received: by 2002:a24:f685:: with SMTP id
-	u127-v6mr20049662ith.131.1522015091329; 
-	Sun, 25 Mar 2018 14:58:11 -0700 (PDT)
+	Sun, 25 Mar 2018 22:32:05 +0000 (UTC)
+Received: (qmail 31979 invoked by uid 1003); 25 Mar 2018 22:32:07 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	25 Mar 2018 22:32:06 -0000
+To: Rajath C S <rajathcs.1996@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <CAPGMVzEP9hJqngopC_AFsVLNPEJda+R5AZSecW4JPWhZTUcwmg@mail.gmail.com>
+	<CAPGMVzGzXx7iDovEPuj-t5m1a+A9bHgU6u0O6_Yq-PArUpxsoA@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <9c95a5d5-de41-1299-74c0-43eb6e8f2b6a@balister.org>
+Date: Sun, 25 Mar 2018 18:32:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Sun, 25 Mar 2018 14:57:51 -0700 (PDT)
-In-Reply-To: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
-References: <9a608e4c-0752-eeb2-306c-f8804c584be2@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sun, 25 Mar 2018 22:57:51 +0100
-Message-ID: <CAJTo0Lb8zOtBb72hdhL4BzfTPss4JM00-WZOiOnqk5_tRUJyOw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: X11 proto changes
+In-Reply-To: <CAPGMVzGzXx7iDovEPuj-t5m1a+A9bHgU6u0O6_Yq-PArUpxsoA@mail.gmail.com>
+Subject: Re: [meta-ros] ros package import problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,21 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 21:58:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 25 Mar 2018 22:32:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-On 24 March 2018 at 19:07, akuster808 <akuster808@gmail.com> wrote:
-> It appears Xorg is deprecating most of it's proto header repos for a new
-> all-in-1 repo xorgproto. This will most likely affect down stream
-> layers. The question I have, is do we want this big churn to happen for
-> Sumo or wait for 2.6 ?
+On 03/25/2018 04:38 PM, Rajath C S wrote:
+> Can i get a reply from the respective maintainers?
 
-Pretty late for Sumo and if the worst case thing happens and they
-delete the repos (which would be unusual) then we can just point the
-SRC_URI at the yoctoproject mirror site.
+You will have better luck reading:
 
-Moving forward in master I guess a xorgprotos recipe which PROVIDES
-that bundle should be seamless.
+https://github.com/bmwcarit/meta-ros
 
-Ross
+and understanding where to post your question. This list is not a
+support list for meta-ros.
+
+Philip
+
+> 
+> Rajath C S,
+> 9964182112,
+> Bangalore - 560060
+> 
+> On Fri, Mar 23, 2018 at 12:06 PM, Rajath C S <rajathcs.1996@gmail.com>
+> wrote:
+> 
+>> i have added rospy and roslib to CORE_IMAGE_EXTRA_INSTALL += in local.conf
+>> but when i go to the python terminal in poky and import rospy and roslib it
+>> is unable to do so
+>>
+>> any solution would be of great help thanks
+>>
+>> Rajath C S
+>>
+>>
+> 
+> 
+> 
 
