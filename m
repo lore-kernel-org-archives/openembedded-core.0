@@ -1,35 +1,40 @@
-Return-Path: <kamensky@cisco.com>
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
-	by mail.openembedded.org (Postfix) with ESMTP id DB5F96069C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 006666011C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 00:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1274; q=dns/txt; s=iport;
-	t=1521936582; x=1523146182;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=a0Vr9q1WUIPLCpTHCVz79ANJWfN1Aby4u7BwU/TEMDI=;
-	b=bpLq2R3YG4attPq29wBtKoPyhd12T+iidyTe9y8/+mStot1s2JsyApTU
-	3hQJki6Hohv7JQPp3Gf1c30zVygGnzbrQJk9b/8xVY4JERqgHzWbv98M2
-	LONS6BaxIvk5NVl+7EMUbpfC8Stw2WOWtTMcCvzwwKVQVHC6J6d6pvarE s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AyAQBy6LZa/5pdJa1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYNBYXAoi1xfjC6BUyGBEZJRggYLJYQUTAKDcCE0GAECAQEBAQE?=
-	=?us-ascii?q?BAmsohSUBAQEDATgCPwULCxguVwYThQYID6xiiD+CFQWFPoIaghSBOoJZgxMCg?=
-	=?us-ascii?q?ReGHAOMV4poCIVSig+GMoRXiROGPAIECwITAYElHDiBUk0jFYJ9kHAfMJAyAQE?=
-X-IronPort-AV: E=Sophos;i="5.48,357,1517875200"; d="scan'208";a="88417100"
-Received: from rcdn-core-3.cisco.com ([173.37.93.154])
-	by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Mar 2018 00:09:31 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by rcdn-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id w2P09ViY022457
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sun, 25 Mar 2018 00:09:31 GMT
-Date: Sat, 24 Mar 2018 17:09:31 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
-Message-ID: <alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+	Sun, 25 Mar 2018 02:43:40 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id z8so15582085wrh.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 24 Mar 2018 19:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kWz4aElErSHRp6iQaUiEFr5Jf8oyJfiP1Fa1gtB3doY=;
+	b=dO4dFuOOTEyALF9VlCR+676bQG+lL2FF6toMcSyYPNsKiUxO4GyZsUKOVL+0VGYCXy
+	mut+0JDaYIKFiDXEhlkneQeKdvt55LHuxis+bo16tXnhksTocq8SEGgEuUkBpHy1RTdI
+	d1jBu2tmEC4l2NZ6rDs6Vy1dAxpugPMJKGJ/PM+cq6BT/OfWengaRzV91KjJJA5I6kq3
+	4jav6bqipO3j+qJ5RSbQD1wYYTOocQ0jeKmtyOocK1A/DPiat7Km2vkv903k+T5GLvB3
+	67i3eDZk4KjLgRibJxs3+10HAskFN90UfcCQYO3PNWJs6BcRQms/eN7WJ0W7jnE1HO0D
+	Qgew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=kWz4aElErSHRp6iQaUiEFr5Jf8oyJfiP1Fa1gtB3doY=;
+	b=Ys6Ky4tbkU+mnk8DM952IHQvvBXIKCJ2+AJuzqB0pf0ZqMsqKVdJge5Ssu/neudtoz
+	E7sky0z5nuDXCQzQE4R6h+1vP0kmAk42+mUsDvX3T36P07iKfqKGPfhPY+Z5mgBPzbnX
+	ULV+ZeaZy/gAG47BMek8LkMB7bW2mFoEJkEBSKazpoAiWjoK3x4+iEB2hV5tsV5IYjLh
+	emJsSm4c6oDFVDmRuuUo5OQ12+byCsb1FFxb0MUC2F6ccELuMAoMR5GUGMFgG7BamxjH
+	EbxfdFQf8MgaxsJYqkhjDeGlGxS2oSx4/GvHEd1VY3y+/ZOMQPQ/dgSTEbtr1ltrnKO4
+	J8nQ==
+X-Gm-Message-State: AElRT7FARxlcV6DPTg2syTp+gOvSgn4tOwRlQvL66YRCzaavLbNzp9AU
+	2s5xEI77ZCp49y3kdRwHSq9v649SnqlSer2UxcA=
+X-Google-Smtp-Source: AG47ELtqHDLQUQlXqclihkKwY88hNZqKWlWeIpkxoqdcEYk6e0nBMq1R1lcxAgr3gXm0BMOpOAAuWuvDGJbE7zyHbB8=
+X-Received: by 10.223.182.132 with SMTP id j4mr26832626wre.66.1521945821827;
+	Sat, 24 Mar 2018 19:43:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.163.65 with HTTP; Sat, 24 Mar 2018 19:43:41 -0700 (PDT)
+In-Reply-To: <alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
 References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<20180323112820.12bc94a4@seebsdell>
@@ -48,8 +53,11 @@ References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<20180324145044.168f7e3f@seebsdell>
 	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
 	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
-MIME-Version: 1.0
+	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Sat, 24 Mar 2018 19:43:41 -0700
+Message-ID: <CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: pseudo: host user contamination
@@ -65,43 +73,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Mar 2018 00:09:41 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+X-List-Received-Date: Sun, 25 Mar 2018 02:43:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Sat, Mar 24, 2018 at 5:09 PM, Victor Kamensky <kamensky@cisco.com> wrote:
+> On Sat, 24 Mar 2018, Burton, Ross wrote:
+>> On 24 March 2018 at 20:12, Victor Kamensky <kamensky@cisco.com> wrote:
+>>>
+>>> Here is another crazy idea how to deal with it, just
+>>> brainstorming what options are on the table: disable
+>>> renameat2 with help of seccomp and force coreutils to
+>>> use other calls. Something along the lines that were
+>>> suggested with intercept of syscall function call, but
+>>> let kernel to do interception work.
+>>
+>> Wow, that's impressively magic.  Does this depend on kernel options or
+>> specific recent versions?
 
+Yeah, it's impressive but perhaps overkill for this situation.
 
-On Sat, 24 Mar 2018, Burton, Ross wrote:
+Having the kernel run a BPF script on every syscall is going to have a
+much bigger performance impact than intercepting one specific libc
+function in user space.
 
-> On 24 March 2018 at 20:12, Victor Kamensky <kamensky@cisco.com> wrote:
->> Here is another crazy idea how to deal with it, just
->> brainstorming what options are on the table: disable
->> renameat2 with help of seccomp and force coreutils to
->> use other calls. Something along the lines that were
->> suggested with intercept of syscall function call, but
->> let kernel to do interception work.
->
-> Wow, that's impressively magic.  Does this depend on kernel options or
-> specific recent versions?
-
-Not very recent, but relatively mordern. As far as I read
-kernel code seccomp syscall BPF filtering [1] was introduced
-in 2012 in 3.5 kernel by chromium project guys.
-
-It is controlled by CONFIG_SECCOMP_FILTER which depends on
-HAVE_ARCH_SECCOMP_FILTER that all major CPU architectures
-do support by now. And I think CONFIG_SECCOMP_FILTER should
-be set for all major cases - AFAIK chrome browser uses it
-as one of its sandboxing mechanisms.
-
-But you are right, if any code would use it, it needs to
-check whether usable seccomp syscall filtering is present
-on the system.
-
-[1] https://github.com/torvalds/linux/blob/master/Documentation/userspace-api/seccomp_filter.rst
-
-Thanks,
-Victor
-
-> Ross
->
+Also, AFAIK, seccomp can't be nested - so building within an
+environment which has already been secured with seccomp (e.g. recent
+versions of docker?) might be a problem if pseudo starts to rely on
+seccomp too.
 
