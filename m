@@ -1,50 +1,39 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f178.google.com (mail-ua0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7782660685
+Return-Path: <kamensky@cisco.com>
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 0346A78226
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 03:53:11 +0000 (UTC)
-Received: by mail-ua0-f178.google.com with SMTP id l21so5774920uak.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Mar 2018 20:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3MKD2nSq6ENLuftNPoYTNMHAUd7mxyMmMIkvUn7Iq+E=;
-	b=WfBbRZ3Pggga/4g2yDhw62CAjgKCnoWDC99DTLN3DIoFyKrT0AAvDB9MJ6FFl74tOY
-	blwrQvkPBR9eXQDKCmfRUEbvwvtx4N9/Q7P4StGzcAyxDVSYVyFEcnsDPotvECSN26ny
-	zkB6rV6MAb0NOvEmQPBzaXTjZLaUntMlh9aqhYasJH2VBcC2l1Snugycy4wZAjnFfw4E
-	SwuE05AhuHexxrG7xWD9OgLvFVF7R5UXTHIzpMvb/5gtIdGIGxqSkKRFjoWKYs9nY+t5
-	Y1038NAG3V74cZd6wZnvj0llJP0GpQumGguwWO1OUTOtsVAwBrPckmC/iM3TWc+GJZp3
-	Elpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3MKD2nSq6ENLuftNPoYTNMHAUd7mxyMmMIkvUn7Iq+E=;
-	b=JDhV+s6AfEYM75YwwUMa9d3J9HSzm6mpCmwgJzZOcCl/fZG7gZEMKrGfI+rtphmF1B
-	RE0fZnpYeB05eB/nUb73qUlz0fkb6C9eRw3zYfWCtxfcwjEy9d/6xLeNvjCPL/Eg/oUE
-	qlwH01XXvAfHkKLg/UwtfCGiaixV1sr6VMybs6aH2wYPc9l0EKbTBW7FYPGxj12MNmbl
-	0x7cYVoZXuI7tt6cFL0nLcmZORFsMjVnjU4tvZY+5qDEWapBWKcnzGM5wq0cm7AxF9+o
-	c3MlvxPfX57JbWZX5WMn6YTghXGlfxKeRkWxFgKMgI8rp/sozIUmVWo6mARaf+HJBvI5
-	lDjw==
-X-Gm-Message-State: AElRT7Eoe1M+oS3Yf4rJQRynMLycmdKpHfnQOXfPX/h4KZXA44rX0rPD
-	k8YFKBTOieEPFcFmElK0uJp/599VnXWRPIewMqk=
-X-Google-Smtp-Source: AIpwx4/C/ISw7inu+lOWnIp4xObL28Bu95HjotACLbNyeGpByKKFNS+hRYD8eDZxqPPio7C/4/M/p6ABJZsGfAMmVTY=
-X-Received: by 10.176.112.47 with SMTP id u15mr6624095ual.159.1522036393098;
-	Sun, 25 Mar 2018 20:53:13 -0700 (PDT)
+	Mon, 26 Mar 2018 05:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=3681; q=dns/txt; s=iport;
+	t=1522042941; x=1523252541;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=DjPou3zojY6MrIk6CduBDIdnBS+MxorGSYPw5Re6FVE=;
+	b=KvPk2LtJvw5ycQKPsfyFb59CIoESN1JbnLWH3r+Q2+Soj0WG21Irtd48
+	FpzVdKM5dheo/kPgjzLVq7zPFpxl3OQW0X4BPg5G0xc8xKzg1Wxbgrqgd
+	Ew4p8zff1QlH4v21ouXCM6VQIHBTosdgi8R6JdUo8qnAKs8LsBsZzH0JF k=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DtAAD3hrha/5tdJa1eGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNBgVEog1yIAI0Ngmkcjj6EExSBcguFBQKDdiE0GAECAQE?=
+	=?us-ascii?q?BAQEBAmsohSUBKQQLAUYsAwECAwImAkgJGAmFDqtXgWs1hFiDZ4IagQiGUII?=
+	=?us-ascii?q?UgQyCU4R0ARIBgyCCVAOMV4poCI4xAow2ASuPJAIREwGBJRw4YXFNIxWCfRO?=
+	=?us-ascii?q?CDhiOFiEfMI1tgjcBAQ?=
+X-IronPort-AV: E=Sophos;i="5.48,363,1517875200"; d="scan'208";a="361949754"
+Received: from rcdn-core-4.cisco.com ([173.37.93.155])
+	by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Mar 2018 05:42:20 +0000
+Received: from kamensky-w541.cisco.com ([10.24.23.119]) (authenticated bits=0)
+	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w2Q5g7Sq025286
+	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
+	Mon, 26 Mar 2018 05:42:20 GMT
+From: Victor Kamensky <kamensky@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Mar 2018 22:42:07 -0700
+Message-Id: <1522042927-29046-1-git-send-email-kamensky@cisco.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <CAPGMVzHQwth9b6MxA79OEwCVPMCwJTZ+j-WKwz-uemgXoPZy7g@mail.gmail.com>
-	<CAJTo0LbL6BA5sNeOi+sH8VCdDBDhvdkztFxbQSkAsau2FRuNUQ@mail.gmail.com>
-	<CAPGMVzEA52STvoMh=cAHqxsYc++pmxmhywVM082thHuB_OJ_0w@mail.gmail.com>
-	<CAPGMVzE+kKb7OwafERjT6J+iSwWU-4R1gvx0tD5uBTabQ1B-5g@mail.gmail.com>
-	<CALbNGRQn-1vmg_pa8VeKM4UwgHyMq82zSJHZ--gaxCiDesgqKw@mail.gmail.com>
-In-Reply-To: <CALbNGRQn-1vmg_pa8VeKM4UwgHyMq82zSJHZ--gaxCiDesgqKw@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Mon, 26 Mar 2018 03:53:02 +0000
-Message-ID: <CAPGMVzE1ZrnvgeN0CPtoOPNRJWQzNg7u81qOc3QJji=vrp1oow@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-debian] build error
+X-Authenticated-User: kamensky@cisco.com
+Subject: [PATCH] qemu: fix qemuarm64 intermediate kernel hang in raid6_select_algo func
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,110 +46,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 03:53:12 -0000
-Content-Type: multipart/alternative; boundary="089e0831ad748beb1e056848b6a5"
+X-List-Received-Date: Mon, 26 Mar 2018 05:42:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---089e0831ad748beb1e056848b6a5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport fix from qemu mainline for intermediate qemuarm64 hang
+issue. Root caused in OE environment, issue with aarch64 qemu
+logic of executing instructions that reenabe interrupts. See patch
+commit message for more details.
 
-Thanks for the tip! I'll check out the respective links.
+Upstream-Status: Backport
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+---
+ ...te-a64-treat-DISAS_UPDATE-as-variant-of-D.patch | 67 ++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch
 
-On Mon, 26 Mar 2018, 02:48 Andreas M=C3=BCller, <schnitzeltony@gmail.com> w=
-rote:
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch b/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch
+new file mode 100644
+index 0000000..f90cae6
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch
+@@ -0,0 +1,67 @@
++From a75a52d62418dafe462be4fe30485501d1010bb9 Mon Sep 17 00:00:00 2001
++From: Victor Kamensky <kamensky@cisco.com>
++Date: Fri, 23 Mar 2018 18:26:45 +0000
++Subject: [PATCH] arm/translate-a64: treat DISAS_UPDATE as variant of
++ DISAS_EXIT
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++In OE project 4.15 linux kernel boot hang was observed under
++single cpu aarch64 qemu. Kernel code was in a loop waiting for
++vtimer arrival, spinning in TC generated blocks, while interrupt
++was pending unprocessed. This happened because when qemu tried to
++handle vtimer interrupt target had interrupts disabled, as
++result flag indicating TCG exit, cpu->icount_decr.u16.high,
++was cleared but arm_cpu_exec_interrupt function did not call
++arm_cpu_do_interrupt to process interrupt. Later when target
++reenabled interrupts, it happened without exit into main loop, so
++following code that waited for result of interrupt execution
++run in infinite loop.
++
++To solve the problem instructions that operate on CPU sys state
++(i.e enable/disable interrupt), and marked as DISAS_UPDATE,
++should be considered as DISAS_EXIT variant, and should be
++forced to exit back to main loop so qemu will have a chance
++processing pending CPU state updates, including pending
++interrupts.
++
++This change brings consistency with how DISAS_UPDATE is treated
++in aarch32 case.
++
++CC: Peter Maydell <peter.maydell@linaro.org>
++CC: Alex Bennée <alex.bennee@linaro.org>
++CC: qemu-stable@nongnu.org
++Suggested-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Victor Kamensky <kamensky@cisco.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Message-id: 1521526368-1996-1-git-send-email-kamensky@cisco.com
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Upstream-Status: Backport
++---
++ target/arm/translate-a64.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
++index 31ff047..327513e 100644
++--- a/target/arm/translate-a64.c
+++++ b/target/arm/translate-a64.c
++@@ -13378,12 +13378,12 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
++         case DISAS_UPDATE:
++             gen_a64_set_pc_im(dc->pc);
++             /* fall through */
++-        case DISAS_JUMP:
++-            tcg_gen_lookup_and_goto_ptr();
++-            break;
++         case DISAS_EXIT:
++             tcg_gen_exit_tb(0);
++             break;
+++        case DISAS_JUMP:
+++            tcg_gen_lookup_and_goto_ptr();
+++            break;
++         case DISAS_NORETURN:
++         case DISAS_SWI:
++             break;
++-- 
++2.7.4
++
+-- 
+2.7.4
 
-> On Sun, Mar 25, 2018 at 9:58 PM, Rajath C S <rajathcs.1996@gmail.com>
-> wrote:
-> > Error while building opencv
-> >
-> > ERROR:
-> >
-> opencv-3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd=
-6a4-r0
-> > do_compile: Function failed: do_compile (log file is located at
-> >
-> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87=
-c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile=
-.7688)
-> > ERROR: Logfile of failure stored in:
-> >
-> /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC+87=
-c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_compile=
-.7688
-> >
-> > may i know what this error is precisely referring to  i dint have this
-> error
-> > when i was trying to build opencv yesterday
-> >
-> > Thanks
-> >
-> My opinion: meta-debian is by far the worst layer I've ever seen. It
-> overwrites many (and tries to move from many to all) recipes with own
-> ones [1].
->
-> My suggestion: Remove meta-debian from bblayers.conf and try again.
->
-> * If you are fine - open an issue at meta-debian/github (error was
-> caused by meta-debian)
-> * If build failure persists, it would help to attach the log files the
-> error message referrers to.
->
-> [1]
-> https://layers.openembedded.org/layerindex/branch/master/layer/meta-debia=
-n/
->
-> Andreas
->
 
---089e0831ad748beb1e056848b6a5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thanks for the tip! I&#39;ll check out the respective lin=
-ks.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Mon, 26 Mar 201=
-8, 02:48 Andreas M=C3=BCller, &lt;<a href=3D"mailto:schnitzeltony@gmail.com=
-">schnitzeltony@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">On Sun, Mar 25, 2018 at 9:58 PM, Rajath C S &lt;<a href=3D"mailto:raj=
-athcs.1996@gmail.com" target=3D"_blank" rel=3D"noreferrer">rajathcs.1996@gm=
-ail.com</a>&gt; wrote:<br>
-&gt; Error while building opencv<br>
-&gt;<br>
-&gt; ERROR:<br>
-&gt; opencv-3.3+gitAUTOINC+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf=
-7cd6a4-r0<br>
-&gt; do_compile: Function failed: do_compile (log file is located at<br>
-&gt; /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC=
-+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_comp=
-ile.7688)<br>
-&gt; ERROR: Logfile of failure stored in:<br>
-&gt; /home/jarvis/poky/build/tmp/work/i586-poky-linux/opencv/3.3+gitAUTOINC=
-+87c27a074d_2a9d1b22ed_a62e20676a_34e4206aef_fccf7cd6a4-r0/temp/log.do_comp=
-ile.7688<br>
-&gt;<br>
-&gt; may i know what this error is precisely referring to=C2=A0 i dint have=
- this error<br>
-&gt; when i was trying to build opencv yesterday<br>
-&gt;<br>
-&gt; Thanks<br>
-&gt;<br>
-My opinion: meta-debian is by far the worst layer I&#39;ve ever seen. It<br=
->
-overwrites many (and tries to move from many to all) recipes with own<br>
-ones [1].<br>
-<br>
-My suggestion: Remove meta-debian from bblayers.conf and try again.<br>
-<br>
-* If you are fine - open an issue at meta-debian/github (error was<br>
-caused by meta-debian)<br>
-* If build failure persists, it would help to attach the log files the<br>
-error message referrers to.<br>
-<br>
-[1] <a href=3D"https://layers.openembedded.org/layerindex/branch/master/lay=
-er/meta-debian/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://la=
-yers.openembedded.org/layerindex/branch/master/layer/meta-debian/</a><br>
-<br>
-Andreas<br>
-</blockquote></div>
-
---089e0831ad748beb1e056848b6a5--
