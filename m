@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 928C578771
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B1DED787C1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 14:31:24 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id s24-v6so1661620plq.6
+	Mon, 26 Mar 2018 14:31:25 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id c11-v6so12046908plo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 07:31:26 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=A+On4OKukAaJOsREr9KQVM4TLovEZ8VP9sGWw5mmTrM=;
-	b=ATKc2yFbD1nRoODYFulUti90Lo0LfxJUCBqGK22eUL52wbg34lwNjSUd6J81BahpwQ
-	wLQODtlVy/lBSbdLrK8Bim4Jy0CSg/yC0ZCPkY9Ph8BJ7zDuN9e8Xrzj/Jl7sesI1+r8
-	wKmjLbwp1+6ptXunfFxwwYlsoNFPnNxXRnvHDbfdDjomiVFNKIGwxSuLVb6bVDOpM3av
-	11qLuXOmu9f/RwzM2GBmiYeZ33EPsJGTYYzWZ/XS3sW3LSMgn0OgRfqM063fP08PuoAU
-	ydklwV+FsYbx6/jphex7NAX9X1YecU7unLejHMneRbNiDh164Yh64Eh+9TbY97TqNnCO
-	r5kw==
+	bh=GAnM9RnyJ5Dfo1cE1FBK3BNeQq2StjerTEM8bVLsw5M=;
+	b=gIjtA64lainqYVRYE9/4tNCiA2MXZkbJDWIW8zSSCnzpo4PzlFJgLZBBjj2nLGBc8C
+	slaoCKYJAmsFi54/+SFkS0X3chYqds4vr2OWQ5Y3g98DsjPAR4UfPvws+lAVKQbhrmap
+	2wPk3sMcPBTQDQ3vDZZQJnuQ+VqboCEUtmZvYLQ1JVO/W49zNjNCgivYR8wYPMkJYMQ0
+	DHSpFC9lmFI7h0F0a478U1u5BjUVzfGLEf7QR1VZZDDJYE5ioVgDSb7bs/pLRRyxZ1ai
+	b3OO/4xgvjsaOF5wypnWefAYI5ReOSALPVxwG+uJTQSvVPC6ordX76JLA4BJ4AOdaDkd
+	jsZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=A+On4OKukAaJOsREr9KQVM4TLovEZ8VP9sGWw5mmTrM=;
-	b=B32EoCv8SOzeK3XHZOeRvgpMOuzpM3YTPjrVjGyOgGmnkRTxnecTPOd56RiycJlH2u
-	roSv4bG5AGbXW1DRry6LzPAX1IZ2IQXFlu4X8PgRntoHnjomojuDSjG1jjvUAg8zn7TS
-	WAc72f7RlpKBLLmzjBkGOlBY+6x/TzSMjzLC4zZJRQ0KrR9jLuGnxJh9O+nFhIIXRNGG
-	cylRxy8RMi+EXVNfawIypr7YUorBjCXka+JgiXyOTUn+VJ2B4YCa9YQ47Dvwzwaai/z2
-	vujiwjQziF624w6/cDfvYyv4tZzgKa5MsZU62uzsyKPuQP0ZWejs77l8NPt0p/OCdGOp
-	XiOQ==
-X-Gm-Message-State: AElRT7HAlXJpaTC5YQMPjlZ9Y/j0EElcYdOctxNOxiJR8FUINpaeeqWG
-	xgyhTTDfFs8CJpD29Azeo2RJ/w==
-X-Google-Smtp-Source: AG47ELvAVJbBOnvSlNCTjitzIG/55vaEJ0vKVuPBC52v1fPIY457gMzmVRrBYWbkjl2IvSNdlsQ6CA==
-X-Received: by 2002:a17:902:8308:: with SMTP id
-	bd8-v6mr10294698plb.313.1522074686168; 
-	Mon, 26 Mar 2018 07:31:26 -0700 (PDT)
+	bh=GAnM9RnyJ5Dfo1cE1FBK3BNeQq2StjerTEM8bVLsw5M=;
+	b=gt4Pvky9krCeSwAkVQOGgiq4KCNkFnjm0oZdIJlwgvvoZP8/PTX9sRkR6Xtub8j/Pt
+	SV1GWtuu7jyGnfEqjzefEg/e5NbKJj/bQfY+AXIEwzm+2zI7/n8Kf+jThIJ/gVkNQE1E
+	pQ/AtEsuwA667KhExZ71XqkRdBqW+AynfvHh4LgWs63baBsdAAt3E8fcFMbGjlLdTsyr
+	3Arz12QMskHDfM3nb1gzIZ7oVlXToGUm4sBiYsinf6npQ2cjaw9QXECHT7BeFMhGibIs
+	6imHHVt61fVvJegnFp4jHW8NpqYE+7yeAU9WaQWgUd0VlZsxecH5Si/Uky4Vh7uplTsg
+	uvmw==
+X-Gm-Message-State: AElRT7GEDfveTAEVqGZNplRzc2nV0S7DpsUQHtc1/qR3zCLvUrwQRIeW
+	8vy7qt/qOhnPFry2OWBEONgBUg==
+X-Google-Smtp-Source: AG47ELvjdhH9iLMsYnJtPoahYk1joaRxeGP4xHo+UeNQFbhb6N7OJA//feNuIyDcnVvZMe0WtV9rDg==
+X-Received: by 2002:a17:902:7007:: with SMTP id
+	y7-v6mr41093934plk.275.1522074687115; 
+	Mon, 26 Mar 2018 07:31:27 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4000:1184:203c:a04e:87e9:791b])
 	by smtp.gmail.com with ESMTPSA id
-	j11sm29932492pff.94.2018.03.26.07.31.24
+	j11sm29932492pff.94.2018.03.26.07.31.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 26 Mar 2018 07:31:25 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:26 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2018 07:30:13 -0700
-Message-Id: <46ebc9b2acd479edcdd6388c9d7759fb27cf9536.1521989435.git.akuster@mvista.com>
+Date: Mon, 26 Mar 2018 07:30:14 -0700
+Message-Id: <917fba1ddf9aabf3aebf25ccd9def83808ac8a4c.1521989435.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1521989435.git.akuster@mvista.com>
 References: <cover.1521989435.git.akuster@mvista.com>
-Subject: [PATCH 10/21] xeyes: update to 1.1.2
+Subject: [PATCH 11/21] libshmfence: update to 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +60,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 14:31:24 -0000
+X-List-Received-Date: Mon, 26 Mar 2018 14:31:26 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
+refreshed patch
+
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-graphics/xorg-app/{xeyes_1.1.1.bb => xeyes_1.1.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xeyes_1.1.1.bb => xeyes_1.1.2.bb} (72%)
+ .../xorg-lib/libxshmfence/extensions.patch                 | 14 ++++++++------
+ .../xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb}  |  4 ++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb} (77%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb b/meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
-similarity index 72%
-rename from meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb
-rename to meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
-index 84d0cb8..06885f8 100644
---- a/meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb
-+++ b/meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
-@@ -8,7 +8,7 @@ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+index 4cc9e05..461fe83 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+@@ -4,14 +4,16 @@ AC_USE_SYSTEM_EXTENSIONS to get that defined.
+ Upstream-Status: Submitted
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=3ea51b365051ac32d1813a7dbaa4bfc6"
+-diff --git a/configure.ac b/configure.ac
+-index 0c98875..ebf4dee 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -29,4 +29,6 @@ AC_CONFIG_SRCDIR([Makefile.am])
+- AC_CONFIG_HEADERS([config.h])
++Index: libxshmfence-1.3/configure.ac
++===================================================================
++--- libxshmfence-1.3.orig/configure.ac
+++++ libxshmfence-1.3/configure.ac
++@@ -30,6 +30,8 @@ AC_CONFIG_HEADERS([config.h])
++ 
++ AC_USE_SYSTEM_EXTENSIONS
+  
+ +AC_USE_SYSTEM_EXTENSIONS
+ +
+  # Initialize Automake
+  AM_INIT_AUTOMAKE([foreign dist-bzip2])
++ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+index 1df068d..f6f5fb2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+@@ -15,5 +15,5 @@ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[md5sum] = "a3035dcecdbdb89e864177c080924981"
--SRC_URI[sha256sum] = "975e98680cd59e1f9439016386609546ed08c284d0f05a95276f96aca6e8a521"
-+SRC_URI[md5sum] = "6f0543ec84283df5743eeafc173bea4a"
-+SRC_URI[sha256sum] = "57bcec0d2d167af9e5d44d0dbd74c6d7c0f0591cd0608952b23c749fdd910553"
+ SRC_URI += "file://extensions.patch"
  
- DEPENDS += "libxau libxt libxext libxmu libxrender"
+-SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
+-SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
++SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
++SRC_URI[sha256sum] = "b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7"
 -- 
 2.7.4
 
