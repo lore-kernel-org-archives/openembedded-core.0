@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C75978761
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 831DA786C9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 14:31:21 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id u86so1805584pfd.2
+	Mon, 26 Mar 2018 14:31:23 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id f5-v6so12029664plj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 07:31:23 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=uOwSGJSykhkHvjGhgdqPDsSbJ0Mn2Zx9O+ZOdEq4020=;
-	b=DQX/YQzX0z/lQrd0DNZiO4G1OYINZZzxPN3L9r+3TkrTdOC3gcfYCkj4zU84hWNo3J
-	CsDwcItSNL2wB67XbbMR3GRaA64USS7Y3vXGeq3B3r9l+Gx3pEm2MebRO7EolqLoqokd
-	1GzI37LDfpmUUbPMtz/NxcuVkVSGSrJHPKeNwD6iCW540/ZzdBWeKpFIPfAQWS9aIxZ/
-	PxZd8S+SM/9HFQD8oObPXrrjn9ec3kKIpOI2o7qCS51eSBYlp7BAsRZqaUc8+9tAN02u
-	wZNa0URNHZC6U8laD40TtBOh3dilFjVRhrVZHDbdPSFEXLxgieWFsuwMgteFhZR7dudq
-	LQbg==
+	bh=XUGF7uEscSrLe7u9IlrUoPH8pvPSjONKM+xUhmJ/Ick=;
+	b=nsnwBzMyyuM9z1M8z4edvOmeF+5qNG0Clc2KSHXAAobh5Ggny8y8PpndrXLrEAiP4D
+	nXePfHePETtMMI7lS5SwSOdEpAY/xwcLW+GC8+RLeYbViWUm3coreu1H2pNC0H7zL3/H
+	BkvHlITklBGi5R9FL54NgdAnYRNaLb1OwC9sO/WD//I5X23gUsJ+I1WEZ0d+ydhcc1Q8
+	498xgV8HwadSq2Q/q42DntC5wTZwr9RahPKi0t5+V8mhoVXNYFaMUwZrRroBqaYLgxMe
+	spMMKfARgvp6lfLwik4rC01UT+lsLneDEJZYHki/vrOOKW7iKFAY5op2fmBHgf4f9vKQ
+	PjdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=uOwSGJSykhkHvjGhgdqPDsSbJ0Mn2Zx9O+ZOdEq4020=;
-	b=uJhJyhZk+D+gDVi6UUyjDYuebtiS7WmLYda2hrB8RafdK/haRj2/eH1aD27/p7ne9R
-	d9fCrMbDSNjJAm4Y4Q+Th7ZPJ/MTh8q73ktvUG6rDgcuxtIUTFgyEKPaKqXY90/FDW/c
-	wG7zLQQSMBN0LDml2dKk6rsiIRIbm29XReuZ0hYNn7ttJA2tfhFSQ5Rma2IXjWt/+fDG
-	nmhyUltpkeVLwn6IdIYX9GMEnrZdz+pWJmTa4LfgXwR36kd/hF1r13Qb5HqRRzFYQskv
-	oQDq/GlS2im/oFrFuZq+R5hkM0JVH6Ny2jluPR3p7tWt5iDNUG36OfVrh+Yt4qDbjyjP
-	ek4Q==
-X-Gm-Message-State: AElRT7Fcx8hsGaG+urMBNFficC1kGpDogp18iVVkhjGfvY/MqUPkwOQW
-	To3K1XBCvl1vWEz+mdl8zhB2jw==
-X-Google-Smtp-Source: AIpwx485rCV4aYhW+HyRQ592/3DIMfl1k0ecu8HfqjN+8ilnM4Im+oXO8+Fj1VPSRdjuwwaAAGa5PA==
-X-Received: by 10.167.130.22 with SMTP id k22mr1140212pfi.73.1522074682882;
-	Mon, 26 Mar 2018 07:31:22 -0700 (PDT)
+	bh=XUGF7uEscSrLe7u9IlrUoPH8pvPSjONKM+xUhmJ/Ick=;
+	b=pr2o6HGRSJ18w1XwB1+6PwAE9eJKOgcLDJRjcevYnuq/g7C8zuUmiFsa2vYeoYapni
+	MNcUlPrZoTGTmEjMX+Tf4JNu9gQNILq9vbOu2g0Z5J//uY6rTehfhkUBufoHpobqXhX3
+	iJLj2QqYE8E2Q63B4OnioqWOKODScvM7WNc0l4VOimqWYKn3BKWz71XZqs593wEbCFBW
+	Sz045/4hzpRTTSIWtTTEi65aaCqYtLcn5COrv+Ww3/OOZapNO2wFuElxuriq8MXmWKD1
+	YdcFH/zYy+7bS3DopEOqL2hju+p/N5Deo+7Ge7mDK2WCn5NjQQHmZKIpTVIsnjoSY4WM
+	7WQA==
+X-Gm-Message-State: AElRT7GJGjN+7zaEUWuKshF5EjBizZlhEY3maBsan1u2O1IGXnVkIme9
+	v9tEaIVURrm6yngaglvpwXjOlg==
+X-Google-Smtp-Source: AG47ELvJFfDINrlw5jNpyZpLcwoXMXlHgP0n0UCD5djP0OyZIjgHfhDGdPaVENgnVoArAiJYWA9fqw==
+X-Received: by 2002:a17:902:1006:: with SMTP id
+	b6-v6mr11583962pla.252.1522074684854; 
+	Mon, 26 Mar 2018 07:31:24 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4000:1184:203c:a04e:87e9:791b])
 	by smtp.gmail.com with ESMTPSA id
-	j11sm29932492pff.94.2018.03.26.07.31.22
+	j11sm29932492pff.94.2018.03.26.07.31.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 26 Mar 2018 07:31:22 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:24 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2018 07:30:11 -0700
-Message-Id: <ae3ec4348d57dfcc13e666927d8726bf48081406.1521989435.git.akuster@mvista.com>
+Date: Mon, 26 Mar 2018 07:30:12 -0700
+Message-Id: <56ca033c283186a49129c9666ecc0025d83e82c8.1521989435.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1521989435.git.akuster@mvista.com>
 References: <cover.1521989435.git.akuster@mvista.com>
-Subject: [PATCH 08/21] xwininfo: update to 1.1.4
+Subject: [PATCH 09/21] gnutls: update to 3.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 14:31:22 -0000
+X-List-Received-Date: Mon, 26 Mar 2018 14:31:23 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../xorg-app/{xwininfo_1.1.3.bb => xwininfo_1.1.4.bb}                 | 4 ++--
+ meta/recipes-support/gnutls/{gnutls_3.6.1.bb => gnutls_3.6.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xwininfo_1.1.3.bb => xwininfo_1.1.4.bb} (72%)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.1.bb => gnutls_3.6.2.bb} (54%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb b/meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb
-similarity index 72%
-rename from meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb
-rename to meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb
-index 0c23d19..1fb90dd 100644
---- a/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb
-@@ -11,5 +11,5 @@ DEPENDS += "libxext libxmu gettext-native"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.1.bb b/meta/recipes-support/gnutls/gnutls_3.6.2.bb
+similarity index 54%
+rename from meta/recipes-support/gnutls/gnutls_3.6.1.bb
+rename to meta/recipes-support/gnutls/gnutls_3.6.2.bb
+index 7624a20..e540528 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.1.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.2.bb
+@@ -3,7 +3,7 @@ require gnutls.inc
+ SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
+             file://arm_eabi.patch \
+            "
+-SRC_URI[md5sum] = "4b65ae3ffef59f3eeed51a6166ff12b3"
+-SRC_URI[sha256sum] = "20b10d2c9994bc032824314714d0e84c0f19bdb3d715d8ed55beb7364a8ebaed"
++SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
++SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
  
- PE = "0"
- 
--SRC_URI[md5sum] = "b777bafb674555e48fd8437618270931"
--SRC_URI[sha256sum] = "218eb0ea95bd8de7903dfaa26423820c523ad1598be0751d2d8b6a2c23b23ff8"
-+SRC_URI[md5sum] = "9a505b91ae7160bbdec360968d060c83"
-+SRC_URI[sha256sum] = "839498aa46b496492a5c65cd42cd2e86e0da88149b0672e90cb91648f8cd5b01"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.7.4
 
