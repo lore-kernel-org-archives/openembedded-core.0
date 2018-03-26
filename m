@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 92625786B2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 472F37872E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 16:06:17 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id e98-v6so11416651itd.4
+	Mon, 26 Mar 2018 16:45:37 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id m15so7490257pgc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 09:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WXhFLG2ARB86XImooI2/J2WsEMANY89Kyxg6dwBULzE=;
-	b=ljrCWMQR3FG7KRmpShArEtTvCgWPuLvxElwIC2iUNoQXxd973O948wfLzfcyHMQJ7/
-	37D9rGYhWyehYAYed+9ukXKiBaNnCkir24iAWBSljPys/eA9ejSUhT2BipgK33VydknA
-	9ta2PxVsr+FLJHRK2EMFDNZd+uULrcNTfAXgwBdw782JriSAYhFWyVJawSGPOrFz9eQw
-	2+nrK2t12K7Kq1eZsjNcoOLVpgUGss6BRGDaAdJf4pQlmAWekNZ1/cBkXpRLiWozwgEd
-	Tu+oENWjX1n0FWvO8G2h6RPOCj0k8Dz3d2BikeQrWbU9MtVyoxfy/sHRcuOjYVBU8GP5
-	FvXA==
+	Mon, 26 Mar 2018 09:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=1dagmMLRX2rBMOIz7CPIGHteg8RbI0gZtpt6H+LkD0Y=;
+	b=XDCIbPuBoSmXBro6MoIrwMkSIR1yMue4139GB0ci4dCtSU/3FawndL7XO//H21zzZ7
+	lUkx6EiQg9dXe1WgyKwboEXE6BaZwZTo/9Um66NqZtLlpY26mV83WfRwHAHWLGZ+uuwB
+	bp63pt1F5Et/eF0MgwD/P+OUiQCN4iqn9xfre2lH23p0U+E96z7Po9KdZc/EeGs1v/SM
+	XJgM5halGf2Uc7C/osL/U9r+jYAkXyUPMN7MnlwaBK784ZSeSeuwDRUGZOE7ETwUcwk/
+	uHOsLzUnF7k+2bl7Q6KXXSeIK9j3t52kaAPwJcXE3ABHFuY/6HGA33dfJY1mCye679Of
+	DeFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WXhFLG2ARB86XImooI2/J2WsEMANY89Kyxg6dwBULzE=;
-	b=QS1vYP22rkEi/XxD2O8/F+vhev1yihA3neJt4cBRkz1/wKFCFoLWsGLwy9O8YT5aoo
-	h0oxLfWD8uR5sHqXduGBCv7dSTXf0QRRueRwdC4zZBZ7iTyc0hyERV3IMmosFH2ssNuS
-	FT8XSKKyLwYLaprFwFN6ZMZ9WO/AJcfn7Wn+zpN0FlKlUR64vypJVHLgifX3cTvoWxAI
-	tKFlzoGfvZIhwTSnoLt/fR3cOe0rRaBBtIzhG4pLROsj/wE+AM/zy7ZnG1BWfKuE9zS5
-	ddmNM0ERigj9AmVp9PlsWCsARgONw0/TPNNYEhLcgNOmV2+ALxEJYJc7VWVNIdJiSZtD
-	70nQ==
-X-Gm-Message-State: AElRT7GUedcJN1PH0iUXpIgYznn8QUMQv8AwJvHOLaNx35xnnICmv3Xg
-	jkVryGA68/v00U/m0mY90ZNHdS7mKIvVVsOmxp3rBQ==
-X-Google-Smtp-Source: AIpwx49/eldGzjvi1QTzYILPaIn2nj8zfATk509fJMij1YN/tmDBkm0fVx1aFQGJZddsidG70XuYtQYk+fuiAOhkfk8=
-X-Received: by 2002:a24:2f49:: with SMTP id
-	j70-v6mr7051050itj.127.1522080378476; 
-	Mon, 26 Mar 2018 09:06:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.30.9 with HTTP; Mon, 26 Mar 2018 09:05:58 -0700 (PDT)
-In-Reply-To: <1521741206-5138-2-git-send-email-kamensky@cisco.com>
-References: <1521741206-5138-1-git-send-email-kamensky@cisco.com>
-	<1521741206-5138-2-git-send-email-kamensky@cisco.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 26 Mar 2018 17:05:58 +0100
-Message-ID: <CAJTo0LY=rKUZ-D+0iFdx=n9+YeVLFXuCE_sBvxfL7_GxbxFUfA@mail.gmail.com>
-To: Victor Kamensky <kamensky@cisco.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/runtime/stap.py: add runtime test for systemtap
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1dagmMLRX2rBMOIz7CPIGHteg8RbI0gZtpt6H+LkD0Y=;
+	b=EQ2Qcpeky6V4dM/6y+vox+3fIH7L2byoDLKhA7og8VJfjA6Oq8la09W+bbjAXx1jlB
+	rlYpwEDBnxg9DSfG2/hpk8OmzvwsbHMS5yHR5k4nmHfsDeLf/to2nIk5Id9UTGtiOuHY
+	YHeQEY0IxtOhELNvPC0hx9Fr8zk0zeNLGUyMmdFfRKyHnRuvZUzdKKa6JdGHwUCDFHLu
+	PXtVaek7JRdzRkDu7zE0zPS9sx3NUDEVqu2Dyy2eDiO+x43kOoS0XBbHwIQkJpq9enkw
+	HhJOST93g6LYrtvZCdkHlqgnnBI+e348kR853MH4ZAgTx9Wuzn+Tnqx9/UgGPAhpmii/
+	AMDA==
+X-Gm-Message-State: AElRT7ESB0NmEUuTreBa0gQcSxv0a+uhv2XqSVDlmYybxZ9IkqXfj1rz
+	AJ6/g+/UIuqz4BISYJRvOj+w2g==
+X-Google-Smtp-Source: AIpwx4/OhO9flufKXBQePkSwiR88uHIE5KK2hTZ7zHQUEoHmdyZIdFX87b+yMdEeqYYLVsku/vuEUw==
+X-Received: by 10.99.37.71 with SMTP id l68mr5198512pgl.440.1522082739120;
+	Mon, 26 Mar 2018 09:45:39 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:203c:a04e:87e9:791b])
+	by smtp.gmail.com with ESMTPSA id b5sm28990293pgn.8.2018.03.26.09.45.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 26 Mar 2018 09:45:38 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Mar 2018 09:45:36 -0700
+Message-Id: <1522082736-7635-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [V2][PATCH] libshmfence: update to 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,102 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 16:06:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 26 Mar 2018 16:45:38 -0000
 
-On the autobuilder:
+From: Armin Kuster <akuster@mvista.com>
 
-| NOTE: FAIL [15.139s]: test_stap (stap.StapTest)
-| NOTE: ----------------------------------------------------------------------
-| NOTE: Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
-line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
-line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
-line 32, in wrapped_f
-|     return func(*args, **kwargs)
-|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/stap.py",
-line 33, in test_stap
-|     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-| AssertionError: 1 != 0 : stap --disable-cache /tmp/hello.stp
-| ERROR: module version mismatch (#1 SMP PREEMPT Mon Mar 26 14:41:21
-UTC 2018 vs #1 SMP PREEMPT Mon Mar 26 14:03:27 GMT 2018), release
-4.14.24-yocto-standard
-| WARNING: /usr/bin/staprun exited with status: 1
-| Pass 5: run failed.  [man error::pass5]
+refreshed patch
 
-Is this systemtap-uprobes not being rebuilt when it should?
+[v2]
+Remove dangling space in patch
 
-Ross
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../recipes-graphics/xorg-lib/libxshmfence/extensions.patch | 13 +++++++------
+ .../xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb}   |  4 ++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb} (77%)
 
-On 22 March 2018 at 17:53, Victor Kamensky <kamensky@cisco.com> wrote:
-> Add runtime test for stap to test basic SystemTap
-> operations: can compile very basic module and run on
-> target device.
->
-> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-> ---
->  meta/lib/oeqa/runtime/cases/stap.py   | 33 +++++++++++++++++++++++++++++++++
->  meta/lib/oeqa/runtime/files/hello.stp |  1 +
->  2 files changed, 34 insertions(+)
->  create mode 100644 meta/lib/oeqa/runtime/cases/stap.py
->  create mode 100644 meta/lib/oeqa/runtime/files/hello.stp
->
-> diff --git a/meta/lib/oeqa/runtime/cases/stap.py b/meta/lib/oeqa/runtime/cases/stap.py
-> new file mode 100644
-> index 0000000..005da71
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/cases/stap.py
-> @@ -0,0 +1,33 @@
-> +import os
-> +
-> +from oeqa.runtime.case import OERuntimeTestCase
-> +from oeqa.core.decorator.depends import OETestDepends
-> +from oeqa.core.decorator.oeid import OETestID
-> +from oeqa.core.decorator.data import skipIfNotFeature
-> +
-> +class StapTest(OERuntimeTestCase):
-> +
-> +    @classmethod
-> +    def setUpClass(cls):
-> +        src = os.path.join(cls.tc.runtime_files_dir, 'hello.stp')
-> +        dst = '/tmp/hello.stp'
-> +        cls.tc.target.copyTo(src, dst)
-> +
-> +    @classmethod
-> +    def tearDownClass(cls):
-> +        files = '/tmp/hello.stp'
-> +        cls.tc.target.run('rm %s' % files)
-> +
-> +    @OETestID(1652)
-> +    @skipIfNotFeature('tools-profile',
-> +                      'Test requires tools-profile to be in IMAGE_FEATURES')
-> +    @OETestDepends(['kernelmodule.KernelModuleTest.test_kernel_module'])
-> +    def test_stap(self):
-> +        cmds = [
-> +            'cd /usr/src/kernel && make scripts',
-> +            'cd /lib/modules/* && (if [ ! -L build ]; then ln -s /usr/src/kernel build; fi)',
-> +            'stap --disable-cache /tmp/hello.stp'
-> +            ]
-> +        for cmd in cmds:
-> +            status, output = self.target.run(cmd, 900)
-> +            self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-> diff --git a/meta/lib/oeqa/runtime/files/hello.stp b/meta/lib/oeqa/runtime/files/hello.stp
-> new file mode 100644
-> index 0000000..3677147
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/files/hello.stp
-> @@ -0,0 +1 @@
-> +probe oneshot { println("hello world") }
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+index 4cc9e05..56e4e2d 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+@@ -4,12 +4,13 @@ AC_USE_SYSTEM_EXTENSIONS to get that defined.
+ Upstream-Status: Submitted
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+-diff --git a/configure.ac b/configure.ac
+-index 0c98875..ebf4dee 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -29,4 +29,6 @@ AC_CONFIG_SRCDIR([Makefile.am])
+- AC_CONFIG_HEADERS([config.h])
++Index: libxshmfence-1.3/configure.ac
++===================================================================
++--- libxshmfence-1.3.orig/configure.ac
+++++ libxshmfence-1.3/configure.ac
++@@ -30,6 +30,8 @@ AC_CONFIG_HEADERS([config.h])
++ 
++ AC_USE_SYSTEM_EXTENSIONS
+  
+ +AC_USE_SYSTEM_EXTENSIONS
+ +
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+index 1df068d..f6f5fb2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+@@ -15,5 +15,5 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://extensions.patch"
+ 
+-SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
+-SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
++SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
++SRC_URI[sha256sum] = "b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7"
+-- 
+2.7.4
+
 
