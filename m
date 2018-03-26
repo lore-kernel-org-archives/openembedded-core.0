@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 831DA786C9
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 928C578771
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 14:31:23 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id f5-v6so12029664plj.13
+	Mon, 26 Mar 2018 14:31:24 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id s24-v6so1661620plq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 07:31:25 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XUGF7uEscSrLe7u9IlrUoPH8pvPSjONKM+xUhmJ/Ick=;
-	b=nsnwBzMyyuM9z1M8z4edvOmeF+5qNG0Clc2KSHXAAobh5Ggny8y8PpndrXLrEAiP4D
-	nXePfHePETtMMI7lS5SwSOdEpAY/xwcLW+GC8+RLeYbViWUm3coreu1H2pNC0H7zL3/H
-	BkvHlITklBGi5R9FL54NgdAnYRNaLb1OwC9sO/WD//I5X23gUsJ+I1WEZ0d+ydhcc1Q8
-	498xgV8HwadSq2Q/q42DntC5wTZwr9RahPKi0t5+V8mhoVXNYFaMUwZrRroBqaYLgxMe
-	spMMKfARgvp6lfLwik4rC01UT+lsLneDEJZYHki/vrOOKW7iKFAY5op2fmBHgf4f9vKQ
-	PjdQ==
+	bh=A+On4OKukAaJOsREr9KQVM4TLovEZ8VP9sGWw5mmTrM=;
+	b=ATKc2yFbD1nRoODYFulUti90Lo0LfxJUCBqGK22eUL52wbg34lwNjSUd6J81BahpwQ
+	wLQODtlVy/lBSbdLrK8Bim4Jy0CSg/yC0ZCPkY9Ph8BJ7zDuN9e8Xrzj/Jl7sesI1+r8
+	wKmjLbwp1+6ptXunfFxwwYlsoNFPnNxXRnvHDbfdDjomiVFNKIGwxSuLVb6bVDOpM3av
+	11qLuXOmu9f/RwzM2GBmiYeZ33EPsJGTYYzWZ/XS3sW3LSMgn0OgRfqM063fP08PuoAU
+	ydklwV+FsYbx6/jphex7NAX9X1YecU7unLejHMneRbNiDh164Yh64Eh+9TbY97TqNnCO
+	r5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XUGF7uEscSrLe7u9IlrUoPH8pvPSjONKM+xUhmJ/Ick=;
-	b=pr2o6HGRSJ18w1XwB1+6PwAE9eJKOgcLDJRjcevYnuq/g7C8zuUmiFsa2vYeoYapni
-	MNcUlPrZoTGTmEjMX+Tf4JNu9gQNILq9vbOu2g0Z5J//uY6rTehfhkUBufoHpobqXhX3
-	iJLj2QqYE8E2Q63B4OnioqWOKODScvM7WNc0l4VOimqWYKn3BKWz71XZqs593wEbCFBW
-	Sz045/4hzpRTTSIWtTTEi65aaCqYtLcn5COrv+Ww3/OOZapNO2wFuElxuriq8MXmWKD1
-	YdcFH/zYy+7bS3DopEOqL2hju+p/N5Deo+7Ge7mDK2WCn5NjQQHmZKIpTVIsnjoSY4WM
-	7WQA==
-X-Gm-Message-State: AElRT7GJGjN+7zaEUWuKshF5EjBizZlhEY3maBsan1u2O1IGXnVkIme9
-	v9tEaIVURrm6yngaglvpwXjOlg==
-X-Google-Smtp-Source: AG47ELvJFfDINrlw5jNpyZpLcwoXMXlHgP0n0UCD5djP0OyZIjgHfhDGdPaVENgnVoArAiJYWA9fqw==
-X-Received: by 2002:a17:902:1006:: with SMTP id
-	b6-v6mr11583962pla.252.1522074684854; 
-	Mon, 26 Mar 2018 07:31:24 -0700 (PDT)
+	bh=A+On4OKukAaJOsREr9KQVM4TLovEZ8VP9sGWw5mmTrM=;
+	b=B32EoCv8SOzeK3XHZOeRvgpMOuzpM3YTPjrVjGyOgGmnkRTxnecTPOd56RiycJlH2u
+	roSv4bG5AGbXW1DRry6LzPAX1IZ2IQXFlu4X8PgRntoHnjomojuDSjG1jjvUAg8zn7TS
+	WAc72f7RlpKBLLmzjBkGOlBY+6x/TzSMjzLC4zZJRQ0KrR9jLuGnxJh9O+nFhIIXRNGG
+	cylRxy8RMi+EXVNfawIypr7YUorBjCXka+JgiXyOTUn+VJ2B4YCa9YQ47Dvwzwaai/z2
+	vujiwjQziF624w6/cDfvYyv4tZzgKa5MsZU62uzsyKPuQP0ZWejs77l8NPt0p/OCdGOp
+	XiOQ==
+X-Gm-Message-State: AElRT7HAlXJpaTC5YQMPjlZ9Y/j0EElcYdOctxNOxiJR8FUINpaeeqWG
+	xgyhTTDfFs8CJpD29Azeo2RJ/w==
+X-Google-Smtp-Source: AG47ELvAVJbBOnvSlNCTjitzIG/55vaEJ0vKVuPBC52v1fPIY457gMzmVRrBYWbkjl2IvSNdlsQ6CA==
+X-Received: by 2002:a17:902:8308:: with SMTP id
+	bd8-v6mr10294698plb.313.1522074686168; 
+	Mon, 26 Mar 2018 07:31:26 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4000:1184:203c:a04e:87e9:791b])
 	by smtp.gmail.com with ESMTPSA id
 	j11sm29932492pff.94.2018.03.26.07.31.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 26 Mar 2018 07:31:24 -0700 (PDT)
+	Mon, 26 Mar 2018 07:31:25 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2018 07:30:12 -0700
-Message-Id: <56ca033c283186a49129c9666ecc0025d83e82c8.1521989435.git.akuster@mvista.com>
+Date: Mon, 26 Mar 2018 07:30:13 -0700
+Message-Id: <46ebc9b2acd479edcdd6388c9d7759fb27cf9536.1521989435.git.akuster@mvista.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1521989435.git.akuster@mvista.com>
 References: <cover.1521989435.git.akuster@mvista.com>
-Subject: [PATCH 09/21] gnutls: update to 3.6.2
+Subject: [PATCH 10/21] xeyes: update to 1.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 14:31:23 -0000
+X-List-Received-Date: Mon, 26 Mar 2018 14:31:24 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/gnutls/{gnutls_3.6.1.bb => gnutls_3.6.2.bb} | 4 ++--
+ meta/recipes-graphics/xorg-app/{xeyes_1.1.1.bb => xeyes_1.1.2.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.1.bb => gnutls_3.6.2.bb} (54%)
+ rename meta/recipes-graphics/xorg-app/{xeyes_1.1.1.bb => xeyes_1.1.2.bb} (72%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.1.bb b/meta/recipes-support/gnutls/gnutls_3.6.2.bb
-similarity index 54%
-rename from meta/recipes-support/gnutls/gnutls_3.6.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.2.bb
-index 7624a20..e540528 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.2.bb
-@@ -3,7 +3,7 @@ require gnutls.inc
- SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
-             file://arm_eabi.patch \
-            "
--SRC_URI[md5sum] = "4b65ae3ffef59f3eeed51a6166ff12b3"
--SRC_URI[sha256sum] = "20b10d2c9994bc032824314714d0e84c0f19bdb3d715d8ed55beb7364a8ebaed"
-+SRC_URI[md5sum] = "8b4912c6c0e5ffefd3dbb4888eaf8a58"
-+SRC_URI[sha256sum] = "bcd5db7b234e02267f36b5d13cf5214baac232b7056a506252b7574ea7738d1f"
+diff --git a/meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb b/meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
+similarity index 72%
+rename from meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb
+rename to meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
+index 84d0cb8..06885f8 100644
+--- a/meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb
++++ b/meta/recipes-graphics/xorg-app/xeyes_1.1.2.bb
+@@ -8,7 +8,7 @@ PE = "1"
  
- BBCLASSEXTEND = "native nativesdk"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3ea51b365051ac32d1813a7dbaa4bfc6"
+ 
+-SRC_URI[md5sum] = "a3035dcecdbdb89e864177c080924981"
+-SRC_URI[sha256sum] = "975e98680cd59e1f9439016386609546ed08c284d0f05a95276f96aca6e8a521"
++SRC_URI[md5sum] = "6f0543ec84283df5743eeafc173bea4a"
++SRC_URI[sha256sum] = "57bcec0d2d167af9e5d44d0dbd74c6d7c0f0591cd0608952b23c749fdd910553"
+ 
+ DEPENDS += "libxau libxt libxext libxmu libxrender"
 -- 
 2.7.4
 
