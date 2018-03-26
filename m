@@ -1,43 +1,17 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A057784F0
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AC357848D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 20:12:44 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v21so17772824wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 13:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=mSwtwfs+cdIHpefX3FggTUesp0k9w+sYECZfk4SuU1E=;
-	b=VQwdZzfjmbd29pgJHzrAs9JvUmGn1rWNhVi4Zj4BHvFTcerKT41eTsM7AJbd/vixBx
-	7gmcnbksrPfq7DJtz/FZq8bFG4B2aUXgMYKnip8crPZkE84pYFWEYMuFa6fDnnG6V7Ad
-	qlAaiNdQUKR1TSroFN82HxIpE0QJGAJs6aAZanAbPMczRBaLD/CLdyabaFWPVrKC7BxV
-	wXIfLnfJYBfgqc1xpUtXk9blYVmkrwVE6mVZj/g1IuEutqeKuZsoH6choISiGzk5hYWt
-	wPzrxuTrbWxDyUrHcvVttAYHbHzcRsKKJcIhhFFTsHa6lPX0T6KzBQ73gEzSJoDo/WCt
-	+ypg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=mSwtwfs+cdIHpefX3FggTUesp0k9w+sYECZfk4SuU1E=;
-	b=ngqv2l9sq4ZhJiTtOhz1svEYE7n1rOVXG4dPcRsHE3diBJkohoxRzB5JHYyoliy9Eg
-	evsWH5Bbl5fm9WTGqhfngZwi+FFETI9fIHC/DOc2hKaHqz9UvJIX5yt839htnXGWXihT
-	fygFpmbimXKM4L3inOfEZfx0DOEv/JYZAPv2qCipuiu3M80C2EqBcWCEysv3nDJmR322
-	STLPrugM8Lg7N1AaOv5ijte9OkEynG+6xz1S4HEiBjrdjqlgFlKGvnxO4NqK5qTnJnpm
-	Ztj07G9sLjj3uumHPStpzjgLP4E/yzkKP/JYhDjr4eYEUN9VP8HGBXuZth0FjESG0HoV
-	TPYg==
-X-Gm-Message-State: AElRT7FxuS/oYC1aYNoaDEHLqjd+jtm89JUOIWSn7000OvnRJA89mL9D
-	vvbQVuao++ZP8xUh84fAy7CvaZChDqjgAogtFe8=
-X-Google-Smtp-Source: AIpwx4+GWD7k1WpQUkdtiQPVglzS6y7T1dBTe+OgD10OhdyjjHHNBHGXG+l2WSywDdNxWzX9YXu2ZQcrtulqsDrMIjk=
-X-Received: by 10.28.53.194 with SMTP id c185mr6700220wma.27.1522095165071;
-	Mon, 26 Mar 2018 13:12:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Mon, 26 Mar 2018 13:12:44 -0700 (PDT)
-In-Reply-To: <20180326143107.48f153a5@seebsdell>
+	Mon, 26 Mar 2018 21:07:46 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id ED47C2E895A;
+	Mon, 26 Mar 2018 16:07:47 -0500 (CDT)
+Date: Mon, 26 Mar 2018 16:07:46 -0500
+From: Seebs <seebs@seebs.net>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20180326160746.1dce7ae9@seebsdell>
+In-Reply-To: <CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
 References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LbahOFYjBjonmfn5on78fFinG1Vk7R4kKtKX2mpmriEMA@mail.gmail.com>
-	<20180324122357.668e6afc@seebsdell>
 	<CAJ86T=Xcee6ivhoSc0adMR2q95ozsMXwSYL41mK7O5PN4CsWqw@mail.gmail.com>
 	<20180324132246.28c2f8cd@seebsdell>
 	<CAJ86T=VA6bR8v5+g6Y5e5HWQjU5r=E503gNdHCaco4PioPdW=Q@mail.gmail.com>
@@ -52,10 +26,9 @@ References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
 	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
 	<20180326143107.48f153a5@seebsdell>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 26 Mar 2018 13:12:44 -0700
-Message-ID: <CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
+	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -70,40 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 20:12:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Mar 2018 21:07:47 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 26, 2018 at 12:31 PM, Seebs <seebs@seebs.net> wrote:
-> On Mon, 26 Mar 2018 20:49:30 +0200
-> Andreas M=C3=BCller <schnitzeltony@gmail.com> wrote:
->
->> Interesting background: mv/renameat2 change seemed so important for
->> Fedora that they backported the changes into 8.27.
->
-> It looks like the reason for this is the RENAME_NOREPLACE flag, which
-> avoids a possible race condition.
->
-> FWIW, I've traded a couple of emails with the coreutils people, and I
-> think at this point I'm going to try a custom wrapper for syscall that
-> just yields ENOTSUPP, because any attempt to do something fancier
-> seems like it's going to be potentially error-prone.
->
-> Since the man page gave the ia64 example, I went and checked, and it
-> is indeed the case that calls other than syscall(2) will clobber r10
-> after system calls, so it's actually not possible for a C wrapper to
-> do what we want on an intercepted syscall.
+On Mon, 26 Mar 2018 13:12:44 -0700
+Andre McCurdy <armccurdy@gmail.com> wrote:
 
-That's based on your assumption that a C wrapper needs to care about
-results in architecture specific registers, which I contend is not a
-correct interpretation of the syscall manpage.
+> That's based on your assumption that a C wrapper needs to care about
+> results in architecture specific registers, which I contend is not a
+> correct interpretation of the syscall manpage.
 
-Did you find any evidence to support your interpretation? e.g. Did you
-find any examples of callers to the libc syscall() API which use
-architecture specific assembler to examine the result of the syscall?
+My observation is: If this doesn't matter, why is glibc doing it? It
+seems really weird to mention this thing, and bother doing it, if it
+*never* matters. So possibly it does matter. Sometimes. When?
 
-The gnulib code calling syscall(SYS_renameat2, ...) certainly doesn't
-do that - it just checks the C function return value and errno. Since
-there's no architecture specific code to examine the syscall() result,
-do you expect coreutils mv to now incorrectly detect errors on ia64?
+I don't feel comfortable assuming I understand the code if it's doing
+something like that, I can't see when it would affect anything, and the
+code hasn't been removed to improve performance. I'd be a lot more
+comfortable disregarding the weird return values and register
+specifications if I could look at real-world examples of how that
+information is used.
+
+> Did you find any evidence to support your interpretation? e.g. Did you
+> find any examples of callers to the libc syscall() API which use
+> architecture specific assembler to examine the result of the syscall?
+
+I have seen exactly one use of syscall() in the wild at all, that being
+the recent addition to coreutils.
+
+The evidence for my interpretation that you *could* need to know about
+arch-specific behavior is the EABI example, which clearly indicates the
+*possibility* that code in C has to care about architectural variance
+in non-obvious ways. I don't know what ways those might be, and this
+call is so rarely used that I'm not sure it would be reasonable to
+generalize about it. (I also don't know whether it's still true on
+64-bit ARM, and whether it also applies to pointer values or only to
+integer values, or...)
+
+> The gnulib code calling syscall(SYS_renameat2, ...) certainly doesn't
+> do that - it just checks the C function return value and errno. Since
+> there's no architecture specific code to examine the syscall() result,
+> do you expect coreutils mv to now incorrectly detect errors on ia64?
+
+No. But I don't know whether *anyone* is using syscall(), other than
+this one single example I've seen identified. I also don't know how
+widely tested the code in question is, or on what architectures.
+
+Testing on non-x86 architectures has often been sporadic in the open
+source community, and I think that's improved, but I don't know how
+much. If I'm looking at something that's almost never used, and I don't
+have specific information that the existing usage is being fully tested
+on "obscure" targets (such as mips, arm, etc), I am going to be at
+least a little distrustful.
+
+-s
 
