@@ -1,52 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E3CC27870F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 92625786B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 15:50:59 +0000 (UTC)
-Received: by mail-pl0-f50.google.com with SMTP id g20-v6so912332plo.9
+	Mon, 26 Mar 2018 16:06:17 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id e98-v6so11416651itd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 08:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 26 Mar 2018 09:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nrfU5kst0/jZRAHVs9iNd1pS9iAsO7Ropo/2XEf9IcI=;
-	b=PERFoyKseUBL/x3WKFNtcO0P/f7CYpYLnu1NZpou3KUWPdJ5nPsQrQa3UA96QBoxhs
-	Sp/hQ36S72+p1tgYAn1p0db2Ax9Xqj0nYyfdWkg0VQYtDklsAOXxr9e4caE+MsnRaOaP
-	hnvrK2A6przBAMBYR+vlaYQLd6RJR2ORbCRA2wvPxofip9lQgOtXG2D1lMs4TKNqppUL
-	ZPRd87siiNkwPwx+S7sS1wfm5RxVld9ZXFkPzDz+iaxz90qmauJTdytzFMb9a2FXzMM3
-	El3wHBslcPhJKvfh1Qd5SvZUUVBzTEwLd2q/SbZieTaZ8DOIkUyrYL27s7pPURdQd1/k
-	jxbg==
+	:cc; bh=WXhFLG2ARB86XImooI2/J2WsEMANY89Kyxg6dwBULzE=;
+	b=ljrCWMQR3FG7KRmpShArEtTvCgWPuLvxElwIC2iUNoQXxd973O948wfLzfcyHMQJ7/
+	37D9rGYhWyehYAYed+9ukXKiBaNnCkir24iAWBSljPys/eA9ejSUhT2BipgK33VydknA
+	9ta2PxVsr+FLJHRK2EMFDNZd+uULrcNTfAXgwBdw782JriSAYhFWyVJawSGPOrFz9eQw
+	2+nrK2t12K7Kq1eZsjNcoOLVpgUGss6BRGDaAdJf4pQlmAWekNZ1/cBkXpRLiWozwgEd
+	Tu+oENWjX1n0FWvO8G2h6RPOCj0k8Dz3d2BikeQrWbU9MtVyoxfy/sHRcuOjYVBU8GP5
+	FvXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=nrfU5kst0/jZRAHVs9iNd1pS9iAsO7Ropo/2XEf9IcI=;
-	b=AcFUZJ69xlHNeliWFmgr6WMuLUwEVjMgXqsneb62ttZtAjY0cPLPyyq82ciQlH6Gr1
-	R1VI1yaUgAnFRVp5mgKJ46xgEijHC+fFzMPLToJ8zD1mpvWqtpZQ5cu5Jot3kOL3OTeO
-	aPMxx0QqgbkIpjWDddytIdHkA+45speA1vWqITOJ/DRErq1RBf8ZM8STVsJ/mb1+lerW
-	AaJnMldgxrWVq3MZzq5DJ5t5R7crd0075RfvfCnjuS3OQEyO/mtpri1Dk5XuuXLnbHVE
-	pS6B95Chp0H0xcEdUfx0MQqZnQ4SkC633RIO0aYbcY0kuJyVYWzaVFFwoNDUwvN3nKEd
-	VIwQ==
-X-Gm-Message-State: AElRT7ECa8yn7kAb0fLgTFBOkbuvurN2KntRN0CGYSxbuK+Ls4P8YS5a
-	q9ifFSFEO8hQC0p5nRxgPn9dBlS2dy8Du/RjaDQ=
-X-Google-Smtp-Source: AG47ELt01LdnA14+NmdL6e7oibkcn7hNZ/T4Brbdy7nX3sa4REy3sgutAgs6ZarNg/NI5+8Eac/5hI0SQCZ2LFMLqYE=
-X-Received: by 2002:a17:902:158b:: with SMTP id
-	m11-v6mr40888685pla.300.1522079460814; 
-	Mon, 26 Mar 2018 08:51:00 -0700 (PDT)
+	bh=WXhFLG2ARB86XImooI2/J2WsEMANY89Kyxg6dwBULzE=;
+	b=QS1vYP22rkEi/XxD2O8/F+vhev1yihA3neJt4cBRkz1/wKFCFoLWsGLwy9O8YT5aoo
+	h0oxLfWD8uR5sHqXduGBCv7dSTXf0QRRueRwdC4zZBZ7iTyc0hyERV3IMmosFH2ssNuS
+	FT8XSKKyLwYLaprFwFN6ZMZ9WO/AJcfn7Wn+zpN0FlKlUR64vypJVHLgifX3cTvoWxAI
+	tKFlzoGfvZIhwTSnoLt/fR3cOe0rRaBBtIzhG4pLROsj/wE+AM/zy7ZnG1BWfKuE9zS5
+	ddmNM0ERigj9AmVp9PlsWCsARgONw0/TPNNYEhLcgNOmV2+ALxEJYJc7VWVNIdJiSZtD
+	70nQ==
+X-Gm-Message-State: AElRT7GUedcJN1PH0iUXpIgYznn8QUMQv8AwJvHOLaNx35xnnICmv3Xg
+	jkVryGA68/v00U/m0mY90ZNHdS7mKIvVVsOmxp3rBQ==
+X-Google-Smtp-Source: AIpwx49/eldGzjvi1QTzYILPaIn2nj8zfATk509fJMij1YN/tmDBkm0fVx1aFQGJZddsidG70XuYtQYk+fuiAOhkfk8=
+X-Received: by 2002:a24:2f49:: with SMTP id
+	j70-v6mr7051050itj.127.1522080378476; 
+	Mon, 26 Mar 2018 09:06:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.173.149 with HTTP; Mon, 26 Mar 2018 08:50:30 -0700 (PDT)
-In-Reply-To: <4d0ac28b-690a-fdf1-e4b8-79e5dd415738@gmail.com>
-References: <cover.1521989435.git.akuster@mvista.com>
-	<d4761381-c70a-3c8c-7e69-c7ff884f78e0@linux.intel.com>
-	<4d0ac28b-690a-fdf1-e4b8-79e5dd415738@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 26 Mar 2018 08:50:30 -0700
-Message-ID: <CAMKF1soVoM5sfjX_GFWgESuHE5nez9xp63DDtsxcdJjRjBWGXw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/21] PKG updates and QA warning fix
+Received: by 10.107.30.9 with HTTP; Mon, 26 Mar 2018 09:05:58 -0700 (PDT)
+In-Reply-To: <1521741206-5138-2-git-send-email-kamensky@cisco.com>
+References: <1521741206-5138-1-git-send-email-kamensky@cisco.com>
+	<1521741206-5138-2-git-send-email-kamensky@cisco.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 26 Mar 2018 17:05:58 +0100
+Message-ID: <CAJTo0LY=rKUZ-D+0iFdx=n9+YeVLFXuCE_sBvxfL7_GxbxFUfA@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa/runtime/stap.py: add runtime test for systemtap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +57,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 15:51:00 -0000
+X-List-Received-Date: Mon, 26 Mar 2018 16:06:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Mar 26, 2018 at 7:47 AM, akuster808 <akuster808@gmail.com> wrote:
->
->
-> On 03/26/2018 02:27 AM, Alexander Kanavin wrote:
->> On 03/25/2018 06:00 PM, Armin Kuster wrote:
->>> Cover letter only
->>>
->>> Please consider these updates for master-next.
->>> nss has an outstanding patch sitting in the queue somewhere.
->>> Passed AB except failures not related to these changes.
->>
->> Why only cover letter?
-> Do you know how many electronic trees I have to cut down to provide this
-> kind of electronic copy for you?
->
+On the autobuilder:
 
-as long as the logs of these e-trees are not hogging patchwork. Some
-large patches have strangled
-patchwork in past
+| NOTE: FAIL [15.139s]: test_stap (stap.StapTest)
+| NOTE: ----------------------------------------------------------------------
+| NOTE: Traceback (most recent call last):
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/stap.py",
+line 33, in test_stap
+|     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+| AssertionError: 1 != 0 : stap --disable-cache /tmp/hello.stp
+| ERROR: module version mismatch (#1 SMP PREEMPT Mon Mar 26 14:41:21
+UTC 2018 vs #1 SMP PREEMPT Mon Mar 26 14:03:27 GMT 2018), release
+4.14.24-yocto-standard
+| WARNING: /usr/bin/staprun exited with status: 1
+| Pass 5: run failed.  [man error::pass5]
 
->> Can we see the patches please?
-> done.
-> - Armin
->>
->> Alex
+Is this systemtap-uprobes not being rebuilt when it should?
+
+Ross
+
+On 22 March 2018 at 17:53, Victor Kamensky <kamensky@cisco.com> wrote:
+> Add runtime test for stap to test basic SystemTap
+> operations: can compile very basic module and run on
+> target device.
+>
+> Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/stap.py   | 33 +++++++++++++++++++++++++++++++++
+>  meta/lib/oeqa/runtime/files/hello.stp |  1 +
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/lib/oeqa/runtime/cases/stap.py
+>  create mode 100644 meta/lib/oeqa/runtime/files/hello.stp
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/stap.py b/meta/lib/oeqa/runtime/cases/stap.py
+> new file mode 100644
+> index 0000000..005da71
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/cases/stap.py
+> @@ -0,0 +1,33 @@
+> +import os
+> +
+> +from oeqa.runtime.case import OERuntimeTestCase
+> +from oeqa.core.decorator.depends import OETestDepends
+> +from oeqa.core.decorator.oeid import OETestID
+> +from oeqa.core.decorator.data import skipIfNotFeature
+> +
+> +class StapTest(OERuntimeTestCase):
+> +
+> +    @classmethod
+> +    def setUpClass(cls):
+> +        src = os.path.join(cls.tc.runtime_files_dir, 'hello.stp')
+> +        dst = '/tmp/hello.stp'
+> +        cls.tc.target.copyTo(src, dst)
+> +
+> +    @classmethod
+> +    def tearDownClass(cls):
+> +        files = '/tmp/hello.stp'
+> +        cls.tc.target.run('rm %s' % files)
+> +
+> +    @OETestID(1652)
+> +    @skipIfNotFeature('tools-profile',
+> +                      'Test requires tools-profile to be in IMAGE_FEATURES')
+> +    @OETestDepends(['kernelmodule.KernelModuleTest.test_kernel_module'])
+> +    def test_stap(self):
+> +        cmds = [
+> +            'cd /usr/src/kernel && make scripts',
+> +            'cd /lib/modules/* && (if [ ! -L build ]; then ln -s /usr/src/kernel build; fi)',
+> +            'stap --disable-cache /tmp/hello.stp'
+> +            ]
+> +        for cmd in cmds:
+> +            status, output = self.target.run(cmd, 900)
+> +            self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+> diff --git a/meta/lib/oeqa/runtime/files/hello.stp b/meta/lib/oeqa/runtime/files/hello.stp
+> new file mode 100644
+> index 0000000..3677147
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/files/hello.stp
+> @@ -0,0 +1 @@
+> +probe oneshot { println("hello world") }
+> --
+> 2.7.4
 >
 > --
 > _______________________________________________
