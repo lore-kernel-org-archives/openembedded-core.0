@@ -1,34 +1,50 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0927855C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 960A471C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 12:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Subject:Message-Id:Date:Cc:To:From;
-	bh=ZvGmzrAJLYQaVKQhU04wCvcTZR5qido71wCZvk/YIy4=; 
-	b=fhWmg2frYVVo5KxlbxpGmeBWgQIBk1uMFzFev3O4SprBV5M1xOjc24BuNxPTsihQnOVe7rsfgcoedpCzafaLV5X8AeSN5ctaJu6taXbfMGQKA+P1h8okoGPmaCxaqL4KkymLfz10Xe4DjZtMD86jRzky+ZvZ9OqaU1imyB3X1BmNwg/t636L69kesH40DVewfSzMIAOLFL75IGtxh1YMs8vGvMZnfv71GidtCA2Re1R3A1bNQfQvNPyW9bOss5yQSBZStD86BPuFkAKVVhtbm8bqhgNq/pH2hRgsXPEsb8Wb8O6/RBHDBosH6hcmHDrQpe71zt/LYlqVvngeoQjWZQ==;
-Received: from [2001:67c:1be8::1] (helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1f0Qlf-0008WU-4l; Mon, 26 Mar 2018 14:58:27 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1f0QlL-0004Z5-3J; Mon, 26 Mar 2018 14:58:07 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2018 14:57:57 +0300
-Message-Id: <1522065479-15840-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-SA-Exim-Connect-IP: 2001:67c:1be8::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on mail
-X-Spam-Level: *
-X-Spam-Status: No, score=1.8 required=5.0 tests=BAYES_20,
-	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_NEUTRAL autolearn=no
-	autolearn_force=no version=3.4.0
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH 1/3] ncurses: change SRC_URI from Debian anonscm to salsa
+	Mon, 26 Mar 2018 12:40:47 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id e98-v6so10538819itd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2018 05:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=fpqzza+aZcIBUUwNa94VYauFHK/uCT1l34uaa5iGNY8=;
+	b=kD0SGxhJjT3fegXwOaGSIkUg5Oy+riJhw1qtiRnwS98BV/LMd6KAJ7cgbWb4XB/HGI
+	RAIIDCvN3aEXYLv+LsUH1LhhBbNglxYLN6jVMUl8nIy1sRZZDYWnz0NdooUHaweO9mrQ
+	afJeCl2ZhkhP5dXO2SxkymVNksjDgeRrbNq+dHV1lVuXFbSFVPcKy3hehkERl0m7DNa1
+	9RpevsMbaS56UCX/wMCrdyxpERxLYvIoydiY/Zb1Shjh+GEi+oZOVlGDzJ6tunx2Xfbd
+	V1IRX845zKxRgPzSTCB2APJZZ43/lJDGxlbMONRicKaXAaEN5eJqr/gkZeghAzqK6J8o
+	7iIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=fpqzza+aZcIBUUwNa94VYauFHK/uCT1l34uaa5iGNY8=;
+	b=J+/xJjq3pmFnxCL+/kzppOfCkIqXKmhsn0PnIjMlNkLyL6Rky3RU628MbYseUKuq9K
+	G+8SgAJb3phQx4FWgQAdLZtpiEOrsjqDozw5xUz+chEcrsusqwVET35r9SEgBIcCDGw1
+	c4YGHcamKO5oQSBbmvQ122lp3e2vuJrIWg8quZoJQX5CGbUL7jSjRhlWrYILE7p4Tl87
+	wadKrBHmjjbTn9nT6STTcZUrGUdsj8SlcOmlZq9zVDe+YJ2tWgtYmSLa/Mxbfh+G7DKQ
+	cdLo3WjPFjWWd3V3jC/9oLudpH7MTHUznyuIX/dBpe1LiYxxY/Ij3abcssO8sv/C6Hn2
+	C7Lg==
+X-Gm-Message-State: AElRT7Ex0clKux/bXSjIoduQSZnVJ7ay99G52jnD7EKaB2qU+MbVAlco
+	FWx3R7zygXlueyBXRb1K4ZBq6j+puW38I2rKlGm29A==
+X-Google-Smtp-Source: AIpwx49SqgiZyCRECI+Wyh7BxcG13quykKRX6E3FNherAzCHk+rmSvEHVSVdg8vX8IZm/+qn51VQlZeiHMvaBS92vkg=
+X-Received: by 2002:a24:1f15:: with SMTP id
+	d21-v6mr15713018itd.45.1522068048595; 
+	Mon, 26 Mar 2018 05:40:48 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.30.9 with HTTP; Mon, 26 Mar 2018 05:40:28 -0700 (PDT)
+In-Reply-To: <VI1PR0701MB2814121932475233E7F689C890AD0@VI1PR0701MB2814.eurprd07.prod.outlook.com>
+References: <VI1PR0701MB2814121932475233E7F689C890AD0@VI1PR0701MB2814.eurprd07.prod.outlook.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 26 Mar 2018 13:40:28 +0100
+Message-ID: <CAJTo0LZHEmkYX-z-=vq3zAUmGOWRPAUsN-thcyFB4TGruEuLBA@mail.gmail.com>
+To: "Geller, Nir" <nir.geller@servotronix.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: multilib - python3 vs. lib32-python3 - bitbake core-image-minimal fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +57,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 12:31:46 -0000
+X-List-Received-Date: Mon, 26 Mar 2018 12:40:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Debian anonscm service in Alioth is shutdown and thus
-fetching ncurses sources fails.
+On 26 March 2018 at 13:04, Geller, Nir <nir.geller@servotronix.com> wrote:
+> I understand that there's a conflict regarding the installation of
+> /usr/bin/python3.5m-config between python3 and lib32-python3, but I have no
+> idea how to solve it.
 
-https://wiki.debian.org/Alioth
+You only need python*-config when building stuff, so I'd change the
+packaging so that it is in ${PN}-dev, which you can then not install.
 
-"Alioth is broken, and there is nobody around to fix it. Don't ask the remaining people who give it life support to implement fixes and changes. It is being replaced by a cocktail of ?GitLab (see Salsa), read-only repos and keep-alive mechanisms. See below for more information."
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/recipes-core/ncurses/ncurses.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 9d06987..01e41d5 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -13,7 +13,7 @@ BINCONFIG = "${bindir}/ncurses5-config ${bindir}/ncursesw5-config \
- inherit autotools binconfig-disabled multilib_header pkgconfig
- 
- # Upstream has useful patches at times at ftp://invisible-island.net/ncurses/
--SRC_URI = "git://anonscm.debian.org/collab-maint/ncurses.git"
-+SRC_URI = "git://salsa.debian.org/debian/ncurses.git;protocol=https"
- 
- EXTRA_AUTORECONF = "-I m4"
- CONFIG_SITE =+ "${WORKDIR}/config.cache"
--- 
-1.9.1
-
+Ross
 
