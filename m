@@ -1,48 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 863656003C
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 842286003C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 15:48:05 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id a20so21921381wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 08:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=VPp9RZnSlCC1PLFZ8j5jTpml65F0yxRbGip+wmsLikY=;
-	b=Ku6ACyXmUOa6OV7xO0KhB9u1rfvWp9I/eX4Iq9fzu/zP8TFsi3bLcr1pqg1B++NNzD
-	0nbnKF+io1PTN69HIeAN4vXZArjkHacWxULwueaU7VqQkOuk32Th5LTPgX0lwZE5ZvlD
-	areTIKOhb+JSXE1NjuSriMQhgLLGtev/7VvXIw/qg2n+7SWWPn8Ag77oDyS/XWqkxYK1
-	oKSmZ2gfoHZHCelJHVHiRQDj1pUJQm9MzJ+D/dr3p63IYztkAfjUjK30b7tRMbxoDWiC
-	L/uc1HEhrCPBPIXnjqrz/3KX0RlFfYF/Gk2IWHovEQCDDxMAOIyLE8NNDgsPPNxbMGKw
-	IhaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=VPp9RZnSlCC1PLFZ8j5jTpml65F0yxRbGip+wmsLikY=;
-	b=aKttflK/ZloCPvFjY+QDMfnqcBr/JMwhk6WzGpR79+snytTZmOmW2quBQeWkURhYRm
-	ZkOJq/+36JKHAjl0B1uzgz1j6Xz3R7K+o9zt6408f1pegYmedfcbBdHKVA3oEbEJmfZV
-	73/tMeiGLdd5N0K8VVccmH+jhXaaEgvFBUaD7TQFaJCsIPhRItwHiKg148ZvNaqzKRom
-	C8qp7noLmrWZBmw1NF90XADoZOAtojxg6hLgsIVnA7NlVYkAEWk6dJY+uLaRJSHfYKMb
-	GAXRstSNa4KYSFgS+mHlDTKNsVpCV3mD4xmDPUihtS5/ctwaCpda0zRWwuZYEqy8L/IK
-	1o8Q==
-X-Gm-Message-State: AElRT7Gfx/XLRA2692h61tSltT6gKZJQiS20HffDtcRfd73JGoLc7a09
-	Sxg/Y8In0QLQscM/cAMsmlGJplTs
-X-Google-Smtp-Source: AG47ELvpz3MBYDOqOv30Nr7K1zd24DHpz6A/TzS6SQhFRNFDDqYxTKwzjoddnjC/z2g5Ldzj7cjF2g==
-X-Received: by 10.28.193.13 with SMTP id r13mr17380546wmf.38.1522165685795;
-	Tue, 27 Mar 2018 08:48:05 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id b9sm1571519wrc.85.2018.03.27.08.48.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Mar 2018 08:48:04 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Mar 2018 16:48:02 +0100
-Message-Id: <20180327154802.14611-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
+	Tue, 27 Mar 2018 15:50:28 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id AC1472E8928;
+	Tue, 27 Mar 2018 10:50:29 -0500 (CDT)
+Date: Tue, 27 Mar 2018 10:50:28 -0500
+From: Seebs <seebs@seebs.net>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20180327105028.188e6bdc@seebsdell>
+In-Reply-To: <ly370lpt0f.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20180324132246.28c2f8cd@seebsdell>
+	<CAJ86T=VA6bR8v5+g6Y5e5HWQjU5r=E503gNdHCaco4PioPdW=Q@mail.gmail.com>
+	<20180324142427.53da953d@seebsdell>
+	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
+	<20180324145044.168f7e3f@seebsdell>
+	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
+	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
+	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
+	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
+	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
+	<20180326143107.48f153a5@seebsdell>
+	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+	<ly370lpt0f.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,106 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 15:48:05 -0000
+X-List-Received-Date: Tue, 27 Mar 2018 15:50:28 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-coreutils is now using renameat2() in mv(1) but as this syscall isn't in most
-glibc headers yet it falls back to directly calling syscall(), which pseudo
-doesn't intercept.  This results in permission problems as files mysteriously
-move without pseudo knowing.
+On Tue, 27 Mar 2018 15:06:40 +0200
+Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
 
-This patch intercepts syscall() and returns ENOTSUP if renameat2() is being
-called.  Thanks to Andre McCurdy for the proof-of-concept that this patch is
-based on.
+> Andre McCurdy <armccurdy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> writes:
+> 
+> >> Since the man page gave the ia64 example, I went and checked, and
+> >> it is indeed the case that calls other than syscall(2) will
+> >> clobber r10 after system calls,
+> 
+> I think you are misinterpreting the man-page.  In "Architecture
+> calling conventions" it documents the calling convention into the
+> kernel.  syscall(2) itself is an ordinary function which has to
+> follow the userspace ABI; after jumping into the kernel and setting
+> 'errno' in error case, it restores registers as needed.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/pseudo/files/renameat2.patch | 63 ++++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb         |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/renameat2.patch
+I don't think this is what it's talking about.
 
-diff --git a/meta/recipes-devtools/pseudo/files/renameat2.patch b/meta/recipes-devtools/pseudo/files/renameat2.patch
-new file mode 100644
-index 00000000000..467b0b3e79f
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/renameat2.patch
-@@ -0,0 +1,63 @@
-+commit 3a4c536817dce4d0cbaa8f4efe30e722108357dd
-+Author: Ross Burton <ross.burton@intel.com>
-+Date:   Tue Mar 27 14:02:10 2018 +0100
-+
-+    HACK syscall
-+
-+diff --git a/ports/linux/guts/syscall.c b/ports/linux/guts/syscall.c
-+new file mode 100644
-+index 0000000..4ed38ed
-+--- /dev/null
-++++ b/ports/linux/guts/syscall.c
-+@@ -0,0 +1,30 @@
-++/*
-++ * Copyright (c) 2018 Wind River Systems; see
-++ * guts/COPYRIGHT for information.
-++ *
-++ * long syscall(long number, ...)
-++ *	long rc = -1;
-++ */
-++	typedef long syscall_arg_t;
-++	syscall_arg_t a,b,c,d,e,f;
-++
-++	//va_start (ap, number);
-++	a = va_arg (ap, syscall_arg_t);
-++	b = va_arg (ap, syscall_arg_t);
-++	c = va_arg (ap, syscall_arg_t);
-++	d = va_arg (ap, syscall_arg_t);
-++	e = va_arg (ap, syscall_arg_t);
-++	f = va_arg (ap, syscall_arg_t);
-++	va_end (ap);
-++
-++	if ((number == SYS_renameat2)) {
-++			errno = ENOTSUP;
-++			rc = -1;
-++	}
-++	else {
-++			rc = real_syscall (number, a, b, c, d, e, f);
-++	}
-++
-++/*	return rc;
-++ * }
-++ */
-+diff --git a/ports/linux/wrapfuncs.in b/ports/linux/wrapfuncs.in
-+index fca5b50..137612c 100644
-+--- a/ports/linux/wrapfuncs.in
-++++ b/ports/linux/wrapfuncs.in
-+@@ -54,3 +54,4 @@ int getpw(uid_t uid, char *buf);
-+ int getpwent_r(struct passwd *pwbuf, char *buf, size_t buflen, struct passwd **pwbufp);
-+ int getgrent_r(struct group *gbuf, char *buf, size_t buflen, struct group **gbufp);
-+ int capset(cap_user_header_t hdrp, const cap_user_data_t datap); /* real_func=pseudo_capset */
-++long syscall(long number, ...);
-+diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
-+index e05f73a..b7225d7 100644
-+--- a/pseudo_wrappers.c
-++++ b/pseudo_wrappers.c
-+@@ -36,6 +36,7 @@
-+ #include <sys/time.h>
-+ #include <sys/wait.h>
-+ #include <dlfcn.h>
-++#include <sys/syscall.h>
-+ 
-+ /* include this to get PSEUDO_PORT_* definitions */
-+ #include "pseudo.h"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 66da1cc53b8..44343c3bc57 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,6 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://fallback-group \
-            file://moreretries.patch \
-            file://toomanyfiles.patch \
-+           file://renameat2.patch \
-            "
- 
- SRCREV = "d7c31a25e4b02af0c64e6be0b4b0a9ac4ffc9da2"
--- 
-2.11.0
+> Some ABIs allow functions to clobber registers (they are not restored
+> after leaving the function and do not carry a return value); e.g. on
+> ARM, these are r0-r3 and r12.  That's probably the case for r10 in
+> ia64 too.
 
+Maybe you missed the previous message where I pointed out that this
+behavior is, at least on MIPS, an explicit step taken by glibc's
+syscall implementation (and many other system calls).
+
+So, no matter what the kernel's internal syscall behavior does, *after*
+the syscall has returned, glibc is checking whether a syscall returned
+-1, and setting a register based on that. This isn't a generic clobber;
+this is an explicitly specified value that the register shall have
+after the completion of the call, which glibc is implementing in code.
+
+And we don't actually know why, because as Andre has pointed out, if
+you don't do that, nothing obvious breaks in the test cases we've
+tried. (Admittedly, I don't think we've tried on any of the
+architectures where such a convention exists.)
+
+-s
 
