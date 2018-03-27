@@ -1,23 +1,50 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D649784CC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BF581784DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 08:50:35 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2018 01:50:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,366,1517904000"; d="scan'208";a="27868957"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by fmsmga008.fm.intel.com with ESMTP; 27 Mar 2018 01:50:35 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Mar 2018 18:37:00 -0700
-Message-Id: <1522114620-28569-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oe-selftest: crosstap: add tests for crosstap script
+	Tue, 27 Mar 2018 09:04:13 +0000 (UTC)
+Received: by mail-ot0-f174.google.com with SMTP id v23-v6so23704800oth.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 02:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=1qSyTHqJFTL+tl9milmIZ6fUR7VTkVYH6t6CKjZsdp4=;
+	b=a6gVMo3538oqIlQ8QkvYja3uKsFLnnTwu3St4zyWbIyB41U3iZ8zYpIikWov6yGLwO
+	9P43iBZ/+kNs9Mgof8gAdV9zaGnBSEt55a1aAhx3vcHo3A2sUbRty6C9oNQpGkpzz23g
+	xNOZNxxARuhEFuyJ5Q9CbZHP8ztMQmn42p/vDdS7Cs6yPamiFj4iGUn9C5OH+CA6Mi8+
+	DoDzyzXUxgtrcZkRaudzqZnMQRRstWRQWysGiY0B0+UD40hXkM5X3nSxm/m5pbWkorfP
+	PaaPKI+GviJsBE/yL6Xy4dllakO33EM5G7PpNbMcIqvEAFnkdEEEfGMlGDeZxsKHSZ+K
+	/jMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=1qSyTHqJFTL+tl9milmIZ6fUR7VTkVYH6t6CKjZsdp4=;
+	b=l1bEAd20MJttf15hM4y5ZjEbEIJLF54KIn8N1So9o5GYpzduMPdk3k7qUDpd+wZ07g
+	+oCRpCkG6baTYw6xexM9v9S3Etw9/5tciBq9LW69GQS/0O5oSxiWEGGTvcDd2ZkKLqJB
+	GRP3P16sxW3t+NpU1G2BYuAlNsWKcV1x2GtO7nypTI6EoD0/MJgQg23GVV2eKhb3BaNc
+	eqgTiMCBEd3TddX+BHJEhEYpO+o21VCyGkBToEz+MSibLg3fKsRyjsLJz99Y8hJSsPZY
+	4rg/XnDCzNJn+DKq8oLIzBgi2zNVPpCYF2LMvGzI0gXw/Cd/tpA0Gfg8Ukkdh0Ry2R5F
+	INVw==
+X-Gm-Message-State: AElRT7FLBSp7bubMnH0X53yoa/+k3Kxaxlvda/MdaRpGhH9vvS9bDGK6
+	8MsWUllAV5xyNd4iBqIIgTppuYbITHnNO8JRb2uwpA==
+X-Google-Smtp-Source: AG47ELttIKRobUUruXywBmA5djNP2ub8rKFcBgrPg8LBIDt/gfNQx2NGOdtTlamPny5O5sXDkB+usGjlE8kM/Srb6RA=
+X-Received: by 2002:a9d:281b:: with SMTP id
+	m27-v6mr20540784otb.89.1522141454717; 
+	Tue, 27 Mar 2018 02:04:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.138.17.198 with HTTP; Tue, 27 Mar 2018 02:03:54 -0700 (PDT)
+In-Reply-To: <CAEhQi8kBYvjB05pny3QWkbdd6c1=OAQhrTwCP15-nNsmhZOxyw@mail.gmail.com>
+References: <CAEhQi8kBYvjB05pny3QWkbdd6c1=OAQhrTwCP15-nNsmhZOxyw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 27 Mar 2018 10:03:54 +0100
+Message-ID: <CAJTo0Lb8jwMcuEwSwSpMQ_Sy-ry6f9DLmZyBeU6w-EB-it04BA@mail.gmail.com>
+To: =?UTF-8?B?TcOlbnMgWmlnaGVy?= <mans.zigher@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Question about how to get package included in SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,68 +57,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 08:50:36 -0000
+X-List-Received-Date: Tue, 27 Mar 2018 09:04:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-QA team were testing crosstap script manually. Add automated
-tests and systemtap file to test that crosstap script will
-instructs SystemTap to print hello world in qemu. This test
-will first built core-image-minimal image with tools-profile
-& ssh-server-openssh features and build systemtap-native on
-the host machine. Finally this test will boot the image with qemu
-and then execute crosstap script to print hello world on qemu.
+The main problem is that protoc isn't in the protobuf packages, but
+protobuf-compiler (as can be seen with oe-pkgdata-util list-pkg-files
+-p protobuf).
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/files/trace_begin_hello.stp |  5 +++++
- meta/lib/oeqa/selftest/cases/crosstap.py  | 25 +++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/lib/oeqa/files/trace_begin_hello.stp
- create mode 100644 meta/lib/oeqa/selftest/cases/crosstap.py
+Add nativesdk-protobuf-compiler to TOOLCHAIN_HOST_TASK.  You'll also
+want to use _append instead of +=3D so you don't remove more than you
+add.
 
-diff --git a/meta/lib/oeqa/files/trace_begin_hello.stp b/meta/lib/oeqa/files/trace_begin_hello.stp
-new file mode 100644
-index 0000000..5ad5f15
---- /dev/null
-+++ b/meta/lib/oeqa/files/trace_begin_hello.stp
-@@ -0,0 +1,5 @@
-+probe begin
-+{
-+  printf ("hello world\n")
-+  exit ()
-+}
-\ No newline at end of file
-diff --git a/meta/lib/oeqa/selftest/cases/crosstap.py b/meta/lib/oeqa/selftest/cases/crosstap.py
-new file mode 100644
-index 0000000..57523cb
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/crosstap.py
-@@ -0,0 +1,25 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_vars, runCmd, runqemu
-+import os
-+
-+class CrossTapTest(OESelftestTestCase):
-+
-+    def test_crosstap_can_use_systemtap_on_qemu(self):
-+        self.write_config('EXTRA_IMAGE_FEATURES += "tools-profile ssh-server-openssh"')
-+        result = bitbake('core-image-minimal')
-+        self.assertEqual(result.status, 0, msg="Bitbake core-image-minimal failed. Bitbake output: %s" % result.output)
-+        result = bitbake('systemtap-native')
-+        self.assertEqual(result.status, 0, msg="Bitbake systemtap-native failed. Bitbake output: %s" % result.output)
-+
-+        recipe = 'core-image-minimal'
-+        bb_vars = get_bb_vars(['MACHINE', 'DEPLOY_DIR_IMAGE'])
-+        machine =  bb_vars['MACHINE']
-+        deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
-+        qemuboot_conf = "%s-%s.qemuboot.conf" % (recipe, machine)
-+        qemuboot_conf = os.path.join(deploy_dir_image, qemuboot_conf)
-+        cmd_common = "runqemu nographic"
-+        cmd = "%s %s" % (cmd_common, qemuboot_conf)
-+        with runqemu(recipe, ssh=True, launch_cmd=cmd) as qemu:
-+            systap_file = os.path.join(self.tc.files_dir, 'trace_begin_hello.stp')
-+            result = runCmd("crosstap root@%s %s" % (qemu.ip, systap_file))
-+        self.assertTrue('hello world' in result.output, 'Crosstap failed.')
--- 
-2.7.4
+Ross
 
+On 27 March 2018 at 09:25, M=C3=A5ns Zigher <mans.zigher@gmail.com> wrote:
+> Hi,
+>
+> I have package that require protobuf and the compiler protoc. I have
+> included the following
+>
+> DEPENDS +=3D " protobuf protobuf-native"
+>
+> and
+>
+> RDEPENDS_${PN} +=3D " protobuf"
+>
+> The build works as intended the problem now is that the protoc is not
+> included in the SDK. In the Yocto ref manual I found the following
+> description for TOOLCHAIN_HOST_TASK
+>
+> "This variable lists packages the OpenEmbedded build system uses when
+> building an SDK, which contains a cross-development environment. The
+> packages specified by this variable are part of the toolchain set that ru=
+ns
+> on the SDKMACHINE, and each package should usually have the prefix
+> nativesdk-."
+>
+> So I have also in by image bb-file included the following
+>
+> TOOLCHAIN_HOST_TASK +=3D " nativesdk-protobuf"
+>
+> The build passed without any errors but the protoc is still not included =
+in
+> the native sdk. It  is form some reason included in the target part. I wo=
+uld
+> really appreciate if you could en-light me on this topic on how to includ=
+e a
+> package in the sdk.
+>
+> BR
+> Mans Zigher
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
