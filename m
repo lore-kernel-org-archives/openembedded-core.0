@@ -1,65 +1,23 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 65A0571C70
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39BE071A82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:42:22 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2REgNlk017739
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 16:42:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1522161743;
-	bh=7+3nnVva1jT2f+p+cgzNFj9acUyXi1bMz7Dghowbm5Y=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=j6DVa6m67pft8g5na901/AXPVwO0MQOnIn+1+t+Et+bFHLENjqgCeS1IsZ2IvUpte
-	e4v5ffI7pe/gITiNu79WDqPjixSVgPK/oAvfJuSbHIr9OLw+Zlk3g7fS9njf2cmP83
-	PacscvpSzsQyBlx0LDGW/leAFQq87BL4fT3rQ/HQ=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2REgHNI030232 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 27 Mar 2018 16:42:17 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 777EE611674;
-	Tue, 27 Mar 2018 16:32:43 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2REg3Eq030224
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Tue, 27 Mar 2018 16:42:03 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1f0pnX-0006cb-Dc; Tue, 27 Mar 2018 16:42:03 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Seebs <seebs@seebs.net>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-Date: Tue, 27 Mar 2018 16:42:03 +0200
-In-Reply-To: <20180323112820.12bc94a4@seebsdell> (seebs@seebs.net's message of
-	"Fri, 23 Mar 2018 11:28:20 -0500")
-Message-ID: <lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+	Tue, 27 Mar 2018 15:03:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2RF3KgQ016092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Mar 2018 08:03:20 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 27 Mar 2018 08:03:20 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 27 Mar 2018 11:03:12 -0400
+Message-ID: <cover.1522162765.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.74
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.83
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,38 +30,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 14:42:26 -0000
+X-List-Received-Date: Tue, 27 Mar 2018 15:03:21 -0000
 Content-Type: text/plain
 
-Seebs <seebs@seebs.net> writes:
+Hi all,
 
-> And so far as I know, it's not actually *possible* to in the general
-> case. I really don't think it's safe to try to catch syscall().
+This pull request is a series of -stable updates (more Spectre/meltdown
+included), and some fixes for the fsl_mpc h/w reference board that will
+allow us to update the reference to v4.14+.
 
-I think, something like
+We also have a configuration tweak to the wifi fragments, which will
+result in more reuse, but won't impact the default configurations.
 
-----
-static void (*orig_syscall)();
-long syscall(long number, ...)
-{
-        switch (number) {
-        case __NR_renameat2: return _renameat2_syscall(.......);
-        }
-        
- 	void	*res =__builtin_apply(orig_syscall, __builtin_apply_args(),
-				      sizeof(uintmax_t) * 7);
+Note: I haven't included the re-written kernel-devsrc changes, since
+I've never been able to reproduce the multilib issue with the ssl
+dependency. The devsrc changes will have to be looked at after the
+release.
 
-	__builtin_return(res);
-}
-----
+Cheers,
 
-will work to wrap syscall(2).  Params for _renameat2_syscall() can be
-extracted by va_args.
+Bruce
 
+The following changes since commit 80c7ca2c28959d08a59d960d318d8360392bd488:
 
-Code generated above is very ineffective; perhaps you can create
-specialized assembly instructions which just jump into orig_syscall.
+  kernel-dev: Clean up of "bsp_name" placeholder. (2018-03-25 09:41:13 +0100)
 
+are available in the git repository at:
 
-Enrico
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/4.12: update to v4.12.21
+  mpc8315e-rdb: fix broken ethernet
+  linux-yocto/4.12: add ssl and utils native dependencies
+  linux-yocto/meta: improve wifi driver granularity
+  linux-yocto/4.12: intel-socfpga, intel-pmc-core and ish support for
+    CoffeeLake board
+  linux-yocto/4.14: update to v4.14.30
+  linux-yocto/4.15: update to v4.15.13
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 22 ++++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 20 ++++++++++----------
+ 9 files changed, 50 insertions(+), 48 deletions(-)
+
+-- 
+2.5.0
+
 
