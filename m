@@ -1,24 +1,32 @@
 Return-Path: <seebs@seebs.net>
 Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id DCAD4785A3
+	by mail.openembedded.org (Postfix) with ESMTP id D3C39785A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 16:40:17 +0000 (UTC)
+	Tue, 27 Mar 2018 16:46:46 +0000 (UTC)
 Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id D7BD02E892B;
-	Tue, 27 Mar 2018 11:40:18 -0500 (CDT)
-Date: Tue, 27 Mar 2018 11:40:14 -0500
+	by mail.seebs.net (Postfix) with ESMTPSA id 1A74D2E892B;
+	Tue, 27 Mar 2018 11:46:48 -0500 (CDT)
+Date: Tue, 27 Mar 2018 11:46:46 -0500
 From: Seebs <seebs@seebs.net>
 To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Message-ID: <20180327114014.0f0cc48a@seebsdell>
-In-Reply-To: <lymuyto4rv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Message-ID: <20180327114646.3e7fe6c5@seebsdell>
+In-Reply-To: <lyr2o5o57m.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-	<lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180327105539.224458a8@seebsdell>
-	<lymuyto4rv.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20180324142427.53da953d@seebsdell>
+	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
+	<20180324145044.168f7e3f@seebsdell>
+	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
+	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
+	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
+	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
+	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
+	<20180326143107.48f153a5@seebsdell>
+	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+	<ly370lpt0f.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20180327105028.188e6bdc@seebsdell>
+	<lyr2o5o57m.fsf@ensc-virt.intern.sigma-chemnitz.de>
 X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
@@ -35,44 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 16:40:18 -0000
+X-List-Received-Date: Tue, 27 Mar 2018 16:46:46 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 27 Mar 2018 18:35:32 +0200
+On Tue, 27 Mar 2018 18:26:05 +0200
 Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
 
-> Does this really matter here?  Because the caller has to set them
-> accordingly the ABI, you can extract the arguments by
-> 
-> 	int olddirfd        = va_arg(ap, int);
-> 	char const *oldpath = va_arg(ap, char consr *);
-> 	int newdirfd        = va_arg(ap, int);
-> 	char const *newpath = va_arg(ap, char consr *);
->         unsigned int flags  = va_arg(ap, unsigned int);
-> 
-> There are no 64 bit arguments (on 32 bit platforms) which might
-> require a special treatment as described in [1]
-> "Architecture-specific requirements".
+> Perhaps we have different man pages but e.g. [1] mentions only
+> registers in the context of the kernel interface but not when
+> entering/leaving syscall(2) itself.
 
-Okay, ignore the pointer case, and pretend it's the 64-bit value case,
-since we have specific-ish documentation for that.
+And yet, it's syscall(2) doing the thing... or possibly it's not,
+because it turns out I don't read IA64 assembly.
 
-Look at the example for SYS_readahead, stating that the caller must
-pass an extra value.
+> When, then this is completely undocumented and a glibc-only thing.
+> Other implementations[2] follow the behavior described in the man page
+> and do not set some magic registers on return.
 
-At that point, if you have a series of va_arg calls corresponding to
-the values that would have been arguments had they not passed the extra
-value, I don't think you get the expected arguments. So far as I can
-tell, if the caller actually wrote
-	varargsfunc(SYS_readahead, 0, uint64_t_value, ...)
-and the function did
-	va_arg(ap, uint64_t);
-they would not get the value passed as the third argument, because the
-calls to va_arg don't match the arguments passed.
+> I did not found the glibc syscall implementation for MIPS atm.
 
-If you could just ignore this, the SYS_readahead example wouldn't have
-to exist; you could just follow the ABI and provide a 64-bit value.
+Hmm. In MIPS, it does appear that glibc's syscall is *using* the return
+register, rather than writing to it.
+
+Yeah, I misread the IA64 code.
+
+I'm gonna go ahead and try to implement a wrapper. Until I've got test
+cases available, it's gonna be a custom wrapper, that will ENOTSUP for
+renameat2, and try to pass other things on naively.
+
+But I think Andre and Enrico are right that the code in glibc is not
+doing what I interpreted it as doing.
 
 -s
 
