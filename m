@@ -1,37 +1,49 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4BE62133
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A5E7460102
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 21:10:10 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 1A26D2E8928;
-	Tue, 27 Mar 2018 16:10:12 -0500 (CDT)
-Date: Tue, 27 Mar 2018 16:10:10 -0500
-From: Seebs <seebs@seebs.net>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20180327161010.3e20edac@seebsdell>
-In-Reply-To: <CAJ86T=VdHEb4cyB=oSTHytyGc9B0+wN39qOSHWuVR0g6dFTLUg@mail.gmail.com>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
-	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
-	<20180326143107.48f153a5@seebsdell>
-	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-	<20180326160746.1dce7ae9@seebsdell>
-	<CAJ86T=VaJyJYbBTkjR1yUTSJPCFSjgZCZZkYbyGEaTWYCg+u7A@mail.gmail.com>
-	<20180326203209.2da967eb@seebsdell>
-	<CAJ86T=VqLZrmyLBYD4ovQc9eNJQx5Rqp8YK+=3hPHgmjqqa55w@mail.gmail.com>
-	<20180326210734.165ac038@seebsdell>
-	<CAJ86T=X8bq6MKdvnq7sPFzjKN3ZgEJL70xHGCgSNBuC7ppi51w@mail.gmail.com>
-	<20180326234108.4b52c066@seebsdell>
-	<CAJ86T=VtdUAahO+PE2w8BzuPHAJCM1PEyWaYwg4SSGHU6jtm=A@mail.gmail.com>
-	<20180327142230.15f1abf9@seebsdell>
-	<CAJ86T=V=b2jsSuVEicQbbgrax+8iV7HV0B=cKWDaejLq-Dh2eQ@mail.gmail.com>
-	<20180327152026.335b4c2d@seebsdell>
-	<CAJ86T=VdHEb4cyB=oSTHytyGc9B0+wN39qOSHWuVR0g6dFTLUg@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Tue, 27 Mar 2018 22:08:11 +0000 (UTC)
+Received: by mail-ot0-f178.google.com with SMTP id 23-v6so518404otj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 15:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=oewLOy/PEkUfiLSyc0xjTfBrR3Z3+gvCp4hMvfTdDmU=;
+	b=XzuGWcwKTVdv8w2iyN+Z3SDFoOp7qC4uD7koKUzpIqXuikmX63uRf9eRxRggVAFD88
+	Czsk7qTCwYVDhP09RFXmg4P9eLtzIK+XSyrz8KPvCmFmKwEHIkh6q7d7XcfAJGFLb9qT
+	klTrEt5Vzo7s1lUQHZl6c+xJGhPMYQ75KubCq/PEA+Kv2PuEOI0rUdVA7IKIvswOaj+r
+	Li6PY0TvzRhJxvidL/3WV2J+4W7tVgUX0+121Rx+1oCBeswuJ3WlqGuWobrXPueNx+bp
+	Ed1/0qzpPS95UoLODWOXy3cTHvy7VmeO1Um3ETuMb02XilPaXEed3gstxW5iTBZvoyeS
+	WuzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=oewLOy/PEkUfiLSyc0xjTfBrR3Z3+gvCp4hMvfTdDmU=;
+	b=B9yVVxwmitJJje1NvEmudj0N/P2t0HHiljjJdXeLBYDmPpLKs0uKvjo/euIiHeds0U
+	1XWJ6n7ffR7MUsx6uDlrqxehE3pOW3o653yvHzMXuMqAKTC+nqEpF7wT73ny27Ax+CbI
+	4cAfvhMtK9YfhUjKhngFdXsZNE0jzCyDdPyMaJoT4s0AxvLUx+m7WUG4/0t5Hi1NBwwI
+	iPHuhcx9t1f5M7FGfDznw1MSHzx5kfXCzUnY/wpua4MrMH8uM7wXD3zCTLg6gQKcYlLn
+	bS0hAfyOcvCBg5E8233NcH8UXP5dDI+Jp/39w/hTHsx0qVcGbMu+Z+qmPvJq/03CUzPg
+	h7eg==
+X-Gm-Message-State: AElRT7Fc5VT5I4F+W4MgDFwhVxb9BGnfXD2/vET3e7ZfIuYZ5i1hlX7x
+	dfw3Ocz0jLrRbZSBF06LWP9qpcegcVsT7nKRIsGe+Q==
+X-Google-Smtp-Source: AIpwx4/lWZRizCfvLS2hZWYOMBPc3JY6424nXs0Eb52zkA7eIbc3M6/AsOrpKhBssqJjzpFxKaexWukhd7RoXgOIJIY=
+X-Received: by 2002:a9d:70c1:: with SMTP id w1-v6mr758263otj.300.1522188492609;
+	Tue, 27 Mar 2018 15:08:12 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.138.17.198 with HTTP; Tue, 27 Mar 2018 15:07:52 -0700 (PDT)
+In-Reply-To: <37126f1c8d7556686f55019a52265f0e1c85e2ff.1522162765.git.bruce.ashfield@windriver.com>
+References: <cover.1522162765.git.bruce.ashfield@windriver.com>
+	<37126f1c8d7556686f55019a52265f0e1c85e2ff.1522162765.git.bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 27 Mar 2018 23:07:52 +0100
+Message-ID: <CAJTo0LYj9jF-oz9mDRXziiLC6xnS-A_q=EtG-T2aoVZ4H4pAkg@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+Subject: Re: [PATCH 6/7] linux-yocto/4.14: update to v4.14.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +56,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 21:10:11 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2018 22:08:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 27 Mar 2018 13:52:28 -0700
-Andre McCurdy <armccurdy@gmail.com> wrote:
+Sorry but this is failing for poky-tiny:
 
-> On Tue, Mar 27, 2018 at 1:20 PM, Seebs <seebs@seebs.net> wrote:
-> > My concern is that, strictly speaking, this is nearly all undefined
-> > behavior, and that reading more arguments than you were passed
-> > *does* explode on some C implementations.
+ERROR: linux-yocto-tiny-4.14.30+gitAUTOINC+f8232ce8e9_40adf66d7c-r0
+do_fetch: Fetcher failure: Unable to find revision
+40adf66d7c45b8252a1d3f904b5027a495e41725 in branch
+v4.14/standard/tiny/common-pc even from upstream
+ERROR: linux-yocto-tiny-4.14.30+gitAUTOINC+f8232ce8e9_40adf66d7c-r0
+do_fetch: Fetcher failure for URL:
+'git://git.yoctoproject.org/linux-yocto.git;branch=v4.14/standard/tiny/common-pc;name=machine'.
+Unable to fetch URL from any source.
 
-> Can you give some examples?
-
-Not specific ones off the top of my head, no.
-
-> For every architecture I'm aware of that supports Linux, reading more
-> arguments is going to mean reading more data out of the stack. It's
-> not going "explode" until you read far enough to reach beyond the
-> start of the stack. What other failure modes are there?
-
-There are weird calling conventions out there. For instance, "pass
-floating point values in registers, but integers on stack", or "pass
-first N arguments in registers", and so on. I don't know if any of them
-are active in stuff Linux supports, but I'm aware that this is an area
-where you can get really strange behaviors.
-
-It's undefined behavior for a reason.
-
-> ALL of the implementations of libc syscall() I've looked at in both
-> glibc and musl do BOTH of these things - either explicitly in C code
-> or effectively the same thing in assembler.
-
-Yes.
- 
-> By trying to avoid them in a wrapper, you are holding yourself to a
-> higher standard than any of the underlying syscall() implementations.
-
-Well, yes. They're part of the implementation and can make assumptions
-about architecture because they're in a position to define
-architecture. I'm not part of the implementation, and I don't want to
-take on the workload of trying to track every possible architecture if
-there's any possible way I can avoid it.
-
--s
+Ross
 
