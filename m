@@ -1,61 +1,78 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BD8A60103
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A3C3784EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 12:28:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 71B3B1844E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:16 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id yek9QKakjXtM
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8540518450
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6FC3C1A06F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 648A41A069
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 58F752135
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Tue, 27 Mar 2018 14:28:15 +0200
-Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
-	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
-	15.00.1263.000; Tue, 27 Mar 2018 14:28:15 +0200
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: Ola x Nilsson <olani@axis.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] package.bbclass: Include dbgsrc for static libs
-Thread-Index: AQHTrHpuc2rXV5ew8EOm6HHQDOrcnKPkNQuH
-Date: Tue, 27 Mar 2018 12:28:15 +0000
-Message-ID: <1522153694838.99691@axis.com>
-References: <20180223074618.24928-1-olani@axis.com>
-In-Reply-To: <20180223074618.24928-1-olani@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 27 Mar 2018 13:06:57 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2RD6vmG008593
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 15:06:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1522156017;
+	bh=L6QWh/li3vRDVk+NL9h1mdie3LrQK1xFOC8B+kF1y1s=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=nKYEk9HhUjOsen2gOLMu0vjg+BUOv6+RLCMghq+hEoOiW8fp9he6dEDcU9Jd2VkqW
+	cx9Xpw4AwvOxAODfCBDqxZWf87zRC47PXlXhXVCkFxaD9mhcMQhjhe/wG3XNy9S82x
+	CCItdtKeR0LQMtEbUMRkhVM5IX20KgbIzfUNDKi0=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2RD6oO9028304 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 27 Mar 2018 15:06:51 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 18E6D3CC131;
+	Tue, 27 Mar 2018 14:57:20 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2RD6fOx028291
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Tue, 27 Mar 2018 15:06:41 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1f0oJE-0001N1-Se; Tue, 27 Mar 2018 15:06:40 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org, Seebs <seebs@seebs.net>
+References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LbahOFYjBjonmfn5on78fFinG1Vk7R4kKtKX2mpmriEMA@mail.gmail.com>
+	<20180324122357.668e6afc@seebsdell>
+	<CAJ86T=Xcee6ivhoSc0adMR2q95ozsMXwSYL41mK7O5PN4CsWqw@mail.gmail.com>
+	<20180324132246.28c2f8cd@seebsdell>
+	<CAJ86T=VA6bR8v5+g6Y5e5HWQjU5r=E503gNdHCaco4PioPdW=Q@mail.gmail.com>
+	<20180324142427.53da953d@seebsdell>
+	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
+	<20180324145044.168f7e3f@seebsdell>
+	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
+	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
+	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
+	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
+	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
+	<20180326143107.48f153a5@seebsdell>
+	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 27 Mar 2018 15:06:40 +0200
+In-Reply-To: <CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+	(Andre McCurdy's message of "Mon, 26 Mar 2018 13:12:44 -0700")
+Message-ID: <ly370lpt0f.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] package.bbclass: Include dbgsrc for static libs
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.75
+X-Spam-Score: -4.6
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.83
+Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,147 +85,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 12:28:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Mar 2018 13:06:59 -0000
+Content-Type: text/plain
 
-ping?=0A=
-=0A=
--- =0A=
-Ola Nilsson=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> on behalf of Ola x Nilsson <olani@axis.com>=
-=0A=
-Sent: Friday, February 23, 2018 08:46=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH] package.bbclass: Include dbgsrc for static libs=
-=0A=
-=0A=
-The debugsource must be added from the package providing the static=0A=
-lib, because any package using that lib does not have access to the=0A=
-source code.=0A=
-=0A=
-Fixes [YOCTO #12558]=0A=
-=0A=
-Signed-off-by: Ola x Nilsson <olani@axis.com>=0A=
----=0A=
- meta/classes/package.bbclass | 42 ++++++++++++++++++++++++++++++----------=
---=0A=
- 1 file changed, 30 insertions(+), 12 deletions(-)=0A=
-=0A=
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass=0A=
-index e7e93a067a..ec6fca87b5 100644=0A=
---- a/meta/classes/package.bbclass=0A=
-+++ b/meta/classes/package.bbclass=0A=
-@@ -344,6 +344,20 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarf=
-srcfiles_output):=0A=
-=0A=
-     return debugfiles.keys()=0A=
-=0A=
-+def append_source_info(file, sourcefile, d):=0A=
-+    cmd =3D "'dwarfsrcfiles' '%s'" % (file)=0A=
-+    (retval, output) =3D oe.utils.getstatusoutput(cmd)=0A=
-+    # 255 means a specific file wasn't fully parsed to get the debug file =
-list, which is not a fatal failure=0A=
-+    if retval !=3D 0 and retval !=3D 255:=0A=
-+        bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" %=
- (retval, cmd, ":\n%s" % output if output else ""))=0A=
-+=0A=
-+    debugsources =3D parse_debugsources_from_dwarfsrcfiles_output(output)=
-=0A=
-+    # filenames are null-separated - this is an artefact of the previous u=
-se=0A=
-+    # of rpm's debugedit, which was writing them out that way, and the cod=
-e elsewhere=0A=
-+    # is still assuming that.=0A=
-+    debuglistoutput =3D '\0'.join(debugsources) + '\0'=0A=
-+    open(sourcefile, 'a').write(debuglistoutput)=0A=
-+=0A=
-=0A=
- def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):=0A=
-     # Function to split a single file into two components, one is the stri=
-pped=0A=
-@@ -369,18 +383,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourc=
-efile, d):=0A=
-=0A=
-     # We need to extract the debug src information here...=0A=
-     if debugsrcdir:=0A=
--        cmd =3D "'dwarfsrcfiles' '%s'" % (file)=0A=
--        (retval, output) =3D oe.utils.getstatusoutput(cmd)=0A=
--        # 255 means a specific file wasn't fully parsed to get the debug f=
-ile list, which is not a fatal failure=0A=
--        if retval !=3D 0 and retval !=3D 255:=0A=
--            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%=
-s" % (retval, cmd, ":\n%s" % output if output else ""))=0A=
--=0A=
--        debugsources =3D parse_debugsources_from_dwarfsrcfiles_output(outp=
-ut)=0A=
--        # filenames are null-separated - this is an artefact of the previo=
-us use=0A=
--        # of rpm's debugedit, which was writing them out that way, and the=
- code elsewhere=0A=
--        # is still assuming that.=0A=
--        debuglistoutput =3D '\0'.join(debugsources) + '\0'=0A=
--        open(sourcefile, 'a').write(debuglistoutput)=0A=
-+        append_source_info(file, sourcefile, d)=0A=
-=0A=
-     bb.utils.mkdirhier(os.path.dirname(debugfile))=0A=
-=0A=
-@@ -936,6 +939,13 @@ python split_and_strip_files () {=0A=
-                 type |=3D 8=0A=
-         return type=0A=
-=0A=
-+    def isStaticLib(path):=0A=
-+        if file.endswith('.a'):=0A=
-+            with open(path, 'rb') as fh:=0A=
-+                magic =3D b'!<arch>\n'=0A=
-+                start =3D fh.read(len(magic))=0A=
-+                return start =3D=3D magic=0A=
-+        return False=0A=
-=0A=
-     #=0A=
-     # First lets figure out all of the files we may have to process ... do=
- this only once!=0A=
-@@ -943,6 +953,7 @@ python split_and_strip_files () {=0A=
-     elffiles =3D {}=0A=
-     symlinks =3D {}=0A=
-     kernmods =3D []=0A=
-+    staticlibs =3D []=0A=
-     inodes =3D {}=0A=
-     libdir =3D os.path.abspath(dvar + os.sep + d.getVar("libdir"))=0A=
-     baselibdir =3D os.path.abspath(dvar + os.sep + d.getVar("base_libdir")=
-)=0A=
-@@ -955,6 +966,9 @@ python split_and_strip_files () {=0A=
-                 if file.endswith(".ko") and file.find("/lib/modules/") !=
-=3D -1:=0A=
-                     kernmods.append(file)=0A=
-                     continue=0A=
-+                if isStaticLib(file):=0A=
-+                    staticlibs.append(file)=0A=
-+                    continue=0A=
-=0A=
-                 # Skip debug files=0A=
-                 if debugappend and file.endswith(debugappend):=0A=
-@@ -1033,6 +1047,10 @@ python split_and_strip_files () {=0A=
-             # Only store off the hard link reference if we successfully sp=
-lit!=0A=
-             splitdebuginfo(file, fpath, debugsrcdir, sourcefile, d)=0A=
-=0A=
-+        if debugsrcdir:=0A=
-+            for file in staticlibs:=0A=
-+                append_source_info(file, sourcefile, d)=0A=
-+=0A=
-         # Hardlink our debug symbols to the other hardlink copies=0A=
-         for ref in inodes:=0A=
-             if len(inodes[ref]) =3D=3D 1:=0A=
---=0A=
-2.11.0=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+Andre McCurdy <armccurdy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
+
+>> Since the man page gave the ia64 example, I went and checked, and it
+>> is indeed the case that calls other than syscall(2) will clobber r10
+>> after system calls,
+
+I think you are misinterpreting the man-page.  In "Architecture
+calling conventions" it documents the calling convention into the
+kernel.  syscall(2) itself is an ordinary function which has to
+follow the userspace ABI; after jumping into the kernel and setting
+'errno' in error case, it restores registers as needed.
+
+Some ABIs allow functions to clobber registers (they are not restored
+after leaving the function and do not carry a return value); e.g. on
+ARM, these are r0-r3 and r12.  That's probably the case for r10 in ia64
+too.
+
+
+
+Enrico
 
