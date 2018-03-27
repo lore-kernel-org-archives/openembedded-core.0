@@ -1,50 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BF581784DF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 09:04:13 +0000 (UTC)
-Received: by mail-ot0-f174.google.com with SMTP id v23-v6so23704800oth.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 02:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=1qSyTHqJFTL+tl9milmIZ6fUR7VTkVYH6t6CKjZsdp4=;
-	b=a6gVMo3538oqIlQ8QkvYja3uKsFLnnTwu3St4zyWbIyB41U3iZ8zYpIikWov6yGLwO
-	9P43iBZ/+kNs9Mgof8gAdV9zaGnBSEt55a1aAhx3vcHo3A2sUbRty6C9oNQpGkpzz23g
-	xNOZNxxARuhEFuyJ5Q9CbZHP8ztMQmn42p/vDdS7Cs6yPamiFj4iGUn9C5OH+CA6Mi8+
-	DoDzyzXUxgtrcZkRaudzqZnMQRRstWRQWysGiY0B0+UD40hXkM5X3nSxm/m5pbWkorfP
-	PaaPKI+GviJsBE/yL6Xy4dllakO33EM5G7PpNbMcIqvEAFnkdEEEfGMlGDeZxsKHSZ+K
-	/jMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=1qSyTHqJFTL+tl9milmIZ6fUR7VTkVYH6t6CKjZsdp4=;
-	b=l1bEAd20MJttf15hM4y5ZjEbEIJLF54KIn8N1So9o5GYpzduMPdk3k7qUDpd+wZ07g
-	+oCRpCkG6baTYw6xexM9v9S3Etw9/5tciBq9LW69GQS/0O5oSxiWEGGTvcDd2ZkKLqJB
-	GRP3P16sxW3t+NpU1G2BYuAlNsWKcV1x2GtO7nypTI6EoD0/MJgQg23GVV2eKhb3BaNc
-	eqgTiMCBEd3TddX+BHJEhEYpO+o21VCyGkBToEz+MSibLg3fKsRyjsLJz99Y8hJSsPZY
-	4rg/XnDCzNJn+DKq8oLIzBgi2zNVPpCYF2LMvGzI0gXw/Cd/tpA0Gfg8Ukkdh0Ry2R5F
-	INVw==
-X-Gm-Message-State: AElRT7FLBSp7bubMnH0X53yoa/+k3Kxaxlvda/MdaRpGhH9vvS9bDGK6
-	8MsWUllAV5xyNd4iBqIIgTppuYbITHnNO8JRb2uwpA==
-X-Google-Smtp-Source: AG47ELttIKRobUUruXywBmA5djNP2ub8rKFcBgrPg8LBIDt/gfNQx2NGOdtTlamPny5O5sXDkB+usGjlE8kM/Srb6RA=
-X-Received: by 2002:a9d:281b:: with SMTP id
-	m27-v6mr20540784otb.89.1522141454717; 
-	Tue, 27 Mar 2018 02:04:14 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7683E7848D;
+	Tue, 27 Mar 2018 09:05:24 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Tue, 27 Mar 2018 02:03:54 -0700 (PDT)
-In-Reply-To: <CAEhQi8kBYvjB05pny3QWkbdd6c1=OAQhrTwCP15-nNsmhZOxyw@mail.gmail.com>
-References: <CAEhQi8kBYvjB05pny3QWkbdd6c1=OAQhrTwCP15-nNsmhZOxyw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 27 Mar 2018 10:03:54 +0100
-Message-ID: <CAJTo0Lb8jwMcuEwSwSpMQ_Sy-ry6f9DLmZyBeU6w-EB-it04BA@mail.gmail.com>
-To: =?UTF-8?B?TcOlbnMgWmlnaGVy?= <mans.zigher@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Question about how to get package included in SDK
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andrej Valek <andrej.valek@siemens.com>
+Date: Tue, 27 Mar 2018 09:05:26 -0000
+Message-ID: <20180327090526.18161.79953@do.openembedded.org>
+References: <20180327083002.24475-1-andrej.valek@siemens.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180327083002.24475-1-andrej.valek@siemens.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlicGNyZTogOC40MSAtPiA4LjQy?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 09:04:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 27 Mar 2018 09:05:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The main problem is that protoc isn't in the protobuf packages, but
-protobuf-compiler (as can be seen with oe-pkgdata-util list-pkg-files
--p protobuf).
+== Series Details ==
 
-Add nativesdk-protobuf-compiler to TOOLCHAIN_HOST_TASK.  You'll also
-want to use _append instead of +=3D so you don't remove more than you
-add.
+Series: libpcre: 8.41 -> 8.42
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11585/
+State : failure
 
-Ross
+== Summary ==
 
-On 27 March 2018 at 09:25, M=C3=A5ns Zigher <mans.zigher@gmail.com> wrote:
-> Hi,
->
-> I have package that require protobuf and the compiler protoc. I have
-> included the following
->
-> DEPENDS +=3D " protobuf protobuf-native"
->
-> and
->
-> RDEPENDS_${PN} +=3D " protobuf"
->
-> The build works as intended the problem now is that the protoc is not
-> included in the SDK. In the Yocto ref manual I found the following
-> description for TOOLCHAIN_HOST_TASK
->
-> "This variable lists packages the OpenEmbedded build system uses when
-> building an SDK, which contains a cross-development environment. The
-> packages specified by this variable are part of the toolchain set that ru=
-ns
-> on the SDKMACHINE, and each package should usually have the prefix
-> nativesdk-."
->
-> So I have also in by image bb-file included the following
->
-> TOOLCHAIN_HOST_TASK +=3D " nativesdk-protobuf"
->
-> The build passed without any errors but the protoc is still not included =
-in
-> the native sdk. It  is form some reason included in the target part. I wo=
-uld
-> really appreciate if you could en-light me on this topic on how to includ=
-e a
-> package in the sdk.
->
-> BR
-> Mans Zigher
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             LIC_FILES_CHKSUM changed on target libpcre but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+  Current checksum file://LICENCE;md5=60da32d84d067f53e22071c4ecb4384d
+  New checksum     file://LICENCE;md5=fc5026403b44c868c25fc9546f7feb05
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
