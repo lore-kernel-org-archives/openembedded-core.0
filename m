@@ -1,36 +1,48 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AC357848D
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C74960190
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 21:07:46 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id ED47C2E895A;
-	Mon, 26 Mar 2018 16:07:47 -0500 (CDT)
-Date: Mon, 26 Mar 2018 16:07:46 -0500
-From: Seebs <seebs@seebs.net>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20180326160746.1dce7ae9@seebsdell>
-In-Reply-To: <CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJ86T=Xcee6ivhoSc0adMR2q95ozsMXwSYL41mK7O5PN4CsWqw@mail.gmail.com>
-	<20180324132246.28c2f8cd@seebsdell>
-	<CAJ86T=VA6bR8v5+g6Y5e5HWQjU5r=E503gNdHCaco4PioPdW=Q@mail.gmail.com>
-	<20180324142427.53da953d@seebsdell>
-	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
-	<20180324145044.168f7e3f@seebsdell>
-	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
-	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
-	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
-	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
-	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
-	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
-	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
-	<20180326143107.48f153a5@seebsdell>
-	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+	Tue, 27 Mar 2018 00:40:44 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id i124so572072pgc.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Mar 2018 17:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=ousek+oKIzTQc8BasbJM4q+4kcjkry/9mhavwQGpkpk=;
+	b=YEacZSF1OMQs87103uaM36oyqexrp6mp38cns0TdJcafrjy9ovu5wIYDEjVQgREND4
+	OZlysqMmUq/dRSPsrsY5R+OHDQ+ICS9/T7XvuwMoxTsMnXHUKKAUk/Q7KdbqdbSM5z80
+	KVTacWVF+VeWksrYEJ4aYREBSgLuU/PHMDW4pVbUg99TV1OBj2RqOyym3IrHWwyIDEGb
+	wq6P4IREGMHKo+4RhtJcj+UmYOK28dHvBrfYXM1+OQCGjngXsFt6zgfJ5trFKyJf74Ae
+	R4UYqAUf/FNvmD4fdpPwsWBeU38E7tJhXJ5SPJCoL29oIVcebq3vTRmtBEnZrbn8lyFf
+	21pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ousek+oKIzTQc8BasbJM4q+4kcjkry/9mhavwQGpkpk=;
+	b=V7cizKPAD4mgFlMnF6XK74HF8d1cdzaDlxv72T9cjOWUDi/p25pvJOkdB6f8mnDcuC
+	XWPFJrsNWXdv6iCAfe3l0G8ZiebJ4MfpCrJAF46cWISVYODvtoF1SmWy7d39XFsDECiA
+	4325pL2nGFQhwRNSEv6/rGxmAcs+OOFce02rzn2ta4VBez+d9sCJ4oSeC5LCk6pc8pr7
+	yWRaE+yDrBYmqkIiTAmq3w2teDZJsZMldD3lIZQXOu144XRBrtOqj8U0TO4SSOLPLdCG
+	TDvm7XYoVgGluvVD9bfGj8sAQaGwgePkDf0vvgEaXuwMt40eXb6UT2Eml5xygJlOnRjQ
+	QI9g==
+X-Gm-Message-State: AElRT7HrltwffBuJKXUzMp2GM6DyqgD2R608Qpe5j0iEinFkBwtp5PL7
+	kPZDazHubHpn08/vahq6I7OXOWHK
+X-Google-Smtp-Source: AG47ELtJhfhosmEGgxZcFU0Osxq3yeRsDPSeKPUKIxlhmMlTeMzZY93NA2No29ZCK8mxT804Tz0M3Q==
+X-Received: by 10.99.107.6 with SMTP id g6mr30401943pgc.109.1522111245330;
+	Mon, 26 Mar 2018 17:40:45 -0700 (PDT)
+Received: from ip-172-31-22-0.ap-northeast-2.compute.internal
+	(ec2-52-78-229-153.ap-northeast-2.compute.amazonaws.com.
+	[52.78.229.153])
+	by smtp.gmail.com with ESMTPSA id 76sm30976pge.5.2018.03.26.17.40.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 26 Mar 2018 17:40:44 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Mar 2018 00:40:36 +0000
+Message-Id: <1522111237-1869-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Amanda Brindle <amanda.r.brindle@intel.com>
+Subject: [PATCH 1/2] waf.bbclass: Throw error if waf doesn't exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,59 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Mar 2018 21:07:47 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2018 00:40:44 -0000
 
-On Mon, 26 Mar 2018 13:12:44 -0700
-Andre McCurdy <armccurdy@gmail.com> wrote:
+From: Amanda Brindle <amanda.r.brindle@intel.com>
 
-> That's based on your assumption that a C wrapper needs to care about
-> results in architecture specific registers, which I contend is not a
-> correct interpretation of the syscall manpage.
+Before, waf.bbclass would fail to catch FileNotFoundError. Now, it will
+catch this error and say that waf doesn't exist.
 
-My observation is: If this doesn't matter, why is glibc doing it? It
-seems really weird to mention this thing, and bother doing it, if it
-*never* matters. So possibly it does matter. Sometimes. When?
+Fixes [YOCTO 12553]
 
-I don't feel comfortable assuming I understand the code if it's doing
-something like that, I can't see when it would affect anything, and the
-code hasn't been removed to improve performance. I'd be a lot more
-comfortable disregarding the weird return values and register
-specifications if I could look at real-world examples of how that
-information is used.
+Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/waf.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> Did you find any evidence to support your interpretation? e.g. Did you
-> find any examples of callers to the libc syscall() API which use
-> architecture specific assembler to examine the result of the syscall?
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index f9a851d..19e9376 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -15,6 +15,8 @@ python waf_preconfigure() {
+             d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
+     except subprocess.CalledProcessError as e:
+         bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % e.returncode)
++    except FileNotFoundError:
++        bb.fatal("waf does not exist in %s" % subsrcdir)
+ }
+ 
+ do_configure[prefuncs] += "waf_preconfigure"
+-- 
+2.7.4
 
-I have seen exactly one use of syscall() in the wild at all, that being
-the recent addition to coreutils.
-
-The evidence for my interpretation that you *could* need to know about
-arch-specific behavior is the EABI example, which clearly indicates the
-*possibility* that code in C has to care about architectural variance
-in non-obvious ways. I don't know what ways those might be, and this
-call is so rarely used that I'm not sure it would be reasonable to
-generalize about it. (I also don't know whether it's still true on
-64-bit ARM, and whether it also applies to pointer values or only to
-integer values, or...)
-
-> The gnulib code calling syscall(SYS_renameat2, ...) certainly doesn't
-> do that - it just checks the C function return value and errno. Since
-> there's no architecture specific code to examine the syscall() result,
-> do you expect coreutils mv to now incorrectly detect errors on ia64?
-
-No. But I don't know whether *anyone* is using syscall(), other than
-this one single example I've seen identified. I also don't know how
-widely tested the code in question is, or on what architectures.
-
-Testing on non-x86 architectures has often been sporadic in the open
-source community, and I think that's improved, but I don't know how
-much. If I'm looking at something that's almost never used, and I don't
-have specific information that the existing usage is being fully tested
-on "obscure" targets (such as mips, arm, etc), I am going to be at
-least a little distrustful.
-
--s
 
