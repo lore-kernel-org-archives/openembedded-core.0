@@ -1,78 +1,49 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A3C3784EB
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BD056E650
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 13:06:57 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RD6vmG008593
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 15:06:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1522156017;
-	bh=L6QWh/li3vRDVk+NL9h1mdie3LrQK1xFOC8B+kF1y1s=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=nKYEk9HhUjOsen2gOLMu0vjg+BUOv6+RLCMghq+hEoOiW8fp9he6dEDcU9Jd2VkqW
-	cx9Xpw4AwvOxAODfCBDqxZWf87zRC47PXlXhXVCkFxaD9mhcMQhjhe/wG3XNy9S82x
-	CCItdtKeR0LQMtEbUMRkhVM5IX20KgbIzfUNDKi0=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RD6oO9028304 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 27 Mar 2018 15:06:51 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 18E6D3CC131;
-	Tue, 27 Mar 2018 14:57:20 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RD6fOx028291
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Tue, 27 Mar 2018 15:06:41 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1f0oJE-0001N1-Se; Tue, 27 Mar 2018 15:06:40 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org, Seebs <seebs@seebs.net>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LbahOFYjBjonmfn5on78fFinG1Vk7R4kKtKX2mpmriEMA@mail.gmail.com>
-	<20180324122357.668e6afc@seebsdell>
-	<CAJ86T=Xcee6ivhoSc0adMR2q95ozsMXwSYL41mK7O5PN4CsWqw@mail.gmail.com>
-	<20180324132246.28c2f8cd@seebsdell>
-	<CAJ86T=VA6bR8v5+g6Y5e5HWQjU5r=E503gNdHCaco4PioPdW=Q@mail.gmail.com>
-	<20180324142427.53da953d@seebsdell>
-	<CAJ86T=U+0aG2gv6w_fJGCiN-VbO06is6-0gc+0bq+yvjBP=tNA@mail.gmail.com>
-	<20180324145044.168f7e3f@seebsdell>
-	<alpine.LRH.2.00.1803241306460.40806@sjc-ads-6991.cisco.com>
-	<CAJTo0LbCLW+VH+hGz+D9GQZHZ5sb3NEiN6C-FmNBQHzHmddEeQ@mail.gmail.com>
-	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
-	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
-	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
-	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
-	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
-	<20180326143107.48f153a5@seebsdell>
-	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 27 Mar 2018 15:06:40 +0200
-In-Reply-To: <CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-	(Andre McCurdy's message of "Mon, 26 Mar 2018 13:12:44 -0700")
-Message-ID: <ly370lpt0f.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.75
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.83
-Subject: Re: pseudo: host user contamination
+	Tue, 27 Mar 2018 14:13:09 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id a11so5536256pff.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 07:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=txOQ8j2+w23h+FOj7qKFIKaPZH/+FqeW+DczYkPrrIA=;
+	b=KSmarZQAJ3gUQc3z7hUgDnRMlox2SY4si2zZhvzKShwjUowjlAMyZ6wRcT1SSruQJb
+	2GjP/ghau0QTTUIM0Pds/SoZ6al+y/nLMSimeDhUzOOcfhdeIOQZzX6vqIL0Hr0ZmlhA
+	J7PnNY8Kg80Cm13gszuOE+gBIiZaJnSPZcEWaKHUTEjuQbViUDWaBXkWMuPs1HGkJ2QH
+	jduPutkbObTSl6Md/36igeNk/NB6LEE5Jfm6nneobx2UgDeGSBY91JB+ST10dmfq23ew
+	37b7PM5BZt8RQc9ZNgLsUiaGk1dU5DJtwnb9V3J0/vwgaI+wKc5eDT9bIAx+HNjeY2E+
+	4GUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=txOQ8j2+w23h+FOj7qKFIKaPZH/+FqeW+DczYkPrrIA=;
+	b=JXHMsC/octk9wgO7uQcXrweggyRbr92+PV5h6ykgh/M8Qmpj4iQNnaRmxGaZ8cv+W8
+	TQFFjuCOGo/FqsFGanO5+55xPZHBQqRZvEBFy+S9yhsqIiy9nchUd8D2A/+UEKR7k3tg
+	tUd+ub6lEQTmAf3aTGe5zCGJsf6KG1ccvzTNX+53vXJ+a6dGh+Y8xzzWGLNX7Cva96x8
+	FcirmBwF3P6BDdpdyIqTo9f2oTfS/uHvCq0Rfu/cXcIlQH0tFZkm8ZOqE+NzLGxJNKeI
+	Cu4ZMn/I0Klhi369TcftPidr8MpTO/cD4obn4eSNiiyKjkoeRjeNCbZao2aox92glNTG
+	qeHg==
+X-Gm-Message-State: AElRT7Ghz4+u6OBrXW5KLgMTJ4gUXSQ1zYGFKAdiucLS2apLFio0LVSA
+	/wKg7skYeU0f3QNwZMCkpnGXMg==
+X-Google-Smtp-Source: AG47ELueOq6UwB80RbgT+x5cafM8akfnZMNpBC8SM+AvZE786XlnWwwyK0zKPZz/npPzzigKLE2o6g==
+X-Received: by 10.101.64.7 with SMTP id f7mr11773569pgp.216.1522159991218;
+	Tue, 27 Mar 2018 07:13:11 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4000:1184:203c:a04e:87e9:791b])
+	by smtp.gmail.com with ESMTPSA id
+	i86sm3859790pfi.28.2018.03.27.07.13.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 27 Mar 2018 07:13:10 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	akuster@mvista.com
+Date: Tue, 27 Mar 2018 07:13:09 -0700
+Message-Id: <1522159989-22111-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [V3][PATCH] libshmfence: update to 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,28 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 13:06:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Mar 2018 14:13:10 -0000
 
-Andre McCurdy <armccurdy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+From: Armin Kuster <akuster@mvista.com>
 
->> Since the man page gave the ia64 example, I went and checked, and it
->> is indeed the case that calls other than syscall(2) will clobber r10
->> after system calls,
+refreshed patch
 
-I think you are misinterpreting the man-page.  In "Architecture
-calling conventions" it documents the calling convention into the
-kernel.  syscall(2) itself is an ordinary function which has to
-follow the userspace ABI; after jumping into the kernel and setting
-'errno' in error case, it restores registers as needed.
+[v2]
+Remove dangling space in patch
 
-Some ABIs allow functions to clobber registers (they are not restored
-after leaving the function and do not carry a return value); e.g. on
-ARM, these are r0-r3 and r12.  That's probably the case for r10 in ia64
-too.
+[v3]
+remove patch as changes on in update
 
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../xorg-lib/libxshmfence/extensions.patch              | 17 -----------------
+ .../{libxshmfence_1.2.bb => libxshmfence_1.3.bb}        |  4 ++--
+ 2 files changed, 2 insertions(+), 19 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+ rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb} (77%)
 
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
+deleted file mode 100644
+index 4cc9e05..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-With glibc 2.27 memfd_create is behind a _GNU_SOURCE guard, so call
+-AC_USE_SYSTEM_EXTENSIONS to get that defined.
+-
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 0c98875..ebf4dee 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -29,4 +29,6 @@ AC_CONFIG_SRCDIR([Makefile.am])
+- AC_CONFIG_HEADERS([config.h])
+- 
+-+AC_USE_SYSTEM_EXTENSIONS
+-+
+- # Initialize Automake
+- AM_INIT_AUTOMAKE([foreign dist-bzip2])
+diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+similarity index 77%
+rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+index 1df068d..f6f5fb2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+@@ -15,5 +15,5 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://extensions.patch"
+ 
+-SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
+-SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
++SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
++SRC_URI[sha256sum] = "b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7"
+-- 
+2.7.4
 
-Enrico
 
