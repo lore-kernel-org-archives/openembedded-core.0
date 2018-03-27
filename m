@@ -1,70 +1,62 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id CA8E37860F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id AAE79784DF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 20:07:00 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RK70VI031397
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 22:07:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1522181221;
-	bh=m9F47vumdWDti9HwXi2OwKL3mY39kLvRolNlEvDic20=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=WKlCGNxsh043GNUqpj1P5TlKMkyhFEYghhJe3DvWmtnqb5D6hnAXH/21w2BBHm1Uk
-	Wgv2q/XUfADOrH04JCjyusstW1J3D324ab8rgwP5W1cZQj5lvUN2Adl7uWqDwjq6At
-	1HgWWqlKNkyZLvJc9i90zoj/VtFuKpFUV3KCwNdY=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RK6sJH002939 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 27 Mar 2018 22:06:55 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id A46E1D677F;
-	Tue, 27 Mar 2018 21:57:24 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2RK6lEe002929
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO); Tue, 27 Mar 2018 22:06:47 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1f0urm-0002Fn-V0; Tue, 27 Mar 2018 22:06:47 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Seebs <seebs@seebs.net>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-	<lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180327105539.224458a8@seebsdell>
-	<lymuyto4rv.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180327114014.0f0cc48a@seebsdell>
-	<lytvt1uxzb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180327142407.0669955b@seebsdell>
-Date: Tue, 27 Mar 2018 22:06:46 +0200
-In-Reply-To: <20180327142407.0669955b@seebsdell> (seebs@seebs.net's message of
-	"Tue, 27 Mar 2018 14:24:07 -0500")
-Message-ID: <lyk1txth9l.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+	Tue, 27 Mar 2018 20:12:19 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id d1so119634wrj.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 13:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eozFYY0s2FEW+dvFotNK9MZwl7UARzi5Bjh+H3HgenM=;
+	b=pHrV3w2FMMiYN0Q4HUGl0derES9AvQR50YfeW2Zbw3LSI+Fv7IxmJP9PZudDEVcsM1
+	m09fNX6nKUEpjtYawgpzeEalDOXFLD2b8BT1vfK6lY9C2aitIYfqxLLzIU32j82xvXrU
+	lfS/s+q+ULoiZyhu2MF7iv9AdIK5mrYm3yNRE1ZsG+hwr7T5nCBFWx130QY6M/9W4K5Q
+	hcJccgo354YSbBVubHNGYi4ETzQIWGnRESoPFhLqD16995qomNbr6jZpNTebCMNN8jMj
+	np8Nd3DgORTNd4aelzs0fSWiyjbVOg4YJd68/G4xWdAxJgXx/0s0fXVSPadIx6XOKXw7
+	mPKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eozFYY0s2FEW+dvFotNK9MZwl7UARzi5Bjh+H3HgenM=;
+	b=PgfPM/2AdUfAkZlUjPyrh/B+d28/WU2Dy67IKSB61xt+Q0Z2uKeXa+Wym0l7oGKPPX
+	aI6AxyslM74UQ0LMGqUTz9PdR431RbcRGeUueylfMB4uC/CiB54Gf+EoDk3SgzNbzbNp
+	z+KjNQs/Zs/eeW/a9RRhl75Z4rgugXe6d0TqVHkmnOahjIJBD9L5xOMbETLAWWH/VLKR
+	Fslj/7492gcTgHn+1VzwGrMu5mPHGWnNDXdL/87l0cT5bEwV8EXZ+yUg4qUjhyJrXHLV
+	+OqyY5aor+c4a2DRgmD/0jop4cfGzevPvnIBdVksxiVH9d+NI0SOqsYUtsAyPARp1NIY
+	XVGA==
+X-Gm-Message-State: AElRT7EAUC8jTDKsi49f67Q4b+lhT9GOJGprGm26dZ2w9JPSpnoTqJUI
+	wH3enBlt0wW+lknCpaNxY+PN29btZRTKmCzNOpO94g==
+X-Google-Smtp-Source: AIpwx4+P95IXStj0VDQx5wrbancMKXW0AQnXnGN+dKnO2bEwTIjm3usKJnICvzScb6lAKB4TdAg9ya3Op380UfJPodA=
+X-Received: by 10.223.182.132 with SMTP id j4mr629233wre.66.1522181540536;
+	Tue, 27 Mar 2018 13:12:20 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.97
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.83
-Cc: openembedded-core@lists.openembedded.org
+Received: by 10.223.163.65 with HTTP; Tue, 27 Mar 2018 13:12:19 -0700 (PDT)
+In-Reply-To: <20180327142230.15f1abf9@seebsdell>
+References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<alpine.LRH.2.00.1803241637120.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=VB0axF8Lc-fEGuodFOLF_=UexUoGVoHt6+A9+m3bVs4w@mail.gmail.com>
+	<alpine.LRH.2.00.1803242204010.40806@sjc-ads-6991.cisco.com>
+	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
+	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
+	<20180326143107.48f153a5@seebsdell>
+	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
+	<20180326160746.1dce7ae9@seebsdell>
+	<CAJ86T=VaJyJYbBTkjR1yUTSJPCFSjgZCZZkYbyGEaTWYCg+u7A@mail.gmail.com>
+	<20180326203209.2da967eb@seebsdell>
+	<CAJ86T=VqLZrmyLBYD4ovQc9eNJQx5Rqp8YK+=3hPHgmjqqa55w@mail.gmail.com>
+	<20180326210734.165ac038@seebsdell>
+	<CAJ86T=X8bq6MKdvnq7sPFzjKN3ZgEJL70xHGCgSNBuC7ppi51w@mail.gmail.com>
+	<20180326234108.4b52c066@seebsdell>
+	<CAJ86T=VtdUAahO+PE2w8BzuPHAJCM1PEyWaYwg4SSGHU6jtm=A@mail.gmail.com>
+	<20180327142230.15f1abf9@seebsdell>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 27 Mar 2018 13:12:19 -0700
+Message-ID: <CAJ86T=V=b2jsSuVEicQbbgrax+8iV7HV0B=cKWDaejLq-Dh2eQ@mail.gmail.com>
+To: Seebs <seebs@seebs.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -78,61 +70,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 20:07:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Mar 2018 20:12:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Seebs <seebs@seebs.net> writes:
-
-> On Tue, 27 Mar 2018 21:20:24 +0200
-> Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
+On Tue, Mar 27, 2018 at 12:22 PM, Seebs <seebs@seebs.net> wrote:
 >
->> SYS_readahead is one of a few syscalls which pass 64 bit arguments on
->> 32 bit architectures.  Without the manual splitting, the ABI will
->> cause the compiler to insert a dummy argument so that registers are
->> aligned for 64 bit values.
+> I was wondering about 64-bit EABI. The man page didn't say "32-bit
+> EABI", it said "EABI".
+
+EABI is just a name (Embedded ABI) which on ARM is used to distinguish
+between the original ABI (now referred to as OABI, or Old ABI) and the
+current one.
+
+As far as I know, only one ABI exists for 64bit ARM and it's just
+called the AArch64 ABI, not 64bit EABI etc.
+
+Where the manpage says "EABI" it means ARM 32bit EABI, nothing else.
+
+> The information that you don't need to do that
+> on at least some ARM EABI arguably makes this *worse*, rather than
+> *better*, from the standpoint of "how do I write correct code for
+> this". So this appears to be at least partially a documentation error,
+> although it's quite possible that the text predates the question having
+> come up.
 >
-> I'm now even more confused. This sounds like the compiler *would*
-> insert the argument without being told to, because the ABI "will cause"
-> that, in which case the manual splitting wouldn't be necessary?
+> But it does also mean that it should be harmless to us in this case.
 
-For example, by ARM EABI function arguments are transmitted in r0, r1,
-r2, r3.  But 64 bit values must be aligned to even registers.
+You've lost me here...
 
-So, assuming code like
+> My basic concern is that I don't think I have enough information to
+> produce a Provably Correct handling for syscall arguments in the
+> presence of at least one architecture where argument order can change
+> for at least one syscall.
 
-| void foo(int a, unsigned long long b)
-| {
-| }
-| 
-| void bar(void)
-| {
-| 	foo(1, 2)
-| }
+Not sure what you mean by "handling of syscall arguments".
 
-The compiler generates
+If you mean forwarding arguments through a wrapper without
+interpreting them then I don't know what your concern is. Forwarding
+arguments can be handled completely generically - for any architecture
+and any syscall. See the musl implementation.
 
-        mov     r2, #2
-        mov     r3, #0
-        mov     r0, #1
-        bl      foo
+If you mean interpreting the arguments of a particular syscall then
+yes - for each particular syscall, the C code calling libc syscall()
+(and any code within libc syscall() which needs to interpret the
+arguments) must be aware of the argument order for that particular
+syscall as defined by the kernel for each architecture/ABI.
 
-e.g. it skips 'r1'.
-
-
-When you use the variadic syscall(2) function, you pass an extra argument
-at front (the syscall number)
-
-  syscall(__NR_readahead, fd, offset_64bit, count);
-
-  --> when doing the 'svc', fd goes into 'r0' and offset_64bit
-      into 'r1' + 'r2'
-
-In-kernel function does not have have the syscall-number and is
-
-  sys_readahead(int fd, loff_t, count)
-
-  --> 'fd' is expected in 'r0', offset in 'r2' + 'r3' due to the ABI
-
-
-Enrico
+However the good news is that code in a syscall() wrapper doesn't need
+to be any *more* aware of argument ordering than the C code calling
+syscall(). In this particular case, if the code in gnulib calling
+syscall(SYS_renameat2, ...) doesn't do anything architecture specific
+then either it's not needed (and therefore also not needed in a
+syscall() wrapper which wants interpret renameat2 syscalls) or there's
+a portability bug in gnulib. ie there is no case where architecture
+specific awareness is required in a syscall() wrapper but not in the
+original C code which calls syscall().
 
