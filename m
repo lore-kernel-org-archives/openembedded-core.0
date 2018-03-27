@@ -1,26 +1,18 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 84DF9605BE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 15:55:39 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id CD0AB2E8928;
-	Tue, 27 Mar 2018 10:55:40 -0500 (CDT)
-Date: Tue, 27 Mar 2018 10:55:39 -0500
-From: Seebs <seebs@seebs.net>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Message-ID: <20180327105539.224458a8@seebsdell>
-In-Reply-To: <lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
-	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20180323112820.12bc94a4@seebsdell>
-	<lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B24DA77CF6;
+	Tue, 27 Mar 2018 16:02:56 +0000 (UTC)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: pseudo: host user contamination
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Tue, 27 Mar 2018 16:02:58 -0000
+Message-ID: <20180327160258.18163.5029@do.openembedded.org>
+References: <20180327154802.14611-1-ross.burton@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180327154802.14611-1-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHNldWRvOiBpbnRlcmNlcHQgc3lzY2FsbCgpIGFuZCByZXR1cm4gRU5PVFNVUCBmb3IgcmVuYW1lYXQy?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 15:55:39 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 27 Mar 2018 16:02:56 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 27 Mar 2018 16:42:03 +0200
-Enrico Scholz <enrico.scholz@sigma-chemnitz.de> wrote:
+== Series Details ==
 
-> will work to wrap syscall(2).  Params for _renameat2_syscall() can be
-> extracted by va_args.
+Series: pseudo: intercept syscall() and return ENOTSUP for renameat2
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11590/
+State : failure
 
-Does anyone have access to an actual 64-bit EABI ARM system to verify
-the argument passing for renameat2 there?
- 
-> Code generated above is very ineffective; perhaps you can create
-> specialized assembly instructions which just jump into orig_syscall.
+== Summary ==
 
-I do not think I want to start adding assembly to pseudo, because I do
-not feel like learning assembly for all the architectures we currently
-run on. (Pseudo is, I believe, known to work across x86, PPC, MIPS, and
-ARM, in both 32-bit and 64-bit variants, also weird stuff like the x32
-variant of x86.)
 
--s
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/pseudo/files/renameat2.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/pseudo/files/renameat2.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
