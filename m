@@ -1,31 +1,61 @@
-Return-Path: <Ryan.Meulenkamp@nedap.com>
-X-Greylist: delayed 591 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 27 Mar 2018 11:54:28 UTC
-Received: from smtp4.nedap.com (smtp4.nedap.com [213.160.213.85])
-	by mail.openembedded.org (Postfix) with ESMTP id C90C360190
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD8A60103
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 11:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nedap.com; i=@nedap.com; q=dns/txt; s=20161201;
-	t=1522151671; x=1553687671;
-	h=to:from:subject:message-id:date:mime-version:
-	content-transfer-encoding;
-	bh=PZ9dhT3nKbloL18lVcyidfmheEVFfgpT4oFRCNquan0=;
-	b=g2l5IENbX8+zATovGHdJdLpbzrjAOeWq15jEwwgrxsv1Y/Oyc3C70ccd
-	EGJcvMe95fIXNrN4FZPY6kIRD5+5lLF/hVYj2q0fRcPeJ0JC1yntYrIUU
-	dP4NN73VBBC1BQ9W+qBDMMyGTvafD0AvQHfku5ML+WHu/1aULR3NzJPGI c=;
-X-IronPort-AV: E=Sophos;i="5.48,367,1517871600"; 
-   d="scan'208";a="1277097"
-Received: from nedap.nedap.local (HELO [10.2.16.212]) ([10.2.16.212])
-	by smtp4.nedap.com with ESMTP; 27 Mar 2018 13:44:37 +0200
-To: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
-From: Ryan Meulenkamp <Ryan.Meulenkamp@nedap.com>
-Message-ID: <12dbba60-2346-0020-64c8-db2dac948684@nedap.com>
-Date: Tue, 27 Mar 2018 13:44:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 27 Mar 2018 12:28:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 71B3B1844E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:16 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id yek9QKakjXtM
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 8540518450
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6FC3C1A06F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 648A41A069
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 58F752135
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 14:28:15 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Tue, 27 Mar 2018 14:28:15 +0200
+Received: from XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a]) by
+	XBOX04.axis.com ([fe80::6c88:230d:cafd:2f2a%22]) with mapi id
+	15.00.1263.000; Tue, 27 Mar 2018 14:28:15 +0200
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: Ola x Nilsson <olani@axis.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] package.bbclass: Include dbgsrc for static libs
+Thread-Index: AQHTrHpuc2rXV5ew8EOm6HHQDOrcnKPkNQuH
+Date: Tue, 27 Mar 2018 12:28:15 +0000
+Message-ID: <1522153694838.99691@axis.com>
+References: <20180223074618.24928-1-olani@axis.com>
+In-Reply-To: <20180223074618.24928-1-olani@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: CPU Load
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] package.bbclass: Include dbgsrc for static libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +68,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 11:54:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 27 Mar 2018 12:28:16 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Hi y'all,
-
-I have some questions about CPU load and performance, but first some 
-background information.
-
-We have small embedded system running an openembedded classic (Angström) 
-distro. Now to get ourselves up-to-date we started working on a new 
-iteration of the OS based on openembedded core and Yocto. It is nearly 
-finished now, if it weren't for one problem: The CPU load 
-(/proc/loadavg) of the core/yocto based OS is more than double that of 
-the classic/Angström OS.
-
-So the way I see it this could be caused by a number of factors:
-
-  - loadavg's calculation changed
-  - certain newer versions of applications run heavier
-  - The kernel itself is heavier (we upgraded from 2.6.35.14+ to 4.9.28+)
-   - Possibly caused by some configs
-  - ...
-
-My question: is there something that changed since OE-classic that you 
-know could be the cause of this? If not, how would I go about finding 
-the cause? I don't think the top command is sufficient for this, because 
-it's precision is such that many processes' CPU usage just become 0%. 
-Also, both top and htop cause huge cpu loads themselves.
-
-Any tips and tricks would be welcome!
-
-Thanks in advance!
-
-Ryan
+ping?=0A=
+=0A=
+-- =0A=
+Ola Nilsson=0A=
+________________________________________=0A=
+From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
+ounces@lists.openembedded.org> on behalf of Ola x Nilsson <olani@axis.com>=
+=0A=
+Sent: Friday, February 23, 2018 08:46=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: [OE-core] [PATCH] package.bbclass: Include dbgsrc for static libs=
+=0A=
+=0A=
+The debugsource must be added from the package providing the static=0A=
+lib, because any package using that lib does not have access to the=0A=
+source code.=0A=
+=0A=
+Fixes [YOCTO #12558]=0A=
+=0A=
+Signed-off-by: Ola x Nilsson <olani@axis.com>=0A=
+---=0A=
+ meta/classes/package.bbclass | 42 ++++++++++++++++++++++++++++++----------=
+--=0A=
+ 1 file changed, 30 insertions(+), 12 deletions(-)=0A=
+=0A=
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass=0A=
+index e7e93a067a..ec6fca87b5 100644=0A=
+--- a/meta/classes/package.bbclass=0A=
++++ b/meta/classes/package.bbclass=0A=
+@@ -344,6 +344,20 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarf=
+srcfiles_output):=0A=
+=0A=
+     return debugfiles.keys()=0A=
+=0A=
++def append_source_info(file, sourcefile, d):=0A=
++    cmd =3D "'dwarfsrcfiles' '%s'" % (file)=0A=
++    (retval, output) =3D oe.utils.getstatusoutput(cmd)=0A=
++    # 255 means a specific file wasn't fully parsed to get the debug file =
+list, which is not a fatal failure=0A=
++    if retval !=3D 0 and retval !=3D 255:=0A=
++        bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" %=
+ (retval, cmd, ":\n%s" % output if output else ""))=0A=
++=0A=
++    debugsources =3D parse_debugsources_from_dwarfsrcfiles_output(output)=
+=0A=
++    # filenames are null-separated - this is an artefact of the previous u=
+se=0A=
++    # of rpm's debugedit, which was writing them out that way, and the cod=
+e elsewhere=0A=
++    # is still assuming that.=0A=
++    debuglistoutput =3D '\0'.join(debugsources) + '\0'=0A=
++    open(sourcefile, 'a').write(debuglistoutput)=0A=
++=0A=
+=0A=
+ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):=0A=
+     # Function to split a single file into two components, one is the stri=
+pped=0A=
+@@ -369,18 +383,7 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourc=
+efile, d):=0A=
+=0A=
+     # We need to extract the debug src information here...=0A=
+     if debugsrcdir:=0A=
+-        cmd =3D "'dwarfsrcfiles' '%s'" % (file)=0A=
+-        (retval, output) =3D oe.utils.getstatusoutput(cmd)=0A=
+-        # 255 means a specific file wasn't fully parsed to get the debug f=
+ile list, which is not a fatal failure=0A=
+-        if retval !=3D 0 and retval !=3D 255:=0A=
+-            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%=
+s" % (retval, cmd, ":\n%s" % output if output else ""))=0A=
+-=0A=
+-        debugsources =3D parse_debugsources_from_dwarfsrcfiles_output(outp=
+ut)=0A=
+-        # filenames are null-separated - this is an artefact of the previo=
+us use=0A=
+-        # of rpm's debugedit, which was writing them out that way, and the=
+ code elsewhere=0A=
+-        # is still assuming that.=0A=
+-        debuglistoutput =3D '\0'.join(debugsources) + '\0'=0A=
+-        open(sourcefile, 'a').write(debuglistoutput)=0A=
++        append_source_info(file, sourcefile, d)=0A=
+=0A=
+     bb.utils.mkdirhier(os.path.dirname(debugfile))=0A=
+=0A=
+@@ -936,6 +939,13 @@ python split_and_strip_files () {=0A=
+                 type |=3D 8=0A=
+         return type=0A=
+=0A=
++    def isStaticLib(path):=0A=
++        if file.endswith('.a'):=0A=
++            with open(path, 'rb') as fh:=0A=
++                magic =3D b'!<arch>\n'=0A=
++                start =3D fh.read(len(magic))=0A=
++                return start =3D=3D magic=0A=
++        return False=0A=
+=0A=
+     #=0A=
+     # First lets figure out all of the files we may have to process ... do=
+ this only once!=0A=
+@@ -943,6 +953,7 @@ python split_and_strip_files () {=0A=
+     elffiles =3D {}=0A=
+     symlinks =3D {}=0A=
+     kernmods =3D []=0A=
++    staticlibs =3D []=0A=
+     inodes =3D {}=0A=
+     libdir =3D os.path.abspath(dvar + os.sep + d.getVar("libdir"))=0A=
+     baselibdir =3D os.path.abspath(dvar + os.sep + d.getVar("base_libdir")=
+)=0A=
+@@ -955,6 +966,9 @@ python split_and_strip_files () {=0A=
+                 if file.endswith(".ko") and file.find("/lib/modules/") !=
+=3D -1:=0A=
+                     kernmods.append(file)=0A=
+                     continue=0A=
++                if isStaticLib(file):=0A=
++                    staticlibs.append(file)=0A=
++                    continue=0A=
+=0A=
+                 # Skip debug files=0A=
+                 if debugappend and file.endswith(debugappend):=0A=
+@@ -1033,6 +1047,10 @@ python split_and_strip_files () {=0A=
+             # Only store off the hard link reference if we successfully sp=
+lit!=0A=
+             splitdebuginfo(file, fpath, debugsrcdir, sourcefile, d)=0A=
+=0A=
++        if debugsrcdir:=0A=
++            for file in staticlibs:=0A=
++                append_source_info(file, sourcefile, d)=0A=
++=0A=
+         # Hardlink our debug symbols to the other hardlink copies=0A=
+         for ref in inodes:=0A=
+             if len(inodes[ref]) =3D=3D 1:=0A=
+--=0A=
+2.11.0=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
