@@ -1,49 +1,49 @@
 Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C0B785E0
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AAB178454
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 00:43:23 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id j85so12277643vke.0
+	Tue, 27 Mar 2018 00:50:35 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id g20-v6so1771764plo.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Mar 2018 17:43:25 -0700 (PDT)
+	Mon, 26 Mar 2018 17:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Wn5sIctnPrzGYZ2jf2GxmRRVSDQDnrI93q27x54kFDc=;
-	b=Zx+JixmN9GNOgTPVoD51e4DRuok4olvlRHP51E9ddstQryUZwtIKbyf9ikbE/C6qbR
-	NX+IZC6PdNnaUDHcUatF/5rLZy0mhxDYDC1ppu75FjBGdBwVOhy5+ZmZRXHd6EPvkwRj
-	8UtpAxEYkr0fxe/Vro9C1fiZ31AyPf2K3sBSqxWhPfrbQZMruxyHSASLtpoorO9s/+dB
-	GfK/0bIkGd1j7b7hjxqvI1OM61vRsGcR+X0MMfrx2b95PTzD0OSeCdlQuKS6AyN3wKdL
-	DImldDS8ELok5hGJ8zZnnNqwg0ZJuII9wonDQdlxegnYyJU0hNnVaGUR93VlQx6ku/zd
-	Z2yQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=fc/N5ZNtw/3nwnivOvOqbQjmaQekhK0J3wBESIapaFk=;
+	b=VtQRT+vxUR7WLQsXxFDFMwFxnO7RxSvDA5iH9py83hraQ/3wPB/0vHu8eO0V1MiJiL
+	gT4MtH5TyFDMpi0qXJhOj0YzohVNfD8pdtAm5TpRDpobcWLd18orrwWzIPflTu8L5lx6
+	uDctpoAI+AUGXqesmicMeilc0WV/a6QJCPi5q4dO1Zl8Fl1gakCu7X5hkdT6RFHDxmgb
+	2dMWP2YUcUvxINmoInhFLaqW6Gadpr8xbHgdh57rtzgxFi9WdsQYuzJFMLqhk89HwAl9
+	ZPu2XpPInD2Ikae1BuLUpNko4qtNifYbARprjj7UEylWsFjdJ0Vhp6A+D0Pd2kHDCSHW
+	Z90w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Wn5sIctnPrzGYZ2jf2GxmRRVSDQDnrI93q27x54kFDc=;
-	b=c/siL9PR5ilvJDmBXESfas48t0F8XJpr2nEbiGnNcPXcT+rx5QweskNtRRhs3ibb8N
-	yxg8GhPfn7HpSTWlu/IpzLSgwgq/p44YNSBcxze1u1TNVJfx3SW1gJTz7ql5MBjFsCt4
-	w+VTYI7dJtFsuZGCSmeoiyAFnF1e4ec21MA0qMdjMIMOe8j1dYkFZLh4Y7ZGqohhIIp3
-	rmIB80krKtWOHN/nM/r/CYM8ePGWXUatpkSClQ7fp/lQP5BlIs2CGi5qUkF/jxPXWSjm
-	3tIqNGEovjBih6iL4r70+kAKkhcty1KFTEOaOeTyWavpIT37SB1LNr/0Tul/fVFLhS9X
-	sDMQ==
-X-Gm-Message-State: AElRT7GXDFFPBk6wyep6kp6h6PjVtnhshGIZmU5Fc5DnRXRljgepTEd9
-	Rp0SOjlsA21rrltmNqGZVJ4UarTq0y8TU3ese9A=
-X-Google-Smtp-Source: AG47ELsYp3NQ93kIS6diFsUIG+lUmFx22nEyTVKvKvuxYG0HD459XfGIz+MnZ1kBsUyjLLrnMrspLlcf4D5t4/hSL+4=
-X-Received: by 10.31.226.198 with SMTP id z189mr18144330vkg.94.1522111404920; 
-	Mon, 26 Mar 2018 17:43:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.80.217 with HTTP; Mon, 26 Mar 2018 17:43:24 -0700 (PDT)
-In-Reply-To: <1522111237-1869-2-git-send-email-changhyeok.bae@gmail.com>
-References: <1522111237-1869-1-git-send-email-changhyeok.bae@gmail.com>
-	<1522111237-1869-2-git-send-email-changhyeok.bae@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fc/N5ZNtw/3nwnivOvOqbQjmaQekhK0J3wBESIapaFk=;
+	b=N8Td6cU9dRECzTWL3IvXP5zlfSr1+Fh1LtGQl35MRnADgKc6mE8EWP8QiLTT2ZVFYQ
+	R9r0E8J90CmSfC+a6DRL7HF4WcWcMHqFd51Cw2hhC60CGs8gp3Mn+1PmiUCSRbVeJFln
+	e8grw/1EPvE/GIQL3Mp//b+Az+yUaBmctBLflwf6cEK9NmqOZyIvMze8pUzCQhiI1L9U
+	fky3uERsBSPP7iVnJAREgr4R8c8gL2RTzw1Pw6V2lBOvJ+TNQBiR5EssdhxpKXV23q4L
+	X89eJiczg311uEZAMGN83ogNAhWqb0bd8HYH4k0eSr2b7o2V8rOdiikv1i9J4bek1xxx
+	DmQA==
+X-Gm-Message-State: AElRT7EoBSyQkf+mWILrpTr7AG+nYf3FraEbbkOO3twdlB9HBq6jwunp
+	q6RffipXhmBUh2xd8yEh2xGAS3Ox
+X-Google-Smtp-Source: AG47ELuedGnDPdXubH1I4bTnREHvIi63ozLdFSiPbQdKhOj5ax1AYCUoHUw1fbcyuMnBdvv0RoQePg==
+X-Received: by 2002:a17:902:341:: with SMTP id
+	59-v6mr41567360pld.407.1522111837295; 
+	Mon, 26 Mar 2018 17:50:37 -0700 (PDT)
+Received: from ip-172-31-22-0.ap-northeast-2.compute.internal
+	(ec2-52-78-229-153.ap-northeast-2.compute.amazonaws.com.
+	[52.78.229.153])
+	by smtp.gmail.com with ESMTPSA id a82sm24547pfj.153.2018.03.26.17.50.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 26 Mar 2018 17:50:36 -0700 (PDT)
 From: Changhyeok Bae <changhyeok.bae@gmail.com>
-Date: Tue, 27 Mar 2018 09:43:24 +0900
-Message-ID: <CACrLJgC5swprby+aZKZC=9=BCMKLSOR37HLezhwCCmwK6dupLw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: Re: [PATCH 2/2] distcc: Change SRC_URI
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Mar 2018 00:50:29 +0000
+Message-Id: <1522111830-49947-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] iproute2: update 4.14.1 -> 4.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,133 +56,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 00:43:24 -0000
-Content-Type: multipart/alternative; boundary="001a114dffe899556005685a2dae"
+X-List-Received-Date: Tue, 27 Mar 2018 00:50:36 -0000
 
---001a114dffe899556005685a2dae
-Content-Type: text/plain; charset="UTF-8"
+0001-iproute2-de-bash-scripts.patch is applied in upstream repo.
 
-Sorry. Please ignore those 2 patches.
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../iproute2/0001-iproute2-de-bash-scripts.patch   | 63 ----------------------
+ .../{iproute2_4.14.1.bb => iproute2_4.15.0.bb}     |  5 +-
+ 2 files changed, 2 insertions(+), 66 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_4.14.1.bb => iproute2_4.15.0.bb} (65%)
 
-Thanks
-Changhyeok
-
-2018-03-27 9:40 GMT+09:00 Changhyeok Bae <changhyeok.bae@gmail.com>:
-
-> From: Armin Kuster <akuster@mvista.com>
->
-> ERROR: distcc-3.2-r0 do_fetch: Fetcher failure: Unable to find revision
-> d8b18df3e9dcbe4f092bed565835d3975e99432c in branch 3.2 even from upstream
-> ERROR: distcc-3.2-r0 do_fetch: Fetcher failure for URL: 'git://
-> github.com/distcc/distcc.git;branch=3.2'. Unable to fetch URL from any
-> source.
-> ERROR: distcc-3.2-r0 do_fetch: Function failed: base_do_fetch
->
-> [v2]
-> upstream deleted the branch and the hash no longer exists.
->
-> Took the git snapshot from yocto and created a copy on my github.
-> There was no offical 3.2 release, only rc versions.
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/distcc/distcc_3.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb
-> b/meta/recipes-devtools/distcc/distcc_3.2.bb
-> index ea3d7c1..ff0e22f 100644
-> --- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-> +++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-> @@ -14,7 +14,7 @@ PACKAGECONFIG[popt] = "--without-included-popt,--
-> with-included-popt,popt"
->
->  RRECOMMENDS_${PN} = "avahi-daemon"
->
-> -SRC_URI = "git://github.com/distcc/distcc.git;branch=${PV} \
-> +SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
->             file://separatebuilddir.patch \
->             file://0001-zeroconf-Include-fcntl.h.patch \
->             file://default \
-> --
-> 2.7.4
->
->
-
-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
+deleted file mode 100644
+index c3d3fea..0000000
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-Subject: [PATCH] iproute2: de-bash scripts
+-
+-de-bash these two scripts to make iproute2 not depend on bash.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- ip/ifcfg | 15 ++++++++-------
+- ip/rtpr  |  2 +-
+- 2 files changed, 9 insertions(+), 8 deletions(-)
+-
+-diff --git a/ip/ifcfg b/ip/ifcfg
+-index 30a2dc4..8677b2e 100644
+---- a/ip/ifcfg
+-+++ b/ip/ifcfg
+-@@ -1,12 +1,13 @@
+--#! /bin/bash
+-+#! /bin/sh
+- 
+- CheckForwarding () {
+--  local sbase fwd
+-+  local sbase fwd forwarding
+-   sbase=/proc/sys/net/ipv4/conf
+-   fwd=0
+-   if [ -d $sbase ]; then
+-     for dir in $sbase/*/forwarding; do
+--      fwd=$[$fwd + `cat $dir`]
+-+      forwarding=`cat $dir`
+-+      fwd=$(($fwd+$forwarding))
+-     done
+-   else
+-     fwd=2
+-@@ -127,12 +128,12 @@ fi
+- arping -q -A -c 1 -I $dev $ipaddr
+- noarp=$?
+- ( sleep 2 ;
+--  arping -q -U -c 1 -I $dev $ipaddr ) >& /dev/null </dev/null &
+-+  arping -q -U -c 1 -I $dev $ipaddr ) > /dev/null 2>&1 </dev/null &
+- 
+--ip route add unreachable 224.0.0.0/24 >& /dev/null
+--ip route add unreachable 255.255.255.255 >& /dev/null
+-+ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
+-+ip route add unreachable 255.255.255.255 > /dev/null 2>&1
+- if [ "`ip link ls $dev | grep -c MULTICAST`" -ge 1 ]; then
+--  ip route add 224.0.0.0/4 dev $dev scope global >& /dev/null
+-+  ip route add 224.0.0.0/4 dev $dev scope global > /dev/null 2>&1
+- fi
+- 
+- if [ $fwd -eq 0 ]; then
+-diff --git a/ip/rtpr b/ip/rtpr
+-index c3629fd..674198d 100644
+---- a/ip/rtpr
+-+++ b/ip/rtpr
+-@@ -1,4 +1,4 @@
+--#! /bin/bash
+-+#! /bin/sh
+- 
+- exec tr "[\\\\]" "[
+- ]"
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb b/meta/recipes-connectivity/iproute2/iproute2_4.15.0.bb
+similarity index 65%
+rename from meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_4.15.0.bb
+index 81e2e4a..7942bbf 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.14.1.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.15.0.bb
+@@ -2,13 +2,12 @@ require iproute2.inc
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://configure-cross.patch \
+-           file://0001-iproute2-de-bash-scripts.patch \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+            file://0001-ip-Remove-unneed-header.patch \
+           "
+ 
+-SRC_URI[md5sum] = "1075423d7029e02a8f23ed4f42b7e372"
+-SRC_URI[sha256sum] = "d43ac068afcc350a448f4581b6e292331ef7e4e7aa746e34981582d5fdb10067"
++SRC_URI[md5sum] = "0681bf4664b2649ad4e12551a3a7a1f9"
++SRC_URI[sha256sum] = "48d4616a99d7b609b7b795c0ae8ec57099fb0271ed89253e8772c02327798355"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
-Thanks
-Changhyeok
+2.7.4
 
---001a114dffe899556005685a2dae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Sorry. Please ignore those 2 patches.<div><br></div><div>T=
-hanks</div><div>Changhyeok</div></div><div class=3D"gmail_extra"><br><div c=
-lass=3D"gmail_quote">2018-03-27 9:40 GMT+09:00 Changhyeok Bae <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:changhyeok.bae@gmail.com" target=3D"_blank">chan=
-ghyeok.bae@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From=
-: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com">akuster@mvista.com=
-</a>&gt;<br>
-<br>
-ERROR: distcc-3.2-r0 do_fetch: Fetcher failure: Unable to find revision d8b=
-18df3e9dcbe4f092bed565835d3<wbr>975e99432c in branch 3.2 even from upstream=
-<br>
-ERROR: distcc-3.2-r0 do_fetch: Fetcher failure for URL: &#39;git://<a href=
-=3D"http://github.com/distcc/distcc.git;branch=3D3.2" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/distcc/<wbr>distcc.git;branch=3D3.2</a>&#39;. Un=
-able to fetch URL from any source.<br>
-ERROR: distcc-3.2-r0 do_fetch: Function failed: base_do_fetch<br>
-<br>
-[v2]<br>
-upstream deleted the branch and the hash no longer exists.<br>
-<br>
-Took the git snapshot from yocto and created a copy on my github.<br>
-There was no offical 3.2 release, only rc versions.<br>
-<br>
-Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com">akust=
-er@mvista.com</a>&gt;<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/distcc/<a href=3D"http://distcc_3.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">d<wbr>istcc_3.2.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/<wbr>distcc/<a href=3D"http://distcc_3.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">distcc_3.2.bb</a> b/meta/recipes-=
-devtools/<wbr>distcc/<a href=3D"http://distcc_3.2.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">distcc_3.2.bb</a><br>
-index ea3d7c1..ff0e22f 100644<br>
---- a/meta/recipes-devtools/<wbr>distcc/<a href=3D"http://distcc_3.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">distcc_3.2.bb</a><br>
-+++ b/meta/recipes-devtools/<wbr>distcc/<a href=3D"http://distcc_3.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">distcc_3.2.bb</a><br>
-@@ -14,7 +14,7 @@ PACKAGECONFIG[popt] =3D &quot;--without-included-popt,--<=
-wbr>with-included-popt,popt&quot;<br>
-<br>
-=C2=A0RRECOMMENDS_${PN} =3D &quot;avahi-daemon&quot;<br>
-<br>
--SRC_URI =3D &quot;git://<a href=3D"http://github.com/distcc/distcc.git;bra=
-nch=3D${PV}" rel=3D"noreferrer" target=3D"_blank">github.com/distcc/<wbr>di=
-stcc.git;branch=3D${PV}</a> \<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/akuster/distcc.git;br=
-anch=3D${PV}" rel=3D"noreferrer" target=3D"_blank">github.com/akuster/<wbr>=
-distcc.git;branch=3D${PV}</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://separatebuilddir.patch \<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-zeroconf-Include-<wbr=
->fcntl.h.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://default \<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div di=
-r=3D"ltr">Thanks<div>Changhyeok</div></div></div>
-</div>
-
---001a114dffe899556005685a2dae--
