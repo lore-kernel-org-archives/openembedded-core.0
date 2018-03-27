@@ -1,36 +1,32 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id E6E0960190
+Return-Path: <ejo@pengutronix.de>
+X-Greylist: delayed 1083 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 27 Mar 2018 10:58:10 UTC
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+	[85.220.165.71])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B312605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 10:44:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2018 03:44:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,367,1517904000"; d="scan'208";a="215036155"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Mar 2018 03:44:10 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	Zhang Xiao <xiao.zhang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180312091303.121887-1-xiao.zhang@windriver.com>
-	<7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
-	<a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
-	<dcc91a62-07a3-9374-5f5c-41fae23fb682@linux.intel.com>
-	<cc14195a-81df-190f-23fa-9c914e21e6d9@windriver.com>
-	<4813fff9-6e19-4c8d-e22e-2ab6ce5e8989@linux.intel.com>
-	<ae9c1af4-ee4d-99f4-7485-968b17bb6811@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <88e3e4f3-e431-8629-192e-e5ddfc0f45bc@linux.intel.com>
-Date: Tue, 27 Mar 2018 13:37:38 +0300
+	Tue, 27 Mar 2018 10:58:10 +0000 (UTC)
+Received: from mango.hi.pengutronix.de ([2001:67c:670:100:76d4:35ff:fee8:98b3])
+	by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1f0m1Q-0007Lt-Dp; Tue, 27 Mar 2018 12:40:08 +0200
+From: Enrico Joerns <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+References: <20180120234441.18217-1-ejo@pengutronix.de>
+	<1196cf78-ae82-c3d2-cdb0-1d6f6dc46de1@pengutronix.de>
+Message-ID: <e3b72747-dcf3-98fb-e553-854c4fdee9cb@pengutronix.de>
+Date: Tue, 27 Mar 2018 12:40:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.6.0
 MIME-Version: 1.0
-In-Reply-To: <ae9c1af4-ee4d-99f4-7485-968b17bb6811@windriver.com>
-Subject: Re: [PATCH 1/7] eudev: fix file conflict when multilib enabled
+In-Reply-To: <1196cf78-ae82-c3d2-cdb0-1d6f6dc46de1@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:76d4:35ff:fee8:98b3
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Re: [pyro][rocko][PATCH] base.bbclass: fix do_unpack[cleandirs] varflag handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,24 +39,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 10:44:11 -0000
+X-List-Received-Date: Tue, 27 Mar 2018 10:58:10 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 03/26/2018 06:28 PM, Mark Hatle wrote:
-> I want a multilib_exec that can be used to generate a wrapper.  The recipe will
-> have to pass in the name of what is being wrapped, and how to determine the
-> correct 'default'.  The scripting should handle everything else.   Like
-> multilib_header it needs to generate an identical script no matter when multilib
-> it's called with, avoiding any potential file conflict during install -- and
-> then an automatic rename of the underlying 'executable'... using the same logic
-> as multilib_header.
+Ping!
 
-Thanks. This does look like a project that Wind River should be driving, 
-possibly even as a separate layer (initially). Would be good to have a 
-proven solution merged, rather than something half-baked with newly 
-discovered issues popping up down the road.
+If there should be severe changes in the recent base / kernel class code 
+that might make this useless, this is at least a candidate for backporting!
 
-Alex
+/Enrico
+
+On 01/31/2018 10:49 AM, Enrico Joerns wrote:
+> Hey,
+> 
+> any comments on that? Not using this patch currently disturbs our 
+> companies Yocto kernel workflow. Thus I wonder if no one else have had 
+> issues when building kernels from fully custom 'defconfig' files, too.
+> 
+> Regards, Enrico
+> 
+> On 01/21/2018 12:44 AM, Enrico Jorns wrote:
+>> As introduced by a56fb90dc3805494eeaf04c60538425e8d52efc5 ('base.bbclass
+>> wipe ${S} before unpacking source') the base.bbclass uses a python
+>> anonymous function to set the 'do_unpack' varflag 'cleandirs' to either
+>> '${S}' or '${S}/patches' depending on equality of '${S}' and 
+>> '${WORKDIR}'.
+>>
+>> Not that this only differs from the way almost all other recipes set or
+>> modify a tasks 'cleandirs' flag, it also has a significant impact on the
+>> kernel.bbclass (and possibly further ones) and causes incorrect
+>> behavior for rebuilds triggered by source modification, e.g. by a change
+>> of the defconfig file for a kernel build.
+>>
+>> The kernel.bbclass tries to extend do_unpack[cleandirs]:
+>>
+>> | do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} 
+>> ${STAGING_KERNEL_BUILDDIR}"
+>>
+>> As python anonymous functions are evaluated at the very end of recipe
+>> parsing, the d.setVarFlag('do_unpack', 'cleandirs', '${S}') statement in
+>> base.bbclass will overwrite every modification to cleandirs that is done
+>> as shown for the kernel class above.
+>>
+>> As a result of this, a change to a kernels 'defconfig' will lead to an
+>> updated defconfig file in ${WORKDIR}, but as ${B} never gets cleaned and
+>> ${B}/.config still exists, it will not be copied to ${B}/.config and
+>> thus not find its way in the build kernel.
+>>
+>> This is a severe issue for the kernel development and build process!
+>>
+>> This patch changes setting of the cleandirs varflag in base.bbclass to
+>> a simple variable assignment as almost all other recipes do it. This now
+>> again allows overwriting or appending the varflag with common methods
+>> such as done in kernel.bbclass.
+>>
+>> This issue affects morty, pyro, rocko and master.
+>>
+>> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
+>> ---
+>>   meta/classes/base.bbclass | 8 ++------
+>>   1 file changed, 2 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index 912e81e002..2949b074d8 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -152,12 +152,8 @@ python base_do_fetch() {
+>>   addtask unpack after do_fetch
+>>   do_unpack[dirs] = "${WORKDIR}"
+>> -python () {
+>> -    if d.getVar('S') != d.getVar('WORKDIR'):
+>> -        d.setVarFlag('do_unpack', 'cleandirs', '${S}')
+>> -    else:
+>> -        d.setVarFlag('do_unpack', 'cleandirs', os.path.join('${S}', 
+>> 'patches'))
+>> -}
+>> +do_unpack[cleandirs] = "${@d.getVar('S') if d.getVar('S') != 
+>> d.getVar('WORKDIR') else os.path.join('${S}', 'patches')}"
+>> +
+>>   python base_do_unpack() {
+>>       src_uri = (d.getVar('SRC_URI') or "").split()
+>>       if len(src_uri) == 0:
+>>
+> 
+
+-- 
+Pengutronix e.K.                           | Enrico Jörns                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-5080 |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
 
