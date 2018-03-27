@@ -1,34 +1,65 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D68C60103
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 65A0571C70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 14:38:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2REcIwo015934
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Mar 2018 07:38:18 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 27 Mar 2018 07:38:17 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Zhang Xiao
-	<xiao.zhang@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <20180312091303.121887-1-xiao.zhang@windriver.com>
-	<7673ca98-3ed5-c770-180e-88d599736d92@linux.intel.com>
-	<a739f962-dad5-1d0f-5795-b46bee65c26d@windriver.com>
-	<dcc91a62-07a3-9374-5f5c-41fae23fb682@linux.intel.com>
-	<cc14195a-81df-190f-23fa-9c914e21e6d9@windriver.com>
-	<4813fff9-6e19-4c8d-e22e-2ab6ce5e8989@linux.intel.com>
-	<ae9c1af4-ee4d-99f4-7485-968b17bb6811@windriver.com>
-	<88e3e4f3-e431-8629-192e-e5ddfc0f45bc@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <1909fbfd-6c8e-b2f1-68ec-5565e0fc1d90@windriver.com>
-Date: Tue, 27 Mar 2018 09:38:16 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.6.0
+	Tue, 27 Mar 2018 14:42:22 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2REgNlk017739
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 16:42:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1522161743;
+	bh=7+3nnVva1jT2f+p+cgzNFj9acUyXi1bMz7Dghowbm5Y=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=j6DVa6m67pft8g5na901/AXPVwO0MQOnIn+1+t+Et+bFHLENjqgCeS1IsZ2IvUpte
+	e4v5ffI7pe/gITiNu79WDqPjixSVgPK/oAvfJuSbHIr9OLw+Zlk3g7fS9njf2cmP83
+	PacscvpSzsQyBlx0LDGW/leAFQq87BL4fT3rQ/HQ=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2REgHNI030232 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 27 Mar 2018 16:42:17 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 777EE611674;
+	Tue, 27 Mar 2018 16:32:43 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	w2REg3Eq030224
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Tue, 27 Mar 2018 16:42:03 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1f0pnX-0006cb-Dc; Tue, 27 Mar 2018 16:42:03 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Seebs <seebs@seebs.net>
+References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<lyk1u2re5q.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CAJTo0LaU41nPj1U2puHTvW272u0skdFk-gkuz3_-hXWWbxEqAg@mail.gmail.com>
+	<lyd0zurcw4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20180323112820.12bc94a4@seebsdell>
+Date: Tue, 27 Mar 2018 16:42:03 +0200
+In-Reply-To: <20180323112820.12bc94a4@seebsdell> (seebs@seebs.net's message of
+	"Fri, 23 Mar 2018 11:28:20 -0500")
+Message-ID: <lyy3idoa10.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <88e3e4f3-e431-8629-192e-e5ddfc0f45bc@linux.intel.com>
-Subject: Re: [PATCH 1/7] eudev: fix file conflict when multilib enabled
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.74
+X-Spam-Score: -4.6
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.83
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: pseudo: host user contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +72,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 14:38:17 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Mar 2018 14:42:26 -0000
+Content-Type: text/plain
 
-On 3/27/18 5:37 AM, Alexander Kanavin wrote:
-> On 03/26/2018 06:28 PM, Mark Hatle wrote:
->> I want a multilib_exec that can be used to generate a wrapper.  The recipe will
->> have to pass in the name of what is being wrapped, and how to determine the
->> correct 'default'.  The scripting should handle everything else.   Like
->> multilib_header it needs to generate an identical script no matter when multilib
->> it's called with, avoiding any potential file conflict during install -- and
->> then an automatic rename of the underlying 'executable'... using the same logic
->> as multilib_header.
-> 
-> Thanks. This does look like a project that Wind River should be driving, 
-> possibly even as a separate layer (initially). Would be good to have a 
-> proven solution merged, rather than something half-baked with newly 
-> discovered issues popping up down the road.
+Seebs <seebs@seebs.net> writes:
 
-Open for assistance from others.. but that is more or less the plan.. We (Wind
-River) will be working on this as we're able.
+> And so far as I know, it's not actually *possible* to in the general
+> case. I really don't think it's safe to try to catch syscall().
 
---Mark
+I think, something like
 
-> Alex
-> 
+----
+static void (*orig_syscall)();
+long syscall(long number, ...)
+{
+        switch (number) {
+        case __NR_renameat2: return _renameat2_syscall(.......);
+        }
+        
+ 	void	*res =__builtin_apply(orig_syscall, __builtin_apply_args(),
+				      sizeof(uintmax_t) * 7);
 
+	__builtin_return(res);
+}
+----
+
+will work to wrap syscall(2).  Params for _renameat2_syscall() can be
+extracted by va_args.
+
+
+Code generated above is very ineffective; perhaps you can create
+specialized assembly instructions which just jump into orig_syscall.
+
+
+Enrico
 
