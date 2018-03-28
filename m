@@ -1,59 +1,49 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 869 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 28 Mar 2018 08:39:24 UTC
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.14])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B286093B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2377A78436
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 08:39:24 +0000 (UTC)
-Received: from [216.82.249.131] (using TLSv1.2 with cipher
-	DHE-RSA-AES256-GCM-SHA384 (256 bits))
-	by server-14.bemta-12.messagelabs.com id A7/2D-10394-8515BBA5;
-	Wed, 28 Mar 2018 08:24:56 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRWlGSWpSXmKPExsXi5LtOQDcicHe
-	UwbsfnBZ3fr5jd2D0OLdxBWMAYxRrZl5SfkUCa8bND59YC36wVDxfvImxgbGVpYuRi0NIYBWj
-	xJL/j4EcTiBnMaPEgdaiLkYODmGBRImO61UgYRGBKImbu56xQ9RvZ5SYN/MOK0iCTUBPYvKlJ
-	8wgNq+AtcSMqyfB5rAIqEr8+LySDcQWFQiXWHB1CxtEjaDEyZlPwGo4BQwkZh5dxw5iMwtYSM
-	ycf54RwhaXuPVkPhOELS/RvHU2M8RtKhIHl14Gq5EAim/afJZ9AqPALCRjZyEZNQvJqFlIRi1
-	gZFnFqFGcWlSWWqRrbK6XVJSZnlGSm5iZo2toaKSXm1pcnJiempOYVKyXnJ+7iREYtvUMDIw7
-	GJ/sjz7EKMnBpCTKK/t2V5QQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCd6JAbujhASLUtNTK9Iyc
-	4ARBJOW4OBREuF9CpLmLS5IzC3OTIdInWI05mhb+aSNmePGi9dtzEIsefl5qVLivCdASgVASj
-	NK8+AGwSL7EqOslDAvIwMDgxBPQWpRbmYJqvwrRnEORiVhXiOQKTyZeSVw+14BncIEdMq2ph0
-	gp5QkIqSkGhj7NoqrPzxewCHA1jNdtWimqeh+7QP79G9PSc7bXzhvw4W5f+V3FnfmHll9zF9Q
-	TPjB29qQG4111u9575y5P7PEMbKuQ5555adEp4lTbXaK2OiuN+lOmi/5TLHDlMEw/nvKf2W9a
-	LFvdyabrjkqOG/6sYvT2d73bT8l87L3UesM7uPzNxsoCJkqsRRnJBpqMRcVJwIA1c0JU+cCAA
-	A=
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-13.tower-28.messagelabs.com!1522225492!64604827!1
-X-Originating-IP: [66.77.174.16]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.9.15; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 20799 invoked from network); 28 Mar 2018 08:24:53 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-	by server-13.tower-28.messagelabs.com with DHE-RSA-AES256-GCM-SHA384
-	encrypted SMTP; 28 Mar 2018 08:24:53 -0000
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 28 Mar 2018 03:24:51 -0500
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 28 Mar 2018 10:24:49 +0200
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-	<20151215140434.75233de0@centos-7> <20170508102903.GA9571@mcrowe.com>
-	<20170514090737.GA29032@mcrowe.com>
-From: Javier Viguera <javier.viguera@digi.com>
-Message-ID: <8caf7fd5-75a6-b686-9b74-084e56c224ad@digi.com>
-Date: Wed, 28 Mar 2018 10:24:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Wed, 28 Mar 2018 09:15:22 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id 126-v6so1540308oig.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Mar 2018 02:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=F4ebJRLl12EFP+C+zrqsVFeyjvfRwthBG+hGOmamTnw=;
+	b=dviFLXPmoCPDbCW7DAPLr5vN/mGrGpN7j3r2lT/lyIQAHAnwVR0mNUNT0LnEwi74yy
+	kthPByM6+ri+1M+dMk9WizU2Yzfq/rchWNqoA95DpL1ZJqUwQkYYETl7iL0L3dT9Lolq
+	re2BFjZ+pWjVX4oQwh5BUhwEqI2gIQej7/rE4GRe1WCF+nl5HB7TwfMAs8KszEjBRPIR
+	i1vWLO3MSysxJ3HVEwYg26qEjCy344E0BNVzpdbqZc6eZVeJZ2l5MhVsqQal+TF5vqrK
+	OdSu1OeFKQrXaXTkzfA8wXauj4Plj2dpk//dBE1DgLO+RqgmPENFtYMNiiua/3m+GZOR
+	2d3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=F4ebJRLl12EFP+C+zrqsVFeyjvfRwthBG+hGOmamTnw=;
+	b=eaz5xpxF7HW9KS8wies9SjVdJJoJjm8EgvOSrU6OzaUCLG5amy+XSGJiUpZoz+kVG8
+	ZuKwQeDYuo5E15lAXhw1fnXa0lc2T3+4cZAjfmJqyf8locoBi5eXws7fdrD+/dViNMrM
+	eyBBTTw31Fta02rjTs4KskNZj+nOMpzTmBHy4JuqQmS9StJN/yvW7iGJH+Drtuh+GQEC
+	E8YgnXvPF0QQSy+0pGQylfb0Q/Q/f6Mnm6CgwtHm6UhgyHVVFTcYET1kQElFMap3U+XG
+	VBU7SKQwOn9T/S/23KLTbs8z9ojOFf5PGAaHbJlxR6Wvh7rZavuh+k97oreb4Vl1LP8j
+	zUUw==
+X-Gm-Message-State: AElRT7E0eZTCmv81D9I0zk7WgpMCd5G+/7xml94HiEn5DupVyQPOoR04
+	yvTeMIREOWEqQZyubC/oySaO2l3U1XAfduZ4m/jxkw==
+X-Google-Smtp-Source: AIpwx49QbVT0GCVlN8/YHgk4cOg0IfIRAqa08jIx4ntUYQfvtZsd0hRXOiSFQKPVxyz8sdHRoxLj+QFh96fazHaHoyM=
+X-Received: by 10.202.27.13 with SMTP id b13mr822111oib.70.1522228524108; Wed,
+	28 Mar 2018 02:15:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170514090737.GA29032@mcrowe.com>
-X-Originating-IP: [10.101.2.54]
-Subject: Re: [PATCH RFC] module.bbclass: Fix potential do_compile/do_make_scripts race condition
+Received: by 10.138.17.198 with HTTP; Wed, 28 Mar 2018 02:15:03 -0700 (PDT)
+In-Reply-To: <CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
+References: <20180327154802.14611-1-ross.burton@intel.com>
+	<CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 Mar 2018 10:15:03 +0100
+Message-ID: <CAJTo0LZUdMAtWKtGnPstotRGiHUPwZ_80PmuSzj5wpAFWGcN0Q@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,29 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 08:39:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 28 Mar 2018 09:15:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 14/05/17 11:07, Mike Crowe wrote:
-> 
-> On Monday 08 May 2017 at 11:29:03 +0100, Mike Crowe wrote:
->> We've started seeing the same symptom, but with a v3.14 kernel. We have
->> several recipes that build out-of-tree modules and I can see
->> do_make_scripts for one running at the same time as do_compile for the one
->> that fails.
->>
+On 27 March 2018 at 23:43, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> ++      //va_start (ap, number);
+>
+> Without knowing anything about pseudo, commenting this out looks odd?
 
-Even though I have not seen this running manually, our buildservers have 
-reproduced it using Rocko and a v4.9 kernel, building the external 
-imx-gpu kernel module for a NXP IMX6 based hardware.
+It appears that pseudo's wrappers pass a va_list for you.
 
-So yeah, still happening.
+Then again I know little about pseudo and just hacked until something worked.
 
--- 
-Javier Viguera
-Software Engineer
+With this patch I was getting occasional failures of the pseudo-using
+bitbake-worker, so its not quite ready, but Peter is working on a
+better form anyway.
 
-Digi International® Spain S.A.U.
+Ross
 
