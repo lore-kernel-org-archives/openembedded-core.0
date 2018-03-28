@@ -1,44 +1,48 @@
-Return-Path: <piyushkumar29995@gmail.com>
-Received: from mail-ot0-f173.google.com (mail-ot0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E806E78425
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D122C78432
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 10:14:51 +0000 (UTC)
-Received: by mail-ot0-f173.google.com with SMTP id h55-v6so527937ote.9
+	Wed, 28 Mar 2018 10:32:13 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id j143-v6so1669335oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 03:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=k5AWygy29ItDfylOrTrMmuRvx971G/gwDAnD1BeIV6Y=;
-	b=V5jyrg9aUPTgSSy0uxIMUiGVxGBbaqrWUNlxg6m7tIzLvUOte4wyCsDTGCakA4tUdB
-	v2yNKlvNg/oA1EF5UKvBY0rKMev3M2KIQnlYEsoFnjVgYReHGQkQD9sKW3+6ozeLVZEO
-	LuPXQS3ROZ1L3KKpTirrwrmaKWow0FYnftkuuOLfw7CBbAMPCkqU/p4Q1RNIG38kH1YC
-	6/ibQkSShKCOdNFfr6BKX9Rmr8bk3/pWD1oqCxGjkMFCsRzSDBdg/E0oIFjBSxlcs45r
-	XzjCiKBmtS1WWQteO0ZB530b9vbwfN7kBLdU4+ho0eWlG0OYWswvLgDj+Sp5tzyaY2GY
-	R/rg==
+	Wed, 28 Mar 2018 03:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RSETLOvGh84Mmk/dzpFWfAy0SCMBZnbuIXihIUpDhBY=;
+	b=Z4CEV1+e2k3Yq5NBZmKnVNTcr4gnWBkaQT1v7y46nAX35pXp/ya+QT20CntWP33Qod
+	Hiy5H88WipK7ObGov9Hw6X2ljShtkLJ3F7XtrFNhsl4iWzAJfykD1zLeqQ4McfCOxfuI
+	SjEsy9jR8GTYX/kO1/9WJ8nXeac7ratePRyf000Ij/PUlSZQnjNqh1RahXXF5o1D1/je
+	Z/gra8Jh36qzPG+PST7XwkkGiri3GsF3hkRJawClmGO1SUYaD987wk2W61N8vrCf1ckQ
+	IqxMVKvmXSBx/ReehX9KHy3SECxI4+Mwf6J5h4o/57LsNiD/oVKbYRO3ccLcsLCSed3O
+	k0XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=k5AWygy29ItDfylOrTrMmuRvx971G/gwDAnD1BeIV6Y=;
-	b=MUodZ8V4tNo6mfBvprn//YFDX8oN1Lj3aJuoDlicyWvjsi6NZW+XFeSUWCgi9k/8tv
-	cZb8YlEiKMKr2msLOE0QTc8/srik/fH7xcLCIr8njZ5w7k4rPenJnTxWrwMNAQPmmiNn
-	50c2HQXL7kRkFhVLvJIwLfFZaeNmIooh80cuWdomZ5qBmkee3Fwabh0kc30Rx4yqEDC0
-	360OK1brQ9bcEYdbgUiLmkS188+OkRjFu4T/22yA6p/G4+Ew6IpDAEy7wpL1GIClutff
-	SjDduTDVatmbNNCTAFxcyIUZv9XyQd6XqlTvxqsb3ZcdkrjlEDbUjJxAKJBg9FlR0zQd
-	mwDg==
-X-Gm-Message-State: ALQs6tCePFxJhb8aAS8D0LonQ96mnNtywB5FaruDVYx21wDZ/BtZ24dP
-	laPNJvMrXYZJjeC22DwZ17XIL+0kgyF/xwYHiED5Og==
-X-Google-Smtp-Source: AIpwx49hxu17FdQ/3LS1dZqn0rEF8U6pfX4v8Xza7Sk2MZpzMffkqmN1DXjMHra40G8kYAvWidcKbTSp+jvdPJWpENE=
-X-Received: by 2002:a9d:40d:: with SMTP id 13-v6mr1933243otc.42.1522232092679; 
-	Wed, 28 Mar 2018 03:14:52 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RSETLOvGh84Mmk/dzpFWfAy0SCMBZnbuIXihIUpDhBY=;
+	b=X/cBO9CVCKLiu1nC7tNUtdqQdlgaONgVAO0DoVSZ/ybzF3ct47X01vVjWhN5sprbcb
+	z6DMGGOWytIKAuvmeJQIQ3e6W/ffPKjVx4iOvi4CkgG2wfws+Z5/46CXu8Vhr5ILxjtd
+	G1RLagvKkvO5AL3aJS/ibPwTgqBXyXtS709xLIP/hrRYkUBuXfIbTYOeUgNlGXeGIiek
+	GUrVhmkBznC5xde3RTgHA3F1sOq89esTna06Q2dd9Nt3/qVJ3dE625vrR5rYQaVqqTbc
+	ukSSrQqfNPBRQBWxf388zoc52baMIOqpd1M0EwAsEg3EJOpcARemoshP54MV/T5Oeh0O
+	DKCw==
+X-Gm-Message-State: ALQs6tBlMTIL5GWnO4RGd33cH5B0e9dZIVRZJ/iWCVQAJYyFsrmdp+1z
+	FHiEAKnFiPeUzHNAy2ta1WmtyLrmfgHgI7PQ5x4Gfg==
+X-Google-Smtp-Source: AIpwx4/4ew0/hNIJkH0fqcWG+Ve8nXhaoi2yTeFCPeRd+w0RiX70MU0Vwj9g4+cUSSH+czZiJd6xGUXiNqaAQ2C0Lvc=
+X-Received: by 10.202.172.209 with SMTP id v200mr1713313oie.320.1522233134992; 
+	Wed, 28 Mar 2018 03:32:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:5541:0:0:0:0:0 with HTTP; Wed, 28 Mar 2018 03:14:52
-	-0700 (PDT)
-From: piyush kumar <piyushkumar29995@gmail.com>
-Date: Wed, 28 Mar 2018 15:44:52 +0530
-Message-ID: <CAOVPQjfJrkxuXcLmGffr_76c-bsZKg3Z+QjB6SaFMaAEwDSghQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: network issue pip is not able to fetch internet on yocto
+Received: by 10.138.17.198 with HTTP; Wed, 28 Mar 2018 03:31:54 -0700 (PDT)
+In-Reply-To: <cover.1522162765.git.bruce.ashfield@windriver.com>
+References: <cover.1522162765.git.bruce.ashfield@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 28 Mar 2018 11:31:54 +0100
+Message-ID: <CAJTo0Lbv_7wXs1mgoqtBc6zWN_bazjwYpc1FbLzT3-zqUnNUHg@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,45 +55,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 10:14:52 -0000
-Content-Type: multipart/alternative; boundary="00000000000026649e0568764702"
-
---00000000000026649e0568764702
+X-List-Received-Date: Wed, 28 Mar 2018 10:32:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I am trying to do a pip install on poky for one of the python
-package(i.e. wheel) and
-it is resulting in this error
+I think it was this pull but musl builds are now failing like this in selftest:
 
+| NOTE: FAIL: test_kernel_module (kernelmodule.KernelModuleTest)
+| NOTE: ----------------------------------------------------------------------
+| NOTE: Traceback (most recent call last):
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+line 32, in wrapped_f
+|     return func(*args, **kwargs)
+|   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/runtime/cases/kernelmodule.py",
+line 40, in test_kernel_module
+|     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+| AssertionError: 2 != 0 : cd /tmp && make
+| make -C /usr/src/kernel M=/tmp modules
+| make[1]: Entering directory '/usr/src/kernel'
+| getconf: LFS_CFLAGS: unknown variable
+| getconf: LFS_LDFLAGS: unknown variable
+| getconf: LFS_LIBS: unknown variable
+| make[2]: *** No rule to make target 'tools/objtool/objtool', needed
+by '/tmp/hellomod.o'.  Stop.
+| make[1]: Leaving directory '/usr/src/kernel'
+| make[1]: *** [Makefile:1519: _module_/tmp] Error 2
+| make: *** [Makefile:5: all] Error 2
 
-Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after
-connection broken by
-'NewConnectionError'('<pip._vendor.requests.pacages.urllib3.connection.VerifiedHTPSConenction
-object at 0xb68f988c>': Failed to establish a new connection: [Errno -2]
-Name or service not known',): /simple/pyros-setup/
-Could not find a version that satisfies the requirement wheel (from
-versions: ) No matching distribution found for wheel
-Do help
+Ross
 
-Thanks,
+On 27 March 2018 at 16:03, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> Hi all,
+>
+> This pull request is a series of -stable updates (more Spectre/meltdown
+> included), and some fixes for the fsl_mpc h/w reference board that will
+> allow us to update the reference to v4.14+.
+>
+> We also have a configuration tweak to the wifi fragments, which will
+> result in more reuse, but won't impact the default configurations.
+>
+> Note: I haven't included the re-written kernel-devsrc changes, since
+> I've never been able to reproduce the multilib issue with the ssl
+> dependency. The devsrc changes will have to be looked at after the
+> release.
+>
+> Cheers,
+>
+> Bruce
+>
+> The following changes since commit 80c7ca2c28959d08a59d960d318d8360392bd488:
+>
+>   kernel-dev: Clean up of "bsp_name" placeholder. (2018-03-25 09:41:13 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (7):
+>   linux-yocto/4.12: update to v4.12.21
+>   mpc8315e-rdb: fix broken ethernet
+>   linux-yocto/4.12: add ssl and utils native dependencies
+>   linux-yocto/meta: improve wifi driver granularity
+>   linux-yocto/4.12: intel-socfpga, intel-pmc-core and ish support for
+>     CoffeeLake board
+>   linux-yocto/4.14: update to v4.14.30
+>   linux-yocto/4.15: update to v4.15.13
+>
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  6 +++---
+>  meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 22 ++++++++++++----------
+>  meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++++----------
+>  meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 20 ++++++++++----------
+>  9 files changed, 50 insertions(+), 48 deletions(-)
+>
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Piyush
-
---00000000000026649e0568764702
-Content-Type: text/html; charset="UTF-8"
-
-<div dir="ltr"><pre>I am trying to do a pip install on poky for one of the python package(i.e. wheel) and
-it is resulting in this error
-
-
-Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after
-connection broken by
-&#39;NewConnectionError&#39;(&#39;&lt;pip._<wbr>vendor.requests.pacages.<wbr>urllib3.connection.<wbr>VerifiedHTPSConenction
-object at 0xb68f988c&gt;&#39;: Failed to establish a new connection: [Errno -2]
-Name or service not known&#39;,): /simple/pyros-setup/
-Could not find a version that satisfies the requirement wheel (from
-versions: ) No matching distribution found for wheel
-Do help<br>
-Thanks,<br><br></pre><pre>Piyush</pre><br></div>
-
---00000000000026649e0568764702--
