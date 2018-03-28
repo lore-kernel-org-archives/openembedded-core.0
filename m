@@ -1,50 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BA46E7198F
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9EF71A6B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 15:24:04 +0000 (UTC)
-Received: by mail-ot0-f175.google.com with SMTP id h8-v6so3061714oti.6
+	Wed, 28 Mar 2018 15:28:12 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id k135-v6so4286195ite.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 08:24:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zAAowZ0vCrjLJxRqFeT2yhQGm5TQPI+dKqyltKj07DU=;
-	b=oWXhztxnZS2lwScR+zar+bkR89cYd5DNryaSlA0uTNd9QSV/J8gWWHwlW+sdp4WMCA
-	n0rgrB8i9E5kMp00nbmzBO4suSDRkihvPeV4vD74eUeE0+w2UknJqBcUbp0V7rLFFGlt
-	B7WDifd+/zO0X33KgyaX4dvQ+gVwN2KuUpwE9hGUKQt+x5r7i8FBon3xqpp6V5hSVory
-	nT+Feq8Ba7UmjE3p3sNB+oXzvxyq9OjBJSQyGT8T0/+NTDQ6kNQQdK7/s5LDQNtydw1V
-	VmtKIRiowhSduK7Eijns+ZbaRWXQS785J+GAcWLTyPzUL9UuYJuzxVuE4sVtMXpdfshx
-	mT6A==
+	Wed, 28 Mar 2018 08:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=lqFZQd8mHNHRuoYyRoCgR2nbllt+Xk4uGtUnkz2JooI=;
+	b=eEKY1d4YqFoICBKAhHTx3UvCXtDO9epT4ceaWAzR0v2Um5up6yijdLqg3SLc3dMNqQ
+	RzGLhV3ldYkGAwJGMIU3jc+zi2TkH8Idb8MYg21RvOd8FBOUirsZUb7OnUSIdVKiUH24
+	kRdY0YbLpQtDHXAQa5pG8enzWqskT1ztVeg1Fov6/qZW79Cq58i8rWM7/QCJnC/ta6sS
+	j30zT68x5IfFHkUXHnTV9BoH7HLL/IMvJgnOL99C5v9XaczVV3+Kul9xg77hdD484yB6
+	ilOXpM/ApcB0yiNwY9l3VlL2dt0etezS9+NcCMnkdzy+AOj13Xkt6pdcf0X4FfRs4J/S
+	2zSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zAAowZ0vCrjLJxRqFeT2yhQGm5TQPI+dKqyltKj07DU=;
-	b=OHbtI7/qpQ2EcEwwte8GU+SBjmCAyurCZ7rH5eNzQ25b//QYP+9fAAV0aIO7rcgiUL
-	EdmV1FASG7GrXN2QBSEKS78y3V326qtG/7sdChalsdUZH1d43jSOOsD55BtPgmW7SCeB
-	jgv9leZXbsQT9NpL+q7m7uX5x1JgyMC5IyvBpEnAkjELebv/eMGUTe1dmtr5FYCRESZn
-	D8nFz0glFwaEqj3RVlIHIbzJrC5u/FBZAzs5UxziNeN9+3m+o1zwxc7FXnsl12OqUre5
-	Y4jIcmY1lJxy6P2ncEG1y5Euu2mvSsNUtmmYo6hWLTxNhmsfBFmtBIdKeFMTJX3UHz18
-	eYoQ==
-X-Gm-Message-State: AElRT7GYR/7drwMPXlpA7w2dOVwjLUKlebA+qsuQwzsk20MTA9N91EzV
-	bII1LK+VNwtJikpIUhNIXwvzQ+dKgtwyrQf1BEWxIw==
-X-Google-Smtp-Source: AIpwx49fAvtWtN8Cut0pFbvIy9TPz3mfigtcIpkJIY5XpRdkOEMkxMy2dDrGsG9WE3FYGh+Og4xyiiKlAgbSatUuN+M=
-X-Received: by 2002:a9d:281b:: with SMTP id
-	m27-v6mr2407172otb.89.1522250645783; 
-	Wed, 28 Mar 2018 08:24:05 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=lqFZQd8mHNHRuoYyRoCgR2nbllt+Xk4uGtUnkz2JooI=;
+	b=MU/aXd5uNtSpw0qPRlSxNX7tXlTIdvkZ2LI2iCp/vqCxhC+fWMig7l5go0Lpeo38Lk
+	BCdzzIIBV501oGQJruXRCDNtuzqiNiDya4idNoqROvNB8fczR7TFjYdegCUdwew1YHEI
+	99lPcElgwI7RhBSxxMBpxNocq/OL+iWc/r2M8P4LC2kLGyj/rNWNl6vNvH87NB1Xe/C8
+	dOP/EdfIiJIS4ZtkEgc+koBZl//4hvJSmJnJ7+O6DFDDNXSeAGRI+5l+ndMCNQ8GTr3b
+	jLiAX6MbdR1UXbC8gbozVT8ntXXJXXtU1BwdIU5bA4mssOlB1S1Cij0A4vkLVV45460P
+	PL5g==
+X-Gm-Message-State: ALQs6tA5O72IzIBuV7kNT16DgIGKsOVpjEciUjBYdhbygqOgJHoNg82Y
+	64aJDtvm8UJSsPMyvSf4L7bF382K
+X-Google-Smtp-Source: AIpwx49fN4WdyHqWh7rOEIwj6swhsaA6hSDITLaVUa5P6px+icDxXcHtfaE3wCafdJGV9PnW22o/4g==
+X-Received: by 2002:a24:49e6:: with SMTP id
+	e99-v6mr3874934itd.47.1522250892890; 
+	Wed, 28 Mar 2018 08:28:12 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
+	z127-v6sm3012018itg.30.2018.03.28.08.28.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 28 Mar 2018 08:28:11 -0700 (PDT)
+Date: Wed, 28 Mar 2018 11:28:09 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20180328152809.GA11111@linux-uys3>
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Wed, 28 Mar 2018 08:23:44 -0700 (PDT)
-In-Reply-To: <3689ac97-558e-0d2a-5a91-4b25f9feb622@lucaceresoli.net>
-References: <20180129174724.26768-1-niko.mauno@vaisala.com>
-	<3689ac97-558e-0d2a-5a91-4b25f9feb622@lucaceresoli.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Mar 2018 16:23:44 +0100
-Message-ID: <CAJTo0Lau2TQ0hyLjr3ts2gOM4BE4EnDyZF=a5nT438d9M7YdNA@mail.gmail.com>
-To: Luca Ceresoli <luca@lucaceresoli.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: Add comm to HOSTTOOLS
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Subject: host kernel BUGs while building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +57,1018 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 15:24:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Mar 2018 15:28:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Please backport the patch to rocko and submit it to the list.
+Hi,
 
-Ross
+This email is just a FYI.
+I thought I'd post it here, in case anyone else goes looking for something
+similar.
+My host is openSUSE 42.3.
 
-On 28 March 2018 at 15:55, Luca Ceresoli <luca@lucaceresoli.net> wrote:
-> Hi,
->
-> On 29/01/2018 18:47, Niko Mauno wrote:
->> This mitigates following issues during u-boot do_compile() step --
->> otherwise, if comm is not available, they are quietly ignored:
->>
->>   .../scripts/check-config.sh: line 33: comm: command not found
->>   .../scripts/check-config.sh: line 39: comm: command not found
->
-> In current U-Boot master (since [0]), the absence of 'comm' is not
-> silently ignored but rather causes a build failure.
->
-> Thus I think this patch should be cherry-picked on the stable yocto
-> branches. Otherwise people using a post-2018.3 U-Boot will see their
-> builds fail and will have to find out on their own how to fix it.
->
-> [0]
-> http://git.denx.de/?p=u-boot.git;a=commit;h=f69dce5081396a83b87d6df2693764b99466a18d
->
-> --
-> Luca
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Since this past December (December 18, 2017), whenever I'm performing an OE
+build on my build/host machine, I would find dozens of the following messages
+in my host's journal:
+
+	Dec 18 23:01:50 linux-uys3 kernel: BUG: sleeping function called from invalid context at ../fs/buffer.c:1396
+	Dec 18 23:01:50 linux-uys3 kernel: in_atomic(): 1, irqs_disabled(): 0, pid: 24319, name: libarchive:pack
+	Dec 18 23:01:50 linux-uys3 kernel: CPU: 2 PID: 24319 Comm: libarchive:pack Tainted: G           O     4.4.103-36-default #1
+	Dec 18 23:01:50 linux-uys3 kernel: Hardware name: ASUSTeK COMPUTER INC. TS700-E8-PS4/Z10PE-D16 WS, BIOS 3204 12/18/2015
+	Dec 18 23:01:50 linux-uys3 kernel:  0000000000000000 ffffffff8133c317 0000000000000000 ffff88103b479880
+	Dec 18 23:01:50 linux-uys3 kernel:  ffffffff812473c4 ffff88102c395800 ffff880f2d9efc80 ffff880e14486e88
+	Dec 18 23:01:50 linux-uys3 kernel:  000000000000b595 0000000000000009 ffffffffa04e81b0 ffff880e14486e60
+	Dec 18 23:01:50 linux-uys3 kernel: Call Trace:
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8101a0d9>] dump_trace+0x59/0x320
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8101a49a>] show_stack_log_lvl+0xfa/0x180
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8101b241>] show_stack+0x21/0x40
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8133c317>] dump_stack+0x5c/0x85
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff812473c4>] __getblk_gfp+0x34/0x60
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffffa04e81b0>] find_inode_bit.isra.11+0xa0/0x150 [ext4]
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffffa04e9606>] __ext4_new_inode+0x656/0x1570 [ext4]
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffffa04fbc73>] ext4_create+0xc3/0x170 [ext4]
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8121c618>] vfs_create+0xb8/0x120
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff8121f4ec>] path_openat+0xe7c/0x12e0
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff81220aee>] do_filp_open+0x7e/0xd0
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff81210139>] do_sys_open+0x129/0x200
+	Dec 18 23:01:50 linux-uys3 kernel:  [<ffffffff81633b72>] entry_SYSCALL_64_fastpath+0x16/0x71
+	Dec 18 23:01:50 linux-uys3 kernel: DWARF2 unwinder stuck at entry_SYSCALL_64_fastpath+0x16/0x71
+
+As far as I could tell, my builds were not affected, the build itself would
+turn out fine, there was just a lot of "complaining" showing up in the logs.
+For every core-image-full-cmdline build I performed, dozens and dozens of
+these messages would show up.
+
+Just as inexplicably as they started, they've suddenly stopped. I noticed the
+other day that these BUGs weren't showing up anymore. Looking through my logs
+they appear to have stopped Mar 23 2018.
+
+I keep my system up-to-date daily. I'm always installing my distro's updates,
+and I'm always keeping OE up-to-date and working off master. I don't know if
+this is a host issue, or an OE issue, but I'm learning towards host. However,
+I have never witnessed this every happening at any other time other than when
+an OE build was occurring.
+
+$ journalctl | grep "in_atomic():" | wc -l
+92943
+
+$ journalctl | grep "in_atomic():" | cut -d':' -f8 | sort | uniq -c | sort -rn
+  18772  tar
+   7833  as
+   5432  sh
+   4604  mkdir
+   4267  opkg-build
+   2861  git
+   2835  install
+   2705  arm-oe-linux-gn
+   2041  configure
+   1753  strip
+   1501  ld
+   1248  ar
+   1188  cp
+   1107  cross-localedef
+   1010  cc1
+    936  glibc-locale
+    877  cpio
+    744  sed
+    695  linux-raspberry
+    628  patch
+    547  ln
+    531  perl
+    493  bash
+    430  aarch64-oe-linu
+    416  x86_64-oe-linux
+    416  touch
+    372  python
+    360  cmake
+    351  packagegroup-co
+    344  x86_64-linux-li
+    331  python3
+    220  gtk-encode-symb
+    173  glib-2.0
+    172  gdk-pixbuf
+    159  miniperl
+    159  libpam
+    157  gtk+
+    148  linux-intel
+    145  recordmcount
+    142  mktemp
+    142  libuser
+    141  cc1plus
+    137  atk
+    133  tee
+    125  chkconfig
+    123  opkg
+    123  libxcb
+    120  grep
+    120  gnome-themes-st
+    115  mc
+    115  libnewt
+    114  perl5.24.1.real
+    112  cracklib
+    111  openssl
+    109  shared-mime-inf
+    107  util-linux
+    107  rpm
+    106  shadow
+    106  gobject-introsp
+    104  ncurses
+    104  diffutils
+    100  make
+    100  m4
+     99  python3.5
+     99  lighttpd
+     99  cryptodev-linux
+     99  coreutils
+     98  tcp-wrappers
+     98  flex
+     97  findutils
+     97  avahi
+     94  sudo
+     94  nano
+     93  nfs-utils
+     92  opkg-utils
+     91  procps
+     90  pciutils
+     89  xz
+     89  psmisc
+     87  openssh
+     87  glibc
+     86  iproute2
+     86  gdbm
+     85  strace
+     84  base-files
+     83  rpcbind
+     83  python3-setupto
+     83  parted
+     83  libxml-namespac
+     83  gzip
+     83  e2fsprogs
+     83  binutils
+     81  sysvinit
+     81  sysstat
+     80  libsolv
+     80  initscripts
+     80  eudev
+     79  wget
+     79  vim
+     79  netbase
+     79  i2c-tools
+     79  gawk
+     78  gettext
+     78  bison
+     77  zlib
+     77  popt
+     76  sysklogd
+     76  init-ifupdown
+     75  libgpg-error
+     75  elfutils
+     75  attr
+     74  libxml-sax-perl
+     74  foomatic-filter
+     74  cairo
+     74  busybox
+     73  trace-cmd
+     73  psplash
+     73  libpthread-stub
+     73  gnutls
+     73  cronie
+     73  bash-completion
+     72  python3-dbus
+     72  libxml-parser-p
+     72  dbus-glib
+     72  bzip2
+     71  libnl
+     71  libmnl
+     71  bluez5
+     71  at
+     70  update-rc.d
+     70  net-tools
+     70  linux-chip
+     69  time
+     69  modutils-initsc
+     68  mesa
+     68  libarchive
+     68  freetype
+     67  xextproto
+     67  watchdog
+     67  usbutils
+     67  linux-libc-head
+     67  libxrender
+     67  libnfsidmap
+     67  libidn
+     67  less
+     67  iptables
+     66  logrotate
+     66  libxau
+     66  libtool
+     66  cups
+     65  tree
+     65  libdrm
+     65  autoconf-archiv
+     64  tiff
+     64  ruby
+     64  libxext
+     64  libxdmcp
+     64  inputproto
+     64  icu
+     63  tzdata
+     63  readline
+     63  nspr
+     63  makedevs
+     63  libxml-sax-base
+     63  gstreamer1.0-pl
+     63  ghostscript
+     63  ethtool
+     62  quota
+     62  linux-linaro-qc
+     62  libpng
+     62  kmod
+     62  bc
+     62  acl
+     61  python3-pygobje
+     61  libxt
+     61  liburi-perl
+     61  libpcre
+     61  libcroco
+     61  iputils
+     61  ca-certificates
+     60  xkeyboard-confi
+     60  libxi
+     60  libnss-mdns
+     60  libglu
+     60  libffi
+     60  libevent
+     60  harfbuzz
+     60  compositeproto
+     60  bind
+     59  libxml2
+     59  libxcomposite
+     59  expat
+     58  xf86driproto
+     58  pango
+     58  nsinstall
+     58  libxtst
+     58  kbproto
+     58  alsa-lib
+     57  rsync
+     57  nettle
+     57  hdparm
+     57  db
+     56  xprop
+     56  which
+     56  sysvinit-initta
+     56  run.buildhistor
+     55  xcb-proto
+     55  shadow-securett
+     55  lzo
+     55  libcap
+     55  libaio
+     55  gmp
+     55  glproto
+     55  fontconfig
+     54  sqlite3
+     54  python3-pycairo
+     54  nss
+     54  ed
+     53  xinetd
+     53  unzip
+     53  qemuwrapper-cro
+     53  openbox
+     53  libxxf86vm
+     53  libxft
+     53  libxfixes
+     53  libsm
+     53  librsvg
+     53  libgcrypt
+     53  dhcp
+     53  base-passwd
+     52  mdadm
+     52  hicolor-icon-th
+     52  groff
+     52  at-spi2-core
+     51  xtrans
+     51  mkfontdir
+     51  libusb1
+     51  libical
+     51  file
+     51  damageproto
+     50  util-macros
+     50  msmtp
+     50  lsb
+     50  liberation-font
+     49  man-pages
+     49  lsof
+     49  libxml-perl
+     49  libpciaccess
+     49  libjpeg-turbo
+     49  libice
+     48  sysfsutils
+     48  pseudo
+     48  gcc-runtime
+     48  dbus
+     47  xmodmap
+     47  libxrandr
+     47  libxdamage
+     47  libxcursor
+     47  gtk+3
+     46  zip
+     46  xf86miscproto
+     46  slang
+     46  setserial
+     46  screen
+     46  mtdev
+     46  minicom
+     46  lsbtest
+     46  libunistring
+     46  font-util
+     46  dri2proto
+     45  xdg-utils
+     45  tcl
+     45  fixesproto
+     44  xserver-xorg
+     44  xf86vidmodeprot
+     44  libx11
+     43  opkg-arch-confi
+     43  libtool-cross
+     43  kbd
+     43  curl
+     42  xorg-minimal-fo
+     42  xauth
+     42  rpm-native
+     42  renderproto
+     42  lttng-ust
+     42  libxmu
+     41  run-postinsts
+     41  perl.real
+     41  libtirpc
+     41  fontsproto
+     40  xproto
+     40  watchdog-config
+     40  libusb-compat
+     39  xset
+     39  randrproto
+     39  man-db
+     39  lrzsz
+     38  xrandr
+     38  mkfontscale
+     38  dmxproto
+     37  xhost
+     37  resourceproto
+     37  liburcu
+     37  i586-oe-linux-s
+     37  encodings
+     36  xf86-input-libi
+     36  udev-extraconf
+     36  qemu-native
+     36  libxaw
+     36  conftest
+     35  xserver-xf86-co
+     35  rgb
+     35  libxpm
+     35  libinput
+     34  xinput-calibrat
+     34  xinit
+     34  xcmiscproto
+     34  x86_64-oesdk-li
+     34  scrnsaverproto
+     34  libxxf86dga
+     34  libxkbfile
+     34  libgcc
+     34  libdaemon
+     34  gdb
+     33  xineramaproto
+     33  xdpyinfo
+     33  nativesdk-glibc
+     33  lsbinitscripts
+     33  libdmx
+     33  icupkg
+     33  dri3proto
+     32  xinput
+     32  videoproto
+     32  tic
+     32  lttng-modules
+     32  linux-ti-stagin
+     32  libxinerama
+     32  gdk-pixbuf-nati
+     31  xterm
+     31  pixman
+     31  pax
+     31  libxext-native
+     31  libfontenc
+     31  bigreqsproto
+     30  xkbcomp
+     30  linux
+     30  libxshmfence
+     30  libxml2-native
+     30  libcheck
+     30  font-alias
+     30  Configure
+     29  xf86dgaproto
+     29  Worker (Fakeroo
+     29  ranlib
+     29  libunwind
+     29  gconf
+     29  boost
+     28  glew
+     27  zic
+     27  recordproto
+     27  pulseaudio
+     27  libepoxy
+     27  glib-2.0-native
+     26  xf86-input-keyb
+     26  libcroco-native
+     26  glmark2
+     26  gettext-minimal
+     26  cairo-native
+     25  python2.7
+     25  presentproto
+     25  powertop
+     25  mesa-demos
+     25  libevdev
+     25  elfutils-native
+     24  xserver-nodm-in
+     24  python3-native
+     24  libxslt-native
+     24  gmp-native
+     24  formfactor
+     24  dbus-glib-nativ
+     23  xsetroot
+     23  sysprof
+     23  opkg-native
+     23  keymaps
+     23  gstreamer1.0
+     23  cgdb
+     22  qmake
+     22  pointercal-xinp
+     22  libxfont2
+     22  core-image-full
+     21  xf86-input-mous
+     21  texinfo-dummy-n
+     21  perf
+     21  libwebp
+     21  lib/unicore/mkt
+     21  libpipeline
+     21  flex-native
+     21  flac
+     21  binutils-cross-
+     21  arm-rk-linux-gn
+     21  adwaita-icon-th
+     20  nss-native
+     20  man
+     20  linux-fslc
+     20  libvorbis
+     19  xtrans-native
+     19  xf86-video-fbde
+     19  xf86-input-evde
+     19  util-linux-nati
+     19  shadow-sysroot
+     19  pigz-native
+     19  nodejs
+     19  linux-stable
+     19  dosfstools
+     18  systemtap
+     18  libxxf86misc
+     18  libxdmcp-native
+     18  i586-poky-linux
+     18  gdbm-native
+     18  freeglut
+     18  expat-native
+     18  curl-native
+     18  consolekit
+     17  xz-native
+     17  shadow-native
+     17  pango-native
+     17  nspr-native
+     17  mpfr-native
+     17  mpfr
+     17  mkfontdir-nativ
+     17  libpng-native
+     17  libpcre-native
+     17  i586-oe-linux-l
+     17  hexedit
+     17  gtk-icon-utils-
+     17  glibc-mtrace
+     17  chromium-x11
+     16  zlib-native
+     16  libxau-native
+     16  libsndfile1
+     16  libogg
+     16  iso-codes
+     16  conf_script
+     16  binutils-native
+     16  autoconf-native
+     15  xproto-native
+     15  unifdef-native
+     15  u-boot-rockchip
+     15  source-han-sans
+     15  sbc
+     15  pkgconfig-nativ
+     15  openssl-native
+     15  ofono
+     15  ncurses-native
+     15  nativesdk-perl
+     15  mesa-gl
+     15  librsvg-native
+     15  dbus-native
+     15  db-native
+     15  bzip2-native
+     15  bcm2835-bootfil
+     14  xf86-video-inte
+     14  valgrind
+     14  util-macros-nat
+     14  udev-rules-rpi
+     14  speexdsp
+     14  readline-native
+     14  python-native
+     14  popt-native
+     14  parted-native
+     14  mtools-native
+     14  mklibs-native
+     14  libxrender-nati
+     14  file-native
+     14  docbook-xsl-sty
+     14  blktrace
+     14  bison-native
+     13  worker_Worker7/
+     13  sqlite3-native
+     13  makedepend-nati
+     13  lttng-tools
+     13  libyaml
+     13  libatomic-ops
+     13  kbproto-native
+     13  icu-native
+     13  gperf-native
+     13  freetype-native
+     13  e2fsprogs-nativ
+     13  conf
+     13  at-spi2-atk
+     13  alsa-plugins
+     12  xbitmaps
+     12  worker_Worker9/
+     12  worker_Worker3/
+     12  pkgconfig
+     12  pixman-native
+     12  ninja-native
+     12  m4-native
+     12  lzo-native
+     12  libxcb-native
+     12  libtheora
+     12  libsolv-native
+     12  libsdl-native
+     12  libmpc-native
+     12  libgudev
+     12  libarchive-nati
+     12  ldconfig-native
+     12  inputproto-nati
+     12  gcc-cross-initi
+     12  font-util-nativ
+     12  cmake-native
+     11  worker_Worker2/
+     11  thermald
+     11  re2c-native
+     11  perl-native
+     11  orc
+     11  ninja
+     11  meson-native
+     11  libxrandr-nativ
+     11  libgcc-initial
+     11  libffi-native
+     11  latencytop
+     11  json-c
+     11  intltool
+     11  glibc-initial
+     11  fti-touchscreen
+     11  firmware-qcom-d
+     11  dwarfsrcfiles-n
+     11  cracklib-native
+     11  babeltrace
+     11  automake-native
+     11  attr-native
+     10  xf86-video-vesa
+     10  xeyes
+     10  worker_Worker1/
+     10  split-include
+     10  renderproto-nat
+     10  quilt
+     10  python2
+     10  pseudo-native
+     10  prelink-native
+     10  nativesdk-pytho
+     10  msgfmt.real
+     10  libxv
+     10  intltool-native
+     10  harfbuzz-native
+     10  gtk-doc-native
+     10  groff-native
+     10  gnu-config-nati
+     10  diffstat
+     10  bmap-tools-nati
+     10  bc-native
+      9  xextproto-nativ
+      9  xcb-proto-nativ
+      9  worker_Worker8/
+      9  worker_Worker6/
+      9  worker_Worker5/
+      9  update-rc.d-nat
+      9  update-mime-dat
+      9  quilt-native
+      9  opkg-utils-nati
+      9  nativesdk-autom
+      9  mobile-broadban
+      9  mkfontscale-nat
+      9  m4-ccas
+      9  lzop-native
+      9  libsoup-2.4
+      9  libjpeg-turbo-n
+      9  libice-native
+      9  initramfs-modul
+      9  gptfdisk-native
+      9  gnu-config
+      9  gcc-source-7.3.
+      9  fti-locator
+      9  docbook-xml-dtd
+      9  depmodwrapper-c
+      9  Cooker
+      9  config.status
+      9  bg-logo
+      8  tzcode-native
+      8  pbzip2-native
+      8  linux-firmware
+      8  libxscrnsaver
+      8  libxft-native
+      8  libsamplerate0
+      8  libpcap
+      8  initramfs-frame
+      8  grub-efi
+      8  gnu-efi
+      8  dtc-native
+      8  debianutils-nat
+      8  automake
+      7  xmlto-native
+      7  xcb-util
+      7  userland
+      7  update-alternat
+      7  u-boot
+      7  tcl-native
+      7  perl5.22.1.real
+      7  nativesdk-util-
+      7  nativesdk-rpm
+      7  nativesdk-expat
+      7  makedevs-native
+      7  lzip-native
+      7  linux-rockchip
+      7  libsm-native
+      7  lame
+      7  gn-native
+      7  gcc-cross-arm
+      7  gcc
+      7  fontconfig-nati
+      7  directfb-exampl
+      7  alsa-lib-native
+      6  xwininfo
+      6  xrestop
+      6  xf86-video-ast
+      6  x86_64-pokysdk-
+      6  worker_Worker4/
+      6  wiringpi
+      6  va-intel
+      6  u-boot-chip
+      6  ttf-arphic-umin
+      6  stat
+      6  run.do_install.
+      6  rpio
+      6  riscv64-oe-linu
+      6  python-rtimu
+      6  nodejs-native
+      6  nativesdk-libto
+      6  nativesdk-input
+      6  nativesdk-gpgme
+      6  nativesdk-gette
+      6  nativesdk-gcc-r
+      6  nativesdk-bash
+      6  mtools
+      6  mpeg2dec
+      6  meta-environmen
+      6  ltp
+      6  linux-yocto-qua
+      6  linux-yocto-mes
+      6  linux-yocto
+      6  libx11-native
+      6  libproxy
+      6  ld.bfd
+      6  gstreamer1.0-va
+      6  gstreamer1.0-ro
+      6  ghostscript-nat
+      6  gettext-native
+      6  GenFw
+      6  cwautomacros-na
+      6  core-image-mini
+      6  ccache
+      6  autoconf
+      6  asciidoc-native
+      5  xvideo-tests
+      5  wpa-supplicant
+      5  u-boot-fslc
+      5  taglib
+      5  systemd-boot
+      5  syslinux
+      5  stress
+      5  secure-odroid
+      5  rpi-config
+      5  randrproto-nati
+      5  python-imaging
+      5  packagegroup-cr
+      5  nativesdk-share
+      5  nativesdk-pixma
+      5  nativesdk-opkg
+      5  nativesdk-opens
+      5  nativesdk-libxr
+      5  nativesdk-libpn
+      5  nativesdk-libff
+      5  nativesdk-libdn
+      5  nativesdk-libco
+      5  nativesdk-flex
+      5  nativesdk-dbus
+      5  nativesdk-db
+      5  make-mod-script
+      5  libxslt
+      5  libxres
+      5  libmpc
+      5  libfontenc-nati
+      5  i586-oe-linux-o
+      5  grub
+      5  fstests
+      5  echogs
+      5  dvfs-rules
+      5  dosfstools-nati
+      5  bison.real
+      4  useradd
+      4  updatehub-devic
+      4  tpm2-tss
+      4  speex
+      4  rockchip-mpp
+      4  qemu-helper-nat
+      4  pi-blaster
+      4  packagegroup-tp
+      4  os-release
+      4  nativesdk-sqlit
+      4  nativesdk-shado
+      4  nativesdk-pseud
+      4  nativesdk-posti
+      4  nativesdk-ncurs
+      4  nativesdk-glib-
+      4  nativesdk-gdbm
+      4  nativesdk-file
+      4  nativesdk-elfut
+      4  nativesdk-dnf
+      4  nativesdk-attr
+      4  mkbuiltins
+      4  memtester
+      4  liba52
+      4  kmod-native
+      4  kern-tools-nati
+      4  io
+      4  intel-microcode
+      4  initramfs-live-
+      4  i586-oe-linux-a
+      4  gstreamer1.0-li
+      4  glib-networking
+      4  gcc-sanitizers
+      4  gcc-cross-canad
+      4  expect
+      4  directfb
+      4  connman-conf
+      4  chrpath-native
+      4  btrfs-tools-nat
+      4  bjam-native
+      3  wireless-tools
+      3  wcnss-config
+      3  systemd-compat-
+      3  swig-native
+      3  run.autotools_p
+      3  ruby-native
+      3  qtdeclarative
+      3  qt5nmapper
+      3  python-nose
+      3  protochk
+      3  ppp
+      3  neon
+      3  nativesdk-zlib
+      3  nativesdk-xz
+      3  nativesdk-xtran
+      3  nativesdk-xprot
+      3  nativesdk-qemu-
+      3  nativesdk-popt
+      3  nativesdk-pkgco
+      3  nativesdk-packa
+      3  nativesdk-libxm
+      3  nativesdk-libxe
+      3  nativesdk-libxd
+      3  nativesdk-libxa
+      3  nativesdk-libso
+      3  nativesdk-libmp
+      3  nativesdk-gnu-c
+      3  nativesdk-gawk
+      3  nativesdk-dtc
+      3  nativesdk-crypt
+      3  nasm-native
+      3  mpg123
+      3  matchbox-wm
+      3  libva
+      3  libmatchbox
+      3  libid3tag
+      3  kexec-tools
+      3  gst-examples
+      3  grub-efi-native
+      3  gptfdisk
+      3  gnome-desktop-t
+      3  gdb-cross-canad
+      3  cross-rpcgen
+      3  connman
+      3  chip-u-boot-scr
+      3  bcm2835
+      3  96boards-tools
+      2  xf86-video-mga
+      2  vte
+      2  VfrCompile
+      2  upm
+      2  unzip-native
+      2  u-boot-ti-stagi
+      2  tpm2-abrmd
+      2  systemd
+      2  syslinux-native
+      2  subst
+      2  startup-notific
+      2  skales-native
+      2  rt-app
+      2  rpi-gpio
+      2  rmc-db
+      2  riscv-pk
+      2  python-sense-ha
+      2  packagegroup-ba
+      2  neard
+      2  nativesdk-xextp
+      2  nativesdk-qemu
+      2  nativesdk-opkg-
+      2  nativesdk-nss
+      2  nativesdk-mpfr
+      2  nativesdk-maked
+      2  nativesdk-lzo
+      2  nativesdk-libx1
+      2  nativesdk-libpt
+      2  nativesdk-libpc
+      2  nativesdk-libgc
+      2  nativesdk-kbpro
+      2  nativesdk-ca-ce
+      2  nativesdk-autoc
+      2  miniruby
+      2  matchbox-theme-
+      2  linux-riscv
+      2  linux-dummy
+      2  libyaml-native
+      2  libxvmc
+      2  libxkbcommon
+      2  libva-intel-dri
+      2  libtool-native
+      2  libpod-plainer-
+      2  libpng12
+      2  l3afpad
+      2  kernel-module-m
+      2  i586-oe-linux-m
+      2  gunzip
+      2  grub-bootconf
+      2  gengtype
+      2  gen_build_files
+      2  gcc-crosssdk-x8
+      2  gcc-cross-aarch
+      2  firmware-rk
+      2  coreutils-nativ
+      2  cinematicexperi
+      2  brcm-patchram-p
+      2  blktool
+      2  atf-native
+      2  alsa-utils
+      2  alsa-state
+      2  acl-native
+      1  yasm-native
+      1  xf86-video-arms
+      1  xcb-util-wm
+      1  xcb-util-keysym
+      1  volatile-binds
+      1  v4l-utils
+      1  uriparser
+      1  u-boot-mkimage-
+      1  transport_secur
+      1  tpm2-tools
+      1  target-sdk-prov
+      1  systemd-serialg
+      1  sshfs-fuse
+      1  squashfs-tools-
+      1  schedtool-dl
+      1  run.do_configur
+      1  run.binconfig_s
+      1  rt-tests
+      1  rockchip-mali
+      1  rockchip-aiq
+      1  rmc-native
+      1  rmc-efi
+      1  rk-binary-loade
+      1  quitbattery
+      1  qtxmlpatterns
+      1  qtmultimedia
+      1  qt5-demo-extraf
+      1  qemu-x86_64
+      1  qemu-arm
+      1  qemu-aarch64
+      1  python-setuptoo
+      1  python-pyrex-na
+      1  python-pygobjec
+      1  python-numpy
+      1  python3-urllib3
+      1  python3-six-nat
+      1  python3-rfc3987
+      1  python3-request
+      1  python3-mako-na
+      1  python3-idna-na
+      1  python3-humaniz
+      1  puzzles
+      1  ptest-runner
+      1  protoc
+      1  pointercal
+      1  pnmtologo
+      1  pixz-native
+      1  patchelf-native
+      1  packagegroup-rk
+      1  ovmf-native
+      1  orc-native
+      1  objcopy
+      1  node
+      1  nativesdk-xcb-p
+      1  nativesdk-unfs3
+      1  nativesdk-rende
+      1  nativesdk-readl
+      1  nativesdk-randr
+      1  nativesdk-m4
+      1  nativesdk-linux
+      1  nativesdk-libxc
+      1  nativesdk-libgp
+      1  nativesdk-libch
+      1  nativesdk-libas
+      1  nativesdk-gtk-d
+      1  nativesdk-gmp
+      1  nativesdk-cmake
+      1  nativesdk-bzip2
+      1  nativesdk-bash-
+      1  mtry
+      1  mtd-utils-nativ
+      1  mraa
+      1  moc
+      1  mips64-oe-linux
+      1  mini-x-session
+      1  matchbox-sessio
+      1  matchbox-keyboa
+      1  matchbox-deskto
+      1  matchbox-config
+      1  makemsg
+      1  makeinfo
+      1  makedepend
+      1  libusb-compat-n
+      1  libsdl
+      1  libpcre2
+      1  libmms
+      1  libfm
+      1  libfakekey
+      1  libclass-isa-pe
+      1  install-sh
+      1  install-info
+      1  gpgme-native
+      1  go-cross-aarch6
+      1  go_bootstrap
+      1  GenSec
+      1  gcc-source-7.2.
+      1  gcc-crosssdk-in
+      1  gcc-cross-i586
+      1  galileod
+      1  fuse
+      1  flex.real
+      1  dtc
+      1  dist
+      1  debugedit
+      1  debianutils
+      1  dbus-wait
+      1  dbus-test
+      1  cracklib-packer
+      1  compile
+      1  collect2
+      1  cdrtools-native
+      1  bsd-headers
+      1  autom4te
+      1  amx3-cm3
+      1  amlogic-image-s
+
+
+Best regards,
+	Trevor
 
