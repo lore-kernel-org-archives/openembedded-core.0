@@ -1,25 +1,69 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B3397865E
+Return-Path: <chris.laplante@agilent.com>
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03on0048.outbound.protection.outlook.com [104.47.41.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1884078594
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 12:49:44 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Mar 2018 05:49:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,371,1517904000"; d="scan'208";a="215609421"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Mar 2018 05:49:44 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Mar 2018 15:43:08 +0300
-Message-Id: <20180328124308.14893-3-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180328124308.14893-1-alexander.kanavin@linux.intel.com>
-References: <20180328124308.14893-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/3] openssl: update 1.1.0g -> 1.1.0h
+	Wed, 28 Mar 2018 12:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+	s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+	bh=83Oog7bM3shsi975v8xhzB7GNn7chgjNmzDNPtjb9F8=;
+	b=jIGq2BWtENGVEykhabitihY2h/FWtapBTfz2EY8skJY2NfYgvNo6+cSYapSaf2EtyGnwl/TvtiJGKQrt/OkcaErfI7x7NSovqpONjpbSCFDk+D1jaXhx4DwfGMLd1vG1oxcyDcy+QiSlgqmwrXh8yu/5bmtJowKQ4KPfCM95e3c=
+Received: from BN6PR1201MB0195.namprd12.prod.outlook.com (10.174.115.15) by
+	BN6PR1201MB0100.namprd12.prod.outlook.com (10.174.114.137) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.631.10; Wed, 28 Mar 2018 12:49:50 +0000
+Received: from BN6PR1201MB0195.namprd12.prod.outlook.com
+	([fe80::31bb:ae63:3595:7ba8]) by
+	BN6PR1201MB0195.namprd12.prod.outlook.com
+	([fe80::31bb:ae63:3595:7ba8%4]) with mapi id 15.20.0631.010;
+	Wed, 28 Mar 2018 12:49:50 +0000
+From: <chris.laplante@agilent.com>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: "devtool modify"-ing kernel recipes with .scc files
+Thread-Index: AdO8ivnMWnAF+nbWS92K3nBsywyqew==
+Date: Wed, 28 Mar 2018 12:49:49 +0000
+Message-ID: <BN6PR1201MB01953D66E7B3B86431286BDD8BA30@BN6PR1201MB0195.namprd12.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chris.laplante@agilent.com; 
+x-originating-ip: [165.225.38.219]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; BN6PR1201MB0100;
+	7:uKmNwxWCayv8QpKT8cgh3KxwsaXkDXZq4/qSj45kpKA1KHx2PxUpv2KMWyr36j3BaqFr/s8GTj6iNhXUBaLOH+iZOyGrG80zavIdy30+hVIIynDwK2+0F3GhfbDFfNihIpNdCaGbhfSku2H+jJrKajretigs4bSaE1eUWVesGCJPhqVKaLPkf5O0bQwu0nellTjAVfFfo9XprHdoF3fKuUHmbBTaRrGHihQOZZpkov6VXurwtlbJW8FTMpZeOb5b
+x-ms-exchange-antispam-srfa-diagnostics: SOS;
+x-ms-office365-filtering-correlation-id: a9d3981b-dd2b-4972-b82c-08d594aa64f0
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4604075)(3008032)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:BN6PR1201MB0100; 
+x-ms-traffictypediagnostic: BN6PR1201MB0100:
+x-microsoft-antispam-prvs: <BN6PR1201MB01009299B6495CDE9244E43B8BA30@BN6PR1201MB0100.namprd12.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(28532068793085)(21748063052155);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(93006095)(93001095)(10201501046)(3231221)(11241501184)(944501327)(52105095)(6041310)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
+	SRVR:BN6PR1201MB0100; BCL:0; PCL:0; RULEID:;
+	SRVR:BN6PR1201MB0100; 
+x-forefront-prvs: 06259BA5A2
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(39380400002)(376002)(396003)(39860400002)(346002)(366004)(189003)(199004)(29502001)(53754006)(7736002)(8676002)(81156014)(105586002)(81166006)(2351001)(97736004)(33656002)(66066001)(74316002)(5250100002)(2501003)(106356001)(26005)(316002)(5660300001)(102836004)(25786009)(186003)(14454004)(2906002)(68736007)(3280700002)(486005)(2900100001)(6506007)(476003)(486005)(3660700001)(9686003)(5640700003)(6436002)(53936002)(6306002)(6916009)(54896002)(55016002)(86362001)(478600001)(99286004)(6116002)(7696005)(3846002)(790700001)(8936002)(55236004)(142923001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0100;
+	H:BN6PR1201MB0195.namprd12.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: agilent.com does not designate
+	permitted sender hosts)
+x-microsoft-antispam-message-info: kGiyWRd6QU3xfFSXDF9TrtVNzfbUpB09mB3aQ+2GVUhxz/bwXeqHrUSOUwzMo0qvddr9QojS8LtYHANJ0xuHjXX3zzXy8O1N74kGtLXr63D8fcw2mk6gfeZwNHzaUt9lm8O2YdIvam3Ovboy2TWc/Rp4gNLsUJphbeqXnNFdYLFNvpdoyjQzhHHr7HjuuoNoAzYZ5LD/UEnntsFMHnNishgH7suvNjgfMpexZEb5Xs5JJ2Dok637NQep6SYFM68I7IXaDLPS9UplZloIZSnvkhZXLu0nbrVEDLSCStc7F2f4SlyCMclj/jzDuW8lN/CP54NHcZZGRDjXTfvhGmOtVg==
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9d3981b-dd2b-4972-b82c-08d594aa64f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2018 12:49:50.0470 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0100
+Subject: "devtool modify"-ing kernel recipes with .scc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,210 +76,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 12:49:44 -0000
+X-List-Received-Date: Wed, 28 Mar 2018 12:49:50 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BN6PR1201MB01953D66E7B3B86431286BDD8BA30BN6PR1201MB0195_"
 
-Please see this security advisory:
-https://www.openssl.org/news/secadv/20180327.txt
+--_000_BN6PR1201MB01953D66E7B3B86431286BDD8BA30BN6PR1201MB0195_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Remove 0001-Remove-test-that-requires-running-as-non-root.patch
-(issue fixed upstream)
-Remove 0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-(backport)
+Hello all,
 
-License-Update: copyright years
+I have noticed that the "get_recipe_local_files" function of meta/lib/oe/re=
+cipeutils.py doesn't have any kind of logic to handle .scc files. This mean=
+s when you try to 'devtool modify' a kernel recipe that uses them, compilat=
+ion can fail, for instance if the .scc file includes some config fragments.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...ve-test-that-requires-running-as-non-root.patch | 49 ------------
- ...-armv4-bsaes-armv7-.pl-make-it-work-with-.patch | 88 ----------------------
- .../{openssl_1.1.0g.bb => openssl_1.1.0h.bb}       | 10 +--
- 3 files changed, 4 insertions(+), 143 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.0g.bb => openssl_1.1.0h.bb} (91%)
+Would the OE project be interested in a patch to fix this? I am considering=
+ two possible ways to resolve it:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch b/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
-deleted file mode 100644
-index 736bb39acd1..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-Remove-test-that-requires-running-as-non-root.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 3fdb1e2a16ea405c6731447a8994f222808ef7e6 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 7 Apr 2017 18:01:52 +0300
--Subject: [PATCH] Remove test that requires running as non-root
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- test/recipes/40-test_rehash.t | 17 +----------------
-- 1 file changed, 1 insertion(+), 16 deletions(-)
--
--diff --git a/test/recipes/40-test_rehash.t b/test/recipes/40-test_rehash.t
--index f902c23..c7567c1 100644
----- a/test/recipes/40-test_rehash.t
--+++ b/test/recipes/40-test_rehash.t
--@@ -23,7 +23,7 @@ setup("test_rehash");
-- plan skip_all => "test_rehash is not available on this platform"
--     unless run(app(["openssl", "rehash", "-help"]));
-- 
---plan tests => 5;
--+plan tests => 3;
-- 
-- indir "rehash.$$" => sub {
--     prepare();
--@@ -42,21 +42,6 @@ indir "rehash.$$" => sub {
--        'Testing rehash operations on empty directory');
-- }, create => 1, cleanup => 1;
-- 
---indir "rehash.$$" => sub {
---    prepare();
---    chmod 0500, curdir();
---  SKIP: {
---      if (!ok(!open(FOO, ">unwritable.txt"),
---              "Testing that we aren't running as a privileged user, such as root")) {
---          close FOO;
---          skip "It's pointless to run the next test as root", 1;
---      }
---      isnt(run(app(["openssl", "rehash", curdir()])), 1,
---           'Testing rehash operations on readonly directory');
---    }
---    chmod 0700, curdir();       # make it writable again, so cleanup works
---}, create => 1, cleanup => 1;
---
-- sub prepare {
--     my @pemsourcefiles = sort glob(srctop_file('test', "*.pem"));
--     my @destfiles = ();
---- 
--2.11.0
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch b/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-deleted file mode 100644
-index bb0a1689ed5..00000000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch
-+++ /dev/null
-@@ -1,88 +0,0 @@
--From bcc096a50811bf0f0c4fd34b2993fed7a7015972 Mon Sep 17 00:00:00 2001
--From: Andy Polyakov <appro@openssl.org>
--Date: Fri, 3 Nov 2017 23:30:01 +0100
--Subject: [PATCH] aes/asm/{aes-armv4|bsaes-armv7}.pl: make it work with
-- binutils-2.29.
--
--It's not clear if it's a feature or bug, but binutils-2.29[.1]
--interprets 'adr' instruction with Thumb2 code reference differently,
--in a way that affects calculation of addresses of constants' tables.
--
--Upstream-Status: Backport
--
--Reviewed-by: Tim Hudson <tjh@openssl.org>
--Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
--Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
--(Merged from https://github.com/openssl/openssl/pull/4669)
--
--(cherry picked from commit b82acc3c1a7f304c9df31841753a0fa76b5b3cda)
-----
-- crypto/aes/asm/aes-armv4.pl   | 6 +++---
-- crypto/aes/asm/bsaes-armv7.pl | 6 +++---
-- 2 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/crypto/aes/asm/aes-armv4.pl b/crypto/aes/asm/aes-armv4.pl
--index 16d79aae53..c6474b8aad 100644
----- a/crypto/aes/asm/aes-armv4.pl
--+++ b/crypto/aes/asm/aes-armv4.pl
--@@ -200,7 +200,7 @@ AES_encrypt:
-- #ifndef	__thumb2__
-- 	sub	r3,pc,#8		@ AES_encrypt
-- #else
---	adr	r3,AES_encrypt
--+	adr	r3,.
-- #endif
-- 	stmdb   sp!,{r1,r4-r12,lr}
-- #ifdef	__APPLE__
--@@ -450,7 +450,7 @@ _armv4_AES_set_encrypt_key:
-- #ifndef	__thumb2__
-- 	sub	r3,pc,#8		@ AES_set_encrypt_key
-- #else
---	adr	r3,AES_set_encrypt_key
--+	adr	r3,.
-- #endif
-- 	teq	r0,#0
-- #ifdef	__thumb2__
--@@ -976,7 +976,7 @@ AES_decrypt:
-- #ifndef	__thumb2__
-- 	sub	r3,pc,#8		@ AES_decrypt
-- #else
---	adr	r3,AES_decrypt
--+	adr	r3,.
-- #endif
-- 	stmdb   sp!,{r1,r4-r12,lr}
-- #ifdef	__APPLE__
--diff --git a/crypto/aes/asm/bsaes-armv7.pl b/crypto/aes/asm/bsaes-armv7.pl
--index 9f288660ef..a27bb4a179 100644
----- a/crypto/aes/asm/bsaes-armv7.pl
--+++ b/crypto/aes/asm/bsaes-armv7.pl
--@@ -744,7 +744,7 @@ $code.=<<___;
-- .type	_bsaes_decrypt8,%function
-- .align	4
-- _bsaes_decrypt8:
---	adr	$const,_bsaes_decrypt8
--+	adr	$const,.
-- 	vldmia	$key!, {@XMM[9]}		@ round 0 key
-- #ifdef	__APPLE__
-- 	adr	$const,.LM0ISR
--@@ -843,7 +843,7 @@ _bsaes_const:
-- .type	_bsaes_encrypt8,%function
-- .align	4
-- _bsaes_encrypt8:
---	adr	$const,_bsaes_encrypt8
--+	adr	$const,.
-- 	vldmia	$key!, {@XMM[9]}		@ round 0 key
-- #ifdef	__APPLE__
-- 	adr	$const,.LM0SR
--@@ -951,7 +951,7 @@ $code.=<<___;
-- .type	_bsaes_key_convert,%function
-- .align	4
-- _bsaes_key_convert:
---	adr	$const,_bsaes_key_convert
--+	adr	$const,.
-- 	vld1.8	{@XMM[7]},  [$inp]!		@ load round 0 key
-- #ifdef	__APPLE__
-- 	adr	$const,.LM0
---- 
--2.15.0
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-similarity index 91%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-index 0fd6819fff1..94b75eb92a8 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-@@ -6,20 +6,18 @@ SECTION = "libs/network"
- 
- # "openssl | SSLeay" dual license
- LICENSE = "openssl"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=cae6da10f4ffd9703214776d2aabce32"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "ba5f1b8b835b88cadbce9b35ed9531a6"
--SRC_URI[sha256sum] = "de4d501267da39310905cb6dc8c6121f7a2cad45a7707f76df828fe1b85073af"
-+SRC_URI[md5sum] = "5271477e4d93f4ea032b665ef095ff24"
-+SRC_URI[sha256sum] = "5835626cde9e99656585fc7aaa2302a73a7e1340bf8c14fd635a62c66802a517"
- 
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
--           file://0001-Remove-test-that-requires-running-as-non-root.patch \
--           file://0001-aes-asm-aes-armv4-bsaes-armv7-.pl-make-it-work-with-.patch \
--          "
-+           "
- 
- S = "${WORKDIR}/openssl-${PV}"
- 
--- 
-2.16.1
+  1.  get_recipe_local_files could handle .scc files directly, perhaps by u=
+sing something in classes/kernel-yocto.bbclass.
+  2.  Add a variable like DEVTOOL_EXTRA_LOCAL_FILES that represents extra f=
+iles for get_recipe_local_files to include.
 
+I'd be happy to implement either (or both) of these and send in a patch. Or=
+ maybe someone has a different solution I could look at.
 
+Thanks,
+Chris
+
+--_000_BN6PR1201MB01953D66E7B3B86431286BDD8BA30BN6PR1201MB0195_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1243832977;
+	mso-list-template-ids:1034554670;}
+@list l1
+	{mso-list-id:1557400817;
+	mso-list-type:hybrid;
+	mso-list-template-ids:178030722 67698703 67698713 67698715 67698703 676987=
+13 67698715 67698703 67698713 67698715;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello all,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I have noticed that the &#8220;get_recipe_local_file=
+s&#8221; function of meta/lib/oe/recipeutils.py doesn&#8217;t have any kind=
+ of logic to handle .scc files. This means when you try to &#8216;devtool m=
+odify&#8217; a kernel recipe that uses them, compilation can fail,
+ for instance if the .scc file includes some config fragments. <o:p></o:p><=
+/p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Would the OE project be interested in a patch to fix=
+ this? I am considering two possible ways to resolve it:<o:p></o:p></p>
+<ol style=3D"margin-top:0in" start=3D"1" type=3D"1">
+<li class=3D"MsoNormal" style=3D"mso-list:l1 level1 lfo3">get_recipe_local_=
+files could handle .scc files directly, perhaps by using something in class=
+es/kernel-yocto.bbclass.<o:p></o:p></li><li class=3D"MsoNormal" style=3D"ms=
+o-list:l1 level1 lfo3">Add a variable like DEVTOOL_EXTRA_LOCAL_FILES that r=
+epresents extra files for get_recipe_local_files to include.<o:p></o:p></li=
+></ol>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I&#8217;d be happy to implement either (or both) of =
+these and send in a patch. Or maybe someone has a different solution I coul=
+d look at.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">Chris<o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_BN6PR1201MB01953D66E7B3B86431286BDD8BA30BN6PR1201MB0195_--
