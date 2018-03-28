@@ -1,43 +1,49 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B6EAD71A0F
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 314286003C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 00:41:14 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Mar 2018 17:41:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,368,1517904000"; d="scan'208";a="38685375"
-Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
-	by orsmga003.jf.intel.com with ESMTP; 27 Mar 2018 17:41:14 -0700
-Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
-	PGSMSX111.gar.corp.intel.com ([169.254.2.233]) with mapi id
-	14.03.0319.002; Wed, 28 Mar 2018 08:41:13 +0800
-From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] oe-selftest: crosstap: add tests for
-	crosstap script
-Thread-Index: AQHTxbbF2Mt90x9reE+mAYyxOj0KDqPkzuZA
-Date: Wed, 28 Mar 2018 00:41:12 +0000
-Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335DFC870@PGSMSX109.gar.corp.intel.com>
-References: <1522114620-28569-1-git-send-email-ee.peng.yeoh@intel.com>
-	<2840c7d5-baaf-5519-bf29-bf6048c8578d@linux.intel.com>
-In-Reply-To: <2840c7d5-baaf-5519-bf29-bf6048c8578d@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzE5NWQ3NWMtZTZmMy00ZWRiLWFhYTUtYTAyNjA4YjFhN2Q2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6ImZTZjNkOU1Gd0FjVndWSk83cnErbVJTYk1ValpkVG9MdWNIeXpUWU1YMnc9In0=
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Wed, 28 Mar 2018 01:39:05 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id u3-v6so1110432lff.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Mar 2018 18:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=H1/znpFog0xesN8eyhiLMWXOwx5kvwLd5Mx+m2EGBYw=;
+	b=i5CcVd0368zwiaRzjwb4/1InNXknm2JvnEgrU8gGeDmbh0wivwSrRQvhck4vtiF7Gm
+	Xfa1I2NV0/D9u7k2W98517RxX80NcprZ5iDrdPqSHKkhxZOrn/WmfFaAruYpM9BG8iE0
+	OKwrJt0LewEtczTkrtHVcO9jeNWZoiCG0L+I1cvYnJfoMYP87xkiIPzslCLexuKgVY5g
+	bpG643DQeFHF7OhuW3SWU0BddmAzxwfOiTzcKarUPgwaWnWFZgDDd8TvXeSSICQMBwYz
+	S9w6xiTzO8+ubRS+rQMb7ey0YpLTbgu4DPeiYmXI4+d4sq9yAIY1a+rP+CORwrjSb3BF
+	ReJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=H1/znpFog0xesN8eyhiLMWXOwx5kvwLd5Mx+m2EGBYw=;
+	b=YPgzVa/ssNysOY5Sv0gsRayRGbLtiC0IfV6ql4uxpNTIbWUIBRniqVQ7wODviOn9SG
+	7fpHM8e9Y9S3aOI/IggynJoGjafsVjIIrG5ermIVURlDbSzG1oGUOZTuCZ1UKgLGnEAu
+	FvUrMcJl/81eL7lhrX+sWjkeeVNMaysxoISWZNPUWxpfN2V0Jeo5GoPez4mRB+6MAhYZ
+	4HH1pjJNJP7WuHYjHUXMDJHhwnLJNgWx0r4sP9PC1KYqPj1X4Z+WCGY2UwmxH5ieSLY4
+	31VuOB0W8Nf9rOdTMGicSOoS4FOENcrU35qT0dIcls50N7LI7isjx4KCIZfDjch4SJ4K
+	qiXw==
+X-Gm-Message-State: AElRT7EqMQKtVnMEIGmYVTD6D9dhqHFJEXMhV1UYrke44NuZ4XTN4042
+	oU3K6owFI2s43ImuqhEAz3B6MU6ykLZr+kqk5fA=
+X-Google-Smtp-Source: AIpwx4/RmEE+dRKapIBqUEqTl22d4c0jFTQEFBjyW1EDhfQ1Lca2Wjhm1e5yrTnKp1hy+GCeGtHOwO2RkOCRRhPxEnc=
+X-Received: by 2002:a19:1b02:: with SMTP id b2-v6mr851478lfb.3.1522201146613; 
+	Tue, 27 Mar 2018 18:39:06 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] oe-selftest: crosstap: add tests for crosstap script
+Received: by 10.46.25.8 with HTTP; Tue, 27 Mar 2018 18:39:06 -0700 (PDT)
+In-Reply-To: <CAJTo0LYj9jF-oz9mDRXziiLC6xnS-A_q=EtG-T2aoVZ4H4pAkg@mail.gmail.com>
+References: <cover.1522162765.git.bruce.ashfield@windriver.com>
+	<37126f1c8d7556686f55019a52265f0e1c85e2ff.1522162765.git.bruce.ashfield@windriver.com>
+	<CAJTo0LYj9jF-oz9mDRXziiLC6xnS-A_q=EtG-T2aoVZ4H4pAkg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 27 Mar 2018 21:39:06 -0400
+Message-ID: <CADkTA4Nb78OPAGO+tDvkho=qw-J6w1HS-sVUbhYQyHQVkoT3pQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] linux-yocto/4.14: update to v4.14.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,29 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 00:41:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 28 Mar 2018 01:39:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgQWxleCwNCg0KWWVzLCByZXVzaW5nIGV4aXN0aW5nIHJ1bnFlbXUgbWFkZSB0aGlzIHRlc3Rj
-YXNlIG1vcmUgY29uY2lzZSBhbmQgZWFzaWVyIHRvIG1haW50YWluLiBUaGFuayB5b3UgdmVyeSBt
-dWNoIGZvciB5b3VyIGlucHV0cyBhbmQgc2hhcmluZyEgDQoNClRoYW5rcywNCkVlIFBlbmcgDQot
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gW21haWx0
-bzphbGV4YW5kZXIua2FuYXZpbkBsaW51eC5pbnRlbC5jb21dIA0KU2VudDogVHVlc2RheSwgTWFy
-Y2ggMjcsIDIwMTggNjozMiBQTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRl
-bC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2Utc2VsZnRlc3Q6IGNyb3NzdGFwOiBhZGQgdGVzdHMg
-Zm9yIGNyb3NzdGFwIHNjcmlwdA0KDQpPbiAwMy8yNy8yMDE4IDA0OjM3IEFNLCBZZW9oIEVlIFBl
-bmcgd3JvdGU6DQo+IFFBIHRlYW0gd2VyZSB0ZXN0aW5nIGNyb3NzdGFwIHNjcmlwdCBtYW51YWxs
-eS4gQWRkIGF1dG9tYXRlZCB0ZXN0cyBhbmQgDQo+IHN5c3RlbXRhcCBmaWxlIHRvIHRlc3QgdGhh
-dCBjcm9zc3RhcCBzY3JpcHQgd2lsbCBpbnN0cnVjdHMgU3lzdGVtVGFwIA0KPiB0byBwcmludCBo
-ZWxsbyB3b3JsZCBpbiBxZW11LiBUaGlzIHRlc3Qgd2lsbCBmaXJzdCBidWlsdCANCj4gY29yZS1p
-bWFnZS1taW5pbWFsIGltYWdlIHdpdGggdG9vbHMtcHJvZmlsZSAmIHNzaC1zZXJ2ZXItb3BlbnNz
-aCANCj4gZmVhdHVyZXMgYW5kIGJ1aWxkIHN5c3RlbXRhcC1uYXRpdmUgb24gdGhlIGhvc3QgbWFj
-aGluZS4gRmluYWxseSB0aGlzIA0KPiB0ZXN0IHdpbGwgYm9vdCB0aGUgaW1hZ2Ugd2l0aCBxZW11
-IGFuZCB0aGVuIGV4ZWN1dGUgY3Jvc3N0YXAgc2NyaXB0IHRvIA0KPiBwcmludCBoZWxsbyB3b3Js
-ZCBvbiBxZW11Lg0KDQpUaGFua3MsIHRoaXMgbG9va3MgbXVjaCBuaWNlciBub3csIGRvZXNuJ3Qg
-aXQ/IDopIEkgaGF2ZSBubyBmdXJ0aGVyIGNvbW1lbnRzLCB0aGlzIGlzIGZpbmUuDQoNCkFsZXgN
-Cg==
+How annoying.
+
+That is twice that this has happened to the tiny/* branches.
+
+yow-bashfiel-d4 [/home/bruc...-yocto.git]> git branch --contains
+40adf66d7c45b8252a1d3f904b5027a495e41725
+  v4.14/standard/tiny/base
+* v4.14/standard/tiny/common-pc
+
+Should be fixed now.
+
+Bruce
+
+
+On Tue, Mar 27, 2018 at 6:07 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Sorry but this is failing for poky-tiny:
+>
+> ERROR: linux-yocto-tiny-4.14.30+gitAUTOINC+f8232ce8e9_40adf66d7c-r0
+> do_fetch: Fetcher failure: Unable to find revision
+> 40adf66d7c45b8252a1d3f904b5027a495e41725 in branch
+> v4.14/standard/tiny/common-pc even from upstream
+> ERROR: linux-yocto-tiny-4.14.30+gitAUTOINC+f8232ce8e9_40adf66d7c-r0
+> do_fetch: Fetcher failure for URL:
+> 'git://git.yoctoproject.org/linux-yocto.git;branch=v4.14/standard/tiny/common-pc;name=machine'.
+> Unable to fetch URL from any source.
+>
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
