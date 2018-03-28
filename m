@@ -1,49 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2377A78436
+Return-Path: <piyushkumar29995@gmail.com>
+Received: from mail-ot0-f173.google.com (mail-ot0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E806E78425
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 09:15:22 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id 126-v6so1540308oig.0
+	Wed, 28 Mar 2018 10:14:51 +0000 (UTC)
+Received: by mail-ot0-f173.google.com with SMTP id h55-v6so527937ote.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 02:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F4ebJRLl12EFP+C+zrqsVFeyjvfRwthBG+hGOmamTnw=;
-	b=dviFLXPmoCPDbCW7DAPLr5vN/mGrGpN7j3r2lT/lyIQAHAnwVR0mNUNT0LnEwi74yy
-	kthPByM6+ri+1M+dMk9WizU2Yzfq/rchWNqoA95DpL1ZJqUwQkYYETl7iL0L3dT9Lolq
-	re2BFjZ+pWjVX4oQwh5BUhwEqI2gIQej7/rE4GRe1WCF+nl5HB7TwfMAs8KszEjBRPIR
-	i1vWLO3MSysxJ3HVEwYg26qEjCy344E0BNVzpdbqZc6eZVeJZ2l5MhVsqQal+TF5vqrK
-	OdSu1OeFKQrXaXTkzfA8wXauj4Plj2dpk//dBE1DgLO+RqgmPENFtYMNiiua/3m+GZOR
-	2d3A==
+	Wed, 28 Mar 2018 03:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=k5AWygy29ItDfylOrTrMmuRvx971G/gwDAnD1BeIV6Y=;
+	b=V5jyrg9aUPTgSSy0uxIMUiGVxGBbaqrWUNlxg6m7tIzLvUOte4wyCsDTGCakA4tUdB
+	v2yNKlvNg/oA1EF5UKvBY0rKMev3M2KIQnlYEsoFnjVgYReHGQkQD9sKW3+6ozeLVZEO
+	LuPXQS3ROZ1L3KKpTirrwrmaKWow0FYnftkuuOLfw7CBbAMPCkqU/p4Q1RNIG38kH1YC
+	6/ibQkSShKCOdNFfr6BKX9Rmr8bk3/pWD1oqCxGjkMFCsRzSDBdg/E0oIFjBSxlcs45r
+	XzjCiKBmtS1WWQteO0ZB530b9vbwfN7kBLdU4+ho0eWlG0OYWswvLgDj+Sp5tzyaY2GY
+	R/rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=F4ebJRLl12EFP+C+zrqsVFeyjvfRwthBG+hGOmamTnw=;
-	b=eaz5xpxF7HW9KS8wies9SjVdJJoJjm8EgvOSrU6OzaUCLG5amy+XSGJiUpZoz+kVG8
-	ZuKwQeDYuo5E15lAXhw1fnXa0lc2T3+4cZAjfmJqyf8locoBi5eXws7fdrD+/dViNMrM
-	eyBBTTw31Fta02rjTs4KskNZj+nOMpzTmBHy4JuqQmS9StJN/yvW7iGJH+Drtuh+GQEC
-	E8YgnXvPF0QQSy+0pGQylfb0Q/Q/f6Mnm6CgwtHm6UhgyHVVFTcYET1kQElFMap3U+XG
-	VBU7SKQwOn9T/S/23KLTbs8z9ojOFf5PGAaHbJlxR6Wvh7rZavuh+k97oreb4Vl1LP8j
-	zUUw==
-X-Gm-Message-State: AElRT7E0eZTCmv81D9I0zk7WgpMCd5G+/7xml94HiEn5DupVyQPOoR04
-	yvTeMIREOWEqQZyubC/oySaO2l3U1XAfduZ4m/jxkw==
-X-Google-Smtp-Source: AIpwx49QbVT0GCVlN8/YHgk4cOg0IfIRAqa08jIx4ntUYQfvtZsd0hRXOiSFQKPVxyz8sdHRoxLj+QFh96fazHaHoyM=
-X-Received: by 10.202.27.13 with SMTP id b13mr822111oib.70.1522228524108; Wed,
-	28 Mar 2018 02:15:24 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=k5AWygy29ItDfylOrTrMmuRvx971G/gwDAnD1BeIV6Y=;
+	b=MUodZ8V4tNo6mfBvprn//YFDX8oN1Lj3aJuoDlicyWvjsi6NZW+XFeSUWCgi9k/8tv
+	cZb8YlEiKMKr2msLOE0QTc8/srik/fH7xcLCIr8njZ5w7k4rPenJnTxWrwMNAQPmmiNn
+	50c2HQXL7kRkFhVLvJIwLfFZaeNmIooh80cuWdomZ5qBmkee3Fwabh0kc30Rx4yqEDC0
+	360OK1brQ9bcEYdbgUiLmkS188+OkRjFu4T/22yA6p/G4+Ew6IpDAEy7wpL1GIClutff
+	SjDduTDVatmbNNCTAFxcyIUZv9XyQd6XqlTvxqsb3ZcdkrjlEDbUjJxAKJBg9FlR0zQd
+	mwDg==
+X-Gm-Message-State: ALQs6tCePFxJhb8aAS8D0LonQ96mnNtywB5FaruDVYx21wDZ/BtZ24dP
+	laPNJvMrXYZJjeC22DwZ17XIL+0kgyF/xwYHiED5Og==
+X-Google-Smtp-Source: AIpwx49hxu17FdQ/3LS1dZqn0rEF8U6pfX4v8Xza7Sk2MZpzMffkqmN1DXjMHra40G8kYAvWidcKbTSp+jvdPJWpENE=
+X-Received: by 2002:a9d:40d:: with SMTP id 13-v6mr1933243otc.42.1522232092679; 
+	Wed, 28 Mar 2018 03:14:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Wed, 28 Mar 2018 02:15:03 -0700 (PDT)
-In-Reply-To: <CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
-References: <20180327154802.14611-1-ross.burton@intel.com>
-	<CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Mar 2018 10:15:03 +0100
-Message-ID: <CAJTo0LZUdMAtWKtGnPstotRGiHUPwZ_80PmuSzj5wpAFWGcN0Q@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
+Received: by 2002:a9d:5541:0:0:0:0:0 with HTTP; Wed, 28 Mar 2018 03:14:52
+	-0700 (PDT)
+From: piyush kumar <piyushkumar29995@gmail.com>
+Date: Wed, 28 Mar 2018 15:44:52 +0530
+Message-ID: <CAOVPQjfJrkxuXcLmGffr_76c-bsZKg3Z+QjB6SaFMaAEwDSghQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: network issue pip is not able to fetch internet on yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,21 +51,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 09:15:23 -0000
+X-List-Received-Date: Wed, 28 Mar 2018 10:14:52 -0000
+Content-Type: multipart/alternative; boundary="00000000000026649e0568764702"
+
+--00000000000026649e0568764702
 Content-Type: text/plain; charset="UTF-8"
 
-On 27 March 2018 at 23:43, Andre McCurdy <armccurdy@gmail.com> wrote:
->> ++      //va_start (ap, number);
->
-> Without knowing anything about pseudo, commenting this out looks odd?
+I am trying to do a pip install on poky for one of the python
+package(i.e. wheel) and
+it is resulting in this error
 
-It appears that pseudo's wrappers pass a va_list for you.
 
-Then again I know little about pseudo and just hacked until something worked.
+Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after
+connection broken by
+'NewConnectionError'('<pip._vendor.requests.pacages.urllib3.connection.VerifiedHTPSConenction
+object at 0xb68f988c>': Failed to establish a new connection: [Errno -2]
+Name or service not known',): /simple/pyros-setup/
+Could not find a version that satisfies the requirement wheel (from
+versions: ) No matching distribution found for wheel
+Do help
 
-With this patch I was getting occasional failures of the pseudo-using
-bitbake-worker, so its not quite ready, but Peter is working on a
-better form anyway.
+Thanks,
 
-Ross
+Piyush
 
+--00000000000026649e0568764702
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr"><pre>I am trying to do a pip install on poky for one of the python package(i.e. wheel) and
+it is resulting in this error
+
+
+Retrying (Retry(total=4, connect=None, read=None, redirect=None)) after
+connection broken by
+&#39;NewConnectionError&#39;(&#39;&lt;pip._<wbr>vendor.requests.pacages.<wbr>urllib3.connection.<wbr>VerifiedHTPSConenction
+object at 0xb68f988c&gt;&#39;: Failed to establish a new connection: [Errno -2]
+Name or service not known&#39;,): /simple/pyros-setup/
+Could not find a version that satisfies the requirement wheel (from
+versions: ) No matching distribution found for wheel
+Do help<br>
+Thanks,<br><br></pre><pre>Piyush</pre><br></div>
+
+--00000000000026649e0568764702--
