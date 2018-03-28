@@ -1,48 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 059BC7836E
+Return-Path: <srifenbark@gmail.com>
+Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C267836E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 20:19:31 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x82so7626935wmg.1
+	Wed, 28 Mar 2018 20:23:27 +0000 (UTC)
+Received: by mail-ot0-f180.google.com with SMTP id h26-v6so4052885otj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 13:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=eRlSoAycowHf6DXzBA7n8W6Wh9l5CtEwga2vRGlTdGI=;
-	b=ijZswOmweQmsUOMfIwRTvfIuTW36fiRQSEzFcGhJhf7/AiRSOov1SRjTerLPL0IY0f
-	0rSfxbxVMuJphfYy3ibJJZuq+fg5iz/xjnky5c1+mGZCBlT2UEr33nOoMLMhmcfrgugr
-	KjknrfzcMTS8pxZuewcQDxzAfeUlpQ/IenGAvuRZpxhVeAe62IHKEb4GZd/h5xS4fto7
-	r6AfU442SruubXJEtavwtrwn5of7Y5CwMSJcZnztEhiJ47tK6zBKu9BDKe/MhIDEuGG4
-	e/8q62QDL+Ocbdgyk7szC3JkgV3DZrzAYCNELB9Ffk55AJDO6gakvpVQbAuuE6f2PLUT
-	R3WA==
+	Wed, 28 Mar 2018 13:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=B1srMxOhxYZVgZDPiuMV2i4vaXwvAPs0sLz/WFElrxs=;
+	b=WV3Q1qi53SWi2WXXhzVqiHYqHHeul3oDlsmmJVORQNDSjJkwMOY0OWZ6p/ap7/gENK
+	4dKUbtuAb6ibOMifxUkqmwrnuyH/YYybKmb6AeCllMbnR6lUnPnyF/P5ebakQpfmPvbd
+	z74M0+DeeAiB1sY9tTSrCBt++MVtmmHPlBnb4hjkj7jtk7GL6M2h/bPRmqJg8Phs9ret
+	U7P5d2zJXOI7OW2APumabyc/IBJi9F3nvhF8M6MQFV7YwCZ/NsZjF0UWH+0Q9JgfAl9A
+	pJOB4vMVXUSyXjtwDq6GxvIMLeMsBJfXOGfXIHGTFXnUFa8WqeunzUIBgw3u3tdapNjK
+	fSuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=eRlSoAycowHf6DXzBA7n8W6Wh9l5CtEwga2vRGlTdGI=;
-	b=Gs4S272ZCFvI2S+ZIB3wMl5E3X8QiehVSyT1N5aef6QQclZugc+NNZIeRqcnc5b2XR
-	qHHxQPQZQ27eRadvgvW9+NbdqIw61zs82JOcD6UuZriNdkJpW8MzFosgCyMeCjYqcW/K
-	lTNVD+u+V2QX+lAClaBZ8w6ryKLublJzG/a+fd+DvFoSrsedJxdLbEmWvlS6rWkePMbc
-	mVY93stm9KeDEBG4lbjr7o7+RSaoeuMMWm7CsRSpJrlvHQTMyLQXcf0zo7xQHKO2Ih7I
-	p71n/+FoaKh7XfCwYbzIc5yJrDzLygbXbf2haK05oAXfeAgvmaIECBoVYPU1FloyYRPG
-	OMPQ==
-X-Gm-Message-State: AElRT7FomFAck9/dhFbohft1mgIJ7u8TywMin4z/SQ82KSEUmEhm1Wwj
-	sYWNi4FpglVoy4UOluM6CdHf9Flr
-X-Google-Smtp-Source: AIpwx4+tlKZDwryYUhseC5cRn+QW+5pCzCYOHmQHcNC+cbD4MVJu+bjvyp62flNxee2oioy0EiCsTQ==
-X-Received: by 10.28.54.88 with SMTP id d85mr4098929wma.2.1522268372391;
-	Wed, 28 Mar 2018 13:19:32 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	m184sm219520wme.40.2018.03.28.13.19.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 28 Mar 2018 13:19:31 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Mar 2018 21:19:29 +0100
-Message-Id: <20180328201929.6810-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] python3: consolidate sqlite3 files
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=B1srMxOhxYZVgZDPiuMV2i4vaXwvAPs0sLz/WFElrxs=;
+	b=CLRNBTsod9Mdbfs3FiCbf58GBGSOL19Rq2E3kIkw1K2h63FnwhcfAtO5wYRrEAxYjj
+	YyRXgxMhzqu/9ugLBtuteKAGliQZjYY/oBRrT/npej0CPbUgr8Bp6tqqMmkQBHODHMFt
+	njH6KMPDVdFdRbBpWIdrS0Fp7FSdpVVUo/kp2221Q3PRQ/RGIoG4Nw3Kcj70OVND3PAh
+	zU7CG09L0y1BiDArZOZaaSwPdhLQqYZnddNo9KPzi9xcBKQmBIy64tnzZuhY/M+CxzNv
+	Dgk/oU2mxXmqc2mZPJQp7087sFdG3NotoXILmuO0UaI56Q6f6JeIp/KyKW7UodmpAsnu
+	tFVA==
+X-Gm-Message-State: ALQs6tDjjaoRKAgEfOQKeXQpKe035rnhSNOFBj4tgrZ7OI3ZQ8VeqMTc
+	zwa4zRGqS5HKqCZudd6n85Kq81tHgzdfXOlq5G8=
+X-Google-Smtp-Source: AIpwx4/n34d7K9dCal2S4JsgTfF80JGpaTiEuWh5H+J+gBp8NNGf8wJf4lvEJpS8oxFMmVNPzcq7vBb/LkQFGJvAtok=
+X-Received: by 2002:a9d:3c55:: with SMTP id
+	j21-v6mr3028953ote.51.1522268608664; 
+	Wed, 28 Mar 2018 13:23:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:256a:0:0:0:0:0 with HTTP; Wed, 28 Mar 2018 13:23:28
+	-0700 (PDT)
+In-Reply-To: <1522268125.3242.262.camel@gmail.com>
+References: <20180321203301.18296-1-JPEWhacker@gmail.com>
+	<CAFNP8Os5b_hLYi__R9h7YLqRDt0wEUcW=Ni5AzWocnQwV_yiuw@mail.gmail.com>
+	<1522263448.3242.260.camel@gmail.com>
+	<CAFNP8Otdnc82RGScNYuP-NsJo5tA5eLEd0AKs=LLtg86HFOfvw@mail.gmail.com>
+	<1522268125.3242.262.camel@gmail.com>
+From: Scott Rifenbark <srifenbark@gmail.com>
+Date: Wed, 28 Mar 2018 13:23:28 -0700
+Message-ID: <CAFNP8OuDT+d0WjYR6WM7DO1xjwOrK2v_xLTriaa7VQSg9pYbWA@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ref-manual: Update SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +60,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 20:19:32 -0000
+X-List-Received-Date: Wed, 28 Mar 2018 20:23:27 -0000
+Content-Type: multipart/alternative; boundary="000000000000ac183505687ec758"
 
-Some of the sqlite3 module was in python3-misc by accident, move the files
-into python3-sqlite3 where they belong.
+--000000000000ac183505687ec758
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python3/python3-manifest.json | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ok - I will fix it back in the manual.  Thanks
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 1914a4c43ba..95071c53f5a 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -977,9 +977,12 @@
-         "summary": "Python Simple Mail Transport Daemon"
-     },
-     "sqlite3": {
--        "cached": [],
-+        "cached": [
-+            "${libdir}/python3.5/sqlite3/__pycache__/*.pyc"
-+        ],
-         "files": [
--            "${libdir}/python3.5/lib-dynload/_sqlite3.*.so"
-+            "${libdir}/python3.5/lib-dynload/_sqlite3.*.so",
-+            "${libdir}/python3.5/sqlite3/*.py"
-         ],
-         "rdepends": [
-             "core"
--- 
-2.11.0
+On Wed, Mar 28, 2018 at 1:15 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
 
+> I don't believe there are any plans to backport that feature to Rocko, so
+> I think we probably don't want it in the documentation.
+>
+> On Wed, 2018-03-28 at 11:59 -0700, Scott Rifenbark wrote:
+>
+> oops... will it hurt it to be in Rocko?
+>
+>
+> On Wed, Mar 28, 2018 at 11:57 AM, Joshua Watt <jpewhacker@gmail.com>
+> wrote:
+>
+> Scott,
+>
+> This documentation update is not needed for Rocko, the corresponding code
+> change is only on master. Sorry if there was some confusion
+>
+> Thanks,
+> Joshua Watt
+>
+> On Wed, 2018-03-28 at 10:53 -0700, Scott Rifenbark wrote:
+>
+> Joshua,
+>
+> Thanks for the addition.  I have implemented the change.  You can see the
+> change at https://www.yoctoproject.org/docs/2.5/ref-manual/ref-manual.
+> html#var-SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.  I will back-fill into the
+> 'rocko' development branch of the manuals.
+>
+> Scott
+>
+> On Wed, Mar 21, 2018 at 1:33 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
+>
+> Describes the new wildcard syntax
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  documentation/ref-manual/ref-variables.xml | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/documentation/ref-manual/ref-variables.xml
+> b/documentation/ref-manual/ref-variables.xml
+> index 09eb9b9dfc7..58a58b0605e 100644
+> --- a/documentation/ref-manual/ref-variables.xml
+> +++ b/documentation/ref-manual/ref-variables.xml
+> @@ -12648,6 +12648,23 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR
+> = "${INC_PR}.3"
+>                      <filename>mplayer2</filename>.
+>                  </para>
+>
+> +                <para>
+> +                    The special token <filename>"*"</filename> may be
+> used on
+> +                    the left hand side of the dependency, which will
+> match all
+> +                    recipes except the one on the right hand side.
+> +                    For example:
+> +                    <literallayout class='monospaced'>
+> +    SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += "*->quilt-native"
+> +                    </literallayout>
+> +                </para>
+> +
+> +                <para>
+> +                    In this example, all recipes except
+> +                    <filename>quilt-native</filename> will ignore task
+> +                    signatures from the <filename>quilt-native</filename>
+> recipe
+> +                    when determining their task signatures.
+> +                </para>
+> +
+>                  <para>
+>                      Use of this variable is one mechanism to remove
+> dependencies
+>                      that affect task signatures and thus force rebuilds
+> when a
+> --
+> 2.14.3
+>
+>
+>
+>
 
+--000000000000ac183505687ec758
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">ok - I will fix it back in the manual.=C2=A0 Thanks<br></d=
+iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Mar 28=
+, 2018 at 1:15 PM, Joshua Watt <span dir=3D"ltr">&lt;<a href=3D"mailto:jpew=
+hacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div><div>I don&#39;t believe there a=
+re any plans to backport that feature to Rocko, so I think we probably don&=
+#39;t want it in the documentation.</div><div><div class=3D"h5"><div><br></=
+div><div>On Wed, 2018-03-28 at 11:59 -0700, Scott Rifenbark wrote:</div><bl=
+ockquote type=3D"cite" style=3D"margin:0 0 0 .8ex;border-left:2px #729fcf s=
+olid;padding-left:1ex"><div dir=3D"ltr">oops... will it hurt it to be in Ro=
+cko?<br><br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
+>On Wed, Mar 28, 2018 at 11:57 AM, Joshua Watt <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex=
+;border-left:2px #729fcf solid;padding-left:1ex"><div><div>Scott,</div><div=
+><br></div><div>This documentation update is not needed for Rocko, the corr=
+esponding code change is only on master. Sorry if there was some confusion<=
+/div><div><br></div><div>Thanks,</div><div>Joshua Watt</div><div><div class=
+=3D"m_-7953932688811173130h5"><div><br></div><div>On Wed, 2018-03-28 at 10:=
+53 -0700, Scott Rifenbark wrote:</div><blockquote type=3D"cite" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:2px #729fcf solid;padding-left:1ex"><div dir=3D=
+"ltr"><div><div>Joshua, <br><br></div>Thanks for the addition.=C2=A0 I have=
+ implemented the change.=C2=A0 You can see the change at <a href=3D"https:/=
+/www.yoctoproject.org/docs/2.5/ref-manual/ref-manual.html#var-SIGGEN_EXCLUD=
+E_SAFE_RECIPE_DEPS" target=3D"_blank">https://www.yoctoproject.org/d<wbr>oc=
+s/2.5/ref-manual/ref-manual.<wbr>html#var-SIGGEN_EXCLUDE_SAFE_<wbr>RECIPE_D=
+EPS</a>.=C2=A0 I will back-fill into the &#39;rocko&#39; development branch=
+ of the manuals.<br><br></div>Scott<br></div><div class=3D"gmail_extra"><br=
+><div class=3D"gmail_quote">On Wed, Mar 21, 2018 at 1:33 PM, Joshua Watt <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:jpewhacker@gmail.com" target=3D"_blan=
+k">jpewhacker@gmail.com</a>&gt;</span> wrote:<br><blockquote type=3D"cite" =
+style=3D"margin:0 0 0 .8ex;border-left:2px #729fcf solid;padding-left:1ex">=
+Describes the new wildcard syntax<br>
+<br>
+Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
+et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0documentation/ref-manual/ref-<wbr>variables.xml | 17 ++++++++++++++++=
++<br>
+=C2=A01 file changed, 17 insertions(+)<br>
+<br>
+diff --git a/documentation/ref-manual/ref<wbr>-variables.xml b/documentatio=
+n/ref-manual/ref<wbr>-variables.xml<br>
+index 09eb9b9dfc7..58a58b0605e 100644<br>
+--- a/documentation/ref-manual/ref<wbr>-variables.xml<br>
++++ b/documentation/ref-manual/ref<wbr>-variables.xml<br>
+@@ -12648,6 +12648,23 @@ recipes-graphics/xorg-font/fon<wbr>t-alias_1.0.3.b=
+b:PR =3D &quot;${INC_PR}.3&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&lt;filename&gt;mplayer2&lt;/filename&gt;<wbr>.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/para&gt;=
+<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;para&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 The =
+special token &lt;filename&gt;&quot;*&quot;&lt;/filename&gt; may be used on=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the =
+left hand side of the dependency, which will match all<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reci=
+pes except the one on the right hand side.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 For =
+example:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;=
+literallayout class=3D&#39;monospaced&#39;&gt;<br>
++=C2=A0 =C2=A0 SIGGEN_EXCLUDE_SAFE_RECIPE_DEP<wbr>S +=3D &quot;*-&gt;quilt-=
+native&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;=
+/literallayout&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/para&gt;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;para&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 In t=
+his example, all recipes except<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;=
+filename&gt;quilt-native&lt;/filena<wbr>me&gt; will ignore task<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sign=
+atures from the &lt;filename&gt;quilt-native&lt;/filena<wbr>me&gt; recipe<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 when=
+ determining their task signatures.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;/para&gt;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;para&gt;<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0Use of this variable is one mechanism to remove dependencies<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0that affect task signatures and thus force rebuilds when a<br>
+<span class=3D"m_-7953932688811173130m_4517762190543744689HOEnZb"><font col=
+or=3D"#888888">--<br>
+2.14.3<br>
+<br>
+</font></span></blockquote></div><br></div>
+</blockquote></div></div></div></blockquote></div><br></div>
+</blockquote></div></div></div></blockquote></div><br></div>
+
+--000000000000ac183505687ec758--
