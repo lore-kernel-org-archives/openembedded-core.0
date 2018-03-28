@@ -1,47 +1,43 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A66F78322
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B6EAD71A0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 22:43:38 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id u11so416608wri.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Mar 2018 15:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1bF2VKEhan9WcWz5mn+mNNOhUfnNkWfUjd8sDukQ9X4=;
-	b=BwRCjKI4wFo3j6naxtTCacsqTrlMQ+I/ThHMOUgVD6/tPxKPKgST8N0CDtTGWTSJ60
-	3MYTaYTbVChz7s99GOHmvMT3D2HZzDZ4mdMRvd7ZBJQlQKFCXbkaSL+zJZ0rpVi0R2kW
-	BTR1rzKkNqPmTSmoMjX+KABmRgiNOBMwe3pzBBvhfa0kKX3VdR7pFuC9KU0/0ZqJT5cq
-	oq2DDq+5xnw6Y0tEzPaByY2aMyySXuQHFRrS3A3Ta4fDv+ZmU8OBo18Uq12ffCVss4v0
-	VvDS4qKbVsxpUGQCPcjqF0owlX9Q1TYaR81VRqpyyOZIGpguiIQ9Ge+SAw7WUjhoQQ1C
-	o0ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1bF2VKEhan9WcWz5mn+mNNOhUfnNkWfUjd8sDukQ9X4=;
-	b=g7lI/z7bB6Kf3gccqcbY3z7Xxc8ZW9jsEYpIJ9n2midq4VttE2yjA7maAi/2A4N00I
-	0frw1INSxA3Yke0oS0xliHtBXky10E/qFcRNo1Dqd6tOfCYicwT9JWivGLhOgzgZteP2
-	r4fN+shdxvICs0VIr5+OJBcy2DuF7MwyBy5ymErT1Hpumnvd8efygP7odEq8Bmw3CIyn
-	weDChEqE5pSjlZNSY73hD1DeZNLx5awzSfEotx+z8txgb3nRqt5l2GOmZbh7UqjdA/wD
-	xGVYHj3D0UcExh/tmYKWoyxHvCQxrQpYhKo4mLn5ZDKPZiMLUT//LQpBJ8qYxfV7QCe0
-	UKFQ==
-X-Gm-Message-State: AElRT7HpUAh31EWMfP8G7dJWFSQ0vcSAgBAotq4M4y9f63eqctKvtPCv
-	qp60woy5QtBDIBWKmK2vQm0k/OT5EpscNFDyqsc=
-X-Google-Smtp-Source: AIpwx48DuTDntcl5sZwvinyvrYDpgiMjv757xWfyHtCtPBNp/10ZO4WDAsYEKLDqj18wiWpR7rvCsRug3U/80SaLDg8=
-X-Received: by 10.223.182.132 with SMTP id j4mr908656wre.66.1522190619742;
-	Tue, 27 Mar 2018 15:43:39 -0700 (PDT)
+	Wed, 28 Mar 2018 00:41:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Mar 2018 17:41:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,368,1517904000"; d="scan'208";a="38685375"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by orsmga003.jf.intel.com with ESMTP; 27 Mar 2018 17:41:14 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
+	PGSMSX111.gar.corp.intel.com ([169.254.2.233]) with mapi id
+	14.03.0319.002; Wed, 28 Mar 2018 08:41:13 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oe-selftest: crosstap: add tests for
+	crosstap script
+Thread-Index: AQHTxbbF2Mt90x9reE+mAYyxOj0KDqPkzuZA
+Date: Wed, 28 Mar 2018 00:41:12 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335DFC870@PGSMSX109.gar.corp.intel.com>
+References: <1522114620-28569-1-git-send-email-ee.peng.yeoh@intel.com>
+	<2840c7d5-baaf-5519-bf29-bf6048c8578d@linux.intel.com>
+In-Reply-To: <2840c7d5-baaf-5519-bf29-bf6048c8578d@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzE5NWQ3NWMtZTZmMy00ZWRiLWFhYTUtYTAyNjA4YjFhN2Q2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6ImZTZjNkOU1Gd0FjVndWSk83cnErbVJTYk1ValpkVG9MdWNIeXpUWU1YMnc9In0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Tue, 27 Mar 2018 15:43:39 -0700 (PDT)
-In-Reply-To: <20180327154802.14611-1-ross.burton@intel.com>
-References: <20180327154802.14611-1-ross.burton@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 27 Mar 2018 15:43:39 -0700
-Message-ID: <CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
+Subject: Re: [PATCH] oe-selftest: crosstap: add tests for crosstap script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,131 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Mar 2018 22:43:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Mar 2018 00:41:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Mar 27, 2018 at 8:48 AM, Ross Burton <ross.burton@intel.com> wrote:
-> coreutils is now using renameat2() in mv(1) but as this syscall isn't in most
-> glibc headers yet it falls back to directly calling syscall(), which pseudo
-> doesn't intercept.  This results in permission problems as files mysteriously
-> move without pseudo knowing.
->
-> This patch intercepts syscall() and returns ENOTSUP if renameat2() is being
-> called.  Thanks to Andre McCurdy for the proof-of-concept that this patch is
-> based on.
-
-Tested-by: Andre McCurdy <armccurdy@gmail.com>
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/pseudo/files/renameat2.patch | 63 ++++++++++++++++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb         |  1 +
->  2 files changed, 64 insertions(+)
->  create mode 100644 meta/recipes-devtools/pseudo/files/renameat2.patch
->
-> diff --git a/meta/recipes-devtools/pseudo/files/renameat2.patch b/meta/recipes-devtools/pseudo/files/renameat2.patch
-> new file mode 100644
-> index 00000000000..467b0b3e79f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/files/renameat2.patch
-> @@ -0,0 +1,63 @@
-> +commit 3a4c536817dce4d0cbaa8f4efe30e722108357dd
-> +Author: Ross Burton <ross.burton@intel.com>
-> +Date:   Tue Mar 27 14:02:10 2018 +0100
-> +
-> +    HACK syscall
-> +
-> +diff --git a/ports/linux/guts/syscall.c b/ports/linux/guts/syscall.c
-> +new file mode 100644
-> +index 0000000..4ed38ed
-> +--- /dev/null
-> ++++ b/ports/linux/guts/syscall.c
-> +@@ -0,0 +1,30 @@
-> ++/*
-> ++ * Copyright (c) 2018 Wind River Systems; see
-> ++ * guts/COPYRIGHT for information.
-> ++ *
-> ++ * long syscall(long number, ...)
-> ++ *    long rc = -1;
-> ++ */
-> ++      typedef long syscall_arg_t;
-> ++      syscall_arg_t a,b,c,d,e,f;
-> ++
-> ++      //va_start (ap, number);
-
-Without knowing anything about pseudo, commenting this out looks odd?
-
-> ++      a = va_arg (ap, syscall_arg_t);
-> ++      b = va_arg (ap, syscall_arg_t);
-> ++      c = va_arg (ap, syscall_arg_t);
-> ++      d = va_arg (ap, syscall_arg_t);
-> ++      e = va_arg (ap, syscall_arg_t);
-> ++      f = va_arg (ap, syscall_arg_t);
-> ++      va_end (ap);
-> ++
-> ++      if ((number == SYS_renameat2)) {
-> ++                      errno = ENOTSUP;
-
-I think ENOTSUP is intended to indicate that the failing syscall may
-succeed in another context (e.g. fails on a file but may succeed on a
-socket, etc ?).
-
-In this case, it may be better to return ENOSYS, which indicates the
-syscall is never expected to work on this system. It's the error
-returned by a kernel which is too old to support renameat2 and so
-anything trying to use renameat2 is likely to check for it.
-
-gnulib checks for both though, so either is going to work for the
-current problem with coreutils mv.
-
-> ++                      rc = -1;
-> ++      }
-> ++      else {
-> ++                      rc = real_syscall (number, a, b, c, d, e, f);
-> ++      }
-> ++
-> ++/*    return rc;
-> ++ * }
-> ++ */
-> +diff --git a/ports/linux/wrapfuncs.in b/ports/linux/wrapfuncs.in
-> +index fca5b50..137612c 100644
-> +--- a/ports/linux/wrapfuncs.in
-> ++++ b/ports/linux/wrapfuncs.in
-> +@@ -54,3 +54,4 @@ int getpw(uid_t uid, char *buf);
-> + int getpwent_r(struct passwd *pwbuf, char *buf, size_t buflen, struct passwd **pwbufp);
-> + int getgrent_r(struct group *gbuf, char *buf, size_t buflen, struct group **gbufp);
-> + int capset(cap_user_header_t hdrp, const cap_user_data_t datap); /* real_func=pseudo_capset */
-> ++long syscall(long number, ...);
-> +diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
-> +index e05f73a..b7225d7 100644
-> +--- a/pseudo_wrappers.c
-> ++++ b/pseudo_wrappers.c
-> +@@ -36,6 +36,7 @@
-> + #include <sys/time.h>
-> + #include <sys/wait.h>
-> + #include <dlfcn.h>
-> ++#include <sys/syscall.h>
-> +
-> + /* include this to get PSEUDO_PORT_* definitions */
-> + #include "pseudo.h"
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index 66da1cc53b8..44343c3bc57 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -6,6 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
->             file://fallback-group \
->             file://moreretries.patch \
->             file://toomanyfiles.patch \
-> +           file://renameat2.patch \
->             "
->
->  SRCREV = "d7c31a25e4b02af0c64e6be0b4b0a9ac4ffc9da2"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgQWxleCwNCg0KWWVzLCByZXVzaW5nIGV4aXN0aW5nIHJ1bnFlbXUgbWFkZSB0aGlzIHRlc3Rj
+YXNlIG1vcmUgY29uY2lzZSBhbmQgZWFzaWVyIHRvIG1haW50YWluLiBUaGFuayB5b3UgdmVyeSBt
+dWNoIGZvciB5b3VyIGlucHV0cyBhbmQgc2hhcmluZyEgDQoNClRoYW5rcywNCkVlIFBlbmcgDQot
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gW21haWx0
+bzphbGV4YW5kZXIua2FuYXZpbkBsaW51eC5pbnRlbC5jb21dIA0KU2VudDogVHVlc2RheSwgTWFy
+Y2ggMjcsIDIwMTggNjozMiBQTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRl
+bC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2Utc2VsZnRlc3Q6IGNyb3NzdGFwOiBhZGQgdGVzdHMg
+Zm9yIGNyb3NzdGFwIHNjcmlwdA0KDQpPbiAwMy8yNy8yMDE4IDA0OjM3IEFNLCBZZW9oIEVlIFBl
+bmcgd3JvdGU6DQo+IFFBIHRlYW0gd2VyZSB0ZXN0aW5nIGNyb3NzdGFwIHNjcmlwdCBtYW51YWxs
+eS4gQWRkIGF1dG9tYXRlZCB0ZXN0cyBhbmQgDQo+IHN5c3RlbXRhcCBmaWxlIHRvIHRlc3QgdGhh
+dCBjcm9zc3RhcCBzY3JpcHQgd2lsbCBpbnN0cnVjdHMgU3lzdGVtVGFwIA0KPiB0byBwcmludCBo
+ZWxsbyB3b3JsZCBpbiBxZW11LiBUaGlzIHRlc3Qgd2lsbCBmaXJzdCBidWlsdCANCj4gY29yZS1p
+bWFnZS1taW5pbWFsIGltYWdlIHdpdGggdG9vbHMtcHJvZmlsZSAmIHNzaC1zZXJ2ZXItb3BlbnNz
+aCANCj4gZmVhdHVyZXMgYW5kIGJ1aWxkIHN5c3RlbXRhcC1uYXRpdmUgb24gdGhlIGhvc3QgbWFj
+aGluZS4gRmluYWxseSB0aGlzIA0KPiB0ZXN0IHdpbGwgYm9vdCB0aGUgaW1hZ2Ugd2l0aCBxZW11
+IGFuZCB0aGVuIGV4ZWN1dGUgY3Jvc3N0YXAgc2NyaXB0IHRvIA0KPiBwcmludCBoZWxsbyB3b3Js
+ZCBvbiBxZW11Lg0KDQpUaGFua3MsIHRoaXMgbG9va3MgbXVjaCBuaWNlciBub3csIGRvZXNuJ3Qg
+aXQ/IDopIEkgaGF2ZSBubyBmdXJ0aGVyIGNvbW1lbnRzLCB0aGlzIGlzIGZpbmUuDQoNCkFsZXgN
+Cg==
 
