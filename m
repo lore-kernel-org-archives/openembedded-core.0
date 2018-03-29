@@ -1,33 +1,23 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4341B74500
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 19949744A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 22:41:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id D6A4C20B70;
-	Thu, 29 Mar 2018 22:41:35 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id J3GuXGHxhV0l; Thu, 29 Mar 2018 22:41:35 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B21432098D;
-	Thu, 29 Mar 2018 22:41:34 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 36CED1633B2; Thu, 29 Mar 2018 18:41:29 -0400 (EDT)
-Date: Thu, 29 Mar 2018 18:41:29 -0400
-From: Denys Dmytriyenko <denis@denix.org>
+	Thu, 29 Mar 2018 23:19:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2018 16:19:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="43375688"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2018 16:19:19 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20180329224129.GK2786@denix.org>
-References: <cover.1521507765.git.denys@ti.com>
-MIME-Version: 1.0
-In-Reply-To: <cover.1521507765.git.denys@ti.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 0/3] Package upgrades
+Date: Thu, 29 Mar 2018 16:19:18 -0700
+Message-Id: <20180329231918.25272-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] default-distrovars: set default KERNEL_IMAGETYPE(S)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,47 +30,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 22:41:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Mar 2018 23:19:21 -0000
 
-Ping. It's been 10 days - are there any issues with these updates?
+With the change from assuming kernels will be named "vmlinuz"
+everywhere, to instead using KERNEL_IMAGETYPE, we require that
+KERNEL_IMAGETYPE is set to something. Instead of setting the default in
+multiple individual files, set it in default-distrovars.inc.
 
+Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
+KERNEL_IMAGETYPE.
 
-On Mon, Mar 19, 2018 at 09:11:06PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Upgrades for lzip, hdparm and lz4.
-> 
-> The following changes since commit c94271d87d16323f920891344642f76dfb3c994f:
-> 
->   buildperf: measure the size of core-image-sato rootfs (2018-03-16 03:42:03 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://push.openembedded.org/openembedded-core-contrib denix/master
-> 
-> Denys Dmytriyenko (3):
->   lzip: upgrade 1.19 -> 1.20
->   hdparm: upgrade 9.53 -> 9.55
->   lz4: upgrade 1.7.4 -> 1.8.1.2
-> 
->  .../hdparm/{hdparm_9.53.bb => hdparm_9.55.bb}      |  4 +-
->  .../lzip/{lzip_1.19.bb => lzip_1.20.bb}            |  4 +-
->  ...sts-Makefile-don-t-use-LIBDIR-as-variable.patch | 82 ----------------------
->  .../lz4/{lz4_1.7.4.bb => lz4_1.8.1.2.bb}           | 10 +--
->  4 files changed, 9 insertions(+), 91 deletions(-)
->  rename meta/recipes-extended/hdparm/{hdparm_9.53.bb => hdparm_9.55.bb} (90%)
->  rename meta/recipes-extended/lzip/{lzip_1.19.bb => lzip_1.20.bb} (88%)
->  delete mode 100644 meta/recipes-support/lz4/files/0001-tests-Makefile-don-t-use-LIBDIR-as-variable.patch
->  rename meta/recipes-support/lz4/{lz4_1.7.4.bb => lz4_1.8.1.2.bb} (79%)
-> 
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/classes/grub-efi-cfg.bbclass               | 1 -
+ meta/classes/live-vm-common.bbclass             | 2 --
+ meta/classes/syslinux.bbclass                   | 1 -
+ meta/classes/systemd-boot-cfg.bbclass           | 2 --
+ meta/conf/distro/include/default-distrovars.inc | 3 +++
+ 5 files changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
+index d2226af97a7..5eeee6c2e3f 100644
+--- a/meta/classes/grub-efi-cfg.bbclass
++++ b/meta/classes/grub-efi-cfg.bbclass
+@@ -22,7 +22,6 @@ GRUB_CFG_LIVE = "${S}/grub_live.cfg"
+ GRUB_TIMEOUT ?= "10"
+ #FIXME: build this from the machine config
+ GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+-KERNEL_IMAGETYPE ??= "bzImage"
+ 
+ EFIDIR = "/EFI/BOOT"
+ GRUB_ROOT ?= "${ROOT}"
+diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
+index 714d6d4788c..68105d9b84f 100644
+--- a/meta/classes/live-vm-common.bbclass
++++ b/meta/classes/live-vm-common.bbclass
+@@ -32,8 +32,6 @@ PCBIOS_CLASS = "${@['','syslinux'][d.getVar('PCBIOS') == '1']}"
+ inherit ${EFI_CLASS}
+ inherit ${PCBIOS_CLASS}
+ 
+-KERNEL_IMAGETYPE ??= "bzImage"
+-
+ populate_kernel() {
+ 	dest=$1
+ 	install -d $dest
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 959aed4fb8f..031dacbf7d3 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -21,7 +21,6 @@ do_bootimg[depends] += "${MLPREFIX}syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot"
+ 
+ ISOLINUXDIR ?= "/isolinux"
+-KERNEL_IMAGETYPE ??= "bzImage"
+ SYSLINUXDIR = "/"
+ # The kernel has an internal default console, which you can override with
+ # a console=...some_tty...
+diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
+index 107758548c6..021c9f93315 100644
+--- a/meta/classes/systemd-boot-cfg.bbclass
++++ b/meta/classes/systemd-boot-cfg.bbclass
+@@ -1,5 +1,3 @@
+-KERNEL_IMAGETYPE ??= "bzImage"
+-
+ SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
+ SYSTEMD_BOOT_ENTRIES ?= ""
+ SYSTEMD_BOOT_TIMEOUT ?= "10"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 76d09af7266..a7d8f7a9530 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -47,3 +47,6 @@ BB_STRICT_CHECKSUM = "1"
+ 
+ GTK2DISTROFEATURES = "directfb x11"
+ GTK3DISTROFEATURES = "x11 wayland"
++
++KERNEL_IMAGETYPE ??= "bzImage"
++KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+-- 
+2.14.3
+
 
