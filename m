@@ -1,32 +1,18 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 51C9F78278
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 13:55:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2TDtbwV023151
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Mar 2018 06:55:37 -0700
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 29 Mar 2018 06:55:36 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1522162765.git.bruce.ashfield@windriver.com>
-	<CAJTo0Lbv_7wXs1mgoqtBc6zWN_bazjwYpc1FbLzT3-zqUnNUHg@mail.gmail.com>
-	<CAJTo0La+oWebhkQXgFvY2yMQdwZzQ=ENbnyx0=5=MuvDiEBqew@mail.gmail.com>
-	<fb094e1e-1196-0bed-190f-e69bf51bb675@windriver.com>
-	<1522329229.11431.90.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <0cb0fadb-b594-67a7-49cc-ea6276b1624f@windriver.com>
-Date: Thu, 29 Mar 2018 09:55:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDE971B32;
+	Thu, 29 Mar 2018 14:02:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1522329229.11431.90.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Thu, 29 Mar 2018 14:02:58 -0000
+Message-ID: <20180329140258.18159.70111@do.openembedded.org>
+References: <1522331577-8895-1-git-send-email-bruce.ashfield@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1522331577-8895-1-git-send-email-bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgteW9jdG8vNC4xNDogYWRkIGVsZnV0aWxzLCB1dGlsLWxpbnV4IGFuZCBvcGVuc3NsIGRlcGVuZGVuY2llcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 13:55:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 29 Mar 2018 14:02:56 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 03/29/2018 09:13 AM, Richard Purdie wrote:
-> On Thu, 2018-03-29 at 08:58 -0400, Bruce Ashfield wrote:
->> There's the stack validation warning, but I can run the hellomod
->> test on my qemux86-64 target and the 4.14 kernel.
->>
->> It is an incremental patch to linux-yocto_4.14 to add the
->> dependencies.
->>
->> Would you like the entire queue again, or just the new patch sent to
->> the list ?
-> 
-> Just new patches is fine, I have the current set in master-next,
-> thanks.
+== Series Details ==
 
-I just sent the new patch, with a quick summary of how I tested it.
+Series: linux-yocto/4.14: add elfutils, util-linux and openssl dependencies
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11609/
+State : failure
 
-I did revert my new devsrc package (since it has different rdepends)
-and do another image build + test. Seems to work, but I never did have
-the exact same error as the QA/autobuilder saw, so I always doubt the
-fix.
+== Summary ==
 
-I added the same dependencies as the newer kernels, but thinking about
-it, I'm not 100% sure I understand how that fixes the on-target build
-of the scripts, since the linux-yocto* isn't actually installed, but
-only devsrc .. so maybe it isn't a fix.
 
-If you can just reply to the single patch, and tell me I'm insane,
-I'll have another go at it.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Bruce
 
-> 
-> Richard
-> 
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at af7ca3e359)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
