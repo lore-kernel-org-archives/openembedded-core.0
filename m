@@ -1,23 +1,47 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B7BBE71ABD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EE7F8606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 07:39:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2018 00:39:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,376,1517904000"; d="scan'208";a="43155283"
-Received: from chiron.jf.intel.com ([10.7.159.63])
-	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2018 00:39:40 -0700
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+	Thu, 29 Mar 2018 08:30:04 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id a16so2755047pfn.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2018 01:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=XY/BBSqsojiEkQ0EbiP2iRimajYMVOPX3HsDAskxNdM=;
+	b=I3XRQDkL71/PTR9soYion9VHgUUGSqwnTPQGXfSyQp8J2COSHEuAkXajNXDvYSN0n9
+	RjIe6q8FDQwPR5/x+Qw2+Vj1hUf8CS/c8FCg93LpK0AVDbQ3aRjR8v7977gXr1quAXmY
+	wBTiTaW8pkz+8rTezzebjvbQkigfoHLDt+c81Jqu7Ac6Ks0Pz3UUXXpm4gGkW3UAws5p
+	3Y3+SSSUJXS94QmzNhNpyEt0Qwz6rPEeBJC/vAb6DS5w/ev6KmlgxHznYg6e+SKTI/ta
+	SdO4Y6ZjQAiYGIOPInBcflwa3CbPJR11Q/3Y6vVm3M7aQN8w8g8WobeGZJaS59x8J42O
+	tnEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XY/BBSqsojiEkQ0EbiP2iRimajYMVOPX3HsDAskxNdM=;
+	b=qdnPcUvV3upCvOVWLAJMUe8eYxmjvvkDoxmTNCS8rjUusk+Huon17wZ4ZvVw2Mnego
+	6/oh7+HD8KVWdo/KSG8HKqPeg/u/KW1c4ysx+pJFjErUomHTWdq3Sr0COlaErBaKvkTZ
+	eBWfHFjsacPbCOLNqaXEXOD94TpVVCNHJwsok1watUZiFhNOf+mr+EqKGOO4+2HKy2DJ
+	VgRTLxyGmjTfi4AO8ygG1/QT4Yy7hT3yNyx1Jde475cpeEXpxgD+rON8BUhfwecVdQqI
+	DN+gawUjFkQUD/gxTk3DLpHnjjzxv4Ssp8jQedoGgIKejco15TkZM/8BYHmdfBDypxEU
+	4WXw==
+X-Gm-Message-State: AElRT7HGkbNOEPCrg8OBhfYuiyJqIP4nsv/CgillHastmCKOE+7NLobk
+	/T7MkVuhvIdZhrF2hmbbA8gg8A==
+X-Google-Smtp-Source: AIpwx48Ap6m17GEW1wyYZtPn6kdrYw2W79meua6McJr1YX6CLR7wNXaTFsPWn3IsXDOEXrvVz8wKBA==
+X-Received: by 10.101.101.204 with SMTP id y12mr4928188pgv.142.1522312205713; 
+	Thu, 29 Mar 2018 01:30:05 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	s7sm10280508pgq.48.2018.03.29.01.30.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Mar 2018 01:30:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 00:39:24 -0700
-Message-Id: <20180329073924.43399-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] libxml-sax-perl: upgrade 0.99 -> 1.00
+Date: Thu, 29 Mar 2018 01:29:57 -0700
+Message-Id: <20180329082957.44741-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.3
+Subject: [PATCH] mmc-utils: Fix string overflow error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 07:39:39 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 08:30:05 -0000
 
-Upstream release notes:
-1.00  15 Feb 2018  Grant McLean
-    - Add makefile dependency to fix order of build steps RT#62289 (patch from
-      Ed J)
+The SRCREV change bring another patch from upstream
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+b4fe0c8 fix ENH_START_ADDR overflow
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../perl/{libxml-sax-perl_0.99.bb => libxml-sax-perl_1.00.bb}        | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/perl/{libxml-sax-perl_0.99.bb => libxml-sax-perl_1.00.bb} (88%)
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-similarity index 88%
-rename from meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
-rename to meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-index cdcbebffce..141830efe8 100644
---- a/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb
-+++ b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-@@ -12,14 +12,13 @@ SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- DEPENDS += "libxml-namespacesupport-perl-native"
- RDEPENDS_${PN} += "libxml-namespacesupport-perl libxml-sax-base-perl perl-module-file-temp"
--PR = "r2"
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 8977a87962..37a4755234 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -4,11 +4,13 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=65c4cd8f39c24c7135ed70dacbcb09e3"
+ SRCBRANCH ?= "master"
+-SRCREV = "7bcad171173fd9a9401e7ce81906605bd6f4eddc"
++SRCREV = "b4fe0c8c0e57a74c01755fa9362703b60d7ee49d"
  
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-${PV}.tar.gz"
+ PV = "0.1"
  
--SRC_URI[md5sum] = "290f5375ae87fdebfdb5bc3854019f24"
--SRC_URI[sha256sum] = "32b04b8e36b6cc4cfc486de2d859d87af5386dd930f2383c49347050d6f5ad84"
-+SRC_URI[md5sum] = "861a454f7bf269990ed2c1c125f4db48"
-+SRC_URI[sha256sum] = "45ea6564ef8692155d57b2de0862b6442d3c7e29f4a9bc9ede5d7ecdc74c2ae3"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH}"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
++           file://0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch \
++           "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- S = "${WORKDIR}/XML-SAX-${PV}"
- 
+ S = "${WORKDIR}/git"
 -- 
-2.14.3
+2.16.3
 
 
