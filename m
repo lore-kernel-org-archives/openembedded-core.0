@@ -1,80 +1,29 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EB8D71BA0
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC02B60616
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 12:04:09 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2TC49IE006887
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 14:04:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1522325049;
-	bh=eHP2Dk4Pj6M+TIJ0ozdpPVmCTMBRIkodackwdV9rp5c=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=OzKdcc6mhXAO6RdTqMmGlKnUHz4U8EHfTG6FNtmcEPNERR2BMXq+AxCS3UDOsD9zm
-	7GdoW4TUpZqzIP1Ds9j4lMJSVUXjfXqMH43cwaMHCJ8b4ZPPcuonUE9SN91A/+iZn8
-	bRRx/w8n/OOYePLN2/UjG4XxYYULQgSameC9RYWc=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2TC42D5013981 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Thu, 29 Mar 2018 14:04:02 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 3CDBCF8EF06;
-	Thu, 29 Mar 2018 13:54:36 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	w2TC40XT013978
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO) for <openembedded-core@lists.openembedded.org> from
-	ensc@sigma-chemnitz.de; Thu, 29 Mar 2018 14:04:00 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.90_1) (envelope-from <ensc@sigma-chemnitz.de>) id 1f1WHg-0004sL-As
-	for openembedded-core@lists.openembedded.org;
-	Thu, 29 Mar 2018 14:04:00 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <lyo9jerelp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJ86T=WBP_Cw133Z1s0LxjL-sgp3YQmuYGx7eBxUFACUJP++nw@mail.gmail.com>
-	<CALbNGRREDMPeqY5WXmen77eEDQJwVu_QnkbDFCyPz0BOyUsL4A@mail.gmail.com>
-	<20180326143107.48f153a5@seebsdell>
-	<CAJ86T=X4u0=82wPCdwngRwQL-==trUDVfuH-4FGC-2G6AmfVgg@mail.gmail.com>
-	<20180326160746.1dce7ae9@seebsdell>
-	<CAJ86T=VaJyJYbBTkjR1yUTSJPCFSjgZCZZkYbyGEaTWYCg+u7A@mail.gmail.com>
-	<20180326203209.2da967eb@seebsdell>
-	<CAJ86T=VqLZrmyLBYD4ovQc9eNJQx5Rqp8YK+=3hPHgmjqqa55w@mail.gmail.com>
-	<20180326210734.165ac038@seebsdell>
-	<CAJ86T=X8bq6MKdvnq7sPFzjKN3ZgEJL70xHGCgSNBuC7ppi51w@mail.gmail.com>
-	<20180326234108.4b52c066@seebsdell>
-	<CAJ86T=VtdUAahO+PE2w8BzuPHAJCM1PEyWaYwg4SSGHU6jtm=A@mail.gmail.com>
-	<20180327142230.15f1abf9@seebsdell>
-	<CAJ86T=V=b2jsSuVEicQbbgrax+8iV7HV0B=cKWDaejLq-Dh2eQ@mail.gmail.com>
-	<20180327152026.335b4c2d@seebsdell>
-	<CAJ86T=VdHEb4cyB=oSTHytyGc9B0+wN39qOSHWuVR0g6dFTLUg@mail.gmail.com>
-	<20180327161010.3e20edac@seebsdell>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 29 Mar 2018 14:04:00 +0200
-In-Reply-To: <20180327161010.3e20edac@seebsdell> (Seebs's message of "Tue, 27
-	Mar 2018 16:10:10 -0500")
-Message-ID: <lyvadfqea7.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+	Thu, 29 Mar 2018 12:58:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2TCwG2m021484
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 29 Mar 2018 05:58:16 -0700
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 29 Mar 2018 05:58:15 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1522162765.git.bruce.ashfield@windriver.com>
+	<CAJTo0Lbv_7wXs1mgoqtBc6zWN_bazjwYpc1FbLzT3-zqUnNUHg@mail.gmail.com>
+	<CAJTo0La+oWebhkQXgFvY2yMQdwZzQ=ENbnyx0=5=MuvDiEBqew@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <fb094e1e-1196-0bed-190f-e69bf51bb675@windriver.com>
+Date: Thu, 29 Mar 2018 08:58:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.82
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.83
-Subject: Re: pseudo: host user contamination
+In-Reply-To: <CAJTo0La+oWebhkQXgFvY2yMQdwZzQ=ENbnyx0=5=MuvDiEBqew@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,23 +36,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 12:04:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Mar 2018 12:58:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Seebs <seebs-59Mtl4G6ZbFeoWH0uzbU5w@public.gmane.org> writes:
+There's the stack validation warning, but I can run the hellomod
+test on my qemux86-64 target and the 4.14 kernel.
 
-> There are weird calling conventions out there. For instance, "pass
-> floating point values in registers, but integers on stack", or "pass
-> first N arguments in registers", and so on. I don't know if any of
-> them are active in stuff Linux supports, but I'm aware that this is an
-> area where you can get really strange behaviors.
+It is an incremental patch to linux-yocto_4.14 to add the dependencies.
 
-__builtin_apply() should deal with it.  If you are really paranoid, assume
-a huge stack size (e.g. 1024).  But accordingly syscall(2) man-page, there
-are to be expected not more than 7 arguments for syscalls.  So, define the
-size for known architectures and a fallback of '7 * sizeof(uintmax_t)' or
-so.
+Would you like the entire queue again, or just the new patch sent to
+the list ?
+
+Bruce
+
+---------
+
+Makefile:947: "Cannot use CONFIG_STACK_VALIDATION=y, please install 
+libelf-dev, libelf-devel or elfutils-libelf-devel"
+   CC [M]  /tmp/hellomod.o
+   Building modules, stage 2.
+   MODPOST 1 modules
+   CC      /tmp/hellomod.mod.o
+   LD [M]  /tmp/hellomod.ko
+make: Leaving directory '/usr/src/kernel'
+
+root@qemux86-64:~# uname -a
+Linux qemux86-64 4.14.30-yocto-standard #1 SMP PREEMPT Wed Mar 28 
+11:55:44 EDT 2018 x86_64 GNU/Linux
 
 
-Enrico
+
+On 03/28/2018 06:33 AM, Burton, Ross wrote:
+> Also a non-musl target failed like this:
+> 
+> | NOTE: FAIL [6.426s]: test_kernel_module (kernelmodule.KernelModuleTest)
+> | NOTE: ----------------------------------------------------------------------
+> | NOTE: Traceback (most recent call last):
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+> line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+> line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+> line 32, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-64/build/meta/lib/oeqa/runtime/cases/kernelmodule.py",
+> line 40, in test_kernel_module
+> |     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+> | AssertionError: 2 != 0 : cd /tmp && make
+> | make -C /usr/src/kernel M=/tmp modules
+> | make[1]: Entering directory '/usr/src/kernel'
+> | make[2]: *** No rule to make target 'tools/objtool/objtool', needed
+> by '/tmp/hellomod.o'.  Stop.
+> | make[1]: Leaving directory '/usr/src/kernel'
+> | make[1]: *** [Makefile:1519: _module_/tmp] Error 2
+> | make: *** [Makefile:5: all] Error 2
+> 
+> Same error but with glibc instead of musl.
+> 
+> Ross
+> 
+> On 28 March 2018 at 11:31, Burton, Ross <ross.burton@intel.com> wrote:
+>> I think it was this pull but musl builds are now failing like this in selftest:
+>>
+>> | NOTE: FAIL: test_kernel_module (kernelmodule.KernelModuleTest)
+>> | NOTE: ----------------------------------------------------------------------
+>> | NOTE: Traceback (most recent call last):
+>> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+>> line 32, in wrapped_f
+>> |     return func(*args, **kwargs)
+>> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+>> line 32, in wrapped_f
+>> |     return func(*args, **kwargs)
+>> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/core/decorator/__init__.py",
+>> line 32, in wrapped_f
+>> |     return func(*args, **kwargs)
+>> |   File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-musl-x86-64/build/meta/lib/oeqa/runtime/cases/kernelmodule.py",
+>> line 40, in test_kernel_module
+>> |     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+>> | AssertionError: 2 != 0 : cd /tmp && make
+>> | make -C /usr/src/kernel M=/tmp modules
+>> | make[1]: Entering directory '/usr/src/kernel'
+>> | getconf: LFS_CFLAGS: unknown variable
+>> | getconf: LFS_LDFLAGS: unknown variable
+>> | getconf: LFS_LIBS: unknown variable
+>> | make[2]: *** No rule to make target 'tools/objtool/objtool', needed
+>> by '/tmp/hellomod.o'.  Stop.
+>> | make[1]: Leaving directory '/usr/src/kernel'
+>> | make[1]: *** [Makefile:1519: _module_/tmp] Error 2
+>> | make: *** [Makefile:5: all] Error 2
+>>
+>> Ross
+>>
+>> On 27 March 2018 at 16:03, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>>> Hi all,
+>>>
+>>> This pull request is a series of -stable updates (more Spectre/meltdown
+>>> included), and some fixes for the fsl_mpc h/w reference board that will
+>>> allow us to update the reference to v4.14+.
+>>>
+>>> We also have a configuration tweak to the wifi fragments, which will
+>>> result in more reuse, but won't impact the default configurations.
+>>>
+>>> Note: I haven't included the re-written kernel-devsrc changes, since
+>>> I've never been able to reproduce the multilib issue with the ssl
+>>> dependency. The devsrc changes will have to be looked at after the
+>>> release.
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>>
+>>> The following changes since commit 80c7ca2c28959d08a59d960d318d8360392bd488:
+>>>
+>>>    kernel-dev: Clean up of "bsp_name" placeholder. (2018-03-25 09:41:13 +0100)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>>>
+>>> Bruce Ashfield (7):
+>>>    linux-yocto/4.12: update to v4.12.21
+>>>    mpc8315e-rdb: fix broken ethernet
+>>>    linux-yocto/4.12: add ssl and utils native dependencies
+>>>    linux-yocto/meta: improve wifi driver granularity
+>>>    linux-yocto/4.12: intel-socfpga, intel-pmc-core and ish support for
+>>>      CoffeeLake board
+>>>    linux-yocto/4.14: update to v4.14.30
+>>>    linux-yocto/4.15: update to v4.15.13
+>>>
+>>>   meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  6 +++---
+>>>   meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 22 ++++++++++++----------
+>>>   meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++++----------
+>>>   meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 20 ++++++++++----------
+>>>   9 files changed, 50 insertions(+), 48 deletions(-)
+>>>
+>>> --
+>>> 2.5.0
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
