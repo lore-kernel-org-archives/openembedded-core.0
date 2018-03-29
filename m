@@ -1,47 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F8A3744D1
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D8E6D74503
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 23:36:42 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id z73so6753196wrb.0
+	Thu, 29 Mar 2018 23:39:26 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id h76so13333038wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 16:36:43 -0700 (PDT)
+	Thu, 29 Mar 2018 16:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9znjV4jV98aD+FizC1deemdYv1Qsb4r7ypHp0oABsKs=;
-	b=nVVUGJMdQQuB0MdtluUZQZEmKI4ZDlEFbynFI55oWJpWunYxpQphXVIQpMEINfr8Ez
-	q76GX2dApnjhFRWUyp0pe5X9K6mclk9K00qirZEodlSc3Mx2m5f4MeoEyneITPxvNCRx
-	J0oCjXZFzba03gmM0VD4UgZ8xG5rAjM+CjSEI/TmIRY6NOUSrHgwE8kcBBEOs8zLoaoa
-	eHjHuQkMqU60VJBCTKgpE3cOttfHFdfjFir+irKAQmxXpI413sAhS2Ke61pnu0U2dNCd
-	g17Ro7xwrd7NRFVwWXKG09F1M/YaVDFhq/HzkCTc1CbgJRFrEHSefvbpNDW2up9w5MXa
-	OCbw==
+	:cc; bh=fki+mcwECJgfyfsqB3ihETuGI1x6j+WjQH9u9mcr6/Y=;
+	b=m5F9ZRcgbeGzcH8qxYY9kLwpiNCN9p8sfxfY/9EDrCXZISDW3OpWIRROmNtddkceIU
+	2sWzGOeasyphHPO+mGsxt9JAiHiWz6BNsIXiM/yfphcSmjd/BnOJCfHd5NNRPwAcMeZq
+	aMqYRK6m2FNxDxlbNI0uCpPBsk84qsJofVYqK996llCWfaEd+e6NSL6M1yfwrJkiuYMM
+	usBOPSP7s1uw6AfuKjw4lj/nAr2XZMo5cxgqaGsR5OYL8JjqyvD/sWjqLfw2yzXx3JHO
+	isEK7EY+0gM0MdjtE42TZFl0YWkIc6tH0yqrtXC3LElBT/+NhmDNwtLycAQh4D+HP3m/
+	H6xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9znjV4jV98aD+FizC1deemdYv1Qsb4r7ypHp0oABsKs=;
-	b=n/oFYtHCMa1GArXIBycZz1pm9obCsYxZb99ngA0IWbKn1zRIU/ZPqPapWac15GSwQj
-	4XfI0BhmW9GgOCj9Ct7mUchxnBD5zT9zkgI+y8F3WNVdqDP353I7YXJPQYCTClsahmor
-	ciifMsaKBwWitiVzxA1rUiSIIX6KsrPSRL5XeTeULtB7iGkMySXWAVTzwfin7XBv53LS
-	CdSPmAUAnFcii3BVnvBXGs/rmRRfZYuJPAIxbbmJCvAkhbzwZR8y/Ku+VZnOOggrbVu/
-	Xldzi1GrjeIHNY69uCAD9SffxBqpHlwJsr+RIJ+b7sJLIX//nq0Xn+m0p/3nnqKOpxEH
-	GufQ==
-X-Gm-Message-State: AElRT7GRodEZEhezLe7Ru6c9FrVr7WuPlU5meP2v5aguvpYL+cc65+bm
-	CUtfSV3DJJr7TpR4tc+nvu4yZSL8zJ/36E5H5k8=
-X-Google-Smtp-Source: AIpwx48EodMxrUIMZ0sPoUCx74c4A+2q9zCwS+ygfAY4dGxwrafc8P7/nwEHwXsp+gJPVjEeH5E8qyWod20QuDfK2to=
-X-Received: by 10.223.134.47 with SMTP id 44mr7566799wrv.114.1522366602926;
-	Thu, 29 Mar 2018 16:36:42 -0700 (PDT)
+	bh=fki+mcwECJgfyfsqB3ihETuGI1x6j+WjQH9u9mcr6/Y=;
+	b=XRpqdTgGM7gdnwX2LUCZSr8DYsF85TDd3tmJEia6UAAp3GcbfFr2odhTE0TNIbWhNZ
+	yOawI2SO2awLT6nuJsl2ADqIiIazhbiBJEarP4ZZYfNGTJP8ci1cGO2yX27qrhxKb8gd
+	qZwHymncPp38Ewc1w0Lk0Q5152W1h6QeVCxAYksAvuglef6rbkuwLmRVJqIDwcWKufb6
+	qKWAExtDqxUa4N+AXip25eQjjRyeYxGu9IDE8ra7D9q6phNPKQi/1vB04wNFj1fSUb5+
+	fEPPMP3gP8IE1GDFmB200iKJDaV+xEliBs5DdyNjHPIrONuFqOS+s88TvP6rg5B+dcX6
+	6E7A==
+X-Gm-Message-State: AElRT7H7z9IFwj3qU32SAxRZw/sv0FZ1eLyvMtHMgCR0Mnp3HTga/bID
+	SNmQN0Yq+qkjVVWzmJStYQksUnVipRmniZFDbns=
+X-Google-Smtp-Source: AIpwx49Q4mGxPMWWPPx/qjRvIniB2cmXqvl35qYpCKhGq0I9TkCXUi3jGZY1/csbqUT0pLGKAwBYcL9kOOuFMgu7irI=
+X-Received: by 10.28.212.84 with SMTP id l81mr585565wmg.151.1522366767488;
+	Thu, 29 Mar 2018 16:39:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Thu, 29 Mar 2018 16:36:42 -0700 (PDT)
-In-Reply-To: <20180329231918.25272-1-california.l.sullivan@intel.com>
-References: <20180329231918.25272-1-california.l.sullivan@intel.com>
+Received: by 10.223.163.65 with HTTP; Thu, 29 Mar 2018 16:39:26 -0700 (PDT)
+In-Reply-To: <20180329224129.GK2786@denix.org>
+References: <cover.1521507765.git.denys@ti.com>
+	<20180329224129.GK2786@denix.org>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 29 Mar 2018 16:36:42 -0700
-Message-ID: <CAJ86T=VbYnLPa=JZiYVC0zpr06Gzgvm0+NdCBjSMCusEF=Zhgg@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] default-distrovars: set default KERNEL_IMAGETYPE(S)
+Date: Thu, 29 Mar 2018 16:39:27 -0700
+Message-ID: <CAJ86T=Xi01mESEX8D3YAXo1OXj5d93y8wXz5qJw1ffKqHeXjQQ@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +55,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 23:36:42 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 23:39:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 29, 2018 at 4:19 PM, California Sullivan
-<california.l.sullivan@intel.com> wrote:
-> With the change from assuming kernels will be named "vmlinuz"
-> everywhere, to instead using KERNEL_IMAGETYPE, we require that
-> KERNEL_IMAGETYPE is set to something. Instead of setting the default in
-> multiple individual files, set it in default-distrovars.inc.
->
-> Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
-> KERNEL_IMAGETYPE.
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> +
-> +KERNEL_IMAGETYPE ??= "bzImage"
+On Thu, Mar 29, 2018 at 3:41 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> Ping. It's been 10 days - are there any issues with these updates?
 
-Isn't bzImage x86 specific? Setting it as the default also disagrees
-with meta/conf/documentation.conf:
-
-  KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
-usually set by the machine configuration files and defaults to
-'zImage'."
-
-It might be nice to have an arch specific default (e.g. bzImage for
-x86, vmlinux for MIPS and zImage for everything else?).
+Only 10 days? :-)
 
