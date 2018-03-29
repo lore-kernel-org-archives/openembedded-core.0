@@ -1,41 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 43209785A6
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B8A47449A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 15:43:21 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id h4so6643752qtn.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 08:43:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wt2YJR/bA2bZ13v1wOIYAKXTM62tWziXbz/V3LqFCmQ=;
-	b=edifyFTqOPXZo1bd5gyvzp0VBcmZgvtfPTVZP5axyCb7G6fwS0JXGQfj6miZ8S2un5
-	cerqP+g2EZLHKmGcJPuH7+zeE0Nww2TX1iqkAXulPBewSlFIn9tFd0Tr800jJDJvmYe8
-	QhKv4QtM7hiXgIfyyhpCxIE2P2UMWiHF4Jw3j7iXgwZ/By8Q3Y0C/axM4LWC5Ejfvb8b
-	LsO3nnpLw0TmSHWPXm2LmptmFkPGsHLPPN5siuoHPLKjSnwW7QJ395swPwBLIwv+olm3
-	IaynflM7WGrsxUld04XIMS/TjG46dVQvjIFLCCiP80FZuL3PDEjwsuJwu8cH1AabxYkg
-	ynTw==
-X-Gm-Message-State: ALQs6tDTuIyiNIMpzqXB1KmYA/udQy92RO+3P2XwUZ4PDAwwCtMrB7ii
-	5O7naB6mTVhRYnIzRgnMmmVLS07Y
-X-Google-Smtp-Source: AIpwx49kvHW6ARSE1cj8YS0nouvOwdh7P6e+bYcuwwFU3ZEHkUjfBUY71OrmXD+EyBPftV3jBDTyrA==
-X-Received: by 10.200.39.210 with SMTP id x18mr11898338qtx.266.1522338202622; 
-	Thu, 29 Mar 2018 08:43:22 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	b37sm5074628qtc.15.2018.03.29.08.43.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Mar 2018 08:43:21 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Thu, 29 Mar 2018 20:19:03 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2018 13:19:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="43342006"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2018 13:19:04 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 16:43:19 +0100
-Message-Id: <20180329154319.15810-1-git@andred.net>
-X-Mailer: git-send-email 2.16.2
-MIME-Version: 1.0
-Subject: [PATCH v2] ca-certificates: use relative symlinks from $ETCCERTSDIR
+Date: Thu, 29 Mar 2018 13:19:05 -0700
+Message-Id: <1522354745-69082-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] libc6-dbg: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,161 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 15:43:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Mar 2018 20:19:04 -0000
 
-From: André Draszik <andre.draszik@jci.com>
+Prevent bison from generating #line comments containing build
+host paths references.
 
-update-ca-certificates symlinks (trusted) certificates
-from $CERTSDIR or $LOCALCERTSDIR into $ETCCERTSDIR.
-update-ca-certificates can call hook scripts installed
-into /etc/ca-certificates/update.d. Those scripts are
-passed the pem file in /etc/ssl/certs/ that was added or
-removed in this run and those pem files are absolute
-symlinks into $CERTSDIR or $LOCALCERTSDIR at the moment.
+[YOCTO #12625]
 
-When running update-ca-certificates during image build
-time, they thusly all point into the host's file system,
-not into the $SYSROOT. This means:
-* the host's file system layout must match the one
-  produced by OE, and
-* it also means that the host must have installed the same
-  (or more) certificates as the target in $CERTSDIR and
-  $LOCALCERTSDIR
-
-This is a problem when wanting to execute hook scripts,
-because they all need to be taught about $SYSROOT, and
-behave differently depending on whether they're called
-at image build time, or on the target, as otherwise they
-will be trying to actually read the host's certificates
-from $CERTSDIR or $LOCALCERTSDIR.
-
-This also is a problem when running anything else during
-image build time that depends on the trusted CA
-certificates.
-
-Changing the symlink to be relative solves all of these
-problems. At the same time, we have to make sure to add
-$CERTSDIR to SYSROOT_DIRS, so that the symlinks are still
-valid when somebody DEPENDS on ca-certificates-native. As
-a side-effect, this also fixes a problem in meta-java,
-where some recipes (e.g. openjdk-8-native) try to access
-certificates from $CERTSDIR to generate the java trustStore
-at build time.
-
-Do so.
-
-Upstream-Status: Inappropriate [OE-specific]
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
-v2:
-* update SYSROOT_DIRS
-* mention openjdk issue
----
- ...ertificates-use-relative-symlinks-from-ET.patch | 71 ++++++++++++++++++++++
- .../ca-certificates/ca-certificates_20170717.bb    |  6 +-
- 2 files changed, 75 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+ .../glibc/0029-plural_c_no_preprocessor_lines.patch | 21 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.27.bb               |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+diff --git a/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch b/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
 new file mode 100644
-index 0000000000..4bd967f788
+index 0000000..6f03e1c
 --- /dev/null
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
-@@ -0,0 +1,71 @@
-+From a9fc13b2aee55655d58fcb77a3180fa99f96438a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
-+Date: Wed, 28 Mar 2018 16:45:05 +0100
-+Subject: [PATCH] update-ca-certificates: use relative symlinks from
-+ $ETCCERTSDIR
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
+@@ -0,0 +1,21 @@
++Improve reproducibility:
++Do not put any #line preprocessor commands in bison generated files.
++These lines contain absolute paths containing file locations on
++the host build machine.
 +
-+update-ca-certificates symlinks (trusted) certificates
-+from $CERTSDIR or $LOCALCERTSDIR into $ETCCERTSDIR.
-+update-ca-certificates can call hook scripts installed
-+into /etc/ca-certificates/update.d. Those scripts are
-+passed the pem file in /etc/ssl/certs/ that was added or
-+removed in this run and those pem files are absolute
-+symlinks into $CERTSDIR or $LOCALCERTSDIR at the moment.
++Upstream-Status: Pending
++Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 +
-+When running update-ca-certificates during image build
-+time, they thusly all point into the host's file system,
-+not into the $SYSROOT. This means:
-+* the host's file system layout must match the one
-+  produced by OE, and
-+* it also means that the host must have installed the same
-+  (or more) certificates as the target in $CERTSDIR and
-+  $LOCALCERTSDIR
-+
-+This is a problem when wanting to execute hook scripts,
-+because they all need to be taught about $SYSROOT, and
-+behave differently depending on whether they're called
-+at image build time, or on the target, as otherwise they
-+will be trying to actually read the host's certificates
-+from $CERTSDIR or $LOCALCERTSDIR.
-+
-+This also is a problem when running anything else during
-+image build time that depends on the trusted CA
-+certificates.
-+
-+Changing the symlink to be relative solves all of these
-+problems. Do so.
-+
-+Upstream-Status: Inappropriate [OE-specific]
-+Signed-off-by: André Draszik <andre.draszik@jci.com>
-+---
-+ sbin/update-ca-certificates | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
-+index 00f80c7..7e911a9 100755
-+--- a/sbin/update-ca-certificates
-++++ b/sbin/update-ca-certificates
-+@@ -29,6 +29,7 @@ CERTSDIR=$SYSROOT/usr/share/ca-certificates
-+ LOCALCERTSDIR=$SYSROOT/usr/local/share/ca-certificates
-+ CERTBUNDLE=ca-certificates.crt
-+ ETCCERTSDIR=$SYSROOT/etc/ssl/certs
-++FSROOT=../../../ # to get from $ETCCERTSDIR to the root of the file system
-+ HOOKSDIR=$SYSROOT/etc/ca-certificates/update.d
++diff --git a/intl/Makefile b/intl/Makefile
++index 2219717..a203780 100644
++--- a/intl/Makefile
+++++ b/intl/Makefile
++@@ -151,7 +151,7 @@ $(objpfx)tst-gettext6.out: $(objpfx)tst-gettext.out
 + 
-+ while [ $# -gt 0 ];
-+@@ -125,9 +126,10 @@ add() {
-+   PEM="$ETCCERTSDIR/$(basename "$CERT" .crt | sed -e 's/ /_/g' \
-+                                                   -e 's/[()]/=/g' \
-+                                                   -e 's/,/_/g').pem"
-+-  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
-++  DST="$(echo ${CERT} | sed -e "s|^$SYSROOT||" -e "s|^/|$FSROOT|" )"
-++  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${DST}" ]
-+   then
-+-    ln -sf "${CERT##$SYSROOT}" "$PEM"
-++    ln -sf "${DST}" "$PEM"
-+     echo "+$PEM" >> "$ADDED"
-+   fi
-+   # Add trailing newline to certificate, if it is missing (#635570)
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-index 51af72e79a..a2efb3b4ef 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-@@ -21,10 +21,12 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://update-ca-certificates-support-Toybox.patch \
-            file://default-sysroot.patch \
--           file://sbindir.patch"
-+           file://sbindir.patch \
-+           file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
-+           "
++ CPPFLAGS += -D'LOCALEDIR="$(localedir)"' \
++ 	    -D'LOCALE_ALIAS_PATH="$(localedir)"'
++-BISONFLAGS = --yacc --name-prefix=__gettext --output
+++BISONFLAGS = --yacc --no-lines --name-prefix=__gettext --output
++ 
++ $(inst_localedir)/locale.alias: locale.alias $(+force)
++ 	$(do-install)
+diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
+index 827857d..f626467 100644
+--- a/meta/recipes-core/glibc/glibc_2.27.bb
++++ b/meta/recipes-core/glibc/glibc_2.27.bb
+@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-reset-dl_load_write_lock-after-forking.patch \
+            file://0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch \
+            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
++           file://0029-plural_c_no_preprocessor_lines.patch \
+ "
  
- S = "${WORKDIR}/git"
--SYSROOT_DIRS_class-native += "${sysconfdir}"
-+SYSROOT_DIRS_class-native += "${sysconfdir} ${datadir}/ca-certificates"
- 
- inherit allarch
- 
+ NATIVESDKFIXES ?= ""
 -- 
-2.16.2
+2.7.4
 
 
