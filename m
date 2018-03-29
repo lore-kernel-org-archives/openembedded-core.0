@@ -1,48 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D8E6D74503
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C63274531
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 23:39:26 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id h76so13333038wme.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 16:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fki+mcwECJgfyfsqB3ihETuGI1x6j+WjQH9u9mcr6/Y=;
-	b=m5F9ZRcgbeGzcH8qxYY9kLwpiNCN9p8sfxfY/9EDrCXZISDW3OpWIRROmNtddkceIU
-	2sWzGOeasyphHPO+mGsxt9JAiHiWz6BNsIXiM/yfphcSmjd/BnOJCfHd5NNRPwAcMeZq
-	aMqYRK6m2FNxDxlbNI0uCpPBsk84qsJofVYqK996llCWfaEd+e6NSL6M1yfwrJkiuYMM
-	usBOPSP7s1uw6AfuKjw4lj/nAr2XZMo5cxgqaGsR5OYL8JjqyvD/sWjqLfw2yzXx3JHO
-	isEK7EY+0gM0MdjtE42TZFl0YWkIc6tH0yqrtXC3LElBT/+NhmDNwtLycAQh4D+HP3m/
-	H6xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fki+mcwECJgfyfsqB3ihETuGI1x6j+WjQH9u9mcr6/Y=;
-	b=XRpqdTgGM7gdnwX2LUCZSr8DYsF85TDd3tmJEia6UAAp3GcbfFr2odhTE0TNIbWhNZ
-	yOawI2SO2awLT6nuJsl2ADqIiIazhbiBJEarP4ZZYfNGTJP8ci1cGO2yX27qrhxKb8gd
-	qZwHymncPp38Ewc1w0Lk0Q5152W1h6QeVCxAYksAvuglef6rbkuwLmRVJqIDwcWKufb6
-	qKWAExtDqxUa4N+AXip25eQjjRyeYxGu9IDE8ra7D9q6phNPKQi/1vB04wNFj1fSUb5+
-	fEPPMP3gP8IE1GDFmB200iKJDaV+xEliBs5DdyNjHPIrONuFqOS+s88TvP6rg5B+dcX6
-	6E7A==
-X-Gm-Message-State: AElRT7H7z9IFwj3qU32SAxRZw/sv0FZ1eLyvMtHMgCR0Mnp3HTga/bID
-	SNmQN0Yq+qkjVVWzmJStYQksUnVipRmniZFDbns=
-X-Google-Smtp-Source: AIpwx49Q4mGxPMWWPPx/qjRvIniB2cmXqvl35qYpCKhGq0I9TkCXUi3jGZY1/csbqUT0pLGKAwBYcL9kOOuFMgu7irI=
-X-Received: by 10.28.212.84 with SMTP id l81mr585565wmg.151.1522366767488;
-	Thu, 29 Mar 2018 16:39:27 -0700 (PDT)
+	Thu, 29 Mar 2018 23:55:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2018 16:55:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="39299082"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2018 16:55:30 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20180329231918.25272-1-california.l.sullivan@intel.com>
+	<CAJ86T=VbYnLPa=JZiYVC0zpr06Gzgvm0+NdCBjSMCusEF=Zhgg@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <54bd76e3-bde3-f0fd-0f69-5a9f930266c5@intel.com>
+Date: Thu, 29 Mar 2018 16:55:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Thu, 29 Mar 2018 16:39:26 -0700 (PDT)
-In-Reply-To: <20180329224129.GK2786@denix.org>
-References: <cover.1521507765.git.denys@ti.com>
-	<20180329224129.GK2786@denix.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 29 Mar 2018 16:39:27 -0700
-Message-ID: <CAJ86T=Xi01mESEX8D3YAXo1OXj5d93y8wXz5qJw1ffKqHeXjQQ@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Package upgrades
+In-Reply-To: <CAJ86T=VbYnLPa=JZiYVC0zpr06Gzgvm0+NdCBjSMCusEF=Zhgg@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] default-distrovars: set default KERNEL_IMAGETYPE(S)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,11 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 23:39:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 29 Mar 2018 23:55:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Thu, Mar 29, 2018 at 3:41 PM, Denys Dmytriyenko <denis@denix.org> wrote:
-> Ping. It's been 10 days - are there any issues with these updates?
 
-Only 10 days? :-)
+
+On 03/29/2018 04:36 PM, Andre McCurdy wrote:
+> On Thu, Mar 29, 2018 at 4:19 PM, California Sullivan
+> <california.l.sullivan@intel.com> wrote:
+>> With the change from assuming kernels will be named "vmlinuz"
+>> everywhere, to instead using KERNEL_IMAGETYPE, we require that
+>> KERNEL_IMAGETYPE is set to something. Instead of setting the default in
+>> multiple individual files, set it in default-distrovars.inc.
+>>
+>> Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
+>> KERNEL_IMAGETYPE.
+>>
+>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>> +
+>> +KERNEL_IMAGETYPE ??= "bzImage"
+> Isn't bzImage x86 specific? Setting it as the default also disagrees
+> with meta/conf/documentation.conf:
+>
+>    KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
+> usually set by the machine configuration files and defaults to
+> 'zImage'."
+>
+> It might be nice to have an arch specific default (e.g. bzImage for
+> x86, vmlinux for MIPS and zImage for everything else?).
+
+Doing so would require a nasty setVar python block due to overrides taking priority.
+
+E.g.,
+KERNEL_IMAGETYPE_x86 ??= "test1"
+KERNEL_IMAGETYPE = "test2"
+results in KERNEL_IMAGETYPE getting "test1".
+
+That or accept the difficulty of overriding it afterwards.
+
+This patch is primarily in order to set /any/ default globally so that getVar calls on it don't break parsing.
+Its still customary to set the variable in machine confs as well.
+
+I can send a v2 that sets the default to zImage instead. That way it matches the docs, though I don't know how accurate they were previously.
+
+Thanks,
+Cal
+
 
