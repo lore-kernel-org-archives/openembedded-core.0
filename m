@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BE8E60685
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1F560017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 22:55:54 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id n2so362475wrj.7
+	Thu, 29 Mar 2018 01:24:22 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id z73so3890864wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Mar 2018 15:55:56 -0700 (PDT)
+	Wed, 28 Mar 2018 18:24:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1eN5FEyVVLgzBdZ1iIctI5DsLJOXFmgwvyVtDqZaC/4=;
-	b=pmTLyFDcg6P6q4llvYcMpL0j0adO3grQ9RUSNfJvjH/Z5RsdWYItVTvWRS687mCwlU
-	ZKHK7SN8Q+vjFYIG65oFAmqOxwUeoMqgxanHQvuSREksbRtX1pjkT0YdkkG++J9lLuXl
-	I2WeEmveIDstvU1SNBsk4GRWaI7psqrcqxLJugpVqR+JresGIVLsoC/uKorVXZDv4xZd
-	gaNo73LtN8A8Olp1ChyJkFrKZfozh9PEGQDabX73ZZuzTT7hfvOlsFBtxb3m1cMQ5+3V
-	xIEhdHtHJaiNY4JxNoIqQenaeX+DQwT6tcPiGZsFy5vEo112oqTY8f550DoIg0/J9cBu
-	05mQ==
+	:cc:content-transfer-encoding;
+	bh=Js56i8Hrtakpj4dMdT7LXOejiowTA5SXIgAYHJ82MZU=;
+	b=BGfM9FWZjJOGDdClHVuiRZHE1tYVXW9sbfHNamJxe6lLxK+ol+uz+0DTm81HlvI0x8
+	n1AAEV3h+SyC0cyxdrXJWPjEs3Zl2JHGDaX6qGjgGjfj0+sHLQcFQWLdWLlw2df4uWao
+	0YyyuAXfY1bOyLRobOnLkJHZwCaGc1nGe+MVAHe1LGeJsDZ2ceNfvXpT/WWCD7AWLqy3
+	FskgR/b3hIeQrega5k+ZVwgLWk2heboHCUbIRX2Rso956RMrNiLudk3OrwGM4iWO4Piz
+	/P6BwD4MPyZc15ZHn6/iIPl32tAfldKTs28xRqlQpwu0cj7n4GiXBu+rK51vxH8LyRiJ
+	3IMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1eN5FEyVVLgzBdZ1iIctI5DsLJOXFmgwvyVtDqZaC/4=;
-	b=fw6OgzfCLqPJ+4gDREcuM7Gjv40DT6D0QZet7wPPN9c66iMG7bWVPuitOnC50h7oqf
-	YAzBHseI94VhJZ4FsEUKR3N95+Sg6bmFXHLmKXS9nn73RZ3F5dbrAWtvFL+1JQpQHvpO
-	N1lG08gqaK3PcHMdtXVfX2wa0Z0cg56CF+dDGDYhBXjp/8S1dX+CzUeY9q5dwPIJuZ/f
-	Vrq7/Jow4q1ydmh8/mRwD9XyZS/MXQRzS8tekhZg+UojK3042BU0ktQVhGHY7hDT8Wfq
-	PQ1i77yzpMGEL2X1sZe+58yWol6VVH2CmlrukyLGqm28LNV2P05rV0JuCtWQ+7Rc+ZR2
-	KFdw==
-X-Gm-Message-State: AElRT7FqDIlbvlfCOEmUK5rykKo6Grtt9EaEG5mmAginbAWYU+WP+pgx
-	hY6RGjwV2vHysCxF10xPjJbCcnr8A8n9K6XhFLTflg==
-X-Google-Smtp-Source: AIpwx4+ZkMYYOjHX4eyC1lXZZ+4ET1pfCfZizUyfZJ6SeYY1gJczYuZFBRoCosXlRfZF221FCeVPmUKR7RKdAqNz/8Y=
-X-Received: by 10.223.177.213 with SMTP id r21mr4647765wra.89.1522277755791;
-	Wed, 28 Mar 2018 15:55:55 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Js56i8Hrtakpj4dMdT7LXOejiowTA5SXIgAYHJ82MZU=;
+	b=YwaDpr+7VqxE6r7xJhm+0moAeT109y7XzGjuSloOMbsMki0iGRwEkZNLsnEEKVIsL+
+	nZE/eDo0a0jMSYFuEFwQFuh59TCbowP5e/ttqQ3xauPjcntzwKM9+Ci4CMxdrrnBgQc2
+	wx5DbjJ/sU8wNOfar4AuWWMyxTxKV9evL4m+1chBl42k9JIafyTFAzWto+oFK46+y56/
+	pTcZQmMuJVqgESyvi5YkrPd9XFHbcoWo78UAzSFTvNFTap2Mwzt0fu/3GBUkapqUUSbW
+	6W2J8IXy92UyqgXOR3a2e5PZS0bTlGwDkclTsFXYs97e7CcZxlDqnUGOp8WD4yoO4Dwg
+	D8eQ==
+X-Gm-Message-State: AElRT7EKJ3WJup+KCyvdafv1pmWmqmTk8D2o4p3npfzosWV8bEPW2sau
+	64hvadGstl03KfuF0thufvdsUwoJcYpmS4VdJZM=
+X-Google-Smtp-Source: AIpwx4/4QxNSihiauprln2Duzuqpu0O194weuuLZQoxHfWaXlKqvlaUMvomzosOBRVQT9K8FY9xXH/j4fQT3RWhK7JQ=
+X-Received: by 10.223.175.201 with SMTP id y9mr4627185wrd.107.1522286663413;
+	Wed, 28 Mar 2018 18:24:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Wed, 28 Mar 2018 15:55:55 -0700 (PDT)
-In-Reply-To: <CAJ86T=U+mP5KPJBUL+18i3g21nCiMX_JNi0_Ad2mj5iGNqFvog@mail.gmail.com>
-References: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=WiHB_6J8Rj0YXv7MTqu7xBgLFt9+09W+UsEjKd-PoyAA@mail.gmail.com>
-	<CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
-	<CAJ86T=U+mP5KPJBUL+18i3g21nCiMX_JNi0_Ad2mj5iGNqFvog@mail.gmail.com>
+Received: by 10.223.163.65 with HTTP; Wed, 28 Mar 2018 18:24:22 -0700 (PDT)
+In-Reply-To: <12dbba60-2346-0020-64c8-db2dac948684@nedap.com>
+References: <12dbba60-2346-0020-64c8-db2dac948684@nedap.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 28 Mar 2018 15:55:55 -0700
-Message-ID: <CAJ86T=XqUjHH-1_pBKfozk588wWBmqHTOhOBfT15iEmx8qC7rw@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+Date: Wed, 28 Mar 2018 18:24:22 -0700
+Message-ID: <CAJ86T=WE6khW6vfL2_z3HdXjB-pxSSaTAb=Fz-NSczhTGxV=HQ@mail.gmail.com>
+To: Ryan Meulenkamp <Ryan.Meulenkamp@nedap.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] CPU Load
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +56,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Mar 2018 22:55:55 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 01:24:23 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 9, 2018 at 8:15 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Feb 21, 2018 at 1:40 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Tue, Jan 23, 2018 at 12:16 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Tue, Dec 5, 2017 at 5:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>>> From: Ming Liu <liu.ming50@gmail.com>
->>>>
->>>> A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
->>>> the default terminal, when I run any of the tasks:
->>>> bitbake busybox -c menuconfig/devshell/devpyshell
->>>> bitbake virtual/kernel -c menuconfig/devshell/devpyshell
->>>>
->>>> I got a error as follows:
->>>> "Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
->>>>
->>>> Seems the environment of the process calling Popen is not passed to the
->>>> child process, this behaviour is a known issue in Python bug tracker:
->>>> http://bugs.python.org/issue8557
->>>>
->>>> It could be fixed by using an absolute path instead per test.
->>>
->>> Ping.
->>
->> Ping again.
+On Tue, Mar 27, 2018 at 4:44 AM, Ryan Meulenkamp
+<Ryan.Meulenkamp@nedap.com> wrote:
+> Hi y'all,
 >
-> And again...
+> I have some questions about CPU load and performance, but first some
+> background information.
 >
-> It looks like this (and a couple of other patches) made it as far as:
+> We have small embedded system running an openembedded classic (Angstr=C3=
+=B6m)
+> distro. Now to get ourselves up-to-date we started working on a new
+> iteration of the OS based on openembedded core and Yocto. It is nearly
+> finished now, if it weren't for one problem: The CPU load (/proc/loadavg)=
+ of
+> the core/yocto based OS is more than double that of the classic/Angstr=C3=
+=B6m OS.
 >
->   http://git.openembedded.org/openembedded-core-contrib/log/?h=stable/morty-next
+> So the way I see it this could be caused by a number of factors:
 >
-> but then got stuck or forgotten?
+>  - loadavg's calculation changed
+>  - certain newer versions of applications run heavier
+>  - The kernel itself is heavier (we upgraded from 2.6.35.14+ to 4.9.28+)
+>   - Possibly caused by some configs
+>  - ...
+>
+> My question: is there something that changed since OE-classic that you kn=
+ow
+> could be the cause of this? If not, how would I go about finding the caus=
+e?
+> I don't think the top command is sufficient for this, because it's precis=
+ion
+> is such that many processes' CPU usage just become 0%.
 
-Ping number four.
+You don't say what the CPU doubled from or too. 1% to 2%, or 50% to
+100% ? Unless the absolute increase is very small, you can probably
+ignore the processes which top reports as 0%.
 
-As an interesting data point, it's now over 20 months since the bug
-was introduced and first reported on the mailing list:
+Does the new build have any significant processes running which
+weren't there in the old build? Or is it the same basic set of apps
+running in each?
 
-  http://lists.openembedded.org/pipermail/openembedded-core/2016-July/124215.html
+> Also, both top and
+> htop cause huge cpu loads themselves.
+>
+> Any tips and tricks would be welcome!
+>
+> Thanks in advance!
+>
+> Ryan
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
