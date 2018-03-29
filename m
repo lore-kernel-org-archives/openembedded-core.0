@@ -1,23 +1,32 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 481BD78598
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 51C9F78278
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 13:52:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w2TDqxZh014904
+	Thu, 29 Mar 2018 13:55:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2TDtbwV023151
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Mar 2018 06:52:59 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 29 Mar 2018 06:52:58 -0700
+	Thu, 29 Mar 2018 06:55:37 -0700
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 29 Mar 2018 06:55:36 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Burton, Ross"
+	<ross.burton@intel.com>
+References: <cover.1522162765.git.bruce.ashfield@windriver.com>
+	<CAJTo0Lbv_7wXs1mgoqtBc6zWN_bazjwYpc1FbLzT3-zqUnNUHg@mail.gmail.com>
+	<CAJTo0La+oWebhkQXgFvY2yMQdwZzQ=ENbnyx0=5=MuvDiEBqew@mail.gmail.com>
+	<fb094e1e-1196-0bed-190f-e69bf51bb675@windriver.com>
+	<1522329229.11431.90.camel@linuxfoundation.org>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>, <ross.burton@intel.com>
-Date: Thu, 29 Mar 2018 09:52:57 -0400
-Message-ID: <1522331577-8895-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+Message-ID: <0cb0fadb-b594-67a7-49cc-ea6276b1624f@windriver.com>
+Date: Thu, 29 Mar 2018 09:55:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.14: add elfutils, util-linux and openssl dependencies
+In-Reply-To: <1522329229.11431.90.camel@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,81 +39,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 13:52:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Mar 2018 13:55:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-4.15+ already has the following dependencies:
+On 03/29/2018 09:13 AM, Richard Purdie wrote:
+> On Thu, 2018-03-29 at 08:58 -0400, Bruce Ashfield wrote:
+>> There's the stack validation warning, but I can run the hellomod
+>> test on my qemux86-64 target and the 4.14 kernel.
+>>
+>> It is an incremental patch to linux-yocto_4.14 to add the
+>> dependencies.
+>>
+>> Would you like the entire queue again, or just the new patch sent to
+>> the list ?
+> 
+> Just new patches is fine, I have the current set in master-next,
+> thanks.
 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+I just sent the new patch, with a quick summary of how I tested it.
 
-Updates to 4.14 via the -stable releases have also introduced the same
-dependencies to 4.14's "make scripts". As such, we bring the same lines
-into 4.14 to restore the ability to build scripts.
+I did revert my new devsrc package (since it has different rdepends)
+and do another image build + test. Seems to work, but I never did have
+the exact same error as the QA/autobuilder saw, so I always doubt the
+fix.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
+I added the same dependencies as the newer kernels, but thinking about
+it, I'm not 100% sure I understand how that fixes the on-target build
+of the scripts, since the linux-yocto* isn't actually installed, but
+only devsrc .. so maybe it isn't a fix.
 
-Ross/RP,
-
-This allowed me to 'make scripts' on the target, but I didn't see
-the original error on my builders. I also did build with the 'old'
-kernel-devsrc to rule out that my new devsrc was bringing in RDEPENDS
-that allowed things to work in my tests .. and I was still able to
-pass the test.
-
-Cheers,
+If you can just reply to the single patch, and tell me I'm insane,
+I'll have another go at it.
 
 Bruce
 
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   | 3 +++
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb | 3 +++
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 3 +++
- 3 files changed, 9 insertions(+)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index dfbde660b053..85f85428514e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -19,6 +19,9 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=mac
- 
- LINUX_VERSION ?= "4.14.30"
- 
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- KMETA = "kernel-meta"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index e5941a7ea043..942579795f39 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-@@ -6,6 +6,9 @@ require recipes-kernel/linux/linux-yocto.inc
- 
- LINUX_VERSION ?= "4.14.30"
- 
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index ff5472561345..bfc4de02f239 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -26,6 +26,9 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
- 
- LINUX_VERSION ?= "4.14.30"
- 
-+DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-+DEPENDS += "openssl-native util-linux-native"
-+
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
- KMETA = "kernel-meta"
--- 
-2.5.0
+> 
+> Richard
+> 
 
 
