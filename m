@@ -1,24 +1,23 @@
 Return-Path: <juro.bystricky@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B8A47449A
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id BE493744E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 20:19:03 +0000 (UTC)
+	Thu, 29 Mar 2018 20:27:03 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2018 13:19:05 -0700
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2018 13:27:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="43342006"
+X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="212448288"
 Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2018 13:19:04 -0700
+	by orsmga005.jf.intel.com with ESMTP; 29 Mar 2018 13:27:04 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 13:19:05 -0700
-Message-Id: <1522354745-69082-1-git-send-email-juro.bystricky@intel.com>
+Date: Thu, 29 Mar 2018 13:27:02 -0700
+Message-Id: <1522355222-4935-1-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] libc6-dbg: improve reproducibility
+Subject: [PATCH] libpcre-ptest: skip locale test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 20:19:04 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 20:27:04 -0000
 
-Prevent bison from generating #line comments containing build
-host paths references.
+If a fr_FR locale is found, it is automatically tested. The test
+will fail if the locale is UTF-8, as the test blindly assumes
+(and expects) a non-UTF fr_FR locale.
+The remedy is to skip the test.
 
-[YOCTO #12625]
+[YOCTO #12215]
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- .../glibc/0029-plural_c_no_preprocessor_lines.patch | 21 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.27.bb               |  1 +
- 2 files changed, 22 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
+ meta/recipes-support/libpcre/libpcre_8.41.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch b/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
-new file mode 100644
-index 0000000..6f03e1c
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0029-plural_c_no_preprocessor_lines.patch
-@@ -0,0 +1,21 @@
-+Improve reproducibility:
-+Do not put any #line preprocessor commands in bison generated files.
-+These lines contain absolute paths containing file locations on
-+the host build machine.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+
-+diff --git a/intl/Makefile b/intl/Makefile
-+index 2219717..a203780 100644
-+--- a/intl/Makefile
-++++ b/intl/Makefile
-+@@ -151,7 +151,7 @@ $(objpfx)tst-gettext6.out: $(objpfx)tst-gettext.out
-+ 
-+ CPPFLAGS += -D'LOCALEDIR="$(localedir)"' \
-+ 	    -D'LOCALE_ALIAS_PATH="$(localedir)"'
-+-BISONFLAGS = --yacc --name-prefix=__gettext --output
-++BISONFLAGS = --yacc --no-lines --name-prefix=__gettext --output
-+ 
-+ $(inst_localedir)/locale.alias: locale.alias $(+force)
-+ 	$(do-install)
-diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
-index 827857d..f626467 100644
---- a/meta/recipes-core/glibc/glibc_2.27.bb
-+++ b/meta/recipes-core/glibc/glibc_2.27.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0026-reset-dl_load_write_lock-after-forking.patch \
-            file://0027-Acquire-ld.so-lock-before-switching-to-malloc_atfork.patch \
-            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
-+           file://0029-plural_c_no_preprocessor_lines.patch \
- "
- 
- NATIVESDKFIXES ?= ""
+diff --git a/meta/recipes-support/libpcre/libpcre_8.41.bb b/meta/recipes-support/libpcre/libpcre_8.41.bb
+index 0eaed18..0187c08 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.41.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.41.bb
+@@ -80,4 +80,8 @@ do_install_ptest() {
+ 	for i in RunTest RunGrepTest test-driver; \
+ 	  do cp ${S}/$i $t; \
+ 	done
++	# Skip the fr_FR locale test. If the locale fr_FR is found, it is tested.
++	# If not found, the test is skipped. The test program assumes fr_FR is non-UTF-8
++	# locale so the test fails if fr_FR is UTF-8 locale.
++	sed -i -e 's:do3=yes:do3=no:g' ${D}${PTEST_PATH}/RunTest 
+ }
 -- 
 2.7.4
 
