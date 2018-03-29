@@ -1,47 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3940E606D0
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 43209785A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 15:38:34 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id y69so3488400pfb.5
+	Thu, 29 Mar 2018 15:43:21 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id h4so6643752qtn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 08:38:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=pqo8crvBXmIcNI9q1aCohBCm1GcfAordr6lBogglrF8=;
-	b=XFTTDMEYWDAq3QY96gYffuvKPW0FHab+lI80af0FsA2y1tf3oKBeVpXCeltw3jpa2z
-	4m38W42XFqugREyduq/QB/uP3/NAj+0qD97P9QbaB3U3xm2Rc9pdyHbIjMLi/naauv15
-	ZAHrZsjaSSZf/UkwHNnv73mVO6NE99EI2C7AtYfzK9bJNURFi7Q8OT3vOtRBhd0QJWpq
-	OgQ5Xb7rDyqD5mDQCUrbpf0XX2rjGAkZjvsRAgGartyPVbN3peyYXGzOaKu48EP2eqTA
-	htUITdPySotkrqrSqJoCEX55roKPxvIIuBt0ZdI3Px4ktqkjtnn5IAm+0y4HgQqsn8GS
-	ecAA==
+	Thu, 29 Mar 2018 08:43:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pqo8crvBXmIcNI9q1aCohBCm1GcfAordr6lBogglrF8=;
-	b=flQs07fbiVU8Vea/k/fJ7dK8XDEGzWFLnTJUOtxDKqD404417viS7oh9ldmUH+YV/D
-	TlOnKkS7Tf+9CiyXeO1tiC2ZP7vdDoUKQUr7g3h3FdRg9pFyceiy+ZoiVvdzsKvDwyR6
-	8w1nP4N5rW7V6q6G7P7A/RHthHgJd+iYKfnwdW4ZUp/tNEfGP8f6PsI5w5RH1aetkwtP
-	ICxJ0kWwPJc5B72TDEPwT01bjzI3KfTmmuRiLwiCiwrD8cRxhxFHcdk80uvylBVqCAdO
-	H+Y0jVDH8BpOxDbXhVUq/eV1sdXR8H81DVen4TZLuOBdfMVJm3OTLBPv3ECO476cuB59
-	qLZQ==
-X-Gm-Message-State: AElRT7FlkfKEiZzgl/4CyZ1cIm4oxSY8Kf03jSeKyVBMqMh4ODTh1dGU
-	Pj3qBUugCpVk/2AIuosjS8BesA==
-X-Google-Smtp-Source: AIpwx49aKJ7hBZlGs44cpL/LpnNZTynQgyoZpanTxArTJKsImXtheUrfWGC+ew2gVny2XhSRL/L+BA==
-X-Received: by 10.101.74.82 with SMTP id a18mr5906910pgu.312.1522337916123;
-	Thu, 29 Mar 2018 08:38:36 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wt2YJR/bA2bZ13v1wOIYAKXTM62tWziXbz/V3LqFCmQ=;
+	b=edifyFTqOPXZo1bd5gyvzp0VBcmZgvtfPTVZP5axyCb7G6fwS0JXGQfj6miZ8S2un5
+	cerqP+g2EZLHKmGcJPuH7+zeE0Nww2TX1iqkAXulPBewSlFIn9tFd0Tr800jJDJvmYe8
+	QhKv4QtM7hiXgIfyyhpCxIE2P2UMWiHF4Jw3j7iXgwZ/By8Q3Y0C/axM4LWC5Ejfvb8b
+	LsO3nnpLw0TmSHWPXm2LmptmFkPGsHLPPN5siuoHPLKjSnwW7QJ395swPwBLIwv+olm3
+	IaynflM7WGrsxUld04XIMS/TjG46dVQvjIFLCCiP80FZuL3PDEjwsuJwu8cH1AabxYkg
+	ynTw==
+X-Gm-Message-State: ALQs6tDTuIyiNIMpzqXB1KmYA/udQy92RO+3P2XwUZ4PDAwwCtMrB7ii
+	5O7naB6mTVhRYnIzRgnMmmVLS07Y
+X-Google-Smtp-Source: AIpwx49kvHW6ARSE1cj8YS0nouvOwdh7P6e+bYcuwwFU3ZEHkUjfBUY71OrmXD+EyBPftV3jBDTyrA==
+X-Received: by 10.200.39.210 with SMTP id x18mr11898338qtx.266.1522338202622; 
+	Thu, 29 Mar 2018 08:43:22 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	j83sm3276370pfe.178.2018.03.29.08.38.34
+	b37sm5074628qtc.15.2018.03.29.08.43.21
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Mar 2018 08:38:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 29 Mar 2018 08:43:21 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 08:38:28 -0700
-Message-Id: <20180329153828.6523-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.3
-Subject: [PATCH V2] mmc-utils: Fix string overflow error
+Date: Thu, 29 Mar 2018 16:43:19 +0100
+Message-Id: <20180329154319.15810-1-git@andred.net>
+X-Mailer: git-send-email 2.16.2
+MIME-Version: 1.0
+Subject: [PATCH v2] ca-certificates: use relative symlinks from $ETCCERTSDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,85 +48,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 15:38:35 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 15:43:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The SRCREV change bring another patch from upstream
+From: André Draszik <andre.draszik@jci.com>
 
-b4fe0c8 fix ENH_START_ADDR overflow
+update-ca-certificates symlinks (trusted) certificates
+from $CERTSDIR or $LOCALCERTSDIR into $ETCCERTSDIR.
+update-ca-certificates can call hook scripts installed
+into /etc/ca-certificates/update.d. Those scripts are
+passed the pem file in /etc/ssl/certs/ that was added or
+removed in this run and those pem files are absolute
+symlinks into $CERTSDIR or $LOCALCERTSDIR at the moment.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+When running update-ca-certificates during image build
+time, they thusly all point into the host's file system,
+not into the $SYSROOT. This means:
+* the host's file system layout must match the one
+  produced by OE, and
+* it also means that the host must have installed the same
+  (or more) certificates as the target in $CERTSDIR and
+  $LOCALCERTSDIR
+
+This is a problem when wanting to execute hook scripts,
+because they all need to be taught about $SYSROOT, and
+behave differently depending on whether they're called
+at image build time, or on the target, as otherwise they
+will be trying to actually read the host's certificates
+from $CERTSDIR or $LOCALCERTSDIR.
+
+This also is a problem when running anything else during
+image build time that depends on the trusted CA
+certificates.
+
+Changing the symlink to be relative solves all of these
+problems. At the same time, we have to make sure to add
+$CERTSDIR to SYSROOT_DIRS, so that the symlinks are still
+valid when somebody DEPENDS on ca-certificates-native. As
+a side-effect, this also fixes a problem in meta-java,
+where some recipes (e.g. openjdk-8-native) try to access
+certificates from $CERTSDIR to generate the java trustStore
+at build time.
+
+Do so.
+
+Upstream-Status: Inappropriate [OE-specific]
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+
 ---
-v1->v2:
-- Add missing patch
+v2:
+* update SYSROOT_DIRS
+* mention openjdk issue
+---
+ ...ertificates-use-relative-symlinks-from-ET.patch | 71 ++++++++++++++++++++++
+ .../ca-certificates/ca-certificates_20170717.bb    |  6 +-
+ 2 files changed, 75 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
 
- ...ce-strncpy-with-memmove-on-overlapping-me.patch | 36 ++++++++++++++++++++++
- meta/recipes-devtools/mmc/mmc-utils_git.bb         |  6 ++--
- 2 files changed, 40 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-
-diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
 new file mode 100644
-index 0000000000..62e25fde9b
+index 0000000000..4bd967f788
 --- /dev/null
-+++ b/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-@@ -0,0 +1,36 @@
-+From 175ac0f362bf6121c3537e2f1760ad41c8f81367 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 29 Mar 2018 01:04:57 -0700
-+Subject: [PATCH] lsmmc: replace strncpy with memmove on overlapping memory
-+ copy
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
+@@ -0,0 +1,71 @@
++From a9fc13b2aee55655d58fcb77a3180fa99f96438a Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
++Date: Wed, 28 Mar 2018 16:45:05 +0100
++Subject: [PATCH] update-ca-certificates: use relative symlinks from
++ $ETCCERTSDIR
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+here source and destination addresses are overlapping so using memmove is
-+going to be more efficient.
++update-ca-certificates symlinks (trusted) certificates
++from $CERTSDIR or $LOCALCERTSDIR into $ETCCERTSDIR.
++update-ca-certificates can call hook scripts installed
++into /etc/ca-certificates/update.d. Those scripts are
++passed the pem file in /etc/ssl/certs/ that was added or
++removed in this run and those pem files are absolute
++symlinks into $CERTSDIR or $LOCALCERTSDIR at the moment.
 +
-+Additionally, the bounded size for copy is overflowing for first copy
++When running update-ca-certificates during image build
++time, they thusly all point into the host's file system,
++not into the $SYSROOT. This means:
++* the host's file system layout must match the one
++  produced by OE, and
++* it also means that the host must have installed the same
++  (or more) certificates as the target in $CERTSDIR and
++  $LOCALCERTSDIR
 +
-+In function 'strncpy',
-+    inlined from 'read_file' at lsmmc.c:356:3:
-+/mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-gnueabi/mmc-utils/0.1-r0/recipe-sysroot/usr/include/bits/string_fortified.h:106:10: error: '__builtin_strncpy' accessing 4096 bytes at offsets 0 and 1 overlaps 4095 bytes at offset 1 [-Werror=restrict]
-+   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++This is a problem when wanting to execute hook scripts,
++because they all need to be taught about $SYSROOT, and
++behave differently depending on whether they're called
++at image build time, or on the target, as otherwise they
++will be trying to actually read the host's certificates
++from $CERTSDIR or $LOCALCERTSDIR.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++This also is a problem when running anything else during
++image build time that depends on the trusted CA
++certificates.
++
++Changing the symlink to be relative solves all of these
++problems. Do so.
++
++Upstream-Status: Inappropriate [OE-specific]
++Signed-off-by: André Draszik <andre.draszik@jci.com>
 +---
-+Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10314723/]
-+ lsmmc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ sbin/update-ca-certificates | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+diff --git a/lsmmc.c b/lsmmc.c
-+index c4faa00..bcb854d 100644
-+--- a/lsmmc.c
-++++ b/lsmmc.c
-+@@ -353,7 +353,7 @@ char *read_file(char *name)
-+ 		line[strlen(line) - 1] = '\0';
++diff --git a/sbin/update-ca-certificates b/sbin/update-ca-certificates
++index 00f80c7..7e911a9 100755
++--- a/sbin/update-ca-certificates
+++++ b/sbin/update-ca-certificates
++@@ -29,6 +29,7 @@ CERTSDIR=$SYSROOT/usr/share/ca-certificates
++ LOCALCERTSDIR=$SYSROOT/usr/local/share/ca-certificates
++ CERTBUNDLE=ca-certificates.crt
++ ETCCERTSDIR=$SYSROOT/etc/ssl/certs
+++FSROOT=../../../ # to get from $ETCCERTSDIR to the root of the file system
++ HOOKSDIR=$SYSROOT/etc/ca-certificates/update.d
 + 
-+ 	while (isspace(line[0]))
-+-		strncpy(&line[0], &line[1], sizeof(line));
-++		memmove(&line[0], &line[1], sizeof(line)-1);
-+ 
-+ 	return strdup(line);
-+ }
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 8977a87962..37a4755234 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -4,11 +4,13 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "7bcad171173fd9a9401e7ce81906605bd6f4eddc"
-+SRCREV = "b4fe0c8c0e57a74c01755fa9362703b60d7ee49d"
- 
- PV = "0.1"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH}"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
-+           file://0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch \
++ while [ $# -gt 0 ];
++@@ -125,9 +126,10 @@ add() {
++   PEM="$ETCCERTSDIR/$(basename "$CERT" .crt | sed -e 's/ /_/g' \
++                                                   -e 's/[()]/=/g' \
++                                                   -e 's/,/_/g').pem"
++-  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${CERT##$SYSROOT}" ]
+++  DST="$(echo ${CERT} | sed -e "s|^$SYSROOT||" -e "s|^/|$FSROOT|" )"
+++  if ! test -e "$PEM" || [ "$(readlink "$PEM")" != "${DST}" ]
++   then
++-    ln -sf "${CERT##$SYSROOT}" "$PEM"
+++    ln -sf "${DST}" "$PEM"
++     echo "+$PEM" >> "$ADDED"
++   fi
++   # Add trailing newline to certificate, if it is missing (#635570)
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+index 51af72e79a..a2efb3b4ef 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+@@ -21,10 +21,12 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
+            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
+            file://update-ca-certificates-support-Toybox.patch \
+            file://default-sysroot.patch \
+-           file://sbindir.patch"
++           file://sbindir.patch \
++           file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
 +           "
- UPSTREAM_CHECK_COMMITS = "1"
  
  S = "${WORKDIR}/git"
+-SYSROOT_DIRS_class-native += "${sysconfdir}"
++SYSROOT_DIRS_class-native += "${sysconfdir} ${datadir}/ca-certificates"
+ 
+ inherit allarch
+ 
 -- 
-2.16.3
+2.16.2
 
 
