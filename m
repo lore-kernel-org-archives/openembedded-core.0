@@ -1,23 +1,18 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id BE493744E1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 20:27:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2018 13:27:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="212448288"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga005.jf.intel.com with ESMTP; 29 Mar 2018 13:27:04 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 13:27:02 -0700
-Message-Id: <1522355222-4935-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] libpcre-ptest: skip locale test
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B5624744CF;
+	Thu, 29 Mar 2018 20:35:23 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Date: Thu, 29 Mar 2018 20:35:25 -0000
+Message-ID: <20180329203525.2394.32579@do.openembedded.org>
+References: <1522354745-69082-1-git-send-email-juro.bystricky@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1522354745-69082-1-git-send-email-juro.bystricky@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliYzYtZGJnOiBpbXByb3ZlIHJlcHJvZHVjaWJpbGl0eQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 20:27:04 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 20:35:23 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-If a fr_FR locale is found, it is automatically tested. The test
-will fail if the locale is UTF-8, as the test blindly assumes
-(and expects) a non-UTF fr_FR locale.
-The remedy is to skip the test.
+== Series Details ==
 
-[YOCTO #12215]
+Series: libc6-dbg: improve reproducibility
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11613/
+State : failure
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at af7ca3e359)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-support/libpcre/libpcre_8.41.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-support/libpcre/libpcre_8.41.bb b/meta/recipes-support/libpcre/libpcre_8.41.bb
-index 0eaed18..0187c08 100644
---- a/meta/recipes-support/libpcre/libpcre_8.41.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.41.bb
-@@ -80,4 +80,8 @@ do_install_ptest() {
- 	for i in RunTest RunGrepTest test-driver; \
- 	  do cp ${S}/$i $t; \
- 	done
-+	# Skip the fr_FR locale test. If the locale fr_FR is found, it is tested.
-+	# If not found, the test is skipped. The test program assumes fr_FR is non-UTF-8
-+	# locale so the test fails if fr_FR is UTF-8 locale.
-+	sed -i -e 's:do3=yes:do3=no:g' ${D}${PTEST_PATH}/RunTest 
- }
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
