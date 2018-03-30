@@ -1,38 +1,30 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C5BFD746E1
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F48A746FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 10:12:19 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="38349305"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Mar 2018 18:10:17 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8CCF9486A78C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 18:10:17 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0361.001; Fri, 30 Mar 2018 18:10:15 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
+	Fri, 30 Mar 2018 10:33:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2018 03:33:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,381,1517904000"; d="scan'208";a="29721542"
+Received: from anmitta2-mobl1.gar.corp.intel.com (HELO [10.249.69.122])
+	([10.249.69.122])
+	by orsmga008.jf.intel.com with ESMTP; 30 Mar 2018 03:33:23 -0700
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] question about libgcrypt
-Thread-Index: AdPIDxAHL+A5gW3rSfGtOyN7BFqW9A==
-Date: Fri, 30 Mar 2018 10:10:15 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF7363ABF90A@G08CNEXMBPEKD01.g08.fujitsu.local>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.150.1
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.35]
+References: <33D4DBCAC5F2D74E96B07F6E7632BF7363ABF90A@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <6c9a937a-36b3-a1d7-28d6-f712c0e95427@intel.com>
+Date: Fri, 30 Mar 2018 18:33:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 8CCF9486A78C.AB671
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: question about libgcrypt
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF7363ABF90A@G08CNEXMBPEKD01.g08.fujitsu.local>
+Subject: Re: question about libgcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 10:12:21 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 30 Mar 2018 10:33:24 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-SGksDQoNCkkgZ290IHRoZSBmb2xsb3dpbmcgZXJyb3Igd2hlbiBidWlsZGlu
-ZyB3aXJlc2hhcmsgMi40LjUgZHVyaW5nIGRvX2NvbmZpZ3VyZSwNCiAgICAg
-IC4uLi4uLg0KICAgICB8IGNoZWNraW5nIGZvciBsaWJnY3J5cHQtY29uZmln
-Li4uIA0KL3lvY3RvL3dvcmswMDEvZm5zdC9odWFuZ3F5L3VwZ3JhZGUvYnVp
-bGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L3dpcmVzaGFyay8xXzIuNC41
-LXIwL3JlY2lwZS1zeXNyb290L3Vzci9iaW4vY3Jvc3NzY3JpcHRzL2xpYmdj
-cnlwdC1jb25maWcNCiAgICAgfCBjaGVja2luZyBmb3IgTElCR0NSWVBUIC0g
-dmVyc2lvbiA+PSAxLjQuMi4uLiBFUlJPUjogDQovdXNyL2Jpbi9saWJnY3J5
-cHQtY29uZmlnIHNob3VsZCBub3QgYmUgdXNlZCwgdXNlIGFuIGFsdGVybmF0
-aXZlIHN1Y2ggYXMgcGtnLWNvbmZpZw0KICAgICB8IC4uL3dpcmVzaGFyay0y
-LjQuNS9jb25maWd1cmU6IGxpbmUgMjAyMTQ6IHRlc3Q6IA0KLS1zaG91bGQt
-bm90LWhhdmUtdXNlZC0vdXNyL2Jpbi9saWJnY3J5cHQtY29uZmlnOiBpbnRl
-Z2VyIGV4cHJlc3Npb24gZXhwZWN0ZWQNCiAgICAgfCAuLi93aXJlc2hhcmst
-Mi40LjUvY29uZmlndXJlOiBsaW5lIDIwMjE3OiB0ZXN0OiANCi0tc2hvdWxk
-LW5vdC1oYXZlLXVzZWQtL3Vzci9iaW4vbGliZ2NyeXB0LWNvbmZpZzogaW50
-ZWdlciBleHByZXNzaW9uIGV4cGVjdGVkDQogICAgIC4uLi4uDQoNCkFuZCBJ
-IGZvdW5kIGl0J3MgY2F1c2VkIGJ5IGxpYmdjcnlwdC1jb25maWcgYXMgZm9s
-bG93cw0KDQogICAgICMhL2Jpbi9zaA0KICAgICBlY2hvICdFUlJPUjogL3Vz
-ci9iaW4vbGliZ2NyeXB0LWNvbmZpZyBzaG91bGQgbm90IGJlIHVzZWQsIHVz
-ZSBhbiBhbHRlcm5hdGl2ZSBzdWNoIGFzIHBrZy1jb25maWcnID4mMg0KICAg
-ICBlY2hvICctLXNob3VsZC1ub3QtaGF2ZS11c2VkLS91c3IvYmluL2xpYmdj
-cnlwdC1jb25maWcnDQogICAgIGV4aXQgMQ0KDQpJIHRoaW5rIHRoaXMgZXJy
-b3IgaXMgY2F1c2VkIGJ5IGxpYmdjcnlwdCwgaXQgY3JlYXRlcyB0aGUgd3Jv
-bmcgZmlsZSwgZG9lcyBhbnlvbmUgaGF2ZSBhbnkgaWRlYSBhYm91dCB0aGlz
-Pw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3UgTmFu
-ZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjogTm8u
-NiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5hbmpp
-bmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24uZnVq
-aXN0dS5jb20NCg0KDQoKCg==
+Hi Ruoqin,
+
+On 03/30/2018 06:10 PM, Zheng, Ruoqin wrote:
+> Hi,
+> 
+> I got the following error when building wireshark 2.4.5 during do_configure,
+>       ......
+>      | checking for libgcrypt-config... 
+> /yocto/work001/fnst/huangqy/upgrade/build/tmp/work/i586-poky-linux/wireshark/1_2.4.5-r0/recipe-sysroot/usr/bin/crossscripts/libgcrypt-config
+>      | checking for LIBGCRYPT - version >= 1.4.2... ERROR: 
+> /usr/bin/libgcrypt-config should not be used, use an alternative such as pkg-config
+>      | ../wireshark-2.4.5/configure: line 20214: test: 
+> --should-not-have-used-/usr/bin/libgcrypt-config: integer expression expected
+>      | ../wireshark-2.4.5/configure: line 20217: test: 
+> --should-not-have-used-/usr/bin/libgcrypt-config: integer expression expected
+>      .....
+
+You will have to change wireshark configure to use pkg-config for
+libgcrypt instead of relying on binconfig file to get the version and flags.
+
+Thanks,
+
+Anuj
 
