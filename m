@@ -1,47 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE72744DF
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 27DBE74550
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 23:58:32 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id u11so6740235wri.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 16:58:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gkGCZhG9ZsN3eTgMhnOZs7N2ca6ybntqyZQzy5d5Uws=;
-	b=AkL8Rgmw6lnYlXVYMP6G8u97TaMeSNuzPM/iD6sjWPRVaqXAeiePQj5qT2EZBtXrJ2
-	gSxDAlOzBVtGHiG78P67w4eiPcMjiAhye6P1HDsitID5rtaJblukiTUJFAAlnzXaC81y
-	b8+eXrjFZ8xCdeuIU4OesbclDxKMmDIuwyVbG1FU+IU8cvZi9hSxVd41D1mUInmUz29n
-	dAr47Zsx3cuMSLEYLx6NJj49P2HC7/27o0baQZU3Atum44dsPWYiAefrXlXgx0O8mnTc
-	ornYzDtwDUsvs3ng3n+CnQWAmDiExFAxyCczZoFfRZWAAnyf3XVq+YaKxF1DVYuAxa1c
-	wKew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gkGCZhG9ZsN3eTgMhnOZs7N2ca6ybntqyZQzy5d5Uws=;
-	b=h83ihJ032079yV8Z323kHoC/pScJVE5VQbMgh75qObblvBHn3kNrHTgT3ixWwDL0Tz
-	7ibQGVHeyPfxijLKkFZ9k9o5ojIEP3DCX126kp2HnsHanY0RkmRVfami8OCxZTx6drIZ
-	k3sETCIdJFnrPCfS5su5zI0fu1fB3gH/O9VM9okqVlD7BwF5P7nkmVyELCNll9JWOFAU
-	a82uMRA2yWzf8ynnwUpgGWsm9Y6JY7fSoJMycSSrA03jR7j42nUVHpLMN2Yu9wot4u87
-	Wvqr0Jt9YITaQTVoX3S04GgnEIshoKiUq6ISmHVNqvf4l7M2b2mVycvKfmx80NeXgOEZ
-	r1+Q==
-X-Gm-Message-State: AElRT7F2yEZl+uNU0T8WYy7kGuJapt9YWLrgmjfvpDFKFLiSeVEiRI7L
-	Y8Air1KwedviVK+33ofX8gl1Iwkvc5j2Ob97914=
-X-Google-Smtp-Source: AIpwx4/TVELhUPltsFYphZHD4pwiKX6VGrR730SLL2sX8fnlhI9NOhYJVNVQ9ttVqJpbRGBU4AKrmPD7km3PvFV9SjM=
-X-Received: by 10.223.177.213 with SMTP id r21mr8271472wra.89.1522367912996;
-	Thu, 29 Mar 2018 16:58:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.163.65 with HTTP; Thu, 29 Mar 2018 16:58:32 -0700 (PDT)
-In-Reply-To: <54bd76e3-bde3-f0fd-0f69-5a9f930266c5@intel.com>
+	Fri, 30 Mar 2018 00:02:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Mar 2018 17:02:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="39300192"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2018 17:02:28 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
 References: <20180329231918.25272-1-california.l.sullivan@intel.com>
 	<CAJ86T=VbYnLPa=JZiYVC0zpr06Gzgvm0+NdCBjSMCusEF=Zhgg@mail.gmail.com>
 	<54bd76e3-bde3-f0fd-0f69-5a9f930266c5@intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 29 Mar 2018 16:58:32 -0700
-Message-ID: <CAJ86T=UGdR+zdigFrH2S1CN68tJSk=r3UwGZy+vX3o-vkph1mA@mail.gmail.com>
-To: Cal Sullivan <california.l.sullivan@intel.com>
+	<CAJ86T=UGdR+zdigFrH2S1CN68tJSk=r3UwGZy+vX3o-vkph1mA@mail.gmail.com>
+From: Cal Sullivan <california.l.sullivan@intel.com>
+Message-ID: <12756713-0152-1e28-d5a1-e8430665f8ed@intel.com>
+Date: Thu, 29 Mar 2018 17:02:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=UGdR+zdigFrH2S1CN68tJSk=r3UwGZy+vX3o-vkph1mA@mail.gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] default-distrovars: set default KERNEL_IMAGETYPE(S)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,63 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 23:58:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 30 Mar 2018 00:02:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Thu, Mar 29, 2018 at 4:55 PM, Cal Sullivan
-<california.l.sullivan@intel.com> wrote:
-> On 03/29/2018 04:36 PM, Andre McCurdy wrote:
->> On Thu, Mar 29, 2018 at 4:19 PM, California Sullivan
->> <california.l.sullivan@intel.com> wrote:
+
+
+On 03/29/2018 04:58 PM, Andre McCurdy wrote:
+> On Thu, Mar 29, 2018 at 4:55 PM, Cal Sullivan
+> <california.l.sullivan@intel.com> wrote:
+>> On 03/29/2018 04:36 PM, Andre McCurdy wrote:
+>>> On Thu, Mar 29, 2018 at 4:19 PM, California Sullivan
+>>> <california.l.sullivan@intel.com> wrote:
+>>>> With the change from assuming kernels will be named "vmlinuz"
+>>>> everywhere, to instead using KERNEL_IMAGETYPE, we require that
+>>>> KERNEL_IMAGETYPE is set to something. Instead of setting the default in
+>>>> multiple individual files, set it in default-distrovars.inc.
+>>>>
+>>>> Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
+>>>> KERNEL_IMAGETYPE.
+>>>>
+>>>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+>>>> +
+>>>> +KERNEL_IMAGETYPE ??= "bzImage"
+>>> Isn't bzImage x86 specific? Setting it as the default also disagrees
+>>> with meta/conf/documentation.conf:
 >>>
->>> With the change from assuming kernels will be named "vmlinuz"
->>> everywhere, to instead using KERNEL_IMAGETYPE, we require that
->>> KERNEL_IMAGETYPE is set to something. Instead of setting the default in
->>> multiple individual files, set it in default-distrovars.inc.
+>>>     KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
+>>> usually set by the machine configuration files and defaults to
+>>> 'zImage'."
 >>>
->>> Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
->>> KERNEL_IMAGETYPE.
->>>
->>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->>> +
->>> +KERNEL_IMAGETYPE ??= "bzImage"
+>>> It might be nice to have an arch specific default (e.g. bzImage for
+>>> x86, vmlinux for MIPS and zImage for everything else?).
 >>
->> Isn't bzImage x86 specific? Setting it as the default also disagrees
->> with meta/conf/documentation.conf:
+>> Doing so would require a nasty setVar python block due to overrides taking
+>> priority.
 >>
->>    KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
->> usually set by the machine configuration files and defaults to
->> 'zImage'."
+>> E.g.,
+>> KERNEL_IMAGETYPE_x86 ??= "test1"
+>> KERNEL_IMAGETYPE = "test2"
+>> results in KERNEL_IMAGETYPE getting "test1".
 >>
->> It might be nice to have an arch specific default (e.g. bzImage for
->> x86, vmlinux for MIPS and zImage for everything else?).
+>> That or accept the difficulty of overriding it afterwards.
+> How about:
 >
+> ARCHDEFAULT_KERNEL_IMAGETYPE = "zImage"
+> ARCHDEFAULT_KERNEL_IMAGETYPE_x86 = "bzImage"
 >
-> Doing so would require a nasty setVar python block due to overrides taking
-> priority.
->
-> E.g.,
-> KERNEL_IMAGETYPE_x86 ??= "test1"
-> KERNEL_IMAGETYPE = "test2"
-> results in KERNEL_IMAGETYPE getting "test1".
->
-> That or accept the difficulty of overriding it afterwards.
+> KERNEL_IMAGETYPE ?= "${ARCHDEFAULT_KERNEL_IMAGETYPE}"
 
-How about:
+Oh, that works. No idea why I didn't think of that. I'll incorporate it into my v2.
 
-ARCHDEFAULT_KERNEL_IMAGETYPE = "zImage"
-ARCHDEFAULT_KERNEL_IMAGETYPE_x86 = "bzImage"
+Thanks,
+Cal
 
-KERNEL_IMAGETYPE ?= "${ARCHDEFAULT_KERNEL_IMAGETYPE}"
+>
+>> This patch is primarily in order to set /any/ default globally so that
+>> getVar calls on it don't break parsing.
+>> Its still customary to set the variable in machine confs as well.
+>>
+>> I can send a v2 that sets the default to zImage instead. That way it matches
+>> the docs, though I don't know how accurate they were previously.
+>>
+>> Thanks,
+>> Cal
+>>
 
-> This patch is primarily in order to set /any/ default globally so that
-> getVar calls on it don't break parsing.
-> Its still customary to set the variable in machine confs as well.
->
-> I can send a v2 that sets the default to zImage instead. That way it matches
-> the docs, though I don't know how accurate they were previously.
->
-> Thanks,
-> Cal
->
 
