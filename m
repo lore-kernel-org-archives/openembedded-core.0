@@ -1,18 +1,18 @@
-Return-Path: <bradleyb@fuzziesquirrel.com>
-X-Greylist: delayed 487 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 30 Mar 2018 20:15:15 UTC
-Received: from bajor.fuzziesquirrel.com (mail.fuzziesquirrel.com
-	[173.167.31.197])
-	by mail.openembedded.org (Postfix) with ESMTP id E702A746D1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 20:15:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at fuzziesquirrel.com
-Sender: bradleyb@bajor.fuzziesquirrel.com
-From: Brad Bishop <bradleyb@fuzziesquirrel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Mar 2018 16:06:46 -0400
-Message-Id: <20180330200646.12047-1-bradleyb@fuzziesquirrel.com>
-Subject: [PATCH] autoconf-archive: update to version to 2018.03.13
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0898774750;
+	Fri, 30 Mar 2018 20:32:57 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Date: Fri, 30 Mar 2018 20:32:58 -0000
+Message-ID: <20180330203258.2391.37969@do.openembedded.org>
+References: <20180330200646.12047-1-bradleyb@fuzziesquirrel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180330200646.12047-1-bradleyb@fuzziesquirrel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXV0b2NvbmYtYXJjaGl2ZTogdXBkYXRlIHRvIHZlcnNpb24gdG8gMjAxOC4wMy4xMw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 20:15:16 -0000
+X-List-Received-Date: Fri, 30 Mar 2018 20:32:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-2016.09.16 -> 2018.03.13
+== Series Details ==
 
-s/http/https/ in the license requires md5sum update.
+Series: autoconf-archive: update to version to 2018.03.13
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11625/
+State : failure
 
-Signed-off-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             LIC_FILES_CHKSUM changed on target autoconf-archive but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+  Current checksum file://COPYING;md5=d32239bcb673463ab874e80d47fae504     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515
+  New checksum     file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...utoconf-archive_2016.09.16.bb => autoconf-archive_2018.03.13.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/autoconf-archive/{autoconf-archive_2016.09.16.bb => autoconf-archive_2018.03.13.bb} (66%)
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
-diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
-similarity index 66%
-rename from meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
-rename to meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
-index 89d57ac079..7d62e52ab8 100644
---- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
-+++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
-@@ -2,12 +2,12 @@ SUMMARY = "a collection of freely re-usable Autoconf macros"
- HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
- SECTION = "devel"
- LICENSE = "GPL-3.0-with-autoconf-exception"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
-     file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
--SRC_URI[sha256sum] = "e8f2efd235f842bad2f6938bf4a72240a5e5fcd248e8444335e63beb60fabd82"
-+SRC_URI[md5sum] = "46b13a5936372297b6d49980327a3c35"
-+SRC_URI[sha256sum] = "6175f90d9fa64c4d939bdbb3e8511ae0ee2134863a2c7bf8d9733819efa6e159"
- 
- inherit autotools allarch
- 
--- 
-2.14.3
 
