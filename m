@@ -1,50 +1,106 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9012F744F5
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D16CC744B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 00:45:36 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id c78-v6so10691633lfh.1
+	Fri, 30 Mar 2018 00:49:09 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id a2so1764768pff.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Mar 2018 17:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pJub0Fv41r7OHDfJggPCF2UFtPaDqPngn4Vz+HYzPRE=;
-	b=DNW/gT6uAEymRqryesp3hLEKj5FFeHFCA28hQAvZ/GkZSZmFbj5wnMJQMm/9xkc8Io
-	qIDuozNa5dcfXnwHt1b98Ue3fJXiBmfRyEj09E43O8vElCv782C4P9bWY30KWZIEDRb5
-	6FAK33cRw5hir/xGwJlqTtf/eh7MLZ9BgpRIw=
+	Thu, 29 Mar 2018 17:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=lumUjgqDSTpgsCAwbjESrRsKfMPPPMXWABJq2ysuWWk=;
+	b=ZuUu39MLxvjqFlxV7IYYdZrX8ifLsYh2yGxKIrwLepFVaW2BwpvVr3W4KBRZrV+RAD
+	L7EmD0uFRy6efxAuBGrd/oq5pWqlz9ikBQwYTZC75kYC5Cg3dVOO2zlEfqNX1qoeRCy7
+	1By7KNRP66f/O35kbItewoZ31WHx4ZWBYQjnrHXTnueDf8XPLXXbg3vRIAy4H8USoPRK
+	M3elgQBgNq+v6PAW5WAiuYy1N+kxQkCFOvd4WPiyqWBtwC8eQS9r3oKnaAMNUDMuSNgh
+	f+HDZs1VFU70/+01lXxyWEKsmsSWcbjKGvnucJXkuDAvJg/5zLi0OKDOuD/Q0lCyWc5p
+	qkpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pJub0Fv41r7OHDfJggPCF2UFtPaDqPngn4Vz+HYzPRE=;
-	b=uZnEGmL0wCnnDtRnawLCqnaWkfbvkwatPKVgbbNE9lr+M4nWyZG2Eu0YA8Tmur6yy6
-	/Z58CI3QFrvGYHpAF6gPV52fI9ZwzoAQ6sCDrnFcvGX/W9gqW7qG94tL7DA+5zRgCutA
-	w4OPQo6mmPrPfMoGMLxkSBuLVGmTDDzTc29AlBbXfs2RDJ1X1Upj0AQLP96zYh3oKPQl
-	osRgtDdmCmDlOYKIa5GECKe1mE6zckpJNxVwKJPSNeM2PvLOm66DQh+eBBUndB/Ik3dS
-	i8m4QIZiPzcyS/chvypusOs3Si1LL8ieDHe9Px2RPP5k5SSS8f/9MdnZbbzJpN8tlqfA
-	4png==
-X-Gm-Message-State: AElRT7GSeMq883MdTkE4LzRX1U7Qeg6qQnbK8WoRCh004nJN/ZN4ZlpX
-	2ay904u7o9EKjMSzraAQvYJXqX+XVrS6qmDeSEFtyA==
-X-Google-Smtp-Source: AIpwx483+kbaQvbkO3YKIM9Ol3U+o5gmUVsNqccQLtinKplLAh6xeWzs6HwAP17sirpWxnqZ8ZiFMAKAE32t05CB/aU=
-X-Received: by 10.46.145.74 with SMTP id q10mr6627624ljg.13.1522370736828;
-	Thu, 29 Mar 2018 17:45:36 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=lumUjgqDSTpgsCAwbjESrRsKfMPPPMXWABJq2ysuWWk=;
+	b=O56x3VDSDJVsGs/KdBsb4idByaZHWqji95PHv7DvnPdXct0RiXrAohW1kAWNLhdPDW
+	3bJR6S5cCw+Z/dWsKaS7y6piad1AJ9Z5js6mcCcpPlgFtgnKsmSxUX1ZL6+7gVkw+zv0
+	egIrQOBnCgEzUnokmZA/hknHQpRNQV8Gobr652HaQGqogI0CotOa2+J7cM3NZatqtAnF
+	/fgyLpAd3uDtCCOW7PsEJsdXywcda36UnZ/sY80npqhHkM5cuFR/gOCsah/cmm+21s3x
+	owc+UqQJ14g9uU0Q2qo6V1QW7XHCgXT9GBGsotPTpANVQ60l68SEKuCxCxp/yuVOX0c+
+	eq6A==
+X-Gm-Message-State: AElRT7G3kJ/fOnij4i4uEVTsxLrrmCDzoMkKFJ2n6JVALDyQaha/2RFd
+	xs2euEfab2Hx9VVnLFHIx6wHpA==
+X-Google-Smtp-Source: AIpwx4+3rJwa5JUHWlmbNF8WCxOUmb+YKCneeD8WS/6nlJhLKsBH5JU4tKpA20uMwA0aC1sA5ZVKeA==
+X-Received: by 2002:a17:902:d81:: with SMTP id
+	1-v6mr10397832plv.324.1522370950595; 
+	Thu, 29 Mar 2018 17:49:10 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:64af:19c1:88dd:eacf?
+	([2601:202:4000:1184:64af:19c1:88dd:eacf])
+	by smtp.gmail.com with ESMTPSA id
+	a14sm13883974pff.75.2018.03.29.17.49.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Mar 2018 17:49:10 -0700 (PDT)
+To: Denys Dmytriyenko <denis@denix.org>
+References: <62e48d71-f219-2d7d-ea58-b99e1caaaecf@gmail.com>
+	<CAJTo0LbSaZDNtGmgtoBba1n1aFLBUaaDN00L=G3UUq6UAvT6hA@mail.gmail.com>
+	<d08f4cbf-7604-0115-61ca-a020fe2164fd@gmail.com>
+	<20180329223348.GJ2786@denix.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; keydata=
+	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
+	8CS2NxU=
+Message-ID: <99ef7037-3e21-26c6-0cce-45edb1cfce1a@gmail.com>
+Date: Thu, 29 Mar 2018 17:49:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 2002:a19:a053:0:0:0:0:0 with HTTP; Thu, 29 Mar 2018 17:45:36
-	-0700 (PDT)
-In-Reply-To: <CAC+thW3gJDv_RGKAhXxkXM3rjAEDk8-_Ew2rszTpij2n_SwAtg@mail.gmail.com>
-References: <mailman.363.1522325586.1651.openembedded-core@lists.openembedded.org>
-	<CAHUNapTc-iiZ6vbRV=J3pt5EQy-qJJbgkwzZKhpAkfC3pgzXiw@mail.gmail.com>
-	<CA+chaQdYG-kNDqiStA=yg1nGjLH_pgH7vcm6Db_kxZ+Bt1pWSg@mail.gmail.com>
-	<CAC+thW3gJDv_RGKAhXxkXM3rjAEDk8-_Ew2rszTpij2n_SwAtg@mail.gmail.com>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Thu, 29 Mar 2018 17:45:36 -0700
-Message-ID: <CADfgfoZq56q5wyyr9OQ8Xo0KACZ0-0am+LyXTp6ND7x6WqwFxw@mail.gmail.com>
-To: Andrea Galbusera <gizero@gmail.com>, Philip Balister <philip@balister.org>
+In-Reply-To: <20180329223348.GJ2786@denix.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: confirm 6bb527bbc2e6d9a2a2165aa081ea1271ece07fe8
+Subject: Re: Bind update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,151 +113,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 00:45:37 -0000
-Content-Type: multipart/alternative; boundary="f4f5e80c3474fc47dd0568968e85"
-
---f4f5e80c3474fc47dd0568968e85
-Content-Type: text/plain; charset="UTF-8"
-
-We had several hundred bounces from Gmail today. I've made changes and
-Gmail is currently accepting new messages.
-
-I'm running a script to clear users' bounce counts now.
-
--- 
-Michael Halstead
-SysAdmin
+X-List-Received-Date: Fri, 30 Mar 2018 00:49:10 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
 
-On Thu, Mar 29, 2018 at 3:11 PM, Andrea Galbusera <gizero@gmail.com> wrote:
 
-> On Thu, Mar 29, 2018 at 11:56 PM, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> > I got the same today.
+On 03/29/2018 03:33 PM, Denys Dmytriyenko wrote:
+> On Wed, Mar 28, 2018 at 07:48:34AM -0700, akuster808 wrote:
+>>
+>> On 03/28/2018 04:15 AM, Burton, Ross wrote:
+>>> Hi Armin,
+>>>
+>>> Does this mean you are working on the upgrade, or should someone else start now?
+>> I think I did it. just need to find my work.
+> Did your dog eat your work? ;)
+How did you know!  I think i might need the openssl update,  its
+expecting a new crypto definition..
+
+- armin
 >
-> Me too!
 >
-> >
-> > On Thu, Mar 29, 2018 at 11:51 PM, Trevor Woerner <twoerner@gmail.com>
-> wrote:
-> >>
-> >> uhhh.... gmail is on the bad list?
-> >> anyone else get one of these?
-> >>
-> >>
-> >> ---------- Forwarded message ----------
-> >> From: <openembedded-core-request@lists.openembedded.org>
-> >> Date: Thu, Mar 29, 2018 at 8:13 AM
-> >> Subject: confirm
-> >> To: twoerner@gmail.com
-> >>
-> >>
-> >> Your membership in the mailing list Openembedded-core has been
-> >> disabled due to excessive bounces The last bounce received from you
-> >> was dated 29-Mar-2018.  You will not get any more messages from this
-> >> list until you re-enable your membership.  You will receive 3 more
-> >> reminders like this before your membership in the list is deleted.
-> >>
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>> - armin
+>>> Ross
+>>>
+>>> On 24 March 2018 at 15:35, akuster808 <akuster808@gmail.com> wrote:
+>>>> Hello,
+>>>>
+>>>> While working on updating the current bind to the next patch level, I
+>>>> noticed our current version 9.10.6 will EOL June 2018. I know we are
+>>>> under feature freeze for the Sumo release.
+>>>>
+>>>> Could we make an exception and allow an update of bind to the ESV
+>>>> version 9.11.3 ?, it EOL's Dec 2021.
+>>>>
+>>>> regards,
+>>>>
+>>>> armin
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---f4f5e80c3474fc47dd0568968e85
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">We had several hundred bounces from Gmail today. I&#39;ve =
-made changes and Gmail is currently accepting new messages.=C2=A0<div><br><=
-/div><div>I&#39;m running a script to clear users&#39; bounce counts now.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">--=C2=
-=A0</div><div class=3D"gmail_extra">Michael Halstead</div><div class=3D"gma=
-il_extra">SysAdmin</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Thu, Mar 29, 2018 at 3:11 PM=
-, Andrea Galbusera <span dir=3D"ltr">&lt;<a href=3D"mailto:gizero@gmail.com=
-" target=3D"_blank">gizero@gmail.com</a>&gt;</span> wrote:<br><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex"><span class=3D"">On Thu, Mar 29, 2018 at 11:56 PM, Martin=
- Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com=
-</a>&gt; wrote:<br>
-&gt; I got the same today.<br>
-<br>
-</span>Me too!<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;<br>
-&gt; On Thu, Mar 29, 2018 at 11:51 PM, Trevor Woerner &lt;<a href=3D"mailto=
-:twoerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; uhhh.... gmail is on the bad list?<br>
-&gt;&gt; anyone else get one of these?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; ---------- Forwarded message ----------<br>
-&gt;&gt; From: &lt;<a href=3D"mailto:openembedded-core-request@lists.openem=
-bedded.org">openembedded-core-request@<wbr>lists.openembedded.org</a>&gt;<b=
-r>
-&gt;&gt; Date: Thu, Mar 29, 2018 at 8:13 AM<br>
-&gt;&gt; Subject: confirm<br>
-&gt;&gt; To: <a href=3D"mailto:twoerner@gmail.com">twoerner@gmail.com</a><b=
-r>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Your membership in the mailing list Openembedded-core has been<br>
-&gt;&gt; disabled due to excessive bounces The last bounce received from yo=
-u<br>
-&gt;&gt; was dated 29-Mar-2018.=C2=A0 You will not get any more messages fr=
-om this<br>
-&gt;&gt; list until you re-enable your membership.=C2=A0 You will receive 3=
- more<br>
-&gt;&gt; reminders like this before your membership in the list is deleted.=
-<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; ______________________________<wbr>_________________<br>
-&gt;&gt; Openembedded-core mailing list<br>
-&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openem=
-bedded-core@lists.<wbr>openembedded.org</a><br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
-rg/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt;&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.<wbr>openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
-wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt;<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div></div>
-
---f4f5e80c3474fc47dd0568968e85--
