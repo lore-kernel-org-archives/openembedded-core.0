@@ -1,23 +1,50 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 79443744DF
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9012F744F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 00:41:21 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2018 17:41:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="43389693"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 29 Mar 2018 17:41:22 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Mar 2018 17:41:08 -0700
-Message-Id: <20180330004108.33832-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH v2] default-distrovars: set default KERNEL_IMAGETYPE(S)
+	Fri, 30 Mar 2018 00:45:36 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id c78-v6so10691633lfh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Mar 2018 17:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pJub0Fv41r7OHDfJggPCF2UFtPaDqPngn4Vz+HYzPRE=;
+	b=DNW/gT6uAEymRqryesp3hLEKj5FFeHFCA28hQAvZ/GkZSZmFbj5wnMJQMm/9xkc8Io
+	qIDuozNa5dcfXnwHt1b98Ue3fJXiBmfRyEj09E43O8vElCv782C4P9bWY30KWZIEDRb5
+	6FAK33cRw5hir/xGwJlqTtf/eh7MLZ9BgpRIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pJub0Fv41r7OHDfJggPCF2UFtPaDqPngn4Vz+HYzPRE=;
+	b=uZnEGmL0wCnnDtRnawLCqnaWkfbvkwatPKVgbbNE9lr+M4nWyZG2Eu0YA8Tmur6yy6
+	/Z58CI3QFrvGYHpAF6gPV52fI9ZwzoAQ6sCDrnFcvGX/W9gqW7qG94tL7DA+5zRgCutA
+	w4OPQo6mmPrPfMoGMLxkSBuLVGmTDDzTc29AlBbXfs2RDJ1X1Upj0AQLP96zYh3oKPQl
+	osRgtDdmCmDlOYKIa5GECKe1mE6zckpJNxVwKJPSNeM2PvLOm66DQh+eBBUndB/Ik3dS
+	i8m4QIZiPzcyS/chvypusOs3Si1LL8ieDHe9Px2RPP5k5SSS8f/9MdnZbbzJpN8tlqfA
+	4png==
+X-Gm-Message-State: AElRT7GSeMq883MdTkE4LzRX1U7Qeg6qQnbK8WoRCh004nJN/ZN4ZlpX
+	2ay904u7o9EKjMSzraAQvYJXqX+XVrS6qmDeSEFtyA==
+X-Google-Smtp-Source: AIpwx483+kbaQvbkO3YKIM9Ol3U+o5gmUVsNqccQLtinKplLAh6xeWzs6HwAP17sirpWxnqZ8ZiFMAKAE32t05CB/aU=
+X-Received: by 10.46.145.74 with SMTP id q10mr6627624ljg.13.1522370736828;
+	Thu, 29 Mar 2018 17:45:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a19:a053:0:0:0:0:0 with HTTP; Thu, 29 Mar 2018 17:45:36
+	-0700 (PDT)
+In-Reply-To: <CAC+thW3gJDv_RGKAhXxkXM3rjAEDk8-_Ew2rszTpij2n_SwAtg@mail.gmail.com>
+References: <mailman.363.1522325586.1651.openembedded-core@lists.openembedded.org>
+	<CAHUNapTc-iiZ6vbRV=J3pt5EQy-qJJbgkwzZKhpAkfC3pgzXiw@mail.gmail.com>
+	<CA+chaQdYG-kNDqiStA=yg1nGjLH_pgH7vcm6Db_kxZ+Bt1pWSg@mail.gmail.com>
+	<CAC+thW3gJDv_RGKAhXxkXM3rjAEDk8-_Ew2rszTpij2n_SwAtg@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Thu, 29 Mar 2018 17:45:36 -0700
+Message-ID: <CADfgfoZq56q5wyyr9OQ8Xo0KACZ0-0am+LyXTp6ND7x6WqwFxw@mail.gmail.com>
+To: Andrea Galbusera <gizero@gmail.com>, Philip Balister <philip@balister.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: confirm 6bb527bbc2e6d9a2a2165aa081ea1271ece07fe8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,94 +57,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 00:41:21 -0000
+X-List-Received-Date: Fri, 30 Mar 2018 00:45:37 -0000
+Content-Type: multipart/alternative; boundary="f4f5e80c3474fc47dd0568968e85"
 
-With the change from assuming kernels will be named "vmlinuz"
-everywhere, to instead using KERNEL_IMAGETYPE, we require that
-KERNEL_IMAGETYPE is set to something. Instead of setting the default in
-multiple individual files, set it in default-distrovars.inc.
+--f4f5e80c3474fc47dd0568968e85
+Content-Type: text/plain; charset="UTF-8"
 
-x86(-64) arches get bzImage as the default. Others get zImage as per
-meta/conf/documentation.conf.
+We had several hundred bounces from Gmail today. I've made changes and
+Gmail is currently accepting new messages.
 
-Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
-KERNEL_IMAGETYPE.
+I'm running a script to clear users' bounce counts now.
 
-Thanks to Andre McCurdy <armccurdy@gmail.com> for the arch defaults
-part.
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
-v2: bzImage for x86, zImage for others.
- meta/classes/grub-efi-cfg.bbclass               | 1 -
- meta/classes/live-vm-common.bbclass             | 2 --
- meta/classes/syslinux.bbclass                   | 1 -
- meta/classes/systemd-boot-cfg.bbclass           | 2 --
- meta/conf/distro/include/default-distrovars.inc | 6 ++++++
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index d2226af97a7..5eeee6c2e3f 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -22,7 +22,6 @@ GRUB_CFG_LIVE = "${S}/grub_live.cfg"
- GRUB_TIMEOUT ?= "10"
- #FIXME: build this from the machine config
- GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
--KERNEL_IMAGETYPE ??= "bzImage"
- 
- EFIDIR = "/EFI/BOOT"
- GRUB_ROOT ?= "${ROOT}"
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
-index 714d6d4788c..68105d9b84f 100644
---- a/meta/classes/live-vm-common.bbclass
-+++ b/meta/classes/live-vm-common.bbclass
-@@ -32,8 +32,6 @@ PCBIOS_CLASS = "${@['','syslinux'][d.getVar('PCBIOS') == '1']}"
- inherit ${EFI_CLASS}
- inherit ${PCBIOS_CLASS}
- 
--KERNEL_IMAGETYPE ??= "bzImage"
--
- populate_kernel() {
- 	dest=$1
- 	install -d $dest
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 959aed4fb8f..031dacbf7d3 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -21,7 +21,6 @@ do_bootimg[depends] += "${MLPREFIX}syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot"
- 
- ISOLINUXDIR ?= "/isolinux"
--KERNEL_IMAGETYPE ??= "bzImage"
- SYSLINUXDIR = "/"
- # The kernel has an internal default console, which you can override with
- # a console=...some_tty...
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 107758548c6..021c9f93315 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -1,5 +1,3 @@
--KERNEL_IMAGETYPE ??= "bzImage"
--
- SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 76d09af7266..9620ad48ded 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -47,3 +47,9 @@ BB_STRICT_CHECKSUM = "1"
- 
- GTK2DISTROFEATURES = "directfb x11"
- GTK3DISTROFEATURES = "x11 wayland"
-+
-+ARCH_DEFAULT_KERNELIMAGETYPE = "zImage"
-+ARCH_DEFAULT_KERNELIMAGETYPE_x86 = "bzImage"
-+ARCH_DEFAULT_KERNELIMAGETYPE_x86-64 = "bzImage"
-+KERNEL_IMAGETYPE ??= "${ARCH_DEFAULT_KERNELIMAGETYPE}"
-+KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
 -- 
-2.14.3
+Michael Halstead
+SysAdmin
 
 
+On Thu, Mar 29, 2018 at 3:11 PM, Andrea Galbusera <gizero@gmail.com> wrote:
+
+> On Thu, Mar 29, 2018 at 11:56 PM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> > I got the same today.
+>
+> Me too!
+>
+> >
+> > On Thu, Mar 29, 2018 at 11:51 PM, Trevor Woerner <twoerner@gmail.com>
+> wrote:
+> >>
+> >> uhhh.... gmail is on the bad list?
+> >> anyone else get one of these?
+> >>
+> >>
+> >> ---------- Forwarded message ----------
+> >> From: <openembedded-core-request@lists.openembedded.org>
+> >> Date: Thu, Mar 29, 2018 at 8:13 AM
+> >> Subject: confirm
+> >> To: twoerner@gmail.com
+> >>
+> >>
+> >> Your membership in the mailing list Openembedded-core has been
+> >> disabled due to excessive bounces The last bounce received from you
+> >> was dated 29-Mar-2018.  You will not get any more messages from this
+> >> list until you re-enable your membership.  You will receive 3 more
+> >> reminders like this before your membership in the list is deleted.
+> >>
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--f4f5e80c3474fc47dd0568968e85
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">We had several hundred bounces from Gmail today. I&#39;ve =
+made changes and Gmail is currently accepting new messages.=C2=A0<div><br><=
+/div><div>I&#39;m running a script to clear users&#39; bounce counts now.</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">--=C2=
+=A0</div><div class=3D"gmail_extra">Michael Halstead</div><div class=3D"gma=
+il_extra">SysAdmin</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Thu, Mar 29, 2018 at 3:11 PM=
+, Andrea Galbusera <span dir=3D"ltr">&lt;<a href=3D"mailto:gizero@gmail.com=
+" target=3D"_blank">gizero@gmail.com</a>&gt;</span> wrote:<br><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex"><span class=3D"">On Thu, Mar 29, 2018 at 11:56 PM, Martin=
+ Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com=
+</a>&gt; wrote:<br>
+&gt; I got the same today.<br>
+<br>
+</span>Me too!<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; On Thu, Mar 29, 2018 at 11:51 PM, Trevor Woerner &lt;<a href=3D"mailto=
+:twoerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; uhhh.... gmail is on the bad list?<br>
+&gt;&gt; anyone else get one of these?<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; ---------- Forwarded message ----------<br>
+&gt;&gt; From: &lt;<a href=3D"mailto:openembedded-core-request@lists.openem=
+bedded.org">openembedded-core-request@<wbr>lists.openembedded.org</a>&gt;<b=
+r>
+&gt;&gt; Date: Thu, Mar 29, 2018 at 8:13 AM<br>
+&gt;&gt; Subject: confirm<br>
+&gt;&gt; To: <a href=3D"mailto:twoerner@gmail.com">twoerner@gmail.com</a><b=
+r>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Your membership in the mailing list Openembedded-core has been<br>
+&gt;&gt; disabled due to excessive bounces The last bounce received from yo=
+u<br>
+&gt;&gt; was dated 29-Mar-2018.=C2=A0 You will not get any more messages fr=
+om this<br>
+&gt;&gt; list until you re-enable your membership.=C2=A0 You will receive 3=
+ more<br>
+&gt;&gt; reminders like this before your membership in the list is deleted.=
+<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openem=
+bedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
+rg/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br></div></div>
+
+--f4f5e80c3474fc47dd0568968e85--
