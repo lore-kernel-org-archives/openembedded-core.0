@@ -1,31 +1,18 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 27DBE74550
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 00:02:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Mar 2018 17:02:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,378,1517904000"; d="scan'208";a="39300192"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 29 Mar 2018 17:02:28 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <20180329231918.25272-1-california.l.sullivan@intel.com>
-	<CAJ86T=VbYnLPa=JZiYVC0zpr06Gzgvm0+NdCBjSMCusEF=Zhgg@mail.gmail.com>
-	<54bd76e3-bde3-f0fd-0f69-5a9f930266c5@intel.com>
-	<CAJ86T=UGdR+zdigFrH2S1CN68tJSk=r3UwGZy+vX3o-vkph1mA@mail.gmail.com>
-From: Cal Sullivan <california.l.sullivan@intel.com>
-Message-ID: <12756713-0152-1e28-d5a1-e8430665f8ed@intel.com>
-Date: Thu, 29 Mar 2018 17:02:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id D768B74517;
+	Fri, 30 Mar 2018 00:02:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UGdR+zdigFrH2S1CN68tJSk=r3UwGZy+vX3o-vkph1mA@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] default-distrovars: set default KERNEL_IMAGETYPE(S)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Fri, 30 Mar 2018 00:02:55 -0000
+Message-ID: <20180330000255.2392.95586@do.openembedded.org>
+References: <1522366265-19953-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1522366265-19953-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZV9ycG06IHNldCBfYnVpbGRkaXIgdG8gQiBub3QgUw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 00:02:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 30 Mar 2018 00:02:54 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+
+== Series Details ==
+
+Series: package_rpm: set _builddir to B not S
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11619/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
 
-On 03/29/2018 04:58 PM, Andre McCurdy wrote:
-> On Thu, Mar 29, 2018 at 4:55 PM, Cal Sullivan
-> <california.l.sullivan@intel.com> wrote:
->> On 03/29/2018 04:36 PM, Andre McCurdy wrote:
->>> On Thu, Mar 29, 2018 at 4:19 PM, California Sullivan
->>> <california.l.sullivan@intel.com> wrote:
->>>> With the change from assuming kernels will be named "vmlinuz"
->>>> everywhere, to instead using KERNEL_IMAGETYPE, we require that
->>>> KERNEL_IMAGETYPE is set to something. Instead of setting the default in
->>>> multiple individual files, set it in default-distrovars.inc.
->>>>
->>>> Also set KERNEL_IMAGETYPES, as we will eventually be switching away from
->>>> KERNEL_IMAGETYPE.
->>>>
->>>> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
->>>> +
->>>> +KERNEL_IMAGETYPE ??= "bzImage"
->>> Isn't bzImage x86 specific? Setting it as the default also disagrees
->>> with meta/conf/documentation.conf:
->>>
->>>     KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
->>> usually set by the machine configuration files and defaults to
->>> 'zImage'."
->>>
->>> It might be nice to have an arch specific default (e.g. bzImage for
->>> x86, vmlinux for MIPS and zImage for everything else?).
->>
->> Doing so would require a nasty setVar python block due to overrides taking
->> priority.
->>
->> E.g.,
->> KERNEL_IMAGETYPE_x86 ??= "test1"
->> KERNEL_IMAGETYPE = "test2"
->> results in KERNEL_IMAGETYPE getting "test1".
->>
->> That or accept the difficulty of overriding it afterwards.
-> How about:
->
-> ARCHDEFAULT_KERNEL_IMAGETYPE = "zImage"
-> ARCHDEFAULT_KERNEL_IMAGETYPE_x86 = "bzImage"
->
-> KERNEL_IMAGETYPE ?= "${ARCHDEFAULT_KERNEL_IMAGETYPE}"
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d6c13a5ff4)
 
-Oh, that works. No idea why I didn't think of that. I'll incorporate it into my v2.
 
-Thanks,
-Cal
 
->
->> This patch is primarily in order to set /any/ default globally so that
->> getVar calls on it don't break parsing.
->> Its still customary to set the variable in machine confs as well.
->>
->> I can send a v2 that sets the default to zImage instead. That way it matches
->> the docs, though I don't know how accurate they were previously.
->>
->> Thanks,
->> Cal
->>
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
