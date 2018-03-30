@@ -1,31 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BD46C74669
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CF146746C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 07:57:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w2U7vIxv016005
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 30 Mar 2018 00:57:18 -0700
-Received: from [128.224.163.159] (128.224.163.159) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 30 Mar 2018 00:57:18 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1522392229.git.hongxu.jia@windriver.com>
-	<20180330070529.2394.14955@do.openembedded.org>
-	<77cd677d-8c26-9eac-1dae-22afa985f447@windriver.com>
-	<1522395841.11431.108.camel@linuxfoundation.org>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <408c4fb3-a44f-5ea5-1bf3-ac671a61b53c@windriver.com>
-Date: Fri, 30 Mar 2018 15:57:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <1522395841.11431.108.camel@linuxfoundation.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFVwZ3JhZGUgNyBwYWNrYWdlcw==?=
+	Fri, 30 Mar 2018 08:37:07 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w2U8aHK0000526
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 30 Mar 2018 09:36:19 +0100
+Message-ID: <1522398977.11431.114.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Mar 2018 09:36:17 +0100
+In-Reply-To: <20180329224129.GK2786@denix.org>
+References: <cover.1521507765.git.denys@ti.com>
+	<20180329224129.GK2786@denix.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 0/3] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,91 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 07:57:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 30 Mar 2018 08:37:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2018年03月30日 15:44, Richard Purdie wrote:
-> On Fri, 2018-03-30 at 15:26 +0800, Hongxu Jia wrote:
->> On 2018年03月30日 15:05, Patchwork wrote:
->>> == Series Details ==
->>>
->>> Series: Upgrade 7 packages
->>> Revision: 1
->>> URL   : https://patchwork.openembedded.org/series/11622/
->>> State : failure
->>>
->>> == Summary ==
->>>
->>>
->>> Thank you for submitting this patch series to OpenEmbedded Core.
->>> This is
->>> an automated response. Several tests have been executed on the
->>> proposed
->>> series by patchtest resulting in the following failures:
->>>
->>>
->>>
->>> * Issue             LIC_FILES_CHKSUM changed on target libgpg-error
->>> but there is no "License-Update" tag in commit message
->>> [test_lic_files_chksum_modified_not_mentioned]
->>>     Suggested fix    Include "License-Update: <description>" into
->>> the commit message with a brief description
->>>     Current checksum
->>> file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552
->>>       file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1
->>>                file://src/gpg-
->>> error.h.in;endline=23;md5=beae1e44d8d5c265d194760276033a7c
->>>              file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2
->>> b91225afbc
->>>     New
->>> checksum     file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552
->>>                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206
->>> a5b0a1                     file://src/gpg-
->>> error.h.in;endline=23;md5=fc7423b56d5f7163a9a2acf9fe2f8d6b
->>>              file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2
->>> b91225afbc
->> It already includes "License-Update: <description>":
->> ...
->> 1. License-Update: update years from 2003-2004 to 2001-2018,
->>      and add a new line 'SPDX-License-Identifier: LGPL-2.1+'
->> ...
->>
->> Should I remove the starting "1. "?
-> Yes, the "1. " is why its not understanding what you added.
->
+On Thu, 2018-03-29 at 18:41 -0400, Denys Dmytriyenko wrote:
+> Ping. It's been 10 days - are there any issues with these updates?
 
-OK, V2 incoming
+We're past feature freeze at this point and M3 was built (finally, and
+late). During stabilisation we're only taking upgrades "with a good
+reason". Security fixes, bug fixes and issues with maintenance windows
+(e.g. bind) are reasons we might see some upgrades going in now but in
+general we're holding upgrades until 2.6 opens.
 
->>> * Issue             Patches not removed from tree
->>> [test_src_uri_left_files]
->>>     Suggested fix    Amend the patch containing the software patch
->>> file removal
->>>     Patch            avoid-host-contamination.patch
->>>     Patch            mkdir-p.patch
->>>     Patch            do-not-check-local-libpng-source.patch
->>>     Patch            ghostscript-9.02-genarch.patch
->>>     Patch            ghostscript-9.21-prevent_recompiling.patch
->>>     Patch            ghostscript-9.16-Werror-return-type.patch
->>>     Patch            cups-no-gcrypt.patch
->>>     Patch            ghostscript-9.15-parallel-make.patch
->> It already removes them from tree.
->> Should I git format-patch without "-M"?
-> To be clear, these patches are all renamed. I think patchtest is
-> failing to understand the rename. Please continue to send with -M but
-> lets file a bug against patchtest to see if we can fix this issue.
+I think Ross has a "post sumo" branch which he may pull some of these
+into but I'd really like people to focus on bug fixing for sumo right
+now.
 
-Got it, file YOCTO #12636 to trace the issue
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=12636
+Ross is also on vacation so I'll be handling things over the next week
+or so (when do I get one?!). I might push a master-next-2.6 to queue
+things just to make it clearer what is being deferred. Rebasing can be
+a nightmare though.
 
-//Hongxu
+Cheers,
 
-> We could avoid the issue by not renaming patches.
->
-> Cheers,
->
-> Richard
+Richard
 
 
 
