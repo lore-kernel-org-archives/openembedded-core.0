@@ -1,29 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 35AED74663
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C5BFD746E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Mar 2018 09:13:06 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2U9D5Hj003616
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 30 Mar 2018 10:13:06 +0100
-Message-ID: <1522401185.11431.117.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, OE Core mailing list
+	Fri, 30 Mar 2018 10:12:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="38349305"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Mar 2018 18:10:17 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 8CCF9486A78C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Mar 2018 18:10:17 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0361.001; Fri, 30 Mar 2018 18:10:15 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Mar 2018 10:13:05 +0100
-In-Reply-To: <CAJ86T=XqUjHH-1_pBKfozk588wWBmqHTOhOBfT15iEmx8qC7rw@mail.gmail.com>
-References: <1512524120-16006-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=WiHB_6J8Rj0YXv7MTqu7xBgLFt9+09W+UsEjKd-PoyAA@mail.gmail.com>
-	<CAJ86T=Ur=A8XQH=UJu9NmxE7KmPgYmWN0bLL8X1akvV0vLNA7w@mail.gmail.com>
-	<CAJ86T=U+mP5KPJBUL+18i3g21nCiMX_JNi0_Ad2mj5iGNqFvog@mail.gmail.com>
-	<CAJ86T=XqUjHH-1_pBKfozk588wWBmqHTOhOBfT15iEmx8qC7rw@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: Re: [morty][PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+Thread-Topic: [OE-core] question about libgcrypt
+Thread-Index: AdPIDxAHL+A5gW3rSfGtOyN7BFqW9A==
+Date: Fri, 30 Mar 2018 10:10:15 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF7363ABF90A@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.150.1
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.35]
+MIME-Version: 1.0
+X-yoursite-MailScanner-ID: 8CCF9486A78C.AB671
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: question about libgcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,73 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 09:13:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Mar 2018 10:12:21 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On Wed, 2018-03-28 at 15:55 -0700, Andre McCurdy wrote:
-> On Fri, Mar 9, 2018 at 8:15 PM, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> > 
-> > On Wed, Feb 21, 2018 at 1:40 PM, Andre McCurdy <armccurdy@gmail.com
-> > > wrote:
-> > > 
-> > > On Tue, Jan 23, 2018 at 12:16 PM, Andre McCurdy <armccurdy@gmail.
-> > > com> wrote:
-> > > > 
-> > > > On Tue, Dec 5, 2017 at 5:35 PM, Andre McCurdy <armccurdy@gmail.
-> > > > com> wrote:
-> > > > > 
-> > > > > From: Ming Liu <liu.ming50@gmail.com>
-> > > > > 
-> > > > > A flaw was found on my Ubuntu 14.04.5 LTS, on which that
-> > > > > gnome-terminal is
-> > > > > the default terminal, when I run any of the tasks:
-> > > > > bitbake busybox -c menuconfig/devshell/devpyshell
-> > > > > bitbake virtual/kernel -c menuconfig/devshell/devpyshell
-> > > > > 
-> > > > > I got a error as follows:
-> > > > > "Failed to execute child process "oe-gnome-terminal-
-> > > > > phonehome" (No such file or directory)"
-> > > > > 
-> > > > > Seems the environment of the process calling Popen is not
-> > > > > passed to the
-> > > > > child process, this behaviour is a known issue in Python bug
-> > > > > tracker:
-> > > > > http://bugs.python.org/issue8557
-> > > > > 
-> > > > > It could be fixed by using an absolute path instead per test.
-> > > > Ping.
-> > > Ping again.
-> > And again...
-> > 
-> > It looks like this (and a couple of other patches) made it as far
-> > as:
-> > 
-> >   http://git.openembedded.org/openembedded-core-contrib/log/?h=stab
-> > le/morty-next
-> > 
-> > but then got stuck or forgotten?
-> Ping number four.
-> 
-> As an interesting data point, it's now over 20 months since the bug
-> was introduced and first reported on the mailing list:
-> 
->   http://lists.openembedded.org/pipermail/openembedded-core/2016-July
-> /124215.html
-
-Sorry, I think the problem is my mail archives don't seem to have this
-original patch. Each time there is a ping, I go and try and find it,
-get confused and then get distracted. I have no idea why this isn't
-there.
-
-I've queued it in morty-next which should give some hope to this
-getting sorted, assuming we can fix the other morty breakage and get
-clean builds.
-
-Cheers,
-
-Richard
-
-
+SGksDQoNCkkgZ290IHRoZSBmb2xsb3dpbmcgZXJyb3Igd2hlbiBidWlsZGlu
+ZyB3aXJlc2hhcmsgMi40LjUgZHVyaW5nIGRvX2NvbmZpZ3VyZSwNCiAgICAg
+IC4uLi4uLg0KICAgICB8IGNoZWNraW5nIGZvciBsaWJnY3J5cHQtY29uZmln
+Li4uIA0KL3lvY3RvL3dvcmswMDEvZm5zdC9odWFuZ3F5L3VwZ3JhZGUvYnVp
+bGQvdG1wL3dvcmsvaTU4Ni1wb2t5LWxpbnV4L3dpcmVzaGFyay8xXzIuNC41
+LXIwL3JlY2lwZS1zeXNyb290L3Vzci9iaW4vY3Jvc3NzY3JpcHRzL2xpYmdj
+cnlwdC1jb25maWcNCiAgICAgfCBjaGVja2luZyBmb3IgTElCR0NSWVBUIC0g
+dmVyc2lvbiA+PSAxLjQuMi4uLiBFUlJPUjogDQovdXNyL2Jpbi9saWJnY3J5
+cHQtY29uZmlnIHNob3VsZCBub3QgYmUgdXNlZCwgdXNlIGFuIGFsdGVybmF0
+aXZlIHN1Y2ggYXMgcGtnLWNvbmZpZw0KICAgICB8IC4uL3dpcmVzaGFyay0y
+LjQuNS9jb25maWd1cmU6IGxpbmUgMjAyMTQ6IHRlc3Q6IA0KLS1zaG91bGQt
+bm90LWhhdmUtdXNlZC0vdXNyL2Jpbi9saWJnY3J5cHQtY29uZmlnOiBpbnRl
+Z2VyIGV4cHJlc3Npb24gZXhwZWN0ZWQNCiAgICAgfCAuLi93aXJlc2hhcmst
+Mi40LjUvY29uZmlndXJlOiBsaW5lIDIwMjE3OiB0ZXN0OiANCi0tc2hvdWxk
+LW5vdC1oYXZlLXVzZWQtL3Vzci9iaW4vbGliZ2NyeXB0LWNvbmZpZzogaW50
+ZWdlciBleHByZXNzaW9uIGV4cGVjdGVkDQogICAgIC4uLi4uDQoNCkFuZCBJ
+IGZvdW5kIGl0J3MgY2F1c2VkIGJ5IGxpYmdjcnlwdC1jb25maWcgYXMgZm9s
+bG93cw0KDQogICAgICMhL2Jpbi9zaA0KICAgICBlY2hvICdFUlJPUjogL3Vz
+ci9iaW4vbGliZ2NyeXB0LWNvbmZpZyBzaG91bGQgbm90IGJlIHVzZWQsIHVz
+ZSBhbiBhbHRlcm5hdGl2ZSBzdWNoIGFzIHBrZy1jb25maWcnID4mMg0KICAg
+ICBlY2hvICctLXNob3VsZC1ub3QtaGF2ZS11c2VkLS91c3IvYmluL2xpYmdj
+cnlwdC1jb25maWcnDQogICAgIGV4aXQgMQ0KDQpJIHRoaW5rIHRoaXMgZXJy
+b3IgaXMgY2F1c2VkIGJ5IGxpYmdjcnlwdCwgaXQgY3JlYXRlcyB0aGUgd3Jv
+bmcgZmlsZSwgZG9lcyBhbnlvbmUgaGF2ZSBhbnkgaWRlYSBhYm91dCB0aGlz
+Pw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3UgTmFu
+ZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjogTm8u
+NiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5hbmpp
+bmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24uZnVq
+aXN0dS5jb20NCg0KDQoKCg==
 
