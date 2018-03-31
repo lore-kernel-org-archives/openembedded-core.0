@@ -1,27 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CBE77459C
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A39271C07
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Mar 2018 13:12:59 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2VDCtTK005093
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 31 Mar 2018 14:12:57 +0100
-Message-ID: <1522501975.11431.208.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Seebs <seebs@seebs.net>, Andre McCurdy <armccurdy@gmail.com>
-Date: Sat, 31 Mar 2018 14:12:55 +0100
-In-Reply-To: <20180331000631.5f050451@seebsdell>
+	Sat, 31 Mar 2018 15:35:28 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 03C592E8928;
+	Sat, 31 Mar 2018 10:35:29 -0500 (CDT)
+Date: Sat, 31 Mar 2018 10:35:28 -0500
+From: Seebs <seebs@seebs.net>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20180331103528.1e462033@seebsdell>
+In-Reply-To: <CAJ86T=UOuOWaOtQ8Y7bDc1170kckLvgg+FAfLx_sHT68r=mJRA@mail.gmail.com>
 References: <20180327154802.14611-1-ross.burton@intel.com>
 	<CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
 	<CAJTo0LZUdMAtWKtGnPstotRGiHUPwZ_80PmuSzj5wpAFWGcN0Q@mail.gmail.com>
 	<CAJ86T=WcgEo8SFRLPeRXyFXU-tRwXn0bXdYjiV4D9G19BOWuDg@mail.gmail.com>
 	<20180331000631.5f050451@seebsdell>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
+	<CAJ86T=UOuOWaOtQ8Y7bDc1170kckLvgg+FAfLx_sHT68r=mJRA@mail.gmail.com>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,38 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Mar 2018 13:13:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 31 Mar 2018 15:35:29 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Just to report back, I've tried testing an earlier version of pseudo
-master with the path changes reverted and current master. With both I'm
-seeing librsvg fail during do_install with a segfault (you have to
-remove the 2> /dev/null to see it).
+On Fri, 30 Mar 2018 23:02:29 -0700
+Andre McCurdy <armccurdy@gmail.com> wrote:
 
-I'm seeing multiple entries in the host's dmesg:
+> On Fri, Mar 30, 2018 at 10:06 PM, Seebs <seebs@seebs.net> wrote:
+> > That's the problem: There's no sane way to express "the size that
+> > you would have gotten for these arguments of unknown types"
+> 
+> And there I think lies the key point that you still haven't grasped.
 
-[180364.269879] glib-compile-re[38258]: segfault at 0 ip           (null) sp 00007ffffaafbf78 error 14 in glib-compile-resources[55abc201b000+9000]
-[180376.499904] glib-compile-re[46860]: segfault at 0 ip           (null) sp 00007ffd3b10f2c8 error 14 in glib-compile-resources[55b2cb528000+9000]
-[180376.612404] glib-compile-re[46862]: segfault at 0 ip           (null) sp 00007fff612977f8 error 14 in glib-compile-resources[55ad08797000+9000]
-[180376.726317] glib-compile-re[46864]: segfault at 0 ip           (null) sp 00007ffdce018928 error 14 in glib-compile-resources[5610851ec000+9000]
-[180376.836705] glib-compile-re[46866]: segfault at 0 ip           (null) sp 00007ffc586fdda8 error 14 in glib-compile-resources[562f38dfc000+9000]
-[180603.294668] gdk-pixbuf-quer[51620]: segfault at 0 ip           (null) sp 00007ffce7947fe8 error 14 in gdk-pixbuf-query-loaders.real[55b88bb7f000+2000]
-[185206.227285] gdk-pixbuf-quer[51885]: segfault at 0 ip           (null) sp 00007ffe6393ae28 error 14 in gdk-pixbuf-query-loaders.real[556db9ae3000+2000]
-[186523.735264] gdk-pixbuf-quer[70272]: segfault at 0 ip           (null) sp 00007fff6a855808 error 14 in gdk-pixbuf-query-loaders.real[55ec4e8fd000+2000]
+I think you're right, but also you're being sorta rude about it. I
+think you're missing the distinction between "broad enough experience
+with weird edge cases to be possibly-unduly cautious" and "has no idea
+which end of a compiler is up".
 
-I believe that libglib-2.0 does use syscall() for something and that
-the above programs are calling into it and faulting.
+> The arguments are not of unknown types - they are all of types which
+> are the same size as integer registers.
 
-Its likely possible to reproduce this outside of a build by running
-make install from librsvg under pseudo.
+It turns out, in C, "the same size" is *not enough information* to
+determine where an argument goes. It is probably enough information for
+the subset of arguments that syscall is using, on these architectures,
+but I say "probably" because I have no spec to point to that says it's
+necessarily the case.
 
-If I take master and revert 778abd3686fb7c419e9016fdd9e93819405d52aa fr
-om pseudo, it no longer segfaults.
+> The syscall manpage very
+> clearly documents the fact that all arguments to Linux syscalls are
+> passed to the kernel in registers. I think you even asked me why that
+> was important or useful.
 
-So something is not working correctly with the intercept sadly.
+I'm still honestly not totally sure why it has to say *which*
+registers, specifically. Under what circumstances will my invocation of
+syscall(2) be changed by the knowledge that argument 5 to an OABI ARM
+system gets passed in v1? The information being present implies that I
+might need to know this to invoke syscall(2) correctly, but the only
+examples given are not actually specific to that information.
 
-Cheers,
+> If there's any user space code out there which calls libc syscall()
+> and does not pass variables which libc syscall() (or a wrapper for it)
+> can unconditionally treat as a type which fits into integer registers
+> than it's a bug the caller. End of story.
 
-Richard
+This raises an interesting point. The man page says that the dummy 0
+argument is needed for SYS_readahead because of an alignment issue, to
+force the value into r2/r3. It does not say that the manual split of the
+64-bit value into two halves is needed, it just does that. Is that
+actually required anyway, or only because of the need to pad the
+argument list? (For instance, look at sync_file_range2(), which
+reorders the arguments to sync_file_range() for efficiency.
+
+... Oh, wow. I went and checked on readahead():
+
+>> On some 32-bit architectures, the calling signature for this
+>> system call differs, for the reasons described in syscall(2).
+
+Note how they don't specify what the alternative calling signature is.
+
+-s
 
