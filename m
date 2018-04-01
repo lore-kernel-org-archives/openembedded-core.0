@@ -1,73 +1,42 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
-	(mail-co1nam03on0074.outbound.protection.outlook.com [104.47.40.74])
-	by mail.openembedded.org (Postfix) with ESMTP id F247C746CC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DE3C3746BB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Apr 2018 16:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
-	bh=2lhOm6FXKebfKiqZQBMn2S6altaRhYBJlAbXC80SykM=;
-	b=b2w4rc2IvOoFUFzOTpjpYnJk/k7uKkC5fzKZgUYHWFq7b+HRpdeKShQO6rIw6yDG9+x7rGpgtk4i8wx5gqXrAQdxesDose1OubN/BF7OJcS+unz964ioF8JSMZ+dIsd3iI/wpDyGNszFOEyq5Oo2QB+s8dMw529ziGGF5RkaidM=
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com (10.174.115.15) by
-	BN6PR1201MB0097.namprd12.prod.outlook.com (10.174.114.23) with
-	Microsoft SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.631.10; Sun, 1 Apr 2018 16:15:24 +0000
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::31bb:ae63:3595:7ba8]) by
-	BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::31bb:ae63:3595:7ba8%4]) with mapi id 15.20.0631.013;
-	Sun, 1 Apr 2018 16:15:24 +0000
-From: <chris.laplante@agilent.com>
-To: <raj.khem@gmail.com>
-Thread-Topic: [OE-core] Question about native recipes
-Thread-Index: AdPJ0Vxweq1VdJktQiW8PWBAyYKOrwAAl7EAAAAn75A=
-Date: Sun, 1 Apr 2018 16:15:23 +0000
-Message-ID: <BN6PR1201MB019536F8DCE02A890116E7A08BA70@BN6PR1201MB0195.namprd12.prod.outlook.com>
-References: <BN6PR1201MB0195CA6828AEB411745386138BA70@BN6PR1201MB0195.namprd12.prod.outlook.com>
-	<CAMKF1sr_e2do5gDUtsgn_BuT_x5tkDEChyoBuacb1kfW1YBrKg@mail.gmail.com>
-In-Reply-To: <CAMKF1sr_e2do5gDUtsgn_BuT_x5tkDEChyoBuacb1kfW1YBrKg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [2601:42:c300:8513:dc56:c640:b103:8bbb]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; BN6PR1201MB0097;
-	7:CdUR/rRgT7z82Cs/KwZfzlk72+sI2v61YRwDAbbCtgeakmbVMCkMXhYARfpY/mrHDc1ympO6mlG7mIC/16DKvV7GksGymJ966sP8VCIOaoql9UJjIGl1ticZP0gqWJMYIO8b+cNh83KcMZnJ3F9wHX+ZtqQIE+MGhU48vq4tvsNF+bKx2FWyQdGhi175CUeQ7yhNpMDnni+66jwJzPiuQ8VI45Hlkw1GmdH7o4uGYe/Ipx4ZQneZvsp3mQeZbCsi
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-ms-office365-filtering-correlation-id: 77befe74-2a24-4d64-d6a1-08d597ebc635
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(3008032)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:BN6PR1201MB0097; 
-x-ms-traffictypediagnostic: BN6PR1201MB0097:
-x-microsoft-antispam-prvs: <BN6PR1201MB0097BF7B79722096F0BD82B78BA70@BN6PR1201MB0097.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(28532068793085)(85827821059158)(264703809997249)(21748063052155);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(5005006)(8121501046)(3231221)(11241501184)(944501327)(52105095)(93006095)(93001095)(10201501046)(3002001)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123558120)(20161123562045)(20161123564045)(6072148)(201708071742011);
-	SRVR:BN6PR1201MB0097; BCL:0; PCL:0; RULEID:;
-	SRVR:BN6PR1201MB0097; 
-x-forefront-prvs: 06290ECA9D
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39380400002)(346002)(39860400002)(376002)(366004)(396003)(189003)(199004)(29502001)(6116002)(8936002)(8676002)(3660700001)(7736002)(105586002)(68736007)(2906002)(2900100001)(33656002)(97736004)(3280700002)(186003)(106356001)(478600001)(5660300001)(11346002)(6506007)(966005)(81156014)(53546011)(446003)(81166006)(5250100002)(790700001)(46003)(54896002)(14454004)(19609705001)(6436002)(9326002)(7696005)(76176011)(229853002)(55016002)(53936002)(102836004)(9686003)(86362001)(39060400002)(6916009)(25786009)(486005)(476003)(606006)(6246003)(6306002)(4326008)(316002)(74316002)(486005)(236005)(99286004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0097;
-	H:BN6PR1201MB0195.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: k3/R01wXO8jilJpz1rDMotAQvQyrevfkujtMf8CR2ByJrgzyW68M0coMtBuA1IRO+v/wp7/cVfKaxIeecP7gZ+LhGUu8UVD0h7r1ixzT3WS4FcRwA5TQ4S/h2YIB6HGYG/QSNL8sAyhGC1Q5Q/LAFzy8xVlJ9Kqxda+DrDZMkkFdKTdSll2Pdysb+GfW0pqRdnbWMxnUNLBtMm/oXhSAW3t27qI9zafHIL2Eqy488ZecZbpBJlwlyQ7bRJ8UBBBWJZagfjQYbl4EQymtBq/fhbcmGRuk5EQNc05rq8Ej+u6p7gqvzwNY0oTBBXDbyZ4rjbJGJGNkC3xojB2NDGkpIyRGqFUP1KKBK3Kq25BTBgFp/LsFkgy38sS7vBWUlS111CEF6PhBQp3hNeMu2onF4QiQNDKoMSHHIEVXXCRUtwA=
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77befe74-2a24-4d64-d6a1-08d597ebc635
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Apr 2018 16:15:23.9867 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0097
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Question about native recipes
+	Sun,  1 Apr 2018 19:50:47 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id o205so13407125qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 01 Apr 2018 12:50:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=lPA0xkgYnu57ZTvZMO/5P2jrkbJCLLdwedbJ05JN1Eo=;
+	b=Xnvy80fDhKOayVUxE/DNp/2oyUFVgsPOCKF6gwQsaR2K+6xsRmXxxeYC29LnzAdVNJ
+	NNq9SHxv0TIzzGr/lRkwVUbh3w+etdqOhm4f+7kp7aAd5jdkMq/hYiE3WmrfGxxjsOam
+	bSbSOUqi20/9G1IIIns9B8wvicN4p3Y96eBRcFHWQNBz2zNpb3v+tIcKJYxNYw8HLh0m
+	ZRHT3Zc9DD3oeD3EYWGzqpqQAARlVbZ1vMK68T6vyOmei5TZQsTFqMOVN5mRq/SVRIVH
+	IEQOL3xSNQHwuSG7TBZiMcahvfh4v3+D01F63cUmBjnYv6ZiB2hvDtcbMic2v3dBmwoi
+	qSwQ==
+X-Gm-Message-State: ALQs6tDX9Fj3ttv02DYFceHI3hL1NpVWnug37hymCA1c2q3F6UFPkreK
+	fU5Pwz54Z2cT3pMWW2tPrh5NaA==
+X-Google-Smtp-Source: AIpwx4/inxZcuC/nrYn8CD6yk3JYS0Ke2mYNr69tz/+NT9cHQSSELSIJdsg3py9/xdwXboL5ivL6Yg==
+X-Received: by 10.233.222.131 with SMTP id s125mr9548770qkf.131.1522612248129; 
+	Sun, 01 Apr 2018 12:50:48 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	n129sm5696197qke.42.2018.04.01.12.50.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 01 Apr 2018 12:50:47 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Sun, 01 Apr 2018 16:50:41 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sun,  1 Apr 2018 16:50:37 -0300
+Message-Id: <20180401195037.6495-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.16.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [RESEND PATCH] cmake: upgrade 3.10.2 -> 3.10.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,131 +49,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2018 16:15:25 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_BN6PR1201MB019536F8DCE02A890116E7A08BA70BN6PR1201MB0195_"
+X-List-Received-Date: Sun, 01 Apr 2018 19:50:48 -0000
 
---_000_BN6PR1201MB019536F8DCE02A890116E7A08BA70BN6PR1201MB0195_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+,----[ Changes in 3.10.3 ]
+| Brad King (1):
+|       CMake 3.10.3
+|
+| Craig Scott (1):
+|       GoogleTest: Rename TIMEOUT parameter to avoid clash
+|
+| Sebastian Holtermann (1):
+|       Autogen: Fix for the empty source file crash in 3.10.2
+|
+| Tianhao Chai (1):
+|       ccmake: fix status line buffer overflow on very wide terminals
+`----
 
-SGkgS2hlbSwNCg0KSSBzZWUgbm93LCB0aGFua3MhIEkgd2FzIHVzaW5nIOKAnGR1IC1oZDHigJ0g
-dG8gaW5kaXZpZHVhbGx5IGNoZWNrIHRoZSBzaXplIG9mIHR3byByZWNpcGUg4oCYd29ya+KAmSBk
-aXJlY3Rvcmllcy4gQnV0IGJ5IGNoZWNraW5nIHRoZW0gYm90aCB3aXRoIOKAnGR1IC1zaOKAnSBJ
-IHNlZSB0aGV5IGFyZSBpbmRlZWQgc2F2aW5nIHNwYWNlIHZpYSBoYXJkIGxpbmtzLiBUaGFua3Mh
-DQoNCkNocmlzDQoNCkZyb206IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXQ0K
-U2VudDogU3VuZGF5LCBBcHJpbCAwMSwgMjAxOCAxMjowOSBQTQ0KVG86IExBUExBTlRFLENIUklT
-IChBLUxpdHRsZSBGYWxscyxleDEpIDxjaHJpcy5sYXBsYW50ZUBhZ2lsZW50LmNvbT4NCkNjOiBv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFF1ZXN0aW9uIGFib3V0IG5hdGl2ZSByZWNpcGVzDQoNCg0KT24gU3VuLCBBcHIgMSwg
-MjAxOCBhdCA4OjUzIEFNIENocmlzIExhcGxhbnRlIHZpYSBPcGVuZW1iZWRkZWQtY29yZSA8b3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4+IHdyb3RlOg0KSGVsbG8sDQoNClN1cHBvc2Ug
-SSBoYXZlIGEgbmF0aXZlIHJlY2lwZSB0aGF0IGluc3RhbGxzIGEgbGFyZ2UgKH4xIOKAkyAyIEdC
-KSBhbW91bnQgb2Ygc3R1ZmYuIEl04oCZcyBuZWVkZWQgYnkgYWJvdXQgMjAgb3IgMzAgcmVjaXBl
-cy4gSeKAmWQgcmF0aGVyIG5vdCBpbnN0YWxsIHRoYXQgMS0yIEdCIGludG8gZXZlcnkgcmVjaXBl
-4oCZcyByZWNpcGUtc3lzcm9vdC1uYXRpdmUsIGJlY2F1c2UgdGhhdCB3aWxsIGNvbnN1bWUgYSB0
-b24gb2YgZGlzayBzcGFjZS4gSXMgdGhlcmUgYW55IHdheSBJIGNhbiBjaGFuZ2UgbXkgbmF0aXZl
-IHJlY2lwZSB0byBpbnN0YWxsIHRvIGEgY29tbW9uIGxvY2F0aW9uPw0KDQpSZWNpcGUgc3BlY2lm
-aWMgc3lzcm9vdCB1c2VzIGhhcmQgbGlua3MgdG8gYSBjb21tb25zIGxvY2F0aW9uIGlzbuKAmXQg
-dGhhdCBoYXBwZW5pbmcgaW4geW91ciBidWlsZA0KDQpUaGFua3MsDQpDaHJpcw0KLS0NCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQt
-Y29yZSBtYWlsaW5nIGxpc3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc8bWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRw
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1j
-b3JlDQo=
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
---_000_BN6PR1201MB019536F8DCE02A890116E7A08BA70BN6PR1201MB0195_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+ .../cmake/{cmake-native_3.10.2.bb => cmake-native_3.10.3.bb}          | 0
+ meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_3.10.2.bb => cmake_3.10.3.bb}      | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.10.2.bb => cmake-native_3.10.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.10.2.bb => cmake_3.10.3.bb} (100%)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
-OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
-cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
-b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
-bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
-cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
-bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGluOw0KCW1zby1tYXJnaW4tYm90
-dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
-bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21z
-by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmOw0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxl
-LXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0K
-QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
-LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
-O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
-ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
-cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
-Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
-cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5I
-aSBLaGVtLDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5JIHNlZSBub3csIHRoYW5rcyEgSSB3YXMg
-dXNpbmcg4oCcZHUgLWhkMeKAnSB0byBpbmRpdmlkdWFsbHkgY2hlY2sgdGhlIHNpemUgb2YgdHdv
-IHJlY2lwZSDigJh3b3Jr4oCZIGRpcmVjdG9yaWVzLiBCdXQgYnkgY2hlY2tpbmcgdGhlbSBib3Ro
-IHdpdGgg4oCcZHUgLXNo4oCdIEkgc2VlIHRoZXkgYXJlIGluZGVlZCBzYXZpbmcgc3BhY2Ugdmlh
-IGhhcmQgbGlua3MuIFRoYW5rcyE8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Q2hyaXM8bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PGI+RnJvbTo8L2I+IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1A
-Z21haWwuY29tXSA8YnI+DQo8Yj5TZW50OjwvYj4gU3VuZGF5LCBBcHJpbCAwMSwgMjAxOCAxMjow
-OSBQTTxicj4NCjxiPlRvOjwvYj4gTEFQTEFOVEUsQ0hSSVMgKEEtTGl0dGxlIEZhbGxzLGV4MSkg
-Jmx0O2NocmlzLmxhcGxhbnRlQGFnaWxlbnQuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBS
-ZTogW09FLWNvcmVdIFF1ZXN0aW9uIGFib3V0IG5hdGl2ZSByZWNpcGVzPG86cD48L286cD48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+T24gU3VuLCBBcHIgMSwgMjAxOCBhdCA4OjUzIEFNIENocmlzIExh
-cGxhbnRlIHZpYSBPcGVuZW1iZWRkZWQtY29yZSAmbHQ7PGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc8L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0Mg
-MS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4t
-cmlnaHQ6MGluIj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1z
-by1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj5IZWxsbyw8
-bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRv
-cC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+Jm5ic3A7PG86cD48L286cD48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87
-bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPlN1cHBvc2UgSSBoYXZlIGEgbmF0aXZlIHJlY2lw
-ZSB0aGF0IGluc3RhbGxzIGEgbGFyZ2UgKH4xIOKAkyAyIEdCKSBhbW91bnQgb2Ygc3R1ZmYuIEl0
-4oCZcyBuZWVkZWQgYnkgYWJvdXQgMjAgb3IgMzAgcmVjaXBlcy4gSeKAmWQgcmF0aGVyIG5vdCBp
-bnN0YWxsIHRoYXQgMS0yIEdCIGludG8gZXZlcnkgcmVjaXBl4oCZcyByZWNpcGUtc3lzcm9vdC1u
-YXRpdmUsDQogYmVjYXVzZSB0aGF0IHdpbGwgY29uc3VtZSBhIHRvbiBvZiBkaXNrIHNwYWNlLiBJ
-cyB0aGVyZSBhbnkgd2F5IEkgY2FuIGNoYW5nZSBteSBuYXRpdmUgcmVjaXBlIHRvIGluc3RhbGwg
-dG8gYSBjb21tb24gbG9jYXRpb24/ICZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rp
-dj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
-OzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJlY2lwZSBz
-cGVjaWZpYyBzeXNyb290IHVzZXMgaGFyZCBsaW5rcyB0byBhIGNvbW1vbnMgbG9jYXRpb24gaXNu
-4oCZdCB0aGF0IGhhcHBlbmluZyBpbiB5b3VyIGJ1aWxkJm5ic3A7PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAj
-Q0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7
-bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
-eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+
-Jm5ic3A7PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1h
-cmdpbi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPlRoYW5rcyw8bzpw
-PjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1h
-bHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+Q2hyaXM8bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tLTxicj4NCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJyPg0KT3BlbmVtYmVkZGVkLWNv
-cmUgbWFpbGluZyBsaXN0PGJyPg0KPGEgaHJlZj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5PcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUiIHRhcmdldD0i
-X2JsYW5rIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29w
-ZW5lbWJlZGRlZC1jb3JlPC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.10.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.10.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.10.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.10.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 4eaca755971..9357079df4e 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://cmake-Prevent-the-detection-of-Qt5.patch \
+            "
+ 
+-SRC_URI[md5sum] = "732808e17fc14dc8cee50d51518c34eb"
+-SRC_URI[sha256sum] = "80d0faad4ab56de07aa21a7fc692c88c4ce6156d42b0579c6962004a70a3218b"
++SRC_URI[md5sum] = "1c38c67295ca696aeafd8c059d748b38"
++SRC_URI[sha256sum] = "0c3a1dcf0be03e40cf4f341dda79c96ffb6c35ae35f2f911845b72dab3559cf8"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake_3.10.2.bb b/meta/recipes-devtools/cmake/cmake_3.10.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.10.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.10.3.bb
+-- 
+2.16.3
 
---_000_BN6PR1201MB019536F8DCE02A890116E7A08BA70BN6PR1201MB0195_--
+
