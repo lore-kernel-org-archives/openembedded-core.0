@@ -1,48 +1,46 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B35746DC
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0101D74713
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Apr 2018 21:15:30 +0000 (UTC)
-Received: by mail-lf0-f54.google.com with SMTP id v207-v6so18328872lfa.10
+	Sun,  1 Apr 2018 21:49:57 +0000 (UTC)
+Received: by mail-yb0-f174.google.com with SMTP id z5-v6so4514900ybo.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Apr 2018 14:15:32 -0700 (PDT)
+	Sun, 01 Apr 2018 14:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=aeEZnvvtCtrqt5MrXOBs7WbGnE+h45uUmu2PuVVYfoo=;
-	b=bErb8Rq6BnYW0Nxd/A6ZbzNJLOGEdoLMmhhM4WFx0EDcv2gmD5aPikUjnkh/t9d80C
-	AnjellZsdXIz+2+vBc2w2IWp4AdPxH4ejDVSfM6Opka4EaAo4nluGcB8qG3G4ffSdckc
-	7eQI8gTz9LsHI+PuWKa0gXkaVjoakAh5o+OAKKBvXF8f0GS7h8aNAqqm9OEvmrDk7Ghc
-	+IEbxLa/4JAAbxFLhx095TFdHbhZ5UliOmEjrNxxrVa/sBFTTxYkemeg6Tf515JrfZBU
-	vUovgMeWbzEhdV6iBckIwrpPh1S8wqlV1xNFJlAhJm/GvnCw2iPRfCgx34JcjD/nkDig
-	jXvA==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=jqQztTptPGMNVEoaiFA5h5KXnrBgacki5cFONIR65DI=;
+	b=LQuPCYkSIgHhjNfbv1yen+oPVDwPC1B7OFA0BMFNE1PBtebS2WfFop1Z7NJdW/E7TR
+	HYtKjOwHzFKkltccm9AZPaUMGPMvGa9J+oTpFhZObFAyu+9HWcD9Xs0uKM0ILB6XXzM/
+	mDd++wOT2awZ//lvhLOotcSJx59wSdQ1GGbRDa+8fkWef5jzH68pcIwO6sYqdGUuLnyv
+	YeeL4rIS6Ih5V87KdHLT1r+WhHEsm2cs4pAr9Rmn4orUXFE6jselpo84kRTkOz8pfVj4
+	e7J2QlSu9pklcGRff8Bw+nr8T2eeSkbWnFBxRXlICmTCg3xAzxZ1klIruOUBAHGZeOMH
+	Ns4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aeEZnvvtCtrqt5MrXOBs7WbGnE+h45uUmu2PuVVYfoo=;
-	b=E47Z7ayGQAoPqBKWbjsIH4yowtsgFPpSNwZr2UxLOdPZfAxetNdLah2dYznMPWAC1y
-	u+EgKeuNwSwezhJeyzWnBteiM3OyaO7oiWfskPC2qBeChiARgLq445ww7Z4tZVxaEt3g
-	BaH7KnJXFI9V7FpDgH67oQOFqoI1BkqPdhKB49vPDiH9hotH2jKmyURRnGHeyLIkRY/a
-	BjpKpx62Hk6LZ4aptW0AbxhYxIHn8U5JJaKrDBg58z9XdS0O5TjZUm7zEuc12Bs0D7qf
-	Dcsy0YKhifNNStyxULFJ27Ry7mwRC3/+2cGBwxFz/668AfehDuek1wWtrDjXToxgWm4Y
-	/DDw==
-X-Gm-Message-State: ALQs6tC1+OqO57UmrnHzAZX3s8iipwyA9iCd85ixBX7Fq4F+LOWq35gC
-	ohgUq7n216PgN89RpMHqlqLwXQ==
-X-Google-Smtp-Source: AIpwx4/LSXmXSe6sRWrJdSLUmMeEUK3y/jTAo0lzothPyBkPGb/kQdXvstsV6FAG50cGbWppfuhhCg==
-X-Received: by 10.46.31.17 with SMTP id f17mr46242ljf.114.1522617331173;
-	Sun, 01 Apr 2018 14:15:31 -0700 (PDT)
-Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
-	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
-	d24-v6sm2622270lfc.51.2018.04.01.14.15.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Apr 2018 14:15:30 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Apr 2018 23:15:27 +0200
-Message-Id: <1522617327-11940-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] recipetool: create: fix port number parsing issue
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=jqQztTptPGMNVEoaiFA5h5KXnrBgacki5cFONIR65DI=;
+	b=nLEy0/GM/tiEnifTrqRhcbOpw6tHm8HJkoBrtqzyCG1P6J8WwXXuhFVPLEEz0+QO5n
+	QD/HoNd8MIomU4nYYgT+M9pQViQAAet9WnAhEtw17sMFUvDV2JndLwHf/bZyuYbK+pUw
+	pplG/EwJJxrxx8OkKr0gKyK4brfbi8SgB6WsQenm+ABffzVtSSEmZLehZA8Ya092rRe1
+	ajoRngLzFgUlLs7qDAUkS52EuHcH8rU2KN64meGtIVP50x3s9RwkMuk12quJkRB0XZyg
+	UFnni+X2o36+DzoVE4j1jHy9vf4HjKMiL2dYSCd2UVe4zrsNRY50xqKhsqchABx7Kh0a
+	xoWg==
+X-Gm-Message-State: ALQs6tBhb0nLms3gGamTIOMJA2cct1M9ZN4h+pS7xnwJ2ZspA1WaO1R6
+	vhzrXY6KJM0V1zWsJtfuJSzpSQ7OevdIlqN1W+I=
+X-Google-Smtp-Source: AIpwx48ww00DBnE4grh3b+yPULo8pCozZk/AcQdiSktvYfeogzzWnv69949iXKKVbHPkuFqUhjPQVrvQDoRDfEPUyq8=
+X-Received: by 2002:a25:d388:: with SMTP id
+	e130-v6mr3951755ybf.224.1522619398588; 
+	Sun, 01 Apr 2018 14:49:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a25:d105:0:0:0:0:0 with HTTP;
+	Sun, 1 Apr 2018 14:49:58 -0700 (PDT)
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sun, 1 Apr 2018 23:49:58 +0200
+Message-ID: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: kernel menuconfig broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +53,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2018 21:15:31 -0000
+X-List-Received-Date: Sun, 01 Apr 2018 21:49:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+Hi
 
-A flaw was found when I run:
-$ recipetool create "ssh://git@xxx.xxx:7999/xxx.git"
+When running bitbake -cmenuconfig virtual/kernel I get a flood of
 
-the url turned out to be: "git://git@xxx.xxx/7999/xxx.git;protocol=ssh"
-after parsing, the port number was parsed as part of the path, this is
-definitely wrong and lead to fetching failures.
+undefined reference errors. Am I alone here?
 
-This issue could be fixed in reformat_git_uri, by filtering out port
-numbers when formatting ":".
+Cheers
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- scripts/lib/recipetool/create.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 2fc9e0a..a371028 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -383,8 +383,10 @@ def reformat_git_uri(uri):
-         # which causes decodeurl to fail getting the right host and path
-         if len(host.split(':')) > 1:
-             splitslash = host.split(':')
--            host = splitslash[0]
--            path = '/' + splitslash[1] + path
-+            # Port number should not be split from host
-+            if not re.match('^[0-9]+$', splitslash[1]):
-+                host = splitslash[0]
-+                path = '/' + splitslash[1] + path
-         #Algorithm:
-         # if user is defined, append protocol=ssh or if a protocol is defined, then honor the user-defined protocol
-         # if no user & password is defined, check for scheme type and append the protocol with the scheme type
--- 
-2.7.4
-
+Andreas
 
