@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CCCA874800
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 96B92745DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Apr 2018 22:20:57 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w32MKtdR013878
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 2 Apr 2018 23:20:57 +0100
-Message-ID: <1522707655.11431.230.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Seebs <seebs@seebs.net>, Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 02 Apr 2018 23:20:55 +0100
-In-Reply-To: <1522501975.11431.208.camel@linuxfoundation.org>
-References: <20180327154802.14611-1-ross.burton@intel.com>
-	<CAJ86T=WCAKWoQhxM+2ako7cYJH2RieuGyuLMXcmjNETBidbsaA@mail.gmail.com>
-	<CAJTo0LZUdMAtWKtGnPstotRGiHUPwZ_80PmuSzj5wpAFWGcN0Q@mail.gmail.com>
-	<CAJ86T=WcgEo8SFRLPeRXyFXU-tRwXn0bXdYjiV4D9G19BOWuDg@mail.gmail.com>
-	<20180331000631.5f050451@seebsdell>
-	<1522501975.11431.208.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
+	Mon,  2 Apr 2018 23:54:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w32Nsnsf008375
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Apr 2018 16:54:49 -0700 (PDT)
+Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 2 Apr 2018 16:54:48 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 3 Apr 2018 07:54:46 +0800
+Message-ID: <1522713286-28799-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.163.220]
+Subject: [PATCH V2] logrotate: update to 3.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,18 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2018 22:20:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Apr 2018 23:54:48 -0000
+Content-Type: text/plain
 
-And on a happier note this time, pseudo master appears much happier and
-19f18124f16c4c85405b140a1fb8cb3b31d865bf seems to pass on the
-autobuilders. I'll do some specific checks on f27 but things are
-looking good, thanks everyone who's helped with this.
+Since the wtmp and btmp definitions had been moved from logrotate.conf
+to logrotate.d in this release, we also need to install them to
+/etc/logrotate.d/.
 
-Cheers,
+Also update oeqa runtime logrotate test case.
 
-Richard
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/logrotate.py                       |  4 ++--
+ .../logrotate/{logrotate_3.13.0.bb => logrotate_3.14.0.bb}     | 10 +++++++---
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/logrotate/{logrotate_3.13.0.bb => logrotate_3.14.0.bb} (88%)
 
+diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
+index 992fef2..db6e695 100644
+--- a/meta/lib/oeqa/runtime/cases/logrotate.py
++++ b/meta/lib/oeqa/runtime/cases/logrotate.py
+@@ -21,9 +21,9 @@ class LogrotateTest(OERuntimeTestCase):
+         self.assertEqual(status, 0, msg = msg)
+ 
+         cmd = ('sed -i "s#wtmp {#wtmp {\\n    olddir $HOME/logrotate_dir#"'
+-               ' /etc/logrotate.conf')
++               ' /etc/logrotate.d/wtmp')
+         status, output = self.target.run(cmd)
+-        msg = ('Could not write to logrotate.conf file. Status and output: '
++        msg = ('Could not write to logrotate.d/wtmp file. Status and output: '
+                ' %s and %s' % (status, output))
+         self.assertEqual(status, 0, msg = msg)
+ 
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb b/meta/recipes-extended/logrotate/logrotate_3.14.0.bb
+similarity index 88%
+rename from meta/recipes-extended/logrotate/logrotate_3.13.0.bb
+rename to meta/recipes-extended/logrotate/logrotate_3.14.0.bb
+index 990cf91..d48539f 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.14.0.bb
+@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz
+             file://disable-check-different-filesystems.patch \
+             "
+ 
+-SRC_URI[md5sum] = "78ef24d6fddcc4df8e412dd75c551b4c"
+-SRC_URI[sha256sum] = "3222ca032f99be8d7a4a8c6ad69f3dcc49b9511bfe384bd5a271ebcd9bd3e52c"
++SRC_URI[md5sum] = "1c0f6e6e490c4bcac0a1e77ad1310683"
++SRC_URI[sha256sum] = "4703bdc0e2df3b322f9dff0aafc99aa9172c9e4acae28b7c924cc7d4e5b29d55"
+ 
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
+ 
+@@ -34,7 +34,9 @@ PACKAGECONFIG[acl] = ",,acl"
+ PACKAGECONFIG[selinux] = ",,libselinux"
+ 
+ CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
+-		    ${sysconfdir}/logrotate.conf"
++		    ${sysconfdir}/logrotate.conf \
++		    ${sysconfdir}/logrotate.d/btmp \
++		    ${sysconfdir}/logrotate.d/wtmp"
+ 
+ # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
+ # optimization variables, so use it rather than EXTRA_CFLAGS.
+@@ -68,6 +70,8 @@ do_install(){
+     mkdir -p ${D}${sysconfdir}/logrotate.d
+     mkdir -p ${D}${localstatedir}/lib
+     install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
++    install -p -m 644 ${S}/examples/btmp ${D}${sysconfdir}/logrotate.d/btmp
++    install -p -m 644 ${S}/examples/wtmp ${D}${sysconfdir}/logrotate.d/wtmp
+     touch ${D}${localstatedir}/lib/logrotate.status
+ 
+     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-- 
+2.7.4
 
 
