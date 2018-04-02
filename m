@@ -1,46 +1,44 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0101D74713
+Return-Path: <rruslich@cisco.com>
+X-Greylist: delayed 605 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 02 Apr 2018 13:52:40 UTC
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 70025745B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Apr 2018 21:49:57 +0000 (UTC)
-Received: by mail-yb0-f174.google.com with SMTP id z5-v6so4514900ybo.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Apr 2018 14:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=jqQztTptPGMNVEoaiFA5h5KXnrBgacki5cFONIR65DI=;
-	b=LQuPCYkSIgHhjNfbv1yen+oPVDwPC1B7OFA0BMFNE1PBtebS2WfFop1Z7NJdW/E7TR
-	HYtKjOwHzFKkltccm9AZPaUMGPMvGa9J+oTpFhZObFAyu+9HWcD9Xs0uKM0ILB6XXzM/
-	mDd++wOT2awZ//lvhLOotcSJx59wSdQ1GGbRDa+8fkWef5jzH68pcIwO6sYqdGUuLnyv
-	YeeL4rIS6Ih5V87KdHLT1r+WhHEsm2cs4pAr9Rmn4orUXFE6jselpo84kRTkOz8pfVj4
-	e7J2QlSu9pklcGRff8Bw+nr8T2eeSkbWnFBxRXlICmTCg3xAzxZ1klIruOUBAHGZeOMH
-	Ns4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=jqQztTptPGMNVEoaiFA5h5KXnrBgacki5cFONIR65DI=;
-	b=nLEy0/GM/tiEnifTrqRhcbOpw6tHm8HJkoBrtqzyCG1P6J8WwXXuhFVPLEEz0+QO5n
-	QD/HoNd8MIomU4nYYgT+M9pQViQAAet9WnAhEtw17sMFUvDV2JndLwHf/bZyuYbK+pUw
-	pplG/EwJJxrxx8OkKr0gKyK4brfbi8SgB6WsQenm+ABffzVtSSEmZLehZA8Ya092rRe1
-	ajoRngLzFgUlLs7qDAUkS52EuHcH8rU2KN64meGtIVP50x3s9RwkMuk12quJkRB0XZyg
-	UFnni+X2o36+DzoVE4j1jHy9vf4HjKMiL2dYSCd2UVe4zrsNRY50xqKhsqchABx7Kh0a
-	xoWg==
-X-Gm-Message-State: ALQs6tBhb0nLms3gGamTIOMJA2cct1M9ZN4h+pS7xnwJ2ZspA1WaO1R6
-	vhzrXY6KJM0V1zWsJtfuJSzpSQ7OevdIlqN1W+I=
-X-Google-Smtp-Source: AIpwx48ww00DBnE4grh3b+yPULo8pCozZk/AcQdiSktvYfeogzzWnv69949iXKKVbHPkuFqUhjPQVrvQDoRDfEPUyq8=
-X-Received: by 2002:a25:d388:: with SMTP id
-	e130-v6mr3951755ybf.224.1522619398588; 
-	Sun, 01 Apr 2018 14:49:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:d105:0:0:0:0:0 with HTTP;
-	Sun, 1 Apr 2018 14:49:58 -0700 (PDT)
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Sun, 1 Apr 2018 23:49:58 +0200
-Message-ID: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: kernel menuconfig broken?
+	Mon,  2 Apr 2018 13:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1571; q=dns/txt; s=iport;
+	t=1522677162; x=1523886762;
+	h=from:to:cc:subject:date:message-id:in-reply-to: references;
+	bh=Bn64u7aXfhk7CWJUL7GdD2+rqja1RpzZK5Q/AqtDfr8=;
+	b=TLtl40iwilfSyyMW2k8Ff9JSus5XjIIi1lCeSi+huucN8qi4rNLJtaDZ
+	QUL9wjJyHbv2VkZA29X4svUk8ugqtv49fl7/VaRO9/EOhNnjd+6HW29Hv
+	IqeO4lf8eb/5QTf5x3SUoOfV1CHhVAj3xSCRjpda4cm5hvY49BEUWpdky w=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CUAABNMsJa/xbLJq1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYUSKItcXo8mklOBeguFBAKEUzQYAQIBAQEBAQECayiFJQZ?=
+	=?us-ascii?q?5EFFXGYUADbBThFWDZoIrFIkhP4lLhQgCjE+KawiOLgKMNY9WAhETAYElHDi?=
+	=?us-ascii?q?BUnAVgn2QUDwwjioBAQ?=
+X-IronPort-AV: E=Sophos;i="5.48,395,1517875200"; 
+   d="scan'208";a="2954476"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-3.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Apr 2018 13:42:40 +0000
+Received: from rruslich-ThinkPad-W550s.cisco.com (dhcp-10-61-103-248.cisco.com
+	[10.61.103.248])
+	by aer-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id w32DgZw3013507
+	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
+	Mon, 2 Apr 2018 13:42:39 GMT
+From: Ruslan Ruslichenko <rruslich@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Apr 2018 16:42:19 +0300
+Message-Id: <1522676539-16675-2-git-send-email-rruslich@cisco.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1522676539-16675-1-git-send-email-rruslich@cisco.com>
+References: <1522676539-16675-1-git-send-email-rruslich@cisco.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH 2/2] tune-core2.inc: add cpu type for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,16 +51,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Apr 2018 21:49:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 Apr 2018 13:52:40 -0000
 
-Hi
+Define cpu type for Qemu in QEMU_EXTRAOPTIONS.
+Otherways Qemu will emulate some virtual qemu32/64 processor,
+which has very basic set of features, and programs built
+for later CPU may crash, due to lack of new features (e.g. SSSE3).
 
-When running bitbake -cmenuconfig virtual/kernel I get a flood of
+Signed-off-by: Ruslan Ruslichenko <rruslich@cisco.com>
+---
+ meta/conf/machine/include/tune-core2.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-undefined reference errors. Am I alone here?
+diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
+index 6a03466..c686bb4 100644
+--- a/meta/conf/machine/include/tune-core2.inc
++++ b/meta/conf/machine/include/tune-core2.inc
+@@ -21,15 +21,18 @@ TUNE_FEATURES_tune-core2-32 = "${TUNE_FEATURES_tune-x86} core2"
+ BASE_LIB_tune-core2-32 = "lib"
+ TUNE_PKGARCH_tune-core2-32 = "core2-32"
+ PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i686} core2-32"
++QEMU_EXTRAOPTIONS_core2-32 = " -cpu core2duo"
+ 
+ AVAILTUNES += "core2-64"
+ TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
+ BASE_LIB_tune-core2-64 = "lib64"
+ TUNE_PKGARCH_tune-core2-64 = "core2-64"
+ PACKAGE_EXTRA_ARCHS_tune-core2-64 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64} core2-64"
++QEMU_EXTRAOPTIONS_core2-64 = " -cpu core2duo"
+ 
+ AVAILTUNES += "core2-64-x32"
+ TUNE_FEATURES_tune-core2-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} core2"
+ BASE_LIB_tune-core2-64-x32 = "libx32"
+ TUNE_PKGARCH_tune-core2-64-x32 = "core2-64-x32"
+ PACKAGE_EXTRA_ARCHS_tune-core2-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-x86-64-x32} core2-64-x32"
++QEMU_EXTRAOPTIONS_core2-64-x32 = " -cpu core2duo"
+-- 
+1.9.1
 
-Cheers
-
-Andreas
 
