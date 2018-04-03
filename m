@@ -1,27 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B5E3E71E4C
+Return-Path: <seebs@seebs.net>
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id E23CD748FD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 10:08:45 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w33A8ixV011305
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 3 Apr 2018 11:08:46 +0100
-Message-ID: <1522750124.11431.232.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 03 Apr 2018 11:08:44 +0100
-In-Reply-To: <1522749884.11431.231.camel@linuxfoundation.org>
-References: <1522699721-2863-1-git-send-email-alejandr@xilinx.com>
-	<1522749884.11431.231.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] python3: Improve logging capabilities for do_create_manifest
+	Tue,  3 Apr 2018 12:52:10 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 118812E8936;
+	Tue,  3 Apr 2018 07:52:10 -0500 (CDT)
+Date: Tue, 3 Apr 2018 07:52:09 -0500
+From: Seebs <seebs@seebs.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20180403075209.26c9c487@seebsdell>
+In-Reply-To: <1522749088-1400-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1522749088-1400-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: Claws Mail 3.15.1-dirty (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo: Upgrade to latest master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 10:08:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Apr 2018 12:52:11 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-04-03 at 11:04 +0100, Richard Purdie wrote:
-> On Mon, 2018-04-02 at 13:08 -0700, Alejandro Enedino Hernandez
-> Samaniego wrote:
-> > 
-> > Adds a couple of prints to get a nicer log, and creates a
-> > small summary or report after checking every module, it
-> > makes it more feasible for adoption, easier to debug why
-> > a module ended at a certain package and see how the
-> > manifest was created.
-> > 
-> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xili
-> > nx
-> > .com>
-> Can you rebase against master please as this clashes with one of your
-> other changes which already merged!
+On Tue,  3 Apr 2018 10:51:28 +0100
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 
-Actually, I have it applied now, thanks.
+> This change includes several bug fixes and improvements, including
+> better path handling (the existance of . and .. for files), handling
+> of the sticky bit, and syscall renameat2 handling and interception
+> through syscall() which was breaking coreutils mv operations on
+> fedora27.
+> 
+> [YOCTO #12594]
+> [YOCTO #12379]
+> [YOCTO #11643]
 
-Richard
+Ack. This looks reasonable to me. The only change since then is I
+finally went back and changed the default copyright notice for new
+auto-generated guts files. :P
+
+Just to be clear, this does *not* handle/support renameat2; it rejects
+it with ENOSYS. Actually handling renameat2 correctly requires a change
+to the pseudo IPC protocol, because it needs a way to express an atomic
+exchange, which requires having two dev/inode pairs in the message.
+
+-s
 
