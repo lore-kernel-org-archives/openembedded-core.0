@@ -1,45 +1,51 @@
-Return-Path: <msundius@sundius.com>
-Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 08040744C3
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DCE7744B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 20:04:36 +0000 (UTC)
-Received: by mail-ot0-f175.google.com with SMTP id a14-v6so2645675otf.6
+	Tue,  3 Apr 2018 20:14:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w33KEDi8020566
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 13:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sundius-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=XLLK5YmmV3TOQXWfkWUoGb5WiKsHckVVqZgTY27KADk=;
-	b=D9GAusIbCwDuay3z8Y8jAgdiUrpeIw42OuusspVf2Y4OHA2pk263fJWQz3q9OMsHDj
-	2FC7loweiLjpYXZ/i+cYDjXApDZpmCMx4bPOFyqd/C9yXeNtC1QeOi+sFfgQxpK9xsy6
-	JjXlq7rLSqT3Tdy0EgQJX+oQNsaMe7bGbyyydsu1Y7+o/JTjocUu3Megpx2DUYhAu+9e
-	J+63/xtRfuX5vU+q8srBWqWxym9wgHovTe2uYPSW9cKbDjlyQLZAzU8OhGTdA0dues1f
-	uOQkmrKX2DrV3W+Ipg5HxllFmkImMfZlGDOwp84At8sH4V/09eqT7hUzq6jx4ahnRxAq
-	ytPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=XLLK5YmmV3TOQXWfkWUoGb5WiKsHckVVqZgTY27KADk=;
-	b=dD8t7xUJqw/BVYBtR/NBJLacFEBpEmCpvrC9YHLFb63DJ86nmJc20SK1SciKOgI/rF
-	EyyPna1oM9uMh64QH1vMJLVoyyGtvMF1/JNZwqfZ0oaanXZMM4dxilLOFM9lngT+0xB4
-	hOEvQhJ2iQcgKBgI71sCX/QeI525h6H+eJL3xjy4+iQfwP9UIl6u/KZzFtBw1Y46Lfpv
-	iOmpbu5tlK7R/aef+1sZGuLBNO5DGtrPWKE5jm+5sZer3akkjki3lCzuFG25/zvDF+//
-	/YRoRfuiKQqGl1T3qjnrimR11/NOSwLJiRCxTvkyPADAsjlmmfCdFkl1eqf7/4rUlzyg
-	MzJQ==
-X-Gm-Message-State: ALQs6tBgUP/Vrnoc5b6eU9SCIhJnroIfprlqQn5ubPfoltwsTjb5vRxM
-	c/AutBnwl/TUVu3iBMXJPXh+5dZFh4IoDEEYnNLOh8qr
-X-Google-Smtp-Source: AIpwx4+LGEdSxoMCOhRPK0qVYOFjnvS1DBVP+KQksYumA0iobhW33X1d3uy9gj2BwMxD4eY9cgrClBWsyRgVOoUnZOI=
-X-Received: by 2002:a9d:38e5:: with SMTP id
-	k34-v6mr8381937ote.99.1522785877021; 
-	Tue, 03 Apr 2018 13:04:37 -0700 (PDT)
+	Tue, 3 Apr 2018 13:14:13 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 3 Apr 2018 13:14:12 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <CAGVhguFaRNREK3U6ivU7Z6xc2tuTFPpZ6dtsBB6rYjD0wTp=_w@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <3fafb7ba-06d2-60a9-421f-28162b9dfe01@windriver.com>
+Date: Tue, 3 Apr 2018 15:14:10 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 10.74.199.19 with HTTP; Tue, 3 Apr 2018 13:04:36 -0700 (PDT)
-From: C Michael Sundius <msundius@sundius.com>
-Date: Tue, 3 Apr 2018 16:04:36 -0400
-Message-ID: <CAGVhguFaRNREK3U6ivU7Z6xc2tuTFPpZ6dtsBB6rYjD0wTp=_w@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: netmap
+In-Reply-To: <CAGVhguFaRNREK3U6ivU7Z6xc2tuTFPpZ6dtsBB6rYjD0wTp=_w@mail.gmail.com>
+Subject: Re: netmap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,35 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 20:04:37 -0000
-Content-Type: multipart/alternative; boundary="00000000000045ce210568f73776"
+X-List-Received-Date: Tue, 03 Apr 2018 20:14:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---00000000000045ce210568f73776
-Content-Type: text/plain; charset="UTF-8"
+On 4/3/18 3:04 PM, C Michael Sundius wrote:
+> I do not see netmap in the most recent version of meta-openembedded
+> (i.e.  http://info.iet.unipi.it/~luigi/netmap )
+> 
+> though, while googling around I see references to a recipe that existed some
+> time ago.
+> 
+> did this get removed for some reason  ... it didn't work well or there are
+> better more reliable solutions for mapping network io data into userspace?
 
-I do not see netmap in the most recent version of meta-openembedded
-(i.e.  http://info.iet.unipi.it/~luigi/netmap )
+It hasn't worked for a while, specifically:
 
-though, while googling around I see references to a recipe that existed
-some time ago.
+netmap requires netmap-modules.  netmap-modules no longer builds as of at least
+2017-09-01.
 
-did this get removed for some reason  ... it didn't work well or there are
-better more reliable solutions for mapping network io data into userspace?
+You would need to try to re-create it from the pyro branch to have any chance
+for it to be re-accepted.
 
-thanks
-Mike Sundius
+--Mark
 
---00000000000045ce210568f73776
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> thanks
+> Mike Sundius
+> 
+> 
 
-<div dir=3D"ltr"><div><div><div><div>I do not see netmap in the most recent=
- version of meta-openembedded<br></div><div>(i.e.=C2=A0 <a href=3D"http://i=
-nfo.iet.unipi.it/~luigi/netmap">http://info.iet.unipi.it/~luigi/netmap</a> =
-)<br></div><div><br></div>though, while googling around I see references to=
- a recipe that existed some time ago.<br><br></div>did this get removed for=
- some reason=C2=A0 ... it didn&#39;t work well or there are better more rel=
-iable solutions for mapping network io data into userspace?<br><br></div>th=
-anks<br></div>Mike Sundius<br></div>
 
---00000000000045ce210568f73776--
