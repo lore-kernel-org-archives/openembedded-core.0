@@ -1,48 +1,27 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E5306719A8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 38FE274887
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 12:58:35 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id q5-v6so20019809lff.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 05:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yIg9lOQg1EMuZxJju3xFHIt4ZeWjkyCcGNbjsGdKqMY=;
-	b=k7dpzE7VrFHF7+fhkkZF/LFS0vFkZ29ykO6BmQpu7pg1wbTsQoaEb3LWUyYZ7nQ1XZ
-	yQ6IyWC9/jP1+yM0Gj1CknlQqQyI2RuYO86d7mJi2yqS0YkRudMJn8GCUEXRU73g3aSE
-	rp8gxYd5AKVEd+HxeU99B0zkxpCR4KuK7Bit330EJ4RYEZ6luAk4OIqriPwwRtuR2PTA
-	1FsRcCwP9Lg4lMFf3wJ/rTdA7ULPg0IYgHpzjTG37PuPcdGY/M3rh+4YXSvrBjVf1XxN
-	xCJWAYblj6Ru9Mp6rxK9KgWKFFmkVd0B79LBd+yYqDIy6BuaPv5zIoQ2w+/QoLzJeV/M
-	otqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yIg9lOQg1EMuZxJju3xFHIt4ZeWjkyCcGNbjsGdKqMY=;
-	b=KsDPdQ0l0cPhe2e/Q32WxM5aOHA1kkdFU12F/4u7awu6NgIzFxhkqBPmtXLCQGHOHD
-	0+Rqr801hbvYQDguqb9nFKrAVDp1EBROrZY0Kt/8OvPDctLXh/T3mxeahbStILDdASQ5
-	7B4znD4QMoLRJ2Ffd7PDSvFX5EORvHXmR7umvYZa+tKgb0CsVMenRDwQb1fHxIWajH6l
-	K/b2ctKcj0doCkV9osmm+jzs1PzNcAsT+sHWQrTTociHqMHIpLqfnNlEXtQFhd6tkEL2
-	Je5DdC4K5cE0UP1LEKS9i013BmB2WwvL3nrUf8z3F/+mnOb5RimasxkMI6L63IxOIRM2
-	iG1g==
-X-Gm-Message-State: ALQs6tB1fPcixi451CxrK9g7JR1se1rKZAfOfjAqYw0K3q0kOF7GXuIT
-	482ODBJSkJ8IGfBZx3WpcJevWhHdMEAuc+uaPAw=
-X-Google-Smtp-Source: AIpwx4+fsXUyxCeUEXzofZQZ+7wZ4vTsXZ+QuGbcgEqtoBneP4XvpGNPeD/hUM6nNnJXRBDCOHkKvxHbGTPstV7BWKk=
-X-Received: by 10.46.154.145 with SMTP id p17mr8424440lji.28.1522760316063;
-	Tue, 03 Apr 2018 05:58:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Tue, 3 Apr 2018 05:58:35 -0700 (PDT)
-In-Reply-To: <20180403042331.24524-1-net147@gmail.com>
-References: <20180403042331.24524-1-net147@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Apr 2018 08:58:35 -0400
-Message-ID: <CADkTA4PPm8GXxWAEk_yigy-7=xY1-ARfjKJW2CW__qbypDsizQ@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue,  3 Apr 2018 13:56:37 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w33Dub23030283
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 3 Apr 2018 14:56:38 +0100
+Message-ID: <1522763797.11431.234.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Cuero Bugot <cbugot@sierrawireless.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: improve reproducibility
+Date: Tue, 03 Apr 2018 14:56:37 +0100
+In-Reply-To: <BY1PR02MB11478B00DEE78E80BF02468CA3A10@BY1PR02MB1147.namprd02.prod.outlook.com>
+References: <CY1PR02MB115212269AF12AA9BC2963DBA3D40@CY1PR02MB1152.namprd02.prod.outlook.com>
+	<BY1PR02MB11478B00DEE78E80BF02468CA3A10@BY1PR02MB1147.namprd02.prod.outlook.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] uninative: add variables to the whitelist so that it does not re-triger recipe parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,51 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 12:58:36 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 13:56:38 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 3, 2018 at 12:23 AM, Jonathan Liu <net147@gmail.com> wrote:
-> Set KBUILD_BUILD_VERSION=1 to avoid build version being incremented on
-> every build. It is visible in the output of "cat /proc/version" after
-> the hash character.
+On Fri, 2018-03-30 at 12:45 +0000, Cuero Bugot wrote:
+> > 
+> > > 
+> > > > 
+> > > > On Fri, Mar 16, 2018 at 10:31 AM Cuero Bugot <mailto:cbugot@sie
+> > > > rrawireless.com> wrote:
+> > > > When uninative is activated (poky's default) internal
+> > > > datastore 
+> > > > variables are modified (NATIVELSBSTRING and
+> > > > SSTATEPOSTUNPACKFUNCS) 
+> > > > to enable uninative support. This is happening after parsing is
+> > > > done at the beginning of the build. On the next bitbake call
+> > > > the recipe would be parsed if the two variables above were not
+> > > > added to the parsing whitelist BB_HASHCONFIG_WHITELIST.
+> > > > 
+> > > > The fix is to add these two variables to the recipe parsing 
+> > > > whitelist BB_HASHCONFIG_WHITELIST, this is done at recipe
+> > > > parsing time, only when uninative.bbclass is used.
+> > > 
+> > > It seems you have a case where data is already parsed and then 
+> > > uninstive is enabled after this the reparse is happening. Or is
+> > > it 
+> > > always happening when uninative is enabled
+> > It is always happening when uninative is enabled (which is poky's
+> > default). The 2 first times you build you will have a full recipe
+> > parsing.
+> > The reason is that the data is effectively modified on reception of
+> > BuildStarted event that happens after the parsing is done. Next
+> > time you run bitbake, the datastore signature is different and thus
+> > retrigger a recipe aprsing.
+> Anything I could do help make merge-in this proposal?
 
-It is possible that someone might actually want this feature, for debug or
-different build variants.
+Sorry about the delay, I wanted to check that we shouldn't be teaching
+get_hash() in data_smart.py in bitbake something about excludevardeps
+to make it work better.
 
-So this would be better as a variable that can be overridden.
+In short the answer is that no, we shouldn't and your patch is the
+better option. I've queued it in sumo-next. Thanks for figuring it out
+as it is an annoying problem.
 
-Bruce
+Cheers,
 
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 4877965af0..78d6c30b07 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -151,6 +151,7 @@ PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
->
->  export OS = "${TARGET_OS}"
->  export CROSS_COMPILE = "${TARGET_PREFIX}"
-> +export KBUILD_BUILD_VERSION = "1"
->  export KBUILD_BUILD_USER = "oe-user"
->  export KBUILD_BUILD_HOST = "oe-host"
->
-> --
-> 2.16.3
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Richard
 
