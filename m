@@ -1,24 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 96B92745DF
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 54763747E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Apr 2018 23:54:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w32Nsnsf008375
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Apr 2018 16:54:49 -0700 (PDT)
-Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 2 Apr 2018 16:54:48 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Apr 2018 07:54:46 +0800
-Message-ID: <1522713286-28799-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.163.220]
-Subject: [PATCH V2] logrotate: update to 3.14.0
+	Tue,  3 Apr 2018 01:15:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Apr 2018 18:15:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,398,1517904000"; d="scan'208";a="30205996"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga007.jf.intel.com with ESMTP; 02 Apr 2018 18:15:18 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Apr 2018 18:15:17 -0700
+Message-Id: <20180403011517.22772-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] initrdscripts: init-install(-efi).sh: don't assume 20M boot partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Apr 2018 23:54:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Apr 2018 01:15:18 -0000
 
-Since the wtmp and btmp definitions had been moved from logrotate.conf
-to logrotate.d in this release, we also need to install them to
-/etc/logrotate.d/.
+With multi kernel support in the installer we can exceed this limit.
+Calculate a sane size by checking the size of the original boot
+partition minus some objects we know won't be installed, plus some extra
+space for users.
 
-Also update oeqa runtime logrotate test case.
+In addition, in the common case where only one small kernel is present
+to be installed, we actually get a smaller boot partition with less
+wasted space.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+[YOCTO #12583].
+
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/lib/oeqa/runtime/cases/logrotate.py                       |  4 ++--
- .../logrotate/{logrotate_3.13.0.bb => logrotate_3.14.0.bb}     | 10 +++++++---
- 2 files changed, 9 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/logrotate/{logrotate_3.13.0.bb => logrotate_3.14.0.bb} (88%)
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 15 +++++++++++++--
+ meta/recipes-core/initrdscripts/files/init-install.sh     | 15 +++++++++++++--
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
-index 992fef2..db6e695 100644
---- a/meta/lib/oeqa/runtime/cases/logrotate.py
-+++ b/meta/lib/oeqa/runtime/cases/logrotate.py
-@@ -21,9 +21,9 @@ class LogrotateTest(OERuntimeTestCase):
-         self.assertEqual(status, 0, msg = msg)
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 43b75b01751..82b0aa819e3 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -8,8 +8,19 @@
  
-         cmd = ('sed -i "s#wtmp {#wtmp {\\n    olddir $HOME/logrotate_dir#"'
--               ' /etc/logrotate.conf')
-+               ' /etc/logrotate.d/wtmp')
-         status, output = self.target.run(cmd)
--        msg = ('Could not write to logrotate.conf file. Status and output: '
-+        msg = ('Could not write to logrotate.d/wtmp file. Status and output: '
-                ' %s and %s' % (status, output))
-         self.assertEqual(status, 0, msg = msg)
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
  
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb b/meta/recipes-extended/logrotate/logrotate_3.14.0.bb
-similarity index 88%
-rename from meta/recipes-extended/logrotate/logrotate_3.13.0.bb
-rename to meta/recipes-extended/logrotate/logrotate_3.14.0.bb
-index 990cf91..d48539f 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.14.0.bb
-@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz
-             file://disable-check-different-filesystems.patch \
-             "
+-# We need 20 Mb for the boot partition
+-boot_size=20
++# figure out how big of a boot partition we need
++boot_size=$(du -ms /run/media/$1/ | awk '{print $1}')
++# remove rootfs.img ($2) from the size if it exists, as its not installed to /boot
++if [ -e /run/media/$1/$2 ]; then
++    boot_size=$(( boot_size - $( du -ms /run/media/$1/$2 | awk '{print $1}') ))
++fi
++# remove initrd from size since its not currently installed
++if [ -e /run/media/$1/initrd ]; then
++    boot_size=$(( boot_size - $( du -ms /run/media/$1/initrd | awk '{print $1}') ))
++fi
++# add 10M to provide some extra space for users and account
++# for rounding in the above subtractions
++boot_size=$(( boot_size + 10 ))
  
--SRC_URI[md5sum] = "78ef24d6fddcc4df8e412dd75c551b4c"
--SRC_URI[sha256sum] = "3222ca032f99be8d7a4a8c6ad69f3dcc49b9511bfe384bd5a271ebcd9bd3e52c"
-+SRC_URI[md5sum] = "1c0f6e6e490c4bcac0a1e77ad1310683"
-+SRC_URI[sha256sum] = "4703bdc0e2df3b322f9dff0aafc99aa9172c9e4acae28b7c924cc7d4e5b29d55"
+ # 5% for swap
+ swap_ratio=5
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index aa9476660ba..28e8f09d19d 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -7,8 +7,19 @@
  
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
+ PATH=/sbin:/bin:/usr/sbin:/usr/bin
  
-@@ -34,7 +34,9 @@ PACKAGECONFIG[acl] = ",,acl"
- PACKAGECONFIG[selinux] = ",,libselinux"
+-# We need 20 Mb for the boot partition
+-boot_size=20
++# figure out how big of a boot partition we need
++boot_size=$(du -ms /run/media/$1/ | awk '{print $1}')
++# remove rootfs.img ($2) from the size if it exists, as its not installed to /boot
++if [ -e /run/media/$1/$2 ]; then
++    boot_size=$(( boot_size - $( du -ms /run/media/$1/$2 | awk '{print $1}') ))
++fi
++# remove initrd from size since its not currently installed
++if [ -e /run/media/$1/initrd ]; then
++    boot_size=$(( boot_size - $( du -ms /run/media/$1/initrd | awk '{print $1}') ))
++fi
++# add 10M to provide some extra space for users and account
++# for rounding in the above subtractions
++boot_size=$(( boot_size + 10 ))
  
- CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
--		    ${sysconfdir}/logrotate.conf"
-+		    ${sysconfdir}/logrotate.conf \
-+		    ${sysconfdir}/logrotate.d/btmp \
-+		    ${sysconfdir}/logrotate.d/wtmp"
- 
- # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
- # optimization variables, so use it rather than EXTRA_CFLAGS.
-@@ -68,6 +70,8 @@ do_install(){
-     mkdir -p ${D}${sysconfdir}/logrotate.d
-     mkdir -p ${D}${localstatedir}/lib
-     install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
-+    install -p -m 644 ${S}/examples/btmp ${D}${sysconfdir}/logrotate.d/btmp
-+    install -p -m 644 ${S}/examples/wtmp ${D}${sysconfdir}/logrotate.d/wtmp
-     touch ${D}${localstatedir}/lib/logrotate.status
- 
-     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+ # 5% for the swap
+ swap_ratio=5
 -- 
-2.7.4
+2.14.3
 
 
