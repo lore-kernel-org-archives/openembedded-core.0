@@ -1,25 +1,66 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B3737489B
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EBFE74AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 22:20:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w33MKj9G028872
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 3 Apr 2018 23:20:46 +0100
-Message-ID: <1522794045.11431.272.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Jorns <ejo@pengutronix.de>, openembedded-core@lists.openembedded.org
-Date: Tue, 03 Apr 2018 23:20:45 +0100
-In-Reply-To: <20180120234441.18217-1-ejo@pengutronix.de>
-References: <20180120234441.18217-1-ejo@pengutronix.de>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: uol@pengutronix.de, "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: Re: [PATCH] base.bbclass: fix do_unpack[cleandirs] varflag handling
+	Tue,  3 Apr 2018 23:11:07 +0000 (UTC)
+Received: by mail-ot0-f175.google.com with SMTP id n40-v6so21302518otd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Apr 2018 16:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=0G8Vb4yTJxL+8Qtbkhl15PJP05cc7CvAk9oiveRVPEA=;
+	b=bJZvIx776YBZ54K1TwrRuC17srGYOtnedi/NEVji1xPc2UnFDRML6LLBBFGnT5ae7I
+	jgDU7CKp/7YAPWRhZsXcGvjXprrwfguBcPhTcJubWuhSguWl3ciTANQ2CxawWD9ddGzY
+	hnZ1VAR7JAPGQ/nDlNMuo2bSYmgCYF0N+3dGv0DzFM9IIUP8GoBFP3EuHscqIdebIuw9
+	LU5cvRmeQ1M+b7gjQz3s/16mMC2td2LBywOUtsyWHsYGWKhsDu1FXRknZnroFwAFUW2W
+	jEQwG7XMjLvlk1RvvxENQJo5RdeirkjhHPAwzPCTGcChfY1Fx+Fz5Tm/entK96InIHnw
+	K2cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=0G8Vb4yTJxL+8Qtbkhl15PJP05cc7CvAk9oiveRVPEA=;
+	b=D4xNAWUDAGc7oRLXimoXH4fg40F8AimVMmT1hfv/L8bTnn4cQay7iSVtylmqCLdLJt
+	A7bHT5WmEqA/xNSnWRWDdJmFo/2fHVJET9gL1bZTPhFBS3boZl90Zwlw9rwARC6bSRoX
+	R5U9FehSFLc0ro1hkY9TNL3wgPR/fLDEUJFmEyJWBQaWJ/7fpCCTFK+Jpm4/6WemyqZT
+	4OxgshsRP98h4nnrfKe7QBu0TUbxPWZROJI8oild4nrkwo6Fo3nx3ARx0bGF02I+JII3
+	VcTJHHXblLFBZbk+fBjD2emEFVpGMXIyLSvGI9rVI36bgDPd86o9Xjp6JBX2SgZ00w6Z
+	JzOQ==
+X-Gm-Message-State: AElRT7Fx0k8OfjXrlulNgK8IdHNd1YVb91xYGwCxfpUbpOVaNnh3+stC
+	V/TFQgB48cwqlmEqtIrJ6cCRGSwT
+X-Google-Smtp-Source: AIpwx49f/uuJb/xNx412sl+G6krIWOshi8rWcfDkU+mDaMmaSYaZkKPX99NaBUSP7rZ1HKUPh4InhA==
+X-Received: by 2002:a9d:51cf:: with SMTP id
+	d15-v6mr8672312oth.24.1522797068748; 
+	Tue, 03 Apr 2018 16:11:08 -0700 (PDT)
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
+	[209.85.218.53]) by smtp.gmail.com with ESMTPSA id
+	b41-v6sm2153352oth.60.2018.04.03.16.11.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Apr 2018 16:11:08 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f53.google.com with SMTP id z8-v6so17580565oix.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Apr 2018 16:11:07 -0700 (PDT)
+X-Received: by 2002:aca:f141:: with SMTP id
+	p62-v6mr9122946oih.56.1522797063912; 
+	Tue, 03 Apr 2018 16:11:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:58ca:0:0:0:0:0 with HTTP;
+	Tue, 3 Apr 2018 16:11:03 -0700 (PDT)
+In-Reply-To: <20180403213259.2391.8021@do.openembedded.org>
+References: <20180403210146.6040-1-otavio@ossystems.com.br>
+	<20180403213259.2391.8021@do.openembedded.org>
+Date: Tue, 3 Apr 2018 20:11:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKr9yxFHc0SEzCiN5ekGNKUL8Z3LA_AWsY6DYn3tTYkFtA@mail.gmail.com>
+Message-ID: <CAP9ODKr9yxFHc0SEzCiN5ekGNKUL8Z3LA_AWsY6DYn3tTYkFtA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIG1lc2E6IFVwZ3JhZGUgMTcuMy43IC0+IDE3LjMuOA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,91 +73,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 22:20:50 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 23:11:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Sun, 2018-01-21 at 00:44 +0100, Enrico Jorns wrote:
-> As introduced by a56fb90dc3805494eeaf04c60538425e8d52efc5 ('base.bbclass
-> wipe ${S} before unpacking source') the base.bbclass uses a python
-> anonymous function to set the 'do_unpack' varflag 'cleandirs' to either
-> '${S}' or '${S}/patches' depending on equality of '${S}' and '${WORKDIR}'.
-> 
-> Not that this only differs from the way almost all other recipes set or
-> modify a tasks 'cleandirs' flag, it also has a significant impact on the
-> kernel.bbclass (and possibly further ones) and causes incorrect
-> behavior for rebuilds triggered by source modification, e.g. by a change
-> of the defconfig file for a kernel build.
-> 
-> The kernel.bbclass tries to extend do_unpack[cleandirs]:
-> 
-> > 
-> > do_unpack[cleandirs] += " ${S} ${STAGING_KERNEL_DIR} ${B} ${STAGING_KERNEL_BUILDDIR}"
-> As python anonymous functions are evaluated at the very end of recipe
-> parsing, the d.setVarFlag('do_unpack', 'cleandirs', '${S}') statement in
-> base.bbclass will overwrite every modification to cleandirs that is done
-> as shown for the kernel class above.
-> 
-> As a result of this, a change to a kernels 'defconfig' will lead to an
-> updated defconfig file in ${WORKDIR}, but as ${B} never gets cleaned and
-> ${B}/.config still exists, it will not be copied to ${B}/.config and
-> thus not find its way in the build kernel.
-> 
-> This is a severe issue for the kernel development and build process!
-> 
-> This patch changes setting of the cleandirs varflag in base.bbclass to
-> a simple variable assignment as almost all other recipes do it. This now
-> again allows overwriting or appending the varflag with common methods
-> such as done in kernel.bbclass.
-> 
-> This issue affects morty, pyro, rocko and master.
-> 
-> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
-> ---
->  meta/classes/base.bbclass | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 912e81e002..2949b074d8 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -152,12 +152,8 @@ python base_do_fetch() {
->  addtask unpack after do_fetch
->  do_unpack[dirs] = "${WORKDIR}"
->  
-> -python () {
-> -    if d.getVar('S') != d.getVar('WORKDIR'):
-> -        d.setVarFlag('do_unpack', 'cleandirs', '${S}')
-> -    else:
-> -        d.setVarFlag('do_unpack', 'cleandirs', os.path.join('${S}', 'patches'))
-> -}
-> +do_unpack[cleandirs] = "${@d.getVar('S') if d.getVar('S') != d.getVar('WORKDIR') else os.path.join('${S}', 'patches')}"
-> +
->  python base_do_unpack() {
->      src_uri = (d.getVar('SRC_URI') or "").split()
->      if len(src_uri) == 0:
+On Tue, Apr 3, 2018 at 6:32 PM, Patchwork
+<patchwork@patchwork.openembedded.org> wrote:
+> == Series Details ==
+>
+> Series: mesa: Upgrade 17.3.7 -> 17.3.8
+...
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 4cedddb836)
 
-I have tried to add this and it breaks oe-selftest devtool tests:
+I based the patch on top of sumo-next to avoid the need of rebasing it
+for Ross and Richard. If it is indeed need to redo this on top of
+current sumo/master please let me know and I can do it promptly.
 
-https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/964/steps/Running%20oe-selftest/logs/stdio
-
-You can probably reproduce by running:
-
-oe-selftest -r devtool.DevtoolTests
-
-I have no idea why its doing that but it can't merge until we get to
-the bottom of why this is happening. I suspect this is why we've never
-merged the patch but we've never quite tracked down the patch causing
-the regressions and reported back until now, sorry.
-
-One alternative to you patch may be to use d.appendVarFlag in the
-anonymous python. I've not tested if that causes any problem with
-devtool.
-
-Cheers,
-
-Richard
-
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
