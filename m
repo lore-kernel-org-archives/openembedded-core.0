@@ -1,37 +1,23 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
-	by mail.openembedded.org (Postfix) with ESMTP id E9A5F74953
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 74DFB74928
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 15:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2605; q=dns/txt; s=iport;
-	t=1522769115; x=1523978715;
-	h=from:to:cc:subject:date:message-id;
-	bh=DljciNfIQgRBu2hvrWa9/ftHYyQBBjhA3VtDk0Ckuwk=;
-	b=jnjf0ztdSW9jXQQ+1aYkt9veUlamL8HpNVoyQcHvXkhXno6Pwph8H2CA
-	49KIikx+9IjrlFAChzklFhvexpDWZnQyGUkogcOGwWGbHsDeM7KSXtVKS
-	roeSghCAQA1YHQNNMQJBrpEMv+c1GG61XGLTPU0HiRwv5y9Z1kmn1kB87 A=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AXAgAgnMNa/49dJa1dGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8omGSDA5RPCxuEaIREITcVAQIBAQEBAQECayiGIoF?=
-	=?us-ascii?q?RhQ2vMIhDgiWHYYITg1yBf4NwhQgCjFOKaAiFUohdAoFoik2PVgIREwGBJTI?=
-	=?us-ascii?q?igVJNIxWCfQmCFxeONh8wjj0BAQ?=
-X-IronPort-AV: E=Sophos;i="5.48,401,1517875200"; d="scan'208";a="374177555"
-Received: from rcdn-core-7.cisco.com ([173.37.93.143])
-	by rcdn-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Apr 2018 15:25:12 +0000
-Received: from kamensky-w541.cisco.com ([10.82.174.186]) (authenticated bits=0)
-	by rcdn-core-7.cisco.com (8.14.5/8.14.5) with ESMTP id w33FP1rp001083
-	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Tue, 3 Apr 2018 15:25:10 GMT
-From: Victor Kamensky <kamensky@cisco.com>
+	Tue,  3 Apr 2018 15:51:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Apr 2018 08:51:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,401,1517904000"; d="scan'208";a="39069200"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2018 08:51:50 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2018 08:25:01 -0700
-Message-Id: <1522769101-4576-1-git-send-email-kamensky@cisco.com>
-X-Mailer: git-send-email 2.7.4
-X-Authenticated-User: kamensky@cisco.com
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [PATCH v2] oeqa/runtime/stap.py: add runtime test for systemtap
+Date: Tue,  3 Apr 2018 18:45:17 +0300
+Message-Id: <20180403154524.31588-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.16.1
+Subject: [PATCH 1/8] nativesdk-postinst-intercept: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,81 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 15:25:14 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 15:51:51 -0000
 
-Add runtime test for stap to test basic SystemTap
-operations: can compile very basic module and run on
-target device.
+Its use required a script from an external repo which hasn't been updated
+in 4 years, the recipe itself is out of date (doesn't install all
+intercepts), and there is no oe-selftest or documentation for this.
+If anyone still wants this, please do it in a separate layer.
 
-Note we disable (-DSTP_NO_VERREL_CHECK) SystemTap
-additional kernel release check since during OE testing
-mismatching kernel-devsrc and kernels are used.
-
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
+ meta/conf/distro/include/distro_alias.inc              |  1 -
+ meta/conf/distro/include/maintainers.inc               |  1 -
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb   |  1 -
+ .../nativesdk-postinst-intercept_1.0.bb                | 18 ------------------
+ 4 files changed, 21 deletions(-)
+ delete mode 100644 meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
 
- v2 updates:
-    * prepare in /usr/src/kernel make as in
-      kernelmodule.py
-
-    * use of uname -r for kernel release retrieval
-
-    * adds -DSTP_NO_VERREL_CHECK to allow mismatch
-      between running kernel and kernel-devsrc
-
- meta/lib/oeqa/runtime/cases/stap.py   | 33 +++++++++++++++++++++++++++++++++
- meta/lib/oeqa/runtime/files/hello.stp |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/stap.py
- create mode 100644 meta/lib/oeqa/runtime/files/hello.stp
-
-diff --git a/meta/lib/oeqa/runtime/cases/stap.py b/meta/lib/oeqa/runtime/cases/stap.py
-new file mode 100644
-index 0000000..fc728bf
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/stap.py
-@@ -0,0 +1,33 @@
-+import os
-+
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.core.decorator.data import skipIfNotFeature
-+
-+class StapTest(OERuntimeTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        src = os.path.join(cls.tc.runtime_files_dir, 'hello.stp')
-+        dst = '/tmp/hello.stp'
-+        cls.tc.target.copyTo(src, dst)
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        files = '/tmp/hello.stp'
-+        cls.tc.target.run('rm %s' % files)
-+
-+    @OETestID(1652)
-+    @skipIfNotFeature('tools-profile',
-+                      'Test requires tools-profile to be in IMAGE_FEATURES')
-+    @OETestDepends(['kernelmodule.KernelModuleTest.test_kernel_module'])
-+    def test_stap(self):
-+        cmds = [
-+            'cd /usr/src/kernel && make scripts prepare',
-+            'cd /lib/modules/`uname -r` && (if [ ! -L build ]; then ln -s /usr/src/kernel build; fi)',
-+            'stap --disable-cache -DSTP_NO_VERREL_CHECK /tmp/hello.stp'
-+            ]
-+        for cmd in cmds:
-+            status, output = self.target.run(cmd, 900)
-+            self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
-diff --git a/meta/lib/oeqa/runtime/files/hello.stp b/meta/lib/oeqa/runtime/files/hello.stp
-new file mode 100644
-index 0000000..3677147
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/hello.stp
-@@ -0,0 +1 @@
-+probe oneshot { println("hello world") }
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 8ec623befbd..13c7e652bc7 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -313,7 +313,6 @@ DISTRO_PN_ALIAS_pn-pkgconfig = "Ubuntu=pkg-config Fedora=pkgconfig"
+ DISTRO_PN_ALIAS_pn-pointercal-xinput = "OE-Core"
+ DISTRO_PN_ALIAS_pn-pong-clock = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-portmap = "Debian=rpcbind Fedora=rpcbind"
+-DISTRO_PN_ALIAS_pn-postinst-intercept = "OE-Core"
+ DISTRO_PN_ALIAS_pn-powertop = "Meego=powertop Fedora=powertop Debian=powertop OpenSuSE=powertop Mandriva=powertop"
+ DISTRO_PN_ALIAS_pn-ppp-dialin = "OE-Core"
+ DISTRO_PN_ALIAS_pn-presentproto = "Debian=x11proto-present-dev Fedora=xorg-x11-proto-devel"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e471891f2ce..48aff9537e4 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -527,7 +527,6 @@ RECIPE_MAINTAINER_pn-nativesdk-buildtools-perl-dummy = "Richard Purdie <richard.
+ RECIPE_MAINTAINER_pn-nativesdk-libtool = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-nativesdk-qemu-helper = "Juro Bystricky <juro.bystricky@intel.com>"
+-RECIPE_MAINTAINER_pn-nativesdk-postinst-intercept = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-ncurses = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-neard = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-neon = "Maxin B. John <maxin.john@intel.com>"
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 88e7c648b64..e2f61699946 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -23,7 +23,6 @@ RDEPENDS_${PN} = "\
+     nativesdk-makedevs \
+     nativesdk-dnf \
+     nativesdk-cmake \
+-    nativesdk-postinst-intercept \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
+     nativesdk-sdk-provides-dummy \
+     "
+diff --git a/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
+deleted file mode 100644
+index 938ac8ad7b3..00000000000
+--- a/meta/recipes-devtools/postinst-intercept/nativesdk-postinst-intercept_1.0.bb
++++ /dev/null
+@@ -1,18 +0,0 @@
+-SUMMARY = "Postinstall scriptlets"
+-LICENSE = "MIT"
+-
+-FILES_${PN}_append = " ${datadir}/postinst-intercepts/*"
+-
+-do_configure[noexec] = "1"
+-do_compile[noexec] = "1"
+-
+-do_install() {
+-	install -d ${D}${datadir}/postinst-intercepts
+-	install -m 755 ${COREBASE}/scripts/postinst-intercepts/postinst_intercept ${D}${datadir}/postinst-intercepts/
+-	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_font_cache ${D}${datadir}/postinst-intercepts/
+-	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_icon_cache ${D}${datadir}/postinst-intercepts/
+-	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_pixbuf_cache ${D}${datadir}/postinst-intercepts/
+-}
+-
+-inherit nativesdk
+-INHIBIT_DEFAULT_DEPS = "1"
 -- 
-2.7.4
+2.16.1
 
 
