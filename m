@@ -1,39 +1,39 @@
 Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B1AC74928
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A59A74998
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 17:23:55 +0000 (UTC)
+	Tue,  3 Apr 2018 17:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2349; q=dns/txt; s=iport;
-	t=1522776237; x=1523985837;
+	d=cisco.com; i=@cisco.com; l=2242; q=dns/txt; s=iport;
+	t=1522776258; x=1523985858;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=Ci96IzX/ViY8ZrFku40t0ovC6txGMWKd1gTZhY8dukY=;
-	b=VwIOEgitwJ7mm2AWWdcw7KpB+rFtqcN5AgmnC+u7176Pycz4TBtkHH7T
-	CPndIp9fVx+Heqb9aRRqbYAOVMYKiacCH9MzCJ4OrzzuVmxljWPT6hNxn
-	Imv1k/++LcU+CT8p3P16XLq7UviR0hatzal89ba2Sa1icexw7q0Wf1s+a g=;
+	bh=wZFLZHTnZeNK0kAU+BNJayfrit59KnU1+CuG+kQf66I=;
+	b=iubql3gnmN/uqCtROIw57BSr8jmgYRv9/mVgpuoqMwwNCt9XX6gD/5nl
+	qYZ/xN4kZAKtVyscFSZZGIzrlKI1YcWZAlzPAir/Txr95yB0uCa6QgkEq
+	k6JAv6fS4gaBgf3xHBdh0MZqpQl7ietsnYBrUYHSxGmfgC56OauVSNiAX A=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AYAgDZt8Na/4cNJK1dGQEBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYNCYW8omGODA5RPCx+EZAKEQiE4FAECAQEBAQEBAmsohSMGeRB?=
-	=?us-ascii?q?RVxmFDa9OiESCJYdhghODXIVvhQgCjFOKaAiFUohdAow1iRWGQQIREwGBJTMhg?=
-	=?us-ascii?q?VJNIxWCfQmQZB8wjj0BAQ?=
-X-IronPort-AV: E=Sophos;i="5.48,402,1517875200"; d="scan'208";a="158136718"
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AZAgBQuMNa/4cNJK1dGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8omGODA4sSiT0LG4RoAoRCITgUAQIBAQEBAQECayi?=
+	=?us-ascii?q?FIwZ5EFFXGYUNr0+IRIIlh2GCE4NchW+FCAKHIoUximgIhVKIXQKBaIpNj1Y?=
+	=?us-ascii?q?CERMBgSUzIYFSTSMVgn0JkGQfMI49AQE?=
+X-IronPort-AV: E=Sophos;i="5.48,402,1517875200"; d="scan'208";a="377260848"
 Received: from alln-core-2.cisco.com ([173.36.13.135])
-	by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Apr 2018 17:23:56 +0000
+	by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Apr 2018 17:23:53 +0000
 Received: from kamensky-w541.cisco.com ([10.82.174.186]) (authenticated bits=0)
-	by alln-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w33HNck4010603
+	by alln-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w33HNck2010603
 	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Tue, 3 Apr 2018 17:23:55 GMT
+	Tue, 3 Apr 2018 17:23:52 GMT
 From: Victor Kamensky <kamensky@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2018 10:23:36 -0700
-Message-Id: <1522776217-23250-5-git-send-email-kamensky@cisco.com>
+Date: Tue,  3 Apr 2018 10:23:34 -0700
+Message-Id: <1522776217-23250-3-git-send-email-kamensky@cisco.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1522776217-23250-1-git-send-email-kamensky@cisco.com>
 References: <1522776217-23250-1-git-send-email-kamensky@cisco.com>
 X-Authenticated-User: kamensky@cisco.com
 Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [PATCH v2 4/5] systemtap: create translator packageconfig
+Subject: [PATCH v2 2/5] Revert "systemtap: Cross compilation fix"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 17:23:56 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 17:24:16 -0000
 
-For cases when systemap module compilation happens on host in
-cross-compilation mode, and it is desirable to minimize systemtap
-presense on target we need to have just smallest possible set of
-utilties that are required to run compiled modules.
+This reverts commit 787bed708676fc04aee2850825e803273152f657.
 
-Introduce new "translator" PACKAGECONFIG, if it is not set
-it would mean that just minimal set of run-time utilities will
-be included in the package.
-
-For run-time only systemtap build variant use
-PACKAGECONFIG_pn-systemtap = "" or
-PACKAGECONFIG_pn-systemtap = "monitor"
-
-Suggested-by: Taras Kondratiuk <takondra@cisco.com>
 Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ .../systemtap/systemtap/system_map_location.patch  | 23 ----------------------
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 -
+ 2 files changed, 24 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 475b207..b280f58 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -3,9 +3,7 @@ HOMEPAGE = "https://sourceware.org/systemtap/"
- 
- require systemtap_git.inc
- 
--DEPENDS = "boost elfutils"
+diff --git a/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch b/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
+deleted file mode 100644
+index 013af5c..0000000
+--- a/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-systemtap: Cross compilation fix
 -
--RDEPENDS_${PN} += "python3-core bash perl"
-+DEPENDS = "elfutils"
+-This is a cross compilation fix. It allows systemtap to find
+-the kernel map file in the right place, i.e. in the kernel build tree.
+-Without this fix it takes a map file from the build host, if available.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+-
+-Index: git/session.cxx
+-===================================================================
+---- git.orig/session.cxx
+-+++ git/session.cxx
+-@@ -1634,7 +1634,7 @@ systemtap_session::parse_kernel_function
+- 	clog << _F("Kernel symbol table %s unavailable, (%s)",
+- 		   system_map_path.c_str(), strerror(errno)) << endl;
+- 
+--      system_map_path = "/boot/System.map-" + kernel_release;
+-+      system_map_path = kernel_build_tree + "/System.map-" + kernel_release;
+-       system_map.clear();
+-       system_map.open(system_map_path.c_str(), ifstream::in);
+-       if (! system_map.is_open())
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index f51bd28..af5b004 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -4,7 +4,6 @@ SRCREV = "4051c70c9318c837981384cbb23f3e9eb1bd0892"
+ PV = "3.2"
  
- EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-             --without-nss --without-avahi --without-dyninst \
-@@ -18,7 +16,8 @@ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
- 
- EXTRA_OECONF += "${STAP_DOCS} "
- 
--PACKAGECONFIG ??= "sqlite monitor python3-probes"
-+PACKAGECONFIG ??= "translator sqlite monitor python3-probes"
-+PACKAGECONFIG[translator] = "--enable-translator,--disable-translator,boost,python3-core bash perl"
- PACKAGECONFIG[libvirt] = "--enable-libvirt,--disable-libvirt,libvirt"
- PACKAGECONFIG[sqlite] = "--enable-sqlite,--disable-sqlite,sqlite3"
- PACKAGECONFIG[monitor] = "--enable-monitor,--disable-monitor,ncurses json-c"
-@@ -26,4 +25,12 @@ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,
- 
- inherit autotools gettext pkgconfig distutils3-base
- 
-+do_install_append () {
-+   if [ ! -f ${D}${bindir}/stap ]; then
-+      # translator disabled case, need to leave only minimal runtime
-+      rm -rf ${D}${datadir}/${PN}
-+      rm ${D}${libexecdir}/${PN}/stap-env
-+   fi
-+}
-+
- BBCLASSEXTEND = "nativesdk"
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+-           file://system_map_location.patch \
+            file://configure-allow-to-disable-libvirt.patch \
+            file://x32_abi_time.patch \
+            file://monitor-option.patch \
 -- 
 2.7.4
 
