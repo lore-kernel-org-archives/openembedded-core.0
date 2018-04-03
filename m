@@ -1,23 +1,49 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E5AB74852
+Return-Path: <net147@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AEB6B7482C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 01:40:09 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Apr 2018 18:40:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,398,1517904000"; d="scan'208";a="47451332"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga002.jf.intel.com with ESMTP; 02 Apr 2018 18:40:10 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
+	Tue,  3 Apr 2018 04:23:33 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id k6-v6so2097222pls.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Apr 2018 21:23:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=a+tGN8bsrLg4E8YV2B9P+DFpaVyGhlPNNQ759AwkRzc=;
+	b=SLr38qs8a3er/y733g+H5mFJ3MNXPciVejnHcSZ9oBBuPbgme6aUWNAkACpBUIu6Td
+	rMOOAooQUO+ijqEd+1wuf3EEPPhS5zI41zpym3LkXHdT5Poo1m99ua/lWvqmAaD7W/vs
+	7b9RCx/Rr6h5r4r6gGFCvW6GVK9nqaNiBZyQ5sLVcIbxR1vLB73vqqT6wcw4Zd2CjovJ
+	ibrCenwaOq3p53aGu842c91xmberG9v3AZF8cwRqBYBM6ru5u7cSH/ebF91x7v9q1gIi
+	7l9BTCb+75BKB/d7WX1ACOQ2qyu7XHO4w4oSTIPQZLpItaIP6q2a9lIYLBD6pwKysYh3
+	QRCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=a+tGN8bsrLg4E8YV2B9P+DFpaVyGhlPNNQ759AwkRzc=;
+	b=TS/VeRViRS5KaHosJIJ8Wm0qivvK+cyAfjT7eV3HxdGlbWcV0mslhvBSzVX0qGxM4H
+	nzjiv7Ybw82C5Ri2Pwp+a4OduenXYJSeo1WotxSWF38B+zNdZ++Hu6PXXJsQqc8YJCij
+	zr9uV3ZOVLEJ4bvFSwBvOuM0CLF0jk27gcTIWL+WwWc7jHlIBNAz6gcwc7oDTTs0yWet
+	ckdMYjvpdJGNMbwWcmclJPaKsNOxHL1rg2C30fkSclThCcZnar080ZEU5MocalgqaWQs
+	/OU9urUiDLMz/ElpoEMiPr21a1UiCENz3uGMFJomLjdZX63VxDxooIKryDKKIvypy+si
+	jYFQ==
+X-Gm-Message-State: AElRT7EVys+72HDod+49ZCFPqI2FLnrYpwzlbRPCJePWTVNJwcg/aKnP
+	hYE55/3QRr3rJjgtYl/s9Uk=
+X-Google-Smtp-Source: AIpwx490lV1GP4RXtxQ4eTqSvaDt1Uq/oWLZ81v91hDjX7lArgEkHotH2vnJzGJoaGnbNLQpgDC0kQ==
+X-Received: by 2002:a17:902:7894:: with SMTP id
+	q20-v6mr12724259pll.86.1522729414188; 
+	Mon, 02 Apr 2018 21:23:34 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	w27sm2857717pge.20.2018.04.02.21.23.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 02 Apr 2018 21:23:33 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Apr 2018 18:40:04 -0700
-Message-Id: <20180403014004.4151-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH v2] initrdscripts: init-install(-efi).sh: don't assume 20M boot partition
+Date: Tue,  3 Apr 2018 14:23:31 +1000
+Message-Id: <20180403042331.24524-1-net147@gmail.com>
+X-Mailer: git-send-email 2.16.3
+Subject: [PATCH] kernel.bbclass: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,139 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 01:40:10 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 04:23:33 -0000
 
-With multi kernel support in the installer we can exceed this limit.
-Calculate a sane size by checking the size of the original boot
-partition minus some objects we know won't be installed, plus some extra
-space for users.
+Set KBUILD_BUILD_VERSION=1 to avoid build version being incremented on
+every build. It is visible in the output of "cat /proc/version" after
+the hash character.
 
-In addition, in the common case where only one small kernel is present
-to be installed, we actually get a smaller boot partition with less
-wasted space.
-
-Also add VIRTUAL-RUNTIME_base-utils to RDEPENDS where these scripts are
-used, as they're needed for the du command.
-
-[YOCTO #12583].
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
-* v2: add VIRTUAL-RUNTIME_base-utils to RDEPENDS
+ meta/classes/kernel.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 15 +++++++++++++--
- meta/recipes-core/initrdscripts/files/init-install.sh     | 15 +++++++++++++--
- .../initrdscripts/initramfs-live-install-efi_1.0.bb       |  2 +-
- .../initrdscripts/initramfs-live-install_1.0.bb           |  2 +-
- .../initrdscripts/initramfs-module-install-efi_1.0.bb     |  2 +-
- .../initrdscripts/initramfs-module-install_1.0.bb         |  2 +-
- 6 files changed, 30 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 43b75b01751..82b0aa819e3 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -8,8 +8,19 @@
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4877965af0..78d6c30b07 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -151,6 +151,7 @@ PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
  
- PATH=/sbin:/bin:/usr/sbin:/usr/bin
+ export OS = "${TARGET_OS}"
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
++export KBUILD_BUILD_VERSION = "1"
+ export KBUILD_BUILD_USER = "oe-user"
+ export KBUILD_BUILD_HOST = "oe-host"
  
--# We need 20 Mb for the boot partition
--boot_size=20
-+# figure out how big of a boot partition we need
-+boot_size=$(du -ms /run/media/$1/ | awk '{print $1}')
-+# remove rootfs.img ($2) from the size if it exists, as its not installed to /boot
-+if [ -e /run/media/$1/$2 ]; then
-+    boot_size=$(( boot_size - $( du -ms /run/media/$1/$2 | awk '{print $1}') ))
-+fi
-+# remove initrd from size since its not currently installed
-+if [ -e /run/media/$1/initrd ]; then
-+    boot_size=$(( boot_size - $( du -ms /run/media/$1/initrd | awk '{print $1}') ))
-+fi
-+# add 10M to provide some extra space for users and account
-+# for rounding in the above subtractions
-+boot_size=$(( boot_size + 10 ))
- 
- # 5% for swap
- swap_ratio=5
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index aa9476660ba..28e8f09d19d 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -7,8 +7,19 @@
- 
- PATH=/sbin:/bin:/usr/sbin:/usr/bin
- 
--# We need 20 Mb for the boot partition
--boot_size=20
-+# figure out how big of a boot partition we need
-+boot_size=$(du -ms /run/media/$1/ | awk '{print $1}')
-+# remove rootfs.img ($2) from the size if it exists, as its not installed to /boot
-+if [ -e /run/media/$1/$2 ]; then
-+    boot_size=$(( boot_size - $( du -ms /run/media/$1/$2 | awk '{print $1}') ))
-+fi
-+# remove initrd from size since its not currently installed
-+if [ -e /run/media/$1/initrd ]; then
-+    boot_size=$(( boot_size - $( du -ms /run/media/$1/initrd | awk '{print $1}') ))
-+fi
-+# add 10M to provide some extra space for users and account
-+# for rounding in the above subtractions
-+boot_size=$(( boot_size + 10 ))
- 
- # 5% for the swap
- swap_ratio=5
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-index 2a7f84ddc8f..f588a1077bf 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
-@@ -5,7 +5,7 @@ SRC_URI = "file://init-install-efi.sh"
- 
- PR = "r1"
- 
--RDEPENDS_${PN} = "parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
-+RDEPENDS_${PN} = "parted e2fsprogs-mke2fs dosfstools util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- 
- S = "${WORKDIR}"
- 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-index a553a0d8ba5..9222d57c1ae 100644
---- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
-@@ -7,7 +7,7 @@ PR = "r9"
- 
- S = "${WORKDIR}"
- 
--RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs util-linux-blkid"
-+RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- 
- do_install() {
-         install -m 0755 ${WORKDIR}/init-install.sh ${D}/install.sh
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index 1e7f76fd565..78a61cde25f 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "initramfs-framework module for EFI installation option"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
-+RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- 
- PR = "r4"
- 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-index 02b69f37a4d..04e90cd302c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "initramfs-framework module for installation option"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
-+RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid ${VIRTUAL-RUNTIME_base-utils}"
- 
- # The same restriction as grub
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
 -- 
-2.14.3
+2.16.3
 
 
