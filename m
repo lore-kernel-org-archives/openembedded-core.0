@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 94EC5749D3
+	by mail.openembedded.org (Postfix) with ESMTP id CC5F771A84
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Apr 2018 15:51:52 +0000 (UTC)
+	Tue,  3 Apr 2018 15:51:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Apr 2018 08:51:53 -0700
+	03 Apr 2018 08:51:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,401,1517904000"; d="scan'208";a="39069203"
+X-IronPort-AV: E=Sophos;i="5.48,401,1517904000"; d="scan'208";a="39069207"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2018 08:51:52 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Apr 2018 08:51:54 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2018 18:45:19 +0300
-Message-Id: <20180403154524.31588-3-alexander.kanavin@linux.intel.com>
+Date: Tue,  3 Apr 2018 18:45:20 +0300
+Message-Id: <20180403154524.31588-4-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180403154524.31588-1-alexander.kanavin@linux.intel.com>
 References: <20180403154524.31588-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/8] package_manager.py: move postinst_intercept dir initialization from RootFS to PackageManager class
+Subject: [PATCH 4/8] package_manager.py: move intercept running logic from rootfs class to PackageManager class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,116 +32,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 15:51:52 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 15:51:53 -0000
 
-This will allow handling postinst_intercepts when populating SDKs (which
-use PackageManager class directly, and do not utilize RootFS class).
+This allows running the intercepts when creating SDKs, which previously
+wasn't possible, as SDK code does not use the rootfs class, and calls
+into PackageManager methods directly.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py | 25 +++++++++++++++++++------
- meta/lib/oe/rootfs.py          | 13 +------------
- 2 files changed, 20 insertions(+), 18 deletions(-)
+ meta/lib/oe/package_manager.py | 58 ++++++++++++++++++++++++++++++++++++++
+ meta/lib/oe/rootfs.py          | 64 +-----------------------------------------
+ 2 files changed, 59 insertions(+), 63 deletions(-)
 
 diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e0a114c3325..5b52fc9e713 100644
+index 5b52fc9e713..6c85a6d2c78 100644
 --- a/meta/lib/oe/package_manager.py
 +++ b/meta/lib/oe/package_manager.py
-@@ -12,6 +12,7 @@ import oe.utils
- import oe.path
- import string
- from oe.gpg_sign import get_signer
-+import hashlib
+@@ -348,6 +348,54 @@ class PackageManager(object, metaclass=ABCMeta):
+         bb.utils.remove(self.intercepts_dir, True)
+         shutil.copytree(postinst_intercepts_dir, self.intercepts_dir)
  
- # this can be used by all PM backends to create the index files in parallel
- def create_index(arg):
-@@ -331,6 +332,21 @@ class PackageManager(object, metaclass=ABCMeta):
-         self.target_rootfs = target_rootfs
-         self.deploy_dir = None
-         self.deploy_lock = None
-+        self._initialize_intercepts()
++    @abstractmethod
++    def _handle_intercept_failure(self, failed_script):
++        pass
 +
-+    def _initialize_intercepts(self):
-+        bb.note("Initializing intercept dir for %s" % self.target_rootfs)
-+        postinst_intercepts_dir = self.d.getVar("POSTINST_INTERCEPTS_DIR")
-+        if not postinst_intercepts_dir:
-+            postinst_intercepts_dir = self.d.expand("${COREBASE}/scripts/postinst-intercepts")
-+        # As there might be more than one instance of PackageManager operating at the same time
-+        # we need to isolate the intercept_scripts directories from each other,
-+        # hence the ugly hash digest in dir name.
-+        self.intercepts_dir = os.path.join(self.d.getVar('WORKDIR'),
-+                                      "intercept_scripts-%s" %(hashlib.sha256(self.target_rootfs.encode()).hexdigest()) )
++    def _postpone_to_first_boot(self, postinst_intercept_hook):
++        with open(postinst_intercept_hook) as intercept:
++            registered_pkgs = None
++            for line in intercept.read().split("\n"):
++                m = re.match("^##PKGS:(.*)", line)
++                if m is not None:
++                    registered_pkgs = m.group(1).strip()
++                    break
 +
-+        bb.utils.remove(self.intercepts_dir, True)
-+        shutil.copytree(postinst_intercepts_dir, self.intercepts_dir)
- 
++            if registered_pkgs is not None:
++                bb.note("If an image is being built, the postinstalls for the following packages "
++                        "will be postponed for first boot: %s" %
++                        registered_pkgs)
++
++                # call the backend dependent handler
++                self._handle_intercept_failure(registered_pkgs)
++
++
++    def run_intercepts(self):
++        intercepts_dir = self.intercepts_dir
++
++        bb.note("Running intercept scripts:")
++        os.environ['D'] = self.target_rootfs
++        os.environ['STAGING_DIR_NATIVE'] = self.d.getVar('STAGING_DIR_NATIVE')
++        for script in os.listdir(intercepts_dir):
++            script_full = os.path.join(intercepts_dir, script)
++
++            if script == "postinst_intercept" or not os.access(script_full, os.X_OK):
++                continue
++
++            if script == "delay_to_first_boot":
++                self._postpone_to_first_boot(script_full)
++                continue
++
++            bb.note("> Executing %s intercept ..." % script)
++
++            try:
++                output = subprocess.check_output(script_full, stderr=subprocess.STDOUT)
++                if output: bb.note(output.decode("utf-8"))
++            except subprocess.CalledProcessError as e:
++                bb.warn("The postinstall intercept hook '%s' failed, details in log.do_rootfs" % script)
++                bb.note("Exit code %d. Output:\n%s" % (e.returncode, e.output.decode("utf-8")))
++                self._postpone_to_first_boot(script_full)
++
      @abstractmethod
      def update(self):
-@@ -699,8 +715,7 @@ class RpmPM(PackageManager):
-         os.environ['OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['INTERCEPT_DIR'] = oe.path.join(self.d.getVar('WORKDIR'),
--                                                   "intercept_scripts")
-+        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
+         """
+@@ -897,6 +945,14 @@ class RpmPM(PackageManager):
+         open(saved_script_name, 'w').write(output)
+         os.chmod(saved_script_name, 0o755)
  
++    def _handle_intercept_failure(self, registered_pkgs):
++        rpm_postinsts_dir = self.target_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
++        bb.utils.mkdirhier(rpm_postinsts_dir)
++
++        # Save the package postinstalls in /etc/rpm-postinsts
++        for pkg in registered_pkgs.split():
++            self.save_rpmpostinst(pkg)
++
+     def extract(self, pkg):
+         output = self._invoke_dnf(["repoquery", "--queryformat", "%{location}", pkg])
+         pkg_name = output.splitlines()[-1]
+@@ -1000,6 +1056,8 @@ class OpkgDpkgPM(PackageManager):
  
-@@ -1178,8 +1193,7 @@ class OpkgPM(OpkgDpkgPM):
-         os.environ['OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['INTERCEPT_DIR'] = os.path.join(self.d.getVar('WORKDIR'),
--                                                   "intercept_scripts")
-+        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
+         return tmp_dir
  
-         try:
-@@ -1440,8 +1454,7 @@ class DpkgPM(OpkgDpkgPM):
-         os.environ['OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['IPKG_OFFLINE_ROOT'] = self.target_rootfs
-         os.environ['OPKG_OFFLINE_ROOT'] = self.target_rootfs
--        os.environ['INTERCEPT_DIR'] = os.path.join(self.d.getVar('WORKDIR'),
--                                                   "intercept_scripts")
-+        os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
++    def _handle_intercept_failure(self, registered_pkgs):
++        self.mark_packages("unpacked", registered_pkgs.split())
  
-         failed_pkgs = []
+ class OpkgPM(OpkgDpkgPM):
+     def __init__(self, d, target_rootfs, config_file, archs, task_name='target'):
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index bf2aea2b25a..600a685d68f 100644
+index 600a685d68f..f8f717c0505 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -178,20 +178,10 @@ class Rootfs(object, metaclass=ABCMeta):
-         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
-         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
+@@ -92,10 +92,6 @@ class Rootfs(object, metaclass=ABCMeta):
+                 self.d.getVar('PACKAGE_FEED_ARCHS'))
  
--        postinst_intercepts_dir = self.d.getVar("POSTINST_INTERCEPTS_DIR")
--        if not postinst_intercepts_dir:
--            postinst_intercepts_dir = self.d.expand("${COREBASE}/scripts/postinst-intercepts")
--        intercepts_dir = os.path.join(self.d.getVar('WORKDIR'),
--                                      "intercept_scripts")
+ 
+-    @abstractmethod
+-    def _handle_intercept_failure(self, failed_script):
+-        pass
 -
--        bb.utils.remove(intercepts_dir, True)
+     """
+     The _cleanup() method should be used to clean-up stuff that we don't really
+     want to end up on target. For example, in the case of RPM, the DB locks.
+@@ -197,7 +193,7 @@ class Rootfs(object, metaclass=ABCMeta):
+ 
+         execute_pre_post_process(self.d, rootfs_post_install_cmds)
+ 
+-        self._run_intercepts()
++        self.pm.run_intercepts()
+ 
+         execute_pre_post_process(self.d, post_process_cmds)
+ 
+@@ -283,50 +279,6 @@ class Rootfs(object, metaclass=ABCMeta):
+             # Remove the package manager data files
+             self.pm.remove_packaging_data()
+ 
+-    def _postpone_to_first_boot(self, postinst_intercept_hook):
+-        with open(postinst_intercept_hook) as intercept:
+-            registered_pkgs = None
+-            for line in intercept.read().split("\n"):
+-                m = re.match("^##PKGS:(.*)", line)
+-                if m is not None:
+-                    registered_pkgs = m.group(1).strip()
+-                    break
 -
-         bb.utils.mkdirhier(self.image_rootfs)
- 
-         bb.utils.mkdirhier(self.deploydir)
- 
--        shutil.copytree(postinst_intercepts_dir, intercepts_dir)
+-            if registered_pkgs is not None:
+-                bb.note("The postinstalls for the following packages "
+-                        "will be postponed for first boot: %s" %
+-                        registered_pkgs)
 -
-         execute_pre_post_process(self.d, pre_process_cmds)
+-                # call the backend dependent handler
+-                self._handle_intercept_failure(registered_pkgs)
+-
+-
+-    def _run_intercepts(self):
+-        intercepts_dir = self.pm.intercepts_dir
+-
+-        bb.note("Running intercept scripts:")
+-        os.environ['D'] = self.image_rootfs
+-        os.environ['STAGING_DIR_NATIVE'] = self.d.getVar('STAGING_DIR_NATIVE')
+-        for script in os.listdir(intercepts_dir):
+-            script_full = os.path.join(intercepts_dir, script)
+-
+-            if script == "postinst_intercept" or not os.access(script_full, os.X_OK):
+-                continue
+-
+-            if script == "delay_to_first_boot":
+-                self._postpone_to_first_boot(script_full)
+-                continue
+-
+-            bb.note("> Executing %s intercept ..." % script)
+-
+-            try:
+-                output = subprocess.check_output(script_full, stderr=subprocess.STDOUT)
+-                if output: bb.note(output.decode("utf-8"))
+-            except subprocess.CalledProcessError as e:
+-                bb.warn("The postinstall intercept hook '%s' failed, details in log.do_rootfs" % script)
+-                bb.note("Exit code %d. Output:\n%s" % (e.returncode, e.output.decode("utf-8")))
+-                self._postpone_to_first_boot(script_full)
+-
+     def _run_ldconfig(self):
+         if self.d.getVar('LDCONFIGDEPEND'):
+             bb.note("Executing: ldconfig -r" + self.image_rootfs + "-c new -v")
+@@ -519,14 +471,6 @@ class RpmRootfs(Rootfs):
+         self._log_check_warn()
+         self._log_check_error()
  
-         if self.progress_reporter:
-@@ -312,8 +302,7 @@ class Rootfs(object, metaclass=ABCMeta):
+-    def _handle_intercept_failure(self, registered_pkgs):
+-        rpm_postinsts_dir = self.image_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
+-        bb.utils.mkdirhier(rpm_postinsts_dir)
+-
+-        # Save the package postinstalls in /etc/rpm-postinsts
+-        for pkg in registered_pkgs.split():
+-            self.pm.save_rpmpostinst(pkg)
+-
+     def _cleanup(self):
+         self.pm._invoke_dnf(["clean", "all"])
  
+@@ -707,9 +651,6 @@ class DpkgRootfs(DpkgOpkgRootfs):
+         src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
+         return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
  
-     def _run_intercepts(self):
--        intercepts_dir = os.path.join(self.d.getVar('WORKDIR'),
--                                      "intercept_scripts")
-+        intercepts_dir = self.pm.intercepts_dir
+-    def _handle_intercept_failure(self, registered_pkgs):
+-        self.pm.mark_packages("unpacked", registered_pkgs.split())
+-
+     def _log_check(self):
+         self._log_check_warn()
+         self._log_check_error()
+@@ -978,9 +919,6 @@ class OpkgRootfs(DpkgOpkgRootfs):
+         src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info")
+         return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
  
-         bb.note("Running intercept scripts:")
-         os.environ['D'] = self.image_rootfs
+-    def _handle_intercept_failure(self, registered_pkgs):
+-        self.pm.mark_packages("unpacked", registered_pkgs.split())
+-
+     def _log_check(self):
+         self._log_check_warn()
+         self._log_check_error()
 -- 
 2.16.1
 
