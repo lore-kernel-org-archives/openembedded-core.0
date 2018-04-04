@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F387746A5;
-	Wed,  4 Apr 2018 02:03:24 +0000 (UTC)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AFFAE748A5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Apr 2018 05:15:43 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Apr 2018 22:15:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,404,1517904000"; d="scan'208";a="47799117"
+Received: from danayien-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.66.143])
+	by orsmga002.jf.intel.com with ESMTP; 03 Apr 2018 22:15:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Ross Burton <ross.burton@intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 04 Apr 2018 17:15:32 +1200
+Message-ID: <8605981.apyMxeIDRi@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <54a7cbe4b4fadf428ff8249041bd009cdec0f16f.1522045990.git.Qi.Chen@windriver.com>
+References: <cover.1522045990.git.Qi.Chen@windriver.com>
+	<54a7cbe4b4fadf428ff8249041bd009cdec0f16f.1522045990.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Wed, 04 Apr 2018 02:03:26 -0000
-Message-ID: <20180404020326.2394.81515@do.openembedded.org>
-References: <cover.1522806183.git.akuster808@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUGFja2FnZSB1cGRhdGVzIGZvciBNYXN0ZXI=?=
+Cc: "Chan, Aaron Chun Yew" <aaron.chun.yew.chan@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: fix typo in sulogin-path setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 02:03:24 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Apr 2018 05:15:43 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-== Series Details ==
+On Monday, 26 March 2018 9:05:20 PM NZST Chen Qi wrote:
+> Fix typo in sulogin-path setting. It should be ${base_sbindir} instead of
+> just {base_sbindir}.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd_237.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/
+systemd/systemd_237.bb
+> index 7ef42b2..1d04796 100644
+> --- a/meta/recipes-core/systemd/systemd_237.bb
+> +++ b/meta/recipes-core/systemd/systemd_237.bb
+> @@ -189,7 +189,7 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+>                    -Dmount-path=${base_bindir}/mount \
+>                    -Dquotacheck-path=${sbindir}/quotacheck \
+>                    -Dquotaon-path=${sbindir}/quotaon \
+> -                  -Dsulogin-path={base_sbindir}/sulogin \
+> +                  -Dsulogin-path=${base_sbindir}/sulogin \
+>                    -Dumount-path=${base_bindir}/umount"
+>  
+>  do_install() {
+> 
 
-Series: Package updates for Master
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11671/
-State : failure
+I talked with Aaron this morning and he has been seeing the results of this on 
+his autobuilder (failed boot with systemd) - can we pull this in as soon as 
+possible?
 
-== Summary ==
+Thanks,
+Paul
 
+-- 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Paul Eggleton
+Intel Open Source Technology Centre
 
-
-
-* Issue             LIC_FILES_CHKSUM changed on target libpcre2 but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
-  Current checksum file://LICENCE;md5=12d55e15a0c6da5c645ba40382bd3293
-  New checksum     file://LICENCE;md5=f5e4bde9fd0493d0967b4dba9899590f
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
