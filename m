@@ -1,55 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EBDBF7462E
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 53F2D74889
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 01:49:40 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id v18-v6so9787218ply.12
+	Wed,  4 Apr 2018 01:49:42 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id g20-v6so11745909plo.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 18:49:42 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-	:content-transfer-encoding;
-	bh=YrdvgxngMvTlOEcvwfi7MgEPIBHv39I1dTsRmJ+Pqpg=;
-	b=jgj6YO0Ktyh/eFn0Neui4sW1vAF5b8+x7iWW3iNB/2TH1+So0/Hlwpy/0GLXEsdipT
-	09gqeKNZBFzkzf8cq57s0C015Zib898nHWv7LNwXGtn8IjR83qQV001bTo1fyn1JIlWX
-	3Es7X2u+9pWeeuRssBr3GAuRvMLql+rFgOOJTqzXXPmEkq5bk9h3INaB3vd7JxMfOHn/
-	LgIy6M04jnlN55xbfD3bGrh+QSF2eaTe0bomnsp1Tr/W97viajLVEUkK+hMAelSR/8aO
-	4OtXg79qUUi350bbhcFN44OJ1OsHdrkcGrdCJcnbxLKsqowKB2904UeA1UcRcqM+oE+i
-	KWUg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=RZw5bxsVgiOSxCOZOI+Wv1N/LzP9RtpSVRx/HSvCKL8=;
+	b=HgAhMY+9SAXDsf/6v2J5IUyAeAgLtxTPsz7mpNIv9hKRJPj/iXf++q+DV3wPuhN8r9
+	4Y1rKHIL+P0BOYvXUO2Bg8OARR+9rTpy0mm/FImbyvGXVfPU0MQQ512hohdE6vIa9W9D
+	W2XhrztZtk0LyzrfvleZg/cC+NUkmOBtYySD1UUEumHO5zLCtBjljpIgknBp9YlvivLW
+	016Shrt4VcBKe0gWcISPA5f2YwLu91biYoNTD1ogPU3fkwy+bKpwmbDY8V37jCJ/w8I8
+	+xRACm4BUNfSWHermh+1UflhliZQ2SWOsViVwuq1TBy4Dz0GJ13Hb5B3rc/X/EvlhzPk
+	rZYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=YrdvgxngMvTlOEcvwfi7MgEPIBHv39I1dTsRmJ+Pqpg=;
-	b=OVvfz20BUJAzuKwxxwiB9WgI2iYHp1KlsqLpC/NrM0pjm91cMpvZ7QG8wfd7QSeeDj
-	b4BNLIKN9bGFJirJ6ilaok1KuFsadt4u0z60FnqzG+WcsVSL5khCGFBXYvevr24gTPLr
-	ufy5/xs4D9+KbmapdBZbS3jNUNliqMBBBiocuoni619kP1d39qHpZUxpSe+aATild4Mt
-	XEU1jAPDVnouB+SkDk/T4KELaQG3WL5k7R6BPQvpHNNoAtp9YdY+T0MOS8/EYwGa+rzH
-	ETBWSgJqJWnKQwI/2LvAs96oUQtOahbSW2KKHUqdcyxEFfyER71IMwYtKvYrk/5vrtkp
-	gIxA==
-X-Gm-Message-State: AElRT7FQzuEYfrheYi/PtEmz+sLrkc5O699UO+81Iu8hr4u43ZbiL0mj
-	Y6JVuW5+Uusvq8ilCm4TyWaUwQ==
-X-Google-Smtp-Source: AIpwx4/KL3d/w2i25kg71fACECob+H+zGlpBJVXVrHoDg9EItTX9tDgKg2ERxkCJ/OUlqz3ny1ZnRQ==
-X-Received: by 2002:a17:902:a508:: with SMTP id
-	s8-v6mr16896192plq.216.1522806581796; 
-	Tue, 03 Apr 2018 18:49:41 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=RZw5bxsVgiOSxCOZOI+Wv1N/LzP9RtpSVRx/HSvCKL8=;
+	b=SSwyF2pwzCnkPUNG14gIOXr3NvP1sHm0CsjSrfcOvZAhQI9d156iD/GVhgBc3MFrPH
+	j1MgslWUaCEQLHgR88W8CYlrAPXeR4jvbrm876fsXwYIT8kuF2Kn4CHGi9KuPHDgxRXw
+	22fAO/alINuWXErdvSu8cb/F/8QAaMQEqqEISCVvoP48CuweDMF1Tg+WGhG5a2ozUsHq
+	GgjvF1YdpLEsNSyq6nycWtW2di7o1m8VHT/7hSoEZRcqRI1Pi8I/ACjPqy1G7Jx0FJD7
+	i+syYi7Zn/ltB6/6Zl2aO3T6G/As8+klbT2vAFVfLjHGEM+wel/NnyJTteVaRB4NQFXQ
+	slew==
+X-Gm-Message-State: AElRT7Getx8gFIRy9agA3b5P5ky3e/HqvjxM7fpgnSJtxA7Be8aoXD3P
+	UXrEhNofZwns+05ipBQ5MfK1QQ==
+X-Google-Smtp-Source: AIpwx4+Ui/6akrwUfeayvEwlJBUOhz1oT7MeCpVfY/MEMeiX6KH+kX8duHXJk7++8Qeety3EFpqFXQ==
+X-Received: by 2002:a17:902:b494:: with SMTP id
+	y20-v6mr14744578plr.234.1522806583000; 
+	Tue, 03 Apr 2018 18:49:43 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:a4f3:7c10:9123:63ea])
 	by smtp.gmail.com with ESMTPSA id
 	d8sm7485877pfh.177.2018.04.03.18.49.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Apr 2018 18:49:41 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:42 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Tue,  3 Apr 2018 18:49:18 -0700
-Message-Id: <442184af412c1509717896788ad8906f1c4cd6c1.1522806183.git.akuster808@gmail.com>
+Date: Tue,  3 Apr 2018 18:49:19 -0700
+Message-Id: <73c2f1983d242da865a0dfb827e26fab260ad3f9.1522806183.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
 References: <cover.1522806183.git.akuster808@gmail.com>
-Subject: [PATCH 19/21] maintainers and distro: replace deprecated *protro header files with xorgproto
+Subject: [PATCH 20/21] xorg: replace depricated *proto depends with xorgproto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,339 +60,642 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 01:49:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Apr 2018 01:49:42 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/distro/include/distro_alias.inc | 30 +-----------------------------
- meta/conf/distro/include/maintainers.inc  | 28 +---------------------------
- 2 files changed, 2 insertions(+), 56 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc                          |  6 +++---
+ meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb          |  2 +-
+ meta/recipes-graphics/xorg-app/rgb_1.0.6.bb                  |  2 +-
+ meta/recipes-graphics/xorg-app/xev_1.2.2.bb                  |  2 +-
+ meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb    |  6 +++---
+ meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb   |  2 +-
+ meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb   |  2 +-
+ .../recipes-graphics/xorg-driver/xf86-video-vmware_13.2.1.bb |  2 +-
+ meta/recipes-graphics/xorg-driver/xorg-driver-common.inc     |  2 +-
+ meta/recipes-graphics/xorg-driver/xorg-driver-input.inc      |  2 +-
+ meta/recipes-graphics/xorg-driver/xorg-driver-video.inc      |  2 +-
+ meta/recipes-graphics/xorg-lib/libdmx_1.1.3.bb               |  2 +-
+ meta/recipes-graphics/xorg-lib/libfontenc_1.1.3.bb           |  2 +-
+ meta/recipes-graphics/xorg-lib/libice_1.0.9.bb               |  2 +-
+ meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb                |  2 +-
+ meta/recipes-graphics/xorg-lib/libx11.inc                    |  4 ++--
+ meta/recipes-graphics/xorg-lib/libxau_1.0.8.bb               |  2 +-
+ meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb          |  2 +-
+ meta/recipes-graphics/xorg-lib/libxcb_1.13.bb                |  2 +-
+ meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb        |  2 +-
+ meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb           |  2 +-
+ meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb             |  2 +-
+ meta/recipes-graphics/xorg-lib/libxext_1.3.3.bb              |  2 +-
+ meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb            |  2 +-
+ meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb            |  2 +-
+ meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb             |  2 +-
+ meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb                |  2 +-
+ meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb          |  2 +-
+ meta/recipes-graphics/xorg-lib/libxkbfile_1.0.9.bb           |  2 +-
+ meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb            |  2 +-
+ meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb          |  2 +-
+ meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb              |  2 +-
+ meta/recipes-graphics/xorg-lib/libxscrnsaver_1.2.2.bb        |  2 +-
+ meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb                |  2 +-
+ meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb              |  2 +-
+ meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb               |  2 +-
+ meta/recipes-graphics/xorg-lib/libxvmc_1.0.10.bb             |  2 +-
+ meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb          |  2 +-
+ meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb         |  2 +-
+ meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb           |  2 +-
+ meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb          |  2 +-
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc          | 12 ++++++------
+ 42 files changed, 52 insertions(+), 52 deletions(-)
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 8ec623b..1f4ff11 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -15,7 +15,6 @@ DISTRO_PN_ALIAS_pn-alsa-utils-scripts = "OE-Core"
- DISTRO_PN_ALIAS_pn-atk = "Fedora=atk OpenSuSE=atk"
- DISTRO_PN_ALIAS_pn-avahi-ui = "Ubuntu=avahi-discover Debian=avahi-discover"
- DISTRO_PN_ALIAS_pn-babeltrace = "OSPDT"
--DISTRO_PN_ALIAS_pn-bigreqsproto = "Meego=xorg-x11-proto-bigreqsproto"
- DISTRO_PN_ALIAS_pn-bjam = "OpenSuSE=boost-jam Debina=bjam"
- DISTRO_PN_ALIAS_pn-blktool = "Debian=blktool Mandriva=blktool"
- DISTRO_PN_ALIAS_pn-bluez5 = "Fedora=bluez  Opensuse=bluez"
-@@ -25,7 +24,6 @@ DISTRO_PN_ALIAS_pn-build-appliance-image = "OSPDT"
- DISTRO_PN_ALIAS_pn-build-compare = "Opensuse=build-compare Fedora=build-compare"
- DISTRO_PN_ALIAS_pn-builder = "OE-Core"
- DISTRO_PN_ALIAS_pn-buildtools-tarball = "OE-Core"
--DISTRO_PN_ALIAS_pn-calibrateproto = "OSPDT upstream=http://cgit.freedesktop.org/xorg/proto/calibrateproto"
- DISTRO_PN_ALIAS_pn-cdrtools = "OpenSUSE=cdrtools OSPDT"
- DISTRO_PN_ALIAS_pn-chkconfig-alternatives = "Mandriva=chkconfig Debian=chkconfig"
- DISTRO_PN_ALIAS_pn-clutter = "Fedora=clutter OpenSuse=clutter Ubuntu=clutter-1.0 Mandriva=clutter Debian=clutter"
-@@ -37,7 +35,6 @@ DISTRO_PN_ALIAS_pn-clutter-gtk-1.0 = "Debian=clutter-gtk Ubuntu=clutter-gtk Fedo
- DISTRO_PN_ALIAS_pn-clutter-gtk-1.8 = "Fedora=clutter-gtk OpenSuSE=clutter-gtk Ubuntu=clutter-gtk-0.10 Mandriva=clutter-gtk Debian=clutter-gtk"
- DISTRO_PN_ALIAS_pn-cogl-1.0 = "Debian=cogl Ubuntu=cogl Fedora=cogl"
- DISTRO_PN_ALIAS_pn-cogl = "Fedora=cogl OpenSuse=cogl Ubuntu=cogl Mandriva=cogl Debian=cogl"
--DISTRO_PN_ALIAS_pn-compositeproto = "Meego=xorg-x11-proto-compositeproto"
- DISTRO_PN_ALIAS_pn-connman = "Meego=connman"
- DISTRO_PN_ALIAS_pn-connman-conf = "OE-Core"
- DISTRO_PN_ALIAS_pn-connman-gnome = "Intel"
-@@ -68,14 +65,12 @@ DISTRO_PN_ALIAS_pn-cryptodev-linux = "OE-Core"
- DISTRO_PN_ALIAS_pn-cryptodev-module = "OE-Core"
- DISTRO_PN_ALIAS_pn-cryptodev-tests = "OE-Core"
- DISTRO_PN_ALIAS_pn-cwautomacros = "OSPDT upstream=http://cwautomacros.berlios.de/"
--DISTRO_PN_ALIAS_pn-damageproto = "Meego=xorg-x11-proto-damageproto"
- DISTRO_PN_ALIAS_pn-db = "Debian=db5.1 Ubuntu=db5.1"
- DISTRO_PN_ALIAS_pn-dbus-test = "Fedora=dbus Ubuntu=dbus"
- DISTRO_PN_ALIAS_pn-dbus-wait = "OpenedHand"
- DISTRO_PN_ALIAS_pn-depmodwrapper-cross = "OE-Core"
- DISTRO_PN_ALIAS_pn-distcc = "Debian=distcc Fedora=distcc"
- DISTRO_PN_ALIAS_pn-distcc-config = "OpenedHand"
--DISTRO_PN_ALIAS_pn-dmxproto = "Meego=xorg-x11-proto-dmxproto Ubuntu=x11proto-dmx Debian=x11proto-dmx"
- DISTRO_PN_ALIAS_pn-docbook-dsssl-stylesheets = "Fedora=docbook-style-dsssl Ubuntu=docbook-dsssl"
- DISTRO_PN_ALIAS_pn-docbook-sgml-dtd-3.1 = "Fedora=docbook-dtds Mandriva=docbook-dtd31-sgml"
- DISTRO_PN_ALIAS_pn-docbook-sgml-dtd-4.1 = "Fedora=docbook-dtds Mandriva=docbook-dtd41-sgml"
-@@ -83,18 +78,13 @@ DISTRO_PN_ALIAS_pn-docbook-sgml-dtd-4.5 = "Fedora=docbook-dtds Mandriva=docbook-
- DISTRO_PN_ALIAS_pn-docbook-xml-dtd4 = "Ubuntu=docbook-xml Fedora=docbook-dtds"
- DISTRO_PN_ALIAS_pn-docbook-xml-dtd4-native = "Ubuntu=docbook-xml Fedora=docbook-dtds"
- DISTRO_PN_ALIAS_pn-docbook-xsl-stylesheets = "Fedora=docbook-xsl-stylesheets Opensuse=docbook-xsl-stylesheets"
--DISTRO_PN_ALIAS_pn-dri2proto = "Meego=xorg-x11-proto-dri2proto"
--DISTRO_PN_ALIAS_pn-dri3proto = "Fedora=dri3proto Opensuse=dri3proto-devel"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
- DISTRO_PN_ALIAS_pn-dtc = "Fedora=dtc Ubuntu=dtc"
- DISTRO_PN_ALIAS_pn-eee-acpi-scripts = "Debian=eeepc-acpi-scripts Ubuntu=eeepc-acpi-scripts"
- DISTRO_PN_ALIAS_pn-eglinfo-fb = "OE-Core"
- DISTRO_PN_ALIAS_pn-eglinfo-x11 = "OE-Core"
- DISTRO_PN_ALIAS_pn-encodings = "Ubuntu=xfonts-encodings Mandriva=x11-font-encodings Debian=xfonts-encodings"
--DISTRO_PN_ALIAS_pn-fixesproto = "Meego=xorg-x11-proto-fixesproto"
- DISTRO_PN_ALIAS_pn-font-alias = "Fedora=xorg-x11-fonts-base Mandriva=x11-font-alias Meego=xorg-x11-fonts"
--DISTRO_PN_ALIAS_pn-fontcacheproto = "Meego=xorg-x11-proto-fontcacheproto"
--DISTRO_PN_ALIAS_pn-fontsproto = "Meego=xorg-x11-proto-fontsproto"
- DISTRO_PN_ALIAS_pn-font-util = "Meego=xorg-x11-font-utils Fedora=xorg-x11-font-utils Ubuntu=xfonts-utils Mandriva=x11-font-util Debian=xfonts-utils"
- DISTRO_PN_ALIAS_pn-formfactor = "OE-Core"
- DISTRO_PN_ALIAS_pn-fstests = "OpenedHand"
-@@ -114,7 +104,6 @@ DISTRO_PN_ALIAS_pn-glib-2.0 = "Meego=glib2 Fedora=glib2 OpenSuSE=glib2 Ubuntu=gl
- DISTRO_PN_ALIAS_pn-glibc-locale = "OpenSuSE=glibc-locale Fedora=glibc-devel"
- DISTRO_PN_ALIAS_pn-glibc-mtrace = "Fedora=glibc-utils Ubuntu=libc-dev-bin"
- DISTRO_PN_ALIAS_pn-glibc-scripts = "Fedora=glibc Ubuntu=libc-bin"
--DISTRO_PN_ALIAS_pn-glproto = "Meego=xorg-x11-proto-glproto"
- DISTRO_PN_ALIAS_pn-gnome-desktop-testing = "Debian=gnome-desktop-testing Fedora=gnome-desktop-testing"
- DISTRO_PN_ALIAS_pn-gnu-config = "OpenedHand"
- DISTRO_PN_ALIAS_pn-gptfdisk = "Fedora=gdisk Ubuntu=gdisk"
-@@ -149,10 +138,8 @@ DISTRO_PN_ALIAS_pn-initramfs-live-install-efi = "OE-Core"
- DISTRO_PN_ALIAS_pn-initramfs-live-install-efi-testfs = "OE-Core"
- DISTRO_PN_ALIAS_pn-initramfs-live-install-testfs = "OE-Core"
- DISTRO_PN_ALIAS_pn-initscripts = "Fedora=initscripts Mandravia=initscripts"
--DISTRO_PN_ALIAS_pn-inputproto = "Meego=xorg-x11-proto-inputproto"
- DISTRO_PN_ALIAS_pn-iproute2 = "OSPDT"
- DISTRO_PN_ALIAS_pn-jpeg = "OpenSuSE=libjpeg Ubuntu=libjpeg62"
--DISTRO_PN_ALIAS_pn-kbproto = "Meego=xorg-x11-proto-kbproto Ubuntu=x11proto-kb-dev Debian=x11proto-kb-dev"
- DISTRO_PN_ALIAS_pn-kernel-devsrc = "Debian=linux-base Ubuntu=linux"
- DISTRO_PN_ALIAS_pn-kernelshark = "Mandriva=kernelshark Ubuntu=kernelshark"
- DISTRO_PN_ALIAS_pn-kern-tools-native = "Windriver"
-@@ -316,7 +303,6 @@ DISTRO_PN_ALIAS_pn-portmap = "Debian=rpcbind Fedora=rpcbind"
- DISTRO_PN_ALIAS_pn-postinst-intercept = "OE-Core"
- DISTRO_PN_ALIAS_pn-powertop = "Meego=powertop Fedora=powertop Debian=powertop OpenSuSE=powertop Mandriva=powertop"
- DISTRO_PN_ALIAS_pn-ppp-dialin = "OE-Core"
--DISTRO_PN_ALIAS_pn-presentproto = "Debian=x11proto-present-dev Fedora=xorg-x11-proto-devel"
- DISTRO_PN_ALIAS_pn-pseudo = "Windriver"
- DISTRO_PN_ALIAS_pn-psplash = "OpenedHand"
- DISTRO_PN_ALIAS_pn-ptest-runner = "OE-Core"
-@@ -342,12 +328,8 @@ DISTRO_PN_ALIAS_pn-qemu-config = "OpenedHand"
- DISTRO_PN_ALIAS_pn-qemugl = "OpenedHand"
- DISTRO_PN_ALIAS_pn-qemu-helper = "OpenedHand"
- DISTRO_PN_ALIAS_pn-qemuwrapper-cross = "OE-Core"
--DISTRO_PN_ALIAS_pn-randrproto = "Meego=xorg-x11-proto-randrproto"
- DISTRO_PN_ALIAS_pn-readline = "Fedora=readline Debian=readline-common"
--DISTRO_PN_ALIAS_pn-recordproto = "Meego=xorg-x11-proto-recordproto"
- DISTRO_PN_ALIAS_pn-remake = "Mandriva=remake Debian=remake"
--DISTRO_PN_ALIAS_pn-renderproto = "Meego=xorg-x11-proto-renderproto"
--DISTRO_PN_ALIAS_pn-resourceproto = "Meego=xorg-x11-proto-resourceproto"
- DISTRO_PN_ALIAS_pn-rgb = "Fedora=xorg-X11-server-utils Debian=x11-xserver-utils"
- DISTRO_PN_ALIAS_pn-rpmresolve = "OSPDT"
- DISTRO_PN_ALIAS_pn-rt-tests = "Debian=rt-tests Ubuntu=rt-tests"
-@@ -356,7 +338,6 @@ DISTRO_PN_ALIAS_pn-sato-icon-theme = "OpenedHand"
- DISTRO_PN_ALIAS_pn-sato-screenshot = "OpenedHand"
- DISTRO_PN_ALIAS_pn-sbc = "Fedora=sbc Debian=libsbc1"
- DISTRO_PN_ALIAS_pn-screenshot = "OpenedHand"
--DISTRO_PN_ALIAS_pn-scrnsaverproto = "Meego=xorg-x11-proto-scrnsaverproto Ubuntu=x11proto-scrnsaver-dev Debian=x11proto-scrnsaver-dev"
- DISTRO_PN_ALIAS_pn-settings-daemon = "OpenedHand"
- DISTRO_PN_ALIAS_pn-sgml-common = "OpenSuSE=sgml-common Fedora=sgml-common"
- DISTRO_PN_ALIAS_pn-sgmlspl = "Debian=sgmlspl Ubuntu=sgmlspl"
-@@ -393,7 +374,6 @@ DISTRO_PN_ALIAS_pn-update-rc.d = "OE-Core"
- DISTRO_PN_ALIAS_pn-usbinit = "OE-Core"
- DISTRO_PN_ALIAS_pn-util-macros = "Meego=xorg-x11-util-macros Fedora=xorg-x11-util-macros Mandriva=x11-util-macros"
- DISTRO_PN_ALIAS_pn-v86d = "Debian=v86d Ubuntu=v86d"
--DISTRO_PN_ALIAS_pn-videoproto = "Meego=xorg-x11-proto-videoproto"
- DISTRO_PN_ALIAS_pn-waffle = "OE-Core"
- DISTRO_PN_ALIAS_pn-watchdog = "Debian=watchdog Ubuntu=watchdog Mandriva=watchdog"
- DISTRO_PN_ALIAS_pn-webkitgtk = "Fedora=webkitgtk Ubuntu=libwebkit"
-@@ -405,21 +385,15 @@ DISTRO_PN_ALIAS_pn-x11perf = "Fedora=xorg-x11-apps Ubuntu=x11-apps"
- DISTRO_PN_ALIAS_pn-xcb-util-image = "Debian=xcb-util Fedora=xcb-util"
- DISTRO_PN_ALIAS_pn-xcb-util-keysyms = "Debian=xcb-util Fedora=xcb-util"
- DISTRO_PN_ALIAS_pn-xcb-util-wm = "Debian=xcb-util Fedora=xcb-util"
--DISTRO_PN_ALIAS_pn-xcmiscproto = "Meego=xorg-x11-proto-xcmiscproto"
- DISTRO_PN_ALIAS_pn-xcursor-transparent-theme = "OpenedHand"
- DISTRO_PN_ALIAS_pn-xdpyinfo = "Fedora=xorg-x11-utils Ubuntu=x11-utils"
- DISTRO_PN_ALIAS_pn-xev = "Fedora=xorg-x11-utils Ubuntu=x11-utils"
--DISTRO_PN_ALIAS_pn-xextproto = "Meego=xorg-x11-proto-xextproto"
- DISTRO_PN_ALIAS_pn-xeyes = "Ubuntu=x11-apps Fedora=xorg-x11-apps"
--DISTRO_PN_ALIAS_pn-xf86bigfontproto = "Meego=xorg-x11-proto-xf86bigfontproto"
--DISTRO_PN_ALIAS_pn-xf86dgaproto = "Meego=xorg-x11-proto-xf86dgaproto"
--DISTRO_PN_ALIAS_pn-xf86driproto = "Meego=xorg-x11-proto-xf86driproto"
- DISTRO_PN_ALIAS_pn-xf86-input-evdev = "Ubuntu=xserver-xorg-input-evdev Mandriva=x11-driver-input-evdev Debian=xserver-xorg-input-evdev Fedora=xorg-x11-drv-evdev Meego=xorg-x11-drv-evdev"
- DISTRO_PN_ALIAS_pn-xf86-input-keyboard = "Meego=xorg-x11-drv-keyboard Fedora=xorg-x11-drv-keyboard Mandriva=x11-driver-input-keyboard Debian=xserver-xorg-input-keyboard"
- DISTRO_PN_ALIAS_pn-xf86-input-mouse = "Ubuntu=xserver-xorg-input-mouse Mandriva=x11-driver-input-mouse Debian=xserver-xorg-input-mouse"
- DISTRO_PN_ALIAS_pn-xf86-input-synaptics = "Meego=xorg-x11-drv-synaptics Fedora=xorg-x11-drv-synaptics Ubuntu=xserver-xorg-input-synaptics Mandriva=x11-driver-input-synaptics Debian=xfree86-driver-synaptics"
- DISTRO_PN_ALIAS_pn-xf86-input-vmmouse = "Fedora=xorg-x11-drv-vmmouse Ubuntu=xserver-xorg-input-vmmouse Mandriva=x11-driver-input-vmmouse Debian=xserver-xorg-input-vmmouse"
--DISTRO_PN_ALIAS_pn-xf86miscproto = "Meego=xorg-x11-proto-xf86miscproto"
- DISTRO_PN_ALIAS_pn-xf86-video-cirrus = "Opensuse=xf86-video-cirrus Debian=xserver-xorg-video-cirrus"
- DISTRO_PN_ALIAS_pn-xf86-video-fbdev = "Ubuntu=xserver-xorg-video-fbdev Debian=xserver-xorg-video-fbdev"
- DISTRO_PN_ALIAS_pn-xf86-video-intel = "Debian=xserver-xorg-video-intel Fedora=xorg-x11-drv-intel Mandriva=x11-driver-video-intel Meego=xorg-x11-drv-intel Ubuntu=xserver-xorg-video-intel"
-@@ -428,15 +402,13 @@ DISTRO_PN_ALIAS_pn-xf86-video-omap = "Ubuntu=xf86-video-omap Debian=xf86-video-o
- DISTRO_PN_ALIAS_pn-xf86-video-omapfb = "OSPDT"
- DISTRO_PN_ALIAS_pn-xf86-video-vesa = "Debian=xserver-xorg-video-vesa Fedora=xorg-x11-drv-vesa Mandriva=x11-driver-video-vesa Ubuntu=xserver-xorg-video-vesa"
- DISTRO_PN_ALIAS_pn-xf86-video-vmware = "Debian=xserver-xorg-video-vmware Fedora=xorg-x11-drv-vmware Mandriva=x11-driver-video-vmware Ubuntu=xserver-xorg-video-vmware"
--DISTRO_PN_ALIAS_pn-xf86vidmodeproto = "Meego=xorg-x11-proto-xf86vidmodeproto Ubuntu=x11proto-xf86vidmode Debian=x11proto-xf86vidmode"
- DISTRO_PN_ALIAS_pn-xhost = "Ubuntu=x11-xserver-utils Fedora=xorg-x11-server-utils"
--DISTRO_PN_ALIAS_pn-xineramaproto = "Meego=xorg-x11-proto-xineramaproto Ubuntu=x11proto-xinerama Debian=x11proto-xinerama"
- DISTRO_PN_ALIAS_pn-xinput-calibrator = "Fedora=xinput-calibrator Mandravia=xinput-calibrator Ubuntu=xinput-calibrator"
- DISTRO_PN_ALIAS_pn-xkbcomp = "Ubuntu=x11-xkb-utils Fedora=xorg-x11-xkb-utils"
- DISTRO_PN_ALIAS_pn-xmodmap = "Meego=xorg-x11-utils-xmodmap Fedora=xorg-x11-server-utils Ubuntu=x11-xserver-utils"
- DISTRO_PN_ALIAS_pn-xorg-minimal-fonts = "Ubuntu=xfonts-base Fedora=xorg-x11-fonts-base"
-+DISTRO_PN_ALIAS_pn-xorgproto = "OSPDT upstream=http://cgit.freedesktop.org/xorg/proto/xorgproto"
- DISTRO_PN_ALIAS_pn-xprop = "Meego=xorg-x11-utils-xprop Fedora=xorg-x11-utils Ubuntu=x11-utils"
--DISTRO_PN_ALIAS_pn-xproto = "Meego=xorg-x11-proto-xproto Fedora=xorg-x11-proto-devel Ubuntu=x11proto-core-dev Debian=x11proto-core-dev Opensuse=xorg-x11-proto-devel Mandriva=x11-proto-devel"
- DISTRO_PN_ALIAS_pn-xproxymanagementprotocol = "Meego=xorg-x11-proto-xproxymanagementprotocol"
- DISTRO_PN_ALIAS_pn-xrandr = "Ubuntu=x11-xserver-utils Fedora=xorg-x11-server-utils"
- DISTRO_PN_ALIAS_pn-xrdb = "Ubuntu=x11-xserver-utils Fedora=xorg-x11-server-utils"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e471891..5b142c0 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -66,7 +66,6 @@ RECIPE_MAINTAINER_pn-bash-completion = "Alexander Kanavin <alexander.kanavin@int
- RECIPE_MAINTAINER_pn-bc = "Jose Lamego <jose.a.lamego@linux.intel.com>"
- RECIPE_MAINTAINER_pn-bdwgc = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-beecrypt = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-bigreqsproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-bind = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-binutils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-cross = "Khem Raj <raj.khem@gmail.com>"
-@@ -92,7 +91,6 @@ RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-cairo = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-calibrateproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -105,7 +103,6 @@ RECIPE_MAINTAINER_pn-clutter-gtk-1.0 = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-cmake = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-cmake-native = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-cogl-1.0 = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-compositeproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-connman = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-connman-conf = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-connman-gnome = "Maxin B. John <maxin.john@intel.com>"
-@@ -124,7 +121,6 @@ RECIPE_MAINTAINER_pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-cve-check-tool = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-cwautomacros = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-damageproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-db = "Mark Hatle <mark.hatle@windriver.com>"
- RECIPE_MAINTAINER_pn-dbus = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-dbus-glib = "Chen Qi <Qi.Chen@windriver.com>"
-@@ -141,14 +137,11 @@ RECIPE_MAINTAINER_pn-directfb-examples = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-distcc = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-distcc-config = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dmidecode = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-dmxproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-dnf = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-docbook-xml-dtd4 = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-docbook-xsl-stylesheets = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dpkg = "Aníbal Limón <limon.anibal@gmail.com>"
--RECIPE_MAINTAINER_pn-dri2proto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-dri3proto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -170,13 +163,11 @@ RECIPE_MAINTAINER_pn-expect = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-ffmpeg = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-file = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-fixesproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-flac = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-fontconfig = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-fontsproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-foomatic-filters = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-formfactor = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-freetype = "Maxin B. John <maxin.john@intel.com>"
-@@ -213,7 +204,6 @@ RECIPE_MAINTAINER_pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
--RECIPE_MAINTAINER_pn-glproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-gnome-common = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Maxin B. John <maxin.john@intel.com>"
-@@ -281,7 +271,6 @@ RECIPE_MAINTAINER_pn-initramfs-live-install-efi = "Chang Rebecca Swee Fun <rebec
- RECIPE_MAINTAINER_pn-initramfs-live-install-efi-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
- RECIPE_MAINTAINER_pn-initramfs-live-install-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
- RECIPE_MAINTAINER_pn-initscripts = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-inputproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-intltool = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-iproute2 = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-iptables = "Changhyeok Bae <changhyeok.bae@lge.com>"
-@@ -293,7 +282,6 @@ RECIPE_MAINTAINER_pn-libjpeg-turbo = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-json-c = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-json-glib = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-kbd = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-kbproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-kconfig-frontends = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-kern-tools-native = "Bruce Ashfield <bruce.ashfield@windriver.com>"
- RECIPE_MAINTAINER_pn-kernelshark = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -584,7 +572,6 @@ RECIPE_MAINTAINER_pn-powertop = "Alexander Kanavin <alexander.kanavin@intel.com>
- RECIPE_MAINTAINER_pn-ppp = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-prelink = "Mark Hatle <mark.hatle@windriver.com>"
--RECIPE_MAINTAINER_pn-presentproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-procps = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
- RECIPE_MAINTAINER_pn-psmisc = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -623,14 +610,10 @@ RECIPE_MAINTAINER_pn-qemuwrapper-cross = "Juro Bystricky <juro.bystricky@intel.c
- RECIPE_MAINTAINER_pn-quilt = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-quilt-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-quota = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-randrproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-re2c = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-readline = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-recordproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-remake = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER_pn-renderproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-resolvconf = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-resourceproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-rgb = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-rng-tools = "Maxin B. John <maxin.john@intel.com>"
-@@ -644,7 +627,6 @@ RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-sato-screenshot = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-sbc = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-screen = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-scrnsaverproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-serf = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -718,7 +700,6 @@ RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-v86d = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-vala = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-valgrind = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-videoproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-vte = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-vulkan = "Maxin B. John <maxin.john@intel.com>"
-@@ -746,12 +727,10 @@ RECIPE_MAINTAINER_pn-xcb-util-image = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xcb-util-keysyms = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xcb-util-renderutil = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xcb-util-wm = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcmiscproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xcursor-transparent-theme = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xdg-utils = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-xdpyinfo = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xev = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xextproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xeyes = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xf86-input-evdev = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xf86-input-keyboard = "Armin Kuster <akuster@mvista.com>"
-@@ -766,12 +745,7 @@ RECIPE_MAINTAINER_pn-xf86-video-omap = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xf86-video-omapfb = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xf86-video-vesa = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xf86-video-vmware = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86dgaproto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86driproto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86miscproto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86vidmodeproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xhost = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xineramaproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xinetd = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-xinit = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xinput = "Armin Kuster <akuster@mvista.com>"
-@@ -781,8 +755,8 @@ RECIPE_MAINTAINER_pn-xkeyboard-config = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xmlto = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-xmodmap = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xorg-minimal-fonts = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xorgproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xprop = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xrandr = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xrestop = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-xserver-nodm-init = "Armin Kuster <akuster@mvista.com>"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9e4da81..45335e9 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -47,7 +47,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
+ # "gbm" requires "dri", "opengl"
+ PACKAGECONFIG[gbm] = "--enable-gbm,--disable-gbm"
+ 
+-X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
++X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+ # "x11" requires "opengl"
+ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+ PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+@@ -57,8 +57,8 @@ DRIDRIVERS = "swrast"
+ DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+ DRIDRIVERS_append_x86-64 = ",radeon,r200,nouveau,i965,i915"
+ # "dri" requires "opengl"
+-PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, dri2proto libdrm"
+-PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, dri3proto presentproto libxshmfence"
++PACKAGECONFIG[dri] = "--enable-dri --with-dri-drivers=${DRIDRIVERS}, --disable-dri, xorgproto libdrm"
++PACKAGECONFIG[dri3] = "--enable-dri3, --disable-dri3, xorgproto libxshmfence"
+ 
+ # Vulkan drivers need dri3 enabled
+ # radeon could be enabled as well but requires gallium-llvm with llvm >= 3.9
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb
+index 88c88f1..2a6bec1 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb
+@@ -8,7 +8,7 @@ font name (XLFD) is generated, and is written together with the file \
+ name to a file fonts.scale in the directory.  The resulting fonts.scale \
+ is used by the mkfontdir program."
+ 
+-DEPENDS = "util-macros-native zlib libfontenc freetype xproto"
++DEPENDS = "util-macros-native zlib libfontenc freetype xorgproto"
+ 
+ BBCLASSEXTEND = "native"
+ 
+diff --git a/meta/recipes-graphics/xorg-app/rgb_1.0.6.bb b/meta/recipes-graphics/xorg-app/rgb_1.0.6.bb
+index 8726804..c3e8536 100644
+--- a/meta/recipes-graphics/xorg-app/rgb_1.0.6.bb
++++ b/meta/recipes-graphics/xorg-app/rgb_1.0.6.bb
+@@ -6,7 +6,7 @@ to RGB values (rgb.txt) and, if configured to use a database for color \
+ lookup, the rgb program to convert the text file into the binary database \
+ format."
+ 
+-DEPENDS += " xproto util-macros"
++DEPENDS += " xorgproto util-macros"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ef598adbe241bd0b0b9113831f6e249a"
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb b/meta/recipes-graphics/xorg-app/xev_1.2.2.bb
+index f151b57..0705b7f 100644
+--- a/meta/recipes-graphics/xorg-app/xev_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-app/xev_1.2.2.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ 
+ PE = "1"
+ 
+-DEPENDS += "libxrandr xproto"
++DEPENDS += "libxrandr xorgproto"
+ 
+ SRC_URI += "file://diet-x11.patch"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+index 2623cb2..893f5ce 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+@@ -28,9 +28,9 @@ DEPENDS += "virtual/libx11 drm libpciaccess pixman"
+ PACKAGECONFIG ??= "xvmc uxa udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
+ 
+ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri"
+-PACKAGECONFIG[dri1] = "--enable-dri1,--disable-dri1,xf86driproto"
+-PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
+-PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
++PACKAGECONFIG[dri1] = "--enable-dri1,--disable-dri1,xorgproto"
++PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,xorgproto"
++PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,xorgproto"
+ PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
+ PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
+ PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
+index bef3636..0430f67 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
+@@ -22,7 +22,7 @@ omapdrm kernel driver w/ GEM support. \
+ 
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
+-DEPENDS += "virtual/libx11 libdrm xf86driproto"
++DEPENDS += "virtual/libx11 libdrm xorgproto"
+ 
+ SRC_URI[md5sum] = "3b8ea5e8fba63355c0dc6681c49d5fe5"
+ SRC_URI[sha256sum] = "93e7d42107521e61f61980eaea64fb452e87b7b94272e48938ac8d904ccfab5a"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
+index 5c1356d..9a11014 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
+@@ -9,7 +9,7 @@ can drive most VESA-compatible video cards, but only makes use of the \
+ basic standard VESA core that is common to these cards. The driver \
+ supports depths 8, 15 16 and 24."
+ 
+-DEPENDS += "virtual/libx11 randrproto libpciaccess"
++DEPENDS += "virtual/libx11 xorgproto libpciaccess"
+ 
+ COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.2.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.2.1.bb
+index 706d35d..0b63bbc 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.2.1.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.2.1.bb
+@@ -6,7 +6,7 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
+ 
+-DEPENDS += "virtual/libx11 xineramaproto videoproto libpciaccess"
++DEPENDS += "virtual/libx11 xorgproto libpciaccess"
+ 
+ SRC_URI += "file://0002-add-option-for-vmwgfx.patch"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+index bca0aad..e657c65 100644
+--- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+@@ -7,7 +7,7 @@ LICENSE = "MIT-X"
+ PE = "2"
+ INC_PR = "r21"
+ 
+-DEPENDS = "virtual/xserver xproto randrproto util-macros"
++DEPENDS = "virtual/xserver xorgproto util-macros"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}.tar.bz2"
+ 
+diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
+index 342067d..57912e7 100644
+--- a/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
+@@ -1,6 +1,6 @@
+ require xorg-driver-common.inc
+ 
+-DEPENDS += "inputproto kbproto "
++DEPENDS += "xorgproto"
+ 
+ python add_xorg_abi_depends() {
+     _add_xorg_abi_depends(d, "input")
+diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
+index b5862da..2938ef1 100644
+--- a/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-video.inc
+@@ -1,6 +1,6 @@
+ require xorg-driver-common.inc
+ 
+-DEPENDS =+ "renderproto videoproto xextproto fontsproto"
++DEPENDS =+ "xorgproto"
+ 
+ python add_xorg_abi_depends() {
+     _add_xorg_abi_depends(d, "video")
+diff --git a/meta/recipes-graphics/xorg-lib/libdmx_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libdmx_1.1.3.bb
+index e623cee..c74b706 100644
+--- a/meta/recipes-graphics/xorg-lib/libdmx_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libdmx_1.1.3.bb
+@@ -11,7 +11,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a3c3499231a8035efd0e004cfbd3b72a \
+                     file://src/dmx.c;endline=33;md5=c43f19af03c7c8619cadc9724ed9afe1"
+ 
+-DEPENDS += "libxext dmxproto"
++DEPENDS += "libxext xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libfontenc_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libfontenc_1.1.3.bb
+index a181f05..34d5fc4 100644
+--- a/meta/recipes-graphics/xorg-lib/libfontenc_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libfontenc_1.1.3.bb
+@@ -8,7 +8,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=96254c20ab81c63e65b26f0dbcd4a1c1"
+ 
+-DEPENDS += "zlib xproto font-util"
++DEPENDS += "zlib xorgproto font-util"
+ PE = "1"
+ 
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+index f069749..0337d21 100644
+--- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+@@ -11,7 +11,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d162b1b3c6fa812da9d804dcf8584a93"
+ 
+-DEPENDS += "xproto xtrans"
++DEPENDS += "xorgproto xtrans"
+ PROVIDES = "ice"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb b/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
+index 48922cb..fdc693b 100644
+--- a/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
+@@ -11,7 +11,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c0fb37f44e02bdbde80546024400728d"
+ 
+-DEPENDS += "libice xproto xtrans"
++DEPENDS += "libice xorgproto xtrans"
+ 
+ # libSM can work without libuuid, we explicitly disable it to break the following circular dependency
+ # when DISTRO_FEATURES contains 'systemd' and 'x11'.
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index 4af40ab..d9a2b52 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -18,8 +18,8 @@ XORG_PN = "libX11"
+ LICENSE = "MIT & MIT-style & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
+ 
+-DEPENDS += "xproto xextproto xtrans libxcb kbproto inputproto"
+-DEPENDS += "xproto-native"
++DEPENDS += "xorgproto xtrans libxcb"
++DEPENDS += "xorgproto-native"
+ 
+ EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/ --disable-xf86bigfont"
+ EXTRA_OEMAKE += 'CWARNFLAGS=""'
+diff --git a/meta/recipes-graphics/xorg-lib/libxau_1.0.8.bb b/meta/recipes-graphics/xorg-lib/libxau_1.0.8.bb
+index 2ef8bfa..8c52475 100644
+--- a/meta/recipes-graphics/xorg-lib/libxau_1.0.8.bb
++++ b/meta/recipes-graphics/xorg-lib/libxau_1.0.8.bb
+@@ -11,7 +11,7 @@ inherit gettext
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7908e342491198401321cec1956807ec"
+ 
+-DEPENDS += " xproto"
++DEPENDS += " xorgproto"
+ PROVIDES = "xau"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb b/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
+index 0fe6531..0ed8fda 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://xcalibrate.h;endline=21;md5=fa572df6439f0f235f2612f370f153d7 \
+                     file://xcalibrate.c;endline=21;md5=fa572df6439f0f235f2612f370f153d7"
+ 
+-DEPENDS = "virtual/libx11 calibrateproto libxext"
++DEPENDS = "virtual/libx11 xorgproto libxext"
+ 
+ SRCREV = "209d83af61ed38a002c8096377deac292b3e396c"
+ PV = "0.0+git${SRCPV}"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.13.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.13.bb
+index 04b58ea..a8e0307 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.13.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.13.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "188c8752193c50ff2dbe89db4554c63df2e26a2e47b0fa415a70918b5b
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-DEPENDS = "xcb-proto xproto libxau libpthread-stubs libxdmcp"
++DEPENDS = "xcb-proto xorgproto libxau libpthread-stubs libxdmcp"
+ 
+ PACKAGES_DYNAMIC = "^libxcb-.*"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
+index 7025719..73e2948 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.4.bb
+@@ -14,7 +14,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3f2907aad541f6f226fbc58cc1b3cdf1"
+ 
+-DEPENDS += " compositeproto virtual/libx11 libxfixes libxext"
++DEPENDS += " xorgproto virtual/libx11 libxfixes libxext"
+ PROVIDES = "xcomposite"
+ BBCLASSEXTEND = "native"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+index c3d7004..6d6ffad 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdamage_1.1.4.bb
+@@ -16,7 +16,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=9fe101f30dd24134cf43146863241868"
+ 
+-DEPENDS += "virtual/libx11 damageproto libxfixes"
++DEPENDS += "virtual/libx11 xorgproto libxfixes"
+ PROVIDES = "xdamage"
+ BBCLASSEXTEND = "native"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb
+index f4e30d9..466f349 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb
+@@ -13,7 +13,7 @@ inherit gettext
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d559fb26e129626022e052a5e6e0e123"
+ 
+-DEPENDS += "xproto"
++DEPENDS += "xorgproto"
+ PROVIDES = "xdmcp"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxext_1.3.3.bb b/meta/recipes-graphics/xorg-lib/libxext_1.3.3.bb
+index 063e531..aae8f2a 100644
+--- a/meta/recipes-graphics/xorg-lib/libxext_1.3.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxext_1.3.3.bb
+@@ -13,7 +13,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=879ce266785414bd1cbc3bc2f4d9d7c8"
+ 
+-DEPENDS += "xproto virtual/libx11 xextproto"
++DEPENDS += "xorgproto virtual/libx11"
+ PROVIDES = "xext"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb
+index c80042d..f0e2f60 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfixes_5.0.3.bb
+@@ -10,7 +10,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3c1ce42c334a6f5cccb0277556a053e0"
+ 
+-DEPENDS += "virtual/libx11 xproto fixesproto xextproto"
++DEPENDS += "virtual/libx11 xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+index 5f27a55..2b72d67 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+@@ -9,7 +9,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT & MIT-style & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
+ 
+-DEPENDS += "freetype xtrans fontsproto libfontenc zlib"
++DEPENDS += "freetype xtrans xorgproto libfontenc zlib"
+ 
+ XORG_PN = "libXfont2"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+index 79f77fc..94c6c66 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+@@ -9,7 +9,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT & MIT-style & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
+ 
+-DEPENDS += "freetype xtrans fontsproto libfontenc zlib"
++DEPENDS += "freetype xtrans xorgproto libfontenc zlib"
+ PROVIDES = "xfont"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb
+index 74f0527..08381d9 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb
+@@ -11,7 +11,7 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=17b064789fab936a1c58c4e13d965b0f \
+                     file://src/XIGetDevFocus.c;endline=23;md5=cdfb0d435a33ec57ea0d1e8e395b729f"
+ 
+-DEPENDS += "libxext inputproto libxfixes"
++DEPENDS += "libxext xorgproto libxfixes"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
+index bb03f44..367ad26 100644
+--- a/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxinerama_1.1.3.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6f4f634d1643a2e638bba3fcd19c2536 \
+                     file://src/Xinerama.c;beginline=2;endline=25;md5=fcef273bfb66339256411dd06ea79c02"
+ 
+-DEPENDS += "libxext xineramaproto"
++DEPENDS += "libxext xorgproto"
+ PROVIDES = "xinerama"
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.9.bb
+index 39a344c..f5c1860 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.9.bb
+@@ -8,7 +8,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8be7367f7e5d605a426f76bb37d4d61f"
+ 
+-DEPENDS += "virtual/libx11 kbproto"
++DEPENDS += "virtual/libx11 xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
+index 48e88d2..b90ebc6 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.1.bb
+@@ -11,7 +11,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c9d1a2118a6cd5727521db8e7a2fee69"
+ 
+-DEPENDS += "virtual/libx11 randrproto libxrender libxext"
++DEPENDS += "virtual/libx11 xorgproto libxrender libxext"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb b/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb
+index 92b3102..9b18366 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrender_0.9.10.bb
+@@ -11,7 +11,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d8bc71986d3b9b3639f6dfd6fac8f196"
+ 
+-DEPENDS += "virtual/libx11 renderproto xproto"
++DEPENDS += "virtual/libx11 xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb b/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
+index 8c34e47..af6bb19 100644
+--- a/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
+@@ -10,7 +10,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8c89441a8df261bdc56587465e13c7fa"
+ 
+-DEPENDS += "libxext resourceproto"
++DEPENDS += "libxext xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxscrnsaver_1.2.2.bb b/meta/recipes-graphics/xorg-lib/libxscrnsaver_1.2.2.bb
+index 354e5de..ddf09af 100644
+--- a/meta/recipes-graphics/xorg-lib/libxscrnsaver_1.2.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxscrnsaver_1.2.2.bb
+@@ -12,7 +12,7 @@ image is to be displayed and to provide the graphics."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=21fd154ee757813632ada871a34113fb"
+ 
+-DEPENDS += "libxext scrnsaverproto"
++DEPENDS += "libxext xorgproto"
+ PROVIDES = "libxss"
+ RREPLACES_${PN} = "libxss"
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
+index 180d00d..f8d94a2 100644
+--- a/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
++++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
+@@ -16,7 +16,7 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6565b1e0094ea1caae0971cc4035f343"
+ 
+ 
+-DEPENDS += "util-linux libxcb libsm virtual/libx11 kbproto libxdmcp"
++DEPENDS += "util-linux libxcb libsm virtual/libx11 xorgproto libxdmcp"
+ PROVIDES = "xt"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
+index 5717fa5..266bd1c 100644
+--- a/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxtst_1.2.3.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bb4f89972c3869f617f61c1a79ad1952 \
+                     file://src/XTest.c;beginline=2;endline=32;md5=b1c8c9dff842b4d5b89ca5fa32c40e99"
+ 
+-DEPENDS += "libxext recordproto inputproto libxi"
++DEPENDS += "libxext xorgproto libxi"
+ PROVIDES = "xtst"
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb b/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb
+index a226c27..c602723 100644
+--- a/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb
++++ b/meta/recipes-graphics/xorg-lib/libxv_1.0.11.bb
+@@ -10,7 +10,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=827da9afab1f727f2a66574629e0f39c"
+ 
+-DEPENDS += "libxext videoproto"
++DEPENDS += "libxext xorgproto"
+ 
+ XORG_PN = "libXv"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.10.bb b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.10.bb
+index 6ed49b1..7e49a98 100644
+--- a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.10.bb
++++ b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.10.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0a207f08d4961489c55046c9a5e500da \
+                     file://wrapper/XvMCWrapper.c;endline=26;md5=5151daa8172a3f1bb0cb0e0ff157d9de"
+ 
+-DEPENDS += "libxext libxv videoproto"
++DEPENDS += "libxext libxv xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+index 695a396..626199e 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+@@ -9,7 +9,7 @@ emulators for games."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=abb99ac125f84f424a4278153988e32f"
+ 
+-DEPENDS += "libxext xf86dgaproto"
++DEPENDS += "libxext"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb b/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb
+index af6f1f7..04fe962 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb
+@@ -8,7 +8,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=27c91ecc435bd3d2bfad868914c94b45"
+ 
+-DEPENDS += "libxext xf86miscproto"
++DEPENDS += "libxext"
+ PROVIDES = "xxf86misc"
+ 
+ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+index 35f87d2..95fc0b6 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+@@ -10,7 +10,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fa0b9c462d8f2f13eba26492d42ea63d"
+ 
+-DEPENDS += "libxext xf86vidmodeproto"
++DEPENDS += "libxext xorgproto"
+ 
+ PE = "1"
+ 
+diff --git a/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb b/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb
+index 84a967a..727ab54 100644
+--- a/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb
++++ b/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb
+@@ -10,7 +10,7 @@ directives would be used in a compilation. Any #include, directives \
+ can reference files having other #include directives, and parsing will \
+ occur in these files as well."
+ 
+-DEPENDS = "xproto util-macros"
++DEPENDS = "xorgproto util-macros"
+ PE = "1"
+ 
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index cf2286c..882897b 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -26,7 +26,7 @@ inherit autotools pkgconfig
+ inherit distro_features_check
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86vidmodeproto compositeproto recordproto resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto presentproto"
++PROTO_DEPS = "xorgproto"
+ LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess"
+ DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
+ 
+@@ -127,18 +127,18 @@ PACKAGECONFIG ??= "dri2 udev ${XORG_CRYPTO} \
+ "
+ 
+ PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
+-PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
+-PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
++PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,xorgproto virtual/mesa"
++PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,xorgproto"
+ # DRI3 requires xshmfence to also be enabled
+-PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
+-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,glproto virtual/libgl virtual/libx11"
++PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,xorgproto"
++PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,xorgproto virtual/libgl virtual/libx11"
+ PACKAGECONFIG[glamor] = "--enable-glamor,--disable-glamor,libepoxy virtual/libgbm,libegl"
+ PACKAGECONFIG[unwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ PACKAGECONFIG[xshmfence] = "--enable-xshmfence,--disable-xshmfence,libxshmfence"
+ PACKAGECONFIG[xmlto] = "--with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ PACKAGECONFIG[systemd-logind] = "--enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,"
+ PACKAGECONFIG[systemd] = "--with-systemd-daemon,--without-systemd-daemon,systemd"
+-PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xineramaproto"
++PACKAGECONFIG[xinerama] = "--enable-xinerama,--disable-xinerama,xorgproto"
+ PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,wayland wayland-native wayland-protocols libepoxy"
+ 
+ # Xorg requires a SHA1 implementation, pick one
 -- 
 2.7.4
 
