@@ -1,27 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D9DB974C8A
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C31F074B5A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 13:43:57 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w34Dhpcm017811
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 4 Apr 2018 14:43:52 +0100
-Message-ID: <1522849430.11431.367.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ola x Nilsson <ola.x.nilsson@axis.com>, Ola x Nilsson <olani@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Apr 2018 14:43:50 +0100
-In-Reply-To: <1522153694838.99691@axis.com>
-References: <20180223074618.24928-1-olani@axis.com>
-	<1522153694838.99691@axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] package.bbclass: Include dbgsrc for static libs
+	Wed,  4 Apr 2018 15:33:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2018 08:33:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,406,1517904000"; d="scan'208";a="44853740"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 04 Apr 2018 08:33:39 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 052FC5801FC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Apr 2018 08:33:38 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Apr 2018 18:32:17 +0300
+Message-Id: <1522855946-8702-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 01/10] adwaita-icon-theme: upgrade to version 3.28.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 13:43:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Apr 2018 15:33:38 -0000
 
-On Tue, 2018-03-27 at 12:28 +0000, Ola x Nilsson wrote:
-> ping?
+Refresh the following patch:
+        0001-Don-t-use-AC_CANONICAL_HOST.patch
 
-Fails if you enable ptest in openssl. Suspect you need to check if its
-a real file rather than a symlink and only check real files.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch                 | 14 +++++++-------
+ ...a-icon-theme_3.26.1.bb => adwaita-icon-theme_3.28.0.bb} |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.26.1.bb => adwaita-icon-theme_3.28.0.bb} (93%)
 
-Cheers,
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index 96ec96b..b5992eb 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -1,7 +1,7 @@
+-From 88ed996cc9e2b296cacfdbeece4be28a90bab511 Mon Sep 17 00:00:00 2001
++From 9661951838773251d0a914e897e8a0d95ce027f6 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 30 May 2017 14:55:49 +0300
+-Subject: [PATCH 1/2] Don't use AC_CANONICAL_HOST
++Subject: [PATCH] Don't use AC_CANONICAL_HOST
+ 
+ This won't work when building allarch (and is only used to find out if
+ target is windows).
+@@ -13,13 +13,13 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  configure.ac | 1 -
+  1 file changed, 1 deletion(-)
+ 
+-Index: adwaita-icon-theme-3.26.1/configure.ac
+-===================================================================
+---- adwaita-icon-theme-3.26.1.orig/configure.ac
+-+++ adwaita-icon-theme-3.26.1/configure.ac
++diff --git a/configure.ac b/configure.ac
++index fb787dc..5caef0c 100644
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [3.26.1],
++ AC_INIT([adwaita-icon-theme], [3.28.0],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.26.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
+similarity index 93%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.26.1.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
+index 6437d5e..40dd35b 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.26.1.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Run-installation-commands-as-shell-jobs.patch \
+            "
+ 
+-SRC_URI[md5sum] = "3ef87e789711e5130792d4b5366c005d"
+-SRC_URI[sha256sum] = "28ba7392c7761996efd780779167ea6c940eedfb1bf37cfe9bccb7021f54d79d"
++SRC_URI[md5sum] = "b25b2d82cbebf2cc9cd469457b604f2c"
++SRC_URI[sha256sum] = "7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150"
+ 
+ do_install_append() {
+ 	# Build uses gtk-encode-symbolic-svg to create png versions:
+-- 
+2.4.0
 
-Richard
-
-ERROR: openssl-1.0.2o-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:split_and_strip_files(d)
-     0003:
-File: '/media/build1/poky/meta/classes/package.bbclass', lineno: 969, function: split_and_strip_files
-     0965:                file = os.path.join(root, f)
-     0966:                if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-     0967:                    kernmods.append(file)
-     0968:                    continue
- *** 0969:                if isStaticLib(file):
-     0970:                    staticlibs.append(file)
-     0971:                    continue
-     0972:
-     0973:                # Skip debug files
-File: '/media/build1/poky/meta/classes/package.bbclass', lineno: 944, function: isStaticLib
-     0940:        return type
-     0941:
-     0942:    def isStaticLib(path):
-     0943:        if file.endswith('.a'):
- *** 0944:            with open(path, 'rb') as fh:
-     0945:                magic = b'!<arch>\n'
-     0946:                start = fh.read(len(magic))
-     0947:                return start == magic
-     0948:        return False
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/media/build1/poky/build/tmp/work/core2-64-poky-linux/openssl/1.0.2o-r0/package/usr/lib/openssl/ptest/libssl.a'
-
-ERROR: openssl-1.0.2o-r0 do_package: Function failed: split_and_strip_files
-ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp/work/core2-64-poky-linux/openssl/1.0.2o-r0/temp/log.do_package.20107
-ERROR: Task (/media/build1/poky/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb:do_package) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 1308 tasks of which 1303 didn't need to be rerun and 1 failed.
 
