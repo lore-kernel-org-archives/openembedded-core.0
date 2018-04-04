@@ -1,26 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 109F4744C7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 478C074673
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 10:45:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w34Aj1gm030661
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Apr 2018 03:45:01 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 4 Apr 2018 03:45:01 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Apr 2018 18:45:59 +0800
-Message-ID: <2e27990d1f27a0de84fc204caf77c28e5015173e.1522837858.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1522837858.git.Qi.Chen@windriver.com>
-References: <cover.1522837858.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] rpm: remove dbus dependency for rpm-native
+	Wed,  4 Apr 2018 11:03:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2018 04:03:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="47864791"
+Received: from danayien-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.66.143])
+	by orsmga002.jf.intel.com with ESMTP; 04 Apr 2018 04:03:13 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Apr 2018 23:02:34 +1200
+Message-Id: <cover.1522839599.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Cc: Enrico Jorns <ejo@pengutronix.de>
+Subject: [PATCH 0/2] classes/externalsrc: improve robustness of cleandirs handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 10:45:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Apr 2018 11:03:16 -0000
 
-Previously, the rpm recipe tries to prevent rpm-native from attempting
-to inhibit shutdown via session dbus by appending '--disable-plugins'
-to EXTRA_OECONF in case of native.
+A couple of fixes prompted by (and in the case of 1/2, required for)
+Enrico Jorns's recent cleandirs patch.
 
-However, some layer may need some functionality via plugin support. And
-when it enables it, we would meet the following warning at rootfs time.
 
-  Unable to get systemd shutdown inhibition lock: Socket name too long
+The following changes since commit c168f6fe35ada66f7d6d6b5151fa248230c38676:
 
-As plugins/systemd_inhibit.c is the only place that's related to this
-dependency, we can be sure that this dependency is really not needed in
-case of native. So we explictly remove the dbus dependency for rpm-native.
+  systemd: fix typo in sulogin-path setting (2018-04-04 08:50:49 +0100)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/rpm/rpm_4.14.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index 7b8ea46..88f9535 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -50,6 +50,10 @@ S = "${WORKDIR}/git"
- DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
- DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
- 
-+# dbus dependency is deliberately omitted for rpm-native to prevent it from attempting to
-+# inhibit shutdown via session dbus, even when some layer enables plugins support for rpm-native.
-+DEPENDS_remove_class-native = "dbus"
-+
- inherit autotools gettext pkgconfig python3native
- export PYTHON_ABI
- 
-@@ -63,7 +67,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
- #
- # --localstatedir prevents rpm from writing its database to native sysroot when building images
- #
--# Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
-+# Disable plugins for rpm-native.
- EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
- 
- BBCLASSEXTEND = "native nativesdk"
+  git://git.openembedded.org/openembedded-core-contrib paule/externalsrc-cleandirs-fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/externalsrc-cleandirs-fixes
+
+Paul Eggleton (2):
+  classes/externalsrc: handle if cleandirs contains python expressions
+  classes/externalsrc: ensure cleandirs code handles non-absolute paths
+
+ meta/classes/externalsrc.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
 -- 
-1.9.1
+2.14.3
 
 
