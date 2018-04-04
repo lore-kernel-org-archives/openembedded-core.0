@@ -1,23 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id EA53474604
+	by mail.openembedded.org (Postfix) with ESMTP id B096074604
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 09:39:58 +0000 (UTC)
+	Wed,  4 Apr 2018 09:39:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 02:39:59 -0700
+	04 Apr 2018 02:40:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="30914162"
+X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="30914170"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 04 Apr 2018 02:39:58 -0700
+	by orsmga008.jf.intel.com with ESMTP; 04 Apr 2018 02:39:59 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 12:33:30 +0300
-Message-Id: <20180404093331.22593-1-alexander.kanavin@linux.intel.com>
+Date: Wed,  4 Apr 2018 12:33:31 +0300
+Message-Id: <20180404093331.22593-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
-Subject: [morty][PATCH 1/2] selftest/signing: add --batch to gpg invocation when importing keys
+In-Reply-To: <20180404093331.22593-1-alexander.kanavin@linux.intel.com>
+References: <20180404093331.22593-1-alexander.kanavin@linux.intel.com>
+MIME-Version: 1.0
+Subject: [morty][PATCH 2/2] qemu: fix memfd_create with glibc 2.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +34,98 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 04 Apr 2018 09:39:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Otherwise it may pop up windows asking for passphrases which breaks
-automated testing.
+From: Ross Burton <ross.burton@intel.com>
 
-Newer YP releases and master already have the fix.
+glibc 2.27 has added memfd_create() but this conflicts with a copy in qemu, so
+take a patch from upstream to fix building with glibc 2.27.
 
-[YOCTO #12521]
-
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/signing.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu/memfd.patch | 57 +++++++++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.7.0.bb    |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
 
-diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-index 3b5c2da0e0f..02e5f5ad29d 100644
---- a/meta/lib/oeqa/selftest/signing.py
-+++ b/meta/lib/oeqa/selftest/signing.py
-@@ -26,7 +26,7 @@ class Signing(oeSelfTest):
-         cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.pub")
-         cls.secret_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.secret")
+diff --git a/meta/recipes-devtools/qemu/qemu/memfd.patch b/meta/recipes-devtools/qemu/qemu/memfd.patch
+new file mode 100644
+index 00000000000..62e8d3800bd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/memfd.patch
+@@ -0,0 +1,57 @@
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 75e5b70e6b5dcc4f2219992d7cffa462aa406af0 Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Tue, 28 Nov 2017 11:51:27 +0100
++Subject: [PATCH] memfd: fix configure test
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Recent glibc added memfd_create in sys/mman.h.  This conflicts with
++the definition in util/memfd.c:
++
++    /builddir/build/BUILD/qemu-2.11.0-rc1/util/memfd.c:40:12: error: static declaration of memfd_create follows non-static declaration
++
++Fix the configure test, and remove the sys/memfd.h inclusion since the
++file actually does not exist---it is a typo in the memfd_create(2) man
++page.
++
++Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++---
++ configure    | 2 +-
++ util/memfd.c | 4 +---
++ 2 files changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/configure b/configure
++index 9c8aa5a98b..99ccc1725a 100755
++--- a/configure
+++++ b/configure
++@@ -3923,7 +3923,7 @@ fi
++ # check if memfd is supported
++ memfd=no
++ cat > $TMPC << EOF
++-#include <sys/memfd.h>
+++#include <sys/mman.h>
++ 
++ int main(void)
++ {
++diff --git a/util/memfd.c b/util/memfd.c
++index 4571d1aba8..412e94a405 100644
++--- a/util/memfd.c
+++++ b/util/memfd.c
++@@ -31,9 +31,7 @@
++ 
++ #include "qemu/memfd.h"
++ 
++-#ifdef CONFIG_MEMFD
++-#include <sys/memfd.h>
++-#elif defined CONFIG_LINUX
+++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
++ #include <sys/syscall.h>
++ #include <asm/unistd.h>
++ 
++-- 
++2.11.0
+diff --git a/meta/recipes-devtools/qemu/qemu_2.7.0.bb b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
+index 85aadecf09c..65ae539dc4f 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.7.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
+@@ -14,6 +14,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://0003-fix-CVE-2016-7908.patch \
+             file://0004-fix-CVE-2016-7909.patch \
+             file://04b33e21866412689f18b7ad6daf0a54d8f959a7.patch \
++            file://memfd.patch \
+ "
  
--        runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
-+        runCmd('gpg --batch --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
- 
-     @classmethod
-     def tearDownClass(cls):
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
 -- 
 2.16.1
 
