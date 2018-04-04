@@ -1,25 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 01445748CC
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BADE971BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 11:20:19 +0000 (UTC)
+	Wed,  4 Apr 2018 11:38:39 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 04:20:21 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2018 04:38:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40599859"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:20:20 -0700
+X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40602280"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:38:39 -0700
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1522837858.git.Qi.Chen@windriver.com>
+	<2e27990d1f27a0de84fc204caf77c28e5015173e.1522837858.git.Qi.Chen@windriver.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 14:13:21 +0300
-Message-Id: <20180404111321.10824-22-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 22/22] oeqa/runtime/cases/python: use python 3 rather than python 2
+Message-ID: <11a298c3-7fed-c73e-be12-0ed099fca145@linux.intel.com>
+Date: Wed, 4 Apr 2018 14:32:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <2e27990d1f27a0de84fc204caf77c28e5015173e.1522837858.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] rpm: remove dbus dependency for rpm-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 11:20:20 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 11:38:39 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-For example, core-image-sato skipped the test alltogether, as it
-no longer pulls in Python 2.x at all.
+On 04/04/2018 01:45 PM, Chen Qi wrote:
+> +# dbus dependency is deliberately omitted for rpm-native to prevent it from attempting to
+> +# inhibit shutdown via session dbus, even when some layer enables plugins support for rpm-native.
+> +DEPENDS_remove_class-native = "dbus"
+> +
+>   inherit autotools gettext pkgconfig python3native
+>   export PYTHON_ABI
+>   
+> @@ -63,7 +67,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
+>   #
+>   # --localstatedir prevents rpm from writing its database to native sysroot when building images
+>   #
+> -# Also disable plugins, so that rpm doesn't attempt to inhibit shutdown via session dbus
+> +# Disable plugins for rpm-native.
+>   EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --disable-plugins"
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oeqa/runtime/cases/python.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/python.py b/meta/lib/oeqa/runtime/cases/python.py
-index bf3e1791638..3d6eb088024 100644
---- a/meta/lib/oeqa/runtime/cases/python.py
-+++ b/meta/lib/oeqa/runtime/cases/python.py
-@@ -20,16 +20,16 @@ class PythonTest(OERuntimeTestCase):
- 
-     @OETestID(1145)
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['python-core'])
-+    @OEHasPackage(['python3-core'])
-     def test_python_exists(self):
--        status, output = self.target.run('which python')
-+        status, output = self.target.run('which python3')
-         msg = 'Python binary not in PATH or not on target.'
-         self.assertEqual(status, 0, msg=msg)
- 
-     @OETestID(965)
-     @OETestDepends(['python.PythonTest.test_python_exists'])
-     def test_python_stdout(self):
--        status, output = self.target.run('python /tmp/test.py')
-+        status, output = self.target.run('python3 /tmp/test.py')
-         msg = 'Exit status was not 0. Output: %s' % output
-         self.assertEqual(status, 0, msg=msg)
- 
--- 
-2.16.1
+This should definitely be a PACKAGECONFIG option. Actually, two 
+different options: "plugins" (pulls in dbus) and "plugins-native" (does 
+not pull in dbus). Then both can be enabled for target and native, 
+respectively.
+
+
+Alex
+
 
 
