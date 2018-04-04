@@ -1,100 +1,30 @@
-Return-Path: <tom.hochstein@nxp.com>
-X-Greylist: delayed 35797 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Apr 2018 05:21:27 UTC
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0076.outbound.protection.outlook.com [104.47.2.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A20E74851
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3165C745C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 05:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=uCrVBs1auS1yyir1OXhFC9+KJ4r9wdRoXxVi74LHF04=;
-	b=jzQ/97sp6PxxaPYNXA5uCWKcdcDp1Xnfghp3j42+U4HV1TAY22pQnpnXynzI8aCzNN6Dju1R574wjozJSk5Jpe++jMVzHWHH+bg+NkxbOB/xUvmlN7KEBQd6eBRlSQ9uQFDBDOQWrR3h3iiJYj+6iKPv8HcNRdrS5weB7qmkE6s=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from tx30imx-01.am.freescale.net (192.88.168.1) by
-	AM5PR0402MB2818.eurprd04.prod.outlook.com (2603:10a6:203:99::9) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.653.12;
-	Tue, 3 Apr 2018 13:52:12 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Apr 2018 08:51:15 -0500
-Message-Id: <1522763475-16001-2-git-send-email-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1522763475-16001-1-git-send-email-tom.hochstein@nxp.com>
-References: <1522763475-16001-1-git-send-email-tom.hochstein@nxp.com>
+	Wed,  4 Apr 2018 05:46:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w345kCZR022493
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Apr 2018 22:46:13 -0700
+Received: from [128.224.163.159] (128.224.163.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 3 Apr 2018 22:46:05 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1522399417.git.hongxu.jia@windriver.com>
+	<4ead7c624b44292b85b21d82a731e1af0378d819.1522399417.git.hongxu.jia@windriver.com>
+	<CA+chaQcySp4rBQaSHJ1NRFQa05uKZkP6QOuSnDH0BYuCOaEHzA@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <d63aa1d1-8e36-001d-d565-60e4fd40f78b@windriver.com>
+Date: Wed, 4 Apr 2018 13:46:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-X-Originating-IP: [192.88.168.1]
-X-ClientProxiedBy: DM5PR07CA0036.namprd07.prod.outlook.com
-	(2603:10b6:3:16::22) To AM5PR0402MB2818.eurprd04.prod.outlook.com
-	(2603:10a6:203:99::9)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd543362-04ca-481f-cd29-08d5996a1a89
-X-MS-Office365-Filtering-HT: Tenant
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4604075)(48565401081)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:AM5PR0402MB2818; 
-X-Microsoft-Exchange-Diagnostics: 1; AM5PR0402MB2818;
-	3:DCaVI/eenx79WJhSnAZ69qM16Es7S60D9FaexAVp/0bejA//EUGHZFpeeIt11o8LseUZsaILAbmmJ6xJslN32HJLbqXMg9VWjiR8zBWf7LiiDx0aNER/30GtOYJeR1hnIpn74lf0Z49fOpo8GFGl/y8wYyNBvMUuNZElTzNzXzJJHCaanUWjMJdKxVrqI31qhtNauGvCzG4V9Q8xSuHmPvvitQvsJgOtr7+AvOi9UwH6qlbrfs0E91NcWrlxk/Xl;
-	25:hvU+nLReyeNUaqshFQb9CRy1ZIfX9OOWcMYBuk/S9R41J9oX7gzyEcdATscwGi8DHxqpkLGvxAxX4jkixSjpcTujoLELdw8A4gXqX/MwV5E7KQtjeTLSbxZP3cZLarSKjfqwiJcJGWBsLyPQsQO/XBQnuekwasxQCiAo5hO4BZ6Tvt4Q6ygjWel/FZnHXfYyEweJmrBEkWWbekxz2HNsldE2esjXyBv0KdXbQ0WaKFxwQCljgXpe+9NgzNj7Z7AxQsfWJt6xh/eTFNSv5D7l/o7NCj9mFUWYKpmD1GBBrT1k+D/+spPRFJ4sW5A4PBga4W38S+HeqJM2saMI9VR4ag==;
-	31:9kyTrih2iWgZhwEet4h2qAniuRXOTa5hiPApc2JNVLZWL3QF4Tvq1piwZqUiHNL0nV0XXkkm2/FDZQHd+no9qi+VjWDV7FALg/wi8ewJD7Vd7P6lGPsz7SV0/r0/ggw806Z+Rm6lEm1rQcEiHHywZO4KOAA4ytamBZJetxmPRruEKG2tHlVjwrbkTlgIuKeRLuNoicQ3+3fcR4oKBS/2bqsLsm7YSRWTvmfe9cbKezQ=
-X-MS-TrafficTypeDiagnostic: AM5PR0402MB2818:
-X-Microsoft-Exchange-Diagnostics: 1; AM5PR0402MB2818;
-	20:uAVk7R8aH+61UjofYTyUu4E3Lpo0J91Cb5I6uj5dAuinXyIkOuOvQrlAf6r5Tm/WX1o5p3PiJjX8WMQNB6DyYKslVw7MxI/Ah82FZANpdlwnCQn+OddLNjZsW1O29DzMQJfacDVxcAo8qeLhdL++lychgk5/7l3Ok6RxqKvIhPXpER4OrBwkJ5l0i6mABCXItFT/QMkNy7WSk1OWpCkcAYSZ1hwMT6yGwsb35c6Ax0PPfE9SvRj9M1CoTUTtpnLgd35h13i9QxZoG4E1yYFOi1/ejYDDJm4FMsZZKMPGpRKVssb+jExTFOYSmEeP99BTr3ZXF1+5tgFC0hdwj7lcgZfUf0ZivyStCY1rOEPIe1tsWI3Un086nh2pKxOrT1BR+EjDrtGOHsAAv/4IMlUjczBEdCGk2lP2yLtfdFaIVG0JzLDp+Fij/xVxHInPR7SzcezSw3GwwMZkm4J63wFjzjvUix2wY3cVG+c4+tixp5dxTP2QqOJoykLBOKM7GGIG;
-	4:nd3hd74aJm55IlbKyjDZx0HvVKE0gK8TuDreV5d9ysWc2FE59HHkfjH7+HPVE4eXQuTB8MVAhR0ePMOvIn1ncW1jGoiTaNH+4MUeHyFJG4b6BZG3fkVzRloH0MX7oi6AGoaKQaD+84AmRu73w36fjRwmQqXS7T08s8iIpXDN4XL1y37TrnaHqBUXwjvhRMk2lU3Qo7MNCeeMv4tJ4DUWlV+9KiCEPJmXYD39kpjYYOHKkUi7DhSOfDXe2Hdg0/21bRM5yilp6yDX4j/EdaMt07yrjV7MrLFSR16U2r5M7nPoEige/tY1wFNViCTKLvlh
-X-Microsoft-Antispam-PRVS: <AM5PR0402MB2818587006A3D30AD97EC4A5E2A50@AM5PR0402MB2818.eurprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(185117386973197);
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231221)(944501327)(52105095)(6055026)(6041310)(20161123560045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(6072148)(201708071742011);
-	SRVR:AM5PR0402MB2818; BCL:0; PCL:0; RULEID:;
-	SRVR:AM5PR0402MB2818; 
-X-Forefront-PRVS: 0631F0BC3D
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(396003)(39380400002)(376002)(366004)(346002)(199004)(189003)(50226002)(25786009)(47776003)(105586002)(6512007)(6916009)(2906002)(305945005)(7736002)(66066001)(53936002)(48376002)(50466002)(36756003)(478600001)(97736004)(2361001)(106356001)(2351001)(4326008)(81166006)(81156014)(186003)(51416003)(8676002)(8936002)(52116002)(76176011)(16526019)(26005)(6116002)(3846002)(446003)(11346002)(956004)(476003)(486005)(486005)(6486002)(316002)(6506007)(5660300001)(386003)(2616005)(16586007)(86362001)(68736007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR0402MB2818;
-	H:tx30imx-01.am.freescale.net; FPR:; SPF:None; LANG:en;
-	PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; AM5PR0402MB2818;
-	23:x1C9vyXHPaNYH0eSwW1AHjiWcb+4wQ3HcS0q2Xs?=
-	=?us-ascii?Q?y2cLQuipz/vulhCqroLxncvsmiejNL1NnWgnMXZrbYTMHZowkKFbovAp79eJ?=
-	=?us-ascii?Q?oQKtVGNmpH2MQWViPZxOujWH78ioub2Q2eou0GGlQE8QnXWbsGsXLi9wYjiY?=
-	=?us-ascii?Q?hTvb/JFqyf5UYVIQ9ZTFdyKf/Izu7mHGyfh7pD81EaiPawVLuphZ3wBb4SBM?=
-	=?us-ascii?Q?idWQ+vIV62OOfXVS1DKaSo+bCFLpzRdAvw2tBWix7e2BdoHuKOXaHPc+Obsh?=
-	=?us-ascii?Q?F+uNZuMk/j9ODOzh+tDCOV7E7OtAg7849oVs+Me1eLmMgd6Rd8hJQHtIT0Pq?=
-	=?us-ascii?Q?TWEcIJuSiuS/Nd/ohVYzB1LhEuANSixrvXfeGBBOVlznio1acP3TF9wdxChT?=
-	=?us-ascii?Q?eTtWXtAt0p2Ec0THU8NeWuHl7U1N68Yj4Ec23jvREVUvjyRVZsqbAjUloG2p?=
-	=?us-ascii?Q?zMyZ8Vv/2AVhLWM9wAxQ0qqSXXHJpAD0ic1d6boKgVhuhaG+6wsUOmhrSijU?=
-	=?us-ascii?Q?nHX7SeHN0JXc9f6LhOYefeWRu8EJ8hTlT3fEL4qrKOVv7fYSvShz0yX2LfnX?=
-	=?us-ascii?Q?3zz3s9ur/HjhsSbBvGZ9GNkfI2of0FhR/S/mj8imkOaIoyq9C/ecHfluqs1Y?=
-	=?us-ascii?Q?pVcoQaMWs/PuhKB1W8uDE96L0aFimO0cbk+8Ns5s2AkWuF0ihNsI/OrVKiKV?=
-	=?us-ascii?Q?bSHr1q+stQFLFHUXnCCotkTx5pfO3Dn8OmtZXvjnD9TlSae97CKi1OkFiY26?=
-	=?us-ascii?Q?7wBY0ED4fCmO6GDh1NagU2j0OMz6GL2iWaW5eKbwNbbTkPXqiKKMoDorG9s2?=
-	=?us-ascii?Q?6Kub9hpr9nQPwzmCYzQQ08hTBL5tzjNV3fm2wA+CUgjiY/I7a9GwXC9wIWtZ?=
-	=?us-ascii?Q?NgWQerbrIZ8a0beJ9uZmO5siYED/+9oQ4f9oJbBTR+Bw6aSOC3SWOBOcCaja?=
-	=?us-ascii?Q?ZADQq35jIT5U06L95S0FneX2blzMENJdvUMNmFY6Ny216rz7OUExecGjQBrE?=
-	=?us-ascii?Q?jAdBD0PuyPkPCFwerXJkxb8ZXaP50v1Yd9gBU0mhDfRVVNA48Dsqj/khPa7W?=
-	=?us-ascii?Q?pdbjdKAMAPp2BA+GDGq+x8C3JHxjobsdyl6DvnUEk3UfQZyZrl3JmQRDfcY+?=
-	=?us-ascii?Q?Q9ydm9Q/S59ksEXPOnf4JR+PCrrjSdh0yTW2ZPR3OtKrTjg1nqBTJ4HagpSi?=
-	=?us-ascii?Q?gZkZSHFxd7b4cXxyJKpa+8PhVcElxA+9Q9PCD?=
-X-Microsoft-Antispam-Message-Info: CCQrhqZ/ExDa3xRW8fELPJj08w5WIHQM80m3/lwvFxUOyNhTZ0OzPgsT/oX7TuBLhmkwP92RWHEw4bRlY6p0oEQOXWYNXI0wnsSddzHna/wHo0xyH1BfTgc9pVPQWm6vvuk63Ex1PB0iJLaqaDKd28quG2qRPVgrG7St2pRMgAWooYlQZ5YIPNuT2EYtgjOq
-X-Microsoft-Exchange-Diagnostics: 1; AM5PR0402MB2818;
-	6:NzwxAW5sxVnHhOwj/01yClIB9BnJgyK/WLCVOb12APeBGOe+nspXpe3NFACM9UwEsbbUZeKLpGGEfyq6OQBrG/bL1NvqNJVvvPF8Q/nV9U1w9CIQB0Uua2ZUxpo1IM5bs6DvHFzYZOwYdhUDkJDMHbIau5uTbp2zLIQ9SI/2uzTe9UNlKVxyPjaKGJHIGhdSMod+dcCkWh7e6mMeOvQyYJTHQdwA2sHKfB+EZT/u6yAywNqcDhaIhx0sjT6gXHGzcjfWo6Z+Ybn1a4gotNdKSMRYzytaB5ILVjh4DZvX9f8nFnZ9X+flRH748q8XHFNssFEGYh4NQgKLUxPpiFFaetg6pYsmX89xMtROrgutkwpjoTIpQauv+WApcaIV/X+5SgX0DvzKhGumzHDXqYmjFFt3vZ8EuKc8m//YwXMaRd6Tfw4GqnkT4j3vMUuD8feUI369Qi54+aPVZGNOM1FOKw==;
-	5:Q4hnamJEJRtUASpfdnIpNWCHJkW7sXSL7d+fYgvEoP7ouHQnno/icVAzeDhKHRmvMjBMlJNzebz7WNI1p6Gt+bFovX1KvD6U3a02RhOesYfnMRnnc7ssEfDIS6EoPV/IkbRhVygz6K64HWReoQqOR7ZuxdF5jdRG1U+Q5USrgmA=;
-	24:yGEC8xRZm+ZyocOQjRKjuQmfBLOw8petk6Icq6QflLmszafBhgXXuyV8qhzEiefs4EWvcA4i91USVZ3uoFyXN8XiEkzAy/efM7iDGYc2hMo=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; AM5PR0402MB2818;
-	7:R7s/NHXJXqEYkw6DFWNNBwiSlQpwWxZV9t/pi8sihopzwOSrX0h4ovW7Ngj835RUIMDFvV20dVOreMLs1ngAdJ0xF6EoZeKtSQ8TAy7MrH0qKewV8DF4toqaoFH/fqxu9ufh26L1pjhZd14LETCGjjDRMyo3vJhKQ3NueHCk1q3f02DS7/L0EA07kp6Ml9ijZOzKPsBcM6gJcz80MS2H/NuV6admQoCwCkYvqA5w8w+sJwKhwMP1YJHQIFjiPfAt
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2018 13:52:12.7833 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd543362-04ca-481f-cd29-08d5996a1a89
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2818
-Subject: [PATCH 2/2] archiver: Fix archive for linked kernel source
+In-Reply-To: <CA+chaQcySp4rBQaSHJ1NRFQa05uKZkP6QOuSnDH0BYuCOaEHzA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 4/7] libgpg-error: 1.27 -> 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,36 +37,617 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 05:21:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Apr 2018 05:46:14 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5ED6118CE99FC15ECB501C0F"
+Content-Language: en-US
 
-When archiving a kernel, if S is ${WORKDIR}/git, then
-${WORKDIR}/git is in fact a soft link into work-shared,
-and the archive contains just the soft link. Fix by
-archiving the real directory.
+--------------5ED6118CE99FC15ECB501C0F
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- meta/classes/archiver.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+On 2018年04月04日 02:35, Martin Jansa wrote:
+> This seems to cause:
+>
+> | ../../libgpg-error-1.28/src/logging.c: In function 
+> '_gpgrt_log_printhex':
+> | ../../libgpg-error-1.28/src/logging.c:1153:49: error: incompatible 
+> type for argument 4 of '_gpgrt_logv_printhex'
+> |      _gpgrt_logv_printhex (buffer, length, NULL, NULL);
+> |                                                  ^~~~
+> | ../../libgpg-error-1.28/src/logging.c:1097:1: note: expected 
+> 'va_list {aka __va_list}' but argument is of type 'void *'
+> |  _gpgrt_logv_printhex (const void *buffer, size_t length,
+> |  ^~~~~~~~~~~~~~~~~~~~
+> | make[3]: *** [libgpg_error_la-logging.lo] Error 1
+>
+> which looks the same as:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893370
+>
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index c107615..31c9b7e 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -277,6 +277,11 @@ def create_tarball(d, srcdir, suffix, ar_outdir):
-     if (d.getVar('SRC_URI') == ""):
-         return
- 
-+    # For the kernel archive, srcdir may just be a link to the
-+    # work-shared location. Use os.path.realpath to make sure
-+    # that we archive the actual directory and not just the link.
-+    srcdir = os.path.realpath(srcdir)
-+
-     bb.utils.mkdirhier(ar_outdir)
-     if suffix:
-         filename = '%s-%s.tar.gz' % (d.getVar('PF'), suffix)
--- 
-2.7.4
+Yes, backport a fix from upstream git repo could fix the issue
+
+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commitdiff;h=791177de023574223eddf7288eb7c5a0721ac623
+
+V3 incoming
+
+//Hongxu
+
+>
+> On Fri, Mar 30, 2018 at 10:52 AM, Hongxu Jia <hongxu.jia@windriver.com 
+> <mailto:hongxu.jia@windriver.com>> wrote:
+>
+>     - Rebase pkgconfig.patch
+>
+>     License-Update: copyright years
+>
+>     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     ---
+>      .../libgpg-error/libgpg-error/pkgconfig.patch     | 67
+>     +++++++++++++---------
+>      .../{libgpg-error_1.27.bb <http://libgpg-error_1.27.bb> =>
+>     libgpg-error_1.28.bb <http://libgpg-error_1.28.bb>} |  6 +-
+>      2 files changed, 44 insertions(+), 29 deletions(-)
+>      rename meta/recipes-support/libgpg-error/{libgpg-error_1.27.bb
+>     <http://libgpg-error_1.27.bb> => libgpg-error_1.28.bb
+>     <http://libgpg-error_1.28.bb>} (88%)
+>
+>     diff --git
+>     a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+>     b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+>     index 9ffeedb..3066613 100644
+>     --- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+>     +++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
+>     @@ -1,15 +1,26 @@
+>     -
+>     -#
+>     -# Patch managed by
+>     http://www.mn-logistik.de/unsupported/pxa250/patcher
+>     <http://www.mn-logistik.de/unsupported/pxa250/patcher>
+>     -#
+>     +From ec309e20b5a27d42a5fb915c328d61e924ab5f19 Mon Sep 17 00:00:00
+>     2001
+>     +From: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     +Date: Thu, 29 Mar 2018 15:12:17 +0800
+>     +Subject: [PATCH] support pkgconfig
+>
+>      Upstream-Status: Pending
+>
+>     -Index: libgpg-error-1.17/configure.ac <http://configure.ac>
+>     -===================================================================
+>     ---- libgpg-error-1.17.orig/configure.ac <http://configure.ac>
+>     -+++ libgpg-error-1.17/configure.ac <http://configure.ac>
+>     -@@ -529,6 +529,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
+>     +Rebase to 1.28
+>     +
+>     +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     +---
+>     + configure.ac <http://configure.ac>       |  1 +
+>     + src/Makefile.am     |  4 ++-
+>     + src/gpg-error.m4    | 71
+>     +++--------------------------------------------------
+>     + src/gpg-error.pc.in <http://gpg-error.pc.in> | 11 +++++++++
+>     + 4 files changed, 18 insertions(+), 69 deletions(-)
+>     + create mode 100644 src/gpg-error.pc.in <http://gpg-error.pc.in>
+>     +
+>     +diff --git a/configure.ac <http://configure.ac> b/configure.ac
+>     <http://configure.ac>
+>     +index aca9300..f7794e9 100644
+>     +--- a/configure.ac <http://configure.ac>
+>     ++++ b/configure.ac <http://configure.ac>
+>     +@@ -621,6 +621,7 @@ AC_CONFIG_FILES([src/Makefile tests/Makefile])
+>       AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile
+>     lang/cl/gpg-error.asd])
+>       AC_CONFIG_FILES([src/versioninfo.rc src/gpg-error.w32-manifest])
+>       AC_CONFIG_FILES([src/gpg-error-config], [chmod +x
+>     src/gpg-error-config])
+>     @@ -17,33 +28,33 @@ Index: libgpg-error-1.17/configure.ac
+>     <http://configure.ac>
+>
+>       AC_OUTPUT
+>
+>     -Index: libgpg-error-1.17/src/Makefile.am
+>     -===================================================================
+>     ---- libgpg-error-1.17.orig/src/Makefile.am
+>     -+++ libgpg-error-1.17/src/Makefile.am
+>     -@@ -75,6 +75,8 @@ nodist_include_HEADERS = gpg-error.h
+>     - bin_SCRIPTS = gpg-error-config
+>     +diff --git a/src/Makefile.am b/src/Makefile.am
+>     +index 268c2ab..95f8459 100644
+>     +--- a/src/Makefile.am
+>     ++++ b/src/Makefile.am
+>     +@@ -87,6 +87,8 @@ bin_SCRIPTS = gpg-error-config
+>     + nodist_bin_SCRIPTS = gpgrt-config
+>       m4datadir = $(datadir)/aclocal
+>     - m4data_DATA = gpg-error.m4
+>     + m4data_DATA = gpg-error.m4 gpgrt.m4
+>      +pkgconfigdir = $(libdir)/pkgconfig
+>      +pkgconfig_DATA = gpg-error.pc
+>
+>       EXTRA_DIST = mkstrtable.awk err-sources.h.in
+>     <http://err-sources.h.in> err-codes.h.in <http://err-codes.h.in> \
+>             mkerrnos.awk errnos.in <http://errnos.in> README \
+>     -@@ -82,7 +84,7 @@ EXTRA_DIST = mkstrtable.awk err-sources.
+>     +@@ -94,7 +96,7 @@ EXTRA_DIST = mkstrtable.awk err-sources.h.in
+>     <http://err-sources.h.in> err-codes.h.in <http://err-codes.h.in> \
+>             mkheader.c gpg-error.h.in <http://gpg-error.h.in>
+>     mkw32errmap.c w32-add.h w32ce-add.h \
+>     -       err-sources.h err-codes.h gpg-error-config.in
+>     <http://gpg-error-config.in> gpg-error.m4 \
+>     +       err-sources.h err-codes.h gpg-error-config.in
+>     <http://gpg-error-config.in> gpg-error.m4 gpgrt.m4 \
+>             gpg-error.vers gpg-error.def.in <http://gpg-error.def.in> \
+>      - versioninfo.rc.in <http://versioninfo.rc.in>
+>     gpg-error.w32-manifest.in <http://gpg-error.w32-manifest.in> \
+>      + versioninfo.rc.in <http://versioninfo.rc.in>
+>     gpg-error.w32-manifest.in <http://gpg-error.w32-manifest.in>
+>     gpg-error.pc \
+>             $(lock_obj_pub)
+>
+>       BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h
+>     code-from-errno.h \
+>     -Index: libgpg-error-1.17/src/gpg-error.m4
+>     -===================================================================
+>     ---- libgpg-error-1.17.orig/src/gpg-error.m4
+>     -+++ libgpg-error-1.17/src/gpg-error.m4
+>     -@@ -26,73 +26,13 @@ dnl is added to the gpg_config_script_wa
+>     +diff --git a/src/gpg-error.m4 b/src/gpg-error.m4
+>     +index 60c88d8..2ef7e3e 100644
+>     +--- a/src/gpg-error.m4
+>     ++++ b/src/gpg-error.m4
+>     +@@ -26,73 +26,13 @@ dnl is added to the gpg_config_script_warn
+>     variable.
+>       dnl
+>       AC_DEFUN([AM_PATH_GPG_ERROR],
+>       [ AC_REQUIRE([AC_CANONICAL_HOST])
+>     @@ -132,10 +143,11 @@ Index: libgpg-error-1.17/src/gpg-error.m4
+>           ifelse([$3], , :, [$3])
+>         fi
+>         AC_SUBST(GPG_ERROR_CFLAGS)
+>     -Index: libgpg-error-1.17/src/gpg-error.pc.in <http://gpg-error.pc.in>
+>     -===================================================================
+>     +diff --git a/src/gpg-error.pc.in <http://gpg-error.pc.in>
+>     b/src/gpg-error.pc.in <http://gpg-error.pc.in>
+>     +new file mode 100644
+>     +index 0000000..bc0b174
+>      --- /dev/null
+>     -+++ libgpg-error-1.17/src/gpg-error.pc.in <http://gpg-error.pc.in>
+>     ++++ b/src/gpg-error.pc.in <http://gpg-error.pc.in>
+>      @@ -0,0 +1,11 @@
+>      +prefix=@prefix@
+>      +exec_prefix=@exec_prefix@
+>     @@ -148,3 +160,6 @@ Index: libgpg-error-1.17/src/gpg-error.pc.in
+>     <http://gpg-error.pc.in>
+>      +Version: @VERSION@
+>      +Libs: -L${libdir} -lgpg-error
+>      +Cflags: -I${includedir}
+>     +--
+>     +1.8.3.1
+>     +
+>     diff --git
+>     a/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
+>     <http://libgpg-error_1.27.bb>
+>     b/meta/recipes-support/libgpg-error/libgpg-error_1.28.bb
+>     <http://libgpg-error_1.28.bb>
+>     similarity index 88%
+>     rename from meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
+>     <http://libgpg-error_1.27.bb>
+>     rename to meta/recipes-support/libgpg-error/libgpg-error_1.28.bb
+>     <http://libgpg-error_1.28.bb>
+>     index b74f079..2be297d 100644
+>     --- a/meta/recipes-support/libgpg-error/libgpg-error_1.27.bb
+>     <http://libgpg-error_1.27.bb>
+>     +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.28.bb
+>     <http://libgpg-error_1.28.bb>
+>     @@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index
+>     <https://bugs.g10code.com/gnupg/index>"
+>      LICENSE = "GPLv2+ & LGPLv2.1+"
+>      LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+>                        
+>      file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+>     -                    file://src/gpg-error.h.in
+>     <http://gpg-error.h.in>;endline=23;md5=beae1e44d8d5c265d194760276033a7c
+>     \
+>     +                    file://src/gpg-error.h.in
+>     <http://gpg-error.h.in>;endline=23;md5=fc7423b56d5f7163a9a2acf9fe2f8d6b
+>     \
+>                        
+>      file://src/init.c;endline=20;md5=872b2389fe9bae7ffb80d2b91225afbc"
+>
+>
+>     @@ -16,8 +16,8 @@ SRC_URI =
+>     "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+>                 file://pkgconfig.patch \
+>               "
+>
+>     -SRC_URI[md5sum] = "5217ef3e76a7275a2a3b569a12ddc989"
+>     -SRC_URI[sha256sum] =
+>     "4f93aac6fecb7da2b92871bb9ee33032be6a87b174f54abf8ddf0911a22d29d2"
+>     +SRC_URI[md5sum] = "2b072f6194eb22d48cd4c7c77e59b5af"
+>     +SRC_URI[sha256sum] =
+>     "3edb957744905412f30de3e25da18682cbe509541e18cd3b8f9df695a075da49"
+>
+>      BINCONFIG = "${bindir}/gpg-error-config"
+>
+>     --
+>     2.8.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
 
 
+--------------5ED6118CE99FC15ECB501C0F
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2018年04月04日 02:35, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQcySp4rBQaSHJ1NRFQa05uKZkP6QOuSnDH0BYuCOaEHzA@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">This seems to cause:
+        <div><br>
+        </div>
+        <div>
+          <div>| ../../libgpg-error-1.28/src/logging.c: In function
+            '_gpgrt_log_printhex':</div>
+          <div>| ../../libgpg-error-1.28/src/logging.c:1153:49: error:
+            incompatible type for argument 4 of '_gpgrt_logv_printhex'</div>
+          <div>|      _gpgrt_logv_printhex (buffer, length, NULL, NULL);</div>
+          <div>|                                                  ^~~~</div>
+          <div>| ../../libgpg-error-1.28/src/logging.c:1097:1: note:
+            expected 'va_list {aka __va_list}' but argument is of type
+            'void *'</div>
+          <div>|  _gpgrt_logv_printhex (const void *buffer, size_t
+            length,</div>
+          <div>|  ^~~~~~~~~~~~~~~~~~~~</div>
+          <div>| make[3]: *** [libgpg_error_la-logging.lo] Error 1</div>
+        </div>
+        <div><br>
+        </div>
+        <div>which looks the same as:</div>
+        <div><a
+            href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893370"
+            moz-do-not-send="true">https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=893370</a><br>
+        </div>
+        <div><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Yes, backport a fix from upstream git repo could fix the issue<br>
+    <br>
+<a class="moz-txt-link-freetext" href="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commitdiff;h=791177de023574223eddf7288eb7c5a0721ac623">https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgpg-error.git;a=commitdiff;h=791177de023574223eddf7288eb7c5a0721ac623</a><br>
+    <br>
+    V3 incoming<br>
+    <br>
+    //Hongxu<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQcySp4rBQaSHJ1NRFQa05uKZkP6QOuSnDH0BYuCOaEHzA@mail.gmail.com">
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On Fri, Mar 30, 2018 at 10:52 AM,
+          Hongxu Jia <span dir="ltr">&lt;<a
+              href="mailto:hongxu.jia@windriver.com" target="_blank"
+              moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">- Rebase
+            pkgconfig.patch<br>
+            <br>
+            License-Update: copyright years<br>
+            <span class=""><br>
+              Signed-off-by: Hongxu Jia &lt;<a
+                href="mailto:hongxu.jia@windriver.com"
+                moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;<br>
+              ---<br>
+            </span> .../libgpg-error/libgpg-error/<wbr>pkgconfig.patch 
+                | 67 +++++++++++++---------<br>
+             .../{<a href="http://libgpg-error_1.27.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libgpg-error_1.27.bb</a>
+            =&gt; <a href="http://libgpg-error_1.28.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">libgpg-error_1.28.bb</a>}
+            |  6 +-<br>
+             2 files changed, 44 insertions(+), 29 deletions(-)<br>
+             rename meta/recipes-support/libgpg-<wbr>error/{<a
+              href="http://libgpg-error_1.27.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">libgpg-error_1.27.bb</a>
+            =&gt; <a href="http://libgpg-error_1.28.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">libgpg-error_1.28.bb</a>}
+            (88%)<br>
+            <br>
+            diff --git a/meta/recipes-support/libgpg-<wbr>error/libgpg-error/pkgconfig.<wbr>patch
+            b/meta/recipes-support/libgpg-<wbr>error/libgpg-error/pkgconfig.<wbr>patch<br>
+            <span class="">index 9ffeedb..3066613 100644<br>
+              --- a/meta/recipes-support/libgpg-<wbr>error/libgpg-error/pkgconfig.<wbr>patch<br>
+            </span>+++ b/meta/recipes-support/libgpg-<wbr>error/libgpg-error/pkgconfig.<wbr>patch<br>
+            <div>
+              <div class="h5">@@ -1,15 +1,26 @@<br>
+                -<br>
+                -#<br>
+                -# Patch managed by <a
+                  href="http://www.mn-logistik.de/unsupported/pxa250/patcher"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://www.mn-logistik.de/<wbr>unsupported/pxa250/patcher</a><br>
+                -#<br>
+                +From ec309e20b5a27d42a5fb915c328d61<wbr>e924ab5f19 Mon
+                Sep 17 00:00:00 2001<br>
+                +From: Hongxu Jia &lt;<a
+                  href="mailto:hongxu.jia@windriver.com"
+                  moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;<br>
+                +Date: Thu, 29 Mar 2018 15:12:17 +0800<br>
+                +Subject: [PATCH] support pkgconfig<br>
+                <br>
+                 Upstream-Status: Pending<br>
+                <br>
+                -Index: libgpg-error-1.17/<a href="http://configure.ac"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">configure.ac</a><br>
+                -=============================<wbr>==============================<wbr>========<br>
+                ---- libgpg-error-1.17.orig/<a
+                  href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configu<wbr>re.ac</a><br>
+                -+++ libgpg-error-1.17/<a href="http://configure.ac"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">configure.ac</a><br>
+                -@@ -529,6 +529,7 @@ AC_CONFIG_FILES([src/Makefile
+                tests/Make<br>
+                +Rebase to 1.28<br>
+                +<br>
+                +Signed-off-by: Hongxu Jia &lt;<a
+                  href="mailto:hongxu.jia@windriver.com"
+                  moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;<br>
+                +---<br>
+                + <a href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configure.ac</a> 
+                      |  1 +<br>
+                + src/Makefile.am     |  4 ++-<br>
+                + src/gpg-error.m4    | 71
+                +++---------------------------<wbr>-----------------------<br>
+                + src/<a href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error.pc.in</a>
+                | 11 +++++++++<br>
+                + 4 files changed, 18 insertions(+), 69 deletions(-)<br>
+                + create mode 100644 src/<a
+                  href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error.pc.in</a><br>
+                +<br>
+                +diff --git a/<a href="http://configure.ac"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">configure.ac</a> b/<a
+                  href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configure.ac</a><br>
+                +index aca9300..f7794e9 100644<br>
+                +--- a/<a href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configure.ac</a><br>
+                ++++ b/<a href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configure.ac</a><br>
+                +@@ -621,6 +621,7 @@ AC_CONFIG_FILES([src/Makefile
+                tests/Makefile])<br>
+                  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile
+                lang/cl/gpg-error.asd])<br>
+                  AC_CONFIG_FILES([src/<wbr>versioninfo.rc
+                src/gpg-error.w32-manifest])<br>
+                  AC_CONFIG_FILES([src/gpg-<wbr>error-config], [chmod +x
+                src/gpg-error-config])<br>
+                @@ -17,33 +28,33 @@ Index: libgpg-error-1.17/<a
+                  href="http://configure.ac" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">configure.ac</a><br>
+                <br>
+                  AC_OUTPUT<br>
+                <br>
+                -Index: libgpg-error-1.17/src/<wbr>Makefile.am<br>
+                -=============================<wbr>==============================<wbr>========<br>
+                ---- libgpg-error-1.17.orig/src/<wbr>Makefile.am<br>
+                -+++ libgpg-error-1.17/src/<wbr>Makefile.am<br>
+                -@@ -75,6 +75,8 @@ nodist_include_HEADERS = gpg-error.h<br>
+                - bin_SCRIPTS = gpg-error-config<br>
+                +diff --git a/src/Makefile.am b/src/Makefile.am<br>
+                +index 268c2ab..95f8459 100644<br>
+                +--- a/src/Makefile.am<br>
+                ++++ b/src/Makefile.am<br>
+                +@@ -87,6 +87,8 @@ bin_SCRIPTS = gpg-error-config<br>
+                + nodist_bin_SCRIPTS = gpgrt-config<br>
+                  m4datadir = $(datadir)/aclocal<br>
+                - m4data_DATA = gpg-error.m4<br>
+                + m4data_DATA = gpg-error.m4 gpgrt.m4<br>
+                 +pkgconfigdir = $(libdir)/pkgconfig<br>
+                 +pkgconfig_DATA = gpg-error.pc<br>
+                <br>
+                  EXTRA_DIST = mkstrtable.awk <a
+                  href="http://err-sources.h.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">err-sources.h.in</a>
+                <a href="http://err-codes.h.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">err-codes.h.in</a>
+                \<br>
+                        mkerrnos.awk <a href="http://errnos.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">errnos.in</a> README \<br>
+                -@@ -82,7 +84,7 @@ EXTRA_DIST = mkstrtable.awk
+                err-sources.<br>
+                +@@ -94,7 +96,7 @@ EXTRA_DIST = mkstrtable.awk <a
+                  href="http://err-sources.h.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">err-sources.h.in</a>
+                <a href="http://err-codes.h.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">err-codes.h.in</a>
+                \<br>
+                        mkheader.c <a href="http://gpg-error.h.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">gpg-error.h.in</a>
+                mkw32errmap.c w32-add.h w32ce-add.h \<br>
+                -       err-sources.h err-codes.h <a
+                  href="http://gpg-error-config.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error-config.in</a>
+                gpg-error.m4 \<br>
+                +       err-sources.h err-codes.h <a
+                  href="http://gpg-error-config.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error-config.in</a>
+                gpg-error.m4 gpgrt.m4 \<br>
+                        gpg-error.vers <a
+                  href="http://gpg-error.def.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error.def.in</a>
+                \<br>
+                 -        <a href="http://versioninfo.rc.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">versioninfo.rc.in</a> <a
+                  href="http://gpg-error.w32-manifest.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">gpg-error.w32-manifest.in</a> \<br>
+                 +        <a href="http://versioninfo.rc.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">versioninfo.rc.in</a> <a
+                  href="http://gpg-error.w32-manifest.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">gpg-error.w32-manifest.in</a>
+                gpg-error.pc \<br>
+                        $(lock_obj_pub)<br>
+                <br>
+                  BUILT_SOURCES = err-sources.h err-codes.h
+                code-to-errno.h code-from-errno.h \<br>
+                -Index: libgpg-error-1.17/src/gpg-<wbr>error.m4<br>
+                -=============================<wbr>==============================<wbr>========<br>
+                ---- libgpg-error-1.17.orig/src/<wbr>gpg-error.m4<br>
+                -+++ libgpg-error-1.17/src/gpg-<wbr>error.m4<br>
+                -@@ -26,73 +26,13 @@ dnl is added to the
+                gpg_config_script_wa<br>
+                +diff --git a/src/gpg-error.m4 b/src/gpg-error.m4<br>
+                +index 60c88d8..2ef7e3e 100644<br>
+                +--- a/src/gpg-error.m4<br>
+                ++++ b/src/gpg-error.m4<br>
+                +@@ -26,73 +26,13 @@ dnl is added to the
+                gpg_config_script_warn variable.<br>
+                  dnl<br>
+                  AC_DEFUN([AM_PATH_GPG_ERROR],<br>
+                  [ AC_REQUIRE([AC_CANONICAL_HOST]<wbr>)<br>
+                @@ -132,10 +143,11 @@ Index: libgpg-error-1.17/src/gpg-<wbr>error.m4<br>
+                      ifelse([$3], , :, [$3])<br>
+                    fi<br>
+                    AC_SUBST(GPG_ERROR_CFLAGS)<br>
+                -Index: libgpg-error-1.17/src/<a
+                  href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-<wbr>error.pc.in</a><br>
+                -=============================<wbr>==============================<wbr>========<br>
+                +diff --git a/src/<a href="http://gpg-error.pc.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">gpg-error.pc.in</a> b/src/<a
+                  href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-error.pc.in</a><br>
+                +new file mode 100644<br>
+                +index 0000000..bc0b174<br>
+                 --- /dev/null<br>
+                -+++ libgpg-error-1.17/src/<a
+                  href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-<wbr>error.pc.in</a><br>
+                ++++ b/src/<a href="http://gpg-error.pc.in"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">gpg-error.pc.in</a><br>
+                 @@ -0,0 +1,11 @@<br>
+                 +prefix=@prefix@<br>
+                 +exec_prefix=@exec_prefix@<br>
+                @@ -148,3 +160,6 @@ Index: libgpg-error-1.17/src/<a
+                  href="http://gpg-error.pc.in" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">gpg-<wbr>error.pc.in</a><br>
+                 +Version: @VERSION@<br>
+                 +Libs: -L${libdir} -lgpg-error<br>
+                 +Cflags: -I${includedir}<br>
+                +--<br>
+                +1.8.3.1<br>
+                +<br>
+                diff --git a/meta/recipes-support/libgpg-<wbr>error/<a
+                  href="http://libgpg-error_1.27.bb" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">libgpg-error_1.27.bb</a>
+                b/meta/recipes-support/libgpg-<wbr>error/<a
+                  href="http://libgpg-error_1.28.bb" rel="noreferrer"
+                  target="_blank" moz-do-not-send="true">libgpg-error_1.28.bb</a><br>
+              </div>
+            </div>
+            similarity index 88%<br>
+            <span class="">rename from meta/recipes-support/libgpg-<wbr>error/<a
+                href="http://libgpg-error_1.27.bb" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">libgpg-error_1.27.bb</a><br>
+              rename to meta/recipes-support/libgpg-<wbr>error/<a
+                href="http://libgpg-error_1.28.bb" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">libgpg-error_1.28.bb</a><br>
+            </span>index b74f079..2be297d 100644<br>
+            <span class="">--- a/meta/recipes-support/libgpg-<wbr>error/<a
+                href="http://libgpg-error_1.27.bb" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">libgpg-error_1.27.bb</a><br>
+              +++ b/meta/recipes-support/libgpg-<wbr>error/<a
+                href="http://libgpg-error_1.28.bb" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">libgpg-error_1.28.bb</a><br>
+              @@ -5,7 +5,7 @@ BUGTRACKER = "<a
+                href="https://bugs.g10code.com/gnupg/index"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">https://bugs.g10code.com/<wbr>gnupg/index</a>"<br>
+               LICENSE = "GPLv2+ &amp; LGPLv2.1+"<br>
+               LIC_FILES_CHKSUM = "<a class="moz-txt-link-freetext" href="file://COPYING;md5=">file://COPYING;md5=</a><wbr>59530bdf33659b29e73d4adb9f9f65<wbr>52
+              \<br>
+                                   <a class="moz-txt-link-freetext" href="file://COPYING.LIB;md5=">file://COPYING.LIB;md5=</a><wbr>2d5025d4aa3495befef8f17206a5b0<wbr>a1
+              \<br>
+              -                    <a class="moz-txt-link-freetext" href="file://src/">file://src/</a><a
+                href="http://gpg-error.h.in" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">gpg-error.h.in</a>;<wbr>endline=23;md5=<wbr>beae1e44d8d5c265d194760276033a<wbr>7c
+              \<br>
+              +                    <a class="moz-txt-link-freetext" href="file://src/">file://src/</a><a
+                href="http://gpg-error.h.in" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">gpg-error.h.in</a>;<wbr>endline=23;md5=<wbr>fc7423b56d5f7163a9a2acf9fe2f8d<wbr>6b
+              \<br>
+                                   <a class="moz-txt-link-freetext" href="file://src/init.c;endline=20">file://src/init.c;endline=20</a>;<wbr>md5=<wbr>872b2389fe9bae7ffb80d2b91225af<wbr>bc"<br>
+              <br>
+              <br>
+            </span>@@ -16,8 +16,8 @@ SRC_URI =
+            "${GNUPG_MIRROR}/libgpg-error/<wbr>libgpg-error-${PV}.tar.bz2
+            \<br>
+                        <a class="moz-txt-link-freetext" href="file://pkgconfig.patch">file://pkgconfig.patch</a> \<br>
+            <div class="HOEnZb">
+              <div class="h5">          "<br>
+                <br>
+                -SRC_URI[md5sum] = "<wbr>5217ef3e76a7275a2a3b569a12ddc9<wbr>89"<br>
+                -SRC_URI[sha256sum] = "<wbr>4f93aac6fecb7da2b92871bb9ee330<wbr>32be6a87b174f54abf8ddf0911a22d<wbr>29d2"<br>
+                +SRC_URI[md5sum] = "<wbr>2b072f6194eb22d48cd4c7c77e59b5<wbr>af"<br>
+                +SRC_URI[sha256sum] = "<wbr>3edb957744905412f30de3e25da186<wbr>82cbe509541e18cd3b8f9df695a075<wbr>da49"<br>
+                <br>
+                 BINCONFIG = "${bindir}/gpg-error-config"<br>
+                <br>
+                --<br>
+                2.8.1<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a
+                  href="mailto:Openembedded-core@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </div>
+            </div>
+          </blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------5ED6118CE99FC15ECB501C0F--
