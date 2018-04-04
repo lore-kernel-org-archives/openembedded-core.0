@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B1EE07482D
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F3F347482D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  4 Apr 2018 01:49:27 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id 91-v6so11766185pld.3
+Received: by mail-pl0-f68.google.com with SMTP id b6-v6so9785346pla.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 18:49:28 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5nexabaezKNcnS+TjXgK2DVIIvWyrkGS7ofjUC1azLE=;
-	b=kOuArrvwlDavIsx6ljPGLgIILWUmwwC6ITe+5gBIrXwYT/F1d6G7INsqVfgG7kIG9d
-	Cb8ks90UyuO5jsgGg/yRiUpYmZMIZK8DIx2QlDxW3ENKCOx37jLiikuZqg7fLMOiPjA+
-	82en947fIq/sbNieCZSuvxV9IVeN/ERw/lbRhxeuxf6D88RD86jJHKiMTiXOfvfp+FuG
-	qtOJS6wSX++VuBgz7M9S95OyZ7UV80eTtdLqMtoIXk6sZfONwgBncpgyNfU27lbAjm1v
-	mSBefksDQHrOKAEtFRMTksInckPjNPo+NHSMbiTOhiJtnOThA2C+Qk4mbXJAScWngVfr
-	VIYw==
+	bh=+/EyLfF7Yi+TiLwqhrGFpOf2qhXjA8e8OJ3DuAc49ME=;
+	b=Ys2yqVgjxx490ovpjbR1GLrovwum1eE84JQrlF/89nUiWRAs2wXkeVZRRAGH/xPV8M
+	E42vonIkg6KbF+KfX/E4cH9SEHh4WZ5P4woFJHFrl0p8eT4JeFFadv2CuTKA1vF38+ME
+	bqmeQAhp8QmiFxNocxGESeMYAUeAXY8wgU6btIixY1FjadNLTIGXMHmWpShwzbyOfjR0
+	2Fj4YFxUJozW6RLdxIWiacS0ILxAUjxeunHgqzNt+UGoPPxWQ2+WKLmjtEl64g2Eek8v
+	Qc82PnX3jEiBj82N1yhlqlyzTizmDDu4/NG4YtkS1VkFVAMAqQUV/x42s5UTKIywLQWQ
+	YOXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=5nexabaezKNcnS+TjXgK2DVIIvWyrkGS7ofjUC1azLE=;
-	b=Cug1HbLyYOmtC99ikduj1Fh4mx2hkdSOZ885tOyis3jX++t1j32I8ogwa1cl0wyICU
-	WezfidVwzFY5OafJ+uZKcKzqKGnEYUarRhu1oBbsqc/IF8kbDEjmy6VHx2dL5XKWCNJw
-	xtecDxFHhqfjK52geFFnY1OadgRsRllLrlhJYt6QuPvPSeYtYEDwGbEMyc/hxk/JGEbY
-	+9fsPnl6/V6plDQ4f+206HemKdlDXdd0epCBH56/2ISdVwpIH2N5uUSa/zgCPRkKF8p0
-	Y64lxrYOj1W4zSSHNj/shrOK/mOw/tsIj0/kN5UlvlOCCt7zPbYxLLdazOiWgGnc9wr2
-	UnSw==
-X-Gm-Message-State: AElRT7E7bqHxFNWiAPMivC3VUsEK/MZSODtpna0k9684xk9ystzMZOVn
-	BJq+xojsnXpsRrKDGkyJloeVvg==
-X-Google-Smtp-Source: AIpwx4+BPKAWKeAPk1ed66dzDcp4EdGWwT1m3crq72OqnQRieQY5zCnr7/9aqPElTp/kSUn9i6EIzg==
-X-Received: by 2002:a17:902:ab85:: with SMTP id
-	f5-v6mr16271440plr.380.1522806568274; 
-	Tue, 03 Apr 2018 18:49:28 -0700 (PDT)
+	bh=+/EyLfF7Yi+TiLwqhrGFpOf2qhXjA8e8OJ3DuAc49ME=;
+	b=Ys2+cO32qgpyAEsrQyJE09IuF44pDk3aF643zz9dFviw8owp/ElUm8Sp6PC2mokHzr
+	X7BMdz6mzpIRCYD7Y2Dgek9+qncSxODAfT1xYfXkUEpuSgP+aEb5drezwYQ61fG7FY+N
+	OXdiYodTXdHTLMPEf75eb9gkfO5zAA7BZ4Bh91+eHKxqx3RVnmX9oPk+wVMBh+qGPyYT
+	N87EWE9kogZetJVvdbOzDblFhve6unlKgT9DuQvCFTChRxyIJH6X1dXsbBPxtdNjdTRk
+	AUJ+rdaOBNgtoRczzRQczY63mw5AVRXEyKUQswaPL41eMfFQdE2r8Uwif1CEJvoX7f9e
+	Rzpg==
+X-Gm-Message-State: AElRT7HIzewc7c6MelczwbI7OQBc1j3/SuOUFOt/cLjFUnWU0y7lIcp6
+	3TILeZpzXq7nwrqi2hMKtPEKFQ==
+X-Google-Smtp-Source: AIpwx494+VCVuRQ7HnfNQZ5o6UHggiKUFELwK2nBBiJbsoTsR5/9wU3JDDe8EAGM4j03bsomRiMqXg==
+X-Received: by 2002:a17:902:5902:: with SMTP id
+	o2-v6mr15399345pli.81.1522806569247; 
+	Tue, 03 Apr 2018 18:49:29 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:a4f3:7c10:9123:63ea])
 	by smtp.gmail.com with ESMTPSA id
-	d8sm7485877pfh.177.2018.04.03.18.49.27
+	d8sm7485877pfh.177.2018.04.03.18.49.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Apr 2018 18:49:27 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Tue,  3 Apr 2018 18:49:03 -0700
-Message-Id: <6ac9c22f00992d0616f05f26052e813557d2cb0a.1522806183.git.akuster808@gmail.com>
+Date: Tue,  3 Apr 2018 18:49:04 -0700
+Message-Id: <7456739bea36b64823f64ded501e731280906e84.1522806183.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
 References: <cover.1522806183.git.akuster808@gmail.com>
-Subject: [PATCH 04/21] xkbcomp: update to 1.4.1
+Subject: [PATCH 05/21] xinit: update to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 01:49:27 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 01:49:28 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../xorg-app/{xkbcomp_1.4.0.bb => xkbcomp_1.4.1.bb}                 | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xkbcomp_1.4.0.bb => xkbcomp_1.4.1.bb} (75%)
+ meta/recipes-graphics/xorg-app/{xinit_1.3.4.bb => xinit_1.4.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xinit_1.3.4.bb => xinit_1.4.0.bb} (79%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xkbcomp_1.4.0.bb b/meta/recipes-graphics/xorg-app/xkbcomp_1.4.1.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-app/xkbcomp_1.4.0.bb
-rename to meta/recipes-graphics/xorg-app/xkbcomp_1.4.1.bb
-index c9dc327..c35d5d7 100644
---- a/meta/recipes-graphics/xorg-app/xkbcomp_1.4.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xkbcomp_1.4.1.bb
-@@ -9,11 +9,9 @@ be read directly by XKB-capable X servers or utilities."
+diff --git a/meta/recipes-graphics/xorg-app/xinit_1.3.4.bb b/meta/recipes-graphics/xorg-app/xinit_1.4.0.bb
+similarity index 79%
+rename from meta/recipes-graphics/xorg-app/xinit_1.3.4.bb
+rename to meta/recipes-graphics/xorg-app/xinit_1.4.0.bb
+index 9318518..dc2a06b 100644
+--- a/meta/recipes-graphics/xorg-app/xinit_1.3.4.bb
++++ b/meta/recipes-graphics/xorg-app/xinit_1.4.0.bb
+@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=18f01e7b39807bebe2b8df101a039b68"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=08436e4f4476964e2e2dd7e7e41e076a"
+ PE = "1"
  
--PR = "${INC_PR}.0"
--
- DEPENDS += "libxkbfile"
+-SRC_URI[md5sum] = "4e928452dfaf73851413a2d8b8c76388"
+-SRC_URI[sha256sum] = "75d88d7397a07e01db253163b7c7a00b249b3d30e99489f2734cac9a0c7902b3"
++SRC_URI[md5sum] = "2da154b2f80ca9637b1a17b13af0880c"
++SRC_URI[sha256sum] = "230835eef2f5978a1e1344928168119373f6df1d0a32c09515e545721ee582ef"
  
- BBCLASSEXTEND = "native"
+ EXTRA_OECONF = "ac_cv_path_MCOOKIE=${bindir}/mcookie"
  
--SRC_URI[md5sum] = "cc22b232bc78a303371983e1b48794ab"
--SRC_URI[sha256sum] = "bc69c8748c03c5ad9afdc8dff9db11994dd871b614c65f8940516da6bf61ce6b"
-+SRC_URI[md5sum] = "07df9790d30f9a369d20a418af784de0"
-+SRC_URI[sha256sum] = "748dc4cf58ac95684106bd9cf163ac6ab7de9a236faec02a6f4d4006d63a5736"
 -- 
 2.7.4
 
