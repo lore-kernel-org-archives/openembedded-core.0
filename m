@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B0877474D
+	by mail.openembedded.org (Postfix) with ESMTP id 5E5E07483C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 11:19:59 +0000 (UTC)
+	Wed,  4 Apr 2018 11:20:00 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 04:20:00 -0700
+	04 Apr 2018 04:20:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40599798"
+X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40599803"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:19:59 -0700
+	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:20:00 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 14:13:05 +0300
-Message-Id: <20180404111321.10824-6-alexander.kanavin@linux.intel.com>
+Date: Wed,  4 Apr 2018 14:13:06 +0300
+Message-Id: <20180404111321.10824-7-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
 References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/22] gobject-introspection: update to 1.56.0
+Subject: [PATCH 07/22] glib-2.0: update to 2.56.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +32,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 11:19:59 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 11:20:00 -0000
 
-License-Update: bug tracker link changed
+Remove upstreamed ptest-paths.patch
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../0001-giscanner-add-a-lib-dirs-envvar-option.patch       | 13 +++++--------
- ...rospection_1.54.1.bb => gobject-introspection_1.56.0.bb} | 13 +++++++------
- 2 files changed, 12 insertions(+), 14 deletions(-)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.54.1.bb => gobject-introspection_1.56.0.bb} (94%)
+ .../0001-Do-not-ignore-return-value-of-write.patch | 17 +++++-------
+ .../glib-2.0/glib-2.0/ptest-paths.patch            | 30 ----------------------
+ .../glib-2.0/glib-2.0/relocate-modules.patch       | 13 ++++++----
+ .../{glib-2.0_2.54.3.bb => glib-2.0_2.56.0.bb}     |  5 ++--
+ 4 files changed, 17 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/ptest-paths.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.54.3.bb => glib-2.0_2.56.0.bb} (82%)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-index 4ec527dcc0f..232480f3f56 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-lib-dirs-envvar-option.patch
-@@ -1,4 +1,4 @@
--From e48f1e18f5ea41656f0ba10fe61d69d2604b0064 Mon Sep 17 00:00:00 2001
-+From 06ebdaa5c8f9721acf93cc3e75a877a3c963867f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 3 Jan 2018 17:02:01 +0200
- Subject: [PATCH] giscanner: add a --lib-dirs-envvar option
-@@ -19,7 +19,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 7 insertions(+), 3 deletions(-)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
+index aee96aaa6e7..0ebf138d60a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-ignore-return-value-of-write.patch
+@@ -1,30 +1,30 @@
+-From d6501b107940e9f548c89236d773c6d33c15a5c9 Mon Sep 17 00:00:00 2001
++From d250652782b65b071b7cc8f01f2db833df104e0e Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 16 Apr 2016 13:28:59 -0700
+-Subject: [PATCH 1/2] Do not ignore return value of write()
++Subject: [PATCH] Do not ignore return value of write()
  
- diff --git a/giscanner/ccompiler.py b/giscanner/ccompiler.py
--index 29de0ee..928eae8 100644
-+index a8bd5b1..6cf25d5 100644
- --- a/giscanner/ccompiler.py
- +++ b/giscanner/ccompiler.py
- @@ -109,7 +109,7 @@ class CCompiler(object):
-@@ -32,7 +32,7 @@ index 29de0ee..928eae8 100644
-          # is being built in the current directory.
+ gcc warns about ignoring return value when compiling
+ with fortify turned on.
+ 
+ assert when write() fails
+ 
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+ Upstream-Status: Submitted
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
++---
+  glib/tests/unix.c | 5 +++--
+  1 file changed, 3 insertions(+), 2 deletions(-)
+ 
+ diff --git a/glib/tests/unix.c b/glib/tests/unix.c
+-index 3543458..4e7ed85 100644
++index 9d55a6c..a07f945 100644
+ --- a/glib/tests/unix.c
+ +++ b/glib/tests/unix.c
+ @@ -32,14 +32,15 @@ test_pipe (void)
+    GError *error = NULL;
+    int pipefd[2];
+    char buf[1024];
+--  ssize_t bytes_read;
+-+  ssize_t bytes_read, bytes_written;
++-  gssize bytes_read;
+++  gssize bytes_read, bytes_written;
+    gboolean res;
   
- @@ -119,7 +119,7 @@ class CCompiler(object):
--         if self.check_is_msvc():
-+         if os.name == 'nt':
-              runtime_path_envvar = ['LIB', 'PATH']
-          else:
- -            runtime_path_envvar = ['LD_LIBRARY_PATH']
-@@ -41,7 +41,7 @@ index 29de0ee..928eae8 100644
-              # (This flag is not supported nor needed for Visual C++)
-              args.append('-L.')
- diff --git a/giscanner/dumper.py b/giscanner/dumper.py
--index 7f77bd2..db96df6 100644
-+index 3c7220b..0abd565 100644
- --- a/giscanner/dumper.py
- +++ b/giscanner/dumper.py
- @@ -259,7 +259,8 @@ class DumpCompiler(object):
-@@ -55,7 +55,7 @@ index 7f77bd2..db96df6 100644
-  
-          else:
- diff --git a/giscanner/scannermain.py b/giscanner/scannermain.py
--index 38a45c1..b603850 100755
-+index d262785..51c9570 100755
- --- a/giscanner/scannermain.py
- +++ b/giscanner/scannermain.py
- @@ -130,6 +130,9 @@ def _get_option_parser():
-@@ -68,6 +68,3 @@ index 38a45c1..b603850 100755
-      parser.add_option("", "--program-arg",
-                        action="append", dest="program_args", default=[],
-                        help="extra arguments to program")
+    res = g_unix_open_pipe (pipefd, FD_CLOEXEC, &error);
+@@ -37,6 +37,3 @@ index 3543458..4e7ed85 100644
+    memset (buf, 0, sizeof (buf));
+    bytes_read = read (pipefd[0], buf, sizeof(buf) - 1);
+    g_assert_cmpint (bytes_read, >, 0);
 --- 
--2.15.1
+-2.8.0
 -
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.56.0.bb
-similarity index 94%
-rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb
-rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.56.0.bb
-index e3306672393..8f84f832b03 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.54.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.56.0.bb
-@@ -3,10 +3,11 @@ HOMEPAGE = "https://wiki.gnome.org/action/show/Projects/GObjectIntrospection"
- BUGTRACKER = "https://bugzilla.gnome.org/"
- SECTION = "libs"
- LICENSE = "LGPLv2+ & GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
--                    file://tools/compiler.c;endline=20;md5=fc5007fc20022720e6c0b0cdde41fabd \
--                    file://giscanner/sourcescanner.c;endline=22;md5=194d6e0c1d00662f32d030ce44de8d39 \
--                    file://girepository/giregisteredtypeinfo.c;endline=21;md5=661847611ae6979465415f31a759ba27"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6317a809f70ed9848fa5673121908586 \
-+                    file://tools/compiler.c;md5=fc5007fc20022720e6c0b0cdde41fabd;endline=20 \
-+                    file://giscanner/sourcescanner.c;md5=194d6e0c1d00662f32d030ce44de8d39;endline=22 \
-+                    file://girepository/giregisteredtypeinfo.c;md5=661847611ae6979465415f31a759ba27;endline=21 \
-+                    "
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/ptest-paths.patch b/meta/recipes-core/glib-2.0/glib-2.0/ptest-paths.patch
+deleted file mode 100644
+index f3be02770cb..00000000000
+--- a/meta/recipes-core/glib-2.0/glib-2.0/ptest-paths.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Instead of writing the temporary mapping files in the mappedfile test to the
+-user runtime directory, write them to $TMP.  The runtime directory may not
+-currently exist if the test is executed on a non-desktop system and the test
+-doesn't attempt to create the directory structure.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/glib/tests/mappedfile.c b/glib/tests/mappedfile.c
+-index 40e0e60..27a24be 100644
+---- a/glib/tests/mappedfile.c
+-+++ b/glib/tests/mappedfile.c
+-@@ -81,7 +81,7 @@ test_writable (void)
+-   const gchar *new = "abcdefghijklmnopqrstuvxyz";
+-   gchar *tmp_copy_path;
+- 
+--  tmp_copy_path = g_build_filename (g_get_user_runtime_dir (), "glib-test-4096-random-bytes", NULL);
+-+  tmp_copy_path = g_build_filename (g_get_tmp_dir (), "glib-test-4096-random-bytes", NULL);
+- 
+-   g_file_get_contents (g_test_get_filename (G_TEST_DIST, "4096-random-bytes", NULL), &contents, &len, &error);
+-   g_assert_no_error (error);
+-@@ -125,7 +125,7 @@ test_writable_fd (void)
+-   int fd;
+-   gchar *tmp_copy_path;
+- 
+--  tmp_copy_path = g_build_filename (g_get_user_runtime_dir (), "glib-test-4096-random-bytes", NULL);
+-+  tmp_copy_path = g_build_filename (g_get_tmp_dir (), "glib-test-4096-random-bytes", NULL);
+- 
+-   g_file_get_contents (g_test_get_filename (G_TEST_DIST, "4096-random-bytes", NULL), &contents, &len, &error);
+-   g_assert_no_error (error);
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 65d5b43f9b6..d3d63b2cd15 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,3 +1,8 @@
++From 3edc9a063ceaf27129e0dd96a8be3942e3dd5e96 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 11 Mar 2016 15:35:55 +0000
++Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
++
+ Instead of hard-coding GIO_MODULE_PATH when glib is built, use dladdr() to
+ determine where libglib.so is and use that path to calculate GIO_MODULES_DIR.
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
-            file://0001-Revert-an-incomplete-upstream-attempt-at-cross-compi.patch \
-@@ -16,8 +17,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-$
-            file://0005-Prefix-pkg-config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch \
-            file://0001-giscanner-add-a-lib-dirs-envvar-option.patch \
-            "
--SRC_URI[md5sum] = "126c29e4d54adbed2ed4e2b04483de41"
--SRC_URI[sha256sum] = "b88ded5e5f064ab58a93aadecd6d58db2ec9d970648534c63807d4f9a7bb877e"
-+SRC_URI[md5sum] = "8064b5cd8fa02feeab850a0f6ef72b0f"
-+SRC_URI[sha256sum] = "0d7059fad7aa5ec50d9678aea4ea139acab23737e9cf9ca0d86c615cecbaa0f8"
+@@ -8,12 +13,13 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- inherit autotools pkgconfig gtk-doc python3native qemu gobject-introspection-data upstream-version-is-even
- BBCLASSEXTEND = "native"
+ Port patch to 2.48
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
+ ---
+  gio/giomodule.c | 12 +++++++++++-
+  1 file changed, 11 insertions(+), 1 deletion(-)
+ 
+ diff --git a/gio/giomodule.c b/gio/giomodule.c
+-index da7c167..cc0bc7c 100644
++index 6937932..66852e6 100644
+ --- a/gio/giomodule.c
+ +++ b/gio/giomodule.c
+ @@ -40,6 +40,8 @@
+@@ -25,7 +31,7 @@ index da7c167..cc0bc7c 100644
+  #endif
+  #include <glib/gstdio.h>
+  
+-@@ -1036,7 +1038,15 @@ get_gio_module_dir (void)
++@@ -1050,7 +1052,15 @@ get_gio_module_dir (void)
+  #endif
+        g_free (install_dir);
+  #else
+@@ -42,6 +48,3 @@ index da7c167..cc0bc7c 100644
+  #endif
+      }
+  
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.56.0.bb
+similarity index 82%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.56.0.bb
+index faf594569d6..81d207c5963 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.56.0.bb
+@@ -7,7 +7,6 @@ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://configure-libtool.patch \
+            file://run-ptest \
+-           file://ptest-paths.patch \
+            file://uclibc_musl_translation.patch \
+            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
+            file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+@@ -20,5 +19,5 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+ 
+-SRC_URI[md5sum] = "16e886ad677bf07b7d48eb8188bcf759"
+-SRC_URI[sha256sum] = "963fdc6685dc3da8e5381dfb9f15ca4b5709b28be84d9d05a9bb8e446abac0a8"
++SRC_URI[md5sum] = "f2b59392f2fb514bbe7791dda0c36da5"
++SRC_URI[sha256sum] = "ecef6e17e97b8d9150d0e8a4b3edee1ac37331213b8a2a87a083deea408a0fc7"
 -- 
 2.16.1
 
