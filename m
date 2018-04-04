@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 784A174838
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B08574838
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 01:49:31 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id c21-v6so8158297plz.10
+	Wed,  4 Apr 2018 01:49:32 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id s24-v6so11767423plq.6
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 03 Apr 2018 18:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=GAnM9RnyJ5Dfo1cE1FBK3BNeQq2StjerTEM8bVLsw5M=;
-	b=AYi168+gpXeBOWmH++R05snPTCXjdSc46G0utqZm638DVk+j5t4AOJSxb12uOIA6xy
-	9mvfW7CshWyTbKYc8CFl3I3OX6kGWrRlTlSboVaOj+sDDhppbRKx9v9XhS7mGwi8ynju
-	T8SQIHBNJm2V5mZ8Pbs8+PNlawXskhoIawc//8D4MeOpEAX16bJsWpPxf16aMlUB9Tsf
-	acQgwj5Pxyf/bt6iAgNSlkfuo+2qi+Hj+MGy9Fe0s+x08/s1V3Tl3le7jR9ePjLYWyVL
-	0ySS8CY1PythTq9cYwJhnvDjfYtVUdGv3TPYELWogMHc38kALC/XR5CUwNHAYkvCH6U7
-	OBmQ==
+	bh=GjALHnO2WnchbsPuIy0XkJ40UOIzo1sCCNCQeL3Xvfw=;
+	b=tvPR6EYt0MZGVC7UzqjGLPQ5pAJ+eEIkRIHypc2V0iOakJ3yZoEeT8pooy9/o73+oz
+	WTunUNNoSj6DWfIoVPDhVD5+L3NFr3lfo5/5tJs4lMQfVLYcgF6vRq54TG5iQy2JOzjS
+	2nj+pTbI4RXkv4Qc8c3N3CEEu2BxR5Hv5qSWpQilsm08iqTInHJG8of14DugYZ/qHqLn
+	izP990ceNANjXadztLPngZ1odtw7+W9Si4wnEUe5vMSGTIbPlocxtxRZaOCubvQ/H2ej
+	SXYzLYyySVagMxLsaj47+E39YNTEICMpSHHXN9lrmlfkI+mMhWmHRjep7j/QjzdQLHR0
+	aQ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=GAnM9RnyJ5Dfo1cE1FBK3BNeQq2StjerTEM8bVLsw5M=;
-	b=OSZ5Ti5YrjoX/x1xoC7XRKNidgBo3xyLGe1eIWO9y7Wxb7XPIUSCyFe/n1wuiknBlE
-	aK3KOV513K5Wsjq3TOeCx7IeGbfg9Ok1sad9N7AeGVDJQsahNaEEvfEGnNus5rqnjCYw
-	vLsM07d5UB1GP8lT6aiIseXgwacVjSAtDXPA6zOlzC5BSBceDTjPCO8vJqDgIY7Bj3Rk
-	hMY6j9ECcR2ATTclk1PTkwCz+cOsedjVNoJ4jxBcy2l16zj9s6DizuVWbPn6UOOVVGag
-	JLRSfOYEUsNaQuGZxuJq4a6hG7lNPR9VQ10pCshCTjg+6eu5tc1FThCM45HnBSaG1QcK
-	iJvg==
-X-Gm-Message-State: AElRT7G3yLVW5uCZtfFqPNMgS7nBn+6j1YsQsZavTLvQUD2MgJEmHZ/7
-	9tcUmUZ7XgJi5mFI2MKKg0aWTg==
-X-Google-Smtp-Source: AIpwx4/yy/JFsbF9BJC/yzeg8RKVH5CNo7eINQ1gfZkk3mwzr74Uy6HS9QxdJDrOVZ1omTvsEQSbYA==
-X-Received: by 2002:a17:902:3041:: with SMTP id
-	u59-v6mr16128087plb.208.1522806572715; 
-	Tue, 03 Apr 2018 18:49:32 -0700 (PDT)
+	bh=GjALHnO2WnchbsPuIy0XkJ40UOIzo1sCCNCQeL3Xvfw=;
+	b=r8g+/8Y3SEJRg19Tqq72cM/cXUC5xl8YVN1hNwbdl38w4QDt+JbvZW5iXLqGYMSBrf
+	qhZVKhyb0goGsfKnQN3x/FmtxECJFYL2a+UCbkcP98X7MLqJXR7eh6gApC/Uo4y7BPlt
+	K8CwVOrXuTmv1/Kt/H2srlRqLnFUKXy7FXkKs706vU24UanBHKA3sE3upiaXUMLDF4+8
+	yNlXMMkhZmTv64a8kNFO2V6TOhbkuKQ5Q2a0IYVZ2K3BtrYsxedknWUyE31jFEpSxLjl
+	/Q1JhJPVjKlaUaUauGEha2PVTfSH5kiR4aVJNhSKN5VkqbzNFt8iS9WefxE+8W7Hn81Q
+	4H5Q==
+X-Gm-Message-State: AElRT7FzKfdiFZN1KVf2+zzAN0+jn06dh9uwj6VGH2Hs42QW3FWNGBPj
+	DKZ6riguIk3ZSYKm9qHpNiMDaQ==
+X-Google-Smtp-Source: AIpwx48VmWtOQBSZU1Wr7GUhoDK5n+BQ5J6zJ8yNSysd6Kh0wfDZVyrFWKVP2tsCRQjpwVG+G9rhnA==
+X-Received: by 2002:a17:902:830a:: with SMTP id
+	bd10-v6mr16153388plb.322.1522806573607; 
+	Tue, 03 Apr 2018 18:49:33 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:a4f3:7c10:9123:63ea])
 	by smtp.gmail.com with ESMTPSA id
-	d8sm7485877pfh.177.2018.04.03.18.49.31
+	d8sm7485877pfh.177.2018.04.03.18.49.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Apr 2018 18:49:32 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:33 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Tue,  3 Apr 2018 18:49:08 -0700
-Message-Id: <fcef461298a02779bab23a857d84be38aca756cc.1522806183.git.akuster808@gmail.com>
+Date: Tue,  3 Apr 2018 18:49:09 -0700
+Message-Id: <baaea1f828b83085229f46e3868347f50da0302d.1522806183.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
 References: <cover.1522806183.git.akuster808@gmail.com>
-Subject: [PATCH 09/21] libshmfence: update to 1.3
+Subject: [PATCH 10/21] xset: update to 1.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,61 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 01:49:31 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 01:49:32 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-refreshed patch
-
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../xorg-lib/libxshmfence/extensions.patch                 | 14 ++++++++------
- .../xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb}  |  4 ++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxshmfence_1.2.bb => libxshmfence_1.3.bb} (77%)
+ meta/recipes-graphics/xorg-app/{xset_1.2.3.bb => xset_1.2.4.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xset_1.2.3.bb => xset_1.2.4.bb} (77%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
-index 4cc9e05..461fe83 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence/extensions.patch
-@@ -4,14 +4,16 @@ AC_USE_SYSTEM_EXTENSIONS to get that defined.
- Upstream-Status: Submitted
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
--diff --git a/configure.ac b/configure.ac
--index 0c98875..ebf4dee 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -29,4 +29,6 @@ AC_CONFIG_SRCDIR([Makefile.am])
-- AC_CONFIG_HEADERS([config.h])
-+Index: libxshmfence-1.3/configure.ac
-+===================================================================
-+--- libxshmfence-1.3.orig/configure.ac
-++++ libxshmfence-1.3/configure.ac
-+@@ -30,6 +30,8 @@ AC_CONFIG_HEADERS([config.h])
-+ 
-+ AC_USE_SYSTEM_EXTENSIONS
-  
- +AC_USE_SYSTEM_EXTENSIONS
- +
-  # Initialize Automake
-  AM_INIT_AUTOMAKE([foreign dist-bzip2])
-+ 
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
+diff --git a/meta/recipes-graphics/xorg-app/xset_1.2.3.bb b/meta/recipes-graphics/xorg-app/xset_1.2.4.bb
 similarity index 77%
-rename from meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-index 1df068d..f6f5fb2 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-@@ -15,5 +15,5 @@ BBCLASSEXTEND = "native nativesdk"
+rename from meta/recipes-graphics/xorg-app/xset_1.2.3.bb
+rename to meta/recipes-graphics/xorg-app/xset_1.2.4.bb
+index f683b76..5748837 100644
+--- a/meta/recipes-graphics/xorg-app/xset_1.2.3.bb
++++ b/meta/recipes-graphics/xorg-app/xset_1.2.4.bb
+@@ -12,8 +12,8 @@ PE = "1"
  
- SRC_URI += "file://extensions.patch"
+ SRC_URI += "file://disable-xkb.patch"
  
--SRC_URI[md5sum] = "66662e76899112c0f99e22f2fc775a7e"
--SRC_URI[sha256sum] = "d21b2d1fd78c1efbe1f2c16dae1cb23f8fd231dcf891465b8debe636a9054b0c"
-+SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
-+SRC_URI[sha256sum] = "b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7"
+-SRC_URI[md5sum] = "dcd227388b57487d543cab2fd7a602d7"
+-SRC_URI[sha256sum] = "4382f4fb29b88647e13f3b4bc29263134270747fc159cfc5f7e3af23588c8063"
++SRC_URI[md5sum] = "70ea7bc7bacf1a124b1692605883f620"
++SRC_URI[sha256sum] = "e4fd95280df52a88e9b0abc1fee11dcf0f34fc24041b9f45a247e52df941c957"
+ 
+ CFLAGS += "-D_GNU_SOURCE"
+ EXTRA_OECONF = "--disable-xkb --without-fontcache"
 -- 
 2.7.4
 
