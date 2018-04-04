@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDE2746F5
+	by mail.openembedded.org (Postfix) with ESMTP id 427217485B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 11:20:06 +0000 (UTC)
+	Wed,  4 Apr 2018 11:20:08 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 04:20:08 -0700
+	04 Apr 2018 04:20:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40599833"
+X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="40599837"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:20:07 -0700
+	by orsmga003.jf.intel.com with ESMTP; 04 Apr 2018 04:20:08 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 14:13:11 +0300
-Message-Id: <20180404111321.10824-12-alexander.kanavin@linux.intel.com>
+Date: Wed,  4 Apr 2018 14:13:12 +0300
+Message-Id: <20180404111321.10824-13-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
 References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/22] epiphany: update to 3.28.0.1
+Subject: [PATCH 13/22] gtk-doc: update to 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,85 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 11:20:07 -0000
-
-Rebase 0002-help-meson.build-disable-the-use-of-yelp.patch.
+X-List-Received-Date: Wed, 04 Apr 2018 11:20:08 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{epiphany_3.26.6.bb => epiphany_3.28.0.1.bb}     |  6 +++---
- ...02-help-meson.build-disable-the-use-of-yelp.patch | 20 ++++++++------------
- 2 files changed, 11 insertions(+), 15 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.26.6.bb => epiphany_3.28.0.1.bb} (81%)
+ meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch     | 12 ++++++------
+ .../gtk-doc/{gtk-doc_1.27.bb => gtk-doc_1.28.bb}             |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.27.bb => gtk-doc_1.28.bb} (93%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.26.6.bb b/meta/recipes-gnome/epiphany/epiphany_3.28.0.1.bb
-similarity index 81%
-rename from meta/recipes-gnome/epiphany/epiphany_3.26.6.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.28.0.1.bb
-index e250f76ed1e..c878ee3229a 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.26.6.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.28.0.1.bb
-@@ -13,10 +13,10 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.md5sum] = "8449968366a6f9aaff3ac228ddfc7c66"
--SRC_URI[archive.sha256sum] = "01b16aa55d312ae0f17d3136f90d8c68ac748715f119412fb1917023c6f630a8"
-+SRC_URI[archive.md5sum] = "3e127d843d3f255f426ab34804f29163"
-+SRC_URI[archive.sha256sum] = "7154b06837655771f2240bf378fb8ba2315ae07dbc6f45d160ca29cd6d377808"
+diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+index bfbc777ff87..b77b5a5bcd8 100644
+--- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
++++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+@@ -1,7 +1,7 @@
+-From 5f145621b4780cfd6a5632fcc97c45f572938efc Mon Sep 17 00:00:00 2001
++From ae29d175016accd8a05ab1e52fc6435ac6291cfc Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Mon, 5 Sep 2016 22:25:44 +0100
+-Subject: [PATCH 5/5] Use native pkg-config when looking for gtk-doc.
++Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
  
- EXTRA_OEMESON += " -Ddistributor_name=${DISTRO}"
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -10,10 +10,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  gtk-doc.m4 | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
  
--FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
-+FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-index 249517d8f90..d4f3cc1d35f 100644
---- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-@@ -1,34 +1,30 @@
--From fc314fc3a66c92fe73e1a0cea4f49d11b29e1f45 Mon Sep 17 00:00:00 2001
-+From 0048ae2d225d25cc58f378718ca6f9ddb1a228f9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Jan 2018 15:50:38 +0200
--Subject: [PATCH 2/2] help/meson.build: disable the use of yelp
-+Subject: [PATCH] help/meson.build: disable the use of yelp
+-Index: gtk-doc-1.27/gtk-doc.m4
+-===================================================================
+---- gtk-doc-1.27.orig/gtk-doc.m4
+-+++ gtk-doc-1.27/gtk-doc.m4
++diff --git a/gtk-doc.m4 b/gtk-doc.m4
++index 2d12f01..e5afc3f 100644
++--- a/gtk-doc.m4
+++++ b/gtk-doc.m4
+ @@ -25,7 +25,7 @@
+  # Macro appear in them. The GNU General Public License (GPL) does govern
+  # all other use of the material that constitutes the Autoconf Macro.
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.28.bb
+similarity index 93%
+rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
+rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.28.bb
+index 45528111c13..a2ec6ac78f5 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.27.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.28.bb
+@@ -18,8 +18,8 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation",
+ PACKAGECONFIG[working-scripts] = "--with-highlight=source-highlight,--with-highlight=no,libxslt-native xmlto-native source-highlight-native python3-six"
+ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
  
- In particular this avoids calling itstool which oe-core doesn't provide.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-- help/meson.build | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
-+ help/meson.build | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/help/meson.build b/help/meson.build
--index f720add..cbfeb1e 100644
-+index fddcf4c..f7d76c6 100644
- --- a/help/meson.build
- +++ b/help/meson.build
--@@ -46,8 +46,8 @@ help_linguas = [
--   'sv'
-+@@ -32,7 +32,7 @@ help_media = [
-+   'media/web-browser.png'
-  ]
-  
- -gnome.yelp(meson.project_name(),
- -  sources: help_files,
- -  media: help_media,
---  languages: help_linguas,
- -)
- +#gnome.yelp(meson.project_name(),
- +#  sources: help_files,
- +#  media: help_media,
--+#  languages: help_linguas,
- +#)
---- 
--2.15.1
--
+-SRC_URI[archive.md5sum] = "b29949e0964762e474b706ce22171602"
+-SRC_URI[archive.sha256sum] = "e26bd3f7080c749b1cb66c46c6bf8239e2f320a949964fb9c6d56e1b0c6d9a6f"
++SRC_URI[archive.md5sum] = "48550c33f9b9b530f9e5f397979b613a"
++SRC_URI[archive.sha256sum] = "911e29e302252c96128965ee1f4067d5431a88e00ad1023a8bc1d6b922af5715"
+ SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
+            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
+            file://conditionaltests.patch \
 -- 
 2.16.1
 
