@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A21F74834
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0546074834
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 01:49:34 +0000 (UTC)
-Received: by mail-pl0-f41.google.com with SMTP id bj1-v6so9327883plb.8
+	Wed,  4 Apr 2018 01:49:36 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id 59-v6so9070593plc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 18:49:36 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TaCtpe4dTWYN4MM9/EODOi390Q/LjxGtCtIQvpw/NTw=;
-	b=d9BglMuU+e2LiA2/uuEA2xfrR2JDufREE3QRIToWrmDnz45aR9vaGl/AUwsZnIMEk0
-	zJQist/DfZ811A1RFR6GyHNDfz1mtJWd+j+FZJPza5EYT0fuWdYlVcV40cEln4pUdtKr
-	SeXS8pHF4dlp9TQPlp0y2e1BWQXbioFDgu9Hk+vsWS3DVw2Mm8CC+DD1R8wvlnQOHM4R
-	BAwIxKgN//c58MiA+GYlo4vjDqW5leA3phsObM/XJd5E5C+3GEfwx9018oEJfo56g0k6
-	FSLN6cCs8YOeunX0pGyC98838WSq3+gh6xpkfasuRXDoOTpJWVv/mmeW0P+KuWCEEOl0
-	KReA==
+	bh=dT7kSiR15sHGaHIbU3OeCozGqw9GozDiFe5+l7W5DP8=;
+	b=hATtQHMGp3hkIOXh2wXUJ5jJHegxYwYjz7x5vqZk0IBZeGJw2voh0pyo7LpS39ojFc
+	vX8XH018wfoiBCLFt2PJEdATe+NtZN/9nfJ9TuMWWGldY9sIvOwfl1Ozt91w7FIidiGZ
+	Jk07RdBaEVniIEa5oVeJPFdMjXSKfqAxZPd/4D5tux/XpA5LyZid3KLN3DhClv4isaKu
+	sZvPqJ8a38JdhEg5bNeob4Opk0cJP0uPXrw2KW/ZGPXPCcrOMviJjaFSCzbQepvJRfr7
+	Yxxym/rSmK2QVA7F+e49ZfzLco0Rx8Kg8dlib1yfQqBlTsgqEYcqDIMGhJV/QPlhxk6X
+	MCYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TaCtpe4dTWYN4MM9/EODOi390Q/LjxGtCtIQvpw/NTw=;
-	b=E0sOq0BHobvE9Ugd1Sf6HFpyLgWtA66T6kIG7h5jLO6OQC89hJnU11IYQ690mCIsyS
-	kjQfVXedCf9j1n0N501Ri/PA+TGVsb9Ueo3nzwcO98v2e7NY0ZExjlq/DYGPoNQJefrM
-	D87blFobvJSL/v9JzXLDSt8jT6+K0ckmN630nE/YKoo3mqVNFyxWUpJsAtl3CUWN3feg
-	G+tZMb1QkE89e1/DvGXc3aBAPBxx2dh02UGA/pYZMEgU+NiZqrUOkgyQ7Lw/qmpzJwWY
-	EWpoyiRfJvAeuQUzinUSCfXCcgubOypDT80zoZbtcAVfB01SKQpIzccW6m1lRR2f+lIX
-	pGwA==
-X-Gm-Message-State: AElRT7G+akKN1WS8QiZDwhEaby1qa9jEF5eRjr4v3I6UE9criIt6AbYD
-	P7FShp34lW/frJeKFAUJ5h3dvA==
-X-Google-Smtp-Source: AIpwx4+zc+C/M9VZRCAx6vc9uq+mOXM14Vsg9EjtqTxPn2+2Io7aenTh2oB4gVa0THuWnWkFKHJxcg==
-X-Received: by 10.101.101.10 with SMTP id x10mr11015487pgv.0.1522806574559;
-	Tue, 03 Apr 2018 18:49:34 -0700 (PDT)
+	bh=dT7kSiR15sHGaHIbU3OeCozGqw9GozDiFe5+l7W5DP8=;
+	b=JkXngGAQjVdTio6jUang+DVXP5BsLzbyseVmYG5c+DeBT0hgjdNPaaovTYgFNi4NdS
+	G02UA5f39XXB3JOWbp/4UgD+QWDxkrKfycwCoth69nZf0kM1ElAPE4VYR6N/enWHKd5W
+	n9FFGqjQv38BsN8VFKKFSAq5h3UEGUdbg82Mp25mK64Wlcn/Sh2zzdvN/Kn/pTqoI/+Z
+	uhtdzeTDdwL6M9cNN6iX73ei9OPRymLRA7plMcMC5AVcSCDkqR22p19GmqFGH+XKNcDd
+	VOhBnmSvgVB8R18kCuqEKSOBwai9jVaJy47h/obvojJ5oVidNA+cA7mnGoACRDlwJpv8
+	9Fvw==
+X-Gm-Message-State: AElRT7G0fKeaFoY3bOx3yTzlzkBMmqCrsgL0bwGXbrNjTOa6viw9RVkU
+	Fy1glTGhVatpLzShg6DFwQQs3A==
+X-Google-Smtp-Source: AIpwx4+m2uqLK22OEDMd/IcqqQeIk/JE75/iWn+vV51uaRUEmixI/QFvPiZijCESA9neTE0E6l5jew==
+X-Received: by 10.99.167.6 with SMTP id d6mr10400515pgf.287.1522806577237;
+	Tue, 03 Apr 2018 18:49:37 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:a4f3:7c10:9123:63ea])
 	by smtp.gmail.com with ESMTPSA id
-	d8sm7485877pfh.177.2018.04.03.18.49.33
+	d8sm7485877pfh.177.2018.04.03.18.49.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Apr 2018 18:49:34 -0700 (PDT)
+	Tue, 03 Apr 2018 18:49:36 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Tue,  3 Apr 2018 18:49:10 -0700
-Message-Id: <04f49d73ef389bd5fa9e6bfcabe390ae6cd0d589.1522806183.git.akuster808@gmail.com>
+Date: Tue,  3 Apr 2018 18:49:13 -0700
+Message-Id: <530798a9d0328835f58d581c9f65234dd446da30.1522806183.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
 References: <cover.1522806183.git.akuster808@gmail.com>
-Subject: [PATCH 11/21] xcb-proto: update to 1.13
+Subject: [PATCH 14/21] util-macros: update to 1.19.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,348 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 01:49:35 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 01:49:36 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-drop patches included in update
-
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../0001-Make-whitespace-use-consistent.patch      | 215 ---------------------
- ...print-is-a-function-and-needs-parentheses.patch |  75 -------
- .../{xcb-proto_1.12.bb => xcb-proto_1.13.bb}       |  10 +-
- 3 files changed, 4 insertions(+), 296 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-Make-whitespace-use-consistent.patch
- delete mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0002-print-is-a-function-and-needs-parentheses.patch
- rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.12.bb => xcb-proto_1.13.bb} (83%)
+ .../xorg-util/{util-macros_1.19.1.bb => util-macros_1.19.2.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-util/{util-macros_1.19.1.bb => util-macros_1.19.2.bb} (75%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Make-whitespace-use-consistent.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Make-whitespace-use-consistent.patch
-deleted file mode 100644
-index 89ec666..0000000
---- a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-Make-whitespace-use-consistent.patch
-+++ /dev/null
-@@ -1,215 +0,0 @@
--From ea7a3ac6c658164690e0febb55f4467cb9e0bcac Mon Sep 17 00:00:00 2001
--From: Thomas Klausner <wiz@NetBSD.org>
--Date: Thu, 19 May 2016 17:30:04 +0200
--Subject: [PATCH 1/2] Make whitespace use consistent.
--
--At least python-3.5.x complains about this forcefully.
--
--Signed-off-by: Thomas Klausner <wiz@NetBSD.org>
--Signed-off-by: Uli Schlachter <psychon@znc.in>
--
--Upstream-Status: Backport
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- xcbgen/align.py | 96 ++++++++++++++++++++++++++++-----------------------------
-- 1 file changed, 48 insertions(+), 48 deletions(-)
--
--diff --git a/xcbgen/align.py b/xcbgen/align.py
--index 5e31838..d4c12ee 100644
----- a/xcbgen/align.py
--+++ b/xcbgen/align.py
--@@ -16,12 +16,12 @@ class Alignment(object):
--         return self.align == other.align and self.offset == other.offset
-- 
--     def __str__(self):
---	return "(align=%d, offset=%d)" % (self.align, self.offset)
--+        return "(align=%d, offset=%d)" % (self.align, self.offset)
-- 
--     @staticmethod
--     def for_primitive_type(size):
---	# compute the required start_alignment based on the size of the type
---	if size % 8 == 0:
--+        # compute the required start_alignment based on the size of the type
--+        if size % 8 == 0:
--             # do 8-byte primitives require 8-byte alignment in X11?
--             return Alignment(8,0)
--         elif size % 4 == 0:
--@@ -33,7 +33,7 @@ class Alignment(object):
-- 
-- 
--     def align_after_fixed_size(self, size):
---	new_offset = (self.offset + size) % self.align
--+        new_offset = (self.offset + size) % self.align
--         return Alignment(self.align, new_offset)
-- 
-- 
--@@ -41,7 +41,7 @@ class Alignment(object):
--         '''
--         Assuming the given external_align, checks whether
--         self is fulfilled for all cases.
---	Returns True if yes, False otherwise.
--+        Returns True if yes, False otherwise.
--         '''
--         if self.align == 1 and self.offset == 0:
--             # alignment 1 with offset 0 is always fulfilled
--@@ -55,9 +55,9 @@ class Alignment(object):
--             # the external align guarantees less alignment -> not guaranteed
--             return False
-- 
---	if external_align.align % self.align != 0:
--+        if external_align.align % self.align != 0:
--             # the external align cannot be divided by our align
---	    # -> not guaranteed
--+            # -> not guaranteed
--             # (this can only happen if there are alignments that are not
--             # a power of 2, which is highly discouraged. But better be
--             # safe and check for it)
--@@ -72,7 +72,7 @@ class Alignment(object):
-- 
--     def combine_with(self, other):
--         # returns the alignment that is guaranteed when
---	# both, self or other, can happen
--+        # both, self or other, can happen
--         new_align = gcd(self.align, other.align)
--         new_offset_candidate1 = self.offset % new_align
--         new_offset_candidate2 = other.offset % new_align
--@@ -83,8 +83,8 @@ class Alignment(object):
--             new_align = gcd(new_align, offset_diff)
--             new_offset_candidate1 = self.offset % new_align
--             new_offset_candidate2 = other.offset % new_align
---	    assert new_offset_candidate1 == new_offset_candidate2
---	    new_offset = new_offset_candidate1
--+            assert new_offset_candidate1 == new_offset_candidate2
--+            new_offset = new_offset_candidate1
--         # return the result
--         return Alignment(new_align, new_offset)
-- 
--@@ -92,44 +92,44 @@ class Alignment(object):
-- class AlignmentLog(object):
-- 
--     def __init__(self):
---	self.ok_list = []
---	self.fail_list = []
---	self.verbosity = 1
--+        self.ok_list = []
--+        self.fail_list = []
--+        self.verbosity = 1
-- 
--     def __str__(self):
---	result = ""
--+        result = ""
-- 
---	# output the OK-list
---	for (align_before, field_name, type_obj, callstack, align_after) in self.ok_list:
---	    stacksize = len(callstack)
--+        # output the OK-list
--+        for (align_before, field_name, type_obj, callstack, align_after) in self.ok_list:
--+            stacksize = len(callstack)
--             indent = '  ' * stacksize
---	    if self.ok_callstack_is_relevant(callstack):
--+            if self.ok_callstack_is_relevant(callstack):
--                 if field_name is None or field_name == "":
---	            result += ("    %sok: %s:\n\t%sbefore: %s, after: %s\n"
---		        % (indent, str(type_obj), indent, str(align_before), str(align_after)))
---	        else:
---		    result += ("    %sok: field \"%s\" in %s:\n\t%sbefore: %s, after: %s\n"
---		        % (indent, str(field_name), str(type_obj),
---		           indent, str(align_before), str(align_after)))
--+                    result += ("    %sok: %s:\n\t%sbefore: %s, after: %s\n"
--+                        % (indent, str(type_obj), indent, str(align_before), str(align_after)))
--+                else:
--+                    result += ("    %sok: field \"%s\" in %s:\n\t%sbefore: %s, after: %s\n"
--+                        % (indent, str(field_name), str(type_obj),
--+                           indent, str(align_before), str(align_after)))
--                 if self.verbosity >= 1:
---		    result += self.callstack_to_str(indent, callstack)
--+                    result += self.callstack_to_str(indent, callstack)
-- 
---	# output the fail-list
---	for (align_before, field_name, type_obj, callstack, reason) in self.fail_list:
---	    stacksize = len(callstack)
--+        # output the fail-list
--+        for (align_before, field_name, type_obj, callstack, reason) in self.fail_list:
--+            stacksize = len(callstack)
--             indent = '  ' * stacksize
---	    if field_name is None or field_name == "":
---	        result += ("    %sfail: align %s is incompatible with\n\t%s%s\n\t%sReason: %s\n"
---		    % (indent, str(align_before), indent, str(type_obj), indent, reason))
---	    else:
---		result += ("    %sfail: align %s is incompatible with\n\t%sfield \"%s\" in %s\n\t%sReason: %s\n"
---		    % (indent, str(align_before), indent, str(field_name), str(type_obj), indent, reason))
--+            if field_name is None or field_name == "":
--+                result += ("    %sfail: align %s is incompatible with\n\t%s%s\n\t%sReason: %s\n"
--+                    % (indent, str(align_before), indent, str(type_obj), indent, reason))
--+            else:
--+                result += ("    %sfail: align %s is incompatible with\n\t%sfield \"%s\" in %s\n\t%sReason: %s\n"
--+                    % (indent, str(align_before), indent, str(field_name), str(type_obj), indent, reason))
-- 
--             if self.verbosity >= 1:
---	        result += self.callstack_to_str(indent, callstack)
--+                result += self.callstack_to_str(indent, callstack)
-- 
-- 
---	return result
--+        return result
-- 
-- 
--     def callstack_to_str(self, indent, callstack):
--@@ -137,41 +137,41 @@ class AlignmentLog(object):
--         for stack_elem in callstack:
--             result += "\t  %s%s\n" % (indent, str(stack_elem))
--         result += "\t%s]\n" % indent
---	return result
--+        return result
-- 
-- 
--     def ok_callstack_is_relevant(self, ok_callstack):
--         # determine whether an ok callstack is relevant for logging
---	if self.verbosity >= 2:
---	    return True
--+        if self.verbosity >= 2:
--+            return True
-- 
--         # empty callstacks are always relevant
---	if len(ok_callstack) == 0:
--+        if len(ok_callstack) == 0:
--             return True
-- 
---	# check whether the ok_callstack is a subset or equal to a fail_callstack
--+        # check whether the ok_callstack is a subset or equal to a fail_callstack
--         for (align_before, field_name, type_obj, fail_callstack, reason) in self.fail_list:
--             if len(ok_callstack) <= len(fail_callstack):
--                 zipped = zip(ok_callstack, fail_callstack[:len(ok_callstack)])
---		is_subset = all([i == j for i, j in zipped])
---		if is_subset:
--+                is_subset = all([i == j for i, j in zipped])
--+                if is_subset:
--                     return True
-- 
--         return False
-- 
-- 
--     def ok(self, align_before, field_name, type_obj, callstack, align_after):
---	self.ok_list.append((align_before, field_name, type_obj, callstack, align_after))
--+        self.ok_list.append((align_before, field_name, type_obj, callstack, align_after))
-- 
--     def fail(self, align_before, field_name, type_obj, callstack, reason):
---	self.fail_list.append((align_before, field_name, type_obj, callstack, reason))
--+        self.fail_list.append((align_before, field_name, type_obj, callstack, reason))
-- 
--     def append(self, other):
---	self.ok_list.extend(other.ok_list)
---	self.fail_list.extend(other.fail_list)
--+        self.ok_list.extend(other.ok_list)
--+        self.fail_list.extend(other.fail_list)
-- 
--     def ok_count(self):
---	return len(self.ok_list)
--+        return len(self.ok_list)
-- 
-- 
-- 
---- 
--2.9.0
--
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0002-print-is-a-function-and-needs-parentheses.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0002-print-is-a-function-and-needs-parentheses.patch
-deleted file mode 100644
-index 542acb8..0000000
---- a/meta/recipes-graphics/xorg-proto/xcb-proto/0002-print-is-a-function-and-needs-parentheses.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From bea5e1c85bdc0950913790364e18228f20395a3d Mon Sep 17 00:00:00 2001
--From: Thomas Klausner <wiz@NetBSD.org>
--Date: Thu, 19 May 2016 17:30:05 +0200
--Subject: [PATCH 2/2] print() is a function and needs parentheses.
--
--Fixes build with python-3.x.
--
--Signed-off-by: Thomas Klausner <wiz@NetBSD.org>
--Signed-off-by: Uli Schlachter <psychon@znc.in>
--
--Upstream-Status: Backport
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- xcbgen/xtypes.py | 12 ++++++------
-- 1 file changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/xcbgen/xtypes.py b/xcbgen/xtypes.py
--index c3b5758..b83b119 100644
----- a/xcbgen/xtypes.py
--+++ b/xcbgen/xtypes.py
--@@ -501,7 +501,7 @@ class ComplexType(Type):
--                 int(required_start_align_element.get('align', "4"), 0),
--                 int(required_start_align_element.get('offset', "0"), 0))
--             if verbose_align_log:
---                print "Explicit start-align for %s: %s\n" % (self, self.required_start_align)
--+                print ("Explicit start-align for %s: %s\n" % (self, self.required_start_align))
-- 
--     def resolve(self, module):
--         if self.resolved:
--@@ -592,7 +592,7 @@ class ComplexType(Type):
--                 if verbose_align_log:
--                     print ("calc_required_start_align: %s has start-align %s"
--                         % (str(self), str(self.required_start_align)))
---                    print "Details:\n" + str(log)
--+                    print ("Details:\n" + str(log))
--                 if self.required_start_align.offset != 0:
--                     print (("WARNING: %s\n\thas start-align with non-zero offset: %s"
--                         + "\n\tsuggest to add explicit definition with:"
--@@ -619,12 +619,12 @@ class ComplexType(Type):
--             for offset in range(0,align):
--                 align_candidate = Alignment(align, offset)
--                 if verbose_align_log:
---                    print "trying %s for %s" % (str(align_candidate), str(self))
--+                    print ("trying %s for %s" % (str(align_candidate), str(self)))
--                 my_log = AlignmentLog()
--                 if self.is_possible_start_align(align_candidate, callstack, my_log):
--                     log.append(my_log)
--                     if verbose_align_log:
---                        print "found start-align %s for %s" % (str(align_candidate), str(self))
--+                        print ("found start-align %s for %s" % (str(align_candidate), str(self)))
--                     return align_candidate
--                 else:
--                     my_ok_count = my_log.ok_count()
--@@ -641,7 +641,7 @@ class ComplexType(Type):
--         # none of the candidates applies
--         # this type has illegal internal aligns for all possible start_aligns
--         if verbose_align_log:
---            print "didn't find start-align for %s" % str(self)
--+            print ("didn't find start-align for %s" % str(self))
--         log.append(best_log)
--         return None
-- 
--@@ -900,7 +900,7 @@ class SwitchType(ComplexType):
--     # aux function for unchecked_get_alignment_after
--     def get_align_for_selected_case_field(self, case_field, start_align, callstack, log):
--         if verbose_align_log:
---            print "get_align_for_selected_case_field: %s, case_field = %s" % (str(self), str(case_field))
--+            print ("get_align_for_selected_case_field: %s, case_field = %s" % (str(self), str(case_field)))
--         total_align = start_align
--         for field in self.bitcases:
--             my_callstack = callstack[:]
---- 
--2.9.0
--
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-similarity index 83%
-rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-index 25a8373..d503786 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.12.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-@@ -11,12 +11,10 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
-                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.19.1.bb b/meta/recipes-graphics/xorg-util/util-macros_1.19.2.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-util/util-macros_1.19.1.bb
+rename to meta/recipes-graphics/xorg-util/util-macros_1.19.2.bb
+index b39d787..2680599 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.19.1.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.19.2.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1970511fddd439b07a6ba789d28ff662"
  
--SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
--           file://0001-Make-whitespace-use-consistent.patch \
--           file://0002-print-is-a-function-and-needs-parentheses.patch \
--           "
--SRC_URI[md5sum] = "14e60919f859560f28426a685a555962"
--SRC_URI[sha256sum] = "5922aba4c664ab7899a29d92ea91a87aa4c1fc7eb5ee550325c3216c480a4906"
-+SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
-+
-+SRC_URI[md5sum] = "abe9aa4886138150bbc04ae4f29b90e3"
-+SRC_URI[sha256sum] = "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271e47a2fe875e2bde1"
+ PE = "1"
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "3f8a8e6100556f7f28e469809805dee8"
+-SRC_URI[sha256sum] = "472ad0e41d1e0abf5ecafd29460bf1b8d47e53d4b7d3abf1f66d02dc576547b8"
++SRC_URI[md5sum] = "5059b328fac086b733ffac6607164c41"
++SRC_URI[sha256sum] = "9225c45c3de60faf971979a55a5536f3562baa4b6f02246c23e98ac0c09a75b7"
  
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+ RDEPENDS_${PN}-dev = ""
 -- 
 2.7.4
 
