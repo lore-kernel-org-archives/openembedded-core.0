@@ -1,53 +1,18 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A6FB748A5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 01:49:43 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id u11-v6so11788441plq.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Apr 2018 18:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=4SitJA9KE2ZrtPZokiSqw6gYEXk9/7/xkH/hi8f41to=;
-	b=XjrCEZ5aAC4k0TqdP6wJAqooNdsJP5/ADnm6XzlsNYmeJDn/8gGZDlayIEzScLavhQ
-	TlO0DAUhizYevKBd6/r6WuAWrz8z+g7ZFPCFooEx9FaHPM4h/WT0C7gfQ0yTWdP2T5wz
-	DeQNMiLD3cGDA+HxP8gd93A86I8VXQVajVwN9vsnbtTUJjHnIRmfni3zTR36VQwCOox4
-	hg3T0BSNTxe/ZZu4UuMDRTMvvXnlRHtnwsCEiW3f161ChoGBKs4Lu4XjkRK5q2NkKdwm
-	U7qSQ/2C8I4K14Cp++1HxsFnF7JuOUO/e8zXoQBjayIUrfVaRR0O91VeydZRzZpZrxho
-	ekCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=4SitJA9KE2ZrtPZokiSqw6gYEXk9/7/xkH/hi8f41to=;
-	b=qgoIj+5RTIdK6lMKedFC8w58iQ0xI5iNTDq3O9U8y6BkOpU9zh0QnyfZ1apr1HK1q6
-	BWtjUpecGlIll4i3y6dOiHw3liy425He0bt47whr08ddJco/ZKQYMYuhpb22R8yRJWL3
-	K3J5sMYhrXPsyU2WKlpqo75Q7FIpeIPrzkOlryuui+yDC4ULdO1/PznW6o7JvX5yUnzM
-	zCg+b9HK1UuTq5vco3LmBdDeSsmS09oUQ4CtDK2qN73wZypAZMCaiHsqLNcmadDz1MmX
-	JeEqBpHuGTumOOQlf5bUiu9ZysYdhSBOuEW/+Nb3GMLfqYaYS7c2csHf+5yJHsxp6JGq
-	FQ5A==
-X-Gm-Message-State: AElRT7GM4OYDRIP7Snr9aup6bIW0iGmrTLMBkt/ABEhy8sbukY6W5DN7
-	xghWsti6UYXMv4pnzjXrQD7Zqg==
-X-Google-Smtp-Source: AIpwx48IU+5C24Gdr2A1LNcSR7L5nA2VNLiNlJt1RQCPRhDP4qZfcMHeOvaXF5s0bKIQOO2f1BJ04w==
-X-Received: by 2002:a17:902:6b45:: with SMTP id
-	g5-v6mr16157985plt.171.1522806584154; 
-	Tue, 03 Apr 2018 18:49:44 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:a4f3:7c10:9123:63ea])
-	by smtp.gmail.com with ESMTPSA id
-	d8sm7485877pfh.177.2018.04.03.18.49.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Apr 2018 18:49:43 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster808@gmail.com
-Date: Tue,  3 Apr 2018 18:49:20 -0700
-Message-Id: <d0b2959c2fbeb83f05bacdebb73a0473fccd6727.1522806183.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F387746A5;
+	Wed,  4 Apr 2018 02:03:24 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Wed, 04 Apr 2018 02:03:26 -0000
+Message-ID: <20180404020326.2394.81515@do.openembedded.org>
 References: <cover.1522806183.git.akuster808@gmail.com>
-Subject: [PATCH 21/21] maintainers: update email address
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1522806183.git.akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUGFja2FnZSB1cGRhdGVzIGZvciBNYXN0ZXI=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,401 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 01:49:43 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 02:03:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+== Series Details ==
+
+Series: Package updates for Master
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11671/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             LIC_FILES_CHKSUM changed on target libpcre2 but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+  Current checksum file://LICENCE;md5=12d55e15a0c6da5c645ba40382bd3293
+  New checksum     file://LICENCE;md5=f5e4bde9fd0493d0967b4dba9899590f
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/maintainers.inc | 212 +++++++++++++++----------------
- 1 file changed, 106 insertions(+), 106 deletions(-)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 5b142c0..d7a7a1a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -65,8 +65,8 @@ RECIPE_MAINTAINER_pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-bash-completion = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-bc = "Jose Lamego <jose.a.lamego@linux.intel.com>"
- RECIPE_MAINTAINER_pn-bdwgc = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-beecrypt = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-bind = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-beecrypt = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-bind = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-cross = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-cross-canadian = "Khem Raj <raj.khem@gmail.com>"
-@@ -110,7 +110,7 @@ RECIPE_MAINTAINER_pn-console-tools = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-consolekit = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-coreutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-cpio = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-cracklib = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-cracklib = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-createrepo-c = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-cronie = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-cross-localedef-native = "Khem Raj <raj.khem@gmail.com>"
-@@ -118,7 +118,7 @@ RECIPE_MAINTAINER_pn-cryptodev-linux = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-cryptodev-module = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-cryptodev-tests = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-cve-check-tool = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-cwautomacros = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-db = "Mark Hatle <mark.hatle@windriver.com>"
-@@ -154,7 +154,7 @@ RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alexander.kanavin@intel.c
- RECIPE_MAINTAINER_pn-efilinux = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-enchant = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-ethtool = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-eudev = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-@@ -165,8 +165,8 @@ RECIPE_MAINTAINER_pn-file = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-flac = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-fontconfig = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-foomatic-filters = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-formfactor = "Maxin B. John <maxin.john@intel.com>"
-@@ -213,7 +213,7 @@ RECIPE_MAINTAINER_pn-gnome-themes-standard = "Maxin B. John <maxin.john@intel.co
- RECIPE_MAINTAINER_pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-gnupg = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-gnutls = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-gnutls = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-go = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-go-cross = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-go-dep = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
-@@ -286,7 +286,7 @@ RECIPE_MAINTAINER_pn-kconfig-frontends = "Alexander Kanavin <alexander.kanavin@i
- RECIPE_MAINTAINER_pn-kern-tools-native = "Bruce Ashfield <bruce.ashfield@windriver.com>"
- RECIPE_MAINTAINER_pn-kernelshark = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-kernel-devsrc = "Bruce Ashfield <bruce.ashfield@windriver.com>"
--RECIPE_MAINTAINER_pn-kexec-tools = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-kexec-tools = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-keymaps = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-kmod = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-kmod-native = "Chen Qi <Qi.Chen@windriver.com>"
-@@ -300,7 +300,7 @@ RECIPE_MAINTAINER_pn-libacpi = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libaio = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-libart-lgpl = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libassuan = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libassuan = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libatomic-ops = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libbsd = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libcap = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -311,7 +311,7 @@ RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alexander.kanavin@intel.com>
- RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
- RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libdnf = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-libepoxy = "Maxin B. John <maxin.john@intel.com>"
-@@ -324,7 +324,7 @@ RECIPE_MAINTAINER_pn-libfakekey = "Alexander Kanavin <alexander.kanavin@intel.co
- RECIPE_MAINTAINER_pn-libffi = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libfm = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libfm-extra = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libfontenc = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libfontenc = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libgcc = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libgcc-initial = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libgcrypt = "Hongxu Jia <hongxu.jia@windriver.com>"
-@@ -333,7 +333,7 @@ RECIPE_MAINTAINER_pn-libglu = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libgpg-error = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-libgudev = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libical = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libiconv = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libid3tag = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libidn = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -357,7 +357,7 @@ RECIPE_MAINTAINER_pn-libpam = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libpcap = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libpciaccess = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-libpcre2 = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libpcre2 = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libpfm4 = "Matthew McClintock <msm@freescale.com>"
- RECIPE_MAINTAINER_pn-libpipeline = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-libpng = "Maxin B. John <maxin.john@intel.com>"
-@@ -370,7 +370,7 @@ RECIPE_MAINTAINER_pn-libsamplerate0 = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libsdl = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libsecret = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libsm = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libsm = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libsolv = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libsoup-2.4 = "Maxin B. John <maxin.john@intel.com>"
-@@ -393,24 +393,24 @@ RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-libwebp = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libx11 = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libx11-diet = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxau = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxcalibrate = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxcb = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxcomposite = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxcursor = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxdamage = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxdmcp = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxext = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxfixes = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxfont = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxfont2 = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxft = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxi = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libx11 = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libx11-diet = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxau = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxcalibrate = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxcb = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxcomposite = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxcursor = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxdamage = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxdmcp = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxext = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxfixes = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxfont = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxfont2 = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxft = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxi = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxinerama = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxkbcommon = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxkbfile = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxml-namespacesupport-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-parser-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
-@@ -418,22 +418,22 @@ RECIPE_MAINTAINER_pn-libxml-sax-base-perl = "Tim Orling <timothy.t.orling@linux.
- RECIPE_MAINTAINER_pn-libxml-sax-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml-simple-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxpm = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxrandr = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxrender = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxres = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxscrnsaver = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libxmu = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxpm = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxrandr = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxrender = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxres = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxscrnsaver = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxsettings-client = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-libxshmfence = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libxshmfence = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libxslt = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-libxt = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxtst = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxv = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxvmc = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxxf86dga = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxxf86misc = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-libxxf86vm = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-libxt = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxtst = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxv = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxvmc = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxxf86dga = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxxf86misc = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-libxxf86vm = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libyaml = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-lighttpd = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-linux-dummy = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -490,11 +490,11 @@ RECIPE_MAINTAINER_pn-meta-ide-support = "Cristian Iorga <cristian.iorga@intel.co
- RECIPE_MAINTAINER_pn-meta-toolchain = "Cristian Iorga <cristian.iorga@intel.com>"
- RECIPE_MAINTAINER_pn-meta-world-pkgdata = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-mingetty = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-mini-x-session = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-mini-x-session = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-minicom = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-mkelfimage = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-mkfontdir = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-mkfontscale = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-mkfontdir = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-mkfontscale = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-mklibs-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-mktemp = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-mmc-utils = "Maxin B. John <maxin.john@intel.com>"
-@@ -519,19 +519,19 @@ RECIPE_MAINTAINER_pn-nativesdk-postinst-intercept = "Alexander Kanavin <alexande
- RECIPE_MAINTAINER_pn-ncurses = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-neard = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-neon = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-net-tools = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-netbase = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-net-tools = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-netbase = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-nettle = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-nfs-export-root = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-nfs-utils = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ninja = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-npth = "Alexander Kanavin <alexander.kanavin@intel.com>"
--RECIPE_MAINTAINER_pn-nspr = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-nss = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-nspr = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-nss = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-nss-myhostname = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-ofono = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-oh-puzzles = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-openssh = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-openssh = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-openssl = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-opkg = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
- RECIPE_MAINTAINER_pn-opkg-arch-config = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
-@@ -614,7 +614,7 @@ RECIPE_MAINTAINER_pn-re2c = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-readline = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-remake = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-resolvconf = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-rgb = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-rgb = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-rng-tools = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-rpm = "Mark Hatle <mark.hatle@windriver.com>"
-@@ -623,7 +623,7 @@ RECIPE_MAINTAINER_pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-rt-tests = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-ruby = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-run-postinsts = "Cristian Iorga <cristian.iorga@intel.com>"
--RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-sato-screenshot = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-sbc = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-screen = "Maxin B. John <maxin.john@intel.com>"
-@@ -681,8 +681,8 @@ RECIPE_MAINTAINER_pn-time = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-tiny-init = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-trace-cmd = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-ttf-bitstream-vera = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-tzcode-native = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-tzdata = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-tzcode-native = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-tzdata = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-u-boot = "Marek Vasut <marek.vasut@gmail.com>"
- RECIPE_MAINTAINER_pn-u-boot-fw-utils = "Marek Vasut <marek.vasut@gmail.com>"
- RECIPE_MAINTAINER_pn-u-boot-mkimage = "Marek Vasut <marek.vasut@gmail.com>"
-@@ -696,7 +696,7 @@ RECIPE_MAINTAINER_pn-update-rc.d = "Chang Rebecca Swee Fun <rebecca.swee.fun.cha
- RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-util-macros = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-v86d = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-vala = "Alexander Kanavin <alexander.kanavin@intel.com>"
- RECIPE_MAINTAINER_pn-valgrind = "Alexander Kanavin <alexander.kanavin@intel.com>"
-@@ -717,57 +717,57 @@ RECIPE_MAINTAINER_pn-which = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-wic-tools = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
- RECIPE_MAINTAINER_pn-wireless-tools = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@lge.com>"
--RECIPE_MAINTAINER_pn-x11-common = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-x11-common = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-xauth = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-proto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-util = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-util-image = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-util-keysyms = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-util-renderutil = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcb-util-wm = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xcursor-transparent-theme = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xauth = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-proto = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-util = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-util-image = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-util-keysyms = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-util-renderutil = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcb-util-wm = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xcursor-transparent-theme = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xdg-utils = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-xdpyinfo = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xev = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xeyes = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-evdev = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-keyboard = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-libinput = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-mouse = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-synaptics = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-input-vmmouse = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-cirrus = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-fbdev = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-intel = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-omap = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-omapfb = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-vesa = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xf86-video-vmware = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xhost = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xdpyinfo = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xev = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xeyes = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-evdev = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-keyboard = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-libinput = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-mouse = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-synaptics = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-input-vmmouse = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-cirrus = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-fbdev = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-intel = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-omap = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-omapfb = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-vesa = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xf86-video-vmware = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xhost = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xinetd = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-xinit = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xinput = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xinput-calibrator = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xkbcomp = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xkeyboard-config = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xinit = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xinput = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xinput-calibrator = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xkbcomp = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xkeyboard-config = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xmlto = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-xmodmap = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xorg-minimal-fonts = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xorgproto = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xprop = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xrandr = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xrestop = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xserver-nodm-init = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xserver-xf86-config = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xserver-xorg = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xset = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xmodmap = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xorg-minimal-fonts = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xorgproto = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xprop = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xrandr = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xrestop = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xserver-nodm-init = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xserver-xf86-config = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xserver-xorg = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xset = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xvideo-tests = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster@mvista.com>"
--RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster@mvista.com>"
-+RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
-+RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-yasm = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
