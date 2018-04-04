@@ -1,30 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C01C974C62
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 48AF474C42
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 15:33:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 08:33:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,406,1517904000"; d="scan'208";a="217505725"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 04 Apr 2018 08:33:48 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 4DC825801C0
+	Wed,  4 Apr 2018 15:45:25 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id c21-v6so10955233plz.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 08:33:47 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 04 Apr 2018 08:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+yXxtA14G8F1HTEGI7owr0BDr2kn6rrUWIVnwYecnvc=;
+	b=mBaNW1ZNC3gRegFscEJUnma6/t6dF9WVz0sRm+7MKbpY8N0tBXxpyn/9tesB7WpzAT
+	xgFnuLHEann2bHF8oFRaYP9u+jcaXtbZR4GZLCV/x0oaV/1u6WpUL5juJsUIH+YcFamN
+	6Z7R6Yzv9uRQ+alL6rT6VhQdKykWgwU7PMEksBVHntMwbtMqGLOwRwehgGlYOBMtsD6t
+	QhyhHFWfIcqT55zuEDNRfSUf3Mzev4U9znKdxaY6NRxfyyxG2sgViuxEjcV1XJ+CSBr/
+	Z1BapJpSp9a73/SElGC4syd6ivMp3UknaVuqeXL7IxJsvyKEOC6Tv7FoFZLlwZd3oFdJ
+	eQtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+yXxtA14G8F1HTEGI7owr0BDr2kn6rrUWIVnwYecnvc=;
+	b=PpmaX4cBbocHlW0rx8E55S5Uzj5ICVLn2SQzmAqNXkhGWsVRri6DnkY4pK2oUb4vIw
+	/WqPcqn+5QwvPRAlPAaPBT9wdrJf3PBR/PVN9xB8g3j14c9466PCo+S+GZdJmF9ZpXJx
+	B+mjCcnJIyHagE/rhx4opQjEoZpCFB1mYMLfV0L+I1Qok5Lc6AdVsKNspOR0JooRgMB8
+	d0Q7JMY9wN8s9sOXQ6YoqmCdEiul98Y3HdcxrHc4bBGahkVwGATOhdCaz4Bv0b3AUeti
+	DFqkEjonWgnwwMs0yRXO3Fv0rCB4H8zlUD9jzp8CECumvbTxqIMjCKMvedq8oOzd9/sc
+	IKrQ==
+X-Gm-Message-State: AElRT7FPSte94kJSZ5mE76rnQjsW15Qh1cBzNck6PHWo91KvEwdqDxJk
+	Et7YsM0LdCwrkLEtn1hnyBMouA==
+X-Google-Smtp-Source: AIpwx489hshjRsMEVHkJ1iwXduK78PmmAGSPgDVudRdif8JeZOeyqJ484T2GbFgQIR2Wje4ne7v9CA==
+X-Received: by 10.99.155.2 with SMTP id r2mr12559690pgd.450.1522856726776;
+	Wed, 04 Apr 2018 08:45:26 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	c201sm11161707pfb.30.2018.04.04.08.45.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Apr 2018 08:45:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 18:32:25 +0300
-Message-Id: <1522855946-8702-9-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1522855946-8702-1-git-send-email-maxin.john@intel.com>
-References: <1522855946-8702-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 09/10] sqlite3: upgrade to version 3.23.0
+Date: Wed,  4 Apr 2018 08:45:18 -0700
+Message-Id: <cover.1522856627.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.16.3
+Subject: [PATCH 0/2] Upgrade llvm to 6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 15:33:56 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 15:45:26 -0000
 
-3.22.0 -> 3.23.0
+llvm 6.0 is released few months ago, this updates the llvm to 6.0.0 release
+adjusts mesa to use it as well
 
-Includes optimizations and fixes for issues detected by OSSFuzz
+The following changes since commit c168f6fe35ada66f7d6d6b5151fa248230c38676:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-support/sqlite/{sqlite3_3.22.0.bb => sqlite3_3.23.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.22.0.bb => sqlite3_3.23.0.bb} (59%)
+  systemd: fix typo in sulogin-path setting (2018-04-04 08:50:49 +0100)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.22.0.bb b/meta/recipes-support/sqlite/sqlite3_3.23.0.bb
-similarity index 59%
-rename from meta/recipes-support/sqlite/sqlite3_3.22.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.23.0.bb
-index ef88659..1b7ae9a 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.22.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.23.0.bb
-@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- SRC_URI = "\
-   http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-   "
--SRC_URI[md5sum] = "96b5648d542e8afa6ab7ffb8db8ddc3d"
--SRC_URI[sha256sum] = "2824ab1238b706bc66127320afbdffb096361130e23291f26928a027b885c612"
-+SRC_URI[md5sum] = "6a26a122a18bcd1a6a1c18b4bad64498"
-+SRC_URI[sha256sum] = "b7711a1800a071674c2bf76898ae8584fc6c9643cfe933cfc1bc54361e3a6e49"
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/llvm-6.0
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/llvm-6.0
+
+Khem Raj (2):
+  llvm: Upgrade to 6.0 release
+  mesa: Require llvm 6.0
+
+ ...etLibraryInfo-Undefine-libc-functions-if-th.patch | 20 ++++++++++----------
+ .../0002-llvm-allow-env-override-of-exe-path.patch   |  4 ++--
+ meta/recipes-devtools/llvm/llvm_git.bb               | 11 ++++++-----
+ meta/recipes-graphics/mesa/mesa.inc                  |  2 +-
+ 4 files changed, 19 insertions(+), 18 deletions(-)
+
 -- 
-2.4.0
+2.16.3
 
 
