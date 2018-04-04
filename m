@@ -1,51 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EA43D74D8D
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B2929605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 15:45:38 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id 91-v6so14571064pld.3
+	Wed,  4 Apr 2018 16:08:55 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id f125so43948350wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2018 08:45:40 -0700 (PDT)
+	Wed, 04 Apr 2018 09:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=U9NAxnsVeGaz84LDJVdTQKJaEbfTDtev+UrPs+Fe12k=;
-	b=LqlxLrcJT0SfFFxnLSaOHeZwJvBr5PtKj5kh/qOE8ZCFwbRkN3bQOboL8mZXlW3dEy
-	AxmZDxSCzIyBToHdC+YlEc11ESfAIXPH6b8zOygLRtGI6DFZNvcwoOW60WF4mb5HMBqk
-	AD5K4kaRGFwa7sHG1EKXR8GNZjnk5W39AflRuJG6X8kNX/SU+SvjtjfKlBZUS1Zeryc6
-	fr3prv2k9i8XesRuhxsHHJm3VfZsmtqPwHCLBNXGPzAm7AfrAwCDVHt3wBwGPmx3yzej
-	JTj+vr+UV/kKe+L2XThCHLyxq4iXfpY4NUsVpOwdMhB7YuThmr3J3ehSCcYv9d72A2rS
-	gysA==
+	h=from:to:subject:date:message-id;
+	bh=RATAI+5rq9Mg6wTNuj0f1VrpBVcY/oHdBDOkz+D0mUs=;
+	b=NoBwJugHZuL25C4kuJIxEFNeczE0/i/xPUwDB4jNbXAILgl1Qkq0kYd5ZUNOIbx0YE
+	XKxQ7ByoZMrBeeFZptgYbmdJVcimrz5+yRboZkMDOtlfwKqYIyp9hX2zS3yfa+OjQKiZ
+	LMY+95EL2vMDn2xDYy8m2X6Sl775QQxuqbg8I/HFy6ELgAvRkNrcR0TRE1EAg75izD1k
+	3VLBX/Ce+/PdLO6NRn//6E04gIKwWf9aMbMpSHRbzBm/t5LUBNuyMBTijkLFVIWirtg0
+	0cSmJqbkdwgHQFL6svXBJ/+znWglCkzpIWyokpmcJRlnwsd1gAxZWp2PTsHXsCX9zpBQ
+	/MWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=U9NAxnsVeGaz84LDJVdTQKJaEbfTDtev+UrPs+Fe12k=;
-	b=KlJGra3o5ieRJ+veAo5b4RxCXn+BP7bogLiML6It+aL1E5nf3RhBTktQpxHDIxAuDg
-	VywO2BE7IrlmVzI9Mwsvd2ukaiLDZIRFApiBAZ4iOhT7SM6/W5M1+1bG/VQCNfSmGrme
-	on983Q9J/KR8/u+IxrcWJKwEMVKfyktEF0N408JkMMZuOn86DgkcIn4L+UIRQ76hrScQ
-	Z9fexB6RaxFc/v9Bv8NdT9Co4k3YJ3mrn14QDMMJEHWws9KfIoKEwfJe+/DNIZ1zKjC6
-	FQhMKZ0I7Btl4oYesvr38Afo9DbE41tt58L8O1ZzyK0H7mydpeH14skrYJElia8vII10
-	i9tA==
-X-Gm-Message-State: AElRT7EX/6U+dSecqRprVXzgSxHQ2K1e7W2jXf/OB1FKlJql96nuxuYR
-	ei8v5lkDUWk2n/eqApDkr7rmtw==
-X-Google-Smtp-Source: AIpwx49ow+fIqIDf5T3Ji4mdt2THb4IIkG0R7dZSEhxOHl8IemyxALMKT3HGYQ+NPdF2yEHFJ4xB8A==
-X-Received: by 2002:a17:902:3001:: with SMTP id
-	u1-v6mr19457474plb.164.1522856739956; 
-	Wed, 04 Apr 2018 08:45:39 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	b184sm3611392pfg.110.2018.04.04.08.45.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Apr 2018 08:45:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RATAI+5rq9Mg6wTNuj0f1VrpBVcY/oHdBDOkz+D0mUs=;
+	b=Ey88vTc/tZB2ptQ/SyDH8hZzDVzJbVk5S9vGxsppwbKDS9gj8uv576hBtEOXd71gL2
+	DUQQw9zjxLRBeLOTosmS5cf2W1+l3tmUZadXgCzHCwblQVyPufdz86lyVmoR4Dwh/I9c
+	q4TI/TPb4A5H2PJWjfIlBzYPeONhhijDr/BZnCwiUyr4MdVznErwTnD7sIBafSmABU8n
+	nYreS6SCc20MLnnTxRJGgLH4U8EbiuphUzucb4uhUvfY5z4Wrb7mMi7ZkuPGcv1zw9WG
+	iBNhTGoYql47G+45Txroq89KD5zFXbWaf/GO/HOX8Ku6dbQ1AJXoI66WPfwERnaFFbKj
+	qkuQ==
+X-Gm-Message-State: AElRT7EOccEgN7yomGKU26MBp/NW8VCm3lFoj00hCcC3ldG+lvv2V7aU
+	qQVByiwlCnlYM1lxKOgmS9A8lqry
+X-Google-Smtp-Source: AIpwx494bT8PFVlAn9KSLdmBUz9JCxOEVGp+eudx/rl/I+Z/020vMrBzlwwmt1zCSTW484ioGgqwRg==
+X-Received: by 10.28.159.68 with SMTP id i65mr8523076wme.27.1522858135771;
+	Wed, 04 Apr 2018 09:08:55 -0700 (PDT)
+Received: from mediabox.local (204-83-204-143.prna.hsdb.sasknet.sk.ca.
+	[204.83.204.143])
+	by smtp.gmail.com with ESMTPSA id 14sm4923984wml.41.2018.04.04.09.08.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 04 Apr 2018 09:08:54 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 08:45:29 -0700
-Message-Id: <63204b5c5a0987d61878f00c220d4d7ce7a4e8b8.1522856627.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.16.3
-In-Reply-To: <cover.1522856627.git.raj.khem@gmail.com>
-References: <cover.1522856627.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] mesa: Require llvm 6.0
+Date: Wed,  4 Apr 2018 10:08:49 -0600
+Message-Id: <20180404160849.21578-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] gcc-sanitizers: Update supported architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 15:45:39 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 16:08:56 -0000
 
-llvm is now at version 6.0 in core
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+aarch64 has been supported since GCC 5.1, sparc has been supported
+since 4.9, and S390 since 7.1.
+
+Also mark as broken entirely with musl.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 639eb35f6b..b501b7e726 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -89,7 +89,7 @@ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm
- GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
- PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
--MESA_LLVM_RELEASE ?= "5.0"
-+MESA_LLVM_RELEASE ?= "6.0"
- PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
-                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index 3183b29dec9..3b7e0028f2b 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -61,15 +61,19 @@ RDEPENDS_libubsan-dev += "${PN}"
+ RDEPENDS_liblsan-dev += "${PN}"
+ RDEPENDS_libtsan-dev += "${PN}"
+ RRECOMMENDS_${PN} += "libasan libubsan"
+-RRECOMMENDS_${PN}_append_x86-64 = " liblsan libtsan"
+ RRECOMMENDS_${PN}_append_x86 = " liblsan"
++RRECOMMENDS_${PN}_append_x86-64 = " liblsan libtsan"
++RRECOMMENDS_${PN}_append_powerpc64 = " liblsan libtsan"
++RRECOMMENDS_${PN}_append_aarch64 = " liblsan libtsan"
+ 
+ do_package_write_ipk[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
+ do_package_write_deb[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
+ do_package_write_rpm[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
+ 
+-# MIPS, aarch64, and SPARC are broken.
+-COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm).*-linux'
++# Only x86, powerpc, sparc, s390, arm, and aarch64 are supported
++COMPATIBLE_HOST = '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64).*-linux'
++# musl is currently broken entirely
++COMPATIBLE_HOST_libc-musl = 'null'
+ 
+ FILES_libasan += "${libdir}/libasan.so.*"
+ FILES_libasan-dev += "\
 -- 
-2.16.3
+2.17.0
 
 
