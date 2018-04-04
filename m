@@ -1,26 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B096074604
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DFEF6744C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Apr 2018 09:39:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2018 02:40:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,405,1517904000"; d="scan'208";a="30914170"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga008.jf.intel.com with ESMTP; 04 Apr 2018 02:39:59 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 12:33:31 +0300
-Message-Id: <20180404093331.22593-2-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180404093331.22593-1-alexander.kanavin@linux.intel.com>
-References: <20180404093331.22593-1-alexander.kanavin@linux.intel.com>
+	Wed,  4 Apr 2018 10:44:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w34Aj0fs029298
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Apr 2018 03:45:00 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 4 Apr 2018 03:45:00 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Apr 2018 18:45:58 +0800
+Message-ID: <cover.1522837858.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [morty][PATCH 2/2] qemu: fix memfd_create with glibc 2.27
+Subject: [PATCH 0/1] rpm: remove dbus dependency for rpm-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +30,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Apr 2018 09:39:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Apr 2018 10:45:00 -0000
+Content-Type: text/plain
 
-From: Ross Burton <ross.burton@intel.com>
+The following changes since commit 9e3a9637b8f86f504e187b96cd0c98d8e1f651da:
 
-glibc 2.27 has added memfd_create() but this conflicts with a copy in qemu, so
-take a patch from upstream to fix building with glibc 2.27.
+  systemd: fix typo in sulogin-path setting (2018-04-04 08:51:02 +0100)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/qemu/qemu/memfd.patch | 57 +++++++++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.7.0.bb    |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
+are available in the git repository at:
 
-diff --git a/meta/recipes-devtools/qemu/qemu/memfd.patch b/meta/recipes-devtools/qemu/qemu/memfd.patch
-new file mode 100644
-index 00000000000..62e8d3800bd
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/memfd.patch
-@@ -0,0 +1,57 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 75e5b70e6b5dcc4f2219992d7cffa462aa406af0 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Tue, 28 Nov 2017 11:51:27 +0100
-+Subject: [PATCH] memfd: fix configure test
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Recent glibc added memfd_create in sys/mman.h.  This conflicts with
-+the definition in util/memfd.c:
-+
-+    /builddir/build/BUILD/qemu-2.11.0-rc1/util/memfd.c:40:12: error: static declaration of memfd_create follows non-static declaration
-+
-+Fix the configure test, and remove the sys/memfd.h inclusion since the
-+file actually does not exist---it is a typo in the memfd_create(2) man
-+page.
-+
-+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+---
-+ configure    | 2 +-
-+ util/memfd.c | 4 +---
-+ 2 files changed, 2 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure b/configure
-+index 9c8aa5a98b..99ccc1725a 100755
-+--- a/configure
-++++ b/configure
-+@@ -3923,7 +3923,7 @@ fi
-+ # check if memfd is supported
-+ memfd=no
-+ cat > $TMPC << EOF
-+-#include <sys/memfd.h>
-++#include <sys/mman.h>
-+ 
-+ int main(void)
-+ {
-+diff --git a/util/memfd.c b/util/memfd.c
-+index 4571d1aba8..412e94a405 100644
-+--- a/util/memfd.c
-++++ b/util/memfd.c
-+@@ -31,9 +31,7 @@
-+ 
-+ #include "qemu/memfd.h"
-+ 
-+-#ifdef CONFIG_MEMFD
-+-#include <sys/memfd.h>
-+-#elif defined CONFIG_LINUX
-++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
-+ #include <sys/syscall.h>
-+ #include <asm/unistd.h>
-+ 
-+-- 
-+2.11.0
-diff --git a/meta/recipes-devtools/qemu/qemu_2.7.0.bb b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-index 85aadecf09c..65ae539dc4f 100644
---- a/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.7.0.bb
-@@ -14,6 +14,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://0003-fix-CVE-2016-7908.patch \
-             file://0004-fix-CVE-2016-7909.patch \
-             file://04b33e21866412689f18b7ad6daf0a54d8f959a7.patch \
-+            file://memfd.patch \
- "
- 
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+  git://git.pokylinux.org/poky-contrib ChenQi/rpm-native-dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/rpm-native-dbus
+
+Chen Qi (1):
+  rpm: remove dbus dependency for rpm-native
+
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
 -- 
-2.16.1
+1.9.1
 
 
