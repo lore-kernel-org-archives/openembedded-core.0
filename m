@@ -1,98 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f54.google.com (mail-pl0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A57C77506A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A1CD75058
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 19:03:12 +0000 (UTC)
-Received: by mail-pl0-f54.google.com with SMTP id v18-v6so18499756ply.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Apr 2018 12:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=rENNSyG0i9US48S+y/fQQ159WsVT3CcT+c7uXgn0wH8=;
-	b=lzyGQtcGywAFaaOsONv3Yj/qPYmaBHtpbSl/0BDbYGcgP9KZDdaDYDHeFQ3MEh6Te9
-	P0PFMlWisOwWHjSXktJ6+lxVoc2a9dnkWR/3MP9DVPVJ2o6AtZ5etBH3wmJHy+ywWrfV
-	1tFc/eGwMfTetyyfe73IXC1MVEBAALwvA/BGKWftnbjs/O2+bzGCmh62ck04Qn4IgEkj
-	3qTp3LyJWs45ClbdnbNKx7s+7MNU599liyMcAiV7kCzFOeiGVN+nmz1b+FlvpiL1E8SQ
-	bFfot17ucXNumKZWoyf65yMKZMrWaF4cK0m6ImWlAtezqdeoFwbazOLv6XDF4HvAlecg
-	xvgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=rENNSyG0i9US48S+y/fQQ159WsVT3CcT+c7uXgn0wH8=;
-	b=ETaX/9P/dPpnzEiKdApTtNw20gEgPk2h8Z/lmAAMh5/pOuUg/rOsLz9FyCk1D2K7JR
-	WFNNvPB5RySi7dTVBO9LEMFBmzJjFjETTKuo9QN1f6ctFIc+YTykj5G+ZY7nOQcrRu2u
-	qZunSsug2QalsjVaDVHWSqqhU3fDj7bXTxd0p/+BX5Jpg00JUj80CuWWl2Wubj5xEaoc
-	Mh13if56ch7d6Pjbcjh4IZdxQCNsiewPFIZWbWFg2dxmm4yq/z3dHu8wxHtHpiuN1kX4
-	UimnMK+b9/1XYAij9vn5C++1aRMxmlX77Rg1r3GdfXSryDCZYZFmX0VM9tP7vnB1somZ
-	PAMw==
-X-Gm-Message-State: AElRT7E2dM85F8lEfDP6EW+La0khcyaFtUR10xh5oM5aaEk+DvnFw4ao
-	OCAA0COJIanZ0nsJVayLIvvN6Q==
-X-Google-Smtp-Source: AIpwx4+sj2C+EUlMXCEIvPAyj4Sfn562FLF28rFjATdMKW6HIcEBttbLMaSjDEU9kkYr891ChonUgQ==
-X-Received: by 2002:a17:902:a701:: with SMTP id
-	w1-v6mr23816682plq.109.1522954994126; 
-	Thu, 05 Apr 2018 12:03:14 -0700 (PDT)
-Received: from [10.43.100.234] (50-233-148-156-static.hfc.comcastbusiness.net.
-	[50.233.148.156]) by smtp.gmail.com with ESMTPSA id
-	w10sm3357227pfk.26.2018.04.05.12.03.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Apr 2018 12:03:13 -0700 (PDT)
+	Thu,  5 Apr 2018 19:07:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2018 12:07:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,412,1517904000"; d="scan'208";a="41008654"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 05 Apr 2018 12:07:46 -0700
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
 References: <1522947905.11431.438.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <15e8f7da-691f-27fe-d805-16da44471ca1@gmail.com>
-Date: Thu, 5 Apr 2018 12:03:12 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <3b467178-c954-4f02-d903-03c8fa9f95a3@linux.intel.com>
+Date: Thu, 5 Apr 2018 22:01:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Thunderbird/52.6.0
 MIME-Version: 1.0
 In-Reply-To: <1522947905.11431.438.camel@linuxfoundation.org>
 Subject: Re: master branch and stabilisation
@@ -108,47 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 19:03:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Apr 2018 19:07:47 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-
-
-On 04/05/2018 10:05 AM, Richard Purdie wrote:
-> We're trying to focus on getting a good 2.5 release. We've had around
-> 80 upgrades to recipes on the list after the freeze and basically the
-> maintainers like Ross and myself are damned if we do and damned if we
-> don't.
->
-> I usually try and ignore them at this point in a release. This then
-> upsets people as they don't get feedback and makes my life horrible
-> when I eventually try and round them up.
->
-> Instead I've tried pulling them into master-next. So far so good but I
-> thought I'd better see how much of a mess the branch is in. Conclusion
-> is at least 3 different failures, some of which I can't even easily
-> figure out the patch causing it.
->
+On 04/05/2018 08:05 PM, Richard Purdie wrote:
 > So I now get to spend my time trying to figure out which patch broke
 > what so I can report back on it and make the branch build again by
 > dropping the broken patches.
-I will take a look as I have a large set in there.
-
->
+> 
 > This means I'm trying to do full on day to day development as usual as
 > well as trying to sort release issues like the imminent fedora28 issue
 > I should be paying attention to instead.
->
+> 
 > So, a question, what do people want me to do?
-I would rather see you focus on the release.
 
-- Armin
->
-> Cheers,
->
-> Richard
->
+You can file bugs with master-next failures and assign them to me, 
+without looking at the failed logs at all. Multitasking is stressful for 
+the brain, much better to do things one after the other than switch 
+context. And I'm not particularly time crunched now.
 
+We should probably more strictly enforce the freeze - just reject the 
+patches and ask to rebase and re-send after a specific date.
 
+Alex
 
