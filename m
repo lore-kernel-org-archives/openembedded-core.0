@@ -1,49 +1,50 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f171.google.com (mail-ua0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 10A1574B44
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f53.google.com (mail-pl0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A083274DEE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 13:22:09 +0000 (UTC)
-Received: by mail-ua0-f171.google.com with SMTP id m47so15442724uae.6
+	Thu,  5 Apr 2018 13:54:00 +0000 (UTC)
+Received: by mail-pl0-f53.google.com with SMTP id v18-v6so17208997ply.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Apr 2018 06:22:11 -0700 (PDT)
+	Thu, 05 Apr 2018 06:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=o0D+v5oEkCF+2k2aUghNKpLIIEyFS0oj/B/xY+dn8aw=;
-	b=IlzKa27tI7+2xDCXLmXPjlVOBQDxFEBEN0Z9H7cZg1Kj/wmXKzHv2CFCUWhKjRYFjT
-	fT4sfExteRMqn6/hpFNxSAVinn47mGZffVouSH1rTKFo84RwHbbRMq48zXpEltt/xP4N
-	aKj8P12ZQcKpjNFQEOUVZgNwIVce020IaWJSOPIV+Ol4taSrsBluMc3P6udIYtam1bZ0
-	GsEw1xzH6FikLonidY4x6ptG5Z6svYLKpUlhJMHWXXHOWyo2kdL+3SbDdeg43xDfW2n0
-	yKEMw3IDb0oG9v/1Xfe2XEdFb61DkZAoP3a4A4SAzSSsEdq8a9c99bzlVkf7JLmRs/Ix
-	w1Ng==
+	h=from:to:subject:date:message-id;
+	bh=uI613dTx/r3fKeyxhwgVPK+nr9FJXyeUM/sjldYCqqU=;
+	b=XQZE0XWx5FUync69KZL5RIvhuNxzVf7A1HN2jYS4vMNK63LpQ5PpHhtv0zyQpeKOTt
+	nMVT05dH0mB7AmLdc+9jAQ6oUPCoh4RFTB8XxUhXmHHofuqKK5kUElSrNOLX/CoEKdTI
+	7KIZd4mPrU0D8wcPA30zOXq8x0927GKx+KpNZHpLVHIG8UsVEpSs8Ry1QHHNxBG67BsX
+	ZBE8Pf1nxH7q/pTk0WSxPRsdzUtzlTM+qipFmgYzsiVHb4EdUDBSMC/Wd5DG7O4/vPke
+	fXw8uEXmiKTjXwAe7tkmOge/OPZid5NPUlHQqVoFLyAv2/lNmGbYVK2q6FGtfJ79jifQ
+	WHEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=o0D+v5oEkCF+2k2aUghNKpLIIEyFS0oj/B/xY+dn8aw=;
-	b=ByvW1B2/C2aj6giMHsDYxECkroXrI3oI3ZXCPL1YolM87C2cDAclQ4MZsXTOLGOoTa
-	qEndzsNm5Wm6JVYPXzYE2H8DhBFcSp4hZQeFBlPYJTaHGbLA53oeP00C7u5H3OqXKOtO
-	ksl/X3oANJFDlH6fISx3+gtoVn6SunUBfCf422YldBgygSr3t5klrcap9+dx92j0qqGT
-	oPmIfiXWmY8++Ah8ijeGZVaYuNKGUI2ho2IDTZXu421VqkDJ3BMZeSs9wEbMN2acuzU5
-	FmgGAtDlSBUqOioBPtz22RbPnYmGQZh2LqvTmrcVkS5b4epWRquBW0b5qzgqake5xPSs
-	CT4w==
-X-Gm-Message-State: ALQs6tCDTxQd5neYO21zX9O2W7B9nPm8+PEs9/XXrONdcqAtNMaDHiWJ
-	EhUpEw0aL68CuOLUEWN9S78GK+djjOVQqnX8qqo=
-X-Google-Smtp-Source: AIpwx4/pWFNdY1uqsWrb7iDPT3bdmGJEcuoLvutTqWx4BbTEy8TupdTcvBBrAnbwzbGo5KOe8PObOpVu2cG8n7qILu4=
-X-Received: by 10.159.47.2 with SMTP id x2mr14079778uaj.23.1522934530718; Thu,
-	05 Apr 2018 06:22:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAPGMVzHSCh1VU91Leev0BaZNbzg05U--61WEO1UgcL700_WkBA@mail.gmail.com>
-	<CAPGMVzGsUSor8=tX5EWWmnhUw1G4rpia9SVpSu=eYHw7DXDghw@mail.gmail.com>
-	<236bdac4-6e55-777d-b808-dcd6375d5dbb@linux.intel.com>
-	<CAPGMVzFPwMa5xV=0H2Wim=OgiYJ-Tv4KvFrm5T7-8ecDyWOy9w@mail.gmail.com>
-In-Reply-To: <CAPGMVzFPwMa5xV=0H2Wim=OgiYJ-Tv4KvFrm5T7-8ecDyWOy9w@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Thu, 05 Apr 2018 13:22:00 +0000
-Message-ID: <CAPGMVzGD5oUW2ZcnZepEBEghUh=UOQLqKr88_qYqgGwjP45E8Q@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe] qemu boot problem
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=uI613dTx/r3fKeyxhwgVPK+nr9FJXyeUM/sjldYCqqU=;
+	b=kcNS/ZZw/uJkCN7jnFVkqHg1aWSgpDXx0Btv5yND6SC4uekaKePghu/PbtlEcgVeUS
+	pwafPTgD1xw3vTB+SBBHs5npKgJ4kAGiK1mm0cfwAH13J8Oq9DoyAx4pLwgB30spOhkp
+	PSq5yLjfrEqGGrSjov4wXb//latCF5bymyuSyQfCsc/fbsMruuU+KFujdTd7fdfaipWl
+	qf3PiWDOSPcvxEVBlSDm3GVfXhg4IH+iuAgCIPiOF4Mdgc2mKiIislI5E07Z3LebuyWU
+	Ly1n0685i0VcA2MRF5/TmW4BP7yX5LyfUny/fq/bg9jqkBlHRCdqB72ZeYKofJ3RF2O8
+	45hQ==
+X-Gm-Message-State: ALQs6tA8hh8+R69gobqWKUMEUtwPYwQ63UE/aYOPXUvQ1QtOn2fU7pOZ
+	btMaSiyHCrH/lfgT3VEqRX8=
+X-Google-Smtp-Source: AIpwx4+jH8hOkvjHZBSSFNo/swIZ5dptXNjKAIFd3h+yqKENnmGkb45E0HFsmHxkLZmRNKcZB/cxgg==
+X-Received: by 2002:a17:902:d88a:: with SMTP id
+	b10-v6mr13262852plz.172.1522936441313; 
+	Thu, 05 Apr 2018 06:54:01 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:9956:e5c2:70f8:aaf8])
+	by smtp.gmail.com with ESMTPSA id
+	t18sm17126170pfg.103.2018.04.05.06.54.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Apr 2018 06:54:00 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu,  5 Apr 2018 06:53:18 -0700
+Message-Id: <cover.1522936224.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/38] Morty Next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +57,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 13:22:10 -0000
-Content-Type: multipart/alternative; boundary="089e08253a74b84128056919d316"
+X-List-Received-Date: Thu, 05 Apr 2018 13:54:00 -0000
 
---089e08253a74b84128056919d316
-Content-Type: text/plain; charset="UTF-8"
+Please consider these changes for Morty. Clean AB build
 
-Do have a look at main thread of this topic to know the Machine config and
-error message
+This included sdk locale and host glibc 2.27 fixes.
 
-On Thu, 5 Apr 2018, 18:50 Rajath C S, <rajathcs.1996@gmail.com> wrote:
+The following changes since commit 34b26ec18450a3bc72f7b8a0f2df0bfaae1140dd:
 
-> The above text I have posted itself is the full output it's throwing and
-> with with respect to command - runqemu qemux86
->
->
-> On Thu, 5 Apr 2018, 18:38 Alexander Kanavin, <
-> alexander.kanavin@linux.intel.com> wrote:
->
->> On 04/05/2018 01:43 PM, Rajath C S wrote:
->> > as the error specifies about a specific recipe missing the license, i'd
->> > like to know which recipe is that what is the pointer to defaultpkgname
->>
->> You need to provide both the command you issue on the command line, and
->> the full output that it prints.
->>
->> Alex
->>
->
+  linux-firmware: Add reference to iwlwifi-8000C firmware (2018-03-19 15:58:33 +0000)
 
---089e08253a74b84128056919d316
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"auto">Do have a look at main thread of this topic to know the M=
-achine config and error message</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr">On Thu, 5 Apr 2018, 18:50 Rajath C S, &lt;<a href=3D"mailto:rajat=
-hcs.1996@gmail.com">rajathcs.1996@gmail.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><div dir=3D"auto">The above text I have posted itse=
-lf is the full output it&#39;s throwing and with with respect to command - =
-runqemu qemux86<div dir=3D"auto"><br></div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr">On Thu, 5 Apr 2018, 18:38 Alexander Kanavin, &lt;<a h=
-ref=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank" rel=3D"n=
-oreferrer">alexander.kanavin@linux.intel.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On 04/05/2018 01:43 PM, Rajath C S wrote:<br>
-&gt; as the error specifies about a specific recipe missing the license, i&=
-#39;d<br>
-&gt; like to know which recipe is that what is the pointer to defaultpkgnam=
-e<br>
-<br>
-You need to provide both the command you issue on the command line, and<br>
-the full output that it prints.<br>
-<br>
-Alex<br>
-</blockquote></div></blockquote></div>
+  git://git.yoctoproject.org/poky-contrib stable/morty-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stable/morty-next
 
---089e08253a74b84128056919d316--
+Alexander Kanavin (2):
+  selftest/signing: add --batch to gpg invocation when importing keys
+  populate_sdk_base.bbclass: add documentation packages to SDKs if
+    api-documentation is in DISTRO_FEATURES
+
+Andreas Oberritter (1):
+  libc-package.bbclass: split binary localedata even more if asked to
+
+Armin Kuster (3):
+  lib/oe/terminal.py: use an absolute path to execute
+    oe-gnome-terminal-phonehome
+  distcc: Change SRC_URI
+  package_manager: fix install_glob to use morty sdk pkgdir
+
+Christopher Larson (1):
+  buildhistory: fix latest_srcrev in the common case
+
+Ed Bartosh (1):
+  toolchain-shar-extract: compare SDK and host gcc versions
+
+Gianfranco Costamagna (1):
+  glibc-locale.inc: fix typo in comment
+
+Juro Bystricky (1):
+  glibc-locale.inc: avoid duplicate packages
+
+Linus Wallgren (1):
+  lib/oe/package_manager: .deb pre/postinst args
+
+Martin Jansa (1):
+  package_manager: flush installed_pkgs file before oe-pkgdata-util uses
+    it
+
+Maxin B. John (1):
+  grub-efi: fix build failure
+
+Richard Purdie (4):
+  lib/oe/package_manager/sdk: Ensure do_populate_sdk_ext and
+    do_populate_sdk repos don't conflict
+  glibc: Separate locale files to their own sstate task
+  image/packagegroup/populate_sdk: Drop do_populate_sysroot task
+    properly
+  glibc-package: Avoid race sstate races with do_stash_locale
+
+Ross Burton (15):
+  default-distrovars: don't rename locales for nativesdk
+  glibc: don't use host locales in nativesdk
+  glibc: relocate locale paths in nativesdk
+  lib/oe/package_manager: bail if createrepo can't be found
+  package_manager: don't race on a file when installing complementary
+    packages
+  package_manager: improve install_complementary
+  package-manager: add install_glob()
+  sdk: install specified locales into SDK
+  sdk: only install locales if we're using glibc
+  populate_sdk: install UTF-8 locales in SDKs
+  populate_sdk_base: depend on nativesdk-glibc-locale
+  cross-localedef-native: add way to specify which locale archive to
+    write
+  qemu: fix memfd_create with glibc 2.27
+  sdk: generate locale archive and remove packages
+  sdk: streamline locale removal
+
+Stephano Cetola (1):
+  package_manager: remove strings and migrate to direct arrays
+
+Tanu Kaskinen (4):
+  e2fsprogs: fix compatibility with glibc 2.27
+  libvorbis: CVE-2017-14633
+  libvorbis: CVE-2017-14632
+  libvorbis: CVE-2018-5146
+
+Zhenbo Gao (1):
+  archiver: avoid archiving source for glibc-locale
+
+ meta/classes/archiver.bbclass                      |   6 +
+ meta/classes/buildhistory.bbclass                  |   2 +-
+ meta/classes/image.bbclass                         |   2 +-
+ meta/classes/libc-package.bbclass                  |  39 ++-
+ meta/classes/packagegroup.bbclass                  |   2 +-
+ meta/classes/populate_sdk_base.bbclass             |  11 +-
+ meta/classes/populate_sdk_ext.bbclass              |   3 +-
+ meta/conf/distro/include/default-distrovars.inc    |   1 +
+ meta/files/toolchain-shar-extract.sh               |   8 +
+ meta/lib/oe/package.py                             |  13 +-
+ meta/lib/oe/package_manager.py                     | 328 +++++++++++----------
+ meta/lib/oe/sdk.py                                 |  85 +++++-
+ meta/lib/oe/terminal.py                            |   2 +-
+ meta/lib/oeqa/selftest/signing.py                  |   2 +-
+ ...ix-check-for-sys-sysmacros.h-under-glibc-.patch |  48 +++
+ meta/recipes-bsp/grub/grub-efi_2.00.bb             |   1 +
+ .../glibc/cross-localedef-native_2.24.bb           |   1 +
+ meta/recipes-core/glibc/glibc-collateral.inc       |   2 +-
+ meta/recipes-core/glibc/glibc-initial.inc          |   2 +-
+ meta/recipes-core/glibc/glibc-locale.inc           |   5 +-
+ meta/recipes-core/glibc/glibc-mtrace.inc           |   2 +-
+ meta/recipes-core/glibc/glibc-package.inc          |  45 +--
+ meta/recipes-core/glibc/glibc-scripts.inc          |   2 +-
+ meta/recipes-core/glibc/glibc/archive-path.patch   |  39 +++
+ .../glibc/glibc/relocate-locales.patch             |  33 +++
+ meta/recipes-core/glibc/glibc_2.24.bb              |   7 +-
+ meta/recipes-core/meta/buildtools-tarball.bb       |   1 -
+ meta/recipes-devtools/distcc/distcc_3.2.bb         |   2 +-
+ ...rename-copy_file_range-to-copy_file_chunk.patch |  62 ++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.bb  |   1 +
+ meta/recipes-devtools/qemu/qemu/memfd.patch        |  57 ++++
+ meta/recipes-devtools/qemu/qemu_2.7.0.bb           |   1 +
+ .../libvorbis/libvorbis/CVE-2017-14632.patch       |  62 ++++
+ .../libvorbis/libvorbis/CVE-2017-14633.patch       |  42 +++
+ .../libvorbis/libvorbis/CVE-2018-5146.patch        | 100 +++++++
+ .../libvorbis/libvorbis_1.3.5.bb                   |   6 +-
+ 36 files changed, 809 insertions(+), 216 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-configure-fix-check-for-sys-sysmacros.h-under-glibc-.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/archive-path.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/relocate-locales.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-rename-copy_file_range-to-copy_file_chunk.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14632.patch
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14633.patch
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch
+
+-- 
+2.7.4
+
+
