@@ -1,46 +1,50 @@
-Return-Path: <rajathcs.1996@gmail.com>
-Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A0874B77
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pl0-f41.google.com (mail-pl0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 16A307467A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 10:43:11 +0000 (UTC)
-Received: by mail-ua0-f169.google.com with SMTP id n20so15149375ual.7
+	Thu,  5 Apr 2018 10:49:03 +0000 (UTC)
+Received: by mail-pl0-f41.google.com with SMTP id k6-v6so13426616pls.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Apr 2018 03:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ropw5pdNd8Dt/SJbQ5mYbPEqtaQSD2fIO/4c+PUqD54=;
-	b=EUbiMUH8kTeGOgFQQcsXvPHqpZXOQ53t+/lEWfE+qdM24B+SzB6qlhoawC86irq72A
-	zZwcC0TrbZ3ZJzhDXas8BXIBPNVh9LDdHHUR98mAT0/TRKQ2xe47wBCFOYaOxfzUhcGV
-	tfhvg8Yg7JHZ/JBbvUR6YjGYPZ1scO51IE9VJ3gQcTBvP+9U7+Y/UaOWTlemaI/MPzy4
-	MA1N+ydRxRhseu9Z2lc9AMokKt92PQQTziOADK/9XmrqINusn2m9saFM5ljyd9Dt4qcY
-	84Ow8drDMUDyex08m/RKt1ErUb4rgF2XsUIUsmD+OIEk+gz/HT5yZyAdiZkVBhHiOFFR
-	239w==
+	Thu, 05 Apr 2018 03:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=qFMQqXYMy68ENHqx9v77OBFHNDmiWjYeDovDU7QZSEs=;
+	b=RN6TkjvrKgyJaukHfbhf6NrdlNR2TJg38NcTLjW1Me955oUBLSuHXxUy466phT2lfC
+	FlvC/fZruSQ+9VFrm9qhqhT2Or3j+aXSoWdCEDI7FQEer9UZVO2Sg4P2B1syvdutsU8G
+	0hZsjKchHmP+ZbGzfBcVxj9bQfHHCe9v0xfJ3S1eRQwQx3oYyioRSyoo573dHsiO0UGi
+	jB1YAX1at427isAPKCoULRZ0dGaTDK0SHTyHydrGnJHTtZjmGY2lu2XcEavXhzZMP8te
+	E0xzD5dfC2eR2E3JpOt7a/PsS9K8JimUBAwIWnJmq124EW0qo9FycKgjlEa+ISBtCa9t
+	mbUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ropw5pdNd8Dt/SJbQ5mYbPEqtaQSD2fIO/4c+PUqD54=;
-	b=Gx49jEIg/BnxbETY3lsYhWv9VlLl5Cm5QInelQv9BM4SW0nih3WpLJq5pMOPeXxAgi
-	rFrSRmcACUVyrf1Ay5yluLo+e4C5SB1Q/xC3voODDg7/Egu/lT4UQmKjeRBOY3mtT7s2
-	YyjwY71lmBaBMJvcnb37Tat8pjADeINNJgznizYQI0yaZb7/visuZ/bOAnpR/y7oFTzi
-	zftt4zOf1ENGvNa1Km4lD25Daymhn3EdiyezWmjlhN2ZFKbTpuqNvUDDFZdeSX8yojcK
-	GnRqSX2Ooc/5MhNBNZ2q5Ex9pwRQJ8vzloqijn4zP0EmNgdkzs0NtdEB3WPICM4JraNu
-	iwyg==
-X-Gm-Message-State: ALQs6tDaZo+cxnzaOIWN9JDcyFUUiB8SW/7zm9MindHTT07Thf0nQQLv
-	jpd298lBOKTnJul/vil+gb1ElVDMWcLKQaawrhI=
-X-Google-Smtp-Source: AIpwx4/ZHdOdxjPoh8eoJCvF35LrEI8kw6HnjA6ahXH0MMK6bWQC21qam+b/0UulOd7xsb6E6C8DWzxIbxin4f73zu0=
-X-Received: by 10.176.71.213 with SMTP id w21mr13652829uac.125.1522924992299; 
-	Thu, 05 Apr 2018 03:43:12 -0700 (PDT)
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=qFMQqXYMy68ENHqx9v77OBFHNDmiWjYeDovDU7QZSEs=;
+	b=n4ggkvpuQeQpUWi/WhJL5HQgz6JEn4QSdpdsKML76C1zNlEUxOJGbR15f9m6P/6Bw8
+	a+Vui5gxwH1I2r8AkWKs3utfA2yuJ6wCqvQGtR5t9aqGTmx30S8Pyx00ktrkOSAUBLXZ
+	1FV4Ar1mhJRfCpwyApi+2JUy1opt+I8s6SPrNrp/gVM7GlRzOZBp4IPsuTtluRLpzWqI
+	KGNVCCq0Dh6bcCjnMam3ugaZhQHLN2YsuJwEFEBxDIWW8zWjX/fGL9fNcvub20LoQYlu
+	WsihqXE15vbQZUyEYJHT3MWaEDp2bpvuwP809IINmKZphMJHkq3Ea1W0b2FG0O9xDUVk
+	/BJQ==
+X-Gm-Message-State: AElRT7GhwT/eRGVHvYw+M4qTfut0FyhnzOGVYNwsznxGUmfpVqY5foWl
+	/K67HKD6B9HT+/DeyBQdXHlIWuFxBAQ=
+X-Google-Smtp-Source: AIpwx4+y8LVgPQGgtGfgIwl5tJZx5XWOt6Zx71XkTZQkoBC5bWp6T+YuCIhL7Av0YHSXhDgkjaCW9g==
+X-Received: by 2002:a17:902:6ec5:: with SMTP id
+	l5-v6mr22162679pln.113.1522925344216; 
+	Thu, 05 Apr 2018 03:49:04 -0700 (PDT)
+Received: from [127.0.1.1] ([124.186.105.89]) by smtp.gmail.com with ESMTPSA id
+	e62sm14795411pfl.117.2018.04.05.03.49.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Apr 2018 03:49:03 -0700 (PDT)
+Date: Thu, 05 Apr 2018 20:48:13 +1000
+Message-Id: <20180405104813.10173-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Received: by 10.103.219.149 with HTTP; Thu, 5 Apr 2018 03:43:11 -0700 (PDT)
-In-Reply-To: <CAPGMVzHSCh1VU91Leev0BaZNbzg05U--61WEO1UgcL700_WkBA@mail.gmail.com>
-References: <CAPGMVzHSCh1VU91Leev0BaZNbzg05U--61WEO1UgcL700_WkBA@mail.gmail.com>
-From: Rajath C S <rajathcs.1996@gmail.com>
-Date: Thu, 5 Apr 2018 16:13:11 +0530
-Message-ID: <CAPGMVzGsUSor8=tX5EWWmnhUw1G4rpia9SVpSu=eYHw7DXDghw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe] qemu boot problem
+Subject: [RFC PATCH] devicetree.bbclass: User/BSP device tree source compilation class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,98 +57,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 10:43:12 -0000
-Content-Type: multipart/alternative; boundary="f4030437a0a02f868f0569179b70"
+X-List-Received-Date: Thu, 05 Apr 2018 10:49:04 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---f4030437a0a02f868f0569179b70
-Content-Type: text/plain; charset="UTF-8"
+This bbclass implements the device tree compilation for user provided
+device trees. In order to use this class, it should be inherited in a
+BSP recipe which provides the sources. The default setup enables
+inclusion of kernel device tree sources (though can be disabled by the
+recipe by overriding DT_INCLUDE or KERNEL_INCLUDE).
 
-as the error specifies about a specific recipe missing the license, i'd
-like to know which recipe is that what is the pointer to defaultpkgname
+This provides an additional mechanism for BSPs to provide device trees
+and device tree overlays for their target machines. Whilst still
+enabling access to the kernel device trees for base SoC includes and
+headers.
 
-Thanks
+This approach to providing device trees has benefits for certain use
+cases over patching the device trees into the kernel source.
 
-Rajath C S,
-9964182112,
-Bangalore - 560060
+* device trees are separated from kernel source, allows for selection of
+kernel and or kernel versions without needing to explicitly patch the
+kernel (or appending to the kernel recipes).
 
-On Thu, Apr 5, 2018 at 3:30 PM, Rajath C S <rajathcs.1996@gmail.com> wrote:
+* providing device trees from separate sources, from the layer,
+generated by the recipe or other recipes.
 
-> Hi,
->
-> so i completed the core-image-sato build but while running it on qemu i
-> get the below error.
->
-> runqemu - INFO - Running MACHINE=qemux86 bitbake -e...
-> ERROR: This recipe does not have the LICENSE field set (defaultpkgname)
-> runqemu - ERROR - bitbake -e
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
->
-> Build Configuration:
-> BB_VERSION           = "1.37.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "i586-poky-linux"
-> MACHINE              = "qemux86"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "2.4+snapshot-20180405"
-> TUNE_FEATURES        = "m32 i586"
-> TARGET_FPU           = ""
-> meta
-> meta-poky
-> meta-yocto-bsp       = "master:80c7ca2c28959d08a59d960d318d8360392bd488"
-> meta-oe
-> meta-python          = "master:b9d1d8718834f7287e5a65373b952cbfe9ce83fe"
->
->
->
->
->
+This class also implements some additional features that are not
+available in the kernel-devicetree flow. This includes population of
+device tree blobs into the sysroot which allows for other recipes to
+consume built dtbs (e.g. U-Boot with EXT_DTB compilation), device tree
+overlay compilation and customizing DTC compilation args (boot
+cpu/padding/etc.).
+---
+This patch is an RFC for adding devicetree.bbclass to oe-core. With the
+plan to submit it for inclusion in the next release.
 
---f4030437a0a02f868f0569179b70
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In addition to these changes it is my intention to also submit
+documentation to the Yocto BSP guide that covers both methods (kernel
+source patch and this bbclass) for how to provide user device trees for a
+BSP layer.
 
-<div dir=3D"ltr"><div>as the error specifies about a specific recipe missin=
-g the license, i&#39;d like to know which recipe is that what is the pointe=
-r to defaultpkgname<br><br></div>Thanks<br></div><div class=3D"gmail_extra"=
-><br clear=3D"all"><div><div class=3D"gmail_signature" data-smartmail=3D"gm=
-ail_signature"><div dir=3D"ltr"><div><div>Rajath C S,<br>9964182112,<br></d=
-iv></div>Bangalore - 560060<br></div></div></div>
-<br><div class=3D"gmail_quote">On Thu, Apr 5, 2018 at 3:30 PM, Rajath C S <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:rajathcs.1996@gmail.com" target=3D"_=
-blank">rajathcs.1996@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr"><div>Hi,<br><br></div>so i completed the cor=
-e-image-sato build but while running it on qemu i get the below error.<br><=
-div><div><br>runqemu - INFO - Running MACHINE=3Dqemux86 bitbake -e...<br>ER=
-ROR: This recipe does not have the LICENSE field set (defaultpkgname)<br>ru=
-nqemu - ERROR - bitbake -e <br>Summary: There was 1 ERROR message shown, re=
-turning a non-zero exit code.<br><br><br>Build Configuration:<br>BB_VERSION=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;1.37=
-.0&quot;<br>BUILD_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 =3D &quot;x86_64-linux&quot;<br>NATIVELSBSTRING=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D &quot;universal&quot;<br>TARGET_SYS=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;i586-poky-linux&quot;<=
-br>MACHINE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D &quot;qemux86&quot;<br>DISTRO=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;poky=
-&quot;<br>DISTRO_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;2.4+=
-snapshot-20180405&quot;<br>TUNE_FEATURES=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 =3D &quot;m32 i586&quot;<br>TARGET_FPU=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;&quot;<br>meta=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 <br>meta-poky=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 <br>meta-yocto-bsp=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &qu=
-ot;master:80c7ca2c28959d08a59d96<wbr>0d318d8360392bd488&quot;<br>meta-oe=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- <br>meta-python=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D =
-&quot;master:b9d1d8718834f7287e5a65<wbr>373b952cbfe9ce83fe&quot;<div class=
-=3D"m_-3211207360593716522gmail-yj6qo"></div><div class=3D"m_-3211207360593=
-716522gmail-adL"><br></div><br><br><div class=3D"m_-3211207360593716522gmai=
-l-yj6qo"></div><div class=3D"m_-3211207360593716522gmail-adL"><br></div></d=
-iv></div></div>
-</blockquote></div><br></div>
+The meta-xilinx layer has a recipe (device-tree.bb) that behaves exactly
+like this class for some time. It has been very useful for out-of-kernel
+device tree compilation as well as for a mechanism so that users of
+Xilinx SoCs can provide their customizations (FPGA devices) and board
+specific configuration. This compilation flow also makes sense for other
+BSPs, which is the reason for creating this bbclass for common shared
+use by other BSPs.
 
---f4030437a0a02f868f0569179b70--
+Examples of this classes usage can be seen for meta-xilinx:
+https://github.com/nathanrossi/meta-xilinx/blob/nrossi/devicetree-classify/meta-xilinx-bsp/recipes-bsp/device-tree/device-tree.bb
+
+And for a custom BSP:
+https://github.com/nathanrossi/gps-clock-project/blob/wip-devicetree-classify/meta-gps-clock/recipes/device-tree/device-tree.bb
+---
+ meta/classes/devicetree.bbclass | 140 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 meta/classes/devicetree.bbclass
+
+diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
+new file mode 100644
+index 0000000000..dbc83f2a1d
+--- /dev/null
++++ b/meta/classes/devicetree.bbclass
+@@ -0,0 +1,140 @@
++# This bbclass implements device tree compliation for user provided device tree
++# sources. The compilation of the device tree sources is the same as the kernel
++# device tree compilation process, this includes being able to include sources
++# from the kernel such as soc dtsi files or header files such as gpio.h. In
++# addition to device trees this bbclass also handles compilation of device tree
++# overlays.
++#
++# The output of this class behaves similar to how kernel-devicetree.bbclass
++# operates in that the output files are installed into /boot/devicetree.
++# However this class on purpose separates the deployed device trees into the
++# 'devicetree' subdirectory. This prevents clashes with the kernel-devicetree
++# output. Additionally the device trees are populated into the sysroot for
++# access via the sysroot from within other recipes.
++
++SECTION ?= "bsp"
++
++# The default inclusion of kernel device tree includes and headers means that
++# device trees built with them are at least GPLv2 (and in some cases dual
++# licensed). Default to GPLv2 if the recipe does not specify a license.
++LICENSE ?= "GPLv2"
++LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS += "dtc-native"
++
++inherit deploy kernel-arch
++
++COMPATIBLE_MACHINE ?= "^$"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++SYSROOT_DIRS += "/boot/devicetree"
++FILES_${PN} = "/boot/devicetree/*.dtb /boot/devicetree/*.dtbo"
++
++S = "${WORKDIR}"
++B = "${WORKDIR}/build"
++
++# Default kernel includes, these represent what are normally used for in-kernel
++# sources.
++KERNEL_INCLUDE ??= " \
++        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts \
++        ${STAGING_KERNEL_DIR}/arch/${ARCH}/boot/dts/* \
++        ${STAGING_KERNEL_DIR}/scripts/dtc/include-prefixes \
++        "
++
++DT_INCLUDE[doc] = "Search paths to be made available to both the device tree compiler and preprocessor for inclusion."
++DT_INCLUDE ?= "${DT_FILES_PATH} ${KERNEL_INCLUDE}"
++DT_FILES_PATH[doc] = "Defaults to source directory, can be used to select dts files that are not in source (e.g. generated)."
++DT_FILES_PATH ?= "${S}"
++
++DT_PADDING_SIZE[doc] = "Size of padding on the device tree blob, used as extra space typically for additional properties during boot."
++DT_PADDING_SIZE ??= "0x3000"
++DT_RESERVED_MAP[doc] = "Number of reserved map entires."
++DT_RESERVED_MAP ??= "8"
++DT_BOOT_CPU[doc] = "The boot cpu, defaults to 0"
++DT_BOOT_CPU ??= "0"
++
++DTC_FLAGS ?= "-R ${DT_RESERVED_MAP} -p ${DT_PADDING_SIZE} -b ${DT_BOOT_CPU}"
++DTC_PPFLAGS ?= "-nostdinc -undef -D__DTS__ -x assembler-with-cpp"
++DTC_OFLAGS ?= "-@ -H epapr"
++
++python () {
++    if d.getVar("KERNEL_INCLUDE"):
++        # auto add dependency on kernel tree, but only if kernel include paths
++        # are specified.
++        d.appendVarFlag("do_compile", "depends", " virtual/kernel:do_configure")
++}
++
++def expand_includes(varname, d):
++    import glob
++    includes = set()
++    # expand all includes with glob
++    for i in (d.getVar(varname) or "").split():
++        for g in glob.glob(i):
++            if os.path.isdir(g): # only add directories to include path
++                includes.add(g)
++    return includes
++
++def devicetree_source_is_overlay(path):
++    # determine if a dts file is an overlay by checking if it uses "/plugin/;"
++    with open(path, "r") as f:
++        for i in f:
++            if i.startswith("/plugin/;"):
++                return True
++    return False
++
++def devicetree_compile(dtspath, includes, d):
++    import subprocess
++    dts = os.path.basename(dtspath)
++    dtname = os.path.splitext(dts)[0]
++    bb.note("Processing {0} [{1}]".format(dtname, dts))
++
++    # preprocess
++    ppargs = d.getVar("BUILD_CPP").split()
++    ppargs += (d.getVar("DTC_PPFLAGS") or "").split()
++    for i in includes:
++        ppargs.append("-I{0}".format(i))
++    ppargs += ["-o", "{0}.pp".format(dts), dtspath]
++    bb.note("Running {0}".format(" ".join(ppargs)))
++    subprocess.run(ppargs, check = True)
++
++    # determine if the file is an overlay or not (using the preprocessed file)
++    isoverlay = devicetree_source_is_overlay("{0}.pp".format(dts))
++
++    # compile
++    dtcargs = ["dtc"] + (d.getVar("DTC_FLAGS") or "").split()
++    if isoverlay:
++        dtcargs += (d.getVar("DTC_OFLAGS") or "").split()
++    for i in includes:
++        dtcargs += ["-i", i]
++    dtcargs += ["-o", "{0}.{1}".format(dtname, "dtbo" if isoverlay else "dtb")]
++    dtcargs += ["-I", "dts", "-O", "dtb", "{0}.pp".format(dts)]
++    bb.note("Running {0}".format(" ".join(dtcargs)))
++    subprocess.run(dtcargs, check = True)
++
++python devicetree_do_compile() {
++    includes = expand_includes("DT_INCLUDE", d)
++    listpath = d.getVar("DT_FILES_PATH")
++    for dts in os.listdir(listpath):
++        if not dts.endswith(".dts"):
++            continue # skip non-.dts files
++        dtspath = os.path.join(listpath, dts)
++        devicetree_compile(dtspath, includes, d)
++}
++
++devicetree_do_install() {
++    for DTB_FILE in `ls *.dtb *.dtbo`; do
++        install -Dm 0644 ${B}/${DTB_FILE} ${D}/boot/devicetree/${DTB_FILE}
++    done
++}
++
++devicetree_do_deploy() {
++    for DTB_FILE in `ls *.dtb *.dtbo`; do
++        install -Dm 0644 ${B}/${DTB_FILE} ${DEPLOYDIR}/devicetree/${DTB_FILE}
++    done
++}
++addtask deploy before do_build after do_install
++
++EXPORT_FUNCTIONS do_compile do_install do_deploy
++
+-- 
+2.16.3
+
+
