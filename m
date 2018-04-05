@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f54.google.com (mail-pl0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C33C374DE2
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1401C74E79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 16:52:08 +0000 (UTC)
-Received: by mail-pl0-f54.google.com with SMTP id 61-v6so17989076plb.2
+	Thu,  5 Apr 2018 16:53:41 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id s10-v6so18001531plp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Apr 2018 09:52:09 -0700 (PDT)
+	Thu, 05 Apr 2018 09:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IGRbOdbaMjuCtj/8VvRhjikaJikbUw3AkaBIyl+loOM=;
-	b=tuuRroGe1DIWPAo9b+yhSWA6uGSk3/2mk4oX88aTLcL+eohlMFg+1nbZh/vhSKNUX9
-	JVXuT9lgfMw3V1sfAsCwIYZfIBO6r8bBd+kRgnS2T2wWOpniW8XL8/Qvo8t8vqRRsccn
-	nVdcYji8XuWSDvcTCPygnP/OGvvfHMy0CI2BHqL/hAFnys4tBsKB/Kg5v3dQNatY+v43
-	GkVIcCp3FcLKm1HWYou+dgyiH4K0FOECz2aEtI8fUJKSJiwJPJjmo3ETCBmeq8PuycxX
-	wKt2VIICRn8EyJW97Eaz+lc+lhtrGxoFmCuBPdahgJ0KFT8wT5tm7pepoQ8vtY1AN3C0
-	uUNQ==
+	:cc; bh=zUbzdZwdg/4At1Hht2KoWDp7afkNpgI26U5Tdh4T/5U=;
+	b=I56MDqSU8WitNVJ54cVPx0TqRBrapc86aXQ32CscLr4RF2VaBCVmgNkTDhkBqfL8PE
+	uHHt29P5nne9jd4IcxbaXFZ4SP07TTxTEkA4U57jOnKHAMMMeKzIQOq1y6WEId0m2DqW
+	VDjKOpJvxxVzKsiTVVCgZUPvAMT/RW89aUOuJJup7u+A3RP/e4+fb6anoFbC1UqAqic2
+	NaIktd8gyUZLfSySKTacfnUkFTUBYXD1GWX4tdIFL3OWpSe+sE4Bk0kJ4V4+xopVl/qm
+	qKv04wQSBycz0k9K4WkaK+3IBrroEdhndYAkIpQvngPy91fnkt4BrDfJ/zjPXvSYZ3WL
+	rDXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=IGRbOdbaMjuCtj/8VvRhjikaJikbUw3AkaBIyl+loOM=;
-	b=WNrmlRVjhE9O0vuy4d+bBLujXhcamV+bmdJ4uHKrhOMmc2F03mJnqaZdA+yE9iuMDF
-	jkBC7/wUnUc4uUuW0hkWQJPsRuWmzC1bJTqhw04pG8YRSnURWUmzxpbkFgrfG7ZN/LGU
-	YjVoYUVJ8zah+LHnczcrEpytODLBEhenfOnva1tPpVdtceB+3AXRTWUDod/38j4scDoz
-	XIuGskGxRxLWJgNnUJC2VQm1+g+7rIHZP/e278QfDN9vMDDSywEN/aS4M3+RoazVrPCG
-	9wAdVVRHMFy9idLBxnQjXqVOFMxUVxS/BCAvqfpe8z3HetVSbaUoYRcwJb4bLzyDFzpb
-	tqoQ==
-X-Gm-Message-State: ALQs6tC44FAq5951hGx9tNxLw4MUeLbxzL0az/9DbgMBJOoVKAZYCQ+d
-	oUE41U2EvOjvrurwoFbJve4SLdg8Oj7b8ePdT6k=
-X-Google-Smtp-Source: AIpwx4/O+pw5exLFGhlgMh7QZLR1WzlW9IlLIMI3a8xX5fLX8DO3B05GEiuxWorALw6cgAgqa65gdQTMDd8EiARObVU=
-X-Received: by 10.99.107.196 with SMTP id g187mr6693023pgc.384.1522947129010; 
-	Thu, 05 Apr 2018 09:52:09 -0700 (PDT)
+	bh=zUbzdZwdg/4At1Hht2KoWDp7afkNpgI26U5Tdh4T/5U=;
+	b=L4KTT7zrTgJ61PzmRGiELS9gASZYjovAGEPaCGUUBkoyDYkgmVOlNJ5eZxbWWLJ7Q6
+	UryLxSvQS3KLmXFwsdIHnEjMuFT5qtPMlctrlZ2fhONjtWD2QKvFtWXRwqpmpHmnjsuN
+	XILpNz1z+b1ysKyIxeXKi+UaaPlVzCDA2RYOcbA9BN4cjLh2fW3UWB1vMXVK5DAgSVMi
+	RuTlHnuKfbuwH1WOMu4uqzHlGTtCn832BoQjmzhngapOFSZf4qxakU8Dd4W8rx2G8zIL
+	+fxOOetCQl6LleDNP++eZFXMjmwHwNzY9ffYmNbT9mVIlDE9RXS0bcihClCn1L+TxD49
+	YCog==
+X-Gm-Message-State: AElRT7Eo9KBvoCWlP6nG5uN1KrbTfwg0CHdDijCV3CVxlz9aaY73Qw4/
+	FxcGGR/VgPDenhBARsrYZFArFJO2K+icGQRhaUg=
+X-Google-Smtp-Source: AIpwx4/fiHE/AlH2CLrZe1RstgWAw0Z6W7vBYPMRYfXU2qTkq+blVCZlRZh0tc5T9sI0NV+N4zgfzO+M/3Aq+gbFhIk=
+X-Received: by 2002:a17:902:43e4:: with SMTP id
+	j91-v6mr23387163pld.118.1522947222446; 
+	Thu, 05 Apr 2018 09:53:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.172.5 with HTTP; Thu, 5 Apr 2018 09:51:38 -0700 (PDT)
-In-Reply-To: <4815bfcf-28c7-0154-c2cd-71e307ffcf90@linux.intel.com>
+Received: by 10.236.172.5 with HTTP; Thu, 5 Apr 2018 09:53:12 -0700 (PDT)
+In-Reply-To: <a38abcfa-a505-e068-7265-7ba60fe88ae8@linux.intel.com>
 References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-	<20180404111321.10824-14-alexander.kanavin@linux.intel.com>
-	<1ee35204-4a8b-d22c-7225-1408f2a09d17@gmail.com>
-	<4815bfcf-28c7-0154-c2cd-71e307ffcf90@linux.intel.com>
+	<20180404111321.10824-8-alexander.kanavin@linux.intel.com>
+	<bac40368-2bea-05d5-63b7-2f887a1dce1c@gmail.com>
+	<a38abcfa-a505-e068-7265-7ba60fe88ae8@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Apr 2018 09:51:38 -0700
-Message-ID: <CAMKF1sqXczYe9Ly8Y8v_-txrKg0-DLF1L8E9CFp2ecdpyVyHBQ@mail.gmail.com>
+Date: Thu, 5 Apr 2018 09:53:12 -0700
+Message-ID: <CAMKF1spsSPNVVvcyiUJc4wSnaQBdBOfVVDsH+MUQoK6kWoFQOQ@mail.gmail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/22] icu: update to 61.1
+Subject: Re: [PATCH 08/22] bash-completion: update to 2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +59,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 16:52:08 -0000
+X-List-Received-Date: Thu, 05 Apr 2018 16:53:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 5, 2018 at 2:32 AM, Alexander Kanavin
+On Thu, Apr 5, 2018 at 2:27 AM, Alexander Kanavin
 <alexander.kanavin@linux.intel.com> wrote:
-> On 04/05/2018 03:20 AM, Khem Raj wrote:
->>
->> On 4/4/18 4:13 AM, Alexander Kanavin wrote:
+> On 04/05/2018 03:18 AM, Khem Raj wrote:
 >>>
->>> License-Update: copyright years updated, added terms for Google
->>> double-conversion
+>>>         # Delete files already provided by util-linux
+>>>         local i
+>>> -       for i in mount umount rfkill; do
+>>> +       for i in mount umount; do
 >>
 >>
->> should this change to terms reflect in LICENSE filed as well.
+>> where did rfkill go ?
 >
 >
-> The LICENSE is set to ICU, which I take means "review manually". It consists
-> of separate terms for different componetns that icu is made of.
->
+> util-linux obviously. bash-completion no longer provides it in 2.8.
 
-Yes thanks, I guess thats reasonable.
-
-> Alex
+perhaps should be in commit message.
 
