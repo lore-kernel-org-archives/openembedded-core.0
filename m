@@ -1,23 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EF44774DEC
+Return-Path: <kamensky@cisco.com>
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C68974C5E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 17:05:06 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w35H55D3021917
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Apr 2018 18:05:06 +0100
-Message-ID: <1522947905.11431.438.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 05 Apr 2018 18:05:05 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Subject: master branch and stabilisation
+	Thu,  5 Apr 2018 18:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4962; q=dns/txt; s=iport;
+	t=1522952741; x=1524162341;
+	h=from:to:cc:subject:date:message-id;
+	bh=nbyAFVrvpWfF8jUF9WRuP82nrMM1q7Vheda2OQTSmC0=;
+	b=JWffDHNPpUe3idMGQNHjq69250IokyF17NqigYQCojfS5SfSqoBWSWfa
+	XZ696hFBD6lN+utwAAvBRhi/bk7FZBbQ0fW8OQTmRrOzDI14g+1/0tcJ5
+	j6TvkX7KVgXxHTeROWsZLXut/zsBpgqLCCnVCI6UeIt0ZPagv+bN2V+fv U=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AGAgBYacZa/5tdJa1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8omGiDA5JVgXoLGA2EXoJAITYWAQIBAQEBAQECbBw?=
+	=?us-ascii?q?MhSUFeIEJhVUPrk2IQ4Ilh2qCE4Ncg0UCAQKHLQKHRYQvAWGKagiFBE+FA4N?=
+	=?us-ascii?q?bAoFqilGJGoZCAhETAYElIwEwJoEsTSMVRxCCJgmCP4M0hRSFXh8wAY0aAQE?=
+X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="376983085"
+Received: from rcdn-core-4.cisco.com ([173.37.93.155])
+	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2018 18:25:40 +0000
+Received: from kamensky-w541.cisco.com ([10.24.32.120]) (authenticated bits=0)
+	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvh013347
+	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
+	Thu, 5 Apr 2018 18:25:40 GMT
+From: Victor Kamensky <kamensky@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Apr 2018 11:25:25 -0700
+Message-Id: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
+X-Mailer: git-send-email 2.7.4
+X-Authenticated-User: kamensky@cisco.com
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>
+Subject: [PATCH v3 0/5] systemtap adding sysroot, cross compiling of user land related scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +44,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 17:05:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Apr 2018 18:25:40 -0000
 
-We're trying to focus on getting a good 2.5 release. We've had around
-80 upgrades to recipes on the list after the freeze and basically the
-maintainers like Ross and myself are damned if we do and damned if we
-don't.
+Hi,
 
-I usually try and ignore them at this point in a release. This then
-upsets people as they don't get feedback and makes my life horrible
-when I eventually try and round them up.
+This is third version of patch series of SystemTap supporting
+sysroot and SystemTap script cross compilation, integrated with
+OE workflow.
 
-Instead I've tried pulling them into master-next. So far so good but I
-thought I'd better see how much of a mess the branch is in. Conclusion
-is at least 3 different failures, some of which I can't even easily
-figure out the patch causing it.
+Version 3 Changes:
 
-So I now get to spend my time trying to figure out which patch broke
-what so I can report back on it and make the branch build again by
-dropping the broken patches.
+   * Simplified and cleaned image-combined-dbg class, as per Richard's
+     neat suggestion
 
-This means I'm trying to do full on day to day development as usual as
-well as trying to sort release issues like the imminent fedora28 issue
-I should be paying attention to instead.
+   * Rebased to latest tree to resolve merge conflict with systemtap
+     and gcc-8 recent change
 
-So, a question, what do people want me to do?
+Version 2 Patches, since first, RFC, version [1] the following changes
+were done:
 
-Cheers,
+   image: add image-combined-dbg helper class
 
-Richard
+      Needed to create rootfs-dbg that contains both target binaries
+      and debug symbols. Instead of IMAGE_GEN_COMBINED_DEBUGFS build
+      option as in RFC patches [2], small additional class is
+      introduced that allows adding target symbols back into
+      rootfs-dbg. The approach was suggested by Khem, as response on
+      first RFC patches.
+
+   Revert "systemtap: Cross compilation fix"
+
+      Remove previous OE specific patch. It superseded
+      by --sysroot support patch series
+
+   systemtap: support --sysroot option in variety of situations in cross build
+
+      Backport of SystemTap patches required to support --sysroot.
+      Since my first post I worked with SystemTap maintainers and
+      now all needed fixes for sysroot support got accepted.
+
+   systemtap: create translator packageconfig
+
+      Creates new PACKAGECONFIG, translator, which is on by default,
+      but if dropped resulting systemtap package would contain only
+      minimal run-time utilities required to activate/run host cross
+      compiled SystemTap modules. It is implemented in such way
+      instead of separate systemtap-utils recipe based on team's
+      feedback.
+
+   crosstap: replace script with new python based implementation
+
+      Full backward compatible replacement of original crosstap
+      shell script, written in python with extended functionality
+      to support SystemTap scripts for user-land using --sysroot
+      option. Compared to RFC version new script invocation wise is
+      fully backward compatible with orginal crosstap shell script.
+
+Full setup with patch series and examples that were used for
+testing is available at [3].
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148387.html
+
+[2] http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148392.html
+
+[3] https://github.com/victorkamensky/systemtap-oe-sysroot-manifest
+
+Victor Kamensky (5):
+  image: add image-combined-dbg helper class
+  Revert "systemtap: Cross compilation fix"
+  systemtap: support --sysroot option in variety of situations in cross
+    build
+  systemtap: create translator packageconfig
+  crosstap: replace script with new python based implementation
+
+ meta/classes/image-combined-dbg.bbclass            |   9 +
+ ...001-Added-a-couple-of-small-sysroot-fixes.patch |  42 ++
+ ...g-sysroot-path-to-module-name-in-case-of-.patch |  61 +++
+ ...sure-sysroot-paths-don-t-end-with-a-slash.patch | 128 +++++
+ ...root-when-looking-for-the-System.map-file.patch |  29 +
+ ...e_relocate-needs-target-file-path-not-hos.patch |  39 ++
+ ...ookup-with-sysroot-case-do-not-remove-sys.patch |  42 ++
+ ...-short-release-r-option-handling-follow-u.patch |  40 ++
+ ...sroot-fix-short-release-r-option-handling.patch |  53 ++
+ ...dle-symbolic-links-with-absolute-name-rel.patch | 117 ++++
+ .../systemtap/systemtap/system_map_location.patch  |  23 -
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |  15 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |  10 +-
+ scripts/crosstap                                   | 586 ++++++++++++++++-----
+ 14 files changed, 1030 insertions(+), 164 deletions(-)
+ create mode 100644 meta/classes/image-combined-dbg.bbclass
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Added-a-couple-of-small-sysroot-fixes.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Use-sysroot-when-looking-for-the-System.map-file.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling-follow-u.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
+
+-- 
+2.7.4
 
 
