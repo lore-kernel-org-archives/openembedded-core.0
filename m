@@ -1,39 +1,39 @@
 Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7CC74C5E
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC6674F1E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Apr 2018 18:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=2242; q=dns/txt; s=iport;
-	t=1522952742; x=1524162342;
+	d=cisco.com; i=@cisco.com; l=1608; q=dns/txt; s=iport;
+	t=1522952741; x=1524162341;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=33bCibs251DhTwCR/r+oasZFLczgmqrT/DMkhN399xc=;
-	b=Li4SYfoBZZoVLqatZixLEUzrrFEBx7BuI1ggxs25sY52NPOMEwlKfk7Q
-	hdbnBO44B9GrbGfRDFMGITY4UcazDACPR28B7bkVjtiuI+PwTgbBIFquG
-	kGZh1Rhq7YAQkq21JA5dJh/O8VO8/LmIDsrNwZXVK68z9qFP3A/nhg5li w=;
+	bh=0XkiMuSFI44IcA07WbWmGrCmlEg8oj/0P1YaUOAssiU=;
+	b=RdpmI4buWdtA1vNMSr5I0egH56G9l2Di614y0GGRZ7m9rtvyzR9jioV3
+	/BL2CB/wYquuYHCBx/gz5FyOy6ZN3Ha9cuSLkA3LL4BR7EVAidnAhsIGW
+	Xu9C+GZrPvrGjgph8BkKFRiMF0GweEGfijUQYKq3SPdfrYyPkm0Qoff8N o=;
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DHAABYacZa/5tdJa1cGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8oi1+NCYMDixKHQ4F6CxuEaAKCPiE0GAECAQEBAQE?=
-	=?us-ascii?q?BAmwcDIUjBnkQUVcZhQ2uXIhDgiWHaoITg1yFb4UIAoclhTGKagiFU4heAoF?=
-	=?us-ascii?q?qilGPXAIREwGBJRw4gVJNIxWCfQmLB4VeHzCNGwEB?=
-X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="376983089"
+	=?us-ascii?q?BAQEBAQcBAQEBAYNCgVAoi1+NCYMDklWBeguFAwKCPiE0GAECAQEBAQEBAmw?=
+	=?us-ascii?q?ohSMGeRBRVxmFDa5ciEOCJYdqghODXIVvhGggAoxWimoIjjECjDuPXAIREwG?=
+	=?us-ascii?q?BJRw4gVJNIxWCfZBuHzCNGwEB?=
+X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="370205795"
 Received: from rcdn-core-4.cisco.com ([173.37.93.155])
-	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	05 Apr 2018 18:25:41 +0000
 Received: from kamensky-w541.cisco.com ([10.24.32.120]) (authenticated bits=0)
-	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvj013347
+	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvi013347
 	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Thu, 5 Apr 2018 18:25:41 GMT
+	Thu, 5 Apr 2018 18:25:40 GMT
 From: Victor Kamensky <kamensky@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2018 11:25:27 -0700
-Message-Id: <1522952730-5967-3-git-send-email-kamensky@cisco.com>
+Date: Thu,  5 Apr 2018 11:25:26 -0700
+Message-Id: <1522952730-5967-2-git-send-email-kamensky@cisco.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
 References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
 X-Authenticated-User: kamensky@cisco.com
 Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [PATCH v3 2/5] Revert "systemtap: Cross compilation fix"
+Subject: [PATCH v3 1/5] image: add image-combined-dbg helper class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,56 +48,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Apr 2018 18:25:40 -0000
 
-This reverts commit 787bed708676fc04aee2850825e803273152f657.
+There is IMAGE_GEN_DEBUGFS="1" variable that enables build of
+additional rootfs-dbg and additional archive that contains
+complimentary symbols files for a given image. But the issue
+with this resulting directory and tarball that before use it
+has to be combined with original image content. It is required
+since all cross debugging tools like gdb, perf, and systemtap
+need file system that contains both target executables/libraries
+and their symbols. Those tools need to find executable/library
+first and through it debuglink note find corresponding symbols
+file.
+
+image-combined-dbg when added to USER_CLASSES just copies
+final resulting rootfs back into rootfs-dbg creating combined
+target and debug symbols rootfs that can be used for debugging
+directly.
 
 Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- .../systemtap/systemtap/system_map_location.patch  | 23 ----------------------
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  1 -
- 2 files changed, 24 deletions(-)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
+ meta/classes/image-combined-dbg.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 meta/classes/image-combined-dbg.bbclass
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch b/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
-deleted file mode 100644
-index 013af5c..0000000
---- a/meta/recipes-kernel/systemtap/systemtap/system_map_location.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--systemtap: Cross compilation fix
--
--This is a cross compilation fix. It allows systemtap to find
--the kernel map file in the right place, i.e. in the kernel build tree.
--Without this fix it takes a map file from the build host, if available.
--
--Upstream-Status: Pending
--
--Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
--
--Index: git/session.cxx
--===================================================================
----- git.orig/session.cxx
--+++ git/session.cxx
--@@ -1634,7 +1634,7 @@ systemtap_session::parse_kernel_function
-- 	clog << _F("Kernel symbol table %s unavailable, (%s)",
-- 		   system_map_path.c_str(), strerror(errno)) << endl;
-- 
---      system_map_path = "/boot/System.map-" + kernel_release;
--+      system_map_path = kernel_build_tree + "/System.map-" + kernel_release;
--       system_map.clear();
--       system_map.open(system_map_path.c_str(), ifstream::in);
--       if (! system_map.is_open())
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 4d887ed..eef0c9c 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -4,7 +4,6 @@ SRCREV = "4051c70c9318c837981384cbb23f3e9eb1bd0892"
- PV = "3.2"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
--           file://system_map_location.patch \
-            file://configure-allow-to-disable-libvirt.patch \
-            file://x32_abi_time.patch \
-            file://monitor-option.patch \
+diff --git a/meta/classes/image-combined-dbg.bbclass b/meta/classes/image-combined-dbg.bbclass
+new file mode 100644
+index 0000000..f4772f7
+--- /dev/null
++++ b/meta/classes/image-combined-dbg.bbclass
+@@ -0,0 +1,9 @@
++IMAGE_PREPROCESS_COMMAND_append = " combine_dbg_image; "
++
++combine_dbg_image () {
++        if [ "${IMAGE_GEN_DEBUGFS}" = "1" -a -e ${IMAGE_ROOTFS}-dbg ]; then
++                # copy target files into -dbg rootfs, so it can be used for
++                # debug purposes directly
++                tar -C ${IMAGE_ROOTFS} -cf - . | tar -C ${IMAGE_ROOTFS}-dbg -xf -
++        fi
++}
 -- 
 2.7.4
 
