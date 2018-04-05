@@ -1,48 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E46AF74E4B
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F2DCD7454A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 01:41:46 +0000 (UTC)
-Received: by mail-ot0-f181.google.com with SMTP id m22-v6so25495336otf.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2018 18:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=vl1zZCwutG3GpAnuxVsGGQmNPMr4OVzFefRv+r7j/XI=;
-	b=MYDclFT0GboFHLTbR7bhCSCahjXa2OXmlHWNGgNdcJnbE/K9WHanHhIWPBrX9p4iKN
-	Kk3OxImnA5aTN2d5AaVq23JzpLOP8qKrtWWS+n2dxZjVbxEyGP7zR7y83lF+vMbncj6n
-	6ydZlK5Lj1lOL23OY5xtQe7rHf3ViHEK6hzaDXYerD1IWXtMQipX9Jm32Kkz1T35YN06
-	eMrn5BibTuwkA8Hzp49NeC1ql37W+QkxddV/fT8++hIKsyfvc+UCYcxTm4RGoLI2Etas
-	aYqRokoDeB0FHiJ9swb09i++uXPkQTeRQVN9NVJqKyRC0l2v1q8ET1BY2SMW9/IyL/rG
-	444g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vl1zZCwutG3GpAnuxVsGGQmNPMr4OVzFefRv+r7j/XI=;
-	b=BK9okz65SOOFjNRjwsm/MeP2ELAZxqYdEen/dUO0Sc88qTh9/J5qV3UtZT+D0016mI
-	p8qonMUP6jTfaOqUYg2UTiTz7iouQ+hGyWSbH2PU0TUx8cggpA52sxpDT55uSta9A7W4
-	RifvmUEw3pUmNZxylhWhV+j6p/Sy+FpWtebZ+glPPnkEWzHqRNOtVB5JepyBBN1KvzN0
-	Z9D2a6PH0/9LrcbZEVQliEAS7uCxA0Vg2Pzf1qxH3OMDqDCHlaMgHSQVWnQtpioELsfC
-	OVoZ2vWCMqWlzXfZUlsKsh9LZ7WOfsbKq3LJEA41fHmMh0FzHevN/fcbzQPi5Ib/a9q/
-	JfEQ==
-X-Gm-Message-State: ALQs6tBEk7QjasdoHlLa8sJSRfVoNNMt7ctVPtw2cfWJ0J/D55rMh2IU
-	crzgYEPgBhWtsbtsvLy2j6wXLw==
-X-Google-Smtp-Source: AIpwx4+ZQGU0rfpA0GeHVYDk8YtzLJb+/T68ml41bbL4h4ITNLjSWNcA8Z1RPicH4YUGkfhoSaJCug==
-X-Received: by 2002:a9d:5ccb:: with SMTP id
-	r11-v6mr6927548oti.356.1522892507305; 
-	Wed, 04 Apr 2018 18:41:47 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	j23-v6sm3883754oiy.22.2018.04.04.18.41.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Apr 2018 18:41:46 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Thu,  5 Apr 2018 07:49:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2018 00:49:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,410,1517904000"; d="scan'208";a="217764691"
+Received: from echidna.jf.intel.com ([10.54.77.42])
+	by fmsmga006.fm.intel.com with ESMTP; 05 Apr 2018 00:49:03 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Apr 2018 18:41:40 -0700
-Message-Id: <1522892500-25670-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [morty][PATCH] sanity.bbclass: Improved error message
+Date: Wed,  4 Apr 2018 17:35:30 -0700
+Message-Id: <1522888530-82278-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oe-selftest: qemutest: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 01:41:47 -0000
+X-List-Received-Date: Thu, 05 Apr 2018 07:49:03 -0000
 
-From: Juro Bystricky <juro.bystricky@intel.com>
+QA team were testing qemu boot image and shutdown on each qemu
+architecture manually. Add automated test to test qemu boot on
+ext4 and nfs, finally it can shutdown properly.
 
-When a non-existing MACHINE is specified, sanity check issues
-the following message:
+This tests was not included into existing runqemu.py as runqemu
+was dedicated for qemux86-64 where it test various live image
+(iso and hddimg) can boot but this live image was not supported
+on other qemu architechture.
 
-    Please set a valid MACHINE in your local.conf or environment
-
-However, MACHINE can also be set in multiconfig .conf file(s).
-Hence we may have several different MACHINE settings within one
-(multiconfig) build, so the present error message is fairly
-ambiguous.
-
-This patch remedies this by explicitly naming the offending MACHINE and
-by amending the list of places where this erroneous MACHINE definition
-could have originated.
-
-    MACHINE=xyz is invalid. Please set a valid MACHINE in your local.conf, environment or other configuration file.
-
-[YOCTO#10810]
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a7cb408dd784178197687a2129e936620bf6a0d3)
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/qemutest.py | 44 ++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/qemutest.py
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index a11b581..68fd440 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -816,7 +816,7 @@ def check_sanity_everybuild(status, d):
-     machinevalid = True
-     if d.getVar('MACHINE', True):
-         if not check_conf_exists("conf/machine/${MACHINE}.conf", d):
--            status.addresult('Please set a valid MACHINE in your local.conf or environment\n')
-+            status.addresult('MACHINE=%s is invalid. Please set a valid MACHINE in your local.conf, environment or other configuration file.\n' % (d.getVar('MACHINE', True)))
-             machinevalid = False
-         else:
-             status.addresult(check_sanity_validmachine(d))
+diff --git a/meta/lib/oeqa/selftest/cases/qemutest.py b/meta/lib/oeqa/selftest/cases/qemutest.py
+new file mode 100644
+index 0000000..f06e3fd
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/qemutest.py
+@@ -0,0 +1,44 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, runCmd, runqemu
++import os
++import tempfile
++
++class QemuTest(OESelftestTestCase):
++
++    @classmethod
++    def setUpClass(cls):
++        super(QemuTest, cls).setUpClass()
++        cls.recipe = 'core-image-minimal'
++        cls.machine =  get_bb_var('MACHINE')
++        cls.deploy_dir_image =  get_bb_var('DEPLOY_DIR_IMAGE')
++        cls.cmd_common = "runqemu nographic"
++        cls.qemuboot_conf = "%s-%s.qemuboot.conf" % (cls.recipe, cls.machine)
++        cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
++        result = bitbake(cls.recipe)
++
++    def test_qemu_can_shutdown(self):
++        if not os.path.exists(self.qemuboot_conf):
++            self.skipTest("%s not found" % self.qemuboot_conf)
++        cmd = "%s %s" % (self.cmd_common, self.qemuboot_conf)
++        with runqemu(self.recipe, ssh=True, launch_cmd=cmd) as qemu:
++            status, output = qemu.run("shutdown -h now")
++        self.assertEqual(status, 0, 'Failed: qemu shutdown')
++
++    def test_qemu_can_boot_nfs_and_shutdown(self):
++        bitbake('meta-ide-support')
++        rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
++        rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
++        if not os.path.exists(rootfs_tar):
++            self.skipTest("%s not found" % rootfs_tar)
++        tmpdir = tempfile.mkdtemp(prefix='qemu_nfs')
++        tmpdir_nfs = os.path.join(tmpdir, 'nfs')
++        cmd_extract_nfs = 'runqemu-extract-sdk %s %s' % (rootfs_tar, tmpdir_nfs)
++        runCmd(cmd_extract_nfs)
++        if not os.path.exists(self.qemuboot_conf):
++            self.skipTest("%s not found" % self.qemuboot_conf)
++        cmd = "%s nfs %s %s" % (self.cmd_common, self.qemuboot_conf, tmpdir_nfs)
++        with runqemu(self.recipe, ssh=True, launch_cmd=cmd) as qemu:
++            status, output = qemu.run("shutdown -h now")
++        self.assertEqual(status, 0, 'Failed: qemu shutdown')
++        runCmd('rm -rf %s' % tmpdir)
++
 -- 
-1.9.1
+2.7.4
 
 
