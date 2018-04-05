@@ -1,26 +1,47 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 8678A745B6
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AD1874F43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 21:24:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2018 14:24:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,412,1517904000"; d="scan'208";a="45286388"
-Received: from aurora.jf.intel.com ([10.7.198.68])
-	by orsmga001.jf.intel.com with ESMTP; 05 Apr 2018 14:24:34 -0700
-From: Amanda Brindle <amanda.r.brindle@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2018 14:24:48 -0700
-Message-Id: <7b6c90e67fcc5841763bb88879654d8599c3bdbc.1522963233.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1522963233.git.amanda.r.brindle@intel.com>
-References: <cover.1522963233.git.amanda.r.brindle@intel.com>
-Cc: alexander.kanavin@intel.com
-Subject: [rocko 1/1] package.bbclass: replace rpm/debugedit with dwarfsrcfiles
+	Thu,  5 Apr 2018 21:41:14 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id c24so30744996wrc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Apr 2018 14:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Bf8HSpwruMBFMwY6pU1Wxg60pT0afjmdCpD5FmE17PU=;
+	b=ub98VbMU35wZShs5HDgor3EGzgissYMTWUe3tSVF9cfN8uLd+9lon6wGPs4PkMsOTB
+	jj+H/OaD6hEoLDe6Uw+LGLBwH1x7F8m+v1Y0MWiRggl7W6PGT3OOHuW2OlbkV7aj+aSQ
+	1JcpMZ3JEB9+wmT9PggsCKBtd75r/5f3BaIIjsBCxf/ZM0kS7k6QKODOgWBwZk9Ahkyb
+	HPHy2AhUoI+/vW5zUlzC0OsAsqmtXpkxh6OEWFhvYhx0GHtXpdFYG9LnwSD7L+8wYJV3
+	vrgrtZfvxh0gNq0aiOLaQyX9mp5gNPG73uYyTVI3DAHqh0GmheRUVBJr2Ky4fEtDtzLB
+	LhOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Bf8HSpwruMBFMwY6pU1Wxg60pT0afjmdCpD5FmE17PU=;
+	b=ilkgRjh7awufIK1WoMNQLMNkRJ+rdDUZBDtenHEO9yzUTAPOztbEAuU0ZPuP6S7Y/F
+	Ybyh9pme1q2/akQH84QPW0ydQ9XFZe7ve/FdyUDE1AxbkPLf6LqRR3MY0Q+WHJP5yapF
+	L26hw/0woi+hfX9NDgC+lWJADsF2+aGK2OzzoZF4xlY2BvvgHRshms6cLJLoTcUsBF9U
+	l+6heXZzD744fQtY/voqvuk5Z2baIuT2/EDuefhUox3mHV3s02ROhI7UT0OpxJ4bwzfj
+	NZcvHj56FMzBfZMKzIuPAXCTCTXep7THWYxl9uk7f210QUV6MMqMiIm4egojyzDB6bJa
+	GmbA==
+X-Gm-Message-State: AElRT7ExMgZHZFrKtzdFDXCTrxNU40GAx1v3zQzFRWcycvfGKdv+nNuY
+	lj/4bI+pJs/M7OTRXD/rM2+aMI8fbPFpmIfhRjnFdA==
+X-Google-Smtp-Source: AIpwx49rDwj2RvuIQLVVwKmEPyhEZ8dZawVgA5WXwGNAmRE7tpD/ZjjQOCKNl5cmBelwKXI0QPEF3cKfECumJnod7Z4=
+X-Received: by 10.223.175.201 with SMTP id y9mr16913589wrd.107.1522964475387; 
+	Thu, 05 Apr 2018 14:41:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.163.65 with HTTP; Thu, 5 Apr 2018 14:41:14 -0700 (PDT)
+In-Reply-To: <cover.1522936224.git.akuster808@gmail.com>
+References: <cover.1522936224.git.akuster808@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 5 Apr 2018 14:41:14 -0700
+Message-ID: <CAJ86T=XmqNbTF+qXWhG5xFHNBUnRCaDx5DKeTQ_Y+wfqhgbiyg@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/38] Morty Next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,245 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 21:24:32 -0000
+X-List-Received-Date: Thu, 05 Apr 2018 21:41:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+On Thu, Apr 5, 2018 at 6:53 AM, Armin Kuster <akuster808@gmail.com> wrote:
+> Please consider these changes for Morty. Clean AB build
+>
+> This included sdk locale and host glibc 2.27 fixes.
+>
+> The following changes since commit 34b26ec18450a3bc72f7b8a0f2df0bfaae1140dd:
+>
+>   linux-firmware: Add reference to iwlwifi-8000C firmware (2018-03-19 15:58:33 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib stable/morty-next
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stable/morty-next
+>
+> Richard Purdie (4):
+>   lib/oe/package_manager/sdk: Ensure do_populate_sdk_ext and
+>     do_populate_sdk repos don't conflict
+>   glibc: Separate locale files to their own sstate task
 
-Debugedit provided by rpm 4.14 is rewriting binaries in-place, and was
-found to produce broken output at least for grub:
-http://lists.openembedded.org/pipermail/openembedded-core/2017-November/143989.html
+This commit comes with the comment:
 
-A replacement utility was suggested via private mail:
-https://lists.fedorahosted.org/archives/list/elfutils-devel@lists.fedorahosted.org/message/VZP4G5N2ELYZEDAB3QYLXYHDGX4WMCUF/
+    Putting the locale and script files into the sysroot for use by their
+    specific recipes used to be a simple way to share the files. With RSS,
+    we don't want to copy these into many different recipes so put these
+    files in their own sstate task.
 
-(From OE-Core rev: f2e6e1d3bfd4c92ef0f5ed4721fd9050c59dafca)
+Is it safe to backport to morty, which doesn't have RSS?
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d5475a3b28d9e2c9273967a03726bb6c427bd11)
----
- meta/classes/package.bbclass                       |  29 ++++--
- .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 ++++
- .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111 +++++++++++++++++++++
- 3 files changed, 156 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
- create mode 100644 meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2053d46..7dc7596 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -52,7 +52,8 @@ LOCALE_SECTION ?= ''
- ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
- 
- # rpm is used for the per-file dependency identification
--PACKAGE_DEPENDS += "rpm-native"
-+# dwarfsrcfiles is used to determine the list of debug source files
-+PACKAGE_DEPENDS += "rpm-native dwarfsrcfiles-native"
- 
- 
- # If your postinstall can execute at rootfs creation time rather than on
-@@ -334,6 +335,16 @@ def checkbuildpath(file, d):
- 
-     return False
- 
-+def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
-+    debugfiles = {}
-+
-+    for line in dwarfsrcfiles_output.splitlines():
-+        if line.startswith("\t"):
-+            debugfiles[os.path.normpath(line.split()[0])] = ""
-+
-+    return debugfiles.keys()
-+
-+
- def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
-     # Function to split a single file into two components, one is the stripped
-     # target system binary, the other contains any debugging information. The
-@@ -345,7 +356,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
- 
-     dvar = d.getVar('PKGD')
-     objcopy = d.getVar("OBJCOPY")
--    debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/debugedit")
- 
-     # We ignore kernel modules, we don't generate debug info files.
-     if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
-@@ -359,10 +369,18 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
- 
-     # We need to extract the debug src information here...
-     if debugsrcdir:
--        cmd = "'%s' -i -l '%s' '%s'" % (debugedit, sourcefile, file)
-+        cmd = "'dwarfsrcfiles' '%s'" % (file)
-         (retval, output) = oe.utils.getstatusoutput(cmd)
--        if retval:
--            bb.fatal("debugedit failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+        # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
-+        if retval != 0 and retval != 255:
-+            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+
-+        debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
-+        # filenames are null-separated - this is an artefact of the previous use
-+        # of rpm's debugedit, which was writing them out that way, and the code elsewhere
-+        # is still assuming that.
-+        debuglistoutput = '\0'.join(debugsources) + '\0'
-+        open(sourcefile, 'a').write(debuglistoutput)
- 
-     bb.utils.mkdirhier(os.path.dirname(debugfile))
- 
-@@ -393,7 +411,6 @@ def copydebugsources(debugsrcdir, d):
-         dvar = d.getVar('PKGD')
-         strip = d.getVar("STRIP")
-         objcopy = d.getVar("OBJCOPY")
--        debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
-         workdir = d.getVar("WORKDIR")
-         workparentdir = os.path.dirname(os.path.dirname(workdir))
-         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
-diff --git a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-new file mode 100644
-index 0000000..c59a006
---- /dev/null
-+++ b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "A small utility for printing debig source file locations embedded in binaries"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://../dwarfsrcfiles.c;md5=31483894e453a77acbb67847565f1b5c;beginline=1;endline=8"
-+
-+SRC_URI = "file://dwarfsrcfiles.c"
-+BBCLASSEXTEND = "native"
-+DEPENDS = "elfutils"
-+DEPENDS_append_libc-musl = " argp-standalone"
-+
-+do_compile () {
-+	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw
-+}
-+
-+do_compile_libc-musl () {
-+	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw -largp 
-+}
-+
-+do_install () {
-+	install -d ${D}${bindir}
-+	install -t ${D}${bindir} dwarfsrcfiles
-+}
-+
-diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-new file mode 100644
-index 0000000..af7af52
---- /dev/null
-+++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-@@ -0,0 +1,111 @@
-+// dwarfsrcfiles.c - Get source files associated with the dwarf in a elf file.
-+// gcc -Wall -g -O2 -lelf -ldw -o dwarfsrcfiles dwarfsrcfiles.c 
-+//
-+// Copyright (C) 2011, Mark Wielaard <mjw@redhat.com>
-+//
-+// This file is free software.  You can redistribute it and/or modify
-+// it under the terms of the GNU General Public License (GPL); either
-+// version 2, or (at your option) any later version.
-+
-+#include <argp.h>
-+#include <stdio.h>
-+
-+#include <dwarf.h>
-+#include <elfutils/libdw.h>
-+#include <elfutils/libdwfl.h>
-+
-+static int
-+process_cu (Dwarf_Die *cu_die)
-+{
-+  Dwarf_Attribute attr;
-+  const char *name;
-+  const char *dir = NULL;
-+  
-+  Dwarf_Files *files;
-+  size_t n;
-+  int i;
-+  
-+  if (dwarf_tag (cu_die) != DW_TAG_compile_unit)
-+    {
-+      fprintf (stderr, "DIE isn't a compile unit");
-+      return -1;
-+    }
-+  
-+  if (dwarf_attr (cu_die, DW_AT_name, &attr) == NULL)
-+    {
-+      fprintf(stderr, "CU doesn't have a DW_AT_name");
-+      return -1;
-+    }
-+  
-+  name = dwarf_formstring (&attr);
-+  if (name == NULL)
-+    {
-+      fprintf(stderr, "Couldn't get DW_AT_name as string, %s",
-+	     dwarf_errmsg (-1));
-+      return -1;
-+    }
-+  
-+  if (dwarf_attr (cu_die, DW_AT_comp_dir, &attr) != NULL)
-+    {
-+      dir = dwarf_formstring (&attr);
-+      if (dir == NULL)
-+	{
-+	  fprintf(stderr, "Couldn't get DW_AT_comp_die as string, %s",
-+		 dwarf_errmsg (-1));
-+	  return -1;
-+	}
-+    }
-+  
-+  if (dir == NULL)
-+    printf ("%s\n", name);
-+  else
-+    printf ("%s/%s\n", dir, name);
-+  
-+  if (dwarf_getsrcfiles (cu_die, &files, &n) != 0)
-+    {
-+      fprintf(stderr, "Couldn't get CU file table, %s",
-+	     dwarf_errmsg (-1));
-+      return -1;
-+    }
-+  
-+  for (i = 1; i < n; i++)
-+    {
-+      const char *file = dwarf_filesrc (files, i, NULL, NULL);
-+      if (dir != NULL && file[0] != '/')
-+	printf ("\t%s/%s\n", dir, file);
-+      else
-+	printf ("\t%s\n", file);
-+    }
-+  
-+  return 0;
-+}
-+
-+int
-+main (int argc, char **argv)
-+{
-+  char* args[3];
-+  int res = 0;
-+  Dwfl *dwfl;
-+  Dwarf_Addr bias;
-+  
-+  if (argc != 2)
-+    fprintf(stderr, "Usage %s <file>", argv[0]);
-+  
-+  // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
-+  // dwfl argp parser to open the file for us and get our Dwfl. Useful
-+  // in case argument is an ET_REL file (like kernel modules). libdwfl
-+  // will fix up relocations for us.
-+  args[0] = argv[0];
-+  args[1] = "-e";
-+  args[2] = argv[1];
-+  
-+  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
-+  
-+  Dwarf_Die *cu = NULL;
-+  while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
-+    res |= process_cu (cu);
-+  
-+  dwfl_end (dwfl);
-+
-+  return res;
-+}
--- 
-2.7.4
-
+>   image/packagegroup/populate_sdk: Drop do_populate_sysroot task
+>     properly
+>   glibc-package: Avoid race sstate races with do_stash_locale
 
