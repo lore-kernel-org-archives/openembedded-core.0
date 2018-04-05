@@ -1,59 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 763FD74E40
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B78D74DF4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 00:29:56 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id v5-v6so14630207plo.4
+	Thu,  5 Apr 2018 00:54:54 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x82so2026041wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2018 17:29:57 -0700 (PDT)
+	Wed, 04 Apr 2018 17:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=7ck4qHALcBlBQbZ8PUzQccctd6Z9/PsEvvSkEvimEwY=;
-	b=SIQ9OAQUjtmM92kocRe/4MDeJfuhGF4bxhRyI2+ttXUt5LffZS4mHxPErbbdPJjfrA
-	cS2zrKRnNkM5krPulpOtCjxSsAM6DlrlAHa0BTjM+Wahu3DqDV73rn8ySFgu8rroRdDf
-	sGi5GphPSMhVDpAZcUQ+KHA4SJ/XjBDgq7Wh47TVhcUoW7nV7UrtUT0+aPTIob/mwBcA
-	wozHnnA/6/AGUoElCphXhluB0Rzpg9ZTpdkXhKYyNL+gioEbacaammoDUTT05P8obsIs
-	+UgfgLfmmQM0vN3SlshsdO6UYk3i/4wE0hiBJNyp3VhicCs9QkhaRdtLGRfN9jRdimaz
-	xU8g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=KHYkSUGDnJ7IN9Qk1ZvJccOVprDtolq3AO2JyZLUCLc=;
+	b=YI86ihRq33OlHWb40OZMZQwbMLhuD5HBsYqLFSXUUcLZUXrnrZl3+fbf7yZ6GQVq8p
+	gytJkZLH+RXV9BOJSOUOfWQMYQlPHHERmpZSvKtiV1PIk2wnlPbPXl7xxxg2juw8+1BD
+	ggEKdwxoCL7MBiLYM8+64ZseRxn8KWTm6UHkQcALZJAaDQAjN250A6nNBep1GUG9BfTs
+	CJ/Qk9Wje0SU3nO/ot9GY4ibdHQ8PlMcVirMUsGr80/4fNCiOWH0ajYFReRdBoBQ1W4D
+	OiQThbrFE0IrZOV3ay3Uigy2CtRFj7+POpZ1nLMW/jQpJf/O1zwxXrafZ1U4TIypK0GZ
+	l1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=7ck4qHALcBlBQbZ8PUzQccctd6Z9/PsEvvSkEvimEwY=;
-	b=hQweVg/KChLcDVEek8jBtL4TFqpseQ6QCDUtOTMV8IjKaxJrfQpxFtrfsApUFtF3eS
-	DpoyZaZDDQh9HqBCx+WfbNdUZfElYHHymjEiTPbQi6v+qDl9FTVgGgHglu8/d3SxIqvz
-	i2tlvS5I3CReauNPrQtLhtEC7N78o2lhZEjVAz8Ar8md/xYwiuPnSh/voMoQIls9t7a/
-	Ec5grDiP9M8NbQDH3iuLS0/fIZ86Y4cXdnZGRyP0w5nLN+vZLYY0tUTHxAEjHGqkYtmW
-	cHb3yRN7dQ+89AsHH0ynSjmu7aT+PRi/uaQDs1r47U62HlTCUgo5dqdXR1bgkYx5tz4t
-	+Vgg==
-X-Gm-Message-State: AElRT7H/a6myGdMD0QEjwa8yC0rB1YOQXR7pyzlEaDtrhEDXGhTF19YO
-	uxdOV/PhFXEVsHuv42XMyxGXHdeV
-X-Google-Smtp-Source: AIpwx48rrFgryj6pa5KGq4JrpZRpWbcCQHe7fmIZRgyKm+NXVGhzOfU7WHYyTn98cPlU3WACsQLaxQ==
-X-Received: by 2002:a17:902:bc41:: with SMTP id
-	t1-v6mr20440973plz.56.1522888197336; 
-	Wed, 04 Apr 2018 17:29:57 -0700 (PDT)
-Received: from ?IPv6:2601:646:8880:466c:fde8:8784:7436:3e7a?
-	([2601:646:8880:466c:fde8:8784:7436:3e7a])
-	by smtp.gmail.com with ESMTPSA id
-	a6sm10437905pfi.12.2018.04.04.17.29.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Apr 2018 17:29:56 -0700 (PDT)
-To: Seebs <seebs@seebs.net>
-References: <20180327154802.14611-1-ross.burton@intel.com>
-	<39787e20-0d21-00bd-a5bb-73faa52c0839@gmail.com>
-	<20180404164505.00553b97@seebsdell>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <819256f6-b2b0-bb24-6524-292d6ab7442b@gmail.com>
-Date: Wed, 4 Apr 2018 17:29:56 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0)
-	Gecko/20100101 Thunderbird/59.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=KHYkSUGDnJ7IN9Qk1ZvJccOVprDtolq3AO2JyZLUCLc=;
+	b=nbayI4VByT8mybIq+h1kVa6T1Vc5bSbi0npGcmoRnMoHgYNlbI/aL8wy3qjJXPnY+Y
+	ph22UZ17MzFQJ5mc/YJ1JMcDHegBY2XDx1UlBJcrBuXph3r94oDfpOKr98kdhTeJWqEP
+	vuRXZzeddcRvgqyxyYJEQ8Wr0NR54+jVLNKy26xipyIkE8zjldUOWtMHIGMCvLNNcWyq
+	L4FjvbWDfZcHX6EVl8bb+yPQxFTncoxXZ1aPRxh0BhfqwibAwAHZeqTpCZMYFrcXNjlk
+	Rz9cmhNIWRb6tVaL943mQB+SW5xP3WHDmU/XwasEKowXRJPBLBCU8YzvZchK/Mge7BWY
+	JZsw==
+X-Gm-Message-State: AElRT7FShfvv9sfMG71ETG7rpGUYOpyvDvj8rEbY+3PWAK1VGlNBm42d
+	KjGsqrS0tZHC/sUkWhtG572kOBMKoHC0wxYrM7M=
+X-Google-Smtp-Source: AIpwx49me3DmtNXR3NKBHhBVevgEZyCkP/F5RKIhFouUmtGmP745PLPBX9OK38mSgpFRWBy3d1kbtQhMpH0LBrgt3H8=
+X-Received: by 10.28.212.84 with SMTP id l81mr8707943wmg.151.1522889695272;
+	Wed, 04 Apr 2018 17:54:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180404164505.00553b97@seebsdell>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][RFC] pseudo: intercept syscall() and return ENOTSUP for renameat2
+Received: by 10.223.163.65 with HTTP; Wed, 4 Apr 2018 17:54:54 -0700 (PDT)
+In-Reply-To: <CAJ86T=V=+cLpzMFoWS42NMDAuOrUMzsLCmUHfUhTrP8aEvcR2Q@mail.gmail.com>
+References: <1519779977-9136-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=V=+cLpzMFoWS42NMDAuOrUMzsLCmUHfUhTrP8aEvcR2Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 4 Apr 2018 17:54:54 -0700
+Message-ID: <CAJ86T=W_-BptfjFibUTj+Kd7jCaSmq_X4=uwa=+Xz0ZbrXWvaQ@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [morty][PATCH] buildhistory: fix latest_srcrev in the common case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,31 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 00:29:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Apr 2018 00:54:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/4/18 2:45 PM, Seebs wrote:
-> On Wed, 4 Apr 2018 14:28:11 -0700
-> Khem Raj <raj.khem@gmail.com> wrote:
-> 
->> what is the performance impact of adding another stack frame and
->> function call in the chain here. Do we have data ?
-> 
-> Very close to unmeasurable, because *almost nothing ever uses syscall*.
-> 
-> This is used only for the case where someone is explicitly calling
-> syscall(), not for any other system call use case. And my
-> implementation (which is not the same as this one) also overrides the
-> wrapper generation, so there's no standard pseudo wrapper overhead
-> (which is several times larger and involves mutexes and signal mask
-> changing), it's just passing the call on unless it's SYS_renameat2.
-> 
+On Wed, Mar 14, 2018 at 4:52 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Tue, Feb 27, 2018 at 5:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> From: Christopher Larson <chris_larson@mentor.com>
+>>
+>> buildhistory was writing srcrevs.values() as SRCREV when only one
+>> srcrev/branch exists. This returns a view of the dictionary values in python
+>> 3, and used to return a list in python 2, neither of which is an appropriate
+>> value for SRCREV. It was resulting in latest_srcrev files like this:
+>>
+>>     # SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
+>>     SRCREV = "dict_values(['346584bf6e38232be8773c24fd7dedcbd7b3d9ed'])"
+>>
+>> Which in turn would result in invalid output in buildhistory-collect-srcrevs.
+>> Fix by calling `next(iter())` on the `.values()`
+>
+> Ping.
 
-Thanks for this
+Ping again.
 
-> -s
-> 
+This should be a very low risk backport fix for morty but if there are
+any concerns then please let me know.
 
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> (cherry picked from commit ef826a395612400924bbe49859d256b237ff59e1)
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/classes/buildhistory.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+>> index 3a5bc2c..d82e9bb 100644
+>> --- a/meta/classes/buildhistory.bbclass
+>> +++ b/meta/classes/buildhistory.bbclass
+>> @@ -833,7 +833,7 @@ python write_srcrev() {
+>>                          f.write('# SRCREV_%s = "%s"\n' % (name, orig_srcrev))
+>>                      f.write('SRCREV_%s = "%s"\n' % (name, srcrev))
+>>              else:
+>> -                f.write('SRCREV = "%s"\n' % srcrevs.values())
+>> +                f.write('SRCREV = "%s"\n' % next(iter(srcrevs.values())))
+>>              if len(tag_srcrevs) > 0:
+>>                  for name, srcrev in tag_srcrevs.items():
+>>                      f.write('# tag_%s = "%s"\n' % (name, srcrev))
+>> --
+>> 1.9.1
+>>
 
