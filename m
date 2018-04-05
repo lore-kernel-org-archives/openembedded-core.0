@@ -1,40 +1,101 @@
-Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DED074F1E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f54.google.com (mail-pl0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A57C77506A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 18:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=22876; q=dns/txt;
-	s=iport; t=1522952745; x=1524162345;
-	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=EKH07yMyZaNly7iel5DrG9+kz3OsJJi/zU7n3eNPuJo=;
-	b=YAP75iBzXEmy/W/c3ZXeNW8JgsO03lnUps6T17bfVMug3IWM9v5uLrWE
-	hryAF0QH7immgQab+UlVnBIWt5fHUc8dpVRYlrb5FaeFTKmb2ERVBn5tT
-	9/JC55sKWmjAvBvKORF+I3dJBWiyotbz79Q+h73r6DPzG5JTFtWEQW+/d 0=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AIAQBYacZa/5tdJa1cGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNCgVAoi1+NCYJpGpJVFIFmC4FYASGDCQKCPiE0GAECAQE?=
-	=?us-ascii?q?BAQEBAmwohSMGeRBRVxmFDasPEYM8iEOCJYdqghOBDIJQhFwMhg8ChyWETwE?=
-	=?us-ascii?q?LVoopQQiIIIYRAow7hkKJGgIREwGBJRw4gVJNIxU6gkOCIBeONx8wAS+MawE?=
-	=?us-ascii?q?B?=
-X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="380131697"
-Received: from rcdn-core-4.cisco.com ([173.37.93.155])
-	by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2018 18:25:43 +0000
-Received: from kamensky-w541.cisco.com ([10.24.32.120]) (authenticated bits=0)
-	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvm013347
-	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Thu, 5 Apr 2018 18:25:43 GMT
-From: Victor Kamensky <kamensky@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2018 11:25:30 -0700
-Message-Id: <1522952730-5967-6-git-send-email-kamensky@cisco.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
-References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
-X-Authenticated-User: kamensky@cisco.com
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [PATCH v3 5/5] crosstap: replace script with new python based implementation
+	Thu,  5 Apr 2018 19:03:12 +0000 (UTC)
+Received: by mail-pl0-f54.google.com with SMTP id v18-v6so18499756ply.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Apr 2018 12:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=rENNSyG0i9US48S+y/fQQ159WsVT3CcT+c7uXgn0wH8=;
+	b=lzyGQtcGywAFaaOsONv3Yj/qPYmaBHtpbSl/0BDbYGcgP9KZDdaDYDHeFQ3MEh6Te9
+	P0PFMlWisOwWHjSXktJ6+lxVoc2a9dnkWR/3MP9DVPVJ2o6AtZ5etBH3wmJHy+ywWrfV
+	1tFc/eGwMfTetyyfe73IXC1MVEBAALwvA/BGKWftnbjs/O2+bzGCmh62ck04Qn4IgEkj
+	3qTp3LyJWs45ClbdnbNKx7s+7MNU599liyMcAiV7kCzFOeiGVN+nmz1b+FlvpiL1E8SQ
+	bFfot17ucXNumKZWoyf65yMKZMrWaF4cK0m6ImWlAtezqdeoFwbazOLv6XDF4HvAlecg
+	xvgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=rENNSyG0i9US48S+y/fQQ159WsVT3CcT+c7uXgn0wH8=;
+	b=ETaX/9P/dPpnzEiKdApTtNw20gEgPk2h8Z/lmAAMh5/pOuUg/rOsLz9FyCk1D2K7JR
+	WFNNvPB5RySi7dTVBO9LEMFBmzJjFjETTKuo9QN1f6ctFIc+YTykj5G+ZY7nOQcrRu2u
+	qZunSsug2QalsjVaDVHWSqqhU3fDj7bXTxd0p/+BX5Jpg00JUj80CuWWl2Wubj5xEaoc
+	Mh13if56ch7d6Pjbcjh4IZdxQCNsiewPFIZWbWFg2dxmm4yq/z3dHu8wxHtHpiuN1kX4
+	UimnMK+b9/1XYAij9vn5C++1aRMxmlX77Rg1r3GdfXSryDCZYZFmX0VM9tP7vnB1somZ
+	PAMw==
+X-Gm-Message-State: AElRT7E2dM85F8lEfDP6EW+La0khcyaFtUR10xh5oM5aaEk+DvnFw4ao
+	OCAA0COJIanZ0nsJVayLIvvN6Q==
+X-Google-Smtp-Source: AIpwx4+sj2C+EUlMXCEIvPAyj4Sfn562FLF28rFjATdMKW6HIcEBttbLMaSjDEU9kkYr891ChonUgQ==
+X-Received: by 2002:a17:902:a701:: with SMTP id
+	w1-v6mr23816682plq.109.1522954994126; 
+	Thu, 05 Apr 2018 12:03:14 -0700 (PDT)
+Received: from [10.43.100.234] (50-233-148-156-static.hfc.comcastbusiness.net.
+	[50.233.148.156]) by smtp.gmail.com with ESMTPSA id
+	w10sm3357227pfk.26.2018.04.05.12.03.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Apr 2018 12:03:13 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1522947905.11431.438.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <15e8f7da-691f-27fe-d805-16da44471ca1@gmail.com>
+Date: Thu, 5 Apr 2018 12:03:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <1522947905.11431.438.camel@linuxfoundation.org>
+Subject: Re: master branch and stabilisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,627 +108,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 18:25:43 -0000
+X-List-Received-Date: Thu, 05 Apr 2018 19:03:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-New crosstap python implementation is total replacement for
-crosstap shell script, that has superseding capabilities.
-New script support cross compiling of SystemTap scripts
-for user-land, by using supplied image rootfs. Whereas old
-script could only deal with scripts against kernel. New script
-has more complex logic and additional capabilities.
 
-As invocation interface new script support old "legacy"
-mode and provides alternative new regular options interface
-to access additional functionality.
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
----
- scripts/crosstap | 586 ++++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 450 insertions(+), 136 deletions(-)
+On 04/05/2018 10:05 AM, Richard Purdie wrote:
+> We're trying to focus on getting a good 2.5 release. We've had around
+> 80 upgrades to recipes on the list after the freeze and basically the
+> maintainers like Ross and myself are damned if we do and damned if we
+> don't.
+>
+> I usually try and ignore them at this point in a release. This then
+> upsets people as they don't get feedback and makes my life horrible
+> when I eventually try and round them up.
+>
+> Instead I've tried pulling them into master-next. So far so good but I
+> thought I'd better see how much of a mess the branch is in. Conclusion
+> is at least 3 different failures, some of which I can't even easily
+> figure out the patch causing it.
+>
+> So I now get to spend my time trying to figure out which patch broke
+> what so I can report back on it and make the branch build again by
+> dropping the broken patches.
+I will take a look as I have a large set in there.
 
-diff --git a/scripts/crosstap b/scripts/crosstap
-index 39739bb..e33fa4a 100755
---- a/scripts/crosstap
-+++ b/scripts/crosstap
-@@ -1,15 +1,22 @@
--#!/bin/bash
-+#!/usr/bin/env python3
- #
--# Run a systemtap script on remote target
-+# Build a systemtap script for a given image, kernel
- #
--# Examples (run on build host, target is 192.168.1.xxx):
--#   $ source oe-init-build-env"
--#   $ cd ~/my/systemtap/scripts"
-+# Effectively script extracts needed information from set of
-+# 'bitbake -e' commands and contructs proper invocation of stap on
-+# host to build systemtap script for a given target.
- #
--#   $ crosstap root@192.168.1.xxx myscript.stp"
--#   $ crosstap root@192.168.1.xxx myscript-with-args.stp 99 ninetynine"
-+# By default script will compile scriptname.ko that could be copied
-+# to taget and activated with 'staprun scriptname.ko' command. Or if
-+# --remote user@hostname option is specified script will build, load
-+# execute script on target.
- #
--# Copyright (c) 2012, Intel Corporation.
-+# This script is very similar and inspired by crosstap shell script.
-+# The major difference that this script supports user-land related
-+# systemtap script, whereas crosstap could deal only with scripts
-+# related to kernel.
-+#
-+# Copyright (c) 2018, Cisco Systems.
- # All rights reserved.
- #
- # This program is free software; you can redistribute it and/or modify
-@@ -25,131 +32,438 @@
- # along with this program; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- 
--function usage() {
--    echo "Usage: $0 <user@hostname> <sytemtap-script> [additional systemtap-script args]"
--}
--
--function setup_usage() {
--    echo ""
--    echo "'crosstap' requires a local sdk build of the target system"
--    echo "(or a build that includes 'tools-profile') in order to build"
--    echo "kernel modules that can probe the target system."
--    echo ""
--    echo "Practically speaking, that means you need to do the following:"
--    echo "  - If you're running a pre-built image, download the release"
--    echo "    and/or BSP tarballs used to build the image."
--    echo "  - If you're working from git sources, just clone the metadata"
--    echo "    and BSP layers needed to build the image you'll be booting."
--    echo "  - Make sure you're properly set up to build a new image (see"
--    echo "    the BSP README and/or the widely available basic documentation"
--    echo "    that discusses how to build images)."
--    echo "  - Build an -sdk version of the image e.g.:"
--    echo "      $ bitbake core-image-sato-sdk"
--    echo "  OR"
--    echo "  - Build a non-sdk image but include the profiling tools:"
--    echo "      [ edit local.conf and add 'tools-profile' to the end of"
--    echo "        the EXTRA_IMAGE_FEATURES variable ]"
--    echo "      $ bitbake core-image-sato"
--    echo ""
--    echo "  [ NOTE that 'crosstap' needs to be able to ssh into the target"
--    echo "    system, which isn't enabled by default in -minimal images. ]"
--    echo ""
--    echo "Once you've build the image on the host system, you're ready to"
--    echo "boot it (or the equivalent pre-built image) and use 'crosstap'"
--    echo "to probe it (you need to source the environment as usual first):"
--    echo ""
--    echo "    $ source oe-init-build-env"
--    echo "    $ cd ~/my/systemtap/scripts"
--    echo "    $ crosstap root@192.168.1.xxx myscript.stp"
--    echo ""
--}
--
--function systemtap_target_arch() {
--    SYSTEMTAP_TARGET_ARCH=$1
--    case $SYSTEMTAP_TARGET_ARCH in
--        i?86)
--            SYSTEMTAP_TARGET_ARCH="i386"
--            ;;
--        x86?64*)
--            SYSTEMTAP_TARGET_ARCH="x86_64"
--            ;;
--        arm*)
--            SYSTEMTAP_TARGET_ARCH="arm"
--            ;;
--        powerpc*)
--            SYSTEMTAP_TARGET_ARCH="powerpc"
--            ;;
--        *)
--            ;;
--    esac
--}
--
--if [ $# -lt 2 ]; then
--	usage
--	exit 1
--fi
--
--if [ -z "$BUILDDIR" ]; then
--    echo "Error: Unable to find the BUILDDIR environment variable."
--    echo "Did you forget to source your build system environment setup script?"
--    exit 1
--fi
--
--pushd $PWD
--cd $BUILDDIR
--BITBAKE_VARS=`bitbake -e virtual/kernel`
--popd
--
--STAGING_BINDIR_TOOLCHAIN=$(echo "$BITBAKE_VARS" | grep ^STAGING_BINDIR_TOOLCHAIN \
--  | cut -d '=' -f2 | cut -d '"' -f2)
--STAGING_BINDIR_TOOLPREFIX=$(echo "$BITBAKE_VARS" | grep ^TARGET_PREFIX \
--  | cut -d '=' -f2 | cut -d '"' -f2)
--TARGET_ARCH=$(echo "$BITBAKE_VARS" | grep ^TRANSLATED_TARGET_ARCH \
--  | cut -d '=' -f2 | cut -d '"' -f2)
--TARGET_KERNEL_BUILDDIR=$(echo "$BITBAKE_VARS" | grep ^B= \
--  | cut -d '=' -f2 | cut -d '"' -f2)
--
--# Build and populate the recipe-sysroot-native with systemtap-native
--pushd $PWD
--cd $BUILDDIR
--BITBAKE_VARS=`bitbake -e systemtap-native`
--popd
--SYSTEMTAP_HOST_INSTALLDIR=$(echo "$BITBAKE_VARS" | grep ^STAGING_DIR_NATIVE \
--  | cut -d '=' -f2 | cut -d '"' -f2)
--
--systemtap_target_arch "$TARGET_ARCH"
--
--if [ ! -d $TARGET_KERNEL_BUILDDIR ] ||
--   [ ! -f $TARGET_KERNEL_BUILDDIR/vmlinux ]; then
--    echo -e "\nError: No target kernel build found."
--    echo -e "Did you forget to create a local build of your image?"
--    setup_usage
--    exit 1
--fi
--
--if [ ! -f $SYSTEMTAP_HOST_INSTALLDIR/usr/bin/stap ]; then
--    echo -e "\nError: Native (host) systemtap not found."
--    echo -e "Did you accidentally build a local non-sdk image? (or forget to"
--    echo -e "add 'tools-profile' to EXTRA_IMAGE_FEATURES in your local.conf)?"
--    echo -e "You can also: bitbake -c addto_recipe_sysroot systemtap-native"
--    setup_usage
--    exit 1
--fi
--
--target_user_hostname="$1"
--full_script_name="$2"
--script_name=$(basename "$2")
--script_base=${script_name%.*}
--shift 2
--
--${SYSTEMTAP_HOST_INSTALLDIR}/usr/bin/stap \
--  -a ${SYSTEMTAP_TARGET_ARCH} \
--  -B CROSS_COMPILE="${STAGING_BINDIR_TOOLCHAIN}/${STAGING_BINDIR_TOOLPREFIX}" \
--  -r ${TARGET_KERNEL_BUILDDIR} \
--  -I ${SYSTEMTAP_HOST_INSTALLDIR}/usr/share/systemtap/tapset \
--  -R ${SYSTEMTAP_HOST_INSTALLDIR}/usr/share/systemtap/runtime \
--  --remote=$target_user_hostname \
--  -m $script_base \
--   $full_script_name "$@"
--
--exit 0
-+import sys
-+import re
-+import subprocess
-+import os
-+import optparse
-+
-+class Stap(object):
-+    def __init__(self, script, module, remote):
-+        self.script = script
-+        self.module = module
-+        self.remote = remote
-+        self.stap = None
-+        self.sysroot = None
-+        self.runtime = None
-+        self.tapset = None
-+        self.arch = None
-+        self.cross_compile = None
-+        self.kernel_release = None
-+        self.target_path = None
-+        self.target_ld_library_path = None
-+
-+        if not self.remote:
-+            if not self.module:
-+                # derive module name from script
-+                self.module = os.path.basename(self.script)
-+                if self.module[-4:] == ".stp":
-+                    self.module = self.module[:-4]
-+                    # replace - if any with _
-+                    self.module = self.module.replace("-", "_")
-+
-+    def command(self, args):
-+        ret = []
-+        ret.append(self.stap)
-+
-+        if self.remote:
-+            ret.append("--remote")
-+            ret.append(self.remote)
-+        else:
-+            ret.append("-p4")
-+            ret.append("-m")
-+            ret.append(self.module)
-+
-+        ret.append("-a")
-+        ret.append(self.arch)
-+
-+        ret.append("-B")
-+        ret.append("CROSS_COMPILE=" + self.cross_compile)
-+
-+        ret.append("-r")
-+        ret.append(self.kernel_release)
-+
-+        ret.append("-I")
-+        ret.append(self.tapset)
-+
-+        ret.append("-R")
-+        ret.append(self.runtime)
-+
-+        if self.sysroot:
-+            ret.append("--sysroot")
-+            ret.append(self.sysroot)
-+
-+            ret.append("--sysenv=PATH=" + self.target_path)
-+            ret.append("--sysenv=LD_LIBRARY_PATH=" + self.target_ld_library_path)
-+
-+        ret = ret + args
-+
-+        ret.append(self.script)
-+        return ret
-+
-+    def additional_environment(self):
-+        ret = {}
-+        ret["SYSTEMTAP_DEBUGINFO_PATH"] = "+:.debug:build"
-+        return ret
-+
-+    def environment(self):
-+        ret = os.environ.copy()
-+        additional = self.additional_environment()
-+        for e in additional:
-+            ret[e] = additional[e]
-+        return ret
-+
-+    def display_command(self, args):
-+        additional_env = self.additional_environment()
-+        command = self.command(args)
-+
-+        print("#!/bin/sh")
-+        for e in additional_env:
-+            print("export %s=\"%s\"" % (e, additional_env[e]))
-+        print(" ".join(command))
-+
-+class BitbakeEnvInvocationException(Exception):
-+    def __init__(self, message):
-+        self.message = message
-+
-+class BitbakeEnv(object):
-+    BITBAKE="bitbake"
-+
-+    def __init__(self, package):
-+        self.package = package
-+        self.cmd = BitbakeEnv.BITBAKE + " -e " + self.package
-+        self.popen = subprocess.Popen(self.cmd, shell=True,
-+                                      stdout=subprocess.PIPE,
-+                                      stderr=subprocess.STDOUT)
-+        self.__lines = self.popen.stdout.readlines()
-+        self.popen.wait()
-+
-+        self.lines = []
-+        for line in self.__lines:
-+                self.lines.append(line.decode('utf-8'))
-+
-+    def get_vars(self, vars):
-+        if self.popen.returncode:
-+            raise BitbakeEnvInvocationException(
-+                "\nFailed to execute '" + self.cmd +
-+                "' with the following message:\n" +
-+                ''.join(self.lines))
-+
-+        search_patterns = []
-+        retdict = {}
-+        for var in vars:
-+            # regular not exported variable
-+            rexpr = "^" + var + "=\"(.*)\""
-+            re_compiled = re.compile(rexpr)
-+            search_patterns.append((var, re_compiled))
-+
-+            # exported variable
-+            rexpr = "^export " + var + "=\"(.*)\""
-+            re_compiled = re.compile(rexpr)
-+            search_patterns.append((var, re_compiled))
-+
-+            for line in self.lines:
-+                for var, rexpr in search_patterns:
-+                    m = rexpr.match(line)
-+                    if m:
-+                        value = m.group(1)
-+                        retdict[var] = value
-+
-+        # fill variables values in order how they were requested
-+        ret = []
-+        for var in vars:
-+            ret.append(retdict.get(var))
-+
-+        # if it is single value list return it as scalar, not the list
-+        if len(ret) == 1:
-+            ret = ret[0]
-+
-+        return ret
-+
-+class ParamDiscovery(object):
-+    SYMBOLS_CHECK_MESSAGE = """
-+WARNING: image '%s' does not have dbg-pkgs IMAGE_FEATURES enabled and no
-+"image-combined-dbg" in inherited classes is specified. As result the image
-+does not have symbols for user-land processes DWARF based probes. Consider
-+adding 'dbg-pkgs' to EXTRA_IMAGE_FEATURES or adding "image-combined-dbg" to
-+USER_CLASSES. I.e add this line 'USER_CLASSES += "image-combined-dbg"' to
-+local.conf file.
-+
-+Or you may use IMAGE_GEN_DEBUGFS="1" option, and then after build you need
-+recombine/unpack image and image-dbg tarballs and pass resulting dir location
-+with --sysroot option.
-+"""
-+
-+    def __init__(self, image):
-+        self.image = image
-+
-+        self.image_rootfs = None
-+        self.image_features = None
-+        self.image_gen_debugfs = None
-+        self.inherit = None
-+        self.base_bindir = None
-+        self.base_sbindir = None
-+        self.base_libdir = None
-+        self.bindir = None
-+        self.sbindir = None
-+        self.libdir = None
-+
-+        self.staging_bindir_toolchain = None
-+        self.target_prefix = None
-+        self.target_arch = None
-+        self.target_kernel_builddir = None
-+
-+        self.staging_dir_native = None
-+
-+        self.image_combined_dbg = False
-+
-+    def discover(self):
-+        if self.image:
-+            benv_image = BitbakeEnv(self.image)
-+            (self.image_rootfs,
-+             self.image_features,
-+             self.image_gen_debugfs,
-+             self.inherit,
-+             self.base_bindir,
-+             self.base_sbindir,
-+             self.base_libdir,
-+             self.bindir,
-+             self.sbindir,
-+             self.libdir
-+            ) = benv_image.get_vars(
-+                 ("IMAGE_ROOTFS",
-+                  "IMAGE_FEATURES",
-+                  "IMAGE_GEN_DEBUGFS",
-+                  "INHERIT",
-+                  "base_bindir",
-+                  "base_sbindir",
-+                  "base_libdir",
-+                  "bindir",
-+                  "sbindir",
-+                  "libdir"
-+                  ))
-+
-+        benv_kernel = BitbakeEnv("virtual/kernel")
-+        (self.staging_bindir_toolchain,
-+         self.target_prefix,
-+         self.target_arch,
-+         self.target_kernel_builddir
-+        ) = benv_kernel.get_vars(
-+             ("STAGING_BINDIR_TOOLCHAIN",
-+              "TARGET_PREFIX",
-+              "TRANSLATED_TARGET_ARCH",
-+              "B"
-+            ))
-+
-+        benv_systemtap = BitbakeEnv("systemtap-native")
-+        (self.staging_dir_native
-+        ) = benv_systemtap.get_vars(["STAGING_DIR_NATIVE"])
-+
-+        if self.inherit:
-+            if "image-combined-dbg" in self.inherit.split():
-+                self.image_combined_dbg = True
-+
-+    def check(self, sysroot_option):
-+        ret = True
-+        if self.image_rootfs:
-+            sysroot = self.image_rootfs
-+            if not os.path.isdir(self.image_rootfs):
-+                print("ERROR: Cannot find '" + sysroot +
-+                      "' directory. Was '" + self.image + "' image built?")
-+                ret = False
-+
-+        stap = self.staging_dir_native + "/usr/bin/stap"
-+        if not os.path.isfile(stap):
-+            print("ERROR: Cannot find '" + stap +
-+                  "'. Was 'systemtap-native' built?")
-+            ret = False
-+
-+        if not os.path.isdir(self.target_kernel_builddir):
-+            print("ERROR: Cannot find '" + self.target_kernel_builddir +
-+                  "' directory. Was 'kernel/virtual' built?")
-+            ret = False
-+
-+        if not sysroot_option and self.image_rootfs:
-+            dbg_pkgs_found = False
-+
-+            if self.image_features:
-+                image_features = self.image_features.split()
-+                if "dbg-pkgs" in image_features:
-+                    dbg_pkgs_found = True
-+
-+            if not dbg_pkgs_found \
-+               and not self.image_combined_dbg:
-+                print(ParamDiscovery.SYMBOLS_CHECK_MESSAGE % (self.image))
-+
-+        if not ret:
-+            print("")
-+
-+        return ret
-+
-+    def __map_systemtap_arch(self):
-+        a = self.target_arch
-+        ret = a
-+        if   re.match('(athlon|x86.64)$', a):
-+            ret = 'x86_64'
-+        elif re.match('i.86$', a):
-+            ret = 'i386'
-+        elif re.match('arm$', a):
-+            ret = 'arm'
-+        elif re.match('aarch64$', a):
-+            ret = 'arm64'
-+        elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a):
-+            ret = 'mips'
-+        elif re.match('p(pc|owerpc)(|64)', a):
-+            ret = 'powerpc'
-+        return ret
-+
-+    def fill_stap(self, stap):
-+        stap.stap = self.staging_dir_native + "/usr/bin/stap"
-+        if not stap.sysroot:
-+            if self.image_rootfs:
-+                if self.image_combined_dbg:
-+                    stap.sysroot = self.image_rootfs + "-dbg"
-+                else:
-+                    stap.sysroot = self.image_rootfs
-+        stap.runtime = self.staging_dir_native + "/usr/share/systemtap/runtime"
-+        stap.tapset = self.staging_dir_native + "/usr/share/systemtap/tapset"
-+        stap.arch = self.__map_systemtap_arch()
-+        stap.cross_compile = self.staging_bindir_toolchain + "/" + \
-+                             self.target_prefix
-+        stap.kernel_release = self.target_kernel_builddir
-+
-+        # do we have standard that tells in which order these need to appear
-+        target_path = []
-+        if self.sbindir:
-+            target_path.append(self.sbindir)
-+        if self.bindir:
-+            target_path.append(self.bindir)
-+        if self.base_sbindir:
-+            target_path.append(self.base_sbindir)
-+        if self.base_bindir:
-+            target_path.append(self.base_bindir)
-+        stap.target_path = ":".join(target_path)
-+
-+        target_ld_library_path = []
-+        if self.libdir:
-+            target_ld_library_path.append(self.libdir)
-+        if self.base_libdir:
-+            target_ld_library_path.append(self.base_libdir)
-+        stap.target_ld_library_path = ":".join(target_ld_library_path)
-+
-+
-+def main():
-+    usage = """usage: %prog -s <systemtap-script> [options] [-- [systemtap options]]
-+
-+%prog cross compile given SystemTap script against given image, kernel
-+
-+It needs to run in environtment set for bitbake - it uses bitbake -e
-+invocations to retrieve information to construct proper stap cross build
-+invocation arguments. It assumes that systemtap-native is built in given
-+bitbake workspace.
-+
-+Anything after -- option is passed directly to stap.
-+
-+Legacy script invocation style supported but depreciated:
-+  %prog <user@hostname> <sytemtap-script> [systemtap options]
-+
-+To enable most out of systemtap the following site.conf or local.conf
-+configuration is recommended:
-+
-+# enables symbol + target binaries rootfs-dbg in workspace
-+IMAGE_GEN_DEBUGFS = "1"
-+IMAGE_FSTYPES_DEBUGFS = "tar.bz2"
-+USER_CLASSES += "image-combined-dbg"
-+
-+# enables kernel debug symbols
-+KERNEL_EXTRA_FEATURES_append = " features/debug/debug-kernel.scc"
-+
-+# minimal, just run-time systemtap configuration in target image
-+PACKAGECONFIG_pn-systemtap = "monitor"
-+
-+# add systemtap run-time into target image if it is not there yet
-+IMAGE_INSTALL_append = " systemtap"
-+"""
-+    option_parser = optparse.OptionParser(usage=usage)
-+
-+    option_parser.add_option("-s", "--script", dest="script",
-+                             help="specify input script FILE name",
-+                             metavar="FILE")
-+
-+    option_parser.add_option("-i", "--image", dest="image",
-+                             help="specify image name for which script should be compiled")
-+
-+    option_parser.add_option("-r", "--remote", dest="remote",
-+                             help="specify username@hostname of remote target to run script "
-+                             "optional, it assumes that remote target can be accessed through ssh")
-+
-+    option_parser.add_option("-m", "--module", dest="module",
-+                             help="specify module name, optional, has effect only if --remote is not used, "
-+                             "if not specified module name will be derived from passed script name")
-+
-+    option_parser.add_option("-y", "--sysroot", dest="sysroot",
-+                             help="explicitely specify image sysroot location. May need to use it in case "
-+                             "when IMAGE_GEN_DEBUGFS=\"1\" option is used and recombined with symbols "
-+                             "in different location",
-+                             metavar="DIR")
-+
-+    option_parser.add_option("-o", "--out", dest="out",
-+                             action="store_true",
-+                             help="output shell script that equvivalent invocation of this script with "
-+                             "given set of arguments, in given bitbake environment. It could be stored in "
-+                             "separate shell script and could be repeated without incuring bitbake -e "
-+                             "invocation overhead",
-+                             default=False)
-+
-+    option_parser.add_option("-d", "--debug", dest="debug",
-+                             action="store_true",
-+                             help="enable debug output. Use this option to see resulting stap invocation",
-+                             default=False)
-+
-+    # is invocation follow syntax from orignal crosstap shell script
-+    legacy_args = False
-+
-+    # check if we called the legacy way
-+    if len(sys.argv) >= 3:
-+        if sys.argv[1].find("@") != -1 and os.path.exists(sys.argv[2]):
-+            legacy_args = True
-+
-+            # fill options values for legacy invocation case
-+            options = optparse.Values
-+            options.script = sys.argv[2]
-+            options.remote = sys.argv[1]
-+            options.image = None
-+            options.module = None
-+            options.sysroot = None
-+            options.out = None
-+            options.debug = None
-+            remaining_args = sys.argv[3:]
-+
-+    if not legacy_args:
-+        (options, remaining_args) = option_parser.parse_args()
-+
-+    if not options.script or not os.path.exists(options.script):
-+        print("'-s FILE' option is missing\n")
-+        option_parser.print_help()
-+    else:
-+        stap = Stap(options.script, options.module, options.remote)
-+        discovery = ParamDiscovery(options.image)
-+        discovery.discover()
-+        if not discovery.check(options.sysroot):
-+            option_parser.print_help()
-+        else:
-+            stap.sysroot = options.sysroot
-+            discovery.fill_stap(stap)
-+
-+            if options.out:
-+                stap.display_command(remaining_args)
-+            else:
-+                cmd = stap.command(remaining_args)
-+                env = stap.environment()
-+
-+                if options.debug:
-+                    print(" ".join(cmd))
-+
-+                os.execve(cmd[0], cmd, env)
-+
-+main()
--- 
-2.7.4
+>
+> This means I'm trying to do full on day to day development as usual as
+> well as trying to sort release issues like the imminent fedora28 issue
+> I should be paying attention to instead.
+>
+> So, a question, what do people want me to do?
+I would rather see you focus on the release.
+
+- Armin
+>
+> Cheers,
+>
+> Richard
+>
+
 
 
