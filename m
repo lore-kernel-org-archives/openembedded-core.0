@@ -1,40 +1,40 @@
 Return-Path: <kamensky@cisco.com>
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D8E775014
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DED074F1E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 18:25:42 +0000 (UTC)
+	Thu,  5 Apr 2018 18:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=27578; q=dns/txt;
-	s=iport; t=1522952744; x=1524162344;
+	d=cisco.com; i=@cisco.com; l=22876; q=dns/txt;
+	s=iport; t=1522952745; x=1524162345;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=vw08zk9qw/ZwRSzTSFMQoBusslReX2hrvhkDmNCNGp4=;
-	b=I2+TxzLOK9+PLJzsIawHUleqjfD6I7Vs4YlcAq7CTchBJLbU7JYbnoxW
-	Vojxf93Wmj2pv9xOS+liM0kswdbHHD7HvHyelJDVndprcavv1nqCzYUDz
-	EQQIuxn/bPqJtxNgPHA8MVekuGsiIUTzShY4o4bk1cBnZmz3dkbFV507q 0=;
+	bh=EKH07yMyZaNly7iel5DrG9+kz3OsJJi/zU7n3eNPuJo=;
+	b=YAP75iBzXEmy/W/c3ZXeNW8JgsO03lnUps6T17bfVMug3IWM9v5uLrWE
+	hryAF0QH7immgQab+UlVnBIWt5fHUc8dpVRYlrb5FaeFTKmb2ERVBn5tT
+	9/JC55sKWmjAvBvKORF+I3dJBWiyotbz79Q+h73r6DPzG5JTFtWEQW+/d 0=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AIAgBYacZa/5tdJa1cGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8omGiBdIEPixKHQxSBZgsbhGgCgj4hNhYBAgEBAQE?=
-	=?us-ascii?q?BAQJsHAyFIgEDAxoNUhAcAwECFhlPCBmFDa4pM4hDgiWHaoITg1yEXg4hVYU?=
-	=?us-ascii?q?VAoclhFBhimoIhVOIXgKBMDqDIIcxhymIMwIREwGBJSMIKYFSTSMVgn0Jghc?=
-	=?us-ascii?q?XEYhIhV4fMIpWgkUBAQ?=
-X-IronPort-AV: E=Sophos;i="5.48,412,1517875200"; d="scan'208";a="378321412"
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AIAQBYacZa/5tdJa1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNCgVAoi1+NCYJpGpJVFIFmC4FYASGDCQKCPiE0GAECAQE?=
+	=?us-ascii?q?BAQEBAmwohSMGeRBRVxmFDasPEYM8iEOCJYdqghOBDIJQhFwMhg8ChyWETwE?=
+	=?us-ascii?q?LVoopQQiIIIYRAow7hkKJGgIREwGBJRw4gVJNIxU6gkOCIBeONx8wAS+MawE?=
+	=?us-ascii?q?B?=
+X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="380131697"
 Received: from rcdn-core-4.cisco.com ([173.37.93.155])
-	by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2018 18:25:42 +0000
+	by rcdn-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2018 18:25:43 +0000
 Received: from kamensky-w541.cisco.com ([10.24.32.120]) (authenticated bits=0)
-	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvk013347
+	by rcdn-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id w35IPUvm013347
 	(version=TLSv1/SSLv3 cipher=AES128-SHA256 bits=128 verify=NO);
-	Thu, 5 Apr 2018 18:25:41 GMT
+	Thu, 5 Apr 2018 18:25:43 GMT
 From: Victor Kamensky <kamensky@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Apr 2018 11:25:28 -0700
-Message-Id: <1522952730-5967-4-git-send-email-kamensky@cisco.com>
+Date: Thu,  5 Apr 2018 11:25:30 -0700
+Message-Id: <1522952730-5967-6-git-send-email-kamensky@cisco.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
 References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
 X-Authenticated-User: kamensky@cisco.com
 Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: [PATCH v3 3/5] systemtap: support --sysroot option in variety of situations in cross build
+Subject: [PATCH v3 5/5] crosstap: replace script with new python based implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,658 +49,624 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Apr 2018 18:25:43 -0000
 
-For details on issues fixed please look at commit message of individual
-patches.
+New crosstap python implementation is total replacement for
+crosstap shell script, that has superseding capabilities.
+New script support cross compiling of SystemTap scripts
+for user-land, by using supplied image rootfs. Whereas old
+script could only deal with scripts against kernel. New script
+has more complex logic and additional capabilities.
 
-Upstream-Status: Backport [systemtap@sourceware.org]
+As invocation interface new script support old "legacy"
+mode and provides alternative new regular options interface
+to access additional functionality.
+
 Signed-off-by: Victor Kamensky <kamensky@cisco.com>
 ---
- ...001-Added-a-couple-of-small-sysroot-fixes.patch |  42 +++++++
- ...g-sysroot-path-to-module-name-in-case-of-.patch |  61 ++++++++++
- ...sure-sysroot-paths-don-t-end-with-a-slash.patch | 128 +++++++++++++++++++++
- ...root-when-looking-for-the-System.map-file.patch |  29 +++++
- ...e_relocate-needs-target-file-path-not-hos.patch |  39 +++++++
- ...ookup-with-sysroot-case-do-not-remove-sys.patch |  42 +++++++
- ...-short-release-r-option-handling-follow-u.patch |  40 +++++++
- ...sroot-fix-short-release-r-option-handling.patch |  53 +++++++++
- ...dle-symbolic-links-with-absolute-name-rel.patch | 117 +++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |   9 ++
- 10 files changed, 560 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Added-a-couple-of-small-sysroot-fixes.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Use-sysroot-when-looking-for-the-System.map-file.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling-follow-u.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch
+ scripts/crosstap | 586 ++++++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 450 insertions(+), 136 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Added-a-couple-of-small-sysroot-fixes.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Added-a-couple-of-small-sysroot-fixes.patch
-new file mode 100644
-index 0000000..c0ceb5a
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Added-a-couple-of-small-sysroot-fixes.patch
-@@ -0,0 +1,42 @@
-+From a714658727206d2a98a7194b7e6d29dbd3e27b8d Mon Sep 17 00:00:00 2001
-+From: David Smith <dsmith@redhat.com>
-+Date: Mon, 19 Mar 2018 16:50:05 -0500
-+Subject: [PATCH] Added a couple of small sysroot fixes.
-+
-+* tapsets.cxx (dwarf_builder::build): Fix commit 4ffecddf5.
-+  (path_remove_sysroot): Fix extra '/' present at start of paths.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ tapsets.cxx | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+Index: git/tapsets.cxx
-+===================================================================
-+--- git.orig/tapsets.cxx
-++++ git/tapsets.cxx
-+@@ -1395,7 +1395,8 @@ string path_remove_sysroot(const systemt
-+   string retval = path;
-+   if (!sess.sysroot.empty() &&
-+       (pos = retval.find(sess.sysroot)) != string::npos)
-+-    retval.replace(pos, sess.sysroot.length(), "/");
-++    retval.replace(pos, sess.sysroot.length(),
-++		   (sess.sysroot.back() == '/' ? "/": ""));
-+   return retval;
-+ }
-+ 
-+@@ -8412,8 +8413,11 @@ dwarf_builder::build(systemtap_session &
-+ 
-+       // PR13338: unquote glob results
-+       module_name = unescape_glob_chars (module_name);
-+-      user_path = find_executable (module_name, "", sess.sysenv); // canonicalize it
-+-      if (!is_fully_resolved(user_path, sess.sysroot, sess.sysenv))
-++      user_path = find_executable (module_name, sess.sysroot, sess.sysenv); // canonicalize it
-++      // Note we don't need to pass the sysroot to
-++      // is_fully_resolved(), since we just passed it to
-++      // find_executable().
-++      if (!is_fully_resolved(user_path, "", sess.sysenv))
-+         throw SEMANTIC_ERROR(_F("cannot find executable '%s'",
-+                                 user_path.to_string().c_str()));
-+ 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch
-new file mode 100644
-index 0000000..89951a2
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch
-@@ -0,0 +1,61 @@
-+From 4ffecddf5433d65a6f01241990c9d516586b1c79 Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Mon, 19 Mar 2018 08:53:51 -0500
-+Subject: [PATCH] Delay adding sysroot path to module name in case of non
-+ absolute executable
-+
-+Current stap code adds sysroot prematurely for probes that specify non
-+absolute path name, i.e like "foo", so when find_executable called it
-+receives full path as <sysroot>/foo and find_executable does not search
-+PATH while applying sysroot.
-+
-+Fix delays adding sysroot till path inside of sysroot is searched first.
-+
-+Also fix missing sysroot addition in glob expansion case.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ tapsets.cxx | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+Index: git/tapsets.cxx
-+===================================================================
-+--- git.orig/tapsets.cxx
-++++ git/tapsets.cxx
-+@@ -746,7 +746,7 @@ base_query::base_query(dwflpp & dw, lite
-+               pid_val = 0;
-+               get_string_param(params, TOK_PROCESS, module_val);
-+             }
-+-          module_val = find_executable (module_val, "", sess.sysenv);
-++          module_val = find_executable (module_val, sess.sysroot, sess.sysenv);
-+           if (!is_fully_resolved(module_val, "", sess.sysenv))
-+             throw SEMANTIC_ERROR(_F("cannot find executable '%s'",
-+                                     module_val.to_string().c_str()));
-+@@ -8287,7 +8287,6 @@ dwarf_builder::build(systemtap_session &
-+             }
-+           else
-+             {
-+-              module_name = (string)sess.sysroot + (string)module_name;
-+               filled_parameters[TOK_PROCESS] = new literal_string(module_name);
-+             }
-+         }
-+@@ -8321,7 +8320,8 @@ dwarf_builder::build(systemtap_session &
-+           assert (lit);
-+ 
-+           // Evaluate glob here, and call derive_probes recursively with each match.
-+-          const auto& globs = glob_executable (module_name);
-++          const auto& globs = glob_executable (sess.sysroot
-++					       + string(module_name));
-+           unsigned results_pre = finished_results.size();
-+           for (auto it = globs.begin(); it != globs.end(); ++it)
-+             {
-+@@ -8413,7 +8413,7 @@ dwarf_builder::build(systemtap_session &
-+       // PR13338: unquote glob results
-+       module_name = unescape_glob_chars (module_name);
-+       user_path = find_executable (module_name, "", sess.sysenv); // canonicalize it
-+-      if (!is_fully_resolved(user_path, "", sess.sysenv))
-++      if (!is_fully_resolved(user_path, sess.sysroot, sess.sysenv))
-+         throw SEMANTIC_ERROR(_F("cannot find executable '%s'",
-+                                 user_path.to_string().c_str()));
-+ 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch
-new file mode 100644
-index 0000000..7cd9030
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch
-@@ -0,0 +1,128 @@
-+From 41efad04730be89889d1483719f9a6c9396dc250 Mon Sep 17 00:00:00 2001
-+From: David Smith <dsmith@redhat.com>
-+Date: Wed, 14 Mar 2018 17:05:25 -0500
-+Subject: [PATCH] Make sure sysroot paths don't end with a slash.
-+
-+* session.cxx (parse_cmdline): Make sure a sysroot path does not end with
-+  a '/', since we build paths like: sysroot + "/lib/modules". If the
-+  sysroot path ends with a '/', we end up with paths like
-+  '/SYSROOT//lib/modules'.
-+  (setup_kernel_release): Take a string parameter, not a character pointer.
-+* session.h: Update setup_kernel_release() prototype.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ session.cxx | 34 ++++++++++++++++++++++++++--------
-+ session.h   |  2 +-
-+ 2 files changed, 27 insertions(+), 9 deletions(-)
-+
-+Index: git/session.cxx
-+===================================================================
-+--- git.orig/session.cxx
-++++ git/session.cxx
-+@@ -722,6 +722,9 @@ systemtap_session::parse_cmdline (int ar
-+   client_options_disallowed_for_unprivileged = "";
-+   std::set<std::string> additional_unwindsym_modules;
-+   struct rlimit our_rlimit;
-++  bool sysroot_option_seen = false;
-++  string kernel_release_value;
-++
-+   while (true)
-+     {
-+       char * num_endptr;
-+@@ -887,7 +890,7 @@ systemtap_session::parse_cmdline (int ar
-+ 	    // Note that '-' must come last in a regex bracket expression.
-+             assert_regexp_match("-r parameter from client", optarg, "^[a-z0-9_.+-]+$");
-+ 	  server_args.push_back (string ("-") + (char)grc + optarg);
-+-          setup_kernel_release(optarg);
-++	  kernel_release_value = optarg;
-+           break;
-+ 
-+         case 'a':
-+@@ -1473,7 +1476,7 @@ systemtap_session::parse_cmdline (int ar
-+ 	  if (client_options) {
-+ 	      cerr << _F("ERROR: %s invalid with %s", "--sysroot", "--client-options") << endl;
-+ 	      return 1;
-+-	  } else if (!sysroot.empty()) {
-++	  } else if (sysroot_option_seen) {
-+ 	      cerr << "ERROR: multiple --sysroot options not supported" << endl;
-+ 	      return 1;
-+ 	  } else {
-+@@ -1487,11 +1490,17 @@ systemtap_session::parse_cmdline (int ar
-+ 
-+ 	      sysroot = string(spath);
-+ 	      free (spath);
-+-	      if (sysroot[sysroot.size() - 1] != '/')
-+-		  sysroot.append("/");
-+ 
-+-	      break;
-++	      // We do path creation like this:
-++	      //   sysroot + "/lib/modules"
-++	      // So, we don't want the sysroot path to end with a '/',
-++	      // otherwise we'll end up with '/foo//lib/modules'.
-++	      if (sysroot.back() == '/') {
-++		  sysroot.pop_back();
-++	      }
-+ 	  }
-++	  sysroot_option_seen = true;
-++	  break;
-+ 
-+ 	case LONG_OPT_SYSENV:
-+ 	  if (client_options) {
-+@@ -1501,7 +1510,7 @@ systemtap_session::parse_cmdline (int ar
-+ 	      string sysenv_str = optarg;
-+ 	      string value;
-+ 	      size_t pos;
-+-	      if (sysroot.empty()) {
-++	      if (! sysroot_option_seen) {
-+ 		  cerr << "ERROR: --sysenv must follow --sysroot" << endl;
-+ 		  return 1;
-+ 	      }
-+@@ -1646,6 +1655,15 @@ systemtap_session::parse_cmdline (int ar
-+ 	}
-+     }
-+ 
-++  if (! kernel_release_value.empty())
-++  {
-++      setup_kernel_release(kernel_release_value);
-++  }
-++  else if (! sysroot.empty())
-++  {
-++      kernel_build_tree = sysroot + "/lib/modules/" + kernel_release  + "/build";
-++  }
-++
-+   return 0;
-+ }
-+ 
-+@@ -2152,7 +2170,7 @@ void systemtap_session::insert_loaded_mo
-+ }
-+ 
-+ void
-+-systemtap_session::setup_kernel_release (const char* kstr) 
-++systemtap_session::setup_kernel_release (const string& kstr) 
-+ {
-+   // Sometimes we may get dupes here... e.g. a server may have a full
-+   // -r /path/to/kernel followed by a client's -r kernel.
-+@@ -2183,7 +2201,7 @@ systemtap_session::setup_kernel_release
-+   else
-+     {
-+       update_release_sysroot = true;
-+-      kernel_release = string (kstr);
-++      kernel_release = kstr;
-+       if (!kernel_release.empty())
-+         kernel_build_tree = "/lib/modules/" + kernel_release + "/build";
-+ 
-+Index: git/session.h
-+===================================================================
-+--- git.orig/session.h
-++++ git/session.h
-+@@ -144,7 +144,7 @@ public:
-+ 
-+   // NB: It is very important for all of the above (and below) fields
-+   // to be cleared in the systemtap_session ctor (session.cxx).
-+-  void setup_kernel_release (const char* kstr);
-++  void setup_kernel_release (const std::string& kstr);
-+   void insert_loaded_modules ();
-+ 
-+   // command line parsing
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Use-sysroot-when-looking-for-the-System.map-file.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Use-sysroot-when-looking-for-the-System.map-file.patch
-new file mode 100644
-index 0000000..b2820b3
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Use-sysroot-when-looking-for-the-System.map-file.patch
-@@ -0,0 +1,29 @@
-+From 436063d5e4738a9b03535d330a2242be5118e745 Mon Sep 17 00:00:00 2001
-+From: David Smith <dsmith@redhat.com>
-+Date: Thu, 8 Mar 2018 16:01:58 -0600
-+Subject: [PATCH] Use sysroot when looking for the System.map file.
-+
-+Add sysroot to system_map_path + "/boot/System.map" case. Otherwise
-+stap tries to look symbols on host system and it produce error like this:
-+
-+> Kernel symbol table /boot/System.map-4.9.78-yocto-standard unavailable, (No such file or directory)
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ session.cxx | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: git/session.cxx
-+===================================================================
-+--- git.orig/session.cxx
-++++ git/session.cxx
-+@@ -2013,7 +2013,7 @@ systemtap_session::parse_kernel_function
-+ 	clog << _F("Kernel symbol table %s unavailable, (%s)",
-+ 		   system_map_path.c_str(), strerror(errno)) << endl;
-+ 
-+-      system_map_path = "/boot/System.map-" + kernel_release;
-++      system_map_path = sysroot + "/boot/System.map-" + kernel_release;
-+       system_map.clear();
-+       system_map.open(system_map_path.c_str(), ifstream::in);
-+       if (! system_map.is_open())
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch b/meta/recipes-kernel/systemtap/systemtap/0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch
-new file mode 100644
-index 0000000..98181a1
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch
-@@ -0,0 +1,39 @@
-+From 183c7a7a8167333c873525f7908913837b8dc3cb Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Tue, 20 Mar 2018 12:41:05 -0500
-+Subject: [PATCH] _stp_umodule_relocate needs target file path, not host file
-+ path
-+
-+Strip of sysroot from module name is required when _stp_umodule_relocate
-+call is generated. Otherwise path won't match path on target and could
-+will fail to calculated address within the file.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ loc2stap.cxx | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/loc2stap.cxx b/loc2stap.cxx
-+index 4818ee0..e09954f 100644
-+--- a/loc2stap.cxx
-++++ b/loc2stap.cxx
-+@@ -17,6 +17,7 @@
-+ 
-+ #include "loc2stap.h"
-+ #include "dwflpp.h"
-++#include "tapsets.h"
-+ 
-+ #if ! _ELFUTILS_PREREQ(0, 153)
-+ #define DW_OP_GNU_entry_value 0xf3
-+@@ -106,7 +107,9 @@ location_context::translate_address(Dwarf_Addr addr)
-+           c = "/* pragma:vma */ "
-+               "({ unsigned long addr = 0; "
-+               "addr = _stp_umodule_relocate (\""
-+-              + resolve_path(dw->module_name.c_str()) + "\", "
-++              + path_remove_sysroot(dw->sess,
-++				    resolve_path(dw->module_name.c_str()))
-++	      + "\", "
-+               + lex_cast_hex (addr)
-+ 	      + ", current); addr; })";
-+ 	}
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch b/meta/recipes-kernel/systemtap/systemtap/0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch
-new file mode 100644
-index 0000000..160642d
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch
-@@ -0,0 +1,42 @@
-+From b29e448e12040ed8f4d83743a14db0f138a7cc67 Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Wed, 14 Mar 2018 16:54:08 -0500
-+Subject: [PATCH] debuginfo lookup with sysroot case do not remove sysroot from
-+ file_name
-+
-+If sysroot option is passed, and debug symbols reside in sysroot along
-+with executable <foo> in <foo_dir>/.debug/<foo_file> directory,
-+stap fails to find debuginfo because it strips out sysroot path
-+from file_name so dwfl_standard_find_debuginfo ends up looking at
-+host <foo_dir>/.debug/<foo_file> rather then checking
-+<sysroot>/<foo_dir>/.debug/<foo_file>.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ setupdwfl.cxx | 12 ------------
-+ 1 file changed, 12 deletions(-)
-+
-+diff --git a/setupdwfl.cxx b/setupdwfl.cxx
-+index 11e0bb2..2a87982 100644
-+--- a/setupdwfl.cxx
-++++ b/setupdwfl.cxx
-+@@ -627,18 +627,6 @@ internal_find_debuginfo (Dwfl_Module *mod,
-+ 
-+   call_dwfl_standard_find_debuginfo:
-+ 
-+-  if (current_session_for_find_debuginfo)
-+-    {
-+-      string sysroot = current_session_for_find_debuginfo->sysroot + "/*";
-+-      int    found   = fnmatch(sysroot.c_str(), file_name, 0);
-+-
-+-      if (found)
-+-	{
-+-	  file_name = file_name
-+-	    + current_session_for_find_debuginfo->sysroot.length() - 1;
-+-	}
-+-    }
-+-
-+   /* Call the original dwfl_standard_find_debuginfo */
-+   return dwfl_standard_find_debuginfo(mod, userdata, modname, base,
-+               file_name, debuglink_file,
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling-follow-u.patch b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling-follow-u.patch
-new file mode 100644
-index 0000000..6fe7d4d
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling-follow-u.patch
-@@ -0,0 +1,40 @@
-+From 7e11f129ff370ce5f39812ce2ae6ce40818a347f Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Thu, 22 Mar 2018 16:02:02 -0500
-+Subject: [PATCH] sysroot: fix short release -r option handling follow up
-+
-+In case of sysroot set and short release -r option it does not make sense
-+to pass short release name into dwfl_linux_kernel_report_offline
-+function. This function is not aware about sysroot and it won't look for
-+kernel modules under sysroot directory.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ setupdwfl.cxx | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/setupdwfl.cxx b/setupdwfl.cxx
-+index c419afa..0cf5810 100644
-+--- a/setupdwfl.cxx
-++++ b/setupdwfl.cxx
-+@@ -367,7 +367,15 @@ setup_dwfl_kernel (unsigned *modules_found, systemtap_session &s)
-+   // hard-code this magic here.
-+   string lib_path = s.sysroot + "/lib/modules/" + s.kernel_release + "/build";
-+   if (s.kernel_build_tree == lib_path)
-+-    elfutils_kernel_path = s.kernel_release;
-++    {
-++      if (s.sysroot != "")
-++        // If we have sysroot set does not make sense to pass
-++        // short release to dwfl, it won't take a sysroot into
-++        // account. Let's construct full path in such case.
-++	elfutils_kernel_path = string(s.sysroot + "/lib/modules/" + s.kernel_release);
-++      else
-++	elfutils_kernel_path = s.kernel_release;
-++    }
-+   else
-+     elfutils_kernel_path = s.kernel_build_tree;
-+   offline_modules_found = 0;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling.patch
-new file mode 100644
-index 0000000..b31d627
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-fix-short-release-r-option-handling.patch
-@@ -0,0 +1,53 @@
-+From a9ce89bcd2d78728faef59bda60e75510972cd56 Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Wed, 14 Mar 2018 17:09:44 -0500
-+Subject: [PATCH] sysroot: fix short release -r option handling
-+
-+* setupdwfl.cxx (debuginfo_path_insert_sysroot): Add a '/' to the end of
-+  the sysroot for path_insert_sysroot().
-+  (setup_dwfl_kernel): Simplify logic when finding the kernel path to send
-+  to elfutils.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ setupdwfl.cxx | 19 ++++++++++++-------
-+ 1 file changed, 12 insertions(+), 7 deletions(-)
-+
-+diff --git a/setupdwfl.cxx b/setupdwfl.cxx
-+index 2a87982..f6c3157 100644
-+--- a/setupdwfl.cxx
-++++ b/setupdwfl.cxx
-+@@ -339,6 +339,13 @@ static char * path_insert_sysroot(string sysroot, string path)
-+ 
-+ void debuginfo_path_insert_sysroot(string sysroot)
-+ {
-++  // FIXME: This is a short-term fix, until we expect sysroot paths to
-++  // always end with a '/' (and never be empty).
-++  //
-++  // The path_insert_sysroot() function assumes that sysroot has a '/'
-++  // on the end. Make sure that is true.
-++  if (sysroot.back() != '/')
-++    sysroot.push_back('/');
-+   debuginfo_path = path_insert_sysroot(sysroot, debuginfo_path);
-+   debuginfo_usr_path = path_insert_sysroot(sysroot, debuginfo_usr_path);
-+ }
-+@@ -358,13 +365,11 @@ setup_dwfl_kernel (unsigned *modules_found, systemtap_session &s)
-+   // no way to set the dwfl_callback.debuginfo_path and always
-+   // passs the plain kernel_release here.  So instead we have to
-+   // hard-code this magic here.
-+-   string lib_path = "/lib/modules/" + s.kernel_release + "/build";
-+-   if (s.kernel_build_tree == string(s.sysroot + lib_path) ||
-+-       (s.kernel_build_tree == lib_path
-+-	&& s.sysroot == "/"))
-+-      elfutils_kernel_path = s.kernel_release;
-+-   else
-+-      elfutils_kernel_path = s.kernel_build_tree;
-++  string lib_path = s.sysroot + "/lib/modules/" + s.kernel_release + "/build";
-++  if (s.kernel_build_tree == lib_path)
-++    elfutils_kernel_path = s.kernel_release;
-++  else
-++    elfutils_kernel_path = s.kernel_build_tree;
-+   offline_modules_found = 0;
-+ 
-+   // First try to report full path modules.
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch
-new file mode 100644
-index 0000000..8a3d39a
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch
-@@ -0,0 +1,117 @@
-+From 2041085d1a700201dc088991ca8136e7935bf42f Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <kamensky@cisco.com>
-+Date: Wed, 21 Mar 2018 11:35:26 -0500
-+Subject: [PATCH] sysroot: handle symbolic links with absolute name relative to
-+ sysroot
-+
-+In case of symbolic link found under sysroot point to absolute path,
-+instead of trying to look for such absolute path in host system,
-+apply sysroot prefix first.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+---
-+ util.cxx | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 76 insertions(+)
-+
-+Index: git/util.cxx
-+===================================================================
-+--- git.orig/util.cxx
-++++ git/util.cxx
-+@@ -441,6 +441,64 @@ split_lines(const char *buf, size_t n)
-+   return lines;
-+ }
-+ 
-++static string
-++follow_link(const string& name, const string& sysroot)
-++{
-++  char *linkname;
-++  ssize_t r;
-++  string retpath;
-++  struct stat st;
-++
-++  const char *f = name.c_str();
-++
-++  lstat(f, &st);
-++
-++  linkname = (char *) malloc(st.st_size + 1);
-++
-++  if (linkname)
-++    {
-++      r = readlink(f, linkname, st.st_size + 1);
-++      linkname[st.st_size] = '\0';
-++      /*
-++       * If we have non-empty sysroot and we got link that
-++       * points to absolute path name, we need to look at
-++       * this path relative to sysroot itself. access and
-++       * stat will follow symbolic links correctly only in
-++       * case with empty sysroot.
-++       */
-++      while (r != -1 && linkname && linkname[0] == '/')
-++	{
-++	  string fname1 = sysroot + linkname;
-++	  const char *f1 = fname1.c_str();
-++	  if (access(f1, X_OK) == 0
-++	      && stat(f1, &st) == 0
-++	      && S_ISREG(st.st_mode))
-++	    {
-++	      retpath = fname1;
-++	      break;
-++	    }
-++	  else if (lstat(f1, &st) == 0
-++		   && S_ISLNK(st.st_mode))
-++	    {
-++	      free(linkname);
-++	      linkname = (char *) malloc(st.st_size + 1);
-++	      if (linkname)
-++		{
-++		  r = readlink(f1, linkname, st.st_size + 1);
-++		  linkname[st.st_size] = '\0';
-++		}
-++	    }
-++	  else
-++	    {
-++	      break;
-++	    }
-++	}
-++    }
-++  free(linkname);
-++
-++  return retpath;
-++}
-++
-+ // Resolve an executable name to a canonical full path name, with the
-+ // same policy as execvp().  A program name not containing a slash
-+ // will be searched along the $PATH.
-+@@ -465,6 +523,14 @@ string find_executable(const string& nam
-+   if (name.find('/') != string::npos) // slash in the path already?
-+     {
-+       retpath = sysroot + name;
-++
-++      const char *f = retpath.c_str();
-++      if (sysroot != ""
-++	  && lstat(f, &st) == 0
-++	  && S_ISLNK(st.st_mode))
-++	{
-++	  retpath = follow_link(f, sysroot);
-++	}
-+     }
-+   else // Nope, search $PATH.
-+     {
-+@@ -493,6 +559,16 @@ string find_executable(const string& nam
-+                   retpath = fname;
-+                   break;
-+                 }
-++              else if (sysroot != ""
-++                       && lstat(f, &st) == 0
-++                       && S_ISLNK(st.st_mode))
-++		{
-++		  retpath = follow_link(f, sysroot);
-++		  if (retpath != "")
-++		    {
-++		      break;
-++		    }
-++		}
-+             }
-+         }
-+     }
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index eef0c9c..e1b7789 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -14,6 +14,15 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-            file://0001-Fix-PR22551-by-updating-the-use-of-timers-for-the-4..patch \
-            file://0001-Fixes-for-gcc-8.patch \
-+           file://0001-Use-sysroot-when-looking-for-the-System.map-file.patch \
-+           file://0001-debuginfo-lookup-with-sysroot-case-do-not-remove-sys.patch \
-+           file://0001-Make-sure-sysroot-paths-don-t-end-with-a-slash.patch \
-+           file://0001-sysroot-fix-short-release-r-option-handling.patch \
-+           file://0001-Delay-adding-sysroot-path-to-module-name-in-case-of-.patch \
-+           file://0001-Added-a-couple-of-small-sysroot-fixes.patch \
-+           file://0001-_stp_umodule_relocate-needs-target-file-path-not-hos.patch \
-+           file://0001-sysroot-handle-symbolic-links-with-absolute-name-rel.patch \
-+           file://0001-sysroot-fix-short-release-r-option-handling-follow-u.patch \
-            "
+diff --git a/scripts/crosstap b/scripts/crosstap
+index 39739bb..e33fa4a 100755
+--- a/scripts/crosstap
++++ b/scripts/crosstap
+@@ -1,15 +1,22 @@
+-#!/bin/bash
++#!/usr/bin/env python3
+ #
+-# Run a systemtap script on remote target
++# Build a systemtap script for a given image, kernel
+ #
+-# Examples (run on build host, target is 192.168.1.xxx):
+-#   $ source oe-init-build-env"
+-#   $ cd ~/my/systemtap/scripts"
++# Effectively script extracts needed information from set of
++# 'bitbake -e' commands and contructs proper invocation of stap on
++# host to build systemtap script for a given target.
+ #
+-#   $ crosstap root@192.168.1.xxx myscript.stp"
+-#   $ crosstap root@192.168.1.xxx myscript-with-args.stp 99 ninetynine"
++# By default script will compile scriptname.ko that could be copied
++# to taget and activated with 'staprun scriptname.ko' command. Or if
++# --remote user@hostname option is specified script will build, load
++# execute script on target.
+ #
+-# Copyright (c) 2012, Intel Corporation.
++# This script is very similar and inspired by crosstap shell script.
++# The major difference that this script supports user-land related
++# systemtap script, whereas crosstap could deal only with scripts
++# related to kernel.
++#
++# Copyright (c) 2018, Cisco Systems.
+ # All rights reserved.
+ #
+ # This program is free software; you can redistribute it and/or modify
+@@ -25,131 +32,438 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
+-function usage() {
+-    echo "Usage: $0 <user@hostname> <sytemtap-script> [additional systemtap-script args]"
+-}
+-
+-function setup_usage() {
+-    echo ""
+-    echo "'crosstap' requires a local sdk build of the target system"
+-    echo "(or a build that includes 'tools-profile') in order to build"
+-    echo "kernel modules that can probe the target system."
+-    echo ""
+-    echo "Practically speaking, that means you need to do the following:"
+-    echo "  - If you're running a pre-built image, download the release"
+-    echo "    and/or BSP tarballs used to build the image."
+-    echo "  - If you're working from git sources, just clone the metadata"
+-    echo "    and BSP layers needed to build the image you'll be booting."
+-    echo "  - Make sure you're properly set up to build a new image (see"
+-    echo "    the BSP README and/or the widely available basic documentation"
+-    echo "    that discusses how to build images)."
+-    echo "  - Build an -sdk version of the image e.g.:"
+-    echo "      $ bitbake core-image-sato-sdk"
+-    echo "  OR"
+-    echo "  - Build a non-sdk image but include the profiling tools:"
+-    echo "      [ edit local.conf and add 'tools-profile' to the end of"
+-    echo "        the EXTRA_IMAGE_FEATURES variable ]"
+-    echo "      $ bitbake core-image-sato"
+-    echo ""
+-    echo "  [ NOTE that 'crosstap' needs to be able to ssh into the target"
+-    echo "    system, which isn't enabled by default in -minimal images. ]"
+-    echo ""
+-    echo "Once you've build the image on the host system, you're ready to"
+-    echo "boot it (or the equivalent pre-built image) and use 'crosstap'"
+-    echo "to probe it (you need to source the environment as usual first):"
+-    echo ""
+-    echo "    $ source oe-init-build-env"
+-    echo "    $ cd ~/my/systemtap/scripts"
+-    echo "    $ crosstap root@192.168.1.xxx myscript.stp"
+-    echo ""
+-}
+-
+-function systemtap_target_arch() {
+-    SYSTEMTAP_TARGET_ARCH=$1
+-    case $SYSTEMTAP_TARGET_ARCH in
+-        i?86)
+-            SYSTEMTAP_TARGET_ARCH="i386"
+-            ;;
+-        x86?64*)
+-            SYSTEMTAP_TARGET_ARCH="x86_64"
+-            ;;
+-        arm*)
+-            SYSTEMTAP_TARGET_ARCH="arm"
+-            ;;
+-        powerpc*)
+-            SYSTEMTAP_TARGET_ARCH="powerpc"
+-            ;;
+-        *)
+-            ;;
+-    esac
+-}
+-
+-if [ $# -lt 2 ]; then
+-	usage
+-	exit 1
+-fi
+-
+-if [ -z "$BUILDDIR" ]; then
+-    echo "Error: Unable to find the BUILDDIR environment variable."
+-    echo "Did you forget to source your build system environment setup script?"
+-    exit 1
+-fi
+-
+-pushd $PWD
+-cd $BUILDDIR
+-BITBAKE_VARS=`bitbake -e virtual/kernel`
+-popd
+-
+-STAGING_BINDIR_TOOLCHAIN=$(echo "$BITBAKE_VARS" | grep ^STAGING_BINDIR_TOOLCHAIN \
+-  | cut -d '=' -f2 | cut -d '"' -f2)
+-STAGING_BINDIR_TOOLPREFIX=$(echo "$BITBAKE_VARS" | grep ^TARGET_PREFIX \
+-  | cut -d '=' -f2 | cut -d '"' -f2)
+-TARGET_ARCH=$(echo "$BITBAKE_VARS" | grep ^TRANSLATED_TARGET_ARCH \
+-  | cut -d '=' -f2 | cut -d '"' -f2)
+-TARGET_KERNEL_BUILDDIR=$(echo "$BITBAKE_VARS" | grep ^B= \
+-  | cut -d '=' -f2 | cut -d '"' -f2)
+-
+-# Build and populate the recipe-sysroot-native with systemtap-native
+-pushd $PWD
+-cd $BUILDDIR
+-BITBAKE_VARS=`bitbake -e systemtap-native`
+-popd
+-SYSTEMTAP_HOST_INSTALLDIR=$(echo "$BITBAKE_VARS" | grep ^STAGING_DIR_NATIVE \
+-  | cut -d '=' -f2 | cut -d '"' -f2)
+-
+-systemtap_target_arch "$TARGET_ARCH"
+-
+-if [ ! -d $TARGET_KERNEL_BUILDDIR ] ||
+-   [ ! -f $TARGET_KERNEL_BUILDDIR/vmlinux ]; then
+-    echo -e "\nError: No target kernel build found."
+-    echo -e "Did you forget to create a local build of your image?"
+-    setup_usage
+-    exit 1
+-fi
+-
+-if [ ! -f $SYSTEMTAP_HOST_INSTALLDIR/usr/bin/stap ]; then
+-    echo -e "\nError: Native (host) systemtap not found."
+-    echo -e "Did you accidentally build a local non-sdk image? (or forget to"
+-    echo -e "add 'tools-profile' to EXTRA_IMAGE_FEATURES in your local.conf)?"
+-    echo -e "You can also: bitbake -c addto_recipe_sysroot systemtap-native"
+-    setup_usage
+-    exit 1
+-fi
+-
+-target_user_hostname="$1"
+-full_script_name="$2"
+-script_name=$(basename "$2")
+-script_base=${script_name%.*}
+-shift 2
+-
+-${SYSTEMTAP_HOST_INSTALLDIR}/usr/bin/stap \
+-  -a ${SYSTEMTAP_TARGET_ARCH} \
+-  -B CROSS_COMPILE="${STAGING_BINDIR_TOOLCHAIN}/${STAGING_BINDIR_TOOLPREFIX}" \
+-  -r ${TARGET_KERNEL_BUILDDIR} \
+-  -I ${SYSTEMTAP_HOST_INSTALLDIR}/usr/share/systemtap/tapset \
+-  -R ${SYSTEMTAP_HOST_INSTALLDIR}/usr/share/systemtap/runtime \
+-  --remote=$target_user_hostname \
+-  -m $script_base \
+-   $full_script_name "$@"
+-
+-exit 0
++import sys
++import re
++import subprocess
++import os
++import optparse
++
++class Stap(object):
++    def __init__(self, script, module, remote):
++        self.script = script
++        self.module = module
++        self.remote = remote
++        self.stap = None
++        self.sysroot = None
++        self.runtime = None
++        self.tapset = None
++        self.arch = None
++        self.cross_compile = None
++        self.kernel_release = None
++        self.target_path = None
++        self.target_ld_library_path = None
++
++        if not self.remote:
++            if not self.module:
++                # derive module name from script
++                self.module = os.path.basename(self.script)
++                if self.module[-4:] == ".stp":
++                    self.module = self.module[:-4]
++                    # replace - if any with _
++                    self.module = self.module.replace("-", "_")
++
++    def command(self, args):
++        ret = []
++        ret.append(self.stap)
++
++        if self.remote:
++            ret.append("--remote")
++            ret.append(self.remote)
++        else:
++            ret.append("-p4")
++            ret.append("-m")
++            ret.append(self.module)
++
++        ret.append("-a")
++        ret.append(self.arch)
++
++        ret.append("-B")
++        ret.append("CROSS_COMPILE=" + self.cross_compile)
++
++        ret.append("-r")
++        ret.append(self.kernel_release)
++
++        ret.append("-I")
++        ret.append(self.tapset)
++
++        ret.append("-R")
++        ret.append(self.runtime)
++
++        if self.sysroot:
++            ret.append("--sysroot")
++            ret.append(self.sysroot)
++
++            ret.append("--sysenv=PATH=" + self.target_path)
++            ret.append("--sysenv=LD_LIBRARY_PATH=" + self.target_ld_library_path)
++
++        ret = ret + args
++
++        ret.append(self.script)
++        return ret
++
++    def additional_environment(self):
++        ret = {}
++        ret["SYSTEMTAP_DEBUGINFO_PATH"] = "+:.debug:build"
++        return ret
++
++    def environment(self):
++        ret = os.environ.copy()
++        additional = self.additional_environment()
++        for e in additional:
++            ret[e] = additional[e]
++        return ret
++
++    def display_command(self, args):
++        additional_env = self.additional_environment()
++        command = self.command(args)
++
++        print("#!/bin/sh")
++        for e in additional_env:
++            print("export %s=\"%s\"" % (e, additional_env[e]))
++        print(" ".join(command))
++
++class BitbakeEnvInvocationException(Exception):
++    def __init__(self, message):
++        self.message = message
++
++class BitbakeEnv(object):
++    BITBAKE="bitbake"
++
++    def __init__(self, package):
++        self.package = package
++        self.cmd = BitbakeEnv.BITBAKE + " -e " + self.package
++        self.popen = subprocess.Popen(self.cmd, shell=True,
++                                      stdout=subprocess.PIPE,
++                                      stderr=subprocess.STDOUT)
++        self.__lines = self.popen.stdout.readlines()
++        self.popen.wait()
++
++        self.lines = []
++        for line in self.__lines:
++                self.lines.append(line.decode('utf-8'))
++
++    def get_vars(self, vars):
++        if self.popen.returncode:
++            raise BitbakeEnvInvocationException(
++                "\nFailed to execute '" + self.cmd +
++                "' with the following message:\n" +
++                ''.join(self.lines))
++
++        search_patterns = []
++        retdict = {}
++        for var in vars:
++            # regular not exported variable
++            rexpr = "^" + var + "=\"(.*)\""
++            re_compiled = re.compile(rexpr)
++            search_patterns.append((var, re_compiled))
++
++            # exported variable
++            rexpr = "^export " + var + "=\"(.*)\""
++            re_compiled = re.compile(rexpr)
++            search_patterns.append((var, re_compiled))
++
++            for line in self.lines:
++                for var, rexpr in search_patterns:
++                    m = rexpr.match(line)
++                    if m:
++                        value = m.group(1)
++                        retdict[var] = value
++
++        # fill variables values in order how they were requested
++        ret = []
++        for var in vars:
++            ret.append(retdict.get(var))
++
++        # if it is single value list return it as scalar, not the list
++        if len(ret) == 1:
++            ret = ret[0]
++
++        return ret
++
++class ParamDiscovery(object):
++    SYMBOLS_CHECK_MESSAGE = """
++WARNING: image '%s' does not have dbg-pkgs IMAGE_FEATURES enabled and no
++"image-combined-dbg" in inherited classes is specified. As result the image
++does not have symbols for user-land processes DWARF based probes. Consider
++adding 'dbg-pkgs' to EXTRA_IMAGE_FEATURES or adding "image-combined-dbg" to
++USER_CLASSES. I.e add this line 'USER_CLASSES += "image-combined-dbg"' to
++local.conf file.
++
++Or you may use IMAGE_GEN_DEBUGFS="1" option, and then after build you need
++recombine/unpack image and image-dbg tarballs and pass resulting dir location
++with --sysroot option.
++"""
++
++    def __init__(self, image):
++        self.image = image
++
++        self.image_rootfs = None
++        self.image_features = None
++        self.image_gen_debugfs = None
++        self.inherit = None
++        self.base_bindir = None
++        self.base_sbindir = None
++        self.base_libdir = None
++        self.bindir = None
++        self.sbindir = None
++        self.libdir = None
++
++        self.staging_bindir_toolchain = None
++        self.target_prefix = None
++        self.target_arch = None
++        self.target_kernel_builddir = None
++
++        self.staging_dir_native = None
++
++        self.image_combined_dbg = False
++
++    def discover(self):
++        if self.image:
++            benv_image = BitbakeEnv(self.image)
++            (self.image_rootfs,
++             self.image_features,
++             self.image_gen_debugfs,
++             self.inherit,
++             self.base_bindir,
++             self.base_sbindir,
++             self.base_libdir,
++             self.bindir,
++             self.sbindir,
++             self.libdir
++            ) = benv_image.get_vars(
++                 ("IMAGE_ROOTFS",
++                  "IMAGE_FEATURES",
++                  "IMAGE_GEN_DEBUGFS",
++                  "INHERIT",
++                  "base_bindir",
++                  "base_sbindir",
++                  "base_libdir",
++                  "bindir",
++                  "sbindir",
++                  "libdir"
++                  ))
++
++        benv_kernel = BitbakeEnv("virtual/kernel")
++        (self.staging_bindir_toolchain,
++         self.target_prefix,
++         self.target_arch,
++         self.target_kernel_builddir
++        ) = benv_kernel.get_vars(
++             ("STAGING_BINDIR_TOOLCHAIN",
++              "TARGET_PREFIX",
++              "TRANSLATED_TARGET_ARCH",
++              "B"
++            ))
++
++        benv_systemtap = BitbakeEnv("systemtap-native")
++        (self.staging_dir_native
++        ) = benv_systemtap.get_vars(["STAGING_DIR_NATIVE"])
++
++        if self.inherit:
++            if "image-combined-dbg" in self.inherit.split():
++                self.image_combined_dbg = True
++
++    def check(self, sysroot_option):
++        ret = True
++        if self.image_rootfs:
++            sysroot = self.image_rootfs
++            if not os.path.isdir(self.image_rootfs):
++                print("ERROR: Cannot find '" + sysroot +
++                      "' directory. Was '" + self.image + "' image built?")
++                ret = False
++
++        stap = self.staging_dir_native + "/usr/bin/stap"
++        if not os.path.isfile(stap):
++            print("ERROR: Cannot find '" + stap +
++                  "'. Was 'systemtap-native' built?")
++            ret = False
++
++        if not os.path.isdir(self.target_kernel_builddir):
++            print("ERROR: Cannot find '" + self.target_kernel_builddir +
++                  "' directory. Was 'kernel/virtual' built?")
++            ret = False
++
++        if not sysroot_option and self.image_rootfs:
++            dbg_pkgs_found = False
++
++            if self.image_features:
++                image_features = self.image_features.split()
++                if "dbg-pkgs" in image_features:
++                    dbg_pkgs_found = True
++
++            if not dbg_pkgs_found \
++               and not self.image_combined_dbg:
++                print(ParamDiscovery.SYMBOLS_CHECK_MESSAGE % (self.image))
++
++        if not ret:
++            print("")
++
++        return ret
++
++    def __map_systemtap_arch(self):
++        a = self.target_arch
++        ret = a
++        if   re.match('(athlon|x86.64)$', a):
++            ret = 'x86_64'
++        elif re.match('i.86$', a):
++            ret = 'i386'
++        elif re.match('arm$', a):
++            ret = 'arm'
++        elif re.match('aarch64$', a):
++            ret = 'arm64'
++        elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a):
++            ret = 'mips'
++        elif re.match('p(pc|owerpc)(|64)', a):
++            ret = 'powerpc'
++        return ret
++
++    def fill_stap(self, stap):
++        stap.stap = self.staging_dir_native + "/usr/bin/stap"
++        if not stap.sysroot:
++            if self.image_rootfs:
++                if self.image_combined_dbg:
++                    stap.sysroot = self.image_rootfs + "-dbg"
++                else:
++                    stap.sysroot = self.image_rootfs
++        stap.runtime = self.staging_dir_native + "/usr/share/systemtap/runtime"
++        stap.tapset = self.staging_dir_native + "/usr/share/systemtap/tapset"
++        stap.arch = self.__map_systemtap_arch()
++        stap.cross_compile = self.staging_bindir_toolchain + "/" + \
++                             self.target_prefix
++        stap.kernel_release = self.target_kernel_builddir
++
++        # do we have standard that tells in which order these need to appear
++        target_path = []
++        if self.sbindir:
++            target_path.append(self.sbindir)
++        if self.bindir:
++            target_path.append(self.bindir)
++        if self.base_sbindir:
++            target_path.append(self.base_sbindir)
++        if self.base_bindir:
++            target_path.append(self.base_bindir)
++        stap.target_path = ":".join(target_path)
++
++        target_ld_library_path = []
++        if self.libdir:
++            target_ld_library_path.append(self.libdir)
++        if self.base_libdir:
++            target_ld_library_path.append(self.base_libdir)
++        stap.target_ld_library_path = ":".join(target_ld_library_path)
++
++
++def main():
++    usage = """usage: %prog -s <systemtap-script> [options] [-- [systemtap options]]
++
++%prog cross compile given SystemTap script against given image, kernel
++
++It needs to run in environtment set for bitbake - it uses bitbake -e
++invocations to retrieve information to construct proper stap cross build
++invocation arguments. It assumes that systemtap-native is built in given
++bitbake workspace.
++
++Anything after -- option is passed directly to stap.
++
++Legacy script invocation style supported but depreciated:
++  %prog <user@hostname> <sytemtap-script> [systemtap options]
++
++To enable most out of systemtap the following site.conf or local.conf
++configuration is recommended:
++
++# enables symbol + target binaries rootfs-dbg in workspace
++IMAGE_GEN_DEBUGFS = "1"
++IMAGE_FSTYPES_DEBUGFS = "tar.bz2"
++USER_CLASSES += "image-combined-dbg"
++
++# enables kernel debug symbols
++KERNEL_EXTRA_FEATURES_append = " features/debug/debug-kernel.scc"
++
++# minimal, just run-time systemtap configuration in target image
++PACKAGECONFIG_pn-systemtap = "monitor"
++
++# add systemtap run-time into target image if it is not there yet
++IMAGE_INSTALL_append = " systemtap"
++"""
++    option_parser = optparse.OptionParser(usage=usage)
++
++    option_parser.add_option("-s", "--script", dest="script",
++                             help="specify input script FILE name",
++                             metavar="FILE")
++
++    option_parser.add_option("-i", "--image", dest="image",
++                             help="specify image name for which script should be compiled")
++
++    option_parser.add_option("-r", "--remote", dest="remote",
++                             help="specify username@hostname of remote target to run script "
++                             "optional, it assumes that remote target can be accessed through ssh")
++
++    option_parser.add_option("-m", "--module", dest="module",
++                             help="specify module name, optional, has effect only if --remote is not used, "
++                             "if not specified module name will be derived from passed script name")
++
++    option_parser.add_option("-y", "--sysroot", dest="sysroot",
++                             help="explicitely specify image sysroot location. May need to use it in case "
++                             "when IMAGE_GEN_DEBUGFS=\"1\" option is used and recombined with symbols "
++                             "in different location",
++                             metavar="DIR")
++
++    option_parser.add_option("-o", "--out", dest="out",
++                             action="store_true",
++                             help="output shell script that equvivalent invocation of this script with "
++                             "given set of arguments, in given bitbake environment. It could be stored in "
++                             "separate shell script and could be repeated without incuring bitbake -e "
++                             "invocation overhead",
++                             default=False)
++
++    option_parser.add_option("-d", "--debug", dest="debug",
++                             action="store_true",
++                             help="enable debug output. Use this option to see resulting stap invocation",
++                             default=False)
++
++    # is invocation follow syntax from orignal crosstap shell script
++    legacy_args = False
++
++    # check if we called the legacy way
++    if len(sys.argv) >= 3:
++        if sys.argv[1].find("@") != -1 and os.path.exists(sys.argv[2]):
++            legacy_args = True
++
++            # fill options values for legacy invocation case
++            options = optparse.Values
++            options.script = sys.argv[2]
++            options.remote = sys.argv[1]
++            options.image = None
++            options.module = None
++            options.sysroot = None
++            options.out = None
++            options.debug = None
++            remaining_args = sys.argv[3:]
++
++    if not legacy_args:
++        (options, remaining_args) = option_parser.parse_args()
++
++    if not options.script or not os.path.exists(options.script):
++        print("'-s FILE' option is missing\n")
++        option_parser.print_help()
++    else:
++        stap = Stap(options.script, options.module, options.remote)
++        discovery = ParamDiscovery(options.image)
++        discovery.discover()
++        if not discovery.check(options.sysroot):
++            option_parser.print_help()
++        else:
++            stap.sysroot = options.sysroot
++            discovery.fill_stap(stap)
++
++            if options.out:
++                stap.display_command(remaining_args)
++            else:
++                cmd = stap.command(remaining_args)
++                env = stap.environment()
++
++                if options.debug:
++                    print(" ".join(cmd))
++
++                os.execve(cmd[0], cmd, env)
++
++main()
 -- 
 2.7.4
 
