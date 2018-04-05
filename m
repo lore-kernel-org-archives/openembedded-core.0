@@ -1,28 +1,53 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A1CD75058
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 31DAB75081
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 19:07:46 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Apr 2018 12:07:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,412,1517904000"; d="scan'208";a="41008654"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 05 Apr 2018 12:07:46 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <1522947905.11431.438.camel@linuxfoundation.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <3b467178-c954-4f02-d903-03c8fa9f95a3@linux.intel.com>
-Date: Thu, 5 Apr 2018 22:01:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
+	Thu,  5 Apr 2018 19:43:24 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id b20so31996686iof.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Apr 2018 12:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=ug78Sog5xO9+JtRdBrrCE3esgwSXKfTL+RHDk/1jYKw=;
+	b=qHMFsgQXlN6S3v+PMn6r+SCigdAh3MHOMp8pSj2OVPbL2esHsX8iFy33qDFbHGGz8t
+	G5gQ0RexdczIdBUaug8JGekreDSekdwyi3PofuFIZOx4EnWsnepTI8xrep+zFIbiA1tj
+	rjOSwYi5XvuvNNIQc3V5Be3LaaajFjodfEoF/3/yrdo++ZwvXMWjBmKj/OW9QkUVBQrM
+	Af95CPs2/oLNDqbuNv+BGOp5jSF5p83+4wA/8FW8ufGUizEIlQNsw+V7pBGA+SsaqHCl
+	+7cV5cQn9It1JigBhmOnpzna0z+A87xIt2A1cWeq6xO8ZaEZjdC+d5DC7lJ/L5b1gv6o
+	FsYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=ug78Sog5xO9+JtRdBrrCE3esgwSXKfTL+RHDk/1jYKw=;
+	b=cSg7AODg3YpMwOKg5iSTn4Lhu+y08vHli/XrDa1G18jrO4fJSxJBPyDvKonHbDkXtA
+	bpV38XvH9P1CC0VuRtdP0OOYm3Ysi2oFHRhmrZtyo1yEkrgGdKOpR5KLk470ED+l8dOj
+	x5lsiKSfK3xBYyQIRdTkfTefi9vvU9/YojWw+TXvoHQjfMENdJq/FF7agNumJHncw6Aw
+	gZlzCtMVnIqpWuv72vmAhB/9fzFL2qjygkwBRjNWiK8UG/Rf+U72nyeWMeGHkJCkAYv/
+	T/kF4rncC3zL0DlFpcdPq0729pI0uZpxqb1HpXbozmc+bio1T0WFiAhLoYQTzvk0JQok
+	4LWw==
+X-Gm-Message-State: AElRT7FMFxiZLBF3y6u0KUOrbe3eTxEgnHLSLMfSVZj+YdJ6e823iziZ
+	9qCaNYnvam7GYvict+0TzaI=
+X-Google-Smtp-Source: AIpwx4+FBH8RuDI3DkdVcK//st8XHm1MaQ5N+9eU57e9PkolRIkXmxFXSC++R8y1WWORuOKUl8X5XQ==
+X-Received: by 10.107.149.208 with SMTP id x199mr19349492iod.196.1522957405839;
+	Thu, 05 Apr 2018 12:43:25 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	w133-v6sm1837759itc.1.2018.04.05.12.43.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 05 Apr 2018 12:43:25 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1522957404.2760.26.camel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Apr 2018 14:43:24 -0500
 In-Reply-To: <1522947905.11431.438.camel@linuxfoundation.org>
+References: <1522947905.11431.438.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
+Mime-Version: 1.0
 Subject: Re: master branch and stabilisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,29 +61,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 19:07:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 05 Apr 2018 19:43:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/05/2018 08:05 PM, Richard Purdie wrote:
+On Thu, 2018-04-05 at 18:05 +0100, Richard Purdie wrote:
+> We're trying to focus on getting a good 2.5 release. We've had around
+> 80 upgrades to recipes on the list after the freeze and basically the
+> maintainers like Ross and myself are damned if we do and damned if we
+> don't.
+> 
+> I usually try and ignore them at this point in a release. This then
+> upsets people as they don't get feedback and makes my life horrible
+> when I eventually try and round them up.
+> 
+> Instead I've tried pulling them into master-next. So far so good but
+> I
+> thought I'd better see how much of a mess the branch is in.
+> Conclusion
+> is at least 3 different failures, some of which I can't even easily
+> figure out the patch causing it.
+> 
 > So I now get to spend my time trying to figure out which patch broke
 > what so I can report back on it and make the branch build again by
 > dropping the broken patches.
 > 
-> This means I'm trying to do full on day to day development as usual as
-> well as trying to sort release issues like the imminent fedora28 issue
+> This means I'm trying to do full on day to day development as usual
+> as
+> well as trying to sort release issues like the imminent fedora28
+> issue
 > I should be paying attention to instead.
+
+I've got a build running on in a Ubuntu 16.04 container to try and
+reproduce the bug you were seeing with the new uninative. I'll see if I
+can get anywhere on that. If nothing else, it will get more data points
+and extra testing on the change
+
 > 
 > So, a question, what do people want me to do?
-
-You can file bugs with master-next failures and assign them to me, 
-without looking at the failed logs at all. Multitasking is stressful for 
-the brain, much better to do things one after the other than switch 
-context. And I'm not particularly time crunched now.
-
-We should probably more strictly enforce the freeze - just reject the 
-patches and ask to rebase and re-send after a specific date.
-
-Alex
+> 
+> Cheers,
+> 
+> Richard
+> 
 
