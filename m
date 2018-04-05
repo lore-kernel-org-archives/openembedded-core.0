@@ -1,58 +1,56 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
 	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E8774D9C
+	by mail.openembedded.org (Postfix) with ESMTP id D136474863
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Apr 2018 00:20:15 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id bj1-v6so14140905plb.8
+	Thu,  5 Apr 2018 00:25:05 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id v18-v6so14612082ply.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Apr 2018 17:20:17 -0700 (PDT)
+	Wed, 04 Apr 2018 17:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-language:content-transfer-encoding;
-	bh=ipQANirBKDWUzbA9xjFoBI0UJ0+k6xeVDlB2r5WsQ+Q=;
-	b=uLRgP5z/1l77lUBHUirrwN1d21VjQV2k35ajJhUGaZ5Rbrae2qg7xdYCkDF6l+Nz9D
-	jRC41uBXkH60fLqqalSH5YicaioZBl7qPV5xI2CE/RjMfl/VVgRRw5BfaIRBPPi5wiCd
-	Kt0wqoOmZhFPEUX6B9yqozIuyi6pa/aQpmv4gW7gB2ygtcqOOiV9aSW7AsBibEdGYIIb
-	IlwBm1YGh5ABpQRvjyZRWVqXEosjZPaw2TeTh36qcUYL205EhepJk1YGIu0DE6vHPI25
-	KKxJOOwOhtKi66yjnukf2ZwqfXQxlhgWQ2sz4l6STm+rpe6R4nZnP2ELMqmW2PxuB4RJ
-	SWoA==
+	bh=av/dN1/kyPE6fzRWr+77Cf3YbOkAenNdEL1KjXznzu0=;
+	b=n0nwceacHjRz0YEiuKVndbLv5oy1K1g6Rt2G3/M2VjPkGcXY2zwCNrcgISRupi05wV
+	kF1vBU5g2D5VX613wWQhAQy0KFtRQtUTgo9A9jGfMuJbHuDsk9graJfXeZwY8dfJG5LR
+	xShQ1RuovZXyur2uoWIlUo9mPicIpJsgyAXV+7Vcy88dBibPoQrzSl3xYVjY6MKANuoG
+	FLIlSrRAJ/C3YLHDioLuMNPcIMvCUGxQRdhkgbGKBnmDpLIrxSD8jpi1pS4uTngDoLTY
+	AF2yQ4YeSZtZtLrEn2UW4DFyegHzdFUNoD/FZWkGqVUO53+uAvjtiIrYzcdBQ9CnGQxu
+	sxBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=ipQANirBKDWUzbA9xjFoBI0UJ0+k6xeVDlB2r5WsQ+Q=;
-	b=TQAQD1iS7vL+rD/Boa5RTr0z9oxf/Ja9ItV+N2l4HQNtJ4PYKvkdZaHKvo56Wa2a6Y
-	Xho26Lo3UsKh+Ik+vSbBAd9a+SuP3K5qokmel2EAd4pPhgWkq0aOkaPn8ZkEs8dfG/kd
-	yD9sKpLWytm8WUt7j+ihGfmpGpDyDxUVbuEV4m0FFw1RjT9yq9Mq/tHndp9rNDP5i1Rj
-	brMu3mOYiGm/7rI1775KHEplOhPhdezO6iWe/Xa9xljjMCDaO+z81F2WERuFpH3VHGLu
-	sLbX7LTjyZSN+Ecb9MqnAgGBLN0Ki/fexSs7gvtcNp+RgittjynrdoKmh6+dmYYr8g7G
-	mgOA==
-X-Gm-Message-State: AElRT7EVoSxoBPc5VPrv3DF4TecDshTyyIzp1Brk0+b3PQWC1vTxGjWz
-	MiqiWu1/zRfresiK1d/i4jgVspBo
-X-Google-Smtp-Source: AIpwx48u5BEPmVr+rCh6WTGCyNMvMvB0VeJIeFsKPZ5DHsGTQI+zGP5YVJ6TrSCeW8WxRznJYQCGLg==
-X-Received: by 2002:a17:902:a2:: with SMTP id
-	a31-v6mr20555326pla.204.1522887616598; 
-	Wed, 04 Apr 2018 17:20:16 -0700 (PDT)
+	bh=av/dN1/kyPE6fzRWr+77Cf3YbOkAenNdEL1KjXznzu0=;
+	b=iGFzn+HfcPtsR3x2JCNl8PqVztdKrfe/Mk8G6z3MMlmG5Lw+C8uJBoIPJENeEjrE3V
+	EY5JD4O1h+9Q1+XgwT9nQS4zWcUKoZLpuSrryJDPh2U5HyOgVv1GExcWo9RRJZRLr0DM
+	jhl6qKC+kR7+DJRxcSo8ErfA+Tjd2U9ojRVHA3sLBEcf2h/tAR/hnMyx/Po532apbd9f
+	JXbUO+ItIFj6oPe0D2sdvQAUIxZzdqfGvUueuNg6Tm4q6uNH1KM7rgcHTJmRQ0esA1Dp
+	JWAQb14ri6O2q8JJooEEBBI8B+aHo95zPWTYu16w20huZRKk1ZpsOfIRk/KJzDG73oBJ
+	caJg==
+X-Gm-Message-State: ALQs6tCetHpNV7epcgu8VjZiTemN3k30+jGOtKshiNxDH54f5vbdQtWF
+	2D2KWG6FnogMXR9iJDdroLemT49k
+X-Google-Smtp-Source: AIpwx49aTBy0E6JRoe3qk6RLzsOR/eMBHptTDRKnXHNLFwI1viPJvsT8/RoFlm+4MI/SHc25vY5lTw==
+X-Received: by 10.98.102.65 with SMTP id a62mr6114705pfc.68.1522887906425;
+	Wed, 04 Apr 2018 17:25:06 -0700 (PDT)
 Received: from ?IPv6:2601:646:8880:466c:fde8:8784:7436:3e7a?
 	([2601:646:8880:466c:fde8:8784:7436:3e7a])
 	by smtp.gmail.com with ESMTPSA id
-	g9sm10767141pgo.22.2018.04.04.17.20.15
+	p13sm10801909pff.116.2018.04.04.17.25.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Apr 2018 17:20:15 -0700 (PDT)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	Wed, 04 Apr 2018 17:25:05 -0700 (PDT)
+To: Dan McGregor <danismostlikely@gmail.com>,
 	openembedded-core@lists.openembedded.org
-References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-	<20180404111321.10824-14-alexander.kanavin@linux.intel.com>
+References: <20180404160849.21578-1-danismostlikely@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <1ee35204-4a8b-d22c-7225-1408f2a09d17@gmail.com>
-Date: Wed, 4 Apr 2018 17:20:15 -0700
+Message-ID: <82745bc4-8d16-8691-2d32-b89f16f9e214@gmail.com>
+Date: Wed, 4 Apr 2018 17:25:04 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:59.0)
 	Gecko/20100101 Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20180404111321.10824-14-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 14/22] icu: update to 61.1
+In-Reply-To: <20180404160849.21578-1-danismostlikely@gmail.com>
+Subject: Re: [PATCH] gcc-sanitizers: Update supported architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,49 +63,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 00:20:15 -0000
+X-List-Received-Date: Thu, 05 Apr 2018 00:25:05 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/4/18 4:13 AM, Alexander Kanavin wrote:
-> License-Update: copyright years updated, added terms for Google double-conversion
-
-should this change to terms reflect in LICENSE filed as well.
-
+On 4/4/18 9:08 AM, Dan McGregor wrote:
+> From: Dan McGregor <dan.mcgregor@usask.ca>
 > 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> aarch64 has been supported since GCC 5.1, sparc has been supported
+> since 4.9, and S390 since 7.1.
+> 
+> Also mark as broken entirely with musl.
+> 
+
+this change is ok to apply.
+
+> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 > ---
->  meta/recipes-support/icu/{icu_60.2.bb => icu_61.1.bb} | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/icu/{icu_60.2.bb => icu_61.1.bb} (78%)
+>  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-support/icu/icu_60.2.bb b/meta/recipes-support/icu/icu_61.1.bb
-> similarity index 78%
-> rename from meta/recipes-support/icu/icu_60.2.bb
-> rename to meta/recipes-support/icu/icu_61.1.bb
-> index 585a92bc4cd..ffaf3508966 100644
-> --- a/meta/recipes-support/icu/icu_60.2.bb
-> +++ b/meta/recipes-support/icu/icu_61.1.bb
-> @@ -1,6 +1,6 @@
->  require icu.inc
+> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> index 3183b29dec9..3b7e0028f2b 100644
+> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+> @@ -61,15 +61,19 @@ RDEPENDS_libubsan-dev += "${PN}"
+>  RDEPENDS_liblsan-dev += "${PN}"
+>  RDEPENDS_libtsan-dev += "${PN}"
+>  RRECOMMENDS_${PN} += "libasan libubsan"
+> -RRECOMMENDS_${PN}_append_x86-64 = " liblsan libtsan"
+>  RRECOMMENDS_${PN}_append_x86 = " liblsan"
+> +RRECOMMENDS_${PN}_append_x86-64 = " liblsan libtsan"
+> +RRECOMMENDS_${PN}_append_powerpc64 = " liblsan libtsan"
+> +RRECOMMENDS_${PN}_append_aarch64 = " liblsan libtsan"
 >  
-> -LIC_FILES_CHKSUM = "file://../LICENSE;md5=675f2d069434d8a1e4e6b0dcf4379226"
-> +LIC_FILES_CHKSUM = "file://../LICENSE;md5=63752c57bd0b365c9af9f427ef79c819"
+>  do_package_write_ipk[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
+>  do_package_write_deb[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
+>  do_package_write_rpm[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}compilerlibs:do_packagedata"
 >  
->  def icu_download_version(d):
->      pvsplit = d.getVar('PV').split('.')
-> @@ -22,8 +22,8 @@ SRC_URI = "${BASE_SRC_URI} \
->  SRC_URI_append_class-target = "\
->             file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
->            "
-> -SRC_URI[md5sum] = "43861b127744b3c0b9d7f386f4b9fa40"
-> -SRC_URI[sha256sum] = "f073ea8f35b926d70bb33e6577508aa642a8b316a803f11be20af384811db418"
-> +SRC_URI[md5sum] = "68fe38999fef94d622bd6843d43c0615"
-> +SRC_URI[sha256sum] = "d007f89ae8a2543a53525c74359b65b36412fa84b3349f1400be6dcf409fafef"
+> -# MIPS, aarch64, and SPARC are broken.
+> -COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm).*-linux'
+> +# Only x86, powerpc, sparc, s390, arm, and aarch64 are supported
+> +COMPATIBLE_HOST = '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64).*-linux'
+> +# musl is currently broken entirely
+> +COMPATIBLE_HOST_libc-musl = 'null'
 >  
->  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
->  UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
+>  FILES_libasan += "${libdir}/libasan.so.*"
+>  FILES_libasan-dev += "\
 > 
 
 
