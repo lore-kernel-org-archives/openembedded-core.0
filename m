@@ -1,31 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9F175063
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CBFF750F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Apr 2018 08:31:21 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Apr 2018 01:31:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,414,1517904000"; d="scan'208";a="41149107"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 06 Apr 2018 01:31:21 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-	<20180404111321.10824-20-alexander.kanavin@linux.intel.com>
-	<1522946621.11431.427.camel@linuxfoundation.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0100cad7-cb55-cf49-a4ab-16608a275f58@linux.intel.com>
-Date: Fri, 6 Apr 2018 11:24:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <1522946621.11431.427.camel@linuxfoundation.org>
-Subject: Re: [PATCH 20/22] procps: update to 3.3.13
+	Fri,  6 Apr 2018 08:55:49 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w368tlfe027490
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 6 Apr 2018 09:55:49 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1f4N9v-0000Jn-VG; Fri, 06 Apr 2018 09:55:47 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Apr 2018 09:55:44 +0100
+Message-Id: <1523004944-1185-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] libxcalibrate: Drop, no users anymore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 08:31:22 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Apr 2018 08:55:50 -0000
 
-On 04/05/2018 07:43 PM, Richard Purdie wrote:
-> Does this build on musl?
-> 
-> https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/389/st
-> eps/BuildImages/logs/stdio
-> 
-> or was there some other bad interaction in master-next?
+xcalibrate was replaced with other xinput touchscreen protocols,
+drop this remaining remnant.
 
-My bad, please remove the commit. The new version of procps is using a 
-header (libio.h) that is absent in musl, deprecated in glibc 2.27 and 
-removed in glibc 2.28. I reckon they will sort it soon enough.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../xorg-lib/libxcalibrate/fix-xcb.patch           | 29 ----------------------
+ .../recipes-graphics/xorg-lib/libxcalibrate_git.bb | 23 -----------------
+ 2 files changed, 52 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcalibrate/fix-xcb.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
 
-Alex
+diff --git a/meta/recipes-graphics/xorg-lib/libxcalibrate/fix-xcb.patch b/meta/recipes-graphics/xorg-lib/libxcalibrate/fix-xcb.patch
+deleted file mode 100644
+index d614883..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxcalibrate/fix-xcb.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Pending
+-
+-There is no extra reply data and if we say not to disgard it, xcb
+-throws fatal asserts.
+-
+-RP - 26/11/09
+-
+-Index: git/xcalibrate.c
+-===================================================================
+---- git.orig/xcalibrate.c	2009-11-26 08:11:48.000000000 +0000
+-+++ git/xcalibrate.c	2009-11-26 08:09:55.000000000 +0000
+-@@ -216,7 +216,7 @@
+-   req->reqType = info->codes->major_opcode;
+-   req->xCalibrateReqType = X_XCalibrateRawMode;
+-   req->on = enable;
+--  if (!_XReply (dpy, (xReply *) &rep, 0, xFalse)) 
+-+  if (!_XReply (dpy, (xReply *) &rep, 0, xTrue)) 
+-     {
+-       UnlockDisplay (dpy);
+-       SyncHandle ();
+-@@ -240,7 +240,7 @@
+-   req->xCalibrateReqType = X_XCalibrateScreenToCoord;
+-   req->x = *x;
+-   req->y = *y;
+--  if (!_XReply (dpy, (xReply *) &rep, 0, xFalse)) 
+-+  if (!_XReply (dpy, (xReply *) &rep, 0, xTrue)) 
+-     {
+-       UnlockDisplay (dpy);
+-       SyncHandle ();
+diff --git a/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb b/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
+deleted file mode 100644
+index 0ed8fda..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb
++++ /dev/null
+@@ -1,23 +0,0 @@
+-SUMMARY = "XCalibrate: Touchscreen calibration library"
+-
+-DESCRIPTION = "libXCalibrate is a library for performing touchscreen \
+-calibration with the kdrive tslib touchscreen driver."
+-
+-require xorg-lib-common.inc
+-
+-LICENSE = "MIT-style"
+-LIC_FILES_CHKSUM = "file://xcalibrate.h;endline=21;md5=fa572df6439f0f235f2612f370f153d7 \
+-                    file://xcalibrate.c;endline=21;md5=fa572df6439f0f235f2612f370f153d7"
+-
+-DEPENDS = "virtual/libx11 xorgproto libxext"
+-
+-SRCREV = "209d83af61ed38a002c8096377deac292b3e396c"
+-PV = "0.0+git${SRCPV}"
+-
+-SRC_URI = "git://anongit.freedesktop.org/git/xorg/lib/libXCalibrate \
+-           file://fix-xcb.patch"
+-UPSTREAM_CHECK_COMMITS = "1"
+-
+-S = "${WORKDIR}/git"
+-
+-FILES_${PN}-locale += "${datadir}/X11/locale"
+-- 
+2.7.4
+
 
