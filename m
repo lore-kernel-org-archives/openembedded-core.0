@@ -1,44 +1,29 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D6CEC75411
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C9F4B75031
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Apr 2018 17:08:06 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id q9-v6so1504207lfk.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Apr 2018 10:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=Kj7kQsCOuGZptE0klpTQGDXzV0Nx3zFwllOrYNxd/4U=;
-	b=Wwo9fiDKyPDCwNOlvdeX3nFPSg4fK5/t0wnRNJvLe1ZbSgmhK/PZrojKqfmCGP5991
-	bQHy/4OAJY791wMCUcTaQp1BrFqfyGR9m2hSMr3AfKfenXgZr35Iq/janwtR82qYjXzD
-	w5l4tHbUDU/uM02+v0pWk072xb14hMpQQqW1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=Kj7kQsCOuGZptE0klpTQGDXzV0Nx3zFwllOrYNxd/4U=;
-	b=rU5BwXXqV3nMYP0KGZjuEcXPBSTO5hN+lnfsJYUt+G4B9GCHUm+cow/HyH637RZybl
-	TMGCFhGUI9+uNXse8VlurCU3SV5c4Yi1dl5E3IFaL/JomwEe9xxWndw2zmXIbRIhkYJn
-	apTdAE9TbGE+4OmWNQYW/VlOvNUQ8PAeNhyI62gFeZUm9vSQCyAq3YqzNXvtp0biuhNB
-	F3Ah/1ONKE3Y8gEqiVGGsVFVXU4ygK1Ht0UGc4hgMoNpwWMiDd8guQrQkCfY6r3S/L6g
-	s/fIkOjFeXq5vbX3jmbjHXodv1i6chXK3xcJBDiA1s/hGuPhK7Nj0cdkQHTmiKSSMIwB
-	eflg==
-X-Gm-Message-State: ALQs6tDVowu0iRj1pTJ0tS9lt3/G7lK3eIvyWx7D+WipjoD6njBf6EwS
-	RU2Y3x4N2jyirPZyMczEIJQKYWQVAvYFJ6XVX0dXjnWQ
-X-Google-Smtp-Source: AIpwx49jicrb/HHKcgYUMdyKfbBN9Ib/bLaAPuVH+W0NpGKs7r8VT1Zzb1LtZVgbI+DnldW/dENM5eBDNvF8MgnwAio=
-X-Received: by 2002:a19:d720:: with SMTP id
-	o32-v6mr16347098lfg.89.1523034485214; 
-	Fri, 06 Apr 2018 10:08:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a19:f117:0:0:0:0:0 with HTTP;
-	Fri, 6 Apr 2018 10:08:04 -0700 (PDT)
-From: =?UTF-8?Q?Daniel_D=C3=ADaz_Rodr=C3=ADguez?= <daniel.diaz@linaro.org>
-Date: Fri, 6 Apr 2018 12:08:04 -0500
-Message-ID: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
+	Fri,  6 Apr 2018 17:15:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w36HFgHZ003614
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 6 Apr 2018 18:15:44 +0100
+Message-ID: <1523034942.2942.27.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 06 Apr 2018 18:15:42 +0100
+In-Reply-To: <CAMKF1srNsAUyzQCP6x+=vHVqp37R-HUZPSK5KYCFJaK6aQ-ysA@mail.gmail.com>
+References: <20180406125354.21247-1-charles-antoine.couret@essensium.com>
+	<CAMKF1srQLn+7YKX0AeE00Y+r=7PC4R7cFUjGNm9wjEa0kVr8gA@mail.gmail.com>
+	<1523029327.2942.18.camel@linuxfoundation.org>
+	<CAMKF1srNsAUyzQCP6x+=vHVqp37R-HUZPSK5KYCFJaK6aQ-ysA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.3 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Split glibc and libcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,137 +36,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 17:08:07 -0000
+X-List-Received-Date: Fri, 06 Apr 2018 17:15:46 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Ping on this series for Morty.
+On Fri, 2018-04-06 at 09:27 -0700, Khem Raj wrote:
+> On Fri, Apr 6, 2018 at 8:42 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > On Fri, 2018-04-06 at 08:03 -0700, Khem Raj wrote:
+> > > 
+> > > this series is ok. Although dont like the fact its not upstream
+> > > yet
+> > > but it reduces glibc baggage for future.
+> > Were you able to find out if glibc will definitely do this?
+> > 
+> I have started a disucussion.
 
---=20
-ddiaz
+Thanks.
+
+> > I think applying this nativesdk is the only thing we can do right
+> > now
+> > and it does set us up well to migrate this further if glibc do go
+> > for
+> > this. After thinking about this a bit, the patch series needs a few
+> > minor tweaks to avoid wider testing failures:
+> > 
+> > a) libxcrypt needs to SkipRecipe in the target case and be
+> > nativesdk
+> >    only
+> > b) We need an RDEPENDS_${PN}_append_class-nativesdk = " libxcrypto"
+> > in
+> >    glibc-package.inc
+> > c) The override used in glibc-pacjage.inc is wrong suggesting the
+> > code
+> >    can be dropped.
+> I think we should apply it for target case too. It will keep things
+> simple. We are
+> not losing functionality as we have libxcrypt
+
+Its not that simple sadly. These patches as they stand don't let us
+build anything nativesdk other that uninative. This is because anything
+needing crypt now needs to have a specific dependency. We can't really
+have glibc depend on libxcrypt either since its glibc.
+
+I think we can unravel this enough to make 2.5/sumo for nativesdk but
+not in the target case, its too late to require people to change
+recipes for dependencies.
+
+I started work on a patch to make this work for nativesdk using
+virtual/crypt:
 
 
-On 13 March 2018 at 11:17, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrote:
-> From: Fathi Boudra <fathi.boudra@linaro.org>
->
-> Patch submitted upstream, pending to be merged:
-> https://sourceware.org/bugzilla/show_bug.cgi?id=3D21286
->
-> (From OE-Core rev: 11ebb5054e5ec1171ade90249e3a30ac8174a35a)
->
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
-> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  ...o.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch | 69 ++++++++++++++++=
-++++++
->  meta/recipes-core/glibc/glibc_2.24.bb              |  1 +
->  2 files changed, 70 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enu=
-m-definition-for-TRAP_HWBKPT-is-mi.patch
->
-> diff --git a/meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-defin=
-ition-for-TRAP_HWBKPT-is-mi.patch b/meta/recipes-core/glibc/glibc/0029-bits=
--siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
-> new file mode 100644
-> index 0000000..fe22cc3
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-definition-f=
-or-TRAP_HWBKPT-is-mi.patch
-> @@ -0,0 +1,69 @@
-> +From af3054b3856379d353a779801678f330e1b58c9a Mon Sep 17 00:00:00 2001
-> +Message-Id: <af3054b3856379d353a779801678f330e1b58c9a.1490183611.git.pan=
-and@redhat.com>
-> +From: Pratyush Anand <panand@redhat.com>
-> +Date: Wed, 22 Mar 2017 17:02:38 +0530
-> +Subject: [PATCH] bits/siginfo.h: enum definition for TRAP_HWBKPT is miss=
-ing
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +Compile following linux kernel test code with latest glibc:
-> +
-> +https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-tools/testing/selftests/breakpoints/breakpoint_test_arm64.c
-> +
-> +and we get following error:
-> +breakpoint_test_arm64.c: In function =E2=80=98run_test=E2=80=99:
-> +breakpoint_test_arm64.c:171:25: error: =E2=80=98TRAP_HWBKPT=E2=80=99 und=
-eclared (first use in this function)
-> +  if (siginfo.si_code !=3D TRAP_HWBKPT) {
-> +                         ^
-> +I can compile test code by modifying my local
-> +/usr/include/bits/siginfo.h and test works great. Therefore, this patch
-> +will be needed in upstream glibc so that issue is fixed there as well.
-> +
-> +Signed-off-by: Pratyush Anand <panand@redhat.com>
-> +
-> +Upstream-Status : Submitted [https://sourceware.org/bugzilla/show_bug.cg=
-i?id=3D21286]
-> +---
-> + bits/siginfo.h                         | 6 +++++-
-> + sysdeps/unix/sysv/linux/bits/siginfo.h | 6 +++++-
-> + 2 files changed, 10 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/bits/siginfo.h b/bits/siginfo.h
-> +index 4919df543634..6dc714e8f30b 100644
-> +--- a/bits/siginfo.h
-> ++++ b/bits/siginfo.h
-> +@@ -140,8 +140,12 @@ enum
-> + {
-> +   TRAP_BRKPT =3D 1,             /* Process breakpoint.  */
-> + #  define TRAP_BRKPT  TRAP_BRKPT
-> +-  TRAP_TRACE                  /* Process trace trap.  */
-> ++  TRAP_TRACE,                 /* Process trace trap.  */
-> + #  define TRAP_TRACE  TRAP_TRACE
-> ++  TRAP_BRANCH,                        /* Process branch trap. */
-> ++# define TRAP_BRANCH  TRAP_BRANCH
-> ++  TRAP_HWBKPT                 /* hardware breakpoint/watchpoint  */
-> ++# define TRAP_HWBKPT  TRAP_HWBKPT
-> + };
-> + # endif
-> +
-> +diff --git a/sysdeps/unix/sysv/linux/bits/siginfo.h b/sysdeps/unix/sysv/=
-linux/bits/siginfo.h
-> +index 7b0d4f62a331..9cdf42a42557 100644
-> +--- a/sysdeps/unix/sysv/linux/bits/siginfo.h
-> ++++ b/sysdeps/unix/sysv/linux/bits/siginfo.h
-> +@@ -235,8 +235,12 @@ enum
-> + {
-> +   TRAP_BRKPT =3D 1,             /* Process breakpoint.  */
-> + #  define TRAP_BRKPT  TRAP_BRKPT
-> +-  TRAP_TRACE                  /* Process trace trap.  */
-> ++  TRAP_TRACE,                 /* Process trace trap.  */
-> + #  define TRAP_TRACE  TRAP_TRACE
-> ++  TRAP_BRANCH,                        /* Process branch trap. */
-> ++# define TRAP_BRANCH  TRAP_BRANCH
-> ++  TRAP_HWBKPT                 /* hardware breakpoint/watchpoint  */
-> ++# define TRAP_HWBKPT  TRAP_HWBKPT
-> + };
-> + # endif
-> +
-> +--
-> +2.9.3
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.24.bb b/meta/recipes-core/gl=
-ibc/glibc_2.24.bb
-> index 6ea4585..09694f2 100644
-> --- a/meta/recipes-core/glibc/glibc_2.24.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.24.bb
-> @@ -38,6 +38,7 @@ SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};nam=
-e=3Dglibc \
->             file://0025-Define-DUMMY_LOCALE_T-if-not-defined.patch \
->             file://0026-build_local_scope.patch \
->             file://0028-Bug-20116-Fix-use-after-free-in-pthread_create.pa=
-tch \
-> +           file://0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is=
--mi.patch \
->             file://CVE-2016-6323.patch \
->             file://0001-Add-atomic_exchange_relaxed.patch \
->             file://0002-Add-atomic-operations-required-by-the-new-conditi=
-on-.patch \
-> --
-> 2.7.4
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 93f57f3..60590e2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -187,6 +187,7 @@ ASSUME_PROVIDED = "\
+     tar-native \
+     virtual/libintl-native \
+     virtual/libiconv-native \
++    virtual/crypt-native \
+     texinfo-native \
+     bash-native \
+     sed-native \
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 1b54dd8..c4f5f8c 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -16,7 +16,7 @@ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+ RPROVIDES_${PN}-dbg = "eglibc-dbg"
+ libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+ libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+-libc_baselibs_remove_class_sdk = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
++#libc_baselibs_remove_class_sdk = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
+ INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+ 
+ FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 361a6fd..9e02ffd 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -35,7 +35,10 @@ siteconfig_do_siteconfig_gencache_prepend = " \
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers virtual/${TARGET_PREFIX}libc-initial"
+ # nptl needs libgcc but dlopens it, so our shlibs code doesn't detect this
+ #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+-PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
++
++CRYPTPROVIDES = "virtual/crypt"
++CRYPTPROVIDES_class-nativesdk = ""
++PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc ${CRYPTPROVIDES}"
+ PROVIDES += "virtual/libintl virtual/libiconv"
+ inherit autotools texinfo distro_features_check systemd
+ 
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
+index 638e387..341bbc7 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
+@@ -14,6 +14,8 @@ SRCBRANCH ?= "master"
+ 
+ SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
+ 
++PROVIDES = "virtual/crypt"
++
+ FILES_${PN} = "${libdir}/libcrypt*.so.* ${libdir}/libcrypt-*.so ${libdir}/libowcrypt*.so.* ${libdir}/libowcrypt-*.so"
+ 
+ S = "${WORKDIR}/git"
+@@ -21,4 +23,9 @@ S = "${WORKDIR}/git"
+ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+ 
+-BBCLASSEXTEND = "nativesdk"
++python () {
++    if not bb.data.inherits_class('nativesdk', d):
++        raise bb.parse.SkipRecipe("Recipe only applies in nativesdk case for now")
++}
++
++BBCLASSEXTEND = "nativesdk"
+\ No newline at end of file
+diff --git a/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch b/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
+index bdf8e32..bb6c573 100644
+--- a/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
++++ b/meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
+@@ -5,6 +5,7 @@ Date:   Sat Jan 20 20:22:53 2018 +0100
+     pp: Guard fix for really old bug in glibc libcrypt
+ 
+ Upstream-Status: Pending
++Signed-off-by Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+ diff --git a/pp.c b/pp.c
+ index d50ad7ddbf..6510c7b15c 100644
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index 66ccd7f..222dd88 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -1,7 +1,7 @@
+ require perl.inc
+ 
+ # We need gnugrep (for -I)
+-DEPENDS = "db grep-native gdbm zlib"
++DEPENDS = "db grep-native gdbm zlib virtual/crypt"
+ 
+ # Pick up patches from debian
+ # http://ftp.de.debian.org/debian/pool/main/p/perl/perl_5.22.0-1.debian.tar.xz
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 48a3be8..673207f 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -6,8 +6,7 @@ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ed80ff1c2b40843cf5768e5229cf16e5 \
+                     file://src/passwd.c;beginline=8;endline=30;md5=d83888ea14ae61951982d77125947661"
+ 
+-DEPENDS_class-native = ""
+-DEPENDS_class-nativesdk = ""
++DEPENDS = "virtual/crypt"
+ 
+ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
+            file://shadow-4.1.3-dots-in-usernames.patch \
+
+
+Cheers,
+
+Richard
 
