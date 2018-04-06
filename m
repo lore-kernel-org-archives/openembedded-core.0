@@ -1,24 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D330744F5;
-	Fri,  6 Apr 2018 10:37:04 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w36Ab1Iw003573
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 6 Apr 2018 11:37:02 +0100
-Message-ID: <1523011021.2942.6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Apr 2018 11:37:01 +0100
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: LAYERSERIES
+Return-Path: <charles-antoine.couret@essensium.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 47B8D6FF9F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Apr 2018 12:54:08 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b127so3346364wmf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Apr 2018 05:54:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=essensium-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=05kBV82pbA6ShbVUyxZHUyPP0J3LadiH+0Xq1R5hpho=;
+	b=vd0Nqno493hH4QXYo7dmcBzpyt3AyQOBB+jWBC/JfJQFhMT35IO1dCWnu/kUnUiHGA
+	AIFTq6jxKdikOnrmXavxnnfysb+EsdsMVfq22qi8DfzRROUuMaY7mz63Ivi3SVWkpZKM
+	vG7S80CIQZnvKGhmrXnqBd9FPAfxq4uL9baORromFQTEvxo9L07y15VsVknLpWi/egv8
+	iwjMym2+SPASAqCD9lCGmSjbDH08TOf379/KPWrG5m1DnZF6Z5YQxcDvncMjsxmA7SHd
+	B3IdUbnJuX2xahY+lkjmm5snaIe7Ls6qIp+FWq2bUYfeJ05rF8JprUNiVHaBx3YzlG3c
+	t1nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=05kBV82pbA6ShbVUyxZHUyPP0J3LadiH+0Xq1R5hpho=;
+	b=r8MpAeCl2/fjpna9olgZvM7ux3Th30uOQ0E76tL+T0U6H8pSAtzLutDQ9HwI9+G2wG
+	wzyWbZFHQXyT2DV5axB3X/vTk75K6Vf76MmU7K1mbwlF9sS5yrx4/JnrcFXzs7psZpvH
+	Um7uolkYZd6i7aMPCGBleBbNYql4JuMZQSVh/NFSURW19bju0eA0/WcL+qOZd0xTPUCh
+	ppG9J7XSlW05hcfofd95saPLSVqHNxvw9mhID8Ypr8HnsfLuN5oqI2w8hVZ2skzfflQz
+	rEpFKK/rfhSU9nDgkywOhY5xK7GdTZliNqlgVAmkiAjldeVYLDbuqw1OTBLQ5/9lFY0M
+	V9FQ==
+X-Gm-Message-State: ALQs6tCIma0xV8fghXSvAq2uGkrHqA/LktkkFC8iCZbwrVgOmAa60+1K
+	0PNShclGhfK/V/ri0JSCKYHJf2pGFZo=
+X-Google-Smtp-Source: AIpwx48av1odO8Fmko3Z02kxYRcgMtbATcOCAVDNBGQQFXN2HA8luUmdJ0bam9qMrnMXhZXniNVUYw==
+X-Received: by 10.80.183.144 with SMTP id h16mr6678693ede.96.1523019249505;
+	Fri, 06 Apr 2018 05:54:09 -0700 (PDT)
+Received: from localhost.localdomain
+	([2a02:a03f:409a:6e00:7d53:e685:9f84:3421])
+	by smtp.gmail.com with ESMTPSA id k8sm3418456edn.13.2018.04.06.05.54.08
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 06 Apr 2018 05:54:09 -0700 (PDT)
+From: Charles-Antoine Couret <charles-antoine.couret@essensium.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Apr 2018 14:53:52 +0200
+Message-Id: <20180406125354.21247-1-charles-antoine.couret@essensium.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 0/2] Split glibc and libcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 10:37:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Apr 2018 12:54:09 -0000
 
-I finally found 5 mins to sit and look at where I'd gotten to with the
-LAYERSERIES variable handling. I sent out discussion about this a while
-ago but as a reminder:
+Fedora 28 is introducing a breaking change where glibc and libcrypt are split.
+libcrypt is now provided by libxcrypt as external library. It is backwards compatible,
+but not the converse.
 
-We have a problem where people expect master branch of meta-X to work
-with OE-Core master. If meta-X hasn't been maintained for a long time,
-this may give all kinds of weird errors. This creates a large support
-burden and means we struggle to spot unmaintained/un-updated layers.
-We'd like to fix this.
+Currently Poky could not be compiled with Fedora 28 and the official yocto-uninative.
+The purpose of these changes is to split glibc and libcrypt to use libxcrypt only to generate the SDK
+and the uninative tarball. With that, all distros are able to build Poky with official uninative.
 
-In answer to this I added LAYERSERIES_CORENAMES to OE-Core and strongly
-suggest layers then set:
+The time to glibc to apply this change upstream.
 
-LAYERSERIES_COMPAT_xxx = "sumo"
+Charles-Antoine Couret (2):
+  glibc: split glibc and libcrypt
+  perl: add patch to solve libcrypt incompatibility
 
-in their layer.conf where xxx is the collection name (used elsewhere in
-layer.conf) to indicate which versions of OE-Core they're expected to
-work against.
+ meta/recipes-core/glibc/glibc-package.inc     |   1 +
+ .../0031-nativesdk-deprecate-libcrypt.patch   | 418 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.27.bb         |   1 +
+ .../recipes-core/libxcrypt/libxcrypt_4.0.0.bb |  24 +
+ meta/recipes-core/meta/uninative-tarball.bb   |   1 +
+ .../perl/perl-native_5.24.1.bb                |   1 +
+ .../perl-5.26.1-guard_old_libcrypt_fix.patch  |  27 ++
+ meta/recipes-devtools/perl/perl_5.24.1.bb     |   1 +
+ 8 files changed, 474 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-nativesdk-deprecate-libcrypt.patch
+ create mode 100644 meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-5.26.1-guard_old_libcrypt_fix.patch
 
-The code already exists to validate this with a fatal error for
-mismatches. What was missing was:
-
-a) to print a warning if LAYERSERIES_COMPAT_xxx is unset. I've a patch 
-   queued for bitbake to add this.
-b) add a check to yocto-check-layer and require this to be set for YP 
-   Compatible v2. I've added
-   https://bugzilla.yoctoproject.org/show_bug.cgi?id=12661
-   to track this.
-
-Yes, its late in the release and the warnings will be annoying but I
-think its worth fixing this now so I'm pushing ahead to resolve this.
-
-Cheers,
-
-Richard
-
-
+-- 
+2.17.0
 
 
