@@ -1,46 +1,44 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E070A7544B;
-	Fri,  6 Apr 2018 18:16:14 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id m7-v6so2145082otd.1;
-	Fri, 06 Apr 2018 11:16:16 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5085875455;
+	Fri,  6 Apr 2018 18:25:06 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id s12so2567520wrc.8;
+	Fri, 06 Apr 2018 11:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Tvg3L7K3cSrnbRd4JdHUTFbVVUtNBtux1LBKN9RSYB4=;
-	b=NSBnC61MY+n6hnUfd0HmUpZEh9UYz4x7TZgX9RS91PyOcMMTwflWq5c1hanmH0cic9
-	zSyvO2YNrxo8sKvsfV2uX7IiapM6QKM/M3CgI6rBT3Gt+TiMqg83m8/SxR7QNCml6e1R
-	AVrMxKZIZucNIPktKwrStOApxVq5Jch701oyWk1UNAcv0PG5VzCPbunl+pFY94ZysJ7V
-	lcyhc1SoBmgpkLWJa2dtiBxaKABBmoMba1477+QuYCLP8iKThcejgeJTzRBKTAkeil1o
-	xOgduv4kXEIe8nuK//s5mXMV/Z8bDYkiAGOnfiZwGg/AlMOfE/zSpd1ND11uzAcseX4A
-	TZRA==
+	:cc; bh=Kx/vpL2FIl0XiC8BtilPTTw7inNtZeU6HDC1xJXoszw=;
+	b=Xs7lkuZs3Vp9BaPVKMMsR8w7Sh4rmZ5XUbrn4NTDb2Vx0vpgk+rVsXYS3199bhv6xp
+	gWgh2nG3feJ3nzlxuxEdkMxnXKYIZB3vSl9ddbKu37Wr8RnWvfuQHEgHuQ6I8T3P6cZ0
+	UaO4pQQa2TpyRnrZSYOGsjlTCqJwWU6CbHam5fk5hoTw4xkyEvCClLCE3YRyY1sOzxk9
+	Mq7Pds9/untvf45yfMFnV0o7ARz7pgit47Dpe8Wv5zMlDJ5CfYTpo5nhopNHNDswM9LY
+	4Z2cTG3MKT1xCMYGaX44LPho1VtAyAfOCGOZ7uBB2xUMn9yrIQOW46nAz28YPWmgoKRO
+	ZTIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Tvg3L7K3cSrnbRd4JdHUTFbVVUtNBtux1LBKN9RSYB4=;
-	b=RgMy3W+NUBBhynSiNv0PbkeOvtnuY8B9pW77Dk3dcU3ztKJ1Cq3R06EKvQKIgiNE6d
-	yx9gzlZwaf6xpSCIfaJKaxtc6O7mNCS2DfsecRsiJFgsbzZ4pyVZ1DPVfEFSsXg7Vqdn
-	q+YWhSiiQPUrxBZz6xo0WPGX30N2VLFTtgH259/hH+Y0s/HqdihNZSuJsJS7gI4/KhQM
-	sesIcQJ2knmhI8goLqm7QZNQOJSW75MpWmlqoSgyLSWoTuKEzoushJ03ekYW7b/vWmu9
-	npHtWdvrp4IagB0yvhLDOYiQMmAva5dDCO7hzxfFl96VXvauqwu+gclSazOnWxjmr2Nm
-	hETg==
-X-Gm-Message-State: ALQs6tAVntLHbV65h49wReyJ33BpcY6JOwdltp5ukJBlP6XSQvDvUoDk
-	QcPVPXYJOc4DILG8xUzMPyqzswWqL41rE0E4h2E=
-X-Google-Smtp-Source: AIpwx48Zkb7VAna5nrMz3VlsqP4dtF92VGxFdkingKFPdzD/koA6ns0lnZvkroXHbKThPgCp7FZyWb3SjDmxooCF3Ew=
-X-Received: by 2002:a9d:3c55:: with SMTP id
-	j21-v6mr16202088ote.51.1523038575716; 
-	Fri, 06 Apr 2018 11:16:15 -0700 (PDT)
+	bh=Kx/vpL2FIl0XiC8BtilPTTw7inNtZeU6HDC1xJXoszw=;
+	b=k1yW0UBTGw0gcT9SjKhO3Eucgz85C7qLRuoU7PeI1GlA1bm/w4sXC2b/6vU1QdpnaC
+	Qm2xCGCL0enENXBahXnYL5ccvOSywOWqSEpwONYBBJ0dj7/F/vpphVwP7Cd0MkHAS0uN
+	0zn0NB4qE/MM1tCLdbr+05sP1Pj6GlMA4j8OPO8uJh7vD144DsrJWxpJZmRoIhlfZT83
+	rOMOzgBhj/58i5XMY2MAlyPj88dRt39UO1zv5oL1wlM0GZxL5bRyHmdVVZR4B7tmaAZ4
+	Lweni5ex01CIditCzdq+FX88Uxui7IuNnjs3pHIkAMkrSvbheMeqrWP0vCfVMj6Cs9IE
+	0/rA==
+X-Gm-Message-State: AElRT7G6p80cONovOkaUk+rKViuAJJ6F+eZ3DEVgktoeNFnW/2u3Rv2n
+	D+y9tWN2V2YOnZR5/4P9s+Px15ZRNmCbFKONgqA=
+X-Google-Smtp-Source: AIpwx4+eG593kgfrZnNPkl/rsOwb9lYaXb9RCsWiQyRmOZ7lEIgL1c9mgZtSJ2fzEfhE6EmnjT0fNuJPpQYM5PxGtvA=
+X-Received: by 10.223.149.70 with SMTP id 64mr19218225wrs.223.1523039107705;
+	Fri, 06 Apr 2018 11:25:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:256a:0:0:0:0:0 with HTTP;
-	Fri, 6 Apr 2018 11:16:15 -0700 (PDT)
+Received: by 10.28.126.12 with HTTP; Fri, 6 Apr 2018 11:25:07 -0700 (PDT)
 In-Reply-To: <1523028587.2942.13.camel@linuxfoundation.org>
 References: <1523011021.2942.6.camel@linuxfoundation.org>
 	<20180406141647.GA19068@linux-uys3>
 	<1523028587.2942.13.camel@linuxfoundation.org>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Fri, 6 Apr 2018 11:16:15 -0700
-Message-ID: <CAFNP8Os_Zn-yLT_cZ7fQ8JLjOP8ERDSuA9YOsxQO7LJXDUb68g@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 6 Apr 2018 20:25:07 +0200
+Message-ID: <CA+chaQdiX_GKXAfWJMMc_oZQ5XW-oiuxzxPyMEF2LKZ-rMgDgQ@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
 	openembedded-architecture
@@ -59,24 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 18:16:15 -0000
-Content-Type: multipart/alternative; boundary="00000000000048ef5c0569320d03"
+X-List-Received-Date: Fri, 06 Apr 2018 18:25:07 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0df210fe72ff0569322ca3"
 
---00000000000048ef5c0569320d03
+--94eb2c0df210fe72ff0569322ca3
 Content-Type: text/plain; charset="UTF-8"
 
-We have this variable appearing in a couple manuals BTW.  If anyone has any
-feedback on what is being said here I can update.
+FWIW: I've updated some layers with this LAYERSERIES_COMPAT_<layer> today
+and I think it's good idea.
 
-Thanks,
-Scott
+It probably won't be enough to stop questions like this:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-April/149696.html
 
-https://www.yoctoproject.org/docs/2.5/ref-manual/ref-manual.html#var-LAYERSERIES_COMPAT
-https://www.yoctoproject.org/docs/2.5/dev-manual/dev-manual.html#creating-your-own-layer
+but it's still better to show warning first and then some often
+harder-to-read exception or error log.
 
+Updating layer.conf in meta-qt5 was a bit more tricky as people tend to mix
+the meta-qt5 branches with different branches of other layers, just because
+their requirements for Qt are often very different than for other layers
+(e.g. many people still using meta-qt5/krogoth with Qt 5.6 because of the
+license, even with much newer morty, pyro, rocko, sumo, master branches of
+other layers and vice versa that someone is stuck with krogoth release for
+whatever reason, but needs newer LTS Qt 5.9 from meta-qt5/rocko). So for
+meta-qt5 I've used multiple values for LAYERSERIES_COMPAT_<layer> for
+combinations I use somewhere (so that I cover at least some testing with
+such uncommon combination) and I'm willing to accept more values to it if
+someone really uses another combination regularly. The rest of combination
+(like meta-qt5/krogoth with dizzy, which is usable as described in meta-qt5
+commits which introduced incompatiblitites, will eventually trigger the
+warning which is fine, because people should be aware that they are doing
+something less tested and that they might to implement some work arounds to
+make it usable).
 
+Regards,
 
-On Fri, Apr 6, 2018 at 8:29 AM, Richard Purdie <
+On Fri, Apr 6, 2018 at 5:29 PM, Richard Purdie <
 richard.purdie@linuxfoundation.org> wrote:
 
 > On Fri, 2018-04-06 at 10:16 -0400, Trevor Woerner wrote:
@@ -132,24 +147,81 @@ richard.purdie@linuxfoundation.org> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
 >
 
---00000000000048ef5c0569320d03
+--94eb2c0df210fe72ff0569322ca3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div>We have this variable appearing in a couple manu=
-als BTW.=C2=A0 If anyone has any feedback on what is being said here I can =
-update.<br><br></div>Thanks,<br></div>Scott<br><br><a href=3D"https://www.y=
-octoproject.org/docs/2.5/ref-manual/ref-manual.html#var-LAYERSERIES_COMPAT"=
->https://www.yoctoproject.org/docs/2.5/ref-manual/ref-manual.html#var-LAYER=
-SERIES_COMPAT</a><br><a href=3D"https://www.yoctoproject.org/docs/2.5/dev-m=
-anual/dev-manual.html#creating-your-own-layer">https://www.yoctoproject.org=
-/docs/2.5/dev-manual/dev-manual.html#creating-your-own-layer</a><br><br><br=
-></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Ap=
-r 6, 2018 at 8:29 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linu=
-xfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><sp=
-an class=3D"">On Fri, 2018-04-06 at 10:16 -0400, Trevor Woerner wrote:<br>
+<div dir=3D"ltr">FWIW: I&#39;ve updated some layers with this=C2=A0<span st=
+yle=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:12.8px;fo=
+nt-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font=
+-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-tra=
+nsform:none;white-space:normal;word-spacing:0px;background-color:rgb(255,25=
+5,255);text-decoration-style:initial;text-decoration-color:initial;float:no=
+ne;display:inline">LAYERSERIES_COMPAT_&lt;layer&gt; today and I think it&#3=
+9;s good idea.</span><div><span style=3D"color:rgb(34,34,34);font-family:ar=
+ial,sans-serif;font-size:12.8px;font-style:normal;font-variant-ligatures:no=
+rmal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-al=
+ign:start;text-indent:0px;text-transform:none;white-space:normal;word-spaci=
+ng:0px;background-color:rgb(255,255,255);text-decoration-style:initial;text=
+-decoration-color:initial;float:none;display:inline"><br></span></div><div>=
+<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:1=
+2.8px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:nor=
+mal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;=
+text-transform:none;white-space:normal;word-spacing:0px;background-color:rg=
+b(255,255,255);text-decoration-style:initial;text-decoration-color:initial;=
+float:none;display:inline">It probably won&#39;t be enough to stop question=
+s like this:</span></div><div><span style=3D"text-align:start;text-indent:0=
+px;background-color:rgb(255,255,255);text-decoration-style:initial;text-dec=
+oration-color:initial;float:none;display:inline"><span style=3D"font-size:1=
+2.8px"><a href=3D"http://lists.openembedded.org/pipermail/openembedded-core=
+/2018-April/149696.html">http://lists.openembedded.org/pipermail/openembedd=
+ed-core/2018-April/149696.html</a></span><br></span></div><div><span style=
+=3D"text-align:start;text-indent:0px;background-color:rgb(255,255,255);text=
+-decoration-style:initial;text-decoration-color:initial;float:none;display:=
+inline"><span style=3D"font-size:12.8px"><br></span></span></div><div><span=
+ style=3D"text-align:start;text-indent:0px;background-color:rgb(255,255,255=
+);text-decoration-style:initial;text-decoration-color:initial;float:none;di=
+splay:inline"><span style=3D"font-size:12.8px">but it&#39;s still better to=
+ show warning first and then some often harder-to-read exception or error l=
+og.</span></span></div><div><br></div><div>Updating layer.conf in meta-qt5 =
+was a bit more tricky as people tend to mix the meta-qt5 branches with diff=
+erent branches of other layers, just because their requirements for Qt are =
+often very different than for other layers (e.g. many people still using me=
+ta-qt5/krogoth with Qt 5.6 because of the license, even with much newer mor=
+ty, pyro, rocko, sumo, master branches of other layers and vice versa that =
+someone is stuck with krogoth release for whatever reason, but needs newer =
+LTS Qt 5.9 from meta-qt5/rocko). So for meta-qt5 I&#39;ve used multiple val=
+ues for=C2=A0<span style=3D"color:rgb(34,34,34);font-family:arial,sans-seri=
+f;font-size:12.8px;font-style:normal;font-variant-ligatures:normal;font-var=
+iant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;tex=
+t-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;backgr=
+ound-color:rgb(255,255,255);text-decoration-style:initial;text-decoration-c=
+olor:initial;float:none;display:inline">LAYERSERIES_COMPAT_&lt;layer&gt; fo=
+r combinations I use somewhere (so that I cover at least some testing with =
+such uncommon combination) and I&#39;m willing to accept more values to it =
+if someone really uses another combination regularly. The rest of combinati=
+on (like meta-qt5/krogoth with dizzy, which is usable as described in meta-=
+qt5 commits which introduced incompatiblitites, will eventually trigger the=
+ warning which is fine, because people should be aware that they are doing =
+something less tested and that they might to implement some work arounds to=
+ make it usable).</span></div><div><span style=3D"color:rgb(34,34,34);font-=
+family:arial,sans-serif;font-size:12.8px;font-style:normal;font-variant-lig=
+atures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norma=
+l;text-align:start;text-indent:0px;text-transform:none;white-space:normal;w=
+ord-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:ini=
+tial;text-decoration-color:initial;float:none;display:inline"><br></span></=
+div><div><span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fo=
+nt-size:12.8px;font-style:normal;font-variant-ligatures:normal;font-variant=
+-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-in=
+dent:0px;text-transform:none;white-space:normal;word-spacing:0px;background=
+-color:rgb(255,255,255);text-decoration-style:initial;text-decoration-color=
+:initial;float:none;display:inline">Regards,</span></div></div><div class=
+=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Apr 6, 2018 at 5:29=
+ PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@=
+linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On =
+Fri, 2018-04-06 at 10:16 -0400, Trevor Woerner wrote:<br>
 &gt; A) Some layers only switch to an official branch name when the find a<=
 br>
 &gt; reason to. E.g. branch &quot;sumo&quot; is created on openembedded-cor=
@@ -221,4 +293,4 @@ itecture" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.or=
 g/<wbr>mailman/listinfo/openembedded-<wbr>architecture</a><br>
 </div></div></blockquote></div><br></div>
 
---00000000000048ef5c0569320d03--
+--94eb2c0df210fe72ff0569322ca3--
