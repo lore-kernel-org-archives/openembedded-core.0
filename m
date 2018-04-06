@@ -1,19 +1,21 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 00DF675417;
-	Fri,  6 Apr 2018 21:53:07 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 35DF7752E6;
+	Fri,  6 Apr 2018 21:56:56 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w36LqFpt029915
+	w36LuriZ030490
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 6 Apr 2018 22:52:16 +0100
-Message-ID: <1523051535.2942.31.camel@linuxfoundation.org>
+	verify=NOT); Fri, 6 Apr 2018 22:56:54 +0100
+Message-ID: <1523051813.2942.36.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Fri, 06 Apr 2018 22:52:15 +0100
-In-Reply-To: <20180406185844.GB3228@denix.org>
+To: akuster808 <akuster808@gmail.com>, Trevor Woerner <twoerner@gmail.com>
+Date: Fri, 06 Apr 2018 22:56:53 +0100
+In-Reply-To: <a04373f5-cb03-25a3-36fa-da92b0cdd71d@gmail.com>
 References: <1523011021.2942.6.camel@linuxfoundation.org>
-	<20180406185844.GB3228@denix.org>
+	<20180406141647.GA19068@linux-uys3>
+	<1523028587.2942.13.camel@linuxfoundation.org>
+	<a04373f5-cb03-25a3-36fa-da92b0cdd71d@gmail.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.3 at dan
@@ -35,37 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 21:53:08 -0000
+X-List-Received-Date: Fri, 06 Apr 2018 21:56:57 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-04-06 at 14:58 -0400, Denys Dmytriyenko wrote:
-> I understand the need to reduce the support burden. But there are
-> some valid 
-> cases when you want to use components/layers from a different set of
-> releases. 
+On Fri, 2018-04-06 at 13:46 -0700, akuster808 wrote:
+> Shouldn't Master get all these changes first then we switch to stable
+> branch when we have a new release?
 > 
-> It can sometimes be an older component in otherwise newer setup (i.e.
-> one 
-> layer hasn't been updated yet from rocko, but it still works fine
-> with 
-> everything else from sumo).
-> 
-> Alternatively, sometimes you need to bring a newer version of the
-> component to 
-> your older release - as long as it works for me, I don't want this to
-> be 
-> artificially restricted.
-> 
-> In other words, the intention is good, but it needs to be either more
-> flexible or allow overriding this from distro config or local.conf...
+> My German genes are raging about "Rules" ; )
 
-Whilst I will admit I've not extensively tested it, I think that should
-be possible to override things as this only gets validated after all
-the layer.conf files are pulled in. It would need to be from the
-distro's layer.conf though, or a layer.conf in the build directory as
-local.conf comes in much later. Basically its possible but not easy,
-which I think is probably the right thing to do here.
+master did get them?
+
+To be really clear, "master" is never a value that would appear in
+LAYERSERIES. That would let everyone be lazy and master would match
+everywhere, then this would all be pointless.
+
+Early in the next cycle I'll add "thud" to the list in OE-Core master
+branch. Later in the cycle, when we make more invasive changes which
+break compatibility, I'll drop "sumo". At that point people who haven't
+added "thud" will start to see errors but this should all work out
+earlier in the cycle than happened this time around.
+
+It was a choice of doing this now, or wait another six months to get
+started and since we have had the variables for a while I've opted to
+move us forward on this. I'd already had comments that "rocko" in
+layer.conf was incorrect, which it was and changing that was always
+going to cause some pain.
 
 Cheers,
 
