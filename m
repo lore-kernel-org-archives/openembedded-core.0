@@ -1,26 +1,49 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2101674B36
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D49A747B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 15:16:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w39FGEoS011381
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Apr 2018 08:16:14 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 9 Apr 2018 08:16:13 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 9 Apr 2018 11:16:07 -0400
-Message-ID: <83cd6ea6823c9850737ad6e8508f6157a8bdf813.1523286757.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1523286757.git.bruce.ashfield@windriver.com>
-References: <cover.1523286757.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/4.14/4.15: deterministic srcversion
+	Mon,  9 Apr 2018 15:19:21 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id y55so9993331wry.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Apr 2018 08:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wec9N5qcAvslsh1B6me9MuYUC1jqot5w+GBz5kJYKko=;
+	b=pSGGn9NZrxOx3iWH2CBfMChtBMn8XFmmFivLSs+6yB1LOfESifHACzErALgidt/gbS
+	ldXETCwL6cyH9tSFdtlHxVy1OiJHHf6J5J2r4z7MW8v+yuKA2ERqm5uaANjzaVxTlp/j
+	i/h8DY7ae9Kg1TLg5o50I2uwvyAGfnii00zg7j91eY9a2QztJ0Hc+3ZRsOibKDgBZh3t
+	o2aWn8UsL/Is0iGI27k0EA2NaWFXHS30MKnRjVlYbCU4xy5iXOzbCdRCk+DHFlZBgF/K
+	u6O4s7AOjAD7+wLu2FJ4NYWIGvepfXvrZ0NuUVoEjsC/iCk3tfYehvPqipkLWBz9adNi
+	TtGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wec9N5qcAvslsh1B6me9MuYUC1jqot5w+GBz5kJYKko=;
+	b=SMDtAro3kLrsTVrqc/r22F7tC6lqkJs7GjlYmgR3bDo5/E2VX6eNGDQ9tNU4ilIPA1
+	xmMoH93JCJSO6C1Xm0gM7RpeFtxW8QBAh7gBMd7NGy7YNhNou9YFIS/EcHLl/hiuNQQK
+	CEj4lRX/I+ntrh1liI8ha7EEvy1bNr9cfLqBGr/icDjy/4TGoJMRaJV+MAUPNJxI58Uz
+	UpIiWYfW9cPG+Aean2VM9Yqw6wuF+remlihZb+HYm6+1b/LEDexBxwITd3P1OMsKYpx/
+	YlPFO+jtX9y72/nTV3JlnIy16KlXQIk1xnhp1VSQDBe9mPBnP7uf5/f0Mnf6u8YiJAq1
+	RQNw==
+X-Gm-Message-State: AElRT7EqiwB+kpSqtijK4HrX2DzVOwSqNiVKcR5NseGH0+AJKNHjO3Se
+	DPtC7KnWMssQZPgWEOk4K/Fc5Eqr
+X-Google-Smtp-Source: AIpwx49gUGFmC/bu2qP6x/xckvQaeriNnsQ/y67VnWLy7qzoHvpy6+4uuTcbf7UuHVbro0RkRFL0xQ==
+X-Received: by 10.223.176.237 with SMTP id j42mr27602088wra.25.1523287162192; 
+	Mon, 09 Apr 2018 08:19:22 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id z16sm846810wrc.70.2018.04.09.08.19.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Apr 2018 08:19:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Apr 2018 16:19:19 +0100
+Message-Id: <20180409151919.9133-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] populate_sdk_base: use xz -T instead of pixz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,160 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 15:16:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Apr 2018 15:19:22 -0000
 
-   Author: Juro Bystricky <juro.bystricky@intel.com>
-   Date:   Fri Mar 30 10:14:05 2018 -0700
+xz has native support for threaded compression now and SDK creation was the only
+part of oe-core which is using pixz instead of xz.
 
-       modpost: srcversion sometimes incorrect
+Not only does this remove pixz-native from the SDK dependencies, but in my
+limited testing xz -T0 is slightly faster and produces smaller archives than
+pixz for the same input.
 
-       "srcversion" field inserted into module modinfo section contains a
-       sum of the source files which made it. However, this field can
-       be incorrect. Building the same module can end up having inconsistent
-       srcversion field eventhough the sources remain the same.
-       This can be reproduced by building modules in a deeply nested directory,
-       but other factors contribute as well.
-
-       The reason for incorrect srcversion is that some source files can be
-       simply silently skipped from the checksum calculation due to limited
-       buffer space for line parsing.
-
-       This patch addresses two issues:
-
-       1. Allocates a larger line buffer (32k vs 4k).
-       2. Issues a warning if a line length exceeds the line buffer.
-
-       Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 18 +++++++++---------
- meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 18 +++++++++---------
- 6 files changed, 25 insertions(+), 25 deletions(-)
+ meta/classes/populate_sdk_base.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index 85f85428514e..81306a984262 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 77ec8aaec27..79984d7914f 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -46,7 +46,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native pixz-native cross-localedef-native ${MLPREFIX}qemuwrapper-cross"
++SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native ${MLPREFIX}qemuwrapper-cross"
+ SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+ 
+ # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+@@ -225,7 +225,7 @@ fakeroot tar_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDKDEPLOYDIR}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -cf - . | pixz > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
++	tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
  }
  
--SRCREV_machine ?= "620ed070a13e614e8e550998fae123318eeb881a"
--SRCREV_meta ?= "f8232ce8e9f759b961e4e3836472de54e96b50da"
-+SRCREV_machine ?= "7272e9132fdaaf0dd78bc94e9f297aaf73452982"
-+SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-index 19c07ddf1dc9..c5d3ee03fd28 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_meta ?= "6918258c9e46ad8471210354159eb42f127c7374"
-+SRCREV_machine ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_meta ?= "939d935b0c992c6f1e51a7a1c9e4fbe6ef3c3174"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index 942579795f39..34bee0949fc9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-@@ -12,8 +12,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "40adf66d7c45b8252a1d3f904b5027a495e41725"
--SRCREV_meta ?= "f8232ce8e9f759b961e4e3836472de54e96b50da"
-+SRCREV_machine ?= "ad31896630f8bf6a459164263adc0a8faf984d9e"
-+SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-index 9054f1862191..05b9ca38b2df 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.15.13"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
-+SRCREV_machine ?= "91084d030bc841c483c31e8664289c7940aa5506"
- SRCREV_meta ?= "939d935b0c992c6f1e51a7a1c9e4fbe6ef3c3174"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index bfc4de02f239..16142f8ceb47 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.14/standard/base"
- KBRANCH_qemux86-64 ?= "v4.14/standard/base"
- KBRANCH_qemumips64 ?= "v4.14/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "73815e83e4f6bc22e88f4eb3bd4ee5483198ff0d"
--SRCREV_machine_qemuarm64 ?= "b0bf285405cf0369ecc7e0b923d776138b0bcf84"
--SRCREV_machine_qemumips ?= "47b99cfeaf68526ab28e657ac8fa681b0c78103a"
--SRCREV_machine_qemuppc ?= "2219819c5473dd238913e4c0ca077798d531eaf4"
--SRCREV_machine_qemux86 ?= "1d50ce210b0536eb9a66d1e56ae215f92176444a"
--SRCREV_machine_qemux86-64 ?= "1d50ce210b0536eb9a66d1e56ae215f92176444a"
--SRCREV_machine_qemumips64 ?= "37b40335aa0cd149c7664fe6d9b0d63b5c34e150"
--SRCREV_machine ?= "1d50ce210b0536eb9a66d1e56ae215f92176444a"
--SRCREV_meta ?= "f8232ce8e9f759b961e4e3836472de54e96b50da"
-+SRCREV_machine_qemuarm ?= "d6268fc3460d3904fd49087f7a822efbaab9bfe8"
-+SRCREV_machine_qemuarm64 ?= "c94189843b8ad62cafe9a307e7f7d60741690505"
-+SRCREV_machine_qemumips ?= "4afd92347b2b35dc8e0006712f8fa00ac57f2a36"
-+SRCREV_machine_qemuppc ?= "e8af5c9b65c5187d148ecd11bd7979489460ca64"
-+SRCREV_machine_qemux86 ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
-+SRCREV_machine_qemux86-64 ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
-+SRCREV_machine_qemumips64 ?= "9863b327e770b42b8c18da3e0cfaf06e8f99ae97"
-+SRCREV_machine ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
-+SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-index 7e25a3d58de8..70bd7118bd01 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.15/standard/base"
- KBRANCH_qemux86-64 ?= "v4.15/standard/base"
- KBRANCH_qemumips64 ?= "v4.15/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "e98391b2cf78ebdc41c229359d35d9e6ca96dde3"
--SRCREV_machine_qemuarm64 ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_machine_qemumips ?= "e99c1fc0e84dba772531ba02373a28350056211a"
--SRCREV_machine_qemuppc ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_machine_qemux86 ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_machine_qemux86-64 ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_machine_qemumips64 ?= "0789d1f7734d5408de3130f9305f2ca4abc93025"
--SRCREV_machine ?= "f73fd8783a3e7529902366ba75aafb81c19ec3c9"
--SRCREV_meta ?= "6918258c9e46ad8471210354159eb42f127c7374"
-+SRCREV_machine_qemuarm ?= "4b6902b42f47593928117b2ff0900cd965cf6443"
-+SRCREV_machine_qemuarm64 ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_machine_qemumips ?= "19ba2d843750ff65d8fe590acdfc99aea6153945"
-+SRCREV_machine_qemuppc ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_machine_qemux86 ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_machine_qemux86-64 ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_machine_qemumips64 ?= "97000c3f4664643bac7828bbdc048f7ec216cc31"
-+SRCREV_machine ?= "91084d030bc841c483c31e8664289c7940aa5506"
-+SRCREV_meta ?= "939d935b0c992c6f1e51a7a1c9e4fbe6ef3c3174"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
+ fakeroot create_shar() {
 -- 
-2.5.0
+2.11.0
 
 
