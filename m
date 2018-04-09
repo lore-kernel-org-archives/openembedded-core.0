@@ -1,23 +1,28 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 502DB75119
+Return-Path: <maxin.john@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 83DE17450A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 10:46:13 +0000 (UTC)
+	Mon,  9 Apr 2018 11:29:13 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Apr 2018 03:46:15 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Apr 2018 04:29:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="31914545"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by orsmga007.jf.intel.com with ESMTP; 09 Apr 2018 03:46:14 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="41874352"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 09 Apr 2018 04:29:14 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 6CB4A5803B6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Apr 2018 04:29:13 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Apr 2018 20:32:43 -0700
-Message-Id: <1523244763-108834-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
+Date: Mon,  9 Apr 2018 14:29:35 +0300
+Message-Id: <1523273377-15643-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/2] fix meson specific flags for introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,95 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 10:46:14 -0000
+X-List-Received-Date: Mon, 09 Apr 2018 11:29:13 -0000
 
-QA team were testing qemu boot image and shutdown on each
-qemu architecture manually. Add automated test to test qemu boot on
-ext4 and nfs, finally check that it can shutdown properly.
+Fix meson specific introspection build error on x32 for
+atk and at-spi2-core. Thanks to Alex for poiniting to the
+right direction.
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/selftest/cases/runqemu.py | 61 +++++++++++++++++++++++++++++++--
- 1 file changed, 59 insertions(+), 2 deletions(-)
+Maxin B. John (2):
+  at-spi2-core: upgrade to version 2.28.0
+  atk: upgrade to version 2.28.1
 
-diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-index 47d41f5..7288ab2 100644
---- a/meta/lib/oeqa/selftest/cases/runqemu.py
-+++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-@@ -3,9 +3,10 @@
- #
- 
- import re
--
-+import tempfile
-+import time
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
- from oeqa.core.decorator.oeid import OETestID
- 
- class RunqemuTests(OESelftestTestCase):
-@@ -136,3 +137,59 @@ SYSLINUX_TIMEOUT = "10"
-         cmd = "%s %s" % (self.cmd_common, rootfs)
-         with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-             self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-+
-+class QemuTest(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super(QemuTest, cls).setUpClass()
-+        cls.recipe = 'core-image-minimal'
-+        cls.machine =  get_bb_var('MACHINE')
-+        cls.deploy_dir_image =  get_bb_var('DEPLOY_DIR_IMAGE')
-+        cls.cmd_common = "runqemu nographic"
-+        cls.qemuboot_conf = "%s-%s.qemuboot.conf" % (cls.recipe, cls.machine)
-+        cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
-+        result = bitbake(cls.recipe)
-+
-+    def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
-+        status, output = qemu.run_serial("shutdown -h now")
-+        qemu.runner.stop_thread()
-+        print('DEBUG: shutdown and stop thread')
-+        time_track = 0
-+        while True:
-+            is_alive = qemu.check()
-+            if not is_alive:
-+                return True
-+            if time_track > timeout:
-+                return False
-+            time.sleep(1)
-+            time_track += 1
-+            print(time_track)
-+
-+    def test_qemu_can_shutdown(self):
-+        if not os.path.exists(self.qemuboot_conf):
-+            self.skipTest("%s not found" % self.qemuboot_conf)
-+        cmd = "%s %s" % (self.cmd_common, self.qemuboot_conf)
-+        shutdown_timeout = 120
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
-+            self.assertTrue(qemu_shutdown_succeeded, 'Failed: qemu does not shutdown within timeout(%s)' % shutdown_timeout)
-+
-+    def test_qemu_can_boot_nfs_and_shutdown(self):
-+        bitbake('meta-ide-support')
-+        rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
-+        rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
-+        if not os.path.exists(rootfs_tar):
-+            self.skipTest("%s not found" % rootfs_tar)
-+        tmpdir = tempfile.mkdtemp(prefix='qemu_nfs')
-+        tmpdir_nfs = os.path.join(tmpdir, 'nfs')
-+        cmd_extract_nfs = 'runqemu-extract-sdk %s %s' % (rootfs_tar, tmpdir_nfs)
-+        runCmd(cmd_extract_nfs)
-+        if not os.path.exists(self.qemuboot_conf):
-+            self.skipTest("%s not found" % self.qemuboot_conf)
-+        cmd = "%s nfs %s %s" % (self.cmd_common, self.qemuboot_conf, tmpdir_nfs)
-+        shutdown_timeout = 120
-+        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-+            qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
-+            self.assertTrue(qemu_shutdown_succeeded, 'Failed: qemu does not shutdown within timeout(%s)' % shutdown_timeout)
-+        runCmd('rm -rf %s' % tmpdir)
+ .../0001-build-Add-with-systemduserunitdir.patch   | 52 ----------------------
+ meta/recipes-support/atk/at-spi2-core_2.26.2.bb    | 29 ------------
+ meta/recipes-support/atk/at-spi2-core_2.28.0.bb    | 39 ++++++++++++++++
+ meta/recipes-support/atk/atk_2.26.1.bb             | 19 --------
+ meta/recipes-support/atk/atk_2.28.1.bb             | 32 +++++++++++++
+ 5 files changed, 71 insertions(+), 100 deletions(-)
+ delete mode 100644 meta/recipes-support/atk/at-spi2-core/0001-build-Add-with-systemduserunitdir.patch
+ delete mode 100644 meta/recipes-support/atk/at-spi2-core_2.26.2.bb
+ create mode 100644 meta/recipes-support/atk/at-spi2-core_2.28.0.bb
+ delete mode 100644 meta/recipes-support/atk/atk_2.26.1.bb
+ create mode 100644 meta/recipes-support/atk/atk_2.28.1.bb
+
 -- 
-2.7.4
+2.4.0
 
 
