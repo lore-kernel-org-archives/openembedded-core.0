@@ -1,30 +1,48 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 14841748BF
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 15E667198F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 11:54:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Apr 2018 04:54:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="215142461"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 09 Apr 2018 04:54:53 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id BFA375803B6
+	Mon,  9 Apr 2018 11:57:01 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t67so18666070wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 04:54:52 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Mon, 09 Apr 2018 04:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=+li2hcEdCoLW2q1B8Occr9WYoXPn4/QrMYT/rqFt86o=;
+	b=sbxI3WZSmTcqcVLvzhg5j60o5pryYGj5fRIVaFMd8Cvj3eXWvr9heRECwqcAjDuIq+
+	fwCVLr70xNDJbQHP9LfUiiBCndRfQeyX7tm+J270bhQalyKql9+JFJgmc0UMnN7I8cME
+	yJBGatVASfRFymMsw9yIE0JvX8Mt7H3nJXg2RbymlG7omaKsQ3cQ0cGAOuDewmc23wAj
+	TAhq80yMbfvnyVG6twN057bpikQEYHTpRv1nGgvpI0aE+YoLp5rYM5irG6ikfqt0e8Sf
+	McbKcnS5vmIAa35+6m2+r08RBID7jSmiMq3mhb6ukhKIM6ZZSEEU4lNMbDJBejgZj3DB
+	iEqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+li2hcEdCoLW2q1B8Occr9WYoXPn4/QrMYT/rqFt86o=;
+	b=VWOi063kg5vjkimFcIksnFpBbnoTUdXBbzkGs555KwXK7WGu3/pxZZx4OFDcGKQiGo
+	y9fDNCotipOKvVyfyLdBqRHdXMA1rEi/OvbBdyWMcFktJH/12/wnDjeGxkKqrrXRjGCq
+	RXJWL6OXDOOlcpY8JwHHZMhKPyJoH2GjxBHeTpg7/gpt2id7KS7OJiMtpqu7gUdQXTp9
+	75gkBdnHXvq7UzQCUtkEatSWAMs+Tkvyc8U/vzLcXJggfjt8Zqjl3WsWinLGjAPDZL3M
+	//OMw6Fye3t+MLH/DqZvGxGTsNja8pflNCiIwf0C/YK7IJad/vfc2p0XDz6GLgG8XIGQ
+	2lSw==
+X-Gm-Message-State: ALQs6tDDpOGX+RDqSEE3v037Zb3Qmz0+Xxly+vqBNGlx15wqZHNc2BnP
+	0otPQsskSKPXqwjGm+J7iREwdY/T
+X-Google-Smtp-Source: AIpwx4/HlwQW8VE861ReP1wJxOv0YGFTekRGMROcQMGvih8unJsaKLGBAPZHZgauA7I9QUndeJv/rw==
+X-Received: by 10.80.235.65 with SMTP id z1mr21607999edp.154.1523275022169;
+	Mon, 09 Apr 2018 04:57:02 -0700 (PDT)
+Received: from localhost.localdomain ([185.47.135.167])
+	by smtp.gmail.com with ESMTPSA id b31sm266070eda.70.2018.04.09.04.57.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Apr 2018 04:57:01 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+X-Google-Original-From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Apr 2018 14:55:11 +0300
-Message-Id: <1523274911-20401-9-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1523274911-20401-1-git-send-email-maxin.john@intel.com>
-References: <1523274911-20401-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 8/8] gtk-icon-utils-native: upgrade to version 3.22.29
+Date: Mon,  9 Apr 2018 13:56:55 +0200
+Message-Id: <20180409115657.16651-1-koen.kooi@linaro.org>
+X-Mailer: git-send-email 2.9.5
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH 1/3] libcap: fix (base_)libdir usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 11:54:52 -0000
+X-List-Received-Date: Mon, 09 Apr 2018 11:57:02 -0000
 
-3.22.28 -> 3.22.29
+The recipe wants to install libs into base_libdir, but uses "basename $libdir" to derive that. That breaks in a multiarch setup. Use the proper variable and remove the inline python usage.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- ...-icon-utils-native_3.22.28.bb => gtk-icon-utils-native_3.22.29.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.22.28.bb => gtk-icon-utils-native_3.22.29.bb} (94%)
+ meta/recipes-support/libcap/libcap_2.25.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.28.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.29.bb
-similarity index 94%
-rename from meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.28.bb
-rename to meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.29.bb
-index 942c047..eb35bcc 100644
---- a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.28.bb
-+++ b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.29.bb
-@@ -10,8 +10,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
+index d619a2e..47ecf34 100644
+--- a/meta/recipes-support/libcap/libcap_2.25.bb
++++ b/meta/recipes-support/libcap/libcap_2.25.bb
+@@ -32,7 +32,7 @@ PACKAGECONFIG[pam] = "PAM_CAP=yes,PAM_CAP=no,libpam"
  
- SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-           file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
--SRC_URI[md5sum] = "8c1f5ab987ddc7dab3e59660f89dcd9b"
--SRC_URI[sha256sum] = "d299612b018cfed7b2c689168ab52b668023708e17c335eb592260d186f15e1f"
-+SRC_URI[md5sum] = "229a39f7d9ada53398baa39652630f2e"
-+SRC_URI[sha256sum] = "a07d64b939fcc034a066b7723fdf9b24e92c9cfb6a8497593f3471fe56fbbbf8"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
-                     file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
+ EXTRA_OEMAKE = " \
+   INDENT=  \
+-  lib=${@os.path.basename('${libdir}')} \
++  lib='${base_libdir}' \
+   RAISE_SETFCAP=no \
+   DYNAMIC=yes \
+   BUILD_GPERF=yes \
 -- 
-2.4.0
+2.9.5
 
 
