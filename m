@@ -1,41 +1,27 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 46E1874958
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4F174683
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 15:24:11 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40KYxS1wy1z1qvyk;
-	Mon,  9 Apr 2018 17:24:12 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40KYxS1RmVz1rhxn;
-	Mon,  9 Apr 2018 17:24:12 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id JmorOxh7yQVM; Mon,  9 Apr 2018 17:24:11 +0200 (CEST)
-X-Auth-Info: r9DjPKjUPOx8tKbLCSZjQFxMpv0f7QwW0fZOLnoEwb8=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon,  9 Apr 2018 17:24:11 +0200 (CEST)
-To: Khem Raj <raj.khem@gmail.com>
-References: <20180408230223.17260-1-marex@denx.de>
-	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
-	<b904641a-c0f3-8c21-7051-a30934ab7638@denx.de>
-	<CAMKF1soc4hOS+oBRfdBiO9Ng3JsbJoqf8t5n_wDxeeUtmxs7=g@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <d0f596c6-0493-c83b-aa92-bbd69da078a5@denx.de>
-Date: Mon, 9 Apr 2018 17:24:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1soc4hOS+oBRfdBiO9Ng3JsbJoqf8t5n_wDxeeUtmxs7=g@mail.gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
+	Mon,  9 Apr 2018 16:36:33 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w39GaW5v000945
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 9 Apr 2018 17:36:33 +0100
+Message-ID: <1523291792.2942.100.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 09 Apr 2018 17:36:32 +0100
+In-Reply-To: <20180409115657.16651-2-koen.kooi@linaro.org>
+References: <20180409115657.16651-1-koen.kooi@linaro.org>
+	<20180409115657.16651-2-koen.kooi@linaro.org>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: Re: [PATCH 2/3] bind: fix openSSL detection when using multiarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,36 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 15:24:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Mon, 09 Apr 2018 16:36:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 04/09/2018 03:48 PM, Khem Raj wrote:
-> On Mon, Apr 9, 2018 at 1:25 AM, Marek Vasut <marex@denx.de> wrote:
->> On 04/09/2018 02:54 AM, Khem Raj wrote:
->>>
->>> On Sun, Apr 8, 2018 at 4:10 PM Marek Vasut <marex@denx.de
->>> <mailto:marex@denx.de>> wrote:
->>>
->>>     This upgrades the U-Boot from 2018.01 to 2018.03 release and drops
->>>     patches accepted upstream, getting the patch count to zero.
->>>
->>>
->>>
->>> It fails for me if I have libfdt installed on build host
->>> It seems build is doing the include dance which goes all the way into
->>> hosts system include directories
->>
->> Which version of libfdt and dtc do you have installed ?
->> And is it really libfdt or dtc ?
->>
+On Mon, 2018-04-09 at 13:56 +0200, Koen Kooi wrote:
+> In multiarch /usr/include and /usr/lib/<tuple/ are not on the same
+> level anymore. This change will pass a correct includedir, but a
+> wrong libdir, but the linker picks it up anyway.
 > 
-> its dtc probably but header it picks is libfdt.h I am on archlinux
+> Tested on multiarch and regular build.
 
-So which version of either do you have on your host ?
+How far off working is mulitarch for OE-Core?
 
--- 
-Best regards,
-Marek Vasut
+The reason I ask is I'd like to understand the scope of the changes
+needed to support it. It also influences whether these are sumo or post
+2.5 changes.
+
+Cheers,
+
+Richard
 
