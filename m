@@ -1,38 +1,23 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 7266974A58
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 502DB75119
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 08:29:47 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40KNlJ1d5yz1qtXM;
-	Mon,  9 Apr 2018 10:29:48 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40KNlJ1Mk3z1qqkR;
-	Mon,  9 Apr 2018 10:29:48 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id K-BOxtvFbil3; Mon,  9 Apr 2018 10:29:47 +0200 (CEST)
-X-Auth-Info: yIEL/0jNVs2PNDERENS5HQOPl4lTP2kE3DVlqCSn1+4=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon,  9 Apr 2018 10:29:47 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: Khem Raj <raj.khem@gmail.com>
-References: <20180408230223.17260-1-marex@denx.de>
-	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
-Message-ID: <b904641a-c0f3-8c21-7051-a30934ab7638@denx.de>
-Date: Mon, 9 Apr 2018 10:25:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
+	Mon,  9 Apr 2018 10:46:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Apr 2018 03:46:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="31914545"
+Received: from echidna.jf.intel.com ([10.54.77.42])
+	by orsmga007.jf.intel.com with ESMTP; 09 Apr 2018 03:46:14 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Apr 2018 20:32:43 -0700
+Message-Id: <1523244763-108834-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +30,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 08:29:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Apr 2018 10:46:14 -0000
 
-On 04/09/2018 02:54 AM, Khem Raj wrote:
-> 
-> On Sun, Apr 8, 2018 at 4:10 PM Marek Vasut <marex@denx.de
-> <mailto:marex@denx.de>> wrote:
-> 
->     This upgrades the U-Boot from 2018.01 to 2018.03 release and drops
->     patches accepted upstream, getting the patch count to zero.
-> 
-> 
-> 
-> It fails for me if I have libfdt installed on build host 
-> It seems build is doing the include dance which goes all the way into
-> hosts system include directories 
+QA team were testing qemu boot image and shutdown on each
+qemu architecture manually. Add automated test to test qemu boot on
+ext4 and nfs, finally check that it can shutdown properly.
 
-Which version of libfdt and dtc do you have installed ?
-And is it really libfdt or dtc ?
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/runqemu.py | 61 +++++++++++++++++++++++++++++++--
+ 1 file changed, 59 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index 47d41f5..7288ab2 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -3,9 +3,10 @@
+ #
+ 
+ import re
+-
++import tempfile
++import time
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import bitbake, runqemu, get_bb_var
++from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
+ from oeqa.core.decorator.oeid import OETestID
+ 
+ class RunqemuTests(OESelftestTestCase):
+@@ -136,3 +137,59 @@ SYSLINUX_TIMEOUT = "10"
+         cmd = "%s %s" % (self.cmd_common, rootfs)
+         with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
+             self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++
++class QemuTest(OESelftestTestCase):
++
++    @classmethod
++    def setUpClass(cls):
++        super(QemuTest, cls).setUpClass()
++        cls.recipe = 'core-image-minimal'
++        cls.machine =  get_bb_var('MACHINE')
++        cls.deploy_dir_image =  get_bb_var('DEPLOY_DIR_IMAGE')
++        cls.cmd_common = "runqemu nographic"
++        cls.qemuboot_conf = "%s-%s.qemuboot.conf" % (cls.recipe, cls.machine)
++        cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
++        result = bitbake(cls.recipe)
++
++    def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
++        status, output = qemu.run_serial("shutdown -h now")
++        qemu.runner.stop_thread()
++        print('DEBUG: shutdown and stop thread')
++        time_track = 0
++        while True:
++            is_alive = qemu.check()
++            if not is_alive:
++                return True
++            if time_track > timeout:
++                return False
++            time.sleep(1)
++            time_track += 1
++            print(time_track)
++
++    def test_qemu_can_shutdown(self):
++        if not os.path.exists(self.qemuboot_conf):
++            self.skipTest("%s not found" % self.qemuboot_conf)
++        cmd = "%s %s" % (self.cmd_common, self.qemuboot_conf)
++        shutdown_timeout = 120
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
++            self.assertTrue(qemu_shutdown_succeeded, 'Failed: qemu does not shutdown within timeout(%s)' % shutdown_timeout)
++
++    def test_qemu_can_boot_nfs_and_shutdown(self):
++        bitbake('meta-ide-support')
++        rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
++        rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
++        if not os.path.exists(rootfs_tar):
++            self.skipTest("%s not found" % rootfs_tar)
++        tmpdir = tempfile.mkdtemp(prefix='qemu_nfs')
++        tmpdir_nfs = os.path.join(tmpdir, 'nfs')
++        cmd_extract_nfs = 'runqemu-extract-sdk %s %s' % (rootfs_tar, tmpdir_nfs)
++        runCmd(cmd_extract_nfs)
++        if not os.path.exists(self.qemuboot_conf):
++            self.skipTest("%s not found" % self.qemuboot_conf)
++        cmd = "%s nfs %s %s" % (self.cmd_common, self.qemuboot_conf, tmpdir_nfs)
++        shutdown_timeout = 120
++        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
++            qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
++            self.assertTrue(qemu_shutdown_succeeded, 'Failed: qemu does not shutdown within timeout(%s)' % shutdown_timeout)
++        runCmd('rm -rf %s' % tmpdir)
 -- 
-Best regards,
-Marek Vasut
+2.7.4
+
 
