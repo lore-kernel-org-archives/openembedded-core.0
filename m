@@ -1,30 +1,30 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB6475086
+	by mail.openembedded.org (Postfix) with ESMTP id 0A8C7748BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 11:54:47 +0000 (UTC)
+	Mon,  9 Apr 2018 11:54:49 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Apr 2018 04:54:49 -0700
+	09 Apr 2018 04:54:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="218897615"
+X-IronPort-AV: E=Sophos;i="5.48,427,1517904000"; d="scan'208";a="218897620"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 09 Apr 2018 04:54:49 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 09 Apr 2018 04:54:50 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 7F430580425
+	by linux.intel.com (Postfix) with ESMTP id 8F6C9580425
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 04:54:48 -0700 (PDT)
+	Mon,  9 Apr 2018 04:54:49 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Apr 2018 14:55:07 +0300
-Message-Id: <1523274911-20401-5-git-send-email-maxin.john@intel.com>
+Date: Mon,  9 Apr 2018 14:55:08 +0300
+Message-Id: <1523274911-20401-6-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1523274911-20401-1-git-send-email-maxin.john@intel.com>
 References: <1523274911-20401-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 4/8] ruby: upgrade to version 2.5.1
+Subject: [PATCH 5/8] gtk+3: upgrade to version 3.22.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 11:54:48 -0000
+X-List-Received-Date: Mon, 09 Apr 2018 11:54:49 -0000
 
-License-Update: Checksum of LEGAL file updated for changes to
-upstream URL and addition of Wayback Machine url
+* Wayland
+ - add an input method based on the text protocol
+
+* File chooser
+ - Stop activating without double-click
+
+* Bugs fixed:
+  710888 GtkInfoBar not shown after calling gtk_widget_show
+  743975 Better deprecation information for GtkStatusIcon
+  775546 gdkscreen-x11: Don't try to calculate a refresh rate for RandR 1.3
+  794008 GtkListBoxRow signal poorly documented
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-devtools/ruby/ruby.inc                         | 2 +-
- meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} (90%)
+ meta/recipes-gnome/gtk+/{gtk+3_3.22.28.bb => gtk+3_3.22.29.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.22.28.bb => gtk+3_3.22.29.bb} (83%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index fd3911b..5a5bef2 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
-     file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
-     file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
-     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
--    file://LEGAL;md5=8f871f3f03732c018a5fa9b185958231 \
-+    file://LEGAL;md5=23a79bb4c1a40f6cc9bcb6f4e7c39799 \
- "
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.22.28.bb b/meta/recipes-gnome/gtk+/gtk+3_3.22.29.bb
+similarity index 83%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.22.28.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.22.29.bb
+index 864e826..c3c786b 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.22.28.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.22.29.bb
+@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
+            file://0003-Add-disable-opengl-configure-option.patch \
+           "
+-SRC_URI[md5sum] = "8c1f5ab987ddc7dab3e59660f89dcd9b"
+-SRC_URI[sha256sum] = "d299612b018cfed7b2c689168ab52b668023708e17c335eb592260d186f15e1f"
++SRC_URI[md5sum] = "229a39f7d9ada53398baa39652630f2e"
++SRC_URI[sha256sum] = "a07d64b939fcc034a066b7723fdf9b24e92c9cfb6a8497593f3471fe56fbbbf8"
  
- DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline"
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.0.bb b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/ruby/ruby_2.5.0.bb
-rename to meta/recipes-devtools/ruby/ruby_2.5.1.bb
-index 1ac7f2a..9104828 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-@@ -5,8 +5,8 @@ SRC_URI += " \
-            file://ruby-CVE-2017-9228.patch \
-            "
+ S = "${WORKDIR}/gtk+-${PV}"
  
--SRC_URI[md5sum] = "f4711f856fe14de222b9da3d3b8efa89"
--SRC_URI[sha256sum] = "46e6f3630f1888eb653b15fa811d77b5b1df6fd7a3af436b343cfe4f4503f2ab"
-+SRC_URI[md5sum] = "23867bc8c16c55e43b14dfe0614bcfa8"
-+SRC_URI[sha256sum] = "dac81822325b79c3ba9532b048c2123357d3310b2b40024202f360251d9829b1"
- 
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
 -- 
 2.4.0
 
