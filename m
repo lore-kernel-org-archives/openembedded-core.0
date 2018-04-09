@@ -1,49 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D9D374A41
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
+	[74.125.82.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 152D374754
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 22:03:16 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id t67so22254407wmt.0
+	Mon,  9 Apr 2018 22:05:03 +0000 (UTC)
+Received: by mail-ot0-f196.google.com with SMTP id d9-v6so8237952oth.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Apr 2018 15:03:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 09 Apr 2018 15:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MWUYEoaX1w1HVSqcrJ9quGReVTDtEXEy51ZEHE6slOk=;
-	b=d1h+grNfZ70psjBYGWKdCyitVephYCflTquFlMHvIGKdTjJgjxgHJX3EBde5POZk4k
-	Q+osRtJ2mZieMGjv3jiqGciqQYn3F3JZ7IVYdXotYZb7dA7bsKjfokpwNA/tBWTX3hm9
-	+cX/qxBvOvDH+wu45xWisgSwhvBixYQeU9UQe/u/iZOZQyG9uGfV0ZZ/X7Hqd4sV+xZn
-	gAtuCl+D9vuCwZeHZeT+jrZgL0eiV04TnKfoW/haSX10J3cUn5cX7aGxe5Sd/nd7+cSu
-	17qSOlk+UC80kMCaPuPNqFa2lf1yPcOnhoHNBRitYYurKH19SJ3F1Ex5UKWacZ5Te4rv
-	sOOg==
+	:cc; bh=1YAZ5D/VC2QyAYnuMeIB0SzvVpmqdAgEJdRW0AsD09s=;
+	b=PEdO+M3aRcvY98hOjTJeMNij2+BedyAm8+1USjnsJE46tBIYPfn0aGe9zoefNAESlZ
+	7D8YIJIF1e8Ql/ieOHQDIPwiq35yjmXcpg8yEHeXT7WQlWlbnF6k1INJIyMTmrLnO4Sl
+	2Fsh9b/x1XI0kFG6ACvopB+fMXM4rMWDpuZabqLXlEl3JfrMJoLpPbsXpa6EDvkHHDEl
+	4AdNnmVAN2YWFRMLBRDwgbFFIGdY1BHNWzUb2gLzbBrRErT6wB09TagJAUzmZG0A6ir/
+	yjUiFQTjNZCR3LedzHqsEgQyj0CLK/uE6NdxF/eIL91TBCY8zRZlfYWi2RQd+9O0Ik3v
+	Azig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MWUYEoaX1w1HVSqcrJ9quGReVTDtEXEy51ZEHE6slOk=;
-	b=iCLozK4p/t5AawbwP4ejNzHcBmN8tEYjV8sA8dQiydM9LIdcWc+V0gdptoLUBeSm9y
-	57Z1NTgC8rD62CdDsSh5nkIdMr5go+Tch7GHrd7LLxqjdghcpRN7qw1TbNG2VqMwhZLk
-	JuBCqIPVWADnc0Uz6HNMM6LU0sblTdugJwSdzkUQo2CVSWz56kG0lwqaMq65ZVBkrCyB
-	OjpY7QL6WrNbSkSTY2G4K2iYxoRd2G1N6RAXKkvI3He0dXrQwRz6TkhkK/eH+/IKeKOG
-	pDklcZHKajCMyh7yvXyFE/Z0nNbErp6VJHlHj24ksx0g9EBia5oUw8gN+SwTDINfIFtX
-	C2zQ==
-X-Gm-Message-State: ALQs6tCf5H3LegtvpbnytBhEoEsbD/yplJXYwR6aAamq74KMYzaJGYWk
-	Fy8j3+G180z3e6EMGdY6yim0XLSzMPVPmcwZkWZOig==
-X-Google-Smtp-Source: AIpwx48wnjoEPSVHXs3fSojOp36z+fY0bmCBQX0h/IMXlOifkNAsXrBJxVLLqxu3h89b/qo+wohfSH8SeYILsexE/6g=
-X-Received: by 10.28.156.4 with SMTP id f4mr1104136wme.79.1523311397895; Mon,
-	09 Apr 2018 15:03:17 -0700 (PDT)
+	bh=1YAZ5D/VC2QyAYnuMeIB0SzvVpmqdAgEJdRW0AsD09s=;
+	b=hfBeVXxij7htb8Ul7EAFdNpI3k5uC+4EqK+csOpmc1QpVAbakn98KXkdQjNtPahE4S
+	wr4kbIZoUXM5Jy65aOCW9TRi4edS57Ur0OBdgCAh4myRZXuBrGwzfskmfFgLYhNqjDGv
+	BoZjcIxMLyDgGOeDo2+rDsbIJhyDlTRzq7mj7zMAKYpz1B3dLDuvDqZ2gBVSt9G1ZiT4
+	yLStxUWj3oPLqxmpKI1UOKDEo4lEsRJfRLKAmLji8lK4gSoh5JZcVwJJh2puW+u/ifEh
+	+xYEFQkSc/R6kREtVgB9M2JH4I4XdKpztxeRuwJF5dUU5HNU3sHrPGJhLBjdnjxxMWa8
+	SA6w==
+X-Gm-Message-State: ALQs6tCFgAyQ/mhQKtTfoi1M9+TByavHEpuZabNxWvdxK93bQsFoKNm7
+	pXc3lsa8JbM+ezDdkAbVYWOJM0lMI7LdSI+LsmujAg==
+X-Google-Smtp-Source: AIpwx4861H37VpGcDzgWSVxfqWle+sx4IEdqzAfGnHyMnI0JvFGgUgHrwnhyo69W4vxtfDc5mcwLcj982WOSkoEcns0=
+X-Received: by 2002:a9d:e4d:: with SMTP id
+	n13-v6mr22637477otd.168.1523311504856; 
+	Mon, 09 Apr 2018 15:05:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.126.12 with HTTP; Mon, 9 Apr 2018 15:03:17 -0700 (PDT)
-In-Reply-To: <391d78d5-ec72-f717-7b7f-9e4e11db1958@gmail.com>
-References: <CA+chaQeNd3F9oXBYFsj4YaxfJ+k3uvXDcdcHy-AP32MWaHT8aQ@mail.gmail.com>
-	<20180409075141.27481-1-Martin.Jansa@gmail.com>
-	<391d78d5-ec72-f717-7b7f-9e4e11db1958@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 10 Apr 2018 00:03:17 +0200
-Message-ID: <CA+chaQeOxiQDJhTNbh+u20a1X-SYoB4ipcL=HOSh-a8surPhAQ@mail.gmail.com>
+Received: by 10.138.17.198 with HTTP; Mon, 9 Apr 2018 15:04:44 -0700 (PDT)
+In-Reply-To: <CAMKF1sqzycqqo4+vJ4g=fzy4+k8xwfLDjb8VdssBc_5+KNPzRQ@mail.gmail.com>
+References: <20180409151919.9133-1-ross.burton@intel.com>
+	<CAJ86T=V7o5nE-pX9QZGqXFL93O2Nt=GE7cist-zo2WGg0zO_sg@mail.gmail.com>
+	<CAJTo0Lbh=YR9KFHHDLk6WTj+rj0OxCrv7VyqjRbX-wFgHi=o1w@mail.gmail.com>
+	<CAMKF1sqzycqqo4+vJ4g=fzy4+k8xwfLDjb8VdssBc_5+KNPzRQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Apr 2018 23:04:44 +0100
+Message-ID: <CAJTo0LY=ybUH-TRcz-E6=z9K8gGs15FDHTz9q3LANfUbk7a7VA@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcrypt: add -std=gnu99 to BUILD_CPPFLAGS
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk_base: use xz -T instead of pixz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,117 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 22:03:17 -0000
-Content-Type: multipart/alternative; boundary="001a114b2de6c103cf056971921b"
-
---001a114b2de6c103cf056971921b
+X-List-Received-Date: Mon, 09 Apr 2018 22:05:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-The anonymous python bellow this chunk limits this whole recipe only
-for nativesdk (I don't know why it uses BBCLASSEXTEND + anonymous python
-instead of just inheritting nativesdk directly from nativesdk-libxcrypt
-recipe to make it more obvious ...).
-
-On Mon, Apr 9, 2018 at 11:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On 4/9/18 12:51 AM, Martin Jansa wrote:
-> > * add it to allow older distributions e.g. Ubuntu 14.04 with gcc 4.8
-> >   to build this, otherwise it fails with:
-> >   ../git/gen-des-tables.c: In function 'write_table_u8':
-> >   ../git/gen-des-tables.c:307:3: error: 'for' loop initial declarations
-> are only allowed in C99 mode
-> >      for (size_t i = 0; i < m; i++)
-> >      ^
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
-> b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
-> > index b1982c1991..a1be4be7ef 100644
-> > --- a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
-> > +++ b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
-> > @@ -20,7 +20,7 @@ FILES_${PN} = "${libdir}/libcrypt*.so.*
-> ${libdir}/libcrypt-*.so ${libdir}/libowc
-> >
-> >  S = "${WORKDIR}/git"
-> >
-> > -BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
-> > +BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE} -std=gnu99"
+On 9 April 2018 at 22:20, Khem Raj <raj.khem@gmail.com> wrote:
+> On Mon, Apr 9, 2018 at 1:44 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 9 April 2018 at 21:13, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>> On Mon, Apr 9, 2018 at 8:19 AM, Ross Burton <ross.burton@intel.com> wrote:
+>>>> xz has native support for threaded compression now and SDK creation was the only
+>>>> part of oe-core which is using pixz instead of xz.
+>>>>
+>>>> Not only does this remove pixz-native from the SDK dependencies, but in my
+>>>> limited testing xz -T0 is slightly faster and produces smaller archives than
+>>>> pixz for the same input.
+>>>>
+>>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>>> ---
+>>>>
+>>>>  # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+>>>> @@ -225,7 +225,7 @@ fakeroot tar_sdk() {
+>>>>         # Package it up
+>>>>         mkdir -p ${SDKDEPLOYDIR}
+>>>>         cd ${SDK_OUTPUT}/${SDKPATH}
+>>>> -       tar ${SDKTAROPTS} -cf - . | pixz > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
+>>>> +       tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
+>>>
+>>> Since -T 0 will use all available CPUs (ie any attempts the user may
+>>> have made to limit parallelism via BB_NUMBER_THREADS or PARALLEL_MAKE
+>>> will be ignored), perhaps it's worth adding something like
+>>> "--memlimit=70%" to try to give some protection for environments with
+>>> lots of CPUs but not so much DRAM?
+>>
+>> There's a few places where -T0 is passed already: tar.xz image
+>> creation and opkg creation, so I guess we need to centralise this
+>> somewhere too.
+>>
 >
-> This might change behaviour with gcc5+ e.g. where default is gnu11
-> in anycase, I think if we could limit this to native version can limit
-> the impact.
->
-> >  TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
-> >
-> >  python () {
-> >
->
->
+> May be use XZ_OPT env bariable and param to -T could use the bitbake
+> calculated number of CPUs
 
---001a114b2de6c103cf056971921b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-T0 is use as many threads as there are cores, which is the same as
+the bitbake function.  Re-using BB_NUMBER_THREADS might work.
 
-<div dir=3D"ltr">The anonymous python bellow this chunk limits this whole r=
-ecipe only for=C2=A0nativesdk (I don&#39;t know why it uses=C2=A0BBCLASSEXT=
-END + anonymous python instead of just inheritting nativesdk directly from =
-nativesdk-libxcrypt recipe to make it more obvious ...).</div><div class=3D=
-"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Apr 9, 2018 at 11:59 P=
-M, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
-get=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><span class=3D"">On 4/9/18 12:51 AM, Martin Jansa wrote:<br>
-&gt; * add it to allow older distributions e.g. Ubuntu 14.04 with gcc 4.8<b=
-r>
-&gt;=C2=A0 =C2=A0to build this, otherwise it fails with:<br>
-&gt;=C2=A0 =C2=A0../git/gen-des-tables.c: In function &#39;write_table_u8&#=
-39;:<br>
-&gt;=C2=A0 =C2=A0../git/gen-des-tables.c:307:3: error: &#39;for&#39; loop i=
-nitial declarations are only allowed in C99 mode<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 for (size_t i =3D 0; i &lt; m; i++)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ^<br>
-&gt;<br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
-om">Martin.Jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt_4.0.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">li<wbr>bxcrypt_4.0.0.bb</a> | 2 +-<b=
-r>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt_4=
-.0.0.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>libxcrypt_4.0.0.bb</a> b=
-/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt_4.0.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank"><wbr>libxcrypt_4.0.0.bb</a><br>
-&gt; index b1982c1991..a1be4be7ef 100644<br>
-&gt; --- a/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt_4.0.0.bb=
-" rel=3D"noreferrer" target=3D"_blank"><wbr>libxcrypt_4.0.0.bb</a><br>
-&gt; +++ b/meta/recipes-core/libxcrypt/<a href=3D"http://libxcrypt_4.0.0.bb=
-" rel=3D"noreferrer" target=3D"_blank"><wbr>libxcrypt_4.0.0.bb</a><br>
-&gt; @@ -20,7 +20,7 @@ FILES_${PN} =3D &quot;${libdir}/libcrypt*.so.* ${lib=
-dir}/libcrypt-*.so ${libdir}/libowc<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;<br>
-&gt; -BUILD_CPPFLAGS =3D &quot;-I${STAGING_INCDIR_NATIVE}&quot;<br>
-&gt; +BUILD_CPPFLAGS =3D &quot;-I${STAGING_INCDIR_NATIVE} -std=3Dgnu99&quot=
-;<br>
-<br>
-</span>This might change behaviour with gcc5+ e.g. where default is gnu11<b=
-r>
-in anycase, I think if we could limit this to native version can limit<br>
-the impact.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;=C2=A0 TARGET_CPPFLAGS =3D &quot;-I${STAGING_DIR_TARGET}${<wbr>included=
-ir}&quot;<br>
-&gt;<br>
-&gt;=C2=A0 python () {<br>
-&gt;<br>
-<br>
-</div></div></blockquote></div><br></div>
+Ross
 
---001a114b2de6c103cf056971921b--
