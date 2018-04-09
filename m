@@ -1,23 +1,50 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BC9474743
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D4861752AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 07:28:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w397SuYB013912
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  9 Apr 2018 07:51:26 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id z73so8283406wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Apr 2018 00:28:57 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 9 Apr 2018 00:28:55 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Apr 2018 03:28:34 -0400
-Message-ID: <1523258914-12621-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH] udev-extraconf: Add systemd-mount to mount.sh
+	Mon, 09 Apr 2018 00:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=CnYNwGPhc8+p1+fa/HKqnSWHC8Rr4Q+vbtgNyZmA5lU=;
+	b=VXq5cB55afOvYcL8UhSPeohKrf4dLTmK8+nsI7fJv6dpuQdXti22TiBo3Jza4rUB7j
+	etAVlvYfd+/q6q/U2loIELF47tmGmymaKlQy3/+AI4VKfx8iPvcNxZ6Nr3ru+fqHCLNO
+	0F31TfFgEHg4zIqWCnFbPNtm0eyGDA/udRa8B1KHa2M+7jOZ8NtuN1yaZcHxGcTU3bAE
+	zqKaHZZu/nGfxv//eEhKV7C/UaBhCve+RLca8ZkMERmwhE9iTtUTisPsrSunr90MI7nN
+	1jvLJ98aZQdSs6PvSt9tcJjhk1dkTo5pJASTsmno2DXjcOsScALAPsIeCzFUckUCjgYO
+	6NCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=CnYNwGPhc8+p1+fa/HKqnSWHC8Rr4Q+vbtgNyZmA5lU=;
+	b=R+MB6v0kfxHftULjrEAbjxRFDqHABuKmfhJ2zkUZHhet9YnVG6yo5al1gwTV8LMZDW
+	7Nu7ZMG3OYpikaQoLVqb1pUWA+Y7SDBUBhXR9jf5fetU2a2J90lCYEZGEmfMsictGKve
+	v7z+9/R+momqtS6KeLUQOckhIPN6zIJ8i58BK/AiIa97xXN8ek5I9+/q9YTRkqeU7NtB
+	JIMOvMcAZM7GxyK1vatjrOoMMuTSyRHIytBuuVwS5AnaaLYJaaBwwlPfMBC5aV/iuaCK
+	4rjH7v/vOWCu2uNMOLmq+rF9rJG2XM2o/APNbqkQt/O3K1G6F+xw8MOl6n6obp4J+WT/
+	q1dA==
+X-Gm-Message-State: AElRT7HVZw84ZU3kYS+TbmlJV9nKdoT4asdsgy96gaWWsjdiVdUu3JTi
+	D6Q2eGYGvdFna0Hp1zKWFebGYQ==
+X-Google-Smtp-Source: AIpwx49jGYy4v+vSEkfPEPRInsw050pNrgRimXahUdd52rJkl3KvNKv/v2FG4f36roLY359hV+KnbQ==
+X-Received: by 10.223.210.82 with SMTP id o18mr27316517wri.85.1523260287210;
+	Mon, 09 Apr 2018 00:51:27 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id h9sm52118wmc.13.2018.04.09.00.51.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 09 Apr 2018 00:51:26 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Apr 2018 07:51:41 +0000
+Message-Id: <20180409075141.27481-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.15.1
+In-Reply-To: <CA+chaQeNd3F9oXBYFsj4YaxfJ+k3uvXDcdcHy-AP32MWaHT8aQ@mail.gmail.com>
+References: <CA+chaQeNd3F9oXBYFsj4YaxfJ+k3uvXDcdcHy-AP32MWaHT8aQ@mail.gmail.com>
+Subject: [PATCH] libxcrypt: add -std=gnu99 to BUILD_CPPFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,192 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 07:28:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Apr 2018 07:51:27 -0000
 
-This patch fixs the problem that block devices unable to be formatted when
-systemd and udev-extraconf recipes added into rootfs.
+* add it to allow older distributions e.g. Ubuntu 14.04 with gcc 4.8
+  to build this, otherwise it fails with:
+  ../git/gen-des-tables.c: In function 'write_table_u8':
+  ../git/gen-des-tables.c:307:3: error: 'for' loop initial declarations are only allowed in C99 mode
+     for (size_t i = 0; i < m; i++)
+     ^
 
-If we add systemd and udev-extraconf recipes into rootfs:
-    VIRTUAL-RUNTIME_init_manager = "systemd"
-    DISTRO_FEATURES_append = " systemd"
-    DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-    KERNEL_FEATURES_append = " cfg/systemd.scc"
-    IMAGE_INSTALL_append = " udev-extraconf"
-    IMAGE_FSTYPES += "tar.bz2 ext4"
-    IMAGE_INSTALL_append = " e2fsprogs-mke2fs"
-then systemd-udevd.service will invoke udev rules to automount block devices
-any probed under itself private namespace, this behavior results in host space
-can't format those devices. And host space can't find where the device is used.
-Such as:
-    root@qemux86:~# mkfs.ext4 /dev/sda1
-    mke2fs 1.43.8 (1-Jan-2018)
-    /dev/sda1 contains a ext4 file system
-	    last mounted on Tue Apr  3 06:22:41 2018
-    Proceed anyway? (y,N) y
-    /dev/sda1 is apparently in use by the system; will not make a filesystem here!
-
-Command systemd-mount recommended by systemd maintainer instead of command mount
-will fix the problem brought with private namespace. Systemd-mount request the
-mount operation to be executed by PID 1, and hence host space can access the block
-devices.
-
-[YOCTO #12644]
-
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/udev/mount.sh | 141 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 141 insertions(+)
- create mode 100644 meta/recipes-core/udev/mount.sh
+ meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/mount.sh b/meta/recipes-core/udev/mount.sh
-new file mode 100644
-index 0000000..2fa2925
---- /dev/null
-+++ b/meta/recipes-core/udev/mount.sh
-@@ -0,0 +1,141 @@
-+#!/bin/sh
-+#
-+# Called from udev
-+#
-+# Attempt to mount any added block devices and umount any removed devices
-+
-+
-+BASE_INIT="`readlink "/sbin/init"`"
-+INIT_SYSTEMD="/lib/systemd/systemd"
-+
-+if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
-+	# systemd as init uses systemd-mount to mount block devices
-+        MOUNT="/usr/bin/systemd-mount"
-+        UMOUNT="/usr/bin/systemd-umount"
-+
-+        if [ -x $MOUNT ] && [ -x $UMOUNT ];
-+        then
-+                logger "Using systemd-mount to finish mount"
-+        else
-+                logger "Linux init is using systemd, so please install systemd-mount to finish mount"
-+		exit 1
-+        fi
-+else
-+        MOUNT="/bin/mount"
-+        UMOUNT="/bin/umount"
-+fi
-+
-+PMOUNT="/usr/bin/pmount"
-+
-+for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
-+do
-+	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
-+	then
-+		logger "udev/mount.sh" "[$DEVNAME] is blacklisted, ignoring"
-+		exit 0
-+	fi
-+done
-+
-+automount_systemd() {
-+        name="`basename "$DEVNAME"`"
-+
-+        ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-+        
-+        MOUNT="$MOUNT -o silent"
-+        
-+        # If filesystemtype is vfat, change the ownership group to 'disk', and
-+        # grant it with  w/r/x permissions.
-+        case $ID_FS_TYPE in
-+        vfat|fat)
-+                MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-+                ;;
-+        # TODO
-+        *)
-+                ;;
-+        esac
-+
-+        if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
-+        then
-+                #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+                rm_dir "/run/media/$name"
-+        else
-+                logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-+                touch "/tmp/.automount-$name"
-+        fi
-+}
-+
-+automount() {	
-+	name="`basename "$DEVNAME"`"
-+
-+	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-+	# Silent util-linux's version of mounting auto
-+	if [ "x`readlink $MOUNT`" = "x/bin/mount.util-linux" ] ;
-+	then
-+		MOUNT="$MOUNT -o silent"
-+	fi
-+	
-+	# If filesystem type is vfat, change the ownership group to 'disk', and
-+	# grant it with  w/r/x permissions.
-+	case $ID_FS_TYPE in
-+	vfat|fat)
-+		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-+		;;
-+	# TODO
-+	*)
-+		;;
-+	esac
-+
-+	if ! $MOUNT -t auto $DEVNAME "/run/media/$name"
-+	then
-+		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+		rm_dir "/run/media/$name"
-+	else
-+		logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-+		touch "/tmp/.automount-$name"
-+	fi
-+}
-+	
-+rm_dir() {
-+	# We do not want to rm -r populated directories
-+	if test "`find "$1" | wc -l | tr -d " "`" -lt 2 -a -d "$1"
-+	then
-+		! test -z "$1" && rm -r "$1"
-+	else
-+		logger "mount.sh/automount" "Not removing non-empty directory [$1]"
-+	fi
-+}
-+
-+# No ID_FS_TYPE for cdrom device, yet it should be mounted
-+name="`basename "$DEVNAME"`"
-+[ -e /sys/block/$name/device/media ] && media_type=`cat /sys/block/$name/device/media`
-+
-+if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_type" = "cdrom" ]; then
-+	if [ -x "$PMOUNT" ]; then
-+		$PMOUNT $DEVNAME 2> /dev/null
-+	elif [ -x $MOUNT ]; then
-+    		$MOUNT $DEVNAME 2> /dev/null
-+	fi
-+	
-+	# If the device isn't mounted at this point, it isn't
-+	# configured in fstab (note the root filesystem can show up as
-+	# /dev/root in /proc/mounts, so check the device number too)
-+        if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-+                if [ "`basename $MOUNT`" = "systemd-mount" ];then
-+                        grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-+                else
-+                        grep -q "^$DEVNAME " /proc/mounts || automount
-+                fi
-+        fi
-+fi
-+
-+
-+if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
-+	for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
-+	do
-+		$UMOUNT $mnt
-+	done
-+	
-+	# Remove empty directories from auto-mounter
-+	name="`basename "$DEVNAME"`"
-+	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
-+fi
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
+index b1982c1991..a1be4be7ef 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt_4.0.0.bb
+@@ -20,7 +20,7 @@ FILES_${PN} = "${libdir}/libcrypt*.so.* ${libdir}/libcrypt-*.so ${libdir}/libowc
+ 
+ S = "${WORKDIR}/git"
+ 
+-BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
++BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE} -std=gnu99"
+ TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
+ 
+ python () {
 -- 
-2.8.1
+2.15.1
 
 
