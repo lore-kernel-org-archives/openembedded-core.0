@@ -1,52 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 152D374754
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 183F3748FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Apr 2018 22:05:03 +0000 (UTC)
-Received: by mail-ot0-f196.google.com with SMTP id d9-v6so8237952oth.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Apr 2018 15:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1YAZ5D/VC2QyAYnuMeIB0SzvVpmqdAgEJdRW0AsD09s=;
-	b=PEdO+M3aRcvY98hOjTJeMNij2+BedyAm8+1USjnsJE46tBIYPfn0aGe9zoefNAESlZ
-	7D8YIJIF1e8Ql/ieOHQDIPwiq35yjmXcpg8yEHeXT7WQlWlbnF6k1INJIyMTmrLnO4Sl
-	2Fsh9b/x1XI0kFG6ACvopB+fMXM4rMWDpuZabqLXlEl3JfrMJoLpPbsXpa6EDvkHHDEl
-	4AdNnmVAN2YWFRMLBRDwgbFFIGdY1BHNWzUb2gLzbBrRErT6wB09TagJAUzmZG0A6ir/
-	yjUiFQTjNZCR3LedzHqsEgQyj0CLK/uE6NdxF/eIL91TBCY8zRZlfYWi2RQd+9O0Ik3v
-	Azig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1YAZ5D/VC2QyAYnuMeIB0SzvVpmqdAgEJdRW0AsD09s=;
-	b=hfBeVXxij7htb8Ul7EAFdNpI3k5uC+4EqK+csOpmc1QpVAbakn98KXkdQjNtPahE4S
-	wr4kbIZoUXM5Jy65aOCW9TRi4edS57Ur0OBdgCAh4myRZXuBrGwzfskmfFgLYhNqjDGv
-	BoZjcIxMLyDgGOeDo2+rDsbIJhyDlTRzq7mj7zMAKYpz1B3dLDuvDqZ2gBVSt9G1ZiT4
-	yLStxUWj3oPLqxmpKI1UOKDEo4lEsRJfRLKAmLji8lK4gSoh5JZcVwJJh2puW+u/ifEh
-	+xYEFQkSc/R6kREtVgB9M2JH4I4XdKpztxeRuwJF5dUU5HNU3sHrPGJhLBjdnjxxMWa8
-	SA6w==
-X-Gm-Message-State: ALQs6tCFgAyQ/mhQKtTfoi1M9+TByavHEpuZabNxWvdxK93bQsFoKNm7
-	pXc3lsa8JbM+ezDdkAbVYWOJM0lMI7LdSI+LsmujAg==
-X-Google-Smtp-Source: AIpwx4861H37VpGcDzgWSVxfqWle+sx4IEdqzAfGnHyMnI0JvFGgUgHrwnhyo69W4vxtfDc5mcwLcj982WOSkoEcns0=
-X-Received: by 2002:a9d:e4d:: with SMTP id
-	n13-v6mr22637477otd.168.1523311504856; 
-	Mon, 09 Apr 2018 15:05:04 -0700 (PDT)
+	Tue, 10 Apr 2018 00:57:09 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Apr 2018 17:57:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,429,1517904000"; d="scan'208";a="219102795"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by fmsmga005.fm.intel.com with ESMTP; 09 Apr 2018 17:57:09 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
+	PGSMSX111.gar.corp.intel.com ([169.254.2.233]) with mapi id
+	14.03.0319.002; Tue, 10 Apr 2018 08:57:09 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oe-selftest: runqemu: add tests for qemu
+	boot and shutdown
+Thread-Index: AQHT0AAA69rWynOjOk6YWeUh9FRdC6P5LZIA
+Date: Tue, 10 Apr 2018 00:57:09 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E017FA@PGSMSX109.gar.corp.intel.com>
+References: <1523244763-108834-1-git-send-email-ee.peng.yeoh@intel.com>
+	<12143047-5587-0874-4cdf-6989cab74b27@linux.intel.com>
+In-Reply-To: <12143047-5587-0874-4cdf-6989cab74b27@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGZhZDJlYWEtYmMzNi00MDE3LTlhMzQtYTE0NTFiYjA2MGQ4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6Ijd4TzJ4bWFuV0VzNmxBVkVZTEdYc2QxRnBuMFkzSTJDcTFGdWN3eHBaYTg9In0=
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Mon, 9 Apr 2018 15:04:44 -0700 (PDT)
-In-Reply-To: <CAMKF1sqzycqqo4+vJ4g=fzy4+k8xwfLDjb8VdssBc_5+KNPzRQ@mail.gmail.com>
-References: <20180409151919.9133-1-ross.burton@intel.com>
-	<CAJ86T=V7o5nE-pX9QZGqXFL93O2Nt=GE7cist-zo2WGg0zO_sg@mail.gmail.com>
-	<CAJTo0Lbh=YR9KFHHDLk6WTj+rj0OxCrv7VyqjRbX-wFgHi=o1w@mail.gmail.com>
-	<CAMKF1sqzycqqo4+vJ4g=fzy4+k8xwfLDjb8VdssBc_5+KNPzRQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Apr 2018 23:04:44 +0100
-Message-ID: <CAJTo0LY=ybUH-TRcz-E6=z9K8gGs15FDHTz9q3LANfUbk7a7VA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate_sdk_base: use xz -T instead of pixz
+Subject: Re: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +50,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 22:05:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Apr 2018 00:57:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 9 April 2018 at 22:20, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Apr 9, 2018 at 1:44 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 9 April 2018 at 21:13, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Mon, Apr 9, 2018 at 8:19 AM, Ross Burton <ross.burton@intel.com> wrote:
->>>> xz has native support for threaded compression now and SDK creation was the only
->>>> part of oe-core which is using pixz instead of xz.
->>>>
->>>> Not only does this remove pixz-native from the SDK dependencies, but in my
->>>> limited testing xz -T0 is slightly faster and produces smaller archives than
->>>> pixz for the same input.
->>>>
->>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
->>>> ---
->>>>
->>>>  # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
->>>> @@ -225,7 +225,7 @@ fakeroot tar_sdk() {
->>>>         # Package it up
->>>>         mkdir -p ${SDKDEPLOYDIR}
->>>>         cd ${SDK_OUTPUT}/${SDKPATH}
->>>> -       tar ${SDKTAROPTS} -cf - . | pixz > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
->>>> +       tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
->>>
->>> Since -T 0 will use all available CPUs (ie any attempts the user may
->>> have made to limit parallelism via BB_NUMBER_THREADS or PARALLEL_MAKE
->>> will be ignored), perhaps it's worth adding something like
->>> "--memlimit=70%" to try to give some protection for environments with
->>> lots of CPUs but not so much DRAM?
->>
->> There's a few places where -T0 is passed already: tar.xz image
->> creation and opkg creation, so I guess we need to centralise this
->> somewhere too.
->>
->
-> May be use XZ_OPT env bariable and param to -T could use the bitbake
-> calculated number of CPUs
-
--T0 is use as many threads as there are cores, which is the same as
-the bitbake function.  Re-using BB_NUMBER_THREADS might work.
-
-Ross
+Tm90ZWQsIHdpbGwgYWRkIGNvbW1lbnQgYW5kIHJlc2VuZCB0aGUgcGF0Y2guIFRoYW5rIHlvdSBm
+b3IgeW91ciBpbnB1dHMuIA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxl
+eGFuZGVyIEthbmF2aW4gW21haWx0bzphbGV4YW5kZXIua2FuYXZpbkBsaW51eC5pbnRlbC5jb21d
+IA0KU2VudDogTW9uZGF5LCBBcHJpbCA5LCAyMDE4IDg6MzQgUE0NClRvOiBZZW9oLCBFZSBQZW5n
+IDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9lLXNlbGZ0ZXN0OiBy
+dW5xZW11OiBhZGQgdGVzdHMgZm9yIHFlbXUgYm9vdCBhbmQgc2h1dGRvd24NCg0KT24gMDQvMDkv
+MjAxOCAwNjozMiBBTSwgWWVvaCBFZSBQZW5nIHdyb3RlOg0KPiBRQSB0ZWFtIHdlcmUgdGVzdGlu
+ZyBxZW11IGJvb3QgaW1hZ2UgYW5kIHNodXRkb3duIG9uIGVhY2ggcWVtdSANCj4gYXJjaGl0ZWN0
+dXJlIG1hbnVhbGx5LiBBZGQgYXV0b21hdGVkIHRlc3QgdG8gdGVzdCBxZW11IGJvb3Qgb24NCj4g
+ZXh0NCBhbmQgbmZzLCBmaW5hbGx5IGNoZWNrIHRoYXQgaXQgY2FuIHNodXRkb3duIHByb3Blcmx5
+Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWWVvaCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwu
+Y29tPg0KPiAtLS0NCj4gICBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkg
+fCA2MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4gICAxIGZpbGUgY2hhbmdl
+ZCwgNTkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9t
+ZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkgDQo+IGIvbWV0YS9saWIvb2Vx
+YS9zZWxmdGVzdC9jYXNlcy9ydW5xZW11LnB5DQo+IGluZGV4IDQ3ZDQxZjUuLjcyODhhYjIgMTAw
+NjQ0DQo+IC0tLSBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvcnVucWVtdS5weQ0KPiAr
+KysgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkNCj4gQEAgLTMsOSAr
+MywxMCBAQA0KPiAgICMNCj4gICANCj4gICBpbXBvcnQgcmUNCj4gLQ0KPiAraW1wb3J0IHRlbXBm
+aWxlDQo+ICtpbXBvcnQgdGltZQ0KPiAgIGZyb20gb2VxYS5zZWxmdGVzdC5jYXNlIGltcG9ydCBP
+RVNlbGZ0ZXN0VGVzdENhc2UgLWZyb20gDQo+IG9lcWEudXRpbHMuY29tbWFuZHMgaW1wb3J0IGJp
+dGJha2UsIHJ1bnFlbXUsIGdldF9iYl92YXINCj4gK2Zyb20gb2VxYS51dGlscy5jb21tYW5kcyBp
+bXBvcnQgYml0YmFrZSwgcnVucWVtdSwgZ2V0X2JiX3ZhciwgcnVuQ21kDQo+ICAgZnJvbSBvZXFh
+LmNvcmUuZGVjb3JhdG9yLm9laWQgaW1wb3J0IE9FVGVzdElEDQo+ICAgDQo+ICAgY2xhc3MgUnVu
+cWVtdVRlc3RzKE9FU2VsZnRlc3RUZXN0Q2FzZSk6DQo+IEBAIC0xMzYsMyArMTM3LDU5IEBAIFNZ
+U0xJTlVYX1RJTUVPVVQgPSAiMTAiDQo+ICAgICAgICAgICBjbWQgPSAiJXMgJXMiICUgKHNlbGYu
+Y21kX2NvbW1vbiwgcm9vdGZzKQ0KPiAgICAgICAgICAgd2l0aCBydW5xZW11KHNlbGYucmVjaXBl
+LCBzc2g9RmFsc2UsIGxhdW5jaF9jbWQ9Y21kKSBhcyBxZW11Og0KPiAgICAgICAgICAgICAgIHNl
+bGYuYXNzZXJ0VHJ1ZShxZW11LnJ1bm5lci5sb2dnZWQsICJGYWlsZWQ6ICVzIiAlIGNtZCkNCj4g
+Kw0KPiArY2xhc3MgUWVtdVRlc3QoT0VTZWxmdGVzdFRlc3RDYXNlKToNCg0KUGxlYXNlIGFkZCBj
+b21tZW50cyB0aGF0IGV4cGxhaW4gdGhlIG5lZWQgZm9yIGEgc2VwYXJhdGUgY2xhc3MsIHdoYXQg
+dGhlIHR3byBjbGFzc2VzIGRvIGFuZCBob3cgdGhleSBkaWZmZXIuDQoNCg0KQWxleA0K
 
