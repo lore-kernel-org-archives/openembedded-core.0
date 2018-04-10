@@ -1,41 +1,43 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 380C1747C7
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B8018744AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 09:55:24 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40L2bc0ygQz1qtfG;
-	Tue, 10 Apr 2018 11:55:24 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40L2bc04zQz1qqkr;
-	Tue, 10 Apr 2018 11:55:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id 2fpExPbkWWmp; Tue, 10 Apr 2018 11:55:22 +0200 (CEST)
-X-Auth-Info: dQn5tlFUvfNwtcTTUVFx90Jz/IWSxbC9JuoAHtmxDRg=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 10 Apr 2018 11:55:22 +0200 (CEST)
-To: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>,
-	Khem Raj <raj.khem@gmail.com>
-References: <20180408230223.17260-1-marex@denx.de>
-	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
-	<bf9e9593-a395-8d53-faf8-ad6609aa5ba1@prevas.dk>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <53904a8f-7ba2-7f09-4e93-a95a780f60c7@denx.de>
-Date: Tue, 10 Apr 2018 11:55:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Tue, 10 Apr 2018 10:01:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Apr 2018 03:01:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,431,1517904000"; d="scan'208";a="46618324"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by orsmga001.jf.intel.com with ESMTP; 10 Apr 2018 03:01:55 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.5]) with mapi id
+	14.03.0319.002; Tue, 10 Apr 2018 18:01:55 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oe-selftest: runqemu: add tests for qemu
+	boot and shutdown
+Thread-Index: AQHT0LAJ69rWynOjOk6YWeUh9FRdC6P5wMmA
+Date: Tue, 10 Apr 2018 10:01:54 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E01AA0@PGSMSX109.gar.corp.intel.com>
+References: <1523295825-118054-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1523353262.2942.143.camel@linuxfoundation.org>
+In-Reply-To: <1523353262.2942.143.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZWYyN2UxMDgtZjljOS00ZGEzLWIyZGQtN2MwNWYwOTU2ZTAwIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6IktjVysrXC9VK2NBSXN5NTZhXC84dVdCclRPOWV1UFVvMUVicndCVFVQVW1SUT0ifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-In-Reply-To: <bf9e9593-a395-8d53-faf8-ad6609aa5ba1@prevas.dk>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
+Subject: Re: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,175 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2018 09:55:26 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 10 Apr 2018 10:01:58 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 04/10/2018 11:49 AM, Martin Hundebøll wrote:
-> Hi,
-
-Hi,
-
-> I had to patch up our own u-boot recipe as shown in the attached patch
-> to make v2018.03 compile for qemu-x86.
-> 
-> The thing is that the build of pylibfdt became unconditional since
-> 15b97f5c5e ('pylibfdt: move pylibfdt to scripts/dtc/pylibfdt and
-> refactor makefile')
-> 
-> In my case u-boot/pylibfdt failed to find the correct (native) headers,
-> because python setuptools / distutils looks into STAGING_{LIB,INC}DIR
-> when compiling the native extension for libfdt. I didn't find any other
-> way to specificy this in either the u-boot Makefile or some other magic
-> environment variable.
-
-CCing Yamada-san, maybe he has an idea.
-Also, do not top post.
-
-> // Martin
-> 
-> On 2018-04-09 02:54, Khem Raj wrote:
->>
->> On Sun, Apr 8, 2018 at 4:10 PM Marek Vasut <marex@denx.de
->> <mailto:marex@denx.de>> wrote:
->>
->>     This upgrades the U-Boot from 2018.01 to 2018.03 release and drops
->>     patches accepted upstream, getting the patch count to zero.
->>
->>
->>
->> It fails for me if I have libfdt installed on build host
->> It seems build is doing the include dance which goes all the way into
->> hosts system include directories
->>
->>
->>
->>     Signed-off-by: Marek Vasut <marex@denx.de <mailto:marex@denx.de>>
->>     Cc: Otavio Salvador <otavio@ossystems.com.br
->>     <mailto:otavio@ossystems.com.br>>
->>     Cc: Ross Burton <ross.burton@intel.com
->> <mailto:ross.burton@intel.com>>
->>     Cc: Richard Purdie <richard.purdie@linuxfoundation.org
->>     <mailto:richard.purdie@linuxfoundation.org>>
->>     ---
->>       .../u-boot/files/MPC8315ERDB-enable-DHCP.patch        | 19
->>     -------------------
->>       ...t-common_2018.01.inc => u-boot-common_2018.03.inc} |  6 ++----
->>       ...fw-utils_2018.01.bb <http://fw-utils_2018.01.bb> =>
->>     u-boot-fw-utils_2018.03.bb <http://u-boot-fw-utils_2018.03.bb>} |  0
->>       ...t-mkimage_2018.01.bb <http://t-mkimage_2018.01.bb> =>
->>     u-boot-mkimage_2018.03.bb <http://u-boot-mkimage_2018.03.bb>} |  0
->>       .../u-boot/{u-boot_2018.01.bb <http://u-boot_2018.01.bb> =>
->>     u-boot_2018.03.bb <http://u-boot_2018.03.bb>}   |  0
->>       5 files changed, 2 insertions(+), 23 deletions(-)
->>       delete mode 100644
->>     meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
->>       rename meta/recipes-bsp/u-boot/{u-boot-common_2018.01.inc =>
->>     u-boot-common_2018.03.inc} (68%)
->>       rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2018.01.bb
->>     <http://u-boot-fw-utils_2018.01.bb> => u-boot-fw-utils_2018.03.bb
->>     <http://u-boot-fw-utils_2018.03.bb>} (100%)
->>       rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.01.bb
->>     <http://u-boot-mkimage_2018.01.bb> => u-boot-mkimage_2018.03.bb
->>     <http://u-boot-mkimage_2018.03.bb>} (100%)
->>       rename meta/recipes-bsp/u-boot/{u-boot_2018.01.bb
->>     <http://u-boot_2018.01.bb> => u-boot_2018.03.bb
->>     <http://u-boot_2018.03.bb>} (100%)
->>
->>     diff --git
->>     a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
->>     b/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
->>     deleted file mode 100644
->>     index ecaa1796a4..0000000000
->>     --- a/meta/recipes-bsp/u-boot/files/MPC8315ERDB-enable-DHCP.patch
->>     +++ /dev/null
->>     @@ -1,19 +0,0 @@
->>     -Enabled dhcp client functionality for Yocto reference
->>     -hardware MPC8315E-RDB.
->>     -
->>     -Upstream-Status: Pending
->>     -
->>     -Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com
->>     <mailto:ed.bartosh@linux.intel.com>>
->>     -
->>     -Index: git/configs/MPC8315ERDB_defconfig
->>     -===================================================================
->>     ---- git.orig/configs/MPC8315ERDB_defconfig
->>     -+++ git/configs/MPC8315ERDB_defconfig
->>     -@@ -12,6 +12,7 @@ CONFIG_CMD_PCI=y
->>     - CONFIG_CMD_SATA=y
->>     - CONFIG_CMD_USB=y
->>     - # CONFIG_CMD_SETEXPR is not set
->>     -+CONFIG_CMD_DHCP=y
->>     - CONFIG_CMD_MII=y
->>     - CONFIG_CMD_PING=y
->>     - CONFIG_CMD_DATE=y
->>     diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
->>     b/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
->>     similarity index 68%
->>     rename from meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
->>     rename to meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
->>     index d2073ea0c7..8ffae365a9 100644
->>     --- a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
->>     +++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
->>     @@ -7,10 +7,8 @@ PE = "1"
->>
->>       # We use the revision in order to avoid having to fetch it from the
->>       # repo during parse
->>     -SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
->>     +SRCREV = "f95ab1fb6e37f0601f397091bb011edf7a98b890"
->>
->>     -SRC_URI = "git://git.denx.de/u-boot.git
->>     <http://git.denx.de/u-boot.git> \
->>     -    file://MPC8315ERDB-enable-DHCP.patch \
->>     -"
->>     +SRC_URI = "git://git.denx.de/u-boot.git
->>     <http://git.denx.de/u-boot.git>"
->>
->>       S = "${WORKDIR}/git"
->>     diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.01.bb
->>     <http://u-boot-fw-utils_2018.01.bb>
->>     b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb
->>     <http://u-boot-fw-utils_2018.03.bb>
->>     similarity index 100%
->>     rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.01.bb
->>     <http://u-boot-fw-utils_2018.01.bb>
->>     rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb
->>     <http://u-boot-fw-utils_2018.03.bb>
->>     diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
->>     <http://u-boot-mkimage_2018.01.bb>
->>     b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb
->>     <http://u-boot-mkimage_2018.03.bb>
->>     similarity index 100%
->>     rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.01.bb
->>     <http://u-boot-mkimage_2018.01.bb>
->>     rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb
->>     <http://u-boot-mkimage_2018.03.bb>
->>     diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.01.bb
->>     <http://u-boot_2018.01.bb>
->>     b/meta/recipes-bsp/u-boot/u-boot_2018.03.bb
->> <http://u-boot_2018.03.bb>
->>     similarity index 100%
->>     rename from meta/recipes-bsp/u-boot/u-boot_2018.01.bb
->>     <http://u-boot_2018.01.bb>
->>     rename to meta/recipes-bsp/u-boot/u-boot_2018.03.bb
->>     <http://u-boot_2018.03.bb>
->>     --
->>     2.16.2
->>
->>     --
->>     _______________________________________________
->>     Openembedded-core mailing list
->>     Openembedded-core@lists.openembedded.org
->>     <mailto:Openembedded-core@lists.openembedded.org>
->>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
-
-
--- 
-Best regards,
-Marek Vasut
+SGkgUmljaGFyZCwNCg0KWWVzLCB3ZSBhcmUgdGVzdGluZyBhbiBhbHRlcm5hdGl2ZSB3YXkgdG8g
+c3RvcCBxZW11IGhlcmUuIEZyb20gbXkgdW5kZXJzdGFuZCwgdGhlIGV4aXN0aW5nIHRlc3RjYXNl
+cyBzdG9wIHFlbXUgdGhyb3VnaCBraWxsaW5nIHRoZSBxZW11IHByb2Nlc3MuIFdoaWxlIHRoaXMg
+dGVzdGNhc2Ugd2FzIHRlc3RpbmcgdGhhdCBhZnRlciBleGVjdXRpbmcgdGhlIHNodXRkb3duIGNv
+bW1hbmQgaW5zaWRlIHFlbXUsIHFlbXUgd2lsbCBzdG9wIGFzIGV4cGVjdGVkLiANCg0KQ3VycmVu
+dGx5LCBRQSB0ZWFtIHdhcyBtYW51YWxseSB0ZXN0aW5nIHRoZSBleGVjdXRpb24gb2Ygc2h1dGRv
+d24gY29tbWFuZCBvbiB2YXJpb3VzIHFlbXUgYXJjaGl0ZWN0dXJlLiBUaGUgdGVhbSBoYWQgZm91
+bmQgYW4gc2h1dGRvd24gaHVuZyBpc3N1ZSBvbiBxZW11YXJtLiAgDQpodHRwczovL2J1Z3ppbGxh
+LnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTEyNDk5DQoNCkhvcGUgdGhpcyBleHBs
+YWluIHRoZSBpbnRlbnRpb24gb2YgdGhpcyB0ZXN0Y2FzZS4gUGxlYXNlIGxldCBtZSB5b3Ugb3Bp
+bmlvbiBhbmQgaW5wdXQuIA0KDQpUaGFua3MsDQpZZW9oIEVlIFBlbmcgDQoNCi0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogVHVlc2RheSwgQXByaWwgMTAsIDIwMTgg
+NTo0MSBQTQ0KVG86IFllb2gsIEVlIFBlbmcgPGVlLnBlbmcueWVvaEBpbnRlbC5jb20+OyBvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNv
+cmVdIFtQQVRDSF0gb2Utc2VsZnRlc3Q6IHJ1bnFlbXU6IGFkZCB0ZXN0cyBmb3IgcWVtdSBib290
+IGFuZCBzaHV0ZG93bg0KDQpPbiBNb24sIDIwMTgtMDQtMDkgYXQgMTA6NDMgLTA3MDAsIFllb2gg
+RWUgUGVuZyB3cm90ZToNCj4gUUEgdGVhbSB3ZXJlIHRlc3RpbmcgcWVtdSBib290IGltYWdlIGFu
+ZCBzaHV0ZG93biBvbiBlYWNoIHFlbXUgDQo+IGFyY2hpdGVjdHVyZSBtYW51YWxseS4gQWRkIGF1
+dG9tYXRlZCB0ZXN0IHRvIHRlc3QgcWVtdSBib290IG9uDQo+IGV4dDQgYW5kIG5mcywgZmluYWxs
+eSBjaGVjayB0aGF0IGl0IGNhbiBzaHV0ZG93biBwcm9wZXJseS4NCj4gDQo+IE9yaWdpbmFsIHJ1
+bnFlbXUgdGVzdHMgd2FzIGRlZGljYXRlZCBmb3IgTUFDSElORT1xZW11eDg2LTY0IGFuZCBpdCB3
+YXMgDQo+IHRlc3RpbmcgdmFyaW91cyBsaXZlIGltYWdlIChpc28gYW5kIGhkZGltZykgd2lsbCBi
+ZSBhYmxlIHRvIGJvb3Qgd2hpbGUgDQo+IGxpdmUgaW1hZ2Ugd2FzIG5vdCBzdXBwb3J0ZWQgb24g
+YWxsIHFlbXUgYXJjaGl0ZWN0dXJlLg0KPiANCj4gVGhlIG5ldyB0ZXN0cyB3ZXJlIGRlc2lnbmVk
+IGFzIGEgc2VwYXJhdGUgY2xhc3MgYXMgdGhpcyB0ZXN0cyBmb2N1cyBvbiANCj4gdGVzdGluZyBx
+ZW11IGJvb3QgYW5kIHNodXRkb3duIG9uIGVhY2ggcWVtdSBhcmNoaXRlY3R1cmUuDQo+IEZ1cnRo
+ZXJtb3JlLCB0aGlzIHRlc3RzIGZvY3VzIG9uIHRlc3RpbmcgcWVtdSBjb3VsZCBzaHV0ZG93biBh
+cyANCj4gZXhwZWN0ZWQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZZW9oIEVlIFBlbmcgPGVlLnBl
+bmcueWVvaEBpbnRlbC5jb20+DQoNCkkgZG8gaGF2ZSBvbmUgb3RoZXIgcXVlc3Rpb24gYWJvdXQg
+dGhpcy4gVGhlcmUgYXJlIHZhcmlvdXMgb3RoZXIgdGVzdHMgd2hpY2ggYm9vdCBxZW11IGltYWdl
+cy4gV291bGQgd2UgYmUgYWJsZSB0byBhc3N1bWUgdGhhdCBiZWNhdXNlIHRob3NlIHRlc3RzIHdv
+cmssIHRoZSBzdGFydC9zdG9wIG9mIHFlbXUgaXMgd29ya2luZz8gT3IgaXMgdGhlcmUgYSB1bmlx
+dWUgZWxlbWVudCB3ZSBuZWVkIHRvIHRlc3Qgc3BlY2lmaWNhbGx5IGhlcmU/DQoNCkNoZWVycywN
+Cg0KUmljaGFyZA0K
 
