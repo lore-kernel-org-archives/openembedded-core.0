@@ -1,27 +1,46 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 53E2C74683
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D8D87484E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 19:39:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3AJdQm5022055
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Apr 2018 12:39:26 -0700 (PDT)
-Received: from [172.25.44.10] (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 10 Apr 2018 12:39:25 -0700
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <84ab73de-b18d-caec-c9cc-2a48e1385faf@windriver.com>
-Date: Tue, 10 Apr 2018 15:39:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Tue, 10 Apr 2018 19:48:42 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id 188-v6so12357681oih.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Apr 2018 12:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MF8YJSFPptz2+GdePQRVAh4/zVDzXUwyBvNwx4d7KKk=;
+	b=NylsWq6F4tf8HA66qZnALMTgz+NU47vlyRmbAu4JHuo2prdlQjVC4qnveT8Q6n8Rne
+	jaU5rOrdTYme4qu0ZKGXlJjfNeGR5quwv3osJJI+wyajhPvlyS9H77TAyL3gcHoceUOd
+	hK+dxi674u5nDdEcitmroBGWOLyNHXnfPBlCo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MF8YJSFPptz2+GdePQRVAh4/zVDzXUwyBvNwx4d7KKk=;
+	b=eezeN9CYRKUTuKw0LXFEXaVTsoOdaIY03OO8f2xBs5m5KBYTa1mYbZIWgL9XifPOEV
+	op97WCyHKYH4nUo+oNhj5eJnwOMM/UYBBmJjNnPOYbaeLHIDsMr2UhqwGI+l91sr+8sc
+	+7YTV6Qtcu0sfrgbuixeP9OpiZ6rIYUN2Nixi3RPq7FzD260NF+uEXonSwJxyhM8j5Co
+	/IzPnkQzkqWI7/A8EPYi+YIS+2Y73DMQafAJlIobnHDwBteicHsrw3l9ommj2pNb4hrq
+	mAVeSdUQSjaiZ7Dw/YBDPfpct6MWaGnK5HowiGbS6FmY6ptnfMdeZVthq3MF7m/Ls6l9
+	CIng==
+X-Gm-Message-State: ALQs6tApF5ZCQ72rAFW+b2RQtSa1e05GEdsb8u2pxQkwX5A7WVOyQAGb
+	UVT16zISr7gVkmmmDqeBf3yoekLos/wERoYclg67rQ==
+X-Google-Smtp-Source: AIpwx49ajFED3japXS9qogU2kpMlGCJ024K3Hw/0IP61VOdCcNXBUhUxUB+i7svFLx4N9hcXjaoheLO7c4u4pskpnzc=
+X-Received: by 2002:aca:ed08:: with SMTP id l8-v6mr1186570oih.39.1523389723807;
+	Tue, 10 Apr 2018 12:48:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1520848583-21222-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Originating-IP: [172.25.44.10]
-Subject: Re: [oe][meta-oe][PATCH] pkcs11-helper: 1.11 -> 1.22
+Received: by 10.74.172.135 with HTTP; Tue, 10 Apr 2018 12:48:23 -0700 (PDT)
+In-Reply-To: <20180410112040.13506-1-ramon.fried@linaro.org>
+References: <20180410112040.13506-1-ramon.fried@linaro.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 10 Apr 2018 21:48:23 +0200
+Message-ID: <CAP71WjxWzSc8pCSv=_NcRNna-pA8mMNUhhhM+X9M7ShO0XK39A@mail.gmail.com>
+To: Ramon Fried <ramon.fried@linaro.org>
+Cc: Ramon Fried <rfried@codeaurora.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-nodm-init: Respawn service in case of failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +53,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2018 19:39:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Apr 2018 19:48:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018-03-12 05:56 AM, Huang Qiyu wrote:
-> Upgrade pkcs11-helper from 1.11 to 1.22.
-> 
-> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+On Tue, Apr 10, 2018 at 1:20 PM, Ramon Fried <ramon.fried@linaro.org> wrote:
+> From: Ramon Fried <rfried@codeaurora.org>
+>
+> It appears that sometimes xserver-nodm.service is starting before
+> display driver finished loading causing the following failure in
+> Xorg log:
+> (EE) open /dev/dri/card0: No such file or directory
+>
+> The introduced by this patch is to restart the service,
+> hopefully the display driver will finish loading.
+>
+> Signed-off-by: Ramon Fried <rfried@codeaurora.org>
+
+we are seeing this issue on Dragonboard with meta-qcom BSP, where all
+drivers needed for display/gpu are modules, so the display
+initialization comes up 'late' in the boot. I had a discussion with
+some upstream gnome folks who indicated that a similar race can be
+observed on any hardware, it is not uncommon, and that's why they use
+Restart=always in gdm.service as well, so that it keep trying until
+the display comes up.
+
+it sounds reasonable change to me.
+
+Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
 > ---
->   .../pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb}      | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->   rename meta-oe/recipes-crypto/pkcs11-helper/{pkcs11-helper_1.11.bb => pkcs11-helper_1.22.bb} (95%)
-
-Huang,
-
-Wrong list, send to:
-   openembedded-devel@lists.openembedded.org
-
-Thanks,
-../Randy
-
-> 
-> diff --git a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-> similarity index 95%
-> rename from meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
-> rename to meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-> index db71bd0..51ccf37 100644
-> --- a/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.11.bb
-> +++ b/meta-oe/recipes-crypto/pkcs11-helper/pkcs11-helper_1.22.bb
-> @@ -20,7 +20,7 @@ SRC_URI[md5sum] = "9f62af9f475901b89355266141306673"
->   SRC_URI[sha256sum] = "494ec59c93e7c56c528f335d9353849e2e7c94a6b1b41c89604694e738113386"
->   
->   S = "${WORKDIR}/git"
-> -SRCREV = "e7adf8f35be232a4f04c53b4ac409be52792093e"
-> +SRCREV = "a6e54e9bdd57dd4e98a2fbf984fe7fe4a9d60171"
->   
->   DEPENDS = "zlib nettle gnutls gmp openssl nss nspr"
->   
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+>  .../x11-common/xserver-nodm-init/xserver-nodm.service.in                 | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+> index 324a26f549..87dc4f8fcd 100644
+> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+> @@ -5,6 +5,7 @@ Description=Xserver startup without a display manager
+>  EnvironmentFile=/etc/default/xserver-nodm
+>  User=@USER@
+>  ExecStart=/etc/xserver-nodm/Xserver
+> +Restart=always
+>
+>  [Install]
+>  Alias=display-manager.service
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
 
