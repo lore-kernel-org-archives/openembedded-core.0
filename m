@@ -1,46 +1,47 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D8D87484E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F55F74897
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 19:48:42 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id 188-v6so12357681oih.8
+	Tue, 10 Apr 2018 21:20:57 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id b127so61950wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 12:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Tue, 10 Apr 2018 14:20:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MF8YJSFPptz2+GdePQRVAh4/zVDzXUwyBvNwx4d7KKk=;
-	b=NylsWq6F4tf8HA66qZnALMTgz+NU47vlyRmbAu4JHuo2prdlQjVC4qnveT8Q6n8Rne
-	jaU5rOrdTYme4qu0ZKGXlJjfNeGR5quwv3osJJI+wyajhPvlyS9H77TAyL3gcHoceUOd
-	hK+dxi674u5nDdEcitmroBGWOLyNHXnfPBlCo=
+	:cc; bh=BrcwgtQDDTxoTJrMJyqR6/M+VuSECgtGiXckHCHfJ8g=;
+	b=ccnVh857CQsfk58udO96DuWLfC4llhHUROZRjcFDEWE6scOTnUDruu/2uSTHSjO9TK
+	YRhZw3Lf5KvlgoKsdjVWfSFGKOVxohGOftTklLNfQN4vC/G2f4ez/hO3DocaLvfpsnHx
+	TcNB9F6wcqwgnQOzdvEFzOtvm5pyRhaHGbCsKWNCqdaawB7gxrrJ0v5Q+wSn5tvS4lFV
+	F8PLNdfgKVUsd+J40nYh0ZRplttCqgcS20yukE4Bs6C7RAeaS4pU1r+kGdJLz67Jc/Cz
+	peO+tc1biX/JYco8/FvekMkwELgRIHdE2wmx8uOcR9ScIdN/db+5NNbBVuY1571tJTSm
+	Irvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MF8YJSFPptz2+GdePQRVAh4/zVDzXUwyBvNwx4d7KKk=;
-	b=eezeN9CYRKUTuKw0LXFEXaVTsoOdaIY03OO8f2xBs5m5KBYTa1mYbZIWgL9XifPOEV
-	op97WCyHKYH4nUo+oNhj5eJnwOMM/UYBBmJjNnPOYbaeLHIDsMr2UhqwGI+l91sr+8sc
-	+7YTV6Qtcu0sfrgbuixeP9OpiZ6rIYUN2Nixi3RPq7FzD260NF+uEXonSwJxyhM8j5Co
-	/IzPnkQzkqWI7/A8EPYi+YIS+2Y73DMQafAJlIobnHDwBteicHsrw3l9ommj2pNb4hrq
-	mAVeSdUQSjaiZ7Dw/YBDPfpct6MWaGnK5HowiGbS6FmY6ptnfMdeZVthq3MF7m/Ls6l9
-	CIng==
-X-Gm-Message-State: ALQs6tApF5ZCQ72rAFW+b2RQtSa1e05GEdsb8u2pxQkwX5A7WVOyQAGb
-	UVT16zISr7gVkmmmDqeBf3yoekLos/wERoYclg67rQ==
-X-Google-Smtp-Source: AIpwx49ajFED3japXS9qogU2kpMlGCJ024K3Hw/0IP61VOdCcNXBUhUxUB+i7svFLx4N9hcXjaoheLO7c4u4pskpnzc=
-X-Received: by 2002:aca:ed08:: with SMTP id l8-v6mr1186570oih.39.1523389723807;
-	Tue, 10 Apr 2018 12:48:43 -0700 (PDT)
+	bh=BrcwgtQDDTxoTJrMJyqR6/M+VuSECgtGiXckHCHfJ8g=;
+	b=fRUrPvZzlDU8Jdbe5M/zdJc9tBghhKoem03Y1E72Kb6sQ58chYvsABvSBpyQFORIXN
+	GjA+vhyRlZvnd76Jteka7b5LHDKNku75yrj3AWYsCzZcu1Bc726VU1H7aWhF1DGBrRQI
+	SzBOuR3NhcCdAlvT6zSWBN8u9uwtbrUXLG/v6g6pAnYfsOXodwqnKr06t9d/okgtMpoM
+	I5jP/lMwoaNDqH0rr3FcMvR0eQvHAZjl2CKr0xPtIy4p1QuJ2W20ZN6a0dxu57G+qvIX
+	MYqTHvrvLqlkFwwVmqpZlPVD6hTIkuJ1j2ZosAoQ3Wnd+Hdsk+lP2S08eAy5726hwjIZ
+	niaQ==
+X-Gm-Message-State: ALQs6tA2iczsaNVWDzuo7aVlXDxoxrIt/lpXVfILPGUo/uB+jLA5YhUu
+	d15F0QL+kT0sDy4iahL89vZnGb4B1eR4xHFGV7QvKg==
+X-Google-Smtp-Source: AIpwx49oJ/eG7ktCPAh2/oX8FSzfi1ET2VLMTFfsejX85U1etG7VdFaI3kvKOEFhirZ9q5fqWepc0aQ4nsUdpSdXyek=
+X-Received: by 10.28.170.205 with SMTP id t196mr744876wme.42.1523395258463;
+	Tue, 10 Apr 2018 14:20:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.74.172.135 with HTTP; Tue, 10 Apr 2018 12:48:23 -0700 (PDT)
-In-Reply-To: <20180410112040.13506-1-ramon.fried@linaro.org>
-References: <20180410112040.13506-1-ramon.fried@linaro.org>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 10 Apr 2018 21:48:23 +0200
-Message-ID: <CAP71WjxWzSc8pCSv=_NcRNna-pA8mMNUhhhM+X9M7ShO0XK39A@mail.gmail.com>
-To: Ramon Fried <ramon.fried@linaro.org>
-Cc: Ramon Fried <rfried@codeaurora.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xserver-nodm-init: Respawn service in case of failure
+Received: by 10.223.163.65 with HTTP; Tue, 10 Apr 2018 14:20:57 -0700 (PDT)
+In-Reply-To: <20180410120747.41814-3-alexander.kanavin@linux.intel.com>
+References: <20180410120747.41814-1-alexander.kanavin@linux.intel.com>
+	<20180410120747.41814-3-alexander.kanavin@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 10 Apr 2018 14:20:57 -0700
+Message-ID: <CAJ86T=X4cBT=RpXzvyuoOiFVX-fj_8tXO8y6JnAa08R_CBkKeA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 3/5] openssl: update to 1.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,52 +54,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2018 19:48:43 -0000
+X-List-Received-Date: Tue, 10 Apr 2018 21:20:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Apr 10, 2018 at 1:20 PM, Ramon Fried <ramon.fried@linaro.org> wrote:
-> From: Ramon Fried <rfried@codeaurora.org>
+On Tue, Apr 10, 2018 at 5:07 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> At the moment 1.1.1 is in pre-release stage, however the final release
+> should be available within a few weeks. The major selling point is that
+> it supports the new TLS 1.3 specification. At the moment it is not clear
+> whether this also will be a long term support version of openssl;
+> we can make the decision to merge this version once that is made clear
+> by upstream. More information:
 >
-> It appears that sometimes xserver-nodm.service is starting before
-> display driver finished loading causing the following failure in
-> Xorg log:
-> (EE) open /dev/dri/card0: No such file or directory
+> https://www.openssl.org/policies/releasestrat.html
 >
-> The introduced by this patch is to restart the service,
-> hopefully the display driver will finish loading.
->
-> Signed-off-by: Ramon Fried <rfried@codeaurora.org>
-
-we are seeing this issue on Dragonboard with meta-qcom BSP, where all
-drivers needed for display/gpu are modules, so the display
-initialization comes up 'late' in the boot. I had a discussion with
-some upstream gnome folks who indicated that a similar race can be
-observed on any hardware, it is not uncommon, and that's why they use
-Restart=always in gdm.service as well, so that it keep trying until
-the display comes up.
-
-it sounds reasonable change to me.
-
-Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  .../x11-common/xserver-nodm-init/xserver-nodm.service.in                 | 1 +
->  1 file changed, 1 insertion(+)
+>  ...1-Take-linking-flags-from-LDFLAGS-env-var.patch | 43 ----------------------
+>  .../{openssl_1.1.0h.bb => openssl_1.1.1-pre4.bb}   | 21 +++++------
+>  2 files changed, 10 insertions(+), 54 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Take-linking-flags-from-LDFLAGS-env-var.patch
+>  rename meta/recipes-connectivity/openssl/{openssl_1.1.0h.bb => openssl_1.1.1-pre4.bb} (83%)
 >
-> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-> index 324a26f549..87dc4f8fcd 100644
-> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
-> @@ -5,6 +5,7 @@ Description=Xserver startup without a display manager
->  EnvironmentFile=/etc/default/xserver-nodm
->  User=@USER@
->  ExecStart=/etc/xserver-nodm/Xserver
-> +Restart=always
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre4.bb
+> similarity index 83%
+> rename from meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> rename to meta/recipes-connectivity/openssl/openssl_1.1.1-pre4.bb
+> index 94b75eb92a8..859362f7afe 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1-pre4.bb
+> @@ -10,13 +10,12 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
 >
->  [Install]
->  Alias=display-manager.service
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> -SRC_URI[md5sum] = "5271477e4d93f4ea032b665ef095ff24"
+> -SRC_URI[sha256sum] = "5835626cde9e99656585fc7aaa2302a73a7e1340bf8c14fd635a62c66802a517"
+> +SRC_URI[md5sum] = "07c3f6831fb6dfe975795ef7bbbee9fc"
+> +SRC_URI[sha256sum] = "df2d5fcc2a878525611c75b9e9116fbcfbce8d9b96419a16eda5fb11ecc428f6"
+>
+>  SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+>             file://run-ptest \
+>             file://openssl-c_rehash.sh \
+> -           file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
+>             "
+>
+>  S = "${WORKDIR}/openssl-${PV}"
+> @@ -114,20 +113,20 @@ do_configure () {
+>          if [ "x$useprefix" = "x" ]; then
+>                  useprefix=/
+>          fi
+> -       libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
+> -       perl ./Configure ${EXTRA_OECONF} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdirleaf} $target
+> +        # WARNING: do not set compiler/linker flags (-I/-D etc.) in EXTRA_OECONF, as they will fully replace the
+> +        # environment variables set by bitbake. Adjust the environment variables instead.
+> +       perl ./Configure ${EXTRA_OECONF} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir} $target
+>  }
+>
+> -#| engines/afalg/e_afalg.c: In function 'eventfd':
+> -#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
+> -#|      return syscall(__NR_eventfd, n);
+> -#|                     ^~~~~~~~~~~~
+> -EXTRA_OECONF_aarch64 += "no-afalgeng"
+> +# This prevents openssl from using getrandom() which is not available on older glibc versions
+> +# (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
+> +EXTRA_OECONF_class-native += "--with-rand-seed=devrandom"
+> +EXTRA_OECONF_class-nativesdk += "--with-rand-seed=devrandom"
+
+Better to avoid += with an over-ride since it doesn't do what most new
+users etc expect. Better to use _append instead (or just the over-ride
+on it's own, if over-riding the original value is what you intended to
+do).
+
+>  #| ./libcrypto.so: undefined reference to `getcontext'
+>  #| ./libcrypto.so: undefined reference to `setcontext'
+>  #| ./libcrypto.so: undefined reference to `makecontext'
+> -EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
+> +CPPFLAGS_libc-musl += "-DOPENSSL_NO_ASYNC"
+
+Same comment here.
+
+>  do_install () {
+>          oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
 > --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
 
