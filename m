@@ -1,37 +1,23 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 444C1746CA
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4006B74537
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 01:07:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0073220B53;
-	Wed, 11 Apr 2018 01:07:22 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id BiODfcCTgO8G; Wed, 11 Apr 2018 01:07:21 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BC709203A8;
-	Wed, 11 Apr 2018 01:07:18 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4FCC616342E; Tue, 10 Apr 2018 21:07:18 -0400 (EDT)
-Date: Tue, 10 Apr 2018 21:07:18 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180411010718.GF3228@denix.org>
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<1523387170-30191-2-git-send-email-denis@denix.org>
-	<CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
-	<CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] weston: upgrade to 4.0.0
+	Wed, 11 Apr 2018 01:46:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Apr 2018 18:46:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,434,1517904000"; d="scan'208";a="32430667"
+Received: from echidna.jf.intel.com ([10.54.77.42])
+	by orsmga007.jf.intel.com with ESMTP; 10 Apr 2018 18:46:04 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Apr 2018 11:32:33 -0700
+Message-Id: <1523385153-167408-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] oe-selftest: crosstap: add tests for crosstap script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +30,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 01:07:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 11 Apr 2018 01:46:04 -0000
 
-On Wed, Apr 11, 2018 at 12:17:51AM +0100, Burton, Ross wrote:
-> Ah presumably this is because the U-S is after the scissors.  Denys,
-> when you add it back, can you put it above the ---?
+QA team were testing crosstap script manually. Add automated
+tests and systemtap file to test that crosstap script will
+instructs SystemTap to print hello world in qemu. This test
+will first built core-image-minimal image with tools-profile
+& ssh-server-openssh features and build systemtap-native on
+the host machine. Finally this test will boot the image with qemu
+and then execute crosstap script to print hello world on qemu.
 
-Sure, will do.
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/files/trace_begin_hello.stp |  5 +++++
+ meta/lib/oeqa/selftest/cases/crosstap.py  | 25 +++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/lib/oeqa/files/trace_begin_hello.stp
+ create mode 100644 meta/lib/oeqa/selftest/cases/crosstap.py
 
+diff --git a/meta/lib/oeqa/files/trace_begin_hello.stp b/meta/lib/oeqa/files/trace_begin_hello.stp
+new file mode 100644
+index 0000000..5ad5f15
+--- /dev/null
++++ b/meta/lib/oeqa/files/trace_begin_hello.stp
+@@ -0,0 +1,5 @@
++probe begin
++{
++  printf ("hello world\n")
++  exit ()
++}
+\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/crosstap.py b/meta/lib/oeqa/selftest/cases/crosstap.py
+new file mode 100644
+index 0000000..57523cb
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/crosstap.py
+@@ -0,0 +1,25 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_vars, runCmd, runqemu
++import os
++
++class CrossTapTest(OESelftestTestCase):
++
++    def test_crosstap_can_use_systemtap_on_qemu(self):
++        self.write_config('EXTRA_IMAGE_FEATURES += "tools-profile ssh-server-openssh"')
++        result = bitbake('core-image-minimal')
++        self.assertEqual(result.status, 0, msg="Bitbake core-image-minimal failed. Bitbake output: %s" % result.output)
++        result = bitbake('systemtap-native')
++        self.assertEqual(result.status, 0, msg="Bitbake systemtap-native failed. Bitbake output: %s" % result.output)
++
++        recipe = 'core-image-minimal'
++        bb_vars = get_bb_vars(['MACHINE', 'DEPLOY_DIR_IMAGE'])
++        machine =  bb_vars['MACHINE']
++        deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
++        qemuboot_conf = "%s-%s.qemuboot.conf" % (recipe, machine)
++        qemuboot_conf = os.path.join(deploy_dir_image, qemuboot_conf)
++        cmd_common = "runqemu nographic"
++        cmd = "%s %s" % (cmd_common, qemuboot_conf)
++        with runqemu(recipe, ssh=True, launch_cmd=cmd) as qemu:
++            systap_file = os.path.join(self.tc.files_dir, 'trace_begin_hello.stp')
++            result = runCmd("crosstap root@%s %s" % (qemu.ip, systap_file))
++        self.assertTrue('hello world' in result.output, 'Crosstap failed.')
+-- 
+2.7.4
 
-> On 11 April 2018 at 00:16, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 10 April 2018 at 20:06, Denys Dmytriyenko <denis@denix.org> wrote:
-> >> diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-> >> index 0671a45..6799254 100644
-> >> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-> >> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-> >> @@ -1,26 +1,25 @@
-> >> -From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
-> >> +From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
-> >>  From: Khem Raj <raj.khem@gmail.com>
-> >>  Date: Fri, 29 May 2015 20:56:00 -0700
-> >> -Subject: [PATCH weston] make error() portable
-> >> +Subject: [PATCH] make error() portable
-> >>
-> >>  error() is not posix but gnu extension so may not be available on all
-> >>  kind of systemsi e.g. musl.
-> >>
-> >>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> ----
-> >> -Upstream-Status: Submitted
-> >
-> > Ah, I've seen this before and was wondering if it was a genuine
-> > mistake or devtool being bad.
-> >
-> > devtool refresh is doing A Bad Thing and for some reason dropping the
-> > Upstream-Status tag.  Alex, can you see why this is?  Denys, can you
-> > edit it back in?
-> >
-> > Ross
-> 
 
