@@ -1,28 +1,42 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 281D7746BF
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2848C74A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 07:00:42 +0000 (UTC)
+	Tue, 10 Apr 2018 07:27:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Apr 2018 00:00:43 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Apr 2018 00:27:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,431,1517904000"; d="scan'208";a="44919741"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.20.111])
-	([10.221.20.111])
-	by fmsmga004.fm.intel.com with ESMTP; 10 Apr 2018 00:00:43 -0700
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	openembedded-core@lists.openembedded.org
+X-IronPort-AV: E=Sophos;i="5.48,431,1517904000"; d="scan'208";a="45635804"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Apr 2018 00:27:33 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
+	PGSMSX111.gar.corp.intel.com ([169.254.2.233]) with mapi id
+	14.03.0319.002; Tue, 10 Apr 2018 15:24:45 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oe-selftest: runqemu: add tests for qemu
+	boot and shutdown
+Thread-Index: AQHT0Jmj69rWynOjOk6YWeUh9FRdC6P5lT8A
+Date: Tue, 10 Apr 2018 07:24:45 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E01992@PGSMSX109.gar.corp.intel.com>
 References: <1523295825-118054-1-git-send-email-ee.peng.yeoh@intel.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <6ac3ac3c-2167-0002-9825-09277f5c103f@intel.com>
-Date: Tue, 10 Apr 2018 15:00:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	<6ac3ac3c-2167-0002-9825-09277f5c103f@intel.com>
+In-Reply-To: <6ac3ac3c-2167-0002-9825-09277f5c103f@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOGIyMjhhNmEtMzEzOC00MjA0LWFkZGEtMDA4NjE0ZTZlNTdkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6IlNJcEN1T2c2RXcwc0ZITEVpaDdWeVwvcEFXMXB2aHZlZEJKbUM2ZjMwYjRNPSJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-In-Reply-To: <1523295825-118054-1-git-send-email-ee.peng.yeoh@intel.com>
 Subject: Re: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,115 +50,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2018 07:00:43 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 10 Apr 2018 07:27:33 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 04/10/2018 01:43 AM, Yeoh Ee Peng wrote:
-> QA team were testing qemu boot image and shutdown on each
-> qemu architecture manually. Add automated test to test qemu boot on
-> ext4 and nfs, finally check that it can shutdown properly.
-> 
-> Original runqemu tests was dedicated for MACHINE=qemux86-64 and
-> it was testing various live image (iso and hddimg) will be able
-> to boot while live image was not supported on all qemu architecture.
-> 
-> The new tests were designed as a separate class as this tests
-> focus on testing qemu boot and shutdown on each qemu architecture.
-> Furthermore, this tests focus on testing qemu could shutdown
-> as expected.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/lib/oeqa/selftest/cases/runqemu.py | 61 +++++++++++++++++++++++++++++++--
->  1 file changed, 59 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
-> index 47d41f5..7288ab2 100644
-> --- a/meta/lib/oeqa/selftest/cases/runqemu.py
-> +++ b/meta/lib/oeqa/selftest/cases/runqemu.py
-> @@ -3,9 +3,10 @@
->  #
->  
->  import re
-> -
-> +import tempfile
-> +import time
->  from oeqa.selftest.case import OESelftestTestCase
-> -from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-> +from oeqa.utils.commands import bitbake, runqemu, get_bb_var, runCmd
->  from oeqa.core.decorator.oeid import OETestID
->  
->  class RunqemuTests(OESelftestTestCase):
-> @@ -136,3 +137,59 @@ SYSLINUX_TIMEOUT = "10"
->          cmd = "%s %s" % (self.cmd_common, rootfs)
->          with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
->              self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
-> +
-> +class QemuTest(OESelftestTestCase):
-> +
-> +    @classmethod
-> +    def setUpClass(cls):
-> +        super(QemuTest, cls).setUpClass()
-> +        cls.recipe = 'core-image-minimal'
-> +        cls.machine =  get_bb_var('MACHINE')
-> +        cls.deploy_dir_image =  get_bb_var('DEPLOY_DIR_IMAGE')
-> +        cls.cmd_common = "runqemu nographic"
-> +        cls.qemuboot_conf = "%s-%s.qemuboot.conf" % (cls.recipe, cls.machine)
-> +        cls.qemuboot_conf = os.path.join(cls.deploy_dir_image, cls.qemuboot_conf)
-> +        result = bitbake(cls.recipe)
-
-This 'result' isn't used.
-
-> +
-> +    def _start_qemu_shutdown_check_if_shutdown_succeeded(self, qemu, timeout):
-> +        status, output = qemu.run_serial("shutdown -h now")
-> +        qemu.runner.stop_thread()
-
-If you call stop_thread like this, this test will probably always pass?
-Please check the value of output and then is_alive/check().
-
-> +        print('DEBUG: shutdown and stop thread')
-> +        time_track = 0
-> +        while True:
-> +            is_alive = qemu.check()
-> +            if not is_alive:
-> +                return True
-> +            if time_track > timeout:
-> +                return False
-> +            time.sleep(1)
-> +            time_track += 1
-> +            print(time_track)
-
-We shouldn't be printing these values.
-
-> +
-> +    def test_qemu_can_shutdown(self):
-> +        if not os.path.exists(self.qemuboot_conf):
-> +            self.skipTest("%s not found" % self.qemuboot_conf)
-> +        cmd = "%s %s" % (self.cmd_common, self.qemuboot_conf)
-> +        shutdown_timeout = 120
-> +        with runqemu(self.recipe, ssh=False, launch_cmd=cmd) as qemu:
-> +            qemu_shutdown_succeeded = self._start_qemu_shutdown_check_if_shutdown_succeeded(qemu, shutdown_timeout)
-> +            self.assertTrue(qemu_shutdown_succeeded, 'Failed: qemu does not shutdown within timeout(%s)' % shutdown_timeout)
-> +
-> +    def test_qemu_can_boot_nfs_and_shutdown(self):
-> +        bitbake('meta-ide-support')
-> +        rootfs_tar = "%s-%s.tar.bz2" % (self.recipe, self.machine)
-> +        rootfs_tar = os.path.join(self.deploy_dir_image, rootfs_tar)
-> +        if not os.path.exists(rootfs_tar):
-> +            self.skipTest("%s not found" % rootfs_tar)
-> +        tmpdir = tempfile.mkdtemp(prefix='qemu_nfs')
-> +        tmpdir_nfs = os.path.join(tmpdir, 'nfs')
-> +        cmd_extract_nfs = 'runqemu-extract-sdk %s %s' % (rootfs_tar, tmpdir_nfs)
-> +        runCmd(cmd_extract_nfs)
-> +        if not os.path.exists(self.qemuboot_conf):
-> +            self.skipTest("%s not found" % self.qemuboot_conf)
-
-This and others should be marked failure I think if env wasn't setup
-properly after doing bitbake. Does skipTest result in a failure?
-
-Thanks,
-Anuj
+SGkgQW51aiwNCg0KVGhhbmtzIGZvciB5b3VyIGlucHV0cyBvbiBjb21tZW50IGFuZCBjb2RlIHRo
+YXQgd2FzIG5vdCB1c2VkLiBJIHNoYWxsIHJlbW92ZSB0aGUgY29tbWVudCBhbmQgY29kZSB0aGF0
+IHdhcyBub3QgdXNlZC4gDQoNCkZvciB0aGUgcWVtdS5ydW5uZXIuc3RvcF90aHJlYWQoKSwgdGhp
+cyB3YXMgdHJpZ2dlciB0byBzdG9wIGFuIGluc3RhbmNlIG9mIGEgTG9nZ2luZ1RocmVhZCBjbGFz
+cyB0aGF0IHdhcyB1c2VkIHByaW1hcnkgdG8gbG9nZ2luZyB0aGUgcWVtdSB0aHJvdWdoIHNlcmlh
+bCBjb25zb2xlLiBTdG9wcGluZyB0aGlzIHRocmVhZCB3aWxsIG5vdCBzdG9wIHRoZSBxZW11IGl0
+c2VsZi4gSW4gY2FzZSB0aGF0IHRoaXMgbG9nZ2luZyB0aHJlYWQgb2JqZWN0IHdhcyBub3Qgc3Rv
+cCwgd2hlbiB0aGUgcWVtdSBmaW5hbGx5IHNodXRkb3duIGJ5IHRoZSBzaHV0ZG93biBjb21tYW5k
+LCB0aGlzIGxvZ2dpbmcgdGhyZWFkIHdpbGwgZW5jb3VudGVyIGFuIGV4Y2VwdGlvbiAoRXhjZXB0
+aW9uOiBDb25zb2xlIGNvbm5lY3Rpb24gY2xvc2VkIHVuZXhwZWN0ZWRseSkuIEZyb20gdGhlIHRl
+c3Rpbmcgb24gbXVsdGlwbGUgcWVtdSBhcmNoaXRlY3R1cmUsIHRoaXMgdGVzdGNhc2Ugd2FzIGFi
+bGUgdG8gY2F0Y2ggdGhlIHNodXRkb3duIGh1bmcgZXJyb3IgZmFjaW5nIGJ5IGV4aXN0aW5nIHFl
+bXVhcm0gKGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9
+MTI0OTkpLCB3aGlsZSBpdCB3YXMgYXMgZXhwZWN0ZWQgb24gcWVtdXg4NiwgcWVtdXBwYywgYW5k
+IG90aGVyLiBJIHNoYWxsIGFkZCBjb21tZW50IHRvIGV4cGxhaW4gdGhlIGltcG9ydGFudCBvZiBx
+ZW11LnJ1bm5lci5zdG9wX3RocmVhZCgpIGFuZCB0aGUgcmVhc29uIGJlaGluZCB0aGlzLiANCg0K
+Rm9yIHRoZSBza2lwVGVzdCwgSSBhZ3JlZWQgd2l0aCB5b3UsIGl0IHNoYWxsIGJlIHJlcGxhY2Ug
+YnkgYXNzZXJ0aW9uIHRvIGhpZ2hsaWdodCBlbnZpcm9ubWVudCBzZXR1cCBmYWlsdXJlLiANCg0K
+UGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSBoYXZlIGFueSBtb3JlIGlucHV0LiBUaGFuayB5b3Ug
+dmVyeSBtdWNoIQ0KDQpUaGFua3MsDQpZZW9oIEVlIFBlbmcgDQoNCg0KLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCkZyb206IE1pdHRhbCwgQW51aiANClNlbnQ6IFR1ZXNkYXksIEFwcmlsIDEw
+LCAyMDE4IDM6MDEgUE0NClRvOiBZZW9oLCBFZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29t
+Pjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6
+IFtPRS1jb3JlXSBbUEFUQ0hdIG9lLXNlbGZ0ZXN0OiBydW5xZW11OiBhZGQgdGVzdHMgZm9yIHFl
+bXUgYm9vdCBhbmQgc2h1dGRvd24NCg0KT24gMDQvMTAvMjAxOCAwMTo0MyBBTSwgWWVvaCBFZSBQ
+ZW5nIHdyb3RlOg0KPiBRQSB0ZWFtIHdlcmUgdGVzdGluZyBxZW11IGJvb3QgaW1hZ2UgYW5kIHNo
+dXRkb3duIG9uIGVhY2ggcWVtdSANCj4gYXJjaGl0ZWN0dXJlIG1hbnVhbGx5LiBBZGQgYXV0b21h
+dGVkIHRlc3QgdG8gdGVzdCBxZW11IGJvb3Qgb24NCj4gZXh0NCBhbmQgbmZzLCBmaW5hbGx5IGNo
+ZWNrIHRoYXQgaXQgY2FuIHNodXRkb3duIHByb3Blcmx5Lg0KPiANCj4gT3JpZ2luYWwgcnVucWVt
+dSB0ZXN0cyB3YXMgZGVkaWNhdGVkIGZvciBNQUNISU5FPXFlbXV4ODYtNjQgYW5kIGl0IHdhcyAN
+Cj4gdGVzdGluZyB2YXJpb3VzIGxpdmUgaW1hZ2UgKGlzbyBhbmQgaGRkaW1nKSB3aWxsIGJlIGFi
+bGUgdG8gYm9vdCB3aGlsZSANCj4gbGl2ZSBpbWFnZSB3YXMgbm90IHN1cHBvcnRlZCBvbiBhbGwg
+cWVtdSBhcmNoaXRlY3R1cmUuDQo+IA0KPiBUaGUgbmV3IHRlc3RzIHdlcmUgZGVzaWduZWQgYXMg
+YSBzZXBhcmF0ZSBjbGFzcyBhcyB0aGlzIHRlc3RzIGZvY3VzIG9uIA0KPiB0ZXN0aW5nIHFlbXUg
+Ym9vdCBhbmQgc2h1dGRvd24gb24gZWFjaCBxZW11IGFyY2hpdGVjdHVyZS4NCj4gRnVydGhlcm1v
+cmUsIHRoaXMgdGVzdHMgZm9jdXMgb24gdGVzdGluZyBxZW11IGNvdWxkIHNodXRkb3duIGFzIA0K
+PiBleHBlY3RlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFllb2ggRWUgUGVuZyA8ZWUucGVuZy55
+ZW9oQGludGVsLmNvbT4NCj4gLS0tDQo+ICBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1
+bnFlbXUucHkgfCA2MSANCj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ICAx
+IGZpbGUgY2hhbmdlZCwgNTkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkgDQo+IGIv
+bWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9ydW5xZW11LnB5DQo+IGluZGV4IDQ3ZDQxZjUu
+LjcyODhhYjIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvcnVu
+cWVtdS5weQ0KPiArKysgYi9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkN
+Cj4gQEAgLTMsOSArMywxMCBAQA0KPiAgIw0KPiAgDQo+ICBpbXBvcnQgcmUNCj4gLQ0KPiAraW1w
+b3J0IHRlbXBmaWxlDQo+ICtpbXBvcnQgdGltZQ0KPiAgZnJvbSBvZXFhLnNlbGZ0ZXN0LmNhc2Ug
+aW1wb3J0IE9FU2VsZnRlc3RUZXN0Q2FzZSAtZnJvbSANCj4gb2VxYS51dGlscy5jb21tYW5kcyBp
+bXBvcnQgYml0YmFrZSwgcnVucWVtdSwgZ2V0X2JiX3Zhcg0KPiArZnJvbSBvZXFhLnV0aWxzLmNv
+bW1hbmRzIGltcG9ydCBiaXRiYWtlLCBydW5xZW11LCBnZXRfYmJfdmFyLCBydW5DbWQNCj4gIGZy
+b20gb2VxYS5jb3JlLmRlY29yYXRvci5vZWlkIGltcG9ydCBPRVRlc3RJRA0KPiAgDQo+ICBjbGFz
+cyBSdW5xZW11VGVzdHMoT0VTZWxmdGVzdFRlc3RDYXNlKToNCj4gQEAgLTEzNiwzICsxMzcsNTkg
+QEAgU1lTTElOVVhfVElNRU9VVCA9ICIxMCINCj4gICAgICAgICAgY21kID0gIiVzICVzIiAlIChz
+ZWxmLmNtZF9jb21tb24sIHJvb3RmcykNCj4gICAgICAgICAgd2l0aCBydW5xZW11KHNlbGYucmVj
+aXBlLCBzc2g9RmFsc2UsIGxhdW5jaF9jbWQ9Y21kKSBhcyBxZW11Og0KPiAgICAgICAgICAgICAg
+c2VsZi5hc3NlcnRUcnVlKHFlbXUucnVubmVyLmxvZ2dlZCwgIkZhaWxlZDogJXMiICUgY21kKQ0K
+PiArDQo+ICtjbGFzcyBRZW11VGVzdChPRVNlbGZ0ZXN0VGVzdENhc2UpOg0KPiArDQo+ICsgICAg
+QGNsYXNzbWV0aG9kDQo+ICsgICAgZGVmIHNldFVwQ2xhc3MoY2xzKToNCj4gKyAgICAgICAgc3Vw
+ZXIoUWVtdVRlc3QsIGNscykuc2V0VXBDbGFzcygpDQo+ICsgICAgICAgIGNscy5yZWNpcGUgPSAn
+Y29yZS1pbWFnZS1taW5pbWFsJw0KPiArICAgICAgICBjbHMubWFjaGluZSA9ICBnZXRfYmJfdmFy
+KCdNQUNISU5FJykNCj4gKyAgICAgICAgY2xzLmRlcGxveV9kaXJfaW1hZ2UgPSAgZ2V0X2JiX3Zh
+cignREVQTE9ZX0RJUl9JTUFHRScpDQo+ICsgICAgICAgIGNscy5jbWRfY29tbW9uID0gInJ1bnFl
+bXUgbm9ncmFwaGljIg0KPiArICAgICAgICBjbHMucWVtdWJvb3RfY29uZiA9ICIlcy0lcy5xZW11
+Ym9vdC5jb25mIiAlIChjbHMucmVjaXBlLCBjbHMubWFjaGluZSkNCj4gKyAgICAgICAgY2xzLnFl
+bXVib290X2NvbmYgPSBvcy5wYXRoLmpvaW4oY2xzLmRlcGxveV9kaXJfaW1hZ2UsIGNscy5xZW11
+Ym9vdF9jb25mKQ0KPiArICAgICAgICByZXN1bHQgPSBiaXRiYWtlKGNscy5yZWNpcGUpDQoNClRo
+aXMgJ3Jlc3VsdCcgaXNuJ3QgdXNlZC4NCg0KPiArDQo+ICsgICAgZGVmIF9zdGFydF9xZW11X3No
+dXRkb3duX2NoZWNrX2lmX3NodXRkb3duX3N1Y2NlZWRlZChzZWxmLCBxZW11LCB0aW1lb3V0KToN
+Cj4gKyAgICAgICAgc3RhdHVzLCBvdXRwdXQgPSBxZW11LnJ1bl9zZXJpYWwoInNodXRkb3duIC1o
+IG5vdyIpDQo+ICsgICAgICAgIHFlbXUucnVubmVyLnN0b3BfdGhyZWFkKCkNCg0KSWYgeW91IGNh
+bGwgc3RvcF90aHJlYWQgbGlrZSB0aGlzLCB0aGlzIHRlc3Qgd2lsbCBwcm9iYWJseSBhbHdheXMg
+cGFzcz8NClBsZWFzZSBjaGVjayB0aGUgdmFsdWUgb2Ygb3V0cHV0IGFuZCB0aGVuIGlzX2FsaXZl
+L2NoZWNrKCkuDQoNCj4gKyAgICAgICAgcHJpbnQoJ0RFQlVHOiBzaHV0ZG93biBhbmQgc3RvcCB0
+aHJlYWQnKQ0KPiArICAgICAgICB0aW1lX3RyYWNrID0gMA0KPiArICAgICAgICB3aGlsZSBUcnVl
+Og0KPiArICAgICAgICAgICAgaXNfYWxpdmUgPSBxZW11LmNoZWNrKCkNCj4gKyAgICAgICAgICAg
+IGlmIG5vdCBpc19hbGl2ZToNCj4gKyAgICAgICAgICAgICAgICByZXR1cm4gVHJ1ZQ0KPiArICAg
+ICAgICAgICAgaWYgdGltZV90cmFjayA+IHRpbWVvdXQ6DQo+ICsgICAgICAgICAgICAgICAgcmV0
+dXJuIEZhbHNlDQo+ICsgICAgICAgICAgICB0aW1lLnNsZWVwKDEpDQo+ICsgICAgICAgICAgICB0
+aW1lX3RyYWNrICs9IDENCj4gKyAgICAgICAgICAgIHByaW50KHRpbWVfdHJhY2spDQoNCldlIHNo
+b3VsZG4ndCBiZSBwcmludGluZyB0aGVzZSB2YWx1ZXMuDQoNCj4gKw0KPiArICAgIGRlZiB0ZXN0
+X3FlbXVfY2FuX3NodXRkb3duKHNlbGYpOg0KPiArICAgICAgICBpZiBub3Qgb3MucGF0aC5leGlz
+dHMoc2VsZi5xZW11Ym9vdF9jb25mKToNCj4gKyAgICAgICAgICAgIHNlbGYuc2tpcFRlc3QoIiVz
+IG5vdCBmb3VuZCIgJSBzZWxmLnFlbXVib290X2NvbmYpDQo+ICsgICAgICAgIGNtZCA9ICIlcyAl
+cyIgJSAoc2VsZi5jbWRfY29tbW9uLCBzZWxmLnFlbXVib290X2NvbmYpDQo+ICsgICAgICAgIHNo
+dXRkb3duX3RpbWVvdXQgPSAxMjANCj4gKyAgICAgICAgd2l0aCBydW5xZW11KHNlbGYucmVjaXBl
+LCBzc2g9RmFsc2UsIGxhdW5jaF9jbWQ9Y21kKSBhcyBxZW11Og0KPiArICAgICAgICAgICAgcWVt
+dV9zaHV0ZG93bl9zdWNjZWVkZWQgPSBzZWxmLl9zdGFydF9xZW11X3NodXRkb3duX2NoZWNrX2lm
+X3NodXRkb3duX3N1Y2NlZWRlZChxZW11LCBzaHV0ZG93bl90aW1lb3V0KQ0KPiArICAgICAgICAg
+ICAgc2VsZi5hc3NlcnRUcnVlKHFlbXVfc2h1dGRvd25fc3VjY2VlZGVkLCAnRmFpbGVkOiBxZW11
+IA0KPiArIGRvZXMgbm90IHNodXRkb3duIHdpdGhpbiB0aW1lb3V0KCVzKScgJSBzaHV0ZG93bl90
+aW1lb3V0KQ0KPiArDQo+ICsgICAgZGVmIHRlc3RfcWVtdV9jYW5fYm9vdF9uZnNfYW5kX3NodXRk
+b3duKHNlbGYpOg0KPiArICAgICAgICBiaXRiYWtlKCdtZXRhLWlkZS1zdXBwb3J0JykNCj4gKyAg
+ICAgICAgcm9vdGZzX3RhciA9ICIlcy0lcy50YXIuYnoyIiAlIChzZWxmLnJlY2lwZSwgc2VsZi5t
+YWNoaW5lKQ0KPiArICAgICAgICByb290ZnNfdGFyID0gb3MucGF0aC5qb2luKHNlbGYuZGVwbG95
+X2Rpcl9pbWFnZSwgcm9vdGZzX3RhcikNCj4gKyAgICAgICAgaWYgbm90IG9zLnBhdGguZXhpc3Rz
+KHJvb3Rmc190YXIpOg0KPiArICAgICAgICAgICAgc2VsZi5za2lwVGVzdCgiJXMgbm90IGZvdW5k
+IiAlIHJvb3Rmc190YXIpDQo+ICsgICAgICAgIHRtcGRpciA9IHRlbXBmaWxlLm1rZHRlbXAocHJl
+Zml4PSdxZW11X25mcycpDQo+ICsgICAgICAgIHRtcGRpcl9uZnMgPSBvcy5wYXRoLmpvaW4odG1w
+ZGlyLCAnbmZzJykNCj4gKyAgICAgICAgY21kX2V4dHJhY3RfbmZzID0gJ3J1bnFlbXUtZXh0cmFj
+dC1zZGsgJXMgJXMnICUgKHJvb3Rmc190YXIsIHRtcGRpcl9uZnMpDQo+ICsgICAgICAgIHJ1bkNt
+ZChjbWRfZXh0cmFjdF9uZnMpDQo+ICsgICAgICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyhzZWxm
+LnFlbXVib290X2NvbmYpOg0KPiArICAgICAgICAgICAgc2VsZi5za2lwVGVzdCgiJXMgbm90IGZv
+dW5kIiAlIHNlbGYucWVtdWJvb3RfY29uZikNCg0KVGhpcyBhbmQgb3RoZXJzIHNob3VsZCBiZSBt
+YXJrZWQgZmFpbHVyZSBJIHRoaW5rIGlmIGVudiB3YXNuJ3Qgc2V0dXAgcHJvcGVybHkgYWZ0ZXIg
+ZG9pbmcgYml0YmFrZS4gRG9lcyBza2lwVGVzdCByZXN1bHQgaW4gYSBmYWlsdXJlPw0KDQpUaGFu
+a3MsDQpBbnVqDQo=
 
