@@ -1,50 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 12DA97493D
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C12B97488B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 02:22:15 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id y128so701078iod.4
+	Wed, 11 Apr 2018 03:43:46 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id v6-v6so471173otj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 19:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jBYYI0cjfxFfPiOKS/KLabJtW2Iy0HWC9MZhQgaLt7M=;
-	b=Xl+hiGue8M0Hrck/C+blQJ3ISdj2242jHuPmsVkmrvnJ3PVJWRoqrk6j64ViqU0eHr
-	UvhptvdV+i2oFI1XoJheEHJQnRbxRTZgMYVdECGmPGwf4Hc8xvdonOSqWWCjI1tSqtij
-	BSZWf22lDYcy/mWC5lBNtjp7dpZpYkhzeGDQT49DYR7I3YDE/xaJxKb3jFd3vbnUHDw6
-	BNFs26cyPaInUIKs01kUtWSfwxiHPQDFd2c9d291UchGZOTNZp5RXsBL7gPYixbQtIIL
-	I5CVR1UGjuE6FPpBWAIClkH86NX1vXKykFMpuaFwMyE2iJwKC1Ks4rOEL13NQ/E5TPEK
-	GIQg==
+	Tue, 10 Apr 2018 20:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ePXTdhXtqVybHY4z5ss8lcAczBqwQw2KfClKWz9/IuA=;
+	b=MH4HkJZuQ07bTl4fd5PTFBwTeQ8iN7GiC2rMlRznE4qGaTtWP6JcigisZ2X5cZQMeK
+	zQuXxLiS26ew6qymSvURTIRn15ZxjRPPPr+qDtveLuzdkKSthtE4CsnjldO+siPeLUxT
+	IxJdfTURM56bX8kESJX7v4+QNwsaXF+YiamlE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=jBYYI0cjfxFfPiOKS/KLabJtW2Iy0HWC9MZhQgaLt7M=;
-	b=FPtXA4TwsUrNJSTFnJC3gwTl5R6eRsJTYsZZ+1g3JDZAgbQfz+cQ5jXryy05i6xjL1
-	0HJULeDWviNsVpLOghbZVYl9CHraZ3R19gFOyylevsjdwoswFJF0KLne2gHu32F0YYKo
-	BRRHOSKyg9wBGbVUr9kFFRYc7rf4C8FPvtl12cYLlxFoObK2nfnwriFE1zjZIjLy+fsl
-	wWxfv4FsBuTDAG1CD2fgUZlDbE3t7oKe74gh3nKy7pRdRcZac9Jt8F4oDR6QfUmZwz1E
-	4BeAZjNR0QbY/KQzX/Aa7jg057X6I6My2C9xkCN0nSTdFeb8/khSkUOkKZmuVgMm8/Bx
-	AqRw==
-X-Gm-Message-State: ALQs6tBfGunLkJaDDHRLR8n0+fDkkUe9NoX7wHyPTjwbm+5ehLsK6jAd
-	IJDdCaoEL//aywfhA1oPGvch4Yi6
-X-Google-Smtp-Source: AIpwx4+XOs6jQ9R0LxFykJJn5E3kWVpjMAi+1k74ACxkxS22/7BNHzqLh2NqcbMe8+0bV9YIcZsF1g==
-X-Received: by 10.107.136.34 with SMTP id k34mr2953211iod.176.1523413336614;
-	Tue, 10 Apr 2018 19:22:16 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id w71sm34498iow.87.2018.04.10.19.22.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 10 Apr 2018 19:22:16 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ePXTdhXtqVybHY4z5ss8lcAczBqwQw2KfClKWz9/IuA=;
+	b=AoSp5Rh+15WXDmOw7MTjo944ciUgJPZwUxUKBRxBqp/PHF36lmavArLqs64pojuMkC
+	96BnhRHdOwTqixIyaLDUF+9q7/6IJKT034BznQTC4PZB7jUfl7zRbEQcKS2vCN/aE97L
+	Re+J2nqg0ryIu5YJZlKDGJIyTLBn7HocAtlC2UDOX2oEYI1CgJJhWx8RTQlHlZlcbyMV
+	wc1ejZ4a0/5r4PiBRhCkF/lXFL42baqy8epzRsS+78KOBur3fG/z/YwvOOv0Yd4C9JnL
+	CJiOdLtVTbzX8U96ExJ/AeTjlEFuwUK2uIOfLlnzGuVPi37KMUtkQ+20mMbX2Q8Pr0ry
+	W95g==
+X-Gm-Message-State: ALQs6tB6YRAiJ7lNCQWpvEmsOQYm2VGrQwxjOkqgiv0wvHlfMX7prc0E
+	bVoROeYBbgjGmYvd7IT0oHe8ZlT1J3eM6g==
+X-Google-Smtp-Source: AIpwx4886zPqLEMfbr5lzocJ0ppCugXVQsNeF2iUhQ8QBr9vFhCd76Z/6baXlXzXNSQUyIFX7o1xGg==
+X-Received: by 2002:a9d:5178:: with SMTP id
+	u53-v6mr1885475oti.333.1523418226947; 
+	Tue, 10 Apr 2018 20:43:46 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink-187-161-190-249.PCs.InterCable.net. [187.161.190.249])
+	by smtp.googlemail.com with ESMTPSA id
+	j23-v6sm169001oiy.22.2018.04.10.20.43.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 10 Apr 2018 20:43:45 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2018 21:22:00 -0500
-Message-Id: <20180411022200.22277-8-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180411022200.22277-1-JPEWhacker@gmail.com>
-References: <20180411022200.22277-1-JPEWhacker@gmail.com>
-Subject: [sumo][PATCH 7/7] icecc.bbclass: Bump version number
+Date: Tue, 10 Apr 2018 22:43:28 -0500
+Message-Id: <1523418209-1534-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [pyro][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +56,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 02:22:16 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 03:43:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Bump the version number for force remotes to use a newly generated
-environment, since the old one potentially had a few bugs
+From: Fathi Boudra <fathi.boudra@linaro.org>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Patch submitted upstream, pending to be merged:
+https://sourceware.org/bugzilla/show_bug.cgi?id=21286
+
+(From OE-Core rev: 11ebb5054e5ec1171ade90249e3a30ac8174a35a)
+
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/icecc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...o.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch | 68 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.25.bb              |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 1b58d1f5e52..73eba7a6a96 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -45,7 +45,7 @@ ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
- # A useful thing to do for testing Icecream changes locally is to add a
- # subversion in local.conf:
- #  ICECC_ENV_VERSION_append = "-my-ver-1"
--ICECC_ENV_VERSION = "1"
-+ICECC_ENV_VERSION = "2"
+diff --git a/meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch b/meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
+new file mode 100644
+index 0000000..bef8887
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch
+@@ -0,0 +1,68 @@
++From 297aca56465035dce1f7b91b5cdda54379141957 Mon Sep 17 00:00:00 2001
++From: Pratyush Anand <panand@redhat.com>
++Date: Wed, 22 Mar 2017 17:02:38 +0530
++Subject: [PATCH] bits/siginfo.h: enum definition for TRAP_HWBKPT is missing
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Compile following linux kernel test code with latest glibc:
++
++https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/breakpoints/breakpoint_test_arm64.c
++
++and we get following error:
++breakpoint_test_arm64.c: In function ‘run_test’:
++breakpoint_test_arm64.c:171:25: error: ‘TRAP_HWBKPT’ undeclared (first use in this function)
++  if (siginfo.si_code != TRAP_HWBKPT) {
++                         ^
++I can compile test code by modifying my local
++/usr/include/bits/siginfo.h and test works great. Therefore, this patch
++will be needed in upstream glibc so that issue is fixed there as well.
++
++Signed-off-by: Pratyush Anand <panand@redhat.com>
++
++Upstream-Status: Submitted [https://sourceware.org/bugzilla/show_bug.cgi?id=21286]
++---
++ bits/siginfo.h                         | 6 +++++-
++ sysdeps/unix/sysv/linux/bits/siginfo.h | 6 +++++-
++ 2 files changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/bits/siginfo.h b/bits/siginfo.h
++index 4919df5..6dc714e 100644
++--- a/bits/siginfo.h
+++++ b/bits/siginfo.h
++@@ -140,8 +140,12 @@ enum
++ {
++   TRAP_BRKPT = 1,		/* Process breakpoint.  */
++ #  define TRAP_BRKPT	TRAP_BRKPT
++-  TRAP_TRACE			/* Process trace trap.  */
+++  TRAP_TRACE,			/* Process trace trap.  */
++ #  define TRAP_TRACE	TRAP_TRACE
+++  TRAP_BRANCH,			/* Process branch trap. */
+++# define TRAP_BRANCH	TRAP_BRANCH
+++  TRAP_HWBKPT			/* hardware breakpoint/watchpoint  */
+++# define TRAP_HWBKPT	TRAP_HWBKPT
++ };
++ # endif
++ 
++diff --git a/sysdeps/unix/sysv/linux/bits/siginfo.h b/sysdeps/unix/sysv/linux/bits/siginfo.h
++index 7b0d4f6..9cdf42a 100644
++--- a/sysdeps/unix/sysv/linux/bits/siginfo.h
+++++ b/sysdeps/unix/sysv/linux/bits/siginfo.h
++@@ -235,8 +235,12 @@ enum
++ {
++   TRAP_BRKPT = 1,		/* Process breakpoint.  */
++ #  define TRAP_BRKPT	TRAP_BRKPT
++-  TRAP_TRACE			/* Process trace trap.  */
+++  TRAP_TRACE,			/* Process trace trap.  */
++ #  define TRAP_TRACE	TRAP_TRACE
+++  TRAP_BRANCH,			/* Process branch trap. */
+++# define TRAP_BRANCH	TRAP_BRANCH
+++  TRAP_HWBKPT			/* hardware breakpoint/watchpoint  */
+++# define TRAP_HWBKPT	TRAP_HWBKPT
++ };
++ # endif
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glibc/glibc_2.25.bb b/meta/recipes-core/glibc/glibc_2.25.bb
+index 58b90b7..49fcf0c 100644
+--- a/meta/recipes-core/glibc/glibc_2.25.bb
++++ b/meta/recipes-core/glibc/glibc_2.25.bb
+@@ -43,6 +43,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+            file://0027-locale-fix-hard-coded-reference-to-gcc-E.patch \
+            file://0028-Rework-fno-omit-frame-pointer-support-on-i386.patch \
++           file://0029-bits-siginfo.h-enum-definition-for-TRAP_HWBKPT-is-mi.patch \
+ "
  
- # Default to disabling the caret workaround, If set to "1" in local.conf, icecc
- # will locally recompile any files that have warnings, which can adversely
+ NATIVESDKFIXES ?= ""
 -- 
-2.14.3
+2.7.4
 
 
