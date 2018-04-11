@@ -1,50 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1362074942
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 76D4F74925
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 02:22:13 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id q84so691228iod.10
+	Wed, 11 Apr 2018 02:22:14 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id y128so701034iod.4
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 10 Apr 2018 19:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=goU5+cV/DYCK54gVfacXSHZM8Em9/vr3FfiXWad3l+0=;
-	b=ER1hPPp3zQlOAy27zXe0KNFfhrs5lZ8VXB99ge1Uyhxmk6XBr52rsAKCA9t5saU12V
-	jA4JnvUZQPxK1AqJQSF/JBKh9ObPqaA5oovw1CLje4ghzRHn+WHJImGxC7KENGovBNV4
-	rDJ8r0KUr7REibQUyjbyGfWxIsnbPgE57oBnmRQzkMpXvwRuCylh3kgBnLDEiid5CxQr
-	svwdbehY8J0sfBJuL20kXyX0JWsWjoSfbnZjSBWPFW7hZvS6vWZDqQp4VJNbzPEItFTL
-	G9SqMC9c6p1MoR29IMdp29MI4DTNnPm+0/qJR1sRGPhpwF1zfHgKS+QO2DxO9T6sGuup
-	Sc4w==
+	bh=nxxRSMrSYCIM3TPUlPQ7+JgJvPqr4jQpVP0IjhY0f+8=;
+	b=ti4sptL41Z2DnBm1zw9Jrd8TejjC3l0+hZsJto/608CdCnhu0T/Y4dS+jqO4FK6apM
+	NEZU7HnobW8Mk6Dgzb/z2ZmY2MG9kG8bB8LO20fPoPICnt6ksd4xaZNKfiIki4lml7Wz
+	WFeG/UpLe3uWshM6DJgI5SZIV9i++XP1xnup4wFvEhkd0nq8Oyl4EQXbSmtNu5iT24Uh
+	a+Hk1Y9+xuNcC3SOdiXWkKPWoKL3HxrwW4r2IfePVEOiLzZXEkWu5ZtVwHIGieE1sw5W
+	Jv0hc/pVPyS+0lOBUmZFwgeuAn6UsAKiVJQpmpil4LRsVoE4BwKrF7cwgghd2eg/ftFz
+	eR3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=goU5+cV/DYCK54gVfacXSHZM8Em9/vr3FfiXWad3l+0=;
-	b=WvkoMVr47sXSZOUDXasWFGS1WVp1qtz82OPAA7a4Aq0vlfO9071/DMrE79JIVC+Jov
-	w7BwKJhBsvIOJP9RGHONEAp4S8uVIP4FA9tSG7FG2unsJP2FozS2VaX0A/9B/f4iaA20
-	gmLwrdyOQPpqKJDEpNwMQei7B/kWJxYZBCEHFepuwwJI5u1Sa/09kcy5yG4Xr1N81KdB
-	e4zbOKraJuiiFbK3uoUAn6orxGUkrWwzn9dw40RBBBkhYo0UoSvK8sy5Ix9hW3ui0o1S
-	eEXIKPmZtQvqBfH/9ksf24dKM2NF1FhcKsw9fYfvR6oPf3uYSLXF5y/VrCGsta7fBLhx
-	j73g==
-X-Gm-Message-State: ALQs6tDSXxnZcON4B4h+vr0gMRyrCFctSKNzBq/icu6h5ReMBoBT0WhE
-	ix2TPv1j3Uj92mEav266nWourpSh
-X-Google-Smtp-Source: AIpwx4+upHXwsOmMmnBQidC7GQ5GKp2p9lUWQsW794MgPMgkslFO4hNXBTglb+N1uUk+c7NtHJEmTg==
-X-Received: by 10.107.89.10 with SMTP id n10mr2889552iob.67.1523413334544;
-	Tue, 10 Apr 2018 19:22:14 -0700 (PDT)
+	bh=nxxRSMrSYCIM3TPUlPQ7+JgJvPqr4jQpVP0IjhY0f+8=;
+	b=tsHq3gA7M8eVNrY3YgHQcrddPm/FUXjXyy4fNAnY+YyDGfaQqDCvIzLqa3VtI8SD5k
+	HaVn+cRJHcIP5sznZ4wLMMu2zme2ZctK4ybuu2ZMWg5bL/hKimsDm4kejWegrMqPo1ka
+	u84Q2f+5DTCtAOB3VdspAoRR4PrMDEgQhpD6GVr2iu3CmihNu4ysm0L3zlU6TWPYjBRZ
+	b0M23mMJEVx4fi8bKPsqRwH11KLdMiCdzHPgHxKCqPyCkVZrskJtO9MiGW3zusa7UYBo
+	cqx/CHJGHALbgRb26SRQ9wcP6Z8FZ4/0QUXEPlWks+Zp4e9hk13AtuAAil7cDhn5oMy7
+	1BJQ==
+X-Gm-Message-State: ALQs6tCdHJKKf1JLsL8wJ0QSxvz+rJ0u2/ooEwBQw+D4mY5dsoYc4dzy
+	TN/avQLcKnUcbaf6yIz57XRYl6iB
+X-Google-Smtp-Source: AIpwx48yDd2ol8xbzU2Y5sl8mCDpBWZrSmmWRkkOjESZ/OwfcqDoPLcWhWLc15t99f+P9B4nLotGkg==
+X-Received: by 10.107.28.15 with SMTP id c15mr2969744ioc.247.1523413335252;
+	Tue, 10 Apr 2018 19:22:15 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id w71sm34498iow.87.2018.04.10.19.22.13
+	by smtp.gmail.com with ESMTPSA id w71sm34498iow.87.2018.04.10.19.22.14
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 10 Apr 2018 19:22:13 -0700 (PDT)
+	Tue, 10 Apr 2018 19:22:14 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2018 21:21:57 -0500
-Message-Id: <20180411022200.22277-5-JPEWhacker@gmail.com>
+Date: Tue, 10 Apr 2018 21:21:58 -0500
+Message-Id: <20180411022200.22277-6-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180411022200.22277-1-JPEWhacker@gmail.com>
 References: <20180411022200.22277-1-JPEWhacker@gmail.com>
-Subject: [sumo][PATCH 4/7] icecc-create-env: Add extra tools option
+Subject: [sumo][PATCH 5/7] icecc.bbclass: Add ICECC_ENV_DEBUG variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +59,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Apr 2018 02:22:14 -0000
 
-It can often be useful to include additional debugging tools the
-toolchain such as strace. Add an option to include an arbitrary path.
+The ICECC_ENV_DEBUG variable can be set in local.conf to pass additional
+debugging options to the Icecream toolchain creation script.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../icecc-create-env/icecc-create-env/icecc-create-env       | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/classes/icecc.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-index b88c53a424b..64b5e207853 100755
---- a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-@@ -197,6 +197,9 @@ while test -n "$1"; do
-         --log)
-             do_log=1
-             ;;
-+        --extra=*)
-+            extra_tools="$extra_tools ${1#--extra=}"
-+            ;;
-         *)
-             break
-             ;;
-@@ -284,6 +287,15 @@ else
-     exit 1
- fi
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index cab64f52703..aea1095f5fb 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -33,6 +33,7 @@ BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_
+     ICECC_CARET_WORKAROUND ICECC_CFLAGS ICECC_ENV_VERSION \
+     ICECC_DEBUG ICECC_LOGFILE ICECC_REPEAT_RATE ICECC_PREFERRED_HOST \
+     ICECC_CLANG_REMOTE_CPP ICECC_IGNORE_UNVERIFIED ICECC_TEST_SOCKET \
++    ICECC_ENV_DEBUG \
+     "
  
-+for extra in $extra_tools; do
-+    if test -x "$extra"; then
-+        add_file "$extra"
-+    else
-+        print_output "'$extra' not found"
-+        exit 1
-+    fi
-+done
+ ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
+@@ -57,6 +58,9 @@ ICECC_CFLAGS = ""
+ CFLAGS += "${ICECC_CFLAGS}"
+ CXXFLAGS += "${ICECC_CFLAGS}"
+ 
++# Debug flags when generating environments
++ICECC_ENV_DEBUG ??= ""
 +
- link_rel ()
- {
-     local target="$1"
+ def icecc_dep_prepend(d):
+     # INHIBIT_DEFAULT_DEPS doesn't apply to the patch command.  Whether or  not
+     # we need that built is the responsibility of the patch function / class, not
+@@ -363,7 +367,7 @@ set_icecc_env() {
+         # the ICECC_VERSION generation step must be locked by a mutex
+         # in order to prevent race conditions
+         if flock -n "${ICECC_VERSION}.lock" \
+-            ${ICECC_ENV_EXEC} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
++            ${ICECC_ENV_EXEC} ${ICECC_ENV_DEBUG} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
+         then
+             touch "${ICECC_VERSION}.done"
+         elif [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]
 -- 
 2.14.3
 
