@@ -1,50 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E39374940
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 12DA97493D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 02:22:14 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id o4so706327iod.3
+	Wed, 11 Apr 2018 02:22:15 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id y128so701078iod.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 19:22:16 -0700 (PDT)
+	Tue, 10 Apr 2018 19:22:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YF7lbgGDv/TXhZTq+MGmQ328i4fuJkf2DXYUDfx/Q10=;
-	b=i2mGCit9jWNoDw2uD9apASDnFLQbtQAg+Jcb4LsjRyWfkKK8Dor4nYvADawzFqxWn2
-	uB3ESquTpt1ArW90zCZNZoIkXhVQwknJ2C0EhQMrgmgpddCAwrQwt87tJ7m8vpjXeyJd
-	yY790Daqgb9jUEGPLeUXOi6GlHSfT0lp+Jg3AGnMo340e+sTi5xMcMrdx2KtemifktLz
-	butLoy6fK/m3f3JJ4fq48VkeuwpVq+kuseocGWNAXkThJsyedegR4vtHPU/c9dWfGfvD
-	gx/vUDl9Xbi5nLxPXEDNIQnZxzft/81dvFz4IO+IY7gUPSB4YCKsIfEcs1kR2XgGc7fp
-	ipzQ==
+	bh=jBYYI0cjfxFfPiOKS/KLabJtW2Iy0HWC9MZhQgaLt7M=;
+	b=Xl+hiGue8M0Hrck/C+blQJ3ISdj2242jHuPmsVkmrvnJ3PVJWRoqrk6j64ViqU0eHr
+	UvhptvdV+i2oFI1XoJheEHJQnRbxRTZgMYVdECGmPGwf4Hc8xvdonOSqWWCjI1tSqtij
+	BSZWf22lDYcy/mWC5lBNtjp7dpZpYkhzeGDQT49DYR7I3YDE/xaJxKb3jFd3vbnUHDw6
+	BNFs26cyPaInUIKs01kUtWSfwxiHPQDFd2c9d291UchGZOTNZp5RXsBL7gPYixbQtIIL
+	I5CVR1UGjuE6FPpBWAIClkH86NX1vXKykFMpuaFwMyE2iJwKC1Ks4rOEL13NQ/E5TPEK
+	GIQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=YF7lbgGDv/TXhZTq+MGmQ328i4fuJkf2DXYUDfx/Q10=;
-	b=bZx2OnWDDfLRu+QXjTIvHU1KJTrO8VjJd8f/w8uLrpyMSuiiOm9o5M6AUmIlMtXIQx
-	9PNK+r8QLNEjx4C4IqA1Y6eYWJR6B8O+P2whtr+ftg5EctgnEHiatfbSJhdu1hofeSoh
-	mHo0EfcJwt0+awLIL2lqer6tjSaIf+9VgbFeWHUKhw72AkxNiyHHGOEa11uK95iotUpo
-	Sb9hsGO/gv9HOmP4fhYzAPYv12RBOafUIDRUaAa7asWX/2G61teSggwvIMQFobSp06Ps
-	Qnl2jTn1EcaEZ0lL1g1hskhEzzaSroAyeYgFrjfU4Aqj0SiJfrTuZpP5W3V3r1mE7kdM
-	Ug1Q==
-X-Gm-Message-State: ALQs6tCJPcfOq7hTLlnM/jCwRhiB2A++hAVpWZ6ecs442NGTE88I+/rQ
-	TEcjswHMezmGf+6TovrhHzr0aLi0
-X-Google-Smtp-Source: AIpwx49oPnRWUY+DenSWFvQF6YmclSJkecburPkbMk6zPm/TLVF69n3IQ35X4uPGlbRv4do27shDcQ==
-X-Received: by 10.107.15.100 with SMTP id x97mr3036731ioi.38.1523413335924;
-	Tue, 10 Apr 2018 19:22:15 -0700 (PDT)
+	bh=jBYYI0cjfxFfPiOKS/KLabJtW2Iy0HWC9MZhQgaLt7M=;
+	b=FPtXA4TwsUrNJSTFnJC3gwTl5R6eRsJTYsZZ+1g3JDZAgbQfz+cQ5jXryy05i6xjL1
+	0HJULeDWviNsVpLOghbZVYl9CHraZ3R19gFOyylevsjdwoswFJF0KLne2gHu32F0YYKo
+	BRRHOSKyg9wBGbVUr9kFFRYc7rf4C8FPvtl12cYLlxFoObK2nfnwriFE1zjZIjLy+fsl
+	wWxfv4FsBuTDAG1CD2fgUZlDbE3t7oKe74gh3nKy7pRdRcZac9Jt8F4oDR6QfUmZwz1E
+	4BeAZjNR0QbY/KQzX/Aa7jg057X6I6My2C9xkCN0nSTdFeb8/khSkUOkKZmuVgMm8/Bx
+	AqRw==
+X-Gm-Message-State: ALQs6tBfGunLkJaDDHRLR8n0+fDkkUe9NoX7wHyPTjwbm+5ehLsK6jAd
+	IJDdCaoEL//aywfhA1oPGvch4Yi6
+X-Google-Smtp-Source: AIpwx4+XOs6jQ9R0LxFykJJn5E3kWVpjMAi+1k74ACxkxS22/7BNHzqLh2NqcbMe8+0bV9YIcZsF1g==
+X-Received: by 10.107.136.34 with SMTP id k34mr2953211iod.176.1523413336614;
+	Tue, 10 Apr 2018 19:22:16 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id w71sm34498iow.87.2018.04.10.19.22.15
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 10 Apr 2018 19:22:15 -0700 (PDT)
+	Tue, 10 Apr 2018 19:22:16 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2018 21:21:59 -0500
-Message-Id: <20180411022200.22277-7-JPEWhacker@gmail.com>
+Date: Tue, 10 Apr 2018 21:22:00 -0500
+Message-Id: <20180411022200.22277-8-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <20180411022200.22277-1-JPEWhacker@gmail.com>
 References: <20180411022200.22277-1-JPEWhacker@gmail.com>
-Subject: [sumo][PATCH 6/7] icecc.bbclass: Improve error reporting
+Subject: [sumo][PATCH 7/7] icecc.bbclass: Bump version number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 02:22:15 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 02:22:16 -0000
 
-Improve reporting when the icecream environment cannot be created by
-assigning the flock call a specific error number when the lock fails so
-it can be distinguished from environment creation errors.
+Bump the version number for force remotes to use a newly generated
+environment, since the old one potentially had a few bugs
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/icecc.bbclass | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ meta/classes/icecc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index aea1095f5fb..1b58d1f5e52 100644
+index 1b58d1f5e52..73eba7a6a96 100644
 --- a/meta/classes/icecc.bbclass
 +++ b/meta/classes/icecc.bbclass
-@@ -366,14 +366,20 @@ set_icecc_env() {
+@@ -45,7 +45,7 @@ ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
+ # A useful thing to do for testing Icecream changes locally is to add a
+ # subversion in local.conf:
+ #  ICECC_ENV_VERSION_append = "-my-ver-1"
+-ICECC_ENV_VERSION = "1"
++ICECC_ENV_VERSION = "2"
  
-         # the ICECC_VERSION generation step must be locked by a mutex
-         # in order to prevent race conditions
--        if flock -n "${ICECC_VERSION}.lock" \
--            ${ICECC_ENV_EXEC} ${ICECC_ENV_DEBUG} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
--        then
-+        exit_code=0
-+        flock -n -E 10 "${ICECC_VERSION}.lock" \
-+            ${ICECC_ENV_EXEC} ${ICECC_ENV_DEBUG} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}" || exit_code=$?
-+        if [ "$exit_code" -eq 0 ]; then
-+            touch "${ICECC_VERSION}.done"
-+        elif [ "$exit_code" -eq "10" ]; then
-+            if [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]; then
-+                # locking failed so wait for ${ICECC_VERSION}.done to appear
-+                bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
-+                return
-+            fi
-+        else
-+            bbwarn "Could not create icecc environment: $exit_code"
-             touch "${ICECC_VERSION}.done"
--        elif [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]
--        then
--            # locking failed so wait for ${ICECC_VERSION}.done to appear
--            bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
-             return
-         fi
-     fi
+ # Default to disabling the caret workaround, If set to "1" in local.conf, icecc
+ # will locally recompile any files that have warnings, which can adversely
 -- 
 2.14.3
 
