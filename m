@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BCFD3746E0
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B9E4E746BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 18:56:49 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id b21so5609624wme.4
+	Wed, 11 Apr 2018 19:07:57 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id l49so2798998wrl.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 11:56:50 -0700 (PDT)
+	Wed, 11 Apr 2018 12:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Hw7plUL26gvm7Ogk7DGJfVRuZVIwqLD9ouwXK57m5HE=;
-	b=RpqtGS1TUThLEuR44inIrgSo2zVaaKBiGcWGI9gGUPA8jDKu/kIw4/HnHpFHJVyGnZ
-	ElrBCSUl7U5PWN0EVHc2rX8ONAJzdnVzK5FcRuu2WmiBOW4fYrZFlyk5tsmDOlgr+NVX
-	YJcYR2PC+hM3REncRULk8Ylbp+AJV6KXf8dzy9BdVRZQYr12HKXgESo5dRdo1qTKcdLw
-	h7iX+Ywyy9YVMPXpav9s7e7Wlb65iv8tW0SvfqL4N6uqofT9ddnn79crqXWto/ZxoPxP
-	+anq4hjfLsEBBjLkSimZrPEN8nYFObYkPVmyjlwl+tubcwOXCQ3VduNfl2lKI0qYY0RD
-	meDQ==
+	:cc; bh=zknSo3vt8bvu+2M0sX0Mptdq/OxGIfgJoCvYAAvV0yg=;
+	b=Xn8gHZLSzdlOL4ebu8Q5c/oQ72recUcnfTuzXzKy5t2RjYf+1gdQzT/0KlZtsLtjM7
+	Ztkza5Qo8X7TqXtLQjv4ay81cHo3KgffqY6O2plDkdpvhCQuEKfHkRZ2xmCy1tojEN0O
+	fGn26SBaz7fRyWx8QTHQvyRxq1veSQiFKwwZMhu1u4DwiYmy2GXsvW5fwbbNGaycr1Kn
+	RjFa7B3AgfuOuJg0qo7FYE4jP7+SylmIvmVM+6KajCAMs81QmUsjTAd0B8rNjI4bN15x
+	hDi/IrPh5r1ceLQ2ik3b0A4L/Vk9amDcynYcWd7+otWybmSJmeJm8XOm/13PzIVkXJt5
+	rILQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Hw7plUL26gvm7Ogk7DGJfVRuZVIwqLD9ouwXK57m5HE=;
-	b=XbBVrKPE8z7BNzMnwAWU61pBjpJ72C8KFP1cLmxTnRWLf7TQXVmbf0oeONxn1bQuzO
-	sXzu/7egyXu2gAkh9/SAEX0PMZmvZ/qOqtZiMcD7OaqD3rs0CS1WjO0LjHigmtta/5g+
-	U3uWXgPA3EAl/+p+f1A35sKj3A7fAfqsDw77Nftdz9YCON1KhvAU3Z4yVjLAxJm+2GXN
-	Eqtl4kfievqfg0dYsEN168Nb15qLlygrGfL3THEWofoJBUOOFFAPsPDEOKoR2U7ShGC0
-	WAmefKFCYSxmwUL+mimHiNmH+DBAENhJpTg4Dw8q57y/qswhP7T08O/uPtDp6YQmQj+A
-	wBfQ==
-X-Gm-Message-State: ALQs6tArUlikTtlELbR506NhUMioAKk+3OUsDCQlCZ45gJIxkmqoLTHv
-	VZdNZdwVItHBJdbAck0xQs8uKcKLFsfmmUnug9M=
-X-Google-Smtp-Source: AIpwx49OnmWFkCG7vBaNSc+BiVcQRKkX70IhbG5s6R6rA4JGVaaxrxqDe+C1bmlHJuWh6R64H+mkhukMuR5WdIFnA2I=
-X-Received: by 10.28.63.148 with SMTP id m142mr3607058wma.153.1523473009715;
-	Wed, 11 Apr 2018 11:56:49 -0700 (PDT)
+	bh=zknSo3vt8bvu+2M0sX0Mptdq/OxGIfgJoCvYAAvV0yg=;
+	b=JYuJ5mUq+hhDExN2cK7zk7hm7bkwNOySrUXbEi04jbTeIoQvj6eS3JRY7G4Fj3rPTi
+	EYP5QUBLiitZNI0qDRM81uYGqJ76hseG92/qL5rvJAZysDPEa0SvXbPMI0dJ2eGsOBJ8
+	gtyvbdbZU5pyL5cL2GM4y8T62khb7rj7De+S+7UFoqiOXaGoAoFn8LVpntb3nqJQwILw
+	oZFV8NapwSY98PIzhb0v7W2y3SJALfRn9TcGwCNO1o88qHSWoCXmQGLihXysk0briF1y
+	wtDiGCG7cH1Ko5r2DilW29PP7MfPEGQcqi4KBxserkoGCO2aiI6oekzSMV7ElGre0Dlo
+	ZUpQ==
+X-Gm-Message-State: ALQs6tCRgX88qaQmBTEufXdRMUlyUeSRd8b3fma67sdmUQP2nSwcpIyC
+	M6hcQozBJZXe0SWD0Qzp4nAkUtZJPMPs7wUtaSk=
+X-Google-Smtp-Source: AIpwx4/nDREOuz75929Ro2++/NyBVlGkYa0n25VbI15OOLZvGaYlrb5g04ClWbsTg+hvvWDDjSlh6fc89mAjDgJWEmg=
+X-Received: by 10.223.175.201 with SMTP id y9mr4211169wrd.107.1523473678174;
+	Wed, 11 Apr 2018 12:07:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.145.99 with HTTP; Wed, 11 Apr 2018 11:56:48 -0700 (PDT)
-In-Reply-To: <0de624d1-6617-97a7-244d-5d65b8bceadf@linux.intel.com>
+Received: by 10.223.145.99 with HTTP; Wed, 11 Apr 2018 12:07:57 -0700 (PDT)
+In-Reply-To: <aeba1934-3675-2229-72c2-71bfa7a39b66@linux.intel.com>
 References: <20180410120747.41814-1-alexander.kanavin@linux.intel.com>
-	<20180410120747.41814-3-alexander.kanavin@linux.intel.com>
-	<CAJ86T=X4cBT=RpXzvyuoOiFVX-fj_8tXO8y6JnAa08R_CBkKeA@mail.gmail.com>
-	<0de624d1-6617-97a7-244d-5d65b8bceadf@linux.intel.com>
+	<20180410120747.41814-4-alexander.kanavin@linux.intel.com>
+	<CAJ86T=WP5EU59ii41QBJgbnqdAjwTUsz=ZQRi6D_QbCUPXA-gg@mail.gmail.com>
+	<aeba1934-3675-2229-72c2-71bfa7a39b66@linux.intel.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 11 Apr 2018 11:56:48 -0700
-Message-ID: <CAJ86T=V661XAbNGnR7BDtifWzX+mVxufSf7FuQ8oy-w36AFEgw@mail.gmail.com>
+Date: Wed, 11 Apr 2018 12:07:57 -0700
+Message-ID: <CAJ86T=WxJqKSfXWqCdREA+a-E2ue=L4juYVRUDyNb5HLkJBUew@mail.gmail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 3/5] openssl: update to 1.1.1
+Subject: Re: [RFC][PATCH 4/5] libressl: add a recipe to support openssh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 18:56:50 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 19:07:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 11, 2018 at 3:09 AM, Alexander Kanavin
+On Wed, Apr 11, 2018 at 3:03 AM, Alexander Kanavin
 <alexander.kanavin@linux.intel.com> wrote:
-> On 04/11/2018 12:20 AM, Andre McCurdy wrote:
->>>
->>> -#| engines/afalg/e_afalg.c: In function 'eventfd':
->>> -#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared
->>> (first use in this function)
->>> -#|      return syscall(__NR_eventfd, n);
->>> -#|                     ^~~~~~~~~~~~
->>> -EXTRA_OECONF_aarch64 += "no-afalgeng"
->>> +# This prevents openssl from using getrandom() which is not available on
->>> older glibc versions
->>> +# (native versions can be built with newer glibc, but then relocated
->>> onto a system with older glibc)
->>> +EXTRA_OECONF_class-native += "--with-rand-seed=devrandom"
->>> +EXTRA_OECONF_class-nativesdk += "--with-rand-seed=devrandom"
+> On 04/11/2018 11:38 AM, Andre McCurdy wrote:
 >>
->> Better to avoid += with an over-ride since it doesn't do what most new
->> users etc expect. Better to use _append instead (or just the over-ride
->> on it's own, if over-riding the original value is what you intended to
->> do).
+>> I played around with completely replacing openssl with libressl a year
+>> or so ago and it went fairly smoothly (at least as far as I tested).
+>> That was with libressl 2.4.2 and my recipe built with autotools rather
+>> than cmake though. Did you try to build with autotools? That still
+>> appears to be the option mentioned first in the libressl README.
 >
-> Thanks, I will fix this. The whole += vs. _append is a design shortcoming in
-> bitbake I'd say, as it's a regular source of confusion, and can't be
-> automatically QA'd.
+> That's not however the options I would take first, as the recipe maintainer
+> :) Autotools is horrible in many ways; while cmake is not great, it's
+> definitely less horrible.
 
-Yes, fully agree. We would save new users a lot of time and confusion
-if the parser just failed with an error on any attempt to use += with
-an over-ride. I've seen it cause bugs many times.
+Well, as you're the one writing the recipe you get to make the choice
+:-) But if one "just works" and the other requires patches that might
+sway the choice a little. I wasn't sure if you'd even looked at the
+autotools build.
+
+Either option is a vast improvement on the openssl build system
+though. Libressl seems to have done a lot of valuable cleanup in that
+respect.
 
