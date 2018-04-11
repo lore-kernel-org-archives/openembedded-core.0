@@ -1,53 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2264174726
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
+	[209.85.128.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 13ADC7455C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 16:07:57 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id m22-v6so2585072otf.8
+	Wed, 11 Apr 2018 17:55:36 +0000 (UTC)
+Received: by mail-wr0-f175.google.com with SMTP id l49so2615659wrl.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 09:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=37pL2ax70A+HzXZ5vYJI85Y7UjaCd3h/xhg63kzqS0U=;
-	b=U2eFtCJEtNO9HzrMMLen/9mvQGC1AaYwJ7akRfMhw/XExgOuz4PsGjuHUdhrnDx3Nj
-	wX7e1KFA5UQMk8piUdeM0/wXgWV0oe6kLIodwJiFS663Z7T/wPy8FLzJLYK1gKT5IvG+
-	KqJ5CrSxlBsFaxWxMDGM553jGrJ4JS8TzUSk+wisQ6JvUL9w2uIUIrgVAkp2n9N3e1Sv
-	P3rJHlAZmqwxTtpCIj9aFC9MRMhgJtqClQ/0eBaQn2Sjk+TI83rX4tp7v7ewq64IeBia
-	HCkVzRbxnuwdMLiXJNWcKPWRDE8YcVZ0Q9RaX0ID31biHuXXez5m4no7hKY0jIbBHAlx
-	r4DQ==
+	Wed, 11 Apr 2018 10:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=NgqDf+FJ8iBud1ACVTgcmMz67ivFwAG0ucx9Gg2mQtc=;
+	b=E0FxdiJr2hi8msbAD9rJTnLevY4OZ0fTWKCtjQ5D0Ybuea8/TzIPDTl3JRe/RFdipe
+	mgMDOKQ6ulhEqrMvSghIcy7nnebuf54eLscDhQThgMXDODOTCsIMk/y6AZE7pLYnibyA
+	8/NmIyg5RAImcTTmCphpm7w03NuOh1c2ElfadRXQ54FuTemmjBpYovWqSJ1s5ibzmeZw
+	7aG+Eb6361ZGLBvg37Ev8O6oc/tciA+BVK1LlgCC1MYU4PkMjyC6rmEnr72oqrAMdrhe
+	1WHaN0UmDEGEWjXTAwFaHHtVvCWWMMM/Y1Hl0RZ3ugNbTrH80vRb3+69rhgqmHK5DFLV
+	1upA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=37pL2ax70A+HzXZ5vYJI85Y7UjaCd3h/xhg63kzqS0U=;
-	b=WnK+8w8E8RDuh7XA93SgVE0gSPkoV1RIjFtGv7sl0ZAOlX036t/2R2sg2NYKTXQcv1
-	Ww9KRTE6GnH1hyLfVOp7dF4irJTBfkePyYLwaVhK3fk/fIUJfMQIW8Tn8nY9ojdp6UBa
-	Mgc07n2VmoPPk3tMlA7J0Sph7fwXNf+K8vMMYW8RMbHjVfu7nyUywOgLfjGog8PsnFHD
-	F3w1p4nqmmKf582mInJF8Zpw2PXJ3prfmuBZAzo6bzFbxFNwenqKkaNUp41g2gKQTZBO
-	KSlxvpxi+EdOkjdqIGJ6WGxQ9nL0K/WFeREvhB1rF5ObzfccvvhJKoFuQ/wxX4COsD93
-	4lrw==
-X-Gm-Message-State: ALQs6tBXS9miRMGSrTEA2qXrqp7dKFWVbBTOlBrJ3WgAV2nDHPgpMR8z
-	CpbhmIdu3ozL8AODxIyoVUQrxGRcelYej1A9rAQVJQ==
-X-Google-Smtp-Source: AIpwx4+JMES3V/IHf+J2N+Tqfbj/bke/G1W3Kg9AV8HFvunDBLbMlOT4wNwL/xGpPSqruxK6L2pzkAMOqqnx2OOZdFk=
-X-Received: by 2002:a9d:2ce2:: with SMTP id
-	e31-v6mr3347990otd.135.1523462878814; 
-	Wed, 11 Apr 2018 09:07:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Wed, 11 Apr 2018 09:07:38 -0700 (PDT)
-In-Reply-To: <CAMKF1srSW0=y7K3q+q-cUN7XXTnGiRV1e5Ag3PjC2tb12Htqnw@mail.gmail.com>
-References: <20180410143532.31916-1-ross.burton@intel.com>
-	<CA+chaQdRDvvi-2UgmbC_=yjiuN-8yqdrk5K1yzTh9CVKZsXiJA@mail.gmail.com>
-	<CAJTo0LZWZRj0u9J+Z42Lxuh98u-f2i8HQwM37z1TPqRB9KbfLA@mail.gmail.com>
-	<CAMKF1srSW0=y7K3q+q-cUN7XXTnGiRV1e5Ag3PjC2tb12Htqnw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Apr 2018 17:07:38 +0100
-Message-ID: <CAJTo0Lbon36HCngX2DFNtfrtZQP-nn2t=hp=_mAeHK-bYBpF6w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: use pigz to create .gz files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NgqDf+FJ8iBud1ACVTgcmMz67ivFwAG0ucx9Gg2mQtc=;
+	b=RwNzy/jUxPYw0Z5RDgocd11sh2pk9+rFLByxb2UKfq1xX3eiJxgToClWVFqfFztqmD
+	Z2SEEAHWQHGUSktBmP695hRmTpOktAg69lSKPTknjD96Whm1PeODUHvGy3AE6joz0Q4W
+	Ych7D8RA2aol+NBH3Z9eDefWV+uqfwYwtcc7SUP7mVNRGpCn1PYTwoK9I7GV7Ps2yW/Y
+	StGuAUlTX5ilvShJFC/len9tUysMvHP0EeCeLVUrVKmdKtjnz96xNuc+6hKtEPXgI3iR
+	8CtpFTSnIOo6O1rDkAnY89ussoCpU9JDLvI6OhQ6kWV6hdHT0vlcy/OnI/ojn6APFv1a
+	Y47g==
+X-Gm-Message-State: ALQs6tBfNsiNqaSz0nO0zH7XMeGfQzt0wVGyO8C7Z6drBGVZPuSlVvtP
+	2L0EJTMPiUb7F8y4D1xkE40GCg==
+X-Google-Smtp-Source: AIpwx4/esRgujkT0fRkkJk0FlrrJahklJyu9ToQOTZXMqclSfoPDc3QwfSVLYaGAa19K63tnezOUcw==
+X-Received: by 10.223.176.98 with SMTP id g31mr4036614wra.256.1523469337042;
+	Wed, 11 Apr 2018 10:55:37 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	a70sm1100166wma.27.2018.04.11.10.55.35
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 11 Apr 2018 10:55:35 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Apr 2018 17:55:32 +0000
+Message-Id: <20180411175532.1667-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.15.1
+Subject: [PATCH] scripts/test-dependencies.sh: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,79 +54,317 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 16:07:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Apr 2018 17:55:37 -0000
 
-Woud be interesting to see a benchmark of a full build from scratch
-with host gzip vs host pigz...
+* with RSS used in pyro this script isn't very useful anymore
+* RSS makes sure that the dependencies are almost always deterministic
+  the only case known to me where dependencies are different based on
+  what was already built in TMPDIR are runtime dependencies resolved
+  by shlibs code in package.bbclass (which is using global pkgdata, not
+  specific to given recipe and its RSS) as described here:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217#c4
+  but for this case it's not worth running complete test-dependencies.sh
+  runs
 
-On 11 April 2018 at 17:03, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Apr 11, 2018 at 6:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> Wouldn't that introduce a fun circular dependency if pigz-native needs
->> to be built?
->>
->
-> interesting idea certainly, if it ends up with improvements in build
-> time, we could
-> add pigz to host dependencies.
->
->> Ross
->>
->> On 11 April 2018 at 11:53, Martin Jansa <martin.jansa@gmail.com> wrote:
->>> What about using pigz for sstate-cache archives?
->>>
->>> On Tue, Apr 10, 2018 at 4:35 PM, Ross Burton <ross.burton@intel.com> wrote:
->>>>
->>>> Since pigz is no longer a drop-in replacement for gzip (oe-core 1624b7b)
->>>> the
->>>> image creation has been using gzip instead of pigz, despite still
->>>> depending on
->>>> pigz-native.  Fix this by invoking pigz explicitly.
->>>>
->>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
->>>> ---
->>>>  meta/classes/image_types.bbclass | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/classes/image_types.bbclass
->>>> b/meta/classes/image_types.bbclass
->>>> index e872ae20982..00a00d318f4 100644
->>>> --- a/meta/classes/image_types.bbclass
->>>> +++ b/meta/classes/image_types.bbclass
->>>> @@ -281,7 +281,7 @@ COMPRESSIONTYPES ?= ""
->>>>
->>>>  CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
->>>> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2
->>>> ${COMPRESSIONTYPES}"
->>>>  CONVERSION_CMD_lzma = "lzma -k -f -7
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>>> -CONVERSION_CMD_gz = "gzip -f -9 -n -c
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->>>> +CONVERSION_CMD_gz = "pigz -f -9 -n -c
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->>>>  CONVERSION_CMD_bz2 = "pbzip2 -f -k
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>>>  CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS}
->>>> --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
->>>>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
->>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->>>> --
->>>> 2.11.0
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ scripts/test-dependencies.sh | 286 -------------------------------------------
+ 1 file changed, 286 deletions(-)
+ delete mode 100755 scripts/test-dependencies.sh
+
+diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
+deleted file mode 100755
+index 0b94de8608..0000000000
+--- a/scripts/test-dependencies.sh
++++ /dev/null
+@@ -1,286 +0,0 @@
+-#!/bin/bash
+-
+-# Author: Martin Jansa <martin.jansa@gmail.com>
+-#
+-# Copyright (c) 2013 Martin Jansa <Martin.Jansa@gmail.com>
+-
+-# Used to detect missing dependencies or automagically
+-# enabled dependencies which aren't explicitly enabled
+-# or disabled. Using bash to have PIPESTATUS variable.
+-
+-# It does 3 builds of <target>
+-# 1st to populate sstate-cache directory and sysroot
+-# 2nd to rebuild each recipe with every possible
+-#     dependency found in sysroot (which stays populated
+-#     from 1st build
+-# 3rd to rebuild each recipe only with dependencies defined
+-#     in DEPENDS
+-# 4th (optional) repeat build like 3rd to make sure that
+-#     minimal versions of dependencies defined in DEPENDS
+-#     is also enough
+-
+-# Global vars
+-tmpdir=
+-targets=
+-recipes=
+-buildhistory=
+-buildtype=
+-default_targets="world"
+-default_buildhistory="buildhistory"
+-default_buildtype="1 2 3 c"
+-
+-usage () {
+-  cat << EOF
+-Welcome to utility to detect missing or autoenabled dependencies.
+-WARNING: this utility will completely remove your tmpdir (make sure
+-         you don't have important buildhistory or persistent dir there).
+-$0 <OPTION>
+-
+-Options:
+-  -h, --help
+-        Display this help and exit.
+-
+-  --tmpdir=<tmpdir>
+-        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
+-        Something like /OE/oe-core/tmp-eglibc (no / at the end).
+-
+-  --targets=<targets>
+-        List of targets separated by space, will use the environment variable TARGETS if it is not specified.
+-        It will run "bitbake <targets>" to populate sysroots.
+-        Default value is "world".
+-
+-  --recipes=<recipes>
+-        File with list of recipes we want to rebuild with minimal and maximal sysroot.
+-        Will use the environment variable RECIPES if it is not specified.
+-        Default value will use all packages ever recorded in buildhistory directory.
+-
+-  --buildhistory=<buildhistory>
+-        Path to buildhistory directory, it needs to be enabled in your config,
+-        because it's used to detect different dependencies and to create list
+-        of recipes to rebuild when it's not specified.
+-        Will use the environment variable BUILDHISTORY if it is not specified.
+-        Default value is "buildhistory"
+-
+-  --buildtype=<buildtype>
+-        There are 4 types of build:
+-          1: build to populate sstate-cache directory and sysroot
+-          2: build to rebuild each recipe with every possible dep
+-          3: build to rebuild each recipe with minimal dependencies
+-          4: build to rebuild each recipe again with minimal dependencies
+-          c: compare buildhistory directories from build 2 and 3
+-        Will use the environment variable BUILDTYPE if it is not specified.
+-        Default value is "1 2 3 c", order is important, type 4 is optional.
+-EOF
+-}
+-
+-# Print error information and exit.
+-echo_error () {
+-  echo "ERROR: $1" >&2
+-  exit 1
+-}
+-
+-while [ -n "$1" ]; do
+-  case $1 in
+-    --tmpdir=*)
+-      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
+-      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
+-      shift
+-        ;;
+-    --targets=*)
+-      targets=`echo $1 | sed -e 's#^--targets="*\([^"]*\)"*#\1#'`
+-      shift
+-        ;;
+-    --recipes=*)
+-      recipes=`echo $1 | sed -e 's#^--recipes="*\([^"]*\)"*#\1#'`
+-      shift
+-        ;;
+-    --buildhistory=*)
+-      buildhistory=`echo $1 | sed -e 's#^--buildhistory="*\([^"]*\)"*#\1#'`
+-      shift
+-        ;;
+-    --buildtype=*)
+-      buildtype=`echo $1 | sed -e 's#^--buildtype="*\([^"]*\)"*#\1#'`
+-      shift
+-        ;;
+-    --help|-h)
+-      usage
+-      exit 0
+-        ;;
+-    *)
+-      echo "Invalid arguments $*"
+-      echo_error "Try '$0 -h' for more information."
+-        ;;
+-  esac
+-done
+-
+-# tmpdir directory, use environment variable TMPDIR
+-# if it was not specified, otherwise, error.
+-[ -n "$tmpdir" ] || tmpdir=$TMPDIR
+-[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
+-[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
+-[ -n "$targets" ] || targets=$TARGETS
+-[ -n "$targets" ] || targets=$default_targets
+-[ -n "$recipes" ] || recipes=$RECIPES
+-[ -n "$recipes" -a ! -f "$recipes" ] && echo_error "Invalid file with list of recipes to rebuild"
+-[ -n "$recipes" ] || echo "All packages ever recorded in buildhistory directory will be rebuilt"
+-[ -n "$buildhistory" ] || buildhistory=$BUILDHISTORY
+-[ -n "$buildhistory" ] || buildhistory=$default_buildhistory
+-[ -d "$buildhistory" ] || echo_error "Invalid buildhistory directory \"$buildhistory\""
+-[ -n "$buildtype" ] || buildtype=$BUILDTYPE
+-[ -n "$buildtype" ] || buildtype=$default_buildtype
+-echo "$buildtype" | grep -v '^[1234c ]*$' && echo_error "Invalid buildtype \"$buildtype\", only some combination of 1, 2, 3, 4, c separated by space is allowed"
+-
+-OUTPUT_BASE=test-dependencies/`date "+%s"`
+-declare -i RESULT=0
+-
+-build_all() {
+-  echo "===== 1st build to populate sstate-cache directory and sysroot ====="
+-  OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
+-  mkdir -p ${OUTPUT1}
+-  echo "Logs will be stored in ${OUTPUT1} directory"
+-  bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
+-  RESULT+=${PIPESTATUS[0]}
+-  grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
+-  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
+-}
+-
+-build_every_recipe() {
+-  if [ "${TYPE}" = "2" ] ; then
+-    echo "===== 2nd build to rebuild each recipe with every possible dep ====="
+-    OUTPUT_MAX=${OUTPUT_BASE}/${TYPE}_max
+-    OUTPUTB=${OUTPUT_MAX}
+-  else
+-    echo "===== 3rd or 4th build to rebuild each recipe with minimal dependencies ====="
+-    OUTPUT_MIN=${OUTPUT_BASE}/${TYPE}_min
+-    OUTPUTB=${OUTPUT_MIN}
+-  fi
+-
+-  mkdir -p ${OUTPUTB} ${OUTPUTB}/failed ${OUTPUTB}/ok
+-  echo "Logs will be stored in ${OUTPUTB} directory"
+-  if [ -z "$recipes" ]; then
+-    ls -d $buildhistory/packages/*/* | xargs -n 1 basename | sort -u > ${OUTPUTB}/recipe.list
+-    recipes=${OUTPUTB}/recipe.list
+-  fi
+-  if [ "${TYPE}" != "2" ] ; then
+-    echo "!!!Removing tmpdir \"$tmpdir\"!!!"
+-    rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
+-  fi
+-  i=1
+-  count=`cat $recipes ${OUTPUT1}/failed-recipes.log | sort -u | wc -l`
+-  for recipe in `cat $recipes ${OUTPUT1}/failed-recipes.log | sort -u`; do
+-    echo "Building recipe: ${recipe} ($i/$count)"
+-    declare -i RECIPE_RESULT=0
+-    bitbake -c cleansstate ${recipe} > ${OUTPUTB}/${recipe}.log 2>&1;
+-    RECIPE_RESULT+=$?
+-    bitbake ${recipe} >> ${OUTPUTB}/${recipe}.log 2>&1;
+-    RECIPE_RESULT+=$?
+-    if [ "${RECIPE_RESULT}" != "0" ] ; then
+-      RESULT+=${RECIPE_RESULT}
+-      mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
+-      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
+-      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' >> ${OUTPUTB}/failed-recipes.log
+-      # and append also ${recipe} in case the failed task was from some dependency
+-      echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
+-    else
+-      mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/ok/
+-    fi
+-    if [ "${TYPE}" != "2" ] ; then
+-      rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
+-    fi
+-    i=`expr $i + 1`
+-  done
+-  echo "Copying buildhistory/packages to ${OUTPUTB}"
+-  cp -ra $buildhistory/packages ${OUTPUTB}
+-  # This will be usefull to see which library is pulling new dependency
+-  echo "Copying do_package logs to ${OUTPUTB}/do_package/"
+-  mkdir ${OUTPUTB}/do_package
+-  find $tmpdir/work/ -name log.do_package 2>/dev/null| while read f; do
+-    # pn is 3 levels back, but we don't know if there is just one log per pn (only one arch and version)
+-    # dest=`echo $f | sed 's#^.*/\([^/]*\)/\([^/]*\)/\([^/]*\)/log.do_package#\1#g'`
+-    dest=`echo $f | sed "s#$tmpdir/work/##g; s#/#_#g"`
+-    cp $f ${OUTPUTB}/do_package/$dest
+-  done
+-}
+-
+-compare_deps() {
+-  # you can run just compare task with command like this
+-  # OUTPUT_BASE=test-dependencies/1373140172 \
+-  # OUTPUT_MAX=${OUTPUT_BASE}/2_max \
+-  # OUTPUT_MIN=${OUTPUT_BASE}/3_min \
+-  # openembedded-core/scripts/test-dependencies.sh --tmpdir=tmp-eglibc --targets=glib-2.0 --recipes=recipe_list --buildtype=c
+-  echo "===== Compare dependencies recorded in \"${OUTPUT_MAX}\" and \"${OUTPUT_MIN}\" ====="
+-  [ -n "${OUTPUTC}" ] || OUTPUTC=${OUTPUT_BASE}/comp
+-  mkdir -p ${OUTPUTC}
+-  OUTPUT_FILE=${OUTPUTC}/dependency-changes
+-  echo "Differences will be stored in ${OUTPUT_FILE}, dot is shown for every 100 of checked packages"
+-  echo > ${OUTPUT_FILE}
+-
+-  [ -d ${OUTPUT_MAX} ] || echo_error "Directory with output from build 2 \"${OUTPUT_MAX}\" does not exist"
+-  [ -d ${OUTPUT_MIN} ] || echo_error "Directory with output from build 3 \"${OUTPUT_MIN}\" does not exist"
+-  [ -d ${OUTPUT_MAX}/packages/ ] || echo_error "Directory with packages from build 2 \"${OUTPUT_MAX}/packages/\" does not exist"
+-  [ -d ${OUTPUT_MIN}/packages/ ] || echo_error "Directory with packages from build 3 \"${OUTPUT_MIN}/packages/\" does not exist"
+-  i=0
+-  find ${OUTPUT_MAX}/packages/ -name latest | sed "s#${OUTPUT_MAX}/##g" | while read pkg; do
+-    max_pkg=${OUTPUT_MAX}/${pkg}
+-    min_pkg=${OUTPUT_MIN}/${pkg}
+-    # pkg=packages/armv5te-oe-linux-gnueabi/libungif/libungif/latest
+-    recipe=`echo "${pkg}" | sed 's#packages/[^/]*/\([^/]*\)/\([^/]*\)/latest#\1#g'`
+-    package=`echo "${pkg}" | sed 's#packages/[^/]*/\([^/]*\)/\([^/]*\)/latest#\2#g'`
+-    if [ ! -f "${min_pkg}" ] ; then
+-      echo "ERROR: ${recipe}: ${package} package isn't created when building with minimal dependencies?" | tee -a ${OUTPUT_FILE}
+-      echo ${recipe} >> ${OUTPUTC}/failed-recipes.log
+-      continue
+-    fi
+-    # strip version information in parenthesis
+-    max_deps=`grep "^RDEPENDS = " ${max_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
+-    min_deps=`grep "^RDEPENDS = " ${min_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
+-    if [ "$i" = 100 ] ; then
+-      echo -n "." # cheap progressbar
+-      i=0
+-    fi
+-    if [ "${max_deps}" = "${min_deps}" ] ; then
+-      # it's annoying long, but at least it's showing some progress, warnings are grepped at the end
+-      echo "NOTE: ${recipe}: ${package} rdepends weren't changed" >> ${OUTPUT_FILE}
+-    else
+-      missing_deps=
+-      for dep in ${max_deps}; do
+-        if ! echo "${min_deps}" | grep -q " ${dep} " ; then
+-          missing_deps="${missing_deps} ${dep}"
+-          echo # to get rid of dots on last line
+-          echo "WARN: ${recipe}: ${package} rdepends on ${dep}, but it isn't a build dependency?" | tee -a ${OUTPUT_FILE}
+-        fi
+-      done
+-      if [ -n "${missing_deps}" ] ; then
+-        echo ${recipe} >> ${OUTPUTC}/failed-recipes.log
+-      fi
+-    fi
+-    i=`expr $i + 1`
+-  done
+-  echo # to get rid of dots on last line
+-  echo "Found differences: "
+-  grep "^WARN: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.warn.log
+-  echo "Found errors: "
+-  grep "^ERROR: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.error.log
+-  RESULT+=`cat ${OUTPUT_FILE}.warn.log | wc -l`
+-  RESULT+=`cat ${OUTPUT_FILE}.error.log | wc -l`
+-}
+-
+-for TYPE in $buildtype; do
+-  case ${TYPE} in
+-    1) build_all;;
+-    2) build_every_recipe;;
+-    3) build_every_recipe;;
+-    4) build_every_recipe;;
+-    c) compare_deps;;
+-    *) echo_error "Invalid buildtype \"$TYPE\""
+-  esac
+-done
+-
+-cat ${OUTPUT_BASE}/*/failed-recipes.log | sort -u >> ${OUTPUT_BASE}/failed-recipes.log
+-
+-if [ "${RESULT}" != "0" ] ; then
+-  echo "ERROR: ${RESULT} issues were found in these recipes: `cat ${OUTPUT_BASE}/failed-recipes.log | xargs`"
+-fi
+-
+-echo "INFO: Output written in: ${OUTPUT_BASE}"
+-exit ${RESULT}
+-- 
+2.15.1
+
 
