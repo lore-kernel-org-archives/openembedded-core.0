@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AE05C744F2
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F923746E0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 15:51:24 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id w12-v6so786322plp.0
+	Wed, 11 Apr 2018 16:04:10 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id l21so957837pgc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 08:51:26 -0700 (PDT)
+	Wed, 11 Apr 2018 09:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oGSn104sDtfkfwOHi+lMFd6paNRsBClp4Lv3c0IwWrs=;
-	b=KB4+TR5CZmBPvt1BVdOcfhDuJaPJkSIESwXYOCVGNBFKKXPkZYczuuKSnpOYNMFk+w
-	QFKelS6KTpwUaPxfOC42znTpagVMGBmb/lFMb4WPxljcmmj6j4QHWXT60Wz5zFhpS9xg
-	/nRwRr0XFe3yhwwjLVjepM2rqzJAvbGk9Kw/QhUKdxqIFkQ+Xr8X0LRUjKV7vNxcn3sp
-	5nTq0OPbaVKWjAYf9+a4G4dWJHJBNTGGyzSAPnLWRtUYsiRvl6uKlMPoA9taLjXNrKQ3
-	X3HQMhg2Oh87KuXQNTMN9acXE7Pewv8EQW0z4Ml+85GdfldJb7weQkSkTcv+7SOhAilM
-	ML0g==
+	:cc; bh=Bq98DEe4LMlMmRnmVQoOz1skyVmN4FZaXeeeJ1XLo+8=;
+	b=SR56bDJqFd9yAfAn0yDTEeK7Qd4zBcK4V27gF7My2QdKsOsAE8kEjXNHWrvxLjutYL
+	8QEBltrI+AwEf1xfVjsDs5eaaFMy1tqcLlVkJkeBSR1aBZm/d1TlErkKuJRI2a81Rb8+
+	KdtEDqXYiIDH3VBK5Qxkg/UfMFg6gNFRjCwxddilTbrw6uPQIKQJhakWz7EpJgC2cqE+
+	xsViDxkRmTOR63PyGrUcpMj1J5U11L83UCruzwlvHfywNPefqy68/ayF/t4W/gMo2Ldz
+	SyQzy9LvcVdNIqkskJAHbMmJuQMxQ9MYGsG7ujQqXnfRt21Kaqv1yZr/4qIVEWkBAx5d
+	tLYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=oGSn104sDtfkfwOHi+lMFd6paNRsBClp4Lv3c0IwWrs=;
-	b=aRzaPVDX9yypOzshFNHuhOwbj4Cw0wVDmnsCIuLDc3XH1XZEweMT1gT3WxIn5zRr5l
-	Bl4V/BzQFVsZB3soFFUlevKCopqWSFrIrNRJHL7ZS2xB/SVqxGh6vHy3MuT+f/8cVwjl
-	dfw3fFmCvlKCTg6sG+D4vSfL79qHolJwUA+ECgrA5N7CLE+UJIqgQCV6ufGEBzKq1THw
-	59O2gr4L3QwdTk0y/2UMZQeI9zSSDbBr6SZNVepVSUXzfVvpybnd3VAzEtZDUyZ9koo8
-	vFXwsxOojc9nq5QnmePwLN4JQEd1Lxl9gAfFmrx1Ho1IxIHqJ0qNHbhrycxinl/n32SL
-	cKYw==
-X-Gm-Message-State: ALQs6tAKc6jK7zYMcsFd3dwi9Q3UydH/Y/srfKw5L6NRx3Yfqh/OpaIY
-	VveXWC/NA07PP+F8MXbsnFFR3F7d7+E9gojxAoc=
-X-Google-Smtp-Source: AIpwx49hx1aQWEufB++ZgO1cRa1E7RPIoHi3SLCIfzNTCX0XDKIqnoADt13uHNNFW8cmY4wwHUSrWp2brZNpdAapkGo=
-X-Received: by 2002:a17:902:9a0c:: with SMTP id
-	v12-v6mr2739976plp.162.1523461885512; 
-	Wed, 11 Apr 2018 08:51:25 -0700 (PDT)
+	bh=Bq98DEe4LMlMmRnmVQoOz1skyVmN4FZaXeeeJ1XLo+8=;
+	b=USJcUq3S/FS0ccW332sNyoBNVrEevvkBWLFBOgEFlw3G/88i+pWaWSsdb+InuNbwdq
+	dtkGvod8zJ6VJNFixzgL4V1bTQx818DBwh7gMxkpYQo+xEtJrpcE4udwUQHW7zYpqmbi
+	ltuPdJEPuC/T83VTs9iIFikxdlq0R2GMVoT7WKl7fgoP4AY5KatJ3hkBdq2aWICAAjcW
+	2pfUv5zHoBWlCsqsW2dVM83uWYFhSyG68xm2oozHfJR3u7XFgUBvNOvScgZwWRLH8/zy
+	QnFhHfYZM52yIh0B9QWEUWub1ZOtCCUfhs60C3Xm74fjAcg6zI72Z7KMla+chz9S6T8A
+	HR2A==
+X-Gm-Message-State: ALQs6tCErmq4PcB2vfaPVzTigo2Y1EpmedNdMVwVWIlgexa6kBGRZyEO
+	ZGfvJkYJdPecIXyBgebFwHZal0blZofWfg8NPag=
+X-Google-Smtp-Source: AIpwx4/ibwI3yUhcsFz7I/nX3Aw5FnOTPRdsuRX0GHIpr80VGpSDtpQMKcZaCSzcfabBe5qMep1Wl53LIehkO97jMmQ=
+X-Received: by 10.101.97.15 with SMTP id z15mr3866644pgu.393.1523462651967;
+	Wed, 11 Apr 2018 09:04:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.187.129 with HTTP; Wed, 11 Apr 2018 08:50:55 -0700 (PDT)
-In-Reply-To: <20180411143252.21109-1-otavio@ossystems.com.br>
-References: <20180411143252.21109-1-otavio@ossystems.com.br>
+Received: by 10.236.187.129 with HTTP; Wed, 11 Apr 2018 09:03:41 -0700 (PDT)
+In-Reply-To: <CAJTo0LZWZRj0u9J+Z42Lxuh98u-f2i8HQwM37z1TPqRB9KbfLA@mail.gmail.com>
+References: <20180410143532.31916-1-ross.burton@intel.com>
+	<CA+chaQdRDvvi-2UgmbC_=yjiuN-8yqdrk5K1yzTh9CVKZsXiJA@mail.gmail.com>
+	<CAJTo0LZWZRj0u9J+Z42Lxuh98u-f2i8HQwM37z1TPqRB9KbfLA@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Apr 2018 08:50:55 -0700
-Message-ID: <CAMKF1sri+r2BXXUcoWnb-kbqGgExkMyZKUwk3xGbE_UeSyk-qA@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distro: default: Change Go default version to 1.9
+Date: Wed, 11 Apr 2018 09:03:41 -0700
+Message-ID: <CAMKF1srSW0=y7K3q+q-cUN7XXTnGiRV1e5Ag3PjC2tb12Htqnw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: use pigz to create .gz files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +56,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 15:51:24 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 16:04:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 11, 2018 at 7:32 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> For the time being, there is a serious bug[1] in Go 1.10 when it comes to
-> use the shared runtime support which cases problems in multiple projects.
+On Wed, Apr 11, 2018 at 6:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Wouldn't that introduce a fun circular dependency if pigz-native needs
+> to be built?
 >
->  1. https://github.com/golang/go/issues/24640
->
-> It is still unclear if the problem arises from a bug inside the
-> compiler itself or it makes a real problem more visible. Either way,
-> using 1.10 as default seems to be a risk so we are changing back to
-> 1.9 for now.
 
-agreed LGTM
+interesting idea certainly, if it ends up with improvements in build
+time, we could
+add pigz to host dependencies.
 
+> Ross
 >
-> Refs: [YOCTO: #12631]
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->
->  meta/conf/distro/include/tcmode-default.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index 7862edb6333..00399ae820c 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -72,7 +72,7 @@ PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
->  # Setup suitable toolchain flags
->  require conf/distro/include/as-needed.inc
->
-> -GOVERSION ?= "1.10%"
-> +GOVERSION ?= "1.9%"
->  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
->  PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
->  PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
+> On 11 April 2018 at 11:53, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> What about using pigz for sstate-cache archives?
+>>
+>> On Tue, Apr 10, 2018 at 4:35 PM, Ross Burton <ross.burton@intel.com> wrote:
+>>>
+>>> Since pigz is no longer a drop-in replacement for gzip (oe-core 1624b7b)
+>>> the
+>>> image creation has been using gzip instead of pigz, despite still
+>>> depending on
+>>> pigz-native.  Fix this by invoking pigz explicitly.
+>>>
+>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>> ---
+>>>  meta/classes/image_types.bbclass | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes/image_types.bbclass
+>>> b/meta/classes/image_types.bbclass
+>>> index e872ae20982..00a00d318f4 100644
+>>> --- a/meta/classes/image_types.bbclass
+>>> +++ b/meta/classes/image_types.bbclass
+>>> @@ -281,7 +281,7 @@ COMPRESSIONTYPES ?= ""
+>>>
+>>>  CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
+>>> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2
+>>> ${COMPRESSIONTYPES}"
+>>>  CONVERSION_CMD_lzma = "lzma -k -f -7
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>>> -CONVERSION_CMD_gz = "gzip -f -9 -n -c
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>>> +CONVERSION_CMD_gz = "pigz -f -9 -n -c
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>>>  CONVERSION_CMD_bz2 = "pbzip2 -f -k
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>>>  CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS}
+>>> --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+>>>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+>>> --
+>>> 2.11.0
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 > --
-> 2.17.0
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
