@@ -1,24 +1,37 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A862871A18
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 444C1746CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 00:21:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3B0LKP3023776
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 17:21:20 -0700 (PDT)
-Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 10 Apr 2018 17:21:19 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Apr 2018 08:21:18 +0800
-Message-ID: <1523406078-26064-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 11 Apr 2018 01:07:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 0073220B53;
+	Wed, 11 Apr 2018 01:07:22 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id BiODfcCTgO8G; Wed, 11 Apr 2018 01:07:21 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BC709203A8;
+	Wed, 11 Apr 2018 01:07:18 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 4FCC616342E; Tue, 10 Apr 2018 21:07:18 -0400 (EDT)
+Date: Tue, 10 Apr 2018 21:07:18 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180411010718.GF3228@denix.org>
+References: <1523387170-30191-1-git-send-email-denis@denix.org>
+	<1523387170-30191-2-git-send-email-denis@denix.org>
+	<CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
+	<CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.163.220]
-Subject: [sumo][PATCH] dhcp: Security Advisory - CVE-2017-3144
+In-Reply-To: <CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] weston: upgrade to 4.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,122 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 00:21:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Apr 2018 01:07:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Yue Tao <Yue.Tao@windriver.com>
+On Wed, Apr 11, 2018 at 12:17:51AM +0100, Burton, Ross wrote:
+> Ah presumably this is because the U-S is after the scissors.  Denys,
+> when you add it back, can you put it above the ---?
 
-Fix CVE-2017-3144
+Sure, will do.
 
-References:
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-3144
-https://kb.isc.org/article/AA-01541
 
-Patch from:
-https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commitdiff;h=5097bc0559f592683faac1f67bf350e1bddf6ed4
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../dhcp/dhcp/CVE-2017-3144.patch                  | 74 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb       |  1 +
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
-
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
-new file mode 100644
-index 0000000..2b2688c
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
-@@ -0,0 +1,74 @@
-+From 8cfdedee369c26d2869b6ec4a64460b5f5a30934 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Thu, 7 Dec 2017 11:39:30 -0500
-+Subject: [PATCH] [v4_3] Plugs a socket descriptor leak in OMAPI
-+
-+        Merges in rt46767.
-+
-+Upstream-Status: Backport
-+[https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commitdiff;h=5097bc0559f592683faac1f67bf350e1bddf6ed4]
-+
-+CVE: CVE-2017-3144
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ RELNOTES         | 7 +++++++
-+ omapip/buffer.c  | 9 +++++++++
-+ omapip/message.c | 2 +-
-+ 3 files changed, 17 insertions(+), 1 deletion(-)
-+
-+diff --git a/RELNOTES b/RELNOTES
-+index dd40aaf..3741b80 100644
-+--- a/RELNOTES
-++++ b/RELNOTES
-+@@ -66,6 +66,13 @@ We welcome comments from DHCP users, about this or anything else we do.
-+ Email Vicky Risk, Product Manager at vicky@isc.org or discuss on 
-+ dhcp-users@lists.isc.org.
-+ 
-++- Plugged a socket descriptor leak in OMAPI, that can occur when there is
-++  data pending to be written to an OMAPI connection, when the connection
-++  is closed by the reader.  Thanks to Pavel Zhukov at RedHat for bringing
-++  this issue to our attention and whose patch helped guide us in the right
-++  direction.
-++  [ISc-Bugs #46767]
-++
-+ 			Changes since 4.3.6b1
-+ 
-+ - None
-+diff --git a/omapip/buffer.c b/omapip/buffer.c
-+index f7fdc32..809034d 100644
-+--- a/omapip/buffer.c
-++++ b/omapip/buffer.c
-+@@ -566,6 +566,15 @@ isc_result_t omapi_connection_writer (omapi_object_t *h)
-+ 			omapi_buffer_dereference (&buffer, MDL);
-+ 		}
-+ 	}
-++
-++	/* If we had data left to write when we're told to disconnect,
-++	* we need recall disconnect, now that we're done writing.
-++	* See rt46767. */
-++	if (c->out_bytes == 0 && c->state == omapi_connection_disconnecting) {
-++		omapi_disconnect (h, 1);
-++		return ISC_R_SHUTTINGDOWN;
-++	}
-++
-+ 	return ISC_R_SUCCESS;
-+ }
-+ 
-+diff --git a/omapip/message.c b/omapip/message.c
-+index 59ccdc2..21bcfc3 100644
-+--- a/omapip/message.c
-++++ b/omapip/message.c
-+@@ -339,7 +339,7 @@ isc_result_t omapi_message_unregister (omapi_object_t *mo)
-+ }
-+ 
-+ #ifdef DEBUG_PROTOCOL
-+-static const char *omapi_message_op_name(int op) {
-++const char *omapi_message_op_name(int op) {
-+ 	switch (op) {
-+ 	case OMAPI_OP_OPEN:    return "OMAPI_OP_OPEN";
-+ 	case OMAPI_OP_REFRESH: return "OMAPI_OP_REFRESH";
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
-index 6615ae2..cc13549 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
-@@ -12,6 +12,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0010-build-shared-libs.patch \
-             file://0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
-             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
-+            file://CVE-2017-3144.patch \
-            "
- 
- SRC_URI[md5sum] = "afa6e9b3eb7539ea048421a82c668adc"
--- 
-2.7.4
-
+> On 11 April 2018 at 00:16, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 10 April 2018 at 20:06, Denys Dmytriyenko <denis@denix.org> wrote:
+> >> diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> >> index 0671a45..6799254 100644
+> >> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> >> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> >> @@ -1,26 +1,25 @@
+> >> -From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
+> >> +From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
+> >>  From: Khem Raj <raj.khem@gmail.com>
+> >>  Date: Fri, 29 May 2015 20:56:00 -0700
+> >> -Subject: [PATCH weston] make error() portable
+> >> +Subject: [PATCH] make error() portable
+> >>
+> >>  error() is not posix but gnu extension so may not be available on all
+> >>  kind of systemsi e.g. musl.
+> >>
+> >>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ----
+> >> -Upstream-Status: Submitted
+> >
+> > Ah, I've seen this before and was wondering if it was a genuine
+> > mistake or devtool being bad.
+> >
+> > devtool refresh is doing A Bad Thing and for some reason dropping the
+> > Upstream-Status tag.  Alex, can you see why this is?  Denys, can you
+> > edit it back in?
+> >
+> > Ross
+> 
 
