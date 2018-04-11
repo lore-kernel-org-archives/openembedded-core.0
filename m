@@ -1,47 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 13ADC7455C
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 8555772EEF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 17:55:36 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id l49so2615659wrl.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 10:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=NgqDf+FJ8iBud1ACVTgcmMz67ivFwAG0ucx9Gg2mQtc=;
-	b=E0FxdiJr2hi8msbAD9rJTnLevY4OZ0fTWKCtjQ5D0Ybuea8/TzIPDTl3JRe/RFdipe
-	mgMDOKQ6ulhEqrMvSghIcy7nnebuf54eLscDhQThgMXDODOTCsIMk/y6AZE7pLYnibyA
-	8/NmIyg5RAImcTTmCphpm7w03NuOh1c2ElfadRXQ54FuTemmjBpYovWqSJ1s5ibzmeZw
-	7aG+Eb6361ZGLBvg37Ev8O6oc/tciA+BVK1LlgCC1MYU4PkMjyC6rmEnr72oqrAMdrhe
-	1WHaN0UmDEGEWjXTAwFaHHtVvCWWMMM/Y1Hl0RZ3ugNbTrH80vRb3+69rhgqmHK5DFLV
-	1upA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NgqDf+FJ8iBud1ACVTgcmMz67ivFwAG0ucx9Gg2mQtc=;
-	b=RwNzy/jUxPYw0Z5RDgocd11sh2pk9+rFLByxb2UKfq1xX3eiJxgToClWVFqfFztqmD
-	Z2SEEAHWQHGUSktBmP695hRmTpOktAg69lSKPTknjD96Whm1PeODUHvGy3AE6joz0Q4W
-	Ych7D8RA2aol+NBH3Z9eDefWV+uqfwYwtcc7SUP7mVNRGpCn1PYTwoK9I7GV7Ps2yW/Y
-	StGuAUlTX5ilvShJFC/len9tUysMvHP0EeCeLVUrVKmdKtjnz96xNuc+6hKtEPXgI3iR
-	8CtpFTSnIOo6O1rDkAnY89ussoCpU9JDLvI6OhQ6kWV6hdHT0vlcy/OnI/ojn6APFv1a
-	Y47g==
-X-Gm-Message-State: ALQs6tBfNsiNqaSz0nO0zH7XMeGfQzt0wVGyO8C7Z6drBGVZPuSlVvtP
-	2L0EJTMPiUb7F8y4D1xkE40GCg==
-X-Google-Smtp-Source: AIpwx4/esRgujkT0fRkkJk0FlrrJahklJyu9ToQOTZXMqclSfoPDc3QwfSVLYaGAa19K63tnezOUcw==
-X-Received: by 10.223.176.98 with SMTP id g31mr4036614wra.256.1523469337042;
-	Wed, 11 Apr 2018 10:55:37 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	a70sm1100166wma.27.2018.04.11.10.55.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 11 Apr 2018 10:55:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Wed, 11 Apr 2018 18:03:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id F09B6209AC;
+	Wed, 11 Apr 2018 18:03:33 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 9H2bfDuVj5VQ; Wed, 11 Apr 2018 18:03:33 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id BCF0F2017D;
+	Wed, 11 Apr 2018 18:03:32 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 26B0216342D;
+	Wed, 11 Apr 2018 14:03:32 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Apr 2018 17:55:32 +0000
-Message-Id: <20180411175532.1667-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.15.1
-Subject: [PATCH] scripts/test-dependencies.sh: remove
+Date: Wed, 11 Apr 2018 14:03:19 -0400
+Message-Id: <1523469799-4400-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1523387170-30191-2-git-send-email-denis@denix.org>
+References: <1523387170-30191-2-git-send-email-denis@denix.org>
+MIME-Version: 1.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v2 2/2] weston: upgrade to 4.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,317 +41,461 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 17:55:37 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 18:03:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* with RSS used in pyro this script isn't very useful anymore
-* RSS makes sure that the dependencies are almost always deterministic
-  the only case known to me where dependencies are different based on
-  what was already built in TMPDIR are runtime dependencies resolved
-  by shlibs code in package.bbclass (which is using global pkgdata, not
-  specific to given recipe and its RSS) as described here:
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217#c4
-  but for this case it's not worth running complete test-dependencies.sh
-  runs
+From: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Official announcement:
+https://lists.freedesktop.org/archives/wayland-devel/2018-April/037768.html
+
+Dropped previously backported fix-missing-header.patch and
+weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+
+Refresh remaining local patches.
+
+Modify 0001-weston-launch-Provide-a-default-version-that-doesn-t.patch with
+changes to apply against the new code base.
+
+Support for libunwind was dropped in bb707dc0fe331c9af112a0552b7aa6fde755dd83:
+https://cgit.freedesktop.org/wayland/weston/commit/?id=bb707dc0fe331c9af112a0552b7aa6fde755dd83
+
+Extract major version for referring to libweston-4 helper libraries.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- scripts/test-dependencies.sh | 286 -------------------------------------------
- 1 file changed, 286 deletions(-)
- delete mode 100755 scripts/test-dependencies.sh
+v2 - restore lost Upstream-Status line in error() patch
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-deleted file mode 100755
-index 0b94de8608..0000000000
---- a/scripts/test-dependencies.sh
+ .../wayland/weston/0001-make-error-portable.patch  | 44 ++++++++---------
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 49 ++++++++++---------
+ .../wayland/weston/fix-missing-header.patch        | 30 ------------
+ ...t-pitch-correctly-for-subsampled-textures.patch | 55 ----------------------
+ .../wayland/{weston_3.0.0.bb => weston_4.0.0.bb}   | 20 ++++----
+ 5 files changed, 56 insertions(+), 142 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/fix-missing-header.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+ rename meta/recipes-graphics/wayland/{weston_3.0.0.bb => weston_4.0.0.bb} (87%)
+
+diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+index 0671a45..09ec155 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+@@ -1,26 +1,27 @@
+-From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
++From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 29 May 2015 20:56:00 -0700
+-Subject: [PATCH weston] make error() portable
++Subject: [PATCH] make error() portable
+ 
+ error() is not posix but gnu extension so may not be available on all
+ kind of systemsi e.g. musl.
+ 
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+ Upstream-Status: Submitted
+ 
+- configure.ac              |    2 ++
+- libweston/weston-error.h  |   20 ++++++++++++++++++++
+- libweston/weston-launch.c |    2 +-
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++---
++ configure.ac              |  2 ++
++ libweston/weston-error.h  | 20 ++++++++++++++++++++
++ libweston/weston-launch.c |  2 +-
+  3 files changed, 23 insertions(+), 1 deletion(-)
+- create mode 100644 src/weston-error.h
++ create mode 100644 libweston/weston-error.h
+ 
+-Index: weston-3.0.0/configure.ac
+-===================================================================
+---- weston-3.0.0.orig/configure.ac
+-+++ weston-3.0.0/configure.ac
+-@@ -103,6 +103,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
++diff --git a/configure.ac b/configure.ac
++index 7aebbdb..dc9c802 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -109,6 +109,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+  	      [[#include <time.h>]])
+  AC_CHECK_HEADERS([execinfo.h])
+  
+@@ -29,10 +30,11 @@ Index: weston-3.0.0/configure.ac
+  AC_CHECK_FUNCS([mkostemp strchrnul initgroups posix_fallocate])
+  
+  # check for libdrm as a build-time dependency only
+-Index: weston-3.0.0/libweston/weston-error.h
+-===================================================================
++diff --git a/libweston/weston-error.h b/libweston/weston-error.h
++new file mode 100644
++index 0000000..2089d02
+ --- /dev/null
+-+++ weston-3.0.0/libweston/weston-error.h
+++++ b/libweston/weston-error.h
+ @@ -0,0 +1,20 @@
+ +#ifndef _WESTON_ERROR_H
+ +#define _WESTON_ERROR_H
+@@ -54,10 +56,10 @@ Index: weston-3.0.0/libweston/weston-error.h
+ +
+ +#endif
+ +
+-Index: weston-3.0.0/libweston/weston-launch.c
+-===================================================================
+---- weston-3.0.0.orig/libweston/weston-launch.c
+-+++ weston-3.0.0/libweston/weston-launch.c
++diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
++index 1adcf21..166bf3b 100644
++--- a/libweston/weston-launch.c
+++++ b/libweston/weston-launch.c
+ @@ -33,7 +33,6 @@
+  #include <poll.h>
+  #include <errno.h>
+@@ -66,7 +68,7 @@ Index: weston-3.0.0/libweston/weston-launch.c
+  #include <getopt.h>
+  
+  #include <sys/types.h>
+-@@ -60,6 +59,7 @@
++@@ -59,6 +58,7 @@
+  #endif
+  
+  #include "weston-launch.h"
+diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+index 70b9888..d648538 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+@@ -1,8 +1,7 @@
+-From 8ff6ed03ec4079f32e9b34085414e57be4730e04 Mon Sep 17 00:00:00 2001
++From b98b9dbda902225cdd972b5bff6a641c36cc7e90 Mon Sep 17 00:00:00 2001
+ From: Tom Hochstein <tom.hochstein@nxp.com>
+ Date: Wed, 22 Feb 2017 15:53:30 +0200
+-Subject: [PATCH] weston-launch: Provide a default version that doesn't require
+- PAM
++Subject: [PATCH] weston-launch: Provide a default version that doesn't require PAM
+ 
+ weston-launch requires PAM for starting weston as a non-root user.
+ 
+@@ -14,16 +13,18 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Denys Dmytriyenko <denys@ti.com>
++
+ ---
+  configure.ac              |  9 +++++++--
+  libweston/weston-launch.c | 20 ++++++++++++++++++++
+  2 files changed, 27 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 46cb2c7..bb45f46 100644
++index dc9c802..48cf5cb 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -435,13 +435,17 @@ AC_ARG_ENABLE(resize-optimization,
++@@ -451,13 +451,17 @@ AC_ARG_ENABLE(resize-optimization,
+  AS_IF([test "x$enable_resize_optimization" = "xyes"],
+        [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as a performance optimization])])
+  
+@@ -43,7 +44,7 @@ index 46cb2c7..bb45f46 100644
+  fi
+  
+  AM_CONDITIONAL(HAVE_PANGO, test "x$have_pango" = "xyes")
+-@@ -701,6 +705,7 @@ AC_MSG_RESULT([
++@@ -702,6 +706,7 @@ AC_MSG_RESULT([
+  	Enable developer documentation	${enable_devdocs}
+  
+  	weston-launch utility		${enable_weston_launch}
+@@ -52,7 +53,7 @@ index 46cb2c7..bb45f46 100644
+  	systemd notify support		${enable_systemd_notify}
+  
+ diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
+-index 0491896..07e7469 100644
++index 166bf3b..6fb9232 100644
+ --- a/libweston/weston-launch.c
+ +++ b/libweston/weston-launch.c
+ @@ -51,7 +51,9 @@
+@@ -65,7 +66,7 @@ index 0491896..07e7469 100644
+  
+  #ifdef HAVE_SYSTEMD_LOGIN
+  #include <systemd/sd-login.h>
+-@@ -93,8 +95,10 @@ drmSetMaster(int drm_fd)
++@@ -101,8 +103,10 @@ drmSetMaster(int drm_fd)
+  #endif
+  
+  struct weston_launch {
+@@ -76,7 +77,7 @@ index 0491896..07e7469 100644
+  	int tty;
+  	int ttynr;
+  	int sock[2];
+-@@ -181,6 +185,7 @@ weston_launch_allowed(struct weston_launch *wl)
++@@ -189,6 +193,7 @@ weston_launch_allowed(struct weston_launch *wl)
+  	return false;
+  }
+  
+@@ -84,7 +85,7 @@ index 0491896..07e7469 100644
+  static int
+  pam_conversation_fn(int msg_count,
+  		    const struct pam_message **messages,
+-@@ -221,6 +226,7 @@ setup_pam(struct weston_launch *wl)
++@@ -229,6 +234,7 @@ setup_pam(struct weston_launch *wl)
+  
+  	return 0;
+  }
+@@ -92,7 +93,7 @@ index 0491896..07e7469 100644
+  
+  static int
+  setup_launcher_socket(struct weston_launch *wl)
+-@@ -414,6 +420,7 @@ quit(struct weston_launch *wl, int status)
++@@ -422,6 +428,7 @@ quit(struct weston_launch *wl, int status)
+  	close(wl->signalfd);
+  	close(wl->sock[0]);
+  
+@@ -100,7 +101,7 @@ index 0491896..07e7469 100644
+  	if (wl->new_user) {
+  		err = pam_close_session(wl->ph, 0);
+  		if (err)
+-@@ -421,6 +428,7 @@ quit(struct weston_launch *wl, int status)
++@@ -429,6 +436,7 @@ quit(struct weston_launch *wl, int status)
+  				err, pam_strerror(wl->ph, err));
+  		pam_end(wl->ph, err);
+  	}
+@@ -108,7 +109,7 @@ index 0491896..07e7469 100644
+  
+  	if (ioctl(wl->tty, KDSKBMUTE, 0) &&
+  	    ioctl(wl->tty, KDSKBMODE, wl->kb_mode))
+-@@ -600,6 +608,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++@@ -608,6 +616,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  	setenv("HOME", wl->pw->pw_dir, 1);
+  	setenv("SHELL", wl->pw->pw_shell, 1);
+  
+@@ -116,7 +117,7 @@ index 0491896..07e7469 100644
+  	env = pam_getenvlist(wl->ph);
+  	if (env) {
+  		for (i = 0; env[i]; ++i) {
+-@@ -608,6 +617,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
++@@ -616,6 +625,7 @@ setup_session(struct weston_launch *wl, char **child_argv)
+  		}
+  		free(env);
+  	}
+@@ -124,17 +125,18 @@ index 0491896..07e7469 100644
+  
+  	/*
+  	 * We open a new session, so it makes sense
+-@@ -675,7 +685,9 @@ static void
++@@ -683,8 +693,10 @@ static void
+  help(const char *name)
+  {
+  	fprintf(stderr, "Usage: %s [args...] [-- [weston args..]]\n", name);
+ +#ifdef HAVE_PAM
+- 	fprintf(stderr, "  -u, --user      Start session as specified username\n");
++ 	fprintf(stderr, "  -u, --user      Start session as specified username,\n"
++ 			"                  e.g. -u joe, requires root.\n");
+ +#endif
+- 	fprintf(stderr, "  -t, --tty       Start session on alternative tty\n");
++ 	fprintf(stderr, "  -t, --tty       Start session on alternative tty,\n"
++ 			"                  e.g. -t /dev/tty4, requires -u option.\n");
+  	fprintf(stderr, "  -v, --verbose   Be verbose\n");
+- 	fprintf(stderr, "  -h, --help      Display this help message\n");
+-@@ -688,7 +700,9 @@ main(int argc, char *argv[])
++@@ -698,7 +710,9 @@ main(int argc, char *argv[])
+  	int i, c;
+  	char *tty = NULL;
+  	struct option opts[] = {
+@@ -144,8 +146,8 @@ index 0491896..07e7469 100644
+  		{ "tty",     required_argument, NULL, 't' },
+  		{ "verbose", no_argument,       NULL, 'v' },
+  		{ "help",    no_argument,       NULL, 'h' },
+-@@ -700,9 +714,13 @@ main(int argc, char *argv[])
+- 	while ((c = getopt_long(argc, argv, "u:t::vh", opts, &i)) != -1) {
++@@ -710,9 +724,13 @@ main(int argc, char *argv[])
++ 	while ((c = getopt_long(argc, argv, "u:t:vh", opts, &i)) != -1) {
+  		switch (c) {
+  		case 'u':
+ +#ifdef HAVE_PAM
+@@ -158,7 +160,7 @@ index 0491896..07e7469 100644
+  			break;
+  		case 't':
+  			tty = optarg;
+-@@ -740,8 +758,10 @@ main(int argc, char *argv[])
++@@ -753,8 +771,10 @@ main(int argc, char *argv[])
+  	if (setup_tty(&wl, tty) < 0)
+  		exit(EXIT_FAILURE);
+  
+@@ -169,6 +171,3 @@ index 0491896..07e7469 100644
+  
+  	if (setup_launcher_socket(&wl) < 0)
+  		exit(EXIT_FAILURE);
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-graphics/wayland/weston/fix-missing-header.patch b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
+deleted file mode 100644
+index 55c0d4f..0000000
+--- a/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
 +++ /dev/null
-@@ -1,286 +0,0 @@
--#!/bin/bash
+@@ -1,30 +0,0 @@
+-On the musl C library, tests/timespec-text.c does not build, with the
+-following error:
 -
--# Author: Martin Jansa <martin.jansa@gmail.com>
--#
--# Copyright (c) 2013 Martin Jansa <Martin.Jansa@gmail.com>
+-    In file included from tests/timespec-test.c:36:0:
+-    ./shared/timespec-util.h:41:21: warning: ‘struct timespec’ declared
+-    inside parameter list will not be visible outside of this definition
+-    or declaration
+-     timespec_sub(struct timespec *r,
+-                         ^~~~~~~~
+-   [...]
 -
--# Used to detect missing dependencies or automagically
--# enabled dependencies which aren't explicitly enabled
--# or disabled. Using bash to have PIPESTATUS variable.
+-Indeed, struct timespec is defined in time.h, so we must include it.
 -
--# It does 3 builds of <target>
--# 1st to populate sstate-cache directory and sysroot
--# 2nd to rebuild each recipe with every possible
--#     dependency found in sysroot (which stays populated
--#     from 1st build
--# 3rd to rebuild each recipe only with dependencies defined
--#     in DEPENDS
--# 4th (optional) repeat build like 3rd to make sure that
--#     minimal versions of dependencies defined in DEPENDS
--#     is also enough
+-Upstream-Status: Backport [fa41bdfbc0b962fd73b89f01aab1a5370c9c28eb]
 -
--# Global vars
--tmpdir=
--targets=
--recipes=
--buildhistory=
--buildtype=
--default_targets="world"
--default_buildhistory="buildhistory"
--default_buildtype="1 2 3 c"
+-Signed-off-by: "Yann E. MORIN" <yann.morin.1998@free.fr>
+-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
 -
--usage () {
--  cat << EOF
--Welcome to utility to detect missing or autoenabled dependencies.
--WARNING: this utility will completely remove your tmpdir (make sure
--         you don't have important buildhistory or persistent dir there).
--$0 <OPTION>
+-Index: weston-3.0.0/shared/timespec-util.h
+-===================================================================
+---- weston-3.0.0.orig/shared/timespec-util.h
+-+++ weston-3.0.0/shared/timespec-util.h
+-@@ -28,6 +28,7 @@
+- 
+- #include <stdint.h>
+- #include <assert.h>
+-+#include <time.h>
+- 
+- #define NSEC_PER_SEC 1000000000
+- 
+diff --git a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+deleted file mode 100644
+index b3e1d06..0000000
+--- a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-Multi-plane sub-sampled textures have partial width/height, e.g.
+-YUV420/I420 has a full-size Y plane, followed by a half-width/height U
+-plane, and a half-width/height V plane.
 -
--Options:
--  -h, --help
--        Display this help and exit.
+-zwp_linux_dmabuf_v1 allows clients to pass an explicit pitch for each
+-plane, but for wl_shm this must be inferred. gl-renderer was correctly
+-accounting for the width and height when subsampling, but the pitch was
+-being taken as the pitch for the first plane.
 -
--  --tmpdir=<tmpdir>
--        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
--        Something like /OE/oe-core/tmp-eglibc (no / at the end).
+-This does not match the requirements for GStreamer's waylandsink, in
+-particular, as well as other clients. Fix the SHM upload path to
+-correctly set the pitch for each plane, according to subsampling.
 -
--  --targets=<targets>
--        List of targets separated by space, will use the environment variable TARGETS if it is not specified.
--        It will run "bitbake <targets>" to populate sysroots.
--        Default value is "world".
+-Tested with:
+-  $ gst-launch-1.0 videotestsrc ! waylandsink
 -
--  --recipes=<recipes>
--        File with list of recipes we want to rebuild with minimal and maximal sysroot.
--        Will use the environment variable RECIPES if it is not specified.
--        Default value will use all packages ever recorded in buildhistory directory.
+-Upstream-Status: Backport [https://patchwork.freedesktop.org/patch/180767/]
 -
--  --buildhistory=<buildhistory>
--        Path to buildhistory directory, it needs to be enabled in your config,
--        because it's used to detect different dependencies and to create list
--        of recipes to rebuild when it's not specified.
--        Will use the environment variable BUILDHISTORY if it is not specified.
--        Default value is "buildhistory"
+-Signed-off-by: Daniel Stone <daniels@collabora.com>
+-Fixes: fdeefe42418 ("gl-renderer: add support of WL_SHM_FORMAT_YUV420")
+-Reported-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+-Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=103063
 -
--  --buildtype=<buildtype>
--        There are 4 types of build:
--          1: build to populate sstate-cache directory and sysroot
--          2: build to rebuild each recipe with every possible dep
--          3: build to rebuild each recipe with minimal dependencies
--          4: build to rebuild each recipe again with minimal dependencies
--          c: compare buildhistory directories from build 2 and 3
--        Will use the environment variable BUILDTYPE if it is not specified.
--        Default value is "1 2 3 c", order is important, type 4 is optional.
--EOF
--}
+----
+- libweston/gl-renderer.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
--# Print error information and exit.
--echo_error () {
--  echo "ERROR: $1" >&2
--  exit 1
--}
--
--while [ -n "$1" ]; do
--  case $1 in
--    --tmpdir=*)
--      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
--      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
--      shift
--        ;;
--    --targets=*)
--      targets=`echo $1 | sed -e 's#^--targets="*\([^"]*\)"*#\1#'`
--      shift
--        ;;
--    --recipes=*)
--      recipes=`echo $1 | sed -e 's#^--recipes="*\([^"]*\)"*#\1#'`
--      shift
--        ;;
--    --buildhistory=*)
--      buildhistory=`echo $1 | sed -e 's#^--buildhistory="*\([^"]*\)"*#\1#'`
--      shift
--        ;;
--    --buildtype=*)
--      buildtype=`echo $1 | sed -e 's#^--buildtype="*\([^"]*\)"*#\1#'`
--      shift
--        ;;
--    --help|-h)
--      usage
--      exit 0
--        ;;
--    *)
--      echo "Invalid arguments $*"
--      echo_error "Try '$0 -h' for more information."
--        ;;
--  esac
--done
--
--# tmpdir directory, use environment variable TMPDIR
--# if it was not specified, otherwise, error.
--[ -n "$tmpdir" ] || tmpdir=$TMPDIR
--[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
--[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
--[ -n "$targets" ] || targets=$TARGETS
--[ -n "$targets" ] || targets=$default_targets
--[ -n "$recipes" ] || recipes=$RECIPES
--[ -n "$recipes" -a ! -f "$recipes" ] && echo_error "Invalid file with list of recipes to rebuild"
--[ -n "$recipes" ] || echo "All packages ever recorded in buildhistory directory will be rebuilt"
--[ -n "$buildhistory" ] || buildhistory=$BUILDHISTORY
--[ -n "$buildhistory" ] || buildhistory=$default_buildhistory
--[ -d "$buildhistory" ] || echo_error "Invalid buildhistory directory \"$buildhistory\""
--[ -n "$buildtype" ] || buildtype=$BUILDTYPE
--[ -n "$buildtype" ] || buildtype=$default_buildtype
--echo "$buildtype" | grep -v '^[1234c ]*$' && echo_error "Invalid buildtype \"$buildtype\", only some combination of 1, 2, 3, 4, c separated by space is allowed"
--
--OUTPUT_BASE=test-dependencies/`date "+%s"`
--declare -i RESULT=0
--
--build_all() {
--  echo "===== 1st build to populate sstate-cache directory and sysroot ====="
--  OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
--  mkdir -p ${OUTPUT1}
--  echo "Logs will be stored in ${OUTPUT1} directory"
--  bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
--  RESULT+=${PIPESTATUS[0]}
--  grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
--  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
--}
--
--build_every_recipe() {
--  if [ "${TYPE}" = "2" ] ; then
--    echo "===== 2nd build to rebuild each recipe with every possible dep ====="
--    OUTPUT_MAX=${OUTPUT_BASE}/${TYPE}_max
--    OUTPUTB=${OUTPUT_MAX}
--  else
--    echo "===== 3rd or 4th build to rebuild each recipe with minimal dependencies ====="
--    OUTPUT_MIN=${OUTPUT_BASE}/${TYPE}_min
--    OUTPUTB=${OUTPUT_MIN}
--  fi
--
--  mkdir -p ${OUTPUTB} ${OUTPUTB}/failed ${OUTPUTB}/ok
--  echo "Logs will be stored in ${OUTPUTB} directory"
--  if [ -z "$recipes" ]; then
--    ls -d $buildhistory/packages/*/* | xargs -n 1 basename | sort -u > ${OUTPUTB}/recipe.list
--    recipes=${OUTPUTB}/recipe.list
--  fi
--  if [ "${TYPE}" != "2" ] ; then
--    echo "!!!Removing tmpdir \"$tmpdir\"!!!"
--    rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
--  fi
--  i=1
--  count=`cat $recipes ${OUTPUT1}/failed-recipes.log | sort -u | wc -l`
--  for recipe in `cat $recipes ${OUTPUT1}/failed-recipes.log | sort -u`; do
--    echo "Building recipe: ${recipe} ($i/$count)"
--    declare -i RECIPE_RESULT=0
--    bitbake -c cleansstate ${recipe} > ${OUTPUTB}/${recipe}.log 2>&1;
--    RECIPE_RESULT+=$?
--    bitbake ${recipe} >> ${OUTPUTB}/${recipe}.log 2>&1;
--    RECIPE_RESULT+=$?
--    if [ "${RECIPE_RESULT}" != "0" ] ; then
--      RESULT+=${RECIPE_RESULT}
--      mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' >> ${OUTPUTB}/failed-recipes.log
--      # and append also ${recipe} in case the failed task was from some dependency
--      echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
--    else
--      mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/ok/
--    fi
--    if [ "${TYPE}" != "2" ] ; then
--      rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
--    fi
--    i=`expr $i + 1`
--  done
--  echo "Copying buildhistory/packages to ${OUTPUTB}"
--  cp -ra $buildhistory/packages ${OUTPUTB}
--  # This will be usefull to see which library is pulling new dependency
--  echo "Copying do_package logs to ${OUTPUTB}/do_package/"
--  mkdir ${OUTPUTB}/do_package
--  find $tmpdir/work/ -name log.do_package 2>/dev/null| while read f; do
--    # pn is 3 levels back, but we don't know if there is just one log per pn (only one arch and version)
--    # dest=`echo $f | sed 's#^.*/\([^/]*\)/\([^/]*\)/\([^/]*\)/log.do_package#\1#g'`
--    dest=`echo $f | sed "s#$tmpdir/work/##g; s#/#_#g"`
--    cp $f ${OUTPUTB}/do_package/$dest
--  done
--}
--
--compare_deps() {
--  # you can run just compare task with command like this
--  # OUTPUT_BASE=test-dependencies/1373140172 \
--  # OUTPUT_MAX=${OUTPUT_BASE}/2_max \
--  # OUTPUT_MIN=${OUTPUT_BASE}/3_min \
--  # openembedded-core/scripts/test-dependencies.sh --tmpdir=tmp-eglibc --targets=glib-2.0 --recipes=recipe_list --buildtype=c
--  echo "===== Compare dependencies recorded in \"${OUTPUT_MAX}\" and \"${OUTPUT_MIN}\" ====="
--  [ -n "${OUTPUTC}" ] || OUTPUTC=${OUTPUT_BASE}/comp
--  mkdir -p ${OUTPUTC}
--  OUTPUT_FILE=${OUTPUTC}/dependency-changes
--  echo "Differences will be stored in ${OUTPUT_FILE}, dot is shown for every 100 of checked packages"
--  echo > ${OUTPUT_FILE}
--
--  [ -d ${OUTPUT_MAX} ] || echo_error "Directory with output from build 2 \"${OUTPUT_MAX}\" does not exist"
--  [ -d ${OUTPUT_MIN} ] || echo_error "Directory with output from build 3 \"${OUTPUT_MIN}\" does not exist"
--  [ -d ${OUTPUT_MAX}/packages/ ] || echo_error "Directory with packages from build 2 \"${OUTPUT_MAX}/packages/\" does not exist"
--  [ -d ${OUTPUT_MIN}/packages/ ] || echo_error "Directory with packages from build 3 \"${OUTPUT_MIN}/packages/\" does not exist"
--  i=0
--  find ${OUTPUT_MAX}/packages/ -name latest | sed "s#${OUTPUT_MAX}/##g" | while read pkg; do
--    max_pkg=${OUTPUT_MAX}/${pkg}
--    min_pkg=${OUTPUT_MIN}/${pkg}
--    # pkg=packages/armv5te-oe-linux-gnueabi/libungif/libungif/latest
--    recipe=`echo "${pkg}" | sed 's#packages/[^/]*/\([^/]*\)/\([^/]*\)/latest#\1#g'`
--    package=`echo "${pkg}" | sed 's#packages/[^/]*/\([^/]*\)/\([^/]*\)/latest#\2#g'`
--    if [ ! -f "${min_pkg}" ] ; then
--      echo "ERROR: ${recipe}: ${package} package isn't created when building with minimal dependencies?" | tee -a ${OUTPUT_FILE}
--      echo ${recipe} >> ${OUTPUTC}/failed-recipes.log
--      continue
--    fi
--    # strip version information in parenthesis
--    max_deps=`grep "^RDEPENDS = " ${max_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
--    min_deps=`grep "^RDEPENDS = " ${min_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
--    if [ "$i" = 100 ] ; then
--      echo -n "." # cheap progressbar
--      i=0
--    fi
--    if [ "${max_deps}" = "${min_deps}" ] ; then
--      # it's annoying long, but at least it's showing some progress, warnings are grepped at the end
--      echo "NOTE: ${recipe}: ${package} rdepends weren't changed" >> ${OUTPUT_FILE}
--    else
--      missing_deps=
--      for dep in ${max_deps}; do
--        if ! echo "${min_deps}" | grep -q " ${dep} " ; then
--          missing_deps="${missing_deps} ${dep}"
--          echo # to get rid of dots on last line
--          echo "WARN: ${recipe}: ${package} rdepends on ${dep}, but it isn't a build dependency?" | tee -a ${OUTPUT_FILE}
--        fi
--      done
--      if [ -n "${missing_deps}" ] ; then
--        echo ${recipe} >> ${OUTPUTC}/failed-recipes.log
--      fi
--    fi
--    i=`expr $i + 1`
--  done
--  echo # to get rid of dots on last line
--  echo "Found differences: "
--  grep "^WARN: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.warn.log
--  echo "Found errors: "
--  grep "^ERROR: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.error.log
--  RESULT+=`cat ${OUTPUT_FILE}.warn.log | wc -l`
--  RESULT+=`cat ${OUTPUT_FILE}.error.log | wc -l`
--}
--
--for TYPE in $buildtype; do
--  case ${TYPE} in
--    1) build_all;;
--    2) build_every_recipe;;
--    3) build_every_recipe;;
--    4) build_every_recipe;;
--    c) compare_deps;;
--    *) echo_error "Invalid buildtype \"$TYPE\""
--  esac
--done
--
--cat ${OUTPUT_BASE}/*/failed-recipes.log | sort -u >> ${OUTPUT_BASE}/failed-recipes.log
--
--if [ "${RESULT}" != "0" ] ; then
--  echo "ERROR: ${RESULT} issues were found in these recipes: `cat ${OUTPUT_BASE}/failed-recipes.log | xargs`"
--fi
--
--echo "INFO: Output written in: ${OUTPUT_BASE}"
--exit ${RESULT}
+-diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
+-index 244ce309..40bf0bb6 100644
+---- a/libweston/gl-renderer.c
+-+++ b/libweston/gl-renderer.c
+-@@ -1445,14 +1445,13 @@ gl_renderer_flush_damage(struct weston_surface *surface)
+- 		goto done;
+- 	}
+- 
+--	glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch);
+--
+- 	if (gs->needs_full_upload) {
+- 		glPixelStorei(GL_UNPACK_SKIP_PIXELS_EXT, 0);
+- 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, 0);
+- 		wl_shm_buffer_begin_access(buffer->shm_buffer);
+- 		for (j = 0; j < gs->num_textures; j++) {
+- 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
+-+			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
+- 			glTexImage2D(GL_TEXTURE_2D, 0,
+- 				     gs->gl_format[j],
+- 				     gs->pitch / gs->hsub[j],
+-@@ -1477,6 +1476,7 @@ gl_renderer_flush_damage(struct weston_surface *surface)
+- 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, r.y1);
+- 		for (j = 0; j < gs->num_textures; j++) {
+- 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
+-+			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
+- 			glTexSubImage2D(GL_TEXTURE_2D, 0,
+- 					r.x1 / gs->hsub[j],
+- 					r.y1 / gs->vsub[j],
+diff --git a/meta/recipes-graphics/wayland/weston_3.0.0.bb b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+similarity index 87%
+rename from meta/recipes-graphics/wayland/weston_3.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_4.0.0.bb
+index ad0cdc2..7dfca7f 100644
+--- a/meta/recipes-graphics/wayland/weston_3.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+@@ -11,11 +11,9 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-make-error-portable.patch \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+-	   file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
+-	   file://fix-missing-header.patch \
+ "
+-SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
+-SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
++SRC_URI[md5sum] = "33709aa4d5916f89643fca0fc0064b39"
++SRC_URI[sha256sum] = "a0fc0ae7ef83dfbed12abfe9b8096a24a7dd00705e86fa0db1e619ded18b4b58"
+ 
+ inherit autotools pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+@@ -24,6 +22,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+ 
++WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
++
+ EXTRA_OECONF = "--enable-setuid-install \
+                 --disable-rdp-compositor \
+                 "
+@@ -62,8 +62,6 @@ PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+ PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
+ # Weston with webp support
+ PACKAGECONFIG[webp] = "--with-webp,--without-webp,libwebp"
+-# Weston with unwinding support
+-PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ # Weston with systemd-login support
+ PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
+ # Weston with Xwayland support (requires X11 and Wayland)
+@@ -77,7 +75,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-	rm -f ${D}/${libdir}/libweston-3/*.la
++	rm -f ${D}/${libdir}/libweston-${WESTON_MAJOR_VERSION}/*.la
+ 
+ 	# If X11, ship a desktop file to launch it
+ 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
+@@ -94,16 +92,16 @@ do_install_append() {
+ }
+ 
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
+-             libweston-3 ${PN}-examples"
++             libweston-${WESTON_MAJOR_VERSION} ${PN}-examples"
+ 
+ FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
+ 
+-FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
+-SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
++FILES_libweston-${WESTON_MAJOR_VERSION} = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-${WESTON_MAJOR_VERSION}/*.so"
++SUMMARY_libweston-${WESTON_MAJOR_VERSION} = "Helper library for implementing 'wayland window managers'."
+ 
+ FILES_${PN}-examples = "${bindir}/*"
+ 
+-FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
++FILES_${PN}-xwayland = "${libdir}/libweston-${WESTON_MAJOR_VERSION}/xwayland.so"
+ RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
+ 
+ RDEPENDS_${PN} += "xkeyboard-config"
 -- 
-2.15.1
+2.7.4
 
 
