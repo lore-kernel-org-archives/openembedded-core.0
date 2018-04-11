@@ -1,50 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B9E4E746BA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A926471C07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 19:07:57 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id l49so2798998wrl.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 12:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zknSo3vt8bvu+2M0sX0Mptdq/OxGIfgJoCvYAAvV0yg=;
-	b=Xn8gHZLSzdlOL4ebu8Q5c/oQ72recUcnfTuzXzKy5t2RjYf+1gdQzT/0KlZtsLtjM7
-	Ztkza5Qo8X7TqXtLQjv4ay81cHo3KgffqY6O2plDkdpvhCQuEKfHkRZ2xmCy1tojEN0O
-	fGn26SBaz7fRyWx8QTHQvyRxq1veSQiFKwwZMhu1u4DwiYmy2GXsvW5fwbbNGaycr1Kn
-	RjFa7B3AgfuOuJg0qo7FYE4jP7+SylmIvmVM+6KajCAMs81QmUsjTAd0B8rNjI4bN15x
-	hDi/IrPh5r1ceLQ2ik3b0A4L/Vk9amDcynYcWd7+otWybmSJmeJm8XOm/13PzIVkXJt5
-	rILQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zknSo3vt8bvu+2M0sX0Mptdq/OxGIfgJoCvYAAvV0yg=;
-	b=JYuJ5mUq+hhDExN2cK7zk7hm7bkwNOySrUXbEi04jbTeIoQvj6eS3JRY7G4Fj3rPTi
-	EYP5QUBLiitZNI0qDRM81uYGqJ76hseG92/qL5rvJAZysDPEa0SvXbPMI0dJ2eGsOBJ8
-	gtyvbdbZU5pyL5cL2GM4y8T62khb7rj7De+S+7UFoqiOXaGoAoFn8LVpntb3nqJQwILw
-	oZFV8NapwSY98PIzhb0v7W2y3SJALfRn9TcGwCNO1o88qHSWoCXmQGLihXysk0briF1y
-	wtDiGCG7cH1Ko5r2DilW29PP7MfPEGQcqi4KBxserkoGCO2aiI6oekzSMV7ElGre0Dlo
-	ZUpQ==
-X-Gm-Message-State: ALQs6tCRgX88qaQmBTEufXdRMUlyUeSRd8b3fma67sdmUQP2nSwcpIyC
-	M6hcQozBJZXe0SWD0Qzp4nAkUtZJPMPs7wUtaSk=
-X-Google-Smtp-Source: AIpwx4/nDREOuz75929Ro2++/NyBVlGkYa0n25VbI15OOLZvGaYlrb5g04ClWbsTg+hvvWDDjSlh6fc89mAjDgJWEmg=
-X-Received: by 10.223.175.201 with SMTP id y9mr4211169wrd.107.1523473678174;
-	Wed, 11 Apr 2018 12:07:58 -0700 (PDT)
+	Wed, 11 Apr 2018 22:11:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Apr 2018 15:11:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,438,1517904000"; d="scan'208";a="50051990"
+Received: from laitheng-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.65.72])
+	by orsmga002.jf.intel.com with ESMTP; 11 Apr 2018 15:11:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Apr 2018 10:11:06 +1200
+Message-ID: <2181952.fkZBnDg1uM@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
+References: <1523387170-30191-1-git-send-email-denis@denix.org>
+	<CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
+	<CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.223.145.99 with HTTP; Wed, 11 Apr 2018 12:07:57 -0700 (PDT)
-In-Reply-To: <aeba1934-3675-2229-72c2-71bfa7a39b66@linux.intel.com>
-References: <20180410120747.41814-1-alexander.kanavin@linux.intel.com>
-	<20180410120747.41814-4-alexander.kanavin@linux.intel.com>
-	<CAJ86T=WP5EU59ii41QBJgbnqdAjwTUsz=ZQRi6D_QbCUPXA-gg@mail.gmail.com>
-	<aeba1934-3675-2229-72c2-71bfa7a39b66@linux.intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 11 Apr 2018 12:07:57 -0700
-Message-ID: <CAJ86T=WxJqKSfXWqCdREA+a-E2ue=L4juYVRUDyNb5HLkJBUew@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 4/5] libressl: add a recipe to support openssh
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 2/2] weston: upgrade to 4.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 19:07:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Apr 2018 22:11:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Apr 11, 2018 at 3:03 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 04/11/2018 11:38 AM, Andre McCurdy wrote:
->>
->> I played around with completely replacing openssl with libressl a year
->> or so ago and it went fairly smoothly (at least as far as I tested).
->> That was with libressl 2.4.2 and my recipe built with autotools rather
->> than cmake though. Did you try to build with autotools? That still
->> appears to be the option mentioned first in the libressl README.
->
-> That's not however the options I would take first, as the recipe maintainer
-> :) Autotools is horrible in many ways; while cmake is not great, it's
-> definitely less horrible.
+Yes, this is a bit of a known bug although I didn't actually file one until 
+now:
 
-Well, as you're the one writing the recipe you get to make the choice
-:-) But if one "just works" and the other requires patches that might
-sway the choice a little. I wasn't sure if you'd even looked at the
-autotools build.
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=12674
 
-Either option is a vast improvement on the openssl build system
-though. Libressl seems to have done a lot of valuable cleanup in that
-respect.
+Cheers,
+Paul
+
+On Wednesday, 11 April 2018 11:17:51 AM NZST Burton, Ross wrote:
+> Ah presumably this is because the U-S is after the scissors.  Denys,
+> when you add it back, can you put it above the ---?
+> 
+> Ross
+> 
+> On 11 April 2018 at 00:16, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 10 April 2018 at 20:06, Denys Dmytriyenko <denis@denix.org> wrote:
+> >> diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-
+portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-
+portable.patch
+> >> index 0671a45..6799254 100644
+> >> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> >> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> >> @@ -1,26 +1,25 @@
+> >> -From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
+> >> +From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
+> >>  From: Khem Raj <raj.khem@gmail.com>
+> >>  Date: Fri, 29 May 2015 20:56:00 -0700
+> >> -Subject: [PATCH weston] make error() portable
+> >> +Subject: [PATCH] make error() portable
+> >>
+> >>  error() is not posix but gnu extension so may not be available on all
+> >>  kind of systemsi e.g. musl.
+> >>
+> >>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ----
+> >> -Upstream-Status: Submitted
+> >
+> > Ah, I've seen this before and was wondering if it was a genuine
+> > mistake or devtool being bad.
+> >
+> > devtool refresh is doing A Bad Thing and for some reason dropping the
+> > Upstream-Status tag.  Alex, can you see why this is?  Denys, can you
+> > edit it back in?
+> >
+> > Ross
+> 
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
 
