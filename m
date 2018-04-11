@@ -1,24 +1,25 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A382371957
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A8C74874
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 06:59:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3B6xcEc004341
+	Wed, 11 Apr 2018 06:59:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3B6xdLH024690
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 23:59:38 -0700
+	Tue, 10 Apr 2018 23:59:39 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 10 Apr 2018 23:59:25 -0700
+	14.3.361.1; Tue, 10 Apr 2018 23:59:39 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Apr 2018 14:56:08 +0800
-Message-ID: <cover.1523429249.git.jackie.huang@windriver.com>
+Date: Wed, 11 Apr 2018 14:56:09 +0800
+Message-ID: <8d2a41f56f13d483defdbcff1d0233f6d9ab4428.1523429249.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1523429249.git.jackie.huang@windriver.com>
+References: <cover.1523429249.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] patch: fix CVE-2018-6951 and CVE-2018-1000156
+Subject: [PATCH 1/2] patch: fix CVE-2018-6951
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +32,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 06:59:37 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 06:59:39 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-These are also needed for previous releases, so I think they should be 
-backported to the branch for 2.5 and 2.4 as well.
---
-The following changes since commit 29f65bda6d2c9fea4adb125c4857ee64f9312b9f:
+* CVE detail: https://nvd.nist.gov/vuln/detail/CVE-2018-6951
 
-  nativesdk-glibc: Split glibc and libcrypt to use libxcrypt instead (2018-04-07 22:34:45 +0100)
+* upstream tracking: http://savannah.gnu.org/bugs/?53132
 
-are available in the git repository at:
+* Fix segfault with mangled rename patch
+  - src/pch.c (intuit_diff_type): Ensure that two filenames are specified
+    for renames and copies (fix the existing check).
 
-  git://git.pokylinux.org/poky-contrib.git jhuang0/d_patch_CVEs_180411_0
-  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_patch_CVEs_180411_0
-
-Jackie Huang (2):
-  patch: fix CVE-2018-6951
-  patch: fix CVE-2018-1000156
-
- ...02-Fix-segfault-with-mangled-rename-patch.patch |  35 ++++
- ...-files-to-be-missing-for-ed-style-patches.patch |  38 ++++
- ...ry-command-execution-in-ed-style-patches-.patch | 215 +++++++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |   6 +-
- 4 files changed, 293 insertions(+), 1 deletion(-)
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ ...02-Fix-segfault-with-mangled-rename-patch.patch | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |  4 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch
 
+diff --git a/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch b/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
+new file mode 100644
+index 0000000000..b0bd6fa83a
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/0002-Fix-segfault-with-mangled-rename-patch.patch
+@@ -0,0 +1,35 @@
++From f290f48a621867084884bfff87f8093c15195e6a Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Mon, 12 Feb 2018 16:48:24 +0100
++Subject: [PATCH] Fix segfault with mangled rename patch
++
++http://savannah.gnu.org/bugs/?53132
++* src/pch.c (intuit_diff_type): Ensure that two filenames are specified
++for renames and copies (fix the existing check).
++
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=f290f48a621867084884bfff87f8093c15195e6a]
++CVE: CVE-2018-6951
++
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++
++---
++ src/pch.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/pch.c b/src/pch.c
++index ff9ed2c..bc6278c 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -974,7 +974,8 @@ intuit_diff_type (bool need_header, mode_t *p_file_type)
++     if ((pch_rename () || pch_copy ())
++ 	&& ! inname
++ 	&& ! ((i == OLD || i == NEW) &&
++-	      p_name[! reverse] &&
+++	      p_name[reverse] && p_name[! reverse] &&
+++	      name_is_valid (p_name[reverse]) &&
++ 	      name_is_valid (p_name[! reverse])))
++       {
++ 	say ("Cannot %s file without two valid file names\n", pch_rename () ? "rename" : "copy");
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 576a2ac8fa..19ddf34981 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -1,7 +1,9 @@
+ require patch.inc
+ LICENSE = "GPLv3"
+ 
+-SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
++SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
++            file://0002-Fix-segfault-with-mangled-rename-patch.patch \
++"
+ 
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+ SRC_URI[sha256sum] = "8cf86e00ad3aaa6d26aca30640e86b0e3e1f395ed99f189b06d4c9f74bc58a4e"
 -- 
 2.11.0
 
