@@ -1,23 +1,48 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4006B74537
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A6BC8745D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 01:46:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Apr 2018 18:46:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,434,1517904000"; d="scan'208";a="32430667"
-Received: from echidna.jf.intel.com ([10.54.77.42])
-	by orsmga007.jf.intel.com with ESMTP; 10 Apr 2018 18:46:04 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+	Wed, 11 Apr 2018 02:22:10 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id e98-v6so779565itd.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Apr 2018 19:22:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=rvNQTkj2xqdCkSz8ndLZPIMbpJ7CSe0t3NKBbQ1LTUo=;
+	b=qrq4rh7qrzJY/XySr/VlomwMPxt3MdMSCR+lbVmhVgTBwzD2TUjlEltRI86MyBi30c
+	e+fy+6xsa82xjRGwWCx8uTmCACaeRlSnEvO9Ipm42Q8YfP2mJPge9JwqqRpulEx32u/6
+	Fi/BDkNP2zKwUqgiMjVBjLaxdBokp+womyS0JvD8YT05EcOKVbUr1yWvfDo1cth110lp
+	lelpE4R5kGljykfZiNBQmdZ2tJJ6Glf4ZEDuXmbdI4+XAu9n8MFH3/wjEX69QjnW2C/F
+	fm7NfpYRIjfjzLaJgLK+q+/SkouWR4xvXfg/mp90EVloiFS8MZzc1IrARD9mzsQSsryJ
+	M9fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rvNQTkj2xqdCkSz8ndLZPIMbpJ7CSe0t3NKBbQ1LTUo=;
+	b=UzzmQ3xgf6qNpTSyT8aBCxf5k8lclOjP+Zc2yesg/TamshvgrP2VtJzVEcUdWU/G6b
+	mTpLmRmKcRKILGMFWn8ZhLj36qxDHzri/k0Xvrh/iKGCMFnzqAil10h5Yku9Bc7OfLPI
+	nS8zgy6dKCFwQ2PPw4SmzYZ8whRB+ZmnWBufte98Y2u5sdVMTuyUr9RE/x/nbhKt/Sag
+	jU5TWwA3+HyV+653wFoTwfLr7s5Vh0HSP1eYI+cxGkiQH/Pj8iG5q+8dXBH+XAeijHUo
+	74BLLlEk1mrvLOwruTeCWE2WiePJeRUWnRAVLNDYK3ATGgcLsWxa3cCKcjo55D3yOfCT
+	ktDA==
+X-Gm-Message-State: ALQs6tDgPLkUiSiMRlxhcGNirHq4Xdgc7lvz/BPKUYfP8A0xZSE/w05+
+	PCFGu93+TekCyxfMzpm1Zvd6q0G9
+X-Google-Smtp-Source: AIpwx48c6dQthnA4Tf4D2IeqnNUBpD4vTHwAWej/lQmQe5XryZetYwycLBFENrntnM3uqC75GcCvBw==
+X-Received: by 2002:a24:64d8:: with SMTP id
+	t207-v6mr2009031itc.112.1523413331121; 
+	Tue, 10 Apr 2018 19:22:11 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id w71sm34498iow.87.2018.04.10.19.22.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 10 Apr 2018 19:22:10 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Apr 2018 11:32:33 -0700
-Message-Id: <1523385153-167408-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] oe-selftest: crosstap: add tests for crosstap script
+Date: Tue, 10 Apr 2018 21:21:53 -0500
+Message-Id: <20180411022200.22277-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [sumo][PATCH 0/7] Icecream fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,68 +55,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 01:46:04 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 02:22:10 -0000
 
-QA team were testing crosstap script manually. Add automated
-tests and systemtap file to test that crosstap script will
-instructs SystemTap to print hello world in qemu. This test
-will first built core-image-minimal image with tools-profile
-& ssh-server-openssh features and build systemtap-native on
-the host machine. Finally this test will boot the image with qemu
-and then execute crosstap script to print hello world on qemu.
+Fixes a number of bugs in Icecream toolchain generation
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- meta/lib/oeqa/files/trace_begin_hello.stp |  5 +++++
- meta/lib/oeqa/selftest/cases/crosstap.py  | 25 +++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/lib/oeqa/files/trace_begin_hello.stp
- create mode 100644 meta/lib/oeqa/selftest/cases/crosstap.py
+Joshua Watt (7):
+  icecc-create-env: Allow logging to a file
+  icecc-create-env: Fix RUNPATH files
+  icecc-create-env: Fix library interpreter usage
+  icecc-create-env: Add extra tools option
+  icecc.bbclass: Add ICECC_ENV_DEBUG variable
+  icecc.bbclass: Improve error reporting
+  icecc.bbclass: Bump version number
 
-diff --git a/meta/lib/oeqa/files/trace_begin_hello.stp b/meta/lib/oeqa/files/trace_begin_hello.stp
-new file mode 100644
-index 0000000..5ad5f15
---- /dev/null
-+++ b/meta/lib/oeqa/files/trace_begin_hello.stp
-@@ -0,0 +1,5 @@
-+probe begin
-+{
-+  printf ("hello world\n")
-+  exit ()
-+}
-\ No newline at end of file
-diff --git a/meta/lib/oeqa/selftest/cases/crosstap.py b/meta/lib/oeqa/selftest/cases/crosstap.py
-new file mode 100644
-index 0000000..57523cb
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/crosstap.py
-@@ -0,0 +1,25 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_vars, runCmd, runqemu
-+import os
-+
-+class CrossTapTest(OESelftestTestCase):
-+
-+    def test_crosstap_can_use_systemtap_on_qemu(self):
-+        self.write_config('EXTRA_IMAGE_FEATURES += "tools-profile ssh-server-openssh"')
-+        result = bitbake('core-image-minimal')
-+        self.assertEqual(result.status, 0, msg="Bitbake core-image-minimal failed. Bitbake output: %s" % result.output)
-+        result = bitbake('systemtap-native')
-+        self.assertEqual(result.status, 0, msg="Bitbake systemtap-native failed. Bitbake output: %s" % result.output)
-+
-+        recipe = 'core-image-minimal'
-+        bb_vars = get_bb_vars(['MACHINE', 'DEPLOY_DIR_IMAGE'])
-+        machine =  bb_vars['MACHINE']
-+        deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
-+        qemuboot_conf = "%s-%s.qemuboot.conf" % (recipe, machine)
-+        qemuboot_conf = os.path.join(deploy_dir_image, qemuboot_conf)
-+        cmd_common = "runqemu nographic"
-+        cmd = "%s %s" % (cmd_common, qemuboot_conf)
-+        with runqemu(recipe, ssh=True, launch_cmd=cmd) as qemu:
-+            systap_file = os.path.join(self.tc.files_dir, 'trace_begin_hello.stp')
-+            result = runCmd("crosstap root@%s %s" % (qemu.ip, systap_file))
-+        self.assertTrue('hello world' in result.output, 'Crosstap failed.')
+ meta/classes/icecc.bbclass                         |  26 ++-
+ .../icecc-create-env/icecc-create-env              | 202 ++++++++++++++-------
+ 2 files changed, 159 insertions(+), 69 deletions(-)
+
 -- 
-2.7.4
+2.14.3
 
 
