@@ -1,51 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C30D974616
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A862871A18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 00:02:45 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id q71-v6so46679oic.6
+	Wed, 11 Apr 2018 00:21:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3B0LKP3023776
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 17:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=avmMIGcNc7rhaPZVagmguE9Qmo3pMMThA70JZ2IMAEE=;
-	b=2NDCrFefakCFxCczHViX4TGEjsp/V5iD8g8N8x4a2P1/iLaIzF1AvkaYGCySIFBIaE
-	IciC7JGAOL9u4pOLWVzMVsy4Zi6hZe+3naCpimLt4M7SHadyi9eVHD4bXakQroSXd3+n
-	Ai+tSswueyUnSgdbLn0vlLk5ygmH7EbrMzk3Cyikn29BmMvZ4pQxNdLYRN3KcjWrUMrt
-	r+y5QbFS35ES5dR4lnoFvdjeBhvsEDfWdwhCLqrADS+tUGw2AX65A8x0U79iAPkzujK1
-	wgAEqf3TbWw45ErH0L5nMRcEGFthTx9WRYYVf58e1A6MC0kwNGeITlyZMesnDewCtpJh
-	AjOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=avmMIGcNc7rhaPZVagmguE9Qmo3pMMThA70JZ2IMAEE=;
-	b=cymYVQea46yrKY7x1L2t/8cwl3al7wZzsbECH59IGMYQcrg9LCLdQ80O8iQyjjSfyL
-	omQG4iLwXKX4pnKtW8ItDFKcNjA37reuiHWDA195IOb33iZzZXJlHw9Lortlbtn1fV41
-	nlJk1dE6uUlgqIKeRPujpUP7Vh8h6TA5J5ztLvP808E+FS7ig8RvGs3Ap+7byLZwMlKv
-	AGskAInSQugvh898l+R4sRmIM494S6x2Pj3eG0iE7ZJk9DFR+7luytTxUvuOrQMJJNL9
-	J1XNdkt2IlG+Hzpy8TnVpUJcL8kybyH645GaUA89Ix96/3GKox+84LqrSkQ7YSfyBCzG
-	MoJA==
-X-Gm-Message-State: ALQs6tC7T3vnh4cerOhEbFGmlElU8QiEbk1Gh/JJZkqUPQEzglpwoSRc
-	h6OtJrgrRSKvX4RyHDZ8chRP4tEzDhQy7ifYrns0aw==
-X-Google-Smtp-Source: AIpwx49Lc+I3U3TjMn4/0uLf3bEPKzTT0sP2xl9Xb7QLPvvLdqspO3MoE4kRDoz0NPihj6i+zieMKHYfPmkCOzKPkEU=
-X-Received: by 2002:aca:acd1:: with SMTP id
-	v200-v6mr1675465oie.320.1523404966463; 
-	Tue, 10 Apr 2018 17:02:46 -0700 (PDT)
+	Tue, 10 Apr 2018 17:21:20 -0700 (PDT)
+Received: from localhost (128.224.163.220) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 10 Apr 2018 17:21:19 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Apr 2018 08:21:18 +0800
+Message-ID: <1523406078-26064-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.138.17.79 with HTTP; Tue, 10 Apr 2018 17:02:23 -0700 (PDT)
-In-Reply-To: <1523044641-56994-2-git-send-email-juro.bystricky@intel.com>
-References: <1523044641-56994-1-git-send-email-juro.bystricky@intel.com>
-	<1523044641-56994-2-git-send-email-juro.bystricky@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Apr 2018 01:02:23 +0100
-Message-ID: <CAJTo0LZFV2t1sjTaOrFfZWqTAcm49qUCj-fvpOxRdkD-+wQhDA@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python-xcbgen_1.12: improve reproducibility
+X-Originating-IP: [128.224.163.220]
+Subject: [sumo][PATCH] dhcp: Security Advisory - CVE-2017-3144
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +31,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 00:02:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Apr 2018 00:21:20 -0000
+Content-Type: text/plain
 
-On 6 April 2018 at 20:57, Juro Bystricky <juro.bystricky@intel.com> wrote:
-> In order to remove timestamps from all .pyc files we need to recompile
-> them with python3-native, as we cannot rely on the host python being
-> able to do that. Both python-native and python3-native derive the timestamp
-> from SOURCE_DATE_EPOCH if present.
-> However, building python3-native can be computationally expensive, so
-> we resort to python3-native only when building reproducible packages:
-> (BUILD_REPRODUCIBLE_BINARIES = '1'), otherwise we use the host python3.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-The logical extension of this is that every recipe that ships .py
-needs to depend on python3-native so that it can recompile.
+Fix CVE-2017-3144
 
-However, there's another solution...
+References:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-3144
+https://kb.isc.org/article/AA-01541
 
-.pyc files are basically a four byte magic number, a four byte
-timestamp, and then the byte code.  It won't be that many lines of
-Python in a do_package[postfunc] to search for __pycache__/*.pyc files
-in the packages and replace the timestamp with SOURCE_DATE_EPOCH if
-reproducible builds are enabled.
+Patch from:
+https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commitdiff;h=5097bc0559f592683faac1f67bf350e1bddf6ed4
 
-Ross
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../dhcp/dhcp/CVE-2017-3144.patch                  | 74 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb       |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
+
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
+new file mode 100644
+index 0000000..2b2688c
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
+@@ -0,0 +1,74 @@
++From 8cfdedee369c26d2869b6ec4a64460b5f5a30934 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Thu, 7 Dec 2017 11:39:30 -0500
++Subject: [PATCH] [v4_3] Plugs a socket descriptor leak in OMAPI
++
++        Merges in rt46767.
++
++Upstream-Status: Backport
++[https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commitdiff;h=5097bc0559f592683faac1f67bf350e1bddf6ed4]
++
++CVE: CVE-2017-3144
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ RELNOTES         | 7 +++++++
++ omapip/buffer.c  | 9 +++++++++
++ omapip/message.c | 2 +-
++ 3 files changed, 17 insertions(+), 1 deletion(-)
++
++diff --git a/RELNOTES b/RELNOTES
++index dd40aaf..3741b80 100644
++--- a/RELNOTES
+++++ b/RELNOTES
++@@ -66,6 +66,13 @@ We welcome comments from DHCP users, about this or anything else we do.
++ Email Vicky Risk, Product Manager at vicky@isc.org or discuss on 
++ dhcp-users@lists.isc.org.
++ 
+++- Plugged a socket descriptor leak in OMAPI, that can occur when there is
+++  data pending to be written to an OMAPI connection, when the connection
+++  is closed by the reader.  Thanks to Pavel Zhukov at RedHat for bringing
+++  this issue to our attention and whose patch helped guide us in the right
+++  direction.
+++  [ISc-Bugs #46767]
+++
++ 			Changes since 4.3.6b1
++ 
++ - None
++diff --git a/omapip/buffer.c b/omapip/buffer.c
++index f7fdc32..809034d 100644
++--- a/omapip/buffer.c
+++++ b/omapip/buffer.c
++@@ -566,6 +566,15 @@ isc_result_t omapi_connection_writer (omapi_object_t *h)
++ 			omapi_buffer_dereference (&buffer, MDL);
++ 		}
++ 	}
+++
+++	/* If we had data left to write when we're told to disconnect,
+++	* we need recall disconnect, now that we're done writing.
+++	* See rt46767. */
+++	if (c->out_bytes == 0 && c->state == omapi_connection_disconnecting) {
+++		omapi_disconnect (h, 1);
+++		return ISC_R_SHUTTINGDOWN;
+++	}
+++
++ 	return ISC_R_SUCCESS;
++ }
++ 
++diff --git a/omapip/message.c b/omapip/message.c
++index 59ccdc2..21bcfc3 100644
++--- a/omapip/message.c
+++++ b/omapip/message.c
++@@ -339,7 +339,7 @@ isc_result_t omapi_message_unregister (omapi_object_t *mo)
++ }
++ 
++ #ifdef DEBUG_PROTOCOL
++-static const char *omapi_message_op_name(int op) {
+++const char *omapi_message_op_name(int op) {
++ 	switch (op) {
++ 	case OMAPI_OP_OPEN:    return "OMAPI_OP_OPEN";
++ 	case OMAPI_OP_REFRESH: return "OMAPI_OP_REFRESH";
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
+index 6615ae2..cc13549 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
+@@ -12,6 +12,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0010-build-shared-libs.patch \
+             file://0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
++            file://CVE-2017-3144.patch \
+            "
+ 
+ SRC_URI[md5sum] = "afa6e9b3eb7539ea048421a82c668adc"
+-- 
+2.7.4
+
 
