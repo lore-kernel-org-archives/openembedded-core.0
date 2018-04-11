@@ -1,47 +1,54 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 786E674888
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E27C27461C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 08:38:13 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id x4so2209659wmh.5
+	Wed, 11 Apr 2018 09:25:40 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id t67so2744814wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 01:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lbcCodLhGLfhGWg6iulS+F08fmePsV4gFSYPSJCgGPM=;
-	b=LrVmfqO3MHJ/T0h64XYjsbp3Jc7RpAJ1lVgWlXyMAYtWIULSlbZj/QwZvZbCA+M7sT
-	/gZ8KHZnUFLrNAdeaKpAyCjnT0VtM7CKFxL4gIwHa4sONA7hBUP8UMpRTV/WofQxmLBf
-	T86HTJfXVh8yQPwKXwyw5SWM9kdnO9nM5KkNbyBxaixl+HwJagdXGX3k/1h+NRD+5VSP
-	ops5h4Ic/eeRFjIucS4/sOAB7C0yU5hu9RCMUZiCMl+yqG/uFM4vyv6SqyV/UmFLInB5
-	Pe7Pxgo7FKFdE9e3NnpbfOjwYPcKBeqA/vYGn1n58uhAo6HKVwKuSAjwVurTYjAV1hfv
-	Aqwg==
+	Wed, 11 Apr 2018 02:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=vrAUfzjTVHAaRiVQ6ZvyZxMqTToZhyyzs+kNxK2ID0M=;
+	b=RXkzRvWe/GMorRcbj2y39PsvmlPozpsdY2QfsOn0ukqwyhpcSIKfW5K2MzJLsd3IfY
+	UA9PLgmuxHe4yiZF4XjUkKCcyb4pp109M1XM0gIjxhdz+SXGU9k7WCqWfJ6g8ag275JU
+	7CamlLB2pmWDbYbeFsQorWjpQSG4BDTHaAXk4x10ooge/o9cJqdKWg4ZmngL1Ot574hl
+	Y40xSAEZT7uLwoh7Yl/Be7QLI5SMZckTkwmWDfzl6Zum1BenZ0dcxuEmqN9HrI+q04bC
+	CnyQwJlNcRm/4VYSGqM8H0lBAVu//tDibFnk1rGgjI+3ZsgXcARkD3HkiSKMvaCP5psR
+	0nXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lbcCodLhGLfhGWg6iulS+F08fmePsV4gFSYPSJCgGPM=;
-	b=JQIiQJfDuwrFxVUFIvO/ZjRxH7UzmWeGcjBeXitsS2EPgbJ5AanyQ1RE8GGmdNUhBH
-	hxWxdbW0xFIhlnZrDMbVili6cn6bjUqBT4XEG4WaxSN7/BrGVoI3mOk/XhtAJK26KKh6
-	DQZf+m2sx1In685Gq8BnUTI2NCMVKnRieufhQTgWlA60RS2Qke4TKcvS6LuTT+axlg+k
-	K9/TN6a37EtThh0M8De3oZDZkqPGJlgaXeQjjU3ers61DWIyuaAWmsebbrwR2o5csTSt
-	WzsEaBrPkCGcGfU0ah3GVTu8ygMrW99xpd+yptsfA09oOaqi3tXedoYFeUJx/9ITkFBx
-	sgBQ==
-X-Gm-Message-State: ALQs6tBqe3MsZ6P8xAL+a1krYlBdFQ0I4N0tT6QjoHmJbyJNcrrBa/3l
-	22yS7SXb4ffEp3Pk/QF/OmodqOjh/oz6VQ1hGkY=
-X-Google-Smtp-Source: AIpwx48442PerDzxsTD8PvDfq44G+UlWk9F2YDgtHuv4VBhJTGSkPW7xp0n+ZvbNkZSn4IJlcYrM33ho0gnm6RKXzRE=
-X-Received: by 10.28.212.84 with SMTP id l81mr1833814wmg.151.1523435893965;
-	Wed, 11 Apr 2018 01:38:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.145.99 with HTTP; Wed, 11 Apr 2018 01:38:13 -0700 (PDT)
-In-Reply-To: <20180410120747.41814-4-alexander.kanavin@linux.intel.com>
-References: <20180410120747.41814-1-alexander.kanavin@linux.intel.com>
-	<20180410120747.41814-4-alexander.kanavin@linux.intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 11 Apr 2018 01:38:13 -0700
-Message-ID: <CAJ86T=WP5EU59ii41QBJgbnqdAjwTUsz=ZQRi6D_QbCUPXA-gg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 4/5] libressl: add a recipe to support openssh
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=vrAUfzjTVHAaRiVQ6ZvyZxMqTToZhyyzs+kNxK2ID0M=;
+	b=Aiaxt3HfeFiSMoj/Ky0hzSkpd0A5Ijglcj59N3xuJ0qv3OdxCqLe7HDA9iN+JxUs6i
+	ssGU4jWdZPvwJuZw2mS0p76Sgwpl5mdapiv9uPRJ5s5SHU9B4FXl9wQJoQ5+NsHR3Tp0
+	7NwCaUZk9HjCLfZOHE7s9xyu+L0ZZ8/His79S5UdaFKa6HqVTWCkrvevjpM7PyabxBTh
+	XYuTxvrG1YaVI62VvKIamNp6ZRAdE8Yd4doH7+1QCLm3n8/6wBHHW4sRKRzqbMtq5wJ7
+	4EkzkRyiOt8vEKnNMU2CDgKtNYtLhOdcFIS1W0fhoMnRye5j+V8NmrtZb2x6KYIXjvDw
+	XTyg==
+X-Gm-Message-State: ALQs6tDMq7rLOhUOZ6ri2Lsd63hzKBGKMadbCJs8Zs1WS1iJ012nfZSP
+	0IQ234zfrBh1y/2R0fafo9nvEg==
+X-Google-Smtp-Source: AIpwx4/dzjMVMy3q9NWGaORdiBW4QHpBd29Gre3EwY+HF3COKPjdro2EcWlpzlkxaJ8qOxkRxCO04w==
+X-Received: by 10.80.175.2 with SMTP id g2mr8526640edd.84.1523438741172;
+	Wed, 11 Apr 2018 02:25:41 -0700 (PDT)
+Received: from [172.20.0.85] ([185.47.135.167])
+	by smtp.gmail.com with ESMTPSA id s21sm617220edd.96.2018.04.11.02.25.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Apr 2018 02:25:40 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 11.3 \(3445.6.15\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1523291792.2942.100.camel@linuxfoundation.org>
+Date: Wed, 11 Apr 2018 11:25:38 +0200
+Message-Id: <9C357BAC-079B-4392-BF6F-D06CBEBEC242@dominion.thruhere.net>
+References: <20180409115657.16651-1-koen.kooi@linaro.org>
+	<20180409115657.16651-2-koen.kooi@linaro.org>
+	<1523291792.2942.100.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3445.6.15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] bind: fix openSSL detection when using multiarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,164 +61,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 08:38:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Apr 2018 09:25:41 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 10, 2018 at 5:07 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> After reading through this:
->
-> https://github.com/openssh/openssh-portable/pull/48
->
-> and this thread:
->
-> https://lists.mindrot.org/pipermail/openssh-unix-dev/2017-October/036344.html
->
-> I've concluded that this is the best of the three not-great options. The alternatives:
->
-> - bundle libressl inside openssh packages
-> - keep openssh dependent on openssl 1.0 and wait until upstream does something
->
-> are both inferior. Libressl is used with openssh in OpenBSD and in OS X,
-> so it did get at least some testing in the real world.
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  ...c-libraries-with-their-library-dependenci.patch | 74 ++++++++++++++++++++++
->  .../libressl/libressl_2.7.2.bb                     | 31 +++++++++
->  2 files changed, 105 insertions(+)
->  create mode 100644 meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
->  create mode 100644 meta/recipes-connectivity/libressl/libressl_2.7.2.bb
->
-> diff --git a/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch b/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
-> new file mode 100644
-> index 00000000000..977158fb673
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/libressl/libressl/0001-Link-dynamic-libraries-with-their-library-dependenci.patch
-> @@ -0,0 +1,74 @@
-> +From 2e433aa5bb243c608930bdb46fbf55a31231a7bd Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Mon, 9 Apr 2018 18:02:56 +0300
-> +Subject: [PATCH] Link dynamic libraries with their library dependencies.
-> +
-> +It does seem like outside of OpenBSD, no one has actually used libressl yet.
 
-I played around with completely replacing openssl with libressl a year
-or so ago and it went fairly smoothly (at least as far as I tested).
-That was with libressl 2.4.2 and my recipe built with autotools rather
-than cmake though. Did you try to build with autotools? That still
-appears to be the option mentioned first in the libressl README.
 
-> +Upstream-Status: Pending
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + CMakeLists.txt        | 7 ++++++-
-> + crypto/CMakeLists.txt | 1 +
-> + ssl/CMakeLists.txt    | 2 +-
-> + 3 files changed, 8 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/CMakeLists.txt b/CMakeLists.txt
-> +index 1c6bd67..2c1078d 100644
-> +--- a/CMakeLists.txt
-> ++++ b/CMakeLists.txt
-> +@@ -265,6 +265,7 @@ endif()
-> + set(OPENSSL_LIBS tls ssl crypto)
-> +
-> + if(WIN32)
-> ++      set(OPENSSL_LIB_LIBS ws2_32)
-> +       set(OPENSSL_LIBS ${OPENSSL_LIBS} ws2_32)
-> + endif()
-> +
-> +@@ -274,16 +275,20 @@ if(HAVE_CLOCK_GETTIME)
-> + endif()
-> +
-> + if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-> ++      set(OPENSSL_LIB_LIBS pthread)
-> ++      set(OPENSSL_LIBS ${OPENSSL_LIBS} pthread)
-> +       check_library_exists(rt clock_gettime "time.h" HAVE_CLOCK_GETTIME)
-> +       if (HAVE_CLOCK_GETTIME)
-> ++              set(OPENSSL_LIB_LIBS ${OPENSSL_LIB_LIBS} rt)
-> +               set(OPENSSL_LIBS ${OPENSSL_LIBS} rt)
-> +       endif()
-> +-      set(OPENSSL_LIBS ${OPENSSL_LIBS} pthread)
-> + endif()
-> + if(CMAKE_SYSTEM_NAME MATCHES "HP-UX")
-> ++      set(OPENSSL_LIB_LIBS pthread)
-> +       set(OPENSSL_LIBS ${OPENSSL_LIBS} pthread)
-> + endif()
-> + if(CMAKE_SYSTEM_NAME MATCHES "SunOS")
-> ++      set(OPENSSL_LIB_LIBS nsl socket)
-> +       set(OPENSSL_LIBS ${OPENSSL_LIBS} nsl socket)
-> + endif()
-> +
-> +diff --git a/crypto/CMakeLists.txt b/crypto/CMakeLists.txt
-> +index 2fa08a5..32ab649 100644
-> +--- a/crypto/CMakeLists.txt
-> ++++ b/crypto/CMakeLists.txt
-> +@@ -811,6 +811,7 @@ endif()
-> +
-> + add_library(crypto ${CRYPTO_SRC})
-> + if (BUILD_SHARED_LIBS)
-> ++      target_link_libraries(crypto ${OPENSSL_LIB_LIBS})
-> +       export_symbol(crypto ${CMAKE_CURRENT_BINARY_DIR}/crypto_p.sym)
-> +       if (WIN32)
-> +               target_link_libraries(crypto Ws2_32.lib)
-> +diff --git a/ssl/CMakeLists.txt b/ssl/CMakeLists.txt
-> +index e87e0f6..e53e5ea 100644
-> +--- a/ssl/CMakeLists.txt
-> ++++ b/ssl/CMakeLists.txt
-> +@@ -50,7 +50,7 @@ set(
-> + add_library(ssl ${SSL_SRC})
-> + if (BUILD_SHARED_LIBS)
-> +       export_symbol(ssl ${CMAKE_CURRENT_SOURCE_DIR}/ssl.sym)
-> +-      target_link_libraries(ssl crypto)
-> ++      target_link_libraries(ssl crypto ${OPENSSL_LIB_LIBS})
-> +       if (WIN32)
-> +               target_link_libraries(ssl Ws2_32.lib)
-> +               set(SSL_POSTFIX -${SSL_MAJOR_VERSION})
-> diff --git a/meta/recipes-connectivity/libressl/libressl_2.7.2.bb b/meta/recipes-connectivity/libressl/libressl_2.7.2.bb
-> new file mode 100644
-> index 00000000000..375615a7d1c
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/libressl/libressl_2.7.2.bb
-> @@ -0,0 +1,31 @@
-> +SUMMARY = "Drop-in replacement for openssl 1.0.x, maintained by OpenBSD"
-> +DESCRIPTION = "LibreSSL is a version of the TLS/crypto stack forked from \
-> +               OpenSSL in 2014, with goals of modernizing the codebase, \
-> +               improving security, and applying best practice development processes. "
-> +HOMEPAGE = "http://www.libressl.org/"
-> +
-> +LICENSE = "openssl"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=01f9bb4d275f5eeea905377bef3de622"
-> +
-> +SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${PV}.tar.gz \
-> +           file://0001-Link-dynamic-libraries-with-their-library-dependenci.patch \
-> +           "
-> +SRC_URI[md5sum] = "97aee636dfce1eb6ec6f38687bee0760"
-> +SRC_URI[sha256sum] = "917a8779c342177ff3751a2bf955d0262d1d8916a4b408930c45cef326700995"
-> +
-> +inherit cmake
-> +
-> +EXTRA_OECMAKE = "-DOPENSSLDIR=${sysconfdir}/libressl -DBUILD_SHARED_LIBS=ON"
-> +
-> +PACKAGE_PREPROCESS_FUNCS += "libressl_package_preprocess"
-> +
-> +# libressl development files and executable binaries clash with openssl 1.1
-> +# files when installed into target rootfs. So we don't put them into
-> +# packages, but they continue to be provided via target sysroot for
-> +# cross-compilation on the host, if some software needs specifically libressl.
-> +libressl_package_preprocess () {
-> +        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
-> +                rm $file
-> +        done
-> +}
-> +
-> --
-> 2.16.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Op 9 apr. 2018, om 18:36 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
+>=20
+> On Mon, 2018-04-09 at 13:56 +0200, Koen Kooi wrote:
+>> In multiarch /usr/include and /usr/lib/<tuple/ are not on the same
+>> level anymore. This change will pass a correct includedir, but a
+>> wrong libdir, but the linker picks it up anyway.
+>>=20
+>> Tested on multiarch and regular build.
+>=20
+> How far off working is mulitarch for OE-Core?
+
+With the current state of OE-core =E2=80=98bitbake bash=E2=80=99 does =
+the right things. I have a few patches that make more things work, but =
+those need more testing.
+
+> The reason I ask is I'd like to understand the scope of the changes
+> needed to support it. It also influences whether these are sumo or =
+post
+> 2.5 changes.
+
+So far all the changes are real bugfixes, like stopping recipes from =
+doing  =E2=80=98basename libdir=E2=80=99 to get base_libdir. For things =
+like python I=E2=80=99m running into problems where upstream does the =
+right thing, but the OE multilib patches break that.
+
+There is one change that will need careful consideration if it is meant =
+for sumo, it looks like the sysroot code treats libdir differently from =
+base_libdir:
+
+	[koen@fedora-vm build-rpb]$ ls =
+tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/rpb-console-image/1.0-r0/=
+recipe-sysroot-native/lib/
+	x86_64-linux
+
+	[koen@fedora-vm build-rpb]$ ls =
+tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/rpb-console-image/1.0-r0/=
+recipe-sysroot-native/usr/lib/
+	aarch64-linaro-linux   libcomps.so                libexpat.a     =
+     libgdbm_compat.so             libgthread-2.0.so.0.5400.3  =
+libmpc.so.3.1.0           libparted-fs-resize.so.0.0.1  libpython3.so    =
+      libtermcap.so
+	[..]
+	libcheck.so.0.0.0      libelf.so.1                =
+libgdbm_compat.a    libgthread-2.0.so.0           libmpc.so.3            =
+     libparted-fs-resize.so.0  libpython3.5m.so.1.0          =
+libssl.so.1.0.2
+
+E2fsprogs installs into base_libdir, which gets the multiarch treatment, =
+and mkfs.ext4 fails to find its libs during image generation.=20
+
+Regardless of all that, <start handwaving> a lot <stop handwaving> of =
+recipes will need packaging fixes, which should not go into a release =
+branch like sumo, so, personally, I=E2=80=99d move it post sumo.
+
+regards,
+
+Koen=
 
