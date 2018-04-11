@@ -1,53 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0833B74928
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id C30D974616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 23:18:10 +0000 (UTC)
-Received: by mail-ot0-f196.google.com with SMTP id m7-v6so14729284otd.1
+	Wed, 11 Apr 2018 00:02:45 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id q71-v6so46679oic.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Apr 2018 16:18:12 -0700 (PDT)
+	Tue, 10 Apr 2018 17:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2VxDfPXl+mH3J9Cd2btfCsS2/4l3gra/2cPZkaOkJXk=;
-	b=E0kE09+d5lYEHFluK8rImjQm7GaM834BFfQuusuuIGtGNcPxFICVqZjOBMTy190J1J
-	7V+7ZTVSLyafu7arAVxPianyLoKs2kQATrd8YAqBanKEkJVUw3GnMea8RSp0uB9e6mFa
-	Nqc9z4YJTBqVqbzq9+bW6Qn8XqL77LCNLJ3NQPWdgmf0QAO9yvhICMfDxvmNp0lK4ra/
-	gT19oup2VI+0UElso7u5YhW3kVSBrIAXLCQ99XVz3sKhU3yZojKcOsxdLE6I3xCsOked
-	iFTCKn8a3rYgnIAMswcvzIDpxtD/L0F7bdbp0FhEv2Zg5HcrJSPTPLM8vRYwB8ltrhnd
-	pq+w==
+	:cc; bh=avmMIGcNc7rhaPZVagmguE9Qmo3pMMThA70JZ2IMAEE=;
+	b=2NDCrFefakCFxCczHViX4TGEjsp/V5iD8g8N8x4a2P1/iLaIzF1AvkaYGCySIFBIaE
+	IciC7JGAOL9u4pOLWVzMVsy4Zi6hZe+3naCpimLt4M7SHadyi9eVHD4bXakQroSXd3+n
+	Ai+tSswueyUnSgdbLn0vlLk5ygmH7EbrMzk3Cyikn29BmMvZ4pQxNdLYRN3KcjWrUMrt
+	r+y5QbFS35ES5dR4lnoFvdjeBhvsEDfWdwhCLqrADS+tUGw2AX65A8x0U79iAPkzujK1
+	wgAEqf3TbWw45ErH0L5nMRcEGFthTx9WRYYVf58e1A6MC0kwNGeITlyZMesnDewCtpJh
+	AjOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=2VxDfPXl+mH3J9Cd2btfCsS2/4l3gra/2cPZkaOkJXk=;
-	b=nSttU7gEnYcJcmhb1wcvq6qeCqBHGZyTT1jlnkvxmo/hfGg8gJGv89y3noT6KqkpJE
-	MqP/xjr1Up0LC9aN84LZDT6vUJzzNe3wwFq+tQiUciZfu1eP1EOxOKrl5G+Rz+LkWYAz
-	pIVsvotEKiZg8jUjSUKNkUUgb9ioIkGI6zbdixP+RNmduFFTfGEBqZB1Z0wyJ5+6MViC
-	mYxQk1G18jDQOsIaTO2Vgl78su++TK8LiKBRZkqT5aLIdnl7t7WVGMMMfTn8Jmdgi/BC
-	jzVP4ck2AVMOHEcuuaN5elZvdlhAJo/Kq/ynDvlilHQv4HVODHUkfcTGDNnTful4m0Bo
-	uq8Q==
-X-Gm-Message-State: ALQs6tBbd+pkpAWkUDqmn76hh2FM8B+1MwP+nXFpQ9EhSnH39ZAnUwk2
-	XGCCXNMSt1+TO8rlLPDlJcpZ/2bNDQcI/V7fd1tUvw==
-X-Google-Smtp-Source: AIpwx48LGCl0R22sZOTRzXxIR1VU0Lx7w1pX5yPryLtWaaC5DGh9l+syRpbu++uaiVLWTZ0Qj7xoN0XHmRdSL57C6h0=
-X-Received: by 2002:a9d:2ce2:: with SMTP id
-	e31-v6mr1543603otd.135.1523402291719; 
-	Tue, 10 Apr 2018 16:18:11 -0700 (PDT)
+	bh=avmMIGcNc7rhaPZVagmguE9Qmo3pMMThA70JZ2IMAEE=;
+	b=cymYVQea46yrKY7x1L2t/8cwl3al7wZzsbECH59IGMYQcrg9LCLdQ80O8iQyjjSfyL
+	omQG4iLwXKX4pnKtW8ItDFKcNjA37reuiHWDA195IOb33iZzZXJlHw9Lortlbtn1fV41
+	nlJk1dE6uUlgqIKeRPujpUP7Vh8h6TA5J5ztLvP808E+FS7ig8RvGs3Ap+7byLZwMlKv
+	AGskAInSQugvh898l+R4sRmIM494S6x2Pj3eG0iE7ZJk9DFR+7luytTxUvuOrQMJJNL9
+	J1XNdkt2IlG+Hzpy8TnVpUJcL8kybyH645GaUA89Ix96/3GKox+84LqrSkQ7YSfyBCzG
+	MoJA==
+X-Gm-Message-State: ALQs6tC7T3vnh4cerOhEbFGmlElU8QiEbk1Gh/JJZkqUPQEzglpwoSRc
+	h6OtJrgrRSKvX4RyHDZ8chRP4tEzDhQy7ifYrns0aw==
+X-Google-Smtp-Source: AIpwx49Lc+I3U3TjMn4/0uLf3bEPKzTT0sP2xl9Xb7QLPvvLdqspO3MoE4kRDoz0NPihj6i+zieMKHYfPmkCOzKPkEU=
+X-Received: by 2002:aca:acd1:: with SMTP id
+	v200-v6mr1675465oie.320.1523404966463; 
+	Tue, 10 Apr 2018 17:02:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Tue, 10 Apr 2018 16:17:51 -0700 (PDT)
-In-Reply-To: <CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<1523387170-30191-2-git-send-email-denis@denix.org>
-	<CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
+Received: by 10.138.17.79 with HTTP; Tue, 10 Apr 2018 17:02:23 -0700 (PDT)
+In-Reply-To: <1523044641-56994-2-git-send-email-juro.bystricky@intel.com>
+References: <1523044641-56994-1-git-send-email-juro.bystricky@intel.com>
+	<1523044641-56994-2-git-send-email-juro.bystricky@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Apr 2018 00:17:51 +0100
-Message-ID: <CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Denys Dmytriyenko <denys@ti.com>,
+Date: Wed, 11 Apr 2018 01:02:23 +0100
+Message-ID: <CAJTo0LZFV2t1sjTaOrFfZWqTAcm49qUCj-fvpOxRdkD-+wQhDA@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] weston: upgrade to 4.0.0
+Subject: Re: [PATCH 1/1] python-xcbgen_1.12: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,41 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Apr 2018 23:18:11 -0000
+X-List-Received-Date: Wed, 11 Apr 2018 00:02:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Ah presumably this is because the U-S is after the scissors.  Denys,
-when you add it back, can you put it above the ---?
+On 6 April 2018 at 20:57, Juro Bystricky <juro.bystricky@intel.com> wrote:
+> In order to remove timestamps from all .pyc files we need to recompile
+> them with python3-native, as we cannot rely on the host python being
+> able to do that. Both python-native and python3-native derive the timestamp
+> from SOURCE_DATE_EPOCH if present.
+> However, building python3-native can be computationally expensive, so
+> we resort to python3-native only when building reproducible packages:
+> (BUILD_REPRODUCIBLE_BINARIES = '1'), otherwise we use the host python3.
+
+The logical extension of this is that every recipe that ships .py
+needs to depend on python3-native so that it can recompile.
+
+However, there's another solution...
+
+.pyc files are basically a four byte magic number, a four byte
+timestamp, and then the byte code.  It won't be that many lines of
+Python in a do_package[postfunc] to search for __pycache__/*.pyc files
+in the packages and replace the timestamp with SOURCE_DATE_EPOCH if
+reproducible builds are enabled.
 
 Ross
-
-On 11 April 2018 at 00:16, Burton, Ross <ross.burton@intel.com> wrote:
-> On 10 April 2018 at 20:06, Denys Dmytriyenko <denis@denix.org> wrote:
->> diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
->> index 0671a45..6799254 100644
->> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
->> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
->> @@ -1,26 +1,25 @@
->> -From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
->> +From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
->>  From: Khem Raj <raj.khem@gmail.com>
->>  Date: Fri, 29 May 2015 20:56:00 -0700
->> -Subject: [PATCH weston] make error() portable
->> +Subject: [PATCH] make error() portable
->>
->>  error() is not posix but gnu extension so may not be available on all
->>  kind of systemsi e.g. musl.
->>
->>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ----
->> -Upstream-Status: Submitted
->
-> Ah, I've seen this before and was wondering if it was a genuine
-> mistake or devtool being bad.
->
-> devtool refresh is doing A Bad Thing and for some reason dropping the
-> Upstream-Status tag.  Alex, can you see why this is?  Denys, can you
-> edit it back in?
->
-> Ross
 
