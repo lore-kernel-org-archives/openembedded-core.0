@@ -1,50 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 89678746CB
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 554F9746DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 19:07:06 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id t20-v6so4526139ply.9
+	Thu, 12 Apr 2018 20:28:12 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id p33-v6so7475694otp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 12:07:07 -0700 (PDT)
+	Thu, 12 Apr 2018 13:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kvAP+C+xDk8lUojQX1Wg5+ay0skjNzvejWqZk6lNLdA=;
-	b=Com1Tn93H/8p5Ly36xzwou0lFuclFKLrVhx9nU5dcP5uojIsdqnWH0EQLpU47nnKKH
-	v7J1us0fB23P7bvolOw+bYYN9jLessDalR0GG8QUFAucixVyA4VKRK+AooyppfDwRPek
-	0QTLO6PFl0oB42UH1yFKo9FWrwBcI7dfeIb1I4xETrLqWBWqU72Qed0gblJoG8HQenES
-	lZaZ5+jEqSQ3q84eec9UKoBiavmUcppKqBaETURYnn6AK7RQzrT+GxraPiSbUjqAuWN1
-	XhZXfJ0cwuyBdl0Qv76N/27xnvC5Rr9DZCCfzBgcmz0+D3pSmIMkyAWfinKKt2Fs8ebJ
-	oTLw==
+	:cc:content-transfer-encoding;
+	bh=O5O6k+z+8zykG7L7iG0rIHFEwC+hle6THnzDSiEEi6s=;
+	b=dYnljAazlkJoFHZGzRFSAXOQ0EGLlFOUWx953Ragl0Kq+chXMo1WpHhDR+Xfm3jPrW
+	GjFYbHE1ri2MHXHhwC+lfbe4edA5urDjfC6e0FC9R502wB5uxSavfbPsOloOZm8VHTHV
+	YLqDuWQKAEvQdUZWxXcW28qvFKAtXfSAdrlRw2I63s7Z+X5Q1sH/i56K0nLwlOlsS2Iq
+	KJz8v8Ehq50W6JZLpt5fw1YvVLCO2xgtE3C7lRbemr5fTJu3tm+CD9HBi2qCV76u7yiT
+	thk3oJuJw7OLA2mVqdoS7vBvW1NCoxsZEI8nNVhGWYugvIwJYoBeWt/72mAheTKGtpXD
+	K4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kvAP+C+xDk8lUojQX1Wg5+ay0skjNzvejWqZk6lNLdA=;
-	b=mV7VpXC6yvrcw+SYRGxcMMwP16/nzs6A68eMd2JvQREFX1XClOYLb+wgdGA7PyRIxR
-	gbQXKPOogJiOurNCYxboHhIudjiPORPn3vx86BQmjoTDhfm9tkuXA0NpJKfTdhCYU5ef
-	lr0V9jBnBkcSt0dEjm9xsvPNPSdXBWtgZmTCX6C6i7DAKErSMsIYvJ9dRdKxuhIEq6uP
-	+h+phEuNMvajbtHEdCGvhoBPS+YVHs7q3oF0RG1Mb1mXWjeyFm89vPu2PaTfhM+U7VNa
-	1gkMx0WMMFRYBgc9C+0Whtzj7R0lyHH0+YcwbLUEL/pZvKN9Vzs+IU6qqE30vVQG7YDq
-	c11Q==
-X-Gm-Message-State: ALQs6tBlEAAEdfKwMATidl9y9lMJq+zmzHaFQ+ESO07Te0L7j0g2Wj6Y
-	CI3IhConpoZdQkSlk5tmGko5CHPvG7RczSzA8WA=
-X-Google-Smtp-Source: AIpwx4/1C6A9Slu13EDRdIJlZTBflKdfG4W+XwSLaZu0FMqmsoLKaxkzpIoYHFyjwkOt/T+qxJxRTJL3B4HdJ8/A2fQ=
-X-Received: by 2002:a17:902:be18:: with SMTP id
-	r24-v6mr2260870pls.275.1523560026950; 
-	Thu, 12 Apr 2018 12:07:06 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=O5O6k+z+8zykG7L7iG0rIHFEwC+hle6THnzDSiEEi6s=;
+	b=Asf/h6JIWTo5gDu4NuwjeMjRBBZRKvI9nQBD3XwAozsVpIIq+lsdwIqzV+kiiRWI2U
+	iY2EuxakrYm9oOPe8xydcWxNo7QVzDTfLdZfmMF+h2p7SuYB88Wz01M8Q1bO/alf4u1c
+	cSafzHWf6d1WZAmJDyO17+tE8mtbXxCwGJeFPytKtNAh7o+WDMritUQ3t84H/K7PjR5H
+	5XCgpiG2V1Ew2Ym+bye/ZCqgy88V9LctGuZSr9UXudron8kNko85DaUG8YzJgmAGbbgB
+	/RMgOi53SyaymYock+RKJiXjd4UmW42jc/5ThuJceupZL0dcJlYxEgCc7E8sA7tJYSI8
+	+y5Q==
+X-Gm-Message-State: ALQs6tA34EJRkN0FGf8QkMHNwn8Q7DYW5xoI3PxtD5QaaxgjmMoWIjmu
+	2+3fXJXrv/W/HB5ts6dCcnASVLaXC2+Oi+k8JqQ=
+X-Google-Smtp-Source: AIpwx48eqDcBG5WgywJUxF2yAyz95zG/cMA2DijNRqFzakkKXXHOcHRwJSyRkZ6vpdOrGZBURZ/9p6SiR4MojdISPdY=
+X-Received: by 2002:a9d:34b6:: with SMTP id
+	g51-v6mr1760859otc.180.1523564894014; 
+	Thu, 12 Apr 2018 13:28:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.187.129 with HTTP; Thu, 12 Apr 2018 12:06:36 -0700 (PDT)
-In-Reply-To: <CAKmqyKNAxpF1okjTNRoOS2adu+3Xzfq+N7PuektGarCozGt_6Q@mail.gmail.com>
-References: <1523380197-2763-1-git-send-email-alistair.francis@wdc.com>
-	<cb803b32-b0b5-559f-ab66-7e556f1a5e0e@gmail.com>
-	<CAKmqyKNAxpF1okjTNRoOS2adu+3Xzfq+N7PuektGarCozGt_6Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 Apr 2018 12:06:36 -0700
-Message-ID: <CAMKF1soTmDp2ntWs49=3Lf5x9Cy0ZmKVXyzC902HE7===CvM_Q@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-oe/numactl: Enable NUMA in the kernel config
+Received: by 10.201.25.81 with HTTP; Thu, 12 Apr 2018 13:28:13 -0700 (PDT)
+In-Reply-To: <20180402215705.GA25121@linux-uys3>
+References: <CALbNGRTAbsa9CzzXqtq7mpiknFzUB_=9eHcFHnD5W--HEM8bPw@mail.gmail.com>
+	<20180402215705.GA25121@linux-uys3>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 12 Apr 2018 22:28:13 +0200
+Message-ID: <CALbNGRThT8S5bfJH=zXMkQzCMMasQ=yUoEXTjsfPXtncig3yFA@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernel menuconfig broken?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,103 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2018 19:07:06 -0000
+X-List-Received-Date: Thu, 12 Apr 2018 20:28:13 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 12, 2018 at 11:26 AM, Alistair Francis <alistair23@gmail.com> wrote:
-> On Thu, Apr 12, 2018 at 8:49 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On 4/10/18 10:09 AM, Alistair Francis wrote:
->>> If a user has specified numa in their DISTRO_FEATURES then they should
->>> have NUMA support enabled in the kernel. Without kernel support the
->>> numactl program is not very useful.
->>>
->>
->> This should be done in OE-Core as part of main recipe.
+On Mon, Apr 2, 2018 at 11:57 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+> On Sun 2018-04-01 @ 11:49:58 PM, Andreas M=C3=BCller wrote:
+>> When running bitbake -cmenuconfig virtual/kernel I get a flood of
+>> undefined reference errors. Am I alone here?
 >
-> Do you mean in core linux-yocto
-> (meta/recipes-kernel/linux/linux-yocto.inc)? That seemed a little odd
-> to me as the numactl package comes from the meta-oe layer. I was
-> thinking it made sense to keep them together.
+> Sadly, I think you might be.
 >
+>         $ bitbake virtual/kernel -c menuconfig
+>
+> works fine for me.
+>
+> I assume you're doing this for something RaspberryPi-ish?
+>
+>         Build Configuration:
+>         BB_VERSION           =3D "1.37.0"
+>         BUILD_SYS            =3D "x86_64-linux"
+>         NATIVELSBSTRING      =3D "opensuse-42.3"
+>         TARGET_SYS           =3D "arm-oe-linux-gnueabi"
+>         MACHINE              =3D "raspberrypi3"
+>         DISTRO               =3D "nodistro"
+>         DISTRO_VERSION       =3D "nodistro.0"
+>         TUNE_FEATURES        =3D "arm armv7ve vfp thumb neon vfpv4 callco=
+nvention-hard cortexa7"
+>         TARGET_FPU           =3D "hard"
+>         meta-raspberrypi     =3D "master:63e53f919089027259a513dc2cd4b140=
+789bf1a3"
+>         meta                 =3D "master:4cedddb83623c79980b354642dfeaf78=
+218ca4b7"
+>         meta-oe
+>         meta-gnome
+>         meta-python
+>         meta-networking
+>         meta-multimedia      =3D "master:b9d1d8718834f7287e5a65373b952cbf=
+e9ce83fe"
+>         meta-qt5             =3D "master:e60e849de1158c879bd2c150fe79b207=
+cdac031a"
+>         meta-qt5-extra       =3D "master:a0cf057b2f335e8d2be9180f20770773=
+334ec209"
+>         meta-realtime        =3D "master:250bc6eaa47e550c1db5e2b0ebd42d86=
+ee43650e"
+>         meta-browser         =3D "master:d1c902440cba26a9d1271cfb914633c6=
+8ee3791c"
+OK I found that I am not alone [1] and followed the suggestion to
+install ncurses-devel. Strange: it install ncurses-libs x86_64. Now I
+have back menuconfig but it looks horrible: All framing chars are
+displayed as '@'. If I remember correct there was such an issue long
+lime ago.
 
-its controlled by a distro feature which would add right knobs to it in core.
-it wont be changing any functionality therefore and hence would be ok
+However it is not beautiful but I can work with it.
 
-> Alistair
->
->>
->> Note that this patch is sent to oe-core ml but is actually against
->> meta-oe layer which follows oe-devel mailing list.
->>
->>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>> ---
->>>  meta-oe/recipes-kernel/linux/linux-yocto.inc           | 2 ++
->>>  meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend | 1 +
->>>  meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend | 1 +
->>>  meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend | 1 +
->>>  meta-oe/recipes-support/numactl/numactl/numa.cfg       | 2 ++
->>>  meta-oe/recipes-support/numactl/numactl_git.bb         | 1 +
->>>  6 files changed, 8 insertions(+)
->>>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto.inc
->>>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
->>>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
->>>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
->>>  create mode 100644 meta-oe/recipes-support/numactl/numactl/numa.cfg
->>>
->>> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto.inc b/meta-oe/recipes-kernel/linux/linux-yocto.inc
->>> new file mode 100644
->>> index 0000000..9533eb6
->>> --- /dev/null
->>> +++ b/meta-oe/recipes-kernel/linux/linux-yocto.inc
->>> @@ -0,0 +1,2 @@
->>> +KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
->>> +
->>> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
->>> new file mode 100644
->>> index 0000000..161f9d3
->>> --- /dev/null
->>> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
->>> @@ -0,0 +1 @@
->>> +require linux-yocto.inc
->>> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
->>> new file mode 100644
->>> index 0000000..161f9d3
->>> --- /dev/null
->>> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
->>> @@ -0,0 +1 @@
->>> +require linux-yocto.inc
->>> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
->>> new file mode 100644
->>> index 0000000..161f9d3
->>> --- /dev/null
->>> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
->>> @@ -0,0 +1 @@
->>> +require linux-yocto.inc
->>> diff --git a/meta-oe/recipes-support/numactl/numactl/numa.cfg b/meta-oe/recipes-support/numactl/numactl/numa.cfg
->>> new file mode 100644
->>> index 0000000..fe1394d
->>> --- /dev/null
->>> +++ b/meta-oe/recipes-support/numactl/numactl/numa.cfg
->>> @@ -0,0 +1,2 @@
->>> +CONFIG_NUMA=y
->>> +CONFIG_ACPI_NUMA=y
->>> diff --git a/meta-oe/recipes-support/numactl/numactl_git.bb b/meta-oe/recipes-support/numactl/numactl_git.bb
->>> index b9cbcf0..ef2dab2 100644
->>> --- a/meta-oe/recipes-support/numactl/numactl_git.bb
->>> +++ b/meta-oe/recipes-support/numactl/numactl_git.bb
->>> @@ -21,6 +21,7 @@ SRC_URI = "git://github.com/numactl/numactl \
->>>      file://run-ptest \
->>>      file://0001-define-run-test-target.patch \
->>>  "
->>> +SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
->>>
->>>  S = "${WORKDIR}/git"
->>>
->>>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+[1] https://github.com/crops/poky-container/issues/17
+
+Andreas
 
