@@ -1,46 +1,90 @@
-Return-Path: <aborduno@cisco.com>
-X-Greylist: delayed 562 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 12 Apr 2018 14:51:27 UTC
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
-	by mail.openembedded.org (Postfix) with ESMTP id D5526746DD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 763F27468E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 14:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=6504; q=dns/txt; s=iport;
-	t=1523544689; x=1524754289;
-	h=subject:to:cc:references:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=sOUelkHIDgL2tm0Fj+5BkQie2uIDLsROAZ+OJ+tSAnQ=;
-	b=Uc8cAZjYDFyHxNrmiIcfqtTIRX7y7vTIeuD8HZUuEpeoaVURi8c5KELq
-	gtkGDlVVARhgHjXP6k+Wkj2I0n70zGhNNcMkqGOdDrauuVRoUu8TrdiF7
-	1JWJANvO5d5TsK0+cwBC3xk3Qj9Z7q2QyiHv49javqyeoHWpJBI5rXVQl E=;
-X-IronPort-AV: E=Sophos;i="5.48,442,1517875200"; d="scan'208";a="97403119"
-Received: from alln-core-7.cisco.com ([173.36.13.140])
-	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Apr 2018 14:42:06 +0000
-Received: from kbp1-dhp-f50810.synapse.com ([10.24.12.240])
-	(authenticated bits=0)
-	by alln-core-7.cisco.com (8.14.5/8.14.5) with ESMTP id w3CEg2Nl009252
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Thu, 12 Apr 2018 14:42:04 GMT
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org,
-	Burton Ross <ross.burton@intel.com>
-References: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
-	<1479293265.28508.4.camel@linuxfoundation.org>
-	<6897ef62-b48d-ca6d-dc03-41d3467bc91a@cisco.com>
-	<256c9b8c-4972-f308-eb26-4c32e005a72e@cisco.com>
-From: Andrii Bordunov <aborduno@cisco.com>
-Message-ID: <b15fed47-677b-8c53-e6a0-0f812f500812@cisco.com>
-Date: Thu, 12 Apr 2018 17:42:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Thu, 12 Apr 2018 15:49:07 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id o16so4040084pfk.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Apr 2018 08:49:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=1IcXk3RCtBW+Wys/I2g9pAOYE6B6kR4BBGG44ZrI3cw=;
+	b=CHxU3fPV4zzKH/I4jGbDp0QmMwlIIS0jovdGL/bs47bzMWSEB1YREsA/T06cwAIjaP
+	4NZ0KRKQFvBi3BGEQoa6UbdQB7H/6HkU/mFbEhzs1xzMtNWUMoIAOudbpDXzhLcpl8XN
+	AJtFsYl69Wcq3T1Uwx0ytRvitdbvb2CvUXOo+Oh27NH0gCU2dvMEQl/W8x5qZ/YqODpw
+	cKXxxLiWaQbFiMuFGuhO8aiIpQclNX9DA5SQLaSXTC7wpylNZYbCN4+gnJbTzXk3kxQU
+	bT8pte+bvEKcR2dTiFnJSuVoo02qY8BddYoPJVhxsaVg+PWCrnr3DL/fHetpioqgd6Qz
+	lrWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=1IcXk3RCtBW+Wys/I2g9pAOYE6B6kR4BBGG44ZrI3cw=;
+	b=EZoIiLRRdfjgeB3dJ+QlmznzzndjuY/Xz7+z/ZOsjvrKKO3kAHqvBwPhKXeytmwc/L
+	6nS8IAfidFEYhDCAXA6JKujrSRprKjSVNpxBuBD/V9tnErhdan2CCR0F2JhHji0TUNW2
+	XVqcDFNuv/VeonKuI1GLrZL0SDoVtbB/22ykM8+jB+yZCKambEw/eUQ3IY6L/fbegSdw
+	segCbEve7rfaKHV34OogitqD2RFMUuQqIIBcmU5Sw7EFC26o+MKpHBzNxqMEoAGBLo4U
+	2h51qRgiQRVGeE4FaL87b+xHGILIsACV8HHAPYool7kWQBKWpB3Q2hlQX60601dY/Fz6
+	dxAQ==
+X-Gm-Message-State: ALQs6tAJ6/lW5JH5/OZ92Yrb0FNrrKt/Q4Jhq3M9RkXKCy9f8NIavhoP
+	EvOB931/hjhr5u4RPAXt46vwFPR6
+X-Google-Smtp-Source: AIpwx49gXO1WPamK8fZgX5KI0eqMznrKycvBZ7Ed5vl5t5MlDj8e+jEaYjIi3CuhEIP4emvi1fiCVA==
+X-Received: by 10.101.85.11 with SMTP id f11mr1131813pgr.252.1523548148466;
+	Thu, 12 Apr 2018 08:49:08 -0700 (PDT)
+Received: from ?IPv6:2601:646:8880:466c:b946:b3:7b1:a98f?
+	([2601:646:8880:466c:b946:b3:7b1:a98f])
+	by smtp.gmail.com with ESMTPSA id
+	q62sm10938180pfd.61.2018.04.12.08.49.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Apr 2018 08:49:07 -0700 (PDT)
+To: Alistair Francis <alistair.francis@wdc.com>,
+	openembedded-core@lists.openembedded.org
+References: <1523380197-2763-1-git-send-email-alistair.francis@wdc.com>
+From: Khem Raj <raj.khem@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <cb803b32-b0b5-559f-ab66-7e556f1a5e0e@gmail.com>
+Date: Thu, 12 Apr 2018 08:49:06 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <256c9b8c-4972-f308-eb26-4c32e005a72e@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: aborduno
-Cc: xe-linux-external@cisco.com
-Subject: Re: [PATCH v3] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
+In-Reply-To: <1523380197-2763-1-git-send-email-alistair.francis@wdc.com>
+Subject: Re: [PATCH] meta-oe/numactl: Enable NUMA in the kernel config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,191 +97,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2018 14:51:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 12 Apr 2018 15:49:07 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Another ping.
-
-Any comments? Or could it be just applied as is?
-
-
-Thank you,
-Andrii
-
-On 03/13/2018 07:25 PM, Andrii Bordunov wrote:
-> Ping
+On 4/10/18 10:09 AM, Alistair Francis wrote:
+> If a user has specified numa in their DISTRO_FEATURES then they should
+> have NUMA support enabled in the kernel. Without kernel support the
+> numactl program is not very useful.
 > 
-> Rebased patch to latest master.
+
+This should be done in OE-Core as part of main recipe.
+
+Note that this patch is sent to oe-core ml but is actually against
+meta-oe layer which follows oe-devel mailing list.
+
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta-oe/recipes-kernel/linux/linux-yocto.inc           | 2 ++
+>  meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend | 1 +
+>  meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend | 1 +
+>  meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend | 1 +
+>  meta-oe/recipes-support/numactl/numactl/numa.cfg       | 2 ++
+>  meta-oe/recipes-support/numactl/numactl_git.bb         | 1 +
+>  6 files changed, 8 insertions(+)
+>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto.inc
+>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
+>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
+>  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
+>  create mode 100644 meta-oe/recipes-support/numactl/numactl/numa.cfg
 > 
-> Regarding special value for the variable, it could be done with 
-> PRIVATE_LIBS to mean all libraries, I think. PRIVATE_LIBS could be set 
-> per-package already.
-> Would it be a better option?
-> However, EXCLUDE_FROM_SHLIBS seems to be a more proper thing to use.
+> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto.inc b/meta-oe/recipes-kernel/linux/linux-yocto.inc
+> new file mode 100644
+> index 0000000..9533eb6
+> --- /dev/null
+> +++ b/meta-oe/recipes-kernel/linux/linux-yocto.inc
+> @@ -0,0 +1,2 @@
+> +KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> +
+> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
+> new file mode 100644
+> index 0000000..161f9d3
+> --- /dev/null
+> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
+> @@ -0,0 +1 @@
+> +require linux-yocto.inc
+> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
+> new file mode 100644
+> index 0000000..161f9d3
+> --- /dev/null
+> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
+> @@ -0,0 +1 @@
+> +require linux-yocto.inc
+> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
+> new file mode 100644
+> index 0000000..161f9d3
+> --- /dev/null
+> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
+> @@ -0,0 +1 @@
+> +require linux-yocto.inc
+> diff --git a/meta-oe/recipes-support/numactl/numactl/numa.cfg b/meta-oe/recipes-support/numactl/numactl/numa.cfg
+> new file mode 100644
+> index 0000000..fe1394d
+> --- /dev/null
+> +++ b/meta-oe/recipes-support/numactl/numactl/numa.cfg
+> @@ -0,0 +1,2 @@
+> +CONFIG_NUMA=y
+> +CONFIG_ACPI_NUMA=y
+> diff --git a/meta-oe/recipes-support/numactl/numactl_git.bb b/meta-oe/recipes-support/numactl/numactl_git.bb
+> index b9cbcf0..ef2dab2 100644
+> --- a/meta-oe/recipes-support/numactl/numactl_git.bb
+> +++ b/meta-oe/recipes-support/numactl/numactl_git.bb
+> @@ -21,6 +21,7 @@ SRC_URI = "git://github.com/numactl/numactl \
+>      file://run-ptest \
+>      file://0001-define-run-test-target.patch \
+>  "
+> +SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
+>  
+>  S = "${WORKDIR}/git"
+>  
 > 
-> 
-> Thank you,
-> Andrii
-> 
-> On 03/16/2017 05:07 PM, Andrii Bordunov wrote:
->> Hi Richard,
->>
->> Sorry, my Python knowledge is quite basic. I'm sure it's possible to 
->> have a (global?) EXCLUDE_FROM_SHLIBS list holding subpackage names, 
->> but how it could lead to performance improvement? It would also need 
->> some check for every subpackage.
->> Could you please give more details?
->> And what do you mean under "all packages"? The intent is like 
->> opposite, to split package operations, not to gather.
->>
->> As for False parameter to getVar, OK, I just used existing 
->> EXCLUDE_FROM_SHLIBS example (seems fixed now).
->>
->> In the meantime tried to make a quick and dirty profiling like following:
->>
->>    bitbake -c package glibc
->>    bitbake -c clean glibc
->>    python -m cProfile -s cumtime 
->> /mnt/src/oe/distro/bitbake/bin/bitbake -c package glibc > result.txt
->>
->> Result is below. If got it right, there are 3833 getVar calls with 
->> total time 0.025 second (including subcalls).
->> This gives ~6.5 microsecond duration of one call (incl subcalls). Not 
->> a lot.
->> This is only a partial rebuild of one package of course.
->> Also tried to do all of this with and without my patch, but getVar 
->> calls number stays exactly the same (w/o modifying glibc recipe, but 
->> anyway).
->>
->>    NOTE: Tasks Summary: Attempted 314 tasks of which 314 didn't need 
->> to be rerun and all succeeded.
->>             672869 function calls (667640 primitive calls) in 12.912 
->> seconds
->>       Ordered by: cumulative time
->>       ncalls  tottime  percall  cumtime  percall 
->> filename:lineno(function)
->>            1    0.001    0.001   12.913   12.913 bitbake:25(<module>)
->>            1    0.001    0.001   12.082   12.082 
->> main.py:320(bitbake_main)
->>            1    0.005    0.005   11.494   11.494 knotty.py:253(main)
->>          250   11.476    0.046   11.476    0.046 {method 'poll' of 
->> '_multiprocessing.Connection' objects}
->>    ...
->>    4481/4046    0.007    0.000    0.026    0.000 
->> data_smart.py:666(getVarFlag)
->>    ...
->>    3833/3719    0.002    0.000    0.025    0.000 
->> data_smart.py:569(getVar)
->>    ...
->>         1338    0.002    0.000    0.003    0.000 
->> data_smart.py:805(getVarFlags)
->>
->>
->>
->> Thank you,
->> Andrii
->>
->> On 16.11.16 12:47, Richard Purdie wrote:
->>> On Mon, 2016-10-10 at 20:02 +0300, Andrii Bordunov wrote:
->>>> Some packages containing shared libraries might be registered
->>>> as shlib providers when they shouldn't (for example, the lib is for
->>>> their private use and must not generate any dependency).
->>>>
->>>> EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
->>>> for entire recipe only.
->>>>
->>>> This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
->>>> to set it in a style similar with RDEPENDS. For example:
->>>>  EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
->>>>
->>>> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
->>>> ---
->>>>  meta/classes/package.bbclass | 12 ++++++++++--
->>>>  1 file changed, 10 insertions(+), 2 deletions(-)
->>>
->>> My main concern here is actually performance. For a package with many
->>> sub packages you just added many calls to getVar when that getVar is
->>> extremely unlikely to find any value. Whilst not hugely slow, that
->>> operation isn't trivial and hard to fix later.
->>>
->>> I'm wondering if we could support the syntax
->>>
->>> EXCLUDE_FROM_SHLIBS = "${PN}-ptest"
->>>
->>> and then have "1", used in a couple of places as the special value to
->>> mean all packages?
->>>
->>> Also please use False, not 0 as the parameter to getVar.
->>>
->>> Cheers,
->>>
->>> Richard
-
---
-
- From 4a33d384a72a351bad5a98e46a7c9c1c9755635e Mon Sep 17 00:00:00 2001
-From: Andrii Bordunov <aborduno@cisco.com>
-Date: Mon, 12 Mar 2018 08:13:44 -0700
-Subject: [PATCH v3] Allow EXCLUDE_FROM_SHLIBS to be specified for
-subpackages
-
-Some subpackages containing shared libraries might be registered
-as shlib providers when they shouldn't (the lib is for their private use
-and must not generate any dependency).
-
-EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
-for entire recipe only.
-
-This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
-to set it like following:
-EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
-
-Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
----
-   meta/classes/package.bbclass | 11 +++++++++--
-   1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 317c775..5d49d41 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1571,6 +1571,13 @@ python package_do_shlibs() {
-
-       workdir = d.getVar('WORKDIR')
-
-+    shlib_pkgs = []
-+    for pkg in packages.split():
-+        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, False):
-+            bb.note("not generating shlibs for %s" % pkg)
-+        else:
-+            shlib_pkgs.append(pkg)
-+
-       ver = d.getVar('PKGV')
-       if not ver:
-           msg = "PKGV not defined"
-@@ -1698,7 +1705,7 @@ python package_do_shlibs() {
-       needed = {}
-       shlib_provider = oe.package.read_shlib_providers(d)
-
--    for pkg in packages.split():
-+    for pkg in shlib_pkgs:
-           private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or
-d.getVar('PRIVATE_LIBS') or ""
-           private_libs = private_libs.split()
-           needs_ldconfig = False
-@@ -1770,7 +1777,7 @@ python package_do_shlibs() {
-
-       libsearchpath = [d.getVar('libdir'), d.getVar('base_libdir')]
-
--    for pkg in packages.split():
-+    for pkg in shlib_pkgs:
-           bb.debug(2, "calculating shlib requirements for %s" % pkg)
-
-           private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or
-d.getVar('PRIVATE_LIBS') or ""
--- 
-2.10.3.dirty
 
 
