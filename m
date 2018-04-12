@@ -1,49 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 763F27468E
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D850746D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 15:49:07 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id o16so4040084pfk.9
+	Thu, 12 Apr 2018 15:55:35 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id p6so4063192pfn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 08:49:09 -0700 (PDT)
+	Thu, 12 Apr 2018 08:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=1IcXk3RCtBW+Wys/I2g9pAOYE6B6kR4BBGG44ZrI3cw=;
-	b=CHxU3fPV4zzKH/I4jGbDp0QmMwlIIS0jovdGL/bs47bzMWSEB1YREsA/T06cwAIjaP
-	4NZ0KRKQFvBi3BGEQoa6UbdQB7H/6HkU/mFbEhzs1xzMtNWUMoIAOudbpDXzhLcpl8XN
-	AJtFsYl69Wcq3T1Uwx0ytRvitdbvb2CvUXOo+Oh27NH0gCU2dvMEQl/W8x5qZ/YqODpw
-	cKXxxLiWaQbFiMuFGuhO8aiIpQclNX9DA5SQLaSXTC7wpylNZYbCN4+gnJbTzXk3kxQU
-	bT8pte+bvEKcR2dTiFnJSuVoo02qY8BddYoPJVhxsaVg+PWCrnr3DL/fHetpioqgd6Qz
-	lrWA==
+	bh=oCc9+kOSrb6uFLQ6rw/c7ELOmeYPksVSkupofpI5D7g=;
+	b=hdxUBjHpyfZ0lX5eUudbt7sWUwm372PEy6SQD5Ku5dd1KKMs02IZbOAZMCUagSrJ8q
+	L93RoS+X5QuRK9wZwK9VAGHXQhuWvfTGdUIXiN1Rswb1jjoU7hXyd5PUD9uUpTM4DXUW
+	mR/Uup8FsdehlzwJICnealYY8CUaCsM7hqaUay1/HHAxmsTnEcRVLTkhOmISfGaL1WbX
+	8sM5x0uxjpuyWvVxE/NlpCtEQ1m0gTjBxR/hjPLGw7Bpno6WNj4tizQBPTyZQrI6rBKA
+	rFgsqLxiQAlqqV+F1uqCUNLv35SPL/Sna3LMxKTe6ujMJeayklp+3f5K3GmhssU23x7s
+	tQ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=1IcXk3RCtBW+Wys/I2g9pAOYE6B6kR4BBGG44ZrI3cw=;
-	b=EZoIiLRRdfjgeB3dJ+QlmznzzndjuY/Xz7+z/ZOsjvrKKO3kAHqvBwPhKXeytmwc/L
-	6nS8IAfidFEYhDCAXA6JKujrSRprKjSVNpxBuBD/V9tnErhdan2CCR0F2JhHji0TUNW2
-	XVqcDFNuv/VeonKuI1GLrZL0SDoVtbB/22ykM8+jB+yZCKambEw/eUQ3IY6L/fbegSdw
-	segCbEve7rfaKHV34OogitqD2RFMUuQqIIBcmU5Sw7EFC26o+MKpHBzNxqMEoAGBLo4U
-	2h51qRgiQRVGeE4FaL87b+xHGILIsACV8HHAPYool7kWQBKWpB3Q2hlQX60601dY/Fz6
-	dxAQ==
-X-Gm-Message-State: ALQs6tAJ6/lW5JH5/OZ92Yrb0FNrrKt/Q4Jhq3M9RkXKCy9f8NIavhoP
-	EvOB931/hjhr5u4RPAXt46vwFPR6
-X-Google-Smtp-Source: AIpwx49gXO1WPamK8fZgX5KI0eqMznrKycvBZ7Ed5vl5t5MlDj8e+jEaYjIi3CuhEIP4emvi1fiCVA==
-X-Received: by 10.101.85.11 with SMTP id f11mr1131813pgr.252.1523548148466;
-	Thu, 12 Apr 2018 08:49:08 -0700 (PDT)
+	bh=oCc9+kOSrb6uFLQ6rw/c7ELOmeYPksVSkupofpI5D7g=;
+	b=tNg5SVC20jhg/slXtTOW44FO1P/b0/eQmQlZ3+byYx6/a61uWTYC0M0ppdX0+NUnmj
+	OE6XIqT0McSic5RUmyEPsFdsV34xrSH5F2Quw0WTwgDuwKnU0dr4ZsGF/TX/G5MfPirg
+	Pjzp+SDTtntgcg065FZbMAQAHzorr6lOWMoLPV/ISPr0eJ9J9hwEZpZsLTCySlTezKiW
+	tYaV//aBxkuHD9c6SLRz1ZdSuTfDygOR6Mwch/dh2adpc5lUYRjPuG2dOsIAZr440bfT
+	s4rs2WsImeEv/mR4wb6RXfVaDOooczNdJ3tdqCsCkA7JAWelJtDuRUzTfXBHA3Qavhs0
+	ONeA==
+X-Gm-Message-State: ALQs6tCBCAb4Tbgpn5EF2d9tWNBYY00YcaKTDjXFdDZ1T3jlG8FjOcXS
+	+nLzt99+OsTiTTxWWfYfpLbU0wmt
+X-Google-Smtp-Source: AIpwx4+wPlSRYXKSi76wOO4Czl7/vyZT2bfEHa+WDd+Aj0VlXrv1W6PRrzOuRkz1kuomK3UzqXmfKA==
+X-Received: by 10.101.91.133 with SMTP id i5mr1119220pgr.249.1523548536979;
+	Thu, 12 Apr 2018 08:55:36 -0700 (PDT)
 Received: from ?IPv6:2601:646:8880:466c:b946:b3:7b1:a98f?
 	([2601:646:8880:466c:b946:b3:7b1:a98f])
 	by smtp.gmail.com with ESMTPSA id
-	q62sm10938180pfd.61.2018.04.12.08.49.07
+	v16sm8031237pfl.14.2018.04.12.08.55.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Apr 2018 08:49:07 -0700 (PDT)
-To: Alistair Francis <alistair.francis@wdc.com>,
-	openembedded-core@lists.openembedded.org
-References: <1523380197-2763-1-git-send-email-alistair.francis@wdc.com>
+	Thu, 12 Apr 2018 08:55:36 -0700 (PDT)
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Ramon Fried <ramon.fried@linaro.org>
+References: <20180410112040.13506-1-ramon.fried@linaro.org>
+	<CAP71WjxWzSc8pCSv=_NcRNna-pA8mMNUhhhM+X9M7ShO0XK39A@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
@@ -78,13 +79,16 @@ Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
 	suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
 	XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
 	VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-Message-ID: <cb803b32-b0b5-559f-ab66-7e556f1a5e0e@gmail.com>
-Date: Thu, 12 Apr 2018 08:49:06 -0700
+Message-ID: <00c42779-b82f-f318-4e02-86c5ee9509d6@gmail.com>
+Date: Thu, 12 Apr 2018 08:55:35 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
 	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <1523380197-2763-1-git-send-email-alistair.francis@wdc.com>
-Subject: Re: [PATCH] meta-oe/numactl: Enable NUMA in the kernel config
+In-Reply-To: <CAP71WjxWzSc8pCSv=_NcRNna-pA8mMNUhhhM+X9M7ShO0XK39A@mail.gmail.com>
+Cc: Ramon Fried <rfried@codeaurora.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-nodm-init: Respawn service in case of failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -97,86 +101,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2018 15:49:07 -0000
+X-List-Received-Date: Thu, 12 Apr 2018 15:55:36 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/10/18 10:09 AM, Alistair Francis wrote:
-> If a user has specified numa in their DISTRO_FEATURES then they should
-> have NUMA support enabled in the kernel. Without kernel support the
-> numactl program is not very useful.
+On 4/10/18 12:48 PM, Nicolas Dechesne wrote:
+> On Tue, Apr 10, 2018 at 1:20 PM, Ramon Fried <ramon.fried@linaro.org> wrote:
+>> From: Ramon Fried <rfried@codeaurora.org>
+>>
+>> It appears that sometimes xserver-nodm.service is starting before
+>> display driver finished loading causing the following failure in
+>> Xorg log:
+>> (EE) open /dev/dri/card0: No such file or directory
+>>
+>> The introduced by this patch is to restart the service,
+>> hopefully the display driver will finish loading.
+>>
+>> Signed-off-by: Ramon Fried <rfried@codeaurora.org>
 > 
-
-This should be done in OE-Core as part of main recipe.
-
-Note that this patch is sent to oe-core ml but is actually against
-meta-oe layer which follows oe-devel mailing list.
-
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta-oe/recipes-kernel/linux/linux-yocto.inc           | 2 ++
->  meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend | 1 +
->  meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend | 1 +
->  meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend | 1 +
->  meta-oe/recipes-support/numactl/numactl/numa.cfg       | 2 ++
->  meta-oe/recipes-support/numactl/numactl_git.bb         | 1 +
->  6 files changed, 8 insertions(+)
->  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto.inc
->  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
->  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
->  create mode 100644 meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
->  create mode 100644 meta-oe/recipes-support/numactl/numactl/numa.cfg
+> we are seeing this issue on Dragonboard with meta-qcom BSP, where all
+> drivers needed for display/gpu are modules, so the display
+> initialization comes up 'late' in the boot. I had a discussion with
+> some upstream gnome folks who indicated that a similar race can be
+> observed on any hardware, it is not uncommon, and that's why they use
+> Restart=always in gdm.service as well, so that it keep trying until
+> the display comes up.
 > 
-> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto.inc b/meta-oe/recipes-kernel/linux/linux-yocto.inc
-> new file mode 100644
-> index 0000000..9533eb6
-> --- /dev/null
-> +++ b/meta-oe/recipes-kernel/linux/linux-yocto.inc
-> @@ -0,0 +1,2 @@
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> +
-> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
-> new file mode 100644
-> index 0000000..161f9d3
-> --- /dev/null
-> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.12.bbappend
-> @@ -0,0 +1 @@
-> +require linux-yocto.inc
-> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
-> new file mode 100644
-> index 0000000..161f9d3
-> --- /dev/null
-> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.14.bbappend
-> @@ -0,0 +1 @@
-> +require linux-yocto.inc
-> diff --git a/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
-> new file mode 100644
-> index 0000000..161f9d3
-> --- /dev/null
-> +++ b/meta-oe/recipes-kernel/linux/linux-yocto_4.15.bbappend
-> @@ -0,0 +1 @@
-> +require linux-yocto.inc
-> diff --git a/meta-oe/recipes-support/numactl/numactl/numa.cfg b/meta-oe/recipes-support/numactl/numactl/numa.cfg
-> new file mode 100644
-> index 0000000..fe1394d
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/numactl/numactl/numa.cfg
-> @@ -0,0 +1,2 @@
-> +CONFIG_NUMA=y
-> +CONFIG_ACPI_NUMA=y
-> diff --git a/meta-oe/recipes-support/numactl/numactl_git.bb b/meta-oe/recipes-support/numactl/numactl_git.bb
-> index b9cbcf0..ef2dab2 100644
-> --- a/meta-oe/recipes-support/numactl/numactl_git.bb
-> +++ b/meta-oe/recipes-support/numactl/numactl_git.bb
-> @@ -21,6 +21,7 @@ SRC_URI = "git://github.com/numactl/numactl \
->      file://run-ptest \
->      file://0001-define-run-test-target.patch \
->  "
-> +SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
->  
->  S = "${WORKDIR}/git"
->  
+> it sounds reasonable change to me.
+
+Restarting service always seems like a workaround here. I wonder if the
+kernel modules tied themselves to systemd-modules-load.service then the
+dependencies should
+sort themselves out. Alternatively we can also create a dependency on
+device being made available.
+
 > 
+> Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> 
+>> ---
+>>  .../x11-common/xserver-nodm-init/xserver-nodm.service.in                 | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+>> index 324a26f549..87dc4f8fcd 100644
+>> --- a/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+>> +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init/xserver-nodm.service.in
+>> @@ -5,6 +5,7 @@ Description=Xserver startup without a display manager
+>>  EnvironmentFile=/etc/default/xserver-nodm
+>>  User=@USER@
+>>  ExecStart=/etc/xserver-nodm/Xserver
+>> +Restart=always
+>>
+>>  [Install]
+>>  Alias=display-manager.service
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+>> a Linux Foundation Collaborative Project
+>>
 
 
