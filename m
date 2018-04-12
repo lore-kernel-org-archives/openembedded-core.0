@@ -1,55 +1,46 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A6D72EED
+Return-Path: <aborduno@cisco.com>
+X-Greylist: delayed 562 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 12 Apr 2018 14:51:27 UTC
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+	by mail.openembedded.org (Postfix) with ESMTP id D5526746DD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 09:47:25 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b21so8559652wme.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 02:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=from:content-transfer-encoding:mime-version:subject:date:references
-	:to:in-reply-to:message-id;
-	bh=jT1bNxS0020FQ1HBbrL8yy+6ZEeiq47+Ehloa9zy2TQ=;
-	b=EjmAkSn50NmL+5YcvGuojA+Mc/gk3He5zGFQMIuYlSyMI0jh9InOOPVuepfQPxXghE
-	8Ge6Lg++qaKvq817Olkq8EroV78la2JUEs/DlQpQlRz3KzH4sY5arfX9eFvnncNLmog8
-	YKc77lO8QVPt+wmPrrWGj8ba0gUDBK487ZncMcoOhS0OqlObpgnUT0pO37hGe1TE5ypx
-	g7v+ImUABTSWmQZK8qU85NUk4CuP82bgK0KAgX9VGEObJsttpI8AM9j+6ODns3wgdmSa
-	UET9p9L/TElpjqeXFWo/qTMWqXjlKT/k76u5l82MfQJ//aNXsj3vYY+MZjjohz0P2X57
-	39xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:content-transfer-encoding:mime-version
-	:subject:date:references:to:in-reply-to:message-id;
-	bh=jT1bNxS0020FQ1HBbrL8yy+6ZEeiq47+Ehloa9zy2TQ=;
-	b=IryD+srHmRAOelvU/p/MS6q4feh/k1eI4LQNUTqdNOheHAeAh7MwH9cXkgFMxx360l
-	bjMdDv98wY+49LUOLSYrkS9zKy4EtYLeOKyKqZhDACz/ubRRO8sWT3YhN5j2z20TFhZ3
-	CsmBYiY3AdWz0WqZN0HwJhIsgF50DpLHATsVDqrwd635mU1Hudoz6kzBBUrBpVnbJiE8
-	dOhq66T0SxdKwnptt8q64tLq5DNMiSo6K7DzzntaJqBAyQ1hk8bWdNFtOyYeceVSkFeK
-	+6EMWQAXlcNc2SVXw7Vl49D/nNaQsM23RwDSUcDrG93LSicMqBLP5bdQODyQa1Vyo5C1
-	PwSw==
-X-Gm-Message-State: ALQs6tA34dNUwyI98+pwBRozSCdzn45F3bfO5U2NJam/bP6U6dEcmLd+
-	euVIUW27/SDJuqE0wBH55mHcjAizgoE=
-X-Google-Smtp-Source: AIpwx4+epAg4ZiEubZpQgdNqQBfzKVdwG1QbeRXDRNZFqcjvUfkRneu/TD0uIK2IJDCMqdTzMUum5Q==
-X-Received: by 10.80.129.167 with SMTP id 36mr14000849ede.13.1523526446272;
-	Thu, 12 Apr 2018 02:47:26 -0700 (PDT)
-Received: from [172.20.0.85] ([185.47.135.167])
-	by smtp.gmail.com with ESMTPSA id q10sm2235168eda.2.2018.04.12.02.47.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Apr 2018 02:47:25 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Mime-Version: 1.0 (Mac OS X Mail 11.3 \(3445.6.15\))
-Date: Thu, 12 Apr 2018 11:47:23 +0200
-References: <20180409115657.16651-1-koen.kooi@linaro.org>
-	<20180409115657.16651-2-koen.kooi@linaro.org>
-	<1523291792.2942.100.camel@linuxfoundation.org>
-	<9C357BAC-079B-4392-BF6F-D06CBEBEC242@dominion.thruhere.net>
-To: OE-core <openembedded-core@lists.openembedded.org>
-In-Reply-To: <9C357BAC-079B-4392-BF6F-D06CBEBEC242@dominion.thruhere.net>
-Message-Id: <6A2998DD-74BD-42A3-8A15-8071D5C8010F@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.3445.6.15)
-Subject: Re: [PATCH 2/3] bind: fix openSSL detection when using multiarch
+	Thu, 12 Apr 2018 14:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=6504; q=dns/txt; s=iport;
+	t=1523544689; x=1524754289;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=sOUelkHIDgL2tm0Fj+5BkQie2uIDLsROAZ+OJ+tSAnQ=;
+	b=Uc8cAZjYDFyHxNrmiIcfqtTIRX7y7vTIeuD8HZUuEpeoaVURi8c5KELq
+	gtkGDlVVARhgHjXP6k+Wkj2I0n70zGhNNcMkqGOdDrauuVRoUu8TrdiF7
+	1JWJANvO5d5TsK0+cwBC3xk3Qj9Z7q2QyiHv49javqyeoHWpJBI5rXVQl E=;
+X-IronPort-AV: E=Sophos;i="5.48,442,1517875200"; d="scan'208";a="97403119"
+Received: from alln-core-7.cisco.com ([173.36.13.140])
+	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Apr 2018 14:42:06 +0000
+Received: from kbp1-dhp-f50810.synapse.com ([10.24.12.240])
+	(authenticated bits=0)
+	by alln-core-7.cisco.com (8.14.5/8.14.5) with ESMTP id w3CEg2Nl009252
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Thu, 12 Apr 2018 14:42:04 GMT
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org,
+	Burton Ross <ross.burton@intel.com>
+References: <1476118955-12401-1-git-send-email-aborduno@cisco.com>
+	<1479293265.28508.4.camel@linuxfoundation.org>
+	<6897ef62-b48d-ca6d-dc03-41d3467bc91a@cisco.com>
+	<256c9b8c-4972-f308-eb26-4c32e005a72e@cisco.com>
+From: Andrii Bordunov <aborduno@cisco.com>
+Message-ID: <b15fed47-677b-8c53-e6a0-0f812f500812@cisco.com>
+Date: Thu, 12 Apr 2018 17:42:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <256c9b8c-4972-f308-eb26-4c32e005a72e@cisco.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: aborduno
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH v3] package.bbclass: allow using EXCLUDE_FROM_SHLIBS for subpackages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,74 +53,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Apr 2018 09:47:26 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Apr 2018 14:51:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+
+Another ping.
+
+Any comments? Or could it be just applied as is?
 
 
+Thank you,
+Andrii
 
-> Op 11 apr. 2018, om 11:25 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
+On 03/13/2018 07:25 PM, Andrii Bordunov wrote:
+> Ping
+> 
+> Rebased patch to latest master.
+> 
+> Regarding special value for the variable, it could be done with 
+> PRIVATE_LIBS to mean all libraries, I think. PRIVATE_LIBS could be set 
+> per-package already.
+> Would it be a better option?
+> However, EXCLUDE_FROM_SHLIBS seems to be a more proper thing to use.
+> 
+> 
+> Thank you,
+> Andrii
+> 
+> On 03/16/2017 05:07 PM, Andrii Bordunov wrote:
+>> Hi Richard,
+>>
+>> Sorry, my Python knowledge is quite basic. I'm sure it's possible to 
+>> have a (global?) EXCLUDE_FROM_SHLIBS list holding subpackage names, 
+>> but how it could lead to performance improvement? It would also need 
+>> some check for every subpackage.
+>> Could you please give more details?
+>> And what do you mean under "all packages"? The intent is like 
+>> opposite, to split package operations, not to gather.
+>>
+>> As for False parameter to getVar, OK, I just used existing 
+>> EXCLUDE_FROM_SHLIBS example (seems fixed now).
+>>
+>> In the meantime tried to make a quick and dirty profiling like following:
+>>
+>>    bitbake -c package glibc
+>>    bitbake -c clean glibc
+>>    python -m cProfile -s cumtime 
+>> /mnt/src/oe/distro/bitbake/bin/bitbake -c package glibc > result.txt
+>>
+>> Result is below. If got it right, there are 3833 getVar calls with 
+>> total time 0.025 second (including subcalls).
+>> This gives ~6.5 microsecond duration of one call (incl subcalls). Not 
+>> a lot.
+>> This is only a partial rebuild of one package of course.
+>> Also tried to do all of this with and without my patch, but getVar 
+>> calls number stays exactly the same (w/o modifying glibc recipe, but 
+>> anyway).
+>>
+>>    NOTE: Tasks Summary: Attempted 314 tasks of which 314 didn't need 
+>> to be rerun and all succeeded.
+>>             672869 function calls (667640 primitive calls) in 12.912 
+>> seconds
+>>       Ordered by: cumulative time
+>>       ncalls  tottime  percall  cumtime  percall 
+>> filename:lineno(function)
+>>            1    0.001    0.001   12.913   12.913 bitbake:25(<module>)
+>>            1    0.001    0.001   12.082   12.082 
+>> main.py:320(bitbake_main)
+>>            1    0.005    0.005   11.494   11.494 knotty.py:253(main)
+>>          250   11.476    0.046   11.476    0.046 {method 'poll' of 
+>> '_multiprocessing.Connection' objects}
+>>    ...
+>>    4481/4046    0.007    0.000    0.026    0.000 
+>> data_smart.py:666(getVarFlag)
+>>    ...
+>>    3833/3719    0.002    0.000    0.025    0.000 
+>> data_smart.py:569(getVar)
+>>    ...
+>>         1338    0.002    0.000    0.003    0.000 
+>> data_smart.py:805(getVarFlags)
+>>
+>>
+>>
+>> Thank you,
+>> Andrii
+>>
+>> On 16.11.16 12:47, Richard Purdie wrote:
+>>> On Mon, 2016-10-10 at 20:02 +0300, Andrii Bordunov wrote:
+>>>> Some packages containing shared libraries might be registered
+>>>> as shlib providers when they shouldn't (for example, the lib is for
+>>>> their private use and must not generate any dependency).
+>>>>
+>>>> EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
+>>>> for entire recipe only.
+>>>>
+>>>> This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
+>>>> to set it in a style similar with RDEPENDS. For example:
+>>>>  EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
+>>>>
+>>>> Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
+>>>> ---
+>>>>  meta/classes/package.bbclass | 12 ++++++++++--
+>>>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>>
+>>> My main concern here is actually performance. For a package with many
+>>> sub packages you just added many calls to getVar when that getVar is
+>>> extremely unlikely to find any value. Whilst not hugely slow, that
+>>> operation isn't trivial and hard to fix later.
+>>>
+>>> I'm wondering if we could support the syntax
+>>>
+>>> EXCLUDE_FROM_SHLIBS = "${PN}-ptest"
+>>>
+>>> and then have "1", used in a couple of places as the special value to
+>>> mean all packages?
+>>>
+>>> Also please use False, not 0 as the parameter to getVar.
+>>>
+>>> Cheers,
+>>>
+>>> Richard
 
-[..]
+--
 
-> There is one change that will need careful consideration if it is =
-meant for sumo, it looks like the sysroot code treats libdir differently =
-from base_libdir:
->=20
-> 	[koen@fedora-vm build-rpb]$ ls =
-tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/rpb-console-image/1.0-r0/=
-recipe-sysroot-native/lib/
-> 	x86_64-linux
->=20
-> 	[koen@fedora-vm build-rpb]$ ls =
-tmp-rpb-glibc/work/dragonboard_410c-linaro-linux/rpb-console-image/1.0-r0/=
-recipe-sysroot-native/usr/lib/
-> 	aarch64-linaro-linux   libcomps.so                libexpat.a     =
-     libgdbm_compat.so             libgthread-2.0.so.0.5400.3  =
-libmpc.so.3.1.0           libparted-fs-resize.so.0.0.1  libpython3.so    =
-      libtermcap.so
-> 	[..]
-> 	libcheck.so.0.0.0      libelf.so.1                =
-libgdbm_compat.a    libgthread-2.0.so.0           libmpc.so.3            =
-     libparted-fs-resize.so.0  libpython3.5m.so.1.0          =
-libssl.so.1.0.2
->=20
-> E2fsprogs installs into base_libdir, which gets the multiarch =
-treatment, and mkfs.ext4 fails to find its libs during image generation.=20=
+ From 4a33d384a72a351bad5a98e46a7c9c1c9755635e Mon Sep 17 00:00:00 2001
+From: Andrii Bordunov <aborduno@cisco.com>
+Date: Mon, 12 Mar 2018 08:13:44 -0700
+Subject: [PATCH v3] Allow EXCLUDE_FROM_SHLIBS to be specified for
+subpackages
 
+Some subpackages containing shared libraries might be registered
+as shlib providers when they shouldn't (the lib is for their private use
+and must not generate any dependency).
 
-The assumption seems to have been correct, trying a build with this =
-change:
+EXCLUDE_FROM_SHLIBS is targeted at that, but it could be set
+for entire recipe only.
 
-[koen@fedora-vm openembedded-core]$ git diff
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index a911f2a..7f2df17 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -78,6 +78,7 @@ exec_prefix =3D =
-"${STAGING_DIR_NATIVE}${prefix_native}"
-=20
- bindir =3D "${STAGING_BINDIR_NATIVE}"
- sbindir =3D "${STAGING_SBINDIR_NATIVE}"
-+base_libdir =3D "${STAGING_LIBDIR_NATIVE}"
- libdir =3D "${STAGING_LIBDIR_NATIVE}"
- includedir =3D "${STAGING_INCDIR_NATIVE}"
- sysconfdir =3D "${STAGING_ETCDIR_NATIVE}"
-@@ -89,6 +90,7 @@ export lt_cv_sys_lib_dlsearch_path_spec =3D "${libdir} =
-${base_libdir} /lib /lib64
-=20
- NATIVE_PACKAGE_PATH_SUFFIX ?=3D ""
- bindir .=3D "${NATIVE_PACKAGE_PATH_SUFFIX}"
-+base_libdir .=3D "${NATIVE_PACKAGE_PATH_SUFFIX}"
- libdir .=3D "${NATIVE_PACKAGE_PATH_SUFFIX}"
- libexecdir .=3D "${NATIVE_PACKAGE_PATH_SUFFIX}"
-=20
+This patch expands EXCLUDE_FROM_SHLIBS usage, so now it's possible
+to set it like following:
+EXCLUDE_FROM_SHLIBS_${PN}-ptest = "1"
 
+Signed-off-by: Andrii Bordunov <aborduno@cisco.com>
+---
+   meta/classes/package.bbclass | 11 +++++++++--
+   1 file changed, 9 insertions(+), 2 deletions(-)
 
-regards,
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 317c775..5d49d41 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1571,6 +1571,13 @@ python package_do_shlibs() {
 
-Koen
+       workdir = d.getVar('WORKDIR')
+
++    shlib_pkgs = []
++    for pkg in packages.split():
++        if d.getVar('EXCLUDE_FROM_SHLIBS_' + pkg, False):
++            bb.note("not generating shlibs for %s" % pkg)
++        else:
++            shlib_pkgs.append(pkg)
++
+       ver = d.getVar('PKGV')
+       if not ver:
+           msg = "PKGV not defined"
+@@ -1698,7 +1705,7 @@ python package_do_shlibs() {
+       needed = {}
+       shlib_provider = oe.package.read_shlib_providers(d)
+
+-    for pkg in packages.split():
++    for pkg in shlib_pkgs:
+           private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or
+d.getVar('PRIVATE_LIBS') or ""
+           private_libs = private_libs.split()
+           needs_ldconfig = False
+@@ -1770,7 +1777,7 @@ python package_do_shlibs() {
+
+       libsearchpath = [d.getVar('libdir'), d.getVar('base_libdir')]
+
+-    for pkg in packages.split():
++    for pkg in shlib_pkgs:
+           bb.debug(2, "calculating shlib requirements for %s" % pkg)
+
+           private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or
+d.getVar('PRIVATE_LIBS') or ""
+-- 
+2.10.3.dirty
 
 
