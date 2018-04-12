@@ -1,30 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E64E746AA
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id D7D74745D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Apr 2018 22:37:32 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3BMbSmx027305
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 11 Apr 2018 23:37:29 +0100
-Message-ID: <1523486248.2942.236.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 11 Apr 2018 23:37:28 +0100
-In-Reply-To: <CA+chaQcyzHnOfQ5hSGbXKFOwocKObdbm98mZgxD0YMy42_2PxA@mail.gmail.com>
-References: <cover.1522936224.git.akuster808@gmail.com>
-	<CAJ86T=XmqNbTF+qXWhG5xFHNBUnRCaDx5DKeTQ_Y+wfqhgbiyg@mail.gmail.com>
-	<CA+chaQf17H2+HKJ6V=+tGnL7xkH_ocPRj7j_hBWSG5e2AKV31w@mail.gmail.com>
-	<1523023909.2942.8.camel@linuxfoundation.org>
-	<CA+chaQeM2cRQZ+pHtjDQEBZZGydA8wnThTThsq-+HZmpjTkfjA@mail.gmail.com>
-	<CA+chaQcyzHnOfQ5hSGbXKFOwocKObdbm98mZgxD0YMy42_2PxA@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/38] Morty Next pull request
+	Thu, 12 Apr 2018 01:19:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 5199C20B1B;
+	Thu, 12 Apr 2018 01:19:05 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id PSLhqv1aEBYQ; Thu, 12 Apr 2018 01:19:05 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1B32E203A8;
+	Thu, 12 Apr 2018 01:19:03 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 93BFD163430; Wed, 11 Apr 2018 21:19:02 -0400 (EDT)
+Date: Wed, 11 Apr 2018 21:19:02 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180412011902.GG3228@denix.org>
+References: <20180410143532.31916-1-ross.burton@intel.com>
+	<CA+chaQdRDvvi-2UgmbC_=yjiuN-8yqdrk5K1yzTh9CVKZsXiJA@mail.gmail.com>
+	<CAJTo0LZWZRj0u9J+Z42Lxuh98u-f2i8HQwM37z1TPqRB9KbfLA@mail.gmail.com>
+	<CAMKF1srSW0=y7K3q+q-cUN7XXTnGiRV1e5Ag3PjC2tb12Htqnw@mail.gmail.com>
+	<CAJTo0Lbon36HCngX2DFNtfrtZQP-nn2t=hp=_mAeHK-bYBpF6w@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lbon36HCngX2DFNtfrtZQP-nn2t=hp=_mAeHK-bYBpF6w@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: use pigz to create .gz files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +45,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Apr 2018 22:37:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Apr 2018 01:19:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2018-04-11 at 17:07 +0200, Martin Jansa wrote:
-> I think I've found the reason why it was failing for me.
-> 
-> glibc is now the only component in morty release which is using
-> TMPDIR/sysroots-components (normally used only after RSS):
-> oe-core$ git grep "\${STAGING_DIR}-components"
-> meta/recipes-core/glibc/glibc-locale.inc:LOCALETREESRC =
-> "${STAGING_DIR}-components/${PACKAGE_ARCH}/glibc-stash-locale"
-> meta/recipes-core/glibc/glibc-mtrace.inc:SRC = "${STAGING_DIR}-
-> components/${PACKAGE_ARCH}/glibc-stash-locale/scripts"
-> meta/recipes-core/glibc/glibc-package.inc:do_stash_locale[sstate-
-> outputdirs] = "${STAGING_DIR}-components/${PACKAGE_ARCH}/glibc-stash-
-> locale"
-> meta/recipes-core/glibc/glibc-package.inc:do_stash_locale[sstate-
-> fixmedir] = "${STAGING_DIR}-components/${PACKAGE_ARCH}/glibc-stash-
-> locale"
-> meta/recipes-core/glibc/glibc-scripts.inc:SRC = "${STAGING_DIR}-
-> components/${PACKAGE_ARCH}/glibc-stash-locale/scripts"
-> 
-> and the workspace of my jenkins jobs is still running test-
-> dependencies jobs for morty, which does only selective pruning of
-> TMPDIR:
-> http://git.openembedded.org/openembedded-core/tree/scripts/test-depen
-> dencies.sh#n165
-> 
-> which left TMPDIR/sysroots-components files from
-> qlibc.do_stash_locale behind and when next build started in the same
-> workspace it failed, because it was trying to overwrite files already
-> there.
-> 
-> Every time I wiped whole TMPDIR and restarted the jobs it worked for
-> a while and then it got broken again during first test-dependencies
-> job in each workspace.
-> 
-> I can obviously change test-dependencies.sh to
-> delete TMPDIR/sysroots-components as well and I'll send update for it
-> after a bit more testing.
-> 
-> Ross's oe-core/scripts/wipe-sysroot and maybe some other
-> scripts/tools need similar fix as well.
+On Wed, Apr 11, 2018 at 05:07:38PM +0100, Burton, Ross wrote:
+> Woud be interesting to see a benchmark of a full build from scratch
+> with host gzip vs host pigz...
 
-This starts to make more sense now, thanks for looking into it. We
-could change this in morty to use sysroots, that should be safe...
+Is pigz so widely used now to be available in every Linux distro like gzip?
 
-Cheers,
 
-Richard
+> On 11 April 2018 at 17:03, Khem Raj <raj.khem@gmail.com> wrote:
+> > On Wed, Apr 11, 2018 at 6:36 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> >> Wouldn't that introduce a fun circular dependency if pigz-native needs
+> >> to be built?
+> >>
+> >
+> > interesting idea certainly, if it ends up with improvements in build
+> > time, we could
+> > add pigz to host dependencies.
+> >
+> >> Ross
+> >>
+> >> On 11 April 2018 at 11:53, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >>> What about using pigz for sstate-cache archives?
+> >>>
+> >>> On Tue, Apr 10, 2018 at 4:35 PM, Ross Burton <ross.burton@intel.com> wrote:
+> >>>>
+> >>>> Since pigz is no longer a drop-in replacement for gzip (oe-core 1624b7b)
+> >>>> the
+> >>>> image creation has been using gzip instead of pigz, despite still
+> >>>> depending on
+> >>>> pigz-native.  Fix this by invoking pigz explicitly.
+> >>>>
+> >>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> >>>> ---
+> >>>>  meta/classes/image_types.bbclass | 2 +-
+> >>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/meta/classes/image_types.bbclass
+> >>>> b/meta/classes/image_types.bbclass
+> >>>> index e872ae20982..00a00d318f4 100644
+> >>>> --- a/meta/classes/image_types.bbclass
+> >>>> +++ b/meta/classes/image_types.bbclass
+> >>>> @@ -281,7 +281,7 @@ COMPRESSIONTYPES ?= ""
+> >>>>
+> >>>>  CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum
+> >>>> sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2
+> >>>> ${COMPRESSIONTYPES}"
+> >>>>  CONVERSION_CMD_lzma = "lzma -k -f -7
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >>>> -CONVERSION_CMD_gz = "gzip -f -9 -n -c
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+> >>>> +CONVERSION_CMD_gz = "pigz -f -9 -n -c
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+> >>>>  CONVERSION_CMD_bz2 = "pbzip2 -f -k
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >>>>  CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS}
+> >>>> --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} >
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+> >>>>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> >>>> ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+> >>>> --
+> >>>> 2.11.0
+> >>>>
+> >>>> --
+> >>>> _______________________________________________
+> >>>> Openembedded-core mailing list
+> >>>> Openembedded-core@lists.openembedded.org
+> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
