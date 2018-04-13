@@ -1,47 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2765E6093A
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id BEA5C74760
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 16:21:00 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id j3so2134160pgf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 09:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=E9SjYbvVfbyqhEMhbiE/Esin0nk1pJc24o9oWhIT7mM=;
-	b=ZO70HkNW5isLOhn8YdStEmgU12pbwlaesmhdVxSnA7sPyZE7T3VPE+Eqae7MqJC0Ex
-	61pWLjr2+ATRUJd0tnCefTMCZUeTthQ12j8B73MsrlDR67SH6fMgMalaxWuxM/xt23wc
-	5aU3MMHwTs21mBFO5xcpWjEDBA+QSL4/3uIhKj3PLrg+HtnXDxf5y4kUNkzsB7nukQHC
-	t4Qo9hHg7/aoY5up+dsWZShZCdbsE1uBmZkfemglwqTMbQYhUXLdZofgs2V1udtOoKb0
-	2rZEJGKjOatcf/cxneD+QyihlPNZBB2DVQrmqcYM8YEW9g0e9RK2EeklJPL5CtB1zpZp
-	nYLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=E9SjYbvVfbyqhEMhbiE/Esin0nk1pJc24o9oWhIT7mM=;
-	b=jCviQ6DSttXrSj4wYnuQeitlNfe9nWcLddLBhm3xQoYb5VA+xAZVNxga1Pg3tNIbyl
-	QwzXhq+75iLP96X1pQfE+X/c3dToOzCq/o5CcW1Vi3uD0et5GZ9SpAnkI/jV3mIbCJjr
-	HJo0etuI3Gm6i3dI/sO2Vl1HfGHC7rDesJwnawG3S8fvTebu0ldyhuZ/gJQSAdQXfngU
-	UsROrkKfT0YbSk5g9TRVzjHQCgkSGokNVv9v5A43YyFmZa8SULjxDDxrKw2wuI7usia9
-	AvjjWpqjaJ8aboMTHw6ii9h3BbtfwUE/CFq4yhTJ3oMqTP3B+N764REkeWkoLE4eL/Il
-	DprA==
-X-Gm-Message-State: ALQs6tBE62PlkZu/kItGB2TJZwj/DNHPdho9yaxXNjWT5eYOG0hbZpcI
-	v2QUn0VCqjhYvbDei1kK52obmRGxNBQvmzKV2O4=
-X-Google-Smtp-Source: AIpwx48parqbTyBm7DphX/chwAAS3L6EjMDFKrarvFeo9b/sOZC8DqSVZOrnMWiSZNJeYxruXD9jcOpJbhpr+s5A3xs=
-X-Received: by 10.101.97.15 with SMTP id z15mr4580622pgu.393.1523636461906;
-	Fri, 13 Apr 2018 09:21:01 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.183.207 with HTTP; Fri, 13 Apr 2018 09:20:31 -0700 (PDT)
-In-Reply-To: <CAJTo0LaRbkg4Xs9HZPZtaU1w0Qr8_DeBFfwjvpXFahBWumu33g@mail.gmail.com>
-References: <20180413160945.9944-1-raj.khem@gmail.com>
-	<CAJTo0LaRbkg4Xs9HZPZtaU1w0Qr8_DeBFfwjvpXFahBWumu33g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Apr 2018 09:20:31 -0700
-Message-ID: <CAMKF1sodAGotc5G=2KxPicEtczEwOfgi5w8yCE+j1oMQW3YYsg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] musl: Upgrade to latest
+	Fri, 13 Apr 2018 18:11:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2018 11:11:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="33200083"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.59])
+	by orsmga007.jf.intel.com with ESMTP; 13 Apr 2018 11:11:14 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Apr 2018 11:11:03 -0700
+Message-Id: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com, alistair.francis@xilinx.com
+Subject: [PATCH] qemu_2.11.1.bb: support mingw build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +31,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 16:21:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 Apr 2018 18:11:14 -0000
 
-usual master stuff
+The patch chardev-connect-socket-to-a-spawned-command.patch calls
+"socketpair". This function is missing in mingw, so the patch
+needs to be modified accordingly (by conditional compilation using
+_WIN32 macro where appropriate), otherwise we end up with a broken
+mingw build.
 
-On Fri, Apr 13, 2018 at 9:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Is this a freeze break request for Sumo or an early submission for master?
->
-> Ross
->
-> On 13 April 2018 at 17:09, Khem Raj <raj.khem@gmail.com> wrote:
->> Changes are here
->>
->> https://git.musl-libc.org/cgit/musl/log/?qt=range&q=55df09bfccbfe21fc9dd7d8f94550c0ff25ace04..ae2a01da2e388535da243b3d974aef74a3c06ae0
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-core/musl/musl_git.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
->> index 9f8c5126e8..42ba411f17 100644
->> --- a/meta/recipes-core/musl/musl_git.bb
->> +++ b/meta/recipes-core/musl/musl_git.bb
->> @@ -3,7 +3,7 @@
->>
->>  require musl.inc
->>
->> -SRCREV = "55df09bfccbfe21fc9dd7d8f94550c0ff25ace04"
->> +SRCREV = "ae2a01da2e388535da243b3d974aef74a3c06ae0"
->>
->>  PV = "1.1.19+git${SRCPV}"
->>
->> --
->> 2.17.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+While it is possible to simply remove the whole patch for mingw build
+(via a .bbappend file in meta-mingw), it makes more sense to modify
+the patch itself.
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ ...ardev-connect-socket-to-a-spawned-command.patch | 46 +++++++++++++++-------
+ 1 file changed, 31 insertions(+), 15 deletions(-)
+
+diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
+index 32809d3..6e6bf95 100644
+--- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
++++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
+@@ -54,10 +54,11 @@ diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+ index 53eda8ef00..f566107c35 100644
+ --- a/chardev/char-socket.c
+ +++ b/chardev/char-socket.c
+-@@ -852,6 +852,66 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
++@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+      return false;
+  }
+  
+++#ifndef _WIN32
+ +static void chardev_open_socket_cmd(Chardev *chr,
+ +                                    const char *cmd,
+ +                                    Error **errp)
+@@ -117,42 +118,49 @@ index 53eda8ef00..f566107c35 100644
+ +        object_unref(OBJECT(sioc));
+ +    }
+ +}
+++#endif
+ +
+  static void qmp_chardev_open_socket(Chardev *chr,
+                                      ChardevBackend *backend,
+                                      bool *be_opened,
+-@@ -859,6 +919,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
++@@ -859,6 +921,9 @@
+  {
+      SocketChardev *s = SOCKET_CHARDEV(chr);
+      ChardevSocket *sock = backend->u.socket.data;
+++#ifndef _WIN32
+ +    const char *cmd     = sock->cmd;
+++#endif
+      bool do_nodelay     = sock->has_nodelay ? sock->nodelay : false;
+      bool is_listen      = sock->has_server  ? sock->server  : true;
+      bool is_telnet      = sock->has_telnet  ? sock->telnet  : false;
+-@@ -926,7 +987,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
++@@ -925,7 +990,14 @@
++     } else if (reconnect > 0) {
+          s->reconnect_time = reconnect;
+      }
+- 
+--    if (s->reconnect_time) {
++-
+++#ifndef _WIN32
+ +    if (cmd) {
+ +        chardev_open_socket_cmd(chr, cmd, errp);
+ +
+ +        /* everything ready (or failed permanently) before we return */
+ +        *be_opened = true;
+-+    } else if (s->reconnect_time) {
+++    } else
+++#endif
++     if (s->reconnect_time) {
+          sioc = qio_channel_socket_new();
+          tcp_chr_set_client_ioc_name(chr, sioc);
+-         qio_channel_socket_connect_async(sioc, s->addr,
+-@@ -985,11 +1051,22 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
++@@ -985,10 +1057,26 @@
+      const char *host = qemu_opt_get(opts, "host");
+      const char *port = qemu_opt_get(opts, "port");
+      const char *tls_creds = qemu_opt_get(opts, "tls-creds");
+++#ifndef _WIN32
+ +    const char *cmd = qemu_opt_get(opts, "cmd");
+++#endif
+      SocketAddressLegacy *addr;
+      ChardevSocket *sock;
+  
+      backend->type = CHARDEV_BACKEND_KIND_SOCKET;
+--    if (!path) {
+++#ifndef _WIN32
+ +    if (cmd) {
+ +        /*
+ +         * Here we have to ensure that no options are set which are incompatible with
+@@ -163,24 +171,33 @@ index 53eda8ef00..f566107c35 100644
+ +            error_setg(errp, "chardev: socket: cmd does not support any additional options");
+ +            return;
+ +        }
+-+    } else if (!path) {
+++    } else
+++#endif
++     if (!path) {
+          if (!host) {
+              error_setg(errp, "chardev: socket: no host given");
+-             return;
+-@@ -1021,13 +1098,14 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
++@@ -1021,13 +1109,24 @@
+      sock->has_reconnect = true;
+      sock->reconnect = reconnect;
+      sock->tls_creds = g_strdup(tls_creds);
+++#ifndef _WIN32
+ +    sock->cmd = g_strdup(cmd);
+++#endif
+  
+      addr = g_new0(SocketAddressLegacy, 1);
+--    if (path) {
+++#ifndef _WIN32
+ +    if (path || cmd) {
+++#else
++     if (path) {
+++#endif
+          UnixSocketAddress *q_unix;
+          addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
+          q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
+--        q_unix->path = g_strdup(path);
+++#ifndef _WIN32
+ +        q_unix->path = cmd ? g_strdup_printf("cmd:%s", cmd) : g_strdup(path);
+++#else
++         q_unix->path = g_strdup(path);
+++#endif
+      } else {
+          addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
+          addr->u.inet.data = g_new(InetSocketAddress, 1);
+@@ -223,4 +240,3 @@ index ae19dcd1ed..6de0f29bcd 100644
+                                       '*wait'      : 'bool',
+ -- 
+ 2.14.1
+-
+-- 
+2.7.4
+
 
