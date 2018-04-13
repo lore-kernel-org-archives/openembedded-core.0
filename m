@@ -1,24 +1,52 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC687472A
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CA5A74787
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 20:36:43 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2018 13:36:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="191351887"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga004.jf.intel.com with ESMTP; 13 Apr 2018 13:36:44 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2018 13:36:40 -0700
-Message-Id: <20180413203640.33220-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.14.3
-Cc: richard.purdie@intel.com
-Subject: [PATCH resend] core-image-minimal-initramfs: use initramfs-framework for initialization
+	Fri, 13 Apr 2018 20:44:19 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id g203-v6so14304768lfg.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2018 13:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=PHwdx5w5aDd50akyHhGeWv6U2p9uGQtJHVhEz1f5kaM=;
+	b=mD1GUpGjt1cmHxE2MQ0Xb2qzVwAdGY+K32WzNqxWQxcBajTWAf4p18Samgu1VYJU2c
+	SqRVkX69/8Gxa2idULtEHAVPS/MWza/ZEm9EPfLwg2RsyckYonTDSE6sYYQx61A5uwUo
+	EhWx+/g8bFqZZtQLqsOgQO+mDgoZRYt5ZHZTW4+CZY3VL8zC6/d1WcwKHQxVz1I4V2uf
+	h2z/SfIcy2f71gRRJQTrFtRSzgykK0PvUb1x4aj8+FgIt5FiX/2XdOeQyoW7fM2fQJsw
+	yZiIK4n886i8XCJdF3qMb+IUX6vC5d47shsRpluUJwRKvqsbja7sXlOEZMB5hnBpMcb7
+	qdkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=PHwdx5w5aDd50akyHhGeWv6U2p9uGQtJHVhEz1f5kaM=;
+	b=DSeBLX7sC2C1rENiGU+G7srN4t5/8aPLcIkgxy/ID89YY77aEzIlTdsaPMhR/aTSOo
+	N5Rkk5dbUk0EvQIcsbT769DLSSyWDwQCDMxX4FgaWu9xYKaeYqXBXcLXv3VTKRhAwA4X
+	8cpf5bmgFjrXU2vPI4eHzQbuuKnr9EQYJ7eFnMnBg/O7GHESO7HtfRMy6618Zf0jqGlo
+	eHvCvkvN//cvY+O8v1/nXwX2WtfN60ThJYBlLLpYPhS0vk2Y4o3DZpByxN9ulGDvAzUj
+	ijarFvR2FeP7NyXNVDLMIk1CdZLiuD7FCbU4sbvS862UW7q8p8nrpYxd21j+LQ9wPVty
+	J3Qg==
+X-Gm-Message-State: ALQs6tAg6ckytRAiOvFiZW7jfvQnf1SUBzwO8fRM/yFrkd5g2g4e1KFQ
+	PUEb6Rnj0kwWkEG1dwY3erwKZ/bXM97te6oSYss=
+X-Google-Smtp-Source: AIpwx4+Il3+SI6CqKzgg1yZLr+RIX/QrRnO3sAYjeuWB7vwJF6jSNjx3x2vb02t+gjht6DlOsYyra5DHcXUp6EqC/rc=
+X-Received: by 10.46.154.9 with SMTP id o9mr4374889lji.98.1523652260381; Fri,
+	13 Apr 2018 13:44:20 -0700 (PDT)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.46.42.66 with HTTP; Fri, 13 Apr 2018 13:43:49 -0700 (PDT)
+In-Reply-To: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
+References: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Fri, 13 Apr 2018 13:43:49 -0700
+X-Google-Sender-Auth: gm7Ngax4WYZsvpMng0NJk77gPLc
+Message-ID: <CAKmqyKM3Fv5fiyfbO5vpqiDDdO=VNnpCbt9bvv7bn1M+XQdtig@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Alistair Francis <alistair.francis@xilinx.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu_2.11.1.bb: support mingw build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +59,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 20:36:44 -0000
+X-List-Received-Date: Fri, 13 Apr 2018 20:44:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-initramfs-framework is more modular and expandable. This change was
-proposed in commit 28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e
-"core-image-minimal-initramfs: use initramfs-framework by default" but
-reverted due to the selftests runqemu.RunqemuTests.test_boot_machine_iso
-and runqemu.RunqemuTests.test_boot_deploy_hddimg failing. Since then,
-the kinks have been worked out, and missing functionality that had been
-missed (non-EFI installation module) has been added.
+On Fri, Apr 13, 2018 at 11:11 AM, Juro Bystricky
+<juro.bystricky@intel.com> wrote:
+> The patch chardev-connect-socket-to-a-spawned-command.patch calls
+> "socketpair". This function is missing in mingw, so the patch
+> needs to be modified accordingly (by conditional compilation using
+> _WIN32 macro where appropriate), otherwise we end up with a broken
+> mingw build.
+>
+> While it is possible to simply remove the whole patch for mingw build
+> (via a .bbappend file in meta-mingw), it makes more sense to modify
+> the patch itself.
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 
-Since the PACKAGE_INSTALL variable was getting so long with all these
-individual modules getting added, I also introduced a new
-INITRAMFS_SCRIPTS variable to the core-image-minimal-initramfs recipe.
-This variable makes the recipe look much cleaner, and also allows easier
-replacement or additions to the scripts.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-Fixes [YOCTO #10987].
+Alistair
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
-Dicussion archives:
-* http://lists.openembedded.org/pipermail/openembedded-core/2017-December/145808.html
-* http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146244.html
-* http://lists.openembedded.org/pipermail/openembedded-core/2018-February/147077.html
-
- meta/recipes-core/images/core-image-minimal-initramfs.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 5794a25952a..a9ba91bd310 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,15 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+INITRAMFS_SCRIPTS ?= "\
-+                      initramfs-framework-base \
-+                      initramfs-module-setup-live \
-+                      initramfs-module-udev \
-+                      initramfs-module-install \
-+                      initramfs-module-install-efi \
-+                     "
-+
-+PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
--- 
-2.14.3
-
+> ---
+>  ...ardev-connect-socket-to-a-spawned-command.patch | 46 +++++++++++++++-------
+>  1 file changed, 31 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
+> index 32809d3..6e6bf95 100644
+> --- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
+> +++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
+> @@ -54,10 +54,11 @@ diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>  index 53eda8ef00..f566107c35 100644
+>  --- a/chardev/char-socket.c
+>  +++ b/chardev/char-socket.c
+> -@@ -852,6 +852,66 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+> +@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+>       return false;
+>   }
+>
+> ++#ifndef _WIN32
+>  +static void chardev_open_socket_cmd(Chardev *chr,
+>  +                                    const char *cmd,
+>  +                                    Error **errp)
+> @@ -117,42 +118,49 @@ index 53eda8ef00..f566107c35 100644
+>  +        object_unref(OBJECT(sioc));
+>  +    }
+>  +}
+> ++#endif
+>  +
+>   static void qmp_chardev_open_socket(Chardev *chr,
+>                                       ChardevBackend *backend,
+>                                       bool *be_opened,
+> -@@ -859,6 +919,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
+> +@@ -859,6 +921,9 @@
+>   {
+>       SocketChardev *s = SOCKET_CHARDEV(chr);
+>       ChardevSocket *sock = backend->u.socket.data;
+> ++#ifndef _WIN32
+>  +    const char *cmd     = sock->cmd;
+> ++#endif
+>       bool do_nodelay     = sock->has_nodelay ? sock->nodelay : false;
+>       bool is_listen      = sock->has_server  ? sock->server  : true;
+>       bool is_telnet      = sock->has_telnet  ? sock->telnet  : false;
+> -@@ -926,7 +987,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
+> +@@ -925,7 +990,14 @@
+> +     } else if (reconnect > 0) {
+>           s->reconnect_time = reconnect;
+>       }
+> -
+> --    if (s->reconnect_time) {
+> +-
+> ++#ifndef _WIN32
+>  +    if (cmd) {
+>  +        chardev_open_socket_cmd(chr, cmd, errp);
+>  +
+>  +        /* everything ready (or failed permanently) before we return */
+>  +        *be_opened = true;
+> -+    } else if (s->reconnect_time) {
+> ++    } else
+> ++#endif
+> +     if (s->reconnect_time) {
+>           sioc = qio_channel_socket_new();
+>           tcp_chr_set_client_ioc_name(chr, sioc);
+> -         qio_channel_socket_connect_async(sioc, s->addr,
+> -@@ -985,11 +1051,22 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
+> +@@ -985,10 +1057,26 @@
+>       const char *host = qemu_opt_get(opts, "host");
+>       const char *port = qemu_opt_get(opts, "port");
+>       const char *tls_creds = qemu_opt_get(opts, "tls-creds");
+> ++#ifndef _WIN32
+>  +    const char *cmd = qemu_opt_get(opts, "cmd");
+> ++#endif
+>       SocketAddressLegacy *addr;
+>       ChardevSocket *sock;
+>
+>       backend->type = CHARDEV_BACKEND_KIND_SOCKET;
+> --    if (!path) {
+> ++#ifndef _WIN32
+>  +    if (cmd) {
+>  +        /*
+>  +         * Here we have to ensure that no options are set which are incompatible with
+> @@ -163,24 +171,33 @@ index 53eda8ef00..f566107c35 100644
+>  +            error_setg(errp, "chardev: socket: cmd does not support any additional options");
+>  +            return;
+>  +        }
+> -+    } else if (!path) {
+> ++    } else
+> ++#endif
+> +     if (!path) {
+>           if (!host) {
+>               error_setg(errp, "chardev: socket: no host given");
+> -             return;
+> -@@ -1021,13 +1098,14 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
+> +@@ -1021,13 +1109,24 @@
+>       sock->has_reconnect = true;
+>       sock->reconnect = reconnect;
+>       sock->tls_creds = g_strdup(tls_creds);
+> ++#ifndef _WIN32
+>  +    sock->cmd = g_strdup(cmd);
+> ++#endif
+>
+>       addr = g_new0(SocketAddressLegacy, 1);
+> --    if (path) {
+> ++#ifndef _WIN32
+>  +    if (path || cmd) {
+> ++#else
+> +     if (path) {
+> ++#endif
+>           UnixSocketAddress *q_unix;
+>           addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
+>           q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
+> --        q_unix->path = g_strdup(path);
+> ++#ifndef _WIN32
+>  +        q_unix->path = cmd ? g_strdup_printf("cmd:%s", cmd) : g_strdup(path);
+> ++#else
+> +         q_unix->path = g_strdup(path);
+> ++#endif
+>       } else {
+>           addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
+>           addr->u.inet.data = g_new(InetSocketAddress, 1);
+> @@ -223,4 +240,3 @@ index ae19dcd1ed..6de0f29bcd 100644
+>                                        '*wait'      : 'bool',
+>  --
+>  2.14.1
+> -
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
