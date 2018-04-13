@@ -1,25 +1,49 @@
-Return-Path: <jef.driesen@niko.eu>
-X-Greylist: delayed 301 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 13 Apr 2018 13:38:38 UTC
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B2030745B7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E30C607AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 13:38:38 +0000 (UTC)
-Received: from barracuda.home.lan ([81.82.26.5])
-	by andre.telenet-ops.be with bizsmtp
-	id ZpZe1x00B06cLrV01pZeyi; Fri, 13 Apr 2018 15:33:38 +0200
-Received: from w7pt-jdi.1.0.0.1 (84-199-78-189.ifiber.telenet-ops.be
-	[84.199.78.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by barracuda.home.lan (Postfix) with ESMTPSA id 9661940710;
-	Fri, 13 Apr 2018 15:33:37 +0200 (CEST)
-From: Jef Driesen <jef.driesen@niko.eu>
+	Fri, 13 Apr 2018 14:38:16 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id y7so8707317wrh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Apr 2018 07:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wJJP0GDGqgLqncUijBynEjjCUi23471HkbyjkFPsWUY=;
+	b=A3b1CK7sHdyx9Lw3XV5wc+qb5auDiDHyXdwEcsS84ddCJQgDsVS2zQVihupiujMRUH
+	KQUgZA8ggDh9bn48G0oHFft1TtOpOTdVSfQ0hkybPr2sYcPMbHiDgiUNJdJjwq/d5qp+
+	PNwo2NaReMH1ZM7217y/aXcwZzjljbccSzc1goYPVJcgNZPSTkgzk4/YwQ1QbPmigubY
+	Y9qmKwpCHPVLDgd/aLf4H1MtprZDpYtjk7Pkn/Y7+ujgSbvEB94NYwLCiikKBWICSg2X
+	Ll/G0Gf5B16spi2fOCxQNqY7XYWtRMKio3PEEL5nHrb7tZmSSKcr4fW2HBfhqXfY1CYC
+	I/sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wJJP0GDGqgLqncUijBynEjjCUi23471HkbyjkFPsWUY=;
+	b=l9EyBs/oZOMqWvJEOijKaChwDp2WOSvxLEb22F2AaOAPONphB8ib5uC0GHhO+FbJ9t
+	DbwrsPixMeRT0pNuZIK6DdSnebahynib1b6LP1nDMAncU0CTN3ItifJpvPQ/5xtNlSS7
+	sx3l09zIkwexES1ke7EmM0xj+F+nBWdayigPwOVHYR+UE8Hwimxvc+VFnhBMSIX6Ha15
+	FHNXcKVROYiV90Uy2wF+UyWW29f4p7Z0CswmSldWw3MjGJ0NpjiKLs8h6EN5wskFSN9Z
+	ZiZ9AIPFm8pAlaBbxfNJg5Wyt8hAaP74hTnc3w0bt7HPGOzEc60bC3sp+l8UDhZPI4Kj
+	appw==
+X-Gm-Message-State: ALQs6tBJmLnyggDJ80jwdaq904d5PkeSdJAoRyWS5SfVkaPs49i1TL3i
+	7yZtw9wHwIagQvYHDRwTuKK1sE62
+X-Google-Smtp-Source: AIpwx49gDwadRKz3UdePiepwuYclqqFHr/J8o8LHAjsfRV0ncHGoYBgiArz76SXd7OlVe7qTJNaXXg==
+X-Received: by 10.223.132.65 with SMTP id 59mr1841491wrf.21.1523630297241;
+	Fri, 13 Apr 2018 07:38:17 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r28sm6334384wra.78.2018.04.13.07.38.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Apr 2018 07:38:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2018 15:33:05 +0200
-Message-Id: <1523626385-3338-1-git-send-email-jef.driesen@niko.eu>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] bitbake.conf: add scp to HOSTTOOLS_NONFATAL
+Date: Fri, 13 Apr 2018 15:38:14 +0100
+Message-Id: <20180413143814.4513-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] systemtap: don't build under musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 13:38:39 -0000
+X-List-Received-Date: Fri, 13 Apr 2018 14:38:17 -0000
 
-The scp tool is used by the ssh fetcher.
+systemtap uses obstack.h and FTW_SKIP_SUBTREE, both of which are GNU extensions
+in glibc.
 
-Signed-off-by: Jef Driesen <jef.driesen@niko.eu>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 60590e2..5cfd117 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -498,6 +498,9 @@ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
- # Used by bzr fetcher
- HOSTTOOLS_NONFATAL += "bzr"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index e1b7789aedc..e2f5204a020 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -26,6 +26,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            "
  
-+# Used by ssh fetcher
-+HOSTTOOLS_NONFATAL += "scp"
-+
- CCACHE ??= ""
- # ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
- # autogen sets HOME=/dev/null so in certain situations builds can fail.
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
++COMPATIBLE_HOST_libc-musl = 'null'
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.7.4
+2.11.0
 
 
