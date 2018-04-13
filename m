@@ -1,35 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id D2CE86FFFE
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D7B4747D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 21:09:48 +0000 (UTC)
+	Fri, 13 Apr 2018 22:47:27 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2018 14:09:49 -0700
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2018 15:47:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="43163684"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2018 14:09:48 -0700
-To: "Bystricky, Juro" <juro.bystricky@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1523572087-34315-1-git-send-email-juro.bystricky@intel.com>
-	<94fbeffa-e80a-2160-d6b7-d76aa779b941@linux.intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C6A8201@ORSMSX112.amr.corp.intel.com>
-	<5c94de57-180e-d723-f5cb-135aefd8790a@linux.intel.com>
-	<6E51916E4A1F32428260031F4C7CD2B64C6A939E@ORSMSX112.amr.corp.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ac957064-a261-4de6-ff19-b751e12a65c0@linux.intel.com>
-Date: Sat, 14 Apr 2018 00:03:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B64C6A939E@ORSMSX112.amr.corp.intel.com>
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
-Subject: Re: [PATCH] glib-2.0/glib.inc: fix broken mingw build
+X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="43179889"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2018 15:47:27 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Apr 2018 15:47:44 -0700
+Message-Id: <1523659664-39532-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH v5] rootfs-postcommands.bbclass: improve binary reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 21:09:49 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Apr 2018 22:47:28 -0000
 
-On 04/13/2018 11:29 PM, Bystricky, Juro wrote:
-> Yes, I do get warnings, but in both cases (skipping the renaming and also if renamed  with MLPREFIX):
-> WARNING: core-image-minimal-1.0-r0 do_populate_sdk: The postinstall intercept hook 'update_gio_module_cache-nativesdk' failed, details in /data/master-master/poky/build-x86_64-mingw32-sdk-core-image-minimal/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk
-> 
-> So skipping the renaming will at least give me a correctly named executable in the package.
+Conditionally support binary reproducibility of rootfs images.
+If REPRODUCIBLE_TIMESTAMP_ROOTFS is specified then:
 
-The correctly named executable is the renamed one, as it is then 
-consistent with what is in every other nativesdk- package (Linux-hosted 
-ones), so the intercept script can properly pick it up. It is not used 
-anywhere else except there.
+1. set /etc/timestamp to a reproducible value
+2. set /etc/version to a reproducible value
+3. set /etc/gconf: set mtime in all %gconf.xml to reproducible values
 
-> Are you sure the postinst-intercepts can even work with Windows .exe executables?
-> If I understand this correctly, you use a qemuwrapper attempting to run Windows executable, and I
-> cannot imagine this would work. But maybe I am missing something here.
+The reproducible value is taken from the variable REPRODUCIBLE_TIMESTAMP_ROOTFS.
 
-This is tangential to how the executable should be called. Yes, the 
-qemuwrapper is allowed to fail, that why it's a warning and not a hard 
-failure. When building target images, the fallback to this failure is 
-deferring the script to first boot. For SDKs we currently do nothing, 
-which means package installation isn't really completed. If SDKs aren't 
-able to function properly because of this, we can implement a similar 
-deferral of some kind to the environment where those binaries can be 
-executed natively without emulation.
+[YOCTO #11176]
+[YOCTO #12422]
 
-Alex
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index a4e627f..5522209 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -56,6 +56,7 @@ ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
+ SORT_PASSWD_POSTPROCESS_COMMAND ??= " sort_passwd; "
+ python () {
+     d.appendVar('ROOTFS_POSTPROCESS_COMMAND', '${SORT_PASSWD_POSTPROCESS_COMMAND}')
++    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', 'rootfs_reproducible;')
+ }
+ 
+ systemd_create_users () {
+@@ -256,10 +257,17 @@ python write_image_manifest () {
+         os.symlink(os.path.basename(manifest_name), manifest_link)
+ }
+ 
+-# Can be use to create /etc/timestamp during image construction to give a reasonably
++# Can be used to create /etc/timestamp during image construction to give a reasonably
+ # sane default time setting
+ rootfs_update_timestamp () {
+-	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" != "" ]; then
++		# Convert UTC into %4Y%2m%2d%2H%2M%2S
++		sformatted=`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`
++	else
++		sformatted=`date -u +%4Y%2m%2d%2H%2M%2S`
++	fi
++	echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
++	bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatted"
+ }
+ 
+ # Prevent X from being started
+@@ -328,3 +336,16 @@ python rootfs_log_check_recommends() {
+             if 'unsatisfied recommendation for' in line:
+                 bb.warn('[log_check] %s: %s' % (d.getVar('PN'), line))
+ }
++
++# Perform any additional adjustments needed to make rootf binary reproducible
++rootfs_reproducible () {
++	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" != "" ]; then
++		# Convert UTC into %4Y%2m%2d%2H%2M%2S
++		sformatted=`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`
++		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
++		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
++
++		find ${IMAGE_ROOTFS}/etc/gconf -name '%gconf.xml' -print0 | xargs -0r \
++		sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
++	fi
++}
+-- 
+2.7.4
+
 
