@@ -1,24 +1,33 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id BEA5C74760
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8943774624
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 18:11:13 +0000 (UTC)
+	Fri, 13 Apr 2018 19:38:20 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Apr 2018 11:11:14 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2018 12:38:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="33200083"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.59])
-	by orsmga007.jf.intel.com with ESMTP; 13 Apr 2018 11:11:14 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2018 11:11:03 -0700
-Message-Id: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com, alistair.francis@xilinx.com
-Subject: [PATCH] qemu_2.11.1.bb: support mingw build
+X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="43146835"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2018 12:38:19 -0700
+To: "Bystricky, Juro" <juro.bystricky@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1523572087-34315-1-git-send-email-juro.bystricky@intel.com>
+	<94fbeffa-e80a-2160-d6b7-d76aa779b941@linux.intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C6A8201@ORSMSX112.amr.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <5c94de57-180e-d723-f5cb-135aefd8790a@linux.intel.com>
+Date: Fri, 13 Apr 2018 22:32:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B64C6A8201@ORSMSX112.amr.corp.intel.com>
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH] glib-2.0/glib.inc: fix broken mingw build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,143 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 18:11:14 -0000
+X-List-Received-Date: Fri, 13 Apr 2018 19:38:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The patch chardev-connect-socket-to-a-spawned-command.patch calls
-"socketpair". This function is missing in mingw, so the patch
-needs to be modified accordingly (by conditional compilation using
-_WIN32 macro where appropriate), otherwise we end up with a broken
-mingw build.
+On 04/13/2018 05:43 PM, Bystricky, Juro wrote:
+>> I think the better approach is to accommodate the exe suffix when doing
+>> the move:
+> 
+>> mv -v ${D}${libexecdir}/gio-querymodules${EXEEXT}
+>> ${D}${libexecdir}/${MLPREFIX}gio-querymodules${EXEEXT}
+> 
+> This was actually the first thing I tried. However, I ended up with "nativesdk-gio-querymodules.exe"
+> in the mingw tarrball (in my case poky-glibc-x86_64-core-image-minimal-core2-64-toolchain-2.4+snapshot.tar.xz).
+> I am not sure what you expect postinst to do for Windows toolchains/SDKs, but I would expect
+> "gio-querymodules.exe", as it used to be until recently.
 
-While it is possible to simply remove the whole patch for mingw build
-(via a .bbappend file in meta-mingw), it makes more sense to modify
-the patch itself.
+"nativesdk-gio-querymodules.exe" is totally fine. This utility is used 
+in only one place:
+poky/scripts/postinst-intercepts/update_gio_module_cache, to generate 
+the cache file of gio modules whenever the gio modules are installed or 
+removed.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- ...ardev-connect-socket-to-a-spawned-command.patch | 46 +++++++++++++++-------
- 1 file changed, 31 insertions(+), 15 deletions(-)
+That script is called by postinst_intercept mechanism, which is 
+triggered via meta/classes/gio-module-cache.bbclass every time a package 
+that inherits that class is installed.
 
-diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-index 32809d3..6e6bf95 100644
---- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-+++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-@@ -54,10 +54,11 @@ diff --git a/chardev/char-socket.c b/chardev/char-socket.c
- index 53eda8ef00..f566107c35 100644
- --- a/chardev/char-socket.c
- +++ b/chardev/char-socket.c
--@@ -852,6 +852,66 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-+@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-      return false;
-  }
-  
-++#ifndef _WIN32
- +static void chardev_open_socket_cmd(Chardev *chr,
- +                                    const char *cmd,
- +                                    Error **errp)
-@@ -117,42 +118,49 @@ index 53eda8ef00..f566107c35 100644
- +        object_unref(OBJECT(sioc));
- +    }
- +}
-++#endif
- +
-  static void qmp_chardev_open_socket(Chardev *chr,
-                                      ChardevBackend *backend,
-                                      bool *be_opened,
--@@ -859,6 +919,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
-+@@ -859,6 +921,9 @@
-  {
-      SocketChardev *s = SOCKET_CHARDEV(chr);
-      ChardevSocket *sock = backend->u.socket.data;
-++#ifndef _WIN32
- +    const char *cmd     = sock->cmd;
-++#endif
-      bool do_nodelay     = sock->has_nodelay ? sock->nodelay : false;
-      bool is_listen      = sock->has_server  ? sock->server  : true;
-      bool is_telnet      = sock->has_telnet  ? sock->telnet  : false;
--@@ -926,7 +987,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
-+@@ -925,7 +990,14 @@
-+     } else if (reconnect > 0) {
-          s->reconnect_time = reconnect;
-      }
-- 
---    if (s->reconnect_time) {
-+-
-++#ifndef _WIN32
- +    if (cmd) {
- +        chardev_open_socket_cmd(chr, cmd, errp);
- +
- +        /* everything ready (or failed permanently) before we return */
- +        *be_opened = true;
--+    } else if (s->reconnect_time) {
-++    } else
-++#endif
-+     if (s->reconnect_time) {
-          sioc = qio_channel_socket_new();
-          tcp_chr_set_client_ioc_name(chr, sioc);
--         qio_channel_socket_connect_async(sioc, s->addr,
--@@ -985,11 +1051,22 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-+@@ -985,10 +1057,26 @@
-      const char *host = qemu_opt_get(opts, "host");
-      const char *port = qemu_opt_get(opts, "port");
-      const char *tls_creds = qemu_opt_get(opts, "tls-creds");
-++#ifndef _WIN32
- +    const char *cmd = qemu_opt_get(opts, "cmd");
-++#endif
-      SocketAddressLegacy *addr;
-      ChardevSocket *sock;
-  
-      backend->type = CHARDEV_BACKEND_KIND_SOCKET;
---    if (!path) {
-++#ifndef _WIN32
- +    if (cmd) {
- +        /*
- +         * Here we have to ensure that no options are set which are incompatible with
-@@ -163,24 +171,33 @@ index 53eda8ef00..f566107c35 100644
- +            error_setg(errp, "chardev: socket: cmd does not support any additional options");
- +            return;
- +        }
--+    } else if (!path) {
-++    } else
-++#endif
-+     if (!path) {
-          if (!host) {
-              error_setg(errp, "chardev: socket: no host given");
--             return;
--@@ -1021,13 +1098,14 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-+@@ -1021,13 +1109,24 @@
-      sock->has_reconnect = true;
-      sock->reconnect = reconnect;
-      sock->tls_creds = g_strdup(tls_creds);
-++#ifndef _WIN32
- +    sock->cmd = g_strdup(cmd);
-++#endif
-  
-      addr = g_new0(SocketAddressLegacy, 1);
---    if (path) {
-++#ifndef _WIN32
- +    if (path || cmd) {
-++#else
-+     if (path) {
-++#endif
-          UnixSocketAddress *q_unix;
-          addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
-          q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
---        q_unix->path = g_strdup(path);
-++#ifndef _WIN32
- +        q_unix->path = cmd ? g_strdup_printf("cmd:%s", cmd) : g_strdup(path);
-++#else
-+         q_unix->path = g_strdup(path);
-++#endif
-      } else {
-          addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-          addr->u.inet.data = g_new(InetSocketAddress, 1);
-@@ -223,4 +240,3 @@ index ae19dcd1ed..6de0f29bcd 100644
-                                       '*wait'      : 'bool',
- -- 
- 2.14.1
--
--- 
-2.7.4
+I am fairly sure that with the patch you sent it is not going to work 
+for the nativesdk mingw case, as the script does prepend the MLPREFIX to 
+the utility name (to call the correct version among many when multilib 
+is in use). We would probably need to append the .exe suffix in there as 
+well though.
 
+Please do try populate_sdk with nativesdk-glib-2.0 included into it and 
+watch for any warnings about failed postinst_intercepts.
+
+Alex
 
