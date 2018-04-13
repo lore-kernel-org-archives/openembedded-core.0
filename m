@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1638771AB4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 793F274525
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 05:06:11 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id c7-v6so5409585plr.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Apr 2018 22:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=eRqJrYoA+YohnsTHlkGveLUCmXXEYJNLVK5zLXZauH4=;
-	b=qsUFBSe4yWjRWY9el1tO/bNinK1d16fmFJFzpBBDUDdBrDQLRTlbPiPAjBs8cDdvS/
-	QN+b+FWtTJrZ4W+qY5jfdPhOvF4kLm+jShP0XD0EbyyvyBYd14xa9uIjWWjYIfNJWc1s
-	/Wk123CC2qEq5Cg9Nj1ZZT3RrpdmlFDuKyRok8u2Yrcl0RvQJZatZ142YGbfttV/IEri
-	WS4CmJnTNoj3DnNKj+FUdri+azUKChIrYcEvmWhIbc3Qw5uAFrWEoX54eERsiK5U5l3j
-	rREOk2HgLpzxmNLWoXj14PhLTo4XvhAVBEkpfI2xmHynjV2PZd6V6u07Hf050UtpMDo/
-	reLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eRqJrYoA+YohnsTHlkGveLUCmXXEYJNLVK5zLXZauH4=;
-	b=XR5hXwpD27v80QmQMUzff5x8FgCwXipjeb+Tvt0IV++/LgECOu2RUyTzj5XweeRi9B
-	U4qUBsDlOi+TKLmOAQbewz5FnZhH74cJ+pBdddwMtHBp7vxw/jTrfsgAFibOvCauSi6N
-	HFaFAicPcgQfXXbk7wUiVOBLarw7yQPnbTxdpfn7obngduFoj9r1P/SzfyB57piPpNYN
-	+GHEIjh6thV7Wg2xLAKwlULXHMO/vCQK4KofxHnsRXkIqKF6ReRGs+XNQZ3TP08odZ1N
-	uHOzOqlksBV1aJLmZZwVV5H+9myeNjOgV478FAix2O0oFK0kO6Q6DW+XGxXPascHZQtY
-	wh2w==
-X-Gm-Message-State: ALQs6tBL206Pdy2dk0NSoTYtk3rkCmnlx+r4K3kKkQ9zILDQ3bz2151o
-	rqK+OnTUR9Jm4jd/DEMmJFSEAQ==
-X-Google-Smtp-Source: AIpwx492KQcENKq8hEPZLeEPi88r+6UCwf4wspC8g7a2+4p9Zn6THeyBbwxjdaMmVtI8bZhRfZrveA==
-X-Received: by 2002:a17:902:7501:: with SMTP id
-	i1-v6mr1598273pll.211.1523595972668; 
-	Thu, 12 Apr 2018 22:06:12 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c::487b])
-	by smtp.gmail.com with ESMTPSA id
-	f126sm11288043pfg.25.2018.04.12.22.06.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Apr 2018 22:06:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Apr 2018 22:05:59 -0700
-Message-Id: <20180413050559.41968-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] glibc: Set libc_cv_ssp_all to no as well
+	Fri, 13 Apr 2018 06:55:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Apr 2018 23:55:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,444,1517904000"; d="scan'208";a="43003186"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 12 Apr 2018 23:55:13 -0700
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1523572087-34315-1-git-send-email-juro.bystricky@intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <94fbeffa-e80a-2160-d6b7-d76aa779b941@linux.intel.com>
+Date: Fri, 13 Apr 2018 09:48:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1523572087-34315-1-git-send-email-juro.bystricky@intel.com>
+Cc: jurobystricky@hotmail.com
+Subject: Re: [PATCH] glib-2.0/glib.inc: fix broken mingw build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 05:06:12 -0000
+X-List-Received-Date: Fri, 13 Apr 2018 06:55:14 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This is not a problem right now but if we
-were to use -fstack-protector-all this can
-cause build errors
+On 04/13/2018 01:28 AM, Juro Bystricky wrote:
+> mingw build was broken by the commit:
+> "glib-2.0/glib.inc: apply MLPREFIX renaming to all package classes"
+> 
+> When building for mingw, we encounter build errors such as:
+> 
+>    mv: cannot stat '<builddir>/<...>/usr/libexec/gio-querymodules': No such file or directory
+> 
+> The file that exists is actually "gio-querymodules.exe", but still there is no
+> good reason to rename it to "nativesdk-gio-querymodules.exe".
+> So for mingw we simply avoid renaming of the executable, by skippng the line:
+> 
+>    mv -v ${D}${libexecdir}/gio-querymodules ${D}${libexecdir}/${MLPREFIX}gio-querymodules
+> 
+> [YOCTO #12679]
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glibc/glibc.inc | 1 +
- 1 file changed, 1 insertion(+)
+The reason for the renaming is that postinst_intercept logic will try to 
+execute the binary with the mlprefix, when running populate_sdk. I think 
+this is not gonna work with your patch, and the bug does not mention 
+that you tried it.
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 9e02ffdff1..ce1222be68 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -50,6 +50,7 @@ CACHED_CONFIGUREVARS += " \
-   libc_cv_rootsbindir=${base_sbindir} \
-   libc_cv_localedir=${localedir} \
-   libc_cv_ssp_strong=no \
-+  libc_cv_ssp_all=no \
-   libc_cv_ssp=no \
- "
- 
--- 
-2.17.0
+I think the better approach is to accommodate the exe suffix when doing 
+the move:
 
+mv -v ${D}${libexecdir}/gio-querymodules${EXEEXT} 
+${D}${libexecdir}/${MLPREFIX}gio-querymodules${EXEEXT}
+
+Alex
 
