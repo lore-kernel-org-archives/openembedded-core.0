@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
 	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E30C607AC
+	by mail.openembedded.org (Postfix) with ESMTP id A08507462A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 14:38:16 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id y7so8707317wrh.10
+	Fri, 13 Apr 2018 14:38:29 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id q13so5300054wre.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 07:38:18 -0700 (PDT)
+	Fri, 13 Apr 2018 07:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=wJJP0GDGqgLqncUijBynEjjCUi23471HkbyjkFPsWUY=;
-	b=A3b1CK7sHdyx9Lw3XV5wc+qb5auDiDHyXdwEcsS84ddCJQgDsVS2zQVihupiujMRUH
-	KQUgZA8ggDh9bn48G0oHFft1TtOpOTdVSfQ0hkybPr2sYcPMbHiDgiUNJdJjwq/d5qp+
-	PNwo2NaReMH1ZM7217y/aXcwZzjljbccSzc1goYPVJcgNZPSTkgzk4/YwQ1QbPmigubY
-	Y9qmKwpCHPVLDgd/aLf4H1MtprZDpYtjk7Pkn/Y7+ujgSbvEB94NYwLCiikKBWICSg2X
-	Ll/G0Gf5B16spi2fOCxQNqY7XYWtRMKio3PEEL5nHrb7tZmSSKcr4fW2HBfhqXfY1CYC
-	I/sg==
+	bh=U+JcLyqmTuLG9qA9owQTl9Sv0wnVhu84V5bt2k8VdBw=;
+	b=K7rXYQGJ/uTEDccs2bpZOzUNjA8Di6rBW9JCfkE9s3BFvFeE5d7oIctVUOEhGiQ2w1
+	vy0ahdXZaBA7c6F3SJpvCvLtBzfL+dn9Zw4kr7W2NvYdLDYH3FUDCZBxiQBH+e5H/I1L
+	P0UvBYqNtyEdMFRv0fYNhiemUCbbDLptiGxIpJ4ZH6sAIYrxWpplOT6L4qPVOPaK5sVF
+	7Wuhv8XIEZ6SxMgGqRSnsCIuOCm/0awvBn1JCJIKanhr2vmIwu36aKRJQ8VV6/3pfaa7
+	m+1PPXEOx8nl2G8ej4JX3q/gCv+ORodxGvL8d0bpeTacRgn2CFZOSm41Cl6BHyPB9ud7
+	PHFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=wJJP0GDGqgLqncUijBynEjjCUi23471HkbyjkFPsWUY=;
-	b=l9EyBs/oZOMqWvJEOijKaChwDp2WOSvxLEb22F2AaOAPONphB8ib5uC0GHhO+FbJ9t
-	DbwrsPixMeRT0pNuZIK6DdSnebahynib1b6LP1nDMAncU0CTN3ItifJpvPQ/5xtNlSS7
-	sx3l09zIkwexES1ke7EmM0xj+F+nBWdayigPwOVHYR+UE8Hwimxvc+VFnhBMSIX6Ha15
-	FHNXcKVROYiV90Uy2wF+UyWW29f4p7Z0CswmSldWw3MjGJ0NpjiKLs8h6EN5wskFSN9Z
-	ZiZ9AIPFm8pAlaBbxfNJg5Wyt8hAaP74hTnc3w0bt7HPGOzEc60bC3sp+l8UDhZPI4Kj
-	appw==
-X-Gm-Message-State: ALQs6tBJmLnyggDJ80jwdaq904d5PkeSdJAoRyWS5SfVkaPs49i1TL3i
-	7yZtw9wHwIagQvYHDRwTuKK1sE62
-X-Google-Smtp-Source: AIpwx49gDwadRKz3UdePiepwuYclqqFHr/J8o8LHAjsfRV0ncHGoYBgiArz76SXd7OlVe7qTJNaXXg==
-X-Received: by 10.223.132.65 with SMTP id 59mr1841491wrf.21.1523630297241;
-	Fri, 13 Apr 2018 07:38:17 -0700 (PDT)
+	bh=U+JcLyqmTuLG9qA9owQTl9Sv0wnVhu84V5bt2k8VdBw=;
+	b=WK/bK1C9BG5i1TvWzNE1BbwNc2fV52uHWuRFiz5WN3xgQ4hMHOAKc/6Fl22HNxPbVr
+	4D+289G5WlzkTmm1fMvZdSvTkBxdiPkzatZ1g+wLgJ3cqROcI9fr6j/XTz5pOAy0hnVL
+	4Oybu2eXbmsqgSu+pPYBM1b4S525boUOGP85E9Z9iaGQ0ZmFBbkvGq3P3ly1NOaWe/mz
+	ptPxpDaA2BMUxcqTtbsAb2lkgIslJlFnbee5TrXpXQ7IB7eKFJTdklK1WqXLiqqKNd1F
+	Gw+VGrU0ZjY7kLc5hX7SNLRm4pfS9A603k4AijQbGSN2Ycy5vXKcef871izw0G3Vp+Ut
+	3SxA==
+X-Gm-Message-State: ALQs6tCztjxS1axsAplJjjT72TwopLIjUHaJ35LPaKIvSaqt6KqWHFtf
+	p5FNaivSmHSxRg8xeNjz80wou7je
+X-Google-Smtp-Source: AIpwx49pahUiKMbhEL5ww+d3yGfk4lJOIxwyeiNQ/6Y835yX0SK77AogzV9ixaxVP5oIszB1c5MB3w==
+X-Received: by 10.223.185.21 with SMTP id k21mr4089232wrf.116.1523630309858;
+	Fri, 13 Apr 2018 07:38:29 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r28sm6334384wra.78.2018.04.13.07.38.15
+	w69sm6221601wrb.94.2018.04.13.07.38.28
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Apr 2018 07:38:16 -0700 (PDT)
+	Fri, 13 Apr 2018 07:38:29 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Apr 2018 15:38:14 +0100
-Message-Id: <20180413143814.4513-1-ross.burton@intel.com>
+Date: Fri, 13 Apr 2018 15:38:26 +0100
+Message-Id: <20180413143826.4564-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] systemtap: don't build under musl
+Subject: [PATCH] packagegroup-core-tools-profile: include systemtap on MIPS and aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 14:38:17 -0000
+X-List-Received-Date: Fri, 13 Apr 2018 14:38:30 -0000
 
-systemtap uses obstack.h and FTW_SKIP_SUBTREE, both of which are GNU extensions
-in glibc.
+Modern systemtap builds fine for MIPS and aarch64, so don't exclude it from this
+packagegroup.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index e1b7789aedc..e2f5204a020 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -26,6 +26,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 554f5298890..fa0e363d863 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -33,9 +33,7 @@ PERF_libc-musl = ""
+ # systemtap needs elfutils which is not fully buildable on some arches/libcs
+ SYSTEMTAP = "systemtap"
+ SYSTEMTAP_libc-musl = ""
+-SYSTEMTAP_mipsarch = ""
+ SYSTEMTAP_nios2 = ""
+-SYSTEMTAP_aarch64 = ""
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
-+COMPATIBLE_HOST_libc-musl = 'null'
- 
- S = "${WORKDIR}/git"
- 
+ # lttng-ust uses sched_getcpu() which is not there on for some platforms.
+ LTTNGUST = "lttng-ust"
 -- 
 2.11.0
 
