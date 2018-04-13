@@ -1,52 +1,35 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CA5A74787
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id D2CE86FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 20:44:19 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id g203-v6so14304768lfg.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 13:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=PHwdx5w5aDd50akyHhGeWv6U2p9uGQtJHVhEz1f5kaM=;
-	b=mD1GUpGjt1cmHxE2MQ0Xb2qzVwAdGY+K32WzNqxWQxcBajTWAf4p18Samgu1VYJU2c
-	SqRVkX69/8Gxa2idULtEHAVPS/MWza/ZEm9EPfLwg2RsyckYonTDSE6sYYQx61A5uwUo
-	EhWx+/g8bFqZZtQLqsOgQO+mDgoZRYt5ZHZTW4+CZY3VL8zC6/d1WcwKHQxVz1I4V2uf
-	h2z/SfIcy2f71gRRJQTrFtRSzgykK0PvUb1x4aj8+FgIt5FiX/2XdOeQyoW7fM2fQJsw
-	yZiIK4n886i8XCJdF3qMb+IUX6vC5d47shsRpluUJwRKvqsbja7sXlOEZMB5hnBpMcb7
-	qdkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=PHwdx5w5aDd50akyHhGeWv6U2p9uGQtJHVhEz1f5kaM=;
-	b=DSeBLX7sC2C1rENiGU+G7srN4t5/8aPLcIkgxy/ID89YY77aEzIlTdsaPMhR/aTSOo
-	N5Rkk5dbUk0EvQIcsbT769DLSSyWDwQCDMxX4FgaWu9xYKaeYqXBXcLXv3VTKRhAwA4X
-	8cpf5bmgFjrXU2vPI4eHzQbuuKnr9EQYJ7eFnMnBg/O7GHESO7HtfRMy6618Zf0jqGlo
-	eHvCvkvN//cvY+O8v1/nXwX2WtfN60ThJYBlLLpYPhS0vk2Y4o3DZpByxN9ulGDvAzUj
-	ijarFvR2FeP7NyXNVDLMIk1CdZLiuD7FCbU4sbvS862UW7q8p8nrpYxd21j+LQ9wPVty
-	J3Qg==
-X-Gm-Message-State: ALQs6tAg6ckytRAiOvFiZW7jfvQnf1SUBzwO8fRM/yFrkd5g2g4e1KFQ
-	PUEb6Rnj0kwWkEG1dwY3erwKZ/bXM97te6oSYss=
-X-Google-Smtp-Source: AIpwx4+Il3+SI6CqKzgg1yZLr+RIX/QrRnO3sAYjeuWB7vwJF6jSNjx3x2vb02t+gjht6DlOsYyra5DHcXUp6EqC/rc=
-X-Received: by 10.46.154.9 with SMTP id o9mr4374889lji.98.1523652260381; Fri,
-	13 Apr 2018 13:44:20 -0700 (PDT)
+	Fri, 13 Apr 2018 21:09:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Apr 2018 14:09:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,446,1517904000"; d="scan'208";a="43163684"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 13 Apr 2018 14:09:48 -0700
+To: "Bystricky, Juro" <juro.bystricky@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1523572087-34315-1-git-send-email-juro.bystricky@intel.com>
+	<94fbeffa-e80a-2160-d6b7-d76aa779b941@linux.intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C6A8201@ORSMSX112.amr.corp.intel.com>
+	<5c94de57-180e-d723-f5cb-135aefd8790a@linux.intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B64C6A939E@ORSMSX112.amr.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <ac957064-a261-4de6-ff19-b751e12a65c0@linux.intel.com>
+Date: Sat, 14 Apr 2018 00:03:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Sender: alistair23@gmail.com
-Received: by 10.46.42.66 with HTTP; Fri, 13 Apr 2018 13:43:49 -0700 (PDT)
-In-Reply-To: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
-References: <1523643063-39747-1-git-send-email-juro.bystricky@intel.com>
-From: Alistair Francis <alistair.francis@xilinx.com>
-Date: Fri, 13 Apr 2018 13:43:49 -0700
-X-Google-Sender-Auth: gm7Ngax4WYZsvpMng0NJk77gPLc
-Message-ID: <CAKmqyKM3Fv5fiyfbO5vpqiDDdO=VNnpCbt9bvv7bn1M+XQdtig@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Alistair Francis <alistair.francis@xilinx.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu_2.11.1.bb: support mingw build
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B64C6A939E@ORSMSX112.amr.corp.intel.com>
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH] glib-2.0/glib.inc: fix broken mingw build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,156 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Apr 2018 20:44:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 Apr 2018 21:09:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 13, 2018 at 11:11 AM, Juro Bystricky
-<juro.bystricky@intel.com> wrote:
-> The patch chardev-connect-socket-to-a-spawned-command.patch calls
-> "socketpair". This function is missing in mingw, so the patch
-> needs to be modified accordingly (by conditional compilation using
-> _WIN32 macro where appropriate), otherwise we end up with a broken
-> mingw build.
->
-> While it is possible to simply remove the whole patch for mingw build
-> (via a .bbappend file in meta-mingw), it makes more sense to modify
-> the patch itself.
->
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+On 04/13/2018 11:29 PM, Bystricky, Juro wrote:
+> Yes, I do get warnings, but in both cases (skipping the renaming and also if renamed  with MLPREFIX):
+> WARNING: core-image-minimal-1.0-r0 do_populate_sdk: The postinstall intercept hook 'update_gio_module_cache-nativesdk' failed, details in /data/master-master/poky/build-x86_64-mingw32-sdk-core-image-minimal/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_populate_sdk
+> 
+> So skipping the renaming will at least give me a correctly named executable in the package.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+The correctly named executable is the renamed one, as it is then 
+consistent with what is in every other nativesdk- package (Linux-hosted 
+ones), so the intercept script can properly pick it up. It is not used 
+anywhere else except there.
 
-Alistair
+> Are you sure the postinst-intercepts can even work with Windows .exe executables?
+> If I understand this correctly, you use a qemuwrapper attempting to run Windows executable, and I
+> cannot imagine this would work. But maybe I am missing something here.
 
-> ---
->  ...ardev-connect-socket-to-a-spawned-command.patch | 46 +++++++++++++++-------
->  1 file changed, 31 insertions(+), 15 deletions(-)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-> index 32809d3..6e6bf95 100644
-> --- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-command.patch
-> @@ -54,10 +54,11 @@ diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->  index 53eda8ef00..f566107c35 100644
->  --- a/chardev/char-socket.c
->  +++ b/chardev/char-socket.c
-> -@@ -852,6 +852,66 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-> +@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
->       return false;
->   }
->
-> ++#ifndef _WIN32
->  +static void chardev_open_socket_cmd(Chardev *chr,
->  +                                    const char *cmd,
->  +                                    Error **errp)
-> @@ -117,42 +118,49 @@ index 53eda8ef00..f566107c35 100644
->  +        object_unref(OBJECT(sioc));
->  +    }
->  +}
-> ++#endif
->  +
->   static void qmp_chardev_open_socket(Chardev *chr,
->                                       ChardevBackend *backend,
->                                       bool *be_opened,
-> -@@ -859,6 +919,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
-> +@@ -859,6 +921,9 @@
->   {
->       SocketChardev *s = SOCKET_CHARDEV(chr);
->       ChardevSocket *sock = backend->u.socket.data;
-> ++#ifndef _WIN32
->  +    const char *cmd     = sock->cmd;
-> ++#endif
->       bool do_nodelay     = sock->has_nodelay ? sock->nodelay : false;
->       bool is_listen      = sock->has_server  ? sock->server  : true;
->       bool is_telnet      = sock->has_telnet  ? sock->telnet  : false;
-> -@@ -926,7 +987,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
-> +@@ -925,7 +990,14 @@
-> +     } else if (reconnect > 0) {
->           s->reconnect_time = reconnect;
->       }
-> -
-> --    if (s->reconnect_time) {
-> +-
-> ++#ifndef _WIN32
->  +    if (cmd) {
->  +        chardev_open_socket_cmd(chr, cmd, errp);
->  +
->  +        /* everything ready (or failed permanently) before we return */
->  +        *be_opened = true;
-> -+    } else if (s->reconnect_time) {
-> ++    } else
-> ++#endif
-> +     if (s->reconnect_time) {
->           sioc = qio_channel_socket_new();
->           tcp_chr_set_client_ioc_name(chr, sioc);
-> -         qio_channel_socket_connect_async(sioc, s->addr,
-> -@@ -985,11 +1051,22 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-> +@@ -985,10 +1057,26 @@
->       const char *host = qemu_opt_get(opts, "host");
->       const char *port = qemu_opt_get(opts, "port");
->       const char *tls_creds = qemu_opt_get(opts, "tls-creds");
-> ++#ifndef _WIN32
->  +    const char *cmd = qemu_opt_get(opts, "cmd");
-> ++#endif
->       SocketAddressLegacy *addr;
->       ChardevSocket *sock;
->
->       backend->type = CHARDEV_BACKEND_KIND_SOCKET;
-> --    if (!path) {
-> ++#ifndef _WIN32
->  +    if (cmd) {
->  +        /*
->  +         * Here we have to ensure that no options are set which are incompatible with
-> @@ -163,24 +171,33 @@ index 53eda8ef00..f566107c35 100644
->  +            error_setg(errp, "chardev: socket: cmd does not support any additional options");
->  +            return;
->  +        }
-> -+    } else if (!path) {
-> ++    } else
-> ++#endif
-> +     if (!path) {
->           if (!host) {
->               error_setg(errp, "chardev: socket: no host given");
-> -             return;
-> -@@ -1021,13 +1098,14 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-> +@@ -1021,13 +1109,24 @@
->       sock->has_reconnect = true;
->       sock->reconnect = reconnect;
->       sock->tls_creds = g_strdup(tls_creds);
-> ++#ifndef _WIN32
->  +    sock->cmd = g_strdup(cmd);
-> ++#endif
->
->       addr = g_new0(SocketAddressLegacy, 1);
-> --    if (path) {
-> ++#ifndef _WIN32
->  +    if (path || cmd) {
-> ++#else
-> +     if (path) {
-> ++#endif
->           UnixSocketAddress *q_unix;
->           addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
->           q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
-> --        q_unix->path = g_strdup(path);
-> ++#ifndef _WIN32
->  +        q_unix->path = cmd ? g_strdup_printf("cmd:%s", cmd) : g_strdup(path);
-> ++#else
-> +         q_unix->path = g_strdup(path);
-> ++#endif
->       } else {
->           addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
->           addr->u.inet.data = g_new(InetSocketAddress, 1);
-> @@ -223,4 +240,3 @@ index ae19dcd1ed..6de0f29bcd 100644
->                                        '*wait'      : 'bool',
->  --
->  2.14.1
-> -
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This is tangential to how the executable should be called. Yes, the 
+qemuwrapper is allowed to fail, that why it's a warning and not a hard 
+failure. When building target images, the fallback to this failure is 
+deferring the script to first boot. For SDKs we currently do nothing, 
+which means package installation isn't really completed. If SDKs aren't 
+able to function properly because of this, we can implement a similar 
+deferral of some kind to the environment where those binaries can be 
+executed natively without emulation.
+
+Alex
 
