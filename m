@@ -1,66 +1,56 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9464B7457A
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2018 21:05:15 +0000 (UTC)
-Received: by mail-ot0-f181.google.com with SMTP id h55-v6so13466802ote.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2018 14:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gKptQkorJ1HjdkQ2cEBcBrSehDJUsYPJFIoK0bwKsnQ=;
-	b=1i221bYZHMlxcbs7k3Jv3Ke3BI70+8PyaTw4732+enIb+UcKBBW6YWNsnrHCqXGrsU
-	Hhsl9D90sNjFzFEOHvhE3CRdlHpEORusFSpW7ADZYJa849SDaZMrWKmE+h9AE2WAKjlX
-	6MiZ8fkxzOmCRv60A72atwPDLKHV2vr0th21bvmCUxCtZxF5DvxFSMRZQIq7pmj0reLy
-	0igxseGJo0UJc+yv/TqIabcw7UtyVhTq/Cc4NmlSZtmlIi5MmPxhR9Z3YbqZIk6jgDe8
-	SBg1ksM4PWNCmowa7K36/1kt3Y7pIDKqozGygwYgEEuFq7OWvaWHPImSD8aS94H6csTt
-	ljgQ==
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E3C9745A7;
+	Sat, 14 Apr 2018 21:48:14 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id v13so13973632iob.6;
+	Sat, 14 Apr 2018 14:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=5ZJcUfMv2+KCfqzzMrwJHD/KeSKQ5UU+wCh4dcVrqrs=;
+	b=ak2ke6q9SaKReLdYK7n3DHCFN1V3CJYY8wsGHrXTNDp/xWT19gpu5PknTq9LbB7wbA
+	N0KdFnbdxdDunjRl8e+AHZfW/JZjeKHSMcVWBZ4zA0rdt8LT3UgVbVVC7kAj1pBbeidp
+	p13hmq/eeAHcgvjlcBl07UrHjhtls2SV1iKKvQ4NetlrPMbVdHyRBWUluLf4K7a0L7s9
+	jSpsKsP0+aE19e1e1i/u1oARv9waEBBcOZs3DxUMm4+ZjuktBZwngnE49I/euhrS1zSH
+	H9YCkil7rVuYnRa4IlWDsxRpdWniC4ZOikLXxIvHsw1T7OTJMom8dxDKH1xXPKzMSozc
+	sDJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gKptQkorJ1HjdkQ2cEBcBrSehDJUsYPJFIoK0bwKsnQ=;
-	b=A2klHXoHnEVsCbRLnWYj2MxHoJky5Vh93Q6TAOFcwigcgougTOI8D2959UjDjeVcb8
-	8GAq3k9fwIVk4OFM0COFUikWVcG/GJgU+dJ0jG/WTvDHUzD8BWCoy2kEdBisVm5F6qp7
-	F3DZG/hUDWvWbReFG3ZAMKKyZCeUjfWiDASVd3r1WwvjCKZxM+Bk5tXj62vfG2N1DKxP
-	VgrZi1+pbMXWJIOsFvis1jJ0bbEZgszZZNMq0uazDgC+PomvD0/Fm5+OO+eqph+4yiaU
-	c5b5phzI8ol5C8AW8ikmXbejwYOIVhct4IHDtOUlRBOPcvLBQcZupg6T3qydSIZ2luZM
-	3Cwg==
-X-Gm-Message-State: ALQs6tDNOAcrg2kZfObm2KvRND9mmVkyVNGXX9wZbnQePkczaeemT67U
-	2VJinJ+mb56IjditAMQbqndrpQSu
-X-Google-Smtp-Source: AIpwx48tk5oj1VPmaYRiY+jVhAN1Xx5B2XvzEejZelzCfWqt6DzmJ9o2UpcRL9ffe7wW2hpyKayMaQ==
-X-Received: by 2002:a9d:3c0a:: with SMTP id
-	q10-v6mr7123514otc.156.1523739915843; 
-	Sat, 14 Apr 2018 14:05:15 -0700 (PDT)
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com.
-	[209.85.218.45]) by smtp.gmail.com with ESMTPSA id
-	c202-v6sm5116614oib.20.2018.04.14.14.05.14
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=5ZJcUfMv2+KCfqzzMrwJHD/KeSKQ5UU+wCh4dcVrqrs=;
+	b=nCO73Z25aPUYMyxyHsJbFyvJgyH6x5gJTr396YLQ+/RWfq9ElA32xlYiBf0uZMyDpH
+	OVCdElKhf4O9C9RfWqL4wF+gJg3NwNwBUuptMOEDvfyQvOan4pz/kpilPfnwobV3rbNn
+	59M6pvkX8N69JQ+wZfQaHcBuaf0sSXm0SSDnTf7OCMNAIh9I1/r6BMlSsnby417iT03Q
+	l5zGxAbnQObDY7AVlQ5lSfQCeGU2VHEKMhzA86x58UVhauETnAa4j8qw5e6c5J7dskcE
+	oDedbGhMoSF36jKfIkNlAatwbXV1rBaNv2PWAEatxEaXzXrz51VPNuXSrfRJC1fQcG4s
+	x/9Q==
+X-Gm-Message-State: ALQs6tAXSe0iL9YJWFdjUWqqp4PZqDnFb+tIrNGrlqDDhaJniwhnYRvw
+	kbIRaNkYRTt2dCJG0ODTuYQ=
+X-Google-Smtp-Source: AIpwx4+MrznOystc0P1gElVePlkFzFiYqvzZVFbNyrhqwMNpd2nZFUc0/2iEeLGS4swMo6H/J6xZAQ==
+X-Received: by 10.107.1.6 with SMTP id 6mr17698044iob.125.1523742495875;
+	Sat, 14 Apr 2018 14:48:15 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
+	i12-v6sm2177581itb.7.2018.04.14.14.48.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Apr 2018 14:05:14 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f45.google.com with SMTP id x9-v6so11315098oig.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2018 14:05:14 -0700 (PDT)
-X-Received: by 2002:aca:3cc2:: with SMTP id
-	j185-v6mr11928238oia.315.1523739914271; 
-	Sat, 14 Apr 2018 14:05:14 -0700 (PDT)
+	Sat, 14 Apr 2018 14:48:14 -0700 (PDT)
+Date: Sat, 14 Apr 2018 17:48:12 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20180414214812.GA25986@linux-uys3>
+References: <1523011021.2942.6.camel@linuxfoundation.org>
+	<20180406141647.GA19068@linux-uys3>
+	<1523028587.2942.13.camel@linuxfoundation.org>
+	<a04373f5-cb03-25a3-36fa-da92b0cdd71d@gmail.com>
+	<1523051813.2942.36.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Received: by 2002:a9d:3fe1:0:0:0:0:0 with HTTP; Sat, 14 Apr 2018 14:05:12
-	-0700 (PDT)
-In-Reply-To: <BN6PR1201MB01959BEFC4A5E0745C4211E38BB20@BN6PR1201MB0195.namprd12.prod.outlook.com>
-References: <BN6PR1201MB01959BEFC4A5E0745C4211E38BB20@BN6PR1201MB0195.namprd12.prod.outlook.com>
-Date: Sat, 14 Apr 2018 18:05:12 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrL3p6+uiUWi1R_Rxe0OXd+6HnOcrP8e=dQ+G-6rmHjUg@mail.gmail.com>
-Message-ID: <CAP9ODKrL3p6+uiUWi1R_Rxe0OXd+6HnOcrP8e=dQ+G-6rmHjUg@mail.gmail.com>
-To: chris.laplante@agilent.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Custom progress handlers
+In-Reply-To: <1523051813.2942.36.camel@linuxfoundation.org>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] LAYERSERIES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,36 +63,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2018 21:05:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 14 Apr 2018 21:48:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sat, Apr 14, 2018 at 11:56 AM, Chris Laplante via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
-> I have implemented a simple custom progress handler in
-> bitbake/lib/bb/progress.py. It=E2=80=99s designed to handle bar-style pro=
-gress. To
-> use it for my shell tasks, I have modified =E2=80=9Cexec_func_shell=E2=80=
-=9D in
-> bitbake/lib/bb/build.py. It=E2=80=99s implemented as a new value for the =
-=E2=80=9Cprogress=E2=80=9D
-> varflag.
->
-> Is there a better, more extensible way to add a custom progress handler t=
-hat
-> doesn=E2=80=99t require modifying progress.py and build.py? It would be n=
-ice to be
-> able to specify the name of the progress handler class to use (e.g. via a
-> [progress-class] varflag) and then have build.py dynamically instantiate =
-it.
-> Is that possible? If so, would OE be interested in a patch to implement i=
-t?
+On Fri 2018-04-06 @ 10:56:53 PM, Richard Purdie wrote:
+> To be really clear, "master" is never a value that would appear in
+> LAYERSERIES. That would let everyone be lazy and master would match
+> everywhere, then this would all be pointless.
 
-I see no problem in adding it; I am curious about your custom handler
-as well :-)
+So what happens when the master branch of a BSP layer doesn't work with the
+last release, but bitbake hasn't been updated with the next release's name?
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I.e. the sumo branch of meta-bsp has
+
+	LAYERSERIES_COMPAT_bsp = "sumo"
+
+but what am I supposed to put as the value when meta-bsp's master branch
+becomes incompatible with sumo? "master" is not allowed, and "thud" fails too.
+
+At some point between one release and the next something might/will break. In
+which case the only thing a BSP's master branch will work with is
+openembedded-core's master.
 
