@@ -1,61 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 381A07457C
+Return-Path: <niko.mauno@iki.fi>
+X-Greylist: delayed 503 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 14 Apr 2018 07:03:26 UTC
+Received: from sypressi2.dnainternet.net (sypressi3.dnainternet.net
+	[83.102.40.158])
+	by mail.openembedded.org (Postfix) with ESMTP id F053B71BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Apr 2018 00:29:18 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id u86so7209687pfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Apr 2018 17:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=0QQTZELAUqeaMQ3CXXoLr8peeusoHQ4fV8DwobBW6GE=;
-	b=XJblNMAao5bc2Us1zU1KmFiCvpunXV5hTEeWb1b5Rn/Sot2yBdi3gDZR+fZgZpT2Rj
-	9v2VgdBBZC0SSdvdGJenbmeaBShBUp3d30leH4bRoypWAWM/Lle9UOFFHg19f/haoNzG
-	y6w7UcvvaUywGrwuUQMhzwekQRPIaupgpwGRZ2eiJ26z5XUjx6GRZFCpVbpvNODR2ND6
-	TqJGelwOaGG7ffnl0v3Be3w4QWOF49mKJwZ1HLQfdcvUCN1H+gD2XsoWPfToTv34bmsT
-	FwXHdaiVGTPdBZBhS+evenpzf99+eofiKMAOuhFCka306dn+NVxaTpnPEXpasazl6XWg
-	lntw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=0QQTZELAUqeaMQ3CXXoLr8peeusoHQ4fV8DwobBW6GE=;
-	b=aDdysJYT7EaRXx4SmCV2e52Y2RD/tjRNgHmuOrxfjSeD0npOCq9GmV2zqI5Y63BCS+
-	Dz8fy6Ag3P1AHkDjsmzvnQJd+9oa3OPAGnVlJV5Ec0nWvXc/tARZH/nWKLvku52Rn+ls
-	/f8GGZygAJL+1tO8AjvCldJVMCvxlfCKGaeqNM+5ryCDVemODV3YzSdd9JwZjCXPbr+r
-	H9tWqAINcvLGRvu6hKNgHHcYJGGI63XR0otqZ9NGUOcnRplyrjRkg2Uw7K2yVTQvRNfP
-	5qnOW2SGTYrTaUQ5C22N5LV1dWX1NLmj+dhqNufhSEgBV2+rw47Ot/7KHZTAt9qHIweQ
-	uDrg==
-X-Gm-Message-State: ALQs6tB8OxwrwMg7IlGuQ07wRGLQ/avGkAyUDgRYD5/Ho86mItNhFz2n
-	qlaS1oFiCq4V2EcA8jWmuFKqwJK4
-X-Google-Smtp-Source: AIpwx499HHeRxrOFo9VEi2Hr+xXBSvSXozcB66ebN77HdUL1WKYEMRvODCW19zeYaPLUp/u0Q1YAlg==
-X-Received: by 10.101.92.139 with SMTP id a11mr5520591pgt.92.1523665759999;
-	Fri, 13 Apr 2018 17:29:19 -0700 (PDT)
-Received: from hermes.local ([2601:646:8880:466c:4caf:c486:61ac:d2f7])
-	by smtp.gmail.com with ESMTPSA id
-	l64sm12182591pga.33.2018.04.13.17.29.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Apr 2018 17:29:19 -0700 (PDT)
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<CAJTo0La0UV_6yYzdPsFnBtak0JfX0QQU-24JFN1_N7te8=Mepw@mail.gmail.com>
-	<CAJTo0LY3uVhbN+97EQSXVmLGzgM-JZm33Sy-Mp11MJFWDmNLMA@mail.gmail.com>
-	<2181952.fkZBnDg1uM@peggleto-mobl.ger.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <b9524332-efb4-9211-26d6-0bac84408582@gmail.com>
-Date: Fri, 13 Apr 2018 17:29:18 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
-	Gecko/20100101 Thunderbird/60.0
-MIME-Version: 1.0
-In-Reply-To: <2181952.fkZBnDg1uM@peggleto-mobl.ger.corp.intel.com>
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 2/2] weston: upgrade to 4.0.0
+	Sat, 14 Apr 2018 07:03:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id 1C68A3006;
+	Sat, 14 Apr 2018 09:55:03 +0300 (EEST)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 0.652
+X-Spam-Level: 
+X-Spam-Status: No, score=0.652 tagged_above=-9999 required=6
+	tests=[SPF_NEUTRAL=0.652] autolearn=disabled
+Received: from sypressi2.dnainternet.net ([83.102.40.158])
+	by localhost (sypressi2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id QWUJMDYrZNzW; Sat, 14 Apr 2018 09:55:02 +0300 (EEST)
+Received: from oliivipuu2.dnainternet.net (oliivipuu2.dnainternet.net
+	[83.102.40.53])
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id DA25D2BE4;
+	Sat, 14 Apr 2018 09:55:02 +0300 (EEST)
+Received: from localhost.localdomain (82-181-15-94.bb.dnainternet.fi
+	[82.181.15.94])
+	by oliivipuu2.dnainternet.net (Postfix) with ESMTP id B1955A2;
+	Sat, 14 Apr 2018 09:54:59 +0300 (EEST)
+From: Niko Mauno <niko.mauno@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 14 Apr 2018 09:54:56 +0300
+Message-Id: <20180414065456.62948-1-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.16.3
+Subject: [PATCH] run-postinsts: Replace pi_dir variable test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,70 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Apr 2018 00:29:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 14 Apr 2018 07:03:27 -0000
 
+Since commit 5159ddcb62682e1b7e63a20a9218ea96e3fe10a2 string length test
+performed against pi_dir has effectively never been able to succeed.
 
+Change this to rather test if pi_dir is not an existing directory. By
+doing we remove the chance of seeing the following console error message
+during first boot to a pristine rootfs:
 
-On 4/11/18 3:11 PM, Paul Eggleton wrote:
-> Yes, this is a bit of a known bug although I didn't actually file one until
-> now:
-> 
->    https://bugzilla.yoctoproject.org/show_bug.cgi?id=12674
-> 
-> Cheers,
-> Paul
-> 
-> On Wednesday, 11 April 2018 11:17:51 AM NZST Burton, Ross wrote:
->> Ah presumably this is because the U-S is after the scissors.  Denys,
->> when you add it back, can you put it above the ---?
->>
+  'ls: /etc/ipk-postinsts: No such file or directory'
 
-Upstream-Status is a Yocto project invention that can confuse other 
-communities when submitting the patches for those packages upstream and 
-Sign-off-by is also in same bucket in many upstream packages. We need to 
-be able to support patch headers that are git am'able upstream as well 
-as to openembedded recipe created trees.
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+---
+ meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 2 +-
+ meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-One still has to delete these tags but if you forget its still is ok 
-since they will be ignored with git am.
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index 50c0a1afea..307feb7187 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -43,7 +43,7 @@ remove_rcsd_link () {
+ 	fi
+ }
+ 
+-if [ -z "$pi_dir" ]; then
++if ! [ -d $pi_dir ]; then
+ 	remove_rcsd_link
+ 	exit 0
+ fi
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+index 31c98ec99c..85b3fc867e 100644
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Runs postinstall scripts on first boot of the target device"
+ SECTION = "devel"
+-PR = "r9"
++PR = "r10"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-- 
+2.16.3
 
->> Ross
->>
->> On 11 April 2018 at 00:16, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 10 April 2018 at 20:06, Denys Dmytriyenko <denis@denix.org> wrote:
->>>> diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-
-> portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-
-> portable.patch
->>>> index 0671a45..6799254 100644
->>>> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
->>>> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
->>>> @@ -1,26 +1,25 @@
->>>> -From c22e90365d89346258394833cbcad03ff32b2e27 Mon Sep 17 00:00:00 2001
->>>> +From ad1d2161c811cff25d1684c33611f300adb753bc Mon Sep 17 00:00:00 2001
->>>>   From: Khem Raj <raj.khem@gmail.com>
->>>>   Date: Fri, 29 May 2015 20:56:00 -0700
->>>> -Subject: [PATCH weston] make error() portable
->>>> +Subject: [PATCH] make error() portable
->>>>
->>>>   error() is not posix but gnu extension so may not be available on all
->>>>   kind of systemsi e.g. musl.
->>>>
->>>>   Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ----
->>>> -Upstream-Status: Submitted
->>>
->>> Ah, I've seen this before and was wondering if it was a genuine
->>> mistake or devtool being bad.
->>>
->>> devtool refresh is doing A Bad Thing and for some reason dropping the
->>> Upstream-Status tag.  Alex, can you see why this is?  Denys, can you
->>> edit it back in?
->>>
->>> Ross
->>
-> 
-> 
 
