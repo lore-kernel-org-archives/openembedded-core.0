@@ -1,73 +1,24 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com
-	(mail-dm3nam03on0059.outbound.protection.outlook.com [104.47.41.59])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ECC471A8E
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F41744D3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2018 00:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
-	bh=Iic6Pt9cdb3xzCb3Sn9wSzLNmQ1JnLRHUMB4G+ydzwM=;
-	b=nFsyUlGRV3JQ37+tkMKBkuvtfgVdcJ5JW/F2rAI4A+Uz/WUYLLTRyOfOGBBwgLz0Nsl2HUTHpIzBDWbwcZ/64eOzthiw74lred6b+GeiVuZ3BFSPCdpwwg/f9bijQ0Uw3ZKnxUBHp57mayVDcT+3Np0apVUdmfBHvembrq99CLE=
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com (10.174.115.15) by
-	BN6PR1201MB0018.namprd12.prod.outlook.com (10.174.113.149) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.675.10; Sun, 15 Apr 2018 00:52:26 +0000
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::31bb:ae63:3595:7ba8]) by
-	BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::31bb:ae63:3595:7ba8%4]) with mapi id 15.20.0675.014;
-	Sun, 15 Apr 2018 00:52:26 +0000
-From: <chris.laplante@agilent.com>
-To: <otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] Custom progress handlers
-Thread-Index: AdPUAA6EkL125dkUStaOUcFUgz5/fQANDiQAAAeX6qA=
-Date: Sun, 15 Apr 2018 00:52:25 +0000
-Message-ID: <BN6PR1201MB0195475C14137B62FC0E6F968BB10@BN6PR1201MB0195.namprd12.prod.outlook.com>
-References: <BN6PR1201MB01959BEFC4A5E0745C4211E38BB20@BN6PR1201MB0195.namprd12.prod.outlook.com>
-	<CAP9ODKrL3p6+uiUWi1R_Rxe0OXd+6HnOcrP8e=dQ+G-6rmHjUg@mail.gmail.com>
-In-Reply-To: <CAP9ODKrL3p6+uiUWi1R_Rxe0OXd+6HnOcrP8e=dQ+G-6rmHjUg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [57.197.55.3]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; BN6PR1201MB0018;
-	7:jvMTfAg2xlksQREh7OnCuKOAaMFDfxqa3UL2nKhadMGCUlvJgjgIUOoWoSmo13cwprmVzJbqp9U0Pb+ExgCjkvWOQ2qau7PseHyH2o1cK3LBUQi9ai0yvnjzet0GrN9GD8a1ygfAFhFSfDNlwcotvQR3XZ3y1W5oRPiodU9t/dkXRwR0l4YI+TTcIJmfsnnsMqL/RhL50qRoZ/C2IMYrI7jnytk0Z4Y5ygwTl0yktBp7s9WbVs0EjoSmcS5dVtOj
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:BN6PR1201MB0018; 
-x-ms-traffictypediagnostic: BN6PR1201MB0018:
-x-microsoft-antispam-prvs: <BN6PR1201MB00185204613FFF3AB6F2D72B8BB10@BN6PR1201MB0018.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(28532068793085)(264703809997249)(166494164430575)(21748063052155);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3231232)(11241501184)(944501327)(52105095)(3002001)(6041310)(20161123562045)(20161123558120)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123564045)(6072148)(201708071742011);
-	SRVR:BN6PR1201MB0018; BCL:0; PCL:0; RULEID:;
-	SRVR:BN6PR1201MB0018; 
-x-forefront-prvs: 0643BDA83C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(376002)(39380400002)(346002)(39860400002)(366004)(396003)(189003)(199004)(29502001)(13464003)(14454004)(8936002)(6246003)(97736004)(5250100002)(966005)(53386004)(478600001)(6306002)(55016002)(7736002)(305945005)(6436002)(229853002)(74316002)(81156014)(9686003)(33656002)(6506007)(66066001)(81166006)(53936002)(2906002)(6916009)(53546011)(186003)(25786009)(486006)(7696005)(2900100001)(26005)(11346002)(476003)(446003)(4326008)(6116002)(105586002)(3846002)(86362001)(68736007)(106356001)(99286004)(5660300001)(8676002)(316002)(3660700001)(3280700002)(76176011)(102836004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0018;
-	H:BN6PR1201MB0195.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: 1TwYYo8Ni0KZH6LIVBynU3mQxsYtV/4Y02NcBmM92wmbIHpjA0aNZ5UhD3jGQS06CPV+LyfqKJyMg7P1OgPUBSNjpr6pJWAusR/FkMGeGnb/rcjRV7SAs1Na0VEoVbU5SMLJStYDytf9R9AX8FaEBilJj9pFrW6rqyCWga5XAgISxMkSfCjXDDOJjY7SKwZO1BZfwU7sRVxwDpARx+mZ9w==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Sun, 15 Apr 2018 08:12:20 +0000 (UTC)
+Received: from [172.16.1.14] (62-178-50-190.cable.dynamic.surfer.at
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id D43B9BFE7C;
+	Sun, 15 Apr 2018 10:12:20 +0200 (CEST)
+To: Khem Raj <raj.khem@gmail.com>
+References: <6c43a914-cf60-6d05-766c-1c1bfc92d13e@pseudoterminal.org>
+	<CAMKF1spKY4WjXg1c=70w0TjMwqVNGQD3FdLdL_A7La5rEdh7kw@mail.gmail.com>
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <ba83f506-26bf-dfef-d9d5-df352e4703ba@pseudoterminal.org>
+Date: Sun, 15 Apr 2018 10:12:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 4cf7015b-b573-436e-c419-08d5a26b2815
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cf7015b-b573-436e-c419-08d5a26b2815
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2018 00:52:25.9097 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0018
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Custom progress handlers
+In-Reply-To: <CAMKF1spKY4WjXg1c=70w0TjMwqVNGQD3FdLdL_A7La5rEdh7kw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: dropping commerical flags in mpg123 and lame recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,139 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2018 00:52:27 -0000
+X-List-Received-Date: Sun, 15 Apr 2018 08:12:21 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_BN6PR1201MB0195475C14137B62FC0E6F968BB10BN6PR1201MB0195_"
 
---_000_BN6PR1201MB0195475C14137B62FC0E6F968BB10BN6PR1201MB0195_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Please note that the Fraunhofer page is from May 2017. These sources 
+suggest that the final patent expired in December 2017:
 
-R3JlYXQsIEknbGwgZ2l2ZSBpdCBhIGdvIHRoZW4gOikNCg0KVGhlIHR5cGUgb2YgcHJvZ3Jlc3Mg
-b3V0cHV0IEknbSBoYW5kbGluZyBpcyB0aGF0IG9mIGEgZml4ZWQtd2lkdGggYmFyIHRoYXQgZmls
-bHMgdXAgd2l0aCBhIGNlcnRhaW4gY2hhcmFjdGVyIChlLmcuICcqJyBvciAnIyIpLiBKdXN0IGxp
-a2UgQml0QmFrZSdzIG93biBvdXRwdXQuDQoNCk1vcmVvdmVyIEkgd2FudCB0byBnZW5lcmFsaXpl
-IGl0IHRvIHN1cHBvcnQgbXVsdGlwbGUgd2VpZ2h0ZWQgc3RhZ2VzLCBlLmcuOg0KDQogICAgICAg
-IFNUQUdFIDE6IG1lc3NhZ2UNCiAgICAgICAgWyMjIyMjIyMjIyMjIyMjIyMjIyMjIyNdDQoNCiAg
-ICAgICAgU1RBR0UgMjogbWVzc2FnZSAyDQogICAgICAgIFsjIyMjIyMjIyMjIyMgICAgICAgICAg
-XQ0KDQpUbyB0aGUgcHJvZ3Jlc3MgaGFuZGxlciwgYSBzdGFnZSBnZW5lcmFsbHkgbG9va3MgbGlr
-ZToNCg0KWyAgICAgICAgICAgICAgICAgICAgICBdDQpbIyAgICAgICAgICAgICAgICAgICAgIF0N
-ClsjIyAgICAgICAgICAgICAgICAgICAgXQ0KWyMjIyAgICAgICAgICAgICAgICAgICBdDQrigKYg
-ZXRjLg0KDQpXaWxsIGFsc28gdHJ5IHRvIGhhbmRsZSB0aGUgY2FzZSBvZiBhbiBlbWJlZGRlZCBz
-cGlubmVyLCBlLmcuOiB8IC8gLSBcIC0NCg0KVGhhbmtzIGFnYWluIGZvciB0aGUgZW5jb3VyYWdl
-bWVudCA6KQ0KQ2hyaXMNCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogT3Rh
-dmlvIFNhbHZhZG9yIFttYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnJdDQpT
-ZW50OiBTYXR1cmRheSwgQXByaWwgMTQsIDIwMTggNTowNSBQTQ0KVG86IExBUExBTlRFLENIUklT
-IChBLUxpdHRsZSBGYWxscyxleDEpIDxjaHJpcy5sYXBsYW50ZUBhZ2lsZW50LmNvbT4NCkNjOiBQ
-YXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVk
-ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
-Q3VzdG9tIHByb2dyZXNzIGhhbmRsZXJzDQoNCk9uIFNhdCwgQXByIDE0LCAyMDE4IGF0IDExOjU2
-IEFNLCBDaHJpcyBMYXBsYW50ZSB2aWEgT3BlbmVtYmVkZGVkLWNvcmUgPG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+PiB3cm90ZToNCj4gSSBoYXZlIGltcGxlbWVudGVkIGEgc2ltcGxl
-IGN1c3RvbSBwcm9ncmVzcyBoYW5kbGVyIGluDQo+IGJpdGJha2UvbGliL2JiL3Byb2dyZXNzLnB5
-LiBJdOKAmXMgZGVzaWduZWQgdG8gaGFuZGxlIGJhci1zdHlsZQ0KPiBwcm9ncmVzcy4gVG8gdXNl
-IGl0IGZvciBteSBzaGVsbCB0YXNrcywgSSBoYXZlIG1vZGlmaWVkDQo+IOKAnGV4ZWNfZnVuY19z
-aGVsbOKAnSBpbiBiaXRiYWtlL2xpYi9iYi9idWlsZC5weS4gSXTigJlzIGltcGxlbWVudGVkIGFz
-IGEgbmV3IHZhbHVlIGZvciB0aGUg4oCccHJvZ3Jlc3PigJ0NCj4gdmFyZmxhZy4NCj4NCj4gSXMg
-dGhlcmUgYSBiZXR0ZXIsIG1vcmUgZXh0ZW5zaWJsZSB3YXkgdG8gYWRkIGEgY3VzdG9tIHByb2dy
-ZXNzDQo+IGhhbmRsZXIgdGhhdCBkb2VzbuKAmXQgcmVxdWlyZSBtb2RpZnlpbmcgcHJvZ3Jlc3Mu
-cHkgYW5kIGJ1aWxkLnB5PyBJdA0KPiB3b3VsZCBiZSBuaWNlIHRvIGJlIGFibGUgdG8gc3BlY2lm
-eSB0aGUgbmFtZSBvZiB0aGUgcHJvZ3Jlc3MgaGFuZGxlcg0KPiBjbGFzcyB0byB1c2UgKGUuZy4g
-dmlhIGEgW3Byb2dyZXNzLWNsYXNzXSB2YXJmbGFnKSBhbmQgdGhlbiBoYXZlIGJ1aWxkLnB5IGR5
-bmFtaWNhbGx5IGluc3RhbnRpYXRlIGl0Lg0KPiBJcyB0aGF0IHBvc3NpYmxlPyBJZiBzbywgd291
-bGQgT0UgYmUgaW50ZXJlc3RlZCBpbiBhIHBhdGNoIHRvIGltcGxlbWVudCBpdD8NCg0KSSBzZWUg
-bm8gcHJvYmxlbSBpbiBhZGRpbmcgaXQ7IEkgYW0gY3VyaW91cyBhYm91dCB5b3VyIGN1c3RvbSBo
-YW5kbGVyIGFzIHdlbGwgOi0pDQoNCi0tDQpPdGF2aW8gU2FsdmFkb3IgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyICAg
-ICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2JpbGU6ICs1NSAoNTMpIDk5ODEt
-Nzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3NTANCg0K
+https://madfileformatscience.garymcgath.com/2016/04/05/mp3patent/
+https://www.tunequest.org/a-big-list-of-mp3-patents/20070226/
 
---_000_BN6PR1201MB0195475C14137B62FC0E6F968BB10BN6PR1201MB0195_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Fedora now added LAME and mpg123 support, since they consider the 
+patents expired: 
+https://fedoramagazine.org/full-mp3-support-coming-soon-to-fedora/
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVu
-dD0iTWljcm9zb2Z0IEV4Y2hhbmdlIFNlcnZlciI+DQo8IS0tIGNvbnZlcnRlZCBmcm9tIHJ0ZiAt
-LT4NCjxzdHlsZT48IS0tIC5FbWFpbFF1b3RlIHsgbWFyZ2luLWxlZnQ6IDFwdDsgcGFkZGluZy1s
-ZWZ0OiA0cHQ7IGJvcmRlci1sZWZ0OiAjODAwMDAwIDJweCBzb2xpZDsgfSAtLT48L3N0eWxlPg0K
-PC9oZWFkPg0KPGJvZHk+DQo8Zm9udCBmYWNlPSJDYWxpYnJpIiBzaXplPSIyIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExcHQ7Ij4NCjxkaXY+R3JlYXQsIEknbGwgZ2l2ZSBpdCBhIGdvIHRoZW4g
-Oik8L2Rpdj4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8ZGl2PlRoZSB0eXBlIG9mIHByb2dyZXNzIG91
-dHB1dCBJJ20gaGFuZGxpbmcgaXMgdGhhdCBvZiBhIGZpeGVkLXdpZHRoIGJhciB0aGF0IGZpbGxz
-IHVwIHdpdGggYSBjZXJ0YWluIGNoYXJhY3RlciAoZS5nLiAnKicgb3IgJyMmcXVvdDspLiBKdXN0
-IGxpa2UgQml0QmFrZSdzIG93biBvdXRwdXQuIDwvZGl2Pg0KPGRpdj4mbmJzcDs8L2Rpdj4NCjxk
-aXY+TW9yZW92ZXIgSSB3YW50IHRvIGdlbmVyYWxpemUgaXQgdG8gc3VwcG9ydCBtdWx0aXBsZSB3
-ZWlnaHRlZCBzdGFnZXMsIGUuZy46PC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPGRpdj4mbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGZvbnQgZmFjZT0iQ291cmll
-ciBOZXciPlNUQUdFIDE6IG1lc3NhZ2U8L2ZvbnQ+PC9kaXY+DQo8ZGl2Pjxmb250IGZhY2U9IkNv
-dXJpZXIgTmV3Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgWyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyNdPC9mb250PjwvZGl2Pg0KPGRpdj4mbmJzcDs8L2Rpdj4NCjxk
-aXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IDxmb250IGZhY2U9
-IkNvdXJpZXIgTmV3Ij5TVEFHRSAyOiBtZXNzYWdlPC9mb250Pjxmb250IGZhY2U9IkNvdXJpZXIg
-TmV3Ij4gMjwvZm9udD48L2Rpdj4NCjxkaXY+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7IDxmb250IGZhY2U9IkNvdXJpZXIgTmV3Ij5bIyMjIyMjIyMjIyMjJm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IF08L2ZvbnQ+
-PC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPGRpdj5UbyB0aGUgcHJvZ3Jlc3MgaGFuZGxlciwg
-YSBzdGFnZSBnZW5lcmFsbHkgbG9va3MgbGlrZTo8L2Rpdj4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8
-ZGl2Pjxmb250IGZhY2U9IkNvdXJpZXIgTmV3Ij5bJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBdPC9mb250PjwvZGl2Pg0KPGRp
-dj48Zm9udCBmYWNlPSJDb3VyaWVyIE5ldyI+WyMmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IF08L2ZvbnQ+PC9kaXY+DQo8ZGl2Pjxmb250
-IGZhY2U9IkNvdXJpZXIgTmV3Ij5bIyMmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7IF08L2ZvbnQ+PC9kaXY+DQo8ZGl2Pjxmb250IGZhY2U9IkNvdXJp
-ZXIgTmV3Ij5bIyMjJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7ICZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyBdPC9mb250PjwvZGl2Pg0KPGRpdj7igKYgZXRjLjwvZGl2Pg0KPGRpdj4mbmJzcDs8L2Rpdj4N
-CjxkaXY+V2lsbCBhbHNvIHRyeSB0byBoYW5kbGUgdGhlIGNhc2Ugb2YgYW4gZW1iZWRkZWQgc3Bp
-bm5lciwgZS5nLjogfCAvIC0gXCAtPC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPGRpdj5UaGFu
-a3MgYWdhaW4gZm9yIHRoZSBlbmNvdXJhZ2VtZW50IDxmb250IGZhY2U9IlNlZ29lIFVJIEVtb2pp
-Ij46KTwvZm9udD48L2Rpdj4NCjxkaXY+Q2hyaXM8L2Rpdj4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8
-ZGl2PiZuYnNwOzwvZGl2Pg0KPGRpdj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLTxicj4NCg0K
-RnJvbTogT3RhdmlvIFNhbHZhZG9yIFs8YSBocmVmPSJtYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9z
-c3lzdGVtcy5jb20uYnIiPm1haWx0bzpvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icjwv
-YT5dDQo8YnI+DQoNClNlbnQ6IFNhdHVyZGF5LCBBcHJpbCAxNCwgMjAxOCA1OjA1IFBNPGJyPg0K
-DQpUbzogTEFQTEFOVEUsQ0hSSVMgKEEtTGl0dGxlIEZhbGxzLGV4MSkgJmx0O2NocmlzLmxhcGxh
-bnRlQGFnaWxlbnQuY29tJmd0Ozxicj4NCg0KQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFi
-b3V0IHRoZSBvZS1jb3JlIGxheWVyICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnJmd0Ozxicj4NCg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBDdXN0b20gcHJvZ3Jl
-c3MgaGFuZGxlcnM8L2Rpdj4NCjxkaXY+Jm5ic3A7PC9kaXY+DQo8ZGl2Pk9uIFNhdCwgQXByIDE0
-LCAyMDE4IGF0IDExOjU2IEFNLCBDaHJpcyBMYXBsYW50ZSB2aWEgT3BlbmVtYmVkZGVkLWNvcmUg
-Jmx0OzxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnIj5vcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPiZndDsgd3Jv
-dGU6PC9kaXY+DQo8ZGl2PiZndDsgSSBoYXZlIGltcGxlbWVudGVkIGEgc2ltcGxlIGN1c3RvbSBw
-cm9ncmVzcyBoYW5kbGVyIGluIDwvZGl2Pg0KPGRpdj4mZ3Q7IGJpdGJha2UvbGliL2JiL3Byb2dy
-ZXNzLnB5LiBJdOKAmXMgZGVzaWduZWQgdG8gaGFuZGxlIGJhci1zdHlsZSA8L2Rpdj4NCjxkaXY+
-Jmd0OyBwcm9ncmVzcy4gVG8gdXNlIGl0IGZvciBteSBzaGVsbCB0YXNrcywgSSBoYXZlIG1vZGlm
-aWVkIDwvZGl2Pg0KPGRpdj4mZ3Q7IOKAnGV4ZWNfZnVuY19zaGVsbOKAnSBpbiBiaXRiYWtlL2xp
-Yi9iYi9idWlsZC5weS4gSXTigJlzIGltcGxlbWVudGVkIGFzIGEgbmV3IHZhbHVlIGZvciB0aGUg
-4oCccHJvZ3Jlc3PigJ08L2Rpdj4NCjxkaXY+Jmd0OyB2YXJmbGFnLjwvZGl2Pg0KPGRpdj4mZ3Q7
-PC9kaXY+DQo8ZGl2PiZndDsgSXMgdGhlcmUgYSBiZXR0ZXIsIG1vcmUgZXh0ZW5zaWJsZSB3YXkg
-dG8gYWRkIGEgY3VzdG9tIHByb2dyZXNzIDwvZGl2Pg0KPGRpdj4mZ3Q7IGhhbmRsZXIgdGhhdCBk
-b2VzbuKAmXQgcmVxdWlyZSBtb2RpZnlpbmcgcHJvZ3Jlc3MucHkgYW5kIGJ1aWxkLnB5PyBJdCA8
-L2Rpdj4NCjxkaXY+Jmd0OyB3b3VsZCBiZSBuaWNlIHRvIGJlIGFibGUgdG8gc3BlY2lmeSB0aGUg
-bmFtZSBvZiB0aGUgcHJvZ3Jlc3MgaGFuZGxlciA8L2Rpdj4NCjxkaXY+Jmd0OyBjbGFzcyB0byB1
-c2UgKGUuZy4gdmlhIGEgW3Byb2dyZXNzLWNsYXNzXSB2YXJmbGFnKSBhbmQgdGhlbiBoYXZlIGJ1
-aWxkLnB5IGR5bmFtaWNhbGx5IGluc3RhbnRpYXRlIGl0LjwvZGl2Pg0KPGRpdj4mZ3Q7IElzIHRo
-YXQgcG9zc2libGU/IElmIHNvLCB3b3VsZCBPRSBiZSBpbnRlcmVzdGVkIGluIGEgcGF0Y2ggdG8g
-aW1wbGVtZW50IGl0PzwvZGl2Pg0KPGRpdj4mbmJzcDs8L2Rpdj4NCjxkaXY+SSBzZWUgbm8gcHJv
-YmxlbSBpbiBhZGRpbmcgaXQ7IEkgYW0gY3VyaW91cyBhYm91dCB5b3VyIGN1c3RvbSBoYW5kbGVy
-IGFzIHdlbGwgOi0pPC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPGRpdj4tLSA8L2Rpdj4NCjxk
-aXY+T3RhdmlvIFNhbHZhZG9yJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7IE8uUy4gU3lzdGVtczwvZGl2Pg0KPGRpdj48YSBocmVmPSJodHRwOi8v
-d3d3Lm9zc3lzdGVtcy5jb20uYnIiPmh0dHA6Ly93d3cub3NzeXN0ZW1zLmNvbS5icjwvYT4mbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iaHR0cDovL2Nv
-ZGUub3NzeXN0ZW1zLmNvbS5iciI+aHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icjwvYT48L2Rp
-dj4NCjxkaXY+TW9iaWxlOiAmIzQzOzU1ICg1MykgOTk4MS03ODU0Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IE1vYmlsZTog
-JiM0MzsxICgzNDcpIDkwMy05NzUwPC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9zcGFuPjwv
-Zm9udD4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+Fraunhofer terminated the mp3 licensing program in April 2017: 
+https://www.iis.fraunhofer.de/en/ff/amm/prod/audiocodec/audiocodecs/mp3.html
 
---_000_BN6PR1201MB0195475C14137B62FC0E6F968BB10BN6PR1201MB0195_--
+(German source) wikimedia now allows mp3 uploads: 
+https://netzpolitik.org/2017/wikimedia-erlaubt-upload-von-mp3-dateien/
+
+
+On 2018-04-14 16:16, Khem Raj wrote:
+> On Sat, Apr 14, 2018 at 1:30 AM, Carlos Rafael Giani
+> <dv@pseudoterminal.org> wrote:
+>> The lame and mpg123 can be built only if the commercial flag is whitelisted.
+>>
+>> However, the remaining mp3 patents expired in December, and no more
+>> royalties exist. This is why in GStreamer, the mpg123 and lame plugins were
+>> moved from -ugly to -good.
+>>
+>> So, can we drop the commercial flag in mpg123 and lame?
+>>
+> We probably need more clarification see
+> http://www.audioblog.iis.fraunhofer.com/mp3-software-patents-licenses/
+>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
