@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C9DD16FFA1
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 61395744F9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2018 06:50:33 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id s13-v6so2229164plq.11
+	Mon, 16 Apr 2018 06:50:35 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id t20-v6so9485735ply.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2018 23:50:35 -0700 (PDT)
+	Sun, 15 Apr 2018 23:50:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3IoNDPlvoy81APIeG49BLAcc3LVQpG9zZKxHZXzkAs0=;
-	b=R3H59UBRRPDyyUMseQucJDdKXPMKxOuR4EHm67DozPdw3z26Fc+F6GbT7hVJqwCmwq
-	dVkmiGCKOfUKNbQ8iXjWbiO+dwUzjw5NBllI1jUGzF+NE8NtL70B1SltGSQuRusJbt1V
-	qwzxt4BUjsxIoDFxw0RK74iN0E6gya4/FzvARYZCCaRcWzPKiagpOgMTcK72eFTA+bzM
-	hB14KaCoQjq7LJA+Z0GaDg0BMgC2MUvMDsdygpQVZ8oqf11uFIOYpXoPMTQhfipmcpGP
-	Db6srI7hDlIczm5lRBrjj5FzuXSgrvfDL4i1BgsPkJiDeebuedDIOkftd424iKg5D4eo
-	u+Cw==
+	bh=GYC8GjwZodQPQ4S17ZXlj5gEmFAFtoxhcPT1zboyBsc=;
+	b=D9ziJyly5wpq0h0fLYkjwBIgL9n9ZuUKNmzrAHMLqPhLURDRd78K6x2F5Hx5Fbm+TU
+	G97E+JEjYX0+/qintrv9rOWN9e2FrTSdWA2WgISuflNJtPSTkTNo+WJIF5QxJI3RhLiI
+	V0LxDzuUhUSA48z8JZxRbPboMNNusZFuEiCMi1EQWoMJK4whlrDM8xQg5ERY4GWkD05T
+	JORghWvS2BHv7MgA3dmvUAB3pXcyyukB8yoDnbyGmPvB0GgFMjsHoF4TzVLFGcGZceiC
+	TJNUMyO8BrV6OMb1TkpCOwPvehQKlkZkCfe4C/Q3HtZakZjtAf9dFS/Zr1xxpFyBOOZ1
+	oNAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=3IoNDPlvoy81APIeG49BLAcc3LVQpG9zZKxHZXzkAs0=;
-	b=UdaD/wyxoTgQE5nxVuvcb9T/KTHoxrlgAC4SMohrXRf0W1AInGYdbbI2LN6gBs7o8t
-	WQTzXmLGuNu2xxibaWCK927gn4+X3wxLpHv6rJ0Hs9gkoZvssqhZS5J6Bo9Pjj4yb9KP
-	1VXvuEW1K/ht8NPPcN2Y6SzpH2SVY1yZIjRc5rTj1te86x5x9v+HZ6QJg8YI+2CRDEQY
-	E+8X1grelaJcrNgN0zpim9/HKsPIgJ4hkwqpiubwVoUw84HonGllH2ptvc2Kv/+vdBGP
-	QuVY95HEo3wiqHxJVSdkd7BlTNfCtS+UMiAFng1ojoaRslRhzr57gLq0SAB7eat8jM0T
-	lDpQ==
-X-Gm-Message-State: ALQs6tDaG662Xk3FJ6LMZAhsWGLt1C9tCKALk9285vLlqcW7R/Yb+Cjr
-	VdhjCREbMEuHLviAPnFhXpe7+w==
-X-Google-Smtp-Source: AIpwx49pcuHyvqkuc1C63J1f+tvruogeOB1bQuP4IZGFws9Pws8eKz28mlGeuUjVplS1KIqLmnCXEA==
-X-Received: by 2002:a17:902:5c6:: with SMTP id
-	f64-v6mr14165122plf.77.1523861434595; 
-	Sun, 15 Apr 2018 23:50:34 -0700 (PDT)
+	bh=GYC8GjwZodQPQ4S17ZXlj5gEmFAFtoxhcPT1zboyBsc=;
+	b=GK5gOxgx1oT1Ljun7LfpbWk1PKMevee6anGlHkOilA9MM+Cneb9kCEOBU67QP+RVD0
+	gyTDOSRONWylhLHEXmnF4xQ2ReIVxjEXngxAH13d4bCkVxH3IiyuMSaUu5TeNhtcgzHk
+	ITtM91D+rRe0gqqhun2Dy8VL+2JurgT7P+/dAaiPzc2yX4n0Nvpe8cbKPI65+VKZQTAs
+	PqVLmv3wfmBzD+agmZ4ajOHXiR9vxpsV37soXsyBsMmlTfFqpzpsghCYqVpjOyfcNx7r
+	u9xZr8YSNQZapWrvSTNx/hsz2u6bDwnKGLMJtJ23KjvjNfmZ7KxQiwDvV663LmGvngSa
+	w/gQ==
+X-Gm-Message-State: ALQs6tB8EjauUyr3q/eE/qJzdVF2XV7KTxIJUA6UtBn7OehB7oqBtjyc
+	dtWE9CD5xgZgpfzNJX6Adn56hQ==
+X-Google-Smtp-Source: AIpwx4/ozDNEF/B6tjt0qU50X7raTJyDKpHnDPbRGkEQXFi81xUQ6/bBAblF4x9F2X0Hz0mLOyOZsQ==
+X-Received: by 2002:a17:902:bd03:: with SMTP id
+	p3-v6mr14378185pls.236.1523861436234; 
+	Sun, 15 Apr 2018 23:50:36 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::487b])
 	by smtp.gmail.com with ESMTPSA id
-	o13sm2388362pgn.54.2018.04.15.23.50.33
+	o13sm2388362pgn.54.2018.04.15.23.50.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 15 Apr 2018 23:50:33 -0700 (PDT)
+	Sun, 15 Apr 2018 23:50:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Apr 2018 23:50:12 -0700
-Message-Id: <20180416065014.29385-2-raj.khem@gmail.com>
+Date: Sun, 15 Apr 2018 23:50:13 -0700
+Message-Id: <20180416065014.29385-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180416065014.29385-1-raj.khem@gmail.com>
 References: <20180416065014.29385-1-raj.khem@gmail.com>
-Subject: [PATCH 2/4] musl: Depend on libssp-nonshared
+Subject: [PATCH 3/4] gcc-runtime: Disable gcc version of libssp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2018 06:50:33 -0000
+X-List-Received-Date: Mon, 16 Apr 2018 06:50:35 -0000
 
-libssp-nonshared is required on musl since
-it does not implement the gcc runtime piece of
-libssp, which actually it a gcc optimization to
-reach to __stack_chk_fail
+libssp is implemented fully in glibc as well as in musl
+so we really do not need the gcc version of this library
+except may be for mingw, where we keep it enabled anyway
+gcc in OE is built with the knowledge that C library
+already provides libssp implementation, we should therefore
+not need the gcc implementation of same.
+
+libssp_nonshared piece is a detail which is needed when gcc
+is the compiler, in glibc this is part of libc_nonshared.a
+already and libc_nonshared.a is linked always when linking
+with -lc becuase libc.so in glibc is actually a linker script
+
+GROUP ( /usr/lib/libc.so.6 /usr/lib/libc_nonshared.a  AS_NEEDED ( /usr/lib/ld-linux-x86-64.so.2 ) )
+
+which automatically links in the needed runtime bits, this however
+is not the case for musl, where core SSP APIs are implemented in full
+but compiler specific runtime isn't, for this we add a new package
+called libssp_nonshared which generate the needed runtime stub
+and gcc is already carrying patch to link to libssp_nonshared.a
+on musl
+
+This should fix a long standing problem where static PIE executable
+were not buildable with OE since it was conflicting SSP implementation
+one from C library and the other one from gcc and we end up with
+duplicate symbol errors during linking.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-7.3.inc     | 4 +++-
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 42ba411f17..d5a9360b70 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -22,6 +22,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-            libgcc-initial \
-            linux-libc-headers \
-            bsd-headers \
-+           libssp-nonshared \
-           "
+diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+index d968c322d2..7e52afc643 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+@@ -93,10 +93,12 @@ FORTRAN = ""
+ JAVA = ""
  
- export CROSS_COMPILE="${TARGET_PREFIX}"
-@@ -65,7 +66,7 @@ do_install() {
- 	done
- }
+ LTO = "--enable-lto"
++SSP ?= "--disable-libssp"
++SSP_mingw = "--enable-libssp"
  
--RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev"
-+RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared"
- RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
- RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
+ EXTRA_OECONF_BASE = "\
+     ${LTO} \
+-    --enable-libssp \
++    ${SSP} \
+     --enable-libitm \
+     --disable-bootstrap \
+     --disable-libmudflap \
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 97365a21dc..b4e5539575 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -24,8 +24,10 @@ RUNTIMELIBITM_nios2 = ""
+ RUNTIMELIBITM_microblaze = ""
+ RUNTIMELIBITM_riscv32 = ""
+ RUNTIMELIBITM_riscv64 = ""
++RUNTIMELIBSSP ?= ""
++RUNTIMELIBSSP_mingw ?= "libssp"
  
+-RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
++RUNTIMETARGET = "libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+ "
+ RUNTIMETARGET_append_x86 = " libmpx"
 -- 
 2.17.0
 
