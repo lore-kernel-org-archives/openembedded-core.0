@@ -1,47 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B08B6FFA1
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C9DD16FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2018 06:50:32 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id h69so10060966pfe.13
+	Mon, 16 Apr 2018 06:50:33 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id s13-v6so2229164plq.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Apr 2018 23:50:34 -0700 (PDT)
+	Sun, 15 Apr 2018 23:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=UTPuHWzLvs/ZCe5P0BY30bHEYgYw1W0YvyFGo55arg8=;
-	b=DmXOO5AYI9wf/39qZWlzsVE9biWO7eGAoe58uEPAPBHLGmDmKrAeIzx/hWjdKyUQXN
-	GqS49wM3YCMDBQ1gZXuAGOdYQV2gGIUvwlGPJB/07DwH7UUbtIUg8STNVrwnx1vNagmw
-	AUGxRCD8vlktDsp2u5vR8CYRHYbEUD9zfJEdYK9n4p5mPhUTBdgflMDGHv+0pbdWRHQC
-	qxYOWjqMOyECiNtdAyeqbUj11elST0u3bgNr5QMrY1MHWHfc38mnESrUPQ7UvB5OfVVd
-	kD3z2dkVzsk7x6sNghT/YhgkyxKuMHKwWkaCQEANxCSq92gqjkJqLHMajDBw24csvxkB
-	MS5g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3IoNDPlvoy81APIeG49BLAcc3LVQpG9zZKxHZXzkAs0=;
+	b=R3H59UBRRPDyyUMseQucJDdKXPMKxOuR4EHm67DozPdw3z26Fc+F6GbT7hVJqwCmwq
+	dVkmiGCKOfUKNbQ8iXjWbiO+dwUzjw5NBllI1jUGzF+NE8NtL70B1SltGSQuRusJbt1V
+	qwzxt4BUjsxIoDFxw0RK74iN0E6gya4/FzvARYZCCaRcWzPKiagpOgMTcK72eFTA+bzM
+	hB14KaCoQjq7LJA+Z0GaDg0BMgC2MUvMDsdygpQVZ8oqf11uFIOYpXoPMTQhfipmcpGP
+	Db6srI7hDlIczm5lRBrjj5FzuXSgrvfDL4i1BgsPkJiDeebuedDIOkftd424iKg5D4eo
+	u+Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UTPuHWzLvs/ZCe5P0BY30bHEYgYw1W0YvyFGo55arg8=;
-	b=sbRyVbhwYo/p3l35+/D2O4yWI7fjoTImpu5nxXRkrjf81hZq6fYgNNcY3Nkr4+aBhs
-	gOPn0xF4doj5XyXNo5RkkWFU+OjFlRqh5Jy1qSqDppEpT5wjJkHFJ/gRv5JlZVSF+jZc
-	5AcXxZQbanNO8rnlm6o4hw1S/Nd2qvmWv2zXhImwcPZLPPkySiBrMfTAGXtB8H2ffjtQ
-	59cUAd2O5oDkFIr7qN24/rufj3HpASd6snGR4x0QYl3lOJH0bSSBlzrfUFTRbDYwU4NC
-	Wcq741Egl4c/teg1TXJZBiDGG7D6RNNZRfPgqhK9U5SUgxrHKbe7mrrYk9Nnh6Ut8eOK
-	nbOQ==
-X-Gm-Message-State: ALQs6tAu2l2o+mVaYRUSO3Nk1JEZ8FNn/SRCsEhvRMMp93kU62T+4ncR
-	IvrcocRbejgVCIGRvjvcLbngsw==
-X-Google-Smtp-Source: AIpwx49Sr1fKA0O+ER+tzrWLmZVsFDilxEPOuZ3VLQbmJRKMw2QALPr6wG7H0uFFj0LNlNAxQlWjmA==
-X-Received: by 10.101.71.138 with SMTP id e10mr11390266pgs.47.1523861433737;
-	Sun, 15 Apr 2018 23:50:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=3IoNDPlvoy81APIeG49BLAcc3LVQpG9zZKxHZXzkAs0=;
+	b=UdaD/wyxoTgQE5nxVuvcb9T/KTHoxrlgAC4SMohrXRf0W1AInGYdbbI2LN6gBs7o8t
+	WQTzXmLGuNu2xxibaWCK927gn4+X3wxLpHv6rJ0Hs9gkoZvssqhZS5J6Bo9Pjj4yb9KP
+	1VXvuEW1K/ht8NPPcN2Y6SzpH2SVY1yZIjRc5rTj1te86x5x9v+HZ6QJg8YI+2CRDEQY
+	E+8X1grelaJcrNgN0zpim9/HKsPIgJ4hkwqpiubwVoUw84HonGllH2ptvc2Kv/+vdBGP
+	QuVY95HEo3wiqHxJVSdkd7BlTNfCtS+UMiAFng1ojoaRslRhzr57gLq0SAB7eat8jM0T
+	lDpQ==
+X-Gm-Message-State: ALQs6tDaG662Xk3FJ6LMZAhsWGLt1C9tCKALk9285vLlqcW7R/Yb+Cjr
+	VdhjCREbMEuHLviAPnFhXpe7+w==
+X-Google-Smtp-Source: AIpwx49pcuHyvqkuc1C63J1f+tvruogeOB1bQuP4IZGFws9Pws8eKz28mlGeuUjVplS1KIqLmnCXEA==
+X-Received: by 2002:a17:902:5c6:: with SMTP id
+	f64-v6mr14165122plf.77.1523861434595; 
+	Sun, 15 Apr 2018 23:50:34 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::487b])
 	by smtp.gmail.com with ESMTPSA id
-	o13sm2388362pgn.54.2018.04.15.23.50.32
+	o13sm2388362pgn.54.2018.04.15.23.50.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sun, 15 Apr 2018 23:50:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Apr 2018 23:50:11 -0700
-Message-Id: <20180416065014.29385-1-raj.khem@gmail.com>
+Date: Sun, 15 Apr 2018 23:50:12 -0700
+Message-Id: <20180416065014.29385-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [PATCH 1/4] libssp-nonshared: Add recipe
+In-Reply-To: <20180416065014.29385-1-raj.khem@gmail.com>
+References: <20180416065014.29385-1-raj.khem@gmail.com>
+Subject: [PATCH 2/4] musl: Depend on libssp-nonshared
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,113 +60,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Apr 2018 06:50:33 -0000
 
-libssp-nonshared is a minimal gcc runtime piece which is needed
-on non-glibc systems which do implement libssp APIs in libc
+libssp-nonshared is required on musl since
+it does not implement the gcc runtime piece of
+libssp, which actually it a gcc optimization to
+reach to __stack_chk_fail
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/libssp-nonshared.bb    | 39 ++++++++++++++++
- .../musl/libssp-nonshared/ssp-local.c         | 45 +++++++++++++++++++
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-core/musl/libssp-nonshared.bb
- create mode 100644 meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+ meta/recipes-core/musl/musl_git.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
-new file mode 100644
-index 0000000000..3afab30fa2
---- /dev/null
-+++ b/meta/recipes-core/musl/libssp-nonshared.bb
-@@ -0,0 +1,39 @@
-+# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+SUMMARY = "Minimal libssp_nonshared.a must needed for ssp to work with gcc on musl"
-+LICENSE = "GPL-3.0-with-GCC-exception"
-+LIC_FILES_CHKSUM = "file://ssp-local.c;beginline=1;endline=32;md5=c06d391208c0cfcbc541a6728ed65cc4"
-+SECTION = "libs"
-+
-+SRC_URI = "file://ssp-local.c"
-+
-+PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
-+STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
-+
-+DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-+           virtual/${TARGET_PREFIX}gcc-initial \
-+"
-+
-+do_configure[noexec] = "1"
-+
-+S = "${WORKDIR}"
-+
-+do_compile() {
-+	${CC} ${CPPFLAGS} ${CFLAGS} -c ssp-local.c -o ssp-local.o
-+	${AR} r libssp_nonshared.a ssp-local.o
-+}
-+do_install() {
-+	install -Dm 0644 ${B}/libssp_nonshared.a ${D}${base_libdir}/libssp_nonshared.a
-+}
-+
-+PACKAGES = "${PN}"
-+FILES_${PN} = "${base_libdir}/libssp_nonshared.a"
-+#
-+# We will skip parsing for non-musl systems
-+#
-+COMPATIBLE_HOST = ".*-musl.*"
-diff --git a/meta/recipes-core/musl/libssp-nonshared/ssp-local.c b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
-new file mode 100644
-index 0000000000..8f51afa2c1
---- /dev/null
-+++ b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
-@@ -0,0 +1,45 @@
-+/* Stack protector support.
-+   Copyright (C) 2005-2018 Free Software Foundation, Inc.
-+
-+This file is part of GCC.
-+
-+GCC is free software; you can redistribute it and/or modify it under
-+the terms of the GNU General Public License as published by the Free
-+Software Foundation; either version 3, or (at your option) any later
-+version.
-+
-+In addition to the permissions in the GNU General Public License, the
-+Free Software Foundation gives you unlimited permission to link the
-+compiled version of this file into combinations with other programs,
-+and to distribute those combinations without any restriction coming
-+from the use of this file.  (The General Public License restrictions
-+do apply in other respects; for example, they cover modification of
-+the file, and distribution when not linked into a combine
-+executable.)
-+
-+GCC is distributed in the hope that it will be useful, but WITHOUT ANY
-+WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-+for more details.
-+
-+Under Section 7 of GPL version 3, you are granted additional
-+permissions described in the GCC Runtime Library Exception, version
-+3.1, as published by the Free Software Foundation.
-+
-+You should have received a copy of the GNU General Public License and
-+a copy of the GCC Runtime Library Exception along with this program;
-+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-+<http://www.gnu.org/licenses/>.  */
-+
-+extern void __stack_chk_fail (void);
-+
-+/* Some targets can avoid loading a GP for calls to hidden functions.
-+   Using this entry point may avoid the load of a GP entirely for the
-+   function, making the overall code smaller.  */
-+
-+void
-+__attribute__((visibility ("hidden")))
-+__stack_chk_fail_local (void)
-+{
-+  __stack_chk_fail ();
-+}
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 42ba411f17..d5a9360b70 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -22,6 +22,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            libgcc-initial \
+            linux-libc-headers \
+            bsd-headers \
++           libssp-nonshared \
+           "
+ 
+ export CROSS_COMPILE="${TARGET_PREFIX}"
+@@ -65,7 +66,7 @@ do_install() {
+ 	done
+ }
+ 
+-RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev"
++RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared"
+ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
+ RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
+ 
 -- 
 2.17.0
 
