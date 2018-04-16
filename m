@@ -1,40 +1,48 @@
-Return-Path: <michael.davis@essvote.com>
-Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 51B43744F4
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A90071BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2018 18:18:47 +0000 (UTC)
-X-AuditID: 0a00029b-19fe89c000000a0a-ca-5ad4e90887d6
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
-	38.DC.02570.809E4DA5; Mon, 16 Apr 2018 13:18:48 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e]) by
-	ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e%20]) with mapi
-	id 14.03.0301.000; Mon, 16 Apr 2018 13:18:47 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "Davis, Michael" <michael.davis@essvote.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-CORE][sumo][python3] Generated SDK missing sqlite3
-Thread-Index: AdPVnHwPMePtm6JKSBC4yynauRDLjQAEquQQ
-Date: Mon, 16 Apr 2018 18:18:45 +0000
-Message-ID: <655290B7709079438B7932553958E60DA1475431@ESS-EX01.essvote.corp.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.20.33]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWyRiBPQ5fj5ZUogz0fxCzu/HzH7sDocW7j
-	CsYAxigum5TUnMyy1CJ9uwSujG/PmpgLNphV/JzdxtTA+E2/i5GTQ0LARGLHs6NsXYxcHEIC
-	Rxklfl54zwzhnGSU2LnpBiNIFZuAkcS565sYQRIiAt2MEtebfzGBJIQFnCV+/p3HDGKLCLhI
-	LH4+Bco2krg07TBYDYuAqsT3+YdZQGxegSCJlm33wWxGATGJ76fWgNUwC4hL3HoynwniJAGJ
-	JXvOM0PYohIvH/9j7WLkALLlJA7fioQoz5eY+Wo7E8RIQYmTM5+wTGAUnIVk0iwkZbOQlEHE
-	dSQW7P7EBmFrSyxb+JoZxj5z4DETsvgCRvZVjHy5RnqpxcVl+SWpesn5uZsYgeHOxcA0ewdj
-	T1PsIUYBDkYlHt7cRVeihFgTy4orcw8xSnOwKInzBlwxihISSE8sSc1OTS1ILYovKs1JLT7E
-	yMTBCSK4pBoYmfhuSUy0MlnZ4xfCMPVKj8rMY2F7p+91Vb1SGDMtY5l3/rnkR0vWnXuckWyT
-	/LNOQ6+tSXPJGqWkm2LN+1YVHlbRVN1l9TRlp2KxUs+xnc6cf1ojayYURvutrPF9tm7F5+Tv
-	/jvj9/POST94JtJzxeOJIVzP+sK8ahdN6Iqdlm4r0/rnV2+5EktxRqKhFnNRcSIAQgeLfV0C
-	AAA=
-Subject: Re: [sumo][python3] Generated SDK missing sqlite3
+	Mon, 16 Apr 2018 19:26:12 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id p142-v6so23784323lfd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2018 12:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=haNabaf4k5QkzRBmUURwKZUOe9RAVsEmqyqk3EH3kOM=;
+	b=lkqK/GAmIs1ctEyupnr1r+Vavkk4SipisrCnDxbexn0xkCHpq1uRT5r2GwyTo4Md3C
+	U2ZI3SuPA73h87q5qcVecjYqtmuiQi36xf5YSjPML6x1uOjkDSsc6ZRr0T4npD/WbbHG
+	5DciXe4gQqaRADSVRILdVJf1lPmMKF35b5iCd4pZiYdfgBoMp0PfJpHotxsQEDcoL7o7
+	S37d70LU07vh+3+GOlWgykGOTrvKXjhPAn442I46J8Gsz2YVG+7X5tQK47c4wDkBGHGK
+	hec7wba+CQqoWmU48OxrFTF7NnWGU+GUPraqNfcXz08EeOjYGVcc0aEjRTKP1i8PhxmM
+	1Zcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=haNabaf4k5QkzRBmUURwKZUOe9RAVsEmqyqk3EH3kOM=;
+	b=OmlhD4gzs7qrvwQHxVM3Uts3C1Hh3HoY/X5LiqAiiuqTLFuSTxVVGHm40cgnqUyUw1
+	9Os6G7rk1CsrF6uSSEE/fV4H+e38X3H/7fhT9r/xddBVWxWcEdm4nmO+UI9QfXhJ7VdB
+	ypWAA5etLbhBMS3S+zmjNVqDb5d+KVpLCqPf4s83J8y7+3QwcfeJJSg1vlb0wJxH3atO
+	Mb3f0iAjIofIvqNSRQvo5yN2jLQHG+CuSCjhobvcuWdWxWh6xhlFhoK26FX2MQBDFYlC
+	2G+pl/Gduo1xK0IXRhjQ2NbGI89Wmh8/B2IoBas4R0GfZY6lRWnaE99lIcjKW06RECmu
+	xEmQ==
+X-Gm-Message-State: ALQs6tDBM/JOb4yt2BVpa4VhSixJSBBz5cSJpO7oeU726C9zz8PyGtWg
+	taCHglN7dWQx2uRkhrBDpSdOoA==
+X-Google-Smtp-Source: AIpwx4/obL3aWE6CaXFKJJs7aBIxWVqS+W4Wa/85pEACwZ3iZiXU1YXIL71HW2VsdtID+r0+4U/SIQ==
+X-Received: by 10.46.62.12 with SMTP id l12mr9942538lja.66.1523906773277;
+	Mon, 16 Apr 2018 12:26:13 -0700 (PDT)
+Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
+	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
+	j74-v6sm2976728lfg.92.2018.04.16.12.26.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 16 Apr 2018 12:26:12 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Apr 2018 21:26:05 +0200
+Message-Id: <1523906765-12497-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] externalsrc.bbclass: introduce INHIBIT_SRCTREE_FILE_CHECKSUMES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,180 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2018 18:18:48 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_655290B7709079438B7932553958E60DA1475431ESSEX01essvotec_"
+X-List-Received-Date: Mon, 16 Apr 2018 19:26:13 -0000
 
---_000_655290B7709079438B7932553958E60DA1475431ESSEX01essvotec_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Ming Liu <liu.ming50@gmail.com>
 
-Adding python3-misc to the SDK seems to have solved the issue.
-I saw some commits about separating the two so perhaps this is a side effec=
-t?
+It defaults to be '0', but it allows the developers to choose not add
+file-checksums to do_compile for the entire source tree, by setting to
+'1'.
 
-From: Davis, Michael
-Sent: Monday, April 16, 2018 11:04 AM
-To: 'openembedded-core@lists.openembedded.org'
-Subject: [OE-CORE][sumo][python3] Generated SDK missing sqlite3
+We need this because we have a huge project with 100G bytes source
+files, and we do not want them to be added to file-checksums variable
+flag.
 
-Testing out the upcoming sumo release and ran into an issue.  Whenever I at=
-tempt to generate an sdk-ext with sumo I get a failure about missing sqlite=
-3.
-Traceback (most recent call last):
- File "/home/mdavis/core_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/devtool"=
-, line 344, in <module>
-   ret =3D main()
- File "/home/mdavis/core_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/devtool"=
-, line 285, in main
-   scriptutils.logger_setup_color(logger, global_args.color)
- File "/home/mdavis/core_sdk/layers/core/scripts/lib/scriptutils.py", line =
-38, in logger_setup_color
-   from bb.msg import BBLogFormatter
- File "/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/__init__.py", line =
-79, in <module>
-   from bb import fetch2 as fetch
- File "/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/fetch2/__init__.py"=
-, line 39, in <module>
-   import bb.persist_data, bb.utils
- File "/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/persist_data.py", l=
-ine 33, in <module>
-   sqlversion =3D sqlite3.sqlite_version_info
-AttributeError: module 'sqlite3' has no attribute 'sqlite_version_info'
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/externalsrc.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The issue seems to be isolated only to python3. The sdk partially installs =
-and I am able to source it.  I created a small python sqlite app and was ab=
-le to run it properly with python2, but not 3.
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index c9f5cf7..16c6862 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -26,6 +26,7 @@
+ 
+ SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
+ EXTERNALSRC_SYMLINKS ?= "oe-workdir:${WORKDIR} oe-logs:${T}"
++INHIBIT_SRCTREE_FILE_CHECKSUMES ?= "0"
+ 
+ python () {
+     externalsrc = d.getVar('EXTERNALSRC')
+@@ -212,7 +213,7 @@ def srctree_hash_files(d, srcdir=None):
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
+         ret = oe_hash_file + ':True'
+-    else:
++    elif not d.getVar('INHIBIT_SRCTREE_FILE_CHECKSUMES'):
+         ret = s_dir + '/*:True'
+     return ret
+ 
+-- 
+2.7.4
 
 
---_000_655290B7709079438B7932553958E60DA1475431ESSEX01essvotec_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-span.EmailStyle18
-	{mso-style-type:personal-reply;
-	font-family:"Calibri","sans-serif";
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"color:#1F497D">Adding python3-misc to=
- the SDK seems to have solved the issue.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:#1F497D">I saw some commits abo=
-ut separating the two so perhaps this is a side effect?</span><span style=
-=3D"font-family:&quot;Courier New&quot;;color:black;background:white"><o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
-n></p>
-<div>
-<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
-;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-s=
-ize:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> Davis, M=
-ichael
-<br>
-<b>Sent:</b> Monday, April 16, 2018 11:04 AM<br>
-<b>To:</b> 'openembedded-core@lists.openembedded.org'<br>
-<b>Subject:</b> [OE-CORE][sumo][python3] Generated SDK missing sqlite3<o:p>=
-</o:p></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Testing out the upcoming sumo release and ran into a=
-n issue.&nbsp; Whenever I attempt to generate an sdk-ext with sumo I get a =
-failure about missing sqlite3.<o:p></o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Courier New&quot;;c=
-olor:black;background:white">Traceback (most recent call last):
-</span><span style=3D"font-family:&quot;Courier New&quot;"><br>
-&nbsp;File &quot;/home/mdavis/core_sdk/sysroots/x86_64-pokysdk-linux/usr/bi=
-n/devtool&quot;, line 344, in &lt;module&gt;
-<br>
-&nbsp;&nbsp;&nbsp;ret =3D main() <br>
-&nbsp;File &quot;/home/mdavis/core_sdk/sysroots/x86_64-pokysdk-linux/usr/bi=
-n/devtool&quot;, line 285, in main
-<br>
-&nbsp;&nbsp;&nbsp;scriptutils.logger_setup_color(logger, global_args.color)=
- <br>
-&nbsp;File &quot;/home/mdavis/core_sdk/layers/core/scripts/lib/scriptutils.=
-py&quot;, line 38, in logger_setup_color
-<br>
-&nbsp;&nbsp;&nbsp;from bb.msg import BBLogFormatter <br>
-&nbsp;File &quot;/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/__init__.=
-py&quot;, line 79, in &lt;module&gt;
-<br>
-&nbsp;&nbsp;&nbsp;from bb import fetch2 as fetch <br>
-&nbsp;File &quot;/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/fetch2/__=
-init__.py&quot;, line 39, in &lt;module&gt;
-<br>
-&nbsp;&nbsp;&nbsp;import bb.persist_data, bb.utils <br>
-&nbsp;File &quot;/home/mdavis/core_sdk/layers/core/bitbake/lib/bb/persist_d=
-ata.py&quot;, line 33, in &lt;module&gt;
-<br>
-&nbsp;&nbsp;&nbsp;sqlversion =3D sqlite3.sqlite_version_info <br>
-AttributeError: module 'sqlite3' has no attribute 'sqlite_version_info'<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Courier New&quot;">=
-<o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal">The issue seems to be isolated only to python3. The =
-sdk partially installs and I am able to source it.&nbsp; I created a small =
-python sqlite app and was able to run it properly with python2, but not 3.<=
-o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_655290B7709079438B7932553958E60DA1475431ESSEX01essvotec_--
