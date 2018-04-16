@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 99512744BD;
-	Sun, 15 Apr 2018 21:12:34 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3FLCTYD023186
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 15 Apr 2018 22:12:30 +0100
-Message-ID: <1523826749.2942.358.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Sun, 15 Apr 2018 22:12:29 +0100
-In-Reply-To: <20180414214812.GA25986@linux-uys3>
-References: <1523011021.2942.6.camel@linuxfoundation.org>
-	<20180406141647.GA19068@linux-uys3>
-	<1523028587.2942.13.camel@linuxfoundation.org>
-	<a04373f5-cb03-25a3-36fa-da92b0cdd71d@gmail.com>
-	<1523051813.2942.36.camel@linuxfoundation.org>
-	<20180414214812.GA25986@linux-uys3>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] LAYERSERIES
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C11EF60291
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2018 02:23:04 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="38894440"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Apr 2018 10:23:03 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7A2CE486A796
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2018 10:23:04 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Mon, 16 Apr 2018 10:23:05 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Apr 2018 19:22:32 +0800
+Message-ID: <1523877752-28596-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 7A2CE486A796.A67B0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] sqlite3:3.22.0->3.23.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Apr 2018 21:12:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Apr 2018 02:23:05 -0000
+Content-Type: text/plain
 
-On Sat, 2018-04-14 at 17:48 -0400, Trevor Woerner wrote:
-> On Fri 2018-04-06 @ 10:56:53 PM, Richard Purdie wrote:
-> > 
-> > To be really clear, "master" is never a value that would appear in
-> > LAYERSERIES. That would let everyone be lazy and master would match
-> > everywhere, then this would all be pointless.
-> So what happens when the master branch of a BSP layer doesn't work
-> with the
-> last release, but bitbake hasn't been updated with the next release's
-> name?
-> 
-> I.e. the sumo branch of meta-bsp has
-> 
-> 	LAYERSERIES_COMPAT_bsp = "sumo"
-> 
-> but what am I supposed to put as the value when meta-bsp's master
-> branch
-> becomes incompatible with sumo? "master" is not allowed, and "thud"
-> fails too.
-> 
-> At some point between one release and the next something might/will
-> break. In
-> which case the only thing a BSP's master branch will work with is
-> openembedded-core's master.
+Upgrade sqlite3 from 3.22.0 to 3.23.1.
 
-Post release of sumo we'll add thud as a possible option to OE-Core and
-things should be ok?
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/sqlite/{sqlite3_3.22.0.bb => sqlite3_3.23.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.22.0.bb => sqlite3_3.23.1.bb} (59%)
 
-Cheers,
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.22.0.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+similarity index 59%
+rename from meta/recipes-support/sqlite/sqlite3_3.22.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+index ef88659..3755761 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.22.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
+ SRC_URI = "\
+   http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+   "
+-SRC_URI[md5sum] = "96b5648d542e8afa6ab7ffb8db8ddc3d"
+-SRC_URI[sha256sum] = "2824ab1238b706bc66127320afbdffb096361130e23291f26928a027b885c612"
++SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
++SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
+-- 
+2.7.4
 
-Richard
+
+
 
