@@ -1,42 +1,52 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id AE53D744C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D40637452A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2018 08:40:51 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40Phfq2nRwz1qx9M;
-	Mon, 16 Apr 2018 10:40:51 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40Phfq2HHXz1qs50;
-	Mon, 16 Apr 2018 10:40:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id R2QYcOaq54kb; Mon, 16 Apr 2018 10:40:50 +0200 (CEST)
-X-Auth-Info: uhSVM0DCPBbjpMW67ME8RXW2idngZ1S8F6NGqTTW4pk=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon, 16 Apr 2018 10:40:50 +0200 (CEST)
-To: yamada.masahiro@socionext.com, mnhu@prevas.dk, raj.khem@gmail.com
-References: <20180408230223.17260-1-marex@denx.de>
-	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
-	<bf9e9593-a395-8d53-faf8-ad6609aa5ba1@prevas.dk>
-	<53904a8f-7ba2-7f09-4e93-a95a780f60c7@denx.de>
-	<d89b39f665a14c63b0821c1ad600da72@SOC-EX01V.e01.socionext.com>
-	<8cc34667-5bb3-9642-40e2-d56b28f56646@prevas.dk>
-	<32a348ed6176434db8178d29d7e1f183@SOC-EX01V.e01.socionext.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <5ca366ed-3108-4a56-caaf-06b4f136d259@denx.de>
-Date: Mon, 16 Apr 2018 10:40:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Mon, 16 Apr 2018 10:31:30 +0000 (UTC)
+Received: by mail-ot0-f178.google.com with SMTP id o9-v6so16801776otj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Apr 2018 03:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=cafuW9gfi9wssj8R8Gdw1/hTkw56H0nk0pVpv9AsChg=;
+	b=bylFzkTr1F6XO17og5dI8i0MU8+oMa07m3dCpPEyVW9gZI9dvpnWVMoN8+DTMjiVKo
+	+RTQPmJRl1AX52VPdND7IAwm1hAbmEWGOAQWPNhVhRUoqw9UyVNR4voj02ZZWm01RCUB
+	37FgrYKeKu4TvdmUHpHV113SoOioZU+uuqn+K1tLVM2WyAOgLTpGwF7T222lFi3NhTeE
+	9BhoGFpZU6qmu9VSxcNRGU5YwCnGhxFPp8n+eBmtlZB9JrzB8/caEa10IqOXlhdIXDda
+	B/T29xGswJ2fBJ7a+7i1g6UVIbywj+7e7AxNrM2P4aZklyhU6r+Wzvk6VSk16AzdSrb8
+	pnUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=cafuW9gfi9wssj8R8Gdw1/hTkw56H0nk0pVpv9AsChg=;
+	b=tPzxvhS03/ouOrbybjhklAsDmyzixjRgOcrSpabYThg1z+kD0COO36W8AdLbyD4sNn
+	saru+9rAt9lb9KjK0T0mEVVcj6Pu2sKok1TlkpHl/d716Qp1Z8171o58YfagcvSeCu1b
+	kpnHZNPC1U84o9gZWQ7mckWx1fXmrMriBdPZ4zWTcV1nljcxw7AnBxv4MUM1zwHbLBMX
+	+v77i4WNzBOMDj+rwZ+yHzgVicU0o8+mUy9cfhWmj9jYpxznfEARzzcWWsCD0eUv6Z9T
+	IsoYeSH/y53JMJc2GPvfNm9hk2XN31dgFEfUruHhkkuB1qEV/SujuhWu8IzJx5oNfSWG
+	Qg4Q==
+X-Gm-Message-State: ALQs6tCxYgu8lXMrPpH5cPNIK917bdU81mai0L3iy3CaB0pgg7MGC6Te
+	cygbr06DV9fJMckbQIl/gjS42dqi5We4a2x+yeXCSA==
+X-Google-Smtp-Source: AIpwx49uZPxH/rDMkpQe6ay1EjZT7LFh4P7VBVTPopCmgenxRpxBLWCTpHdLZSlTpmMXpz5cKsMBUEzW/1qrHzn4wv8=
+X-Received: by 2002:a9d:3e1c:: with SMTP id
+	a28-v6mr3338078otd.168.1523874691544; 
+	Mon, 16 Apr 2018 03:31:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <32a348ed6176434db8178d29d7e1f183@SOC-EX01V.e01.socionext.com>
-Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
+Received: by 10.138.17.198 with HTTP; Mon, 16 Apr 2018 03:31:10 -0700 (PDT)
+In-Reply-To: <ba83f506-26bf-dfef-d9d5-df352e4703ba@pseudoterminal.org>
+References: <6c43a914-cf60-6d05-766c-1c1bfc92d13e@pseudoterminal.org>
+	<CAMKF1spKY4WjXg1c=70w0TjMwqVNGQD3FdLdL_A7La5rEdh7kw@mail.gmail.com>
+	<ba83f506-26bf-dfef-d9d5-df352e4703ba@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Apr 2018 11:31:10 +0100
+Message-ID: <CAJTo0LaxaXVSkuWvERA2k5nK6P6cP299kn9z+vZamRz4RGNMwA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: dropping commerical flags in mpg123 and lame recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,80 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Apr 2018 08:40:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Apr 2018 10:31:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 04/16/2018 10:38 AM, yamada.masahiro@socionext.com wrote:
-> Hi.
-> 
->> -----Original Message-----
->> From: Martin Hundebøll [mailto:mnhu@prevas.dk]
->> Sent: Wednesday, April 11, 2018 5:42 PM
->> To: Yamada, Masahiro/山田 真弘 <yamada.masahiro@socionext.com>;
->> marex@denx.de; raj.khem@gmail.com
->> Cc: otavio@ossystems.com.br; openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH] u-boot: Upgrade to 2018.03 release
->>
->> Hi,
->>
->> On 2018-04-11 04:28, yamada.masahiro@socionext.com wrote:
->>> Hi.
->>>
->>>>> I had to patch up our own u-boot recipe as shown in the attached patch
->>>>> to make v2018.03 compile for qemu-x86.
->>>>>
->>>>> The thing is that the build of pylibfdt became unconditional since
->>>>> 15b97f5c5e ('pylibfdt: move pylibfdt to scripts/dtc/pylibfdt and
->>>>> refactor makefile')
->>>>>
->>>>> In my case u-boot/pylibfdt failed to find the correct (native) headers,
->>>>> because python setuptools / distutils looks into STAGING_{LIB,INC}DIR
->>>>> when compiling the native extension for libfdt. I didn't find any other
->>>>> way to specificy this in either the u-boot Makefile or some other magic
->>>>> environment variable.
->>>>
->>>> CCing Yamada-san, maybe he has an idea.
->>>> Also, do not top post.
->>>
->>>
->>>
->>> The build of pylibfdt is conditional.
->>> It is built only when CONFIG_PYLIBFDT=y,
->>> which is selected by CONFIG_DTOC.
->>>
->>> If you really do not need pylibfdt,
->>> you can disable it by tweaking the configuration.
->>>
->>> If you need pylibfdt but you cannot build it,
->>> it is a different problem.
->>>
->>> Thanks.
->>
->> Correct. But I was building u-boot.rom for qemu-x86, which depends on
->> binman and thus pylibfdt. Before the mentioned commit, one could avoid
->> the building of pylibfdt by installing it on the host, as the makerule
->> checked if python could already import pylibfdt. This check is now removed.
->>
->> Or am I missing something?
-> 
-> 
-> Understood what you mean, but I do not know
-> whether the previous behavior was intended, or just something
-> people discovered to work.
-> 
-> 
-> Now U-Boot bundles its own DTC (scripts/dtc/dtc),
-> so compiling also pylibfdt from the source in U-boot tree makes sense.
-> 
-> Isn't it possible to solve your issue in the OE side?
-> 
+I *think* we're good to do this.  If you could send a patch with a
+nice long commit message with sources and comparisons to other
+distros, then we can have a concrete patch to review and get further
+advice on.
 
-Can we NOT compile DTC alongside U-Boot somehow ? :)
-That'd be the most desired solution IMO.
+Ross
 
--- 
-Best regards,
-Marek Vasut
+On 15 April 2018 at 09:12, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> Please note that the Fraunhofer page is from May 2017. These sources suggest
+> that the final patent expired in December 2017:
+>
+> https://madfileformatscience.garymcgath.com/2016/04/05/mp3patent/
+> https://www.tunequest.org/a-big-list-of-mp3-patents/20070226/
+>
+> Fedora now added LAME and mpg123 support, since they consider the patents
+> expired: https://fedoramagazine.org/full-mp3-support-coming-soon-to-fedora/
+>
+> Fraunhofer terminated the mp3 licensing program in April 2017:
+> https://www.iis.fraunhofer.de/en/ff/amm/prod/audiocodec/audiocodecs/mp3.html
+>
+> (German source) wikimedia now allows mp3 uploads:
+> https://netzpolitik.org/2017/wikimedia-erlaubt-upload-von-mp3-dateien/
+>
+>
+>
+> On 2018-04-14 16:16, Khem Raj wrote:
+>>
+>> On Sat, Apr 14, 2018 at 1:30 AM, Carlos Rafael Giani
+>> <dv@pseudoterminal.org> wrote:
+>>>
+>>> The lame and mpg123 can be built only if the commercial flag is
+>>> whitelisted.
+>>>
+>>> However, the remaining mp3 patents expired in December, and no more
+>>> royalties exist. This is why in GStreamer, the mpg123 and lame plugins
+>>> were
+>>> moved from -ugly to -good.
+>>>
+>>> So, can we drop the commercial flag in mpg123 and lame?
+>>>
+>> We probably need more clarification see
+>> http://www.audioblog.iis.fraunhofer.com/mp3-software-patents-licenses/
+>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
