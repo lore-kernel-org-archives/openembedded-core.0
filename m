@@ -1,23 +1,50 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2416974514
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A619744DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 07:04:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3H74BVt024889
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 17 Apr 2018 10:12:39 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id 10-v6so5637672oix.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 00:04:11 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 17 Apr 2018 00:04:10 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Apr 2018 03:03:43 -0400
-Message-ID: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Tue, 17 Apr 2018 03:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ORvx2AvJhMf7ylO074O2xIB3FJrEe+pAzPiUty1Dgq4=;
+	b=wjFQrv1MSpGcp87tRumQMeHVrae4THgiLSPKRfX5FmVqJyqEpcKYpKq4RbSLvlEFp1
+	v29ydBMEgMavDjz/k8LAJlrlB4GfrM071HO0BnAXUdZ0sQccic8rEpaR878epaky4Z4p
+	9ysp2BowpFvkzBTJB3ihvvyOZcqYdQu+2MJHSbcDlpNCfJ4heQEGmlTcXZEaUMnPF4yr
+	Q158lIc6g9oKc+fskt/2fUMD11Mhlgjl/Ujyr1haU2Nvma2DLkH5FyMweLc01CzdrPaH
+	yEk4BISE+tQr8SagL1kqYIGAYwC8so0eMmGvtF5+bc7GZyvFgaIfxreSDj2wolZlnvde
+	aNfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ORvx2AvJhMf7ylO074O2xIB3FJrEe+pAzPiUty1Dgq4=;
+	b=doVA2g0QEpKqi6jbddWWKTZd0hn9GP/dNhPz1ykAH/XYmnpifbQRsXCIttHX0RH1oh
+	Au+mAR8k4AFJ+aR8VAXoy7tkmqEhRixnCMzJfFhT4qsLg2msdBOtjW89veF26viqIToq
+	U73rbvk9oqDVWmpf/q7LQ+iiYITb691xEKfb5SnsZ8LyYDcjDP9+OoVVgK8x+Egq9NOs
+	laSOxMSYy7p/B1QNqwMHGXY4zMXtEPbeiBa+H+KWNNzhbjV7l1SXMx/skf0DliRAGedN
+	VDu7jkfk8z+Oa50W8V+ynIM/2dEzEIz/adygi6FFsXVNSiRNvgiXk1njWPz3+p9TXRt1
+	Tyeg==
+X-Gm-Message-State: ALQs6tCSB4Fe7pr9vWwQjGmSeIV72ShiWrw6p71sNEc2wPpKlVmkG80f
+	aD9gvx9OAi/rFM3A8EFbDGpnJqx/2Vs18TiTJVk4Xg==
+X-Google-Smtp-Source: AIpwx48n+oAAh4HZ/F7Q4GZoBt2CuzZdQip5y5CAw+m+dR2XuK1wA6in0ZfkJ92x3vqMPZFD3ogLPJnqPzVjLfIM/vk=
+X-Received: by 2002:aca:698c:: with SMTP id
+	e134-v6mr842340oic.18.1523959960861; 
+	Tue, 17 Apr 2018 03:12:40 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v3] udev-extraconf: Add systemd-mount to udev-extraconf/mount.sh
+Received: by 10.138.17.198 with HTTP; Tue, 17 Apr 2018 03:12:20 -0700 (PDT)
+In-Reply-To: <20180416065014.29385-3-raj.khem@gmail.com>
+References: <20180416065014.29385-1-raj.khem@gmail.com>
+	<20180416065014.29385-3-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Apr 2018 11:12:20 +0100
+Message-ID: <CAJTo0LZk7nOy5s6fRi2vnRhbvaMqnphAFhoxyazkXVLree525g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] gcc-runtime: Disable gcc version of libssp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,176 +57,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 07:04:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Apr 2018 10:12:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Udev-extraconf works correctly with sysvinit in the aspect of automounting
-block devices. But it has a serious problem in case of systemd. Block devices
-automounted by udev is unaccessible to host space(out of udevd's private
-namespace). For example, we cannot format those block devices.
+This is, I suspect, the cause of nativesdk-perl failing on the autobuilder:
 
-e.g.
-    root@qemux86:~# mkfs.ext4 /dev/sda1
-    mke2fs 1.43.8 (1-Jan-2018)
-    /dev/sda1 contains a ext4 file system
-    last mounted on Tue Apr  3 06:22:41 2018
-    Proceed anyway? (y,N) y
-    /dev/sda1 is apparently in use by the system; will not make a filesystem here!
+TOPDIR/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-perl/5.24.1-r0/recipe-sysroot-native/usr/bin/x86_64-pokysdk-linux/../../libexec/x86_64-pokysdk-linux/gcc/x86_64-pokysdk-linux/7.3.0/ld:
+cannot find -lssp_nonshared
+TOPDIR/tmp/work/x86_64-nativesdk-pokysdk-linux/nativesdk-perl/5.24.1-r0/recipe-sysroot-native/usr/bin/x86_64-pokysdk-linux/../../libexec/x86_64-pokysdk-linux/gcc/x86_64-pokysdk-linux/7.3.0/ld:
+cannot find -lssp
+collect2: error: ld returned 1 exit status
+makefile:391: recipe for target 'lib/buildcustomize.pl' failed
 
-Other distributions has no such problem, because they use a series of rules to
-manager block devices. Different types of block devices match different rules.
-But udev-extraconf just use one rule, automount.rules, which results in this
-problem.
+http://errors.yoctoproject.org/Errors/Details/176127/
 
-The 'systemd-mount' command is recommended by the systemd community to solve such
-problems.
+Ross
 
-This patch makes use of 'systemd-mount' to solve the above problem.
-
-[YOCTO #12644]
-
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- meta/recipes-core/udev/udev-extraconf/mount.sh | 83 ++++++++++++++++++++------
- meta/recipes-core/udev/udev-extraconf_1.1.bb   |  3 +
- 2 files changed, 69 insertions(+), 17 deletions(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index d760328..067d4e2 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -4,10 +4,28 @@
- #
- # Attempt to mount any added block devices and umount any removed devices
- 
-+BASE_INIT="`readlink "@base_sbindir@/init"`"
-+INIT_SYSTEMD="@systemd_unitdir@/systemd"
-+
-+if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
-+    # systemd as init uses systemd-mount to mount block devices
-+    MOUNT="/usr/bin/systemd-mount"
-+    UMOUNT="/usr/bin/systemd-umount"
-+
-+    if [ -x $MOUNT ] && [ -x $UMOUNT ];
-+    then
-+        logger "Using systemd-mount to finish mount"
-+    else
-+        logger "Linux init is using systemd, so please install systemd-mount to finish mount"
-+        exit 1
-+    fi
-+else
-+    MOUNT="/bin/mount"
-+    UMOUNT="/bin/umount"
-+fi
- 
--MOUNT="/bin/mount"
- PMOUNT="/usr/bin/pmount"
--UMOUNT="/bin/umount"
-+
- for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
- do
- 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
-@@ -17,7 +35,35 @@ do
- 	fi
- done
- 
--automount() {	
-+automount_systemd() {
-+    name="`basename "$DEVNAME"`"
-+
-+    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
-+
-+    MOUNT="$MOUNT -o silent"
-+
-+    # If filesystemtype is vfat, change the ownership group to 'disk', and
-+    # grant it with  w/r/x permissions.
-+    case $ID_FS_TYPE in
-+    vfat|fat)
-+        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-+        ;;
-+    # TODO
-+    *)
-+        ;;
-+    esac
-+
-+    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
-+    then
-+        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-+        rm_dir "/run/media/$name"
-+    else
-+        logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-+        touch "/tmp/.automount-$name"
-+    fi
-+}
-+
-+automount() {
- 	name="`basename "$DEVNAME"`"
- 
- 	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-@@ -26,7 +72,7 @@ automount() {
- 	then
- 		MOUNT="$MOUNT -o silent"
- 	fi
--	
-+
- 	# If filesystem type is vfat, change the ownership group to 'disk', and
- 	# grant it with  w/r/x permissions.
- 	case $ID_FS_TYPE in
-@@ -68,23 +114,26 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
- 	elif [ -x $MOUNT ]; then
-     		$MOUNT $DEVNAME 2> /dev/null
- 	fi
--	
-+
- 	# If the device isn't mounted at this point, it isn't
- 	# configured in fstab (note the root filesystem can show up as
- 	# /dev/root in /proc/mounts, so check the device number too)
--	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
--		grep -q "^$DEVNAME " /proc/mounts || automount
--	fi
-+    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-+        if [ "`basename $MOUNT`" = "systemd-mount" ];then
-+            grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-+        else
-+            grep -q "^$DEVNAME " /proc/mounts || automount
-+        fi
-+    fi
- fi
- 
--
- if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
--	for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
--	do
--		$UMOUNT $mnt
--	done
--	
--	# Remove empty directories from auto-mounter
--	name="`basename "$DEVNAME"`"
--	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
-+    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
-+    do
-+        $UMOUNT $mnt
-+    done
-+
-+    # Remove empty directories from auto-mounter
-+    name="`basename "$DEVNAME"`"
-+    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
- fi
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 43a1cff..90f933d 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -29,6 +29,9 @@ do_install() {
-     install -d ${D}${sysconfdir}/udev/scripts/
- 
-     install -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
-+    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
-+    sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
-+
-     install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
- }
- 
--- 
-2.8.1
-
+On 16 April 2018 at 07:50, Khem Raj <raj.khem@gmail.com> wrote:
+> libssp is implemented fully in glibc as well as in musl
+> so we really do not need the gcc version of this library
+> except may be for mingw, where we keep it enabled anyway
+> gcc in OE is built with the knowledge that C library
+> already provides libssp implementation, we should therefore
+> not need the gcc implementation of same.
+>
+> libssp_nonshared piece is a detail which is needed when gcc
+> is the compiler, in glibc this is part of libc_nonshared.a
+> already and libc_nonshared.a is linked always when linking
+> with -lc becuase libc.so in glibc is actually a linker script
+>
+> GROUP ( /usr/lib/libc.so.6 /usr/lib/libc_nonshared.a  AS_NEEDED ( /usr/lib/ld-linux-x86-64.so.2 ) )
+>
+> which automatically links in the needed runtime bits, this however
+> is not the case for musl, where core SSP APIs are implemented in full
+> but compiler specific runtime isn't, for this we add a new package
+> called libssp_nonshared which generate the needed runtime stub
+> and gcc is already carrying patch to link to libssp_nonshared.a
+> on musl
+>
+> This should fix a long standing problem where static PIE executable
+> were not buildable with OE since it was conflicting SSP implementation
+> one from C library and the other one from gcc and we end up with
+> duplicate symbol errors during linking.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-7.3.inc     | 4 +++-
+>  meta/recipes-devtools/gcc/gcc-runtime.inc | 4 +++-
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-7.3.inc b/meta/recipes-devtools/gcc/gcc-7.3.inc
+> index d968c322d2..7e52afc643 100644
+> --- a/meta/recipes-devtools/gcc/gcc-7.3.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-7.3.inc
+> @@ -93,10 +93,12 @@ FORTRAN = ""
+>  JAVA = ""
+>
+>  LTO = "--enable-lto"
+> +SSP ?= "--disable-libssp"
+> +SSP_mingw = "--enable-libssp"
+>
+>  EXTRA_OECONF_BASE = "\
+>      ${LTO} \
+> -    --enable-libssp \
+> +    ${SSP} \
+>      --enable-libitm \
+>      --disable-bootstrap \
+>      --disable-libmudflap \
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index 97365a21dc..b4e5539575 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -24,8 +24,10 @@ RUNTIMELIBITM_nios2 = ""
+>  RUNTIMELIBITM_microblaze = ""
+>  RUNTIMELIBITM_riscv32 = ""
+>  RUNTIMELIBITM_riscv64 = ""
+> +RUNTIMELIBSSP ?= ""
+> +RUNTIMELIBSSP_mingw ?= "libssp"
+>
+> -RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+> +RUNTIMETARGET = "libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+>      ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+>  "
+>  RUNTIMETARGET_append_x86 = " libmpx"
+> --
+> 2.17.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
