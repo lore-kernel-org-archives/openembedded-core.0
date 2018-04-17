@@ -1,49 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EFB3744C6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 51B907455C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 13:57:30 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id l12so2812270pgp.11
+	Tue, 17 Apr 2018 14:20:36 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id p62-v6so1763489oie.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 06:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 17 Apr 2018 07:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=F0Zs+AE4ncUpCQQ/tqOWTyYeYSPA1CK/FOO8tNeDvTw=;
-	b=oC7FeX7wDilhRWfcoBshjGpvN1YDRtVkrTRsdHZz94jbCJozIHug1nUSu47vzaZWOh
-	wSSLHLpQit0xzuiccL9Vp3iEYmyaUrGN54HSEkv/9fIqOUxRcv94BAbuvJipeYlmIj4T
-	TZkYi6+hI7bgxlASmiujc0RL3vGVBeyJ0g3w5p+vBZ0JUJB+lPPA8M4zzIjYyNzrqVzc
-	lww9G6+aVQ+tRHsUHID9yAfOxyk9s35VI9ihtZjV2DxJ/ayXpVM0biBwFI/5EwH8kGic
-	xgT6/wM5QfsKKw2owVuuvGNTYmWe8thDR+qXZ8lSh34nSaA71bG26HaTzef8zFqWNtT+
-	gFnQ==
+	:cc; bh=dfir6xk9nrTSkbZ9gEv1sF5KoMYlBPERg7Rg63tVI0o=;
+	b=LYRhYSFXWMLlvRvgF14o4F5MbNqa053S/PXGI4rUQUSz7nf7FXZZmS9x5cbgyhcS5b
+	sFzNHrMw0KjKj4VNbM6JrAkqJJB+fMFE+9zsGcThDR15bLw6vFIMBk9fMWMNgE4n92NG
+	zPWLbdSAeZPdk0wLcu2ifelpG2ify6Xi+tPlqnhw9C9qeuTy2TgcCriCfb0zTt1Lq7ff
+	AmZdsezpc9lXx83UEqVcqeoVZuTS/Q5/vuo7t0Oaxkq554XMVnG4PLWbHU8Y6Mchb3B9
+	hNmpp8+i+DoEgJz50+yebUlebKIxjUQbQ3SU2lq1VNP0116M6VuX7Bl7KXL8ANOo4w9R
+	xGWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=F0Zs+AE4ncUpCQQ/tqOWTyYeYSPA1CK/FOO8tNeDvTw=;
-	b=D8o6n738LH2WUo6CVG26RxB46ni6PqsLp4rSI20CrOeuCpWIGvoHaN0ytLl1GsaboQ
-	64yXteAv58IkJF6cAxefcTLlDj0vElAvLoMkFLpNTEkYRI0d9h/OJNystWd+FzO72Pf5
-	9XPqJsmmYTa0KvqHv2Y+L8/oz5W1tI+KvVFGnQLbo+DPwtO0I/vK2Sgp4kSJeoVAHHTd
-	H2O0VpM0Ttkh8Mkblj6OaV34EuoBdYqd8dnfXr09HGbGmz1eOJ/dqGNtq4N6uSj8eO6L
-	qx+aINRse56ChsZDJnR2ozSuDkfNVloDzedrqXBpiqIJs5Tf5ZP0Z9+M1fUG6mBadTMi
-	dgoQ==
-X-Gm-Message-State: ALQs6tBmmTFn8pTuW8u4iQySMH4hb647MBDOlagEYnQL/hkTaol1dhjo
-	BeMztxmy37b+B9ftKN5eoz9h1d2UP34xci8soaA=
-X-Google-Smtp-Source: AIpwx4+Ip0+mUq5vQnvAL/m9JE2yg5O8DVpSSOrT8jZwf/0Z8XM/v2Ebt3AmvXOGwhlcUuNuzPi8Xdu37XF8PA5GH/I=
-X-Received: by 10.98.7.83 with SMTP id b80mr2084318pfd.133.1523973451089; Tue,
-	17 Apr 2018 06:57:31 -0700 (PDT)
+	bh=dfir6xk9nrTSkbZ9gEv1sF5KoMYlBPERg7Rg63tVI0o=;
+	b=VTORlHvOyAc1v+4rQD38//4irepjAt9QmX/eC8yOmCe+/lATpJmjQjlYVRdOk40QZl
+	gd1zn5dTeHNrvZNSnbZBf6PkIqmloOfx3cKSJbTAEcm+hEG2bx2ombEup7WM10t86Uct
+	amtXQ9JOPm5xJHclnMxf92oCwLGB5yOlfuWErfFQWfKYfRNvDzC7AAUt3bDBcT8lkdYP
+	UzkhGQ7KuzrbNZsPaqc+PeiODg4iD16uRfSrIM7id09bjVC7KdKwsuh+M0XlZxHjnx6Y
+	T9KsgjDLLcGmcdjeC+KUwRXAhx3lwQyzBxFaTgBAIyKdqlE0xq1B2eUlES8Mm20V+/KR
+	My4A==
+X-Gm-Message-State: ALQs6tCH7JgjqDARyogJr0KWtthkmoQojtjGzBuY3Pa8P34dA18uiI7W
+	cjn/FBDEHTTRqbB5dcZKqd7PCvbZ30dj7JaXobrSuQ==
+X-Google-Smtp-Source: AIpwx48tk0GK8C5b6qPw/ty0VnaJFZhGs5w4SwkNX8wbcaneL9hA3uuiWJvFYQVpIaLw6cPkfzcL+wDED8JAJrzgWP0=
+X-Received: by 2002:aca:3255:: with SMTP id
+	y82-v6mr1398862oiy.115.1523974838021; 
+	Tue, 17 Apr 2018 07:20:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.138.98 with HTTP; Tue, 17 Apr 2018 06:57:00 -0700 (PDT)
-In-Reply-To: <1523961729.18865.20.camel@linuxfoundation.org>
-References: <20180416065014.29385-1-raj.khem@gmail.com>
-	<20180416065014.29385-3-raj.khem@gmail.com>
-	<1523961729.18865.20.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 Apr 2018 06:57:00 -0700
-Message-ID: <CAMKF1spfMJCKwSPBErBYH+74DxB=vO5x6xUOU75dF2fT2-koiQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.138.17.198 with HTTP; Tue, 17 Apr 2018 07:20:17 -0700 (PDT)
+In-Reply-To: <0e94ee1a866743a5b9cc598969ea291c@XBOX02.axis.com>
+References: <0e94ee1a866743a5b9cc598969ea291c@XBOX02.axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Apr 2018 15:20:17 +0100
+Message-ID: <CAJTo0LbH9w-CAG+dGgMdxnFA2NzhnLRxz9VA54NFkCyfB6DxMQ@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Olof Johansson <olofjn@axis.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] gcc-runtime: Disable gcc version of libssp
+Subject: Re: [PATCH] package.bbclass: Add '-b' option to file call in isELF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 13:57:30 -0000
+X-List-Received-Date: Tue, 17 Apr 2018 14:20:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Apr 17, 2018 at 3:42 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2018-04-15 at 23:50 -0700, Khem Raj wrote:
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
->> b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> index 97365a21dc..b4e5539575 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> @@ -24,8 +24,10 @@ RUNTIMELIBITM_nios2 = ""
->>  RUNTIMELIBITM_microblaze = ""
->>  RUNTIMELIBITM_riscv32 = ""
->>  RUNTIMELIBITM_riscv64 = ""
->> +RUNTIMELIBSSP ?= ""
->> +RUNTIMELIBSSP_mingw ?= "libssp"
->>
->> -RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic
->> ${RUNTIMELIBITM} \
->> +RUNTIMETARGET = "libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
->>      ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'],
->> 'libquadmath', '', d)} \
->>  "
->>  RUNTIMETARGET_append_x86 = " libmpx"
+On 16 April 2018 at 21:49, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> There was a discussion last year at the beginning of December related
+> to this, triggered by a patch series to improve isELF that Olof Johansson
+> sent:
 >
-> This last piece looks like you removed libssp for everywhere, glibc
-> included except mingw?
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-December/145160.html
 >
+> It also included a patch that added -b to the file call:
+>
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-December/145158.html
 
-yes, since the needed bits for ssp are already provided via libc.so there should
-not be a need for it needing libssp on glibc based systems, I think
-its due to the libssp
-patch we are carrying in gcc, I will take a look at that and limit it
-to just musl tuples
+Whoops, must have missed that.  Sorry about this, this is now in my sumo queue.
 
-> Is the source file you included in the new recipe the same as the one
-> in the gcc source but linked differently? If so, I'd be tempted to
-> build that gcc-runtime with a musl specific do_compile addition...
+> However, the discussion then turned to replace the isELF implementation
+> with a new one that Ross Burton was working on:
 >
-> I assume this is post 2.5 material as its fairly invasive changes at
-> the tail end of a release...
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-December/145205.html
 >
+> Whatever became of that? Is that still in progress?
 
-yes this is for 2.6 we may backport it later if needed.
+Yes, it's still in progress.  I was hacking on it a bit more thing
+morning in fact, as a proof-of-concept to extract the linkage from a
+binary during QA and warn if a 32-bit executable is linking to the
+non-largefile functions.  Obviously its 2.6 material now but I hope
+I'll get around to finishing it off.
 
-> Cheers,
->
-> Richard
+Ross
 
