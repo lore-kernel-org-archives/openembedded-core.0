@@ -1,33 +1,49 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 38DE47449D
+Return-Path: <ricardo@opensourcefoundries.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1215360273
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 21:29:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 9EE7820B22;
-	Tue, 17 Apr 2018 21:29:51 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id K1ikCONCkbX8; Tue, 17 Apr 2018 21:29:51 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 760062017D;
-	Tue, 17 Apr 2018 21:29:50 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id DCFE116343D; Tue, 17 Apr 2018 17:29:49 -0400 (EDT)
-Date: Tue, 17 Apr 2018 17:29:49 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Message-ID: <20180417212949.GK3228@denix.org>
-References: <1523877787-28638-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-MIME-Version: 1.0
-In-Reply-To: <1523877787-28638-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] [PATCH] wayland: 1.14.0 -> 1.15.0
+	Tue, 17 Apr 2018 22:47:33 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id u15so6755041qkk.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Apr 2018 15:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=tzWfcq3q0XOk+HlxAdwKyo4DGFVzlXmszPZ0c8UjmCY=;
+	b=jnngbM9YeXxrXjTE1o98Zuy7xpFAspW29ozjfNGJDaWq/JJ/J3+UW+97ZZToKHxR0q
+	QrcbqhrsykgP2Ns5xuTg6DmyKuhAMDn+oxhvR+htRSJ6wc87ljNPoeNfej4PCYfwAvbH
+	9ZFRWs6sS+Rr70wUUIjNTcHj1U7il3D92fqShluezWDrr0kSSnlBMMbLfWEM1eXkoLza
+	eFP2ld8VQatckY/EJgiYJvCKm8KhoudJWdf1COcza0b9gPlaOh0ZUvAz5tpVmre44Fk1
+	WBeMl9Lw9OMtWesyZ9tZCiWslpueBERxOBpm7c0V1cWKYLj5oTU2gAe8kmLpKgQlFNLr
+	+cew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tzWfcq3q0XOk+HlxAdwKyo4DGFVzlXmszPZ0c8UjmCY=;
+	b=k+r1FrsH/qRN1G6L76zAqEOkdD7ei7AcZjkUXaWAm96UKz6tNsgKyPfrDyassiax+3
+	eb9z1ay8ILUXv7JCmUMTYYhbPSvDAUZmgqswoIzrNhmw/CyQqfBNcDaXB0C59kC+BTC+
+	LcISs+Q98QGqOzxaNlx7MFzAdMGrIrirROkYUeuRH03id5WjWRZQZdIHvlqJNYSuqtEx
+	Hb9HPKObDMi9ltS1W5vDwjZ6zN2oMPT4L1SJgwEUpnumsQVCCyw9tu9l7trK8Eoc1fAO
+	DA849oj/aXUin/TlseJKBpUQcZDLE053eyIR/xZrByoePV1iG9PM+KZv44eQrtQpeCC6
+	yRzA==
+X-Gm-Message-State: ALQs6tBFpfIi0jLkwO5yUnlVZ9KMlS3qu91AODUKYPy5lZOoFm2C5025
+	0F1XWH1Wv0Yr/u5iTwATk9+NwW73qg==
+X-Google-Smtp-Source: AIpwx48oPmD5NQNxj7AQn/CGoEnZxfYmbcya/ZxoW3J2Z/Rl44N/3KuLOcD+tEyEM/Zwi7SFWeGb0g==
+X-Received: by 10.233.225.10 with SMTP id g10mr3942485qkm.263.1524005254259;
+	Tue, 17 Apr 2018 15:47:34 -0700 (PDT)
+Received: from localhost.localdomain ([189.4.104.170])
+	by smtp.gmail.com with ESMTPSA id
+	y129sm11036623qke.40.2018.04.17.15.47.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 17 Apr 2018 15:47:33 -0700 (PDT)
+From: Ricardo Salveti <ricardo@opensourcefoundries.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Apr 2018 19:47:29 -0300
+Message-Id: <1524005249-10860-1-git-send-email-ricardo@opensourcefoundries.com>
+X-Mailer: git-send-email 2.7.4
+Cc: alexander.kanavin@intel.com
+Subject: [PATCH] usbutils: use update-alternatives for lsusb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 21:29:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Apr 2018 22:47:34 -0000
 
-Duplicate and incomplete!
+lsusb can also be provided by busybox (CONFIG_LSUSB), so use
+update-alternatives to handle the conflict.
 
+Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+---
+ meta/recipes-bsp/usbutils/usbutils_009.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On Mon, Apr 16, 2018 at 07:23:07PM +0800, Zheng Ruoqin wrote:
-> Upgrade wayland from 1.14.0 to 1.15.0.
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  .../recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} (92%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> index 1a9ff98..788105b 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
->  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->  	   file://fixpathinpcfiles.patch \
->             "
-> -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
-> -SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
-> +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
-> +SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
->  
->  inherit autotools pkgconfig
->  
-> -- 
-> 2.7.4
-> 
-> 
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-bsp/usbutils/usbutils_009.bb b/meta/recipes-bsp/usbutils/usbutils_009.bb
+index 88c24bd..3ffc0dd 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_009.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_009.bb
+@@ -15,7 +15,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+ SRC_URI[md5sum] = "b5dbc498b2eb5058f7a57fc6532d0aad"
+ SRC_URI[sha256sum] = "e73543293a17c7803994eac97a49e58b377e08e6299ba11aad09794b91340e8b"
+ 
+-inherit autotools pkgconfig distro_features_check
++inherit autotools pkgconfig distro_features_check update-alternatives
++
++ALTERNATIVE_${PN} = "lsusb"
++ALTERNATIVE_PRIORITY = "100"
+ 
+ FILES_${PN}-dev += "${datadir}/pkgconfig"
+ 
+-- 
+2.7.4
+
 
