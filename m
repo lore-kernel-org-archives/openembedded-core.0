@@ -1,47 +1,31 @@
-Return-Path: <michael.davis@essvote.com>
-Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
-	by mail.openembedded.org (Postfix) with ESMTP id AC4947197B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B0D760116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 20:03:43 +0000 (UTC)
-X-AuditID: 0a00029b-dc9ff70000000a0a-ce-5ad6531f076f
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
-	96.FF.02570.F1356DA5; Tue, 17 Apr 2018 15:03:44 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e]) by
-	ESS-EX01.essvote.corp.local ([fe80::b1d4:5b04:bc85:956e%20]) with mapi
-	id 14.03.0301.000; Tue, 17 Apr 2018 15:03:43 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [OE-CORE][sumo][python3] Generated SDK missing sqlite3
-Thread-Index: AdPVnHwPMePtm6JKSBC4yynauRDLjQAEquQQAA5LisAAGiCmMAAQf5YAAAbGWYAAChgl8A==
-Date: Tue, 17 Apr 2018 20:03:43 +0000
-Message-ID: <655290B7709079438B7932553958E60DA1475DFB@ESS-EX01.essvote.corp.local>
+	Tue, 17 Apr 2018 20:22:26 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Apr 2018 13:22:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.48,464,1517904000"; d="scan'208";a="192263062"
+Received: from soumyash-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.131.163])
+	by orsmga004.jf.intel.com with ESMTP; 17 Apr 2018 13:22:23 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Davis, Michael" <michael.davis@essvote.com>
+Date: Wed, 18 Apr 2018 08:22:19 +1200
+Message-ID: <20597063.F8YWRiApNN@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <655290B7709079438B7932553958E60DA1475DFB@ESS-EX01.essvote.corp.local>
 References: <655290B7709079438B7932553958E60DA1475431@ESS-EX01.essvote.corp.local>
-	<CY4PR02MB3334C4C5BD7719470CB91CA6ACB70@CY4PR02MB3334.namprd02.prod.outlook.com>
-	<655290B7709079438B7932553958E60DA1475972@ESS-EX01.essvote.corp.local>
-	<CAJTo0LZZkVyZEwGyffU8GkEev4a8U5eFAXWa_fAhRTBWYaKkqQ@mail.gmail.com>
 	<ae893466-d904-e9e2-005e-a5c750eaf179@xilinx.com>
-In-Reply-To: <ae893466-d904-e9e2-005e-a5c750eaf179@xilinx.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.20.33]
+	<655290B7709079438B7932553958E60DA1475DFB@ESS-EX01.essvote.corp.local>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOLMWRmVeSWpSXmKPExsWyRiBPQ1ch+FqUwd1drBa/1s1ms7jz8x27
-	xbwd9g7MHov3vGTyOLdxBaPH3s+/WQKYo7hsUlJzMstSi/TtErgy9i7ZwFzwKaBi4e2tjA2M
-	L/y6GDk5JARMJC72NzN2MXJxCAkcZZRo67vGCuGcZJT4+vUbC0gVm4CRxLnrm8CqRAQ6GCX2
-	LXkMlmAWiJa48/sMO4gtLOAr8e7vayYQW0QgQOL2tiPsEHaYRNOiNYwgNouAqsSKf5vBbF6B
-	IImld9vB5ggJvGSSWD1NEsTmFLCT2PhvFdgcRgExie+n1jBB7BKXuPVkPhPE2QISS/acZ4aw
-	RSVePv4HdDUHkC0ncfhWJIjJLKApsX6XPkSnosSU7ofsEFsFJU7OfMIygVF0FpKhsxA6ZiHp
-	mIWkYwEjyypGvlwjvdTi4rL8klS95PzcTYzASOFiYJq9g7GnKfYQowAHoxIPr7jrtSgh1sSy
-	4srcQ4zSHCxK4rwBV4yihATSE0tSs1NTC1KL4otKc1KLDzEycXCCCC6pBsbUO9+OWGSaFUfP
-	Ss90fsrNqlmp8qjkzRdxwVsHZWMfvKgx2TrR2/PnoSr3qasmB3AGOBapC+l+ZHq/lmXBUamA
-	f29WbVJ3cSg7taFk7Yf1Uf+e/m3nqdK4/Gu+oeW1Myvz5L5YxfifSxLO43HbaXk//YPDov+L
-	fG0KlE5qZTMtfnpz79LylldKLMUZiYZazEXFiQCUrO70egIAAA==
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+Cc: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [sumo][python3] Generated SDK missing sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,142 +39,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 20:03:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 17 Apr 2018 20:22:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-QWN0dWFsbHkganVzdCByZWNyZWF0ZWQgaXQgd2l0aG91dCBhbGwgbXkgY3VzdG9tIGNydWZ0IGlu
-IHRoZXJlIHRvIGNvbmZ1c2UgdGhpbmdzLg0KDQpJIGhhZCBvZS1pbml0LWJ1aWxkLWVudiBnZW5l
-cmF0ZSBhIG5ldyBidWlsZCBkaXI6DQoic291cmNlIG9lLWluaXQtYnVpbGQtZW52ICB+L2J1aWxk
-L3Rlc3QiDQoNCkFkZGVkIHRoZSBmb2xsb3dpbmcgdG8gdGhlIGJvdHRvbSBvZiB0aGUgbG9jYWwu
-Y29uZg0KVE9PTENIQUlOX0hPU1RfVEFTSyArPSAiIG5hdGl2ZXNkay1jbWFrZSBcDQogICAgICAg
-ICAgICAgICAgICAgICAgICAgbmF0aXZlc2RrLXB5dGhvbjMiDQoNCkNyZWF0ZSB0aGUgc2RrOg0K
-IiBiaXRiYWtlIGNvcmUtaW1hZ2UtbWluaW1hbCAtYyBkb19wb3B1bGF0ZV9zZGtfZXh0Ig0KDQpU
-aGUgaW5zdGFsbCBvZiB0aGF0IHNkayBicmVha3MgDQpbbWRhdmlzQGxvY2FsaG9zdCB0ZXN0XSQg
-dG1wL2RlcGxveS9zZGsvcG9reS1nbGliYy14ODZfNjQtY29yZS1pbWFnZS1taW5pbWFsLWk1ODYt
-dG9vbGNoYWluLWV4dC0yLjQrc25hcHNob3Quc2ggDQpQb2t5IChZb2N0byBQcm9qZWN0IFJlZmVy
-ZW5jZSBEaXN0cm8pIEV4dGVuc2libGUgU0RLIGluc3RhbGxlciB2ZXJzaW9uIDIuNCtzbmFwc2hv
-dA0KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCkVudGVyIHRhcmdldCBkaXJlY3RvcnkgZm9y
-IFNESyAoZGVmYXVsdDogfi9wb2t5X3Nkayk6IH4vdGVzdA0KWW91IGFyZSBhYm91dCB0byBpbnN0
-YWxsIHRoZSBTREsgdG8gIi9ob21lL21kYXZpcy90ZXN0Ii4gUHJvY2VlZFtZL25dPyB5DQpFeHRy
-YWN0aW5nIFNESy4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uZG9uZQ0KU2V0dGluZyBp
-dCB1cC4uLg0KRXh0cmFjdGluZyBidWlsZHRvb2xzLi4uDQpQcmVwYXJpbmcgYnVpbGQgc3lzdGVt
-Li4uDQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQogIEZpbGUgIi9ob21lL21k
-YXZpcy90ZXN0L2xheWVycy9jb3JlL2JpdGJha2UvYmluL2JpdGJha2UiLCBsaW5lIDMxLCBpbiA8
-bW9kdWxlPg0KICAgIGltcG9ydCBiYg0KICBGaWxlICIvaG9tZS9tZGF2aXMvdGVzdC9sYXllcnMv
-Y29yZS9iaXRiYWtlL2xpYi9iYi9fX2luaXRfXy5weSIsIGxpbmUgNzksIGluIDxtb2R1bGU+DQog
-ICAgZnJvbSBiYiBpbXBvcnQgZmV0Y2gyIGFzIGZldGNoDQogIEZpbGUgIi9ob21lL21kYXZpcy90
-ZXN0L2xheWVycy9jb3JlL2JpdGJha2UvbGliL2JiL2ZldGNoMi9fX2luaXRfXy5weSIsIGxpbmUg
-MzksIGluIDxtb2R1bGU+DQogICAgaW1wb3J0IGJiLnBlcnNpc3RfZGF0YSwgYmIudXRpbHMNCiAg
-RmlsZSAiL2hvbWUvbWRhdmlzL3Rlc3QvbGF5ZXJzL2NvcmUvYml0YmFrZS9saWIvYmIvcGVyc2lz
-dF9kYXRhLnB5IiwgbGluZSAzMywgaW4gPG1vZHVsZT4NCiAgICBzcWx2ZXJzaW9uID0gc3FsaXRl
-My5zcWxpdGVfdmVyc2lvbl9pbmZvDQpBdHRyaWJ1dGVFcnJvcjogbW9kdWxlICdzcWxpdGUzJyBo
-YXMgbm8gYXR0cmlidXRlICdzcWxpdGVfdmVyc2lvbl9pbmZvJw0KRVJST1I6IFNESyBwcmVwYXJh
-dGlvbiBmYWlsZWQ6IGVycm9yIGxvZyB3cml0dGVuIHRvIC9ob21lL21kYXZpcy90ZXN0L3ByZXBh
-cmluZ19idWlsZF9zeXN0ZW0ubG9nDQoNCg0KTWlrZQ0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQpGcm9tOiBBbGVqYW5kcm8gRW5lZGlubyBIZXJuYW5kZXogU2FtYW5pZWdvIFttYWls
-dG86YWxlamFuZHJvLmVuZWRpbm8uaGVybmFuZGV6LXNhbWFuaWVnb0B4aWxpbnguY29tXSANClNl
-bnQ6IFR1ZXNkYXksIEFwcmlsIDE3LCAyMDE4IDI6NDEgUE0NClRvOiBCdXJ0b24sIFJvc3M7IERh
-dmlzLCBNaWNoYWVsDQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbT0UtQ09SRV1bc3Vtb11bcHl0aG9uM10gR2VuZXJh
-dGVkIFNESyBtaXNzaW5nIHNxbGl0ZTMNCg0KSGV5IE1pa2UsDQoNCkl0IGRvZXMgbWFrZSBhIGxp
-dHRsZSBzZW5zZSB0aGF0IHlvdSdyZSBub3QgZ2V0dGluZyAic3FsaXRlX3ZlcnNpb25faW5mbyIg
-ZnJvbSBzcWxpdGUzLCB0aGUgcHl0aG9uMy1zcWxpdGUzIGlzIG1pc3NpbmcgdGhlIF9faW5pdF9f
-LnB5IGZpbGUgKG9uIHB1cnBvc2UpIGZvciB0aGF0IG1vZHVsZSwgYW5kIHRoZSBvbmx5IHRoaW5n
-IHRoYXQgZG9lcyBpcw0KDQpmcm9tIHNxbGl0ZTMuZGJhcGkyIGltcG9ydCAqDQoNCmFuZCBzcWxp
-dGVfdmVyc2lvbl9pbmZvIGNvbWVzIGZyb20gc3FpbHRlMy5kYmFwaTIsIGhlbmNlIHdoeSB5b3Ug
-bWlnaHQgbm90IGJlIGdldHRpbmcgaXQsIGJ1dCBJIHdvdWxkIHN0aWxsIGxpa2UgdG8ga25vdyB0
-aGUgc3RlcHMgeW91J3JlIGZvbGxvd2luZyB0byByZXByb2R1Y2UgdGhpcywgc2luY2UgSSBjb3Vs
-ZG4ndCBkbyB0aGF0IGVpdGhlci4NCg0KDQpBbGVqYW5kcm8NCg0KT24gMDQvMTcvMjAxOCAwOToy
-NyBBTSwgQnVydG9uLCBSb3NzIHdyb3RlOg0KPiBXb3JrIGZvciBtZSB3aXRoIHBsYWluIG9lLWNv
-cmU6DQo+DQo+ICQgDQo+IC4vcG9reS1nbGliYy14ODZfNjQtY29yZS1pbWFnZS1taW5pbWFsLWNv
-cmVpNy02NC10b29sY2hhaW4tZXh0LTIuNCtzbmENCj4gcHNob3Quc2ggUG9reSAoWW9jdG8gUHJv
-amVjdCBSZWZlcmVuY2UgRGlzdHJvKSBFeHRlbnNpYmxlIFNESyANCj4gaW5zdGFsbGVyIHZlcnNp
-b24gMi40K3NuYXBzaG90IA0KPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID09PT09PT09PT09PT0gRW50ZXIg
-dGFyZ2V0IGRpcmVjdG9yeSBmb3IgU0RLIChkZWZhdWx0OiB+L3Bva3lfc2RrKToNCj4gWW91IGFy
-ZSBhYm91dCB0byBpbnN0YWxsIHRoZSBTREsgdG8gIi9ob21lL3Jvc3MvcG9reV9zZGsiLiANCj4g
-UHJvY2VlZFtZL25dPyB5IEV4dHJhY3RpbmcgDQo+IFNESy4uLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4NCj4gLi4uLmRvbmUN
-Cj4gU2V0dGluZyBpdCB1cC4uLg0KPiBFeHRyYWN0aW5nIGJ1aWxkdG9vbHMuLi4NCj4gUHJlcGFy
-aW5nIGJ1aWxkIHN5c3RlbS4uLg0KPiBQYXJzaW5nIHJlY2lwZXM6IDEwMCUNCj4gfCMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIw0KPiB8IyMjIyMjIyMjfA0KPiBUaW1lOiAwOjAwOjEwDQo+IEluaXRpYWxpc2luZyB0YXNr
-czogMTAwJQ0KPiB8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQo+IHwjIyMjIyN8DQo+IFRpbWU6IDA6MDA6MDcNCj4g
-Q2hlY2tpbmcgc3N0YXRlIG1pcnJvciBvYmplY3QgYXZhaWxhYmlsaXR5OiAxMDAlDQo+IHwjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyN8IFRpbWU6IDA6
-MDA6MDANCj4gTG9hZGluZyBjYWNoZTogMTAwJQ0KPiB8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQo+IHwjIyMjIyMj
-IyMjI3wNCj4gVGltZTogMDowMDowMA0KPiBJbml0aWFsaXNpbmcgdGFza3M6IDEwMCUNCj4gfCMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIw0KPiB8IyMjIyMjfA0KPiBUaW1lOiAwOjAwOjAwDQo+IGRvbmUNCj4gU0RLIGhh
-cyBiZWVuIHN1Y2Nlc3NmdWxseSBzZXQgdXAgYW5kIGlzIHJlYWR5IHRvIGJlIHVzZWQuDQo+IEVh
-Y2ggdGltZSB5b3Ugd2lzaCB0byB1c2UgdGhlIFNESyBpbiBhIG5ldyBzaGVsbCBzZXNzaW9uLCB5
-b3UgbmVlZCB0byANCj4gc291cmNlIHRoZSBlbnZpcm9ubWVudCBzZXR1cCBzY3JpcHQgZS5nLg0K
-PiAgICQgLiAvaG9tZS9yb3NzL3Bva3lfc2RrL2Vudmlyb25tZW50LXNldHVwLWNvcmVpNy02NC1w
-b2t5LWxpbnV4DQo+DQo+IE9idmlvdXNseSBzb21ldGhpbmcgaXMgZGlmZmVyZW50LCBob3cgYXJl
-IHlvdSByZXByb2R1Y2luZyB0aGlzPw0KPg0KPiBSb3NzDQo+DQo+IE9uIDE3IEFwcmlsIDIwMTgg
-YXQgMTQ6NTAsIERhdmlzLCBNaWNoYWVsIDxtaWNoYWVsLmRhdmlzQGVzc3ZvdGUuY29tPiB3cm90
-ZToNCj4+IEkgd2FzIG9uIHRoZSBIRUFEIG9mIHN1bW8oY29tbWl0IA0KPj4gZDAxMmE5YWNkYzNk
-Y2UwMTQ3MDUyMjRhMTI2MTE0NTYyOGU3NTkzMSkNCj4+IHNvIHRoYXQgY29tbWl0IHdhcyBhbHJl
-YWR5IGluY2x1ZGVkIHdoZW4gSSBoYWQgdGhlIGlzc3VlLiAgSnVzdCANCj4+IGdlbmVyYXRlZCBh
-bm90aGVyIHRlc3QgdG9kYXkgYW5kIHRoZSBpc3N1ZSB3YXMgc3RpbGwgdGhlcmUuICBJZiBJIA0K
-Pj4gcmVtb3ZlIG5hdGl2ZS1weXRob24zLW1pc2MgZnJvbSBUT09MQ0hBSU5fSE9TVF9UQVNLIGl0
-IGZhaWxzIG9uIGluc3RhbGxpbmcgdGhlIFNESy4NCj4+IFdpdGggaXQgdGhlcmUgaXQgc3VjY2Vl
-ZHMuDQo+Pg0KPj4NCj4+DQo+PiBNaWtlDQo+Pg0KPj4NCj4+DQo+Pg0KPj4NCj4+DQo+Pg0KPj4g
-RnJvbTogQWxlamFuZHJvIEVuZWRpbm8gSGVybmFuZGV6IFNhbWFuaWVnbyANCj4+IFttYWlsdG86
-YWxlamFuZHJAeGlsaW54LmNvbV0NCj4+IFNlbnQ6IE1vbmRheSwgQXByaWwgMTYsIDIwMTggODow
-NyBQTQ0KPj4gVG86IERhdmlzLCBNaWNoYWVsOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+PiBTdWJqZWN0OiBSRTogW09FLUNPUkVdW3N1bW9dW3B5dGhvbjNdIEdl
-bmVyYXRlZCBTREsgbWlzc2luZyBzcWxpdGUzDQo+Pg0KPj4NCj4+DQo+PiBXaGljaCBjb21taXQg
-YXJlIHlvdSB1c2luZz8NCj4+DQo+Pg0KPj4NCj4+IGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5v
-cmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9NDM3OWIyOWU3ZQ0KPj4gZWRlNzI3OTkz
-ZWU2OGM5ZWJhMmJkZWJhY2U1MTA4DQo+Pg0KPj4NCj4+DQo+PiBJbiBhbnkgY2FzZSwgdGhhdCBv
-bmUgc2hvdWxk4oCZdmUgc29sdmVkIGl0Lg0KPj4NCj4+DQo+Pg0KPj4gQWxlamFuZHJvDQo+Pg0K
-Pj4NCj4+DQo+PiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgDQo+PiBPZiBEYXZpcywgTWljaGFlbA0KPj4gU2VudDog
-TW9uZGF5LCBBcHJpbCAxNiwgMjAxOCAxMToxOSBBTQ0KPj4gVG86IERhdmlzLCBNaWNoYWVsIDxt
-aWNoYWVsLmRhdmlzQGVzc3ZvdGUuY29tPjsgDQo+PiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtPRS1DT1JFXVtzdW1v
-XVtweXRob24zXSBHZW5lcmF0ZWQgU0RLIG1pc3NpbmcNCj4+IHNxbGl0ZTMNCj4+DQo+Pg0KPj4N
-Cj4+IEFkZGluZyBweXRob24zLW1pc2MgdG8gdGhlIFNESyBzZWVtcyB0byBoYXZlIHNvbHZlZCB0
-aGUgaXNzdWUuDQo+Pg0KPj4gSSBzYXcgc29tZSBjb21taXRzIGFib3V0IHNlcGFyYXRpbmcgdGhl
-IHR3byBzbyBwZXJoYXBzIHRoaXMgaXMgYSBzaWRlIA0KPj4gZWZmZWN0Pw0KPj4NCj4+DQo+Pg0K
-Pj4gRnJvbTogRGF2aXMsIE1pY2hhZWwNCj4+IFNlbnQ6IE1vbmRheSwgQXByaWwgMTYsIDIwMTgg
-MTE6MDQgQU0NCj4+IFRvOiAnb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZycNCj4+IFN1YmplY3Q6IFtPRS1DT1JFXVtzdW1vXVtweXRob24zXSBHZW5lcmF0ZWQgU0RLIG1p
-c3Npbmcgc3FsaXRlMw0KPj4NCj4+DQo+Pg0KPj4gVGVzdGluZyBvdXQgdGhlIHVwY29taW5nIHN1
-bW8gcmVsZWFzZSBhbmQgcmFuIGludG8gYW4gaXNzdWUuICANCj4+IFdoZW5ldmVyIEkgYXR0ZW1w
-dCB0byBnZW5lcmF0ZSBhbiBzZGstZXh0IHdpdGggc3VtbyBJIGdldCBhIGZhaWx1cmUgDQo+PiBh
-Ym91dCBtaXNzaW5nIHNxbGl0ZTMuDQo+Pg0KPj4gVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxs
-IGxhc3QpOg0KPj4gICBGaWxlIA0KPj4gIi9ob21lL21kYXZpcy9jb3JlX3Nkay9zeXNyb290cy94
-ODZfNjQtcG9reXNkay1saW51eC91c3IvYmluL2RldnRvb2wiDQo+PiAsDQo+PiBsaW5lIDM0NCwg
-aW4gPG1vZHVsZT4NCj4+ICAgICByZXQgPSBtYWluKCkNCj4+ICAgRmlsZSANCj4+ICIvaG9tZS9t
-ZGF2aXMvY29yZV9zZGsvc3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgvdXNyL2Jpbi9kZXZ0
-b29sIg0KPj4gLA0KPj4gbGluZSAyODUsIGluIG1haW4NCj4+ICAgICBzY3JpcHR1dGlscy5sb2dn
-ZXJfc2V0dXBfY29sb3IobG9nZ2VyLCBnbG9iYWxfYXJncy5jb2xvcikNCj4+ICAgRmlsZSANCj4+
-ICIvaG9tZS9tZGF2aXMvY29yZV9zZGsvbGF5ZXJzL2NvcmUvc2NyaXB0cy9saWIvc2NyaXB0dXRp
-bHMucHkiLCBsaW5lIDM4LCBpbiBsb2dnZXJfc2V0dXBfY29sb3INCj4+ICAgICBmcm9tIGJiLm1z
-ZyBpbXBvcnQgQkJMb2dGb3JtYXR0ZXINCj4+ICAgRmlsZSANCj4+ICIvaG9tZS9tZGF2aXMvY29y
-ZV9zZGsvbGF5ZXJzL2NvcmUvYml0YmFrZS9saWIvYmIvX19pbml0X18ucHkiLCBsaW5lIDc5LCBp
-biA8bW9kdWxlPg0KPj4gICAgIGZyb20gYmIgaW1wb3J0IGZldGNoMiBhcyBmZXRjaA0KPj4gICBG
-aWxlIA0KPj4gIi9ob21lL21kYXZpcy9jb3JlX3Nkay9sYXllcnMvY29yZS9iaXRiYWtlL2xpYi9i
-Yi9mZXRjaDIvX19pbml0X18ucHkiDQo+PiAsDQo+PiBsaW5lIDM5LCBpbiA8bW9kdWxlPg0KPj4g
-ICAgIGltcG9ydCBiYi5wZXJzaXN0X2RhdGEsIGJiLnV0aWxzDQo+PiAgIEZpbGUgDQo+PiAiL2hv
-bWUvbWRhdmlzL2NvcmVfc2RrL2xheWVycy9jb3JlL2JpdGJha2UvbGliL2JiL3BlcnNpc3RfZGF0
-YS5weSIsDQo+PiBsaW5lIDMzLCBpbiA8bW9kdWxlPg0KPj4gICAgIHNxbHZlcnNpb24gPSBzcWxp
-dGUzLnNxbGl0ZV92ZXJzaW9uX2luZm8NCj4+IEF0dHJpYnV0ZUVycm9yOiBtb2R1bGUgJ3NxbGl0
-ZTMnIGhhcyBubyBhdHRyaWJ1dGUgJ3NxbGl0ZV92ZXJzaW9uX2luZm8nDQo+Pg0KPj4NCj4+DQo+
-PiBUaGUgaXNzdWUgc2VlbXMgdG8gYmUgaXNvbGF0ZWQgb25seSB0byBweXRob24zLiBUaGUgc2Rr
-IHBhcnRpYWxseSANCj4+IGluc3RhbGxzIGFuZCBJIGFtIGFibGUgdG8gc291cmNlIGl0LiAgSSBj
-cmVhdGVkIGEgc21hbGwgcHl0aG9uIHNxbGl0ZSANCj4+IGFwcCBhbmQgd2FzIGFibGUgdG8gcnVu
-IGl0IHByb3Blcmx5IHdpdGggcHl0aG9uMiwgYnV0IG5vdCAzLg0KPj4NCj4+DQo+Pg0KPj4NCj4+
-IC0tDQo+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0K
-Pj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+PiBPcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo+Pg0KDQo=
+Hi Michael,
+
+On Wednesday, 18 April 2018 8:03:43 AM NZST Davis, Michael wrote:
+> Actually just recreated it without all my custom cruft in there to confuse
+> things.
+> 
+> I had oe-init-build-env generate a new build dir:
+> "source oe-init-build-env  ~/build/test"
+> 
+> Added the following to the bottom of the local.conf
+> TOOLCHAIN_HOST_TASK += " nativesdk-cmake \
+>                          nativesdk-python3"
+> 
+> Create the sdk:
+> " bitbake core-image-minimal -c do_populate_sdk_ext"
+
+I'm afraid this is not the correct way to add items to the eSDK. See:
+
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=10600
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=9479
+
+I think at the moment what you need is:
+
+SDK_TARGETS += "cmake-native:do_populate_sysroot \
+                           python3-native:do_populate_sysroot"
+
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
 
