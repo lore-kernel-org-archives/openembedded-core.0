@@ -1,49 +1,48 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D856C6011F
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4367E6059F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 00:42:44 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id g6so3126665vkb.9
+	Tue, 17 Apr 2018 00:43:57 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id n14-v6so7170879lfe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Apr 2018 17:42:45 -0700 (PDT)
+	Mon, 16 Apr 2018 17:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KbYRjQ9FALOPaAUTzOcClnKpbv6u8yyLdnQNJlEnBl0=;
-	b=CmSD0brPGAXu6cSQ2kQh4i3nCt6duOH+QZVUoIOG30g8Dh8U3a9bhjIwl3KpSxJN3d
-	AC7K6m5VvtFNmwCmkB4R+hehDLcbl8KpRCkmYnL472Cv2XLhq2BJT4i1YtKGZB5vI8Yr
-	34J8kM/qvXB1WkutSGcYt/0dqQK9dChlwLTGPzbgWpfA28mgno45wg/X0+0rJ7X82vrk
-	UcHOCfzYHL6np9NnHzOGxa0ct+PSSlQHwUfkRATQjWRTH4qNwHAy+uVsxff3k7FpzG5y
-	sH3pWhZdUDpexNJDD4nQ75kEHRf3CjGujCSY912tJHQAzOGwJV4zforj46rKTPSBJlCc
-	bxNA==
+	h=from:to:cc:subject:date:message-id;
+	bh=R2KNEtrpGlthLehzxTMa7ng4kkCVuOusToDT5UieId8=;
+	b=NTAsmTwjkG1vOeZW92qyd7aN8qEycJIzoGU6vKixHi7DK2exGozh8jU7YwM00zPfOH
+	Ptl8+HWKN9wzmkQVH5T+zuHIE+I2GzJlM4SoECIwNMOqIGMVrQkrG7GWB6t/Q1H2yKcv
+	1f1Z/zb5j/KbxbDIVDcloo7ADOD6JUIteDA2KOounRHpDQSunIzd+GQ7/bkVG5LDCpqu
+	uPp/hQr7g0mMQQh0h0soYMZ0G/5DXyK7lKw1wFfO9Md1RopxciHBfmDS0GvN/Ml4PjuD
+	JHags3K6ZtOug42GRL5URjyojn0a9r3xeVBOl+q2ELkjsJSaExIr3gT4VXKDXK0yyK0O
+	hyqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KbYRjQ9FALOPaAUTzOcClnKpbv6u8yyLdnQNJlEnBl0=;
-	b=rdoOENVlXpkrYyPxDwhn89FtchZ68+E8jeaZT4ogwctP7E9sw1L8f7tKjHhoJfVruy
-	ko9tbRQ+gyWA/7esjX8OMmgvRo8j6cFp3jp6sU2PIS47RxltI6vyinBfkbOaeLpZBGuH
-	gSYvQzEexQ6tAGl+oNjh4xhws828xcSv7nvk0H3Q4xW7tp7pEWqXUTS80f/Qr5FcB/m8
-	W5FVUje5TrR9pSS+ppx1fLmWDzjLJTlfiE7PqMKDCZvA5rQyrSluP7U8A+eNuOAhyiIV
-	2/Qdz8w6J+hcBOSqoKDVHn/qw4NiwTkzGLtFTiOm/BguWPJaECmUxHypHZepqJyh+X56
-	7hng==
-X-Gm-Message-State: ALQs6tCb39eiAARLBc6+Tk8lzjqKXWmzK+gZNnsuIlKMn2RHRhmAJEtS
-	aso0ySDP+34REI3szQ85enIK8JxGq7au05ml+0c=
-X-Google-Smtp-Source: AIpwx498BhgHd25XPtBc9Yk9e+CfWHD/Vo3ENhfhVn5LIgBRGIUG05MyR91SKsHYcj19rcLVp8vXjPYh7h1UC1ORvWE=
-X-Received: by 10.31.177.141 with SMTP id a135mr516vkf.88.1523925765522; Mon,
-	16 Apr 2018 17:42:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.131.86 with HTTP; Mon, 16 Apr 2018 17:42:45 -0700 (PDT)
-In-Reply-To: <71cdd480b91641c0967948e7db68e82f@XBOX02.axis.com>
-References: <1523924710-21480-1-git-send-email-liu.ming50@gmail.com>
-	<71cdd480b91641c0967948e7db68e82f@XBOX02.axis.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Tue, 17 Apr 2018 02:42:45 +0200
-Message-ID: <CALatG=6SEV0T7H83UMtHoGoHRCiNP_W9Anw8fJY-Z4q3KGu99g@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] externalsrc.bbclass: introduce INHIBIT_SRCTREE_FILE_CHECKSUMES
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=R2KNEtrpGlthLehzxTMa7ng4kkCVuOusToDT5UieId8=;
+	b=SsDkS+thMbIrroKQUzIWQnrJO8aFyzKJgi78uuagYBx2+1YjLU8lA4401hiN+5KjJ6
+	dnm1COvLVmskNhw0Y62oiEEuG8U9AxYcqjsXVyJ3NJNvGHWCQWpJH3HzaKbKAfp7uJAH
+	SE2xVKY7TUYgqu9wMv8rk+fyWtfgWxThxMpkG+vaHq5QaCZAqy+vbBU1VcugQGhgIXQv
+	/kVYUJYqrraODm4wtCNfdeO4zpvqkOJUDT67AMIDXKI5HtqqZ96lwUCea6H09c4x7rTn
+	1ywfuwaiv1+/oFcaIcUk4SIy/GFjvgsWRUjSLpfrTlK7Lz/QeelgC6ZHpMa9g6JamDId
+	43tQ==
+X-Gm-Message-State: ALQs6tDSvTGyloMLgjWjXX4xbaORlQ5FvJA1q2k6kal1lb3VHZskZNmn
+	KeEbqirgD0JFZ7tDdm6Mj2iOjQ==
+X-Google-Smtp-Source: AIpwx48+J0bpPlGDJ/FS3ROTRmwiup1G+6VnkXd5EioL4YSFxyzZr2RqLFQtR4zgIWCdggso7n90TA==
+X-Received: by 10.46.155.79 with SMTP id o15mr519365ljj.49.1523925838299;
+	Mon, 16 Apr 2018 17:43:58 -0700 (PDT)
+Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
+	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
+	i27-v6sm1306448lfb.41.2018.04.16.17.43.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 16 Apr 2018 17:43:51 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Apr 2018 02:43:44 +0200
+Message-Id: <1523925824-2492-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V3] externalsrc.bbclass: introduce INHIBIT_SRCTREE_FILE_CHECKSUMS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,152 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 00:42:45 -0000
-Content-Type: multipart/alternative; boundary="001a11c02970eb0ae0056a009dae"
+X-List-Received-Date: Tue, 17 Apr 2018 00:43:58 -0000
 
---001a11c02970eb0ae0056a009dae
-Content-Type: text/plain; charset="UTF-8"
+From: Ming Liu <liu.ming50@gmail.com>
 
-Oops, will send a V3.
+It defaults to be '0', but it allows the developers to choose not add
+file-checksums to do_compile for the entire source tree, by setting to
+'1'.
 
-2018-04-17 2:34 GMT+02:00 Peter Kjellerstedt <peter.kjellerstedt@axis.com>:
+We need this because we have a huge project with 100G bytes source
+files, and we do not want them to be added to file-checksums variable
+flag.
 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > liu.ming50@gmail.com
-> > Sent: den 17 april 2018 02:25
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Ming Liu <liu.ming50@gmail.com>
-> > Subject: [OE-core] [PATCH V2] externalsrc.bbclass: introduce
-> INHIBIT_SRCTREE_FILE_CHECKSUMES
->
-> Please correct the subject as well.
->
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > It defaults to be '0', but it allows the developers to choose not add
-> > file-checksums to do_compile for the entire source tree, by setting to
-> > '1'.
-> >
-> > We need this because we have a huge project with 100G bytes source
-> > files, and we do not want them to be added to file-checksums variable
-> > flag.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >  meta/classes/externalsrc.bbclass | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/externalsrc.bbclass
-> > b/meta/classes/externalsrc.bbclass
-> > index c9f5cf7..2b83193 100644
-> > --- a/meta/classes/externalsrc.bbclass
-> > +++ b/meta/classes/externalsrc.bbclass
-> > @@ -26,6 +26,7 @@
-> >
-> >  SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
-> >  EXTERNALSRC_SYMLINKS ?= "oe-workdir:${WORKDIR} oe-logs:${T}"
-> > +INHIBIT_SRCTREE_FILE_CHECKSUMS ?= "0"
-> >
-> >  python () {
-> >      externalsrc = d.getVar('EXTERNALSRC')
-> > @@ -212,7 +213,7 @@ def srctree_hash_files(d, srcdir=None):
-> >          with open(oe_hash_file, 'w') as fobj:
-> >              fobj.write(sha1)
-> >          ret = oe_hash_file + ':True'
-> > -    else:
-> > +    elif not d.getVar('INHIBIT_SRCTREE_FILE_CHECKSUMS'):
-> >          ret = s_dir + '/*:True'
-> >      return ret
-> >
-> > --
-> > 2.7.4
->
-> //Peter
->
->
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/externalsrc.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---001a11c02970eb0ae0056a009dae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index c9f5cf7..2b83193 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -26,6 +26,7 @@
+ 
+ SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
+ EXTERNALSRC_SYMLINKS ?= "oe-workdir:${WORKDIR} oe-logs:${T}"
++INHIBIT_SRCTREE_FILE_CHECKSUMS ?= "0"
+ 
+ python () {
+     externalsrc = d.getVar('EXTERNALSRC')
+@@ -212,7 +213,7 @@ def srctree_hash_files(d, srcdir=None):
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
+         ret = oe_hash_file + ':True'
+-    else:
++    elif not d.getVar('INHIBIT_SRCTREE_FILE_CHECKSUMS'):
+         ret = s_dir + '/*:True'
+     return ret
+ 
+-- 
+2.7.4
 
-<div dir=3D"ltr">Oops, will send a V3.</div><div class=3D"gmail_extra"><br>=
-<div class=3D"gmail_quote">2018-04-17 2:34 GMT+02:00 Peter Kjellerstedt <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D=
-"_blank">peter.kjellerstedt@axis.com</a>&gt;</span>:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg">openembedded-core-bounces@<wbr>lists.openembedded.org</a><br>
-&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
-.org">openembedded-core-<wbr>bounces@lists.openembedded.org</a><wbr>] On Be=
-half Of<br>
-&gt; <a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@gmail.com</a><br>
-&gt; Sent: den 17 april 2018 02:25<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
-bedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; Cc: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@gm=
-ail.com</a>&gt;<br>
-&gt; Subject: [OE-core] [PATCH V2] externalsrc.bbclass: introduce INHIBIT_S=
-RCTREE_FILE_<wbr>CHECKSUMES<br>
-<br>
-Please correct the subject as well.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@=
-gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; It defaults to be &#39;0&#39;, but it allows the developers to choose =
-not add<br>
-&gt; file-checksums to do_compile for the entire source tree, by setting to=
-<br>
-&gt; &#39;1&#39;.<br>
-&gt; <br>
-&gt; We need this because we have a huge project with 100G bytes source<br>
-&gt; files, and we do not want them to be added to file-checksums variable<=
-br>
-&gt; flag.<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">li=
-u.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/externalsrc.<wbr>bbclass | 3 ++-<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/externalsrc.<wbr>bbclass<br>
-&gt; b/meta/classes/externalsrc.<wbr>bbclass<br>
-&gt; index c9f5cf7..2b83193 100644<br>
-&gt; --- a/meta/classes/externalsrc.<wbr>bbclass<br>
-&gt; +++ b/meta/classes/externalsrc.<wbr>bbclass<br>
-&gt; @@ -26,6 +26,7 @@<br>
-&gt; <br>
-&gt;=C2=A0 SRCTREECOVEREDTASKS ?=3D &quot;do_patch do_unpack do_fetch&quot;=
-<br>
-&gt;=C2=A0 EXTERNALSRC_SYMLINKS ?=3D &quot;oe-workdir:${WORKDIR} oe-logs:${=
-T}&quot;<br>
-&gt; +INHIBIT_SRCTREE_FILE_<wbr>CHECKSUMS ?=3D &quot;0&quot;<br>
-&gt; <br>
-&gt;=C2=A0 python () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 externalsrc =3D d.getVar(&#39;EXTERNALSRC&#39;)<br=
->
-&gt; @@ -212,7 +213,7 @@ def srctree_hash_files(d, srcdir=3DNone):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(oe_hash_file, &#39;w&#39;)=
- as fobj:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fobj.write(sha1)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D oe_hash_file + &#39;:True&#3=
-9;<br>
-&gt; -=C2=A0 =C2=A0 else:<br>
-&gt; +=C2=A0 =C2=A0 elif not d.getVar(&#39;INHIBIT_SRCTREE_<wbr>FILE_CHECKS=
-UMS&#39;):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D s_dir + &#39;/*:True&#39;<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 return ret<br>
-&gt; <br>
-&gt; --<br>
-&gt; 2.7.4<br>
-<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888">//Peter<br>
-<br>
-</font></span></blockquote></div><br></div>
 
---001a11c02970eb0ae0056a009dae--
