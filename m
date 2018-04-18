@@ -1,48 +1,26 @@
-Return-Path: <okonopli@cisco.com>
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
-	by mail.openembedded.org (Postfix) with ESMTP id C594265CF3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DCF687451A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2018 10:04:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4233; q=dns/txt; s=iport;
-	t=1524045900; x=1525255500;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=FXu8gnw7gdL2HK71YxwR4Ah+mA/qMBmi0agd5FO++ik=;
-	b=XHindEjl9bvFd1s5qOIBJx6ARpvXziP9FJ5k40uiU3FrL5/NRue5Eu2p
-	Fs5IeFLwCl9VRfDN0ear9zEyracS/ABFdk6OTSmJQx7UuhuX3RudAubNf
-	nFArdqqTYY2cVFLG9Ivd/VHrgddTzFaCGnyG+mVtLBLrcxNOU7orPLbQ4 s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DdBAACFdda/5ldJa1dGwEBAQEDAQE?=
-	=?us-ascii?q?BCQEBAYNCgVuEEJULgUspgQ+SbhSBZAuEaQKCXyE1FwECAQEBAQEBAmwohSM?=
-	=?us-ascii?q?BBSMPAQVRCQIYAgIRFQICVwYBDAgBAYR8DYpym0CCHIRXg2uCJRR1hn2BVD+?=
-	=?us-ascii?q?BMoJohC4vVYJBgjQgAoxliwUIjjUGgTSGFYUEhzSISQIECwITAYElHgI0gVJ?=
-	=?us-ascii?q?wFYJ/gkeOCTyOeQEB?=
-X-IronPort-AV: E=Sophos;i="5.48,464,1517875200"; d="scan'208";a="382793547"
-Received: from rcdn-core-2.cisco.com ([173.37.93.153])
-	by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Apr 2018 09:55:25 +0000
-Received: from [10.21.84.46] (sjc-vpn4-1071.cisco.com [10.21.84.46])
-	(authenticated bits=0)
-	by rcdn-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w3I9tMPp008058
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Wed, 18 Apr 2018 09:55:24 GMT
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
-References: <1520865187-13798-1-git-send-email-okonopli@cisco.com>
-	<1520873954.3748.6.camel@andred.net>
-	<052b3c4d-084c-9434-e47d-b68c068cd958@cisco.com>
-	<1522765421.26897.51.camel@andred.net>
-From: Oleksii Konoplitskyi <okonopli@cisco.com>
-Message-ID: <a5a81d79-7cb9-ecb2-4d11-4301cf0c63bd@cisco.com>
-Date: Wed, 18 Apr 2018 12:55:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <1522765421.26897.51.camel@andred.net>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: okonopli
-Subject: Re: [PATCH] core-image-minimal-initramfs: prepare initramfs for NFS boot
+	Wed, 18 Apr 2018 11:34:17 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w3IBYFx0018376
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 18 Apr 2018 12:34:17 +0100
+Message-ID: <1524051255.18865.51.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 18 Apr 2018 12:34:15 +0100
+In-Reply-To: <CAJ86T=XhMh1+C52TxLR6oPpzyTHe+gt=-VzFZf9A9c-Tt8ST9g@mail.gmail.com>
+References: <1523983449-32655-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAJ86T=XhMh1+C52TxLR6oPpzyTHe+gt=-VzFZf9A9c-Tt8ST9g@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] uninative: Add allow-shlib-undefined to BUILD_LDFLAGS and drop other workarounds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,144 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2018 10:04:59 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 18 Apr 2018 11:34:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Andre,
+On Tue, 2018-04-17 at 12:15 -0700, Andre McCurdy wrote:
+> On Tue, Apr 17, 2018 at 9:44 AM, Richard Purdie
+> > We've looked into various options, basically we cannot link against
+> > our uninative libc/ld.so since we don't have the right headers or
+> > compiler link libraries. The compiler doesn't allow you to switch
+> > in a new set either, even if we did want to ship them. Shipping a
+> > complete compiler, dev headers and libs also isn't an option.
+>
+> Maybe not an option now, but in theory wouldn't a set of native tools
+> statically linked with musl and downloadable from a public sstate
+> server solve all these kinds of issues?
 
-I could boot my device using your code (+ parsing nfs server ip address 
-from ip option):
+There are a few ways you could solve this problem in theory. The
+trouble is you need to build these native tools somehow and to link
+against musl, you'd need a cross build more similar to "nativesdk" than
+"native" as you can no longer use the host gcc.
 
-nfsrootfs_run() {
-     local nfs_opts
-     local location
-     local flags
-     local server_ip
+We've looked at shoe-horning nativesdk into native before but it gets
+very very messy very quickly as they're really not equivalent. We could
+of course create some new native-like variant but again, messy very
+quickly, particularly trying to get the sstate checksums to match.
 
-     nfs_opts=""
-     if [ "${bootparam_nfsroot#*,}" != "${bootparam_nfsroot}" ]; then
-         nfs_opts="-o ${bootparam_nfsroot#*,}"
-     fi
+You can give up on the native checksums matching or coerce them somehow
+but again, very messy very quickly.
 
-     location="${bootparam_nfsroot%%,*}"
-     if [ "${location#*:}" = "${location}" ]; then
-         # server-ip is not given. Get server ip from ip option
-         server_ip=""
-         if [ "${bootparam_ip#*:}" != "${bootparam_ip}" ]; then
-             server_ip=$(echo "$bootparam_ip" | cut -d: -f2)
-         fi
+uninative works surprisingly well for how "simple" it is, it does have
+some rough edges.
 
-         if [ -z "$server_ip" ]; then
-             fatal "Server IP is not set. Update ip or nfsroot options."
-         fi
-         location=${server_ip}:${location}
-     fi
+I have found one further issue with this patch and the need to tweak it
+a little further, I'll send another patch shortly related to that once
+we test it a bit more. That said, if these two changes do work, they
+fix one of the big flaws in uninative and should make it a lot more
+workable/usable.
 
-     flags="-o nolock"
-     if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | grep 
--w -q "ro"; then
-         if [  -n "$bootparam_rootflags" ]; then
-             bootparam_rootflags="$bootparam_rootflags,"
-         fi
-         bootparam_rootflags="${bootparam_rootflags}ro"
-     fi
-     if [ -n "$bootparam_rootflags" ]; then
-         flags="$flags -o$bootparam_rootflags"
-     fi
+Cheers,
 
-     mount -t nfs ${flags} ${nfs_opts} ${location} ${ROOTFS_DIR}
-}
-
-Should module fail if ip is set to dhcp (or off)?
-
-Should we mount rootfs via nfs if "nfsroot" option is not set?
-
-Best regards,
-Oleksii
+Richard
 
 
-On 03.04.18 17:23, André Draszik wrote:
-> Thanks!
->
-> On Fri, 2018-03-16 at 20:20 +0200, Oleksii Konoplitskyi wrote:
->> Taking into account your recommendations, module should have the next
->> content:
->>
->> nfsrootfs_enabled() {
->>       [ -z ${bootparam_nfsroot+x} ] && return 1
->>       return 0
->> }
->>
->> nfsrootfs_run() {
->>       nfs_mount_point=$(echo $bootparam_nfsroot | cut -d ',' -f 1)
->>       nfs_mount_params=$(echo $bootparam_nfsroot | cut -d ',' -f 2)
->>
->>       mount -t nfs ${nfs_mount_point} -o nolock,${nfs_server_params}
->> $ROOTFS_DIR
->> }
-> Actually, this is missing various things, according to
-> linux/Documentation/filesystems/nfs/nfsroot.txt
->
-> nfsroot=[<server-ip>:]<root-dir>[,<nfs-options>]
->
-> * The server-ip is optional (and would be taken from the ip= option in
->    that case)
-> * there can be more than one nfs-option (which is probably more important
->    to fix)
-> * it ignores the 'ro' or rootflags=ro option
->
-> Maybe something like this (completely untested):
->
-> nfsrootfs_run() {
->      local nfs_opts
->      local location
->      local flags
->
->      nfs_opts=""
->      if [ "${bootparam_nfsroot#*,}" != "${bootparam_nfsroot}" ] ; then
->          nfs_opts="-o ${bootparam_nfsroot#*,}"
->      fi
->      location="${bootparam_nfsroot%%,*}"
->      if [ "${location#*:}" = "${location}" ]; then
->          # server-ip not given
->          location=${ROOTSERVER}:${location}
->      fi
->
->      flags="-o nolock"
->      if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | grep -w -q "ro"; then
->          if [  -n "$bootparam_rootflags" ]; then
->              bootparam_rootflags="$bootparam_rootflags,"
->          fi
->          bootparam_rootflags="${bootparam_rootflags}ro"
->      fi
->      if [ -n "$bootparam_rootflags" ]; then
->          flags="$flags -o$bootparam_rootflags"
->      fi
->
->      mount -t nfs ${flags} ${nfs_opts} ${location} ${ROOTFS_DIR}
-> }
->
-> ? Just need to get at $ROOTSERVER now, or at least issue a warning that it
-> should be given on the command line.
->
->
->> What module is responsible for network configuration and network driver
->> loading?
-> I'd say IP should be separate, as you can then also easily add DHCP or
-> zeroconf. It's not really related to nfsroot (except for the ROOTSERVER
-> bit).
-> Network driver loading should definitely be a machine specific thing...
->
->> Should it be separate custom module in initramfs-framework not related
->> to upstream?
->>
->> Best regards,
->> Oleksii
->
-> Cheers,
-> Andre'
->
+
+
+
+
+
 
 
