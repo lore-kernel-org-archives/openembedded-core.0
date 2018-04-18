@@ -1,27 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1630F60229
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2018 17:58:42 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3IHwduW016592
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 18 Apr 2018 18:58:40 +0100
-Message-ID: <1524074319.18865.68.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Apr 2018 18:58:39 +0100
-In-Reply-To: <CAJTo0LYpsTA9ppPKZkke2uAotyx7KKwm9CJSZyaVrfEkA5XW8Q@mail.gmail.com>
-References: <1523983449-32655-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<CAJTo0LYwLeeR0y0x=PdYKCSdvi1hku5q_ixf77Te+bKqC_Lk_Q@mail.gmail.com>
-	<CAJTo0LYpsTA9ppPKZkke2uAotyx7KKwm9CJSZyaVrfEkA5XW8Q@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] uninative: Add allow-shlib-undefined to BUILD_LDFLAGS and drop other workarounds
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2497572EF2;
+	Wed, 18 Apr 2018 18:02:56 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 18 Apr 2018 18:02:57 -0000
+Message-ID: <20180418180257.4208.75894@do.openembedded.org>
+References: <1524073879-20772-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1524073879-20772-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdW5pbmF0aXZlOiBTZXQgdGhlIGR5bmFtaWMgbGlua2VyIHRvIHVzZSBhdCBjb21waWxlIHRpbWU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2018 17:58:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Apr 2018 18:02:56 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-04-17 at 21:57 +0100, Burton, Ross wrote:
-> The dbus-glib-native one hits a few times but the only other place it
-> has broken so far is in cmake-native:
-> 
-> bin/cmake: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.25' not
-> found (required by
-> TOPDIR/tmp/work/x86_64-linux/cmake-native/3.10.3-r0/recipe-sysroot-
-> native/usr/lib/libexpat.so.1)
-> 
-> Is expat using rpaths or something and picking the wrong libc?
+== Series Details ==
 
-I've sent a followup patch which should address these issues, thanks.
+Series: uninative: Set the dynamic linker to use at compile time
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11846/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 35867ee035)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
