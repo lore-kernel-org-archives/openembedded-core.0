@@ -1,49 +1,48 @@
 Return-Path: <ricardo@opensourcefoundries.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1215360273
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F9E26010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 22:47:33 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id u15so6755041qkk.11
+	Wed, 18 Apr 2018 00:30:18 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id l8-v6so24773qtp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Apr 2018 15:47:35 -0700 (PDT)
+	Tue, 17 Apr 2018 17:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=tzWfcq3q0XOk+HlxAdwKyo4DGFVzlXmszPZ0c8UjmCY=;
-	b=jnngbM9YeXxrXjTE1o98Zuy7xpFAspW29ozjfNGJDaWq/JJ/J3+UW+97ZZToKHxR0q
-	QrcbqhrsykgP2Ns5xuTg6DmyKuhAMDn+oxhvR+htRSJ6wc87ljNPoeNfej4PCYfwAvbH
-	9ZFRWs6sS+Rr70wUUIjNTcHj1U7il3D92fqShluezWDrr0kSSnlBMMbLfWEM1eXkoLza
-	eFP2ld8VQatckY/EJgiYJvCKm8KhoudJWdf1COcza0b9gPlaOh0ZUvAz5tpVmre44Fk1
-	WBeMl9Lw9OMtWesyZ9tZCiWslpueBERxOBpm7c0V1cWKYLj5oTU2gAe8kmLpKgQlFNLr
-	+cew==
+	bh=w+vd7T5/dVciQJ/3ImS4Nx5MkblnWlDla/6VySTNK4E=;
+	b=odEo5B9k/ORp4lpKcqwxF99gkHCTWKEcvzb4wK4ISA6RkE78O+JluCXlZJ35Y7X1YL
+	3KVETc9t/JM3c2jcmW3xB852zEzW/q0ASPec6FGH966jWcpkODKhhQaK/+zLg13XQkr7
+	Tp7J4b16pKtJmnLih8Iqnhp0gWmFIUxOvZYgKHTmx9hF+ZVldWiCZz5UZf3ADlQkdZDQ
+	Og2BuoiErxE+WoLTCqVqL+CRrxK3nie11z12qXHSxLss6ggTP2EWHNIhd7G9YR7+/z7v
+	ZYmoTevlsOvurdu7q1kNidqIL4juseegxhCGHJfZIvKJJTiQWWbM6YoMkOfGmz14k6Hu
+	zZlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tzWfcq3q0XOk+HlxAdwKyo4DGFVzlXmszPZ0c8UjmCY=;
-	b=k+r1FrsH/qRN1G6L76zAqEOkdD7ei7AcZjkUXaWAm96UKz6tNsgKyPfrDyassiax+3
-	eb9z1ay8ILUXv7JCmUMTYYhbPSvDAUZmgqswoIzrNhmw/CyQqfBNcDaXB0C59kC+BTC+
-	LcISs+Q98QGqOzxaNlx7MFzAdMGrIrirROkYUeuRH03id5WjWRZQZdIHvlqJNYSuqtEx
-	Hb9HPKObDMi9ltS1W5vDwjZ6zN2oMPT4L1SJgwEUpnumsQVCCyw9tu9l7trK8Eoc1fAO
-	DA849oj/aXUin/TlseJKBpUQcZDLE053eyIR/xZrByoePV1iG9PM+KZv44eQrtQpeCC6
-	yRzA==
-X-Gm-Message-State: ALQs6tBFpfIi0jLkwO5yUnlVZ9KMlS3qu91AODUKYPy5lZOoFm2C5025
-	0F1XWH1Wv0Yr/u5iTwATk9+NwW73qg==
-X-Google-Smtp-Source: AIpwx48oPmD5NQNxj7AQn/CGoEnZxfYmbcya/ZxoW3J2Z/Rl44N/3KuLOcD+tEyEM/Zwi7SFWeGb0g==
-X-Received: by 10.233.225.10 with SMTP id g10mr3942485qkm.263.1524005254259;
-	Tue, 17 Apr 2018 15:47:34 -0700 (PDT)
+	bh=w+vd7T5/dVciQJ/3ImS4Nx5MkblnWlDla/6VySTNK4E=;
+	b=NIUBgBtBgZdE9rhm++kkE3ptzzAl6QQK6V7s2ezo8iaxhWvEl0gCNT/VKWpQhCwgRV
+	FyWZV5P1bHY8G9YkZLXvbVR6LCBEZYLK2+gykZwLZwnx3kQ1cJEZa6BBb2QYSF2A0MRB
+	sgtPsNmswGtI6vFVMeuCsR9KOPvgwchZwATqF4eIO5tGF5Sy0B8bEVgQB+UpN8N0N/If
+	xl2YG2QLHYVIupxjR35nZE8iDVJWzEfiAdnPyXGZyxhs15gpuC8SHaNht8f0ZfaVTYPi
+	SRvpw6qQmlvpmyxUfGwi2RUZEglWv4v72EuWhsZSTwICmQ+umqinVM/UhPZEww2J2xSc
+	FNdg==
+X-Gm-Message-State: ALQs6tD97qLRGyYos6paefKEufKrbdCYV3KFOz9FHWzG40xfXP/yGwc5
+	KtTl2Hbth3l47VI581cFQZPeSvXdpw==
+X-Google-Smtp-Source: AIpwx49DH/fWREUtzmmgT7GlmWtH0wCb8a7IL1rCXtzaxjHNqQH6Wo5E1BG5WD8lVSXf+Pv/VbbFRw==
+X-Received: by 10.200.26.240 with SMTP id h45mr4444517qtk.223.1524011419258;
+	Tue, 17 Apr 2018 17:30:19 -0700 (PDT)
 Received: from localhost.localdomain ([189.4.104.170])
-	by smtp.gmail.com with ESMTPSA id
-	y129sm11036623qke.40.2018.04.17.15.47.31
+	by smtp.gmail.com with ESMTPSA id r4-v6sm6443qta.47.2018.04.17.17.30.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 Apr 2018 15:47:33 -0700 (PDT)
+	Tue, 17 Apr 2018 17:30:18 -0700 (PDT)
 From: Ricardo Salveti <ricardo@opensourcefoundries.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Apr 2018 19:47:29 -0300
-Message-Id: <1524005249-10860-1-git-send-email-ricardo@opensourcefoundries.com>
+Date: Tue, 17 Apr 2018 21:30:12 -0300
+Message-Id: <1524011412-11216-1-git-send-email-ricardo@opensourcefoundries.com>
 X-Mailer: git-send-email 2.7.4
 Cc: alexander.kanavin@intel.com
-Subject: [PATCH] usbutils: use update-alternatives for lsusb
+Subject: [PATCH v2] grub-efi: add grub target and image for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 22:47:34 -0000
+X-List-Received-Date: Wed, 18 Apr 2018 00:30:19 -0000
 
-lsusb can also be provided by busybox (CONFIG_LSUSB), so use
-update-alternatives to handle the conflict.
+Add missing target and image for aarch64, as the current revision is
+already fully compatible with ARMv8.
 
 Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
 ---
- meta/recipes-bsp/usbutils/usbutils_009.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/grub/grub-efi_2.02.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils_009.bb b/meta/recipes-bsp/usbutils/usbutils_009.bb
-index 88c24bd..3ffc0dd 100644
---- a/meta/recipes-bsp/usbutils/usbutils_009.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_009.bb
-@@ -15,7 +15,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
- SRC_URI[md5sum] = "b5dbc498b2eb5058f7a57fc6532d0aad"
- SRC_URI[sha256sum] = "e73543293a17c7803994eac97a49e58b377e08e6299ba11aad09794b91340e8b"
- 
--inherit autotools pkgconfig distro_features_check
-+inherit autotools pkgconfig distro_features_check update-alternatives
-+
-+ALTERNATIVE_${PN} = "lsusb"
-+ALTERNATIVE_PRIORITY = "100"
- 
- FILES_${PN}-dev += "${datadir}/pkgconfig"
- 
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+index ed27b90..7bfc8ee 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+@@ -22,6 +22,9 @@ python __anonymous () {
+     elif re.match('i.86', target):
+         grubtarget = 'i386'
+         grubimage = prefix + "bootia32.efi"
++    elif re.match('aarch64', target):
++        grubtarget = 'arm64'
++        grubimage = prefix + "bootaa64.efi"
+     else:
+         raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
+     d.setVar("GRUB_TARGET", grubtarget)
 -- 
 2.7.4
 
