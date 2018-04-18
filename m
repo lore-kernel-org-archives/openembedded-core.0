@@ -1,22 +1,57 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EEE9F60053
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DC4537451C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Apr 2018 07:38:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3I7cgFm008869
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 18 Apr 2018 00:38:42 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 18 Apr 2018 00:38:42 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Apr 2018 15:46:11 +0800
-Message-ID: <1524037571-3202-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 18 Apr 2018 07:45:56 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id j11so469247pgf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2018 00:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=HN5Ys2XYWCwinCRThW6d4jXcG62kp5n+I746gON2tD0=;
+	b=F4c7WhPEhY/eBi4SQuSk1sxLCsXE0DgZpqh5W9U4nmIBmLHQpC0swVGXXyRq/BjHfh
+	loXMdrpuQBjWCHp1oqjgu95zx3lU5Jz/XWDatzeXg9/pJSx65VKpESw06ia7XgLAI6oI
+	I65Gfgia0umwPUp+V3CRwdANcilS0vvsrXeO3XotERo6rQCWRcpH1nJRDDXlIilwtvLe
+	JM23rzB2roSexapNTfC0N3mIlEAkjEwwOTTgfrhPadohbBcdeUh1APJBJEN2tkWquuH/
+	jusGY/xTZ8jME/BSYhoxBj4Wzt7/p8kyOrvIZiaUvlYziP1AsKnUlHL379DkyzipnWG+
+	A57Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=HN5Ys2XYWCwinCRThW6d4jXcG62kp5n+I746gON2tD0=;
+	b=sbzzjtgoChCI72E1UQU+XxpqrGOWvjMNADDqz90tozOemU4MD7tzIoOucEJy7JTE0P
+	3Ovo7WZPDNPwM+RVoa0QlGuiWbcmSC9Iaakc4jg3n69czZEw+KJ1N6BeWUKcbjZfoqaE
+	LNnBCU4/WrkU9yFfRjjIHI/g4iivB/ywpxbH5UU3TusZ/L+DQGP8ArDPNQ2aaRgbqjg5
+	JjWNK5q2pkQVjhO5m0eioiKbXK5izqRYoVbZ5qWrIsudR4ypLpaZqSgixAjbTVJvyKhH
+	USnF2S+WUPea+79HLab3vUc1eVxxn95wzTzWnkP8SI7X+jJVAmGVaoyNUN97A0zF5Ffk
+	y2aw==
+X-Gm-Message-State: ALQs6tDvcF3YCJ1vXmBusVyShG5ZflFTtY2YbDW2zcBxRCnXroNXI9LX
+	BiON7ccURxmAPAmnmrcoUg5S1hSr
+X-Google-Smtp-Source: AIpwx4/WUACYzIVQogXPOyWSD/tdYd2lVHvF0yzO3ijhbjE3OMZ34alZx5WN93AjP2Y1OmJ26nrZ9g==
+X-Received: by 10.99.149.87 with SMTP id t23mr879951pgn.77.1524037557807;
+	Wed, 18 Apr 2018 00:45:57 -0700 (PDT)
+Received: from hermes.local ([2601:646:8880:466c:68e6:e447:164c:d4e7])
+	by smtp.gmail.com with ESMTPSA id k9sm1296051pgo.62.2018.04.18.00.45.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Apr 2018 00:45:57 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>,
+	Alistair Francis <alistair.francis@wdc.com>
+References: <1523908979-32369-1-git-send-email-alistair.francis@wdc.com>
+	<CAJ86T=VRts8m1QJb-hui1ievJhX-J9ngLUffTotLuzf-Z9dinw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <a98cead2-4187-9c21-d5be-352c296e633f@gmail.com>
+Date: Wed, 18 Apr 2018 00:45:56 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-Subject: [PATCH] openssh: check for OpenSSL with EVP_des_ede3_cbc
+In-Reply-To: <CAJ86T=VRts8m1QJb-hui1ievJhX-J9ngLUffTotLuzf-Z9dinw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes-kernel/linux: Enable NUMA Kconfig from DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,110 +64,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Apr 2018 07:38:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Apr 2018 07:45:57 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-While compiling openssl with option `no-des', it caused the openssh
-build failure
-...
-cipher.c:85:41: error: 'EVP_des_ede3_cbc' undeclared here (not in a function);
-...
 
-Check for OpenSSL with EVP_des_ede3_cbc
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../openssh/check-for-openssl-with-evp_des.patch   | 67 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.6p1.bb |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/check-for-openssl-with-evp_des.patch
+On 4/17/18 1:52 PM, Andre McCurdy wrote:
+> On Mon, Apr 16, 2018 at 1:02 PM, Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+>> If the user has set numa as a distro feature enable NUMA support in the
+>> kernel config.
+> 
+> Isn't NUMA something which would be machine specific rather than
+> distro specific?
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/check-for-openssl-with-evp_des.patch b/meta/recipes-connectivity/openssh/openssh/check-for-openssl-with-evp_des.patch
-new file mode 100644
-index 0000000..1c5fa5d
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/check-for-openssl-with-evp_des.patch
-@@ -0,0 +1,67 @@
-+From aa943ac647e7c81345680e7050be83f0bc9deb55 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Tue, 17 Apr 2018 23:58:47 -0700
-+Subject: [PATCH] configure.ac/cipher.c: Check for OpenSSL with EVP_des_ede3_cbc
-+
-+While compiling openssl with option `no-des', it caused the openssh
-+build failure
-+...
-+cipher.c:85:41: error: 'EVP_des_ede3_cbc' undeclared here (not in a function);
-+...
-+
-+Upstream-Status: Submitted [openssh-unix-dev@mindrot.org]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ cipher.c     |  2 ++
-+ configure.ac | 20 ++++++++++++++++++++
-+ 2 files changed, 22 insertions(+)
-+
-+diff --git a/cipher.c b/cipher.c
-+index c3cd5dc..41dacfb 100644
-+--- a/cipher.c
-++++ b/cipher.c
-+@@ -82,7 +82,9 @@ struct sshcipher {
-+ 
-+ static const struct sshcipher ciphers[] = {
-+ #ifdef WITH_OPENSSL
-++#ifdef OPENSSL_HAVE_DES
-+ 	{ "3des-cbc",		8, 24, 0, 0, CFLAG_CBC, EVP_des_ede3_cbc },
-++#endif
-+ 	{ "aes128-cbc",		16, 16, 0, 0, CFLAG_CBC, EVP_aes_128_cbc },
-+ 	{ "aes192-cbc",		16, 24, 0, 0, CFLAG_CBC, EVP_aes_192_cbc },
-+ 	{ "aes256-cbc",		16, 32, 0, 0, CFLAG_CBC, EVP_aes_256_cbc },
-+diff --git a/configure.ac b/configure.ac
-+index 889f506..6c664ad 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -2672,6 +2672,26 @@ if test "x$openssl" = "xyes" ; then
-+ 		]
-+ 	)
-+ 
-++	# Check for OpenSSL with EVP_des_ede3_cbc
-++	AC_MSG_CHECKING([whether OpenSSL has DES support])
-++	AC_LINK_IFELSE(
-++		[AC_LANG_PROGRAM([[
-++	#include <string.h>
-++	#include <openssl/evp.h>
-++	]], [[
-++		exit(EVP_des_ede3_cbc() == NULL);
-++	]])],
-++	[
-++		AC_MSG_RESULT([yes])
-++		AC_DEFINE([OPENSSL_HAVE_DES], [1],
-++		[libcrypto has DES support])
-++	],
-++	[
-++		AC_MSG_RESULT([no])
-++	]
-++	)
-++
-++
-+ 	# Check for OpenSSL with EVP_aes_*ctr
-+ 	AC_MSG_CHECKING([whether OpenSSL has AES CTR via EVP])
-+ 	AC_LINK_IFELSE(
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
-index a2288df..a00cc5c 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-+           file://check-for-openssl-with-evp_des.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
--- 
-2.7.4
+Yes, I think MACHINE_FEATURE seems a better fit
 
 
