@@ -1,48 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C44460272
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF1B71C42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 21:23:59 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id c7-v6so3988423plr.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 14:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=LcAK0OkRfuF84ATWlH+8X8ovgTO9SwaNz5ImaFIz8NA=;
-	b=pCi1WCWenDVmXwLjLDPlM/3fxyS+9VgCrFqrqFTgOytSHeCek2jlWDlyOK4WQte/XZ
-	bQBGtirIfzGsOSpNbT0xnn7TZC+H/NLkc2rwR0sw7QY6AulDZmobcLYdpSibEVP/Geeo
-	RCRaRLZWw3+9r1rvUP7skEkrlLnVpLmsdrxJdECmho3jpLGdgT7VfoHQyoT+3dWVYlIl
-	s84sZ+jeq8skM41iJqgGpaf5B/Myj6eyM3JQ8kSXiTGuRmGH9vsBBq5F+lbrLVMyvfC3
-	6rKWTtMWhDRLovdwndnlZCDaHeLhCLqk02pXpLhDuvIKf9FkxoXjn5M6MpbfdqvZibqa
-	WScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LcAK0OkRfuF84ATWlH+8X8ovgTO9SwaNz5ImaFIz8NA=;
-	b=XpLdnA28e5pVrlDcPVKLGybKGMNIrxsMdIZMCgfvhy+i9ddy/VkEdNKO4w8fPM01vH
-	YjWxM/3HpGDpqcA5HmrDuBQzQqTImkV5ZVyxNCNC/WcyRaizq4h42eQrkBnSpqfeq7j9
-	IGM+DmKP5l50HjHowDz/ID/tvVpMEPX1f3LvoP5peLVxiPLW7MQ+aCV84pyxzTJLpqAo
-	iv3MhUXFf1xf/hSo01c0jWfJjj9mQHquse3lUpUoVE0DWRynGN5Bsmg9vJtGUPezWmiW
-	IBzWivsEvrXIFmytd9G2ka/Ac9HNR1lZQkbrRSN+n4Q7xHlVfwoCDK2nO7AaLE6CoxPo
-	h7qA==
-X-Gm-Message-State: ALQs6tBTLfGSZC6rUMwPZzrXdrtJDZI7Z8LHUvxILMdIYUH/+hJIdgaJ
-	DvWCGbWz6fyagIzgeb3tlpVzvA==
-X-Google-Smtp-Source: AIpwx48Tk5XP2z9N8jtLF1L5Cga7O+Ig6TVUxaZDUJHYWP4yk7KcEcvLc4gpGS2lzPnr+z3Ic5I84A==
-X-Received: by 2002:a17:902:7c0e:: with SMTP id
-	x14-v6mr7734455pll.392.1524173040210; 
-	Thu, 19 Apr 2018 14:24:00 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8880:466c::487b])
-	by smtp.gmail.com with ESMTPSA id
-	n86sm9526367pfk.178.2018.04.19.14.23.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Apr 2018 14:23:59 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Apr 2018 14:23:54 -0700
-Message-Id: <20180419212354.25290-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH V2] musl: Upgrade to latest
+	Thu, 19 Apr 2018 22:03:04 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w3JM31HY027895
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 19 Apr 2018 23:03:02 +0100
+Message-ID: <1524175381.18865.128.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "OE Core
+	(openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Apr 2018 23:03:01 +0100
+In-Reply-To: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
+References: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: Oddness regarding file locks in package.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +33,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2018 21:23:59 -0000
+X-List-Received-Date: Thu, 19 Apr 2018 22:03:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Changes are here
+On Tue, 2017-10-03 at 18:17 +0000, Peter Kjellerstedt wrote:
+> I just stumbled upon something odd in package.bbclass. In commit 
+> ede381d5 from January 2011 (the code hasn't changed since), the 
+> use of the ${PACKAGELOCK} lock file was changed to shared to 
+> improve parallelism. However, when looking at the actual change 
+> it becomes confusing. I have included it below for reference.
+> 
+> > 
+> > commit ede381d56b180b384fdad98d445e5430819cfade
+> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Date:   Wed Jan 19 11:04:15 2011 +0000
+> > 
+> >     package.bbclass: Take a shared lock when reading to improve
+> > do_package parallelism
+> >     
+> >     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.o
+> > rg>
+> > 
+> > diff --git a/meta/classes/package.bbclass
+> > b/meta/classes/package.bbclass
+> > index d39c694de5..8e7fa26f72 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -497,7 +497,8 @@ python emit_pkgdata() {
+> >  	pkgdest = bb.data.getVar('PKGDEST', d, 1)
+> >  	pkgdatadir = bb.data.getVar('PKGDESTWORK', d, True)
+> >  
+> > -	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
+> > d))
+> > +	# Take shared lock since we're only reading, not writing
+> > +	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
+> > d), True)
+> Here the lock is changed to shared as per the commit message.
+> 
+> > 
+> >  
+> >  	data_file = pkgdatadir + bb.data.expand("/${PN}" , d)
+> >  	f = open(data_file, 'w')
+> > @@ -649,6 +650,7 @@ python package_do_shlibs() {
+> >  	shlibs_dir = bb.data.getVar('SHLIBSDIR', d, True)
+> >  	shlibswork_dir = bb.data.getVar('SHLIBSWORKDIR', d, True)
+> >  
+> > +	# Take shared lock since we're only reading, not writing
+> >  	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
+> > d))
+> Here, however, it is not changed, even though a comment is added to 
+> say that it is. Was this intentional, or just an oversight?
+> 
+> > 
+> >  
+> >  	def linux_so(root, path, file):
+> > @@ -878,6 +880,7 @@ python package_do_pkgconfig () {
+> >  							if hdr ==
+> > 'Requires':
+> >  								pk
+> > gconfig_needed[pkg] += exp.replace(',', ' ').split()
+> >  
+> > +	# Take shared lock since we're only reading, not writing
+> >  	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
+> > d))
+> Here again a comment is added, but the code is not changed to match.
+> 
+> > 
+> >  
+> >  	for pkg in packages.split():
+> Also, what is the ${PACKAGELOCK} lock file actually protecting? With 
+> the exception of the two questionable cases above, I cannot see that 
+> the lock is taken privately anywhere else. And since it looks as the 
+> code in package_do_shlibs() and package_do_pkgconfig() is not what 
+> needs protection (based on the added comments above), what is?
 
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=55df09bfccbfe21fc9dd7d8f94550c0ff25ace04..618b18c78e33acfe54a4434e91aa57b8e171df89
+Sorry for not replying sooner, this was brought to my attention again.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Changes since v1:
-- Upgrade to newer SRCREV
+PACKAGELOCK is there for PKGDATA_DIR which is defined as
+${TMPDIR}/pkgdata/${MACHINE}, i.e. not recipe specific.
 
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If something is reading files from pkgdata and something else
+writes/changes them, we used to see build failures. The lock therefore
+does have a purpose in guarding against this.
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 936c64f2d1..ab0aa3ea47 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "55df09bfccbfe21fc9dd7d8f94550c0ff25ace04"
-+SRCREV = "618b18c78e33acfe54a4434e91aa57b8e171df89"
- 
- PV = "1.1.19+git${SRCPV}"
- 
--- 
-2.17.0
+Looking at the code, something has gotten lost with the addition of
+recipe specific sysroots and the separation of do_packagedata from
+do_package.
+
+I suspect it needs:
+
+-do_packagedata[sstate-lockfile-shared] = "${PACKAGELOCK}"
++do_packagedata[sstate-lockfile] = "${PACKAGELOCK}"
+
+and the other sites you mention should be shared locks, then this would
+all make a lot more sense.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
 
