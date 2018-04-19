@@ -1,49 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D67B974562
+Received: from mail-ot0-f175.google.com (mail-ot0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 10A437320B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 10:29:28 +0000 (UTC)
-Received: by mail-ot0-f181.google.com with SMTP id p33-v6so5256398otp.11
+	Thu, 19 Apr 2018 10:36:13 +0000 (UTC)
+Received: by mail-ot0-f175.google.com with SMTP id w2-v6so5298987otj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 03:29:29 -0700 (PDT)
+	Thu, 19 Apr 2018 03:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oS9S9w2yu3QjPVvR+8Nd0thAQGUfg2/bCt+sT9uFCGk=;
-	b=x3FiljfTpQL1SbhXxkiDKsCYl6xtMZ5wYDc3ZUVHdWVXdunhsdoEXuHjNNlStPZY5n
-	nqHMQ1ml1mjmJ4a6UsOdaZ8L1hNF4FRFjB6tED6YSay6+o4yGacdHXhl7DKIc3G+Escn
-	6+X6Qu929Gt6Mhule2v5SkRjO4cNtwokiZ1HC5LgD/nrriq5ahPLQuYd6Grv9OWwVTd+
-	UeXp6cKHf/vlIPJgMrVlc2ZpzZd4pC31XVcoO3ggdiXqnLj57zpARG52vGh+VuuPm/2u
-	/bc9lN0qrb+nNvpuCfza3xnfgfhpkMAMmc7oGTSdKjCtRdoqBdYzlZLfxfkqqkKBuNWU
-	eI8Q==
+	:cc:content-transfer-encoding;
+	bh=Kn7YptxdkaQ+5YNm6kXmjJEj5tSK9jWZXuOy5Jame8k=;
+	b=cRxpb1NZwUPAs0Ti6RureJ4uR56UiWaeiBXAmWkNuFmRr8O+55KxVJqko7y7Wrh+jG
+	ab6hRaQzghg7F0NJ+KkjqIkpIgJ3aW2ifNvRQCEZ8E5SbAydYc+MQwuVDgWAQkUb3NnS
+	bfhpHFntcvZLQRNo7ay/jW42TGOsFXfMXLzPAiU/mCs2k3wF8hnJNIgJz4SlmvQHX+YH
+	aFI4sA4wKtcn4/54O8t6Fv4U5yO1+Xj9nPV3M2a/MkY5QeygVLd3CGltnuP1yIOkuRa4
+	aFsQUTjG6IFUkiAENZFg0juoYCZQc3HYG9uojwXhNH2qCfgeOYcSz+6oR5Piiu9eheJy
+	op2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oS9S9w2yu3QjPVvR+8Nd0thAQGUfg2/bCt+sT9uFCGk=;
-	b=GE1r3RdR94LH+Nx5LldnB3nELYo1V8Gf1EOhZsJn1JYnRal8GFEXHAEaBj1rXHoz+y
-	lHFVASFaEm+E7Z72OutkDWUYAP6ZYNDZfikegXICSMmAmEdHvXBh+70A69HMsKyTUkMR
-	Kum0+8IFE6C3VPHEkIMj1DqenWX/lKSoJOFuUAEq044kj4XJaDSiEdKtI8ckENiPa1W3
-	UzM3P5yp4CdSRxC2H2VOdHxTcMlM7hhBQsXUJw0p3hnyYo2Gt6n1ZtgwxDzvMN6WHydj
-	Hvr6pf+ydpakhTnAKucV7JEGyAEboXB7fnxKSZ/46nzm1Ll/1h39Gy9kvdzCN6jYFDE5
-	q0KA==
-X-Gm-Message-State: ALQs6tC/Gs6uovi22P6BKSyz+955nCnATIsI5k3HgUdOQIh0+4Z4QngN
-	RSMArqTNJGpQJBv65cy7ksN29YML8c3G15A8PXD08w==
-X-Google-Smtp-Source: AIpwx4/VKcQX1PXVlAnHHDW2Hs8xUVVgxk0sdUsOFEeqzayQUmoILSF9n//FvMxq2fek3wro92vDLxEwcRV3rEocT24=
-X-Received: by 2002:a9d:1831:: with SMTP id
-	b46-v6mr3334371ote.135.1524133769498; 
-	Thu, 19 Apr 2018 03:29:29 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Kn7YptxdkaQ+5YNm6kXmjJEj5tSK9jWZXuOy5Jame8k=;
+	b=IJKGCds3CVztjBe8uswsYczmUL4wakMZ5OwwmOwEoxcI3IECU5gCPaEdKkh6IdTMo/
+	BVMUQeZ8lt9RndGFKlf7B3U0/jy/wo1kacfAomILqxQfO7IoaFgnEeLwhZvMCy6Q80k/
+	t2i+2GA99wUg6uGWIkAXAW6rvzTkk0PBpUKx+bKYit+FAR4YIqwKLHGQ4FHxdgl3eufC
+	aF9/bUiTg5aL40NCDgnFf3Fd1Aj4g/aZVmCA0YlermVIFetovWZ7xMBS0jPjHaDVbI+E
+	V/Nk0/3+EZLBCsnNCiZXweelb+vwFi/PMUTKY0t/r51kc+iQhozMoVjUcGMbLdL0FHfw
+	K/qA==
+X-Gm-Message-State: ALQs6tBp8B8qLpB9L7man3xJh9PJa2lStc5dQVxexjGrHTTWyULZ01TG
+	B7/akxrObYq1NDC/eqiaIdDLJmhDOwGlRqpxhLuXQw==
+X-Google-Smtp-Source: AIpwx4/RMXHpR3l0fJiWwWvUeiImwR89sTBgV4RGSy2qpk01HHpFVdPpN80xcHXBPwDqimgBrveVfgFRoHD8FfPFDiw=
+X-Received: by 2002:a9d:1850:: with SMTP id
+	t16-v6mr3864320ott.300.1524134174853; 
+	Thu, 19 Apr 2018 03:36:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.138.17.198 with HTTP; Thu, 19 Apr 2018 03:29:08 -0700 (PDT)
-In-Reply-To: <1524116800-25332-1-git-send-email-chin.huat.ang@intel.com>
-References: <1524116800-25332-1-git-send-email-chin.huat.ang@intel.com>
+Received: by 10.138.17.198 with HTTP; Thu, 19 Apr 2018 03:35:54 -0700 (PDT)
+In-Reply-To: <AM5PR0402MB2817BAED1816216C67E76BC6E2A40@AM5PR0402MB2817.eurprd04.prod.outlook.com>
+References: <AM5PR0402MB2817BAED1816216C67E76BC6E2A40@AM5PR0402MB2817.eurprd04.prod.outlook.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Apr 2018 11:29:08 +0100
-Message-ID: <CAJTo0LYt+=aqyHHE9p6LzVHSXDHq57-_JB3R5CXkgfgfwhta3w@mail.gmail.com>
-To: Chin Huat Ang <chin.huat.ang@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts: preserve host path in environment setup script
+Date: Thu, 19 Apr 2018 11:35:54 +0100
+Message-ID: <CAJTo0LZmxAW4QvWKStapOhCf23FDTPReDWHFvOWJHbhfkFwr_g@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: python3-native certificate failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +58,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2018 10:29:29 -0000
+X-List-Received-Date: Thu, 19 Apr 2018 10:36:14 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That would mean that the environment script has the *build system*
-PATH on, when the intention here is to extend the *users* PATH.
+Why don't you just use the host Python?
 
-The solution here would be to do:
-
-  echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:$PATH' >> $script
-
-Bitbake only expands ${FOO} and not $FOO, so $PATH won't be expended
-until the user runs the script.
+This is probably due to the certificate path not being correctly
+remapped as it goes in/out of sstate, you'll have to tell the SSL code
+explicitly where to find the certificates.
 
 Ross
 
-On 19 April 2018 at 06:46, Chin Huat Ang <chin.huat.ang@intel.com> wrote:
-> The environment setup script generated in the build directory has host paths
-> filtered, sourcing this script will break runqemu as it requires host
-> /bin/stty. To resolve this, the script generation now sets the PATH variable
-> to include the original values obtain from BB_ORIGENV.
+On 4 April 2018 at 21:09, Tom Hochstein <tom.hochstein@nxp.com> wrote:
+> I am trying to download a URL from a source package using python3-native,
+> but it is failing with a certificate failure. I added DEPENDS on
+> ca-certificates-native and python3-certifi-native, but it doesn=E2=80=99t=
+ seem to
+> help. A colleague with a corresponding SDK took the aarch64 sysroot
+> certificates and dropped them in x86_64 sysroot and the problem was fixed=
+.
 >
-> [YOCTO #12695]
 >
-> Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
-> ---
->  meta/classes/toolchain-scripts.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-> index eeb320d..75f76d9 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -62,7 +62,7 @@ toolchain_create_tree_env_script () {
->         script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
->         rm -f $script
->         touch $script
-> -       echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
-> +       echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${@d.getVar("BB_ORIGENV", False).getVar("PATH", False)}' >> $script
->         echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
->         echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
->         echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
-> --
-> 2.7.4
+> Tom
+>
+>
+>
+> r60874@tx30imx-01:~/rocko/build-xwayland$ bitbake imx-gpu-sdk -c devshell
+>
+> root@tx30imx-01:~/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/=
+imx-gpu-sdk/5.0.2-r0/git#
+> python3
+>
+> Python 3.5.3 (default, Mar  6 2018, 14:15:44)
+>
+> [GCC 5.4.0 20160609] on linux
+>
+> Type "help", "copyright", "credits" or "license" for more information.
+>
+>>>> import urllib.request
+>
+>>>>
+>>>> urllib.request.urlretrieve("https://sourceforge.net/projects/tclap/fil=
+es/tclap-1.2.2.tar.gz",
+>>>> "~")
+>
+> Traceback (most recent call last):
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 1254, in do_open
+>
+>     h.request(req.get_method(), req.selector, req.data, headers)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 1107, in request
+>
+>     self._send_request(method, url, body, headers)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 1152, in _send_request
+>
+>     self.endheaders(body)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 1103, in endheaders
+>
+>     self._send_output(message_body)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 934, in _send_output
+>
+>     self.send(msg)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 877, in send
+>
+>     self.connect()
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/http/client.py",
+> line 1261, in connect
+>
+>     server_hostname=3Dserver_hostname)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/ssl.py",
+> line 385, in wrap_socket
+>
+>     _context=3Dself)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/ssl.py",
+> line 760, in __init__
+>
+>     self.do_handshake()
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/ssl.py",
+> line 996, in do_handshake
+>
+>     self._sslobj.do_handshake()
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/ssl.py",
+> line 641, in do_handshake
+>
+>     self._sslobj.do_handshake()
+>
+> ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed
+> (_ssl.c:720)
+>
+>
+>
+> During handling of the above exception, another exception occurred:
+>
+>
+>
+> Traceback (most recent call last):
+>
+>   File "<stdin>", line 1, in <module>
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 188, in urlretrieve
+>
+>     with contextlib.closing(urlopen(url, data)) as fp:
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 163, in urlopen
+>
+>     return opener.open(url, data, timeout)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 466, in open
+>
+>     response =3D self._open(req, data)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 484, in _open
+>
+>     '_open', req)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 444, in _call_chain
+>
+>     result =3D func(*args)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 1297, in https_open
+>
+>     context=3Dself._context, check_hostname=3Dself._check_hostname)
+>
+>   File
+> "/home/r60874/rocko/build-xwayland/tmp/work/aarch64-mx8qm-poky-linux/imx-=
+gpu-sdk/5.0.2-r0/recipe-sysroot-native/usr/lib/python3.5/urllib/request.py"=
+,
+> line 1256, in do_open
+>
+>     raise URLError(err)
+>
+> urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]
+> certificate verify failed (_ssl.c:720)>
+>
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
