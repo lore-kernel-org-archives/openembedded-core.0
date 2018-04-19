@@ -1,24 +1,24 @@
-Return-Path: <chin.huat.ang@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B9CA172ECD
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0750C6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 05:47:05 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Apr 2018 22:47:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.48,467,1517904000"; d="scan'208";a="192670256"
-Received: from chinhuat-mac01.png.intel.com (HELO ubuntu.localdomain)
-	([172.30.199.28])
-	by orsmga004.jf.intel.com with ESMTP; 18 Apr 2018 22:47:05 -0700
-From: Chin Huat Ang <chin.huat.ang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Apr 2018 13:46:40 +0800
-Message-Id: <1524116800-25332-1-git-send-email-chin.huat.ang@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] toolchain-scripts: preserve host path in environment setup script
+	Thu, 19 Apr 2018 06:49:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3J6nT7d023020
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Apr 2018 23:49:30 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 18 Apr 2018 23:49:29 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Apr 2018 14:35:47 +0800
+Message-ID: <1524119747-12549-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH] eudev: create static nodes from modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2018 05:47:05 -0000
+X-List-Received-Date: Thu, 19 Apr 2018 06:49:29 -0000
+Content-Type: text/plain
 
-The environment setup script generated in the build directory has host paths
-filtered, sourcing this script will break runqemu as it requires host
-/bin/stty. To resolve this, the script generation now sets the PATH variable
-to include the original values obtain from BB_ORIGENV.
+Revert commit <src/udev/udevd.c: remove create static nodes from modules>
+because /dev/net/tun is usually needed to already been there when system
+boots up. With this commit, /dev/net/tun is missing when sysvinit is
+used.
 
-[YOCTO #12695]
-
-Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...01-eudev-create-static-nodes-from-modules.patch | 106 +++++++++++++++++++++
+ meta/recipes-core/udev/eudev_3.2.5.bb              |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index eeb320d..75f76d9 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -62,7 +62,7 @@ toolchain_create_tree_env_script () {
- 	script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
- 	rm -f $script
- 	touch $script
--	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
-+	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${@d.getVar("BB_ORIGENV", False).getVar("PATH", False)}' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
- 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
- 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
+new file mode 100644
+index 0000000..583873e
+--- /dev/null
++++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
+@@ -0,0 +1,106 @@
++From 73df4fe0bd6fd2f2600f0d82b3f121c604baf1be Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Thu, 12 Apr 2018 05:14:27 -0400
++Subject: [PATCH] eudev: create static nodes from modules
++
++Revert commit <src/udev/udevd.c: remove create static nodes from modules>
++
++Upstream-Status: Inappropriate [Just for user's convinence]
++
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ src/udev/udevd.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 71 insertions(+)
++
++diff --git a/src/udev/udevd.c b/src/udev/udevd.c
++index 9c33eba..95774a1 100644
++--- a/src/udev/udevd.c
+++++ b/src/udev/udevd.c
++@@ -979,6 +979,76 @@ static void handle_signal(struct udev *udev, int signo) {
++         }
++ }
++ 
+++static void static_dev_create_from_modules(struct udev *udev) {
+++        struct utsname kernel;
+++        char modules[UTIL_PATH_SIZE];
+++        char buf[4096];
+++        FILE *f;
+++
+++        if (uname(&kernel) < 0) {
+++                log_error("uname failed: %m");
+++                return;
+++        }
+++
+++        strscpyl(modules, sizeof(modules), ROOTPREFIX "/lib/modules/", kernel.release, "/modules.devname", NULL);
+++        f = fopen(modules, "re");
+++        if (f == NULL)
+++                return;
+++
+++        while (fgets(buf, sizeof(buf), f) != NULL) {
+++                char *s;
+++                const char *modname;
+++                const char *devname;
+++                const char *devno;
+++                int maj, min;
+++                char type;
+++                mode_t mode;
+++                char filename[UTIL_PATH_SIZE];
+++
+++                if (buf[0] == '#')
+++                        continue;
+++
+++                modname = buf;
+++                s = strchr(modname, ' ');
+++                if (s == NULL)
+++                        continue;
+++                s[0] = '\0';
+++
+++                devname = &s[1];
+++                s = strchr(devname, ' ');
+++                if (s == NULL)
+++                        continue;
+++                s[0] = '\0';
+++
+++                devno = &s[1];
+++                s = strchr(devno, ' ');
+++                if (s == NULL)
+++                        s = strchr(devno, '\n');
+++                if (s != NULL)
+++                        s[0] = '\0';
+++                if (sscanf(devno, "%c%u:%u", &type, &maj, &min) != 3)
+++                        continue;
+++
+++                mode  = 0600;
+++                if (type == 'c')
+++                        mode |= S_IFCHR;
+++                else if (type == 'b')
+++                        mode |= S_IFBLK;
+++                else
+++                        continue;
+++
+++                strscpyl(filename, sizeof(filename), "/dev/", devname, NULL);
+++                mkdir_parents_label(filename, 0755);
+++                mac_selinux_create_file_prepare(filename, mode);
+++                log_debug("mknod '%s' %c%u:%u", filename, type, maj, min);
+++                if (mknod(filename, mode, makedev(maj, min)) < 0 && errno == EEXIST)
+++                        utimensat(AT_FDCWD, filename, NULL, 0);
+++                mac_selinux_create_file_clear();
+++        }
+++
+++        fclose(f);
+++}
+++
++ /*
++  * read the kernel command line, in case we need to get into debug mode
++  *   udev.log-priority=<level>                 syslog priority
++@@ -1183,6 +1253,7 @@ int main(int argc, char *argv[]) {
++         }
++ 
++         dev_setup(NULL, UID_INVALID, GID_INVALID);
+++        static_dev_create_from_modules(udev);
++ 
++         /* before opening new files, make sure std{in,out,err} fds are in a sane state */
++         if (arg_daemonize) {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
+index 88ad8f1..9237944 100644
+--- a/meta/recipes-core/udev/eudev_3.2.5.bb
++++ b/meta/recipes-core/udev/eudev_3.2.5.bb
+@@ -18,6 +18,7 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+            file://permissions.rules \
+            file://run.rules \
+            file://udev.rules \
++           file://0001-eudev-create-static-nodes-from-modules.patch \
+ "
+ 
+ SRC_URI[md5sum] = "6ca08c0e14380f87df8e8aceac123671"
 -- 
-2.7.4
+1.9.1
 
 
