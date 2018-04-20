@@ -1,47 +1,43 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E9BA71951
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 10F7472EB2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 08:25:29 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id v24-v6so20628353wra.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 01:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Kzmd0KXBOAjPKxz2ny+ifUKUo2gcbuSQENwkS3W0Ffs=;
-	b=OMgrQlroDUxYxpHfE/FS3cZ6ZHSknMk6K7wuzfzDNziGeIlFXn1aa35MaKbCnIT2hd
-	ciS/0paKDqBvmGL6LbYeL846tNKMPBBSCaTeVwwSs+fVciWh9jtNqVsMqVJ9w0a6+fnq
-	fhRff2NX1PkDr5anu2ei9es8EwjdDkvERgDGb1lx736GcHKIQqDnJ5E7cD1AKQjyjnZ6
-	KUxAFIH72DZxq5pxTnkK3baeQFo9UnnOPGcgjofcRP3AP+OT4VWZRHXjt2uF8BA8W+jW
-	kSdCWHec5wQNuNEumzSqBoIU9CX4050LzJ6C2OMIPL4rAFx/nUm1ttwCYK9mN7I6ASCG
-	b2AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Kzmd0KXBOAjPKxz2ny+ifUKUo2gcbuSQENwkS3W0Ffs=;
-	b=knE6voqJEHwTL7ZOTMMJdITqx+U3znErCxE2lyu2UaFZgc28jBlMKpzgo1ypH5f1kN
-	x0fIJ+i/UnAmI5Dt3z64CG3sVBFVH5MKzfzUVn8U8kewJZkEwSxdNGvjth2bkrPUv6RP
-	rkyo7njCq9aP5uvtKKex2kL2aR4Bvm/eNjb6Q8AAEu8vvWbvp7/QLtkPsyn5trpkzsaL
-	UEtetMFfYAobqDvEfCSVG0RljpovOAjeYPp7/qE6X8/IuxMRIWUZRfkZQf7fHvvCd7Oo
-	BIUKhIBEcD1xiwIfR2b45FWYorZZDm/FtyNDd3vpB8Y40bs9Vil89reshypUBTsPF3tx
-	SKpw==
-X-Gm-Message-State: ALQs6tDzfKrxjO9P9zngJlK+YAH9n7WatV7zZ+X7PMzLw+Z0StUXq7O4
-	whlj0LHqEAXQxJ8EqLTz0Gklpg==
-X-Google-Smtp-Source: AB8JxZreQoV2STC5EPB1hQ61aSJVj3rHSEcHkLNjHWMpIS6Yh231IFILoyf5ce3N0BBtkrNcNivg0A==
-X-Received: by 10.28.230.148 with SMTP id e20mr1160274wmi.89.1524212730431;
-	Fri, 20 Apr 2018 01:25:30 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id c14sm896811wmi.28.2018.04.20.01.25.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 20 Apr 2018 01:25:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2018 08:25:26 +0000
-Message-Id: <20180420082526.24648-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] pseudo: use latest SRCREV
+	Fri, 20 Apr 2018 08:27:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Apr 2018 01:27:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,300,1520924400"; d="scan'208";a="52263517"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by orsmga002.jf.intel.com with ESMTP; 20 Apr 2018 01:27:02 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.25]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.222]) with mapi id
+	14.03.0319.002; Fri, 20 Apr 2018 16:27:01 +0800
+From: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] oe-selftest: runqemu: add tests for qemu
+	boot and shutdown
+Thread-Index: AQHT2HddJpqIASr7+EOELEBgZap+gqQJUSDQ
+Date: Fri, 20 Apr 2018 08:27:01 +0000
+Message-ID: <9DDD2658D1FE414E99172D2DB1E4D04335E06664@PGSMSX109.gar.corp.intel.com>
+References: <1523323712-112201-1-git-send-email-ee.peng.yeoh@intel.com>
+	<1524208516.18865.131.camel@linuxfoundation.org>
+In-Reply-To: <1524208516.18865.131.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjlhNjMwZmMtNmNjMS00YWRhLTk3YWEtOWUxZmEzODg2NWExIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6IlVsRTd0eUF0b0pPWDJVYWV4M1wvNnIxcGtxdUF6K0lxXC81Wm1SSmNxVmlvZz0ifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.206]
+MIME-Version: 1.0
+Subject: Re: [PATCH] oe-selftest: runqemu: add tests for qemu boot and shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +50,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 08:25:31 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 08:27:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-* the pseudo.log is significantly shorter with this revision
-
-fddbe85 Fix symlink following errors
-3a48dc4 Fix one more stray slash
-691a230 Less chatty debugging
-0c053e5 Change copyright default.
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 09a3331d35..9103d49112 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://toomanyfiles.patch \
-            "
- 
--SRCREV = "19f18124f16c4c85405b140a1fb8cb3b31d865bf"
-+SRCREV = "fddbe854c9db058d5a05830d3bcdd4233d95ee2e"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
--- 
-2.17.0
-
+UmljaGFyZCwNCk5vdGVkLCB0aGFuayB5b3UgdmVyeSBtdWNoIQ0KSXQgd2FzIGZpbmUsIFFBIHRl
+YW0gc2hhbGwgYmUgYWJsZSB0byBtYW51YWxseSB0cmlnZ2VyIHRoaXMgc2VsZnRlc3QsIGF0IGxl
+YXN0IGl0IHdhcyBtb3JlIGVmZmljaWVudCB0aGFuIG1hbnVhbGx5IGV4ZWN1dGluZyB0aGUgdGVz
+dGNhc2UuIA0KDQpDaGVlcnMsDQpZZW9oIEVlIFBlbmcgDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4
+Zm91bmRhdGlvbi5vcmddIA0KU2VudDogRnJpZGF5LCBBcHJpbCAyMCwgMjAxOCAzOjE1IFBNDQpU
+bzogWWVvaCwgRWUgUGVuZyA8ZWUucGVuZy55ZW9oQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBvZS1zZWxmdGVzdDogcnVucWVtdTogYWRkIHRlc3RzIGZvciBxZW11IGJvb3QgYW5kIHNodXRk
+b3duDQoNCk9uIE1vbiwgMjAxOC0wNC0wOSBhdCAxODoyOCAtMDcwMCwgWWVvaCBFZSBQZW5nIHdy
+b3RlOg0KPiBRQSB0ZWFtIHdlcmUgdGVzdGluZyBxZW11IGJvb3QgaW1hZ2UgYW5kIHNodXRkb3du
+IG9uIGVhY2ggcWVtdSANCj4gYXJjaGl0ZWN0dXJlIG1hbnVhbGx5LiBBZGQgYXV0b21hdGVkIHRl
+c3QgdG8gdGVzdCBxZW11IGJvb3Qgb24NCj4gZXh0NCBhbmQgbmZzLCBmaW5hbGx5IGNoZWNrIHRo
+YXQgaXQgY2FuIHNodXRkb3duIHByb3Blcmx5Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWWVvaCBF
+ZSBQZW5nIDxlZS5wZW5nLnllb2hAaW50ZWwuY29tPg0KPiAtLS0NCj4gwqBtZXRhL2xpYi9vZXFh
+L3NlbGZ0ZXN0L2Nhc2VzL3J1bnFlbXUucHkgfCA3MA0KPiArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKy0NCj4gwqAxIGZpbGUgY2hhbmdlZCwgNjggaW5zZXJ0aW9ucygrKSwgMiBkZWxl
+dGlvbnMoLSkNCg0KVGhlIHRlc3QgaXMgZ29vZCBob3dldmVyIGl0IGZhaWxzIG9uIG91ciBpbmZy
+YXN0cnVjdHVyZSBzaW5jZSBwb3J0bWFwL3JwY2JpbmQgYXJlbid0IHJ1bm5pbmcuIFRoaXMgaXMg
+YSBuZXcgZGVwZW5kZW5jeSBmb3IgdGhlIHRlc3QgaW5mcmFzdHJ1Y3R1cmUgd2UnZCBoYXZlIHRv
+IGRvY3VtZW50IHNvIEkgZG9uJ3Qgd2FudCB0byBtZXJnZSB0aGlzIGZvciAyLjUuwqANCg0KU2lu
+Y2UgdGhlIGNvZGUgaXRzZWxmIGlzIGZpbmUsIGluc3RlYWQgSSd2ZSBtZXJnZWQgdGhlIHRlc3Qg
+YnV0IGRpc2FibGVkIHRoZSBORlMgdGVzdCBieSBkZWZhdWx0IGFuZCB3ZSdsbCBuZWVkIHRvIHJl
+dmlzaXQgdGhpcyBpbiAyLjYgdG8gZW5hYmxlIGl0Lg0KDQpDaGVlcnMsDQoNClJpY2hhcmQNCg==
 
