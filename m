@@ -1,24 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 716CF745C5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB6DD746D7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 09:06:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3K96BRb029737
+	Fri, 20 Apr 2018 09:06:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3K96DvY016660
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 02:06:12 -0700
+	Fri, 20 Apr 2018 02:06:13 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.197) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 20 Apr 2018 02:06:11 -0700
+	14.3.361.1; Fri, 20 Apr 2018 02:06:12 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Apr 2018 17:07:33 +0800
-Message-ID: <cover.1524215181.git.Qi.Chen@windriver.com>
+Date: Fri, 20 Apr 2018 17:07:34 +0800
+Message-ID: <6a9bfc198b802e4c0e72ee73b7aa5ff491b4e1cc.1524215181.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1524215181.git.Qi.Chen@windriver.com>
+References: <cover.1524215181.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Use oe_multilib_headers to avoid header file conflicts
+Subject: [PATCH 1/2] glibc: use oe_multilib_header on bits/floatn.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 09:06:11 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 09:06:13 -0000
 Content-Type: text/plain
 
-The following changes since commit 71b4ae25612d6dd3687fdd583ed0077e744899cb:
+When building SDK via populate_sdk for qemuarm64 with multilib
+enabled, we would have conflict about bits/floatn.h at populate_sdk
+time.
 
-  glib-2.0/glib.inc: fix broken mingw build (2018-04-20 08:19:46 +0100)
+  file /usr/include/bits/floatn.h conflicts between attempted ins
+talls of libc6-dev-2.27-r0.aarch64 and lib32-libc6-dev-2.27-r0.armv7vehf_vfp
 
-are available in the git repository at:
+Apply oe_multilib_header on this header file to fix the problem.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/multilib_headers
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/multilib_headers
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Chen Qi (2):
-  glibc: use oe_multilib_header on bits/floatn.h
-  linux-libc-headers: multilib_header asm/kvm_para.h and
-    asm/bpf_perf_event.h
-
- meta/recipes-core/glibc/glibc-package.inc                     | 2 +-
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index ff45dfe..728bc53 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -66,7 +66,7 @@ do_install_append () {
+ 		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+ 	fi
+ 
+-	oe_multilib_header bits/syscall.h bits/long-double.h
++	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h
+ 
+ 	if [ -f ${D}${bindir}/mtrace ]; then
+ 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' -e '2s,exec.*perl,exec ${USRBINPATH}/env perl,' ${D}${bindir}/mtrace
 -- 
 1.9.1
 
