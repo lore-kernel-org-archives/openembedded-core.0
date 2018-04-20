@@ -1,24 +1,49 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B44E74621
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 30E06744F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 07:25:36 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3K7PZHU019696
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 20 Apr 2018 08:25:36 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1f9QQJ-0000Je-Dk; Fri, 20 Apr 2018 08:25:35 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 20 Apr 2018 07:33:00 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id o123-v6so1181237lfe.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 00:33:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=5xWT6inER5VkC8aQCZ8DUn1nMyJVh+bUSwLv+6z8xgo=;
+	b=NNZvFw64XeOcuOnPFAxFS6wPW32iBVaNF1xOaxCs7HqzeKsbQEkk+PzwWZakERWg9I
+	obl59FDiMSWLHRmndo697pCePvusJ2ZNKG6+dIpSS26hxXrAvxsFDX793EB6H5i9Iy9c
+	HF16nKcEIUPl+VzFhxCy/gWnh/1yJirsT4/ydrVYxGLDKqY/zrkzYje2PnoCGfAMC2VS
+	ZXl9oTIwTLAAuNopqv1gZDKJTimuc64bOXRiwCMFjPqwzzgbKltxPiFIV8NgiQ0Aymtw
+	7s0Knn/pKniky+1bfgLYX6TUXo0a/uQa30+pvApnUEECurIaEDGLpI1Z9R5DcVK9EPDT
+	l6/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=5xWT6inER5VkC8aQCZ8DUn1nMyJVh+bUSwLv+6z8xgo=;
+	b=ATPigD4Z3h72JqOdzzZL7d6uv0J6w4TjjdfdHptezz4XecPnDVVGiPT1s+JjPKjJxc
+	39slaB0eihwzewIgUGztyyN5pA0cXi30qb/yoCAV/31MvBWsuEOWCa5rUnNv9CzSQ22z
+	VNJqm2jq+2vjaS+YoIDcNkKeYQ4RaTHe2j0lXJ7He0o9K8DkChjfzm64NTR3VAwToVdq
+	3weA2Q34YjHue3HLjKMVtZUOZAO64iNtxk47edXHrs6kJTNZ29TQRDAboOePZuwGklO2
+	9Lr0CkRS/NvWpYHGgA41nj7cDNep1mFs+cVS6ovLakec+Nj/g0uen8HGAWcvJkHmciaW
+	8HFA==
+X-Gm-Message-State: ALQs6tCkCkjy9aJgzGsh42UEd8syAz2Yq2SBWCnNMEWOcSy7cIN0AC9n
+	Oono7lboG/rvI8/LRq2ypaZcL/0X
+X-Google-Smtp-Source: AB8JxZorWH4dQwPf0k2r3fEBoCy6v0XsTEdoaUpMDwyyangopGspgRMzfywG3gjB8B4NGPG9PYFCAw==
+X-Received: by 2002:a19:1b81:: with SMTP id
+	b123-v6mr1726275lfb.64.1524209581125; 
+	Fri, 20 Apr 2018 00:33:01 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	(m77-218-253-67.cust.tele2.se. [77.218.253.67])
+	by smtp.gmail.com with ESMTPSA id n76sm952494lja.31.2018.04.20.00.32.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 Apr 2018 00:33:00 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2018 08:25:32 +0100
-Message-Id: <1524209132-1175-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Apr 2018 09:32:56 +0200
+Message-Id: <1524209576-10344-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] package: Fix PACKAGELOCK handling
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] image_types_wic: add do_image_wic before do_image_complete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 07:25:37 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 07:33:01 -0000
 
-PACKAGELOCK is there to protect readers of PKGDATA_DIR from writes and files
-changing whilst they're being read. With various changes to the codebase,
-the lock code has become confused as the files are now written by the sstate
-code in do_packagedata, not in do_package directly any longer.
+From: Ming Liu <liu.ming50@gmail.com>
 
-This change cleans up the code so read sites take the shared lock (anything in
-do_package), write sites take the full lock (do_packagedata sstate).
+We have some tasks depending on image's do_image_complete task, and we
+are also using WKS files to generate partitioned images, but now there
+is lacking a inter dependency between do_image_wic and
+do_image_complete, so we have to depend on both of them.
 
-The lock from do_package sstate is no longer needed since it doesn't write
-outside WORKDIR.
+Fixed by adding the dependency.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/classes/package.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/classes/image_types_wic.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0436d91..e03d450 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1615,7 +1615,7 @@ python package_do_shlibs() {
-     shlibswork_dir = d.getVar('SHLIBSWORKDIR')
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index dcf620c..5b40a9e 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -102,6 +102,7 @@ python () {
+                 # a variable and let the metadata deal with the deps.
+                 d.setVar('_WKS_TEMPLATE', body)
+                 bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
++        bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
+ }
  
-     # Take shared lock since we're only reading, not writing
--    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
-+    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
- 
-     def linux_so(file, needed, sonames, renames, pkgver):
-         needs_ldconfig = False
-@@ -1900,7 +1900,7 @@ python package_do_pkgconfig () {
-                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
- 
-     # Take shared lock since we're only reading, not writing
--    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
-+    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
- 
-     for pkg in packages.split():
-         pkgs_file = os.path.join(shlibswork_dir, pkg + ".pclist")
-@@ -2233,11 +2233,9 @@ do_package[dirs] = "${SHLIBSWORKDIR} ${PKGDESTWORK} ${D}"
- do_package[vardeps] += "${PACKAGEBUILDPKGD} ${PACKAGESPLITFUNCS} ${PACKAGEFUNCS} ${@gen_packagevar(d)}"
- addtask package after do_install
- 
--PACKAGELOCK = "${STAGING_DIR}/package-output.lock"
- SSTATETASKS += "do_package"
- do_package[cleandirs] = "${PKGDEST} ${PKGDESTWORK}"
- do_package[sstate-plaindirs] = "${PKGD} ${PKGDEST} ${PKGDESTWORK}"
--do_package[sstate-lockfile-shared] = "${PACKAGELOCK}"
- do_package_setscene[dirs] = "${STAGING_DIR}"
- 
- python do_package_setscene () {
-@@ -2252,9 +2250,12 @@ do_packagedata () {
- addtask packagedata before do_build after do_package
- 
- SSTATETASKS += "do_packagedata"
-+# PACKAGELOCK protects readers of PKGDATA_DIR against writes
-+# whilst code is reading in do_package
-+PACKAGELOCK = "${STAGING_DIR}/package-output.lock"
- do_packagedata[sstate-inputdirs] = "${PKGDESTWORK}"
- do_packagedata[sstate-outputdirs] = "${PKGDATA_DIR}"
--do_packagedata[sstate-lockfile-shared] = "${PACKAGELOCK}"
-+do_packagedata[sstate-lockfile] = "${PACKAGELOCK}"
- do_packagedata[stamp-extra-info] = "${MACHINE_ARCH}"
- 
- python do_packagedata_setscene () {
+ #
 -- 
 2.7.4
 
