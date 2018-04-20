@@ -1,49 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 325B0745CB
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5303060279
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 13:35:59 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id r7-v6so5231475lfr.1
+	Fri, 20 Apr 2018 13:54:49 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id 71-v6so2577959ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 06:36:01 -0700 (PDT)
+	Fri, 20 Apr 2018 06:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=F4RxLzqxbHeLRlHM9uVTaVxRxi4JQ3ZcYyBogJUdpJI=;
-	b=d10G7qEGkxX6LFCR9nh583jeLoOS4SxNv5NCCgf1HuEAyFs48nwpwiExzSDXBW5X4w
-	h3puzblmsUI1kGSRsQqRZT37ucGGEEDeSJqmhkpzorr4iRzZGw0qux42If7E7ZviCfQp
-	9FVN/rwsOsh58PLFL2cXz5DmfloZjEfNGCcTYudlkoFjfHLweTD7sowYntOtinfce5uF
-	Pc17F0U0VzrC3WbSE6SW0uNjD3FciVriRsfHNzkdkjOeZS07PGDxeUhBs7lbBN7prlIf
-	IVsxlWHtHlgId9XBU6MAoB8fsUZJL5VZ3XFUQ1vwfl5lqI2tut2AHc2gIg03sK47fbOi
-	2jew==
+	bh=h/fWo5lYlBkiwaaYSQlqAvdw3IdbjL1QrBncq43BzUg=;
+	b=GQ5KBS9XCMT4SdxXFZxkuezgEh9KKPF2SF1rfh2g7ae0/ufkcpRtYUEj1bo9YWeQMS
+	woC9DJj/YH0e2v6u9mMGObWMDl2qc0cQZmynvT0wEcVnr5RcNJoPg9KyolguL8/WMeym
+	H9Gj0b0EH4sKPCoHt1JUfSly9Hw0LPjSSpFGcFQg9LPjJqXBG0ePVgvRy4L2zIjfEKIZ
+	MGNXMUuV/VclNPXNH35Lzo7OTR7aUQY+Fjyy1/IgQFX65Grx8Sql5W4xy6j2dzuvS0Nd
+	fw+vGtSe1bw7Ez911y52jWgNBl4lWvkNw7/JEL2DNbLECEGxirYr/Vz/IyaskIp4wyZU
+	UR/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=F4RxLzqxbHeLRlHM9uVTaVxRxi4JQ3ZcYyBogJUdpJI=;
-	b=EdlzAm3OnxNFnR/gC59UNIWeLZiIOjekeIgs0WHkre+BGkoMAeaNCD/r/p8gbfz7bU
-	PyM4DREjG/91tIGqsQY2CbBl/39mlueGzavsHbJ31tTCiqMNavn0LxX0jRGOgVTMMT9s
-	WeaKURAs5FESlYh/UOmlFfoPcxmOApH+ETAWq3ZJMzPv3+2HZeUURGu+/DrCxgjtfog5
-	cb13nUfn9W/n8kN6Q/cyM32jweNAvvn+SxgH9hAG26YJqrnODAAjbLi+UeuFdaYXfsqm
-	oKuZGGJVefhRsA3gSD5ChsVTAE6Ts1JuqsMEdC06Xz0Vy88QOQ97Pr9oJ1yGvpYGdQvF
-	XOqA==
-X-Gm-Message-State: ALQs6tC2BNgWb8j7bv+q/imLYlCQ0XNogL2E5gSehtNr3PilSIY059yU
-	QvNKu2LLXmgYSVUtrJwpbYkccLZq
-X-Google-Smtp-Source: AIpwx491auHJV2bHnEZ8paZ71iKcdjJ0yhsQjv1L3if//BXoBeRZMEba5Y+240Bpa19k7pjY9fEcSw==
-X-Received: by 10.46.155.202 with SMTP id w10mr7108623ljj.76.1524231360042;
-	Fri, 20 Apr 2018 06:36:00 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(m77-218-248-233.cust.tele2.se. [77.218.248.233])
+	bh=h/fWo5lYlBkiwaaYSQlqAvdw3IdbjL1QrBncq43BzUg=;
+	b=VohI5Yajs2q5M25pnEmC3KR++uslGzvoRUTxOPNJ6qjLWz41KSulOMR4Gg+zXlh2P1
+	+qt2j0Sm7q4dbYXi3JBDdEXxzSC7dgzTBuGEFVbXg+oRg7YJSvPrVk/Ic2y6X+NSyHAA
+	KCKGUnC+8DPmiVGKOY/2ZX9F3zZl2+zzAYFDwEjFzimAMxS9ndJ7ptXLmRL26hNziPAn
+	yETm/vD9CgbZ49ELAPjBZwEEC9HpU722SUIMmIemDLkhqcGcnfEtRqysGKq+SC9VCIlf
+	DbzgfRvxFFBzyQBathORZrVsYvQPMtWG0ASPPAD0ka1Xdqz5O2fn4KOJjZPcE+8eQDMN
+	YOUw==
+X-Gm-Message-State: ALQs6tBBMwG18FaNviUhHksE6dhFDMSKchRY5fDcnpGvaPHlep3xfg6Y
+	dYpX0uu3NwGrsjwdL0X7D15r4f+n
+X-Google-Smtp-Source: AB8JxZrzOsWXRBJ3gevi9p1MIYkLHbXZlSxuVNErGvjPyseuEJk1MUE/8pvopGoZoTP3ORMUUUO9bQ==
+X-Received: by 2002:a24:490b:: with SMTP id z11-v6mr3110262ita.3.1524232490887;
+	Fri, 20 Apr 2018 06:54:50 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	c89-v6sm1356830lfb.57.2018.04.20.06.35.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Apr 2018 06:35:59 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2018 15:35:55 +0200
-Message-Id: <1524231355-17085-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] mtd-utils: add nanddump and nandwrite to ALTERNATIVE
+	67-v6sm2955008iow.4.2018.04.20.06.54.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 20 Apr 2018 06:54:50 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Apr 2018 08:54:06 -0500
+Message-Id: <20180420135406.28410-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [sumo][PATCH] Revert "icecc.bbclass: Improve error reporting"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 13:36:00 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 13:54:50 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+This reverts commit b28114cf1e58643bd233bc0c83d6d8138952b7ac.
 
-They are also being provided by busybox when CONFIG_NANDWRITE is
-chosen.
+The "-E" option for flock is not ubiquitously supported, so don't use
+it.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/icecc.bbclass | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index d09d633..d4ee999 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -28,10 +28,11 @@ CPPFLAGS_append_riscv64  = " -pthread -D_REENTRANT"
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 73eba7a6a96..0ca8de86c24 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -366,20 +366,14 @@ set_icecc_env() {
  
- EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} ${@bb.utils.contains('PACKAGECONFIG', 'xattr', '', '-DWITHOUT_XATTR', d)} -I${S}/include' 'BUILDDIR=${S}'"
- 
--ALTERNATIVE_${PN} = "flash_eraseall"
-+ALTERNATIVE_${PN} = "nanddump nandwrite flash_eraseall"
-+ALTERNATIVE_LINK_NAME[nanddump] = "${sbindir}/nanddump"
-+ALTERNATIVE_LINK_NAME[nandwrite] = "${sbindir}/nandwrite"
- ALTERNATIVE_LINK_NAME[flash_eraseall] = "${sbindir}/flash_eraseall"
--# Use higher priority than busybox's flash_eraseall (created when built with CONFIG_FLASH_ERASEALL)
--ALTERNATIVE_PRIORITY[flash_eraseall] = "100"
-+ALTERNATIVE_PRIORITY = "100"
- 
- do_install () {
- 	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+         # the ICECC_VERSION generation step must be locked by a mutex
+         # in order to prevent race conditions
+-        exit_code=0
+-        flock -n -E 10 "${ICECC_VERSION}.lock" \
+-            ${ICECC_ENV_EXEC} ${ICECC_ENV_DEBUG} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}" || exit_code=$?
+-        if [ "$exit_code" -eq 0 ]; then
+-            touch "${ICECC_VERSION}.done"
+-        elif [ "$exit_code" -eq "10" ]; then
+-            if [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]; then
+-                # locking failed so wait for ${ICECC_VERSION}.done to appear
+-                bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
+-                return
+-            fi
+-        else
+-            bbwarn "Could not create icecc environment: $exit_code"
++        if flock -n "${ICECC_VERSION}.lock" \
++            ${ICECC_ENV_EXEC} ${ICECC_ENV_DEBUG} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
++        then
+             touch "${ICECC_VERSION}.done"
++        elif [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]
++        then
++            # locking failed so wait for ${ICECC_VERSION}.done to appear
++            bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
+             return
+         fi
+     fi
 -- 
-2.7.4
+2.14.3
 
 
