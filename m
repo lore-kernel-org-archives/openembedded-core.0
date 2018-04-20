@@ -1,46 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id A736D7455E
+Return-Path: <marek.vasut@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DE17746AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 21:58:16 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id t192-v6so4109940itc.1
+	Fri, 20 Apr 2018 22:07:35 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id f14-v6so26473304wre.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 14:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=cn9np8LlCvZybxKTOjSLiyxspCwt1ejR9jHMHGFm0uM=;
-	b=ZUFBIJrNWDH1Tw6aeUVpFMl+89DzZ7Oil5WZmar0/p7NpS2DAwEdZ0D0MWLyH14ipO
-	DZVSxa2Z5QXie8Tb/dGhMal/VIRAhOhrNyu1vHKncBETpEuhtEsrdYDfdFSVq76e1piR
-	R9ILv3safyhFfcYmpRYAvjjiDAopxw9iRP7V94NXtbIFHBUq+/sCPrl0b6L8Dzfri+Lj
-	Vt1wDejVKdyjHSN5NPR2nw3kDk+xsu5BfxKic2xTaUHOVEkG3mhkktPxV635oQpWdH4N
-	I3UzAkL5vd7X126rihveHURyhNgehkVSRBJKnATOuZtaIn+O48ywre24XerFx8o2OU3V
-	DNWg==
+	Fri, 20 Apr 2018 15:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=mFO2707513a2arBkncz6UjnX/wEctyQatZC9id3rlpg=;
+	b=WzIqJiWqG2KAxthpWdPDmzMzELldZTDABZlokU0WzZz+/wRnLBTDwWbU26o+fiV0S3
+	+DTROvcJG7Zq0Xj/+0GaYGHO+o/UJDO58C6Mt5vpKvhPM/Yi+Wau63RuXE5OAGwAxSP1
+	m3PXOLI/W7+IZnly7H7WO2MoqNbiuI5Nd9f0mwFC9V4UkzYulvaI1Eu7kdico9t4o0Kf
+	xvqQCqetlxfTF1yLb2lxGaUharWa+knY7PozkESrZIkP4Mfp5i1G+smmdm0zuYJzEbja
+	fKOK/Dq3mHgIKFzoY0U739aeQb64RbbCb3xjB6F+K5cs2R58J4Mu3QIK/s228jnxfu/S
+	hiWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=cn9np8LlCvZybxKTOjSLiyxspCwt1ejR9jHMHGFm0uM=;
-	b=taFtG+Wvdg0DVuCRXQLKp+dYhfznc9UMHtvw4cuLod77F2ExOaod3ImuhSNFgCTaOx
-	VCQqr1CQ0CqABQW5djqSEmm/E3L0PY0pwvn7thrOve1FdNArdcmLDDHIbj9DYZ03Sja8
-	p3Y+zDc3pL907L0Q489yVgOvZZ0XgdzNdt+rDMq3hLV/C9ENy4jMeTrb+cQhxo8tai2U
-	P1TeI22jGWKciwqI1ETWk3KjUlJjc1Vox7+20Wibb6rGBdvDs+/CFKFlEHaed0MSkPja
-	UPPuz2SGSdiaqqMrTqzEkvnrJjhDzv7dPRDvdTNm8IlV+pM9o9YYr7ly0L6GFEsPBoPb
-	HrVg==
-X-Gm-Message-State: ALQs6tA/R8UGmK3LTLFefXGtLcO+EQ/S2HqxrJbljclx8HjjXljVZPGY
-	6f+iBM9toSk0RXJ3jpYykCK6HM4F7+u/SyJWpecXuHyX
-X-Google-Smtp-Source: AIpwx49Jw6KpHMHWrr2iSRADL4UrYPOIcp/2iOyJASuFojaND6cvQDTvWs5L9FTMV8IJHSYHYRoGmLO+RScEMy05Eqc=
-X-Received: by 2002:a24:730e:: with SMTP id
-	y14-v6mr5095033itb.45.1524261497445; 
-	Fri, 20 Apr 2018 14:58:17 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=mFO2707513a2arBkncz6UjnX/wEctyQatZC9id3rlpg=;
+	b=R7fx8lc+CZljo0KrKuzwWTdSi2T8ryCTSno4qkx4Uh9/RqVZT13vPb5ca6H8NGN6qj
+	8wXqEOpqq6bKxj2WTbmmJUUWbnnQAdm6WFXEmS7s7RIiYsoWseZAaDDDp1RJ473bTmOi
+	TJbJHqg65lN0ynBbJ+6o15h55+yyUKeS4etv01mHxo4g2CUQpphrmlIpU3UKTHjV7yMf
+	r+u6VGAnVWBLxwG++3IQ+AxO42XRba9qYjszNSJrG+IMVwpDqPfASGk0GsgJuY8iNC70
+	GG2GeGq5KfinkfV8/s3qm08wK57FUkM7GMc7qYfx0+hzgJEtjLQzy1pGvroDlfsVQoa6
+	hsUw==
+X-Gm-Message-State: ALQs6tAcQuizcTJYPgprRevTRARZTtZgQvVcDQKopaq4OKDcgjPVyRCo
+	KNVdyypCtpqIbVToAsPNzzQ=
+X-Google-Smtp-Source: AIpwx4+rno67HuXEFjcTPnpBYpswXANewBrVL2adkR6D0NA/HgD4i9btZpHh2a9iielgLyY1/8oIiw==
+X-Received: by 10.28.182.70 with SMTP id g67mr2846770wmf.88.1524262056246;
+	Fri, 20 Apr 2018 15:07:36 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-107-50.net.upcbroadband.cz.
+	[86.49.107.50]) by smtp.gmail.com with ESMTPSA id
+	b10-v6sm2345452wrn.42.2018.04.20.15.07.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Apr 2018 15:07:35 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
+From: Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <9b3314e3-2749-ce60-eede-a9cccec4e6ed@gmail.com>
+Date: Sat, 21 Apr 2018 00:07:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Fri, 20 Apr 2018 14:57:56 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Apr 2018 22:57:56 +0100
-Message-ID: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
 Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: State of Sumo
+Subject: Re: State of Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +63,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 21:58:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 20 Apr 2018 22:07:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 04/20/2018 11:57 PM, Burton, Ross wrote:
+> Hi,
+> 
+> We'll hopefully be firing the 2.5 RC build on Monday, so I did a build
+> today to see where we stand. As is typical we got two new failures on
+> the autobuilder...  My test build included the pseudo bump which
+> caused an almost complete rebuild, which is a great way to shake out
+> intermittent failures.
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12704
+> Go appears to be using the target CFLAGS when using the host compiler,
+> with predictable failures when the host is old and doesn't support new
+> flags.
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12705
+> u-boot build failure
 
-We'll hopefully be firing the 2.5 RC build on Monday, so I did a build
-today to see where we stand. As is typical we got two new failures on
-the autobuilder...  My test build included the pseudo bump which
-caused an almost complete rebuild, which is a great way to shake out
-intermittent failures.
+Is there any chance you can tar-up the whole U-Boot build dir and make
+it available, so it could be debugged ?
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=12704
-Go appears to be using the target CFLAGS when using the host compiler,
-with predictable failures when the host is old and doesn't support new
-flags.
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=12705
-u-boot build failure
-
-CC'ing the usual maintainers of those two recipes, if you get a moment
-to look at these then that would be much appreciated.
-
-I'll also say that if you have any outstanding patches that *need* to
-be in 2.5 and can't wait for 2.5.1 then say so now, or forever hold
-your peace (and submit them for master/backport to 2.5.1).
-
-Regards,
-Ross
+-- 
+Best regards,
+Marek Vasut
 
