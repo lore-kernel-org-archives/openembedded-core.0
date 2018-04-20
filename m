@@ -1,49 +1,28 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 30E06744F7
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39038746AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 07:33:00 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id o123-v6so1181237lfe.8
+	Fri, 20 Apr 2018 07:43:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3K7hIE1026945
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 00:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=5xWT6inER5VkC8aQCZ8DUn1nMyJVh+bUSwLv+6z8xgo=;
-	b=NNZvFw64XeOcuOnPFAxFS6wPW32iBVaNF1xOaxCs7HqzeKsbQEkk+PzwWZakERWg9I
-	obl59FDiMSWLHRmndo697pCePvusJ2ZNKG6+dIpSS26hxXrAvxsFDX793EB6H5i9Iy9c
-	HF16nKcEIUPl+VzFhxCy/gWnh/1yJirsT4/ydrVYxGLDKqY/zrkzYje2PnoCGfAMC2VS
-	ZXl9oTIwTLAAuNopqv1gZDKJTimuc64bOXRiwCMFjPqwzzgbKltxPiFIV8NgiQ0Aymtw
-	7s0Knn/pKniky+1bfgLYX6TUXo0a/uQa30+pvApnUEECurIaEDGLpI1Z9R5DcVK9EPDT
-	l6/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5xWT6inER5VkC8aQCZ8DUn1nMyJVh+bUSwLv+6z8xgo=;
-	b=ATPigD4Z3h72JqOdzzZL7d6uv0J6w4TjjdfdHptezz4XecPnDVVGiPT1s+JjPKjJxc
-	39slaB0eihwzewIgUGztyyN5pA0cXi30qb/yoCAV/31MvBWsuEOWCa5rUnNv9CzSQ22z
-	VNJqm2jq+2vjaS+YoIDcNkKeYQ4RaTHe2j0lXJ7He0o9K8DkChjfzm64NTR3VAwToVdq
-	3weA2Q34YjHue3HLjKMVtZUOZAO64iNtxk47edXHrs6kJTNZ29TQRDAboOePZuwGklO2
-	9Lr0CkRS/NvWpYHGgA41nj7cDNep1mFs+cVS6ovLakec+Nj/g0uen8HGAWcvJkHmciaW
-	8HFA==
-X-Gm-Message-State: ALQs6tCkCkjy9aJgzGsh42UEd8syAz2Yq2SBWCnNMEWOcSy7cIN0AC9n
-	Oono7lboG/rvI8/LRq2ypaZcL/0X
-X-Google-Smtp-Source: AB8JxZorWH4dQwPf0k2r3fEBoCy6v0XsTEdoaUpMDwyyangopGspgRMzfywG3gjB8B4NGPG9PYFCAw==
-X-Received: by 2002:a19:1b81:: with SMTP id
-	b123-v6mr1726275lfb.64.1524209581125; 
-	Fri, 20 Apr 2018 00:33:01 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(m77-218-253-67.cust.tele2.se. [77.218.253.67])
-	by smtp.gmail.com with ESMTPSA id n76sm952494lja.31.2018.04.20.00.32.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Apr 2018 00:33:00 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2018 09:32:56 +0200
-Message-Id: <1524209576-10344-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] image_types_wic: add do_image_wic before do_image_complete
+	Fri, 20 Apr 2018 00:43:19 -0700
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Fri, 20 Apr 2018 00:43:18 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <a10f5ac1-8d3a-4bbb-15db-4e737494e4b3@windriver.com>
+Date: Fri, 20 Apr 2018 15:45:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH v3] udev-extraconf: Add systemd-mount to udev-extraconf/mount.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +35,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 07:33:01 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 07:43:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Ming Liu <liu.ming50@gmail.com>
+ping ..
 
-We have some tasks depending on image's do_image_complete task, and we
-are also using WKS files to generate partitioned images, but now there
-is lacking a inter dependency between do_image_wic and
-do_image_complete, so we have to depend on both of them.
+// Hongzhi
 
-Fixed by adding the dependency.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/image_types_wic.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index dcf620c..5b40a9e 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -102,6 +102,7 @@ python () {
-                 # a variable and let the metadata deal with the deps.
-                 d.setVar('_WKS_TEMPLATE', body)
-                 bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
-+        bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
- }
- 
- #
--- 
-2.7.4
+On 2018年04月17日 15:03, Hongzhi.Song wrote:
+> Udev-extraconf works correctly with sysvinit in the aspect of automounting
+> block devices. But it has a serious problem in case of systemd. Block devices
+> automounted by udev is unaccessible to host space(out of udevd's private
+> namespace). For example, we cannot format those block devices.
+>
+> e.g.
+>      root@qemux86:~# mkfs.ext4 /dev/sda1
+>      mke2fs 1.43.8 (1-Jan-2018)
+>      /dev/sda1 contains a ext4 file system
+>      last mounted on Tue Apr  3 06:22:41 2018
+>      Proceed anyway? (y,N) y
+>      /dev/sda1 is apparently in use by the system; will not make a filesystem here!
+>
+> Other distributions has no such problem, because they use a series of rules to
+> manager block devices. Different types of block devices match different rules.
+> But udev-extraconf just use one rule, automount.rules, which results in this
+> problem.
+>
+> The 'systemd-mount' command is recommended by the systemd community to solve such
+> problems.
+>
+> This patch makes use of 'systemd-mount' to solve the above problem.
+>
+> [YOCTO #12644]
+>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ---
+>   meta/recipes-core/udev/udev-extraconf/mount.sh | 83 ++++++++++++++++++++------
+>   meta/recipes-core/udev/udev-extraconf_1.1.bb   |  3 +
+>   2 files changed, 69 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> index d760328..067d4e2 100644
+> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+> @@ -4,10 +4,28 @@
+>   #
+>   # Attempt to mount any added block devices and umount any removed devices
+>   
+> +BASE_INIT="`readlink "@base_sbindir@/init"`"
+> +INIT_SYSTEMD="@systemd_unitdir@/systemd"
+> +
+> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+> +    # systemd as init uses systemd-mount to mount block devices
+> +    MOUNT="/usr/bin/systemd-mount"
+> +    UMOUNT="/usr/bin/systemd-umount"
+> +
+> +    if [ -x $MOUNT ] && [ -x $UMOUNT ];
+> +    then
+> +        logger "Using systemd-mount to finish mount"
+> +    else
+> +        logger "Linux init is using systemd, so please install systemd-mount to finish mount"
+> +        exit 1
+> +    fi
+> +else
+> +    MOUNT="/bin/mount"
+> +    UMOUNT="/bin/umount"
+> +fi
+>   
+> -MOUNT="/bin/mount"
+>   PMOUNT="/usr/bin/pmount"
+> -UMOUNT="/bin/umount"
+> +
+>   for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
+>   do
+>   	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+> @@ -17,7 +35,35 @@ do
+>   	fi
+>   done
+>   
+> -automount() {	
+> +automount_systemd() {
+> +    name="`basename "$DEVNAME"`"
+> +
+> +    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
+> +
+> +    MOUNT="$MOUNT -o silent"
+> +
+> +    # If filesystemtype is vfat, change the ownership group to 'disk', and
+> +    # grant it with  w/r/x permissions.
+> +    case $ID_FS_TYPE in
+> +    vfat|fat)
+> +        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
+> +        ;;
+> +    # TODO
+> +    *)
+> +        ;;
+> +    esac
+> +
+> +    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
+> +    then
+> +        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
+> +        rm_dir "/run/media/$name"
+> +    else
+> +        logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
+> +        touch "/tmp/.automount-$name"
+> +    fi
+> +}
+> +
+> +automount() {
+>   	name="`basename "$DEVNAME"`"
+>   
+>   	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+> @@ -26,7 +72,7 @@ automount() {
+>   	then
+>   		MOUNT="$MOUNT -o silent"
+>   	fi
+> -	
+> +
+>   	# If filesystem type is vfat, change the ownership group to 'disk', and
+>   	# grant it with  w/r/x permissions.
+>   	case $ID_FS_TYPE in
+> @@ -68,23 +114,26 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
+>   	elif [ -x $MOUNT ]; then
+>       		$MOUNT $DEVNAME 2> /dev/null
+>   	fi
+> -	
+> +
+>   	# If the device isn't mounted at this point, it isn't
+>   	# configured in fstab (note the root filesystem can show up as
+>   	# /dev/root in /proc/mounts, so check the device number too)
+> -	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+> -		grep -q "^$DEVNAME " /proc/mounts || automount
+> -	fi
+> +    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+> +        if [ "`basename $MOUNT`" = "systemd-mount" ];then
+> +            grep -q "^$DEVNAME " /proc/mounts || automount_systemd
+> +        else
+> +            grep -q "^$DEVNAME " /proc/mounts || automount
+> +        fi
+> +    fi
+>   fi
+>   
+> -
+>   if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+> -	for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
+> -	do
+> -		$UMOUNT $mnt
+> -	done
+> -	
+> -	# Remove empty directories from auto-mounter
+> -	name="`basename "$DEVNAME"`"
+> -	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+> +    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
+> +    do
+> +        $UMOUNT $mnt
+> +    done
+> +
+> +    # Remove empty directories from auto-mounter
+> +    name="`basename "$DEVNAME"`"
+> +    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+>   fi
+> diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> index 43a1cff..90f933d 100644
+> --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+> @@ -29,6 +29,9 @@ do_install() {
+>       install -d ${D}${sysconfdir}/udev/scripts/
+>   
+>       install -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
+> +    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+> +    sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
+> +
+>       install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
+>   }
+>   
 
 
