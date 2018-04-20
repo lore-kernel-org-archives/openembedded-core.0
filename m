@@ -1,38 +1,53 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
-	[209.85.213.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1300C744EC
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C15E171B32
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 17:55:29 +0000 (UTC)
-Received: by mail-yb0-f194.google.com with SMTP id z16-v6so3294165ybk.13
+	Fri, 20 Apr 2018 18:08:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id EA2881849A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 10:55:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7loRaKedF/ewfqYA+CCEENa3gly2p6WCNnWGGpnGL+Y=;
-	b=hN2ILpa+uDiU9xYpk3rxhsCT/oxlNIAQQMJ6yab8OB8T7IZk9UUL5sPOYOSdPMsbRl
-	EaJQwEiUbZs3ExO7js3XlUqj2wvnqiPVqkHj66zfQv1Ud1yH3D6mIheOV4+tQo4G0jhF
-	UN2Ltt7rkfXcy+Wk541JteNFcO06sSH5XbLD859vVDp4aLJiO2md1rkUdqJDOnWGhiVf
-	oHj8ujiAMocg5uTyWLunZGR7KCtNFJrR4Ci8r/kRGsScNOhJnoNeST3BLQbR9wHe388u
-	dB8HuP3cLk7cbNSw8w/je6eycP6xgZykUuprXsjkae9ELB4yEDqSSUstV3niAH/ZOIcx
-	lxbQ==
-X-Gm-Message-State: ALQs6tDGeSfqEoSp7ItwhXiVa7oyhYUpMrssR+1urzsvsjGWOM+ajLqi
-	kUr4yetMYqa0qVdLlXM3jWlL
-X-Google-Smtp-Source: AIpwx4+qSDGWzclU6mzz9mTl9qq0sbZc19oc0JOPWJNYOZ1qIT3aMV9JF1RY/8EnfBoM5xlNhYPTZQ==
-X-Received: by 2002:a5b:8c3:: with SMTP id w3-v6mr6688027ybq.386.1524246930546;
-	Fri, 20 Apr 2018 10:55:30 -0700 (PDT)
-Received: from bill-the-cat.ec.rr.com (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	v68-v6sm2691045ywf.103.2018.04.20.10.55.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Apr 2018 10:55:29 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
+	Fri, 20 Apr 2018 20:08:34 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Wrg9KkRiDdhF
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4DD75184C8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0FDB31A0B8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:30 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0475D1A0B7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:30 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:29 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id EC6091075
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:29 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w3KI8OQe028904
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Apr 2018 20:08:24 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w3KI8Oja028903
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Apr 2018 20:08:24 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Apr 2018 13:55:23 -0400
-Message-Id: <1524246923-30852-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] glibc: Check /etc/ld.so.conf.d/*.conf by default
+Date: Fri, 20 Apr 2018 20:08:21 +0200
+Message-Id: <20180420180821.28858-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] logrotate: Improve configurability of the installed systemd service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 17:55:30 -0000
+X-List-Received-Date: Fri, 20 Apr 2018 18:08:35 -0000
 
-The expected modern behavior for dealing with adding ld.so.conf entries
-is to add a file to /etc/ld.so.conf.d/.  In order to do this, ld.so.conf
-needs to explicitly include that /etc/ld.so.conf.d/*.conf.  Make it so.
+This makes it possible to add extra options to the logrotate
+application (via ${LOGROTATE_OPTIONS}), and it allows the Persistent
+option in logrotate.timer to be configured via
+${LOGROTATE_SYSTEMD_TIMER_PERSISTENT}.
 
-Cc: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
+It also changes the sed expressions to allow for
+${LOGROTATE_SYSTEMD_TIMER_BASIS} to contain commas without having to
+prefix them with backslahes, e.g.:
+LOGROTATE_SYSTEMD_TIMER_BASIS = "*-*-* *:00,30:00"
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
-There's at least one example in meta-oe today that I suspect doesn't
-work correctly today as we're missing this glob.  I'll also admit that
-it's possible that we should create this file in do_install instead, in
-the case where ldconfig is in DISTRO_FEATURES so that we use
-${sysconfdir} rather than 'etc' directly.
+ meta/recipes-extended/logrotate/logrotate_3.13.0.bb | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-My motivation here is to make it cleaner to deal with the nvidia drivers
-as they drop stuff into /usr/lib/arm-linux-gnueabi/tegra and today
-people have initscripts to whack /etc/ld.so.conf directly.
----
- meta/recipes-core/glibc/glibc/etc/ld.so.conf | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/glibc/glibc/etc/ld.so.conf b/meta/recipes-core/glibc/glibc/etc/ld.so.conf
-index e69de29bb2d1..83327c01bf52 100644
---- a/meta/recipes-core/glibc/glibc/etc/ld.so.conf
-+++ b/meta/recipes-core/glibc/glibc/etc/ld.so.conf
-@@ -0,0 +1 @@
-+include /etc/ld.so.conf.d/*.conf
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb b/meta/recipes-extended/logrotate/logrotate_3.13.0.bb
+index 990cf9178b..69d18c9f08 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.13.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.13.0.bb
+@@ -34,7 +34,7 @@ PACKAGECONFIG[acl] = ",,acl"
+ PACKAGECONFIG[selinux] = ",,libselinux"
+ 
+ CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
+-		    ${sysconfdir}/logrotate.conf"
++                    ${sysconfdir}/logrotate.conf"
+ 
+ # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
+ # optimization variables, so use it rather than EXTRA_CFLAGS.
+@@ -60,8 +60,11 @@ SYSTEMD_SERVICE_${PN} = "\
+     ${BPN}.timer \
+ "
+ 
++LOGROTATE_OPTIONS ?= ""
++
+ LOGROTATE_SYSTEMD_TIMER_BASIS ?= "daily"
+ LOGROTATE_SYSTEMD_TIMER_ACCURACY ?= "12h"
++LOGROTATE_SYSTEMD_TIMER_PERSISTENT ?= "true"
+ 
+ do_install(){
+     oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
+@@ -74,8 +77,15 @@ do_install(){
+         install -d ${D}${systemd_system_unitdir}
+         install -m 0644 ${S}/examples/logrotate.service ${D}${systemd_system_unitdir}/logrotate.service
+         install -m 0644 ${S}/examples/logrotate.timer ${D}${systemd_system_unitdir}/logrotate.timer
+-        sed -i -e 's,OnCalendar=.*$,OnCalendar=${LOGROTATE_SYSTEMD_TIMER_BASIS},g' ${D}${systemd_system_unitdir}/logrotate.timer
+-        sed -i -e 's,AccuracySec=.*$,AccuracySec=${LOGROTATE_SYSTEMD_TIMER_ACCURACY},g' ${D}${systemd_system_unitdir}/logrotate.timer
++        [ -z "${LOGROTATE_OPTIONS}" ] ||
++            sed -ri \
++                -e 's|(ExecStart=.*/logrotate.*)$|\1 ${LOGROTATE_OPTIONS}|g' \
++                ${D}${systemd_system_unitdir}/logrotate.service
++        sed -ri \
++            -e 's|(OnCalendar=).*$|\1${LOGROTATE_SYSTEMD_TIMER_BASIS}|g' \
++            -e 's|(AccuracySec=).*$|\1${LOGROTATE_SYSTEMD_TIMER_ACCURACY}|g' \
++            -e 's|(Persistent=).*$|\1${LOGROTATE_SYSTEMD_TIMER_PERSISTENT}|g' \
++            ${D}${systemd_system_unitdir}/logrotate.timer
+     fi
+ 
+     if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
 -- 
-2.7.4
+2.12.0
 
 
