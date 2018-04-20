@@ -1,26 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF1B71C42
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 061FA74626
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Apr 2018 22:03:04 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3JM31HY027895
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 19 Apr 2018 23:03:02 +0100
-Message-ID: <1524175381.18865.128.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "OE Core
-	(openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Apr 2018 23:03:01 +0100
-In-Reply-To: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
-References: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: Oddness regarding file locks in package.bbclass
+	Fri, 20 Apr 2018 01:33:15 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id o16so3487131pfk.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Apr 2018 18:33:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=nAYdMu5LfR9o8kygTwAPuW4irLns4fhZSo0gUVaY5+0=;
+	b=dNG4HtfYPt8CXJW8RmBCf1rFIZ9XeojHbBDtoA/hGjIcdPfIbo6Q6D1qjtqUI+aqYj
+	e9oOivd2krV5A/SavDFEPMsGxcoMwzWf8gM3qEjyEHTyhuuyB9JomWB0bjAS0ulA/ruy
+	4fz6wLeMIkE6p2vNDcCC2AbNFWhKQLzk/ocQZouYoxN9Gk6GnDd7MRNARn5QM27VB6cr
+	KJS3tbZ/RfSUCcIZF0ZTwt74J8PUcpkpWaD8RivFTQCz/B5ixOU8d9T15DHsgHkG6BW+
+	0XR6izMs3DFPXy7sBo3cZPoQLB6v0culjRAiv3iNOvEcvMPKX2cazTQ97TcSJDuhNZUB
+	kFKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nAYdMu5LfR9o8kygTwAPuW4irLns4fhZSo0gUVaY5+0=;
+	b=UoyHaXBBq1rHV6j9pcf1PZcr3tiUmHPT+NnK1kFic2MsF6Y+B4dAZ79P2OwNyVNCcj
+	EBn1PuHB5MoDAGn0vjd9dtJnagNRFKCwDFPpyARLqAX/zcZdf4nMoUYmv2n2NvcXmuw9
+	w9fs0PwLAE6MgqopXq2t92uNnVhTmIKcjLRUtmIuqUrWFIGsM+6G3WNrOwwxeUUe+yUd
+	xF3eYRopl3k1iD6pgwqHTB0YF/HGJeeJBxqtDWspsNgo0kmsZL4c3HG29+/5jdnBC5ot
+	Mnu7gk5vt98euODqwQeyn611xE8G2Jylr39nZHfqwfYX6mdKfyK2i44LYf+x1bsv9fNB
+	Fj0w==
+X-Gm-Message-State: ALQs6tAGkYz8U/0sJg/kHJ9BjIn0kLZek+TCEwU58jI4p917iL/glwbj
+	GjhmMjEwcjbyVgGtRngBKmTYEA==
+X-Google-Smtp-Source: AIpwx4/VbVIMJi5G5fXdqcl1+r9wr81RmoJQWcT8Hiydy2lQ7O0AQJ3PeM5mgqh3PhTr0cq3hfnwoQ==
+X-Received: by 10.167.130.209 with SMTP id f17mr7754815pfn.161.1524187996447; 
+	Thu, 19 Apr 2018 18:33:16 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8880:466c::487b])
+	by smtp.gmail.com with ESMTPSA id
+	g10sm8310128pgr.69.2018.04.19.18.33.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Apr 2018 18:33:15 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Apr 2018 18:33:09 -0700
+Message-Id: <20180420013309.19343-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [sumo][master[PATCH] llvm: Fix [compile-host-path] QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +54,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Apr 2018 22:03:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 20 Apr 2018 01:33:16 -0000
 
-On Tue, 2017-10-03 at 18:17 +0000, Peter Kjellerstedt wrote:
-> I just stumbled upon something odd in package.bbclass. In commit 
-> ede381d5 from January 2011 (the code hasn't changed since), the 
-> use of the ${PACKAGELOCK} lock file was changed to shared to 
-> improve parallelism. However, when looking at the actual change 
-> it becomes confusing. I have included it below for reference.
-> 
-> > 
-> > commit ede381d56b180b384fdad98d445e5430819cfade
-> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Date:   Wed Jan 19 11:04:15 2011 +0000
-> > 
-> >     package.bbclass: Take a shared lock when reading to improve
-> > do_package parallelism
-> >     
-> >     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.o
-> > rg>
-> > 
-> > diff --git a/meta/classes/package.bbclass
-> > b/meta/classes/package.bbclass
-> > index d39c694de5..8e7fa26f72 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -497,7 +497,8 @@ python emit_pkgdata() {
-> >  	pkgdest = bb.data.getVar('PKGDEST', d, 1)
-> >  	pkgdatadir = bb.data.getVar('PKGDESTWORK', d, True)
-> >  
-> > -	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
-> > d))
-> > +	# Take shared lock since we're only reading, not writing
-> > +	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
-> > d), True)
-> Here the lock is changed to shared as per the commit message.
-> 
-> > 
-> >  
-> >  	data_file = pkgdatadir + bb.data.expand("/${PN}" , d)
-> >  	f = open(data_file, 'w')
-> > @@ -649,6 +650,7 @@ python package_do_shlibs() {
-> >  	shlibs_dir = bb.data.getVar('SHLIBSDIR', d, True)
-> >  	shlibswork_dir = bb.data.getVar('SHLIBSWORKDIR', d, True)
-> >  
-> > +	# Take shared lock since we're only reading, not writing
-> >  	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
-> > d))
-> Here, however, it is not changed, even though a comment is added to 
-> say that it is. Was this intentional, or just an oversight?
-> 
-> > 
-> >  
-> >  	def linux_so(root, path, file):
-> > @@ -878,6 +880,7 @@ python package_do_pkgconfig () {
-> >  							if hdr ==
-> > 'Requires':
-> >  								pk
-> > gconfig_needed[pkg] += exp.replace(',', ' ').split()
-> >  
-> > +	# Take shared lock since we're only reading, not writing
-> >  	lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}",
-> > d))
-> Here again a comment is added, but the code is not changed to match.
-> 
-> > 
-> >  
-> >  	for pkg in packages.split():
-> Also, what is the ${PACKAGELOCK} lock file actually protecting? With 
-> the exception of the two questionable cases above, I cannot see that 
-> the lock is taken privately anywhere else. And since it looks as the 
-> code in package_do_shlibs() and package_do_pkgconfig() is not what 
-> needs protection (based on the added comments above), what is?
+Its trying to build NATIVE llvm-config which is
+already built with llvm-native so we do not need
+to rebuild it
 
-Sorry for not replying sooner, this was brought to my attention again.
+Drop setting NINJA_STATUS explicitly, its no longer
+needed, on the contrary it hinders the task status
+update
 
-PACKAGELOCK is there for PKGDATA_DIR which is defined as
-${TMPDIR}/pkgdata/${MACHINE}, i.e. not recipe specific.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...able-generating-a-native-llvm-config.patch | 41 +++++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |  7 ++--
+ 2 files changed, 45 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
 
-If something is reading files from pkgdata and something else
-writes/changes them, we used to see build failures. The lock therefore
-does have a purpose in guarding against this.
-
-Looking at the code, something has gotten lost with the addition of
-recipe specific sysroots and the separation of do_packagedata from
-do_package.
-
-I suspect it needs:
-
--do_packagedata[sstate-lockfile-shared] = "${PACKAGELOCK}"
-+do_packagedata[sstate-lockfile] = "${PACKAGELOCK}"
-
-and the other sites you mention should be shared locks, then this would
-all make a lot more sense.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
+diff --git a/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch b/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
+new file mode 100644
+index 0000000000..2809e4c594
+--- /dev/null
++++ b/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
+@@ -0,0 +1,41 @@
++From 7f7743ce233fcd735ec580c75270413493658aa6 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 19 Apr 2018 18:08:31 -0700
++Subject: [PATCH] Disable generating a native llvm-config
++
++OpenEmbedded already builds this as part of llvm-native
++
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tools/llvm-config/CMakeLists.txt | 16 ----------------
++ 1 file changed, 16 deletions(-)
++
++diff --git a/tools/llvm-config/CMakeLists.txt b/tools/llvm-config/CMakeLists.txt
++index 25f99cec978..c45e9b642a8 100644
++--- a/tools/llvm-config/CMakeLists.txt
+++++ b/tools/llvm-config/CMakeLists.txt
++@@ -63,19 +63,3 @@ endif()
++ 
++ # Add the dependency on the generation step.
++ add_file_dependencies(${CMAKE_CURRENT_SOURCE_DIR}/llvm-config.cpp ${BUILDVARIABLES_OBJPATH})
++-
++-if(CMAKE_CROSSCOMPILING)
++-  set(${project}_LLVM_CONFIG_EXE "${LLVM_NATIVE_BUILD}/bin/llvm-config")
++-  set(${project}_LLVM_CONFIG_EXE ${${project}_LLVM_CONFIG_EXE} PARENT_SCOPE)
++-
++-  add_custom_command(OUTPUT "${${project}_LLVM_CONFIG_EXE}"
++-    COMMAND ${CMAKE_COMMAND} --build . --target llvm-config --config $<CONFIGURATION>
++-    DEPENDS ${LLVM_NATIVE_BUILD}/CMakeCache.txt
++-    WORKING_DIRECTORY ${LLVM_NATIVE_BUILD}
++-    COMMENT "Building native llvm-config..."
++-    USES_TERMINAL)
++-  add_custom_target(${project}NativeLLVMConfig DEPENDS ${${project}_LLVM_CONFIG_EXE})
++-  add_dependencies(${project}NativeLLVMConfig CONFIGURE_LLVM_NATIVE)
++-
++-  add_dependencies(llvm-config ${project}NativeLLVMConfig)
++-endif(CMAKE_CROSSCOMPILING)
++-- 
++2.17.0
++
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 77c095d9a3..cb3bba6fab 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -26,6 +26,7 @@ PATCH_VERSION = "0"
+ SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH};protocol=http \
+            file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
+            file://0002-llvm-allow-env-override-of-exe-path.patch \
++           file://0001-Disable-generating-a-native-llvm-config.patch \
+           "
+ UPSTREAM_CHECK_COMMITS = "1"
+ S = "${WORKDIR}/git"
+@@ -85,15 +86,15 @@ do_configure_prepend() {
+ }
+ 
+ do_compile() {
+-	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE}
++	ninja -v ${PARALLEL_MAKE}
+ }
+ 
+ do_compile_class-native() {
+-	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
++	ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
+ }
+ 
+ do_install() {
+-	NINJA_STATUS="[%p] " DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
++	DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
+ 	install -D -m 0755 ${B}/bin/llvm-config ${D}${libdir}/${LLVM_DIR}/llvm-config
+ 
+ 	install -d ${D}${bindir}/${LLVM_DIR}
+-- 
+2.17.0
 
 
