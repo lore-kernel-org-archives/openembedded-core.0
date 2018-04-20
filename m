@@ -1,23 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7423274622
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 407C7745DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Apr 2018 03:12:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3K3CHco020592
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Apr 2018 20:12:17 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 19 Apr 2018 20:12:16 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@windriver.com>
-Date: Fri, 20 Apr 2018 11:19:47 +0800
-Message-ID: <1524194387-10021-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] kernel-devsrc: fix cpio randomly hit insane file name
+	Fri, 20 Apr 2018 07:13:30 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w3K7DNuC018382
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 20 Apr 2018 08:13:25 +0100
+Message-ID: <1524208403.18865.129.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ola x Nilsson <ola.x.nilsson@axis.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 20 Apr 2018 08:13:23 +0100
+In-Reply-To: <20180419111730.10269-2-olani@axis.com>
+References: <1522849430.11431.367.camel@linuxfoundation.org>
+	<20180419111730.10269-1-olani@axis.com>
+	<20180419111730.10269-2-olani@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v2] package.bbclass: Include dbgsrc for static libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Apr 2018 03:12:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Apr 2018 07:13:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Occasionally compile kernel-devsrc failed at world build.
-...
-|0 blocks
-|cpio: ./tools/perf/arch/arm/util/sedr7ORqk: Cannot stat:
-No such file or directory
-|0 blocks
-...
-cpio tried to find a file at ${S}/tools/perf and failed
-if the input list is not valid.
+On Thu, 2018-04-19 at 13:17 +0200, Ola x Nilsson wrote:
+> The debugsource must be added from the package providing the static
+> lib, because any package using that lib does not have access to the
+> source code.
+> 
+> Fixes [YOCTO #12558]
+> 
+> Signed-off-by: Ola x Nilsson <olani@axis.com>
+> ---
+>  meta/classes/package.bbclass | 44 ++++++++++++++++++++++++++++++++
+> ------------
+>  1 file changed, 32 insertions(+), 12 deletions(-)
 
-The reason is perf and kernel-devsrc have the same ${S},
-Perf sed ${S}/tools/perf/* at do_configure, kernel-devsrc
-cpio ${S} at do_install. The former task affects the latter
-one, so let the latter depends the former to avoid the conflict.
+I messed up and accidentally merged this onto OE-Core early and then we
+had test failures on mingw. 
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
- 1 file changed, 3 insertions(+)
+To resolve that I've added a tweak to disable this on mingw since it
+doesn't work there.
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 8bbfa23..5ebeabc 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -18,6 +18,9 @@ inherit module-base
- do_install[depends] += "virtual/kernel:do_shared_workdir"
- # Need the source, not just the output of populate_sysroot
- do_install[depends] += "virtual/kernel:do_install"
-+# Perf `sed ${S}/tools/perf/*' at do_configure, make sure it is done
-+# before kernel-devsrc `cpio ${S}' at do_install
-+do_install[depends] += "virtual/perf:do_configure"
- 
- # There's nothing to do here, except install the source where we can package it
- do_fetch[noexec] = "1"
--- 
-2.7.4
+Cheers,
 
+Richard
 
