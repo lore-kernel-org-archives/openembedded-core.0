@@ -1,53 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 395E374665
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B39BE60068
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 10:02:48 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id 71-v6so5287595ith.2
+	Sat, 21 Apr 2018 10:52:42 +0000 (UTC)
+Received: by mail-wr0-f177.google.com with SMTP id u18-v6so1750989wrg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 03:02:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jnzxDQcWDgu1LcYj5UARhJthJTs0oQtDhujTEd3Mt5o=;
-	b=d5xFaRozTjNHdm508f78VgiuMWcUkalnL4dOzazHUwWBCS3rpnCh7UEtGd41a6DYpg
-	mnTvX4FxkgnRcLyFMlOUKXcfCGQ+Nc9d/W4H1APlnYfUd8ieZDzvJV8SmowS9jeNQP2v
-	XkPlZPVIL3/TIsc9zccnq51aqb0+NMMc5TgBdkHbbEkrqesvIRYPrL7MhYCRP3uB3cI2
-	KDxuEwdcSpDOC1XTsghJVYGwyMHgrafhCGBJQI5jFd/Dx8Ppj91A4tD9lpLYoO/Yi8n9
-	CeOP11NGw/4M2kBI5OQ7P/SuqfNL+oJFo5icRxH2h2u8e15mFW8IYhTzYFeWpVy/w89J
-	E4Gw==
+	Sat, 21 Apr 2018 03:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=DlnDPEU3ajU/RLZdDfZKeV8lkvy3MvW28D+EG6LDh94=;
+	b=P+sPyPEt/GTnqhbtVbIuffKkomLpiiIz/bHbBW6vi2+tTYcjy2iC1k3zVA4aSBYXla
+	Et5YnuYMo5FCEz8ojF9xhctEr2c1twIFAE3n/0nDrVFtQCVf8QMpTs+IYRZhaNDwI96a
+	8ra96mOkFczUsLG0MUJ4oDh9AYPRZHqX2c/ao9dovfmNt+NEbwqgAWDMG11deWaOJt7T
+	RfcWJ667NPmsD9dVFpdcRLrUgCwhVwWk7rvMBinbm6QjMfePZt2ek58bnjIFfDHCFW9l
+	2w1TylKTRww7xr7pmCGWIZ/7GWMxxOS3S4Rbobl3xsi5fkUzypRPuBw4NnHVyGeGljdM
+	NaWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jnzxDQcWDgu1LcYj5UARhJthJTs0oQtDhujTEd3Mt5o=;
-	b=JNJRcFy4gFX75uFoRDZGt4TeDn73oEtCwydf/HCmZajG7ZsgP3I7NchWC2lQj5GgBZ
-	6h+790C2vFHg8lDCLRUyFLcYrlDx8J1yyICOE09byFBqo2cr3ml+/quIdJ/bcujgDyvi
-	bGY/budoTZZkWOW2D2MAWwTrZWgGcA9qn0w/wjNcCbfLF7bjG34YLZtoL9T0kXi98y6M
-	bYzjiaTAbWpAKto759Dq3nVTfCwgliOMFNtCfjb57RZ2En16dLRS73z+hNvrrQ26ePuy
-	6agfFNMwg9O8xWk2aO4hn3iKjxbnrHt50gs9HUghzv7qt3WeyjpbI+JENF6+wwtcVohv
-	e9mQ==
-X-Gm-Message-State: ALQs6tA4kqhZVpr4fnSL9SL30ZtnhyhBJdqBmPujCaWBHE8h7c80moRE
-	grhbeB5A43fk5OzYSoRd5nLMqm2gzVMiPlgXYyhxLw==
-X-Google-Smtp-Source: AB8JxZrJBPz7bOvtF8Ig5ivx9VTuAgYZ3zX2XNULzDL03o9mCT6pDYQu9ph9CtnBSIHD9sDTHRn5xpaBvleftqqJR34=
-X-Received: by 2002:a24:a00a:: with SMTP id
-	o10-v6mr6400558ite.34.1524304970096; 
-	Sat, 21 Apr 2018 03:02:50 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=DlnDPEU3ajU/RLZdDfZKeV8lkvy3MvW28D+EG6LDh94=;
+	b=dxXVHBd6BYeIWdw+vDEtppo/LTe6iP1/HCArremCzOxdzkFL3HGSe+VeWezL7p4Gma
+	ER233g8G3+K4daBoRyjRaOK14u0l1D4u1a5YFvQkB8u4zBjHTcnW2Ob7/3PYCylkNBfa
+	/LOtJ/L3Qp4oAxoTHW1uhK/FoXNZ3q27YuqVBoyy2G7QDXhCGEvb2tQMZ1szILKJ7CAt
+	pdIW8OIXZ2p/ZwxfZ8d0se4j/z7JXphykvNDM5Q5NMnARSCyuYdud+6UlkVnbml52hzh
+	iCOlmyAqkKL192usII0Ld/+uOP0Z1RHqlXtrxQtpU48EPmsOUzw1eI65rTBPMhRoV3eo
+	+PHA==
+X-Gm-Message-State: ALQs6tCFiX8837rYLtJaOYionnQJ//c8vd1asQ+t1v5o7ey/l4p27bLq
+	dDETOC6fGCDjrYf1XKR5N+659OUa
+X-Google-Smtp-Source: AIpwx48+tCkR6tKLYesiphL6lZC873U89WHIm8kjbwBybLRit8Y/AwtK7WNnkIB4wYEyeqCJ+53Nog==
+X-Received: by 10.80.193.153 with SMTP id m25mr18299279edf.151.1524307962990; 
+	Sat, 21 Apr 2018 03:52:42 -0700 (PDT)
+Received: from [192.168.42.50] (ppp-2-86-147-190.home.otenet.gr.
+	[2.86.147.190])
+	by smtp.gmail.com with ESMTPSA id q6sm4561999edh.48.2018.04.21.03.52.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 21 Apr 2018 03:52:42 -0700 (PDT)
+To: Marek Vasut <marex@denx.de>, "Burton, Ross" <ross.burton@intel.com>
+References: <20180408230223.17260-1-marex@denx.de>
+	<CAJTo0Lbdrm7y5ZHHSHH980jmZSJE0RbhLQCVY3NtQ1DPz-A3fw@mail.gmail.com>
+	<2c318d94-b321-e83a-a5ef-254647b3d35e@denx.de>
+From: Robert Berger <oecore.mailinglist@gmail.com>
+Message-ID: <74130da7-8ae2-1cdc-b504-d7a3d006b29c@gmail.com>
+Date: Sat, 21 Apr 2018 12:52:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Sat, 21 Apr 2018 03:02:29 -0700 (PDT)
-In-Reply-To: <CAJTo0La18XQEUw2AMnNXxmQCSZacGvsaKv5pK08T387JM5A78g@mail.gmail.com>
-References: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
-	<CAJ86T=VfGDpng=GRuZVDBLm_2Pgh6pEKm3+1KpeN+kXAweLyvg@mail.gmail.com>
-	<CAJTo0LbD2vOaKQW7_afZXzRtY5a665mUxThgO+LPjHEAyowbBg@mail.gmail.com>
-	<CAJTo0La18XQEUw2AMnNXxmQCSZacGvsaKv5pK08T387JM5A78g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 21 Apr 2018 11:02:29 +0100
-Message-ID: <CAJTo0LYSXOA42j0_-8oVxtwnAj9FehKOikRBn-cghkyVhsUMQw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
+In-Reply-To: <2c318d94-b321-e83a-a5ef-254647b3d35e@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of Sumo
+Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +65,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Apr 2018 10:02:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 21 Apr 2018 10:52:43 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Good news is that went green, so the problem is restricted to
-CC_FOR_BUILD usage I guess.
+Hi,
 
-Ross
+Update:
 
-On 21 April 2018 at 09:09, Burton, Ross <ross.burton@intel.com> wrote:
-> Okay, fired at https://autobuilder.yocto.io/builders/nightly-x86-64-lsb/builds/969.
-> That won't be catching people using CC_FOR_BUILD in target recipes to
-> build pieces using the host compiler, but it will be interesting to
-> see if it catches anything.
->
-> Ross
->
-> On 21 April 2018 at 09:08, Burton, Ross <ross.burton@intel.com> wrote:
->> On 20 April 2018 at 23:09, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Fri, Apr 20, 2018 at 2:57 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>> Hi,
->>>>
->>>> We'll hopefully be firing the 2.5 RC build on Monday, so I did a build
->>>> today to see where we stand. As is typical we got two new failures on
->>>> the autobuilder...  My test build included the pseudo bump which
->>>> caused an almost complete rebuild, which is a great way to shake out
->>>> intermittent failures.
->>>>
->>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12704
->>>> Go appears to be using the target CFLAGS when using the host compiler,
->>>> with predictable failures when the host is old and doesn't support new
->>>> flags.
->>>
->>> Maybe worth resurrecting something like:
->>>
->>>   http://lists.openembedded.org/pipermail/openembedded-core/2016-February/118212.html
->>>
->>> to flush out similar issues?
->>
->> Thank you for finding that, I remembered there was a patch but
->> couldn't find it. :)
->>
->> Ross
+This rocko 2.4/u-boot combination still seems to work[1]:
+
+Note that this is before rocko 2.4.1 and before U-Boot 2018.01.
+
+=> version
+U-Boot 2017.09 (Nov 04 2017 - 20:32:29 +0000)
+
+arm-poky-linux-gnueabi-gcc (GCC) 7.2.0
+GNU ld (GNU Binutils) 2.29.0.20170912
+
+[1] 
+https://github.com/RobertBerger/meta-mainline/blob/rocko-training-v4.9.x/u-boot-wic-bsp/yocto-autobuilder/res-custom-rocko-multi-v7-core-image-minimal-uboot-vic.conf
+
+Regards,
+
+Robert
 
