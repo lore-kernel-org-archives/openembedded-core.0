@@ -1,55 +1,48 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7105B6059F
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14A3C6059F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 13:15:12 +0000 (UTC)
-Received: by mail-lf0-f51.google.com with SMTP id r7-v6so8788634lfr.1
+	Sat, 21 Apr 2018 13:20:07 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id t12so5270912pgp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 06:15:13 -0700 (PDT)
+	Sat, 21 Apr 2018 06:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ld1CoYZzIYMwB8GTdxsxUcEmhREOaa1ecQZENGww814=;
-	b=V8dRy950HfwLidFCIXv0tahZtXN1wOmW7lRxbPx6sPQz+uadg1/SAmju950m6Vi/nf
-	6b6zWaCwudzVu3mDR6XwDzEKTZMUQVTdueofxMGc8IkTzONxdTVYN7KUjKrgwkZPIKZD
-	auToPvEEnwnZNjBM+Ul9n/ozww0pMCwD2SxhEbr2rAgchDTE4n5R/gRXGJ6xy8AGE8xE
-	Q/t0PYeCz+HnLhePAfr2WRXpoFBzu7uKsfUqTjmnpVDYBcEFs6nlWXZbtMVpVdH2RQbk
-	yrbCg9TEe6NAxkRZhkWlFcwsYnZBQ/DTEbOSQh7oa+V+o1V4FosD9o130gk4TH+QIlhe
-	riNg==
+	h=from:to:cc:subject:date:message-id;
+	bh=Da/0wFQi5CImO8kxA3IXZuphOL066+RGPPu3nhwqBK4=;
+	b=qTiYnLE80ia05mJbPZS2yJ7dEb8Adz01RzavSo1AFxEmlVeQsSUCMk3+9fqX/J8lVS
+	dILPP0lb/me3+ZsTOwCpnjbSfD1fHhCcINTagHFuGau6lrzNU0LXuD1Bo3wS6iCmj2AS
+	1zyTv9a+jMv0k5BC8KGfAXlGtb2rv90Xb68FfwjlFAZ5x6bgIVt4hfdYtLPbynf1yRUe
+	gXzbYtKCOw2u/YWiFo28IiLKPrKMUHrIkmFaAMxjopWtt80XXPu/L5QAn9oypNCE6LZC
+	v05yF3M9sEPIRFzwJnuLM0bFyRtv3W4yoH4/+6YAIORUEY1Npw7gztRej8xavg3CbSkZ
+	HjIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ld1CoYZzIYMwB8GTdxsxUcEmhREOaa1ecQZENGww814=;
-	b=JS10FsuyhHp4LE3k93I30uQo+99IhcyqUY3hQbeea82D3HCa8Kc9RAT3YlwSJTI0Gi
-	gYv99Tp5B47H4E0zPXR7cSdvUC/wopvxSsWdDpuze6PJMTbhv0JoM0ZVxn/R+7J0KbLF
-	AuhWzMxWhPLy2wy7mlqyLvN1+KHF0dXZC013GC0jEVdaqnFiQf1puD231baW4TEb4J39
-	PkKuEFrtxLOZutyStaxu2mZdbmoprZ0QE0sJl2OL05VF2g8P9s1ad4+if/fwKe3qiM16
-	GeWjKG3xS6+4qpps02IuUKdDyV/6kr1XMD3tt4TJjXGGgZpgdp4UjgApOnFv6ZLv5CEl
-	LgjA==
-X-Gm-Message-State: ALQs6tBxfqKZnpWhxTamf79a//nW+lXcGXGiBOhnJTPwkH3DKxJTv9R1
-	T1xS5hImCVhz7dtktJV+6z6krvCzgltvTCzMHsVlPA==
-X-Google-Smtp-Source: AB8JxZq6IkJ1p80uj1tEXMtebfxn/Hig6QCOml8/1l0blRN+M0CaNshJqIMAG8LQ74J2I5tqOjPmh65PCvHPBZA2ImM=
-X-Received: by 2002:a19:e48a:: with SMTP id
-	x10-v6mr5139659lfi.115.1524316512681; 
-	Sat, 21 Apr 2018 06:15:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a19:550a:0:0:0:0:0 with HTTP; Sat, 21 Apr 2018 06:15:12
-	-0700 (PDT)
-In-Reply-To: <CAJTo0LYSXOA42j0_-8oVxtwnAj9FehKOikRBn-cghkyVhsUMQw@mail.gmail.com>
-References: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
-	<CAJ86T=VfGDpng=GRuZVDBLm_2Pgh6pEKm3+1KpeN+kXAweLyvg@mail.gmail.com>
-	<CAJTo0LbD2vOaKQW7_afZXzRtY5a665mUxThgO+LPjHEAyowbBg@mail.gmail.com>
-	<CAJTo0La18XQEUw2AMnNXxmQCSZacGvsaKv5pK08T387JM5A78g@mail.gmail.com>
-	<CAJTo0LYSXOA42j0_-8oVxtwnAj9FehKOikRBn-cghkyVhsUMQw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Da/0wFQi5CImO8kxA3IXZuphOL066+RGPPu3nhwqBK4=;
+	b=R2cj8A7xje3lNuOEuX0fnpwBi3g98WD6TsZmM/VFhbINzlGOyd3S2GDWdi3CZPNN50
+	5zrpUs6eTI6NrHHlfmVSCz4nGIT3VcwJlSVq32mbvp3KSWc0+io0h7az08pGh8Zm1YDh
+	TVN+TQ0Dr276UdUmD9+ELlCDMs8II3aPqAPf/W0G3ljG7AaxFgvMiRqTp3gl/vbTG+oJ
+	jJZbVanvqmaIdlaROS0Md7alDaAf3xyHNF95vyweByd8AcDoCtri1tt92XzvkGbM0oTj
+	AU96RlozlT51xsCarnrKLPOqpJUeVnprsIKcDeKXPPeq19UCiwfTpxi8bzxmX+mZWEj7
+	PHUg==
+X-Gm-Message-State: ALQs6tDbdAvN9wKXRWlP3PtPA89Jx4H/+cwgzJRgUHPVeFgRO11QmarP
+	y+cqvKIF57qcYFnOJ8l0k9dVjD8d
+X-Google-Smtp-Source: AIpwx4/iQTnW8/tXhtlhv5MIg+VsGiDUfzaMlDK9KCCH/bHIADDurbBfZSYZazOzkb8zB5cwJrDzPQ==
+X-Received: by 10.101.64.70 with SMTP id h6mr11464810pgp.135.1524316807621;
+	Sat, 21 Apr 2018 06:20:07 -0700 (PDT)
+Received: from workhorse.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
+	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
+	o88sm28465527pfa.29.2018.04.21.06.20.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 21 Apr 2018 06:20:06 -0700 (PDT)
 From: Matt Madison <matt@madison.systems>
-Date: Sat, 21 Apr 2018 06:15:12 -0700
-Message-ID: <CAGgRHJpBHBdtxwrhSpur2o6eL+bTg4vaLaXP6QVLnqu2CV5WMg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of Sumo
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 21 Apr 2018 06:19:37 -0700
+Message-Id: <20180421131937.13745-1-matt@madison.systems>
+X-Mailer: git-send-email 2.14.1
+Cc: otavio@ossystems.com.br
+Subject: [PATCH] go-runtime_1.9: pass BUILD_ flags to cgo for host-side build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,56 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Apr 2018 13:15:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 21 Apr 2018 13:20:07 -0000
 
-I've got a handle on the go-runtime issue, will send a patch shortly.
+When running the make.bash script to build the host-side
+tools, make sure that cgo is using CFLAGS and LDFLAGS for
+the build host, rather than those for the target.
 
--Matt
+[YOCTO #12704]
 
-On Sat, Apr 21, 2018 at 3:02 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Good news is that went green, so the problem is restricted to
-> CC_FOR_BUILD usage I guess.
->
-> Ross
->
-> On 21 April 2018 at 09:09, Burton, Ross <ross.burton@intel.com> wrote:
->> Okay, fired at https://autobuilder.yocto.io/builders/nightly-x86-64-lsb/builds/969.
->> That won't be catching people using CC_FOR_BUILD in target recipes to
->> build pieces using the host compiler, but it will be interesting to
->> see if it catches anything.
->>
->> Ross
->>
->> On 21 April 2018 at 09:08, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 20 April 2018 at 23:09, Andre McCurdy <armccurdy@gmail.com> wrote:
->>>> On Fri, Apr 20, 2018 at 2:57 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>>> Hi,
->>>>>
->>>>> We'll hopefully be firing the 2.5 RC build on Monday, so I did a build
->>>>> today to see where we stand. As is typical we got two new failures on
->>>>> the autobuilder...  My test build included the pseudo bump which
->>>>> caused an almost complete rebuild, which is a great way to shake out
->>>>> intermittent failures.
->>>>>
->>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12704
->>>>> Go appears to be using the target CFLAGS when using the host compiler,
->>>>> with predictable failures when the host is old and doesn't support new
->>>>> flags.
->>>>
->>>> Maybe worth resurrecting something like:
->>>>
->>>>   http://lists.openembedded.org/pipermail/openembedded-core/2016-February/118212.html
->>>>
->>>> to flush out similar issues?
->>>
->>> Thank you for finding that, I remembered there was a patch but
->>> couldn't find it. :)
->>>
->>> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/recipes-devtools/go/go-runtime_1.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/go/go-runtime_1.9.bb b/meta/recipes-devtools/go/go-runtime_1.9.bb
+index a99cc30f63..d5279ea897 100644
+--- a/meta/recipes-devtools/go/go-runtime_1.9.bb
++++ b/meta/recipes-devtools/go/go-runtime_1.9.bb
+@@ -11,7 +11,7 @@ do_compile() {
+ 	export CC=$BUILD_CC
+ 
+ 	cd src
+-	./make.bash --host-only
++	CGO_CFLAGS="${BUILD_CFLAGS}" CGO_LDFLAGS="${BUILD_LDFLAGS}" ./make.bash --host-only
+ 	cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
+ 	rm -rf ${B}/pkg/${TARGET_GOTUPLE}
+ 	./make.bash --target-only
+-- 
+2.14.1
+
 
