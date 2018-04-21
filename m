@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1996FF0E
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F293374620
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 08:08:22 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id 186-v6so5143482itu.0
+	Sat, 21 Apr 2018 08:08:24 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id 186-v6so5143542itu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 01:08:23 -0700 (PDT)
+	Sat, 21 Apr 2018 01:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Y6l7svq1WUUrhvpKKZnXaAUk2dIugEGoJRfoiYRqloU=;
-	b=AWbVSFR/10G6D9xx8VGA6w8h+XQApGsIj8jxWWCAsyZSgeDyxiSzloPVCLejeLhoiB
-	+Juuq3yRUqUKFpJuXX7tyidNCJXiWhwK0TaOHGN9IwOzAX2R20uvB6XWieJY59+RfSMN
-	lKJn7E4i0mo983ciNIiYbvCH49Siz3lGDw9fe8f8paPGFl6SA286eJ54CikguYrLbPjF
-	Hcbio5dJpnSNwKSJ9Bh3mVMIVSFLa3vlPlfypTAqxd7mxzPPBVIS7fFO3BUrdKT2CpTn
-	knfX+GSBvKdgSsierjZ/T/04P/RjTPIS/N3uwDUwpZyCWjDu5IWx6xBTefFZ7X/et9Nr
-	Vuxg==
+	:cc; bh=9uHtBEt7tql7pBs1aTV+G5K4v8jTakX7IdjPUSMwKwU=;
+	b=M8H5nwRQ3VwIA1al8dgO9HXVbYaNe5krlCKKYkBGbSkPVfRpCs4C/mFYPQG1euAW3a
+	bXn6lTrzZoVYyBRFHmH0HJcsBeXFwdjmKd2urTAvRhivwz/irPjRit8WdcoAGBBrwj1r
+	co7EVnyXN0cRD9RgZAkdb4/izkgZhWpHQH9H9LBnXyRV3dslE1/RHbVNp3xrYUfYJ1/d
+	k7VWLmyQ+q3zMQb/AakLh5O3yrduwEun1yfhezQe8j7ics1X3DY5YMN5IFpGxDyt3PZJ
+	2r0fLXcZzJp4ZAA+iLZelj/Dyzqdbmg07e1mNi73j6lYzgAFyIeAGP/kC9Za1e1xNzto
+	EA2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Y6l7svq1WUUrhvpKKZnXaAUk2dIugEGoJRfoiYRqloU=;
-	b=OqhR/6iUQVTtJ2vY4k99+gjb7biOOiQB+BF9JGAKAFoAYhb7zGY2yBLZFke9x8BODK
-	eeI/HsaT27lEd97Nsic6iIJXmcT7K2LXz4Rtww6iYqb72T94bIoqb0x9WtWxsfqm1SQ2
-	SCy9aCPxdrimyNWSuL/hgTYicGja6Aw8Uhs5qYw3b9JJdltV5LsgtbPl0N7LZJ8dAFN8
-	qGCxYJviH1os7Md2O+ypAPcxVn2ncYBLnSwd9OMQxEIfB7Cmdt5nrDjBYuTwhlAGz9vX
-	eD4I1QYtb8IrMnZHttWVylyjJqWJnsNdU35JheiQS1kuXwcFN/ygul9SgE7oUCGtaICI
-	VDFQ==
-X-Gm-Message-State: ALQs6tC9Tdvr6qMYEcGo6uRp6mSG7X00Z+4Ro8x9Fhfvg6SGIjNhBe+E
-	z8uiLyQHHQtjSMKqsku/2Ped1ANHicyc4UFQWzQQ/Q==
-X-Google-Smtp-Source: AB8JxZrOBY0B7U1h8dVC93U33ufLv0xr1Qb5+8+DCo2RtAnuF9hh2rhe8jk+iNMNP2vbsUUcAtLYBTKHRkeCaiTTfCs=
-X-Received: by 2002:a24:a00a:: with SMTP id
-	o10-v6mr6156287ite.34.1524298103155; 
-	Sat, 21 Apr 2018 01:08:23 -0700 (PDT)
+	bh=9uHtBEt7tql7pBs1aTV+G5K4v8jTakX7IdjPUSMwKwU=;
+	b=cMoRzR4e9J7IvZEOqaWkaui1NrCFhDxx4PWRp2gxwa5ekDSTDCl/hNkz+KVcaO+5+A
+	qDoRa8e92phukXbpTV9RL9PmyIp1hVUHM3ok4PTxlSsRliDYMZTvF48tj85UrXFhPPaQ
+	qo87ZMyIRwhkFp2yGzyJcKZkxKzbmZjf9bW+lcxhyQKIfmDDGRhw0s1dQnSghOkkAEXw
+	bNwR2FE8/trpEor1m9yLWS8zkOwBipYLyCUSWjhsy7YeBxv/9v8gwIYnHNhMK2FNBOZe
+	SpoYzRh3bFYJQzv6vTDKGF5+am21Snz44xeNpPKClLEzzE672FaaYhhQflNX1EReLIvF
+	4Q0A==
+X-Gm-Message-State: ALQs6tAjRvbSL7zStz+Uokc9IZETdz4PKAhBuHh9mtuDtnHr7TV6j6Vu
+	iS+xL84+Zd666nw5I8x6tkjRWY4UXJ6FSPJ8adPfWA==
+X-Google-Smtp-Source: AIpwx49q+CGHCVBAYPWKW6SP5acvLz480Fxi+t+VjBqzScWz/sH+/Jl8TIXcIlcIAQkFNfFX2IeAa13ISz5fo//KJEI=
+X-Received: by 2002:a24:730e:: with SMTP id
+	y14-v6mr6414256itb.45.1524298105680; 
+	Sat, 21 Apr 2018 01:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Sat, 21 Apr 2018 01:08:02 -0700 (PDT)
-In-Reply-To: <d00e521ea4cf4fc3962a9e10e0bcc6c2@XBOX02.axis.com>
+Received: by 10.107.29.203 with HTTP; Sat, 21 Apr 2018 01:08:05 -0700 (PDT)
+In-Reply-To: <CAJ86T=VfGDpng=GRuZVDBLm_2Pgh6pEKm3+1KpeN+kXAweLyvg@mail.gmail.com>
 References: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
-	<d00e521ea4cf4fc3962a9e10e0bcc6c2@XBOX02.axis.com>
+	<CAJ86T=VfGDpng=GRuZVDBLm_2Pgh6pEKm3+1KpeN+kXAweLyvg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 21 Apr 2018 09:08:02 +0100
-Message-ID: <CAJTo0LbAYsY3Zps89-0Q1s8VUC3zJBPqLDb-Hb1KJXOkhQUoDg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 21 Apr 2018 09:08:05 +0100
+Message-ID: <CAJTo0LbD2vOaKQW7_afZXzRtY5a665mUxThgO+LPjHEAyowbBg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: State of Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,21 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Apr 2018 08:08:22 -0000
+X-List-Received-Date: Sat, 21 Apr 2018 08:08:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 20 April 2018 at 23:42, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> Not sure what the status is for patches for bitbake itself, but I have
-> one pending ("lib/bb/utils: prevent movefile from changing dest dir
-> permissions" sent to bitbake-devel on April 10), which I was hoping
-> would make it into Sumo. The effect when the bug strikes is pretty
-> weird, in our case it causes /etc to end up with mode 644 rather than
-> 755 when building an SDK in a Docker container...
+On 20 April 2018 at 23:09, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Fri, Apr 20, 2018 at 2:57 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> Hi,
+>>
+>> We'll hopefully be firing the 2.5 RC build on Monday, so I did a build
+>> today to see where we stand. As is typical we got two new failures on
+>> the autobuilder...  My test build included the pseudo bump which
+>> caused an almost complete rebuild, which is a great way to shake out
+>> intermittent failures.
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12704
+>> Go appears to be using the target CFLAGS when using the host compiler,
+>> with predictable failures when the host is old and doesn't support new
+>> flags.
+>
+> Maybe worth resurrecting something like:
+>
+>   http://lists.openembedded.org/pipermail/openembedded-core/2016-February/118212.html
+>
+> to flush out similar issues?
 
-I wouldn't call that a release blocker, so if we're good to go on
-Monday that can go to master instead and be backported to the Sumo
-branch asap.
+Thank you for finding that, I remembered there was a patch but
+couldn't find it. :)
 
 Ross
 
