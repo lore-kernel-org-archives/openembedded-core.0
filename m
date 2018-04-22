@@ -1,49 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E0BE865D35
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 26F626079F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2018 01:00:30 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id m21so2876632pgv.8
+	Sun, 22 Apr 2018 08:08:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Apr 2018 01:08:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,311,1520924400"; d="scan'208";a="45123144"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 22 Apr 2018 01:08:36 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id F03EB5800A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Apr 2018 18:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=32jQwImneMMpfvCIHeF18QHbWAG6kgld3qvpKL/U2g4=;
-	b=R8O+X9JtzHrhbMrvb+QH+KYwBP0+4NrLj56YY5CChuevy4eBbZw1U5NK/psSUG3hid
-	oRB2PWCamX27quu+z0jTANjMMQVjh/Q9Rt7irA2m0oLP7qva4IoLE+c/tF96fyKQ4pho
-	+cyrskBugLx6BsOd57o0f4PB9ebu1TlIjxGMtjjIUYl8XT//rYJ4V+Fh5yR/9dZA0xPb
-	QsTjG/wEYhg+bgXxvutS3RsYlU3/DycSildRtCUakLZy21gaarkYUJ04FpmYFRw67cB4
-	0+kWq8Ic303wpW7jQviWKKtyb/qsNy+qQisB7V4uOTzjNGcGIX5vGhYoOVllutxptcXc
-	3AWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=32jQwImneMMpfvCIHeF18QHbWAG6kgld3qvpKL/U2g4=;
-	b=iXI+5WlcQJqtxHcyp+kZOlHWIo/TgszBS+umpjIN6VARpZoz77IJ7xn+i6ifSu4v8r
-	Rt1XQQ/bY1O8FlWV0ueppXyNa39As5+w5fiQas1/vlcf+vHiUP7DM1qAJ5+CTHUKfPIi
-	VOSJXgY2KlI4MlrfEZ6Elb9n9qYDpPx53Z8+vUKS6MBHFcj46q6brZQQ3qv10muuyxmX
-	thFEBhV2KsjMyMsnuunImiq97Tzr3Fs3KENTRbWjJjR/5CrfPL7qVXBeML21H2uhBgAX
-	w/QccOeLDhlxUV4JMfisAk3mNtesxkiHBJRXcBFzK0fF2Wp0QiTrAz/zD5XjVD6n39gz
-	Qtgg==
-X-Gm-Message-State: ALQs6tBN2PXcb4X7NANQvdP7hYEHM7Zd/qvnApFQvNxo2vmr7jkQVLLV
-	tmqakgtEHNhb+W8g3wccycahuA==
-X-Google-Smtp-Source: AIpwx48R4ACoDix5fCqHdPTsCMcVP4FQPk04kxtWTf1Gv0xnPQUppx4B6XDO4Toai2fbdxywKCbnrA==
-X-Received: by 2002:a17:902:9881:: with SMTP id
-	s1-v6mr15385355plp.350.1524358832014; 
-	Sat, 21 Apr 2018 18:00:32 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:ad3f:3096:6add:98d8])
-	by smtp.gmail.com with ESMTPSA id
-	x29sm19224522pfk.68.2018.04.21.18.00.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 21 Apr 2018 18:00:31 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 21 Apr 2018 18:00:30 -0700
-Message-Id: <1524358830-24383-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [master][sumo][PATCH] perl: Security fix CVE-2017-12883
+	Sun, 22 Apr 2018 01:08:35 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 22 Apr 2018 11:09:26 +0300
+Message-Id: <1524384566-30715-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] machine: make inclusion of kernel-modules consistent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,80 +35,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Apr 2018 01:00:31 -0000
+X-List-Received-Date: Sun, 22 Apr 2018 08:08:36 -0000
 
-Affects: Perl  < 5.24.3-rc1 and  5.26.x before 5.26.1-RC1
+Now, only qemumips and qemumips64 include kernel-modules.
+Make it consistent across the machines to avoid confusion.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+[YOCTO #12383]
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../perl/perl/CVE-2017-12883.patch                 | 44 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/CVE-2017-12883.patch
+ meta/conf/machine/qemuarm.conf    | 1 +
+ meta/conf/machine/qemuarm64.conf  | 1 +
+ meta/conf/machine/qemuppc.conf    | 1 +
+ meta/conf/machine/qemux86-64.conf | 1 +
+ meta/conf/machine/qemux86.conf    | 1 +
+ 5 files changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl/CVE-2017-12883.patch b/meta/recipes-devtools/perl/perl/CVE-2017-12883.patch
-new file mode 100644
-index 0000000..5c1805f
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/CVE-2017-12883.patch
-@@ -0,0 +1,44 @@
-+From 40b3cdad3649334585cee8f4630ec9a025e62be6 Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Fri, 25 Aug 2017 11:33:58 -0600
-+Subject: [PATCH] PATCH: [perl #131598]
-+
-+The cause of this is that the vFAIL macro uses RExC_parse, and that
-+variable has just been changed in preparation for code after the vFAIL.
-+The solution is to not change RExC_parse until after the vFAIL.
-+
-+This is a case where the macro hides stuff that can bite you.
-+
-+(cherry picked from commit 2be4edede4ae226e2eebd4eff28cedd2041f300f)
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-12833
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ regcomp.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+Index: perl-5.24.1/regcomp.c
-+===================================================================
-+--- perl-5.24.1.orig/regcomp.c
-++++ perl-5.24.1/regcomp.c
-+@@ -11918,14 +11918,16 @@ S_grok_bslash_N(pTHX_ RExC_state_t *pREx
-+ 	}
-+         sv_catpv(substitute_parse, ")");
-+ 
-+-        RExC_parse = RExC_start = RExC_adjusted_start = SvPV(substitute_parse,
-+-                                                             len);
-++        len = SvCUR(substitute_parse);
-+ 
-+ 	/* Don't allow empty number */
-+ 	if (len < (STRLEN) 8) {
-+             RExC_parse = endbrace;
-+ 	    vFAIL("Invalid hexadecimal number in \\N{U+...}");
-+ 	}
-++
-++        RExC_parse = RExC_start = RExC_adjusted_start
-++                                              = SvPV_nolen(substitute_parse);
-+ 	RExC_end = RExC_parse + len;
-+ 
-+         /* The values are Unicode, and therefore not subject to recoding, but
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 222dd88..53a4262 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -64,6 +64,7 @@ SRC_URI += " \
-         file://perl-fix-conflict-between-skip_all-and-END.patch \
-         file://perl-test-customized.patch \
-         file://perl-5.26.1-guard_old_libcrypt_fix.patch \
-+        file://CVE-2017-12883.patch \
- "
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 9403b1e..c323520 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -9,6 +9,7 @@ require conf/machine/include/tune-arm926ejs.inc
+ KERNEL_IMAGETYPE = "zImage"
  
- # Fix test case issues
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;ttyAMA1"
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-arm"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 242889a..9646fff 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -8,6 +8,7 @@ require conf/machine/include/qemu.inc
+ KERNEL_IMAGETYPE = "Image"
+ 
+ SERIAL_CONSOLES ?= "38400;ttyAMA0 38400;hvc0"
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-aarch64"
+diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
+index 537b2f6..1011d23 100644
+--- a/meta/conf/machine/qemuppc.conf
++++ b/meta/conf/machine/qemuppc.conf
+@@ -10,6 +10,7 @@ TARGET_CC_KERNEL_ARCH = "-mno-spe"
+ KERNEL_IMAGETYPE = "vmlinux"
+ 
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-ppc"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index fcc4459..64db9e4 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -15,6 +15,7 @@ require conf/machine/include/qemuboot-x86.inc
+ KERNEL_IMAGETYPE = "bzImage"
+ 
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+ 
+ XSERVER = "xserver-xorg \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index c53f7a9..ea43421 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -14,6 +14,7 @@ require conf/machine/include/qemuboot-x86.inc
+ KERNEL_IMAGETYPE = "bzImage"
+ 
+ SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
++MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+ 
+ XSERVER = "xserver-xorg \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
 -- 
-2.7.4
+2.4.0
 
 
