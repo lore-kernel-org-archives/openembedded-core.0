@@ -1,47 +1,22 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D006D60068
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AD9271C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 07:49:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id F204B183E1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id CSNvF98IWisv
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 4FEBB18297
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 391E41A066
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2DE411A065
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id 21C671C21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 1DC1A409BD; Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Apr 2018 09:49:49 +0200
-Message-Id: <20180423074949.12390-1-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] package.bbclass: Make staticlib problems non-fatal
+	Mon, 23 Apr 2018 08:06:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3N86P8S015611
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 23 Apr 2018 01:06:25 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 23 Apr 2018 01:06:23 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@windriver.com>
+Date: Mon, 23 Apr 2018 16:13:58 +0800
+Message-ID: <1524471238-4908-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH V2] perf: make a copy of kernel source to perf workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +29,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2018 07:49:52 -0000
+X-List-Received-Date: Mon, 23 Apr 2018 08:06:25 -0000
+Content-Type: text/plain
 
-Allow debugsource listing using dwarfsourcefiles to fail for static
-libraries when the archive content is not as expected.
+Since perf modify kernel source which shared by multiple
+recipes, it probably caused kernel-devsrc compile failure
+at world build.
+...
+|0 blocks
+|cpio: ./tools/perf/arch/arm/util/sedr7ORqk: Cannot stat:
+No such file or directory
+|0 blocks
+...
+cpio tried to find a file at ${S}/tools/perf and failed
+if the input list is not valid.
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+Make a copy of kernel shared source directory into a perf workdir
+could fix the issue.
+
+Drop `Fix for rebuilding' which is obsolete
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/package.bbclass | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0436d919e7..d61b4ce8ca 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -344,12 +344,15 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 872b5f0..8b40806 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -61,7 +61,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
  
-     return debugfiles.keys()
+ inherit kernelsrc
  
--def append_source_info(file, sourcefile, d):
-+def append_source_info(file, sourcefile, d, fatal=True):
-     cmd = "'dwarfsrcfiles' '%s'" % (file)
-     (retval, output) = oe.utils.getstatusoutput(cmd)
-     # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
-     if retval != 0 and retval != 255:
--        bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-+        msg = "dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else "")
-+        if fatal:
-+            bb.fatal(msg)
-+        bb.note(msg)
+-B = "${WORKDIR}/${BPN}-${PV}"
++S = "${WORKDIR}/${BP}"
+ SPDX_S = "${S}/tools/perf"
  
-     debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
-     # filenames are null-separated - this is an artefact of the previous use
-@@ -1052,7 +1055,7 @@ python split_and_strip_files () {
+ # The LDFLAGS is required or some old kernels fails due missing
+@@ -119,11 +119,12 @@ do_install() {
+ 	fi
+ }
  
-         if debugsrcdir and not targetos.startswith("mingw"):
-             for file in staticlibs:
--                append_source_info(file, sourcefile, d)
-+                append_source_info(file, sourcefile, d, fatal=False)
+-do_configure_prepend () {
+-    # Fix for rebuilding
+-    rm -rf ${B}/
+-    mkdir -p ${B}/
++do_configure[prefuncs] += "git_clone_kernel_source"
++git_clone_kernel_source () {
++    git clone --single-branch ${STAGING_KERNEL_DIR} ${S}
++}
  
-         # Hardlink our debug symbols to the other hardlink copies
-         for ref in inodes:
++do_configure_prepend () {
+     # If building a multlib based perf, the incorrect library path will be
+     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
+     # build, with a 64 bit multilib, the arch won't match and the detection of a 
 -- 
-2.11.0
+2.7.4
 
 
