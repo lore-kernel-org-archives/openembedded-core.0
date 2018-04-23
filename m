@@ -1,27 +1,47 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 68C4B71AB5
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D006D60068
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 03:34:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3N3YXdL022600
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Apr 2018 07:49:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id F204B183E1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Apr 2018 20:34:34 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Sun, 22 Apr 2018 20:34:33 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <8f1e2332-a625-7720-c5dc-0f0e6d9a5d27@windriver.com>
-Date: Mon, 23 Apr 2018 11:37:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
-X-Originating-IP: [128.224.162.161]
-Subject: Re: [PATCH v3] udev-extraconf: Add systemd-mount to udev-extraconf/mount.sh
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id CSNvF98IWisv
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4FEBB18297
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 391E41A066
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2DE411A065
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
+	by thoth.se.axis.com (Postfix) with ESMTP id 21C671C21
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
+	id 1DC1A409BD; Mon, 23 Apr 2018 09:49:49 +0200 (CEST)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Apr 2018 09:49:49 +0200
+Message-Id: <20180423074949.12390-1-olani@axis.com>
+X-Mailer: git-send-email 2.11.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] package.bbclass: Make staticlib problems non-fatal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,182 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2018 03:34:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 23 Apr 2018 07:49:52 -0000
 
-ping
+Allow debugsource listing using dwarfsourcefiles to fail for static
+libraries when the archive content is not as expected.
 
-// Hongzhi
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+---
+ meta/classes/package.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-
-On 2018年04月17日 15:03, Hongzhi.Song wrote:
-> Udev-extraconf works correctly with sysvinit in the aspect of automounting
-> block devices. But it has a serious problem in case of systemd. Block devices
-> automounted by udev is unaccessible to host space(out of udevd's private
-> namespace). For example, we cannot format those block devices.
->
-> e.g.
->      root@qemux86:~# mkfs.ext4 /dev/sda1
->      mke2fs 1.43.8 (1-Jan-2018)
->      /dev/sda1 contains a ext4 file system
->      last mounted on Tue Apr  3 06:22:41 2018
->      Proceed anyway? (y,N) y
->      /dev/sda1 is apparently in use by the system; will not make a filesystem here!
->
-> Other distributions has no such problem, because they use a series of rules to
-> manager block devices. Different types of block devices match different rules.
-> But udev-extraconf just use one rule, automount.rules, which results in this
-> problem.
->
-> The 'systemd-mount' command is recommended by the systemd community to solve such
-> problems.
->
-> This patch makes use of 'systemd-mount' to solve the above problem.
->
-> [YOCTO #12644]
->
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->   meta/recipes-core/udev/udev-extraconf/mount.sh | 83 ++++++++++++++++++++------
->   meta/recipes-core/udev/udev-extraconf_1.1.bb   |  3 +
->   2 files changed, 69 insertions(+), 17 deletions(-)
->
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index d760328..067d4e2 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -4,10 +4,28 @@
->   #
->   # Attempt to mount any added block devices and umount any removed devices
->   
-> +BASE_INIT="`readlink "@base_sbindir@/init"`"
-> +INIT_SYSTEMD="@systemd_unitdir@/systemd"
-> +
-> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
-> +    # systemd as init uses systemd-mount to mount block devices
-> +    MOUNT="/usr/bin/systemd-mount"
-> +    UMOUNT="/usr/bin/systemd-umount"
-> +
-> +    if [ -x $MOUNT ] && [ -x $UMOUNT ];
-> +    then
-> +        logger "Using systemd-mount to finish mount"
-> +    else
-> +        logger "Linux init is using systemd, so please install systemd-mount to finish mount"
-> +        exit 1
-> +    fi
-> +else
-> +    MOUNT="/bin/mount"
-> +    UMOUNT="/bin/umount"
-> +fi
->   
-> -MOUNT="/bin/mount"
->   PMOUNT="/usr/bin/pmount"
-> -UMOUNT="/bin/umount"
-> +
->   for line in `grep -h -v ^# /etc/udev/mount.blacklist /etc/udev/mount.blacklist.d/*`
->   do
->   	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
-> @@ -17,7 +35,35 @@ do
->   	fi
->   done
->   
-> -automount() {	
-> +automount_systemd() {
-> +    name="`basename "$DEVNAME"`"
-> +
-> +    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
-> +
-> +    MOUNT="$MOUNT -o silent"
-> +
-> +    # If filesystemtype is vfat, change the ownership group to 'disk', and
-> +    # grant it with  w/r/x permissions.
-> +    case $ID_FS_TYPE in
-> +    vfat|fat)
-> +        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-> +        ;;
-> +    # TODO
-> +    *)
-> +        ;;
-> +    esac
-> +
-> +    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
-> +    then
-> +        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/run/media/$name\" failed!"
-> +        rm_dir "/run/media/$name"
-> +    else
-> +        logger "mount.sh/automount" "Auto-mount of [/run/media/$name] successful"
-> +        touch "/tmp/.automount-$name"
-> +    fi
-> +}
-> +
-> +automount() {
->   	name="`basename "$DEVNAME"`"
->   
->   	! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
-> @@ -26,7 +72,7 @@ automount() {
->   	then
->   		MOUNT="$MOUNT -o silent"
->   	fi
-> -	
-> +
->   	# If filesystem type is vfat, change the ownership group to 'disk', and
->   	# grant it with  w/r/x permissions.
->   	case $ID_FS_TYPE in
-> @@ -68,23 +114,26 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && [ -n "$ID_FS_TYPE" -o "$media_t
->   	elif [ -x $MOUNT ]; then
->       		$MOUNT $DEVNAME 2> /dev/null
->   	fi
-> -	
-> +
->   	# If the device isn't mounted at this point, it isn't
->   	# configured in fstab (note the root filesystem can show up as
->   	# /dev/root in /proc/mounts, so check the device number too)
-> -	if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-> -		grep -q "^$DEVNAME " /proc/mounts || automount
-> -	fi
-> +    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
-> +        if [ "`basename $MOUNT`" = "systemd-mount" ];then
-> +            grep -q "^$DEVNAME " /proc/mounts || automount_systemd
-> +        else
-> +            grep -q "^$DEVNAME " /proc/mounts || automount
-> +        fi
-> +    fi
->   fi
->   
-> -
->   if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
-> -	for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
-> -	do
-> -		$UMOUNT $mnt
-> -	done
-> -	
-> -	# Remove empty directories from auto-mounter
-> -	name="`basename "$DEVNAME"`"
-> -	test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
-> +    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
-> +    do
-> +        $UMOUNT $mnt
-> +    done
-> +
-> +    # Remove empty directories from auto-mounter
-> +    name="`basename "$DEVNAME"`"
-> +    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
->   fi
-> diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-> index 43a1cff..90f933d 100644
-> --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-> @@ -29,6 +29,9 @@ do_install() {
->       install -d ${D}${sysconfdir}/udev/scripts/
->   
->       install -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
-> +    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
-> +    sed -i 's|@base_sbindir@|${base_sbindir}|g' ${D}${sysconfdir}/udev/scripts/mount.sh
-> +
->       install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
->   }
->   
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 0436d919e7..d61b4ce8ca 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -344,12 +344,15 @@ def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
+ 
+     return debugfiles.keys()
+ 
+-def append_source_info(file, sourcefile, d):
++def append_source_info(file, sourcefile, d, fatal=True):
+     cmd = "'dwarfsrcfiles' '%s'" % (file)
+     (retval, output) = oe.utils.getstatusoutput(cmd)
+     # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
+     if retval != 0 and retval != 255:
+-        bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++        msg = "dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else "")
++        if fatal:
++            bb.fatal(msg)
++        bb.note(msg)
+ 
+     debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
+     # filenames are null-separated - this is an artefact of the previous use
+@@ -1052,7 +1055,7 @@ python split_and_strip_files () {
+ 
+         if debugsrcdir and not targetos.startswith("mingw"):
+             for file in staticlibs:
+-                append_source_info(file, sourcefile, d)
++                append_source_info(file, sourcefile, d, fatal=False)
+ 
+         # Hardlink our debug symbols to the other hardlink copies
+         for ref in inodes:
+-- 
+2.11.0
 
 
