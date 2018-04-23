@@ -1,26 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 143C872F01
+Return-Path: <chin.huat.ang@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 3536460110
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 22:05:45 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w3NM5h8B022549
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 23 Apr 2018 23:05:45 +0100
-Message-ID: <1524521143.18865.174.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, Hongxu Jia
-	<hongxu.jia@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 23 Apr 2018 23:05:43 +0100
-In-Reply-To: <df7a7e3b-09a9-26ac-8969-bc369f9bc2c4@windriver.com>
-References: <1524471238-4908-1-git-send-email-hongxu.jia@windriver.com>
-	<df7a7e3b-09a9-26ac-8969-bc369f9bc2c4@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH V2] perf: make a copy of kernel source to perf workdir
+	Mon, 23 Apr 2018 23:23:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Apr 2018 16:23:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,320,1520924400"; d="scan'208";a="34726966"
+Received: from unknown (HELO ubuntu.localdomain) ([10.249.70.44])
+	by fmsmga008.fm.intel.com with ESMTP; 23 Apr 2018 16:23:47 -0700
+From: Chin Huat Ang <chin.huat.ang@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Apr 2018 07:23:37 +0800
+Message-Id: <1524525817-1724-1-git-send-email-chin.huat.ang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] toolchain-scripts: preserve host path in environment setup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2018 22:05:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 23 Apr 2018 23:23:47 -0000
 
-On Mon, 2018-04-23 at 13:51 -0400, Bruce Ashfield wrote:
-> On 2018-04-23 4:13 AM, Hongxu Jia wrote:
-> > 
-> > Since perf modify kernel source which shared by multiple
-> > recipes, it probably caused kernel-devsrc compile failure
-> > at world build.
-> > ...
-> > > 
-> > > 0 blocks
-> > > cpio: ./tools/perf/arch/arm/util/sedr7ORqk: Cannot stat:
-> > No such file or directory
-> > > 
-> > > 0 blocks
-> > ...
-> > cpio tried to find a file at ${S}/tools/perf and failed
-> > if the input list is not valid.
-> > 
-> > Make a copy of kernel shared source directory into a perf workdir
-> > could fix the issue.
-> > 
-> > Drop `Fix for rebuilding' which is obsolete
-> > 
-> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> > ---
-> >   meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
-> >   1 file changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-
-> > kernel/perf/perf.bb
-> > index 872b5f0..8b40806 100644
-> > --- a/meta/recipes-kernel/perf/perf.bb
-> > +++ b/meta/recipes-kernel/perf/perf.bb
-> > @@ -61,7 +61,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OW
-> > N_DIR}/perl/${@get_perl_version
-> >   
-> >   inherit kernelsrc
-> >   
-> > -B = "${WORKDIR}/${BPN}-${PV}"
-> > +S = "${WORKDIR}/${BP}"
-> >   SPDX_S = "${S}/tools/perf"
-> >   
-> >   # The LDFLAGS is required or some old kernels fails due missing
-> > @@ -119,11 +119,12 @@ do_install() {
-> >   	fi
-> >   }
-> >   
-> > -do_configure_prepend () {
-> > -    # Fix for rebuilding
-> > -    rm -rf ${B}/
-> > -    mkdir -p ${B}/
-> > +do_configure[prefuncs] += "git_clone_kernel_source"
-> > +git_clone_kernel_source () {
-> > +    git clone --single-branch ${STAGING_KERNEL_DIR} ${S}
-> I probably would have used "cp -a -r", or similar. Since it
-> is possible that a kernel may not actually be a git repo (linux-yocto
-> always is, but that is just one data point).
-> 
-> Also, did you try just copying the tools SRC dir + whatever
-> infrastructure is needed to build ? That will save us a LOT
-> of i/o when moving the source around for perf to build.
-> 
-> But outside of those details/mechanics, the approach is sound.
+The environment setup script generated in the build directory sets the PATH
+variable by expanding ${PATH} which would have host paths filtered. Sourcing
+this script to run runqemu will not work as it complains host stty (/bin/stty)
+cannot be found.
 
-Our "copy hardlink tree" function, whatever its called is sometimes of
-use in these cases...
+To resolve this, the script no longer expands ${PATH} during generation time,
+instead it will now source oe-init-build-env to initialize the build
+environment, followed by extending the PATH variable and including additional
+environment variables for the build directory toolchain.
 
-I think I'm the current owner of a bug in this area which I've sadly
-not gotten to yet :(.
+[YOCTO #12695]
 
-Also, have we considered the alternative - not copying tools/perf for
-the kernel devsrc?
+Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+---
+ meta/classes/toolchain-scripts.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index eeb320d..1f6d1aa 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -62,7 +62,8 @@ toolchain_create_tree_env_script () {
+ 	script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
+ 	rm -f $script
+ 	touch $script
+-	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
++	echo ". ${COREBASE}/oe-init-build-env ${TOPDIR}" >> $script
++	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:$PATH' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+ 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+ 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
+-- 
+2.7.4
 
-Richard
 
