@@ -1,29 +1,26 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C6936FF56
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 143C872F01
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 20:20:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3NKK9bE024902
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 13:20:09 -0700 (PDT)
-Received: from [172.25.44.10] (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 23 Apr 2018 13:20:07 -0700
-To: "Hongzhi, Song" <hongzhi.song@windriver.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-References: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
-	<8f1e2332-a625-7720-c5dc-0f0e6d9a5d27@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <14818289-63c3-8bdf-00fa-1dbd73449053@windriver.com>
-Date: Mon, 23 Apr 2018 16:20:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <8f1e2332-a625-7720-c5dc-0f0e6d9a5d27@windriver.com>
-X-Originating-IP: [172.25.44.10]
-Subject: Re: [PATCH v3] udev-extraconf: Add systemd-mount to udev-extraconf/mount.sh
+	Mon, 23 Apr 2018 22:05:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w3NM5h8B022549
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 23 Apr 2018 23:05:45 +0100
+Message-ID: <1524521143.18865.174.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, Hongxu Jia
+	<hongxu.jia@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 23 Apr 2018 23:05:43 +0100
+In-Reply-To: <df7a7e3b-09a9-26ac-8969-bc369f9bc2c4@windriver.com>
+References: <1524471238-4908-1-git-send-email-hongxu.jia@windriver.com>
+	<df7a7e3b-09a9-26ac-8969-bc369f9bc2c4@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH V2] perf: make a copy of kernel source to perf workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,221 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2018 20:20:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 23 Apr 2018 22:05:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
 
-On 2018-04-22 11:37 PM, Hongzhi, Song wrote:
-> ping
+On Mon, 2018-04-23 at 13:51 -0400, Bruce Ashfield wrote:
+> On 2018-04-23 4:13 AM, Hongxu Jia wrote:
+> > 
+> > Since perf modify kernel source which shared by multiple
+> > recipes, it probably caused kernel-devsrc compile failure
+> > at world build.
+> > ...
+> > > 
+> > > 0 blocks
+> > > cpio: ./tools/perf/arch/arm/util/sedr7ORqk: Cannot stat:
+> > No such file or directory
+> > > 
+> > > 0 blocks
+> > ...
+> > cpio tried to find a file at ${S}/tools/perf and failed
+> > if the input list is not valid.
+> > 
+> > Make a copy of kernel shared source directory into a perf workdir
+> > could fix the issue.
+> > 
+> > Drop `Fix for rebuilding' which is obsolete
+> > 
+> > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> > ---
+> >   meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
+> >   1 file changed, 6 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-
+> > kernel/perf/perf.bb
+> > index 872b5f0..8b40806 100644
+> > --- a/meta/recipes-kernel/perf/perf.bb
+> > +++ b/meta/recipes-kernel/perf/perf.bb
+> > @@ -61,7 +61,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OW
+> > N_DIR}/perl/${@get_perl_version
+> >   
+> >   inherit kernelsrc
+> >   
+> > -B = "${WORKDIR}/${BPN}-${PV}"
+> > +S = "${WORKDIR}/${BP}"
+> >   SPDX_S = "${S}/tools/perf"
+> >   
+> >   # The LDFLAGS is required or some old kernels fails due missing
+> > @@ -119,11 +119,12 @@ do_install() {
+> >   	fi
+> >   }
+> >   
+> > -do_configure_prepend () {
+> > -    # Fix for rebuilding
+> > -    rm -rf ${B}/
+> > -    mkdir -p ${B}/
+> > +do_configure[prefuncs] += "git_clone_kernel_source"
+> > +git_clone_kernel_source () {
+> > +    git clone --single-branch ${STAGING_KERNEL_DIR} ${S}
+> I probably would have used "cp -a -r", or similar. Since it
+> is possible that a kernel may not actually be a git repo (linux-yocto
+> always is, but that is just one data point).
+> 
+> Also, did you try just copying the tools SRC dir + whatever
+> infrastructure is needed to build ? That will save us a LOT
+> of i/o when moving the source around for perf to build.
+> 
+> But outside of those details/mechanics, the approach is sound.
 
-Please be patient.
+Our "copy hardlink tree" function, whatever its called is sometimes of
+use in these cases...
 
-0e-core-2.5 rc1 is being tested now and only critical blocking fixes are 
-being accepted.
+I think I'm the current owner of a bug in this area which I've sadly
+not gotten to yet :(.
 
-Once the results of 2.5 tests are good, then commits such as this one
-can be added to the master[-next] branch and then later cherry-picked 
-back to 2.5.1
-if needed.
+Also, have we considered the alternative - not copying tools/perf for
+the kernel devsrc?
 
-Give people a few days (or more if things don't go well) to get 2.5 out 
-the door.
+Cheers,
 
-../Randy
-
->
-> // Hongzhi
->
->
-> On 2018年04月17日 15:03, Hongzhi.Song wrote:
->> Udev-extraconf works correctly with sysvinit in the aspect of 
->> automounting
->> block devices. But it has a serious problem in case of systemd. Block 
->> devices
->> automounted by udev is unaccessible to host space(out of udevd's private
->> namespace). For example, we cannot format those block devices.
->>
->> e.g.
->>      root@qemux86:~# mkfs.ext4 /dev/sda1
->>      mke2fs 1.43.8 (1-Jan-2018)
->>      /dev/sda1 contains a ext4 file system
->>      last mounted on Tue Apr  3 06:22:41 2018
->>      Proceed anyway? (y,N) y
->>      /dev/sda1 is apparently in use by the system; will not make a 
->> filesystem here!
->>
->> Other distributions has no such problem, because they use a series of 
->> rules to
->> manager block devices. Different types of block devices match 
->> different rules.
->> But udev-extraconf just use one rule, automount.rules, which results 
->> in this
->> problem.
->>
->> The 'systemd-mount' command is recommended by the systemd community 
->> to solve such
->> problems.
->>
->> This patch makes use of 'systemd-mount' to solve the above problem.
->>
->> [YOCTO #12644]
->>
->> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->> ---
->>   meta/recipes-core/udev/udev-extraconf/mount.sh | 83 
->> ++++++++++++++++++++------
->>   meta/recipes-core/udev/udev-extraconf_1.1.bb   |  3 +
->>   2 files changed, 69 insertions(+), 17 deletions(-)
->>
->> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh 
->> b/meta/recipes-core/udev/udev-extraconf/mount.sh
->> index d760328..067d4e2 100644
->> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
->> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
->> @@ -4,10 +4,28 @@
->>   #
->>   # Attempt to mount any added block devices and umount any removed 
->> devices
->>   +BASE_INIT="`readlink "@base_sbindir@/init"`"
->> +INIT_SYSTEMD="@systemd_unitdir@/systemd"
->> +
->> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
->> +    # systemd as init uses systemd-mount to mount block devices
->> +    MOUNT="/usr/bin/systemd-mount"
->> +    UMOUNT="/usr/bin/systemd-umount"
->> +
->> +    if [ -x $MOUNT ] && [ -x $UMOUNT ];
->> +    then
->> +        logger "Using systemd-mount to finish mount"
->> +    else
->> +        logger "Linux init is using systemd, so please install 
->> systemd-mount to finish mount"
->> +        exit 1
->> +    fi
->> +else
->> +    MOUNT="/bin/mount"
->> +    UMOUNT="/bin/umount"
->> +fi
->>   -MOUNT="/bin/mount"
->>   PMOUNT="/usr/bin/pmount"
->> -UMOUNT="/bin/umount"
->> +
->>   for line in `grep -h -v ^# /etc/udev/mount.blacklist 
->> /etc/udev/mount.blacklist.d/*`
->>   do
->>       if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
->> @@ -17,7 +35,35 @@ do
->>       fi
->>   done
->>   -automount() {
->> +automount_systemd() {
->> +    name="`basename "$DEVNAME"`"
->> +
->> +    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
->> +
->> +    MOUNT="$MOUNT -o silent"
->> +
->> +    # If filesystemtype is vfat, change the ownership group to 
->> 'disk', and
->> +    # grant it with  w/r/x permissions.
->> +    case $ID_FS_TYPE in
->> +    vfat|fat)
->> +        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print 
->> $3}' /etc/group`"
->> +        ;;
->> +    # TODO
->> +    *)
->> +        ;;
->> +    esac
->> +
->> +    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
->> +    then
->> +        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME 
->> \"/run/media/$name\" failed!"
->> +        rm_dir "/run/media/$name"
->> +    else
->> +        logger "mount.sh/automount" "Auto-mount of 
->> [/run/media/$name] successful"
->> +        touch "/tmp/.automount-$name"
->> +    fi
->> +}
->> +
->> +automount() {
->>       name="`basename "$DEVNAME"`"
->>         ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
->> @@ -26,7 +72,7 @@ automount() {
->>       then
->>           MOUNT="$MOUNT -o silent"
->>       fi
->> -
->> +
->>       # If filesystem type is vfat, change the ownership group to 
->> 'disk', and
->>       # grant it with  w/r/x permissions.
->>       case $ID_FS_TYPE in
->> @@ -68,23 +114,26 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] && 
->> [ -n "$ID_FS_TYPE" -o "$media_t
->>       elif [ -x $MOUNT ]; then
->>               $MOUNT $DEVNAME 2> /dev/null
->>       fi
->> -
->> +
->>       # If the device isn't mounted at this point, it isn't
->>       # configured in fstab (note the root filesystem can show up as
->>       # /dev/root in /proc/mounts, so check the device number too)
->> -    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
->> -        grep -q "^$DEVNAME " /proc/mounts || automount
->> -    fi
->> +    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
->> +        if [ "`basename $MOUNT`" = "systemd-mount" ];then
->> +            grep -q "^$DEVNAME " /proc/mounts || automount_systemd
->> +        else
->> +            grep -q "^$DEVNAME " /proc/mounts || automount
->> +        fi
->> +    fi
->>   fi
->>   -
->>   if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x 
->> "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
->> -    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
->> -    do
->> -        $UMOUNT $mnt
->> -    done
->> -
->> -    # Remove empty directories from auto-mounter
->> -    name="`basename "$DEVNAME"`"
->> -    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
->> +    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " " `
->> +    do
->> +        $UMOUNT $mnt
->> +    done
->> +
->> +    # Remove empty directories from auto-mounter
->> +    name="`basename "$DEVNAME"`"
->> +    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
->>   fi
->> diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb 
->> b/meta/recipes-core/udev/udev-extraconf_1.1.bb
->> index 43a1cff..90f933d 100644
->> --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
->> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
->> @@ -29,6 +29,9 @@ do_install() {
->>       install -d ${D}${sysconfdir}/udev/scripts/
->>         install -m 0755 ${WORKDIR}/mount.sh 
->> ${D}${sysconfdir}/udev/scripts/mount.sh
->> +    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' 
->> ${D}${sysconfdir}/udev/scripts/mount.sh
->> +    sed -i 's|@base_sbindir@|${base_sbindir}|g' 
->> ${D}${sysconfdir}/udev/scripts/mount.sh
->> +
->>       install -m 0755 ${WORKDIR}/network.sh 
->> ${D}${sysconfdir}/udev/scripts
->>   }
->
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
+Richard
 
