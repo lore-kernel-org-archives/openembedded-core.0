@@ -1,22 +1,56 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AD9271C1F
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F291745B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Apr 2018 08:06:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3N86P8S015611
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 23 Apr 2018 01:06:25 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 23 Apr 2018 01:06:23 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@windriver.com>
-Date: Mon, 23 Apr 2018 16:13:58 +0800
-Message-ID: <1524471238-4908-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 23 Apr 2018 10:18:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id CB45F18401;
+	Mon, 23 Apr 2018 12:18:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id bVKaPvAuFbTu; Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 8ED3E18297;
+	Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 702281A070;
+	Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 633591A06F;
+	Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 56C4B19AE;
+	Mon, 23 Apr 2018 12:18:44 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Mon, 23 Apr 2018 12:18:44 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Mon, 23 Apr 2018 12:18:44 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] State of Sumo
+Thread-Index: AQHT2PK3QGUlYhNSeUCXkqYzqXhxrKQKNVgAgACG+ACAA2heQA==
+Date: Mon, 23 Apr 2018 10:18:43 +0000
+Message-ID: <52719ef4cc00465f946c97294e72e822@XBOX02.axis.com>
+References: <CAJTo0LYPdtHXqbKR5nm_EVzQ07Pju476n3Tahxp_zf=STW=LRw@mail.gmail.com>
+	<d00e521ea4cf4fc3962a9e10e0bcc6c2@XBOX02.axis.com>
+	<CAJTo0LbAYsY3Zps89-0Q1s8VUC3zJBPqLDb-Hb1KJXOkhQUoDg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbAYsY3Zps89-0Q1s8VUC3zJBPqLDb-Hb1KJXOkhQUoDg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH V2] perf: make a copy of kernel source to perf workdir
+X-TM-AS-GCONF: 00
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,62 +63,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Apr 2018 08:06:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Apr 2018 10:18:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Since perf modify kernel source which shared by multiple
-recipes, it probably caused kernel-devsrc compile failure
-at world build.
-...
-|0 blocks
-|cpio: ./tools/perf/arch/arm/util/sedr7ORqk: Cannot stat:
-No such file or directory
-|0 blocks
-...
-cpio tried to find a file at ${S}/tools/perf and failed
-if the input list is not valid.
-
-Make a copy of kernel shared source directory into a perf workdir
-could fix the issue.
-
-Drop `Fix for rebuilding' which is obsolete
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 872b5f0..8b40806 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -61,7 +61,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
- 
- inherit kernelsrc
- 
--B = "${WORKDIR}/${BPN}-${PV}"
-+S = "${WORKDIR}/${BP}"
- SPDX_S = "${S}/tools/perf"
- 
- # The LDFLAGS is required or some old kernels fails due missing
-@@ -119,11 +119,12 @@ do_install() {
- 	fi
- }
- 
--do_configure_prepend () {
--    # Fix for rebuilding
--    rm -rf ${B}/
--    mkdir -p ${B}/
-+do_configure[prefuncs] += "git_clone_kernel_source"
-+git_clone_kernel_source () {
-+    git clone --single-branch ${STAGING_KERNEL_DIR} ${S}
-+}
- 
-+do_configure_prepend () {
-     # If building a multlib based perf, the incorrect library path will be
-     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
-     # build, with a 64 bit multilib, the arch won't match and the detection of a 
--- 
-2.7.4
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IGRlbiAyMSBhcHJpbCAyMDE4IDEwOjA4
+DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4N
+Cj4gQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gU3RhdGUgb2YgU3Vtbw0KPiANCj4gT24gMjAgQXBy
+aWwgMjAxOCBhdCAyMzo0MiwgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3Rl
+ZHRAYXhpcy5jb20+IHdyb3RlOg0KPiA+IE5vdCBzdXJlIHdoYXQgdGhlIHN0YXR1cyBpcyBmb3Ig
+cGF0Y2hlcyBmb3IgYml0YmFrZSBpdHNlbGYsIGJ1dCBJDQo+IGhhdmUNCj4gPiBvbmUgcGVuZGlu
+ZyAoImxpYi9iYi91dGlsczogcHJldmVudCBtb3ZlZmlsZSBmcm9tIGNoYW5naW5nIGRlc3QgZGly
+DQo+ID4gcGVybWlzc2lvbnMiIHNlbnQgdG8gYml0YmFrZS1kZXZlbCBvbiBBcHJpbCAxMCksIHdo
+aWNoIEkgd2FzIGhvcGluZw0KPiA+IHdvdWxkIG1ha2UgaXQgaW50byBTdW1vLiBUaGUgZWZmZWN0
+IHdoZW4gdGhlIGJ1ZyBzdHJpa2VzIGlzIHByZXR0eQ0KPiA+IHdlaXJkLCBpbiBvdXIgY2FzZSBp
+dCBjYXVzZXMgL2V0YyB0byBlbmQgdXAgd2l0aCBtb2RlIDY0NCByYXRoZXIgdGhhbg0KPiA+IDc1
+NSB3aGVuIGJ1aWxkaW5nIGFuIFNESyBpbiBhIERvY2tlciBjb250YWluZXIuLi4NCj4gDQo+IEkg
+d291bGRuJ3QgY2FsbCB0aGF0IGEgcmVsZWFzZSBibG9ja2VyLCBzbyBpZiB3ZSdyZSBnb29kIHRv
+IGdvIG9uDQo+IE1vbmRheSB0aGF0IGNhbiBnbyB0byBtYXN0ZXIgaW5zdGVhZCBhbmQgYmUgYmFj
+a3BvcnRlZCB0byB0aGUgU3Vtbw0KPiBicmFuY2ggYXNhcC4NCj4gDQo+IFJvc3MNCg0KV2VsbCwg
+SSBjYW5ub3QgZGlzYWdyZWUgd2l0aCB5b3Ugb24gdGhlIHN0YXR1cyBvZiB0aGUgcGF0Y2ggdnMg
+dGhlIA0KcmVsZWFzZSBzdGF0ZSBvZiBPRS1Db3JlLiBIb3dldmVyLCBpdCBoYXMgYmVlbiBhIGxp
+dHRsZSBiaXQgDQpkaXNhcHBvaW50aW5nIHRvIHNlZSBtb3JlIGludmFzaXZlIHBhdGNoZXMgYmVp
+bmcgcG9zdGVkIHRvIHRoZSBtYWlsaW5nIA0KbGlzdCBhbmQgc3Vic2VxdWVudGx5IGJlaW5nIGlu
+dGVncmF0ZWQsIHdoaWxlIHRoaXMgcXVpdGUgdHJpdmlhbCBwYXRjaCANCmhhcyBiZWVuIG5lZ2xl
+Y3RlZC4NCg0KLy9QZXRlcg0KDQo=
 
