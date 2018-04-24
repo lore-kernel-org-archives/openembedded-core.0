@@ -1,42 +1,46 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 681386FFFE
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 15EA771C42
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 18:48:24 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id b39so20471958qkb.5
+	Tue, 24 Apr 2018 18:48:31 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id f1-v6so6348926qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 11:48:25 -0700 (PDT)
+	Tue, 24 Apr 2018 11:48:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=BtFfaEo3kLmJ3HNlVJrgkoIgnXk/9ChnliWYOe9wR0Y=;
-	b=nyUrtf2W0PliT395rL9Obu9Rs5nMZgPqev5GX/BjGq6dJ8XrOnvUCMPR3zqV4dqGEs
-	XHGiOx7ROpVOpduv3hZ94KwJsiuT+uPydpM1JsCIxiLSU6yGtdcg5Y9W5/Pm1dYUQAzR
-	1MNXK0DYV4Wi9TVfnBit49zhe9artOPfZUEAZh0irwqhnoMWj7YoVKpEAJOcZ3aTpFIl
-	nGAuqlcvR1SUBAjSsI17WsLWcxID0C+76pD2Klz4/u7Atl0+IN+pMBYun1/K4GqCH/ug
-	HX60PpvRA+sEgjKUFerU8/FGz9vUJQeYrsmdkj70fwkNyxWn2mesgTuWElAdMmHU6DY0
-	3IbQ==
-X-Gm-Message-State: ALQs6tDaJBC51T04AZXNsoaNIbwDA+lCrutGQXh0lQQeZH+HzQ+Cz5Cz
-	ivQZQVjwE8SIXYfs+Xu2Dx0JWg==
-X-Google-Smtp-Source: AB8JxZqujUIa7b+yqFdcmo+HBcW9mVhVSj31DKDkR2MeRrtEeL3+B0TSDptXPUUc14DwZmsn4K+bJQ==
-X-Received: by 10.55.160.142 with SMTP id j136mr29019628qke.225.1524595704829; 
-	Tue, 24 Apr 2018 11:48:24 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=xcDy7PRfaVc0lPqKMdfQRp/9WUPy/Txdz4sVoxwibGo=;
+	b=bajdIsXfWZu6G01BMJFOyJady1kiHwXCm+qRdcdfB1YEWP/XTE7uMY9FBes7Um96zm
+	ILMk92xTVSQ6tbZxYa6ui+bYfLVt29LiBaK3ZjHWMyFVFybnYSxkSETUNsTogl4TqEGk
+	dblSGR7E+yMTxh6ifxnOQ8D3og4Bq4oAJ9z/3Yb3Ni3fDkTV7JtKzY+PsnbD2V64mFLq
+	71wMSXwOR7tx4y6UWXCxSt4/r6w1GyJ4Rs1ABMtdKLM0XouoNSsU03770ZJglatZbZ5g
+	RohPkuuRcq/aQUakB0/0nPUwqySyGKH099OjPe9cMzG18slq/KK7WbHB4ZCaW5CERUQZ
+	Om/w==
+X-Gm-Message-State: ALQs6tAXsjOyZLsS5WufQgQGf3rV6cYXoQqpVhoOLhYLg7rP5sGcTwqq
+	YbxK+hCgRtj39Y7xzdg4k2FUxQ==
+X-Google-Smtp-Source: AIpwx49Xd11UsTRrPEJqEU0slYbcANFCHqG8GlkFwWFF3aFvUxzny5t/vq6UQ14mZ8hqlblX4RYkhw==
+X-Received: by 2002:aed:3f17:: with SMTP id
+	p23-v6mr28793785qtf.57.1524595712173; 
+	Tue, 24 Apr 2018 11:48:32 -0700 (PDT)
 Received: from localhost.localdomain ([177.194.217.140])
 	by smtp.gmail.com with ESMTPSA id
-	s48-v6sm13789220qtb.83.2018.04.24.11.48.22
+	s67sm12769961qki.58.2018.04.24.11.48.29
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 24 Apr 2018 11:48:24 -0700 (PDT)
+	Tue, 24 Apr 2018 11:48:31 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 24 Apr 2018 15:48:17 -0300
+	Tue, 24 Apr 2018 15:48:25 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Apr 2018 15:48:15 -0300
-Message-Id: <20180424184816.6763-1-otavio@ossystems.com.br>
+Date: Tue, 24 Apr 2018 15:48:16 -0300
+Message-Id: <20180424184816.6763-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180424184816.6763-1-otavio@ossystems.com.br>
+References: <20180424184816.6763-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/2] parted: add ontrack DM6 aux3 support
+Subject: [PATCH 2/2] wic: add ontrack DM6 aux3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,150 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2018 18:48:24 -0000
+X-List-Received-Date: Tue, 24 Apr 2018 18:48:32 -0000
 
 Add ontrack DM6 aux3 partition support to enable creating
 partitions required to boot i.MX MXS based platforms.
 
-This patch has been sent long time ago by Alexandre Belloni to
-meta-freescale however this must be incuded on OE-Core as this is a
-common component across different BSP.
+This has been removed by OE-Core:21af89a6 (wic: allow only supported
+fstypes). It was unnoticed as most users were still using the
+meta-freecale image generation class instead of wic but we are now
+in process of dropping the class and this is the remaining use-case.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- .../parted/files/Add_ontrackdm6aux3.patch     | 109 ++++++++++++++++++
- meta/recipes-extended/parted/parted_3.2.bb    |   1 +
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
+ scripts/lib/wic/ksparser.py              | 3 ++-
+ scripts/lib/wic/plugins/imager/direct.py | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch b/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
-new file mode 100644
-index 00000000000..0fc36cdd389
---- /dev/null
-+++ b/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
-@@ -0,0 +1,109 @@
-+diff -Nburp parted-3.2.orig/libparted/fs/Makefile.am parted-3.2/libparted/fs/Makefile.am
-+--- parted-3.2.orig/libparted/fs/Makefile.am	2014-07-28 04:29:16.000000000 +0200
-++++ parted-3.2/libparted/fs/Makefile.am	2015-03-25 19:51:38.912544030 +0100
-+@@ -42,6 +42,7 @@ libfs_la_SOURCES =		\
-+   linux_swap/linux_swap.c	\
-+   nilfs2/nilfs2.c		\
-+   ntfs/ntfs.c			\
-++  ontrack/ontrack.c		\
-+   reiserfs/reiserfs.c		\
-+   reiserfs/reiserfs.h		\
-+   ufs/ufs.c			\
-+diff -Nburp parted-3.2.orig/libparted/fs/ontrack/ontrack.c parted-3.2/libparted/fs/ontrack/ontrack.c
-+--- parted-3.2.orig/libparted/fs/ontrack/ontrack.c	1970-01-01 01:00:00.000000000 +0100
-++++ parted-3.2/libparted/fs/ontrack/ontrack.c	2015-03-25 19:55:01.342048099 +0100
-+@@ -0,0 +1,39 @@
-++#include <config.h>
-++
-++#include <parted/parted.h>
-++#include <parted/crc32.h>
-++#include <parted/endian.h>
-++
-++PedGeometry*
-++ontrackdm6aux3_probe (PedGeometry* geom)
-++{
-++	PedSector length = geom->length;
-++
-++	/* ignore if sector size is not 512bytes for now  */
-++	if (geom->dev->sector_size != PED_SECTOR_SIZE_DEFAULT)
-++		return NULL;
-++
-++	return ped_geometry_new(geom->dev, geom->start, length);
-++}
-++
-++static PedFileSystemOps ontrackdm6aux3_ops = {
-++	probe:			ontrackdm6aux3_probe,
-++};
-++
-++static PedFileSystemType ontrackdm6aux3_type = {
-++	next:   NULL,
-++	ops:    &ontrackdm6aux3_ops,
-++	name:   "ontrackdm6aux3",
-++};
-++
-++void
-++ped_file_system_ontrack_init ()
-++{
-++	ped_file_system_type_register (&ontrackdm6aux3_type);
-++}
-++
-++void
-++ped_file_system_ontrack_done ()
-++{
-++	ped_file_system_type_unregister (&ontrackdm6aux3_type);
-++}
-+diff -Nburp parted-3.2.orig/libparted/labels/dos.c parted-3.2/libparted/labels/dos.c
-+--- parted-3.2.orig/libparted/labels/dos.c	2014-06-15 20:17:43.000000000 +0200
-++++ parted-3.2/libparted/labels/dos.c	2015-03-25 19:51:38.916543965 +0100
-+@@ -83,6 +83,7 @@ static const char MBR_BOOT_CODE[] = {
-+ #define PARTITION_COMPAQ_DIAG	0x12
-+ #define PARTITION_MSFT_RECOVERY	0x27
-+ #define PARTITION_LDM		0x42
-++#define PARTITION_ONTRACK_DM6_AUX3	0x53
-+ #define PARTITION_LINUX_SWAP	0x82
-+ #define PARTITION_LINUX		0x83
-+ #define PARTITION_IRST		0x84
-+@@ -1500,6 +1501,8 @@ msdos_partition_set_system (PedPartition
-+ 		dos_data->system = PARTITION_HFS;
-+ 	else if (!strcmp (fs_type->name, "sun-ufs"))
-+ 		dos_data->system = PARTITION_SUN_UFS;
-++	else if (!strcmp (fs_type->name, "ontrackdm6aux3"))
-++		dos_data->system = PARTITION_ONTRACK_DM6_AUX3;
-+ 	else if (is_linux_swap (fs_type->name))
-+ 		dos_data->system = PARTITION_LINUX_SWAP;
-+ 	else
-+diff -Nburp parted-3.2.orig/libparted/libparted.c parted-3.2/libparted/libparted.c
-+--- parted-3.2.orig/libparted/libparted.c	2014-06-15 20:17:43.000000000 +0200
-++++ parted-3.2/libparted/libparted.c	2015-03-25 19:51:38.912544030 +0100
-+@@ -110,6 +110,7 @@ extern void ped_file_system_fat_init (vo
-+ extern void ped_file_system_ext2_init (void);
-+ extern void ped_file_system_nilfs2_init (void);
-+ extern void ped_file_system_btrfs_init (void);
-++extern void ped_file_system_ontrack_init (void);
-+ 
-+ static void
-+ init_file_system_types ()
-+@@ -126,6 +127,7 @@ init_file_system_types ()
-+ 	ped_file_system_ext2_init ();
-+ 	ped_file_system_nilfs2_init ();
-+ 	ped_file_system_btrfs_init ();
-++	ped_file_system_ontrack_init ();
-+ }
-+ 
-+ extern void ped_disk_aix_done ();
-+@@ -177,6 +179,7 @@ _init()
-+ #endif
-+ }
-+ 
-++extern void ped_file_system_ontrack_done (void);
-+ extern void ped_file_system_nilfs2_done (void);
-+ extern void ped_file_system_ext2_done (void);
-+ extern void ped_file_system_fat_done (void);
-+@@ -193,6 +196,7 @@ extern void ped_file_system_btrfs_done (
-+ static void
-+ done_file_system_types ()
-+ {
-++	ped_file_system_ontrack_done ();
-+ 	ped_file_system_nilfs2_done ();
-+ 	ped_file_system_ext2_done ();
-+ 	ped_file_system_fat_done ();
-diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
-index ab30108bf23..2415d031bd6 100644
---- a/meta/recipes-extended/parted/parted_3.2.bb
-+++ b/meta/recipes-extended/parted/parted_3.2.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://syscalls.patch \
-            file://fix-doc-mandir.patch \
-            file://fix-compile-failure-while-dis.patch \
-+	   file://Add_ontrackdm6aux3.patch \
-            file://0001-Include-fcntl.h-in-platform_defs.h.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch \
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index e590b2fe3c0..02b267380f6 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -138,7 +138,8 @@ class KickStart():
+         part.add_argument('--fsoptions', dest='fsopts')
+         part.add_argument('--fstype', default='vfat',
+                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
+-                                   'squashfs', 'vfat', 'msdos', 'swap'))
++                                   'squashfs', 'vfat', 'msdos', 'swap',
++                                   'ontrackdm6aux3'))
+         part.add_argument('--mkfs-extraopts', default='')
+         part.add_argument('--label')
+         part.add_argument('--no-table', action='store_true')
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 1fa6b917e66..594481e6a94 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -528,6 +528,8 @@ class PartitionedImage():
+                 parted_fs_type = "fat16"
+                 if not part.system_id:
+                     part.system_id = '0x6' # FAT16
++            elif part.fstype == "ontrackdm6aux3":
++                parted_fs_type = "ontrackdm6aux3"
+             else:
+                 # Type for ext2/ext3/ext4/btrfs
+                 parted_fs_type = "ext2"
 -- 
 2.17.0
 
