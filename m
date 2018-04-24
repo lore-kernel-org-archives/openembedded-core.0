@@ -1,46 +1,18 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 15EA771C42
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 18:48:31 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id f1-v6so6348926qtj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 11:48:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=xcDy7PRfaVc0lPqKMdfQRp/9WUPy/Txdz4sVoxwibGo=;
-	b=bajdIsXfWZu6G01BMJFOyJady1kiHwXCm+qRdcdfB1YEWP/XTE7uMY9FBes7Um96zm
-	ILMk92xTVSQ6tbZxYa6ui+bYfLVt29LiBaK3ZjHWMyFVFybnYSxkSETUNsTogl4TqEGk
-	dblSGR7E+yMTxh6ifxnOQ8D3og4Bq4oAJ9z/3Yb3Ni3fDkTV7JtKzY+PsnbD2V64mFLq
-	71wMSXwOR7tx4y6UWXCxSt4/r6w1GyJ4Rs1ABMtdKLM0XouoNSsU03770ZJglatZbZ5g
-	RohPkuuRcq/aQUakB0/0nPUwqySyGKH099OjPe9cMzG18slq/KK7WbHB4ZCaW5CERUQZ
-	Om/w==
-X-Gm-Message-State: ALQs6tAXsjOyZLsS5WufQgQGf3rV6cYXoQqpVhoOLhYLg7rP5sGcTwqq
-	YbxK+hCgRtj39Y7xzdg4k2FUxQ==
-X-Google-Smtp-Source: AIpwx49Xd11UsTRrPEJqEU0slYbcANFCHqG8GlkFwWFF3aFvUxzny5t/vq6UQ14mZ8hqlblX4RYkhw==
-X-Received: by 2002:aed:3f17:: with SMTP id
-	p23-v6mr28793785qtf.57.1524595712173; 
-	Tue, 24 Apr 2018 11:48:32 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	s67sm12769961qki.58.2018.04.24.11.48.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 24 Apr 2018 11:48:31 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 24 Apr 2018 15:48:25 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Apr 2018 15:48:16 -0300
-Message-Id: <20180424184816.6763-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180424184816.6763-1-otavio@ossystems.com.br>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9274A6FFF7;
+	Tue, 24 Apr 2018 19:02:59 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 24 Apr 2018 19:03:01 -0000
+Message-ID: <20180424190301.4210.76889@do.openembedded.org>
 References: <20180424184816.6763-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] wic: add ontrack DM6 aux3 support
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180424184816.6763-1-otavio@ossystems.com.br>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInBhcnRlZDogYWRkIG9udHJhY2sgRE02IGF1eDMgcy4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Apr 2018 18:48:32 -0000
+X-List-Received-Date: Tue, 24 Apr 2018 19:02:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Add ontrack DM6 aux3 partition support to enable creating
-partitions required to boot i.MX MXS based platforms.
+== Series Details ==
 
-This has been removed by OE-Core:21af89a6 (wic: allow only supported
-fstypes). It was unnoticed as most users were still using the
-meta-freecale image generation class instead of wic but we are now
-in process of dropping the class and this is the remaining use-case.
+Series: "parted: add ontrack DM6 aux3 s..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11901/
+State : failure
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-
- scripts/lib/wic/ksparser.py              | 3 ++-
- scripts/lib/wic/plugins/imager/direct.py | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index e590b2fe3c0..02b267380f6 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -138,7 +138,8 @@ class KickStart():
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype', default='vfat',
-                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
--                                   'squashfs', 'vfat', 'msdos', 'swap'))
-+                                   'squashfs', 'vfat', 'msdos', 'swap',
-+                                   'ontrackdm6aux3'))
-         part.add_argument('--mkfs-extraopts', default='')
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 1fa6b917e66..594481e6a94 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -528,6 +528,8 @@ class PartitionedImage():
-                 parted_fs_type = "fat16"
-                 if not part.system_id:
-                     part.system_id = '0x6' # FAT16
-+            elif part.fstype == "ontrackdm6aux3":
-+                parted_fs_type = "ontrackdm6aux3"
-             else:
-                 # Type for ext2/ext3/ext4/btrfs
-                 parted_fs_type = "ext2"
--- 
-2.17.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
