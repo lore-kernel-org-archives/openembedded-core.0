@@ -1,23 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 244F260939
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E2A60939
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 06:41:52 +0000 (UTC)
+	Wed, 25 Apr 2018 06:41:53 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3P6fquo011052
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3P6fsLK021967
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 23:41:52 -0700 (PDT)
+	Tue, 24 Apr 2018 23:41:54 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 24 Apr 2018 23:41:52 -0700
+	14.3.361.1; Tue, 24 Apr 2018 23:41:53 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Apr 2018 14:12:56 +0800
-Message-ID: <cover.1524636386.git.kai.kang@windriver.com>
+Date: Wed, 25 Apr 2018 14:12:57 +0800
+Message-ID: <5a948fd5ae1dae9691db12da64783f702d7bb826.1524636386.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <cover.1524636386.git.kai.kang@windriver.com>
+References: <cover.1524636386.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] gstreamer1.0: 1.12.4 -> 1.14.0
+Subject: [PATCH 1/8] gstreamer1.0: 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,104 +37,33 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Upgrade gstreamer1.0 recipes from 1.12.4 to 1.14.0.
-Build test PASS on qemuppc, qemuarm, qemumips64 and qemux86-64 with multilib.
+Upgrade gstreamer1.0 from 1.12.4 to 1.14.0.
 
-Steps:
-1 Set LICENSE_FLAGS_WHITELIST for gstreamer1.0-libav, gstreamer1.0-omx and gstreamer1.0-plugins-ugly
-LICENSE_FLAGS_WHITELIST += " commercial"
-
-Set multilib for x86-64
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-
-2 Build core-image-sato and following packages successfully. 
-$ bitbake  core-image-sato 
-gstreamer1.0
-gstreamer1.0-libav
-gstreamer1.0-meta-base
-gstreamer1.0-omx
-gstreamer1.0-plugins-bad
-gstreamer1.0-plugins-base
-gstreamer1.0-plugins-good
-gstreamer1.0-plugins-ugly
-gstreamer1.0-python
-gstreamer1.0-rtsp-server
-gstreamer1.0-vaapi
-gst-validate
-
-The following changes since commit da3625c52e1ab8985fba4fc3d133edf92142f182:
-
-  build-appliance-image: Update to sumo head revision (2018-04-23 17:54:32 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib kangkai/gstreamer1.14
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/gstreamer1.14
-
-Kai Kang (8):
-  gstreamer1.0: 1.12.4 -> 1.14.0
-  gstreamer1.0-plugins-base: 1.12.4 -> 1.14.0
-  gstreamer1.0-plugins-bad: 1.12.4 -> 1.14.0
-  gstreamer1.0-plugins-ugly: 1.12.4 -> 1.14.0
-  gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
-  gstreamer1.0-libav: 1.12.4 -> 1.14.0
-  gst-validate: 1.12.4 -> 1.14.0
-  gstreamer1.0: upgrade other packages to 1.14.0
-
- .../gstreamer/gst-validate/out-of-tree-build.patch | 30 ++++++++++
- ...t-validate_1.12.4.bb => gst-validate_1.14.0.bb} |  8 ++-
- ...a.c-Fix-build-by-Including-libavcodec-hev.patch | 33 -----------
- .../remove-host-contamination.patch                | 22 ++++++++
- ...ibav_1.12.4.bb => gstreamer1.0-libav_1.14.0.bb} |  6 +-
- ....0-omx_1.12.4.bb => gstreamer1.0-omx_1.14.0.bb} |  4 +-
- .../gstreamer/gstreamer1.0-plugins-bad.inc         | 21 -------
- ...-don-t-hardcode-libtool-name-when-running.patch | 34 +-----------
- ...y-Use-ifdef-for-platform-specific-defines.patch | 37 -------------
- ...n-Use-the-generated-version-of-vkconfig.h.patch | 64 ----------------------
- ....12.4.bb => gstreamer1.0-plugins-bad_1.14.0.bb} |  9 +--
- .../gstreamer/gstreamer1.0-plugins-base.inc        | 13 ++++-
- ...-don-t-hardcode-libtool-name-when-running.patch | 32 ++++++-----
- ...-up-GstVideo-1.0.gir-from-local-build-dir.patch | 46 ++++++++++++++++
- ...gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch |  4 +-
- ...-prefix-calls-to-pkg-config-with-PKG_CONF.patch | 54 ++++++++++--------
- ...t-need_segment-after-sink-pad-received-GS.patch |  8 ++-
- .../0009-glimagesink-Downrank-to-marginal.patch    |  0
- .../link-with-libvchostif.patch                    | 16 ++++--
- ...make-gio_unix_2_0-dependency-configurable.patch |  4 +-
- ...12.4.bb => gstreamer1.0-plugins-base_1.14.0.bb} | 10 +++-
- .../gstreamer/gstreamer1.0-plugins-good.inc        | 15 ++++-
- ...12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 +-
- .../gstreamer/gstreamer1.0-plugins-ugly.inc        |  5 +-
- ...12.4.bb => gstreamer1.0-plugins-ugly_1.14.0.bb} |  4 +-
- ...hon_1.12.4.bb => gstreamer1.0-python_1.14.0.bb} |  4 +-
- ....12.4.bb => gstreamer1.0-rtsp-server_1.14.0.bb} |  4 +-
- ...aapi_1.12.4.bb => gstreamer1.0-vaapi_1.14.0.bb} |  5 +-
- ...treamer1.0_1.12.4.bb => gstreamer1.0_1.14.0.bb} |  4 +-
- 29 files changed, 229 insertions(+), 271 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-validate/out-of-tree-build.patch
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.12.4.bb => gst-validate_1.14.0.bb} (81%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/remove-host-contamination.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.12.4.bb => gstreamer1.0-libav_1.14.0.bb} (82%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.12.4.bb => gstreamer1.0-omx_1.14.0.bb} (69%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-vkdisplay-Use-ifdef-for-platform-specific-defines.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.12.4.bb => gstreamer1.0-plugins-bad_1.14.0.bb} (59%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-gl-pick-up-GstVideo-1.0.gir-from-local-build-dir.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad => gstreamer1.0-plugins-base}/0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch (87%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad => gstreamer1.0-plugins-base}/0009-glimagesink-Downrank-to-marginal.patch (100%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad => gstreamer1.0-plugins-base}/link-with-libvchostif.patch (85%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.12.4.bb => gstreamer1.0-plugins-base_1.14.0.bb} (64%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.12.4.bb => gstreamer1.0-plugins-ugly_1.14.0.bb} (76%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.12.4.bb => gstreamer1.0-python_1.14.0.bb} (57%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.12.4.bb => gstreamer1.0-rtsp-server_1.14.0.bb} (44%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.12.4.bb => gstreamer1.0-vaapi_1.14.0.bb} (43%)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../gstreamer/{gstreamer1.0_1.12.4.bb => gstreamer1.0_1.14.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.12.4.bb => gstreamer1.0_1.14.0.bb} (71%)
 
---
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+similarity index 71%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+index 01b2396513..f6c22347fa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+ "
+-SRC_URI[md5sum] = "9d268f2e891cce1ac0832f1cc467d4ea"
+-SRC_URI[sha256sum] = "5a8704aa4c2eeb04da192c4a9942f94f860ac1a585de90d9f914bac26a970674"
++SRC_URI[md5sum] = "63c7cbfb86aa28c4522e374dc5555b96"
++SRC_URI[sha256sum] = "fc361367f0d4b780a868a8833f9f30b9c9f4ac9faea4e6b251db8b4b0398466e"
+ 
+ S = "${WORKDIR}/gstreamer-${PV}"
+ 
+-- 
 2.14.1
 
 
