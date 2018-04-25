@@ -1,50 +1,44 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B5A71744BF;
-	Wed, 25 Apr 2018 14:30:32 +0000 (UTC)
-Received: by mail-lf0-f41.google.com with SMTP id m18-v6so8493721lfb.0;
-	Wed, 25 Apr 2018 07:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BWkHus4d0ldViRiXV1XPx5J3X3K18B5alJT+AnHYZXU=;
-	b=BzfAxsxozA5BV7k58PCip4wXWi06t85LgkNAVZcVXdg3A5zXcGxjxJ8p0o9vVpMt0C
-	qcPzbaYJ0Pp4zFlgZIiNJpVZ9HotNfO6uJoZt+EeTfMurBr43O3TKSpzy7eOW525HxFr
-	KbbQgOtRwcmGuGs87WM3p7+sQi6SCa0Z4oNOg0HvI1vOefmPu2g0U1+S8ogc3/n3gZb8
-	USHW9jhxldydJq61IIKfKmFvCiG7ukod2vOZ4icorVXB9d8SrOAa4TVQL8Jv065qNWm3
-	Rq4JFZgrqY39XRCPc1C09XF5NCscrKPnhA42G93Adja3BKeKUqKQ4Mjyz9ftzUX6GO/M
-	D6Vw==
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A72D744F9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2018 14:35:18 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id o16so15387716pfk.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2018 07:35:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BWkHus4d0ldViRiXV1XPx5J3X3K18B5alJT+AnHYZXU=;
-	b=J0cam1SvYp+Kr9AyZ72Vv3tR3wA7QbklyDg4gv6p5q+ueU0OZURSu1Gs2P7zKMvNB/
-	uxD2D8e7naYmtgVnY+sZMzbhfPjk8KJ/OOHIoBt6fq3G8uSpos8pyIKOnxRNM3gaOsE3
-	pXpV0RkhIvQdX64vQpe2Sg1+s+n7xNTJ0v39baLe3WA4+GdtV4xsTbfMt7UMzAvrQSom
-	JGdLAQkfhdJEqRafo7ufTD3J9bONizSqqsAlzDt2VaiPDxYp1INJjUQeNHF7aR8Z+/I2
-	TgVFc2m/6gq4yik/Od8ZU6Ki6WrwjJWMjL++1t4+E4WCbxDwH+hhsu3E1g8bg7LT+jcO
-	QGpg==
-X-Gm-Message-State: ALQs6tDkHCAYrl3H5gckxRwdrtio2FOoOfkTU8ywkd3N63DYE/Q+is8r
-	sW6+KOheJJJWAnSsAtOTte27sIUv9bvBw741q78=
-X-Google-Smtp-Source: AIpwx4/Cqhhv6IEE2p+caOxsjg3nWWLHJZfobP62BMySnnFom6vHe1fPka3+PerSU3p4SFgJlzPODSEtfxGWQwnrqrw=
-X-Received: by 10.46.148.75 with SMTP id o11mr19019178ljh.39.1524666633199;
-	Wed, 25 Apr 2018 07:30:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a19:c9:0:0:0:0:0 with HTTP;
-	Wed, 25 Apr 2018 07:30:32 -0700 (PDT)
-In-Reply-To: <CAJKOXPe0SWcHYxKjKUsiAT+YMJFsjWzroguaO8aQO69T=cTkgg@mail.gmail.com>
-References: <1524664054-21717-1-git-send-email-krzk@kernel.org>
-	<CAJKOXPe0SWcHYxKjKUsiAT+YMJFsjWzroguaO8aQO69T=cTkgg@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Wed, 25 Apr 2018 10:30:32 -0400
-Message-ID: <CAHUNapTZrzO+25mSCsqPYU35nJp0ZKtW+doPk_sJW3UQeUtq4w@mail.gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Poky Project <poky@yoctoproject.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-networking][rocko][PATCH 1/2] kernel_wireless_regdb: Add class for embedding regulatory data into the kernel
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=uzKEd5fju3UT9E4awdtWN+6cN2qtEx2vODoPeINp/pE=;
+	b=GcDsLZgQdOPsz1wLFyd3NIgdkVQnsNro0DJrwWKmb9Ye/x2IHIZZTEIT79pjcmlfzG
+	rf1TfzP/J4J0RlUVca5XO1Tc4qO68C3Ct+ml8KJzlfJ1tsjLZolz8gFzE7hCT+UWwjup
+	vDAcWVROu+9xxuj9zWeSUGk1P8B5qGl9Yy/mQOffERps3UbgxhPpZc/SzCEVxa0ZTPv0
+	M3frQva3olLf7ycmlWI9k9/1mKfEfI5Jv1nEIkr/bNPBT/WUiyIutMyoMhsNguH2xgw9
+	nL4xRa5B4bs4jaEzrwGvyIYk+qdfBCiVaP/F62wsD+Zg/SkLDIKlaxujSW8qYDzmLUTT
+	ROzQ==
+X-Gm-Message-State: ALQs6tApOrXWUzIuAabEonLvoIHP9vySvpVf+QIhdkEfjf7t0PQQC6bt
+	ACgla7OZ/0YdKvm0MbcWtBraX/4P
+X-Google-Smtp-Source: AIpwx4/XP4W+R6Nvlqk3w1Du4I1A8OSf+yHO04jJBXc1qeFwBXAh661l/3v13DkUuew2NsT2iiW0jQ==
+X-Received: by 2002:a17:902:aa90:: with SMTP id
+	d16-v6mr29408064plr.189.1524666919641; 
+	Wed, 25 Apr 2018 07:35:19 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	b3sm32551813pff.11.2018.04.25.07.35.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 25 Apr 2018 07:35:18 -0700 (PDT)
+Message-ID: <1524666914.1929.20.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Apr 2018 15:35:14 +0100
+In-Reply-To: <20180425141223.6392-1-git@andred.net>
+References: <20180425141223.6392-1-git@andred.net>
+X-Mailer: Evolution 3.26.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH][RFC] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,19 +51,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 14:30:33 -0000
-Content-Type: multipart/alternative; boundary="f4f5e80c590012a3c4056aad1d1f"
-
---f4f5e80c590012a3c4056aad1d1f
+X-List-Received-Date: Wed, 25 Apr 2018 14:35:19 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Please don't cross-post this to multiple repository lists. meta-networking
-only exists in meta-openembedded, therefore this patch only needs to be
-sent to openembedded-devel.
+I realise that this is basically working around the fact that -native
+recipes don't get any RDEPENDS treatment AFAICS, except that RDEPENDS ==
+DEPENDS, which is what I want to avoid, at least in certain cases...
 
---f4f5e80c590012a3c4056aad1d1f
-Content-Type: text/html; charset="UTF-8"
+I guess if computing proper RDEPENDS for -native recipes was easy, it would
+have been done already?
 
-<div dir="ltr"><div>Please don&#39;t cross-post this to multiple repository lists. meta-networking only exists in meta-openembedded, therefore this patch only needs to be sent to openembedded-devel.<br></div></div>
 
---f4f5e80c590012a3c4056aad1d1f--
+Cheers,
+Andre'
+
+
+On Wed, 2018-04-25 at 15:12 +0100, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
+> 
+> Currently, a dependency on any -native recipe will pull in
+> all dependencies of that -native recipe in the recipe
+> sysroot. This behaviour might not always be wanted, e.g.
+> when that -native recipe depends on build-tools that are
+> not relevant for the current recipe.
+> 
+> This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+> which will be evaluated for such recursive dependencies to
+> be excluded. The idea is similar to
+>    http://lists.openembedded.org/pipermail/openembedded-core/2018-January/
+> 146324.html
+> except that the list is not hard-coded anymore.
+> 
+> SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+> expressions of recipe and dependency to ignore, e.g. in
+> the above flex-native / bison-native use-case, one would
+> specify
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
+> 
+> in layer.conf.
+> 
+> The existing special handling of "-initial" as well as
+> "base-passwd" and "shadow-sysroot" could also be
+> streamlined:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         .*->.*-initial.* \
+>         .*(base-passwd|shadow-sysroot)->.* \
+>     "
+> 
+> Another anticipated user is meta-java, where certain newer
+> JDKs can only be bootstrapped (built) using older JDKs,
+> but it doesn't make much sense to copy all those older
+> JDKs and their own build tools (ant, etc.) into the
+> sysroot of recipes wanting to be built using the newer JDK
+> (only), e.g.:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         openjdk-8-native->(ant-native|attr-native|coreutils-
+> native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-
+> native|unzip-native) \
+>     "
+> 
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
+> ---
+>  meta/classes/sstate.bbclass | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 68089421f5..62e784e497 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -901,6 +901,7 @@ def setscene_depvalid(task, taskdependees, notneeded,
+> d, log=None):
+>      # task is included in taskdependees too
+>      # Return - False - We need this dependency
+>      #        - True - We can skip this dependency
+> +    import re
+>  
+>      def logit(msg, log):
+>          if log is not None:
+> @@ -961,6 +962,18 @@ def setscene_depvalid(task, taskdependees, notneeded,
+> d, log=None):
+>              # Nothing need depend on libc-initial/gcc-cross-initial
+>              if "-initial" in taskdependees[task][0]:
+>                  continue
+> +            # Allow excluding certain recursive dependencies. If a recipe
+> needs it should add a
+> +            # specific dependency itself, rather than relying on one of
+> its dependees to pull
+> +            # them in.
+> +            # See also http://lists.openembedded.org/pipermail/openembedd
+> ed-core/2018-January/146324.html
+> +            not_needed = False
+> +            for excl in (d.getVar('SSTATE_EXCLUDEDEPS_SYSROOT') or
+> "").split():
+> +                if re.match(excl.split('->', 1)[0],
+> taskdependees[dep][0]):
+> +                    if re.match(excl.split('->', 1)[1],
+> taskdependees[task][0]):
+> +                        not_needed = True
+> +                        break
+> +            if not_needed:
+> +                continue
+>              # For meta-extsdk-toolchain we want all sysroot dependencies
+>              if taskdependees[dep][0] == 'meta-extsdk-toolchain':
+>                  return False
+
