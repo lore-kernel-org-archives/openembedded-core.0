@@ -1,56 +1,26 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B350606D0
+Return-Path: <k.carli@overkiz.com>
+X-Greylist: delayed 470 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 25 Apr 2018 13:39:19 UTC
+Received: from mail2.overkiz.com (mail2.overkiz.com [80.245.18.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C40E460234
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 13:05:33 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id m134-v6so19858078itb.3
+	Wed, 25 Apr 2018 13:39:19 +0000 (UTC)
+Received: from web-bm.overkiz.com (web-bm.overkiz.com [213.186.35.215])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail2.overkiz.com (Postfix) with ESMTPS id 611DB208C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 06:05:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=X760Edm1nCpsqtEuRxVte+hthYSLArXg/PhBLMmvx38=;
-	b=YNgCjBBlVgBEXM5nxEphjqvNsN5yfL0Sit4nTkR4x8enK2fHii+TFlL2VbYEu5GKBu
-	zbzymRsCYMVNAibsDzT6vLYyZBy7k4ZIMumHZG8kcE4/T9nTE58el7ONB4FCfeJcqQ2d
-	Pj/Lq8gUi1rg6OfADg/1DEKpKCDQ64uE+W1jZLoGigZX5at3wLiomGgpF26qnuusQspv
-	2qLKrAt6H2xQAwm9kEMukGTHwdpt8WYm0RD0HQDHGBq/NTqSYFDp74Z4t86cNxWM3syz
-	/SflbzCVD9RrXt8qIXT0dB1faDStPb7m/dYzlQgnqFjxqseWicfiwGujzYpKpCw5a1CC
-	Q4NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=X760Edm1nCpsqtEuRxVte+hthYSLArXg/PhBLMmvx38=;
-	b=CUQKbphq2tiX/YoQGiFwlwEaOAjP6ek/Nfdecmfd3zIrNmi27wEjL4kXV7aNovkw3p
-	4N7b+bwUZnbIL138ABWgp4j/jVXyb8eT7sLPjIDevY8+Sx9i4v0xClraDOV/5Xi9hdgv
-	kd/U/MVqstTb7YnPEVZE7s/5jV8Mvy2lWbBaeIBB5LcwbzJJ1A/x30PCyx3UOdFUWnCh
-	6eVjEYWOb8ZoeQ3MEr93FlmjdqVJtlvlEZhXRYjwCkviB60hgSdRbDR3uAXsRaTiNqhx
-	E8bP+KaX9octzA3wAZ8YOzC1VMbhErQDpPBzwuAQ6FSmwymQYSAgPnKGLlgKX2CVzX1z
-	O8aQ==
-X-Gm-Message-State: ALQs6tADvG2wmDwwP7syHm8k5m47hobcQxHBf7GjZhN1v2P9XrcMKJL4
-	LKj87fUJL/hzsIWA343Q2iI=
-X-Google-Smtp-Source: AIpwx4+f+7GCCMqyz3heQUg+w10J+btdRwlPMhdWmf8xeX4Y8ke76FF/8jTXbfzNIjkgmKuNoFdhfg==
-X-Received: by 2002:a24:d011:: with SMTP id
-	m17-v6mr22613277itg.147.1524661534709; 
-	Wed, 25 Apr 2018 06:05:34 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	f124-v6sm7938450ioa.8.2018.04.25.06.05.33
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 25 Apr 2018 06:05:34 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1524661533.31562.2.camel@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>, OE-core
-	<openembedded-core@lists.openembedded.org>, Yocto-mailing-list
-	<yocto@yoctoproject.org>
-Date: Wed, 25 Apr 2018 08:05:33 -0500
-In-Reply-To: <CAJTo0LbOsiLq=0Zz=4fPE-A7Q7Ez_XVgqm8CBkSeAu6Bz=myLg@mail.gmail.com>
-References: <CAJTo0LbOsiLq=0Zz=4fPE-A7Q7Ez_XVgqm8CBkSeAu6Bz=myLg@mail.gmail.com>
-X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
-Mime-Version: 1.0
-Subject: Re: GCC 8 hosts
+	Wed, 25 Apr 2018 15:31:45 +0200 (CEST)
+Received: from localhost.localdomain (unknown [80.245.18.66])
+	(Authenticated sender: k.carli@overkiz.com)
+	by web-bm.overkiz.com (Postfix) with ESMTPSA id B2BCA90005B;
+	Wed, 25 Apr 2018 15:32:14 +0200 (CEST)
+From: Kevin Carli <k.carli@overkiz.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Apr 2018 15:31:42 +0200
+Message-Id: <20180425133142.10940-1-k.carli@overkiz.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] tzdata: fix a typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,30 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 13:05:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Apr 2018 13:39:20 -0000
 
-On Wed, 2018-04-25 at 13:11 +0100, Burton, Ross wrote:
-> Hi,
-> 
-> Just thought I'd say that GCC 8 is going to start appearing in the
-> wild, I believe the first distro to ship with it will be Fedora 28.
-> As usual there are changes in behaviour so there are several
-> problems.
-> So far I've identified the following issues:
-> 
-> * Python 2 crashes on startup
-> * Kernel tools fail to build
-> * grub fails to build
-> * ovmf fails to build
-> 
-> I've patches locally for all but the ovmf failure (which is a pain
-> because the source uses CRLF) so if anyone switches to a GCC 8 host
-> before they're merged and wants to help, you know where to find me.
+Change-Id: I57f17f13aba2a2d26b9f6b72214563a86725def9
+Signed-off-by: Kevin Carli <k.carli@overkiz.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2018c.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do you have a branch with the patches somewhere so we can try them out?
+diff --git a/meta/recipes-extended/tzdata/tzdata_2018c.bb b/meta/recipes-extended/tzdata/tzdata_2018c.bb
+index c4014245ed..d4fee852df 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2018c.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2018c.bb
+@@ -171,7 +171,7 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/Asia/Dubai           \
+                 ${datadir}/zoneinfo/Asia/Karachi         \
+                 ${datadir}/zoneinfo/Asia/Dhaka           \
+-                ${datadir}/zoneinfo/Asia/Bankok          \
++                ${datadir}/zoneinfo/Asia/Bangkok         \
+                 ${datadir}/zoneinfo/Asia/Hong_Kong       \
+                 ${datadir}/zoneinfo/Asia/Tokyo           \
+                 ${datadir}/zoneinfo/Australia/Darwin     \
+-- 
+2.14.3
 
-> 
-> Ross
 
