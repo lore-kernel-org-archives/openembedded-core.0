@@ -1,47 +1,50 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4908472ECD
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D9207320B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 14:06:51 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id b21so7093266wme.4
+	Wed, 25 Apr 2018 14:06:54 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id f6so7421152wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 07:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=4thI8sRNZV/NjS6XqcmASRZ+FH6eBkyNQdrNWwcfbQU=;
-	b=M28tekBbw4YgDrb0LYTDfUF4XvN3F9w6yr0VBInCizs13TYPVHxDtLcV0GJ2lhtH+w
-	pgr1ovtaAEcu1JSQQkhl77h09Gkp86fzACqjluqFTCNAdcSL6Rz9pPGTJIz3a0Gvr0jt
-	uMFuT98nZ0ilHfRkfFTeKhLzerrTAP6MFpelKcrIHimPUp+JanozAS8C9vHbc2Dy88xS
-	JuasTPwosucO/cyaaqeOyP3LzFxRFkyhWWgcTPIWszGKMzqgxHD5jW6uWS0QDGpXmrHV
-	y8pu33YS9b/F4aIi5vOYhYzqKE21EB8yUyafLAYaeacVHA9luCtXbUwwEYm9ZqwHClQZ
-	KWVw==
+	Wed, 25 Apr 2018 07:06:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=SWCRF9NFj0Jew7mdn6kzw1P0QG1OmLDZbdKISEbqWeE=;
+	b=k3FGcP4M1LPk59Q8y6tk5LXvAiZAnGTBuRFoqs9Fd5efffazdMLDiluT/peq/DSwB5
+	H2UTiZgcdv30X7m6HNUPYZXDFdFhHa+dxXrVaJv5NjX+ARvlW2uZyogC1dcSvY4nekBz
+	915jj0jZ9M2AF51x/ZwOEYybgKfvv0mh2pHTwPYCsJEKmSYIkpGK4xps9uyOkgbwpZNr
+	Lev2GyfXCDHL5l9BB5nT6EwXHiqIpU6jtyQoPNMLKvYEZFPLxEu3TokI0vWFJH3tvQrd
+	GZwZPc72opnBOfWWwbwrw6+T3ZIaqu/9oTNjqlcPGqK1vxuNp9MtlHLMxDfO6fWux4Zp
+	q+2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4thI8sRNZV/NjS6XqcmASRZ+FH6eBkyNQdrNWwcfbQU=;
-	b=aUg3vc9SDf5SLDce3HsDTaR4K3dayvKyciVKw3r1y8XiGJARHeN4uZaO8F1n+1j+5k
-	JVutlmXVSDTJbDvePtDGwijB3esY5lGJJ0Xtap6A9lN2oK5d9JggbWbC7upeTrXRZ/fz
-	rBVYHQJY+2F5h2yX9POHSM2Xu281Zufg5+gFzQN9SaQPHRrK3DMGM18vchkcRk7Fk2sz
-	YtsBT2WhSqNnPCDo+3i8PPWpzmwAZ93q3Of44aGqj3GmCCwLI2QCl51baR1KXI+C5fkp
-	nBrVRktSq1mTQlNpqFPALCqMAsDkJpFEWzQ5yIJ4Q+6vvEpJcbDz8RVSqM16FcWbjFb2
-	kJ5A==
-X-Gm-Message-State: ALQs6tCOAowTBKIefjrkzklC8M3VGF4TLaGZ96JrhRS0WA5XyaSWDPii
-	E7/E5T+SzEWsC4I0nKsEpDc=
-X-Google-Smtp-Source: AIpwx4/+3BHBJm+NkLzlI5cGjL3JzacYBstVB246S9Ah6V+E+tzD3kQ9gMIfQL4tkmzcgkq5YRnCUA==
-X-Received: by 10.28.23.148 with SMTP id 142mr2329192wmx.0.1524665212811;
-	Wed, 25 Apr 2018 07:06:52 -0700 (PDT)
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=SWCRF9NFj0Jew7mdn6kzw1P0QG1OmLDZbdKISEbqWeE=;
+	b=oLDSU4S8UIwtfNBxm/KvvbKvMM9fRuPvypQqOeW2i0IRCEnALCubXi/nSXJ6O4b32F
+	mRPczadKCtMed05ZwE8hCQgFR1YRFQpHzmDbz4UX8nAO9F6N3Cg1vZwgVU+St37vTpwG
+	Jz9Dc30AXxcg3WI/s1vGnHuOF0u5m2DtNgX9zZbjOy2y2Sfr0DcpS40WMBACSrrOJJjP
+	wTS0raDBi7gaIZYC7U3vqJnc2ORFewurNwwwFHacdWK/0APeInq9jR4OH1xTZaS6H11F
+	yHXon5Dsu0d6Y++cdEbrfypLELIN+0G0BWq6C1Yc0GUMY4woSDq7ZTuWx4kLuC9oUU6o
+	s3mA==
+X-Gm-Message-State: ALQs6tCQaJ4el5T7acwgLC3u4aTbCtuPBXkMRLTVq6wGhPZa2KjIUuPs
+	LeVu2StMgRvPE4QFB+mYlxzDPA==
+X-Google-Smtp-Source: AIpwx48eLkVyBbqpPnhfj5v6zn49Ob5aQ1QLDLyyeV4IxWg/XBuJcLNgR2XxAzz9avVcFrTUjlr+kA==
+X-Received: by 10.28.48.14 with SMTP id w14mr15983168wmw.21.1524665214934;
+	Wed, 25 Apr 2018 07:06:54 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	32-v6sm14983909wrf.79.2018.04.25.07.06.51
+	y68-v6sm23464289wrb.91.2018.04.25.07.06.54
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 25 Apr 2018 07:06:51 -0700 (PDT)
+	Wed, 25 Apr 2018 07:06:54 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Armin Kuster <akuster808@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Wed, 25 Apr 2018 14:06:45 +0000
-Message-Id: <cover.1524665112.git.Martin.Jansa@gmail.com>
+Date: Wed, 25 Apr 2018 14:06:46 +0000
+Message-Id: <c14210d1777eeacab83c07cf7353426b465bbf2f.1524665112.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [morty][PATCH 0/3] Backports for morty
+In-Reply-To: <cover.1524665112.git.Martin.Jansa@gmail.com>
+References: <cover.1524665112.git.Martin.Jansa@gmail.com>
+Subject: [morty][PATCH 1/3] sstate-sysroot-cruft.sh: Extend the whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,28 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 14:06:52 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 14:06:54 -0000
 
-The following changes since commit 7b7cbba0bb93893029118e5798ec5831838a5bd9:
+* add more php5 entries
 
-  sanity.bbclass: Improved error message (2018-04-05 15:22:59 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib jansa/morty-backports
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/morty-backports
-
-Martin Jansa (3):
-  sstate-sysroot-cruft.sh: Extend the whitelist
-  sstate-diff-machines.sh: Replace MACHINE_ARCH only at the beginning
-    and separated with dash
-  test-dependencies.sh: remove /sysroots* between component builds
-
- scripts/sstate-diff-machines.sh | 2 +-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
  scripts/sstate-sysroot-cruft.sh | 2 ++
- scripts/test-dependencies.sh    | 4 ++--
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
+index b6166aa1b2..d9917f5152 100755
+--- a/scripts/sstate-sysroot-cruft.sh
++++ b/scripts/sstate-sysroot-cruft.sh
+@@ -105,7 +105,9 @@ WHITELIST="${WHITELIST} \
+ 
+ # generated by php
+ WHITELIST="${WHITELIST} \
++  .*/usr/lib/php5/php/.channels \
+   .*/usr/lib/php5/php/.channels/.* \
++  .*/usr/lib/php5/php/.registry \
+   .*/usr/lib/php5/php/.registry/.* \
+   .*/usr/lib/php5/php/.depdb \
+   .*/usr/lib/php5/php/.depdblock \
 -- 
 2.17.0
 
