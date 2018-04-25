@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5058F71C54;
-	Wed, 25 Apr 2018 14:45:08 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF3671C54;
+	Wed, 25 Apr 2018 14:45:09 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 25 Apr 2018 14:45:09 -0000
-Message-ID: <20180425144509.4207.57815@do.openembedded.org>
-References: <cover.1524665115.git.Martin.Jansa@gmail.com>
+Date: Wed, 25 Apr 2018 14:45:11 -0000
+Message-ID: <20180425144511.4207.33253@do.openembedded.org>
+References: <cover.1524665112.git.Martin.Jansa@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1524665115.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1524665112.git.Martin.Jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQmFja3BvcnRzIGZvciBweXJvIChyZXY0KQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQmFja3BvcnRzIGZvciBtb3J0eSAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 14:45:08 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 14:45:09 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Backports for pyro (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/8739/
+Series: Backports for morty (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/8870/
 State : failure
 
 == Summary ==
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [pyro, 2/3] sstate-diff-machines.sh: Replace MACHINE_ARCH only at the beginning and separated with dash
+* Patch            [morty, 2/3] sstate-diff-machines.sh: Replace MACHINE_ARCH only at the beginning and separated with dash
  Issue             Commit shortlog is too long [test_shortlog_length] 
   Suggested fix    Edit shortlog so that it is 90 characters or less (currently 91 characters)
 
