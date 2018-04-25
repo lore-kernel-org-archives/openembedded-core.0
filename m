@@ -1,46 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 468496003C
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B350606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 12:11:27 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id o20-v6so19656131itc.1
+	Wed, 25 Apr 2018 13:05:33 +0000 (UTC)
+Received: by mail-it0-f65.google.com with SMTP id m134-v6so19858078itb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 05:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=MY10kbmv84KPtwTbeZumXEzW00QAbvOP5sNgfqaxugA=;
-	b=0tsG0q5d9ijxmMdba1k+qUWJKKf8yr6TvHzGWEPrVBLfU1JCHKrpW/wRbhpgl6nmzV
-	1EKAT8HDsLRAU3oHVd0XUC0t/uzePYppKIIeScF8L8C97ezP9yFjDqmsyEOX+1QRd5jL
-	nu/QdiZ1mj4h7lN8Luoilr7hF+7sATNaq3YelP9Ua9RA6rS9vTieArzfMIORYXe1Qj5e
-	Nl1suL1Je5dC87bml2x2kIFiMC2P8GpOsVUUEIQkUTJPESG0D3u0TQfJlbH997M6YkuP
-	KsGRmIOZTf3bpZf88GY+NA8joOhoH0CieqNGrn44MAAk98bjKxQx2zxLQnu6NNriqVk2
-	PSiA==
+	Wed, 25 Apr 2018 06:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=X760Edm1nCpsqtEuRxVte+hthYSLArXg/PhBLMmvx38=;
+	b=YNgCjBBlVgBEXM5nxEphjqvNsN5yfL0Sit4nTkR4x8enK2fHii+TFlL2VbYEu5GKBu
+	zbzymRsCYMVNAibsDzT6vLYyZBy7k4ZIMumHZG8kcE4/T9nTE58el7ONB4FCfeJcqQ2d
+	Pj/Lq8gUi1rg6OfADg/1DEKpKCDQ64uE+W1jZLoGigZX5at3wLiomGgpF26qnuusQspv
+	2qLKrAt6H2xQAwm9kEMukGTHwdpt8WYm0RD0HQDHGBq/NTqSYFDp74Z4t86cNxWM3syz
+	/SflbzCVD9RrXt8qIXT0dB1faDStPb7m/dYzlQgnqFjxqseWicfiwGujzYpKpCw5a1CC
+	Q4NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=MY10kbmv84KPtwTbeZumXEzW00QAbvOP5sNgfqaxugA=;
-	b=axr6ugNcc1wLwGj/GJr9ThsD9hOKIYMQp/XXkLcxYFdgY7+p4K9Ijp7+W6TtVTbwRu
-	jYZ23va5rIckotkwfzx+0bB6anzvP/CrR8CrTbJZd32D/lEt/cqM72EmoWF7g8EWERPr
-	yEmIhAm4EGXR/KTqc6J1yY2FcR5c9AR3+rK8XeAVNOrb7ln+uXoUoS/ZbS4KUa6s5EFC
-	8ExZ+gCgjHQmqichkRB2q3ej/i9wM6hq5ig1YIphnPAFt866fHxZo1rz5NFM3HYkIvoh
-	rmYrvyLDpCyeSViQKjQBfEEt1QEfWHDo6WtSzYUEaqKxDjk0axXbg0aBl+oLg8lWZmXi
-	fuaQ==
-X-Gm-Message-State: ALQs6tBK68puWhW9aDKh6kPCmlGZheeSOuZQRpVqGhRivbCkrUfK1wMb
-	Wgl9nJn7irTn1/GaNmeyZXhXniiJLd9O8QiitLGSQA==
-X-Google-Smtp-Source: AB8JxZpiH5kIbHsWiz3Lulfui14VNzmP/m8wR3eZsaUanA4QERAJMYPPVskKaG7jNKj4M4k8au4NuPNrex7Q4i6hBmk=
-X-Received: by 2002:a24:9493:: with SMTP id
-	j141-v6mr5377778ite.60.1524658288755; 
-	Wed, 25 Apr 2018 05:11:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Wed, 25 Apr 2018 05:11:08 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Apr 2018 13:11:08 +0100
-Message-ID: <CAJTo0LbOsiLq=0Zz=4fPE-A7Q7Ez_XVgqm8CBkSeAu6Bz=myLg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@yoctoproject.org>
-Subject: GCC 8 hosts
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=X760Edm1nCpsqtEuRxVte+hthYSLArXg/PhBLMmvx38=;
+	b=CUQKbphq2tiX/YoQGiFwlwEaOAjP6ek/Nfdecmfd3zIrNmi27wEjL4kXV7aNovkw3p
+	4N7b+bwUZnbIL138ABWgp4j/jVXyb8eT7sLPjIDevY8+Sx9i4v0xClraDOV/5Xi9hdgv
+	kd/U/MVqstTb7YnPEVZE7s/5jV8Mvy2lWbBaeIBB5LcwbzJJ1A/x30PCyx3UOdFUWnCh
+	6eVjEYWOb8ZoeQ3MEr93FlmjdqVJtlvlEZhXRYjwCkviB60hgSdRbDR3uAXsRaTiNqhx
+	E8bP+KaX9octzA3wAZ8YOzC1VMbhErQDpPBzwuAQ6FSmwymQYSAgPnKGLlgKX2CVzX1z
+	O8aQ==
+X-Gm-Message-State: ALQs6tADvG2wmDwwP7syHm8k5m47hobcQxHBf7GjZhN1v2P9XrcMKJL4
+	LKj87fUJL/hzsIWA343Q2iI=
+X-Google-Smtp-Source: AIpwx4+f+7GCCMqyz3heQUg+w10J+btdRwlPMhdWmf8xeX4Y8ke76FF/8jTXbfzNIjkgmKuNoFdhfg==
+X-Received: by 2002:a24:d011:: with SMTP id
+	m17-v6mr22613277itg.147.1524661534709; 
+	Wed, 25 Apr 2018 06:05:34 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	f124-v6sm7938450ioa.8.2018.04.25.06.05.33
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 25 Apr 2018 06:05:34 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1524661533.31562.2.camel@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>, OE-core
+	<openembedded-core@lists.openembedded.org>, Yocto-mailing-list
+	<yocto@yoctoproject.org>
+Date: Wed, 25 Apr 2018 08:05:33 -0500
+In-Reply-To: <CAJTo0LbOsiLq=0Zz=4fPE-A7Q7Ez_XVgqm8CBkSeAu6Bz=myLg@mail.gmail.com>
+References: <CAJTo0LbOsiLq=0Zz=4fPE-A7Q7Ez_XVgqm8CBkSeAu6Bz=myLg@mail.gmail.com>
+X-Mailer: Evolution 3.26.6 (3.26.6-1.fc27) 
+Mime-Version: 1.0
+Subject: Re: GCC 8 hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,24 +63,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 12:11:28 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 13:05:34 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 2018-04-25 at 13:11 +0100, Burton, Ross wrote:
+> Hi,
+> 
+> Just thought I'd say that GCC 8 is going to start appearing in the
+> wild, I believe the first distro to ship with it will be Fedora 28.
+> As usual there are changes in behaviour so there are several
+> problems.
+> So far I've identified the following issues:
+> 
+> * Python 2 crashes on startup
+> * Kernel tools fail to build
+> * grub fails to build
+> * ovmf fails to build
+> 
+> I've patches locally for all but the ovmf failure (which is a pain
+> because the source uses CRLF) so if anyone switches to a GCC 8 host
+> before they're merged and wants to help, you know where to find me.
 
-Just thought I'd say that GCC 8 is going to start appearing in the
-wild, I believe the first distro to ship with it will be Fedora 28.
-As usual there are changes in behaviour so there are several problems.
-So far I've identified the following issues:
+Do you have a branch with the patches somewhere so we can try them out?
 
-* Python 2 crashes on startup
-* Kernel tools fail to build
-* grub fails to build
-* ovmf fails to build
-
-I've patches locally for all but the ovmf failure (which is a pain
-because the source uses CRLF) so if anyone switches to a GCC 8 host
-before they're merged and wants to help, you know where to find me.
-
-Ross
+> 
+> Ross
 
