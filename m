@@ -1,25 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CBEB672EA2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E798171DD2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 07:52:14 +0000 (UTC)
+	Wed, 25 Apr 2018 07:52:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3P7qGiF021633
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w3P7qHu0022962
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 00:52:16 -0700 (PDT)
+	Wed, 25 Apr 2018 00:52:17 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 25 Apr 2018 00:52:15 -0700
+	14.3.361.1; Wed, 25 Apr 2018 00:52:16 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Apr 2018 15:23:20 +0800
-Message-ID: <98a1ee742eccb2c400e3e5092af0f56a42d999c8.1524640773.git.kai.kang@windriver.com>
+Date: Wed, 25 Apr 2018 15:23:21 +0800
+Message-ID: <47c479f97f5141b022f0e8f55015116a3af39b29.1524640773.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1524640773.git.kai.kang@windriver.com>
 References: <cover.1524640773.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 4/8] gstreamer1.0-plugins-ugly: 1.12.4 -> 1.14.0
+Subject: [PATCH v2 5/8] gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +32,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 07:52:15 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 07:52:16 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Upgrade gstreamer1.0-plugins-ugly from 1.12.4 to 1.14.0.
+Upgrade gstreamer1.0-plugins-good from 1.12.4 to 1.14.0.
 
-* move packageconfigs 'lame', 'mpg123' and configure options
-  '--disable-twolame' to -good that plugins have been moved to -good
+* add packageconfig 'gtk' and configure option '--disable-qt' from -bad
+* add packageconfig 'lame', 'mpg123' and configure option
+  '--disable-twolame' from -ugly
+* remove configure option '--disable-sunaudio' since plugin sunaudio has
+  been removed
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc      | 5 +----
- ....0-plugins-ugly_1.12.4.bb => gstreamer1.0-plugins-ugly_1.14.0.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.12.4.bb => gstreamer1.0-plugins-ugly_1.14.0.bb} (76%)
+ .../gstreamer/gstreamer1.0-plugins-good.inc               | 15 +++++++++++++--
+ ...good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 ++--
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-index 60aa968c95..31f02df3c1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
-@@ -9,7 +9,7 @@ inherit gettext
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+index 14c3d61848..ed14ed56c2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+@@ -6,10 +6,12 @@ DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
  
+ inherit gettext
+ 
++# gtk is not in the PACKAGECONFIG variable by default until
++# the transition to gtk+3 is finished
  PACKAGECONFIG ??= " \
      ${GSTREAMER_ORC} \
--    a52dec lame mpg123 mpeg2dec \
-+    a52dec mpeg2dec \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+-    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
++    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
  "
  
- PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
-@@ -17,14 +17,11 @@ PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
- PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
- PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
- PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
--PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
- PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
--PACKAGECONFIG[mpg123]   = "--enable-mpg123,--disable-mpg123,mpg123"
- PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+@@ -18,11 +20,14 @@ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+ PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+ PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+ PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
++PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+ PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+ PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
++PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+ PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+ PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
++PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+ PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
+ PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+@@ -32,6 +37,11 @@ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+ PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+ PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
  
++# qt5 support is disabled, because it is not present in OE core, and requires more work than
++# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
++# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
++# in a gstreamer1.0-plugins-bad bbappend).
++
  EXTRA_OECONF += " \
-     --disable-sidplay \
--    --disable-twolame \
+     --enable-bz2 \
+     --enable-oss \
+@@ -44,8 +54,9 @@ EXTRA_OECONF += " \
+     --disable-oss4 \
+     --disable-osx_audio \
+     --disable-osx_video \
++    --disable-qt \
+     --disable-shout2 \
+-    --disable-sunaudio \
++    --disable-twolame \
+     --disable-waveform \
  "
  
- FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb
-similarity index 76%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb
-index f8333519e9..24904fdd1f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.12.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
+similarity index 85%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
+index a0609641d6..275e2b7f47 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
+@@ -11,8 +11,8 @@ SRC_URI = " \
+     file://ensure-valid-sentinel-for-gst_structure_get.patch \
      file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
  "
--SRC_URI[md5sum] = "e2b836fb2747f6ae3a1a6f33a9d8c952"
--SRC_URI[sha256sum] = "1c165b8d888ed350acd8e6ac9f6fe06508e6fcc0a3afc6ccc9fbeb30df9be522"
-+SRC_URI[md5sum] = "bcb1f8d9339176aee2b5da2a9cb2df88"
-+SRC_URI[sha256sum] = "3fb9ea5fc8a2de4b3eaec4128d71c6a2d81dd19befe1cd87cb833b98bcb542d1"
+-SRC_URI[md5sum] = "bdf4791a2b788ec6a149b81ff4032038"
+-SRC_URI[sha256sum] = "649f49bec60892d47ee6731b92266974c723554da1c6649f21296097715eb957"
++SRC_URI[md5sum] = "48584b02e469a314b0e71f1553a2d2a7"
++SRC_URI[sha256sum] = "6afa35747d528d3ab4ed8f5eac13f7235d7d28100d6a24dd78f81ec7c0d04688"
  
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
 -- 
 2.14.1
 
