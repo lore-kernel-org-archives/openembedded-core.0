@@ -1,26 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A464571BFC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A2C72EA5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 06:41:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3P6fxel029702
+	Wed, 25 Apr 2018 06:41:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3P6g1iF011069
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Apr 2018 23:42:00 -0700
+	Tue, 24 Apr 2018 23:42:01 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 24 Apr 2018 23:41:59 -0700
+	14.3.361.1; Tue, 24 Apr 2018 23:42:00 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Apr 2018 14:13:01 +0800
-Message-ID: <9a5d128df8888fb108a2bae2064466526ac052da.1524636386.git.kai.kang@windriver.com>
+Date: Wed, 25 Apr 2018 14:13:02 +0800
+Message-ID: <24572dfcbe233c6e5680cd200bea0261d88fd3e9.1524636386.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1524636386.git.kai.kang@windriver.com>
 References: <cover.1524636386.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
+Subject: [PATCH 6/8] gstreamer1.0-libav: 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +32,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 06:41:58 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 06:42:00 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Upgrade gstreamer1.0-plugins-good from 1.12.4 to 1.14.0.
+Upgrade gstreamer1.0-libav from 1.12.4 to 1.14.0.
 
-* add packageconfig 'gtk' and configure option '--disable-qt' from -bad
-* add packageconfig 'lame', 'mpg123' and configure option
-  '--disable-twolame' from -ugly
-* remove configure option '--disable-sunaudio' since plugin sunaudio has
-  been removed
+* remove 0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
+  which has been fixed by upstream
+* add patch to fix host contamination
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-good.inc               | 15 +++++++++++++--
- ...good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 ++--
- 2 files changed, 15 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
+ ...a.c-Fix-build-by-Including-libavcodec-hev.patch | 33 ----------------------
+ .../remove-host-contamination.patch                | 22 +++++++++++++++
+ ...ibav_1.12.4.bb => gstreamer1.0-libav_1.14.0.bb} |  6 ++--
+ 3 files changed, 25 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/remove-host-contamination.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.12.4.bb => gstreamer1.0-libav_1.14.0.bb} (82%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 14c3d61848..ed14ed56c2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -6,10 +6,12 @@ DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
- 
- inherit gettext
- 
-+# gtk is not in the PACKAGECONFIG variable by default until
-+# the transition to gtk+3 is finished
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
--    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
-+    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
- "
- 
- X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
-@@ -18,11 +20,14 @@ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
- PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
- PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
- PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
-+PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
- PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
- PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
-+PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
- PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
- PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
-+PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
- PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
- PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
- PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
-@@ -32,6 +37,11 @@ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
- PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
- PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
- 
-+# qt5 support is disabled, because it is not present in OE core, and requires more work than
-+# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
-+# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
-+# in a gstreamer1.0-plugins-bad bbappend).
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
+deleted file mode 100644
+index afbfc84db5..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From b5226c096a0b7049874858e94a59d43e10ba3fd2 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 21 Sep 2017 10:22:56 -0700
+-Subject: [PATCH] hevcpred_msa.c: Fix build by Including libavcodec/hevcdec.h
+-
+-src/libavcodec/mips/hevcpred_msa.c:1913:32: error: unknown type name 'HEVCContext'; did you mean 'HEVCPredContext'?
+- void ff_intra_pred_8_16x16_msa(HEVCContext *s, int x0, int y0, int c_idx)
+-                                ^~~~~~~~~~~
+-                                HEVCPredContext
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c b/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
+-index 6a3b281..963c64c 100644
+---- a/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
+-+++ b/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
+-@@ -18,7 +18,7 @@
+-  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-  */
+- 
+--#include "libavcodec/hevc.h"
+-+#include "libavcodec/hevcdec.h"
+- #include "libavutil/mips/generic_macros_msa.h"
+- #include "hevcpred_mips.h"
+- 
+--- 
+-2.14.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/remove-host-contamination.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/remove-host-contamination.patch
+new file mode 100644
+index 0000000000..a1f34f05b6
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/remove-host-contamination.patch
+@@ -0,0 +1,22 @@
++Upstream-Status: Inappropriate [cross build specific]
 +
- EXTRA_OECONF += " \
-     --enable-bz2 \
-     --enable-oss \
-@@ -44,8 +54,9 @@ EXTRA_OECONF += " \
-     --disable-oss4 \
-     --disable-osx_audio \
-     --disable-osx_video \
-+    --disable-qt \
-     --disable-shout2 \
--    --disable-sunaudio \
-+    --disable-twolame \
-     --disable-waveform \
- "
++Remove '-L$(libdir)' to avoid host contamination.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ gst-libs/ext/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst-libs/ext/Makefile.am b/gst-libs/ext/Makefile.am
++index 6cdc048..f45e71f 100644
++--- a/gst-libs/ext/Makefile.am
+++++ b/gst-libs/ext/Makefile.am
++@@ -49,7 +49,7 @@ echo "  GEN      $1.la" && \
++  echo "library_names=''" && \
++  echo "old_library='$1.a'" && \
++  echo "inherited_linker_flags=''" && \
++- echo "dependency_libs=' -L$(libdir) $(if $2,$(foreach dep,$2,$(abs_builddir)/$(dep).la)) $(call find_library_la,$3 $(LIBM),$(LDFLAGS)) '" && \
+++ echo "dependency_libs=' $(if $2,$(foreach dep,$2,$(abs_builddir)/$(dep).la)) $(call find_library_la,$3 $(LIBM),$(LDFLAGS)) '" && \
++  echo "weak_library_names=''" &&  \
++  echo "current=" && \
++  echo "age=" && \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.0.bb
+similarity index 82%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.0.bb
+index af547ba602..d501855abe 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.0.bb
+@@ -13,9 +13,9 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
+            file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+            file://mips64_cpu_detection.patch \
+            file://0001-configure-check-for-armv7ve-variant.patch \
+-           file://0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch \
++           file://remove-host-contamination.patch \
+            "
+-SRC_URI[md5sum] = "8a851bf2e475e90a3fdac9506e3e4dbd"
+-SRC_URI[sha256sum] = "2a56aa5d2d8cd912f2bce17f174713d2c417ca298f1f9c28ee66d4aa1e1d9e62"
++SRC_URI[md5sum] = "943045b9e937ffc5c6cfa0bd5c44230d"
++SRC_URI[sha256sum] = "fb134b4d3e054746ef8b922ff157b0c7903d1fdd910708a45add66954da7ef89"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-similarity index 85%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-index a0609641d6..275e2b7f47 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.12.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-@@ -11,8 +11,8 @@ SRC_URI = " \
-     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
- "
--SRC_URI[md5sum] = "bdf4791a2b788ec6a149b81ff4032038"
--SRC_URI[sha256sum] = "649f49bec60892d47ee6731b92266974c723554da1c6649f21296097715eb957"
-+SRC_URI[md5sum] = "48584b02e469a314b0e71f1553a2d2a7"
-+SRC_URI[sha256sum] = "6afa35747d528d3ab4ed8f5eac13f7235d7d28100d6a24dd78f81ec7c0d04688"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
+ S = "${WORKDIR}/gst-libav-${PV}"
 -- 
 2.14.1
 
