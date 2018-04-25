@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AC2560272;
-	Wed, 25 Apr 2018 14:10:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 946FA606D0;
+	Wed, 25 Apr 2018 14:10:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Kevin Carli <k.carli@overkiz.com>
-Date: Wed, 25 Apr 2018 14:10:46 -0000
-Message-ID: <20180425141046.4209.21559@do.openembedded.org>
-References: <20180425133142.10940-1-k.carli@overkiz.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Wed, 25 Apr 2018 14:10:48 -0000
+Message-ID: <20180425141048.4211.277@do.openembedded.org>
+References: <1524664054-21717-1-git-send-email-krzk@kernel.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20180425133142.10940-1-k.carli@overkiz.com>
+In-Reply-To: <1524664054-21717-1-git-send-email-krzk@kernel.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdHpkYXRhOiBmaXggYSB0eXBv?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW5ldHdvcmtpbmcscm9ja29dIGtlcm5lbC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 14:10:45 -0000
+X-List-Received-Date: Wed, 25 Apr 2018 14:10:46 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: tzdata: fix a typo
+Series: "[meta-networking,rocko] kernel..." and 1 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/11906/
+URL   : https://patchwork.openembedded.org/series/11907/
 State : failure
 
 == Summary ==
@@ -45,9 +45,13 @@ series by patchtest resulting in the following failures:
 
 
 
+* Patch            [meta-networking, rocko, 1/2] kernel_wireless_regdb: Add class for embedding regulatory data into the kernel
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-networking, rocko, 1/2) and send the patch to the indicated list
+
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 1b03cdf290)
+  Targeted branch  rocko (currently at 1b18cdf6b8)
 
 
 
