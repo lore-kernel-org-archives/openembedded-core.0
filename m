@@ -1,53 +1,58 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CC6B574500
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3110171A50
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 16:59:20 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id b131so18896562qkg.2
+	Wed, 25 Apr 2018 19:54:34 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id v5-v6so3719671wrf.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 09:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:organization
-	:content-transfer-encoding;
-	bh=Sto8lSjDfwZ2wdA+MGyiFh4J9vQAr0Vngad2KUY5hLw=;
-	b=gA9FX9fZzbfuSmYwxMxBZER6eeGcqduQbAKEgmBHqenm2WE3VXkqTMvKbM164lRYI6
-	JUwBZqoXUG+amFpB+35IdusMj1xb9gLEtAWDpGgJw6oSXah4VosVIOc0Ip0U5Afj8BwH
-	0IheFhsIVi/mfm0FpYty0dmX0bkEfgu/nGMdWqz2OVd9qemr0gg502ODlWeSCNna63mq
-	oNz2CvBJ74LRTt/xmmR1HQzkPBrgeQG5471Xbex1NMvPVgrmsN1eG/xV4287fPx7KdNn
-	vwOAFUOFS9CJoX9D8YAyFPo63ABv7mOgkPgLaxaUJmRYzo0+KmX/7w87tHoY0iL//Agz
-	9cqQ==
+	Wed, 25 Apr 2018 12:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=jr7S7b2lyuUV7Oz6VKv/IvG6pvHo4Nqb1X93Ogg/EFQ=;
+	b=FTdURORyaeUtectlsfMs9f1BjDbvjtppLAArc4IP5duZ20KcR4DwLt4y3gW+0kAjSH
+	dkHj5Otot/LuHsiWuNljrrZRTs6jxrzuCra1EV+TfeBKmOd0lGzWHBf7D8u7I6X0Nlxk
+	h7rIIsxL/gFDlywYyaZKVC6p3FCgwviBDokEztaiypOJTBh5pTyhPnGqlteg9KbR+3OJ
+	47m7id5KT67P5bK7/G3D1BcSX7el5bPw5nHXXpGk1vgbuFGMg9Q17kRjzz6WtsF1Uh1l
+	XVghDrMnyPHxGKuJy7yrePfhfsPoDs3xfxFbPNToWcE0vV8ZsGqU+IpDu5TBJxpiLSCN
+	gxew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=Sto8lSjDfwZ2wdA+MGyiFh4J9vQAr0Vngad2KUY5hLw=;
-	b=hGrQ4ejfXQpMtY+AIzwM3q82anFzVDYvCvjKD5BJ1Fc9QFszbzh7DDA2hj5QxWnnCO
-	tp/FoXMWlhW0q8qrSM7E96zCdpT1Xn/i+vw2WFpUVsWa3ftMeGVUCc02tBUExOYoJ3G2
-	pMHBrCIjSb23hqUcLNM4b0M3MwQr8PV0LJXXrRLv+4uQ05MuMrxOlzmXxkseU8EF7M3H
-	q87T6yg9vvWkEmQs+xp9gZqVMgmXN//E+zFscw1uBKFndKS8PSs70/eJgwyYKvmAlLbx
-	1ijsHh0nvY5tz0KSFdbZTGupPLP47jwG0LseGRaus1iK0Ei7Yqd4PVhhVZgVqs4JyWO3
-	TsqA==
-X-Gm-Message-State: ALQs6tDj4E9dJMbb3Tw6qScsoZwo7VviKSMAsGdCOLguUUoo1NkUTv0o
-	MWMHkX2yErP2ZUV/VJv7ojyS88Tc
-X-Google-Smtp-Source: AB8JxZr3++QCTkP7leFA4tOqGrSmm4rner4hj0tMH3FSkKthjPbzZAP8PbeSTpHXCAaMfhoBUJbcNw==
-X-Received: by 10.55.100.201 with SMTP id y192mr30034300qkb.293.1524675561107; 
-	Wed, 25 Apr 2018 09:59:21 -0700 (PDT)
-Received: from centrium.lab.ossystems ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	b12-v6sm16014041qtb.62.2018.04.25.09.59.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Apr 2018 09:59:20 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Apr 2018 13:59:03 -0300
-Message-Id: <20180425165903.29648-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.14.2
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=jr7S7b2lyuUV7Oz6VKv/IvG6pvHo4Nqb1X93Ogg/EFQ=;
+	b=GEnQEaCxubF6L5kkZ/unuFNOEZ9KPBB0dRt0VsVdgQ4ycMPSpWfSnkMYEMMwxhHheI
+	MXLMbRWoIL8VqTEiY2ZH5FbrtniCLuSWMBmaEEi0v9WuJKRe7K2AFfNPpCrELr5iIva9
+	VeOuqAm/ssKX5WglC2B9gIqdhvnq67KN6c+PNQZh8stsALDwutVNMUv8nXIrKNbd9MBW
+	qXUVbFsOpF4eO8mTOTTGDKIh/OfwKtgjsuhrgAttBFbfkR9JAWzOr6k82TK7nbbDIsCQ
+	DLJnsT+e2//tFqJzemWsRj+WP9p4W6i3A+Ls5G0LTkebR5A6tLmu+gPM9Iu9FCFsqzNE
+	CyOw==
+X-Gm-Message-State: ALQs6tBv9xnZz0BU9AlxQUQH0DuHNxJ3KdVRqRgyKzt8zHvURFBIXmsM
+	eLRTswUfAZuazbrXLHYPAvw=
+X-Google-Smtp-Source: AIpwx4+xGltkMedyJ2dSZMtytQBIP8fOKulIEZDaMkPNzjNr9JMG8L2Jvh2tDxmOJziOMDwet8jePQ==
+X-Received: by 2002:adf:91c6:: with SMTP id
+	64-v6mr25208988wri.136.1524686075696; 
+	Wed, 25 Apr 2018 12:54:35 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	w40-v6sm25952753wrc.69.2018.04.25.12.54.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 25 Apr 2018 12:54:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 25 Apr 2018 21:54:37 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180425195437.GA2244@jama>
+References: <1493752813-18913-1-git-send-email-mkelly@xevo.com>
+	<CAJTo0Lb+GDpEMbZP7tgVuMtpw1=38u486VXoQL1NFGnFpTD4Mw@mail.gmail.com>
+	<2607b2d4-c37f-5693-1002-db17f9e1024d@xevo.com>
+	<CAJTo0LavpmZCQPHSTrsuJwEZHLT2eAhKLQR8A7Fj3kX6BTC0wg@mail.gmail.com>
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] mesa: Upgrade 17.3.8 -> 18.0.1
+In-Reply-To: <CAJTo0LavpmZCQPHSTrsuJwEZHLT2eAhKLQR8A7Fj3kX6BTC0wg@mail.gmail.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: Joshua G Lock <joshua.g.lock@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH resend] qemuboot.conf: make cpus match built artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,107 +65,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 16:59:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 Apr 2018 19:54:35 -0000
+X-Groupsio-MsgNum: 110764
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
+Content-Disposition: inline
 
-This includes changes from Mesa 18.0.0 and 18.0.1 releases.
+--HcAYCG3uE/tztfnV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Mesa 18.0.0 is a new development release and 18.0.1 is a bug-fix release.
+On Thu, Jun 15, 2017 at 05:37:50PM +0100, Burton, Ross wrote:
+> On 15 June 2017 at 17:17, Martin Kelly <mkelly@xevo.com> wrote:
+>=20
+> > I am no expert, but running qemu -cpu help just says:
+> >
+> > kvm32 - "Common 32-bit KVM processor"
+> > kvm64 - "Common 64-bit KVM processor"
+> >
+> > My best guess is that, running on qemu without kvm, both cases will be
+> > slow (since it's all software emulation). But, using qemu -kvm, it shou=
+ld
+> > be fast as long as you run on a native CPU that is core2duo or better, =
+as
+> > the native instructions can just be exposed and passed through to the h=
+ost.
+> > Since core2duo is very old by now, it should be fast for virtually ever=
+yone
+> > building on x86.
+> >
+>=20
+> Right, I did some digging.  Assuming you have KVM enabled then in the
+> general case the -cpu option is irrelevant as the instructions are handled
+> natively.  -cpu just changes what CPUID flags the userspace sees, and so
+> this is the Right Thing To Do.
 
-You can find release notes here:
+Sorry for replying to such old thread, but today I've noticed interesting s=
+ide-effect of this change.
 
-  - https://mesa3d.org/relnotes/18.0.0.html
-  - https://mesa3d.org/relnotes/18.0.1.html
+Today I was checking why starting qtbase examples in qemu fails with
+message about missing ssse3 support which which qtbase as compiled.
 
-Remove patch 0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
-that was applied on upstream.
+The DEFAULT_TUNE in qemux86-64 is indeed set to core2-64 which supports
+ssse3, so qtbase is right to expect it in runtime.
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- ...i-Initialise-modifier-to-INVALID-for-DRI2.patch | 43 ----------------------
- .../mesa/{mesa-gl_17.3.8.bb => mesa-gl_18.0.1.bb}  |  0
- .../mesa/{mesa_17.3.8.bb => mesa_18.0.1.bb}        |  5 +--
- 3 files changed, 2 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_17.3.8.bb => mesa-gl_18.0.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.3.8.bb => mesa_18.0.1.bb} (81%)
+But then I was starting qemu manually (not with runqemu) with:
+qemu-system-x86_64 -M q35 -smp 4 -m 4G -net nic,model=3Dvirtio -net user,ho=
+stfwd=3Dtcp::2222-:22 -vga virtio -display sdl,gl=3Don -hda luneui-example-=
+image-qemux86-64-20180425152329-jama.rootfs.wic.vmdk -enable-kvm
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch b/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
-deleted file mode 100644
-index 6aba7859ee..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From 4cbecb61682a0ee426faaa03d824fc8fd7aef826 Mon Sep 17 00:00:00 2001
--From: Daniel Stone <daniels@collabora.com>
--Date: Mon, 2 Apr 2018 13:20:34 +0100
--Subject: [PATCH] st/dri: Initialise modifier to INVALID for DRI2
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--When allocating a buffer for DRI2, set the modifier to INVALID to inform
--the backend that we have no supplied modifiers and it should do its own
--thing. The missed initialisation forced linear, even if the
--implementation had made other decisions.
--
--This resulted in VC4 DRI2 clients failing with:
--  Modifier 0x0 vs. tiling (0x700000000000001) mismatch
--
--Signed-off-by: Daniel Stone <daniels@collabora.com>
--Reported-by: Andreas Müller <schnitzeltony@gmail.com>
--Reviewed-by: Eric Anholt <eric@anholt.net>
--Fixes: 3f8513172ff6 ("gallium/winsys/drm: introduce modifier field to winsys_handle")
--
--Upstream-Status: Backport [1]
--
--[1] https://cgit.freedesktop.org/mesa/mesa/commit/?id=4cbecb61682a0ee426faaa03d824fc8fd7aef826
-----
-- src/gallium/state_trackers/dri/dri2.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/gallium/state_trackers/dri/dri2.c b/src/gallium/state_trackers/dri/dri2.c
--index 31d17d46c2..58a6757f03 100644
----- a/src/gallium/state_trackers/dri/dri2.c
--+++ b/src/gallium/state_trackers/dri/dri2.c
--@@ -806,6 +806,7 @@ dri2_allocate_textures(struct dri_context *ctx,
--          whandle.handle = buf->name;
--          whandle.stride = buf->pitch;
--          whandle.offset = 0;
--+         whandle.modifier = DRM_FORMAT_MOD_INVALID;
--          if (screen->can_share_buffer)
--             whandle.type = DRM_API_HANDLE_TYPE_SHARED;
--          else
---- 
--2.14.3
--
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.8.bb b/meta/recipes-graphics/mesa/mesa-gl_18.0.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.3.8.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_18.0.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.3.8.bb b/meta/recipes-graphics/mesa/mesa_18.0.1.bb
-similarity index 81%
-rename from meta/recipes-graphics/mesa/mesa_17.3.8.bb
-rename to meta/recipes-graphics/mesa/mesa_18.0.1.bb
-index 2d3fd3ca38..6588dfcae0 100644
---- a/meta/recipes-graphics/mesa/mesa_17.3.8.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.0.1.bb
-@@ -8,11 +8,10 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://llvm-config-version.patch \
-            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
--           file://0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch \
-            "
- 
--SRC_URI[md5sum] = "203d1a79156ab6926f2d253b377e9d9d"
--SRC_URI[sha256sum] = "8f9d9bf281c48e4a8f5228816577263b4c655248dc7666e75034ab422951a6b1"
-+SRC_URI[md5sum] = "a240b17769ad5ff918507848590f9397"
-+SRC_URI[sha256sum] = "b2d2f5b5dbaab13e15cb0dcb5ec81887467f55ebc9625945b303a3647cd87954"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.14.2
+which defaults to using this kvm64 generic CPU which doesn't support ssse3
 
+Changing it to
+qemu-system-x86_64 -M q35 -cpu core2duo -smp 4 -m 4G -net nic,model=3Dvirti=
+o -net user,hostfwd=3Dtcp::2222-:22 -vga virtio -display sdl,gl=3Don -hda l=
+uneui-example-image-qemux86-64-20180425152329-jama.rootfs.wic.vmdk -enable-=
+kvm
 
+gets rid of the message from qtbase, because core2duo supports ssse3 and ma=
+tches with qemux86-64,
+but my host CPU (AMD Bulldozer FX(tm)-8120), doesn't support the same cpu f=
+lags like core2due and qemu shows following
+message when starting:
+qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
+01H:EDX.ss [bit 27]
+
+EDX.ss is Self Snoop feature which is enabled in core2duo and few other QEm=
+u emulated CPUs, so I was looking
+on some other cpu I can emulate which has ssse3 while having the same flags=
+ as my host's AMD cpu
+
+e.g. -cpu phenom is relatively close, but Bulldozer CPUs don't support 3dno=
+w, 3dnowext, so similar warning is shown.
+
+In the end I've switched to using -cpu Nehalem, which has ssse3, but doesn'=
+t enable CPUID_SS flag, now it starts without any warnings:
+qemu-system-x86_64 -M q35 -cpu Nehalem -smp 4 -m 4G -net nic,model=3Dvirtio=
+ -net user,hostfwd=3Dtcp::2222-:22 -vga virtio -display sdl,gl=3Don -hda lu=
+neui-example-image-qemux86-64-20180425152329-jama.rootfs.wic.vmdk -enable-k=
+vm
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--HcAYCG3uE/tztfnV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWuDc/QAKCRA3VSO3ZXaA
+HEnSAJ9lnBATFBIT8xyl4gdvSV/SqDZZVACeMy2xJHOcC0AFpOkbQa4wihzvka4=
+=Zn6x
+-----END PGP SIGNATURE-----
+
+--HcAYCG3uE/tztfnV--
