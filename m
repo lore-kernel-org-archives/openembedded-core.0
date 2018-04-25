@@ -1,18 +1,41 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 946FA606D0;
-	Wed, 25 Apr 2018 14:10:46 +0000 (UTC)
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A201260272
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2018 14:12:30 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id e12so13431132pgn.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Apr 2018 07:12:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xVYxbIuYn4Uu/4AacRWr//pgtB9w+NQ4fuJwSMmG/Us=;
+	b=Vl5aRxbCQjBu3VP8orNPTsDH3BIzNYl8mmcEuPlXlVvWb7wOQ6ohbEtrrHIVX4Svxs
+	ih5Ydt2Jjt7Xb83wyivtHC5PcNmPjaC8rzQpmh2QweBIWfwKXBveXbuA2sf5mKQ5T3s6
+	HsbTvG3r5f/gshqUr8akCAmuuKT2VCjnrmZBRX1wpjpl1s4JjwlLairVBCmvETuTxnF1
+	S4+raRX1vQS7JDhKA0Ec61rCX0NGdqpDSqFBSw+tB9xd1RP/SVu5P3nABYu28Nm1ACbQ
+	H4KrKj89vDhUpQKLhlxdDEaFgsRzwp73D6Wp0M57A+hDr5y0Rs99Rm/c1P8haS0wZsOv
+	EhfQ==
+X-Gm-Message-State: ALQs6tD9y4hNT6nxMWepe2ZWtGmZDHEAAewQlaTe6eKeI79qvncb7kjR
+	RwiOwgLm1atW/166n9t1vOB/qp1U
+X-Google-Smtp-Source: AIpwx4++X3ZLcJl+DnYYaWsXkeC/RIsTKzUvUrgCFCBlk5E5QY1Up1oiyYarv+LhRwTzMRh4TnSMiA==
+X-Received: by 2002:a17:902:4301:: with SMTP id
+	i1-v6mr21642541pld.280.1524665551426; 
+	Wed, 25 Apr 2018 07:12:31 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	e190sm32120700pfe.171.2018.04.25.07.12.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Apr 2018 07:12:30 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Apr 2018 15:12:23 +0100
+Message-Id: <20180425141223.6392-1-git@andred.net>
+X-Mailer: git-send-email 2.16.2
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Wed, 25 Apr 2018 14:10:48 -0000
-Message-ID: <20180425141048.4211.277@do.openembedded.org>
-References: <1524664054-21717-1-git-send-email-krzk@kernel.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1524664054-21717-1-git-send-email-krzk@kernel.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW5ldHdvcmtpbmcscm9ja29dIGtlcm5lbC4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: [PATCH][RFC] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +48,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Apr 2018 14:10:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Apr 2018 14:12:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+From: André Draszik <andre.draszik@jci.com>
 
-Series: "[meta-networking,rocko] kernel..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11907/
-State : failure
+Currently, a dependency on any -native recipe will pull in
+all dependencies of that -native recipe in the recipe
+sysroot. This behaviour might not always be wanted, e.g.
+when that -native recipe depends on build-tools that are
+not relevant for the current recipe.
 
-== Summary ==
+This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+which will be evaluated for such recursive dependencies to
+be excluded. The idea is similar to
+   http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
+except that the list is not hard-coded anymore.
 
+SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+expressions of recipe and dependency to ignore, e.g. in
+the above flex-native / bison-native use-case, one would
+specify
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+    SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
 
+in layer.conf.
 
+The existing special handling of "-initial" as well as
+"base-passwd" and "shadow-sysroot" could also be
+streamlined:
 
-* Patch            [meta-networking, rocko, 1/2] kernel_wireless_regdb: Add class for embedding regulatory data into the kernel
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-networking, rocko, 1/2) and send the patch to the indicated list
+    SSTATE_EXCLUDEDEPS_SYSROOT += "\
+        .*->.*-initial.* \
+        .*(base-passwd|shadow-sysroot)->.* \
+    "
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  rocko (currently at 1b18cdf6b8)
+Another anticipated user is meta-java, where certain newer
+JDKs can only be bootstrapped (built) using older JDKs,
+but it doesn't make much sense to copy all those older
+JDKs and their own build tools (ant, etc.) into the
+sysroot of recipes wanting to be built using the newer JDK
+(only), e.g.:
 
+    SSTATE_EXCLUDEDEPS_SYSROOT += "\
+        openjdk-8-native->(ant-native|attr-native|coreutils-native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-native|unzip-native) \
+    "
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/sstate.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 68089421f5..62e784e497 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -901,6 +901,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+     # task is included in taskdependees too
+     # Return - False - We need this dependency
+     #        - True - We can skip this dependency
++    import re
+ 
+     def logit(msg, log):
+         if log is not None:
+@@ -961,6 +962,18 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+             # Nothing need depend on libc-initial/gcc-cross-initial
+             if "-initial" in taskdependees[task][0]:
+                 continue
++            # Allow excluding certain recursive dependencies. If a recipe needs it should add a
++            # specific dependency itself, rather than relying on one of its dependees to pull
++            # them in.
++            # See also http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
++            not_needed = False
++            for excl in (d.getVar('SSTATE_EXCLUDEDEPS_SYSROOT') or "").split():
++                if re.match(excl.split('->', 1)[0], taskdependees[dep][0]):
++                    if re.match(excl.split('->', 1)[1], taskdependees[task][0]):
++                        not_needed = True
++                        break
++            if not_needed:
++                continue
+             # For meta-extsdk-toolchain we want all sysroot dependencies
+             if taskdependees[dep][0] == 'meta-extsdk-toolchain':
+                 return False
+-- 
+2.16.2
 
 
