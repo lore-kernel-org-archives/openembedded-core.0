@@ -1,48 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F29174557
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D0FDE60685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 11:51:07 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id j5so12745340wme.5
+	Thu, 26 Apr 2018 17:49:47 +0000 (UTC)
+Received: by mail-pg0-f54.google.com with SMTP id p10so16469018pgn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 04:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=mabJ1RYQCE2egKnVkZJk9a2rpy117ixKrtPOByZGNIU=;
-	b=NFKc+5xUyv/+e/7g4wwvXM0dDD7cvg/z1PE+fdkvTdqkkag2DWtNGwaLKKSOggvXgj
-	0is2nRG9vApjncAE83GS1l7udG4xPWk0r4okiSOQScGpVqZ+LEskpt1uuzvTBFzTx29v
-	bmdSkTlEGiPhk2AL8yizQGPCKchzOPisslgpQpwqBK0CvSlX0/KAz8Q2zobuBsTHwRzj
-	1rIWj13dgJLRSIU2+Qn4b64QP3Q9quPqB0X00RFPz9JCaznbfYtTODIhkYJs2S1BA+/r
-	WDlPQjo2yIig56Tte0CrHxOchNeAI+Qm2rxKpfLuZ81/IGq7okOvdmGjAInvEjtNdHsN
-	s5aA==
+	Thu, 26 Apr 2018 10:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=R/AoKCypdoyrFwmWfMqPMLAWvbJlOqGIfOgSqfbm7Gg=;
+	b=rBON7RgnohX/zEG2fX06ZA4u4McTtv+0rBybT0rkiSx+R7ioVg5XXGm1AOuxJFWACZ
+	vtey1fLmvk78QB4Y661J65uHD7WYyWarzM6dnbMpb0h5p7S1QYpqYeYo2n38K3uMq/64
+	8dESQnLlHqJxW1BrTWOBBqBMtQkJV99jBK1w4ixlJ3Tza7j3sVlfCUpBI+QQtPQ1KF8O
+	MP7RapfAFsQJ5sA4UyzxGpoFGYOj5iVwT+uJd2Zx5smTUyG8qziDeBiMsnfx+DGQOW3L
+	VRRC69QC4aAGbJHz14OK06P6RMbwNuVTnqllFSvQGWjZWRWrwigM3Cr8nzu2SybCyM9L
+	mNYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=mabJ1RYQCE2egKnVkZJk9a2rpy117ixKrtPOByZGNIU=;
-	b=jzIv177To+IK2Ny+oPcthn4WQNV4bRdt8i5oxcFCoJDV4saJZFb7INLgYZ7hot6Rv+
-	cCPN+YXzb1eUcByN9YqSNBnZSSahzRFbTVdBphFEPiRQFcxEEDfGSTniz/d1C/ZQbpNh
-	oIrcS02FSd3wa1Bd44l/Jifbr42jYpuxHMPpSyJ+flmSkktOFdLT0Hlbdy3PTFjnCCbG
-	f5yC1UPCSdthtFHfa9wZH3A2dUTTfIXiGfIpKXR0WlwSIdBQyCJn7VwQcorUVKjyAtEl
-	Z47kkKhZ2/7fPGmhWVDHaawnq8ox3u6yQj9eIM6PvKJ28b8CqJlULpMTxOLj9cSliQyg
-	smVw==
-X-Gm-Message-State: ALQs6tAl6FUnmKdJB2HDlj67h4jpNGgdOmtvVhQ1N2vnVRGlJGA+183N
-	JTUYGdTfikKuEZzImRIXBkY4iCHY
-X-Google-Smtp-Source: AIpwx49zedov1maoUFKZWxBwrBmbu27JE2NGdadl4zAnVxeI3o5o/LbBc6EOwSHygiEe70IeZdSyAQ==
-X-Received: by 10.28.40.4 with SMTP id o4mr19026639wmo.44.1524743468120;
-	Thu, 26 Apr 2018 04:51:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o12-v6sm21104882wri.78.2018.04.26.04.51.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Apr 2018 04:51:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=R/AoKCypdoyrFwmWfMqPMLAWvbJlOqGIfOgSqfbm7Gg=;
+	b=I737NbD68YTMXWvyDvTLf4lBXJ2Nh30T5T90VdqJcUgHdizSSEat+m65/g7Lbwqh5J
+	4yKNtPSWxYq/hEf3BMEGgoHev/LP/vsP3dx79S/o+rTsDdi/8SDji8qEW42rNXRvAF26
+	1fYBB7lurqER19WnNNlxVqSimKGPDYzpcdzL4NkIJpnAZ7YPV2mKSxL0zIj3Z4YG97ur
+	Qcrcne2t1WrvRagLwD4R4Pg+aciEOd7aEx8JHPUYAZiHopO0ROz+pRws+2BqFCY7UesD
+	5OIcIBq1h/BFrZiVPiGjZDZ9TZ7anZU6WZWXIICKVLlFz0rGMSwwjP3jtJGQKoM5gSBC
+	/bSA==
+X-Gm-Message-State: ALQs6tBHTJZ5yNs7oflZIDcJT3Z4f1sQEoaHYIQ6h/8FhktNvLtXsxop
+	RYw0b0bIv8Gd5D2cL+j06YvNNw==
+X-Google-Smtp-Source: AIpwx4+SPc6NzmHZgdoNYGhYqI/i8TzAAmrrf1dC6s9o8YbgyTBKpdcDohboR8e7jjUvDPZZgZFMJQ==
+X-Received: by 10.98.103.154 with SMTP id t26mr33763696pfj.24.1524764988087;
+	Thu, 26 Apr 2018 10:49:48 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	l3sm41884698pfg.49.2018.04.26.10.49.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 26 Apr 2018 10:49:47 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Apr 2018 12:51:04 +0100
-Message-Id: <20180426115104.22748-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oe-buildperf-report: highlight large changes in the HTML report
+Date: Thu, 26 Apr 2018 10:49:40 -0700
+Message-Id: <1524764981-2774-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] tar: merge tar.inc into tar recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,63 +53,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2018 11:51:08 -0000
+X-List-Received-Date: Thu, 26 Apr 2018 17:49:48 -0000
 
-If the relative difference is greater than 2%, make the text bold to highlight
-it.
+There's only one user of tar.inc (meta-gplv2 has its own copy), so
+merge the .inc file into the tar recipe.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- scripts/lib/build_perf/html/report.html | 7 +++++--
- scripts/oe-build-perf-report            | 4 +++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ meta/recipes-extended/tar/tar.inc     | 52 --------------------------
+ meta/recipes-extended/tar/tar_1.30.bb | 70 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 60 insertions(+), 62 deletions(-)
+ delete mode 100644 meta/recipes-extended/tar/tar.inc
 
-diff --git a/scripts/lib/build_perf/html/report.html b/scripts/lib/build_perf/html/report.html
-index 291ad9d7216..d1ba6f25788 100644
---- a/scripts/lib/build_perf/html/report.html
-+++ b/scripts/lib/build_perf/html/report.html
-@@ -136,10 +136,13 @@ h3 {
-             {% else %}
-               {% set result_style = "color: orange" %}
-             {%endif %}
-+            {% if measurement.reldiff|abs > 2 %}
-+              {% set result_style = result_style + "; font-weight: bold" %}
-+            {% endif %}
-             <td>{{ measurement.description }}</td>
-             <td style="font-weight: bold">{{ measurement.value.mean }}</td>
-             <td style="{{ result_style }}">{{ measurement.absdiff_str }}</td>
--            <td style="{{ result_style }}">{{ measurement.reldiff }}</td>
-+            <td style="{{ result_style }}">{{ measurement.reldiff_str }}</td>
-           </tr>
-         {% endfor %}
-       {% else %}
-@@ -167,7 +170,7 @@ h3 {
-             {% else %}
-             <span style="color: orange">
-             {% endif %}
--            {{ measurement.absdiff_str }} ({{measurement.reldiff}})
-+            {{ measurement.absdiff_str }} ({{measurement.reldiff_str}})
-             </span></span>
-           </div>
-           {# Table for trendchart and the statistics #}
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index dc999c45c15..0bd05f44ef0 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -416,9 +416,11 @@ def print_html_report(data, id_comp, buildstats):
-                 samples[-1]['commit_num'] = commit_num
+diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+deleted file mode 100644
+index 93e4da1..0000000
+--- a/meta/recipes-extended/tar/tar.inc
++++ /dev/null
+@@ -1,52 +0,0 @@
+-SUMMARY = "GNU file archiving program"
+-DESCRIPTION = "GNU tar saves many files together into a single tape \
+-or disk archive, and can restore individual files from the archive."
+-HOMEPAGE = "http://www.gnu.org/software/tar/"
+-SECTION = "base"
+-
+-SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
+-
+-inherit autotools gettext texinfo
+-
+-EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+-
+-# Let aclocal use the relative path for the m4 file rather than the
+-# absolute since tar has a lot of m4 files, otherwise there might
+-# be an "Argument list too long" error when it is built in a long/deep
+-# directory.
+-acpaths = "-I ./m4"
+-
+-do_install () {
+-    autotools_do_install
+-    ln -s tar ${D}${bindir}/gtar
+-}
+-
+-do_install_append_class-target() {
+-    if [ "${base_bindir}" != "${bindir}" ]; then
+-        install -d ${D}${base_bindir}
+-        mv ${D}${bindir}/tar ${D}${base_bindir}/tar
+-        mv ${D}${bindir}/gtar ${D}${base_bindir}/gtar
+-        rmdir ${D}${bindir}/
+-    fi
+-}
+-
+-PACKAGES =+ "${PN}-rmt"
+-
+-FILES_${PN}-rmt = "${base_sbindir}/rmt*"
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_PRIORITY = "100"
+-
+-ALTERNATIVE_${PN} = "tar"
+-ALTERNATIVE_${PN}-rmt = "rmt"
+-ALTERNATIVE_${PN}_class-nativesdk = ""
+-ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
+-
+-ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
+-ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
+-
+-PROVIDES_append_class-native = " tar-replacement-native"
+-NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/tar/tar_1.30.bb b/meta/recipes-extended/tar/tar_1.30.bb
+index e743a6d..3f31622 100644
+--- a/meta/recipes-extended/tar/tar_1.30.bb
++++ b/meta/recipes-extended/tar/tar_1.30.bb
+@@ -1,18 +1,68 @@
+-require tar.inc
+-
+-PACKAGECONFIG ??= ""
+-PACKAGECONFIG[acl] = "--with-posix-acls, --without-posix-acls, acl,"
+-
++SUMMARY = "GNU file archiving program"
++DESCRIPTION = "GNU tar saves many files together into a single tape \
++or disk archive, and can restore individual files from the archive."
++HOMEPAGE = "http://www.gnu.org/software/tar/"
++SECTION = "base"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
-             absdiff = samples[-1]['val_cls'](samples[-1]['mean'] - samples[id_comp]['mean'])
-+            reldiff = absdiff * 100 / samples[id_comp]['mean']
-             new_meas['absdiff'] = absdiff
-             new_meas['absdiff_str'] = str(absdiff) if absdiff < 0 else '+' + str(absdiff)
--            new_meas['reldiff'] = "{:+.1f} %".format(absdiff * 100 / samples[id_comp]['mean'])
-+            new_meas['reldiff'] = reldiff
-+            new_meas['reldiff_str'] = "{:+.1f} %".format(reldiff)
-             new_meas['samples'] = samples
-             new_meas['value'] = samples[-1]
-             new_meas['value_type'] = samples[-1]['val_cls']
+-SRC_URI += "file://remove-gets.patch \
+-            file://musl_dirent.patch \
+-           "
++SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
++           file://remove-gets.patch \
++           file://musl_dirent.patch \
++"
++
+ SRC_URI[md5sum] = "8404e4c1fc5a3000228ab2b8ad674a65"
+ SRC_URI[sha256sum] = "87592b86cb037c554375f5868bdd3cc57748aef38d6cb741c81065f0beac63b7"
+ 
++inherit autotools gettext texinfo
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[acl] = "--with-posix-acls,--without-posix-acls,acl"
++
++EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
++
++# Let aclocal use the relative path for the m4 file rather than the
++# absolute since tar has a lot of m4 files, otherwise there might
++# be an "Argument list too long" error when it is built in a long/deep
++# directory.
++acpaths = "-I ./m4"
++
++do_install () {
++    autotools_do_install
++    ln -s tar ${D}${bindir}/gtar
++}
++
++do_install_append_class-target() {
++    if [ "${base_bindir}" != "${bindir}" ]; then
++        install -d ${D}${base_bindir}
++        mv ${D}${bindir}/tar ${D}${base_bindir}/tar
++        mv ${D}${bindir}/gtar ${D}${base_bindir}/gtar
++        rmdir ${D}${bindir}/
++    fi
++}
++
+ do_install_append_libc-musl() {
+-	rm -f ${D}${libdir}/charset.alias
+-	rmdir ${D}${libdir}
++    rm -f ${D}${libdir}/charset.alias
++    rmdir ${D}${libdir}
+ }
++
++PACKAGES =+ "${PN}-rmt"
++
++FILES_${PN}-rmt = "${base_sbindir}/rmt*"
++
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "100"
++
++ALTERNATIVE_${PN} = "tar"
++ALTERNATIVE_${PN}-rmt = "rmt"
++ALTERNATIVE_${PN}_class-nativesdk = ""
++ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
++
++ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
++ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
++
++PROVIDES_append_class-native = " tar-replacement-native"
++NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.11.0
+1.9.1
 
 
