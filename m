@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AA1D671A9D
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F29174557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 10:46:08 +0000 (UTC)
-Received: by mail-it0-f67.google.com with SMTP id 19-v6so23152735itw.3
+	Thu, 26 Apr 2018 11:51:07 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id j5so12745340wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 03:46:09 -0700 (PDT)
+	Thu, 26 Apr 2018 04:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=oGDWHUl5A02VSPCbAeWa51r4bF0cJ8HG+Cz0fmvmfE0=;
-	b=HaPyCb/ig34JEbyRjb4TIfrvcmrWfTmb7icHTjbGIwuReWiUafie7Ev/hrjjkgve9E
-	2khLoTCIdYZ8v1PvhCgvgK1BmQ8p3oP/CCUOO1vsrGCYn1VtiDpcxupRNPrl43m/4uWF
-	0au9KREA0nFcZLX2i87TZ1W6/K2hPHtLyUHHo481MwO+Y/Js7t347v0JXvCFdGZKHsUt
-	StQxfZ3XM41HrNvyr/rvanJntX6gO6FhFSVj7TD3SdpQ2HuHxKzn5vR0743f2DCDKKGI
-	E/z+3fA1l+lzdD7zVbpAq9PzltBvheVxHaAd8DMBxxxpYKFkt2L/VvjWz2A3Z5GWsxV6
-	xJSA==
+	h=from:to:subject:date:message-id;
+	bh=mabJ1RYQCE2egKnVkZJk9a2rpy117ixKrtPOByZGNIU=;
+	b=NFKc+5xUyv/+e/7g4wwvXM0dDD7cvg/z1PE+fdkvTdqkkag2DWtNGwaLKKSOggvXgj
+	0is2nRG9vApjncAE83GS1l7udG4xPWk0r4okiSOQScGpVqZ+LEskpt1uuzvTBFzTx29v
+	bmdSkTlEGiPhk2AL8yizQGPCKchzOPisslgpQpwqBK0CvSlX0/KAz8Q2zobuBsTHwRzj
+	1rIWj13dgJLRSIU2+Qn4b64QP3Q9quPqB0X00RFPz9JCaznbfYtTODIhkYJs2S1BA+/r
+	WDlPQjo2yIig56Tte0CrHxOchNeAI+Qm2rxKpfLuZ81/IGq7okOvdmGjAInvEjtNdHsN
+	s5aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=oGDWHUl5A02VSPCbAeWa51r4bF0cJ8HG+Cz0fmvmfE0=;
-	b=Y8/tHSsJgQkdPROZ1PgXk8bqQIPk+kQh5rRduKNberVNQFB1sig9KXjY86G19CTyXk
-	buZL56XAzGb/+R4gfeIp6EJUsv1t0shZPms8P/3BInCQcJj9+uwjMvz4a2Uww5RnKq+q
-	qKR7w+MT5UcUinYwf/xSC38kl7iVkQJLtBFm/SxfVVTKo9O8NY7UST793cPDc58wX9oZ
-	t/qtwGHCXvCuJNl7uJlPi4OFGiyJ9q0JXaY+EjFETd2puPml1hHd57UHudKEM9/QmKEa
-	ikW5fRr9ehO5ptA9r4GWeRKRSPESdG91Wp1XvifG0kZvFCVQyPxqO0jI4fuxc9RX+Frk
-	2k9Q==
-X-Gm-Message-State: ALQs6tDhM2gCzenZktMkSTsKcQjwRfS5trzw/doB6MNhRt2Tp/Y6WYkB
-	pMxtAfAXcq+jGiU6Xkdi5SVF/jxqFVYGT4rJmj0swA==
-X-Google-Smtp-Source: AIpwx4+cXmDSs6rkydPblqfrR7f3e4tGXcy1uhCGUz+alIM3LEDYQuYUYQDJwFHlnAQsEO45Vq1Bxo+5wkgdQuS06UA=
-X-Received: by 2002:a24:730e:: with SMTP id
-	y14-v6mr27992279itb.45.1524739568997; 
-	Thu, 26 Apr 2018 03:46:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Thu, 26 Apr 2018 03:45:48 -0700 (PDT)
-In-Reply-To: <20180425135818.23345-1-ross.burton@intel.com>
-References: <20180425135818.23345-1-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Apr 2018 11:45:48 +0100
-Message-ID: <CAJTo0LZ234RVEsXyUooFAzoGx+WxyxipSMMfxGqVcev5xBYjuw@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base: improve do_unpack[cleandirs] logic
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=mabJ1RYQCE2egKnVkZJk9a2rpy117ixKrtPOByZGNIU=;
+	b=jzIv177To+IK2Ny+oPcthn4WQNV4bRdt8i5oxcFCoJDV4saJZFb7INLgYZ7hot6Rv+
+	cCPN+YXzb1eUcByN9YqSNBnZSSahzRFbTVdBphFEPiRQFcxEEDfGSTniz/d1C/ZQbpNh
+	oIrcS02FSd3wa1Bd44l/Jifbr42jYpuxHMPpSyJ+flmSkktOFdLT0Hlbdy3PTFjnCCbG
+	f5yC1UPCSdthtFHfa9wZH3A2dUTTfIXiGfIpKXR0WlwSIdBQyCJn7VwQcorUVKjyAtEl
+	Z47kkKhZ2/7fPGmhWVDHaawnq8ox3u6yQj9eIM6PvKJ28b8CqJlULpMTxOLj9cSliQyg
+	smVw==
+X-Gm-Message-State: ALQs6tAl6FUnmKdJB2HDlj67h4jpNGgdOmtvVhQ1N2vnVRGlJGA+183N
+	JTUYGdTfikKuEZzImRIXBkY4iCHY
+X-Google-Smtp-Source: AIpwx49zedov1maoUFKZWxBwrBmbu27JE2NGdadl4zAnVxeI3o5o/LbBc6EOwSHygiEe70IeZdSyAQ==
+X-Received: by 10.28.40.4 with SMTP id o4mr19026639wmo.44.1524743468120;
+	Thu, 26 Apr 2018 04:51:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o12-v6sm21104882wri.78.2018.04.26.04.51.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 26 Apr 2018 04:51:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Apr 2018 12:51:04 +0100
+Message-Id: <20180426115104.22748-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oe-buildperf-report: highlight large changes in the HTML report
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2018 10:46:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Apr 2018 11:51:08 -0000
 
-Retracting this, doesn't work on a clean build dir.
+If the relative difference is greater than 2%, make the text bold to highlight
+it.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/lib/build_perf/html/report.html | 7 +++++--
+ scripts/oe-build-perf-report            | 4 +++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-On 25 April 2018 at 14:58, Ross Burton <ross.burton@intel.com> wrote:
-> If a recipe sets S to ${WORKDIR}/ then the S != WORKDIR test doesn't work as
-> expected.  Use os.path.samefile() instead of string comparisons to do the right
-> thing.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/base.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index bb1f4b75336..7ddf70414a1 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -152,7 +152,7 @@ python base_do_fetch() {
->  addtask unpack after do_fetch
->  do_unpack[dirs] = "${WORKDIR}"
->
-> -do_unpack[cleandirs] = "${@d.getVar('S') if d.getVar('S') != d.getVar('WORKDIR') else os.path.join('${S}', 'patches')}"
-> +do_unpack[cleandirs] = "${@os.path.join('${S}', 'patches') if os.path.samefile(d.getVar('S'), d.getVar('WORKDIR')) else d.getVar('S')}"
->
->  python base_do_unpack() {
->      src_uri = (d.getVar('SRC_URI') or "").split()
-> --
-> 2.11.0
->
+diff --git a/scripts/lib/build_perf/html/report.html b/scripts/lib/build_perf/html/report.html
+index 291ad9d7216..d1ba6f25788 100644
+--- a/scripts/lib/build_perf/html/report.html
++++ b/scripts/lib/build_perf/html/report.html
+@@ -136,10 +136,13 @@ h3 {
+             {% else %}
+               {% set result_style = "color: orange" %}
+             {%endif %}
++            {% if measurement.reldiff|abs > 2 %}
++              {% set result_style = result_style + "; font-weight: bold" %}
++            {% endif %}
+             <td>{{ measurement.description }}</td>
+             <td style="font-weight: bold">{{ measurement.value.mean }}</td>
+             <td style="{{ result_style }}">{{ measurement.absdiff_str }}</td>
+-            <td style="{{ result_style }}">{{ measurement.reldiff }}</td>
++            <td style="{{ result_style }}">{{ measurement.reldiff_str }}</td>
+           </tr>
+         {% endfor %}
+       {% else %}
+@@ -167,7 +170,7 @@ h3 {
+             {% else %}
+             <span style="color: orange">
+             {% endif %}
+-            {{ measurement.absdiff_str }} ({{measurement.reldiff}})
++            {{ measurement.absdiff_str }} ({{measurement.reldiff_str}})
+             </span></span>
+           </div>
+           {# Table for trendchart and the statistics #}
+diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
+index dc999c45c15..0bd05f44ef0 100755
+--- a/scripts/oe-build-perf-report
++++ b/scripts/oe-build-perf-report
+@@ -416,9 +416,11 @@ def print_html_report(data, id_comp, buildstats):
+                 samples[-1]['commit_num'] = commit_num
+ 
+             absdiff = samples[-1]['val_cls'](samples[-1]['mean'] - samples[id_comp]['mean'])
++            reldiff = absdiff * 100 / samples[id_comp]['mean']
+             new_meas['absdiff'] = absdiff
+             new_meas['absdiff_str'] = str(absdiff) if absdiff < 0 else '+' + str(absdiff)
+-            new_meas['reldiff'] = "{:+.1f} %".format(absdiff * 100 / samples[id_comp]['mean'])
++            new_meas['reldiff'] = reldiff
++            new_meas['reldiff_str'] = "{:+.1f} %".format(reldiff)
+             new_meas['samples'] = samples
+             new_meas['value'] = samples[-1]
+             new_meas['value_type'] = samples[-1]['val_cls']
+-- 
+2.11.0
+
 
