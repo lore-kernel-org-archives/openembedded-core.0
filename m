@@ -1,50 +1,48 @@
-Return-Path: <sarah.marsh.engineer@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F43560722
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AA1D671A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 01:35:35 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id a6-v6so13601025oia.2
+	Thu, 26 Apr 2018 10:46:08 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id 19-v6so23152735itw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Apr 2018 18:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=X8fRis110MiPHPTynKmjDl189aHIz1m18q2EqSLUDTY=;
-	b=jwKscBVf36VKHb5sdbM4psjE8WqJ6oxrIfvK/TEDv6kbmPkPoIc/qLx8pPlKOUZPe9
-	nnkR7YcAeHK0ImfH87HqYzwjvfxNvPirFU8omw7VBg7GxADQtg16YO6jkpwMyS5kvhdJ
-	0UOOSYArxOa57egWzV4+kROnr47TrZJ2Rkr6kwHrdcDjznmEyZjP8lKbJmuFIxIeY6Gq
-	DCkWEdBvUHtEXvl3E+JN2Kn6NEzVL9PD2jiuDTJYGGTYiLJTzOyT6G6HEuZ5mf+9e1fP
-	YWMGDf7bq7n+q8uaW60IVsgAaex0quEDYNxGE0mna+J13ykGqZduvFDo0//HSxjZ4+na
-	+fug==
+	Thu, 26 Apr 2018 03:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=oGDWHUl5A02VSPCbAeWa51r4bF0cJ8HG+Cz0fmvmfE0=;
+	b=HaPyCb/ig34JEbyRjb4TIfrvcmrWfTmb7icHTjbGIwuReWiUafie7Ev/hrjjkgve9E
+	2khLoTCIdYZ8v1PvhCgvgK1BmQ8p3oP/CCUOO1vsrGCYn1VtiDpcxupRNPrl43m/4uWF
+	0au9KREA0nFcZLX2i87TZ1W6/K2hPHtLyUHHo481MwO+Y/Js7t347v0JXvCFdGZKHsUt
+	StQxfZ3XM41HrNvyr/rvanJntX6gO6FhFSVj7TD3SdpQ2HuHxKzn5vR0743f2DCDKKGI
+	E/z+3fA1l+lzdD7zVbpAq9PzltBvheVxHaAd8DMBxxxpYKFkt2L/VvjWz2A3Z5GWsxV6
+	xJSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=X8fRis110MiPHPTynKmjDl189aHIz1m18q2EqSLUDTY=;
-	b=N6iT2y6EXrU36lYORzecboSmBr2fURRx9sV/UUrR8gEI82xVsYRvSq06e+8mk9K9Pt
-	sPvlFresZbP2/XIh1CJ/womrze5RGeQcWcvEmIyV30nJnJxaHKe857MN/N8pFWnCdEJt
-	Lidln1ySMl9tATxlPDM4sFTjXsX6Cfg22fL4AVkT93DDnTnmmZOYmHryU3ZNlHRY9Izx
-	60R1VbjZC7btiAjf42kTND/Z8YkhhBgUnKXx5A5Qq73iAOcWL24U02a0S5+1qLXnBnl/
-	h5YxrKMlW0jKOI7rGzegW/b4doVATbuhp83EDEHJW/jQTd95ERqbHDKGpF7XsALte0dH
-	VDBA==
-X-Gm-Message-State: ALQs6tAB7SppMGIcGMnBpMipArK68fDpm3Y6xGTX/iV1FOhA5x6O+oxy
-	2mfyhuOzxrhMOYj+CGU5RC6JpcCw
-X-Google-Smtp-Source: AIpwx49LEYNbDRieWraQ4FyMrorSAwOtc/NfdUFB4+4LZ7ruNYZbNADfn+NTJtyRfUISygeVmmkKBQ==
-X-Received: by 2002:aca:ed15:: with SMTP id
-	l21-v6mr19316222oih.39.1524706536700; 
-	Wed, 25 Apr 2018 18:35:36 -0700 (PDT)
-Received: from localhost.localdomain ([136.62.82.41])
-	by smtp.gmail.com with ESMTPSA id
-	w20-v6sm11789127otd.70.2018.04.25.18.35.35
-	(version=TLS1 cipher=AES128-SHA bits=128/128);
-	Wed, 25 Apr 2018 18:35:36 -0700 (PDT)
-From: sarah.marsh.engineer@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Apr 2018 20:35:25 -0500
-Message-Id: <20180426013525.29086-1-sarah.marsh.engineer@gmail.com>
-X-Mailer: git-send-email 2.14.3 (Apple Git-98)
-Cc: Sarah Marsh <sarah.marsh.engineer@gmail.com>,
-	Sarah Marsh <sarah.marsh@arm.com>
-Subject: [PATCH V2] recipetool: fixed uncaught NameError exception
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=oGDWHUl5A02VSPCbAeWa51r4bF0cJ8HG+Cz0fmvmfE0=;
+	b=Y8/tHSsJgQkdPROZ1PgXk8bqQIPk+kQh5rRduKNberVNQFB1sig9KXjY86G19CTyXk
+	buZL56XAzGb/+R4gfeIp6EJUsv1t0shZPms8P/3BInCQcJj9+uwjMvz4a2Uww5RnKq+q
+	qKR7w+MT5UcUinYwf/xSC38kl7iVkQJLtBFm/SxfVVTKo9O8NY7UST793cPDc58wX9oZ
+	t/qtwGHCXvCuJNl7uJlPi4OFGiyJ9q0JXaY+EjFETd2puPml1hHd57UHudKEM9/QmKEa
+	ikW5fRr9ehO5ptA9r4GWeRKRSPESdG91Wp1XvifG0kZvFCVQyPxqO0jI4fuxc9RX+Frk
+	2k9Q==
+X-Gm-Message-State: ALQs6tDhM2gCzenZktMkSTsKcQjwRfS5trzw/doB6MNhRt2Tp/Y6WYkB
+	pMxtAfAXcq+jGiU6Xkdi5SVF/jxqFVYGT4rJmj0swA==
+X-Google-Smtp-Source: AIpwx4+cXmDSs6rkydPblqfrR7f3e4tGXcy1uhCGUz+alIM3LEDYQuYUYQDJwFHlnAQsEO45Vq1Bxo+5wkgdQuS06UA=
+X-Received: by 2002:a24:730e:: with SMTP id
+	y14-v6mr27992279itb.45.1524739568997; 
+	Thu, 26 Apr 2018 03:46:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.29.203 with HTTP; Thu, 26 Apr 2018 03:45:48 -0700 (PDT)
+In-Reply-To: <20180425135818.23345-1-ross.burton@intel.com>
+References: <20180425135818.23345-1-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Apr 2018 11:45:48 +0100
+Message-ID: <CAJTo0LZ234RVEsXyUooFAzoGx+WxyxipSMMfxGqVcev5xBYjuw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base: improve do_unpack[cleandirs] logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2018 01:35:36 -0000
+X-List-Received-Date: Thu, 26 Apr 2018 10:46:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Sarah Marsh <sarah.marsh.engineer@gmail.com>
+Retracting this, doesn't work on a clean build dir.
 
-When packaging a node application, a `NameError` can be thrown in create_npm.py if an optional npm dependency does not
-support Linux.
+Ross
 
-Signed-off-by: Sarah Marsh <sarah.marsh@arm.com>
----
- scripts/lib/recipetool/create_npm.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index fb57e705f2..bb42a5ca5c 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -320,6 +320,7 @@ class NpmRecipeHandler(RecipeHandler):
-                     blacklist = True
-                     break
-             if (not blacklist and 'linux' not in pkg_os) or '!linux' in pkg_os:
-+                pkg = pdata.get('name', 'Unnamed package')
-                 logger.debug(2, "Skipping %s since it's incompatible with Linux" % pkg)
-                 return False
-         return True
--- 
-2.14.3 (Apple Git-98)
-
+On 25 April 2018 at 14:58, Ross Burton <ross.burton@intel.com> wrote:
+> If a recipe sets S to ${WORKDIR}/ then the S != WORKDIR test doesn't work as
+> expected.  Use os.path.samefile() instead of string comparisons to do the right
+> thing.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/base.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index bb1f4b75336..7ddf70414a1 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -152,7 +152,7 @@ python base_do_fetch() {
+>  addtask unpack after do_fetch
+>  do_unpack[dirs] = "${WORKDIR}"
+>
+> -do_unpack[cleandirs] = "${@d.getVar('S') if d.getVar('S') != d.getVar('WORKDIR') else os.path.join('${S}', 'patches')}"
+> +do_unpack[cleandirs] = "${@os.path.join('${S}', 'patches') if os.path.samefile(d.getVar('S'), d.getVar('WORKDIR')) else d.getVar('S')}"
+>
+>  python base_do_unpack() {
+>      src_uri = (d.getVar('SRC_URI') or "").split()
+> --
+> 2.11.0
+>
 
