@@ -1,25 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A8EC71BF0
+Return-Path: <lukma@denx.de>
+X-Greylist: delayed 368 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 27 Apr 2018 14:58:03 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id CCD2C607AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2018 07:55:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3R7tImp021543
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2018 00:55:18 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 27 Apr 2018 00:55:17 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2018 15:26:23 +0800
-Message-ID: <20180427072623.422-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1524808358.git.kai.kang@windriver.com>
-References: <cover.1524808358.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] lame: remove LICENSE_FLAGS
+	Fri, 27 Apr 2018 14:58:03 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 40XcMw04yDz1qwJK;
+	Fri, 27 Apr 2018 16:51:55 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 40XcMv5t8bz1qqkk;
+	Fri, 27 Apr 2018 16:51:55 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id 6mY6hROYkcjG; Fri, 27 Apr 2018 16:51:54 +0200 (CEST)
+X-Auth-Info: E6d0EOzik9P3EjR4kOVtgP6/CRBi9uJ5CvKeaHkQ9xg=
+Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
+	[85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri, 27 Apr 2018 16:51:54 +0200 (CEST)
+From: Lukasz Majewski <lukma@denx.de>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	Marek Vasut <marex@denx.de>
+Date: Fri, 27 Apr 2018 16:51:39 +0200
+Message-Id: <20180427145139.30732-1-lukma@denx.de>
+X-Mailer: git-send-email 2.11.0
+Cc: Tom Rini <trini@konsulko.com>, Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2018 07:55:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Apr 2018 14:58:04 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+This commit provides the ability to generate u-boot environment(s) as
+images, which afterwards can be used to produce image (with wic) for
+flashing (eMMC or SPI-NOR).
 
-The patent on mp3 format due to expire, so remove LICENSE_FLAGS from
-lame recipe.
+This change removes the need to run "env default" during production phase,
+as proper environment (including redundant one) is already stored on
+persistent memory (the CRC is also correct).
 
-Ref:
-https://bugzilla.gnome.org/show_bug.cgi?id=774252
+Signed-off-by: Lukasz Majewski <lukma@denx.de>
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-multimedia/lame/lame_3.100.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+This patch depends on "u-boot: Upgrade to 2018.03 release"
+https://patchwork.openembedded.org/patch/149998/
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_3.100.bb
-index ff6ac7efb2..7f8996fb52 100644
---- a/meta/recipes-multimedia/lame/lame_3.100.bb
-+++ b/meta/recipes-multimedia/lame/lame_3.100.bb
-@@ -3,14 +3,12 @@ HOMEPAGE = "http://lame.sourceforge.net/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=290&atid=100290"
- SECTION = "console/utils"
- LICENSE = "LGPLv2+"
--LICENSE_FLAGS = "commercial"
--
--DEPENDS = "ncurses gettext-native"
--
- LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
-                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b \
- "
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c2bcf99840..2796e503cf 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -305,3 +305,38 @@ do_deploy () {
+ }
  
-+DEPENDS = "ncurses gettext-native"
+ addtask deploy before do_build after do_compile
 +
- SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
-            file://no-gtk1.patch \
-            "
++# Create new rules to extract default envs
++UBOOT_ENVS_DEFAULT ?= "uboot-envs-default"
++DEFAULT_ENVS ?= "u-boot-env-default.txt"
++DEFAULT_ENVS_SIZE ?= "65536"
++
++# Generate default environment
++do_gen_default_envs[doc] = "Generate image with default U-Boot environment(s)"
++do_gen_default_envs () {
++	${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
++
++	# Generate env image
++	${B}/tools/mkenvimage -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
++
++	# Generate redundant env image
++	${B}/tools/mkenvimage -r -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
++
++	rm ${B}/${DEFAULT_ENVS}
++}
++
++addtask gen_default_envs before do_deploy_default_envs after do_compile
++
++# Deploy default environment
++do_deploy_default_envs[doc] = "Copy images with default U-Boot environment to deployment directory"
++do_deploy_default_envs () {
++	install -d ${DEPLOYDIR}
++
++	install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
++	install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
++
++	rm ${B}/${UBOOT_ENVS_DEFAULT}
++	rm ${B}/${UBOOT_ENVS_DEFAULT}_r
++}
++
++addtask deploy_default_envs before do_deploy after do_gen_default_envs
 -- 
-2.14.1
+2.11.0
 
 
