@@ -1,37 +1,48 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 4945860574
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0230774559
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2018 15:08:12 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40Xckj1sWPz1qxx6;
-	Fri, 27 Apr 2018 17:08:13 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40Xckj0qbxz1qqwt;
-	Fri, 27 Apr 2018 17:08:13 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id pBgcWINsa8Xm; Fri, 27 Apr 2018 17:08:09 +0200 (CEST)
-X-Auth-Info: 3bnOMUGRbO3IxyR+Ut8Zmi63CarAmcJBuGYDYw8jHqY=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 27 Apr 2018 17:08:09 +0200 (CEST)
-To: Lukasz Majewski <lukma@denx.de>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-References: <20180427145139.30732-1-lukma@denx.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <fe2ffe1d-6695-f0bd-dc6c-d5345bcfbc3f@denx.de>
-Date: Fri, 27 Apr 2018 17:07:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180427145139.30732-1-lukma@denx.de>
-Cc: Tom Rini <trini@konsulko.com>, Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
+	Fri, 27 Apr 2018 15:58:25 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n10so3770373wmc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Apr 2018 08:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=vMZghzcsX36IwBY5y/ktbzx7schHI3Vs68IHbz9FP1M=;
+	b=cKzFQaN8YfwAvgpTDFE4SVohm9L3ZJfiBX8EuIax13+LM9H803KYlSL/cW1+ZR1/e0
+	zwr1C0UkyPUjrD1U/5NunzrQJclSj4O2mPFw6QPIk8odf4qnyIvtl/+Qr0GYpF4F+Y58
+	3XKOPSEZtj4OYJMUUN7qa3PkjOdid8nnsuEK6I6uhp1GV+Hn3uibaGXsshjmhCHc3hvz
+	J1T73d9TavmltnYm6Dd1WAeyP5TTpCAeeslXpfgc4ccHatZby+VheNEX5e8ygbc+jd8D
+	CjRLYAFdDeSfQyarQNIoRmUDH+9+0J0jtPL/6tAxSBorLj1VvWQmB8Q9/pstdoWpS7CG
+	B8Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=vMZghzcsX36IwBY5y/ktbzx7schHI3Vs68IHbz9FP1M=;
+	b=GBudJE6+BKY2nCK3kLAX54ln1NHhNXMNSbYPEwalSUhxRUv/o8Y1IvIAzVBc8xyIUF
+	e8gfk3IYFk5gSiGUUixZ8O3/IS2/Izz0kyqbrEQVBpKzqParmFQ7CDD2tD4C0w7/uHkr
+	qRWdTlQnXexJGprJaAFgfeeHNsPpauIKKj/pA9mV8ebYLK6lH1NQAJWl5EEH4sIqeK/h
+	H6ZilLGm0xPUbeVLU0r+iDrl7ZQ+aiTR3BrYy/a7wm0YExed7Yx/nB5hFTaon6k9/tEW
+	8j8L9q3hpbsYEsSuRkZ7lGauRDa3Ktk1NhhzfppAaoIBCx+zqgRZRRqnupHuB7eMN+Oc
+	77BQ==
+X-Gm-Message-State: ALQs6tAmmiHtY/Zt6g6fPBwi8oNLo8c1/0SSUugOmlER8kEFo0d7PItD
+	gOI5pGiBxXTMPXLzpQiR7clU+3r2
+X-Google-Smtp-Source: AB8JxZoFnO0DDyQCYHVOTU66FBaD4LvonfxaTz7IwYbAbk3xmBMKlUSBKFktrlW52vu5y4wkh9y//w==
+X-Received: by 10.28.94.201 with SMTP id s192mr1862759wmb.42.1524844706109;
+	Fri, 27 Apr 2018 08:58:26 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	q138sm1724000wmd.1.2018.04.27.08.58.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Apr 2018 08:58:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Apr 2018 16:58:22 +0100
+Message-Id: <20180427155823.30464-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] package_manager: expand the removal list for RPM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,89 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2018 15:08:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Apr 2018 15:58:26 -0000
 
-On 04/27/2018 04:51 PM, Lukasz Majewski wrote:
-> This commit provides the ability to generate u-boot environment(s) as
-> images, which afterwards can be used to produce image (with wic) for
-> flashing (eMMC or SPI-NOR).
-> 
-> This change removes the need to run "env default" during production phase,
-> as proper environment (including redundant one) is already stored on
-> persistent memory (the CRC is also correct).
-> 
-> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+If package management is disabled we remove the state and configuration for the
+package manager after the rootfs has been populated.  This list wasn't complete
+and the DNF/RPM configuration files were left behind.
 
-If your default env is correct, why do you need this ? I can see some
-use with non-default env, but then that can be wrapped into a separate
-recipe.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> ---
-> This patch depends on "u-boot: Upgrade to 2018.03 release"
-> https://patchwork.openembedded.org/patch/149998/
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index c2bcf99840..2796e503cf 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -305,3 +305,38 @@ do_deploy () {
->  }
->  
->  addtask deploy before do_build after do_compile
-> +
-> +# Create new rules to extract default envs
-> +UBOOT_ENVS_DEFAULT ?= "uboot-envs-default"
-> +DEFAULT_ENVS ?= "u-boot-env-default.txt"
-> +DEFAULT_ENVS_SIZE ?= "65536"
-> +
-> +# Generate default environment
-> +do_gen_default_envs[doc] = "Generate image with default U-Boot environment(s)"
-> +do_gen_default_envs () {
-> +	${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
-> +
-> +	# Generate env image
-> +	${B}/tools/mkenvimage -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
-
-Does this actually work during cross build , when mkenvimage
-architecture is different than host architecture ?
-
-> +	# Generate redundant env image
-> +	${B}/tools/mkenvimage -r -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
-
-Is redundant env always needed on all systems ?
-
-> +	rm ${B}/${DEFAULT_ENVS}
-> +}
-> +
-> +addtask gen_default_envs before do_deploy_default_envs after do_compile
-> +
-> +# Deploy default environment
-> +do_deploy_default_envs[doc] = "Copy images with default U-Boot environment to deployment directory"
-> +do_deploy_default_envs () {
-> +	install -d ${DEPLOYDIR}
-> +
-> +	install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
-> +	install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
-
-Does this work with multiple machines or will it overwrite the deployed
-image ?
-
-
-> +	rm ${B}/${UBOOT_ENVS_DEFAULT}
-> +	rm ${B}/${UBOOT_ENVS_DEFAULT}_r
-> +}
-> +
-> +addtask deploy_default_envs before do_deploy after do_gen_default_envs
-> 
-
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2d8aeba037c..813f6799fef 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -668,7 +668,7 @@ class RpmPM(PackageManager):
+         self.saved_packaging_data = self.d.expand('${T}/saved_packaging_data/%s' % self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved_packaging_data')):
+             bb.utils.mkdirhier(self.d.expand('${T}/saved_packaging_data'))
+-        self.packaging_data_dirs = ['var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
++        self.packaging_data_dirs = ['etc/rpm', 'etc/rpmrc', 'etc/dnf', 'var/lib/rpm', 'var/lib/dnf', 'var/cache/dnf']
+         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
+                                                self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved')):
 -- 
-Best regards,
-Marek Vasut
+2.11.0
+
 
