@@ -1,26 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 72D9F62134
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A8EC71BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Apr 2018 06:22:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3R6MFfU016759
+	Fri, 27 Apr 2018 07:55:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w3R7tImp021543
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Apr 2018 23:22:30 -0700
+	Fri, 27 Apr 2018 00:55:18 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 26 Apr 2018 23:22:04 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Fri, 27 Apr 2018 00:55:17 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Apr 2018 13:53:09 +0800
-Message-ID: <713b813263d95085d85c456361d0080ebb9dc5e6.1524808358.git.kai.kang@windriver.com>
+Date: Fri, 27 Apr 2018 15:26:23 +0800
+Message-ID: <20180427072623.422-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1524808358.git.kai.kang@windriver.com>
 References: <cover.1524808358.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] mpg123: remove LICENSE_FLAGS
+Subject: [PATCH] lame: remove LICENSE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2018 06:22:39 -0000
+X-List-Received-Date: Fri, 27 Apr 2018 07:55:17 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-mgp123 is patent free from version 1.25.0, so remove LICENSE_FLAGS.
+The patent on mp3 format due to expire, so remove LICENSE_FLAGS from
+lame recipe.
 
-https://mpg123.de/cgi-bin/news.cgi#2017-05-29
+Ref:
+https://bugzilla.gnome.org/show_bug.cgi?id=774252
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-multimedia/lame/lame_3.100.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb b/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-index 929069ab49..ff2b7d893b 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.25.10.bb
-@@ -7,7 +7,6 @@ BUGTRACKER = "http://sourceforge.net/p/mpg123/bugs/"
- SECTION = "multimedia"
- 
- LICENSE = "LGPLv2.1"
+diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_3.100.bb
+index ff6ac7efb2..7f8996fb52 100644
+--- a/meta/recipes-multimedia/lame/lame_3.100.bb
++++ b/meta/recipes-multimedia/lame/lame_3.100.bb
+@@ -3,14 +3,12 @@ HOMEPAGE = "http://lame.sourceforge.net/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=290&atid=100290"
+ SECTION = "console/utils"
+ LICENSE = "LGPLv2+"
 -LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
+-
+-DEPENDS = "ncurses gettext-native"
+-
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
+                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b \
+ "
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
++DEPENDS = "ncurses gettext-native"
++
+ SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
+            file://no-gtk1.patch \
+            "
 -- 
 2.14.1
 
