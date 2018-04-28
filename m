@@ -1,23 +1,53 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D9AB471A82
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 10B7871A74
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Apr 2018 01:50:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w3S1nb6e011938
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Apr 2018 18:49:58 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 27 Apr 2018 18:49:29 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <akuster808@gmail.com>
-Date: Sat, 28 Apr 2018 09:57:08 +0800
-Message-ID: <1524880628-39135-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH][rocko] grub/grub-efi: fix conflict
+	Sat, 28 Apr 2018 01:54:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 56D33189A1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:52 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id R0i1ZZFxCk90
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3EC84183A0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2B2DB1A081
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1E8CA1A05F
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 1106C707
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:51 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w3S1si5d005206
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Apr 2018 03:54:44 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w3S1siSa005205
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 Apr 2018 03:54:44 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 28 Apr 2018 03:54:42 +0200
+Message-Id: <20180428015442.5162-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] glib: Make glib-mkenums ignore unknown per value options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,127 +60,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Apr 2018 01:50:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 28 Apr 2018 01:54:52 -0000
 
-While installing grub and grub-efi, there are conflict files
-in ${sysconfdir} ${datadir} ${bindir} ${sbindir}.
+If some other per value option was present than 'skip' or 'nick' then
+a KeyError would occur. Ignoring such options matches the behaviour of
+the old, Perl-based glib-mkenums.
 
-- Since all of the conflicted files are tools which is
-  common for grub and grub-efi, we split them (except
-  grub-editenv) to grub-common in grub.
-
-- The package grub-common runtime depends grub-editenv
-
-- The package grub-editenv runtime provides grub-efi-editenv
-
-- Remove SYSROOT_DIRS_BLACKLIST
-
-- The recipe grub-efi does not generate the duplicated files
-  and use runtime depends grub-common to instead
-
-Debian and Fedora do the similar thing.
-
-Debian use a common package grub-common for both of pc bios and efi,
-and use package grub-pc-bin for pc bios, grub-efi-amd64-bin for efi.
-Both of grub-pc-bin and grub-efi-amd64-bin requires grub-common.
-https://packages.debian.org/sid/grub-common
-https://packages.debian.org/jessie/grub-pc-bin
-https://packages.debian.org/jessie/grub-efi-amd64-bin
-
-Fedora use a common package grub2-tools for both of pc bios and efi,
-and use package grub2 for pc bios, grub2-efi-modules for efi.
-Both of grub2 and grub2-efi-modules requires grub2-tools.
-https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-tools-2.02-0.34.fc24.x86_64.html
-https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-2.02-0.34.fc24.x86_64.html
-https://www.rpmfind.net/linux/RPM/fedora/devel/rawhide/x86_64/g/grub2-efi-modules-2.02-0.34.fc24.x86_64.html
-
-[YOCTO #11639]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb |  9 +++++----
- meta/recipes-bsp/grub/grub2.inc        |  8 --------
- meta/recipes-bsp/grub/grub_2.02.bb     | 14 +++++++++++++-
- 3 files changed, 18 insertions(+), 13 deletions(-)
+ ...s-Ignore-other-per-value-options-than-ski.patch | 32 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-glib-mkenums-Ignore-other-per-value-options-than-ski.patch
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index 60b998d..dd3da73 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -3,7 +3,7 @@ require grub2.inc
- GRUBPLATFORM = "efi"
- 
- DEPENDS_append_class-target = " grub-efi-native"
--RDEPENDS_${PN}_class-target = "diffutils freetype"
-+RDEPENDS_${PN}_class-target = "diffutils freetype grub-common"
- 
- SRC_URI += " \
-            file://cfg \
-@@ -37,7 +37,9 @@ do_install_class-native() {
- 	install -m 755 grub-mkimage ${D}${bindir}
- }
- 
--do_install_append_class-target() {
-+do_install_class-target() {
-+    oe_runmake 'DESTDIR=${D}' -C grub-core install
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-mkenums-Ignore-other-per-value-options-than-ski.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-mkenums-Ignore-other-per-value-options-than-ski.patch
+new file mode 100644
+index 0000000000..c87635a082
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-glib-mkenums-Ignore-other-per-value-options-than-ski.patch
+@@ -0,0 +1,32 @@
++From 12ffb50d587003a46678567b771c6e984035a5e9 Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Sat, 28 Apr 2018 03:07:50 +0200
++Subject: [PATCH] glib-mkenums: Ignore other per value options than 'skip' and
++ 'nick'
 +
-     # Remove build host references...
-     find "${D}" -name modinfo.sh -type f -exec \
-         sed -i \
-@@ -65,8 +67,7 @@ do_deploy_class-native() {
- 
- addtask deploy after do_install before do_build
- 
--FILES_${PN} += "${libdir}/grub/${GRUB_TARGET}-efi \
--                ${datadir}/grub \
-+FILES_${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
-                 "
- 
- # 64-bit binaries are expected for the bootloader with an x32 userland
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 28f96bb..79a84e9 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -67,12 +67,4 @@ do_configure_prepend() {
- 	${S}/autogen.sh )
- }
- 
--# grub and grub-efi's sysroot/${datadir}/grub/grub-mkconfig_lib are
--# conflicted, remove it since no one uses it.
--SYSROOT_DIRS_BLACKLIST += "${datadir}/grub/grub-mkconfig_lib"
--
--PACKAGES =+ "${PN}-editenv"
--
--FILES_${PN}-editenv = "${bindir}/grub-editenv"
--RDEPENDS_${PN} += "${PN}-editenv"
- RDEPENDS_${PN}_class-native = ""
-diff --git a/meta/recipes-bsp/grub/grub_2.02.bb b/meta/recipes-bsp/grub/grub_2.02.bb
-index 3e61f6a..e097375 100644
---- a/meta/recipes-bsp/grub/grub_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub_2.02.bb
-@@ -1,6 +1,18 @@
- require grub2.inc
- 
--RDEPENDS_${PN} += "diffutils freetype"
-+RDEPENDS_${PN}-common += "${PN}-editenv"
-+RDEPENDS_${PN} += "diffutils freetype ${PN}-common"
++If some other per value option was present than 'skip' or 'nick' then
++a KeyError would occur. Ignoring such options matches the behaviour of
++the old, Perl-based glib-mkenums.
 +
-+RPROVIDES_${PN}-editenv += "${PN}-efi-editenv"
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=795008]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++---
++ gobject/glib-mkenums.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+PACKAGES =+ "${PN}-editenv ${PN}-common"
-+FILES_${PN}-editenv = "${bindir}/grub-editenv"
-+FILES_${PN}-common = " \
-+    ${bindir} \
-+    ${sysconfdir} \
-+    ${sbindir} \
-+    ${datadir}/grub \
-+"
++diff --git a/gobject/glib-mkenums.in b/gobject/glib-mkenums.in
++index fe9a10756..4ccc1f458 100755
++--- a/gobject/glib-mkenums.in
+++++ b/gobject/glib-mkenums.in
++@@ -218,7 +218,7 @@ def parse_entries(file, file_name):
++             if options is not None:
++                 options = parse_trigraph(options)
++                 if 'skip' not in options:
++-                    entries.append((name, value, options['nick']))
+++                    entries.append((name, value, options.get('nick', None)))
++             else:
++                 entries.append((name, value))
++         elif re.match(r's*\#', line):
++-- 
++2.12.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
+index faf594569d..53fa07e74c 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0001-Test-for-pthread_getname_np-before-using-it.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
++           file://0001-glib-mkenums-Ignore-other-per-value-options-than-ski.patch \
+            "
  
- do_install_append () {
-     install -d ${D}${sysconfdir}/grub.d
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
-2.7.4
+2.12.0
 
 
