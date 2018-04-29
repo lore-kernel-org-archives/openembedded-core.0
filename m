@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A75FE74499
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EB802744DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:21 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id a11so5121924pfn.9
+	Sun, 29 Apr 2018 19:36:22 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id i194-v6so4927792pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:22 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=O5KBnxFMWhmfySvERECp+R0R+BKCVklfQA3PTfW6eZg=;
-	b=JP5J3gHMYGEwnmMSZsvePy/cnYzXjJEj2gVLjxk+7N8PuBq/+oqtBKeEvLOoHj5Vbf
-	5mqsyZgr0TYu1SULogRTqNoZvJ4PqJdgO8GVr/X50Axet1+qVwQMSICXQUmloUclTcmL
-	o4vI1oDM7C8jj9+JdgXtdSfvj3DuelnpoRDlrXUES+EnltlULRjOhKjbXNF6YXj8OYLn
-	h8gRsyXwVa2LUzS5mcH1+LSr7SsDV+TGgPELfhzdUFShQ1+G0e7q0DQoWXuxaReCdk1P
-	fgy6AtU3EHm9s1oNtXz++tlSgLSFdpZgMNTiTjMGy8Ymd7ChWnwuWjknjKlFRbZ27Wos
-	RUHA==
+	bh=nAYdMu5LfR9o8kygTwAPuW4irLns4fhZSo0gUVaY5+0=;
+	b=Prnli7eOdKvVJeg/RzM7+xAqpL/jOfp7c4YNdbxxTyiHxBZkOfjWi5ZW4edmPtcrbC
+	kKEW6fTFQXX8RMz3Xjy4TLzjmrfbOOD23o1yOQYo8dyaCB8AXaWdT29m8BaTMo36LqHd
+	FEUdbQAQy8J6pUeYLxw+q7MetJkjmjUqr6ZGAsAcdxswrAvOOuBnHr080D7scv6JrHgw
+	EfC0w910Sl9nnL4AU9ULbgs0GdtDqKIe5yXrVu3NZbH0EtbDeBkr9Jd9TvYlknK6nXHC
+	yXzzvweEkJxGE1uCdjenHY/4FRETwqDG58tlTGKQI7m1NKM9NiHjE/z7B//DiWNgHe9r
+	q9Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=O5KBnxFMWhmfySvERECp+R0R+BKCVklfQA3PTfW6eZg=;
-	b=KSI97wpgDWo5og/6378cnqARH/imIxhYKCqOr+oTMOm6ZIcCv4FXbgGtlSuQFfWgea
-	7nsi0v+mHLpPvQmoO+xPyu61rck2Dg5+EfipZ1iJj18vokEHau2iY/2moPSfcSKFP2vN
-	K2ndAd3hK6j2d9V+KlOYJpFNPHwJnvX8H2brpaaqiduH4cM0UJovgcOf9OWstrE5W59e
-	qnPZ5mbdFK2z3FkL/Wm+38CeKlPZ6SDhnCFQg+fvwjBEHWl7AImlaZhy2hMpNFQAtBRz
-	O7wrZNb1QujRw1XY4pHXRdhlv0cAfqaun0g63Q+r7EbAjbIIIrC7obXGm+xAzqPRXQz5
-	xmDw==
-X-Gm-Message-State: ALQs6tAufRA6sbnB9cS2wHDJke0Q0/wQVLpAWJfi71FSjCOa0mZsgfsR
-	7yu12BT9Omu6X924rB9gsTvslw==
-X-Google-Smtp-Source: AB8JxZqRy5qlvBtwbH9dnricCagrNLYUMjsfEy57rq2lWtzSiBR8flebuWyow3HmS4bHdwaLtKiQXw==
-X-Received: by 2002:a63:6fc9:: with SMTP id
-	k192-v6mr8240196pgc.143.1525030582176; 
-	Sun, 29 Apr 2018 12:36:22 -0700 (PDT)
+	bh=nAYdMu5LfR9o8kygTwAPuW4irLns4fhZSo0gUVaY5+0=;
+	b=Sv4egyhutb0qY1ZWKyHeEfidAB3tAtBAYiThl3AqlPtqgtKcoWSCLCypexUDUyc32t
+	eMIjCdbrQWh7QEGkdoqVZ4zGho1SNPnY1Hc3VWMhAoLlCPQIM2+WdkmweXvXpHOIEk3G
+	yDmGKmK0xEo1r3rEQYXb4klEITGkbqwzJjvnCh+lkymYYG0SJ4UAxc3UnsgG6lDpMdho
+	3HSB93rwNBIvr8cKiLd6kVddnhYrzdFtCJ+NXi+31j8P+jkNF25690L4ipaQDO5j/yNL
+	PiyCR74Bi5Q6lUWRurR9HEvILGuRgVv6wbw0WzepicVlHffY6JwpcINi4sl7n+e1dtWM
+	mIqQ==
+X-Gm-Message-State: ALQs6tCmouHmN4EinKPKOJHxgvQcAFJsRWsXOuGko6LFMY2YjW1NMcr4
+	CktSOWbIdx+fuMe4nNSs1sbR1A==
+X-Google-Smtp-Source: AB8JxZrHqI6aRVebLeRInk+RvRfmAckdWFtaJDMofAierob+qI/3XvNgkrDW2uZm0s3QsnikeTkvgg==
+X-Received: by 2002:a65:42c7:: with SMTP id
+	l7-v6mr8270729pgp.335.1525030583612; 
+	Sun, 29 Apr 2018 12:36:23 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.20
+	125sm11960737pfc.145.2018.04.29.12.36.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:21 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:22 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:35:52 -0700
-Message-Id: <f240d9dbe59a76f14cce2a12be68f8a6bd4fdc98.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:35:53 -0700
+Message-Id: <1b3364fc5d0c8d2748eef12bf713f6cc9aeef11c.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 05/24] musl: Upgrade to latest
+Subject: [PATCH 06/24] llvm: Fix [compile-host-path] QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +57,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:21 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:23 -0000
 
-Changes are here
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=55df09bfccbfe21fc9dd7d8f94550c0ff25ace04..9be4ed5d89ecca80123311a4ec73781e5cc97a9c
+Its trying to build NATIVE llvm-config which is
+already built with llvm-native so we do not need
+to rebuild it
+
+Drop setting NINJA_STATUS explicitly, its no longer
+needed, on the contrary it hinders the task status
+update
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...able-generating-a-native-llvm-config.patch | 41 +++++++++++++++++++
+ meta/recipes-devtools/llvm/llvm_git.bb        |  7 ++--
+ 2 files changed, 45 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index a57460ddd2..f12ca16b0c 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
+diff --git a/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch b/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
+new file mode 100644
+index 0000000000..2809e4c594
+--- /dev/null
++++ b/meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
+@@ -0,0 +1,41 @@
++From 7f7743ce233fcd735ec580c75270413493658aa6 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 19 Apr 2018 18:08:31 -0700
++Subject: [PATCH] Disable generating a native llvm-config
++
++OpenEmbedded already builds this as part of llvm-native
++
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tools/llvm-config/CMakeLists.txt | 16 ----------------
++ 1 file changed, 16 deletions(-)
++
++diff --git a/tools/llvm-config/CMakeLists.txt b/tools/llvm-config/CMakeLists.txt
++index 25f99cec978..c45e9b642a8 100644
++--- a/tools/llvm-config/CMakeLists.txt
+++++ b/tools/llvm-config/CMakeLists.txt
++@@ -63,19 +63,3 @@ endif()
++ 
++ # Add the dependency on the generation step.
++ add_file_dependencies(${CMAKE_CURRENT_SOURCE_DIR}/llvm-config.cpp ${BUILDVARIABLES_OBJPATH})
++-
++-if(CMAKE_CROSSCOMPILING)
++-  set(${project}_LLVM_CONFIG_EXE "${LLVM_NATIVE_BUILD}/bin/llvm-config")
++-  set(${project}_LLVM_CONFIG_EXE ${${project}_LLVM_CONFIG_EXE} PARENT_SCOPE)
++-
++-  add_custom_command(OUTPUT "${${project}_LLVM_CONFIG_EXE}"
++-    COMMAND ${CMAKE_COMMAND} --build . --target llvm-config --config $<CONFIGURATION>
++-    DEPENDS ${LLVM_NATIVE_BUILD}/CMakeCache.txt
++-    WORKING_DIRECTORY ${LLVM_NATIVE_BUILD}
++-    COMMENT "Building native llvm-config..."
++-    USES_TERMINAL)
++-  add_custom_target(${project}NativeLLVMConfig DEPENDS ${${project}_LLVM_CONFIG_EXE})
++-  add_dependencies(${project}NativeLLVMConfig CONFIGURE_LLVM_NATIVE)
++-
++-  add_dependencies(llvm-config ${project}NativeLLVMConfig)
++-endif(CMAKE_CROSSCOMPILING)
++-- 
++2.17.0
++
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 77c095d9a3..cb3bba6fab 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -26,6 +26,7 @@ PATCH_VERSION = "0"
+ SRC_URI = "git://github.com/llvm-mirror/llvm.git;branch=${BRANCH};protocol=http \
+            file://0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch \
+            file://0002-llvm-allow-env-override-of-exe-path.patch \
++           file://0001-Disable-generating-a-native-llvm-config.patch \
+           "
+ UPSTREAM_CHECK_COMMITS = "1"
+ S = "${WORKDIR}/git"
+@@ -85,15 +86,15 @@ do_configure_prepend() {
+ }
  
- require musl.inc
+ do_compile() {
+-	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE}
++	ninja -v ${PARALLEL_MAKE}
+ }
  
--SRCREV = "55df09bfccbfe21fc9dd7d8f94550c0ff25ace04"
-+SRCREV = "9be4ed5d89ecca80123311a4ec73781e5cc97a9c"
+ do_compile_class-native() {
+-	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
++	ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
+ }
  
- PV = "1.1.19+git${SRCPV}"
+ do_install() {
+-	NINJA_STATUS="[%p] " DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
++	DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
+ 	install -D -m 0755 ${B}/bin/llvm-config ${D}${libdir}/${LLVM_DIR}/llvm-config
  
+ 	install -d ${D}${bindir}/${LLVM_DIR}
 -- 
 2.17.0
 
