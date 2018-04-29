@@ -1,50 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 811E774639
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C1A8745C1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:42 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id i29-v6so4908156pgn.12
+	Sun, 29 Apr 2018 19:36:43 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id i194-v6so4928085pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:43 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=FVSh+HMUfB53l3u2iev7PAPk2oMLReQtBeKA0bW8sEI=;
-	b=Ot4Uf3/yB3mrg5MF4LKzuMbaq56eR4LPOIz8tdU4PHOjc3qVJR9Kh1hEWt9ggGedGU
-	hQ6xLaSYPn9KVEePscMXECr6Qdu8Ze+QYPZHNZRAeFS9A9fiz87Ye+WtKUD35aVrUMEq
-	TgPd5TBZAfarWOMVSuotPR7mAxGVMk2FH2C1+8rnl4/q0DMcisGG3diIWmQK3YV6GNnK
-	+ekpCvEUuTo2NJlD079djxEVW3Va+j1tkV97CBgndyqpa+uPGjgpMQSfaAyQyl8OtAjz
-	JWsZp8fEs6nD+r1MshP4O5NkRJ+Z8vJuIWIqYfXzTD0hihc74eN9VtN5L7cwFkmPfUMA
-	ugow==
+	bh=4G0FxhK4ny4S4DNqksOQvurfb9LCXySfOv2S4y1e6Sk=;
+	b=lvA0/Tazj0DpSO4qFkKe2u9F6CzPYGAHCEI1FYZ69f3an5Mg1G0H6ryd27/f0622lc
+	3xHqTqBZ1JysY9g1AJS+oXfClw+UKzmS56IzIfx2RDKExYDG0nGIXx54XFbMMJNpPSM/
+	oafu/aElvD8kK2c0H2gM2dG+WIHvRmDjU6XDWQcz+5fWyGKXly66fOpCuNimP6IuCeKZ
+	RX/z7zlCjuxr0KYbpxbX37n2LhbYX59zolxBYunvCEFK14d2L/p8CLYF2IeX5TlQBTze
+	3Vp6fTrC64O+RZjj5t7uv1NsTiHOIlojM66snqhoCUr3UWUZDjI7qk7xy8n7sKoZjDcX
+	S8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=FVSh+HMUfB53l3u2iev7PAPk2oMLReQtBeKA0bW8sEI=;
-	b=dKdCMZsR9k2tzHTdSxoXD8gGShnlC1xKmv8BJV9gGK3hzB/n5iBQbuDyyGuph/KkRe
-	VwAHzsbztNnrHRwMDS4Ujfqu34yoHXPMskKixr5LZM5Q6ek/ET2IUvGXcRaz9wW5cr7T
-	9FlB+YJzX6PlN+2DxBiHaw4a09fEFM3NVMgn+QEzgfAwtXLYjU8iy1UFykhiLET4xy4a
-	C/NUui1Z3xbM99uzkdXuiths5laUxP8zg/nz8mfr0HyWCMIWeaMMoDa5kdKYh5FrQTyn
-	vrDc1TFgHZrCwSyYhhLZ20I8TbxXTMO/ImlsVtfK3w+xpqLocDwjCPz2OWGcxrkx+ZEH
-	ivsg==
-X-Gm-Message-State: ALQs6tA3XAT1FN3C8SKXm5OeS9Gp+bl6lOIUWvyThmm4rI/hxq53m20y
-	nyEJKKuZWeLl6vjmsY3BL+6nXg==
-X-Google-Smtp-Source: AB8JxZo/Pb0FSxaEC+tcCV4O0j99kwSPa6Yk4kw/c2A5OWIFtJOAQbOiZRLPN5qPfMog9tf57LTZmQ==
-X-Received: by 2002:a63:91c4:: with SMTP id
-	l187-v6mr8133652pge.261.1525030603237; 
-	Sun, 29 Apr 2018 12:36:43 -0700 (PDT)
+	bh=4G0FxhK4ny4S4DNqksOQvurfb9LCXySfOv2S4y1e6Sk=;
+	b=tmucn29LX4fECGmYYzPYlw1mmKiPF2DkIFrA97PUIGz6deBLTJ+QEWjHzw8xziikJv
+	WDH3eafmu5SrH7PZsRlAARS6hRSG/ra0e0WjGrq/yNnT20bZOcRw3QKV2k2SDVa0TuIM
+	O9IMKGgSFIabX8NCnSbNwie0Gr8jBC9FzElEk0pOnmCD/Yexjq5rBi5WwWpz1j9t1H2Q
+	h8wNTHVHbLLoFaQJjrIBhLjm2H9BVqfWQJg60ovPHnAbCyeR8+VMjfXQmri/+zl4j6Bc
+	pwWjH35TWIC0x9kkJEEjJaoCodtNkSidpAjPblJseTJ78aDc5C73oc1D/o4nKWIllpLA
+	rQ9Q==
+X-Gm-Message-State: ALQs6tAVKxQjN9Qg2k9AKw0wUgh0jQB4KJJb0Y+nuLeQfl9BbGH2CFQ1
+	SFbCmKW0fZ4fkn2njwu6uS4a+A==
+X-Google-Smtp-Source: AB8JxZph9Aec7lzufiXRlD4DMduGQXAQR4oS/Cb50MBV8NobqLU5pwcHkivWo8YMVEAqdSwc6FeEJA==
+X-Received: by 2002:a63:458:: with SMTP id 85-v6mr8289511pge.156.1525030604366;
+	Sun, 29 Apr 2018 12:36:44 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.42
+	125sm11960737pfc.145.2018.04.29.12.36.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:42 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:36:09 -0700
-Message-Id: <6e6015dc7ab903419eb768d62630be137ac65ad8.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:36:10 -0700
+Message-Id: <98928704cb26b5646fc39c18c0f007504caa52cf.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 22/24] libnsl2: Install into /usr/include and /usr/lib
+Subject: [PATCH 23/24] ppp: Install net/ppp_defs.h on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:42 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:43 -0000
 
-Extend to native and nativesdk variants
+This header is used by other apps e.g. ippool
+glibc provides an internal version which it should not
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/libnsl/libnsl2_git.bb | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-index c6ba80c943..c3a24face1 100644
---- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-@@ -21,13 +21,4 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index a5f764f6ec..a1bb7d71c1 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -80,6 +80,10 @@ do_install_append () {
+ 	chmod u+s ${D}${sbindir}/pppd
+ }
  
- inherit autotools pkgconfig gettext
- 
--EXTRA_OECONF += "--libdir=${libdir}/nsl --includedir=${includedir}/nsl"
--
--do_install_append() {
--	install -d ${D}${libdir}
--	mv ${D}${libdir}/nsl/pkgconfig ${D}${libdir}
--}
--
--FILES_${PN} += "${libdir}/nsl/*.so.*"
--FILES_${PN}-dev += "${includedir}/nsl ${libdir}/nsl/*.so"
--FILES_${PN}-staticdev += "${libdir}/nsl/*.a"
-+BBCLASSEXTEND = "native nativesdk"
++do_install_append_libc-musl () {
++	install -Dm 0644 ${S}/include/net/ppp_defs.h ${D}${includedir}/net/ppp_defs.h
++}
++
+ CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
+ PACKAGES =+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-minconn ${PN}-password ${PN}-l2tp ${PN}-tools"
+ FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${systemd_unitdir}/system/ppp@.service"
 -- 
 2.17.0
 
