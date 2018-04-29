@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E50601F6
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9546D6093D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:35:47 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id q22so5125507pff.11
+	Sun, 29 Apr 2018 19:36:15 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id i194-v6so4927687pgd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:35:48 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/lp0Pwu6I7yOvHST8/JwfGAUS5E6IV5rr2/s8xlsjlc=;
-	b=RgmosKpcTZW7JiwWkbUwhG54GndKb6jEYsavPWoRh1s68ysOZVMlMfOgsdu1q8CVXN
-	Afi/zp+2kanbW/co0h73nyHrkAswIfEhqbQ0pbxU3cjMVwu10Y0CLQvc9mTIE+JovrWT
-	4vTP023NBcLUjd2LE7H/+iJFWo37jGobMuXkTM444lFFySxTB5Q/xwkitkc/MQR6kEj7
-	eQ/9nbwo3emLqNS7WveNwXxe56dJUtyAv3FG5gKM6N/3KpHxVE4BjXxTx7gPBQV2ug18
-	NO91DkrjP6v+eCMcMebkMya5hMfLPtEav4IT7EbK5afj9OKdCRH255RMVWv4qu+mQGi2
-	gXJw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=CSmGuycJctMbok3N6fIQBVZEhOYkYoO9i7FSJYXZxr4=;
+	b=lJo8FjsNJpjwCA35BB8Ss1VKWiR2ipxjKtiQdjpZWVWMCs+/PahApph/G1wCLQA64D
+	3sOv1KQdYbtsPzQ3+IEd4WbItH1LFjPtlax5Y4ibrct3iXql8dECaosn6wiM5xbYClx7
+	3jsxTPJjDojYo0IHwr7EqddjC2PCdt3U+G13pF3WuN1bxYNd8demjg8eqHK5YTyjp/SE
+	euocLyIchns/AV+e5QjHN1q3pQI5un/qB2Z8drhqoJ1Zka55pfr+ljmm9U39lC6gV9kl
+	PR1ERos7uKH8UKBg5h+fONjovt4DzRsSBlLSo0+Cw0LzPcJ1o7xwvUmev41x86eFZLvf
+	xAzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/lp0Pwu6I7yOvHST8/JwfGAUS5E6IV5rr2/s8xlsjlc=;
-	b=fO4mp01K+DF8D87gXS4R4//yeMT2mYeAbVZfGAVqbt18EHXZV1PnCU/Li5+fVVWr/S
-	/vTTeuxsU1YeMhd1Rw0zQGw0fLiOkF8e/LuYPUCClhtpGlRUhySGtETLm14uU5Em/gFO
-	qL2fqQxQLCDQZttcOJLY1cSoGnDYx71goJquI1xVSUdcU0IPdNdk4o5gitWD/IjXInoe
-	QkxamS/+L57vJ42D1mdCoj2wAvXfVHhBbvj1mPgQUZK9I7i2fY+7nBB1SJ6nbhonUd8e
-	qayKs7ujpiVAYKC/+Eqfx7j21ZuY088/rlp4OhCk7K7UEtUd3VtKRUABydFD4LlvQPzx
-	cURA==
-X-Gm-Message-State: ALQs6tBnvyIs6rdxSKsmdnCSVp638yzVLZcxwNkKO+Wl7thyMzAJbq2j
-	E+lROhLZBIIt7ukEk+Ng9cL/Uw==
-X-Google-Smtp-Source: AB8JxZodQ92FmwrqwX8pHh/qMs/21rVIv0AqhK8cdGsBFWZW4QMgdU9SOVRyQA1nyprZqshZpNxJVw==
-X-Received: by 2002:a17:902:8b82:: with SMTP id
-	ay2-v6mr6869389plb.295.1525030548067; 
-	Sun, 29 Apr 2018 12:35:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=CSmGuycJctMbok3N6fIQBVZEhOYkYoO9i7FSJYXZxr4=;
+	b=KaPAQkXQqvNkstIoenG6uuD71UlcPCMbSvmP92KpW8FhblC5bniAYbH4yU4RKi8iRq
+	0g8Ad6ZmAIG3xBVX7YMfR1PZOWknVjflhjk7ykCDrJIokezBfGOS67UuFgAwCmchkbvL
+	+8Y0CJS1hOyQwCyBbA2I4AOQaP3dr1jTJQa7cymxwqNZzR3poBNY6Fq1LCOV6qoJp+SV
+	Ud4f4m5P8VgRwQwjRH27S8A+C74Ruw660ZHzrBBgxyg3CjPlPyzqAEqTF0YEXq5fvuxh
+	a99nD0MxI/5Kmp+VCFtzJr/EEi9JJlC/L9oNJaFd36eO7766rSdONdHC90YixZTJBdJA
+	OqLw==
+X-Gm-Message-State: ALQs6tB+2dXnAAvc2Z5KiBrikYM/eb37xnUiNShIPeSuFizoWYuBDMi0
+	UrAN0YQauX6dCEEcfXSwKlg5Yw==
+X-Google-Smtp-Source: AB8JxZoVXrDBaqKnVgPk4zIunVAQU8P0e5AKCPLBBr41/8tsU/3nwVpyN4O0Q+/JAwicSmkDAYYWqw==
+X-Received: by 10.98.56.144 with SMTP id f138mr9619911pfa.173.1525030576226;
+	Sun, 29 Apr 2018 12:36:16 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	u86sm12267657pfg.71.2018.04.29.12.35.47
+	125sm11960737pfc.145.2018.04.29.12.36.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:35:47 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:15 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:35:42 -0700
-Message-Id: <cover.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:35:48 -0700
+Message-Id: <3b8f5c652ccde28998678f42575bb9c04c334950.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [PATCH 00/24] ssp rework and glibc drop obsolete nsl/rpc
+In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
+References: <cover.1525029885.git.raj.khem@gmail.com>
+Subject: [PATCH 01/24] libssp-nonshared: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,142 +56,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:35:47 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:15 -0000
 
-This patchset is primarily fixing how we generate use and generate ssp support
-in system runtime, we use the glibc/musl version consistently and suppliment
-musl implementation with libssp_nonshared.a due to gcc needing it.
+libssp-nonshared is a minimal gcc runtime piece which is needed
+on non-glibc systems which do implement libssp APIs in libc
 
-Second major change is to drop the obsoleted features of glibc
-we have been carrying them for some releases now and its time to
-drop the ball on rpc/nsl eventually in a followup when we upgrade to glibc
-2.28 we should drop crypt as well, this also means that the changes we did
-for musl for rpc/nsl can now we applied generally and thats evident from
-few commits in the series
-
-Added libnss-nis and rpcsvc-proto for stubborn recipes until they migrate
-to use libtirpc
-
-Few upgrades are generally helping gcc8 upgrade which I will post separately
-once this patchset is baked and applied.
-
-
-The following changes since commit 1b03cdf290c3c8b7f903aef696b0e1bfe763cbe0:
-
-  build-appliance-image: Update to sumo head revision (2018-04-23 17:54:13 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Khem Raj (24):
-  libssp-nonshared: Add recipe
-  musl: Depend on libssp-nonshared
-  gcc-runtime: Disable gcc version of libssp
-  libunwind: Drop adding libssp to linker flags
-  musl: Upgrade to latest
-  llvm: Fix [compile-host-path] QA issue
-  pbzip2: Fix C++11 warnings found with clang
-  alsa-tools: Update to 1.1.6
-  alsa-lib: Upgrade to 1.1.6
-  ruby: Upgrade to 1.5.1
-  glibc: Drop obsolete rpc and libnsl
-  rpcsvc-proto: Add recipe
-  libnss-nis: Add recipe
-  libtirpc: Upgrade to 1.0.4-tc1
-  libnsl: Upgrade to tip beyond 1.2.0 release
-  ltp: Fix build after removing rpc and libnsl in glibc
-  xinetd: Use libtirpc even on glibc
-  tcp-wrapper: Use external libnsl
-  Use libtirpc even on glibc
-  perl: Account for libnsl being dropped from glibc
-  mdadm: Fix build with gcc8
-  libnsl2: Install into /usr/include and /usr/lib
-  ppp: Install net/ppp_defs.h on musl
-  allarch.bbclass: Exclude package_do_shlibs from do_package signature
-
- meta/classes/allarch.bbclass                  |   1 +
- meta/classes/libc-common.bbclass              |   4 -
- .../distro/include/default-distrovars.inc     |   2 +-
- meta/conf/distro/include/maintainers.inc      |   2 +
- meta/conf/local.conf.sample.extended          |   2 +-
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |   4 +
- .../glibc/cross-localedef-native_2.27.bb      |   1 -
- meta/recipes-core/glibc/glibc-initial.inc     |   4 +-
- meta/recipes-core/glibc/glibc-package.inc     |   5 +-
- meta/recipes-core/glibc/glibc.inc             |   4 -
- .../0021-eglibc-Install-PIC-archives.patch    | 123 ---
- meta/recipes-core/glibc/glibc_2.27.bb         |  18 +-
- meta/recipes-core/musl/libssp-nonshared.bb    |  39 +
- .../musl/libssp-nonshared/ssp-local.c         |  45 +
- meta/recipes-core/musl/musl_git.bb            |   5 +-
- meta/recipes-devtools/gcc/gcc-7.3.inc         |   7 +-
- ...cc-override-TARGET_LIBC_PROVIDES_SSP.patch | 204 ++++
- meta/recipes-devtools/gcc/gcc-runtime.inc     |   4 +-
- ...able-generating-a-native-llvm-config.patch |  41 +
- meta/recipes-devtools/llvm/llvm_git.bb        |   7 +-
- meta/recipes-devtools/perl/perl_5.24.1.bb     |   2 +-
- meta/recipes-devtools/ruby/ruby.inc           |  11 +-
- .../ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb}     |   4 +-
- .../0001-include-sys-cdefs.h-explicitly.patch |  68 --
- ...de-stdint.h-for-uintptr_t-definition.patch |  27 -
- .../0002-Define-glibc-specific-macros.patch   |  57 --
- meta/recipes-extended/libnsl/libnsl2_git.bb   |  19 +-
- .../recipes-extended/libnss-nis/libnss-nis.bb |  36 +
- .../0001-include-stdint.h-for-uintptr_t.patch |  29 -
- ...0001-replace-__bzero-with-memset-API.patch |  64 --
- .../libtirpc/Use-netbsd-queue.h.patch         | 878 ------------------
- .../export_key_secretkey_is_set.patch         |  31 -
- .../libtirpc/libtirpc-1.0.4-rc1.patch         | 103 ++
- .../libtirpc/libtirpc/musl.patch              |  18 +
- .../{libtirpc_1.0.2.bb => libtirpc_1.0.3.bb}  |  13 +-
- ...0001-Disable-rpc01-on-glibc-and-musl.patch |  29 +
- ...option-to-select-libc-implementation.patch |  14 -
- meta/recipes-extended/ltp/ltp_20180118.bb     |   1 +
- ...able-errors-due-to-new-gcc8-warnings.patch |  30 +
- ...tead-of-memcpy-on-overlapping-region.patch |  31 +
- meta/recipes-extended/mdadm/mdadm_4.0.bb      |   2 +
- ...valid-suffix-on-literal-C-11-warning.patch |  73 ++
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |   4 +-
- .../rpcsvc-proto/rpcsvc-proto.bb              |  37 +
- .../0001-Use-cross-compiled-rpcgen.patch      |  26 +
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |   2 +-
- .../watchdog/watchdog_5.15.bb                 |  11 +-
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb |   7 +-
- .../{alsa-lib_1.1.5.bb => alsa-lib_1.1.6.bb}  |   9 +-
- ...served-user-defined-literal-warnings.patch |  28 +
- .../alsa/alsa-tools/autotools.patch           |  42 +-
- ...lsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} |  25 +-
- meta/recipes-support/libunwind/libunwind.inc  |   2 -
- 53 files changed, 852 insertions(+), 1403 deletions(-)
- delete mode 100644 meta/recipes-core/glibc/glibc/0021-eglibc-Install-PIC-archives.patch
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/libssp-nonshared.bb    | 39 ++++++++++++++++
+ .../musl/libssp-nonshared/ssp-local.c         | 45 +++++++++++++++++++
+ 2 files changed, 84 insertions(+)
  create mode 100644 meta/recipes-core/musl/libssp-nonshared.bb
  create mode 100644 meta/recipes-core/musl/libssp-nonshared/ssp-local.c
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0049-gcc-override-TARGET_LIBC_PROVIDES_SSP.patch
- create mode 100644 meta/recipes-devtools/llvm/llvm/0001-Disable-generating-a-native-llvm-config.patch
- rename meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} (90%)
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0001-include-sys-cdefs.h-explicitly.patch
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0002-Define-glibc-specific-macros.patch
- create mode 100644 meta/recipes-extended/libnss-nis/libnss-nis.bb
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-include-stdint.h-for-uintptr_t.patch
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-replace-__bzero-with-memset-API.patch
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/Use-netbsd-queue.h.patch
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/export_key_secretkey_is_set.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/libtirpc-1.0.4-rc1.patch
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/musl.patch
- rename meta/recipes-extended/libtirpc/{libtirpc_1.0.2.bb => libtirpc_1.0.3.bb} (63%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0001-Disable-errors-due-to-new-gcc8-warnings.patch
- create mode 100644 meta/recipes-extended/mdadm/files/0001-use-memmove-instead-of-memcpy-on-overlapping-region.patch
- create mode 100644 meta/recipes-extended/pbzip2/pbzip2/0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch
- create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
- create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.5.bb => alsa-lib_1.1.6.bb} (75%)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} (62%)
 
+diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
+new file mode 100644
+index 0000000000..00a0a3d411
+--- /dev/null
++++ b/meta/recipes-core/musl/libssp-nonshared.bb
+@@ -0,0 +1,39 @@
++# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "Minimal libssp_nonshared.a must needed for ssp to work with gcc on musl"
++LICENSE = "GPL-3.0-with-GCC-exception"
++LIC_FILES_CHKSUM = "file://ssp-local.c;beginline=1;endline=32;md5=c06d391208c0cfcbc541a6728ed65cc4"
++SECTION = "libs"
++
++SRC_URI = "file://ssp-local.c"
++
++PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
++STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
++
++DEPENDS = "virtual/${TARGET_PREFIX}binutils \
++           virtual/${TARGET_PREFIX}gcc-initial \
++"
++
++do_configure[noexec] = "1"
++
++S = "${WORKDIR}"
++
++do_compile() {
++	${CC} ${CPPFLAGS} ${CFLAGS} -c ssp-local.c -o ssp-local.o
++	${AR} r libssp_nonshared.a ssp-local.o
++}
++do_install() {
++	install -Dm 0644 ${B}/libssp_nonshared.a ${D}${base_libdir}/libssp_nonshared.a
++}
++#
++# We will skip parsing for non-musl systems
++#
++COMPATIBLE_HOST = ".*-musl.*"
++RDEPENDS_${PN}-staticdev = ""
++RDEPENDS_${PN}-dev = ""
++RRECOMMENDS_${PN}-dbg = "${PN}-staticdev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-core/musl/libssp-nonshared/ssp-local.c b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+new file mode 100644
+index 0000000000..8f51afa2c1
+--- /dev/null
++++ b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+@@ -0,0 +1,45 @@
++/* Stack protector support.
++   Copyright (C) 2005-2018 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free
++Software Foundation; either version 3, or (at your option) any later
++version.
++
++In addition to the permissions in the GNU General Public License, the
++Free Software Foundation gives you unlimited permission to link the
++compiled version of this file into combinations with other programs,
++and to distribute those combinations without any restriction coming
++from the use of this file.  (The General Public License restrictions
++do apply in other respects; for example, they cover modification of
++the file, and distribution when not linked into a combine
++executable.)
++
++GCC is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or
++FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++extern void __stack_chk_fail (void);
++
++/* Some targets can avoid loading a GP for calls to hidden functions.
++   Using this entry point may avoid the load of a GP entirely for the
++   function, making the overall code smaller.  */
++
++void
++__attribute__((visibility ("hidden")))
++__stack_chk_fail_local (void)
++{
++  __stack_chk_fail ();
++}
 -- 
 2.17.0
 
