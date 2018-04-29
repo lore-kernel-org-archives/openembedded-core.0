@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AA20745AE
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BD11671A8C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:34 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id o76so5129330pfi.5
+	Sun, 29 Apr 2018 19:36:35 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id p9-v6so2015713pgc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:35 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2bPRJcZIlKFvDF1OnT5ZG6LP5ZKdlq4/cHfpS1ectak=;
-	b=rxNy8oQf7BHcS+XDqF3FUXohnhaCwtCBf+d6MNCP3P0iX3OjI5NHcvTHhpytFnFRxc
-	igMNvkXFtRk8RtDs70Gev+LNAMPgN6+gcFFvqhG7yvRC+4Bu3oWwGV5seUQ6mMb/yecX
-	Zoq3g7bysueWGXnl+TNhhy8JP4WCxWWeT6vTeGRIoCsfOIHbGVOrfEMsgO7XaVlOrLEQ
-	vUOYCxr4CVYYb+W8eQioUthTFR7q0LmFCa9agYEsllcw+sA0SwFJ1zngxclg4waQmXnm
-	549+8gAf25GRRCv5jG857dQAH14r+v3VYXBrYVFDDdM8xB0IkT/tZol8oqFSbgAa8dQ2
-	dcUw==
+	bh=x7CWv/KGEQ3fZP5lpcH1ygwLNsAqx70tTetzHE9RSaM=;
+	b=jgnJJPP6tppXFmumhrbqlhiu4oaEspvRR2L+c1RYXwQ35ZKWp3UyTeDfs1OkewrErs
+	wQTIm1L+1v4m7CIAAagRk90o1GIOGF7VukNiOmUI6u/Y0yTXz6kOYZCZW6bL8O0zkwxv
+	pt7ETym/Fk9mBORPZWI1SpEaKKGYC/5hZiV+5A48oAlKmP8PGWdezkNKXCF2ARzAWO/M
+	2yNycxKLw3hWiIbABkRjVUZRZJYdIJVP+EFPn9D7C6+lLNEMRzlCcMMPSWnctQ7EBcjB
+	4XNW6MhubvIiNZTpySQmESHAD+mMd/7TgVRSkbaICOcjHnANZ/mg2fQOKtEnnE01mayc
+	GxMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=2bPRJcZIlKFvDF1OnT5ZG6LP5ZKdlq4/cHfpS1ectak=;
-	b=MLkINs2TzYToDirmYQ6JqVyK6Y/2mQKfrx+BA6t4WS4OPbNL/5IhdmutoWkPYiI8Mk
-	6olwRVHmIvTl3n0kc9w2caCd06o1etSeDw/LV60romDpxyXpBgdf9eKIoTMZO+qGVeLW
-	fbHzgHGcWeJbAg7/T3SQdJFFPgANor7qaXtkndL+QMgVt4ntNOh+19n5YsUsWttqKZaS
-	QXBRoDZdw9Xcrh1JbS0TEifWMD7eik8CdIDQQr7/gl1+VhTh/W0k0BIglcglgjWVAinT
-	ahXcwv6wpUnteTI4Z8pMKdZO6DM1Lz9zOeHtSXL5VpTmJKXYLZXzJNAr5IM7/iXq83/H
-	5FOQ==
-X-Gm-Message-State: ALQs6tA+YBR5dyjD0XP6fqMLEaUVmZzWScTb3iIcYbfS9nlGtQL6vNd8
-	KtkWSNs3hNBacWpdn1xtA74jMw==
-X-Google-Smtp-Source: AB8JxZqdf+k53ae//fn9YRbitwRitGKWxj4hBf4xvByLOzyQU4AVl0TNWw8tRzTzHTLQIU2ir5VPtg==
-X-Received: by 2002:a17:902:1a6:: with SMTP id
-	b35-v6mr9979555plb.80.1525030594995; 
-	Sun, 29 Apr 2018 12:36:34 -0700 (PDT)
+	bh=x7CWv/KGEQ3fZP5lpcH1ygwLNsAqx70tTetzHE9RSaM=;
+	b=L84RooIzlQFauB/LbuhfKD1bwmmr8wKnWWyWbpSYNx5VORWaxQvPuI7B5bntBMX18p
+	OB0VZjY1PQYMC8NWHYC04Gl0Hru18v2cQYdh3His8HuUl7DCdhRunPUpGg0eYV3r63aR
+	tD4nMqJdl/Y0Ra8A/3hRCM/Xyt95Y9M6B/8k4nXWmLXTy+MyihP/Kxh0JWr4d0SJUA1u
+	5ihtv3fTBoJAEskO3SpNNzBuZiv8ReBmafA9Dyb0a5CcLBBDFU0U59k6IC7v8ZzPpETW
+	wZ/Ml2Q07HzxGJxynDUYrdLx3fVOLITzgzeuzqTQuhYIozQX+qU81TUZtGCqi/PFUECU
+	EF/A==
+X-Gm-Message-State: ALQs6tCMiOG2UytOjt7gTi6lxep0X14+jq9O8UGT8M0UznYzOod2uOmr
+	P9G9KXE1/TNmaTgH2xTXAGXVBA==
+X-Google-Smtp-Source: AB8JxZrOFS4L6iV40iimrJ9XzqiD0n7HWl16tqQqkXXI9XIVhZPn5V2VSRezSfiVOc6OyNb1R7ax4Q==
+X-Received: by 2002:a17:902:bc08:: with SMTP id
+	n8-v6mr9771526pls.97.1525030596490; 
+	Sun, 29 Apr 2018 12:36:36 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.34
+	125sm11960737pfc.145.2018.04.29.12.36.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:34 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:35 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:36:02 -0700
-Message-Id: <c0e83f3499ce5817fe022b18774a679fa9fff3eb.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:36:03 -0700
+Message-Id: <1799ed5d0d121a23e61cd0fd9a8196ae649876ab.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 15/24] libnsl: Upgrade to tip beyond 1.2.0 release
+Subject: [PATCH 16/24] ltp: Fix build after removing rpc and libnsl in glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,210 +57,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:34 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:35 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-include-sys-cdefs.h-explicitly.patch | 68 -------------------
- ...de-stdint.h-for-uintptr_t-definition.patch | 27 --------
- .../0002-Define-glibc-specific-macros.patch   | 57 ----------------
- meta/recipes-extended/libnsl/libnsl2_git.bb   |  8 +--
- 4 files changed, 2 insertions(+), 158 deletions(-)
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0001-include-sys-cdefs.h-explicitly.patch
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
- delete mode 100644 meta/recipes-extended/libnsl/libnsl2/0002-Define-glibc-specific-macros.patch
+ ...0001-Disable-rpc01-on-glibc-and-musl.patch | 29 +++++++++++++++++++
+ ...option-to-select-libc-implementation.patch | 14 ---------
+ meta/recipes-extended/ltp/ltp_20180118.bb     |  1 +
+ 3 files changed, 30 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
 
-diff --git a/meta/recipes-extended/libnsl/libnsl2/0001-include-sys-cdefs.h-explicitly.patch b/meta/recipes-extended/libnsl/libnsl2/0001-include-sys-cdefs.h-explicitly.patch
-deleted file mode 100644
-index bd647ac55e..0000000000
---- a/meta/recipes-extended/libnsl/libnsl2/0001-include-sys-cdefs.h-explicitly.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From 508a0ff690dfebc17c4f55a5f81824ed549bed66 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 18 Apr 2017 09:13:33 -0700
--Subject: [PATCH 1/2] include sys/cdefs.h explicitly
--
--glibc includes this header indirectly but not musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- src/rpcsvc/nis.h    | 1 +
-- src/rpcsvc/nislib.h | 1 +
-- src/rpcsvc/ypclnt.h | 1 +
-- src/rpcsvc/ypupd.h  | 1 +
-- 4 files changed, 4 insertions(+)
--
--diff --git a/src/rpcsvc/nis.h b/src/rpcsvc/nis.h
--index 933c4d9..88cbca0 100644
----- a/src/rpcsvc/nis.h
--+++ b/src/rpcsvc/nis.h
--@@ -32,6 +32,7 @@
-- #ifndef _RPCSVC_NIS_H
-- #define _RPCSVC_NIS_H 1
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch b/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
+new file mode 100644
+index 0000000000..78c6dfb2b1
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
+@@ -0,0 +1,29 @@
++From ff39e6b69f0b26dad8ab685ee6116ff92bc363db Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 28 Apr 2018 00:08:55 -0700
++Subject: [PATCH] Disable rpc01 on glibc and musl
++
++It is not buildable with libtirpc
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ testcases/network/rpc/basic_tests/Makefile | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
++index 66e9d5675..16a64e7da 100644
++--- a/testcases/network/rpc/basic_tests/Makefile
+++++ b/testcases/network/rpc/basic_tests/Makefile
++@@ -23,4 +23,7 @@
++ top_srcdir		?= ../../../..
++ 
++ include $(top_srcdir)/include/mk/env_pre.mk
+++
+++FILTER_OUT_DIRS += rpc01
+++
++ include $(top_srcdir)/include/mk/generic_trunk_target.mk
++-- 
++2.17.0
++
+diff --git a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
+index 84ab37ea39..0781ba1743 100644
+--- a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
++++ b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
+@@ -102,20 +102,6 @@ Index: git/testcases/network/nfsv4/acl/Makefile
+ +endif
+ +
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+-Index: git/testcases/network/rpc/basic_tests/Makefile
+-===================================================================
+---- git.orig/testcases/network/rpc/basic_tests/Makefile
+-+++ git/testcases/network/rpc/basic_tests/Makefile
+-@@ -23,4 +23,9 @@
+- top_srcdir		?= ../../../..
 - 
--+#include <sys/cdefs.h>
-- #include <features.h>
-- #include <rpc/rpc.h>
-- #include <rpcsvc/nis_tags.h>
--diff --git a/src/rpcsvc/nislib.h b/src/rpcsvc/nislib.h
--index a59c19b..a53fab3 100644
----- a/src/rpcsvc/nislib.h
--+++ b/src/rpcsvc/nislib.h
--@@ -19,6 +19,7 @@
-- #ifndef	__RPCSVC_NISLIB_H__
-- #define	__RPCSVC_NISLIB_H__
-- 
--+#include <sys/cdefs.h>
-- #include <features.h>
-- 
-- __BEGIN_DECLS
--diff --git a/src/rpcsvc/ypclnt.h b/src/rpcsvc/ypclnt.h
--index fe43fd4..a686b61 100644
----- a/src/rpcsvc/ypclnt.h
--+++ b/src/rpcsvc/ypclnt.h
--@@ -20,6 +20,7 @@
-- #ifndef	__RPCSVC_YPCLNT_H__
-- #define	__RPCSVC_YPCLNT_H__
-- 
--+#include <sys/cdefs.h>
-- #include <features.h>
-- 
-- /* Some defines */
--diff --git a/src/rpcsvc/ypupd.h b/src/rpcsvc/ypupd.h
--index d07fd4d..2c57301 100644
----- a/src/rpcsvc/ypupd.h
--+++ b/src/rpcsvc/ypupd.h
--@@ -33,6 +33,7 @@
-- #ifndef __RPCSVC_YPUPD_H__
-- #define __RPCSVC_YPUPD_H__
-- 
--+#include <sys/cdefs.h>
-- #include <features.h>
-- 
-- #include <rpc/rpc.h>
---- 
--2.12.2
--
-diff --git a/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch b/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
-deleted file mode 100644
-index e9ae517107..0000000000
---- a/meta/recipes-extended/libnsl/libnsl2/0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From d71cbeb3b76e54778a4d5eec6d387cce653537ca Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 9 Jun 2017 09:49:35 -0700
--Subject: [PATCH] nis_call.c: Include stdint.h for uintptr_t definition
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- src/nisplus/nis_call.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/nisplus/nis_call.c b/src/nisplus/nis_call.c
--index 1a2b90c..1dc982d 100644
----- a/src/nisplus/nis_call.c
--+++ b/src/nisplus/nis_call.c
--@@ -23,6 +23,7 @@
-- #include <errno.h>
-- #include <fcntl.h>
-- #include <string.h>
--+#include <stdint.h>
-- #include <libintl.h>
-- #include <rpc/rpc.h>
-- #include <rpc/auth.h>
---- 
--2.13.1
--
-diff --git a/meta/recipes-extended/libnsl/libnsl2/0002-Define-glibc-specific-macros.patch b/meta/recipes-extended/libnsl/libnsl2/0002-Define-glibc-specific-macros.patch
-deleted file mode 100644
-index 75fda4b0f0..0000000000
---- a/meta/recipes-extended/libnsl/libnsl2/0002-Define-glibc-specific-macros.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From 60282514ea01af004d7f9e66dd3929223b7d2e7b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 18 Apr 2017 09:16:12 -0700
--Subject: [PATCH 2/2] Define glibc specific macros
--
--Check and define
--rawmemchr, __asprintf, __mempcpy, __strtok_r
--__always_inline, TEMP_FAILURE_RETRY
--
--if not existing. Helps compiling with musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
--diff --git a/src/rpcsvc/nis.h b/src/rpcsvc/nis.h
--index 88cbca0..23fc20c 100644
----- a/src/rpcsvc/nis.h
--+++ b/src/rpcsvc/nis.h
--@@ -57,6 +57,34 @@ __BEGIN_DECLS
--  *                                              <kukuk@suse.de>
--  */
-- 
--+#ifndef rawmemchr
--+#define rawmemchr(s,c) memchr((s),(size_t)-1,(c))
--+#endif
+- include $(top_srcdir)/include/mk/env_pre.mk
 -+
--+#ifndef __asprintf
--+#define __asprintf asprintf
--+#endif
+-+ifeq ($(LIBC),musl)
+-+FILTER_OUT_DIRS += rpc01
+-+endif
 -+
--+#ifndef __mempcpy
--+#define __mempcpy mempcpy
--+#endif
--+
--+#ifndef __strtok_r
--+#define __strtok_r strtok_r
--+#endif
--+
--+#ifndef __always_inline
--+#define __always_inline __attribute__((__always_inline__))
--+#endif
--+
--+#ifndef TEMP_FAILURE_RETRY
--+#define TEMP_FAILURE_RETRY(exp) ({ \
--+typeof (exp) _rc; \
--+ do { \
--+  _rc = (exp); \
--+ } while (_rc == -1 && errno == EINTR); \
--+ _rc; })
--+#endif
-- 
-- #ifndef __nis_object_h
-- #define __nis_object_h
---- 
--2.12.2
--
-diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-index a539148caf..c6ba80c943 100644
---- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-@@ -9,16 +9,12 @@ LICENSE = "LGPL-2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS = "libtirpc"
--DEPENDS_append_libc-musl = " bsd-headers"
- 
--PV = "1.0.5+git${SRCPV}"
-+PV = "1.2.0+git${SRCPV}"
- 
--SRCREV = "dfa2f313524aff9243c4d8ce1bace73786478356"
-+SRCREV = "37c5ffe3038d42e9fa9ed232ad2cbca4d8f14681"
- 
- SRC_URI = "git://github.com/thkukuk/libnsl \
--           file://0001-include-sys-cdefs.h-explicitly.patch \
--           file://0002-Define-glibc-specific-macros.patch \
--           file://0001-nis_call.c-Include-stdint.h-for-uintptr_t-definition.patch \
-           "
+- include $(top_srcdir)/include/mk/generic_trunk_target.mk
+ Index: git/testcases/realtime/func/pi-tests/Makefile
+ ===================================================================
+ --- git.orig/testcases/realtime/func/pi-tests/Makefile
+diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+index 14fb41b3bd..8992f1b0f2 100644
+--- a/meta/recipes-extended/ltp/ltp_20180118.bb
++++ b/meta/recipes-extended/ltp/ltp_20180118.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+            file://0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch \
++           file://0001-Disable-rpc01-on-glibc-and-musl.patch \
+            "
  
  S = "${WORKDIR}/git"
 -- 
