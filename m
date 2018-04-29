@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id E9FD1745A1
+Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5FB74527
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:30 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id v63so5127159pfk.8
+	Sun, 29 Apr 2018 19:36:31 +0000 (UTC)
+Received: by mail-pg0-f42.google.com with SMTP id a13-v6so4926636pgu.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:32 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=k8ozAW+hq6U7hXBCi09op2HDjBHthQAPAc9SUhlJmL8=;
-	b=dRq1e1aidi4ispOmAYZUF3h4ecCeUf4Mk3grHYQ2+DQz6SZOcn+Hz1RtX6yJQgO9vG
-	wqEJZORQ3wxF2JjGyH9CZZgZfudYVS/w8s2F+wGVAW58wp4tJ+z1t4pMrkBL0yRUboMO
-	z8HztaL0BL5xbXTqo59wTP+H9Q3IFRBFIrWWcv9RxjnT97/uXXa9Y15vXAA9R/5HzoxL
-	K32sFBMS+h6xRLoJJB2Kb6G3p/GCAuyRbRtoSSO2YLzUnf4gU/5/mgmy9CGHypcizLar
-	ZyOPBS22obdCXkGI86j56N4zbegCvRTHcHi7xQzSeX0zrUX9rfqsq/Y0EchB4Ng//7NU
-	VEKQ==
+	bh=pgpxW4k70heKCfDM5MA/EvOffYswhW++ZXsOtbnyjS8=;
+	b=DwOrMbxdLcfCCmP1z8QH/3p4Eg8ZubKEzF6uypgNChIhiwR+DoMcJyqqIG8si2jxMT
+	wiFgVJ6jYYnzuuQNsJxq2by5Vggo/WMnQZSXpw0+oCXg8WKUgrfigjPeOYsQmrAW6iJD
+	VbOvBy71GM0EtkYAfMGw7UJUz9o7+dsrZJT6eLEChq6s1LQjW+ALEHNXvcogpWggobP7
+	6R/JJ6UCeZVH070rTtjGHxpbhJO5ix9vSj37bUbsppD/T0xZHS92SyldPdTfMXUZyt7F
+	zeKxENNNWygWX45YnH+ZJ8Gh3hxWMlerW5Vfu3QHTAtLJoTLJqDXR/vk0F9WWs2+N0an
+	Lf2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=k8ozAW+hq6U7hXBCi09op2HDjBHthQAPAc9SUhlJmL8=;
-	b=QgMjoa1L3k+uyIBs52kdSNJcvrmtBDmuws9YzHeLFfuKGdV3rnf3cqhAw7mhsYrTY7
-	+Iw7dubSIRa2TIn2b0ABLc6vEL9sK5QQZYzVMtN4u+2ItF6WHMunzvGHX+wBer+D8qcG
-	dzt2P4exz/GzvgUtawdNd1BzQNk5NcFD3aW+Tozz4VTvlCxPrLLrscHGFjFH2WaufHym
-	OeCCpNNNMgy3SaqdktnvmHyiv4hy9kQVNKmS3ijIe39DbMnHwv6v0Jktk7A4ghxgZSxD
-	ahPVXBvXpwNZtzBRoeldbrd7uuRYdIQ9swpHfznfr1AR4f/i5nTEymuc7O1TlywWdvEx
-	4x6w==
-X-Gm-Message-State: ALQs6tCG1G/hM5jXIuMURSei7/2cRs0QD45HEaKUIMs8P6PZAkFBPgg8
-	bo2Rp62r+BWTmE5Gr8ztMYN0kA==
-X-Google-Smtp-Source: AB8JxZrw7W+e7e1fLCtEbTOVlFSN8tdzBE4SclFNKV9+mzCBwRBLI9j3Wa2wRz2/GaMsCWlFkGvTgA==
-X-Received: by 2002:a17:902:9a0c:: with SMTP id
-	v12-v6mr9746716plp.162.1525030591476; 
-	Sun, 29 Apr 2018 12:36:31 -0700 (PDT)
+	bh=pgpxW4k70heKCfDM5MA/EvOffYswhW++ZXsOtbnyjS8=;
+	b=Nt18zokD8Iv+9sDXb/BIdU0DWHtcc47KPjoWvPjFsYhc0196em7XiKIwqRNrA8PTND
+	i+PyWnYOyL8TWwOBeQa209iommU7/vCiRcLazXBNLYFKBFbZKN8iAcvJBN6UeYd9ciP/
+	/lfaoW4EMMftZJYGsT+3BgSibTJ0ZSCNGw58t29lDwHWqhlC72chRRQWAUjVgDqaXilh
+	b7YyRJcqQqnSntkbIo7ycTTNoQIOiayJsNy8nSUw3HaqbxoRCHcycSVaY3+TrRxH8vvB
+	RpNY6eFEGD8W6KCjYePQOhHA72LFEL8ZQmZJtzC5PZQwFwBc4QHOxDFSFCCSacjZ9BDz
+	zwnw==
+X-Gm-Message-State: ALQs6tBKUNQWT+3jiKlVD5C4wsb77zLB0vDBJYEH9lkb2HtiZlm+4shd
+	s6nDNHFwgG6eLkjZNEv4TbBHjw==
+X-Google-Smtp-Source: AB8JxZr3GmsoHPAKmxNGsaZ210w/BKyc9Bfs0RzBnd3Gc0SstjmTXx1JH2i9Idb2WlzyA2aVqlsr5g==
+X-Received: by 2002:a17:902:2468:: with SMTP id
+	m37-v6mr10140410plg.388.1525030592760; 
+	Sun, 29 Apr 2018 12:36:32 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.30
+	125sm11960737pfc.145.2018.04.29.12.36.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:30 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:31 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:35:59 -0700
-Message-Id: <f11d1f50ff37367943f2b7b7a56aff18bd85db5b.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:36:00 -0700
+Message-Id: <00dd53fde90bd764c2f363d83d1b07dd14a18ce5.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 12/24] rpcsvc-proto: Add recipe
+Subject: [PATCH 13/24] libnss-nis: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,103 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:31 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:32 -0000
+
+This will substitute the glibc nis module which
+has been removed
+
+Skip for non-glibc systems
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
  meta/conf/distro/include/maintainers.inc      |  1 +
- .../rpcsvc-proto/rpcsvc-proto.bb              | 37 +++++++++++++++++++
- .../0001-Use-cross-compiled-rpcgen.patch      | 26 +++++++++++++
- 3 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
- create mode 100644 meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
+ .../recipes-extended/libnss-nis/libnss-nis.bb | 36 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-extended/libnss-nis/libnss-nis.bb
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 48aff9537e..823e1bfa98 100644
+index 823e1bfa98..d49be7abb9 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -633,6 +633,7 @@ RECIPE_MAINTAINER_pn-resourceproto = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-rgb = "Armin Kuster <akuster@mvista.com>"
- RECIPE_MAINTAINER_pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-rng-tools = "Maxin B. John <maxin.john@intel.com>"
-+RECIPE_MAINTAINER_pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-rpm = "Mark Hatle <mark.hatle@windriver.com>"
- RECIPE_MAINTAINER_pn-rpmresolve = "Mark Hatle <mark.hatle@windriver.com>"
- RECIPE_MAINTAINER_pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
+@@ -362,6 +362,7 @@ RECIPE_MAINTAINER_pn-libnl = "Alexander Kanavin <alexander.kanavin@intel.com>"
+ RECIPE_MAINTAINER_pn-libnotify = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libnsl2 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libnss-mdns = "Alexander Kanavin <alexander.kanavin@intel.com>"
++RECIPE_MAINTAINER_pn-libnss-nis = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libogg = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libomxil = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libowl = "Maxin B. John <maxin.john@intel.com>"
+diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis.bb
 new file mode 100644
-index 0000000000..fdeafe283a
+index 0000000000..e0f69b02ef
 --- /dev/null
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -0,0 +1,37 @@
++++ b/meta/recipes-extended/libnss-nis/libnss-nis.bb
+@@ -0,0 +1,36 @@
 +# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
 +# Released under the MIT license (see COPYING.MIT for the terms)
 +
-+SUMMARY = "rpcsvc protocol definitions from glibc"
++SUMMARY = "NSS module for glibc, to provide NIS support for glibc"
 +
-+DESCRIPTION = "This package contains rpcsvc proto.x files from glibc, which are\
-+missing in libtirpc. Additional it contains rpcgen, which is needed\
-+to create header files and sources from protocol files.\
-+This package is only needed, if glibc is installed without the\
-+deprecated sunrpc functionality and libtirpc should replace it."
++DESCRIPTION = "This package contains the NSS NIS plugin for glibc.\
++This code was formerly part of glibc, but is now standalone to\
++be able to link against TI-RPC for IPv6 support."
 +
-+HOMEPAGE = "https://github.com/thkukuk/rpcsvc-proto"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=0daaf958d5531ab86169ec6e275e1517"
++HOMEPAGE = "https://github.com/thkukuk/libnss_nis"
++LICENSE = "LGPL-2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 +SECTION = "libs"
-+DEPENDS += "rpcsvc-proto-native"
++DEPENDS += "libtirpc libnsl2"
 +
-+PV = "1.3.1+git${SRCPV}"
++PV = "3.0+git${SRCPV}"
 +
-+SRCREV = "abcf24a09665b3def0f54c87d2acd4796de5d83a"
++SRCREV = "d4aea48657a8e90d7922574b8021ee03915a36cb"
 +
-+SRC_URI = "git://github.com/thkukuk/${BPN} \
-+           file://0001-Use-cross-compiled-rpcgen.patch \
++SRC_URI = "git://github.com/thkukuk/libnss_nis \
 +          "
 +
 +S = "${WORKDIR}/git"
 +
-+inherit autotools
-+
-+EXTRA_OEMAKE_class-native = " -C rpcgen"
-+
-+do_install_append() {
-+	# They come from quota recipe
-+	rm -rf ${D}${includedir}/rpcsvc/rquota.[hx]
-+}
++inherit autotools pkgconfig
 +
 +BBCLASSEXTEND += "native nativesdk"
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-new file mode 100644
-index 0000000000..4ee4940295
---- /dev/null
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-@@ -0,0 +1,26 @@
-+From de9345207beb71e4d5b6b40b52cac4ebd2e3858c Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 27 Apr 2018 23:23:20 -0700
-+Subject: [PATCH] Use cross compiled rpcgen
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ rpcsvc/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rpcsvc/Makefile.am b/rpcsvc/Makefile.am
-+index 83867c0..4753242 100644
-+--- a/rpcsvc/Makefile.am
-++++ b/rpcsvc/Makefile.am
-+@@ -12,5 +12,5 @@ nodist_rpcsvc_HEADERS = klm_prot.h nlm_prot.h rstat.h spray.h \
-+ 	nfs_prot.h rquota.h sm_inter.h
-+ 
-+ %.h: %.x
-+-	$(top_builddir)/rpcgen/rpcgen -h -o $@ $<
-++	rpcgen -h -o $@ $<
-+ 
-+-- 
-+2.17.0
++#
++# We will skip parsing this packagegeoup for non-glibc systems
++#
++python __anonymous () {
++    if d.getVar('TCLIBC') != "glibc":
++        raise bb.parse.SkipRecipe("incompatible with %s C library" %
++                                   d.getVar('TCLIBC'))
++}
 +
 -- 
 2.17.0
