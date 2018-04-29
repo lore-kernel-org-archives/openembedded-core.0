@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B08745C1
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CF6FD745E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:37 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id j5so5136671pfh.2
+	Sun, 29 Apr 2018 19:36:38 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id m21-v6so4916147pgv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:39 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=21Ps+SPJ0/+LJh4UIt/AY9S2kYB49U5eugpfpW4byLM=;
-	b=bImeFbBq0m2mjGzdKZ8prdoL3uccqjLNPy1opJLOiiBlB0xYmV+1YDUhVnyN0iPgPf
-	xqSRTm4CX/1awNAOsodz3+B9qdkG+YvKis6pVWFFVWQ7cfb4+DLEU/1n+x7EVsW6vdLq
-	a5tLU37YFxRWL64atbNzNKdBPL9bbhAjzqeNY5mUoRigvVkLr68bs/qUvBO6njBK3Fh6
-	fLdesnHS1Qp2l6iuLwdEEE8G6UPvz4Jywhb7nJyghB0Al2ZvlcXyf56QK8CEseEmrraX
-	U5ioO3sZFIMfU/Jlie1asy2odxM0e5aAD0Op/SJvunqGkkBmgaKOO3rIUNxik8Og+C8K
-	I32g==
+	bh=3DGvKFoZh+MQzz1o0j040YS0FlZCeqavuYA9r83umDw=;
+	b=W4Q/hTnv0mEVJ9bGa0ptLVH5hzgrU3qciXIJiILbUbE6YBdHTyXo4D6enaSjPICbub
+	a8JhlY3RXGMMqhKsNswlinZAnBe0eXDqWMyy8A+xwFCT3tbOAzPnGKJ9666PHzuwGX38
+	YjTtDphkiWCbw1NVeOx8G4hJXhwu4qd4HTPEfEBSPtK2/yINf7ZQWbgafePibgg8KNnJ
+	hntA3yBcyKlNJ3F+0uL7JGVOhnzxt91++hVQ1IZK9dADqbYagLy6H28OuqrYghCdPDvg
+	54S1AvPkzi+ms6LN2sYT/bkiVovwMCTev6QAzNC8+Fx486Q2FrvChtNBhOouB3dWErzs
+	dWYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=21Ps+SPJ0/+LJh4UIt/AY9S2kYB49U5eugpfpW4byLM=;
-	b=X4g13DkR+r0M7sIykQPNdR7yvwgxGGJzuEo0iNr6UF6A4Wdg3vD3aAbJSR6jQorQIh
-	4P6wZihqwXQjhB2ptshYXY8k0d6wagATyuNJ+LgHfefNm3FrWWNGQBqcE5k5XtpxfD9Y
-	i21obkiRnBOrujX/E9+NuG0/NG/Avp5xLkIbfvYMcZBdIZuFLdW6PozouBqOI1MGko2/
-	q9yiLwlYPxIHh/QB56Pc2IILYyXGsObPubNnx2a5GduLlUPLuGoc8pjD+UIXg+04pANv
-	CDMc3oeOtMAeS52wvjW+6/a9mubpvbz0BfC2uV+p/y2XL3aEyb9HVDCs2Mp3kSUHxZkj
-	Y4ew==
-X-Gm-Message-State: ALQs6tBVf8QNpdn7BbVDnjgAPj0E3yqpfo1dCI9uS23THMbOpAQ1o1Nm
-	tfJrg9xgO/0BVNhed5PCHNtGew==
-X-Google-Smtp-Source: AB8JxZqEPzQWnaKzXTxg/Z1aMijiYqQRd9/ZTtmvsH/AaJ0gKfQE7/QQ9GO7S47G69YMYSrYcuATaQ==
-X-Received: by 2002:a17:902:24e:: with SMTP id
-	72-v6mr9749662plc.87.1525030598778; 
-	Sun, 29 Apr 2018 12:36:38 -0700 (PDT)
+	bh=3DGvKFoZh+MQzz1o0j040YS0FlZCeqavuYA9r83umDw=;
+	b=JBPgV2GMBGkwTMwRYW2zB30RA12N+PsRcMFH9VUcLOTJEzOwctFGzG3DLai0istA/c
+	VGKTAhi/vcuDpYtyk4aGgb7LRdJBuzw4L7L7vsex7UnOSldXZ409pCJf2Q40M2u76TL8
+	qZBIAi6b5sfQKgBX07uK7N/3h3Q2oN0Oex9yMx85ASg9A7D8Zz3oicGW+VYj1NPJUryN
+	PqwXCgJIpM+Ed/8lBFOXszOe0YvHVPBupDH81/SiIRwGiR5a/8NkZz66PiBFQorVqbpE
+	zY86acBww5TKUZpd1wCxHMKDrOjkyMGlbNXA7gfTpTqWDMfNHtWT5BjzLgK4WSCKa8oc
+	lOJA==
+X-Gm-Message-State: ALQs6tAFqQc0GNdLbllCh6EfxsFHMzw1cXZmKf18jwIC8qa6QSMWtsx/
+	ThSVMljvA9fC8QU1TD0pcc68+Q==
+X-Google-Smtp-Source: AB8JxZoycEyla1MKZ8Xj4azmKse8a9qf2xo6dMN3J/7dIa2VpLxmi2O55dKeMmGfqSM+O4r0sEAtpw==
+X-Received: by 2002:a17:902:2006:: with SMTP id
+	n6-v6mr10070131pla.125.1525030599790; 
+	Sun, 29 Apr 2018 12:36:39 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.37
+	125sm11960737pfc.145.2018.04.29.12.36.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:37 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:36:05 -0700
-Message-Id: <803bffaa378aa4a5c78c6cf5e13ee407628fa524.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:36:06 -0700
+Message-Id: <5a84f730b0824ced68f13e26aac5aad96c4b6033.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 18/24] tcp-wrapper: Use external libnsl
+Subject: [PATCH 19/24] Use libtirpc even on glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:38 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:39 -0000
 
-We dropped in-tree obsoleted libnsl from glibc
+We dropped in-tree obsoleted rpc from glibc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/watchdog/watchdog_5.15.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 3ece8c3012..0f50674653 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -8,6 +8,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://DISCLAIMER;md5=071bd69cb78b18888ea5e3da5c3127fa"
- PR ="r10"
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
+index 37b37ae12f..24791c4170 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
+@@ -22,12 +22,13 @@ SRC_URI[sha256sum] = "ffdc865137ad5d8e53664bd22bad4de6ca136d1b4636720320cb52af0c
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/watchdog/files/watchdog/"
+ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
  
-+DEPENDS += "libnsl2"
+-inherit autotools update-rc.d systemd
++inherit autotools update-rc.d systemd pkgconfig
  
- PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev libwrap-staticdev ${PN} ${PN}-doc"
- FILES_libwrap = "${base_libdir}/lib*${SOLIBS}"
-@@ -67,7 +68,6 @@ EXTRA_OEMAKE = "'CC=${CC}' \
-                 'KILL_OPT=-DKILL_IP_OPTIONS' \
-                 'UMASK=-DDAEMON_UMASK=022' \
-                 'NETGROUP=${EXTRA_OEMAKE_NETGROUP}' \
--                'LIBS=-lnsl' \
-                 'ARFLAGS=rv' \
-                 'AUX_OBJ=weak_symbols.o' \
-                 'TLI=' \
+-DEPENDS_append_libc-musl = " libtirpc "
+-CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
+-LDFLAGS_append_libc-musl = " -ltirpc "
+-EXTRA_OECONF_append_libc-musl = " --disable-nfs "
++DEPENDS += "libtirpc"
++CFLAGS += "-I${STAGING_INCDIR}/tirpc"
++LDFLAGS += "-ltirpc"
++
++EXTRA_OECONF += " --disable-nfs "
+ 
+ INITSCRIPT_PACKAGES = "${PN} ${PN}-keepalive"
+ 
 -- 
 2.17.0
 
