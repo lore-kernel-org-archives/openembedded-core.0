@@ -1,49 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C1A8745C1
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 07AAE744D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 19:36:43 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id i194-v6so4928085pgd.0
+	Sun, 29 Apr 2018 19:36:44 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id f189so5129642pfa.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 12:36:44 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4G0FxhK4ny4S4DNqksOQvurfb9LCXySfOv2S4y1e6Sk=;
-	b=lvA0/Tazj0DpSO4qFkKe2u9F6CzPYGAHCEI1FYZ69f3an5Mg1G0H6ryd27/f0622lc
-	3xHqTqBZ1JysY9g1AJS+oXfClw+UKzmS56IzIfx2RDKExYDG0nGIXx54XFbMMJNpPSM/
-	oafu/aElvD8kK2c0H2gM2dG+WIHvRmDjU6XDWQcz+5fWyGKXly66fOpCuNimP6IuCeKZ
-	RX/z7zlCjuxr0KYbpxbX37n2LhbYX59zolxBYunvCEFK14d2L/p8CLYF2IeX5TlQBTze
-	3Vp6fTrC64O+RZjj5t7uv1NsTiHOIlojM66snqhoCUr3UWUZDjI7qk7xy8n7sKoZjDcX
-	S8vQ==
+	bh=rDjOx9JKZd+yZsuc/wtqNsuwD+B0Vx+tt4bnYcGFwMk=;
+	b=ulYLbQ9ygyMedg6AUwlf8t4pGUmBFPdtgPrL44i9dedGvbH2yTBWWItr2tX1DOGZ6+
+	og4q0QZlvInVoBdlFzn2vU7/CeFP394hEAA2WfxTVDq+oBBHDUeb1B0OH+eRZxlihczW
+	2t72rnZ2YKeeB+1WtGDvQjlXzF4WzebCm7xDV8JevPWPIt8O84a/6wfQoMIz6u+znjjk
+	62y6fcc0tk8m5HhZZG/zLw2Ao+Dvcz5G91O+de/VjGjM/njlZxxJ/8bwdcGGh8PKnzIV
+	La0GU8sqCoOM9cR+JJ9jHl/FWvoPvKs60fqT5NwoYJPQmOXlpO0B2a8VHhLofySRPedC
+	eZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4G0FxhK4ny4S4DNqksOQvurfb9LCXySfOv2S4y1e6Sk=;
-	b=tmucn29LX4fECGmYYzPYlw1mmKiPF2DkIFrA97PUIGz6deBLTJ+QEWjHzw8xziikJv
-	WDH3eafmu5SrH7PZsRlAARS6hRSG/ra0e0WjGrq/yNnT20bZOcRw3QKV2k2SDVa0TuIM
-	O9IMKGgSFIabX8NCnSbNwie0Gr8jBC9FzElEk0pOnmCD/Yexjq5rBi5WwWpz1j9t1H2Q
-	h8wNTHVHbLLoFaQJjrIBhLjm2H9BVqfWQJg60ovPHnAbCyeR8+VMjfXQmri/+zl4j6Bc
-	pwWjH35TWIC0x9kkJEEjJaoCodtNkSidpAjPblJseTJ78aDc5C73oc1D/o4nKWIllpLA
-	rQ9Q==
-X-Gm-Message-State: ALQs6tAVKxQjN9Qg2k9AKw0wUgh0jQB4KJJb0Y+nuLeQfl9BbGH2CFQ1
-	SFbCmKW0fZ4fkn2njwu6uS4a+A==
-X-Google-Smtp-Source: AB8JxZph9Aec7lzufiXRlD4DMduGQXAQR4oS/Cb50MBV8NobqLU5pwcHkivWo8YMVEAqdSwc6FeEJA==
-X-Received: by 2002:a63:458:: with SMTP id 85-v6mr8289511pge.156.1525030604366;
-	Sun, 29 Apr 2018 12:36:44 -0700 (PDT)
+	bh=rDjOx9JKZd+yZsuc/wtqNsuwD+B0Vx+tt4bnYcGFwMk=;
+	b=ryvnyBhag3KqzT4nxJ297tcSLE7ObdFrPCRMaSKrUkgCLID92rgLwqPjm7aIo7sbRz
+	GetA658oVexy90QNj/gphWXLOC4h7K+bAV6SdYUt4v+WyRmkA67mbDXJyArziJRpyn3X
+	17TybiLja5n+AqHk0BtEUs6o5HbNbDzsi4dHKeZCWHso6yMBR7vvk5j9YSEvtORf+u7S
+	EVUtAo/3qup0OeIIkB/LKpTWW1j2rAkaeSzSiHw7HxKUnM6uB9joctDae2y2CXSu8+Ek
+	vrUBQprl743jG/w7JJYnG/nMn8VStptBoYPpWsLH4vZCHnqdSifNJz9kvks542wgdPEJ
+	DY4g==
+X-Gm-Message-State: ALQs6tAphi9IGU0qH506yS2vavoYmZmXnuGfTXQ7K/EBIcGKgIj37msw
+	08ppgYCaFR21bSzkXJ1mFhlXIg==
+X-Google-Smtp-Source: AB8JxZp/hRFpTXtfEEDB1pNmt9msJPIMmJMlW52zw7lQ5xKF06mGKOsjLS6WiSeM+e4/ZpB7wxrtyg==
+X-Received: by 2002:a63:6108:: with SMTP id
+	v8-v6mr8165348pgb.245.1525030605426; 
+	Sun, 29 Apr 2018 12:36:45 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8880:466c::ddd5])
 	by smtp.gmail.com with ESMTPSA id
-	125sm11960737pfc.145.2018.04.29.12.36.43
+	125sm11960737pfc.145.2018.04.29.12.36.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 29 Apr 2018 12:36:43 -0700 (PDT)
+	Sun, 29 Apr 2018 12:36:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Apr 2018 12:36:10 -0700
-Message-Id: <98928704cb26b5646fc39c18c0f007504caa52cf.1525029885.git.raj.khem@gmail.com>
+Date: Sun, 29 Apr 2018 12:36:11 -0700
+Message-Id: <78d503fde6a4bf966f0961146ccd7056a2cff1d6.1525029885.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525029885.git.raj.khem@gmail.com>
 References: <cover.1525029885.git.raj.khem@gmail.com>
-Subject: [PATCH 23/24] ppp: Install net/ppp_defs.h on musl
+Subject: [PATCH 24/24] allarch.bbclass: Exclude package_do_shlibs from do_package signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Apr 2018 19:36:43 -0000
+X-List-Received-Date: Sun, 29 Apr 2018 19:36:45 -0000
 
-This header is used by other apps e.g. ippool
-glibc provides an internal version which it should not
+shlibs is largely useless for allarch, the particular usecase where it
+fails is when DISTRO_FEATURE is changing due to libc being different e.g.
+
+Variable package_do_shlibs value changed:
+-DISTRO_FEATURES{ldconfig} = Set
++DISTRO_FEATURES{ldconfig} = Unset
+
+musl -> glibc or other way around 'ldconfig' gets added or deleted to
+DISTRO_FEATURE set, neither this distro feature nor the shlibs processing
+during packaging is of interest to allarch packages which are largely
+arch independent scripts
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/allarch.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index a5f764f6ec..a1bb7d71c1 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -80,6 +80,10 @@ do_install_append () {
- 	chmod u+s ${D}${sbindir}/pppd
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index 51ba509cd0..1eebe0bf2e 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -45,6 +45,7 @@ python () {
+         # These multilib values shouldn't change allarch packages so exclude them
+         d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
+         d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
++        d.appendVarFlag("do_package", "vardepsexclude", " package_do_shlibs")
+     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
  }
- 
-+do_install_append_libc-musl () {
-+	install -Dm 0644 ${S}/include/net/ppp_defs.h ${D}${includedir}/net/ppp_defs.h
-+}
-+
- CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
- PACKAGES =+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-minconn ${PN}-password ${PN}-l2tp ${PN}-tools"
- FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${systemd_unitdir}/system/ppp@.service"
 -- 
 2.17.0
 
