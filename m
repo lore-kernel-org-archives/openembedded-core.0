@@ -1,45 +1,45 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0529A71984
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F56D60939
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 16:31:07 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id a202so7061614qkg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 09:31:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=f+gIxLtoCcd+HUiwaH+7XOJPXyHAEIqAEQuZxHBe+6w=;
-	b=OtuKltrB81SCleQpDI1cGEI/xnR1SYl70YdRV6VF6aqxVL9PFKUkkW2iD2P21xj3ve
-	l9aBTawirAX+m32xzIIUTg2wEEEgyc6jxAjpa73xVMGlAfqow84ZGjabqsq3YQW4tdjt
-	aLojqLwMcFmuwcwdCNLRWDkLtqjIm6cWDx2SzhZXOTUp56T5+gOiE7hHQZEwcBDFqJh5
-	8clisxQ1GpV9vDg++ng6339wImKi8QNAtQOYF4cT3jDarBC3iPAnjclO6Kk6sS1kOpwr
-	UctoK/eLyyuMxh+/LyXZrdgqT4JK9Iau4t54+FbQXublLCEVUbNJ7eenwWS3hp1ZEx6J
-	dgDw==
-X-Gm-Message-State: ALQs6tDgLYTIIk1QBoMXCw+FAQ7L7dVxmMRILIWan7AZkQHqx/uDLdt5
-	LfhoDlTAtTYfyYZ9Li4DiyJgAg==
-X-Google-Smtp-Source: AB8JxZpiDZ1n5zhTwZZLeB3JNBgYACpvVZvbLYG6MuRK/ORxJP4abJqFXQJ/f1FhkdqiGr6ew0Ufmw==
-X-Received: by 10.55.24.220 with SMTP id 89mr10404732qky.49.1525105868069;
-	Mon, 30 Apr 2018 09:31:08 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	v57-v6sm6752552qtj.47.2018.04.30.09.31.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 30 Apr 2018 09:31:07 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 30 Apr 2018 13:31:03 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Apr 2018 13:30:53 -0300
-Message-Id: <20180430163053.7143-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180430163053.7143-1-otavio@ossystems.com.br>
-References: <20180430163053.7143-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] wic: add ontrack DM6 aux3 support
+	Mon, 30 Apr 2018 17:42:44 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 40ZX1c5211z1qwQ9;
+	Mon, 30 Apr 2018 19:42:44 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 40ZX1c4DVMz1qqxG;
+	Mon, 30 Apr 2018 19:42:44 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id egmp9P8aLl7R; Mon, 30 Apr 2018 19:42:43 +0200 (CEST)
+X-Auth-Info: JKp4s4SNzxd5wlyYutq1ArsRIQYXnfPZrADmUlKxvik=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 30 Apr 2018 19:42:43 +0200 (CEST)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	yamada.masahiro@socionext.com, mnhu@prevas.dk, raj.khem@gmail.com
+References: <20180408230223.17260-1-marex@denx.de>
+	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
+	<bf9e9593-a395-8d53-faf8-ad6609aa5ba1@prevas.dk>
+	<53904a8f-7ba2-7f09-4e93-a95a780f60c7@denx.de>
+	<d89b39f665a14c63b0821c1ad600da72@SOC-EX01V.e01.socionext.com>
+	<8cc34667-5bb3-9642-40e2-d56b28f56646@prevas.dk>
+	<32a348ed6176434db8178d29d7e1f183@SOC-EX01V.e01.socionext.com>
+	<5ca366ed-3108-4a56-caaf-06b4f136d259@denx.de>
+	<627e0fde-f97f-5c49-bc1a-325e7baa9072@linux.intel.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <0802e876-fda0-d8d2-9dca-18ba8cbe073e@denx.de>
+Date: Mon, 30 Apr 2018 19:25:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <627e0fde-f97f-5c49-bc1a-325e7baa9072@linux.intel.com>
+Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,53 +52,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 16:31:08 -0000
+X-List-Received-Date: Mon, 30 Apr 2018 17:42:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Add ontrack DM6 aux3 partition support to enable creating
-partitions required to boot i.MX MXS based platforms.
+On 04/30/2018 02:17 PM, Alexander Kanavin wrote:
+> On 04/16/2018 11:40 AM, Marek Vasut wrote:
+>>> Isn't it possible to solve your issue in the OE side?
+>>>
+>>
+>> Can we NOT compile DTC alongside U-Boot somehow ? :)
+>> That'd be the most desired solution IMO.
+> 
+> Yes please. Can you adjust the recipes and classes in oe-core, and
+> remove the dtc recipe altogether?
 
-This has been removed by OE-Core:21af89a6 (wic: allow only supported
-fstypes). It was unnoticed as most users were still using the
-meta-freecale image generation class instead of wic but we are now
-in process of dropping the class and this is the remaining use-case.
+Remove dtc recipe ? Not sure I understand what you're implying.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
-Changes in v2: None
-
- scripts/lib/wic/ksparser.py              | 3 ++-
- scripts/lib/wic/plugins/imager/direct.py | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index e590b2fe3c0..02b267380f6 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -138,7 +138,8 @@ class KickStart():
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype', default='vfat',
-                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
--                                   'squashfs', 'vfat', 'msdos', 'swap'))
-+                                   'squashfs', 'vfat', 'msdos', 'swap',
-+                                   'ontrackdm6aux3'))
-         part.add_argument('--mkfs-extraopts', default='')
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 1fa6b917e66..594481e6a94 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -528,6 +528,8 @@ class PartitionedImage():
-                 parted_fs_type = "fat16"
-                 if not part.system_id:
-                     part.system_id = '0x6' # FAT16
-+            elif part.fstype == "ontrackdm6aux3":
-+                parted_fs_type = "ontrackdm6aux3"
-             else:
-                 # Type for ext2/ext3/ext4/btrfs
-                 parted_fs_type = "ext2"
 -- 
-2.17.0
-
+Best regards,
+Marek Vasut
 
