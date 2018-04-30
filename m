@@ -1,39 +1,37 @@
-Return-Path: <lukma@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C82060602
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 9883A6025E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 08:18:42 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40ZHVq0Rr5z1qvTR;
-	Mon, 30 Apr 2018 10:18:43 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40ZHVq04vrz1qqxF;
-	Mon, 30 Apr 2018 10:18:43 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id KUlg3emP8MXm; Mon, 30 Apr 2018 10:18:41 +0200 (CEST)
-X-Auth-Info: VgzGqM9mefRboAr44vNOHXYlyYeVdueKolOhYnhLAU0=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon, 30 Apr 2018 10:18:41 +0200 (CEST)
-Date: Mon, 30 Apr 2018 10:18:25 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Martin =?UTF-8?B?SHVuZGViw7hsbA==?= <mnhu@prevas.dk>
-Message-ID: <20180430101825.0b9e4eab@jawa>
-In-Reply-To: <69bd71c5-a14a-2687-3f5d-52083043a131@prevas.dk>
-References: <20180427145139.30732-1-lukma@denx.de>
-	<69bd71c5-a14a-2687-3f5d-52083043a131@prevas.dk>
-Organization: denx.de
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+	Mon, 30 Apr 2018 12:23:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Apr 2018 05:23:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,346,1520924400"; d="scan'208";a="47148474"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 30 Apr 2018 05:23:51 -0700
+To: Marek Vasut <marex@denx.de>, yamada.masahiro@socionext.com,
+	mnhu@prevas.dk, raj.khem@gmail.com
+References: <20180408230223.17260-1-marex@denx.de>
+	<CAMKF1squXKSNhvmHj_p0Q-5cK3H-yKH1upwKXjvDCoindshUWA@mail.gmail.com>
+	<bf9e9593-a395-8d53-faf8-ad6609aa5ba1@prevas.dk>
+	<53904a8f-7ba2-7f09-4e93-a95a780f60c7@denx.de>
+	<d89b39f665a14c63b0821c1ad600da72@SOC-EX01V.e01.socionext.com>
+	<8cc34667-5bb3-9642-40e2-d56b28f56646@prevas.dk>
+	<32a348ed6176434db8178d29d7e1f183@SOC-EX01V.e01.socionext.com>
+	<5ca366ed-3108-4a56-caaf-06b4f136d259@denx.de>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <627e0fde-f97f-5c49-bc1a-325e7baa9072@linux.intel.com>
+Date: Mon, 30 Apr 2018 15:17:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
-	Stefan Agner <stefan.agner@toradex.com>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
+In-Reply-To: <5ca366ed-3108-4a56-caaf-06b4f136d259@denx.de>
+Cc: otavio@ossystems.com.br, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Upgrade to 2018.03 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,154 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 08:18:43 -0000
-X-Groupsio-MsgNum: 110831
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	boundary="Sig_/6mUE/LePbZlm=w1uVI_3XJ3";
-	protocol="application/pgp-signature"
+X-List-Received-Date: Mon, 30 Apr 2018 12:23:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---Sig_/6mUE/LePbZlm=w1uVI_3XJ3
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 04/16/2018 11:40 AM, Marek Vasut wrote:
+>> Isn't it possible to solve your issue in the OE side?
+>>
+> 
+> Can we NOT compile DTC alongside U-Boot somehow ? :)
+> That'd be the most desired solution IMO.
 
-Hi Martin,
+Yes please. Can you adjust the recipes and classes in oe-core, and 
+remove the dtc recipe altogether?
 
-> Hi Lukasz,
->=20
-> On 2018-04-27 16:51, Lukasz Majewski wrote:
-> > This commit provides the ability to generate u-boot environment(s)
-> > as images, which afterwards can be used to produce image (with wic)
-> > for flashing (eMMC or SPI-NOR).
-> >=20
-> > This change removes the need to run "env default" during production
-> > phase, as proper environment (including redundant one) is already
-> > stored on persistent memory (the CRC is also correct). =20
->=20
-> I think we should create a separate recipe to install the native=20
-> mkenvimage binary (e.g. u-boot-mkenvimage_%.bb) or update=20
-> u-boot-mkimage_%.bb install it.
+Alex
 
-I see your point.
-I suppose that the above idea is more OE style than:
-
-${B}/tools/mkenvimage=20
-and DEPENDS =3D "u-boot:compile"
-
->=20
-> Then a new recipe to create the environment images can depend on=20
-> u-boot-mkenvimage-native.
-
-Ok.
-
->=20
-> Also note the recently added upstream support for external
-> environment definitions:
-> http://git.denx.de/?p=3Du-boot.git;a=3Dcommit;h=3Df3d8f7dd73ac5dde258eb78=
-6d4a01869395b56d7
-
-Those features are complementary.
-
-1. Envs definition from CONFIG_EXTRA_ENV_SETTINGS are provided
-externally,
-
-2. The one generated by source/scripts/get_default_envs.sh are simply
-the ones from u-boot's "default environment" (extracted from the
-binary).
-
-They both produce *.txt file which is the input for mkenvimage.
-
->=20
-> For our usecase we need the ability to generate environment images in=20
-> yocto from such external definitions.
-
-Ok. I see.
-
->=20
-> // Martin
->=20
-> >=20
-> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> >=20
-> > ---
-> > This patch depends on "u-boot: Upgrade to 2018.03 release"
-> > https://patchwork.openembedded.org/patch/149998/
-> > ---
-> >   meta/recipes-bsp/u-boot/u-boot.inc | 35
-> > +++++++++++++++++++++++++++++++++++ 1 file changed, 35 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
-> > b/meta/recipes-bsp/u-boot/u-boot.inc index c2bcf99840..2796e503cf
-> > 100644 --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> > @@ -305,3 +305,38 @@ do_deploy () {
-> >   }
-> >  =20
-> >   addtask deploy before do_build after do_compile
-> > +
-> > +# Create new rules to extract default envs
-> > +UBOOT_ENVS_DEFAULT ?=3D "uboot-envs-default"
-> > +DEFAULT_ENVS ?=3D "u-boot-env-default.txt"
-> > +DEFAULT_ENVS_SIZE ?=3D "65536"
-> > +
-> > +# Generate default environment
-> > +do_gen_default_envs[doc] =3D "Generate image with default U-Boot
-> > environment(s)" +do_gen_default_envs () {
-> > +	${B}/source/scripts/get_default_envs.sh ${B} >
-> > ${B}/${DEFAULT_ENVS} +
-> > +	# Generate env image
-> > +	${B}/tools/mkenvimage -s ${DEFAULT_ENVS_SIZE} -o
-> > ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS} +
-> > +	# Generate redundant env image
-> > +	${B}/tools/mkenvimage -r -s ${DEFAULT_ENVS_SIZE} -o
-> > ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS} +
-> > +	rm ${B}/${DEFAULT_ENVS}
-> > +}
-> > +
-> > +addtask gen_default_envs before do_deploy_default_envs after
-> > do_compile +
-> > +# Deploy default environment
-> > +do_deploy_default_envs[doc] =3D "Copy images with default U-Boot
-> > environment to deployment directory" +do_deploy_default_envs () {
-> > +	install -d ${DEPLOYDIR}
-> > +
-> > +	install ${B}/${UBOOT_ENVS_DEFAULT}
-> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
-> > +	install ${B}/${UBOOT_ENVS_DEFAULT}_r
-> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r +
-> > +	rm ${B}/${UBOOT_ENVS_DEFAULT}
-> > +	rm ${B}/${UBOOT_ENVS_DEFAULT}_r
-> > +}
-> > +
-> > +addtask deploy_default_envs before do_deploy after
-> > do_gen_default_envs=20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-
---Sig_/6mUE/LePbZlm=w1uVI_3XJ3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlrm0VEACgkQAR8vZIA0
-zr0A6wf/WnQfoK1iYy0smkKv5SrPnUS1FWHEXTtIsLeC6tZrSnWCRH1ITFihKgG3
-/M9B9JbeX7O/3jBi5eqMTHwlK1yfAdPlXORy7XN1empxosEqEPZy+uUY7fOX/Q7q
-q7a67EDr1sBCk8MqV8t0WVkqakwz/OAbg0VZdoBy9R8/nWrg/7u8UmuNwMLxj5X4
-sl9KoVosg05l6CfO4Wm0sit01DOj63v1wA+E/0fpM4oalUARqOxPrIg70uUG151Z
-Afwz6tcpqEh0pwXmN0Gt23hO8pF5FPWI0weUWO9KjwzaTwEFXE3cKzWtCppSVCJ/
-tYnmuM1qFCi8LsXDoDXbGMt5TpaESA==
-=J3tq
------END PGP SIGNATURE-----
-
---Sig_/6mUE/LePbZlm=w1uVI_3XJ3--
