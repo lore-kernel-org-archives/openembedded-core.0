@@ -1,50 +1,113 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 223DA71984
+Return-Path: <Martin.Hundeboll@prevas.se>
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+	(mail-db5eur01on0107.outbound.protection.outlook.com [104.47.2.107])
+	by mail.openembedded.org (Postfix) with ESMTP id 14011605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 00:43:59 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id f189so5448735pfa.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Apr 2018 17:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=D1leN/06xvwthjlqRGt8pmAFf7yrZig4RkYtZcUx+qo=;
-	b=j5LtWoKYk/mb3YckIBMFxT/YiOJTrBQPTgvXJghyBOMTd4es/OJEkYDSXDX3654y8P
-	3YQjNuFbVHuUjhrAMu+vHpE2AEjmN+I0Ow6D2Rrn3/FH6AffAIPDQfpbVF+FEXnC3/og
-	rfZaerLylhYhZElYJb/iQa1gmGv2JdgPAgV93Jx9alR+ss7YcPL7ylpiXi98LHMZLcfR
-	+QtbjAPKPf6Jw64YZNTxptqtFHJRZwcnffkIHhMRcyXJ/+fK70Cesov3tI8f9utMvrXn
-	PzRtuDlRAgZO0fZe7jaj8dNGDIqIRiX6vjGvcvS3dWFAcMjk9Q0hYvLefex9n3jN74of
-	ZHLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=D1leN/06xvwthjlqRGt8pmAFf7yrZig4RkYtZcUx+qo=;
-	b=HxCN/IbGUPLM3KFUiqfGkFSw/+rQaKMZvP5v/vT5VDrV2z+HvdziMIIIeXZJOib17C
-	Y//ZJ374Q3wWerNtdHR8N7+5g9T4k7Y4u5HthRMs+KOn/zWVxlIPq7/dmSQKd3dOsv83
-	3pFiroD7j1GpZ6MVjolmsItJceizJeBT+20o12NVwfIdBTGo9dPpXDMTDm2uUHTY2gTw
-	huqabHF0VyfYAGlKxQy8QW8pdsy/WDb961icYJ2nTmjVm0dZNiqG18lsVuIMffjrW4L3
-	vKvpwJGX/3OlE9svP65EB0mYRl1IUnQazPk5HAE5eqUY7xxLXQglFW8uKQwH/65bRAq3
-	RVqw==
-X-Gm-Message-State: ALQs6tB9NXF8BWxjDA7H8JOGcCy3BhSU6n2kyzrnqMT323adkRWS6Pbe
-	VUThQZNYj4crgR2dEI4nxqFIx6JkrwOBe5azqGg=
-X-Google-Smtp-Source: AB8JxZpZ/NC68me5BSVR6C2UyFnzZVIrTo7T/wHgkW7XIRJ6LhRr0w1mx6TlJbV022aLPEH2ME0D8q63vm1qgpfD6mo=
-X-Received: by 2002:a63:7547:: with SMTP id
-	f7-v6mr8781706pgn.204.1525049040718; 
-	Sun, 29 Apr 2018 17:44:00 -0700 (PDT)
+	Mon, 30 Apr 2018 07:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=prevasonline.onmicrosoft.com; s=selector1-prevas-se;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=LqGOs2c9GfmpGu/oy51C2enzxzzCtRe29RePKVtgxrY=;
+	b=jb7O4cFeGnyXthkwsx8/Mxftst6ikEQb9c/vn02Le+RqHjAErZ1sqGTrEKB76KGRcyXkEXXUWmfcigH+FK/6NoEt4gyEUHQLueTh8zePqXZhEnAOAm6WiBUo+DcX7k3sWpiwJpolEYNmqC3yPSTYeRzz0sc/ove4lQdhqNzePj8=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Martin.Hundeboll@prevas.se; 
+Received: from [172.16.11.2] (81.216.59.226) by
+	VI1PR10MB0126.EURPRD10.PROD.OUTLOOK.COM (2a01:111:e400:c54a::24) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.715.22;
+	Mon, 30 Apr 2018 06:50:27 +0000
+To: Lukasz Majewski <lukma@denx.de>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>, Marek Vasut <marex@denx.de>
+References: <20180427145139.30732-1-lukma@denx.de>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
+Message-ID: <69bd71c5-a14a-2687-3f5d-52083043a131@prevas.dk>
+Date: Mon, 30 Apr 2018 08:50:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.100.182.141 with HTTP; Sun, 29 Apr 2018 17:43:30 -0700 (PDT)
-In-Reply-To: <20180404111321.10824-9-alexander.kanavin@linux.intel.com>
-References: <20180404111321.10824-1-alexander.kanavin@linux.intel.com>
-	<20180404111321.10824-9-alexander.kanavin@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 29 Apr 2018 17:43:30 -0700
-Message-ID: <CAMKF1sphcVNwqPgZfuK5iByfEmQ+9KuS5AwMVYsai57Shpg_xA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/22] webkitgtk: update to 2.20.0
+In-Reply-To: <20180427145139.30732-1-lukma@denx.de>
+X-Originating-IP: [81.216.59.226]
+X-ClientProxiedBy: HE1PR05CA0229.eurprd05.prod.outlook.com
+	(2603:10a6:3:fa::29) To VI1PR10MB0126.EURPRD10.PROD.OUTLOOK.COM
+	(2a01:111:e400:c54a::24)
+X-MS-PublicTrafficType: Email
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:VI1PR10MB0126; 
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR10MB0126;
+	3:gZ/IgZoDEjd5cev2aJEhEPlhct+NskL5iA4FFwSg9XXA1cJ6KTen0CCWl6MWqMHf+nCY1wdfs/iTW+NQz6lwy4CCcKpQpPbXGFrFudDDWxSBQQr4SL3QXd/OOseKu0WcWEt+NXX9h8QsWJaWXIAO1hgiiedzJg+1ldb0D+8NHEOq18woNdFNAEmE3MmIcSGUZRrHNH8/RtUs9rkOR29lmVTzvJpdTkzt2428iNTjZLICLS9278yDrHATRsDb9uNQ;
+	25:VnN6TcywdVbW+Aoywa+bRmBVztXuD8aELYtiJhPxE/nlgkn7XukwdnsAn1x8dnhFJjCA7OGAkPE7ThiI9PCCMbE9oeJzbM4TDQkg9jhtqUwKvJ+tKJ0oHbNCgeds7/0k/wBUOHUk4zHo4FPsBqSo5NhdEWMGLKgjouBpFsbf4dwk8ahjKmsgrBz0+DVk4BRgBgFp7aGv3pTVAmFuJRPLGc91Je5A6vOz66ryBqqWnkYXlIkhM5nhiIbuZitAYibDH9utSfaEAKYJOj2LMQ+c+GHkylp/DFeij4yKExg+4nePGFwupn+iH7+O0ed1AAtgAx0IszoWFKMwb49mbOg10w==;
+	31:vN00G32dX7Lc2h7D8Nqx1bxFc7Tlcr3ATrdw48BUkLY/PYV3Ut4acNWe74YVnZExvIP20TroDPhRAL4w4Cxp2oA7o3oZr4x9e34K+QbxMoAU/kJDejD7FAL+lxeO2wbBSea8zp6FzAJvq9w3ewMiGQJkxhKUMFaAtOh9/hmkaTrfNOv9ON0Ft8AUccyzSsOtYLHVFLCKPmy/Z/Bvda56YFVQnCqDHpiFNErmw5IOY7U=
+X-MS-TrafficTypeDiagnostic: VI1PR10MB0126:
+X-Microsoft-Antispam-PRVS: <VI1PR10MB0126DE74E32DBDEA85CAF0659D820@VI1PR10MB0126.EURPRD10.PROD.OUTLOOK.COM>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(93006095)(3231254)(944501410)(52105095)(10201501046)(3002001)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123558120)(20161123562045)(6072148)(201708071742011);
+	SRVR:VI1PR10MB0126; BCL:0; PCL:0; RULEID:; SRVR:VI1PR10MB0126; 
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR10MB0126;
+	4:bXqNpOEimWvVvqTjatD/2AHIWRV8lxYdQvoQ7RROVUnb7OUyfYWy0MaCQb39+YmWBTj5v1poJvkq2KR7DBXHIuB22uR1/cTZ8B+kMcH0qbIgRtSIv0nuuhHY5Y50n4CFCQ4bN+oy844lVD10+n2zYVlcW7awNyYZoTV7RpADcsuUDvhV87noSziG7RRa0OF0CnALBoNjq3oRTaT/AAzpGkVULBRN6q0HYrVS2chxPGczGQhBFGrP4uNEGkVEaNLitI1Qzy8JQFuuGAII21nE8Q==
+X-Forefront-PRVS: 0658BAF71F
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(6049001)(39840400004)(366004)(346002)(396003)(376002)(39380400002)(377424004)(189003)(199004)(42882007)(65956001)(478600001)(23676004)(26005)(2486003)(6306002)(966005)(52146003)(6246003)(58126008)(316002)(305945005)(16576012)(36756003)(52116002)(72206003)(53936002)(54906003)(31686004)(77096007)(230700001)(110136005)(229853002)(186003)(81166006)(4326008)(31696002)(6486002)(5660300001)(50466002)(66066001)(16526019)(81156014)(8676002)(6666003)(65806001)(11346002)(65826007)(106356001)(68736007)(8976002)(7736002)(8936002)(67846002)(446003)(64126003)(53546011)(476003)(76176011)(956004)(2616005)(47776003)(97736004)(386003)(486006)(3846002)(2906002)(105586002)(74482002)(6116002)(25786009)(59450400001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR10MB0126; H:[172.16.11.2];
+	FPR:; SPF:None; LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: prevas.se does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtWSTFQUjEwTUIwMTI2OzIzOk4rMlh0eWo4WlZyZDhEZDQrRVV1SElWVkZk?=
+	=?utf-8?B?UW4zMCtLZExUK1FCTmJvVy9PTmozeVgwM0JSd1cxclgrNDNTeG1wUmlPZ2cz?=
+	=?utf-8?B?WkEyVU1SRlFDT2t2c2djbThRVUlmcUlxeUZGNlNvQjM5c1hSNjc5Z0ZSOGZ1?=
+	=?utf-8?B?U1N6ZGJNcFN3SGlGckxyd0VpZEZ0U0xiNE00dFNNMDFJK3J3YU5xM29UT3Rz?=
+	=?utf-8?B?UDJOVWRpTlg1bDExM2lHclZlQk1McGhyTWN3YnBCcFZhdFlPYU43cEhBd24z?=
+	=?utf-8?B?ZUE5eFJYbnAzbnFjRitkaUFMcEk2elhFeG1LSVcvcy9OMG5rVnYvbjdVdUNx?=
+	=?utf-8?B?bTRZcDNJYnZQMUZ5QWJPdlpYQTlpQnl4SFpUOUtRY2EzdDZrV0FJU0ZHRzBY?=
+	=?utf-8?B?VG5HYUo2aktuajl6eTZEZHRvcmh0VjJjbndDY2hPMWpqMnNIcDJLYjdwTlZC?=
+	=?utf-8?B?eHJ2ajRLOWRDOElVQTcrTjZNOTVyRkJyc1V0WVRJcnJZcGFjYVlZMEZUSVJp?=
+	=?utf-8?B?ejVlZEJnTXUvLytwQW9WaDlsK1RSY05nTncwWXE1dDdZUGVsVFlTYUp1VnNi?=
+	=?utf-8?B?eWV4OGJkVXl2V1RpVEdiRDhpUy9QMG1GZDkzVGZsdVkzVXJ0aGhqTHliNmRI?=
+	=?utf-8?B?a3BRWFlwYjJVV0VxTFBJZ0hqeXNIckhzOVZrMUk1V2xUSDhPZEJtb295cE52?=
+	=?utf-8?B?UVViWFdRbjJLZjRQODA1RnhvL3FaYXZQR1IramoybnJXRkRVR2d5SzJuUG9z?=
+	=?utf-8?B?K1cybE9YMGU1RCs3bjkwc2VXWmM4RWt3eWg3QzJoRHRreUVybXFGT3JWV21X?=
+	=?utf-8?B?Ym8vRHBYZUd5YmZnbEJSMVMvT3JZYXpkSnF2RmlVSFl4K3JYMS9ZaEhuYzZh?=
+	=?utf-8?B?YU9kZk9rVXo5QUYwYmpWN2haNDRoUkZOTUlMSDllbFF2ckR1SXE3L041NDdV?=
+	=?utf-8?B?STAvY3dRQ1M2WTkxcHdZQURCZFJxUnJvTHR1aGJEQzB5Q0JTV2FXT3dLWmZ4?=
+	=?utf-8?B?amk5N0Vvd294SzV6VC9CSWFhSGozTDZrWEpsTXJxeWFwRDdtZUkybmhSTUNz?=
+	=?utf-8?B?YU9IM3VyTmJGWDVBbE5rQ2tsR2RNeFNjWDhOY0I2WWI5enlscmJ6WEVHODJl?=
+	=?utf-8?B?eHQ2M2VlSFBHWUUycUJHYmFkdkVTdE1acGQ0RjJhUzhRU3VrbldBUFVjTkNx?=
+	=?utf-8?B?N1pjMUJrSGN1WnNaUmtla2VLaXRPNjJWeTNjN3VsQUdEdHdDZHFKV0UvRndh?=
+	=?utf-8?B?V2FOcW9mRER2TExCWXd2dXhhaWVoSW9Sd3VTbVc5clN0ZDVzUDZEOW5XU3JP?=
+	=?utf-8?B?L3Nob0Vpb2oxdURHajNRNlFXVDJKSDlTbDBtUHVnbTUxUS80Q2hIbVpLeGxG?=
+	=?utf-8?B?TjhCSVhSUmJ0ckVwaTdFaGJKcWFrdmtvNHRvNVZRcHM2MHYxc0ZOT0hvbVNM?=
+	=?utf-8?B?emNBUnowQ0dlTFJaTllOd1BCUitCWEFSd2tsTXc0dXB4UWVVMDlDcXd2OGNn?=
+	=?utf-8?B?MmNTZGVhd2RMTDZmUGpKbXAzTDZxWjV0dEtGL2NEZDA5V1UxZ2Yxd1psZ2hu?=
+	=?utf-8?B?TFk2aWpBbW1YVlJaTkNzZzhtS08wR0U5U0JENmt2VG5FZXRwZnV6MWo5MUM2?=
+	=?utf-8?B?YkVabFNHTjhzWlBMazNCZ0N1ZzJQbWk4dmszNEZVM205RmQ4VVgxQnN5YSts?=
+	=?utf-8?B?bWxkSVZ3WjZOYjF0WnBxdUkvOC8vVnFkTDBzY0JacU8vQTlRSzhScGNuUnc3?=
+	=?utf-8?B?MjNhZ0ptR3lvaStTTitod2d6ZlA2TU5nbVpOVlVHYzNVakVEbGZvdVJlc0dz?=
+	=?utf-8?B?TTd4VkdmMTNCeFRLckJCNXF6R2kvMjRDeW9XWXFiRm1id0ZKbDBqUS9aNkZj?=
+	=?utf-8?B?SXk4ZitkSk80cVJMTk9RZWxDN2hTcDlNMWJrTS9iVktVb3BqRFhac0twNDJj?=
+	=?utf-8?B?ZkFmRlM1dFdnbFVCL0JlelVDSzMwNEdrN1RySUUrZGg1dzNIMUlkeEFzdGtU?=
+	=?utf-8?B?cHhyeDhZY2pJdE0yZmpzb1hQMVEvdVpmcnZoVFVTekNtbXk4VUtoUHJDamxa?=
+	=?utf-8?B?Q1ZnRElJYm9TQjlCeUZ1VzRqZDBDMnMxUkRvMVJKL1IzcHRCYWlPM3Rha2xZ?=
+	=?utf-8?B?bFF3Z0kwUEsxdXJXeTU0azZRMlpHZ0ZJOXZpSFVqN09RRS9INDNmN1FybFp1?=
+	=?utf-8?B?TkpRYUQvQlowdG1XdUpWNzRTa3hnPT0=?=
+X-Microsoft-Antispam-Message-Info: FWkB+f4vjGeKv4cJ+yOCxQzX/CF7n6pYWQKoxXupWHa25VF1tNKpQVanQu/mB/7fTFYLxP4/uQQlEv9U5esxFfCsx4c5nPstGs5o2YMkMCZUtvdWyC3I+T13wyziB1LORJeyP8xHnmkCygpXyVKPaRV4EnkK7PVEkRuOZDtSqSqi2xSyTI4UNegDNpqBOqBb
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR10MB0126;
+	6:3Jnf+qet67SnZ0DYZVi50yKAy1MoR82OPDwRmTPCIO/jkyx5E2EP3p5ayW0UkbM67Ieck8flmQI0Hd6MmWrJt91RyWYKYhPgtCY2uTgeX07e0nPZNeQdtdKXfqk+2QRsXvGt3n/75Yc5Tx/uAHXaWDu4ZprhOOfuCCJrglD3UGpR69ZbAJrIZb8V5mO6BQbEvnbC201MkVbVU2TK0k6c2gAH2f35gZy/KQgG7tuTMZvw+qNnG8pgmqQdE5qzeG/eItmRKy5sTrCAp8DzPRD/4xo2ONja5W+N5+PGlNrR9jUXuSbHiaQ2jVF3jmgqO1+LV/Ar6Mjs05C7PN2d9gZUysRzMRjgWcs82pyQ7IeXyfvcswa4Slhgvae0t5dXY5T8FVLapPq30Tytg0RTQSxQiJv3R/dD9sr6OvIKUs94dmm0KsHKZM74KlNmwhuetXUkjSi2c4S7L2TjrU2sX2xRDA==;
+	5:jJYrCM5+BmtXcORoIukGYOWmmSzNjgPoP+YFwp0gxGyyFxLpwsChvIc16ONOoxiUNo/XdrCF0Uy7v9TX8nSDA+BkEaL49j155z34immV4rZJF+XQJ0aVsLs19Fjpv2qit2jfMTcGfUAi/C5Ne2a2vV2CebqJW9oH8UfEuoVOWiA=;
+	24:o1SNc8nP7FYykqrx5m6mLNKHjeL0NKYzDwnoGFKIGW662VKVfztR3riunMg9WaaB1LjUmP4ZHEBqf6DCSYYBe20YgDfDMg8dRubfXYQHKu0=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; VI1PR10MB0126;
+	7:gUYSPFaVgQhu/1RuI4CMEFKUblIhyE9UN2J7oT8hqcwdqVeVvzSa09KZ8P5hqgUfu8wriFv9T0C8tNG7+K9Gk6OHaJQioaY9huFRIirrLB/w9kKASqujAht1MT0RsANIsWykqLsEfGRZdO49qZfFbLSmOIjxvXPDmUPJwGoW2R4DDFz3uOQ3I4/N4YGTxKxu6jD/sYSkQ38zEh8Si5PPY7wb7oPsNXRNN+HW2MHDXL6VO1a/3hkXMUfm1jZ48VRS
+X-MS-Office365-Filtering-Correlation-Id: bc04c2e2-1f30-484a-0753-08d5ae66a8a5
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2018 06:50:27.7390 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc04c2e2-1f30-484a-0753-08d5ae66a8a5
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB0126
+Cc: Tom Rini <trini@konsulko.com>, Stefan Agner <stefan.agner@toradex.com>
+Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,646 +120,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 00:44:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 30 Apr 2018 07:06:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 4, 2018 at 4:13 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> Rebase patches, remove a couple of upstreamed patches.
->
-> Add an option to enable woff2 font library (not currently packaged by oe).
->
+Hi Lukasz,
 
-2.20.1 patch release is available since this patch was posted. Since
-this patch is still
-in staging, it would be nicer if it was rebased to use 2.20.1
+On 2018-04-27 16:51, Lukasz Majewski wrote:
+> This commit provides the ability to generate u-boot environment(s) as
+> images, which afterwards can be used to produce image (with wic) for
+> flashing (eMMC or SPI-NOR).
+> 
+> This change removes the need to run "env default" during production phase,
+> as proper environment (including redundant one) is already stored on
+> persistent memory (the CRC is also correct).
 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+I think we should create a separate recipe to install the native 
+mkenvimage binary (e.g. u-boot-mkenvimage_%.bb) or update 
+u-boot-mkimage_%.bb install it.
+
+Then a new recipe to create the environment images can depend on 
+u-boot-mkenvimage-native.
+
+Also note the recently added upstream support for external environment 
+definitions:
+http://git.denx.de/?p=u-boot.git;a=commit;h=f3d8f7dd73ac5dde258eb786d4a01869395b56d7
+
+For our usecase we need the ability to generate environment images in 
+yocto from such external definitions.
+
+// Martin
+
+> 
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> 
 > ---
->  .../webkitgtk/0001-Fix-build-with-musl.patch       | 28 +++++-----
->  ...01-Fix-gles3-header-when-gles2-is-enabled.patch | 38 -------------
->  ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch | 63 +++++++++++-----------
->  ...cmake-drop-the-hardcoded-introspection-gt.patch | 15 +++---
->  ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 52 +++++++++---------
->  ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch | 47 ++++++++--------
->  .../detect-atomics-during-configure.patch          | 17 +++---
->  .../webkitgtk/fix-configure-failure-aarch64.patch  | 29 ----------
->  .../webkit/webkitgtk/x32_support.patch             | 24 +++++----
->  .../{webkitgtk_2.18.6.bb => webkitgtk_2.20.0.bb}   |  8 +--
->  10 files changed, 124 insertions(+), 197 deletions(-)
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-gles3-header-when-gles2-is-enabled.patch
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/fix-configure-failure-aarch64.patch
->  rename meta/recipes-sato/webkit/{webkitgtk_2.18.6.bb => webkitgtk_2.20.0.bb} (95%)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
-> index 7cc4514fccc..041ec4675f1 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
-> @@ -1,24 +1,25 @@
-> -From 415e31bd5444fa360af58b069f1b9db6607fca7d Mon Sep 17 00:00:00 2001
-> +From 4f9d736e0458ed33cd161cd164ad0acdac939f44 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 6 Oct 2017 17:00:08 +0300
->  Subject: [PATCH] Fix build with musl
->
->  Upstream-Status: Pending
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +
->  ---
-> - Source/JavaScriptCore/runtime/MachineContext.h | 10 +++++-----
-> + Source/JavaScriptCore/runtime/MachineContext.h | 18 +++++++++++++++++-
->   Source/WTF/wtf/Platform.h                      |  2 +-
-> - 2 files changed, 6 insertions(+), 6 deletions(-)
-> + 2 files changed, 18 insertions(+), 2 deletions(-)
->
->  diff --git a/Source/JavaScriptCore/runtime/MachineContext.h b/Source/JavaScriptCore/runtime/MachineContext.h
-> -index 95080b9..2bb689c 100644
-> +index bf0bdc7..84b8a8a 100644
->  --- a/Source/JavaScriptCore/runtime/MachineContext.h
->  +++ b/Source/JavaScriptCore/runtime/MachineContext.h
->  @@ -146,7 +146,7 @@ inline void*& stackPointer(mcontext_t& machineContext)
->   #error Unknown Architecture
->   #endif
->
-> --#elif defined(__GLIBC__)
-> +-#elif defined(__GLIBC__) || defined(__BIONIC__)
->  +#elif defined(__linux__)
->
->   #if CPU(X86)
-> @@ -27,7 +28,7 @@ index 95080b9..2bb689c 100644
->   #error Unknown Architecture
->   #endif
->
-> --#elif defined(__GLIBC__)
-> +-#elif defined(__GLIBC__) || defined(__BIONIC__)
->  +#elif defined(__linux__)
->
->   // The following sequence depends on glibc's sys/ucontext.h.
-> @@ -36,7 +37,7 @@ index 95080b9..2bb689c 100644
->   #error Unknown Architecture
->   #endif
->
-> --#elif defined(__GLIBC__)
-> +-#elif defined(__GLIBC__) || defined(__BIONIC__)
->  +#elif defined(__linux__)
->
->   // The following sequence depends on glibc's sys/ucontext.h.
-> @@ -45,7 +46,7 @@ index 95080b9..2bb689c 100644
->   #error Unknown Architecture
->   #endif
->
-> --#elif defined(__GLIBC__)
-> +-#elif defined(__GLIBC__) || defined(__BIONIC__)
->  +#elif defined(__linux__)
->
->   // The following sequence depends on glibc's sys/ucontext.h.
-> @@ -54,24 +55,21 @@ index 95080b9..2bb689c 100644
->   #error Unknown Architecture
->   #endif
->
-> --#elif defined(__GLIBC__)
-> +-#elif defined(__GLIBC__) || defined(__BIONIC__)
->  +#elif defined(__linux__)
->
->   // The following sequence depends on glibc's sys/ucontext.h.
->   #if CPU(X86)
->  diff --git a/Source/WTF/wtf/Platform.h b/Source/WTF/wtf/Platform.h
-> -index 5a2863b..b36c3ff 100644
-> +index 551c047..e50b05a 100644
->  --- a/Source/WTF/wtf/Platform.h
->  +++ b/Source/WTF/wtf/Platform.h
-> -@@ -680,7 +680,7 @@
-> +@@ -683,7 +683,7 @@
->   #define HAVE_CFNETWORK_STORAGE_PARTITIONING 1
->   #endif
->
-> --#if OS(DARWIN) || ((OS(FREEBSD) || defined(__GLIBC__)) && (CPU(X86) || CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
-> +-#if OS(DARWIN) || ((OS(FREEBSD) || defined(__GLIBC__) || defined(__BIONIC__)) && (CPU(X86) || CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
->  +#if OS(DARWIN) || ((OS(FREEBSD) || defined(__linux__)) && (CPU(X86) || CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
->   #define HAVE_MACHINE_CONTEXT 1
->   #endif
->
+> This patch depends on "u-boot: Upgrade to 2018.03 release"
+> https://patchwork.openembedded.org/patch/149998/
 > ---
-> -2.14.1
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-gles3-header-when-gles2-is-enabled.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-gles3-header-when-gles2-is-enabled.patch
-> deleted file mode 100644
-> index 21574072f17..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-gles3-header-when-gles2-is-enabled.patch
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -From adf3d4c9d4133bd6995590d921c0ccaec5254da9 Mon Sep 17 00:00:00 2001
-> -From: Bhargava Sreekantappa Gayathri
-> - <bhargava.sreekantappa-gayathri@xilinx.com>
-> -Date: Tue, 27 Feb 2018 16:09:31 -0800
-> -Subject: [PATCH] Fix gles3 header when gles2 is enabled
-> -
-> -A GLES 2 application should not use gl3.h.
-> -Fix the gles3 header failure while compiling webkitgtk.
-> -
-> -FAILED:
-> -Source/WebCore/CMakeFiles/WebCore.dir/platform/graphics/GLContext.cpp.o
-> -           ^~~~~~~~~~~~~
-> -compilation terminated.
-> -
-> -Upstream-Status: Backport
-> -Imported patch from: https://bugs.webkit.org/show_bug.cgi?id=183008
-> -
-> -Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
-> -Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> ----
-> - Source/WebCore/platform/graphics/GLContext.cpp | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/Source/WebCore/platform/graphics/GLContext.cpp b/Source/WebCore/platform/graphics/GLContext.cpp
-> -index 599dcc0..46d2fd4 100644
-> ---- a/Source/WebCore/platform/graphics/GLContext.cpp
-> -+++ b/Source/WebCore/platform/graphics/GLContext.cpp
-> -@@ -31,7 +31,6 @@
-> - #elif USE(OPENGL_ES_2)
-> - #define GL_GLEXT_PROTOTYPES 1
-> - #include <GLES2/gl2.h>
-> --#include <GLES3/gl3.h>
-> - #endif
-> -
-> - #if USE(GLX)
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
-> index 896890b4334..aa9a06701a7 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch
-> @@ -1,7 +1,7 @@
-> -From b7f40eceef0f23bf88090789d4c5845c35f048ae Mon Sep 17 00:00:00 2001
-> +From 0afc194c6446e6c3242f1d706b4564e3a9cb2cee Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Mon, 29 Aug 2016 16:38:11 +0300
-> -Subject: [PATCH 4/9] Fix racy parallel build of WebKit2-4.0.gir
-> +Subject: [PATCH] Fix racy parallel build of WebKit2-4.0.gir
->
->  Upstream-Status: Pending
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> @@ -11,39 +11,36 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   1 file changed, 5 insertions(+), 4 deletions(-)
->
->  diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
-> -index a33c6a86..d83a2e77 100644
-> +index a074a80..8c6ebb5 100644
->  --- a/Source/WebKit/PlatformGTK.cmake
->  +++ b/Source/WebKit/PlatformGTK.cmake
-> -@@ -1122,8 +1122,9 @@ endif ()
-> - string(REGEX MATCHALL "-L[^ ]*"
-> -     INTROSPECTION_ADDITIONAL_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
-> +@@ -728,8 +728,9 @@ if (ENABLE_INTROSPECTION)
-> +     string(REGEX MATCHALL "-L[^ ]*"
-> +         INTROSPECTION_ADDITIONAL_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
->
-> --add_custom_command(
-> --    OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> -+# This is a target and not a command because it's used to build another .gir
-> -+# and a .typelib, which would trigger two racy parallel builds when using command
-> -+add_custom_target(WebKit2-${WEBKITGTK_API_VERSION}-gir
-> -     DEPENDS WebKit2
-> -     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> -     COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-> -@@ -1168,7 +1169,7 @@ add_custom_command(
-> - add_custom_command(
-> -     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-> -     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> --    DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> -+    DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
-> -     COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
-> -         LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
-> -         ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> -@@ -1225,7 +1226,7 @@ add_custom_command(
-> +-    add_custom_command(
-> +-        OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> ++    # This is a target and not a command because it's used to build another .gir
-> ++    # and a .typelib, which would trigger two racy parallel builds when using command
-> ++    add_custom_target(WebKit2-${WEBKITGTK_API_VERSION}-gir
-> +         DEPENDS WebKit
-> +         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> +         COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-> +@@ -773,7 +774,7 @@ if (ENABLE_INTROSPECTION)
-> +     add_custom_command(
-> +         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-> +         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> +-        DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> ++        DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
-> +         COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
-> +             LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
-> +             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> +@@ -828,7 +829,7 @@ if (ENABLE_INTROSPECTION)
->
-> - add_custom_command(
-> -     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
-> --    DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> -+    DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
-> -     COMMAND ${INTROSPECTION_COMPILER} --includedir=${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir -o ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
-> - )
-> +     add_custom_command(
-> +         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
-> +-        DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> ++        DEPENDS WebKit2-${WEBKITGTK_API_VERSION}-gir
-> +         COMMAND ${INTROSPECTION_COMPILER} --includedir=${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir -o ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.typelib
-> +     )
->
-> ---
-> -2.14.1
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch b/meta/recipes-sato/webkit/webkitgtk/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
-> index 0f6eeed1a2e..e8d1d8c341a 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch
-> @@ -1,4 +1,4 @@
-> -From 48648570e449cf7f84a26dc03c1e3f620fa69757 Mon Sep 17 00:00:00 2001
-> +From bed4cf4aaa6aad4172ec9942e9039fb8e1ef68a4 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Mon, 29 Feb 2016 18:13:39 +0200
->  Subject: [PATCH] OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc
-> @@ -11,16 +11,17 @@ through the use of qemu target emulation.
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->
->  Upstream-Status: Pending
+>   meta/recipes-bsp/u-boot/u-boot.inc | 35 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 35 insertions(+)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index c2bcf99840..2796e503cf 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -305,3 +305,38 @@ do_deploy () {
+>   }
+>   
+>   addtask deploy before do_build after do_compile
 > +
->  ---
->   Source/cmake/OptionsGTK.cmake | 6 ------
->   1 file changed, 6 deletions(-)
->
-> -Index: webkitgtk-2.12.1/Source/cmake/OptionsGTK.cmake
-> -===================================================================
-> ---- webkitgtk-2.12.1.orig/Source/cmake/OptionsGTK.cmake
-> -+++ webkitgtk-2.12.1/Source/cmake/OptionsGTK.cmake
-> -@@ -424,12 +424,6 @@ if (USE_LIBHYPHEN)
-> -     endif ()
-> +diff --git a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
-> +index 661b40e..404441b 100644
-> +--- a/Source/cmake/OptionsGTK.cmake
-> ++++ b/Source/cmake/OptionsGTK.cmake
-> +@@ -352,12 +352,6 @@ if (ENABLED_COMPILER_SANITIZERS)
-> +     set(ENABLE_INTROSPECTION OFF)
->   endif ()
->
->  -# Override the cached variables, gtk-doc and gobject-introspection do not really work when cross-building.
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> index 9fc1421fdd6..034219f8269 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> @@ -1,7 +1,7 @@
-> -From ef832a115b40861c08df333339b1366da49e5393 Mon Sep 17 00:00:00 2001
-> +From e1c6540f7984bd48e1e2d80d965fa82c70de3c20 Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Sun, 17 Apr 2016 12:35:41 -0700
-> -Subject: [PATCH 9/9] WebKitMacros: Append to -I and not to -isystem
-> +Subject: [PATCH] WebKitMacros: Append to -I and not to -isystem
->
->  gcc-6 has now introduced stdlib.h in libstdc++ for better
->  compliance and its including the C library stdlib.h using
-> @@ -17,6 +17,7 @@ and ends up with compile errors e.g.
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
->  Upstream-Status: Pending
+> +# Create new rules to extract default envs
+> +UBOOT_ENVS_DEFAULT ?= "uboot-envs-default"
+> +DEFAULT_ENVS ?= "u-boot-env-default.txt"
+> +DEFAULT_ENVS_SIZE ?= "65536"
 > +
->  ---
->   Source/JavaScriptCore/shell/CMakeLists.txt | 2 +-
->   Source/WebCore/PlatformGTK.cmake           | 6 +++---
-> @@ -27,23 +28,23 @@ Upstream-Status: Pending
->   6 files changed, 8 insertions(+), 8 deletions(-)
->
->  diff --git a/Source/JavaScriptCore/shell/CMakeLists.txt b/Source/JavaScriptCore/shell/CMakeLists.txt
-> -index bc37dd31..4e49871f 100644
-> +index b3c7e0b..88446de 100644
->  --- a/Source/JavaScriptCore/shell/CMakeLists.txt
->  +++ b/Source/JavaScriptCore/shell/CMakeLists.txt
->  @@ -35,7 +35,7 @@ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
->   WEBKIT_WRAP_SOURCELIST(${JSC_SOURCES})
->   WEBKIT_WRAP_SOURCELIST(${TESTAPI_SOURCES})
-> - include_directories(./ ${JavaScriptCore_INCLUDE_DIRECTORIES})
-> + include_directories(./ ${JavaScriptCore_INCLUDE_DIRECTORIES} ${JavaScriptCore_PRIVATE_INCLUDE_DIRECTORIES})
->  -include_directories(SYSTEM ${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
->  +include_directories(${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
->   add_executable(jsc ${JSC_SOURCES})
->   target_link_libraries(jsc ${JSC_LIBRARIES})
->
->  diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
-> -index 73506c74..8eb8b415 100644
-> +index 32c6ccc..fef5e8b 100644
->  --- a/Source/WebCore/PlatformGTK.cmake
->  +++ b/Source/WebCore/PlatformGTK.cmake
-> -@@ -281,7 +281,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> +@@ -159,7 +159,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
->           ${GTK2_INCLUDE_DIRS}
->           ${GDK2_INCLUDE_DIRS}
->       )
-> @@ -52,7 +53,7 @@ index 73506c74..8eb8b415 100644
->           ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
->       )
->       target_link_libraries(WebCorePlatformGTK2
-> -@@ -305,7 +305,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
-> +@@ -183,7 +183,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
->   target_include_directories(WebCorePlatformGTK PRIVATE
->       ${WebCore_INCLUDE_DIRECTORIES}
->   )
-> @@ -61,7 +62,7 @@ index 73506c74..8eb8b415 100644
->       ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
->       ${GTK_INCLUDE_DIRS}
->       ${GDK_INCLUDE_DIRS}
-> -@@ -321,7 +321,7 @@ include_directories(
-> +@@ -199,7 +199,7 @@ include_directories(
->       "${WEBCORE_DIR}/bindings/gobject/"
->   )
->
-> @@ -71,33 +72,33 @@ index 73506c74..8eb8b415 100644
->   )
->
->  diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
-> -index d83a2e77..401246f4 100644
-> +index 8c6ebb5..772c243 100644
->  --- a/Source/WebKit/PlatformGTK.cmake
->  +++ b/Source/WebKit/PlatformGTK.cmake
-> -@@ -1050,7 +1050,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> +@@ -655,7 +655,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
->       target_include_directories(WebKitPluginProcess2 PRIVATE
-> -         ${WebKit2CommonIncludeDirectories}
-> +         ${WebKitCommonIncludeDirectories}
->       )
->  -    target_include_directories(WebKitPluginProcess2 SYSTEM PRIVATE
->  +    target_include_directories(WebKitPluginProcess2 PRIVATE
-> -          ${WebKit2CommonSystemIncludeDirectories}
-> +          ${WebKitCommonSystemIncludeDirectories}
->            ${GTK2_INCLUDE_DIRS}
->            ${GDK2_INCLUDE_DIRS}
->  diff --git a/Source/cmake/WebKitMacros.cmake b/Source/cmake/WebKitMacros.cmake
-> -index 7bc89543..d9818fa4 100644
-> +index a1e7e8f..ce24274 100644
->  --- a/Source/cmake/WebKitMacros.cmake
->  +++ b/Source/cmake/WebKitMacros.cmake
-> -@@ -78,7 +78,7 @@ macro(WEBKIT_FRAMEWORK_DECLARE _target)
-> - endmacro()
-> -
-> - macro(WEBKIT_FRAMEWORK _target)
-> --    include_directories(SYSTEM ${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-> -+    include_directories(${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-> -     target_sources(${_target} PRIVATE
-> -         ${${_target}_HEADERS}
-> +@@ -134,7 +134,7 @@ macro(WEBKIT_FRAMEWORK _target)
->           ${${_target}_SOURCES}
-> +     )
-> +     target_include_directories(${_target} PUBLIC "$<BUILD_INTERFACE:${${_target}_INCLUDE_DIRECTORIES}>")
-> +-    target_include_directories(${_target} SYSTEM PRIVATE "$<BUILD_INTERFACE:${${_target}_SYSTEM_INCLUDE_DIRECTORIES}>")
-> ++    target_include_directories(${_target} PRIVATE "$<BUILD_INTERFACE:${${_target}_SYSTEM_INCLUDE_DIRECTORIES}>")
-> +     target_include_directories(${_target} PRIVATE "$<BUILD_INTERFACE:${${_target}_PRIVATE_INCLUDE_DIRECTORIES}>")
-> +     target_link_libraries(${_target} ${${_target}_LIBRARIES})
-> +     set_target_properties(${_target} PROPERTIES COMPILE_DEFINITIONS "BUILDING_${_target}")
->  diff --git a/Tools/MiniBrowser/gtk/CMakeLists.txt b/Tools/MiniBrowser/gtk/CMakeLists.txt
-> -index e832a86d..ce92c864 100644
-> +index dc2b61e..0128dca 100644
->  --- a/Tools/MiniBrowser/gtk/CMakeLists.txt
->  +++ b/Tools/MiniBrowser/gtk/CMakeLists.txt
->  @@ -57,7 +57,7 @@ endif ()
-> @@ -110,11 +111,11 @@ index e832a86d..ce92c864 100644
->   target_link_libraries(MiniBrowser ${MiniBrowser_LIBRARIES})
->
->  diff --git a/Tools/TestWebKitAPI/PlatformGTK.cmake b/Tools/TestWebKitAPI/PlatformGTK.cmake
-> -index 1be3dd52..7bdddf37 100644
-> +index 4aef695..a14b163 100644
->  --- a/Tools/TestWebKitAPI/PlatformGTK.cmake
->  +++ b/Tools/TestWebKitAPI/PlatformGTK.cmake
->  @@ -20,7 +20,7 @@ include_directories(
-> -     ${WEBKIT2_DIR}/UIProcess/API/gtk
-> +     ${WEBKIT_DIR}/UIProcess/API/gtk
->   )
->
->  -include_directories(SYSTEM
-> @@ -122,6 +123,3 @@ index 1be3dd52..7bdddf37 100644
->       ${GDK3_INCLUDE_DIRS}
->       ${GLIB_INCLUDE_DIRS}
->       ${GTK3_INCLUDE_DIRS}
-> ---
-> -2.14.1
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch b/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
-> index fb4c4dc9325..923d00c4bae 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
-> @@ -1,8 +1,8 @@
-> -From 98b1359a0cd87bbdb22cef98ba594440f4c57d92 Mon Sep 17 00:00:00 2001
-> +From f9767a479111f9c6f280c43176c33de50aee7f66 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Wed, 28 Oct 2015 14:18:57 +0200
-> -Subject: [PATCH 2/9] When building introspection files, add CMAKE_C_FLAGS to
-> - the compiler flags.
-> +Subject: [PATCH] When building introspection files, add CMAKE_C_FLAGS to the
-> + compiler flags.
->
->  g-ir-compiler is using a C compiler internally, so it needs to set
->  the proper flags for it.
-> @@ -15,27 +15,24 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
->  diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
-> -index 7f92ae72..a33c6a86 100644
-> +index dc6b306..a074a80 100644
->  --- a/Source/WebKit/PlatformGTK.cmake
->  +++ b/Source/WebKit/PlatformGTK.cmake
-> -@@ -1126,7 +1126,7 @@ add_custom_command(
-> -     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> -     DEPENDS WebKit2
-> -     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> --    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
-> -+    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-> -         ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> -         ${INTROSPECTION_SCANNER}
-> -         --quiet
-> -@@ -1169,7 +1169,7 @@ add_custom_command(
-> -     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-> -     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> -     DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> --    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations
-> -+    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
-> -         LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
-> -         ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> -         ${INTROSPECTION_SCANNER}
-> ---
-> -2.14.1
-> -
-> +@@ -732,7 +732,7 @@ if (ENABLE_INTROSPECTION)
-> +         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> +         DEPENDS WebKit
-> +         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> +-        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
-> ++        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-> +             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> +             ${INTROSPECTION_SCANNER}
-> +             --quiet
-> +@@ -774,7 +774,7 @@ if (ENABLE_INTROSPECTION)
-> +         OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-> +         DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-> +         DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-> +-        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations
-> ++        COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS}
-> +             LDFLAGS="${INTROSPECTION_ADDITIONAL_LDFLAGS}"
-> +             ${LOADER_LIBRARY_PATH_VAR}="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-> +             ${INTROSPECTION_SCANNER}
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-> index c6157e10378..bbdb64490a2 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-> @@ -1,7 +1,7 @@
-> -From 0b3811771ae6385503f2d949f9433d8f810d2ff9 Mon Sep 17 00:00:00 2001
-> +From d907ac649ff5514826af9ad7e97e15dfcf79909c Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Wed, 17 May 2017 22:34:24 -0700
-> -Subject: [PATCH 8/9] webkitgtk: Fix build for armv5
-> +Subject: [PATCH] webkitgtk: Fix build for armv5
->
->  Taken from
->  https://bugs.webkit.org/show_bug.cgi?id=161900
-> @@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
->  diff --git a/Source/WTF/wtf/CMakeLists.txt b/Source/WTF/wtf/CMakeLists.txt
-> -index 6b5e45b9..46ee3c22 100644
-> +index 220bafd..4e1e9f8 100644
->  --- a/Source/WTF/wtf/CMakeLists.txt
->  +++ b/Source/WTF/wtf/CMakeLists.txt
-> -@@ -205,7 +205,6 @@ set(WTF_HEADERS
-> +@@ -315,7 +315,6 @@ set(WTF_HEADERS
->
->   set(WTF_SOURCES
->       Assertions.cpp
-> @@ -25,7 +25,7 @@ index 6b5e45b9..46ee3c22 100644
->       AutomaticThread.cpp
->       BitVector.cpp
->       CPUTime.cpp
-> -@@ -336,6 +335,15 @@ if (NOT USE_SYSTEM_MALLOC)
-> +@@ -458,6 +457,15 @@ if (NOT USE_SYSTEM_MALLOC)
->       list(APPEND WTF_LIBRARIES bmalloc)
->   endif ()
->
-> @@ -39,8 +39,5 @@ index 6b5e45b9..46ee3c22 100644
->  +file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
->  +
->   list(APPEND WTF_SOURCES
-> -     unicode/icu/CollatorICU.cpp
-> - )
-> ---
-> -2.14.1
-> -
-> +     unicode/CollatorDefault.cpp
+> +# Generate default environment
+> +do_gen_default_envs[doc] = "Generate image with default U-Boot environment(s)"
+> +do_gen_default_envs () {
+> +	${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
 > +
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-configure-failure-aarch64.patch b/meta/recipes-sato/webkit/webkitgtk/fix-configure-failure-aarch64.patch
-> deleted file mode 100644
-> index 4a6ab544b2a..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/fix-configure-failure-aarch64.patch
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -Fix configure failure for aarch64
-> -
-> -| -- Performing Test CXX_COMPILER_SUPPORTS_-fcolor-diagnostics - Failed
-> -| -- Performing Test CXX_COMPILER_SUPPORTS_-fdiagnostics-color=always
-> -| -- Performing Test CXX_COMPILER_SUPPORTS_-fdiagnostics-color=always - Success
-> -| CMake Error at Source/cmake/OptionsCommon.cmake:42 (WEBKIT_PREPEND_GLOBAL_COMPILER_FLAG):
-> -|   Unknown CMake command "WEBKIT_PREPEND_GLOBAL_COMPILER_FLAG".
-> -| Call Stack (most recent call first):
-> -|   Source/cmake/WebKitCommon.cmake:58 (include)
-> -|   CMakeLists.txt:166 (include)
-> -|
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> -
-> -Index: webkitgtk-2.14.6/Source/cmake/OptionsCommon.cmake
-> -===================================================================
-> ---- webkitgtk-2.14.6.orig/Source/cmake/OptionsCommon.cmake     2018-02-15 18:56:29.315238564 -0800
-> -+++ webkitgtk-2.14.6/Source/cmake/OptionsCommon.cmake  2018-02-15 18:54:57.469518064 -0800
-> -@@ -39,7 +39,7 @@
-> -     if (NOT WTF_CPU_ARM64)
-> -         message(FATAL_ERROR "WTF_CPU_ARM64_CORTEXA53 set without WTF_CPU_ARM64")
-> -     endif ()
-> --    WEBKIT_PREPEND_GLOBAL_COMPILER_FLAG(-mfix-cortex-a53-835769)
-> -+    WEBKIT_PREPEND_GLOBAL_COMPILER_FLAGS(-mfix-cortex-a53-835769)
-> - endif ()
-> -
-> - EXPOSE_VARIABLE_TO_BUILD(WTF_CPU_ARM64_CORTEXA53)
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/x32_support.patch b/meta/recipes-sato/webkit/webkitgtk/x32_support.patch
-> index 5f23837585b..f2454b98499 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/x32_support.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/x32_support.patch
-> @@ -1,13 +1,19 @@
-> +From 897563a0397266d8ceb058f172e16b06419b2593 Mon Sep 17 00:00:00 2001
->  From: Daniel Schepler <dschepler@gmail.com>
-> -Subject: Fix FTBFS in x32
-> -Bug-Debian: https://bugs.debian.org/700795
-> -Upstream-Status: Pending
-> -Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> -Index: webkitgtk-2.16.1/Source/WTF/wtf/Platform.h
-> +Date: Mon, 26 Mar 2018 17:48:34 +0300
-> +Subject: [PATCH] Fix FTBFS in x32
+> +	# Generate env image
+> +	${B}/tools/mkenvimage -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
 > +
->  ===================================================================
-> ---- webkitgtk-2.16.1.orig/Source/WTF/wtf/Platform.h
-> -+++ webkitgtk-2.16.1/Source/WTF/wtf/Platform.h
-> -@@ -172,7 +172,11 @@
+> +	# Generate redundant env image
+> +	${B}/tools/mkenvimage -r -s ${DEFAULT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
 > +
-> +---
-> + Source/WTF/wtf/Platform.h | 4 ++++
-> + 1 file changed, 4 insertions(+)
+> +	rm ${B}/${DEFAULT_ENVS}
+> +}
 > +
-> +diff --git a/Source/WTF/wtf/Platform.h b/Source/WTF/wtf/Platform.h
-> +index 850e298..551c047 100644
-> +--- a/Source/WTF/wtf/Platform.h
-> ++++ b/Source/WTF/wtf/Platform.h
-> +@@ -132,7 +132,11 @@
->   /* CPU(X86_64) - AMD64 / Intel64 / x86_64 64-bit */
->   #if   defined(__x86_64__) \
->       || defined(_M_X64)
-> @@ -17,5 +23,5 @@ Index: webkitgtk-2.16.1/Source/WTF/wtf/Platform.h
->   #define WTF_CPU_X86_64 1
->  +#endif
->   #define WTF_CPU_X86_SSE2 1
-> + #define WTF_CPU_KNOWN 1
->   #endif
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-> similarity index 95%
-> rename from meta/recipes-sato/webkit/webkitgtk_2.18.6.bb
-> rename to meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-> index c29fa7f4c5c..50e26665782 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-> @@ -20,12 +20,10 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->             file://detect-atomics-during-configure.patch \
->             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
->             file://0001-Fix-build-with-musl.patch \
-> -           file://fix-configure-failure-aarch64.patch \
-> -           file://0001-Fix-gles3-header-when-gles2-is-enabled.patch \
->             "
->
-> -SRC_URI[md5sum] = "c1a548595135ee75ad3bf2e18ac83112"
-> -SRC_URI[sha256sum] = "93912cc2f40f12e452be1ca4babdbdaac0ec4f828d441257a6b06c2963bbac3c"
-> +SRC_URI[md5sum] = "51cc47345c3ec53802718cd6fc9b746f"
-> +SRC_URI[sha256sum] = "57f640f720bd9a8a7207f3321cf803a15c2f207b4e7b75ff1be17bc1eeb00a3c"
->
->  inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
->
-> @@ -56,6 +54,8 @@ PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
->  PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
->  PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
->  PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
-> +# Source is at https://github.com/google/woff2
-> +PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
->
->  EXTRA_OECMAKE = " \
->                 -DPORT=GTK \
-> --
-> 2.16.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +addtask gen_default_envs before do_deploy_default_envs after do_compile
+> +
+> +# Deploy default environment
+> +do_deploy_default_envs[doc] = "Copy images with default U-Boot environment to deployment directory"
+> +do_deploy_default_envs () {
+> +	install -d ${DEPLOYDIR}
+> +
+> +	install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
+> +	install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
+> +
+> +	rm ${B}/${UBOOT_ENVS_DEFAULT}
+> +	rm ${B}/${UBOOT_ENVS_DEFAULT}_r
+> +}
+> +
+> +addtask deploy_default_envs before do_deploy after do_gen_default_envs
+> 
 
