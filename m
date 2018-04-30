@@ -1,50 +1,53 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 82FD66011F
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 07E1E6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 13:35:24 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id 94-v6so6747682wrf.5
+	Mon, 30 Apr 2018 13:37:00 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id f8so3743130wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 06:35:25 -0700 (PDT)
+	Mon, 30 Apr 2018 06:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wT0lak+TOGqTeUe2NyJNxhNia6/YyDGOantNDZL9AwM=;
-	b=QspB/6XCMHHYr+0k2OTScl1owQooUfzyM7YazNYBv2t807tvGIgyIjetZWZn+2Lb9M
-	/97UuT4gj4RL3JYS5xb+x4OGsCDNchg2OL8XvDt6kWK2atotietNFQzQYOOcUB5yIzUY
-	X3XsV0j8oO3/nGCmTi5Cx4oIv9hZmxzdYRu10U0AK0BxYJCJXgQeaaufl2ZkyIgebPkP
-	jkv1wd59uCPXNlUxyMu5IB5OI32vbfAjyGPlNpohbvYcPbZ5IHbyC2lxTQ1BzCyzaZyh
-	0lqB3aFbpJfDqvaUq2GTxQFsl7trs7OPdGAwH+UMizgBw0u6xv+hAvn+AFGljPkGzgc2
-	de5Q==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=0jQdRNMcpuAFF4SYb1BVPfOTAfhijpV4mPzgoIvmXME=;
+	b=VSoZo9dd4x6sRxdkxEK8MHpORhl4rV60pfeZPEL3oKXDH54W3Z8RdHpsKCxAgVLmpk
+	dIKXt6WtODh8RteB1unWKVhDwRi/IdjZmxe4nlifgfaakyuxr+eEE8NEsLnMhlu2fOkn
+	5KjZOKfSmOOcFc6AbjBlkk0JPSaTqw6dmWXqH/earHreJ/gsyIaPzf18lv486gLtQ2xH
+	RkLbgduPc20WlOC//ecmaCkKiNPJyOPpcUuvYlxwE+jpwW/obikc9RnBxOgTe6NCu/j/
+	iYjT+0bBfBy4GVEg8j1ZzZhlP2L5W2xxARzG1Vq6KkxUavN1CKhqjcXBcrpToPGpYZyO
+	IRBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wT0lak+TOGqTeUe2NyJNxhNia6/YyDGOantNDZL9AwM=;
-	b=sYlj7Gy27FBy395q1zDIVhrv1LEZxwQ378aNkhP8skwOscSCuwd5VYoaUrOlBwIoMW
-	0ZfCiN2fYLR2IX4Gax3H8WPOMKhqe5BafqTaDUNX6LSIjyjZY8zNEyAkXnpUZc/QoKkv
-	lWWbuENtTv3t6czE1dZYk7/C+p5QrRzB5apPlAJhBDz/cWw68SCNVvWN3QzP0V+oeUV6
-	CrfBJJ8chK0SdLxgMRfnVQUPwvfAgsZCGf+jov2hq/zcUJ5xHMLqKToSyi5h7JJ/Z31S
-	DGaBNPmeZdL8P/isUMFHeUKc3Wa8sOoexLWRG0fV8OFPVJ3jP8X5eABNGqY8ONGxbGXW
-	vBrA==
-X-Gm-Message-State: ALQs6tBNwEKrpUsr5UuV0DbsYZXffIV1N0OALkzOGZfA8jXuWZcM+JMU
-	jJt/G0PnjDlRL1s4PRkieKH5tv+2C8o8ba5wEew=
-X-Google-Smtp-Source: AB8JxZq/kMFoiY8HOMl3ninBxzJI08VzatuCSvVEZchdSDJt1yInSMQO41VjQ1r5rmAgp0ZhJQJKy5vtHRZivnsNMk8=
-X-Received: by 2002:adf:e4c8:: with SMTP id
-	v8-v6mr8025972wrm.133.1525095324851; 
-	Mon, 30 Apr 2018 06:35:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.133.207 with HTTP; Mon, 30 Apr 2018 06:35:24 -0700 (PDT)
-In-Reply-To: <65f84677b46cae1369973753fa7a9bc732248a4c.1525029885.git.raj.khem@gmail.com>
-References: <cover.1525029885.git.raj.khem@gmail.com>
-	<65f84677b46cae1369973753fa7a9bc732248a4c.1525029885.git.raj.khem@gmail.com>
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=0jQdRNMcpuAFF4SYb1BVPfOTAfhijpV4mPzgoIvmXME=;
+	b=X6t28WaRvZGblnKEA5v2AJbBKmAv8kHVBdlNJSncPrrzHFD90xI2ltuaINjBCIGUs5
+	9P7dz/cxpX5XylTb8uLavXGyUI4LiWIrtvse38HWQ1KdjFTrocv4tmJuFPT+nr8zhfJ2
+	WDZAOa+IsVpAwiUumIFSb40wBDkpo2Ln7+0Sx7JnqNL6E9nYmSt6fF1uYIj+odSJORXJ
+	WTqRUSMHKD2nUB8+KPBPlux96TtfTqHbri53GhMcxuNBamD/sbyJwnQp6ermn6GSZ1wf
+	KepkUmuJj3q43dmJ1MWWToH60fRSF2oDA2ZEHe1nRBWkce1KruTwLc9ej0Cs7eGvADTQ
+	BKoA==
+X-Gm-Message-State: ALQs6tCjeEbuiWBCGox6CabSkHAf0/QdFpy7uWbw1lbat+du8QjUeirz
+	Bs1nYJbx/mVMNbJKqiOkFRwS2g==
+X-Google-Smtp-Source: AB8JxZr47Yvcfr9iS4WlPQeURWEp3r8rORGMvYs8hbxwBIlzMXpEC8tWSro5Ic9GUI+dRkm/w8S2Wg==
+X-Received: by 10.28.173.4 with SMTP id w4mr7906025wme.54.1525095421349;
+	Mon, 30 Apr 2018 06:37:01 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	x65sm8664280wme.31.2018.04.30.06.37.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 30 Apr 2018 06:37:00 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 30 Apr 2018 15:35:24 +0200
-Message-ID: <CA+chaQfD_1=ah5efH99s=hMjALHh-WMk1w=eRvbiujh5S=VgEQ@mail.gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 30 Apr 2018 15:37:01 +0200
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/24] ruby: Upgrade to 1.5.1
+Message-ID: <20180430133701.GA2138@jama>
+References: <cover.1525029885.git.raj.khem@gmail.com>
+	<e7446e8b086e4a6a93533902f580406ca0ebadd8.1525029885.git.raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <e7446e8b086e4a6a93533902f580406ca0ebadd8.1525029885.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 08/24] alsa-tools: Update to 1.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,189 +60,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 13:35:24 -0000
-Content-Type: multipart/alternative; boundary="0000000000001620d4056b10eda2"
+X-List-Received-Date: Mon, 30 Apr 2018 13:37:01 -0000
+X-Groupsio-MsgNum: 110840
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
+Content-Disposition: inline
 
---0000000000001620d4056b10eda2
-Content-Type: text/plain; charset="UTF-8"
+--3MwIy2ne0vdjdPXF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is typo in commit summary, it's 2.5.1 not 1.5.1
+On Sun, Apr 29, 2018 at 12:35:55PM -0700, Khem Raj wrote:
+> License-Update: FSF address updated in hdsploader/COPYING and ld10k1/COPY=
+ING.LIB
+>=20
+> Fix built with clang along the way
+>=20
+> Package python dependent tools into a separate package
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>=20
+> xxx
 
-On Sun, Apr 29, 2018 at 9:35 PM, Khem Raj <raj.khem@gmail.com> wrote:
+^^^ Insert some pr0n here.
 
-> License Update: https://github.com/ruby/ruby/commit/
-> 322d0d93adfe42fc89c574f67bcb9acb9b82f251#diff-
-> c53151ffd180a17416e8f09b1ca4bfc3
->
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-devtools/ruby/ruby.inc                   | 11 +++++------
->  .../ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb}             |  4 ++--
->  2 files changed, 7 insertions(+), 8 deletions(-)
->  rename meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} (90%)
->
-> diff --git a/meta/recipes-devtools/ruby/ruby.inc
-> b/meta/recipes-devtools/ruby/ruby.inc
-> index fd3911ba75..a366e93f66 100644
-> --- a/meta/recipes-devtools/ruby/ruby.inc
-> +++ b/meta/recipes-devtools/ruby/ruby.inc
-> @@ -7,12 +7,11 @@ It is simple, straight-forward, and extensible. \
->  HOMEPAGE = "http://www.ruby-lang.org/"
->  SECTION = "devel/ruby"
->  LICENSE = "Ruby | BSD | GPLv2"
-> -LIC_FILES_CHKSUM = "\
-> -    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
-> -    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
-> -    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
-> -    file://LEGAL;md5=8f871f3f03732c018a5fa9b185958231 \
-> -"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
-> +                    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5 \
-> +                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> +                    file://LEGAL;md5=23a79bb4c1a40f6cc9bcb6f4e7c39799 \
+>  ...served-user-defined-literal-warnings.patch | 28 +++++++++++++
+>  .../alsa/alsa-tools/autotools.patch           | 42 ++++++++++++-------
+>  ...lsa-tools_1.1.5.bb =3D> alsa-tools_1.1.6.bb} | 25 ++++++++---
+>  3 files changed, 75 insertions(+), 20 deletions(-)
+>  create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clan=
+g-Wreserved-user-defined-literal-warnings.patch
+>  rename meta/recipes-multimedia/alsa/{alsa-tools_1.1.5.bb =3D> alsa-tools=
+_1.1.6.bb} (62%)
+>=20
+> diff --git a/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wrese=
+rved-user-defined-literal-warnings.patch b/meta/recipes-multimedia/alsa/als=
+a-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
+> new file mode 100644
+> index 0000000000..2290915eab
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-us=
+er-defined-literal-warnings.patch
+> @@ -0,0 +1,28 @@
+> +From 2e48e4045e1e951433da0ca4b1e49798eedde14f Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Tue, 24 Apr 2018 12:21:18 -0700
+> +Subject: [PATCH] Fix clang -Wreserved-user-defined-literal warnings
+> +
+> +| us428control.cc:66:18: error: invalid suffix on literal; C++11 require=
+s a space between literal and identifier [-Wreserved-user-defined-literal]
+> +|         printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] =
+[-D device] [-u usb-device] [-m mode]\n");
+> +|                         ^
+> +
+> +Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10360805/]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + us428control/us428control.cc | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/us428control/us428control.cc b/us428control/us428control.cc
+> +index e839bf4..8cb3c42 100644
+> +--- a/us428control/us428control.cc
+> ++++ b/us428control/us428control.cc
+> +@@ -63,7 +63,7 @@ static void usage(void)
+> + {
+> + 	printf("Tascam US-428 Control\n");
+> + 	printf("version %s\n", VERSION);
+> +-	printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D devi=
+ce] [-u usb-device] [-m mode]\n");
+> ++	printf("usage: " PROGNAME " [-v verbosity_level 0..2] [-c card] [-D de=
+vice] [-u usb-device] [-m mode]\n");
+> + 	printf("mode is one of (us224, us428, mixxx)\n");
+> + }
+> + /*
+> diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/me=
+ta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+> index 2e74963c89..c85834a593 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+> +++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+> @@ -1,3 +1,8 @@
+> +From b9a65bf3ba5628cfe8cfd2d10ce2dcf11a606775 Mon Sep 17 00:00:00 2001
+> +From: Dongxiao Xu <dongxiao.xu@intel.com>
+> +Date: Thu, 14 Jul 2011 15:40:36 +0800
+> +Subject: [PATCH] alsa-tools: Fix recipe build error.
+> +
+>  Add parameters to autoreconf to support cross compile.
+>  Remove some sub-components which needs further recipe support.
+> =20
+> @@ -5,22 +10,17 @@ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+> =20
+>  Upstream-Status: Inappropriate [configuration]
+> =20
+> -diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.=
+1/ld10k1/gitcompile
+> ---- alsa-tools-1.0.24.1-orig//ld10k1/gitcompile	2011-07-06 11:27:40.2276=
+65002 +0800
+> -+++ alsa-tools-1.0.24.1/ld10k1/gitcompile	2011-07-14 13:26:18.017665004 =
++0800
+> -@@ -1,6 +1,6 @@
+> - #!/bin/bash
+> -=20
+> --autoreconf -fi || exit 1
+> -+autoreconf $ACLOCAL_FLAGS -fi || exit 1
+> - export CFLAGS=3D'-O2 -Wall -pipe -g'
+> - echo "CFLAGS=3D$CFLAGS"
+> - echo "./configure $@"
+> -diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
+> ---- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +08=
+00
+> -+++ alsa-tools-1.0.24.1/Makefile	2011-07-14 15:08:08.877665009 +0800
+> +---
+> + Makefile          | 4 ++--
+> + ld10k1/gitcompile | 2 +-
+> + 2 files changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index c32bf25..1119372 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+>  @@ -1,8 +1,8 @@
+> - VERSION =3D 1.1.5
+> + VERSION =3D 1.1.6
+>   TOP =3D .
+>  -SUBDIRS =3D as10k1 envy24control hdsploader hdspconf hdspmixer \
+>  +SUBDIRS =3D as10k1 envy24control \
+> @@ -30,3 +30,15 @@ diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tool=
+s-1.0.24.1/Makefile
+>   	  hwmixvolume hdajackretask hda-verb hdajacksensetest
+>  =20
+>   all:
+> +diff --git a/ld10k1/gitcompile b/ld10k1/gitcompile
+> +index 99429ac..20005d9 100755
+> +--- a/ld10k1/gitcompile
+> ++++ b/ld10k1/gitcompile
+> +@@ -1,6 +1,6 @@
+> + #!/bin/bash
+> +=20
+> +-autoreconf -fi || exit 1
+> ++autoreconf $ACLOCAL_FLAGS -fi || exit 1
+> + export CFLAGS=3D'-O2 -Wall -pipe -g'
+> + echo "CFLAGS=3D$CFLAGS"
+> + echo "./configure $@"
+> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb b/meta/reci=
+pes-multimedia/alsa/alsa-tools_1.1.6.bb
+> similarity index 62%
+> rename from meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
+> rename to meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
+> index 1be43aa6e7..e065eec6b8 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
+> @@ -5,17 +5,19 @@ SECTION =3D "console/utils"
+>  LICENSE =3D "GPLv2 & LGPLv2+"
+>  DEPENDS =3D "alsa-lib ncurses glib-2.0"
+> =20
+> -LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D94d55d512a9ba36caa=
+9b7df079bae19f \
+> -                    file://ld10k1/COPYING.LIB;md5=3D7fbc338309ac38fefcd6=
+4b04bb903e34"
+> +LIC_FILES_CHKSUM =3D "file://hdsploader/COPYING;md5=3D59530bdf33659b29e7=
+3d4adb9f9f6552 \
+> +                    file://ld10k1/COPYING.LIB;md5=3Da916467b91076e631dd8=
+edb7424769c7 \
 > +                    "
->
->  DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline"
->  DEPENDS_class-native = "openssl-native libyaml-native"
-> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.0.bb
-> b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-> similarity index 90%
-> rename from meta/recipes-devtools/ruby/ruby_2.5.0.bb
-> rename to meta/recipes-devtools/ruby/ruby_2.5.1.bb
-> index 1ac7f2aa5a..91048284c1 100644
-> --- a/meta/recipes-devtools/ruby/ruby_2.5.0.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-> @@ -5,8 +5,8 @@ SRC_URI += " \
->             file://ruby-CVE-2017-9228.patch \
+> =20
+>  SRC_URI =3D "ftp://ftp.alsa-project.org/pub/tools/${BP}.tar.bz2 \
+>             file://autotools.patch \
+>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://ma=
+kefile_no_gtk.patch', d)} \
+>             file://gitcompile_hdajacksensetest \
+> +           file://0002-Fix-clang-Wreserved-user-defined-literal-warnings=
+=2Epatch \
 >             "
->
-> -SRC_URI[md5sum] = "f4711f856fe14de222b9da3d3b8efa89"
-> -SRC_URI[sha256sum] = "46e6f3630f1888eb653b15fa811d77
-> b5b1df6fd7a3af436b343cfe4f4503f2ab"
-> +SRC_URI[md5sum] = "23867bc8c16c55e43b14dfe0614bcfa8"
-> +SRC_URI[sha256sum] = "dac81822325b79c3ba9532b048c212
-> 3357d3310b2b40024202f360251d9829b1"
->
->  # it's unknown to configure script, but then passed to extconf.rb
->  # maybe it's not really needed as we're hardcoding the result with
-> --
+> =20
+> -SRC_URI[md5sum] =3D "3afb92eb1b4f2edc8691498e57c3ec78"
+> -SRC_URI[sha256sum] =3D "bc3c6567de835223ee7d69487b8c22fb395a2e8c613341b0=
+c96e6a5f6a2bd534"
+> +SRC_URI[md5sum] =3D "5ca8c9437ae779997cd62fb2815fef19"
+> +SRC_URI[sha256sum] =3D "d69c4dc2fb641a974d9903e9eb78c94cb0c7ac6c45bae664=
+f0c9d6c0a1593227"
+> =20
+>  inherit autotools-brokensep pkgconfig
+> =20
+> @@ -37,4 +39,17 @@ do_compile_prepend () {
+>      cp ${WORKDIR}/gitcompile_hdajacksensetest ${S}/hdajacksensetest/gitc=
+ompile
+>  }
+> =20
+> -FILES_${PN} +=3D "${datadir}/ld10k1"
+> +do_install_append() {
+> +    sed -i -e "s|/usr/bin/python2|/usr/bin/env python2|g" ${D}${bindir}/=
+hwmixvolume
+> +}
+> +
+> +PACKAGES =3D+ "${PN}-hwmixvolume"
+> +
+> +FILES_${PN}-hwmixvolume =3D "${bindir}/hwmixvolume"
+> +
+> +FILES_${PN} +=3D "${datadir}/ld10k1 \
+> +                ${datadir}/icons/hicolor \
+> +               "
+> +
+> +RDEPENDS_${PN}-hwmixvolume +=3D "python"
+> +
+> --=20
 > 2.17.0
->
-> --
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---0000000000001620d4056b10eda2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-<div dir=3D"ltr">There is typo in commit summary, it&#39;s 2.5.1 not 1.5.1<=
-/div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Apr =
-29, 2018 at 9:35 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.k=
-hem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<b=
-r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">License Update: <a href=3D"https://github.=
-com/ruby/ruby/commit/322d0d93adfe42fc89c574f67bcb9acb9b82f251#diff-c53151ff=
-d180a17416e8f09b1ca4bfc3" rel=3D"noreferrer" target=3D"_blank">https://gith=
-ub.com/ruby/ruby/<wbr>commit/<wbr>322d0d93adfe42fc89c574f67bcb9a<wbr>cb9b82=
-f251#diff-<wbr>c53151ffd180a17416e8f09b1ca4bf<wbr>c3</a><br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
-gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/ruby/<wbr>ruby.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 +++++------<br>
-=C2=A0.../ruby/{<a href=3D"http://ruby_2.5.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">ruby_2.5.0.bb</a> =3D&gt; <a href=3D"http://ruby_2.5.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">ruby_2.5.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++--<br>
-=C2=A02 files changed, 7 insertions(+), 8 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/ruby/{<a href=3D"http://ruby_2.5.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">ru<wbr>by_2.5.0.bb</a> =3D&gt; <a href=
-=3D"http://ruby_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">ruby_2.5.1.b=
-b</a>} (90%)<br>
-<br>
-diff --git a/meta/recipes-devtools/ruby/<wbr>ruby.inc b/meta/recipes-devtoo=
-ls/ruby/<wbr>ruby.inc<br>
-index fd3911ba75..a366e93f66 100644<br>
---- a/meta/recipes-devtools/ruby/<wbr>ruby.inc<br>
-+++ b/meta/recipes-devtools/ruby/<wbr>ruby.inc<br>
-@@ -7,12 +7,11 @@ It is simple, straight-forward, and extensible. \<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.ruby-lang.org/" rel=3D"noref=
-errer" target=3D"_blank">http://www.ruby-lang.org/</a>&quot;<br>
-=C2=A0SECTION =3D &quot;devel/ruby&quot;<br>
-=C2=A0LICENSE =3D &quot;Ruby | BSD | GPLv2&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;\<br>
--=C2=A0 =C2=A0 file://COPYING;md5=3D<wbr>340948e1882e579731841bf49cdc22<wbr=
->c1 \<br>
--=C2=A0 =C2=A0 file://BSDL;md5=3D<wbr>19aaf65c88a40b508d17ae4be539c4<wbr>b5=
-\<br>
--=C2=A0 =C2=A0 file://GPL;md5=3D<wbr>b234ee4d69f5fce4486a80fdaf4a42<wbr>63\=
-<br>
--=C2=A0 =C2=A0 file://LEGAL;md5=3D<wbr>8f871f3f03732c018a5fa9b1859582<wbr>3=
-1 \<br>
--&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>340948e1882e579731841=
-bf49cdc22<wbr>c1 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://BSDL;md5=3D<wbr>19aaf65c88a40b508d17ae4be539c4<wbr>b5 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://GPL;md5=3D<wbr>b234ee4d69f5fce4486a80fdaf4a42<wbr>63 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://LEGAL;md5=3D<wbr>23a79bb4c1a40f6cc9bcb6f4e7c397<wbr>99 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quo=
-t;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;ruby-native zlib openssl tcl libyaml gdbm readline&=
-quot;<br>
-=C2=A0DEPENDS_class-native =3D &quot;openssl-native libyaml-native&quot;<br=
->
-diff --git a/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">r<wbr>uby_2.5.0.bb</a> b/meta/recipes-de=
-vtools/ruby/<a href=3D"http://ruby_2.5.1.bb" rel=3D"noreferrer" target=3D"_=
-blank">r<wbr>uby_2.5.1.bb</a><br>
-similarity index 90%<br>
-rename from meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">rub<wbr>y_2.5.0.bb</a><br>
-rename to meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rub<wbr>y_2.5.1.bb</a><br>
-index 1ac7f2aa5a..91048284c1 100644<br>
---- a/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.0.bb" rel=3D"no=
-referrer" target=3D"_blank">r<wbr>uby_2.5.0.bb</a><br>
-+++ b/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.1.bb" rel=3D"no=
-referrer" target=3D"_blank">r<wbr>uby_2.5.1.bb</a><br>
-@@ -5,8 +5,8 @@ SRC_URI +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ruby-CVE-2017-9228.<wbr>pa=
-tch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;<wbr>f4711f856fe14de222b9da3d3b8efa<wbr>89&quot;=
-<br>
--SRC_URI[sha256sum] =3D &quot;<wbr>46e6f3630f1888eb653b15fa811d77<wbr>b5b1d=
-f6fd7a3af436b343cfe4f4503<wbr>f2ab&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>23867bc8c16c55e43b14dfe0614bcf<wbr>a8&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>dac81822325b79c3ba9532b048c212<wbr>3357d=
-3310b2b40024202f360251d98<wbr>29b1&quot;<br>
-<br>
-=C2=A0# it&#39;s unknown to configure script, but then passed to extconf.rb=
-<br>
-=C2=A0# maybe it&#39;s not really needed as we&#39;re hardcoding the result=
- with<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
-2.17.0<br>
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+--3MwIy2ne0vdjdPXF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---0000000000001620d4056b10eda2--
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWucb/AAKCRA3VSO3ZXaA
+HI56AKCiHOLoVMXaKMRM07e9/Csi7OpsQwCgu3CDF4bu1lBBueNXSbHleN5R9jE=
+=Pdfa
+-----END PGP SIGNATURE-----
+
+--3MwIy2ne0vdjdPXF--
