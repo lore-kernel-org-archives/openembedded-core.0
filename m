@@ -1,50 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EFBE76011F
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id BD76160272
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 14:15:00 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id o76so6840550pfi.5
+	Mon, 30 Apr 2018 14:17:39 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id c10so6837089pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 07:15:02 -0700 (PDT)
+	Mon, 30 Apr 2018 07:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=d8hyZq2XIny9ZJmGD8ST85K0JV0sXnv/iNyDtlRMSOw=;
-	b=KHmueqo02uWL/h0FYwYMmZz4tIqPmyniDuKpJdyEIlqytZkLbkG3Kv8sZ/n8IuyMVl
-	cPOPGT6mzPbjbWJ/MttNeAOiwOn+VqdfdOArw82AdpZlcYBDt1/zs29FLpiR3cnd4xe4
-	Heexb/bT1z2SVp1IXmG6mPDSbSHi/xIdTRVgRoLauPgjhsklwaUj1+t444mDnQ2Y92Ke
-	AwBGD+9wwiA0WWcciBKSIAdU95yRixs7+MFWo71k3Divx2KmqGNLzlJfK+w/YkLrUroN
-	Une1crFJ9Ah+SBgbS//ZnZ4v8uZvavW21dIPUcz3wGKexX8KH+pRfZegmokqm7CIRCnr
-	Xnlg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qVOXrcidZkFO53/QXA1LRkmHJV8ULGbX918yPw3LW+c=;
+	b=IYewPya0VG1ksZblNg+MzI11w9HnyHVvBRs287xqiuYcRlw1HJTQDWWH6W7lV18LnV
+	eJBixqm/1HO2JRvdu24bf/PO4IQULk2bpE/ps5EGFa/j08mvzWL1yXlNs3cz83TXoaS/
+	i7ZNIooaam59qVlbdPYDVyfsHQ5fcy2aJDiIvnVA2iCeX/JoSwIhXwy8hLakrbPZPwwd
+	KiSX38MUhAzgNYO6OMhYSrDZZU6Zs0OE7Tg06P+MvRgh8K5hKj8/8a+E+glfdhiXb1Bq
+	HYrZ9X3GGpqRdHEd+cvvbW9Okm48Pb7TSsAHUS/WXlVY7cqQh6kmkDa++rX83mtA9X2U
+	mOkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=d8hyZq2XIny9ZJmGD8ST85K0JV0sXnv/iNyDtlRMSOw=;
-	b=mav9i+yBq13jxvliLI4H6N1nTx0oiIkQZ6QzFOM+7deoM5jx2MiQyrnffR3yqvRxhH
-	CRsUJFpa1WiOdYf0FD/7R9YplSNlQdGBW49QfxMRm/TpICOvlI/NSUMENWXt2X1M+2oQ
-	JHbrEP7OUH6ASSCHedAFW8M9JEsBigDqYB/jqcI3YHddTCcfmuidzs8vFg6lWieOLCsw
-	TKhjuaZ1PvTT3Q7gPCUVMiD5He25U8yV4NMqdQhR70gArM3gIwnFYgklysVDECRZzbrs
-	EsEym0goCF0m6Y4k4LO1beH8UGHKt1d9uSoNXzCu/eGlMFPR5PbLM/kiNZDkNz9MHQ64
-	mqJQ==
-X-Gm-Message-State: ALQs6tB3V9t6ivqpI4vy3ED/yIsWcF8feUlkWlOP4AYmYfTJgwOyrYn/
-	AQCyXZW17mSkCWfoENCDW4c2KQ==
-X-Google-Smtp-Source: AB8JxZp+MJ3A32QJZ30YcZj04DbVMu7qF7TaD+fmnRFa+YvYGr/LFyOFgIib2T+nKYbPGziw8UeKVw==
-X-Received: by 10.98.141.201 with SMTP id p70mr12139425pfk.72.1525097701560;
-	Mon, 30 Apr 2018 07:15:01 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	b72sm15781621pfm.69.2018.04.30.07.15.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Apr 2018 07:15:01 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qVOXrcidZkFO53/QXA1LRkmHJV8ULGbX918yPw3LW+c=;
+	b=oIklSY5GhFKtZ+SXfEjeW/0iaWgsSyyCjj8rsmvfI9tbeo1TGZzl2YC6qDGcFuXsmh
+	EXdFXwdqLI+CMQfo/iq8n83y9iVIP1vLQp57Oqgq0R206Rm0UmNDOtrLVLEw23wO8Iny
+	RitE8mUg+BcX6AaNCkrmZiUfhJt2246i5XDXus/671mvev9bICpTc6YIORGivLyy9CTD
+	FiFJkhcd+CK5SV381rEKsImR6eaSQ7LnHvZmYSBSOnK+JqYcI1cpOLiNkqZaiARuu77B
+	6QzeZ2lj8hp6Bj4abU/95SwcLu30geR470EQat23fxhTeTebP00uhcWoks/zPwqg3ngj
+	jnVA==
+X-Gm-Message-State: ALQs6tDoG1TkZO8zCNx46WecMVKnV2wcrzQY43JNUcjKT5AoIqqwG222
+	s8sr4+JtsfsEEw6MGxBjt7emBXysjHWknPFqiBM=
+X-Google-Smtp-Source: AB8JxZps3j5TzV0Gn28P81GQclnU/wF8DH8xR9hWFZRUJDxahFXNB3hoYRRLHfc4TUZdXe1RUsblqRkm8mkY4aADWBE=
+X-Received: by 2002:a63:7547:: with SMTP id
+	f7-v6mr10413030pgn.204.1525097860428; 
+	Mon, 30 Apr 2018 07:17:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.182.141 with HTTP; Mon, 30 Apr 2018 07:17:09 -0700 (PDT)
+In-Reply-To: <CAJTo0Lbqnrsa05cxUbpW0wDgRPMUqN60=X0rWKMPK9uqdpVogQ@mail.gmail.com>
+References: <20180420163354.12065-1-raj.khem@gmail.com>
+	<CAJTo0Lbqnrsa05cxUbpW0wDgRPMUqN60=X0rWKMPK9uqdpVogQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Apr 2018 07:14:55 -0700
-Message-Id: <20180430141455.2248-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180430141455.2248-1-raj.khem@gmail.com>
-References: <20180430141455.2248-1-raj.khem@gmail.com>
-Subject: [PATCH V2 10/25] ruby: Upgrade to 2.5.1
+Date: Mon, 30 Apr 2018 07:17:09 -0700
+Message-ID: <CAMKF1soffEYq1=8QnSDYAwCXPpMU5_eya1AcKpPAoazzNLX+0A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/6] libssp-nonshared: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +56,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 14:15:01 -0000
+X-List-Received-Date: Mon, 30 Apr 2018 14:17:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-License Update: https://github.com/ruby/ruby/commit/322d0d93adfe42fc89c574f67bcb9acb9b82f251#diff-c53151ffd180a17416e8f09b1ca4bfc3
+On Mon, Apr 30, 2018 at 6:08 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> build-appliance is failing at SDK creation time:
+>
+>  Problem: package packagegroup-self-hosted-1.0-r13.0.noarch requires
+> packagegroup-self-hosted-sdk, but none of the providers can be
+> installed
+>   - conflicting requests
+>   - nothing provides libssp-dev needed by
+> packagegroup-self-hosted-sdk-1.0-r13.0.noarch
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/ruby/ruby.inc                   | 11 +++++------
- .../ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb}             |  4 ++--
- 2 files changed, 7 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} (90%)
+we do not need libssp there, I have sent a patch to remove it from packagegroup
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/pu&id=03e113aedd069ea97f2f3ce96fc8337e3601732b
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index fd3911ba75..a366e93f66 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -7,12 +7,11 @@ It is simple, straight-forward, and extensible. \
- HOMEPAGE = "http://www.ruby-lang.org/"
- SECTION = "devel/ruby"
- LICENSE = "Ruby | BSD | GPLv2"
--LIC_FILES_CHKSUM = "\
--    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
--    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
--    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
--    file://LEGAL;md5=8f871f3f03732c018a5fa9b185958231 \
--"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
-+                    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5 \
-+                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://LEGAL;md5=23a79bb4c1a40f6cc9bcb6f4e7c39799 \
-+                    "
- 
- DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline"
- DEPENDS_class-native = "openssl-native libyaml-native"
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.0.bb b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-similarity index 90%
-rename from meta/recipes-devtools/ruby/ruby_2.5.0.bb
-rename to meta/recipes-devtools/ruby/ruby_2.5.1.bb
-index 1ac7f2aa5a..91048284c1 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
-@@ -5,8 +5,8 @@ SRC_URI += " \
-            file://ruby-CVE-2017-9228.patch \
-            "
- 
--SRC_URI[md5sum] = "f4711f856fe14de222b9da3d3b8efa89"
--SRC_URI[sha256sum] = "46e6f3630f1888eb653b15fa811d77b5b1df6fd7a3af436b343cfe4f4503f2ab"
-+SRC_URI[md5sum] = "23867bc8c16c55e43b14dfe0614bcfa8"
-+SRC_URI[sha256sum] = "dac81822325b79c3ba9532b048c2123357d3310b2b40024202f360251d9829b1"
- 
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
--- 
-2.17.0
-
+> Ross
+>
+> On 20 April 2018 at 17:33, Khem Raj <raj.khem@gmail.com> wrote:
+>> libssp-nonshared is a minimal gcc runtime piece which is needed
+>> on non-glibc systems which do implement libssp APIs in libc
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>> Changes since v1:
+>> - Package into staticdev package
+>>
+>>  meta/recipes-core/musl/libssp-nonshared.bb    | 39 ++++++++++++++++
+>>  .../musl/libssp-nonshared/ssp-local.c         | 45 +++++++++++++++++++
+>>  2 files changed, 84 insertions(+)
+>>  create mode 100644 meta/recipes-core/musl/libssp-nonshared.bb
+>>  create mode 100644 meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+>>
+>> diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
+>> new file mode 100644
+>> index 0000000000..00a0a3d411
+>> --- /dev/null
+>> +++ b/meta/recipes-core/musl/libssp-nonshared.bb
+>> @@ -0,0 +1,39 @@
+>> +# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
+>> +# Released under the MIT license (see COPYING.MIT for the terms)
+>> +
+>> +SUMMARY = "Minimal libssp_nonshared.a must needed for ssp to work with gcc on musl"
+>> +LICENSE = "GPL-3.0-with-GCC-exception"
+>> +LIC_FILES_CHKSUM = "file://ssp-local.c;beginline=1;endline=32;md5=c06d391208c0cfcbc541a6728ed65cc4"
+>> +SECTION = "libs"
+>> +
+>> +SRC_URI = "file://ssp-local.c"
+>> +
+>> +PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
+>> +
+>> +INHIBIT_DEFAULT_DEPS = "1"
+>> +
+>> +STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
+>> +STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
+>> +
+>> +DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+>> +           virtual/${TARGET_PREFIX}gcc-initial \
+>> +"
+>> +
+>> +do_configure[noexec] = "1"
+>> +
+>> +S = "${WORKDIR}"
+>> +
+>> +do_compile() {
+>> +       ${CC} ${CPPFLAGS} ${CFLAGS} -c ssp-local.c -o ssp-local.o
+>> +       ${AR} r libssp_nonshared.a ssp-local.o
+>> +}
+>> +do_install() {
+>> +       install -Dm 0644 ${B}/libssp_nonshared.a ${D}${base_libdir}/libssp_nonshared.a
+>> +}
+>> +#
+>> +# We will skip parsing for non-musl systems
+>> +#
+>> +COMPATIBLE_HOST = ".*-musl.*"
+>> +RDEPENDS_${PN}-staticdev = ""
+>> +RDEPENDS_${PN}-dev = ""
+>> +RRECOMMENDS_${PN}-dbg = "${PN}-staticdev (= ${EXTENDPKGV})"
+>> diff --git a/meta/recipes-core/musl/libssp-nonshared/ssp-local.c b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+>> new file mode 100644
+>> index 0000000000..8f51afa2c1
+>> --- /dev/null
+>> +++ b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+>> @@ -0,0 +1,45 @@
+>> +/* Stack protector support.
+>> +   Copyright (C) 2005-2018 Free Software Foundation, Inc.
+>> +
+>> +This file is part of GCC.
+>> +
+>> +GCC is free software; you can redistribute it and/or modify it under
+>> +the terms of the GNU General Public License as published by the Free
+>> +Software Foundation; either version 3, or (at your option) any later
+>> +version.
+>> +
+>> +In addition to the permissions in the GNU General Public License, the
+>> +Free Software Foundation gives you unlimited permission to link the
+>> +compiled version of this file into combinations with other programs,
+>> +and to distribute those combinations without any restriction coming
+>> +from the use of this file.  (The General Public License restrictions
+>> +do apply in other respects; for example, they cover modification of
+>> +the file, and distribution when not linked into a combine
+>> +executable.)
+>> +
+>> +GCC is distributed in the hope that it will be useful, but WITHOUT ANY
+>> +WARRANTY; without even the implied warranty of MERCHANTABILITY or
+>> +FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+>> +for more details.
+>> +
+>> +Under Section 7 of GPL version 3, you are granted additional
+>> +permissions described in the GCC Runtime Library Exception, version
+>> +3.1, as published by the Free Software Foundation.
+>> +
+>> +You should have received a copy of the GNU General Public License and
+>> +a copy of the GCC Runtime Library Exception along with this program;
+>> +see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+>> +<http://www.gnu.org/licenses/>.  */
+>> +
+>> +extern void __stack_chk_fail (void);
+>> +
+>> +/* Some targets can avoid loading a GP for calls to hidden functions.
+>> +   Using this entry point may avoid the load of a GP entirely for the
+>> +   function, making the overall code smaller.  */
+>> +
+>> +void
+>> +__attribute__((visibility ("hidden")))
+>> +__stack_chk_fail_local (void)
+>> +{
+>> +  __stack_chk_fail ();
+>> +}
+>> --
+>> 2.17.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
