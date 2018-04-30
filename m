@@ -1,49 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A2FCD6093B
+Return-Path: <lukma@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id BDC7860110
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 14:18:22 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id j11-v6so6418344pgf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Apr 2018 07:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IPi3l5730hm5wqDoTWMnzVPLukGljVG57u0PqtKptHo=;
-	b=txXW0cm8GcmUFxuMwM1Mzm1NMwF0RIkgs3vdKK0e1p1w9H6O/mDYj084gTwElos7VX
-	z1V1rMrkdqbMdHMHXcadC6dMWi85QZE8WWjV/FplScmJUrnfXn2euNaESnqGe+wr864r
-	E2LqI/fZISb+ACYVyzy2is7HDDDFA/Cfe7+b1JunOH3LzKRgjnW3p6E4q21FLXwGUk7c
-	77xap8iHCI+P512qecmrrbWu4jxrRmrX3zR+8VUJpALK8/jvIg9okcyiQThbCn8R5vm/
-	33SOCUc6OVqzZiKeBWx3MLFx0B+iJSLXwWCC30k8ZfhxXxu5ZyMPOQJxrfSHYi/BaHmO
-	wAWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IPi3l5730hm5wqDoTWMnzVPLukGljVG57u0PqtKptHo=;
-	b=s/cVCaxQM7W6i5R017LrvjoNhDwdrT4tTuMWgowd367C4kfGyseEoBHY+fVAcXoBF9
-	2hvv5tEtj5PTX1Ycq6FVpePbsQkIm6x21CXeQ/WHebIzP1Y3r/IprZ2GhMvqbOCTJ+G2
-	ogAvNTyM0l4/lmcMMbSgj6Q7mmZWtMoBLCDWMBsmisRbXeCsSqnA+YjmF7Q4EHn6ifmp
-	wGHKzdkR6S1dosGtphOlrEjg1XojxkOe1oFC8DOwAr1b0Kfry1e0E8Bcr8Ot5kpY8n1/
-	ZxZjGpC/cRaLD51mTAG8pLNtHGfW8T/41fCI3cfALAKK83C11wbj5Pcj7MGvzNS7+JCw
-	hkfA==
-X-Gm-Message-State: ALQs6tB5/z8CSIngyoZaaVyJ7NiDMLTvvNJCtZPoaCi02w3ruGVC6yx/
-	kzQFz2HBMZTIGkd2Vbzf/uArlCT3K5JLvczInfw=
-X-Google-Smtp-Source: AB8JxZqWOQvsAvm4dt3wYV533rDRIc9TPVK9U5X1/KAdUvdbh83fQHirelsffIXv/HRf22F2Xa8cCRfnuMr/LIkAYeY=
-X-Received: by 10.98.91.2 with SMTP id p2mr4153410pfb.96.1525097903214; Mon,
-	30 Apr 2018 07:18:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.182.141 with HTTP; Mon, 30 Apr 2018 07:17:52 -0700 (PDT)
-In-Reply-To: <20180430133701.GA2138@jama>
-References: <cover.1525029885.git.raj.khem@gmail.com>
-	<e7446e8b086e4a6a93533902f580406ca0ebadd8.1525029885.git.raj.khem@gmail.com>
-	<20180430133701.GA2138@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Apr 2018 07:17:52 -0700
-Message-ID: <CAMKF1sqKyQ1NAybDCc_BmddOgndaDopqX9d8gCr_zhpCTe00pA@mail.gmail.com>
+	Mon, 30 Apr 2018 14:22:32 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 40ZRZd0Fqqz1qtHl;
+	Mon, 30 Apr 2018 16:22:33 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 40ZRZc6xfHz1qqxG;
+	Mon, 30 Apr 2018 16:22:32 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id aC0MzpP3_tQ1; Mon, 30 Apr 2018 16:22:30 +0200 (CEST)
+X-Auth-Info: qTRM2gdlWAumCs6ZUpX2iRuut15ONDNrPs6Kibz6QZc=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 30 Apr 2018 16:22:30 +0200 (CEST)
+Date: Mon, 30 Apr 2018 16:22:29 +0200
+From: Lukasz Majewski <lukma@denx.de>
 To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Message-ID: <20180430162229.62155473@jawa>
+In-Reply-To: <CA+chaQdBDAXRA9i=eH67qTRK-cGZbtrNNEWN9XWkEyEF5b7xow@mail.gmail.com>
+References: <20180427145139.30732-1-lukma@denx.de>
+	<69bd71c5-a14a-2687-3f5d-52083043a131@prevas.dk>
+	<CA+chaQf_r6ytw5VR3m4RgctcGpwmfxG=Q5NfvSgJCeB3tL4MQw@mail.gmail.com>
+	<CA+chaQdBDAXRA9i=eH67qTRK-cGZbtrNNEWN9XWkEyEF5b7xow@mail.gmail.com>
+Organization: denx.de
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
+	Stefan Agner <stefan.agner@toradex.com>, OpenEmbedded Core Mailing List
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/24] alsa-tools: Update to 1.1.6
+Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,190 +48,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Apr 2018 14:18:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 30 Apr 2018 14:22:33 -0000
+X-Groupsio-MsgNum: 110848
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/mXRNMbc/uiUw.GnE_0R5h9Q";
+	protocol="application/pgp-signature"
 
-On Mon, Apr 30, 2018 at 6:37 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Sun, Apr 29, 2018 at 12:35:55PM -0700, Khem Raj wrote:
->> License-Update: FSF address updated in hdsploader/COPYING and ld10k1/COPYING.LIB
->>
->> Fix built with clang along the way
->>
->> Package python dependent tools into a separate package
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>
->> xxx
->
-> ^^^ Insert some pr0n here.
+--Sig_/mXRNMbc/uiUw.GnE_0R5h9Q
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-rebase cruft. Fixed in v2
+Hi Martin,
 
->
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  ...served-user-defined-literal-warnings.patch | 28 +++++++++++++
->>  .../alsa/alsa-tools/autotools.patch           | 42 ++++++++++++-------
->>  ...lsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} | 25 ++++++++---
->>  3 files changed, 75 insertions(+), 20 deletions(-)
->>  create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
->>  rename meta/recipes-multimedia/alsa/{alsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} (62%)
->>
->> diff --git a/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
->> new file mode 100644
->> index 0000000000..2290915eab
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
->> @@ -0,0 +1,28 @@
->> +From 2e48e4045e1e951433da0ca4b1e49798eedde14f Mon Sep 17 00:00:00 2001
->> +From: Khem Raj <raj.khem@gmail.com>
->> +Date: Tue, 24 Apr 2018 12:21:18 -0700
->> +Subject: [PATCH] Fix clang -Wreserved-user-defined-literal warnings
->> +
->> +| us428control.cc:66:18: error: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
->> +|         printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
->> +|                         ^
->> +
->> +Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10360805/]
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +---
->> + us428control/us428control.cc | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/us428control/us428control.cc b/us428control/us428control.cc
->> +index e839bf4..8cb3c42 100644
->> +--- a/us428control/us428control.cc
->> ++++ b/us428control/us428control.cc
->> +@@ -63,7 +63,7 @@ static void usage(void)
->> + {
->> +     printf("Tascam US-428 Control\n");
->> +     printf("version %s\n", VERSION);
->> +-    printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
->> ++    printf("usage: " PROGNAME " [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
->> +     printf("mode is one of (us224, us428, mixxx)\n");
->> + }
->> + /*
->> diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
->> index 2e74963c89..c85834a593 100644
->> --- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
->> +++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
->> @@ -1,3 +1,8 @@
->> +From b9a65bf3ba5628cfe8cfd2d10ce2dcf11a606775 Mon Sep 17 00:00:00 2001
->> +From: Dongxiao Xu <dongxiao.xu@intel.com>
->> +Date: Thu, 14 Jul 2011 15:40:36 +0800
->> +Subject: [PATCH] alsa-tools: Fix recipe build error.
->> +
->>  Add parameters to autoreconf to support cross compile.
->>  Remove some sub-components which needs further recipe support.
->>
->> @@ -5,22 +10,17 @@ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
->>
->>  Upstream-Status: Inappropriate [configuration]
->>
->> -diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1/gitcompile
->> ---- alsa-tools-1.0.24.1-orig//ld10k1/gitcompile      2011-07-06 11:27:40.227665002 +0800
->> -+++ alsa-tools-1.0.24.1/ld10k1/gitcompile    2011-07-14 13:26:18.017665004 +0800
->> -@@ -1,6 +1,6 @@
->> - #!/bin/bash
->> -
->> --autoreconf -fi || exit 1
->> -+autoreconf $ACLOCAL_FLAGS -fi || exit 1
->> - export CFLAGS='-O2 -Wall -pipe -g'
->> - echo "CFLAGS=$CFLAGS"
->> - echo "./configure $@"
->> -diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
->> ---- alsa-tools-1.0.24.1-orig//Makefile       2011-07-06 11:27:40.207665000 +0800
->> -+++ alsa-tools-1.0.24.1/Makefile     2011-07-14 15:08:08.877665009 +0800
->> +---
->> + Makefile          | 4 ++--
->> + ld10k1/gitcompile | 2 +-
->> + 2 files changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/Makefile b/Makefile
->> +index c32bf25..1119372 100644
->> +--- a/Makefile
->> ++++ b/Makefile
->>  @@ -1,8 +1,8 @@
->> - VERSION = 1.1.5
->> + VERSION = 1.1.6
->>   TOP = .
->>  -SUBDIRS = as10k1 envy24control hdsploader hdspconf hdspmixer \
->>  +SUBDIRS = as10k1 envy24control \
->> @@ -30,3 +30,15 @@ diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
->>         hwmixvolume hdajackretask hda-verb hdajacksensetest
->>
->>   all:
->> +diff --git a/ld10k1/gitcompile b/ld10k1/gitcompile
->> +index 99429ac..20005d9 100755
->> +--- a/ld10k1/gitcompile
->> ++++ b/ld10k1/gitcompile
->> +@@ -1,6 +1,6 @@
->> + #!/bin/bash
->> +
->> +-autoreconf -fi || exit 1
->> ++autoreconf $ACLOCAL_FLAGS -fi || exit 1
->> + export CFLAGS='-O2 -Wall -pipe -g'
->> + echo "CFLAGS=$CFLAGS"
->> + echo "./configure $@"
->> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
->> similarity index 62%
->> rename from meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
->> rename to meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
->> index 1be43aa6e7..e065eec6b8 100644
->> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
->> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
->> @@ -5,17 +5,19 @@ SECTION = "console/utils"
->>  LICENSE = "GPLv2 & LGPLv2+"
->>  DEPENDS = "alsa-lib ncurses glib-2.0"
->>
->> -LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->> -                    file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
->> +LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->> +                    file://ld10k1/COPYING.LIB;md5=a916467b91076e631dd8edb7424769c7 \
->> +                    "
->>
->>  SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/${BP}.tar.bz2 \
->>             file://autotools.patch \
->>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)} \
->>             file://gitcompile_hdajacksensetest \
->> +           file://0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch \
->>             "
->>
->> -SRC_URI[md5sum] = "3afb92eb1b4f2edc8691498e57c3ec78"
->> -SRC_URI[sha256sum] = "bc3c6567de835223ee7d69487b8c22fb395a2e8c613341b0c96e6a5f6a2bd534"
->> +SRC_URI[md5sum] = "5ca8c9437ae779997cd62fb2815fef19"
->> +SRC_URI[sha256sum] = "d69c4dc2fb641a974d9903e9eb78c94cb0c7ac6c45bae664f0c9d6c0a1593227"
->>
->>  inherit autotools-brokensep pkgconfig
->>
->> @@ -37,4 +39,17 @@ do_compile_prepend () {
->>      cp ${WORKDIR}/gitcompile_hdajacksensetest ${S}/hdajacksensetest/gitcompile
->>  }
->>
->> -FILES_${PN} += "${datadir}/ld10k1"
->> +do_install_append() {
->> +    sed -i -e "s|/usr/bin/python2|/usr/bin/env python2|g" ${D}${bindir}/hwmixvolume
->> +}
->> +
->> +PACKAGES =+ "${PN}-hwmixvolume"
->> +
->> +FILES_${PN}-hwmixvolume = "${bindir}/hwmixvolume"
->> +
->> +FILES_${PN} += "${datadir}/ld10k1 \
->> +                ${datadir}/icons/hicolor \
->> +               "
->> +
->> +RDEPENDS_${PN}-hwmixvolume += "python"
->> +
->> --
->> 2.17.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> And here is example how we're using it:
+>=20
+> https://github.com/webosose/meta-webosose/blob/master/meta-webos-raspberr=
+ypi/recipes-bsp/u-boot/u-boot-env.bb
+>=20
+> To make it compatible with raspberrypi3 and raspberrypi3-64, I've
+> updated it a bit to select correct IMAGETYPE and BOOTCMD based on the
+> environment:
+>=20
+> do_compile() {
+>     sed -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
+>         -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+>         "${WORKDIR}/uboot-env.txt.in" > "${WORKDIR}/uboot-env.txt"
+>     uboot-mkenvimage -s 16384 -o uboot.env ${WORKDIR}/uboot-env.txt
+> }
+>=20
 
+Thanks for sharing the code (and detailed explanation).
+
+>=20
+> On Mon, Apr 30, 2018 at 3:23 PM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+>=20
+> > u-boot-mkimage already builds mkenvimage, you just need to install
+> > it in do_install:
+> >
+> >     install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
+> >     ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
+> >
+> > This is what we have in
+> > recipes-bsp/u-boot/u-boot-mkimage_%.bbappend and it works fine.
+> >
+> > On Mon, Apr 30, 2018 at 8:50 AM, Martin Hundeb=C3=B8ll <mnhu@prevas.dk>
+> > wrote:=20
+> >> Hi Lukasz,
+> >>
+> >> On 2018-04-27 16:51, Lukasz Majewski wrote:
+> >> =20
+> >>> This commit provides the ability to generate u-boot
+> >>> environment(s) as images, which afterwards can be used to produce
+> >>> image (with wic) for flashing (eMMC or SPI-NOR).
+> >>>
+> >>> This change removes the need to run "env default" during
+> >>> production phase,
+> >>> as proper environment (including redundant one) is already stored
+> >>> on persistent memory (the CRC is also correct).
+> >>> =20
+> >>
+> >> I think we should create a separate recipe to install the native
+> >> mkenvimage binary (e.g. u-boot-mkenvimage_%.bb) or update
+> >> u-boot-mkimage_%.bb install it.
+> >>
+> >> Then a new recipe to create the environment images can depend on
+> >> u-boot-mkenvimage-native.
+> >>
+> >> Also note the recently added upstream support for external
+> >> environment definitions:
+> >> http://git.denx.de/?p=3Du-boot.git;a=3Dcommit;h=3Df3d8f7dd73ac5dde
+> >> 258eb786d4a01869395b56d7
+> >>
+> >> For our usecase we need the ability to generate environment images
+> >> in yocto from such external definitions.
+> >>
+> >> // Martin
+> >>
+> >> =20
+> >>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> >>>
+> >>> ---
+> >>> This patch depends on "u-boot: Upgrade to 2018.03 release"
+> >>> https://patchwork.openembedded.org/patch/149998/
+> >>> ---
+> >>>   meta/recipes-bsp/u-boot/u-boot.inc | 35
+> >>> ++++++++++++++++++++++++++++++ +++++
+> >>>   1 file changed, 35 insertions(+)
+> >>>
+> >>> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
+> >>> b/meta/recipes-bsp/u-boot/u-boot.inc
+> >>> index c2bcf99840..2796e503cf 100644
+> >>> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> >>> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> >>> @@ -305,3 +305,38 @@ do_deploy () {
+> >>>   }
+> >>>     addtask deploy before do_build after do_compile
+> >>> +
+> >>> +# Create new rules to extract default envs
+> >>> +UBOOT_ENVS_DEFAULT ?=3D "uboot-envs-default"
+> >>> +DEFAULT_ENVS ?=3D "u-boot-env-default.txt"
+> >>> +DEFAULT_ENVS_SIZE ?=3D "65536"
+> >>> +
+> >>> +# Generate default environment
+> >>> +do_gen_default_envs[doc] =3D "Generate image with default U-Boot
+> >>> environment(s)"
+> >>> +do_gen_default_envs () {
+> >>> +       ${B}/source/scripts/get_default_envs.sh ${B} >
+> >>> ${B}/${DEFAULT_ENVS}
+> >>> +
+> >>> +       # Generate env image
+> >>> +       ${B}/tools/mkenvimage -s ${DEFAULT_ENVS_SIZE} -o
+> >>> ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
+> >>> +
+> >>> +       # Generate redundant env image
+> >>> +       ${B}/tools/mkenvimage -r -s ${DEFAULT_ENVS_SIZE} -o
+> >>> ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
+> >>> +
+> >>> +       rm ${B}/${DEFAULT_ENVS}
+> >>> +}
+> >>> +
+> >>> +addtask gen_default_envs before do_deploy_default_envs after
+> >>> do_compile +
+> >>> +# Deploy default environment
+> >>> +do_deploy_default_envs[doc] =3D "Copy images with default U-Boot
+> >>> environment to deployment directory"
+> >>> +do_deploy_default_envs () {
+> >>> +       install -d ${DEPLOYDIR}
+> >>> +
+> >>> +       install ${B}/${UBOOT_ENVS_DEFAULT}
+> >>> ${DEPLOYDIR}/${UBOOT_ENVS_DEFA ULT}
+> >>> +       install ${B}/${UBOOT_ENVS_DEFAULT}_r
+> >>> ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
+> >>> +
+> >>> +       rm ${B}/${UBOOT_ENVS_DEFAULT}
+> >>> +       rm ${B}/${UBOOT_ENVS_DEFAULT}_r
+> >>> +}
+> >>> +
+> >>> +addtask deploy_default_envs before do_deploy after
+> >>> do_gen_default_envs
+> >>>
+> >>> -- =20
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >> =20
+> >
+> > =20
+
+
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+
+--Sig_/mXRNMbc/uiUw.GnE_0R5h9Q
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAlrnJqUACgkQAR8vZIA0
+zr1szQf8DygdXOiDhRZ/3Wzq8zQmfmUlYZJva1hkUm8ASKTZ2xFVlKOdBR4YZM7L
+TM58l5RmzLfhR0PYP1cSbuGArqR0Jz/OmtPspsLHYuHXUiUDDVLZuK0BtAKXpSBO
+3F4v0/Fq+AFOJ6UuyloIIBanGyJpyzFj3b7lHMMPDIulHLeab+4YuGlzopbh0lVX
+WcIGJkMbu2o7P0eJDAV5gj/yYrVrRj0GDc81EHx6rLyLVfQOZ+P9Av2MeeCtUF6J
+C2Ab0NxDqxqaaVnIwjR16GBgG6GiBsRCA3PQaV9kZcaOL1BUSmvG2paJaJTx08Pe
+4rs5J1VlZQiazP8wJDOmqPJEu4U0Jw==
+=yp5s
+-----END PGP SIGNATURE-----
+
+--Sig_/mXRNMbc/uiUw.GnE_0R5h9Q--
