@@ -1,23 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F61D745CD
+	by mail.openembedded.org (Postfix) with ESMTP id B4DC8745CD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  1 May 2018 18:12:46 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 May 2018 11:12:47 -0700
+	01 May 2018 11:12:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,352,1520924400"; d="scan'208";a="42174588"
+X-IronPort-AV: E=Sophos;i="5.49,352,1520924400"; d="scan'208";a="42174592"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 01 May 2018 11:12:46 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 01 May 2018 11:12:47 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2018 21:06:43 +0300
-Message-Id: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+Date: Tue,  1 May 2018 21:06:44 +0300
+Message-Id: <20180501180646.28212-2-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.16.1
-Subject: [PATCH 1/4] lib/oe/package_manager: turn postinst failure warnings into bitbake failures
+In-Reply-To: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+References: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+Subject: [PATCH 2/4] gtk+: do not look into $HOME when looking for modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +34,62 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 01 May 2018 18:12:46 -0000
 
-Sumo release provides a transition period so that deferrals to first boot
-via 'exit 1' can be converted to pkg_postinst_ontarget(). For the next release
-however, postinst script failures should be treated as such.
-
-[YOCTO #12607]
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py               | 22 +++++++---------------
- meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
- 2 files changed, 9 insertions(+), 17 deletions(-)
+ ...ok-into-HOME-when-looking-for-gtk-modules.patch | 29 ++++++++++++++++++++++
+ meta/recipes-gnome/gtk+/gtk+_2.24.32.bb            |  3 ++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2d8aeba037c..b5fe20bade4 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -84,10 +84,10 @@ def opkg_query(cmd_output):
+diff --git a/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch b/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
+new file mode 100644
+index 00000000000..9201e45c39e
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
+@@ -0,0 +1,29 @@
++From 34ce93e1c50bfb88f92a687d4f82de55584f3f6a Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 11 Apr 2018 14:20:39 +0300
++Subject: [PATCH] Do not look into $HOME when looking for gtk modules
++
++On the host it causes host contamination, on the target it's a
++potential security issue. Gtk+3 has already removed this.
++
++Upstream-Status: Inapproriate [gtk2 is in maintenance mode]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gtk/gtkmodules.c | 4 ----
++ 1 file changed, 4 deletions(-)
++
++diff --git a/gtk/gtkmodules.c b/gtk/gtkmodules.c
++index 50729b6..e09b583 100644
++--- a/gtk/gtkmodules.c
+++++ b/gtk/gtkmodules.c
++@@ -65,10 +65,6 @@ get_module_path (void)
++   if (result)
++     return result;
++ 
++-  home_dir = g_get_home_dir();
++-  if (home_dir)
++-    home_gtk_dir = g_build_filename (home_dir, ".gtk-2.0", NULL);
++-
++   module_path_env = g_getenv ("GTK_PATH");
++   exe_prefix = g_getenv ("GTK_EXE_PREFIX");
++ 
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.32.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.32.bb
+index 20703588c39..89fca736b25 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.32.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.32.bb
+@@ -10,7 +10,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+            file://toggle-font.diff;striplevel=0 \
+            file://doc-fixes.patch \
+            file://strict-prototypes.patch \
+-	  "
++           file://0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch \
++           "
  
-     return output
- 
--# Note: this should be bb.fatal in the future.
--def failed_postinsts_warn(pkgs, log_path):
--    bb.warn("""Intentionally failing postinstall scriptlets of %s to defer them to first boot is deprecated. Please place them into pkg_postinst_ontarget_${PN} ().
--If deferring to first boot wasn't the intent, then scriptlet failure may mean an issue in the recipe, or a regression elsewhere.
-+def failed_postinsts_abort(pkgs, log_path):
-+    bb.fatal("""Postinstall scriptlets of %s have failed. If the intention is to defer them to first boot,
-+then please place them into pkg_postinst_ontarget_${PN} ().
-+Deferring to first boot via 'exit 1' is no longer supported.
- Details of the failure are in %s.""" %(pkgs, log_path))
- 
- class Indexer(object, metaclass=ABCMeta):
-@@ -789,9 +789,7 @@ class RpmPM(PackageManager):
-                 failed_scriptlets_pkgnames[line.split()[-1]] = True
- 
-         if len(failed_scriptlets_pkgnames) > 0:
--            failed_postinsts_warn(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
--        for pkg in failed_scriptlets_pkgnames.keys():
--            self.save_rpmpostinst(pkg)
-+            failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
- 
-     def remove(self, pkgs, with_dependencies = True):
-         if len(pkgs) == 0:
-@@ -1265,7 +1263,7 @@ class OpkgPM(OpkgDpkgPM):
-                     bb.warn(line)
-                     failed_pkgs.append(line.split(".")[0])
-             if failed_pkgs:
--                failed_postinsts_warn(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
-+                failed_postinsts_abort(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
-         except subprocess.CalledProcessError as e:
-             (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
-                                               "Command '%s' returned %d:\n%s" %
-@@ -1515,7 +1513,6 @@ class DpkgPM(OpkgDpkgPM):
-         os.environ['INTERCEPT_DIR'] = self.intercepts_dir
-         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
- 
--        failed_pkgs = []
-         for pkg_name in installed_pkgs:
-             for control_script in control_scripts:
-                 p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
-@@ -1530,12 +1527,7 @@ class DpkgPM(OpkgDpkgPM):
-                         bb.warn("%s for package %s failed with %d:\n%s" %
-                                 (control_script.name, pkg_name, e.returncode,
-                                     e.output.decode("utf-8")))
--                        failed_postinsts_warn([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
--                        failed_pkgs.append(pkg_name)
--                        break
--
--        if len(failed_pkgs):
--            self.mark_packages("unpacked", failed_pkgs)
-+                        failed_postinsts_abort([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
- 
-     def update(self):
-         os.environ['APT_CONFIG'] = self.apt_conf_file
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 9c9b4b34111..21e2c405df1 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -249,8 +249,8 @@ class Postinst(OESelftestTestCase):
-                 features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-rootfs-failing"\n'
-                 features += 'PACKAGE_CLASSES = "%s"\n' % classes
-                 self.write_config(features)
--                bb_result = bitbake('core-image-minimal')
--                self.assertGreaterEqual(bb_result.output.find("Intentionally failing postinstall scriptlets of ['postinst-rootfs-failing'] to defer them to first boot is deprecated."), 0,
-+                bb_result = bitbake('core-image-minimal', ignore_status=True)
-+                self.assertGreaterEqual(bb_result.output.find("Postinstall scriptlets of ['postinst-rootfs-failing'] have failed."), 0,
-                     "Warning about a failed scriptlet not found in bitbake output: %s" %(bb_result.output))
- 
-                 self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs-before-failure")),
+ SRC_URI[md5sum] = "d5742aa42275203a499b59b4c382a784"
+ SRC_URI[sha256sum] = "b6c8a93ddda5eabe3bfee1eb39636c9a03d2a56c7b62828b359bf197943c582e"
 -- 
 2.16.1
 
