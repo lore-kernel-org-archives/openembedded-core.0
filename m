@@ -1,40 +1,23 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 31982745D1
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F61D745CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 May 2018 15:22:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id D86AB21BCB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 May 2018 11:22:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute5.internal (MEProxy); Tue, 01 May 2018 11:22:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fBTmCQ
-	Fl8XG4xXvsA0cQiygPt5JHchqS1kjmUGpM9ng=; b=Sd7OXlxv2PZxqwK1ftBrPM
-	BjOE71g5CTPsMtoWrsJrv4qAADXZOae8h4s/dPyG0Vie4Srmyi/9Z061+/Tb2y/L
-	tqB+pqooTrwA708vjt5X0qI1lLAKpa6vh9FiliabDY7up0ryBtw+0tgPighp7A3e
-	eKcx+rWblmWh1KmMtdXtlwe0xuh+fqsf4JkiT3+UV3KDxXhFsakwORkgKxKU9d8u
-	7fCvP2K7trRDnmedGmK1HCMaSqsF94hPY39ZIL69DJ1Sft6KRkQbHYMsszs8dYgP
-	aB7Ea0YWs/w+2Ht2tRbevHKaNRSM4B2KTUN+LWndcXuWUt5o/VB3I9WAq2DqlSfw
-	==
-X-ME-Sender: <xms:GoboWtbUne2PpGeKuZROjhr0XsgKZkX6S9R3frl9IAzCV4uRmM7fdg>
-Received: from laptop (unknown [192.40.95.32])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 40EF4E49E9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 May 2018 11:22:02 -0400 (EDT)
-Message-ID: <641dd87044093e52d52360394c5ac3f2a16b4beb.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Tue,  1 May 2018 18:12:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 May 2018 11:12:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,352,1520924400"; d="scan'208";a="42174588"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 01 May 2018 11:12:46 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 01 May 2018 18:22:00 +0300
-In-Reply-To: <20180501113655.11666-1-mac@mcrowe.com>
-References: <20180501113655.11666-1-mac@mcrowe.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH] alsa-utils: Fix error when removing unwanted udev rules
+Date: Tue,  1 May 2018 21:06:43 +0300
+Message-Id: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.16.1
+Subject: [PATCH 1/4] lib/oe/package_manager: turn postinst failure warnings into bitbake failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,44 +30,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2018 15:22:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 May 2018 18:12:46 -0000
 
-On Tue, 2018-05-01 at 12:36 +0100, Mike Crowe wrote:
-> If alsa-utils configure is not passed a --with-udev-rules-dir option then
-> it defaults to using /lib/udev/rules.d. This meant that the hard-coded use
-> of ${D}/lib in do_install in 262e69c9c7acf0beb7bb6b96299e3c993c906434
-> worked correctly to remove the unwanted rules.
-> 
-> Subsequently, 0a4372705a030ca54ed420cdfec33d46ab93499c changed do_install
-> to use ${nonarch_base_libdir}, claiming to fix this in the usrmerge case.
-> 
-> This means that if udev is not present in PACKAGECONFIG and usrmerge is
-> present in DISTRO_FEATURES then the alsa-utils build system will install
-> the rules in ${D}/lib/udev/rules.d but do_install will attempt to remove
-> ${D}/usr/lib, resulting in something like:
-> 
->  rmdir: failed to remove '.../tmp-glibc/work/i586-oe-linux/alsa-utils/1.1.5-r0/image/usr/lib': No such file or directory
-> 
-> To fix this, let's just tell configure to install the rules in a specific
-> known location when udev is disabled. This location can then easily be
-> cleaned up in do_install.
-> 
-> Tested both with and without usrmerge in DISTRO_FEATURES.
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Cc: Phil Blundell <pb@pbcl.net>
-> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Sumo release provides a transition period so that deferrals to first boot
+via 'exit 1' can be converted to pkg_postinst_ontarget(). For the next release
+however, postinst script failures should be treated as such.
 
-Looks good to me.
+[YOCTO #12607]
 
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py               | 22 +++++++---------------
+ meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
+ 2 files changed, 9 insertions(+), 17 deletions(-)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2d8aeba037c..b5fe20bade4 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -84,10 +84,10 @@ def opkg_query(cmd_output):
+ 
+     return output
+ 
+-# Note: this should be bb.fatal in the future.
+-def failed_postinsts_warn(pkgs, log_path):
+-    bb.warn("""Intentionally failing postinstall scriptlets of %s to defer them to first boot is deprecated. Please place them into pkg_postinst_ontarget_${PN} ().
+-If deferring to first boot wasn't the intent, then scriptlet failure may mean an issue in the recipe, or a regression elsewhere.
++def failed_postinsts_abort(pkgs, log_path):
++    bb.fatal("""Postinstall scriptlets of %s have failed. If the intention is to defer them to first boot,
++then please place them into pkg_postinst_ontarget_${PN} ().
++Deferring to first boot via 'exit 1' is no longer supported.
+ Details of the failure are in %s.""" %(pkgs, log_path))
+ 
+ class Indexer(object, metaclass=ABCMeta):
+@@ -789,9 +789,7 @@ class RpmPM(PackageManager):
+                 failed_scriptlets_pkgnames[line.split()[-1]] = True
+ 
+         if len(failed_scriptlets_pkgnames) > 0:
+-            failed_postinsts_warn(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+-        for pkg in failed_scriptlets_pkgnames.keys():
+-            self.save_rpmpostinst(pkg)
++            failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+ 
+     def remove(self, pkgs, with_dependencies = True):
+         if len(pkgs) == 0:
+@@ -1265,7 +1263,7 @@ class OpkgPM(OpkgDpkgPM):
+                     bb.warn(line)
+                     failed_pkgs.append(line.split(".")[0])
+             if failed_pkgs:
+-                failed_postinsts_warn(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
++                failed_postinsts_abort(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+         except subprocess.CalledProcessError as e:
+             (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
+                                               "Command '%s' returned %d:\n%s" %
+@@ -1515,7 +1513,6 @@ class DpkgPM(OpkgDpkgPM):
+         os.environ['INTERCEPT_DIR'] = self.intercepts_dir
+         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
+ 
+-        failed_pkgs = []
+         for pkg_name in installed_pkgs:
+             for control_script in control_scripts:
+                 p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
+@@ -1530,12 +1527,7 @@ class DpkgPM(OpkgDpkgPM):
+                         bb.warn("%s for package %s failed with %d:\n%s" %
+                                 (control_script.name, pkg_name, e.returncode,
+                                     e.output.decode("utf-8")))
+-                        failed_postinsts_warn([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+-                        failed_pkgs.append(pkg_name)
+-                        break
+-
+-        if len(failed_pkgs):
+-            self.mark_packages("unpacked", failed_pkgs)
++                        failed_postinsts_abort([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+ 
+     def update(self):
+         os.environ['APT_CONFIG'] = self.apt_conf_file
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 9c9b4b34111..21e2c405df1 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -249,8 +249,8 @@ class Postinst(OESelftestTestCase):
+                 features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-rootfs-failing"\n'
+                 features += 'PACKAGE_CLASSES = "%s"\n' % classes
+                 self.write_config(features)
+-                bb_result = bitbake('core-image-minimal')
+-                self.assertGreaterEqual(bb_result.output.find("Intentionally failing postinstall scriptlets of ['postinst-rootfs-failing'] to defer them to first boot is deprecated."), 0,
++                bb_result = bitbake('core-image-minimal', ignore_status=True)
++                self.assertGreaterEqual(bb_result.output.find("Postinstall scriptlets of ['postinst-rootfs-failing'] have failed."), 0,
+                     "Warning about a failed scriptlet not found in bitbake output: %s" %(bb_result.output))
+ 
+                 self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs-before-failure")),
 -- 
-Tanu
+2.16.1
 
-https://liberapay.com/tanuk
-https://www.patreon.com/tanuk
 
