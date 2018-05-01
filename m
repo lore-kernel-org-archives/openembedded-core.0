@@ -1,25 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B163745D7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 May 2018 18:12:49 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 May 2018 11:12:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,352,1520924400"; d="scan'208";a="42174602"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 01 May 2018 11:12:49 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 May 2018 21:06:46 +0300
-Message-Id: <20180501180646.28212-4-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2032A745D5;
+	Tue,  1 May 2018 18:32:58 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Tue, 01 May 2018 18:32:59 -0000
+Message-ID: <20180501183259.4207.79770@do.openembedded.org>
 References: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/4] sysvinit-inittab: do not use 'exit 1' to postpone to first boot
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180501180646.28212-1-alexander.kanavin@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYi9vZS9wYWNrYWdlX21hbmFnZXI6IHR1cm4gcC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2018 18:12:49 -0000
+X-List-Received-Date: Tue, 01 May 2018 18:32:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Instead, first check if we need to do anything at all during first boot,
-and if so, either postpone to first boot via pkg_postinst_ontarget()
-when running on host, or run the necessary setup code when running on target.
+== Series Details ==
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Series: "lib/oe/package_manager: turn p..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11957/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
+  Current          Upstream-Status: Inapproriate [gtk2 is in maintenance mode]
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 5b9c422cafa..8585a418ab8 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -53,8 +53,15 @@ EOF
- }
- 
- pkg_postinst_${PN} () {
-+# run this on host and on target
-+if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
-+       exit 0
-+fi
-+}
-+
-+pkg_postinst_ontarget_${PN} () {
- # run this on the target
--if [ "x$D" = "x" ] && [ -e /proc/consoles ]; then
-+if [ -e /proc/consoles ]; then
- 	tmp="${SERIAL_CONSOLES_CHECK}"
- 	for i in $tmp
- 	do
-@@ -68,11 +75,7 @@ if [ "x$D" = "x" ] && [ -e /proc/consoles ]; then
- 	done
- 	kill -HUP 1
- else
--	if [ "${SERIAL_CONSOLES_CHECK}" = "" ]; then
--		exit 0
--	else
--		exit 1
--	fi
-+	exit 1
- fi
- }
- 
--- 
-2.16.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
