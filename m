@@ -1,29 +1,55 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA7D607A4
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BDEB71A88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 03:40:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 May 2018 20:40:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,353,1520924400"; d="scan'208";a="225028117"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.22.30])
-	([10.221.22.30])
-	by fmsmga006.fm.intel.com with ESMTP; 01 May 2018 20:40:37 -0700
-To: kai.kang@windriver.com, openembedded-core@lists.openembedded.org
-References: <cover.1524640773.git.kai.kang@windriver.com>
-	<819c96b9c218ece95d000835d8574837450a0e06.1524640773.git.kai.kang@windriver.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <142b723d-9c7e-7661-5810-2f901b7acbe5@intel.com>
-Date: Wed, 2 May 2018 11:40:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Wed,  2 May 2018 08:39:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id ACC591848F;
+	Wed,  2 May 2018 10:39:30 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Z84IqeCsRphO; Wed,  2 May 2018 10:39:29 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id BC868184D4;
+	Wed,  2 May 2018 10:39:28 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8C9731E0B1;
+	Wed,  2 May 2018 10:39:28 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7EA0C1E0AF;
+	Wed,  2 May 2018 10:39:28 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed,  2 May 2018 10:39:28 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 71B0823F0;
+	Wed,  2 May 2018 10:39:28 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Wed, 2 May 2018 10:39:28 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Wed, 2 May 2018 10:39:28 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Mike Crowe <mac@mcrowe.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] alsa-utils: Fix error when removing unwanted
+	udev	rules
+Thread-Index: AQHT4ULrrvP1XMXHiUKm1b1noWdal6QcHLkg
+Date: Wed, 2 May 2018 08:39:27 +0000
+Message-ID: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
+References: <20180501113655.11666-1-mac@mcrowe.com>
+In-Reply-To: <20180501113655.11666-1-mac@mcrowe.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <819c96b9c218ece95d000835d8574837450a0e06.1524640773.git.kai.kang@windriver.com>
-Subject: Re: [PATCH v2 2/8] gstreamer1.0-plugins-base: 1.12.4 -> 1.14.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] alsa-utils: Fix error when removing unwanted udev	rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,17 +62,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 03:40:38 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 02 May 2018 08:39:30 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/25/2018 03:23 PM, kai.kang@windriver.com wrote:
->  CACHED_CONFIGUREVARS_append_x86 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Mike Crowe
+> Sent: den 1 maj 2018 13:37
+> To: openembedded-core@lists.openembedded.org
+> Cc: Mike Crowe <mac@mcrowe.com>; Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com>
+> Subject: [OE-core] [PATCH] alsa-utils: Fix error when removing unwanted
+> udev rules
+>=20
+> If alsa-utils configure is not passed a --with-udev-rules-dir option then
+> it defaults to using /lib/udev/rules.d. This meant that the hard-coded us=
+e
+> of ${D}/lib in do_install in 262e69c9c7acf0beb7bb6b96299e3c993c906434
+> worked correctly to remove the unwanted rules.
+>=20
+> Subsequently, 0a4372705a030ca54ed420cdfec33d46ab93499c changed do_install
+> to use ${nonarch_base_libdir}, claiming to fix this in the usrmerge case.
+>=20
+> This means that if udev is not present in PACKAGECONFIG and usrmerge is
+> present in DISTRO_FEATURES then the alsa-utils build system will install
+> the rules in ${D}/lib/udev/rules.d but do_install will attempt to remove
+> ${D}/usr/lib, resulting in something like:
+>=20
+>  rmdir: failed to remove '.../tmp-glibc/work/i586-oe-linux/alsa-utils/1.1=
+.5-r0/image/usr/lib': No such file or directory
+>=20
+> To fix this, let's just tell configure to install the rules in a specific
+> known location when udev is disabled. This location can then easily be
+> cleaned up in do_install.
+>=20
+> Tested both with and without usrmerge in DISTRO_FEATURES.
+>=20
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> Cc: Phil Blundell <pb@pbcl.net>
+> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/reci=
+pes-multimedia/alsa/alsa-utils_1.1.5.bb
+> index f2231f34f0..5561b4de3f 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
+> @@ -16,7 +16,7 @@ PACKAGECONFIG ??=3D "udev"
+>  # or no alsabat at all.
+>  PACKAGECONFIG[bat] =3D "--enable-bat,--disable-bat,fftwf"
+>=20
+> -PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
+=3Dudevdir udev`/rules.d,,udev"
+> +PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
+=3Dudevdir udev`/rules.d,--with-udev-rules-dir=3D/unwanted/rules.d,udev"
+>  PACKAGECONFIG[manpages] =3D "--enable-xmlto, --disable-xmlto, xmlto-nati=
+ve docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+>=20
+>  SRC_URI =3D "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.b=
+z2 \
+> @@ -102,8 +102,8 @@ do_install() {
+>  	rm -f ${D}${sbindir}/alsabat-test.sh
+>=20
+>  	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; =
+then
 
-This can probably be removed too now. I remember trying it out and the
-build worked for x86. Please check.
+I suggest that you remove the if-statement since the /unwanted directory=20
+shall always be removed if it exists so there is no need to test for it.
 
-Thanks,
-Anuj
+> -		# This is where alsa-utils will install its rules if we don't tell it =
+anything else.
+> -		rm -rf ${D}${nonarch_base_libdir}/udev
+> -		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
+> +        	# If udev is disabled, we told configure to install the rules i=
+n /unwanted, so
+> +        	# we can get rid of them now.
+> +        	rm -rf ${D}/unwanted
+
+Correct the indentation (the rest of the function is indented using tabs).
+
+>  	fi
+>  }
+> --
+> 2.11.0
+
+//Peter
+
 
