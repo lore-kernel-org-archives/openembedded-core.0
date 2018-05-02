@@ -1,54 +1,18 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DCDA2747FD
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 18:25:33 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id y72-v6so8531610lfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2018 11:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ENkfdtjKXgjjMnnfabXxxBNtQctuIW+PNGO3W1M4534=;
-	b=Fz5QrxzXWVUuTecPiHl6GhXb6bstRBwkg1Ru3B7fr8oEhyEnxP2YKaMybjLWTGN72Q
-	gKZ9Yjw5joNUBB7JyTQSZlvFSSRtJSTnDE0jJjUbrAq8L+Jcui4UsHqbT72HjrbNsvas
-	mBt+33SKhAbXDSdO5QJgHKePI7LxRpX8kSVNuyPLc+w/o2FLJTf5NocVu6AH6G2np3uk
-	TlNGTp1uqkuqRXH66F5sktn8LTyGqPPyg5n7QhYZaxhPZ6zeaXPKGp5NG3cvwMd3mD6l
-	zj4jIxCr4o7J3Sdb7QxP3xVJN1X3PFBNRA/0dPs8KWPW16ztkhQZDXDQWCac8yI6peXT
-	5efw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ENkfdtjKXgjjMnnfabXxxBNtQctuIW+PNGO3W1M4534=;
-	b=qCdGiXZcHcK9KpxTEpt2b42SFXloAmGsR/iGzms/G+JXn+GSBefRifnQQe/s0rmF9e
-	E/qrpDhuF+ODKmOOqtc+lhdIrbwKxG9PS7ZW3NyM8GBQ0P9epzYYiX6Sw5eykc/MguSo
-	7VCPknSOLgOQ4/Q4GCpffIjD6w/j4YH/HNS6p5bSF6yQqKkw9FyiiuiWqC9o+jvmx5sH
-	Ho2RfRS4IFI4r0lUMlIxlJnOkfz+4MEhKX5bfV4T7A5ZhFzMrLgSknpooaY+UIO6CSBd
-	Vjg7IUwm+LFUp+nXcAWci+btP3gTalH2BFSBIl2/9IDM20sfQUO39epaQL3gg3G4Ak8h
-	ZmRg==
-X-Gm-Message-State: ALQs6tA0vwWkEvPK16tEYm/KI4Yb9jyWkFcPp8BixZbgwQzAb1w+4Wi1
-	iHvZrmrQhqPIsJXd7ZIbgR6NtFOkBcb4wV+E6po=
-X-Google-Smtp-Source: AB8JxZqU2IXmz6hMLBudzYJ0287/i5RThEHRLqoUHLTRA6BQte0/7+Nve/dvgLDK2taD6YE1WTyWdxuIo5wx5t2b5fo=
-X-Received: by 2002:a2e:2283:: with SMTP id
-	i125-v6mr14648964lji.47.1525285534071; 
-	Wed, 02 May 2018 11:25:34 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id D3ED5747FD;
+	Wed,  2 May 2018 18:32:52 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 2002:a19:6a0e:0:0:0:0:0 with HTTP;
-	Wed, 2 May 2018 11:25:13 -0700 (PDT)
-In-Reply-To: <CAPybu_05Bb5FiNgh-bBSCJLVggqq7=F2uzUTbtQhj_sqUVMM+g@mail.gmail.com>
-References: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
-	<83aa6f73-2835-4b53-621b-4b9fd3b66b15@digitalendoscopy.de>
-	<CAPybu_1RMqH4q96Xm6ekNarz015++49Yu4sSP1SMcj1Yn3D-5A@mail.gmail.com>
-	<7e87091c-4989-0383-8bf3-7b9acb805ef8@digitalendoscopy.de>
-	<CAPybu_05Bb5FiNgh-bBSCJLVggqq7=F2uzUTbtQhj_sqUVMM+g@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 2 May 2018 20:25:13 +0200
-Message-ID: <CAPybu_3dxKNb04+YcG3vueYt4dtMkEFQvt01zTD6sEJ1=cZzaQ@mail.gmail.com>
-To: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>,
-	ed.bartosh@linux.intel.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Question about multi rootfs UIDs when using wic
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Eran Matityahu <eran.m@variscite.com>
+Date: Wed, 02 May 2018 18:32:54 -0000
+Message-ID: <20180502183254.4210.65063@do.openembedded.org>
+References: <1525282409-4623-1-git-send-email-jaewon.lee@xilinx.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1525282409-4623-1-git-send-email-jaewon.lee@xilinx.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWF0Y2hib3gtc2Vzc2lvbi1zYXRvOiBNYWtlIHRoZSBiYXR0ZXJ5IGFwcGxldCBkZXBlbmQgb24gbWFjaGluZSBmZWF0dXJlcyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,173 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 18:25:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 02 May 2018 18:32:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-cc: ed
+== Series Details ==
 
-Is it a very bad idea to revert your patch?
+Series: matchbox-session-sato: Make the battery applet depend on machine features (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/8026/
+State : failure
 
-Thanks!
+== Summary ==
 
-On Wed, May 2, 2018 at 8:17 PM, Ricardo Ribalda Delgado
-<ricardo.ribalda@gmail.com> wrote:
-> Hi
->
-> I do not know how many people is actively using wic. We have started
-> using it from last week, it is hard to replace old scripts that work
-> :)
->
-> Try sending it as a proper patch, I can help you if you need it.
->
-> Regards
->
-> On Wed, May 2, 2018 at 6:31 PM, Volker Vogelhuber
-> <v.vogelhuber@digitalendoscopy.de> wrote:
->> Hi,
->>
->> I never got any response to my message (until now). So AFAIK I solved the
->> problem with the following patch:
->>
->> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
->> index 84fe85d62b..66ab757aec 100644
->> --- a/scripts/lib/wic/partition.py
->> +++ b/scripts/lib/wic/partition.py
->> @@ -204,15 +204,10 @@ class Partition():
->>
->>          Currently handles ext2/3/4, btrfs and vfat.
->>          """
->> -        p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" %
->> native_sysroot)
->> -        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
->> -                                         "%s/../pseudo" %
->> get_bitbake_var("IMAGE_ROOTFS"))
->> -        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
->> +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
->> +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" %
->> self.rootfs_dir
->> +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
->>          p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
->> -        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
->> -        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
->> -        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
->> -        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
->>          pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
->>
->>          rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
->>
->>
->>
->> On 02.05.2018 17:51, Ricardo Ribalda Delgado wrote:
->>>
->>> Hi
->>>
->>> I just got hit by this one. It is specially nasty because nfsroot
->>> fails to boot if the uids are wrong.
->>>
->>> What is the status on this?
->>>
->>> On Mon, Jan 22, 2018 at 11:39 AM, Volker Vogelhuber
->>> <v.vogelhuber@digitalendoscopy.de> wrote:
->>>>
->>>> I finally found out, what's the reason why the included recovery rootfs
->>>> has
->>>> the wrong UIDs, while the main image has the correct one. The reason
->>>> seems
->>>> to be the PSEUDO_LOCALSTATEDIR variable that is set to the state dir of
->>>> the
->>>> main image in both cases.
->>>> I debugged all the calls up to the environment setup in partition.py's
->>>> prepare_rootfs method where a check for an existing PSEUDO_LOCALSTATEDIR
->>>> environment variable is done. That seems to be the problem.
->>>> Instead of using the correct value passed to the prepare_rootfs method,
->>>> an
->>>> existing ENV value is used that points to the state dir of the main image
->>>> instead of the recovery one's. I guess the reason is that in bitbake.conf
->>>> the PSEUDO_LOCALSTATEDIR is set to the image currently build (which is
->>>> the
->>>> main image and not the recovery image only referenced by the main image).
->>>> So
->>>> because that environment variable is already set, the call to mkfs.ext4
->>>> for
->>>> the recovery image uses the wrong PSEUDO_LOCALSTATEDIR and does not apply
->>>> the correct UID.
->>>>
->>>> Any ideas how to fix that? I tend to just remove the patch introduced by
->>>> Ed
->>>> Bartosh three years ago (https://patchwork.openembedded.org/patch/90419/)
->>>> because I don't need a custom PSEUDO_PREFIX. But maybe not everyone
->>>> agrees.
->>>>
->>>> On 19.01.2018 17:00, Volker Vogelhuber wrote:
->>>>>
->>>>>
->>>>> I'm currently trying to create a multi RootFS WIC image as mentioned in
->>>>> directdisk-multi-rootfs.wks. For that I have two image recipes. One that
->>>>> is creating only an ext4 image (image-recovery), and the second that is
->>>>> also
->>>>> creating a WIC image (image-main). I used the IMAGE_FSTYPES variable for
->>>>> that. The WKS file for the second image is integrating the recovery
->>>>> image by
->>>>> specifying --rootfs-dir=image-recovery in it's part description.
->>>>>
->>>>> # primary / recovery image
->>>>> part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/
->>>>> mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700
->>>>> --overhead-factor=1.0
->>>>> part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4
->>>>> --label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
->>>>>
->>>>> The UIDs of the second rootfs (image-main) are correctly set to 0 within
->>>>> the file system when calling mkfs.ext4 during prepare_rootfs_ext. For
->>>>> the
->>>>> recovery rootfs the UID is always set to my own (host) one which is of
->>>>> course not valid for the image where that UID does not exist.
->>>>> I tried calling the mkfs.ext4 command myself from a terminal and for
->>>>> whatever reason an image created out of the rootfs folder of the second
->>>>> image (image-main) recipe is deployed with the correct UID 0, while the
->>>>> rootfs folder of the first image (image-recovery) recipe always uses the
->>>>> UID
->>>>> of the source folder/files.
->>>>>
->>>>> I search the code of e2fsprogs for the line that sets the UID and added
->>>>> a
->>>>> printf in set_inode_extra. There I can see clearly that the source UID
->>>>> for
->>>>> the file is 0 for the rootfs of the image-main rootfs folder while it is
->>>>> 10000 (my own UID) for the image-recovery. I wonder how the UID of the
->>>>> image-main rootfs folder can be zero when I don't call any command with
->>>>> root
->>>>> permissions. I searched for a preparation step where the UIDs are
->>>>> managed in
->>>>> the scripts folder of Yocto, but didn't found any hint for the whole
->>>>> behavior. So while it is good that the rootfs partition of the main
->>>>> rootfs
->>>>> has the UID set correctly to zero, I can't understand why it happens. On
->>>>> the
->>>>> other side I can understand why the UID of the recovery rootfs is set to
->>>>> my
->>>>> own one, but it stops me from booting that rootfs because the UIDs of
->>>>> the
->>>>> files and folders are set to a user that does not exist on the target
->>>>> system.
->>>>>
->>>>> Can someone please explain to me, how that UID handling is meant to be
->>>>> done?
->>>>
->>>>
->>>>
->>>> --
->>>>
->>
->
->
->
-> --
-> Ricardo Ribalda
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
 
--- 
-Ricardo Ribalda
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1b03cdf290)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
