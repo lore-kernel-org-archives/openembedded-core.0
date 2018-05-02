@@ -1,55 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BDEB71A88
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E42660603
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 08:39:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id ACC591848F;
-	Wed,  2 May 2018 10:39:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Z84IqeCsRphO; Wed,  2 May 2018 10:39:29 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id BC868184D4;
-	Wed,  2 May 2018 10:39:28 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8C9731E0B1;
-	Wed,  2 May 2018 10:39:28 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EA0C1E0AF;
-	Wed,  2 May 2018 10:39:28 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed,  2 May 2018 10:39:28 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 71B0823F0;
-	Wed,  2 May 2018 10:39:28 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 2 May 2018 10:39:28 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 2 May 2018 10:39:28 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mike Crowe <mac@mcrowe.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] alsa-utils: Fix error when removing unwanted
-	udev	rules
-Thread-Index: AQHT4ULrrvP1XMXHiUKm1b1noWdal6QcHLkg
-Date: Wed, 2 May 2018 08:39:27 +0000
-Message-ID: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
-References: <20180501113655.11666-1-mac@mcrowe.com>
-In-Reply-To: <20180501113655.11666-1-mac@mcrowe.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed,  2 May 2018 09:26:50 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id p3-v6so16699203itc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 May 2018 02:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=yamWYG+fe5QsLkfDjDs9OqQI1PSXitFT2TlkMAW1obs=;
+	b=FEDM1P9JxbB8xKesjdGxHXlq0hC9MUkH6RIkFWVYyBTlKULk0IuIYmXUN37+nwqxrr
+	G22CIIrCk9ehRvj/1gcYdEs2QrJeoP+CsphiZ2QJCXcTGt8TFmgYEWYy4e8te+JpOufU
+	LLkAAL+bnHyVPRS4lrJGGMdo0VIaA8FZHCGgXLxqVWG9wSYO7BWbBPrVIAIKXkWcEABO
+	Meoi1GTMLN2VepWYPIykiu4jhXFONDXBR8rDUN/lnuKwGM+rYMocF+298c3tJH3eu9dv
+	LdEleWB7uMOm7hB5ovhOn8Yu1mE1f4PnhRje39m4odyhrR3OmXZYq9MvKMrLi+E5VpOs
+	1O0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=yamWYG+fe5QsLkfDjDs9OqQI1PSXitFT2TlkMAW1obs=;
+	b=dop4GkqTvCN43nsaOQFZKCvcCw1BfaGe2ZpoGh23/R3wq8/yvDNdABkECailNg+TRR
+	24yGS8vaNCE2O2U5iDm37GnGo0S4kvK9ZDD3uhh4DuKjHjtbNzHT82Qbalfie+T1sG74
+	N1nCd7AfuLuLJ4fzi563OKl7+qer9k9sEcloYmdzXHvlQOmtxt8qEKVNcX0Q2pCItoBU
+	FM0xWOz2m7m4wQwObmZZdHB8CUqWboqlvWa/2ji7RAIStX8dKDqQyo+EwOludxl6i9Ub
+	lUDnRscrc7tsFvubIY4H6x01suCI6bd7jCYsuM527VfqefuiIwAmjSCImTB0RLNXUS3M
+	9NFA==
+X-Gm-Message-State: ALQs6tBUFeBzLv3f3Wp+7zuEcIeSxQB+e3EKJMQokTzpDpZ7DTpnAopQ
+	jumf19rfjLjNe4YNOTqiY0MdphgjxFwv4dJkWbr2Yw==
+X-Google-Smtp-Source: AB8JxZo1/O43WKh9qhI5TH4/M1Fo+EHIFy+pRpDXRSeQxro/FwVAR7I3/pclXbpEnuT7tX/lqkHtscdRqomj0Xd12Po=
+X-Received: by 2002:a24:a00a:: with SMTP id
+	o10-v6mr19405266ite.34.1525253211282; 
+	Wed, 02 May 2018 02:26:51 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] alsa-utils: Fix error when removing unwanted udev	rules
+Received: by 10.107.29.203 with HTTP; Wed, 2 May 2018 02:26:30 -0700 (PDT)
+In-Reply-To: <1f6c9477-d9f1-df66-eefe-058a643a2684@intel.com>
+References: <cover.1524640773.git.kai.kang@windriver.com>
+	<47c479f97f5141b022f0e8f55015116a3af39b29.1524640773.git.kai.kang@windriver.com>
+	<1f6c9477-d9f1-df66-eefe-058a643a2684@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 May 2018 10:26:30 +0100
+Message-ID: <CAJTo0Lb=vGJAZMNBTrUuOapr6zn42in+fcFhM=7cktDUfwiWrA@mail.gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 5/8] gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,95 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 08:39:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 May 2018 09:26:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Mike Crowe
-> Sent: den 1 maj 2018 13:37
-> To: openembedded-core@lists.openembedded.org
-> Cc: Mike Crowe <mac@mcrowe.com>; Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com>
-> Subject: [OE-core] [PATCH] alsa-utils: Fix error when removing unwanted
-> udev rules
->=20
-> If alsa-utils configure is not passed a --with-udev-rules-dir option then
-> it defaults to using /lib/udev/rules.d. This meant that the hard-coded us=
-e
-> of ${D}/lib in do_install in 262e69c9c7acf0beb7bb6b96299e3c993c906434
-> worked correctly to remove the unwanted rules.
->=20
-> Subsequently, 0a4372705a030ca54ed420cdfec33d46ab93499c changed do_install
-> to use ${nonarch_base_libdir}, claiming to fix this in the usrmerge case.
->=20
-> This means that if udev is not present in PACKAGECONFIG and usrmerge is
-> present in DISTRO_FEATURES then the alsa-utils build system will install
-> the rules in ${D}/lib/udev/rules.d but do_install will attempt to remove
-> ${D}/usr/lib, resulting in something like:
->=20
->  rmdir: failed to remove '.../tmp-glibc/work/i586-oe-linux/alsa-utils/1.1=
-.5-r0/image/usr/lib': No such file or directory
->=20
-> To fix this, let's just tell configure to install the rules in a specific
-> known location when udev is disabled. This location can then easily be
-> cleaned up in do_install.
->=20
-> Tested both with and without usrmerge in DISTRO_FEATURES.
->=20
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Cc: Phil Blundell <pb@pbcl.net>
-> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/reci=
-pes-multimedia/alsa/alsa-utils_1.1.5.bb
-> index f2231f34f0..5561b4de3f 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-> @@ -16,7 +16,7 @@ PACKAGECONFIG ??=3D "udev"
->  # or no alsabat at all.
->  PACKAGECONFIG[bat] =3D "--enable-bat,--disable-bat,fftwf"
->=20
-> -PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
-=3Dudevdir udev`/rules.d,,udev"
-> +PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
-=3Dudevdir udev`/rules.d,--with-udev-rules-dir=3D/unwanted/rules.d,udev"
->  PACKAGECONFIG[manpages] =3D "--enable-xmlto, --disable-xmlto, xmlto-nati=
-ve docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->=20
->  SRC_URI =3D "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.b=
-z2 \
-> @@ -102,8 +102,8 @@ do_install() {
->  	rm -f ${D}${sbindir}/alsabat-test.sh
->=20
->  	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; =
-then
+Anuj, it sounds like your series is a more comprehensive upgrade, can
+you submit your patches now?  We'll be reopening master shortly.
 
-I suggest that you remove the if-statement since the /unwanted directory=20
-shall always be removed if it exists so there is no need to test for it.
+Thanks,
+Ross
 
-> -		# This is where alsa-utils will install its rules if we don't tell it =
-anything else.
-> -		rm -rf ${D}${nonarch_base_libdir}/udev
-> -		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
-> +        	# If udev is disabled, we told configure to install the rules i=
-n /unwanted, so
-> +        	# we can get rid of them now.
-> +        	rm -rf ${D}/unwanted
-
-Correct the indentation (the rest of the function is indented using tabs).
-
->  	fi
->  }
+On 2 May 2018 at 04:17, Anuj Mittal <anuj.mittal@intel.com> wrote:
+> On 04/25/2018 03:23 PM, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Upgrade gstreamer1.0-plugins-good from 1.12.4 to 1.14.0.
+>>
+>> * add packageconfig 'gtk' and configure option '--disable-qt' from -bad
+>> * add packageconfig 'lame', 'mpg123' and configure option
+>>   '--disable-twolame' from -ugly
+>> * remove configure option '--disable-sunaudio' since plugin sunaudio has
+>>   been removed
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>  .../gstreamer/gstreamer1.0-plugins-good.inc               | 15 +++++++++++++--
+>>  ...good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 ++--
+>>  2 files changed, 15 insertions(+), 4 deletions(-)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
+>>
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+>> index 14c3d61848..ed14ed56c2 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+>> @@ -6,10 +6,12 @@ DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
+>>
+>>  inherit gettext
+>>
+>> +# gtk is not in the PACKAGECONFIG variable by default until
+>> +# the transition to gtk+3 is finished
+>>  PACKAGECONFIG ??= " \
+>>      ${GSTREAMER_ORC} \
+>>      ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+>> -    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
+>> +    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
+>>  "
+>>
+>>  X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+>> @@ -18,11 +20,14 @@ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+>>  PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+>>  PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+>>  PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+>> +PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+>>  PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+>>  PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+>>  PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
+>> +PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+>>  PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+>>  PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
+>> +PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+>>  PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+>>  PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
+>>  PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+>> @@ -32,6 +37,11 @@ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+>>  PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+>>  PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+>>
+>> +# qt5 support is disabled, because it is not present in OE core, and requires more work than
+>> +# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+>> +# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
+>> +# in a gstreamer1.0-plugins-bad bbappend).
+>> +
+>>  EXTRA_OECONF += " \
+>>      --enable-bz2 \
+>
+> bz2 and zlib are optional and perhaps should be moved to PACKAGECONFIG
+> instead.
+>
+> I had done a similar upgrade but was waiting for the release before
+> submitting:
+>
+> https://github.com/anujm1/poky/commit/83204baaa9023e1514132534acbb4ec3968c1a15
+>
+>
 > --
-> 2.11.0
-
-//Peter
-
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
