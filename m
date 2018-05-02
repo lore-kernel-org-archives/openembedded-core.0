@@ -1,45 +1,29 @@
-Return-Path: <mgloff@emacinc.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 87C26745D4
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CF55607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 May 2018 23:05:00 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id c2-v6so16242769qtn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 May 2018 16:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=emacinc-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=MKh8yD05bE1Duv0bTZrBWqALubJl2EgaehvOh2ERKFQ=;
-	b=il9qxDhsHjhecT/BjbfOL+CVtS4TcloPkQzwSWDzxGe26YuVF6HA1sPkBFJVx4iIyU
-	A2DUS6FhksmwkjrmMAP5Y+/vGzOw2RrLucOJc/xF8f+l6b2Tso79mBhwmVoxwJaSJ42g
-	KqDEL7MZ96DMnR4IFeryo3t/WS7O6tsz0HQg9bSJnYfpG6Gaj4TaqDeWJxv/V7fMvj1l
-	qgXjAbXko+ExStcMaKmdUf6vSiUO/YmRnRW88FopmDy8XNm/lkYkUrVGD1K6kpAFUpV1
-	qbrWCx4eg4IqrxKP0gmAlKXIO4IIPz8vIkYwFycg+E294/zqjJ1vTvQeWIGn1peA2mwK
-	rXxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=MKh8yD05bE1Duv0bTZrBWqALubJl2EgaehvOh2ERKFQ=;
-	b=AcT9v97wrE9H6ywfAFG8l1kKnh0ZPzWC9buv2GsisX5lZdMcIHgnBVjDaINn5giflu
-	mpLnLpDQ15u/tzAm1+b/kdBFxUil6LKsIQEn8m6bAIdlTGvIEeVc4MA5u7AvL/sDo1o2
-	w3zDYFatEAdejbStLzdshkFoCPQ4CZBSUMtGkO3a/usz0+78GcKTpibdDuFeNtvDLzEg
-	157D39I4TjJGbwK1jFrtwoZO5rQynm2ANrR2Dmhdazv5k5biuc1lwm7WZtcO0x7wzf9G
-	HKVouJNxYg53apkout351J4LQyl+o9cX8VcTMFq9Kt87Cc3eETt5qoS63BAiNeCsD9Dg
-	XGQQ==
-X-Gm-Message-State: ALQs6tCUCt7ZxGUy/SDXbjhUBcRFZoT88DOKvVo96r0SVNvoOmw3SZbY
-	diVjThR+u0m/vUy8eMVG2ki33kj/emA4iHiXyEPRVhW9
-X-Google-Smtp-Source: AB8JxZou61tfe2kjcWNQBkcIxzfw6PmAt0RX2zKKqEp3fqs11vguNEhPodMnKu4B2/2JMKOc5Vv0gQmwgJ0C/S2xwac=
-X-Received: by 2002:a0c:e0ca:: with SMTP id
-	x10-v6mr14491269qvk.8.1525215900695; 
-	Tue, 01 May 2018 16:05:00 -0700 (PDT)
+	Wed,  2 May 2018 03:17:56 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 May 2018 20:17:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,353,1520924400"; d="scan'208";a="225024923"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.22.30])
+	([10.221.22.30])
+	by fmsmga006.fm.intel.com with ESMTP; 01 May 2018 20:17:56 -0700
+To: kai.kang@windriver.com, openembedded-core@lists.openembedded.org
+References: <cover.1524640773.git.kai.kang@windriver.com>
+	<47c479f97f5141b022f0e8f55015116a3af39b29.1524640773.git.kai.kang@windriver.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <1f6c9477-d9f1-df66-eefe-058a643a2684@intel.com>
+Date: Wed, 2 May 2018 11:17:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.200.47.113 with HTTP; Tue, 1 May 2018 16:04:20 -0700 (PDT)
-From: Michael Gloff <mgloff@emacinc.com>
-Date: Tue, 1 May 2018 18:04:20 -0500
-Message-ID: <CALXw4G7RyVriubnC6PrcfU8uE=7hj2EYgqq0Egbqn3svRQOAGw@mail.gmail.com>
-To: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Sumo/Master Busybox post install
+In-Reply-To: <47c479f97f5141b022f0e8f55015116a3af39b29.1524640773.git.kai.kang@windriver.com>
+Subject: Re: [PATCH v2 5/8] gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 May 2018 23:05:00 -0000
-Content-Type: multipart/alternative; boundary="000000000000f79d38056b2cffc1"
+X-List-Received-Date: Wed, 02 May 2018 03:17:57 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000f79d38056b2cffc1
-Content-Type: text/plain; charset="UTF-8"
+On 04/25/2018 03:23 PM, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> Upgrade gstreamer1.0-plugins-good from 1.12.4 to 1.14.0.
+> 
+> * add packageconfig 'gtk' and configure option '--disable-qt' from -bad
+> * add packageconfig 'lame', 'mpg123' and configure option
+>   '--disable-twolame' from -ugly
+> * remove configure option '--disable-sunaudio' since plugin sunaudio has
+>   been removed
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-good.inc               | 15 +++++++++++++--
+>  ...good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 ++--
+>  2 files changed, 15 insertions(+), 4 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
+> 
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> index 14c3d61848..ed14ed56c2 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> @@ -6,10 +6,12 @@ DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
+>  
+>  inherit gettext
+>  
+> +# gtk is not in the PACKAGECONFIG variable by default until
+> +# the transition to gtk+3 is finished
+>  PACKAGECONFIG ??= " \
+>      ${GSTREAMER_ORC} \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+> -    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
+> +    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
+>  "
+>  
+>  X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+> @@ -18,11 +20,14 @@ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+>  PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+>  PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+>  PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+> +PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+>  PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+>  PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+>  PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
+> +PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+>  PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+>  PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
+> +PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+>  PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+>  PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
+>  PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+> @@ -32,6 +37,11 @@ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+>  PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+>  PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+>  
+> +# qt5 support is disabled, because it is not present in OE core, and requires more work than
+> +# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+> +# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
+> +# in a gstreamer1.0-plugins-bad bbappend).
+> +
+>  EXTRA_OECONF += " \
+>      --enable-bz2 \
 
-I am seeing with the latest in Sumo/Master that the busybox post install
-with ipk packages is failing to create all of the applet symlinks if there
-is already a package installed from another provider. This can be seen, for
-example, when enabling lsattr applet and having e2fsprogs installed into an
-image.
+bz2 and zlib are optional and perhaps should be moved to PACKAGECONFIG
+instead.
 
-The error is:
-update-alternatives: Error: not linking
-/home/developer/oe-test/build_master/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/lsattr
-to /usr/bin/busybox.nosuid since
-/home/developer/oe-test/build_master/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/lsattr
-exists and is not a link
+I had done a similar upgrade but was waiting for the release before
+submitting:
 
-In Rocko and before, this error is present, but the script continues
-creating the rest of the symlinks and exits with success.
+https://github.com/anujm1/poky/commit/83204baaa9023e1514132534acbb4ec3968c1a15
 
-Does anyone have any idea why the failure is now causing the script to stop
-executing?
 
-Michael Gloff
-mgloff@emacinc.com
 
---000000000000f79d38056b2cffc1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div><div><div>I am seeing with the latest in Su=
-mo/Master that the busybox post install with ipk packages is failing to cre=
-ate all of the applet symlinks if there is already a package installed from=
- another provider. This can be seen, for example, when enabling lsattr appl=
-et and having e2fsprogs installed into an image.<br><br></div>The error is:=
-<br>update-alternatives: Error: not linking /home/developer/oe-test/build_m=
-aster/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/=
-lsattr to /usr/bin/busybox.nosuid since /home/developer/oe-test/build_maste=
-r/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/lsat=
-tr exists and is not a link<br><br></div>In Rocko and before, this error is=
- present, but the script continues creating the rest of the symlinks and ex=
-its with success.<br><br></div>Does anyone have any idea why the failure is=
- now causing the script to stop executing?<br><br></div>Michael Gloff<br></=
-div><a href=3D"mailto:mgloff@emacinc.com">mgloff@emacinc.com</a><br></div>
-
---000000000000f79d38056b2cffc1--
