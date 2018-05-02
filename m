@@ -1,34 +1,48 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 452 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 02 May 2018 13:48:18 UTC
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 73E71745D9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CE89747DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 13:48:17 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id DrzvfqG5uy3jiDrzwfzHjC; Wed, 02 May 2018 14:40:46 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=fL8XI6Se c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=kj9zAlcOel0A:10 a=VUJBJC2UJ8kA:10 a=lIts2nFRua1RrzvkxPMA:9
-	a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1fDrzv-0007g4-Eg; Wed, 02 May 2018 14:40:43 +0100
-Date: Wed, 2 May 2018 14:40:43 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20180502134043.w3eqbl4afvsjjy55@mcrowe.com>
-References: <20180501113655.11666-1-mac@mcrowe.com>
-	<fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
-MIME-Version: 1.0
-In-Reply-To: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfC3a0rMD46jw8CnKVCRl7Ll4DLyfn1Vd4gzEqsEmfaxByeH23FVmdKFWwz3tbIbsFZJiuJR0322VaWVyQ0vPy2W71tmNSPJk1MsBNRRPrJOAfQYit6eA
-	mDnRY/VO557GBIXuiqgJqI2w9bfqNUH/+Oie+e8mM9004vMy+4QdADef
-Subject: Re: [PATCH] alsa-utils: Fix error when removing unwanted udev	rules
+	Wed,  2 May 2018 14:37:34 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id o2-v6so11388951wrj.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 May 2018 07:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=3VjrqEfvJM1oj0VvbwfzTVpQ+xST7p/AkWg3jtH1JDQ=;
+	b=D748CeDpHXhW2ctNO0S0agLlMTGynb3nv87cRw7e1FSFG4Vp7ihpd1CCgxczYqKj7n
+	3YizI/nejhdsurc1JHbZAgEnW6rb0821CiLsMNT3CE5hRvecZJaaIfUn9QGMt/rNqMmX
+	F/TZXPsDkOGsfArKe52je2/jNPRUHMdhXYMuu0p9XlbB5Eh6/dyDsQS0xVS7PwFLEPWw
+	nyU8sTyrpaYnHITritrDsZ2uEA6n8VuFZD6NH1a3rQ10LEBXdvY2NhR1k4S6d65RB5EL
+	FVileJSjBylf5ekGtjr0ZflKoihaj1msiEv6fA+tY/wLaCx/TT6RN/p3a+RStXqoV1JJ
+	+KFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3VjrqEfvJM1oj0VvbwfzTVpQ+xST7p/AkWg3jtH1JDQ=;
+	b=sZ2v09o5Q9UNADyoXhXzvn6Ad6Xc+xuKn7RuAlHiTqunYaGQXxb/zTRxpWCg+ML/hv
+	UyMXtAhCY+idbBnsT4Ok8xtHEDmBH3n6fZ7ku37O8Nu9yyDpmIa9gq/wbjhEdbMAv1mC
+	0djDBRH+WmYYgTfoABNxaDxhWdeUS7VEvFo3Pk4D1IjY2baaRshCQSUNtaHk/Cdhp2IH
+	9TrSy+2XpNGqriwwTxxL1xSrCeP/TFU822SGvuEcEHgQ5P00YZLWZxGpixoEB+mPJ92j
+	WIN1XYKAGsMBhFYlrjEzZFvrILnzwjloWXndNcO/a2eUKkw3Y7Q7gMJzRu2nwpLmi5e6
+	v8Rw==
+X-Gm-Message-State: ALQs6tBCm9JC9IpGzVTeoO7yErKbgpEXybMf8HXvhdyMtdfkXJu96PMk
+	W1A/Ed3lluKOFQCsYKuLdWz8aA==
+X-Google-Smtp-Source: AB8JxZr2QUac0VBVsLD1pSsapzSqEs1jLsVR8IKfXGW80RCIz5gL45XPoF5yWkZ8g+lAvrVuowsvGw==
+X-Received: by 2002:adf:9f4a:: with SMTP id
+	f10-v6mr14587287wrg.216.1525271855208; 
+	Wed, 02 May 2018 07:37:35 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	q34-v6sm17890462wrb.27.2018.05.02.07.37.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 02 May 2018 07:37:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 May 2018 14:37:31 +0000
+Message-Id: <20180502143733.6303-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 1/3] json-c: upgrade to 0.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 13:48:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 May 2018 14:37:35 -0000
 
-On Wednesday 02 May 2018 at 08:39:27 +0000, Peter Kjellerstedt wrote:
-> >  	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; then
-> 
-> I suggest that you remove the if-statement since the /unwanted directory 
-> shall always be removed if it exists so there is no need to test for it.
+* from https://github.com/json-c/json-c/commit/861c1a82868831bf82222f974f05c2af5a975d12
 
-I had wondered about doing that myself, but had decided to make as few
-changes as possible.
+* Bump the major version of the .so library generated up to 4.0 to avoid
+  conflicts because some downstream packagers of json-c had already done
+  their own bump to ".so.3" for a much older 0.12 release.
+* Add const size_t json_c_object_sizeof()
+* Avoid invalid free (and thus a segfault) when ref_count gets < 0
+* PR#394: fix handling of custom double formats that include a ".0"
+* Avoid uninitialized variable warnings in json_object_object_foreach
+* Issue #396: fix build for certain uClibc based systems.
+* Add a top level fuzz directory for fuzzers run by OSS-Fuzz
 
-> > -		# This is where alsa-utils will install its rules if we don't tell it anything else.
-> > -		rm -rf ${D}${nonarch_base_libdir}/udev
-> > -		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
-> > +        	# If udev is disabled, we told configure to install the rules in /unwanted, so
-> > +        	# we can get rid of them now.
-> > +        	rm -rf ${D}/unwanted
-> 
-> Correct the indentation (the rest of the function is indented using
-> tabs).
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../json-c/{json-c_0.13.bb => json-c_0.13.1.bb}     | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/json-c/{json-c_0.13.bb => json-c_0.13.1.bb} (78%)
 
-I'd spotted that, and had thought that I'd sorted it out. It turns out that
-I ended up making it even worse with a mixture of spaces and tabs. :(
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+similarity index 78%
+rename from meta/recipes-devtools/json-c/json-c_0.13.bb
+rename to meta/recipes-devtools/json-c/json-c_0.13.1.bb
+index 06319de323..5b10e68297 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.13.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+@@ -4,18 +4,17 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ 
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+-           "
+-SRC_URI[md5sum] = "11fc5d90c77375e5fc8401e8b9efbf21"
+-SRC_URI[sha256sum] = "0316780be9ad16c42d7c26b015a784fd5df4b0909fef0aba51cfb13e492ac24d"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI[md5sum] = "04969ad59cc37bddd83741a08b98f350"
++SRC_URI[sha256sum] = "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
+ 
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+).tar"
+ # json-c releases page is fetching the list of releases in some weird XML format
+ # from https://s3.amazonaws.com/json-c_releases and processes it with javascript :-/
+ #UPSTREAM_CHECK_URI = "https://s3.amazonaws.com/json-c_releases/releases/index.html"
+-RECIPE_UPSTREAM_VERSION = "0.13"
+-RECIPE_UPSTREAM_DATE = "Dec 07, 2017"
+-CHECK_DATE = "Jan 31, 2018"
++RECIPE_UPSTREAM_VERSION = "0.13.1"
++RECIPE_UPSTREAM_DATE = "Mar 04, 2018"
++CHECK_DATE = "May 02, 2018"
+ 
+ RPROVIDES_${PN} = "libjson"
+ 
+-- 
+2.17.0
 
-Hopefully v2 is better.
-
-Thanks.
-
-Mike.
 
