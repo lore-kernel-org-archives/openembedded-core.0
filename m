@@ -1,53 +1,41 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C1F747FB
+Return-Path: <v.vogelhuber@digitalendoscopy.de>
+X-Greylist: delayed 360 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 May 2018 16:38:06 UTC
+Received: from mx-relay58-hz2.antispameurope.com
+	(mx-relay58-hz2.antispameurope.com [94.100.136.158])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FEB8747A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 16:02:45 +0000 (UTC)
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 05/02/2018 12:02:42 PM
-X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
-X-Note: Filtered by 10.238.11.162
-X-Note-AR-Scan: None - PIPE
-Received: by relay.appriver.com (CommuniGate Pro PIPE 6.2.1)
-	with PIPE id 373193388; Wed, 02 May 2018 12:02:42 -0400
-Received: from [213.210.30.29] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.2.1)
-	with ESMTPS id 373193351; Wed, 02 May 2018 12:02:39 -0400
-Received: from [fd44:d8b8:cab5:cb01::58] (helo=scoop.brightsign)
-	by elite.brightsign with esmtp (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1fDuDL-000GU4-8N; Wed, 02 May 2018 17:02:43 +0100
-Received: from mac by scoop.brightsign with local (Exim 4.89)
-	(envelope-from <mac@scoop.brightsign>)
-	id 1fDuDL-0001Cb-5o; Wed, 02 May 2018 17:02:43 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2018 17:02:34 +0100
-Message-Id: <20180502160234.4313-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 05/02/2018 12:02:39 PM
-X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
-X-Note: Filtered by 10.238.11.162
-X-Policy: brightsign.biz
-X-Primary: brightsign.biz@brightsign.biz
-X-Virus-Scan: V-
-X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-50/SG:1 5/2/2018 12:01:50 PM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.49162 p=-1 Source Normal
-X-Signature-Violations: 0-0-0-4879-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G335 G336 G337 G338 G342 G343 G475 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] kernel: Permit overriding of KERNEL_IMAGETYPE_FOR_MAKE
+	Wed,  2 May 2018 16:38:06 +0000 (UTC)
+Received: from ptr-128-65-149-218.static.lewtelnet-access.de
+	([128.65.149.218]) by mx-relay58-hz2.antispameurope.com; 
+	Wed, 02 May 2018 18:32:01 +0200
+Received: from [192.168.20.129] (192.168.20.129) by srv-msx01.digitendos.de
+	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
+	Wed, 2 May 2018 18:31:39 +0200
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+References: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
+	<83aa6f73-2835-4b53-621b-4b9fd3b66b15@digitalendoscopy.de>
+	<CAPybu_1RMqH4q96Xm6ekNarz015++49Yu4sSP1SMcj1Yn3D-5A@mail.gmail.com>
+From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+Message-ID: <7e87091c-4989-0383-8bf3-7b9acb805ef8@digitalendoscopy.de>
+Date: Wed, 2 May 2018 18:31:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAPybu_1RMqH4q96Xm6ekNarz015++49Yu4sSP1SMcj1Yn3D-5A@mail.gmail.com>
+X-Originating-IP: [192.168.20.129]
+X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
+	srv-msx01.digitendos.de (192.168.20.14)
+X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+	mx-relay58-hz2.antispameurope.com with 016021203B77
+X-cloud-security-connect: ptr-128-65-149-218.static.lewtelnet-access.de[128.65.149.218],
+	TLS=1, IP=128.65.149.218
+X-cloud-security: scantime:.2613
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Question about multi rootfs UIDs when using wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +48,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 16:02:46 -0000
+X-List-Received-Date: Wed, 02 May 2018 16:38:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Commit a1690131691507bbf5853540229b3ad775b836bf removed the ability of
-recipes to set KERNEL_IMAGETYPE_FOR_MAKE. Fix that by letting recipes
-continue to set their own KERNEL_IMAGETYPE_FOR_MAKE if they so wish.
-They may have been doing so for a while, and don't want to have their
-carefully-selected value trampled on by kernel.bbclass.
+Hi,
 
-This may be required if the recipe itself wants to build one type of
-kernel, but post-process it into a different type, rather like the
-vmlinux->vmlinux.gz support provided by kernel.bbclass.
+I never got any response to my message (until now). So AFAIK I solved 
+the problem with the following patch:
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
-A similar change was originally submitted 2.5 years ago as
-https://patchwork.openembedded.org/patch/106849/ but fell through the
-cracks.
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 84fe85d62b..66ab757aec 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -204,15 +204,10 @@ class Partition():
 
-meta/classes/kernel.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+          Currently handles ext2/3/4, btrfs and vfat.
+          """
+-        p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % 
+native_sysroot)
+-        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+-                                         "%s/../pseudo" % 
+get_bitbake_var("IMAGE_ROOTFS"))
+-        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
++        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
++        pseudo += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" % 
+self.rootfs_dir
++        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
+          p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+-        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+-        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
+-        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
+-        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
+          pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 78d6c30b07..6595a04fb1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -69,11 +69,12 @@ python __anonymous () {
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
- 
--    # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
--    # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
--    # is built (such as using gzip to compress vmlinux)
--    typeformake = types.replace('vmlinux.gz', 'vmlinux')
--    d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
-+    if not d.getVar('KERNEL_IMAGETYPE_FOR_MAKE'):
-+        # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
-+        # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
-+        # is built (such as using gzip to compress vmlinux)
-+        typeformake = types.replace('vmlinux.gz', 'vmlinux')
-+        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
- 
-     for type in types.split():
-         typelower = type.lower()
--- 
-2.11.0
+          rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
 
 
+On 02.05.2018 17:51, Ricardo Ribalda Delgado wrote:
+> Hi
+> 
+> I just got hit by this one. It is specially nasty because nfsroot
+> fails to boot if the uids are wrong.
+> 
+> What is the status on this?
+> 
+> On Mon, Jan 22, 2018 at 11:39 AM, Volker Vogelhuber
+> <v.vogelhuber@digitalendoscopy.de> wrote:
+>> I finally found out, what's the reason why the included recovery rootfs has
+>> the wrong UIDs, while the main image has the correct one. The reason seems
+>> to be the PSEUDO_LOCALSTATEDIR variable that is set to the state dir of the
+>> main image in both cases.
+>> I debugged all the calls up to the environment setup in partition.py's
+>> prepare_rootfs method where a check for an existing PSEUDO_LOCALSTATEDIR
+>> environment variable is done. That seems to be the problem.
+>> Instead of using the correct value passed to the prepare_rootfs method, an
+>> existing ENV value is used that points to the state dir of the main image
+>> instead of the recovery one's. I guess the reason is that in bitbake.conf
+>> the PSEUDO_LOCALSTATEDIR is set to the image currently build (which is the
+>> main image and not the recovery image only referenced by the main image). So
+>> because that environment variable is already set, the call to mkfs.ext4 for
+>> the recovery image uses the wrong PSEUDO_LOCALSTATEDIR and does not apply
+>> the correct UID.
+>>
+>> Any ideas how to fix that? I tend to just remove the patch introduced by Ed
+>> Bartosh three years ago (https://patchwork.openembedded.org/patch/90419/)
+>> because I don't need a custom PSEUDO_PREFIX. But maybe not everyone agrees.
+>>
+>> On 19.01.2018 17:00, Volker Vogelhuber wrote:
+>>>
+>>> I'm currently trying to create a multi RootFS WIC image as mentioned in
+>>> directdisk-multi-rootfs.wks. For that I have two image recipes. One that
+>>> is creating only an ext4 image (image-recovery), and the second that is also
+>>> creating a WIC image (image-main). I used the IMAGE_FSTYPES variable for
+>>> that. The WKS file for the second image is integrating the recovery image by
+>>> specifying --rootfs-dir=image-recovery in it's part description.
+>>>
+>>> # primary / recovery image
+>>> part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/
+>>> mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700
+>>> --overhead-factor=1.0
+>>> part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4
+>>> --label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
+>>>
+>>> The UIDs of the second rootfs (image-main) are correctly set to 0 within
+>>> the file system when calling mkfs.ext4 during prepare_rootfs_ext. For the
+>>> recovery rootfs the UID is always set to my own (host) one which is of
+>>> course not valid for the image where that UID does not exist.
+>>> I tried calling the mkfs.ext4 command myself from a terminal and for
+>>> whatever reason an image created out of the rootfs folder of the second
+>>> image (image-main) recipe is deployed with the correct UID 0, while the
+>>> rootfs folder of the first image (image-recovery) recipe always uses the UID
+>>> of the source folder/files.
+>>>
+>>> I search the code of e2fsprogs for the line that sets the UID and added a
+>>> printf in set_inode_extra. There I can see clearly that the source UID for
+>>> the file is 0 for the rootfs of the image-main rootfs folder while it is
+>>> 10000 (my own UID) for the image-recovery. I wonder how the UID of the
+>>> image-main rootfs folder can be zero when I don't call any command with root
+>>> permissions. I searched for a preparation step where the UIDs are managed in
+>>> the scripts folder of Yocto, but didn't found any hint for the whole
+>>> behavior. So while it is good that the rootfs partition of the main rootfs
+>>> has the UID set correctly to zero, I can't understand why it happens. On the
+>>> other side I can understand why the UID of the recovery rootfs is set to my
+>>> own one, but it stops me from booting that rootfs because the UIDs of the
+>>> files and folders are set to a user that does not exist on the target
+>>> system.
+>>>
+>>> Can someone please explain to me, how that UID handling is meant to be
+>>> done?
+>>
+>>
+>> --
+>>
 
