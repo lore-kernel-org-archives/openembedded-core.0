@@ -1,51 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E42660603
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EA4CC6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 09:26:50 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id p3-v6so16699203itc.0
+	Wed,  2 May 2018 12:34:00 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id f1-v6so18114654qtj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2018 02:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yamWYG+fe5QsLkfDjDs9OqQI1PSXitFT2TlkMAW1obs=;
-	b=FEDM1P9JxbB8xKesjdGxHXlq0hC9MUkH6RIkFWVYyBTlKULk0IuIYmXUN37+nwqxrr
-	G22CIIrCk9ehRvj/1gcYdEs2QrJeoP+CsphiZ2QJCXcTGt8TFmgYEWYy4e8te+JpOufU
-	LLkAAL+bnHyVPRS4lrJGGMdo0VIaA8FZHCGgXLxqVWG9wSYO7BWbBPrVIAIKXkWcEABO
-	Meoi1GTMLN2VepWYPIykiu4jhXFONDXBR8rDUN/lnuKwGM+rYMocF+298c3tJH3eu9dv
-	LdEleWB7uMOm7hB5ovhOn8Yu1mE1f4PnhRje39m4odyhrR3OmXZYq9MvKMrLi+E5VpOs
-	1O0w==
+	Wed, 02 May 2018 05:34:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yamWYG+fe5QsLkfDjDs9OqQI1PSXitFT2TlkMAW1obs=;
-	b=dop4GkqTvCN43nsaOQFZKCvcCw1BfaGe2ZpoGh23/R3wq8/yvDNdABkECailNg+TRR
-	24yGS8vaNCE2O2U5iDm37GnGo0S4kvK9ZDD3uhh4DuKjHjtbNzHT82Qbalfie+T1sG74
-	N1nCd7AfuLuLJ4fzi563OKl7+qer9k9sEcloYmdzXHvlQOmtxt8qEKVNcX0Q2pCItoBU
-	FM0xWOz2m7m4wQwObmZZdHB8CUqWboqlvWa/2ji7RAIStX8dKDqQyo+EwOludxl6i9Ub
-	lUDnRscrc7tsFvubIY4H6x01suCI6bd7jCYsuM527VfqefuiIwAmjSCImTB0RLNXUS3M
-	9NFA==
-X-Gm-Message-State: ALQs6tBUFeBzLv3f3Wp+7zuEcIeSxQB+e3EKJMQokTzpDpZ7DTpnAopQ
-	jumf19rfjLjNe4YNOTqiY0MdphgjxFwv4dJkWbr2Yw==
-X-Google-Smtp-Source: AB8JxZo1/O43WKh9qhI5TH4/M1Fo+EHIFy+pRpDXRSeQxro/FwVAR7I3/pclXbpEnuT7tX/lqkHtscdRqomj0Xd12Po=
-X-Received: by 2002:a24:a00a:: with SMTP id
-	o10-v6mr19405266ite.34.1525253211282; 
-	Wed, 02 May 2018 02:26:51 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=LeA76EmhDeSym7wYz3osUbXjyYcvse4SAaLkIdTPBPU=;
+	b=HdJfYKKou0BpRSG8rTSz/rkf5lwfHOeaSinsDxakSp8aRk+Tzkj52SJB9Wrt4gdzok
+	B8XJS25MiP+mZbGgcDthlgH/979XahudrX7SKjsrA1rV1WpSbV1kBC1ltffVc6pZvT6K
+	nQFi2XoH+42HcmV9ajMmdjgitvvGqTmeB557PgzDYNwyACwsIKGHkciPpoLMuw/EebAt
+	GSXMkL9+y2eEjpphgZKZf1hern6eAOIoqfTl09ATZTPsdHoD6wi/rigan3s2U8X85YTQ
+	CMOmot31q4sKu068rkurtlBLWuSKvUtb/ehCRfQ848FCJGcnJskaC1c/w+jkb77Mznlf
+	l68w==
+X-Gm-Message-State: ALQs6tAZLOfTk93LK2u743TB6bCxBYAgI46jsiG7vEs0XsM5xk85dy1N
+	Km74PLqwV3qYEcgVChmdDCFdhg==
+X-Google-Smtp-Source: AB8JxZpErgMeLvqrZ+WbydZFBVrF8JCKMlnX27OXG2EA5/ghDJBJn6Mfd0RLjBZMxJsa8pq/N+e6jA==
+X-Received: by 2002:ac8:33a3:: with SMTP id
+	c32-v6mr16485029qtb.90.1525264441172; 
+	Wed, 02 May 2018 05:34:01 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.217.140])
+	by smtp.gmail.com with ESMTPSA id
+	u22-v6sm11810806qte.36.2018.05.02.05.33.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 02 May 2018 05:34:00 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 02 May 2018 09:33:53 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed,  2 May 2018 09:33:52 -0300
+Message-Id: <20180502123352.13042-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Wed, 2 May 2018 02:26:30 -0700 (PDT)
-In-Reply-To: <1f6c9477-d9f1-df66-eefe-058a643a2684@intel.com>
-References: <cover.1524640773.git.kai.kang@windriver.com>
-	<47c479f97f5141b022f0e8f55015116a3af39b29.1524640773.git.kai.kang@windriver.com>
-	<1f6c9477-d9f1-df66-eefe-058a643a2684@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 May 2018 10:26:30 +0100
-Message-ID: <CAJTo0Lb=vGJAZMNBTrUuOapr6zn42in+fcFhM=7cktDUfwiWrA@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 5/8] gstreamer1.0-plugins-good: 1.12.4 -> 1.14.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade 17.3.8 -> 18.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,91 +52,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 09:26:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 02 May 2018 12:34:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Anuj, it sounds like your series is a more comprehensive upgrade, can
-you submit your patches now?  We'll be reopening master shortly.
+This includes changes from Mesa 18.0.0 and 18.0.2 releases.
 
-Thanks,
-Ross
+Mesa 18.0.0 is a new development release and 18.0.1 and 18.0.2 are
+bug-fix releases.
 
-On 2 May 2018 at 04:17, Anuj Mittal <anuj.mittal@intel.com> wrote:
-> On 04/25/2018 03:23 PM, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Upgrade gstreamer1.0-plugins-good from 1.12.4 to 1.14.0.
->>
->> * add packageconfig 'gtk' and configure option '--disable-qt' from -bad
->> * add packageconfig 'lame', 'mpg123' and configure option
->>   '--disable-twolame' from -ugly
->> * remove configure option '--disable-sunaudio' since plugin sunaudio has
->>   been removed
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>  .../gstreamer/gstreamer1.0-plugins-good.inc               | 15 +++++++++++++--
->>  ...good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} |  4 ++--
->>  2 files changed, 15 insertions(+), 4 deletions(-)
->>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.4.bb => gstreamer1.0-plugins-good_1.14.0.bb} (85%)
->>
->> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
->> index 14c3d61848..ed14ed56c2 100644
->> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
->> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
->> @@ -6,10 +6,12 @@ DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
->>
->>  inherit gettext
->>
->> +# gtk is not in the PACKAGECONFIG variable by default until
->> +# the transition to gtk+3 is finished
->>  PACKAGECONFIG ??= " \
->>      ${GSTREAMER_ORC} \
->>      ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
->> -    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 \
->> +    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
->>  "
->>
->>  X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
->> @@ -18,11 +20,14 @@ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
->>  PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
->>  PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
->>  PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
->> +PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
->>  PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
->>  PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
->>  PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
->> +PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
->>  PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
->>  PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
->> +PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
->>  PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
->>  PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
->>  PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
->> @@ -32,6 +37,11 @@ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
->>  PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
->>  PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
->>
->> +# qt5 support is disabled, because it is not present in OE core, and requires more work than
->> +# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
->> +# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
->> +# in a gstreamer1.0-plugins-bad bbappend).
->> +
->>  EXTRA_OECONF += " \
->>      --enable-bz2 \
->
-> bz2 and zlib are optional and perhaps should be moved to PACKAGECONFIG
-> instead.
->
-> I had done a similar upgrade but was waiting for the release before
-> submitting:
->
-> https://github.com/anujm1/poky/commit/83204baaa9023e1514132534acbb4ec3968c1a15
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+You can find release notes here:
+
+  - https://mesa3d.org/relnotes/18.0.0.html
+  - https://mesa3d.org/relnotes/18.0.1.html
+  - https://mesa3d.org/relnotes/18.0.2.html
+
+Remove patch 0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
+that was applied on upstream.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ ...tialise-modifier-to-INVALID-for-DRI2.patch | 43 -------------------
+ .../{mesa-gl_17.3.8.bb => mesa-gl_18.0.2.bb}  |  0
+ .../mesa/{mesa_17.3.8.bb => mesa_18.0.2.bb}   |  5 +--
+ 3 files changed, 2 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.3.8.bb => mesa-gl_18.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.3.8.bb => mesa_18.0.2.bb} (81%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch b/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
+deleted file mode 100644
+index 6aba7859ee8..00000000000
+--- a/meta/recipes-graphics/mesa/files/0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 4cbecb61682a0ee426faaa03d824fc8fd7aef826 Mon Sep 17 00:00:00 2001
+-From: Daniel Stone <daniels@collabora.com>
+-Date: Mon, 2 Apr 2018 13:20:34 +0100
+-Subject: [PATCH] st/dri: Initialise modifier to INVALID for DRI2
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-When allocating a buffer for DRI2, set the modifier to INVALID to inform
+-the backend that we have no supplied modifiers and it should do its own
+-thing. The missed initialisation forced linear, even if the
+-implementation had made other decisions.
+-
+-This resulted in VC4 DRI2 clients failing with:
+-  Modifier 0x0 vs. tiling (0x700000000000001) mismatch
+-
+-Signed-off-by: Daniel Stone <daniels@collabora.com>
+-Reported-by: Andreas Müller <schnitzeltony@gmail.com>
+-Reviewed-by: Eric Anholt <eric@anholt.net>
+-Fixes: 3f8513172ff6 ("gallium/winsys/drm: introduce modifier field to winsys_handle")
+-
+-Upstream-Status: Backport [1]
+-
+-[1] https://cgit.freedesktop.org/mesa/mesa/commit/?id=4cbecb61682a0ee426faaa03d824fc8fd7aef826
+----
+- src/gallium/state_trackers/dri/dri2.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/gallium/state_trackers/dri/dri2.c b/src/gallium/state_trackers/dri/dri2.c
+-index 31d17d46c2..58a6757f03 100644
+---- a/src/gallium/state_trackers/dri/dri2.c
+-+++ b/src/gallium/state_trackers/dri/dri2.c
+-@@ -806,6 +806,7 @@ dri2_allocate_textures(struct dri_context *ctx,
+-          whandle.handle = buf->name;
+-          whandle.stride = buf->pitch;
+-          whandle.offset = 0;
+-+         whandle.modifier = DRM_FORMAT_MOD_INVALID;
+-          if (screen->can_share_buffer)
+-             whandle.type = DRM_API_HANDLE_TYPE_SHARED;
+-          else
+--- 
+-2.14.3
+-
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.3.8.bb b/meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.3.8.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.3.8.bb b/meta/recipes-graphics/mesa/mesa_18.0.2.bb
+similarity index 81%
+rename from meta/recipes-graphics/mesa/mesa_17.3.8.bb
+rename to meta/recipes-graphics/mesa/mesa_18.0.2.bb
+index 2d3fd3ca388..aaac1e58e12 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.3.8.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.0.2.bb
+@@ -8,11 +8,10 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://llvm-config-version.patch \
+            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
+            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+-           file://0001-st-dri-Initialise-modifier-to-INVALID-for-DRI2.patch \
+            "
+ 
+-SRC_URI[md5sum] = "203d1a79156ab6926f2d253b377e9d9d"
+-SRC_URI[sha256sum] = "8f9d9bf281c48e4a8f5228816577263b4c655248dc7666e75034ab422951a6b1"
++SRC_URI[md5sum] = "3c303da98ec2ce37c795baeba5aee31e"
++SRC_URI[sha256sum] = "98fa159768482dc568b9f8bf0f36c7acb823fa47428ffd650b40784f16b9e7b3"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.17.0
+
 
