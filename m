@@ -1,45 +1,56 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AAEE745D9
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay101a.appriver.com [207.97.230.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 50938745D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 13:32:14 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id x22so11175980qkb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2018 06:32:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=2S6jhP+2Yqtayz5W/icIJlPOnc1EiP3CpmRW1mOu0Q4=;
-	b=l7MX7xDi+YSerR11DikvQKRO1zMSvtG8fxqBfnQT0pgxWZVdEBRCAQmuNzGC+C3kCQ
-	FHL8Yn34KEwidojYB1FeBAz1rvvxti3xZMSRIhYAbokC54zupvoMdscchif1FwKZjhae
-	i9wAtPRh1ZS3LzmMWQZGAym6emu/8JCEeB7Wd+5sK7+dlK2cxDUIIkgEIvBzdNvBAsuF
-	6T7OuWsAoHxdL/ayeHhRI6qzh2KjMH/ZNpQ9G6ZJhWdGLZG1KpfSN46O/V6JYuq470s6
-	CqFx/5qaDqEw5jm5NTepQOfTKGs8xcgQKOox4Yz1qxiHnfl9yw87ySDfmOQPGk1hQHU2
-	+0Aw==
-X-Gm-Message-State: ALQs6tBXeQnPbvS0ncDJvo+oYnRfTgz6eZdNEPVBqKYjy3/QBOxtINyr
-	L1rMfrfITTEubKob54v01adgpQ==
-X-Google-Smtp-Source: AB8JxZr+LxBE9Xi8deo81aT5bSAIpt+eie7IzhFqx+QU+lYVx6vY6Mi7le9W9xExF0sSF85DWXY4Iw==
-X-Received: by 10.55.141.70 with SMTP id p67mr15252710qkd.227.1525267935467;
-	Wed, 02 May 2018 06:32:15 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	q33sm11461650qkq.72.2018.05.02.06.32.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 02 May 2018 06:32:14 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 02 May 2018 10:32:08 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed,  2 May 2018 10:31:59 -0300
-Message-Id: <20180502133159.9544-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180502133159.9544-1-otavio@ossystems.com.br>
-References: <20180502133159.9544-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] go: Update 1.9.4 -> 1.9.6
+	Wed,  2 May 2018 13:38:11 +0000 (UTC)
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 05/02/2018 9:38:08 AM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.161
+X-Note-AR-Scan: None - PIPE
+Received: by relay.appriver.com (CommuniGate Pro PIPE 6.2.1)
+	with PIPE id 371432658; Wed, 02 May 2018 09:38:08 -0400
+Received: from [213.210.30.29] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.2.1)
+	with ESMTPS id 371432613; Wed, 02 May 2018 09:38:05 -0400
+Received: from [fd44:d8b8:cab5:cb01::58] (helo=scoop.brightsign)
+	by elite.brightsign with esmtp (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1fDrxR-000Fcc-IE; Wed, 02 May 2018 14:38:09 +0100
+Received: from mac by scoop.brightsign with local (Exim 4.89)
+	(envelope-from <mac@scoop.brightsign>)
+	id 1fDrxR-000ALn-E6; Wed, 02 May 2018 14:38:09 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 May 2018 14:38:03 +0100
+Message-Id: <20180502133803.37862-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
+References: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 05/02/2018 9:38:05 AM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.161
+X-Policy: brightsign.biz
+X-Primary: brightsign.biz@brightsign.biz
+X-Virus-Scan: V-
+X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-63/SG:1 5/2/2018 9:37:15 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.483445 p=-1 Source Normal
+X-Signature-Violations: 0-0-0-6654-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G335 G336 G337 G338 G342 G343 G475 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+Cc: Mike Crowe <mac@mcrowe.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: [PATCHv2] alsa-utils: Fix error when removing unwanted udev rules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +63,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 13:32:15 -0000
+X-List-Received-Date: Wed, 02 May 2018 13:38:12 -0000
 
-The 1.9.6 fixes a number of issues since 1.9.4 release, mainly:
+If alsa-utils configure is not passed a --with-udev-rules-dir option then
+it defaults to using /lib/udev/rules.d. This meant that the hard-coded use
+of ${D}/lib in do_install in 262e69c9c7acf0beb7bb6b96299e3c993c906434
+worked correctly to remove the unwanted rules.
 
-go1.9.5 (released 2018/03/28) includes fixes to the compiler, go
-command, and net/http/pprof package.
+Subsequently, 0a4372705a030ca54ed420cdfec33d46ab93499c changed do_install
+to use ${nonarch_base_libdir}, claiming to fix this in the usrmerge case.
 
-go1.9.6 (released 2018/05/01) includes fixes to the compiler and go
-command.
+This means that if udev is not present in PACKAGECONFIG and usrmerge is
+present in DISTRO_FEATURES then the alsa-utils build system will install
+the rules in ${D}/lib/udev/rules.d but do_install will attempt to remove
+${D}/usr/lib, resulting in something like:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ rmdir: failed to remove '.../tmp-glibc/work/i586-oe-linux/alsa-utils/1.1.5-r0/image/usr/lib': No such file or directory
+
+To fix this, let's just tell configure to install the rules in a specific
+known location when udev is disabled. This location can then easily be
+cleaned up in do_install without doing any harm if udev is enabled.
+
+Tested both with and without usrmerge in DISTRO_FEATURES and with and
+without udev in PACKAGECONFIG.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Cc: Phil Blundell <pb@pbcl.net>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
- meta/recipes-devtools/go/go-1.9.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 2823304b7ce..a942f6d8ab9 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
+index f2231f34f0..33215bf159 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
+@@ -16,7 +16,7 @@ PACKAGECONFIG ??= "udev"
+ # or no alsabat at all.
+ PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftwf"
  
- GO_BASEVERSION = "1.9"
--GO_MINOR = ".4"
-+GO_MINOR = ".6"
- PV .= "${GO_MINOR}"
+-PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
++PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,--with-udev-rules-dir=/unwanted/rules.d,udev"
+ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
-@@ -22,5 +22,5 @@ SRC_URI += "\
- "
- SRC_URI_append_libc-musl = " file://set-external-linker.patch"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+@@ -101,9 +101,8 @@ do_install() {
+ 	rm ${D}${sbindir}/alsa-info.sh
+ 	rm -f ${D}${sbindir}/alsabat-test.sh
  
--SRC_URI[main.md5sum] = "6816441fd6680c63865cdd5cb8bc1960"
--SRC_URI[main.sha256sum] = "0573a8df33168977185aa44173305e5a0450f55213600e94541604b75d46dc06"
-+SRC_URI[main.md5sum] = "52c1a3063291036597552d3fed0b2917"
-+SRC_URI[main.sha256sum] = "36f4059be658f7f07091e27fe04bb9e97a0c4836eb446e4c5bac3c90ff9e5828"
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; then
+-		# This is where alsa-utils will install its rules if we don't tell it anything else.
+-		rm -rf ${D}${nonarch_base_libdir}/udev
+-		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
+-	fi
++	# If udev is disabled, we told configure to install the rules
++	# in /unwanted, so we can remove them now. If udev is enabled,
++	# then /unwanted won't exist and this will have no effect.
++	rm -rf ${D}/unwanted
+ }
 -- 
-2.17.0
+2.11.0
+
 
 
