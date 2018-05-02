@@ -1,55 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A575746D3
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F55A747CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 15:18:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 969A9184E2;
-	Wed,  2 May 2018 17:18:55 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id dul_uaB67cJo; Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8E48F184D8;
-	Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 543D21A08E;
-	Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 481651A08C;
-	Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 3B7C623E8;
-	Wed,  2 May 2018 17:18:54 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 2 May 2018 17:18:54 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 2 May 2018 17:18:54 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mike Crowe <mac@mcrowe.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCHv2] alsa-utils: Fix error when removing unwanted udev rules
-Thread-Index: AQHT4hrUaGWZ6SWPIEm61vWrrRrmZaQcjNMw
-Date: Wed, 2 May 2018 15:18:53 +0000
-Message-ID: <d88052ce5de24a31894e911680f355be@XBOX02.axis.com>
-References: <fb6ef50149364c4db6f17687bb90645a@XBOX02.axis.com>
-	<20180502133803.37862-1-mac@mcrowe.com>
-In-Reply-To: <20180502133803.37862-1-mac@mcrowe.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed,  2 May 2018 15:38:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w42FbKjt025957
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 2 May 2018 08:37:56 -0700
+Received: from [128.224.56.223] (128.224.56.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 2 May 2018 08:37:46 -0700
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20180430141455.2248-1-raj.khem@gmail.com>
+	<20180430141455.2248-3-raj.khem@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <67de73a3-7a06-a4aa-7d53-714c52c4a356@windriver.com>
+Date: Wed, 2 May 2018 11:37:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCHv2] alsa-utils: Fix error when removing unwanted udev rules
+In-Reply-To: <20180430141455.2248-3-raj.khem@gmail.com>
+X-Originating-IP: [128.224.56.223]
+Subject: Re: [PATCH V2 10/25] ruby: Upgrade to 2.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,90 +35,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 15:18:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 May 2018 15:38:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: Mike Crowe [mailto:mac@mcrowe.com]
-> Sent: den 2 maj 2018 15:38
-> To: openembedded-core@lists.openembedded.org
-> Cc: Mike Crowe <mac@mcrowe.com>; Phil Blundell <pb@pbcl.net>; Peter Kjell=
-erstedt <peter.kjellerstedt@axis.com>
-> Subject: [PATCHv2] alsa-utils: Fix error when removing unwanted udev rule=
-s
->=20
-> If alsa-utils configure is not passed a --with-udev-rules-dir option then
-> it defaults to using /lib/udev/rules.d. This meant that the hard-coded us=
-e
-> of ${D}/lib in do_install in 262e69c9c7acf0beb7bb6b96299e3c993c906434
-> worked correctly to remove the unwanted rules.
->=20
-> Subsequently, 0a4372705a030ca54ed420cdfec33d46ab93499c changed do_install
-> to use ${nonarch_base_libdir}, claiming to fix this in the usrmerge case.
->=20
-> This means that if udev is not present in PACKAGECONFIG and usrmerge is
-> present in DISTRO_FEATURES then the alsa-utils build system will install
-> the rules in ${D}/lib/udev/rules.d but do_install will attempt to remove
-> ${D}/usr/lib, resulting in something like:
->=20
->  rmdir: failed to remove '.../tmp-glibc/work/i586-oe-linux/alsa-utils/1.1=
-.5-r0/image/usr/lib': No such file or directory
->=20
-> To fix this, let's just tell configure to install the rules in a specific
-> known location when udev is disabled. This location can then easily be
-> cleaned up in do_install without doing any harm if udev is enabled.
->=20
-> Tested both with and without usrmerge in DISTRO_FEATURES and with and
-> without udev in PACKAGECONFIG.
->=20
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Cc: Phil Blundell <pb@pbcl.net>
-> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+On 2018-04-30 10:14 AM, Khem Raj wrote:
+> License Update: https://github.com/ruby/ruby/commit/322d0d93adfe42fc89c574f67bcb9acb9b82f251#diff-c53151ffd180a17416e8f09b1ca4bfc3
+> 
+Could you summarize the license changes in the long log:
+
+License changes due to:
+   * Update redirected and upstream url.
+   * Added the Wayback Machine url for missing link.
+
+
+so people don't have to switch out of a terminal for example.
+Also, will github ever really go away, who knows! :)
+
+../Randy
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/reci=
-pes-multimedia/alsa/alsa-utils_1.1.5.bb
-> index f2231f34f0..33215bf159 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-> @@ -16,7 +16,7 @@ PACKAGECONFIG ??=3D "udev"
->  # or no alsabat at all.
->  PACKAGECONFIG[bat] =3D "--enable-bat,--disable-bat,fftwf"
->=20
-> -PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
-=3Dudevdir udev`/rules.d,,udev"
-> +PACKAGECONFIG[udev] =3D "--with-udev-rules-dir=3D`pkg-config --variable=
-=3Dudevdir udev`/rules.d,--with-udev-rules-dir=3D/unwanted/rules.d,udev"
->  PACKAGECONFIG[manpages] =3D "--enable-xmlto, --disable-xmlto, xmlto-nati=
-ve docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->=20
->  SRC_URI =3D "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-
-> ${PV}.tar.bz2 \
-> @@ -101,9 +101,8 @@ do_install() {
->  	rm ${D}${sbindir}/alsa-info.sh
->  	rm -f ${D}${sbindir}/alsabat-test.sh
->=20
-> -	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; =
-then
-> -		# This is where alsa-utils will install its rules if we don't tell it =
-anything else.
-> -		rm -rf ${D}${nonarch_base_libdir}/udev
-> -		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
-> -	fi
-> +	# If udev is disabled, we told configure to install the rules
-> +	# in /unwanted, so we can remove them now. If udev is enabled,
-> +	# then /unwanted won't exist and this will have no effect.
-> +	rm -rf ${D}/unwanted
->  }
-> --
-> 2.11.0
+>   meta/recipes-devtools/ruby/ruby.inc                   | 11 +++++------
+>   .../ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb}             |  4 ++--
+>   2 files changed, 7 insertions(+), 8 deletions(-)
+>   rename meta/recipes-devtools/ruby/{ruby_2.5.0.bb => ruby_2.5.1.bb} (90%)
+> 
+> diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+> index fd3911ba75..a366e93f66 100644
+> --- a/meta/recipes-devtools/ruby/ruby.inc
+> +++ b/meta/recipes-devtools/ruby/ruby.inc
+> @@ -7,12 +7,11 @@ It is simple, straight-forward, and extensible. \
+>   HOMEPAGE = "http://www.ruby-lang.org/"
+>   SECTION = "devel/ruby"
+>   LICENSE = "Ruby | BSD | GPLv2"
+> -LIC_FILES_CHKSUM = "\
+> -    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
+> -    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
+> -    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+> -    file://LEGAL;md5=8f871f3f03732c018a5fa9b185958231 \
+> -"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
+> +                    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5 \
+> +                    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> +                    file://LEGAL;md5=23a79bb4c1a40f6cc9bcb6f4e7c39799 \
+> +                    "
+>   
+>   DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline"
+>   DEPENDS_class-native = "openssl-native libyaml-native"
+> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.0.bb b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
+> similarity index 90%
+> rename from meta/recipes-devtools/ruby/ruby_2.5.0.bb
+> rename to meta/recipes-devtools/ruby/ruby_2.5.1.bb
+> index 1ac7f2aa5a..91048284c1 100644
+> --- a/meta/recipes-devtools/ruby/ruby_2.5.0.bb
+> +++ b/meta/recipes-devtools/ruby/ruby_2.5.1.bb
+> @@ -5,8 +5,8 @@ SRC_URI += " \
+>              file://ruby-CVE-2017-9228.patch \
+>              "
+>   
+> -SRC_URI[md5sum] = "f4711f856fe14de222b9da3d3b8efa89"
+> -SRC_URI[sha256sum] = "46e6f3630f1888eb653b15fa811d77b5b1df6fd7a3af436b343cfe4f4503f2ab"
+> +SRC_URI[md5sum] = "23867bc8c16c55e43b14dfe0614bcfa8"
+> +SRC_URI[sha256sum] = "dac81822325b79c3ba9532b048c2123357d3310b2b40024202f360251d9829b1"
+>   
+>   # it's unknown to configure script, but then passed to extconf.rb
+>   # maybe it's not really needed as we're hardcoding the result with
+> 
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-//Peter
-
+-- 
+# Randy MacLeod
+# Wind River Linux
 
