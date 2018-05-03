@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 10DFD7482C;
-	Thu,  3 May 2018 09:35:23 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Date: Thu, 03 May 2018 09:35:24 -0000
-Message-ID: <20180503093524.4208.45447@do.openembedded.org>
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E8977482C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 May 2018 09:37:57 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 May 2018 02:37:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,358,1520924400"; d="scan'208";a="52852468"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 03 May 2018 02:37:57 -0700
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
 References: <20180503090918.20964-1-hongl.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180503090918.20964-1-hongl.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZmxleDogdXBkYXRlIHRvIDIuNi40Lg==?=
+	<20180503090918.20964-2-hongl.fnst@cn.fujitsu.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <928b0405-b383-cd27-571e-8fc72b41d6b7@linux.intel.com>
+Date: Thu, 3 May 2018 12:32:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <20180503090918.20964-2-hongl.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] btrfs-tools: Update to 4.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 09:35:23 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 03 May 2018 09:37:58 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 05/03/2018 12:09 PM, Hong Liu wrote:
+> -DEPENDS = "util-linux attr e2fsprogs lzo acl"
+> +DEPENDS = "util-linux attr e2fsprogs lzo acl python3"
+> +EXTRA_OECONF = "--disable-zstd --disable-python"
+> +INSANE_SKIP_${PN} = "ldflags"
 
-Series: flex: update to 2.6.4.
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11974/
-State : failure
+You need to explain all of these changes in the commit message. 
+Particularly the combination of adding a python dependency and then 
+passing --disable-python looks odd.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Patches not removed from tree [test_src_uri_left_files] 
-  Suggested fix    Amend the patch containing the software patch file removal
-  Patch            do_not_create_pdf_doc.patch
-  Patch            0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
-  Patch            CVE-2016-6354.patch
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Alex
 
 
