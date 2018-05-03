@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E0AD160068;
-	Thu,  3 May 2018 07:40:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Date: Thu, 03 May 2018 07:40:23 -0000
-Message-ID: <20180503074023.4207.54169@do.openembedded.org>
-References: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2F5bGFuZDoxLjE0LjAtPjEuMTUuMCAocmV2NCk=?=
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EB4F1745F3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 May 2018 08:18:03 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 May 2018 01:18:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,357,1520924400"; d="scan'208";a="55612697"
+Received: from anmitta2-mobl1.png.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.22.40])
+	by orsmga002.jf.intel.com with ESMTP; 03 May 2018 01:18:03 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 May 2018 16:17:47 +0800
+Message-Id: <20180503081758.4661-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH 01/12] gstreamer1.0: upgrade 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 07:40:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 May 2018 08:18:04 -0000
 
-== Series Details ==
+* For changes, please see: https://gstreamer.freedesktop.org/releases/1.14/
+* Merge inc and bb file since we only have one version now.
 
-Series: wayland:1.14.0->1.15.0 (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/11971/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Patches not removed from tree [test_src_uri_left_files] 
-  Suggested fix    Amend the patch containing the software patch file removal
-  Patch            0001-Make-whitespace-use-consistent.patch
-  Patch            0002-print-is-a-function-and-needs-parentheses.patch
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb   | 14 --------------
+ .../gstreamer/{gstreamer1.0.inc => gstreamer1.0_1.14.0.bb} | 12 +++++++++++-
+ 2 files changed, 11 insertions(+), 15 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0.inc => gstreamer1.0_1.14.0.bb} (84%)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+deleted file mode 100644
+index 01b2396513..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-require gstreamer1.0.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+-                    file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
+-
+-SRC_URI = " \
+-    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+-"
+-SRC_URI[md5sum] = "9d268f2e891cce1ac0832f1cc467d4ea"
+-SRC_URI[sha256sum] = "5a8704aa4c2eeb04da192c4a9942f94f860ac1a585de90d9f914bac26a970674"
+-
+-S = "${WORKDIR}/gstreamer-${PV}"
+-
+-CVE_PRODUCT = "gstreamer"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+similarity index 84%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+index c2df1f3258..b4398c8111 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+@@ -14,11 +14,19 @@ inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspecti
+ # (it has a custom INTROSPECTION_INIT macro, and so must be used instead of our common introspection.m4 file)
+ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+ 
+-SRC_URI_append = " \
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
++                    file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
++
++S = "${WORKDIR}/gstreamer-${PV}"
++
++SRC_URI = " \
++    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+     file://gtk-doc-tweaks.patch \
+     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+ "
++SRC_URI[md5sum] = "63c7cbfb86aa28c4522e374dc5555b96"
++SRC_URI[sha256sum] = "fc361367f0d4b780a868a8833f9f30b9c9f4ac9faea4e6b251db8b4b0398466e"
+ 
+ PACKAGECONFIG ??= ""
+ 
+@@ -59,3 +67,5 @@ do_configure[prefuncs] += "delete_pkg_m4_file"
+ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"
+ }
++
++CVE_PRODUCT = "gstreamer"
+-- 
+2.14.1
 
 
