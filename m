@@ -1,48 +1,44 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AD8AB745D4
+Return-Path: <mgloff@emacinc.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id AA7CC607AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 May 2018 22:12:56 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id 77-v6so18434451otd.4
+	Thu,  3 May 2018 01:20:52 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id a202so12788627qkg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2018 15:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=FJ27gtMNPFr4NrYY211XXg1vwcyPHJHUlTs5/WaUX4g=;
-	b=kr0s/zOo2izd/OzzXkS3J7y2mszUzaXWSNtcP6+aj56BE/rZWCs8Jd3zpWvAKMGAmY
-	gWGXzbsmuoAtdBHULGdQ4NK9/zf7jQkB4zxciVGqu5rmlkyFgocbOV7oDSfWQ/g4Ohrc
-	q0Re0MC5skvFzAr1XdHSGpNS0jE5uVzFNoGTLeRUXE2tGk0686EMG6tBeCRpRdn1yJJN
-	6+1tnlIEXriu8ANXp6OT5x3kKTFzGnHh3lMURQT5YsvJ5RAStZ91TM4SGcDt74ZdF6jr
-	4c07hvDOf+tEBlgd3TKwyyAYoiM0rSmXZsJT6xsXYfZoQSFjJfpTp0xfPhX8cky996lk
-	i1Ww==
+	Wed, 02 May 2018 18:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=emacinc-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=tart3eFN0WJ7cSgLtU8GAYen0dmRlsL99w2oZvk7Ps8=;
+	b=xy1+saRbsaR0dLFi98GXVMf/HSgHDQ2smSwkH0obiUMZMygV66992Nl98NVW1YuUJL
+	pXPdeaorJMhZmM5iUolbOxYc0CNdkXM2o11fIb5C4TY2MbUqjZMzmv+R8Cg7CjbzWYUz
+	e+TD0eVGz6TXLMnqxbPtuGnufeRJPfORukGiCDHNEApt5cC5U4YSAiraGz5i+BZaw6yu
+	nWdaNu2vm5KC5I6K8xOUjXseSXNnY7T7YTwgX/wvUAfqz4MpxMHAhmz0WA32uG6Iy1Qj
+	21es3SJKyWOX4YA7Abln3/NI/E+fXTh3ACl0QaGW/3owHdsWPC11hE1oWxEOGat4QI3r
+	aPYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=FJ27gtMNPFr4NrYY211XXg1vwcyPHJHUlTs5/WaUX4g=;
-	b=bmu+tEj62tQFTR8fm06No7IgdNEQAJZz3c9minsY8xWUnUnVXSH+l1ARxP4sdfc6ec
-	cfTw6CGv+RVMfyGlxOB+EevocgM7b4AkOlNKmmwc9NY3nw8roiYf/diUNTkQNKpP1XTB
-	jqw2LqNXhP3Kuq6ftPc7NWOeFR8bIZ9EvrtPZfevwzjw4gCisc//ZPzW1aEj3f4ORs22
-	qk5u7GWhQsB+PBmI5ZqjIHYeRB7Sa55KjyaRBbHzYlUSygWFTGPbtO5QQCYAUcqHJKIc
-	7X/cUjm7dlpVdqSv9ypgjBp74vlFnqUM8ZMqPTZbCOtZ/JKL56u5Z0ZI+QsvyyZgfgFe
-	OGNg==
-X-Gm-Message-State: ALQs6tDxevz/9IKWVG26Y3h6utbsXqTaIGN76QOduOtpMDOUPQWENVxg
-	JRny1pjWKRnxi5LfbGCVmjMlEA==
-X-Google-Smtp-Source: AB8JxZrLiTZuobyKZ4Le3Vo+Ao25Q6LpdZzUEwlQwCoaVoUqYe5LzzoNlbpGMADEn9E37nVMcwiJOw==
-X-Received: by 2002:a9d:282d:: with SMTP id
-	m42-v6mr15756000otb.64.1525299177217; 
-	Wed, 02 May 2018 15:12:57 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	p3-v6sm8202716otp.2.2018.05.02.15.12.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 02 May 2018 15:12:56 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2018 15:12:49 -0700
-Message-Id: <1525299169-24240-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] subversion: misc recipe cleanup
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=tart3eFN0WJ7cSgLtU8GAYen0dmRlsL99w2oZvk7Ps8=;
+	b=Xr341cqGDcRySjFEOOmhf8Ictw6/FrFk2CmCgkqJMRuPLCVxt34rUa4TiU8IoULdIb
+	jJx8sZAV3dewPgYiFBwvxQNV5VWmGJjw4kEy+xaY/ltlvxQT4rCyL2bMytTTj8ORTExS
+	Hws5T/DpvXvTlZBx17Vb6CsE571rZJUHSm6o+fMIeEyuyAPd48rZK6b5frq5TJvO5Erg
+	SsROmFSljDS769pso6kf7d1K3wIPoacWUt0/df9BeWwzrksXen4i0Sm857yggixrq1tF
+	IjGpqUjpQrI2v5RBJ5xK5wphq/FlN7J+3md8q4QOISrJxy0FDWzG0G+67qDP8Pi0+GPV
+	+4YA==
+X-Gm-Message-State: ALQs6tC6nYa7fVEOw2ASzF9Qgxm+/HMOfVbzY8dMzLwDMDJCb0wXa7Ug
+	QZSaA5WAuvXVMsWSFN44+Pqr6PO0f083QGev+5LSpxVL
+X-Google-Smtp-Source: AB8JxZrRFNsR3KgXhEs0hfD85WXCbCmP4v6R860NGcpSiHo56O+lNHalXnIzK+gAkj301If6xAnovHzMLBGZrxJWpNQ=
+X-Received: by 10.233.230.10 with SMTP id z10mr17561284qkf.365.1525310452771; 
+	Wed, 02 May 2018 18:20:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.200.47.113 with HTTP; Wed, 2 May 2018 18:20:12 -0700 (PDT)
+From: Michael Gloff <mgloff@emacinc.com>
+Date: Wed, 2 May 2018 20:20:12 -0500
+Message-ID: <CALXw4G79a_yJvV1GrMxVEiVRs0b_RU324yGDy+wZwAV-T4Wj_w@mail.gmail.com>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Busybox post install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,89 +51,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 22:12:57 -0000
+X-List-Received-Date: Thu, 03 May 2018 01:20:52 -0000
+Content-Type: multipart/alternative; boundary="f403043b3b2cb5bd97056b430341"
 
- - Add default value for PACKAGECONFIG
- - Combine "inherit autotools" with "inherit pkgconfig gettext"
- - Drop historical addition of -L${STAGING_LIBDIR} to LDFLAGS
- - Re-order variables according to OE styleguide
+--f403043b3b2cb5bd97056b430341
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- .../subversion/subversion_1.9.7.bb                 | 37 ++++++++++++----------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+I am seeing with the latest in Sumo/Master that the busybox post install is
+failing to create all of the applet symlinks if there is already a package
+installed from another provider during do_rootfs. This can be seen, for
+example, when enabling lsattr applet and having e2fsprogs installed into an
+image.
 
-diff --git a/meta/recipes-devtools/subversion/subversion_1.9.7.bb b/meta/recipes-devtools/subversion/subversion_1.9.7.bb
-index 57735f7..da9de9d 100644
---- a/meta/recipes-devtools/subversion/subversion_1.9.7.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.9.7.bb
-@@ -1,14 +1,11 @@
- SUMMARY = "Subversion (svn) version control system client"
-+HOMEPAGE = "http://subversion.tigris.org"
- SECTION = "console/network"
--DEPENDS = "apr-util serf sqlite3 file"
--DEPENDS_append_class-native = " file-replacement-native"
--RDEPENDS_${PN} = "serf"
- LICENSE = "Apache-2"
--HOMEPAGE = "http://subversion.tigris.org"
--
--BBCLASSEXTEND = "native"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=af81ae49ba359e70626c05e9bf313709"
- 
--inherit gettext pkgconfig
-+DEPENDS = "apr-util serf sqlite3 file"
-+DEPENDS_append_class-native = " file-replacement-native"
- 
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-@@ -20,26 +17,28 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "05b0c677681073920f938c1f322e0be2"
- SRC_URI[sha256sum] = "c3b118333ce12e501d509e66bb0a47bcc34d053990acab45559431ac3e491623"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=af81ae49ba359e70626c05e9bf313709"
-+inherit autotools pkgconfig gettext
-+
-+PACKAGECONFIG ?= ""
- 
- PACKAGECONFIG[sasl] = "--with-sasl,--without-sasl,cyrus-sasl"
- PACKAGECONFIG[gnome-keyring] = "--with-gnome-keyring,--without-gnome-keyring,glib-2.0 gnome-keyring"
- 
- EXTRA_OECONF = " \
--                --without-berkeley-db --without-apxs \
--                --without-swig --with-apr=${STAGING_BINDIR_CROSS} \
--                --with-apr-util=${STAGING_BINDIR_CROSS} \
--                --disable-keychain \
--                ac_cv_path_RUBY=none"
-+    --with-apr=${STAGING_BINDIR_CROSS} \
-+    --with-apr-util=${STAGING_BINDIR_CROSS} \
-+    --without-apxs \
-+    --without-berkeley-db \
-+    --without-swig \
-+    --disable-keychain \
-+    ac_cv_path_RUBY=none \
-+"
- 
--inherit autotools
-+acpaths = "-I build/ -I build/ac-macros/"
- 
--export LDFLAGS += " -L${STAGING_LIBDIR} "
- CPPFLAGS += "-P"
- BUILD_CPPFLAGS += "-P"
- 
--acpaths = "-I build/ -I build/ac-macros/"
--
- do_configure_prepend () {
- 	rm -f ${S}/libtool
- 	rm -f ${S}/build/libtool.m4 ${S}/build/ltmain.sh ${S}/build/ltoptions.m4 ${S}/build/ltsugar.m4 ${S}/build/ltversion.m4 ${S}/build/lt~obsolete.m4
-@@ -53,3 +52,7 @@ do_configure_prepend () {
- #| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-logrotate/build/build/tmp/work/x86_64-linux/subversion-native/1.8.9-r0/subversion-1.8.9/build-outputs.mk:1090: recipe for target 'install-serf-lib' failed
- #| make: *** [install-serf-lib] Error 1
- PARALLEL_MAKEINST = ""
-+
-+RDEPENDS_${PN} = "serf"
-+
-+BBCLASSEXTEND = "native"
--- 
-1.9.1
+The error is:
+update-alternatives: Error: not linking /home/developer/oe-test/build_
+master/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/lsattr
+to /usr/bin/busybox.nosuid since /home/developer/oe-test/build_
+master/tmp/work/somimx6-emac-linux-gnueabi/emac-image/1.0-r0/rootfs/usr/bin/lsattr
+exists and is not a link
 
+In Rocko and before, this error is present, but the script continues
+creating the rest of the symlinks and exits with success.
 
+Does anyone have any idea why the failure is now causing the script to stop
+executing?
+
+Michael Gloff
+mgloff@emacinc.com
+
+--f403043b3b2cb5bd97056b430341
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div><div><div>I am seeing with the latest in Su=
+mo/Master that
+ the busybox post install is failing to create all of=20
+the applet symlinks if there is already a package installed from another
+ provider during do_rootfs. This can be seen, for example, when enabling ls=
+attr applet=20
+and having e2fsprogs installed into an image.<br><br></div>The error is:<br=
+>update-alternatives: Error: not linking /home/developer/oe-test/build_<wbr=
+>master/tmp/work/somimx6-emac-l<wbr>inux-gnueabi/emac-image/1.0-r0<wbr>/roo=
+tfs/usr/bin/lsattr to /usr/bin/busybox.nosuid since /home/developer/oe-test=
+/build_<wbr>master/tmp/work/somimx6-emac-l<wbr>inux-gnueabi/emac-image/1.0-=
+r0<wbr>/rootfs/usr/bin/lsattr exists and is not a link<br><br></div>In Rock=
+o and before, this error is present, but the script continues creating the =
+rest of the symlinks and exits with success.<br><br></div>Does anyone have =
+any idea why the failure is now causing the script to stop executing?<span =
+class=3D"gmail-m_9104236682904143277HOEnZb"><font color=3D"#888888"><br><br=
+></font></span></div><span class=3D"gmail-m_9104236682904143277HOEnZb"><fon=
+t color=3D"#888888">Michael Gloff<br></font></span></div><span class=3D"gma=
+il-m_9104236682904143277HOEnZb"><font color=3D"#888888"><a href=3D"mailto:m=
+gloff@emacinc.com" target=3D"_blank">mgloff@emacinc.com</a></font></span><b=
+r></div>
+
+--f403043b3b2cb5bd97056b430341--
