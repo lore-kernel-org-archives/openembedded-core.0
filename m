@@ -1,25 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F546011F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 May 2018 06:43:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 May 2018 23:43:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,357,1520924400"; d="scan'208";a="46407088"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 May 2018 23:43:28 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 May 2018 09:37:33 +0300
-Message-Id: <20180503063733.26270-2-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20180503063733.26270-1-alexander.kanavin@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A0D747FD;
+	Thu,  3 May 2018 07:02:54 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Thu, 03 May 2018 07:02:55 -0000
+Message-ID: <20180503070255.4210.80225@do.openembedded.org>
 References: <20180503063733.26270-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/2] babeltrace: switch over to git
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180503063733.26270-1-alexander.kanavin@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImlmdXBkb3duOiBjb3JyZWN0IHRoZSByZXBvc2l0by4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 06:43:28 -0000
+X-List-Received-Date: Thu, 03 May 2018 07:02:54 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Tarball directory is gone.
+== Series Details ==
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Series: "ifupdown: correct the reposito..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/11970/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1b03cdf290)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-kernel/lttng/babeltrace_1.5.5.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
-index 92d86b92e8b..5d7a7efd2f5 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
-@@ -10,10 +10,10 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
- 
- inherit autotools pkgconfig
- 
--SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
-+SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5 \
- "
- 
- EXTRA_OECONF = "--disable-debug-info"
- 
--SRC_URI[md5sum] = "7decafd46093e4e47c14e7307d498986"
--SRC_URI[sha256sum] = "409146789b4a6b81f6a275fcad932a030743d444f6de5bd4a34aaf17aa72e8ac"
-+S = "${WORKDIR}/git"
-+SRCREV = "d68a4daf85c73ab7d7070de0c98d0c170af4758e"
--- 
-2.16.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
