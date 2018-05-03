@@ -1,43 +1,48 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D9B6AC00
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C89674AE6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 May 2018 23:04:38 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40cW1g0wPJz1qtdd;
-	Fri,  4 May 2018 01:04:39 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40cW1g0WBZz1qqkv;
-	Fri,  4 May 2018 01:04:39 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id cfrTR-T1Dov0; Fri,  4 May 2018 01:04:38 +0200 (CEST)
-X-Auth-Info: 8BhkGHe6evw9M1FoMF5kebfCkLW/Q2TMOrjxSs6XJYw=
-Received: from [IPv6:::1] (unknown [195.140.253.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri,  4 May 2018 01:04:37 +0200 (CEST)
-To: Stefano Babic <sbabic@denx.de>, Lukasz Majewski <lukma@denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-References: <20180427145139.30732-1-lukma@denx.de>
-	<fe2ffe1d-6695-f0bd-dc6c-d5345bcfbc3f@denx.de>
-	<cef99ffe-3f4e-547d-318e-a7bc60ebdb2b@denx.de>
-	<2a2d73fb-edec-f179-8693-6efb0942a979@denx.de>
-	<6135f505-9afd-3428-4275-8a5a961559cb@denx.de>
-	<5835447d-e8fb-dd1a-5d13-1561e475758f@denx.de>
-	<ebd64202-de5e-68f8-d7bc-5d47b59128f8@denx.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <bd3ec344-4221-ccea-d364-acd8c5b09681@denx.de>
-Date: Fri, 4 May 2018 01:04:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Thu,  3 May 2018 23:24:49 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id x66-v6so7797551vka.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 May 2018 16:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GDfcFw+j9kJWZGRvk4vzowRuSYDn/PR0w9aWEavk6Yk=;
+	b=Ln1vVNVdbBPYQjP6LkrqPnlcArLWKRp09SNQXp2QJ+whrBSHnaDU3lj9eydFpIiD3w
+	s5C17IQzLaJlqVZN8CIEouPHMoiR2SXun+rj2krdFQCPxuQaSxgsCiC9ojoAQyu8Shxv
+	SwdixonZtWF7dv7q8doE4qx5IF8Acuew0pugeiZFArIqleo4PbZ/4dDdB6elBSgSRUZT
+	0cykWYhH7Wgyt61AG02pUOSB9FINQUVoEvKhB9AZNg9gp1Fb42K6zB0IgTcoqt7rPAn1
+	4nqzwDeiYBm+393hL91+FdNAVelSku7B9RqtfPf12jzBEBDzXsz3Dnli1lKP+yiOjlxz
+	gYUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GDfcFw+j9kJWZGRvk4vzowRuSYDn/PR0w9aWEavk6Yk=;
+	b=ft97UIAj0c1MOL48UyU/J9BBpPBbQV44dEvYMb/3FPg16unv95H2pLC+0Abpj3kv/a
+	t7Jmj1tEhsc2fgPu6kwhib5orbArloJJFfiZWRusNh4NIvLsI5q7Hj/x0NXcqVip4pE0
+	zYovhAKQPTtFqEiUcDcb0p15vy0UbReq1OyrTn2aJhIb6CM7p83Yi5DCRxF+GFURKA6O
+	mzg2Lu/o3ryeFY7oGQByUO5FoG5BR5QrKFJPB+6wx12n/U4ZoQZi2T8KV5J9j7yUW9kl
+	A75ywuIe4H92o2mVVfgH/UxnBmDJNCfNvWTipz9Mn720KsdXQL5md1i/PiZWFTAycV92
+	zSgA==
+X-Gm-Message-State: ALQs6tCb2oaxTBjyeWykgwCNMu7FCoe5rSPlmNH9I0Za7vhUdjlG34SC
+	rDoHkp+a/DdmZexO8iRjPioSRFl1OtTYmi+IItM=
+X-Google-Smtp-Source: AB8JxZoEVo9JF/cEwMZwRrkEk8Hp4YL+a6EiEYb5WKmoYca19oF2RsOamcM/xQbzMJvdTVBclLRMzfj4bgBe02cWTG4=
+X-Received: by 2002:a1f:1551:: with SMTP id
+	78-v6mr9890329vkv.174.1525389890542; 
+	Thu, 03 May 2018 16:24:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ebd64202-de5e-68f8-d7bc-5d47b59128f8@denx.de>
-Cc: Tom Rini <trini@konsulko.com>, Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
+Received: by 10.176.48.148 with HTTP; Thu, 3 May 2018 16:24:50 -0700 (PDT)
+In-Reply-To: <20180416193251.17223-1-mark.hatle@windriver.com>
+References: <20180416193251.17223-1-mark.hatle@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 3 May 2018 16:24:50 -0700
+Message-ID: <CAJ86T=UO-ZaEOdAqGu_yUMir4eqd4dFjFDcPEZ_4cmkJT8sdbQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>, akuster808 <akuster808@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [pyro][PATCH] package.bbclass: Add '-b' option to file call in isELF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,85 +55,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 23:04:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 May 2018 23:24:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 05/03/2018 10:58 PM, Stefano Babic wrote:
-> Hi Marek,
-> 
-> On 03/05/2018 18:59, Marek Vasut wrote:
->> On 05/03/2018 06:50 PM, Stefano Babic wrote:
->>> On 03/05/2018 18:36, Marek Vasut wrote:
->>>> On 05/03/2018 06:28 PM, Stefano Babic wrote:
->>>>> On 27/04/2018 17:07, Marek Vasut wrote:
->>>>>> On 04/27/2018 04:51 PM, Lukasz Majewski wrote:
->>>>>>> This commit provides the ability to generate u-boot environment(s) as
->>>>>>> images, which afterwards can be used to produce image (with wic) for
->>>>>>> flashing (eMMC or SPI-NOR).
->>>>>>>
->>>>>>> This change removes the need to run "env default" during production phase,
->>>>>>> as proper environment (including redundant one) is already stored on
->>>>>>> persistent memory (the CRC is also correct).
->>>>>>>
->>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>
->>>>>>
->>>>>> If your default env is correct, why do you need this ? I can see some
->>>>>> use with non-default env, but then that can be wrapped into a separate
->>>>>> recipe.
->>>>>>
->>>>>
->>>>> A use case is when the environment must be changed from user space.
->>>>> fw_setenv will report the CRC error and it needs the default environment
->>>>> to add changes. The default environment is linked together to fw_setenv,
->>>>> but this prohibites to use fw_setenv for multiple boards and must be
->>>>> explicitely built for that machine and with the same sources as u-boot
->>>>> (at least, they must share the same CONFIG_EXTRA_ENV). If the default
->>>>> environment is extracted, we could have a general (distro ?) fw_setenv.
->>>>
->>>> I think in that case, the real solution is to either build fw_setenv per
->>>> machine 
->>>
->>> This is how we try to do now, fw_setenv is built per machine but it is
->>> enough that u-boot-fw-utils is built in a different version as u-boot to
->>> get a mess.
->>
->> Well yes, if you mix and match packages, it becomes a mess. Isn't that
->> to be expected ?
->>
-> 
-> Well, quite. But in the specific case, it is weird that the environment
-> tools are built by a separate recipe. u-boot-fw-utils generates binaries
-> from the same sources as u-boot (or it should), and building the tool
-> per machine means for me to have a single recipe for it, that generates
-> as additional package the env tools. This guarantees that they are
-> always in sync.
+On Mon, Apr 16, 2018 at 12:32 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> The isELF function works by running:
+>
+>    result = file <pathname>
+>    if 'ELF' in result
+>
+> By default 'file' will prepend the result with the path name of the file
+> that is being checked.  This usually works fine, such as:
+>
+> $ file /home/foo/openembedded-core/meta/classes/package.bbclass
+> /home/foo/openembedded-core/meta/classes/package.bbclass: Python script, ASCII text executable, with very long lines
+>
+> However, if the path includes 'ELF', ELF will end up in the result, and then
+> the check will return positive.
+>
+> $ file /home/ELF/openembedded-core/meta/classes/package.bbclass
+> /home/ELF/openembedded-core/meta/classes/package.bbclass: Python script, ASCII text executable, with very long lines
+>
+> This will then result in the isELF coming back true, and possibly causing the
+> checks that use isELF, such as the 'is it already stripped' check, to do the
+> incorrect thing.
+>
+> Adding the '-b' option to file will result in the path being omitted in the
+> result:
+>
+> $ file /home/ELF/openembedded-core/meta/classes/package.bbclass
+> Python script, ASCII text executable, with very long lines
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/classes/package.bbclass | 2 +-
+>  meta/classes/staging.bbclass | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index a03c05b9f7..0844fd5065 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -898,7 +898,7 @@ python split_and_strip_files () {
+>      # 16 - kernel module
+>      def isELF(path):
+>          type = 0
+> -        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+> +        ret, result = oe.utils.getstatusoutput("file -b '%s'" % path.replace("\"", "\\\""))
 
-Patches welcome ? :)
+Sorry this feedback is a little late, but now the change has landed in
+rocko I noticed that the backports for this patch appear to be wrong.
 
->>>> OR fix fw_setenv to take env defaults from a file or somesuch ?
->>>
-> 
-> Having a separate recipe as now means for me to try to have the tools
-> not per machine, and then makes sense to pass as input the default
-> environment to the tools.
+Either the path passed to file should be quoted using double quotes
+with any " chars in the path being escaped (ie the original code) or
+the path should be quoted using single quotes and then any " chars in
+the path should NOT be escaped (ie the version now in master - which
+also handles paths containing special characters such as $ etc).
 
-Cfr the conclusion (?) we reached with Lukasz I think ?
+The best approach for rocko and pyro would probably be (err... have
+been) to cherry pick from master in the following order:
 
->>> Right, I interprete this patch as a step in this direction. This patch
->>> generates a default that can be used as input for fw_setenv.
->>
->> It generates environment images which can be written -- on certain
->> specific setups -- into the flash. It doesn't generate any sort of input
->> for the fw_setenv to my knowledge ?
-> 
-> Not the current patch - we are discussing how it could evolve ;-)
+  http://git.openembedded.org/openembedded-core/commit/?id=7877761534b0c2492da6289e9f2269d41b6ed464
+  http://git.openembedded.org/openembedded-core/commit/?id=5a324e9b2cf6378f8eaa4e394f9cb36d4e2680ac
+  http://git.openembedded.org/openembedded-core/commit/?id=ab056c7f6065f310be4dd256ceb45f85ff981f69
 
-Ah, I wonder if we shouldn't start a new thread for this and crosspost
-it to the U-Boot ML too then ?
-
--- 
-Best regards,
-Marek Vasut
+>
+>          if ret:
+>              msg = "split_and_strip_files: 'file %s' failed" % path
+> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+> index 984051d6aa..bff04373dc 100644
+> --- a/meta/classes/staging.bbclass
+> +++ b/meta/classes/staging.bbclass
+> @@ -84,7 +84,7 @@ python sysroot_strip () {
+>      # 16 - kernel module
+>      def isELF(path):
+>          type = 0
+> -        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+> +        ret, result = oe.utils.getstatusoutput("file -b \"%s\"" % path.replace("\"", "\\\""))
+>
+>          if ret:
+>              bb.error("split_and_strip_files: 'file %s' failed" % path)
+> --
+> 2.16.0.rc2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
