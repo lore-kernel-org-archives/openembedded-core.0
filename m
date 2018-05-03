@@ -1,49 +1,43 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EB46749AF
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 6569974A0C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 May 2018 18:46:13 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id g12-v6so27454286lfb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 May 2018 11:46:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=XdkoQeNA92VmGRO1gZaTQlq/Dtse0hPHZeSXR0sw+vU=;
-	b=fD8E7i8WjyUR8yRZpOc3ZdCDMeqzxe7M132TVwCeGa2sIaJ9SdcZ41ituMEW6uqKhM
-	775/ew+de52Br04TaUeSmDmBg0B7aIutRJiCb+CF7mOhx+6dDR7VR6j1GjZqs2RtHleY
-	pYRwoibRkmlnCIG6UwzKCXZkyB851ZSC45WSwjtqapBKdI4drf8H+cA4X09FeZ0XFRId
-	T4VPSJUcpsNwrJftEsDR5g8ZPLWCjE/Omvf1fj9wNvQ94D/34SWy/i3uY78I5tK1BD4c
-	vyF+t/8s0ZfkUZYyS/B1XzX7LURCYEjl0H6+XxSR6hGvVSpEuihqiBgU4VRGEQk03CoH
-	gjMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XdkoQeNA92VmGRO1gZaTQlq/Dtse0hPHZeSXR0sw+vU=;
-	b=oLcH4Z2ud+WdH0NNNVufH/jV/h53df5kjqtjNdcSlrWNr0S/QzkUK7Cs8SqtqcTgv0
-	O9PQ1fyieqYtf7dVgZUehBVYB3PW1DqDqs9WPxZlBNXBNvJq2CWenaD98Pij2nceQ/At
-	Qm1sKW9693STEOLPiCcqEyR57kEvgKTcIcWxPZW3LUdc9j9cC9fpw4o5f1RvKv4/09Rf
-	yJkD6TibT78HoSSyKb1LHHPpoPsH3AJj4JVGzpq/8aGyTf3NUFG7zDP4vyc1Qul1wfav
-	+QjS5akxiy7fjGYIzA4vOALzevUMTZJPdHgfO3eetlKeex3J1llviH/NkphgbbP7CGYd
-	Ly0w==
-X-Gm-Message-State: ALQs6tC3kAWAYwKxK6mEZizrZ+N01pPxVWZK5gsioEBd1pGOXyh4Aa4I
-	qSGiLqS4uS1zCu1+W10g6w80HQ==
-X-Google-Smtp-Source: AB8JxZpY+nzeVbEHJRm9cAUKSfuBLkWJI9pHW3DYkZS+RpTxmcg4C0QGNWeCg900IcBXvkF3A0+oaw==
-X-Received: by 2002:a19:1462:: with SMTP id
-	k95-v6mr15902983lfi.23.1525373174250; 
-	Thu, 03 May 2018 11:46:14 -0700 (PDT)
-Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
-	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
-	f16-v6sm2946611lfh.94.2018.05.03.11.46.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 May 2018 11:46:13 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 May 2018 20:46:10 +0200
-Message-Id: <1525373170-20985-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] core-image-*-initramfs: drop export of IMAGE_BASENAME
+	Thu,  3 May 2018 19:02:51 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 40cPfh2D0nz1qw0G;
+	Thu,  3 May 2018 21:02:52 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 40cPfh1smzz1qrg2;
+	Thu,  3 May 2018 21:02:52 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id cG4aolJWkRMc; Thu,  3 May 2018 21:02:51 +0200 (CEST)
+X-Auth-Info: Uwhje/IDP5tIzMvEmbm8lnoQVo9pXpmV9RydKaomPA4=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Thu,  3 May 2018 21:02:51 +0200 (CEST)
+To: Lukasz Majewski <lukma@denx.de>, Stefano Babic <sbabic@denx.de>
+References: <20180427145139.30732-1-lukma@denx.de>
+	<fe2ffe1d-6695-f0bd-dc6c-d5345bcfbc3f@denx.de>
+	<cef99ffe-3f4e-547d-318e-a7bc60ebdb2b@denx.de>
+	<2a2d73fb-edec-f179-8693-6efb0942a979@denx.de>
+	<6135f505-9afd-3428-4275-8a5a961559cb@denx.de>
+	<5835447d-e8fb-dd1a-5d13-1561e475758f@denx.de>
+	<20180503201515.5d205adb@jawa>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <0266546b-7978-59db-14dc-4cea87b87e74@denx.de>
+Date: Thu, 3 May 2018 21:02:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180503201515.5d205adb@jawa>
+Cc: Tom Rini <trini@konsulko.com>, Stefan Agner <stefan.agner@toradex.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Add {gen|deploy}_default_envs tasks to generate environment images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,60 +50,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 18:46:14 -0000
+X-List-Received-Date: Thu, 03 May 2018 19:02:52 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On 05/03/2018 08:15 PM, Lukasz Majewski wrote:
+> Hi Marek, Stefano,
+> 
+>> On 05/03/2018 06:50 PM, Stefano Babic wrote:
+>>> On 03/05/2018 18:36, Marek Vasut wrote:  
+>>>> On 05/03/2018 06:28 PM, Stefano Babic wrote:  
+>>>>> On 27/04/2018 17:07, Marek Vasut wrote:  
+>>>>>> On 04/27/2018 04:51 PM, Lukasz Majewski wrote:  
+>>>>>>> This commit provides the ability to generate u-boot
+>>>>>>> environment(s) as images, which afterwards can be used to
+>>>>>>> produce image (with wic) for flashing (eMMC or SPI-NOR).
+>>>>>>>
+>>>>>>> This change removes the need to run "env default" during
+>>>>>>> production phase, as proper environment (including redundant
+>>>>>>> one) is already stored on persistent memory (the CRC is also
+>>>>>>> correct).
+>>>>>>>
+>>>>>>> Signed-off-by: Lukasz Majewski <lukma@denx.de>  
+>>>>>>
+>>>>>> If your default env is correct, why do you need this ? I can see
+>>>>>> some use with non-default env, but then that can be wrapped into
+>>>>>> a separate recipe.
+>>>>>>  
+>>>>>
+>>>>> A use case is when the environment must be changed from user
+>>>>> space. fw_setenv will report the CRC error and it needs the
+>>>>> default environment to add changes. The default environment is
+>>>>> linked together to fw_setenv, but this prohibites to use
+>>>>> fw_setenv for multiple boards and must be explicitely built for
+>>>>> that machine and with the same sources as u-boot (at least, they
+>>>>> must share the same CONFIG_EXTRA_ENV). If the default environment
+>>>>> is extracted, we could have a general (distro ?) fw_setenv.  
+>>>>
+>>>> I think in that case, the real solution is to either build
+>>>> fw_setenv per machine   
+>>>
+>>> This is how we try to do now, fw_setenv is built per machine but it
+>>> is enough that u-boot-fw-utils is built in a different version as
+>>> u-boot to get a mess.  
+>>
+>> Well yes, if you mix and match packages, it becomes a mess. Isn't that
+>> to be expected ?
+>>
+>>>> OR fix fw_setenv to take env defaults from a file or somesuch ?  
+>>>
+>>> Right, I interprete this patch as a step in this direction. This
+>>> patch generates a default that can be used as input for fw_setenv.  
+>>
+>> It generates environment images which can be written -- on certain
+>> specific setups -- into the flash. It doesn't generate any sort of
+>> input for the fw_setenv to my knowledge ?
+>>
+> 
+> I think that it would be great if:
+> 
+> 1. We would have this code as a separate recipe - as suggested by Marek
+> and Stefano already. This recipe would end up as a package to be
+> installed on the rootfs
+> 
+> 2. As input I would use default_envs.txt (or any other name) - either
+> extracted from u-boot build or provided from external file
+> 
+> 3. For now I do use mkenvimage -> and I do have env image [*] to be
+> flashed on the board.
 
-I can not see there is any need for exporting them, simply drop the
-latency code.
+Sounds about good. I think this approach fails with NAND, so be careful
+there.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb        | 2 --
- meta/recipes-core/images/core-image-tiny-initramfs.bb           | 2 --
- meta/recipes-extended/images/core-image-testmaster-initramfs.bb | 2 --
- 3 files changed, 6 deletions(-)
+> However, I do wonder if for the default fw_setenv envs we could:
+> 
+> - modify fw_setenv to read (and store) [*] when no correct default env
+>   is available
+Or add some build-time option to build it with blank default env. Then
+you can apply your file-based approach, the setenv would be
+board-agnostic and it should do I guess ?
 
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 6de860e..4806b78 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -15,8 +15,6 @@ PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
--
--export IMAGE_BASENAME = "${MLPREFIX}core-image-minimal-initramfs"
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-index 51d08a0..917b453 100644
---- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-@@ -9,8 +9,6 @@ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VI
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
--
--export IMAGE_BASENAME = "core-image-tiny-initramfs"
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
-diff --git a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-index 09a6d16..13242e6 100644
---- a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-+++ b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-@@ -6,8 +6,6 @@ PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install-testfs initramfs-l
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
--
--export IMAGE_BASENAME = "core-image-testmaster-initramfs"
- IMAGE_LINGUAS = ""
- 
- LICENSE = "MIT"
 -- 
-2.7.4
-
+Best regards,
+Marek Vasut
 
