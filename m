@@ -1,50 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB8B74A05
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B6048749A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 May 2018 14:38:28 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id z4-v6so21917321iof.5
+	Thu,  3 May 2018 15:27:06 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id j11-v6so13384674pgf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 May 2018 07:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eraudFWwav/dBjdGoEUmc6J03JPC6JVbLfeXbhvz+F0=;
-	b=EVczqYP1jb7zGLdyegnS+k5hJSB7wZx4v3YyNZ7WT73rppvOKFeq6Ts4oJvxfzHUdt
-	KW2QlLvQzM9SCV52At5QW9AEHQkwbNkOanHO8PrbT9ST1cgTqDDYQGZpHzeQ9FQQCMpR
-	GqIZeJNt7qz6ySieusyljceEKedz+Loyao7kkr3ObyKLb82wWezE2VEaridofEYBjeF4
-	eFyX6fbZCK1OLh0WEtS/ORLQlLBITjB01s0Yo+J0soOrX5aSwEPnZss+gAS/wUil/mHg
-	vizFSQPUJkUbwwjGFaBUD8uBAGA77/3liHFwwhKpsk7lSZJJK7+7N36zvYWbDw5+Rs+6
-	6BFw==
+	Thu, 03 May 2018 08:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=LUB9Fzdy6S+xaou0fmwv9Jcr43JzPn8Z+wVMlq+5p44=;
+	b=KEt5ZlE7w70IF+NOHJx7RIo2itLxFaU5XELy/1yEXYJZKKaXer2okDhM/o5PPadrwn
+	9HkHNQMmIbhjAn6L/WzBxlgQ6WNzy7khtv/SM3rGyzCl5jg16ID1lVw21F1GeUn44IWf
+	R+r8S4Gm8IDl2f7KPcy7MYHLQq4Pem9nlVp75n4nGHHtZeMmcupWpC6hQTrPDpYtsERg
+	C0YWPiv1rYdgbZ6fVhHVXA/qAncrzHarsd4BZdR4kPzxt/eFjQ6jbihqeWea/XKSptSn
+	Fymfc1XPQ4PMkW+isjGr0AeCoFzoFXd3l85AcWVwbxe/f/QpcS+PXKp+Nl5i77QJHSck
+	hu1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eraudFWwav/dBjdGoEUmc6J03JPC6JVbLfeXbhvz+F0=;
-	b=b8AsS4ECxw/2HmAXcqwwpZ3WiVl8AikxcZzeiVT+x+EKvYO4+8zXwXoi82EdXUrB9f
-	RAPXuETqFahjeg23XtfRU3222/hnXWG165i9l8xw1Y5avswgQgcxJvBQAsoGMwTTjybW
-	hIrDyyZzP+UumYWAcudftfHCbNaCiCUbsTPOrnT/BqRRBG9VqLPkjWfTGZQ2becBxdfl
-	WSyY/di2En8kvTepbkE1lcyZjYctjjIlcemLzHWe2EzJKalptYF2YUmm0M2QPJ6D5f4v
-	Me9h9/KDVyl00n1KAJm/xNVHvehZrdd7XdI1jG2mdNQxXvVrZ4C6UIcx55vZnuLmub5h
-	U3IA==
-X-Gm-Message-State: ALQs6tChpvnypiP+qeZMYUzRaTfs3EoS5wXUWKp4K3uscrh3bfrqD1Md
-	Ek2FDTHvzrtkWiZBh0dQWRt2nIH2fCUoWBlsmx+fpw==
-X-Google-Smtp-Source: AB8JxZq6iFvDk02P+0Ed1Z2KomQhPFCRCVHwZmR+QbmZ394Pypr2CdfUeWmVClIIfPFI26ONeLIsSNaY/jqSjryKM3Q=
-X-Received: by 2002:a6b:752:: with SMTP id
-	79-v6mr26106166ioh.216.1525358310016; 
-	Thu, 03 May 2018 07:38:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.29.203 with HTTP; Thu, 3 May 2018 07:38:09 -0700 (PDT)
-In-Reply-To: <a1456696a2f7a5f2dcafb9c12c725d05ee38380d.1525337490.git.Qi.Chen@windriver.com>
-References: <cover.1525337490.git.Qi.Chen@windriver.com>
-	<a1456696a2f7a5f2dcafb9c12c725d05ee38380d.1525337490.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 May 2018 15:38:09 +0100
-Message-ID: <CAJTo0Lbb9nLZbh7w_52LQAsiTOHc7DpYwzhLtahdYyHP6XP84A@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] testsdk.bbclass: set PREMIRRORS for kernel to speed up test
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LUB9Fzdy6S+xaou0fmwv9Jcr43JzPn8Z+wVMlq+5p44=;
+	b=fR/dNbBljg1D0KrixS1X2jfa7zr7zRgvOHMzBqgmHxrlJcED2OootD5Yd462/BxNXq
+	IeGNjLd8nEdcwta1LICTgRQlFpVnIOJ4YRaH50Vuj2oQzQFDbMfiH/qj1l4krHSzcPih
+	KrRBdE2VE8I2zpk6u+2atyY/oJlo3/N27b9lNXzZQGYiOF2r2wBEDeiXUi1U1EfC3RqB
+	r4yLUP+YkmrsctUvMgyC1vuaAinyauQe1IyuaTbn9d4faPmRWB5CuxeJIJEajx7vac2a
+	VI3kq3Y0acxgfFgKYxNErCyYz8SydOjLeaaJL+ErJ+c+3QX8iMIA74XUqSCYfYaPmttH
+	XxGw==
+X-Gm-Message-State: ALQs6tC8JhToxoB6XIOw+fwJ5pH727MPUnQ79OfDCm4qvqv/TTd1P9SX
+	7Gz/Qnr0BTE4PIhnf678y0ob/g==
+X-Google-Smtp-Source: AB8JxZqnBMA3YkIOnAM9wDi6+s78A595TIucgNTCyFVDkHfJ1m6hBzPcybyQ0xS3OXkJk+48/LARvQ==
+X-Received: by 2002:a17:902:9a9:: with SMTP id
+	38-v6mr24732525pln.114.1525361227408; 
+	Thu, 03 May 2018 08:27:07 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::52a0])
+	by smtp.gmail.com with ESMTPSA id
+	5sm21396840pfx.140.2018.05.03.08.27.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 May 2018 08:27:06 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 May 2018 08:27:02 -0700
+Message-Id: <20180503152702.4684-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH V3 01/28] libssp-nonshared: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +54,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 14:38:29 -0000
-Content-Type: multipart/alternative; boundary="000000000000396b19056b4e2804"
+X-List-Received-Date: Thu, 03 May 2018 15:27:07 -0000
 
---000000000000396b19056b4e2804
-Content-Type: text/plain; charset="UTF-8"
+libssp-nonshared is a minimal gcc runtime piece which is needed
+on non-glibc systems which do implement libssp APIs in libc
 
-On 3 May 2018 at 09:52, Chen Qi <Qi.Chen@windriver.com> wrote:
+Use PIE flags to compile libssp_nonshared.a so it works with
+security flags on as well
 
-> +            f.write('PREMIRRORS_prepend = " git://git.yoctoproject.org/.*
-> git://%s/git2/git.yoctoproject.org.BASENAME;protocal=file \\n "\n' %
-> test_data.get('DL_DIR'))
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changes since v1:
+- Compile as PIC
+Changes since v2:
+- Use -fPIE instead of -fPIC, this makes it work with poky-lsb
 
-protocal?
+ meta/recipes-core/musl/libssp-nonshared.bb    | 39 ++++++++++++++++
+ .../musl/libssp-nonshared/ssp-local.c         | 45 +++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-core/musl/libssp-nonshared.bb
+ create mode 100644 meta/recipes-core/musl/libssp-nonshared/ssp-local.c
 
-We could turn on BB_GENERATE_SOURCE_MIRRORS by default.  What's the
-overhead?
+diff --git a/meta/recipes-core/musl/libssp-nonshared.bb b/meta/recipes-core/musl/libssp-nonshared.bb
+new file mode 100644
+index 0000000000..458eafef52
+--- /dev/null
++++ b/meta/recipes-core/musl/libssp-nonshared.bb
+@@ -0,0 +1,39 @@
++# Copyright (C) 2018 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "Minimal libssp_nonshared.a must needed for ssp to work with gcc on musl"
++LICENSE = "GPL-3.0-with-GCC-exception"
++LIC_FILES_CHKSUM = "file://ssp-local.c;beginline=1;endline=32;md5=c06d391208c0cfcbc541a6728ed65cc4"
++SECTION = "libs"
++
++SRC_URI = "file://ssp-local.c"
++
++PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
++STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${SDK_SYS}"
++
++DEPENDS = "virtual/${TARGET_PREFIX}binutils \
++           virtual/${TARGET_PREFIX}gcc-initial \
++"
++
++do_configure[noexec] = "1"
++
++S = "${WORKDIR}"
++
++do_compile() {
++	${CC} ${CPPFLAGS} ${CFLAGS} -fPIE -c ssp-local.c -o ssp-local.o
++	${AR} r libssp_nonshared.a ssp-local.o
++}
++do_install() {
++	install -Dm 0644 ${B}/libssp_nonshared.a ${D}${base_libdir}/libssp_nonshared.a
++}
++#
++# We will skip parsing for non-musl systems
++#
++COMPATIBLE_HOST = ".*-musl.*"
++RDEPENDS_${PN}-staticdev = ""
++RDEPENDS_${PN}-dev = ""
++RRECOMMENDS_${PN}-dbg = "${PN}-staticdev (= ${EXTENDPKGV})"
+diff --git a/meta/recipes-core/musl/libssp-nonshared/ssp-local.c b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+new file mode 100644
+index 0000000000..8f51afa2c1
+--- /dev/null
++++ b/meta/recipes-core/musl/libssp-nonshared/ssp-local.c
+@@ -0,0 +1,45 @@
++/* Stack protector support.
++   Copyright (C) 2005-2018 Free Software Foundation, Inc.
++
++This file is part of GCC.
++
++GCC is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free
++Software Foundation; either version 3, or (at your option) any later
++version.
++
++In addition to the permissions in the GNU General Public License, the
++Free Software Foundation gives you unlimited permission to link the
++compiled version of this file into combinations with other programs,
++and to distribute those combinations without any restriction coming
++from the use of this file.  (The General Public License restrictions
++do apply in other respects; for example, they cover modification of
++the file, and distribution when not linked into a combine
++executable.)
++
++GCC is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or
++FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++for more details.
++
++Under Section 7 of GPL version 3, you are granted additional
++permissions described in the GCC Runtime Library Exception, version
++3.1, as published by the Free Software Foundation.
++
++You should have received a copy of the GNU General Public License and
++a copy of the GCC Runtime Library Exception along with this program;
++see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
++<http://www.gnu.org/licenses/>.  */
++
++extern void __stack_chk_fail (void);
++
++/* Some targets can avoid loading a GP for calls to hidden functions.
++   Using this entry point may avoid the load of a GP entirely for the
++   function, making the overall code smaller.  */
++
++void
++__attribute__((visibility ("hidden")))
++__stack_chk_fail_local (void)
++{
++  __stack_chk_fail ();
++}
+-- 
+2.17.0
 
-Ross
 
---000000000000396b19056b4e2804
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 3 May 2018 at 09:52, Chen Qi <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.co=
-m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 f.write(&#39;PREMIRRORS_prepend =3D &quot; git://<a href=3D"http://g=
-it.yoctoproject.org/.*" rel=3D"noreferrer" target=3D"_blank">git.yoctoproje=
-ct.org/.*</a> git://%s/git2/git.<wbr>yoctoproject.org.BASENAME;<wbr>protoca=
-l=3Dfile \\n &quot;\n&#39; % test_data.get(&#39;DL_DIR&#39;))<br></blockquo=
-te><div><br></div><div>protocal?=C2=A0</div><div><br></div><div>We could tu=
-rn on BB_GENERATE_SOURCE_MIRRORS by default.=C2=A0 What&#39;s the overhead?=
-</div><div><br></div><div>Ross</div></div></div></div>
-
---000000000000396b19056b4e2804--
