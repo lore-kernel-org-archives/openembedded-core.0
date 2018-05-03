@@ -1,18 +1,32 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A0D747FD;
-	Thu,  3 May 2018 07:02:54 +0000 (UTC)
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 600956022F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 May 2018 07:25:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="39517230"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 03 May 2018 15:25:05 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 739564B314BC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 May 2018 15:25:06 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.122) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Thu, 3 May 2018 15:25:05 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 May 2018 15:24:57 +0800
+Message-ID: <20180503072458.19458-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
+References: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 03 May 2018 07:02:55 -0000
-Message-ID: <20180503070255.4210.80225@do.openembedded.org>
-References: <20180503063733.26270-1-alexander.kanavin@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180503063733.26270-1-alexander.kanavin@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImlmdXBkb3duOiBjb3JyZWN0IHRoZSByZXBvc2l0by4uLiIgYW5kIDEgbW9yZQ==?=
+X-Originating-IP: [10.167.226.122]
+X-yoursite-MailScanner-ID: 739564B314BC.AC1CD
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] wayland:1.14.0->1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2018 07:02:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 May 2018 07:25:06 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Upgrade wayland from 1.14.0 to 1.15.0.
 
-Series: "ifupdown: correct the reposito..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/11970/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 1b03cdf290)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} (92%)
+
+diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
+index 1a9ff98..788105b 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+@@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ 	   file://fixpathinpcfiles.patch \
+            "
+-SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
+-SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
++SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
++SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.7.4
+
+
 
 
