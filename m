@@ -1,53 +1,48 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101a.appriver.com [207.97.230.14])
-	by mail.openembedded.org (Postfix) with ESMTP id B102174C3E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 934C174B7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2018 18:21:25 +0000 (UTC)
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 05/04/2018 2:21:24 PM
-X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
-X-Note: Filtered by 10.238.11.161
-X-Note-AR-Scan: None - PIPE
-Received: by relay.appriver.com (CommuniGate Pro PIPE 6.2.1)
-	with PIPE id 373600067; Fri, 04 May 2018 14:21:24 -0400
-Received: from [213.210.30.29] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.2.1)
-	with ESMTPS id 373600011; Fri, 04 May 2018 14:21:22 -0400
-Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1fEfKd-000GNa-Ku; Fri, 04 May 2018 19:21:23 +0100
-Received: from mac by chuckie with local (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1fEfKd-00022i-K5; Fri, 04 May 2018 19:21:23 +0100
-From: Mike Crowe <mac@mcrowe.com>
+	Fri,  4 May 2018 19:31:38 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id f20so9393167pfn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 May 2018 12:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wkAwyK/6UFpkxredOCkitKmefxfx8EagHYyMJ5PJqgM=;
+	b=YFJWJJ9V77pmgvRo6iYLTyRQm+0QendFE9wC3jPHTsqxvCjkzPguh/nY3YmuFSx3R0
+	OZvNRhQg8hlbUhfMrfZJkkJAHxGP6yEor6++nwTFyen5gtMTe/O2do/JtcrtkenrvxL3
+	Bz5aYjJmSrIZ8qzN5fXst/akQDQyCk2TTy3HS6q8S5l7qaAgAOBhQbVyStwUd8CI3DV5
+	NW3XpzxX28tPIorneWsbZhJCM5RwlnnclJFRx5T5lohjkCqE2zFR0d+Kxq3E/U3tdxsf
+	Sfl0wSpvxXmbhIGWcULPJaqKhs0xly5Cxj7O5KvEM64wFH6e599GS3lbFHQ+FB7iS/Tw
+	RGTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wkAwyK/6UFpkxredOCkitKmefxfx8EagHYyMJ5PJqgM=;
+	b=KgWBS41RGPWMoalq+SBVLxjyWGDaxRDaWLg2Wf3WWhhTTBvKu6P8mEeEw361jB6VCp
+	/mrTKxaqf7KBEEZF+aPvvbCdwaRElQL1oBTFXZ992CLyvQyi//D4NJSxVH/n7x+ATb+2
+	WM65dNPGhjFxv9I2n8CfZfJBQIV2SaVSUA9+8qfji43pHjEoExIE/hHmNPdxrX8JH87I
+	RERBMjM9iGrEF+DkJxWq+8g94QPWEK6DB7rl47Ms0K0kU37eRFg9euyeuf02bvmxKxSJ
+	QOhCYyvw1ihEGJcNy0HD+IhYGT5IjEs/1yBbnfUXuHTCS9N+hOeMTy+P0XE5mnQXkmFb
+	0bYw==
+X-Gm-Message-State: ALQs6tBO4IDFWyR3oxaIhTa2+dK4V8mJeuZdhCfLAOrEUh+/3n1DeRLE
+	FVk8pq8Tz0M4ZhLOV+uwrVAJMg==
+X-Google-Smtp-Source: AB8JxZox0Hfpg0p9jbNC+Owvp39ow1e4T0h2utH/Qx/xkbOubbFKkfw6uRC+3zlAImZSzjOoV8USjg==
+X-Received: by 2002:a17:902:b286:: with SMTP id
+	u6-v6mr29275182plr.68.1525462299423; 
+	Fri, 04 May 2018 12:31:39 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	g207sm32105371pfb.18.2018.05.04.12.31.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 04 May 2018 12:31:38 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 19:21:20 +0100
-Message-Id: <20180504182120.7783-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 05/04/2018 2:21:22 PM
-X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
-X-Note: Filtered by 10.238.11.161
-X-Policy: brightsign.biz
-X-Primary: brightsign.biz@brightsign.biz
-X-Virus-Scan: V-
-X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-49/SG:1 5/4/2018 2:20:43 PM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.483445 p=-1 Source Normal
-X-Signature-Violations: 0-0-0-3957-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G335 G336 G337 G338 G342 G343 G475 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] rm_work: Stop appending _setscene to do_image_complete_setscene stamps
+Date: Fri,  4 May 2018 12:31:30 -0700
+Message-Id: <1525462293-28047-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [rocko][PATCH 1/4] Revert "package.bbclass: Add '-b' option to file call in isELF"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2018 18:21:26 -0000
+X-List-Received-Date: Fri, 04 May 2018 19:31:38 -0000
 
-Each time I build my image after the first, I end up with a
-do_image_complete_setscene stamp file with an extra _setscene appended to
-the name. Eventually, the filenames end up being so long that mv complains
-and the build fails.
+This reverts commit 46ddc11a8be79515b4ab9f9f7568c3d624ac72fe.
 
-It looks like this behaviour was introduced when the special handling was
-added for do_image_complete in 2ff9d40dc88d43567472218cf3d3faf414398c71.
+The change is good in master but became subtly broken during the
+backport to rocko. Either the path passed to file should be quoted
+using double quotes (with any " chars in the path being escaped) or
+the path should be quoted using single quotes (and then any " chars
+in the path should NOT be escaped). Escaping " chars and using single
+quotes will cause problems for filenames containing " chars.
 
-So, let's ensure that the *_setscene* pattern is matched before anything
-else so that the do_image_complete_setscene stamp file is merely ignored
-and only the do_image_complete non-setscene stamp file is moved once.
-
-It's not straightforward to just move *do_image_complete* after the
-*_setscene* pattern because do_image_complete stamps would then match
-do_image*.
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/rm_work.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ meta/lib/oe/package.py       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 31d99e4554..318d121d2b 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -53,6 +53,10 @@ do_rm_work () {
-             *do_setscene*)
-                 break
-                 ;;
-+            *_setscene*)
-+                i=dummy
-+                break
-+                ;;
-             *sigdata*|*sigbasedata*)
-                 i=dummy
-                 break
-@@ -89,10 +93,6 @@ do_rm_work () {
-                 i=dummy
-                 break
-                 ;;
--            *_setscene*)
--                i=dummy
--                break
--                ;;
-             *$j|*$j.*)
-                 mv $i `echo $i | sed -e "s#${j}#${j}_setscene#"`
-                 i=dummy
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index cee64f3..2053d46 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -901,7 +901,7 @@ python split_and_strip_files () {
+     # 16 - kernel module
+     def isELF(path):
+         type = 0
+-        ret, result = oe.utils.getstatusoutput("file -b '%s'" % path.replace("\"", "\\\""))
++        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+ 
+         if ret:
+             msg = "split_and_strip_files: 'file %s' failed" % path
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 599fca6..1e5c3aa 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -73,7 +73,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=
+     def is_elf(path):
+         exec_type = 0
+         ret, result = oe.utils.getstatusoutput(
+-            "file -b \"%s\"" % path.replace("\"", "\\\""))
++            "file \"%s\"" % path.replace("\"", "\\\""))
+ 
+         if ret:
+             bb.error("split_and_strip_files: 'file %s' failed" % path)
 -- 
-2.11.0
-
+1.9.1
 
 
