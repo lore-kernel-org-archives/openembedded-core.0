@@ -1,48 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A22B474CF6
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id ACFB8745A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2018 22:52:55 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id w129so13078795pfd.3
+	Fri,  4 May 2018 22:52:57 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id g20-v6so9679913pgv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 15:52:56 -0700 (PDT)
+	Fri, 04 May 2018 15:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=OKlrtfAzQWECVop8Cb9EYlQdCkDSrn1br0O5x+oNN/k=;
-	b=GZLZWXlVLwtFaLel6twpEBzsj0vf8swIPbdHVRB9/dWl06I4Zrw1b7RL3lzitbRXXs
-	l10Ei94HFBID9w/Qy2LjiDQit3gnRYk0yQk2ZeFsxwshbNVr/WZAveUvn4VCpP3UAKJh
-	97XPF5Hf0oh9qyiJpZ1vXG2A5+/j6rS4nt0+FvinnZWbufR4bBXty6s6hSsIVNO1Nwe6
-	xu2JBDl/9eRsHiAwzTqdTh7kiYyUDy9bvviQxrwkjwaW/mylDaeB/b1BnKnJ2TMN8mIs
-	o4COvPviWyFAVSZtluW5QC61NVQ6o5E4OrRQjwmUJoqOJirBlEDizUwgL+Lp62BUPxIb
-	ysWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=b58aiWzJWW18YAEwEISOBdUprRrbPZC1sr/sO696aNg=;
+	b=vA5SN8Apr/mPBV6rapvFeGSQa6QbfldFOe5mISp7da8N0dBc4izu0M81x9aggRcDNQ
+	fRXs78PBJDamdkXbtGrqTu8ZoE5UtTZG8BsG8B56sioQpFEAevsgr3ArCc6ngsI7uxMS
+	osKhFEdZUgjo5ex8uPSkpWbJMTVey/+4d+TvY1MWskerDKZYA0KC8Sqvuv8ec2P+7tWL
+	GxqAFjsTK2oc4G6xE3DRgEt05tJt03bOAPmwsDeWiLu3cytHwClv+vMxHe9y1joNts5d
+	oBkXD4Wll4ZFIiRO+OZdTYlyUQBxnzNhY6u+iWW1vsFYt02nWBdlaEgcCdLIwqLWB75g
+	g2kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OKlrtfAzQWECVop8Cb9EYlQdCkDSrn1br0O5x+oNN/k=;
-	b=K8SssojzvZ+P7nzqPIX3axARUVjpzM0sOIUDTWOC1OPxJCI90zR2lyRAI9Fe4P/YGa
-	ngbCmL7jSfcJD8pwM3JaAs1bpxU6gn0BP6FzuoDbG6qTZoWT6Jb/sOMc9Mj/ChFRrfY5
-	U2hVHDui+Zm1ukFlHw4Y1aj/GzhqXpW+QGTGca2KxScgFkXxPlfQzutdLEPaGlTq/uBM
-	k+mYFqmYmaFEf8lkNURl3iPV8ktaBs5dvdQnvDcv+401r1X8Dv5444XZwqcipjjQ/5Pj
-	bglfeymRkurMeuBOlyO0yTLbYWGpwgfvgKT5xiZYBP1uy72x6coCLb9Nfu1M2gFkMCZE
-	It8A==
-X-Gm-Message-State: ALQs6tAByMlYOzBuBEvFvDi8RpT/fWtnahGTpOwTLKd/VhyQiIa2Osxv
-	1w/UkLhyr4wrUwduIeAezRjcNA==
-X-Google-Smtp-Source: AB8JxZoEnKc9ZxtlieHbuOiyTpKp1j6p/OlsZD8O7VgFigULKj+gk0oIdzPhW9XK1YY1orjy2rgCcg==
-X-Received: by 2002:a17:902:680e:: with SMTP id
-	h14-v6mr28765655plk.90.1525474376381; 
-	Fri, 04 May 2018 15:52:56 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=b58aiWzJWW18YAEwEISOBdUprRrbPZC1sr/sO696aNg=;
+	b=nXrVIZoisMSyTj/EUmatbh/IWU6twTEjI8iLH/ctPOA/vuK6GKjz3GI4e3d3BO+GbT
+	mARRvCLKn5MeXm14siUefAUEzQQ2GsmZB23QEvpEM6A/yOeDwC0bS5vW9sMbHQ3u+I3W
+	6ySZDG7h34AuaGtqlW5fOMbnKQ7kS1Pa62WkPUMB8JuxJGt7DiLthtbY5t79nkSk+++E
+	x4E0dw21+TyUth6fty8nNO6dZaYVHPhMtCw1ctCqIuD32N2vrY5AfplK7Mq2hxSDhZnN
+	C91EjJ5UCRtbn6citmvtlG1vanSmyEs0GGjGKOsUEbQLAQg7jIw/MQNQMlX5XS64h9d3
+	1wGg==
+X-Gm-Message-State: ALQs6tBWpssb/yCZ0v61NJbPYQTomFVK+xXJ6eVhvu1LVDQPzqvwNNwS
+	Bf25DloG3MHQFjy1Uf7w8oAEqA==
+X-Google-Smtp-Source: AB8JxZqV0GTVeTJhAWm9/boyM+nVQ4tP0cSfM10LwMiC7fJg1HE/QyC34Z292tZoKzY8X0I8yDSgYQ==
+X-Received: by 2002:a63:b908:: with SMTP id
+	z8-v6mr23614675pge.436.1525474378287; 
+	Fri, 04 May 2018 15:52:58 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	w26sm41378391pfi.17.2018.05.04.15.52.55
+	w26sm41378391pfi.17.2018.05.04.15.52.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 May 2018 15:52:55 -0700 (PDT)
+	Fri, 04 May 2018 15:52:57 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 15:52:43 -0700
-Message-Id: <1525474370-7913-1-git-send-email-armccurdy@gmail.com>
+Date: Fri,  4 May 2018 15:52:44 -0700
+Message-Id: <1525474370-7913-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/8] tune-corei7.inc: minor comment tweak to align with tune-core2.inc
+In-Reply-To: <1525474370-7913-1-git-send-email-armccurdy@gmail.com>
+References: <1525474370-7913-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 2/8] babeltrace: move ASNEEDED over-ride into the babeltrace recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2018 22:52:55 -0000
+X-List-Received-Date: Fri, 04 May 2018 22:52:57 -0000
+
+Move the recipe specific over-ride for ASNEEDED into the recipe to
+make it more apparent that the over-ride is being applied (and that
+it should be re-checked on version updates, etc).
+
+Also misc minor recipe cleanup (re-order variables to follow the OE
+style guide, etc).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/machine/include/tune-corei7.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/as-needed.inc        |  1 -
+ meta/recipes-kernel/lttng/babeltrace_1.5.5.bb | 12 ++++++------
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-corei7.inc b/meta/conf/machine/include/tune-corei7.inc
-index 9ce731c..d06af47 100644
---- a/meta/conf/machine/include/tune-corei7.inc
-+++ b/meta/conf/machine/include/tune-corei7.inc
-@@ -8,7 +8,7 @@
- #
- DEFAULTTUNE ?= "corei7-64"
+diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
+index 6a8ad9d..38de3a1 100644
+--- a/meta/conf/distro/include/as-needed.inc
++++ b/meta/conf/distro/include/as-needed.inc
+@@ -1,7 +1,6 @@
  
--# Pull in the previous tune in to pull in PACKAGE_EXTRA_ARCHS
-+# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
- require conf/machine/include/tune-core2.inc
+ ASNEEDED = "-Wl,--as-needed"
  
- # Extra tune features
+-ASNEEDED_pn-babeltrace = ""
+ ASNEEDED_pn-console-tools = ""
+ ASNEEDED_pn-distcc = ""
+ ASNEEDED_pn-openobex = ""
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
+index 92d86b9..154d248 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.5.bb
+@@ -2,18 +2,18 @@ SUMMARY = "Babeltrace - Trace Format Babel Tower"
+ DESCRIPTION = "Babeltrace provides trace read and write libraries in host side, as well as a trace converter, which used to convert LTTng 2.0 traces into human-readable log."
+ HOMEPAGE = "http://www.efficios.com/babeltrace/"
+ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+-
+ LICENSE = "MIT & GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+ 
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ 
+-inherit autotools pkgconfig
++SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "7decafd46093e4e47c14e7307d498986"
++SRC_URI[sha256sum] = "409146789b4a6b81f6a275fcad932a030743d444f6de5bd4a34aaf17aa72e8ac"
+ 
+-SRC_URI = "http://www.efficios.com/files/babeltrace/babeltrace-${PV}.tar.bz2 \
+-"
++inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "--disable-debug-info"
+ 
+-SRC_URI[md5sum] = "7decafd46093e4e47c14e7307d498986"
+-SRC_URI[sha256sum] = "409146789b4a6b81f6a275fcad932a030743d444f6de5bd4a34aaf17aa72e8ac"
++ASNEEDED = ""
 -- 
 1.9.1
 
