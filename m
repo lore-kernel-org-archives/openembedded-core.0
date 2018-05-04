@@ -1,53 +1,49 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BC1674D31
+Return-Path: <nirbheek.chauhan@gmail.com>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 39F5D74CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2018 13:30:13 +0000 (UTC)
-Received: by mail-ot0-f180.google.com with SMTP id j27-v6so24458970ota.5
+	Fri,  4 May 2018 13:44:25 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id m9-v6so6600328qtb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 06:30:15 -0700 (PDT)
+	Fri, 04 May 2018 06:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jToHcx/DpL5YHGdS04735Rsfk6asLm4YM6015sBYNOs=;
-	b=SdBiSmrNxjcnQBdj6xiBZNQZB6hrdnZH7wGVv5ZqJGsHaJ8xfHqU7PyO8lEeklZSCN
-	++/lh+q2Ln73G+jS3os/Fsh608mjiWFv/CkbDIXfay7SU2hSLgApv+3pOwfF+HHBxjNr
-	uGGAhbDwxE6xXYo732J9rbuh4k7dj1H3TYBkC3NTsx5Qmq0gzo0jfzA06rofeY35kDWC
-	RIz7WYtlvB5cP9qYQUALBc77z8VcIYJZfy3e5W1hW3T4kH5gCQkF12Pt9/Va4Oeof29X
-	pztLlplgyNaV5YXn+y9aNy9Ip+0ZMWciq5FP189bwY0WsCgMLCD4T08Rr+AOau13PQeC
-	1XTw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tNBFiqDqR2sp7H9fIWnp7rt7/if1OU8EMmdIotQE/RU=;
+	b=XMJKepArSIGBPWDNHNsRVOr+gBx1jaM70yXyX0jfwHIYvp8TpUQ49YSJECURZNiMtr
+	2P41Qjfej1JbCBznCvoeE/9rnXgZ8HtQtrOtkfqUTNYXMhUbUGGN99NAiaVXOTiV1ISB
+	4mxyml4Gq5FWO9pNaecyoi+pNToo+ZKRyoDhmcjric3tJ9+LZ1AOCDpWUWpL2azBkPxc
+	e1r1TteZE7jwwjAR+tZ+BY6wZ1QnuescCO39IHrdx0LWmsc5PC8ge+XxLhdHoIMKMrpg
+	N841iKvGytuDRGEnExl3WGXyees9pXgdKUlV7TIAzEmkKYzDxXYB76WSSPizl4DO0QSi
+	NorQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=jToHcx/DpL5YHGdS04735Rsfk6asLm4YM6015sBYNOs=;
-	b=Lre5QVMZ1SNNb35qjQPzNQayTb84+46bSDS7wfiGPwdoNOK9Sxbg9QugOTWtWi/JuZ
-	GGHLasfPxUIFcYRMOPTt/AMLwq+8zeZ1DVIblSSR3OWKsRIKhHxYbWZHUFUMyr1GZBJp
-	Hgg/i2ueF15Pvh1t5GW7Q9Yv5S/W8HgddBlSEWkRaRDVBhyK6ibVrC9ydBag0meCAG/q
-	gdtqwNArkFmmOUdMr7APfYBSGnImJtPlE3Yr63MLq0d/EEqUwvOflLqfAntS4RiT4fm5
-	rzw7MUfLo4Sipzk4gXQgJZtnIwZLbmq72MCA3cwLzzcChvKMuQPacfFz9qtCD0uI0b13
-	6EWQ==
-X-Gm-Message-State: ALQs6tCjVrCNrD5goZV/1t/Es4xHMCswJ1naQRnY/a35uZc3iBcaOYTv
-	1SkRXO19YIxR71VfqfWi8JcNRbGBCVNrWXKvgiE=
-X-Google-Smtp-Source: AB8JxZqZbNDOfeF9aLIMIkLemm9hV20UHf6pZ+jlaZdvc/vtaNX4HrIuJ3+UAt9xAeaSW1L/PtOn2yqQbG0QhBzOe/I=
-X-Received: by 2002:a9d:1f70:: with SMTP id
-	x45-v6mr20023888otx.144.1525440614909; 
-	Fri, 04 May 2018 06:30:14 -0700 (PDT)
+	bh=tNBFiqDqR2sp7H9fIWnp7rt7/if1OU8EMmdIotQE/RU=;
+	b=o+EnFJLXHAivFXEnVbo1lpsL8yeMK/ESsGIBS3BMmfK7GUStPETaSoF5daYNgLSNUF
+	o0z2+JHTg/7HinJH/iS3HSpOwlNXSYW0MmxXLpiJYTdh+tXefXbXGJOjqAb9ax/PJWV8
+	hd8VKA4JhxL77EuAqr4MtHbSPH0+jU08tCTKLt+SGiW0JFhSvaU0qME5Bd4YE6JjkS+X
+	Xp/WgjevOhiJVPCKD2+jF8YSnu12WYRJtDosqemPn3LQnXv8TzyXRp3G1YY23AWWes5+
+	72sdXCFO1xymlkNq4X9SlZcdtf7/fV3Nd/L8NxWISIRmdMpPnJidCI4y3BA49HZHsDx4
+	wMIQ==
+X-Gm-Message-State: ALQs6tAc0+lFN6TpuwmnBqwAgKD24bCR7admd9ViV9m/3hVpp9+eir0L
+	leMQV1zrK/1hSmp1K/JK1pDtP3OKd4c1MMFixPU=
+X-Google-Smtp-Source: AB8JxZqIK1B5uPlGv5pjAdLsqc0hM98Z9SbRas2PG1sohbCE8cojnwQ+bMA0eJ1C34YU0FYjuEkUihY4W/jq6Qgdzws=
+X-Received: by 2002:ac8:1188:: with SMTP id
+	d8-v6mr5699907qtj.352.1525437816021; 
+	Fri, 04 May 2018 05:43:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:7009:0:0:0:0:0 with HTTP;
-	Fri, 4 May 2018 06:30:14 -0700 (PDT)
-In-Reply-To: <CAJO0J4gTTHfnYRqr0BU14A6hgE_GHWrvM0UzbrLe0GwMu7n6WA@mail.gmail.com>
 References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
-	<20180504123244.43049-14-alexander.kanavin@linux.intel.com>
-	<CAJO0J4hyjRyj+Zzz2Y7BTg0aB-dfEQXX4pJSi11n4Vc2iYkrJw@mail.gmail.com>
-	<CAJTo0LZSDUfpXvE9VA59wZVyTJFDW4sixh++DrdWdORrLKz4NA@mail.gmail.com>
-	<CAJO0J4gTTHfnYRqr0BU14A6hgE_GHWrvM0UzbrLe0GwMu7n6WA@mail.gmail.com>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Fri, 4 May 2018 06:30:14 -0700
-Message-ID: <CAFNP8OsJ=_u_f8zkWAaz-sqjvLhVCSNnDv0-HWHMYSR=LWvp7Q@mail.gmail.com>
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/14] babeltrace: switch over to git
+	<20180504123244.43049-12-alexander.kanavin@linux.intel.com>
+In-Reply-To: <20180504123244.43049-12-alexander.kanavin@linux.intel.com>
+From: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
+Date: Fri, 04 May 2018 12:43:25 +0000
+Message-ID: <CADqQcK4EzdMOepc+0f1vLdzMQ7pBWgBcJnMue8cG7FM9_gCx5A@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 12/14] meson: update to 0.46.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,137 +56,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2018 13:30:14 -0000
-Content-Type: multipart/alternative; boundary="000000000000fa49b8056b6151ea"
-
---000000000000fa49b8056b6151ea
+X-List-Received-Date: Fri, 04 May 2018 13:44:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Obviously that class (devupstream.bbclass) is not in the YP reference
-manual.  I will open a bug to document it.
+Would be nice if OE could test 0.46.0 soon and report any regressions to
+Meson. There will be a bugfix 0.46.1 release soon with known regressions
+fixed:
 
-Scott
+https://github.com/mesonbuild/meson/milestone/26?closed=1
+On Fri, May 4, 2018 at 6:10 PM Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-On Fri, May 4, 2018 at 6:12 AM, Paulo Neves <ptsneves@gmail.com> wrote:
+> Rebase a couple of patches
 
-> On Fri, May 4, 2018 at 2:55 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > On 4 May 2018 at 13:46, Paulo Neves <ptsneves@gmail.com> wrote:
-> >>
-> >> I always wondered, what is the rationale for not always using the git
-> >> repositories? If there is one why did we change for this specific
-> >> recipe?
-> >
-> >
-> > Tarballs are easier to mirror, smaller, have checksums to verify the
-> > download at both fetch and unpack time, and often contain generated files
-> > which otherwise require yet more tools to regenerate (for example, man
-> pages
-> > may require a documentation toolchain to build from git but will be
-> included
-> > in a tarball).
-> In my case we have a requirement of using the git repositories because
-> of the easiness with which we can make code bissections, as well as
-> back porting.
->
-> >>
-> >> I ask this because I am in the process of creating a massive layer,
-> >> whose only purpose is to have the software come from the git
-> >> repository and not from the tarballs of the original poky recipes.
-> >
-> >
-> > I certainly hope this is using devupstream.bbclass or similar and isn't a
-> > giant copy/paste!
-> Wow never heard/saw of this bbclass even, and looking at the mega
-> manual there is not any reference to this class. Also from the look of
-> the classcode I am not seeing how this can help us accomplish the
-> goal. Can you point me to some docs or examples?
->
-> > Ross
->
-> The way we are doing the layer is, by bbappend, so there is not much
-> copy paste, but tarbal/git replacement.
-> There would be no problem if there would not be differences between
-> released tarballs and git repositories, but specially in autotools
-> projects, the bbappend requires much more trickery as you mentioned
->
-> Paulo Neves
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>   ...rospection-determine-g-ir-scanner-and-g-i.patch | 17 +++----
+>   .../meson/meson/0003-native_bindir.patch           | 57
+++++++++++++----------
+>   .../meson/{meson_0.45.1.bb => meson_0.46.0.bb}     |  4 +-
+>   3 files changed, 41 insertions(+), 37 deletions(-)
+>   rename meta/recipes-devtools/meson/{meson_0.45.1.bb => meson_0.46.0.bb}
+(83%)
+
+> diff --git
+a/meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
+b/meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
+> index ded42d14f7f..f32267d0c41 100644
+> ---
+a/meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
+> +++
+b/meta/recipes-devtools/meson/meson/0002-gobject-introspection-determine-g-ir-scanner-and-g-i.patch
+> @@ -1,7 +1,7 @@
+> -From 972667e0d789a6969a5d79249404f3539f891810 Mon Sep 17 00:00:00 2001
+> +From 0b860cb8a22ae876b6088939dbabca216bc29431 Mon Sep 17 00:00:00 2001
+>   From: Alexander Kanavin <alex.kanavin@gmail.com>
+>   Date: Fri, 4 Aug 2017 16:18:47 +0300
+> -Subject: [PATCH 1/2] gobject-introspection: determine g-ir-scanner and
+> +Subject: [PATCH] gobject-introspection: determine g-ir-scanner and
+>    g-ir-compiler paths from pkgconfig
+
+>   Do not hardcode the name of those binaries; gobject-introspection
+> @@ -16,19 +16,19 @@ Signed-off-by: Alexander Kanavin <
+alex.kanavin@gmail.com>
+>    1 file changed, 2 insertions(+), 2 deletions(-)
+
+>   diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.py
+> -index 4f7fe30..9610cf6 100644
+> +index b29bab9..dc4c401 100644
+>   --- a/mesonbuild/modules/gnome.py
+>   +++ b/mesonbuild/modules/gnome.py
+> -@@ -390,8 +390,6 @@ class GnomeModule(ExtensionModule):
+> +@@ -393,8 +393,6 @@ class GnomeModule(ExtensionModule):
+>                raise MesonException('Gir takes one argument')
+>            if kwargs.get('install_dir'):
+>                raise MesonException('install_dir is not supported with
+generate_gir(), see "install_dir_gir" and "install_dir_typelib"')
+> --        giscanner = find_program('g-ir-scanner', 'Gir')
+> --        gicompiler = find_program('g-ir-compiler', 'Gir')
+> +-        giscanner = self.interpreter.find_program_impl('g-ir-scanner')
+> +-        gicompiler = self.interpreter.find_program_impl('g-ir-compiler')
+>            girtarget = args[0]
+>            while hasattr(girtarget, 'held_object'):
+>                girtarget = girtarget.held_object
+> -@@ -402,6 +400,8 @@ class GnomeModule(ExtensionModule):
+> +@@ -405,6 +403,8 @@ class GnomeModule(ExtensionModule):
+>                    self.gir_dep =
+PkgConfigDependency('gobject-introspection-1.0',
+>                                                       state.environment,
+>                                                       {'native': True})
+> @@ -37,6 +37,3 @@ index 4f7fe30..9610cf6 100644
+>                pkgargs = self.gir_dep.get_compile_args()
+>            except Exception:
+>                raise MesonException('gobject-introspection dependency was
+not found, gir cannot be generated.')
+> ---
+> -2.15.0
+> -
+> diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> index af5e6a190bf..f00327714b6 100644
+> --- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> +++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> @@ -1,7 +1,7 @@
+> -From ffa72eac56558aa4171dd70ac1e9c27a07338fa2 Mon Sep 17 00:00:00 2001
+> +From 0eec9428376450917098c68539a6c9dd60b85d93 Mon Sep 17 00:00:00 2001
+>   From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>   Date: Wed, 15 Nov 2017 15:05:01 +0100
+> -Subject: [PATCH 4/4] native_bindir
+> +Subject: [PATCH] native_bindir
+
+>   Some libraries, like QT, have pre-processors that convert their input
+>   files into something that the cross-compiler can process. We find the
+> @@ -17,15 +17,15 @@ Upstream-Status: Inappropriate [OE specific]
+>   Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+
+>   ---
+> - mesonbuild/dependencies/base.py | 16 ++++++++++------
+> + mesonbuild/dependencies/base.py | 19 +++++++++++--------
+>    mesonbuild/dependencies/ui.py   |  6 +++---
+> - 2 files changed, 13 insertions(+), 9 deletions(-)
+> + 2 files changed, 14 insertions(+), 11 deletions(-)
+
+>   diff --git a/mesonbuild/dependencies/base.py
+b/mesonbuild/dependencies/base.py
+> -index bf79bc5..c9fd08c 100644
+> +index 0114a14..f4f19c5 100644
+>   --- a/mesonbuild/dependencies/base.py
+>   +++ b/mesonbuild/dependencies/base.py
+> -@@ -131,7 +131,7 @@ class Dependency:
+> +@@ -141,7 +141,7 @@ class Dependency:
+>        def need_threads(self):
+>            return False
+
+> @@ -34,7 +34,7 @@ index bf79bc5..c9fd08c 100644
+>            raise DependencyException('{!r} is not a pkgconfig
+dependency'.format(self.name))
+
+>        def get_configtool_variable(self, variable_name):
+> -@@ -150,7 +150,7 @@ class InternalDependency(Dependency):
+> +@@ -178,7 +178,7 @@ class InternalDependency(Dependency):
+>            self.sources = sources
+>            self.ext_deps = ext_deps
+
+> @@ -43,24 +43,34 @@ index bf79bc5..c9fd08c 100644
+>            raise DependencyException('Method "get_pkgconfig_variable()" is
+'
+>                                      'invalid for an internal dependency')
+
+> -@@ -425,10 +425,14 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -517,11 +517,14 @@ class PkgConfigDependency(ExternalDependency):
+>            return s.format(self.__class__.__name__, self.name,
+self.is_found,
+>                            self.version_reqs)
+
+> --    def _call_pkgbin(self, args, env=None):
+> -+    def _call_pkgbin(self, args, env=None, use_native=False):
+> -         if not env:
+> -             env = os.environ
+> --        p, out = Popen_safe([self.pkgbin] + args, env=env)[0:2]
+> +-    def _call_pkgbin_real(self, args, env):
+> +-        p, out = Popen_safe(self.pkgbin.get_command() + args,
+env=env)[0:2]
+> ++    def _call_pkgbin_real(self, args, env, use_native=False):
+>   +        if use_native:
+> -+            pkgbin = [self.pkgbin + "-native"]
+> ++            p, out = Popen_safe(self.pkgbin.get_command() + "-native" +
+args, env=env)[0:2]
+>   +        else:
+> -+            pkgbin = [self.pkgbin]
+> -+        p, out = Popen_safe(pkgbin + args, env=env)[0:2]
+> ++            p, out = Popen_safe(self.pkgbin.get_command() + args,
+env=env)[0:2]
+>            return p.returncode, out.strip()
+
+> +-    def _call_pkgbin(self, args, env=None):
+> ++    def _call_pkgbin(self, args, env=None, use_native=False):
+> +         if env is None:
+> +             fenv = env
+> +             env = os.environ
+> +@@ -530,7 +533,7 @@ class PkgConfigDependency(ExternalDependency):
+> +         targs = tuple(args)
+> +         cache = PkgConfigDependency.pkgbin_cache
+> +         if (self.pkgbin, targs, fenv) not in cache:
+> +-            cache[(self.pkgbin, targs, fenv)] =
+self._call_pkgbin_real(args, env)
+> ++            cache[(self.pkgbin, targs, fenv)] =
+self._call_pkgbin_real(args, env, use_native)
+> +         return cache[(self.pkgbin, targs, fenv)]
+> +
+>        def _convert_mingw_paths(self, args):
+> -@@ -522,7 +526,7 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -630,7 +633,7 @@ class PkgConfigDependency(ExternalDependency):
+>                # linkers such as MSVC, so prepend them.
+>                self.link_args = ['-L' + lp for lp in libpaths] +
+self.link_args
+
+> @@ -69,7 +79,7 @@ index bf79bc5..c9fd08c 100644
+>            options = ['--variable=' + variable_name, self.name]
+
+>            if 'define_variable' in kwargs:
+> -@@ -535,7 +539,7 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -643,7 +646,7 @@ class PkgConfigDependency(ExternalDependency):
+
+>                options = ['--define-variable=' + '='.join(definition)] +
+options
+
+> @@ -79,10 +89,10 @@ index bf79bc5..c9fd08c 100644
+>            if ret != 0:
+>                if self.required:
+>   diff --git a/mesonbuild/dependencies/ui.py
+b/mesonbuild/dependencies/ui.py
+> -index 1db518c..4ed1d04 100644
+> +index 2f31196..916f648 100644
+>   --- a/mesonbuild/dependencies/ui.py
+>   +++ b/mesonbuild/dependencies/ui.py
+> -@@ -239,7 +239,7 @@ class QtBaseDependency(ExternalDependency):
+> +@@ -240,7 +240,7 @@ class QtBaseDependency(ExternalDependency):
+>            self.bindir = self.get_pkgconfig_host_bins(core)
+>            if not self.bindir:
+>                # If exec_prefix is not defined, the pkg-config file is
+broken
+> @@ -91,7 +101,7 @@ index 1db518c..4ed1d04 100644
+>                if prefix:
+>                    self.bindir = os.path.join(prefix, 'bin')
+
+> -@@ -359,7 +359,7 @@ class Qt4Dependency(QtBaseDependency):
+> +@@ -374,7 +374,7 @@ class Qt4Dependency(QtBaseDependency):
+>            applications = ['moc', 'uic', 'rcc', 'lupdate', 'lrelease']
+>            for application in applications:
+>                try:
+> @@ -100,7 +110,7 @@ index 1db518c..4ed1d04 100644
+>                except MesonException:
+>                    pass
+
+> -@@ -369,7 +369,7 @@ class Qt5Dependency(QtBaseDependency):
+> +@@ -384,7 +384,7 @@ class Qt5Dependency(QtBaseDependency):
+>            QtBaseDependency.__init__(self, 'qt5', env, kwargs)
+
+>        def get_pkgconfig_host_bins(self, core):
+> @@ -109,6 +119,3 @@ index 1db518c..4ed1d04 100644
+
+
+>    # There are three different ways of depending on SDL2:
+> ---
+> -2.15.1
+> -
+> diff --git a/meta/recipes-devtools/meson/meson_0.45.1.bb
+b/meta/recipes-devtools/meson/meson_0.46.0.bb
+> similarity index 83%
+> rename from meta/recipes-devtools/meson/meson_0.45.1.bb
+> rename to meta/recipes-devtools/meson/meson_0.46.0.bb
+> index 9decdd0c24c..7334045e05f 100644
+> --- a/meta/recipes-devtools/meson/meson_0.45.1.bb
+> +++ b/meta/recipes-devtools/meson/meson_0.46.0.bb
+> @@ -10,8 +10,8 @@ SRC_URI = "
+https://github.com/mesonbuild/meson/releases/download/${PV}/${BP}.tar
+
+file://0001-Linker-rules-move-cross_args-in-front-of-output_args.patch \
+>              file://0003-native_bindir.patch \
+>              "
+> -SRC_URI[md5sum] = "4d9c7b3a7365b7b472f00af14e034949"
+> -SRC_URI[sha256sum] =
+"4d0bb0dbb1bb556cb7a4092fdfea3d6e76606bd739a4bc97481c2d7bc6200afb"
+> +SRC_URI[md5sum] = "e3301606017e364a0d7e1c3b755e7a28"
+> +SRC_URI[sha256sum] =
+"b7df91b01a358a8facdbfa33596a47cda38a760435ab55e1985c0bff06a9cbf0"
+>   UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
+
+>   inherit setuptools3
+> --
+> 2.16.1
+
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---000000000000fa49b8056b6151ea
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Obviously that class (devupstream.bbclass) is not in =
-the YP reference manual.=C2=A0 I will open a bug to document it.<br><br></d=
-iv>Scott<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->On Fri, May 4, 2018 at 6:12 AM, Paulo Neves <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ptsneves@gmail.com" target=3D"_blank">ptsneves@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, May 4, 2018 at 2:5=
-5 PM, Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton=
-@intel.com</a>&gt; wrote:<br>
-&gt; On 4 May 2018 at 13:46, Paulo Neves &lt;<a href=3D"mailto:ptsneves@gma=
-il.com">ptsneves@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I always wondered, what is the rationale for not always using the =
-git<br>
-&gt;&gt; repositories? If there is one why did we change for this specific<=
-br>
-&gt;&gt; recipe?<br>
-&gt;<br>
-&gt;<br>
-&gt; Tarballs are easier to mirror, smaller, have checksums to verify the<b=
-r>
-&gt; download at both fetch and unpack time, and often contain generated fi=
-les<br>
-&gt; which otherwise require yet more tools to regenerate (for example, man=
- pages<br>
-&gt; may require a documentation toolchain to build from git but will be in=
-cluded<br>
-&gt; in a tarball).<br>
-In my case we have a requirement of using the git repositories because<br>
-of the easiness with which we can make code bissections, as well as<br>
-back porting.<br>
-<br>
-&gt;&gt;<br>
-&gt;&gt; I ask this because I am in the process of creating a massive layer=
-,<br>
-&gt;&gt; whose only purpose is to have the software come from the git<br>
-&gt;&gt; repository and not from the tarballs of the original poky recipes.=
-<br>
-&gt;<br>
-&gt;<br>
-&gt; I certainly hope this is using devupstream.bbclass or similar and isn&=
-#39;t a<br>
-&gt; giant copy/paste!<br>
-Wow never heard/saw of this bbclass even, and looking at the mega<br>
-manual there is not any reference to this class. Also from the look of<br>
-the classcode I am not seeing how this can help us accomplish the<br>
-goal. Can you point me to some docs or examples?<br>
-<br>
-&gt; Ross<br>
-<br>
-The way we are doing the layer is, by bbappend, so there is not much<br>
-copy paste, but tarbal/git replacement.<br>
-There would be no problem if there would not be differences between<br>
-released tarballs and git repositories, but specially in autotools<br>
-projects, the bbappend requires much more trickery as you mentioned<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Paulo Neves<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---000000000000fa49b8056b6151ea--
