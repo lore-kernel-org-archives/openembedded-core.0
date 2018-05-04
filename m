@@ -1,52 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5380674CB8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C7F974C3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2018 17:05:17 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id p9-v6so12927239pgc.9
+	Fri,  4 May 2018 17:43:53 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id q6-v6so28393381qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 10:05:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=zSb+HBDpDEOZ+HaTkhhpdGVlWO5qbUPFrLs4TDWGJfE=;
-	b=sAU5JTAb4mrAQDKUywt5KHOoenLrn4gfRPW1dkRTUhR3hrokLl6VWySWN5hWm5vRV5
-	iEb9/JxCUOztNfHF14Qwso7/kaeHe7ka5OgoTUEer2+6pOiVUqcHi/XIh2rk8cDaIWGr
-	BYIAWjzj6QSM4edL/AaFzq34jZ73Gw5nVBHEmQESbW2/JburSSC4M6lOhcB6GpogYrPE
-	lyPuP0AFy9GjTU0efTf39KXyeJA6T2rsv9/iQzU6kch/DZLa88Dq5Il3Co/ihrjHKhHX
-	5K/C7cjZ7CQI/vRuDtfuVubFnWA66+F/Zko0fRZ86GytcvIo5343VpTYZR5P6aA3mPxw
-	AvnA==
+	Fri, 04 May 2018 10:43:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=zSb+HBDpDEOZ+HaTkhhpdGVlWO5qbUPFrLs4TDWGJfE=;
-	b=YbJx5noxTYx1YFwxFNi+q0CnJVvrb0ROXo90Uzr/lZWGLuouMHUrZvKIK1T4ewlHyE
-	6n2Atcj8HbzgDbDCv2dcckk9fe2iHq35jeTxdVNERcTeZcm6b9rs9yqAS6mAj2utNKIL
-	3MXqzPJ4vfDbu9vP9XCamlteXNSY/ovF5W29J3MIsuh/vv52LfaOu/W1OfLnxzTiDBQf
-	TFrLptuW0EtO/667hRR+XDtEq/fcke7RjHVt3qe0PxDTasCkAUqkBHkmVLftQ7vAVRmq
-	gRsEUt+A50KPKGmJ0ovwzYh9E5nQqChe7SuOcJhWfu2Ui0lmgP6wvfTxXM9KYvbj/elf
-	Zkxg==
-X-Gm-Message-State: ALQs6tCObpnCW7RO9OQMDMT0rqKscuOXp8rA6+ZDw5OKMyA//x0mgTg3
-	rVulyfQk/NqKywBmwokOqG0=
-X-Google-Smtp-Source: AB8JxZoVlzE96tW06KrdWtUhbAsk4RA5RiYNDzE6hrR/Gt5vfIkrlnXoIRYM+TZnfxGsfhGcgZZuCA==
-X-Received: by 2002:a17:902:bc88:: with SMTP id
-	bb8-v6mr17543273plb.175.1525453519031; 
-	Fri, 04 May 2018 10:05:19 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	(50-233-148-156-static.hfc.comcastbusiness.net. [50.233.148.156])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=/2nC5i9unoV8z0/6ql/5weH7zQ8OQOIQg/8z7BVC6F8=;
+	b=O1v61U/uEc0ga7vla2mAjauye+sOl8JRZa4rP9clTeKRKJ7d1H05vFymMLv+at17q3
+	HphT948Jej8ODzqcpfpLGbvwPbJOuFUrw73rUVbQg2l/09vIgDBYUboWgmsHX28goFYC
+	vQvKLbTU9Do7+t/DD8Y/RT6bmE2Gf8oOBQ70sr7t+RwodcOFbWGwHQEwmvpjXSAVWJUP
+	XwaaH3wmD3s1FfLl9kqmQZAKe8DTi2A+UR9O+l4LK75dK8mtjAqi4+4wxQqeU+fmh4O+
+	l4iBHCgP5Gq4RLXWymSEQXBimaFAQp2YQXtsy4xPI8IRT50T3Uijzd2Yrswdpeq3lbEY
+	Tmaw==
+X-Gm-Message-State: ALQs6tCQGqsHh2fLtdCE+txUqkYIeQfhJJ3U3LIKxdctGm1p5VmxDXjA
+	RffJ1aYKFI3GSpqtMjB0Wc1WwA==
+X-Google-Smtp-Source: AB8JxZq8pQTbGoBcJneDT0kTO7B51XvoP7sTm7moYeKA4D0Glt4RT0DSDgytGd0OdJKacgi7KMaZSA==
+X-Received: by 2002:ac8:266f:: with SMTP id
+	v44-v6mr14624198qtv.354.1525455834450; 
+	Fri, 04 May 2018 10:43:54 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.217.140])
 	by smtp.gmail.com with ESMTPSA id
-	k13sm39807126pfj.186.2018.05.04.10.05.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 04 May 2018 10:05:18 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 10:05:16 -0700
-Message-Id: <1525453516-12693-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1525453516-12693-1-git-send-email-akuster808@gmail.com>
-References: <1525453516-12693-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] tzdata: update to 2018e
+	d52-v6sm17641671qta.25.2018.05.04.10.43.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 04 May 2018 10:43:53 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 04 May 2018 14:43:47 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  4 May 2018 14:43:45 -0300
+Message-Id: <20180504174346.1149-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.17.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2 1/2] parted: add ontrack DM6 aux3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +50,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2018 17:05:18 -0000
+X-List-Received-Date: Fri, 04 May 2018 17:43:54 -0000
 
- Briefly:
+Add ontrack DM6 aux3 partition support to enable creating
+partitions required to boot i.MX MXS based platforms.
 
-    North Korea switches back to +09 on 2018-05-05.
-    The main format uses negative DST again, for Ireland etc.
-    'make tarballs' now also builds a rearguard tarball.
-    New 's' and 'd' suffixes in SAVE columns of Rule and Zone lines.
+This patch has been sent long time ago by Alexandre Belloni to
+meta-freescale however this must be incuded on OE-Core as this is a
+common component across different BSP.
 
-  Changes to past and future time stamps
-
-    North Korea switches back from +0830 to +09 on 2018-05-05.
-    (Thanks to Kang Seonghoon, Arthur David Olson, Seo Sanghyeon,
-    and Tim Parenti.)
-
-    Bring back the negative-DST changes of 2018a, except be more
-    compatible with data parsers that do not support negative DST.
-    Also, this now affects historical time stamps in Namibia and the
-    former Czechoslovakia, not just Ireland.  The main format now uses
-    negative DST to model time stamps in Europe/Dublin (from 1971 on),
-    Europe/Prague (1946/7), and Africa/Windhoek (1994/2017).  This
-    does not affect UT offsets, only time zone abbreviations and the
-    tm_isdst flag.  Also, this does not affect rearguard or vanguard
-    formats; effectively the main format now uses vanguard instead of
-    rearguard format.  Data parsers that do not support negative DST
-    can still use data from the rearguard tarball described below
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-extended/tzdata/{tzdata_2018d.bb => tzdata_2018e.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2018d.bb => tzdata_2018e.bb} (98%)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2018d.bb b/meta/recipes-extended/tzdata/tzdata_2018e.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2018d.bb
-rename to meta/recipes-extended/tzdata/tzdata_2018e.bb
-index f7fce80..f806d5b 100644
---- a/meta/recipes-extended/tzdata/tzdata_2018d.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2018e.bb
-@@ -9,8 +9,8 @@ DEPENDS = "tzcode-native"
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzdata.md5sum] = "871a7ef808eb42ebc551acdb3d661554"
--SRC_URI[tzdata.sha256sum] = "5106eddceb5f1ae3a91dbd3960e1b8b11ba0dc08579a31cf0724a7691b10c054"
-+SRC_URI[tzdata.md5sum] = "97d654f4d7253173b3eeb76a836dd65e"
-+SRC_URI[tzdata.sha256sum] = "6b288e5926841a4cb490909fe822d85c36ae75538ad69baf20da9628b63b692e"
- 
- inherit allarch
- 
+Changes in v2:
+- Add missing patch header
+- Fix indenting inside .bb
+
+ .../parted/files/Add_ontrackdm6aux3.patch     | 118 ++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb    |   1 +
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
+
+diff --git a/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch b/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
+new file mode 100644
+index 0000000000..c383849366
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/Add_ontrackdm6aux3.patch
+@@ -0,0 +1,118 @@
++parted: add ontrack DM6 aux3 support
++
++Add ontrack DM6 aux3 partition support to enable creating
++partitions required to boot i.MX MXS based platforms.
++
++Upstream-Status: Pending
++
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++
++diff -Nburp parted-3.2.orig/libparted/fs/Makefile.am parted-3.2/libparted/fs/Makefile.am
++--- parted-3.2.orig/libparted/fs/Makefile.am	2014-07-28 04:29:16.000000000 +0200
+++++ parted-3.2/libparted/fs/Makefile.am	2015-03-25 19:51:38.912544030 +0100
++@@ -42,6 +42,7 @@ libfs_la_SOURCES =		\
++   linux_swap/linux_swap.c	\
++   nilfs2/nilfs2.c		\
++   ntfs/ntfs.c			\
+++  ontrack/ontrack.c		\
++   reiserfs/reiserfs.c		\
++   reiserfs/reiserfs.h		\
++   ufs/ufs.c			\
++diff -Nburp parted-3.2.orig/libparted/fs/ontrack/ontrack.c parted-3.2/libparted/fs/ontrack/ontrack.c
++--- parted-3.2.orig/libparted/fs/ontrack/ontrack.c	1970-01-01 01:00:00.000000000 +0100
+++++ parted-3.2/libparted/fs/ontrack/ontrack.c	2015-03-25 19:55:01.342048099 +0100
++@@ -0,0 +1,39 @@
+++#include <config.h>
+++
+++#include <parted/parted.h>
+++#include <parted/crc32.h>
+++#include <parted/endian.h>
+++
+++PedGeometry*
+++ontrackdm6aux3_probe (PedGeometry* geom)
+++{
+++	PedSector length = geom->length;
+++
+++	/* ignore if sector size is not 512bytes for now  */
+++	if (geom->dev->sector_size != PED_SECTOR_SIZE_DEFAULT)
+++		return NULL;
+++
+++	return ped_geometry_new(geom->dev, geom->start, length);
+++}
+++
+++static PedFileSystemOps ontrackdm6aux3_ops = {
+++	probe:			ontrackdm6aux3_probe,
+++};
+++
+++static PedFileSystemType ontrackdm6aux3_type = {
+++	next:   NULL,
+++	ops:    &ontrackdm6aux3_ops,
+++	name:   "ontrackdm6aux3",
+++};
+++
+++void
+++ped_file_system_ontrack_init ()
+++{
+++	ped_file_system_type_register (&ontrackdm6aux3_type);
+++}
+++
+++void
+++ped_file_system_ontrack_done ()
+++{
+++	ped_file_system_type_unregister (&ontrackdm6aux3_type);
+++}
++diff -Nburp parted-3.2.orig/libparted/labels/dos.c parted-3.2/libparted/labels/dos.c
++--- parted-3.2.orig/libparted/labels/dos.c	2014-06-15 20:17:43.000000000 +0200
+++++ parted-3.2/libparted/labels/dos.c	2015-03-25 19:51:38.916543965 +0100
++@@ -83,6 +83,7 @@ static const char MBR_BOOT_CODE[] = {
++ #define PARTITION_COMPAQ_DIAG	0x12
++ #define PARTITION_MSFT_RECOVERY	0x27
++ #define PARTITION_LDM		0x42
+++#define PARTITION_ONTRACK_DM6_AUX3	0x53
++ #define PARTITION_LINUX_SWAP	0x82
++ #define PARTITION_LINUX		0x83
++ #define PARTITION_IRST		0x84
++@@ -1500,6 +1501,8 @@ msdos_partition_set_system (PedPartition
++ 		dos_data->system = PARTITION_HFS;
++ 	else if (!strcmp (fs_type->name, "sun-ufs"))
++ 		dos_data->system = PARTITION_SUN_UFS;
+++	else if (!strcmp (fs_type->name, "ontrackdm6aux3"))
+++		dos_data->system = PARTITION_ONTRACK_DM6_AUX3;
++ 	else if (is_linux_swap (fs_type->name))
++ 		dos_data->system = PARTITION_LINUX_SWAP;
++ 	else
++diff -Nburp parted-3.2.orig/libparted/libparted.c parted-3.2/libparted/libparted.c
++--- parted-3.2.orig/libparted/libparted.c	2014-06-15 20:17:43.000000000 +0200
+++++ parted-3.2/libparted/libparted.c	2015-03-25 19:51:38.912544030 +0100
++@@ -110,6 +110,7 @@ extern void ped_file_system_fat_init (vo
++ extern void ped_file_system_ext2_init (void);
++ extern void ped_file_system_nilfs2_init (void);
++ extern void ped_file_system_btrfs_init (void);
+++extern void ped_file_system_ontrack_init (void);
++ 
++ static void
++ init_file_system_types ()
++@@ -126,6 +127,7 @@ init_file_system_types ()
++ 	ped_file_system_ext2_init ();
++ 	ped_file_system_nilfs2_init ();
++ 	ped_file_system_btrfs_init ();
+++	ped_file_system_ontrack_init ();
++ }
++ 
++ extern void ped_disk_aix_done ();
++@@ -177,6 +179,7 @@ _init()
++ #endif
++ }
++ 
+++extern void ped_file_system_ontrack_done (void);
++ extern void ped_file_system_nilfs2_done (void);
++ extern void ped_file_system_ext2_done (void);
++ extern void ped_file_system_fat_done (void);
++@@ -193,6 +196,7 @@ extern void ped_file_system_btrfs_done (
++ static void
++ done_file_system_types ()
++ {
+++	ped_file_system_ontrack_done ();
++ 	ped_file_system_nilfs2_done ();
++ 	ped_file_system_ext2_done ();
++ 	ped_file_system_fat_done ();
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index ab30108bf2..887328fdac 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://syscalls.patch \
+            file://fix-doc-mandir.patch \
+            file://fix-compile-failure-while-dis.patch \
++           file://Add_ontrackdm6aux3.patch \
+            file://0001-Include-fcntl.h-in-platform_defs.h.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0002-libparted_fs_resize-link-against-libuuid-explicitly-.patch \
 -- 
-2.7.4
+2.17.0
 
 
