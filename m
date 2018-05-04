@@ -1,46 +1,53 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B3B74D68
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay101a.appriver.com [207.97.230.14])
+	by mail.openembedded.org (Postfix) with ESMTP id B102174C3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2018 17:43:59 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id f13-v6so18601414qtp.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 10:44:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=e+yFEjmQcCUT7Eb3l1Jrh40iKZ1KGuYkc6DJElgpszI=;
-	b=raThQtxNuinyuYyE6pAwTSSNe+E5E3WJc5WcG+iyMIzHeXnGUTtcgkcC31fno/LRGo
-	aI/gZMcUgIqDXtDcCjBWZ6njQzzLhhTd3jaWGOx46I3TRk3Y1xSiSfnIWrAAd0/aZ0k+
-	RZYdWDm6e7WFKtRULe7n3MN4hByEFJjcBIvEMmYy71cbHWWKvSLZOu/Re2sU+8G5wJNm
-	i3xOD4wNdDp5cCNx7LiHwrwo4IEgkICHwUg04nrNTb8BSGbtpxR6bEJv9+YsxX6b84Ox
-	gdK5ZCnX+TKhHUrj5RXmTZ7JakJCezdcZVhaO9H0BzCRF87VeA7tds3uhtGM0W1l51bk
-	QGxg==
-X-Gm-Message-State: ALQs6tB7BeltxjJdIllmPcI/bxNzEbrKQ42aeexFhHyPeXQ88Jmh+/Ns
-	ZGYY3gKCq7hZllgKq8xdI5zonw==
-X-Google-Smtp-Source: AB8JxZrZSlg1pjWiwMsjJ4S+sOZ54Dp9QOGNhkTk5Q4bJa6ShLts9MCaQFCqxNTuejVf6NHp6KONhQ==
-X-Received: by 2002:a0c:a94c:: with SMTP id
-	z12-v6mr8542538qva.57.1525455839882; 
-	Fri, 04 May 2018 10:43:59 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	t13-v6sm14940817qte.77.2018.05.04.10.43.57
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 04 May 2018 10:43:59 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 04 May 2018 14:43:54 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  4 May 2018 14:43:46 -0300
-Message-Id: <20180504174346.1149-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180504174346.1149-1-otavio@ossystems.com.br>
-References: <20180504174346.1149-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 2/2] wic: add ontrack DM6 aux3 support
+	Fri,  4 May 2018 18:21:25 +0000 (UTC)
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 05/04/2018 2:21:24 PM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.161
+X-Note-AR-Scan: None - PIPE
+Received: by relay.appriver.com (CommuniGate Pro PIPE 6.2.1)
+	with PIPE id 373600067; Fri, 04 May 2018 14:21:24 -0400
+Received: from [213.210.30.29] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.2.1)
+	with ESMTPS id 373600011; Fri, 04 May 2018 14:21:22 -0400
+Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1fEfKd-000GNa-Ku; Fri, 04 May 2018 19:21:23 +0100
+Received: from mac by chuckie with local (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1fEfKd-00022i-K5; Fri, 04 May 2018 19:21:23 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 May 2018 19:21:20 +0100
+Message-Id: <20180504182120.7783-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 05/04/2018 2:21:22 PM
+X-Note: SecureTide Build: 1/19/2018 4:03:46 PM UTC (2.6.29.0)
+X-Note: Filtered by 10.238.11.161
+X-Policy: brightsign.biz
+X-Primary: brightsign.biz@brightsign.biz
+X-Virus-Scan: V-
+X-Note: ICH-CT/SI:0-0/SG:1 1/1/0001 12:00:00 AM
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-49/SG:1 5/4/2018 2:20:43 PM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.483445 p=-1 Source Normal
+X-Signature-Violations: 0-0-0-3957-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G335 G336 G337 G338 G342 G343 G475 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] rm_work: Stop appending _setscene to do_image_complete_setscene stamps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,53 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2018 17:43:59 -0000
+X-List-Received-Date: Fri, 04 May 2018 18:21:26 -0000
 
-Add ontrack DM6 aux3 partition support to enable creating
-partitions required to boot i.MX MXS based platforms.
+Each time I build my image after the first, I end up with a
+do_image_complete_setscene stamp file with an extra _setscene appended to
+the name. Eventually, the filenames end up being so long that mv complains
+and the build fails.
 
-This has been removed by OE-Core:21af89a6 (wic: allow only supported
-fstypes). It was unnoticed as most users were still using the
-meta-freecale image generation class instead of wic but we are now
-in process of dropping the class and this is the remaining use-case.
+It looks like this behaviour was introduced when the special handling was
+added for do_image_complete in 2ff9d40dc88d43567472218cf3d3faf414398c71.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+So, let's ensure that the *_setscene* pattern is matched before anything
+else so that the do_image_complete_setscene stamp file is merely ignored
+and only the do_image_complete non-setscene stamp file is moved once.
+
+It's not straightforward to just move *do_image_complete* after the
+*_setscene* pattern because do_image_complete stamps would then match
+do_image*.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
+ meta/classes/rm_work.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Changes in v2: None
-
- scripts/lib/wic/ksparser.py              | 3 ++-
- scripts/lib/wic/plugins/imager/direct.py | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index e590b2fe3c..02b267380f 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -138,7 +138,8 @@ class KickStart():
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype', default='vfat',
-                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
--                                   'squashfs', 'vfat', 'msdos', 'swap'))
-+                                   'squashfs', 'vfat', 'msdos', 'swap',
-+                                   'ontrackdm6aux3'))
-         part.add_argument('--mkfs-extraopts', default='')
-         part.add_argument('--label')
-         part.add_argument('--no-table', action='store_true')
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 1fa6b917e6..594481e6a9 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -528,6 +528,8 @@ class PartitionedImage():
-                 parted_fs_type = "fat16"
-                 if not part.system_id:
-                     part.system_id = '0x6' # FAT16
-+            elif part.fstype == "ontrackdm6aux3":
-+                parted_fs_type = "ontrackdm6aux3"
-             else:
-                 # Type for ext2/ext3/ext4/btrfs
-                 parted_fs_type = "ext2"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 31d99e4554..318d121d2b 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -53,6 +53,10 @@ do_rm_work () {
+             *do_setscene*)
+                 break
+                 ;;
++            *_setscene*)
++                i=dummy
++                break
++                ;;
+             *sigdata*|*sigbasedata*)
+                 i=dummy
+                 break
+@@ -89,10 +93,6 @@ do_rm_work () {
+                 i=dummy
+                 break
+                 ;;
+-            *_setscene*)
+-                i=dummy
+-                break
+-                ;;
+             *$j|*$j.*)
+                 mv $i `echo $i | sed -e "s#${j}#${j}_setscene#"`
+                 i=dummy
 -- 
-2.17.0
+2.11.0
+
 
 
