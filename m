@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D679874D80
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DE89174DF0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 00:14:49 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 82-v6so16446395pge.11
+	Sat,  5 May 2018 00:14:50 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id a22so4507351pfn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 17:14:51 -0700 (PDT)
+	Fri, 04 May 2018 17:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=a8tdDY4NWb0/WFSGV8AOycfxIGYazx0m5OIim3ov2nk=;
-	b=cZenbyqs/w3AP1sRRxz+ud5MyzoI+jtOGYI+pWIFAf1WwKmqMEdvn2ApoDLmmmgLqH
-	PSn75LFkh+d4yOEqLC2lkz4baz/yZaNi+eVkeS1N4jcsXMKnkacgyKPclcZxWxFVu+yr
-	/DkjcYhI1ouy1jvGiiElpvn4vHPIR7OX00Tu06Q8NrejZSzfbUJtfYCKwSMRhL3O2vCV
-	DRF6bDdAvQYTV1C7uCv5l1tvqMQnYlu2urpa2UFGOM3U4A3dwXlCGYa+A8V7YdTkZDTB
-	3k7t4osCN7Pmxw46rrCuCEkPhV3mrylizHJ9MxcgZyBeUL7MUKxHLfkuPt1wkbcgDyFu
-	cCTA==
+	bh=jvvfG14KDHvHcnWe87Wp+vrQdPqR8xPDDEjubxy9Q3w=;
+	b=lIVyGoBdkrUcsoWK9DT4EA0nqMqkYMuFgdyzDwteyyKr2UbJG+BqwEpxMWnJwwknNB
+	nU4lTAqSIcI53FcZx3/rdwvQoM8OpTQa8z3glDcZd4Z3qbKovXgf44PI/sccInlHpodY
+	3shiZAbitKzWUklmpX/ePzNmBNxNV0Leqo7T4EyNNF0bfGHEIBGnxEvvRh1lJrEovish
+	YB/n5cDiTU3mL3x4FpmnNBUccyZiXg4404Jg1CsDHorKuSAs0idC4wIKzhuFYTwJTTiN
+	UYk0Ox9ibFoQEmgJ+tuFaA1NuwTlXwZZgNwMGSdKmf9YLlo2bJy8G3x5AIqrWGxWOp/d
+	/Oew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=a8tdDY4NWb0/WFSGV8AOycfxIGYazx0m5OIim3ov2nk=;
-	b=ghEzlI9Invm2tDAL85SzcI+kJoo/5cAeF8d/kXJ91hr0+CnpRqDb1rRAolZMMi9Ufy
-	Cvi935ln8DdZzn69o2OZ5lbex+qyezxc9yjn0aPUgjbrkDiwW+NQrmx0p68sq+0bOS1M
-	62l1lRjhq+RPrG35YM4nQ9XNmD8J8ud8XVoKgJBdmB+nwwFQNwhyFcD+yOmVZ5Co5ds1
-	Zn7GrxBTZk7ipGVLx8xbxehr+5kc0YNmfHQiaHhfksQVMJX8GYnwS5hM5cwkFaZf/Llm
-	2Cg3kOMLuu4PKpNh+VhYJLJ26911zY5ws+dtCw2z8w9ZdvhUieqwuoqUCxOuxu5YWD55
-	aLFg==
-X-Gm-Message-State: ALQs6tCSEHdSd1N3R3jJy/pCCwC+zvKbpBiXYVQ+OoQvX1jLggcGJfWZ
-	nl4eo2o6hI8AkPuQW8DRArLecA==
-X-Google-Smtp-Source: AB8JxZp+cJYlF08L8VawuTeM5a0paPBg3+XC1nwrOLTHtDKl0APa2o8UYUMuKjxPZi9Q5HBU282naQ==
-X-Received: by 2002:a65:61ad:: with SMTP id
-	i13-v6mr23655500pgv.449.1525479290869; 
-	Fri, 04 May 2018 17:14:50 -0700 (PDT)
+	bh=jvvfG14KDHvHcnWe87Wp+vrQdPqR8xPDDEjubxy9Q3w=;
+	b=JGBKz9fRyrszLKi2eBJIVSRU7hKGaFfUR0trArb7yUFxA8lPn8QlZalPFvVqEyhGfN
+	+yvwz2K2KhsKwMOe0qhtvvk63ZP0R4Aq17r1l3MK3nKcdg8COo5OlB+Ph6WUcmKc1z7p
+	S9yNr+7bdQbZNd5sIo5kL5VCRT4/2xUyQZPLek6dDlxZUcBTVQwR+mF6KCmsq8HEkq9c
+	uj9netWaXqQ1scpgk3/SCCvVC39rc9MWCj/vXrnjysjAhjW8hiyQLYdIS0jb69lxUg+o
+	1Z5Rbx9Nk0vSjGnh7G4jjmCrxjDVx7yaFuUdsGQjbv24QFBsuh9+mdXHaAos7UdfojPr
+	MHTw==
+X-Gm-Message-State: ALQs6tA+8Gp7CINA+3eduD/yIHhn4aIY6jhj5y/JySEX+DYRIGRp+U5E
+	xtFu14ZPiDicopDrqmVent0c9A==
+X-Google-Smtp-Source: AB8JxZqmLh1NpVxyLCkBlyJpmZYv3eq/x6KQkBDA935Yo8uAump6GhRMM51Brsp0Phn52dcKU37OtA==
+X-Received: by 2002:a63:a54f:: with SMTP id
+	r15-v6mr24582434pgu.236.1525479291954; 
+	Fri, 04 May 2018 17:14:51 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	o88sm36468559pfa.29.2018.05.04.17.14.49
+	o88sm36468559pfa.29.2018.05.04.17.14.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 May 2018 17:14:49 -0700 (PDT)
+	Fri, 04 May 2018 17:14:51 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 17:14:18 -0700
-Message-Id: <d5a6bebb0a96bd96bfa876f283d83e9233103d13.1525478935.git.raj.khem@gmail.com>
+Date: Fri,  4 May 2018 17:14:19 -0700
+Message-Id: <0697c7845e50ac8803151867abf15246be492f46.1525478935.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525478935.git.raj.khem@gmail.com>
 References: <cover.1525478935.git.raj.khem@gmail.com>
-Subject: [PATCH 24/27] Disable using GST_GL if gst does not enable it
+Subject: [PATCH 25/27] mesa: Define PYTHON2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,53 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 00:14:50 -0000
+X-List-Received-Date: Sat, 05 May 2018 00:14:51 -0000
+
+Ensure that python2 is not assumed to be python which can
+point to python3 in some cases, when building gallium-llvm
+there are scripts which are requiring python2 and wont work
+with python3
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../webkitgtk/detect-gstreamer-gl.patch       | 20 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.20.0.bb  |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch b/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
-new file mode 100644
-index 0000000000..57ae48c141
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
-@@ -0,0 +1,20 @@
-+From: Alberto Garcia <berto@igalia.com>
-+Subject: Disable USE_GSTREAMER_GL is the package is not found
-+Forwarded: no
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: webkitgtk/Source/cmake/GStreamerChecks.cmake
-+===================================================================
-+--- webkitgtk.orig/Source/cmake/GStreamerChecks.cmake
-++++ webkitgtk/Source/cmake/GStreamerChecks.cmake
-+@@ -43,7 +43,8 @@ if (ENABLE_VIDEO OR ENABLE_WEB_AUDIO)
-+             message(FATAL_ERROR "GStreamer 1.10 is needed for USE_GSTREAMER_GL.")
-+         else ()
-+             if (NOT PC_GSTREAMER_GL_FOUND)
-+-                message(FATAL_ERROR "GStreamerGL is needed for USE_GSTREAMER_GL.")
-++                set(USE_GSTREAMER_GL OFF)
-++                message(STATUS "GStreamerGL is needed for USE_GSTREAMER_GL.")
-+             endif ()
-+         endif ()
-+     endif ()
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-index 50e2666578..e357c64214 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://detect-atomics-during-configure.patch \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-Fix-build-with-musl.patch \
-+           file://detect-gstreamer-gl.patch \
-            "
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 354271e826..5d4a452d33 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -35,6 +35,7 @@ export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config${MESA_LLVM_RELEASE}"
+ export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
+ EXTRA_OECONF = "--enable-shared-glapi \
+                 --disable-opencl \
++                PYTHON2=python2 \
+                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
+                 --with-platforms='${PLATFORMS}'"
  
- SRC_URI[md5sum] = "51cc47345c3ec53802718cd6fc9b746f"
 -- 
 2.17.0
 
