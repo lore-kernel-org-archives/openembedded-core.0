@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8262B74DC4
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D679874D80
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 00:14:48 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id q22so18606943pff.11
+	Sat,  5 May 2018 00:14:49 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id 82-v6so16446395pge.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 17:14:50 -0700 (PDT)
+	Fri, 04 May 2018 17:14:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=oMbmqL98t8dcMNAS+W8mp86YEcqU7ruq4As7AUW/TKM=;
-	b=Y5Nqv/RMneceg1muSIr3QiaSpbTYXN/ANYEaMcNqZBoJN4kTvR4shH2UQREe9ME1uB
-	eA021rL1sFlypHizPIZqpoetlZSNwuzKCTdD+EMP0t0f7WADgbcC8lLq5gA1zxDNBKpd
-	f6j/j50cb6PPrD7DInHLtKL1lYtIPdRwopdWdmdaEBqagnmrGr853W+Jw8LAklTvcoTO
-	dX6TdlYs5GIc2pAterBaUmfZPgw6pkzPLtZatgD92dV6JIK4cClVc0f0ZXSegAHD/K1u
-	usp7yK3I99Cib0H0uaKuGknaECSdxWDW8QkOAA5hxhq9DgsCy4utoHayllviej3EXEbS
-	dAUQ==
+	bh=a8tdDY4NWb0/WFSGV8AOycfxIGYazx0m5OIim3ov2nk=;
+	b=cZenbyqs/w3AP1sRRxz+ud5MyzoI+jtOGYI+pWIFAf1WwKmqMEdvn2ApoDLmmmgLqH
+	PSn75LFkh+d4yOEqLC2lkz4baz/yZaNi+eVkeS1N4jcsXMKnkacgyKPclcZxWxFVu+yr
+	/DkjcYhI1ouy1jvGiiElpvn4vHPIR7OX00Tu06Q8NrejZSzfbUJtfYCKwSMRhL3O2vCV
+	DRF6bDdAvQYTV1C7uCv5l1tvqMQnYlu2urpa2UFGOM3U4A3dwXlCGYa+A8V7YdTkZDTB
+	3k7t4osCN7Pmxw46rrCuCEkPhV3mrylizHJ9MxcgZyBeUL7MUKxHLfkuPt1wkbcgDyFu
+	cCTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=oMbmqL98t8dcMNAS+W8mp86YEcqU7ruq4As7AUW/TKM=;
-	b=fcpg0ax8b4r92VgsgOELSMPUtOYdXJp5Tsw8tF0nNQ1BDGAZrg3U69qGZSVJF6PLYG
-	6cCmn0zhEG761Ug2Dnfw7YklQdz4848BGyE0hWKkXAM274KXwAPulU6jM3LpUUnTRbTO
-	TOQ7FUBaYwBoKFUbBgC+nM4BYrLNLcP9WPlrjMQarUdzUQJ08taZSankT0LHevAU7LvJ
-	3AlESMYZGo7rx84rltTVQ1huz7wQsD8VL9CPcLOjX5SqH9PtputwXKWlf8UgJcrzNTBb
-	5lH8JjMv7VlBFbk47v0+0CpKq6FC2eMGsWpEZUF1gxWtBUL7GqwWe+hc4ulbE/qt2pIB
-	EvhA==
-X-Gm-Message-State: ALQs6tB5wyoV9TEhIMqACrK0Ew3GirhmLrV0QiuuRF79usXzb70Xodpu
-	oGwceC63Kih39dV7mZBW3ESPrg==
-X-Google-Smtp-Source: AB8JxZqTbTSGZswzWTlqMkRg9lYv59VaDDQWaFjMFSULv31WQstpypx8jkQ4Bcq2fjxXCpZpr2y5VA==
-X-Received: by 2002:a63:6d41:: with SMTP id
-	i62-v6mr23818829pgc.233.1525479289457; 
-	Fri, 04 May 2018 17:14:49 -0700 (PDT)
+	bh=a8tdDY4NWb0/WFSGV8AOycfxIGYazx0m5OIim3ov2nk=;
+	b=ghEzlI9Invm2tDAL85SzcI+kJoo/5cAeF8d/kXJ91hr0+CnpRqDb1rRAolZMMi9Ufy
+	Cvi935ln8DdZzn69o2OZ5lbex+qyezxc9yjn0aPUgjbrkDiwW+NQrmx0p68sq+0bOS1M
+	62l1lRjhq+RPrG35YM4nQ9XNmD8J8ud8XVoKgJBdmB+nwwFQNwhyFcD+yOmVZ5Co5ds1
+	Zn7GrxBTZk7ipGVLx8xbxehr+5kc0YNmfHQiaHhfksQVMJX8GYnwS5hM5cwkFaZf/Llm
+	2Cg3kOMLuu4PKpNh+VhYJLJ26911zY5ws+dtCw2z8w9ZdvhUieqwuoqUCxOuxu5YWD55
+	aLFg==
+X-Gm-Message-State: ALQs6tCSEHdSd1N3R3jJy/pCCwC+zvKbpBiXYVQ+OoQvX1jLggcGJfWZ
+	nl4eo2o6hI8AkPuQW8DRArLecA==
+X-Google-Smtp-Source: AB8JxZp+cJYlF08L8VawuTeM5a0paPBg3+XC1nwrOLTHtDKl0APa2o8UYUMuKjxPZi9Q5HBU282naQ==
+X-Received: by 2002:a65:61ad:: with SMTP id
+	i13-v6mr23655500pgv.449.1525479290869; 
+	Fri, 04 May 2018 17:14:50 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	o88sm36468559pfa.29.2018.05.04.17.14.48
+	o88sm36468559pfa.29.2018.05.04.17.14.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 May 2018 17:14:48 -0700 (PDT)
+	Fri, 04 May 2018 17:14:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 17:14:17 -0700
-Message-Id: <ba1dca24dda5c1318c54e06cd0c6de28d3a8a69e.1525478935.git.raj.khem@gmail.com>
+Date: Fri,  4 May 2018 17:14:18 -0700
+Message-Id: <d5a6bebb0a96bd96bfa876f283d83e9233103d13.1525478935.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525478935.git.raj.khem@gmail.com>
 References: <cover.1525478935.git.raj.khem@gmail.com>
-Subject: [PATCH 23/27] packagegroup: Do not add libssp to SDK
+Subject: [PATCH 24/27] Disable using GST_GL if gst does not enable it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,63 +57,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 00:14:48 -0000
-
-Libssp is only needed on mon-glibc/non-musl systems
-Add rpcsvc-proto for rpcgen since its not part of glibc
-anymore
+X-List-Received-Date: Sat, 05 May 2018 00:14:50 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../packagegroup-core-standalone-sdk-target.bb        |  2 +-
- .../packagegroups/packagegroup-self-hosted.bb         | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ .../webkitgtk/detect-gstreamer-gl.patch       | 20 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.20.0.bb  |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 43fc599c73..f5b2d69cef 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -13,7 +13,7 @@ RDEPENDS_${PN} = "\
-     ${LIBC_DEPENDENCIES} \
-     "
+diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch b/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
+new file mode 100644
+index 0000000000..57ae48c141
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
+@@ -0,0 +1,20 @@
++From: Alberto Garcia <berto@igalia.com>
++Subject: Disable USE_GSTREAMER_GL is the package is not found
++Forwarded: no
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: webkitgtk/Source/cmake/GStreamerChecks.cmake
++===================================================================
++--- webkitgtk.orig/Source/cmake/GStreamerChecks.cmake
+++++ webkitgtk/Source/cmake/GStreamerChecks.cmake
++@@ -43,7 +43,8 @@ if (ENABLE_VIDEO OR ENABLE_WEB_AUDIO)
++             message(FATAL_ERROR "GStreamer 1.10 is needed for USE_GSTREAMER_GL.")
++         else ()
++             if (NOT PC_GSTREAMER_GL_FOUND)
++-                message(FATAL_ERROR "GStreamerGL is needed for USE_GSTREAMER_GL.")
+++                set(USE_GSTREAMER_GL OFF)
+++                message(STATUS "GStreamerGL is needed for USE_GSTREAMER_GL.")
++             endif ()
++         endif ()
++     endif ()
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
+index 50e2666578..e357c64214 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.20.0.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://detect-atomics-during-configure.patch \
+            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-Fix-build-with-musl.patch \
++           file://detect-gstreamer-gl.patch \
+            "
  
--RRECOMMENDS_${PN} = "\
-+RRECOMMENDS_${PN}_mingw32 = "\
-     libssp \
-     libssp-dev \
-     "
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index adb0c56c3a..f1273e8a17 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -76,9 +76,6 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     intltool \
-     ldd \
-     less \
--    libssp \
--    libssp-dev \
--    libssp-staticdev \
-     libstdc++ \
-     libstdc++-dev \
-     libtool \
-@@ -90,10 +87,16 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
-     quilt \
-     sed \
-     "
--# glibc-utils: for rpcgen
-+RDEPENDS_packagegroup-self-hosted-sdk_append_mingw32 = "\
-+    libssp \
-+    libssp-dev \
-+    libssp-staticdev \
-+    "
-+# rpcsvc-proto: for rpcgen
- RDEPENDS_packagegroup-self-hosted-sdk_append_libc-glibc = "\
-     glibc-gconv-ibm850 \
-     glibc-utils \
-+    rpcsvc-proto \
-     "
- RDEPENDS_packagegroup-self-hosted-debug = " \
-     gdb \
+ SRC_URI[md5sum] = "51cc47345c3ec53802718cd6fc9b746f"
 -- 
 2.17.0
 
