@@ -1,50 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 540E774D8C
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E2174D40
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 00:14:26 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id q22so18606502pff.11
+	Sat,  5 May 2018 00:14:27 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 82-v6so16445999pge.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 17:14:28 -0700 (PDT)
+	Fri, 04 May 2018 17:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=XH50gH3v5Zfcm0YQpiX+2GbtcXf2EsakvQGwlY91Gt8=;
-	b=jOQKcXKOnNA1SlrsBrKoePc9D2JA6YNmkD8Pi24paKDuSMAkT6dZ+KQuQPwk4o9WKx
-	XnQaLmLjwySXUi2mGqlpZ6AkQUFWgZPO4u5BVPwORz4zBdJ0GlQz+0eJuunSPbbVAzZB
-	XmBsx24AuSiXYqe7sqqnc/f0BUqaCRcWO2n93RXCTAdWUzz+8VVyQq8SaWzdF/t8tuwx
-	jo4/0OwJWyPLQ7cqC8sPl1nqovu+Vz4qhbOQso/OAPXro/2Y9F5ubqlTblwXDpVkKkmM
-	6/W82rpYBnJvS+tv2RgS8RYXthc1CqArcB8Z5CkuvQrZZooM5hIwy/okP1YzqQqBgUYm
-	54zg==
+	bh=f1CUzw2V3Rnb2rsCTHsIcyWrQZao6r+c4hEKZhbeft0=;
+	b=kaS1ljEF2FXuMI2mlz/EdeIzvE/o2edvyAUxlp13ceAsunjLSW6APjJrARq+2M9upx
+	N0ay0R5U7ptHddHaYR6aAWQQAkHpk+Xjgxa4KaQLCPqVmbKHr6IsbGdhe7Nf0ukQhh06
+	j80PPjlSXdx+nXhJGFn33rlPliT5/KSTuulvhIGQLTq8IKXfFE+fZ6UO7nCpk7qEbdF2
+	WYAHS5ywQthNQYTDwCdjR7W5Wsm6bXR38tUD0oNoDat0Aej0WglmtI/aXfFPnnZlpJo6
+	wf0RiBQRjg7nJP+wCPwsGG/jiX6XqcwJHSYnUFbaezIQV0PDKBHnLsI4Aa1tG63qjP8x
+	a5oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=XH50gH3v5Zfcm0YQpiX+2GbtcXf2EsakvQGwlY91Gt8=;
-	b=gXG7uw9imZ7MjtGVC1R60bdtJEDRn2EAQdOj8DxaCtkkjBzO3nvvF+jAX6VAoLU3/n
-	dBc+siQMJEBC2ksoHQKNKuaTApsq4YrISl68EYmaVjHovlG0E7NQ8tZD0cskZetOdJJs
-	Cj+xfbJa3jkh+kpdrWHqme4Ab53NLcVbWYI/iOBY06mjXd4TsapGihTMmFav7NZ8KRgL
-	Oych7iJWhCT7hdqGdkpPy6Hxm/SnpkMW/7VSzb4Zj4NbaemT8gYERWYDkGmJzaFLLiNX
-	CQLhTbTmk/vnmXkAZEPdp6O42YERA3VGy0sEckhAiIRTQ8JfheijtRh6cQctfQMPN/EY
-	lHBg==
-X-Gm-Message-State: ALQs6tBa/aMb/j98T11JVAfCo89MmaVUwqsK0un9+4qMZJXlMI9hYCbx
-	LZCokoY9nr+xHvL1IuWJJKKAqw==
-X-Google-Smtp-Source: AB8JxZpQvU7jmJWnWij9+FDhzZxinG5u1CB8L2+vB9ZJbKauiDHEEh/DemyRGBN5L4nhi1CyPrSU0g==
-X-Received: by 10.98.178.208 with SMTP id z77mr28701309pfl.122.1525479267814; 
-	Fri, 04 May 2018 17:14:27 -0700 (PDT)
+	bh=f1CUzw2V3Rnb2rsCTHsIcyWrQZao6r+c4hEKZhbeft0=;
+	b=EEubDQyRE8tifIVFiUciPbANszd7ABwlgE7SVvb28AQP5q9qGo0MiCOVxKEAPTDnTb
+	STcCIsWRLjkR6lkVEgvL8zmI7oQYfqnNz4LntsvPl7FtBWVtDaPvpziqRWXUS+eUdegR
+	XtvUyUMJxbWxKzvvcapD0uBwD8CMX5i2wt1zid6tXDmgIQu2dI7AA0wFzcArIOsTgzlk
+	17c5nc/2XB1J/hTf17bc7K7dBfu37A6Dlx34OFwNwxsTv7TUECZpECxk7N2mgcsuWAoM
+	tQYcJ5P9dkrYveyGdNg/rIyULNKqJvN87jOEZZcL5JEMPdg17x5AAxWXm+4cq9rR57Jc
+	mMYw==
+X-Gm-Message-State: ALQs6tBsCtkyi87lO9Ut34GvInb+b7H8YftogHwH5mBsj1EI5RNv9ZAM
+	QIwZEI4LPIO3NwMD2D2wYjIEZQ==
+X-Google-Smtp-Source: AB8JxZrDCHuLKfhEqBxARmUH2LqFsM+RnOFYKBUneL4gY18EcSYlo51QwYd3XdB1t+rNU0mQWGy4VQ==
+X-Received: by 10.98.10.72 with SMTP id s69mr28752207pfi.134.1525479268869;
+	Fri, 04 May 2018 17:14:28 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	o88sm36468559pfa.29.2018.05.04.17.14.26
+	o88sm36468559pfa.29.2018.05.04.17.14.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 May 2018 17:14:27 -0700 (PDT)
+	Fri, 04 May 2018 17:14:28 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 17:13:58 -0700
-Message-Id: <cfb68b2ab35f3046c2c9fee06ae1418e602a6616.1525478935.git.raj.khem@gmail.com>
+Date: Fri,  4 May 2018 17:13:59 -0700
+Message-Id: <87e08c2b1c32706ab2a2fffeb947c7ec1d684970.1525478935.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525478935.git.raj.khem@gmail.com>
 References: <cover.1525478935.git.raj.khem@gmail.com>
-Subject: [PATCH 04/27] libunwind: Drop adding libssp to linker flags
+Subject: [PATCH 05/27] musl: Upgrade to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 00:14:27 -0000
+X-List-Received-Date: Sat, 05 May 2018 00:14:28 -0000
 
-This is no longer needed as gcc provided libssp
-is not built
+Changes are here
+https://git.musl-libc.org/cgit/musl/log/?qt=range&q=618b18c78e33acfe54a4434e91aa57b8e171df89..941bd884cc0221d051840ce6d21650339e711863
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libunwind/libunwind.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index b9c532d3ad..36851d07ed 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
-@@ -14,8 +14,6 @@ PACKAGECONFIG[latexdocs] = "--enable-documentation, --disable-documentation, lat
- EXTRA_OECONF_arm = "--enable-debug-frame"
- EXTRA_OECONF_aarch64 = "--enable-debug-frame"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 01fec69aeb..a0a098f5b4 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
  
--SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared -lssp"
--
- do_install_append () {
- 	oe_multilib_header libunwind.h
- }
+ require musl.inc
+ 
+-SRCREV = "618b18c78e33acfe54a4434e91aa57b8e171df89"
++SRCREV = "941bd884cc0221d051840ce6d21650339e711863"
+ 
+ PV = "1.1.19+git${SRCPV}"
+ 
 -- 
 2.17.0
 
