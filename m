@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E6AC74DDA
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8262B74DC4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 00:14:47 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id p9-v6so13545906pgc.9
+	Sat,  5 May 2018 00:14:48 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id q22so18606943pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 17:14:48 -0700 (PDT)
+	Fri, 04 May 2018 17:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rDjOx9JKZd+yZsuc/wtqNsuwD+B0Vx+tt4bnYcGFwMk=;
-	b=WHZDmImhnj57r4G8MHfShGiWJcqxjUwTStPl42dAVSjCXBEWvl/uqYbI2oPxFj8pYL
-	ANR23XfCoLXObUb6siw+ZN2e1Ucsq1MrJ2f3F9TYHmqBDJ/TEbAnrOG8svto9M3lB/Go
-	4D4oJO/M3P07yS+p7HemQ6VMmOu0pwOn33m7ABhWAA6kRgOCxYCMT695fHqNCz3wEksv
-	efLkSrEDC3Ybss+HjM+OFhUl+wy8m+ETKe9YCyhw/K7rFsqgOLxPpNddvJwkyqh3cFJ0
-	q6X6In7Jryv2RTl0fRS+DQo6ujjKQ4rNJZL/QKavM5TlOddbK5wvye0WJu1MEhly65eW
-	j3Vg==
+	bh=oMbmqL98t8dcMNAS+W8mp86YEcqU7ruq4As7AUW/TKM=;
+	b=Y5Nqv/RMneceg1muSIr3QiaSpbTYXN/ANYEaMcNqZBoJN4kTvR4shH2UQREe9ME1uB
+	eA021rL1sFlypHizPIZqpoetlZSNwuzKCTdD+EMP0t0f7WADgbcC8lLq5gA1zxDNBKpd
+	f6j/j50cb6PPrD7DInHLtKL1lYtIPdRwopdWdmdaEBqagnmrGr853W+Jw8LAklTvcoTO
+	dX6TdlYs5GIc2pAterBaUmfZPgw6pkzPLtZatgD92dV6JIK4cClVc0f0ZXSegAHD/K1u
+	usp7yK3I99Cib0H0uaKuGknaECSdxWDW8QkOAA5hxhq9DgsCy4utoHayllviej3EXEbS
+	dAUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rDjOx9JKZd+yZsuc/wtqNsuwD+B0Vx+tt4bnYcGFwMk=;
-	b=LPFSO+ettd/+rAcplviDmPIqiPSCmtXUq/lKVg79ckfDEwQF33g3O5spwM3by/ZIC+
-	FwY6uK0wC1qG8o7rAHXUhpL5BvZBvP/+C4c74mI5lJpO6vSbfeX01+KZlmgOAICEHQEq
-	DUgfp8UXAXUft1b/ULmuG+tdWJB7Z3kArbDClzBHFoO1UyNbWAEGbZwhP5yO52gsvNEN
-	PkssfT48/o01jbz36eMvKQWOUyttjIt3PQtKV5ets6ErC0sG9HtVI+vTFM0xy/a+G9ef
-	yGxzjwgAuOwAmzfhpPn4WVvWYWs9b2x3AgOqrMN1K/N8YvFHR+xPEtqTY8/DBPHYLZya
-	yz8Q==
-X-Gm-Message-State: ALQs6tDleDhTbs/QxXuUSUbuwFE3ITZ2LWch+4pwkMPlSlqcW7HA2LPF
-	pdwQ/jsoLzgkhzIkmrUZ6uE4xA==
-X-Google-Smtp-Source: AB8JxZrli3y/Lf8FcVfSCDFHvg9OkZbsSzLSAsr2liXCLv0ltucx6h9Z/JDTOW3qSVlEpnU+75pTyA==
-X-Received: by 2002:a65:45c2:: with SMTP id
-	m2-v6mr23834500pgr.433.1525479288204; 
-	Fri, 04 May 2018 17:14:48 -0700 (PDT)
+	bh=oMbmqL98t8dcMNAS+W8mp86YEcqU7ruq4As7AUW/TKM=;
+	b=fcpg0ax8b4r92VgsgOELSMPUtOYdXJp5Tsw8tF0nNQ1BDGAZrg3U69qGZSVJF6PLYG
+	6cCmn0zhEG761Ug2Dnfw7YklQdz4848BGyE0hWKkXAM274KXwAPulU6jM3LpUUnTRbTO
+	TOQ7FUBaYwBoKFUbBgC+nM4BYrLNLcP9WPlrjMQarUdzUQJ08taZSankT0LHevAU7LvJ
+	3AlESMYZGo7rx84rltTVQ1huz7wQsD8VL9CPcLOjX5SqH9PtputwXKWlf8UgJcrzNTBb
+	5lH8JjMv7VlBFbk47v0+0CpKq6FC2eMGsWpEZUF1gxWtBUL7GqwWe+hc4ulbE/qt2pIB
+	EvhA==
+X-Gm-Message-State: ALQs6tB5wyoV9TEhIMqACrK0Ew3GirhmLrV0QiuuRF79usXzb70Xodpu
+	oGwceC63Kih39dV7mZBW3ESPrg==
+X-Google-Smtp-Source: AB8JxZqTbTSGZswzWTlqMkRg9lYv59VaDDQWaFjMFSULv31WQstpypx8jkQ4Bcq2fjxXCpZpr2y5VA==
+X-Received: by 2002:a63:6d41:: with SMTP id
+	i62-v6mr23818829pgc.233.1525479289457; 
+	Fri, 04 May 2018 17:14:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	o88sm36468559pfa.29.2018.05.04.17.14.47
+	o88sm36468559pfa.29.2018.05.04.17.14.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 May 2018 17:14:47 -0700 (PDT)
+	Fri, 04 May 2018 17:14:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 17:14:16 -0700
-Message-Id: <d7cb3c04d9e69a4cabba9460b53072bebf53603e.1525478935.git.raj.khem@gmail.com>
+Date: Fri,  4 May 2018 17:14:17 -0700
+Message-Id: <ba1dca24dda5c1318c54e06cd0c6de28d3a8a69e.1525478935.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <cover.1525478935.git.raj.khem@gmail.com>
 References: <cover.1525478935.git.raj.khem@gmail.com>
-Subject: [PATCH 22/27] allarch.bbclass: Exclude package_do_shlibs from do_package signature
+Subject: [PATCH 23/27] packagegroup: Do not add libssp to SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +58,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 00:14:47 -0000
+X-List-Received-Date: Sat, 05 May 2018 00:14:48 -0000
 
-shlibs is largely useless for allarch, the particular usecase where it
-fails is when DISTRO_FEATURE is changing due to libc being different e.g.
-
-Variable package_do_shlibs value changed:
--DISTRO_FEATURES{ldconfig} = Set
-+DISTRO_FEATURES{ldconfig} = Unset
-
-musl -> glibc or other way around 'ldconfig' gets added or deleted to
-DISTRO_FEATURE set, neither this distro feature nor the shlibs processing
-during packaging is of interest to allarch packages which are largely
-arch independent scripts
+Libssp is only needed on mon-glibc/non-musl systems
+Add rpcsvc-proto for rpcgen since its not part of glibc
+anymore
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/allarch.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../packagegroup-core-standalone-sdk-target.bb        |  2 +-
+ .../packagegroups/packagegroup-self-hosted.bb         | 11 +++++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 51ba509cd0..1eebe0bf2e 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -45,6 +45,7 @@ python () {
-         # These multilib values shouldn't change allarch packages so exclude them
-         d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
-         d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
-+        d.appendVarFlag("do_package", "vardepsexclude", " package_do_shlibs")
-     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
-         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
- }
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 43fc599c73..f5b2d69cef 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -13,7 +13,7 @@ RDEPENDS_${PN} = "\
+     ${LIBC_DEPENDENCIES} \
+     "
+ 
+-RRECOMMENDS_${PN} = "\
++RRECOMMENDS_${PN}_mingw32 = "\
+     libssp \
+     libssp-dev \
+     "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index adb0c56c3a..f1273e8a17 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -76,9 +76,6 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
+     intltool \
+     ldd \
+     less \
+-    libssp \
+-    libssp-dev \
+-    libssp-staticdev \
+     libstdc++ \
+     libstdc++-dev \
+     libtool \
+@@ -90,10 +87,16 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
+     quilt \
+     sed \
+     "
+-# glibc-utils: for rpcgen
++RDEPENDS_packagegroup-self-hosted-sdk_append_mingw32 = "\
++    libssp \
++    libssp-dev \
++    libssp-staticdev \
++    "
++# rpcsvc-proto: for rpcgen
+ RDEPENDS_packagegroup-self-hosted-sdk_append_libc-glibc = "\
+     glibc-gconv-ibm850 \
+     glibc-utils \
++    rpcsvc-proto \
+     "
+ RDEPENDS_packagegroup-self-hosted-debug = " \
+     gdb \
 -- 
 2.17.0
 
