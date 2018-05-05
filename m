@@ -1,50 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E84A074D9F
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B040874DC2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 00:52:30 +0000 (UTC)
-Received: by mail-ua0-f172.google.com with SMTP id a3so15182144uad.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2018 17:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hLGWqG1Lfeyha1iiGWIIqFBTCK/x2oUP6qMNtFdAtTQ=;
-	b=IOcFOKk8PFiuG7FTuqjcTqHU6oOSBTh66so2V2nJC7JEul0UZiey6Gg/rprRSAy+L/
-	H4jCL85MonTasStZ/QR0KoO5wURQfJsdDYJFYlhYPEs5ispRZ9XXa7+Xv4R12dkVn282
-	1RItpxc9mc88EAU/xTZqYt248i5hT0kXUEPcfHogS5WeZYgBIuGNBjCqeQPMJMKJZ+aZ
-	Wyiqw4fo3xeL1llYuqcYMnhQ5HOq0762cTCiV+Q4SaEcpfsVrSIgD2z5O1Hcs6vFxcdD
-	dfvfYJ1Q+XMc0uj6yK2m5WhOgeRLNwI2Wt5sU93btS9GJL2dVfbn7IyT8KyFRhtBTa12
-	faZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hLGWqG1Lfeyha1iiGWIIqFBTCK/x2oUP6qMNtFdAtTQ=;
-	b=aeKVA6Xce0yjUXwQiAbk5WY1d2ReqHTJBEuF7qdaE0l9414RwUJnzgYXeqh6j1Ght+
-	MBhI4C5JLvk4cFyV2QBTwQQwFEEoUjNycF4VBtOwxi8Oc2zIj85ojpG+mw7ANSTUs7rI
-	cDPUZsJVDILIPhMeTLTipQeXYg3FDeFAlGossTQ1H0a1PlCWVBZqvvZkGPugHHVvun94
-	lq44Jr0BwwDVQGZVXZSN5psqH8Df+TXEN0+oqTxcFnS57m/uxHopKrniJH+6JtzPKpV1
-	YAreWp4KxK45TW4VTqzu4Z7SCl51ndTr+QgnHG9AQwnCqQ66kFHf4XX9BSvbACGLCZg5
-	eAbA==
-X-Gm-Message-State: ALQs6tC8ZpTTXPnI6ScKyWr8pqXR+3kRd/BdjBgx5w1DJ8UpbrkiVKBK
-	WG+VLL/RKR45xyYHMSihoIzJg9XHD+rJSzDgmMc=
-X-Google-Smtp-Source: AB8JxZpEcW3RKyUaByzIMEb2R0sDR/U9RbwvhqsPSBYnytK7v44+v9t0TITG+YG29wu7W54j1Btnw5aACree8CDwVcA=
-X-Received: by 10.159.55.102 with SMTP id a35mr26043156uae.66.1525481551415;
-	Fri, 04 May 2018 17:52:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.176.48.148 with HTTP; Fri, 4 May 2018 17:52:31 -0700 (PDT)
-In-Reply-To: <8ba5b8b622744aa783b1963437fc1cce@XBOX02.axis.com>
-References: <1525474370-7913-1-git-send-email-armccurdy@gmail.com>
-	<1525474370-7913-8-git-send-email-armccurdy@gmail.com>
-	<8ba5b8b622744aa783b1963437fc1cce@XBOX02.axis.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 4 May 2018 17:52:31 -0700
-Message-ID: <CAJ86T=VccJNFFB=NaL8ahXBY6vA3mdo=bGJoCP1SNc4dvh2igg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/8] rpm: move ASNEEDED over-ride into the rpm recipe
+	Sat,  5 May 2018 01:36:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 May 2018 18:36:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,364,1520924400"; d="scan'208";a="38814091"
+Received: from chiron.jf.intel.com ([10.7.159.63])
+	by orsmga008.jf.intel.com with ESMTP; 04 May 2018 18:36:50 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 May 2018 18:36:30 -0700
+Message-Id: <20180505013630.27821-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH] liburi-perl: upgrade 1.73 -> 1.74
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,24 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 00:52:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 05 May 2018 01:36:49 -0000
 
-On Fri, May 4, 2018 at 4:23 PM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> This patch does not remove ASNEEDED_pn-rpm = "" from the
-> meta/conf/distro/include/as-needed.inc file.
+Upstream release notes:
 
-Yes, I noticed that just after I hit send :-) Ross, should I send a
-v2? For the series? For just that one patch? Or can you fix it in mut?
+Changes for version 1.74 - 2018-04-22
+avoid 'uninitialized' warning in URI::File when host has no domain name set (PR#53, thanks Shoichi Kaji!)
 
-> Also, shouldn't ASNEEDED_pn-openobex = "" in
-> meta/conf/distro/include/as-needed.inc be moved to the recipe
-> in meta-oe to complete the patch set?
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ .../perl/{liburi-perl_1.73.bb => liburi-perl_1.74.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.73.bb => liburi-perl_1.74.bb} (87%)
 
-Yes. The patch needs to be accepted in meta-oe before the over-ride
-can be removed from oe-core.
+diff --git a/meta/recipes-devtools/perl/liburi-perl_1.73.bb b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
+similarity index 87%
+rename from meta/recipes-devtools/perl/liburi-perl_1.73.bb
+rename to meta/recipes-devtools/perl/liburi-perl_1.74.bb
+index 49238f3df5..a7cfa0fbe3 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_1.73.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
+@@ -13,8 +13,8 @@ DEPENDS += "perl"
+ 
+ SRC_URI = "http://www.cpan.org/authors/id/E/ET/ETHER/URI-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "37d44a08e599aa945b32a9434ffe00a5"
+-SRC_URI[sha256sum] = "cca7ab4a6f63f3ccaacae0f2e1337e8edf84137e73f18548ec7d659f23efe413"
++SRC_URI[md5sum] = "892f7183b178af40f205ba37128225db"
++SRC_URI[sha256sum] = "a9c254f45f89cb1dd946b689dfe433095404532a4543bdaab0b71ce0fdcdd53d"
+ 
+ S = "${WORKDIR}/URI-${PV}"
+ 
+-- 
+2.14.3
 
-  http://lists.openembedded.org/pipermail/openembedded-devel/2018-May/118033.html
 
