@@ -1,47 +1,36 @@
-Return-Path: <ptsneves@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E032749F8
+Return-Path: <niko.mauno@iki.fi>
+Received: from sypressi2.dnainternet.net (sypressi3.dnainternet.net
+	[83.102.40.158])
+	by mail.openembedded.org (Postfix) with ESMTP id D1AA774C67
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 10:05:40 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id b23-v6so34212614lfg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 May 2018 03:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=BraLG/u7IS/uyR1wIIsQsXCSsfGauR5MSEZYhQgDF44=;
-	b=VJ4z1i4eRaOI81K+iqNOSQfEloVjlgXODzn5DGOWs7lYag2qWwW/VYAlJa42vSDqjy
-	z7EitIpxy0U0M9NToFyLOAmL0pIfPsWOjzsVDbuYGaOOmy8aRoUJhjuNArr7sIt+nwNb
-	uFtmdeMtm9qgpnLwXg86nTh1m5J1sALwxPFi0LJXFKBugtG+JmaWu95FyxpLZsa/de52
-	03hqmsmz+cpayQ8Gm6IuNaq/NXo/wM6zZZpmnG3lYY6dco3c9Y99YxpkdwwtTGbkHjJe
-	3k3Kzyg1mHjyVBbGqoVSN+ZeKsHfu2G1q8UFeqPLi/t2h38scTMdId3v/ESE2C75D2Py
-	0Eyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BraLG/u7IS/uyR1wIIsQsXCSsfGauR5MSEZYhQgDF44=;
-	b=rBeUq/KwBCx2tLp6558FUCW9dQmbj1qAE1Y+1seAyKg29LO1LLRXDga74OhpCsE+ka
-	HiNE9n7JEyRCQrDX9Bchk37omBOJdXrn4mejh0nPxrCYaGJ9v5dYtqGac5n8nP+EOrFN
-	UlwRTZdVn36JHS32qfyqyz6NdgdR2qKAUOj8ktAdGi+LVYjhP/sQmXhCb5treL/TWgZo
-	j+Q/imWSg/ziA9f29lO5prU3OzJXjmxB62IC/ZERYYqqhp9oHIr4P0tGLo4F1+et9Npp
-	I/LPVvBI94knG8OnXhKKxhtbLgAIKsbbsVJmZjAhxPW8EUmWNrZXeNVJODjB+MdOeELp
-	2/IA==
-X-Gm-Message-State: ALQs6tDgFNgFmdgQ1rvIjsLDeQm0gEjRfRhTkuO3Nuhi0vEH6mA7lm59
-	F+ScuhGa4m9lnV9UXWBUh69Ctojktg==
-X-Google-Smtp-Source: AB8JxZrPWhTQ+910FcJKWqPxpNCqZ9GgSkR1oRuXqvSMTppwoQcNBr6W+5Ac2sK/Fs/OkwG8emv3XQ==
-X-Received: by 2002:a2e:1614:: with SMTP id
-	w20-v6mr4659836ljd.105.1525514741382; 
-	Sat, 05 May 2018 03:05:41 -0700 (PDT)
-Received: from pneves.home ([78.10.208.153]) by smtp.gmail.com with ESMTPSA id
-	p20-v6sm3579631ljj.23.2018.05.05.03.05.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 05 May 2018 03:05:40 -0700 (PDT)
-From: Paulo Neves <ptsneves@gmail.com>
+	Sat,  5 May 2018 19:51:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id D859C36B6;
+	Sat,  5 May 2018 22:51:48 +0300 (EEST)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 0.652
+X-Spam-Level: 
+X-Spam-Status: No, score=0.652 tagged_above=-9999 required=6
+	tests=[SPF_NEUTRAL=0.652] autolearn=disabled
+Received: from sypressi2.dnainternet.net ([83.102.40.158])
+	by localhost (sypressi2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id ksvE3nPDFzYq; Sat,  5 May 2018 22:51:48 +0300 (EEST)
+Received: from oliivipuu2.dnainternet.net (oliivipuu2.dnainternet.net
+	[83.102.40.53])
+	by sypressi2.dnainternet.net (Postfix) with ESMTP id 5C1CA35FE;
+	Sat,  5 May 2018 22:51:48 +0300 (EEST)
+Received: from localhost.localdomain (82-181-15-94.bb.dnainternet.fi
+	[82.181.15.94])
+	by oliivipuu2.dnainternet.net (Postfix) with ESMTP id B7604A2;
+	Sat,  5 May 2018 22:51:44 +0300 (EEST)
+From: Niko Mauno <niko.mauno@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 May 2018 12:05:16 +0200
-Message-Id: <20180505100516.23875-1-ptsneves@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [meta-oe][PATCH v2] package_manager.py: set dnf always debug verbosity
+Date: Sat,  5 May 2018 22:50:42 +0300
+Message-Id: <20180505195042.109123-1-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.16.3
+Subject: [PATCH v2 2/3] e2fsprogs: Complement update-alternatives scope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,57 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 10:05:41 -0000
+X-List-Received-Date: Sat, 05 May 2018 19:51:50 -0000
 
-Removed an undocumented configuration
-variable called ROOTFS_RPM_DEBUG. This configuration
-toggled the verbosity of the dnf command. We now have
-verbosity permanently turned on and instead of
-directing this verbosity to bb.note we direct it
-to bb.debug.
+Avoid collision of e2fsprogs provided tune2fs, mke2fs and mkfs.ext2
+commands with corresponding BusyBox provided applets in case both
+packages are installed to same rootfs, by adding these commands to
+update-alternatives scope
 
-Having the verbosity enabled will allow to watch
-the progress of the dnf package manager during the
-do_rootfs task with the debug enabled in bitbake.
-
-An example of the impact from enabling the
-verbose output.
-
-bitbake core-image-minimal
-rm -rf tmp
-bitbake core-image-minimal
-
-Before patch 4m39,403s
-After patch 4m42,441s
-
-Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/lib/oe/package_manager.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2d8aeba037..8b6cd2aee0 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -884,7 +884,7 @@ class RpmPM(PackageManager):
-         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
+index 56abb3b5d3..989d47394b 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
+@@ -75,6 +75,12 @@ do_install_append_class-nativesdk() {
+ 	e2fsprogs_conf_fixup
+ }
  
-         dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
--        standard_dnf_args = (["-v", "--rpmverbosity=debug"] if self.d.getVar('ROOTFS_RPM_DEBUG') else []) + ["-y",
-+        standard_dnf_args = ["-v", "--rpmverbosity=debug", "-y",
-                              "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
-                              "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
-                              "--repofrompath=oe-repo,%s" % (self.rpm_repo_dir),
-@@ -892,7 +892,7 @@ class RpmPM(PackageManager):
-                              "--setopt=logdir=%s" % (self.d.getVar('T'))
-                             ]
-         cmd = [dnf_cmd] + standard_dnf_args + dnf_args
--        bb.note('Running %s' % ' '.join(cmd))
-+        bb.debug(1, 'Running %s' % ' '.join(cmd))
-         try:
-             output = subprocess.check_output(cmd,stderr=subprocess.STDOUT).decode("utf-8")
-             if print_output:
++do_install_append_class-target() {
++	mv ${D}${base_sbindir}/mke2fs ${D}${base_sbindir}/mke2fs.e2fsprogs
++	mv ${D}${base_sbindir}/mkfs.ext2 ${D}${base_sbindir}/mkfs.ext2.e2fsprogs
++	mv ${D}${base_sbindir}/tune2fs ${D}${base_sbindir}/tune2fs.e2fsprogs
++}
++
+ RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
+ RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
+ 
+@@ -83,8 +89,8 @@ PACKAGES =+ "libcomerr libss libe2p libext2fs"
+ 
+ FILES_e2fsprogs-resize2fs = "${base_sbindir}/resize2fs*"
+ FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
+-FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
+-FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
++FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs.e2fsprogs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
++FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs.e2fsprogs ${base_sbindir}/e2label"
+ FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
+ FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
+ FILES_libss = "${base_libdir}/libss.so.*"
+@@ -100,6 +106,13 @@ ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
+ ALTERNATIVE_${PN}-doc = "fsck.8"
+ ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
+ 
++ALTERNATIVE_${PN}-mke2fs = "mke2fs mkfs.ext2"
++ALTERNATIVE_LINK_NAME[mke2fs] = "${base_sbindir}/mke2fs"
++ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
++
++ALTERNATIVE_${PN}-tune2fs = "tune2fs"
++ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
++
+ RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps bash"
+ 
+ do_compile_ptest() {
 -- 
-2.14.1
+2.16.3
 
 
