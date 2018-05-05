@@ -1,23 +1,46 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B040874DC2
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CF6374828
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 May 2018 01:36:49 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 May 2018 18:36:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,364,1520924400"; d="scan'208";a="38814091"
-Received: from chiron.jf.intel.com ([10.7.159.63])
-	by orsmga008.jf.intel.com with ESMTP; 04 May 2018 18:36:50 -0700
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+	Sat,  5 May 2018 09:58:29 +0000 (UTC)
+Received: by mail-lf0-f54.google.com with SMTP id h197-v6so34173037lfg.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 05 May 2018 02:58:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=h/w0CrklzfTRIpToarC+PjPGwCBXmDBC2+UFwPNjsKw=;
+	b=ZoGfGCFMJC2PAili64ETDWt/SlikzePClLKtlnfU4oM9Ydz3aNHEuwIugAnYtDGGYE
+	N9RxLoIE9WRLtmR8aAZRQqlxXp3+/4YQCu4nbz1lxnpWAWdcYLwDzM/g1UWkYDDBDlqO
+	yTxddjmV9NpOb6WKYS+esQ6537BBqYTYuHz73azmRg4QSABY4VOfS2tdFQmmOvwnrsXu
+	9JXRQmu0RhsEb5V/HU3n/5M/0PYH+uRBEyokJhJRaDJtYJrYgCAIYGBPNQsPRmiHUMeU
+	AwtjcUcsu4/aYgLA4R8nDBFTi/mOuzGM8pFCtkbg9AEY8UY7O0mvJ4pNjdhg5iU22WkT
+	S7Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=h/w0CrklzfTRIpToarC+PjPGwCBXmDBC2+UFwPNjsKw=;
+	b=dbQzAHvTIge+/qpVue3CI7hdYoXV2KJ2Jj8ieUWYWkLBxrQq6TWe1UFmpAT3OHVTzx
+	IuErqDX3MNc7iWaRVnPXx3gvg39NwA7pTERtmLKr9HrgpWXSPDJseACbWcjDp85FNhGQ
+	SS3FDIQfJHKrkPFDQgYPzVaUCO1Nau6iBDTX0aa4DyZIt9vMC+jSjdbghjUiUAz92Vba
+	01g2WlMta68LfidvF/Je2anH5KUeKgPUEWRY6NmLLAIcQi4xHjE+T/C5UxbKugqbV+4S
+	fyw+Fw838RW2BIIrJbM7gnQIJdjBae04IMRpI5OuXsH0KlQYPewOSveBn05lWbyQvlIV
+	qO+w==
+X-Gm-Message-State: ALKqPwdGHGXDG9d2D80Z8UIOmTIc5tUrE4MI7Z4Ms1x9ychAFr9vWKfJ
+	bAYAwNjnYaWoYFva96Bha3xNWqwFUw==
+X-Google-Smtp-Source: AB8JxZrXjc46yVPE9L+IVfpC4x3OyRfm49DXbnwvfTjlMKbb+oD+ZZtHLBr6xfyK1Ue5PQ+ouiL/3A==
+X-Received: by 2002:a19:e99b:: with SMTP id j27-v6mr385235lfk.93.1525514309725;
+	Sat, 05 May 2018 02:58:29 -0700 (PDT)
+Received: from pneves.home ([78.10.208.153]) by smtp.gmail.com with ESMTPSA id
+	u2-v6sm3740447lfu.3.2018.05.05.02.58.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 05 May 2018 02:58:29 -0700 (PDT)
+From: Paulo Neves <ptsneves@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2018 18:36:30 -0700
-Message-Id: <20180505013630.27821-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.14.3
-Subject: [PATCH] liburi-perl: upgrade 1.73 -> 1.74
+Date: Sat,  5 May 2018 11:58:20 +0200
+Message-Id: <20180505095820.23538-1-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [meta-oe][PATCH] package_manager.py: set dnf always debug verbosity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2018 01:36:49 -0000
+X-List-Received-Date: Sat, 05 May 2018 09:58:30 -0000
 
-Upstream release notes:
+Removed an undocumented configuration
+variable called ROOTFS_RPM_DEBUG. This configuration
+toggled the verbosity of the dnf command. We now have
+verbosity permanently turned on and instead of
+directing this verbosity to bb.note we direct it
+to bb.debug.
 
-Changes for version 1.74 - 2018-04-22
-avoid 'uninitialized' warning in URI::File when host has no domain name set (PR#53, thanks Shoichi Kaji!)
+Having the verbosity enabled will allow to watch
+the progress of the dnf package manager during the
+do_rootfs task with the debug enabled in bitbake.
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+An example of the impact from enabling the
+verbose output.
+
+bitbake core-image-minimal
+rm -rf tmp
+bitbake core-image-minimal
+
+Before patch 4m39,403s
+After patch 4m42,441s
 ---
- .../perl/{liburi-perl_1.73.bb => liburi-perl_1.74.bb}                 | 4 ++--
+ meta/lib/oe/package_manager.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/perl/{liburi-perl_1.73.bb => liburi-perl_1.74.bb} (87%)
 
-diff --git a/meta/recipes-devtools/perl/liburi-perl_1.73.bb b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
-similarity index 87%
-rename from meta/recipes-devtools/perl/liburi-perl_1.73.bb
-rename to meta/recipes-devtools/perl/liburi-perl_1.74.bb
-index 49238f3df5..a7cfa0fbe3 100644
---- a/meta/recipes-devtools/perl/liburi-perl_1.73.bb
-+++ b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
-@@ -13,8 +13,8 @@ DEPENDS += "perl"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2d8aeba037..8b6cd2aee0 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -884,7 +884,7 @@ class RpmPM(PackageManager):
+         os.environ['RPM_ETCCONFIGDIR'] = self.target_rootfs
  
- SRC_URI = "http://www.cpan.org/authors/id/E/ET/ETHER/URI-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "37d44a08e599aa945b32a9434ffe00a5"
--SRC_URI[sha256sum] = "cca7ab4a6f63f3ccaacae0f2e1337e8edf84137e73f18548ec7d659f23efe413"
-+SRC_URI[md5sum] = "892f7183b178af40f205ba37128225db"
-+SRC_URI[sha256sum] = "a9c254f45f89cb1dd946b689dfe433095404532a4543bdaab0b71ce0fdcdd53d"
- 
- S = "${WORKDIR}/URI-${PV}"
- 
+         dnf_cmd = bb.utils.which(os.getenv('PATH'), "dnf")
+-        standard_dnf_args = (["-v", "--rpmverbosity=debug"] if self.d.getVar('ROOTFS_RPM_DEBUG') else []) + ["-y",
++        standard_dnf_args = ["-v", "--rpmverbosity=debug", "-y",
+                              "-c", oe.path.join(self.target_rootfs, "etc/dnf/dnf.conf"),
+                              "--setopt=reposdir=%s" %(oe.path.join(self.target_rootfs, "etc/yum.repos.d")),
+                              "--repofrompath=oe-repo,%s" % (self.rpm_repo_dir),
+@@ -892,7 +892,7 @@ class RpmPM(PackageManager):
+                              "--setopt=logdir=%s" % (self.d.getVar('T'))
+                             ]
+         cmd = [dnf_cmd] + standard_dnf_args + dnf_args
+-        bb.note('Running %s' % ' '.join(cmd))
++        bb.debug(1, 'Running %s' % ' '.join(cmd))
+         try:
+             output = subprocess.check_output(cmd,stderr=subprocess.STDOUT).decode("utf-8")
+             if print_output:
 -- 
-2.14.3
+2.14.1
 
 
