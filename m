@@ -1,59 +1,48 @@
-Return-Path: <anonumiko@gmail.com>
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1950B74C91
+Return-Path: <allenwild93@gmail.com>
+Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
+	[209.85.213.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D489074C06
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 May 2018 02:55:22 +0000 (UTC)
-Received: by mail-lf0-f44.google.com with SMTP id h4-v6so35977204lfc.1
+	Sun,  6 May 2018 23:00:20 +0000 (UTC)
+Received: by mail-yb0-f195.google.com with SMTP id f138-v6so1738161yba.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 May 2018 19:55:24 -0700 (PDT)
+	Sun, 06 May 2018 16:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=7Z7mfRWTrBhmAafRSNgVqL8geOOrBoO+ozPhCbPaBjs=;
-	b=R+JDuBHzeesDufzNu1FFfeBzDC1l+8aSdkT/QSI55zau5uEgXe2X2XprwZKa3o/MDJ
-	aPxVsOLqbXkhNRYoWudzUzbHkYQaSrxnkBeDEdlEbEBAV+GaNf2LE7ckDb46oHPSTlsP
-	N7TjXiVKVxU89vwn6Q7piecGgTmijHblypN4FlsdNeJ0xqgQkTj+HInI5hLRJsdYETws
-	9fIC/BTTtnCNBF2yLsbOFQcv0KdntP6iVH3V5BiNrqgPdXYB9uNXGaoB12TsGtUXT74Q
-	DrK7vc8zIkCmtXY4bNKzh6blvjb7gtL1O2mc7Djg0j9ZXqTm9CbyrXHBgG06sjWebdub
-	CTIQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=X62bEN9XRKaCRtIh5CfJGpzS4KF56xiccp6PqAJKPiE=;
+	b=CA02cFunj59cvoiOyqhaNZX6qBk/n+Ue5imfQDfvQ9x6VFvsGMducXSk6DOi2EYcIX
+	Mf4d7dH18+628XfuSqtoFVMix8dtuqT9PEm/lmrnooxIeiQJmCrhR18bo3G68tK1dZK4
+	6sFrolo1HJk0M79SHCMxqYx18wWc/yt+1goJzC2se35HWPfKXJyhJbt3/Fyx8O2IOTkX
+	c6H4TJISpsAwXI96u5DTvMyEAyKz2yV8eRZepuK1ZwoJl/kNRLszNysLxtcWXsrIP1Hq
+	3KuQI1pJWfdIxkWxRDCCpl3D1MFdDSOEdJESCJJeCnWJcjU38XtPEl3ewJZ8AWSZEMoR
+	rsBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=7Z7mfRWTrBhmAafRSNgVqL8geOOrBoO+ozPhCbPaBjs=;
-	b=hLE3oTSkCtJMfo1EihtU5/9T0QqIwamsHu9wi0rPHfUtMgeqCKGYXkUcQpjncnVNxb
-	mtPcc/5Ts0uLyLqbRQOn4txbk2AilZCXODbFF67P7UOwaVgETerIQQyaUpPo1LcX9+i5
-	D4LGw4i24VbxVZ7usMjF8NbvcTCtYq0FtIBksI9RiZbYFVprDrUtKCxb/1PDs8DElM5d
-	r3OlNGOvfQFNUVc6ACOINenMu7/1WJF4ONMTkFGAZ7Eb3EaTIJjGinyFsnwb9vloeO23
-	028yggnBFavGjwC0lmgD0lOFLU0BlCBmx6E20nGzGcnCaG0WIjkTLMn4/sx3tNZFGl3J
-	qnAg==
-X-Gm-Message-State: ALQs6tBRqLd11D13l74aJKxeu9Cf59GP0isDJXusGtq6Ux8jrDDZVevK
-	Tv/SsmAXq0Msp3jOtJqlKw/Vb2E6
-X-Google-Smtp-Source: AB8JxZp+m1pE+WhqPPAxTCJoVU6rwRvL7rge+SuHfxsJYvnu7ui5N3/YM38w0NkGFdljxIRZPCwl4g==
-X-Received: by 2002:a19:db45:: with SMTP id
-	s66-v6mr20825662lfg.78.1525575322733; 
-	Sat, 05 May 2018 19:55:22 -0700 (PDT)
-Received: from [82.181.15.94] (82-181-15-94.bb.dnainternet.fi. [82.181.15.94])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=X62bEN9XRKaCRtIh5CfJGpzS4KF56xiccp6PqAJKPiE=;
+	b=poJApJj0fx5V+MsLngdNbmaBS1f1qYZwqnM60qE11ek3JDp59mlxwJgh0BmMsFUxO6
+	YpzmNND8/KIwam5AbL7CbkOZilNLpjnnNH5oHDTlwV0hHy/7Zuosu2vOqRUhEWeXB9/w
+	Md2U45GhoqWn1dNqyKLbDTkNsocyMUC+mvE3rO4wF1vZWfyDrqMQySTk+iRYDwc9KTBq
+	p051tZ6kEDEoqCqPslHGCR3ERabA64XOu2K75q9cEHlKhtOos9jz3f07a/39eUZBO32Q
+	NmgPV/31Od/ohqirC/kSnVwc/roLwB9srtqx4l2Q8eQUqjJ4V8ouVXMy9fNXTMaA0A3a
+	mgQw==
+X-Gm-Message-State: ALQs6tD3LQ7MP73S3MU5qwzboYf8cp8GZLjWYVJBB9T5XEFPcIebvTZ4
+	r22sMP2IVGza3YL1JuFGtW5gL/Hh
+X-Google-Smtp-Source: AB8JxZr4QT307zATbeceEtYABPgnD8t48jt8KZb3KKP4gi6MDWU2SU/hTOLRdc/80np/XTdQjVLn2Q==
+X-Received: by 2002:a25:b88a:: with SMTP id
+	w10-v6mr19251329ybj.61.1525647621298; 
+	Sun, 06 May 2018 16:00:21 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:3d10:2828::ed54])
 	by smtp.gmail.com with ESMTPSA id
-	u5-v6sm3757733ljk.64.2018.05.05.19.55.21
+	g4-v6sm5181133ywk.33.2018.05.06.16.00.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 05 May 2018 19:55:21 -0700 (PDT)
-Sender: anonumiko <anonumiko@gmail.com>
-To: ross.burton@intel.com
-References: <20180420140930.8149-1-niko.mauno@vaisala.com>
-	<20180420140930.8149-2-niko.mauno@vaisala.com>
-	<CAJTo0Lb85CAs8Y+fX=b8J=AQD29DwpeseVwUEVMi5OXmAu0ewA@mail.gmail.com>
-From: Niko Mauno <niko.mauno@iki.fi>
-Message-ID: <a6563180-9fd7-8228-64a6-d6627e15d2db@iki.fi>
-Date: Sun, 6 May 2018 05:55:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb85CAs8Y+fX=b8J=AQD29DwpeseVwUEVMi5OXmAu0ewA@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] e2fsprogs: Complement update-alternatives scope
+	Sun, 06 May 2018 16:00:20 -0700 (PDT)
+From: Allen Wild <allenwild93@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  6 May 2018 19:00:02 -0400
+Message-Id: <20180506230002.4606-1-allenwild93@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] xz: use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,14 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 May 2018 02:55:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 May 2018 23:00:21 -0000
 
-On 05/03/2018 03:56 PM, Burton, Ross wrote:
-> Breaks packaging:
+Installing xz and busybox together may cause conflicts for xz, xzcat,
+unxz, and their lzma variants. In the default configuration, xzcat is
+silently replaced with a symlink to busybox. If busybox is compiled with
+CONFIG_XZ=y, its postinst fails during do_rootfs.
 
-Submitted v3 still in which I changed the added 'ALTERNATIVE_${PN}-...' lines to 'ALTERNATIVE_e2fsprogs-...':
-http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150471.html
+Using update-alternatives to xz handles these conflicts properly.
+
+Signed-off-by: Allen Wild <allenwild93@gmail.com>
+---
+ meta/recipes-extended/xz/xz_5.2.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/recipes-extended/xz/xz_5.2.3.bb b/meta/recipes-extended/xz/xz_5.2.3.bb
+index c0f8b82f64..65168920d1 100644
+--- a/meta/recipes-extended/xz/xz_5.2.3.bb
++++ b/meta/recipes-extended/xz/xz_5.2.3.bb
+@@ -31,6 +31,11 @@ PACKAGES =+ "liblzma"
+ 
+ FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
+ 
++inherit update-alternatives
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_${PN} = "xz xzcat unxz \
++                     lzma lzcat unlzma"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ export CONFIG_SHELL="/bin/sh"
+-- 
+2.17.0
+
 
