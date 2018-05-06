@@ -1,36 +1,59 @@
-Return-Path: <niko.mauno@iki.fi>
-Received: from sirokuusama2.dnainternet.net (sirokuusama2.dnainternet.net
-	[83.102.40.153])
-	by mail.openembedded.org (Postfix) with ESMTP id 17313607DE
+Return-Path: <anonumiko@gmail.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1950B74C91
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 May 2018 02:50:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by sirokuusama2.dnainternet.net (Postfix) with ESMTP id 8024F20E58;
-	Sun,  6 May 2018 05:50:47 +0300 (EEST)
-X-Virus-Scanned: DNA Internet at dnainternet.net
-X-Spam-Flag: NO
-X-Spam-Score: 0.652
-X-Spam-Level: 
-X-Spam-Status: No, score=0.652 tagged_above=-9999 required=6
-	tests=[SPF_NEUTRAL=0.652] autolearn=disabled
-Received: from sirokuusama2.dnainternet.net ([83.102.40.153])
-	by localhost (sirokuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
-	port 10041)
-	with ESMTP id XwnpmRR_6-jH; Sun,  6 May 2018 05:50:47 +0300 (EEST)
-Received: from omenapuu2.dnainternet.net (omenapuu2.dnainternet.net
-	[83.102.40.54])
-	by sirokuusama2.dnainternet.net (Postfix) with ESMTP id 2471A2022A;
-	Sun,  6 May 2018 05:50:47 +0300 (EEST)
-Received: from localhost.localdomain (82-181-15-94.bb.dnainternet.fi
-	[82.181.15.94])
-	by omenapuu2.dnainternet.net (Postfix) with ESMTP id 759812A2;
-	Sun,  6 May 2018 05:50:43 +0300 (EEST)
+	Sun,  6 May 2018 02:55:22 +0000 (UTC)
+Received: by mail-lf0-f44.google.com with SMTP id h4-v6so35977204lfc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 05 May 2018 19:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=7Z7mfRWTrBhmAafRSNgVqL8geOOrBoO+ozPhCbPaBjs=;
+	b=R+JDuBHzeesDufzNu1FFfeBzDC1l+8aSdkT/QSI55zau5uEgXe2X2XprwZKa3o/MDJ
+	aPxVsOLqbXkhNRYoWudzUzbHkYQaSrxnkBeDEdlEbEBAV+GaNf2LE7ckDb46oHPSTlsP
+	N7TjXiVKVxU89vwn6Q7piecGgTmijHblypN4FlsdNeJ0xqgQkTj+HInI5hLRJsdYETws
+	9fIC/BTTtnCNBF2yLsbOFQcv0KdntP6iVH3V5BiNrqgPdXYB9uNXGaoB12TsGtUXT74Q
+	DrK7vc8zIkCmtXY4bNKzh6blvjb7gtL1O2mc7Djg0j9ZXqTm9CbyrXHBgG06sjWebdub
+	CTIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=7Z7mfRWTrBhmAafRSNgVqL8geOOrBoO+ozPhCbPaBjs=;
+	b=hLE3oTSkCtJMfo1EihtU5/9T0QqIwamsHu9wi0rPHfUtMgeqCKGYXkUcQpjncnVNxb
+	mtPcc/5Ts0uLyLqbRQOn4txbk2AilZCXODbFF67P7UOwaVgETerIQQyaUpPo1LcX9+i5
+	D4LGw4i24VbxVZ7usMjF8NbvcTCtYq0FtIBksI9RiZbYFVprDrUtKCxb/1PDs8DElM5d
+	r3OlNGOvfQFNUVc6ACOINenMu7/1WJF4ONMTkFGAZ7Eb3EaTIJjGinyFsnwb9vloeO23
+	028yggnBFavGjwC0lmgD0lOFLU0BlCBmx6E20nGzGcnCaG0WIjkTLMn4/sx3tNZFGl3J
+	qnAg==
+X-Gm-Message-State: ALQs6tBRqLd11D13l74aJKxeu9Cf59GP0isDJXusGtq6Ux8jrDDZVevK
+	Tv/SsmAXq0Msp3jOtJqlKw/Vb2E6
+X-Google-Smtp-Source: AB8JxZp+m1pE+WhqPPAxTCJoVU6rwRvL7rge+SuHfxsJYvnu7ui5N3/YM38w0NkGFdljxIRZPCwl4g==
+X-Received: by 2002:a19:db45:: with SMTP id
+	s66-v6mr20825662lfg.78.1525575322733; 
+	Sat, 05 May 2018 19:55:22 -0700 (PDT)
+Received: from [82.181.15.94] (82-181-15-94.bb.dnainternet.fi. [82.181.15.94])
+	by smtp.gmail.com with ESMTPSA id
+	u5-v6sm3757733ljk.64.2018.05.05.19.55.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 05 May 2018 19:55:21 -0700 (PDT)
+Sender: anonumiko <anonumiko@gmail.com>
+To: ross.burton@intel.com
+References: <20180420140930.8149-1-niko.mauno@vaisala.com>
+	<20180420140930.8149-2-niko.mauno@vaisala.com>
+	<CAJTo0Lb85CAs8Y+fX=b8J=AQD29DwpeseVwUEVMi5OXmAu0ewA@mail.gmail.com>
 From: Niko Mauno <niko.mauno@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 May 2018 05:50:41 +0300
-Message-Id: <20180506025041.104782-1-niko.mauno@iki.fi>
-X-Mailer: git-send-email 2.16.3
-Subject: [PATCH v3 2/3] e2fsprogs: Complement update-alternatives scope
+Message-ID: <a6563180-9fd7-8228-64a6-d6627e15d2db@iki.fi>
+Date: Sun, 6 May 2018 05:55:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lb85CAs8Y+fX=b8J=AQD29DwpeseVwUEVMi5OXmAu0ewA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] e2fsprogs: Complement update-alternatives scope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +66,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 May 2018 02:50:48 -0000
+X-List-Received-Date: Sun, 06 May 2018 02:55:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Avoid collision of e2fsprogs provided tune2fs, mke2fs and mkfs.ext2
-commands with corresponding BusyBox provided applets in case both
-packages are installed to same rootfs, by adding these commands to
-update-alternatives scope
+On 05/03/2018 03:56 PM, Burton, Ross wrote:
+> Breaks packaging:
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-index 56abb3b5d3..c4739b98c8 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.8.bb
-@@ -75,6 +75,12 @@ do_install_append_class-nativesdk() {
- 	e2fsprogs_conf_fixup
- }
- 
-+do_install_append_class-target() {
-+	mv ${D}${base_sbindir}/mke2fs ${D}${base_sbindir}/mke2fs.e2fsprogs
-+	mv ${D}${base_sbindir}/mkfs.ext2 ${D}${base_sbindir}/mkfs.ext2.e2fsprogs
-+	mv ${D}${base_sbindir}/tune2fs ${D}${base_sbindir}/tune2fs.e2fsprogs
-+}
-+
- RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
- RRECOMMENDS_e2fsprogs = "e2fsprogs-mke2fs e2fsprogs-e2fsck"
- 
-@@ -83,8 +89,8 @@ PACKAGES =+ "libcomerr libss libe2p libext2fs"
- 
- FILES_e2fsprogs-resize2fs = "${base_sbindir}/resize2fs*"
- FILES_e2fsprogs-e2fsck = "${base_sbindir}/e2fsck ${base_sbindir}/fsck.ext*"
--FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
--FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs ${base_sbindir}/e2label"
-+FILES_e2fsprogs-mke2fs = "${base_sbindir}/mke2fs.e2fsprogs ${base_sbindir}/mkfs.ext* ${sysconfdir}/mke2fs.conf"
-+FILES_e2fsprogs-tune2fs = "${base_sbindir}/tune2fs.e2fsprogs ${base_sbindir}/e2label"
- FILES_e2fsprogs-badblocks = "${base_sbindir}/badblocks"
- FILES_libcomerr = "${base_libdir}/libcom_err.so.*"
- FILES_libss = "${base_libdir}/libss.so.*"
-@@ -100,6 +106,13 @@ ALTERNATIVE_TARGET[chattr] = "${base_bindir}/chattr.e2fsprogs"
- ALTERNATIVE_${PN}-doc = "fsck.8"
- ALTERNATIVE_LINK_NAME[fsck.8] = "${mandir}/man8/fsck.8"
- 
-+ALTERNATIVE_e2fsprogs-mke2fs = "mke2fs mkfs.ext2"
-+ALTERNATIVE_LINK_NAME[mke2fs] = "${base_sbindir}/mke2fs"
-+ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
-+
-+ALTERNATIVE_e2fsprogs-tune2fs = "tune2fs"
-+ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
-+
- RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps bash"
- 
- do_compile_ptest() {
--- 
-2.16.3
-
+Submitted v3 still in which I changed the added 'ALTERNATIVE_${PN}-...' lines to 'ALTERNATIVE_e2fsprogs-...':
+http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150471.html
 
