@@ -1,49 +1,127 @@
-Return-Path: <francescogiancane8@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 14DD2748CC
+Return-Path: <alejandr@xilinx.com>
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+	(mail-bn3nam01on0077.outbound.protection.outlook.com [104.47.33.77])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E4EE748CC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 May 2018 22:05:21 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id a137-v6so16764743wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 May 2018 15:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dCsN8c5xOyV+5YpZ8dTHz0eIJcbqclJsCQKh19Ugbt0=;
-	b=MJ3vLAGVAhyqwM2l7tBd+/F/vRVFlasMpxZsdD00FEsZwY3Py9Lw+OsYwk+OGimsf6
-	wDRWIcZAJjycYzXel00V/gzdnXOWZhfa0pjMS2kd7w74wK7roT6r1A531+jXxq0ZV/+m
-	fshLa3hGMWQLa5xbB1KSQ61s0exuUA6JJ+uyqKUZDt2cgOqk+A61bHeXkQxwKYNxotPx
-	gKND2ZBLOiF1hQpqXrS3IasXzU2Ck/g8TgL3DHt5oUTxJXhhgJgGhCckS7SX5KgbQi4Z
-	ylYgFCC1llKYkImMLr4IFJNfXMTk7pqmTBGKUAv/TbZfkmSEnFlsjM0HmZ51JjBM313J
-	yF2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dCsN8c5xOyV+5YpZ8dTHz0eIJcbqclJsCQKh19Ugbt0=;
-	b=Uy7QgqdnbV9CG2cFpx9F3ersL9yB/SnAzCMhJvoxolgTByBieq1kCzpE3CoIruDi5h
-	vDbw5lwecBbdiGYz+Ls7Cn0W8kOLYTXhJhk6Zm+v1faBN+OlzjNI6xQXQ4/bFLTU7Xys
-	CWjZXRubOqbtvdBDTJ6Cqp3ptUsHsdK1DZMLqF1wML5t9zVUxY1WAsSzSnUhCubdTb4y
-	6gqwxwThbdY/dyVbqUGIxP7bZbYT3ZoK91xR4FHDhUpntZ3mn7CFC/woKEf/pJ2S2M7T
-	vVi4FZS4c79J/zKJ2HX9L7T+SZbMKkZwngJcNRpa+Syz9L+vaHaxXSb6nOS94f0/xLwI
-	sxgg==
-X-Gm-Message-State: ALQs6tAMUrA26VqDaPTDqHTdvpkMFPqWfx/RmVP+xBLk8b1S5fhfcQAG
-	4a9pQmkqoUoJPnuYe7rJW655mR2UHP4yeH3LuMF5iw==
-X-Google-Smtp-Source: AB8JxZpeGgeuZSvBp6LhhmmRIecv8nhxwYA/yZf84TSsQxqrCMMBxoOhUdj9g396kPYZGGmNUNoD8vmgrFdJwv1ozBg=
-X-Received: by 2002:aa7:c309:: with SMTP id
-	l9-v6mr19163282edq.304.1525730722501; 
-	Mon, 07 May 2018 15:05:22 -0700 (PDT)
+	Mon,  7 May 2018 22:06:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=4qcgxYwNhs3Br3O95mCkGSajcXrVAa5wrFrK7yZkFXE=;
+	b=1/W7jTz62CmhVLziDIjBASBELzH7H2/69lTSSSAkEyQTueemU88E4GyUADhPdb1JXVXHoEl6wUZkU5jRWr1OY63yx3URf/7sxpAwjEaZhR1zt4zUuyY/u+WXmk8uTV4BYqICY5bYoO8nQXsPOD9jHWo4qVf2Buvd9mJ3Qf6u+i4=
+Received: from MWHPR0201CA0094.namprd02.prod.outlook.com
+	(2603:10b6:301:75::35) by CY1PR02MB1675.namprd02.prod.outlook.com
+	(2a01:111:e400:529a::21) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.735.20;
+	Mon, 7 May 2018 21:50:47 +0000
+Received: from BL2NAM02FT033.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::202) by MWHPR0201CA0094.outlook.office365.com
+	(2603:10b6:301:75::35) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.735.17 via
+	Frontend Transport; Mon, 7 May 2018 21:50:47 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2NAM02FT033.mail.protection.outlook.com (10.152.77.163) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.735.16
+	via Frontend Transport; Mon, 7 May 2018 21:50:46 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
+	id 1fFo1u-0002jU-B6; Mon, 07 May 2018 14:50:46 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
+	id 1fFo1p-0002UN-8O; Mon, 07 May 2018 14:50:41 -0700
+Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandr@xilinx.com>)
+	id 1fFo1n-0002R5-9r; Mon, 07 May 2018 14:50:39 -0700
+From: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 May 2018 14:50:14 -0700
+Message-ID: <1525729814-24709-1-git-send-email-alejandr@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(346002)(396003)(39380400002)(376002)(39860400002)(2980300002)(438002)(199004)(189003)(54906003)(106002)(2906002)(478600001)(107886003)(486006)(1857600001)(5660300001)(36386004)(316002)(9786002)(36756003)(5890100001)(51416003)(77096007)(59450400001)(4326008)(6666003)(7696005)(6916009)(186003)(26005)(336012)(305945005)(106466001)(48376002)(50466002)(47776003)(356003)(2616005)(426003)(126002)(476003)(8936002)(63266004)(2351001)(81156014)(8746002)(81166006)(8676002)(50226002)(107986001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR02MB1675; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
+X-Microsoft-Exchange-Diagnostics: 1; BL2NAM02FT033;
+	1:BgquCu7XBGLPJvN+D+YvQwapPgtbmMiqoVdi5FAAguHdyi7WAzpZlrJbZE8nc0T0VI7a90qUoVArEwhA54bKHV5WugaaceEPkyR4BOuGZTKQH1tyK9t/BmlZpo/g8mRQ
 MIME-Version: 1.0
-References: <CAEQ58sjQvtnCH1h20y8D6H3NVSbnCTqLe=pSLj6X8=xTL6KWbQ@mail.gmail.com>
-	<CY4PR02MB3334657A081A9A23510452D1AC860@CY4PR02MB3334.namprd02.prod.outlook.com>
-	<CAEQ58sj_699mSB4zaZ2e6APP7aKR2siZ7+j3qyxfCanPNZSgDw@mail.gmail.com>
-	<3ad68764-e349-9816-b579-b335f3724ba4@xilinx.com>
-In-Reply-To: <3ad68764-e349-9816-b579-b335f3724ba4@xilinx.com>
-From: Francesco Giancane <francescogiancane8@gmail.com>
-Date: Mon, 07 May 2018 22:05:11 +0000
-Message-ID: <CAEQ58sgLobMz9+vqPQJsL8YMviZCDivVHVqm6LhiyrkRNHD+Cw@mail.gmail.com>
-To: alejandro.enedino.hernandez-samaniego@xilinx.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: python recipes with extensions fail to find/link with proper libraries
+X-MS-PublicTrafficType: Email
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4608076)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060);
+	SRVR:CY1PR02MB1675; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR02MB1675;
+	3:qzZgKxgNtxIpJow06BNiLwwTC72WWgVM1oYOynNHfXtkfeLKjRHWWjkG+zETFjyeMWczr3bY6K5MLCVE2RrFL0biS1xRXaRkysQ4Q6NwknBnAVM+PVB9JK3Etk1aswRi+cN3iU42WFGfxaWGFzE2hCMCyi8Z+9jaPoEo5RBdqQkdy1Z0STtB2Cucnq7lJ9KfmyIP8vRzqh47yZ8l8P3BHuQJB7npFZoei8U14oKFzjhZXrmKbqN21SfVSibgVdhSJViUJz26TIjw+xwtO8n4RBw3P5AL2gOklwQvOZf63ptuAWMUFbXcRM0EGBEdNsrkzfol9OFwBEW3v8e21ebL63wSzxNMKd3oN74fXlv5rxI=;
+	25:R6xRbd+kOe2jpcuBJuGXHkKZQA5P0cSIOQyNS6+t/EfL5a3kTCGXpCq2KTriILynzW7Po3PkQzX39nk0Qv0HwUKfQysNLV2HQyf0cmbBmJkVWpvLqbiebRBWxgms8N7GuSaICukOLWC6P8lrrPTGIs+aV21IyGXlWozgNSiq7QSrJQ/qGPE7ICzauDf7lWAUdWSTJKpCdAUZXFof1hOYQWGE3nk0Kup3t6e9xqt6jDE4iri2WH4OlLUkcqezqZNMw+bimsiSTwwvC4QWpkDJWtysMYEf1eBS7Pq5U0vyExY3S90vOE76eNiCG/3JJ4f4vvvVeNI9j5Pt/YkISSh2vA==
+X-MS-TrafficTypeDiagnostic: CY1PR02MB1675:
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR02MB1675;
+	31:JTw8FZY3Te9GsUcJbfF4ZoQzvneW9yyqIYG+JceGNHzQTvpZkJMD2GYZrzA8dIiShTlIrGt3DoBs352Y3XybkNxnleD91hN131JyUmGE3Asna00Bm2yf7zC3v1ia9/BGNSr/mSzmNljqAcgc/A0W8bpQrk7vkFI07R8FJSCxl78id6pU5HJw6/sArgJClqpSk6h/4uB6mtajHjxsHP+SCqd3cTFZvsayosaNh42qUH0=;
+	20:5id4vz9VRCUt6uTD9yPAc2/4sZLx6bpMAeKahhzPozLlUOFl8V7pYuMJwNrCSpu87sRLbAj6V8QjWVXjZJ6lkOwTVbXH6Ye2JvBy3YMjv8E0a7GAe1CU/kjvbxBUsv4N3ScRjWJ6dId8RMKwaTLxag9kgvZoMBM1sy9QcBXLQJq/O8Rv0axw1rUy10rC7DmwlYtrt/LYjEFRP7jfPz/vj2q0UAd1vxxmzKVJq0/c2JFLMdLwPkzYZJjdIEKsdTrQRVjDPwsT7VMnDwuGwua42DRq/F1qhyO8czD40LQOvzwbr6aiZ1r4ZC8QyV6RBVLQCSw1qwukGmYTi2bdpvXC1lfa9oU3wC22WAPZ55Lr0V8vRaaAQF6chIg603JPg3wneDsjNFWTwabqtmdUenLNqu3itb+G02nRS+HCvlIP6fADcuKxWXt5ntuCHmDc1+tgfYQnTovpyDhHjKsFm7vasODfyzF9yMmZQoa/0Fjb53S3RLFApxx9NxXdhhFdtHxE
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <CY1PR02MB1675AE4FE606DE59203B2CB9AC9B0@CY1PR02MB1675.namprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(192813158149592);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3231254)(944501410)(52105095)(93006095)(93004095)(3002001)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123564045)(20161123558120)(6072148)(201708071742011);
+	SRVR:CY1PR02MB1675; BCL:0; PCL:0; RULEID:; SRVR:CY1PR02MB1675; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR02MB1675;
+	4:xglO/56cgSChddxApsbqZ6Pj6sXD8X9hxgYQ43i1TFqyCRqzs7r5bbSPGUA6yn7YmIsaTgGpXk33H6gQxRxY1uA1RYw7Y8Q2d0DyDxiUFR/6pJG1a+1q+A8PGjeOnuSi049GNxG4BXVMsTT7/Rjoji4JomEEW6V5L3sA/J+P5VGGi6e/PPVSFiGUNVYeTyLb+Ojtn4nF8P0CRSvahqx+zsT1Iepe9nHSLPswagwevt4wG4k/99U2T3lHsbgpFQX0+pO66shrQLQkRGwE7Bkt4Z9KMpVA6IOtQb4AkNpq56xMfRB2+1eCERtdyiB6FmXG
+X-Forefront-PRVS: 066517B35B
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR02MB1675;
+	23:LFUE/i5fqYRO9Pz7zQAcYp+PespuH+UZTHmb/PjwU?=
+	=?us-ascii?Q?NljZI/cQ7ODPqYqihTxdRooMwkfGCwhT+r+frC6yE5pjFKzzGwXG7CHly4m4?=
+	=?us-ascii?Q?/ZgaOCONfEpladLZOA6F/3hx1uHlwjMNYipnsVRpE0qT1rqM45Iv89Sz0zcH?=
+	=?us-ascii?Q?2jizcFFtMyphGeKdStoZpVWnE2nL+i5qBtfOrc+gFN6itG0xAUvJpFZa/Evs?=
+	=?us-ascii?Q?RKa/Uu5iiBEPwNPVJYu6Fyxe366bzvgMRmgjs672h5Utmxv5CutloOSi2WV3?=
+	=?us-ascii?Q?OmuhRqwCVY4oJOvD3siV1FdvXTx49WBEBXlw9oiv6ethA+plggpOTeQREKyK?=
+	=?us-ascii?Q?0M0EH42kVlD43yZQZXNdnOk8ylooa1lqyANnPyukOLWmPQ+basn6xKRHY3cC?=
+	=?us-ascii?Q?osgaheGJGn5CriGoxuZ54P/E/g2ZjHbG9CA0ZALBE4NwbrjhxJH+6VaAIf/v?=
+	=?us-ascii?Q?fs6pxISO8o/YjyXWw53Qa/I+2v0vAEeRr7F+0K9X4aWuURzrx1Qar1Tz3dhf?=
+	=?us-ascii?Q?003hqbWhuoffIyt00Ln38pnRtMSaOlXjf7otgSJ7w7B0OoDdEDwAO6BcY3Qr?=
+	=?us-ascii?Q?eY/AzeYT9dgZJCEHHYorn7FMFIlT2QlUTHNlk8Yr3Ta4CwJRqE4SQAJ2maBp?=
+	=?us-ascii?Q?TRtpva+p4MNqNhYF1IoA3BYlcNcSGZK2modpiLiugYbIZwQ5QOV5JkdBwqfN?=
+	=?us-ascii?Q?XpepXFazyPdMxLNrrFqwCB2QQKnFCUHxiKh91V6FtoJf8Ddc56vZcP0CFdsV?=
+	=?us-ascii?Q?ohnsP9qlSyBOHFpGfhEm04BNH73lKD5pBx1i9Bog3CFMiamQsC6qhkiengq7?=
+	=?us-ascii?Q?9iZbnJVvEFAJZ6jV4EbTKdb+aZmK+0QsPB+eRqtmQ3tWBjZZLvU+2ow6xK4s?=
+	=?us-ascii?Q?IEzO2DcBg5+R5FPejIZoT+0n38ohWIEB9FyM4UfI+n6lh+s3R+Ky9Y9duc3f?=
+	=?us-ascii?Q?SrhEAsbB3xtD+3iPLG17PC4cp7c92hEkvR7Un75PK3pZiakUuKaWJ5bPqDTc?=
+	=?us-ascii?Q?n3PiWgfOA6oOEN8JCGBxhFl4GMPkdGuwa+z2tskGj1kNSE1qSeM1dIoiCpE+?=
+	=?us-ascii?Q?f4gVP2ajGgZxt60PgDAlig9Qw307TIo1JStXncqWn8/IGblos5j3QMeHacc1?=
+	=?us-ascii?Q?VvqVMTJ+lZCtuxqtRy6eZJPi2VHItkJnCYw1ZY6qRGuzBObWUUBlA=3D=3D?=
+X-Microsoft-Antispam-Message-Info: rOPtlJyqIZkYQF0Gj7yjXfdKwNq/V/Ew1YkLgenm5EgQVNab02nsKitUdl0HXqL5TGAvL8uSIQdPG8F0ztfu6j14TTmcbVTfG75G83NOqHvcVLMQtRSKmF85sf4XJWbHYrTn3e6gRF6hgXQoNBwrlLQwciqHKaVl6Q88MEncl3MuGkwBewIsOS8Q68CJTPNq
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR02MB1675;
+	6:Sw1JMDiA4ZYBe7yOw4Ho6BDHlpWxhCZT/G5JPTIHSkyRObZA3I07kWBXvWkpUlCUgKlCLkdWn9SEto++ZMrIz6KVXRATk3X7Jjz32kWjMa3ZCrH3rZpMnuQLDsgCcrF6w9T5jIRcmvrLAUuCS+p4kH2fQwBZ9aBSNdW6xIibSl/ibo1cnGfG9it86kqyZumpe2X/FxLPLiiqSUIGRslPrbeQv78lgjMcoVp3FITeuRGmG8gaLswLvSfvmTdFax/oW82zqFOXQ1D9PH59mQhoHplAtQ8cmjz0TgGzF/FMKMuHkTYmnXuGca6gbbbLGmv9v41k6q5lwcBYTYD7vdyJ9irWRJjNTM90rE8TME3QBFmzZRiW5a9eqo11czVi/IuvY6P+THKzcYn9+cwtFbG0bj6HnYu7o+DEOhj2lDKe45uwrxmERmp8YkdgO7dj92Q95tQQ3511cxd+S1ips8ki4A==;
+	5:ptO55NQJC23EWuXUJISsdbXUxbutbMv/feywC2euS3FoDT+7wn5B185B/drHUPO9RKgz97D/V1xZOX/9Yq0/zWTJ/7jjI+ivT41EVKdBsSgbAhhrOhiKWAlNu+nX2PY675sLR7BNQkUu6fwAfsIocd2a3VFD78p6vC+oqJ3ZHFA=;
+	24:x6KYisPzl6d8OQYu4UEAYa6s85CjvaUaWc413UCGmFd/hW1UECrzdHMJhh+JWGwaBvrIG9XZQhCHIJx3QEXfi7rUxnCtoLR5n7xT0F8GMJ8=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR02MB1675;
+	7:jKjPCfbJIucRKy8qbceWf/DF9CyXS9DCNjb/NU28TmOcPvr4BkjaeKIJnwjxl+1DMJTkiqJpYgn1cuawYMfunaocQYkUYVaI62ejGAGSLWioLrptmkeN/sJPiD+rWrLUyWA9qtUv7FZuGqZGx7JRVwsAiREiu0m2iCZm0jgBqtjEuuT2TFGRIDBXExXXq/4KMzrdsKl2nFKT/+aGmyUyJvndRea1ZUZMAfSxnKdxPuB/BHhWI/No0yp09fuNUdCz
+X-MS-Office365-Filtering-Correlation-Id: 765015ab-4e6b-455e-c0bb-08d5b464973d
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2018 21:50:46.8054 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 765015ab-4e6b-455e-c0bb-08d5b464973d
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR02MB1675
+Subject: [PATCH] tclibc-baremetal: Adds virtual/crypt to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,759 +134,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2018 22:05:22 -0000
-Content-Type: multipart/alternative; boundary="000000000000bcd9f0056ba4ddc3"
-
---000000000000bcd9f0056ba4ddc3
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Alejandro,
-
-Thank you for your support. I will try to explain better the situation. I
-can attach the recipes but it is useless, the problem is not at recipe
-level.
-
-python3-numpy has an optional dependency on BLAS interface, and openblas is
-an implementation of that interface.
-python3-scipy has a mandatory dependency on BLAS interface, and openblas is
-an implementation of that interface.
-
-So, as simple as it seems, I added a python3-numpy_%.bbappend with
-DEPENDS += "openblas".
-
-Given the fact that openblas has a lot of issues when cross compiling, I
-compiled it separately on the target (Raspberry Pi 3) and then the built
-package has been tar'ed and gzip'ed.
-
-After this step, I wrote a simple recipe (openblas.bb) which install as
-binary files the content of the aforementioned tar archive (obviously
-setting the compatible machine with arm only). At the end of the day, this
-is just a not-so-clever hack to have a working openblas on the target,
-including -dev packages.
-
-After all this effort, I expected the job to be done: given that, after my
-append file, the python3-numpy recipe depends on openblas, it will be
-scheduled only after openblas.
-At that point, given that the recipe for python3-numpy has access to the
-include files and the library development files, I expect that running
-setup.py would suffice in order to find & link the python C extensions to
-openblas.
-Unfortunately, given that the setup.py script is executed by the
-python3-native package, the path the interpreter is searching for the
-native libraries are not the ones for the sys root... And thus when
-setup.py searches for libopenblas.so(arm) it will fail as openblas is not
-deployed on x86_64 (native) variant.
-
-Sorry for the very long mail, but I hope that the scenario is now clearer.
-
-Long story short, python setuptools is failing to find correct libraries
-for the target, and is searching for them in the native path, where it
-won't find them. (Look at my first email with log attached).
-
-Thanks,
-Francesco Giancane
-
-
-Il giorno lun 7 mag 2018 alle ore 23:28 Alejandro Enedino Hernandez
-Samaniego <alejandro.enedino.hernandez-samaniego@xilinx.com> ha scritto:
-
-> Hello Francesco,
->
->
-> Please hit the reply-all button, otherwise I wont be getting notified when
-> you reply.
->
->
-> I think you're doing something very specific since you're building on
-> target and tweaking the build system so to help you more I would need to
-> take a look at the recipes you are using.
->
->
-> Alejandro
->
-> On 05/04/2018 01:19 AM, Francesco Giancane wrote:
->
-> Hi Alejandro,
->
-> Thank you for your response.
-> I know that openblas recipe is a pain, given that its Makefile is not
-> correctly written with respect to cross-compilation. However, the library
-> has been built locally on the target (sigh!) and then it is being deployed
-> with a recipe which unpacks the built binary and copy them into the sys
-> root.
->
-> So, from the openblas side, everything is OK.
->
-> What is actually wrong is the configuration step for python3-numpy and
-> python3-scipy: in the setup.py they are instructed to search for some
-> libraries (namely, openblas amongst them) but they fail to search for them
-> given that the path they are searching for is the sysroot-native, rather
-> than sysroot. (you can see it clearly from the logs attached in the first
-> message).
->
-> Installing the packages using pip3 install scipy numpy on the target
-> results on a correct execution (and libraries are properly found and
-> linked).
->
-> Thank you,
-> Francesco Giancane
->
->
->
->
-> Il giorno ven 4 mag 2018 alle ore 03:01 Alejandro Enedino Hernandez
-> Samaniego <alejandr@xilinx.com> ha scritto:
->
->> Hello Francesco,
->>
->>
->>
->> It would be helpful if you could provide more information about this,
->> e.g. access to your layer or your recipes, to make sure they are actually
->> being built correctly, also I would start by manually linking it against
->> the built library to see if the error is just not having them on the
->> correct path, but I seem to remember a lot of issues when trying to cross
->> compile openblas, specially for an arm MACHINE.
->>
->>
->>
->> Alejandro
->>
->>
->>
->> *From:* openembedded-core-bounces@lists.openembedded.org [mailto:
->> openembedded-core-bounces@lists.openembedded.org] *On Behalf Of *Francesco
->> Giancane
->> *Sent:* Wednesday, May 2, 2018 2:33 PM
->> *To:* OE-core <openembedded-core@lists.openembedded.org>
->> *Subject:* [OE-core] python recipes with extensions fail to find/link
->> with proper libraries
->>
->>
->>
->> Hi Everyone,
->>
->> I found a problem working with python(3) and C extensions.
->>
->>
->>
->> The use-case is the recipe for python(3)-numpy, which can be linked
->> against a BLAS/LAPACK library to use accelerated matricial and vectorial
->> operations.
->>
->>
->>
->> As it is currently shipped, the recipe fails to find any proper library
->> and then does not use extensions.
->>
->>
->>
->> I wrote a custom recipe for openblas which is correctly built & deploy
->> using standard commands.
->>
->> openblas is also added as a DEPENDS in a bbappend file for numpy.
->>
->>
->>
->> However, the do_compile phase cannot find the aforementioned library.
->>
->>
->>
->> Log attached:
->>
->>
->>
->> DEBUG: Executing shell function do_compile
->>
->> blas_opt_info:
->>
->> blas_mkl_info:
->>
->> customize UnixCCompiler
->>
->>   libraries mkl_rt not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> blis_info:
->>
->> customize UnixCCompiler
->>
->>   libraries blis not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> openblas_info:
->>
->> customize UnixCCompiler
->>
->> customize UnixCCompiler
->>
->>   libraries openblas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> atlas_3_10_blas_threads_info:
->>
->> Setting PTATLAS=ATLAS
->>
->> customize UnixCCompiler
->>
->>   libraries tatlas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> atlas_3_10_blas_info:
->>
->> customize UnixCCompiler
->>
->>   libraries satlas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> atlas_blas_threads_info:
->>
->> Setting PTATLAS=ATLAS
->>
->> customize UnixCCompiler
->>
->>   libraries ptf77blas,ptcblas,atlas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> atlas_blas_info:
->>
->> customize UnixCCompiler
->>
->>   libraries f77blas,cblas,atlas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> blas_info:
->>
->> customize UnixCCompiler
->>
->>   libraries blas not found in
->> ['/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib']
->>
->>   NOT AVAILABLE
->>
->>
->>
->> blas_src_info:
->>
->>   NOT AVAILABLE
->>
->>
->>
->>   NOT AVAILABLE
->>
->>
->>
->> ...And it is correct for it to fail as it is searching for openblas in
->> the wrong path (sysroot-native vs sysroot).
->>
->>
->>
->> I would assume that this is a setuptools.bbclass issue, does anyone know
->> what to do? Is it trivial to fix?
->>
->>
->>
->> I noticed that all the shipped python extensions were built as if we were
->> building for x86, even though the MACHINE is an arm target.
->>
->>
->>
->> Thank you for your attention,
->>
->>
->> Francesco Giancane
->>
->>
->>
->
->
-
---000000000000bcd9f0056ba4ddc3
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Mon, 07 May 2018 22:06:47 -0000
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Alejandro,<div><br></div><div>Thank you for your suppor=
-t. I will try to explain better the situation. I can attach the recipes but=
- it is useless, the problem is not at recipe level.</div><div><br></div><di=
-v>python3-numpy has an optional dependency on BLAS interface, and openblas =
-is an implementation of that interface.</div><div>python3-scipy has a manda=
-tory dependency on BLAS interface, and openblas is an implementation of tha=
-t interface.</div><div><br></div><div>So, as simple as it seems, I added a =
-python3-numpy_%.bbappend with DEPENDS=C2=A0+=3D &quot;openblas&quot;.</div>=
-<div><br></div><div>Given the fact that openblas has a lot of issues when c=
-ross compiling, I compiled it separately on the target (Raspberry Pi 3) and=
- then the built package has been tar&#39;ed and gzip&#39;ed.</div><div><br>=
-</div><div>After this step, I wrote a simple recipe (<a href=3D"http://open=
-blas.bb">openblas.bb</a>) which install as binary files the content of the =
-aforementioned tar archive (obviously setting the compatible machine with a=
-rm only). At the end of the day, this is just a not-so-clever hack to have =
-a working openblas on the target, including -dev packages.</div><div><br></=
-div><div>After all this effort, I expected the job to be done: given that, =
-after my append file, the python3-numpy recipe depends on openblas, it will=
- be scheduled only after openblas.</div><div>At that point, given that the =
-recipe for python3-numpy has access to the include files and the library de=
-velopment files, I expect that running setup.py would suffice in order to f=
-ind &amp; link the python C extensions to openblas.</div><div>Unfortunately=
-, given that the setup.py script is executed by the python3-native package,=
- the path the interpreter is searching for the native libraries are not the=
- ones for the sys root... And thus when setup.py searches for libopenblas.s=
-o(arm) it will fail as openblas is not deployed on x86_64 (native) variant.=
-</div><div><br></div><div>Sorry for the very long mail, but I hope that the=
- scenario is now clearer.</div><div><br></div><div>Long story short, python=
- setuptools is failing to find correct libraries for the target, and is sea=
-rching for them in the native path, where it won&#39;t find them. (Look at =
-my first email with log attached).</div><div><br></div><div>Thanks,</div><d=
-iv><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_=
-signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr">Fra=
-ncesco Giancane</div></div></div></div></div></div></div><br></div></div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr">Il giorno lun 7 mag 2018 alle=
- ore 23:28 Alejandro Enedino Hernandez Samaniego &lt;<a href=3D"mailto:alej=
-andro.enedino.hernandez-samaniego@xilinx.com">alejandro.enedino.hernandez-s=
-amaniego@xilinx.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF" text=3D"#000000">
-    <p>Hello Francesco,</p>
-    <p><br>
-    </p>
-    <p>Please hit the reply-all button, otherwise I wont be getting
-      notified when you reply.</p>
-    <p><br>
-    </p>
-    <p>I think you&#39;re doing something very specific since you&#39;re
-      building on target and tweaking the build system so to help you
-      more I would need to take a look at the recipes you are using.<br>
-    </p>
-    <p><br>
-    </p>
-    <p>Alejandro<br>
-    </p>
-    <br>
-    <div class=3D"m_7470399816009918527moz-cite-prefix">On 05/04/2018 01:19=
- AM, Francesco
-      Giancane wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-     =20
-      <div dir=3D"ltr">Hi Alejandro,
-        <div><br>
-        </div>
-        <div>Thank you for your response.</div>
-        <div>I know that openblas recipe is a pain, given that its
-          Makefile is not correctly written with respect to
-          cross-compilation. However, the library has been built locally
-          on the target (sigh!) and then it is being deployed with a
-          recipe which unpacks the built binary and copy them into the
-          sys root.</div>
-        <div><br>
-        </div>
-        <div>So, from the openblas side, everything is OK.</div>
-        <div><br>
-        </div>
-        <div>What is actually wrong is the configuration step for
-          python3-numpy and python3-scipy: in the setup.py they are
-          instructed to search for some libraries (namely, openblas
-          amongst them) but they fail to search for them given that the
-          path they are searching for is the sysroot-native, rather than
-          sysroot. (you can see it clearly from the logs attached in the
-          first message).</div>
-        <div><br>
-        </div>
-        <div>Installing the packages using pip3 install scipy numpy on
-          the target results on a correct execution (and libraries are
-          properly found and linked).</div>
-        <div><br>
-        </div>
-        <div>Thank you,</div>
-        <div>
-          <div>
-            <div dir=3D"ltr" class=3D"m_7470399816009918527gmail_signature"=
- data-smartmail=3D"gmail_signature">
-              <div dir=3D"ltr">
-                <div dir=3D"ltr">
-                  <div>
-                    <div dir=3D"ltr">Francesco Giancane</div>
-                    <div dir=3D"ltr"><br>
-                    </div>
-                  </div>
-                  <div><dl><dd style=3D"margin:0px;padding:0px;border:0px;f=
-ont-style:inherit;font-family:inherit;vertical-align:top;line-height:inheri=
-t;display:inline-block"><span style=3D"margin:0px;padding:0px;border:0px;fo=
-nt-style:inherit;font-family:inherit;vertical-align:baseline;line-height:in=
-herit;direction:ltr"><br>
-                      </span></dd></dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br>
-        </div>
-      </div>
-      <br>
-      <div class=3D"gmail_quote">
-        <div dir=3D"ltr">Il giorno ven 4 mag 2018 alle ore 03:01 Alejandro
-          Enedino Hernandez Samaniego &lt;<a href=3D"mailto:alejandr@xilinx=
-.com" target=3D"_blank">alejandr@xilinx.com</a>&gt;
-          ha scritto:<br>
-        </div>
-        <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">
-          <div link=3D"#0563C1" vlink=3D"#954F72" lang=3D"EN-US">
-            <div class=3D"m_7470399816009918527m_-8611667753301666364WordSe=
-ction1">
-              <p class=3D"MsoNormal">Hello Francesco,</p>
-              <p class=3D"MsoNormal">=C2=A0</p>
-              <p class=3D"MsoNormal">It would be helpful if you could
-                provide more information about this, e.g. access to your
-                layer or your recipes, to make sure they are actually
-                being built correctly, also I would start by manually
-                linking it against the built library to see if the error
-                is just not having them on the correct path, but I seem
-                to remember a lot of issues when trying to cross compile
-                openblas, specially for an arm MACHINE.</p>
-              <p class=3D"MsoNormal">=C2=A0</p>
-              <p class=3D"MsoNormal">Alejandro</p>
-              <p class=3D"MsoNormal"><a name=3D"m_7470399816009918527_m_-86=
-11667753301666364__MailEndCompose">=C2=A0</a></p>
-              <span></span>
-              <p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:openemb=
-edded-core-bounces@lists.openembedded.org" target=3D"_blank">openembedded-c=
-ore-bounces@lists.openembedded.org</a>
-                [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.o=
-penembedded.org" target=3D"_blank">openembedded-core-bounces@lists.openembe=
-dded.org</a>]
-                <b>On Behalf Of </b>Francesco Giancane<br>
-                <b>Sent:</b> Wednesday, May 2, 2018 2:33 PM<br>
-                <b>To:</b> OE-core &lt;<a href=3D"mailto:openembedded-core@=
-lists.openembedded.org" target=3D"_blank">openembedded-core@lists.openembed=
-ded.org</a>&gt;<br>
-                <b>Subject:</b> [OE-core] python recipes with extensions
-                fail to find/link with proper libraries</p>
-              <p class=3D"MsoNormal">=C2=A0</p>
-              <div>
-                <p class=3D"MsoNormal">Hi Everyone,</p>
-                <div>
-                  <p class=3D"MsoNormal">I found a problem working with
-                    python(3) and C extensions.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">The use-case is the recipe for
-                    python(3)-numpy, which can be linked against a
-                    BLAS/LAPACK library to use accelerated matricial and
-                    vectorial operations.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">As it is currently shipped, the
-                    recipe fails to find any proper library and then
-                    does not use extensions.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">I wrote a custom recipe for
-                    openblas which is correctly built &amp; deploy using
-                    standard commands.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">openblas is also added as a
-                    DEPENDS in a bbappend file for numpy.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">However, the do_compile phase
-                    cannot find the aforementioned library.</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">Log attached:</p>
-                </div>
-                <div>
-                  <p class=3D"MsoNormal">=C2=A0</p>
-                </div>
-                <div>
-                  <div>
-                    <p class=3D"MsoNormal">DEBUG: Executing shell function
-                      do_compile</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">blas_opt_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">blas_mkl_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries mkl_rt not foun=
-d in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">blis_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries blis not found =
-in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">openblas_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries openblas not fo=
-und
-                      in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">atlas_3_10_blas_threads_info:</p=
->
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">Setting PTATLAS=3DATLAS</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries tatlas not foun=
-d in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">atlas_3_10_blas_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries satlas not foun=
-d in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">atlas_blas_threads_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">Setting PTATLAS=3DATLAS</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries
-                      ptf77blas,ptcblas,atlas not found in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">atlas_blas_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries f77blas,cblas,a=
-tlas
-                      not found in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">blas_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">customize UnixCCompiler</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 libraries blas not found =
-in
-[&#39;/home/fgp/poky/rpi3_64/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnue=
-abi/python3-numpy/1.14.2-r0/recipe-sysroot-native/usr/lib&#39;]</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">blas_src_info:</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0 NOT AVAILABLE</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">...And it is correct for it to
-                      fail as it is searching for openblas in the wrong
-                      path (sysroot-native vs sysroot).</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">I would assume that this is a
-                      setuptools.bbclass issue, does anyone know what to
-                      do? Is it trivial to fix?</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">I noticed that all the shipped
-                      python extensions were built as if we were
-                      building for x86, even though the MACHINE is an
-                      arm target.</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">=C2=A0</p>
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal">Thank you for your attention,</p=
->
-                  </div>
-                  <div>
-                    <p class=3D"MsoNormal"><br clear=3D"all">
-                    </p>
-                    <div>
-                      <div>
-                        <div>
-                          <div>
-                            <div>
-                              <div>
-                                <p class=3D"MsoNormal">Francesco Giancane</=
-p>
-                              </div>
-                            </div>
-                            <div>
-                              <p class=3D"MsoNormal" style=3D"margin-left:.=
-5in;vertical-align:top"><span style=3D"font-family:&quot;inherit&quot;,seri=
-f">=C2=A0</span></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </blockquote>
-      </div>
-    </blockquote>
-    <br>
-  </div>
+When trying to build meta-toolchain using TCLIBC =3D "baremetal"
+bitbake throws an error due to a mising dependency:
 
-</blockquote></div>
+ERROR: Nothing PROVIDES 'virtual/crypt'
 
---000000000000bcd9f0056ba4ddc3--
+glibc PROVIDES virtual/crypt but was skipped:
+PREFERRED_PROVIDER_virtual/libc set to musl, not glibc
+musl PROVIDES virtual/crypt but was skipped:
+PREFERRED_PROVIDER_virtual/i586-poky-elf-libc-for-gcc set to baremetal,
+not musl
+libxcrypt PROVIDES virtual/crypt but was skipped: Recipe only applies in
+nativesdk case for now
+
+This is caused by the changes on commit:
+29f65bda6d2c9fea4adb125c4857ee64f9312b9f
+nativesdk-glibc: Split glibc and libcrypt to use libxcrypt instead
+
+This is where the concept of virtual/crypt was introduced.
+
+This patch adds virtual/crypt to ASSUME_PROVIDED on tclibc-baremetal,
+providing the missing wiring to build meta-toolchain on baremetal
+correctly.
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+---
+ meta/conf/distro/include/tclibc-baremetal.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/tclibc-baremetal.inc b/meta/conf/dist=
+ro/include/tclibc-baremetal.inc
+index a8ce6d3..8d570f0 100644
+--- a/meta/conf/distro/include/tclibc-baremetal.inc
++++ b/meta/conf/distro/include/tclibc-baremetal.inc
+@@ -8,7 +8,7 @@ LIBCEXTENSION =3D ""
+ LIBCOVERRIDE =3D ":libc-baremetal"
+ OVERRIDES .=3D "${LIBCOVERRIDE}"
+
+-ASSUME_PROVIDED +=3D "virtual/libc virtual/libiconv"
++ASSUME_PROVIDED +=3D "virtual/libc virtual/libiconv virtual/crypt"
+
+ PREFERRED_PROVIDER_virtual/libc ?=3D "musl"
+ PREFERRED_PROVIDER_virtual/libiconv ?=3D "musl"
+--
+2.7.4
+
+This email and any attachments are intended for the sole use of the named r=
+ecipient(s) and contain(s) confidential information that may be proprietary=
+, privileged or copyrighted under applicable law. If you are not the intend=
+ed recipient, do not read, copy, or forward this email message or any attac=
+hments. Delete this email message and any attachments immediately.
+
