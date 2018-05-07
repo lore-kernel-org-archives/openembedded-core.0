@@ -1,30 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 02C7774A17
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id C35A7748DE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 May 2018 10:48:29 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 May 2018 03:48:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,373,1520924400"; d="scan'208";a="53798539"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 07 May 2018 03:48:29 -0700
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180503081758.4661-2-anuj.mittal@intel.com>
-	<20180504132838.21692-1-anuj.mittal@intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b353fb40-7ec2-2172-77f0-808018ddb672@linux.intel.com>
-Date: Mon, 7 May 2018 13:42:40 +0300
+	Mon,  7 May 2018 12:39:35 +0000 (UTC)
+Received: from [10.1.14.248] (vpn.streamunlimited.com [91.114.0.140])
+	by ptmx.org (Postfix) with ESMTPSA id 688EF3F3E5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 May 2018 14:39:35 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <20180503081758.4661-1-anuj.mittal@intel.com>
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+Message-ID: <9e7c2d23-7836-fee3-47e5-1a9ae8c93054@pseudoterminal.org>
+Date: Mon, 7 May 2018 14:39:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180504132838.21692-1-anuj.mittal@intel.com>
-Subject: Re: [PATCH v2] gst-plugins-base: upgrade 1.12.4 -> 1.14.0
+In-Reply-To: <20180503081758.4661-1-anuj.mittal@intel.com>
+Subject: Re: [PATCH 01/12] gstreamer1.0: upgrade 1.12.4 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +29,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2018 10:48:30 -0000
+X-List-Received-Date: Mon, 07 May 2018 12:39:36 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 05/04/2018 04:28 PM, Anuj Mittal wrote:
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
-> index 6616e2cf0d..dc15d93eb0 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
-> @@ -1,16 +1,17 @@
-> -From 990b653c7b6de1937ec759019982d6c5f15770f7 Mon Sep 17 00:00:00 2001
-> +From f523721e453febfb3f62f3ba1e9fefb31dcec471 Mon Sep 17 00:00:00 2001
->   From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Mon, 26 Oct 2015 16:38:18 +0200
-> -Subject: [PATCH 2/4] Makefile.am: prefix calls to pkg-config with
-> +Date: Thu, 5 Apr 2018 10:26:25 +0800
-> +Subject: [PATCH] Makefile.am: prefix calls to pkg-config with
->    PKG_CONFIG_SYSROOT_DIR
+Is this based on my updates in meta-gstreamer1.0 ?
+
+I did not yet have the time to push them to the mailing list, but it 
+would be good to try and not have duplicate work.
+
+
+On 2018-05-03 10:17, Anuj Mittal wrote:
+> * For changes, please see: https://gstreamer.freedesktop.org/releases/1.14/
+> * Merge inc and bb file since we only have one version now.
+>
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>   meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb   | 14 --------------
+>   .../gstreamer/{gstreamer1.0.inc => gstreamer1.0_1.14.0.bb} | 12 +++++++++++-
+>   2 files changed, 11 insertions(+), 15 deletions(-)
+>   delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+>   rename meta/recipes-multimedia/gstreamer/{gstreamer1.0.inc => gstreamer1.0_1.14.0.bb} (84%)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+> deleted file mode 100644
+> index 01b2396513..0000000000
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.12.4.bb
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -require gstreamer1.0.inc
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+> -                    file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
+> -
+> -SRC_URI = " \
+> -    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+> -"
+> -SRC_URI[md5sum] = "9d268f2e891cce1ac0832f1cc467d4ea"
+> -SRC_URI[sha256sum] = "5a8704aa4c2eeb04da192c4a9942f94f860ac1a585de90d9f914bac26a970674"
+> -
+> -S = "${WORKDIR}/gstreamer-${PV}"
+> -
+> -CVE_PRODUCT = "gstreamer"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+> similarity index 84%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+> index c2df1f3258..b4398c8111 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+> @@ -14,11 +14,19 @@ inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspecti
+>   # (it has a custom INTROSPECTION_INIT macro, and so must be used instead of our common introspection.m4 file)
+>   acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 >   
->   Upstream-Status: Pending [review on oe-core maillist]
->   Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> -SRC_URI_append = " \
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+> +                    file://gst/gst.h;beginline=1;endline=21;md5=e059138481205ee2c6fc1c079c016d0d"
 > +
->   ---
->    gst-libs/gst/allocators/Makefile.am |  4 ++--
->    gst-libs/gst/app/Makefile.am        |  4 ++--
->    gst-libs/gst/audio/Makefile.am      | 12 ++++++------
-> - gst-libs/gst/fft/Makefile.am        |  4 ++--
->    gst-libs/gst/pbutils/Makefile.am    | 12 ++++++------
->    gst-libs/gst/riff/Makefile.am       |  8 ++++----
->    gst-libs/gst/rtp/Makefile.am        |  8 ++++----
-> @@ -18,13 +19,13 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->    gst-libs/gst/sdp/Makefile.am        |  4 ++--
->    gst-libs/gst/tag/Makefile.am        |  8 ++++----
->    gst-libs/gst/video/Makefile.am      |  8 ++++----
+> +S = "${WORKDIR}/gstreamer-${PV}"
+> +
+> +SRC_URI = " \
+> +    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+>       file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+>       file://gtk-doc-tweaks.patch \
+>       file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+>   "
+> +SRC_URI[md5sum] = "63c7cbfb86aa28c4522e374dc5555b96"
+> +SRC_URI[sha256sum] = "fc361367f0d4b780a868a8833f9f30b9c9f4ac9faea4e6b251db8b4b0398466e"
+>   
+>   PACKAGECONFIG ??= ""
+>   
+> @@ -59,3 +67,5 @@ do_configure[prefuncs] += "delete_pkg_m4_file"
+>   do_compile_prepend() {
+>           export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"
+>   }
+> +
+> +CVE_PRODUCT = "gstreamer"
 
-This patch needs to be updated to also include gst-libs/gst/gl and fix 
-it in a similar way to other dirs. Can you do that please? This will 
-avoid the host contamination issue that you've seen on your machine 
-(build succeeding because the host has the needed files).
-
-Alex
 
