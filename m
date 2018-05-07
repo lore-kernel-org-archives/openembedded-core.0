@@ -1,47 +1,67 @@
-Return-Path: <allenwild93@gmail.com>
-Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
-	[209.85.213.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E6EFA74C00
+Return-Path: <Vignesh.Rajendran@in.bosch.com>
+X-Greylist: delayed 543 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 07 May 2018 06:00:05 UTC
+Received: from de-deferred2.bosch-org.com (de-deferred2.bosch-org.com
+	[139.15.180.217])
+	by mail.openembedded.org (Postfix) with ESMTP id F25C274DE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 May 2018 00:34:01 +0000 (UTC)
-Received: by mail-yb0-f194.google.com with SMTP id f3-v6so1000966ybg.13
+	Mon,  7 May 2018 06:00:05 +0000 (UTC)
+Received: from de-out1.bosch-org.com (unknown [139.15.180.215])
+	by fe0vms0193.rbdmz01.com (Postfix) with ESMTPS id 40fWvB61sLz3yn
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 May 2018 17:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=TpiwbAMEqHn/VVT086emC+vls6RI5r61IwFyAwamwsI=;
-	b=HfdPa+14QcJMPj6KGNgakRwD/G88yBl9bpgU1YYsvUl/2c3ZPGB8poYk6xi+I8tXvt
-	auC6PuAJcrPDAMiBHHmWGpNefI5EDZ8whs2aFFr0GHtuf9sK5IRXuNlNrxqa1KdNffVX
-	11V/XXeQI894AgUHhvAF8NinY6Q+xJvyfqR6HezLIi8txw2JZYEb1Ipe2i3nB2EPy8c4
-	iKVN08F9zFOs5KnbXZbW9IeLil6bQt30kCdlmDI+zijlqIFvz9b+0sDkKJYX9L/6CQtM
-	8F8wz3Ewof+2sGxRrRkHOHBLmj920bczclRV+UPEKTBe+tbQf9MgopYJ5pCAe3Y+xVyc
-	+1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TpiwbAMEqHn/VVT086emC+vls6RI5r61IwFyAwamwsI=;
-	b=gqKx2KMjQMfObzHIRF1unIYUwyBcbEkv6Sbn+xzK3LAn5vx00PjddJe5x+v+UNw0Hd
-	wJIkQVHz/CwOCFNmgN5eNlwVDBCk3t9iLyhWTJ8q9k6piK2ZZ0e8cDAhYBKVLAbNCOIv
-	+E+sq6pHGlo43kbgFgCwKmlDA4+NFb78PtQw0kIiZX0sPooY4hl+xLYA2qhKuwlj6BiT
-	cYP2NKe98pDhlfaxdwehLQw1o8l9i41t1sJXL0cJdod+Mmyqk5QCoTeJzxIBWypZHPa+
-	9216dK+sPli8RdltMMZhFmgFUNGe9vjTJSBBOULZ+qfQR3riJY9Vb1YWooOF/ePES4WG
-	AI3A==
-X-Gm-Message-State: ALQs6tBpnxrg4LC36BWvtH7BC24ACW5kLtTiNNfztgO6xMo5w29EWt8+
-	vynUAu0C5ALkFsnQO87ALqjcUQ==
-X-Google-Smtp-Source: AB8JxZo2RcvHXsOtu2pM4YnNDwoFg9mLYCdOwmLHfX6FJgeiDuYuG6XQTXc4yRuT6fppZpj3C0vt8g==
-X-Received: by 2002:a25:45:: with SMTP id 66-v6mr5844012yba.434.1525653242499; 
-	Sun, 06 May 2018 17:34:02 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:3d10:2828::ed54])
-	by smtp.gmail.com with ESMTPSA id
-	p5-v6sm9269052ywm.44.2018.05.06.17.34.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 06 May 2018 17:34:01 -0700 (PDT)
-From: Allen Wild <allenwild93@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 May 2018 20:33:49 -0400
-Message-Id: <20180507003349.2749-1-allenwild93@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] kernel: fix the modules tarball when using usrmerge
+	Mon,  7 May 2018 07:51:02 +0200 (CEST)
+Received: from fe0vm1650.rbesz01.com (unknown [139.15.230.188])
+	by si0vms0217.rbdmz01.com (Postfix) with ESMTPS id 40fWv86DZHz4f3knQ
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 May 2018 07:51:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
+	s=2015-01-21; t=1525672260;
+	bh=Z82gI/uiUyInIjpSrNlFiRoFPJ1/SMTjDPb3N8PyKbs=; l=10;
+	h=From:From:Reply-To:Sender;
+	b=BMdNOdK2SwgmeSAsPkerB4nI9SoLFGhMauAnlfV+GKaU55nwdc0Hf8zmRrWeukvIx
+	5eFMECDkfVLG3ZjEjQuq1jMiPlLyWDV5Lrx33D1FkoI57H4xDFLJ/TYfiNhK0HNYfs
+	1Z8HE6opZiPC1HbePxjwSUadWu0moVwwbD7jSNkk=
+Received: from si0vm2083.rbesz01.com (unknown [10.58.172.176])
+	by fe0vm1650.rbesz01.com (Postfix) with ESMTPS id 40fWv85sxpz1C6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 May 2018 07:51:00 +0200 (CEST)
+X-AuditID: 0a3aad17-4fbff70000000e32-8c-5aefe9467923
+Received: from si0vm1950.rbesz01.com ( [10.58.173.29])
+	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by si0vm2083.rbesz01.com (SMG Outbound) with SMTP id
+	75.1A.03634.649EFEA5; Mon,  7 May 2018 07:51:02 +0200 (CEST)
+Received: from SI-HUB1000.de.bosch.com (si-hub1000.de.bosch.com [10.4.103.106])
+	by si0vm1950.rbesz01.com (Postfix) with ESMTPS id 40fWv83rklzCpP7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 May 2018 07:51:00 +0200 (CEST)
+Received: from APAC (10.169.42.196) by SI-HUB1000.de.bosch.com (10.4.103.106)
+	with Microsoft SMTP Server id 14.3.319.2;
+	Mon, 7 May 2018 07:51:00 +0200
+From: Vignesh Rajendran <vignesh.rajendran@in.bosch.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 May 2018 11:20:55 +0530
+Message-ID: <1525672255-24026-1-git-send-email-vignesh.rajendran@in.bosch.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.169.42.196]
+X-Brightmail-Tracker: H4sIAAAAAAAAA22SaUgUcRjG/e/l7ObU7K7H26aCk5SY2qodVlJBIEEQ2d2C2ZiTu7S7ys5q
+	ahFSWLnZfdliJmVi2cHatUmZTVppErTZoS5lZqJ2gl1SaTONtvuhb+88z/t7H/4Pg4lVwzIN
+	ZjBbaYuZMpIyhUQx+0JIdFLfJ522fVtYgnvwo+98tPCRowotQTpFYjptNOTQlqlz1yn0P0/e
+	l2XdgNyO/fXiAlSntiE5BsQ0uLezDtmQAlMRJSI4eWpAJny8R+Ao3CcdcRA01ndwDobJiATo
+	7pnNj/5EDDwdCuAPiYkZYN9d7cvPaiIFbm8vkPGzhAiH8rN1En7GicXAfjmGhOBQaHtUJBZ0
+	JTQd75YIdwDu9PaKhZ0wqLncL9mPxtq91uxea+VIdA4FMAZtjilOmxAfY0mjmXxtbMz6TFMN
+	EtoJcqIvDopFBIZIPzyW/aRTSakcJs/EoumYiAzAx3Ry0ti0zPQ8PcXoUy3ZRpohNTjy8fFR
+	qf/JTHaaycAwhkwziwATk/74uEaOw9OpvHzakilgLJqAScggvDh9i05FZFBWeiNNZ9GWUXcO
+	hpGAH+rlQKWFzqBzNxiM1lGbDBEyA70d71gRJmdRPObHZS/nT+BMFmViDBkj+HgBV42qHrQZ
+	zdQE4XqeIXhXn23+l6oJxgcWfdCpArwMD9mP2hDXmxqP4GE/7sfz5AHuVJeuUSlHRA8Ud4Zj
+	CFYOpS3PEZQ5vyLo+NYghYs7XFJw1dp9ofXnG1+wDRbJoerdsB9ca60gwPl7UAnFRdVqzmjy
+	h5c9OwLB/qQ5EMrOuwEO2naNh/Ofj2jg6vfqYPh15XowtJfvDoXBwyWh8KNiKBRudu2dCEOu
+	ynB4//DBJCjt7JsEhx6/joAXx7umQOHXs1HQVslGwZDzTAy4vw9P7efKFHFlKjv/lmmlrP8p
+	c0T1vE5TgOZmJ62oWdtS0eKolIeJIh1HjFurNse+Sj6Ateauexs/brX9lmkg2Vb4bkL357uJ
+	jtPRPUtTUg2rFrjaU9YfnRKGu1e8qCvri4iS5Vcu+30g8fmWWdpvKy89/VWUPINKDZwnbwjf
+	YyvGE2tyrkod5rfPdtZfmLxxYu2VkPmbXIXuE0mNpITRU7GRYgtD/QHxSTaXEgQAAA==
+Subject: [meta-oe][PATCH] package.bbclass: provide debug sources in externalsrc -dbg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +74,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2018 00:34:02 -0000
+X-List-Received-Date: Mon, 07 May 2018 06:00:06 -0000
+Content-Type: text/plain
 
-kernel_do_deploy only uses /lib when creating the modules tarball,
-creating an empty archive if usrmerge is in distro features because the
-modules are in /usr/lib.
+The recipes which are using externalsrc method doesn't contain the
+debug sources in their -dbg packages.
 
-Create the modules tarball from ${D}${root_prefix}/lib instead of
-${D}/lib so that it's not empty when usrmerge is enabled.
+Add a handling in copydebugsources function to copy the debugsources for
+externalsrc -dbg packages.
 
-Signed-off-by: Allen Wild <allenwild93@gmail.com>
+Signed-off-by: Vignesh Rajendran <vignesh.rajendran@in.bosch.com>
 ---
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/externalsrc.bbclass |  3 +++
+ meta/classes/package.bbclass     | 14 +++++++++++---
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 78d6c30b07..bbb5dbb1b2 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -677,8 +677,8 @@ kernel_do_deploy() {
- 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} $deployDir/${base_name}.bin
- 	done
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
--		mkdir -p ${D}/lib
--		tar -cvzf $deployDir/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
-+		mkdir -p ${D}${root_prefix}/lib
-+		tar -cvzf $deployDir/${MODULE_TARBALL_BASE_NAME} -C ${D}${root_prefix} lib
- 		ln -sf ${MODULE_TARBALL_BASE_NAME} $deployDir/${MODULE_TARBALL_SYMLINK_NAME}
- 	fi
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index c9f5cf7..135670d 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -129,6 +129,9 @@ python () {
+             d.setVar('CONFIGURESTAMPFILE', configstamp)
+             d.setVar('STAMP', '${STAMPS_DIR}/work-shared/${PN}/${EXTENDPE}${PV}-${PR}')
+             d.setVar('STAMPCLEAN', '${STAMPS_DIR}/work-shared/${PN}/*-*')
++
++	# set DEBUG_PREFIX_MAP to external source path
++	d.appendVar("DEBUG_PREFIX_MAP", "-fdebug-prefix-map=${EXTERNALSRC}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}")
+ }
  
+ python externalsrc_configure_prefunc() {
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index edeffa9..2c4472d 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -420,6 +420,7 @@ def copydebugsources(debugsrcdir, d):
+         workdir = d.getVar("WORKDIR")
+         workparentdir = os.path.dirname(os.path.dirname(workdir))
+         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
++	externalsrc = d.getVar('EXTERNALSRC', True)
+ 
+         # If build path exists in sourcefile, it means toolchain did not use
+         # -fdebug-prefix-map to compile
+@@ -444,10 +445,17 @@ def copydebugsources(debugsrcdir, d):
+         processdebugsrc += "fgrep -zw '%s' | "
+         # Remove prefix in the source paths
+         processdebugsrc += "sed 's#%s##g' | "
+-        processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
++        # handle external sources to provide sources in -dbg packages
++        if externalsrc:
++            localsrc_prefix = "/usr/src/debug/"
++            processdebugsrc += "sed 's#%s/##g' | "
++            processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s/%s' 2>/dev/null)"
++            cmd = processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workbasedir, externalsrc, dvar, debugsrcdir, workbasedir)
++        else:
++            processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
++            cmd = processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workparentdir, dvar, debugsrcdir)
+ 
+-        cmd = processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workparentdir, dvar, debugsrcdir)
+-        (retval, output) = oe.utils.getstatusoutput(cmd)
++	(retval, output) = oe.utils.getstatusoutput(cmd)
+         # Can "fail" if internal headers/transient sources are attempted
+         #if retval:
+         #    bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
 -- 
-2.17.0
+2.7.4
 
 
