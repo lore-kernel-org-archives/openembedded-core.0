@@ -1,50 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0926774E47
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7959F747EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 May 2018 23:19:26 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id i185-v6so13347621vkg.3
+	Mon,  7 May 2018 23:43:02 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id w123-v6so17796460oia.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 May 2018 16:19:28 -0700 (PDT)
+	Mon, 07 May 2018 16:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=x4/j32e49S7CXP9ggJ6KcUyQPbfAKm9io65LEXZ4qM4=;
-	b=gETnLIvtKZ9qqFT0sFmtUTTwnTz1WaewxKXXfi4FA2egdDV2U656H/OoGPWA21MXrY
-	ZpxU27c74dT61ErKMaWD06tO9soREjiUWyB1VdDsMNbna718VLQN+c4eiZoc+vnBHdrh
-	+nwsAxcva7O6iL18+LZReI0KhaSLDPqIZbMG1mF0hKbyNtwlmtBr4v2cVgYzzoM8KCoS
-	zZ+/zH8PZhuk+1qORjbnPVdGNKY7vdTttU8aw7kkhFbfvu5lldOsD8aq8gOErXeF7utn
-	aJQby9coksgxcdT/sUfs1UUIVC3m/mABRVir9YaH/KvseNw0tPGKz/iLj64vQpW/Dx9A
-	JWtQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=L8Ueqzte/IInFTjQM6HS7fOTE+xI9Y+P6UaxINrlTKQ=;
+	b=cdXHgLw/c4SluIRUCD5Au4bOgfhIshR+LWiegzSbDZL54Yvh8LXLvON7FhqwYojSeN
+	uDmgO8vUqgCKUCbs06g2ofgenteripJGMPJk+BZxjuxsuVDekI1o0owNH+PvntP3lcs8
+	34Hp5wzy02s92vDVxkbpPpU7Me/+HntH6yoU4w0dcCWqiQsUHdvcu50n91hCnzzZbxJl
+	t2F5WJUJm3UXy1AeFGAkHEQDhVu696DKA2iFLZhc1dRZw62LSKYg8tfmRp4Rxj+qF7yV
+	bGZGQQ7ffo6UXsEnaHiIm4s08gaBJNq7LAP9kfdUQi22T2DS1AoHH5SEipUvbQR2jczH
+	xdxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=x4/j32e49S7CXP9ggJ6KcUyQPbfAKm9io65LEXZ4qM4=;
-	b=IsULOtJxJxT0NcqsfMcQl2qeMCOKC06emUD61BEg4m5lnhzR+lMDIoqozdfm4oc1+W
-	bG9ouHCQmHWmk+D2XwUCGAiJak8db0hpVSUMR5Wru+gaPbaBernJd57p9aO3hh2GkaI9
-	wUvcxCUWRxZseGWmLGTdc7KdIJx443M+W3g3Dg6MlnvTgn1VPxf8oejNAtLFjZuH+g4c
-	2d1vLWxICfv+0P3e9prkgoRr1oYEgtP0nNR2iXgeSpM5Kukos3lPcKmZBfOA9SzxL5GR
-	B36hcAkSaFYIFyP09s386ldwTXXUHzRzwot3jdjO168yemtp6W99yUQWfAAu1NZjvt5c
-	4mVw==
-X-Gm-Message-State: ALQs6tDjTkES+merynAl5mHhNokx+O7SQWNd5FMOtabR+WYYwvxUmJiQ
-	ufvKeKQZ/SVWhBFvufQwNqkyzWa3QHGisVDE+W/qug==
-X-Google-Smtp-Source: AB8JxZo0KCEGAMXXyMi8hIQhGT6Gk6Gy/H9gZZoqadY6eP/1Zxq6MdwUO1FcnajE3SR1TceaPIq5NAtFl0+uLZkxkig=
-X-Received: by 2002:a1f:a7c7:: with SMTP id
-	q190-v6mr32368605vke.5.1525731626344; 
-	Mon, 07 May 2018 15:20:26 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=L8Ueqzte/IInFTjQM6HS7fOTE+xI9Y+P6UaxINrlTKQ=;
+	b=ok5Ip2ByTPnKi4l44eAdlwIkb5TMHwjYauMamZxR7frIetEQ/llGGR97ykSllGpQPK
+	vHDmUdkNo+pEG+9HMnjMJnA+YQW8WE5sROrPtkKUdZ9d8idyIe9Onk0DEsGeACUxUkdR
+	ql3k+qeuvpT+1K7CfFZLKAE17IxHhR8dkJDrG6JjWYa+IZVMxNJYuULZWhUp7/d8HmOS
+	UgA5dxq1NlIu/03WD7eKpunMWMB0Q3Jm4Czq9qRax/5deL95Sq/AZr8IVhlFHiiOszf0
+	qhFDyDC2Am1qaoy4ikDWc4cjwp1x2enNvASJWGmF1+ZUQoqPh4b+XMVu1MGe5zKfBBoU
+	TEtA==
+X-Gm-Message-State: ALQs6tCJF/l31JMQmYzUEfe+VpLYrJkn4cJmoaC6HdZkz678x5PVipYB
+	WCypMIRgRPiUQyK+jMgfBXRyrTcummsX7bNeDXs=
+X-Google-Smtp-Source: AB8JxZrmvliZDeVmbrhe4XFRHhxUm2lw8QVzpEa3Rh+n4t+pHZAIi6l5AteY1RdiqjlwXaP6IF3TP0/xit2JyHWT8Xg=
+X-Received: by 2002:aca:dd46:: with SMTP id
+	u67-v6mr22577150oig.355.1525736583475; 
+	Mon, 07 May 2018 16:43:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.48.148 with HTTP; Mon, 7 May 2018 15:20:25 -0700 (PDT)
-In-Reply-To: <1525729814-24709-1-git-send-email-alejandr@xilinx.com>
-References: <1525729814-24709-1-git-send-email-alejandr@xilinx.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 7 May 2018 15:20:25 -0700
-Message-ID: <CAJ86T=Uw1Rgu=96qh0eMFbJLvwv0OL4WjY8u98ZCxCLpHeQDVg@mail.gmail.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tclibc-baremetal: Adds virtual/crypt to ASSUME_PROVIDED
+References: <CAGVhguEEi7uE2HZQoDj_4puDZ+44j5RhJSvsHFCc4cQcobMvxA@mail.gmail.com>
+In-Reply-To: <CAGVhguEEi7uE2HZQoDj_4puDZ+44j5RhJSvsHFCc4cQcobMvxA@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 07 May 2018 23:42:53 +0000
+Message-ID: <CAJdd5GZiCoW3mMDkjaB-jyVBdZjbLRwYgEwokUd=bTs1weMy+A@mail.gmail.com>
+To: C Michael Sundius <msundius@sundius.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +54,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2018 23:19:27 -0000
+X-List-Received-Date: Mon, 07 May 2018 23:43:04 -0000
+Content-Type: multipart/alternative; boundary="000000000000143604056ba63b08"
+
+--000000000000143604056ba63b08
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 7, 2018 at 2:50 PM, Alejandro Enedino Hernandez Samaniego
-<alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
-> When trying to build meta-toolchain using TCLIBC =3D "baremetal"
-> bitbake throws an error due to a mising dependency:
->
-> ERROR: Nothing PROVIDES 'virtual/crypt'
->
-> glibc PROVIDES virtual/crypt but was skipped:
-> PREFERRED_PROVIDER_virtual/libc set to musl, not glibc
-> musl PROVIDES virtual/crypt but was skipped:
-> PREFERRED_PROVIDER_virtual/i586-poky-elf-libc-for-gcc set to baremetal,
-> not musl
-> libxcrypt PROVIDES virtual/crypt but was skipped: Recipe only applies in
-> nativesdk case for now
->
-> This is caused by the changes on commit:
-> 29f65bda6d2c9fea4adb125c4857ee64f9312b9f
-> nativesdk-glibc: Split glibc and libcrypt to use libxcrypt instead
->
-> This is where the concept of virtual/crypt was introduced.
->
-> This patch adds virtual/crypt to ASSUME_PROVIDED on tclibc-baremetal,
-> providing the missing wiring to build meta-toolchain on baremetal
-> correctly.
->
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com=
->
-> ---
->  meta/conf/distro/include/tclibc-baremetal.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/distro/include/tclibc-baremetal.inc b/meta/conf/di=
-stro/include/tclibc-baremetal.inc
-> index a8ce6d3..8d570f0 100644
-> --- a/meta/conf/distro/include/tclibc-baremetal.inc
-> +++ b/meta/conf/distro/include/tclibc-baremetal.inc
-> @@ -8,7 +8,7 @@ LIBCEXTENSION =3D ""
->  LIBCOVERRIDE =3D ":libc-baremetal"
->  OVERRIDES .=3D "${LIBCOVERRIDE}"
->
-> -ASSUME_PROVIDED +=3D "virtual/libc virtual/libiconv"
-> +ASSUME_PROVIDED +=3D "virtual/libc virtual/libiconv virtual/crypt"
->
->  PREFERRED_PROVIDER_virtual/libc ?=3D "musl"
->  PREFERRED_PROVIDER_virtual/libiconv ?=3D "musl"
+On Mon, May 7, 2018, 17:26 C Michael Sundius <msundius@sundius.com> wrote:
 
-Not directly related to this fix, but why does tclibc-baremetal.inc
-set PREFERRED_PROVIDER_virtual/libc to musl?
-
-> --
-> 2.7.4
+> Hi All,
 >
-> This email and any attachments are intended for the sole use of the named=
- recipient(s) and contain(s) confidential information that may be proprieta=
-ry, privileged or copyrighted under applicable law. If you are not the inte=
-nded recipient, do not read, copy, or forward this email message or any att=
-achments. Delete this email message and any attachments immediately.
+> I've been scratching my head all day about why I can build my recipe under
+> bitbake, but whne I try to build w/ the SDK I create w/ bitbake -c
+> populate_sdk <my-image> it cant find the headers for the libraries that I
+> depend upon.
+>
+> somehow when I create the sdk, it does not include the header files for
+> the dependent libs. I see the .so files in the sysroot, but I don't see any
+> of the header files.
+>
+> I don't see any of the headers for libxml2,  or the other libs.. those are
+> simply standard recipes from yocto.
+>
+> any thoughts what am i doing wrong?
+>
+
+Maybe  "dev-pkgs" was accidentally removed from SDKIMAGE_FEATURES?
+
+
+> -----------------------
+> inherit abc-cmake
+> inherit pkgconfig
+> inherit systemd
+>
+> EXTRA_OECMAKE_append = "\
+>     -DENABLE_SYSTEMD=ON \
+>     -DENABLE_API=ON \
+>     -DENABLE_CONFIG=ON \
+>     -DENABLE_UNITTEST=ON \
+>     -DENABLE_TUNCTL=ON \
+>     -DENABLE_WATCHDOG=ON \
+>     -DENABLE_AESNI=ON \
+>     -DFORCE_ALIGNMENT=OFF \
+>     -DENABLE_TRACE=OFF \
+>     -DENABLE_TUNING=OFF \
+> "
+>
+> EXTRA_OECMAKE_append_abc-dev = " -DENABLE_TRACE=ON"
+> EXTRA_OECMAKE_append_abc-dbg = " -DENABLE_TUNING=ON"
+>
+> LIC_FILES_CHKSUM = "file://COPYING;md5=8b5f7a1e89273c8fd243ca57ad73e483"
+>
+> SRC_URI += "file://myprog.service"
+> SRC_URI += "file://myprog.conf"
+>
+> SYSTEMD_SERVICE_${PN} = "myprog.service"
+> SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+>
+> do_install_append () {
+>         #install systemd service file
+>         install -d ${D}${systemd_system_unitdir}
+>         install -m 0644 ${WORKDIR}/udpf.service
+> ${D}${systemd_system_unitdir}
+>
+>         #install tmpfiles.d configuration file
+>         install -d ${D}${sysconfdir}/tmpfiles.d
+>         install -m 0644 ${WORKDIR}/udpf.conf ${D}${sysconfdir}/tmpfiles.d/
+> }
+>
+>
+> PACKAGES =+ "${PN}-utilities ${PN}-samples ${PN}-conf"
+>
+> FILES_${PN} += "${sbindir}/dpfd"
+> FILES_${PN}-dev += "\
+>     ${sbindir}/segtest \
+>     ${sbindir}/ttest \
+>     ${sbindir}/workq \
+> "
+> FILES_${PN}-utilities += "${sbindir}/tunctl ${sbindir}/tapctl"
+> FILES_${PN}-samples += "${datadir}/*"
+> FILES_${PN}-conf += "${sysconfdir}/dpf/*"
+>
+> RDEPENDS_${PN}-samples += "python"
+> DEPENDS = "libxml2 libevent nss systemd concurrencykit netmap"
+> RDEPENDS_${PN} = "libxml2 libevent nss systemd python-core
+> kernel-module-tun netmap"
+> RDEPENDS_${PN} += "libxml2 libevent nss-dev systemd python-core
+> kernel-module-tun netmap"
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--000000000000143604056ba63b08
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">=
+On Mon, May 7, 2018, 17:26 C Michael Sundius &lt;<a href=3D"mailto:msundius=
+@sundius.com">msundius@sundius.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><div dir=3D"ltr"><div>Hi All, <br><br></div><div>I&#39;ve be=
+en scratching my head all day about why I can build my recipe under bitbake=
+, but whne I try to build w/ the SDK I create w/ bitbake -c populate_sdk &l=
+t;my-image&gt; it cant find the headers for the libraries that I depend upo=
+n. <br><br></div><div>somehow when I create the sdk, it does not include th=
+e header files for the dependent libs. I see the .so files in the sysroot, =
+but I don&#39;t see any of the header files. <br><br></div><div>I don&#39;t=
+ see any of the headers for libxml2,=C2=A0 or the other libs.. those are si=
+mply standard recipes from yocto.<br></div><div><br></div><div>any thoughts=
+ what am i doing wrong?<br></div></div></blockquote></div></div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Maybe=C2=A0<span style=3D"white-space:pr=
+e-wrap"> &quot;dev-pkgs&quot; was accidentally removed from </span><span st=
+yle=3D"font-family:sans-serif;white-space:pre-wrap">SDKIMAGE_FEATURES?</spa=
+n></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><br>------------=
+-----------<br>inherit abc-cmake<br>inherit pkgconfig<br>inherit systemd<br=
+><br>EXTRA_OECMAKE_append =3D &quot;\<br>=C2=A0=C2=A0=C2=A0 -DENABLE_SYSTEM=
+D=3DON \<br>=C2=A0=C2=A0=C2=A0 -DENABLE_API=3DON \<br>=C2=A0=C2=A0=C2=A0 -D=
+ENABLE_CONFIG=3DON \<br>=C2=A0=C2=A0=C2=A0 -DENABLE_UNITTEST=3DON \<br>=C2=
+=A0=C2=A0=C2=A0 -DENABLE_TUNCTL=3DON \<br>=C2=A0=C2=A0=C2=A0 -DENABLE_WATCH=
+DOG=3DON \<br>=C2=A0=C2=A0=C2=A0 -DENABLE_AESNI=3DON \<br>=C2=A0=C2=A0=C2=
+=A0 -DFORCE_ALIGNMENT=3DOFF \<br>=C2=A0=C2=A0=C2=A0 -DENABLE_TRACE=3DOFF \<=
+br>=C2=A0=C2=A0=C2=A0 -DENABLE_TUNING=3DOFF \<br>&quot;<br><br>EXTRA_OECMAK=
+E_append_abc-dev =3D &quot; -DENABLE_TRACE=3DON&quot;<br>EXTRA_OECMAKE_appe=
+nd_abc-dbg =3D &quot; -DENABLE_TUNING=3DON&quot;<br><br>LIC_FILES_CHKSUM =
+=3D &quot;file://COPYING;md5=3D8b5f7a1e89273c8fd243ca57ad73e483&quot;<br><b=
+r>SRC_URI +=3D &quot;file://myprog.service&quot;<br>SRC_URI +=3D &quot;file=
+://myprog.conf&quot;<br><br>SYSTEMD_SERVICE_${PN} =3D &quot;myprog.service&=
+quot;<br>SYSTEMD_AUTO_ENABLE_${PN} =3D &quot;enable&quot;<br><br>do_install=
+_append () {<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #install systemd=
+ service file<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -d ${D}=
+${systemd_system_unitdir}<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ins=
+tall -m 0644 ${WORKDIR}/udpf.service ${D}${systemd_system_unitdir}<br><br>=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #install tmpfiles.d configuratio=
+n file<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -d ${D}${sysco=
+nfdir}/tmpfiles.d<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 install -m =
+0644 ${WORKDIR}/udpf.conf ${D}${sysconfdir}/tmpfiles.d/<br>}<br><br><br>PAC=
+KAGES =3D+ &quot;${PN}-utilities ${PN}-samples ${PN}-conf&quot;<br><br>FILE=
+S_${PN} +=3D &quot;${sbindir}/dpfd&quot;<br>FILES_${PN}-dev +=3D &quot;\<br=
+>=C2=A0=C2=A0=C2=A0 ${sbindir}/segtest \<br>=C2=A0=C2=A0=C2=A0 ${sbindir}/t=
+test \<br>=C2=A0=C2=A0=C2=A0 ${sbindir}/workq \<br>&quot;<br>FILES_${PN}-ut=
+ilities +=3D &quot;${sbindir}/tunctl ${sbindir}/tapctl&quot;<br>FILES_${PN}=
+-samples +=3D &quot;${datadir}/*&quot;<br>FILES_${PN}-conf +=3D &quot;${sys=
+confdir}/dpf/*&quot;<br><br>RDEPENDS_${PN}-samples +=3D &quot;python&quot;<=
+br>DEPENDS =3D &quot;libxml2 libevent nss systemd concurrencykit netmap&quo=
+t;<br>RDEPENDS_${PN} =3D &quot;libxml2 libevent nss systemd python-core ker=
+nel-module-tun netmap&quot;<br>RDEPENDS_${PN} +=3D &quot;libxml2 libevent n=
+ss-dev systemd python-core kernel-module-tun netmap&quot;<br><br></div></di=
+v>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
+.org/mailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div></div>
+
+--000000000000143604056ba63b08--
