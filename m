@@ -1,26 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 48F9974AF8
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D750749A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 07:47:51 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w487lnOo030183
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 8 May 2018 08:47:50 +0100
-Message-ID: <1525765669.3857.107.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 08 May 2018 08:47:49 +0100
-In-Reply-To: <20180504123244.43049-7-alexander.kanavin@linux.intel.com>
-References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
-	<20180504123244.43049-7-alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 07/14] ca-certificates: update to 20180409
+	Tue,  8 May 2018 08:05:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4885kYD017246
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 May 2018 01:05:46 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 8 May 2018 01:05:45 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 May 2018 16:07:09 +0800
+Message-ID: <ca99a33e28d5c01cd0cd64f24373ac52a016f9af.1525764187.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1525764187.git.Qi.Chen@windriver.com>
+References: <cover.1525764187.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] testsdkext: remove workspace/sources to avoid failure in case of multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 07:47:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 May 2018 08:05:46 -0000
+Content-Type: text/plain
 
-On Fri, 2018-05-04 at 15:32 +0300, Alexander Kanavin wrote:
-> License-Update: URI fix
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../{ca-certificates_20170717.bb => ca-
-> certificates_20180409.bb}      | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/ca-certificates/{ca-
-> certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
+When multilib is enabled, there are multiple environment scripts, and the
+test cases for eSDK are executed for each environment script.
 
-Something in this series, I think likely this patch causes rootfs
-generation to fail with:
+And we will have the following problem when executing test cases for the
+second environment script.
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: [log_check] core-image-sato: found 1 error message in the logfile:
-[log_check] openssl:Error: 'rehash' is an invalid command.
+  ERROR: Source tree path /.../workspace/sources/librdfa already exists and is not empty
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: Function failed: do_rootfs
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato/1.0-r0/temp/log.do_rootfs.23183
+So after executing test cases for one environment, we clean up the sources
+diretory to avoid such failure.
 
-https://autobuilder.yocto.io/builders/nightly-arm/builds/1053/steps/BuildImages/logs/stdio
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/testsdk.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 2e43343..54719a1 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -183,6 +183,9 @@ def testsdkext_main(d):
+         if not result.wasSuccessful():
+             fail = True
+ 
++        # Clean the workspace/sources to avoid `devtool add' failure because of non-empty source directory
++        bb.utils.remove(sdk_dir+'workspace/sources', True)
++
+     if fail:
+         bb.fatal("%s - FAILED - check the task log and the commands log" % pn)
+ 
+-- 
+1.9.1
 
-Richard
 
