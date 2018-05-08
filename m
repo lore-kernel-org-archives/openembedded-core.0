@@ -1,54 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6536C74C3E
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 2405274DCF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 09:25:20 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id q72-v6so5363776itc.0
+	Tue,  8 May 2018 09:38:21 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id c9-v6so31245880iob.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2018 02:25:22 -0700 (PDT)
+	Tue, 08 May 2018 02:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sudu2jDy9JHd1cS0YdbCPy263FeRavZMHz7mIuKzxR8=;
-	b=VRt0AvvBRXHwWhXpYBu8B23l5HOH50apqKKjPvaPkURhvFJYGhhmLcqBC2kvnuAfVT
-	20q3T1QY6ulBdnYy64qv+ZSPkG91krYlQDvFvYf0N3aUt0gAY8QW7u+hWQfzbRT5R8Ta
-	UFuG6DkIla376iEln9BtT6cBD1uz7mFclBhW8MF9v+Zn4NFR0Dy0JqrAAx4Qa7zCACqs
-	0JSM3l6OvHk9u8QN5PR80NFx0PwOzDjLfOee6XYijGhGRn9Ge0nCTTZB08o/JjMgXAtu
-	9DkmQ5kDj4AASrHlLHS/22HYN+ssRnqZPHgbZVso3lbCALBVsV/YUDhmbUYfgmWA63md
-	4tXg==
+	:cc; bh=1vv1rbl3vt63C04jzySocKG0U6VIgWm6BMKSduP6x9M=;
+	b=Jy/hd23Er8drDvYXs3GVSGiW5D8XKoXZCTkSoDj7j3baAFsGZ0pn2vlwcNzYDZrCU4
+	r9JKM74TXdkndCHefqELt+JzyfPtb4yyYkXHVLj9a6YomX2Fja48mhtX2kTn3gaj/pIo
+	uwe2LuJNxJzGEkZWdUSjtmRVGCTwvw97JhQ6kYa0GDr3HpBlHFNSCfwwCTK+USRIPWZI
+	03nEyP12khO8zlV3xEZH/dDj4KHLEXe5M3pbpES4arGn18qisBuXVoZqV6bvVrWkwoBh
+	cNmyWCHf7FTU5Dly0p40EyC2QZQex4mhOMZ4tzPJajVg4U28X5plvbL+OKl0oHGQOl3K
+	arOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=sudu2jDy9JHd1cS0YdbCPy263FeRavZMHz7mIuKzxR8=;
-	b=KaZG3ZRAyVlnmijw5Du4P0F7NLsJITe9nJF7f/G4hwo61K20Eeou+NW0kJbBPGkunq
-	DuBNMid64zzrAvPZ3+ocOIPqEQHgaQdtwlfKVIaFo9qbCI1zE3bIIMQPrlmRH+rc6bNw
-	cwh1jjPZ0EpGOYjv9DB5zB95Os+CQjeoziF7WqMpfdd0+5F5jCIGu1ubgbyjEMygxfd2
-	Vs7PYm9DHlaUiAc6bXbQZpEFGnD+Fj1Yc3ExEsM1zRAHm/OUcIoaGCe28uzDVWLiL0dg
-	owLqyblz+LMqUhh41hUlJzXvQApWuZVz8zxSQXOEEewVuOdJ6sMed4hdksXeUZ7mB3kY
-	R0Qg==
-X-Gm-Message-State: ALKqPwdzEmJ81CV9k4PB5k3odKjxeFpOFPdHOI1a175xTUIqzn1tt7p9
-	grhSpNYgo1oHItGAAwXfB5KQkwuU/xI78XvmfghOxw==
-X-Google-Smtp-Source: AB8JxZoQTH2F0Z6+Bhtyd3eBtfpJswg3CNtyxSmrHd1d426roifea/M9HH3G8Ba6ObRLgayncr9yq6yAd2ItXqFqekw=
-X-Received: by 2002:a24:3a0a:: with SMTP id
-	m10-v6mr5336851itm.45.1525771522102; 
-	Tue, 08 May 2018 02:25:22 -0700 (PDT)
+	bh=1vv1rbl3vt63C04jzySocKG0U6VIgWm6BMKSduP6x9M=;
+	b=EJVXb8qVAuTAKXlmhQ2LFm8EvSZlY+7A+1meadF2uZzn3rQw3Je7NyZPkLQJq5cIN6
+	tB9m1V9sj2wbs7NMK+XcRxfkYHravVWa1r1mzQ9OmsnX74yE/iR+2h3Yt31CyPJZSdrw
+	hh/8l/LaoGtzsAIr6+8k665NZ6bkNYgrhAOmGBh89ECO5mAPVGkQIG4zqFgXMlQVJQqr
+	nGFdfD5lgxB3Q9/kcc+kAyTJpihUFM/Se6bUwaEk++B+1YNwERFSKTwWNJhilrGGqjJ2
+	wtmq5kAQXWD2Hi62gY/VNHmrfFW1BIoWo7EAi32QQVZgeLZLX5miaKOMBSpR2Bh2UPYK
+	KqRg==
+X-Gm-Message-State: ALQs6tCGftHQYGay1e5Zvj3KIeQDzU4SXtC0ZjipOWTjtpFJHCCBkEIV
+	Mh/znuov1g/Zrb1yl/WcEJxq5vV5l9/6BYlZREXcZA==
+X-Google-Smtp-Source: AB8JxZodisGEiK2ptwxoAK3dHYEXWpXRJuiL6VZmgadqibHwX4ZpqITRuFG+qlWQa+kkI0p1A23HMPRlcO2bSMTtmZ8=
+X-Received: by 2002:a6b:5507:: with SMTP id
+	j7-v6mr46403723iob.23.1525772302719; 
+	Tue, 08 May 2018 02:38:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Tue, 8 May 2018 02:25:01 -0700 (PDT)
-In-Reply-To: <d9e02702-1b1f-3560-3bbb-11ee04be8524@linux.intel.com>
-References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
-	<20180504123244.43049-14-alexander.kanavin@linux.intel.com>
-	<CA+chaQfzfNip1UE1WWy2v=T6rWkYkSLTZS-FRek2hP9W=T_3_w@mail.gmail.com>
-	<d9e02702-1b1f-3560-3bbb-11ee04be8524@linux.intel.com>
+Received: by 10.107.239.11 with HTTP; Tue, 8 May 2018 02:38:02 -0700 (PDT)
+In-Reply-To: <CA+chaQfbViBTpaV3rOXd1Q9NBnViSLAjb-obywEi7y1rpJAz5w@mail.gmail.com>
+References: <20180507152701.12046-1-twoerner@gmail.com>
+	<CA+chaQfbViBTpaV3rOXd1Q9NBnViSLAjb-obywEi7y1rpJAz5w@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 May 2018 10:25:01 +0100
-Message-ID: <CAJTo0LZ=NKRiew4kcGp-inDums7A1Uhe9gEKF2n1GWE0Cp959w@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
-	Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Tue, 8 May 2018 10:38:02 +0100
+Message-ID: <CAJTo0Lb1ye2gXy7iNoFNwrZWjP2BoJdc6MP2H471+HMH0fPsvw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/14] babeltrace: switch over to git
+Subject: Re: [PATCH] babeltrace: switch source URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,79 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 09:25:21 -0000
-Content-Type: multipart/alternative; boundary="000000000000957eba056bae5da3"
+X-List-Received-Date: Tue, 08 May 2018 09:38:22 -0000
+Content-Type: multipart/alternative; boundary="0000000000001cb36f056bae8c4c"
 
---000000000000957eba056bae5da3
+--0000000000001cb36f056bae8c4c
 Content-Type: text/plain; charset="UTF-8"
 
-CCing Halstead who does.  Hopefully the autobuilder.yocto.io cache has
-a babeltrace-1.5.5.tar.bz2 tarball we can add to the mirror?
+On 7 May 2018 at 16:33, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> There is already a fix for this, see:
+> http://lists.openembedded.org/pipermail/openembedded-core/
+> 2018-May/150423.html
+>
+> Using github archives is even worse as they are regenerated from time to
+> time. Also when you really want to use v${PV}.tar.gz archive, then
+> use downloadfilename parameter to fetch it with some more meaningful
+> filename and to prevent possible conflicts with other badly named tarballs.
+>
+
+http://lists.openembedded.org/pipermail/openembedded-devel/2017-September/114916.html
+has a bit more background to this problem fwiw.
 
 Ross
 
-On 7 May 2018 at 11:17, Alexander Kanavin <alexander.kanavin@linux.intel.com
-> wrote:
-
-> On 05/04/2018 10:51 PM, Martin Jansa wrote:
->
->> Can you please upload the tarball (I assume you still have it from the
->> time you were testing the upgrade to 1.5.5) to:
->> http://downloads.yoctoproject.org/mirror/sources/babeltrace-1.5.5.tar.bz2
->> or
->> http://sources.openembedded.org/babeltrace-1.5.5.tar.bz2
->> so that it's covered with default mirrors.bbclass as well?
->>
->
-> I don't have upload rights to that.
->
-> Alex
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000957eba056bae5da3
+--0000000000001cb36f056bae8c4c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">CCing Halstead who does.=C2=A0 Hopefully the <a href=3D"ht=
-tp://autobuilder.yocto.io">autobuilder.yocto.io</a> cache has a=C2=A0babelt=
-race-1.5.5.tar.bz2=C2=A0tarball we can add to the mirror?<div><br></div><di=
-v>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->On 7 May 2018 at 11:17, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kana=
-vin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><span class=3D"">On 05/04/2018 10:51 PM, Martin Jansa wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Can you please upload the tarball (I assume you still have it from the time=
- you were testing the upgrade to 1.5.5) to:<br>
-<a href=3D"http://downloads.yoctoproject.org/mirror/sources/babeltrace-1.5.=
-5.tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://downloads.yoctoproje=
-ct.<wbr>org/mirror/sources/babeltrace-<wbr>1.5.5.tar.bz2</a><br>
-or<br>
-<a href=3D"http://sources.openembedded.org/babeltrace-1.5.5.tar.bz2" rel=3D=
-"noreferrer" target=3D"_blank">http://sources.openembedded.or<wbr>g/babeltr=
-ace-1.5.5.tar.bz2</a><br>
-so that it&#39;s covered with default mirrors.bbclass as well?<br>
-</blockquote>
-<br></span>
-I don&#39;t have upload rights to that.<br>
-<br>
-Alex<div class=3D"HOEnZb"><div class=3D"h5"><br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+<div dir=3D"ltr">On 7 May 2018 at 16:33, Martin Jansa <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@g=
+mail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"=
+gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(2=
+04,204,204);padding-left:1ex"><div dir=3D"ltr">There is already a fix for t=
+his, see:<div><a href=3D"http://lists.openembedded.org/pipermail/openembedd=
+ed-core/2018-May/150423.html" target=3D"_blank">http://lists.openembedded.o=
+rg/<wbr>pipermail/openembedded-core/<wbr>2018-May/150423.html</a><br></div>=
+<div><br></div><div>Using github archives is even worse as they are regener=
+ated from time to time. Also when you really want to use v${PV}.tar.gz arch=
+ive, then use=C2=A0downloadfilename parameter to fetch it with some more me=
+aningful filename and to prevent possible conflicts with other badly named =
+tarballs.</div></div></blockquote><div><br></div><div><a href=3D"http://lis=
+ts.openembedded.org/pipermail/openembedded-devel/2017-September/114916.html=
+">http://lists.openembedded.org/pipermail/openembedded-devel/2017-September=
+/114916.html</a> has a bit more background to this problem fwiw.<br></div><=
+div><br></div><div>Ross</div></div></div></div>
 
---000000000000957eba056bae5da3--
+--0000000000001cb36f056bae8c4c--
