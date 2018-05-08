@@ -1,49 +1,44 @@
-Return-Path: <taborskikrzysztof@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC8274D2B
+Return-Path: <v.vogelhuber@digitalendoscopy.de>
+Received: from mx-relay37-hz2.antispameurope.com
+	(mx-relay37-hz2.antispameurope.com [94.100.136.237])
+	by mail.openembedded.org (Postfix) with ESMTP id 2315774AE1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 13:08:37 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id a8so18708991wmg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2018 06:08:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=/HBWF4KE6FiepMfjwknmFu/mcuL4ETwwInO0DSLlmC8=;
-	b=T8sHuvqlEJ8OTnEv6mKIwDX5etlHRe1MzcbcHpCt5iHhsBNTNrbUysRqO9NEuR0D5v
-	QtpZdhSWhKWD9OLCXvJKQWmSlu2pzux8HeMHX1WAJy7Nn0c2u7UamLMYKLs/17HsV9c8
-	Sl/p7yHOWSTF0FjQPzEuRbEN4kFfpWX/UtYjvK9uvoFxZiE+ra/qptIAqqykMJaaZgIw
-	/phxTXn7Z1yaqQlf39HUfu0ZOJAxE0KS9+CX81UPq7RPEFkAF5F/3XiakZbL0fUttEC1
-	3SPDtjAfyH/5iuVh+jnfo17AoWq3UuttJEvKNitWWI/7il0H+uS2Sh85hsuWQZiEaoky
-	yPiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=/HBWF4KE6FiepMfjwknmFu/mcuL4ETwwInO0DSLlmC8=;
-	b=VLYfyO5Pf00+idO3/JpzXE3ePQIgQkjI/hTcxl/18KQsCZLfFrUs778mc+/O+YIqVs
-	u+uh6SxIZz/lNbsePXJ5b/JZjGR5+NFdZyJhfODtQg4EbUgfeH73I6rH+d1jCYuBfNHc
-	bxAoxW546j9/13U/Xfv2+p9wjXaOn/o7dROUNV8jXVT6wteVB0w9pABbEliP1sPyQYH4
-	W4X9dDemPEdJosOg55h6msGRsQwoPlGlqhP2guIR7CXJHeIdztrRO/44OJ2IZ3LJbUnm
-	WKDtEO9CSGAtOvFNeQzv17HRLPiJnXBlTwhuNJrCYwD/82doDvZzEhQOAkdNSccnZ1xi
-	RIsQ==
-X-Gm-Message-State: ALQs6tA2qmJZD8uOJgXeCJjQqQWuCq/PYNxNPinZ9ZEymw2bQo3xNNyO
-	t95UWpxqQs/jRvHVBnc4IPZUu8wGDHQbb3IQZQE=
-X-Google-Smtp-Source: AB8JxZobmYQ+ZY5Ep4N/mYCRsrprRuQupth5rSBLIFLL6HVyWp5NpqDGgkBrGj7/AXplixxMbrEk8Agn3PRKgFA4cF8=
-X-Received: by 2002:a1c:a750:: with SMTP id
-	q77-v6mr3229710wme.111.1525784917468; 
-	Tue, 08 May 2018 06:08:37 -0700 (PDT)
+	Tue,  8 May 2018 13:38:59 +0000 (UTC)
+Received: from ptr-128-65-149-218.static.lewtelnet-access.de
+	([128.65.149.218]) by mx-relay37-hz2.antispameurope.com; 
+	Tue, 08 May 2018 15:38:59 +0200
+Received: from [192.168.20.129] (192.168.20.129) by srv-msx01.digitendos.de
+	(192.168.20.14) with Microsoft SMTP Server (TLS) id 15.0.516.32;
+	Tue, 8 May 2018 15:38:36 +0200
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+	<ed.bartosh@linux.intel.com>
+References: <9536e25b-bbf9-8c21-e44a-c96dd79a848c@digitalendoscopy.de>
+	<83aa6f73-2835-4b53-621b-4b9fd3b66b15@digitalendoscopy.de>
+	<CAPybu_1RMqH4q96Xm6ekNarz015++49Yu4sSP1SMcj1Yn3D-5A@mail.gmail.com>
+	<7e87091c-4989-0383-8bf3-7b9acb805ef8@digitalendoscopy.de>
+	<CAPybu_05Bb5FiNgh-bBSCJLVggqq7=F2uzUTbtQhj_sqUVMM+g@mail.gmail.com>
+	<CAPybu_3dxKNb04+YcG3vueYt4dtMkEFQvt01zTD6sEJ1=cZzaQ@mail.gmail.com>
+	<CAPybu_0bguRvJuMF5wjUcSbHewnO0_2UDSiFa-HTAPn3=vL+hQ@mail.gmail.com>
+From: Volker Vogelhuber <v.vogelhuber@digitalendoscopy.de>
+Message-ID: <2a4550fc-bf3a-b968-c94a-e7b9f12b105d@digitalendoscopy.de>
+Date: Tue, 8 May 2018 15:38:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 10.28.100.84 with HTTP; Tue, 8 May 2018 06:08:36 -0700 (PDT)
-In-Reply-To: <CAFmD+WGeSMG8ZOQnRrjWfN7To6fMbwGS3M2q7Q=8Jf3+hA-ZsA@mail.gmail.com>
-References: <20171204181640.31225-1-taborskikrzysztof@gmail.com>
-	<00b201d3704c$8357c870$8a075950$@gmail.com>
-	<CAFmD+WESsG-ebvx_AmDOpisQFaP3_DzvrWr8dF9j88=5V7GBDg@mail.gmail.com>
-	<CAFmD+WGeSMG8ZOQnRrjWfN7To6fMbwGS3M2q7Q=8Jf3+hA-ZsA@mail.gmail.com>
-From: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-Date: Tue, 8 May 2018 15:08:36 +0200
-Message-ID: <CAFmD+WE9YxrEp-zjA998nFH7jKHER-fsBOJyniTzm3+jV0OKOQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] perl: native modules will not trigger build perl for target.
+In-Reply-To: <CAPybu_0bguRvJuMF5wjUcSbHewnO0_2UDSiFa-HTAPn3=vL+hQ@mail.gmail.com>
+X-Originating-IP: [192.168.20.129]
+X-ClientProxiedBy: srv-msx01.digitendos.de (192.168.20.14) To
+	srv-msx01.digitendos.de (192.168.20.14)
+X-cloud-security-sender: v.vogelhuber@digitalendoscopy.de
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on
+	mx-relay37-hz2.antispameurope.com with 0E60218A73E
+X-cloud-security-connect: ptr-128-65-149-218.static.lewtelnet-access.de[128.65.149.218],
+	TLS=1, IP=128.65.149.218
+X-cloud-security: scantime:.1991
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Question about multi rootfs UIDs when using wic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,212 +51,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 13:08:37 -0000
-Content-Type: multipart/alternative; boundary="000000000000026cab056bb17c5b"
+X-List-Received-Date: Tue, 08 May 2018 13:39:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000026cab056bb17c5b
-Content-Type: text/plain; charset="UTF-8"
+Hi Ricardo,
 
-Could someone look at this?
+On 07.05.2018 15:22, Ricardo Ribalda Delgado wrote:
+> In my case this patch does the trick
+Unfortunately your patch results in having the recovery image's UID and 
+GID settings to be set to my current user instead of root. So no, your 
+patch does not seem to work for me.
+I didn't have the time to check in detail what's wrong with your version.
 
-2017-12-18 16:51 GMT+01:00 Krzysztof Taborski <taborskikrzysztof@gmail.com>:
-
-> ping
->
-> 2017-12-12 9:34 GMT+01:00 Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> :
->
->> kindly reminder
+> 
+> commit 269334f2400c6ee0c7b4fec7d9bf0f701e50c329 (HEAD -> europa, origin/europa)
+> Author: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> Date:   Mon May 7 13:54:15 2018 +0200
+> 
+>      wic: Fix partition files UIDs on multi rootfs images
+> 
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 84fe85d62b..49921e7494 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -206,7 +206,7 @@ class Partition():
+>           """
+>           p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
+>           p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+> -                                         "%s/../pseudo" %
+> get_bitbake_var("IMAGE_ROOTFS"))
+> +                                         "%s/../pseudo" %  rootfs_dir)
+>           p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
+>           p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+>           pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py
+> b/scripts/lib/wic/plugins/imager/direct.py
+> index da1c061063..a90a47c926 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -121,6 +121,10 @@ class DirectPlugin(ImagerPlugin):
+>           if self._update_fstab(fstab_lines, self.parts):
+>               # copy rootfs dir to workdir to update fstab
+>               # as rootfs can be used by other tasks and can't be modified
+> +            new_pseudo = os.path.realpath(os.path.join(self.workdir, "pseudo"))
+> +            from_dir = os.path.join(os.path.join(image_rootfs, ".."), "pseudo")
+> +            from_dir = os.path.realpath(from_dir)
+> +            copyhardlinktree(from_dir, new_pseudo)
+>               new_rootfs = os.path.realpath(os.path.join(self.workdir,
+> "rootfs_copy"))
+>               copyhardlinktree(image_rootfs, new_rootfs)
+>               fstab_path = os.path.join(new_rootfs, 'etc/fstab')
+> 
+> 
+> 
+> Can you try it on your setup? If it also works for you I will work on
+> getting it merged.
+> 
+> 
+> Cheers!
+> 
+> On Wed, May 2, 2018 at 8:25 PM, Ricardo Ribalda Delgado
+> <ricardo.ribalda@gmail.com> wrote:
+>> cc: ed
 >>
->> 2017-12-08 18:46 GMT+01:00 Krzysztof Taborski <
->> taborskikrzysztof@gmail.com>:
+>> Is it a very bad idea to revert your patch?
 >>
->>> Hello,
->>> I would like to request feedback about my patch.
+>> Thanks!
+>>
+>> On Wed, May 2, 2018 at 8:17 PM, Ricardo Ribalda Delgado
+>> <ricardo.ribalda@gmail.com> wrote:
+>>> Hi
 >>>
->>> Br,
->>> Krzysztof Taborski
+>>> I do not know how many people is actively using wic. We have started
+>>> using it from last week, it is hard to replace old scripts that work
+>>> :)
 >>>
->>> -----Original Message-----
->>> From: Krzysztof Taborski [mailto:taborskikrzysztof@gmail.com]
->>> Sent: Monday, December 04, 2017 7:17 PM
->>> To: openembedded-core@lists.openembedded.org
->>> Cc: Krzysztof Taborski
->>> Subject: [OE-core][PATCH v2] perl: native modules will not trigger build
->>> perl for target.
+>>> Try sending it as a proper patch, I can help you if you need it.
 >>>
->>> Currently building perl-native modules triggers build perl for target due
->>> to PACKAGES_DYNAMIC regex.
+>>> Regards
 >>>
->>> This commit will cause, that perl native modules will trigger perl-native
->>> build.
+>>> On Wed, May 2, 2018 at 6:31 PM, Volker Vogelhuber
+>>> <v.vogelhuber@digitalendoscopy.de> wrote:
+>>>> Hi,
+>>>>
+>>>> I never got any response to my message (until now). So AFAIK I solved the
+>>>> problem with the following patch:
+>>>>
+>>>> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+>>>> index 84fe85d62b..66ab757aec 100644
+>>>> --- a/scripts/lib/wic/partition.py
+>>>> +++ b/scripts/lib/wic/partition.py
+>>>> @@ -204,15 +204,10 @@ class Partition():
+>>>>
+>>>>           Currently handles ext2/3/4, btrfs and vfat.
+>>>>           """
+>>>> -        p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" %
+>>>> native_sysroot)
+>>>> -        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+>>>> -                                         "%s/../pseudo" %
+>>>> get_bitbake_var("IMAGE_ROOTFS"))
+>>>> -        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
+>>>> +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
+>>>> +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" %
+>>>> self.rootfs_dir
+>>>> +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
+>>>>           p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+>>>> -        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+>>>> -        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
+>>>> -        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
+>>>> -        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
+>>>>           pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+>>>>
+>>>>           rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
+>>>>
+>>>>
+>>>>
+>>>> On 02.05.2018 17:51, Ricardo Ribalda Delgado wrote:
+>>>>>
+>>>>> Hi
+>>>>>
+>>>>> I just got hit by this one. It is specially nasty because nfsroot
+>>>>> fails to boot if the uids are wrong.
+>>>>>
+>>>>> What is the status on this?
+>>>>>
+>>>>> On Mon, Jan 22, 2018 at 11:39 AM, Volker Vogelhuber
+>>>>> <v.vogelhuber@digitalendoscopy.de> wrote:
+>>>>>>
+>>>>>> I finally found out, what's the reason why the included recovery rootfs
+>>>>>> has
+>>>>>> the wrong UIDs, while the main image has the correct one. The reason
+>>>>>> seems
+>>>>>> to be the PSEUDO_LOCALSTATEDIR variable that is set to the state dir of
+>>>>>> the
+>>>>>> main image in both cases.
+>>>>>> I debugged all the calls up to the environment setup in partition.py's
+>>>>>> prepare_rootfs method where a check for an existing PSEUDO_LOCALSTATEDIR
+>>>>>> environment variable is done. That seems to be the problem.
+>>>>>> Instead of using the correct value passed to the prepare_rootfs method,
+>>>>>> an
+>>>>>> existing ENV value is used that points to the state dir of the main image
+>>>>>> instead of the recovery one's. I guess the reason is that in bitbake.conf
+>>>>>> the PSEUDO_LOCALSTATEDIR is set to the image currently build (which is
+>>>>>> the
+>>>>>> main image and not the recovery image only referenced by the main image).
+>>>>>> So
+>>>>>> because that environment variable is already set, the call to mkfs.ext4
+>>>>>> for
+>>>>>> the recovery image uses the wrong PSEUDO_LOCALSTATEDIR and does not apply
+>>>>>> the correct UID.
+>>>>>>
+>>>>>> Any ideas how to fix that? I tend to just remove the patch introduced by
+>>>>>> Ed
+>>>>>> Bartosh three years ago (https://patchwork.openembedded.org/patch/90419/)
+>>>>>> because I don't need a custom PSEUDO_PREFIX. But maybe not everyone
+>>>>>> agrees.
+>>>>>>
+>>>>>> On 19.01.2018 17:00, Volker Vogelhuber wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> I'm currently trying to create a multi RootFS WIC image as mentioned in
+>>>>>>> directdisk-multi-rootfs.wks. For that I have two image recipes. One that
+>>>>>>> is creating only an ext4 image (image-recovery), and the second that is
+>>>>>>> also
+>>>>>>> creating a WIC image (image-main). I used the IMAGE_FSTYPES variable for
+>>>>>>> that. The WKS file for the second image is integrating the recovery
+>>>>>>> image by
+>>>>>>> specifying --rootfs-dir=image-recovery in it's part description.
+>>>>>>>
+>>>>>>> # primary / recovery image
+>>>>>>> part / --source rootfs --rootfs-dir=image-main --exclude-path mnt/data/
+>>>>>>> mnt/data2/ --fstype=ext4 --label primary_rootfs --align 1024 --size 700
+>>>>>>> --overhead-factor=1.0
+>>>>>>> part /recovery --source rootfs --rootfs-dir=image-recovery --fstype=ext4
+>>>>>>> --label recovery_rootfs --align 1024 --size 640 --overhead-factor=1.0
+>>>>>>>
+>>>>>>> The UIDs of the second rootfs (image-main) are correctly set to 0 within
+>>>>>>> the file system when calling mkfs.ext4 during prepare_rootfs_ext. For
+>>>>>>> the
+>>>>>>> recovery rootfs the UID is always set to my own (host) one which is of
+>>>>>>> course not valid for the image where that UID does not exist.
+>>>>>>> I tried calling the mkfs.ext4 command myself from a terminal and for
+>>>>>>> whatever reason an image created out of the rootfs folder of the second
+>>>>>>> image (image-main) recipe is deployed with the correct UID 0, while the
+>>>>>>> rootfs folder of the first image (image-recovery) recipe always uses the
+>>>>>>> UID
+>>>>>>> of the source folder/files.
+>>>>>>>
+>>>>>>> I search the code of e2fsprogs for the line that sets the UID and added
+>>>>>>> a
+>>>>>>> printf in set_inode_extra. There I can see clearly that the source UID
+>>>>>>> for
+>>>>>>> the file is 0 for the rootfs of the image-main rootfs folder while it is
+>>>>>>> 10000 (my own UID) for the image-recovery. I wonder how the UID of the
+>>>>>>> image-main rootfs folder can be zero when I don't call any command with
+>>>>>>> root
+>>>>>>> permissions. I searched for a preparation step where the UIDs are
+>>>>>>> managed in
+>>>>>>> the scripts folder of Yocto, but didn't found any hint for the whole
+>>>>>>> behavior. So while it is good that the rootfs partition of the main
+>>>>>>> rootfs
+>>>>>>> has the UID set correctly to zero, I can't understand why it happens. On
+>>>>>>> the
+>>>>>>> other side I can understand why the UID of the recovery rootfs is set to
+>>>>>>> my
+>>>>>>> own one, but it stops me from booting that rootfs because the UIDs of
+>>>>>>> the
+>>>>>>> files and folders are set to a user that does not exist on the target
+>>>>>>> system.
+>>>>>>>
+>>>>>>> Can someone please explain to me, how that UID handling is meant to be
+>>>>>>> done?
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> --
+>>>>>>
+>>>>
 >>>
->>> Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
->>> ---
->>>  meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
->>>  meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
->>>  2 files changed, 3 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->>> b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->>> index 48113f05a9..a81dc4d703 100644
->>> --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->>> +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
->>> @@ -134,3 +134,5 @@ EOF
 >>>
->>>  # Fix the path in sstate
->>>  SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
->>> +PACKAGES_DYNAMIC_class-native += "^perl-module-.*native$"
->>> +
->>> diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
->>> b/meta/recipes-devtools/perl/perl_5.24.1.bb
->>> index 6b27b22d22..3dc7805da9 100644
->>> --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
->>> +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
->>> @@ -323,7 +323,7 @@ python split_perl_packages () {
->>>      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
->>> }
->>>
->>> -PACKAGES_DYNAMIC += "^perl-module-.*"
->>> +PACKAGES_DYNAMIC += "^perl-module-.*(?<!\-native)$"
->>>  PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
->>>
->>>  RPROVIDES_perl-lib = "perl-lib"
 >>> --
->>> 2.13.6
->>>
->>>
+>>> Ricardo Ribalda
+>>
 >>
 >>
 >> --
->> Pozdrawiam,
->> Krzysiek Taborski
->>
->
->
->
-> --
-> Pozdrawiam,
-> Krzysiek Taborski
->
+>> Ricardo Ribalda
+> 
+> 
+> 
 
 
-
--- 
-Pozdrawiam,
-Krzysiek Taborski
-
---000000000000026cab056bb17c5b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Could someone look at this?<br></div><div class=3D"gmail_e=
-xtra"><br><div class=3D"gmail_quote">2017-12-18 16:51 GMT+01:00 Krzysztof T=
-aborski <span dir=3D"ltr">&lt;<a href=3D"mailto:taborskikrzysztof@gmail.com=
-" target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;</span>:<br><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex"><div dir=3D"ltr">ping</div><div class=3D"gmail_extra=
-"><div><div class=3D"h5"><br><div class=3D"gmail_quote">2017-12-12 9:34 GMT=
-+01:00 Krzysztof Taborski <span dir=3D"ltr">&lt;<a href=3D"mailto:taborskik=
-rzysztof@gmail.com" target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;</=
-span>:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">kindly reminder<b=
-r></div><div class=3D"gmail_extra"><div><div class=3D"m_-667724658835564336=
-8h5"><br><div class=3D"gmail_quote">2017-12-08 18:46 GMT+01:00 Krzysztof Ta=
-borski <span dir=3D"ltr">&lt;<a href=3D"mailto:taborskikrzysztof@gmail.com"=
- target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;</span>:<br><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">Hello,<br>
-I would like to request feedback about my patch.<br>
-<br>
-Br,<br>
-Krzysztof Taborski<br>
-<div class=3D"m_-6677246588355643368m_897606133491491596HOEnZb"><div class=
-=3D"m_-6677246588355643368m_897606133491491596h5"><br>
------Original Message-----<br>
-From: Krzysztof Taborski [mailto:<a href=3D"mailto:taborskikrzysztof@gmail.=
-com" target=3D"_blank">taborskikrzysztof@gmai<wbr>l.com</a>]<br>
-Sent: Monday, December 04, 2017 7:17 PM<br>
-To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
-blank">openembedded-core@lists.openem<wbr>bedded.org</a><br>
-Cc: Krzysztof Taborski<br>
-Subject: [OE-core][PATCH v2] perl: native modules will not trigger build<br=
->
-perl for target.<br>
-<br>
-Currently building perl-native modules triggers build perl for target due<b=
-r>
-to PACKAGES_DYNAMIC regex.<br>
-<br>
-This commit will cause, that perl native modules will trigger perl-native<b=
-r>
-build.<br>
-<br>
-Signed-off-by: Krzysztof Taborski &lt;<a href=3D"mailto:taborskikrzysztof@g=
-mail.com" target=3D"_blank">taborskikrzysztof@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">pe<wbr>rl-native_5.24.1.bb</a> | 2 ++<b=
-r>
-=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">pe<wbr>rl_5.24.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 2 +-<br>
-=C2=A02 files changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><b=
-r>
-b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-index 48113f05a9..a81dc4d703 100644<br>
---- a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-+++ b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-@@ -134,3 +134,5 @@ EOF<br>
-<br>
-=C2=A0# Fix the path in sstate<br>
-=C2=A0SSTATE_SCAN_FILES +=3D &quot;*.pm *.pod *.h *.pl *.sh&quot;<br>
-+PACKAGES_DYNAMIC_class-native +=3D &quot;^perl-module-.*native$&quot;<br>
-+<br>
-diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"noref=
-errer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-index 6b27b22d22..3dc7805da9 100644<br>
---- a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-+++ b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"n=
-oreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-@@ -323,7 +323,7 @@ python split_perl_packages () {<br>
-=C2=A0 =C2=A0 =C2=A0d.setVar(d.expand(&quot;RRECOMMEND<wbr>S_${PN}-modules&=
-quot;), &#39; &#39;.join(packages))<br>
-}<br>
-<br>
--PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*&quot;<br>
-+PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*(?&lt;!\-native)$<wbr>&quot;<br=
->
-=C2=A0PACKAGES_DYNAMIC_class-native<wbr>sdk +=3D &quot;^nativesdk-perl-modu=
-le-.*&quot;<br>
-<br>
-=C2=A0RPROVIDES_perl-lib =3D &quot;perl-lib&quot;<br>
---<br>
-2.13.6<br>
-<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div></div><=
-/div><span class=3D"m_-6677246588355643368HOEnZb"><font color=3D"#888888">-=
-- <br><div class=3D"m_-6677246588355643368m_897606133491491596gmail_signatu=
-re" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Pozdrawiam,<div>Krz=
-ysiek Taborski</div></div></div>
-</font></span></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div></div></div><span c=
-lass=3D"HOEnZb"><font color=3D"#888888">-- <br><div class=3D"m_-66772465883=
-55643368gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr=
-">Pozdrawiam,<div>Krzysiek Taborski</div></div></div>
-</font></span></div>
-</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
-nature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Pozdrawiam,<div=
->Krzysiek Taborski</div></div></div>
-</div>
-
---000000000000026cab056bb17c5b--
