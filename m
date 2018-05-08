@@ -1,51 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 65601745D1
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E4D4E74F12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 22:00:19 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id e20-v6so40369828iof.4
+	Tue,  8 May 2018 22:07:18 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id 10-v6so20643887vkh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2018 15:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 08 May 2018 15:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+IKf0HwHonbex2NYvW7teCUyigTrRaWOpKlSe16IDPc=;
-	b=yIhXZmk1tIgNb8fSWJntfHmTx17SSRjmFmR3yZThyGrvgZ05rQmtFZReSMtfimKdL/
-	0NlnCAsQfpBo/FvOrher9HPWLHdqXADfo1CBfVcCy4l2iEeNppvvjh57Uth0K+5RilL+
-	XL8yMYw8SNv7rXad5rak8rAf8ATLdv4P+kYSTL2z01H1XvltiVz6uQtKmz1YIeMIwkp4
-	9OIRz9tXMeyt9YYSqm4iTu+jgEAJxE0bPTDZjx0wYYVfdgdb+I+07mzXsrnJaOJDIK8y
-	QUVLDNRhABqsqZXV9KCUi+Orwq5B/j9QO11Zz8FGJSRDJDVRcNoJyjSctEQBrCGo08JY
-	0CwA==
+	:cc; bh=/QyETu4SDsgFK4YZPHkWKMh90tgrytuSBsIxywrc/xE=;
+	b=P6wn2v69bjSGS2LreRmT4xAOUd8BmJ8+XnsDRS88Z+FBvDtnkUu0zUSM63gQTz6tAJ
+	80EcMRSGTIZVyGpgH6yLDJMpWSddsu7xGuzeWyPEluSOkZls27zdR2uXquSQLXiElEnV
+	AXkQ5OEfxaL9ZO6ZbDTgGiWPyIyD5+9KU1nWoybGDjCWS/Pjya6O7GP8I1bWMKLk7nOt
+	Lv8R4BjcHcTQ9aQdPs7mYVzHtgPRkXb5fjjRWW+sSGG593SAToPr6Xi4WyaqQNKa4ok8
+	VbUBasfyXTHgFEOSa5OiwH4XcQfEXkfZEh+zZHnVHFkmj0Zk/8PPHC3ZjsziqHnkr5x/
+	NJnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+IKf0HwHonbex2NYvW7teCUyigTrRaWOpKlSe16IDPc=;
-	b=WHYW3boU9WXfgmlgBbApYZL491d9+RRNtAlBK0veA3JLrIpmW+0BY3X2ijEWc5ovfn
-	Yd/VHjdoIXuGA8tEY/QWyWF8kHOqr2epWqfiC/jGuFBSZd8EamAcp2Awrlm6QJ2Qznu7
-	kCtDtLthL6j6Ov0fxSPxiOgwYgQxgp22BtRwy1EuixBBf62selNjM96XPi2yyVYn8CRj
-	gn+qy7Q5XZD/2wBwg3IoiEYS1cTqKunjhYYNm5HIc9SM0RIFkB1ghcVJg3UdPy54VfiN
-	ICTniApXcdwcPmBlL6Rqn2ByznkmdgtV/tViaywi7tMcUnAxBe1huouesz/a1YGIzrqT
-	NDGg==
-X-Gm-Message-State: ALQs6tA5hvddpR+HcTlJ16Ie/Ee3qxc39Pvk4Nj3PVK7W4jZMr1fX1aj
-	tRY+n4FpPSVSf48u1hnpErAgmA1h637ABde3/MlTGQ==
-X-Google-Smtp-Source: AB8JxZrP/fUdRpm1tJKHDS/caxC/0D3fFJWVjycks6soifu+A/0nsTsJLPb0RzjDkpaFwh3pm8kGJ+KdDYHf7lhn6KQ=
-X-Received: by 2002:a6b:248e:: with SMTP id
-	k136-v6mr43828178iok.270.1525816820175; 
-	Tue, 08 May 2018 15:00:20 -0700 (PDT)
+	bh=/QyETu4SDsgFK4YZPHkWKMh90tgrytuSBsIxywrc/xE=;
+	b=kd/MAsj/E7JKGLrWURQ2ZnndZq1dFAapZWLiifWn9uwMs0byUDwHZWUUzPLPnVayXh
+	16e854+E9lWJf2oexZ9qCIPhr4PaT5ae6MELDng0lgI+V+Aeq0zU0vnGHfIpZhkUR3q6
+	3jc3KtU3IYRFYn2PM2OOe7sIBSwB2qpJrmBtxyWZCMXs9di+f5hLmOAwfTkfJaxijfS+
+	CMFy4rB9D5TTo0hQg64p+ulwqVcwAxMrgUtZlgLT6/R0HwOKR7/d8FyKze9IV2ENKgXJ
+	aq1S/LtYEYt/BNLBN+4Gv51tynrYjoe9ued5B49lzfFyaYn9C7qkAAdvdl2urnxYyXkY
+	cmFg==
+X-Gm-Message-State: ALQs6tBjwv3JsQ5QilrkSPD3Pt3AuINO7qyTX7phol0N9RlhuKc1zGr4
+	3V3E9lCFq7lTEy8pCADoVJcCAiGirR2jJpet7ZE=
+X-Google-Smtp-Source: AB8JxZqDnS42TvSghU/qn69P/kOw+tW79Zy/QcRomZ4et0u6f72XKm/MovbvoAcvKwfFG6A88x1XPtsGO37ZgR+jpQc=
+X-Received: by 2002:a1f:a7c7:: with SMTP id
+	q190-v6mr35347045vke.5.1525817239522; 
+	Tue, 08 May 2018 15:07:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Tue, 8 May 2018 14:59:59 -0700 (PDT)
-In-Reply-To: <20180508212815.GX3228@denix.org>
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<20180508211844.GA2573@jama> <20180508212815.GX3228@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 May 2018 22:59:59 +0100
-Message-ID: <CAJTo0LY+Lyb5vQ5P-81QDD3w3FhBTn6Y=M7g2e1X_rd4AOsu0A@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
+Received: by 10.176.48.148 with HTTP; Tue, 8 May 2018 15:07:19 -0700 (PDT)
+In-Reply-To: <1525770920.3857.109.camel@linuxfoundation.org>
+References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=VK+Um4wa6F2EVzQTNiwa8LC1nhTEQrLqH2GBuSzCkbWw@mail.gmail.com>
+	<1525765207.3857.101.camel@linuxfoundation.org>
+	<CAJ86T=UJUqrzyutyKf01HR1MDTN1YbYz+ovXkUTj+DARu1XW3w@mail.gmail.com>
+	<1525770920.3857.109.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 8 May 2018 15:07:19 -0700
+Message-ID: <CAJ86T=WkEuK_760z-Vw0i189j0OKCGY1b=B719UJoKNpmVZqkQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH 0/6] SRC_URI updates and minor build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,339 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 22:00:19 -0000
-Content-Type: multipart/alternative; boundary="0000000000008f43af056bb8e9cf"
-
---0000000000008f43af056bb8e9cf
+X-List-Received-Date: Tue, 08 May 2018 22:07:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Yeah the problem here is that poky uses remove-libtool, and the nodistro
-builds apparently don't build anything Wayland.
+On Tue, May 8, 2018 at 2:15 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2018-05-08 at 02:06 -0700, Andre McCurdy wrote:
+>> On Tue, May 8, 2018 at 12:40 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > We've discussed "long term" branches for a while. I suggest that we
+>> > collect together people who are will to maintain such things and
+>> > let
+>> > them push to a namespace in poky-contrib initially, perhaps in
+>> > other
+>> > repos eventually where we collect these things together.
+>> >
+>> > Perhaps poky-contrib extended-life/daisy?
+>> >
+>> > If there is common agreement, a group of people could collaborate
+>> > on such a branch too...
+>>
+>> Although there are multiple groups still actively developing against
+>> OE 1.6 I fear I may be the only one who has any interest in doing so
+>> in public. Hoping for a "group of people" to show up and collaborate
+>> on a branch in poky-contrib may be asking for too much.
+>
+> Maybe, maybe not. I'd happy enough for you to put these changes there,
+> if others want to join in, great, if not I'm not sure we're in any
+> worse position. I just wanted to highlight the possibility in the
+> future...
 
-I'll check the AB configure and ensure more coverage for the nodistro
-buildset.
+Changes pushed to:
 
-Ross
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/?h=armcc/extended-life/daisy
 
-On 8 May 2018 at 22:28, Denys Dmytriyenko <denis@denix.org> wrote:
+What happens next?
 
-> On Tue, May 08, 2018 at 11:18:44PM +0200, Martin Jansa wrote:
-> > On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:
-> > > From: Denys Dmytriyenko <denys@ti.com>
-> > >
-> > > Official announcement:
-> > > https://lists.freedesktop.org/archives/wayland-devel/2018-
-> April/037767.html
-> > >
-> > > | libwayland-egl is now part of libwayland, and will presumably be
-> removed
-> > > | from mesa in the not too distant future.
-> > >
-> > > Update mesa recipe by removing corresponding libwayland-egl entries.
-> > >
-> > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > > ---
-> > >  meta/recipes-graphics/mesa/mesa.inc                                |
-> 7 ++++---
-> > >  .../wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb}               |
-> 4 ++--
-> > >  2 files changed, 6 insertions(+), 5 deletions(-)
-> > >  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb =>
-> wayland_1.15.0.bb} (92%)
-> > >
-> > > diff --git a/meta/recipes-graphics/mesa/mesa.inc
-> b/meta/recipes-graphics/mesa/mesa.inc
-> > > index b501b7e..c3a8e76 100644
-> > > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > > @@ -119,7 +119,6 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-> > >               libgles1-mesa libgles1-mesa-dev \
-> > >               libgles2-mesa libgles2-mesa-dev \
-> > >               libgles3-mesa libgles3-mesa-dev \
-> > > -             libwayland-egl libwayland-egl-dev \
-> > >               libxatracker libxatracker-dev \
-> > >               mesa-megadriver mesa-vulkan-drivers \
-> > >              "
-> > > @@ -134,6 +133,10 @@ do_install_append () {
-> > >      # it was packaged in libdricore9.1.3-1 and preventing upgrades
-> when debian.bbclass was used
-> > >      rm -f ${D}${sysconfdir}/drirc
-> > >      chrpath --delete ${D}${libdir}/dri/*_dri.so || true
-> > > +
-> > > +    # libwayland-egl has been moved to wayland 1.15+
-> > > +    rm -f ${D}${libdir}/libwayland-egl.so*
-> > > +    rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
-> >
-> > Shouldn't /usr/lib/libwayland-egl.la be removed as well? Now I'm getting
-> > many do_prepare_recipe_sysroot failures because both mesa and wayland
-> > provide this file.
->
-> Don't we remove .la files in bulk? I didn't see this problem when I was
-> testing it. Plus it went through Ross' mut branch, then master-next and
-> presumably few autobuilder iterations?
->
-> I can make the change to also remove .la, if it's really required.
->
->
-> > >  }
-> > >
-> > >  # For the packages that make up the OpenGL interfaces, inject
-> variables so that
-> > > @@ -204,7 +207,6 @@ FILES_libgles2-mesa = "${libdir}/libGLESv2.so.*"
-> > >  FILES_libgl-mesa = "${libdir}/libGL.so.*"
-> > >  FILES_libglapi = "${libdir}/libglapi.so.*"
-> > >  FILES_libosmesa = "${libdir}/libOSMesa.so.*"
-> > > -FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
-> > >  FILES_libxatracker = "${libdir}/libxatracker.so.*"
-> > >
-> > >  FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan"
-> > > @@ -216,7 +218,6 @@ FILES_libgles1-mesa-dev = "${libdir}/libGLESv1*.*
-> ${includedir}/GLES ${libdir}/p
-> > >  FILES_libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2
-> ${libdir}/pkgconfig/glesv2.pc"
-> > >  FILES_libgles3-mesa-dev = "${includedir}/GLES3"
-> > >  FILES_libosmesa-dev = "${libdir}/libOSMesa.*
-> ${includedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc"
-> > > -FILES_libwayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc
-> ${libdir}/libwayland-egl.*"
-> > >  FILES_libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/
-> libxatracker.la \
-> > >                            ${includedir}/xa_tracker.h
-> ${includedir}/xa_composite.h ${includedir}/xa_context.h \
-> > >                            ${libdir}/pkgconfig/xatracker.pc"
-> > > diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> > > similarity index 92%
-> > > rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> > > rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> > > index 1a9ff98..788105b 100644
-> > > --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> > > +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> > > @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
-> > >  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.
-> xz \
-> > >        file://fixpathinpcfiles.patch \
-> > >             "
-> > > -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
-> > > -SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aab
-> fc1ec9a13c86c98bbe2b812f008da27ab8"
-> > > +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
-> > > +SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db8
-> 00f587329067962dbf65e14488b4b7aeb0"
-> > >
-> > >  inherit autotools pkgconfig
-> > >
-> > > --
-> > > 2.7.4
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---0000000000008f43af056bb8e9cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yeah the problem here is that poky uses remove-libtool, an=
-d the nodistro builds apparently don&#39;t build anything Wayland.<div><br>=
-</div><div>I&#39;ll check the AB configure and ensure more coverage for the=
- nodistro buildset.</div><div><br></div><div>Ross</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 8 May 2018 at 22:28, Denys D=
-mytriyenko <span dir=3D"ltr">&lt;<a href=3D"mailto:denis@denix.org" target=
-=3D"_blank">denis@denix.org</a>&gt;</span> wrote:<br><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Tue, May 08, 2018 at 11=
-:18:44PM +0200, Martin Jansa wrote:<br>
-&gt; On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:<br>
-&gt; &gt; From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys=
-@ti.com</a>&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; Official announcement:<br>
-&gt; &gt; <a href=3D"https://lists.freedesktop.org/archives/wayland-devel/2=
-018-April/037767.html" rel=3D"noreferrer" target=3D"_blank">https://lists.f=
-reedesktop.org/<wbr>archives/wayland-devel/2018-<wbr>April/037767.html</a><=
-br>
-&gt; &gt; <br>
-&gt; &gt; | libwayland-egl is now part of libwayland, and will presumably b=
-e removed<br>
-&gt; &gt; | from mesa in the not too distant future.<br>
-&gt; &gt; <br>
-&gt; &gt; Update mesa recipe by removing corresponding libwayland-egl entri=
-es.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.c=
-om">denys@ti.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-graphics/mesa/<wbr>mesa.inc=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 7 ++++---<br>
-&gt; &gt;=C2=A0 .../wayland/{<a href=3D"http://wayland_1.14.0.bb" rel=3D"no=
-referrer" target=3D"_blank">wayland_1.14.0.bb</a> =3D&gt; <a href=3D"http:/=
-/wayland_1.15.0.bb" rel=3D"noreferrer" target=3D"_blank">wayland_1.15.0.bb<=
-/a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
-&gt; &gt;=C2=A0 2 files changed, 6 insertions(+), 5 deletions(-)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-graphics/wayland/<wbr>{<a href=3D"http:=
-//wayland_1.14.0.bb" rel=3D"noreferrer" target=3D"_blank">wayland_1.14.0.bb=
-</a> =3D&gt; <a href=3D"http://wayland_1.15.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">wayland_1.15.0.bb</a>} (92%)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/recipes-graphics/mesa/<wbr>mesa.inc b/meta/reci=
-pes-graphics/mesa/<wbr>mesa.inc<br>
-&gt; &gt; index b501b7e..c3a8e76 100644<br>
-&gt; &gt; --- a/meta/recipes-graphics/mesa/<wbr>mesa.inc<br>
-&gt; &gt; +++ b/meta/recipes-graphics/mesa/<wbr>mesa.inc<br>
-&gt; &gt; @@ -119,7 +119,6 @@ PACKAGES =3D+ &quot;libegl-mesa libegl-mesa-d=
-ev \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libgles1-me=
-sa libgles1-mesa-dev \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libgles2-me=
-sa libgles2-mesa-dev \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libgles3-me=
-sa libgles3-mesa-dev \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libwayland-egl l=
-ibwayland-egl-dev \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxatracke=
-r libxatracker-dev \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mesa-megadr=
-iver mesa-vulkan-drivers \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt; &gt; @@ -134,6 +133,10 @@ do_install_append () {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 # it was packaged in libdricore9.1.3-1 and pr=
-eventing upgrades when debian.bbclass was used <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 rm -f ${D}${sysconfdir}/drirc<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 chrpath --delete ${D}${libdir}/dri/*_dri.so |=
-| true<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 # libwayland-egl has been moved to wayland 1.15+<b=
-r>
-&gt; &gt; +=C2=A0 =C2=A0 rm -f ${D}${libdir}/libwayland-egl.<wbr>so*<br>
-&gt; &gt; +=C2=A0 =C2=A0 rm -f ${D}${libdir}/pkgconfig/<wbr>wayland-egl.pc<=
-br>
-&gt; <br>
-&gt; Shouldn&#39;t /usr/lib/<a href=3D"http://libwayland-egl.la" rel=3D"nor=
-eferrer" target=3D"_blank">libwayland-egl.la</a> be removed as well? Now I&=
-#39;m getting<br>
-&gt; many do_prepare_recipe_sysroot failures because both mesa and wayland<=
-br>
-&gt; provide this file.<br>
-<br>
-</div></div>Don&#39;t we remove .la files in bulk? I didn&#39;t see this pr=
-oblem when I was <br>
-testing it. Plus it went through Ross&#39; mut branch, then master-next and=
- <br>
-presumably few autobuilder iterations?<br>
-<br>
-I can make the change to also remove .la, if it&#39;s really required.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-<br>
-&gt; &gt;=C2=A0 }<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 # For the packages that make up the OpenGL interfaces, inje=
-ct variables so that<br>
-&gt; &gt; @@ -204,7 +207,6 @@ FILES_libgles2-mesa =3D &quot;${libdir}/libGL=
-ESv2.so.*&quot;<br>
-&gt; &gt;=C2=A0 FILES_libgl-mesa =3D &quot;${libdir}/libGL.so.*&quot;<br>
-&gt; &gt;=C2=A0 FILES_libglapi =3D &quot;${libdir}/libglapi.so.*&quot;<br>
-&gt; &gt;=C2=A0 FILES_libosmesa =3D &quot;${libdir}/libOSMesa.so.*&quot;<br=
->
-&gt; &gt; -FILES_libwayland-egl =3D &quot;${libdir}/libwayland-egl.so.*<wbr=
->&quot;<br>
-&gt; &gt;=C2=A0 FILES_libxatracker =3D &quot;${libdir}/libxatracker.so.*&qu=
-ot;<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 FILES_${PN}-dev =3D &quot;${libdir}/pkgconfig/dri.pc ${incl=
-udedir}/vulkan&quot;<br>
-&gt; &gt; @@ -216,7 +218,6 @@ FILES_libgles1-mesa-dev =3D &quot;${libdir}/l=
-ibGLESv1*.* ${includedir}/GLES ${libdir}/p<br>
-&gt; &gt;=C2=A0 FILES_libgles2-mesa-dev =3D &quot;${libdir}/libGLESv2.* ${i=
-ncludedir}/GLES2 ${libdir}/pkgconfig/glesv2.pc&quot;<br>
-&gt; &gt;=C2=A0 FILES_libgles3-mesa-dev =3D &quot;${includedir}/GLES3&quot;=
-<br>
-&gt; &gt;=C2=A0 FILES_libosmesa-dev =3D &quot;${libdir}/libOSMesa.* ${inclu=
-dedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc&quot;<br>
-&gt; &gt; -FILES_libwayland-egl-dev =3D &quot;${libdir}/pkgconfig/wayland-<=
-wbr>egl.pc ${libdir}/libwayland-egl.*&quot;<br>
-&gt; &gt;=C2=A0 FILES_libxatracker-dev =3D &quot;${libdir}/libxatracker.so =
-${libdir}/<a href=3D"http://libxatracker.la" rel=3D"noreferrer" target=3D"_=
-blank">libxatracker.la</a> \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${includedir}/xa_tracker.h ${includedir}/xa=
-_composite.h ${includedir}/xa_context.h \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${libdir}/pkgconfig/xatracker.<wbr>pc&quot;=
-<br>
-&gt; &gt; diff --git a/meta/recipes-graphics/<wbr>wayland/<a href=3D"http:/=
-/wayland_1.14.0.bb" rel=3D"noreferrer" target=3D"_blank">wayland_1.14.0.bb<=
-/a> b/meta/recipes-graphics/<wbr>wayland/<a href=3D"http://wayland_1.15.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">wayland_1.15.0.bb</a><br>
-&gt; &gt; similarity index 92%<br>
-&gt; &gt; rename from meta/recipes-graphics/wayland/<a href=3D"http://wayla=
-nd_1.14.0.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>wayland_1.14.0.bb</=
-a><br>
-&gt; &gt; rename to meta/recipes-graphics/wayland/<a href=3D"http://wayland=
-_1.15.0.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>wayland_1.15.0.bb</a>=
-<br>
-&gt; &gt; index 1a9ff98..788105b 100644<br>
-&gt; &gt; --- a/meta/recipes-graphics/<wbr>wayland/<a href=3D"http://waylan=
-d_1.14.0.bb" rel=3D"noreferrer" target=3D"_blank">wayland_1.14.0.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-graphics/<wbr>wayland/<a href=3D"http://waylan=
-d_1.15.0.bb" rel=3D"noreferrer" target=3D"_blank">wayland_1.15.0.bb</a><br>
-&gt; &gt; @@ -15,8 +15,8 @@ DEPENDS =3D &quot;expat libxml2 libffi wayland-=
-native&quot;<br>
-&gt; &gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://wayland.freedesktop.or=
-g/releases/${BPN}-${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">https:=
-//wayland.freedesktop.<wbr>org/releases/${BPN}-${PV}.tar.<wbr>xz</a> \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fixpathinpcfiles.patch \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; &gt; -SRC_URI[md5sum] =3D &quot;<wbr>0235f6075c32c3be61cff94fa0b9f1<wb=
-r>08&quot;<br>
-&gt; &gt; -SRC_URI[sha256sum] =3D &quot;<wbr>ed80cabc0961a759a42092e2c39aab=
-<wbr>fc1ec9a13c86c98bbe2b812f008da2<wbr>7ab8&quot;<br>
-&gt; &gt; +SRC_URI[md5sum] =3D &quot;<wbr>b7393c17fdce9a8d383edab656c92f<wb=
-r>d2&quot;<br>
-&gt; &gt; +SRC_URI[sha256sum] =3D &quot;<wbr>eb3fbebb8559d56a80ad3753ec3db8=
-<wbr>00f587329067962dbf65e14488b4b7<wbr>aeb0&quot;<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 inherit autotools pkgconfig<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt; -- <br>
-&gt; &gt; 2.7.4<br>
-&gt; &gt; <br>
-&gt; &gt; -- <br>
-&gt; &gt; ______________________________<wbr>_________________<br>
-&gt; &gt; Openembedded-core mailing list<br>
-&gt; &gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Opene=
-mbedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openemb=
-edded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.=
-org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt; <br>
-&gt; -- <br>
-&gt; Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mail=
-to:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
-<br>
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
-
---0000000000008f43af056bb8e9cf--
