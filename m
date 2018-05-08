@@ -1,27 +1,50 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E03CD71AD1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D45BA74B02
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 18:26:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w48IQmg4002869
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 May 2018 11:26:48 -0700 (PDT)
-Received: from yow-masselst-lx1.localnet (128.224.60.223) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 8 May 2018 11:26:47 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 May 2018 14:26:47 -0400
-Message-ID: <2438346.XpoQbIzh2t@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CAHYQr0rKoHVVKec=Au7PX-TM=dMMPVbUdNJahvLaFzK6NAck8A@mail.gmail.com>
-References: <20180416130021.4428-1-koen.kooi@linaro.org>
-	<20180416130021.4428-2-koen.kooi@linaro.org>
-	<CAHYQr0rKoHVVKec=Au7PX-TM=dMMPVbUdNJahvLaFzK6NAck8A@mail.gmail.com>
+	Tue,  8 May 2018 18:52:30 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id t22-v6so2754941plo.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 May 2018 11:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5unu4K7WW7fCAvZzctMY9I+bxlCM9Z2iLw2FrPWArrw=;
+	b=M5WQwcdXXZShXWmqzGczsNogU2i7EGUx35krHdCoVKQp7wFaSrER789/7jMydNaZJD
+	0uF3Q0YbBg7wnEyuCxXm8cL+0DfZsKpxZkpyEAIscDvfy0zr0Fwzk2hdLdq8UpSOZvdC
+	3frvUqnyesma3eYOMtlDLNfB7suRcvhuS8vOTydUN6tRWMhu8M33gHODexJVbJr2FdaJ
+	E+JTSEea9MFWL8XCTaGzwv5iGwSM2oSMby1qPVt7XWuMEqkxtOkOK6193xm4qTCjA6+p
+	BzjrwvxImOMjpPo6Ds8vJDXOfsKoeacyVN0KSfEgO+Z+nH4BR+NSGdc3auhXge5G1+XN
+	nDEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5unu4K7WW7fCAvZzctMY9I+bxlCM9Z2iLw2FrPWArrw=;
+	b=dHvnYa9h+YVo7XBohx0AbyLkWWWhLvdjKE8idLCd40JebcPJU1YobaN46HPsjhw2lR
+	E0DZWs+VWNghnDpSOzcNYCTIOfCRZB71hUuPsKFheO8z+N0obOafTtVnpb2VJ3m5zX9D
+	yKPC1fAXzHmQWC2rqpG+NBEOiPQcyPk/ycgOg/BG5s0THNkp4nMAtg/KtqtN8DTai7Z6
+	nr0+WKwFtsT07odn7RV5KLFMKzFTR429umpjwB0a4/NUtdyRrY3pZaDco+4QBM1Ex3La
+	oNXG9VqZtCdjTvJna/KdTVabTDdtRN0Xq1ztRQ/K6MOsdnq9h8NqsWSaMbg+lcjEzFby
+	Rxbw==
+X-Gm-Message-State: ALQs6tDZ91q77wGOcorRupP7iiWp3gi+dhDWQ1Di8aakqsgLRYkagPkK
+	1/7VDp32ISfAqUPLFXyOVwkt2Oqqcv4iUjOF7CA=
+X-Google-Smtp-Source: AB8JxZo+UX8Gqmd9l1SrB5wFo/oIsoFPQLmKCgpGT4gDxsfNH3qxTFdKCQRr10gTE+6wXMxeXDyvdv5hkFSt/oM86eA=
+X-Received: by 2002:a17:902:b78a:: with SMTP id
+	e10-v6mr26779309pls.260.1525805551407; 
+	Tue, 08 May 2018 11:52:31 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Koen Kooi <koen.kooi@linaro.org>, Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH v2 2/4] libcap: fix (base_)libdir usage
+Received: by 10.236.187.132 with HTTP; Tue, 8 May 2018 11:52:00 -0700 (PDT)
+In-Reply-To: <20180508184903.13506-3-mkelly@xevo.com>
+References: <20180508184903.13506-1-mkelly@xevo.com>
+	<20180508184903.13506-3-mkelly@xevo.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 May 2018 11:52:00 -0700
+Message-ID: <CAMKF1spzSX3mw9pHZvoECYXqWnW-LaL4U+txQ6LGGuMVZvf-bA@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH 3/3] modemmanager: fix mbim disable string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,125 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 18:26:50 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 May 2018 18:52:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tuesday, May 8, 2018 1:46:43 PM EDT Ricardo Salveti wrote:
-> On Mon, Apr 16, 2018 at 10:00 AM, Koen Kooi <koen@dominion.thruhere.net>=
-=20
-wrote:
-> > The recipe wants to install libs into base_libdir, but uses "basename
-> > $libdir" to derive that. That breaks in a multiarch setup. Use the prop=
-er
-> > variable and remove the inline python usage.
-> >=20
-> > Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-> > ---
-> >=20
-> >  meta/recipes-support/libcap/libcap_2.25.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/recipes-support/libcap/libcap_2.25.bb
-> > b/meta/recipes-support/libcap/libcap_2.25.bb index d619a2e..47ecf34
-> > 100644
-> > --- a/meta/recipes-support/libcap/libcap_2.25.bb
-> > +++ b/meta/recipes-support/libcap/libcap_2.25.bb
-> > @@ -32,7 +32,7 @@ PACKAGECONFIG[pam] =3D "PAM_CAP=3Dyes,PAM_CAP=3Dno,li=
-bpam"
-> >=20
-> >  EXTRA_OEMAKE =3D " \
-> > =20
-> >    INDENT=3D  \
-> >=20
-> > -  lib=3D${@os.path.basename('${libdir}')} \
-> > +  lib=3D'${base_libdir}' \
-> >=20
-> >    RAISE_SETFCAP=3Dno \
-> >    DYNAMIC=3Dyes \
-> >    BUILD_GPERF=3Dyes \
->=20
-> This creates a build failure when usrmerge is used, as libcap expects
-> only the lib folder name and not the lib path (and when usrmerge is
-> enabled base_libdir gets set to /usr/lib instead of /lib).
->=20
-> Since base_libdir and libdir are all based out baselib, can you
-> provide more details about how that broke your multiarch setup?
->=20
-> The failure when usrmerge is used:
-> WARNING: libcap-2.25-r0 do_package: QA Issue: libcap:
-> Files/directories were installed but not shipped in any package:
->   /usr/lib
->   /usr/usr/lib/libcap.so
->   /usr/usr/lib/libcap.so.2
->   /usr/usr/lib/libcap.so.2.25
->   /usr/usr/lib/libcap.a
->   /usr/usr/lib/pkgconfig
->   /usr/usr/lib/pkgconfig/libcap.pc
->   /usr/usr/lib/security/pam_cap.so
+On Tue, May 8, 2018 at 11:49 AM, Martin Kelly <mkelly@xevo.com> wrote:
+> The current string used to disable mbim is "--enable-mbim=no", which is
+> producing a warning. It should be "--with-mdim=no", so change it.
+>
 
-Agreed. I just started to determine how this is breaking qemu-native (with=
-=20
-virtfs enabled in the PACKAGECONFIG) and found that this change drops sever=
-al=20
-files from being installed in the native-sysroot.
+LGTM yes it was a typo thanks for posting a fix.
 
-Before this change:
-=E2=9F=AB cat .../tmp/work/x86_64-linux/qemu-native/2.11.1-r0/recipe-sysroo=
-t-native/
-installeddeps/libcap-native.39df7fd64afdeb62b13bb47b7969532b=20
-recipe-sysroot-native/sysroot-providers/libcap-native
-recipe-sysroot-native/usr/include/sys/capability.h
-recipe-sysroot-native/usr/sbin/getpcaps
-recipe-sysroot-native/usr/sbin/capsh
-recipe-sysroot-native/usr/sbin/getcap
-recipe-sysroot-native/usr/sbin/setcap
-recipe-sysroot-native/usr/lib/libcap.so
-recipe-sysroot-native/usr/lib/libcap.so.2.25
-recipe-sysroot-native/usr/lib/libcap.a
-recipe-sysroot-native/usr/lib/libcap.so.2
-recipe-sysroot-native/usr/lib/pkgconfig/libcap.pc
-recipe-sysroot-native/usr/lib/pkgconfig/
-recipe-sysroot-native/sysroot-providers/
-recipe-sysroot-native/usr/include/sys/
-recipe-sysroot-native/usr/include/
-recipe-sysroot-native/usr/share/
-recipe-sysroot-native/usr/sbin/
-recipe-sysroot-native/usr/lib/
-recipe-sysroot-native/usr/
-
-After the change:
-=E2=9F=AB cat .../tmp/work/x86_64-linux/qemu-native/2.11.1-r0/recipe-sysroo=
-t-native/
-installeddeps/libcap-native.2d12ea82cbd6eeaf25251caae2dce487
-recipe-sysroot-native/sysroot-providers/libcap-native
-recipe-sysroot-native/usr/include/sys/capability.h
-recipe-sysroot-native/usr/sbin/getpcaps
-recipe-sysroot-native/usr/sbin/capsh
-recipe-sysroot-native/usr/sbin/getcap
-recipe-sysroot-native/usr/sbin/setcap
-recipe-sysroot-native/sysroot-providers/
-recipe-sysroot-native/usr/include/sys/
-recipe-sysroot-native/usr/include/
-recipe-sysroot-native/usr/share/
-recipe-sysroot-native/usr/sbin/
-recipe-sysroot-native/usr/lib/
-recipe-sysroot-native/usr/
-
-I also believe that the old inline python was also not functioning correctl=
-y=20
-which is why it was believed that the change was non-consequential for non-
-multilib builds. I am looking at putting together a fix but would be more t=
-han=20
-happy if someone else came up with something first.
-
-Mark
-
-
->=20
-> Thanks,
-
-
-
-
+> Signed-off-by: Martin Kelly <mkelly@xevo.com>
+> ---
+>  meta-oe/recipes-connectivity/modemmanager/modemmanager_1.7.991.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-oe/recipes-connectivity/modemmanager/modemmanager_1.7.991.bb b/meta-oe/recipes-connectivity/modemmanager/modemmanager_1.7.991.bb
+> index 4f9400169..b1a718dbf 100644
+> --- a/meta-oe/recipes-connectivity/modemmanager/modemmanager_1.7.991.bb
+> +++ b/meta-oe/recipes-connectivity/modemmanager/modemmanager_1.7.991.bb
+> @@ -25,7 +25,7 @@ PACKAGECONFIG ??= "mbim qmi polkit \
+>  PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,,"
+>  PACKAGECONFIG[polkit] = "--with-polkit=yes,--with-polkit=no,polkit"
+>  # Support WWAN modems and devices which speak the Mobile Interface Broadband Model (MBIM) protocol.
+> -PACKAGECONFIG[mbim] = "--with-mbim,--enable-mbim=no,libmbim"
+> +PACKAGECONFIG[mbim] = "--with-mbim,--with-mbim=no,libmbim"
+>  # Support WWAN modems and devices which speak the Qualcomm MSM Interface (QMI) protocol.
+>  PACKAGECONFIG[qmi] = "--with-qmi,--without-qmi,libqmi"
+>
+> --
+> 2.11.0
+>
 
