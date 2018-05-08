@@ -1,24 +1,50 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F8F874EA0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 314CA74EC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 09:05:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4895ZtA015027
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  8 May 2018 09:06:29 +0000 (UTC)
+Received: by mail-vk0-f53.google.com with SMTP id j7-v6so19049649vkc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 May 2018 02:05:50 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 8 May 2018 02:05:24 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 May 2018 02:05:24 -0700
-Message-ID: <20180508090524.79759-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Tue, 08 May 2018 02:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PIHGZlRWUVq+wkFywT8/kHil1kcflMkuAit3EIR7MKo=;
+	b=u2L/gicrNOJNNM3Yoxfz2ydOf8o0hhJG1EAWmVr5z19WxgeBPDLwsd8J9gOQuQpdYK
+	kJUUO9WzKvSBXxJE2FvaBDBW45JbZd7VeHWK3XjwXrvEsZU0kV+l9LF+FjB22hioFDvd
+	q4I0treZERxPzQZ9onWWYwJKyhZg5UgHHnUb8yU+zAqua45VqJu6i5us/AIK1XMh9Bmn
+	ANHNpe17vN2HmZ059vliQuDG2f9vUhH4W6VyRNSWmdkezfuTMIighb+X2w8HdctLQJl5
+	G5x6Z2mdFXuhL868Npn2G85AHu6uW/gbtOJkx3z92SUy7gUaqWWhVRMWElWqMxUXdXq3
+	GqmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PIHGZlRWUVq+wkFywT8/kHil1kcflMkuAit3EIR7MKo=;
+	b=HhLJ64jqengy5AbRSjXGWEukugXoX8SGmpsbgFJ0c9QVmAwbtSQVhd2l5ZwTS86piN
+	o+/5YWeY+3JddIG1epBxgRbQsmZPgpRS3217TjawBcZPuQWEw81NsoVp0oN18DW0t6ZC
+	3IxBotEeqRliNH4jJMtVboRUzQWWKqTsdU8mU7vaxmfjnYG3XRSZWJKgnx6LndxdL0vT
+	yP7NR796J+uV4wY8Obvuir5H16/UexprrKpygE/WKNDg8ElunbMiZuHTXMDhkipo7tG7
+	5xuljud9QAkvpl1GLMh0YBuz3JrIdoonoDjS4QdMNyRF5Opn9ca80+cxtDf//JeOZT42
+	sqFQ==
+X-Gm-Message-State: ALQs6tBHunrBFDS03NwgO6vdV26f8pRD7Tz9/dh1trMGroR5ozqLf5o1
+	3k83waGx+/UrCl2CKtD9TjOKBHrNGwpxvZq5+jA=
+X-Google-Smtp-Source: AB8JxZrAPYND7T7DFHf5XhRL9oyyAbC5PRgAbjQB2KAjSD8h5ZzmXRS9C134lBNwXcDc4TGSCfs86isTsV1zdMNJW2U=
+X-Received: by 2002:a1f:1551:: with SMTP id
+	78-v6mr19740577vkv.174.1525770390357; 
+	Tue, 08 May 2018 02:06:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] gettext: make gettext independant of host java components
+Received: by 10.176.48.148 with HTTP; Tue, 8 May 2018 02:06:29 -0700 (PDT)
+In-Reply-To: <1525765207.3857.101.camel@linuxfoundation.org>
+References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=VK+Um4wa6F2EVzQTNiwa8LC1nhTEQrLqH2GBuSzCkbWw@mail.gmail.com>
+	<1525765207.3857.101.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 8 May 2018 02:06:29 -0700
+Message-ID: <CAJ86T=UJUqrzyutyKf01HR1MDTN1YbYz+ovXkUTj+DARu1XW3w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH 0/6] SRC_URI updates and minor build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,127 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 09:06:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 May 2018 09:06:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The checksums of gettext were changing based on whether or not java
-and javac were installed. This patch makes gettext recipes independant
-of Java components.
+On Tue, May 8, 2018 at 12:40 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2018-05-07 at 18:22 -0700, Andre McCurdy wrote:
+>> On Tue, Mar 20, 2018 at 7:42 PM, Andre McCurdy <armccurdy@gmail.com>
+>> wrote:
+>> >
+>> > Daisy has now (long since) left upstream maintenance and entered
+>> > into
+>> > community support. As a member of a community which still actively
+>> > develops against this version of OE, I would like to propose the
+>> > following updates.
+>> Ping.
+>>
+>> Are these kind of updates OK? Or are there objections to the
+>> community
+>> trying to support historical releases? There are many millions of
+>> devices in the field that I know of which are still being actively
+>> developed and maintained on top of OE 1.6.
+>
+> We've discussed "long term" branches for a while. I suggest that we
+> collect together people who are will to maintain such things and let
+> them push to a namespace in poky-contrib initially, perhaps in other
+> repos eventually where we collect these things together.
+>
+> Perhaps poky-contrib extended-life/daisy?
+>
+> If there is common agreement, a group of people could collaborate on
+> such a branch too...
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- ...ke-gettext-independant-of-java-components.patch | 88 ++++++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.19.8.1.bb      |  1 +
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/make-gettext-independant-of-java-components.patch
-
-diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/make-gettext-independant-of-java-components.patch b/meta/recipes-core/gettext/gettext-0.19.8.1/make-gettext-independant-of-java-components.patch
-new file mode 100644
-index 0000000000..d3a4c5a056
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-0.19.8.1/make-gettext-independant-of-java-components.patch
-@@ -0,0 +1,88 @@
-+From: "Deere & Company" <john@johndeere.com>
-+Subject: [PATCH] configure to gettext to default with no java and javac. 
-+Author: patilashish3@JohnDeere.com, yeatesrichardr@JohnDeere.com
-+
-+The checksums of gettext were changing based on whether or not java and javac were installed.
-+This patch makes gettext recipes independant of Java components.
-+
-+Upstream-Status: inappropriate [oe-core specific]
-+
-+Signed-off-by: Luis Ramirez <Luis.Ramirez@windriver.com>
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+Index: gettext-0.19.8.1/gettext-runtime/configure.ac
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-runtime/configure.ac	2014-12-09 16:43:44.000000000 +0800
-++++ gettext-0.19.8.1/gettext-runtime/configure.ac	2018-03-07 14:51:57.318227813 +0800
-+@@ -35,7 +35,25 @@
-+ 
-+ gt_JAVA_CHOICE
-+ 
-+-gt_JAVACOMP([1.3], [1.1])
-++dnl replaced gt_JAVACOMP([1.3], [1.1]) with results when no javac is installed
-++CONF_JAVAC=
-++HAVE_JAVAC_ENVVAR=
-++CLASSPATH=
-++CLASSPATH_SEPARATOR=:
-++HAVE_GCJ_C=
-++HAVE_JAVAC=
-++HAVE_JIKES=
-++HAVE_JAVACOMP=
-++
-++AC_SUBST([CONF_JAVAC])
-++AC_SUBST([HAVE_JAVAC_ENVVAR])
-++AC_SUBST([CLASSPATH])
-++AC_SUBST([CLASSPATH_SEPARATOR])
-++AC_SUBST([HAVE_JAVAC])
-++AC_SUBST([HAVE_GCJ_C])
-++AC_SUBST([HAVE_JIKES])
-++AC_SUBST([HAVE_JAVACOMP])
-++
-+ AC_CHECK_PROG([JAR], [jar], [jar])
-+ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
-+   BUILDJAVA=yes
-+Index: gettext-0.19.8.1/gettext-tools/configure.ac
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-tools/configure.ac	2014-12-09 16:43:45.000000000 +0800
-++++ gettext-0.19.8.1/gettext-tools/configure.ac	2018-03-07 14:54:57.654229070 +0800
-+@@ -43,8 +43,38 @@
-+ fi
-+ AC_SUBST([BUILDJAVAEXE])
-+ 
-+-gt_JAVAEXEC
-+-gt_JAVACOMP([1.3])
-++dnl replaced gt_JAVAEXEC with results when no java is installed
-++CONF_JAVA=
-++HAVE_JAVA_ENVVAR=
-++HAVE_GIJ=
-++HAVE_JAVA=
-++HAVE_JRE=
-++HAVE_JVIEW=
-++AC_SUBST([CONF_JAVA])
-++AC_SUBST([HAVE_JAVA_ENVVAR])
-++AC_SUBST([HAVE_GIJ])
-++AC_SUBST([HAVE_JAVA])
-++AC_SUBST([HAVE_JRE])
-++AC_SUBST([HAVE_JVIEW])
-++
-++dnl replaced gt_JAVACOMP([1.3]) with results when no javac is installed
-++CONF_JAVAC=
-++HAVE_JAVAC_ENVVAR=
-++CLASSPATH=
-++CLASSPATH_SEPARATOR=:
-++HAVE_GCJ_C=
-++HAVE_JAVAC=
-++HAVE_JIKES=
-++HAVE_JAVACOMP=
-++AC_SUBST([CONF_JAVAC])
-++AC_SUBST([HAVE_JAVAC_ENVVAR])
-++AC_SUBST([CLASSPATH])
-++AC_SUBST([CLASSPATH_SEPARATOR])
-++AC_SUBST([HAVE_JAVAC])
-++AC_SUBST([HAVE_GCJ_C])
-++AC_SUBST([HAVE_JIKES])
-++AC_SUBST([HAVE_JAVACOMP])
-++
-+ AC_CHECK_PROG([JAR], [jar], [jar])
-+ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
-+   BUILDJAVA=yes
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index 68f5cc329a..9ba74120cd 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
- 	   file://add-with-bisonlocaledir.patch \
- 	   file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
- 	   file://use-pkgconfig.patch \
-+	   file://make-gettext-independant-of-java-components.patch \
- "
- 
- SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
--- 
-2.11.0
-
+Although there are multiple groups still actively developing against
+OE 1.6 I fear I may be the only one who has any interest in doing so
+in public. Hoping for a "group of people" to show up and collaborate
+on a branch in poky-contrib may be asking for too much.
 
