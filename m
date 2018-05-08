@@ -1,50 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 591B774EC9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 65601745D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 21:33:25 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id g21-v6so33706266wrb.8
+	Tue,  8 May 2018 22:00:19 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id e20-v6so40369828iof.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2018 14:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 08 May 2018 15:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=viZ6MIOFSqPg+V1xWCEMvd9xj5qc5mHfcFS9sZge1yc=;
-	b=hivRbiPmqR+2Usk0sYM2/O5J5doCYBBEJwS9YiHVlAUZw8d4+UF7L2Oh8RkX5KOS4d
-	w+VXvcZipSfKrmr2LO7ZzES1ACDJ1xSH1S5SkXQPbRfTKvtmXP5Xo364BzHOh9tPuxQs
-	T3a29z90y/QsA7iMqthXnChtvtse8refdC9i75D+4YwFTMM+b7eIBdGlU0mOWliDDoeR
-	AKSbhU2mVkxY15ewv2BQyB9a0NtnsVTyPMm9/uU2VWm1dpkl6uju44VrlttnNstEEkLy
-	tiInE7Q1chV/Ck1FhLhYPGSleK2YMySyJUlFJglZWoEsdWppnvtn+rbWTlQQm1wQ26A8
-	ksEg==
+	:cc; bh=+IKf0HwHonbex2NYvW7teCUyigTrRaWOpKlSe16IDPc=;
+	b=yIhXZmk1tIgNb8fSWJntfHmTx17SSRjmFmR3yZThyGrvgZ05rQmtFZReSMtfimKdL/
+	0NlnCAsQfpBo/FvOrher9HPWLHdqXADfo1CBfVcCy4l2iEeNppvvjh57Uth0K+5RilL+
+	XL8yMYw8SNv7rXad5rak8rAf8ATLdv4P+kYSTL2z01H1XvltiVz6uQtKmz1YIeMIwkp4
+	9OIRz9tXMeyt9YYSqm4iTu+jgEAJxE0bPTDZjx0wYYVfdgdb+I+07mzXsrnJaOJDIK8y
+	QUVLDNRhABqsqZXV9KCUi+Orwq5B/j9QO11Zz8FGJSRDJDVRcNoJyjSctEQBrCGo08JY
+	0CwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=viZ6MIOFSqPg+V1xWCEMvd9xj5qc5mHfcFS9sZge1yc=;
-	b=hAqFPXwPrLUrghOU9HbOpQogr8BXZ3R3kAqiAMVWE0ykHRtEIOhm/9MIcuTQ8qY0Wj
-	WM+xBEV1uNd5qtZdUYsJ6onO4NC2utLdibOAYDHOy15Fo/QUQs76V9ilM5txe1iXOQ4A
-	QErBo+2O8CdLVZOKeJFOO6g2CQmnRs1+4iWw3PWqW5IP1UqGl1u5r0AIiNQtIOl4K1yP
-	BBQZp9LtdZv8m+53v9oWzT+9+pLcLt6ky+dOZZJCiSEralfJlNE6iqY9pxptrkDSK9Wm
-	hrf3WjKyiKZB9HeFDHVHyR0LNxkctP5falzPYoUKTeLWscACVC2bRprHJfMU14ZGgSK/
-	mEXA==
-X-Gm-Message-State: ALQs6tC9mBFr8MishObrhcStRtGdjCe8jUJ4DAad3Rgny0vsq7370yMA
-	enVfQbU2PflfE97XRM5GY4+Aj1E1I4aXTLho1vo=
-X-Google-Smtp-Source: AB8JxZrzlWjPH6tvbRfTWMevn6Bv1QyhHChpmkvS91EqqbS5z2AI7AR7BQgC3EInx9yHadfpeDI84Va+WTatgQr9tSc=
-X-Received: by 2002:adf:e4c8:: with SMTP id
-	v8-v6mr31094446wrm.133.1525815206017; 
-	Tue, 08 May 2018 14:33:26 -0700 (PDT)
+	bh=+IKf0HwHonbex2NYvW7teCUyigTrRaWOpKlSe16IDPc=;
+	b=WHYW3boU9WXfgmlgBbApYZL491d9+RRNtAlBK0veA3JLrIpmW+0BY3X2ijEWc5ovfn
+	Yd/VHjdoIXuGA8tEY/QWyWF8kHOqr2epWqfiC/jGuFBSZd8EamAcp2Awrlm6QJ2Qznu7
+	kCtDtLthL6j6Ov0fxSPxiOgwYgQxgp22BtRwy1EuixBBf62selNjM96XPi2yyVYn8CRj
+	gn+qy7Q5XZD/2wBwg3IoiEYS1cTqKunjhYYNm5HIc9SM0RIFkB1ghcVJg3UdPy54VfiN
+	ICTniApXcdwcPmBlL6Rqn2ByznkmdgtV/tViaywi7tMcUnAxBe1huouesz/a1YGIzrqT
+	NDGg==
+X-Gm-Message-State: ALQs6tA5hvddpR+HcTlJ16Ie/Ee3qxc39Pvk4Nj3PVK7W4jZMr1fX1aj
+	tRY+n4FpPSVSf48u1hnpErAgmA1h637ABde3/MlTGQ==
+X-Google-Smtp-Source: AB8JxZrP/fUdRpm1tJKHDS/caxC/0D3fFJWVjycks6soifu+A/0nsTsJLPb0RzjDkpaFwh3pm8kGJ+KdDYHf7lhn6KQ=
+X-Received: by 2002:a6b:248e:: with SMTP id
+	k136-v6mr43828178iok.270.1525816820175; 
+	Tue, 08 May 2018 15:00:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.133.207 with HTTP; Tue, 8 May 2018 14:33:25 -0700 (PDT)
+Received: by 10.107.239.11 with HTTP; Tue, 8 May 2018 14:59:59 -0700 (PDT)
 In-Reply-To: <20180508212815.GX3228@denix.org>
 References: <1523387170-30191-1-git-send-email-denis@denix.org>
 	<20180508211844.GA2573@jama> <20180508212815.GX3228@denix.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 8 May 2018 23:33:25 +0200
-Message-ID: <CA+chaQftORdJ=xzoEh4z8DzoS+zX=xnVy8Ns=ju3c+Ny5UNZMA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 May 2018 22:59:59 +0100
+Message-ID: <CAJTo0LY+Lyb5vQ5P-81QDD3w3FhBTn6Y=M7g2e1X_rd4AOsu0A@mail.gmail.com>
 To: Denys Dmytriyenko <denis@denix.org>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
 Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,19 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 21:33:25 -0000
-Content-Type: multipart/alternative; boundary="00000000000058febe056bb8899b"
+X-List-Received-Date: Tue, 08 May 2018 22:00:19 -0000
+Content-Type: multipart/alternative; boundary="0000000000008f43af056bb8e9cf"
 
---00000000000058febe056bb8899b
+--0000000000008f43af056bb8e9cf
 Content-Type: text/plain; charset="UTF-8"
 
-It's possible to remove them globally with:
-meta/classes/remove-libtool.bbclass
-but mesa.inc already removes some of the .la files selectively, so it would
-be nice to keep it working even for DISTROs which don't inherit
-remove-libtool bbclass (for whatever reason).
+Yeah the problem here is that poky uses remove-libtool, and the nodistro
+builds apparently don't build anything Wayland.
 
-On Tue, May 8, 2018 at 11:28 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+I'll check the AB configure and ensure more coverage for the nodistro
+buildset.
+
+Ross
+
+On 8 May 2018 at 22:28, Denys Dmytriyenko <denis@denix.org> wrote:
 
 > On Tue, May 08, 2018 at 11:18:44PM +0200, Martin Jansa wrote:
 > > On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:
@@ -191,23 +193,27 @@ On Tue, May 8, 2018 at 11:28 PM, Denys Dmytriyenko <denis@denix.org> wrote:
 > > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 >
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---00000000000058febe056bb8899b
+--0000000000008f43af056bb8e9cf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>It&#39;s possible to remove them globally with:</div>=
-meta/classes/remove-libtool.bbclass<br><div>but mesa.inc already removes so=
-me of the .la files selectively, so it would be nice to keep it working eve=
-n for DISTROs which don&#39;t inherit remove-libtool bbclass (for whatever =
-reason).</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
-e">On Tue, May 8, 2018 at 11:28 PM, Denys Dmytriyenko <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><d=
-iv class=3D"h5">On Tue, May 08, 2018 at 11:18:44PM +0200, Martin Jansa wrot=
-e:<br>
+<div dir=3D"ltr">Yeah the problem here is that poky uses remove-libtool, an=
+d the nodistro builds apparently don&#39;t build anything Wayland.<div><br>=
+</div><div>I&#39;ll check the AB configure and ensure more coverage for the=
+ nodistro buildset.</div><div><br></div><div>Ross</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 8 May 2018 at 22:28, Denys D=
+mytriyenko <span dir=3D"ltr">&lt;<a href=3D"mailto:denis@denix.org" target=
+=3D"_blank">denis@denix.org</a>&gt;</span> wrote:<br><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Tue, May 08, 2018 at 11=
+:18:44PM +0200, Martin Jansa wrote:<br>
 &gt; On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:<br>
 &gt; &gt; From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys=
 @ti.com</a>&gt;<br>
@@ -377,6 +383,14 @@ org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
 to:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
 <br>
 <br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
 </div></div></blockquote></div><br></div>
 
---00000000000058febe056bb8899b--
+--0000000000008f43af056bb8e9cf--
