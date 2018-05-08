@@ -1,49 +1,34 @@
-Return-Path: <taborskikrzysztof@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 288BB74B70
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 7279374BC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 16:47:18 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id o123-v6so46832812lfe.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2018 09:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2CCskI/zZdkC0H6yZrm0M708hmkfer3aTy/HUbBrh5o=;
-	b=Z8lGCO44x2wQNwJAYC8Tx8OqAEmpYovDNeRYSxh0nhXhzNHowclolUbl5RZ/itDoEL
-	8qnqcbbzq+0ejGslvw4HEhVKDkDbJThhVImOEeZkz+6eUrJeXjzTT5oA7qlco0YFE6DD
-	aMpHz546YRjv7u3ZNPsxqksQJzOe6N7uSYriF5J+VQsWmGeFIGy+GJ1+up2TfKkxbNKY
-	/sWzT3O/EsVFoF/AKaQnB5+/f3lVRP2dytpdPCGR07LJB1q4lHKUZww15Q0RFO7LkzQj
-	poIpfkYKv7aFzdKxg9s+pJ+YMnjARlgdVHXsSGzmqZFHt3EADdeTa5+oyAigJdJuH3gZ
-	hjEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2CCskI/zZdkC0H6yZrm0M708hmkfer3aTy/HUbBrh5o=;
-	b=CBs9n5nTT/vm3joX1sw53spPb8KIsO6RzlJOD6ji8aUdZYGuc3P39A8OXdpU+Ocgj+
-	S3Bqfw3tTFt3edYcslKQ0x9cb18n9UqKfwey/yh/AQdcmYMmuo/IvrDIKJLk3L2Rna9y
-	AViJQSZdOZhLfF+GDVcXzrLNglT3BP8B7H0uMSMfUqDF2A92iUM+n48ZoOYN+bV9TMKu
-	O0IQfkrkVv0sDWLsNum/rS0HfePPYipfxfsEZ/slO6Zfog8+Hr7qz4ynwL+kDv3xPtXg
-	QMVnZ4wpy8hPvBIHdXXOsn0YxpovuAb78KTLcBSC5m/sz7ltH3D+YMM2f5Wjg3MQAcRK
-	o6vw==
-X-Gm-Message-State: ALQs6tBIQq9HSAFchWnvgX1Gp743DJcUmJB/GKh22as3an+fP0CUZz3d
-	vEObdNaJBbMBBuPYblwZEjF2qw==
-X-Google-Smtp-Source: AB8JxZoIyh25syWMj+jtLqzN6KNz0id+cIFNWRA5mG7lrGz0h6926yKpTWjPPG7imYtQXP3aiECJOg==
-X-Received: by 2002:a19:8f49:: with SMTP id
-	r70-v6mr10774337lfd.79.1525798039159; 
-	Tue, 08 May 2018 09:47:19 -0700 (PDT)
-Received: from localhost.localdomain (89-64-61-80.dynamic.chello.pl.
-	[89.64.61.80]) by smtp.gmail.com with ESMTPSA id
-	y137-v6sm2266605lfd.96.2018.05.08.09.47.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 08 May 2018 09:47:18 -0700 (PDT)
-From: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2018 18:46:58 +0200
-Message-Id: <20180508164658.2935-1-taborskikrzysztof@gmail.com>
-X-Mailer: git-send-email 2.13.6
-Cc: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-Subject: [meta-oe][PATCH] perl: native modules will not trigger build perl for target.
+	Tue,  8 May 2018 17:01:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id D122220914;
+	Tue,  8 May 2018 17:01:58 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id z4XYIWVZyCsA; Tue,  8 May 2018 17:01:58 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 918E02005C;
+	Tue,  8 May 2018 17:01:55 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 347D716345A; Tue,  8 May 2018 13:01:55 -0400 (EDT)
+Date: Tue, 8 May 2018 13:01:55 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20180508170155.GV3228@denix.org>
+References: <cover.1524665116.git.Martin.Jansa@gmail.com>
+	<1cf93aa21ed541e982ff0be611cdc25eb4568538.1524665117.git.Martin.Jansa@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1cf93aa21ed541e982ff0be611cdc25eb4568538.1524665117.git.Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [rocko][PATCH 1/2] Revert "waf.bbclass: explicitly pass bindir and libdir if supported"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 16:47:19 -0000
+X-List-Received-Date: Tue, 08 May 2018 17:01:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Currently building perl-native modules triggers
-build perl for target due to PACKAGES_DYNAMIC regex.
+I see this got merged/backported to rocko today.
+Now my builds are failing with this error during parsing of meta-openembedded:
 
-This commit will cause, that perl native modules will
-trigger perl-native build.
 
-Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
----
- meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
- meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+WARNING: /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/jack_git.bb: Error during finalise of /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/jack_git.bb
+WARNING: /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/a2jmidid_8.bb: Exception during build_dependencies for waf_do_compile
+WARNING: /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/a2jmidid_8.bb: Error during finalise of /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/a2jmidid_8.bb
+ERROR: ExpansionError during parsing /.../sources/meta-openembedded/meta-oe/recipes-multimedia/jack/jack_git.bb
+Traceback (most recent call last):
+bb.data_smart.ExpansionError: Failure expanding variable waf_do_compile, expression was /.../build/tmp/work/armv7ahf-neon-linux-gnueabi/jack/1.9.10+gitAUTOINC+2d1d323505-r0/git/waf build ${@get_waf_parallel_make(d)} which triggered exception IndexError: pop from empty list
 
-diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-index a9ab17d16c..71f45890b0 100644
---- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-@@ -135,3 +135,5 @@ EOF
- 
- # Fix the path in sstate
- SSTATE_SCAN_FILES += "*.pm *.pod *.h *.pl *.sh"
-+PACKAGES_DYNAMIC_class-native += "^perl-module-.*native$"
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 53a426289a..4c6a71082f 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -339,7 +339,7 @@ python split_perl_packages () {
-     d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
- }
- 
--PACKAGES_DYNAMIC += "^perl-module-.*"
-+PACKAGES_DYNAMIC += "^perl-module-.*(?<!\-native)$"
- PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
- 
- RPROVIDES_perl-lib = "perl-lib"
+
+I remember we spent several week trying to fix it properly in master back 
+in February and coordinate fixes betweem meta-openembedded and oe-core. Is 
+anything else missing?
+
 -- 
-2.13.6
+Denys
 
+
+On Wed, Apr 25, 2018 at 02:07:13PM +0000, Martin Jansa wrote:
+> * this doesn't work correctly as discussed in:
+>   http://lists.openembedded.org/pipermail/openembedded-commits/2018-January/218460.html
+> * some of the issues were fixed in master since then
+>   but not all, so revert it until it's completely resolved
+> 
+> This reverts commit eac21f981337bfaddb2d67161a1ff049158041ce.
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/waf.bbclass | 17 +----------------
+>  1 file changed, 1 insertion(+), 16 deletions(-)
+> 
+> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+> index acbda278a2..c4698e910a 100644
+> --- a/meta/classes/waf.bbclass
+> +++ b/meta/classes/waf.bbclass
+> @@ -25,23 +25,8 @@ def get_waf_parallel_make(d):
+>  
+>      return ""
+>  
+> -python waf_preconfigure() {
+> -    from distutils.version import StrictVersion
+> -    srcsubdir = d.getVar('S')
+> -    wafbin = os.path.join(srcsubdir, 'waf')
+> -    status, result = oe.utils.getstatusoutput(wafbin + " --version")
+> -    if status != 0:
+> -        bb.warn("Unable to execute waf --version, exit code %d. Assuming waf version without bindir/libdir support." % status)
+> -        return
+> -    version = result.split()[1]
+> -    if StrictVersion(version) >= StrictVersion("1.8.7"):
+> -        d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
+> -}
+> -
+> -do_configure[prefuncs] += "waf_preconfigure"
+> -
+>  waf_do_configure() {
+> -	${S}/waf configure --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF}
+> +	${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
+>  }
+>  
+>  waf_do_compile()  {
+> -- 
+> 2.17.0
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
