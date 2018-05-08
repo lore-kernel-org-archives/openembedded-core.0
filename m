@@ -1,26 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F00274AD2
+	by mail.openembedded.org (Postfix) with ESMTP id 48F9974AF8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2018 07:40:09 +0000 (UTC)
+	Tue,  8 May 2018 07:47:51 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w487e714029807
+	w487lnOo030183
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 8 May 2018 08:40:08 +0100
-Message-ID: <1525765207.3857.101.camel@linuxfoundation.org>
+	verify=NOT); Tue, 8 May 2018 08:47:50 +0100
+Message-ID: <1525765669.3857.107.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 08 May 2018 08:40:07 +0100
-In-Reply-To: <CAJ86T=VK+Um4wa6F2EVzQTNiwa8LC1nhTEQrLqH2GBuSzCkbWw@mail.gmail.com>
-References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=VK+Um4wa6F2EVzQTNiwa8LC1nhTEQrLqH2GBuSzCkbWw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 08 May 2018 08:47:49 +0100
+In-Reply-To: <20180504123244.43049-7-alexander.kanavin@linux.intel.com>
+References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
+	<20180504123244.43049-7-alexander.kanavin@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [daisy][PATCH 0/6] SRC_URI updates and minor build fixes
+Subject: Re: [PATCH 07/14] ca-certificates: update to 20180409
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2018 07:40:10 -0000
+X-List-Received-Date: Tue, 08 May 2018 07:47:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2018-05-07 at 18:22 -0700, Andre McCurdy wrote:
-> On Tue, Mar 20, 2018 at 7:42 PM, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> > 
-> > Daisy has now (long since) left upstream maintenance and entered
-> > into
-> > community support. As a member of a community which still actively
-> > develops against this version of OE, I would like to propose the
-> > following updates.
-> Ping.
-> 
-> Are these kind of updates OK? Or are there objections to the
-> community
-> trying to support historical releases? There are many millions of
-> devices in the field that I know of which are still being actively
-> developed and maintained on top of OE 1.6.
+On Fri, 2018-05-04 at 15:32 +0300, Alexander Kanavin wrote:
+> License-Update: URI fix
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  .../{ca-certificates_20170717.bb => ca-
+> certificates_20180409.bb}      | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/ca-certificates/{ca-
+> certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
 
-We've discussed "long term" branches for a while. I suggest that we
-collect together people who are will to maintain such things and let
-them push to a namespace in poky-contrib initially, perhaps in other
-repos eventually where we collect these things together.
+Something in this series, I think likely this patch causes rootfs
+generation to fail with:
 
-Perhaps poky-contrib extended-life/daisy? 
+ERROR: core-image-sato-1.0-r0 do_rootfs: [log_check] core-image-sato: found 1 error message in the logfile:
+[log_check] openssl:Error: 'rehash' is an invalid command.
 
-If there is common agreement, a group of people could collaborate on
-such a branch too...
+ERROR: core-image-sato-1.0-r0 do_rootfs: Function failed: do_rootfs
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato/1.0-r0/temp/log.do_rootfs.23183
+
+https://autobuilder.yocto.io/builders/nightly-arm/builds/1053/steps/BuildImages/logs/stdio
 
 Cheers,
 
