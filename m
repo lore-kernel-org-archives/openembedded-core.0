@@ -1,51 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f44.google.com (mail-pl0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE9D750CE
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D022750D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 21:47:03 +0000 (UTC)
-Received: by mail-pl0-f44.google.com with SMTP id c11-v6so20550plr.5
+	Wed,  9 May 2018 21:47:04 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id x9-v6so20673pfm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 14:47:04 -0700 (PDT)
+	Wed, 09 May 2018 14:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=as7Vp/nYDHyGO4ijsFDqQqCaaBzYtAAEN7Ajep1VOg0=;
-	b=lvWWAbKWHWlOxaGvOFy0azsW93kyF4vDi38akQzQ/UAb7LZ4+67TSB+TNbVdWU1CKq
-	qj4mOahhUJLZUmvCw80ILiWmohWbpOcQzNMj4E1Hx/sV0DCXTA+BIPMQqL3sEcsm19rS
-	sYP9qpKTGRdW2qqcFY+DXFVvEnhkjMQZ1LjS4WEo+FWHFpBjF4nf99i0P/1PgtFCLBSk
-	fhifhe1DRlv0HyB189+5UBf9Z6l11NS3rmT2zsSKNU7x19dLr62FlF6dPCev0sEgGYMB
-	KgadHh17rBoQ+h36nGIIaAFb4RGKA5nxtMf9ihIl5M4VXlGMWxtRwYDa6A9g4RraQlMS
-	fuGw==
+	bh=CSFL+8mzvJuDop3eIC2XYox9NNCj+RGPsLwmiJtzJ5E=;
+	b=FMrln6AjQWCQ9U9cl+RGKWZoljgSQrEE/JjaKsy7tBQSd1SwnHyhm9SGovAJ00wGA9
+	tqXG9HXSxqV4vC0iMNpnUUsQDwNM9d1q9Z5KXy9hxUi4b6EXccj9rbVLvRP/n7bSu09t
+	7+QLbh/LxK5VUX0Xv8IMG32FLlSJQSURO8q9ZlYHaN3eflRLlxBoPGnHXqAz0KB+7Txn
+	ywW87t/8FOg/BTPk8lO/8xLIhVpHhTOgpsfwIQNNHdDHhyLVm3j61liIvyMFcTfdU6Kw
+	fPjU7owq1EWh/HXjNFw1U1E44DBYLXDHPSxwspNHwpivGJL4N3tKPnE2o1O4omt48Brh
+	HR4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=as7Vp/nYDHyGO4ijsFDqQqCaaBzYtAAEN7Ajep1VOg0=;
-	b=lrp4gu30PCAipBHxokoeayyuDaG/153WRCVfP4cJ19atpi2qwIMF53fJ89/hrRWL0Q
-	SIXE1gHUPGwDAKRZFnASMKYz1o86/2rzEea0m2BhMvWYKpswSZoqj4zsa+PN8iY3sZiQ
-	9HXiuPvrhCWDo7ZcFpnW1gzX+IVTRI9PCPy6lnhZS4v3Ydnl5c4ApyR+9ka+yKeC4GPe
-	aE+yV8HM7Of9EuFwbdSjfnBYan7TIFfYhofQzEYwebnjg6706kEf2Rcjagou5TCpljfQ
-	TY0U9qM7Gk0Ne+lQNXj8swEKRr/0ufl4IN2mWpU2pgbOlPa5xlGgdDdOSHcAGFsmeflJ
-	2PXw==
-X-Gm-Message-State: ALQs6tAuXtyu66ibET4A/YS/GXdBaRV4O8SCknmszZb1g1LfdpyYzF1d
-	EDAbwzolhkUj6EMcvi+fvimd4g==
-X-Google-Smtp-Source: AB8JxZpNG8CIA6z/EW0iE3iWAp9cB5ye8qFo8Jr35bgLPijPmb0eZ0aafNwpVLJNr84J4kU4boTvHQ==
-X-Received: by 2002:a17:902:369:: with SMTP id
-	96-v6mr25342567pld.64.1525902424508; 
-	Wed, 09 May 2018 14:47:04 -0700 (PDT)
+	bh=CSFL+8mzvJuDop3eIC2XYox9NNCj+RGPsLwmiJtzJ5E=;
+	b=KAnXMGqhYLBw4FCgKR4qU3ZHeWdh/TT932ZnxkumoBQiSWwgapYpzj3zI8259y6a06
+	gc1wNHixrjVdtFen4IyVZUUCNMFuXQEFazWMH4Yy0RUWxB+OY0LrAc20g8PkmP/s3KeG
+	FUkNmmBTCwe8mcoRevrklL0kmCOR19fczZOcuiJx/axF4ixyE7mnQPgvOzeB8JIAFQia
+	NX+fWXL07oDJfWSpvAYj6EIH5EYQ0B6fQ0EQgxORUUH4fW4LIxE5zBfJxqqyMKvZXwxP
+	5M4au54866E0KI6vG89CRHS+Bz1S/Eqh9Dsdh6yAyXVvUtaytCN3E0DJUVAf9pWTHUlw
+	Bitw==
+X-Gm-Message-State: ALQs6tCrcWMheKuNJhHyitW4iuNbd1dPEugF6nk1DMy/L6zDTDFVewFF
+	lqHVuOtLHck2jkJ7sSt12Q0ZDA==
+X-Google-Smtp-Source: AB8JxZqCFVtsGyqq2CdddKTSf+naUmHCezquregj4nX6Lp8m+mkKtyB+U8SqmgryF4cb0d9ov2pH8A==
+X-Received: by 2002:a63:7405:: with SMTP id
+	p5-v6mr31765999pgc.289.1525902425988; 
+	Wed, 09 May 2018 14:47:05 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	76-v6sm3699193pge.75.2018.05.09.14.47.03
+	76-v6sm3699193pge.75.2018.05.09.14.47.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 May 2018 14:47:04 -0700 (PDT)
+	Wed, 09 May 2018 14:47:05 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 14:46:47 -0700
-Message-Id: <1525902408-6796-7-git-send-email-armccurdy@gmail.com>
+Date: Wed,  9 May 2018 14:46:48 -0700
+Message-Id: <1525902408-6796-8-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1525902408-6796-1-git-send-email-armccurdy@gmail.com>
 References: <1525902408-6796-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 7/8] puzzles: move ASNEEDED over-ride into the puzzles recipe
+Subject: [PATCH v2 8/8] rpm: move ASNEEDED over-ride into the rpm recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,106 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 21:47:03 -0000
+X-List-Received-Date: Wed, 09 May 2018 21:47:05 -0000
 
 Move the recipe specific over-ride for ASNEEDED into the recipe to
 make it more apparent that the over-ride is being applied (and that
 it should be re-checked on version updates, etc).
 
-Also misc minor recipe cleanup (re-order variables to follow the OE
-style guide, etc).
-
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/distro/include/as-needed.inc   |  1 -
- meta/recipes-sato/puzzles/puzzles_git.bb | 35 +++++++++++++++++---------------
- 2 files changed, 19 insertions(+), 17 deletions(-)
+ meta/conf/distro/include/as-needed.inc  | 1 -
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb | 2 ++
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-index c67f2f3..f56d432 100644
+index f56d432..9c23564 100644
 --- a/meta/conf/distro/include/as-needed.inc
 +++ b/meta/conf/distro/include/as-needed.inc
-@@ -2,7 +2,6 @@
+@@ -2,6 +2,5 @@
  ASNEEDED = "-Wl,--as-needed"
  
  ASNEEDED_pn-openobex = ""
--ASNEEDED_pn-puzzles = ""
- ASNEEDED_pn-rpm = ""
+-ASNEEDED_pn-rpm = ""
  
  TARGET_LDFLAGS += "${ASNEEDED}"
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 3670ab8..7d08b96 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -1,20 +1,20 @@
- SUMMARY = "Simon Tatham's Portable Puzzle Collection"
- HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=da6110d4ed1225a287eab2bf0ac0193b"
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+index 818d3ef..d49530e 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+@@ -73,6 +73,8 @@ BBCLASSEXTEND = "native nativesdk"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[imaevm] = "--with-imaevm,,ima-evm-utils"
  
- DEPENDS = "libxt"
- 
- # The libxt requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=da6110d4ed1225a287eab2bf0ac0193b"
--
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
-            file://fix-compiling-failure-with-option-g-O.patch \
-            file://0001-Use-labs-instead-of-abs.patch \
-            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
-            file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
-            "
-+
- UPSTREAM_CHECK_COMMITS = "1"
- SRCREV = "c6e0161dd475415316ed66dc82794d68e52f0025"
- PE = "2"
-@@ -24,24 +24,13 @@ S = "${WORKDIR}/git"
- 
- inherit autotools distro_features_check pkgconfig
- 
--CFLAGS_append = " -Wno-deprecated-declarations"
--
- PACKAGECONFIG ??= "gtk3"
- PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
- PACKAGECONFIG[gtk3] = "--with-gtk=3,,gtk+3,"
- 
--PACKAGES += "${PN}-extra"
--FILES_${PN} = ""
--FILES_${PN}-extra = "${prefix}/bin ${datadir}/applications"
-+CFLAGS_append = " -Wno-deprecated-declarations"
- 
--python __anonymous () {
--    var = d.expand("FILES_${PN}")
--    data = d.getVar(var, False)
--    for name in ("bridges", "fifteen", "inertia", "map", "samegame", "slant"):
--        data = data + " ${bindir}/%s" % name
--        data = data + " ${datadir}/applications/%s.desktop" % name
--    d.setVar(var, data)
--}
 +ASNEEDED = ""
- 
- do_configure_prepend () {
-     cd ${S}
-@@ -74,3 +63,17 @@ STOP
-         fi
-     done
- }
 +
-+PACKAGES += "${PN}-extra"
-+
-+FILES_${PN} = ""
-+FILES_${PN}-extra = "${prefix}/bin ${datadir}/applications"
-+
-+python __anonymous () {
-+    var = d.expand("FILES_${PN}")
-+    data = d.getVar(var, False)
-+    for name in ("bridges", "fifteen", "inertia", "map", "samegame", "slant"):
-+        data = data + " ${bindir}/%s" % name
-+        data = data + " ${datadir}/applications/%s.desktop" % name
-+    d.setVar(var, data)
-+}
+ # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
+ # libmagic also has sysroot path contamination, so override it
+ do_install_append_class-native() {
 -- 
 1.9.1
 
