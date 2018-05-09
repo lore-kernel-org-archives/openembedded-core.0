@@ -1,28 +1,31 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 451C074A6A
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 9080474F4D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 16:09:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w49G9VTS028039
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 May 2018 09:09:31 -0700 (PDT)
-Received: from yow-masselst-lx1.localnet (128.224.60.223) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 9 May 2018 09:09:31 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 May 2018 12:09:30 -0400
-Message-ID: <3120035.nktNMt2fzU@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CAJTo0LaHtEh3JBQqnsx1v6c31jbTYe2jLUztLtpiqwDi+W3nLg@mail.gmail.com>
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<3814374.oaZWZoq0et@yow-masselst-lx1>
-	<CAJTo0LaHtEh3JBQqnsx1v6c31jbTYe2jLUztLtpiqwDi+W3nLg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
+	Wed,  9 May 2018 16:15:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 37D7720AF1;
+	Wed,  9 May 2018 16:15:33 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id d4BrHAHY_h-1; Wed,  9 May 2018 16:15:33 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 141C32079D;
+	Wed,  9 May 2018 16:15:32 +0000 (UTC)
+Received: from gimli.denix (gimli [192.168.0.6])
+	by mail.denix.org (Postfix) with ESMTP id 75E5C163459;
+	Wed,  9 May 2018 12:15:31 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 May 2018 12:15:30 -0400
+Message-Id: <1525882530-55742-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] mesa: ensure all libwayland-egl* files are removed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 16:09:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 09 May 2018 16:15:32 -0000
 
-On Wednesday, May 9, 2018 12:03:26 PM EDT Burton, Ross wrote:
-> On 9 May 2018 at 17:00, Mark Asselstine <mark.asselstine@windriver.com>
-> 
-> wrote:
-> > I am also seeing build failures due to this conflict:
-> > 
-> > ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/lib64/
-> > libwayland-egl.la is installed by both wayland and mesa, aborting
-> > ..
-> > ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directories were
-> > 
-> > installed but not shipped in any package:
-> >   /usr/lib64/libwayland-egl.la
-> > 
-> > Please set FILES such that these items are packaged. Alternatively if they
-> > are
-> > unneeded, avoid installing them or delete them within do_install.
-> > mesa: 1 installed and not shipped files. [installed-vs-shipped]
-> > 
-> > is someone working on a fix or should I take some time to put something
-> > together?
-> 
-> As it appears you can test quickly then I think you just drew the short
-> straw.  Should be a trivial patch...
+From: Denys Dmytriyenko <denys@ti.com>
 
-I knew that this had a 50/50 chance of going this way :). Lunch then a fix. I 
-assume then we will go with Martin's suggestion of an explicit remove in 
-mesa.inc?
+Wayland 1.15+ now ships libwayland-egl by itself, so Mesa should remove
+its instance. Previous commit 6e5952fcfc13ff4b63c9376bd41a1dbba957f425
+only removed .so libraries, but left .la, which resulted in conflict.
 
-Mark
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Ross
-
-
-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 354271e..314d327 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -135,7 +135,7 @@ do_install_append () {
+     chrpath --delete ${D}${libdir}/dri/*_dri.so || true
+ 
+     # libwayland-egl has been moved to wayland 1.15+
+-    rm -f ${D}${libdir}/libwayland-egl.so*
++    rm -f ${D}${libdir}/libwayland-egl*
+     rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
+ }
+ 
+-- 
+2.7.4
 
 
