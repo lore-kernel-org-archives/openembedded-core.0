@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 053F975082
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D4FBF75089
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 20:24:25 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id a22so12081704pfn.6
+	Wed,  9 May 2018 20:24:26 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id n9-v6so23165713pgq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 13:24:27 -0700 (PDT)
+	Wed, 09 May 2018 13:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/QfBBneGn71npxKpBC8dFk7/MldPV31lAoDx1mt9gxQ=;
-	b=pVHY4B4ZIZSgzY77au83PCeq78AYMIudL7D96PjgtBe7zRPx+kVpBrC3fy5+lv74dV
-	Y5Y4so1PVdW2lxkrBUKIDA9GKo4K2/y0vErd0H1iGA6VNpFw7XuiBGQIZOgWq40RywIW
-	hpDxrDIUJ2p//m9bc6nrgYHS9dlTV2gYyerPSXUrf6ak9NWMeB4dpqsm0VATFw3GK57E
-	y6kAtvaag662Qh6H/7cyZ6EayYyDiAx+j1Xp5tjDXCedVtz4HtTWbizt0m9Jjm4MEjov
-	FL01aie491dqZ4fe7VKFdpvtVBbu6AbDfQu/QC97S7L3SzTmiKqqVDQk+91U66Tf0iT1
-	VOtA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=q+/KYeW1Dzw7V++BUU1meha0JXDuFNIF/nOxZY7iUNg=;
+	b=WqEsDZE9t0FHHoNmYyaRs1L2sfEDMcsMD7eQXBKsWv3tz8q2Jl6yO7omkGAd2QE60f
+	OtztWRA8ZBset2h6yQrBUGQeOWBiB5eRbCmfSwxYdFPNTIsqDR1wdbgznDc3edV/d1ai
+	pw+GUUmbgkbEHSt+dlRRZNoO1nGFUpPbXpYKK8lggnbKUKSMtVjV40nh7WvUE25yiQ/H
+	qEmgob037JfYi8vLIe9Ipu3G+WRyZ5GiVb0eK7ZhAaSraEshT4h+NyeU6/wcVqRfxhYQ
+	9mdugx0ctBmC14cQTF95mGKE+0ompcLHCibnY052VsFNy6N8TQcE+Nzlmr781vorqXax
+	MY9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/QfBBneGn71npxKpBC8dFk7/MldPV31lAoDx1mt9gxQ=;
-	b=XWi2zArFdLkn6uJ9iHuWGtWr1ayTH87S+E0DMnb11jvCPmBXduO68uRy70IlfFcZ6/
-	KQ6fJw3yihe02v8SUiC0XgsdncUtC6inCbWhJUWSraKsJZkBFMVuJ8jGhjrxEePSlK6c
-	Z+fmu2nOy5ad26IDYwMNRhi89FBK8CWNw8eD0ui5BCUF0qKzMbOZK1sQVOG7BnlfQvDy
-	CGiX3ETOzJ8zyn+MWWQBDlTjau557Y1T/nco5BI7wOXXQhcxkQCwkBnYdkzCr22PfvLX
-	BDZpTYoVeDzx1lQkVphM8HOBcwuWd6t6HOc/xBSxFcj6gCOEmdSi6w82Q+lM9aX5Tsd2
-	+vpQ==
-X-Gm-Message-State: ALQs6tCUEGiQOKbMY0St4r0DsMoGq/cNu46TWXZQ2hdK585q+xHvyvWF
-	R6BRnzQ9/Edmb3mmBF87h/auhg==
-X-Google-Smtp-Source: AB8JxZpfgFQ3ldAjvSsmT/8/CjcZpb8bZ4Gdst+kDfu6w6ncSANW7c9Lquv5lYg1JtdikAWNbcInQw==
-X-Received: by 2002:a63:3688:: with SMTP id
-	d130-v6mr36788680pga.228.1525897466513; 
-	Wed, 09 May 2018 13:24:26 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=q+/KYeW1Dzw7V++BUU1meha0JXDuFNIF/nOxZY7iUNg=;
+	b=SFujtUS0UYQYYbXDuEd9LiwQvIKqTcO8bfgzw/8QEdPCymUdEPmzIWqJgzHxLO/CxL
+	RJbhv54ynB2abKg+bGDgWw/OSYfopMxayAH9mMW/9OJ0z6KSqS+wVevuibIWx0Xd2/U+
+	mUIiN6iWcrbzmZu0TXRGXZ3hHF/60C9uQQNd075iXU1+nkS1e631paXdtd6zIaIZeEUu
+	nEIDvH9FrQ2T48QuD81Q3TzCaKzF/xXxCpEBkq1c7dXveFvuBGQAtWt+rfklOhgiqmy7
+	M4UAJNT0aDhRgm9UGDMn2KGbf45TyKLrEH9CM+yhe/opfdXSLZ1xHLf1Y+IvcKhCG0bX
+	eM4Q==
+X-Gm-Message-State: ALQs6tDGkbsf+Q2/6xYaCZmrtbmeJ9jN7s0PC5Us3yUQExhN7LYb2NC7
+	jNnykL8UasX1ip7tQD1Z4Ei4zg==
+X-Google-Smtp-Source: AB8JxZoIpvYQY1CeWUXOtp4AH3oLeaWI2Iu2aouyXshCnQMcsoaIzbzUp9kkPlRMswTOWKatwXlokg==
+X-Received: by 2002:a63:aa48:: with SMTP id
+	x8-v6mr35620866pgo.398.1525897467363; 
+	Wed, 09 May 2018 13:24:27 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	x124sm2142222pfx.72.2018.05.09.13.24.25
+	x124sm2142222pfx.72.2018.05.09.13.24.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 May 2018 13:24:25 -0700 (PDT)
+	Wed, 09 May 2018 13:24:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 13:24:14 -0700
-Message-Id: <20180509202422.22501-1-raj.khem@gmail.com>
+Date: Wed,  9 May 2018 13:24:15 -0700
+Message-Id: <20180509202422.22501-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [PATCH 1/9] pbzip2: Fix C++11 warnings found with clang
+In-Reply-To: <20180509202422.22501-1-raj.khem@gmail.com>
+References: <20180509202422.22501-1-raj.khem@gmail.com>
+Subject: [PATCH 2/9] alsa-tools: Update to 1.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,109 +57,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 20:24:26 -0000
+X-List-Received-Date: Wed, 09 May 2018 20:24:27 -0000
+
+License-Update: FSF address updated in hdsploader/COPYING and ld10k1/COPYING.LIB
+
+Fix built with clang along the way
+
+Package python dependent tools into a separate package
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...valid-suffix-on-literal-C-11-warning.patch | 73 +++++++++++++++++++
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |  4 +-
- 2 files changed, 76 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/pbzip2/pbzip2/0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch
+ ...served-user-defined-literal-warnings.patch | 28 +++++++++++++
+ .../alsa/alsa-tools/autotools.patch           | 42 ++++++++++++-------
+ ...lsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} | 25 ++++++++---
+ 3 files changed, 75 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
+ rename meta/recipes-multimedia/alsa/{alsa-tools_1.1.5.bb => alsa-tools_1.1.6.bb} (62%)
 
-diff --git a/meta/recipes-extended/pbzip2/pbzip2/0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch b/meta/recipes-extended/pbzip2/pbzip2/0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
 new file mode 100644
-index 0000000000..8fc377c31b
+index 0000000000..2290915eab
 --- /dev/null
-+++ b/meta/recipes-extended/pbzip2/pbzip2/0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch
-@@ -0,0 +1,73 @@
-+From de4a948d356c9befb88c796168e97eb05b9a3385 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
+@@ -0,0 +1,28 @@
++From 2e48e4045e1e951433da0ca4b1e49798eedde14f Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 23 Apr 2018 22:54:42 -0700
-+Subject: [PATCH] pbzip2: Fix invalid suffix on literal C++11 warning
++Date: Tue, 24 Apr 2018 12:21:18 -0700
++Subject: [PATCH] Fix clang -Wreserved-user-defined-literal warnings
 +
-+Fixes -Wreserved-user-defined-literal] errors.
-+Also reported in launchpad here https://bugs.launchpad.net/pbzip2/+bug/1746369
++| us428control.cc:66:18: error: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
++|         printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
++|                         ^
 +
-+Upstream-Status: Submitted [https://launchpadlibrarian.net/355230152/pbzip2.patch]
-+
++Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10360805/]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ pbzip2.cpp | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
++ us428control/us428control.cc | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/pbzip2.cpp b/pbzip2.cpp
-+index 66ca978..4287ea7 100644
-+--- a/pbzip2.cpp
-++++ b/pbzip2.cpp
-+@@ -1220,7 +1220,7 @@ int producer_decompress(int hInfile, OFF_T fileSize, queue *fifo)
-+ 			// give warning to user if block is larger than 250 million bytes
-+ 			if (fileData->bufSize > 250000000)
-+ 			{
-+-				fprintf(stderr, "pbzip2:  *WARNING: Compressed block size is large [%"PRIuMAX" bytes].\n",
-++				fprintf(stderr, "pbzip2:  *WARNING: Compressed block size is large [%" PRIuMAX " bytes].\n",
-+ 						(uintmax_t) fileData->bufSize);
-+ 				fprintf(stderr, "          If program aborts, use regular BZIP2 to decompress.\n");
-+ 			}
-+@@ -1829,7 +1829,7 @@ void *fileWriter(void *outname)
-+ 	
-+ 	if (QuietMode != 1)
-+ 	{
-+-		fprintf(stderr, "    Output Size: %"PRIuMAX" bytes\n", (uintmax_t)CompressedSize);
-++		fprintf(stderr, "    Output Size: %" PRIuMAX " bytes\n", (uintmax_t)CompressedSize);
-+ 	}
-+ 
-+ 	#ifdef PBZIP_DEBUG
-+@@ -2072,7 +2072,7 @@ int directcompress(int hInfile, OFF_T fileSize, int blockSize, const char *OutFi
-+ 		close(hOutfile);
-+ 	if (QuietMode != 1)
-+ 	{
-+-		fprintf(stderr, "    Output Size: %"PRIuMAX" bytes\n", (uintmax_t)CompressedSize);
-++		fprintf(stderr, "    Output Size: %" PRIuMAX " bytes\n", (uintmax_t)CompressedSize);
-+ 	}
-+ 
-+ 	syncSetProducerDone(1); // Not really needed for direct version
-+@@ -2794,7 +2794,7 @@ void outputBufferInit(size_t size)
-+ 	// unlikely to get here since more likely exception will be thrown
-+ 	if (OutputBuffer.size() != size)
-+ 	{
-+-		fprintf(stderr, "pbzip2: *ERROR: Could not initialize (OutputBuffer); size=%"PRIuMAX"!  Aborting...\n", (uintmax_t)size);
-++		fprintf(stderr, "pbzip2: *ERROR: Could not initialize (OutputBuffer); size=%" PRIuMAX "!  Aborting...\n", (uintmax_t)size);
-+ 		safe_mutex_unlock(OutMutex);
-+ 		exit(1);
-+ 	}
-+@@ -4102,7 +4102,7 @@ int main(int argc, char* argv[])
-+ 			if (decompress == 1)
-+ 				fprintf(stderr, " BWT Block Size: %c00k\n", BWTblockSizeChar);
-+ 			if (hasInFile)
-+-				fprintf(stderr, "     Input Size: %"PRIuMAX" bytes\n", (uintmax_t)InFileSize);
-++				fprintf(stderr, "     Input Size: %" PRIuMAX " bytes\n", (uintmax_t)InFileSize);
-+ 		}
-+ 
-+ 		if (decompress == 1)
-+@@ -4224,7 +4224,7 @@ int main(int argc, char* argv[])
-+ 			{
-+ 				NumBufferedBlocksMax = numCPU;
-+ 				if (QuietMode != 1)
-+-					fprintf(stderr, "*Warning* Max memory limit increased to %"PRIuMAX" MB to support %d CPUs\n", (uintmax_t)((NumBufferedBlocksMax + (numCPU * 2)) * blockSize)/1000000, numCPU);
-++					fprintf(stderr, "*Warning* Max memory limit increased to %" PRIuMAX " MB to support %d CPUs\n", (uintmax_t)((NumBufferedBlocksMax + (numCPU * 2)) * blockSize)/1000000, numCPU);
-+ 			}
-+ 			else
-+ 			{
-diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-index 06d37adc36..4e96de2ed3 100644
---- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-+++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
- DEPENDS = "bzip2"
- DEPENDS_append_class-native = " bzip2-replacement-native"
++diff --git a/us428control/us428control.cc b/us428control/us428control.cc
++index e839bf4..8cb3c42 100644
++--- a/us428control/us428control.cc
+++++ b/us428control/us428control.cc
++@@ -63,7 +63,7 @@ static void usage(void)
++ {
++ 	printf("Tascam US-428 Control\n");
++ 	printf("version %s\n", VERSION);
++-	printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
+++	printf("usage: " PROGNAME " [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
++ 	printf("mode is one of (us224, us428, mixxx)\n");
++ }
++ /*
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+index 2e74963c89..c85834a593 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
++++ b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
+@@ -1,3 +1,8 @@
++From b9a65bf3ba5628cfe8cfd2d10ce2dcf11a606775 Mon Sep 17 00:00:00 2001
++From: Dongxiao Xu <dongxiao.xu@intel.com>
++Date: Thu, 14 Jul 2011 15:40:36 +0800
++Subject: [PATCH] alsa-tools: Fix recipe build error.
++
+ Add parameters to autoreconf to support cross compile.
+ Remove some sub-components which needs further recipe support.
  
--SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz"
-+SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz \
-+           file://0001-pbzip2-Fix-invalid-suffix-on-literal-C-11-warning.patch \
-+           "
+@@ -5,22 +10,17 @@ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
  
- SRC_URI[md5sum] = "4cb87da2dba05540afce162f34b3a9a6"
- SRC_URI[sha256sum] = "8fd13eaaa266f7ee91f85c1ea97c86d9c9cc985969db9059cdebcb1e1b7bdbe6"
+ Upstream-Status: Inappropriate [configuration]
+ 
+-diff -ruN alsa-tools-1.0.24.1-orig//ld10k1/gitcompile alsa-tools-1.0.24.1/ld10k1/gitcompile
+---- alsa-tools-1.0.24.1-orig//ld10k1/gitcompile	2011-07-06 11:27:40.227665002 +0800
+-+++ alsa-tools-1.0.24.1/ld10k1/gitcompile	2011-07-14 13:26:18.017665004 +0800
+-@@ -1,6 +1,6 @@
+- #!/bin/bash
+- 
+--autoreconf -fi || exit 1
+-+autoreconf $ACLOCAL_FLAGS -fi || exit 1
+- export CFLAGS='-O2 -Wall -pipe -g'
+- echo "CFLAGS=$CFLAGS"
+- echo "./configure $@"
+-diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
+---- alsa-tools-1.0.24.1-orig//Makefile	2011-07-06 11:27:40.207665000 +0800
+-+++ alsa-tools-1.0.24.1/Makefile	2011-07-14 15:08:08.877665009 +0800
++---
++ Makefile          | 4 ++--
++ ld10k1/gitcompile | 2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index c32bf25..1119372 100644
++--- a/Makefile
+++++ b/Makefile
+ @@ -1,8 +1,8 @@
+- VERSION = 1.1.5
++ VERSION = 1.1.6
+  TOP = .
+ -SUBDIRS = as10k1 envy24control hdsploader hdspconf hdspmixer \
+ +SUBDIRS = as10k1 envy24control \
+@@ -30,3 +30,15 @@ diff -ruN alsa-tools-1.0.24.1-orig//Makefile alsa-tools-1.0.24.1/Makefile
+  	  hwmixvolume hdajackretask hda-verb hdajacksensetest
+  
+  all:
++diff --git a/ld10k1/gitcompile b/ld10k1/gitcompile
++index 99429ac..20005d9 100755
++--- a/ld10k1/gitcompile
+++++ b/ld10k1/gitcompile
++@@ -1,6 +1,6 @@
++ #!/bin/bash
++ 
++-autoreconf -fi || exit 1
+++autoreconf $ACLOCAL_FLAGS -fi || exit 1
++ export CFLAGS='-O2 -Wall -pipe -g'
++ echo "CFLAGS=$CFLAGS"
++ echo "./configure $@"
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
+similarity index 62%
+rename from meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
+rename to meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
+index 1be43aa6e7..e065eec6b8 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.1.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
+@@ -5,17 +5,19 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2 & LGPLv2+"
+ DEPENDS = "alsa-lib ncurses glib-2.0"
+ 
+-LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
++LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
++                    file://ld10k1/COPYING.LIB;md5=a916467b91076e631dd8edb7424769c7 \
++                    "
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/${BP}.tar.bz2 \
+            file://autotools.patch \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)} \
+            file://gitcompile_hdajacksensetest \
++           file://0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch \
+            "
+ 
+-SRC_URI[md5sum] = "3afb92eb1b4f2edc8691498e57c3ec78"
+-SRC_URI[sha256sum] = "bc3c6567de835223ee7d69487b8c22fb395a2e8c613341b0c96e6a5f6a2bd534"
++SRC_URI[md5sum] = "5ca8c9437ae779997cd62fb2815fef19"
++SRC_URI[sha256sum] = "d69c4dc2fb641a974d9903e9eb78c94cb0c7ac6c45bae664f0c9d6c0a1593227"
+ 
+ inherit autotools-brokensep pkgconfig
+ 
+@@ -37,4 +39,17 @@ do_compile_prepend () {
+     cp ${WORKDIR}/gitcompile_hdajacksensetest ${S}/hdajacksensetest/gitcompile
+ }
+ 
+-FILES_${PN} += "${datadir}/ld10k1"
++do_install_append() {
++    sed -i -e "s|/usr/bin/python2|/usr/bin/env python2|g" ${D}${bindir}/hwmixvolume
++}
++
++PACKAGES =+ "${PN}-hwmixvolume"
++
++FILES_${PN}-hwmixvolume = "${bindir}/hwmixvolume"
++
++FILES_${PN} += "${datadir}/ld10k1 \
++                ${datadir}/icons/hicolor \
++               "
++
++RDEPENDS_${PN}-hwmixvolume += "python"
++
 -- 
 2.17.0
 
