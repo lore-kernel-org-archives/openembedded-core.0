@@ -1,50 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4786074FEB
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B6D6A74F96
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 20:24:29 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id w3-v6so2632403pgv.12
+	Wed,  9 May 2018 20:24:31 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id e6-v6so4963265plt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 13:24:31 -0700 (PDT)
+	Wed, 09 May 2018 13:24:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pg1QRVBeZFPGtAElXvlDhOlUqrLg6jOJ8lkwuzcIgXY=;
-	b=M7XkotwdPbm0o7Bu4EZMeWopuEFqhqg7pL7cjP27+H8qzZ9i1Kfc1nmjyxP+kKFc5E
-	PBJnp/ax76hYn+wZuoVi7cGWAJOYnybScjr6Qm/WzPnZIzodX5hZ4w317zJx2lTkyxoh
-	fuzaWZxZyBOZwpYM9X8XhZ3M1uVYExPOiiRJk7in8LlkctciCewBVY5eDAE6LeXadEcu
-	ar8e3B0zODizJGE+CbNlVoTAb5QQ1RfDlSFl/Ov0tgWZ3GRqGMZks85GaVzkvn28SrSx
-	8AViZTQpUTUdZH3J2ROvE6+pxGEpyIM78M5iH4oLS2IYxqU69MkbBpv8Ow5a2UcF+hQV
-	5YwQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=VuJvTo1q/vmsB4mFkKUWb1CjzYBUmPwpgieZq32ALXQ=;
+	b=TYCzVKSqt67J/+Wcds1RXwoqc/lQFBH/sZ6X+Mc1YsWvY+Y8fO+TJwlnqTlUfMR7AZ
+	Vex/KhZKE6fDOgHrGn7lhy6NtfEJewF+2R6VXcbiv7QCY3FzqZ08TYVPiigkR1CTI413
+	dm9hUoWrfxjrWkICzXJBD09rCBbzi52zAx9U2i7APT8rugV4/JCNFbXGGjjtZ131R8vt
+	7r2lt9WvEx8YboajJkNiKUGddzR+zblOSWLCQHEbKz3OhgKZ+5cscvf9i+uES+s5M3Hd
+	XAUTgHlI6X348EKWmw+LoS7JWryMN6gvD1dIFfYgC73498PCIXgvgoQWmf6ZytUc2Np7
+	UgOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=pg1QRVBeZFPGtAElXvlDhOlUqrLg6jOJ8lkwuzcIgXY=;
-	b=fQKd0JcT0rZ6SyDkskHdKILarkV4t8bqXif9nwwT/cj7fjyZkWrk5XEZKf5XJwfj0T
-	qmHbTZ+kzckaenmHRQfppDMasUIFwFj1g18gdF0xM/EdEZ35i+3fYGeMPEk7EG6x0MtZ
-	UH00jfbF4T21R5/zugWMcUyMtw7Jarq1vNafjKJMptdAg9in55O5f12XB25G+k5pCzDO
-	3piZf9FVKP1yJZB4BtrjiGbU+wQHfUmn1qN8+HPbc1+9ZlPw4rqK95IINWQbvSI8fR26
-	+Dj6iCqAQwIsLv6QrdJmlp++3JjB3jiy7CvyQhAPKSRZbZgIuhwR51+B4D7dzvzNIbeT
-	/EVg==
-X-Gm-Message-State: ALQs6tC1mp0B20UZ6la+0W6C917iQhGCEHxaxNMxAwy0W4lNrW3fU3pW
-	4pyw8Bs+sW2JsJLUXOjhcHvPRg==
-X-Google-Smtp-Source: AB8JxZooo5kTaT0gvY0UNeHX6ypRJMyiLslvZUjpeGbICQF8PwndU16zSDfF59RfBPkxvZr9f0BmjA==
-X-Received: by 2002:a63:2bc4:: with SMTP id
-	r187-v6mr36204347pgr.231.1525897470657; 
-	Wed, 09 May 2018 13:24:30 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=VuJvTo1q/vmsB4mFkKUWb1CjzYBUmPwpgieZq32ALXQ=;
+	b=cnzasnRsNNkW/YGbP4UsQtPDtM/xBSKtkI4eH0oodLZVqtfcN330U6YX7b/iPYv31x
+	47NNfh2sUcfW67yDh7E6Jk+9PUtKZhZ3R3l/GoEqDTVirHN+RmiUVzFv+cloq7SA+/4P
+	AEIZXZAwLX1pJlIsfmhyIA6yY5gHhdOno68uW+ZF5IovWILWe6OC02ms0X1vZPWHH9vc
+	NYzEwuer4H4LdFChGZTt2vRpNiwQ/v2bwRptsALlM48LI9N9h96VYiP0HW4sTxGiQvNy
+	DwXXAsK1GeSV0tGUbO6vGtuVFyqwDrKEfalZvAm5HhsVExQNWyI4wl4aSKOOx0iCsuBt
+	l9/Q==
+X-Gm-Message-State: ALQs6tB/wvv0Hd3uViPUUQvOsdHwNGRUJ+v/h+mJVZNV24kE1ucIeIZD
+	sIon3TjMCsPoeEjmcripZdsqCA==
+X-Google-Smtp-Source: AB8JxZqJWWIvizlau4UYemMUtivnsyznrVe25+lyVaM4iDgZ+KFLGJE2zgZFLt2Nagt90vbAEeCsAw==
+X-Received: by 2002:a17:902:7c95:: with SMTP id
+	y21-v6mr46595048pll.76.1525897471939; 
+	Wed, 09 May 2018 13:24:31 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	x124sm2142222pfx.72.2018.05.09.13.24.29
+	x124sm2142222pfx.72.2018.05.09.13.24.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Wed, 09 May 2018 13:24:30 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 13:24:19 -0700
-Message-Id: <20180509202422.22501-6-raj.khem@gmail.com>
+Date: Wed,  9 May 2018 13:24:20 -0700
+Message-Id: <20180509202422.22501-7-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180509202422.22501-1-raj.khem@gmail.com>
 References: <20180509202422.22501-1-raj.khem@gmail.com>
-Subject: [PATCH 6/9] strace: Upgrade to 4.22
+MIME-Version: 1.0
+Subject: [PATCH 7/9] gdb: Upgrade to 8.1 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,120 +60,535 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 20:24:30 -0000
-
-License-Update: Update Copyright years
+X-List-Received-Date: Wed, 09 May 2018 20:24:31 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../strace/disable-git-version-gen.patch      | 12 +++++-----
- ...st-test-for-m32-mx32-compile-support.patch | 22 +++++++++----------
- .../strace/{strace_4.20.bb => strace_4.22.bb} | 11 ++++++----
- 3 files changed, 23 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/strace/{strace_4.20.bb => strace_4.22.bb} (85%)
+ meta/conf/distro/include/tcmode-default.inc   |   2 +-
+ .../gdb/{gdb-8.0.1.inc => gdb-8.1.inc}        |   5 +-
+ ...ian_8.0.1.bb => gdb-cross-canadian_8.1.bb} |   0
+ .../{gdb-cross_8.0.1.bb => gdb-cross_8.1.bb}  |   0
+ .../0001-include-sys-types.h-for-mode_t.patch |  12 +-
+ ...port-for-Renesas-SH-sh4-architecture.patch | 153 ++++++++----------
+ ...0012-Unbreak-GDBserver-build-for-x32.patch | 101 ------------
+ .../gdb/{gdb_8.0.1.bb => gdb_8.1.bb}          |   0
+ 8 files changed, 80 insertions(+), 193 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-8.0.1.inc => gdb-8.1.inc} (85%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.0.1.bb => gdb-cross-canadian_8.1.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_8.0.1.bb => gdb-cross_8.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
+ rename meta/recipes-devtools/gdb/{gdb_8.0.1.bb => gdb_8.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/strace/strace/disable-git-version-gen.patch b/meta/recipes-devtools/strace/strace/disable-git-version-gen.patch
-index 76daf3a3b7..47b1139c53 100644
---- a/meta/recipes-devtools/strace/strace/disable-git-version-gen.patch
-+++ b/meta/recipes-devtools/strace/strace/disable-git-version-gen.patch
-@@ -5,16 +5,16 @@ Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
- 
--diff --git a/configure.ac b/configure.ac
--index 7004bd3..b2b03c6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -31,7 +31,7 @@
-+Index: strace-4.22/configure.ac
-+===================================================================
-+--- strace-4.22.orig/configure.ac
-++++ strace-4.22/configure.ac
-+@@ -32,7 +32,7 @@
-  
-  AC_PREREQ(2.57)
-  AC_INIT([strace],
- -	m4_esyscmd([./git-version-gen .tarball-version]),
- +	m4_esyscmd_s([cat .tarball-version]),
-- 	[strace-devel@lists.sourceforge.net],
-+ 	[strace-devel@lists.strace.io],
-  	[strace],
-  	[https://strace.io])
-diff --git a/meta/recipes-devtools/strace/strace/more-robust-test-for-m32-mx32-compile-support.patch b/meta/recipes-devtools/strace/strace/more-robust-test-for-m32-mx32-compile-support.patch
-index 756cd8bb82..3d4913d68e 100644
---- a/meta/recipes-devtools/strace/strace/more-robust-test-for-m32-mx32-compile-support.patch
-+++ b/meta/recipes-devtools/strace/strace/more-robust-test-for-m32-mx32-compile-support.patch
-@@ -22,25 +22,23 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-  m4/mpers.m4 | 2 ++
-  1 file changed, 2 insertions(+)
- 
--diff --git a/m4/mpers.m4 b/m4/mpers.m4
--index 1fe8a8e..d72c717 100644
----- a/m4/mpers.m4
--+++ b/m4/mpers.m4
--@@ -53,12 +53,14 @@ case "$arch" in
-- 	CFLAGS="$CFLAGS CFLAG $IFLAG"
-- 	AC_CACHE_CHECK([for CFLAG compile support], [st_cv_cc],
-+Index: strace-4.22/m4/mpers.m4
-+===================================================================
-+--- strace-4.22.orig/m4/mpers.m4
-++++ strace-4.22/m4/mpers.m4
-+@@ -108,6 +108,7 @@ case "$arch" in
-+ 	CFLAGS="$CFLAGS MPERS_CFLAGS $IFLAG"
-+ 	AC_CACHE_CHECK([for mpers_name personality compile support], [st_cv_cc],
-  		[AC_COMPILE_IFELSE([AC_LANG_SOURCE([[#include <stdint.h>
- +						     #include <sys/syscall.h>
-  						     int main(){return 0;}]])],
-  				   [st_cv_cc=yes],
-  				   [st_cv_cc=no])])
-- 	if test $st_cv_cc = yes; then
-- 		AC_CACHE_CHECK([for CFLAG runtime support], [st_cv_runtime],
-+@@ -115,6 +116,7 @@ case "$arch" in
-+ 		AC_CACHE_CHECK([for mpers_name personality runtime support],
-+ 			[st_cv_runtime],
-  			[AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <stdint.h>
- +							 #include <sys/syscall.h>
-  							 int main(){return 0;}]])],
-  				       [st_cv_runtime=yes],
-  				       [st_cv_runtime=no],
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/strace/strace_4.20.bb b/meta/recipes-devtools/strace/strace_4.22.bb
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 6dd0224812..5271b41860 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -25,7 +25,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+ GCCVERSION ?= "8.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.30%"
+-GDBVERSION ?= "8.0%"
++GDBVERSION ?= "8.1%"
+ GLIBCVERSION ?= "2.27%"
+ LINUXLIBCVERSION ?= "4.15%"
+ QEMUVERSION ?= "2.12%"
+diff --git a/meta/recipes-devtools/gdb/gdb-8.0.1.inc b/meta/recipes-devtools/gdb/gdb-8.1.inc
 similarity index 85%
-rename from meta/recipes-devtools/strace/strace_4.20.bb
-rename to meta/recipes-devtools/strace/strace_4.22.bb
-index 869c12f65a..196c9d8587 100644
---- a/meta/recipes-devtools/strace/strace_4.20.bb
-+++ b/meta/recipes-devtools/strace/strace_4.22.bb
-@@ -2,7 +2,7 @@ SUMMARY = "System call tracing tool"
- HOMEPAGE = "http://strace.io"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=f132b4d2adfccc63da4139a609367711"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6ddb91734b9c705f3e87362e97e5f64b"
+rename from meta/recipes-devtools/gdb/gdb-8.0.1.inc
+rename to meta/recipes-devtools/gdb/gdb-8.1.inc
+index 4a5299b73f..4d9faa2d4b 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.0.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.1.inc
+@@ -16,9 +16,8 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0009-Change-order-of-CFLAGS.patch \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+            file://package_devel_gdb_patches_120-sigprocmask-invalid-call.patch \
+-           file://0012-Unbreak-GDBserver-build-for-x32.patch \
+            file://gdb-Fix-ia64-defining-TRAP_HWBKPT-before-including-g.patch \
+ "
+-SRC_URI[md5sum] = "48cac527e6f3018b865ece021e9723ac"
+-SRC_URI[sha256sum] = "3dbd5f93e36ba2815ad0efab030dcd0c7b211d7b353a40a53f4c02d7d56295e3"
++SRC_URI[md5sum] = "f46487561f9a16916a8102316f7fd105"
++SRC_URI[sha256sum] = "af61a0263858e69c5dce51eab26662ff3d2ad9aa68da9583e8143b5426be4b34"
  
- SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://disable-git-version-gen.patch \
-@@ -15,12 +15,15 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-            "
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_8.0.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_8.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb b/meta/recipes-devtools/gdb/gdb-cross_8.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_8.0.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_8.1.bb
+diff --git a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch b/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+index 4f06d46d70..5d19380e30 100644
+--- a/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
++++ b/meta/recipes-devtools/gdb/gdb/0001-include-sys-types.h-for-mode_t.patch
+@@ -1,7 +1,7 @@
+-From 91da0458b333249eb9c2f4c1f1e53fa4bc085cc9 Mon Sep 17 00:00:00 2001
++From ff37f9360ab6f841f28ced9f23f66542febcc0f6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 19 Jan 2016 18:18:52 -0800
+-Subject: [PATCH 01/10] include sys/types.h for mode_t
++Subject: [PATCH 01/11] include sys/types.h for mode_t
+ 
+ mode_t is used in target.h, so we need to include sys/types.h to get the
+ defintion
+@@ -14,17 +14,17 @@ Upstream-Status: Pending
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/gdb/gdbserver/target.h b/gdb/gdbserver/target.h
+-index 3cc2bc4bab..e6b19b06b9 100644
++index 25accd2207..7f6bca8aa4 100644
+ --- a/gdb/gdbserver/target.h
+ +++ b/gdb/gdbserver/target.h
+-@@ -28,6 +28,7 @@
+- #include "target/waitstatus.h"
++@@ -29,6 +29,7 @@
+  #include "mem-break.h"
+  #include "btrace-common.h"
++ #include <vector>
+ +#include <sys/types.h>
+  
+  struct emit_ops;
+  struct buffer;
+ -- 
+-2.13.1
++2.17.0
+ 
+diff --git a/meta/recipes-devtools/gdb/gdb/0005-Add-support-for-Renesas-SH-sh4-architecture.patch b/meta/recipes-devtools/gdb/gdb/0005-Add-support-for-Renesas-SH-sh4-architecture.patch
+index cb1b7abd07..f678598284 100644
+--- a/meta/recipes-devtools/gdb/gdb/0005-Add-support-for-Renesas-SH-sh4-architecture.patch
++++ b/meta/recipes-devtools/gdb/gdb/0005-Add-support-for-Renesas-SH-sh4-architecture.patch
+@@ -1,7 +1,7 @@
+-From 60ac68f601885ea6480229a5c8a89a0257da376c Mon Sep 17 00:00:00 2001
++From 8757b36be6109f6d7ea0bd8dafbaed647e0d2192 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 2 Mar 2015 02:31:12 +0000
+-Subject: [PATCH 05/10] Add support for Renesas SH (sh4) architecture.
++Subject: [PATCH 05/11] Add support for Renesas SH (sh4) architecture.
+ 
+ gdb (7.4-1~cvs20111117.2) experimental; urgency=low
+  .
+@@ -15,35 +15,35 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+  gdb/Makefile.in                      |   2 +
+  gdb/configure.host                   |   1 +
+- gdb/sh-linux-tdep.c                  | 519 +++++++++++++++++++++++++++++++++++
+- gdb/sh-tdep.c                        |  54 ++--
+- gdb/sh-tdep.h                        |  49 ++++
++ gdb/sh-linux-tdep.c                  | 519 +++++++++++++++++++++++++++
++ gdb/sh-tdep.c                        |  53 ++-
++ gdb/sh-tdep.h                        |  49 +++
+  gdb/testsuite/gdb.asm/asm-source.exp |   5 +
+  gdb/testsuite/gdb.asm/sh.inc         |   3 +-
+  gdb/testsuite/gdb.base/annota1.c     |   3 +
+  gdb/testsuite/gdb.base/annota3.c     |   4 +
+  gdb/testsuite/gdb.base/sigall.c      |   3 +
+  gdb/testsuite/gdb.base/signals.c     |   4 +
+- 11 files changed, 618 insertions(+), 29 deletions(-)
++ 11 files changed, 617 insertions(+), 29 deletions(-)
+ 
+-diff --git a/gdb/Makefile.in b/gdb/Makefile.in
+-index 8be73ba423..e287ff6a2e 100644
+---- a/gdb/Makefile.in
+-+++ b/gdb/Makefile.in
+-@@ -2638,6 +2638,8 @@ ALLDEPFILES = \
+- 	sh-nbsd-tdep.c \
+- 	sh-tdep.c \
+- 	sh64-tdep.c \
+-+	sh-linux-tdep.c \
+-+	sh-linux-nat.c \
+- 	sol2-tdep.c \
+- 	solib-aix.c \
+- 	solib-spu.c \
+-diff --git a/gdb/configure.host b/gdb/configure.host
+-index d74fd04934..be12de1446 100644
+---- a/gdb/configure.host
+-+++ b/gdb/configure.host
+-@@ -150,6 +150,7 @@ powerpc*-*-linux*)	gdb_host=linux ;;
++Index: gdb-8.1/gdb/Makefile.in
++===================================================================
++--- gdb-8.1.orig/gdb/Makefile.in
+++++ gdb-8.1/gdb/Makefile.in
++@@ -758,6 +758,8 @@ ALL_TARGET_OBS = \
++ 	sh-linux-tdep.o \
++ 	sh-nbsd-tdep.o \
++ 	sh-tdep.o \
+++	sh-linux-tdep.o \
+++	sh-linux-nat.o \
++ 	sh64-tdep.o \
++ 	sol2-tdep.o \
++ 	solib-aix.o \
++Index: gdb-8.1/gdb/configure.host
++===================================================================
++--- gdb-8.1.orig/gdb/configure.host
+++++ gdb-8.1/gdb/configure.host
++@@ -152,6 +152,7 @@ powerpc*-*-linux*)	gdb_host=linux ;;
+  
+  s390*-*-linux*)		gdb_host=linux ;;
+  
+@@ -51,10 +51,10 @@ index d74fd04934..be12de1446 100644
+  sh*-*-netbsdelf* | sh*-*-knetbsd*-gnu)
+  			gdb_host=nbsd ;;
+  sh*-*-openbsd*)		gdb_host=nbsd ;;
+-diff --git a/gdb/sh-linux-tdep.c b/gdb/sh-linux-tdep.c
+-index c5c745d218..84e539aad3 100644
+---- a/gdb/sh-linux-tdep.c
+-+++ b/gdb/sh-linux-tdep.c
++Index: gdb-8.1/gdb/sh-linux-tdep.c
++===================================================================
++--- gdb-8.1.orig/gdb/sh-linux-tdep.c
+++++ gdb-8.1/gdb/sh-linux-tdep.c
+ @@ -18,14 +18,37 @@
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+  
+@@ -93,7 +93,7 @@ index c5c745d218..84e539aad3 100644
+  #include "glibc-tdep.h"
+  #include "sh-tdep.h"
+  #include "linux-tdep.h"
+-@@ -180,9 +203,505 @@ static struct tramp_frame sh_linux_rt_sigreturn_tramp_frame = {
++@@ -180,9 +203,505 @@ static struct tramp_frame sh_linux_rt_si
+    sh_linux_rt_sigreturn_init
+  };
+  
+@@ -599,10 +599,10 @@ index c5c745d218..84e539aad3 100644
+    linux_init_abi (info, gdbarch);
+  
+    /* GNU/Linux uses SVR4-style shared libraries.  */
+-diff --git a/gdb/sh-tdep.c b/gdb/sh-tdep.c
+-index 2c2b26847d..14f5281ed4 100644
+---- a/gdb/sh-tdep.c
+-+++ b/gdb/sh-tdep.c
++Index: gdb-8.1/gdb/sh-tdep.c
++===================================================================
++--- gdb-8.1.orig/gdb/sh-tdep.c
+++++ gdb-8.1/gdb/sh-tdep.c
+ @@ -21,6 +21,9 @@
+     sac@cygnus.com.  */
+  
+@@ -613,15 +613,7 @@ index 2c2b26847d..14f5281ed4 100644
+  #include "frame.h"
+  #include "frame-base.h"
+  #include "frame-unwind.h"
+-@@ -35,6 +38,7 @@
+- #include "arch-utils.h"
+- #include "floatformat.h"
+- #include "regcache.h"
+-+#include "regset.h"
+- #include "doublest.h"
+- #include "osabi.h"
+- #include "reggroups.h"
+-@@ -68,23 +72,6 @@ static const char *const sh_cc_enum[] = {
++@@ -67,23 +70,6 @@ static const char *const sh_cc_enum[] =
+  
+  static const char *sh_active_calling_convention = sh_cc_gcc;
+  
+@@ -645,7 +637,7 @@ index 2c2b26847d..14f5281ed4 100644
+  static int
+  sh_is_renesas_calling_convention (struct type *func_type)
+  {
+-@@ -1052,7 +1039,7 @@ sh_treat_as_flt_p (struct type *type)
++@@ -1051,7 +1037,7 @@ sh_treat_as_flt_p (struct type *type)
+      return 0;
+    /* Otherwise if the type of that member is float, the whole type is
+       treated as float.  */
+@@ -654,7 +646,7 @@ index 2c2b26847d..14f5281ed4 100644
+      return 1;
+    /* Otherwise it's not treated as float.  */
+    return 0;
+-@@ -1102,7 +1089,7 @@ sh_push_dummy_call_fpu (struct gdbarch *gdbarch,
++@@ -1101,7 +1087,7 @@ sh_push_dummy_call_fpu (struct gdbarch *
+       in four registers available.  Loop thru args from first to last.  */
+    for (argnum = 0; argnum < nargs; argnum++)
+      {
+@@ -663,7 +655,7 @@ index 2c2b26847d..14f5281ed4 100644
+        len = TYPE_LENGTH (type);
+        val = sh_justify_value_in_reg (gdbarch, args[argnum], len);
+  
+-@@ -1828,7 +1815,7 @@ sh_dwarf2_frame_init_reg (struct gdbarch *gdbarch, int regnum,
++@@ -1835,7 +1821,7 @@ sh_dwarf2_frame_init_reg (struct gdbarch
+      reg->how = DWARF2_FRAME_REG_UNDEFINED;
+  }
+  
+@@ -672,7 +664,7 @@ index 2c2b26847d..14f5281ed4 100644
+  sh_alloc_frame_cache (void)
+  {
+    struct sh_frame_cache *cache;
+-@@ -1855,7 +1842,7 @@ sh_alloc_frame_cache (void)
++@@ -1862,7 +1848,7 @@ sh_alloc_frame_cache (void)
+    return cache;
+  }
+  
+@@ -681,7 +673,7 @@ index 2c2b26847d..14f5281ed4 100644
+  sh_frame_cache (struct frame_info *this_frame, void **this_cache)
+  {
+    struct gdbarch *gdbarch = get_frame_arch (this_frame);
+-@@ -1922,9 +1909,9 @@ sh_frame_cache (struct frame_info *this_frame, void **this_cache)
++@@ -1929,9 +1915,9 @@ sh_frame_cache (struct frame_info *this_
+    return cache;
+  }
+  
+@@ -694,7 +686,7 @@ index 2c2b26847d..14f5281ed4 100644
+  {
+    struct gdbarch *gdbarch = get_frame_arch (this_frame);
+    struct sh_frame_cache *cache = sh_frame_cache (this_frame, this_cache);
+-@@ -1938,7 +1925,7 @@ sh_frame_prev_register (struct frame_info *this_frame,
++@@ -1945,7 +1931,7 @@ sh_frame_prev_register (struct frame_inf
+       the current frame.  Frob regnum so that we pull the value from
+       the correct place.  */
+    if (regnum == gdbarch_pc_regnum (gdbarch))
+@@ -703,7 +695,7 @@ index 2c2b26847d..14f5281ed4 100644
+  
+    if (regnum < SH_NUM_REGS && cache->saved_regs[regnum] != -1)
+      return frame_unwind_got_memory (this_frame, regnum,
+-@@ -2247,8 +2234,8 @@ sh_return_in_first_hidden_param_p (struct gdbarch *gdbarch,
++@@ -2254,8 +2240,8 @@ sh_return_in_first_hidden_param_p (struc
+  static struct gdbarch *
+  sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
+  {
+@@ -713,7 +705,7 @@ index 2c2b26847d..14f5281ed4 100644
+  
+    /* SH5 is handled entirely in sh64-tdep.c.  */
+    if (info.bfd_arch_info->mach == bfd_mach_sh5)
+-@@ -2264,6 +2251,18 @@ sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
++@@ -2271,6 +2257,18 @@ sh_gdbarch_init (struct gdbarch_info inf
+    tdep = XCNEW (struct gdbarch_tdep);
+    gdbarch = gdbarch_alloc (&info, tdep);
+  
+@@ -732,7 +724,7 @@ index 2c2b26847d..14f5281ed4 100644
+    set_gdbarch_short_bit (gdbarch, 2 * TARGET_CHAR_BIT);
+    set_gdbarch_int_bit (gdbarch, 4 * TARGET_CHAR_BIT);
+    set_gdbarch_long_bit (gdbarch, 4 * TARGET_CHAR_BIT);
+-@@ -2418,10 +2417,11 @@ sh_gdbarch_init (struct gdbarch_info info, struct gdbarch_list *arches)
++@@ -2425,10 +2423,11 @@ sh_gdbarch_init (struct gdbarch_info inf
+        break;
+      }
+  
+@@ -745,10 +737,10 @@ index 2c2b26847d..14f5281ed4 100644
+    frame_unwind_append_unwinder (gdbarch, &sh_stub_unwind);
+    frame_unwind_append_unwinder (gdbarch, &sh_frame_unwind);
+  
+-diff --git a/gdb/sh-tdep.h b/gdb/sh-tdep.h
+-index d15ef050e0..c4642cefa4 100644
+---- a/gdb/sh-tdep.h
+-+++ b/gdb/sh-tdep.h
++Index: gdb-8.1/gdb/sh-tdep.h
++===================================================================
++--- gdb-8.1.orig/gdb/sh-tdep.h
+++++ gdb-8.1/gdb/sh-tdep.h
+ @@ -21,6 +21,12 @@
+  
+  /* Contributed by Steve Chamberlain sac@cygnus.com.  */
+@@ -828,10 +820,10 @@ index d15ef050e0..c4642cefa4 100644
+    /* Non-NULL when debugging from a core file.  Provides the offset
+       where each general-purpose register is stored inside the associated
+       core file section.  */
+-diff --git a/gdb/testsuite/gdb.asm/asm-source.exp b/gdb/testsuite/gdb.asm/asm-source.exp
+-index e07e5543f2..f5e60e1002 100644
+---- a/gdb/testsuite/gdb.asm/asm-source.exp
+-+++ b/gdb/testsuite/gdb.asm/asm-source.exp
++Index: gdb-8.1/gdb/testsuite/gdb.asm/asm-source.exp
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.asm/asm-source.exp
+++++ gdb-8.1/gdb/testsuite/gdb.asm/asm-source.exp
+ @@ -116,6 +116,11 @@ switch -glob -- [istarget] {
+              append link-flags " -m elf32ppc"
+          }
+@@ -844,10 +836,10 @@ index e07e5543f2..f5e60e1002 100644
+      "sh*-*-*" {
+          set asm-arch sh
+  	set debug-flags "-gdwarf-2"
+-diff --git a/gdb/testsuite/gdb.asm/sh.inc b/gdb/testsuite/gdb.asm/sh.inc
+-index a4a5fc545e..89efed7795 100644
+---- a/gdb/testsuite/gdb.asm/sh.inc
+-+++ b/gdb/testsuite/gdb.asm/sh.inc
++Index: gdb-8.1/gdb/testsuite/gdb.asm/sh.inc
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.asm/sh.inc
+++++ gdb-8.1/gdb/testsuite/gdb.asm/sh.inc
+ @@ -40,9 +40,8 @@
+  	mov.l   .Lconst\@,r1
+  	bra	.Lafterconst\@
+@@ -859,10 +851,10 @@ index a4a5fc545e..89efed7795 100644
+  	.long	\subr
+  	.align	1
+  .Lafterconst\@:
+-diff --git a/gdb/testsuite/gdb.base/annota1.c b/gdb/testsuite/gdb.base/annota1.c
+-index 424e1b8327..0de2e7b633 100644
+---- a/gdb/testsuite/gdb.base/annota1.c
+-+++ b/gdb/testsuite/gdb.base/annota1.c
++Index: gdb-8.1/gdb/testsuite/gdb.base/annota1.c
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.base/annota1.c
+++++ gdb-8.1/gdb/testsuite/gdb.base/annota1.c
+ @@ -1,6 +1,9 @@
+  #include <stdio.h>
+  #include <signal.h>
+@@ -873,10 +865,10 @@ index 424e1b8327..0de2e7b633 100644
+  
+  void
+  handle_USR1 (int sig)
+-diff --git a/gdb/testsuite/gdb.base/annota3.c b/gdb/testsuite/gdb.base/annota3.c
+-index 424e1b8327..952aaf218a 100644
+---- a/gdb/testsuite/gdb.base/annota3.c
+-+++ b/gdb/testsuite/gdb.base/annota3.c
++Index: gdb-8.1/gdb/testsuite/gdb.base/annota3.c
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.base/annota3.c
+++++ gdb-8.1/gdb/testsuite/gdb.base/annota3.c
+ @@ -1,6 +1,10 @@
+  #include <stdio.h>
+  #include <signal.h>
+@@ -888,10 +880,10 @@ index 424e1b8327..952aaf218a 100644
+  
+  void
+  handle_USR1 (int sig)
+-diff --git a/gdb/testsuite/gdb.base/sigall.c b/gdb/testsuite/gdb.base/sigall.c
+-index 81f3b08d6b..1574b2d6cb 100644
+---- a/gdb/testsuite/gdb.base/sigall.c
+-+++ b/gdb/testsuite/gdb.base/sigall.c
++Index: gdb-8.1/gdb/testsuite/gdb.base/sigall.c
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.base/sigall.c
+++++ gdb-8.1/gdb/testsuite/gdb.base/sigall.c
+ @@ -1,6 +1,9 @@
+  #include <signal.h>
+  #include <unistd.h>
+@@ -902,10 +894,10 @@ index 81f3b08d6b..1574b2d6cb 100644
+  
+  /* Signal handlers, we set breakpoints in them to make sure that the
+     signals really get delivered.  */
+-diff --git a/gdb/testsuite/gdb.base/signals.c b/gdb/testsuite/gdb.base/signals.c
+-index 756606880f..1205a9bc9c 100644
+---- a/gdb/testsuite/gdb.base/signals.c
+-+++ b/gdb/testsuite/gdb.base/signals.c
++Index: gdb-8.1/gdb/testsuite/gdb.base/signals.c
++===================================================================
++--- gdb-8.1.orig/gdb/testsuite/gdb.base/signals.c
+++++ gdb-8.1/gdb/testsuite/gdb.base/signals.c
+ @@ -3,6 +3,10 @@
+  #include <signal.h>
+  #include <unistd.h>
+@@ -917,6 +909,3 @@ index 756606880f..1205a9bc9c 100644
+  
+  static int count = 0;
+  
+--- 
+-2.13.1
 -
--SRC_URI[md5sum] = "f2271ab0fac49ebee9cbd7f3469227cb"
--SRC_URI[sha256sum] = "5bf3148dd17306a42566f7da17368fdd781afa147db05ea63a4ca2b50f58c523"
-+SRC_URI[md5sum] = "7a2a7d7715da6e6834bc65bd09bace1c"
-+SRC_URI[sha256sum] = "068cd09264c95e4d591bbcd3ea08f99a693ed8663cd5169b0fdad72eb5bdb39d"
- 
- inherit autotools ptest bluetooth
- 
-+EXTRA_OECONF += "--enable-mpers=no"
-+
-+CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
-+
- RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
- 
- PACKAGECONFIG_class-target ??= "\
+diff --git a/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch b/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
+deleted file mode 100644
+index 18a3ce3d63..0000000000
+--- a/meta/recipes-devtools/gdb/gdb/0012-Unbreak-GDBserver-build-for-x32.patch
++++ /dev/null
+@@ -1,101 +0,0 @@
+-From 3e1e401053ea5f02a9e9c65abddd31a03baa1bd1 Mon Sep 17 00:00:00 2001
+-From: Yao Qi <yao.qi@linaro.org>
+-Date: Fri, 29 Dec 2017 12:57:25 +0800
+-Subject: [PATCH] Unbreak GDBserver build for x32
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-When I verify my target description changes, I build GDB and GDBserver for
+-x32, but it failed.
+-
+-/../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c
+-../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c: In function ‘const target_desc* get_ipa_tdesc(int)’:
+-../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:184:10: error: ‘X86_TDESC_AVX512’ was not declared in this scope
+-     case X86_TDESC_AVX512:
+-          ^
+-../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:185:14: error: ‘tdesc_x32_avx512_linux’ was not declared in this scope
+-       return tdesc_x32_avx512_linux;
+-              ^
+-../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c: In function ‘void initialize_low_tracepoint()’:
+-../../../binutils-gdb/gdb/gdbserver/linux-amd64-ipa.c:282:36: error: ‘init_registers_x32_avx512_linux’ was not declared in this scope
+-   init_registers_x32_avx512_linux ();
+-                                    ^
+-
+-ipa_x32_linux_regobj use to be there, but removed by
+-22049425ce40324139be82d9a6ec518c46b65815 by mistake.
+-
+-gdb/gdbserver:
+-
+-2017-08-04  Yao Qi  <yao.qi@linaro.org>
+-
+-        * configure.srv (ipa_x32_linux_regobj): New.
+-        * linux-amd64-ipa.c (get_ipa_tdesc): Use X86_TDESC_AVX_AVX512
+-        instead of X86_TDESC_AVX512.
+-        (initialize_low_tracepoint): Call
+-        init_registers_x32_avx_avx512_linux.
+-
+-Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=f02fd7745d003d65fd3b981618e07b874b721d79]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- ChangeLog                       | 8 ++++++++
+- gdb/gdbserver/configure.srv     | 1 +
+- gdb/gdbserver/linux-amd64-ipa.c | 6 +++---
+- 3 files changed, 12 insertions(+), 3 deletions(-)
+-
+-diff --git a/ChangeLog b/ChangeLog
+-index 4ac2d63..b5b8228 100644
+---- a/ChangeLog
+-+++ b/ChangeLog
+-@@ -1,3 +1,11 @@
+-+ 2017-08-04  Yao Qi  <yao.qi@linaro.org>
+-+
+-+	* configure.srv (ipa_x32_linux_regobj): New.
+-+	* linux-amd64-ipa.c (get_ipa_tdesc): Use X86_TDESC_AVX_AVX512
+-+	instead of X86_TDESC_AVX512.
+-+	(initialize_low_tracepoint): Call
+-+	init_registers_x32_avx_avx512_linux.
+-+
+- 2017-04-13  Andrew Jenner  <andrew@codesourcery.com>
+- 
+- 	* config.sub: Sync with master version in config project.
+-diff --git a/gdb/gdbserver/configure.srv b/gdb/gdbserver/configure.srv
+-index d00d9e2..56951c8 100644
+---- a/gdb/gdbserver/configure.srv
+-+++ b/gdb/gdbserver/configure.srv
+-@@ -31,6 +31,7 @@ srv_amd64_linux_regobj="amd64-linux.o amd64-avx-linux.o amd64-avx-avx512-linux.o
+- 
+- ipa_i386_linux_regobj="i386-linux-ipa.o i386-avx-linux-ipa.o  i386-avx-mpx-linux-ipa.o i386-avx-avx512-linux-ipa.o i386-avx-mpx-avx512-pku-linux-ipa.o i386-mpx-linux-ipa.o i386-mmx-linux-ipa.o"
+- ipa_amd64_linux_regobj="amd64-linux-ipa.o amd64-avx-linux-ipa.o amd64-avx-mpx-linux-ipa.o amd64-avx-avx512-linux-ipa.o amd64-avx-mpx-avx512-pku-linux-ipa.o amd64-mpx-linux-ipa.o"
+-+ipa_x32_linux_regobj="x32-linux-ipa.o x32-avx-linux-ipa.o x32-avx-avx512-linux-ipa.o"
+- ipa_ppc_linux_regobj="powerpc-32l-ipa.o powerpc-altivec32l-ipa.o powerpc-cell32l-ipa.o powerpc-vsx32l-ipa.o powerpc-isa205-32l-ipa.o powerpc-isa205-altivec32l-ipa.o powerpc-isa205-vsx32l-ipa.o powerpc-e500l-ipa.o powerpc-64l-ipa.o powerpc-altivec64l-ipa.o powerpc-cell64l-ipa.o powerpc-vsx64l-ipa.o powerpc-isa205-64l-ipa.o powerpc-isa205-altivec64l-ipa.o powerpc-isa205-vsx64l-ipa.o"
+- 
+- srv_i386_32bit_xmlfiles="i386/32bit-core.xml i386/32bit-sse.xml i386/32bit-avx.xml i386/32bit-avx512.xml i386/32bit-mpx.xml i386/32bit-pkeys.xml"
+-diff --git a/gdb/gdbserver/linux-amd64-ipa.c b/gdb/gdbserver/linux-amd64-ipa.c
+-index 67f36c2..683339b 100644
+---- a/gdb/gdbserver/linux-amd64-ipa.c
+-+++ b/gdb/gdbserver/linux-amd64-ipa.c
+-@@ -181,8 +181,8 @@ get_ipa_tdesc (int idx)
+-       return tdesc_x32_linux;
+-     case X86_TDESC_AVX:
+-       return tdesc_x32_avx_linux;
+--    case X86_TDESC_AVX512:
+--      return tdesc_x32_avx512_linux;
+-+    case X86_TDESC_AVX_AVX512:
+-+      return tdesc_x32_avx_avx512_linux;
+-     default:
+-       break;
+-     }
+-@@ -279,7 +279,7 @@ initialize_low_tracepoint (void)
+- #if defined __ILP32__
+-   init_registers_x32_linux ();
+-   init_registers_x32_avx_linux ();
+--  init_registers_x32_avx512_linux ();
+-+  init_registers_x32_avx_avx512_linux ();
+- #else
+-   init_registers_amd64_linux ();
+-   init_registers_amd64_avx_linux ();
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/gdb/gdb_8.0.1.bb b/meta/recipes-devtools/gdb/gdb_8.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_8.0.1.bb
+rename to meta/recipes-devtools/gdb/gdb_8.1.bb
 -- 
 2.17.0
 
