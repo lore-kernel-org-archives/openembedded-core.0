@@ -1,52 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 32EB774F28
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id EF09974F28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 16:16:49 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id t7-v6so17287355itf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 09:16:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KuzpJ2cjRxU1dK3zHhpc6+ruu4ZeMraznEEo33iNe70=;
-	b=KsKL0oNj58YIlMoUhvoHbna0CYzYCy//Ojel1wBvpyr9x5D3OCIQLgr+zHhScWpPw9
-	uy1HQVns44N19BzvLjyYeaji5gyIymFOnIPj/70PgyMNBuB0LqWHYMVY/PfMaCUVpjQf
-	GUjjyuQZlLUNC4px31OPtoFnZcYD00kBixkq//h0oCs5YLWYiSYhpF2oklWOj+N+GrNQ
-	8+y2VlJDp3YmdowCMlZGH9SkUnV2Iv21VCOni/2Yjn6OaWQwg7BMJagjFboXlXENfjfM
-	vs9GQ2LTcY9kDHZQ7odbqN3lSwn0yxf/Y/GZ93Q4Wr51b1mXwRGMuUn60OzFtWINr4+D
-	TEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=KuzpJ2cjRxU1dK3zHhpc6+ruu4ZeMraznEEo33iNe70=;
-	b=TEy6Awk19EVrhfUAY0T4HktlXUNXBhY2lUyk3HyQEk+Nkt0RpMcX2zHIj/czQruonK
-	QD8dYtwEJyPs1LMwU40tznB7b0n+2Dy+lmfK8HrOjcB674r6QdLVg3/Ne26TnVKT0UpE
-	7GMp4qFvVg3aUzDhH2qRkWLNUjF6UdCQilbUUkVGA4JpYQi/EzsWXQKCSrohL3nW/f6X
-	676HJPNJuc1BmDsuO10rp+RGVhoLxbLubPOUdu/Y5Y6Y2EZkNRIJ7foKlMgCUyYMDy7R
-	cy4bpPehS5LYaNZYQLiSYLHfFPro8oy6N26RJQAZUgNqBYNQ1IiA4/b1haMS6UaStx3d
-	WZSQ==
-X-Gm-Message-State: ALKqPwdhs4obNfZK7gII3jyWBv1VmguR1n/HT8vdOMTNibVdKR+Wvdc8
-	aHJGBfaN6mvJaPTpfXl0RICoJWwwT5G/CHtHBf/Iwg==
-X-Google-Smtp-Source: AB8JxZrGFHs5/aDAdZy9/rnwTOKAcbwiC1uEthCH/7AQAmSsYt5KUWUL1k3gceWOBaWSCLrcBmrqif8TZKaxtF4+p30=
-X-Received: by 2002:a24:3a0a:: with SMTP id
-	m10-v6mr11179681itm.45.1525882610966; 
-	Wed, 09 May 2018 09:16:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Wed, 9 May 2018 09:16:30 -0700 (PDT)
-In-Reply-To: <3120035.nktNMt2fzU@yow-masselst-lx1>
+	Wed,  9 May 2018 16:19:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DC5E920AF1;
+	Wed,  9 May 2018 16:19:18 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 8bqlAwsBPrVG; Wed,  9 May 2018 16:19:18 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 9FAC72079D;
+	Wed,  9 May 2018 16:19:16 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 2790716345C; Wed,  9 May 2018 12:19:16 -0400 (EDT)
+Date: Wed, 9 May 2018 12:19:16 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20180509161916.GA19965@denix.org>
 References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<3814374.oaZWZoq0et@yow-masselst-lx1>
-	<CAJTo0LaHtEh3JBQqnsx1v6c31jbTYe2jLUztLtpiqwDi+W3nLg@mail.gmail.com>
-	<3120035.nktNMt2fzU@yow-masselst-lx1>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 May 2018 17:16:30 +0100
-Message-ID: <CAJTo0LbbNr-JEyfuyB+w6bHTnZ7h8NQ_tnRbKGh6SqCXBKBd9w@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+	<20180508211844.GA2573@jama> <20180508212815.GX3228@denix.org>
+	<CA+chaQftORdJ=xzoEh4z8DzoS+zX=xnVy8Ns=ju3c+Ny5UNZMA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CA+chaQftORdJ=xzoEh4z8DzoS+zX=xnVy8Ns=ju3c+Ny5UNZMA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,121 +44,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 16:16:50 -0000
-Content-Type: multipart/alternative; boundary="000000000000fefd9c056bc83a11"
+X-List-Received-Date: Wed, 09 May 2018 16:19:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---000000000000fefd9c056bc83a11
-Content-Type: text/plain; charset="UTF-8"
+On Tue, May 08, 2018 at 11:33:25PM +0200, Martin Jansa wrote:
+> It's possible to remove them globally with:
+> meta/classes/remove-libtool.bbclass
+> but mesa.inc already removes some of the .la files selectively, so it would
+> be nice to keep it working even for DISTROs which don't inherit
+> remove-libtool bbclass (for whatever reason).
 
-Good news: Denys beat you.
+Ok, sent a patch to remove all libwayland-egl files, not just .so - should 
+take care of .la as well.
 
-Ross
 
-On 9 May 2018 at 17:09, Mark Asselstine <mark.asselstine@windriver.com>
-wrote:
-
-> On Wednesday, May 9, 2018 12:03:26 PM EDT Burton, Ross wrote:
-> > On 9 May 2018 at 17:00, Mark Asselstine <mark.asselstine@windriver.com>
+> On Tue, May 8, 2018 at 11:28 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> 
+> > On Tue, May 08, 2018 at 11:18:44PM +0200, Martin Jansa wrote:
+> > > On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:
+> > > > From: Denys Dmytriyenko <denys@ti.com>
+> > > >
+> > > > Official announcement:
+> > > > https://lists.freedesktop.org/archives/wayland-devel/2018-
+> > April/037767.html
+> > > >
+> > > > | libwayland-egl is now part of libwayland, and will presumably be
+> > removed
+> > > > | from mesa in the not too distant future.
+> > > >
+> > > > Update mesa recipe by removing corresponding libwayland-egl entries.
+> > > >
+> > > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > > > ---
+> > > >  meta/recipes-graphics/mesa/mesa.inc                                |
+> > 7 ++++---
+> > > >  .../wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb}               |
+> > 4 ++--
+> > > >  2 files changed, 6 insertions(+), 5 deletions(-)
+> > > >  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb =>
+> > wayland_1.15.0.bb} (92%)
+> > > >
+> > > > diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> > b/meta/recipes-graphics/mesa/mesa.inc
+> > > > index b501b7e..c3a8e76 100644
+> > > > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > > > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > > > @@ -119,7 +119,6 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+> > > >               libgles1-mesa libgles1-mesa-dev \
+> > > >               libgles2-mesa libgles2-mesa-dev \
+> > > >               libgles3-mesa libgles3-mesa-dev \
+> > > > -             libwayland-egl libwayland-egl-dev \
+> > > >               libxatracker libxatracker-dev \
+> > > >               mesa-megadriver mesa-vulkan-drivers \
+> > > >              "
+> > > > @@ -134,6 +133,10 @@ do_install_append () {
+> > > >      # it was packaged in libdricore9.1.3-1 and preventing upgrades
+> > when debian.bbclass was used
+> > > >      rm -f ${D}${sysconfdir}/drirc
+> > > >      chrpath --delete ${D}${libdir}/dri/*_dri.so || true
+> > > > +
+> > > > +    # libwayland-egl has been moved to wayland 1.15+
+> > > > +    rm -f ${D}${libdir}/libwayland-egl.so*
+> > > > +    rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
+> > >
+> > > Shouldn't /usr/lib/libwayland-egl.la be removed as well? Now I'm getting
+> > > many do_prepare_recipe_sysroot failures because both mesa and wayland
+> > > provide this file.
 > >
-> > wrote:
-> > > I am also seeing build failures due to this conflict:
-> > >
-> > > ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/lib64/
-> > > libwayland-egl.la is installed by both wayland and mesa, aborting
-> > > ..
-> > > ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directories
-> were
-> > >
-> > > installed but not shipped in any package:
-> > >   /usr/lib64/libwayland-egl.la
-> > >
-> > > Please set FILES such that these items are packaged. Alternatively if
-> they
-> > > are
-> > > unneeded, avoid installing them or delete them within do_install.
-> > > mesa: 1 installed and not shipped files. [installed-vs-shipped]
-> > >
-> > > is someone working on a fix or should I take some time to put something
-> > > together?
+> > Don't we remove .la files in bulk? I didn't see this problem when I was
+> > testing it. Plus it went through Ross' mut branch, then master-next and
+> > presumably few autobuilder iterations?
 > >
-> > As it appears you can test quickly then I think you just drew the short
-> > straw.  Should be a trivial patch...
->
-> I knew that this had a 50/50 chance of going this way :). Lunch then a
-> fix. I
-> assume then we will go with Martin's suggestion of an explicit remove in
-> mesa.inc?
->
-> Mark
->
+> > I can make the change to also remove .la, if it's really required.
 > >
-> > Ross
->
->
->
->
->
+> >
+> > > >  }
+> > > >
+> > > >  # For the packages that make up the OpenGL interfaces, inject
+> > variables so that
+> > > > @@ -204,7 +207,6 @@ FILES_libgles2-mesa = "${libdir}/libGLESv2.so.*"
+> > > >  FILES_libgl-mesa = "${libdir}/libGL.so.*"
+> > > >  FILES_libglapi = "${libdir}/libglapi.so.*"
+> > > >  FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+> > > > -FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
+> > > >  FILES_libxatracker = "${libdir}/libxatracker.so.*"
+> > > >
+> > > >  FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan"
+> > > > @@ -216,7 +218,6 @@ FILES_libgles1-mesa-dev = "${libdir}/libGLESv1*.*
+> > ${includedir}/GLES ${libdir}/p
+> > > >  FILES_libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2
+> > ${libdir}/pkgconfig/glesv2.pc"
+> > > >  FILES_libgles3-mesa-dev = "${includedir}/GLES3"
+> > > >  FILES_libosmesa-dev = "${libdir}/libOSMesa.*
+> > ${includedir}/GL/osmesa.h ${libdir}/pkgconfig/osmesa.pc"
+> > > > -FILES_libwayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc
+> > ${libdir}/libwayland-egl.*"
+> > > >  FILES_libxatracker-dev = "${libdir}/libxatracker.so ${libdir}/
+> > libxatracker.la \
+> > > >                            ${includedir}/xa_tracker.h
+> > ${includedir}/xa_composite.h ${includedir}/xa_context.h \
+> > > >                            ${libdir}/pkgconfig/xatracker.pc"
+> > > > diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> > > > similarity index 92%
+> > > > rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > > > rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> > > > index 1a9ff98..788105b 100644
+> > > > --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > > > +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> > > > @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+> > > >  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.
+> > xz \
+> > > >        file://fixpathinpcfiles.patch \
+> > > >             "
+> > > > -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
+> > > > -SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aab
+> > fc1ec9a13c86c98bbe2b812f008da27ab8"
+> > > > +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
+> > > > +SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db8
+> > 00f587329067962dbf65e14488b4b7aeb0"
+> > > >
+> > > >  inherit autotools pkgconfig
+> > > >
+> > > > --
+> > > > 2.7.4
+> > > >
+> > > > --
+> > > > _______________________________________________
+> > > > Openembedded-core mailing list
+> > > > Openembedded-core@lists.openembedded.org
+> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > >
+> > > --
+> > > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
+> >
+> >
 
---000000000000fefd9c056bc83a11
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Good news: Denys beat you.<div><br></div><div>Ross</div></=
-div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 9 May 2018=
- at 17:09, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.ass=
-elstine@windriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed=
-nesday, May 9, 2018 12:03:26 PM EDT Burton, Ross wrote:<br>
-&gt; On 9 May 2018 at 17:00, Mark Asselstine &lt;<a href=3D"mailto:mark.ass=
-elstine@windriver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
-&gt; <br>
-&gt; wrote:<br>
-&gt; &gt; I am also seeing build failures due to this conflict:<br>
-&gt; &gt; <br>
-&gt; &gt; ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/=
-lib64/<br>
-&gt; &gt; <a href=3D"http://libwayland-egl.la" rel=3D"noreferrer" target=3D=
-"_blank">libwayland-egl.la</a> is installed by both wayland and mesa, abort=
-ing<br>
-&gt; &gt; ..<br>
-&gt; &gt; ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directo=
-ries were<br>
-&gt; &gt; <br>
-&gt; &gt; installed but not shipped in any package:<br>
-&gt; &gt;=C2=A0 =C2=A0/usr/lib64/<a href=3D"http://libwayland-egl.la" rel=
-=3D"noreferrer" target=3D"_blank">libwayland-egl.la</a><br>
-&gt; &gt; <br>
-&gt; &gt; Please set FILES such that these items are packaged. Alternativel=
-y if they<br>
-&gt; &gt; are<br>
-&gt; &gt; unneeded, avoid installing them or delete them within do_install.=
-<br>
-&gt; &gt; mesa: 1 installed and not shipped files. [installed-vs-shipped]<b=
-r>
-&gt; &gt; <br>
-&gt; &gt; is someone working on a fix or should I take some time to put som=
-ething<br>
-&gt; &gt; together?<br>
-&gt; <br>
-&gt; As it appears you can test quickly then I think you just drew the shor=
-t<br>
-&gt; straw.=C2=A0 Should be a trivial patch...<br>
-<br>
-</span>I knew that this had a 50/50 chance of going this way :). Lunch then=
- a fix. I <br>
-assume then we will go with Martin&#39;s suggestion of an explicit remove i=
-n <br>
-mesa.inc?<br>
-<br>
-Mark<br>
-<br>
-&gt; <br>
-&gt; Ross<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br></div>
-
---000000000000fefd9c056bc83a11--
