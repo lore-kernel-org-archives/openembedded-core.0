@@ -1,51 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DCCA8750D4
+Return-Path: <jon.szymaniak.foss@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ABFB2750DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 21:46:58 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id t12-v6so17639plo.7
+	Wed,  9 May 2018 21:46:59 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id q72-v6so781886itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 14:47:00 -0700 (PDT)
+	Wed, 09 May 2018 14:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1QqPt1X50oTQfgduhGCWiGOUdfpw2nrO/UKqMKDYSYY=;
-	b=rWg4LMW2/xlPg3ECzw/b928VaR2EXSUrT+Ilnss9QyomPFlk5MrbTQt1atBW6IUuYY
-	k19vFbSLMcY1cizmwWfKeDtqkg7vcpFW4Ss8gOdhQFo7t9UtcYUZ02XBpZzMrWgJdOZ3
-	gnHjmTZvFqKCIA10I0Z2XK3m8SqkvNCy0NliL9orMTXUrOW9N/w8+F7K/vCfsgz9N4uF
-	kApDmpGZbDYKhvTAc6Sr1MIX/iz5cCV62DTsIWWhIk5N55TGr6+iriB7rbVGC0VCliGB
-	UVCdVF71CcsUkT/3Ga+1OiVVybE7TfsrZYi+J0bUqlD/4OzKAajAC13LflI7kFNhG33o
-	mokg==
+	h=from:to:cc:subject:date:message-id;
+	bh=cX3hqooxlDWyKdYsYZwZpqeK70knDZgRx0hEJq/83D0=;
+	b=SWzhPiIdei6boJZ9tTXTMpU0+C1EcfUCsq8lOnPqVgSXsFlPjed9Ll3uwWehrZDgV9
+	5DEnViLnJkHV1FA5FeKISZByteXZqoHA7bfqkTWZmTXrwDVop+/gPJlr71L7ko7bzHsH
+	0M5zxw5KjAU3vyrogPBRkJ/sVtTiTcAHOoFH9zJtOR7AN2QF5kYQtiwCABKSTuEnNMJ/
+	GJq8uT0muVrHMDdBwHuzo0EMsuVDgt9bBbzZTEb8lxnYVbHw4U4F/bmaL37M4ILN+vXv
+	XWmz3t4/sQTQ+HQ60LhR2TdzfiVfWIEzHuPbWfLWJ/6A/JA6vfA/fV7hEfpw5D9wGb1s
+	VAuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=1QqPt1X50oTQfgduhGCWiGOUdfpw2nrO/UKqMKDYSYY=;
-	b=MnKKBgowwmCW6N7EuhJWc1z4Jppifdmlu3x4OCjxqtGLuYEA6wQhjaPAZ2nClpgAUb
-	wGgEFkH/B9E3XVL/V59jX1Zj/htnxTPITQapPEr44X2oBY4uXMfLddkPKPaMQVLW5a/7
-	aRAqaDOUfqp3IKn1mbYIkTxi5WdqMLLHFuudjmiJnJsJbhRfPIyWmq5Mipou/9AVig3Q
-	UOt/V/uP+z8eh8uh+Asas/Ssy6sxTFd7o7RrFo98gDisAcolWBhHUQbrskFFYKWN76WC
-	GTr8005P/Ia8a0Lxu6K3Aq6X9+WW748xzESqygb5GRc7f1k9qFW96AdkGJzzbOnau34U
-	kB9Q==
-X-Gm-Message-State: ALQs6tCoEeUuLInP3xvqq4bD7AdSxGfBUp7izL/bj4A6OypwLKmFu78F
-	58fbVRSi6l4EWjehpyNJaZpxmg==
-X-Google-Smtp-Source: AB8JxZo8V03nrxpFlshuVysE0Ijb/nG+CV9ceh6c9hRsX817ZeebpAHGq88/pOk7aDoi6OLaaC79dg==
-X-Received: by 2002:a17:902:8ec4:: with SMTP id
-	x4-v6mr46285161plo.370.1525902419962; 
-	Wed, 09 May 2018 14:46:59 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cX3hqooxlDWyKdYsYZwZpqeK70knDZgRx0hEJq/83D0=;
+	b=AL7ezW/b4bI8Bq18Yh0AoYOlugUcCCz2Dexa2JrQzu8zUrpdS6wjzFMfSf5+ZZDBym
+	fHIzesM2ZzEITwJUln/x+Xj6R/5EysnnUv9xvbaHdhObspnOLUXSdDly5kptqP2q1E6D
+	7vXfI86sQufwbnt1xSA4xegw9p9Ud6dvapLS3GD8VoyPZnVBXm24MLlkX34zFRmtig+h
+	cTO+KgvX1LqzQMFIvVMsyLt1CDOBaOXK5GQ6THq14H9xXp3Z1gEJFXzWPDpAFx6bMDd3
+	QMLE5Lx/YLgqFUeZyopK0B76elWVoYDbCgERwPX22W+SbOMVtaxYu3n4OeqjXTAteSl3
+	wmFA==
+X-Gm-Message-State: ALKqPweiskzxhpykEj2JdgCDWpHTjTUgspm5LU0ppaujmWdq1ocII4Lc
+	jND0UMUoU5zubhSFkpgWeZk3l7KL
+X-Google-Smtp-Source: AB8JxZqBToHhLb1JLkRanl4HcNIY8EGLuBZuPE1gD0xyVWOBBWvtneYNrqo9Dr5f9fjGqqANz03KEQ==
+X-Received: by 2002:a24:6806:: with SMTP id
+	v6-v6mr12212647itb.139.1525902420508; 
+	Wed, 09 May 2018 14:47:00 -0700 (PDT)
+Received: from localhost.localdomain ([199.15.128.78])
 	by smtp.gmail.com with ESMTPSA id
-	76-v6sm3699193pge.75.2018.05.09.14.46.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 May 2018 14:46:59 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	s10-v6sm12533292ioc.84.2018.05.09.14.46.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 09 May 2018 14:47:00 -0700 (PDT)
+From: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 14:46:44 -0700
-Message-Id: <1525902408-6796-4-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1525902408-6796-1-git-send-email-armccurdy@gmail.com>
-References: <1525902408-6796-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 4/8] distcc: move ASNEEDED over-ride into the distcc recipe
+Date: Wed,  9 May 2018 16:45:10 -0500
+Message-Id: <20180509214510.2210-1-jon.szymaniak.foss@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Cc: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
+Subject: [PATCH] cve-check.bbclass: detect CVE IDs listed on multiple lines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,102 +58,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 May 2018 21:46:59 -0000
 
-Move the recipe specific over-ride for ASNEEDED into the recipe to
-make it more apparent that the over-ride is being applied (and that
-it should be re-checked on version updates, etc).
+Some backported patches fix multiple CVEs and list the corresponding
+identifiers on multiple lines, rather than on a single line.
 
-Also misc minor recipe cleanup (re-order variables to follow the OE
-style guide, etc).
+cve-check.bbclass yields false positive warnings when CVE IDs are
+presented on multiple lines because re.search() returns only
+the first match.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+An example of this behavior may be found when running do_cve_check() on
+the wpa-supplicant recipe while in the rocko branch. Only CVE-2017-13077
+is reported to be patched by commit de57fd8, despite the patch including
+fixes for a total of 9 CVEs.
+
+This is resolved by iterating over all regular expression matches,
+rather than just the first.
+
+Signed-off-by: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
 ---
- meta/conf/distro/include/as-needed.inc     |  1 -
- meta/recipes-devtools/distcc/distcc_3.2.bb | 29 ++++++++++++++++++++---------
- 2 files changed, 20 insertions(+), 10 deletions(-)
+ meta/classes/cve-check.bbclass | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-index 91c0762..94f5b90 100644
---- a/meta/conf/distro/include/as-needed.inc
-+++ b/meta/conf/distro/include/as-needed.inc
-@@ -1,7 +1,6 @@
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index bc2f03f7dd..86e6a0ae90 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -146,15 +146,17 @@ def get_patches_cves(d):
+                 with open(patch_file, "r", encoding="iso8859-1") as f:
+                     patch_text = f.read()
  
- ASNEEDED = "-Wl,--as-needed"
+-        # Search for the "CVE: " line
+-        match = cve_match.search(patch_text)
+-        if match:
++        # Search for one or more "CVE: " lines
++        text_match = False
++        for match in cve_match.finditer(patch_text):
+             # Get only the CVEs without the "CVE: " tag
+             cves = patch_text[match.start()+5:match.end()]
+             for cve in cves.split():
+                 bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
+                 patched_cves.add(cve)
+-        elif not fname_match:
++                text_match = True
++
++        if not fname_match and not text_match:
+             bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
  
--ASNEEDED_pn-distcc = ""
- ASNEEDED_pn-openobex = ""
- ASNEEDED_pn-icu = ""
- ASNEEDED_pn-pciutils = ""
-diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.2.bb
-index ff0e22f..9f752ed 100644
---- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-@@ -7,13 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- DEPENDS = "avahi binutils"
- 
--PACKAGECONFIG ??= "popt"
--PACKAGECONFIG[gtk] = "--with-gtk,--without-gtk --without-gnome,gtk+"
--# use system popt by default
--PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
--
--RRECOMMENDS_${PN} = "avahi-daemon"
--
- SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
-            file://separatebuilddir.patch \
-            file://0001-zeroconf-Include-fcntl.h.patch \
-@@ -21,12 +14,26 @@ SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
-            file://distccmon-gnome.desktop \
-            file://distcc \
-            file://distcc.service"
-+
- SRCREV = "d8b18df3e9dcbe4f092bed565835d3975e99432c"
-+
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d useradd systemd
- 
--EXTRA_OECONF += "--disable-Werror PYTHON='' --disable-pump-mode"
-+PACKAGECONFIG ??= "popt"
-+
-+PACKAGECONFIG[gtk] = "--with-gtk,--without-gtk --without-gnome,gtk+"
-+# use system popt by default
-+PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
-+
-+EXTRA_OECONF += " \
-+    --disable-pump-mode \
-+    --disable-Werror \
-+    PYTHON='' \
-+"
-+
-+ASNEEDED = ""
- 
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM_${PN} = "--system \
-@@ -50,18 +57,22 @@ do_install_append() {
-     sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distcc.service
-     ${DESKTOPINSTALL}
- }
-+
- DESKTOPINSTALL = ""
- DESKTOPINSTALL_libc-glibc () {
-     install -d ${D}${datadir}/distcc/
-     install -m 0644 ${WORKDIR}/distccmon-gnome.desktop ${D}${datadir}/distcc/
- }
-+
- PACKAGES += "distcc-distmon-gnome"
- 
- FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
--    ${bindir}/lsdistcc \
-+		${bindir}/lsdistcc \
- 		${bindir}/distccd \
- 		${bindir}/distccmon-text \
- 		${systemd_unitdir}/system/distcc.service"
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
-+
-+RRECOMMENDS_${PN} = "avahi-daemon"
+     return patched_cves
 -- 
-1.9.1
+2.14.1
 
 
