@@ -1,51 +1,26 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B9FBD74F41
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 236AF74D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 15:59:30 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id y72-v6so37937972lfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 08:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=0e3qy0FJrnFDkubuQrnjfKRs9oIhEKHfignX1C+jbfM=;
-	b=TX6BmxYoha7SuZWFDcQa77LifaacA5vRfGr5pAgGGf+5TGa+LTSpIh83hH0qQNOcZq
-	YP9CGQQA4j0Z67mPk0s0E3ByjERm5zRRtR/cqik+q1uJU1qF0nbXENd9iVQ+flw6juSA
-	JUVKu83Lrloyz+r+0SsraWW098TUUrJnYq9hRqftmrmbSszxYFUUgCfXiEhcEya2grNE
-	wQNToaUQxTn7JS6Rr2B7kxZfgwnIpTNNhOePU1b6xm6+ci4iHvzGsB0+QP7tQfX3Wzhx
-	ozXZDHpR8t83iNUmX3rO+uoaz392qjv98/ypyf4LaVFcOO4E/KKmFMY0y9ID4OPIyW1+
-	X/EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-transfer-encoding;
-	bh=0e3qy0FJrnFDkubuQrnjfKRs9oIhEKHfignX1C+jbfM=;
-	b=I6rQ/Cqx/rVnrJsbyB4LWwuNN3R/n3Cxtom7W5XUUZUgmN9VrM2WDYYthHKrwnlSZY
-	AyBYG2ruTA9u+eLEb+PgwOlNbxn7tG1m3MQiFJaD2Ua4V12VKQyPSE74ReFefU836SEh
-	pRoxhJt7DMPOGuXBwgOiNPyJ/l/hrKUe6ffEjSDIl8oy1JfeUBuwQ5cJ59YLSN4hFOqN
-	/WtciyLZCl/9NbJ7QF8wPv/DAwTOiYpq720sijtH/iJMgMEQeNOBTOVKPsSPdwPU+Hgf
-	QGoFDnQGHtAtSoDdtV/YwZeuy5opmMa0SFSd/5+8w/2mJgLqptu4qfr5c618tTVJv5gE
-	5/zA==
-X-Gm-Message-State: ALKqPwfIkvoD9gd2T/q59X5je90K8oJBC4CdSXd/UAreaM4a6Vpy245q
-	A8EhExduDrPZAURjsc3LDPhg44OOZIaWiR3C8o2aHA==
-X-Google-Smtp-Source: AB8JxZqn6EwAc9XEfRPZeBe4FAYPHyvBhcZTu/z4TXQXmhZw9GRX0VcTaq8bFgE+1Xt0oWjH+6Z4VxZt8SRn231IVFI=
-X-Received: by 2002:a2e:650a:: with SMTP id
-	z10-v6mr12647981ljb.41.1525881570685; 
-	Wed, 09 May 2018 08:59:30 -0700 (PDT)
+	Wed,  9 May 2018 16:01:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w49G0EdV028006
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 May 2018 09:00:15 -0700 (PDT)
+Received: from yow-masselst-lx1.localnet (128.224.60.223) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 9 May 2018 09:00:10 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 May 2018 12:00:09 -0400
+Message-ID: <3814374.oaZWZoq0et@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <20180508211844.GA2573@jama>
+References: <1523387170-30191-1-git-send-email-denis@denix.org>
+	<20180508211844.GA2573@jama>
 MIME-Version: 1.0
-Received: by 2002:a19:380e:0:0:0:0:0 with HTTP;
-	Wed, 9 May 2018 08:59:30 -0700 (PDT)
-In-Reply-To: <20180509154920.5987-2-danismostlikely@gmail.com>
-References: <20180509154920.5987-1-danismostlikely@gmail.com>
-	<20180509154920.5987-2-danismostlikely@gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Wed, 9 May 2018 09:59:30 -0600
-Message-ID: <CACS+7ZSvNYxKYRbfph7SVuEd1084Zm0vtS62ANAKoqqoF7rYKw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: backport fix for newer gpg-error.
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,268 +33,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 15:59:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 May 2018 16:01:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 9 May 2018 at 09:49, Dan McGregor <danismostlikely@gmail.com> wrote:
-> From: Dan McGregor <dan.mcgregor@usask.ca>
->
-> Fix a #define conflict with new libgpg-error when gcrypt PACKAGECONFIG
-> option is enabled.
+On Tuesday, May 8, 2018 5:18:44 PM EDT Martin Jansa wrote:
+> On Tue, Apr 10, 2018 at 03:06:09PM -0400, Denys Dmytriyenko wrote:
+> > From: Denys Dmytriyenko <denys@ti.com>
+> > 
+> > Official announcement:
+> > https://lists.freedesktop.org/archives/wayland-devel/2018-April/037767.htm
+> > l
+> > 
+> > | libwayland-egl is now part of libwayland, and will presumably be removed
+> > | from mesa in the not too distant future.
+> > 
+> > Update mesa recipe by removing corresponding libwayland-egl entries.
+> > 
+> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > ---
+> > 
+> >  meta/recipes-graphics/mesa/mesa.inc                                | 7
+> >  ++++--- .../wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb}            
+> >    | 4 ++-- 2 files changed, 6 insertions(+), 5 deletions(-)
+> >  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb =>
+> >  wayland_1.15.0.bb} (92%)> 
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc
+> > b/meta/recipes-graphics/mesa/mesa.inc index b501b7e..c3a8e76 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -119,7 +119,6 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+> > 
+> >               libgles1-mesa libgles1-mesa-dev \
+> >               libgles2-mesa libgles2-mesa-dev \
+> >               libgles3-mesa libgles3-mesa-dev \
+> > 
+> > -             libwayland-egl libwayland-egl-dev \
+> > 
+> >               libxatracker libxatracker-dev \
+> >               mesa-megadriver mesa-vulkan-drivers \
+> >              
+> >              "
+> > 
+> > @@ -134,6 +133,10 @@ do_install_append () {
+> > 
+> >      # it was packaged in libdricore9.1.3-1 and preventing upgrades when
+> >      debian.bbclass was used rm -f ${D}${sysconfdir}/drirc
+> >      chrpath --delete ${D}${libdir}/dri/*_dri.so || true
+> > 
+> > +
+> > +    # libwayland-egl has been moved to wayland 1.15+
+> > +    rm -f ${D}${libdir}/libwayland-egl.so*
+> > +    rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
+> 
+> Shouldn't /usr/lib/libwayland-egl.la be removed as well? Now I'm getting
+> many do_prepare_recipe_sysroot failures because both mesa and wayland
+> provide this file.
 
-Looks like this is a duplicate.
+I am also seeing build failures due to this conflict:
 
->
-> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
-> ---
->  ...rename-noreturn-into-_noreturn_-8456.patch | 200 ++++++++++++++++++
->  meta/recipes-core/systemd/systemd_237.bb      |   1 +
->  2 files changed, 201 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-basic-macros-r=
-ename-noreturn-into-_noreturn_-8456.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd/0001-basic-macros-rename-n=
-oreturn-into-_noreturn_-8456.patch b/meta/recipes-core/systemd/systemd/0001=
--basic-macros-rename-noreturn-into-_noreturn_-8456.patch
-> new file mode 100644
-> index 00000000000..5e1d6383fc5
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0001-basic-macros-rename-noreturn=
--into-_noreturn_-8456.patch
-> @@ -0,0 +1,200 @@
-> +Upstream-Status: Backport
-> +
-> +From da2c92fd08f6ffb432de16128ff5670c91005e8f Mon Sep 17 00:00:00 2001
-> +From: Franck Bui <fbui@suse.com>
-> +Date: Thu, 15 Mar 2018 06:23:46 +0100
-> +Subject: [PATCH] basic/macros: rename noreturn into _noreturn_ (#8456)
-> +
-> +"noreturn" is reserved and can be used in other header files we include:
-> +
-> +  [   16s] In file included from /usr/include/gcrypt.h:30:0,
-> +  [   16s]                  from ../src/journal/journal-file.h:26,
-> +  [   16s]                  from ../src/journal/journal-vacuum.c:31:
-> +  [   16s] /usr/include/gpg-error.h:1544:46: error: expected =E2=80=98,=
-=E2=80=99 or =E2=80=98;=E2=80=99 before =E2=80=98)=E2=80=99 token
-> +  [   16s]  void gpgrt_log_bug (const char *fmt, ...)    GPGRT_ATTR_NR_P=
-RINTF(1,2);
-> +
-> +Here we include grcrypt.h (which in turns include gpg-error.h) *after* w=
-e
-> +"noreturn" was defined in macro.h.
-> +---
-> + src/basic/log.c                         |  4 ++--
-> + src/basic/log.h                         |  4 ++--
-> + src/basic/macro.h                       | 19 +++++++++----------
-> + src/basic/process-util.c                |  2 +-
-> + src/basic/process-util.h                |  2 +-
-> + src/core/main.c                         |  4 ++--
-> + src/journal/test-journal-interleaving.c |  2 +-
-> + src/shared/pager.c                      |  2 +-
-> + src/udev/collect/collect.c              |  2 +-
-> + 9 files changed, 20 insertions(+), 21 deletions(-)
-> +
-> +diff --git a/src/basic/log.c b/src/basic/log.c
-> +index 12ee65a5c..837c7631d 100644
-> +--- a/src/basic/log.c
-> ++++ b/src/basic/log.c
-> +@@ -808,7 +808,7 @@ static void log_assert(
-> +         log_dispatch_internal(level, 0, file, line, func, NULL, NULL, N=
-ULL, NULL, buffer);
-> + }
-> +
-> +-noreturn void log_assert_failed_realm(
-> ++_noreturn_ void log_assert_failed_realm(
-> +                 LogRealm realm,
-> +                 const char *text,
-> +                 const char *file,
-> +@@ -820,7 +820,7 @@ noreturn void log_assert_failed_realm(
-> +         abort();
-> + }
-> +
-> +-noreturn void log_assert_failed_unreachable_realm(
-> ++_noreturn_ void log_assert_failed_unreachable_realm(
-> +                 LogRealm realm,
-> +                 const char *text,
-> +                 const char *file,
-> +diff --git a/src/basic/log.h b/src/basic/log.h
-> +index 5b5a25bd6..c057794c1 100644
-> +--- a/src/basic/log.h
-> ++++ b/src/basic/log.h
-> +@@ -199,7 +199,7 @@ int log_dump_internal(
-> +                 char *buffer);
-> +
-> + /* Logging for various assertions */
-> +-noreturn void log_assert_failed_realm(
-> ++_noreturn_ void log_assert_failed_realm(
-> +                 LogRealm realm,
-> +                 const char *text,
-> +                 const char *file,
-> +@@ -208,7 +208,7 @@ noreturn void log_assert_failed_realm(
-> + #define log_assert_failed(text, ...) \
-> +         log_assert_failed_realm(LOG_REALM, (text), __VA_ARGS__)
-> +
-> +-noreturn void log_assert_failed_unreachable_realm(
-> ++_noreturn_ void log_assert_failed_unreachable_realm(
-> +                 LogRealm realm,
-> +                 const char *text,
-> +                 const char *file,
-> +diff --git a/src/basic/macro.h b/src/basic/macro.h
-> +index 89bdd852a..3a6fc6f58 100644
-> +--- a/src/basic/macro.h
-> ++++ b/src/basic/macro.h
-> +@@ -53,6 +53,15 @@
-> + #else
-> + #define _fallthrough_
-> + #endif
-> ++/* Define C11 noreturn without <stdnoreturn.h> and even on older gcc
-> ++ * compiler versions */
-> ++#ifndef _noreturn_
-> ++#if __STDC_VERSION__ >=3D 201112L
-> ++#define _noreturn_ _Noreturn
-> ++#else
-> ++#define _noreturn_ __attribute__((noreturn))
-> ++#endif
-> ++#endif
-> +
-> + /* Temporarily disable some warnings */
-> + #define DISABLE_WARNING_DECLARATION_AFTER_STATEMENT                    =
- \
-> +@@ -414,16 +423,6 @@ static inline unsigned long ALIGN_POWER2(unsigned l=
-ong u) {
-> + #endif
-> + #endif
-> +
-> +-/* Define C11 noreturn without <stdnoreturn.h> and even on older gcc
-> +- * compiler versions */
-> +-#ifndef noreturn
-> +-#if __STDC_VERSION__ >=3D 201112L
-> +-#define noreturn _Noreturn
-> +-#else
-> +-#define noreturn __attribute__((noreturn))
-> +-#endif
-> +-#endif
-> +-
-> + #define DEFINE_TRIVIAL_CLEANUP_FUNC(type, func)                 \
-> +         static inline void func##p(type *p) {                   \
-> +                 if (*p)                                         \
-> +diff --git a/src/basic/process-util.c b/src/basic/process-util.c
-> +index dc7c9ef9e..f84debdd5 100644
-> +--- a/src/basic/process-util.c
-> ++++ b/src/basic/process-util.c
-> +@@ -940,7 +940,7 @@ bool is_main_thread(void) {
-> +         return cached > 0;
-> + }
-> +
-> +-noreturn void freeze(void) {
-> ++_noreturn_ void freeze(void) {
-> +
-> +         log_close();
-> +
-> +diff --git a/src/basic/process-util.h b/src/basic/process-util.h
-> +index 9fabe4a5b..1a3f3ca11 100644
-> +--- a/src/basic/process-util.h
-> ++++ b/src/basic/process-util.h
-> +@@ -90,7 +90,7 @@ int pid_from_same_root_fs(pid_t pid);
-> +
-> + bool is_main_thread(void);
-> +
-> +-noreturn void freeze(void);
-> ++_noreturn_ void freeze(void);
-> +
-> + bool oom_score_adjust_is_valid(int oa);
-> +
-> +diff --git a/src/core/main.c b/src/core/main.c
-> +index 56200a8fa..484b53d5f 100644
-> +--- a/src/core/main.c
-> ++++ b/src/core/main.c
-> +@@ -141,7 +141,7 @@ static uint64_t arg_default_tasks_max =3D UINT64_MAX=
-;
-> + static sd_id128_t arg_machine_id =3D {};
-> + static EmergencyAction arg_cad_burst_action =3D EMERGENCY_ACTION_REBOOT=
-_FORCE;
-> +
-> +-noreturn static void freeze_or_reboot(void) {
-> ++_noreturn_ static void freeze_or_reboot(void) {
-> +
-> +         if (arg_crash_reboot) {
-> +                 log_notice("Rebooting in 10s...");
-> +@@ -156,7 +156,7 @@ noreturn static void freeze_or_reboot(void) {
-> +         freeze();
-> + }
-> +
-> +-noreturn static void crash(int sig) {
-> ++_noreturn_ static void crash(int sig) {
-> +         struct sigaction sa;
-> +         pid_t pid;
-> +
-> +diff --git a/src/journal/test-journal-interleaving.c b/src/journal/test-=
-journal-interleaving.c
-> +index 5a88b2774..d87bdbdd3 100644
-> +--- a/src/journal/test-journal-interleaving.c
-> ++++ b/src/journal/test-journal-interleaving.c
-> +@@ -37,7 +37,7 @@
-> +
-> + static bool arg_keep =3D false;
-> +
-> +-noreturn static void log_assert_errno(const char *text, int error, cons=
-t char *file, int line, const char *func) {
-> ++_noreturn_ static void log_assert_errno(const char *text, int error, co=
-nst char *file, int line, const char *func) {
-> +         log_internal(LOG_CRIT, error, file, line, func,
-> +                      "'%s' failed at %s:%u (%s): %m", text, file, line,=
- func);
-> +         abort();
-> +diff --git a/src/shared/pager.c b/src/shared/pager.c
-> +index 75db3c985..681af9c40 100644
-> +--- a/src/shared/pager.c
-> ++++ b/src/shared/pager.c
-> +@@ -47,7 +47,7 @@ static int stored_stderr =3D -1;
-> + static bool stdout_redirected =3D false;
-> + static bool stderr_redirected =3D false;
-> +
-> +-noreturn static void pager_fallback(void) {
-> ++_noreturn_ static void pager_fallback(void) {
-> +         int r;
-> +
-> +         r =3D copy_bytes(STDIN_FILENO, STDOUT_FILENO, (uint64_t) -1, 0)=
-;
-> +diff --git a/src/udev/collect/collect.c b/src/udev/collect/collect.c
-> +index 3e278bd63..c0761a374 100644
-> +--- a/src/udev/collect/collect.c
-> ++++ b/src/udev/collect/collect.c
-> +@@ -58,7 +58,7 @@ static inline struct _mate *node_to_mate(struct udev_l=
-ist_node *node)
-> +         return container_of(node, struct _mate, node);
-> + }
-> +
-> +-noreturn static void sig_alrm(int signo)
-> ++_noreturn_ static void sig_alrm(int signo)
-> + {
-> +         exit(4);
-> + }
-> +--
-> +2.18.0-dev
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core=
-/systemd/systemd_237.bb
-> index 150f5b2e180..744d622ab86 100644
-> --- a/meta/recipes-core/systemd/systemd_237.bb
-> +++ b/meta/recipes-core/systemd/systemd_237.bb
-> @@ -50,6 +50,7 @@ SRC_URI +=3D "file://touchscreen.rules \
->             file://0030-fix-missing-of-__register_atfork-for-non-glibc-bu=
-ild.patch \
->             file://0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-=
-mus.patch \
->             file://0032-memfd.patch \
-> +           file://0001-basic-macros-rename-noreturn-into-_noreturn_-8456=
-.patch \
->             "
->  SRC_URI_append_qemuall =3D " file://0001-core-device.c-Change-the-defaul=
-t-device-timeout-to-2.patch"
->
-> --
-> 2.18.0-dev
->
+ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/lib64/
+libwayland-egl.la is installed by both wayland and mesa, aborting
+..
+ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directories were 
+installed but not shipped in any package:
+  /usr/lib64/libwayland-egl.la
+Please set FILES such that these items are packaged. Alternatively if they are 
+unneeded, avoid installing them or delete them within do_install.
+mesa: 1 installed and not shipped files. [installed-vs-shipped]
+
+is someone working on a fix or should I take some time to put something 
+together?
+
+Mark
+
+
+> 
+> >  }
+> >  
+> >  # For the packages that make up the OpenGL interfaces, inject variables
+> >  so that> 
+> > @@ -204,7 +207,6 @@ FILES_libgles2-mesa = "${libdir}/libGLESv2.so.*"
+> > 
+> >  FILES_libgl-mesa = "${libdir}/libGL.so.*"
+> >  FILES_libglapi = "${libdir}/libglapi.so.*"
+> >  FILES_libosmesa = "${libdir}/libOSMesa.so.*"
+> > 
+> > -FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
+> > 
+> >  FILES_libxatracker = "${libdir}/libxatracker.so.*"
+> >  
+> >  FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan"
+> > 
+> > @@ -216,7 +218,6 @@ FILES_libgles1-mesa-dev = "${libdir}/libGLESv1*.*
+> > ${includedir}/GLES ${libdir}/p> 
+> >  FILES_libgles2-mesa-dev = "${libdir}/libGLESv2.* ${includedir}/GLES2
+> >  ${libdir}/pkgconfig/glesv2.pc" FILES_libgles3-mesa-dev =
+> >  "${includedir}/GLES3"
+> >  FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/GL/osmesa.h
+> >  ${libdir}/pkgconfig/osmesa.pc"> 
+> > -FILES_libwayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc
+> > ${libdir}/libwayland-egl.*"> 
+> >  FILES_libxatracker-dev = "${libdir}/libxatracker.so
+> >  ${libdir}/libxatracker.la \>  
+> >                            ${includedir}/xa_tracker.h
+> >                            ${includedir}/xa_composite.h
+> >                            ${includedir}/xa_context.h \
+> >                            ${libdir}/pkgconfig/xatracker.pc"
+> > 
+> > diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > b/meta/recipes-graphics/wayland/wayland_1.15.0.bb similarity index 92%
+> > rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> > index 1a9ff98..788105b 100644
+> > --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> > +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> > @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+> > 
+> >  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+> >  
+> >  	   file://fixpathinpcfiles.patch \
+> >  	   
+> >             "
+> > 
+> > -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
+> > -SRC_URI[sha256sum] =
+> > "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
+> > +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
+> > +SRC_URI[sha256sum] =
+> > "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"> 
+> >  inherit autotools pkgconfig
+
+
+
+
 
