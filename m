@@ -1,51 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2964E74F63
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8997874F4C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 May 2018 16:03:45 +0000 (UTC)
-Received: by mail-io0-f181.google.com with SMTP id t23-v6so43241833ioc.10
+	Wed,  9 May 2018 16:04:31 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id p85-v6so16325933lfg.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 09:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 09 May 2018 09:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CxlNxJsQrVkcOrOS5uvA7Hk9gjPzpb+ULrqq2EIHmmY=;
-	b=jpJqhOl1ms3r0sBKo0eOFAJk54GZiBGHNSp/rdAfNODua+YK+FOROD6XG1lsI6cjM+
-	fIsKFnfxdLQl+Fx2Qet1AUJim6T2uXUN6cCd+ZpD0jNSoYHt7MIoCnyJrUgfEOEG7i7D
-	DeLOAXSndEH0HkEv1ptrPDoJIzT0LODoGU7oqOhg/MqSDGGe91bvUKqTQhsGf8jFdoS+
-	ok14lRVFA+CdNBXYgYvEBHUo92x37VTzzWySB20h22SaAVswWyr3kQVw2eTTlpvh80iv
-	ejrRA50OcpM7xUgCIvCXbu4JQukEZnoyzEqPjEzBAAo67wIkGxceIszEBbYOTKokk4xh
-	O+Jw==
+	:cc; bh=LbKPh5brN9CIYJ1uFGBSsMk7xG05TnTMFlv6BLVqw1o=;
+	b=f3z0liuO7YCQ3x/QacA2NFzJ/+P7BTrnNhMUenhKqQQFoR3dqRnaZX56Evc7XknRuK
+	kNwLn9K23zGNm9Q3TxTDAfXijCd/VQDs5zoE1RqlyuVMye2RSLzql5d5KAV8dkaf75HR
+	DRIu+sAbXH6Bvyavtg4tgqYqyRhqC6yIqNvQO8CwBN/6Dkpd/9uSYPesTTLGyzkgCGlL
+	ZtcLwlqUCOSB+Km8ehFv03W8AdqSSeYj32Ja5IzILe18LsgSyzlLBQEGX7sRJPqB59DV
+	+dlgYcYIKsK1do3uPulvhuB2qrRNZBLBGGDcgDE1ExoyQR0vMczeD+nYe7ji8rOO8Y38
+	wXBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=CxlNxJsQrVkcOrOS5uvA7Hk9gjPzpb+ULrqq2EIHmmY=;
-	b=mR+Zv2p/S077/TAvFclVjQQT1KNNT9LdKJqzhBByvOpXMaq4PZTKcgacV9sFhwp1Lr
-	wM2I6zNTS9JUeFPVUzn/cms0ZkTR8bX+92SLZZ8xLpP7qd9TKltSesZx0QiLRXfLOc6+
-	LOxIbGvCBlENBJ64y3pJaJkwlkmWA+okuSr0mU83a4fxsDWM1DnkrZFUBN1datvzX+5r
-	4G9GmBAtb77YTf+nLyXWZLjzHd3RPJ4kAOum0Y6gzlGjKmalJhiK3RiSpzvg4x9Fp9xf
-	ywegB3L5RlR3j6NrOgqItZU+Brgr/jp7ZYUCQXsH/UPc0CS34CS8xcNGO698ZVQSeeDl
-	MQeg==
-X-Gm-Message-State: ALQs6tAQYOrSp/6cXLpiGokqL5o8dZA7JadB37BG1dlPvVYX5NYOjHOG
-	hPq1NskNbJLe6SDyKYwe4C71npiZjHuR8JjAoBdFgQ==
-X-Google-Smtp-Source: AB8JxZpwYid8gzl7wb/FSeIWtrroCrHxGMOh9gjgorG51s2RxcsNWIlq4ezRVj/e77qn28qrHQQao2WB2L2rM/rTHes=
-X-Received: by 2002:a6b:752:: with SMTP id
-	79-v6mr50942384ioh.216.1525881826835; 
-	Wed, 09 May 2018 09:03:46 -0700 (PDT)
+	bh=LbKPh5brN9CIYJ1uFGBSsMk7xG05TnTMFlv6BLVqw1o=;
+	b=Yo2uNz+utA2OhH3f9hAK92Jg/BmPt4KvvYaRCGCfg0lLZIPmo0fI98fxpum8kCR/QC
+	jC0vNSXYEMcDW8RvV4vAbjF6BbezNkkxwP3IoU/hsg2EFD5eayMD4OEIqjsdLnitUX1a
+	50BOd35EDK1ypxPKhe4BQYA59OYvTYjyfg52NjftILNnhAv91gdTydfSndHpofUH8IM/
+	kRgrqFAiMJA1IGvyMrOkhabFV+QIMR4rq6LQVhD580PEWJEobrQz/pLo/X3rlnO+y+Bi
+	m1jzEuc1IQz3pSk+va2jeNpEq0rOEQkCbfEaMACtwCJR+62q4usAxT/j6Hyh/wLBkUBm
+	pm5Q==
+X-Gm-Message-State: ALQs6tDUbKeRe3YT7sChA+znJeIPWgCY3kqQILKx4ReZ4gefCwcwMFOK
+	ctkymJa0RzSHQMET6iVQUmXWEjMc1KjJaoFcBnc=
+X-Google-Smtp-Source: AB8JxZpl8YQGmd82X9Parex5NU7wTBVAYl6PJq3mRITl4gEpWATg6AU63GALzxYULN/O9JNt7kvA+AYgqx4JpYj294w=
+X-Received: by 2002:a2e:9b01:: with SMTP id
+	u1-v6mr22951374lji.26.1525881872117; 
+	Wed, 09 May 2018 09:04:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Wed, 9 May 2018 09:03:26 -0700 (PDT)
-In-Reply-To: <3814374.oaZWZoq0et@yow-masselst-lx1>
-References: <1523387170-30191-1-git-send-email-denis@denix.org>
-	<20180508211844.GA2573@jama> <3814374.oaZWZoq0et@yow-masselst-lx1>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 May 2018 17:03:26 +0100
-Message-ID: <CAJTo0LaHtEh3JBQqnsx1v6c31jbTYe2jLUztLtpiqwDi+W3nLg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wayland: upgrade to 1.15.0
+Received: by 2002:a19:380e:0:0:0:0:0 with HTTP;
+	Wed, 9 May 2018 09:04:31 -0700 (PDT)
+In-Reply-To: <CAJTo0LbCv1A6+ORgJzrGmwO4CSaS9H9VwwC61cd5HS0qx+YNyg@mail.gmail.com>
+References: <20180509154920.5987-1-danismostlikely@gmail.com>
+	<CAJTo0LbCv1A6+ORgJzrGmwO4CSaS9H9VwwC61cd5HS0qx+YNyg@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Wed, 9 May 2018 10:04:31 -0600
+Message-ID: <CACS+7ZT6X8rrqrvi71T+_hkrquunbaR78pMW_7Ad_sn38+uPMw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] go-native: use nonarch_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,67 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2018 16:03:46 -0000
-Content-Type: multipart/alternative; boundary="0000000000004209ca056bc80cc3"
-
---0000000000004209ca056bc80cc3
+X-List-Received-Date: Wed, 09 May 2018 16:04:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 9 May 2018 at 17:00, Mark Asselstine <mark.asselstine@windriver.com>
-wrote:
+On 9 May 2018 at 09:58, Burton, Ross <ross.burton@intel.com> wrote:
+> Is that *right* though?  Non-arch libdir is for architecture-independent
+> pieces as the name suggests.
 
-> I am also seeing build failures due to this conflict:
+Looking at it again, no. It's not. That was just the first solution
+that came to my head.
+
+I think the right solution is to use libdir_native, which doesn't
+change at all, and nonstaging_libdir can go away entirely.
+
 >
-> ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/lib64/
-> libwayland-egl.la is installed by both wayland and mesa, aborting
-> ..
-> ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directories were
-> installed but not shipped in any package:
->   /usr/lib64/libwayland-egl.la
-> Please set FILES such that these items are packaged. Alternatively if they
-> are
-> unneeded, avoid installing them or delete them within do_install.
-> mesa: 1 installed and not shipped files. [installed-vs-shipped]
+> Ross
 >
-> is someone working on a fix or should I take some time to put something
-> together?
+> On 9 May 2018 at 16:49, Dan McGregor <danismostlikely@gmail.com> wrote:
+>>
+>> From: Dan McGregor <dan.mcgregor@usask.ca>
+>>
+>> Setting staging_libdir to libdir caused unnecessary rebuilds of
+>> go-native when switching from a multilib build to a non-multilib
+>> build. Switch to nonarch_libdir because that's the same on both
+>> multilib and regular builds.
+>>
+>> Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+>> ---
+>>  meta/recipes-devtools/go/go-native.inc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/go/go-native.inc
+>> b/meta/recipes-devtools/go/go-native.inc
+>> index b76fb0825e4..76c83848cd3 100644
+>> --- a/meta/recipes-devtools/go/go-native.inc
+>> +++ b/meta/recipes-devtools/go/go-native.inc
+>> @@ -1,6 +1,6 @@
+>>  # Use immediate assingment here to get the original (/usr/lib)
+>>  # instead of the one rewritten by native.bbclass.
+>> -nonstaging_libdir := "${libdir}"
+>> +nonstaging_libdir := "${nonarch_libdir}"
+>>
+>>  inherit native
+>>
+>> --
+>> 2.18.0-dev
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 >
 
-As it appears you can test quickly then I think you just drew the short
-straw.  Should be a trivial patch...
-
-Ross
-
---0000000000004209ca056bc80cc3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 9 May 2018 at 17:00, Mark Asselstine <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark=
-.asselstine@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extr=
-a"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"=
-HOEnZb"><div class=3D"h5"><span style=3D"color:rgb(34,34,34)">I am also see=
-ing build failures due to this conflict:</span><br></div></div>
-<br>
-ERROR: libglu-2_9.0.0-0 do_prepare_recipe_sysroot: The file /usr/lib64/<br>
-<a href=3D"http://libwayland-egl.la" rel=3D"noreferrer" target=3D"_blank">l=
-ibwayland-egl.la</a> is installed by both wayland and mesa, aborting<br>
-..<br>
-ERROR: mesa-2_18.0.2-r0 do_package: QA Issue: mesa: Files/directories were =
-<br>
-installed but not shipped in any package:<br>
-=C2=A0 /usr/lib64/<a href=3D"http://libwayland-egl.la" rel=3D"noreferrer" t=
-arget=3D"_blank">libwayland-egl.la</a><br>
-Please set FILES such that these items are packaged. Alternatively if they =
-are <br>
-unneeded, avoid installing them or delete them within do_install.<br>
-mesa: 1 installed and not shipped files. [installed-vs-shipped]<br>
-<br>
-is someone working on a fix or should I take some time to put something <br=
->
-together?<br></blockquote><div><br></div><div>As it appears you can test qu=
-ickly then I think you just drew the short straw.=C2=A0 Should be a trivial=
- patch...</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---0000000000004209ca056bc80cc3--
