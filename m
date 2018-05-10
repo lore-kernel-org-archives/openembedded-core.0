@@ -1,47 +1,45 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2262F753A0
+	by mail.openembedded.org (Postfix) with ESMTP id 2063C75391
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 22:21:49 +0000 (UTC)
+	Thu, 10 May 2018 22:21:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DD44118529;
-	Fri, 11 May 2018 00:21:49 +0200 (CEST)
+	by bastet.se.axis.com (Postfix) with ESMTP id 731A41852B;
+	Fri, 11 May 2018 00:21:48 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id 5beHosbExPyH; Fri, 11 May 2018 00:21:46 +0200 (CEST)
+	with LMTP id PNLjto1ruuyH; Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id E357618527;
+	by bastet.se.axis.com (Postfix) with ESMTPS id D7C2318378;
 	Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C1ACB1E07E;
+	by IMSVA (Postfix) with ESMTP id B39D61E077;
 	Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B4D3D1E07C;
+	by IMSVA (Postfix) with ESMTP id A6C4F1E06E;
 	Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP;
 	Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id A6F092E02;
+	by thoth.se.axis.com (Postfix) with ESMTP id 993362DB2;
 	Fri, 11 May 2018 00:21:46 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4AMLdF3026291;
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4AMLdf6026287;
 	Fri, 11 May 2018 00:21:39 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4AMLd4K026290;
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4AMLddq026286;
 	Fri, 11 May 2018 00:21:39 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 00:20:41 +0200
-Message-Id: <abdb7230afeb4858fc56d62a7acb8c401ac5fb29.1525990692.git.pkj@axis.com>
+Date: Fri, 11 May 2018 00:20:40 +0200
+Message-Id: <cover.1525990692.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1525990692.git.pkj@axis.com>
-References: <cover.1525990692.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/2] Revert "rpm: add a patch to help with Docker performance issues"
+Subject: [PATCH 0/2] Restore performance of rpm in Docker containers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,84 +54,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 May 2018 22:21:49 -0000
 
-This reverts commit 6f1822e5f1eaafd8bc46e999de730c1fcca77f3a.
+As recently discussed on the Yocto list in the "ROOTFS_RPM_DEBUG 
+undocumented" thread, there are performance issues with dnf/rpm 
+when building in a Docker container. The problem is due to the 
+Docker container reporting the maximum number of open files as 
+unlimited and there is code in rpm that loops over all potentially 
+open file descriptors. Alexander Kanavin supplied a patch for rpm 
+(see commit 6f1822e5 in meta) that was supposed to correct this, but 
+unfortunately it only solved a part of the problem.
 
-This patch only solved a part of the problem.
+To really solve the problem, I reverted Alexander's patch, and 
+applied a new one that solves both the problematic code identified 
+by Alexander, and an identical code path in another function.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- ...FD_CLOEXEC-on-opened-files-before-exec-fr.patch | 49 ----------------------
- meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  1 -
- 2 files changed, 50 deletions(-)
+It is possible to reproduce the problem without Docker by increasing 
+the maximum number of open files. This can be done by editing 
+/etc/security/limits.conf and adding:
+
+* - nofile  100000000
+
+where 100000000 is the maximum number of open files. It is also 
+very likely that you need to increase the global limit by running:
+
+sudo sysctl -w fs.nr_open=100000000
+
+After that, ssh to localhost to get a new session where the new 
+settings are active. Then you can use `ulimit -n <number>` to set 
+the max you want to try.
+
+I also did som measurements when building core-image-minimal. Here 
+are the times I got for the do_rootfs task with different maximums:
+
+Max files  Time 
+---------  -----
+1024       30 seconds
+1048576    50 seconds
+10000000   3 minutes 40 seconds
+100000000  31 minutes
+
+//Peter
+
+The following changes since commit f4c938c47424424b89cde2269bd92cebc9a6ac1a:
+
+  packagegroup: Do not add libssp to SDK (2018-05-09 10:47:51 +0100)
+
+are available in the git repository at:
+
+  git://push.yoctoproject.org/poky-contrib pkj/rpm-performance
+
+Peter Kjellerstedt (2):
+  Revert "rpm: add a patch to help with Docker performance issues"
+  rpm: Assume a max limit of 1024 open files
+
+ ...001-Assume-a-max-limit-of-1024-open-files.patch | 61 ++++++++++++++++++++++
+ ...FD_CLOEXEC-on-opened-files-before-exec-fr.patch | 49 -----------------
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  3 +-
+ 3 files changed, 63 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Assume-a-max-limit-of-1024-open-files.patch
  delete mode 100644 meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch b/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
-deleted file mode 100644
-index 4651409a65..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 982e47df7b82c5ffe3c414cf5641f08dba0f0e64 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 26 Jan 2018 16:32:04 +0200
--Subject: [PATCH] Revert "Set FD_CLOEXEC on opened files before exec from lua
-- script is called"
--
--This reverts commit 7a7c31f551ff167f8718aea6d5048f6288d60205.
--The reason is that when _SC_OPEN_MAX is much higher than the usual 1024
--(for example inside docker), the performance drops sharply.
--
--Upstream has been notified:
--https://bugzilla.redhat.com/show_bug.cgi?id=1537564
--
--Upstream-Status: Inappropriate [upstream needs to come up with a better fix]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- luaext/lposix.c | 12 ------------
-- 1 file changed, 12 deletions(-)
--
--diff --git a/luaext/lposix.c b/luaext/lposix.c
--index 0a7c26c71..c578c5a11 100644
----- a/luaext/lposix.c
--+++ b/luaext/lposix.c
--@@ -335,22 +335,10 @@ static int Pexec(lua_State *L)			/** exec(path,[args]) */
-- 	const char *path = luaL_checkstring(L, 1);
-- 	int i,n=lua_gettop(L);
-- 	char **argv;
---	int flag, fdno, open_max;
-- 
-- 	if (!have_forked)
-- 	    return luaL_error(L, "exec not permitted in this context");
-- 
---	open_max = sysconf(_SC_OPEN_MAX);
---	if (open_max == -1) {
---	    open_max = 1024;
---	}
---	for (fdno = 3; fdno < open_max; fdno++) {
---	    flag = fcntl(fdno, F_GETFD);
---	    if (flag == -1 || (flag & FD_CLOEXEC))
---		continue;
---	    fcntl(fdno, F_SETFD, FD_CLOEXEC);
---	}
---
-- 	argv = malloc((n+1)*sizeof(char*));
-- 	if (argv==NULL) return luaL_error(L,"not enough memory");
-- 	argv[0] = (char*)path;
---- 
--2.15.1
--
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index 818d3ef9e3..85d791ce5c 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -39,7 +39,6 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
-            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-            file://0001-perl-disable-auto-reqs.patch \
--           file://0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch \
-            file://0001-configure.ac-add-option-for-dbus.patch \
-            "
- 
 -- 
 2.12.0
 
