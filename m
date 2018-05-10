@@ -1,49 +1,54 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A860975393
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 22:33:19 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id g72-v6so2173473vke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 15:33:20 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 453BF7530F;
+	Thu, 10 May 2018 22:36:17 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id f20-v6so1745839pfn.0;
+	Thu, 10 May 2018 15:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=t5tK1aOUC1Ygob+XsKh3PPwFLhJL3bTspq8ao1007zA=;
-	b=PSutCMc9I6A8A0h+s745u8FyXohM6ZnpLhbLFIhSl2JGnaY8zstkX4ADMhL/4JGogb
-	qwWWgjQaFjWceV77fzAJuKbwQd+3iYmswFQ5O0p9aHb3+UrlXLopLDKk5ioCG7DqCKRj
-	KXZ+BBAvno/dqsrVXLoqkVPSjZzgdDEaT1Fb2oaOioSlRFh0+sLu/vDSgg18gVZs/uTh
-	jCvpz28RGR43z/SjxYsshONvARV7uDtJNeIre8zSzwNsl+rmqNa3B8XRI+IkbygHhoqX
-	RHBmsViy9KFuzPON/59EfR8abzuERO8VNHkuZO3d2Bu7mr3g37RegX6HTiXY14Utz4OZ
-	XG6w==
+	:cc:content-transfer-encoding;
+	bh=w0yebqyJ0MODMK6bqPzqMqpIQydAxPj6Y1MfcYSkjT0=;
+	b=VF4lJQX1IIaFLQ9bzrTEDq6Izwe0uCkfSblfhyxHh2NcuusLxtwRmKN1JZLTMwGyFv
+	DWsKx/iew3vJvYICpyZLnuc2+kAvXjHSET9qzu+TWj5YxfmVvFeACWpOgVYKAAybqfG/
+	nRlEWGR3BvjP4rC+Qp56bNk9FKeScdT7fKGgYSk9xs8/fk4R2yFrkVcgDCaaE4Svt7wH
+	GxVj3/J5rbE7AUNFY8ISs+6nn8u+tEWXz2/WdDwbR+vDErxDCVKsFuKjghcO/3Tb6wxi
+	iopYeRYPLseH3ynQ3omILerOEsjIsYzs3FlHlGoFsMrVb+bZgVOh/yAitypmus0a+7yn
+	2low==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=t5tK1aOUC1Ygob+XsKh3PPwFLhJL3bTspq8ao1007zA=;
-	b=dWS6T75G1iEpKK1Ilw1MYC8Mq6q0Nnqq/3GApkDOoDw/izp4tAwpuwemSq0yMJ7/hl
-	UDNJprdX4VhrirbgZfidkrFHzGvK/w9VU+YwYam0hTtWjb8Xm5OzNlHOgM4XLsrCxoHN
-	mkGA9xsXTB+RbN4IZp2HjyrbVt/+4BQoCYUoPp2bzKizCy7A/zvMlZPuAlq5OzI2okJS
-	NbU6t5e9elAy59x4dKrGspiTYDPjLEcKym5ac/zk12EJ3uFwxknT08p3Nxeb3XGFVAEy
-	claSO85qrIfJykp+5tRUKKRkEkS2lUPcamPS0JBV9OKx82iOgMxfUWj+6qJS/5ilbGqr
-	oklA==
-X-Gm-Message-State: ALKqPweoSmeVVMxHHuwa1F1XzQQvCM7KaMhB6OqT0j1gBlUUhslwhR6v
-	ktIfbzNLuHYXWmpvQhgbx2hQ8AxaJmrK8Uac9cI=
-X-Google-Smtp-Source: AB8JxZpEcIFjCdMM4pyltjJzLQrNSQeyFVAVOj6z3mzIC1u/3TBoNNFILvYKrKQZ3g3bicqGrf1EWiwIHkBLogL3Xtg=
-X-Received: by 2002:a1f:a7c7:: with SMTP id
-	q190-v6mr2299665vke.5.1525991600203; 
-	Thu, 10 May 2018 15:33:20 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=w0yebqyJ0MODMK6bqPzqMqpIQydAxPj6Y1MfcYSkjT0=;
+	b=Llxjidn7cXH/e6U51bmKoNsjMVB1lQAq9W18dCXe1Y2WFVO0yiNAY5ZL/huMvlvXgJ
+	j2oV0k8iKotqo8xkb1QFutA0ArLvjybWtK6ibcczcPlY4LPgxU5NYsU80LnNvF2J+BFk
+	XKOyun2t48h/MdGXDg1W+6ZsxHYTQddk+CurFmMZgTDFZyPYUdKtrXV1RacF/j8wNuD2
+	C/xg8mbl948/O7sTYzafWZ6ButEoPdsyXVF6y7vPzubfmqMFE6nyfGJB1LiqSxp9xj4+
+	cE9yuCwWFWFyz9B6zyK0KIBxP+dEFZD7nUVhWnB2EEB0WzocGo1K62jQtPRdSyHRWiLR
+	gULQ==
+X-Gm-Message-State: ALKqPwclrM+RRWqqtMDhxlHWvdLDckwMLJD2sMQJTYv4phvCD13N9uyq
+	hwfu/u8UUbLDOcC08u6w06IIaRJZLJlHmQYNsf0=
+X-Google-Smtp-Source: AB8JxZrker9ItgxcYFvDDlZc76EB6nLDjzhAc+nCdLUQ61UenEqowfZVPE7WzAbrOPCeLOFtGWDcb+uxlHuiQ2024rk=
+X-Received: by 2002:a62:5b02:: with SMTP id p2-v6mr3000687pfb.96.1525991778866;
+	Thu, 10 May 2018 15:36:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.48.148 with HTTP; Thu, 10 May 2018 15:33:19 -0700 (PDT)
-In-Reply-To: <874d828c-9387-3a1c-3a4c-381da0a0e270@gmail.com>
-References: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
-	<874d828c-9387-3a1c-3a4c-381da0a0e270@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 10 May 2018 15:33:19 -0700
-Message-ID: <CAJ86T=VJ6OL+EABTwV9QJumdYu_CvxHOnOGKYuLonpXUyy-dig@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] bitbake.conf: make libc over-ride lower priority than _forcevariable
+Received: by 10.236.139.145 with HTTP; Thu, 10 May 2018 15:35:48 -0700 (PDT)
+In-Reply-To: <20180510220735.GD1954@jama>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+	<20180510191145.GA1954@jama>
+	<CAJ86T=Xz+2neJPBw41_sFxd977xp=zznsgzFdbeHJ-aysJNk+g@mail.gmail.com>
+	<20180510214325.GC1954@jama> <20180510220735.GD1954@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 10 May 2018 15:35:48 -0700
+Message-ID: <CAMKF1so=HTEHvLxjV81rTgwAGmT_pZSfX5ae3Oe2odDeZzd3sw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,103 +61,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 22:33:20 -0000
+X-List-Received-Date: Thu, 10 May 2018 22:36:18 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 9, 2018 at 10:41 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 5/9/18 8:14 PM, Andre McCurdy wrote:
+On Thu, May 10, 2018 at 3:07 PM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+> On Thu, May 10, 2018 at 11:43:25PM +0200, Martin Jansa wrote:
+>> On Thu, May 10, 2018 at 12:27:50PM -0700, Andre McCurdy wrote:
+>> > On Thu, May 10, 2018 at 12:11 PM, Martin Jansa <martin.jansa@gmail.com=
+> wrote:
+>> > > On Thu, May 10, 2018 at 11:50:02AM -0700, Khem Raj wrote:
+>> > >> Hi Martin
+>> > >>
+>> > >> Thanks for testing and reporting back
+>> > >>
+>> > >> On 5/9/18 2:38 AM, Martin Jansa wrote:
+>> > >> > My initial tests show couple issues, but usually caused by other =
+changes
+>> > >> > in that branch, not the gcc-8 itself.
+>> > >> >
+>> > >> > 1) strace-4.22 from
+>> > >> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=
+=3Dkraj/gcc-8&id=3Daf33a8b721cc9caebd3f5226b4c5903f666ab654
+>> > >> > fails to build with ptest enabled (it builds with 4.20 version if=
+ I
+>> > >> > revert this change)
+>> > >> > ../../strace-4.22/tests/inject-nf.c: In function 'main':
+>> > >> > ../../strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be use=
+d in
+>> > >> > asm here
+>> > >> >   }
+>> > >> >   ^
+>> > >>
+>> > >> are you targeting thumb1 ? how can I reproduce it ?
+>> > >
+>> > > I'm trying to find out what's different in the builds where it was
+>> > > failing, will provide more info later.
+>> >
+>> > This is probably due to making an inline syscall from Thumb (doesn't a
+>> > matter Thumb1 or Thumb2) with frame pointers enabled.
+>> >
+>> > Does adding -fomit-frame-pointer to CFLAGS fix it?
 >>
->> Fix long standing quirk, _forcevariable is documented as being the
->> highest priority over-ride.
+>> It was with raspberrypi3, thumb (Thumb2) enabled in DISTRO, there is
+>> already -fno-omit-frame-pointer in the default command line for it,
+>> adding -fomit-frame-pointer at the end fixes it:
 >>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>   meta/conf/bitbake.conf                        | 3 ++-
->>   meta/conf/distro/include/tclibc-baremetal.inc | 2 --
->>   meta/conf/distro/include/tclibc-glibc.inc     | 2 --
->>   meta/conf/distro/include/tclibc-musl.inc      | 2 --
->>   4 files changed, 2 insertions(+), 7 deletions(-)
+>> docker-lge @ ~/build/build-webos-master/BUILD/work/raspberrypi3-webos-li=
+nux-gnueabi/strace/4.22-r0/build/tests $ arm-webos-linux-gnueabi-gcc  -marc=
+h=3Darmv7ve -mthumb -mfpu=3Dneon-vfpv4 -mfloat-abi=3Dhard -mcpu=3Dcortex-a7=
+ --sysroot=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-web=
+os-linux-gnueabi/strace/4.22-r0/recipe-sysroot -DHAVE_CONFIG_H    -I. -I../=
+linux/arm -I../../strace-4.22/linux/arm -I../linux -I../../strace-4.22/linu=
+x -I.. -I../../strace-4.22 -DTESTS_SIZEOF_KERNEL_LONG_T=3D4 -DTESTS_SIZEOF_=
+LONG=3D4  -Wall -Wempty-body -Wformat-security -Wignored-qualifiers -Wimpli=
+cit-fallthrough=3D5 -Winit-self -Wlogical-op -Wmissing-parameter-type -Wnes=
+ted-externs -Wold-style-declaration -Wold-style-definition -Wsign-compare -=
+Wtype-limits -Wwrite-strings -O -fno-omit-frame-pointer -g -feliminate-unus=
+ed-debug-types -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUIL=
+D/work/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0=3D/usr/src/debug/str=
+ace/4.22-r0 -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/w=
+ork/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0/recipe-sysroot=3D -fdeb=
+ug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-=
+webos-linux-gnueabi/strace/4.22-r0/recipe-sysroot-native=3D  -pipe  -c -o i=
+nject-nf.o ../../strace-4.22/tests/inject-nf.c -fomit-frame-pointer
 >>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index a21b728..a772cab 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -735,7 +735,8 @@ DISTRO_NAME ??= "OpenEmbedded"
->>   #
->>   # This works for  functions as well, they are really just environment
->> variables.
->>   # Default OVERRIDES to make compilation fail fast in case of build
->> system misconfiguration.
->> -OVERRIDES =
->> "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
->> +OVERRIDES =
->> "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
->> +LIBCOVERRIDE ?= ""
->
->
-> Overall this looks an improvement
->
->>   CLASSOVERRIDE ?= "class-target"
->>   DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
->>   MACHINEOVERRIDES ?= "${MACHINE}"
->> diff --git a/meta/conf/distro/include/tclibc-baremetal.inc
->> b/meta/conf/distro/include/tclibc-baremetal.inc
->> index 8d570f0..1bf44c8 100644
->> --- a/meta/conf/distro/include/tclibc-baremetal.inc
->> +++ b/meta/conf/distro/include/tclibc-baremetal.inc
->> @@ -4,9 +4,7 @@
->>     LIBCEXTENSION = ""
->>   -# Add baremetal libc overrides to the overrides.
->>   LIBCOVERRIDE = ":libc-baremetal"
->> -OVERRIDES .= "${LIBCOVERRIDE}"
->>     ASSUME_PROVIDED += "virtual/libc virtual/libiconv virtual/crypt"
->>   diff --git a/meta/conf/distro/include/tclibc-glibc.inc
->> b/meta/conf/distro/include/tclibc-glibc.inc
->> index ad8000f..8d10764 100644
->> --- a/meta/conf/distro/include/tclibc-glibc.inc
->> +++ b/meta/conf/distro/include/tclibc-glibc.inc
->> @@ -4,9 +4,7 @@
->>     LIBCEXTENSION = "${@['', '-gnu'][(d.getVar('ABIEXTENSION') or '') !=
->> '']}"
->>   -# Add glibc overrides to the overrides for glibc.
->>   LIBCOVERRIDE = ":libc-glibc"
->> -OVERRIDES .= "${LIBCOVERRIDE}"
->
->
-> having .= appear was letting user know how it was being lined up in
-> overrides, now it might raise question in new readers mind as to why ':' is
-> prepended
-
-Yes, it's a shame LIBCOVERRIDE was defined with a leading : to begin
-with, but now it's done that way I'm not sure it's worth redefining
-(there could be classes or recipe in other layers which reference
-LIBCOVERRIDE and expect the leading : to be there).
-
-  http://git.openembedded.org/openembedded-core/commit/?id=6e2b53f47da0e97271fb51b281d24da1e1d549cc
-
-> so ideally it would be good to define LIBCOVERRIDE = "libc-<libc>" but that
-> might add useless : in case of native recipes
->
-> Maybe bitbake should just eat consecutive separators without consequence but
-> that seems less than ideal too.
-
-Bitbake already does eat consecutive separators (it needs to for
-native recipes, since native recipes set MACHINEOVERRIDES to "").
-
->>     PREFERRED_PROVIDER_virtual/libiconv ?= "glibc"
->>   PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
->> diff --git a/meta/conf/distro/include/tclibc-musl.inc
->> b/meta/conf/distro/include/tclibc-musl.inc
->> index 54e1acf..052ae0e 100644
->> --- a/meta/conf/distro/include/tclibc-musl.inc
->> +++ b/meta/conf/distro/include/tclibc-musl.inc
->> @@ -4,9 +4,7 @@
->>     LIBCEXTENSION = "-musl"
->>   -# Add musl libc overrides to the overrides.
->>   LIBCOVERRIDE = ":libc-musl"
->> -OVERRIDES .= "${LIBCOVERRIDE}"
->>     PREFERRED_PROVIDER_virtual/libc ?= "musl"
->>   PREFERRED_PROVIDER_virtual/libiconv ?= "musl"
+>> This might come from:
+>> meta/conf/bitbake.conf:DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointe=
+r ${DEBUG_FLAGS} -pipe"
+>> because in this build I had DEBUG_BUILD enabled.
 >>
+>> Will retest with 4.20 version + DEBUG_BUILD to see if it fails there as =
+well now.
 >
+> 4.20 doesn't fail with DEBUG_BUILD, because inject-nf.c test is new in
+> 4.22:
+>
+> https://github.com/strace/strace/commit/58598cd7f6e23e531d71bfe5a4e35f898=
+a4f3b2d#diff-dc01d20c1e55f8adf7536cb46d4481e1
+>
+> What is preferred fix for this? Is adding -fomit-frame-pointer to CFLAGS
+> when ptest is in DISTRO_FEATURES acceptable solution?
+
+you might want to _remove operation for -fno-omit-frame-pointer for
+SELECTED_OPTIMIZATION variable.
 
