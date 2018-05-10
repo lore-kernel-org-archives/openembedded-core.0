@@ -1,59 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 912C775393;
-	Thu, 10 May 2018 22:07:35 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l1-v6so6888582wmb.2;
-	Thu, 10 May 2018 15:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=N37Dn/w9MnsznU4IbYPxNJSeiWD1FwcYhZu+RuuIEtc=;
-	b=RPgwhaxVuH767CUZSo7+9YHMf3BEYZCRS0Yv9S7IShz3Pd/wO2lym5USxvJ5dWypA+
-	zUMOby80pVbgccWEDtT3230PRrHdThEtVWcyBVwtXL5yaRe5B9rcV1ot1fDXF8h8n50g
-	5q2CyJJnlYgtDE4m8Ys2RO//zuKJb+lq6DiJ0LoibA3MOzU7/X77WifpjsY3oCR+BNwF
-	u/6M3yr3+6TBpKjLQNdPTOChcoZ2LH+1k+MIvH62pa6uopPjBToYEaBXbchTzyiIruEE
-	IpDsA8Qs2mmyRxL5NF135/I4Z0MaoA/s83kxaPUSXe4xTMzHqBuHse+2v50OPRlMwaEg
-	bMhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=N37Dn/w9MnsznU4IbYPxNJSeiWD1FwcYhZu+RuuIEtc=;
-	b=FLXQxwJikiDMW+j4bR16OH68cRsKXwBzlRit93REhVCAJmLdPSQy4iUkRr51zMqN/v
-	UilC99MYTPIf/0iNTwBYFpPnTbqeRb7V27q/mGdQFW+qtDIYCOUJ8BUrqonU48UO85Hy
-	5egVVksZVkdVeSO6RI/3NyBvCvtQHepA4U73Dsdy+4IpSqSDjekyVWGRuxhm3OseEpOb
-	h7IbViTIkaqAE328BcgxvWUlaTOqW8LTxQBhQ+4HfsAv2KDUNj4Mjjbh5RilfBkckIoi
-	CYYUte2c9HX/Bjer1W+5rhLcn73Iar5qpVNnnYBkP7ywjCSZ+0ScuE9CB9sIUt2TG1W8
-	KYCQ==
-X-Gm-Message-State: ALKqPwfFrNB9+70tBG+yD00q+T8w95lhtBqmaZzpk2HN/7EnoucA/oDp
-	8ZocTdmF7aYRmei5dfzBkCU=
-X-Google-Smtp-Source: AB8JxZrAPGfAaIp+JzISF6Nc1rpnNw+gieuxyczSsd5Hx+3XDQBkr/dsZJzVhasd1NCkX7Af7I+KEQ==
-X-Received: by 2002:a1c:7d42:: with SMTP id
-	y63-v6mr387779wmc.121.1525990055884; 
-	Thu, 10 May 2018 15:07:35 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	e80-v6sm2879636wmd.1.2018.05.10.15.07.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 10 May 2018 15:07:34 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 11 May 2018 00:07:35 +0200
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20180510220735.GD1954@jama>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
-	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
-	<20180510191145.GA1954@jama>
-	<CAJ86T=Xz+2neJPBw41_sFxd977xp=zznsgzFdbeHJ-aysJNk+g@mail.gmail.com>
-	<20180510214325.GC1954@jama>
-MIME-Version: 1.0
-In-Reply-To: <20180510214325.GC1954@jama>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [RFT] GCC 8.1
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2262F753A0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 22:21:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id DD44118529;
+	Fri, 11 May 2018 00:21:49 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 5beHosbExPyH; Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id E357618527;
+	Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C1ACB1E07E;
+	Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B4D3D1E07C;
+	Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id A6F092E02;
+	Fri, 11 May 2018 00:21:46 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4AMLdF3026291;
+	Fri, 11 May 2018 00:21:39 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4AMLd4K026290;
+	Fri, 11 May 2018 00:21:39 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 May 2018 00:20:41 +0200
+Message-Id: <abdb7230afeb4858fc56d62a7acb8c401ac5fb29.1525990692.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1525990692.git.pkj@axis.com>
+References: <cover.1525990692.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] Revert "rpm: add a patch to help with Docker performance issues"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,106 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 22:07:36 -0000
-X-Groupsio-MsgNum: 111241
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 May 2018 22:21:49 -0000
 
---P+33d92oIH25kiaB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This reverts commit 6f1822e5f1eaafd8bc46e999de730c1fcca77f3a.
 
-On Thu, May 10, 2018 at 11:43:25PM +0200, Martin Jansa wrote:
-> On Thu, May 10, 2018 at 12:27:50PM -0700, Andre McCurdy wrote:
-> > On Thu, May 10, 2018 at 12:11 PM, Martin Jansa <martin.jansa@gmail.com>=
- wrote:
-> > > On Thu, May 10, 2018 at 11:50:02AM -0700, Khem Raj wrote:
-> > >> Hi Martin
-> > >>
-> > >> Thanks for testing and reporting back
-> > >>
-> > >> On 5/9/18 2:38 AM, Martin Jansa wrote:
-> > >> > My initial tests show couple issues, but usually caused by other c=
-hanges
-> > >> > in that branch, not the gcc-8 itself.
-> > >> >
-> > >> > 1) strace-4.22 from
-> > >> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3D=
-kraj/gcc-8&id=3Daf33a8b721cc9caebd3f5226b4c5903f666ab654
-> > >> > fails to build with ptest enabled (it builds with 4.20 version if I
-> > >> > revert this change)
-> > >> > ../../strace-4.22/tests/inject-nf.c: In function 'main':
-> > >> > ../../strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be used=
- in
-> > >> > asm here
-> > >> >   }
-> > >> >   ^
-> > >>
-> > >> are you targeting thumb1 ? how can I reproduce it ?
-> > >
-> > > I'm trying to find out what's different in the builds where it was
-> > > failing, will provide more info later.
-> >=20
-> > This is probably due to making an inline syscall from Thumb (doesn't a
-> > matter Thumb1 or Thumb2) with frame pointers enabled.
-> >=20
-> > Does adding -fomit-frame-pointer to CFLAGS fix it?
->=20
-> It was with raspberrypi3, thumb (Thumb2) enabled in DISTRO, there is
-> already -fno-omit-frame-pointer in the default command line for it,
-> adding -fomit-frame-pointer at the end fixes it:
->=20
-> docker-lge @ ~/build/build-webos-master/BUILD/work/raspberrypi3-webos-lin=
-ux-gnueabi/strace/4.22-r0/build/tests $ arm-webos-linux-gnueabi-gcc  -march=
-=3Darmv7ve -mthumb -mfpu=3Dneon-vfpv4 -mfloat-abi=3Dhard -mcpu=3Dcortex-a7 =
---sysroot=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-webo=
-s-linux-gnueabi/strace/4.22-r0/recipe-sysroot -DHAVE_CONFIG_H    -I. -I../l=
-inux/arm -I../../strace-4.22/linux/arm -I../linux -I../../strace-4.22/linux=
- -I.. -I../../strace-4.22 -DTESTS_SIZEOF_KERNEL_LONG_T=3D4 -DTESTS_SIZEOF_L=
-ONG=3D4  -Wall -Wempty-body -Wformat-security -Wignored-qualifiers -Wimplic=
-it-fallthrough=3D5 -Winit-self -Wlogical-op -Wmissing-parameter-type -Wnest=
-ed-externs -Wold-style-declaration -Wold-style-definition -Wsign-compare -W=
-type-limits -Wwrite-strings -O -fno-omit-frame-pointer -g -feliminate-unuse=
-d-debug-types -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD=
-/work/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0=3D/usr/src/debug/stra=
-ce/4.22-r0 -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/wo=
-rk/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0/recipe-sysroot=3D -fdebu=
-g-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-w=
-ebos-linux-gnueabi/strace/4.22-r0/recipe-sysroot-native=3D  -pipe  -c -o in=
-ject-nf.o ../../strace-4.22/tests/inject-nf.c -fomit-frame-pointer
->=20
-> This might come from:
-> meta/conf/bitbake.conf:DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer=
- ${DEBUG_FLAGS} -pipe"
-> because in this build I had DEBUG_BUILD enabled.
->=20
-> Will retest with 4.20 version + DEBUG_BUILD to see if it fails there as w=
-ell now.
+This patch only solved a part of the problem.
 
-4.20 doesn't fail with DEBUG_BUILD, because inject-nf.c test is new in
-4.22:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ ...FD_CLOEXEC-on-opened-files-before-exec-fr.patch | 49 ----------------------
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  1 -
+ 2 files changed, 50 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
 
-https://github.com/strace/strace/commit/58598cd7f6e23e531d71bfe5a4e35f898a4=
-f3b2d#diff-dc01d20c1e55f8adf7536cb46d4481e1
+diff --git a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch b/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
+deleted file mode 100644
+index 4651409a65..0000000000
+--- a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 982e47df7b82c5ffe3c414cf5641f08dba0f0e64 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 26 Jan 2018 16:32:04 +0200
+-Subject: [PATCH] Revert "Set FD_CLOEXEC on opened files before exec from lua
+- script is called"
+-
+-This reverts commit 7a7c31f551ff167f8718aea6d5048f6288d60205.
+-The reason is that when _SC_OPEN_MAX is much higher than the usual 1024
+-(for example inside docker), the performance drops sharply.
+-
+-Upstream has been notified:
+-https://bugzilla.redhat.com/show_bug.cgi?id=1537564
+-
+-Upstream-Status: Inappropriate [upstream needs to come up with a better fix]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- luaext/lposix.c | 12 ------------
+- 1 file changed, 12 deletions(-)
+-
+-diff --git a/luaext/lposix.c b/luaext/lposix.c
+-index 0a7c26c71..c578c5a11 100644
+---- a/luaext/lposix.c
+-+++ b/luaext/lposix.c
+-@@ -335,22 +335,10 @@ static int Pexec(lua_State *L)			/** exec(path,[args]) */
+- 	const char *path = luaL_checkstring(L, 1);
+- 	int i,n=lua_gettop(L);
+- 	char **argv;
+--	int flag, fdno, open_max;
+- 
+- 	if (!have_forked)
+- 	    return luaL_error(L, "exec not permitted in this context");
+- 
+--	open_max = sysconf(_SC_OPEN_MAX);
+--	if (open_max == -1) {
+--	    open_max = 1024;
+--	}
+--	for (fdno = 3; fdno < open_max; fdno++) {
+--	    flag = fcntl(fdno, F_GETFD);
+--	    if (flag == -1 || (flag & FD_CLOEXEC))
+--		continue;
+--	    fcntl(fdno, F_SETFD, FD_CLOEXEC);
+--	}
+--
+- 	argv = malloc((n+1)*sizeof(char*));
+- 	if (argv==NULL) return luaL_error(L,"not enough memory");
+- 	argv[0] = (char*)path;
+--- 
+-2.15.1
+-
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+index 818d3ef9e3..85d791ce5c 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+@@ -39,7 +39,6 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
+-           file://0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch \
+            file://0001-configure.ac-add-option-for-dbus.patch \
+            "
+ 
+-- 
+2.12.0
 
-What is preferred fix for this? Is adding -fomit-frame-pointer to CFLAGS
-when ptest is in DISTRO_FEATURES acceptable solution?
 
-Regards,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---P+33d92oIH25kiaB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvTCpgAKCRA3VSO3ZXaA
-HJo+AJ9BKfck9MBrb9TaCZrBDeTcRt8z6wCcCpf4dk6835UOTGKdQL3UglXolQA=
-=1V6e
------END PGP SIGNATURE-----
-
---P+33d92oIH25kiaB--
