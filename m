@@ -1,47 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 217A475393
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E1D775391
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 22:21:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6DF9418378;
-	Fri, 11 May 2018 00:21:49 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id ujjZ-4i4Qg7i; Fri, 11 May 2018 00:21:47 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id EF2CA18529;
-	Fri, 11 May 2018 00:21:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D2C181E06E;
-	Fri, 11 May 2018 00:21:46 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C592A1E080;
-	Fri, 11 May 2018 00:21:46 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri, 11 May 2018 00:21:46 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id B433F2DB2;
-	Fri, 11 May 2018 00:21:46 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4AMLdGY026295;
-	Fri, 11 May 2018 00:21:39 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4AMLdZ2026294;
-	Fri, 11 May 2018 00:21:39 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 10 May 2018 22:29:58 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id i14-v6so3462607wre.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 15:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Zg00Ks30zcANuUljzGUOhlLFhRrfyS0HM2u4XI9LNPw=;
+	b=cxj5XhOeUGppa+EGK9OSh5I4B5Rkb75wK4HluaSVsD5SVSQMIYxCvXxlhjBPS90vew
+	lPY6IbW4rdkGtxf1r4ycvMIDVJTk8jTEeF5y70ww67UyYKJuQ7C5EVbqW2Qtx/w9e26H
+	Xe4YEkAYWpQctjmBjI4RicZemX5XMveG3QEkAy7DTfGoTSdEaBPHOi7qaxaYFDdkc5hs
+	auoXv0JVNsqV2AkUiD+REI4X38NAmSnvEgY2d+e8/sV7y1vtPTEV2afIkEbNtHjhva0U
+	bWJPdLNvWSc81fxb15G0NQixTMC2UHD33HbpuL91Twj6rS7lqDLj0ENapQDo4kY8+3fW
+	f6ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Zg00Ks30zcANuUljzGUOhlLFhRrfyS0HM2u4XI9LNPw=;
+	b=RO+CldyTKcV3n5wQ39ppPDE98sfI+HtW1xfvCq4+bYrCqJa5KfyTL/RJwZ7fTFPZGe
+	ORF9wRSRiYJYgsID55fozjues0JndNQdilMhqTMHU6par9sYZr9daCG7QQ57ElGxem1+
+	FZ5LbF73+Y9wG3ZxXh19QgL40BF2F9dx7Zm+v7Cyf1/Hcg4/jh9mEjRUq7rVWw3TuRIa
+	u/3L5FyFFCuV9dQud+NjG7DLqLIrHSsAJZA3PHQd+CbbRi4CVEAsn8F2Cx0EIcHID6z2
+	WWRWCdaVT9QakeCtHeZZb+h1fLF7qMfmHr28BsbUkoL65VMCoUStN18jYE0Ee6K5OyAe
+	ht1g==
+X-Gm-Message-State: ALKqPwedOqxRtR7EusVAWyYjGH351l3dmNscYjrVJQkfpdH2tDg0Oxw5
+	81pE1vN//AhQdDxs+OFbdqG7dQ==
+X-Google-Smtp-Source: AB8JxZoAxSvEoUjaSSPn1BcTR1V0fMkui5CA6k4Limc4ZuCLc6cCtWEbjkpemHG4up/OvEg1hdpKlg==
+X-Received: by 2002:adf:ba91:: with SMTP id
+	p17-v6mr2488976wrg.125.1525991399685; 
+	Thu, 10 May 2018 15:29:59 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	c18-v6sm2447931wmd.13.2018.05.10.15.29.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 10 May 2018 15:29:58 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 00:20:42 +0200
-Message-Id: <fc21a364b6714e86743cc14e43e278328f9b39ea.1525990692.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1525990692.git.pkj@axis.com>
-References: <cover.1525990692.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] rpm: Assume a max limit of 1024 open files
+Date: Thu, 10 May 2018 22:29:57 +0000
+Message-Id: <20180510222957.25918-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180509202422.22501-6-raj.khem@gmail.com>
+References: <20180509202422.22501-6-raj.khem@gmail.com>
+Subject: [PATCH] strace: remove -fno-omit-frame-pointer from DEBUG_OPTIMIZATION when ptest is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,99 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 22:21:49 -0000
+X-List-Received-Date: Thu, 10 May 2018 22:29:59 -0000
 
-If sysconf(_SC_OPEN_MAX) is much greater than the usual 1024 (for
-example inside a Docker container), the performance drops sharply.
+* otherwise strace-4.22/tests/inject-nf.c fails to build as discussed here:
+  http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150647.html
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...001-Assume-a-max-limit-of-1024-open-files.patch | 61 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  2 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Assume-a-max-limit-of-1024-open-files.patch
+ meta/recipes-devtools/strace/strace_4.22.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Assume-a-max-limit-of-1024-open-files.patch b/meta/recipes-devtools/rpm/files/0001-Assume-a-max-limit-of-1024-open-files.patch
-new file mode 100644
-index 0000000000..c5ca892aa2
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Assume-a-max-limit-of-1024-open-files.patch
-@@ -0,0 +1,61 @@
-+From 0d40bae6c02799ea35c95acfaa8991ddf92ab232 Mon Sep 17 00:00:00 2001
-+From: Peter Kjellerstedt <pkj@axis.com>
-+Date: Fri, 4 May 2018 22:47:11 +0200
-+Subject: [PATCH] Assume a max limit of 1024 open files
-+
-+If sysconf(_SC_OPEN_MAX) is much greater than the usual 1024 (for
-+example inside a Docker container), the performance drops sharply.
-+
-+Upstream-Status: Inappropriate [upstream needs to come up with a better fix]
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+ lib/rpmscript.c | 7 +------
-+ luaext/lposix.c | 8 ++------
-+ 2 files changed, 3 insertions(+), 12 deletions(-)
-+
-+diff --git a/lib/rpmscript.c b/lib/rpmscript.c
-+index 19a28fb75..ca7838835 100644
-+--- a/lib/rpmscript.c
-++++ b/lib/rpmscript.c
-+@@ -160,17 +160,12 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
-+     int flag;
-+     int fdno;
-+     int xx;
-+-    int open_max;
-+ 
-+     /* SIGPIPE is ignored in rpm, reset to default for the scriptlet */
-+     (void) signal(SIGPIPE, SIG_DFL);
-+ 
-+     /* XXX Force FD_CLOEXEC on all inherited fdno's. */
-+-    open_max = sysconf(_SC_OPEN_MAX);
-+-    if (open_max == -1) {
-+-	open_max = 1024;
-+-    }
-+-    for (fdno = 3; fdno < open_max; fdno++) {
-++    for (fdno = 3; fdno < 1024; fdno++) {
-+ 	flag = fcntl(fdno, F_GETFD);
-+ 	if (flag == -1 || (flag & FD_CLOEXEC))
-+ 	    continue;
-+diff --git a/luaext/lposix.c b/luaext/lposix.c
-+index 0a7c26c71..2640db51c 100644
-+--- a/luaext/lposix.c
-++++ b/luaext/lposix.c
-+@@ -335,16 +335,12 @@ static int Pexec(lua_State *L)			/** exec(path,[args]) */
-+ 	const char *path = luaL_checkstring(L, 1);
-+ 	int i,n=lua_gettop(L);
-+ 	char **argv;
-+-	int flag, fdno, open_max;
-++	int flag, fdno;
-+ 
-+ 	if (!have_forked)
-+ 	    return luaL_error(L, "exec not permitted in this context");
-+ 
-+-	open_max = sysconf(_SC_OPEN_MAX);
-+-	if (open_max == -1) {
-+-	    open_max = 1024;
-+-	}
-+-	for (fdno = 3; fdno < open_max; fdno++) {
-++	for (fdno = 3; fdno < 1024; fdno++) {
-+ 	    flag = fcntl(fdno, F_GETFD);
-+ 	    if (flag == -1 || (flag & FD_CLOEXEC))
-+ 		continue;
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index 85d791ce5c..55b0396cd8 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -41,6 +41,8 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0001-configure.ac-add-option-for-dbus.patch \
-            "
-+SRC_URI_append_class-native = " file://0001-Assume-a-max-limit-of-1024-open-files.patch"
-+SRC_URI_append_class-nativesdk = " file://0001-Assume-a-max-limit-of-1024-open-files.patch"
+diff --git a/meta/recipes-devtools/strace/strace_4.22.bb b/meta/recipes-devtools/strace/strace_4.22.bb
+index 196c9d8587..947b3f7bf6 100644
+--- a/meta/recipes-devtools/strace/strace_4.22.bb
++++ b/meta/recipes-devtools/strace/strace_4.22.bb
+@@ -23,6 +23,9 @@ inherit autotools ptest bluetooth
+ EXTRA_OECONF += "--enable-mpers=no"
  
- PE = "1"
- SRCREV = "bfee1410af51c1cc9724791fb8d985260a62102b"
+ CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
++# otherwise strace-4.22/tests/inject-nf.c fails to build as discussed here:
++# http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150647.html
++DEBUG_OPTIMIZATION_remove = "${@bb.utils.contains('PTEST_ENABLED', '1', '-fno-omit-frame-pointer', '', d)}"
+ 
+ RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
+ 
 -- 
-2.12.0
+2.17.0
 
 
