@@ -1,27 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 90B9B75055
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AC8A74FAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 01:51:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4A1pptY001880
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 May 2018 03:08:33 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id j20-v6so345593pff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 May 2018 18:51:52 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 9 May 2018 18:51:51 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1524043165.git.Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <2bce535c-47d3-2851-9035-407f9ab4367b@windriver.com>
-Date: Thu, 10 May 2018 09:53:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1524043165.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 0/1] cross-canadian: fix do_configure failure when switching machine and multilib
+	Wed, 09 May 2018 20:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=2greyArRTQRLqkz72w8RZMQlSl5XeoRWNqkVG3c5VwY=;
+	b=ERSpQTDq8Wce3vdZkt7JXe9E6qCRbNyfFcg4cmbr/s6W/HWjqiCx4LwDfAPvuynliu
+	70h55Vxdks0vcmNvXXF2BxSgHDhoUf68HP9rYomKFy5/MB9P8yeP9cynl7Bu3tNE7lPd
+	CL1d5vXgJURs78pYGCUvH1sykfdxYKPIDrN3NWjWySH2VQGO3uRkt2BMLzQlIwbsC7OJ
+	ft1wLQLrjSlxZbt75Gz/tMfegRBc30Vcr2Gw54SLH5dQngPavGvFEpeqTObT7VJ2rGPS
+	20uGRRRnDPhjC4lKA+3iLLX4m8WP821p9AHg1LlmXgnX5nyJCSG60HQT+igIL7YPuQX0
+	zk5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2greyArRTQRLqkz72w8RZMQlSl5XeoRWNqkVG3c5VwY=;
+	b=mkU4OWvvrO+a+/QaNVpNTxDZEaOEaVGu6U7QXRKGb8aZb3XOp3sbs+23yKJ5upKTR2
+	osb+IIfdLrUK+ho6yemVEctYInIvpeDgseetTblKjkbl5JzfSI34A7sVjREBo4Wn9+zn
+	4dn+QqKtKjY8aR2btCTPuzlA6Y8ZMLgg/YnUIzD1kBNjrlCfKFC6VjEZzfqca6EWAIpW
+	ECoaQku4JZgw0LNV9qV+VyVAYfKN/HoNq4AwW0+07nctBr0UVwsq1ToqsYCxILKG2yF/
+	ZiQLuifcw80s3KIUoGftd4RjlqMsW4bQ0X2A+H0uyT+J/srXU0icC8d389coV7lP95pn
+	2zUg==
+X-Gm-Message-State: ALQs6tDDCmelge8OD4MD+zwv1x8dNWGILjAk9MyLQs6AbP0+kdUNLYc2
+	XdxAC+qTsNVcPY8WJ+LrgovfwA==
+X-Google-Smtp-Source: AB8JxZr9UQeTd+BJtPI3oXvLpPSmB3+8oqmH1Qltv4wNHOeLE/tF0/eiEyT+WSxd/NjppSMrEdogjA==
+X-Received: by 10.98.232.1 with SMTP id c1mr46096770pfi.184.1525921714966;
+	Wed, 09 May 2018 20:08:34 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	e5sm56940846pfk.28.2018.05.09.20.08.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 May 2018 20:08:34 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 May 2018 20:08:29 -0700
+Message-Id: <1525921709-15085-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] security_flags.inc: drop obsolete comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 01:51:51 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2018 03:08:34 -0000
 
-ping
+The last ARM specific over-ride was removed in:
 
-I've used this patch locally for a few weeks. It works well and does not 
-cause any new problem.
+  http://git.openembedded.org/openembedded-core/commit/?id=e93765ffb5718b0fce84f0b8123963176dea95e4
 
-Best Regards,
-Chen Qi
+but the comment was accidentally left behind.
 
-On 04/20/2018 10:05 AM, Chen Qi wrote:
-> The following changes since commit d012a9acdc3dce014705224a1261145628e75931:
->
->    scripts/test-dependencies.sh: remove (2018-04-13 16:58:07 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib ChenQi/cross-canadian-mlprefix
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/cross-canadian-mlprefix
->
-> Chen Qi (1):
->    cross-canadian: fix do_configure failure when switching machine and
->      multilib
->
->   meta/classes/cross-canadian.bbclass | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/distro/include/security_flags.inc | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index d66dd57..e6eb811 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -33,7 +33,6 @@ SECURITY_CFLAGS_pn-libgcc_powerpc = ""
+ GCCPIE_powerpc = ""
+ GLIBCPIE_powerpc = ""
+ 
+-# arm specific security flag issues
+ SECURITY_CFLAGS_pn-glibc = ""
+ SECURITY_CFLAGS_pn-glibc-initial = ""
+ SECURITY_CFLAGS_pn-gcc-runtime = ""
+@@ -43,7 +42,6 @@ SECURITY_CFLAGS_pn-grub-efi-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
+ SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
+-
+ SECURITY_CFLAGS_pn-mkelfimage_x86 = ""
+ 
+ SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NOPIE_CFLAGS}"
+-- 
+1.9.1
 
 
