@@ -1,34 +1,50 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AA4F75215
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 40054751AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 12:55:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4ACt2w9005671
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 May 2018 13:01:49 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id e12-v6so2873669iob.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 05:55:03 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.55]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Thu, 10 May 2018 05:55:01 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] distcc: update to 3.3
-Thread-Index: AQHTwQGUVaXWMsbOUEWfCuSDX73CVqPbcnsggE4ua4D//5ffYA==
-Date: Thu, 10 May 2018 12:54:59 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA015871997E@ALA-MBC.corp.ad.wrs.com>
-References: <20180315082445.8104-1-jackie.huang@windriver.com>
-	<CAJTo0LavpHe=+2uJ=9JatGE_Yr1kLLwNA+v-kWNxmt=ReuLcnw@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA015869526A@ALA-MBD.corp.ad.wrs.com>
-	<CAJTo0LZ73iwvOtmFD_xbmtzCj=avFHtXqikwwRDL3Z5mjyeu+A@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ73iwvOtmFD_xbmtzCj=avFHtXqikwwRDL3Z5mjyeu+A@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.16.200]
+	Thu, 10 May 2018 06:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LmKjIgJU/tUGL+wQJNsdcrRo8ZhuuYZykHU6lmCnqys=;
+	b=yieow5gEAHpzJXxssSZhyzXNgcUulGQ1rAvxQpnMqKsKdtm4qef732exAsrh1/1osf
+	f1wIanKPNiWQ4aRQt7h+Iet8xqPfS1/zuUeaJuFPU5wzJ524352tI1qUhqJjqnbeEsKQ
+	IlBSnotMNNu4UGRYetzKN0qD/faCgOeZZkVW7rRNPRTj7gD5Xl05RJXw4QX/Gg3MpoDt
+	6GGGC3IisE7M1S3Nj94UduUBPR7ULejkXkwcDwHLNxlwh2aa3MGgW+0AE6hviQWjuoos
+	xSJLbFyL0sYUX1/jm6DymKyGXIRgJru7OpR4hy0ibgP94LAnOMK10ZDHGgfyaqAOZ8Pq
+	8OhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LmKjIgJU/tUGL+wQJNsdcrRo8ZhuuYZykHU6lmCnqys=;
+	b=BeFSCwHwG3SS/HwBFRgSDY8oyRUmJoz1mk45BbhY9jHOHpKWtvWF6A7/LKLnkZ6p81
+	ol3I6FYGAs9Iw4UuIDXjfr332K/fF9y/Z0DLBz/Fa5SszQI4SET9p+qtU4z6Ya/XOGLn
+	cdrCVr5ltv8xIhUEfXtmkhTlxTj1MM6sEtI4C1irv7RjRDr60233k6ko6W25XipYbhmE
+	J3fbIPsp9w1+dioMUPxFdSNMLG1x5eixahX7m9Wpcfj8Wtl9Fv2Vy3yEqewRDJv1fuof
+	vodWPDKVbXeHuGfGPCKufixM3yYT9aFjSiJDY1xczN7RwWquOBmyd98aAmB0qb49/AvA
+	kd4w==
+X-Gm-Message-State: ALKqPweMWgv4Y/d98pnehdiJiChSmHjjrXR0DqioPxruEPlzttrXJknm
+	1V7NeALkGFuqfjLv0iNSqGNFYNku058/NeF4sj9HNA==
+X-Google-Smtp-Source: AB8JxZqHe/XWGmaQ+Ld/xBX6GxWOM+s8ERa8CTaaWGDsBd5PrTqq5p6rDhfiPCm53DijJN00zrrg5LaTs7iz3ZfSMOw=
+X-Received: by 2002:a6b:b74b:: with SMTP id
+	h72-v6mr1309523iof.201.1525957310290; 
+	Thu, 10 May 2018 06:01:50 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.107.239.11 with HTTP; Thu, 10 May 2018 06:01:29 -0700 (PDT)
+In-Reply-To: <20180510122036.15212-1-Martin.Jansa@gmail.com>
+References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<20180510122036.15212-1-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 May 2018 14:01:29 +0100
+Message-ID: <CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distcc: update to 3.3
+Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,100 +57,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 12:55:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 10 May 2018 13:01:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
-YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBUaHVyc2RheSwgTWF5IDEwLCAy
-MDE4IDIwOjAzDQo+IFRvOiBIdWFuZywgSmllIChKYWNraWUpDQo+IENjOiBPRS1jb3JlDQo+IFN1
-YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBkaXN0Y2M6IHVwZGF0ZSB0byAzLjMNCj4gDQo+
-IEhpIEphY2tpZSwNCj4gDQo+IERpZCB5b3UgZ2V0IHRvIGxvb2sgYXQgdGhlIGRpc3RjYyAzLjMg
-dXBncmFkZSBmYWlsdXJlcz8gIFdlJ3JlIG9wZW4NCg0KU29ycnkgSSBkb24ndCBoYXZlIHRpbWUg
-dG8gZml4IHRoZSBmYWlsdXJlLCBJIHdpbGwgaGF2ZSBvbmUgb2YgbXkgIGNvbGxlYWd1ZXMgdG8g
-dGFrZSBpdCBvdmVyIHNvb24uDQoNClRoYW5rcywNCkphY2tpZQ0KDQo+IGFnYWluIGZvciB1cGRh
-dGVzIGFuZCBtb3ZpbmcgdG8gMy4zIGluc3RlYWQgb2YgYSBmb3JrZWQgcmVwb3NpdG9yeSBvbg0K
-PiBBcm1pbidzIHBlcnNvbmFsIGdpdGh1YiB3b3VsZCBiZSBuaWNlIQ0KPiANCj4gUm9zcw0KPiAN
-Cj4gT24gMjIgTWFyY2ggMjAxOCBhdCAwMTowOSwgSHVhbmcsIEphY2tpZSAoV2luZCBSaXZlcikN
-Cj4gPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4gPiBJIHdpbGwgdGFrZSBh
-IGxvb2sgYW5kIGZpeCwgdGhhbmtzIQ0KPiA+DQo+ID4NCj4gPg0KPiA+IFRoYW5rcywNCj4gPg0K
-PiA+IEphY2tpZQ0KPiA+DQo+ID4NCj4gPg0KPiA+IEZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
-OnJvc3MuYnVydG9uQGludGVsLmNvbV0NCj4gPiBTZW50OiBXZWRuZXNkYXksIE1hcmNoIDIxLCAy
-MDE4IDE4OjQ0DQo+ID4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gPiBDYzogT0UtY29yZQ0K
-PiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBkaXN0Y2M6IHVwZGF0ZSB0byAzLjMN
-Cj4gPg0KPiA+DQo+ID4NCj4gPiBUaGlzIGZhaWxzIHRvIHN0YXJ0IHVuZGVyIHN5c3RlbWQgc28g
-Y2F1c2VkIHRoZSBRQSB0byBmYWlsOg0KPiA+DQo+ID4NCj4gPg0KPiA+IGh0dHBzOi8vYXV0b2J1
-aWxkZXIueW9jdG8uaW8vYnVpbGRlcnMvbmlnaHRseS1xYS1leHRyYXMvYnVpbGRzLzg4Mi9zdGVw
-cy9SdW5uaW5nJTIwU2FuaXR5JTIwVGVzdHNfNy9sb2dzL3N0ZGlvDQo+ID4NCj4gPg0KPiA+DQo+
-ID4gUm9zcw0KPiA+DQo+ID4NCj4gPg0KPiA+IE9uIDE1IE1hcmNoIDIwMTggYXQgMDg6MjQsIDxq
-YWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBKYWNraWUg
-SHVhbmcgPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPg0KPiA+DQo+ID4gKiB1cGRhdGUgdG8g
-dmVyc2lvbiAzLjMNCj4gPiAqIFJlbW92ZSAwMDAxLXplcm9jb25mLUluY2x1ZGUtZmNudGwuaC5w
-YXRjaCBzaW5jZSBpdCdzDQo+ID4gICBpbmNsdWRlZCBpbiB2My4zDQo+ID4gKiBBZGQgdXBkYXRl
-LWRpc3RjYy1zeW1saW5rcyBpbnRvIEZJTEVTLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogSmFj
-a2llIEh1YW5nIDxqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4u
-L2Rpc3RjYy97ZGlzdGNjXzMuMi5iYiA9PiBkaXN0Y2NfMy4zLmJifSAgICAgICAgfCAxMCArKysr
-Ky0tLQ0KPiA+ICAuLi4vZmlsZXMvMDAwMS16ZXJvY29uZi1JbmNsdWRlLWZjbnRsLmgucGF0Y2gg
-ICAgICB8IDI5DQo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDYgaW5zZXJ0aW9ucygrKSwgMzMgZGVsZXRpb25zKC0pDQo+ID4gIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZGlzdGNjL3tkaXN0Y2NfMy4yLmJiID0+IGRpc3RjY18zLjMuYmJ9ICg5
-MSUpDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NA0KPiA+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9k
-aXN0Y2MvZmlsZXMvMDAwMS16ZXJvY29uZi1JbmNsdWRlLWZjbnRsLmgucGF0Y2gNCj4gPg0KPiA+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlzdGNjL2Rpc3RjY18zLjIuYmIN
-Cj4gPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kaXN0Y2MvZGlzdGNjXzMuMy5iYg0KPiA+IHNp
-bWlsYXJpdHkgaW5kZXggOTElDQo+ID4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2Rpc3RjYy9kaXN0Y2NfMy4yLmJiDQo+ID4gcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9kaXN0Y2MvZGlzdGNjXzMuMy5iYg0KPiA+IGluZGV4IGI2ZGE2NWE1ODJhLi5hMjY2ZTdkZGU5
-YiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlzdGNjL2Rpc3RjY18z
-LjIuYmINCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGlzdGNjL2Rpc3RjY18zLjMu
-YmINCj4gPiBAQCAtMTQsMTQgKzE0LDE1IEBAIFBBQ0tBR0VDT05GSUdbcG9wdF0gPQ0KPiA+ICIt
-LXdpdGhvdXQtaW5jbHVkZWQtcG9wdCwtLXdpdGgtaW5jbHVkZWQtcG9wdCxwb3B0Ig0KPiA+DQo+
-ID4gIFJSRUNPTU1FTkRTXyR7UE59ID0gImF2YWhpLWRhZW1vbiINCj4gPg0KPiA+IC1TUkNfVVJJ
-ID0gImdpdDovL2dpdGh1Yi5jb20vZGlzdGNjL2Rpc3RjYy5naXQ7YnJhbmNoPSR7UFZ9IFwNCj4g
-PiArU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2Rpc3RjYy9kaXN0Y2MuZ2l0O2JyYW5jaD1t
-YXN0ZXIgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly9zZXBhcmF0ZWJ1aWxkZGlyLnBhdGNoIFwN
-Cj4gPiAtICAgICAgICAgICBmaWxlOi8vMDAwMS16ZXJvY29uZi1JbmNsdWRlLWZjbnRsLmgucGF0
-Y2ggXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly9kZWZhdWx0IFwNCj4gPiAgICAgICAgICAgICBm
-aWxlOi8vZGlzdGNjbW9uLWdub21lLmRlc2t0b3AgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly9k
-aXN0Y2MgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly9kaXN0Y2Muc2VydmljZSINCj4gPiAtU1JD
-UkVWID0gImQ4YjE4ZGYzZTlkY2JlNGYwOTJiZWQ1NjU4MzVkMzk3NWU5OTQzMmMiDQo+ID4gKw0K
-PiA+ICtTUkNSRVYgPSAiMDAyZTY4Yjc2NmNjZDdhZDA1NTUxZTY3ZDE2MmI3MWE3YTc3M2QwZCIN
-Cj4gPiArDQo+ID4gIFMgPSAiJHtXT1JLRElSfS9naXQiDQo+ID4gIFVQU1RSRUFNX1ZFUlNJT05f
-VU5LTk9XTiA9ICIxIg0KPiA+DQo+ID4gQEAgLTYwLDkgKzYxLDEwIEBAIFBBQ0tBR0VTICs9ICJk
-aXN0Y2MtZGlzdG1vbi1nbm9tZSINCj4gPg0KPiA+ICBGSUxFU18ke1BOfSA9ICIgJHtzeXNjb25m
-ZGlyfSBcDQo+ID4gICAgICAgICAgICAgICAgICR7YmluZGlyfS9kaXN0Y2MgXA0KPiA+IC0gICAg
-JHtiaW5kaXJ9L2xzZGlzdGNjIFwNCj4gPiArICAgICAgICAgICAgICAgJHtiaW5kaXJ9L2xzZGlz
-dGNjIFwNCj4gPiAgICAgICAgICAgICAgICAgJHtiaW5kaXJ9L2Rpc3RjY2QgXA0KPiA+ICAgICAg
-ICAgICAgICAgICAke2JpbmRpcn0vZGlzdGNjbW9uLXRleHQgXA0KPiA+ICsgICAgICAgICAgICAg
-ICAke3NiaW5kaXJ9L3VwZGF0ZS1kaXN0Y2Mtc3ltbGlua3MgXA0KPiA+ICAgICAgICAgICAgICAg
-ICAke3N5c3RlbWRfdW5pdGRpcn0vc3lzdGVtL2Rpc3RjYy5zZXJ2aWNlIg0KPiA+ICBGSUxFU19k
-aXN0Y2MtZGlzdG1vbi1nbm9tZSA9ICIgICR7YmluZGlyfS9kaXN0Y2Ntb24tZ25vbWUgXA0KPiA+
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJHtkYXRhZGlyfS9kaXN0Y2MiDQo+ID4g
-ZGlmZiAtLWdpdA0KPiA+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rpc3RjYy9maWxlcy8wMDAx
-LXplcm9jb25mLUluY2x1ZGUtZmNudGwuaC5wYXRjaA0KPiA+IGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2Rpc3RjYy9maWxlcy8wMDAxLXplcm9jb25mLUluY2x1ZGUtZmNudGwuaC5wYXRjaA0KPiA+
-IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IGIxN2VjOWM5NTk5Li4wMDAwMDAw
-MDAwMA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kaXN0Y2MvZmlsZXMvMDAwMS16
-ZXJvY29uZi1JbmNsdWRlLWZjbnRsLmgucGF0Y2gNCj4gPiArKysgL2Rldi9udWxsDQo+ID4gQEAg
-LTEsMjkgKzAsMCBAQA0KPiA+IC1Gcm9tIDgzMzFmYzQ3NTlkODA5NTEyZjQwNGU3YTI3ZjgxN2Fk
-NmQ2MTY0NTAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+ID4gLUZyb206IEtoZW0gUmFqIDxy
-YWoua2hlbUBnbWFpbC5jb20+DQo+ID4gLURhdGU6IE1vbiwgMTMgQXByIDIwMTUgMTg6MDA6MzMg
-LTA3MDANCj4gPiAtU3ViamVjdDogW1BBVENIXSB6ZXJvY29uZjogSW5jbHVkZSBmY250bC5oDQo+
-ID4gLQ0KPiA+IC1XZSBuZWVkIGl0IGZvciBnZXR0aW5nIGRlaW5pdGlvbnMgZm9yIE9fKiBlLmcu
-IE9fQ1JFQVQNCj4gPiAtDQo+ID4gLVVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiA+IC0NCj4g
-PiAtU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gPiAtLS0t
-DQo+ID4gLSBzcmMvemVyb2NvbmYuYyB8IDEgKw0KPiA+IC0gMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspDQo+ID4gLQ0KPiA+IC1kaWZmIC0tZ2l0IGEvc3JjL3plcm9jb25mLmMgYi9zcmMv
-emVyb2NvbmYuYw0KPiA+IC1pbmRleCA0MTRkZGM0Li4zMWJkMzNmIDEwMDY0NA0KPiA+IC0tLS0g
-YS9zcmMvemVyb2NvbmYuYw0KPiA+IC0rKysgYi9zcmMvemVyb2NvbmYuYw0KPiA+IC1AQCAtMzMs
-NiArMzMsNyBAQA0KPiA+IC0gI2luY2x1ZGUgPHVuaXN0ZC5oPg0KPiA+IC0gI2luY2x1ZGUgPHN0
-ZGxpYi5oPg0KPiA+IC0gI2luY2x1ZGUgPGxpbWl0cy5oPg0KPiA+IC0rI2luY2x1ZGUgPGZjbnRs
-Lmg+DQo+ID4gLQ0KPiA+IC0gI2luY2x1ZGUgPGF2YWhpLWNvbW1vbi9kb21haW4uaD4NCj4gPiAt
-ICNpbmNsdWRlIDxhdmFoaS1jb21tb24vZXJyb3IuaD4NCj4gPiAtLS0NCj4gPiAtMi4xLjQNCj4g
-PiAtDQo+ID4gLS0NCj4gPiAyLjEzLjANCj4gPg0KPiA+IC0tDQo+ID4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gPiBPcGVuZW1iZWRkZWQtY29yZSBt
-YWlsaW5nIGxpc3QNCj4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-DQo+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVu
-ZW1iZWRkZWQtY29yZQ0KPiA+DQo+ID4NCg==
+Fails to build here:
+
+ coreutils/lib.a(mktemp.o): In function `mktemp_main':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/coreutils/mktemp.c:105:
+warning: the use of `mktemp' is dangerous, better use `mkstemp' or
+`mkdtemp'
+| util-linux/lib.a(mount.o): In function `xdr_fhstatus':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1057:
+undefined reference to `xdr_u_int'
+| util-linux/lib.a(mount.o): In function `xdr_fhandle':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1052:
+undefined reference to `xdr_opaque'
+| util-linux/lib.a(mount.o): In function `xdr_mountstat3':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1089:
+undefined reference to `xdr_enum'
+| util-linux/lib.a(mount.o): In function `xdr_fhandle3':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1071:
+undefined reference to `xdr_bytes'
+| util-linux/lib.a(mount.o): In function `xdr_mountres3_ok':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1080:
+undefined reference to `xdr_int'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1080:
+undefined reference to `xdr_array'
+| util-linux/lib.a(mount.o): In function `xdr_dirpath':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1066:
+undefined reference to `xdr_string'
+| util-linux/lib.a(mount.o): In function `get_mountport':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1145:
+undefined reference to `pmap_getmaps'
+| util-linux/lib.a(mount.o): In function `nfsmount':
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1662:
+undefined reference to `clnttcp_create'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1677:
+undefined reference to `authunix_create_default'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1652:
+undefined reference to `clntudp_create'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1672:
+undefined reference to `clnt_spcreateerror'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1702:
+undefined reference to `clnt_sperror'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1707:
+undefined reference to `clnt_sperror'
+| /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1788:
+undefined reference to `pmap_getport'
+
+Ross
+
+On 10 May 2018 at 13:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * We dropped in-tree obsoleted rpc from glibc and now busybox builds
+>   which had CONFIG_FEATURE_MOUNT_NFS enabled were failing with:
+>   | util-linux/mount.c:252:11: fatal error: rpc/rpc.h: No such file or directory
+>   |  # include <rpc/rpc.h>
+>   |            ^~~~~~~~~~~
+>   | compilation terminated.
+>   | make[1]: *** [util-linux/mount.o] Error 1
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc       | 6 +++---
+>  meta/recipes-core/busybox/busybox/defconfig | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index d1675c37aa..2db19ed317 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -3,7 +3,7 @@ DESCRIPTION = "BusyBox combines tiny versions of many common UNIX utilities into
+>  HOMEPAGE = "http://www.busybox.net"
+>  BUGTRACKER = "https://bugs.busybox.net/"
+>
+> -DEPENDS += "kern-tools-native"
+> +DEPENDS += "kern-tools-native libtirpc"
+>
+>  # bzip2 applet in busybox is based on lightly-modified bzip2 source
+>  # the GPL is version 2 only
+> @@ -15,8 +15,8 @@ SECTION = "base"
+>  # Whether to split the suid apps into a seperate binary
+>  BUSYBOX_SPLIT_SUID ?= "1"
+>
+> -export EXTRA_CFLAGS = "${CFLAGS}"
+> -export EXTRA_LDFLAGS = "${LDFLAGS}"
+> +export EXTRA_CFLAGS = "${CFLAGS} -I${STAGING_INCDIR}/tirpc"
+> +export EXTRA_LDFLAGS = "${LDFLAGS} -ltirpc"
+>
+>  EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+>
+> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+> index fbb5fd852c..816555fc21 100644
+> --- a/meta/recipes-core/busybox/busybox/defconfig
+> +++ b/meta/recipes-core/busybox/busybox/defconfig
+> @@ -638,7 +638,7 @@ CONFIG_MOUNT=y
+>  # CONFIG_FEATURE_MOUNT_VERBOSE is not set
+>  # CONFIG_FEATURE_MOUNT_HELPERS is not set
+>  # CONFIG_FEATURE_MOUNT_LABEL is not set
+> -# CONFIG_FEATURE_MOUNT_NFS is not set
+> +CONFIG_FEATURE_MOUNT_NFS=y
+>  # CONFIG_FEATURE_MOUNT_CIFS is not set
+>  CONFIG_FEATURE_MOUNT_FLAGS=y
+>  CONFIG_FEATURE_MOUNT_FSTAB=y
+> --
+> 2.17.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
