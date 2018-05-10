@@ -1,51 +1,53 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5999B748D8
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A8A87512A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 03:15:05 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id v24-v6so448576plo.3
+	Thu, 10 May 2018 04:36:58 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id g9-v6so495773uak.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 20:15:06 -0700 (PDT)
+	Wed, 09 May 2018 21:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MZCl1JrPZ2SodXJA0YFxXAFYfz2sw0JQ0YGbYF1NCCg=;
-	b=hfcDVbL7tf5sV1HCXvueemTf2pvhyQwqnNgn/G2uYAIPNKdyxgiUarB7oEZmhaexmP
-	N3NZK4w5c+W07OVtetd1po1CP7msKcOMJ0LxS/0bCsjKwssyMmt0uYQpWKB4OLwkrDHs
-	2f2qeCgLYqVJ+5RtnhneLZJSB7ceRHc9uisw/6Ib1yllAz6HnuDs5EQr/FBFhq3+agLQ
-	nI0s4U7MCMREDBxnrw8Xg2Wmdt12ACIWZJIm1LizoOg4YOdcvKgAex3VjWsJCgUdiFGN
-	AfFdt6w7dUgFOBDrQ6AgM6QdEcRH7xVzWWOQIs+GIpaV4nT26ZDTzMnNjyQOlw7BoQRu
-	QpDA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YZQ5n9RAMMLjq8KhRB5D0Z6dCzIyRIflx39Z3/u+Dbs=;
+	b=QpzUAQkQHNgIFIP0+1hmD9gFZDj44+UzDAqc54AX0dj7XmMVUPyDx6kdUR9b7Y14XK
+	7adRS1mZL9o8M76vCO4rRxGKeYtDQtVKhRpgfC8trr52gw+Sc+Fx6/2b4sivevBzaLRu
+	PrnpJ7aSFSpLBR8E8FsCdTyFMZPi1Vh0V2Yw3PtEORtT6zmZh22BSme0vPSoJD8OB4Xe
+	fMsIS4sn4WCAbC9JSDinQl835+ZjKH3+TMVjw4abLELd90q0snKhMd3wgpUue7u3fslL
+	bgqlkg7SkDhL4WjCQa8hemiP7OErMqIgq2/sNvhT9OdKP3+++CVRa85KUAJnHlpOL3xR
+	XhyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MZCl1JrPZ2SodXJA0YFxXAFYfz2sw0JQ0YGbYF1NCCg=;
-	b=qgOjvTN1t5ipSnWrqF6Sr8T/ZjjNTj/+j+JWrdFcQQyLqHhG81kiyoNJBkTxFrxQw5
-	g96Vj+wQU89EUDNYN2Dyo6eOJFhoAEHmqqklQuMcZ4bVs24TkvehhFqooZ3fJvPv2RVp
-	zdD3HZZFCMKNWTKsOQOc+uRxPcVyL+nlThj188KppCf5cfJVB5w03teIplf8D08B789P
-	g8jlAjPTdXNpOpj3+nUFLIQ0Tyqi/ZEyjms165WtSSExbJzGOFzXnzIugYzboOzyZ3lY
-	qECLEEZiU1Ww6QKBHupSToo2x5YxdmOpPpGCpGbw/xCEuxAMOZvcSn4fBglKCXk6TTmB
-	L9Ng==
-X-Gm-Message-State: ALQs6tBZc+ndn/pvkC+ToX/o+8NC/KdHvqrZh6/BVmPMWURC1vIqs5Ol
-	s7SQtvXquS+0irbwY7SDb4hmVg==
-X-Google-Smtp-Source: AB8JxZod+W2t8/awHBolf2ymRlToB/KwQPR41PrUuVEyBN8VhDris2gYZmnMhvBCyrvA9wmMBAXHtg==
-X-Received: by 2002:a17:902:28ab:: with SMTP id
-	f40-v6mr47754820plb.208.1525922106342; 
-	Wed, 09 May 2018 20:15:06 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	203sm55271472pfz.131.2018.05.09.20.15.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 May 2018 20:15:05 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YZQ5n9RAMMLjq8KhRB5D0Z6dCzIyRIflx39Z3/u+Dbs=;
+	b=ArNhj4EZqlxBTJbBk4nu1AsK0HMyu2DhuMGKQeMWsbTaxXmOn69JRmSpnQPcQyqlR8
+	aSs75ApJScPIgamQjmkunRa6bvbbHaF1QOAPFx/lBBmeytVzJ4Du6srJVaGQy8WLI04n
+	uxZNFaQvvsliTXo08oiwIFmRAZr/imOt6Owoyo4lvgcwwzETsukSydSBw3gVx2/Bog49
+	6jeAWPISDskFYvjleoQ28qbokDCxI8PX1y7LvRg2zLJjwl+paIs6t7XpWBufU5pGNyH5
+	UdihkO1NjULV2TXzdwhqJT6x5sS+Hx7Nuw0d3l1KcTNPa8KI/ANV6J960uJvp+ZMcr2m
+	Qs8Q==
+X-Gm-Message-State: ALQs6tB1uSA1FiEzympXRy51rbv4cXj80ZqwOyUvKyD/gsHDMgcA4CzQ
+	2AS/80Zlrv5yt89b2RjXHkkPqjpnQ/nvf3wK1B0=
+X-Google-Smtp-Source: AB8JxZqpD6Qo3TVNMFIlrutou9t6P1lQBsyjAdyPbq/F3jGIJbiLCaUXA28yt2RGoMXw0bLDrVnpxyVuIMHOwnGKu5g=
+X-Received: by 10.176.76.68 with SMTP id d4mr39979859uag.128.1525927019963;
+	Wed, 09 May 2018 21:36:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.48.148 with HTTP; Wed, 9 May 2018 21:36:59 -0700 (PDT)
+In-Reply-To: <1525864141.3857.121.camel@linuxfoundation.org>
+References: <1521600149-3894-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=VK+Um4wa6F2EVzQTNiwa8LC1nhTEQrLqH2GBuSzCkbWw@mail.gmail.com>
+	<1525765207.3857.101.camel@linuxfoundation.org>
+	<CAJ86T=UJUqrzyutyKf01HR1MDTN1YbYz+ovXkUTj+DARu1XW3w@mail.gmail.com>
+	<1525770920.3857.109.camel@linuxfoundation.org>
+	<CAJ86T=WkEuK_760z-Vw0i189j0OKCGY1b=B719UJoKNpmVZqkQ@mail.gmail.com>
+	<1525864141.3857.121.camel@linuxfoundation.org>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 20:14:57 -0700
-Message-Id: <1525922097-15292-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
-References: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] bitbake.conf: drop _build-${BUILD_OS} over-ride
+Date: Wed, 9 May 2018 21:36:59 -0700
+Message-ID: <CAJ86T=UdjYfSzC38NJvieXAZj7bkTCZvu2Di9_HX-wcmCXjmrA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [daisy][PATCH 0/6] SRC_URI updates and minor build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,58 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 03:15:05 -0000
+X-List-Received-Date: Thu, 10 May 2018 04:36:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Building on a host OS other than a recent version of Linux is not
-recommended or supported. Drop the historical _build-${BUILD_OS}
-over-ride to avoid giving the impression that other host OS's might
-be supported.
+On Wed, May 9, 2018 at 4:09 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2018-05-08 at 15:07 -0700, Andre McCurdy wrote:
+>> On Tue, May 8, 2018 at 2:15 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Tue, 2018-05-08 at 02:06 -0700, Andre McCurdy wrote:
+>> > >
+>> > > On Tue, May 8, 2018 at 12:40 AM, Richard Purdie
+>> > > <richard.purdie@linuxfoundation.org> wrote:
+>> > > >
+>> > > > We've discussed "long term" branches for a while. I suggest
+>> > > > that we
+>> > > > collect together people who are will to maintain such things
+>> > > > and
+>> > > > let
+>> > > > them push to a namespace in poky-contrib initially, perhaps in
+>> > > > other
+>> > > > repos eventually where we collect these things together.
+>> > > >
+>> > > > Perhaps poky-contrib extended-life/daisy?
+>> > > >
+>> > > > If there is common agreement, a group of people could
+>> > > > collaborate
+>> > > > on such a branch too...
+>> > > Although there are multiple groups still actively developing
+>> > > against
+>> > > OE 1.6 I fear I may be the only one who has any interest in doing
+>> > > so
+>> > > in public. Hoping for a "group of people" to show up and
+>> > > collaborate
+>> > > on a branch in poky-contrib may be asking for too much.
+>> > Maybe, maybe not. I'd happy enough for you to put these changes
+>> > there,
+>> > if others want to join in, great, if not I'm not sure we're in any
+>> > worse position. I just wanted to highlight the possibility in the
+>> > future...
+>> Changes pushed to:
+>>
+>>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/?h=armcc/extended
+>> -life/daisy
+>>
+>> What happens next?
+>
+> Can you push to:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/?h=extended-life/dais
+> y
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/cross.bbclass  | 1 -
- meta/classes/native.bbclass | 1 -
- meta/conf/bitbake.conf      | 2 +-
- 3 files changed, 1 insertion(+), 3 deletions(-)
+Yes, I can today. Done.
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 4e85cab2..34d7951 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -37,7 +37,6 @@ CPPFLAGS = "${BUILD_CPPFLAGS}"
- CFLAGS = "${BUILD_CFLAGS}"
- CXXFLAGS = "${BUILD_CFLAGS}"
- LDFLAGS = "${BUILD_LDFLAGS}"
--LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE}"
- 
- TOOLCHAIN_OPTIONS = ""
- 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index ad7e98a..ddccfe2e1 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -44,7 +44,6 @@ CPPFLAGS = "${BUILD_CPPFLAGS}"
- CFLAGS = "${BUILD_CFLAGS}"
- CXXFLAGS = "${BUILD_CXXFLAGS}"
- LDFLAGS = "${BUILD_LDFLAGS}"
--LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE} "
- 
- STAGING_BINDIR = "${STAGING_BINDIR_NATIVE}"
- STAGING_BINDIR_CROSS = "${STAGING_BINDIR_NATIVE}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a772cab..702f498 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -735,7 +735,7 @@ DISTRO_NAME ??= "OpenEmbedded"
- #
- # This works for  functions as well, they are really just environment variables.
- # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
--OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
-+OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
- LIBCOVERRIDE ?= ""
- CLASSOVERRIDE ?= "class-target"
- DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
--- 
-1.9.1
-
+> ? If not, we should give you access to do that (halstead can help),
+> then we publise this on the arch list and see who else, if anyone has
+> other extended-life branches they want to contribute to or work on
+> together with others.
+>
+> Cheers,
+>
+> Richard
+>
 
