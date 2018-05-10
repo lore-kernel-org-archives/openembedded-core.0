@@ -1,50 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E689A750D2
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5999B748D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 03:15:03 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id q22-v6so353757pff.11
+	Thu, 10 May 2018 03:15:05 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id v24-v6so448576plo.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 20:15:05 -0700 (PDT)
+	Wed, 09 May 2018 20:15:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=az2xi8zybTRxIfJkMHzzR2KMjtANbZThVsbpeAsX3cw=;
-	b=NvWxl2rP27r1AgFF78Q5dpiaZF5/xITnpiwlCm76NdiWlgbQUTwHHCZASns8Kz/uSn
-	ZOq0mqZsZlYgEv4XKV0jK+Q51WvtZHf0mWV9w6tR3rqwRbnEUbiDUu8TMLsHy7bH3USk
-	i4dYzM664K+Kia4hbfQoGtl1SFKzRSCmMsw/8/qz00V8WQru0HgPKnV+4X+LkcrDee3U
-	T15mzspNAWLMEsP5Tz9FJhBYmWU959w1V7xLusyhQsR4EtBZdo70V0McSMWv0DOW+Cb8
-	dNMYPA4ghhuMFUhPho16XNPUd8cRgT+3AowUT06YegP6u7T+0dAvX0YJCB5unZxpFjpZ
-	TQDQ==
+	bh=MZCl1JrPZ2SodXJA0YFxXAFYfz2sw0JQ0YGbYF1NCCg=;
+	b=hfcDVbL7tf5sV1HCXvueemTf2pvhyQwqnNgn/G2uYAIPNKdyxgiUarB7oEZmhaexmP
+	N3NZK4w5c+W07OVtetd1po1CP7msKcOMJ0LxS/0bCsjKwssyMmt0uYQpWKB4OLwkrDHs
+	2f2qeCgLYqVJ+5RtnhneLZJSB7ceRHc9uisw/6Ib1yllAz6HnuDs5EQr/FBFhq3+agLQ
+	nI0s4U7MCMREDBxnrw8Xg2Wmdt12ACIWZJIm1LizoOg4YOdcvKgAex3VjWsJCgUdiFGN
+	AfFdt6w7dUgFOBDrQ6AgM6QdEcRH7xVzWWOQIs+GIpaV4nT26ZDTzMnNjyQOlw7BoQRu
+	QpDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=az2xi8zybTRxIfJkMHzzR2KMjtANbZThVsbpeAsX3cw=;
-	b=XM3IYlZRm+F082TQTVIN+NnDVPn3h+9zbiVRhHcXWYApWzc5o0qWGNa/Cc9h/1aMxS
-	NOEFivpVz956cCpWKfE13TgfAa+A8AUJs3OUcH5IM+kOtwXBAPRi+kq5KIwHCrkWrYpn
-	ony1np1hULoHouDHVMja/qbJYcZFp3qD1/tZlII8WvQJxSKWkQkPMfSeo6LxJZ6N+zVi
-	KTWdhaEZW19DhFsemu2lWI/aT8fuWG66LK+wHwEl2sTEDWVy1OZ4fAhAP66z3jqs4OBa
-	8Mn25t+9QJai/jUStp9Em6TQY3NfCQw0zc6VlJpfLL95Sky+j0ubS6RZ0IgH8SkaIoIc
-	8VMQ==
-X-Gm-Message-State: ALQs6tC3OI9Or7qXRZhdy3A/VAaii7/mU85O2i3bE19fo3m6ANFtATfn
-	BX2RpN42BbXMSZujqrQAoJYqcg==
-X-Google-Smtp-Source: AB8JxZrXON8H/w0FO1UFy0W/DQL7jh7Sr4f0Uwwvmr3rgwhuEn31WSUiGpf3CBmMBoQB6SdRYHCzOQ==
-X-Received: by 10.98.171.16 with SMTP id p16mr45669450pff.211.1525922104730;
-	Wed, 09 May 2018 20:15:04 -0700 (PDT)
+	bh=MZCl1JrPZ2SodXJA0YFxXAFYfz2sw0JQ0YGbYF1NCCg=;
+	b=qgOjvTN1t5ipSnWrqF6Sr8T/ZjjNTj/+j+JWrdFcQQyLqHhG81kiyoNJBkTxFrxQw5
+	g96Vj+wQU89EUDNYN2Dyo6eOJFhoAEHmqqklQuMcZ4bVs24TkvehhFqooZ3fJvPv2RVp
+	zdD3HZZFCMKNWTKsOQOc+uRxPcVyL+nlThj188KppCf5cfJVB5w03teIplf8D08B789P
+	g8jlAjPTdXNpOpj3+nUFLIQ0Tyqi/ZEyjms165WtSSExbJzGOFzXnzIugYzboOzyZ3lY
+	qECLEEZiU1Ww6QKBHupSToo2x5YxdmOpPpGCpGbw/xCEuxAMOZvcSn4fBglKCXk6TTmB
+	L9Ng==
+X-Gm-Message-State: ALQs6tBZc+ndn/pvkC+ToX/o+8NC/KdHvqrZh6/BVmPMWURC1vIqs5Ol
+	s7SQtvXquS+0irbwY7SDb4hmVg==
+X-Google-Smtp-Source: AB8JxZod+W2t8/awHBolf2ymRlToB/KwQPR41PrUuVEyBN8VhDris2gYZmnMhvBCyrvA9wmMBAXHtg==
+X-Received: by 2002:a17:902:28ab:: with SMTP id
+	f40-v6mr47754820plb.208.1525922106342; 
+	Wed, 09 May 2018 20:15:06 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	203sm55271472pfz.131.2018.05.09.20.15.04
+	203sm55271472pfz.131.2018.05.09.20.15.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 May 2018 20:15:04 -0700 (PDT)
+	Wed, 09 May 2018 20:15:05 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 20:14:56 -0700
-Message-Id: <1525922097-15292-2-git-send-email-armccurdy@gmail.com>
+Date: Wed,  9 May 2018 20:14:57 -0700
+Message-Id: <1525922097-15292-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
 References: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/3] native.bbclass: drop _virtclass-native and _virtclass-nativesdk overrides
+Subject: [PATCH 3/3] bitbake.conf: drop _build-${BUILD_OS} over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 03:15:04 -0000
+X-List-Received-Date: Thu, 10 May 2018 03:15:05 -0000
 
-The _virtclass-XXX over-rides are problematic in that they are higher
-priority than _forcevariable, which is documented as being the
-highest priority over-ride.
-
-Since they are now obsolete (replaced by _class-native and
-_class-nativesdk) drop them entirely rather than try to fix their
-priority.
+Building on a host OS other than a recent version of Linux is not
+recommended or supported. Drop the historical _build-${BUILD_OS}
+over-ride to avoid giving the impression that other host OS's might
+be supported.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/native.bbclass    | 2 --
- meta/classes/nativesdk.bbclass | 1 -
- 2 files changed, 3 deletions(-)
+ meta/classes/cross.bbclass  | 1 -
+ meta/classes/native.bbclass | 1 -
+ meta/conf/bitbake.conf      | 2 +-
+ 3 files changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 4e85cab2..34d7951 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -37,7 +37,6 @@ CPPFLAGS = "${BUILD_CPPFLAGS}"
+ CFLAGS = "${BUILD_CFLAGS}"
+ CXXFLAGS = "${BUILD_CFLAGS}"
+ LDFLAGS = "${BUILD_LDFLAGS}"
+-LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE}"
+ 
+ TOOLCHAIN_OPTIONS = ""
+ 
 diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 7f2df17..ad7e98a 100644
+index ad7e98a..ddccfe2e1 100644
 --- a/meta/classes/native.bbclass
 +++ b/meta/classes/native.bbclass
-@@ -154,8 +154,6 @@ python native_virtclass_handler () {
-                 newdeps.append(dep)
-         d.setVar(varname, " ".join(newdeps))
+@@ -44,7 +44,6 @@ CPPFLAGS = "${BUILD_CPPFLAGS}"
+ CFLAGS = "${BUILD_CFLAGS}"
+ CXXFLAGS = "${BUILD_CXXFLAGS}"
+ LDFLAGS = "${BUILD_LDFLAGS}"
+-LDFLAGS_build-darwin = "-L${STAGING_LIBDIR_NATIVE} "
  
--    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
--
-     map_dependencies("DEPENDS", e.data)
-     for pkg in [e.data.getVar("PN"), "", "${PN}"]:
-         map_dependencies("RDEPENDS", e.data, pkg)
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index 69fb45c8..ab566e9 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -78,7 +78,6 @@ python nativesdk_virtclass_handler () {
- 
-     e.data.setVar("MLPREFIX", "nativesdk-")
-     e.data.setVar("PN", "nativesdk-" + e.data.getVar("PN").replace("-nativesdk", "").replace("nativesdk-", ""))
--    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-nativesdk")
- }
- 
- python () {
+ STAGING_BINDIR = "${STAGING_BINDIR_NATIVE}"
+ STAGING_BINDIR_CROSS = "${STAGING_BINDIR_NATIVE}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a772cab..702f498 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -735,7 +735,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+ #
+ # This works for  functions as well, they are really just environment variables.
+ # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+-OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
+ LIBCOVERRIDE ?= ""
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
 -- 
 1.9.1
 
