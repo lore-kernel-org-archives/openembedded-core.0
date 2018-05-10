@@ -1,59 +1,63 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DD31F75321;
-	Thu, 10 May 2018 19:21:37 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id g20-v6so1378440pgv.1;
-	Thu, 10 May 2018 12:21:38 -0700 (PDT)
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BEB7775340
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 19:26:40 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id a22-v6so1538443pfn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 12:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:organization:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=KXMZDc1aQluANBc9wP4ZonRCJ9XcQWt8gMOfPusGENs=;
-	b=BXXb4ouVLNQrvVm3Kh9La4qH1n8aHQtWiMbG0d8SpcanqOlZxLu5wHbMkaB0Fr6DIS
-	P28GC4QGr38C7u9dR1iX1xtwIdf4AgPYTIHVV7flYuuTZfPW3cteC8zWp1RbVusmb/Hr
-	lIr5e6TdeoshEuC9hIzROgZ1I0jYVX2o4bgeh6/O6iQyqdnLaYifccNIOEJpKtQjLrHU
-	XnGceVnpGw/G2nU5KeUwkiOhMrjDV9GHJjYg+2uZi2lFiypQefon8Gk4egftTraqlS56
-	AWEjnhP4Nr26V0KlFzSfMpWNUptK7/1Xt3opL3EufUWqrK8U2crQB24SBRSSLeqNEV8c
-	M7BA==
+	bh=3O5BvyAkrshSDi9ycYXqj2YlFqwwwygOUZXou5OrIH8=;
+	b=nLVE3Hb55CeKUaDOLUmwp0acpZyG5MU89Y2/F8eIjU4Fjrrphk89mpjBEnj975ZTRe
+	P8++4yDgmbblSIbOIW+1sN4ZGRRWopL0Y1F6ykrIUIj3gqfrJwG9RxdxHLnKwx19PpQ3
+	rnAm+fY15aHjFH1OIw0WCceVBPt+2ophXjGQksnM7CJzSZICZKLAYX9EhW7SxpgJImg2
+	OXICTX0j6G421Zx/rygxZTyPSIqrtoLHam9oFgYQag+O3eBDYfMk+609WVZzGFGvbXo+
+	Au9uepDRM25FYSIPFYclMQNsMRPFB4tTaa6rPPqijHU42M5PrvsqMbrXO95FG3yEbWTb
+	4jEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=KXMZDc1aQluANBc9wP4ZonRCJ9XcQWt8gMOfPusGENs=;
-	b=KMpF8DgIsxMt5+Q8vle6jitosFPf7mWgeIKknb1mOZLf3J6Ew9kRPTxgeLLgvtdprp
-	rBGCtgDttRwmmTV8sOf0BB2UaGhygJp3RJigblCyLFBHVBm4J4lZEot9QNtGS6aV7LZR
-	cqpmucD1Djc5bqmOfcEtZnw0KPuM7bPPmBY5FMXvE/SOGA9RZvi2vYbty5o203TfxX00
-	bbuAzFPQoyWUfRewekEa87hHIo8GYhXbbS+3R/SiHM3pQ2BT9gbWvANtzUZMujQHDktF
-	t3NxRyTD/na72Ifz9vLMHQ6d/ROmLY9ZGJdM92uuoQ6QH9AFnwrJlA+N/3XMVfYdQ6Xb
-	Jl/g==
-X-Gm-Message-State: ALKqPweF9rF2ohq9rvWiXPlvbpEOxWdQzG3551fDMSEz7/DPcvI0GHD4
-	xnU2/gSOJuy+ywDnwqW46Pk=
-X-Google-Smtp-Source: AB8JxZo/llQJR2CrQJAWZPLj4CV0hBhMAqjunThZ4JDSbY6OOnFvIgomxRKPzDwVFvwX2WskTGxTEQ==
-X-Received: by 2002:a62:a65c:: with SMTP id
-	t89-v6mr2507323pfe.27.1525980098259; 
-	Thu, 10 May 2018 12:21:38 -0700 (PDT)
+	bh=3O5BvyAkrshSDi9ycYXqj2YlFqwwwygOUZXou5OrIH8=;
+	b=JmD5sjsUFRQa7EYqr4J8gOtFZzEA/aXQ3vCCuWYymUc4Vm8gDYlHwjouilHWQsSoqg
+	1j8OqlEr+etok6KViLozIDnu8hOb8CHqhdCzHxxju4dmZYit292Mw69oOGDcCS4Nn4zp
+	Nq6IFGBgDCY+3DnzDlBSA12cKnwxnWUgJaJaIb6JqPs0Hmmzg6k4xfx2PKhRhFeNMjU2
+	ImrO8s2CAPQEMVASALnEwk3fEA3Df/Ob6IcGayo2FWLJPPq54ckrGz+LnIyEUScqmofW
+	DMTmaZH3qM63H/y2QNEH3eIRdQcFvq9pOps9VKcrBH9WOtQA/pWYJrwyQSlIZ/J7De/j
+	HHxQ==
+X-Gm-Message-State: ALKqPwdc74Ujn1ugp3XPp8CBW2i2aAmg7vUNXVvJ1wgP6QUKwBYTgTnZ
+	9TArT3shfXPYvfPcoBS9qn93jtEF
+X-Google-Smtp-Source: AB8JxZq8YION0aktK0KRf7+nXZXCwoBZkNeSEDTMzJM4e0Z1gw/4N+a6ODDuzfneUJgoxLZDvr9IKA==
+X-Received: by 2002:a62:9b57:: with SMTP id
+	r84-v6mr2537483pfd.109.1525980401240; 
+	Thu, 10 May 2018 12:26:41 -0700 (PDT)
 Received: from hermes.local ([2601:646:877f:9499:49fa:9382:bcbc:28ae])
 	by smtp.gmail.com with ESMTPSA id
-	y197-v6sm3451776pfg.184.2018.05.10.12.21.37
+	x10-v6sm6481280pfd.162.2018.05.10.12.26.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 May 2018 12:21:37 -0700 (PDT)
-To: Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CAGAf8LxceSXvK-pgfWYDvYLmcvMMK0D5q==PKG9jeRWs6YEbGA@mail.gmail.com>
+	Thu, 10 May 2018 12:26:40 -0700 (PDT)
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<20180510122036.15212-1-Martin.Jansa@gmail.com>
+	<CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
+	<84e0278e-4ed3-51e7-81b8-f104c469ed4c@gmail.com>
+	<8df86d81-5e7f-46fa-0d25-ecb902d70d8c@gmail.com>
+	<20180510191612.GB1954@jama>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <9ce7ff3b-c139-6e4e-638c-1a5c864e53ef@gmail.com>
-Date: Thu, 10 May 2018 12:21:36 -0700
+Message-ID: <4ab499de-5f57-520e-4951-91f15115435d@gmail.com>
+Date: Thu, 10 May 2018 12:26:39 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
 	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <CAGAf8LxceSXvK-pgfWYDvYLmcvMMK0D5q==PKG9jeRWs6YEbGA@mail.gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [RFT] GCC 8.1
+In-Reply-To: <20180510191612.GB1954@jama>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,57 +70,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 19:21:38 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 10 May 2018 19:26:40 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/5/18 12:31 AM, Zoran Stojsavljevic wrote:
->> May fourth be with you !!
+On 5/10/18 12:16 PM, Martin Jansa wrote:
+>> On second thought, this probably should be enabled using a config
+>> fragment, since its not gonna link in another library it may not be
+>> common case to justify for a default config.
+> That's true, I've enabled CONFIG_FEATURE_MOUNT_NFS mostly to show how to
+> reproduce the issue.
 > 
-> @off topic!
+> If there isn't interest to enable this by default, I'm fine with keeping this
+> locally (to enable it only with our defconfig changes which enable it).
 > 
-> Who is here (and in wider context) Darth Vader? Bourne Kingpin (BK)? ;-)
 
-Well the message was sent on "may 4th" hence it was meant to be a 
-light-hearted encouragement to test the patchset
-
-> 
-> Zoran
-> _______
-> 
-> On Sat, May 5, 2018 at 2:26 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> Hi All
->>
->> As you might have noticed that gcc 8.1 was released this week, I am
->> calling out for some testing help on testing branch so we can weed out
->> issues you might see in your setups. so if you have your
->> builders idling over weekend, then you know what they can do this weekend :)
->>
->> Highlighted changes are
->>
->> https://gcc.gnu.org/gcc-8/changes.html
->>
->> and porting doc is
->>
->> https://gcc.gnu.org/gcc-8/porting_to.html
->>
->> The branch is here
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
->>
->> Its uptodate on top of current master oe-core
->>
->> May fourth be with you !!
->>
->> Cheers!
->>
->> -Khem
->> --
->> _______________________________________________
->> yocto mailing list
->> yocto@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/yocto
+I think keeping it as a nfsmount.cfg which then can be applied via a 
+bbappend could be a good option. May be adding a PACKAGECONFIG to 
+control the -I flag and libtirpc dependency would be nice too
 
