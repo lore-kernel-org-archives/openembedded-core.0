@@ -1,26 +1,44 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EBE79751CB
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6178F74901
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 07:22:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4A7LwZF016606
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 May 2018 08:05:05 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id y189-v6so2699042wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 00:22:13 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 10 May 2018 00:21:47 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2018 15:23:38 +0800
-Message-ID: <89c4498417109b230e759f869309561b93f796df.1525936967.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1525936967.git.Qi.Chen@windriver.com>
-References: <cover.1525936967.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] devtool/upgrade: fix the order of license checksum representation
+	Thu, 10 May 2018 01:05:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=2kSPpLuMOTLFBYh9frHRWxoq+uBaEFIIGlaBdVLBu5g=;
+	b=c940N57tuZI9xoPGhrS9zGdL+vOrSsDTa9qopUUE+Gdobxfe4rcblao0n38Vhz/Fhl
+	ntkLmnvO6w+qDWoZD83JdPhblpnhCloy4yvyfcjeF0ZsQU7zy1QqHLUXWAOTP+K95TBV
+	TP+sirAxMa/OiQV9up7NwqmfvHCu84iMCUJZ6QsuQODTghwFXESGQNH2JM6fADWyr/e4
+	5oW/mvVXoMi7GeXzVSzjaslAz9x0XnD2INPw+XFtpVi4IdjabM+xwl9OvNVh5IN1GpgV
+	DoHPOZfmNekbRdPJAkiMzW74qex98rCU6Ql6X3DSeSbShMhe69I4WBvpnms5e6gwaOYt
+	+8HA==
+X-Gm-Message-State: ALKqPwekBAw0h6uOPOoB/IoLApbeOCBoabFfHCdM3uLwg0IyIv9mBtDk
+	Jmp/YyErT1ShAj0MOKfhX6a66o3o
+X-Google-Smtp-Source: AB8JxZqXqoLO4vX1RqoVrg0cYEv/qlcbPC2LRopR0Z6NakwGLdz7dD9+fo8b41xLpKlbSQV3mwdkKg==
+X-Received: by 2002:a50:9953:: with SMTP id
+	l19-v6mr965959edb.179.1525939506533; 
+	Thu, 10 May 2018 01:05:06 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	z11-v6sm319583edh.60.2018.05.10.01.05.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 10 May 2018 01:05:05 -0700 (PDT)
+Message-ID: <1525939504.5115.18.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 May 2018 09:05:04 +0100
+In-Reply-To: <20180321163130.23765-1-git@andred.net>
+References: <20180309130000.1937-1-git@andred.net>
+	<20180321163130.23765-1-git@andred.net>
+X-Mailer: Evolution 3.26.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +51,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 07:22:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 May 2018 08:05:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-In most recipes in OE, beginline and endline are before md5 checksum.
-We should obey this tradition in devtool's upgrade. Otherwise, we might
-see meaningless change just because of the order change.
+ping
 
-e.g.
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
--                    file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
--                    file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
--                    file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
--                    file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
--                    file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
--                    file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
--                    file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
--                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
-+                    file://plugins/sudoers/redblack.c;md5=805782a8466975716f8376b2be9aedde;beginline=1;endline=41 \
-+                    file://lib/util/reallocarray.c;md5=85b0905b795d4d58bf2e00635649eec6;beginline=3;endline=16 \
-+                    file://lib/util/fnmatch.c;md5=67f83ee9bd456557397082f8f1be0efd;beginline=3;endline=27 \
-+                    file://lib/util/getcwd.c;md5=449af4cc57fc7d46f42090608ba3e681;beginline=5;endline=27 \
-+                    file://lib/util/glob.c;md5=5872733146b9eb0deb79e1f664815b85;beginline=6;endline=31 \
-+                    file://lib/util/snprintf.c;md5=c82c1b3a5c32e08545c9ec5d71e41e50;beginline=6;endline=34 \
-+                    file://include/sudo_queue.h;md5=449af4cc57fc7d46f42090608ba3e681;beginline=5;endline=27 \
-+                    file://lib/util/inet_pton.c;md5=3970ab0518ab79cbd0bafb697f10b33a;beginline=3;endline=17 \
-+                    "
-
-After this change, it becomes:
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
-                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-                     file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
-                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
--                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
-+                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
-+                    "
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/lib/devtool/upgrade.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index c3fd866..1dde166 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -420,7 +420,10 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
-                 logger.info('Source subdirectory has changed, updating S value')
- 
-     if license_diff:
--        newlicchksum = " ".join(["file://{};md5={}".format(l["path"], l["actual_md5"]) + (";beginline={}".format(l["beginline"]) if l["beginline"] else "") + (";endline={}".format(l["endline"]) if l["endline"] else "") for l in new_licenses])
-+        newlicchksum = " ".join(["file://{}".format(l['path']) +
-+                                 (";beginline={}".format(l['beginline']) if l['beginline'] else "") +
-+                                 (";endline={}".format(l['endline']) if l['endline'] else "") +
-+                                 (";md5={}".format(l['actual_md5'])) for l in new_licenses])
-         newvalues["LIC_FILES_CHKSUM"] = newlicchksum
-         _add_license_diff_to_recipe(fullpath, license_diff)
- 
--- 
-1.9.1
-
+On Wed, 2018-03-21 at 16:31 +0000, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
+> 
+> The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
+> thus bypassing sstate, which results in an ever growing list
+> of files.
+> 
+> Write them to IMGDEPLOYDIR instead, so as to benefit from the
+> automatic management via sstate.
+> 
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
+> 
+> ---
+> v2: fix typo in subject line
+> ---
+>  meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/classes/rootfs-postcommands.bbclass
+> b/meta/classes/rootfs-postcommands.bbclass
+> index a4e627fef8..01eee350b8 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
+>  python write_image_test_data() {
+>      from oe.data import export2json
+>  
+> -    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'),
+> d.getVar('IMAGE_NAME'))
+> -    testdata_link = "%s/%s.testdata.json" %
+> (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
+> +    deploy_dir = d.getVar('IMGDEPLOYDIR')
+> +    link_name = d.getVar('IMAGE_LINK_NAME')
+> +    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" %
+> d.getVar('IMAGE_NAME'))
+>  
+> -    bb.utils.mkdirhier(os.path.dirname(testdata))
+>      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+> -    export2json(d, testdata,searchString=searchString,replaceString="")
+> +    export2json(d, testdata_name, searchString=searchString,
+> replaceString="")
+>  
+> -    if testdata_link != testdata:
+> +    if os.path.exists(testdata_name):
+> +        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" %
+> link_name)
+>          if os.path.lexists(testdata_link):
+> -           os.remove(testdata_link)
+> -        os.symlink(os.path.basename(testdata), testdata_link)
+> +            os.remove(testdata_link)
+> +        os.symlink(os.path.basename(testdata_name), testdata_link)
+>  }
+>  write_image_test_data[vardepsexclude] += "TOPDIR"
+>  
 
