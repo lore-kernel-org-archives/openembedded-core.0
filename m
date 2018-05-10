@@ -1,38 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 453BF7530F;
-	Thu, 10 May 2018 22:36:17 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id f20-v6so1745839pfn.0;
-	Thu, 10 May 2018 15:36:19 -0700 (PDT)
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D31B1753AF;
+	Thu, 10 May 2018 22:38:00 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id u8-v6so1380660vku.5;
+	Thu, 10 May 2018 15:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=w0yebqyJ0MODMK6bqPzqMqpIQydAxPj6Y1MfcYSkjT0=;
-	b=VF4lJQX1IIaFLQ9bzrTEDq6Izwe0uCkfSblfhyxHh2NcuusLxtwRmKN1JZLTMwGyFv
-	DWsKx/iew3vJvYICpyZLnuc2+kAvXjHSET9qzu+TWj5YxfmVvFeACWpOgVYKAAybqfG/
-	nRlEWGR3BvjP4rC+Qp56bNk9FKeScdT7fKGgYSk9xs8/fk4R2yFrkVcgDCaaE4Svt7wH
-	GxVj3/J5rbE7AUNFY8ISs+6nn8u+tEWXz2/WdDwbR+vDErxDCVKsFuKjghcO/3Tb6wxi
-	iopYeRYPLseH3ynQ3omILerOEsjIsYzs3FlHlGoFsMrVb+bZgVOh/yAitypmus0a+7yn
-	2low==
+	bh=PCEjVm9kJCOaqXFfByUHoY62nY0ufPFsHq19Uql6iUk=;
+	b=j8W9FETOwAA0IQclXAH3UGZtitdqQh+HsKRyeLaa7XhMRpl2wM3+WDWKgLoO5xkdgV
+	Y10wnGL4GCh5oQU8oO4l3Dsqq60Vjbp3EKeT39zTBS/Q4BFdP1qFEfHnL80jkvB/xtvd
+	F8yENi9FVN7hM4kYxIpKKxO9BhKmmD0N4T1iVM2ZPeeHiyNcdzIohUu8Ihx7CSeVrJrv
+	XrEZNMWpdFb4NWiOhYKF1wfKCi50L4AaVbOsXRJFUFPm44r8BkNe6y8LMXEy0XRIjuUk
+	3rslh5WQNRMZAoYSdnUoylLSvhomm9UOEmR8bGGl03qf7DGymb+dy+49EBK2Zi00ZdnR
+	sRtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=w0yebqyJ0MODMK6bqPzqMqpIQydAxPj6Y1MfcYSkjT0=;
-	b=Llxjidn7cXH/e6U51bmKoNsjMVB1lQAq9W18dCXe1Y2WFVO0yiNAY5ZL/huMvlvXgJ
-	j2oV0k8iKotqo8xkb1QFutA0ArLvjybWtK6ibcczcPlY4LPgxU5NYsU80LnNvF2J+BFk
-	XKOyun2t48h/MdGXDg1W+6ZsxHYTQddk+CurFmMZgTDFZyPYUdKtrXV1RacF/j8wNuD2
-	C/xg8mbl948/O7sTYzafWZ6ButEoPdsyXVF6y7vPzubfmqMFE6nyfGJB1LiqSxp9xj4+
-	cE9yuCwWFWFyz9B6zyK0KIBxP+dEFZD7nUVhWnB2EEB0WzocGo1K62jQtPRdSyHRWiLR
-	gULQ==
-X-Gm-Message-State: ALKqPwclrM+RRWqqtMDhxlHWvdLDckwMLJD2sMQJTYv4phvCD13N9uyq
-	hwfu/u8UUbLDOcC08u6w06IIaRJZLJlHmQYNsf0=
-X-Google-Smtp-Source: AB8JxZrker9ItgxcYFvDDlZc76EB6nLDjzhAc+nCdLUQ61UenEqowfZVPE7WzAbrOPCeLOFtGWDcb+uxlHuiQ2024rk=
-X-Received: by 2002:a62:5b02:: with SMTP id p2-v6mr3000687pfb.96.1525991778866;
-	Thu, 10 May 2018 15:36:18 -0700 (PDT)
+	bh=PCEjVm9kJCOaqXFfByUHoY62nY0ufPFsHq19Uql6iUk=;
+	b=LWbh9uxPKm8BYr0mfk5KG7IFVize3aZZcHq1v9KHmRpQ8EQ3Jbb/yAVfWQh2wjlVdh
+	67pje67A5wbcsHsfEGvroU1vZ+tLX+AfT4QL0J8aeUHC3d8XHPzKbKilqnw7yUadmtxX
+	ej2zf6pjr6m1/HIOoO6uHMuM+/+CFUE51ztA4P2wiMbnrgNN9IYO+EzV8l3ciWf76Q41
+	ACDBu0ChYKnzYglhb60jT9IuwwxoJKEcgHgUuLeI34Xob7fbZU/oUxRL7X0rpMfqGNjL
+	DbkNf93XSrnFqJkiHGqK9nHZzmBC8GgNWAoR3PMCBRqSY20fO2BDG3IA+eDMxaVxgNZG
+	KeRg==
+X-Gm-Message-State: ALKqPwfLZ0Og7APHd36iBcHUO+Pogk66V/jet4g9dkYEroBzXzgtYzkt
+	PB52bhbEGRnB+b0Dd1rEnRw42FP/E8SI+NE7Z68=
+X-Google-Smtp-Source: AB8JxZprbYi+cRTWUQfQYoSY7pQyG5YerLv4b2D1a/P6tL7Vgo3FfSUI8VKT1SpFjkgCI1kiAepjkhHY+PkCB/CFa1Y=
+X-Received: by 2002:a1f:4445:: with SMTP id
+	r66-v6mr2321267vka.154.1525991881434; 
+	Thu, 10 May 2018 15:38:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.139.145 with HTTP; Thu, 10 May 2018 15:35:48 -0700 (PDT)
+Received: by 10.176.48.148 with HTTP; Thu, 10 May 2018 15:38:00 -0700 (PDT)
 In-Reply-To: <20180510220735.GD1954@jama>
 References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
 	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
@@ -40,14 +41,14 @@ References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
 	<20180510191145.GA1954@jama>
 	<CAJ86T=Xz+2neJPBw41_sFxd977xp=zznsgzFdbeHJ-aysJNk+g@mail.gmail.com>
 	<20180510214325.GC1954@jama> <20180510220735.GD1954@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 May 2018 15:35:48 -0700
-Message-ID: <CAMKF1so=HTEHvLxjV81rTgwAGmT_pZSfX5ae3Oe2odDeZzd3sw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 10 May 2018 15:38:00 -0700
+Message-ID: <CAJ86T=UpZ0+HTqre2Z4eAPM9LY_eH1EUO=e1v0sz7FPe4+8aRw@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
 Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,7 +62,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 22:36:18 -0000
+X-List-Received-Date: Thu, 10 May 2018 22:38:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -144,6 +145,8 @@ a4f3b2d#diff-dc01d20c1e55f8adf7536cb46d4481e1
 > What is preferred fix for this? Is adding -fomit-frame-pointer to CFLAGS
 > when ptest is in DISTRO_FEATURES acceptable solution?
 
-you might want to _remove operation for -fno-omit-frame-pointer for
-SELECTED_OPTIMIZATION variable.
+I would say unconditionally adding -fomit-frame-pointer to CFLAGS for
+all builds is OK (strace is a debug tool - not something that
+generally needs to be debugged and frame pointers aren't essential for
+debugging anyway).
 
