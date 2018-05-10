@@ -1,50 +1,59 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 699817522C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 22:07:16 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id x7-v6so5070218lff.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 15:07:18 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 912C775393;
+	Thu, 10 May 2018 22:07:35 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l1-v6so6888582wmb.2;
+	Thu, 10 May 2018 15:07:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3sFNqpbm9umsg/821tcZ4tUchoT+s3fPYxXmvEEhTN4=;
-	b=uDhEDVnWlluJxb6SgboVojc1A6CZmuNyzc+WfYm8yiT0iUU1tW5yudYNCYspghvZVa
-	21udw9USjAegdvH7TGArbvqQz8ZGnrpdCJopT2vSIo8k1biRPpeq1k44oNGm7QlRDwX/
-	enEJqioKsTm3LOA2G28psARxg1m0iczYEagNCmkMPPcyHsf2U2R4ZpXbh46AOnBXB88i
-	tbjjYTZ/hjqtiwIAOk9ZiYIBbkIrJ7rYCfHFqDFaA8GoRKOejm+zDy+8QS0qxltrThkq
-	fy5C+BmsorCQHo8Vyw0IPfvQ8BDs3oS5lMNdT2K6oSIulXwVy9kTzXmTqFU8peJrkKvo
-	5J8g==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=N37Dn/w9MnsznU4IbYPxNJSeiWD1FwcYhZu+RuuIEtc=;
+	b=RPgwhaxVuH767CUZSo7+9YHMf3BEYZCRS0Yv9S7IShz3Pd/wO2lym5USxvJ5dWypA+
+	zUMOby80pVbgccWEDtT3230PRrHdThEtVWcyBVwtXL5yaRe5B9rcV1ot1fDXF8h8n50g
+	5q2CyJJnlYgtDE4m8Ys2RO//zuKJb+lq6DiJ0LoibA3MOzU7/X77WifpjsY3oCR+BNwF
+	u/6M3yr3+6TBpKjLQNdPTOChcoZ2LH+1k+MIvH62pa6uopPjBToYEaBXbchTzyiIruEE
+	IpDsA8Qs2mmyRxL5NF135/I4Z0MaoA/s83kxaPUSXe4xTMzHqBuHse+2v50OPRlMwaEg
+	bMhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3sFNqpbm9umsg/821tcZ4tUchoT+s3fPYxXmvEEhTN4=;
-	b=qPP9w7gWVwbTZzBW+2Mxi7bKrFEjXEK1RM2fEe8bE2ke90ONDW1pi60hW9/04+cpX0
-	plQQyd9M1Vbfj/4PNUVUtbQMMLkXyzYk+BQcbng4Pl2BwmPZ2Udo7gMWHrM/Qw5dS/TU
-	VIH6fxdBTP/Ip9ZdpZ12GdhCEGTt3G1USFgiIYCZiJcbtCYpkqrtLPtnRw1r77j4fvKs
-	RfB1iXtIOHtw5tAvs/Js/qtU6JyPkO8T2LH0ChSUzZMgUhm5oadpN9PxoVbkWXsQ2Szx
-	H5AyHJK/iWU6G41Hb7pcSsk1LMoUeugb+e1Xgby+wSgB3g3Z+W6lk8dyZLfECCboEAQD
-	OLtg==
-X-Gm-Message-State: ALKqPweiLuROp2qvyaDpA9PNxD8IY2dNQ4OoKiOGaqBnOHBeOUOpJ995
-	HA5vEiv4iB4KbwqRx5vOU1LfBIbBSFOA8Pus68c=
-X-Google-Smtp-Source: AB8JxZq0WxxQmeHYVWrka9pBXRqxDYJ3RdvGhMkyLRjO8Ypf0DANaY6K5L3sS3rAqe2gg1Mql8k+g5M7+bvPxTvQB44=
-X-Received: by 2002:a2e:638f:: with SMTP id
-	s15-v6mr2195833lje.78.1525990037672; 
-	Thu, 10 May 2018 15:07:17 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=N37Dn/w9MnsznU4IbYPxNJSeiWD1FwcYhZu+RuuIEtc=;
+	b=FLXQxwJikiDMW+j4bR16OH68cRsKXwBzlRit93REhVCAJmLdPSQy4iUkRr51zMqN/v
+	UilC99MYTPIf/0iNTwBYFpPnTbqeRb7V27q/mGdQFW+qtDIYCOUJ8BUrqonU48UO85Hy
+	5egVVksZVkdVeSO6RI/3NyBvCvtQHepA4U73Dsdy+4IpSqSDjekyVWGRuxhm3OseEpOb
+	h7IbViTIkaqAE328BcgxvWUlaTOqW8LTxQBhQ+4HfsAv2KDUNj4Mjjbh5RilfBkckIoi
+	CYYUte2c9HX/Bjer1W+5rhLcn73Iar5qpVNnnYBkP7ywjCSZ+0ScuE9CB9sIUt2TG1W8
+	KYCQ==
+X-Gm-Message-State: ALKqPwfFrNB9+70tBG+yD00q+T8w95lhtBqmaZzpk2HN/7EnoucA/oDp
+	8ZocTdmF7aYRmei5dfzBkCU=
+X-Google-Smtp-Source: AB8JxZrAPGfAaIp+JzISF6Nc1rpnNw+gieuxyczSsd5Hx+3XDQBkr/dsZJzVhasd1NCkX7Af7I+KEQ==
+X-Received: by 2002:a1c:7d42:: with SMTP id
+	y63-v6mr387779wmc.121.1525990055884; 
+	Thu, 10 May 2018 15:07:35 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	e80-v6sm2879636wmd.1.2018.05.10.15.07.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 10 May 2018 15:07:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 11 May 2018 00:07:35 +0200
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20180510220735.GD1954@jama>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+	<20180510191145.GA1954@jama>
+	<CAJ86T=Xz+2neJPBw41_sFxd977xp=zznsgzFdbeHJ-aysJNk+g@mail.gmail.com>
+	<20180510214325.GC1954@jama>
 MIME-Version: 1.0
-Received: by 10.46.21.17 with HTTP; Thu, 10 May 2018 15:06:47 -0700 (PDT)
-In-Reply-To: <CA+chaQfgi+-PSYRRnCb2PtpH5UAHa2ztcQ3MaN0_wTc_=GMCmw@mail.gmail.com>
-References: <20180510213058.68614-1-alistair.francis@wdc.com>
-	<CA+chaQfgi+-PSYRRnCb2PtpH5UAHa2ztcQ3MaN0_wTc_=GMCmw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 10 May 2018 15:06:47 -0700
-Message-ID: <CAKmqyKOBqOtT=kCmiuUrrsVV9sQmyJdt7B-789ui6keRg53yiA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-graphics/libsdl2: Add native and nativesdk support
+In-Reply-To: <20180510214325.GC1954@jama>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,76 +66,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 22:07:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 10 May 2018 22:07:36 -0000
+X-Groupsio-MsgNum: 111241
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
+Content-Disposition: inline
 
-On Thu, May 10, 2018 at 2:58 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> See http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/qemu
-> + http://git.openembedded.org/meta-openembedded-contrib/log/?h=jansa/spice
-> for more qemu related changes.
->
-> More info:
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-September/142349.html
->
-> and that's basically where I'm still stuck (and why haven't sent most of
-> these patches yet), because it works fine "natively" but when the
-> qemu-native is running inside of chroot or docker, I didn't get the
-> acceleration working (from virt-viewer running "natively" - outside
-> chroot/docker).
->
-> I plan to separate libsdl2 changes from this and send them with updated qemu
-> upgrade as discussed with Ross.
+--P+33d92oIH25kiaB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It looks like you beat me to it. Plus your patches look better then mine :)
+On Thu, May 10, 2018 at 11:43:25PM +0200, Martin Jansa wrote:
+> On Thu, May 10, 2018 at 12:27:50PM -0700, Andre McCurdy wrote:
+> > On Thu, May 10, 2018 at 12:11 PM, Martin Jansa <martin.jansa@gmail.com>=
+ wrote:
+> > > On Thu, May 10, 2018 at 11:50:02AM -0700, Khem Raj wrote:
+> > >> Hi Martin
+> > >>
+> > >> Thanks for testing and reporting back
+> > >>
+> > >> On 5/9/18 2:38 AM, Martin Jansa wrote:
+> > >> > My initial tests show couple issues, but usually caused by other c=
+hanges
+> > >> > in that branch, not the gcc-8 itself.
+> > >> >
+> > >> > 1) strace-4.22 from
+> > >> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3D=
+kraj/gcc-8&id=3Daf33a8b721cc9caebd3f5226b4c5903f666ab654
+> > >> > fails to build with ptest enabled (it builds with 4.20 version if I
+> > >> > revert this change)
+> > >> > ../../strace-4.22/tests/inject-nf.c: In function 'main':
+> > >> > ../../strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be used=
+ in
+> > >> > asm here
+> > >> >   }
+> > >> >   ^
+> > >>
+> > >> are you targeting thumb1 ? how can I reproduce it ?
+> > >
+> > > I'm trying to find out what's different in the builds where it was
+> > > failing, will provide more info later.
+> >=20
+> > This is probably due to making an inline syscall from Thumb (doesn't a
+> > matter Thumb1 or Thumb2) with frame pointers enabled.
+> >=20
+> > Does adding -fomit-frame-pointer to CFLAGS fix it?
+>=20
+> It was with raspberrypi3, thumb (Thumb2) enabled in DISTRO, there is
+> already -fno-omit-frame-pointer in the default command line for it,
+> adding -fomit-frame-pointer at the end fixes it:
+>=20
+> docker-lge @ ~/build/build-webos-master/BUILD/work/raspberrypi3-webos-lin=
+ux-gnueabi/strace/4.22-r0/build/tests $ arm-webos-linux-gnueabi-gcc  -march=
+=3Darmv7ve -mthumb -mfpu=3Dneon-vfpv4 -mfloat-abi=3Dhard -mcpu=3Dcortex-a7 =
+--sysroot=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-webo=
+s-linux-gnueabi/strace/4.22-r0/recipe-sysroot -DHAVE_CONFIG_H    -I. -I../l=
+inux/arm -I../../strace-4.22/linux/arm -I../linux -I../../strace-4.22/linux=
+ -I.. -I../../strace-4.22 -DTESTS_SIZEOF_KERNEL_LONG_T=3D4 -DTESTS_SIZEOF_L=
+ONG=3D4  -Wall -Wempty-body -Wformat-security -Wignored-qualifiers -Wimplic=
+it-fallthrough=3D5 -Winit-self -Wlogical-op -Wmissing-parameter-type -Wnest=
+ed-externs -Wold-style-declaration -Wold-style-definition -Wsign-compare -W=
+type-limits -Wwrite-strings -O -fno-omit-frame-pointer -g -feliminate-unuse=
+d-debug-types -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD=
+/work/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0=3D/usr/src/debug/stra=
+ce/4.22-r0 -fdebug-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/wo=
+rk/raspberrypi3-webos-linux-gnueabi/strace/4.22-r0/recipe-sysroot=3D -fdebu=
+g-prefix-map=3D/OE/webos/build/build-webos-master/BUILD/work/raspberrypi3-w=
+ebos-linux-gnueabi/strace/4.22-r0/recipe-sysroot-native=3D  -pipe  -c -o in=
+ject-nf.o ../../strace-4.22/tests/inject-nf.c -fomit-frame-pointer
+>=20
+> This might come from:
+> meta/conf/bitbake.conf:DEBUG_OPTIMIZATION =3D "-O -fno-omit-frame-pointer=
+ ${DEBUG_FLAGS} -pipe"
+> because in this build I had DEBUG_BUILD enabled.
+>=20
+> Will retest with 4.20 version + DEBUG_BUILD to see if it fails there as w=
+ell now.
 
-It would be great if you could send the QEMU 2.12 patches seperatly.
-Can you CC me when you do?
+4.20 doesn't fail with DEBUG_BUILD, because inject-nf.c test is new in
+4.22:
 
-Alistair
+https://github.com/strace/strace/commit/58598cd7f6e23e531d71bfe5a4e35f898a4=
+f3b2d#diff-dc01d20c1e55f8adf7536cb46d4481e1
 
->
-> On Thu, May 10, 2018 at 11:31 PM Alistair Francis <alistair.francis@wdc.com>
-> wrote:
->>
->> Allow building libsdl2 for native and nativesdk. This is required to use
->> libsdl2 in QEMU.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> index c0cf70d7fd..36508ec349 100644
->> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> @@ -42,6 +42,11 @@ PACKAGECONFIG ??= " \
->>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11',
->> d)} \
->>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2',
->> '', d)} \
->>  "
->> +PACKAGECONFIG_class-native = "${PACKAGECONFIG_GL} x11"
->> +PACKAGECONFIG_class-nativesdk = "${PACKAGECONFIG_GL} \
->> +                                 ${@bb.utils.filter('DISTRO_FEATURES',
->> 'x11', d)} \
->> +"
->> +
->>  PACKAGECONFIG[alsa]       = "--enable-alsa
->> --disable-alsatest,--disable-alsa,alsa-lib,"
->>  PACKAGECONFIG[directfb]   =
->> "--enable-video-directfb,--disable-video-directfb,directfb"
->>  PACKAGECONFIG[gles2]      =
->> "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
->> @@ -63,3 +68,5 @@ do_configure_prepend() {
->>  }
->>
->>  FILES_${PN}-dev += "${libdir}/cmake"
->> +
->> +BBCLASSEXTEND = "native nativesdk"
->> --
->> 2.17.0
->>
->
+What is preferred fix for this? Is adding -fomit-frame-pointer to CFLAGS
+when ptest is in DISTRO_FEATURES acceptable solution?
 
+Regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--P+33d92oIH25kiaB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvTCpgAKCRA3VSO3ZXaA
+HJo+AJ9BKfck9MBrb9TaCZrBDeTcRt8z6wCcCpf4dk6835UOTGKdQL3UglXolQA=
+=1V6e
+-----END PGP SIGNATURE-----
+
+--P+33d92oIH25kiaB--
