@@ -1,44 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6178F74901
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 51A9675185
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 08:05:05 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y189-v6so2699042wmc.3
+	Thu, 10 May 2018 09:10:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4A9AW7i018933
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 01:05:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=2kSPpLuMOTLFBYh9frHRWxoq+uBaEFIIGlaBdVLBu5g=;
-	b=c940N57tuZI9xoPGhrS9zGdL+vOrSsDTa9qopUUE+Gdobxfe4rcblao0n38Vhz/Fhl
-	ntkLmnvO6w+qDWoZD83JdPhblpnhCloy4yvyfcjeF0ZsQU7zy1QqHLUXWAOTP+K95TBV
-	TP+sirAxMa/OiQV9up7NwqmfvHCu84iMCUJZ6QsuQODTghwFXESGQNH2JM6fADWyr/e4
-	5oW/mvVXoMi7GeXzVSzjaslAz9x0XnD2INPw+XFtpVi4IdjabM+xwl9OvNVh5IN1GpgV
-	DoHPOZfmNekbRdPJAkiMzW74qex98rCU6Ql6X3DSeSbShMhe69I4WBvpnms5e6gwaOYt
-	+8HA==
-X-Gm-Message-State: ALKqPwekBAw0h6uOPOoB/IoLApbeOCBoabFfHCdM3uLwg0IyIv9mBtDk
-	Jmp/YyErT1ShAj0MOKfhX6a66o3o
-X-Google-Smtp-Source: AB8JxZqXqoLO4vX1RqoVrg0cYEv/qlcbPC2LRopR0Z6NakwGLdz7dD9+fo8b41xLpKlbSQV3mwdkKg==
-X-Received: by 2002:a50:9953:: with SMTP id
-	l19-v6mr965959edb.179.1525939506533; 
-	Thu, 10 May 2018 01:05:06 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	z11-v6sm319583edh.60.2018.05.10.01.05.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 10 May 2018 01:05:05 -0700 (PDT)
-Message-ID: <1525939504.5115.18.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 May 2018 09:05:04 +0100
-In-Reply-To: <20180321163130.23765-1-git@andred.net>
-References: <20180309130000.1937-1-git@andred.net>
-	<20180321163130.23765-1-git@andred.net>
-X-Mailer: Evolution 3.26.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
+	Thu, 10 May 2018 02:10:47 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 10 May 2018 02:10:21 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 May 2018 02:10:21 -0700
+Message-ID: <20180510091021.61535-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH][v2] gettext: make gettext independant of host java components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +31,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 08:05:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 May 2018 09:10:56 -0000
+Content-Type: text/plain
 
-ping
+The checksums of gettext were changing based on whether or not java
+and javac were installed. This patch makes gettext recipes independant
+of Java components.
 
-On Wed, 2018-03-21 at 16:31 +0000, André Draszik wrote:
-> From: André Draszik <andre.draszik@jci.com>
-> 
-> The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
-> thus bypassing sstate, which results in an ever growing list
-> of files.
-> 
-> Write them to IMGDEPLOYDIR instead, so as to benefit from the
-> automatic management via sstate.
-> 
-> Signed-off-by: André Draszik <andre.draszik@jci.com>
-> 
-> ---
-> v2: fix typo in subject line
-> ---
->  meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index a4e627fef8..01eee350b8 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
->  python write_image_test_data() {
->      from oe.data import export2json
->  
-> -    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'),
-> d.getVar('IMAGE_NAME'))
-> -    testdata_link = "%s/%s.testdata.json" %
-> (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
-> +    deploy_dir = d.getVar('IMGDEPLOYDIR')
-> +    link_name = d.getVar('IMAGE_LINK_NAME')
-> +    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" %
-> d.getVar('IMAGE_NAME'))
->  
-> -    bb.utils.mkdirhier(os.path.dirname(testdata))
->      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
-> -    export2json(d, testdata,searchString=searchString,replaceString="")
-> +    export2json(d, testdata_name, searchString=searchString,
-> replaceString="")
->  
-> -    if testdata_link != testdata:
-> +    if os.path.exists(testdata_name):
-> +        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" %
-> link_name)
->          if os.path.lexists(testdata_link):
-> -           os.remove(testdata_link)
-> -        os.symlink(os.path.basename(testdata), testdata_link)
-> +            os.remove(testdata_link)
-> +        os.symlink(os.path.basename(testdata_name), testdata_link)
->  }
->  write_image_test_data[vardepsexclude] += "TOPDIR"
->  
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../gettext-disable-javacomp-setting.patch         | 104 +++++++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb      |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
+
+diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch b/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
+new file mode 100644
+index 0000000000..44ef3976f4
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
+@@ -0,0 +1,104 @@
++The checksums of gettext were changing based on whether or not 
++java and javac were installed on the host.
++Since '--disable-java' and '--disable-native-java' are included
++in the EXTRA_OECONF, so it should not update and use the java env
++information, even though the java and javac exist on the host.
++This patch add reset operation for the env variable in m4 file to
++avoid the issue.
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-ff-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++
++Index: gettext-0.19.8.1/gettext-runtime/configure.ac
++===================================================================
++--- gettext-0.19.8.1.orig/gettext-runtime/configure.ac
+++++ gettext-0.19.8.1/gettext-runtime/configure.ac
++@@ -35,7 +35,7 @@ AC_PROG_YACC
++ 
++ gt_JAVA_CHOICE
++ 
++-gt_JAVACOMP([1.3], [1.1])
+++gt_JAVACOMP([1.3], [1.1], [1])
++ AC_CHECK_PROG([JAR], [jar], [jar])
++ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
++   BUILDJAVA=yes
++Index: gettext-0.19.8.1/gettext-runtime/gnulib-m4/javacomp.m4
++===================================================================
++--- gettext-0.19.8.1.orig/gettext-runtime/gnulib-m4/javacomp.m4
+++++ gettext-0.19.8.1/gettext-runtime/gnulib-m4/javacomp.m4
++@@ -621,6 +621,17 @@ changequote([,])dnl
++     fi
++   fi
++   rm -f conftest*.java conftest*.class
+++  reset_env_variable=$3
+++  if test -n "$reset_env_variable"; then
+++    CONF_JAVAC=
+++    HAVE_JAVAC_ENVVAR=
+++    CLASSPATH=
+++    CLASSPATH_SEPARATOR=:
+++    HAVE_GCJ_C=
+++    HAVE_JAVAC=
+++    HAVE_JIKES=
+++    HAVE_JAVACOMP=
+++  fi
++   if test -n "$HAVE_JAVACOMP"; then
++     ac_result="$CONF_JAVAC"
++   else
++Index: gettext-0.19.8.1/gettext-tools/configure.ac
++===================================================================
++--- gettext-0.19.8.1.orig/gettext-tools/configure.ac
+++++ gettext-0.19.8.1/gettext-tools/configure.ac
++@@ -44,7 +44,7 @@ fi
++ AC_SUBST([BUILDJAVAEXE])
++ 
++ gt_JAVAEXEC
++-gt_JAVACOMP([1.3])
+++gt_JAVACOMP([1.3], [], [1])
++ AC_CHECK_PROG([JAR], [jar], [jar])
++ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
++   BUILDJAVA=yes
++Index: gettext-0.19.8.1/gettext-tools/gnulib-m4/javacomp.m4
++===================================================================
++--- gettext-0.19.8.1.orig/gettext-tools/gnulib-m4/javacomp.m4
+++++ gettext-0.19.8.1/gettext-tools/gnulib-m4/javacomp.m4
++@@ -621,6 +621,17 @@ changequote([,])dnl
++     fi
++   fi
++   rm -f conftest*.java conftest*.class
+++  reset_env_variable=$3
+++  if test -n "$reset_env_variable"; then
+++    CONF_JAVAC=
+++    HAVE_JAVAC_ENVVAR=
+++    CLASSPATH=
+++    CLASSPATH_SEPARATOR=:
+++    HAVE_GCJ_C=
+++    HAVE_JAVAC=
+++    HAVE_JIKES=
+++    HAVE_JAVACOMP=
+++  fi
++   if test -n "$HAVE_JAVACOMP"; then
++     ac_result="$CONF_JAVAC"
++   else
++Index: gettext-0.19.8.1/gettext-tools/gnulib-m4/javaexec.m4
++===================================================================
++--- gettext-0.19.8.1.orig/gettext-tools/gnulib-m4/javaexec.m4
+++++ gettext-0.19.8.1/gettext-tools/gnulib-m4/javaexec.m4
++@@ -87,6 +87,17 @@ AC_DEFUN([gt_JAVAEXEC],
++       CLASSPATH="$save_CLASSPATH"
++     ])
++   fi
+++  if test -z "$4"; then
+++    HAVE_JAVAEXEC=
+++    CONF_JAVA=
+++    CLASSPATH=
+++    CLASSPATH_SEPARATOR=
+++    HAVE_JAVA_ENVVAR=
+++    HAVE_GIJ=
+++    HAVE_JAVA=
+++    HAVE_JRE=
+++    HAVE_JVIEW=
+++  fi
++   if test -n "$HAVE_JAVAEXEC"; then
++     ac_result="$CONF_JAVA"
++   else
+diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+index 68f5cc329a..490e291f8f 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+ 	   file://add-with-bisonlocaledir.patch \
+ 	   file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
+ 	   file://use-pkgconfig.patch \
++	   file://gettext-disable-javacomp-setting.patch \
+ "
+ 
+ SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
+-- 
+2.11.0
+
 
