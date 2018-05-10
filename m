@@ -1,47 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AC8A74FAF
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 03A87748D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 03:08:33 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id j20-v6so345593pff.10
+	Thu, 10 May 2018 03:15:01 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id c19-v6so440983pls.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2018 20:08:35 -0700 (PDT)
+	Wed, 09 May 2018 20:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=2greyArRTQRLqkz72w8RZMQlSl5XeoRWNqkVG3c5VwY=;
-	b=ERSpQTDq8Wce3vdZkt7JXe9E6qCRbNyfFcg4cmbr/s6W/HWjqiCx4LwDfAPvuynliu
-	70h55Vxdks0vcmNvXXF2BxSgHDhoUf68HP9rYomKFy5/MB9P8yeP9cynl7Bu3tNE7lPd
-	CL1d5vXgJURs78pYGCUvH1sykfdxYKPIDrN3NWjWySH2VQGO3uRkt2BMLzQlIwbsC7OJ
-	ft1wLQLrjSlxZbt75Gz/tMfegRBc30Vcr2Gw54SLH5dQngPavGvFEpeqTObT7VJ2rGPS
-	20uGRRRnDPhjC4lKA+3iLLX4m8WP821p9AHg1LlmXgnX5nyJCSG60HQT+igIL7YPuQX0
-	zk5A==
+	bh=/poeU39aEsWm2bsObEvMCP222lDQlagPykoHzKUZYTY=;
+	b=Q4J60nzbTr96OGyuYUQYdnA+rrgK7C9DP2SAdrGzfK5tNU2ntAXn4hPLEA7FYnjJJG
+	uGGHjCaQiKZTu3IOdHBzglWmRICqZtNo87HYzIvMjS/bNRNCkIhOQi0Jauy5TVn3wZYS
+	p4Ot13rv5yrhAY2IIr3sHJiPDA/vjcLOOzuXcFGhT31YgF8+jhBhnTuH8kuofziA3bIk
+	ETujxtYCwVhT+cPZd982Lgv8WzXmsWjOgx6GEytWNHWgMKZSvdK2wQplRC+rVKoBo5cL
+	4qbmhDAujbM88cktXpb5qyg2K3PXccv7zGkW6WnrqtOImFlrNtE2YMrLuAxt1EXAVaEm
+	wu6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2greyArRTQRLqkz72w8RZMQlSl5XeoRWNqkVG3c5VwY=;
-	b=mkU4OWvvrO+a+/QaNVpNTxDZEaOEaVGu6U7QXRKGb8aZb3XOp3sbs+23yKJ5upKTR2
-	osb+IIfdLrUK+ho6yemVEctYInIvpeDgseetTblKjkbl5JzfSI34A7sVjREBo4Wn9+zn
-	4dn+QqKtKjY8aR2btCTPuzlA6Y8ZMLgg/YnUIzD1kBNjrlCfKFC6VjEZzfqca6EWAIpW
-	ECoaQku4JZgw0LNV9qV+VyVAYfKN/HoNq4AwW0+07nctBr0UVwsq1ToqsYCxILKG2yF/
-	ZiQLuifcw80s3KIUoGftd4RjlqMsW4bQ0X2A+H0uyT+J/srXU0icC8d389coV7lP95pn
-	2zUg==
-X-Gm-Message-State: ALQs6tDDCmelge8OD4MD+zwv1x8dNWGILjAk9MyLQs6AbP0+kdUNLYc2
-	XdxAC+qTsNVcPY8WJ+LrgovfwA==
-X-Google-Smtp-Source: AB8JxZr9UQeTd+BJtPI3oXvLpPSmB3+8oqmH1Qltv4wNHOeLE/tF0/eiEyT+WSxd/NjppSMrEdogjA==
-X-Received: by 10.98.232.1 with SMTP id c1mr46096770pfi.184.1525921714966;
-	Wed, 09 May 2018 20:08:34 -0700 (PDT)
+	bh=/poeU39aEsWm2bsObEvMCP222lDQlagPykoHzKUZYTY=;
+	b=CC8Q+InVpSAwni5wKIiUpVDwnH09J2CeUK9mpvObRuKbGKZ5bjFbC6bPdvu9gthZRu
+	LyPDXM67tv07e6K8YcYgivx82aWauObHSctBiIafWWOKCLVF20U+TumtEzVf8PMTUcAe
+	fVL/7Kxu/dgIaM4YZHlGCoKThnizDp8bscmlbQZgGgZzKTpIf1WgMpPC+NDTwQukwGMV
+	G0WOErr7cYIcJ+0Txw1XxMDtBawd1v521Eu0CokDpttRGSK+OR3OsopvkllrgulwAGDt
+	FsRF3PiBe1dOwVvLhmnpRwfbMZTDbtVlNrZHeD95QvRT6MrQmNBy2HMJ9tXE8BVtis0h
+	Z4Kg==
+X-Gm-Message-State: ALQs6tCoICnFvJVSwYrmpjHUe82KeetbD+bYacJ+hvSzF7R7zJkkY3VG
+	FK/swkPMZaMWvEGhVB+jNSnWjw==
+X-Google-Smtp-Source: AB8JxZr2EL3mspHPtDhg/TWNsHQ8S3xXeS+nlIc5FSC4U7UsCnjeKyAPuy+GnKMxKTDd3euoWuPpqw==
+X-Received: by 2002:a17:902:566:: with SMTP id
+	93-v6mr48533554plf.327.1525922102597; 
+	Wed, 09 May 2018 20:15:02 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	e5sm56940846pfk.28.2018.05.09.20.08.33
+	203sm55271472pfz.131.2018.05.09.20.15.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 May 2018 20:08:34 -0700 (PDT)
+	Wed, 09 May 2018 20:15:02 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2018 20:08:29 -0700
-Message-Id: <1525921709-15085-1-git-send-email-armccurdy@gmail.com>
+Date: Wed,  9 May 2018 20:14:55 -0700
+Message-Id: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] security_flags.inc: drop obsolete comment
+Subject: [PATCH 1/3] bitbake.conf: make libc over-ride lower priority than _forcevariable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +55,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 03:08:34 -0000
+X-List-Received-Date: Thu, 10 May 2018 03:15:02 -0000
 
-The last ARM specific over-ride was removed in:
-
-  http://git.openembedded.org/openembedded-core/commit/?id=e93765ffb5718b0fce84f0b8123963176dea95e4
-
-but the comment was accidentally left behind.
+Fix long standing quirk, _forcevariable is documented as being the
+highest priority over-ride.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/distro/include/security_flags.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/conf/bitbake.conf                        | 3 ++-
+ meta/conf/distro/include/tclibc-baremetal.inc | 2 --
+ meta/conf/distro/include/tclibc-glibc.inc     | 2 --
+ meta/conf/distro/include/tclibc-musl.inc      | 2 --
+ 4 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index d66dd57..e6eb811 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -33,7 +33,6 @@ SECURITY_CFLAGS_pn-libgcc_powerpc = ""
- GCCPIE_powerpc = ""
- GLIBCPIE_powerpc = ""
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a21b728..a772cab 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -735,7 +735,8 @@ DISTRO_NAME ??= "OpenEmbedded"
+ #
+ # This works for  functions as well, they are really just environment variables.
+ # Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+-OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
++LIBCOVERRIDE ?= ""
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+ MACHINEOVERRIDES ?= "${MACHINE}"
+diff --git a/meta/conf/distro/include/tclibc-baremetal.inc b/meta/conf/distro/include/tclibc-baremetal.inc
+index 8d570f0..1bf44c8 100644
+--- a/meta/conf/distro/include/tclibc-baremetal.inc
++++ b/meta/conf/distro/include/tclibc-baremetal.inc
+@@ -4,9 +4,7 @@
  
--# arm specific security flag issues
- SECURITY_CFLAGS_pn-glibc = ""
- SECURITY_CFLAGS_pn-glibc-initial = ""
- SECURITY_CFLAGS_pn-gcc-runtime = ""
-@@ -43,7 +42,6 @@ SECURITY_CFLAGS_pn-grub-efi-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
- SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
--
- SECURITY_CFLAGS_pn-mkelfimage_x86 = ""
+ LIBCEXTENSION = ""
  
- SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NOPIE_CFLAGS}"
+-# Add baremetal libc overrides to the overrides.
+ LIBCOVERRIDE = ":libc-baremetal"
+-OVERRIDES .= "${LIBCOVERRIDE}"
+ 
+ ASSUME_PROVIDED += "virtual/libc virtual/libiconv virtual/crypt"
+ 
+diff --git a/meta/conf/distro/include/tclibc-glibc.inc b/meta/conf/distro/include/tclibc-glibc.inc
+index ad8000f..8d10764 100644
+--- a/meta/conf/distro/include/tclibc-glibc.inc
++++ b/meta/conf/distro/include/tclibc-glibc.inc
+@@ -4,9 +4,7 @@
+ 
+ LIBCEXTENSION = "${@['', '-gnu'][(d.getVar('ABIEXTENSION') or '') != '']}"
+ 
+-# Add glibc overrides to the overrides for glibc.
+ LIBCOVERRIDE = ":libc-glibc"
+-OVERRIDES .= "${LIBCOVERRIDE}"
+ 
+ PREFERRED_PROVIDER_virtual/libiconv ?= "glibc"
+ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
+index 54e1acf..052ae0e 100644
+--- a/meta/conf/distro/include/tclibc-musl.inc
++++ b/meta/conf/distro/include/tclibc-musl.inc
+@@ -4,9 +4,7 @@
+ 
+ LIBCEXTENSION = "-musl"
+ 
+-# Add musl libc overrides to the overrides.
+ LIBCOVERRIDE = ":libc-musl"
+-OVERRIDES .= "${LIBCOVERRIDE}"
+ 
+ PREFERRED_PROVIDER_virtual/libc ?= "musl"
+ PREFERRED_PROVIDER_virtual/libiconv ?= "musl"
 -- 
 1.9.1
 
