@@ -1,54 +1,61 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
-	[74.125.82.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E14DC74845
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B642B75231
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 17:57:40 +0000 (UTC)
-Received: by mail-ot0-f196.google.com with SMTP id n1-v6so3284363otf.7
+	Thu, 10 May 2018 18:21:19 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id q22-v6so1458944pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 10:57:42 -0700 (PDT)
+	Thu, 10 May 2018 11:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=do8XZ45P1UPXx19m3QPsYKL7KxDM5u691f+gQ1vV3/E=;
-	b=HRstxqcfVNuzIniV3slr+lApsSKhamrA6Y1Om8WLWJz2YXwL4MW3cNmy0nZlWV0aRX
-	AYI1oFCQ/dSopX+noXq/XoORQtQmpxmqLn6mF36W0bqU0g5/z6nmxmOjqRPyNCqUsNso
-	bOP1fhT1BHaxpIxy93bAlakHm2rnV+cNT22YwGsFtrsCDMj5THjbJU9kw4Lh2OIzeNRd
-	COPb/hcCZFb8U9bc9cxfJ/4HB8VNfZddIJD+I3sxO0fuzJ7cxYe6sGkJmgkamidsjNpe
-	B66NK5QfFdFW9zkfmYiX4+gZpNvLUf/GAwBXYZdXLAxs2ASVrcHm7etVwIUp9dRa6c32
-	offQ==
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=goo61Pe/ArZb7GVyk9zvaO9Dp2CjfbKDXLMaj0XuroI=;
+	b=Ne3jHxV9GskrknWFG7jU3nwrynuunIVpngtUrt9P8hrU2zDzMctAUWmTeX9UrHi4t3
+	Yw1mhniJNzl8xNkW2hemTzYtSSMNs3GYXPXTy1QWlq8sGFUmr1Gn6Bhou9im3SGxr+mW
+	uFeqQcdbCdqUnYCRG43gVsa5h23FdEtbpUbNv0Ngq10A5dhDgbhx3ref6ZVZAY1LoThZ
+	vJ8ZjtT3oPz5rUJBCXDBeHY9XafzOrsF4HyQDB/pvoY3xvmkHtQ6FeTl2kvAxb6AUTHb
+	b/iPcLWuXrkQucdtmrFqLaYfDoMSc0cGq3iDuE6ltfmblQSL6js/9EzZUMWzGxbCexk1
+	G4zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=do8XZ45P1UPXx19m3QPsYKL7KxDM5u691f+gQ1vV3/E=;
-	b=PSC5UdHHZks+eiC/ZRFHCDmKzsXd7KXGADRmJBSeNz5JTz6xgjmBSer0NV7EyhkM3T
-	A64aMmGTBxasl0Bzqf4gfZkyGQFAC5OHZoOxtiFeJmpiocLOJRknP1w/n6ItsEoWRqOO
-	gWJB16JpaYjG5ViwgLAE4UDsjluj5LwiDxib+Pkr05k7nYdk+f5AGOnLfjYpZO1Kp2X6
-	EZxF62X4xG63QRTbDAB3RnUGurIYOt2vyDGDfcJr+Ca5QmcR1jbnQ37XNBijMJ8WcKdl
-	4U8dEwtx8gwZZZvvSlZeR+DyZa+ZJ7+j1SQsm322Z2xSb6A6lBns/qN6L538BKEQopcw
-	nhUw==
-X-Gm-Message-State: ALKqPwcfnHeN14mF+oMwErbM0cpHrIPj++FY0puxJGDuvibFyEvaIWBV
-	Y61hSiHne0sigOQqu017ZaR0nL9/tmpKJmfjujY=
-X-Google-Smtp-Source: AB8JxZon7nUkiwECdVhPKTTPNf5mQXQz/mQ9fRWC5JMqP0p2ywaOKZr4eu5Tfo45wrEqsTJXoy8TlzV5L4SfIzOtgXs=
-X-Received: by 2002:a9d:2a68:: with SMTP id
-	t95-v6mr1700983ota.320.1525975061501; 
-	Thu, 10 May 2018 10:57:41 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=goo61Pe/ArZb7GVyk9zvaO9Dp2CjfbKDXLMaj0XuroI=;
+	b=EzSbP4plznLsKqOg5HOs3Zt2oBoMmVAjV/44gb8x/Cry23VQwXEGIo8lHoRD1ZYCr0
+	m0fE4STkGHpy/1fa1HImoyB1HA+2qhYUHyTh5Axp/I1B77XIdMXnewAx6F9cxw+pa2XR
+	3LLoVx/A3h8AlINFL8gP0zDFcCt10ClVcGr3Hu4A5vxboPGWG5NkulTJo4dTfiKm2NtG
+	0RMHtX1+NSrhTkdVv32FmyN2ocLfxTJe4KqBz9KluCTskiXBgXeFtn9lvfRviJjmWKLI
+	iq+d572N2ii8+u79Z+64JR6GX8BR2eDUzVab3yExpXJd4h7PAW4/HnBlyRNtU6cpnxGB
+	nM8g==
+X-Gm-Message-State: ALKqPwcRpyMRZrToVhr95X390hEcJkUg1QaFmAXH3bv8OjPyDrlPVjKY
+	mEQmKULt7pkmM2KRwytAPnHHqxi6
+X-Google-Smtp-Source: AB8JxZrrfP4B/85s6Bhvo6zB8xc109uE/NVCskepwknzN+mqV0kQj3I5w7krNOSycx3/pC+56y/06Q==
+X-Received: by 2002:a65:6414:: with SMTP id
+	a20-v6mr1952175pgv.226.1525976480039; 
+	Thu, 10 May 2018 11:21:20 -0700 (PDT)
+Received: from hermes.local ([2601:646:877f:9499:49fa:9382:bcbc:28ae])
+	by smtp.gmail.com with ESMTPSA id
+	h17-v6sm2804822pfn.80.2018.05.10.11.21.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 May 2018 11:21:19 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<20180510122036.15212-1-Martin.Jansa@gmail.com>
+	<CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <84e0278e-4ed3-51e7-81b8-f104c469ed4c@gmail.com>
+Date: Thu, 10 May 2018 11:21:18 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-Received: by 10.201.91.17 with HTTP; Thu, 10 May 2018 10:57:21 -0700 (PDT)
-In-Reply-To: <CACS+7ZSs9fdafLw8kBAytWXmgTV6jpbcFgf4jhwZk5_DwOpN3A@mail.gmail.com>
-References: <1525922097-15292-1-git-send-email-armccurdy@gmail.com>
-	<1525922097-15292-3-git-send-email-armccurdy@gmail.com>
-	<86e5dada-7bd6-5cbb-95ff-0bf9ccdf0e1e@gmail.com>
-	<CACS+7ZSzjg6f3jpEk+BHAs7XbmUGiPZN_P4HYcnNWvmvjKpYQw@mail.gmail.com>
-	<CAJTo0LYyJ_=Tr1XTB8rW5O9-oQf7oNaguoaMq7y2cSC9Upcw1Q@mail.gmail.com>
-	<CACS+7ZSs9fdafLw8kBAytWXmgTV6jpbcFgf4jhwZk5_DwOpN3A@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 10 May 2018 10:57:21 -0700
-Message-ID: <CABcZAN=ta+fptEvqfLb73FXFkHri42xWY5U6GEt5m3rDFAexuw@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] bitbake.conf: drop _build-${BUILD_OS} over-ride
+In-Reply-To: <CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,152 +68,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 17:57:41 -0000
-Content-Type: multipart/alternative; boundary="0000000000007a1f6b056bddc12d"
-
---0000000000007a1f6b056bddc12d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Even if bitbake could run on WSL, it=E2=80=99d be horribly slow. I/O on WSL=
- is
-*terrible* right now, docker or a VM wipes the floor with it. I=E2=80=99m s=
-ure
-it=E2=80=99ll be viable eventually, though :)
-
-On Thu, May 10, 2018 at 10:09 AM, Dan McGregor <danismostlikely@gmail.com>
-wrote:
-
-> On 10 May 2018 at 10:33, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 10 May 2018 at 16:47, Dan McGregor <danismostlikely@gmail.com> wrote=
-:
-> >> I'm with Khem. meta-darwin and meta-mingw are things, even if they
-> >> haven't been updated in years. If interest arises they shouldn't have
-> >> too many barriers to starting development again. I've also started to
-> >> attempt to build on a FreeBSD host.
-> >
-> > meta-mingw builds Windows binaries from Linux and meta-darwin builds
-> > Darwin binaries from Linux, so they're not relevant.
->
-> Neat, I only took a quick look; I guess I misinterpreted their purposes.
->
-> >
-> > People *are* at least trying to use Windows Subsystem for Linux to
-> > build Yocto on Windows, but I suspect as far as bitbake is concerned
-> > that is Linux.  There's no practical way we can build on macOS right
-> > now due to the recent security changes.
->
-> When I tried, early in the WSL testing, bitbake wouldn't start due to
-> some missing syscalls. inotify related, IIRC.
->
-> >
-> > Builds on BSD would be interesting, I'm curious as to how much breaks
-> > from GNU userland expectations and whether the build override is
-> > actually useful.
->
-> The problem I'm running into right now is pseudo. FreeBSD uses a
-> different API for extended attributes, so all the various xattr_...
-> things don't work. I might need to make it depend on a port of the
-> xattr wrappers.
->
-> Outside of that, I've been using a FreeBSD hosted cross toolchain for
-> embedded Linux for years. It works well on its own. Hopefully the
-> build-* overrides will be helpful for the small differences I've
-> noticed.
->
-> >
-> > Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+X-List-Received-Date: Thu, 10 May 2018 18:21:19 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
 
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+On 5/10/18 6:01 AM, Burton, Ross wrote:
+> Fails to build here:
+> 
+>   coreutils/lib.a(mktemp.o): In function `mktemp_main':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/coreutils/mktemp.c:105:
+> warning: the use of `mktemp' is dangerous, better use `mkstemp' or
+> `mkdtemp'
+> | util-linux/lib.a(mount.o): In function `xdr_fhstatus':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1057:
+> undefined reference to `xdr_u_int'
+> | util-linux/lib.a(mount.o): In function `xdr_fhandle':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1052:
+> undefined reference to `xdr_opaque'
+> | util-linux/lib.a(mount.o): In function `xdr_mountstat3':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1089:
+> undefined reference to `xdr_enum'
+> | util-linux/lib.a(mount.o): In function `xdr_fhandle3':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1071:
+> undefined reference to `xdr_bytes'
+> | util-linux/lib.a(mount.o): In function `xdr_mountres3_ok':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1080:
+> undefined reference to `xdr_int'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1080:
+> undefined reference to `xdr_array'
+> | util-linux/lib.a(mount.o): In function `xdr_dirpath':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1066:
+> undefined reference to `xdr_string'
+> | util-linux/lib.a(mount.o): In function `get_mountport':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1145:
+> undefined reference to `pmap_getmaps'
+> | util-linux/lib.a(mount.o): In function `nfsmount':
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1662:
+> undefined reference to `clnttcp_create'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1677:
+> undefined reference to `authunix_create_default'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1652:
+> undefined reference to `clntudp_create'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1672:
+> undefined reference to `clnt_spcreateerror'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1702:
+> undefined reference to `clnt_sperror'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1707:
+> undefined reference to `clnt_sperror'
+> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:1788:
+> undefined reference to `pmap_getport'
+> 
 
---0000000000007a1f6b056bddc12d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We need to specify
 
-<div dir=3D"ltr">Even if bitbake could run on WSL, it=E2=80=99d be horribly=
- slow. I/O on WSL is *terrible* right now, docker or a VM wipes the floor w=
-ith it. I=E2=80=99m sure it=E2=80=99ll be viable eventually, though :)</div=
-><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, May 10, =
-2018 at 10:09 AM, Dan McGregor <span dir=3D"ltr">&lt;<a href=3D"mailto:dani=
-smostlikely@gmail.com" target=3D"_blank">danismostlikely@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On 10 May =
-2018 at 10:33, Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ro=
-ss.burton@intel.com</a>&gt; wrote:<br>
-&gt; On 10 May 2018 at 16:47, Dan McGregor &lt;<a href=3D"mailto:danismostl=
-ikely@gmail.com">danismostlikely@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; I&#39;m with Khem. meta-darwin and meta-mingw are things, even if =
-they<br>
-&gt;&gt; haven&#39;t been updated in years. If interest arises they shouldn=
-&#39;t have<br>
-&gt;&gt; too many barriers to starting development again. I&#39;ve also sta=
-rted to<br>
-&gt;&gt; attempt to build on a FreeBSD host.<br>
-&gt;<br>
-&gt; meta-mingw builds Windows binaries from Linux and meta-darwin builds<b=
-r>
-&gt; Darwin binaries from Linux, so they&#39;re not relevant.<br>
-<br>
-</span>Neat, I only took a quick look; I guess I misinterpreted their purpo=
-ses.<br>
-<span class=3D""><br>
-&gt;<br>
-&gt; People *are* at least trying to use Windows Subsystem for Linux to<br>
-&gt; build Yocto on Windows, but I suspect as far as bitbake is concerned<b=
-r>
-&gt; that is Linux.=C2=A0 There&#39;s no practical way we can build on macO=
-S right<br>
-&gt; now due to the recent security changes.<br>
-<br>
-</span>When I tried, early in the WSL testing, bitbake wouldn&#39;t start d=
-ue to<br>
-some missing syscalls. inotify related, IIRC.<br>
-<span class=3D""><br>
-&gt;<br>
-&gt; Builds on BSD would be interesting, I&#39;m curious as to how much bre=
-aks<br>
-&gt; from GNU userland expectations and whether the build override is<br>
-&gt; actually useful.<br>
-<br>
-</span>The problem I&#39;m running into right now is pseudo. FreeBSD uses a=
-<br>
-different API for extended attributes, so all the various xattr_...<br>
-things don&#39;t work. I might need to make it depend on a port of the<br>
-xattr wrappers.<br>
-<br>
-Outside of that, I&#39;ve been using a FreeBSD hosted cross toolchain for<b=
-r>
-embedded Linux for years. It works well on its own. Hopefully the<br>
-build-* overrides will be helpful for the small differences I&#39;ve<br>
-noticed.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;<br>
-&gt; Ross<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
-=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot c=
-om<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engine=
-er, Mentor Graphics</div></div></div></div>
-</div>
+CONFIG_EXTRA_LDLIBS="tirpc"
 
---0000000000007a1f6b056bddc12d--
+along with
+
+CONFIG_FEATURE_MOUNT_NFS=y
+
+secondly in v2 please delete
+
+# CONFIG_FEATURE_MOUNT_NFS is not set
+
+from meta/recipes-core/busybox/busybox/musl.cfg as well
+
+> Ross
+> 
+> On 10 May 2018 at 13:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> * We dropped in-tree obsoleted rpc from glibc and now busybox builds
+>>    which had CONFIG_FEATURE_MOUNT_NFS enabled were failing with:
+>>    | util-linux/mount.c:252:11: fatal error: rpc/rpc.h: No such file or directory
+>>    |  # include <rpc/rpc.h>
+>>    |            ^~~~~~~~~~~
+>>    | compilation terminated.
+>>    | make[1]: *** [util-linux/mount.o] Error 1
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>   meta/recipes-core/busybox/busybox.inc       | 6 +++---
+>>   meta/recipes-core/busybox/busybox/defconfig | 2 +-
+>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+>> index d1675c37aa..2db19ed317 100644
+>> --- a/meta/recipes-core/busybox/busybox.inc
+>> +++ b/meta/recipes-core/busybox/busybox.inc
+>> @@ -3,7 +3,7 @@ DESCRIPTION = "BusyBox combines tiny versions of many common UNIX utilities into
+>>   HOMEPAGE = "http://www.busybox.net"
+>>   BUGTRACKER = "https://bugs.busybox.net/"
+>>
+>> -DEPENDS += "kern-tools-native"
+>> +DEPENDS += "kern-tools-native libtirpc"
+>>
+>>   # bzip2 applet in busybox is based on lightly-modified bzip2 source
+>>   # the GPL is version 2 only
+>> @@ -15,8 +15,8 @@ SECTION = "base"
+>>   # Whether to split the suid apps into a seperate binary
+>>   BUSYBOX_SPLIT_SUID ?= "1"
+>>
+>> -export EXTRA_CFLAGS = "${CFLAGS}"
+>> -export EXTRA_LDFLAGS = "${LDFLAGS}"
+>> +export EXTRA_CFLAGS = "${CFLAGS} -I${STAGING_INCDIR}/tirpc"
+>> +export EXTRA_LDFLAGS = "${LDFLAGS} -ltirpc"
+>>
+>>   EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}' HOSTCPP='${BUILD_CPP}'"
+>>
+>> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+>> index fbb5fd852c..816555fc21 100644
+>> --- a/meta/recipes-core/busybox/busybox/defconfig
+>> +++ b/meta/recipes-core/busybox/busybox/defconfig
+>> @@ -638,7 +638,7 @@ CONFIG_MOUNT=y
+>>   # CONFIG_FEATURE_MOUNT_VERBOSE is not set
+>>   # CONFIG_FEATURE_MOUNT_HELPERS is not set
+>>   # CONFIG_FEATURE_MOUNT_LABEL is not set
+>> -# CONFIG_FEATURE_MOUNT_NFS is not set
+>> +CONFIG_FEATURE_MOUNT_NFS=y
+>>   # CONFIG_FEATURE_MOUNT_CIFS is not set
+>>   CONFIG_FEATURE_MOUNT_FLAGS=y
+>>   CONFIG_FEATURE_MOUNT_FSTAB=y
+>> --
+>> 2.17.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
