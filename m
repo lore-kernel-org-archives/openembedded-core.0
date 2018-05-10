@@ -1,113 +1,51 @@
-Return-Path: <prvs=661f1634c=Alistair.Francis@wdc.com>
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 333757531A
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14AF37531C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 21:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1525987883; x=1557523883;
-	h=from:to:cc:subject:date:message-id:mime-version;
-	bh=FbHVDMFBBDs/83VTzfxxubIJowcmrL490acDMgu63Ys=;
-	b=BkiVS3C+y093b3ZI+aOTzxWYrrJnXV0QoIYCDmS+WWqlRVSMOmKCM8L9
-	9CJfFFDBQzw9ycDVhC6+UH0dZ52GLtgwzGoQWv4sRPXeOucMWpDVgq+po
-	gpBdNXnOQzP1MmRd6YckZdTJo+A4Fce+mkn7wzLAvXa4NSALn97A/Rtvi
-	jclsHnw0DCgVbGf3c64zm4ot7mOhPrBRGGUKeQ5TKt1f2I/x3D5N3KRJK
-	lo/aFPa2mPhc0d4W4KzPNARWGuJURHDgfyH9ypWww7Nnb58UDaqycP94B
-	R1NZCK1OjPrJ7eDSCZU3HMqHT5tRaxi1aSKw6AGMOLy/MNAy6JcNWl9Vd A==;
-X-IronPort-AV: E=Sophos;i="5.49,386,1520870400"; d="scan'208";a="78568671"
-Received: from mail-dm3nam03lp0018.outbound.protection.outlook.com (HELO
-	NAM03-DM3-obe.outbound.protection.outlook.com) ([207.46.163.18])
-	by ob1.hgst.iphmx.com with ESMTP; 11 May 2018 05:31:22 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=EXUB6dq5LKpVnmYciEkOlABo1uMAKVT631UTHQ4CPOE=;
-	b=OEXZiDwWLhzGu38S9wDm2jAAif+LIJzKUX9V+ZFiH6UgyRbdzN9oLKbDOUBfk/XQerBsqzzDmSmMz3XHT25+nVyG24larQtvlvrQxn2wro+bXNre93VizUJaeRRbNv2xDtvJSb1BfctU4GzRqyhmft2l4jOBRZczwPFDbZFXvco=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=Alistair.Francis@wdc.com; 
-Received: from risc6-mainframe.int.fusionio.com (199.255.44.171) by
-	BN6PR04MB0402.namprd04.prod.outlook.com (2603:10b6:404:91::19) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.755.16; Thu, 10 May 2018 21:31:19 +0000
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 May 2018 14:30:58 -0700
-Message-Id: <20180510213058.68614-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.17.0
+	Thu, 10 May 2018 21:33:01 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id t129-v6so5014739lff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 14:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Z16ioH8+ehYtsmM7k3YSYsfxlz1/aT4xpuq3Rm/ZXlg=;
+	b=AULBPntHvK3VMRqS0tS8gm4B5zO5d0DvxmPZt6MaCXY2c0khsCwaegWGQlCQtOJC8R
+	xXWn4aw6qdH/GLHYPgjmkiORnzEWD7JZak1VMW0wuNE8orq1/psx6sQQ0pwvlaRhgXIM
+	1PmhxP7E5wozGKWT9J5pg6zyouVmjqBpy/k7GL1KwQ2wQF2b5eYEMxSf7fqbhHobHxX2
+	AO1SgkDD6fauSYQ8+lpPOaP58FQ1aeDGJ3bq42fCiduTz48fCPewda2gcf5gaNwUP3se
+	sD4e0aljU/1Kbdx2UMcYuAZhqg/34pzQhCJqc8Umkq6l5y1L8Q99JwCbEcywD78tD/Oo
+	rnLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Z16ioH8+ehYtsmM7k3YSYsfxlz1/aT4xpuq3Rm/ZXlg=;
+	b=bxXPcNa+95SmhsKEm6wUsVoU4bGIHnrgmsSZKds1HNxjXtPS1pKMINoAdd6BWQkYMY
+	7cDzqP98ReTFxFZB+gGwcgPsBrc2p/TVdGfHC+Q15xs44cktNa3TMkxxh++9JmW4YLto
+	AjfjrGV2XPUZNJ7IKs/AfVmRQpn562AoQj2/FkYNmADF001FAD3K+6nhaVXDzMAh4/C4
+	9NlhPjRXV3rIM+Dl4bWMiRBqquUsUbPw97bQKRFYn8QJKj0Z9n7+tWipI2c0EFxQb3ER
+	q84QCu2m7OGro5MZy8BacN6HYyobI9Eot/lRVoKocnic2O0CXt+EkfZbxfiOdb/M3XyI
+	0vHw==
+X-Gm-Message-State: ALKqPweOX8bJtC+kSWu7Ve1EvBXxIYiT0LsrCAA0YU9NxJNAGfQ4rqlP
+	MfipJvsk7aGCGr8I83SsHgRXt93nhQffR4BzFKQ=
+X-Google-Smtp-Source: AB8JxZrpZVDZ5Apx8Vy1AvKG8uEUsZ3UIqjIXCngJpRdBCDPIKeEtEe9vl4uo3SYYfy4EiO47zkidCqg7HnhryvkzXE=
+X-Received: by 2002:a19:2687:: with SMTP id
+	m129-v6mr1854803lfm.132.1525987982236; 
+	Thu, 10 May 2018 14:33:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [199.255.44.171]
-X-ClientProxiedBy: CO2PR07CA0077.namprd07.prod.outlook.com (2603:10b6:100::45)
-	To BN6PR04MB0402.namprd04.prod.outlook.com
-	(2603:10b6:404:91::19)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(48565401081)(2017052603328)(7153060)(7193020);
-	SRVR:BN6PR04MB0402; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR04MB0402;
-	3:4g0/IOxgpmwRQr3cfXssBpjHVzydbQY/ANHe6aRu1BJJ71LrA16LjG5qnX/ogNPC2whz3GX1LEnFkBlVLpnmtp5Y3p5t1m3bi+YuVs44aebrBiGa+4Jr1lScUlfyKqvD1QP2zgOA3Ae/sSTGMQ6FTHZP0lcMU0B2Z6LyDD1uFN56Tbgw+FuZwGuGJwK1lRiSbnNC7hQ1dcfGBA02QDEsGwKeb8PWWNYcYK2JE5HDuTc1wnsR7ciCsPuuSaUDf/ws;
-	25:osKBiKhT3AZarnVTk5iNv5CRVuxUU1bFKLORRgtkS6mzl0AN5j9B+Fb/fPoDHPpsvRt/omejE9t2mSXzLcswUk3MN0+5HDHRndywpswwzFoJl5WA0g74G3Kefbpt/aFEDgVlls6eXbyMX3Is5buOMTPSWtX/b0DJ/670CXNCoVc3VLkRS5JAFS0XpoQZXw9DlXR1964sj71J1T/nieDL3DqG5bOvk79/ZHc5pcRFCpLuFEdvdqmr6R0QxeNnSwXtfv8ebIhBzjagaeed/J4++Usmg2daLviRajJZskdFlRFARaGrmqF9QlwfTyXjnwkAyHgk5t/N0q5y8CXyGnus0Q==;
-	31:rpcRyHqLcThcTkIKEwoRI7NIZM3usI7YrA+UWO3b+7uP64cgWWuHpPi1YIbStVuo6H2RAIcXK/KcJt7nlEPkAteB+bzuwXd5880P4ypCKBzIUJw0ph/LsqD+mYpchnfFcxdQEf9ShQCcXl4oeAqpYU679x59unwnqM7AzcCuvbrEtIXV3Oyv99nCzZPXD4xHLPcEHwQ9ybINRsWTahfGEm1DCPEPXCPtX8GR7Oc7u1E=
-X-MS-TrafficTypeDiagnostic: BN6PR04MB0402:
-WDCIPOUTBOUND: EOP-TRUE
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR04MB0402;
-	20:kRtl/q2ynyw1Igb701TWsW0UkLIAJdtmpeqTZn/afuYeHbLuQLboKbC9ST7hnwPXRp6chgaHLu8RNXdCjn98yG+jtck8ZwoAARJIBLZvsyvwKZHfZTZcMu7gKWmr7RfJaXs7Js8L3H4NXeAARKmCNT/npLdCPaowuKM5rYUXW0Bd1UoxGWPQTuu5zfYms5Aur8WbZG7ce4qUrJXVoY06K/uvhrzLOppz0AUCE1pGta1jdxGZexTVdJNG/8cl8rKKDgKdCzb+zU75rnbxQidfU7KdG/qB5DpvsabduZo6j7al0DiFw9iKZO9VMgRu9qT19YfV1PeEM/yUEIRZ9FPc+woWEbxsF8l+bQ6qtOdt0phr7WcEFlTEzvTTJgJPWcN4SfkU7bPB9BP8fKdrZ9trHeGVfqR4MQQ0h2Tm5fBtYMpSfxEWylqWrIsoNMz7GczdDQAbWI0WFasDDPJNgPoNFMDFDJZTrzzjtAidM8hb1DUZgx65wdlH7vk7M/JYpLBd;
-	4:z2nlmirnS/JSo4sBg952OzPa7lRXpMDL3KZZNVEqUBiARkrcT5f82ehAQB/ZtoHYeQYzTQBeCMFslcYNE1awR06N/C21HYBrcCLTU9WWk+Kf5rXEs9s91H/sBBtXFgUeTWCHuvHWBIn81eDjov7l0vWK0cGMS3JEsH85P7883glq/ufjz17k+JWJCh6mx0zG7wsu0VNqDyyKaAHg9OOXU0J6h5Skl1s503mX/DXntb7McgHbIPe/Wd0ZyrxoK4LtCAcVgsc1Ish2NYdsVtCebQ==
-X-Microsoft-Antispam-PRVS: <BN6PR04MB0402FC3C6C00BDD7B123669C90980@BN6PR04MB0402.namprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(93006095)(93001095)(3002001)(10201501046)(3231254)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(20161123560045)(20161123564045)(20161123562045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011);
-	SRVR:BN6PR04MB0402; BCL:0; PCL:0; RULEID:; SRVR:BN6PR04MB0402; 
-X-Forefront-PRVS: 066898046A
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10019020)(39860400002)(376002)(39380400002)(396003)(346002)(366004)(189003)(199004)(16586007)(50466002)(72206003)(386003)(6486002)(47776003)(575784001)(486006)(16526019)(86362001)(44832011)(68736007)(5660300001)(6666003)(476003)(2616005)(956004)(4326008)(186003)(51416003)(2906002)(8936002)(39060400002)(478600001)(53936002)(6506007)(26005)(25786009)(52116002)(6512007)(6916009)(105586002)(305945005)(36756003)(7736002)(6116002)(106356001)(3846002)(1076002)(50226002)(97736004)(81156014)(81166006)(66066001)(8676002)(1857600001)(316002)(2351001)(2361001)(48376002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR04MB0402;
-	H:risc6-mainframe.int.fusionio.com; FPR:; SPF:None; LANG:en;
-	PTR:InfoNoRecords; MX:1; A:1; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN6PR04MB0402;
-	23:wfjgzJIdRwLZWMwbVlXHQVdBxevwpZRsvdfM7CJec?=
-	=?us-ascii?Q?IgH/MI3oRqw2sJHfHHcfCHww3hmrHwVk6UflA2Zk6G9UWAskJoaNvYJF34YU?=
-	=?us-ascii?Q?74fmOE/CvvxkZsJ+r7dyemPIGC/whgWIDQ+KKGM0ECCML5FjWX1ELa0bon9x?=
-	=?us-ascii?Q?TZr1P+r0HW5UCpKMbORC9DW3TrzpEz2v4a+LBiTB/zOt5LLshDOcft+VtzZ2?=
-	=?us-ascii?Q?OBW68E16LasUlRhH36D+k3w1xzgIpMgCAg5GzgTzq9I9XRTcSXvdxBIzprlI?=
-	=?us-ascii?Q?0IU7s2oWzgeToi8+CiGBARVCNqw1Auha/uUC5BaO4CUcStWNR9SV3qBjh+Gc?=
-	=?us-ascii?Q?sWf94/6NQXiXWjEJcimL/gEJw0VBX0YBJDtB60AE1Z6ceMyhIgo5FKEybFTk?=
-	=?us-ascii?Q?wgE/areTsVmG2YuEBUGX0mNFll6XPTNOzIv8TTuYH67cf4UFOk8VFuWpr9Tj?=
-	=?us-ascii?Q?Zbdg/zhJWm/mxc9edaB/suDxwFFlq3ENewA9eImWi1WnPJXjTM9HVjn5S+Qb?=
-	=?us-ascii?Q?9ikoqqSJbhLI1rhriqWkE2sZ6lkE9zaHTpp8nvefBTPE71aZBvOkSwi+Q+tf?=
-	=?us-ascii?Q?19duh2/o/JvRDvCQ6pVTsN40F5/IN1eGATPtimPr/b8TAmcr2dNRheWsPS1v?=
-	=?us-ascii?Q?jPhBLQSAHslAMVyCeNqWnvwvKp1WTSRIFPxukFmhCC8LqP7xebeDRU4GNT3m?=
-	=?us-ascii?Q?iKDUk+WXzA+iyjRrCVUuYfsd8h7E+NPL7nepXwDCXvBNsofb3pjCa0nEIPj3?=
-	=?us-ascii?Q?wQ+rQhSJKU6oIImNPVirHpduSYHAOYfIlcKzgCyx4WCk967xsp1uMZoKmNpQ?=
-	=?us-ascii?Q?9njX4FqTmuOUElfW6uLe2In4be0kywCI8QWWBFZF0Yb5xzJifEcIDI8l4Uef?=
-	=?us-ascii?Q?N6/XGuYavuIDQP38hmp5ZuUZQCQtHCsl7q1ldDuzyXSFZl2Rr+9pgqxSNxzC?=
-	=?us-ascii?Q?GrIG3YLGeVvR1DZSRc4yeTqwVEBEOEx/GqpLRXuPPLkTV3eemzM/0do0G43C?=
-	=?us-ascii?Q?LNdhBIkgzCV86p8xrnxTY2PTyyFjmeQW0Dt+NA0dy1WxLQWxWDVJYOt6t552?=
-	=?us-ascii?Q?G7Or8z86V30c7AP4+ReZe3k6lZY5EWi7HAO49Q6OMhR3+GkjRHIpy0Ye88Kc?=
-	=?us-ascii?Q?Ovj3p5T/2VvVlLrkLkS31KANHYw0O4bo6lWhSD/H911Q/yBXnkKEdF1zXxB9?=
-	=?us-ascii?Q?ctibLw5dZcku3y39EDVm2edEFzsKMkpj7b+MxV2h/mB25QrbzcKykn2czGEi?=
-	=?us-ascii?Q?9kysNdu3VtbEOmL/wp6lQCM66BMFQ45yrc01x5SVxxyHLrGAHO8Ub/+i0MVN?=
-	=?us-ascii?B?QT09?=
-X-Microsoft-Antispam-Message-Info: Ydzz+5oivf4ZBqwp4QnpAYWMuwPO0cWHKwoi6sOsPP7mTUKMBAUgLdB2MBYTkRy/qEG/8Sjg20lc0gOrvqsIl+xfkhNNbrU3LYEV0VrkY33U3G2fC9lAb1P3/soIfb1HvW4K20juvc8b+M0W36XwqaqUCpIb1zvFcOcXhYbA7Pv9+ix6LnIdQc2HRj2KTjht
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR04MB0402;
-	6:CX4D/l98mcVzwWBWfBlrejvg+ehOV0r7d3148R7DHoMirTakmTB45a/OtGy18b41L7t+y8FYvkqLIooxk7YAMtJvjYolf89Gk/5I/g430qbWlhDV4r+VsPpoBFK37zeeTVbXuxSj0U6s+iqq7EQ1eC7wSekUHCHGlTplZYS0AyNPw0dwX1HT7tGy2FjaUqOx1p/vWBsig3eO+FtFYpOCw05DtUmz5yty2RvY6C+Rv3cnrWDCLV7qT43WjGK8g1++/2OaPcKsuqjXRyMBrvbNM2X9Xu5Fw7poy71rhVlW8sj3yoADEDcTZVbS/1zYTe2AqDP5x5IpXqJAAY2mLdfWE2A0iFqyHiEaCignywJRtu3evszNB4iDO0Du/d53CicB0SI8HbLn6ROtq3xdvhO7Ey1YVXmbK82Ck0CerzAd1xALpVLwoKqU5K9jiV6y/TjSsyy0zmcz4RznTG8s9mRImA==;
-	5:r9/0VEDQ3F/s2vcXAL8CrZLFMW9YmiQ3XAI5M8R3AEI0spor9v+D31sbJuFiN9QAAX0t+katMFqZesIQPllOC5NBvpDVUOhovQnIY/HWrdrAWChseYbpDtSq7a5/NZrv+sTWQih6+c+VSpc2wBnTMkR6Pqc/cL7bIY3+q7jJLZo=;
-	24:hPCHoEpA64z3aiGeOFBHwX5Wes17TtOgLOlHFBrrLTqJo4tfF1Thyhizklb2CNG5QBs9xM0TPBTJ4Kbj1nyilfuA+BgNbiCKVlRxsyOdQw4=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR04MB0402;
-	7:qowEnDcTlpGjbcIrd0HNcoMl+ocylzDgSdVXYc1q/jDYzfSNmMdDUdoNI7haiG0idw851CtMRCrtYehakS1XeeDIsrbmoNe6y/h0vl39K7lX2yR7r73NkSaZjS+BOKBv5w0utdFy72QvM3yiS+Wsk7YM1QdF/Uvr+rGOpWEm38sQ71ZMlGv5xQzPwdDbhUF6e01fwfEvwtcsJpzY7R5V7mDpQPXqjVztE+/Aqjm9ld+hql7IWs/k9GVJop7fqofE;
-	20:FbqrO5eKdub8lPgvRNB9FoXBXsmjxDwSZaMcWo0XslZGxhSsghFF0V7e3VcRQ5hUn95S+HbydcBWgaszAcMYNAM68IvREaUyzIdAFY1L7ZptK7TBBBLDfIkdMIafy16dNWcHXzfBcUHMisIv8FH+aVwndAdcP2rtWq5OfvR9Qag=
-X-MS-Office365-Filtering-Correlation-Id: 61b269f5-1c84-4376-b962-08d5b6bd5f10
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2018 21:31:19.6053 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61b269f5-1c84-4376-b962-08d5b6bd5f10
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR04MB0402
-Subject: [PATCH] recipes-graphics/libsdl2: Add native and nativesdk support
+Received: by 10.46.21.17 with HTTP; Thu, 10 May 2018 14:32:31 -0700 (PDT)
+In-Reply-To: <CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
+References: <20180502143733.6303-1-Martin.Jansa@gmail.com>
+	<20180502143733.6303-2-Martin.Jansa@gmail.com>
+	<CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 May 2018 14:32:31 -0700
+Message-ID: <CAKmqyKMcWdZdpqHwjT=KkjUh9OQXkbwv_8HtQTypOGv3nPG0tA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] qemu: upgrade to 2.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -120,40 +58,518 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 21:31:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 May 2018 21:33:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allow building libsdl2 for native and nativesdk. This is required to use
-libsdl2 in QEMU.
+On Wed, May 9, 2018 at 8:38 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> This fails if x11 isn't in DISTRO_FEATURES but SDL is enabled as ui/sdl.c=
+ ->
+> ui/x_keymap.h -> Xlib.h.  I guess the best solution here would be to guar=
+d
+> sdl in the default PACKAGECONFIG with x11 DISTRO_FEATURE checks, and
+> explicitly depend on libx11.
+>
+> As discussed on IRC we should probably also move to libsdl2 as libsdl 1.2=
+ is
+> 'historic' now.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+I just sent a patch that moves in this direction (at least I think it
+does). I'd love to see QEMU 2.12 in as that adds RISC-V support :)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-index c0cf70d7fd..36508ec349 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-@@ -42,6 +42,11 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
- "
-+PACKAGECONFIG_class-native = "${PACKAGECONFIG_GL} x11"
-+PACKAGECONFIG_class-nativesdk = "${PACKAGECONFIG_GL} \
-+                                 ${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
-+"
-+
- PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
- PACKAGECONFIG[directfb]   = "--enable-video-directfb,--disable-video-directfb,directfb"
- PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
-@@ -63,3 +68,5 @@ do_configure_prepend() {
- }
- 
- FILES_${PN}-dev += "${libdir}/cmake"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.0
+Alistair
 
+>
+> Ross
+>
+> On 2 May 2018 at 15:37, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/conf/distro/include/tcmode-default.inc   |  2 +-
+>>  ...4-treat-DISAS_UPDATE-as-variant-of-D.patch | 67 -------------------
+>>  ...-connect-socket-to-a-spawned-command.patch | 52 +++++++-------
+>>  .../qemu/qemu/disable-grabs.patch             | 43 ++++++------
+>>  meta/recipes-devtools/qemu/qemu/memfd.patch   | 57 ----------------
+>>  .../qemu/qemu/qemu-2.5.0-cflags.patch         | 15 ++++-
+>>  .../qemu/{qemu_2.11.1.bb =3D> qemu_2.12.0.bb}   |  6 +-
+>>  7 files changed, 65 insertions(+), 177 deletions(-)
+>>  delete mode 100644
+>> meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDAT=
+E-as-variant-of-D.patch
+>>  delete mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
+>>  rename meta/recipes-devtools/qemu/{qemu_2.11.1.bb =3D> qemu_2.12.0.bb}
+>> (87%)
+>>
+>> diff --git a/meta/conf/distro/include/tcmode-default.inc
+>> b/meta/conf/distro/include/tcmode-default.inc
+>> index 00399ae820..8b5214ed96 100644
+>> --- a/meta/conf/distro/include/tcmode-default.inc
+>> +++ b/meta/conf/distro/include/tcmode-default.inc
+>> @@ -28,7 +28,7 @@ BINUVERSION ?=3D "2.30%"
+>>  GDBVERSION ?=3D "8.0%"
+>>  GLIBCVERSION ?=3D "2.27%"
+>>  LINUXLIBCVERSION ?=3D "4.15%"
+>> -QEMUVERSION ?=3D "2.11%"
+>> +QEMUVERSION ?=3D "2.12%"
+>>
+>>  PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
+>>  PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
+>> diff --git
+>> a/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPD=
+ATE-as-variant-of-D.patch
+>> b/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPD=
+ATE-as-variant-of-D.patch
+>> deleted file mode 100644
+>> index f90cae694c..0000000000
+>> ---
+>> a/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPD=
+ATE-as-variant-of-D.patch
+>> +++ /dev/null
+>> @@ -1,67 +0,0 @@
+>> -From a75a52d62418dafe462be4fe30485501d1010bb9 Mon Sep 17 00:00:00 2001
+>> -From: Victor Kamensky <kamensky@cisco.com>
+>> -Date: Fri, 23 Mar 2018 18:26:45 +0000
+>> -Subject: [PATCH] arm/translate-a64: treat DISAS_UPDATE as variant of
+>> - DISAS_EXIT
+>> -MIME-Version: 1.0
+>> -Content-Type: text/plain; charset=3DUTF-8
+>> -Content-Transfer-Encoding: 8bit
+>> -
+>> -In OE project 4.15 linux kernel boot hang was observed under
+>> -single cpu aarch64 qemu. Kernel code was in a loop waiting for
+>> -vtimer arrival, spinning in TC generated blocks, while interrupt
+>> -was pending unprocessed. This happened because when qemu tried to
+>> -handle vtimer interrupt target had interrupts disabled, as
+>> -result flag indicating TCG exit, cpu->icount_decr.u16.high,
+>> -was cleared but arm_cpu_exec_interrupt function did not call
+>> -arm_cpu_do_interrupt to process interrupt. Later when target
+>> -reenabled interrupts, it happened without exit into main loop, so
+>> -following code that waited for result of interrupt execution
+>> -run in infinite loop.
+>> -
+>> -To solve the problem instructions that operate on CPU sys state
+>> -(i.e enable/disable interrupt), and marked as DISAS_UPDATE,
+>> -should be considered as DISAS_EXIT variant, and should be
+>> -forced to exit back to main loop so qemu will have a chance
+>> -processing pending CPU state updates, including pending
+>> -interrupts.
+>> -
+>> -This change brings consistency with how DISAS_UPDATE is treated
+>> -in aarch32 case.
+>> -
+>> -CC: Peter Maydell <peter.maydell@linaro.org>
+>> -CC: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> -CC: qemu-stable@nongnu.org
+>> -Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>> -Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+>> -Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> -Message-id: 1521526368-1996-1-git-send-email-kamensky@cisco.com
+>> -Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> -Upstream-Status: Backport
+>> ----
+>> - target/arm/translate-a64.c | 6 +++---
+>> - 1 file changed, 3 insertions(+), 3 deletions(-)
+>> -
+>> -diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+>> -index 31ff047..327513e 100644
+>> ---- a/target/arm/translate-a64.c
+>> -+++ b/target/arm/translate-a64.c
+>> -@@ -13378,12 +13378,12 @@ static void aarch64_tr_tb_stop(DisasContextBa=
+se
+>> *dcbase, CPUState *cpu)
+>> -         case DISAS_UPDATE:
+>> -             gen_a64_set_pc_im(dc->pc);
+>> -             /* fall through */
+>> --        case DISAS_JUMP:
+>> --            tcg_gen_lookup_and_goto_ptr();
+>> --            break;
+>> -         case DISAS_EXIT:
+>> -             tcg_gen_exit_tb(0);
+>> -             break;
+>> -+        case DISAS_JUMP:
+>> -+            tcg_gen_lookup_and_goto_ptr();
+>> -+            break;
+>> -         case DISAS_NORETURN:
+>> -         case DISAS_SWI:
+>> -             break;
+>> ---
+>> -2.7.4
+>> -
+>> diff --git
+>> a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-co=
+mmand.patch
+>> b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-co=
+mmand.patch
+>> index 6e6bf95c18..f1cf53a8c5 100644
+>> ---
+>> a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-co=
+mmand.patch
+>> +++
+>> b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned-co=
+mmand.patch
+>> @@ -1,4 +1,4 @@
+>> -From 3bb3100c22eb30146a69656480bdffeef8663575 Mon Sep 17 00:00:00 2001
+>> +From a7690b02df70e0d3957e6eaa1e1cf92595839fbb Mon Sep 17 00:00:00 2001
+>>  From: Alistair Francis <alistair.francis@xilinx.com>
+>>  Date: Thu, 21 Dec 2017 11:35:16 -0800
+>>  Subject: [PATCH] chardev: connect socket to a spawned command
+>> @@ -45,16 +45,16 @@ Upstream-Status: Inappropriate [embedded specific]
+>>
+>>  Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+>>  ---
+>> - chardev/char-socket.c | 86
+>> ++++++++++++++++++++++++++++++++++++++++++++++++---
+>> - chardev/char.c        |  3 ++
+>> - qapi/char.json        |  5 +++
+>> - 3 files changed, 90 insertions(+), 4 deletions(-)
+>> + chardev/char-socket.c | 102 ++++++++++++++++++++++++++++++++++++++++++
+>> + chardev/char.c        |   3 ++
+>> + qapi/char.json        |   5 +++
+>> + 3 files changed, 110 insertions(+)
+>>
+>>  diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>> -index 53eda8ef00..f566107c35 100644
+>> +index 159e69c3b1..84778cf31a 100644
+>>  --- a/chardev/char-socket.c
+>>  +++ b/chardev/char-socket.c
+>> -@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer
+>> opaque)
+>> +@@ -934,6 +934,68 @@ static gboolean socket_reconnect_timeout(gpointer
+>> opaque)
+>>       return false;
+>>   }
+>>
+>> @@ -123,7 +123,7 @@ index 53eda8ef00..f566107c35 100644
+>>   static void qmp_chardev_open_socket(Chardev *chr,
+>>                                       ChardevBackend *backend,
+>>                                       bool *be_opened,
+>> -@@ -859,6 +921,9 @@
+>> +@@ -941,6 +1003,9 @@ static void qmp_chardev_open_socket(Chardev *chr,
+>>   {
+>>       SocketChardev *s =3D SOCKET_CHARDEV(chr);
+>>       ChardevSocket *sock =3D backend->u.socket.data;
+>> @@ -133,11 +133,10 @@ index 53eda8ef00..f566107c35 100644
+>>       bool do_nodelay     =3D sock->has_nodelay ? sock->nodelay : false;
+>>       bool is_listen      =3D sock->has_server  ? sock->server  : true;
+>>       bool is_telnet      =3D sock->has_telnet  ? sock->telnet  : false;
+>> -@@ -925,7 +990,14 @@
+>> -     } else if (reconnect > 0) {
+>> +@@ -1008,6 +1073,14 @@ static void qmp_chardev_open_socket(Chardev *chr=
+,
+>>           s->reconnect_time =3D reconnect;
+>>       }
+>> --
+>> +
+>>  +#ifndef _WIN32
+>>  +    if (cmd) {
+>>  +        chardev_open_socket_cmd(chr, cmd, errp);
+>> @@ -146,12 +145,12 @@ index 53eda8ef00..f566107c35 100644
+>>  +        *be_opened =3D true;
+>>  +    } else
+>>  +#endif
+>> -     if (s->reconnect_time) {
+>> -         sioc =3D qio_channel_socket_new();
+>> -         tcp_chr_set_client_ioc_name(chr, sioc);
+>> -@@ -985,10 +1057,26 @@
+>> -     const char *host =3D qemu_opt_get(opts, "host");
+>> +     /* If reconnect_time is set, will do that in chr_machine_done. */
+>> +     if (!s->reconnect_time) {
+>> +         if (s->is_listen) {
+>> +@@ -1065,9 +1138,26 @@ static void qemu_chr_parse_socket(QemuOpts *opts=
+,
+>> ChardevBackend *backend,
+>>       const char *port =3D qemu_opt_get(opts, "port");
+>> +     const char *fd =3D qemu_opt_get(opts, "fd");
+>>       const char *tls_creds =3D qemu_opt_get(opts, "tls-creds");
+>>  +#ifndef _WIN32
+>>  +    const char *cmd =3D qemu_opt_get(opts, "cmd");
+>> @@ -159,7 +158,6 @@ index 53eda8ef00..f566107c35 100644
+>>       SocketAddressLegacy *addr;
+>>       ChardevSocket *sock;
+>>
+>> -     backend->type =3D CHARDEV_BACKEND_KIND_SOCKET;
+>>  +#ifndef _WIN32
+>>  +    if (cmd) {
+>>  +        /*
+>> @@ -173,17 +171,18 @@ index 53eda8ef00..f566107c35 100644
+>>  +        }
+>>  +    } else
+>>  +#endif
+>> -     if (!path) {
+>> -         if (!host) {
+>> -             error_setg(errp, "chardev: socket: no host given");
+>> -@@ -1021,13 +1109,24 @@
+>> -     sock->has_reconnect =3D true;
+>> ++
+>> +     if ((!!path + !!fd + !!host) !=3D 1) {
+>> +         error_setg(errp,
+>> +                    "Exactly one of 'path', 'fd' or 'host' required");
+>> +@@ -1112,12 +1202,24 @@ static void qemu_chr_parse_socket(QemuOpts *opt=
+s,
+>> ChardevBackend *backend,
+>>       sock->reconnect =3D reconnect;
+>>       sock->tls_creds =3D g_strdup(tls_creds);
+>> +
+>>  +#ifndef _WIN32
+>>  +    sock->cmd =3D g_strdup(cmd);
+>>  +#endif
+>> -
+>> ++
+>>       addr =3D g_new0(SocketAddressLegacy, 1);
+>>  +#ifndef _WIN32
+>>  +    if (path || cmd) {
+>> @@ -198,11 +197,11 @@ index 53eda8ef00..f566107c35 100644
+>>  +#else
+>>           q_unix->path =3D g_strdup(path);
+>>  +#endif
+>> -     } else {
+>> +     } else if (host) {
+>>           addr->type =3D SOCKET_ADDRESS_LEGACY_KIND_INET;
+>>           addr->u.inet.data =3D g_new(InetSocketAddress, 1);
+>>  diff --git a/chardev/char.c b/chardev/char.c
+>> -index 2ae4f465ec..5d52cd5de5 100644
+>> +index 76d866e6fe..9747d51d7c 100644
+>>  --- a/chardev/char.c
+>>  +++ b/chardev/char.c
+>>  @@ -792,6 +792,9 @@ QemuOptsList qemu_chardev_opts =3D {
+>> @@ -239,4 +238,5 @@ index ae19dcd1ed..6de0f29bcd 100644
+>>                                        '*server'    : 'bool',
+>>                                        '*wait'      : 'bool',
+>>  --
+>> -2.14.1
+>> +2.17.0
+>> +
+>> diff --git a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
+>> b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
+>> index 77117890f4..e29c011a6f 100644
+>> --- a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
+>> +++ b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
+>> @@ -1,3 +1,11 @@
+>> +From a31c5c695cb716310257f1fc60a06b821e74fe7f Mon Sep 17 00:00:00 2001
+>> +From: Ross Burton <ross.burton@intel.com>
+>> +Date: Wed, 18 Sep 2013 14:04:54 +0100
+>> +Subject: [PATCH] sdl.c: allow user to disable pointer grabs
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=3DUTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>>  When the pointer enters the Qemu window it calls SDL_WM_GrabInput, whic=
+h
+>> calls
+>>  XGrabPointer in a busyloop until it returns GrabSuccess. However if
+>> there's already
+>>  a pointer grab (screen is locked, a menu is open) then qemu will hang
+>> until the
+>> @@ -11,35 +19,30 @@ them in a conditional that can be set by the
+>> autobuilder environment, preserving
+>>  the current grabbing behaviour for everyone else.
+>>
+>>  Upstream-Status: Pending
+>> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> -
+>> -From 4b1988ecb01a178269ec0513a75f2ec620c7ef6a Mon Sep 17 00:00:00 2001
+>> -From: Ross Burton <ross.burton@intel.com>
+>> -Date: Wed, 18 Sep 2013 14:04:54 +0100
+>> -Subject: [PATCH] sdl.c: allow user to disable pointer grabs
+>> -
+>>  Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>  Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+>> +
+>>  ---
+>> - ui/sdl.c | 12 ++++++++++--
+>> - 1 file changed, 10 insertions(+), 2 deletions(-)
+>> + ui/sdl.c | 13 +++++++++++--
+>> + 1 file changed, 11 insertions(+), 2 deletions(-)
+>>
+>> -Index: qemu-2.11.1/ui/sdl.c
+>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> ---- qemu-2.11.1.orig/ui/sdl.c
+>> -+++ qemu-2.11.1/ui/sdl.c
+>> -@@ -63,6 +63,10 @@ static SDL_PixelFormat host_format;
+>> - static int scaling_active =3D 0;
+>> - static Notifier mouse_mode_notifier;
+>> - static int idle_counter;
+>> +diff --git a/ui/sdl.c b/ui/sdl.c
+>> +index a5fd503..ab8d1b1 100644
+>> +--- a/ui/sdl.c
+>> ++++ b/ui/sdl.c
+>> +@@ -68,6 +68,11 @@ static int idle_counter;
+>> + static const guint16 *keycode_map;
+>> + static size_t keycode_maplen;
+>> +
+>>  +#ifndef True
+>>  +#define True 1
+>>  +#endif
+>>  +static doing_grabs =3D True;
+>> -
+>> ++
+>>   #define SDL_REFRESH_INTERVAL_BUSY 10
+>>   #define SDL_MAX_IDLE_COUNT (2 * GUI_REFRESH_INTERVAL_DEFAULT \
+>> -@@ -431,14 +435,16 @@ static void sdl_grab_start(void)
+>> +                             / SDL_REFRESH_INTERVAL_BUSY + 1)
+>> +@@ -398,14 +403,16 @@ static void sdl_grab_start(void)
+>>           }
+>>       } else
+>>           sdl_hide_cursor();
+>> @@ -58,7 +61,7 @@ Index: qemu-2.11.1/ui/sdl.c
+>>       gui_grab =3D 0;
+>>       sdl_show_cursor();
+>>       sdl_update_caption();
+>> -@@ -986,6 +992,8 @@ void sdl_display_init(DisplayState *ds,
+>> +@@ -945,6 +952,8 @@ static void sdl1_display_init(DisplayState *ds,
+>> DisplayOptions *o)
+>>        * This requires SDL >=3D 1.2.14. */
+>>       setenv("SDL_DISABLE_LOCK_KEYS", "1", 1);
+>>
+>> diff --git a/meta/recipes-devtools/qemu/qemu/memfd.patch
+>> b/meta/recipes-devtools/qemu/qemu/memfd.patch
+>> deleted file mode 100644
+>> index 62e8d3800b..0000000000
+>> --- a/meta/recipes-devtools/qemu/qemu/memfd.patch
+>> +++ /dev/null
+>> @@ -1,57 +0,0 @@
+>> -Upstream-Status: Backport
+>> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> -
+>> -From 75e5b70e6b5dcc4f2219992d7cffa462aa406af0 Mon Sep 17 00:00:00 2001
+>> -From: Paolo Bonzini <pbonzini@redhat.com>
+>> -Date: Tue, 28 Nov 2017 11:51:27 +0100
+>> -Subject: [PATCH] memfd: fix configure test
+>> -MIME-Version: 1.0
+>> -Content-Type: text/plain; charset=3DUTF-8
+>> -Content-Transfer-Encoding: 8bit
+>> -
+>> -Recent glibc added memfd_create in sys/mman.h.  This conflicts with
+>> -the definition in util/memfd.c:
+>> -
+>> -    /builddir/build/BUILD/qemu-2.11.0-rc1/util/memfd.c:40:12: error:
+>> static declaration of memfd_create follows non-static declaration
+>> -
+>> -Fix the configure test, and remove the sys/memfd.h inclusion since the
+>> -file actually does not exist---it is a typo in the memfd_create(2) man
+>> -page.
+>> -
+>> -Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> -Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ----
+>> - configure    | 2 +-
+>> - util/memfd.c | 4 +---
+>> - 2 files changed, 2 insertions(+), 4 deletions(-)
+>> -
+>> -diff --git a/configure b/configure
+>> -index 9c8aa5a98b..99ccc1725a 100755
+>> ---- a/configure
+>> -+++ b/configure
+>> -@@ -3923,7 +3923,7 @@ fi
+>> - # check if memfd is supported
+>> - memfd=3Dno
+>> - cat > $TMPC << EOF
+>> --#include <sys/memfd.h>
+>> -+#include <sys/mman.h>
+>> -
+>> - int main(void)
+>> - {
+>> -diff --git a/util/memfd.c b/util/memfd.c
+>> -index 4571d1aba8..412e94a405 100644
+>> ---- a/util/memfd.c
+>> -+++ b/util/memfd.c
+>> -@@ -31,9 +31,7 @@
+>> -
+>> - #include "qemu/memfd.h"
+>> -
+>> --#ifdef CONFIG_MEMFD
+>> --#include <sys/memfd.h>
+>> --#elif defined CONFIG_LINUX
+>> -+#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
+>> - #include <sys/syscall.h>
+>> - #include <asm/unistd.h>
+>> -
+>> ---
+>> -2.11.0
+>> diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+>> b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+>> index eb99d14639..360519f1a1 100644
+>> --- a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+>> +++ b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
+>> @@ -1,8 +1,19 @@
+>> +From 6702ec74a7ba90b99efedde260c9f08b75d5516d Mon Sep 17 00:00:00 2001
+>> +From: Stephen Arnold <sarnold@vctlabs.com>
+>> +Date: Sun, 12 Jun 2016 18:09:56 -0700
+>> +Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some
+>> environment
+>> +
+>>  Upstream-Status: Pending
+>>
+>> +---
+>> + configure | 4 ----
+>> + 1 file changed, 4 deletions(-)
+>> +
+>> +diff --git a/configure b/configure
+>> +index 69e05fb..12fc3d8 100755
+>>  --- a/configure
+>>  +++ b/configure
+>> -@@ -4468,10 +4468,6 @@ fi
+>> +@@ -5413,10 +5413,6 @@ write_c_skeleton
+>>   if test "$gcov" =3D "yes" ; then
+>>     CFLAGS=3D"-fprofile-arcs -ftest-coverage -g $CFLAGS"
+>>     LDFLAGS=3D"-fprofile-arcs -ftest-coverage $LDFLAGS"
+>> @@ -12,4 +23,4 @@ Upstream-Status: Pending
+>>  -  CFLAGS=3D"-O2 $CFLAGS"
+>>   fi
+>>
+>> - ##########################################
+>> + if test "$have_asan" =3D "yes"; then
+>> diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+>> b/meta/recipes-devtools/qemu/qemu_2.12.0.bb
+>> similarity index 87%
+>> rename from meta/recipes-devtools/qemu/qemu_2.11.1.bb
+>> rename to meta/recipes-devtools/qemu/qemu_2.12.0.bb
+>> index f4b7d69fca..63590fc9eb 100644
+>> --- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
+>> +++ b/meta/recipes-devtools/qemu/qemu_2.12.0.bb
+>> @@ -20,8 +20,6 @@ SRC_URI =3D
+>> "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+>>             file://chardev-connect-socket-to-a-spawned-command.patch \
+>>             file://apic-fixup-fallthrough-to-PIC.patch \
+>>
+>> file://linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+>> -           file://memfd.patch \
+>> -
+>> file://0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch \
+>>             "
+>>  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+\..*)\.tar"
+>>
+>> @@ -31,8 +29,8 @@ SRC_URI_append_class-native =3D " \
+>>              file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
+>>              "
+>>
+>> -SRC_URI[md5sum] =3D "61cf862b6007eba4ac98247776af2e27"
+>> -SRC_URI[sha256sum] =3D
+>> "d9df2213ceed32e91dab7bc9dd19c1af83f91ba72c7aeef7605dfaaf81732ccb"
+>> +SRC_URI[md5sum] =3D "122fd7cdf241ff7eb1e42c0b503b5d1b"
+>> +SRC_URI[sha256sum] =3D
+>> "c9f4a147bc915d24df9784affc611a115f42d24720a89210b479f1ba7a3f679c"
+>>
+>>  COMPATIBLE_HOST_mipsarchn32 =3D "null"
+>>  COMPATIBLE_HOST_mipsarchn64 =3D "null"
+>> --
+>> 2.17.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
