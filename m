@@ -1,24 +1,49 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A9675185
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 738EA751FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 09:10:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4A9AW7i018933
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 May 2018 11:12:20 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id g1-v6so2550693iob.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 02:10:47 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 10 May 2018 02:10:21 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2018 02:10:21 -0700
-Message-ID: <20180510091021.61535-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 10 May 2018 04:12:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Lab4IjFLtMcmcan6w+UsumB88HIBG2drnZmvN/YleWg=;
+	b=t5uN+f9SKZSkmJkkSzQB7ZgHbo8NXi+lRwmos6FQ1CtGp1VwyBHKu8Bh6baFQaPtQP
+	NlcWFGxMz2vR2WAMRNoP/5Pcq2c66fRo/y/SnPjXas/z5P45M3d7xNDeqD1Pyx0NVCFX
+	nSCxW0fbDDg1tIy8kvB+S2FdjJizj+X/pwSKSSOJa0r0ODndZfFX15Aiq5qX6WbOVBo4
+	eqajEtbQ/p1RmZIg0fzCtOz5PDvrKlu+ORafgIQPL1QqJjl6YHQUf9b+XhihGmhFKBvb
+	0qUCMaYJ15VnveeetOsC17KGOqVemL9ABdQbfTdpTKD/8/cpXHf56JlpHbbLpXtjlpEH
+	Jl7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Lab4IjFLtMcmcan6w+UsumB88HIBG2drnZmvN/YleWg=;
+	b=ogUEA+mfgFtbcqJtK3m2GA/85CQU7N2zXc/cLPnee9VtbDCUYcrdl+BVJSZgTmuqfR
+	MsBNIEtBJ6ZjVVJHDfqUhLtApus8ZfpL0DTEOZp8fAHTxi7iHPiswQLGr1conRizNNaw
+	F7aoZjSIHrQQlnoDeNKU3UlU9uXZBKkIZ8epreo/zPOrNuF0DaA/uqstBR8HTSIOSROt
+	+UTt/JNOD3hWSy3ZIq9r2uCjgHyWT6Y0AesUdiw58Ps++KoTlF3iJpajoQLSLPQuoWzL
+	cJj4xR2tfOeE4TkWa+cg4zPuMJJHvKc4Nk5P11xTGys3d5yGksA6D4bAt6EaPuH+YfEg
+	XBqA==
+X-Gm-Message-State: ALKqPwdkeyH3su8dVZGyFhhEPV+fpiteNZ3QdCpyd2dDTcI4tsUHlXwR
+	n9VY7kLhGso3lP1Z6rse6Pu5nyUAMVHic8i0XYEWKQ==
+X-Google-Smtp-Source: AB8JxZru1n2z8Leasgf7j9Th3rNhjVEo7U0A9um1sQVON8ZO3vcB6e58V1PwNLct1Qj3u+suWTBY3W1/M7sIOpEE6uY=
+X-Received: by 2002:a6b:b74b:: with SMTP id
+	h72-v6mr926331iof.201.1525950741192; 
+	Thu, 10 May 2018 04:12:21 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH][v2] gettext: make gettext independant of host java components
+Received: by 10.107.239.11 with HTTP; Thu, 10 May 2018 04:12:00 -0700 (PDT)
+In-Reply-To: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
+References: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 May 2018 12:12:00 +0100
+Message-ID: <CAJTo0LbTF1Fi4coWjAJpN8ngx6G8gc0j3Gb54Va9-qgnKOoPSQ@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cups:2.2.6->2.2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,143 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 09:10:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 May 2018 11:12:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The checksums of gettext were changing based on whether or not java
-and javac were installed. This patch makes gettext recipes independant
-of Java components.
+Breaks on the autobuilder:
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- .../gettext-disable-javacomp-setting.patch         | 104 +++++++++++++++++++++
- meta/recipes-core/gettext/gettext_0.19.8.1.bb      |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
+auth.c: In function 'cups_crypt':
+auth.c:2021:5: error: unknown type name '_cups_md5_state_t'; did you
+mean '_cups_message_t'?
+     _cups_md5_state_t state;  /* Primary MD5 state info */
+     ^~~~~~~~~~~~~~~~~
+     _cups_message_t
+auth.c:2022:5: error: unknown type name '_cups_md5_state_t'; did you
+mean '_cups_message_t'?
+     _cups_md5_state_t state2;  /* Secondary MD5 state info */
+     ^~~~~~~~~~~~~~~~~
+     _cups_message_t
 
-diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch b/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
-new file mode 100644
-index 0000000000..44ef3976f4
---- /dev/null
-+++ b/meta/recipes-core/gettext/gettext-0.19.8.1/gettext-disable-javacomp-setting.patch
-@@ -0,0 +1,104 @@
-+The checksums of gettext were changing based on whether or not 
-+java and javac were installed on the host.
-+Since '--disable-java' and '--disable-native-java' are included
-+in the EXTRA_OECONF, so it should not update and use the java env
-+information, even though the java and javac exist on the host.
-+This patch add reset operation for the env variable in m4 file to
-+avoid the issue.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-ff-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+Index: gettext-0.19.8.1/gettext-runtime/configure.ac
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-runtime/configure.ac
-++++ gettext-0.19.8.1/gettext-runtime/configure.ac
-+@@ -35,7 +35,7 @@ AC_PROG_YACC
-+ 
-+ gt_JAVA_CHOICE
-+ 
-+-gt_JAVACOMP([1.3], [1.1])
-++gt_JAVACOMP([1.3], [1.1], [1])
-+ AC_CHECK_PROG([JAR], [jar], [jar])
-+ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
-+   BUILDJAVA=yes
-+Index: gettext-0.19.8.1/gettext-runtime/gnulib-m4/javacomp.m4
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-runtime/gnulib-m4/javacomp.m4
-++++ gettext-0.19.8.1/gettext-runtime/gnulib-m4/javacomp.m4
-+@@ -621,6 +621,17 @@ changequote([,])dnl
-+     fi
-+   fi
-+   rm -f conftest*.java conftest*.class
-++  reset_env_variable=$3
-++  if test -n "$reset_env_variable"; then
-++    CONF_JAVAC=
-++    HAVE_JAVAC_ENVVAR=
-++    CLASSPATH=
-++    CLASSPATH_SEPARATOR=:
-++    HAVE_GCJ_C=
-++    HAVE_JAVAC=
-++    HAVE_JIKES=
-++    HAVE_JAVACOMP=
-++  fi
-+   if test -n "$HAVE_JAVACOMP"; then
-+     ac_result="$CONF_JAVAC"
-+   else
-+Index: gettext-0.19.8.1/gettext-tools/configure.ac
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-tools/configure.ac
-++++ gettext-0.19.8.1/gettext-tools/configure.ac
-+@@ -44,7 +44,7 @@ fi
-+ AC_SUBST([BUILDJAVAEXE])
-+ 
-+ gt_JAVAEXEC
-+-gt_JAVACOMP([1.3])
-++gt_JAVACOMP([1.3], [], [1])
-+ AC_CHECK_PROG([JAR], [jar], [jar])
-+ if test -n "$HAVE_JAVACOMP" && test -n "$JAR" && test "$JAVA_CHOICE" != no; then
-+   BUILDJAVA=yes
-+Index: gettext-0.19.8.1/gettext-tools/gnulib-m4/javacomp.m4
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-tools/gnulib-m4/javacomp.m4
-++++ gettext-0.19.8.1/gettext-tools/gnulib-m4/javacomp.m4
-+@@ -621,6 +621,17 @@ changequote([,])dnl
-+     fi
-+   fi
-+   rm -f conftest*.java conftest*.class
-++  reset_env_variable=$3
-++  if test -n "$reset_env_variable"; then
-++    CONF_JAVAC=
-++    HAVE_JAVAC_ENVVAR=
-++    CLASSPATH=
-++    CLASSPATH_SEPARATOR=:
-++    HAVE_GCJ_C=
-++    HAVE_JAVAC=
-++    HAVE_JIKES=
-++    HAVE_JAVACOMP=
-++  fi
-+   if test -n "$HAVE_JAVACOMP"; then
-+     ac_result="$CONF_JAVAC"
-+   else
-+Index: gettext-0.19.8.1/gettext-tools/gnulib-m4/javaexec.m4
-+===================================================================
-+--- gettext-0.19.8.1.orig/gettext-tools/gnulib-m4/javaexec.m4
-++++ gettext-0.19.8.1/gettext-tools/gnulib-m4/javaexec.m4
-+@@ -87,6 +87,17 @@ AC_DEFUN([gt_JAVAEXEC],
-+       CLASSPATH="$save_CLASSPATH"
-+     ])
-+   fi
-++  if test -z "$4"; then
-++    HAVE_JAVAEXEC=
-++    CONF_JAVA=
-++    CLASSPATH=
-++    CLASSPATH_SEPARATOR=
-++    HAVE_JAVA_ENVVAR=
-++    HAVE_GIJ=
-++    HAVE_JAVA=
-++    HAVE_JRE=
-++    HAVE_JVIEW=
-++  fi
-+   if test -n "$HAVE_JAVAEXEC"; then
-+     ac_result="$CONF_JAVA"
-+   else
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index 68f5cc329a..490e291f8f 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
- 	   file://add-with-bisonlocaledir.patch \
- 	   file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
- 	   file://use-pkgconfig.patch \
-+	   file://gettext-disable-javacomp-setting.patch \
- "
- 
- SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
--- 
-2.11.0
-
+Ross
 
