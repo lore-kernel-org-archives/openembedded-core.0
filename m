@@ -1,57 +1,57 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8930B75308;
-	Thu, 10 May 2018 19:11:45 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id o4-v6so3051714wrm.0;
-	Thu, 10 May 2018 12:11:46 -0700 (PDT)
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C77F075314
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 19:16:12 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id f8-v6so6191307wmc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 12:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=uop3B1QN+H0K02vh0LicDL5jZAxGOHYdhST2zbRRV2o=;
-	b=rHTo8Bv5Tj2+4/5tCZUyxEuBr//U3M1gqhtJdtRoFbMGRzSjrJrXaRWFVRvsAp6H98
-	jV22uRkGj6kyFVA17TBJ5ANKjnWw9iFe1eAFvBR7yGliVc8UCibctU3wUvjmvAFb4rFf
-	dwtOmVdp6tBLqtAOtYscN6u1e2usPBprD1eP4xeZbAmtOnUdX9WTPUYkbaNyDX05zq9V
-	h676ZfacEFVNm4hY4DQzuoE/L+c5fcXT1eSpkdvVkppXlYdg0GN7i4rUqLH3mMaMF+uB
-	FqJeKF7y3nq8oakq+E6oQvbxfe5xkWGK0RqRqsXtznfG3QkcgMUtSf45hiZ1PVEV9PbH
-	Y+sA==
+	bh=M1GJ5X/ha3LKf0Qwea5BHubiMqMx0ltN3hXfwQeXmhw=;
+	b=tvxCfaIyWZQZOfXVSNKOeRYV1/bZ1MdX2hYoumyBMk6/5HYJ5CkqQ8m044TqcZz2lb
+	ehMLEIA0yq6q265xnHI/qZky8bj4S3GhtoA9GaOIE5xlbGhD9tIp28Em4LxyjRcxfV5G
+	rlcn10YmtwMn1lGDE87nkcL0s1ggTkf40yYpqyfKnmHuMy1erhc3ER4Y2Crsd5GkGKOu
+	Yy01ImoG7qKPKhvvkrS46USMq0c8aMNmz9pfXodSDJ1mhqSePOCIDXgiSifnXnIlhmZH
+	bggNXUTmXNUXB84/lbbVg3KkQMYbk/TWOZgYi2t7lkckBwB3JenXqc+vlVJtuPQ2R2MQ
+	DsZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=uop3B1QN+H0K02vh0LicDL5jZAxGOHYdhST2zbRRV2o=;
-	b=eSF8ql07QcSOg5GyE/mKgJuuJGhmlWfNASMWY0IpiRI2saT0IAWUz41vNB5NRvYAbV
-	hlKAzkiJQjR/bWG3+SEN7w1ovvCieM5Sj3aZ6pzOYU/GXnflXzG0o/XZ3q58JQzK7TwT
-	th3m0oJhOEToN3wm2V0pA7GK0LRhj4QPrq5x7mwyQrUwwHGC2d87wG5YPkqp17KZbOL+
-	0Mc7DF3Z+YXkRHH1uHSs87O+uDvAlG2KNPONuTjplFXWNPW9WAvnNuxTjVkpc7YAcBPU
-	M/OhGEhVanTviQLbFOxByzXSJtkkZn0D1S7U9lqxbFC1dUYefDN7YQXseYz6wPCzbinp
-	ydBA==
-X-Gm-Message-State: ALKqPweAi9dFGnFwejc7q1O2djI1kPCYq48kBK5JwQvrhu+P/uBDKpRF
-	jlQOF2FWfXe5RCuRKWn8lcI=
-X-Google-Smtp-Source: AB8JxZrWiIo98i/442djN4BfVaKNynn9t6Fz2Hng5IMwk21Kxd0ej7IWsyXj+sGHHAsdo8vMYWw2WQ==
-X-Received: by 2002:adf:b509:: with SMTP id
-	a9-v6mr2237651wrd.191.1525979505939; 
-	Thu, 10 May 2018 12:11:45 -0700 (PDT)
+	bh=M1GJ5X/ha3LKf0Qwea5BHubiMqMx0ltN3hXfwQeXmhw=;
+	b=auSeok4LlWCg5k46Yp/Nbn1uLHE9soPZ0n1BH+SWhcnd7YQ1yTWA3s9+HlxQeo5/Mu
+	cu9FORkcUOkLd7W3N/MYxfFsSs3OYEugMR4Pz5dzGnzjY94Knl3tXPnlfnVTaVk12NF5
+	VaPm+X70v/Ziy6CuuUZD1Rd7S7JQIbt3zds05UHqBUZK3nmsqAbvrQecTfiaq5o2OzxJ
+	R8MWRIISXskWE7LyE+lM93e3IJLlDNJjhh68LbtYVfNJnhswaIvI5Pz+7jZd84MjpNaI
+	rcyOD9Uq05cCaKILePIYA1bbUD3ebrJJu8KyO5iMV84vIM/1KgFF36snWGrHVA2yYA0f
+	41vQ==
+X-Gm-Message-State: ALKqPwdsz0J2uXwkh543KKDTJTWJPtoDnXVsI/U/lsssaS4pYhB0Vw+6
+	xTsRrt27cZzz44MoFc90IOwpgQ==
+X-Google-Smtp-Source: AB8JxZq5BCjLxUbKygwNZG4pkTJnqgMH2BK6nwCI+mBJXYHHrVZvE7QAqAWYKenVcmEfzt7bXhbowA==
+X-Received: by 2002:a1c:1bcc:: with SMTP id
+	b195-v6mr116956wmb.63.1525979773230; 
+	Thu, 10 May 2018 12:16:13 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	o12-v6sm1854175wri.78.2018.05.10.12.11.44
+	v75-v6sm2038772wrc.65.2018.05.10.12.16.12
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 10 May 2018 12:11:44 -0700 (PDT)
+	Thu, 10 May 2018 12:16:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 May 2018 21:11:45 +0200
+Date: Thu, 10 May 2018 21:16:12 +0200
 To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20180510191145.GA1954@jama>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
-	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+Message-ID: <20180510191612.GB1954@jama>
+References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<20180510122036.15212-1-Martin.Jansa@gmail.com>
+	<CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
+	<84e0278e-4ed3-51e7-81b8-f104c469ed4c@gmail.com>
+	<8df86d81-5e7f-46fa-0d25-ecb902d70d8c@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+In-Reply-To: <8df86d81-5e7f-46fa-0d25-ecb902d70d8c@gmail.com>
 User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] GCC 8.1
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,311 +64,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2018 19:11:46 -0000
-X-Groupsio-MsgNum: 111231
+X-List-Received-Date: Thu, 10 May 2018 19:16:13 -0000
+X-Groupsio-MsgNum: 111232
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="C7zPtVaVf+AK4Oqc"
+	protocol="application/pgp-signature"; boundary="4bRzO86E/ozDv8r1"
 Content-Disposition: inline
 
---C7zPtVaVf+AK4Oqc
+--4bRzO86E/ozDv8r1
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 10, 2018 at 11:50:02AM -0700, Khem Raj wrote:
-> Hi Martin
+On Thu, May 10, 2018 at 11:24:02AM -0700, Khem Raj wrote:
 >=20
-> Thanks for testing and reporting back
 >=20
-> On 5/9/18 2:38 AM, Martin Jansa wrote:
-> > My initial tests show couple issues, but usually caused by other change=
-s=20
-> > in that branch, not the gcc-8 itself.
+> On 5/10/18 11:21 AM, Khem Raj wrote:
 > >=20
-> > 1) strace-4.22 from=20
-> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/=
-gcc-8&id=3Daf33a8b721cc9caebd3f5226b4c5903f666ab654
-> > fails to build with ptest enabled (it builds with 4.20 version if I=20
-> > revert this change)
-> > ../../strace-4.22/tests/inject-nf.c: In function 'main':
-> > ../../strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be used in=
-=20
-> > asm here
-> >  =A0}
-> >  =A0^
+> >=20
+> > On 5/10/18 6:01 AM, Burton, Ross wrote:
+> >> Fails to build here:
+> >>
+> >> =A0 coreutils/lib.a(mktemp.o): In function `mktemp_main':
+> >> | /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/coreutils/mktemp.c:1=
+05:
+> >> warning: the use of `mktemp' is dangerous, better use `mkstemp' or
+> >> `mkdtemp'
+> >> | util-linux/lib.a(mount.o): In function `xdr_fhstatus':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:105=
+7:
+> >> undefined reference to `xdr_u_int'
+> >> | util-linux/lib.a(mount.o): In function `xdr_fhandle':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:105=
+2:
+> >> undefined reference to `xdr_opaque'
+> >> | util-linux/lib.a(mount.o): In function `xdr_mountstat3':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:108=
+9:
+> >> undefined reference to `xdr_enum'
+> >> | util-linux/lib.a(mount.o): In function `xdr_fhandle3':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:107=
+1:
+> >> undefined reference to `xdr_bytes'
+> >> | util-linux/lib.a(mount.o): In function `xdr_mountres3_ok':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:108=
+0:
+> >> undefined reference to `xdr_int'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:108=
+0:
+> >> undefined reference to `xdr_array'
+> >> | util-linux/lib.a(mount.o): In function `xdr_dirpath':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:106=
+6:
+> >> undefined reference to `xdr_string'
+> >> | util-linux/lib.a(mount.o): In function `get_mountport':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:114=
+5:
+> >> undefined reference to `pmap_getmaps'
+> >> | util-linux/lib.a(mount.o): In function `nfsmount':
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:166=
+2:
+> >> undefined reference to `clnttcp_create'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:167=
+7:
+> >> undefined reference to `authunix_create_default'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:165=
+2:
+> >> undefined reference to `clntudp_create'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:167=
+2:
+> >> undefined reference to `clnt_spcreateerror'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:170=
+2:
+> >> undefined reference to `clnt_sperror'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:170=
+7:
+> >> undefined reference to `clnt_sperror'
+> >> |=20
+> >> /usr/src/debug/busybox/1.27.2-r0/busybox-1.27.2/util-linux/mount.c:178=
+8:
+> >> undefined reference to `pmap_getport'
+> >>
+> >=20
+> > We need to specify
+> >=20
+> > CONFIG_EXTRA_LDLIBS=3D"tirpc"
+> >=20
+> > along with
+> >=20
+> > CONFIG_FEATURE_MOUNT_NFS=3Dy
+> >=20
+> > secondly in v2 please delete
+> >=20
+> > # CONFIG_FEATURE_MOUNT_NFS is not set
+> >=20
+> > from meta/recipes-core/busybox/busybox/musl.cfg as well
+> >=20
 >=20
-> are you targeting thumb1 ? how can I reproduce it ?
+> On second thought, this probably should be enabled using a config=20
+> fragment, since its not gonna link in another library it may not be=20
+> common case to justify for a default config.
 
-I'm trying to find out what's different in the builds where it was
-failing, will provide more info later.
+That's true, I've enabled CONFIG_FEATURE_MOUNT_NFS mostly to show how to
+reproduce the issue.
 
-> > Makefile:6313: recipe for target 'inject-nf.o' failed
-> > make: *** [inject-nf.o] Error 1
-> > make: Leaving directory 'strace/4.22-r0/build/tests'
-> >=20
-> > 2) glibc with obsolete rpc disabled from:=20
-> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/=
-gcc-8&id=3D0cd820424d4bdb5cc68e7503e09a0359fd21150a
-> > causes busybox's mount applet to fail building:
-> > util-linux/mount.c:252:11: fatal error: rpc/rpc.h: No such file or dire=
-ctory
-> >  =A0# include <rpc/rpc.h>
-> >  =A0 =A0 =A0 =A0 =A0 =A0^~~~~~~~~~~
-> > compilation terminated.
-> > make[1]: *** [util-linux/mount.o] Error 1
-> > make: *** [util-linux] Error 2
->=20
-> I think you sent a patch already for this so discussion for fix are on=20
-> going.
->=20
-> >=20
-> > 3) grub and grub-efi fails to build with gcc8:
-> > In file included from ../grub-2.02/grub-core/partmap/gpt.c:26:
-> > ../grub-2.02/include/grub/gpt_partition.h:79:1: error: alignment 1 of=
-=20
-> > 'struct grub_gpt_partentry' is less than 8 [-Werror=3Dpacked-not-aligne=
-d]
-> >  =A0} GRUB_PACKED;
-> >  =A0^
-> > In file included from ../grub-2.02/grub-core/disk/ldm.c:26:
-> > ../grub-2.02/include/grub/gpt_partition.h:79:1: error: alignment 1 of=
-=20
-> > 'struct grub_gpt_partentry' is less than 8 [-Werror=3Dpacked-not-aligne=
-d]
-> >  =A0} GRUB_PACKED;
-> >  =A0^
-> > ..
-> > ../grub-2.02/grub-core/fs/btrfs.c:186:1: error: alignment 1 of 'struct=
-=20
-> > grub_btrfs_inode' is less than 4 [-Werror=3Dpacked-not-aligned]
-> >  =A0} GRUB_PACKED;
-> >  =A0^
-> >=20
->=20
-> I think we need to align end of these structs here, can you try
-> https://src.fedoraproject.org/rpms/grub2/raw/master/f/0198-align-struct-e=
-fi_variable-better.patch
+If there isn't interest to enable this by default, I'm fine with keeping th=
+is
+locally (to enable it only with our defconfig changes which enable it).
 
-I've sent fix as well:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150587.h=
-tml
-it's in master-next already.
-
-> > 4) iotivity fails to build with gcc8:
-> > service/resource-encapsulation/src/common/primitiveResource/unittests/P=
-rimitiveResourceTest.cpp:=20
-> > In lambda function:
-> > service/resource-encapsulation/src/common/primitiveResource/unittests/P=
-rimitiveResourceTest.cpp:164:30:=20
-> > error: 'value' is not captured
-> >  =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0ocRep[KEY] =3D value;
-> >  =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ^~~~~
-> >=20
->=20
-> this needs more investigation. May be move
-> https://github.com/iotivity/iotivity/blob/master/service/resource-encapsu=
-lation/src/common/primitiveResource/unittests/PrimitiveResourceTest.cpp#L160
->=20
-> just above
-> https://github.com/iotivity/iotivity/blob/master/service/resource-encapsu=
-lation/src/common/primitiveResource/unittests/PrimitiveResourceTest.cpp#L165
-
-There are more issues in iotivity:
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1647:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'rap=
-idjson::GenericValue<rapidjson::UTF8<> >::Member' {aka 'struct rapidjson::G=
-enericMember<rapidjson::UTF8<>, rapidjs
-on::MemoryPoolAllocator<> >'} with no trivial copy-assignment; use copy-ass=
-ignment instead [-Werror=3Dclass-memaccess]
-+extlibs/rapidjson/rapidjson/include/rapidjson/document.h:1635:24: error: '=
-void* memcpy(void*, const void*, size_t)' writing to an object of type 'cla=
-ss rapidjson::GenericValue<rapidjson::UTF8<> >' with no trivial copy-assign=
-ment; use copy-assignment or copy-initi
-alization instead [-Werror=3Dclass-memaccess]
-+
-+service/resource-encapsulation/unittests/ResourceClientTest.cpp:243:67: er=
-ror: 'VALUE' is not captured
-+extlibs/hippomocks/hippomocks/HippoMocks/hippomocks.h:1609:15: error: void=
- value not ignored as it ought to be
-
-e.g. rapidjson one is tracked upstream:
-https://github.com/Tencent/rapidjson/issues/1205
-
-for other issues I have a work around, but not good enough to submit for me=
-ta-oic.
-
->=20
-> > 5) nativesdk-libxcrypt fails to build (not sure which change caused=20
-> > this, it build OK with sumo since the=A0-std=3Dgnu99 addition.
-> > ../git/crypt-sunmd5.c:189:13: error: 'snprintf' output may be truncated=
-=20
-> > before the last format character [-Werror=3Dformat-truncation=3D]
-> >  =A0 =A0 =A0 =A0 =A0 =A0 =A0"$" CRYPT_ALGNAME "," ROUNDS "%u$%s$",
-> >  =A0 =A0 =A0 =A0 =A0 =A0 =A0^~~
-> >=20
->=20
-> something new, I will look into reproducing this.
->=20
-> > 6) couple internal components which usually fail to build with gcc8,=20
-> > because of more strict warnings + Werror.
->=20
-> OK, feel free to send out question if you get stuck
->=20
-> >=20
-> > I didn't get very far in testing, because our old kernel fails to build=
-=20
-> > with gcc8 and there are some other issues caused by other master=20
-> > changes. But it doesn't look too bad (in my small test, lets see what=
-=20
-> > bitbake world will show), thanks a lot for new gcc.
-> >=20
->=20
-> yes, older kernel needs fixes, especially to disable new warnings.
-> the mips/ppc fixes that I put out there might be helpful to cook up=20
-> fixes for older kernels if running into same issues.
-
-In this case it fails with Error: .err encountered for many drivers. It's n=
-ot the same case as in:
-http://lists.infradead.org/pipermail/linux-arm-kernel/2015-February/325615.=
-html
-nor arm version of this change, both are already applied in our
-4.4.3 based kernel.
-
-I've tried to reproduce with vanilla 4.4.143 and it doesn't fail like this,=
- vanilla 4.4.3 doesn't
-fail, so it's caused by one of our 10000 commits on top of 4.4.3 or the con=
-fig, need to dig a bit more.
-
-> > Cheers,
-> >=20
-> >=20
-> >=20
-> >=20
-> >=20
-> > On Sat, May 5, 2018 at 2:26 AM, Khem Raj <raj.khem@gmail.com=20
-> > <mailto:raj.khem@gmail.com>> wrote:
-> >=20
-> >     Hi All
-> >=20
-> >     As you might have noticed that gcc 8.1 was released this week, I am
-> >     calling out for some testing help on testing branch so we can weed =
-out
-> >     issues you might see in your setups. so if you have your
-> >     builders idling over weekend, then you know what they can do this
-> >     weekend :)
-> >=20
-> >     Highlighted changes are
-> >=20
-> >     https://gcc.gnu.org/gcc-8/changes.html
-> >     <https://gcc.gnu.org/gcc-8/changes.html>
-> >=20
-> >     and porting doc is
-> >=20
-> >     https://gcc.gnu.org/gcc-8/porting_to.html
-> >     <https://gcc.gnu.org/gcc-8/porting_to.html>
-> >=20
-> >     The branch is here
-> >=20
-> >     http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj=
-/gcc-8
-> >     <http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkra=
-j/gcc-8>
-> >=20
-> >     Its uptodate on top of current master oe-core
-> >=20
-> >     May fourth be with you !!
-> >=20
-> >     Cheers!
-> >=20
-> >     -Khem
-> >     --=20
-> >     _______________________________________________
-> >     Openembedded-core mailing list
-> >     Openembedded-core@lists.openembedded.org
-> >     <mailto:Openembedded-core@lists.openembedded.org>
-> >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-> >=20
-> >=20
+> >> Ross
+> >>
+> >> On 10 May 2018 at 13:20, Martin Jansa <martin.jansa@gmail.com> wrote:
+> >>> * We dropped in-tree obsoleted rpc from glibc and now busybox builds
+> >>> =A0=A0 which had CONFIG_FEATURE_MOUNT_NFS enabled were failing with:
+> >>> =A0=A0 | util-linux/mount.c:252:11: fatal error: rpc/rpc.h: No such f=
+ile=20
+> >>> or directory
+> >>> =A0=A0 |=A0 # include <rpc/rpc.h>
+> >>> =A0=A0 |=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ^~~~~~~~~~~
+> >>> =A0=A0 | compilation terminated.
+> >>> =A0=A0 | make[1]: *** [util-linux/mount.o] Error 1
+> >>>
+> >>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >>> ---
+> >>> =A0 meta/recipes-core/busybox/busybox.inc=A0=A0=A0=A0=A0=A0 | 6 +++---
+> >>> =A0 meta/recipes-core/busybox/busybox/defconfig | 2 +-
+> >>> =A0 2 files changed, 4 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-core/busybox/busybox.inc=20
+> >>> b/meta/recipes-core/busybox/busybox.inc
+> >>> index d1675c37aa..2db19ed317 100644
+> >>> --- a/meta/recipes-core/busybox/busybox.inc
+> >>> +++ b/meta/recipes-core/busybox/busybox.inc
+> >>> @@ -3,7 +3,7 @@ DESCRIPTION =3D "BusyBox combines tiny versions of ma=
+ny=20
+> >>> common UNIX utilities into
+> >>> =A0 HOMEPAGE =3D "http://www.busybox.net"
+> >>> =A0 BUGTRACKER =3D "https://bugs.busybox.net/"
+> >>>
+> >>> -DEPENDS +=3D "kern-tools-native"
+> >>> +DEPENDS +=3D "kern-tools-native libtirpc"
+> >>>
+> >>> =A0 # bzip2 applet in busybox is based on lightly-modified bzip2 sour=
+ce
+> >>> =A0 # the GPL is version 2 only
+> >>> @@ -15,8 +15,8 @@ SECTION =3D "base"
+> >>> =A0 # Whether to split the suid apps into a seperate binary
+> >>> =A0 BUSYBOX_SPLIT_SUID ?=3D "1"
+> >>>
+> >>> -export EXTRA_CFLAGS =3D "${CFLAGS}"
+> >>> -export EXTRA_LDFLAGS =3D "${LDFLAGS}"
+> >>> +export EXTRA_CFLAGS =3D "${CFLAGS} -I${STAGING_INCDIR}/tirpc"
+> >>> +export EXTRA_LDFLAGS =3D "${LDFLAGS} -ltirpc"
+> >>>
+> >>> =A0 EXTRA_OEMAKE =3D "CC=3D'${CC}' LD=3D'${CCLD}' V=3D1 ARCH=3D${TARG=
+ET_ARCH}=20
+> >>> CROSS_COMPILE=3D${TARGET_PREFIX} SKIP_STRIP=3Dy HOSTCC=3D'${BUILD_CC}=
+'=20
+> >>> HOSTCPP=3D'${BUILD_CPP}'"
+> >>>
+> >>> diff --git a/meta/recipes-core/busybox/busybox/defconfig=20
+> >>> b/meta/recipes-core/busybox/busybox/defconfig
+> >>> index fbb5fd852c..816555fc21 100644
+> >>> --- a/meta/recipes-core/busybox/busybox/defconfig
+> >>> +++ b/meta/recipes-core/busybox/busybox/defconfig
+> >>> @@ -638,7 +638,7 @@ CONFIG_MOUNT=3Dy
+> >>> =A0 # CONFIG_FEATURE_MOUNT_VERBOSE is not set
+> >>> =A0 # CONFIG_FEATURE_MOUNT_HELPERS is not set
+> >>> =A0 # CONFIG_FEATURE_MOUNT_LABEL is not set
+> >>> -# CONFIG_FEATURE_MOUNT_NFS is not set
+> >>> +CONFIG_FEATURE_MOUNT_NFS=3Dy
+> >>> =A0 # CONFIG_FEATURE_MOUNT_CIFS is not set
+> >>> =A0 CONFIG_FEATURE_MOUNT_FLAGS=3Dy
+> >>> =A0 CONFIG_FEATURE_MOUNT_FSTAB=3Dy
+> >>> --=20
+> >>> 2.17.0
+> >>>
+> >>> --=20
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---C7zPtVaVf+AK4Oqc
+--4bRzO86E/ozDv8r1
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvSZbQAKCRA3VSO3ZXaA
-HNcQAKCconFMQyzW4Ns+UWNtySR2H+SvsACgjZKkdEx1TWlbDthKPd3oNcV5x50=
-=rzbh
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvSafAAKCRA3VSO3ZXaA
+HIyNAKCq23W9izs+rx1CgUsrnNWC3qucuwCeNDs/5VNu/39WdlVvuMFOIxg4j7k=
+=9xy0
 -----END PGP SIGNATURE-----
 
---C7zPtVaVf+AK4Oqc--
+--4bRzO86E/ozDv8r1--
