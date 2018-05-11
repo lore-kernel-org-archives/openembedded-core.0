@@ -1,53 +1,52 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 521B878650
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 52CEB78690
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 21:38:11 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id c9-v6so8597814iob.12
+	Fri, 11 May 2018 22:05:54 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id t23-v6so8659474ioc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 14:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 11 May 2018 15:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Dc/G6gehncmieX+rfApuGsBFOOmdUvXwzJ9qvD7lrIU=;
-	b=CbCTXr+9nnob58wWzrqJ/oCTLIBFrkX603a4/xH3DFJHm679tsKkfOUL0TrdBQPMu6
-	/EcpRWeuzwqhMG9wirzQFzBkJemvnyy+x8ORx3QfcetmsssIhsXCrFERKaHDfYH9H39z
-	ViGkrgvsnkswFYxFU4n5vD12ogynin621otXbeZ/8g9IPDy768Ddw+g8o06K1HcDqIJA
-	N91YGj06DdvWdmao2/fJ4Li4h8EWo/p+kI8/cF21UOt09GNXaVoK9ZWZmC0baOW+5kXz
-	laNac3kC3dNZbK2qvAb/pJu0wRN5XSirI0yvPX4jxpiyDKIRxNUZNjkDDSp3iYYFrkyF
-	vx7g==
+	:cc; bh=NQ8upV8cGF79w/d0nbtM29X0/KnalBlvOOk8wKNKDsY=;
+	b=ZnUarcWSkLwr/rkPanTZ3X1kwuOhb/xDgvkgy+dZoSdBaiBgH0EdDpGKiKYbhF7QvM
+	ftpt3H0e3SXKaS2ILGlC+1uL4ZUgan5nLE6/JeEsQjzrq343TEuIuosz5M/9oii+Ua8M
+	AJwXceJdbXl2liwROyqEA45e8UmMv4A+UMPvKmRE67YrAlDpjMJ/DBu4NHC4W+bpQygd
+	2mRymP96m1M1fmG3Nk3hZbmUx5fEM1mL1CLWpJaOLFqqIj5BnUb5PoHXK1HiJVRJtYzn
+	u3ZP15FPQ6jnR8ozlr0LaUFJFcErd+R+g6cY702HO8nR8a2iPYZthx0QlIoZNNkr0hS1
+	aJVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Dc/G6gehncmieX+rfApuGsBFOOmdUvXwzJ9qvD7lrIU=;
-	b=ddPd1njx76qw/4tuJlpVBgR4UiYZRKfKo8efehoElxqaWJgOQPQfDxUGkK1kM6XHPP
-	M3eIgQloNUWX3lr3Emka9PnCZEUO1UitKIAbbuJIGQ1j4PhsotkYPYSQTgIDLiIX1CNw
-	3FaOa/nMdVaVG45pxdXFHAYq1CTIQU7qFwP8B9ScyW1MR5Ln9XGmuNn7cEbYzYXsKk3C
-	2YHSAucnP/GqSQRUhhurk45uk0CVhtZUjEn1egyPSu48Ud+VM6Izmi6B/6yyXOGuyIjI
-	ICDtZzgZL0oVyaUKDTzux//DEV3tjmyuiJUdD+XiGqya28N5dyciiawmARHPbazekBYB
-	r4eA==
-X-Gm-Message-State: ALKqPwcgGAbY0BSkwZTs+HjRYy3Q8lQ0PfF8wbPXeqXrkI+R4jWKxmJj
-	Ui7oMYwehqtwlzLZamT/lzr5/DfwfV9bAE5CMu4=
-X-Google-Smtp-Source: AB8JxZq0SaBBn6r8eJKEopfXgRxFBXwIUSmfs1hh1fLYXVr/Cig2CtbXbTiJWP6iCnBR6N0WOKhS1grgUPUztI1K2Jk=
-X-Received: by 2002:a6b:9342:: with SMTP id v63-v6mr135511iod.76.1526074692957;
-	Fri, 11 May 2018 14:38:12 -0700 (PDT)
+	bh=NQ8upV8cGF79w/d0nbtM29X0/KnalBlvOOk8wKNKDsY=;
+	b=GSOe0q6FKuUSwaaEJfHZzaZBWl6WkNpZQQDIMUllYkhE7ibmn2eXydiB+Dabr/+o+8
+	59bkbWdmZRZOyZxa6TFZU5fTase//5WkASF8ucsk8lL5HzTIgu5/XVvs2zb34sUp06nK
+	kjsxekUPyVmBJIkUGMNSeRVnLjOeaXDuRkMwvXWmbwVOWnrKlRTnrmdmY+y1oFaaGbMD
+	B//WA0Rk90IpsMvLhmilEjs9nAidscPYQ9l3KNUDNlXjL7isO4Lub2OrCgj3sQbPQRwE
+	jpqQpr262Tq/jSJ2aLQwZ2fIgmG8QIU8uNyLMU1beQpKmC+eeQ1nv8IZcriaeX5c0CSC
+	o1Ww==
+X-Gm-Message-State: ALKqPwcoQ1WQb4i+mayYRED3Bd5H1x/cziymunxMHQkJBWOlvf5+PEFE
+	+nXiBt2kbJ3JbfuoRT0iMopAS1cssh1k7ln09yPsrw==
+X-Google-Smtp-Source: AB8JxZp/oll2DIGo0AVw2YCAuajt7MtWM3Uxck9LBFMmXAU/qTHFUExli6M5ZD0u4tC1PeBjXUch6tte3c8iLM6alik=
+X-Received: by 2002:a6b:248e:: with SMTP id
+	k136-v6mr187199iok.270.1526076355316; 
+	Fri, 11 May 2018 15:05:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:712b:0:0:0:0:0 with HTTP; Fri, 11 May 2018 14:37:52
-	-0700 (PDT)
-In-Reply-To: <20180511213210.GC2141@jama>
-References: <1526056553-31049-1-git-send-email-cjp256@gmail.com>
-	<CABcZANm1CMZkm+fkR+o_9DejzS=3bzj4XvM1zVd_zsVTY1YZAw@mail.gmail.com>
-	<CABZSBQeN+mx7Y8oQ8fhPf=xeuqLa2RpjwHLkVAPD2qoSzvzQMg@mail.gmail.com>
-	<20180511213210.GC2141@jama>
-From: Chris Patterson <cjp256@gmail.com>
-Date: Fri, 11 May 2018 17:37:52 -0400
-Message-ID: <CABZSBQcKLcxADoRwNZneKg+tePvhTQ+JJ6wA0+cKAHeXTAhp3w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Chris Patterson <pattersonc@ainfosec.com>,
+Received: by 10.107.239.11 with HTTP; Fri, 11 May 2018 15:05:34 -0700 (PDT)
+In-Reply-To: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 May 2018 23:05:34 +0100
+Message-ID: <CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: add gettext to DEPENDS
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 21:38:12 -0000
+X-List-Received-Date: Fri, 11 May 2018 22:05:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 11, 2018 at 5:32 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Fri, May 11, 2018 at 05:21:09PM -0400, Chris Patterson wrote:
->> On Fri, May 11, 2018 at 3:10 PM, Christopher Larson <kergoth@gmail.com> wrote:
->> > This is not a correct fix. We have a gettext bbclass for a reason.
->> >
->>
->> I did look at that prior to doing this.  It was my initial approach,
->> but inheriting gettext causes qemu build to fail when it modifies the
->> EXTRA_OECONF options with the nls flag (that qemu doesn't process).
->> There are quite a few other recipes using gettext-native in their
->> DEPENDS, and the reason for one over the other isn't quite clear.
->>
->> In the other thread (v2), Khem requested it only be added
->> conditionally if the gtk packageconfig flag is enabled.  Do you think
->> it would be appropriate to check packageconfig flag, then
->> conditionally inherit, then resolve (scrub) the unsupported configure
->> flags? Or modify the class such that modifying the OECONF is prevented
->> to begin with?
->
-> Are you using gtk PACKAGECONFIG for qemu-native (or nativesdk-qemu)?
-> Last time I've tried I've found that there are many things missing to
-> make it usable, see last few commits at:
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/qemu
->
-> I haven't tried gtk(3) for target build, it probably works better there.
->
+I threw the branch at the Yocto Project autobuilder today, produced a
+number of failures:
 
-I was looking to use it in my image (non-native).  Thank you for the info!
+http://errors.yoctoproject.org/Errors/Latest//?filter=b23dba19607412c8cc7d267d95354d65f5631088&type=commit
+
+Ross
+
+On 5 May 2018 at 01:26, Khem Raj <raj.khem@gmail.com> wrote:
+> Hi All
+>
+> As you might have noticed that gcc 8.1 was released this week, I am
+> calling out for some testing help on testing branch so we can weed out
+> issues you might see in your setups. so if you have your
+> builders idling over weekend, then you know what they can do this weekend :)
+>
+> Highlighted changes are
+>
+> https://gcc.gnu.org/gcc-8/changes.html
+>
+> and porting doc is
+>
+> https://gcc.gnu.org/gcc-8/porting_to.html
+>
+> The branch is here
+>
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
+>
+> Its uptodate on top of current master oe-core
+>
+> May fourth be with you !!
+>
+> Cheers!
+>
+> -Khem
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
