@@ -1,50 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B334B78222
+Return-Path: <cjp256@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DA6178263
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 18:11:18 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id i14-v6so6184583wre.2
+	Fri, 11 May 2018 18:38:53 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id j42-v6so8285711qtj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 11:11:19 -0700 (PDT)
+	Fri, 11 May 2018 11:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qTt5yhS1q1XiG2XsI2Qlg/Lpp0pumv22uUZIcr6qCK0=;
-	b=INbqaaF0Ym689kuqqcIyMO5hD5am4mGjSNQA2zjH7oqEd/U6szFOkvbV2I/APZ8ayz
-	bsXxiBAcheGICDIqvUn8kWUgRYenz2R+jHQDuPYJuVU86db0PmHcP5BK5KryCgaZPxyr
-	piT5ngBzWg7FIVP2ney/qVrByb+1qMEFECVGwYl1MC86ZrG97EJsjV/kZYyGlSDcztKg
-	EUOE39gGeVGCJyYJN2Nj6MgX8b2QGylQSCuUqQf/eAsK3arSUyblhM2eBRoxUjvHKsi0
-	/jE7/cvRlhR3EnwWVNxKuE9PbSucpPDkbnaw722j6yI0jSEpZKnBl5v9mmIReDjzydbo
-	NlFw==
+	h=from:to:cc:subject:date:message-id;
+	bh=oyT7wb9ene27UesNNUVfmXDpoBzRi7P+7Vlgj7fmDKI=;
+	b=C3nQfTddFqOMMyDd1axQbImj2FfyordMUpy9L0QKzhG89ThNQdYa6ld7E3L53R3Kxf
+	0Q3zGeETpvL8W27ePxRv92MUNsA25LIkqwPswYfk0MftELEmMaRPai0I/VdqZJ8M+kOr
+	6xvIcX1/a9llZf2n//KpV52upVfWyU62vEUtTbFOCtgCp4y5clGinbv8VzBRRHJfW1Q+
+	OyvnjWS3Z9fYpniSnXRp7QSh3zYZxZc+1FAYE1xqcuMYUdKFHStf7mDSDRwGYkabk+zI
+	SSxDCC/ziN98Gb2BsXxc8d6+PG4FJU7DrYXRCpR9dSfhbRo+UT0FHzy/CNm9LYir7swd
+	n5bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=qTt5yhS1q1XiG2XsI2Qlg/Lpp0pumv22uUZIcr6qCK0=;
-	b=H1xPo5zsUnHLIeozlCgHOfeQPmJ3rU0t2KV6FvQ5jl5kZ/f65jtG13rZvT6mnh4vWi
-	r0QXuPtxO+4CBX6rNFr09iv5M48Q44X2SAkdt0l0j0m4P+DuotW4tcixktxdQGi5Zg6p
-	l3Hq1K6QwKYRCn5JqNk0tMa2KZJe7hhk1ZNEkVbyF7l2k/wDGStfocA9YO87pjzYggCb
-	bD7uPJw+vtS3Wm9vLdAy3JBdMqLotdfmBMjSBN3kz9LCoy8xgWHe7wBGjW34Q5AvUvYZ
-	ObrJs3Z6+/X2OH/GOLDWzJLCU3MMsCbIbIeGjJ8g2LgD0/xPS+0XR3xYR4gdp12XpH8N
-	1//w==
-X-Gm-Message-State: ALKqPwf5XRFnNdfVO89aIkhTDfJ7M2347TaZXmqpaLGpN1wovm97anBn
-	+Q3H3QKVoBlF2eTrZFxRWLoV9w==
-X-Google-Smtp-Source: AB8JxZopbZ5IF1eQGRtUZfTSpCuBKHo6YEmw66BaltZmJTIqyH24AxwXCk16Yy/Qy1yvuxHxjpYM/Q==
-X-Received: by 2002:adf:9615:: with SMTP id b21-v6mr37755wra.253.1526062278862;
-	Fri, 11 May 2018 11:11:18 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	4-v6sm1951012wmg.40.2018.05.11.11.11.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 11 May 2018 11:11:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oyT7wb9ene27UesNNUVfmXDpoBzRi7P+7Vlgj7fmDKI=;
+	b=KCWvCAeZtJcbIdIUAEwwlLRx3Iwe3r2dT28kBlmRsyfk2AqcO2wxv4djastcuHAjbY
+	lJsR2/5QBQDl6/CZPSIhPMYam6w4oJ1Lzta3VtJ1prZufYjjJva7vWy001AdxyBKJTM9
+	SWsuJQ8a9RUrWqh6tmEoUAdavWbRuhix27TxeyR1A+N63ir4Se/eyH9/HgwZ9qahrpmw
+	rwUZyUEe9cck2/JvFOkb1eORr2qzHHz6NhDzEODnG6X4s29eCLUQrosIIgvVn9swegAW
+	5TpCLllOXfO/VplGrhfB1JmkXEgjWyOFePbgbsnnLbdEX9TtesypqomaC3d9wSJUweZW
+	cxMw==
+X-Gm-Message-State: ALKqPwcgqAfSy+ww3kI0W30c9vSZqKTEqJHmdg57cmkxoCiHPEPXkdiH
+	HEKSchUreB0MSsrik0V+v6E99RK0
+X-Google-Smtp-Source: AB8JxZpaOacx2kl7uu6gWQVoc4+dymu8yuEXyrLfMD17KxGuVoAt8A8/u9mSwTYMr+3dfnGWP3s52w==
+X-Received: by 2002:aed:3ac3:: with SMTP id
+	o61-v6mr6679118qte.335.1526063934504; 
+	Fri, 11 May 2018 11:38:54 -0700 (PDT)
+Received: from roost.members.linode.com (chrispatterson.net. [66.175.209.160])
+	by smtp.gmail.com with ESMTPSA id
+	c4-v6sm2633651qtj.49.2018.05.11.11.38.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 11 May 2018 11:38:53 -0700 (PDT)
+From: Chris Patterson <cjp256@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 18:11:18 +0000
-Message-Id: <20180511181118.11476-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <CAMKF1spEW+dY4R+YObdtLr+NXK=D8MHK1gBjeBWD1hD-wBrTZA@mail.gmail.com>
-References: <CAMKF1spEW+dY4R+YObdtLr+NXK=D8MHK1gBjeBWD1hD-wBrTZA@mail.gmail.com>
-Subject: [PATCH] perl-ptest: drop runtime dependency on libssp
+Date: Fri, 11 May 2018 14:38:43 -0400
+Message-Id: <1526063923-32176-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Chris Patterson <pattersonc@ainfosec.com>
+Subject: [meta-oe][PATCH] strongswan: package up sbin debug files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 18:11:18 -0000
+X-List-Received-Date: Fri, 11 May 2018 18:38:54 -0000
 
-* We use ssp impl directly from glibc/musl now.
+From: Chris Patterson <pattersonc@ainfosec.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
 ---
- meta/recipes-devtools/perl/perl-ptest.inc | 2 +-
+ meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-index 6a7a2d7cb3..8d46448566 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -50,7 +50,7 @@ python populate_packages_prepend() {
-             '${PN}-ptest%s', '%s', recursive=True, match_path=True)
- }
+diff --git a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
+index f2fe1f1..5cae6ac 100644
+--- a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
++++ b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
+@@ -46,7 +46,7 @@ inherit autotools systemd pkgconfig
+ RRECOMMENDS_${PN} = "kernel-module-ipsec"
  
--RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc ${PN}-misc sed libssp"
-+RDEPENDS_${PN}-ptest += "${PN}-modules ${PN}-doc ${PN}-misc sed"
+ FILES_${PN} += "${libdir}/ipsec/lib*${SOLIBS}"
+-FILES_${PN}-dbg += "${bindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
++FILES_${PN}-dbg += "${bindir}/.debug ${sbindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
+ FILES_${PN}-dev += "${libdir}/ipsec/lib*${SOLIBSDEV} ${libdir}/ipsec/*.la"
+ FILES_${PN}-staticdev += "${libdir}/ipsec/*.a"
  
- # The perl-ptest package contains Perl internal modules and generating file
- # dependencies for it causes problems.
 -- 
-2.17.0
+2.1.4
 
 
