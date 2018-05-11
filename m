@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F3175475
+	by mail.openembedded.org (Postfix) with ESMTP id 29B8F7534F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 02:19:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4B2JVCh010629
+	Fri, 11 May 2018 03:35:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4B3ZCtW013080
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 19:19:46 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 10 May 2018 19:19:20 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 10 May 2018 20:35:28 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 10 May 2018 20:34:50 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 May 2018 10:20:19 +0800
-Message-ID: <166de6977d1080f8826e09b07188bf63bc114963.1526004301.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1526004301.git.Qi.Chen@windriver.com>
-References: <cover.1526004301.git.Qi.Chen@windriver.com>
+Date: Thu, 10 May 2018 20:34:49 -0700
+Message-ID: <20180511033449.55316-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH 4/6] dbus-test: upgrade to 1.12.8
+Subject: [PATCH] boost: add contract lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 02:19:55 -0000
+X-List-Received-Date: Fri, 11 May 2018 03:35:38 -0000
 Content-Type: text/plain
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} (95%)
+From: Mingli Yu <mingli.yu@windriver.com>
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.2.bb b/meta/recipes-core/dbus/dbus-test_1.12.8.bb
-similarity index 95%
-rename from meta/recipes-core/dbus/dbus-test_1.12.2.bb
-rename to meta/recipes-core/dbus/dbus-test_1.12.8.bb
-index dce047a..f33fbaf 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.2.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.8.bb
-@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-            "
- 
--SRC_URI[md5sum] = "3361456cadb99aa6601bed5b48964254"
--SRC_URI[sha256sum] = "272bb5091770b047c8188b926d5e6038fa4fe6745488b2add96b23e2d9a83d88"
-+SRC_URI[md5sum] = "2764bf150e5aa8005b7bc0d6c388756a"
-+SRC_URI[sha256sum] = "e2dc99e7338303393b6663a98320aba6a63421bcdaaf571c8022f815e5896eb3"
- 
- S="${WORKDIR}/dbus-${PV}"
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+Add the contract lib
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-support/boost/boost.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index b447897a0c..6984bee777 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -9,6 +9,7 @@ BOOST_LIBS = "\
+ 	atomic \
+ 	chrono \
+ 	container \
++	contract \
+ 	date_time \
+ 	exception \
+ 	filesystem \
 -- 
-1.9.1
+2.11.0
 
 
