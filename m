@@ -1,51 +1,51 @@
 Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CE0B787B1
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 958CD76044
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 23:19:00 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id r25-v6so10111122lfd.1
+	Fri, 11 May 2018 23:20:21 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id 16-v6so523840lfs.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 16:19:01 -0700 (PDT)
+	Fri, 11 May 2018 16:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=m2OgmD3vfNHPkb2vx9hHGCDGdrft7LG+grITRFYFiHM=;
-	b=bIYRylPYZRWEq2HMr4z4DotrpwM7VvZ1/2ROpJ7FyvoVtuVUdecvjjwTbsY04ht7IE
-	c5gOVDVcSLrshdBV//6OW9a3n29zZnM4+P6pK4NaqOqoMeFaR8bUNXE/+ldB4Z+aaab7
-	VMgE2h3c6O9Vs2xeF3EQjUNUhmOGKk9PpjEjYRWzfi4TlBpmjAq4OOfr9BvMowRnBt/d
-	gJ+VuuQtNECfZg5PG1+QvFiFidTlsgNsWM20a+p11Xayf+HBMbGDO+TzaEbqxYV9ch5u
-	3kkoKTOxgm5f4qH+tnNSksTE6y5++R+p1CAWGaRGfHv2kAcR3IyMdNl2iAlAQ2BIv1rh
-	oq6A==
+	:cc; bh=txwoPmU6m7gsazJ/bsW/XO49qi2SkOE+ZU3V7BXyGPA=;
+	b=SoTcpMm1UqpOn5YF+jQleVFoGhfGl9ArzsXXJKLpe6SaDA63Q1CFjy8OXYR7DNkHXd
+	uKqqYjkC8QVxKdDL3UB944eLWtb/InjOr8yx1srp62VEPZJOe5dv1UwIVj+s8dma+H3r
+	JrGPeev+ZVrfDut8zfMYPcZKYYQPX+yqKaYPj3cXLh7OhhoEEOXAqk6ITnOMumVqY500
+	DdsHpNpAeefq3FB7+nkTLT2k21lX4XoxYzBw8InqbzRqond94ZQ1RgGC0KCRrOB5R8Cn
+	qlHzeybCskxSYSjMbn+MCGlQ3/SUNZ2Ph1RpUZ7ApTrjiyzmfqR0F9Xedfj9FOc5U99p
+	nWvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=m2OgmD3vfNHPkb2vx9hHGCDGdrft7LG+grITRFYFiHM=;
-	b=A2qZJc/u2kz5eWBaNPoS5yJiTmGX3Nrf+c4gfw7rJxnPytabmjG/veEQmBwjvVN+B3
-	+x/R6iLUOzdvm9QJ+PuzmkTSWetdNPqvVO4E8xoOBp7Ksm6BgxICnO4Wrrld78l4K7SQ
-	jG/JQl0EtUxRGFPUOJESW2G/9pVEMMJyHuNpySQMucG2K49v8MRCVRUQduRaO2GQ1khV
-	IijVdDfLKk4QEbSXuuolOmJmGwD7wbcKg22TRU5EzNvz+S8fFAMKGelir4QsUD0z25Bx
-	jwUsY6AwCUgc+bvpBoJ0nRSjOArsdhl3dMMZQCrx9HKVigR6Nv/Odk4hV/2aUPAnia16
-	rmCQ==
-X-Gm-Message-State: ALKqPwdQ5viIbPF1YsbEVbODIzQWo0MX4NTCExBLUt3l97dBK3ohEGdc
-	rhqBhhjWSSjlaH4hcrwnusF7aGplOMwoJhxuwYQ=
-X-Google-Smtp-Source: AB8JxZoOWtBXtV3oIm4xT4i/B3h7p/O/YpMhVgYJCwGB1PN+xF5570gXAdT5zmF3gyjLdP/tzc4xdJBXiMA/pTmA/sY=
-X-Received: by 2002:a19:d7d5:: with SMTP id
-	q82-v6mr2620044lfi.71.1526080740671; 
-	Fri, 11 May 2018 16:19:00 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=txwoPmU6m7gsazJ/bsW/XO49qi2SkOE+ZU3V7BXyGPA=;
+	b=Wax97HX+pJBjdDIujK026nt9+gItb8K4AczbhhqRNZFE1gnw8NLVGB8o9e7xFrphxy
+	rvPv68qMMeh+tYgQse4HOsrfSPRpvQcjSdtshgG4OWpoThgdJr6gm4kIxNoiqgfecDoo
+	Dbu3O0eDtnnj6rDlmaxSwahnqdeDJ4iHXk3qWx+0a/FoGbww4B98Wdd9iLd9nsoibsON
+	4TJWOQ57KXjJtspCzwPYf6sh2gTPov9WrPx/LRh0a6Yieo1vZMdosonJG/fIRaC80Hip
+	OH0xTZaioUMp+zqjHw5GvPfFCeOPCfvh4/3p2o4Xa9Cu414cV02p45WtTROsdeD4a5JV
+	W1ng==
+X-Gm-Message-State: ALKqPweeNTkl5W0sQoaZV/KP89RxX05avkvNl8bDxwutQUr1rXzEwAe0
+	zWdaNds1os9CNwByjD9aE0RQzX4xW0u+Ux2pgNs=
+X-Google-Smtp-Source: AB8JxZprnxyi+7youm2mZj4OJ3Cv3GF3IsDSUzu/LySPG707AtQvsnhZjIbxU1ydlU7wtI06WxhvRjmB6lOyVWh01LA=
+X-Received: by 2002:a2e:7f02:: with SMTP id a2-v6mr5123526ljd.14.1526080822062;
+	Fri, 11 May 2018 16:20:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.2.142 with HTTP; Fri, 11 May 2018 16:18:30 -0700 (PDT)
-In-Reply-To: <20180511192103.7581-3-Martin.Jansa@gmail.com>
-References: <CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
-	<20180511192103.7581-1-Martin.Jansa@gmail.com>
-	<20180511192103.7581-3-Martin.Jansa@gmail.com>
+Received: by 10.46.2.142 with HTTP; Fri, 11 May 2018 16:19:51 -0700 (PDT)
+In-Reply-To: <20180511194457.GA2141@jama>
+References: <20180510213058.68614-1-alistair.francis@wdc.com>
+	<CA+chaQfgi+-PSYRRnCb2PtpH5UAHa2ztcQ3MaN0_wTc_=GMCmw@mail.gmail.com>
+	<CAKmqyKOBqOtT=kCmiuUrrsVV9sQmyJdt7B-789ui6keRg53yiA@mail.gmail.com>
+	<20180511194457.GA2141@jama>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 11 May 2018 16:18:30 -0700
-Message-ID: <CAKmqyKMg+P82f=pniO0zr63e+tX2Zkq18+QAVN2Tog0YGJJ==g@mail.gmail.com>
+Date: Fri, 11 May 2018 16:19:51 -0700
+Message-ID: <CAKmqyKMQpDknsqVj9s2MDgM0oRDceZ8x57XnyWAtBK4buVQtrQ@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 3/5] qemu: refresh patches with devtool
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] recipes-graphics/libsdl2: Add native and nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,527 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 23:19:01 -0000
+X-List-Received-Date: Fri, 11 May 2018 23:20:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 11, 2018 at 12:21 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> From: Martin Jansa <martin.jansa@gmail.com>
+On Fri, May 11, 2018 at 12:44 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, May 10, 2018 at 03:06:47PM -0700, Alistair Francis wrote:
+>> On Thu, May 10, 2018 at 2:58 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> > See http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/qemu
+>> > + http://git.openembedded.org/meta-openembedded-contrib/log/?h=jansa/spice
+>> > for more qemu related changes.
+>> >
+>> > More info:
+>> > http://lists.openembedded.org/pipermail/openembedded-core/2017-September/142349.html
+>> >
+>> > and that's basically where I'm still stuck (and why haven't sent most of
+>> > these patches yet), because it works fine "natively" but when the
+>> > qemu-native is running inside of chroot or docker, I didn't get the
+>> > acceleration working (from virt-viewer running "natively" - outside
+>> > chroot/docker).
+>> >
+>> > I plan to separate libsdl2 changes from this and send them with updated qemu
+>> > upgrade as discussed with Ross.
+>>
+>> It looks like you beat me to it. Plus your patches look better then mine :)
+>>
+>> It would be great if you could send the QEMU 2.12 patches seperatly.
+>> Can you CC me when you do?
 >
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> I've forgot to CC you, but the 2 patchsets I've sent today are:
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150717.html
+> http://lists.openembedded.org/pipermail/openembedded-devel/2018-May/118144.html
+>
+> that leaves only virglrenderer and glx support in jansa/qemu branch.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Great, Thanks. I have reviewed them, although I'm not sure if that
+matters for this project.
 
 Alistair
 
-> ---
->  .../qemu/qemu/add-ptest-in-makefile-v10.patch | 13 ++++---
->  .../qemu/apic-fixup-fallthrough-to-PIC.patch  | 15 ++++----
->  ...pus.c-qemu_cpu_kick_thread_debugging.patch | 12 +++----
->  ...x-libcap-header-issue-on-some-distro.patch | 16 +++++----
->  ...webkitgtk-hangs-on-32-bit-x86-target.patch | 10 +++---
->  .../qemu/qemu/no-valgrind.patch               | 19 ++++++++--
->  .../qemu/qemu/pathlimit.patch                 | 35 ++++++++++++-------
->  .../qemu/qemu-enlarge-env-entry-size.patch    | 18 +++++-----
->  meta/recipes-devtools/qemu/qemu/wacom.patch   | 24 ++++++++-----
->  9 files changed, 100 insertions(+), 62 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile-v10.pa=
-tch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile-v10.patch
-> index e9639820be..3337d1c7ba 100644
-> --- a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile-v10.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile-v10.patch
-> @@ -1,7 +1,8 @@
-> -From 4201a5791fc4798a45a9b9f881602d7bacb74ed1 Mon Sep 17 00:00:00 2001
-> +From 6c01c969def7adae70d7d59a40b5640454b97bdb Mon Sep 17 00:00:00 2001
->  From: Juro Bystricky <juro.bystricky@intel.com>
->  Date: Thu, 31 Aug 2017 11:06:56 -0700
-> -Subject: Add subpackage -ptest which runs all unit test cases for qemu.
-> +Subject: [PATCH] Add subpackage -ptest which runs all unit test cases fo=
-r
-> + qemu.
->
->  Upstream-Status: Pending
->
-> @@ -9,11 +10,15 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
->
->  Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
->
-> +---
-> + tests/Makefile.include | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
->  diff --git a/tests/Makefile.include b/tests/Makefile.include
-> -index f08b741..3d1b3e9 100644
-> +index 3b9a5e3..dfbcd72 100644
->  --- a/tests/Makefile.include
->  +++ b/tests/Makefile.include
-> -@@ -924,4 +924,12 @@ all: $(QEMU_IOTESTS_HELPERS-y)
-> +@@ -972,4 +972,12 @@ all: $(QEMU_IOTESTS_HELPERS-y)
->   -include $(wildcard tests/*.d)
->   -include $(wildcard tests/libqos/*.d)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PI=
-C.patch b/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.pat=
-ch
-> index d6a3522eda..8ba507c9ff 100644
-> --- a/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/apic-fixup-fallthrough-to-PIC.patch
-> @@ -1,7 +1,7 @@
-> -From bef93bb81588b5323a52d2e1886f2a77b64a976b Mon Sep 17 00:00:00 2001
-> +From ca247c6e7ab7a0bd7b94658a726940f10a6b0559 Mon Sep 17 00:00:00 2001
->  From: Mark Asselstine <mark.asselstine@windriver.com>
->  Date: Tue, 26 Feb 2013 11:43:28 -0500
-> -Subject: [PATCH 03/18] apic: fixup fallthrough to PIC
-> +Subject: [PATCH] apic: fixup fallthrough to PIC
->
->  Commit 0e21e12bb311c4c1095d0269dc2ef81196ccb60a [Don't route PIC
->  interrupts through the local APIC if the local APIC config says so.]
-> @@ -24,15 +24,16 @@ serviced, is -1.
->  Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->  Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-deve=
-l/2013-04/msg00878.html]
->  Signed-off-by: He Zhe <zhe.he@windriver.com>
-> +
->  ---
->   hw/intc/apic.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> -Index: qemu-2.11.1/hw/intc/apic.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- qemu-2.11.1.orig/hw/intc/apic.c
-> -+++ qemu-2.11.1/hw/intc/apic.c
-> -@@ -591,7 +591,7 @@ int apic_accept_pic_intr(DeviceState *de
-> +diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> +index 6fda52b..cd72919 100644
-> +--- a/hw/intc/apic.c
-> ++++ b/hw/intc/apic.c
-> +@@ -603,7 +603,7 @@ int apic_accept_pic_intr(DeviceState *dev)
->       APICCommonState *s =3D APIC(dev);
->       uint32_t lvt0;
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_=
-debugging.patch b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thre=
-ad_debugging.patch
-> index 6822132541..46c82a4aea 100644
-> --- a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debuggi=
-ng.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debuggi=
-ng.patch
-> @@ -1,4 +1,4 @@
-> -From 697a834c35d19447b7dcdb9e1d9434bc6ce17c21 Mon Sep 17 00:00:00 2001
-> +From a2e3ad8e3bbdea20a4c53404674dd8ae46bd2528 Mon Sep 17 00:00:00 2001
->  From: =3D?UTF-8?q?An=3DC3=3DADbal=3D20Lim=3DC3=3DB3n?=3D <anibal.limon@l=
-inux.intel.com>
->  Date: Wed, 12 Aug 2015 15:11:30 -0500
->  Subject: [PATCH] cpus.c: Add error messages when qemi_cpu_kick_thread fa=
-ils.
-> @@ -12,6 +12,7 @@ current cpu information.
->
->  Upstream-Status: Inappropriate
->  Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
-> +
->  ---
->   cpus.c         |  5 +++++
->   custom_debug.h | 24 ++++++++++++++++++++++++
-> @@ -19,10 +20,10 @@ Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@l=
-inux.intel.com>
->   create mode 100644 custom_debug.h
->
->  diff --git a/cpus.c b/cpus.c
-> -index a822ce3..7e4786e 100644
-> +index 38eba8b..b84a60a 100644
->  --- a/cpus.c
->  +++ b/cpus.c
-> -@@ -1080,6 +1080,8 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
-> +@@ -1690,6 +1690,8 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
->       return NULL;
->   }
->
-> @@ -31,7 +32,7 @@ index a822ce3..7e4786e 100644
->   static void qemu_cpu_kick_thread(CPUState *cpu)
->   {
->   #ifndef _WIN32
-> -@@ -1088,6 +1090,9 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
-> +@@ -1702,6 +1704,9 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
->       err =3D pthread_kill(cpu->thread->thread, SIG_IPI);
->       if (err) {
->           fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-> @@ -71,6 +72,3 @@ index 0000000..f029e45
->  +
->  +      free(symbols);
->  +}
-> ---
-> -1.9.1
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-on-s=
-ome-distro.patch b/meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-=
-on-some-distro.patch
-> index cee6a676ab..a5ab6c5849 100644
-> --- a/meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-on-some-dis=
-tro.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-on-some-dis=
-tro.patch
-> @@ -1,4 +1,7 @@
-> -fix libcap header issue on some distro
-> +From ebcb35fc87ca201ce7e5d01e82d677498bd96aea Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Tue, 12 Mar 2013 09:54:06 +0800
-> +Subject: [PATCH] fix libcap header issue on some distro
->
->  1, When build qemu-native on SLED 11.2, there is an error:
->  ...
-> @@ -51,14 +54,16 @@ http://patchwork.linuxtv.org/patch/12748/
->
->  Upstream-Status: Pending
->  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +
->  ---
-> - fsdev/virtfs-proxy-helper.c |    7 +++++--
-> + fsdev/virtfs-proxy-helper.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
->  diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-> +index 6f132c5..8329950 100644
->  --- a/fsdev/virtfs-proxy-helper.c
->  +++ b/fsdev/virtfs-proxy-helper.c
-> -@@ -12,7 +12,6 @@
-> +@@ -13,7 +13,6 @@
->   #include <sys/resource.h>
->   #include <getopt.h>
->   #include <syslog.h>
-> @@ -66,7 +71,7 @@ diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs=
--proxy-helper.c
->   #include <sys/fsuid.h>
->   #include <sys/vfs.h>
->   #include <sys/ioctl.h>
-> -@@ -26,7 +25,11 @@
-> +@@ -27,7 +26,11 @@
->   #include "9p-iov-marshal.h"
->   #include "hw/9pfs/9p-proxy.h"
->   #include "fsdev/9p-iov-marshal.h"
-> @@ -79,6 +84,3 @@ diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs=
--proxy-helper.c
->   #define PROGNAME "virtfs-proxy-helper"
->
->   #ifndef XFS_SUPER_MAGIC
-> ---
-> -1.7.10.4
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-han=
-gs-on-32-bit-x86-target.patch b/meta/recipes-devtools/qemu/qemu/linux-user-=
-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
-> index d2c52252f6..5dfd735268 100644
-> --- a/meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-3=
-2-bit-x86-target.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-3=
-2-bit-x86-target.patch
-> @@ -1,4 +1,4 @@
-> -From 4fa4aae4176ef6d8f4d4b8323d061e2433918a26 Mon Sep 17 00:00:00 2001
-> +From a49987d386084515610fd40f0416a9b2f216842c Mon Sep 17 00:00:00 2001
->  From: Alistair Francis <alistair.francis@xilinx.com>
->  Date: Wed, 17 Jan 2018 10:51:49 -0800
->  Subject: [PATCH] linux-user: Fix webkitgtk hangs on 32-bit x86 target
-> @@ -13,15 +13,16 @@ to what it was before the problematic commit.
->
->  Upstream-Status: Submitted http://lists.gnu.org/archive/html/qemu-devel/=
-2018-01/msg04185.html
->  Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-> +
->  ---
->   linux-user/main.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/linux-user/main.c b/linux-user/main.c
-> -index 450eb3ce65..c7cc0a184e 100644
-> +index 8907a84..ea42c43 100644
->  --- a/linux-user/main.c
->  +++ b/linux-user/main.c
-> -@@ -77,7 +77,7 @@ do {                                                  =
-                  \
-> +@@ -79,7 +79,7 @@ do {                                                  =
-                  \
->         (TARGET_LONG_BITS =3D=3D 32 || defined(TARGET_ABI32))
->   /* There are a number of places where we assign reserved_va to a variab=
-le
->      of type abi_ulong and expect it to fit.  Avoid the last page.  */
-> @@ -30,6 +31,3 @@ index 450eb3ce65..c7cc0a184e 100644
->   #  else
->   #   define MAX_RESERVED_VA  (1ul << TARGET_VIRT_ADDR_SPACE_BITS)
->   #  endif
-> ---
-> -2.14.1
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu/no-valgrind.patch b/meta/rec=
-ipes-devtools/qemu/qemu/no-valgrind.patch
-> index 91f728042d..80f9ed11a6 100644
-> --- a/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-> @@ -1,13 +1,25 @@
-> +From 4210013809605e1f3d2f4655a7f686cf103cea12 Mon Sep 17 00:00:00 2001
-> +From: Ross Burton <ross.burton@intel.com>
-> +Date: Tue, 20 Oct 2015 22:19:08 +0100
-> +Subject: [PATCH] qemu: disable Valgrind
-> +
->  There isn't an option to enable or disable valgrind support, so disable =
-it to avoid non-deterministic builds.
->
->  Upstream-Status: Inappropriate
->  Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> +---
-> + configure | 9 ---------
-> + 1 file changed, 9 deletions(-)
-> +
->  diff --git a/configure b/configure
-> -index b3c4f51..4d3929e 100755
-> +index 0a19b03..69e05fb 100755
->  --- a/configure
->  +++ b/configure
-> -@@ -4193,9 +4192,0 @@ valgrind_h=3Dno
-> +@@ -4895,15 +4895,6 @@ fi
-> + # check if we have valgrind/valgrind.h
-> +
-> + valgrind_h=3Dno
->  -cat > $TMPC << EOF
->  -#include <valgrind/valgrind.h>
->  -int main(void) {
-> @@ -17,3 +29,6 @@ index b3c4f51..4d3929e 100755
->  -if compile_prog "" "" ; then
->  -    valgrind_h=3Dyes
->  -fi
-> +
-> + ########################################
-> + # check if environ is declared
-> diff --git a/meta/recipes-devtools/qemu/qemu/pathlimit.patch b/meta/recip=
-es-devtools/qemu/qemu/pathlimit.patch
-> index 57ab981c61..09e98f77b4 100644
-> --- a/meta/recipes-devtools/qemu/qemu/pathlimit.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/pathlimit.patch
-> @@ -1,3 +1,8 @@
-> +From a99658f1bb4bc858f67bf7032e8fe9ddd46abe66 Mon Sep 17 00:00:00 2001
-> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Date: Wed, 9 Mar 2016 22:49:02 +0000
-> +Subject: [PATCH] qemu: Limit paths searched during user mode emulation
-> +
->  By default qemu builds a complete list of directories within the user
->  emulation sysroot (-L option). The OE sysroot directory is large and
->  this is confusing, for example it indexes all pkgdata. In particular thi=
-s
-> @@ -8,18 +13,22 @@ things if/as/when it needs to. This drastically reduce=
-s the files it
->  reads and reduces memory usage and cleans up strace.
->
->  It would also avoid the infinite directory traversal bug in [YOCTO #6996=
-]
-> -although the code could still be vulnerable if it parsed those specific
-> +although the code could still be vulnerable if it parsed those specific
->  paths.
->
->  RP
->  2016/3/9
->  Upstream-Status: Pending
->
-> -Index: qemu-2.5.0/util/path.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- qemu-2.5.0.orig/util/path.c
-> -+++ qemu-2.5.0/util/path.c
-> -@@ -19,6 +19,7 @@ struct pathelem
-> +---
-> + util/path.c | 44 ++++++++++++++++++++++----------------------
-> + 1 file changed, 22 insertions(+), 22 deletions(-)
-> +
-> +diff --git a/util/path.c b/util/path.c
-> +index 7f9fc27..a416cd4 100644
-> +--- a/util/path.c
-> ++++ b/util/path.c
-> +@@ -15,6 +15,7 @@ struct pathelem
->       char *name;
->       /* Full path name, eg. /usr/gnemul/x86-linux/lib. */
->       char *pathname;
-> @@ -27,7 +36,7 @@ Index: qemu-2.5.0/util/path.c
->       struct pathelem *parent;
->       /* Children */
->       unsigned int num_entries;
-> -@@ -49,6 +50,7 @@ static struct pathelem *new_entry(const
-> +@@ -45,6 +46,7 @@ static struct pathelem *new_entry(const char *root,
->       new->name =3D g_strdup(name);
->       new->pathname =3D g_strdup_printf("%s/%s", root, name);
->       new->num_entries =3D 0;
-> @@ -35,7 +44,7 @@ Index: qemu-2.5.0/util/path.c
->       return new;
->   }
->
-> -@@ -57,15 +59,16 @@ static struct pathelem *new_entry(const
-> +@@ -53,15 +55,16 @@ static struct pathelem *new_entry(const char *root,
->   /* Not all systems provide this feature */
->   #if defined(DT_DIR) && defined(DT_UNKNOWN) && defined(DT_LNK)
->   # define dirent_type(dirent) ((dirent)->d_type)
-> @@ -55,7 +64,7 @@ Index: qemu-2.5.0/util/path.c
->       DIR *dir;
->
->       if ((dir =3D opendir(path->pathname)) !=3D NULL) {
-> -@@ -78,6 +81,11 @@ static struct pathelem *add_dir_maybe(st
-> +@@ -74,6 +77,11 @@ static struct pathelem *add_dir_maybe(struct pathelem=
- *path)
->           }
->           closedir(dir);
->       }
-> @@ -67,7 +76,7 @@ Index: qemu-2.5.0/util/path.c
->       return path;
->   }
->
-> -@@ -93,26 +101,16 @@ static struct pathelem *add_entry(struct
-> +@@ -89,26 +97,16 @@ static struct pathelem *add_entry(struct pathelem *r=
-oot, const char *name,
->       e =3D &root->entries[root->num_entries-1];
->
->       *e =3D new_entry(root->pathname, root, name);
-> @@ -97,7 +106,7 @@ Index: qemu-2.5.0/util/path.c
->   {
->       unsigned int i, namelen;
->
-> -@@ -123,14 +121,18 @@ follow_path(const struct pathelem *curso
-> +@@ -119,14 +117,18 @@ follow_path(const struct pathelem *cursor, const c=
-har *name)
->           return cursor->pathname;
->
->       if (strneq(name, namelen, ".."))
-> @@ -119,7 +128,7 @@ Index: qemu-2.5.0/util/path.c
->
->       /* Not found */
->       return NULL;
-> -@@ -164,8 +166,6 @@ void init_paths(const char *prefix)
-> +@@ -160,8 +162,6 @@ void init_paths(const char *prefix)
->           g_free(base->name);
->           g_free(base);
->           base =3D NULL;
-> @@ -128,7 +137,7 @@ Index: qemu-2.5.0/util/path.c
->       }
->   }
->
-> -@@ -177,5 +177,5 @@ const char *path(const char *name)
-> +@@ -173,5 +173,5 @@ const char *path(const char *name)
->       if (!base || !name || name[0] !=3D '/')
->           return name;
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.=
-patch b/meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.patch
-> index c7425ab8d4..dbe28c4c7f 100644
-> --- a/meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.patch
-> @@ -1,4 +1,8 @@
-> -qemu: Add addition environment space to boot loader qemu-system-mips
-> +From 3c1badb861c79f673503dd08c71b3c9c9ac2a8c0 Mon Sep 17 00:00:00 2001
-> +From: Jason Wessel <jason.wessel@windriver.com>
-> +Date: Fri, 28 Mar 2014 17:42:43 +0800
-> +Subject: [PATCH] qemu: Add addition environment space to boot loader
-> + qemu-system-mips
->
->  Upstream-Status: Inappropriate - OE uses deep paths
->
-> @@ -9,15 +13,16 @@ to only 256 bytes. This patch expands the limit.
->
->  Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->  Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> +
->  ---
-> - hw/mips/mips_malta.c    |    2 +-
-> - 1 files changed, 1 insertions(+), 1 deletions(-)
-> + hw/mips/mips_malta.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
->
->  diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> -index 9d521cc..17c0391 100644
-> +index f6513a4..d5efafb 100644
->  --- a/hw/mips/mips_malta.c
->  +++ b/hw/mips/mips_malta.c
-> -@@ -53,7 +53,7 @@
-> +@@ -62,7 +62,7 @@
->
->   #define ENVP_ADDR             0x80002000l
->   #define ENVP_NB_ENTRIES               16
-> @@ -26,6 +31,3 @@ index 9d521cc..17c0391 100644
->
->   /* Hardware addresses */
->   #define FLASH_ADDRESS 0x1e000000ULL
-> ---
-> -1.7.10.4
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu/wacom.patch b/meta/recipes-d=
-evtools/qemu/qemu/wacom.patch
-> index cd06aa4ac6..90e4b800b5 100644
-> --- a/meta/recipes-devtools/qemu/qemu/wacom.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/wacom.patch
-> @@ -1,19 +1,27 @@
-> +From 41603f745caaecdc7c9d760fb7d2df01ccc60128 Mon Sep 17 00:00:00 2001
-> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Date: Thu, 27 Nov 2014 14:04:29 +0000
-> +Subject: [PATCH] qemu: Add missing wacom HID descriptor
-> +
->  The USB wacom device is missing a HID descriptor which causes it
->  to fail to operate with recent kernels (e.g. 3.17).
->
-> -This patch adds a HID desriptor to the device, based upon one from
-> +This patch adds a HID desriptor to the device, based upon one from
->  real wcom device.
->
->  Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
->  Upstream-Status: Submitted
->  2014/11/27
-> +---
-> + hw/usb/dev-wacom.c | 94 +++++++++++++++++++++++++++++++++++++++++++++-
-> + 1 file changed, 93 insertions(+), 1 deletion(-)
->
-> -Index: qemu-2.1.0/hw/usb/dev-wacom.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- qemu-2.1.0.orig/hw/usb/dev-wacom.c 2014-08-01 15:12:17.000000000 +01=
-00
-> -+++ qemu-2.1.0/hw/usb/dev-wacom.c      2014-10-12 12:13:30.540306042 +01=
-00
-> -@@ -68,6 +68,89 @@
-> +diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
-> +index bf70013059..2f6e129732 100644
-> +--- a/hw/usb/dev-wacom.c
-> ++++ b/hw/usb/dev-wacom.c
-> +@@ -72,6 +72,89 @@ static const USBDescStrings desc_strings =3D {
->       [STR_SERIALNUMBER]     =3D "1",
->   };
->
-> @@ -103,7 +111,7 @@ Index: qemu-2.1.0/hw/usb/dev-wacom.c
->   static const USBDescIface desc_iface_wacom =3D {
->       .bInterfaceNumber              =3D 0,
->       .bNumEndpoints                 =3D 1,
-> -@@ -85,7 +168,7 @@
-> +@@ -89,7 +172,7 @@ static const USBDescIface desc_iface_wacom =3D {
->                   0x00,          /*  u8  country_code */
->                   0x01,          /*  u8  num_descriptors */
->                   0x22,          /*  u8  type: Report */
-> @@ -112,7 +120,7 @@ Index: qemu-2.1.0/hw/usb/dev-wacom.c
->               },
->           },
->       },
-> -@@ -265,6 +350,15 @@
-> +@@ -269,6 +352,15 @@ static void usb_wacom_handle_control(USBDevice *dev=
-, USBPacket *p,
->       }
->
->       switch (request) {
-> --
-> 2.17.0
+>> >
+>> > On Thu, May 10, 2018 at 11:31 PM Alistair Francis <alistair.francis@wdc.com>
+>> > wrote:
+>> >>
+>> >> Allow building libsdl2 for native and nativesdk. This is required to use
+>> >> libsdl2 in QEMU.
+>> >>
+>> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> >> ---
+>> >>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 7 +++++++
+>> >>  1 file changed, 7 insertions(+)
+>> >>
+>> >> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+>> >> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+>> >> index c0cf70d7fd..36508ec349 100644
+>> >> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+>> >> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+>> >> @@ -42,6 +42,11 @@ PACKAGECONFIG ??= " \
+>> >>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11',
+>> >> d)} \
+>> >>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2',
+>> >> '', d)} \
+>> >>  "
+>> >> +PACKAGECONFIG_class-native = "${PACKAGECONFIG_GL} x11"
+>> >> +PACKAGECONFIG_class-nativesdk = "${PACKAGECONFIG_GL} \
+>> >> +                                 ${@bb.utils.filter('DISTRO_FEATURES',
+>> >> 'x11', d)} \
+>> >> +"
+>> >> +
+>> >>  PACKAGECONFIG[alsa]       = "--enable-alsa
+>> >> --disable-alsatest,--disable-alsa,alsa-lib,"
+>> >>  PACKAGECONFIG[directfb]   =
+>> >> "--enable-video-directfb,--disable-video-directfb,directfb"
+>> >>  PACKAGECONFIG[gles2]      =
+>> >> "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
+>> >> @@ -63,3 +68,5 @@ do_configure_prepend() {
+>> >>  }
+>> >>
+>> >>  FILES_${PN}-dev += "${libdir}/cmake"
+>> >> +
+>> >> +BBCLASSEXTEND = "native nativesdk"
+>> >> --
+>> >> 2.17.0
+>> >>
+>> >
 >
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
