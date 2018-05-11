@@ -1,51 +1,49 @@
 Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 958CD76044
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF24787B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 23:20:21 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id 16-v6so523840lfs.13
+	Fri, 11 May 2018 23:21:10 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id t129-v6so10101973lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 16:20:22 -0700 (PDT)
+	Fri, 11 May 2018 16:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=txwoPmU6m7gsazJ/bsW/XO49qi2SkOE+ZU3V7BXyGPA=;
-	b=SoTcpMm1UqpOn5YF+jQleVFoGhfGl9ArzsXXJKLpe6SaDA63Q1CFjy8OXYR7DNkHXd
-	uKqqYjkC8QVxKdDL3UB944eLWtb/InjOr8yx1srp62VEPZJOe5dv1UwIVj+s8dma+H3r
-	JrGPeev+ZVrfDut8zfMYPcZKYYQPX+yqKaYPj3cXLh7OhhoEEOXAqk6ITnOMumVqY500
-	DdsHpNpAeefq3FB7+nkTLT2k21lX4XoxYzBw8InqbzRqond94ZQ1RgGC0KCRrOB5R8Cn
-	qlHzeybCskxSYSjMbn+MCGlQ3/SUNZ2Ph1RpUZ7ApTrjiyzmfqR0F9Xedfj9FOc5U99p
-	nWvQ==
+	:cc; bh=j8ZoibB56HkQVMu+RXSCXYKxys30bGSJ+xTdMVZM/Z8=;
+	b=ojJHwJBwKuQNQ1EkkR3WoPos0ltW1vmwFsasRaKDW2m2vGZNwXL2ijbWq7cq+hPS5T
+	U5siZTeT1Y2wq9FJ5DRbyY0+CULSj0hsdSVd9ccN1rBQvFGgvdVdhNl5TIgkxj9b5+aS
+	tMl1JoDE0JG2xCal7lHvWXAAJMPjPfsy5+29eoZtLj1rIU+9ss8DF5RayZJnQ8LG1cGt
+	7LG/LHmNooZafbGJtuQ/wnEOZc0iSKWzm03qaDAR5JSxORnHpGTQ/przLHmKbgKJJdcC
+	cv+n05gxOC7z49ZzMx5siv/7TC+VAAsRgO8rKzCDoP2RPflTtcNRB3pKFU2FAyT+dvXd
+	a/pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=txwoPmU6m7gsazJ/bsW/XO49qi2SkOE+ZU3V7BXyGPA=;
-	b=Wax97HX+pJBjdDIujK026nt9+gItb8K4AczbhhqRNZFE1gnw8NLVGB8o9e7xFrphxy
-	rvPv68qMMeh+tYgQse4HOsrfSPRpvQcjSdtshgG4OWpoThgdJr6gm4kIxNoiqgfecDoo
-	Dbu3O0eDtnnj6rDlmaxSwahnqdeDJ4iHXk3qWx+0a/FoGbww4B98Wdd9iLd9nsoibsON
-	4TJWOQ57KXjJtspCzwPYf6sh2gTPov9WrPx/LRh0a6Yieo1vZMdosonJG/fIRaC80Hip
-	OH0xTZaioUMp+zqjHw5GvPfFCeOPCfvh4/3p2o4Xa9Cu414cV02p45WtTROsdeD4a5JV
-	W1ng==
-X-Gm-Message-State: ALKqPweeNTkl5W0sQoaZV/KP89RxX05avkvNl8bDxwutQUr1rXzEwAe0
-	zWdaNds1os9CNwByjD9aE0RQzX4xW0u+Ux2pgNs=
-X-Google-Smtp-Source: AB8JxZprnxyi+7youm2mZj4OJ3Cv3GF3IsDSUzu/LySPG707AtQvsnhZjIbxU1ydlU7wtI06WxhvRjmB6lOyVWh01LA=
-X-Received: by 2002:a2e:7f02:: with SMTP id a2-v6mr5123526ljd.14.1526080822062;
-	Fri, 11 May 2018 16:20:22 -0700 (PDT)
+	bh=j8ZoibB56HkQVMu+RXSCXYKxys30bGSJ+xTdMVZM/Z8=;
+	b=mg+so2oZJr4a/U2AWl5QiYCSDkRqmNxxZiaAMqLGP3xcxuQJBmmKbPBOZOGsDPXhg+
+	af6z71blljkoCKGbiXi7pyfmX7i5RabcgjT43/qb+mbFh97KYr75vjt8gUmwDn6KVHtb
+	hJxuniKCphLXLL86+SgI9rHPtuIXvyabgXcso4hhzObRdOvgnGFfVULvM3926HXT5FT6
+	AxHgXzTpyP75YRG6WYcSYY24qt/ReXvvN+Bo9V4TlWJTywa2/D44BR14LDewsryl7kN+
+	QrWdGRSZJRRzArAlq1Y/wxqW46/tURWyOGFrIj0IB11WQ0CTyB++jfpW+kiEO43S7OEr
+	LMHA==
+X-Gm-Message-State: ALKqPwevxXclN1scbYqbzlkZA2Kwquy6UCOh7xBebvWFqzdL1eVfaQPl
+	H1WF+UmgOX0wq52z35jGgVDm8fvARbHiOfByj+wC9g==
+X-Google-Smtp-Source: AB8JxZpr0tICECJb9DHr8PkpxGaI4YDI2dSQtbxaexaFh2t5oCst+FAk/qFeFGy5v+xSEXJsR8HRNOa2Kty/JfR+eL4=
+X-Received: by 2002:a2e:300c:: with SMTP id
+	w12-v6mr5533468ljw.98.1526080871542; 
+	Fri, 11 May 2018 16:21:11 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.2.142 with HTTP; Fri, 11 May 2018 16:19:51 -0700 (PDT)
-In-Reply-To: <20180511194457.GA2141@jama>
-References: <20180510213058.68614-1-alistair.francis@wdc.com>
-	<CA+chaQfgi+-PSYRRnCb2PtpH5UAHa2ztcQ3MaN0_wTc_=GMCmw@mail.gmail.com>
-	<CAKmqyKOBqOtT=kCmiuUrrsVV9sQmyJdt7B-789ui6keRg53yiA@mail.gmail.com>
-	<20180511194457.GA2141@jama>
+Received: by 10.46.2.142 with HTTP; Fri, 11 May 2018 16:20:40 -0700 (PDT)
+In-Reply-To: <20180511192103.7581-1-Martin.Jansa@gmail.com>
+References: <CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
+	<20180511192103.7581-1-Martin.Jansa@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 11 May 2018 16:19:51 -0700
-Message-ID: <CAKmqyKMQpDknsqVj9s2MDgM0oRDceZ8x57XnyWAtBK4buVQtrQ@mail.gmail.com>
+Date: Fri, 11 May 2018 16:20:40 -0700
+Message-ID: <CAKmqyKPvj_GDZNcXLMbAFEReKc5JvirOF8YQaenv2nSy85DrkQ@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-graphics/libsdl2: Add native and nativesdk support
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/5] libsdl2: allow to build native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,91 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 23:20:22 -0000
+X-List-Received-Date: Fri, 11 May 2018 23:21:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 11, 2018 at 12:44 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, May 10, 2018 at 03:06:47PM -0700, Alistair Francis wrote:
->> On Thu, May 10, 2018 at 2:58 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > See http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/qemu
->> > + http://git.openembedded.org/meta-openembedded-contrib/log/?h=jansa/spice
->> > for more qemu related changes.
->> >
->> > More info:
->> > http://lists.openembedded.org/pipermail/openembedded-core/2017-September/142349.html
->> >
->> > and that's basically where I'm still stuck (and why haven't sent most of
->> > these patches yet), because it works fine "natively" but when the
->> > qemu-native is running inside of chroot or docker, I didn't get the
->> > acceleration working (from virt-viewer running "natively" - outside
->> > chroot/docker).
->> >
->> > I plan to separate libsdl2 changes from this and send them with updated qemu
->> > upgrade as discussed with Ross.
->>
->> It looks like you beat me to it. Plus your patches look better then mine :)
->>
->> It would be great if you could send the QEMU 2.12 patches seperatly.
->> Can you CC me when you do?
+On Fri, May 11, 2018 at 12:20 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * enable x11 in native builds
 >
-> I've forgot to CC you, but the 2 patchsets I've sent today are:
-> http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150717.html
-> http://lists.openembedded.org/pipermail/openembedded-devel/2018-May/118144.html
->
-> that leaves only virglrenderer and glx support in jansa/qemu branch.
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-Great, Thanks. I have reviewed them, although I'm not sure if that
-matters for this project.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
->> >
->> > On Thu, May 10, 2018 at 11:31 PM Alistair Francis <alistair.francis@wdc.com>
->> > wrote:
->> >>
->> >> Allow building libsdl2 for native and nativesdk. This is required to use
->> >> libsdl2 in QEMU.
->> >>
->> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> >> ---
->> >>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 7 +++++++
->> >>  1 file changed, 7 insertions(+)
->> >>
->> >> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> >> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> >> index c0cf70d7fd..36508ec349 100644
->> >> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> >> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
->> >> @@ -42,6 +42,11 @@ PACKAGECONFIG ??= " \
->> >>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11',
->> >> d)} \
->> >>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2',
->> >> '', d)} \
->> >>  "
->> >> +PACKAGECONFIG_class-native = "${PACKAGECONFIG_GL} x11"
->> >> +PACKAGECONFIG_class-nativesdk = "${PACKAGECONFIG_GL} \
->> >> +                                 ${@bb.utils.filter('DISTRO_FEATURES',
->> >> 'x11', d)} \
->> >> +"
->> >> +
->> >>  PACKAGECONFIG[alsa]       = "--enable-alsa
->> >> --disable-alsatest,--disable-alsa,alsa-lib,"
->> >>  PACKAGECONFIG[directfb]   =
->> >> "--enable-video-directfb,--disable-video-directfb,directfb"
->> >>  PACKAGECONFIG[gles2]      =
->> >> "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
->> >> @@ -63,3 +68,5 @@ do_configure_prepend() {
->> >>  }
->> >>
->> >>  FILES_${PN}-dev += "${libdir}/cmake"
->> >> +
->> >> +BBCLASSEXTEND = "native nativesdk"
->> >> --
->> >> 2.17.0
->> >>
->> >
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> index c0cf70d7fd..c37f669321 100644
+> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
+> @@ -37,6 +37,8 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
+>  # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+>  PACKAGECONFIG_GL ?= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d)}"
+>
+> +PACKAGECONFIG_class-native = "x11"
+> +PACKAGECONFIG_class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+>  PACKAGECONFIG ??= " \
+>      ${PACKAGECONFIG_GL} \
+>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11', d)} \
+> @@ -63,3 +65,5 @@ do_configure_prepend() {
+>  }
+>
+>  FILES_${PN}-dev += "${libdir}/cmake"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.17.0
 >
 > --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
