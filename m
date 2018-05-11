@@ -1,49 +1,50 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DA6178263
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B66D0782DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 18:38:53 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id j42-v6so8285711qtj.12
+	Fri, 11 May 2018 18:56:49 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id n10-v6so3778722plp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 11:38:55 -0700 (PDT)
+	Fri, 11 May 2018 11:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=oyT7wb9ene27UesNNUVfmXDpoBzRi7P+7Vlgj7fmDKI=;
-	b=C3nQfTddFqOMMyDd1axQbImj2FfyordMUpy9L0QKzhG89ThNQdYa6ld7E3L53R3Kxf
-	0Q3zGeETpvL8W27ePxRv92MUNsA25LIkqwPswYfk0MftELEmMaRPai0I/VdqZJ8M+kOr
-	6xvIcX1/a9llZf2n//KpV52upVfWyU62vEUtTbFOCtgCp4y5clGinbv8VzBRRHJfW1Q+
-	OyvnjWS3Z9fYpniSnXRp7QSh3zYZxZc+1FAYE1xqcuMYUdKFHStf7mDSDRwGYkabk+zI
-	SSxDCC/ziN98Gb2BsXxc8d6+PG4FJU7DrYXRCpR9dSfhbRo+UT0FHzy/CNm9LYir7swd
-	n5bg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=H7o01pEsvjy/vlzYfsRBs0pKyoaMLYvdAmAcKo7+vfk=;
+	b=CqnU7gVeAGIHezf8OWr2HLfQOdzI53VfgV7ivcn0nCciCG6ccTpudQaqVDh84UzK4T
+	6p3WB8XRnoD1FZAk0SYiHpT0EllVLw27RcdNIuaWuXX1xWtlJfyGeK6d+oZcSrl4Xyn4
+	dqAh/ho+BvfxLolio/QWyhD3uZsq9dNrf+fXE2Y9UW4tLMoHqK0ns9czoMVO4r+eMybZ
+	B1VgP/XizsRRZn74RosRMy50wstvdAD6OFaoDxJSLLiaARAdKbPdUC+aG3CVRidCY4j8
+	XtR7FbKoVKXvhogLCh78Qivu5KgAUrWEYFWmBI/eK29Gjo9vDS/7rA/19axyubhxakiG
+	wdVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oyT7wb9ene27UesNNUVfmXDpoBzRi7P+7Vlgj7fmDKI=;
-	b=KCWvCAeZtJcbIdIUAEwwlLRx3Iwe3r2dT28kBlmRsyfk2AqcO2wxv4djastcuHAjbY
-	lJsR2/5QBQDl6/CZPSIhPMYam6w4oJ1Lzta3VtJ1prZufYjjJva7vWy001AdxyBKJTM9
-	SWsuJQ8a9RUrWqh6tmEoUAdavWbRuhix27TxeyR1A+N63ir4Se/eyH9/HgwZ9qahrpmw
-	rwUZyUEe9cck2/JvFOkb1eORr2qzHHz6NhDzEODnG6X4s29eCLUQrosIIgvVn9swegAW
-	5TpCLllOXfO/VplGrhfB1JmkXEgjWyOFePbgbsnnLbdEX9TtesypqomaC3d9wSJUweZW
-	cxMw==
-X-Gm-Message-State: ALKqPwcgqAfSy+ww3kI0W30c9vSZqKTEqJHmdg57cmkxoCiHPEPXkdiH
-	HEKSchUreB0MSsrik0V+v6E99RK0
-X-Google-Smtp-Source: AB8JxZpaOacx2kl7uu6gWQVoc4+dymu8yuEXyrLfMD17KxGuVoAt8A8/u9mSwTYMr+3dfnGWP3s52w==
-X-Received: by 2002:aed:3ac3:: with SMTP id
-	o61-v6mr6679118qte.335.1526063934504; 
-	Fri, 11 May 2018 11:38:54 -0700 (PDT)
-Received: from roost.members.linode.com (chrispatterson.net. [66.175.209.160])
-	by smtp.gmail.com with ESMTPSA id
-	c4-v6sm2633651qtj.49.2018.05.11.11.38.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 May 2018 11:38:53 -0700 (PDT)
-From: Chris Patterson <cjp256@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 14:38:43 -0400
-Message-Id: <1526063923-32176-1-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Chris Patterson <pattersonc@ainfosec.com>
-Subject: [meta-oe][PATCH] strongswan: package up sbin debug files
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=H7o01pEsvjy/vlzYfsRBs0pKyoaMLYvdAmAcKo7+vfk=;
+	b=TCmVzgJe5LoWwTYI1SylWBDEgnBi+yqqCXGeNQA5DTtNLZSs+Fd1fJHMFIOtu0Mfc2
+	xajQI5xmIES2VEaPre5bENZqcx08ftF43Oplh74nCS6G4mN6P1BtZFvcz1bsrWbgJeCp
+	LIxYrbNvYoLAAzJ3mrfyPMR18b3ZzH6poG46M89qznZ7lP5HlvpUGSOYmmk54eyOqepF
+	i00HjtjvcCiMNfcNCURvpIApXPR6ZiSbtX1Xg0vjCGE1A5xzQAECGMbliMkluv5yDeSA
+	TVra5VTsodRQtIPS+e3vI3jx8erebWWt9FUeNSyJWxLRk5uknNVYhzT8srMIe2T8tbcI
+	3Hlw==
+X-Gm-Message-State: ALKqPwdEpzyP+UgDi+j4SSLGuRi+I5u//VbHG3J8NNbAHF05s9Xfq9G+
+	zGNMWFpFm5j8/dLlIkP56s35S2NIwtscC6e6JQ4=
+X-Google-Smtp-Source: AB8JxZrkAHbAU+3ZkVLM2ik2wB4qodXHGvMpx+6saAalXEY8XfAS1YrW8w4bO2ZQ7i/blyPtxqC+g+h311oAZ3ERyPY=
+X-Received: by 2002:a17:902:59ce:: with SMTP id
+	d14-v6mr6721202plj.253.1526065010302; 
+	Fri, 11 May 2018 11:56:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.236.139.145 with HTTP; Fri, 11 May 2018 11:56:19 -0700 (PDT)
+In-Reply-To: <1526059514-31799-1-git-send-email-cjp256@gmail.com>
+References: <1526059514-31799-1-git-send-email-cjp256@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 May 2018 11:56:19 -0700
+Message-ID: <CAMKF1sqdyiscFziLxV+oMpGFxrc1TAVHT0JUj14sAPnOyv6zAA@mail.gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
+Cc: Chris Patterson <pattersonc@ainfosec.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] qemu: add gettext-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 18:38:54 -0000
+X-List-Received-Date: Fri, 11 May 2018 18:56:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Chris Patterson <pattersonc@ainfosec.com>
+On Fri, May 11, 2018 at 10:25 AM, Chris Patterson <cjp256@gmail.com> wrote:
+> From: Chris Patterson <pattersonc@ainfosec.com>
+>
+> Otherwise QEMU build may fail with missing `msgfmt` command.
+>
+> | make -C po install
+> |   GEN     bg.mo
+> |   GEN     tr.mo
+> |   GEN     de_DE.mo
+> | /bin/sh: msgfmt: command not found
+> | /bin/sh: msgfmt: command not found
+>
 
-Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
----
- meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are you enabling gtk+ packageconfig ?
+I dont see po files build built otherwise if you are enabling gtk+
+then please move the
+dependency into that packageconfig.
 
-diff --git a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
-index f2fe1f1..5cae6ac 100644
---- a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
-+++ b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
-@@ -46,7 +46,7 @@ inherit autotools systemd pkgconfig
- RRECOMMENDS_${PN} = "kernel-module-ipsec"
- 
- FILES_${PN} += "${libdir}/ipsec/lib*${SOLIBS}"
--FILES_${PN}-dbg += "${bindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
-+FILES_${PN}-dbg += "${bindir}/.debug ${sbindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
- FILES_${PN}-dev += "${libdir}/ipsec/lib*${SOLIBSDEV} ${libdir}/ipsec/*.la"
- FILES_${PN}-staticdev += "${libdir}/ipsec/*.a"
- 
--- 
-2.1.4
+Adding gettext dependency especially on native recipes can dampen
+parallism and increase
+build time due to serialization. And qemu-native is quite a
+fundamental package we need at early
+stages of build.
 
+> Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index dc73df8..78fa30c 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Fast open source processor emulator"
+>  HOMEPAGE = "http://qemu.org"
+>  LICENSE = "GPLv2 & LGPLv2.1"
+> -DEPENDS = "glib-2.0 zlib pixman"
+> +DEPENDS = "glib-2.0 zlib pixman gettext-native"
+>  RDEPENDS_${PN}_class-target += "bash"
+>
+>  require qemu-targets.inc
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
