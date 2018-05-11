@@ -1,43 +1,50 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ED4A754CE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 450F674E82
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 08:10:14 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id f8-v6so1555694wmc.4
+	Fri, 11 May 2018 10:17:46 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id d11-v6so6397260iof.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 01:10:16 -0700 (PDT)
+	Fri, 11 May 2018 03:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0UzfHfUmuEv+LGSH7do4hoKbLFuFv+as4oWOB3ybE4I=;
+	b=vYkeCMaid9SUz/hWl6QqQveA5IihladfJeX5XkStxHuLQp9CgLUNkrkRgR1w5Is6MW
+	2uAh7TfQAiNF3W+Hm/jeGE+ym9o/0Bd3zgyFsnVEkfIMEDk330JIz+5GqU18Dg4Va1x7
+	Cpo3ypFedoqEu/e6GKwgWn1iaT7mQ+OgciIYENpYXgpuj7Sp6YWGBu5YryEjqcwc7SCq
+	S1aRvEDt0u53SIMdlk2l/4wXfc84upoMPU7h6nbQpEIMltvCvsZdd4yDjICj7asfsMip
+	ztCSIjC+PHBAjpNFeq5WEhbXJ4veyh/mLyU0Bzs/3HqC2wTVExebTUtDIGl9xfq7bgta
+	2Pkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=A20ep1OMA9m7zey5BOrV7BVeUpzZlQpxjRmToxW4fzU=;
-	b=XDCUbSpftyhmFnp8ApA1S7Q+Hrp7FI+3RaURgJSYX5kd60eOGtKtfRxoxb6WS0D59u
-	Hx3L1ek/6emcfTOlGtpz9UpJ8XXIalmNQEoecFALBktDiokIMPKUM/5Q+3WLJeOUFhxl
-	vvXz1hHAV0m7j30RvIBX/uVz0YS+ZrWNge19oUB9t5NzP+XvSVpa9CBdNak+g/zJ3ODo
-	PvbSHUqmw2p1EiYJuTKQ12q4aQOnVi8D573jWVKndLTscbYdpOQL4rlCZFE2N2DUvl5o
-	YQ9ln7/Nu6f+IY89FU6BZaK7RVWq7nxRc3f3hDg+ai/HeFEA6rGfJSS508sEwmvFg9Nl
-	m4OQ==
-X-Gm-Message-State: ALKqPwd4cSoQvZUfFLDOdgdPHj0uw5dL+FGQVlwkZ7AOSi8RJtBYQ6Uy
-	fVOq3KGPxYHdRWleqSMNTNY2+fl0
-X-Google-Smtp-Source: AB8JxZpML3JUARVDr2sQLidqSg8JMnLg9mupGPJusY4UlgiwxbktMWrhEjFCx/dzcpzJ+eZ142S+Xg==
-X-Received: by 2002:a50:9164:: with SMTP id
-	f33-v6mr6262487eda.29.1526026215566; 
-	Fri, 11 May 2018 01:10:15 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	g15-v6sm1559064edb.69.2018.05.11.01.10.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 May 2018 01:10:14 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 09:10:12 +0100
-Message-Id: <20180511081012.12843-2-git@andred.net>
-X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20180511081012.12843-1-git@andred.net>
-References: <20180511081012.12843-1-git@andred.net>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0UzfHfUmuEv+LGSH7do4hoKbLFuFv+as4oWOB3ybE4I=;
+	b=TzuiHPh2LqnptAJpxmBM2vxVaA+kzpjcQ3G6Hxn7UhY0S21gTfjN9l1H/nerON2b+B
+	kLBSQbFd/EPgzwGbkYYxOvTd+AOb4LHxfRCiyB+XwCc04uPWAuaKzjll9nwstpA+A0m1
+	2uTfkmUGza8EjY1dE6r6phS3aT1f2+Q2f5Pf9GNHzj7COZGifFG8TOhFAjtgCrnkenQK
+	xfgLb9aLRV7CNydCOxtIGgiTBubEExN28CcvcTQm0ciqQEUcZoDaqssu0F0cPpPM2uOi
+	iXJMHAzQ0ZRUaY6P27lOITwLMRvNUnpegwcj70LSMaV+vm8nuSAThhxbTmYKvYPy4WLh
+	9MYA==
+X-Gm-Message-State: ALKqPwdYy0WYduMboPmz0b+PqMzlboVEo0zwegaxTKDlAVr0HLpyLJ55
+	AOcs9kWaqcj23SKWU0Xginqpe6otsaQJjXVJ7WGR5g==
+X-Google-Smtp-Source: AB8JxZrH0+HdLBoccwMtQwp41RUrNMJ1AXr4vfv2w/DrkYNsPdtJ8fKcDJO/fRQT4KbrHBjBI/e5M2AeLllubtkDAgI=
+X-Received: by 2002:a6b:248e:: with SMTP id
+	k136-v6mr4832761iok.270.1526033867815; 
+	Fri, 11 May 2018 03:17:47 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [pyro][PATCH 2/2] gcc: Remove patch causing ICE on x86_64 valgrind compile (on x86-64 only)
+Received: by 10.107.239.11 with HTTP; Fri, 11 May 2018 03:17:27 -0700 (PDT)
+In-Reply-To: <ffc349e5f97e7ff62aa6e60f52887f57e615f808.1526004301.git.Qi.Chen@windriver.com>
+References: <cover.1526004301.git.Qi.Chen@windriver.com>
+	<ffc349e5f97e7ff62aa6e60f52887f57e615f808.1526004301.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 May 2018 11:17:27 +0100
+Message-ID: <CAJTo0LYZkPzRaym4sR6bymsgWyd9nXfe6njW0neepLmD3Y5Msw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/6] dbus-glib: upgrade to 0.110
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,40 +57,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 08:10:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 May 2018 10:17:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: André Draszik <andre.draszik@jci.com>
+If dbus-glib doesn't need --with-introspect-xml anymore then the dbus
+recipe can stop installing it.
 
-This is similar to commit f76ee525a75d, but instead of disabling
-the patch on all builds, we only remove it for x86-64 builds, as
-the original change's commit message mentined issues with this
-patch applied on that architecture only.
+Ross
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
----
- meta/recipes-devtools/gcc/gcc-6.4.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
-index 1803917f01..9a23863022 100644
---- a/meta/recipes-devtools/gcc/gcc-6.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
-@@ -81,9 +81,11 @@ SRC_URI = "\
-            file://0048-sync-gcc-stddef.h-with-musl.patch \
-            file://0054_all_nopie-all-flags.patch \
-            file://0055-unwind_h-glibc26.patch \
--           file://0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch \
-+           ${LRA_PR70904_PATCH} \
-            ${BACKPORTS} \
- "
-+LRA_PR70904_PATCH = "file://0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch"
-+LRA_PR70904_PATCH_x86-64 = ""
- BACKPORTS = "\
-            file://CVE-2016-6131.patch \
-            file://0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
--- 
-2.16.2
-
+On 11 May 2018 at 03:20, Chen Qi <Qi.Chen@windriver.com> wrote:
+> The obsolete '--with-introspect-xml' option is removed.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/dbus/dbus-glib.inc      | 4 +---
+>  meta/recipes-core/dbus/dbus-glib_0.108.bb | 4 ----
+>  meta/recipes-core/dbus/dbus-glib_0.110.bb | 4 ++++
+>  3 files changed, 5 insertions(+), 7 deletions(-)
+>  delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.108.bb
+>  create mode 100644 meta/recipes-core/dbus/dbus-glib_0.110.bb
+>
+> diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
+> index 55f710f..16dbf4f 100644
+> --- a/meta/recipes-core/dbus/dbus-glib.inc
+> +++ b/meta/recipes-core/dbus/dbus-glib.inc
+> @@ -22,9 +22,7 @@ inherit autotools pkgconfig gettext bash-completion gtk-doc
+>  PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[tests] = "--enable-tests,,,"
+>
+> -EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml \
+> -                --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
+> -EXTRA_OECONF_class-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
+> +EXTRA_OECONF_class-target = "--with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
+>
+>  PACKAGES += "${PN}-tests"
+>
+> diff --git a/meta/recipes-core/dbus/dbus-glib_0.108.bb b/meta/recipes-core/dbus/dbus-glib_0.108.bb
+> deleted file mode 100644
+> index 7a9a69e..0000000
+> --- a/meta/recipes-core/dbus/dbus-glib_0.108.bb
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -require dbus-glib.inc
+> -
+> -SRC_URI[md5sum] = "a66a613705870752ca9786e0359aea97"
+> -SRC_URI[sha256sum] = "9f340c7e2352e9cdf113893ca77ca9075d9f8d5e81476bf2bf361099383c602c"
+> diff --git a/meta/recipes-core/dbus/dbus-glib_0.110.bb b/meta/recipes-core/dbus/dbus-glib_0.110.bb
+> new file mode 100644
+> index 0000000..8120505
+> --- /dev/null
+> +++ b/meta/recipes-core/dbus/dbus-glib_0.110.bb
+> @@ -0,0 +1,4 @@
+> +require dbus-glib.inc
+> +
+> +SRC_URI[md5sum] = "d7cebf1d69445cbd28b4983392145192"
+> +SRC_URI[sha256sum] = "7ce4760cf66c69148f6bd6c92feaabb8812dee30846b24cd0f7395c436d7e825"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
