@@ -1,53 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AB520770EF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9789A77142
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 16:06:16 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id p4-v6so5870288wrh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 09:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=sXZaUPBPPnTIE2gwMh4FGXJRoiAihyrtxBs8xtpPuAo=;
-	b=aiNE5BKjS5l4+UR7/dictka5phGUcyYVCBdOGQyGXfpzJdXKylzG0LKtdp7UAH7zIS
-	Nx9Jk0lvB7+OavgTtF+bfHEsUVINQc/AUkAT+R5tZjhJa1qpVAFLKlTza8u7R5d8MbzS
-	B/Ub+ygSR+JGPMQA3oOxBE1/LYlYzkkcFFFEF+Rst/w2YKRHJsVPDFktMdHAiYqMMhGE
-	RJi/hIhcR9JWDXvWN/3lyNAnvxtzQYfvq7kKCiRATd1m6pDaTdGAuMkdT6Aa+DttJCfM
-	XuNqR3gM2l3/kxLxcBvBjoGKy5qfQSf7NPsHK2rbOwRUKMuCQBEtOMGRwgAu3GpyEVtw
-	NTpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=sXZaUPBPPnTIE2gwMh4FGXJRoiAihyrtxBs8xtpPuAo=;
-	b=UNPFRyeDXOK9aouKDSA6ZMCv+Ves6LL3WZKpcjnaTkjweWU/xfxfxs5usiyr9jSVEo
-	I+zFQTfyTFuh0PaTgVWkzPU2/gCUB3HhoNTbE437mebfinU/G2eMhcyulmvs9Y7093ur
-	Nbsm6KsVBgLmmdiWmF/D3Dm6hH5XdEMIS97VxD5i2q3cMWf5bgGn7P7UWIhI5/eS2rIv
-	F6r2I509NX1+UiMERE3olAe+NeQmXppNY6hDK4qNAnDtUadrS+ZPRP+BEc1tFREu+pwL
-	6XgF/3AL0N+TYN0XRailETEbSzlcD3zglUPFxW/NMyl+DJ6niHYVZzjZyNYwNZ6Ri+RA
-	ic4g==
-X-Gm-Message-State: ALKqPwedbiYxsTKikvZoo17nzaoxcD7kCJ9+7tBAc6w3kaPPVd3bZItX
-	mA3nTh+DUB8FJPojXDNPtxwZ+4zs
-X-Google-Smtp-Source: AB8JxZrKhdtu4dDANIjU9R6ojOM3subDLv2eNYsRCCH93Y7LDu5u2YpzdVmcboJGcG4mbojHg22vqA==
-X-Received: by 2002:adf:ac28:: with SMTP id
-	v37-v6mr5184182wrc.56.1526054776825; 
-	Fri, 11 May 2018 09:06:16 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	v192-v6sm1603993wme.45.2018.05.11.09.06.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 May 2018 09:06:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 17:06:13 +0100
-Message-Id: <20180511160613.10926-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180511160613.10926-1-ross.burton@intel.com>
-References: <20180511160613.10926-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] gtk+: fix patch headers
+	Fri, 11 May 2018 16:07:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4BG7TOW012294
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 11 May 2018 09:07:29 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Fri, 11 May 2018 09:07:28 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Sat, 12 May 2018 00:15:20 +0800
+Message-ID: <1526055320-13443-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH V2] distcc: update to 3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +29,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 16:06:17 -0000
+X-List-Received-Date: Fri, 11 May 2018 16:07:29 -0000
+Content-Type: text/plain
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+* update to version 3.3
+* Remove 0001-zeroconf-Include-fcntl.h.patch since it's
+  included in v3.3
+* Add update-distcc-symlinks into FILES.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+
+* Correct upstream SRC_URI and SRCREV to v3.3
+* Correct default to fix starting distccd service failed
+  It caused by upstream commit:
+  https://github.com/distcc/distcc/commit/920e8b922addea8c54e68cc29c1416753f532f78
+  ...
+  commit 920e8b922addea8c54e68cc29c1416753f532f78
+  Author: Shawn Landden <slandden@gmail.com>
+  Date:   Mon Feb 26 11:29:14 2018 -0800
+
+      daemon: warn when masquerade is not setup
+  ...
+  Add option --make-me-a-botnet to disable the warning.
+
+* Use localhost to replace 192.168.7.0/24 which is inappropriate for runqemu slirp.
+
+[YOCTO #12741]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../distcc/{distcc_3.2.bb => distcc_3.3.bb}        |  8 +++---
+ .../files/0001-zeroconf-Include-fcntl.h.patch      | 29 ----------------------
+ meta/recipes-devtools/distcc/files/default         |  4 +--
+ 3 files changed, 6 insertions(+), 35 deletions(-)
+ rename meta/recipes-devtools/distcc/{distcc_3.2.bb => distcc_3.3.bb} (91%)
+ delete mode 100644 meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch b/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
-index 9201e45c39e..83be39c3bf2 100644
---- a/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
-+++ b/meta/recipes-gnome/gtk+/gtk+/0001-Do-not-look-into-HOME-when-looking-for-gtk-modules.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Do not look into $HOME when looking for gtk modules
- On the host it causes host contamination, on the target it's a
- potential security issue. Gtk+3 has already removed this.
+diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.3.bb
+similarity index 91%
+rename from meta/recipes-devtools/distcc/distcc_3.2.bb
+rename to meta/recipes-devtools/distcc/distcc_3.3.bb
+index ff0e22f..c4c65e6 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.2.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.3.bb
+@@ -14,14 +14,13 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
  
--Upstream-Status: Inapproriate [gtk2 is in maintenance mode]
-+Upstream-Status: Inappropriate [gtk2 is in maintenance mode]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  gtk/gtkmodules.c | 4 ----
+ RRECOMMENDS_${PN} = "avahi-daemon"
+ 
+-SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
++SRC_URI = "git://github.com/distcc/distcc.git \
+            file://separatebuilddir.patch \
+-           file://0001-zeroconf-Include-fcntl.h.patch \
+            file://default \
+            file://distccmon-gnome.desktop \
+            file://distcc \
+            file://distcc.service"
+-SRCREV = "d8b18df3e9dcbe4f092bed565835d3975e99432c"
++SRCREV = "002e68b766ccd7ad05551e67d162b71a7a773d0d"
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools pkgconfig update-rc.d useradd systemd
+@@ -59,9 +58,10 @@ PACKAGES += "distcc-distmon-gnome"
+ 
+ FILES_${PN} = " ${sysconfdir} \
+ 		${bindir}/distcc \
+-    ${bindir}/lsdistcc \
++		${bindir}/lsdistcc \
+ 		${bindir}/distccd \
+ 		${bindir}/distccmon-text \
++		${sbindir}/update-distcc-symlinks \
+ 		${systemd_unitdir}/system/distcc.service"
+ FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
+ 				${datadir}/distcc"
+diff --git a/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch b/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
+deleted file mode 100644
+index b17ec9c..0000000
+--- a/meta/recipes-devtools/distcc/files/0001-zeroconf-Include-fcntl.h.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 8331fc4759d809512f404e7a27f817ad6d616450 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 13 Apr 2015 18:00:33 -0700
+-Subject: [PATCH] zeroconf: Include fcntl.h
+-
+-We need it for getting deinitions for O_* e.g. O_CREAT
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/zeroconf.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/zeroconf.c b/src/zeroconf.c
+-index 414ddc4..31bd33f 100644
+---- a/src/zeroconf.c
+-+++ b/src/zeroconf.c
+-@@ -33,6 +33,7 @@
+- #include <unistd.h>
+- #include <stdlib.h>
+- #include <limits.h>
+-+#include <fcntl.h>
+- 
+- #include <avahi-common/domain.h>
+- #include <avahi-common/error.h>
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/distcc/files/default b/meta/recipes-devtools/distcc/files/default
+index 63c4159..e5ca68b 100644
+--- a/meta/recipes-devtools/distcc/files/default
++++ b/meta/recipes-devtools/distcc/files/default
+@@ -16,9 +16,9 @@ STARTDISTCC="true"
+ #
+ # ALLOWEDNETS="127.0.0.1"
+ 
+-ALLOWEDNETS="192.168.7.0/24"
++ALLOWEDNETS="127.0.0.1"
+ 
+ #
+ # OPTIONS is used for the systemd service file
+ #
+-OPTIONS="--allow 192.168.7.0/24"
++OPTIONS="--allow 127.0.0.1 --make-me-a-botnet"
 -- 
-2.11.0
+2.7.4
 
 
