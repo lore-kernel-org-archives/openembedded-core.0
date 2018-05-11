@@ -1,38 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A33A75424;
-	Fri, 11 May 2018 01:07:06 +0000 (UTC)
-Received: by mail-pg0-f41.google.com with SMTP id l2-v6so1698980pgc.7;
-	Thu, 10 May 2018 18:07:08 -0700 (PDT)
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f43.google.com (mail-vk0-f43.google.com
+	[209.85.213.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 83EF0753F1;
+	Fri, 11 May 2018 01:11:50 +0000 (UTC)
+Received: by mail-vk0-f43.google.com with SMTP id 203-v6so2327722vka.12;
+	Thu, 10 May 2018 18:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Kpi+VzVbIS5elwCJ7JZREvkKovz/45egtL/9/V7jdZU=;
-	b=coYnPZ8iiU9bONZvsXMoGx01rNO/723fI17td4K0pMwDyPNNqSBRLw2D/R1+m6Qyhr
-	GkQuj7BjjORPwNB/kb+3hZuYuFdebBi/uBmWt8efWuxVLGb0RwE9sh0sa9Oe7ctC4Zgp
-	ev/UwtEM8ps5d15eTE+RnUTuLpp51KU0C1YFy9swYX8LRNdzWQHYCW7GyCqPtAbEkCAW
-	bV3r/xCATdjf4+r2o+il/P9hD0uCDkOmWQGKvcucQ1jw3WFeF808DuuiEULwo7C/VIHf
-	hDtQCFQ7K5vgjqdMhkRcvSIC8NN0lT3SHAQfPPLLfFlVpsK7dWx/eyJV8g90oMacCLco
-	prZg==
+	:cc; bh=P2elj8HVuH6dd3aFclJH2f+mzZWCWP8duUg3MnsIqF8=;
+	b=LdaYjaY77mH6J9wtAz+NFHPdHi39L1/8dwqErreM+KKhtZRhVGXvZhcyZbh23zMjPM
+	/MeZEoArTai1TTxbSCFNKmtQnJ3OSYXI3gUiA+t+atNq7+leDIrkmd/BmLis1uwAu6Lw
+	PsDS65hsV+qDS2YaqyVLh8opTCjN1OM/QDiZKcrPYhPclBSJtBiOnKIVn/+//jqfjm+V
+	iaEhIwK0Rp6x/0dRfEN1x4V03TAjveTTvrE5p48YCQqoDxnruKA0mu0S9RUYuw0XO800
+	weiIgj/tvD9xn7WPocKMA9K5s07R8+YGr/UkdDABqRwLpXOQvohUnHB0DNWVwS2/Yp+X
+	64gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Kpi+VzVbIS5elwCJ7JZREvkKovz/45egtL/9/V7jdZU=;
-	b=oBos5iv4ujSVewgTBQBy9Je3Va+DIXSh14H6kDwA/TzqH7j8SVRnvNjZl0h7tugS6T
-	5ijNtmd01x8h895P1EIObka7jzx5atwLgVrhXkFbdOxoIP8ZazEGeici/dm5Vkh2Sp3Y
-	9e6cGv4NL9MUxcNo1uuQi9P0IaZP4pcVCaiuthJZKvyZFx60bqo8SO1iVMtBc51RX6DR
-	9KQtclSsTkX4jPUuGp537aOFtnvEsJXCwmUOd0LT/wCoZfiACprEKU/McKLsSZ4ZaJDl
-	LqtiMDgayZTRSJD+tNWVa0rlgcDrNFNmn1Efc6M1rH8zSn71sfIyf9jMCsMdwvH5rYi0
-	BYIg==
-X-Gm-Message-State: ALKqPwdh10l/40IlBlvvf/fxkZDWXF56F1i2eZiF4hIiQgaSengwpPh2
-	7IhGwGm8jgNcoJxcBH/TnA6dutSoFFsW/KrD1Zk=
-X-Google-Smtp-Source: AB8JxZo0jE2hlLLqsRxQVH9MTZw/Qk7vJi6MJvc9OlIXtLIQzl91ccMr4J8ASyF650SFTlZWfxdNXXf8l4ps5oUl5iw=
-X-Received: by 2002:a62:74b:: with SMTP id
-	b72-v6mr3373517pfd.133.1526000828028; 
-	Thu, 10 May 2018 18:07:08 -0700 (PDT)
+	bh=P2elj8HVuH6dd3aFclJH2f+mzZWCWP8duUg3MnsIqF8=;
+	b=evYt9rFPqxKoCrDIYNZn/7hMW6Ip0akbqLr4PXFmqVL0O8knu1bz6cD3KJJHc2qbs0
+	dtzqNOw2dQMsZkJUjOySw/NwA61EIsuOehS2nZ6+gzl36z4kTmYiCO1PU5wlJiSH2rHP
+	CAR7CJ9WVIXRfLQivqNVkoM4QsevkAvVvpljKFGsiNgIko8PCP2NMSq0PpSpnUodQ48z
+	9qMZWlVMbTu9V17/XfSWKVlfdF3O8yVzeFyYVQDMpAq4K1W1el1MJIf7btbvZx1qu7K6
+	MVir+5CT+1dSmcCIHlHKKzIQp98fHDwa40RbdmwnUc1E6wKzAg4Lab0R9oUWkhH4W2vR
+	T1kw==
+X-Gm-Message-State: ALKqPwem/1flCuh9maWo13R809WhzLY4NFyom1WKZBc6u0/LHT/7rZJE
+	SWokNkEgTizooX0QGwLU0b+sHcNayPzSTfsQuME=
+X-Google-Smtp-Source: AB8JxZrwJW15BvH0ueEdbyPOsrWtKy4xzaAXzY0K2TkcZwHAuevRtSyWoysZ6qrkgHH9+FirdC1zcMAEsfEAAOTnpNk=
+X-Received: by 2002:a1f:4445:: with SMTP id
+	r66-v6mr2567379vka.154.1526001111950; 
+	Thu, 10 May 2018 18:11:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.236.139.145 with HTTP; Thu, 10 May 2018 18:06:37 -0700 (PDT)
-In-Reply-To: <CAJ86T=UOog5f1TFbRZxnpvvUcAddRMUsv2nnOQwWWWvdTGb7VA@mail.gmail.com>
+Received: by 10.176.48.148 with HTTP; Thu, 10 May 2018 18:11:51 -0700 (PDT)
+In-Reply-To: <CAMKF1sqmg-7kRbPfH_HEiyBv5vmqj4Sy=bCKqbxdQ5qG+_+5rA@mail.gmail.com>
 References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
 	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
 	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
@@ -46,10 +47,11 @@ References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
 	<CAJ86T=UfXtgtaWQyJbrhW40MJFW9YAArB3CshMxy5e5f9Cg_=Q@mail.gmail.com>
 	<CAMKF1soAQYfL+gwsEmt6bZv_42pO_F5Gsb0CxUrdWueaja50hg@mail.gmail.com>
 	<CAJ86T=UOog5f1TFbRZxnpvvUcAddRMUsv2nnOQwWWWvdTGb7VA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 May 2018 18:06:37 -0700
-Message-ID: <CAMKF1sqmg-7kRbPfH_HEiyBv5vmqj4Sy=bCKqbxdQ5qG+_+5rA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+	<CAMKF1sqmg-7kRbPfH_HEiyBv5vmqj4Sy=bCKqbxdQ5qG+_+5rA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 10 May 2018 18:11:51 -0700
+Message-ID: <CAJ86T=WQd-1MWa7H1Zt28i2NPV5f6VOKvaE0LTP+PkKQtdFNKA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Yocto Project <yocto@yoctoproject.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
@@ -67,51 +69,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 01:07:07 -0000
+X-List-Received-Date: Fri, 11 May 2018 01:11:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 10, 2018 at 6:00 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, May 10, 2018 at 5:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Thu, May 10, 2018 at 4:11 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Thu, May 10, 2018 at 3:50 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>>> On Thu, May 10, 2018 at 03:40:53PM -0700, Andre McCurdy wrote:
->>>>> On Thu, May 10, 2018 at 3:38 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>>>> > see
->>>>> > http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150654.html
+On Thu, May 10, 2018 at 6:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, May 10, 2018 at 6:00 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> On Thu, May 10, 2018 at 5:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Thu, May 10, 2018 at 4:11 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>>> On Thu, May 10, 2018 at 3:50 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>>>> On Thu, May 10, 2018 at 03:40:53PM -0700, Andre McCurdy wrote:
+>>>>>> On Thu, May 10, 2018 at 3:38 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>>>>> > see
+>>>>>> > http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150654.html
+>>>>>>
+>>>>>> Removing -fno-omit-frame-pointer isn't the same as adding
+>>>>>> -fomit-frame-pointer. Frame pointers may get enabled depending on the
+>>>>>> optimisation level etc (ie not only by -fno-omit-frame-pointer).
 >>>>>
->>>>> Removing -fno-omit-frame-pointer isn't the same as adding
->>>>> -fomit-frame-pointer. Frame pointers may get enabled depending on the
->>>>> optimisation level etc (ie not only by -fno-omit-frame-pointer).
+>>>>> Should I send v2 adding -fomit-frame-pointer instead of removing
+>>>>> -fno-omit-frame-pointer?
+>>>>>
+>>>>> The v1 fixes the issue for me with default config + DEBUG_BUILD.
 >>>>
->>>> Should I send v2 adding -fomit-frame-pointer instead of removing
->>>> -fno-omit-frame-pointer?
+>>>> The v1 patch isn't wrong, it's just incomplete (the problem could come
+>>>> back if someone changes optimisation level or switches gcc to clang,
+>>>> etc).
 >>>>
->>>> The v1 fixes the issue for me with default config + DEBUG_BUILD.
+>>>> My choice would be a v2 patch which adds -fomit-frame-pointer to
+>>>> CFLAGS unconditionally for all ARM builds when Thumb is enabled. That
+>>>> should fix the problem for all optimisation levels etc and avoids
+>>>> building the main strace binary differently depending on whether or
+>>>> not ptest is enabled.
 >>>
->>> The v1 patch isn't wrong, it's just incomplete (the problem could come
->>> back if someone changes optimisation level or switches gcc to clang,
->>> etc).
->>>
->>> My choice would be a v2 patch which adds -fomit-frame-pointer to
->>> CFLAGS unconditionally for all ARM builds when Thumb is enabled. That
->>> should fix the problem for all optimisation levels etc and avoids
->>> building the main strace binary differently depending on whether or
->>> not ptest is enabled.
+>>> explicitly adding this option is a poor choice especially for debug
+>>> builds where we should
+>>> let the -On level decide and not explicitly ask for either
+>>> enable/disable frame-pointers
+>>> that will also make it compiler proof.
 >>
->> explicitly adding this option is a poor choice especially for debug
->> builds where we should
->> let the -On level decide and not explicitly ask for either
->> enable/disable frame-pointers
->> that will also make it compiler proof.
+>> Of course, we should let the compiler decide whenever it's possible to do so.
+>>
+>> Unfortunately there are cases like this one where frame pointers clash
+>> with inline assembler and we need to over-rule the compiler's choice.
 >
-> Of course, we should let the compiler decide whenever it's possible to do so.
->
-> Unfortunately there are cases like this one where frame pointers clash
-> with inline assembler and we need to over-rule the compiler's choice.
+> Here we are adding -fno-omit-frame-pointer via global opt flags that
+> is the issue
+> where we have fallouts from default O options I agree we should teach
+> this to build
+> system and help the compiler
 
-Here we are adding -fno-omit-frame-pointer via global opt flags that
-is the issue
-where we have fallouts from default O options I agree we should teach
-this to build
-system and help the compiler
+Since there's NO situation where enabling frame pointers is going to
+work for this code + ARM + Thumb, I don't see the advantage of leaving
+anything up to chance. Just explicitly disabling frame pointers is the
+safest and cleanest option.
 
