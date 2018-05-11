@@ -1,52 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E264E75322
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1388A755BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 11:02:34 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id t11-v6so2107025wmt.0
+	Fri, 11 May 2018 12:50:47 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id a8-v6so2542996wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 04:02:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Ozcu8B3PkG6VmDpbDPfvJ3idhwyEENbe273pwqoYHHk=;
-	b=YtIJ1KQZMXabcm+3XmoS06Ankj3pL2LWVtHvk+U0LlAGOGdtOWMRkyEI8etOrKzw6A
-	yhrRAKJoziLh3txGYqUou7vujEVgw5NI3EdhDL2sY/cEb2aSpcdZCc9lXYsZkBe8sq7G
-	8zc5/qAzRHSeAYfHzoLEVceQ4Vn8XQlr2z8lcY/WxRG9Il8tU3ugPYC+Q7KIV05kjSKk
-	HIaYutJXpDwdGLBGXZd48PbfNl5wdSnRsbbWLi94MzLny+YigUoHNe2cdRnvq8Lw6vU0
-	LR9H6w+XOrE9ti3agE5p49KBR8NHskOsaHbVdo0GmUR4EK2fmbFCpwVqD+ZPtRHlmpG8
-	MOLA==
+	Fri, 11 May 2018 05:50:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Ozcu8B3PkG6VmDpbDPfvJ3idhwyEENbe273pwqoYHHk=;
-	b=fjEmxYZslkWH5dqWDNL/gOiF0RIbNIBfBAOOTL+6EIvMeUVBVT6YaS8vxJDuGRmatO
-	1OpQYCJdsfFA96Lpw+McjAULt7mmOclR1nbHU3ER1fTSNmPc9s82b1ctoLl5wF1oembj
-	mOhkDicK5GHJWhhrtuA/+FgUVD+Huv5ixZlfVTKH3/W3um7aHTouWgKw74mEhLIBYnKO
-	XXhKyp5XMkv+ub/ys5RUwB8OrvI5DMPPyZx/faFcWgbvAsEuBx+8TCgyaoVGGbb46RLR
-	s38QZTDJIldkpqS0WtYsqp4GHATCPxuVpIYQdqDUkxBTKmpmVlqlmMwYvRIK7zujN8IC
-	GzkQ==
-X-Gm-Message-State: ALKqPwf6g5t6mn4G5tMUzhNwzm7FwYeCf4c+on4IbLPSL/qsYNY5kRFZ
-	aMZDwimA0jo1hEQ7tyDdQPSW2R8l
-X-Google-Smtp-Source: AB8JxZrGUpClW4LqC0ZMQtZOfZf4jsMx2b0YctmRKWfysOTkLALiWxcSJZzZBhSoT3T/Yf/r0Xu8GQ==
-X-Received: by 2002:a1c:1b4d:: with SMTP id
-	b74-v6mr1521819wmb.71.1526036555099; 
-	Fri, 11 May 2018 04:02:35 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	l69-v6sm1617814wmb.6.2018.05.11.04.02.33
+	:references:mime-version:content-transfer-encoding;
+	bh=uaT2N/uQ/z62kWfp94gyZVwNCJnBdslJ/aRxdoAJND4=;
+	b=eFDmaSJFyAiCmWCOX6hlvcxV0ATx0PyoRQDI6NkSvGTjrIeucA7zphoLHkqhGqLyUn
+	x5uaDVgZKh9maBr1Y4amWWceAGMr4IVrjlrsZ9UMotgnAdiyOwYg08Ohm37oRLEuXo1I
+	8kdzZbd6sY7OBEkZmCoWwWgsF/81nDkV8FdGfwhMlE9TPAEVuH0eOvOwgPyiP9ph69QA
+	K5XOulHKcoIrg+xsPNWQij8/58hWh1WXS9/9K+v/rDdPYFXpiWeGjZLSycq+u8LUEUjq
+	WcOHCqtv2jnyxswWksNjhFZR6Y9KY0C5EXxKMmboZ2tnt5Pfdrr6JfhlLZ0QKl1Ll/2I
+	UVBA==
+X-Gm-Message-State: ALKqPwfp7hwgFgmBROn//uQSxXRZw8UE5BBFJiyUgWz+7zdkTBPsYnCC
+	csKPt0iiRmXGBwpIeIjASLfJdQn7
+X-Google-Smtp-Source: AB8JxZoQKwwTWpAk/1iswUcKwgkJFgsPBRAQwmP3Zav2/W8LYzYrWAcN24e9el3a87IDe82LmuWTgg==
+X-Received: by 2002:a50:866d:: with SMTP id
+	42-v6mr7117773edt.229.1526043047949; 
+	Fri, 11 May 2018 05:50:47 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	e24-v6sm1699382edc.80.2018.05.11.05.50.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 May 2018 04:02:34 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 11 May 2018 05:50:47 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 12:02:30 +0100
-Message-Id: <20180511110230.9867-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180511110230.9867-1-ross.burton@intel.com>
-References: <20180511110230.9867-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] distcc: disable upstream checking for now
+Date: Fri, 11 May 2018 13:50:46 +0100
+Message-Id: <20180511125046.29184-1-git@andred.net>
+X-Mailer: git-send-email 2.16.2
+In-Reply-To: <20180511081012.12843-2-git@andred.net>
+References: <20180511081012.12843-2-git@andred.net>
+MIME-Version: 1.0
+Subject: [pyro][PATCH v2 2/2] gcc: Remove patch causing ICE on x86_64 valgrind compile (on x86-64 only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 11:02:35 -0000
+X-List-Received-Date: Fri, 11 May 2018 12:50:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Whilst we're using a fork of the upstream repository, disable upstream checking.
-Once we upgrade to 3.3 this can be removed.
+From: André Draszik <andre.draszik@jci.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+This is similar to commit f76ee525a75d, but instead of disabling
+the patch on all builds, we only remove it for x86-64 builds, as
+the original change's commit message mentioned issues with this
+patch applied on that architecture only.
+
+Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
- meta/recipes-devtools/distcc/distcc_3.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/gcc/gcc-6.4.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.2.bb b/meta/recipes-devtools/distcc/distcc_3.2.bb
-index ee077495d5f..2b19d69000d 100644
---- a/meta/recipes-devtools/distcc/distcc_3.2.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.2.bb
-@@ -17,6 +17,9 @@ SRC_URI = "git://github.com/akuster/distcc.git;branch=${PV} \
- 
- SRCREV = "d8b18df3e9dcbe4f092bed565835d3975e99432c"
- 
-+# Because we're using a fork currently, upstream checks don't work
-+UPSTREAM_VERSION_UNKNOWN = "1"
-+
- S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d useradd systemd
+diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
+index 1803917f01..9a23863022 100644
+--- a/meta/recipes-devtools/gcc/gcc-6.4.inc
++++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
+@@ -81,9 +81,11 @@ SRC_URI = "\
+            file://0048-sync-gcc-stddef.h-with-musl.patch \
+            file://0054_all_nopie-all-flags.patch \
+            file://0055-unwind_h-glibc26.patch \
+-           file://0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch \
++           ${LRA_PR70904_PATCH} \
+            ${BACKPORTS} \
+ "
++LRA_PR70904_PATCH = "file://0056-LRA-PR70904-relax-the-restriction-on-subreg-reload-f.patch"
++LRA_PR70904_PATCH_x86-64 = ""
+ BACKPORTS = "\
+            file://CVE-2016-6131.patch \
+            file://0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
 -- 
-2.11.0
+2.16.2
 
 
