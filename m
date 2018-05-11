@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3066A75456
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A994D75456
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 02:19:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4B2JKBx015822
+	Fri, 11 May 2018 02:19:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4B2IVsp010613
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 19:19:20 -0700 (PDT)
+	Thu, 10 May 2018 19:19:17 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 10 May 2018 19:19:19 -0700
+	14.3.361.1; Thu, 10 May 2018 19:18:57 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 May 2018 10:20:18 +0800
-Message-ID: <f6c991f4bb56eea2b719898de1cf86a31cc63bf4.1526004301.git.Qi.Chen@windriver.com>
+Date: Fri, 11 May 2018 10:20:16 +0800
+Message-ID: <23955364bd81de6dc4a78d36c1b2d4720ac39885.1526004301.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1526004301.git.Qi.Chen@windriver.com>
 References: <cover.1526004301.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] dbus: upgrade to 1.12.8
+Subject: [PATCH 1/6] gawk: upgrade to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 02:19:19 -0000
+X-List-Received-Date: Fri, 11 May 2018 02:19:26 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb} | 4 ++--
+ meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb} (98%)
+ rename meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb} (89%)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.12.2.bb b/meta/recipes-core/dbus/dbus_1.12.8.bb
-similarity index 98%
-rename from meta/recipes-core/dbus/dbus_1.12.2.bb
-rename to meta/recipes-core/dbus/dbus_1.12.8.bb
-index fb5b69a..b73cc45 100644
---- a/meta/recipes-core/dbus/dbus_1.12.2.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.8.bb
-@@ -18,8 +18,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+diff --git a/meta/recipes-extended/gawk/gawk_4.2.0.bb b/meta/recipes-extended/gawk/gawk_4.2.1.bb
+similarity index 89%
+rename from meta/recipes-extended/gawk/gawk_4.2.0.bb
+rename to meta/recipes-extended/gawk/gawk_4.2.1.bb
+index 27f79a2..6b99357 100644
+--- a/meta/recipes-extended/gawk/gawk_4.2.0.bb
++++ b/meta/recipes-extended/gawk/gawk_4.2.1.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://run-ptest \
  "
  
--SRC_URI[md5sum] = "3361456cadb99aa6601bed5b48964254"
--SRC_URI[sha256sum] = "272bb5091770b047c8188b926d5e6038fa4fe6745488b2add96b23e2d9a83d88"
-+SRC_URI[md5sum] = "2764bf150e5aa8005b7bc0d6c388756a"
-+SRC_URI[sha256sum] = "e2dc99e7338303393b6663a98320aba6a63421bcdaaf571c8022f815e5896eb3"
+-SRC_URI[md5sum] = "0b598c31bc703d66082bd958d4189980"
+-SRC_URI[sha256sum] = "c88046c6e8396ee548bcb941e16def809b7b55b60a1044b5dd254094f347c7d9"
++SRC_URI[md5sum] = "0256724a0af50cb83ac92f833488673d"
++SRC_URI[sha256sum] = "2b23d51503b2df9a41aa6fddc6002ad7ebf2a386ac19dc1b6be0dd48b0acf6db"
  
- inherit useradd autotools pkgconfig gettext update-rc.d upstream-version-is-even
+ inherit autotools gettext texinfo update-alternatives
  
 -- 
 1.9.1
