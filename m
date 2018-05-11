@@ -1,56 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D712175419
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1A778289
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 19:44:54 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id 94-v6so6381460wrf.5
+	Fri, 11 May 2018 20:11:53 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o78-v6so5256822wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 12:44:56 -0700 (PDT)
+	Fri, 11 May 2018 13:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=XBGx7sXkOp48BGyOuAY0NLzAYeCqK1gNZVaifB4VXNo=;
-	b=pkFN7YC3ZKRWmsjlvDs3uofttCdB1KGPaS6hQSsmiMcf9XcNe18MnS8GnzndLE188V
-	MRU62WV1HUT/VDjkKsbhS4svJjGAC2OxNYFaeLUz/YRIxvZKEGbnNXCQKWrPNf5toa4U
-	AGB7y8P2qSpBhQoDnCMKaEO4oAm3pwkbTStpNhzYSJP+vUrVD+iDZimpbGE2uSN3Wn+9
-	pBCjPa9SgGTfi1nVgmNESRjfTt+tPzkxqt/Pli0HXSu2kw23JmcxkCSxjlmj77y0Gieg
-	45BLxkibZiEacA4wY/+mUqjlW/Ga8TiV6ukR++oEfsSeb81O3/93SZ+d3j05S5gmHfUo
-	wNzw==
+	h=from:to:subject:date:message-id;
+	bh=gVUXdLpS8pVXsFOCnbgLZmeB7fCdBHNtvyHka+jtU/g=;
+	b=X+OwXtSi83g6xPfx4EM1kT1Kn90d+XQVcJbo/rDK6UThwzqWLZSfhFfzMmdoGoA4/I
+	rG6PheZQ1buad7TRf2vfgCrtrrtPBIpZx/BGGVYhiTATW8Wne3yceaOD5QtwcCA5ngaK
+	VuXxrOWrzdBBKKwXYmM/HpqVgT4Rl5sD2Z6NlK0nqZnhPBSBIqL7m2WbzXvBFg428SXh
+	UFFzCqwXH+MZH4PKdWWiLlXK0Lj6Ht1KZ6DzAZ3OvzpqM6JQfxsJKEMGxCYe/lim4M7X
+	Tij1u1SIEfaM8i9M5nCiC3uS2Q667DaliY+xwfeYwbyiB3xREGF17z6qBRC1DUTyL4sf
+	u9ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=XBGx7sXkOp48BGyOuAY0NLzAYeCqK1gNZVaifB4VXNo=;
-	b=rI2NBs9W2agxKN8GQkRmpD5FjEEyxjOULaZS2RIkoQmtntJLyijwTJ9jH/xpfvf0Nk
-	pFGnGaEqP0v8a0faOrSYRP9GpZ5zrmIGX3f8KlBLEmU7COeupPCHNkJccjhClbNF46YR
-	2gpFNaK+qWSUbiymP5+md6s1TiswVICFJHSL0/eUV5uE7FSR6rjcfpr8HDHHtp1/Iwx9
-	1TPk4WjDKyiF9dHAc8E+bsADMW9w/1PLWMp6CBQ76SYQkbAGIHzAOwo2oCLtob8344t2
-	5rkMjmfDuFvSbT47c9I7fONGGPzxcflAqHxIObU+KopjZ+yL0i2JqVn0uLwiqxjjv04A
-	LT0Q==
-X-Gm-Message-State: ALKqPwdnX57iP9S4WyiDbvRtK8TLOQ75TIt7TlCUHo1UqnGhwnsi47VK
-	/NnORxeBc9u+VEO+uB11BnQ=
-X-Google-Smtp-Source: AB8JxZoVSqNp6JoVpMm5Ex+Zj8DHvXj4FrOuQP87CORWCKgb9w4yMM6ROM5ARt7gIHwpqybw59AEQQ==
-X-Received: by 2002:adf:94c1:: with SMTP id 59-v6mr248777wrr.112.1526067895456;
-	Fri, 11 May 2018 12:44:55 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	f192-v6sm1622929wmg.14.2018.05.11.12.44.54
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gVUXdLpS8pVXsFOCnbgLZmeB7fCdBHNtvyHka+jtU/g=;
+	b=NbkvVXDWseVlvaDaYZmz5aOHbw0BMPSPkaQ9rT6D4GqOErOxYR61LnvyIwjbpmAQs2
+	YYxCtomhcQuvkVNGTjMT+WOwar/9V9uPOv2PV+TFJYFK62459GOBEx+oARaoNveLyctQ
+	/42GTDvCxh+ykFA/RRudIzbkaTTx6eb3fQAAyo0w3incIBOTFA3t8+lIm7D9gbg/RgtY
+	/dHqJ40zWroP8Gkmi0qJIbPuWtdV6aLJZCFswg8Yimdr9PHU5fdrFaqp4j0uagil/xm9
+	qJn1zCI1sEN60qGucFS9mvdG7K0Eo6HzpSHRKxRv2vC457CAqqIJjeiIQttkWUuFksRx
+	mdnA==
+X-Gm-Message-State: ALKqPwfAKZKi81kjlDC2rCRTmhO1Il11SUwcprvgYRdX4UoEWJYnh46s
+	RBg00hxnk7KQIMwR/S19pXDlaoWS
+X-Google-Smtp-Source: AB8JxZpan/jSz7qkRr26RNRioMmbbvcp8xRg4Yw4Zp+FFRgyvE2m38ioWDaZaSf/6ZFwYs4eYyt7JQ==
+X-Received: by 2002:a1c:e60b:: with SMTP id
+	d11-v6mr2993732wmh.128.1526069514407; 
+	Fri, 11 May 2018 13:11:54 -0700 (PDT)
+Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
+	by smtp.gmail.com with ESMTPSA id
+	o20-v6sm4692147wro.67.2018.05.11.13.11.52
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 11 May 2018 12:44:54 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 11 May 2018 21:44:57 +0200
-To: Alistair Francis <alistair23@gmail.com>
-Message-ID: <20180511194457.GA2141@jama>
-References: <20180510213058.68614-1-alistair.francis@wdc.com>
-	<CA+chaQfgi+-PSYRRnCb2PtpH5UAHa2ztcQ3MaN0_wTc_=GMCmw@mail.gmail.com>
-	<CAKmqyKOBqOtT=kCmiuUrrsVV9sQmyJdt7B-789ui6keRg53yiA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAKmqyKOBqOtT=kCmiuUrrsVV9sQmyJdt7B-789ui6keRg53yiA@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-graphics/libsdl2: Add native and nativesdk support
+	Fri, 11 May 2018 13:11:53 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 May 2018 14:10:53 -0600
+Message-Id: <20180511201055.15463-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.18.0-dev
+Subject: [PATCH 1/3] base-files: change permissions on /sys and /proc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,116 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 19:44:55 -0000
-X-Groupsio-MsgNum: 111316
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bg08WKrSYDhXBjb5"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 11 May 2018 20:11:54 -0000
 
---bg08WKrSYDhXBjb5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-On Thu, May 10, 2018 at 03:06:47PM -0700, Alistair Francis wrote:
-> On Thu, May 10, 2018 at 2:58 PM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > See http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djans=
-a/qemu
-> > + http://git.openembedded.org/meta-openembedded-contrib/log/?h=3Djansa/=
-spice
-> > for more qemu related changes.
-> >
-> > More info:
-> > http://lists.openembedded.org/pipermail/openembedded-core/2017-Septembe=
-r/142349.html
-> >
-> > and that's basically where I'm still stuck (and why haven't sent most of
-> > these patches yet), because it works fine "natively" but when the
-> > qemu-native is running inside of chroot or docker, I didn't get the
-> > acceleration working (from virt-viewer running "natively" - outside
-> > chroot/docker).
-> >
-> > I plan to separate libsdl2 changes from this and send them with updated=
- qemu
-> > upgrade as discussed with Ross.
->=20
-> It looks like you beat me to it. Plus your patches look better then mine =
-:)
->=20
-> It would be great if you could send the QEMU 2.12 patches seperatly.
-> Can you CC me when you do?
+Fedora uses permissions of 555 for /proc and /sys. Debian doesn't
+seem to explicitly set their permissions. In addition they're mounted
+555.  Having them be 755 causes permission issues on upgrades inside a
+container when the guest does not have the permission to change their
+modes.
 
-I've forgot to CC you, but the 2 patchsets I've sent today are:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150717.h=
-tml
-http://lists.openembedded.org/pipermail/openembedded-devel/2018-May/118144.=
-html
+So, just bite the bullet and force them to be 555.
 
-that leaves only virglrenderer and glx support in jansa/qemu branch.
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> >
-> > On Thu, May 10, 2018 at 11:31 PM Alistair Francis <alistair.francis@wdc=
-=2Ecom>
-> > wrote:
-> >>
-> >> Allow building libsdl2 for native and nativesdk. This is required to u=
-se
-> >> libsdl2 in QEMU.
-> >>
-> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> >> ---
-> >>  meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb | 7 +++++++
-> >>  1 file changed, 7 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> >> b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> >> index c0cf70d7fd..36508ec349 100644
-> >> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> >> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.8.bb
-> >> @@ -42,6 +42,11 @@ PACKAGECONFIG ??=3D " \
-> >>      ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x=
-11',
-> >> d)} \
-> >>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2=
-',
-> >> '', d)} \
-> >>  "
-> >> +PACKAGECONFIG_class-native =3D "${PACKAGECONFIG_GL} x11"
-> >> +PACKAGECONFIG_class-nativesdk =3D "${PACKAGECONFIG_GL} \
-> >> +                                 ${@bb.utils.filter('DISTRO_FEATURES',
-> >> 'x11', d)} \
-> >> +"
-> >> +
-> >>  PACKAGECONFIG[alsa]       =3D "--enable-alsa
-> >> --disable-alsatest,--disable-alsa,alsa-lib,"
-> >>  PACKAGECONFIG[directfb]   =3D
-> >> "--enable-video-directfb,--disable-video-directfb,directfb"
-> >>  PACKAGECONFIG[gles2]      =3D
-> >> "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
-> >> @@ -63,3 +68,5 @@ do_configure_prepend() {
-> >>  }
-> >>
-> >>  FILES_${PN}-dev +=3D "${libdir}/cmake"
-> >> +
-> >> +BBCLASSEXTEND =3D "native nativesdk"
-> >> --
-> >> 2.17.0
-> >>
-> >
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 1c0863b1c7b..a6963ba24d6 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -32,15 +32,16 @@ INHIBIT_DEFAULT_DEPS = "1"
+ docdir_append = "/${P}"
+ dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
+ dirs2775 = ""
++dirs555 = "/sys /proc"
+ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+            ${sysconfdir} ${sysconfdir}/default \
+-           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt /proc ${ROOT_HOME} /run \
++           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt ${ROOT_HOME} /run \
+            ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
+            ${libdir} ${sbindir} ${datadir} \
+            ${datadir}/common-licenses ${datadir}/dict ${infodir} \
+            ${mandir} ${datadir}/misc ${localstatedir} \
+            ${localstatedir}/backups ${localstatedir}/lib \
+-           /sys ${localstatedir}/lib/misc ${localstatedir}/spool \
++           ${localstatedir}/lib/misc ${localstatedir}/spool \
+            ${localstatedir}/volatile \
+            ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
+            /home ${prefix}/src ${localstatedir}/local \
+@@ -93,6 +94,9 @@ pkg_preinst_${PN} () {
+ }
+ 
+ do_install () {
++	for d in ${dirs555}; do
++		install -m 0555 -d ${D}$d
++	done
+ 	for d in ${dirs755}; do
+ 		install -m 0755 -d ${D}$d
+ 	done
+-- 
+2.18.0-dev
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---bg08WKrSYDhXBjb5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvXyuAAKCRA3VSO3ZXaA
-HPHJAJ90C39lxCzIihQ/sdNAK6cD6dzm9ACfQdLsFRgu1m1HW/2zzv5Irw59dWY=
-=s+fI
------END PGP SIGNATURE-----
-
---bg08WKrSYDhXBjb5--
