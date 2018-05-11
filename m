@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B9F875416
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0F3175475
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 02:19:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4B2Jn8k015825
+	Fri, 11 May 2018 02:19:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4B2JVCh010629
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2018 19:19:49 -0700 (PDT)
+	Thu, 10 May 2018 19:19:46 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 10 May 2018 19:19:48 -0700
+	14.3.361.1; Thu, 10 May 2018 19:19:20 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 May 2018 10:20:21 +0800
-Message-ID: <8a41a4e796d7a733d1cc17190e693bf865dcf6a7.1526004301.git.Qi.Chen@windriver.com>
+Date: Fri, 11 May 2018 10:20:19 +0800
+Message-ID: <166de6977d1080f8826e09b07188bf63bc114963.1526004301.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1526004301.git.Qi.Chen@windriver.com>
 References: <cover.1526004301.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/6] sudo: upgrade to 1.8.23
+Subject: [PATCH 4/6] dbus-test: upgrade to 1.12.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 02:19:48 -0000
+X-List-Received-Date: Fri, 11 May 2018 02:19:55 -0000
 Content-Type: text/plain
-
-Upgrade sudo to 1.8.23.
-
-The license checksum changes but the actual license does not.
-
-The /var/run/sudo directory has changed to /run/sudo, change
-do_install_append according to avoid error.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                           | 5 +++--
- meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} | 6 +++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} (86%)
+ meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} (95%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 362bd3a..6e57669 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
-                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-                     file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
-                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
--                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
-+                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
-+                    "
+diff --git a/meta/recipes-core/dbus/dbus-test_1.12.2.bb b/meta/recipes-core/dbus/dbus-test_1.12.8.bb
+similarity index 95%
+rename from meta/recipes-core/dbus/dbus-test_1.12.2.bb
+rename to meta/recipes-core/dbus/dbus-test_1.12.8.bb
+index dce047a..f33fbaf 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.12.2.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.12.8.bb
+@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
  
- inherit autotools
+-SRC_URI[md5sum] = "3361456cadb99aa6601bed5b48964254"
+-SRC_URI[sha256sum] = "272bb5091770b047c8188b926d5e6038fa4fe6745488b2add96b23e2d9a83d88"
++SRC_URI[md5sum] = "2764bf150e5aa8005b7bc0d6c388756a"
++SRC_URI[sha256sum] = "e2dc99e7338303393b6663a98320aba6a63421bcdaaf571c8022f815e5896eb3"
  
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.22.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-similarity index 86%
-rename from meta/recipes-extended/sudo/sudo_1.8.22.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.23.bb
-index 9150178..75bc094 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.22.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "24abdea48db4c5abcd410167c801cc8c"
--SRC_URI[sha256sum] = "7256cb27c20883b14360eddbd17f98922073d104b214cf65aeacf1d9c9b9fd02"
-+SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
-+SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
-@@ -28,7 +28,7 @@ do_install_append () {
- 	chmod 0440 ${D}${sysconfdir}/sudoers
- 
- 	# Explicitly remove the ${localstatedir}/run directory to avoid QA error
--	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
-+	rmdir -p --ignore-fail-on-non-empty ${D}/run/sudo
- }
- 
- FILES_${PN} += "${libdir}/tmpfiles.d"
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
 -- 
 1.9.1
 
