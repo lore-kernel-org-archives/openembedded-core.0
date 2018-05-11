@@ -1,73 +1,50 @@
-Return-Path: <chris.laplante@agilent.com>
-X-Greylist: delayed 9106 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 11 May 2018 20:54:49 UTC
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam03on0073.outbound.protection.outlook.com [104.47.42.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C3107851A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DFA4678594
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 20:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
-	bh=KsbJ6V5pFWsLqgXLlyEJl0OlU1XIEm0j3bfQdN8qqr0=;
-	b=Zjiq6E+99JMqaHWcJJJDvkzxbRbooz3yFYZiUl0Q2zEAjJmlqyobCGxqdOlzDmUTblxnnoSdSzS6QEQgyUqpmPAOCZ8nImiH4NF2stqaLEt69y++CQ/RkgeXnX3BKRY+rx1tXr8WrmqcPNIHWgJfvZbodZwj5CsJ5vJYEkubDBo=
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com (10.174.115.15) by
-	BN6PR1201MB0050.namprd12.prod.outlook.com (10.174.114.12) with
-	Microsoft SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.755.16; Fri, 11 May 2018 18:23:03 +0000
-Received: from BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::3909:7346:7f5c:68a0]) by
-	BN6PR1201MB0195.namprd12.prod.outlook.com
-	([fe80::3909:7346:7f5c:68a0%4]) with mapi id 15.20.0755.012;
-	Fri, 11 May 2018 18:23:03 +0000
-From: <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: Running BitBake multiple times without rechecking upstream
-	AUTOREV versions
-Thread-Index: AdPpVGUCuqEJeD5cQVOT+z6gc+ZaNg==
-Date: Fri, 11 May 2018 18:23:03 +0000
-Message-ID: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [104.129.194.175]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; BN6PR1201MB0050;
-	7:HCbvMTQtmaVp2U2y9D1MfAVx7NODvzHnbIVXuhkYG6xibBz2cb5xy0aL7nmjPQJt6rK2K8kzO0BYPAeT0ndHIp7qS8EvoB/ys474veA6zue4MYSQfLgJ0LMlYkB0hSlJmBcnAIKvDh0F9/a+iBu+xzjSMY1YtXogVb7GxmH8PS5Z5N6sYEtunq3yY8rIDi/F1oppz0B7jOFuka06ci8Boko5xA2aV8gt77m3dBCP1FbTSPOyTzemg6Wfw8AJE+tu
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(4534165)(7168020)(4627221)(201703031133081)(201702281549075)(5600026)(2017052603328)(7153060)(7193020);
-	SRVR:BN6PR1201MB0050; 
-x-ms-traffictypediagnostic: BN6PR1201MB0050:
-x-microsoft-antispam-prvs: <BN6PR1201MB005076950656BAC2F7C7DE6F8B9F0@BN6PR1201MB0050.namprd12.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(28532068793085)(21748063052155);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(5005006)(8121501046)(3231254)(11241501184)(944501410)(52105095)(93006095)(93001095)(3002001)(10201501046)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123562045)(20161123564045)(20161123560045)(6072148)(201708071742011);
-	SRVR:BN6PR1201MB0050; BCL:0; PCL:0; RULEID:;
-	SRVR:BN6PR1201MB0050; 
-x-forefront-prvs: 06691A4183
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(396003)(39380400002)(366004)(376002)(39860400002)(346002)(53754006)(29502001)(199004)(189003)(59450400001)(74316002)(3280700002)(86362001)(790700001)(7736002)(102836004)(316002)(3660700001)(66066001)(2906002)(7696005)(6506007)(2351001)(3846002)(6116002)(5660300001)(55236004)(106356001)(99286004)(2900100001)(105586002)(8936002)(478600001)(6436002)(6306002)(5640700003)(81166006)(5250100002)(25786009)(33656002)(14454004)(68736007)(53936002)(97736004)(186003)(9686003)(2501003)(8676002)(6916009)(486006)(476003)(26005)(55016002)(54896002)(81156014);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0050;
-	H:BN6PR1201MB0195.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: IYoRYfx8MVgi4TuPb585Alp4qYbV4DPjvVVyX73UdJewwe9ZAFicN97scOQ27Zx1vgAKP1w2Fy07KnmXjIbg4QX6K4Niv5vfdHn4FGTe4pnvCTkDtOtDA+ugg4K1dxjGD3I6gyGOtaQ+6UwQKDFy2OGaZibn9u/K5qbRxz41wIObt6vsiEZXA99IlYfdENXHfGmpYuNywzGASJu85aD7GQ==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Fri, 11 May 2018 21:09:08 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id p85-v6so9775124lfg.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 May 2018 14:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=t1T/fRVeWs/8ft8soss/c6S/j+oiTOjWpx5tNSp7YFk=;
+	b=Ty8+QReGBFjKxsM+5NphYoQSu55NxN5jVzGZ8nJRoQC+XD0Y4tKZtXJEStIikokGlb
+	N3yULeB/rrkQ69336cA9/xjNaMHsauyLBBh2uQvJZ0i+vm4pbF6Rt/g2+KBUMbRdweRx
+	uKZmziT2CMwJ2zPQ7eUjgb7CU4Jp1NMpbkaCQGSiAxyjcRTSEMb8otSPPNc0w8taR3wt
+	foa7m4nhXrTDuMBlniYP/za1Q5yXc5/Y7Q6JVq9BOBax/Mmyu2VBkw9AXG9S543JF5lB
+	9+BjQE4ksArz6CECtsPyutJ3l0RHbiFtAufR631uE9m79GJjiP7Shhtequd+qYPftvzP
+	G1NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=t1T/fRVeWs/8ft8soss/c6S/j+oiTOjWpx5tNSp7YFk=;
+	b=QTIVb1ExJwsbV/KFgQgbNGhABFFvhHmh0v48tszd1Ssc0cxuKX8o2a9805mYKiFujA
+	5dk5/6mpeJC7SZgrpXzUUx79B/qG28Yfgj5gKB8P7VqmWiRVf1j8eXWi556Iy/rhjX1o
+	2W1srOeRWI7Yq8vjctWOVI1nDi/saORk1Jj3Dz6LsxCtOV7YaLiMF2diqx9iCZjdHZkQ
+	DXbNuiiP3sjLFR8isjFhHWGaGT9N67YVyA/Gdye5kh7NWUBt1bCOteE0leVyjid0mAQT
+	+a8vlgHmKQ/f260Lv8i8W+V/594thlVneDTPs2PnCzcCG5pmH35+eU6Hr7qbK/Dnkq6U
+	ZxlQ==
+X-Gm-Message-State: ALKqPwdYIDn5v7k9+BsqnOVVZjKSWhwKBUVnI0WlvEJt5OdwWQTQyl1G
+	T2tPFzJzVs5wszcrhM3EnyXHZz8FUrflNZjq9KfS2A==
+X-Google-Smtp-Source: AB8JxZqgl/QD0Jgxo4KYXz5SMWoxSWpWAgLA6/R/lvYs2SpTwtiSD9/x3TLdF59RMvrd0T45pIV+3b2clxP3zzVHpHk=
+X-Received: by 2002:a2e:9b4a:: with SMTP id
+	o10-v6mr5027168ljj.49.1526072948848; 
+	Fri, 11 May 2018 14:09:08 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 3a0e38ad-36b9-433e-c406-08d5b76c3c03
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a0e38ad-36b9-433e-c406-08d5b76c3c03
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2018 18:23:03.2305 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0050
-Subject: Running BitBake multiple times without rechecking upstream AUTOREV versions
+Received: by 10.46.51.7 with HTTP; Fri, 11 May 2018 14:09:08 -0700 (PDT)
+In-Reply-To: <BN6PR1201MB0195C7EC9D46A3F02DA9DCC38B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+References: <BN6PR1201MB01957E06C91D5C5C5B91F7D38B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+	<BN6PR1201MB0195C7EC9D46A3F02DA9DCC38B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 11 May 2018 17:09:08 -0400
+Message-ID: <CADkTA4NnhmA37wHWk1r4fZoAFZsoV-x=GW+OW_opdL8jwQgRCw@mail.gmail.com>
+To: chris.laplante@agilent.com
+Cc: jared.smith@agilent.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: do_kernel_configme and defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,199 +57,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 20:54:49 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_BN6PR1201MB019576F9685E3FFFC5E183E08B9F0BN6PR1201MB0195_"
+X-List-Received-Date: Fri, 11 May 2018 21:09:09 -0000
+Content-Type: multipart/alternative; boundary="000000000000048139056bf48caa"
 
---_000_BN6PR1201MB019576F9685E3FFFC5E183E08B9F0BN6PR1201MB0195_
-Content-Type: text/plain; charset="us-ascii"
+--000000000000048139056bf48caa
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Fri, May 11, 2018 at 3:28 PM, Chris Laplante via Openembedded-core <
+openembedded-core@lists.openembedded.org> wrote:
 
-I'm working on using Jenkins to host our Yocto build. One of the things tha=
-t would be nice is to be able to do a "bitbake our-user-image", upload the =
-artifacts to our network file storage, and then do a "bitbake our-user-imag=
-e -c populate_sdk_ext". I'd like to do these separately so that developers =
-are not waiting around for the eSDK to be generated if all they care about =
-is the kernel, for example. My concern is that the second bitbake invocatio=
-n could end up building different stuff if someone were to check in code in=
- between when the two "bitbake"s are run. This is primarily a concern with =
-recipes that use AUTOREV (as we do for development purposes).
-
-Is there a way to essentially "freeze" the BitBake data store and re-use it=
- across multiple bitbake invocations?
-
-I had a few ideas:
-
-1. Use buildhistory-collect-srcrevs to generate the SRCREV_pn- overrides ne=
-cessary to lock the SRCREVs of all the packages.
-2. Use BB_SERVER_TIMEOUT =3D "-1" to force BitBake to remain resident - whe=
-n BitBake is resident is seems to not reparse recipes. As I understand it, =
-the recipe parse stage is when upstreams are checked for new revisions. Not=
- sure if this would work.
-3. Somehow use the locked siggens.
-
-
-Is anything like this possible?
-
-Thanks,
-Chris
-
---_000_BN6PR1201MB019576F9685E3FFFC5E183E08B9F0BN6PR1201MB0195_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> OK, I figured out why this happens. This line in kernel-yocto.bbclass:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0in;
-	margin-right:0in;
-	margin-bottom:0in;
-	margin-left:.5in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:236088658;
-	mso-list-type:hybrid;
-	mso-list-template-ids:-1979137100 67698703 67698713 67698715 67698703 6769=
-8713 67698715 67698703 67698713 67698715;}
-@list l0:level1
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level2
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level3
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level4
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level5
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level6
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-@list l0:level7
-	{mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level8
-	{mso-level-number-format:alpha-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-.25in;}
-@list l0:level9
-	{mso-level-number-format:roman-lower;
-	mso-level-tab-stop:none;
-	mso-level-number-position:right;
-	text-indent:-9.0pt;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi all,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I&#8217;m working on using Jenkins to host our Yocto=
- build. One of the things that would be nice is to be able to do a &#8220;b=
-itbake our-user-image&#8221;, upload the artifacts to our network file stor=
-age, and then do a &#8220;bitbake our-user-image -c populate_sdk_ext&#8221;=
-.
- I&#8217;d like to do these separately so that developers are not waiting a=
-round for the eSDK to be generated if all they care about is the kernel, fo=
-r example. My concern is that the second bitbake invocation could end up bu=
-ilding different stuff if someone were
- to check in code in between when the two &#8220;bitbake&#8221;s are run. T=
-his is primarily a concern with recipes that use AUTOREV (as we do for deve=
-lopment purposes).<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Is there a way to essentially &#8220;freeze&#8221; t=
-he BitBake data store and re-use it across multiple bitbake invocations?
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I had a few ideas:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">1. Use buildhistory-collect-srcrevs to generate the =
-SRCREV_pn- overrides necessary to lock the SRCREVs of all the packages.<o:p=
-></o:p></p>
-<p class=3D"MsoNormal">2. Use BB_SERVER_TIMEOUT =3D &#8220;-1&#8221; to for=
-ce BitBake to remain resident &#8211; when BitBake is resident is seems to =
-not reparse recipes. As I understand it, the recipe parse stage is when ups=
-treams are checked for new revisions. Not sure if this
- would work.<o:p></o:p></p>
-<p class=3D"MsoNormal">3. Somehow use the locked siggens. <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Is anything like this possible?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Chris<o:p></o:p></p>
-</div>
-</body>
-</html>
+>
+>
+> scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes}
+> ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+>
+>
+>
+> =E2=80=A6 passes the BSP def before the sccs. In my case, the BSP def is
+> mymachine.scc, and the sccs is the defconfig. So that=E2=80=99s why the d=
+efconfig
+> comes after the BSP.
+>
+>
+>
+> My takeaway is that a BSP plus a defconfig is not a supported use case. I=
+s
+> that correct?
+>
 
---_000_BN6PR1201MB019576F9685E3FFFC5E183E08B9F0BN6PR1201MB0195_--
+A defconfig isn't magic, it is just another input to the configuration
+merging. It will be applied as any other fragment. There is some special
+processing only a defconfig is specified, but otherwise, it is the same. So
+in this case, whatever it sets would be applied after the BSP definition
+and would take precedence (last through the gate wins).
+
+If you have a BSP definition, you normally don't have a defconfig. Where is
+the defconfig coming from in your scenario ? The SRC_URI ? You can just
+include it from the .scc files to control the order, which is what is
+expected when you have a BSP definition.
+
+Were you seeing none of your options set ? or something else ?
+
+
+>
+>
+> If so, I think it=E2=80=99s important to add some sanity checking to
+> kernel-yocto.bbclass.
+>
+>
+>
+
+There's really nothing that could be checked, since the intent of the
+fragments isn't known, and for the most part, defconfigs are the same as
+any other fragment (from the point of view of the merging).
+
+Bruce
+
+
+> Thanks,
+>
+> Chris
+>
+>
+>
+> *From:* openembedded-core-bounces@lists.openembedded.org [mailto:
+> openembedded-core-bounces@lists.openembedded.org] *On Behalf Of *Chris
+> Laplante via Openembedded-core
+> *Sent:* Friday, May 11, 2018 2:51 PM
+> *To:* openembedded-core@lists.openembedded.org
+> *Cc:* SMITH,JARED (A-Little Falls,ex1) <jared.smith@agilent.com>
+> *Subject:* [OE-core] do_kernel_configme and defconfig
+>
+>
+>
+> Hi all,
+>
+>
+>
+> Is it expected for do_kernel_configme to apply the defconfig last (after
+> configuration fragments introduced by sccs)?
+>
+>
+>
+> For some reason, in the call to merge_config, =E2=80=9C.kernel-meta/confi=
+gs//./defconfig=E2=80=9D
+> is passed last whereas I=E2=80=99d expect it would be first (since that s=
+hould be
+> the base config). This is causing problems, because config options that m=
+y
+> config fragments are setting are getting overridden by the defconfig =E2=
+=80=93 it
+> should be the other way around.
+>
+>
+>
+> For reference, I=E2=80=99m using Rocko and have just updated to the lates=
+t commit.
+> We have an in-tree defconfig, and we set KBUILD_DEFCONFIG_machinename
+> appropriately. We are using the separate kernel-meta repository to store
+> kernel metadata. I have KMACHINE_machinename set up so that it finds the
+> correct BSP definition .scc file. Still seem to be missing something,
+> though.
+>
+>
+>
+> Thanks,
+>
+> Chris
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--000000000000048139056bf48caa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, May 11, 2018 at 3:28 PM, Chris Laplante via Openembedded-core <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:openembedded-core@lists.openembedded=
+.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"m_475090223536561029WordSection1">
+<p class=3D"MsoNormal">OK, I figured out why this happens. This line in ker=
+nel-yocto.bbclass:<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal" style=3D"text-indent:.5in">scc --force -o ${S}/${met=
+a_dir}:cfg,merge,<wbr>meta ${includes} ${bsp_definition} ${sccs} ${patches}=
+ ${KERNEL_FEATURES}<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">=E2=80=A6 passes the BSP def before the sccs. In my =
+case, the BSP def is mymachine.scc, and the sccs is the defconfig. So that=
+=E2=80=99s why the defconfig comes after the BSP.
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">My takeaway is that a BSP plus a defconfig is not a =
+supported use case. Is that correct?</p></div></div></blockquote><div><br><=
+/div><div>A defconfig isn&#39;t magic, it is just another input to the conf=
+iguration merging. It will be applied as any other fragment. There is some =
+special processing only a defconfig is specified, but otherwise, it is the =
+same. So in this case, whatever it sets would be applied after the BSP defi=
+nition and would take precedence (last through the gate wins).</div><div><b=
+r></div><div>If you have a BSP definition, you normally don&#39;t have a de=
+fconfig. Where is the defconfig coming from in your scenario ? The SRC_URI =
+? You can just include it from the .scc files to control the order, which i=
+s what is expected when you have a BSP definition.</div><div><br></div><div=
+>Were you seeing none of your options set ? or something else ?</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div lang=3D"EN-US" link=3D"#056=
+3C1" vlink=3D"#954F72"><div class=3D"m_475090223536561029WordSection1"><p c=
+lass=3D"MsoNormal"><u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">If so, I think it=E2=80=99s important to add some sa=
+nity checking to kernel-yocto.bbclass.
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0</p></div></div></blockquote><div><br><=
+/div><div>There&#39;s really nothing that could be checked, since the inten=
+t of the fragments isn&#39;t known, and for the most part, defconfigs are t=
+he same as any other fragment (from the point of view of the merging).</div=
+><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72"><div class=3D"m=
+_475090223536561029WordSection1"><p class=3D"MsoNormal"><u></u></p>
+<p class=3D"MsoNormal">Thanks,<u></u><u></u></p>
+<p class=3D"MsoNormal">Chris<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:openembedded-core-bou=
+nces@lists.openembedded.org" target=3D"_blank">openembedded-core-bounces@<w=
+br>lists.openembedded.org</a> [mailto:<a href=3D"mailto:openembedded-core-b=
+ounces@lists.openembedded.org" target=3D"_blank">openembedded-core-<wbr>bou=
+nces@lists.openembedded.org</a><wbr>]
+<b>On Behalf Of </b>Chris Laplante via Openembedded-core<br>
+<b>Sent:</b> Friday, May 11, 2018 2:51 PM<br>
+<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.<wbr>openembedded.org</a><br>
+<b>Cc:</b> SMITH,JARED (A-Little Falls,ex1) &lt;<a href=3D"mailto:jared.smi=
+th@agilent.com" target=3D"_blank">jared.smith@agilent.com</a>&gt;<br>
+<b>Subject:</b> [OE-core] do_kernel_configme and defconfig<u></u><u></u></p=
+>
+</div>
+</div><div><div class=3D"h5">
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Hi all,<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Is it expected for do_kernel_configme to apply the d=
+efconfig last (after configuration fragments introduced by sccs)?<u></u><u>=
+</u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">For some reason, in the call to merge_config, =E2=80=
+=9C.kernel-meta/configs//./<wbr>defconfig=E2=80=9D is passed last whereas I=
+=E2=80=99d expect it would be first (since that should be the base config).=
+ This is causing problems, because config options that my config
+ fragments are setting are getting overridden by the defconfig =E2=80=93 it=
+ should be the other way around.
+<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">For reference, I=E2=80=99m using Rocko and have just=
+ updated to the latest commit. We have an in-tree defconfig, and we set KBU=
+ILD_DEFCONFIG_machinename appropriately. We are using the separate kernel-m=
+eta repository to store kernel metadata. I
+ have KMACHINE_machinename set up so that it finds the correct BSP definiti=
+on .scc file. Still seem to be missing something, though.<span style=3D"fon=
+t-variant:small-caps"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal">Thanks,<u></u><u></u></p>
+<p class=3D"MsoNormal">Chris<u></u><u></u></p>
+</div></div></div>
+</div>
+
+<br>-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
+ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
+not follow the NULL pointer, for chaos and madness await thee at its end&qu=
+ot;</div>
+</div></div>
+
+--000000000000048139056bf48caa--
