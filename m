@@ -1,30 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 5061B75454
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C01617544B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 05:51:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 May 2018 22:51:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,387,1520924400"; d="scan'208";a="54254982"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 10 May 2018 22:51:04 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1525990692.git.pkj@axis.com>
-	<fc21a364b6714e86743cc14e43e278328f9b39ea.1525990692.git.pkj@axis.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <e41c1a9f-60e1-a8b7-76d9-9af324866a33@linux.intel.com>
-Date: Fri, 11 May 2018 08:43:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Fri, 11 May 2018 06:21:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4B6Ko5B016304
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2018 23:21:33 -0700
+Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 10 May 2018 23:21:01 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20180511033449.55316-1-mingli.yu@windriver.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5AF535C1.2090901@windriver.com>
+Date: Fri, 11 May 2018 14:18:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <fc21a364b6714e86743cc14e43e278328f9b39ea.1525990692.git.pkj@axis.com>
-Subject: Re: [PATCH 2/2] rpm: Assume a max limit of 1024 open files
+In-Reply-To: <20180511033449.55316-1-mingli.yu@windriver.com>
+X-Originating-IP: [128.224.162.173]
+Subject: Re: [PATCH] boost: add contract lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,26 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 05:51:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 May 2018 06:21:43 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 05/11/2018 01:20 AM, Peter Kjellerstedt wrote:
-> If sysconf(_SC_OPEN_MAX) is much greater than the usual 1024 (for
-> example inside a Docker container), the performance drops sharply.
+Please ignore this patch.
 
-Please do not drop the link to the upstream bug when replacing one patch 
-with another. You can also simply amend my patch and add your SOB.
+Thanks,
 
-Also, why assume specifically 1024? We either need to close all the open 
-files, or none, and your patch creates a situation where only some of 
-the files may be closed. I'd say we should drop those two code snippets 
-altogether instead of hardcoding 1024 into them.
-
-Oh, and: please do comment in the upstream bug (e.g. with your 
-benchmarks from the cover letter), otherwise upstream may do nothing 
-because they're not using Docker.
-
-Alex
+On 2018年05月11日 11:34, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Add the contract lib
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>   meta/recipes-support/boost/boost.inc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+> index b447897a0c..6984bee777 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -9,6 +9,7 @@ BOOST_LIBS = "\
+>   	atomic \
+>   	chrono \
+>   	container \
+> +	contract \
+>   	date_time \
+>   	exception \
+>   	filesystem \
+>
 
