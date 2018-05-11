@@ -1,50 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 12FE877166
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EB9487716E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 16:08:26 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id v5-v6so5857139wrf.9
+	Fri, 11 May 2018 16:27:55 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id g21-v6so5892969wrb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 09:08:28 -0700 (PDT)
+	Fri, 11 May 2018 09:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=+qLa31jR7W3cpTv7uNzgyIHdyhC9wIKDbEH0TC5c6Qk=;
-	b=DCluqJPZfaz+QA7xXrcOWTWgVp85xsVEe9RLE+3MDKkwuvqvOIafbU2KkWJ1QrGWq3
-	+SKuRnnKdKBuFlaUzJ+6PZWhb+w1/e1KPEBM4V1b3BZBTqdg962+AdlcoK/KAlqtNEWI
-	9SSJQKTm7fEADK9dnv8x54QLmnYgKBmggqHUIK7i4Q/0+85BDRLfaI7miALNHWtsVaPn
-	/d9k8j0aBvCMpUsGurAvH0tih1NkBr7WJPT//5rrWiKP8ONDK9PkjAAA6YPxNBdyo4bd
-	U9hLeI+lyJvF6a0NGO4LNitp50uBGMzJz4J5VXSblU2A7H1WAJ/d+BOtn7kZ0Bgw2ICt
-	KkQQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YM2wzoh8FBhO2Bd9HyveTzj4XMM8Ga+/IH7VMFgy5Ro=;
+	b=hEwVUFYx5crIT+2e8CDLqvzKjzfwdGnWEKoOMb+CSwz2VHqqEUUINI2RvdWHswBmrZ
+	YzGjplhd36zCB/CdDs5VoRUtjeIeaJG6HI/OdgLrkBxgw8DdmxXV1omRunceOUhZqhfd
+	kXbAhTlIZa2qEQozcGwiuc7kllovkntWfGqXWsGs/CMzXT2yc1i1XNJ+x23n1XdR9zi9
+	DZiQQWqFfaxGZiCq8i82x/ZkfiEPvSIwTraJ5Yj0HEtfoZ/ZhuGPB0GxDLqX/8dE7nQf
+	cp8VZS6oFnJBer2Pt5GgJJgKMhy1XnswRncgm4LfB1KpfblV8p15y4SYeimLcV7kocS0
+	cehQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+qLa31jR7W3cpTv7uNzgyIHdyhC9wIKDbEH0TC5c6Qk=;
-	b=jl0jqSfcRL0ISxVUtbIfs5T5t0mKfo2pyICm3SieJzQky1UPKsO0+97siPlrKC4VG6
-	FxvEi4Hu4utbYt35vmuuIn4oq+9l+IoUo23xMcg1K8m0fiLmEvKNyCMQHlX3wvbsYh85
-	KFi8ISok0VSUaV7oflO09F3H1pioX5+ekw3tR/kRDCQtd8QhG9WueK1eE2HnSQ76km/k
-	TfbyFHgex1Z0iP1pJvCNrisSY1CuyNUyiDV0jULyVEhONFrcwAlB0ELF8DFHOnLC11P7
-	6XxEH9FloKayr2dmrrqbeLMPHdi3tfLFlRkFv8kZKe8z/ZDv4N8Z6o7sPVA6pbS0zKwQ
-	17kQ==
-X-Gm-Message-State: ALKqPwdCWuT9hIog7DbOjwYpXMluVuDgp2ii3L98biHNxmLvNggNB8M0
-	65a6CHUYircejZNfRChv9L3UtwcD
-X-Google-Smtp-Source: AB8JxZrI8o7sWdu/4saM3fA/uqULuS/N76Lr81qqVjPMmaYZ9NBpr/igtrI6M0vqsDuqwXZgxWLqDQ==
-X-Received: by 2002:adf:85dd:: with SMTP id
-	29-v6mr5103779wru.120.1526054907176; 
-	Fri, 11 May 2018 09:08:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YM2wzoh8FBhO2Bd9HyveTzj4XMM8Ga+/IH7VMFgy5Ro=;
+	b=Rj+T4AwHQLijltCSfUW2PsGzdtYAep663fggU/nURMnNRcT9yeIyB+/n9Weh1hmLVz
+	AevpKQROCvW0UWXkvmDa9MuwtTgTKQeQLlOCr3P3O/pZ2eGjyp907mVcra8CQ3HbjTxF
+	MEcyPsVJS7gSCKj39CfgxdHAEMkgBKUOmtDXw5e41Gm1+KzqRQabhocvdXB17pqYX0iT
+	Zy21XdrzqXlkdkdrS8UT8G3RnCFbS4/ToOQ9L0z+pzWaoVJkzOCYm9GhiG/R1aASL0IK
+	Cbkh8VwMMKvvTOg1DqV0ma9Zx5EjPmnzChhO1/ajMxCdC+iAB4CV5tAjLTcCgo+Db9Vw
+	A7zg==
+X-Gm-Message-State: ALKqPwcGlxbWXETlhI7KcSIRj6KmnFXOCAS9WubWugswdK8n1bzGl9Q7
+	X2mJv5k/SDMk5CkgN+Z2wxGfUhUD
+X-Google-Smtp-Source: AB8JxZo7j2ORhG+wfoAOr985Ar14h3K0xO8sl+Oqi6u99s7a/xTOG+diTrFvGvUS0P08mUqpeuWi7w==
+X-Received: by 2002:adf:de0c:: with SMTP id
+	b12-v6mr4917157wrm.131.1526056076015; 
+	Fri, 11 May 2018 09:27:56 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q2-v6sm3684012wrm.26.2018.05.11.09.08.26
-	for <openembedded-core@lists.openembedded.org>
+	c21-v6sm3869494wre.81.2018.05.11.09.27.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 May 2018 09:08:26 -0700 (PDT)
+	Fri, 11 May 2018 09:27:55 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 17:08:24 +0100
-Message-Id: <20180511160824.11381-1-ross.burton@intel.com>
+Date: Fri, 11 May 2018 17:27:53 +0100
+Message-Id: <20180511162753.12634-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] patchreview: don't disable malformed SoB check
+MIME-Version: 1.0
+Subject: [PATCH] uninative-tarball: Add libjis and euc-jp gconv files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2018 16:08:27 -0000
+X-List-Received-Date: Fri, 11 May 2018 16:27:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-We cleaned up the metadata so this can be enabled again.
+From: Khem Raj <raj.khem@gmail.com>
 
+packages like fontforge-native fail with mysterious errors like
+
+| ../../git/inc/gwwiconv.h:44:21: error: conflicting types for ‘gww_iconv_close’
+|  #define iconv_close gww_iconv_close
+|                      ^~~~~~~~~~~~~~~
+| ../../git/inc/gwwiconv.h:37:13: note: previous declaration of ‘gww_iconv_close’ was here
+|  extern void gww_iconv_close( gww_iconv_t cd);
+|              ^~~~~~~~~~~~~~~
+
+The reason behind this is that a check for iconv fails during native
+configure run, the check fails because the autoconf test to check for iconv
+pokes for these gconv's in test runs before declaring iconv support successful.
+
+Therefore when uninative is active the package fails to build but when
+uninative is inactive all works fine. this patch fixes that
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/contrib/patchreview.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/uninative-tarball.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
-index 4e3e73c7a8b..1086c95f67f 100755
---- a/scripts/contrib/patchreview.py
-+++ b/scripts/contrib/patchreview.py
-@@ -132,8 +132,8 @@ def analyse(results, want_blame=False, verbose=True):
-             need_blame = True
-             if verbose:
-                 print("Missing Signed-off-by tag (%s)" % patch)
--        # TODO: disable this for now as too much fails
--        if False and r.malformed_sob:
-+
-+        if r.malformed_sob:
-             need_blame = True
-             if verbose:
-                 print("Malformed Signed-off-by '%s' (%s)" % (r.malformed_sob, patch))
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index 38c3a314e16..c38c2a445e9 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -12,6 +12,8 @@ TOOLCHAIN_HOST_TASK = "\
+     nativesdk-glibc-gconv-iso8859-1 \
+     nativesdk-glibc-gconv-utf-16 \
+     nativesdk-glibc-gconv-cp1252 \
++    nativesdk-glibc-gconv-euc-jp \
++    nativesdk-glibc-gconv-libjis \
+     nativesdk-patchelf \
+     nativesdk-libxcrypt \
+     "
 -- 
 2.11.0
 
