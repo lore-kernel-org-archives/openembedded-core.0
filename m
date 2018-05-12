@@ -1,48 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f42.google.com (mail-pl0-f42.google.com
-	[209.85.160.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4231878830
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 May 2018 00:02:09 +0000 (UTC)
-Received: by mail-pl0-f42.google.com with SMTP id 59-v6so4098591plc.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2018 17:02:11 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CBCE87890E;
+	Sat, 12 May 2018 06:10:42 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id p12-v6so3655751pff.13;
+	Fri, 11 May 2018 23:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=F33tvVd7jOS9o++B8pTSjE2NsczDJ61LsaJrYSxkWXI=;
-	b=RoGqMoBKbrgD9g3IdxvpvVS9814CQGZhJ9g5AlISEqSsvZs9zoCA3sceTGaJ6HjL0A
-	Jc7LQBN0RBRuDZKu1QtDYUjGfohxYGmYzXPA9DPX3OeQqyOkqB2uziHsMqQZOPozvOTd
-	O3QSHcTsDbKdlWV1RR7oKe6+YL+uHD2tjfhpwCGIwL5ybJR9c/5CpYeGGA0c24RR1cEM
-	LGFq4HXMW24H7b5i3RVWKp68WPxFTBA4O7WeYrZNqL5pyUzJh6rlBs/10KJ+YR64tjKz
-	RZQQr63ZRUdspclB8kh3874ZR79wtPpEZQ9nfez0AqKtMuSg2wSn7219MP1h1cTk0XUy
-	bMHg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wkOvjJsXvUru0y3NURklI+CUij60gAYevyKik3A1nZw=;
+	b=FKVKEiYyu/1ug9a3UKdySJPgJ3iRrSTy+N8b+qQuJ8Z+VRBig1bt4Nhmk1Mij0WZkL
+	IO3Lo6mgq5F7hYw4zzM+3thUtTf6ZATXo7M9Jbgs8E+NnlBLjammHQOSmReXEhAAK5lb
+	7Ke8zQWctigYTua6M7TkV4stT85GnDj8To9r/WJCI5nJrkQYnOkdIUfqoZTSp+T7RwX4
+	Gt9TtnXfzdAHk6WOu7zCm+CefkN64rQUj2CJh4opQPkPP8p+cdc+bWb2/X7+HQQNGew5
+	J1GPrNDYbjkFLpgt+DbWulDuA0rwXBUaSq0rMUl7ZmZTSXHE1clAVFH7UNVDEwW6bUOV
+	2B6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=F33tvVd7jOS9o++B8pTSjE2NsczDJ61LsaJrYSxkWXI=;
-	b=nBJdZZMeJFszmXnNs+fPY758J2pjJ4eYzVbUJGoQ6Bnc5BkFt6Y5yE4NyJmlEtvUH9
-	muLriYpGnf6/7FBbcXMn4EfS4FQ+4U8RvmvuL9bLmMLsrte9+HOYaJ5x8iz6cEKEjqfF
-	6biLGVVodV2VytlIl1v6FnQT0go+QaUhAzIcNGRyCznvPUeP5/TOzOeo+dcDRkgnykbO
-	WBY/o8vSntVSKA6wiYGAfMvERgHRxcueaVrvWmcGseFZ2c81894PbyFeYqbkeC0Sp1B5
-	8C7rVhcbFBQwtI35ij3Zcl7sADLKiQIi6M4kK5hLwo+nSvH1uE30bIaMKUu5uuYjWrA/
-	Y1tA==
-X-Gm-Message-State: ALKqPwciLhJC718Vsi68fnmgf+FxVreLUmigx/7FjN+yonJw4WeG7Bf8
-	rI1DGt2Ox8qCFQh3dL5yBDWIeg==
-X-Google-Smtp-Source: AB8JxZqsVzmhDFHq22BlNxHaF+zMoixOFWDoHWb831Xi9Ak0NBQ34aX7iiARlXL/nkfgbb5TGF4qyw==
-X-Received: by 2002:a17:902:b08f:: with SMTP id
-	p15-v6mr187071plr.36.1526083330927; 
-	Fri, 11 May 2018 17:02:10 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	g20-v6sm7609805pfi.163.2018.05.11.17.02.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 May 2018 17:02:10 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2018 17:02:04 -0700
-Message-Id: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] default-distrovars.inc: drop obsolete LGPLv2_WHITELIST_GPL-3.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wkOvjJsXvUru0y3NURklI+CUij60gAYevyKik3A1nZw=;
+	b=n1MZ6XcX4RhHPs1QmaiF6g9e8yojcVr5clj0MmMJqNsHbS3gc+v/P2DF0a4fwXZB7R
+	DnWPhpqJBpaHlCzBwueMNvKGvMSuZgOWfDcRVWe09BFjJkLSFj0XPBc7pXETeDKxle3R
+	zrWDqHW3cL6WZw84hBudaHJqJcgKBdw1rKb1c4jMl2sf35sphsMPZFMJbrofRbzbIZf+
+	MSUJ/DDvoNjZkihBqoFGimW11L7Smo+O8i2ypfvzfHiQp7JR6W+alcB2/lI8f9Kgw7vC
+	uSGRd0APqjdbFexLigS6tXVGT6zmDyZ1jwPVh4r6LvUpdX/2md8SL355rPsXqWC7cJOi
+	FKyQ==
+X-Gm-Message-State: ALKqPwezpPQEz+dNbzUgVF1ZTyP1gx5SOZu2S7k6j0zu/PXCiDttuD5D
+	zPVs3fIjW9JarlDJ6BIAo6DsMxHD6zqfyjVQUKA=
+X-Google-Smtp-Source: AB8JxZosAKcmjYqw8Dlz2KumPk1vSp895bvrHqzORvuIo+f4tyBRF8gbC3bJVfjeqkAGGxor0J7NnZlboq+NDlAU7B4=
+X-Received: by 2002:a62:828c:: with SMTP id
+	w134-v6mr1861816pfd.138.1526105443079; 
+	Fri, 11 May 2018 23:10:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Fri, 11 May 2018 23:10:12
+	-0700 (PDT)
+In-Reply-To: <CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 May 2018 23:10:12 -0700
+Message-ID: <CAMKF1spiysRSaNDtaou+Bq7Ss3xLefPf1HnZsdXKUKUbBoWtUQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,102 +58,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2018 00:02:10 -0000
+X-List-Received-Date: Sat, 12 May 2018 06:10:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-There doesn't seem to be a clear reason to have two separate
-variables to hold whitelisted GPLv3 recipes. Both variables are
-treated the same, so adding a recipe to LGPLv2_WHITELIST_GPL-3.0 is
-already equivalent to adding it to WHITELIST_GPL-3.0.
+Hi Ross
 
-Anyone needing to whitelist a GPLv3 recipe should now just use
-WHITELIST_GPL-3.0.
+Thanks for testing
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/base.bbclass                       | 25 ++++++++++++-------------
- meta/classes/multilib.bbclass                   | 12 +++++-------
- meta/conf/distro/include/default-distrovars.inc |  1 -
- 3 files changed, 17 insertions(+), 21 deletions(-)
+I looked at failures and one of them is
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index bd0d6e3..68626d5 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -529,19 +529,18 @@ python () {
-             incompatwl = []
-             for lic in bad_licenses:
-                 spdx_license = return_spdx(d, lic)
--                for w in ["LGPLv2_WHITELIST_", "WHITELIST_"]:
--                    whitelist.extend((d.getVar(w + lic) or "").split())
--                    if spdx_license:
--                        whitelist.extend((d.getVar(w + spdx_license) or "").split())
--                    '''
--                    We need to track what we are whitelisting and why. If pn is
--                    incompatible we need to be able to note that the image that
--                    is created may infact contain incompatible licenses despite
--                    INCOMPATIBLE_LICENSE being set.
--                    '''
--                    incompatwl.extend((d.getVar(w + lic) or "").split())
--                    if spdx_license:
--                        incompatwl.extend((d.getVar(w + spdx_license) or "").split())
-+                whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
-+                if spdx_license:
-+                    whitelist.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
-+                '''
-+                We need to track what we are whitelisting and why. If pn is
-+                incompatible we need to be able to note that the image that
-+                is created may infact contain incompatible licenses despite
-+                INCOMPATIBLE_LICENSE being set.
-+                '''
-+                incompatwl.extend((d.getVar("WHITELIST_" + lic) or "").split())
-+                if spdx_license:
-+                    incompatwl.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
- 
-             if not pn in whitelist:
-                 pkgs = d.getVar('PACKAGES').split()
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 816f54e..4636c20 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -49,7 +49,6 @@ python multilib_virtclass_handler () {
-     if bb.data.inherits_class('allarch', e.data) and not bb.data.inherits_class('packagegroup', e.data):
-         raise bb.parse.SkipPackage("Don't extend allarch recipes which are not packagegroups")
- 
--
-     # Expand this since this won't work correctly once we set a multilib into place
-     e.data.setVar("ALL_MULTILIB_PACKAGE_ARCHS", e.data.getVar("ALL_MULTILIB_PACKAGE_ARCHS"))
-  
-@@ -65,12 +64,11 @@ python multilib_virtclass_handler () {
-     e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-     e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + override)
- 
--    # Expand the WHITELISTs with multilib prefix
--    for whitelist in ["WHITELIST_GPL-3.0", "LGPLv2_WHITELIST_GPL-3.0"]:
--        pkgs = e.data.getVar(whitelist)
--        for pkg in pkgs.split():
--            pkgs += " " + variant + "-" + pkg
--        e.data.setVar(whitelist, pkgs)
-+    # Expand WHITELIST_GPL-3.0 with multilib prefix
-+    pkgs = e.data.getVar("WHITELIST_GPL-3.0")
-+    for pkg in pkgs.split():
-+        pkgs += " " + variant + "-" + pkg
-+    e.data.setVar("WHITELIST_GPL-3.0", pkgs)
- 
-     # DEFAULTTUNE can change TARGET_ARCH override so expand this now before update_data
-     newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 76d09af..2f46e13 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -24,7 +24,6 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
- IMAGE_FEATURES ?= ""
- 
- WHITELIST_GPL-3.0 ?= ""
--LGPLv2_WHITELIST_GPL-3.0 ?= ""
- 
- COMMERCIAL_AUDIO_PLUGINS ?= ""
- # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
--- 
-1.9.1
+RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase
+1541: FAILED
 
+and this is the compile error.
+
+pager.c: In function 'pager_preexec':
+pager.c:36:12: error: passing argument 2 to restrict-qualified
+parameter aliases with argument 4 [-Werror=restrict]
+  select(1, &in, NULL, &in, NULL);
+            ^~~        ~~~
+cc1: all warnings being treated as errors
+mv: cannot stat '/usr/src/kernel/tools/objtool/.pager.o.tmp': No such
+file or directory
+
+
+Firstly I must say that I am impressed with autotest, We are building
+on-device toolchain and then downloading a kernel and building it to
+test i.. bravo
+
+Problem here is that poky pins linux-yocto to 4.14, with gcc8 we need
+to use 4.15.x
+eventually 4.14 will get fixed but until then use 4.15,
+the test subject component that is being compiled
+is not ported to gcc-8, not sure how we can improve it. Is it
+compiling linux-yocto kmods ? or external kmod ? We need to patch the
+test before building,
+
+I think the mesa error is new with mesa-18 I havent seen this on my
+end. Its showing up when we enable llvmpipe which is not general
+default so it might not happen in general.
+
+selftest is failing like this
+
+| Copying files into the device: __populate_fs: Could not allocate
+block in ext2 filesystem while writing file "ldconfig"
+| mkfs.ext4: Could not allocate block in ext2 filesystem while
+populating file system
+| WARNING: /tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/run.do_image_ext4.15615:1
+exit 1 from 'mkfs.$fstype -F $extra_imagecmd
+/tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/deploy-core-image-minimal-image-complete/core-image-minimal-qemux86-64-20180511212710.rootfs.$fstype
+-d /tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs'
+
+not sure if I understand it fully but it sems system ran out of disk space.
+
+
+On Fri, May 11, 2018 at 3:05 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> I threw the branch at the Yocto Project autobuilder today, produced a
+> number of failures:
+>
+> http://errors.yoctoproject.org/Errors/Latest//?filter=b23dba19607412c8cc7d267d95354d65f5631088&type=commit
+>
+> Ross
+>
+> On 5 May 2018 at 01:26, Khem Raj <raj.khem@gmail.com> wrote:
+>> Hi All
+>>
+>> As you might have noticed that gcc 8.1 was released this week, I am
+>> calling out for some testing help on testing branch so we can weed out
+>> issues you might see in your setups. so if you have your
+>> builders idling over weekend, then you know what they can do this weekend :)
+>>
+>> Highlighted changes are
+>>
+>> https://gcc.gnu.org/gcc-8/changes.html
+>>
+>> and porting doc is
+>>
+>> https://gcc.gnu.org/gcc-8/porting_to.html
+>>
+>> The branch is here
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
+>>
+>> Its uptodate on top of current master oe-core
+>>
+>> May fourth be with you !!
+>>
+>> Cheers!
+>>
+>> -Khem
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
