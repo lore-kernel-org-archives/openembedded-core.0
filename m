@@ -1,51 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CBCE87890E;
-	Sat, 12 May 2018 06:10:42 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id p12-v6so3655751pff.13;
-	Fri, 11 May 2018 23:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E0BA174D54
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 May 2018 20:05:35 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id f21-v6so12801594iob.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 May 2018 13:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wkOvjJsXvUru0y3NURklI+CUij60gAYevyKik3A1nZw=;
-	b=FKVKEiYyu/1ug9a3UKdySJPgJ3iRrSTy+N8b+qQuJ8Z+VRBig1bt4Nhmk1Mij0WZkL
-	IO3Lo6mgq5F7hYw4zzM+3thUtTf6ZATXo7M9Jbgs8E+NnlBLjammHQOSmReXEhAAK5lb
-	7Ke8zQWctigYTua6M7TkV4stT85GnDj8To9r/WJCI5nJrkQYnOkdIUfqoZTSp+T7RwX4
-	Gt9TtnXfzdAHk6WOu7zCm+CefkN64rQUj2CJh4opQPkPP8p+cdc+bWb2/X7+HQQNGew5
-	J1GPrNDYbjkFLpgt+DbWulDuA0rwXBUaSq0rMUl7ZmZTSXHE1clAVFH7UNVDEwW6bUOV
-	2B6Q==
+	:cc; bh=0HYH+KJ8/oysEZC5/X2fwqxPJI9HiC7tKIOHRtS9hX0=;
+	b=PRVB8aC8ilvwS0hkOjNMLcrPYgEjPPxMRpqWZkF/UROBV15HYF5hVHrmjeZgW/G2iY
+	a9u2JkxpXAjFvfm723LgOe+PA+wzYObvjTElhA21SJdO50hK1sgRDSByemGEEXi9rwkP
+	JtnuJrR0YMoeEJYSovKcVWPj6YfakCxOgGfY6smUrY5LDd4+FyfK2n0aXxbmYxXuOI1c
+	u91octWlntjzIsSMORKew4CwwOSXmC3VBG3t7j15HnkbUyP1HPzQ8vyx22j4LeIJuiNG
+	hCoshYXvVbmLywGJzevCDZWr8x47hE8XuG9yg4o1C4nPNXomypSiLuX0ghJdyMz6BeGF
+	Qgjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=wkOvjJsXvUru0y3NURklI+CUij60gAYevyKik3A1nZw=;
-	b=n1MZ6XcX4RhHPs1QmaiF6g9e8yojcVr5clj0MmMJqNsHbS3gc+v/P2DF0a4fwXZB7R
-	DnWPhpqJBpaHlCzBwueMNvKGvMSuZgOWfDcRVWe09BFjJkLSFj0XPBc7pXETeDKxle3R
-	zrWDqHW3cL6WZw84hBudaHJqJcgKBdw1rKb1c4jMl2sf35sphsMPZFMJbrofRbzbIZf+
-	MSUJ/DDvoNjZkihBqoFGimW11L7Smo+O8i2ypfvzfHiQp7JR6W+alcB2/lI8f9Kgw7vC
-	uSGRd0APqjdbFexLigS6tXVGT6zmDyZ1jwPVh4r6LvUpdX/2md8SL355rPsXqWC7cJOi
-	FKyQ==
-X-Gm-Message-State: ALKqPwezpPQEz+dNbzUgVF1ZTyP1gx5SOZu2S7k6j0zu/PXCiDttuD5D
-	zPVs3fIjW9JarlDJ6BIAo6DsMxHD6zqfyjVQUKA=
-X-Google-Smtp-Source: AB8JxZosAKcmjYqw8Dlz2KumPk1vSp895bvrHqzORvuIo+f4tyBRF8gbC3bJVfjeqkAGGxor0J7NnZlboq+NDlAU7B4=
-X-Received: by 2002:a62:828c:: with SMTP id
-	w134-v6mr1861816pfd.138.1526105443079; 
-	Fri, 11 May 2018 23:10:43 -0700 (PDT)
+	bh=0HYH+KJ8/oysEZC5/X2fwqxPJI9HiC7tKIOHRtS9hX0=;
+	b=iRXGGjBJlpYHBvK8MQ3uti9ejwvi6Nw8a3H7n1C5cTqU+9Cz2NVk+bNrprftk2Swmw
+	FpLochjkYJC5GI0jjaDXRDdg8t2nHk2wchnCLzJbSk1a0OvEIYireB/0sTifcFpMHc7+
+	tiMmG9LjANNwRzYcxIhETmjFgu4V7nQlFuNBHCZTSugtw+LJ2B9nZ3qYdMPEvPcfCBSx
+	ftvx4BVSORO4v2Sm17gfjx25wS2lm1eSUmtL0HGr9IdoKcsj1dMw0BZnLlUEMrnlcGlD
+	NXQuqQHiJnu/+bDeR9qsYE8jmYon5AcjznATuPbbBXe0fRiABiKmx9eElNoOV3NZ5Y4g
+	zOvA==
+X-Gm-Message-State: ALKqPwevnRqpvD4aUYO5/x1hztssEZ9w/8TgkHKEQpuhQNQzsTlw3Cqb
+	iR0rSDTgCiHX2g8pKUYm1qPvArmqSDBMAXY24/oLBA==
+X-Google-Smtp-Source: AB8JxZodjXTPC2b7h2DbDnWy5AgxhKxeh4jKXqnlXqJ5KRqAauj9tZY8gdb2cw/1kZDrFUcCcVsX6IArVGk1WNWDJOY=
+X-Received: by 2002:a6b:6b16:: with SMTP id
+	g22-v6mr7574751ioc.20.1526241936708; 
+	Sun, 13 May 2018 13:05:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Fri, 11 May 2018 23:10:12
-	-0700 (PDT)
-In-Reply-To: <CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 May 2018 23:10:12 -0700
-Message-ID: <CAMKF1spiysRSaNDtaou+Bq7Ss3xLefPf1HnZsdXKUKUbBoWtUQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] GCC 8.1
+Received: by 10.107.239.11 with HTTP; Sun, 13 May 2018 13:05:16 -0700 (PDT)
+In-Reply-To: <20180511192103.7581-4-Martin.Jansa@gmail.com>
+References: <CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
+	<20180511192103.7581-1-Martin.Jansa@gmail.com>
+	<20180511192103.7581-4-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 13 May 2018 21:05:16 +0100
+Message-ID: <CAJTo0LYxyM-sMx6_UdOoeQykuKXTZyXyuhUfUR2KWzf86MEOGA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 4/5] qemu: add PACKAGECONFIG for virglrenderer, sdl2, usb-redir and spice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,98 +58,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2018 06:10:43 -0000
+X-List-Received-Date: Sun, 13 May 2018 20:05:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross
+On 11 May 2018 at 20:21, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * sdl2 when selected needs sdl as well and will depend on both libsdl
+>   and libsdl
 
-Thanks for testing
+Is that a limitation of the qemu build, or just how the configure
+options work?  Doesn't seem great to need both!
 
-I looked at failures and one of them is
-
-RESULTS - kernelmodule.KernelModuleTest.test_kernel_module - Testcase
-1541: FAILED
-
-and this is the compile error.
-
-pager.c: In function 'pager_preexec':
-pager.c:36:12: error: passing argument 2 to restrict-qualified
-parameter aliases with argument 4 [-Werror=restrict]
-  select(1, &in, NULL, &in, NULL);
-            ^~~        ~~~
-cc1: all warnings being treated as errors
-mv: cannot stat '/usr/src/kernel/tools/objtool/.pager.o.tmp': No such
-file or directory
-
-
-Firstly I must say that I am impressed with autotest, We are building
-on-device toolchain and then downloading a kernel and building it to
-test i.. bravo
-
-Problem here is that poky pins linux-yocto to 4.14, with gcc8 we need
-to use 4.15.x
-eventually 4.14 will get fixed but until then use 4.15,
-the test subject component that is being compiled
-is not ported to gcc-8, not sure how we can improve it. Is it
-compiling linux-yocto kmods ? or external kmod ? We need to patch the
-test before building,
-
-I think the mesa error is new with mesa-18 I havent seen this on my
-end. Its showing up when we enable llvmpipe which is not general
-default so it might not happen in general.
-
-selftest is failing like this
-
-| Copying files into the device: __populate_fs: Could not allocate
-block in ext2 filesystem while writing file "ldconfig"
-| mkfs.ext4: Could not allocate block in ext2 filesystem while
-populating file system
-| WARNING: /tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/run.do_image_ext4.15615:1
-exit 1 from 'mkfs.$fstype -F $extra_imagecmd
-/tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/deploy-core-image-minimal-image-complete/core-image-minimal-qemux86-64-20180511212710.rootfs.$fstype
--d /tmp/eSDKQAfqaczn6s/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs'
-
-not sure if I understand it fully but it sems system ran out of disk space.
-
-
-On Fri, May 11, 2018 at 3:05 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> I threw the branch at the Yocto Project autobuilder today, produced a
-> number of failures:
->
-> http://errors.yoctoproject.org/Errors/Latest//?filter=b23dba19607412c8cc7d267d95354d65f5631088&type=commit
->
-> Ross
->
-> On 5 May 2018 at 01:26, Khem Raj <raj.khem@gmail.com> wrote:
->> Hi All
->>
->> As you might have noticed that gcc 8.1 was released this week, I am
->> calling out for some testing help on testing branch so we can weed out
->> issues you might see in your setups. so if you have your
->> builders idling over weekend, then you know what they can do this weekend :)
->>
->> Highlighted changes are
->>
->> https://gcc.gnu.org/gcc-8/changes.html
->>
->> and porting doc is
->>
->> https://gcc.gnu.org/gcc-8/porting_to.html
->>
->> The branch is here
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
->>
->> Its uptodate on top of current master oe-core
->>
->> May fourth be with you !!
->>
->> Cheers!
->>
->> -Khem
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
