@@ -1,49 +1,56 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F883754C5
+Return-Path: <philip@balister.org>
+X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 14 May 2018 19:56:27 UTC
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id 606F6751FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 18:47:01 +0000 (UTC)
-Received: by mail-ua0-f170.google.com with SMTP id y8-v6so9085188ual.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 11:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ilYGPVAd0ousbq6lEe/zfXJZumH9MTNh27KGON3J5bY=;
-	b=MgrdVzMzNz40dHrPQHjdl2s5qxCtyc66UI+CRcQ22ofFw/lGLujNibdEzmq8Yko8VP
-	wVuzfbHatc9znzcNQAzlUiJRmY1OgrYL8y2Yn31VKUrC7p46H3FI3HZjHM/rZ2RhWXhy
-	wST9IeKWwpRRFoGb5fxY50y9BwTd4grAXsevGolu2jYgg2knAYXrntRs1lJYLRWrqthO
-	Z8NEAMXO3WJIGZwlyWfTwfB80WsIJdWX9o8ff/4rwicYUVgTyVx5VXY4dNtY2M6E1CTG
-	muHSGnu3NduTqIOalG0rZYdsMDmukX22e+mEsMQ49M9PuZNjFKA4S4cdy5UXZcBz029o
-	z3Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ilYGPVAd0ousbq6lEe/zfXJZumH9MTNh27KGON3J5bY=;
-	b=tQkpF4+HjhXHCroRxLTksmbPHeqG56OqNsFHw5qo7m99OP1fuc2f3ZuPqES3upDaDQ
-	r6t0Ts8M4V3gW0YeqlNxxOI2ss+/nm1I/HxXhgoEq339hAcQtzIrH5TAnvRXcy0BoOfi
-	Lhm5XTahFsDJOJxWA/EkP5mV07MzXkPOUxLS1YrK25zmDDlcFwneRrzrmB9CUJD0DmvQ
-	+NQk0fSmBcOZY1eJzroon/hwCPYzZf6Bsj+TYVL9ctcM0DpefCnWsaGdJUKfg+vOqtdb
-	F0gKbjO+78BUWG1pYX0IN2wV755F53Khggkznslw0e0M2D4lIrOu4o3RbKXK13JjBtqO
-	HihA==
-X-Gm-Message-State: ALKqPwfJUbRGYSpewgm1OAymaOmJKnU6XUGU2maojo1gon+NUz+1s4tD
-	PkJORShhRw/V1l1KBEMFmYb25ZkwnXrprQZNLBU=
-X-Google-Smtp-Source: AB8JxZq6Qfu2ns4mTrYfK6UfYPimC05TOl/Gs7P8H6vHJrlhwqeRQB6m+FIJd+8yfaDRx5Z0/nZnKR6fi82q8YN1Jvg=
-X-Received: by 2002:a9f:2823:: with SMTP id
-	c32-v6mr13580794uac.193.1526323622066; 
-	Mon, 14 May 2018 11:47:02 -0700 (PDT)
+	Mon, 14 May 2018 19:56:27 +0000 (UTC)
+Received: (qmail 7622 invoked by uid 1003); 14 May 2018 19:49:51 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	14 May 2018 19:49:51 -0000
+To: "openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <711b0a86-14e8-6250-e49b-82cfc4d33018@balister.org>
+Date: Mon, 14 May 2018 15:49:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-Received: by 10.176.48.148 with HTTP; Mon, 14 May 2018 11:47:01 -0700 (PDT)
-In-Reply-To: <2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
-References: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
-	<2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 14 May 2018 11:47:01 -0700
-Message-ID: <CAJ86T=VPyGZMifdZmASU5pTjv_3WeK8L+bmcOm54vfhD_jdt5w@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] default-distrovars.inc: drop obsolete LGPLv2_WHITELIST_GPL-3.0
+Subject: OpenEmbedded Developer Meeting in Edinburgh Oct 21, 2018 (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +63,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 18:47:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 14 May 2018 19:56:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 14, 2018 at 9:18 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 5/11/18 7:02 PM, Andre McCurdy wrote:
->> There doesn't seem to be a clear reason to have two separate
->> variables to hold whitelisted GPLv3 recipes. Both variables are
->> treated the same, so adding a recipe to LGPLv2_WHITELIST_GPL-3.0 is
->> already equivalent to adding it to WHITELIST_GPL-3.0.
->>
->> Anyone needing to whitelist a GPLv3 recipe should now just use
->> WHITELIST_GPL-3.0.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->
-> ...
->
->> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
->> index 76d09af..2f46e13 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -24,7 +24,6 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
->>  IMAGE_FEATURES ?= ""
->>
->>  WHITELIST_GPL-3.0 ?= ""
->> -LGPLv2_WHITELIST_GPL-3.0 ?= ""
->
-> I don't have enough context to know if this matters, but there are a number of
-> GPLv3 tools, that have LGPLv2 libraries.  I believe this whitelist was added to
-> specifically allow this these items to be present on the system, as it was a
-> distinctly different use-case then just the GPL-3.0 version.
->
-> (Not sure how relevant that still is.  Is there any documentation in either the
-> documentation.conf or guide?)
+Once again we will have a developer meeting in Edinburgh the Sunday
+before ELCE.
 
-That used to be relevant a while ago when LICENSE was applied to all
-packages created by the recipe. Nowadays, LICENSE can be defined on a
-per-package basis, so the case where a recipe builds (for example) an
-LPGLv2 library and a GPLv3 demo app and an image in a GPLv3-free
-distro needs to include only the library is handled fine without any
-whitelisting. The cairo and gnutls recipes are examples of that in
-oe-core.
+Please go to https://www.openembedded.org/wiki/OEDEM_2018 and add
+yourself if you are attending and ideas for topics.
+
+Although it is called a developer meeting, we invite members of the
+larger community to attend. The core developers are always interested in
+hearing how OpenEmbedded is used, and what we can do to make it better
+for building the embedded devices of the future.
+
+Thanks,
+
+Philip
 
