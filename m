@@ -1,26 +1,51 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A27770A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 7326577CF6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 05:58:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4E5w86g011046
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 14 May 2018 08:11:06 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id t23-v6so14135206ioc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 May 2018 22:58:30 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 13 May 2018 22:58:24 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 May 2018 13:59:26 +0800
-Message-ID: <757f2656ab116ac3d11705332f7d9c60c0fd4815.1526277424.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1526277424.git.Qi.Chen@windriver.com>
-References: <cover.1526277424.git.Qi.Chen@windriver.com>
+	Mon, 14 May 2018 01:11:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zpRJvcntqJTxMKDUHo4EWm8hxGWxdL//IKFtseiHXKY=;
+	b=zlZITnLEYImq1ojP33lIGyLuha6MYD2wVLKI3eDuwuEL1ya5wa0dmFeOR+ZLcZoXQ0
+	mlq5sYia64QOLBRxoyN0yGyZQIk5yK5gt3Y+dZcS4+dUKLqgurRmy+xV/FDQJBgeABax
+	SZgiOjV5VTl9r8l2B7lWubUgqD1K3eRjc7/ToKnew5IkqTmvMbqBNpJUdOEvRgorPtzu
+	1r7PPo1uF/kTlOglgyYFVjFGRSFcUxLhnauVHDM38UhomA+qQ76Kj12kdcnBm9RMrIbi
+	5OFyyjnBHkpFZjfdVV9AvVapZBkxQcAPUDPg4MhTPwDa1gv/P5/a8kMEm4OgLykRy8uN
+	B7/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zpRJvcntqJTxMKDUHo4EWm8hxGWxdL//IKFtseiHXKY=;
+	b=JqzZxVqu0jTh/qGEAcpSYa8IfGNPUUhrqrlVwrGknuq7ffDmlEB8sdGGUQYMbS6UxB
+	bj3/hccpcUUD4Kj7kETcQGGy7UnXRtiCd71SniZxmUucaKLwZGkQhlYUmvddqM/tHPNl
+	SwVQQ9G8iRA1CV+kky/MdU6xiDVfXfrS7klGJ7JKBfqJeV7b6LpP6AiQpaO5yok6vSpG
+	pZYj9WKIRRHpaHwTiIw8VJY5BAnMaSf1c+ycj+VQgJAjxJyHb8fZyKXRt13laVNh8k8G
+	yxhCVu7ps5FjFmVFMJhhPzSYRC8QEUB1Z1pcRcWaH1484Wv8jIdW7e0oFyOSz1InHmuj
+	5DnQ==
+X-Gm-Message-State: ALKqPwde3KJcqlnkw/1at3BjEQV/l/7bg+fF0Gh8A2KfeSAIkbcPcLxJ
+	Q7ILRedM2BLQUO8FWr7fR89sp8UmfBMzFDQ4JBDe6Q==
+X-Google-Smtp-Source: AB8JxZpCzW9igRcAnEo8gqeGnJHpLxPkAUBHbr0ZqMReGhn6J8XACd8YGBCvAka7TaN8Alj2app+mlr9UfvepEkxPrM=
+X-Received: by 2002:a6b:6b16:: with SMTP id
+	g22-v6mr9390561ioc.20.1526285467124; 
+	Mon, 14 May 2018 01:11:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 6/6] sudo: upgrade to 1.8.23
+Received: by 10.107.239.11 with HTTP; Mon, 14 May 2018 01:10:46 -0700 (PDT)
+In-Reply-To: <1522952730-5967-6-git-send-email-kamensky@cisco.com>
+References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
+	<1522952730-5967-6-git-send-email-kamensky@cisco.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 May 2018 09:10:46 +0100
+Message-ID: <CAJTo0LZmS7TFPhQLsUFY0=BCAgAtrZm=6q-Y5TSB7XhP0zLpWQ@mail.gmail.com>
+To: Victor Kamensky <kamensky@cisco.com>
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 5/5] crosstap: replace script with new python based implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +58,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 05:58:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 May 2018 08:11:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upgrade sudo to 1.8.23.
+On 5 April 2018 at 19:25, Victor Kamensky <kamensky@cisco.com> wrote:
+> New crosstap python implementation is total replacement for
+> crosstap shell script, that has superseding capabilities.
+> New script support cross compiling of SystemTap scripts
+> for user-land, by using supplied image rootfs. Whereas old
+> script could only deal with scripts against kernel. New script
+> has more complex logic and additional capabilities.
 
-The license checksum changes but the actual license does not.
+...
 
-The /var/run/sudo directory has changed to /run/sudo, change
-do_install_append according to avoid error.
+> +        benv_kernel = BitbakeEnv("virtual/kernel")
+> +        (self.staging_bindir_toolchain,
+> +         self.target_prefix,
+> +         self.target_arch,
+> +         self.target_kernel_builddir
+> +        ) = benv_kernel.get_vars(
+> +             ("STAGING_BINDIR_TOOLCHAIN",
+> +              "TARGET_PREFIX",
+> +              "TRANSLATED_TARGET_ARCH",
+> +              "B"
+> +            ))
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/sudo/sudo.inc                           | 5 +++--
- meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} | 8 ++++----
- 2 files changed, 7 insertions(+), 6 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} (81%)
+> +        if not os.path.isdir(self.target_kernel_builddir):
+> +            print("ERROR: Cannot find '" + self.target_kernel_builddir +
+> +                  "' directory. Was 'kernel/virtual' built?")
+> +            ret = False
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 362bd3a..6e57669 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=cc4bf2366b059c9598e3947f885931ec \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=805782a8466975716f8376b2be9aedde \
-                     file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-@@ -12,7 +12,8 @@ LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=7765a3d787cb4fed3ccc3c9cee030af9 \
-                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-                     file://lib/util/snprintf.c;beginline=6;endline=34;md5=c82c1b3a5c32e08545c9ec5d71e41e50 \
-                     file://include/sudo_queue.h;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
--                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a"
-+                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
-+                    "
- 
- inherit autotools
- 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.22.bb b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-similarity index 81%
-rename from meta/recipes-extended/sudo/sudo_1.8.22.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.23.bb
-index 9150178..9756fe2 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.22.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.23.bb
-@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "24abdea48db4c5abcd410167c801cc8c"
--SRC_URI[sha256sum] = "7256cb27c20883b14360eddbd17f98922073d104b214cf65aeacf1d9c9b9fd02"
-+SRC_URI[md5sum] = "ea444d747feb1decfebdffd0b38b0739"
-+SRC_URI[sha256sum] = "d863d29b6fc87bc784a3223350e2b28a2ff2c4738f0fb8f1c92bb38c3017e679"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
-@@ -27,8 +27,8 @@ do_install_append () {
- 	chmod 4111 ${D}${bindir}/sudo
- 	chmod 0440 ${D}${sysconfdir}/sudoers
- 
--	# Explicitly remove the ${localstatedir}/run directory to avoid QA error
--	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
-+	# Explicitly remove the /run directory to avoid QA error
-+	rmdir -p --ignore-fail-on-non-empty ${D}/run/sudo
- }
- 
- FILES_${PN} += "${libdir}/tmpfiles.d"
--- 
-1.9.1
+You can't assume that B exists and is useful, as if virtual/kernel was
+installed from sstate then all the installed pieces will be present
+but $B will be empty.
 
+For example, I re-ran oe-selftest on the autobuilder, the kernel was
+extracted from sstate as the previous run built it, and the test
+failed:
+
+2018-05-13 22:36:08,905 - oe-selftest - INFO - FAIL:
+test_crosstap_can_use_systemtap_on_qemu (crosstap.CrossTapTest)
+2018-05-13 22:36:08,906 - oe-selftest - INFO -
+----------------------------------------------------------------------
+2018-05-13 22:36:08,906 - oe-selftest - INFO - Traceback (most recent
+call last):
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/crosstap.py",
+line 25, in test_crosstap_can_use_systemtap_on_qemu
+    self.assertIn('hello world', result.output, 'Crosstap failed.')
+AssertionError: 'hello world' not found in 'ERROR: Cannot find
+\'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.14.30+gitAUTOINC+ea9330894e_74f6cd2b69-r0/linux-qemux86_64-standard-build\'
+directory. Was \'kernel/virtual\' built?
+
+Ross
 
