@@ -1,26 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1175377FEC
+Return-Path: <stefan@agner.ch>
+X-Greylist: delayed 344 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 14 May 2018 14:50:16 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id E347474D1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 13:13:21 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w4EDDH1h025492
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 14 May 2018 14:13:18 +0100
-Message-ID: <1526303597.5720.115.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: chris.laplante@agilent.com, openembedded-core@lists.openembedded.org
-Date: Mon, 14 May 2018 14:13:17 +0100
-In-Reply-To: <BN6PR1201MB019568D1F8B405A49C7121CA8B9C0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-References: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-	<1526286006.5720.113.camel@linuxfoundation.org>
-	<BN6PR1201MB019568D1F8B405A49C7121CA8B9C0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: UNVERIFIED SENDER Re: Running BitBake multiple times without rechecking upstream AUTOREV versions
+	Mon, 14 May 2018 14:50:16 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id D920A5C19DB;
+	Mon, 14 May 2018 16:44:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1526309072;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=tCV5/D8j88KBsryDPp0jAvslfwRhXM2Gystc0LbJySo=;
+	b=gypmOZkDXmeaMGh2P4IfpgPVbP45fPJUEEHRiYZt1AKGxMFugj7J2r1GEEfONx8OA05Z4B
+	Fdxuy5a/yyYNc6MeVFXCj6Nv3yW0Z3f/PIuQHiDBmT6cglxtNp/zSmjFxdVflhWUDfQCzT
+	SoScAHyxuDkhy/JS+s+CO8zp5vJv35o=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2018 16:44:15 +0200
+Message-Id: <20180514144415.40730-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+X-Spamd-Result: default: False [-2.10 / 15.00]; RCPT_COUNT_TWO(0.00)[2];
+	ASN(0.00)[asn:6830, ipnet:46.140.0.0/17, country:AT];
+	ARC_NA(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[]; DKIM_SIGNED(0.00)[];
+	MID_CONTAINS_FROM(1.00)[]; RCVD_COUNT_ZERO(0.00)[0];
+	BAYES_HAM(-3.00)[100.00%]; FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[]; FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[]
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] busybox: udhcpc: fix IPv6 support when using udhcpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 13:13:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 May 2018 14:50:17 -0000
 
-On Mon, 2018-05-14 at 13:05 +0000, chris.laplante@agilent.com wrote:
-> Hi Richard,
-> 
-> That looks perfect, thanks! On a related note, it seems "bitbake --
-> revisions-changed" is broken in Sumo:
-> 
-> ERROR: Command execution failed: Traceback (most recent call last):
->   File "/home/laplante/yocto/sources/poky/bitbake/lib/bb/command.py",
-> line 116, in runAsyncCommand
->     commandmethod(self.cmds_async, self, options)
->   File "/home/laplante/yocto/sources/poky/bitbake/lib/bb/command.py",
-> line 723, in compareRevisions
->     if bb.fetch.fetcher_compare_revisions(command.cooker.data):
-> TypeError: fetcher_compare_revisions() takes 0 positional arguments
-> but 1 was given
-> 
-> 
-> 
-> Looks like commit 97617fd6755ffa25c058215ffb060cbb86240b44 dropped
-> the 'd' argument from that method, but command.py was never updated
-> to reflect that.
-> 
-> Shall I submit a patch to change the line to be "if
-> bb.fetch.fetcher_compare_revisions():"  ?
+From: Stefan Agner <stefan.agner@toradex.com>
 
-A patch to the bitbake list would be great thanks!
+The udhcpc script calls ip addr flush .. which flushes addresses
+of any address family, including IPv6. However, busybox udhcpc is
+IPv4 only and should not influence IPv6 addressing. Hence use ip
+addr flush with family constrait.
 
-Cheers,
+The script particularly broke IPv6 SLAAC: Typically when udhcpc
+calls the script the kernel already assigned the IPv6 link-local
+address. The flush removes the link-local IPv6 address again and
+prohibits proper IPv6 operation such as SLAAC since neighbor
+discovery protocol relies on IPv6 link-local addressing.
 
-Richard
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/recipes-core/busybox/files/simple.script | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
+index 6ed0293525..8b5eb53633 100644
+--- a/meta/recipes-core/busybox/files/simple.script
++++ b/meta/recipes-core/busybox/files/simple.script
+@@ -28,7 +28,7 @@ case "$1" in
+ 		fi
+ 		if ! root_is_nfs ; then
+                         if [ $have_bin_ip -eq 1 ]; then
+-                                /SBIN_DIR/ip addr flush dev $interface
++                                /SBIN_DIR/ip -4 addr flush dev $interface
+                                 /SBIN_DIR/ip link set dev $interface up
+                         else
+                                 /SBIN_DIR/ifconfig $interface 0.0.0.0
+-- 
+2.13.6
+
 
