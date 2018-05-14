@@ -1,69 +1,25 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 70D9A75114
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B3A297853B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 22:09:25 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id t27-v6so12155680oij.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 15:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=chlzg8MsH1gom8rEvYyReJxDKTDMMRYmWqnm3NxRsTs=;
-	b=qnWez8Q8QRF+h4UXfD8xF/5536DnkPW9r2tXqn0+6y3XcrSjGPDrIGKxEHIlGqOS0b
-	oWAmIzDDGOWmg0hzMcB4QfaKNPp0GsLdHQGcLBbpkoS5VHvkoDXUiRD06S3/NuncWjIu
-	WV6VEa0twZ1SmYqU3tGqgLF9n50Pi3H/o0A0sip1W6KrqfJ1sk2MNYNV2GZbIiE1nBmI
-	Ds/xhRIwBnPFsfP6h5dudJz11rNPRfno+tJ8WUBzhzu/Arvg8FCxjQygPkIpT29PVzRn
-	E4l/gWR3cyQ9DaIyLgWBr/1GokdzETkxcEE1eBB+ot59b5mQHnefdnIGltkuOIGFF6xQ
-	t7Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=chlzg8MsH1gom8rEvYyReJxDKTDMMRYmWqnm3NxRsTs=;
-	b=ZnOKVxJK+IqFgUyPcHp5vGuph9f6mFvdEf9JJW8ea0tppOpIO8aKxFf4LSWEfFM9/E
-	5GgSNgrOpGLs+BPxntQaaJzQrU8vnLcnvygEGhe84S5YuvpAwTMp5/6dLcMoIKaHY5rE
-	LW2B8yY/LDV+rnSRguxWS9AQYGvVqd/AwN/fsnczC3leJVJFzy2UqX9VJ3AvdymzllCr
-	O8aAgb7Ob9KHD+tc0vnKjh86/ob+WcH7xXMy5Dv9zoNx6vOWx7mGMwXJMhkKPvlAw+4X
-	IMB210GWdo1x6Eau0XZD0tSLiv92QOkJSEoiXZXj5FHLEKrx2VoHQk0tmYxJrJdT8bK4
-	JMdg==
-X-Gm-Message-State: ALKqPwcg04rC7tJiTDzr/yX7M+n7fd2IUdODqYnci3yiMtNI8LbwqRgA
-	kLjnLE9S7Q/SY+Xsi+7dwdFaeBQ7
-X-Google-Smtp-Source: AB8JxZoXAof8WbX36p9rGHppl0sxhqDs2CkHB811yz2FjbxkQt7vkf8we+JZ9drnGx0bm1voZL5SuQ==
-X-Received: by 2002:aca:35c2:: with SMTP id
-	c185-v6mr7547028oia.326.1526335765764; 
-	Mon, 14 May 2018 15:09:25 -0700 (PDT)
-Received: from mail-ot0-f182.google.com (mail-ot0-f182.google.com.
-	[74.125.82.182]) by smtp.gmail.com with ESMTPSA id
-	t27-v6sm6252885oij.14.2018.05.14.15.09.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 May 2018 15:09:24 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot0-f182.google.com with SMTP id n1-v6so16128119otf.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 15:09:24 -0700 (PDT)
-X-Received: by 2002:a9d:118f:: with SMTP id
-	v15-v6mr8872148otf.125.1526335763670; 
-	Mon, 14 May 2018 15:09:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:3da5:0:0:0:0:0 with HTTP; Mon, 14 May 2018 15:09:21
-	-0700 (PDT)
-In-Reply-To: <CAJTo0LYcAyon8a2+UmYaZYvtETjrs1_PuCRNj6s7_E=Z=9kXkQ@mail.gmail.com>
-References: <20180504174346.1149-1-otavio@ossystems.com.br>
-	<20180504174346.1149-2-otavio@ossystems.com.br>
-	<CAJTo0LZRrvYgu9Pthi+ZzsxQX76qW2j7VzXvxfjMuOFNr5JJiQ@mail.gmail.com>
-	<CAP9ODKpkqeqn=DpBGsAHMdHP94f=92P1tQL1VKTu+uk88UyhXw@mail.gmail.com>
-	<CAJTo0LYcAyon8a2+UmYaZYvtETjrs1_PuCRNj6s7_E=Z=9kXkQ@mail.gmail.com>
-Date: Mon, 14 May 2018 19:09:21 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoEQWuZLmc399h8feEtxfYo-9sk6S8yBxmg2k7LQOa8_w@mail.gmail.com>
-Message-ID: <CAP9ODKoEQWuZLmc399h8feEtxfYo-9sk6S8yBxmg2k7LQOa8_w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] wic: add ontrack DM6 aux3 support
+	Mon, 14 May 2018 22:23:28 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w4EMNQWV008463
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 14 May 2018 23:23:28 +0100
+Message-ID: <1526336606.5720.145.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2018 23:23:26 +0100
+In-Reply-To: <1526332154-20637-1-git-send-email-armccurdy@gmail.com>
+References: <1526332154-20637-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] bitbake.conf: drop obsolete comment referring to the fail-fast over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,18 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 22:09:25 -0000
+X-List-Received-Date: Mon, 14 May 2018 22:23:29 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 11, 2018 at 7:07 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> This one?  http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=2e9012e6b44b83b3952598b08cd9d5dadd633b69
+On Mon, 2018-05-14 at 14:09 -0700, Andre McCurdy wrote:
+> The comment appears to have been accidentally left behind when the
+> fail-fast over-ride was removed by:
+> 
+>   http://git.openembedded.org/openembedded-core/commit/?id=83ce96f445
+> 16c8a4a44c8c0140949256f8422014
+> 
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/bitbake.conf | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index a21b728..a74d8cf 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -733,8 +733,8 @@ DISTRO_NAME ??= "OpenEmbedded"
+>  # '_qemuarm' and then '' will be overriden with that value from '_qemuarm'.
+>  # And finally '_forcevariable' overrides any standard variable, with the highest priority.
+>  #
+> -# This works for  functions as well, they are really just environment variables.
+> -# Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+> +# This works for functions as well, they are really just environment variables.
 
-Yes, this one ...
+If we're going to fix the comment, could you remove the word
+"environment" from there too please? :)
 
-I reproduced the error here and will look at fixing it.
+Cheers,
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Richard
 
