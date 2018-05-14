@@ -1,57 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 10A8176E5E;
-	Mon, 14 May 2018 17:09:40 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id l1-v6so16640525wmb.2;
-	Mon, 14 May 2018 10:09:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=j1KCL2B6FQbL37mGUpJxZM9aiR2CPb+RWGRJHxITWTg=;
-	b=jtkCv17YMsjagUHLodPo9hH4opDoptrigzlavO4Y7ce7ZxChVyeNTSxsy2mnJFhxIF
-	2SMKOkYonKHi3XoKLy6Pqx6qa7dZNBSHRjxmsP1bz9j6wh+LdTn4o7mQH39ay0Od+S0T
-	Zarw2/3vaLpZfIfJ9Tspekp+snj+eyLcmwcmOHyFgBwuDFLc9lATYdEOQiYD1aGzBjHt
-	DjuHYWFffycJiK27K7aHzXFqs+HERax3SNZZLSnZG70yxxB9kMbYOoGdjspwibY4ic1I
-	UucmeG/nIWxq8rl1nU+3DzEPB0MmlpLnxk6+/EAvbjX73q9n3snmi9aSS31vI9bHp04b
-	xyZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=j1KCL2B6FQbL37mGUpJxZM9aiR2CPb+RWGRJHxITWTg=;
-	b=pC14aavVU/8EvZqRGGsNQVeRzJijrdj5i8sQa20itcDFz01SLdzif/BTvmzfkWAh2B
-	jBkFbKkyBV3/llw4bS4ObhgR0eE8bNMPTLxsZrUq29n0m/63r6dhWSvOEFa09uSdAbXY
-	/t/uqx9PFaVo1beAod+Hkyb40RZ2T3yryoNi7i/M5rMACytv3ooM1+P2WE3j084Y8d2C
-	KLKfNo1tpRrsPJCBVkDMhh0CaO3NjV1ht68hSGzwJWXItPPYc5IAIurgciy//tV1QFTe
-	5yk1zNzLTAnosrLNKOEi3O9hdeqHMgThp83IQRTOgVeLwk05rAylYxjZHLQSUZdy7Je4
-	oLfg==
-X-Gm-Message-State: ALKqPwehCE7Zmb52n9OjvLMAo8HBP5uc9dTxE7hbRCoit92txiOSdDye
-	RdFr9sF71YYztR87wpZug2g=
-X-Google-Smtp-Source: AB8JxZq1oUZVKulmFloXunTa+AOHfnDdpg3s/V5s9oOyuHxOUUFvwL0aSPoulOSA32wgVDCaAUBsJQ==
-X-Received: by 2002:a1c:8d8a:: with SMTP id
-	p132-v6mr5604703wmd.49.1526317781464; 
-	Mon, 14 May 2018 10:09:41 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	f6-v6sm12314398wrj.66.2018.05.14.10.09.40
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 14 May 2018 10:09:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 14 May 2018 19:09:41 +0200
-To: Dan McGregor <danismostlikely@gmail.com>
-Message-ID: <20180514170941.GC2840@jama>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CACS+7ZR6F1PgKxQxxh=iJzTQNmrrMVOQ01EuhcnotSAhB=AiEA@mail.gmail.com>
-	<1ceb098b-1836-4693-d03f-8801ac354c25@gmail.com>
-	<CACS+7ZRs_zB_c-Wg8K=JEtWyHH7DG-W8ER4Ky1Yg6v1C8xtsyw@mail.gmail.com>
+Return-Path: <kamensky@cisco.com>
+X-Greylist: delayed 577 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 14 May 2018 18:34:38 UTC
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EFA97863A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2018 18:34:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4513; q=dns/txt; s=iport;
+	t=1526322880; x=1527532480;
+	h=date:from:to:cc:subject:in-reply-to:message-id:
+	references:mime-version;
+	bh=S7pcjNPFilY9ET5XAzM1IdGlRuxbOXiVJe7bkGT8x7U=;
+	b=jLq20OVGLQc8sdLM35D1gYKVSIzvojc546MWTl2D8JT0cKB1Df+grD1K
+	G94OkXUTNz5vwsgbKIrfufgqNuqAgFmP9Yb9Mu23lDsQB0uZuMqQHBNWy
+	aFUwQylKXprX+fZP7voxRjuGntNUreUuUauXHlmWJiWauFX3TRlPBdADc 4=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0APBABb0/la/4sNJK1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNDYXsojFSMEoFYIYEPi0aJZAsbhFECgxEhOBQBAgEBAQE?=
+	=?us-ascii?q?BAQJsHAyFKAEBAQMBOAI/BQsLGC5XBgESgyWBdwitR4hAgieIJYITgT6CXIp?=
+	=?us-ascii?q?HAocwCIRfZD2DUYctCYVniiA9gyiHVJA8AgQLAhMBgSUzIYFSTSMVgn4Jgj+?=
+	=?us-ascii?q?JGYUNHzCQaQEB?=
+X-IronPort-AV: E=Sophos;i="5.49,401,1520899200"; d="scan'208";a="114325999"
+Received: from alln-core-6.cisco.com ([173.36.13.139])
+	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 May 2018 18:25:01 +0000
+Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
+	by alln-core-6.cisco.com (8.14.5/8.14.5) with ESMTP id w4EIP1Oa019348
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 14 May 2018 18:25:01 GMT
+Date: Mon, 14 May 2018 11:25:01 -0700 (PDT)
+From: Victor Kamensky <kamensky@cisco.com>
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+In-Reply-To: <CAJTo0LZmS7TFPhQLsUFY0=BCAgAtrZm=6q-Y5TSB7XhP0zLpWQ@mail.gmail.com>
+Message-ID: <alpine.LRH.2.00.1805140833400.58919@sjc-ads-6991.cisco.com>
+References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
+	<1522952730-5967-6-git-send-email-kamensky@cisco.com>
+	<CAJTo0LZmS7TFPhQLsUFY0=BCAgAtrZm=6q-Y5TSB7XhP0zLpWQ@mail.gmail.com>
+User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
 MIME-Version: 1.0
-In-Reply-To: <CACS+7ZRs_zB_c-Wg8K=JEtWyHH7DG-W8ER4Ky1Yg6v1C8xtsyw@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [RFT] GCC 8.1
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 5/5] crosstap: replace script with new python based implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,129 +54,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 17:09:41 -0000
-X-Groupsio-MsgNum: 111360
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ALfTUftag+2gvp1h"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 14 May 2018 18:34:38 -0000
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 
---ALfTUftag+2gvp1h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 14, 2018 at 10:33:41AM -0600, Dan McGregor wrote:
-> On 10 May 2018 at 12:53, Khem Raj <raj.khem@gmail.com> wrote:
-> > Hi Dan,
-> >
-> > Thanks for testing
-> >
-> > On 5/10/18 7:34 AM, Dan McGregor wrote:
-> >>
-> >> On 4 May 2018 at 18:26, Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>> Hi All
-> >>>
-> >>> As you might have noticed that gcc 8.1 was released this week, I am
-> >>> calling out for some testing help on testing branch so we can weed out
-> >>> issues you might see in your setups. so if you have your
-> >>> builders idling over weekend, then you know what they can do this wee=
-kend
-> >>> :)
-> >>>
-> >>
-> >> Thanks for this. The only two issues I noticed are that the
-> >> Wandboard's kernel doesn't compile with gcc 8.1,
-> >
-> >
-> >
-> > what errors do you see ?
->=20
-> I expect the standard "Linux 4.1" errors. A bunch of ignored
-> attributes and incompatible type aliases:
->=20
-> tmp-glibc/work-shared/wandboard/kernel-source/include/linux/log2.h:22:1:
-> warning: ignoring attribute 'noreturn' because it conflicts with
-> attribute 'const' [-Wattributes]
->  int ____ilog2_NaN(void)
 
-Try backporting this change:
-https://github.com/torvalds/linux/commit/474c90156c8dcc2fa815e6716cc9394d79=
-30cb9c
+On Mon, 14 May 2018, Burton, Ross wrote:
 
-> tmp-glibc/work-shared/wandboard/kernel-source/include/linux/syscalls.h:19=
-5:18:
-> warning: 'sys_clone' alias between functions of incompatible types
-> 'long int(long unsigned int,  long unsigned int,  int *, int,  int *)'
-> and 'long int(long int,  long int,  long int,  long int,  long int)'
-> [-Wattribute-alias]
->   asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__)) \
->=20
-> I can give you the full compile log if you'd like, but I think others
-> want it kept off the list.
->=20
-> >
-> >  and gcc-sanitizers
-> >>
-> >> now throws a packaging error on (at least) x86_64.
-> >> ${libdir}/liblsan_preinit.o is a new file that should go into
-> >> liblsan-dev.
-> >
-> >
-> > That seems to be the case, I wonder why my world build for qemux86_64 d=
-id
-> > not find this error. I would like to reproduce this and the fix is then
-> > simple.
->=20
-> My x86_64 build was multilib enabled. I doubt that had anything to do
-> with it, but I suppose it's possible.
->=20
-> >
-> >
-> >>
-> >>> Highlighted changes are
-> >>>
-> >>> https://gcc.gnu.org/gcc-8/changes.html
-> >>>
-> >>> and porting doc is
-> >>>
-> >>> https://gcc.gnu.org/gcc-8/porting_to.html
-> >>>
-> >>> The branch is here
-> >>>
-> >>> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/g=
-cc-8
-> >>>
-> >>> Its uptodate on top of current master oe-core
-> >>>
-> >>> May fourth be with you !!
-> >>>
-> >>> Cheers!
-> >>>
-> >>> -Khem
-> >>> --
-> >>> _______________________________________________
-> >>> Openembedded-core mailing list
-> >>> Openembedded-core@lists.openembedded.org
-> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On 5 April 2018 at 19:25, Victor Kamensky <kamensky@cisco.com> wrote:
+>> New crosstap python implementation is total replacement for
+>> crosstap shell script, that has superseding capabilities.
+>> New script support cross compiling of SystemTap scripts
+>> for user-land, by using supplied image rootfs. Whereas old
+>> script could only deal with scripts against kernel. New script
+>> has more complex logic and additional capabilities.
+>
+> ...
+>
+>> +        benv_kernel = BitbakeEnv("virtual/kernel")
+>> +        (self.staging_bindir_toolchain,
+>> +         self.target_prefix,
+>> +         self.target_arch,
+>> +         self.target_kernel_builddir
+>> +        ) = benv_kernel.get_vars(
+>> +             ("STAGING_BINDIR_TOOLCHAIN",
+>> +              "TARGET_PREFIX",
+>> +              "TRANSLATED_TARGET_ARCH",
+>> +              "B"
+>> +            ))
+>
+>> +        if not os.path.isdir(self.target_kernel_builddir):
+>> +            print("ERROR: Cannot find '" + self.target_kernel_builddir +
+>> +                  "' directory. Was 'kernel/virtual' built?")
+>> +            ret = False
+>
+> You can't assume that B exists and is useful, as if virtual/kernel was
+> installed from sstate then all the installed pieces will be present
+> but $B will be empty.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Ross, thank you for pointing to this. I will look at it.
 
---ALfTUftag+2gvp1h
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Please note use of B of kernel/virtual by crosstap preceeded my
+commit:
 
------BEGIN PGP SIGNATURE-----
+c6da6b64 (Tom Zanussi 2012-08-31 00:06:57 -0500 109) 
+TARGET_KERNEL_BUILDDIR=$(echo "$BITBAKE_VARS" | grep ^B= \
+c6da6b64 (Tom Zanussi 2012-08-31 00:06:57 -0500 110)   | cut -d '=' -f2 | 
+cut -d '"' -f2)
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvnC1AAKCRA3VSO3ZXaA
-HJtNAJ9hCNj2hM6jk36I1zRYy/ed5nsoigCgo6XjRZUyPZrCrGIXxbSR3T7CD8M=
-=zK+i
------END PGP SIGNATURE-----
+I just followed the same logic.
 
---ALfTUftag+2gvp1h--
+> For example, I re-ran oe-selftest on the autobuilder, the kernel was
+> extracted from sstate as the previous run built it, and the test
+> failed:
+
+Systemtap translator generates kernel module source and it needs
+cross compiled environment to build it against proper kernel sources
+build artifacts. I.e cross compilation of kernel module should
+be supported when kernel is extracted from sstate.
+
+So my thought was to figure out how to cross compile kernel module
+against kernel/virtual sstate, I can take a look how recipe that
+'inherit module' works in such case. So I've tried the following in
+tree pulled today (cryptodev-module is recipe example that
+does 'inherit module'):
+
+Variant1:
+
+bitbake cryptodev-module
+bitbake -c clean linux-yocto
+bitbake -c cleansstate cryptodev-module
+bitbake cryptodev-module
+
+Variant2:
+
+bitbake cryptodev-module
+mv tmp-glibc tmp-glibc.bak
+bitbake linux-yocto
+bitbake cryptodev-module
+
+In both cases I see that full kernel rebuild (pull source, compile,
+etc) is retriggered by building cryptodev-module, even if
+linux-yocto initially is pulled from sstate. In Variant1
+cryptodev-module build actually failed because some host utilities
+from kernel tree (like scripts/basic/fixdep) were not rebuilt.
+
+I don't think it is proper for crosstap utility to retrigger
+full kernel/virtual build. So unless kernel module build against
+kernel/virtual sstate without full rebuild of kernel/virtual is
+solved I am not sure what I can do in crosstap script.
+
+Currently I see that work-shared/$MACHINE/kernel-source and
+work-shared/$MACHINE/kernel-build-artifacts are created and it
+seems their purpose is to facilitate external kernel modules
+build, and maybe need to full kernel rebuild will be fixed soon.
+
+Do I miss something? Any advise how to address this problem
+is appreciated.
+
+Thanks,
+Victor
+
+> 2018-05-13 22:36:08,905 - oe-selftest - INFO - FAIL:
+> test_crosstap_can_use_systemtap_on_qemu (crosstap.CrossTapTest)
+> 2018-05-13 22:36:08,906 - oe-selftest - INFO -
+> ----------------------------------------------------------------------
+> 2018-05-13 22:36:08,906 - oe-selftest - INFO - Traceback (most recent
+> call last):
+>  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/crosstap.py",
+> line 25, in test_crosstap_can_use_systemtap_on_qemu
+>    self.assertIn('hello world', result.output, 'Crosstap failed.')
+> AssertionError: 'hello world' not found in 'ERROR: Cannot find
+> \'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.14.30+gitAUTOINC+ea9330894e_74f6cd2b69-r0/linux-qemux86_64-standard-build\'
+> directory. Was \'kernel/virtual\' built?
+>
+> Ross
+>
+
