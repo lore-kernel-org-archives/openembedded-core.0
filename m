@@ -1,24 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4222B60574
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 272146067C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 08:20:11 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w4E8K6LV030399
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 14 May 2018 09:20:07 +0100
-Message-ID: <1526286006.5720.113.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: chris.laplante@agilent.com, openembedded-core@lists.openembedded.org
-Date: Mon, 14 May 2018 09:20:06 +0100
-In-Reply-To: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-References: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: Running BitBake multiple times without rechecking upstream AUTOREV versions
+	Mon, 14 May 2018 08:33:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4E8XMCr018284
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2018 01:33:22 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 14 May 2018 01:33:22 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 May 2018 16:35:21 +0800
+Message-ID: <cover.1526286865.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] devtool/sdk.py: error out in case of downloading file failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +30,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 08:20:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 May 2018 08:33:22 -0000
+Content-Type: text/plain
 
-On Fri, 2018-05-11 at 18:23 +0000, Chris Laplante via Openembedded-core 
-wrote:
-> Hi all,
->  
-> I’m working on using Jenkins to host our Yocto build. One of the
-> things that would be nice is to be able to do a “bitbake our-user-
-> image”, upload the artifacts to our network file storage, and then do
-> a “bitbake our-user-image -c populate_sdk_ext”. I’d like to do these
-> separately so that developers are not waiting around for the eSDK to
-> be generated if all they care about is the kernel, for example. My
-> concern is that the second bitbake invocation could end up building
-> different stuff if someone were to check in code in between when the
-> two “bitbake”s are run. This is primarily a concern with recipes that
-> use AUTOREV (as we do for development purposes).
->  
-> Is there a way to essentially “freeze” the BitBake data store and re-
-> use it across multiple bitbake invocations?
+The following changes since commit 5479654eeaaa0f81bfff54ca49369c87f1658705:
 
-Have you tried BB_SRCREV_POLICY = "cache"?
+  rm_work: Stop appending _setscene to do_image_complete_setscene stamps (2018-05-11 07:49:38 +0100)
 
-Cheers,
+are available in the git repository at:
 
-Richard
+  git://git.pokylinux.org/poky-contrib ChenQi/devtool-sdk-update
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/devtool-sdk-update
+
+Chen Qi (1):
+  devtool/sdk.py: error out in case of downloading file failure
+
+ scripts/lib/devtool/sdk.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+1.9.1
+
 
