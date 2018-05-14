@@ -1,47 +1,49 @@
-Return-Path: <kamensky@cisco.com>
-X-Greylist: delayed 577 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 14 May 2018 18:34:38 UTC
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EFA97863A
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F883754C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 18:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4513; q=dns/txt; s=iport;
-	t=1526322880; x=1527532480;
-	h=date:from:to:cc:subject:in-reply-to:message-id:
-	references:mime-version;
-	bh=S7pcjNPFilY9ET5XAzM1IdGlRuxbOXiVJe7bkGT8x7U=;
-	b=jLq20OVGLQc8sdLM35D1gYKVSIzvojc546MWTl2D8JT0cKB1Df+grD1K
-	G94OkXUTNz5vwsgbKIrfufgqNuqAgFmP9Yb9Mu23lDsQB0uZuMqQHBNWy
-	aFUwQylKXprX+fZP7voxRjuGntNUreUuUauXHlmWJiWauFX3TRlPBdADc 4=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0APBABb0/la/4sNJK1cGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYNDYXsojFSMEoFYIYEPi0aJZAsbhFECgxEhOBQBAgEBAQE?=
-	=?us-ascii?q?BAQJsHAyFKAEBAQMBOAI/BQsLGC5XBgESgyWBdwitR4hAgieIJYITgT6CXIp?=
-	=?us-ascii?q?HAocwCIRfZD2DUYctCYVniiA9gyiHVJA8AgQLAhMBgSUzIYFSTSMVgn4Jgj+?=
-	=?us-ascii?q?JGYUNHzCQaQEB?=
-X-IronPort-AV: E=Sophos;i="5.49,401,1520899200"; d="scan'208";a="114325999"
-Received: from alln-core-6.cisco.com ([173.36.13.139])
-	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 May 2018 18:25:01 +0000
-Received: from sjc-ads-6991 (sjc-ads-6991.cisco.com [10.30.218.111])
-	by alln-core-6.cisco.com (8.14.5/8.14.5) with ESMTP id w4EIP1Oa019348
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 14 May 2018 18:25:01 GMT
-Date: Mon, 14 May 2018 11:25:01 -0700 (PDT)
-From: Victor Kamensky <kamensky@cisco.com>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Bruce Ashfield <bruce.ashfield@windriver.com>
-In-Reply-To: <CAJTo0LZmS7TFPhQLsUFY0=BCAgAtrZm=6q-Y5TSB7XhP0zLpWQ@mail.gmail.com>
-Message-ID: <alpine.LRH.2.00.1805140833400.58919@sjc-ads-6991.cisco.com>
-References: <1522952730-5967-1-git-send-email-kamensky@cisco.com>
-	<1522952730-5967-6-git-send-email-kamensky@cisco.com>
-	<CAJTo0LZmS7TFPhQLsUFY0=BCAgAtrZm=6q-Y5TSB7XhP0zLpWQ@mail.gmail.com>
-User-Agent: Alpine 2.00 (LRH 1167 2008-08-23)
+	Mon, 14 May 2018 18:47:01 +0000 (UTC)
+Received: by mail-ua0-f170.google.com with SMTP id y8-v6so9085188ual.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2018 11:47:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ilYGPVAd0ousbq6lEe/zfXJZumH9MTNh27KGON3J5bY=;
+	b=MgrdVzMzNz40dHrPQHjdl2s5qxCtyc66UI+CRcQ22ofFw/lGLujNibdEzmq8Yko8VP
+	wVuzfbHatc9znzcNQAzlUiJRmY1OgrYL8y2Yn31VKUrC7p46H3FI3HZjHM/rZ2RhWXhy
+	wST9IeKWwpRRFoGb5fxY50y9BwTd4grAXsevGolu2jYgg2knAYXrntRs1lJYLRWrqthO
+	Z8NEAMXO3WJIGZwlyWfTwfB80WsIJdWX9o8ff/4rwicYUVgTyVx5VXY4dNtY2M6E1CTG
+	muHSGnu3NduTqIOalG0rZYdsMDmukX22e+mEsMQ49M9PuZNjFKA4S4cdy5UXZcBz029o
+	z3Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ilYGPVAd0ousbq6lEe/zfXJZumH9MTNh27KGON3J5bY=;
+	b=tQkpF4+HjhXHCroRxLTksmbPHeqG56OqNsFHw5qo7m99OP1fuc2f3ZuPqES3upDaDQ
+	r6t0Ts8M4V3gW0YeqlNxxOI2ss+/nm1I/HxXhgoEq339hAcQtzIrH5TAnvRXcy0BoOfi
+	Lhm5XTahFsDJOJxWA/EkP5mV07MzXkPOUxLS1YrK25zmDDlcFwneRrzrmB9CUJD0DmvQ
+	+NQk0fSmBcOZY1eJzroon/hwCPYzZf6Bsj+TYVL9ctcM0DpefCnWsaGdJUKfg+vOqtdb
+	F0gKbjO+78BUWG1pYX0IN2wV755F53Khggkznslw0e0M2D4lIrOu4o3RbKXK13JjBtqO
+	HihA==
+X-Gm-Message-State: ALKqPwfJUbRGYSpewgm1OAymaOmJKnU6XUGU2maojo1gon+NUz+1s4tD
+	PkJORShhRw/V1l1KBEMFmYb25ZkwnXrprQZNLBU=
+X-Google-Smtp-Source: AB8JxZq6Qfu2ns4mTrYfK6UfYPimC05TOl/Gs7P8H6vHJrlhwqeRQB6m+FIJd+8yfaDRx5Z0/nZnKR6fi82q8YN1Jvg=
+X-Received: by 2002:a9f:2823:: with SMTP id
+	c32-v6mr13580794uac.193.1526323622066; 
+	Mon, 14 May 2018 11:47:02 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 5/5] crosstap: replace script with new python based implementation
+Received: by 10.176.48.148 with HTTP; Mon, 14 May 2018 11:47:01 -0700 (PDT)
+In-Reply-To: <2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
+References: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
+	<2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 14 May 2018 11:47:01 -0700
+Message-ID: <CAJ86T=VPyGZMifdZmASU5pTjv_3WeK8L+bmcOm54vfhD_jdt5w@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] default-distrovars.inc: drop obsolete LGPLv2_WHITELIST_GPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,120 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 18:34:38 -0000
-Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
+X-List-Received-Date: Mon, 14 May 2018 18:47:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On Mon, 14 May 2018, Burton, Ross wrote:
-
-> On 5 April 2018 at 19:25, Victor Kamensky <kamensky@cisco.com> wrote:
->> New crosstap python implementation is total replacement for
->> crosstap shell script, that has superseding capabilities.
->> New script support cross compiling of SystemTap scripts
->> for user-land, by using supplied image rootfs. Whereas old
->> script could only deal with scripts against kernel. New script
->> has more complex logic and additional capabilities.
+On Mon, May 14, 2018 at 9:18 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 5/11/18 7:02 PM, Andre McCurdy wrote:
+>> There doesn't seem to be a clear reason to have two separate
+>> variables to hold whitelisted GPLv3 recipes. Both variables are
+>> treated the same, so adding a recipe to LGPLv2_WHITELIST_GPL-3.0 is
+>> already equivalent to adding it to WHITELIST_GPL-3.0.
+>>
+>> Anyone needing to whitelist a GPLv3 recipe should now just use
+>> WHITELIST_GPL-3.0.
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
 >
 > ...
 >
->> +        benv_kernel = BitbakeEnv("virtual/kernel")
->> +        (self.staging_bindir_toolchain,
->> +         self.target_prefix,
->> +         self.target_arch,
->> +         self.target_kernel_builddir
->> +        ) = benv_kernel.get_vars(
->> +             ("STAGING_BINDIR_TOOLCHAIN",
->> +              "TARGET_PREFIX",
->> +              "TRANSLATED_TARGET_ARCH",
->> +              "B"
->> +            ))
+>> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+>> index 76d09af..2f46e13 100644
+>> --- a/meta/conf/distro/include/default-distrovars.inc
+>> +++ b/meta/conf/distro/include/default-distrovars.inc
+>> @@ -24,7 +24,6 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
+>>  IMAGE_FEATURES ?= ""
+>>
+>>  WHITELIST_GPL-3.0 ?= ""
+>> -LGPLv2_WHITELIST_GPL-3.0 ?= ""
 >
->> +        if not os.path.isdir(self.target_kernel_builddir):
->> +            print("ERROR: Cannot find '" + self.target_kernel_builddir +
->> +                  "' directory. Was 'kernel/virtual' built?")
->> +            ret = False
+> I don't have enough context to know if this matters, but there are a number of
+> GPLv3 tools, that have LGPLv2 libraries.  I believe this whitelist was added to
+> specifically allow this these items to be present on the system, as it was a
+> distinctly different use-case then just the GPL-3.0 version.
 >
-> You can't assume that B exists and is useful, as if virtual/kernel was
-> installed from sstate then all the installed pieces will be present
-> but $B will be empty.
+> (Not sure how relevant that still is.  Is there any documentation in either the
+> documentation.conf or guide?)
 
-Ross, thank you for pointing to this. I will look at it.
-
-Please note use of B of kernel/virtual by crosstap preceeded my
-commit:
-
-c6da6b64 (Tom Zanussi 2012-08-31 00:06:57 -0500 109) 
-TARGET_KERNEL_BUILDDIR=$(echo "$BITBAKE_VARS" | grep ^B= \
-c6da6b64 (Tom Zanussi 2012-08-31 00:06:57 -0500 110)   | cut -d '=' -f2 | 
-cut -d '"' -f2)
-
-I just followed the same logic.
-
-> For example, I re-ran oe-selftest on the autobuilder, the kernel was
-> extracted from sstate as the previous run built it, and the test
-> failed:
-
-Systemtap translator generates kernel module source and it needs
-cross compiled environment to build it against proper kernel sources
-build artifacts. I.e cross compilation of kernel module should
-be supported when kernel is extracted from sstate.
-
-So my thought was to figure out how to cross compile kernel module
-against kernel/virtual sstate, I can take a look how recipe that
-'inherit module' works in such case. So I've tried the following in
-tree pulled today (cryptodev-module is recipe example that
-does 'inherit module'):
-
-Variant1:
-
-bitbake cryptodev-module
-bitbake -c clean linux-yocto
-bitbake -c cleansstate cryptodev-module
-bitbake cryptodev-module
-
-Variant2:
-
-bitbake cryptodev-module
-mv tmp-glibc tmp-glibc.bak
-bitbake linux-yocto
-bitbake cryptodev-module
-
-In both cases I see that full kernel rebuild (pull source, compile,
-etc) is retriggered by building cryptodev-module, even if
-linux-yocto initially is pulled from sstate. In Variant1
-cryptodev-module build actually failed because some host utilities
-from kernel tree (like scripts/basic/fixdep) were not rebuilt.
-
-I don't think it is proper for crosstap utility to retrigger
-full kernel/virtual build. So unless kernel module build against
-kernel/virtual sstate without full rebuild of kernel/virtual is
-solved I am not sure what I can do in crosstap script.
-
-Currently I see that work-shared/$MACHINE/kernel-source and
-work-shared/$MACHINE/kernel-build-artifacts are created and it
-seems their purpose is to facilitate external kernel modules
-build, and maybe need to full kernel rebuild will be fixed soon.
-
-Do I miss something? Any advise how to address this problem
-is appreciated.
-
-Thanks,
-Victor
-
-> 2018-05-13 22:36:08,905 - oe-selftest - INFO - FAIL:
-> test_crosstap_can_use_systemtap_on_qemu (crosstap.CrossTapTest)
-> 2018-05-13 22:36:08,906 - oe-selftest - INFO -
-> ----------------------------------------------------------------------
-> 2018-05-13 22:36:08,906 - oe-selftest - INFO - Traceback (most recent
-> call last):
->  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/crosstap.py",
-> line 25, in test_crosstap_can_use_systemtap_on_qemu
->    self.assertIn('hello world', result.output, 'Crosstap failed.')
-> AssertionError: 'hello world' not found in 'ERROR: Cannot find
-> \'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/linux-yocto/4.14.30+gitAUTOINC+ea9330894e_74f6cd2b69-r0/linux-qemux86_64-standard-build\'
-> directory. Was \'kernel/virtual\' built?
->
-> Ross
->
+That used to be relevant a while ago when LICENSE was applied to all
+packages created by the recipe. Nowadays, LICENSE can be defined on a
+per-package basis, so the case where a recipe builds (for example) an
+LPGLv2 library and a GPLv3 demo app and an image in a GPLv3-free
+distro needs to include only the library is handled fine without any
+whitelisting. The cairo and gnutls recipes are examples of that in
+oe-core.
 
