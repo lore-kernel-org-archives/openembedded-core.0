@@ -1,51 +1,52 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D6F1875045
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 16:18:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4EGIt0v025297
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 May 2018 09:18:55 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 14 May 2018 09:18:55 -0700
-To: Andre McCurdy <armccurdy@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
-Date: Mon, 14 May 2018 11:18:54 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.7.0
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 475F9785E7;
+	Mon, 14 May 2018 16:33:41 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id m17-v6so13812164lfj.8;
+	Mon, 14 May 2018 09:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ili1vAkvvHr9utQSVlqdneB+I+qskflXOPwy5fGgyfs=;
+	b=Y6beqSvdAgzTUHXlzsJ5Qn9sUQ5eQ64RY6ZBV1Y8dY0wIyCRMnITgwDy+pOfERHkZi
+	5P128rweRspu4PX4YHHSSA0sdOkcsk4i0DfCDrhtkZKfkkwwf5mM4fKaj/QuilI67mfN
+	VeAWC+iMcBondsaS7F998Q5u1jnS7yeNK2L8x4W/3lrK8Wadf9FXOxI3YuLY4XWcCKqU
+	8/UCeQ0lVaGIA5hr88o9LcEPtcPIl2yqiwuj733EI68HBc3LsakFZniY7spGuwjLYqvu
+	3dV3ZpRfgN6iSMzLJIumMqPnpL3dmebhA8nRYLHoJ8y9ooDoIHClCj85PUK88y1THXJJ
+	yXQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ili1vAkvvHr9utQSVlqdneB+I+qskflXOPwy5fGgyfs=;
+	b=No9XtCJrLNBdH+ivd7DxFwLWGuy9L5gY3E+6xQG9JroCjaZq+p/XatyNgzDcW5REoF
+	uj6zYSDyM+VafbDQkvprw9GZgTTaqQ8tT48a+jCj7U5NS0z2QalutHXyX24zkq8F9KWi
+	MM2h7iW2TPYo7CGRJZRyqF1Ry/MrdC7Nk1cJbE7kOA9RDtSBR09/kZG8TWyShAf3N5sY
+	j5iGNT6Dj2OURibbcgu9tJaL8iJj4PBzhYf6PLJTWBNA2byBNsQqw+Xj4gfscqLCae5G
+	Bem1lAO7TYHl57UfmUog/DuMFaf/uyit18S7nPWBmZm1vjtjug4QrMdpiUS/FItmC623
+	JDJw==
+X-Gm-Message-State: ALKqPwcx+A5uDnLuJcvLLrvsV4TfXwHW9xZqsbAVdk4uRk1Zzkdh06dh
+	1qZOeeuTtxdsWjEzQZgnMDxGtcPSv58EZf4UwAk=
+X-Google-Smtp-Source: AB8JxZrVGNmPbgl1P5CjFoKPK5C9Lt/0kbnJrFZZ2xpF95zCk1hrSd8ovv615UfDQrXA8e2jNeOF7hCCk/EuD3Mfjes=
+X-Received: by 2002:a19:d153:: with SMTP id
+	i80-v6mr8921004lfg.16.1526315622458; 
+	Mon, 14 May 2018 09:33:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
-Subject: Re: [PATCH] default-distrovars.inc: drop obsolete LGPLv2_WHITELIST_GPL-3.0
+Received: by 2002:a19:380e:0:0:0:0:0 with HTTP; Mon, 14 May 2018 09:33:41
+	-0700 (PDT)
+In-Reply-To: <1ceb098b-1836-4693-d03f-8801ac354c25@gmail.com>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CACS+7ZR6F1PgKxQxxh=iJzTQNmrrMVOQ01EuhcnotSAhB=AiEA@mail.gmail.com>
+	<1ceb098b-1836-4693-d03f-8801ac354c25@gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Mon, 14 May 2018 10:33:41 -0600
+Message-ID: <CACS+7ZRs_zB_c-Wg8K=JEtWyHH7DG-W8ER4Ky1Yg6v1C8xtsyw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +59,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 16:18:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 May 2018 16:33:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/11/18 7:02 PM, Andre McCurdy wrote:
-> There doesn't seem to be a clear reason to have two separate
-> variables to hold whitelisted GPLv3 recipes. Both variables are
-> treated the same, so adding a recipe to LGPLv2_WHITELIST_GPL-3.0 is
-> already equivalent to adding it to WHITELIST_GPL-3.0.
-> 
-> Anyone needing to whitelist a GPLv3 recipe should now just use
-> WHITELIST_GPL-3.0.
-> 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
+On 10 May 2018 at 12:53, Khem Raj <raj.khem@gmail.com> wrote:
+> Hi Dan,
+>
+> Thanks for testing
+>
+> On 5/10/18 7:34 AM, Dan McGregor wrote:
+>>
+>> On 4 May 2018 at 18:26, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> Hi All
+>>>
+>>> As you might have noticed that gcc 8.1 was released this week, I am
+>>> calling out for some testing help on testing branch so we can weed out
+>>> issues you might see in your setups. so if you have your
+>>> builders idling over weekend, then you know what they can do this weekend
+>>> :)
+>>>
+>>
+>> Thanks for this. The only two issues I noticed are that the
+>> Wandboard's kernel doesn't compile with gcc 8.1,
+>
+>
+>
+> what errors do you see ?
 
-...
+I expect the standard "Linux 4.1" errors. A bunch of ignored
+attributes and incompatible type aliases:
 
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> index 76d09af..2f46e13 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -24,7 +24,6 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
->  IMAGE_FEATURES ?= ""
->  
->  WHITELIST_GPL-3.0 ?= ""
-> -LGPLv2_WHITELIST_GPL-3.0 ?= ""
+tmp-glibc/work-shared/wandboard/kernel-source/include/linux/log2.h:22:1:
+warning: ignoring attribute 'noreturn' because it conflicts with
+attribute 'const' [-Wattributes]
+ int ____ilog2_NaN(void)
 
-I don't have enough context to know if this matters, but there are a number of
-GPLv3 tools, that have LGPLv2 libraries.  I believe this whitelist was added to
-specifically allow this these items to be present on the system, as it was a
-distinctly different use-case then just the GPL-3.0 version.
+tmp-glibc/work-shared/wandboard/kernel-source/include/linux/syscalls.h:195:18:
+warning: 'sys_clone' alias between functions of incompatible types
+'long int(long unsigned int,  long unsigned int,  int *, int,  int *)'
+and 'long int(long int,  long int,  long int,  long int,  long int)'
+[-Wattribute-alias]
+  asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__)) \
 
-(Not sure how relevant that still is.  Is there any documentation in either the
-documentation.conf or guide?)
+I can give you the full compile log if you'd like, but I think others
+want it kept off the list.
 
---Mark
+>
+>  and gcc-sanitizers
+>>
+>> now throws a packaging error on (at least) x86_64.
+>> ${libdir}/liblsan_preinit.o is a new file that should go into
+>> liblsan-dev.
+>
+>
+> That seems to be the case, I wonder why my world build for qemux86_64 did
+> not find this error. I would like to reproduce this and the fix is then
+> simple.
 
->  COMMERCIAL_AUDIO_PLUGINS ?= ""
->  # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
-> 
+My x86_64 build was multilib enabled. I doubt that had anything to do
+with it, but I suppose it's possible.
 
+>
+>
+>>
+>>> Highlighted changes are
+>>>
+>>> https://gcc.gnu.org/gcc-8/changes.html
+>>>
+>>> and porting doc is
+>>>
+>>> https://gcc.gnu.org/gcc-8/porting_to.html
+>>>
+>>> The branch is here
+>>>
+>>> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
+>>>
+>>> Its uptodate on top of current master oe-core
+>>>
+>>> May fourth be with you !!
+>>>
+>>> Cheers!
+>>>
+>>> -Khem
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
