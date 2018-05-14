@@ -1,55 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F3377718B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F1875045
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 16:12:30 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id n10-v6so16229120wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 09:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=0+gfgXS+hopKKM0J5KLDzYjl8ji430rfngTHwrskeQ4=;
-	b=Mzm9bqOFSNuIxTtWBYEfSr59RYEXuJkai/EDHJ+gx/OjPcLi0jNcwiFS8HMKdt5q3y
-	Au13bq5Z2ztv9kk3Z/wnTjB5A3aBmlUEPyb3ZTWxRBYR0Pi07ty/sskQiUCJWyfshyUq
-	UlhAjqeNqRPo9mSutuhPompMKEnYvQ7LqE97cLytGzVoS7ZSp9mRB3epdl7//VafWSwA
-	x5g/VTj5O2PEi/3J4hkWVhIbhfUDDxEo3QgW+UzIZE25mADFxv89AJljSEqjcWHdIywZ
-	zF5LggEOXXUv96wVQV8Uk8ShNhzYcCF8/oA7c9R0tqiUDaS2yxbyElDsfzF7Jg09+nS7
-	kQZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=0+gfgXS+hopKKM0J5KLDzYjl8ji430rfngTHwrskeQ4=;
-	b=T9KCm0MirFQ6H3RrzmmufyJx8PwQrE/KQgRP0zg0X/QuQq+gmCrVMSYEHKS6x7YE9N
-	RHzjapp0WhvvrRWPPXKWgx7fWN3MaVAMgeaWCuiWg9MPm+fg/xx4dAk1eFkfQuWxZdt0
-	2SHniEP1jEvwqSe0dWSQjijHjx51/H9nZDgpKymN2yZkX+RIVdcd/FKkfiCNrJHN38H1
-	45W8hZQypaRRvlfMgUufBVxSXyb+jHaDn42gpCblD+BMH14VLbr/ozQ9SsrFscz8kBfc
-	idRLFdH7Zpe2EoQ/rtot3pNSDPQpwwItUrJk5Qs7yuZANnEj5Yw8ZPDHZwX3SDHV32tl
-	ylCw==
-X-Gm-Message-State: ALKqPwdfR09WrWRnDMHMkNCC+U97T74bs52mkjHt8USuRNoyT0wDSQUn
-	9P2NrSeN+Zj+yaII7NGZQMI=
-X-Google-Smtp-Source: AB8JxZpQI06i+VM+DbWaIB9UO+hK+tMo9sqaZWd0d/uTGrOUbMg6F2t9YXEa0qpM4ZZgmTWAdIF+uA==
-X-Received: by 2002:a1c:dca:: with SMTP id 193-v6mr5491300wmn.36.1526314350864;
-	Mon, 14 May 2018 09:12:30 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	67-v6sm9944815wmw.32.2018.05.14.09.12.29
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 14 May 2018 09:12:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 14 May 2018 18:12:30 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180514161230.GB2840@jama>
-References: <CAJTo0LaJNCzWjNEsJw42_io2mC3iyDMoZ33SVj8huJLQQ7urhQ@mail.gmail.com>
-	<20180511192103.7581-1-Martin.Jansa@gmail.com>
-	<20180511192103.7581-4-Martin.Jansa@gmail.com>
-	<CAJTo0LYxyM-sMx6_UdOoeQykuKXTZyXyuhUfUR2KWzf86MEOGA@mail.gmail.com>
+	Mon, 14 May 2018 16:18:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4EGIt0v025297
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 May 2018 09:18:55 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 14 May 2018 09:18:55 -0700
+To: Andre McCurdy <armccurdy@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <2a39f03d-6e92-7c80-dd87-971fcfd57665@windriver.com>
+Date: Mon, 14 May 2018 11:18:54 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYxyM-sMx6_UdOoeQykuKXTZyXyuhUfUR2KWzf86MEOGA@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/5] qemu: add PACKAGECONFIG for virglrenderer, sdl2, usb-redir and spice
+In-Reply-To: <1526083324-13743-1-git-send-email-armccurdy@gmail.com>
+Subject: Re: [PATCH] default-distrovars.inc: drop obsolete LGPLv2_WHITELIST_GPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,56 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 16:12:30 -0000
-X-Groupsio-MsgNum: 111357
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="oLBj+sq0vYjzfsbl"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 14 May 2018 16:18:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---oLBj+sq0vYjzfsbl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/11/18 7:02 PM, Andre McCurdy wrote:
+> There doesn't seem to be a clear reason to have two separate
+> variables to hold whitelisted GPLv3 recipes. Both variables are
+> treated the same, so adding a recipe to LGPLv2_WHITELIST_GPL-3.0 is
+> already equivalent to adding it to WHITELIST_GPL-3.0.
+> 
+> Anyone needing to whitelist a GPLv3 recipe should now just use
+> WHITELIST_GPL-3.0.
+> 
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
 
-On Sun, May 13, 2018 at 09:05:16PM +0100, Burton, Ross wrote:
-> On 11 May 2018 at 20:21, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > * sdl2 when selected needs sdl as well and will depend on both libsdl
-> >   and libsdl
->=20
-> Is that a limitation of the qemu build, or just how the configure
-> options work?  Doesn't seem great to need both!
->=20
-> Ross
+...
 
-Agreed, it's not great.
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index 76d09af..2f46e13 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -24,7 +24,6 @@ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${DISTRO_FEATURES_LIBC}"
+>  IMAGE_FEATURES ?= ""
+>  
+>  WHITELIST_GPL-3.0 ?= ""
+> -LGPLv2_WHITELIST_GPL-3.0 ?= ""
 
-It's kind of PACKAGECONFIG limitation, the sdl option is like tristate:
---enable-sdl + --with-sdlabi=3D1.2
---enable-sdl + --with-sdlabi=3D2.0
---disable-sdl
+I don't have enough context to know if this matters, but there are a number of
+GPLv3 tools, that have LGPLv2 libraries.  I believe this whitelist was added to
+specifically allow this these items to be present on the system, as it was a
+distinctly different use-case then just the GPL-3.0 version.
 
-I've added sdl2 PACKAGECONFIG like this:
-PACKAGECONFIG[sdl] =3D "--enable-sdl,--disable-sdl,libsdl"
-PACKAGECONFIG[sdl2] =3D "--with-sdlabi=3D2.0,--with-sdlabi=3D1.2,libsdl2"
+(Not sure how relevant that still is.  Is there any documentation in either the
+documentation.conf or guide?)
 
-I can add 3rd PACKAGECONFIG (that user will need to use sdl+sdl1 or
-sdl+sdl2) or anonymous python to remove libsdl when both both libsdl and
-libsdl2 are in DEPENDS.
+--Mark
 
-Regards,
+>  COMMERCIAL_AUDIO_PLUGINS ?= ""
+>  # COMMERCIAL_AUDIO_PLUGINS ?= "gst-plugins-ugly-mad gst-plugins-ugly-mpegaudioparse"
+> 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---oLBj+sq0vYjzfsbl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWvm1bQAKCRA3VSO3ZXaA
-HPyoAJ9K5ZEeXmqpkztp0yNzbhuZAM1yFwCdGPjK0EMV7y+bAAazTqnTdqmfURo=
-=vh5m
------END PGP SIGNATURE-----
-
---oLBj+sq0vYjzfsbl--
