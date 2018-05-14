@@ -1,25 +1,48 @@
-Return-Path: <peter.marko@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 4265774AD4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 703F275561
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 11:01:44 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w4EB1i8q003359
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Mon, 14 May 2018 12:02:13 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id a8-v6so12983524wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 13:01:45 +0200
-Received: from dev-6.vm6.ccp.siemens.com ([163.242.56.239])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w4EB1i2E008303;
-	Mon, 14 May 2018 13:01:44 +0200
-Received: from dev-6.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev-6.vm6.ccp.siemens.com (Postfix) with ESMTP id 5548650CCA9;
-	Mon, 14 May 2018 13:01:44 +0200 (CEST)
-From: "Marko, Peter" <peter.marko@siemens.com>
+	Mon, 14 May 2018 05:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=wT/JxYobXuZjX0SW5jUFGnvVwYUohyHoPluUWU3Lh54=;
+	b=FsGEBKIujRgeh6akGK4ya0kbon0rk1uAsriqbShSMYgEJSfOG8ufZsghibZ9K9YaEs
+	cbdea4kOggoLqqW8PtMsZ1KfjmV40htazZMsmOdhwDSfoqh3FSZi7TmL4kBfNc0iTAX9
+	y0sTB7cBuXLio7qRa5nr7jZPxp/U3G5iXz3YDXesCJeAYJgu6zCqQm6/tSSG5yQNNn3T
+	t8wHYnkSteBjU0LomNuT/iAon8h6oMr4j7Sv6XYi49ewVxgsJk41cT57aUqutK+/fTaB
+	/AlUiB8IFcoeunLNXui5Rzx+tNX2aMGGCRHmYT5PO4aP3DMSgoTVREucQ0osm1KoWcOi
+	Hkkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wT/JxYobXuZjX0SW5jUFGnvVwYUohyHoPluUWU3Lh54=;
+	b=BlODlNAqHQc6mS1BvXtG0mBDJ2nsm3jJNkO7r7u5Vvu3QIPFqW9FaCYuJVI+a1aU9r
+	OQPn++rakOW6m/ApDf1MW3KTiNzC0zEGum0oTh4VWhf5ViYuqQx0QrVGkmH1lQhJX3Ub
+	k1qXC8W8w1xxLuf7pzhrNVlLEBdPZ4SXN6wRpxVOYYBFle1PbaPLWpejlcHrIOXSeiPH
+	Wfm/r7+wII8q3PjRDzpoqT7+2zQEIC+juRitdF72u4RRcyL6sDPgURHDmQUBc+gY6fN0
+	q/kRKh/sSJq+ZCAfbWkRcnf5BqT8gpOsYNYMmeir1+XhSJWoIt+0o7dJ/fmHePo/v0PJ
+	LS7w==
+X-Gm-Message-State: ALKqPwc/DhKbtIj95xG+lZS3FuKgLcvcZ4seLBdnVNNRPrHRQzz7EnVp
+	Kxx5sIonbuaYjQGeOmF5GNXnZbqO
+X-Google-Smtp-Source: AB8JxZpU5IhhNB09YFVDAZFup5O8zLGK6vvf0D07DIt2bdYM8vP2aldvUE/1ZxlUKpUGgdyiM1bhUA==
+X-Received: by 2002:a1c:6741:: with SMTP id b62-v6mr4959408wmc.0.1526299334201;
+	Mon, 14 May 2018 05:02:14 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d8-v6sm12416384wrb.52.2018.05.14.05.02.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 May 2018 05:02:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 May 2018 13:01:18 +0200
-Message-Id: <20180514110118.31869-1-peter.marko@siemens.com>
+Date: Mon, 14 May 2018 13:02:11 +0100
+Message-Id: <20180514120211.8169-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] sqlite3: upgrade 3.23.0 -> 3.23.1
+Subject: [PATCH] security_flags: disable static PIE in glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 11:01:45 -0000
+X-List-Received-Date: Mon, 14 May 2018 12:02:14 -0000
 
-Signed-off-by: Marko Peter <peter.marko@siemens.com>
+Static PIE doesn't work entirely right in GCC 7, for example ldconfig on ARM
+with the flags enabled will something segfault during initialisation.
+
+To mitigate this until we have GCC 8 integrated, don't enable static PIE.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/sqlite/{sqlite3_3.23.0.bb => sqlite3_3.23.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.23.0.bb => sqlite3_3.23.1.bb} (59%)
+ meta/conf/distro/include/security_flags.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.0.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-similarity index 59%
-rename from meta/recipes-support/sqlite/sqlite3_3.23.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-index 1b7ae9a45d..3755761d76 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.23.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- SRC_URI = "\
-   http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-   "
--SRC_URI[md5sum] = "6a26a122a18bcd1a6a1c18b4bad64498"
--SRC_URI[sha256sum] = "b7711a1800a071674c2bf76898ae8584fc6c9643cfe933cfc1bc54361e3a6e49"
-+SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
-+SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index e6eb8114a24..6245e89ada4 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -6,7 +6,7 @@
+ # in the DISTRO="poky-lsb" configuration.
+ 
+ GCCPIE ?= "--enable-default-pie"
+-GLIBCPIE ?= "--enable-static-pie"
++# If static PIE is known to work well, GLIBCPIE="--enable-static-pie" can be set
+ 
+ # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
+ # -O0 which then results in a compiler warning.
 -- 
 2.11.0
 
