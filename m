@@ -1,56 +1,47 @@
-Return-Path: <philip@balister.org>
-X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 14 May 2018 19:56:27 UTC
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 606F6751FA
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 725CD76040
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 19:56:27 +0000 (UTC)
-Received: (qmail 7622 invoked by uid 1003); 14 May 2018 19:49:51 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	14 May 2018 19:49:51 -0000
-To: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <711b0a86-14e8-6250-e49b-82cfc4d33018@balister.org>
-Date: Mon, 14 May 2018 15:49:47 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
-MIME-Version: 1.0
-Subject: OpenEmbedded Developer Meeting in Edinburgh Oct 21, 2018 (before ELCE)
+	Mon, 14 May 2018 21:09:20 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id l2-v6so6005899pgc.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2018 14:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=VJ5UePGtBIpDtmUbaXmeuycdY/5KmwLnvYpzf0Ox6MU=;
+	b=Y8u5Zxz/d5KpStzOb9IMf+3KqOpp8HdQSzXcIgsnKdV58exjOrjb6Go1FIdHjD1Quw
+	S1c0goLWqjW3uZiqj1KB0yaW8Mvc0Z6wdftB3njE5fmiAScgct7GmyCmerhtzDL4ghyx
+	uoAd391mwmyeHEaKThLMGMWuCuVs+pXWi1vz03JEfKP2cfr+OMK1Z/gyc6D8l0MDt1k1
+	hQ6Hpy+aJy1Egfq3omqdrgQODkFFHRy7mmuLZj1WS7hKl7l40k8cgJ4s9p3+l12mLEkM
+	6/JOvak45dZswF7ESvzmqVxu3tywEVo1id+yMBHhCXTKPNVzkZBwjMZCC4esVodMQebr
+	X8Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VJ5UePGtBIpDtmUbaXmeuycdY/5KmwLnvYpzf0Ox6MU=;
+	b=Qqz7SANCK9ly+WHSjSjqpA4vJfaLSJHq0XuACNVo+ibw0H/7oQ2s0bMYKU5zQwFRkC
+	22iLX5HOanbADC/H8OFE1/FaGwUUlxxmQSS7UtEhqFYOvn6DUKlX2Due9BU0nW1m9bPo
+	0HWcu2ly+ucO01VAfFjFaenv6piAYirCItXgw7/Ex1/8OXD3L6fN6S/Oia1GjeskryEG
+	pCnsjWTHfjQELxMsXFlQZIiG34IBO68sQ5DCeUcwlx+kNZuo+GezRwJmzvwI544J2TCe
+	KM+SIoShFqvzWtWC/zLW15GHbFLk0wMGlCn2fyxl4qVao05vmM1cUbsTPOx5nAHsNw6x
+	EPMQ==
+X-Gm-Message-State: ALKqPwfsmsvhT6V+Nucart7Xj/brJ0CWgbAY8cxin7OCm1EsI2juHlxA
+	FrFOQrU1w6XQDfaaytkH+t5kkg==
+X-Google-Smtp-Source: AB8JxZpglc5fcx6bpE26xK0OrEBX6728LMdDk6Euq0WlrdVykYm72fDmibtOmATYQtC0rg9VVxRnsQ==
+X-Received: by 2002:a65:44c3:: with SMTP id
+	g3-v6mr9003145pgs.428.1526332161070; 
+	Mon, 14 May 2018 14:09:21 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	g26-v6sm19234043pfh.76.2018.05.14.14.09.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 14 May 2018 14:09:20 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2018 14:09:14 -0700
+Message-Id: <1526332154-20637-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] bitbake.conf: drop obsolete comment referring to the fail-fast over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,23 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 19:56:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 May 2018 21:09:20 -0000
 
-Once again we will have a developer meeting in Edinburgh the Sunday
-before ELCE.
+The comment appears to have been accidentally left behind when the
+fail-fast over-ride was removed by:
 
-Please go to https://www.openembedded.org/wiki/OEDEM_2018 and add
-yourself if you are attending and ideas for topics.
+  http://git.openembedded.org/openembedded-core/commit/?id=83ce96f44516c8a4a44c8c0140949256f8422014
 
-Although it is called a developer meeting, we invite members of the
-larger community to attend. The core developers are always interested in
-hearing how OpenEmbedded is used, and what we can do to make it better
-for building the embedded devices of the future.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a21b728..a74d8cf 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -733,8 +733,8 @@ DISTRO_NAME ??= "OpenEmbedded"
+ # '<foo>_qemuarm' and then '<foo>' will be overriden with that value from '<foo>_qemuarm'.
+ # And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
+ #
+-# This works for  functions as well, they are really just environment variables.
+-# Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
++# This works for functions as well, they are really just environment variables.
++#
+ OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+-- 
+1.9.1
 
-Philip
 
