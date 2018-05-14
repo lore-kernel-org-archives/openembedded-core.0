@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE36F7608F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 255927608F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 05:57:26 +0000 (UTC)
+	Mon, 14 May 2018 05:57:27 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4E5vQST017839
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4E5vSh9017391
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 May 2018 22:57:27 -0700 (PDT)
+	Sun, 13 May 2018 22:57:28 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 13 May 2018 22:57:26 -0700
+	14.3.361.1; Sun, 13 May 2018 22:57:27 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 May 2018 13:59:20 +0800
-Message-ID: <cover.1526277424.git.Qi.Chen@windriver.com>
+Date: Mon, 14 May 2018 13:59:21 +0800
+Message-ID: <efb51f38d9adad4dd15b440352dbd1afe2cd107f.1526277424.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1526277424.git.Qi.Chen@windriver.com>
+References: <cover.1526277424.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/6] Upgrade gawk, sysstat, dbus, dbus-test, dbus-glib and sudo
+Subject: [PATCH 1/6] gawk: upgrade to 4.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 05:57:26 -0000
+X-List-Received-Date: Mon, 14 May 2018 05:57:27 -0000
 Content-Type: text/plain
 
-Changes in V2:
-* Remove retrospection related codes in dbus recipe
-* Remove the meaningless session.conf installation in dbus recipe
-
-The following changes since commit 5479654eeaaa0f81bfff54ca49369c87f1658705:
-
-  rm_work: Stop appending _setscene to do_image_complete_setscene stamps (2018-05-11 07:49:38 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/PU20180511
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU20180511
-
-Chen Qi (6):
-  gawk: upgrade to 4.2.1
-  sysstat: upgrade to 11.7.3
-  dbus: upgrade to 1.12.8
-  dbus-test: upgrade to 1.12.8
-  dbus-glib: upgrade to 0.110
-  sudo: upgrade to 1.8.23
-
- meta/recipes-core/dbus/dbus-glib.inc                         |  4 +---
- meta/recipes-core/dbus/dbus-glib_0.108.bb                    |  4 ----
- meta/recipes-core/dbus/dbus-glib_0.110.bb                    |  4 ++++
- .../dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb}        |  4 ++--
- meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb}    | 12 ++----------
- meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb}  |  4 ++--
- meta/recipes-extended/sudo/sudo.inc                          |  5 +++--
- .../recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} |  8 ++++----
- .../sysstat/{sysstat_11.7.1.bb => sysstat_11.7.3.bb}         |  4 ++--
- 9 files changed, 20 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.108.bb
- create mode 100644 meta/recipes-core/dbus/dbus-glib_0.110.bb
- rename meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} (95%)
- rename meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb} (92%)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb} (89%)
- rename meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} (81%)
- rename meta/recipes-extended/sysstat/{sysstat_11.7.1.bb => sysstat_11.7.3.bb} (53%)
 
+diff --git a/meta/recipes-extended/gawk/gawk_4.2.0.bb b/meta/recipes-extended/gawk/gawk_4.2.1.bb
+similarity index 89%
+rename from meta/recipes-extended/gawk/gawk_4.2.0.bb
+rename to meta/recipes-extended/gawk/gawk_4.2.1.bb
+index 27f79a2..6b99357 100644
+--- a/meta/recipes-extended/gawk/gawk_4.2.0.bb
++++ b/meta/recipes-extended/gawk/gawk_4.2.1.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://run-ptest \
+ "
+ 
+-SRC_URI[md5sum] = "0b598c31bc703d66082bd958d4189980"
+-SRC_URI[sha256sum] = "c88046c6e8396ee548bcb941e16def809b7b55b60a1044b5dd254094f347c7d9"
++SRC_URI[md5sum] = "0256724a0af50cb83ac92f833488673d"
++SRC_URI[sha256sum] = "2b23d51503b2df9a41aa6fddc6002ad7ebf2a386ac19dc1b6be0dd48b0acf6db"
+ 
+ inherit autotools gettext texinfo update-alternatives
+ 
 -- 
 1.9.1
 
