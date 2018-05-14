@@ -1,60 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8171B75545;
-	Sun, 13 May 2018 23:35:17 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id v63-v6so5114823pfk.8;
-	Sun, 13 May 2018 16:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=0jLsZcJRI+y9mipqhQVXZv58gqzZBcWiQ1W2mcHLtMc=;
-	b=gn+1gMSIDGuDV8I/D7LrR4ptpdefoHBP8erryidWw/rgSkFF1dj0HtyZe/+0bRcEb7
-	tR4+YbqhwoMdK/fhl/jn1/eY1WQqeHi12w1zXQEkNN5Bx4AKdzPfJjKAYnulJmyxBNZC
-	24NsNakpoWKNWID6WY1IBz/fnEV324SvIjW5aYA2/mx3u0lsWS5Thhiz6+952t4sbssk
-	8PTEPxI48+1QsAQa5ZgA7aNbtdTR3BJZeV9gkw9Uo4ppSD6yGqc5es+A6mjnAnqWZR3q
-	jfvsXGJbTsw03fa6ZnxMOyRB3epXuj+tyS4St558FEJqUDori5ON2NN9On3+QJcjxsIB
-	FOZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=0jLsZcJRI+y9mipqhQVXZv58gqzZBcWiQ1W2mcHLtMc=;
-	b=pzmf+cFL5yaCP3FO1ZVLbtYBnmF9xuf9k5dNg3LHmyE2aT7HPSoi2uh0m7jVV39C+W
-	KlK3fbf37W336CInD7xs3Iqa1GsFzrvweBMbty8SEp5vMy2qdc2gna9vY+/TOm4aFRnc
-	a6pjnuQIetLTdRbhb/msTrrJKmsoe9aMpFo8A1oy0ufmeWEW5fOEO/YzEn6iy5ALkFa9
-	9Km+MTWaEncbljpVFMHs7XP7A06ZshvSwV3GgIKRzUPLSE55zhslZdE7qUWl9HKvoPeS
-	yaWC/pOP8YvL3W2fjJg3zH4wuufl5wZSyhyMzw+47RBkgQO6wyuKzkNbSlypblVpPVQl
-	gAbQ==
-X-Gm-Message-State: ALKqPwcUm0T3dX53MWnbAwwTpXx9nJIW1Rseig5jvTq8vGKtDYljuH56
-	3m2jCcTG4/LdHjbWGJegQNQ=
-X-Google-Smtp-Source: AB8JxZoh4aZR/NowurLel+5JxOX4cWphyjzT/LYYYb/40rpkQeLVsft5TJksP6xH0/H/y0jirmriqQ==
-X-Received: by 2002:a63:990a:: with SMTP id
-	d10-v6mr6494573pge.166.1526254518181; 
-	Sun, 13 May 2018 16:35:18 -0700 (PDT)
-Received: from hermes.local ([2601:646:877f:9499:346a:79fe:a8e0:abd2])
-	by smtp.gmail.com with ESMTPSA id
-	v85-v6sm12184559pgb.71.2018.05.13.16.35.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 13 May 2018 16:35:17 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
-	<CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <50c78b70-5b7b-6d23-e1ba-c86e14c2c7be@gmail.com>
-Date: Sun, 13 May 2018 16:35:16 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
-	Gecko/20100101 Thunderbird/60.0
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE36F7608F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2018 05:57:26 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4E5vQST017839
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 13 May 2018 22:57:27 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Sun, 13 May 2018 22:57:26 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 May 2018 13:59:20 +0800
+Message-ID: <cover.1526277424.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYmyzY67JC=72OMRBRH=8juBSnAVaYUKB6ENZ9koqPqTA@mail.gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] GCC 8.1
+Subject: [PATCH V2 0/6] Upgrade gawk, sysstat, dbus, dbus-test, dbus-glib and sudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,78 +30,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 May 2018 23:35:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 May 2018 05:57:26 -0000
+Content-Type: text/plain
 
-Hi Ross
+Changes in V2:
+* Remove retrospection related codes in dbus recipe
+* Remove the meaningless session.conf installation in dbus recipe
 
-I pushed a few more fixes to branch which fixes
+The following changes since commit 5479654eeaaa0f81bfff54ca49369c87f1658705:
 
-kernel build issue
-ovmf build issue
-python2 build issue (your fix)
+  rm_work: Stop appending _setscene to do_image_complete_setscene stamps (2018-05-11 07:49:38 +0100)
 
-I could not reproduce the mesa issues that is shown on AB
+are available in the git repository at:
 
-With this I think we should be in better shape. Can you retry
+  git://git.pokylinux.org/poky-contrib ChenQi/PU20180511
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/PU20180511
 
-http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/master
+Chen Qi (6):
+  gawk: upgrade to 4.2.1
+  sysstat: upgrade to 11.7.3
+  dbus: upgrade to 1.12.8
+  dbus-test: upgrade to 1.12.8
+  dbus-glib: upgrade to 0.110
+  sudo: upgrade to 1.8.23
 
-Once again and please bump the kernel version in poky to default by 
-removing the pinning
+ meta/recipes-core/dbus/dbus-glib.inc                         |  4 +---
+ meta/recipes-core/dbus/dbus-glib_0.108.bb                    |  4 ----
+ meta/recipes-core/dbus/dbus-glib_0.110.bb                    |  4 ++++
+ .../dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb}        |  4 ++--
+ meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb}    | 12 ++----------
+ meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb}  |  4 ++--
+ meta/recipes-extended/sudo/sudo.inc                          |  5 +++--
+ .../recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} |  8 ++++----
+ .../sysstat/{sysstat_11.7.1.bb => sysstat_11.7.3.bb}         |  4 ++--
+ 9 files changed, 20 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-core/dbus/dbus-glib_0.108.bb
+ create mode 100644 meta/recipes-core/dbus/dbus-glib_0.110.bb
+ rename meta/recipes-core/dbus/{dbus-test_1.12.2.bb => dbus-test_1.12.8.bb} (95%)
+ rename meta/recipes-core/dbus/{dbus_1.12.2.bb => dbus_1.12.8.bb} (92%)
+ rename meta/recipes-extended/gawk/{gawk_4.2.0.bb => gawk_4.2.1.bb} (89%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.22.bb => sudo_1.8.23.bb} (81%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.7.1.bb => sysstat_11.7.3.bb} (53%)
 
-meta-poky/conf/distro/poky-lsb.conf:PREFERRED_VERSION_linux-yocto_linuxstdbase 
-?= "4.14%"
-meta-poky/conf/distro/poky-tiny.conf:PREFERRED_VERSION_linux-yocto-tiny 
-?= "4.14%"
-meta-poky/conf/distro/poky.conf:PREFERRED_VERSION_linux-yocto ?= "4.14%"
+-- 
+1.9.1
 
-
-Thanks
--Khem
-
-
-
-On 5/11/18 3:05 PM, Burton, Ross wrote:
-> I threw the branch at the Yocto Project autobuilder today, produced a
-> number of failures:
-> 
-> http://errors.yoctoproject.org/Errors/Latest//?filter=b23dba19607412c8cc7d267d95354d65f5631088&type=commit
-> 
-> Ross
-> 
-> On 5 May 2018 at 01:26, Khem Raj <raj.khem@gmail.com> wrote:
->> Hi All
->>
->> As you might have noticed that gcc 8.1 was released this week, I am
->> calling out for some testing help on testing branch so we can weed out
->> issues you might see in your setups. so if you have your
->> builders idling over weekend, then you know what they can do this weekend :)
->>
->> Highlighted changes are
->>
->> https://gcc.gnu.org/gcc-8/changes.html
->>
->> and porting doc is
->>
->> https://gcc.gnu.org/gcc-8/porting_to.html
->>
->> The branch is here
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
->>
->> Its uptodate on top of current master oe-core
->>
->> May fourth be with you !!
->>
->> Cheers!
->>
->> -Khem
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
