@@ -1,32 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 0670574E25
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ot0-f172.google.com (mail-ot0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7320074BEA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 16:14:48 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2018 09:14:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,403,1520924400"; d="scan'208";a="55429888"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2018 09:14:48 -0700
-To: Stefan Agner <stefan@agner.ch>
-References: <20180515140451.60660-1-stefan@agner.ch>
-	<b80d6b0c-6f27-8c28-26d3-b62019c303c9@linux.intel.com>
-	<e2efa2cc72ff1bf2c9620e1fd9ebaece@agner.ch>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <ec1476d7-1757-ebf9-7259-c2d55638b42e@linux.intel.com>
-Date: Tue, 15 May 2018 19:07:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Tue, 15 May 2018 19:13:58 +0000 (UTC)
+Received: by mail-ot0-f172.google.com with SMTP id y10-v6so1494649otg.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2018 12:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/W9K0iNnLWdx5KBTHyPgQzCj1rHMDby+KjZvagwBkYw=;
+	b=o7prbzW67+0OvbsD0vie7GaM9wHW5WRu2T6c+OhD28Wujvf2wQ7flgwvL67Fnv6WfG
+	aYcMKlVprrL/CNWP2LMypDiE+fpF0Z0aXnWL1lXeOlFj5FiQ3Usa0buF22vocWWPG8Fx
+	xiOlVvLIhfGGqwccOXap6et8TUyNnmpbw4/8sz8W4dhUF6NVqihKomAJY1lscOebNGOK
+	KMubvWmn9rBZp+tzDeptZC3C77x+GaByasJJBK/jMl1VrkaMdfRyLvnk/7s36Ir9TQRa
+	ntXZEo3fqqo8ctqBQvXqBDBuVRqlNNMREI0N/ox0BY6cElLbYHkD9EDmeNMLaKxZq6fa
+	0vPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/W9K0iNnLWdx5KBTHyPgQzCj1rHMDby+KjZvagwBkYw=;
+	b=huxMRevP5/Y4VHBpluTaInIlybQpRdDPEhOmO9Tpq7JTh2Q3zNMHXG+K+AOqK+B6T9
+	iMIn3fZCWVZ1hWbdjNoYWTeRP72rJ0j6Uyqub61Zw+YSsm/yF1CCgkcLcbNWTX2848Zf
+	0zafVcmU8jeEVJyNj/hfqIbw30/Xi3t2HrzL9HCTJDnmx5Zs/CCOSVElWLUAKJrk8JNH
+	MD1VcV4jNHzk/T0YVIpq3xDXciIvJhNLa6nQzlTbeYLZDdZ/pbKuZaREpyr7j7hC8CLG
+	x9djDy7ZOb7LUvqs/XGN/29Oh1sKZnGlUt9N6t+XnsLCKkS2MvPWr4jWv4ec1T8djm0r
+	X0OA==
+X-Gm-Message-State: ALKqPwfILZbJuLT8HDQSRzSuGHsid8/x9KJ3sMfRKpGjBmGOa5I7zbjU
+	QQe4veWFBKiaUkiWPCp02tOjXg==
+X-Google-Smtp-Source: AB8JxZqKiLJKst9jOAXniTl44fqL7RFb9mBHFl2mZ97TL/12/5e5IMUBm0yLqQaZCAYy28WOAvbZ2w==
+X-Received: by 2002:a9d:48c6:: with SMTP id
+	a6-v6mr11085665otj.359.1526411639042; 
+	Tue, 15 May 2018 12:13:59 -0700 (PDT)
+Received: from localhost.localdomain ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	s101-v6sm425868ota.25.2018.05.15.12.13.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 15 May 2018 12:13:58 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2018 12:13:51 -0700
+Message-Id: <1526411631-28651-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <e2efa2cc72ff1bf2c9620e1fd9ebaece@agner.ch>
-Cc: muhammad_shakeel@mentor.com, Stefan Agner <stefan.agner@toradex.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] postinsts fixes
+Subject: [PATCH v3] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,45 +58,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 16:14:49 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 May 2018 19:13:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 05/15/2018 07:07 PM, Stefan Agner wrote:
-> On 15.05.2018 17:03, Alexander Kanavin wrote:
->> On 05/15/2018 05:04 PM, Stefan Agner wrote:
->>> This follows up on the discussion a while ago:
->>> https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg104996.html
->>
->> Took me a moment to realize all three patches are specific to
->> opkg/dpkg and do not change how rpm (or general 'postinst handling')
->> works. Perhaps you could amend the commit messages to emphasize that?
-> 
-> Patch 1 has opkg in the subject.
-> 
-> Patch 2/3 mention opkg/dpkg in the commit log.
-> 
-> Patch 3 also really edits the DpkgOpkgRootfs class, which should make it
-> rather obvious.
-> 
-> But I agree for patch 2 it would be good to emphasize it.
-> 
-> How about adding this after the first paragraph:
-> The behavior for rpm stays the same.
+Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
+KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
+vmlinux, which will result in two calls to "make vmlinux" from
+kernel_do_compile().
 
-That, and amend the commit summaries:
+Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
+minor non-functional updates to formatting and comments.
 
-patch 2:
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ v2: refresh + make typeformake a set based on suggestion from Martin Hundebøll
+ v3: ensure ordering of KERNEL_IMAGETYPE_FOR_MAKE is deterministic
 
-run-postinsts: for dpkg/opkg, do not rely on /etc/*-postinsts
+ meta/classes/kernel.bbclass | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-patch 3:
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 6595a04..68d2185 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -62,32 +62,36 @@ python __anonymous () {
+     type = d.getVar('KERNEL_IMAGETYPE') or ""
+     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+     types = d.getVar('KERNEL_IMAGETYPES') or ""
+-    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
+     if type not in types.split():
+         types = (type + ' ' + types).strip()
+     if alttype not in types.split():
+         types = (alttype + ' ' + types).strip()
+     d.setVar('KERNEL_IMAGETYPES', types)
+ 
++    # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
++    # by the kernel build system and types which are created by post-processing
++    # the output of the kernel build system (e.g. compressing vmlinux ->
++    # vmlinux.gz in kernel_do_compile()).
++    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types supported
++    # directly by the kernel build system.
+     if not d.getVar('KERNEL_IMAGETYPE_FOR_MAKE'):
+-        # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
+-        # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
+-        # is built (such as using gzip to compress vmlinux)
+-        typeformake = types.replace('vmlinux.gz', 'vmlinux')
+-        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
++        typeformake = set()
++        for type in types.split():
++            if type == 'vmlinux.gz':
++                type = 'vmlinux'
++            typeformake.add(type)
++
++        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', ' '.join(sorted(typeformake)))
++
++    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
++    imagedest = d.getVar('KERNEL_IMAGEDEST')
+ 
+     for type in types.split():
+         typelower = type.lower()
+-        imagedest = d.getVar('KERNEL_IMAGEDEST')
+-
+         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
+-
+         d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
+-
+         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
+-
+         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+-
+         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+-- 
+1.9.1
 
-rootfs.py: for dpkg/opkg, don't install postinsts if package management 
-is present
-
-Otherwise those one liners can give the wrong impression.
-
-Alex
 
