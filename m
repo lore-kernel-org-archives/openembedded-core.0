@@ -1,48 +1,51 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7418374F75
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8921775085
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 06:11:15 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id l1-v6so19188983wmb.2
+	Tue, 15 May 2018 06:11:18 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id f6-v6so17222309wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 23:11:16 -0700 (PDT)
+	Mon, 14 May 2018 23:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=47frabEF4zpr2/7OsYXCZCqfkU9YgPoCap20SfMqY8Q=;
-	b=h124GIRXXurw4m+PxpCk8mi0tommHCjVfH+mTteby1QUG0xGkTGzXfbJdH3SO6luxY
-	LYXNKXXgSrfb5JxReZDi5oomBp/tvUBmW6y/erxcCkun8bqDD9P6t3zcp4LttW9qUNkh
-	lKQq1ebL/H+eJHGFNGb/smsfxI7CHxW2l3U4Nan0e06eeCV8My1b/s4DQEKRXTA6J3FP
-	Or+swB1/KDG9IUZS/2Hiqcf3SGSC9xg7fZXYAk1PQ+EpubGDtWeWIhD8LVUZ4yXIgLp0
-	ObmHvhvtzk++aSSiUeItjbq5F4EYjvHPf6MVTDaLKukT/curQ5P4RIgyl0edKxzzJrTx
-	gDXg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=77ZYk0ykB2Evj6NAHBR04QVS3H/09ADbF9wyG7CNj2M=;
+	b=i6TlF5GqPPM5A7n5ppdWz8I/6VgRhWIINIKQFFDw+o6R3ZF1hLziBNPZjEjbnnbMFu
+	lvkURbOCD/eF9HQmwpFlspUYJqeRTXVt1+CD2TQTAmHIrXFcperE04NKUSUrRLY+LMPn
+	SwK78jq8ezKAAohP94ioftr+hHivZhMfas2/1c2HDuvkfG+BtUrzRUyCalIiBcDBp2vn
+	Y22AZxkw5yumZ996xFK37ONslv3t7raBb6GKYhBa71jvo5AWnHr68jiqMNYoG/r6FbVY
+	8EzgF0RWzv2bgt/D+jTxabLKKX4KhPQBVlDthwNKP60H6iruTTgU32es4HS27uUyirMw
+	vI0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=47frabEF4zpr2/7OsYXCZCqfkU9YgPoCap20SfMqY8Q=;
-	b=bqR6ORsF+54y6nHnz5Vm2Wg02UFOvGh+0Y48huq+gwebxqDDiG74rxTIRdvjDQsGeW
-	guozH4kAX3+TuGCG3JsHVKxzly07JDPGGKiHzLxM22Bqzo5na+/1EegVSpEInZVMI0WD
-	Dm4XaTu9EBSDoH2zw11YYwZL+Hp4DbK8WXTWMCtfCC7LIw0XWfWFdnysfutj9M19CHvZ
-	hZZ7+7TdydDM+hKX8yRVZbHd72A6UpDDuQSNM7WOKtpddf4YzlQstI5XB/XsYa2SNbhX
-	xSqTlczA6v486x5CeuAuieIclLnqFrWNZ0QGyNr5zWnNpwX1H44v7bEsr4KTLew4joT8
-	AsXw==
-X-Gm-Message-State: ALKqPwdCoAd/bojNyN/3HAtwKCXLD+G1zch/dBnPfTvvRtlFhxdkf8oU
-	66pobsCf5ldW2Unt9Kf2m5JZKg==
-X-Google-Smtp-Source: AB8JxZrlgYTgIR1rRK+QbHJ7gPBBzU317j0K6UTKOfbAd8/pKnKLWmcrl5HX7VxDdUGmr4nI6sVNRA==
-X-Received: by 2002:a1c:acc2:: with SMTP id
-	v185-v6mr6715523wme.67.1526364675697; 
-	Mon, 14 May 2018 23:11:15 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=77ZYk0ykB2Evj6NAHBR04QVS3H/09ADbF9wyG7CNj2M=;
+	b=fCQ+N+b2LtLffR68dI5U1mfEhlNfWpnSs0QwIjm6L+wjfKl9OQNdhXxwFZzs03Eo5v
+	3C91oHS/9djMUY/5XFK5A9Gk8WN2i6BlQBH2w0a6+nG69PnPMj94qmuLP+RtnKCsNjKy
+	JqBvGb6TP9mqHIqsKmmllJx7x9IHFUGlIivMQriQTMJuCN7Sp1KxLcxKj9oyvCu89drR
+	s7NakPRupUFDx72m0NKMtuRnoRvZjLtrnQ1CwecGJ+fu9V7AQfYMBeog4zzqhaZmVV/W
+	VXkNcdaBQGIra5/Hw5YsCvrKpiWfQQqKZax8VKhaSXmduZ0gk3OmMuGg/ZbxdNMu+I2F
+	1twQ==
+X-Gm-Message-State: ALKqPwfcjdedhcYKSsCqN1ogWVLMuctHC074hkyBCA/vzbJ5YJO3U/iG
+	HKQqZuPTeOG2+zznKt2XT/4yrQ==
+X-Google-Smtp-Source: AB8JxZpqDTmUH+7gtPLOjZjpFPLaImj+ttLdXBzZpUvVogpxDKIGnrfkbkapbnWQcsdOmQgr5vxybQ==
+X-Received: by 2002:a1c:a01a:: with SMTP id
+	j26-v6mr6284671wme.74.1526364678803; 
+	Mon, 14 May 2018 23:11:18 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([176.32.49.4]) by smtp.gmail.com with ESMTPSA id
-	131-v6sm18086723wms.34.2018.05.14.23.11.13
+	131-v6sm18086723wms.34.2018.05.14.23.11.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 May 2018 23:11:14 -0700 (PDT)
+	Mon, 14 May 2018 23:11:18 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 May 2018 08:11:07 +0200
-Message-Id: <1526364671-29451-1-git-send-email-liu.ming50@gmail.com>
+Date: Tue, 15 May 2018 08:11:08 +0200
+Message-Id: <1526364671-29451-2-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1526364671-29451-1-git-send-email-liu.ming50@gmail.com>
+References: <1526364671-29451-1-git-send-email-liu.ming50@gmail.com>
 Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH 0/4] support initramfs/devicetree bundle for uImage
+Subject: [PATCH 1/4] kernel-uimage.bbclass: use boolean to check KEEPUIMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,23 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 06:11:15 -0000
+X-List-Received-Date: Tue, 15 May 2018 06:11:18 -0000
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-Ming Liu (4):
-  kernel-uimage.bbclass: use boolean to check KEEPUIMAGE
-  kernel.bbclass: make bundle_initramfs to be more flexible
-  kernel-uimage.bbclass: support initramfs bundle
-  kernel-uimage.bbclass: support devicetree bundle
+It now accepts yes/on/true/1 as positive values.
 
- meta/classes/kernel-devicetree-common.bbclass | 21 ++++++++
- meta/classes/kernel-devicetree.bbclass        | 29 +++-------
- meta/classes/kernel-uimage.bbclass            | 78 +++++++++++++++++++++++----
- meta/classes/kernel.bbclass                   | 74 ++++++++++++++-----------
- 4 files changed, 138 insertions(+), 64 deletions(-)
- create mode 100644 meta/classes/kernel-devicetree-common.bbclass
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-uimage.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index 1d8656e..d3d9d77 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -9,9 +9,9 @@ python __anonymous () {
+         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+         # to kernel.bbclass . We override the variable here, since we need
+         # to build uImage using the kernel build system if and only if
+-        # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+-        # the uImage .
+-        if d.getVar("KEEPUIMAGE") != 'yes':
++        # KEEPUIMAGE == yes|1|true|on. Otherwise, we pack compressed vmlinux
++        # into the uImage .
++        if not oe.types.boolean(d.getVar("KEEPUIMAGE")):
+             typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+             if "uImage" in typeformake.split():
+                 d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('uImage', 'vmlinux'))
 -- 
 2.7.4
 
