@@ -1,46 +1,52 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2F8474B03
+Return-Path: <gizero@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AB8074DEF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 21:38:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C892B183B3;
-	Tue, 15 May 2018 23:38:03 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id uirrB6YUMMCQ; Tue, 15 May 2018 23:38:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 253A418391;
-	Tue, 15 May 2018 23:38:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0646B1A062;
-	Tue, 15 May 2018 23:38:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EE09A1A05F;
-	Tue, 15 May 2018 23:38:02 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 15 May 2018 23:38:02 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id E19182F6B;
-	Tue, 15 May 2018 23:38:02 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4FLbtoZ016641;
-	Tue, 15 May 2018 23:37:55 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4FLbt3R016639;
-	Tue, 15 May 2018 23:37:55 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 May 2018 23:33:03 +0200
-Message-Id: <20180515213303.30553-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Amanda Brindle <amanda.r.brindle@intel.com>
-Subject: [master][sumo][PATCH] oe-pkgdata-util: lookup-recipe, package-info: Don't finish prematurely
+	Tue, 15 May 2018 21:46:31 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id a2-v6so1206225uak.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2018 14:46:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=B9sIZ7Vg8NlqHHx7bj09oDyJOsytYxzyvOQkK3KLbOg=;
+	b=mW+afA93lZ8S5BdGly6kfO2A472bNgLFty4VJQ7lYAisFigFeI6Dy7+9B9GBkznfU0
+	w+0DgUZHYqQEl/i2EUa080oivNoew7OnRy08B7PbslRZf9xfCT6hDkQZ4jGL97pDwxdZ
+	S4kCCZn0Jlfpo43AsL1E2obrPCKB5vjfB5VK+yMYvgKnAOC3nkpzl6Z1gBndv54T9FXl
+	TDWPK7DY28XUMNg2rAMj9d+lc/9BOn0dwm1mJsjJcezFyyB81mQ8f4IJX5KKplq6CsUa
+	StcFNbBUsQIldQKv/VDriPiHdA4j0AHt1Phqygk2BTq9K7G2HKssMXRUz/TuqUVdlUaa
+	rP7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=B9sIZ7Vg8NlqHHx7bj09oDyJOsytYxzyvOQkK3KLbOg=;
+	b=a+1DAyPV+k+gSi1Y8MRrtUFAVIh5p3Q6wepET3ML4nqDVaNXiWrvU/YtP/E51e3+yV
+	Zkd/ixGnw/0hI8HxhEh/oQnPBUTJjHk4/vNPZVNbRQUt4VWYUCO3lop9C/RTbKoKPSn1
+	qV7I25P1zCLab5s2jdmoJbVwN6CmIMSwW8RIfoFxLyZZHzR6F47x5kInf+wT9ivQCgz+
+	WkGKdjGVjsrppeInGrt2EVlP085FKB5B14KO0Y4uWBrm3zO1Dp45GPyL3g5cWVpBiCzW
+	wyTyj96+KIphlkCiyQ/0MtXh9rNdLzro0nunyza//11CDvxFsbQOWZ/1Fzp9oT22Bmvl
+	KR3Q==
+X-Gm-Message-State: ALKqPwe+xzGA7dhIhH5yfo39M8NwEgkuksfwQk1hrSs2k6w9HK5iZBvp
+	dzgffBC4fn8/OVS8SVTPl17Su14mEEz0uikdfdU=
+X-Google-Smtp-Source: AB8JxZosjsCoIlVZiJLvGLmI3FJp1byCrkbzizw4PmfSJLUbWGBXSnlYfqmwPvIawpwdHkHabMiypSImK2Q7WOI1irg=
+X-Received: by 2002:ab0:5326:: with SMTP id
+	x35-v6mr17899462uax.29.1526420792396; 
+	Tue, 15 May 2018 14:46:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.176.4.44 with HTTP; Tue, 15 May 2018 14:46:11 -0700 (PDT)
+In-Reply-To: <CAC+thW1r84j-+k_6xU3hESZnjwLYTUc3nWQFpca+=zkLU-ORNw@mail.gmail.com>
+References: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+	<1526286006.5720.113.camel@linuxfoundation.org>
+	<CAC+thW1r84j-+k_6xU3hESZnjwLYTUc3nWQFpca+=zkLU-ORNw@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Tue, 15 May 2018 23:46:11 +0200
+Message-ID: <CAC+thW0aW-cuOFRb80JAKQi4hCLCaLGu9tONEev4byj8kuCJog@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Running BitBake multiple times without rechecking upstream AUTOREV versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 21:38:04 -0000
+X-List-Received-Date: Tue, 15 May 2018 21:46:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If a package name exists in runtime-rprovides, lookup-recipe and
-package-info would finish after printing information about that
-package even if more packages were specified.
+On Tue, May 15, 2018 at 5:43 PM, Andrea Galbusera <gizero@gmail.com> wrote:
+>
+>
+> Il 14 mag 2018 10:20 AM, "Richard Purdie"
+> <richard.purdie@linuxfoundation.org> ha scritto:
+>
+> On Fri, 2018-05-11 at 18:23 +0000, Chris Laplante via Openembedded-core
+> wrote:
+>
+>> Hi all,
+>>
+>> I=E2=80=99m working on using Jenkins to host our Yocto build. One of the
+>> things that would be nice is to be able to do a =E2=80=9Cbitbake our-use=
+r-
+>> image=E2=80=9D, upload the artifacts to our network file storage, and th=
+en do
+>> a =E2=80=9Cbitbake our-user-image -c populate_sdk_ext=E2=80=9D. I=E2=80=
+=99d like to do these
+>> separately so that developers are not waiting around for the eSDK to
+>> be generated if all they care about is the kernel, for example. My
+>> concern is that the second bitbake invocation could end up building
+>> different stuff if someone were to check in code in between when the
+>> two =E2=80=9Cbitbake=E2=80=9Ds are run. This is primarily a concern with=
+ recipes that
+>> use AUTOREV (as we do for development purposes).
+>>
+>> Is there a way to essentially =E2=80=9Cfreeze=E2=80=9D the BitBake data =
+store and re-
+>> use it across multiple bitbake invocations?
+>
+> Have you tried BB_SRCREV_POLICY =3D "cache"?
+>
+>
+> Out of curiosity and probably unrelated to the OP's issue with images/SDK
+> SRCREVs consistency issue.... Could setting this variable be of any help
+> even for building usable eSDKs when AUTOREV is around? There's an issue i=
+n
+> bugzilla (don't have id at hand) dealing with eSDK / AUTOREV
+> incompatibility...
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- scripts/oe-pkgdata-util | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index aea8a57516..5dd9588224 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -277,7 +277,7 @@ def lookup_recipe(args):
-                     print("%s is in the RPROVIDES of %s:" % (pkg, f))
-                 pkgdatafile = os.path.join(args.pkgdata_dir, "runtime", f)
-                 parse_pkgdatafile(pkgdatafile)
--            break
-+            continue
-         pkgdatafile = os.path.join(args.pkgdata_dir, 'runtime-reverse', pkg)
-         if not os.path.exists(pkgdatafile):
-             logger.error("The following packages could not be found: %s" % pkg)
-@@ -341,7 +341,7 @@ def package_info(args):
-                     print("%s is in the RPROVIDES of %s:" % (pkg, f))
-                 pkgdatafile = os.path.join(args.pkgdata_dir, "runtime", f)
-                 parse_pkgdatafile(pkgdatafile)
--            break
-+            continue
-         pkgdatafile = os.path.join(args.pkgdata_dir, "runtime-reverse", pkg)
-         if not os.path.exists(pkgdatafile):
-             logger.error("Unable to find any built runtime package named %s" % pkg)
--- 
-2.12.0
-
+Here is the link to the above mentioned bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11350
 
