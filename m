@@ -1,29 +1,50 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E07274F77
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
+	[209.85.128.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 656B975036
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 09:47:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2018 02:47:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,403,1520924400"; d="scan'208";a="55325773"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2018 02:47:29 -0700
-To: Joe Rutledge <joe.rutledge@phabrix.com>,
-	openembedded-core@lists.openembedded.org
-References: <1526377501-7367-1-git-send-email-joe.rutledge@phabrix.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7fa347cd-dfcc-fe71-8807-08e3a7d45710@linux.intel.com>
-Date: Tue, 15 May 2018 12:40:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <1526377501-7367-1-git-send-email-joe.rutledge@phabrix.com>
-Subject: Re: [PATCH] python-3.5: Include _posixsubprocess in package
+	Tue, 15 May 2018 09:51:32 +0000 (UTC)
+Received: by mail-wr0-f172.google.com with SMTP id y15-v6so15275389wrg.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2018 02:51:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=fj2Eg7ULIK0ly1ZoeG9UwUExXVSwdOGYgIPP+mhpzqs=;
+	b=oGS/hfw0MtWd1NkEs3ks289+LBM8cBY5YD2vGHBaVQN7oUbZXnDkqXmPOclt2wLWcn
+	sOpR1eMf+hBpqu9D+ZYQhFpRxiH6b0M31JWUvtc8+uZjc9bS/EE0UcupwrJAeRxGQ6IM
+	wqOZDiCvevUxk6purknxIOezPtqJI5C3TrDt5uZQAdxB38lvd3/VGPzCCRz7GZ+wS9Kq
+	K+TBA4s7Y6hjpzlnXAyg+IdW0eizSxvrvjwy60NNu3YX9aOo3nlkQ71NVipo3KRFHP2I
+	z61dSZzm3OuZpb+A11nB5985no8Ys3BQHtpPb5IBQxx/L6EU3LbCKhoczcR+devuGGnd
+	ZoRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=fj2Eg7ULIK0ly1ZoeG9UwUExXVSwdOGYgIPP+mhpzqs=;
+	b=hhKEdo+wAtj2qYidex9lN/DDg9aBnmHL24MoTWmVZVyTZSEMCN05Qbvyp+JpnfuBE+
+	tRbic+R5HWnKE4ppGIO5CAerTmxOBweZiCxUANQHBS5bWllruRoVsvkqB6beCGv3m2YW
+	D/aDV8MKfe8cwfIc0WR/S4vRQpwIEbVe6MfEMb6P83jwvi/NJZ9jva0HtFM7ScsDihH8
+	kgNVvWZ89NZwkp6QrBzvGmmfA6gqYi5NFRUKX5N+5PqJ3y0wolJa7VB9LhyF4Lj59vX7
+	NgQCDb9ukXCLOAjwSlqa61FO21M/15kivpqYuTgWDdiCQr9Zl+XWAtSDTXfejx5mIoZi
+	Zm7A==
+X-Gm-Message-State: ALKqPwfUJUUZY4MBuoBhtx+qg1BCDMduGL2vlRJ3ZFsn+L24o5PsZQOy
+	MfyNtfTpagbXOfStwVzwnI5PC2tr
+X-Google-Smtp-Source: AB8JxZpR9ywTucCLZDei5K6lm954EEZd8YuOorI8Afol46qC8a2wQWg9PvZfWjgDT9o7YcRR2Cayiw==
+X-Received: by 2002:adf:8186:: with SMTP id
+	6-v6mr10646613wra.160.1526377892536; 
+	Tue, 15 May 2018 02:51:32 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	x16-v6sm8047693wmc.2.2018.05.15.02.51.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 May 2018 02:51:31 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2018 10:51:28 +0100
+Message-Id: <20180515095129.3107-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] packagegroup-self-hosted: remove libsdl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 09:47:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 May 2018 09:51:32 -0000
 
-On 05/15/2018 12:45 PM, Joe Rutledge wrote:
-> Change the python-3.5-manifest.inc file to also include:
-> lib-dynload/_posixsubprocess.*.so
-> 
-> This is needed for Python subprocess support but was not included.
+By default we now build our own libSDL, so don't ship libsdl in the self-hosted group.
 
-You need to include [krogoth] in the subject to indicate which release 
-this is for.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-> -    "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  +
-> +    "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  +
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index f1273e8a171..28f06d9c5aa 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -188,8 +188,6 @@ RDEPENDS_packagegroup-self-hosted-graphics = "\
+     libgl-dev \
+     libglu \
+     libglu-dev \
+-    libsdl \
+-    libsdl-dev \
+     libx11-dev \
+     adwaita-icon-theme \
+     xdg-utils \
+-- 
+2.11.0
 
-What has changed here?
-
-Alex
 
