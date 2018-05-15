@@ -1,48 +1,47 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f51.google.com (mail-pl0-f51.google.com
-	[209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F7757523B
+Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CA1D575076
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 00:12:56 +0000 (UTC)
-Received: by mail-pl0-f51.google.com with SMTP id u6-v6so8293151pls.9
+	Tue, 15 May 2018 00:18:30 +0000 (UTC)
+Received: by mail-pg0-f52.google.com with SMTP id v7-v6so3388300pgs.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 17:12:58 -0700 (PDT)
+	Mon, 14 May 2018 17:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=yfxbajxuEM8mvxfdVsEFrumoXinhJHhoLki73/BSfh8=;
-	b=IvPmyaY7KV5lYqQNEm+Jyq3mUzjTb3SsTj/8NkEtiE1Yhpjrx+fmbbITBEsMcnxOtt
-	+MHvxY9YS9vj/bIQNj5m0ga+9Ko8O0yBUgEy0gyNdZjNyFjmvvB2t/pbRH4YPv1OrTnv
-	yUqdWD1IkxjTCOWPfjAjN1/baWRH/YORLsSug/0sZgHTNcbCUBbbRyi1dsI0OqQxVfru
-	MWtirYQ7UzyU59D9lYN5+nzTqoKMZxNy4OqOyRF9cRXMU7w08HPCuaFRZjzEWRDu2vUC
-	BfDUvAfCZv7bDGBEfBCUXzUvd2Dpl2h28wtHE9zFDsTGndnS44xNRspbuWt00u7tRAQS
-	pbrw==
+	bh=3HHBUztJszn4ORtouJtxt+T9N1byjX037/KC0v5jnAo=;
+	b=NOUzNJy4ECdLZH0km0oV3COfACZ1aatd3Q6xnOWrlGsThayqF8MMAIp4dKnj55KtJu
+	/tGqI7N/ElI6kXc+Nx31NfqBAE+SwPf4v1bFFcQr88AYuqMAkYH7Ks1QqPBnEPNZJz5m
+	n1CgFYQNkpDEn2q47dykyXsyjayq1hs65dIsdoPcwG7dBYTXmGzSqYNKR3/0A3b+xVCa
+	pRLcg1YrkiXYfrwbk5yzobNtJXZRdGPuzfo2sAYXrlr2qPhgOdSgIo0dTNoItLT7ZLc0
+	ZArxjapGBBxCcwLe2690gestcl3l8VZDRr4+dZzi1sCuosKPtnjTyiyXTVuhl8oVK9hh
+	N6UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yfxbajxuEM8mvxfdVsEFrumoXinhJHhoLki73/BSfh8=;
-	b=RdicfVo/p89g1YEKsnpttZovRSYKBlkF85MoVu8Td0hRsrI6ei50DsLGSV3onQZGSB
-	ySUxTWFMOVcNukT2BhSli0oQPGd1/uLN4ma7FO8i9+p5dQVxhJrGrYa2dqGVY7p4HQjh
-	Bi55EWswlklBXOyxEkum97Dp4ikjGSUtqEW3igbLANn6hkfVH0KJYwFsSikZT8jMCtAF
-	tC0X4XRCma2a/doCjYxOJk1b6WdgvepaC9ipqYcTRGLYRCoc7UxYeqH9WGoQi1nERGLn
-	zcnkrtrCWKTMSNFb3+TUbCCNTEFO948QDBFfvgkEBuEjec+Pbw6nhEHByW+Bz8no0lZY
-	QUfA==
-X-Gm-Message-State: ALKqPwfB/8AmmQljsax0i5JJKhWBj1FsXxSQXxYPt5iYkWIOV3gC+uTp
-	ygSsVbiTHwNRZD3SHpSquh2VlQ==
-X-Google-Smtp-Source: AB8JxZrK3OZ1QGqtreOM0aYI6inZHP+HGvGR3UYlAldiDDU81ZideeE+2UWhNaP0H7vOt7sEWAc1BQ==
-X-Received: by 2002:a17:902:8f82:: with SMTP id
-	z2-v6mr11954260plo.350.1526343177918; 
-	Mon, 14 May 2018 17:12:57 -0700 (PDT)
+	bh=3HHBUztJszn4ORtouJtxt+T9N1byjX037/KC0v5jnAo=;
+	b=OZ0aapJlfr7yo3FRQk2spcR4au4+ldHsPQm2A4/sn5Z1Y3Lvs4CLmeYOeENpIl6afK
+	JZRu20Dva0eH29o5067bRtPVaFkaecm9RB2XT+Y6j/QdVqYSwup+yzKx38+UiRdK/jWi
+	h8LpT0XU+zvcR8pSscOhKc7MGeqQA9Zs6d0tarn9N0n350I1exbJhv2rS/BSzRIGLZjp
+	ymqarRxy00SJv8tUFXrY0dAd8FTujEg+3mX24xRaPcRrOtkigBojqpP9Evmw2KSla0QG
+	mUsimHCJMmPGCBKfuYt2j6ajdbSrtx4zRONY0r1GuJQB6p8l0W7jcIFSOX/lCz6U5aGi
+	YOSA==
+X-Gm-Message-State: ALKqPwclv234Oh9/DRlnIdpq1RR1x+TVkFmkaYvLLr6Q03V+VmeYx4CO
+	WkHnacm9sUNsEZjpTnztAeVaRA==
+X-Google-Smtp-Source: AB8JxZrO3eIUdn4wqbqp2bKO9dmviHGpFjuxJJUmELFU5CwmRrgNLySNffPBPoemv8xqqG2q+patjg==
+X-Received: by 2002:a65:650a:: with SMTP id
+	x10-v6mr10006469pgv.169.1526343511353; 
+	Mon, 14 May 2018 17:18:31 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	n10-v6sm24255195pfk.145.2018.05.14.17.12.56
+	h1-v6sm19260236pfg.135.2018.05.14.17.18.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 May 2018 17:12:57 -0700 (PDT)
+	Mon, 14 May 2018 17:18:30 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 May 2018 17:12:51 -0700
-Message-Id: <1526343171-28124-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 14 May 2018 17:18:22 -0700
+Message-Id: <1526343502-28278-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] bitbake.conf: drop obsolete comment refering to the fail-fast over-ride
+Subject: [PATCH v3] bitbake.conf: drop obsolete comment referring to the fail-fast over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 00:12:57 -0000
+X-List-Received-Date: Tue, 15 May 2018 00:18:30 -0000
 
 The comment appears to have been accidentally left behind when the
 fail-fast over-ride was removed by:
@@ -67,6 +66,9 @@ rather than environment variables.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
+ v2: drop references to environment variables
+ v3: fix typo in subject (refering -> referring)
+
  meta/conf/bitbake.conf | 13 +++++--------
  1 file changed, 5 insertions(+), 8 deletions(-)
 
