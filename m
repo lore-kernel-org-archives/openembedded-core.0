@@ -1,30 +1,17 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 8045375085
+Return-Path: <joe.rutledge@phabrix.com>
+Received: from ion-systems.net (custmail.ion-systems.net [213.129.94.130])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E1B074FA0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 08:43:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 May 2018 01:43:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,403,1520924400"; d="scan'208";a="55312420"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2018 01:43:28 -0700
-To: Joe Rutledge <joe.rutledge@phabrix.com>,
-	openembedded-core@lists.openembedded.org
-References: <6b04a571-cf20-5f25-8147-d2fe72fdeb90@phabrix.com>
-	<3a2ff1bf-fa18-9b6b-83ce-e6d7fdd271bc@phabrix.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <05bac2d0-0f90-27ac-13fd-f26da087aa86@linux.intel.com>
-Date: Tue, 15 May 2018 11:35:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <3a2ff1bf-fa18-9b6b-83ce-e6d7fdd271bc@phabrix.com>
-Subject: Re: Krogoth branch Python 3.5 package maintainer
+	Tue, 15 May 2018 09:45:06 +0000 (UTC)
+Received: from Thripper.dynamic.ziggo.nl ([217.63.252.239]) by ion-systems.net
+	with MailEnable ESMTP; Tue, 15 May 2018 10:45:05 +0100
+From: Joe Rutledge <joe.rutledge@phabrix.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2018 10:45:01 +0100
+Message-Id: <1526377501-7367-1-git-send-email-joe.rutledge@phabrix.com>
+X-Mailer: git-send-email 2.7.4
+X-ME-Bayesian: 0.000000
+Subject: [PATCH] python-3.5: Include _posixsubprocess in package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +24,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 08:43:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 May 2018 09:45:07 -0000
 
-On 05/15/2018 11:35 AM, Joe Rutledge wrote:
-> I'm not sure if this is the right address to ask the question to but I 
-> thought you may be able to help? Apologies for the cross post to 
-> poky@yoctoproject.org, I've only just found out that that's for more 
-> general issues.
-> 
-> I have an issue with the Python 3.5 packaging within the Krogoth branch 
-> of Poky. It doesn't seem to package the _posixsubprocess library needed 
-> for deployment onto the target, even when the rest of the subprocess 
-> python files are there. I've fixed this within python-3.5-manifest.inc 
-> and am looking for the maintainer to see if the patch is valid and if 
-> they want to include it within the mainline Krogoth branch. Can you 
-> point me in the right direction?
+Change the python-3.5-manifest.inc file to also include:
+lib-dynload/_posixsubprocess.*.so
 
-Prepare the patch and send it here to oe-core list. However, you're 
-better off upgrading to a supported release of YP.
+This is needed for Python subprocess support but was not included.
 
-Alex
+Signed-off-by: Joe Rutledge <joe.rutledge@phabrix.com>
+---
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.5.py      | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 0ad9186..7b642c3 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -231,7 +231,7 @@ FILES_${PN}-stringold="${libdir}/python3.5/lib-dynload/strop.*.so ${libdir}/pyth
+ 
+ SUMMARY_${PN}-subprocess="Python subprocess support"
+ RDEPENDS_${PN}-subprocess="${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-selectors"
+-FILES_${PN}-subprocess="${libdir}/python3.5/subprocess.* "
++FILES_${PN}-subprocess="${libdir}/python3.5/subprocess.* ${libdir}/python3.5/lib-dynload/_posixsubprocess.*.so "
+ 
+ SUMMARY_${PN}-syslog="Python syslog interface"
+ RDEPENDS_${PN}-syslog="${PN}-core"
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index eac493a..0db8540 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -17,7 +17,7 @@ import os
+ import sys
+ import time
+ 
+-VERSION = "3.5.0"
++VERSION = "3.5.1"
+ 
+ __author__ = "Michael 'Mickey' Lauer <mlauer@vanille-media.de>"
+ __version__ = "20140131"
+@@ -173,7 +173,7 @@ if __name__ == "__main__":
+     "warnings.* site.* stat.* " +
+     "UserDict.* UserList.* UserString.* " +
+     "lib-dynload/binascii.*.so lib-dynload/_struct.*.so lib-dynload/time.*.so " +
+-    "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  + 
++    "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  +
+     "_weakrefset.* sysconfig.* _sysconfigdata.* config/Makefile " +
+     "${includedir}/python${PYTHON_BINABI}/pyconfig*.h " +
+     "${libdir}/python${PYTHON_MAJMIN}/collections " +
+@@ -349,7 +349,7 @@ if __name__ == "__main__":
+     "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
+ 
+     m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle ${PN}-signal ${PN}-selectors",
+-    "subprocess.*" )
++    "subprocess.* lib-dynload/_posixsubprocess.*.so" )
+ 
+     m.addPackage( "${PN}-signal", "Python set handlers for asynchronous events support", "${PN}-core",
+     "signal.*" )
+-- 
+2.7.4
+
 
