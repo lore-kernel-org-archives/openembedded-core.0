@@ -1,50 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1809274D7F
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AB40A74D9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 19:23:40 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id f3-v6so913856uan.9
+	Tue, 15 May 2018 20:14:03 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id q189-v6so975237vkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 12:23:42 -0700 (PDT)
+	Tue, 15 May 2018 13:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=NkCabKwf7Bhz/i7KNauCRwY5++lU0Z5QhRJgQ2AudJQ=;
-	b=pPyJMwJXf2Xlr5zgcnI8s5f0hP6obQB1dlrkwdhnM2n2APuLv8UQS8byQvt+ikR0rW
-	XDhnl6CpSfyncotYur5YP0impcV4sLAtHVPbhJxZBdjKVD4KtGeutAysNAEwCjkIeInF
-	EB7HsPiHkWgbaaZ/qfmXRJWlnW61M0ljDtQ6ZaX4OkiI7sgEyP3JKQ1pihWYVzwf2qP+
-	2nkB6soGkm+ZKCpBCukTUyxZkSwAhhXH/sX3gGBext8uZxKKIj4kkGzNpROWMwkVtiFu
-	9rvC0jwD5QDqmI9UmgNafqM6+bPxPsxIP82Ydh8p4Z81J6sarwl1IfiTll8HA0yLQ3Eg
-	iLNQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=efpp7CIeyqud2dn/aBHAE99IjyAlaa+iIlSI2z9i8xk=;
+	b=t7Ze0DFvVT0D/VcWpwOaczypf3ktDczorOUenyEcAy0h4MO113o2m/jrdpYW26TYYj
+	tAipsSXQSIF9hpWpVaihQ0H7DRfZa8KQ4FFRxfAqaSmNy3agQBYPzuWk/ZxMW7+zRNms
+	1yn0GPrdTqTVnShCdimIb3T7roHelQLP+0Mk8BzBxyCSGrLEwPOMLzovkWosAQMOa5Qr
+	x0lO/SRd9J3TRyxzohURdBToJaHP/AyHr3ocPeSP2DcOn6/r2XpQHnS70iN6j8VNlZV9
+	a8eCbmRF1in85mVkSpVhobZLQUEnGaEOzDEEhIrM4kU+MNIJXYZXzyloOC9BHzUwwJya
+	VIlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=NkCabKwf7Bhz/i7KNauCRwY5++lU0Z5QhRJgQ2AudJQ=;
-	b=Atx7cH/C84A6GRhW/N8W+/P5UGxzEI0c5oPwhAGUi8SouiAdzmMOWEApNqQ7LrKGXy
-	lQ2TxIKfiudmBepkWKYXVTkDFm3iuOBQYkXYNzps5nQWzzRQ8H8nlJt3jOB7eIeU7BlZ
-	lQ8Y50ENqNPrv61VtE8rjkqi688F3T2ma9ulGMtDdx/IDJ9pTTt8OjXCe40x0HabAhoW
-	GPVZJC1yzPbyUXf4RHX5S4C+so3Tg5pUPHmea37nlQo06Q0iq7Ja51ZD6dokXhPu4Wrp
-	/jbknnczLzwGnQGx/khOEM+OofPuGzOrYFATOXfGpaSia9pgBeTKKZh/eQE9+l2F95PI
-	PWoQ==
-X-Gm-Message-State: ALKqPwfYOJEnO3JZDu9znhCaikaWai0YezwU0ygSlQHtMsmNi2B/Fso3
-	KBY2bhcF+QVLQR0UJb5w2I+9vhmx9RHsxy6oKcs=
-X-Google-Smtp-Source: AB8JxZo86Tc/MNYP08lCp5zrAraD0LuiJntwrKNXlmNCkqCfjJwUxmPd/MTsfMpmzaj++0v+Vta9+ypcPHbLpMLLbFY=
-X-Received: by 2002:ab0:2054:: with SMTP id
-	g20-v6mr18232920ual.150.1526412221635; 
-	Tue, 15 May 2018 12:23:41 -0700 (PDT)
+	:message-id:subject:to;
+	bh=efpp7CIeyqud2dn/aBHAE99IjyAlaa+iIlSI2z9i8xk=;
+	b=ZKlnD/7qJxmQZqsQFMFf+qjgKiVVji5+c0RAa2gzoJh6Afh6heAL40BfQ9klCu7VpZ
+	LlwIVapCYjM0wVaNs2Jvqa1G7BYhwVxoTvEppiOla30nb0GvLSV5D+fjSIygQB0V5pX+
+	gPXDo8BHM5gfjXfmGzoXSELp94ZuPPJvLin3oH4pYoK3qAwURLY/SoCc9lGMzRjEs2q4
+	IUISeGgiWXw0X3TMAVgmiyNVCErVZxMiEcQAvRbz7t+foRgKGyepFq8o6F788Vp4uy6O
+	H8twdPmwtYcZTrNUZGNux5BdUBMfe0nsPUyY71aLo23/i3+UBQPY6lyZWqwJatNkiNM8
+	c4EA==
+X-Gm-Message-State: ALKqPwc1RZtLbxyrjSXGTdqyoPESL5whPYbdlNYMSvfboMc6z6bvSzlb
+	KszJKaKBaaYRmalHeJKdfP5Us3E0sFOI3QWAnEo=
+X-Google-Smtp-Source: AB8JxZrsOY8vIFIYrQrAmfi8BBsWTLU2eIc8CeTQHBx3hwRxroFjcQ/dyL4cWGEOV3h2gCRL9RGkfDfJ5iGlgFQiNpw=
+X-Received: by 2002:a1f:28ca:: with SMTP id
+	o193-v6mr6416985vko.194.1526415244010; 
+	Tue, 15 May 2018 13:14:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.176.48.148 with HTTP; Tue, 15 May 2018 12:23:41 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ5-2Bubqj4xu8tGXvxm1SataL5gXyfRudZn_d+0e+JnQ@mail.gmail.com>
-References: <1526337230-25723-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LZ5-2Bubqj4xu8tGXvxm1SataL5gXyfRudZn_d+0e+JnQ@mail.gmail.com>
+Received: by 10.176.48.148 with HTTP; Tue, 15 May 2018 13:14:03 -0700 (PDT)
+In-Reply-To: <1526082723-13508-1-git-send-email-armccurdy@gmail.com>
+References: <1526082723-13508-1-git-send-email-armccurdy@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 15 May 2018 12:23:41 -0700
-Message-ID: <CAJ86T=WH0ZDhLpWpoVndJ-gCXafgsAMTUGsjp_sb3mfsooP-Cw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
+Date: Tue, 15 May 2018 13:14:03 -0700
+Message-ID: <CAJ86T=U56fvKy5m6xv75LAzEDp5Sk8NWorjw4FSFkAi1=BNkMQ@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	akuster808 <akuster808@gmail.com>
+Subject: Re: [rocko][PATCH] libnl: fix CVE-2017-0553
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,118 +55,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 19:23:41 -0000
+X-List-Received-Date: Tue, 15 May 2018 20:14:03 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 15, 2018 at 6:48 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> Hi Andre,
+On Fri, May 11, 2018 at 4:52 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> An elevation of privilege vulnerability in libnl could enable a local
+> malicious application to execute arbitrary code within the context of
+> the Wi-Fi service. This issue is rated as Moderate because it first
+> requires compromising a privileged process and is mitigated by
+> current platform configurations. Product: Android. Versions: 5.0.2,
+> 5.1.1, 6.0, 6.0.1, 7.0, 7.1.1. Android ID: A-32342065. NOTE: this
+> issue also exists in the upstream libnl before 3.3.0 library.
 >
-> The autobuilder is failing in mips64 builds and I suspect this patch
-> is to blame.  For example
-> https://autobuilder.yocto.io/builders/nightly-mips64/builds/1001.
-
-Yes.
-
-  $ bitbake-diffsigs ... ...
-  basehash changed from 4c73c2d1e35cbb6229786c026945a8b7 to
-1fc1b817a40ff6510533d3a3f3c06492
-  Variable KERNEL_IMAGETYPE_FOR_MAKE value changed:
-  "[-vmlinux.bin-] vmlinux {+vmlinux.bin+}"
-
-I've sent a v3.
-
-> Ross
+>   https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0553
 >
-> On 14 May 2018 at 23:33, Andre McCurdy <armccurdy@gmail.com> wrote:
->> Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
->> KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
->> vmlinux, which will result in two calls to "make vmlinux" from
->> kernel_do_compile().
->>
->> Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
->> minor non-functional updates to formatting and comments.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  v2: refresh + make typeformake a set based on suggestion from Martin Hu=
-ndeb=C3=B8ll
->>
->>  meta/classes/kernel.bbclass | 28 ++++++++++++++++------------
->>  1 file changed, 16 insertions(+), 12 deletions(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 6595a04..68d2185 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -62,32 +62,36 @@ python __anonymous () {
->>      type =3D d.getVar('KERNEL_IMAGETYPE') or ""
->>      alttype =3D d.getVar('KERNEL_ALT_IMAGETYPE') or ""
->>      types =3D d.getVar('KERNEL_IMAGETYPES') or ""
->> -    kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->>      if type not in types.split():
->>          types =3D (type + ' ' + types).strip()
->>      if alttype not in types.split():
->>          types =3D (alttype + ' ' + types).strip()
->>      d.setVar('KERNEL_IMAGETYPES', types)
->>
->> +    # KERNEL_IMAGETYPES may contain a mixture of image types supported =
-directly
->> +    # by the kernel build system and types which are created by post-pr=
-ocessing
->> +    # the output of the kernel build system (e.g. compressing vmlinux -=
+> Backport fix from upstream libnl 3.3.0 release:
 >
->> +    # vmlinux.gz in kernel_do_compile()).
->> +    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types support=
-ed
->> +    # directly by the kernel build system.
->>      if not d.getVar('KERNEL_IMAGETYPE_FOR_MAKE'):
->> -        # some commonly used kernel images aren't generated by the kern=
-el build system, such as vmlinux.gz
->> -        # typeformake lists only valid kernel make targets, and post pr=
-ocessing can be done after the kernel
->> -        # is built (such as using gzip to compress vmlinux)
->> -        typeformake =3D types.replace('vmlinux.gz', 'vmlinux')
->> -        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
->> +        typeformake =3D set()
->> +        for type in types.split():
->> +            if type =3D=3D 'vmlinux.gz':
->> +                type =3D 'vmlinux'
->> +            typeformake.add(type)
->> +
->> +        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', ' '.join(typeformake))
->> +
->> +    kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->> +    imagedest =3D d.getVar('KERNEL_IMAGEDEST')
->>
->>      for type in types.split():
->>          typelower =3D type.lower()
->> -        imagedest =3D d.getVar('KERNEL_IMAGEDEST')
->> -
->>          d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
->> -
->>          d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imaged=
-est + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + typ=
-e)
->> -
->>          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (knam=
-e, typelower))
->> -
->>          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${=
-KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->> -
->>          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
->>
->>      image =3D d.getVar('INITRAMFS_IMAGE')
->> --
->> 1.9.1
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+>   https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb
+>   http://lists.infradead.org/pipermail/libnl/2017-May/002313.html
+
+Armin, please let me know if this is OK and I'll send the same fix for
+pyro and morty.
+
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  ...eck-for-integer-overflow-in-nlmsg_reserve.patch | 43 ++++++++++++++++++++++
+>  meta/recipes-support/libnl/libnl_3.2.29.bb         |  2 +
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+>
+> diff --git a/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+> new file mode 100644
+> index 0000000..594dd06
+> --- /dev/null
+> +++ b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+> @@ -0,0 +1,43 @@
+> +From 3e18948f17148e6a3c4255bdeaaf01ef6081ceeb Mon Sep 17 00:00:00 2001
+> +From: Thomas Haller <thaller@redhat.com>
+> +Date: Mon, 6 Feb 2017 22:23:52 +0100
+> +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
+> +
+> +In general, libnl functions are not robust against calling with
+> +invalid arguments. Thus, never call libnl functions with invalid
+> +arguments. In case of nlmsg_reserve() this means never provide
+> +a @len argument that causes overflow.
+> +
+> +Still, add an additional safeguard to avoid exploiting such bugs.
+> +
+> +Assume that @pad is a trusted, small integer.
+> +Assume that n->nm_size is a valid number of allocated bytes (and thus
+> +much smaller then SIZE_T_MAX).
+> +Assume, that @len may be set to an untrusted value. Then the patch
+> +avoids an integer overflow resulting in reserving too few bytes.
+> +
+> +Upstream-Status: Backport [https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb]
+> +CVE: CVE-2017-0553
+> +
+> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> +---
+> + lib/msg.c | 3 +++
+> + 1 file changed, 3 insertions(+)
+> +
+> +diff --git a/lib/msg.c b/lib/msg.c
+> +index 9af3f3a..3e27d4e 100644
+> +--- a/lib/msg.c
+> ++++ b/lib/msg.c
+> +@@ -411,6 +411,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
+> +       size_t nlmsg_len = n->nm_nlh->nlmsg_len;
+> +       size_t tlen;
+> +
+> ++      if (len > n->nm_size)
+> ++              return NULL;
+> ++
+> +       tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
+> +
+> +       if ((tlen + nlmsg_len) > n->nm_size)
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.2.29.bb
+> index 7d4839b..4ce80e8 100644
+> --- a/meta/recipes-support/libnl/libnl_3.2.29.bb
+> +++ b/meta/recipes-support/libnl/libnl_3.2.29.bb
+> @@ -12,7 +12,9 @@ DEPENDS = "flex-native bison-native"
+>  SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+>             file://fix-pktloc_syntax_h-race.patch \
+>             file://fix-pc-file.patch \
+> +           file://lib-check-for-integer-overflow-in-nlmsg_reserve.patch \
+>  "
+> +
+>  UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+>
+>  SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
+> --
+> 1.9.1
+>
 
