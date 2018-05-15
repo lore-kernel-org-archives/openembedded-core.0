@@ -1,50 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A973C74E17
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 3199D74DAD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 13:48:35 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id c5-v6so12549293itj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 06:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=B5Lw6XElZ2rpvQGFe4x/UvmjrnVVjUufOHnsZitmH6s=;
-	b=gwpAiaLpMJR6xa34CvO0RPMmPWcKC0rOp/tICAKcY67TmRTMUes4Iy9SrXafwguiby
-	qpidBaCUmwnnE0kIItowvbwGpheV+7dAkDGUTx1QuBc8SDFo4d5dW5lozhXPrGTCyc4X
-	g377mv+7YrqbSKEqcx2ItjDOcctJs1fv15T/dD/eSCI9TadkCMCgvBmh4y/Mzk9agMN7
-	McyyxBdqtM92uBDOEJxEkVFEwquT27T8vJJaLDsuOBY3pKK5NwIwvaJoIltKFsG/ciyx
-	rZ1tuTEi2eBU4Bdjl5VRCVMCI7d5TuxKBjgNEkLtVMsJq2MDD6So201dZKktgFG06UYk
-	mW3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=B5Lw6XElZ2rpvQGFe4x/UvmjrnVVjUufOHnsZitmH6s=;
-	b=Q1YfAIZ7XCvGJhQR414n9E5PLT6FVtHFa/H5dy3ijW1aW4NNNWplaBlt/5egVYWtPJ
-	4EFwHMB89NcGJnXxKOs92AOf6HoNdDUdAHOTjbNRWnTQBeOGnnAj6O7GJ4AnunnfzBd7
-	jBzU0ibLKcoOxcneLujBvCS/SKbb0TuQQ/1kR0aVjNwIaB4g2FC00kVFDUWfe3mWFJf3
-	OFl9Gl/ZbDETNaOFzL2shInZA2EXr7g7EraWcPInr7XRQXuW18Fyy6MDFz/ioowGIBqU
-	qX4OEBeWlyDjNHUAVUJ51CExqr6oZ22TgbnPPE2yW95L5/BGOQYrAsKhoFzkd/CBYgwr
-	D9hA==
-X-Gm-Message-State: ALKqPweC+oczeQRdeUew/t2/0Cxpz9Z1kF8kzNi+fWmuzGNNOFqYBXVm
-	dy0oioAq4hgZkuxAtAKnu9giHXXa7Raex4NNhvMP8A==
-X-Google-Smtp-Source: AB8JxZpazMY67pr0kx2J2BUZKCM/OEK+Xkp5IHtWfbXpZr0OOznxTtBr+PTYo09qm0Ovi38fsSwEATyv6/QDJYvZzkE=
-X-Received: by 2002:a6b:b74b:: with SMTP id
-	h72-v6mr15391289iof.201.1526392116394; 
-	Tue, 15 May 2018 06:48:36 -0700 (PDT)
+	Tue, 15 May 2018 14:04:56 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id C80805C19A4;
+	Tue, 15 May 2018 16:04:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1526393096;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=8sSO03LcCd4C5xMw5z68KG3T/BXr2pNDNt7rg0yr3vU=;
+	b=RTtkjhaaCxHr3+FGFD9BVsH1oayH/YKLv2cnxp7CUV805W4F5SyN2yoYuarcTQI5elZR10
+	H0j48s4Awh75A1GqT7B8+MYoAWOaO5zZjDKPVuC9xXsffREX2nK5FIlij1OYSroaSq1l0s
+	378YrajuDTW6B74sY5Kvf3Pv30hCA7w=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org, alexander.kanavin@linux.intel.com
+Date: Tue, 15 May 2018 16:04:48 +0200
+Message-Id: <20180515140451.60660-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Tue, 15 May 2018 06:48:15 -0700 (PDT)
-In-Reply-To: <1526337230-25723-1-git-send-email-armccurdy@gmail.com>
-References: <1526337230-25723-1-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 May 2018 14:48:15 +0100
-Message-ID: <CAJTo0LZ5-2Bubqj4xu8tGXvxm1SataL5gXyfRudZn_d+0e+JnQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
+X-Spamd-Result: default: False [-1.95 / 15.00]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+	BAYES_HAM(-2.85)[99.36%]; RCPT_COUNT_FIVE(0.00)[5];
+	MIME_GOOD(-0.10)[text/plain]; FROM_HAS_DN(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[]; DKIM_SIGNED(0.00)[];
+	TO_DN_SOME(0.00)[]; RCVD_COUNT_ZERO(0.00)[0];
+	MID_CONTAINS_FROM(1.00)[];
+	ASN(0.00)[asn:6830, ipnet:46.140.0.0/17, country:AT];
+	RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]
+Cc: muhammad_shakeel@mentor.com, Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH 0/3] postinsts fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,105 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 13:48:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 May 2018 14:04:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+From: Stefan Agner <stefan.agner@toradex.com>
 
-The autobuilder is failing in mips64 builds and I suspect this patch
-is to blame.  For example
-https://autobuilder.yocto.io/builders/nightly-mips64/builds/1001.
+Hi,
 
-Ross
+This follows up on the discussion a while ago:
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg104996.html
 
-On 14 May 2018 at 23:33, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
-> KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
-> vmlinux, which will result in two calls to "make vmlinux" from
-> kernel_do_compile().
->
-> Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
-> minor non-functional updates to formatting and comments.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  v2: refresh + make typeformake a set based on suggestion from Martin Hun=
-deb=C3=B8ll
->
->  meta/classes/kernel.bbclass | 28 ++++++++++++++++------------
->  1 file changed, 16 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 6595a04..68d2185 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -62,32 +62,36 @@ python __anonymous () {
->      type =3D d.getVar('KERNEL_IMAGETYPE') or ""
->      alttype =3D d.getVar('KERNEL_ALT_IMAGETYPE') or ""
->      types =3D d.getVar('KERNEL_IMAGETYPES') or ""
-> -    kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->      if type not in types.split():
->          types =3D (type + ' ' + types).strip()
->      if alttype not in types.split():
->          types =3D (alttype + ' ' + types).strip()
->      d.setVar('KERNEL_IMAGETYPES', types)
->
-> +    # KERNEL_IMAGETYPES may contain a mixture of image types supported d=
-irectly
-> +    # by the kernel build system and types which are created by post-pro=
-cessing
-> +    # the output of the kernel build system (e.g. compressing vmlinux ->
-> +    # vmlinux.gz in kernel_do_compile()).
-> +    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types supporte=
-d
-> +    # directly by the kernel build system.
->      if not d.getVar('KERNEL_IMAGETYPE_FOR_MAKE'):
-> -        # some commonly used kernel images aren't generated by the kerne=
-l build system, such as vmlinux.gz
-> -        # typeformake lists only valid kernel make targets, and post pro=
-cessing can be done after the kernel
-> -        # is built (such as using gzip to compress vmlinux)
-> -        typeformake =3D types.replace('vmlinux.gz', 'vmlinux')
-> -        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
-> +        typeformake =3D set()
-> +        for type in types.split():
-> +            if type =3D=3D 'vmlinux.gz':
-> +                type =3D 'vmlinux'
-> +            typeformake.add(type)
-> +
-> +        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', ' '.join(typeformake))
-> +
-> +    kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-> +    imagedest =3D d.getVar('KERNEL_IMAGEDEST')
->
->      for type in types.split():
->          typelower =3D type.lower()
-> -        imagedest =3D d.getVar('KERNEL_IMAGEDEST')
-> -
->          d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
-> -
->          d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagede=
-st + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type=
-)
-> -
->          d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname=
-, typelower))
-> -
->          d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${K=
-ERNEL_VERSION_PKG_NAME}' % (kname, typelower))
-> -
->          d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
->
->      image =3D d.getVar('INITRAMFS_IMAGE')
-> --
-> 1.9.1
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Patch 1 is rather simple and really fixes the main issue. The patch
+by itself has been tested with the relevant self test and passes.
+
+Patch 2/3 get rid of /etc/*-postinsts script in cases where the package
+management is present. This avoids a bunch of unnecessary scripts to be
+present on the rootfs. It also avoids the systemd service to be present
+forever with in case no postinst scripts have been deployed:
+Condition: start condition failed at Tue 2018-05-15 10:57:43 UTC; 42s ago
+           └─ ConditionPathExistsGlob=/etc/*-postinsts was not met
+
+Self test executed using:
+$ oe-selftest --run-tests runtime_test.Postinst.test_postinst_rootfs_and_boot
+
+Stefan Agner (3):
+  opkg: avoid running postinst scripts twice when using systemd
+  run-postinsts: Do not rely on /etc/*-postinsts
+  rootfs.py: Don't install postinsts if package management is present
+
+ meta/lib/oe/rootfs.py                               |  3 +++
+ .../opkg/opkg/opkg-configure.service                | 17 -----------------
+ meta/recipes-devtools/opkg/opkg_0.3.6.bb            | 14 --------------
+ .../run-postinsts/run-postinsts/run-postinsts       | 21 ++++++++++++---------
+ .../run-postinsts/run-postinsts.service             |  1 -
+ 5 files changed, 15 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/opkg-configure.service
+
+-- 
+2.13.6
+
 
