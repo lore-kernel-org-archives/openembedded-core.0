@@ -1,49 +1,23 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F037498E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EC5C745A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 15:43:31 +0000 (UTC)
-Received: by mail-vk0-f42.google.com with SMTP id u8-v6so411054vku.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 08:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KqRGD2IF/6UwKESLSJgEkS3zPgw0vsw2ZHrVnhsYwUk=;
-	b=lwb6+bwNC7ENxp3n5jaq1oQ14+tZUzBkzAhYoupsmb3EL+jMOEcg4xUtMhVP/V0904
-	XoSlZspE6KhGCHDv6eyOp6bwScRb3poO8vrnCDZM9Ylk17eSdBjArWElsTwkMA1UeL4f
-	pthXEtoTdzTnxrndO4XdH6CIIX4bGaKq98CeK39Xt369NSK/9MI4IPImJ3yGKMNZGb9P
-	cy4r6DOuJRaWtJHb5tavuqok9sQrngevBBkne3w93A5H6++qa3RZLRI5QxT7rHdhu15z
-	md50+IOXhFExORcXk+KlLdQ/6yP/9Pz210qU2IRPH7DYjAmwm6vbw0ex1XNsVSl4Znd4
-	MHag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KqRGD2IF/6UwKESLSJgEkS3zPgw0vsw2ZHrVnhsYwUk=;
-	b=T0FkbXLqXago6kQNIRv8uYEJFD2X1r8TQdPj/hnQsEgM9og/4Npmr7TSY7xjduQ06p
-	YSAwxrY0v6Pes9+i3i3gNhgDVV25K5rlWRSC59rnU/HoDPff+RjeKc2EHa3jAkYc8x/F
-	+9LT6vNrjhzDbcEmbtBRb58xsBGNsd78XTi1Vr3hYb9TEQ201y7TaMA4i+lNnvOPVSi+
-	bIfjN0o2Ha1ptqknKh34kGJAmWenJRo/uXmcXDsquW/u3DIRT/xC7YoDiSF/0YT5ZVIC
-	39dsvnayHOvmgy02ZuMZvIYYu873bGgI8uegEoJm33x8khrNEMXwDCUMwIkeDT1qAmZx
-	OC4w==
-X-Gm-Message-State: ALKqPwduOqdOLJ6KdBeKuHrJIFfzwDfNzAFx2/2H6RPFVNzJoEtyWV6/
-	2waUJW2oeVb0Afjfide1CnV+n05KSxDyNLdvINY=
-X-Google-Smtp-Source: AB8JxZqkyNHu5ztJaJVtne/bJjbPUvvuLXOxicu67K766XuVJyY6HkrGRXKs4RkT7OuTrLGvLN/Y7Efwspdtj1nEuGg=
-X-Received: by 2002:a1f:a8d2:: with SMTP id
-	r201-v6mr15036293vke.39.1526399012005; 
-	Tue, 15 May 2018 08:43:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-	<1526286006.5720.113.camel@linuxfoundation.org>
-In-Reply-To: <1526286006.5720.113.camel@linuxfoundation.org>
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Tue, 15 May 2018 17:43:18 +0200
-Message-ID: <CAC+thW1r84j-+k_6xU3hESZnjwLYTUc3nWQFpca+=zkLU-ORNw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Running BitBake multiple times without rechecking upstream AUTOREV versions
+	Tue, 15 May 2018 16:05:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 May 2018 09:05:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,403,1520924400"; d="scan'208";a="54563323"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 15 May 2018 09:05:15 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2018 18:57:44 +0300
+Message-Id: <20180515155746.38835-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 1/3] lib/oe/package_manager: turn postinst failure warnings into bitbake failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,118 +30,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 15:43:31 -0000
-Content-Type: multipart/alternative; boundary="000000000000e56d7f056c4076f3"
+X-List-Received-Date: Tue, 15 May 2018 16:05:16 -0000
 
---000000000000e56d7f056c4076f3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sumo release provides a transition period so that deferrals to first boot
+via 'exit 1' can be converted to pkg_postinst_ontarget(). For the next release
+however, postinst script failures should be treated as such.
 
-Il 14 mag 2018 10:20 AM, "Richard Purdie" <
-richard.purdie@linuxfoundation.org> ha scritto:
+[YOCTO #12607]
 
-On Fri, 2018-05-11 at 18:23 +0000, Chris Laplante via Openembedded-core
-wrote:
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py               | 22 +++++++-------------
+ meta/lib/oeqa/selftest/cases/runtime_test.py |  4 ++--
+ 2 files changed, 9 insertions(+), 17 deletions(-)
 
-> Hi all,
->
-> I=E2=80=99m working on using Jenkins to host our Yocto build. One of the
-> things that would be nice is to be able to do a =E2=80=9Cbitbake our-user=
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 2d8aeba037c..b5fe20bade4 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -84,10 +84,10 @@ def opkg_query(cmd_output):
+ 
+     return output
+ 
+-# Note: this should be bb.fatal in the future.
+-def failed_postinsts_warn(pkgs, log_path):
+-    bb.warn("""Intentionally failing postinstall scriptlets of %s to defer them to first boot is deprecated. Please place them into pkg_postinst_ontarget_${PN} ().
+-If deferring to first boot wasn't the intent, then scriptlet failure may mean an issue in the recipe, or a regression elsewhere.
++def failed_postinsts_abort(pkgs, log_path):
++    bb.fatal("""Postinstall scriptlets of %s have failed. If the intention is to defer them to first boot,
++then please place them into pkg_postinst_ontarget_${PN} ().
++Deferring to first boot via 'exit 1' is no longer supported.
+ Details of the failure are in %s.""" %(pkgs, log_path))
+ 
+ class Indexer(object, metaclass=ABCMeta):
+@@ -789,9 +789,7 @@ class RpmPM(PackageManager):
+                 failed_scriptlets_pkgnames[line.split()[-1]] = True
+ 
+         if len(failed_scriptlets_pkgnames) > 0:
+-            failed_postinsts_warn(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+-        for pkg in failed_scriptlets_pkgnames.keys():
+-            self.save_rpmpostinst(pkg)
++            failed_postinsts_abort(list(failed_scriptlets_pkgnames.keys()), self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+ 
+     def remove(self, pkgs, with_dependencies = True):
+         if len(pkgs) == 0:
+@@ -1265,7 +1263,7 @@ class OpkgPM(OpkgDpkgPM):
+                     bb.warn(line)
+                     failed_pkgs.append(line.split(".")[0])
+             if failed_pkgs:
+-                failed_postinsts_warn(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
++                failed_postinsts_abort(failed_pkgs, self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+         except subprocess.CalledProcessError as e:
+             (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
+                                               "Command '%s' returned %d:\n%s" %
+@@ -1515,7 +1513,6 @@ class DpkgPM(OpkgDpkgPM):
+         os.environ['INTERCEPT_DIR'] = self.intercepts_dir
+         os.environ['NATIVE_ROOT'] = self.d.getVar('STAGING_DIR_NATIVE')
+ 
+-        failed_pkgs = []
+         for pkg_name in installed_pkgs:
+             for control_script in control_scripts:
+                 p_full = os.path.join(info_dir, pkg_name + control_script.suffix)
+@@ -1530,12 +1527,7 @@ class DpkgPM(OpkgDpkgPM):
+                         bb.warn("%s for package %s failed with %d:\n%s" %
+                                 (control_script.name, pkg_name, e.returncode,
+                                     e.output.decode("utf-8")))
+-                        failed_postinsts_warn([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+-                        failed_pkgs.append(pkg_name)
+-                        break
 -
-> image=E2=80=9D, upload the artifacts to our network file storage, and the=
-n do
-> a =E2=80=9Cbitbake our-user-image -c populate_sdk_ext=E2=80=9D. I=E2=80=
-=99d like to do these
-> separately so that developers are not waiting around for the eSDK to
-> be generated if all they care about is the kernel, for example. My
-> concern is that the second bitbake invocation could end up building
-> different stuff if someone were to check in code in between when the
-> two =E2=80=9Cbitbake=E2=80=9Ds are run. This is primarily a concern with =
-recipes that
-> use AUTOREV (as we do for development purposes).
->
-> Is there a way to essentially =E2=80=9Cfreeze=E2=80=9D the BitBake data s=
-tore and re-
-> use it across multiple bitbake invocations?
+-        if len(failed_pkgs):
+-            self.mark_packages("unpacked", failed_pkgs)
++                        failed_postinsts_abort([pkg_name], self.d.expand("${T}/log.do_${BB_CURRENTTASK}"))
+ 
+     def update(self):
+         os.environ['APT_CONFIG'] = self.apt_conf_file
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 9c9b4b34111..21e2c405df1 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -249,8 +249,8 @@ class Postinst(OESelftestTestCase):
+                 features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-rootfs-failing"\n'
+                 features += 'PACKAGE_CLASSES = "%s"\n' % classes
+                 self.write_config(features)
+-                bb_result = bitbake('core-image-minimal')
+-                self.assertGreaterEqual(bb_result.output.find("Intentionally failing postinstall scriptlets of ['postinst-rootfs-failing'] to defer them to first boot is deprecated."), 0,
++                bb_result = bitbake('core-image-minimal', ignore_status=True)
++                self.assertGreaterEqual(bb_result.output.find("Postinstall scriptlets of ['postinst-rootfs-failing'] have failed."), 0,
+                     "Warning about a failed scriptlet not found in bitbake output: %s" %(bb_result.output))
+ 
+                 self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs-before-failure")),
+-- 
+2.17.0
 
-Have you tried BB_SRCREV_POLICY =3D "cache"?
 
-
-Out of curiosity and probably unrelated to the OP's issue with images/SDK
-SRCREVs consistency issue.... Could setting this variable be of any help
-even for building usable eSDKs when AUTOREV is around? There's an issue in
-bugzilla (don't have id at hand) dealing with eSDK / AUTOREV
-incompatibility...
-
-
-Cheers,
-
-Richard
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---000000000000e56d7f056c4076f3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote">Il 14 mag 2018 10:20 AM, &quot;Richard Purdie&quot; &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; ha scritto:<br type=3D"attribution"><blockquote class=3D"quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->On Fri, 2018-05-11 at 18:23 +0000, Chris Laplante via Openembedded-core <b=
-r>
-wrote:<div class=3D"quoted-text"><br>
-&gt; Hi all,<br>
-&gt; =C2=A0<br>
-&gt; I=E2=80=99m working on using Jenkins to host our Yocto build. One of t=
-he<br>
-&gt; things that would be nice is to be able to do a =E2=80=9Cbitbake our-u=
-ser-<br>
-&gt; image=E2=80=9D, upload the artifacts to our network file storage, and =
-then do<br>
-&gt; a =E2=80=9Cbitbake our-user-image -c populate_sdk_ext=E2=80=9D. I=E2=
-=80=99d like to do these<br>
-&gt; separately so that developers are not waiting around for the eSDK to<b=
-r>
-&gt; be generated if all they care about is the kernel, for example. My<br>
-&gt; concern is that the second bitbake invocation could end up building<br=
->
-&gt; different stuff if someone were to check in code in between when the<b=
-r>
-&gt; two =E2=80=9Cbitbake=E2=80=9Ds are run. This is primarily a concern wi=
-th recipes that<br>
-&gt; use AUTOREV (as we do for development purposes).<br>
-&gt; =C2=A0<br>
-&gt; Is there a way to essentially =E2=80=9Cfreeze=E2=80=9D the BitBake dat=
-a store and re-<br>
-&gt; use it across multiple bitbake invocations?<br>
-<br></div>
-Have you tried=C2=A0BB_SRCREV_POLICY =3D &quot;cache&quot;?<br></blockquote=
-></div></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Out of cur=
-iosity and probably unrelated to the OP&#39;s issue with images/SDK SRCREVs=
- consistency issue.... Could setting this variable be of any help even for =
-building usable eSDKs when AUTOREV is around? There&#39;s an issue in bugzi=
-lla (don&#39;t have id at hand) dealing with eSDK / AUTOREV incompatibility=
-...</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_=
-extra"><div class=3D"gmail_quote"><blockquote class=3D"quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<div class=3D"elided-text"><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</div></blockquote></div><br></div></div></div>
-
---000000000000e56d7f056c4076f3--
