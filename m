@@ -1,52 +1,34 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB8074DEF
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E9474CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 21:46:31 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id a2-v6so1206225uak.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 14:46:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=B9sIZ7Vg8NlqHHx7bj09oDyJOsytYxzyvOQkK3KLbOg=;
-	b=mW+afA93lZ8S5BdGly6kfO2A472bNgLFty4VJQ7lYAisFigFeI6Dy7+9B9GBkznfU0
-	w+0DgUZHYqQEl/i2EUa080oivNoew7OnRy08B7PbslRZf9xfCT6hDkQZ4jGL97pDwxdZ
-	S4kCCZn0Jlfpo43AsL1E2obrPCKB5vjfB5VK+yMYvgKnAOC3nkpzl6Z1gBndv54T9FXl
-	TDWPK7DY28XUMNg2rAMj9d+lc/9BOn0dwm1mJsjJcezFyyB81mQ8f4IJX5KKplq6CsUa
-	StcFNbBUsQIldQKv/VDriPiHdA4j0AHt1Phqygk2BTq9K7G2HKssMXRUz/TuqUVdlUaa
-	rP7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=B9sIZ7Vg8NlqHHx7bj09oDyJOsytYxzyvOQkK3KLbOg=;
-	b=a+1DAyPV+k+gSi1Y8MRrtUFAVIh5p3Q6wepET3ML4nqDVaNXiWrvU/YtP/E51e3+yV
-	Zkd/ixGnw/0hI8HxhEh/oQnPBUTJjHk4/vNPZVNbRQUt4VWYUCO3lop9C/RTbKoKPSn1
-	qV7I25P1zCLab5s2jdmoJbVwN6CmIMSwW8RIfoFxLyZZHzR6F47x5kInf+wT9ivQCgz+
-	WkGKdjGVjsrppeInGrt2EVlP085FKB5B14KO0Y4uWBrm3zO1Dp45GPyL3g5cWVpBiCzW
-	wyTyj96+KIphlkCiyQ/0MtXh9rNdLzro0nunyza//11CDvxFsbQOWZ/1Fzp9oT22Bmvl
-	KR3Q==
-X-Gm-Message-State: ALKqPwe+xzGA7dhIhH5yfo39M8NwEgkuksfwQk1hrSs2k6w9HK5iZBvp
-	dzgffBC4fn8/OVS8SVTPl17Su14mEEz0uikdfdU=
-X-Google-Smtp-Source: AB8JxZosjsCoIlVZiJLvGLmI3FJp1byCrkbzizw4PmfSJLUbWGBXSnlYfqmwPvIawpwdHkHabMiypSImK2Q7WOI1irg=
-X-Received: by 2002:ab0:5326:: with SMTP id
-	x35-v6mr17899462uax.29.1526420792396; 
-	Tue, 15 May 2018 14:46:32 -0700 (PDT)
+	Tue, 15 May 2018 22:13:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 56AC920B38;
+	Tue, 15 May 2018 22:13:21 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 2V8JIyhZAFt7; Tue, 15 May 2018 22:13:21 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2CC9F2085A;
+	Tue, 15 May 2018 22:13:20 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id A3282163472; Tue, 15 May 2018 18:13:19 -0400 (EDT)
+Date: Tue, 15 May 2018 18:13:19 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Message-ID: <20180515221319.GG19965@denix.org>
+References: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
+	<20180503072458.19458-3-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Received: by 10.176.4.44 with HTTP; Tue, 15 May 2018 14:46:11 -0700 (PDT)
-In-Reply-To: <CAC+thW1r84j-+k_6xU3hESZnjwLYTUc3nWQFpca+=zkLU-ORNw@mail.gmail.com>
-References: <BN6PR1201MB019576F9685E3FFFC5E183E08B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
-	<1526286006.5720.113.camel@linuxfoundation.org>
-	<CAC+thW1r84j-+k_6xU3hESZnjwLYTUc3nWQFpca+=zkLU-ORNw@mail.gmail.com>
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Tue, 15 May 2018 23:46:11 +0200
-Message-ID: <CAC+thW0aW-cuOFRb80JAKQi4hCLCaLGu9tONEev4byj8kuCJog@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Running BitBake multiple times without rechecking upstream AUTOREV versions
+In-Reply-To: <20180503072458.19458-3-hongl.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wayland:1.14.0->1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +41,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 21:46:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 May 2018 22:13:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, May 15, 2018 at 5:43 PM, Andrea Galbusera <gizero@gmail.com> wrote:
->
->
-> Il 14 mag 2018 10:20 AM, "Richard Purdie"
-> <richard.purdie@linuxfoundation.org> ha scritto:
->
-> On Fri, 2018-05-11 at 18:23 +0000, Chris Laplante via Openembedded-core
-> wrote:
->
->> Hi all,
->>
->> I=E2=80=99m working on using Jenkins to host our Yocto build. One of the
->> things that would be nice is to be able to do a =E2=80=9Cbitbake our-use=
-r-
->> image=E2=80=9D, upload the artifacts to our network file storage, and th=
-en do
->> a =E2=80=9Cbitbake our-user-image -c populate_sdk_ext=E2=80=9D. I=E2=80=
-=99d like to do these
->> separately so that developers are not waiting around for the eSDK to
->> be generated if all they care about is the kernel, for example. My
->> concern is that the second bitbake invocation could end up building
->> different stuff if someone were to check in code in between when the
->> two =E2=80=9Cbitbake=E2=80=9Ds are run. This is primarily a concern with=
- recipes that
->> use AUTOREV (as we do for development purposes).
->>
->> Is there a way to essentially =E2=80=9Cfreeze=E2=80=9D the BitBake data =
-store and re-
->> use it across multiple bitbake invocations?
->
-> Have you tried BB_SRCREV_POLICY =3D "cache"?
->
->
-> Out of curiosity and probably unrelated to the OP's issue with images/SDK
-> SRCREVs consistency issue.... Could setting this variable be of any help
-> even for building usable eSDKs when AUTOREV is around? There's an issue i=
-n
-> bugzilla (don't have id at hand) dealing with eSDK / AUTOREV
-> incompatibility...
+NAK!
 
-Here is the link to the above mentioned bug:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11350
+I have already replied to a similar patch from your colleague here:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-April/150008.html
+
+The update was already submitted in early April and required corresponding 
+modifications in Mesa:
+http://cgit.openembedded.org/openembedded-core/commit/?id=6e5952fcfc13ff4b63c9376bd41a1dbba957f425
+
+-- 
+Denys
+
+
+On Thu, May 03, 2018 at 03:24:57PM +0800, Hong Liu wrote:
+> Upgrade wayland from 1.14.0 to 1.15.0.
+> 
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  .../recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} (92%)
+> 
+> diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> similarity index 92%
+> rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> index 1a9ff98..788105b 100644
+> --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+> @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+>  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+>  	   file://fixpathinpcfiles.patch \
+>             "
+> -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
+> -SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
+> +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
+> +SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
+>  
+>  inherit autotools pkgconfig
+>  
+> -- 
+> 2.7.4
+> 
+> 
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
