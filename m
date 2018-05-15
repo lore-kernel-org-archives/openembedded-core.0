@@ -1,51 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 27A267557F
+Received: from mail-pl0-f51.google.com (mail-pl0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7757523B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 22:34:07 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id p14-v6so6682417pfh.9
+	Tue, 15 May 2018 00:12:56 +0000 (UTC)
+Received: by mail-pl0-f51.google.com with SMTP id u6-v6so8293151pls.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2018 15:34:09 -0700 (PDT)
+	Mon, 14 May 2018 17:12:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NlLvqMtfxPQQHWCfHIGLtHUlTaXtFsYmTaIx61BGY24=;
-	b=h18EkjXkAZZrWq0GW7eZnqrIEdU0JujJvp6G3jv4Wb5IKjc2UGjBjsN4i51JVcCzZJ
-	i1ELWrdTUojg3UgGveWYZweyrdqkUR3q7klD6DNILcOoq0VE5TSaoPeqKgrpsXaWMHsA
-	E/of6gR6Ir7AChYbNZiLvTEY67XTk/xVietLrqn3saJjtHZk78YuioeOegbZIBGF1wqO
-	FsV63t1aVaECMOd/gKqqmIja63/aujp8xmxqxZ47cRSLVr54NEQ8kROFMy3v9O5UgGO5
-	Gy7gORmI0OrxzB9AbdZp4VAYJrEyiU4YR4iW3hObA/ijG4ZlmBK6XoRdQtCztZLK7zcB
-	r/sA==
+	h=from:to:cc:subject:date:message-id;
+	bh=yfxbajxuEM8mvxfdVsEFrumoXinhJHhoLki73/BSfh8=;
+	b=IvPmyaY7KV5lYqQNEm+Jyq3mUzjTb3SsTj/8NkEtiE1Yhpjrx+fmbbITBEsMcnxOtt
+	+MHvxY9YS9vj/bIQNj5m0ga+9Ko8O0yBUgEy0gyNdZjNyFjmvvB2t/pbRH4YPv1OrTnv
+	yUqdWD1IkxjTCOWPfjAjN1/baWRH/YORLsSug/0sZgHTNcbCUBbbRyi1dsI0OqQxVfru
+	MWtirYQ7UzyU59D9lYN5+nzTqoKMZxNy4OqOyRF9cRXMU7w08HPCuaFRZjzEWRDu2vUC
+	BfDUvAfCZv7bDGBEfBCUXzUvd2Dpl2h28wtHE9zFDsTGndnS44xNRspbuWt00u7tRAQS
+	pbrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NlLvqMtfxPQQHWCfHIGLtHUlTaXtFsYmTaIx61BGY24=;
-	b=ub4Id8nhmiz1JsEoqz2QNjfWUdFsDoBuMRLHj3mnhSJ88HEflTe1O5elCUFs3yV23r
-	sJqsf1qr96Kg+Io/y69HfTPFnT7fthB1UvcQtYfZoCItsALldiI6co4xJcRONotSZctI
-	l1g8agjKZDzBPVReVOBfbHgibwUREfMwDUgli7o3TuPb3rG4lfhyKSk+5LrKLr/TRHuZ
-	RJjWjweJ0lpI6K+ZAPgBwyO3yilhhr7e3rWMk45mWyOa6nlgYxKBQHDxDVnJHcIq1F1g
-	AQdA8vcERMU5gtBgEPs91wEx+cZdAV2d7uw+2bSaw8t2uUEtgurIhBxRWfN+37fK7H1P
-	tbOg==
-X-Gm-Message-State: ALKqPwdpjg6KDL8jQci4cFs3sAdKhI+m2qmy9XmHDR0HZzFdCkjDQHzc
-	tSwDWvMU7arA9TkESQO7Z8kS7Q==
-X-Google-Smtp-Source: AB8JxZoPoP1++kJte4WvEHPm8DW0/M+w+pNTkZ/8ZS/94fI3000MYHX07+7qnWl/PlwmW4FGxDu9aw==
-X-Received: by 2002:a62:104a:: with SMTP id
-	y71-v6mr12077779pfi.188.1526337248857; 
-	Mon, 14 May 2018 15:34:08 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yfxbajxuEM8mvxfdVsEFrumoXinhJHhoLki73/BSfh8=;
+	b=RdicfVo/p89g1YEKsnpttZovRSYKBlkF85MoVu8Td0hRsrI6ei50DsLGSV3onQZGSB
+	ySUxTWFMOVcNukT2BhSli0oQPGd1/uLN4ma7FO8i9+p5dQVxhJrGrYa2dqGVY7p4HQjh
+	Bi55EWswlklBXOyxEkum97Dp4ikjGSUtqEW3igbLANn6hkfVH0KJYwFsSikZT8jMCtAF
+	tC0X4XRCma2a/doCjYxOJk1b6WdgvepaC9ipqYcTRGLYRCoc7UxYeqH9WGoQi1nERGLn
+	zcnkrtrCWKTMSNFb3+TUbCCNTEFO948QDBFfvgkEBuEjec+Pbw6nhEHByW+Bz8no0lZY
+	QUfA==
+X-Gm-Message-State: ALKqPwfB/8AmmQljsax0i5JJKhWBj1FsXxSQXxYPt5iYkWIOV3gC+uTp
+	ygSsVbiTHwNRZD3SHpSquh2VlQ==
+X-Google-Smtp-Source: AB8JxZrK3OZ1QGqtreOM0aYI6inZHP+HGvGR3UYlAldiDDU81ZideeE+2UWhNaP0H7vOt7sEWAc1BQ==
+X-Received: by 2002:a17:902:8f82:: with SMTP id
+	z2-v6mr11954260plo.350.1526343177918; 
+	Mon, 14 May 2018 17:12:57 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	h23-v6sm16996863pfi.175.2018.05.14.15.34.08
+	n10-v6sm24255195pfk.145.2018.05.14.17.12.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 May 2018 15:34:08 -0700 (PDT)
+	Mon, 14 May 2018 17:12:57 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 May 2018 15:33:50 -0700
-Message-Id: <1526337230-25723-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 14 May 2018 17:12:51 -0700
+Message-Id: <1526343171-28124-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH v2] kernel.bbclass: avoid duplicates in KERNEL_IMAGETYPE_FOR_MAKE
+Subject: [PATCH v2] bitbake.conf: drop obsolete comment refering to the fail-fast over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2018 22:34:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 15 May 2018 00:12:57 -0000
 
-Currently if KERNEL_IMAGETYPES contains both vmlinux and vmlinux.gz,
-KERNEL_IMAGETYPE_FOR_MAKE will end up containing two copies of
-vmlinux, which will result in two calls to "make vmlinux" from
-kernel_do_compile().
+The comment appears to have been accidentally left behind when the
+fail-fast over-ride was removed by:
 
-Avoid duplicating vmlinux in KERNEL_IMAGETYPE_FOR_MAKE plus some
-minor non-functional updates to formatting and comments.
+  http://git.openembedded.org/openembedded-core/commit/?id=83ce96f44516c8a4a44c8c0140949256f8422014
+
+Also update comments to refer to bitbake variables as just variables,
+rather than environment variables.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- v2: refresh + make typeformake a set based on suggestion from Martin Hundebøll
+ meta/conf/bitbake.conf | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
- meta/classes/kernel.bbclass | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 6595a04..68d2185 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -62,32 +62,36 @@ python __anonymous () {
-     type = d.getVar('KERNEL_IMAGETYPE') or ""
-     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
-     types = d.getVar('KERNEL_IMAGETYPES') or ""
--    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-     if type not in types.split():
-         types = (type + ' ' + types).strip()
-     if alttype not in types.split():
-         types = (alttype + ' ' + types).strip()
-     d.setVar('KERNEL_IMAGETYPES', types)
- 
-+    # KERNEL_IMAGETYPES may contain a mixture of image types supported directly
-+    # by the kernel build system and types which are created by post-processing
-+    # the output of the kernel build system (e.g. compressing vmlinux ->
-+    # vmlinux.gz in kernel_do_compile()).
-+    # KERNEL_IMAGETYPE_FOR_MAKE should contain only image types supported
-+    # directly by the kernel build system.
-     if not d.getVar('KERNEL_IMAGETYPE_FOR_MAKE'):
--        # some commonly used kernel images aren't generated by the kernel build system, such as vmlinux.gz
--        # typeformake lists only valid kernel make targets, and post processing can be done after the kernel
--        # is built (such as using gzip to compress vmlinux)
--        typeformake = types.replace('vmlinux.gz', 'vmlinux')
--        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake)
-+        typeformake = set()
-+        for type in types.split():
-+            if type == 'vmlinux.gz':
-+                type = 'vmlinux'
-+            typeformake.add(type)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a21b728..b85be1e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -722,19 +722,16 @@ export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
+ # is a bad idea. Setting a dummy value is better than a ton of anonymous python.
+ DISTRO ??= "nodistro"
+ DISTRO_NAME ??= "OpenEmbedded"
 +
-+        d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', ' '.join(typeformake))
-+
-+    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
-+    imagedest = d.getVar('KERNEL_IMAGEDEST')
- 
-     for type in types.split():
-         typelower = type.lower()
--        imagedest = d.getVar('KERNEL_IMAGEDEST')
--
-         d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
--
-         d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
--
-         d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
--
-         d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
--
-         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
- 
-     image = d.getVar('INITRAMFS_IMAGE')
+ # Overrides are processed left to right, so the ones that are named later take precedence.
+-# You generally want them to go from least to most specific.
+-#
+-# This means that an envionment variable named '<foo>_arm' overrides an
+-# environment variable '<foo>' (when ${TARGET_ARCH} is arm).
+-# An environment variable '<foo>_qemuarm' overrides '<foo>' and overrides
+-# '<foo>_arm' when ${MACHINE} is 'qemuarm'.
++# You generally want them to go from least to most specific. This means that:
++# A variable '<foo>_arm' overrides a variable '<foo>' when ${TARGET_ARCH} is arm.
++# A variable '<foo>_qemuarm' overrides '<foo>' and overrides '<foo>_arm' when ${MACHINE} is 'qemuarm'.
+ # If you use combination ie '<foo>_qemuarm_arm', then '<foo>_qemuarm_arm' will override
+ # '<foo>_qemuarm' and then '<foo>' will be overriden with that value from '<foo>_qemuarm'.
+ # And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
++# This works for functions as well, they are really just variables.
+ #
+-# This works for  functions as well, they are really just environment variables.
+-# Default OVERRIDES to make compilation fail fast in case of build system misconfiguration.
+ OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
 -- 
 1.9.1
 
