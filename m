@@ -1,45 +1,25 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E1A5A746FE
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A0A7745CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 09:57:59 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id a67-v6so211904wmf.3
+	Wed, 16 May 2018 10:59:53 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w4GAxrtg000552
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 02:58:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=FvIQrJcbCi2UFhgcdWdipgta/nPOmHSZdZOAoDB3NPs=;
-	b=n0nMDDp9Wa0uifoRzSqEzhQSMiAhYp1WQFEJUuSxA+8nr78RSVuA3yUzJTfEqVbDAo
-	c8vmVlJNlrRBpUw10dXV0I5uT99vtS9c+QA7fOnw/2I83o+LcdwP//HRCF/jBAOC9+Ad
-	VhvXQTHU15XxfkvlfkAIcWa4Yl0q/CUVtdPeAPhz+AGmhZs7hx4xP9jMC8OTbOkfUW/t
-	hZaJqhZLBuoyjY60+m9SzMh85qgEOGaPK2t0Mewc8gUQRqs5I0HdMT/o4UV+VvDH6/5m
-	2vNSGYyjDdFKS+9HIm6xkvVgWvKUfqkR0s5HRKGLtg2+uF73IKj7cDvOle2rW8ry2eH7
-	qBtA==
-X-Gm-Message-State: ALKqPwepPgBjrAHzXd5Fs50NG+L5WRmqcjqOe4aLsl2U7U3byM5VeifV
-	mq30jQXETr3gKD0kM2LtdyrwdmnO
-X-Google-Smtp-Source: AB8JxZpDBfZJYIp2SdgdW39CHaaQqmG/tpzUjWRX8vUJ0BBTxeFBRUzOmcjIFkQ91WPxSEN3CEKvtQ==
-X-Received: by 2002:a50:8bbd:: with SMTP id
-	m58-v6mr201368edm.165.1526464679941; 
-	Wed, 16 May 2018 02:57:59 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	r15-v6sm1132486edq.40.2018.05.16.02.57.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 May 2018 02:57:58 -0700 (PDT)
-Message-ID: <1526464678.32156.14.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Wed, 16 May 2018 12:59:53 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w4GAxrSs012037;
+	Wed, 16 May 2018 12:59:53 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id CB27991F4F7;
+	Wed, 16 May 2018 12:59:52 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2018 10:57:58 +0100
-In-Reply-To: <1525939504.5115.18.camel@andred.net>
-References: <20180309130000.1937-1-git@andred.net>
-	<20180321163130.23765-1-git@andred.net>
-	<1525939504.5115.18.camel@andred.net>
-X-Mailer: Evolution 3.26.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
+Date: Wed, 16 May 2018 12:59:22 +0200
+Message-Id: <20180516105922.22483-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libxslt: Fix handling of RVTs returned from nested EXSLT functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,67 +32,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 09:58:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 16 May 2018 10:59:54 -0000
 
-Is there anything wrong with this?
+Set the context variable to NULL when evaluating EXSLT functions.
+Fixes potential use-after-free errors or memory leaks.
 
-On Thu, 2018-05-10 at 09:05 +0100, André Draszik wrote:
-> ping
-> 
-> On Wed, 2018-03-21 at 16:31 +0000, André Draszik wrote:
-> > From: André Draszik <andre.draszik@jci.com>
-> > 
-> > The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
-> > thus bypassing sstate, which results in an ever growing list
-> > of files.
-> > 
-> > Write them to IMGDEPLOYDIR instead, so as to benefit from the
-> > automatic management via sstate.
-> > 
-> > Signed-off-by: André Draszik <andre.draszik@jci.com>
-> > 
-> > ---
-> > v2: fix typo in subject line
-> > ---
-> >  meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
-> >  1 file changed, 8 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/meta/classes/rootfs-postcommands.bbclass
-> > b/meta/classes/rootfs-postcommands.bbclass
-> > index a4e627fef8..01eee350b8 100644
-> > --- a/meta/classes/rootfs-postcommands.bbclass
-> > +++ b/meta/classes/rootfs-postcommands.bbclass
-> > @@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
-> >  python write_image_test_data() {
-> >      from oe.data import export2json
-> >  
-> > -    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'),
-> > d.getVar('IMAGE_NAME'))
-> > -    testdata_link = "%s/%s.testdata.json" %
-> > (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
-> > +    deploy_dir = d.getVar('IMGDEPLOYDIR')
-> > +    link_name = d.getVar('IMAGE_LINK_NAME')
-> > +    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" %
-> > d.getVar('IMAGE_NAME'))
-> >  
-> > -    bb.utils.mkdirhier(os.path.dirname(testdata))
-> >      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
-> > -    export2json(d, testdata,searchString=searchString,replaceString="")
-> > +    export2json(d, testdata_name, searchString=searchString,
-> > replaceString="")
-> >  
-> > -    if testdata_link != testdata:
-> > +    if os.path.exists(testdata_name):
-> > +        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" %
-> > link_name)
-> >          if os.path.lexists(testdata_link):
-> > -           os.remove(testdata_link)
-> > -        os.symlink(os.path.basename(testdata), testdata_link)
-> > +            os.remove(testdata_link)
-> > +        os.symlink(os.path.basename(testdata_name), testdata_link)
-> >  }
-> >  write_image_test_data[vardepsexclude] += "TOPDIR"
-> >  
+Fixes bug 792580
+
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ .../libxslt/libxslt/fix-rvts-handling.patch        | 80 ++++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.32.bb     |  5 +-
+ 2 files changed, 84 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/fix-rvts-handling.patch
+
+diff --git a/meta/recipes-support/libxslt/libxslt/fix-rvts-handling.patch b/meta/recipes-support/libxslt/libxslt/fix-rvts-handling.patch
+new file mode 100644
+index 0000000000..424c976d9b
+--- /dev/null
++++ b/meta/recipes-support/libxslt/libxslt/fix-rvts-handling.patch
+@@ -0,0 +1,80 @@
++libxslt-1.1.32: Fix handling of RVTs returned from nested EXSLT functions
++
++[No upstream tracking] -- https://bugzilla.gnome.org/show_bug.cgi?id=792580
++
++Set the context variable to NULL when evaluating EXSLT functions.
++Fixes potential use-after-free errors or memory leaks.
++
++Upstream-Status: Backport [https://git.gnome.org/browse/libxslt/commit/?id=8bd32f7753ac253a54279a0b6a88d15a57076bb0]
++bug: 792580
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++
++diff --git a/libexslt/functions.c b/libexslt/functions.c
++index dc794e3..8511cb0 100644
++--- a/libexslt/functions.c
+++++ b/libexslt/functions.c
++@@ -280,6 +280,7 @@ exsltFuncFunctionFunction (xmlXPathParserContextPtr ctxt, int nargs) {
++     exsltFuncFunctionData *func;
++     xmlNodePtr paramNode, oldInsert, fake;
++     int oldBase;
+++    void *oldCtxtVar;
++     xsltStackElemPtr params = NULL, param;
++     xsltTransformContextPtr tctxt = xsltXPathGetTransformContext(ctxt);
++     int i, notSet;
++@@ -418,11 +419,14 @@ exsltFuncFunctionFunction (xmlXPathParserContextPtr ctxt, int nargs) {
++     fake = xmlNewDocNode(tctxt->output, NULL,
++ 			 (const xmlChar *)"fake", NULL);
++     oldInsert = tctxt->insert;
+++    oldCtxtVar = tctxt->contextVariable;
++     tctxt->insert = fake;
+++    tctxt->contextVariable = NULL;
++     xsltApplyOneTemplate (tctxt, tctxt->node,
++ 			  func->content, NULL, NULL);
++     xsltLocalVariablePop(tctxt, tctxt->varsBase, -2);
++     tctxt->insert = oldInsert;
+++    tctxt->contextVariable = oldCtxtVar;
++     tctxt->varsBase = oldBase;	/* restore original scope */
++     if (params != NULL)
++ 	xsltFreeStackElemList(params);
++diff --git a/tests/docs/bug-209.xml b/tests/docs/bug-209.xml
++new file mode 100644
++index 0000000..69d62f2
++--- /dev/null
+++++ b/tests/docs/bug-209.xml
++@@ -0,0 +1 @@
+++<doc/>
++diff --git a/tests/general/bug-209.out b/tests/general/bug-209.out
++new file mode 100644
++index 0000000..e829790
++--- /dev/null
+++++ b/tests/general/bug-209.out
++@@ -0,0 +1,2 @@
+++<?xml version="1.0"?>
+++<result/>
++diff --git a/tests/general/bug-209.xsl b/tests/general/bug-209.xsl
++new file mode 100644
++index 0000000..fe69ac6
++--- /dev/null
+++++ b/tests/general/bug-209.xsl
++@@ -0,0 +1,21 @@
+++<xsl:stylesheet
+++    version="1.0"
+++    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+++    xmlns:func="http://exslt.org/functions"
+++    extension-element-prefixes="func">
+++
+++    <xsl:template match="/">
+++        <xsl:variable name="v" select="func:a()" />
+++        <xsl:copy-of select="$v"/>
+++    </xsl:template>
+++
+++    <func:function name="func:a">
+++        <func:result select="func:b()" />
+++    </func:function>
+++
+++    <func:function name="func:b">
+++        <func:result>
+++            <result/>
+++        </func:result>
+++    </func:function>
+++</xsl:stylesheet>
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.32.bb b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+index 6a03f77699..f0fa5e723f 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.32.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
+ 
+-SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz"
++SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
++           file://fix-rvts-handling.patch \
++           "
++
+ SRC_URI[md5sum] = "1fc72f98e98bf4443f1651165f3aa146"
+ SRC_URI[sha256sum] = "526ecd0abaf4a7789041622c3950c0e7f2c4c8835471515fd77eec684a355460"
+ 
+-- 
+2.11.0
+
 
