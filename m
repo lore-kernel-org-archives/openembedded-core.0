@@ -1,25 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB08674609
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E65674884
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 08:40:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4G8eath009898
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 01:40:36 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 16 May 2018 01:40:24 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 May 2018 16:09:38 +0800
-Message-ID: <9fba7999731367d15272a033c57ef244adbfef06.1526458108.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1526458108.git.kai.kang@windriver.com>
-References: <cover.1526458108.git.kai.kang@windriver.com>
+	Wed, 16 May 2018 09:13:59 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 3D97A5C17F2;
+	Wed, 16 May 2018 11:13:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1526462039;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=xG5r0JSa8qgxxRHI9MmX1oeqF18+oALVIZQgvtfDbbA=;
+	b=wMQvlag0cenfJ3sVviafRySC8xvDAC6ZdbU5jDiPWDgW+uGs809Be52D9aOD3PJQW4JB8H
+	N9vBS1UK/VAwPUBRspQjOZ9FOoM1GcZ21wtwTmXfK2OaAbMQE2Opibpn/vzIpK1VgyJKTl
+	O/s+vx5cL7xufzJRpOJTipooiTbZbes=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org, alexander.kanavin@linux.intel.com
+Date: Wed, 16 May 2018 11:13:49 +0200
+Message-Id: <20180516091352.29279-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
 MIME-Version: 1.0
-Subject: [PATCH 1/1] gstreamer1.0-plugins-good: enable PACKAGECONFIG gtk conditionally
+X-Spamd-Result: default: False [-1.93 / 15.00]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+	BAYES_HAM(-2.83)[99.27%]; MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[]; DKIM_SIGNED(0.00)[];
+	TO_DN_SOME(0.00)[]; RCVD_COUNT_ZERO(0.00)[0];
+	MID_CONTAINS_FROM(1.00)[];
+	ASN(0.00)[asn:6830, ipnet:46.140.0.0/17, country:AT];
+	RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH v2 0/3] postinst fixes for opgk/dpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 08:40:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 May 2018 09:14:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Stefan Agner <stefan.agner@toradex.com>
 
-PACKAGECONFIG 'gtk' is enabled by default for gstreamer1.0-plugins-good
-and it makes gstreamer1.0-plugins-good depends on package gtk+3 which
-requires any distro feature in ${GTK3DISTROFEATURES}. When none distro
-feature is enabled from ${GTK3DISTROFEATURES}, it causes error:
+Hi,
 
-| ERROR: Nothing PROVIDES 'gtk+3' (but .../meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-| DEPENDS on or otherwise requires it)
-| gtk+3 was skipped: one of '['x11', 'wayland']' needs to be in DISTRO_FEATURES
+This follows up on the discussion a while ago:
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg104996.html
 
-So enable PACKAGECONFIG gtk conditionally for gstreamer1.0-plugins-good.
+Patch 1 is rather simple and really fixes the main issue. The patch
+by itself has been tested with the relevant self test and passes.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Patch 2/3 get rid of /etc/*-postinsts script in cases where the package
+management is present. This avoids a bunch of unnecessary scripts to be
+present on the rootfs. It also avoids the systemd service to be present
+forever with in case no postinst scripts have been deployed:
+Condition: start condition failed at Tue 2018-05-15 10:57:43 UTC; 42s ago
+           └─ ConditionPathExistsGlob=/etc/*-postinsts was not met
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-index a420039fa85..b269fce1735 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.0.bb
-@@ -27,7 +27,8 @@ inherit gettext
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
--    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 bz2 zlib gtk mpg123 lame \
-+    ${@bb.utils.contains_any('DISTRO_FEATURES', d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \
-+    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 bz2 zlib mpg123 lame \
- "
- 
- X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+Self test executed using:
+$ oe-selftest --run-tests runtime_test.Postinst.test_postinst_rootfs_and_boot
+
+Changes since v1:
+- Note that patches are specific for opkg/dpkg
+
+Stefan Agner (3):
+  opkg: avoid running postinst scripts twice when using systemd
+  run-postinsts: for dpkg/opkg, do not rely on /etc/*-postinsts
+  rootfs.py: for dpkg/opkg, don't install postinsts if package
+    management is present
+
+ meta/lib/oe/rootfs.py                               |  3 +++
+ .../opkg/opkg/opkg-configure.service                | 17 -----------------
+ meta/recipes-devtools/opkg/opkg_0.3.6.bb            | 14 --------------
+ .../run-postinsts/run-postinsts/run-postinsts       | 21 ++++++++++++---------
+ .../run-postinsts/run-postinsts.service             |  1 -
+ 5 files changed, 15 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/opkg-configure.service
+
 -- 
-2.14.1
+2.13.6
 
 
