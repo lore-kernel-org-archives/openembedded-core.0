@@ -1,34 +1,27 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id B6E9474CB9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B43474801
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 22:13:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 56AC920B38;
-	Tue, 15 May 2018 22:13:21 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 2V8JIyhZAFt7; Tue, 15 May 2018 22:13:21 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2CC9F2085A;
-	Tue, 15 May 2018 22:13:20 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id A3282163472; Tue, 15 May 2018 18:13:19 -0400 (EDT)
-Date: Tue, 15 May 2018 18:13:19 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Message-ID: <20180515221319.GG19965@denix.org>
-References: <20180503072458.19458-1-hongl.fnst@cn.fujitsu.com>
-	<20180503072458.19458-3-hongl.fnst@cn.fujitsu.com>
+	Wed, 16 May 2018 04:37:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4G4bjoa008200
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2018 21:37:45 -0700 (PDT)
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 15 May 2018 21:37:45 -0700
+To: <mingli.yu@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <20180511062300.98691-1-mingli.yu@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <c8207ee0-1df1-e31e-941a-f4a250e882a4@windriver.com>
+Date: Wed, 16 May 2018 00:37:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180503072458.19458-3-hongl.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wayland:1.14.0->1.15.0
+In-Reply-To: <20180511062300.98691-1-mingli.yu@windriver.com>
+X-Originating-IP: [172.25.44.2]
+Subject: Re: [PATCH] boost: add contract lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,58 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2018 22:13:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 16 May 2018 04:37:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-NAK!
+On 2018-05-11 02:23 AM, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Add the contract lib which implements contract
+> programming (a.k.a., Design by Contract or DbC) [1]
+> for the C++ programming language.
 
-I have already replied to a similar patch from your colleague here:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-April/150008.html
+Please clean up the long log.
+You should write something like:
 
-The update was already submitted in early April and required corresponding 
-modifications in Mesa:
-http://cgit.openembedded.org/openembedded-core/commit/?id=6e5952fcfc13ff4b63c9376bd41a1dbba957f425
+    Add the contract lib which implements contract programming
+    (a.k.a., Design by Contract) for the C++ programming language.
+
+I don't know what the [1] was about.
+Ah, it's a reference from this documentation:
+   https://www.boost.org/doc/libs/develop/libs/contract/doc/html/index.html
+
+For anyone reading, but not following links:
+
+[1] Design by Contract (DbC) is a registered trademark of the Eiffel 
+Software company and it was first introduced by the Eiffel programming 
+language (see [Meyer97]).
+
+
+../Randy
+
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>   meta/recipes-support/boost/boost.inc | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+> index b447897a0c..6984bee777 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -9,6 +9,7 @@ BOOST_LIBS = "\
+>   	atomic \
+>   	chrono \
+>   	container \
+> +	contract \
+>   	date_time \
+>   	exception \
+>   	filesystem \
+> 
+
 
 -- 
-Denys
-
-
-On Thu, May 03, 2018 at 03:24:57PM +0800, Hong Liu wrote:
-> Upgrade wayland from 1.14.0 to 1.15.0.
-> 
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/wayland/{wayland_1.14.0.bb => wayland_1.15.0.bb} (92%)
-> 
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> similarity index 92%
-> rename from meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> rename to meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> index 1a9ff98..788105b 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-> @@ -15,8 +15,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
->  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->  	   file://fixpathinpcfiles.patch \
->             "
-> -SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
-> -SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
-> +SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
-> +SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
->  
->  inherit autotools pkgconfig
->  
-> -- 
-> 2.7.4
-> 
-> 
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+# Randy MacLeod
+# Wind River Linux
 
