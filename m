@@ -1,52 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 853D57488B
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 07DC3606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 15:04:35 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id w3-v6so402144pgv.12
+	Wed, 16 May 2018 16:55:16 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id a8-v6so3052452wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 08:04:36 -0700 (PDT)
+	Wed, 16 May 2018 09:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GMIQJScNOr5bSxgomYaSZUJcpQoOtCUvJC9L1HQEnmM=;
-	b=aru6D7bXq5rXRxnLW/dIMOVcPopll6w1/+u9X0kBMoA3Y5h1Dut1haSA93lm91OuYT
-	c2OGHaA2ycEx1NmGG4JfSXOTWvHrzRL2sy5l1/M9uxsGCqUaWDiu1SImHZUTwO4U0U/Z
-	HfdKvLOZvvNKgyU3WG6Vxs+jWzuShHEhNbtwZ4pq3/suZuLKYue2ObtWrLVjAdGgLonU
-	BH5zna1oRA3XvUDtI9AqSmt1Xn4OLZ4IWHv4IYijfVRP+MUP1F4xpFJhpE+s8DL3dWdG
-	4wt4ZVf41hm1RTXJh4gbT+PoRSuoS0dpax4FA1d7QpOChEYqQbrdWaJsxCuvu+hBYIRX
-	KbLQ==
+	h=from:to:subject:date:message-id;
+	bh=U5QMBmYf2WGdxmy/p+N47bqHrLx5JHDd4nNrcawvoLc=;
+	b=rCBweCcZMbvktrSPW5vBYeGuwQuGIWNpfySDrXt0xsCDfTWVdvC02WbbfxQ9+Qin3z
+	OiP9PYB3sB0UbU/z2tj7CgsZprDDuOZmlzJXijAdqfbXvsH8oU9usxzQ0dJb5x8zNKmw
+	9PFO1UlS4PIxPlO3Fhje+nTXkAgeVWSI3sQ6ZIbtg/ZzGvUPeZmxRM/xW4giyNOfWq9I
+	iURjPh9cfy3Jx8rDKJNpvMmaeDoDeXgV53jm5Zvh0Boa94ZLwQjuNruQcad6tqpI0KY1
+	M4ZNv0wnaBChMyMJm8NfB/YOXMcf7R18EmytSQLxj8b3YBg6680iE5ytI2idqvp5tB2j
+	rgXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GMIQJScNOr5bSxgomYaSZUJcpQoOtCUvJC9L1HQEnmM=;
-	b=LKIW6hbTThs8r225AudxGizCtto/JZRuSJ4aHxAmDe2B7IpfMc7WKj5lEvYetB3IOJ
-	u1KVwnjkNv46RYa47ERfwTReZlveB63YxGBrhpexhBuGKc5VpLP2UjNjwtfCcEK/Hgps
-	96kFgwXAnTx2BtB146dZFPueUQOE5t505RIDVc1YkCN+DbByqdMH7IXwTVjtrhOLrs+Y
-	2k42vsqkVG8lMD5IWBlMoJy0Qbu1Q9z49MY6DoNzAOa4aBPomysB7PX1VizjckvJ9fGQ
-	DjDO8Uv2t9O33RAHVEDmy1+lmr95I9AZUoCc7aOaVq09Z+YGerLX/RcMFMqabgaID5r7
-	r6LQ==
-X-Gm-Message-State: ALKqPwdtGCHkaGCGYJAUBJd3JEn52YucXRDnsPUiQry6siVYK70lTf+V
-	KX3KY/k7Qw4qRIzEj0+DMkJxkHHz7ilqhceQ4uU=
-X-Google-Smtp-Source: AB8JxZqfJoZpOAcRa1rQtSI8Jtw8+yxj3d2e7+fxf3l/68wSx2NNANFYC/C5bb9fvtFTl3gjZAVvsqv956NI+k3+Jq8=
-X-Received: by 2002:a65:6510:: with SMTP id
-	x16-v6mr1056559pgv.204.1526483076065; 
-	Wed, 16 May 2018 08:04:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Wed, 16 May 2018 08:04:05
-	-0700 (PDT)
-In-Reply-To: <CAJTo0LaSp5M6=4MRaKwHgXdM=j+ftM2i0grf60d_eb4++=Fd_Q@mail.gmail.com>
-References: <cover.1526452205.git.raj.khem@gmail.com>
-	<13936651721b14a74b51c673c35c2b514299ca6c.1526452205.git.raj.khem@gmail.com>
-	<CAJTo0LZL0Fs7i-+tm2KVw7htYkgFJFpYfEkCq1=Dda_0n9rpYQ@mail.gmail.com>
-	<CAMKF1spJ-jTxMw4c65mqwH18P=CvLrJzA7Crcizfbr-pEM58Kw@mail.gmail.com>
-	<CAJTo0LaSp5M6=4MRaKwHgXdM=j+ftM2i0grf60d_eb4++=Fd_Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 16 May 2018 08:04:05 -0700
-Message-ID: <CAMKF1sqt3i3y4RFjiAoAgdceOph88XhSb=fwG4Qh4VRdxG6gDQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] musl: Make dev package rdep on staticdev
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=U5QMBmYf2WGdxmy/p+N47bqHrLx5JHDd4nNrcawvoLc=;
+	b=bPDnLWbWZSRXfwWaqy0SUJ5UfUmDj5KdT8hX7Woud56AIEmmmAh6IfIhuc1VHJnr6h
+	77d1VLInFPT22N1dHathXR4K/bH2l9h9Ce+Ikqu+x5u2iVO87jECYCEQwe9SmXPVfLbY
+	lejmTSXs9LHUlqku/kEDFTuK++Z2yqCwkLksRK46yEdTi0jkd6AsF4bphn69rACwlxyQ
+	RY53oJCIQjX4txIvo6LZ5CXT6ovsq0kDLCt95Qpfa/vcefFtoh6QKsVD10k5Jd0PX0JM
+	UMrVy851DCB9eh4nDo6gUi8F6yjO+cLmv8OXQL9hLG6swSkpayLACeKgDQgtPttf1bQP
+	/2eg==
+X-Gm-Message-State: ALKqPwdub2mbMuKgm6ODVKHOOkeEUlbClcffzpaN/8BV3lua6e/vKvFi
+	Y19IvKs9XkNrotWoG8iaxvKpHSnG
+X-Google-Smtp-Source: AB8JxZpqSM9opUDzFGmaWqyTiB8Lk3Tayt9b8BHEozDc5ZLOLgt341S3Xq4A5OcifxbbW0pL9o8z4Q==
+X-Received: by 2002:a1c:2d06:: with SMTP id
+	t6-v6mr1059112wmt.155.1526489717247; 
+	Wed, 16 May 2018 09:55:17 -0700 (PDT)
+Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
+	by smtp.gmail.com with ESMTPSA id
+	w40-v6sm4968478wrc.69.2018.05.16.09.55.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 16 May 2018 09:55:15 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 May 2018 10:54:58 -0600
+Message-Id: <20180516165458.17849-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.18.0-dev
+Subject: [PATCH] libnss-mdns: fix postinst and postrm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,56 +55,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 15:04:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 16 May 2018 16:55:17 -0000
 
-On Wed, May 16, 2018 at 7:38 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Surely in that usecase you can add musl-staticdev yourself?  Forcing
-> it into every SDK seems wasteful.
->
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-I guess thats a fair argument I can accept it. Please ignore this patch then
+Don't blindly add mdns_minimal, instead check for existing
+mdns_minimal instances. Fixes continuously appending mdns settings
+to nssswitch.conf when upgrading.
 
-> Ross
->
-> On 16 May 2018 at 14:32, Khem Raj <raj.khem@gmail.com> wrote:
->> On Wed, May 16, 2018 at 4:09 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>> Surely if you want to support static linking in the SDK, you just need
->>> to add staticdev-pkgs to the SDKIMAGE_FEATURES?
->>>
->>
->> In some usecase, compiler runtime and c library is only required everything
->> else is external. Adding whole staticdev bundle would conflict with that
->>
->>> Ross
->>>
->>> On 16 May 2018 at 07:32, Khem Raj <raj.khem@gmail.com> wrote:
->>>> This is needed for enabling static linking with SDK
->>>>
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>>  meta/recipes-core/musl/musl_git.bb | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
->>>> index a0a098f5b4..d7d201df9d 100644
->>>> --- a/meta/recipes-core/musl/musl_git.bb
->>>> +++ b/meta/recipes-core/musl/musl_git.bb
->>>> @@ -66,7 +66,7 @@ do_install() {
->>>>         done
->>>>  }
->>>>
->>>> -RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared-staticdev"
->>>> +RDEPENDS_${PN}-dev += "linux-libc-headers-dev bsd-headers-dev libssp-nonshared-staticdev ${PN}-staticdev"
->>>>  RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
->>>>  RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
->>>>
->>>> --
->>>> 2.17.0
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+---
+ .../libnss-mdns/libnss-mdns_0.10.bb               | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+index 8d2feec7698..5be5e4fa323 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+@@ -28,13 +28,16 @@ DEBIANNAME_${PN} = "libnss-mdns"
+ RDEPENDS_${PN} = "avahi-daemon"
+ 
+ pkg_postinst_${PN} () {
+-	sed -e '/^hosts:/s/\s*\<mdns\>//' \
+-		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 mdns4_minimal [NOTFOUND=return]\3\4 mdns\5/' \
+-		-i $D${sysconfdir}/nsswitch.conf
++	sed '
++		/^hosts:/ !b
++		/\<mdns\(4\|6\)\?\(_minimal\)\?\>/ b
++		s/\([[:blank:]]\+\)dns\>/\1mdns4_minimal [NOTFOUND=return] dns/g
++		' -i $D${sysconfdir}/nsswitch.conf
+ }
+ 
+ pkg_prerm_${PN} () {
+-	sed -e '/^hosts:/s/\s*\<mdns\>//' \
+-		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=return\]//' \
+-		-i $D${sysconfdir}/nsswitch.conf
++	sed '
++		/^hosts:/ !b
++		s/[[:blank:]]\+mdns\(4\|6\)\?\(_minimal\( \[NOTFOUND=return\]\)\?\)\?//g
++		' -i $D${sysconfdir}/nsswitch.conf
+ }
+-- 
+2.18.0-dev
+
 
