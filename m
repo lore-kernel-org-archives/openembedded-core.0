@@ -1,25 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A8A7459B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC2F16E671
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 05:05:50 +0000 (UTC)
+	Wed, 16 May 2018 05:09:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4G55pQL013049
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4G591cU010359
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2018 22:05:51 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 15 May 2018 22:05:51 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 15 May 2018 22:09:01 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 15 May 2018 22:09:00 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 May 2018 13:07:52 +0800
-Message-ID: <6d46c58082741876ffc994c6e37364b65fe16f1f.1526447201.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1526447201.git.Qi.Chen@windriver.com>
-References: <cover.1526447201.git.Qi.Chen@windriver.com>
+References: <cover.1525768293.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <b33f878b-ca73-5621-1aae-f84985cb9fa1@windriver.com>
+Date: Wed, 16 May 2018 13:10:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oeqa/sdk/cases/buildgalculator.py: skip if gettext not available
+In-Reply-To: <cover.1525768293.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 0/1] create-pull-request: handle '/' in subject correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +34,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 05:05:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 May 2018 05:09:00 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We need to skip this testcase when gettext is not available. Otherwise,
-we will have the following error at configure.
+ping
 
-  error: possibly undefined macro: AM_NLS
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/sdk/cases/buildgalculator.py | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/lib/oeqa/sdk/cases/buildgalculator.py b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-index 780afcc..524451e 100644
---- a/meta/lib/oeqa/sdk/cases/buildgalculator.py
-+++ b/meta/lib/oeqa/sdk/cases/buildgalculator.py
-@@ -11,6 +11,8 @@ class GalculatorTest(OESDKTestCase):
-         if not (self.tc.hasTargetPackage("gtk\+3") or\
-                 self.tc.hasTargetPackage("libgtk-3.0")):
-             raise unittest.SkipTest("GalculatorTest class: SDK don't support gtk+3")
-+        if not (self.tc.hasPrefixedTargetPackage("gettext")):
-+            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain gettext")
- 
-     def test_galculator(self):
-         dl_dir = self.td.get('DL_DIR', None)
--- 
-1.9.1
+On 05/08/2018 04:34 PM, Chen Qi wrote:
+> The following changes since commit f301a3bc110608c3684c78dd62e276beea73bd94:
+>
+>    settings-daemon: Drop pointless apply=yes in SRC_URI (2018-05-04 13:28:06 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/create-pull-request-fix
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/create-pull-request-fix
+>
+> Chen Qi (1):
+>    create-pull-request: handle '/' in subject correctly
+>
+>   scripts/create-pull-request | 1 +
+>   1 file changed, 1 insertion(+)
+>
 
 
