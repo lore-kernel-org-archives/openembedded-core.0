@@ -1,47 +1,66 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9722274832
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
+	[74.125.82.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B92C171A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 21:20:06 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id t11-v6so4865644wmt.0
+	Wed, 16 May 2018 22:00:01 +0000 (UTC)
+Received: by mail-ot0-f196.google.com with SMTP id t1-v6so2724342ott.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 14:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=FkTAVc54M9KmAfufa2WVDAozGS7GBr9rgaJW2TUIeAw=;
-	b=U55f3cfr28IOkkCkahnQm1WdwthPdsbj+SipW/8Klq3IZFEQt33H+ajsOsljMhPIDu
-	m/yx3/smlm6haAwalizhw1XX1/2DcFFEOjUALwdIAiKiTBVIIEj/LOM557AfUxEjwAvj
-	y+uN1Qd+huwvRxhZ5PmByKAsWcQnpLH3AGqy8=
+	Wed, 16 May 2018 15:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=8UbhnWa6lo7+Q3yQDPA1oFe8xGU5v43EfWMnV6QyU+k=;
+	b=aAYlK+wjjSRazDa8hm/meoaO3dIVqCjK1kxGr4rwlcxT7MykBFR281R6LkoBS2ne3v
+	bGILiixjkbJE35NXuoMPCvA6LngWqOzuExL8F476vZZbLIe5SO0SXFVUzMokxsjyfa5e
+	I7jrxDcZGxTjIqZCbqV884ro/25HIwotuzLLzLDSvjggg0u05Z9omBYrTysFu1Vwgsh8
+	iJbU96Go391uQyEmwAgaosVp+CPZIX/bSPw1J+lhziZtmRY/AJbIJaeWW3/5Q9eWnGej
+	wGcDF+MJkgSiqw68LCL4RTjb0Y+rLqPw+zkkkgUF0O0FcX8z5AJtgqGrCeRVqZt+1Odt
+	/nUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=FkTAVc54M9KmAfufa2WVDAozGS7GBr9rgaJW2TUIeAw=;
-	b=XhwcYpuJ5yx8tb2TW8qN+XoBPLGAoUg0b4rrYLlGFUzQsBJl03LZd9ObpU1gNNSull
-	vDIPnHRkLY7OxKpNwnQ0UYxIEnsr1x/mkkJPw9BgzFBmCHiBETEYAUjOP98xjV78mMu7
-	CGxMAh0yCwBUs3rUSgi81dVTPXPWWlh+Qwz47xv1GCuNRzxI+z9Z1qHFgzHTcNsvPch/
-	I5WL6EBTEzPNy+GnTMNWq7mKrP4XKMaVgirvhU9i4rWWjR9NMl2FMo84viQCM0FSABMM
-	UpIw4VnbQrY2c6kySCZerdW/gnzlEp6u1Z/3c9/JC+FDgqohua+lz65+NC7v46zUBfac
-	UF5Q==
-X-Gm-Message-State: ALKqPwftl4GWrYeyZMayeeAghLyyKzVamzJM4onl3eTeYJGVqYYZB+0i
-	XzsdegY4XqPIeMPqB4Di2rltF+zvVClqpgVl8IAK4g==
-X-Google-Smtp-Source: AB8JxZqOuHOwAWjbLYU/O5Gr0H+XV4whS9LBfrugJBh5EsAyeRn+gr6+twG6fJbYo+uJOw80W5IV5g9xJIwInNl9t2s=
-X-Received: by 2002:a2e:9c90:: with SMTP id
-	x16-v6mr1457776lji.13.1526505606838; 
-	Wed, 16 May 2018 14:20:06 -0700 (PDT)
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=8UbhnWa6lo7+Q3yQDPA1oFe8xGU5v43EfWMnV6QyU+k=;
+	b=LJ0cyOv768RaY2gG3G8qCTUqDqqK7R54nVhgourhRM1VjehhupSNhWDt9W7oJAtwn0
+	cOLgmJvbAkPugsybfgCvRKJL91ffZ+1lA1T7dRzBzt+G5iQUyDBeeT9CDdQdm6efndXR
+	QEqdHGCaJ6gtHbSpYIq7DYvEti7mVFS9SR4DeFXvZ4fxR3XiQ1QFWkvngEFbA5WQwcMB
+	BWpot50lh+DGgGlwTPJWm6yZE04Uwdw4Za9GVyACglXp4DYWe4bhxqPWYtCVvnuQBjyT
+	stc2HNF7/XzZz5HDQMo/vRVHI9JLG2Ua8TAPvr40UzZvR1NqY3wSOpp6AvrXmsxTg/mf
+	86vg==
+X-Gm-Message-State: ALKqPwe/jyzpmbDmKo3S0Qms4E1naCw85mJsBIbocGbjoZWWmJrjY8dY
+	bcnqIYZYHW+CoeJ3s1LRexVChkoq
+X-Google-Smtp-Source: AB8JxZrXdaIrFS4vICi9KF4PaoUNdZGt9+OwOclOQfiDyHVIupKiiHgaeA4nPktkHDTlAJmb03XDCg==
+X-Received: by 2002:a9d:cce:: with SMTP id
+	o14-v6mr1974592otd.112.1526508002223; 
+	Wed, 16 May 2018 15:00:02 -0700 (PDT)
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
+	[209.85.218.49]) by smtp.gmail.com with ESMTPSA id
+	187-v6sm1842589oii.40.2018.05.16.15.00.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 May 2018 15:00:01 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f49.google.com with SMTP id y15-v6so2147856oia.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2018 15:00:01 -0700 (PDT)
+X-Received: by 2002:aca:49d8:: with SMTP id
+	w207-v6mr1926954oia.293.1526508000732; 
+	Wed, 16 May 2018 15:00:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a19:ea07:0:0:0:0:0 with HTTP; Wed, 16 May 2018 14:20:06
+Received: by 2002:a9d:3da5:0:0:0:0:0 with HTTP; Wed, 16 May 2018 15:00:00
 	-0700 (PDT)
-In-Reply-To: <3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
-References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
-	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
-From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
-Date: Wed, 16 May 2018 16:20:06 -0500
-Message-ID: <CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
+In-Reply-To: <20180516201415.8002-1-marex@denx.de>
+References: <20180516201415.8002-1-marex@denx.de>
+Date: Wed, 16 May 2018 19:00:00 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrXkwobok9O9RsebrZ7eOQze_t_fL5KqXCcDvkk9B3DRQ@mail.gmail.com>
+Message-ID: <CAP9ODKrXkwobok9O9RsebrZ7eOQze_t_fL5KqXCcDvkk9B3DRQ@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Upgrade to 2018.05 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,18 +73,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 21:20:06 -0000
+X-List-Received-Date: Wed, 16 May 2018 22:00:01 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On 6 April 2018 at 15:43, akuster808 <akuster808@gmail.com> wrote:
-> On 04/06/2018 10:08 AM, Daniel D=C3=ADaz Rodr=C3=ADguez wrote:
->> Ping on this series for Morty.
-> This needs to be ported to Pyro first. I do it this weekend and morty too=
-.
+On Wed, May 16, 2018 at 5:14 PM, Marek Vasut <marex@denx.de> wrote:
+> This upgrades the U-Boot from 2018.03 to 2018.05 release.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Otavio Salvador <otavio@ossystems.com.br>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Ross Burton <ross.burton@intel.com>
 
-Ping on this series for Morty.
+Nice work :-)
 
---=20
-ddiaz
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
