@@ -1,37 +1,45 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D6C774859
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E1A5A746FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 09:13:59 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 5E15C5C1B02;
-	Wed, 16 May 2018 11:14:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1526462040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=CK7jFsfZIGHdSkjOSY+O5zS7sDu3e3jMRZzpw8vuyEA=;
-	b=yVj8Ig6hN7McgECaBk9sy1C7HVtsASE3jic99phGeToSZfwu61m1SR+P4p6JF0LPL0Uz/1
-	N1QffhipSCwf35NKuP6IShIpPzvc/ySrL8C5p/X+FQV/3/rHBgI0djwfVKx1or8Nj3V2Ua
-	fpfb+mGy1A4Kxtt7Tb1+/JElH6hwAcE=
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org, alexander.kanavin@linux.intel.com
-Date: Wed, 16 May 2018 11:13:51 +0200
-Message-Id: <20180516091352.29279-3-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <20180516091352.29279-1-stefan@agner.ch>
-References: <20180516091352.29279-1-stefan@agner.ch>
-X-Spamd-Result: default: False [0.90 / 15.00]; TO_MATCH_ENVRCPT_ALL(0.00)[];
-	BAYES_HAM(-0.00)[28.62%]; MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[]; DKIM_SIGNED(0.00)[];
-	TO_DN_SOME(0.00)[]; RCVD_COUNT_ZERO(0.00)[0];
-	MID_CONTAINS_FROM(1.00)[];
-	ASN(0.00)[asn:6830, ipnet:46.140.0.0/17, country:AT];
-	RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v2 2/3] run-postinsts: for dpkg/opkg, do not rely on /etc/*-postinsts
+	Wed, 16 May 2018 09:57:59 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id a67-v6so211904wmf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2018 02:58:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=FvIQrJcbCi2UFhgcdWdipgta/nPOmHSZdZOAoDB3NPs=;
+	b=n0nMDDp9Wa0uifoRzSqEzhQSMiAhYp1WQFEJUuSxA+8nr78RSVuA3yUzJTfEqVbDAo
+	c8vmVlJNlrRBpUw10dXV0I5uT99vtS9c+QA7fOnw/2I83o+LcdwP//HRCF/jBAOC9+Ad
+	VhvXQTHU15XxfkvlfkAIcWa4Yl0q/CUVtdPeAPhz+AGmhZs7hx4xP9jMC8OTbOkfUW/t
+	hZaJqhZLBuoyjY60+m9SzMh85qgEOGaPK2t0Mewc8gUQRqs5I0HdMT/o4UV+VvDH6/5m
+	2vNSGYyjDdFKS+9HIm6xkvVgWvKUfqkR0s5HRKGLtg2+uF73IKj7cDvOle2rW8ry2eH7
+	qBtA==
+X-Gm-Message-State: ALKqPwepPgBjrAHzXd5Fs50NG+L5WRmqcjqOe4aLsl2U7U3byM5VeifV
+	mq30jQXETr3gKD0kM2LtdyrwdmnO
+X-Google-Smtp-Source: AB8JxZpDBfZJYIp2SdgdW39CHaaQqmG/tpzUjWRX8vUJ0BBTxeFBRUzOmcjIFkQ91WPxSEN3CEKvtQ==
+X-Received: by 2002:a50:8bbd:: with SMTP id
+	m58-v6mr201368edm.165.1526464679941; 
+	Wed, 16 May 2018 02:57:59 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	r15-v6sm1132486edq.40.2018.05.16.02.57.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 16 May 2018 02:57:58 -0700 (PDT)
+Message-ID: <1526464678.32156.14.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 May 2018 10:57:58 +0100
+In-Reply-To: <1525939504.5115.18.camel@andred.net>
+References: <20180309130000.1937-1-git@andred.net>
+	<20180321163130.23765-1-git@andred.net>
+	<1525939504.5115.18.camel@andred.net>
+X-Mailer: Evolution 3.26.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,113 +52,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 09:14:00 -0000
+X-List-Received-Date: Wed, 16 May 2018 09:58:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+Is there anything wrong with this?
 
-Start opkg/dpkg as soon as the respective package managers status
-file is present, no matter whether /etc/$pm-postinsts exists. This
-decouples the implicit link between postinsts scripts in /etc and
-the package manager: Currently the package manager is only started
-if those scripts are present, although the package manager does not
-use those scripts at all! Package managers install their own set of
-postinst scripts.
-
-The behavior when using rpm packages stays the same.
-
-Note that using the package managers capability to execute postinst
-scripts is preferred for good reasons: It makes sure that the
-package managers database reflects that the packages have been
-completely installed and configured.
-
-This change allows to drop installation of the postinsts scripts
-when package management is present. This will be done in a separate
-change.
-
-Note: Before commit 5aae19959a44 ("rootfs.py: Change logic to
-unistall packages") rootfs.py did not install /etc/$pm-postinsts
-when package management is installed! The change caused YOCTO #8235
-which lead to the behavior change of run-postinsts in first place.
-
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- .../run-postinsts/run-postinsts/run-postinsts       | 21 ++++++++++++---------
- .../run-postinsts/run-postinsts.service             |  1 -
- 2 files changed, 12 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index 307feb7187..95eff04e17 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -6,7 +6,8 @@
- #
- 
- # The following script will run all the scriptlets found in #SYSCONFDIR#/deb-postinsts,
--# #SYSCONFDIR#/ipk-postinsts or #SYSCONFDIR#/rpm-postinsts.
-+# #SYSCONFDIR#/ipk-postinsts or #SYSCONFDIR#/rpm-postinsts or the package manager in
-+# case available.
- 
- # the order of this list is important, do not change!
- backend_list="rpm deb ipk"
-@@ -14,27 +15,29 @@ backend_list="rpm deb ipk"
- pm_installed=false
- 
- for pm in $backend_list; do
--	pi_dir="#SYSCONFDIR#/$pm-postinsts"
--
--	if [ ! -d $pi_dir ]; then
--		continue
--	fi
--
- 	# found the package manager, it has postinsts
- 	case $pm in
- 		"deb")
- 			if [ -s "#LOCALSTATEDIR#/lib/dpkg/status" ]; then
- 				pm_installed=true
-+				break
- 			fi
- 			;;
- 
- 		"ipk")
- 			if [ -s "#LOCALSTATEDIR#/lib/opkg/status" ]; then
- 				pm_installed=true
-+				break
- 			fi
- 			;;
- 	esac
--	break
-+
-+	pi_dir="#SYSCONFDIR#/$pm-postinsts"
-+
-+	# found postinsts directory
-+	if [ -d $pi_dir ]; then
-+		break
-+	fi
- done
- 
- remove_rcsd_link () {
-@@ -43,7 +46,7 @@ remove_rcsd_link () {
- 	fi
- }
- 
--if ! [ -d $pi_dir ]; then
-+if ! [ -d $pi_dir ] && ! $pm_installed; then
- 	remove_rcsd_link
- 	exit 0
- fi
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-index 1b71a1f8be..d42addf510 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-@@ -3,7 +3,6 @@ Description=Run pending postinsts
- DefaultDependencies=no
- After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
- Before=sysinit.target
--ConditionPathExistsGlob=#SYSCONFDIR#/*-postinsts
- 
- [Service]
- Type=oneshot
--- 
-2.13.6
-
+On Thu, 2018-05-10 at 09:05 +0100, André Draszik wrote:
+> ping
+> 
+> On Wed, 2018-03-21 at 16:31 +0000, André Draszik wrote:
+> > From: André Draszik <andre.draszik@jci.com>
+> > 
+> > The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
+> > thus bypassing sstate, which results in an ever growing list
+> > of files.
+> > 
+> > Write them to IMGDEPLOYDIR instead, so as to benefit from the
+> > automatic management via sstate.
+> > 
+> > Signed-off-by: André Draszik <andre.draszik@jci.com>
+> > 
+> > ---
+> > v2: fix typo in subject line
+> > ---
+> >  meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
+> >  1 file changed, 8 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/meta/classes/rootfs-postcommands.bbclass
+> > b/meta/classes/rootfs-postcommands.bbclass
+> > index a4e627fef8..01eee350b8 100644
+> > --- a/meta/classes/rootfs-postcommands.bbclass
+> > +++ b/meta/classes/rootfs-postcommands.bbclass
+> > @@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
+> >  python write_image_test_data() {
+> >      from oe.data import export2json
+> >  
+> > -    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'),
+> > d.getVar('IMAGE_NAME'))
+> > -    testdata_link = "%s/%s.testdata.json" %
+> > (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
+> > +    deploy_dir = d.getVar('IMGDEPLOYDIR')
+> > +    link_name = d.getVar('IMAGE_LINK_NAME')
+> > +    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" %
+> > d.getVar('IMAGE_NAME'))
+> >  
+> > -    bb.utils.mkdirhier(os.path.dirname(testdata))
+> >      searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+> > -    export2json(d, testdata,searchString=searchString,replaceString="")
+> > +    export2json(d, testdata_name, searchString=searchString,
+> > replaceString="")
+> >  
+> > -    if testdata_link != testdata:
+> > +    if os.path.exists(testdata_name):
+> > +        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" %
+> > link_name)
+> >          if os.path.lexists(testdata_link):
+> > -           os.remove(testdata_link)
+> > -        os.symlink(os.path.basename(testdata), testdata_link)
+> > +            os.remove(testdata_link)
+> > +        os.symlink(os.path.basename(testdata_name), testdata_link)
+> >  }
+> >  write_image_test_data[vardepsexclude] += "TOPDIR"
+> >  
 
