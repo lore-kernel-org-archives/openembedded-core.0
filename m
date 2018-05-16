@@ -1,33 +1,47 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8351D74845
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9722274832
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 20:14:23 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 40mQd81xwnz1qvnD;
-	Wed, 16 May 2018 22:14:20 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 40mQd81XbSz1rDn3;
-	Wed, 16 May 2018 22:14:20 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id b60M89K58l_K; Wed, 16 May 2018 22:14:16 +0200 (CEST)
-X-Auth-Info: VIZcjulKwbvuMXutvtkQNv62wUHgfd/XUBtzgSujsMA=
-Received: from kurokawa.lan (ip-86-49-107-50.net.upcbroadband.cz
-	[86.49.107.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed, 16 May 2018 22:14:16 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2018 22:14:15 +0200
-Message-Id: <20180516201415.8002-1-marex@denx.de>
-X-Mailer: git-send-email 2.16.2
-Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot: Upgrade to 2018.05 release
+	Wed, 16 May 2018 21:20:06 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id t11-v6so4865644wmt.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2018 14:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=FkTAVc54M9KmAfufa2WVDAozGS7GBr9rgaJW2TUIeAw=;
+	b=U55f3cfr28IOkkCkahnQm1WdwthPdsbj+SipW/8Klq3IZFEQt33H+ajsOsljMhPIDu
+	m/yx3/smlm6haAwalizhw1XX1/2DcFFEOjUALwdIAiKiTBVIIEj/LOM557AfUxEjwAvj
+	y+uN1Qd+huwvRxhZ5PmByKAsWcQnpLH3AGqy8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=FkTAVc54M9KmAfufa2WVDAozGS7GBr9rgaJW2TUIeAw=;
+	b=XhwcYpuJ5yx8tb2TW8qN+XoBPLGAoUg0b4rrYLlGFUzQsBJl03LZd9ObpU1gNNSull
+	vDIPnHRkLY7OxKpNwnQ0UYxIEnsr1x/mkkJPw9BgzFBmCHiBETEYAUjOP98xjV78mMu7
+	CGxMAh0yCwBUs3rUSgi81dVTPXPWWlh+Qwz47xv1GCuNRzxI+z9Z1qHFgzHTcNsvPch/
+	I5WL6EBTEzPNy+GnTMNWq7mKrP4XKMaVgirvhU9i4rWWjR9NMl2FMo84viQCM0FSABMM
+	UpIw4VnbQrY2c6kySCZerdW/gnzlEp6u1Z/3c9/JC+FDgqohua+lz65+NC7v46zUBfac
+	UF5Q==
+X-Gm-Message-State: ALKqPwftl4GWrYeyZMayeeAghLyyKzVamzJM4onl3eTeYJGVqYYZB+0i
+	XzsdegY4XqPIeMPqB4Di2rltF+zvVClqpgVl8IAK4g==
+X-Google-Smtp-Source: AB8JxZqOuHOwAWjbLYU/O5Gr0H+XV4whS9LBfrugJBh5EsAyeRn+gr6+twG6fJbYo+uJOw80W5IV5g9xJIwInNl9t2s=
+X-Received: by 2002:a2e:9c90:: with SMTP id
+	x16-v6mr1457776lji.13.1526505606838; 
+	Wed, 16 May 2018 14:20:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a19:ea07:0:0:0:0:0 with HTTP; Wed, 16 May 2018 14:20:06
+	-0700 (PDT)
+In-Reply-To: <3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
+References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
+	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
+From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
+Date: Wed, 16 May 2018 16:20:06 -0500
+Message-ID: <CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,54 +54,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 20:14:23 -0000
+X-List-Received-Date: Wed, 16 May 2018 21:20:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This upgrades the U-Boot from 2018.03 to 2018.05 release.
+On 6 April 2018 at 15:43, akuster808 <akuster808@gmail.com> wrote:
+> On 04/06/2018 10:08 AM, Daniel D=C3=ADaz Rodr=C3=ADguez wrote:
+>> Ping on this series for Morty.
+> This needs to be ported to Pyro first. I do it this weekend and morty too=
+.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@intel.com>
----
- .../u-boot/{u-boot-common_2018.03.inc => u-boot-common_2018.05.inc}     | 2 +-
- .../u-boot/{u-boot-fw-utils_2018.03.bb => u-boot-fw-utils_2018.05.bb}   | 0
- .../u-boot/{u-boot-mkimage_2018.03.bb => u-boot-mkimage_2018.05.bb}     | 0
- meta/recipes-bsp/u-boot/{u-boot_2018.03.bb => u-boot_2018.05.bb}        | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-common_2018.03.inc => u-boot-common_2018.05.inc} (86%)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2018.03.bb => u-boot-fw-utils_2018.05.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.03.bb => u-boot-mkimage_2018.05.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2018.03.bb => u-boot_2018.05.bb} (100%)
+Ping on this series for Morty.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
-similarity index 86%
-rename from meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
-rename to meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
-index 8ffae365a9..61566f5856 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
-@@ -7,7 +7,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "f95ab1fb6e37f0601f397091bb011edf7a98b890"
-+SRCREV = "890e79f2b1c26c5ba1a86d179706348aec7feef7"
- 
- SRC_URI = "git://git.denx.de/u-boot.git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.05.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.05.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.05.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2018.05.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot_2018.05.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2018.03.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2018.05.bb
--- 
-2.16.2
-
+--=20
+ddiaz
 
