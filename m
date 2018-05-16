@@ -1,48 +1,33 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 07DC3606BF
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8351D74845
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 16:55:16 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id a8-v6so3052452wmg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 09:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=U5QMBmYf2WGdxmy/p+N47bqHrLx5JHDd4nNrcawvoLc=;
-	b=rCBweCcZMbvktrSPW5vBYeGuwQuGIWNpfySDrXt0xsCDfTWVdvC02WbbfxQ9+Qin3z
-	OiP9PYB3sB0UbU/z2tj7CgsZprDDuOZmlzJXijAdqfbXvsH8oU9usxzQ0dJb5x8zNKmw
-	9PFO1UlS4PIxPlO3Fhje+nTXkAgeVWSI3sQ6ZIbtg/ZzGvUPeZmxRM/xW4giyNOfWq9I
-	iURjPh9cfy3Jx8rDKJNpvMmaeDoDeXgV53jm5Zvh0Boa94ZLwQjuNruQcad6tqpI0KY1
-	M4ZNv0wnaBChMyMJm8NfB/YOXMcf7R18EmytSQLxj8b3YBg6680iE5ytI2idqvp5tB2j
-	rgXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=U5QMBmYf2WGdxmy/p+N47bqHrLx5JHDd4nNrcawvoLc=;
-	b=bPDnLWbWZSRXfwWaqy0SUJ5UfUmDj5KdT8hX7Woud56AIEmmmAh6IfIhuc1VHJnr6h
-	77d1VLInFPT22N1dHathXR4K/bH2l9h9Ce+Ikqu+x5u2iVO87jECYCEQwe9SmXPVfLbY
-	lejmTSXs9LHUlqku/kEDFTuK++Z2yqCwkLksRK46yEdTi0jkd6AsF4bphn69rACwlxyQ
-	RY53oJCIQjX4txIvo6LZ5CXT6ovsq0kDLCt95Qpfa/vcefFtoh6QKsVD10k5Jd0PX0JM
-	UMrVy851DCB9eh4nDo6gUi8F6yjO+cLmv8OXQL9hLG6swSkpayLACeKgDQgtPttf1bQP
-	/2eg==
-X-Gm-Message-State: ALKqPwdub2mbMuKgm6ODVKHOOkeEUlbClcffzpaN/8BV3lua6e/vKvFi
-	Y19IvKs9XkNrotWoG8iaxvKpHSnG
-X-Google-Smtp-Source: AB8JxZpqSM9opUDzFGmaWqyTiB8Lk3Tayt9b8BHEozDc5ZLOLgt341S3Xq4A5OcifxbbW0pL9o8z4Q==
-X-Received: by 2002:a1c:2d06:: with SMTP id
-	t6-v6mr1059112wmt.155.1526489717247; 
-	Wed, 16 May 2018 09:55:17 -0700 (PDT)
-Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
-	by smtp.gmail.com with ESMTPSA id
-	w40-v6sm4968478wrc.69.2018.05.16.09.55.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 May 2018 09:55:15 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
+	Wed, 16 May 2018 20:14:23 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 40mQd81xwnz1qvnD;
+	Wed, 16 May 2018 22:14:20 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 40mQd81XbSz1rDn3;
+	Wed, 16 May 2018 22:14:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id b60M89K58l_K; Wed, 16 May 2018 22:14:16 +0200 (CEST)
+X-Auth-Info: VIZcjulKwbvuMXutvtkQNv62wUHgfd/XUBtzgSujsMA=
+Received: from kurokawa.lan (ip-86-49-107-50.net.upcbroadband.cz
+	[86.49.107.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed, 16 May 2018 22:14:16 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2018 10:54:58 -0600
-Message-Id: <20180516165458.17849-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.18.0-dev
-Subject: [PATCH] libnss-mdns: fix postinst and postrm
+Date: Wed, 16 May 2018 22:14:15 +0200
+Message-Id: <20180516201415.8002-1-marex@denx.de>
+X-Mailer: git-send-email 2.16.2
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot: Upgrade to 2018.05 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2018 16:55:17 -0000
+X-List-Received-Date: Wed, 16 May 2018 20:14:23 -0000
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+This upgrades the U-Boot from 2018.03 to 2018.05 release.
 
-Don't blindly add mdns_minimal, instead check for existing
-mdns_minimal instances. Fixes continuously appending mdns settings
-to nssswitch.conf when upgrading.
-
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross.burton@intel.com>
 ---
- .../libnss-mdns/libnss-mdns_0.10.bb               | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ .../u-boot/{u-boot-common_2018.03.inc => u-boot-common_2018.05.inc}     | 2 +-
+ .../u-boot/{u-boot-fw-utils_2018.03.bb => u-boot-fw-utils_2018.05.bb}   | 0
+ .../u-boot/{u-boot-mkimage_2018.03.bb => u-boot-mkimage_2018.05.bb}     | 0
+ meta/recipes-bsp/u-boot/{u-boot_2018.03.bb => u-boot_2018.05.bb}        | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2018.03.inc => u-boot-common_2018.05.inc} (86%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2018.03.bb => u-boot-fw-utils_2018.05.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2018.03.bb => u-boot-mkimage_2018.05.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2018.03.bb => u-boot_2018.05.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-index 8d2feec7698..5be5e4fa323 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-@@ -28,13 +28,16 @@ DEBIANNAME_${PN} = "libnss-mdns"
- RDEPENDS_${PN} = "avahi-daemon"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
+similarity index 86%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
+index 8ffae365a9..61566f5856 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2018.03.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.05.inc
+@@ -7,7 +7,7 @@ PE = "1"
  
- pkg_postinst_${PN} () {
--	sed -e '/^hosts:/s/\s*\<mdns\>//' \
--		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 mdns4_minimal [NOTFOUND=return]\3\4 mdns\5/' \
--		-i $D${sysconfdir}/nsswitch.conf
-+	sed '
-+		/^hosts:/ !b
-+		/\<mdns\(4\|6\)\?\(_minimal\)\?\>/ b
-+		s/\([[:blank:]]\+\)dns\>/\1mdns4_minimal [NOTFOUND=return] dns/g
-+		' -i $D${sysconfdir}/nsswitch.conf
- }
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "f95ab1fb6e37f0601f397091bb011edf7a98b890"
++SRCREV = "890e79f2b1c26c5ba1a86d179706348aec7feef7"
  
- pkg_prerm_${PN} () {
--	sed -e '/^hosts:/s/\s*\<mdns\>//' \
--		-e '/^hosts:/s/\s*mdns4_minimal\s\+\[NOTFOUND=return\]//' \
--		-i $D${sysconfdir}/nsswitch.conf
-+	sed '
-+		/^hosts:/ !b
-+		s/[[:blank:]]\+mdns\(4\|6\)\?\(_minimal\( \[NOTFOUND=return\]\)\?\)\?//g
-+		' -i $D${sysconfdir}/nsswitch.conf
- }
+ SRC_URI = "git://git.denx.de/u-boot.git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.05.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2018.05.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2018.05.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2018.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2018.05.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.03.bb b/meta/recipes-bsp/u-boot/u-boot_2018.05.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2018.03.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2018.05.bb
 -- 
-2.18.0-dev
+2.16.2
 
 
