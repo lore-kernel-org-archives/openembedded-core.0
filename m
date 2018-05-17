@@ -1,50 +1,54 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 850167480F
+Return-Path: <marek.vasut@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D5160685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 08:57:06 +0000 (UTC)
-Received: by mail-lf0-f53.google.com with SMTP id y72-v6so7605145lfd.2
+	Thu, 17 May 2018 09:40:16 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id n10-v6so7772542wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 01:57:07 -0700 (PDT)
+	Thu, 17 May 2018 02:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=jspwMnpF1LBP2sGsl0fAt3Kf97UahIUxQQAjfjZb9kI=;
-	b=X3Za4Ozrr/KnCM++Mi2fmTOExgXOHVnnZoB7DDUdqxRa9gnaU9/tbgpwnfvbpTaHUb
-	wJi2z0/XKgM0cok4NUV1ry+BhdZtte9jAmAM4g2ZrrsLG2pC7M8MQ8De+TEEdpPpNiPN
-	cfzfoHhTjp7b1dWDZ88IT2WWzffnh1509fZBp6nbH4/VzRpXmgKOlOqeLYjeN3jlzY86
-	XbQq7LVvF1WyFXZMEgBxLRcyUqQrXGi7v3ulqInZu+GClgJf8k6G9xgadDNWwq6we21O
-	QhfZ11JTB8vBe/kV6/9GsZBWxdY9okitdApN7Wg79c4axFTbLlS/5WPLg3igHxVxSpG3
-	Fp6Q==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=K5CdDLXU2KqRXa6iD56n8+fkzRkM0DlTMylTXKCPfLY=;
+	b=ivA20Kl3A9ET1+Nxr0vQUPvyL5dIW+O9xE5PdBmrgNSDvRqxST8J6QWVpOUJ0glyNF
+	hHTzDpqzlXcmoX3lqCaoQljPylXJpkRJYej+1jQcii42qVhWwvnLwwfj9vPs/fMVZBEq
+	6v+t9HFx72eeKv6ZATtZYlTyzAnS+oBNn9xnzKyUsOW/43Metj6kNzPuU4AhpJh2wXLF
+	wvnSE8aDnQUEq6Ui7qZJOm6+XSaSSSEzogTFWPmh/HfvA9NBDJALCi4K+7rGBqRnNgaU
+	eLlgtZRek/23KZ+lVr+1tg5i4wnw3RDk5VrsDbsTlQCDMvYovgMMy0xF5g1uAlOgAzdU
+	t/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jspwMnpF1LBP2sGsl0fAt3Kf97UahIUxQQAjfjZb9kI=;
-	b=gqdjroOWuFW9aoHjoF3XCD20XvzkOoChcooSpobtKOuRozHILjRSBfwSIT70SXryvi
-	dQ9OtExyPYce1eQy0t8gMooJCqF52xeWNTUKsjOuBbTS/y5V+Z8DXosvCwm+bOmjdh5Q
-	e5fNmwtXCI/n5p0OZRf3wHpdk1+D3PWjyowpyOUGpZozt0PRHhBWnA15liLxUAgCGW1v
-	wP+XHCwRuyFPTf9wnuxbQvawoJ7OKIWGsfgO9xVgD7shsO/67v+iuHX2mEbHIIBXU54V
-	/Bhl7nvkiFo0YRQTz9UO65wvPv5umo3bthl9uaYGxZYP3S1V1fSvKyGMUl9VLR32iJhU
-	LVTg==
-X-Gm-Message-State: ALKqPwds2cEXk2Bsy41uB0KfBZprpY3QNOdiCve2/cDdyRyV9GYyk/v4
-	tzYtHSqB8KyJv5DMpL9+gQF30k1o
-X-Google-Smtp-Source: AB8JxZry2M3YWCl0O49IH8MD4wkmSgchh0n7dWYQb53alh7SgpT4p4ubkeJPUHGunRVSL9sQLGe30g==
-X-Received: by 2002:a2e:85d4:: with SMTP id
-	h20-v6mr2523347ljj.82.1526547426526; 
-	Thu, 17 May 2018 01:57:06 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	z24-v6sm1099395lfg.56.2018.05.17.01.57.05
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=K5CdDLXU2KqRXa6iD56n8+fkzRkM0DlTMylTXKCPfLY=;
+	b=XSxmaRT+xvUQIWdZkNanoI6XoltxmT5iiGFsuLxLuFwTw5BPDA1OtyNsZ/efjNd/Bi
+	x+KqC3VuM5Jp3VakGzNS8vzbht31itY40CYqRmuCuCo6jM9DxK7292kiM7ev7o09vvs9
+	B8WwEC7t3uIb5ESiuYAxQamASGbuHwx4AaPjob/HIfM+o0alYEvPKSDofU/M1L4/5Gd/
+	cYe/gnifWmk/opBgICK8lheL7LW/cY4KHTQEl3qwtVRgwF+R0C/8rxsiOPF7ErfmDt1u
+	uVOsIgpsk1BQhYQCE42Oqfj5Hlx6o6dWF21jmsNr7qbnFvJ1usXCakswkuBl7oDg+gaw
+	lIuA==
+X-Gm-Message-State: ALKqPwdI78eWwCRWfxkNGZ2BF1ZAoOZEULJvdHNgX7JpHWY2+b2aMGGz
+	WnZ79EbLJ0STqRu2OVR095c=
+X-Google-Smtp-Source: AB8JxZpTMKZls3W1mytD/3mZZ6Sz6DqPMUgJiQXBVhsuvQfgGIRArwQb6EfTT1bYXSNsj6GaIEGcqw==
+X-Received: by 2002:a1c:e006:: with SMTP id x6-v6mr1157403wmg.80.1526550017115;
+	Thu, 17 May 2018 02:40:17 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-107-50.net.upcbroadband.cz.
+	[86.49.107.50]) by smtp.gmail.com with ESMTPSA id
+	131-v6sm7941630wms.34.2018.05.17.02.40.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 May 2018 01:57:05 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	anibal.limon@linux.intel.com
-Date: Thu, 17 May 2018 10:57:04 +0200
-Message-Id: <20180517085704.28799-1-ricardo.ribalda@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH v2] apt: Port apt-file to busybox readlink
+	Thu, 17 May 2018 02:40:16 -0700 (PDT)
+To: auh@auh.yoctoproject.org
+References: <20180517021314.0C556440002@auh.yoctoproject.org>
+From: Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <b3a862cb-5561-22a8-f620-3796469559e3@gmail.com>
+Date: Thu, 17 May 2018 11:40:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <20180517021314.0C556440002@auh.yoctoproject.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [AUH] u-boot-mkimage: upgrading to 2018.05 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,85 +61,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 08:57:07 -0000
+X-List-Received-Date: Thu, 17 May 2018 09:40:17 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Redlink from busybox and coreutils behave differently on missing files.
-This leads to apt-key miss-behaving and also segure apt-get
+On 05/17/2018 04:13 AM, auh@auh.yoctoproject.org wrote:
+> Hello,
+> 
+> You are receiving this email because you are the maintainer
+> of *u-boot-mkimage* recipe and this is to let you know that the automatic attempt
+> to upgrade the recipe to *2018.05* has Failed(do_compile).
+> 
+> Detailed error information:
+> 
+> do_compile failed
 
-root@qt5122:~# apt-key exportall
-touch: : No such file or directory
+Well yeah, if you dont upgrade all the recipes, it'll fail ...
 
-W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://release.qtec.com:5022/qtec/europa/deb/qt5122 ./ Release: At least one invalid signature was encountered.
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
----
-v2: Add missing signed-off-by
-
- meta/recipes-devtools/apt/apt.inc             |  1 +
- ...t-Fix-apt-file-with-busybox-readlink.patch | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
-
-diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-index f1cde3068d..995bfc45ee 100644
---- a/meta/recipes-devtools/apt/apt.inc
-+++ b/meta/recipes-devtools/apt/apt.inc
-@@ -13,6 +13,7 @@ SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.tar.
-            file://disable-test.patch \
-            file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
-            file://0001-apt-1.2.12-Fix-musl-build.patch \
-+           file://0001-apt-Fix-apt-file-with-busybox-readlink.patch \
-            "
- SRC_URI[md5sum] = "ce8f9ab11f4fd0a08ec73eaffd75c8f0"
- SRC_URI[sha256sum] = "fa1311a9ce00e72379a0a3bc6d240ba30c0968cfbbb3472859e50b99e24e9598"
-diff --git a/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch b/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
-new file mode 100644
-index 0000000000..684e3b1626
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
-@@ -0,0 +1,41 @@
-+From 3e0804f7882088186f47ff3c3c9e60998a1d93a0 Mon Sep 17 00:00:00 2001
-+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+Date: Thu, 17 May 2018 10:42:44 +0200
-+Subject: [PATCH] apt: Fix apt-file with busybox readlink
-+
-+Busybox readlink behaves diferently that coreutils readlink:
-+
-+root@qt5122:~# touch /tmp/this_file_exist
-+root@qt5122:~# busybox readlink -f /tmp/this_file_exist
-+/tmp/this_file_exist
-+root@qt5122:~# readlink -f /tmp/this_file_exist
-+/tmp/this_file_exist
-+
-+root@qt5122:~# readlink -f /tmp/this_file_does_not_exist
-+/tmp/this_file_does_not_exist
-+root@qt5122:~# busybox readlink -f /tmp/this_file_does_not_exist
-+root@qt5122:~#
-+
-+This patch make apt-file compatible with busybox readlink
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+---
-+ cmdline/apt-key.in | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/cmdline/apt-key.in b/cmdline/apt-key.in
-+index eab5805..421c981 100644
-+--- a/cmdline/apt-key.in
-++++ b/cmdline/apt-key.in
-+@@ -313,6 +313,7 @@ merge_all_trusted_keyrings_into_pubring() {
-+     # does the same as:
-+     # foreach_keyring_do 'import_keys_from_keyring' "${GPGHOMEDIR}/pubring.gpg"
-+     # but without using gpg, just cat and find
-++    touch "${GPGHOMEDIR}/pubring.gpg"
-+     local PUBRING="$(readlink -f "${GPGHOMEDIR}/pubring.gpg")"
-+     rm -f "$PUBRING"
-+     touch "$PUBRING"
-+-- 
-+2.17.0
-+
 -- 
-2.17.0
-
+Best regards,
+Marek Vasut
 
