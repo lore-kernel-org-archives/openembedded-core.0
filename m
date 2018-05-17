@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E0D0C7459D
+	by mail.openembedded.org (Postfix) with ESMTP id 9882A7459D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 11:46:09 +0000 (UTC)
+	Thu, 17 May 2018 11:46:10 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2018 04:46:10 -0700
+	17 May 2018 04:46:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,410,1520924400"; d="scan'208";a="229395395"
+X-IronPort-AV: E=Sophos;i="5.49,410,1520924400"; d="scan'208";a="229395405"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 17 May 2018 04:46:09 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 17 May 2018 04:46:11 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2018 14:38:32 +0300
-Message-Id: <20180517113837.24240-5-alexander.kanavin@linux.intel.com>
+Date: Thu, 17 May 2018 14:38:33 +0300
+Message-Id: <20180517113837.24240-6-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180517113837.24240-1-alexander.kanavin@linux.intel.com>
 References: <20180517113837.24240-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/10] libidn: upgrade 1.34 -> 1.35
+Subject: [PATCH 06/10] btrfs-tools: upgrade 4.15.1 -> 4.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +34,178 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 May 2018 11:46:10 -0000
 
-Add autoconf-archive dependency to expand AC_JAVA_OPTIONS and other
-java-related macros.
+Drop upstreamed patch.
+
+Add a patch to correctly set LDFLAGS for one of the libraries and Python bindings.
+
+Add dependencies to build Python bindings
+(directly inheriting setuptools3 class does not work,
+as the build is Makefile-managed) and a snippet to install them.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../libidn/libidn/libidn_fix_for_automake-1.12.patch      | 8 ++++----
- .../libidn/{libidn_1.34.bb => libidn_1.35.bb}             | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/libidn/{libidn_1.34.bb => libidn_1.35.bb} (89%)
+ ...DFLAGS-when-building-libbtrfsutil.so.patch | 35 ++++++++++
+ .../btrfs-tools/ftw-subdir-walk.patch         | 69 -------------------
+ ...-tools_4.15.1.bb => btrfs-tools_4.16.1.bb} | 12 ++--
+ 3 files changed, 43 insertions(+), 73 deletions(-)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/ftw-subdir-walk.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.15.1.bb => btrfs-tools_4.16.1.bb} (78%)
 
-diff --git a/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
-index 5d03810d006..3c0559e34f4 100644
---- a/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
-+++ b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
-@@ -1,4 +1,4 @@
--From c34c7aba769bff3e483f89145055b9b8733435f3 Mon Sep 17 00:00:00 2001
-+From d4f64b78419139eda3c0e1c6ee116bb5f70ea67c Mon Sep 17 00:00:00 2001
- From: Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: Wed, 2 May 2012 18:05:19 -0700
- Subject: [PATCH] libtasn1: fix build with automake 1.12
-@@ -19,11 +19,11 @@ Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
+new file mode 100644
+index 00000000000..a8fcfc0f73c
+--- /dev/null
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
+@@ -0,0 +1,35 @@
++From eecc48ecad359cd4fab650ce49cfe57e99d1859d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 17 May 2018 12:21:31 +0300
++Subject: [PATCH] Add LDFLAGS when building libbtrfsutil.so and python
++ bindings.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ Makefile | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 10f0e3b0..1697794c 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -402,7 +402,7 @@ libbtrfsutil/%.o: libbtrfsutil/%.c
++ 
++ libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects)
++ 	@echo "    [LD]     $@"
++-	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) $(libbtrfsutil_objects) \
+++	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) $(LDFLAGS) $(libbtrfsutil_objects) \
++ 		-shared -Wl,-soname,libbtrfsutil.so.$(libbtrfsutil_major) -o $@
++ 
++ libbtrfsutil.a: $(libbtrfsutil_objects)
++@@ -417,7 +417,7 @@ ifeq ($(PYTHON_BINDINGS),1)
++ libbtrfsutil_python: libbtrfsutil.so.$(libbtrfsutil_major) libbtrfsutil.so libbtrfsutil/btrfsutil.h
++ 	@echo "    [PY]     libbtrfsutil"
++ 	$(Q)cd libbtrfsutil/python; \
++-		CFLAGS= LDFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
+++		CFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
++ 
++ .PHONY: libbtrfsutil_python
++ endif
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/ftw-subdir-walk.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/ftw-subdir-walk.patch
+deleted file mode 100644
+index fbe0c47849f..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/ftw-subdir-walk.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-From patchwork Wed Mar 28 06:39:09 2018
+-Content-Type: text/plain; charset="utf-8"
+-MIME-Version: 1.0
+-Content-Transfer-Encoding: 7bit
+-Subject: btrfs-progs: mkfs/rootdir: Don't follow symbolic link when calcuating
+- size
+-From: Qu Wenruo <wqu@suse.com>
+-X-Patchwork-Id: 10312225
+-Message-Id: <20180328063909.937-1-wqu@suse.com>
+-To: linux-btrfs@vger.kernel.org
+-Date: Wed, 28 Mar 2018 14:39:09 +0800
+-
+-[BUG]
+-If we have a symbolic link in rootdir pointing to non-existing location,
+-mkfs.btrfs --rootdir will just fail:
+-------
+-$ mkfs.btrfs  -f --rootdir /tmp/rootdir/ /dev/data/btrfs
+-btrfs-progs v4.15.1
+-See http://btrfs.wiki.kernel.org for more information.
+-
+-ERROR: ftw subdir walk of /tmp/rootdir/ failed: No such file or directory
+-------
+-
+-[CAUSE]
+-Commit 599a0abed564 ("btrfs-progs: mkfs/rootdir: Use over-reserve method
+-to make size estimate easier") add extra ftw walk to estimate the
+-filesystem size.
+-
+-Such default ftw walk will follow symbolic link and gives ENOENT error.
+-
+-[FIX]
+-Use nftw() to specify FTW_PHYS so we won't follow symbolic link for size
+-calculation.
+-
+-Reported-by: Alexander Kanavin <alexander.kanavin@intel.com>
+-Fixes: 599a0abed564 ("btrfs-progs: mkfs/rootdir: Use over-reserve method to make size estimate easier")
+-Signed-off-by: Qu Wenruo <wqu@suse.com>
+-Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10312225/]
+----
+- mkfs/rootdir.c | 9 +++++++--
+- 1 file changed, 7 insertions(+), 2 deletions(-)
+-
+-diff --git a/mkfs/rootdir.c b/mkfs/rootdir.c
+-index a1d223a2408a..33c3ff1e18cf 100644
+---- a/mkfs/rootdir.c
+-+++ b/mkfs/rootdir.c
+-@@ -696,7 +696,7 @@ out:
+- }
+- 
+- static int ftw_add_entry_size(const char *fpath, const struct stat *st,
+--			      int type)
+-+			      int type, struct FTW *ftwbuf)
+- {
+- 	/*
+- 	 * Failed to read the directory, mostly due to EPERM.  Abort ASAP, so
+-@@ -731,7 +731,12 @@ u64 btrfs_mkfs_size_dir(const char *dir_name, u32 sectorsize, u64 min_dev_size,
+- 	fs_block_size = sectorsize;
+- 	ftw_data_size = 0;
+- 	ftw_meta_nr_inode = 0;
+--	ret = ftw(dir_name, ftw_add_entry_size, 10);
+-+
+-+	/*
+-+	 * Symbolic link is not followed when creating files, so no need to
+-+	 * follow them here.
+-+	 */
+-+	ret = nftw(dir_name, ftw_add_entry_size, 10, FTW_PHYS);
+- 	if (ret < 0) {
+- 		error("ftw subdir walk of %s failed: %s", dir_name,
+- 			strerror(errno));
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.16.1.bb
+similarity index 78%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.16.1.bb
+index f7ea27321cf..18f11ba89e3 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.15.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.16.1.bb
+@@ -10,17 +10,17 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+-DEPENDS = "util-linux attr e2fsprogs lzo acl"
++DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
  
- diff --git a/configure.ac b/configure.ac
--index f8049a4..261dad2 100644
-+index 8297649..7b9626e 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -33,6 +33,10 @@ AC_SUBST(LT_CURRENT, 17)
-- AC_SUBST(LT_REVISION, 18)
-+@@ -33,6 +33,10 @@ AC_SUBST(LT_CURRENT, 18)
-+ AC_SUBST(LT_REVISION, 0)
-  AC_SUBST(LT_AGE, 6)
-  
- +# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-diff --git a/meta/recipes-extended/libidn/libidn_1.34.bb b/meta/recipes-extended/libidn/libidn_1.35.bb
-similarity index 89%
-rename from meta/recipes-extended/libidn/libidn_1.34.bb
-rename to meta/recipes-extended/libidn/libidn_1.35.bb
-index 424c6c9f981..d5ce5b46bd3 100644
---- a/meta/recipes-extended/libidn/libidn_1.34.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.35.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=df4be47940a91ee69556f5f71eed4aec \
-                     file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://lib/idna.h;endline=21;md5=37cffad24807f446a24de3e7371f20b9 \
-                     file://src/idn.c;endline=20;md5=09e97034a8877b3451cb65065fc2c06e"
--DEPENDS = "virtual/libiconv"
-+DEPENDS = "virtual/libiconv autoconf-archive"
- 
- inherit pkgconfig autotools gettext texinfo gtk-doc
- 
-@@ -21,8 +21,8 @@ SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
-            file://0001-idn-format-security-warnings.patch \
+-SRCREV = "3097f02c948f69f520c565ff8f8ba476aa6edb88"
++SRCREV = "f7fc27cb20924cc340a2a522655969253dd97ae9"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Makefile-build-mktables-using-native-gcc.patch \
+-           file://ftw-subdir-walk.patch \
++           file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
             "
  
--SRC_URI[md5sum] = "a829db6cd0b85733017c20a50bf10798"
--SRC_URI[sha256sum] = "3719e2975f2fb28605df3479c380af2cf4ab4e919e1506527e4c7670afff6e3c"
-+SRC_URI[md5sum] = "bef634141fe39326cb354b75e891fead"
-+SRC_URI[sha256sum] = "f11af1005b46b7b15d057d7f107315a1ad46935c7fcdf243c16e46ec14f0fe1e"
+-inherit autotools-brokensep pkgconfig manpages
++inherit autotools-brokensep pkgconfig manpages distutils3-base
  
- # command tool is under GPLv3+, while libidn itself is under LGPLv2.1+ or LGPLv3
- # so package command into a separate package
+ CLEANBROKEN = "1"
+ 
+@@ -36,4 +36,8 @@ do_configure_prepend() {
+ 
+ S = "${WORKDIR}/git"
+ 
++do_install_append() {
++    oe_runmake 'DESTDIR=${D}' install_python
++}
++
+ BBCLASSEXTEND = "native"
 -- 
 2.17.0
 
