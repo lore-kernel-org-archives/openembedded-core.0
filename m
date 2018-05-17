@@ -1,31 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAF3A747FD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D8560068
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 06:28:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4H6Rj2Y021402
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 May 2018 08:03:39 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id e20-v6so965248iof.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 23:28:00 -0700
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 16 May 2018 23:27:34 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20180309130000.1937-1-git@andred.net>
-	<20180321163130.23765-1-git@andred.net>
-	<1525939504.5115.18.camel@andred.net>
-	<1526464678.32156.14.camel@andred.net>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <148bdddc-cb1e-f083-d6c8-10950aa72ba9@windriver.com>
-Date: Thu, 17 May 2018 14:29:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 17 May 2018 01:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=J9+j71Fs4ldbl3skd4AqIpwQPcDSTb/nAAL7NkRoK6g=;
+	b=vpmyXQ6aU4G8IVulYjGnvSNii/6jpQTwT6ZZXJxPuXf5t1Tnl3QdGWWDjcMDGjfVW3
+	ODRzlaFDfoYmwNsVm8hrmDmaBLMege7v/O6eXq1OakQtwBQhF9Of/zW3ZTaIxxuAVmoB
+	bxhLsH9uBhUO98w1zwUpJiGofw8AJ8cz61r2p26jTK0QmqFShRGE12wxV5vmn7Int0ke
+	xiKnk0IZhWFYahB5KE1mpE4vno+E9Vj65y8WiQq262XRgke7uQr+hbWBnHvtjvZALcS4
+	fuu0Yo6ACeopd7IafA5BIF8y7s00Cg0XUBGgNyQit+UDexBQPMwv2etK3hj3K/05DroR
+	Cxcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=J9+j71Fs4ldbl3skd4AqIpwQPcDSTb/nAAL7NkRoK6g=;
+	b=WSSxBFf+Z2gajf1itmZiZj1KzSip2CDfCF2TglTDSvHrz9q8xEh/Qt/tdURvjpmQzi
+	XyAvIZUnRftXumOn5KWt01J6yWE9VNtQXdLjNE5qN4tlsfz3nwBpKbZ+bNEx7dG2tPpP
+	WZ38Jyf8fbaEpb1IKIEBbGLPQXTkuDN2y3UEOHL7VFZCzdLkBYQKmt8comyrTwGEpRBd
+	6hukdPDoURiENM6o9bp1eAM6EL9yy/x8qbWtC2OozdGwiV/hw6PKXKSJB9rnMkOfTfwB
+	3DEOMPpZ9Muxy4pJu6CJaL4dHTqe3k7xeavR6wgOEqn8rbB3jpVizfrM6EBvc8Ov1Xom
+	dtuw==
+X-Gm-Message-State: ALKqPwfTgbmeF3q9OkOloi5+8NVFxkP+0EtW9u7V0zy+pIA5rlUxQul8
+	58jOQunxNEXDprxvoNl8rNqPrynzuC1QWiqts4s7Pg==
+X-Google-Smtp-Source: AB8JxZrlhleFwgZmDhlolUUEnNS/cv4v7JWuvPsKcgnYyccxKjegnY0a/bSTENm4Znnwj6UP95JsJKco2BA1jlTZMl8=
+X-Received: by 2002:a6b:5507:: with SMTP id j7-v6mr5038194iob.23.1526544220647;
+	Thu, 17 May 2018 01:03:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1526464678.32156.14.camel@andred.net>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH v2] rootfs-postcommands: put image testdata under sstate control
+Received: by 10.107.239.11 with HTTP; Thu, 17 May 2018 01:03:20 -0700 (PDT)
+In-Reply-To: <CAJ86T=UXSzh13a9WGy20s7VG-gWebybN7raSL2eFawPXRtQGsw@mail.gmail.com>
+References: <20180516233046.10217-1-ross.burton@intel.com>
+	<CAJ86T=UXSzh13a9WGy20s7VG-gWebybN7raSL2eFawPXRtQGsw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 May 2018 09:03:20 +0100
+Message-ID: <CAJTo0LYrmZiScL_wf8_+-Sg=t23-QgpyzGV=xgmTLpWB0rig8g@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][rocko] libnl: protect against buffer overflow (CVE-2017-0553)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,88 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 06:28:10 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 May 2018 08:03:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Certainly does, sorry about that!
 
-I've also noticed this problem. The growing testdata.json files also 
-bothered me a little bit.
+Ross
 
-I think the only small flaw with your patch is you deleted the following 
-check.
-
-if testdata_link != testdata:
-
-Checking the values of IMAGE_NAME and IMAGE_LINK_NAME in bitbake.conf, 
-such check seems not necessary.
-But these values could be overridden. How about still keeping such check?
-
-Best Regards,
-Chen Qi
-
-
-On 05/16/2018 05:57 PM, André Draszik wrote:
-> Is there anything wrong with this?
+On 17 May 2018 at 01:44, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Wed, May 16, 2018 at 4:30 PM, Ross Burton <ross.burton@intel.com> wrote:
 >
-> On Thu, 2018-05-10 at 09:05 +0100, André Draszik wrote:
->> ping
+> Looks like a duplicate of:
+>
+>   http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150743.html
+>
+> ?
+>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>  meta/recipes-support/libnl/libnl/overflow.patch | 39 +++++++++++++++++++++++++
+>>  meta/recipes-support/libnl/libnl_3.2.29.bb      |  1 +
+>>  2 files changed, 40 insertions(+)
+>>  create mode 100644 meta/recipes-support/libnl/libnl/overflow.patch
 >>
->> On Wed, 2018-03-21 at 16:31 +0000, André Draszik wrote:
->>> From: André Draszik <andre.draszik@jci.com>
->>>
->>> The testdata.json is being written to DEPLOY_DIR_IMAGE directly,
->>> thus bypassing sstate, which results in an ever growing list
->>> of files.
->>>
->>> Write them to IMGDEPLOYDIR instead, so as to benefit from the
->>> automatic management via sstate.
->>>
->>> Signed-off-by: André Draszik <andre.draszik@jci.com>
->>>
->>> ---
->>> v2: fix typo in subject line
->>> ---
->>>   meta/classes/rootfs-postcommands.bbclass | 15 ++++++++-------
->>>   1 file changed, 8 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/meta/classes/rootfs-postcommands.bbclass
->>> b/meta/classes/rootfs-postcommands.bbclass
->>> index a4e627fef8..01eee350b8 100644
->>> --- a/meta/classes/rootfs-postcommands.bbclass
->>> +++ b/meta/classes/rootfs-postcommands.bbclass
->>> @@ -303,17 +303,18 @@ rootfs_sysroot_relativelinks () {
->>>   python write_image_test_data() {
->>>       from oe.data import export2json
->>>   
->>> -    testdata = "%s/%s.testdata.json" % (d.getVar('DEPLOY_DIR_IMAGE'),
->>> d.getVar('IMAGE_NAME'))
->>> -    testdata_link = "%s/%s.testdata.json" %
->>> (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('IMAGE_LINK_NAME'))
->>> +    deploy_dir = d.getVar('IMGDEPLOYDIR')
->>> +    link_name = d.getVar('IMAGE_LINK_NAME')
->>> +    testdata_name = os.path.join(deploy_dir, "%s.testdata.json" %
->>> d.getVar('IMAGE_NAME'))
->>>   
->>> -    bb.utils.mkdirhier(os.path.dirname(testdata))
->>>       searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
->>> -    export2json(d, testdata,searchString=searchString,replaceString="")
->>> +    export2json(d, testdata_name, searchString=searchString,
->>> replaceString="")
->>>   
->>> -    if testdata_link != testdata:
->>> +    if os.path.exists(testdata_name):
->>> +        testdata_link = os.path.join(deploy_dir, "%s.testdata.json" %
->>> link_name)
->>>           if os.path.lexists(testdata_link):
->>> -           os.remove(testdata_link)
->>> -        os.symlink(os.path.basename(testdata), testdata_link)
->>> +            os.remove(testdata_link)
->>> +        os.symlink(os.path.basename(testdata_name), testdata_link)
->>>   }
->>>   write_image_test_data[vardepsexclude] += "TOPDIR"
->>>   
-
-
+>> diff --git a/meta/recipes-support/libnl/libnl/overflow.patch b/meta/recipes-support/libnl/libnl/overflow.patch
+>> new file mode 100644
+>> index 00000000000..777fac3ea1a
+>> --- /dev/null
+>> +++ b/meta/recipes-support/libnl/libnl/overflow.patch
+>> @@ -0,0 +1,39 @@
+>> +CVE: CVE-2017-0553
+>> +Upstream-Status: Backport
+>> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> +
+>> +From 3e18948f17148e6a3c4255bdeaaf01ef6081ceeb Mon Sep 17 00:00:00 2001
+>> +From: Thomas Haller <thaller@redhat.com>
+>> +Date: Mon, 6 Feb 2017 22:23:52 +0100
+>> +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
+>> +
+>> +In general, libnl functions are not robust against calling with
+>> +invalid arguments. Thus, never call libnl functions with invalid
+>> +arguments. In case of nlmsg_reserve() this means never provide
+>> +a @len argument that causes overflow.
+>> +
+>> +Still, add an additional safeguard to avoid exploiting such bugs.
+>> +
+>> +Assume that @pad is a trusted, small integer.
+>> +Assume that n->nm_size is a valid number of allocated bytes (and thus
+>> +much smaller then SIZE_T_MAX).
+>> +Assume, that @len may be set to an untrusted value. Then the patch
+>> +avoids an integer overflow resulting in reserving too few bytes.
+>> +---
+>> + lib/msg.c | 3 +++
+>> + 1 file changed, 3 insertions(+)
+>> +
+>> +diff --git a/lib/msg.c b/lib/msg.c
+>> +index 9af3f3a0..3e27d4e0 100644
+>> +--- a/lib/msg.c
+>> ++++ b/lib/msg.c
+>> +@@ -411,6 +411,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
+>> +       size_t nlmsg_len = n->nm_nlh->nlmsg_len;
+>> +       size_t tlen;
+>> +
+>> ++      if (len > n->nm_size)
+>> ++              return NULL;
+>> ++
+>> +       tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
+>> +
+>> +       if ((tlen + nlmsg_len) > n->nm_size)
+>> \ No newline at end of file
+>> diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.2.29.bb
+>> index 7d4839ba506..746fd3d4153 100644
+>> --- a/meta/recipes-support/libnl/libnl_3.2.29.bb
+>> +++ b/meta/recipes-support/libnl/libnl_3.2.29.bb
+>> @@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
+>>  SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+>>             file://fix-pktloc_syntax_h-race.patch \
+>>             file://fix-pc-file.patch \
+>> +           file://overflow.patch \
+>>  "
+>>  UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+>>
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
