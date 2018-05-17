@@ -1,62 +1,47 @@
-Return-Path: <marek.vasut@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E935674702
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9542C7481C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 21:20:56 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id p18-v6so7088858wrm.1
+	Thu, 17 May 2018 22:17:54 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id l2-v6so2405147pgc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 14:20:57 -0700 (PDT)
+	Thu, 17 May 2018 15:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=oJ5bDeCTkl7XP7X1iwYBp8XfBFUHECuo0WDWQ2P1mBA=;
-	b=iAnQBF4ttTKNfqIwvuteia/Xl+4CR58AYTAQ4w3rjw7HSJErHydNRCZ1+pAglIUL5W
-	7tsi+4olNBkuGJMagF7FlF/viKfxQFvNjJ8J43f8BO472H/7AwX1TFf08qu9f8AKbAp8
-	tOvCAdith3Lnh+Mea6CPjkaGzrWAUkGTy4hQ+yv6yzX10w40snV9/yn91iK043oJWvGS
-	gjWwM3JUFdBiZO6yh8sNbk8cJP+UISnOJiEisstQ9cgBjXfya8pg8Ixx7R+KKm6IMN+e
-	8Xsn+mDroqbP+yDrFef5xrGREyZVtRpVxhcY1+lDrykdhpdHgbjjCxqAH3CbOiyNfXNi
-	AbdQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=j4TWK3KGbS0r2B59gYPMQ/OnClg6dzv7n2RULTUpNq4=;
+	b=e2nxlHsSRW6gwaBso9d3Vh7RCY0oL572dWTMMi9+c035/GblSapzvpn7z3YAO0KRZP
+	omf0scJtlHazY+XKkz1pTXHHiP+mKmDAXOFUgGV4IQYj6G9yjic/R7lJvzhCGcC2or26
+	1ffr39paxYs4UXlfxP97P/P4fasUxR4W9gYtK8gkfnM2LdBVifaiXrcVhpQ5x1EWjzaU
+	t0f+2XZAZGgtCQYO9LodGlg/6Gl6lL0OHbAUULkq31mlYhxGRGfRKT/c7GPis75Og6pd
+	xHDlvv+XYDtWoowUkJO4FnCc8GmcoGJTx7iWLNZ1ZmD3l3ho6eqtlrpyfrUkOA9t9XlQ
+	qiXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=oJ5bDeCTkl7XP7X1iwYBp8XfBFUHECuo0WDWQ2P1mBA=;
-	b=HdyNn8kZDOz4Ckn7Y+WLsRqAxybh3a6YiUn5DphmQKf0ApN4XFmtoqGuPd1odgAX6B
-	gcjI2lX0AGrou2CqFJtPoCiuFEVLvbMZJ8nhvgR9T2enbR18S4BMuU16p0xAT2EoZRjp
-	4WznZyaGorZEyDiDkFtzn8h+TzFkWzGj8aSsPtYnnig8rhDVG3YjLN9IvLlR0cZqUszu
-	bmy+3D4pNxgNwHypHqWYUiYkTH0HyQF85vEw8huhd52lXnPx4pIQ/FJytmvji4LZV9yH
-	j9Rxk1/Rpe91nmWAdagDqNaIlFV0HI93pvqYR7X7kWHT3WDbSogKSKeHl+Y451sNub2y
-	0w6Q==
-X-Gm-Message-State: ALKqPwfPwkgPs2yeAwfRTi0NJjnIVrGjrKmSkxsXK80el8Bu+1R1amF3
-	uEo46PAVTZWiwGLFOGqZhaAtTXfB
-X-Google-Smtp-Source: AB8JxZozGo09ja/+LGGpqckgiPvDtF1p98t0q5mmpzwYFhkTdrYgfAvdUoyFycdjUpbMh6gW+aE4EA==
-X-Received: by 2002:a5d:4045:: with SMTP id w5-v6mr200546wrp.96.1526592056729; 
-	Thu, 17 May 2018 14:20:56 -0700 (PDT)
-Received: from [192.168.1.4] (ip-86-49-107-50.net.upcbroadband.cz.
-	[86.49.107.50]) by smtp.gmail.com with ESMTPSA id
-	k82-v6sm6279477wmf.17.2018.05.17.14.20.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 May 2018 14:20:56 -0700 (PDT)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <20180517021314.0C556440002@auh.yoctoproject.org>
-	<b3a862cb-5561-22a8-f620-3796469559e3@gmail.com>
-	<CAJTo0LZZyB+uHpECahdUZXA0v2ujGu0eo2TTHhnutY5EJiQegQ@mail.gmail.com>
-	<3fab3122-1ddd-d70a-2d3f-00a1e436be4b@linux.intel.com>
-	<8c49ac0d-e52e-505b-d6c2-688ca7b3fb6e@gmail.com>
-	<0df38331-afdf-b47c-410e-6640c74e8b14@linux.intel.com>
-From: Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <b791ecd2-619b-ab33-b474-e2d7630eb80d@gmail.com>
-Date: Thu, 17 May 2018 23:20:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <0df38331-afdf-b47c-410e-6640c74e8b14@linux.intel.com>
-Cc: auh@auh.yoctoproject.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] u-boot-mkimage: upgrading to 2018.05 FAILED
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=j4TWK3KGbS0r2B59gYPMQ/OnClg6dzv7n2RULTUpNq4=;
+	b=m5IalKj600fo29ijGf9cx5sYAN5z3oXE12XhI02Pf2yM3cvd8Ld9zhheOR9rjk6w/T
+	Kz7JKVlHd/oxOdFxCa1fXNF5Vb1L4ItB8heN1NKdfGZQmT6bYX14WULNwVqL3cAMUQ45
+	zetTt2T9GyYT9nrzDKDzgwyJvCwUzBxRx/gxV7Li1bYDzRGwzGu9HEizGuvFrlVb4tz6
+	S/CCResvRZiaClyP7qD8miI3uKYrmeK2IFSfxOQKZPreFplJIHmQOHY6CkzGZXshCGtx
+	dFVNzs2SSZw2MhqFFuxHeEEv0bPIHY2flFGygNEcF5b2kULHqnO3XkHXg01cJ1XwrsDS
+	KeDA==
+X-Gm-Message-State: ALKqPwdpLtEotGd1IOD/ifn9bIDYynCL46yOOXDD/y1dWidWcwZc6w4O
+	VdPiH7ZNnBxHW7l6SC8m/5ZcLA==
+X-Google-Smtp-Source: AB8JxZpHPJqn2BduiNm/r2HQTv1RrDIKQjJ6hZlMC/Nx0Q0RPjm9448411K+osJXyAeOww5EOVIPcw==
+X-Received: by 2002:a65:498e:: with SMTP id
+	r14-v6mr5249025pgs.78.1526595473515; 
+	Thu, 17 May 2018 15:17:53 -0700 (PDT)
+Received: from localhost.localdomain ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	29-v6sm9960270pfj.14.2018.05.17.15.17.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 17 May 2018 15:17:52 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 May 2018 15:17:47 -0700
+Message-Id: <1526595467-3538-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [pyro][PATCH] libnl: fix CVE-2017-0553
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,38 +54,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 21:20:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 May 2018 22:17:54 -0000
 
-On 05/17/2018 03:04 PM, Alexander Kanavin wrote:
-> On 05/17/2018 01:33 PM, Marek Vasut wrote:
->>>> Looks like AUH runs as a x86 machine, which is why it doesn't catch
->>>> u-boot.
->>>
->>> Also we have already discussed this 2 month ago. Marek, as the u-boot
->>> maintainer, can you look into enabling u-boot on qemu please?
->>
->> Wouldn't it make more sense to fix the AUH so it handles U-Boot and
->> similar packages correctly even without the qemu dependency ?
-> 
-> Determining the latest upstream version, performing the recipe upgrade,
-> and testing that the upgraded version builds are all done by calling
-> bitbake. Which of course requires that MACHINE is set to something
-> specific, in this case qemux86. As u-boot is disabled there, it gets
-> skipped. I could special-case u-boot, but I do think it's better to
-> enable it on qemu, which would also allow better AB testing across
-> architectures and during runtime (booting images) for instance.
+An elevation of privilege vulnerability in libnl could enable a local
+malicious application to execute arbitrary code within the context of
+the Wi-Fi service. This issue is rated as Moderate because it first
+requires compromising a privileged process and is mitigated by
+current platform configurations. Product: Android. Versions: 5.0.2,
+5.1.1, 6.0, 6.0.1, 7.0, 7.1.1. Android ID: A-32342065. NOTE: this
+issue also exists in the upstream libnl before 3.3.0 library.
 
-Let's see how this works:
-https://patchwork.ozlabs.org/patch/915781/
+  https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0553
 
-Once this gets mainline, we should then be able to enable u-boot for
-qemux86/qemux86-64 . I have a patch ready for that too, but let's wait
-until the U-Boot patch discussion is over.
+Backport fix from upstream 3.3.0 release:
 
+  https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb
+  http://lists.infradead.org/pipermail/libnl/2017-May/002313.html
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ ...eck-for-integer-overflow-in-nlmsg_reserve.patch | 43 ++++++++++++++++++++++
+ meta/recipes-support/libnl/libnl_3.2.29.bb         |  2 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+
+diff --git a/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+new file mode 100644
+index 0000000..594dd06
+--- /dev/null
++++ b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+@@ -0,0 +1,43 @@
++From 3e18948f17148e6a3c4255bdeaaf01ef6081ceeb Mon Sep 17 00:00:00 2001
++From: Thomas Haller <thaller@redhat.com>
++Date: Mon, 6 Feb 2017 22:23:52 +0100
++Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
++
++In general, libnl functions are not robust against calling with
++invalid arguments. Thus, never call libnl functions with invalid
++arguments. In case of nlmsg_reserve() this means never provide
++a @len argument that causes overflow.
++
++Still, add an additional safeguard to avoid exploiting such bugs.
++
++Assume that @pad is a trusted, small integer.
++Assume that n->nm_size is a valid number of allocated bytes (and thus
++much smaller then SIZE_T_MAX).
++Assume, that @len may be set to an untrusted value. Then the patch
++avoids an integer overflow resulting in reserving too few bytes.
++
++Upstream-Status: Backport [https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb]
++CVE: CVE-2017-0553
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ lib/msg.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/lib/msg.c b/lib/msg.c
++index 9af3f3a..3e27d4e 100644
++--- a/lib/msg.c
+++++ b/lib/msg.c
++@@ -411,6 +411,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
++ 	size_t nlmsg_len = n->nm_nlh->nlmsg_len;
++ 	size_t tlen;
++ 
+++	if (len > n->nm_size)
+++		return NULL;
+++
++ 	tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
++ 
++ 	if ((tlen + nlmsg_len) > n->nm_size)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.2.29.bb
+index 7d4839b..4ce80e8 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.29.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.29.bb
+@@ -12,7 +12,9 @@ DEPENDS = "flex-native bison-native"
+ SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+            file://fix-pktloc_syntax_h-race.patch \
+            file://fix-pc-file.patch \
++           file://lib-check-for-integer-overflow-in-nlmsg_reserve.patch \
+ "
++
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+ 
+ SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
 -- 
-Best regards,
-Marek Vasut
+1.9.1
+
 
