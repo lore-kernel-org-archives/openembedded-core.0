@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 32D8560068
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7176B74835
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 08:03:39 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id e20-v6so965248iof.4
+	Thu, 17 May 2018 08:52:36 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id b18-v6so7545193lfa.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 01:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=J9+j71Fs4ldbl3skd4AqIpwQPcDSTb/nAAL7NkRoK6g=;
-	b=vpmyXQ6aU4G8IVulYjGnvSNii/6jpQTwT6ZZXJxPuXf5t1Tnl3QdGWWDjcMDGjfVW3
-	ODRzlaFDfoYmwNsVm8hrmDmaBLMege7v/O6eXq1OakQtwBQhF9Of/zW3ZTaIxxuAVmoB
-	bxhLsH9uBhUO98w1zwUpJiGofw8AJ8cz61r2p26jTK0QmqFShRGE12wxV5vmn7Int0ke
-	xiKnk0IZhWFYahB5KE1mpE4vno+E9Vj65y8WiQq262XRgke7uQr+hbWBnHvtjvZALcS4
-	fuu0Yo6ACeopd7IafA5BIF8y7s00Cg0XUBGgNyQit+UDexBQPMwv2etK3hj3K/05DroR
-	Cxcw==
+	Thu, 17 May 2018 01:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=lu8pkqBXg6OldjI/GN2i3eAgr9j4bx9LxyPC5bLwXqE=;
+	b=gzYn9CgEp27v+qb0MVNiaXyLiS6YeVt7jfnm9Pw+PLrovbwhQWise44VojBu4N1uX/
+	mEBcdPr/FmiGIMvLMRdl2oKDB9o3L/IPOwtlNf/QXc3TnIrgEGH9N21zjiMVHoL/CUj6
+	30N0bAeMD+cyZNfe4hi+3ye1EU4Uh5eYv96EbwBrMvy2eOysVvVshzT2nd9sZ6tAgunl
+	t9lCoBh8NIw7agWvYvfiuRBmKZKlYuY98F0St1oddKrhA1r5u5U2MYao4qeYSQ3DaL7x
+	ejtvER0rjZdSBN5wvAUd3CpJiogUAiBUk+XXDOYuQMaAHQ90j4wjCeNUopNpLien2IbR
+	RVtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=J9+j71Fs4ldbl3skd4AqIpwQPcDSTb/nAAL7NkRoK6g=;
-	b=WSSxBFf+Z2gajf1itmZiZj1KzSip2CDfCF2TglTDSvHrz9q8xEh/Qt/tdURvjpmQzi
-	XyAvIZUnRftXumOn5KWt01J6yWE9VNtQXdLjNE5qN4tlsfz3nwBpKbZ+bNEx7dG2tPpP
-	WZ38Jyf8fbaEpb1IKIEBbGLPQXTkuDN2y3UEOHL7VFZCzdLkBYQKmt8comyrTwGEpRBd
-	6hukdPDoURiENM6o9bp1eAM6EL9yy/x8qbWtC2OozdGwiV/hw6PKXKSJB9rnMkOfTfwB
-	3DEOMPpZ9Muxy4pJu6CJaL4dHTqe3k7xeavR6wgOEqn8rbB3jpVizfrM6EBvc8Ov1Xom
-	dtuw==
-X-Gm-Message-State: ALKqPwfTgbmeF3q9OkOloi5+8NVFxkP+0EtW9u7V0zy+pIA5rlUxQul8
-	58jOQunxNEXDprxvoNl8rNqPrynzuC1QWiqts4s7Pg==
-X-Google-Smtp-Source: AB8JxZrlhleFwgZmDhlolUUEnNS/cv4v7JWuvPsKcgnYyccxKjegnY0a/bSTENm4Znnwj6UP95JsJKco2BA1jlTZMl8=
-X-Received: by 2002:a6b:5507:: with SMTP id j7-v6mr5038194iob.23.1526544220647;
-	Thu, 17 May 2018 01:03:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Thu, 17 May 2018 01:03:20 -0700 (PDT)
-In-Reply-To: <CAJ86T=UXSzh13a9WGy20s7VG-gWebybN7raSL2eFawPXRtQGsw@mail.gmail.com>
-References: <20180516233046.10217-1-ross.burton@intel.com>
-	<CAJ86T=UXSzh13a9WGy20s7VG-gWebybN7raSL2eFawPXRtQGsw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 May 2018 09:03:20 +0100
-Message-ID: <CAJTo0LYrmZiScL_wf8_+-Sg=t23-QgpyzGV=xgmTLpWB0rig8g@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][rocko] libnl: protect against buffer overflow (CVE-2017-0553)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lu8pkqBXg6OldjI/GN2i3eAgr9j4bx9LxyPC5bLwXqE=;
+	b=QAbfZVUJO7lE1Ug9dq+v3YqxqmdMeqnjpO8hlkbCEt88R+XcOpzUSF/10BFOy14H3K
+	h2kiF3nh2etsxF+EjB1U6zlPB7zb8+ffemWdinNREuupmebXR81y8qUlL39qS17ALSVT
+	cAG7O4f6BPi21c+PrCEXpyD5ivOuyKpHySEazLEHwqFnKFkILNPEKW+Oili70ZcZBzb6
+	80VTrZu4KcnLepoYSHcyISbXehk+7UVSzYIP/+H03wb+XFv7IkuJm3VxWt/hONl+zZo1
+	wkxjyao0LBCfOj9hLbm12DwpNN8/Oj1afbdK2aBMOVpX8pPeq/2CnT8KczqzQvbvmgl/
+	t9Cg==
+X-Gm-Message-State: ALKqPweTye7Gf/UnuJA6F8WRHq5xcNOpiXOItqrbZJTBX/I2k4ZpEgsk
+	U5K77Smr3FtM8x1VtQdP36gYnW/s
+X-Google-Smtp-Source: AB8JxZpxteuxUOdcu2TDE0xgFykD/wsFv3D6lE5oRRwUEdJyQ0xI/5/B0oQSKhVLK+nFDjS9fQkYtw==
+X-Received: by 2002:a2e:9949:: with SMTP id r9-v6mr1532279ljj.53.1526547156516;
+	Thu, 17 May 2018 01:52:36 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id
+	v3-v6sm1111664lfd.18.2018.05.17.01.52.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 May 2018 01:52:35 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 May 2018 10:52:32 +0200
+Message-Id: <20180517085232.28498-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] apt: Port apt-file to busybox readlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,93 +55,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 08:03:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 17 May 2018 08:52:36 -0000
 
-Certainly does, sorry about that!
+Redlink from busybox and coreutils behave differently on missing files.
+This leads to apt-key miss-behaving and also segure apt-get
 
-Ross
+root@qt5122:~# apt-key exportall
+touch: : No such file or directory
 
-On 17 May 2018 at 01:44, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, May 16, 2018 at 4:30 PM, Ross Burton <ross.burton@intel.com> wrote:
->
-> Looks like a duplicate of:
->
->   http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150743.html
->
-> ?
->
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> ---
->>  meta/recipes-support/libnl/libnl/overflow.patch | 39 +++++++++++++++++++++++++
->>  meta/recipes-support/libnl/libnl_3.2.29.bb      |  1 +
->>  2 files changed, 40 insertions(+)
->>  create mode 100644 meta/recipes-support/libnl/libnl/overflow.patch
->>
->> diff --git a/meta/recipes-support/libnl/libnl/overflow.patch b/meta/recipes-support/libnl/libnl/overflow.patch
->> new file mode 100644
->> index 00000000000..777fac3ea1a
->> --- /dev/null
->> +++ b/meta/recipes-support/libnl/libnl/overflow.patch
->> @@ -0,0 +1,39 @@
->> +CVE: CVE-2017-0553
->> +Upstream-Status: Backport
->> +Signed-off-by: Ross Burton <ross.burton@intel.com>
->> +
->> +From 3e18948f17148e6a3c4255bdeaaf01ef6081ceeb Mon Sep 17 00:00:00 2001
->> +From: Thomas Haller <thaller@redhat.com>
->> +Date: Mon, 6 Feb 2017 22:23:52 +0100
->> +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
->> +
->> +In general, libnl functions are not robust against calling with
->> +invalid arguments. Thus, never call libnl functions with invalid
->> +arguments. In case of nlmsg_reserve() this means never provide
->> +a @len argument that causes overflow.
->> +
->> +Still, add an additional safeguard to avoid exploiting such bugs.
->> +
->> +Assume that @pad is a trusted, small integer.
->> +Assume that n->nm_size is a valid number of allocated bytes (and thus
->> +much smaller then SIZE_T_MAX).
->> +Assume, that @len may be set to an untrusted value. Then the patch
->> +avoids an integer overflow resulting in reserving too few bytes.
->> +---
->> + lib/msg.c | 3 +++
->> + 1 file changed, 3 insertions(+)
->> +
->> +diff --git a/lib/msg.c b/lib/msg.c
->> +index 9af3f3a0..3e27d4e0 100644
->> +--- a/lib/msg.c
->> ++++ b/lib/msg.c
->> +@@ -411,6 +411,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
->> +       size_t nlmsg_len = n->nm_nlh->nlmsg_len;
->> +       size_t tlen;
->> +
->> ++      if (len > n->nm_size)
->> ++              return NULL;
->> ++
->> +       tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
->> +
->> +       if ((tlen + nlmsg_len) > n->nm_size)
->> \ No newline at end of file
->> diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.2.29.bb
->> index 7d4839ba506..746fd3d4153 100644
->> --- a/meta/recipes-support/libnl/libnl_3.2.29.bb
->> +++ b/meta/recipes-support/libnl/libnl_3.2.29.bb
->> @@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
->>  SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
->>             file://fix-pktloc_syntax_h-race.patch \
->>             file://fix-pc-file.patch \
->> +           file://overflow.patch \
->>  "
->>  UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
->>
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://release.qtec.com:5022/qtec/europa/deb/qt5122 ./ Release: At least one invalid signature was encountered.
+---
+ meta/recipes-devtools/apt/apt.inc             |  1 +
+ ...t-Fix-apt-file-with-busybox-readlink.patch | 41 +++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
+
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index f1cde3068d..995bfc45ee 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -13,6 +13,7 @@ SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.tar.
+            file://disable-test.patch \
+            file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
+            file://0001-apt-1.2.12-Fix-musl-build.patch \
++           file://0001-apt-Fix-apt-file-with-busybox-readlink.patch \
+            "
+ SRC_URI[md5sum] = "ce8f9ab11f4fd0a08ec73eaffd75c8f0"
+ SRC_URI[sha256sum] = "fa1311a9ce00e72379a0a3bc6d240ba30c0968cfbbb3472859e50b99e24e9598"
+diff --git a/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch b/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
+new file mode 100644
+index 0000000000..684e3b1626
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-apt-Fix-apt-file-with-busybox-readlink.patch
+@@ -0,0 +1,41 @@
++From 3e0804f7882088186f47ff3c3c9e60998a1d93a0 Mon Sep 17 00:00:00 2001
++From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++Date: Thu, 17 May 2018 10:42:44 +0200
++Subject: [PATCH] apt: Fix apt-file with busybox readlink
++
++Busybox readlink behaves diferently that coreutils readlink:
++
++root@qt5122:~# touch /tmp/this_file_exist
++root@qt5122:~# busybox readlink -f /tmp/this_file_exist
++/tmp/this_file_exist
++root@qt5122:~# readlink -f /tmp/this_file_exist
++/tmp/this_file_exist
++
++root@qt5122:~# readlink -f /tmp/this_file_does_not_exist
++/tmp/this_file_does_not_exist
++root@qt5122:~# busybox readlink -f /tmp/this_file_does_not_exist
++root@qt5122:~#
++
++This patch make apt-file compatible with busybox readlink
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++---
++ cmdline/apt-key.in | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/cmdline/apt-key.in b/cmdline/apt-key.in
++index eab5805..421c981 100644
++--- a/cmdline/apt-key.in
+++++ b/cmdline/apt-key.in
++@@ -313,6 +313,7 @@ merge_all_trusted_keyrings_into_pubring() {
++     # does the same as:
++     # foreach_keyring_do 'import_keys_from_keyring' "${GPGHOMEDIR}/pubring.gpg"
++     # but without using gpg, just cat and find
+++    touch "${GPGHOMEDIR}/pubring.gpg"
++     local PUBRING="$(readlink -f "${GPGHOMEDIR}/pubring.gpg")"
++     rm -f "$PUBRING"
++     touch "$PUBRING"
++-- 
++2.17.0
++
+-- 
+2.17.0
+
 
