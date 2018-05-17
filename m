@@ -1,47 +1,47 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9542C7481C
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C4B8F7481C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 22:17:54 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id l2-v6so2405147pgc.7
+	Thu, 17 May 2018 22:19:11 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id p14-v6so2742121pfh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 15:17:55 -0700 (PDT)
+	Thu, 17 May 2018 15:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=j4TWK3KGbS0r2B59gYPMQ/OnClg6dzv7n2RULTUpNq4=;
-	b=e2nxlHsSRW6gwaBso9d3Vh7RCY0oL572dWTMMi9+c035/GblSapzvpn7z3YAO0KRZP
-	omf0scJtlHazY+XKkz1pTXHHiP+mKmDAXOFUgGV4IQYj6G9yjic/R7lJvzhCGcC2or26
-	1ffr39paxYs4UXlfxP97P/P4fasUxR4W9gYtK8gkfnM2LdBVifaiXrcVhpQ5x1EWjzaU
-	t0f+2XZAZGgtCQYO9LodGlg/6Gl6lL0OHbAUULkq31mlYhxGRGfRKT/c7GPis75Og6pd
-	xHDlvv+XYDtWoowUkJO4FnCc8GmcoGJTx7iWLNZ1ZmD3l3ho6eqtlrpyfrUkOA9t9XlQ
-	qiXg==
+	bh=mHrtRaJICUqyhSB/WUv5poT/pTdWYmcDuclc/qWwb8U=;
+	b=epMaG7MDqpAezAewPL42TzWFVqi6i3boWKdtu4PJWNeqYC/NNmK8bI4TpQJFcNDtG1
+	PqYw6y+UCwoF+aXtNxZIAuKkIrNydYBAt0aIO/G/SoKrRco4N9G5jpVjJvwxw6+r4pAc
+	9y1J2e6CV9DmUfGbEhih2rncAroW4YOTfg3VrKSEr/br79qjIJPZTiT4Df+OURbW6ejM
+	NfyP/oF/80eT+4x2DrpI6Mdg1rplwob3cVmlxkX/hUxTWCW6jNXTwDQFVqIOtElbvLTL
+	D4PObYn6Ihs6aZa09Sa+044KyzCRQL7UXgtqFKiHG7Gkal/I+jX2U/d37o0yZPJBHYMU
+	YR3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=j4TWK3KGbS0r2B59gYPMQ/OnClg6dzv7n2RULTUpNq4=;
-	b=m5IalKj600fo29ijGf9cx5sYAN5z3oXE12XhI02Pf2yM3cvd8Ld9zhheOR9rjk6w/T
-	Kz7JKVlHd/oxOdFxCa1fXNF5Vb1L4ItB8heN1NKdfGZQmT6bYX14WULNwVqL3cAMUQ45
-	zetTt2T9GyYT9nrzDKDzgwyJvCwUzBxRx/gxV7Li1bYDzRGwzGu9HEizGuvFrlVb4tz6
-	S/CCResvRZiaClyP7qD8miI3uKYrmeK2IFSfxOQKZPreFplJIHmQOHY6CkzGZXshCGtx
-	dFVNzs2SSZw2MhqFFuxHeEEv0bPIHY2flFGygNEcF5b2kULHqnO3XkHXg01cJ1XwrsDS
-	KeDA==
-X-Gm-Message-State: ALKqPwdpLtEotGd1IOD/ifn9bIDYynCL46yOOXDD/y1dWidWcwZc6w4O
-	VdPiH7ZNnBxHW7l6SC8m/5ZcLA==
-X-Google-Smtp-Source: AB8JxZpHPJqn2BduiNm/r2HQTv1RrDIKQjJ6hZlMC/Nx0Q0RPjm9448411K+osJXyAeOww5EOVIPcw==
-X-Received: by 2002:a65:498e:: with SMTP id
-	r14-v6mr5249025pgs.78.1526595473515; 
-	Thu, 17 May 2018 15:17:53 -0700 (PDT)
+	bh=mHrtRaJICUqyhSB/WUv5poT/pTdWYmcDuclc/qWwb8U=;
+	b=i30Q8MKMJq1349bMJ8M4zAowj12cu0ZcXWi5yt/6yiR48hKg4HPF/qJD/Y75S6Jr6b
+	QCV0umi4nQQVxEuMYiTTos2+/PZlBXm4uM/x6mggFD3IfKsfZ1hqcGQbWGzHQDMYGM8h
+	bJOdhAgqrRmAO3WAZrt+q78ixyCoS5oUYlIym/ptDyKJ0dcZUn/yO31rLQSXkb9J4AXt
+	Bg0oGJvzSTVOnTq4JUij3hyk/HmnWw+WgxV9kY1ya9AdSy0u2ajyWqYNxf/3tsQixsiG
+	R2sr6qukXSxSFxqX0cfCwSNX2Q4f3gaArWZMfcGo1hgnWQVBqQwZ89l52Gqrzck1AFtX
+	PXhg==
+X-Gm-Message-State: ALKqPwclMepxk8oXULiuIj8nFZRQsLoLQ9CjNrVfbvX5gGJgZKB4wTjW
+	jue6BOgZMHbJJ6k5p+yOofBaVQ==
+X-Google-Smtp-Source: AB8JxZogpQ6kVh1LeruHi81u8xwaYjGauni8DvT8z/OFFu/lQFvO7m4YVfADg0jGiG0RODTxfUHgOQ==
+X-Received: by 2002:a62:6304:: with SMTP id x4-v6mr6784824pfb.94.1526595552528;
+	Thu, 17 May 2018 15:19:12 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	29-v6sm9960270pfj.14.2018.05.17.15.17.52
+	h1-v6sm9997966pfg.135.2018.05.17.15.19.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 May 2018 15:17:52 -0700 (PDT)
+	Thu, 17 May 2018 15:19:11 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2018 15:17:47 -0700
-Message-Id: <1526595467-3538-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 17 May 2018 15:19:06 -0700
+Message-Id: <1526595546-3621-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [pyro][PATCH] libnl: fix CVE-2017-0553
+Subject: [morty][PATCH] libnl: fix CVE-2017-0553
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 22:17:54 -0000
+X-List-Received-Date: Thu, 17 May 2018 22:19:11 -0000
 
 An elevation of privilege vulnerability in libnl could enable a local
 malicious application to execute arbitrary code within the context of
@@ -74,17 +74,17 @@ Backport fix from upstream 3.3.0 release:
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
  ...eck-for-integer-overflow-in-nlmsg_reserve.patch | 43 ++++++++++++++++++++++
- meta/recipes-support/libnl/libnl_3.2.29.bb         |  2 +
- 2 files changed, 45 insertions(+)
+ meta/recipes-support/libnl/libnl_3.2.28.bb         |  1 +
+ 2 files changed, 44 insertions(+)
  create mode 100644 meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
 
 diff --git a/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
 new file mode 100644
-index 0000000..594dd06
+index 0000000..9e22c40
 --- /dev/null
 +++ b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
 @@ -0,0 +1,43 @@
-+From 3e18948f17148e6a3c4255bdeaaf01ef6081ceeb Mon Sep 17 00:00:00 2001
++From 1db543374db3e58faacdfd91e5061a8a595ce505 Mon Sep 17 00:00:00 2001
 +From: Thomas Haller <thaller@redhat.com>
 +Date: Mon, 6 Feb 2017 22:23:52 +0100
 +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
@@ -111,10 +111,10 @@ index 0000000..594dd06
 + 1 file changed, 3 insertions(+)
 +
 +diff --git a/lib/msg.c b/lib/msg.c
-+index 9af3f3a..3e27d4e 100644
++index e8a7e99..f30fd2d 100644
 +--- a/lib/msg.c
 ++++ b/lib/msg.c
-+@@ -411,6 +411,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
++@@ -410,6 +410,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
 + 	size_t nlmsg_len = n->nm_nlh->nlmsg_len;
 + 	size_t tlen;
 + 
@@ -127,20 +127,18 @@ index 0000000..594dd06
 +-- 
 +1.9.1
 +
-diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.2.29.bb
-index 7d4839b..4ce80e8 100644
---- a/meta/recipes-support/libnl/libnl_3.2.29.bb
-+++ b/meta/recipes-support/libnl/libnl_3.2.29.bb
-@@ -12,7 +12,9 @@ DEPENDS = "flex-native bison-native"
- SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+diff --git a/meta/recipes-support/libnl/libnl_3.2.28.bb b/meta/recipes-support/libnl/libnl_3.2.28.bb
+index 26982f3..a74b455 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.28.bb
++++ b/meta/recipes-support/libnl/libnl_3.2.28.bb
+@@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
+ SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV', True).replace('.','_')}/${BP}.tar.gz \
             file://fix-pktloc_syntax_h-race.patch \
             file://fix-pc-file.patch \
 +           file://lib-check-for-integer-overflow-in-nlmsg_reserve.patch \
- "
-+
- UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
- 
- SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
+            file://0001-lib-add-utility-function-nl_strerror_l.patch \
+            file://0002-lib-switch-to-using-strerror_l-instead-of-strerror_r.patch \
+            file://0003-src-switch-to-using-strerror_l-instead-of-strerror_r.patch \
 -- 
 1.9.1
 
