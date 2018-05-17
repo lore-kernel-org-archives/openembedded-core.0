@@ -1,32 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E4DEE60053
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2805B60290
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 10:00:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 May 2018 03:00:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,409,1520924400"; d="scan'208";a="56049791"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 17 May 2018 03:00:32 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Marek Vasut <marek.vasut@gmail.com>
-References: <20180517021314.0C556440002@auh.yoctoproject.org>
-	<b3a862cb-5561-22a8-f620-3796469559e3@gmail.com>
-	<CAJTo0LZZyB+uHpECahdUZXA0v2ujGu0eo2TTHhnutY5EJiQegQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <3fab3122-1ddd-d70a-2d3f-00a1e436be4b@linux.intel.com>
-Date: Thu, 17 May 2018 12:53:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Thu, 17 May 2018 10:00:40 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id c9-v6so1297921iob.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 May 2018 03:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OA0a34MQn97/nXVc+XZ9Sdn+7H+jv/OCXIvIJ4LWyak=;
+	b=KqbAsjAB5xDceLd3vNUwiudV1m2BebSMp+NQ618WlttwDAwV+7KOKRVsTWwMGZiwuw
+	Shwfkl0dSDoq3hcjLkLLkCJmP+s2bj37+nAzB6y5s1j487kTpliyX7cRlwvrwtZBjZx0
+	1RCk2FYe/KieFbh0xlD9Rh0ECSE6n9VdMBX/ISObBjZioaPreuTU8eE4/JLWUbnxQW4R
+	1kV8yeaw+rpxN6Oy5sR7/MpMC99j8nPFt1Fkg+MIAXlxwxgQgTxS2vMRUQdo+TKFWGUD
+	rOqErIzR8ycYNPQ2NwAQoH2qDrPnLUX4EFlsYkBJuZJy1OqUIzooH6cAtyoHCc+0TZf9
+	+KXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OA0a34MQn97/nXVc+XZ9Sdn+7H+jv/OCXIvIJ4LWyak=;
+	b=bnQN1kQ/JZvPSpneMyMhbfff7MK6Nvn7DSMqrv0GuNyaA0qqwcrnbAYgH3jIrB4mPX
+	VcnXeBr53Cuw3iARfaIfTOPqcIU8RMZexEj0ZhwNw3pLrI7V4xAxeh5JpaOTgkdSKQSK
+	+BvRibTozJ+CTKMAHSp9Flum6/8eQHY9DazgeNK4AqsPkyMy0og9ZgLdb4zvhmUyCFRC
+	8ys2LLLDgiCRcUAbsU7NjTBeymZ5zN6faucWLBOb7EqLRzXkgzCbbCllB07r8Hg5e+KW
+	cjAjRNWnc2k4UhlNf/XSTvaZv/G+6ymrMfxvYu+T+7lqj9tj2WZTCIBzIS06uSitzBT+
+	Y4tQ==
+X-Gm-Message-State: ALKqPwelsVKORjeqEICloF0tnKBX+ZUewsl0siqb6mjl5AsC5UwxAZPX
+	UR6V1Iq7pI3XZEcZb0T8ZyQ2Jxj2yL5LLp96NXLlwEdN
+X-Google-Smtp-Source: AB8JxZqWw6AHXqxrOjV4dwh4ZtOtb8SgxfIBt0Gl4tufPacNEimju496ilgjVPXTPkMBKHT/UTgv3AAwVyZ2gNAjp4E=
+X-Received: by 2002:a6b:752:: with SMTP id 79-v6mr5230572ioh.216.1526551242063;
+	Thu, 17 May 2018 03:00:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZZyB+uHpECahdUZXA0v2ujGu0eo2TTHhnutY5EJiQegQ@mail.gmail.com>
-Cc: auh@auh.yoctoproject.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] u-boot-mkimage: upgrading to 2018.05 FAILED
+Received: by 10.107.239.11 with HTTP; Thu, 17 May 2018 03:00:21 -0700 (PDT)
+In-Reply-To: <6d46c58082741876ffc994c6e37364b65fe16f1f.1526447201.git.Qi.Chen@windriver.com>
+References: <cover.1526447201.git.Qi.Chen@windriver.com>
+	<6d46c58082741876ffc994c6e37364b65fe16f1f.1526447201.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 May 2018 11:00:21 +0100
+Message-ID: <CAJTo0LZdoMNLNxyLg+T=F3+yZT8UGPi2XURdnETRHRT2VvR+RQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] oeqa/sdk/cases/buildgalculator.py: skip if gettext not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,16 +56,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 10:00:34 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 May 2018 10:00:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 05/17/2018 12:56 PM, Burton, Ross wrote:
-> Looks like AUH runs as a x86 machine, which is why it doesn't catch u-boot.
+On 16 May 2018 at 06:07, Chen Qi <Qi.Chen@windriver.com> wrote:
+> +        if not (self.tc.hasPrefixedTargetPackage("gettext")):
+> +            raise unittest.SkipTest("GalculatorTest class: SDK doesn't contain gettext")
 
-Also we have already discussed this 2 month ago. Marek, as the u-boot 
-maintainer, can you look into enabling u-boot on qemu please?
+  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips/build/meta/lib/oeqa/sdk/cases/buildgalculator.py",
+line 14, in setUpClass
+    if not (self.tc.hasPrefixedTargetPackage("gettext")):
+AttributeError: 'OESDKTestContext' object has no attribute
+'hasPrefixedTargetPackage'
 
-Alex
+Ross
 
