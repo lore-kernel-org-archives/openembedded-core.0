@@ -1,48 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BAA1747F8
+Return-Path: <auh@auh.yoctoproject.org>
+X-Greylist: delayed 303 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 17 May 2018 02:18:29 UTC
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id DF2357480E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 01:03:59 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id v63-v6so1204706pfk.8
+	Thu, 17 May 2018 02:18:29 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 43B37E009F8; Wed, 16 May 2018 19:13:28 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36A5CE00D92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2018 18:04:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=N58rmHb+DXlg67FCFrHCtfbyJuiuyM5QQB/xH4pKcxs=;
-	b=nAnDG5caXLyFVV7dPDo3lWvulPM5ukQiWd+zl+0OK6Yyr31mTT4izekKvhmlHeGzdl
-	Xw8ZrcsMw6O/TOFRm3bsIkQED40inkx6qwiC1L1vdeAFugeY8Z8WOcku3OUXsj0o+68n
-	WJap1YX7gmerExw5unjlDRhiC/H1j7jidPFnomrS5eDTpWIZVJeJkiPU+ZjLTmnxkTnT
-	uo2jAzQpVf2vSgFdIdXseWTkwNGWNlH5GNS2vHFNRNIIoMpnLxufg8LijNYBsDhn5jBU
-	9uY2teTU65L3oaUjNF4iMMaXgQnGyN1IoBbgp70u/y1SRhcHK0wI9pxaw8Ax/397lJep
-	RfaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=N58rmHb+DXlg67FCFrHCtfbyJuiuyM5QQB/xH4pKcxs=;
-	b=PkLYvilk38XFcDqKIuT0bxv+P9aPRfoAcvxi/RY706wA1GGxATWVxNIlyGmSA/mhNp
-	WRo+M/ez4854wXxs68b1Gq/fGH0fo8e5tmtZ7umHxyhyzhuKK190xrX4X6EEH3fSwv7p
-	U8WTdv3GnpRjDsCgSrBbec/vrIj/hJSLtoi0O83czhYRRZxD2kUaoWsdFUg92j3vcHww
-	1bj5BQ8FZia+zvO46YsBGbMCXx4fOKV8s5A9IO+uf6PbFTKZjWtzZIpGHTUTYdO69BAp
-	CyhBdKoo+Qq0uJMkOv2xcOfpHLuupGYGpaRwJYyzQ2c1Gemo/SNbwKpAqUvdHc/TjvnW
-	gE7A==
-X-Gm-Message-State: ALKqPwcssSGj/kVNEs/6XNUCVyGPaoIexOdEov1M2EX2kZ9Ee+klWbFE
-	v4WopcXuN28GrcoWeNlzazO1Rw==
-X-Google-Smtp-Source: AB8JxZoZ1woUG7TvVl9YnMfX3F25ki7ijRZY2bW78tYtWm+TNTqnQZDmxJx7vp/ZXZsv0CE9EyPEsA==
-X-Received: by 2002:a63:6e8e:: with SMTP id
-	j136-v6mr2512816pgc.450.1526519039970; 
-	Wed, 16 May 2018 18:03:59 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	u86-v6sm7844616pfg.71.2018.05.16.18.03.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 16 May 2018 18:03:59 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Wed, 16 May 2018 19:13:18 -0700 (PDT)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id 21E0D440002
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2018 19:13:18 -0700 (PDT)
+MIME-Version: 1.0
+From: auh@auh.yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2018 18:03:53 -0700
-Message-Id: <1526519033-26577-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] strace: fix ARM Thumb build with frame pointers enabled
+Message-Id: <20180517021318.21E0D440002@auh.yoctoproject.org>
+Date: Wed, 16 May 2018 19:13:18 -0700 (PDT)
+Subject: [AUH] Upgrade status: 2018-05-16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,145 +42,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2018 01:03:59 -0000
+X-List-Received-Date: Thu, 17 May 2018 02:18:30 -0000
+Content-Type: multipart/mixed; boundary="===============3311298043059241709=="
 
-Replace the previous (incomplete) workaround with better solution
-backported from upstream.
+--===============3311298043059241709==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ...aw_syscall.h-avoid-r7-specified-register-.patch | 74 ++++++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.22.bb        | 16 ++---
- 2 files changed, 81 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogNDgKICAgICAgICBw
+eXRob24zLWdpdCwgMi4xLjksIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAg
+ICAgZ3BnbWUsIDEuMTEuMSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIGdzdC1leGFtcGxlcywgMC4wLjEtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1p
+dHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG10ZC11dGlscywgMi4wLjIsIERl
+bnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAgZ251LWNvbmZpZywgMjAxNTA3
+MjgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBweXRob24zLXBpcCwgMTAuMC4xLCBEZXJlayBTdHJha2EgPGRlcmVr
+QGFzdGVyaXVzLmlvPgogICAgICAgIGV0aHRvb2wsIDQuMTYsIENoYW5naHllb2sgQmFlIDxjaGFu
+Z2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIHB5dGhvbjMtZGJ1cywgMS4yLjgsIERlcmVrIFN0
+cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbHR0bmctbW9kdWxlcywgMi4xMC42LCBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAg
+ICBweXRob24tc2V0dXB0b29scywgMzkuMS4wLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVz
+LmlvPgogICAgICAgIGlwcm91dGUyLCA0LjE2LjAsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9r
+LmJhZUBsZ2UuY29tPgogICAgICAgIGNhLWNlcnRpZmljYXRlcywgMjAxODA0MDksIEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgcHV6emxlcywg
+MC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRl
+bC5jb20+CiAgICAgICAgZ251cGcsIDIuMi43LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
+aXZlci5jb20+CiAgICAgICAgbGludXgtZmlybXdhcmUsIDAuMC1uZXctY29tbWl0cy1hdmFpbGFi
+bGUsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAg
+ICAgICAgYWNwaWQsIDIuMC4yOSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+
+CiAgICAgICAgZGJ1cy1nbGliLCAwLjExMCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29t
+PgogICAgICAgIG9wZW5zc2gsIDcuN3AxLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwu
+Y29tPgogICAgICAgIGh3bGF0ZGV0ZWN0LCAxLjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5k
+ZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1zZXR1cHRvb2xzLCAzOS4xLjAs
+IERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgeGRnLXV0aWxzLCAxLjEu
+MywgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgeHNlcnZlci14
+b3JnLCAxLjIwLjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAg
+cHl0aG9uLW51bXB5LCAxLjE0LjMsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAg
+ICAgICAgbWFuLXBhZ2VzLCA0LjE2LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgbWFuLWRiLCAyLjguMywgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2
+ZXIuY29tPgogICAgICAgIGxpYmRteCwgMS4xLjQsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBn
+bWFpbC5jb20+CiAgICAgICAgY3JvbmllLCAxLjUuMiwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9o
+bkBpbnRlbC5jb20+CiAgICAgICAgc3FsaXRlMywgMy4yMy4xLCBNYXhpbiBCLiBKb2huIDxtYXhp
+bi5qb2huQGludGVsLmNvbT4KICAgICAgICBsaWJkcm0sIDIuNC45MiwgT3RhdmlvIFNhbHZhZG9y
+IDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBsejQsIDEuOC4yLCBE
+ZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgogICAgICAgIGhkcGFybSwgOS41NiwgRGVu
+eXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBwaWdsaXQsIDEuMC1uZXctY29t
+bWl0cy1hdmFpbGFibGUsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAg
+ICAgIHB5dGhvbjMtbnVtcHksIDEuMTQuMywgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5p
+bz4KICAgICAgICBsaWJpbnB1dCwgMS4xMC42LCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGlu
+dGVsLmNvbT4KICAgICAgICBhbHNhLXBsdWdpbnMsIDEuMS42LCBUYW51IEthc2tpbmVuIDx0YW51
+a0Bpa2kuZmk+CiAgICAgICAgZGJ1cywgMS4xMi44LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZl
+ci5jb20+CiAgICAgICAgZGJ1cy10ZXN0LCAxLjEyLjgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4KICAgICAgICB4Zjg2LWlucHV0LWxpYmlucHV0LCAwLjI3LjEsIEFybWluIEt1c3Rl
+ciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgZHRjLCAxLjQuNiwgQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXhhbmRlci5rYW5hdmluQGludGVsLmNvbT4KICAgICAgICBsaWJlcG94eSwgMS41
+LjEsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGd0ayszLCAz
+LjIyLjMwLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBrZXhl
+Yy10b29scywgMi4wLjE3LCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAg
+ICAgIHdheWxhbmQtcHJvdG9jb2xzLCAxLjE0LCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGku
+Y29tPgogICAgICAgIHB5dGhvbiwgMi43LjE1LCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVz
+LmlvPgogICAgICAgIHB5dGhvbjMtcHlnb2JqZWN0LCAzLjI4LjIsIERlcmVrIFN0cmFrYSA8ZGVy
+ZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgdnRlLCAwLjUyLjEsIE1heGluIEIuIEpvaG4gPG1heGlu
+LmpvaG5AaW50ZWwuY29tPgogICAgICAgIHdnZXQsIDEuMTkuNSwgWWkgWmhhbyA8eWkuemhhb0B3
+aW5kcml2ZXIuY29tPgogICAgICAgIGxpYnNvdXAtMi40LCAyLjYyLjIsIE1heGluIEIuIEpvaG4g
+PG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDE3CiAgICAg
+ICAgc3lzdGVtZC1ib290LCAyMzgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAg
+ICAgICBzdWJ2ZXJzaW9uLCAxLjEwLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIGdpdCwgMi4xNy4wLCBSb2JlcnQgWWFuZyA8bGll
+emhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICB1LWJvb3QtbWtpbWFnZSwgMjAxOC4wNSwg
+TWFyZWsgVmFzdXQgPG1hcmVrLnZhc3V0QGdtYWlsLmNvbT4KICAgICAgICBsaWJpZG4sIDEuMzUs
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAg
+bGx2bSwgNi4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWls
+LmNvbT4KICAgICAgICB3ZWJraXRndGssIDIuMjAuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXhh
+bmRlci5rYW5hdmluQGludGVsLmNvbT4KICAgICAgICBnbGliLW5ldHdvcmtpbmcsIDIuNTYuMCwg
+TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgYnRyZnMtdG9vbHMs
+IDQuMTYuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXhhbmRlci5rYW5hdmluQGludGVsLmNvbT4K
+ICAgICAgICBkcGtnLCAxLjE5LjAuNSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFp
+bC5jb20+CiAgICAgICAgbWVzYSwgMTguMC4zLCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2
+YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIHJ0LXRlc3RzLCAxLjMsIEFsZXhhbmRlciBL
+YW5hdmluIDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1weWNh
+aXJvLCAxLjE3LjAsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgY3Vw
+cywgMi4yLjcsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsdHRuZy10
+b29scywgMi4xMC40LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0
+aW9uLm9yZz4KICAgICAgICBmcmVldHlwZSwgMi45LjEsIE1heGluIEIuIEpvaG4gPG1heGluLmpv
+aG5AaW50ZWwuY29tPgogICAgICAgIGhhcmZidXp6LCAxLjcuNiwgTWF4aW4gQi4gSm9obiA8bWF4
+aW4uam9obkBpbnRlbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDQ4CiAgICAg
+ICAgZ251LWVmaSwgMy4wLjgsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAg
+ICBnZGIsIDguMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBrbXNjdWJl
+LCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1
+ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgZ28sIDEuMTAuMiwgS2hlbSBSYWogPHJhai5raGVtQGdt
+YWlsLmNvbT4KICAgICAgICBidXN5Ym94LCAxLjI4LjMsIEFybWluIEt1c3RlciA8YWt1c3Rlcjgw
+OEBnbWFpbC5jb20+CiAgICAgICAgYmluZCwgOS4xMi4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4
+MDhAZ21haWwuY29tPgogICAgICAgIHJlMmMsIDEuMC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogICAgICAgIGdkay1waXhidWYsIDIuMzYuMTIsIE1heGluIEIuIEpvaG4gPG1heGlu
+LmpvaG5AaW50ZWwuY29tPgogICAgICAgIGx6b3AsIDEuMDQsIERlbnlzIERteXRyaXllbmtvIDxk
+ZW55c0B0aS5jb20+CiAgICAgICAgc3F1YXNoZnMtdG9vbHMsIDQuMy1uZXctY29tbWl0cy1hdmFp
+bGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxp
+YmljYWwsIDMuMC4zLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAg
+ICBpZnVwZG93biwgMC44LjMyLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4K
+ICAgICAgICBwdWxzZWF1ZGlvLCAxMS45OS4xLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+
+CiAgICAgICAgbXBmciwgNC4wLjEsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAg
+ICAgcWVtdSwgMi4xMi4wLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4KICAgICAgICBnbm9tZS1kZXNrdG9wMywgMy4yOC4yLCBBbGV4YW5kZXIgS2Fu
+YXZpbiA8YWxleGFuZGVyLmthbmF2aW5AaW50ZWwuY29tPgogICAgICAgIGNvbm5tYW4sIDEuMzYs
+IENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIG5mcy11dGls
+cywgMi4zLjEsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAg
+IHZ1bGthbi1kZW1vcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgTWF4aW4gQi4gSm9obiA8
+bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ0LjEsIFJvYmVydCBZ
+YW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGF1dG9tYWtlLCAxLjE2LjEs
+IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGJhYmVsdHJh
+Y2UsIDIuMC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleGFuZGVyLmthbmF2aW5AaW50ZWwuY29t
+PgogICAgICAgIHh6LCA1LjMuMWFscGhhLCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29t
+PgogICAgICAgIGNjYWNoZSwgMy40LjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2
+ZXIuY29tPgogICAgICAgIGJjLCAxLjA3LjEsIEpvc2UgTGFtZWdvIDxqb3NlLmEubGFtZWdvQGxp
+bnV4LmludGVsLmNvbT4KICAgICAgICBvcGVuc3NsLCAxLjEuMGgsIEFsZXhhbmRlciBLYW5hdmlu
+IDxhbGV4YW5kZXIua2FuYXZpbkBpbnRlbC5jb20+CiAgICAgICAgbGlidm9yYmlzLCAxLjMuNiwg
+VGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIG5jdXJzZXMsIDYuMSsyMDE4MDIx
+MCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhvbjMs
+IDMuNi41LCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGZvbnRjb25m
+aWcsIDIuMTMuMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAg
+dnVsa2FuLCAxLjEuNzMuMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAg
+ICAgICAgZmxleCwgMi42LjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAg
+ICBhcHQsIDEuNi4xLCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAg
+ICAgICBzeXN2aW5pdCwgMi44OSwgQ2hhbmcgUmViZWNjYSBTd2VlIEZ1biA8cmViZWNjYS5zd2Vl
+LmZ1bi5jaGFuZ0BpbnRlbC5jb20+CiAgICAgICAgc2VkLCA0LjUsIENoZW4gUWkgPFFpLkNoZW5A
+d2luZHJpdmVyLmNvbT4KICAgICAgICBmaWxlLCA1LjMzLCBZaSBaaGFvIDx5aS56aGFvQHdpbmRy
+aXZlci5jb20+CiAgICAgICAgY21ha2UsIDMuMTEuMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8u
+c2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBkaGNwLCA0LjQuMSwgSG9uZ3h1IEpp
+YSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIHBlcmwsIDUuMjYuMiwgTWF4aW4g
+Qi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgYnVpbGQtYXBwbGlhbmNlLWlt
+YWdlLCAxOS4wLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnPgogICAgICAgIG5zcywgMy4zNi4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21h
+aWwuY29tPgogICAgICAgIGx0cCwgMjAxODA1MTUsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVy
+LmNvbT4KICAgICAgICBwYW5nbywgMS40Mi4xLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGlu
+dGVsLmNvbT4KICAgICAgICBhY3BpY2EsIDIwMTgwNTA4LCBGYXRoaSBCb3VkcmEgPGZhdGhpLmJv
+dWRyYUBsaW5hcm8ub3JnPgogICAgICAgIGRlYmlhbnV0aWxzLCA0LjguNiwgWWkgWmhhbyA8eWku
+emhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGFsc2EtdXRpbHMsIDEuMS42LCBUYW51IEthc2tp
+bmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgdGNmLWFnZW50LCAxLjcuMCwgUmFuZHkgV2l0dCA8
+cmFuZHkuZS53aXR0QGxpbnV4LmludGVsLmNvbT4KICAgICAgICBidWlsZC1jb21wYXJlLCAyMDE1
+LjAyLjEwLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUmFuZHkgV2l0dCA8cmFuZHkuZS53aXR0QGxp
+bnV4LmludGVsLmNvbT4KCiAgICBUT1RBTDogYXR0ZW1wdGVkPTExMyBzdWNjZWVkZWQ9NDgoNDIu
+NDglKSBmYWlsZWQ9NjUoNTcuNTIlKQoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljcyBwZXIgTWFp
+bnRhaW5lcjoKCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBz
+dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86
+IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0xKDIwLjAwJSkgZmFpbGVkPTQoODAuMDAlKQogICAgUmlj
+aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9MSgyMC4w
+MCUpIGZhaWxlZD00KDgwLjAwJSkKICAgIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG46IGF0dGVt
+cHRlZD0yMiBzdWNjZWVkZWQ9MTEoNTAuMDAlKSBmYWlsZWQ9MTEoNTAuMDAlKQogICAgUm9iZXJ0
+IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9MSgxNC4yOSUpIGZhaWxl
+ZD02KDg1LjcxJSkKICAgIFJhbmR5IFdpdHQgPHJhbmR5LmUud2l0dDogYXR0ZW1wdGVkPTIgc3Vj
+Y2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBIb25neHUgSmlhIDxob25neHUu
+amlhOiBhdHRlbXB0ZWQ9NiBzdWNjZWVkZWQ9NCg2Ni42NyUpIGZhaWxlZD0yKDMzLjMzJSkKICAg
+IE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9
+Mig1MC4wMCUpIGZhaWxlZD0yKDUwLjAwJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1w
+dGVkPTUgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD01KDEwMC4wMCUpCiAgICBEZXJlayBTdHJh
+a2EgPGRlcmVrOiBhdHRlbXB0ZWQ9MTEgc3VjY2VlZGVkPTkoODEuODIlKSBmYWlsZWQ9MigxOC4x
+OCUpCiAgICBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDg6IGF0dGVtcHRlZD04IHN1Y2NlZWRlZD01
+KDYyLjUwJSkgZmFpbGVkPTMoMzcuNTAlKQogICAgSm9zZSBMYW1lZ28gPGpvc2UuYS5sYW1lZ286
+IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgQ2hl
+biBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTMoNDIuODYlKSBmYWlsZWQ9NCg1
+Ny4xNCUpCiAgICBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYTogYXR0ZW1wdGVkPTEgc3VjY2Vl
+ZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBEZW55cyBEbXl0cml5ZW5rbyA8ZGVu
+eXM6IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD00KDY2LjY3JSkgZmFpbGVkPTIoMzMuMzMlKQogICAg
+VGFudSBLYXNraW5lbiA8dGFudWs6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0xKDI1LjAwJSkgZmFp
+bGVkPTMoNzUuMDAlKQogICAgQ2hhbmcgUmViZWNjYSBTd2VlIEZ1biA8cmViZWNjYS5zd2VlLmZ1
+bi5jaGFuZzogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
+CiAgICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleGFuZGVyLmthbmF2aW46IGF0dGVtcHRlZD0xMCBz
+dWNjZWVkZWQ9MygzMC4wMCUpIGZhaWxlZD03KDcwLjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVq
+Lm1pdHRhbDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUp
+CiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
+MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXQ6IGF0dGVt
+cHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgQ2hhbmdoeWVv
+ayBCYWUgPGNoYW5naHllb2suYmFlOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9Mig2Ni42NyUpIGZh
+aWxlZD0xKDMzLjMzJSkK
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch b/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
-new file mode 100644
-index 0000000..8584291
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
-@@ -0,0 +1,74 @@
-+From 0c75ebaad09d6d3f2395dfe6160904af883dd0d9 Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Tue, 15 May 2018 15:34:39 -0700
-+Subject: [PATCH] linux/arm/raw_syscall.h: avoid r7 specified register
-+ variables with Thumb
-+
-+If Thumb code is being generated and frame pointers are enabled, the
-+Thumb frame pointer in r7 clashes with any local variable which may
-+need to be assigned to r7 (e.g. the syscall NR when making a raw
-+syscall).
-+
-+With gcc, the double use of r7 results in a build error, e.g.
-+
-+  strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be used in asm here
-+
-+With clang, the double use of r7 can result in the compiler silently
-+generating broken code which crashes at run time due to frame pointer
-+corruption:
-+
-+  https://bugs.llvm.org/show_bug.cgi?id=34165
-+
-+In most cases the problem isn't visible as frame pointers will be
-+disabled automatically due to optimisation level. However to handle
-+cases where frame pointers are enabled (e.g. when CFLAGS etc are set
-+to support a debug build, etc) provide a version of raw_syscall_0
-+which manually saves and restores the frame pointer value in r7
-+to a temporary register before setting up the syscall NR in r7
-+and invoking the syscall.
-+
-+* linux/arm/raw_syscall.h (raw_syscall_0) [__thumb__]: Provide
-+an alternative version.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ linux/arm/raw_syscall.h | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
-+
-+diff --git a/linux/arm/raw_syscall.h b/linux/arm/raw_syscall.h
-+index 69c7e23..ec534ec 100644
-+--- a/linux/arm/raw_syscall.h
-++++ b/linux/arm/raw_syscall.h
-+@@ -36,12 +36,27 @@ static inline kernel_ulong_t
-+ raw_syscall_0(const kernel_ulong_t nr, kernel_ulong_t *err)
-+ {
-+ 	*err = 0;
-++
-++#ifdef __thumb__ /* && FRAME_POINTERS_ENABLED */
-++
-++	register kernel_ulong_t rt;
-++	register kernel_ulong_t r0 __asm__("r0");
-++	__asm__ __volatile__("mov %1,r7; mov r7,%2; swi 0x0; mov r7,%1"
-++			     : "=r"(r0), "=&r"(rt)
-++			     : "r"(nr)
-++			     : "memory");
-++
-++#else
-++
-+ 	register kernel_ulong_t r7 __asm__("r7") = nr;
-+ 	register kernel_ulong_t r0 __asm__("r0");
-+ 	__asm__ __volatile__("swi 0x0"
-+ 			     : "=r"(r0)
-+ 			     : "r"(r7)
-+ 			     : "memory");
-++
-++#endif
-++
-+ 	return r0;
-+ }
-+ # define raw_syscall_0 raw_syscall_0
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/strace/strace_4.22.bb b/meta/recipes-devtools/strace/strace_4.22.bb
-index 947b3f7..99691f8 100644
---- a/meta/recipes-devtools/strace/strace_4.22.bb
-+++ b/meta/recipes-devtools/strace/strace_4.22.bb
-@@ -14,21 +14,13 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://mips-SIGEMT.patch \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-+           file://0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch \
-            "
- SRC_URI[md5sum] = "7a2a7d7715da6e6834bc65bd09bace1c"
- SRC_URI[sha256sum] = "068cd09264c95e4d591bbcd3ea08f99a693ed8663cd5169b0fdad72eb5bdb39d"
- 
- inherit autotools ptest bluetooth
- 
--EXTRA_OECONF += "--enable-mpers=no"
--
--CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
--# otherwise strace-4.22/tests/inject-nf.c fails to build as discussed here:
--# http://lists.openembedded.org/pipermail/openembedded-core/2018-May/150647.html
--DEBUG_OPTIMIZATION_remove = "${@bb.utils.contains('PTEST_ENABLED', '1', '-fno-omit-frame-pointer', '', d)}"
--
--RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
--
- PACKAGECONFIG_class-target ??= "\
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
- "
-@@ -36,6 +28,10 @@ PACKAGECONFIG_class-target ??= "\
- PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
- PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
- 
-+EXTRA_OECONF += "--enable-mpers=no"
-+
-+CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
-+
- TESTDIR = "tests"
- 
- do_install_append() {
-@@ -61,5 +57,7 @@ do_install_ptest() {
- 	${D}/${PTEST_PATH}/${TESTDIR}/Makefile
- }
- 
-+RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
-+
- BBCLASSEXTEND = "native"
- TOOLCHAIN = "gcc"
--- 
-1.9.1
-
-
+--===============3311298043059241709==--
