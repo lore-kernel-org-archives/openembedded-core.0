@@ -1,55 +1,53 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C00BF75048
+	by mail.openembedded.org (Postfix) with ESMTP id D6715747E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 16:55:45 +0000 (UTC)
+	Fri, 18 May 2018 16:58:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 9C2B1184CA
+	by bastet.se.axis.com (Postfix) with ESMTP id B0A3A184E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:46 +0200 (CEST)
+	Fri, 18 May 2018 18:58:43 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 85-s0ObUX_d2
+	port 10024) with LMTP id r5IZ3u3cNk-A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
+	Fri, 18 May 2018 18:58:43 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8D237184D0
+	by bastet.se.axis.com (Postfix) with ESMTPS id 07E49184DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
+	Fri, 18 May 2018 18:58:43 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 79BAB1A081
+	by IMSVA (Postfix) with ESMTP id EA6CA1A081
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
+	Fri, 18 May 2018 18:58:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6B9811A07E
+	by IMSVA (Postfix) with ESMTP id DF16A1A07E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+	Fri, 18 May 2018 18:58:42 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
+	Fri, 18 May 2018 18:58:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 5FC87304B
+	by thoth.se.axis.com (Postfix) with ESMTP id D2D2317C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:44 +0200 (CEST)
+	Fri, 18 May 2018 18:58:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4IGtaAs026994
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4IGwZ0c027667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 18:55:36 +0200
+	Fri, 18 May 2018 18:58:35 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4IGtafw026993
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4IGwZA5027666
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2018 18:55:36 +0200
+	Fri, 18 May 2018 18:58:35 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 May 2018 18:55:33 +0200
-Message-Id: <2ae12ff59be79bdd79a07531887448845121589f.1526662447.git.pkj@axis.com>
+Date: Fri, 18 May 2018 18:58:33 +0200
+Message-Id: <cover.1526662701.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1526662447.git.pkj@axis.com>
-References: <cover.1526662447.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCHv3 1/1] base-files: profile: Avoid using "command" to determine if programs exist
+Subject: [PATCHv4 0/1] Do not use command in profile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,47 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2018 16:55:46 -0000
+X-List-Received-Date: Fri, 18 May 2018 16:58:43 -0000
 
-Since the existence of "command" in itself is not guaranteed, using it
-to determine if other executables exist is mote. Instead just run the
-executables and let the shell determine if they exist. By piping stderr
-to /dev/null we avoid unnecessary warnings in case they do not exist.
+Since we apparently cannot rely on the command utility to always
+exist, it is better to avoid using it in the profile script. Rather
+than using command to detect if tty and resize exist (which obviously
+will not work if command itself does not exist), just call them
+directly while piping any output for stderr to /dev/null. This should
+actually be a little bit more efficient in the case that they do
+exist, and the same in the case that they do not exist.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+I leave to you to decide whether you want to revert commit e41c90b852
+that enabled the command utility in busybox or not.
+
+PATCHv2: Correct a typo in the commit message.
+
+PATCHv3: Run resize twice, once to determine if it exists, and once to
+actually do the resize.
+
+PATCHv4: Correct the same typo in the commit message once more...
+
+//Peter
+
+The following changes since commit 13cc30cd7de4841990b600e83e1249c81a5171dd:
+
+  local.conf.sample.extended: Drop obsolete rpc and libnsl (2018-05-15 11:07:50 +0100)
+
+are available in the git repository at:
+
+  git://push.yoctoproject.org/poky-contrib pkj/profile_without_command
+
+Peter Kjellerstedt (1):
+  base-files: profile: Avoid using "command" to determine if programs
+    exist
+
  meta/recipes-core/base-files/base-files/profile | 18 ++++++++++--------
  1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index a062028226..e14cb2d878 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -20,14 +20,16 @@ if [ -d /etc/profile.d ]; then
- 	unset i
- fi
- 
--if command -v resize >/dev/null && command -v tty >/dev/null; then
--	# Make sure we are on a serial console (i.e. the device used starts with
--	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
--	# tries do use ssh
--	case $(tty) in
--		/dev/tty[A-z]*) resize >/dev/null;;
--	esac
--fi
-+# Make sure we are on a serial console (i.e. the device used starts with
-+# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
-+# use ssh
-+case $(tty 2>/dev/null) in
-+	# The first invocation of resize verifies that it exists, the second
-+	# does the actual resizing. This is due to that resize uses stderr to
-+	# determine the size of the tty, which does not work if it is redirected
-+	# to /dev/null.
-+	/dev/tty[A-z]*) resize >/dev/null 2>&1 && resize >/dev/null;;
-+esac
- 
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
- 
 -- 
 2.12.0
 
