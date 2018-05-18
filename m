@@ -1,51 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC6A75047
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E8B056FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 21:59:04 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id c3-v6so14945462itj.4
+	Fri, 18 May 2018 22:50:46 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id m11-v6so10933425otf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 14:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=uL1FElj/blyZQ0VfZwG7SSi45XTb2fT+8RfUBVKFARk=;
-	b=uK+oT2YA2dpVagqig/XAMoE/d7Qz6dWQ7n9kUg60GVJyjPcOngit7rw88ORkwKEGsi
-	iIP9WPRrD2QatQndh8Do1vn26vEZjoCKjdYTbfGAL26b5zmz+NSkhOqcmIr3veg/tgUy
-	MEniJ11XrOsyiRRilaFawA712h6pUTQginHl9PZhprf6Sq86Mdc1h7MKxwzKhbAWauAy
-	0jzXjommLAqI75LeExTZt1lLQkBXMCl61dX5zNx1MPmRHaU03vUO/IfgTOGSueZ2vSQB
-	woN7jC31tJk8Ew3iCp1uCgfPgmpAJWo5xB4Q8c7bgEHx+1PjgA9HgRxiSrdvezss3ryC
-	qbqQ==
+	Fri, 18 May 2018 15:50:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=MOvMmMmR8rT0t0jo+U2imftyyGV+nqjjh9AHsDgd0s8=;
+	b=vBBxRZdXf6fHwwympWAOcxQasElUF7jTneZBqqh/pTSNWBWcNiJ144LsqvpFBoxUNz
+	dzmFozesu1mdYQSxjZt5dxxHNtwynVrmqXF0Mpks3XfcVsFSKoqhc7GMKFw9TyUnEePa
+	1SM6gzTbRAMw5cRJvJxUKDrwy8OglpRhXaRdEynD7+O/6A1+bVgoy+v0HBJiAsqttVLp
+	Fr6PzOM+kmtlXqQHXlNtA+f8ty+mrYxFOtit0yFPaZXvp9qEvCLCJDtoHhVa7vLi3Xwu
+	rjzSQApHW2fOkFXF0bdqUjxv7Vz8VJRCL3ikROM5h4ipezvR/3jRYS3c7om4pRqhJzSV
+	H4Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=uL1FElj/blyZQ0VfZwG7SSi45XTb2fT+8RfUBVKFARk=;
-	b=aox4TXo1IP2bGbQ4BCJgGLeZWUv2JZ/E474Vg1F82tFxbii5/GDmL2I7id70b0Y8wf
-	WmeSXYo14mIq3yAgIAvjaNTq97p4Q7ZyASLVhN14C1VegsIJSyn2TJ1cHesJH+P1WzFX
-	0mgCYUypfp1fPhAJMJYPo33RGzNvE7eCNHlAtc50Nti+mCQytTXhgzY279WiCOOP7xPY
-	5hw+z1AM9E79sTln2ASQKwAYerKjh4CrtJpuvYomNGgiVZqivH/uIlMptAEpuwwCzreo
-	El/cLz5JSCZk1pj5viZTlDv8qod6b1cvt0iPwqwDbBoH0chu6+E/aSBOFD8V4QnseRo3
-	zy0A==
-X-Gm-Message-State: ALKqPwchy5gU64jrc3zZpF47wmh5GD6n0Y8kG16lWVjk0tV4CpVNkmpK
-	wteUo914FxltoVvRVSchD7ypHc4jxq72rA4qpfNIig==
-X-Google-Smtp-Source: AB8JxZpn+yF1zPwjOVO1cUa8FU7wvqeHbhZ322B7iXJpQ12bem3Gzi/rc2YZ3TRo4Wgu4EwNHU9i+aWWnHUT44ZGquQ=
-X-Received: by 2002:a24:a00a:: with SMTP id
-	o10-v6mr9102257ite.34.1526680745324; 
-	Fri, 18 May 2018 14:59:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Fri, 18 May 2018 14:58:44 -0700 (PDT)
-In-Reply-To: <20180502143733.6303-2-Martin.Jansa@gmail.com>
-References: <20180502143733.6303-1-Martin.Jansa@gmail.com>
-	<20180502143733.6303-2-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 May 2018 22:58:44 +0100
-Message-ID: <CAJTo0LYvdpORbNFs4-gOn0QyPSZ3W8nQkZbX7w=C9t_WvTgCRw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] qemu: upgrade to 2.12.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MOvMmMmR8rT0t0jo+U2imftyyGV+nqjjh9AHsDgd0s8=;
+	b=IjpTfAMPcpJVulE4is1cg5XHKQkrGSEYjtVnc6ufdqbf91QoAZWkU2rB5eqAXUIAgv
+	idgqBlBSIB1k1oMOtRbsGdJKvgtaMAn7UDmR3bpDmcLALgDZM+BGfi1JNkZGlmDj3j9q
+	6/+3KwX+WsLpKiR5jB67BcunNxwuU/tN/nlTwb8p7R2BVBxnYqzY+0HBYyI1EYSt79Ze
+	eDyVAYr3oVvAmB12wtfbfxjUh+iXh3fuOpWC9HPzIGVGH/9aq3JtTrk37DvIIpUPZnUm
+	jpi8/BQtkIEyEqpK2uyFR0m0dj0bWYj4tKR/2MchaEkRQINW/GRKzcln+2W032jnDYGx
+	lkVQ==
+X-Gm-Message-State: ALKqPweAkugVEFcBRrJY+bmgnP1GkVq+I2MGpX6D/uWHZtuHuXriRseW
+	fixnvM5FedT0yUBNT+SYzpd4oQ==
+X-Google-Smtp-Source: AB8JxZp8vHaW6hiEuXCLjJpb/vQEqadR6/6/ddrsGs5Xod0/RpDd+atiHdjS5PA0+CICwXUx0nhQOw==
+X-Received: by 2002:a9d:bf3:: with SMTP id
+	106-v6mr7333211oth.285.1526683847609; 
+	Fri, 18 May 2018 15:50:47 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	p200-v6sm4481629oic.51.2018.05.18.15.50.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 May 2018 15:50:47 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 May 2018 15:50:40 -0700
+Message-Id: <1526683840-20390-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] arch-armv7a.inc: default to Thumb2 instruction set for armv7a and above
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,484 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2018 21:59:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 May 2018 22:50:47 -0000
 
-This is causing the AB to hang when built for qemux86 with musl whilst
-building webkitgtk during the gobject-introspection qemu-i386 calls,
-qemu enters an infinite loop.
+Although there may still be specific cases which can benefit from the
+ARM instruction set, the Thumb2 instruction set is generally a better
+default for armv7a class CPUs. Distros such as Debian and Fedora have
+been targeting Thumb2 by default for some time.
 
-I've not yet reproduced locally to try and get a log out of qemu, but
-it has happened on the autobuilder repeatedly.
+Note that setting ARM_INSTRUCTION_SET has no effect unless
+TUNE_FEATURES contains "thumb" (which is controlled by the "t" suffix
+in DEFAULTTUNE, e.g. armv7vehf-neon -vs- armv7vethf-neon, etc) so out
+of tree machine configs may need to update their DEFAULTTUNE to take
+advantage of this change.
 
-Ross
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-armv7a.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 2 May 2018 at 15:37, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/conf/distro/include/tcmode-default.inc   |  2 +-
->  ...4-treat-DISAS_UPDATE-as-variant-of-D.patch | 67 -------------------
->  ...-connect-socket-to-a-spawned-command.patch | 52 +++++++-------
->  .../qemu/qemu/disable-grabs.patch             | 43 ++++++------
->  meta/recipes-devtools/qemu/qemu/memfd.patch   | 57 ----------------
->  .../qemu/qemu/qemu-2.5.0-cflags.patch         | 15 ++++-
->  .../qemu/{qemu_2.11.1.bb =3D> qemu_2.12.0.bb}   |  6 +-
->  7 files changed, 65 insertions(+), 177 deletions(-)
->  delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-arm-translate-a6=
-4-treat-DISAS_UPDATE-as-variant-of-D.patch
->  delete mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
->  rename meta/recipes-devtools/qemu/{qemu_2.11.1.bb =3D> qemu_2.12.0.bb} (=
-87%)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
-ro/include/tcmode-default.inc
-> index 00399ae820..8b5214ed96 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -28,7 +28,7 @@ BINUVERSION ?=3D "2.30%"
->  GDBVERSION ?=3D "8.0%"
->  GLIBCVERSION ?=3D "2.27%"
->  LINUXLIBCVERSION ?=3D "4.15%"
-> -QEMUVERSION ?=3D "2.11%"
-> +QEMUVERSION ?=3D "2.12%"
->
->  PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
->  PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
-> diff --git a/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat=
--DISAS_UPDATE-as-variant-of-D.patch b/meta/recipes-devtools/qemu/qemu/0001-=
-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch
-> deleted file mode 100644
-> index f90cae694c..0000000000
-> --- a/meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_=
-UPDATE-as-variant-of-D.patch
-> +++ /dev/null
-> @@ -1,67 +0,0 @@
-> -From a75a52d62418dafe462be4fe30485501d1010bb9 Mon Sep 17 00:00:00 2001
-> -From: Victor Kamensky <kamensky@cisco.com>
-> -Date: Fri, 23 Mar 2018 18:26:45 +0000
-> -Subject: [PATCH] arm/translate-a64: treat DISAS_UPDATE as variant of
-> - DISAS_EXIT
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -In OE project 4.15 linux kernel boot hang was observed under
-> -single cpu aarch64 qemu. Kernel code was in a loop waiting for
-> -vtimer arrival, spinning in TC generated blocks, while interrupt
-> -was pending unprocessed. This happened because when qemu tried to
-> -handle vtimer interrupt target had interrupts disabled, as
-> -result flag indicating TCG exit, cpu->icount_decr.u16.high,
-> -was cleared but arm_cpu_exec_interrupt function did not call
-> -arm_cpu_do_interrupt to process interrupt. Later when target
-> -reenabled interrupts, it happened without exit into main loop, so
-> -following code that waited for result of interrupt execution
-> -run in infinite loop.
-> -
-> -To solve the problem instructions that operate on CPU sys state
-> -(i.e enable/disable interrupt), and marked as DISAS_UPDATE,
-> -should be considered as DISAS_EXIT variant, and should be
-> -forced to exit back to main loop so qemu will have a chance
-> -processing pending CPU state updates, including pending
-> -interrupts.
-> -
-> -This change brings consistency with how DISAS_UPDATE is treated
-> -in aarch32 case.
-> -
-> -CC: Peter Maydell <peter.maydell@linaro.org>
-> -CC: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> -CC: qemu-stable@nongnu.org
-> -Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> -Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-> -Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> -Message-id: 1521526368-1996-1-git-send-email-kamensky@cisco.com
-> -Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> -Upstream-Status: Backport
-> ----
-> - target/arm/translate-a64.c | 6 +++---
-> - 1 file changed, 3 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> -index 31ff047..327513e 100644
-> ---- a/target/arm/translate-a64.c
-> -+++ b/target/arm/translate-a64.c
-> -@@ -13378,12 +13378,12 @@ static void aarch64_tr_tb_stop(DisasContextBas=
-e *dcbase, CPUState *cpu)
-> -         case DISAS_UPDATE:
-> -             gen_a64_set_pc_im(dc->pc);
-> -             /* fall through */
-> --        case DISAS_JUMP:
-> --            tcg_gen_lookup_and_goto_ptr();
-> --            break;
-> -         case DISAS_EXIT:
-> -             tcg_gen_exit_tb(0);
-> -             break;
-> -+        case DISAS_JUMP:
-> -+            tcg_gen_lookup_and_goto_ptr();
-> -+            break;
-> -         case DISAS_NORETURN:
-> -         case DISAS_SWI:
-> -             break;
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-=
-spawned-command.patch b/meta/recipes-devtools/qemu/qemu/chardev-connect-soc=
-ket-to-a-spawned-command.patch
-> index 6e6bf95c18..f1cf53a8c5 100644
-> --- a/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned=
--command.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/chardev-connect-socket-to-a-spawned=
--command.patch
-> @@ -1,4 +1,4 @@
-> -From 3bb3100c22eb30146a69656480bdffeef8663575 Mon Sep 17 00:00:00 2001
-> +From a7690b02df70e0d3957e6eaa1e1cf92595839fbb Mon Sep 17 00:00:00 2001
->  From: Alistair Francis <alistair.francis@xilinx.com>
->  Date: Thu, 21 Dec 2017 11:35:16 -0800
->  Subject: [PATCH] chardev: connect socket to a spawned command
-> @@ -45,16 +45,16 @@ Upstream-Status: Inappropriate [embedded specific]
->
->  Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
->  ---
-> - chardev/char-socket.c | 86 ++++++++++++++++++++++++++++++++++++++++++++=
-++++---
-> - chardev/char.c        |  3 ++
-> - qapi/char.json        |  5 +++
-> - 3 files changed, 90 insertions(+), 4 deletions(-)
-> + chardev/char-socket.c | 102 ++++++++++++++++++++++++++++++++++++++++++
-> + chardev/char.c        |   3 ++
-> + qapi/char.json        |   5 +++
-> + 3 files changed, 110 insertions(+)
->
->  diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> -index 53eda8ef00..f566107c35 100644
-> +index 159e69c3b1..84778cf31a 100644
->  --- a/chardev/char-socket.c
->  +++ b/chardev/char-socket.c
-> -@@ -852,6 +852,68 @@ static gboolean socket_reconnect_timeout(gpointer o=
-paque)
-> +@@ -934,6 +934,68 @@ static gboolean socket_reconnect_timeout(gpointer o=
-paque)
->       return false;
->   }
->
-> @@ -123,7 +123,7 @@ index 53eda8ef00..f566107c35 100644
->   static void qmp_chardev_open_socket(Chardev *chr,
->                                       ChardevBackend *backend,
->                                       bool *be_opened,
-> -@@ -859,6 +921,9 @@
-> +@@ -941,6 +1003,9 @@ static void qmp_chardev_open_socket(Chardev *chr,
->   {
->       SocketChardev *s =3D SOCKET_CHARDEV(chr);
->       ChardevSocket *sock =3D backend->u.socket.data;
-> @@ -133,11 +133,10 @@ index 53eda8ef00..f566107c35 100644
->       bool do_nodelay     =3D sock->has_nodelay ? sock->nodelay : false;
->       bool is_listen      =3D sock->has_server  ? sock->server  : true;
->       bool is_telnet      =3D sock->has_telnet  ? sock->telnet  : false;
-> -@@ -925,7 +990,14 @@
-> -     } else if (reconnect > 0) {
-> +@@ -1008,6 +1073,14 @@ static void qmp_chardev_open_socket(Chardev *chr,
->           s->reconnect_time =3D reconnect;
->       }
-> --
-> +
->  +#ifndef _WIN32
->  +    if (cmd) {
->  +        chardev_open_socket_cmd(chr, cmd, errp);
-> @@ -146,12 +145,12 @@ index 53eda8ef00..f566107c35 100644
->  +        *be_opened =3D true;
->  +    } else
->  +#endif
-> -     if (s->reconnect_time) {
-> -         sioc =3D qio_channel_socket_new();
-> -         tcp_chr_set_client_ioc_name(chr, sioc);
-> -@@ -985,10 +1057,26 @@
-> -     const char *host =3D qemu_opt_get(opts, "host");
-> +     /* If reconnect_time is set, will do that in chr_machine_done. */
-> +     if (!s->reconnect_time) {
-> +         if (s->is_listen) {
-> +@@ -1065,9 +1138,26 @@ static void qemu_chr_parse_socket(QemuOpts *opts,=
- ChardevBackend *backend,
->       const char *port =3D qemu_opt_get(opts, "port");
-> +     const char *fd =3D qemu_opt_get(opts, "fd");
->       const char *tls_creds =3D qemu_opt_get(opts, "tls-creds");
->  +#ifndef _WIN32
->  +    const char *cmd =3D qemu_opt_get(opts, "cmd");
-> @@ -159,7 +158,6 @@ index 53eda8ef00..f566107c35 100644
->       SocketAddressLegacy *addr;
->       ChardevSocket *sock;
->
-> -     backend->type =3D CHARDEV_BACKEND_KIND_SOCKET;
->  +#ifndef _WIN32
->  +    if (cmd) {
->  +        /*
-> @@ -173,17 +171,18 @@ index 53eda8ef00..f566107c35 100644
->  +        }
->  +    } else
->  +#endif
-> -     if (!path) {
-> -         if (!host) {
-> -             error_setg(errp, "chardev: socket: no host given");
-> -@@ -1021,13 +1109,24 @@
-> -     sock->has_reconnect =3D true;
-> ++
-> +     if ((!!path + !!fd + !!host) !=3D 1) {
-> +         error_setg(errp,
-> +                    "Exactly one of 'path', 'fd' or 'host' required");
-> +@@ -1112,12 +1202,24 @@ static void qemu_chr_parse_socket(QemuOpts *opts=
-, ChardevBackend *backend,
->       sock->reconnect =3D reconnect;
->       sock->tls_creds =3D g_strdup(tls_creds);
-> +
->  +#ifndef _WIN32
->  +    sock->cmd =3D g_strdup(cmd);
->  +#endif
-> -
-> ++
->       addr =3D g_new0(SocketAddressLegacy, 1);
->  +#ifndef _WIN32
->  +    if (path || cmd) {
-> @@ -198,11 +197,11 @@ index 53eda8ef00..f566107c35 100644
->  +#else
->           q_unix->path =3D g_strdup(path);
->  +#endif
-> -     } else {
-> +     } else if (host) {
->           addr->type =3D SOCKET_ADDRESS_LEGACY_KIND_INET;
->           addr->u.inet.data =3D g_new(InetSocketAddress, 1);
->  diff --git a/chardev/char.c b/chardev/char.c
-> -index 2ae4f465ec..5d52cd5de5 100644
-> +index 76d866e6fe..9747d51d7c 100644
->  --- a/chardev/char.c
->  +++ b/chardev/char.c
->  @@ -792,6 +792,9 @@ QemuOptsList qemu_chardev_opts =3D {
-> @@ -239,4 +238,5 @@ index ae19dcd1ed..6de0f29bcd 100644
->                                        '*server'    : 'bool',
->                                        '*wait'      : 'bool',
->  --
-> -2.14.1
-> +2.17.0
-> +
-> diff --git a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch b/meta/r=
-ecipes-devtools/qemu/qemu/disable-grabs.patch
-> index 77117890f4..e29c011a6f 100644
-> --- a/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-> @@ -1,3 +1,11 @@
-> +From a31c5c695cb716310257f1fc60a06b821e74fe7f Mon Sep 17 00:00:00 2001
-> +From: Ross Burton <ross.burton@intel.com>
-> +Date: Wed, 18 Sep 2013 14:04:54 +0100
-> +Subject: [PATCH] sdl.c: allow user to disable pointer grabs
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
->  When the pointer enters the Qemu window it calls SDL_WM_GrabInput, which=
- calls
->  XGrabPointer in a busyloop until it returns GrabSuccess. However if ther=
-e's already
->  a pointer grab (screen is locked, a menu is open) then qemu will hang un=
-til the
-> @@ -11,35 +19,30 @@ them in a conditional that can be set by the autobuil=
-der environment, preserving
->  the current grabbing behaviour for everyone else.
->
->  Upstream-Status: Pending
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 4b1988ecb01a178269ec0513a75f2ec620c7ef6a Mon Sep 17 00:00:00 2001
-> -From: Ross Burton <ross.burton@intel.com>
-> -Date: Wed, 18 Sep 2013 14:04:54 +0100
-> -Subject: [PATCH] sdl.c: allow user to disable pointer grabs
-> -
->  Signed-off-by: Ross Burton <ross.burton@intel.com>
->  Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
-> +
->  ---
-> - ui/sdl.c | 12 ++++++++++--
-> - 1 file changed, 10 insertions(+), 2 deletions(-)
-> + ui/sdl.c | 13 +++++++++++--
-> + 1 file changed, 11 insertions(+), 2 deletions(-)
->
-> -Index: qemu-2.11.1/ui/sdl.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- qemu-2.11.1.orig/ui/sdl.c
-> -+++ qemu-2.11.1/ui/sdl.c
-> -@@ -63,6 +63,10 @@ static SDL_PixelFormat host_format;
-> - static int scaling_active =3D 0;
-> - static Notifier mouse_mode_notifier;
-> - static int idle_counter;
-> +diff --git a/ui/sdl.c b/ui/sdl.c
-> +index a5fd503..ab8d1b1 100644
-> +--- a/ui/sdl.c
-> ++++ b/ui/sdl.c
-> +@@ -68,6 +68,11 @@ static int idle_counter;
-> + static const guint16 *keycode_map;
-> + static size_t keycode_maplen;
-> +
->  +#ifndef True
->  +#define True 1
->  +#endif
->  +static doing_grabs =3D True;
-> -
-> ++
->   #define SDL_REFRESH_INTERVAL_BUSY 10
->   #define SDL_MAX_IDLE_COUNT (2 * GUI_REFRESH_INTERVAL_DEFAULT \
-> -@@ -431,14 +435,16 @@ static void sdl_grab_start(void)
-> +                             / SDL_REFRESH_INTERVAL_BUSY + 1)
-> +@@ -398,14 +403,16 @@ static void sdl_grab_start(void)
->           }
->       } else
->           sdl_hide_cursor();
-> @@ -58,7 +61,7 @@ Index: qemu-2.11.1/ui/sdl.c
->       gui_grab =3D 0;
->       sdl_show_cursor();
->       sdl_update_caption();
-> -@@ -986,6 +992,8 @@ void sdl_display_init(DisplayState *ds,
-> +@@ -945,6 +952,8 @@ static void sdl1_display_init(DisplayState *ds, Disp=
-layOptions *o)
->        * This requires SDL >=3D 1.2.14. */
->       setenv("SDL_DISABLE_LOCK_KEYS", "1", 1);
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/memfd.patch b/meta/recipes-d=
-evtools/qemu/qemu/memfd.patch
-> deleted file mode 100644
-> index 62e8d3800b..0000000000
-> --- a/meta/recipes-devtools/qemu/qemu/memfd.patch
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 75e5b70e6b5dcc4f2219992d7cffa462aa406af0 Mon Sep 17 00:00:00 2001
-> -From: Paolo Bonzini <pbonzini@redhat.com>
-> -Date: Tue, 28 Nov 2017 11:51:27 +0100
-> -Subject: [PATCH] memfd: fix configure test
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -Recent glibc added memfd_create in sys/mman.h.  This conflicts with
-> -the definition in util/memfd.c:
-> -
-> -    /builddir/build/BUILD/qemu-2.11.0-rc1/util/memfd.c:40:12: error: sta=
-tic declaration of memfd_create follows non-static declaration
-> -
-> -Fix the configure test, and remove the sys/memfd.h inclusion since the
-> -file actually does not exist---it is a typo in the memfd_create(2) man
-> -page.
-> -
-> -Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> -Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ----
-> - configure    | 2 +-
-> - util/memfd.c | 4 +---
-> - 2 files changed, 2 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/configure b/configure
-> -index 9c8aa5a98b..99ccc1725a 100755
-> ---- a/configure
-> -+++ b/configure
-> -@@ -3923,7 +3923,7 @@ fi
-> - # check if memfd is supported
-> - memfd=3Dno
-> - cat > $TMPC << EOF
-> --#include <sys/memfd.h>
-> -+#include <sys/mman.h>
-> -
-> - int main(void)
-> - {
-> -diff --git a/util/memfd.c b/util/memfd.c
-> -index 4571d1aba8..412e94a405 100644
-> ---- a/util/memfd.c
-> -+++ b/util/memfd.c
-> -@@ -31,9 +31,7 @@
-> -
-> - #include "qemu/memfd.h"
-> -
-> --#ifdef CONFIG_MEMFD
-> --#include <sys/memfd.h>
-> --#elif defined CONFIG_LINUX
-> -+#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
-> - #include <sys/syscall.h>
-> - #include <asm/unistd.h>
-> -
-> ---
-> -2.11.0
-> diff --git a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch b/me=
-ta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
-> index eb99d14639..360519f1a1 100644
-> --- a/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
-> +++ b/meta/recipes-devtools/qemu/qemu/qemu-2.5.0-cflags.patch
-> @@ -1,8 +1,19 @@
-> +From 6702ec74a7ba90b99efedde260c9f08b75d5516d Mon Sep 17 00:00:00 2001
-> +From: Stephen Arnold <sarnold@vctlabs.com>
-> +Date: Sun, 12 Jun 2016 18:09:56 -0700
-> +Subject: [PATCH] qemu-native: set ld.bfd, fix cflags, and set some envir=
-onment
-> +
->  Upstream-Status: Pending
->
-> +---
-> + configure | 4 ----
-> + 1 file changed, 4 deletions(-)
-> +
-> +diff --git a/configure b/configure
-> +index 69e05fb..12fc3d8 100755
->  --- a/configure
->  +++ b/configure
-> -@@ -4468,10 +4468,6 @@ fi
-> +@@ -5413,10 +5413,6 @@ write_c_skeleton
->   if test "$gcov" =3D "yes" ; then
->     CFLAGS=3D"-fprofile-arcs -ftest-coverage -g $CFLAGS"
->     LDFLAGS=3D"-fprofile-arcs -ftest-coverage $LDFLAGS"
-> @@ -12,4 +23,4 @@ Upstream-Status: Pending
->  -  CFLAGS=3D"-O2 $CFLAGS"
->   fi
->
-> - ##########################################
-> + if test "$have_asan" =3D "yes"; then
-> diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-dev=
-tools/qemu/qemu_2.12.0.bb
-> similarity index 87%
-> rename from meta/recipes-devtools/qemu/qemu_2.11.1.bb
-> rename to meta/recipes-devtools/qemu/qemu_2.12.0.bb
-> index f4b7d69fca..63590fc9eb 100644
-> --- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_2.12.0.bb
-> @@ -20,8 +20,6 @@ SRC_URI =3D "http://wiki.qemu-project.org/download/${BP=
-}.tar.bz2 \
->             file://chardev-connect-socket-to-a-spawned-command.patch \
->             file://apic-fixup-fallthrough-to-PIC.patch \
->             file://linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.pa=
-tch \
-> -           file://memfd.patch \
-> -           file://0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-o=
-f-D.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+\..*)\.tar"
->
-> @@ -31,8 +29,8 @@ SRC_URI_append_class-native =3D " \
->              file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
->              "
->
-> -SRC_URI[md5sum] =3D "61cf862b6007eba4ac98247776af2e27"
-> -SRC_URI[sha256sum] =3D "d9df2213ceed32e91dab7bc9dd19c1af83f91ba72c7aeef7=
-605dfaaf81732ccb"
-> +SRC_URI[md5sum] =3D "122fd7cdf241ff7eb1e42c0b503b5d1b"
-> +SRC_URI[sha256sum] =3D "c9f4a147bc915d24df9784affc611a115f42d24720a89210=
-b479f1ba7a3f679c"
->
->  COMPATIBLE_HOST_mipsarchn32 =3D "null"
->  COMPATIBLE_HOST_mipsarchn64 =3D "null"
-> --
-> 2.17.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index bad1c27..a2663d8 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -1,4 +1,5 @@
+ DEFAULTTUNE ?= "armv7athf"
++ARM_INSTRUCTION_SET ?= "thumb"
+ 
+ TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+ TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+-- 
+1.9.1
+
 
