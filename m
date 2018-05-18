@@ -1,48 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2697474BDB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2879971984
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 12:55:52 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id c203-v6so6999937oib.7
+	Fri, 18 May 2018 13:20:38 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id d73-v6so6127819iog.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 05:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 18 May 2018 06:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6vHa0iE3kB7Nfhy378rai9nVFUgLFACiD/t3rp+GfJ4=;
-	b=ukbCQpTTWT9kSDXXcpmyHbVh5E6L8rF03ic0f150RtggTBGW2lQC5Y75eLcR/LBy1P
-	DuJt35rBa+BkO+jjCykA6+4LH9mQZH/A0Ru/CDmf9W0ZlLOzazxRSsFJRfDKjl7mdFdw
-	HagRVPxtCUzTCA36JRNM0iAkKuOZu7IAEt0ZVcpBlrg28mLywIA4L9xdWF1CAM8XgkjZ
-	F4snOBSdNCtnj4BxbxMgIpilath66PiN4fZ3Sxr305rNaogqOuqqduWB8MjFifqxhttG
-	BFfDOVWpEyiE0xiP4Rj2s7fdpUE6gVcJ8w+gW6zmVYN5LZLmaYFLD4VhXTLhwhxs6Hkv
-	Vaqg==
+	:cc; bh=krp1TIs2a+izIe/S9r0hJt4QglJTMonALzyzMAttwQ8=;
+	b=a/v/BoQfJGNE+UjEFs8uvCoXkCHj+F17N4ahVZghFeSKY+Wgh6Res98rk4LXHdNFnB
+	K/JGlNiL1ICh1MhLdV2fPqxfWIna8skYI5iOBA7FrbgPxWkrdE1B+pPb17J0CXY83mRI
+	x7vSErmVSa94WaMFCtdd5/NkOMMWx4A0I7/vFVPwgMmIO4GJyxu0sn0aAizR7Ai4kA6B
+	USsL9eKLzeMg0ChMgAqo0ARGnTxEmVhMHy+3edTJSOYTXeIpK2va6BDiWV3Zzfyb6Bar
+	GXMiJ30D36v0f/06Ecf0hfAJ5g8dJTV55j5LhsuzpVhCbs6FpbjDiuK5t3NFYdfFOxYN
+	na/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6vHa0iE3kB7Nfhy378rai9nVFUgLFACiD/t3rp+GfJ4=;
-	b=VqcfdK9pl6riviOne0i+hWjDMrQLVWz3afSxDNmD+VRF+8eeiLmdmCTD7iqLFxBwDq
-	9JZQt7qF8TQA6lXFPB9N/pn/yLkBJT9p99PY0ny0myAQQYzFj0enwHzZU21yhtPXixAC
-	gxO2xY/cl6UMkVX8+GMynZVPNbryvnaTCo9BP4gZRnrvPUEnPfu0TUPtKUcMOfsHk79F
-	hHENMUNRpmqI++MCPyYihFvhJNF8lj5TnTeu51dP5vvIdVvgqmlfb0F1SQ7N9Wt5065B
-	EjIFiMmF+QD0UYve2yTRRVjwpjXF8qCxC1kmqHxwm6GMH3e7euYguMJZChj7X/AjAc8N
-	oKVg==
-X-Gm-Message-State: ALKqPwcvC9Sx43YU7p/yH+GhVKEl33ZrBsEivJGh9eu9BxWHCZ68AzjK
-	kuMznRzXNGj/7vOZcNosvci6eGLVyFWmvV6BDic=
-X-Google-Smtp-Source: AB8JxZqG0Ubfz2qU7oeQuJ/GmugSspXya8VLyaWUkbTeW7wvyT/tCKzq/BQLfsQqQHxWzQcJoraPX0da4XJsMjUQqsE=
-X-Received: by 2002:aca:5a86:: with SMTP id
-	o128-v6mr5878701oib.100.1526648153776; 
-	Fri, 18 May 2018 05:55:53 -0700 (PDT)
+	bh=krp1TIs2a+izIe/S9r0hJt4QglJTMonALzyzMAttwQ8=;
+	b=OWWbbH+ekTpFBKlpdaFBM1DYlxahCiq7NQE8cXOrchpCA4N6x9riYHrlYGf5Sxw6qO
+	hMd1I180cZ0UazJoovjW8WZ9GBAui3mCY2mC0eoKhN5PSt3v0Opd1uxtFIorI8/jsHCl
+	DF+8WeT1Nmb6Srz5JL3wpjh+lOSumHlzwC4t4AT9dvStWqOMEryiEk3tGjQzbIpWcVt9
+	z6zVUvbdrk0sEFbFgT6IypA3MEg5jnyesgDTCjAobsAP4enqbY4rrfiMUxeCbrTyRS0a
+	yB/AhkES9cGisgoye//MTVbt34vLxfurSCMdqO7x2Nj2+MFr9xndq+96egqGPKiaRHFA
+	4LxQ==
+X-Gm-Message-State: ALKqPwcdjD/gejkO9u7fNt41qBzD8WidkFMFYP/z/yuxTpr2KgnnFzNy
+	EGO4PgEb1IdlnuwlIF8m8OCTbHBS9asZl8k7wr0pUQ==
+X-Google-Smtp-Source: AB8JxZqIZgVWoB1X8r7NQ6ODx9TW3r5xt5YCuShIDRssj0XiBunGfM54i6vEIrltuHRsOXQAsDLpfBDmSTUAcEbytUg=
+X-Received: by 2002:a6b:752:: with SMTP id
+	79-v6mr10705905ioh.216.1526649639971; 
+	Fri, 18 May 2018 06:20:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.74.11.23 with HTTP; Fri, 18 May 2018 05:55:53 -0700 (PDT)
-In-Reply-To: <20180518093356.148937-1-jibin.xu@windriver.com>
-References: <20180518093356.148937-1-jibin.xu@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 18 May 2018 15:55:53 +0300
-Message-ID: <CANNYZj8mE2Tc8ydqK5i-uBCmA=kCkdqCOvPeMRuWe6-u1Tk67w@mail.gmail.com>
-To: Jibin Xu <jibin.xu@windriver.com>, yi.zhao@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wget: fix CVE-2018-0494
+Received: by 10.107.239.11 with HTTP; Fri, 18 May 2018 06:20:19 -0700 (PDT)
+In-Reply-To: <CAAPZna3aoEwRF-YDB1E1SNEMDouf+mmJW=Y2EBApGVLwCQjJ2Q@mail.gmail.com>
+References: <20180517191536.12283-1-fabio.berton@ossystems.com.br>
+	<CAJ86T=XbsORQD062SHnacc6kk9+cvfpJGdnpe8m_70V8P1McxA@mail.gmail.com>
+	<CAAPZna3aoEwRF-YDB1E1SNEMDouf+mmJW=Y2EBApGVLwCQjJ2Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 May 2018 14:20:19 +0100
+Message-ID: <CAJTo0LYuxunVTMqQLmHoAUzTpZavXTHk=ASRMahzEYmYLWabxQ@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Add util-linux-umount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,17 +58,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2018 12:55:53 -0000
+X-List-Received-Date: Fri, 18 May 2018 13:20:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-2018-05-18 12:33 GMT+03:00 Jibin Xu <jibin.xu@windriver.com>:
-> +Upstream-Status: Backport
-> +CVE: CVE-2018-0494
-> +
-> +Signed-off-by: Jibin Xu <jibin.xu@windriver.com>
+Fixing busybox is a better solution. yes.
 
-Can you update wget to latest upstream release please? Yi Zhao should
-have received the patch from AUH.
+Ross
 
-Alex
+On 18 May 2018 at 13:24, Fabio Berton <fabio.berton@ossystems.com.br> wrote:
+> Yes, I tested this patch seems to work.
+>
+> But bug report has:
+>
+> "Yeah, this appears to be a limitation of busybox, and needs to be fixed in
+> busybox. We focus on util-linux proper, which has supported this option
+> since generations"
+>
+> So, I add umount from util-linux because systemd focus on util-linux and
+> systemd recipe already has util-linux-mount.
+>
+> If add patch to busybox is a better solution I can do this and send to list.
+>
+> Fabio
+>
+> On Thu, May 17, 2018 at 4:53 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> On Thu, May 17, 2018 at 12:15 PM, Fabio Berton
+>> <fabio.berton@ossystems.com.br> wrote:
+>> > Images with systemd fails on reboot with error:
+>> >
+>> >    [FAILED] Failed unmounting Temporary Directory (/tmp).
+>> >
+>> > This happens because busybox umount command doesn't has -c
+>> > option. Add util-linux-umount that has this option to fix
+>> > this issue.
+>> >
+>> > See details: https://github.com/systemd/systemd/issues/7786
+>>
+>> That bug report mentions a fix to busybox. Since the fix is available
+>> in upstream busybox, maybe better to just backport the patch to our
+>> version of buysbox:
+>>
+>>
+>> https://git.busybox.net/busybox/commit/?id=426134128112738c97a665170b21153ef0764b7d
+>>
+>> > Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>> > ---
+>> >  meta/recipes-core/systemd/systemd_237.bb | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-core/systemd/systemd_237.bb
+>> > b/meta/recipes-core/systemd/systemd_237.bb
+>> > index b7c2113255f..3b0f4580d49 100644
+>> > --- a/meta/recipes-core/systemd/systemd_237.bb
+>> > +++ b/meta/recipes-core/systemd/systemd_237.bb
+>> > @@ -478,7 +478,7 @@ FILES_${PN} = " ${base_bindir}/* \
+>> >
+>> >  FILES_${PN}-dev += "${base_libdir}/security/*.la
+>> > ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>> >
+>> > -RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})
+>> > util-linux-agetty"
+>> > +RDEPENDS_${PN} += "kmod dbus util-linux-mount util-linux-umount udev (=
+>> > ${EXTENDPKGV}) util-linux-agetty"
+>> >  RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG',
+>> > 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+>> >  RDEPENDS_${PN} += "volatile-binds update-rc.d"
+>> >
+>> > --
+>> > 2.14.2
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
