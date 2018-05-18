@@ -1,59 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6725D74D2B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2018 05:52:09 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id k2-v6so2850859pgc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2018 22:52:11 -0700 (PDT)
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 68DBD747A5;
+	Fri, 18 May 2018 05:55:19 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id i5-v6so3939967plt.2;
+	Thu, 17 May 2018 22:55:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=b4loKN7HNC8+zg5ciL5hLWzb030arTiznZQRK0AC/Ms=;
-	b=PdW3yE7pEgSluF8nV4kkcLkfcKkkB9ScF1ASSceO823JxW5ciOvWh7hgODEctG1dyk
-	Sd9bcXG8maLhN5ALEEbBuiRbJV4SV8yO9SB/YSwg1u5xQJkCSzMn4/NbxErwqicJMftM
-	ghIyUAXSb88HU+1gl9Dlo8LWEIr4KcQdrKO5QISO8jfV8VeIbS+nxGZH5rIwWP2kzsC7
-	UwzJKzXtqVjvT+qKpAKkpFM/8YmK5XN7Sb2nhYD+2RlUkFkcDk+yhqXUO1edC7ncf5AJ
-	Z5leTtfUvfp626ydnaiGKAQHu69Lyf1WIm5v1MKaVaYkIec8wFhmcAsM8UspSbApimmD
-	kEng==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=E9eB6YniNXrdIsXZ7/XGjBVKU4Wp+sNG3UQcTMO7PRY=;
+	b=HXJ0xghH82RZ9XWQYi38g9AIsxJ3+WfMaHUGVyNiIV8aUQGi73Ko6r+xcRG3Ng+HHj
+	0uOex7Z8Wu1DnIuVNX2Q3a/MNMnM0HhUOEW7gdc1WyLysKWVnnEhjYeDDwJIlJ5emsbX
+	t+QPzcr+mqDfbTtk3cisufGB+UOMLF89zDSRLClMqqNBQUkX8bzfK3RGMsTemKGozXXs
+	kN16t45kFeNncYbDFZdBy2/COVMKcAHhnXltIt+dqWt2WboE5Dgb1fzI9Ug1jrTaavR+
+	3Ys871bh9hB72HoxE+s9lhfuEmpr10P77oVeClvBDaFcBu7Fd9E3/AjDkILNMkVX+opX
+	vpwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=b4loKN7HNC8+zg5ciL5hLWzb030arTiznZQRK0AC/Ms=;
-	b=A/hkh6JJObOzdVXyHtyNeFJvtDt9sT1XwsQutrlt+PZhEXoDXXYkjF1Vzd/t0A+Iwr
-	KD+Av+6fklFWF/F8a26r07NU0Xik1PWH8Tmr99djj+M371DVXr3mDEB6VuV9F9sYYzbr
-	YTlQPi2ZdHqNtbc80d88NO17S9nNuUX1K6SJ+3nLv/Y1R2ruHYF0zuqga7ufTokeu0X0
-	OQnzojWGAiZ6Coo7H9gc7LhOnYn2/2Q4NtLDJptVe23FC6Mwb/VRhqo0aDa9lDbOYZO+
-	0Xd/QLlC42h5YjfqGmEz9o9eiXNiIlbvtBqiPm9BADPGiUY7uAlcK+FeVltgqLiaFldJ
-	nn/Q==
-X-Gm-Message-State: ALKqPwc3WHmRMMVeMl8ncSgGCmAf68XtKc+zI3G8OjnBPf1ZDHMIAoj8
-	6JbKPQsm8Owo0k4iZRgLxBe2B0UA
-X-Google-Smtp-Source: AB8JxZryZ8+XPX0IA76TNyj4HDvQSkiBJSBn3l0VGv3UtD++MxnWc1FyKq0+O3lQp2rwT3gy8mZwPQ==
-X-Received: by 2002:a63:618b:: with SMTP id
-	v133-v6mr6214191pgb.285.1526622730931; 
-	Thu, 17 May 2018 22:52:10 -0700 (PDT)
-Received: from hermes.local ([2601:646:877f:9499:14d:1a81:a65f:63a5])
-	by smtp.gmail.com with ESMTPSA id
-	u8-v6sm9865807pgq.7.2018.05.17.22.52.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 May 2018 22:52:10 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1526452205.git.raj.khem@gmail.com>
-	<071e32634705a36ce4132ab884b3cf11079b4d37.1526452205.git.raj.khem@gmail.com>
-	<CAJTo0Lbcs8uy6hujw7S9GHR6fnEX11wUZh2tz37_2fusw9iNFQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <9e904024-456f-83f6-5a34-6a133275ddbf@gmail.com>
-Date: Thu, 17 May 2018 22:52:09 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
-	Gecko/20100101 Thunderbird/60.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=E9eB6YniNXrdIsXZ7/XGjBVKU4Wp+sNG3UQcTMO7PRY=;
+	b=eADE9u1TJKrUDF+M5JpPYM8p6/n/nXcBORhlVpSyFaFXajzsFNgkMi9OJj3zyqL6Tz
+	ke013bKcuMZIQp42vLwkVrCavujusXXkbRTFqUCYa0Bq1ucVSg7Yd7WQfzqBMKC0vvlL
+	RnCTuV3sjGF9rJUJ9lE6Tnk4/wQvrB4x02coCSkifzulp+YSak9lAWNuohcXXO7ERb53
+	iFqxwif6uVbQYZo3/GK4eoQleH2b+9ssQ1E/4+QIRxoyutfZY6IKlzB9mFFBBfRP2NUx
+	qnfpGlqrUep6R86efPdUZMCUTy+T9Qo25KL4EScSazDZoEQEiN5393Sd6/6qQ6h21rCv
+	p6kQ==
+X-Gm-Message-State: ALKqPwdWs59QY71xFojlOmxEgIjsNxolVdb5HAzNU0uo3myt+jBAC1+j
+	iQdshiW27b2Ky/Xv8lz0IZl4RAOsxg6aYV0MEKo=
+X-Google-Smtp-Source: AB8JxZot2IIOo2OpS8cZOnbLNGY3UJod5J7V/gs+i1DbpdBl+5zg7zARXCfZHcWJ+Li6Hn0rL0HuP2ENk3PjOF8Ebzg=
+X-Received: by 2002:a17:902:14d:: with SMTP id
+	71-v6mr8098398plb.275.1526622921112; 
+	Thu, 17 May 2018 22:55:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lbcs8uy6hujw7S9GHR6fnEX11wUZh2tz37_2fusw9iNFQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] ovmf: Fix build with gcc8
+Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Thu, 17 May 2018 22:54:50
+	-0700 (PDT)
+In-Reply-To: <20180517104640.GA1398@jama>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+	<20180510191145.GA1954@jama> <20180517104640.GA1398@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 17 May 2018 22:54:50 -0700
+Message-ID: <CAMKF1soKXsC6_FG2g116KusAf=rBMDoi0mdfjdKtYKeASS+Whw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,25 +60,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2018 05:52:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 May 2018 05:55:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, May 17, 2018 at 3:46 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, May 10, 2018 at 09:11:45PM +0200, Martin Jansa wrote:
+>> > > 5) nativesdk-libxcrypt fails to build (not sure which change caused
+>> > > this, it build OK with sumo since the -std=gnu99 addition.
+>> > > ../git/crypt-sunmd5.c:189:13: error: 'snprintf' output may be truncated
+>> > > before the last format character [-Werror=format-truncation=]
+>> > >               "$" CRYPT_ALGNAME "," ROUNDS "%u$%s$",
+>> > >               ^~~
+>> > >
+>> >
+>> > something new, I will look into reproducing this.
+>
+> The fix from you worked for me, thanks!
+
+There is a followup here which now doesnt need local patch
+
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=0924a69244892097f60adbf6c7f576375bea7870
+
+> Just FYI if someone needs similar fix, backporting this:
+> https://patchwork.kernel.org/patch/9170055/
+>
+> fixed the issue for me, now I have successful kernel build.
+>
+> The failing code was always in put_user calls, e.g. kernel/exit.s was showing:
+> @ 1581 "kernel-source/kernel/exit.c" 1
+>         .ifnc r0,r0; .ifnc r0r0,fpr11; .ifnc r0r0,r11fp; .ifnc r0r0,ipr12; .ifnc r0r0,r12ip; .err; .endif; .endif; .endif; .endif; .endif
+>         .ifnc r5,r2; .ifnc r5r2,fpr11; .ifnc r5r2,r11fp; .ifnc r5r2,ipr12; .ifnc r5r2,r12ip; .err; .endif; .endif; .endif; .endif; .endif
+>         .ifnc r1,r1; .ifnc r1r1,fpr11; .ifnc r1r1,r11fp; .ifnc r1r1,ipr12; .ifnc r1r1,r12ip; .err; .endif; .endif; .endif; .endif; .endif
+>         bl      __put_user_4
+> @ 0 "" 2
+>
+> with the error triggered on the middle line.
+> /tmp/ccHq8ugv.s: Assembler messages:
+> /tmp/ccHq8ugv.s:1179: Error: .err encountered
+> /tmp/ccHq8ugv.s:1331: Error: .err encountered
+> /tmp/ccHq8ugv.s:4617: Error: .err encountered
+> /tmp/ccHq8ugv.s:6222: Error: .err encountered
+> /tmp/ccHq8ugv.s:8705: Error: .err encountered
+> /tmp/ccHq8ugv.s:14486: Error: .err encountered
+> /tmp/ccHq8ugv.s:14646: Error: .err encountered
+> /tmp/ccHq8ugv.s:14806: Error: .err encountered
+> /tmp/ccHq8ugv.s:14966: Error: .err encountered
+> /tmp/ccHq8ugv.s:15126: Error: .err encountered
+> /tmp/ccHq8ugv.s:15286: Error: .err encountered
+>
+> That leaves only few issues in our internal components and strange failure with perf which fails to include various header files:
+
+perf is building file for qemux86 on o-core
+I wonder if this is an issue related to your
+kernel version.
 
 
-
-On 5/17/18 3:17 AM, Burton, Ross wrote:
-> Even when I pick from the branch instead of the mail, I suspect the
-> line endings are messed up and this won't apply.  Can you
-> double-check?
-> 
-> (I *hate* the ovmf recipe for this reason and am very tempted to just
-> run dos2unix over the tree after unpack!)
-
-I have updated the patches which hopefully should make quilt happier
-
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=be616a0b6c3decc06f2acbf27f47ebb58d32aa90
-
-Thanks
--Khem
+>
+> Cheers,
 
