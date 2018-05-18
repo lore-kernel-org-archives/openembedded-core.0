@@ -1,25 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 842D17481C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EC09C7481C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 18 May 2018 15:07:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4IF74hs025792
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4IF75BL015096
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
 	Fri, 18 May 2018 08:07:05 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 18 May 2018 08:07:04 -0700
+	14.3.361.1; Fri, 18 May 2018 08:07:05 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 18 May 2018 11:05:53 -0400
-Message-ID: <f01083e8e03c4958db8edd29d1a1b5de4ec98018.1526655802.git.bruce.ashfield@windriver.com>
+Date: Fri, 18 May 2018 11:05:54 -0400
+Message-ID: <9df3a39afb041f3924d9cd3ccfed698bacff35e9.1526655802.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1526655802.git.bruce.ashfield@windriver.com>
 References: <cover.1526655802.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/7] linux-yoct/4.12: update to v4.12.24
+Subject: [PATCH 7/7] linux-yocto/4.14/4.15: gcc8 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,192 +32,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2018 15:07:04 -0000
+X-List-Received-Date: Fri, 18 May 2018 15:07:05 -0000
 Content-Type: text/plain
 
-Updating to include Paul Gortmaker's latest round of stable updates, which
-comprise the following commits:
+Integrating Khem's gcc8 kernel patches so that 4.14 and 4.15 can build
+with the gcc8 compiler updates.
 
-   dc2f71a08d7a Linux 4.12.24
-   4cab262afa69 iio: adc: ti-ads1015: add 10% to conversion wait time
-   89f573e6f136 tools include: Do not use poison with C++
-   d4f418739d68 kprobes/x86: Disable preemption in ftrace-based jprobes
-   28861253362b perf test attr: Fix ignored test case result
-   12c60baac963 staging: fsl-mc/dpio: Fix incorrect comparison
-   43e1cab01765 serial: imx: Update cached mctrl value when changing RTS
-   6122e955f082 usbip: tools: Install all headers needed for libusbip development
-   c1fce3e6296c serial: sh-sci: suppress warning for ports without dma channels
-   444cfc461e20 sysrq : fix Show Regs call trace on ARM
-   0040e82b1a65 usb: xhci: Return error when host is dead in xhci_disable_slot()
-   e1667a3749da staging: fsl-dpaa2/eth: Account for Rx FD buffers on error path
-   7e22cbc6bd55 usb: mtu3: fix error return code in ssusb_gadget_init()
-   c528464afcea EDAC, sb_edac: Fix missing break in switch
-   e207a0c6a285 clocksource/drivers/arm_arch_timer: Validate CNTFRQ after enabling frame
-   c3c5783f9303 serial: 8250: Preserve DLD[7:4] for PORT_XR17V35X
-   ca7b446eff2f PCI: dra7xx: Create functional dependency between PCIe and PHY
-   7897f75fc207 usb: phy: tahvo: fix error handling in tahvo_usb_probe()
-   c240911c41c3 mmc: sdhci-msm: fix issue with power irq
-   97227123b5f0 mmc: tmio: check mmc_regulator_get_supply return value
-   05ce425fa841 spi: spi-axi: fix potential use-after-free after deregistration
-   42f90afc67e4 spi: sh-msiof: Fix DMA transfer size check
-   c652d0d523bf staging: rtl8188eu: avoid a null dereference on pmlmepriv
-   3dc08560ab63 serial: 8250_fintek: Fix rs485 disablement on invalid ioctl()
-   d57c00699295 m68k: fix ColdFire node shift size calculation
-   df74b0c1e0b4 staging: greybus: loopback: Fix iteration count on async path
-   96be1d656724 x86/entry/64: Don't use IST entry for #BP stack (part #2)
-   8e3f9a001776 selftests/x86/ldt_get: Add a few additional tests for limits
-   0d0517d16bc5 s390/pci: do not require AIS facility
-   778bf06a0661 PM / Domains: Fix genpd to deal with drivers returning 1 from ->prepare()
-   bd4084ce13d2 s390: vfio-ccw: Do not attempt to free no-op, test and tic cda.
-   fd6fe520a496 ima: fix hash algorithm initialization
-   83cd72f27843 usb: host: fix incorrect updating of offset
-   4ab295bc9cdf USB: usbfs: Filter flags passed in from user space
-   d8ce9fecf049 USB: Fix off by one in type-specific length check of BOS SSP capability
-   dc9843bd9e72 USB: core: Add type-specific length check of BOS descriptors
-   ab95f86f0fac usb: xhci: fix panic in xhci_free_virt_devices_depth_first
-   c1b551b8718a xhci: Don't show incorrect WARN message about events for empty rings
-   8412154c096c USB: ulpi: fix bus-node lookup
-   10d2d61bff44 usb: hub: Cycle HUB power when initialization fails
-   da44857edd20 powerpc/kprobes: Fix call trace due to incorrect preempt count
-   67482fcb1f0a powerpc/kprobes: Disable preemption before invoking probe handler for optprobes
-   6f745a984365 powerpc/jprobes: Disable preemption when triggered through ftrace
-   3fefceeaca8e USB: serial: usb_debug: add new USB device id
-   9c971e7d3a9f USB: serial: option: add Quectel BG96 id
-   cc01c484eee9 serial: 8250_pci: Add Amazon PCI serial device ID
-   d16393b7a9d8 usb: quirks: Add no-lpm quirk for KY-688 USB 3.1 Type-C Hub
-   7a0ac9cc347c uas: Always apply US_FL_NO_ATA_1X quirk to Seagate devices
-   52c2b20403f0 s390/runtime instrumentation: simplify task exit handling
-   04dd38b88979 drm/fsl-dcu: enable IRQ before drm_atomic_helper_resume()
-   f363e7cdb4f6 drm/fsl-dcu: avoid disabling pixel clock twice on suspend
-   2845e7d136c8 drm/i915: Prevent zero length "index" write
-   79413d6f2f6f drm/i915: Don't try indexed reads to alternate slave addresses
-   f5cc8d6842e6 drm/i915/gvt: Correct ADDR_4K/2M/1G_MASK definition
-   1fab446c5b5a drm/i915: Fix false-positive assert_rpm_wakelock_held in i915_pmic_bus_access_notifier v2
-   708262ebbebc md: forbid a RAID5 from having both a bitmap and a journal.
-   40219fc4a45b e1000e: fix the use of magic numbers for buffer overrun issue
-   9bbd7fc437e0 include/linux/compiler-clang.h: handle randomizable anonymous structs
-   13782a203fb8 drm/amd/pp: fix typecast error in powerplay.
-   dd1ab1b7a09e drm/ttm: once more fix ttm_buffer_object_transfer
-   1e1df0b0eb71 drm/hisilicon: Ensure LDI regs are properly configured.
-   e10ca648a294 drm/panel: simple: Add missing panel_simple_unprepare() calls
-   28fb6325953c drm/radeon: fix atombios on big endian
-   0f7ff143e866 drm/tilcdc: Precalculate total frametime in tilcdc_crtc_set_mode()
-   00debaff36fb drm/amdgpu: Remove check which is not valid for certain VBIOS
-   53543b5a5062 drm/amdgpu: Properly allocate VM invalidate eng v2
-   6095ee5e76ed drm/amdgpu: correct reference clock value on vega10
-   8544b664f20e Revert "drm/radeon: dont switch vt on suspend"
-   3b28b8cd6364 nvme-pci: add quirk for delay before CHK RDY for WDC SN200
-   2c1ae94e88ee hwmon: (jc42) optionally try to disable the SMBUS timeout
-   8fcaaeed325c bcache: recover data from backing when data is clean
-   027fe49240fa bcache: only permit to recovery read error when cache device is clean
-   3746f4374ee2 bcache: Fix building error on MIPS
-   72ea117f664e cxl: Check if vphb exists before iterating over AFU devices
-   8ee52dd3b01a i2c: i801: Fix Failed to allocate irq -2147483648 error
-   ab7ae0720406 eeprom: at24: check at24_read/write arguments
-   1025c12d637b eeprom: at24: correctly set the size for at24mac402
-   32aba2ddc564 eeprom: at24: fix reading from 24MAC402/24MAC602
-   ec5216d0e845 mmc: core: prepend 0x to OCR entry in sysfs
-   a64429e1d089 mmc: core: prepend 0x to pre_eol_info entry in sysfs
-   32f6d6221e55 mmc: core: Do not leave the block driver in a suspended state
-   fa455ca7acc6 arm64: module-plts: factor out PLT generation code for ftrace
-   d9c2c353dc61 s390: revert ELF_ET_DYN_BASE base changes
-   5c10828c07be lockd: lost rollback of set_grace_period() in lockd_down_net()
-   91ed144855d5 crypto: skcipher - Fix skcipher_walk_aead_common
-   0ff5af74c047 nfsd: fix panic in posix_unblock_lock called from nfs4_laundromat
-   b187299249a2 nfsd: Fix another OPEN stateid race
-   2e36e8a92541 nfsd: Fix stateid races between OPEN and CLOSE
-   237c8c16013d btrfs: clear space cache inode generation always
-   e6eedfd1ca3f mm/hugetlb: fix NULL-pointer dereference on 5-level paging machine
-   b19cd2bae194 autofs: revert "autofs: take more care to not update last_used on path walk"
-   9c0369beda80 device-dax: implement ->split() to catch invalid munmap attempts
-   0d73cfed1391 platform/x86: hp-wmi: Fix tablet mode detection for convertibles
+  51273ff79f4a tools/lib/subcmd/pager.c: do not alias select() params
+  b632c05a6263 objtool, perf: Fix GCC 8 -Wrestrict error
+  20bc5eb24ac1 mips64: Disable attribute-alias warning
+  975042cc72dd mips: Disable attribute-alias warnings
+  8632f470f02c powerpc/ptrace: Disable array-bounds warning with gcc8
+  59e401ffeda4 powerpc: Disable attribute-alias warnings from gcc8
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 18 +++++++++---------
+ 6 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index d956e0ece2dc..5edc0fa40b4f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -11,13 +11,13 @@ python () {
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+index 5829fe00fd96..db7941abd178 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+@@ -11,8 +11,8 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "0cfd683dd04c8744d7426e13da2d2a464519953e"
--SRCREV_meta ?= "d2a0a87040e7fef4ca1165e73483b119830732ed"
-+SRCREV_machine ?= "705d03507a0c10dcbf9cad3ff70f5d60b70f2d99"
-+SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
+-SRCREV_machine ?= "edcd1a1cbc535ff827e682fa8e78a11f60efc03f"
+-SRCREV_meta ?= "0a24859cef9c3352aa3bf153d202cece587caf24"
++SRCREV_machine ?= "5518de2bf72df8f5274f7fd6a909db8bb09e9216"
++SRCREV_meta ?= "d1e170692e978b08f4736375cafccd58e331feb1"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+index 004f3b666f90..c440d2fa9f2e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
--LINUX_VERSION ?= "4.12.23"
-+LINUX_VERSION ?= "4.12.24"
+-SRCREV_machine ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_meta ?= "125963a34eebf4ee3d2b62d97c8090d912c8eb03"
++SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_meta ?= "9bbc5bd75e5322bd80769802c5062b2f3f0d6c7d"
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index 004227dc3286..31307a638558 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.12.23"
-+LINUX_VERSION ?= "4.12.24"
- 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+index a9196e3dc10a..ae459761f9cc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+@@ -12,8 +12,8 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_meta ?= "d2a0a87040e7fef4ca1165e73483b119830732ed"
-+SRCREV_machine ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
+-SRCREV_machine ?= "0cdc68d3404d2738d43e9e22b572814e238dae3f"
+-SRCREV_meta ?= "0a24859cef9c3352aa3bf153d202cece587caf24"
++SRCREV_machine ?= "ebe519f7ad579fedcdff91c2e32c4eef976299a6"
++SRCREV_meta ?= "d1e170692e978b08f4736375cafccd58e331feb1"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index b0e6a471274a..8d560127f0f3 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-@@ -11,22 +11,22 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+index 575d3fe04648..e6da0935d0ae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.15.18"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "557352e573a3e23cf643d8b8b5e59bfaf301b4e4"
--SRCREV_machine_qemuarm64 ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_machine_qemumips ?= "a262c44eef3d3f0bbab797bbb5e2717b7ccb4d2f"
--SRCREV_machine_qemuppc ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_machine_qemux86 ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_machine_qemux86-64 ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_machine_qemumips64 ?= "f1e2c54153838e94f1730beba7c8e28af739af68"
--SRCREV_machine ?= "204694d106a8bd75d8b6333fac9443c5fe809bb5"
--SRCREV_meta ?= "d2a0a87040e7fef4ca1165e73483b119830732ed"
-+SRCREV_machine_qemuarm ?= "45824c60ca37f414a5ac5783e970338db9a5a2af"
-+SRCREV_machine_qemuarm64 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine_qemumips ?= "66f741b0b3d093e6b6df0f44120913ef3a259e23"
-+SRCREV_machine_qemuppc ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine_qemux86 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine_qemux86-64 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine_qemumips64 ?= "c5d838c9e26bd657b49dfe28b115e5bc4b580850"
-+SRCREV_machine ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
- 
- DEPENDS += "openssl-native util-linux-native"
- 
--LINUX_VERSION ?= "4.12.23"
-+LINUX_VERSION ?= "4.12.24"
+-SRCREV_machine ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_meta ?= "125963a34eebf4ee3d2b62d97c8090d912c8eb03"
++SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_meta ?= "9bbc5bd75e5322bd80769802c5062b2f3f0d6c7d"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
  
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+index 28812484dda2..c8f31a6ebcd3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.14/standard/base"
+ KBRANCH_qemux86-64 ?= "v4.14/standard/base"
+ KBRANCH_qemumips64 ?= "v4.14/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "0270dc3fc64e8df96067a5cc0d3cdcc7da448967"
+-SRCREV_machine_qemuarm64 ?= "cc01b6df5e42a636339020123f9e36e76feb217a"
+-SRCREV_machine_qemumips ?= "7100705d087727cec0f353b430910dbd56c0b14f"
+-SRCREV_machine_qemuppc ?= "9e2c25e06bd9b9c799c0c7103566d587fdd16858"
+-SRCREV_machine_qemux86 ?= "3a3979936c8a3b70488af80a7dcadd41e2480603"
+-SRCREV_machine_qemux86-64 ?= "3a3979936c8a3b70488af80a7dcadd41e2480603"
+-SRCREV_machine_qemumips64 ?= "149f8eee22d52a287994c1d0c54d4d37631629ef"
+-SRCREV_machine ?= "3a3979936c8a3b70488af80a7dcadd41e2480603"
+-SRCREV_meta ?= "0a24859cef9c3352aa3bf153d202cece587caf24"
++SRCREV_machine_qemuarm ?= "493254190708d94e0bd22f6eb6e6c17cbdbf9764"
++SRCREV_machine_qemuarm64 ?= "eeba95930402de2c0290b423c69e86b84955bf09"
++SRCREV_machine_qemumips ?= "42b5e2db78595024d2fddfcadc8cd8af1266b52b"
++SRCREV_machine_qemuppc ?= "b87ce52358105e318fbdb7087185de9622b420b3"
++SRCREV_machine_qemux86 ?= "0e21580445573276ec320da0c36d56f8921f682b"
++SRCREV_machine_qemux86-64 ?= "0e21580445573276ec320da0c36d56f8921f682b"
++SRCREV_machine_qemumips64 ?= "c8885bcf579812bd6cfbb58b96d5d3423ccc45fc"
++SRCREV_machine ?= "0e21580445573276ec320da0c36d56f8921f682b"
++SRCREV_meta ?= "d1e170692e978b08f4736375cafccd58e331feb1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+index f1233fd9faf8..0d82318bcf4c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v4.15/standard/base"
+ KBRANCH_qemux86-64 ?= "v4.15/standard/base"
+ KBRANCH_qemumips64 ?= "v4.15/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "5400ff2d394e933487c7d3d16d1a295d850232e5"
+-SRCREV_machine_qemuarm64 ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_machine_qemumips ?= "9e9b14f6ef913ea00a01dc0766666f2c86f5bc63"
+-SRCREV_machine_qemuppc ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_machine_qemux86 ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_machine_qemux86-64 ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_machine_qemumips64 ?= "0175d25d470adf5604a59b020a6de86493b1a78e"
+-SRCREV_machine ?= "260fd9356917fb3bd73abd36a6bdd7df402ef1a1"
+-SRCREV_meta ?= "125963a34eebf4ee3d2b62d97c8090d912c8eb03"
++SRCREV_machine_qemuarm ?= "da407e5a3514aa6cfc579f52aca8afa279b10669"
++SRCREV_machine_qemuarm64 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine_qemumips ?= "8d8f48f09e07bc9ba4db489eab80ae653709fb91"
++SRCREV_machine_qemuppc ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine_qemux86 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine_qemux86-64 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine_qemumips64 ?= "9435d73112c64ae058372322d8c7a41ae9e8c000"
++SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_meta ?= "9bbc5bd75e5322bd80769802c5062b2f3f0d6c7d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.15;destsuffix=${KMETA}"
 -- 
 2.5.0
 
