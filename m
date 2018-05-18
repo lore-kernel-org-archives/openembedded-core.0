@@ -1,29 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 27B1574591
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3052D74749
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 03:24:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4S3OBpk009530
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 27 May 2018 20:24:11 -0700 (PDT)
-Received: from [128.224.27.66] (128.224.27.66) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Sun, 27 May 2018 20:24:05 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>, "Hatle, Mark G (Wind River)"
-	<mark.hatle@windriver.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1527216285.git.liezhi.yang@windriver.com>
-	<56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
-	<055a6008-6237-5535-61c5-60162c3e7729@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <7253e4cc-4ef2-522a-df37-383b98cbc81d@windriver.com>
-Date: Mon, 28 May 2018 11:24:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Mon, 28 May 2018 03:47:11 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40425271"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 May 2018 11:47:12 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id CAF514B34D40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 May 2018 11:47:08 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.27) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Mon, 28 May 2018 11:47:10 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 May 2018 11:37:56 -0700
+Message-ID: <1526668676-26167-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <055a6008-6237-5535-61c5-60162c3e7729@linux.intel.com>
-Subject: Re: [PATCH 01/24] base.bbclass: Add buildcfg multilib values
+X-Originating-IP: [10.167.225.27]
+X-yoursite-MailScanner-ID: CAF514B34D40.AE657
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] linux-libc-headers: To fix build error when enable mutilib on aarch64 Big endian.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 03:24:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 28 May 2018 03:47:12 -0000
+Content-Type: text/plain
 
-Hi Alexander,
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 05/26/2018 05:51 PM, Alexander Kanavin wrote:
-> On 05/25/2018 05:48 AM, Robert Yang wrote:
->> +def buildcfg_multilibs(d):
->> +    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
->> +    for variant in variants.split():
->> +        localdata = bb.data.createCopy(d)
->> +        overrides = localdata.getVar("OVERRIDES", False) + 
->> ":virtclass-multilib-" + variant
->> +        localdata.setVar("OVERRIDES", overrides)
->> +        bb.data.update_data(localdata)
->> +        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
->> +        for var in statusvars:
->> +            origvalue = d.getVar(var, True)
->> +            variantvalue = localdata.getVar(var, True)
->> +            if origvalue is not None and variantvalue is not None and 
->> origvalue != variantvalue:
->> +                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
->> +
-> 
-> There are helper functions in utils.bbclass that take care of multilib datastore 
-> setup, please use them instead of re-implementing what they do. USe 
-> all_multlilib_tune_values() in particular.
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 9903c06..b5cf96d 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -77,6 +77,10 @@ do_install_append_arm () {
+ 	do_install_armmultilib
+ }
+ 
++do_install_append_armeb () {
++	do_install_armmultilib
++}
++
+ do_install_armmultilib () {
+ 	oe_multilib_header asm/auxvec.h asm/bitsperlong.h asm/byteorder.h asm/fcntl.h asm/hwcap.h asm/ioctls.h asm/kvm.h asm/kvm_para.h asm/mman.h asm/param.h asm/perf_regs.h asm/bpf_perf_event.h
+ 	oe_multilib_header asm/posix_types.h asm/ptrace.h  asm/setup.h  asm/sigcontext.h asm/siginfo.h asm/signal.h asm/stat.h  asm/statfs.h asm/swab.h  asm/types.h asm/unistd.h
+-- 
+1.9.1
 
-Thanks for the reply, but I'm afraid that all_multlilib_tune_values() isn't
-suitable for this case, what need to display is something like:
 
-lib32:  DEFAULTTUNE       = "x86"
-lib32:  TARGET_SYS        = "i686-pokymllib32-linux"
-lib32:  TUNE_FEATURES     = "m32"
 
-But all_multlilib_tune_values() returns all values, e.g:
-
-DEFAULTTUNE       = "core2-64 x86"
-
-If there is only one multilib variant, it can work if we remove "core2-64" from
-DEFAULTTUNE, then we will get "x86", but if there are multiple multilib
-variants, e.g., lib32 and lib64, then
-all_multlilib_tune_values(d, 'DEFAULTTUNE') is:
-
-DEFAULTTUNE       = "core2-64 x86 <foo>"
-
-We don't know how to strip x86 for lib32, or <foo> for lib64. So I think that
-the current implementation is a must.
-
-// Robert
-
-> 
-> 
-> Alex
-> 
 
