@@ -1,59 +1,103 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 238C3605FE
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4644774F4B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 May 2018 07:41:45 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id w194-v6so17446602wmf.2
+	Sat, 19 May 2018 14:19:30 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id n9-v6so4502213pgq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 May 2018 00:41:47 -0700 (PDT)
+	Sat, 19 May 2018 07:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=jphKmeGu5OFWf7jwtfmnqvAwzNsDNOPTQMmsxGNke8c=;
-	b=VUTpdtAIz2vP6kKn2mSpZlL8eVxrvfP+CYB6UyNORZzgkDDOk3yYf1cuoJTbDIHGO1
-	8LAbDMtAdIBpqZrqy3rIHakVWgGSG+wt2PBDCBLt4JjiqyALhozSXRqyPheAIiOIK4It
-	hQvvjeOR8PV4QdX6hGImGk8AylsFRFNThHaDa2PIutT7NOLDGvinov8kKgep7Oe5nQI3
-	Oq8dugLJlZnCsDBtVTNZcSte3WKE8mKOiy/bj/NjQVk/k0XjS1PSSDQHcXc2DL4BttJ3
-	DC7CQF0a01dmQYlHtJFkhfPsD0711Sk1WXEt8TzHuRO7AN+JeaqcCcJRbCrSbD/M1LEe
-	9blw==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=D4FZx79ahk683sCJS3fDIQTdZUcHhvBd4UPuiSHT2Ow=;
+	b=Gjlcj5TY7BtDMxaqdENQpIfTCGw6KZD2pIsLWVzaAoapUhB5gogvI0FRV05n92LYaf
+	QiSQCs2bk/yTZFmbuFQLu9kgbSCmVXjm8/J149UT6Kq34V4AbBOl4N7X+ra7QM4pTlIB
+	Vfj2X8EWezbP8xXkZdfvOt+H9tJv0LptHIqxAhlgvhH8Ug8JBa81F6yPx2GFoTCNIeqN
+	qhtL4ODPqcMEHT/FNk5MXeGXlq9tebhRe5CfnUwC5wMOckOIOrYDA017RuuyVs+IAAYb
+	Utsq9mRCdlJVIX68q0bgKVllfHUUxuQtd1fPo52jwJ7r8gQ44RcrTLlxw46jzo8BocYC
+	MSRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=jphKmeGu5OFWf7jwtfmnqvAwzNsDNOPTQMmsxGNke8c=;
-	b=mRPAFSHs3n1BtHdHZ5l473uo7BqXnWxEkCb6KhYq76WA0QQWruDiI3elx5/Sjui6Bl
-	9l8bxtdtBFng46VoZmKbH2E9NSYPnLcH9Nnoeh4qeFCMyVrRQyhUsV7TtotVAUlxmHGY
-	r08maIZAGw3WEWP0gU/MxiSWiB0ihSqkoS39MHpRe/l3kHM1elBarsLixIx195h7TIR3
-	yGFFZwf7haJ4KFmDBBjxOL/ZNC2zu0xCKSTYPxAJ2rUH4U0C555Tvbekj/OYem6br4Ub
-	dYplkbxUBOb1SPBHZnfNQROK5B9qyerGLSaooWXJuDnmtDhXQl/705VW3kS1cs0dmcDX
-	vklQ==
-X-Gm-Message-State: ALKqPweFUGrOEtZ2GtH3D+4ZWSm5/PQwoO9tx/GzFm9o4L0B0UBs6Vnq
-	GDVkojO1ckJ/m1k2lAhcMvk=
-X-Google-Smtp-Source: AB8JxZoRPs0EMZSOo9zUDz8IC152bwJDeNxVG7ujWPzO2Hz67Jgg9Inub0CpMV+7iTHmB4LQ3zSYhw==
-X-Received: by 2002:a1c:8d90:: with SMTP id
-	p138-v6mr6593812wmd.153.1526715706722; 
-	Sat, 19 May 2018 00:41:46 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	p35-v6sm14836768wrb.12.2018.05.19.00.41.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 19 May 2018 00:41:45 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sat, 19 May 2018 09:41:49 +0200
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20180519074149.GB1395@jama>
-References: <1526683840-20390-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1so7fh4Vc9-KkeQpjArm+Wzj4g=OOzsD3qChiWnV_q0Wuw@mail.gmail.com>
-	<CA+chaQcfHGsQH62shk9uzu5kx1ArCs05Bq8dODsr30LVD67j+Q@mail.gmail.com>
-	<CAJ86T=WG426=cyvtG811fWViqp+Sx7u0k9sUxo88SOJzVMQ2hA@mail.gmail.com>
-	<20180519071154.GA1395@jama>
-	<CAJ86T=Ux8rM19VEdrG+cT1B08PmMQPB4TbeLj57P8zqfBw+cpw@mail.gmail.com>
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=D4FZx79ahk683sCJS3fDIQTdZUcHhvBd4UPuiSHT2Ow=;
+	b=TI+ApP4huBnlufjRrKLdKzh4MYAv9WUupou2u5jFruJ2BMr1XqNI2JB5etPeXiFUEq
+	ZQsOebxggFPP30iEGwwaax+DuNlkIUx7CI/3B/LV3yy5tf7mgeg0idK3NfEqCBQNDQ+/
+	jgOIFAd42erG+kCn2SAVsitXFjgQeM7NADr6/dPm72h2MFqSVtC3mZrplbNMO8D18YnY
+	61SmEauZxCv+ozDl/G6WdzWbP8JLfzMrzcb1oMg4Jr+gBCyK7tCHUEvP2rAgfDpXRI2J
+	sJtCmwE7vKOiB5Er6ZuQ0YQ059RRXswzfilDOH5KhLtWNoc36MWNKUtfyy+CfRpZGS7C
+	32bA==
+X-Gm-Message-State: ALKqPwenTSb0pE54Xo6A/JYCTrYsD1DIAbgNAFRTw5LGdsOGcsP1SDDU
+	jmFAI5VPnlYHCWbMHDQ52UZI8A==
+X-Google-Smtp-Source: AB8JxZoNy1GgKNIjwYjqEowoCIw8nx4N9eNvWNw95JRzwEWKv1AItLQkoQcHjip616WnZRc+JMfaWg==
+X-Received: by 2002:a65:5b8a:: with SMTP id
+	i10-v6mr6440836pgr.352.1526739571828; 
+	Sat, 19 May 2018 07:19:31 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:9b2:161b:3570:905a?
+	([2601:202:4000:1184:9b2:161b:3570:905a])
+	by smtp.gmail.com with ESMTPSA id
+	e10-v6sm20151660pfb.136.2018.05.19.07.19.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 19 May 2018 07:19:31 -0700 (PDT)
+To: Anuj Mittal <anuj.mittal@intel.com>, Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1526696034-3857-1-git-send-email-akuster@mvista.com>
+	<1526696034-3857-7-git-send-email-akuster@mvista.com>
+	<ed930412-44bf-466d-ffe5-a3d9cd85442f@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <607210d4-032b-dce9-5db5-ffeb4d7795f1@gmail.com>
+Date: Sat, 19 May 2018 07:19:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Ux8rM19VEdrG+cT1B08PmMQPB4TbeLj57P8zqfBw+cpw@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arch-armv7a.inc: default to Thumb2 instruction set for armv7a and above
+In-Reply-To: <ed930412-44bf-466d-ffe5-a3d9cd85442f@intel.com>
+Subject: Re: [PATCH 7/8] busybox: update to 1.28.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,106 +110,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 May 2018 07:41:46 -0000
-X-Groupsio-MsgNum: 111536
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 19 May 2018 14:19:31 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---/WwmFnJnmDyWGHa4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 19, 2018 at 12:31:51AM -0700, Andre McCurdy wrote:
-> On Sat, May 19, 2018 at 12:11 AM, Martin Jansa <martin.jansa@gmail.com> w=
-rote:
-> > On Fri, May 18, 2018 at 11:48:45PM -0700, Andre McCurdy wrote:
-> >> On Fri, May 18, 2018 at 10:42 PM, Martin Jansa <martin.jansa@gmail.com=
-> wrote:
-> >> > This variable was always meant to be used from DISTRO config
-> >>
-> >> I'm not sure if that's true. Do you have a reference?
-> >
-> > http://git.openembedded.org/openembedded-core/commit/?id=3D951200673af2=
-7538beaef647a33308b4f15d1fb0
-> > "in case we have MACHINE without "thumb" in TUNE_FEATURES and distro se=
-tting ARM_INSTRUCTION_SET to "thumb""
-> >
-> > https://github.com/Angstrom-distribution/meta-angstrom/blob/master/conf=
-/distro/include/angstrom.inc#L39
-> > https://github.com/shr-distribution/meta-smartphone/blob/fido/meta-shr-=
-distro/conf/distro/shr.conf#L150
->=20
-> Certainly there are distros which force ARM_INSTRUCTION_SET. I'm not
-> sure if that's evidence that machines shouldn't set a default though?
 
-It's still more evidence then what you've shown that it should be in
-machine config.
+On 05/18/2018 07:30 PM, Anuj Mittal wrote:
+> On 05/19/2018 10:13 AM, Armin Kuster wrote:
+>>  SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>> -           file://busybox-udhcpc-no_deconfig.patch \
+>>             file://find-touchscreen.sh \
+>>             file://busybox-cron \
+>>             file://busybox-httpd \
+>> @@ -42,11 +41,9 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>>             file://rcK \
+>>             file://runlevel \
+>>             file://makefile-libbb-race.patch \
+>> -           file://CVE-2011-5325.patch \
+>> -           file://CVE-2017-15873.patch \
+>> -           file://busybox-CVE-2017-16544.patch \
+>>  "
+>>  SRC_URI_append_libc-musl = " file://musl.cfg "
+>>  
+>> -SRC_URI[tarball.md5sum] = "476186f4bab81781dab2369bfd42734e"
+>> -SRC_URI[tarball.sha256sum] = "9d4be516b61e6480f156b11eb42577a13529f75d3383850bb75c50c285de63df"
+>> +#file://busybox-udhcpc-no_deconfig.patch
+> Why has this been removed and commented out? Is this intentional?
+No, just being a goof. sad thing is I believe I re factored that patch.
 
-> >> >, why not add it
-> >> > to:
-> >> > oe-core/meta/conf/distro/include/default-distrovars.inc
-> >> > or
-> >> > oe-core/meta/conf/distro/include/tcmode-default.inc
-> >> >
-> >> > ?
-> >>
-> >> Because then it would either apply to all ARM machines, including
-> >> those which only support Thumb1, which isn't ideal. Keeping it as part
-> >> of the machine config makes it easy to apply selectively to armv7a and
-> >> above where we know it's safe and desirable. Distros can of course
-> >> still over-ride (ie the machine only sets a weak default).
-> >
-> > You can still enable it with weak assignment only for some architectures
-> > like Angstrom does. But I don't see any reason why not enable it for all
-> > architectures? Yes Thumb1 isn't as good as Thumb2 but still many people
-> > are using it
->=20
-> I'm not sure if there are "many people" still trying to persevere with
-> Thumb1. Maybe there are a few masochists left, but I guess they
-> probably have their own distros and don't rely on the oe-core
-> defaults.
->=20
-> My approach is to try to make small, safe, incremental improvements
-> and doing anything which might change the default instruction set to
-> Thumb for CPUs which can only support Thumb1 doesn't fit that
-> approach.
+thanks for catching this.
+armin
 
-You can still apply it only for some architectures as mentioned before.
+>
+> Thanks.
 
-> >, why shouldn't oe-core be tested with thumb enabled (with
-> > armv5te qemuarm?), see:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9213
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7717
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D1709
-> >
-> >> Is there a specific problem you see with the current patch?
-> >
-> > DISTROs doing multi machine builds already need to select the right
-> > DEFAULTTUNEs to find good compromise with common denominator of the
-> > MACHINEs they want to support (or groups of MACHINEs they want to
-> > support). Supporting or not supporting thumb at all is part of that
-> > question so DISTRO should decide that, tune files already have the thumb
-> > knob in TUNE_FEATURES to say which MACHINE is capable of supporting it.
->=20
-> Setting a weak default for armv7a and above from the machine config
-> doesn't change any of that. Distros still have full control.
 
-If it's in distros control, then it should be in distros default config.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/WwmFnJnmDyWGHa4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWv/VPAAKCRA3VSO3ZXaA
-HPxpAKCmWBSDhdQgafWgLRAPmR4jcncEwQCePgV5+LMgRRiEMhcmaNZ+UDPW8FA=
-=2Jpu
------END PGP SIGNATURE-----
-
---/WwmFnJnmDyWGHa4--
