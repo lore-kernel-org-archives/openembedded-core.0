@@ -1,107 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 300C66E5CB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F56774CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 May 2018 14:59:19 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id v24-v6so7280982plo.3
+	Sun, 20 May 2018 22:04:42 +0000 (UTC)
+Received: by mail-pg0-f43.google.com with SMTP id a3-v6so557316pgt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 May 2018 07:59:21 -0700 (PDT)
+	Sun, 20 May 2018 15:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=qbZ8dnqZFjc+gxF2bVD0MeRHVuAvo58wVihG22d8CME=;
-	b=GhOjv4P6QYvoqjpj/ByxNMUKaJl2My4X0xIjnKXhfzsRGDgjRuzZHpAANKeIedj58p
-	0PsvhpUdJNxqHOT62jRAU5ZrjssDN6OiMHbU/D0fU78B6JvzOpLcl1ZycHrl27Tyf9uT
-	eXWTsNEdRv+sH71s/PKOQmv/lh8gcoc5e8gHDsgCUL4kEEjPIRgSjT7VHLYMtpLcjR9q
-	OV8WF+Un++xDyKYfJkvwoqtXX/zxkTQacYxGr9QGCbdMl/8gpfmk8R4WkIC0Qs/0Bu1+
-	+KOPS3QW9Vy83qlnk+IR3+ayex28Aba8s2+CfC3EkAZh+2r75WMsugZR66oLQhEBTT2e
-	2lTQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=NBd7Ia/f6YHY3Qs6z8zPmvpPPArwNxCq1fe0SECx1tY=;
+	b=j1YMNonk0//7IxkdrB9hrYjMKakCOLOLWk9tF1Vv6YxZyoYtt+F1VzWLr5H8e09G9y
+	iLltIk1CvjZeatZZuaIMb3fCan+dz1iNQPH1e3S80VcQCrFsPxDvIzY17DcoX/DFz/66
+	XFzYCwoYoUP7UCvMaflp/iu6Q/faadiGKPWiMaDFjGDavY/InuMXXLoQ6BajqK69+l6q
+	6/gyAZWfXi8cnhE94K5CDsKxjhTwKZI6blcLCjLj6P3UMP83CPPQUrvgo48QPJjLMF8y
+	0rdew8Mm/UMat6NGhcMjw+aouHXk8K8kY9UNtduNxLd3QcPVM0lMdYAL359UPSX+EGhd
+	R28A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=qbZ8dnqZFjc+gxF2bVD0MeRHVuAvo58wVihG22d8CME=;
-	b=HUOQT7UfpQ5Bt4PJZteNZs4VQ5//hkjAWmukpMsaW76JbMn5JSbTJuhEc8iPfXFKWb
-	kS7LTWmKu325CdbyjT4A2rCjoKImkS7LCbziFLxGV1x68beadGW2OgoSoVCloK9xRqaX
-	J1KWG/asdF/rV5b13WqTu61zU06pzmyX8E6HR/0kTBFICvD7Lz/kErTVBkqufGMW5iJx
-	RXjyYz4D2BUk+j9Mvy+PbloS0gtRuX7HkKq9v1RX+9hJvo9M0VYhjuNVjx7/MaShJ6XQ
-	RkRwTqPdw8bix31tts5Q7AHsZUUIn5piboPbnHPt7t+ddXtSSH/9MlMuP2AA3vQZGnYH
-	dS+A==
-X-Gm-Message-State: ALKqPwchzvF26r2dr007PhXgxr9BuZIgF1IQUcd9csOKy68+xFJmCD/I
-	ONxGfiUGF5lnEpOHzH1kXbvxEA==
-X-Google-Smtp-Source: AB8JxZql53vEHPUIFcGnqUCDtbzNtF+P3PYaNlTs7NCiGjcs+4uIR4YJ/lTbePx1HT+dtcN6IJqIuQ==
-X-Received: by 2002:a17:902:708a:: with SMTP id
-	z10-v6mr16438595plk.283.1526828360850; 
-	Sun, 20 May 2018 07:59:20 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1184:292e:9ff2:c3a4:d8d5?
-	([2601:202:4000:1184:292e:9ff2:c3a4:d8d5])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=NBd7Ia/f6YHY3Qs6z8zPmvpPPArwNxCq1fe0SECx1tY=;
+	b=QZlFi+d6NMavYjm2vqQ1rOKnLzLGPmPBUSPHzx8zUHE5kvsO+b8Y/BJpu7SSuCFPO0
+	cehQ7dXt+Q/EvFfarKc4gUI6xrugK4YxxiRb3nfbokIHnvrdNeF5dcTIPwYRN466WCFT
+	+sRcvQ1N3mPV22vxDUP0eMdGx/rqtDpDMnPlwQRfO/szBBuhrgsfbHRXdxHK2c2J1dmI
+	H2ZBbeE/w1MbFeWocoQuvazUdgoMH4r6FemdNq2kK0xrTL+l1XBBLLUOJutXrvF0+jdi
+	y/lizL36bUv+re50RvXKEZ1K4T+n7K3JxBb4ATwOtoHkrZXIbGgvyxyUxch8wyh7aM8f
+	uBVg==
+X-Gm-Message-State: ALKqPwfJUkzRKC1q7mDs3UE8yFVPVqYnUG7qxzS34EHlY/FKmYoxdFtZ
+	D1wT0FY+J14m1Jc+dhn/VW0VkA==
+X-Google-Smtp-Source: AB8JxZrG7oB+eryzBL32KJ3gjRgovK6iZKAw7TqXzukwv94IbZBezOSBgL/MMif9DmrSU+4PPfSXEQ==
+X-Received: by 2002:a62:c615:: with SMTP id
+	m21-v6mr17555292pfg.232.1526853883653; 
+	Sun, 20 May 2018 15:04:43 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::c68])
 	by smtp.gmail.com with ESMTPSA id
-	o70-v6sm20967245pfo.49.2018.05.20.07.59.19
+	c18-v6sm16667913pgu.63.2018.05.20.15.04.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 20 May 2018 07:59:20 -0700 (PDT)
-To: Denys Dmytriyenko <denis@denix.org>, Khem Raj <raj.khem@gmail.com>
-References: <20180519162102.GL19965@denix.org>
-	<CAMKF1srt3AbRBgdBZp2ya-VkWm1K6r8eywFbqr3nMFe7EqNuFw@mail.gmail.com>
-	<20180519193341.GM19965@denix.org>
-	<CAMKF1sqfpZhKJKjFoouGhpRbZEfJBqXJxmqunepAx2weVsQEnA@mail.gmail.com>
-	<20180520005742.GN19965@denix.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <e718c04f-fbe8-4235-aae7-1c2a335498b4@gmail.com>
-Date: Sun, 20 May 2018 07:59:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <20180520005742.GN19965@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: GCC 9 Drops Support For Older ARM Microarchitecture Versions
+	Sun, 20 May 2018 15:04:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 20 May 2018 15:04:41 -0700
+Message-Id: <20180520220442.16092-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 1/2] acpica: Upgrade to 20180508 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -114,74 +54,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 May 2018 14:59:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 20 May 2018 22:04:43 -0000
 
+Drop upstreamed patches
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...{acpica_20170303.bb => acpica_20180508.bb} | 11 +++----
+ ...-add-support-for-X32-ABI-compilation.patch | 31 -------------------
+ .../manipulate-fds-instead-of-FILE.patch      | 29 +++++++++--------
+ 3 files changed, 19 insertions(+), 52 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20170303.bb => acpica_20180508.bb} (84%)
+ delete mode 100644 meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
 
-On 05/19/2018 05:57 PM, Denys Dmytriyenko wrote:
-> On Sat, May 19, 2018 at 02:26:13PM -0700, Khem Raj wrote:
->> On Sat, May 19, 2018 at 12:33 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->>> On Sat, May 19, 2018 at 11:07:55AM -0700, Khem Raj wrote:
->>>> On Sat, May 19, 2018 at 9:21 AM, Denys Dmytriyenko <denis@denix.org> wrote:
->>>>> https://www.phoronix.com/scan.php?page=news_item&px=GCC-9-Dropping-Older-ARM
->>>>>
->>>>> Particularly, ARMv5 and ARMv5E are being dropped (but T and TE variants
->>>>> remain)
->>>>>
->>>>> Are there any concerns from OE community perspective?
->>>> From yocto project perspctive qemuarm which is emulating arm926ejs
->>>> with default tune armv5te is used.
->>>> so we are right at the trailing edge and wont be affected. However, I
->>>> know there were OE users who had
->>>> devices using other armv5 or v4 variants
->>>>
->>>> I have been suggesting to switch qemuarm to use armv7 based board
->>>> emulator for few years now.
->>>> may be this is the time to make that call for next YP release.
->>> Valid point about qemuarm, but see below.
->>>
->>>
->>>>> At least for binutils we needed this patch even for armv5te:
->>>>> http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-devtools/binutils/binutils/0007-Add-the-armv5e-architecture-to-binutils.patch
->>>>>
->>>> this patch technically required to support one of OEs available tune
->>>> values. namely armv5e, we should be able to drop it.
->>> $ grep conf/machine meta/conf/machine/qemuarm.conf
->>> require conf/machine/include/qemu.inc
->>> require conf/machine/include/tune-arm926ejs.inc
->>> #require conf/machine/include/tune-arm1136jf-s.inc
->>>
->>> $ MACHINE=qemuarm bitbake virtual/kernel -e|grep -E '^DEFAULTTUNE=|^ARMPKGSFX_THUMB=|^TUNE_PKGARCH=|^TUNE_CCARGS='
->>> ARMPKGSFX_THUMB=""
->>> DEFAULTTUNE="armv5te"
->>> TUNE_CCARGS=" -march=armv5e -marm"
->>> TUNE_PKGARCH="armv5e"
->>>
->>>
->>> I have already tried binutils w/o that patch for arm926ejs/armv5te machine and
->>> it fails, because as you can see above, -march=armv5e is being passed...
->> What happens if you drop setting TUNE_CCARGS and  TUNE_PKGARCH ?
-> From OE-Core?
->
-> http://cgit.openembedded.org/openembedded-core/tree/meta/conf/machine/include/arm/arch-armv5.inc#n5
-> http://cgit.openembedded.org/openembedded-core/tree/meta/conf/machine/include/arm/arch-arm.inc#n11
->
-> From the README:
-> A small set of ARM specific variables have been defined to allow 
-> TUNE_PKGARCH to be automatically defined.  Optimized tunings must NOT 
-> change the definiton of TUNE_PKGARCH.  TUNE_PKGACH_tune-<tune> will be 
-> ignored.  The format of the package arch is enforced by the TUNE_PKGARCH
-> default.  The format must be of the form:
-> <armversion>[t][e][hf][b][-vfp][-neon]
-
-Maybe a bug is in order and then we might be able to add it to the 2.6
-planning?
-
-Maybe a QEMU strategy for OE going forward may also be a topic.
-
-- armin
+diff --git a/meta/recipes-extended/acpica/acpica_20170303.bb b/meta/recipes-extended/acpica/acpica_20180508.bb
+similarity index 84%
+rename from meta/recipes-extended/acpica/acpica_20170303.bb
+rename to meta/recipes-extended/acpica/acpica_20180508.bb
+index 51ae77b784..dfa9a18ccb 100644
+--- a/meta/recipes-extended/acpica/acpica_20170303.bb
++++ b/meta/recipes-extended/acpica/acpica_20180508.bb
+@@ -17,12 +17,11 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "bison flex"
+ 
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz \
+-    file://rename-yy_scan_string-manually.patch \
+-    file://manipulate-fds-instead-of-FILE.patch;striplevel=2 \
+-    file://0001-Linux-add-support-for-X32-ABI-compilation.patch \
+-    "
+-SRC_URI[md5sum] = "48ef4314fb4ffdd0c96f14dcf20544e1"
+-SRC_URI[sha256sum] = "b2d81e84107ac9a02be86ea43cbea7afa8fd4b4150270bc88c2d4c9fea0b8aad"
++           file://rename-yy_scan_string-manually.patch \
++           file://manipulate-fds-instead-of-FILE.patch \
++           "
++SRC_URI[md5sum] = "31691e2eb82b2064f78536a3423c18d6"
++SRC_URI[sha256sum] = "5d8fc9d9db9e04830d40bec9add04b21c05d466e0187d354815006fdd823cf15"
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+ 
+ S = "${WORKDIR}/acpica-unix2-${PV}"
+diff --git a/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch b/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
+deleted file mode 100644
+index df74200068..0000000000
+--- a/meta/recipes-extended/acpica/files/0001-Linux-add-support-for-X32-ABI-compilation.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From d22241efc0708c9799f17a20eabb52a48d6d6ea1 Mon Sep 17 00:00:00 2001
+-From: Anuj Mittal <anuj.mittal@intel.com>
+-Date: Tue, 2 Jan 2018 12:35:32 +0800
+-Subject: [PATCH] Linux: add support for X32 ABI compilation
+-
+-X32 follows ILP32 model. Check for ILP32 as well when checking for
+-x86_64 to ensure the defines are correct for X32 ABI.
+-
+-Upstream-Status: Submitted [https://github.com/acpica/acpica/pull/348]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- source/include/platform/aclinux.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/source/include/platform/aclinux.h b/source/include/platform/aclinux.h
+-index 75b1d82..6b8ff73 100644
+---- a/source/include/platform/aclinux.h
+-+++ b/source/include/platform/aclinux.h
+-@@ -315,7 +315,7 @@
+- #define ACPI_FLUSH_CPU_CACHE()
+- #define ACPI_CAST_PTHREAD_T(Pthread) ((ACPI_THREAD_ID) (Pthread))
+- 
+--#if defined(__ia64__)    || defined(__x86_64__) ||\
+-+#if defined(__ia64__)    || (defined(__x86_64__) && !defined(__ILP32__)) ||\
+-     defined(__aarch64__) || defined(__PPC64__) ||\
+-     defined(__s390x__)
+- #define ACPI_MACHINE_WIDTH          64
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch b/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
+index 5610ed9beb..d8b5f9aa8a 100644
+--- a/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
++++ b/meta/recipes-extended/acpica/files/manipulate-fds-instead-of-FILE.patch
+@@ -1,4 +1,4 @@
+-From 69171c22f3872ecb4c1ab27985e93ca44084595e Mon Sep 17 00:00:00 2001
++From 540d80469e6a7dce6baf7214df90e86daffc5175 Mon Sep 17 00:00:00 2001
+ From: Fan Xin <fan.xin@jp.fujitsu.com>
+ Date: Mon, 5 Jun 2017 13:26:38 +0900
+ Subject: [PATCH] aslfiles.c: manipulate fds instead of FILE
+@@ -16,18 +16,20 @@ Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+ Rebase on acpica 20170303
+ 
+ Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++
+ ---
+- acpica-unix2-20170303/source/compiler/aslfiles.c | 14 +++++++++++---
+- 1 file changed, 11 insertions(+), 3 deletions(-)
++ source/compiler/aslfiles.c | 15 ++++++++++++---
++ 1 file changed, 12 insertions(+), 3 deletions(-)
+ 
+-diff --git a/acpica-unix2-20170303/source/compiler/aslfiles.c b/acpica-unix2-20170303/source/compiler/aslfiles.c
+-index 809090c..97898b1 100644
+---- a/acpica-unix2-20170303/source/compiler/aslfiles.c
+-+++ b/acpica-unix2-20170303/source/compiler/aslfiles.c
+-@@ -44,6 +44,10 @@
++diff --git a/source/compiler/aslfiles.c b/source/compiler/aslfiles.c
++index 82865db..cc072dc 100644
++--- a/source/compiler/aslfiles.c
+++++ b/source/compiler/aslfiles.c
++@@ -43,6 +43,11 @@
++ 
+  #include "aslcompiler.h"
+  #include "acapps.h"
+- #include "dtcompiler.h"
+++#include "dtcompiler.h"
+ +#include <sys/types.h>
+ +#include <sys/stat.h>
+ +#include <fcntl.h>
+@@ -35,7 +37,7 @@ index 809090c..97898b1 100644
+  
+  #define _COMPONENT          ACPI_COMPILER
+          ACPI_MODULE_NAME    ("aslfiles")
+-@@ -607,6 +611,8 @@ FlOpenMiscOutputFiles (
++@@ -606,6 +611,8 @@ FlOpenMiscOutputFiles (
+  
+      if (Gbl_DebugFlag)
+      {
+@@ -44,7 +46,7 @@ index 809090c..97898b1 100644
+          Filename = FlGenerateFilename (FilenamePrefix, FILE_SUFFIX_DEBUG);
+          if (!Filename)
+          {
+-@@ -618,10 +624,10 @@ FlOpenMiscOutputFiles (
++@@ -617,10 +624,10 @@ FlOpenMiscOutputFiles (
+          /* Open the debug file as STDERR, text mode */
+  
+          Gbl_Files[ASL_FILE_DEBUG_OUTPUT].Filename = Filename;
+@@ -58,7 +60,7 @@ index 809090c..97898b1 100644
+          {
+              /*
+               * A problem with freopen is that on error, we no longer
+-@@ -635,6 +641,8 @@ FlOpenMiscOutputFiles (
++@@ -634,6 +641,8 @@ FlOpenMiscOutputFiles (
+              exit (1);
+          }
+  
+@@ -67,6 +69,3 @@ index 809090c..97898b1 100644
+          AslCompilerSignon (ASL_FILE_DEBUG_OUTPUT);
+          AslCompilerFileHeader (ASL_FILE_DEBUG_OUTPUT);
+      }
+--- 
+-1.9.1
+-
+-- 
+2.17.0
 
 
