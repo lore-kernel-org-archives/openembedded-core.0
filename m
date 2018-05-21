@@ -1,52 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D29374F83
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DD40574FB8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 19:21:05 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id g72-v6so9426296vke.2
+	Mon, 21 May 2018 19:43:49 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id c10-v6so7560058pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 12:21:07 -0700 (PDT)
+	Mon, 21 May 2018 12:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=r4QEtmA44P7OG39x7NHXf6ViPt17PXEH2761OFWuLnI=;
-	b=gPB8cZuAj5/hi7pEA3SfgEGIXhF3bK4fcfxhHndftoG9PtarX85Wy5LHPAg7miph8q
-	bfk+EkLZNaWjOyWzYM+8VmOPgTanawiTmKyEEwBpcy1v9hLtIJp9s1AighOef/t9KCaO
-	JZJlXcudc8Z0gYrVDy2jYaq6NQRng9ROwIS9OPxPJ+cvAhwGMqrY4hX4EoJiXWl0wioD
-	436S0gnQXCb+6qVT4pNT0y5cRWb0oumQsbx3C6sGI8NjKPSGVMEy7u6cUpF2paCSZH8n
-	81POKJbqWA7dsjICCocRcinQvwXTN1bpLjLNQdlESp0Gb0wPffFUDehTtYHDJW5tHOWm
-	yPtg==
+	h=from:to:subject:date:message-id;
+	bh=Bnl7x6XGheqO9nj/SIXUC/GNZQJzSunO4fiIgTBSc58=;
+	b=KlbLd3Pc/4U/fGi3BxJzuSHHV+0ys7AmqXWxroyQurpH9dKTIhWcMOvoVVywEbAILg
+	puvSnDnqqhUWMxydN5uegPuPAKdaHu7WqcJ555imIozwaWztPHZohbJlHdhgRcQ1YhTx
+	iIEk62c/IXwGpnK9rlOKv6q0KbjRIsRFkWZVlkIMvfN3J4DnFJUiMX/QXnp7OhJctNWd
+	ZkZSoi3zCWEc54OAXg7dO9ZR/7Y93EPsy3tGct+Vku8thaoy3hSV9lBRvV3olkiatCll
+	uLKnh1ZOZ+aIRqNeLiGpnS9ETJYM6xqrF1miByi4RsBljT5TLlGt9nE0VJHsRKxnACuu
+	q7tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=r4QEtmA44P7OG39x7NHXf6ViPt17PXEH2761OFWuLnI=;
-	b=A5Kre4Se5ZowQtG1kFMFzU5hq0LVZs2mgztjSB/49no9eCquhbvHp665iuzxGfu4Nx
-	4rEs7vwAfM2MidiHudX/QFCungwnl2OdgpxkBVxjeFgNoIsOah9ArOMBUQMn51f58nZG
-	iS/mGT5wIZIvKNaI+pkFwV/JflGpEH8lpT6gmPcN+2TuN1Jscq0WvH82rJBdzV+92MBl
-	5nHL3TO+H/COfpVUqDCgtFtGuOQk4zFNYFV9QS+oJW3je8RA3FV0qZsr5D/RpEEsX/5R
-	FRwAlQ8J7PWX1CV3ZiVHjKiKF9JKyfWWKNprnfcNgteXCOeS4HQoz6RmKs0vcQOVZI8W
-	hsNg==
-X-Gm-Message-State: ALKqPwda+83nGXm3eAKpnAYuDjD9HRfgcCN0Fpp/YBKLA6YEJNV9RaeL
-	COYBADbKSAeBZgwGI5D6neeY3Ldbclm+OxOcx+E=
-X-Google-Smtp-Source: AB8JxZqsiv6pa2OzqAqAjoyryc/oEYcZvErsViTtql/1Hdj6HNcEzTRF4HQ/iwVcroFVnsnfJWtFN8R7QddXIT0MgbU=
-X-Received: by 2002:a1f:28ca:: with SMTP id
-	o193-v6mr14099898vko.194.1526930466820; 
-	Mon, 21 May 2018 12:21:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:3094:0:0:0:0:0 with HTTP; Mon, 21 May 2018 12:21:06
-	-0700 (PDT)
-In-Reply-To: <759e0c6d-d9cc-4ec2-2e56-871b18ae9313@gmail.com>
-References: <1526827795-10448-1-git-send-email-akuster@mvista.com>
-	<CAJ86T=XKQdbiH3ND0Smmpne7FX=PqEtox9GJrJJi9WfiRZcOBQ@mail.gmail.com>
-	<759e0c6d-d9cc-4ec2-2e56-871b18ae9313@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 21 May 2018 12:21:06 -0700
-Message-ID: <CAJ86T=UX195m2f_aSiR4uM7G++1rjLKj+_vvtERsKCLH7uMDOg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2][PATCH] busybox: update to 1.28.3
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Bnl7x6XGheqO9nj/SIXUC/GNZQJzSunO4fiIgTBSc58=;
+	b=tMNT3OurG3I68enX8Ehd7WugzyCgCbjT3BIfE8DW9x3YLnb4b3dTqFBLsLSLFX+3AE
+	Vpj4Ozy8YcVLFlpHkry1y6I/fvP/yLHZYRygQDqmh6KQDmWVxhnipnMGlTahVKZVgjGH
+	YxGcxtodZqyMyQjHRTLUIXVrRBiq0wW8mT4I6UuMv6hZzgFl30yfpkkvOW7FjfYN9muR
+	LS+RdKUqtCJQ41WfIoY+gH9Nk+occnni6XTrYor1a6cqK9YpXJMaJ0pmhQj35TZNA1Pi
+	7TdV6affuMaxx9ojN864OYuRU7lGh+XnJBaRSqcFVreg6vN8ExbocOoPnT4mlu8Ji0+X
+	UxCg==
+X-Gm-Message-State: ALKqPwfdtUgklfgNY7YACg6H5HbUhFlMawpU4WkfLRpp6YY5e2mduudo
+	eo12W3/SyOcEOL83bxSwt5k=
+X-Google-Smtp-Source: AB8JxZoXAiamJ78L1fP0Z7fyxxkB3gQ1zEJgcM8NM27Tz651moyeQjnEWay/aeh8Sq8bR1UkA+UN8w==
+X-Received: by 2002:a63:6fcb:: with SMTP id
+	k194-v6mr2348114pgc.349.1526931830584; 
+	Mon, 21 May 2018 12:43:50 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:cda1:4d10:a5a1:339b])
+	by smtp.gmail.com with ESMTPSA id
+	v1-v6sm29723032pfd.2.2018.05.21.12.43.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 21 May 2018 12:43:49 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 21 May 2018 12:43:46 -0700
+Message-Id: <1526931828-20358-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/2] bind update req. new pkg in core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 19:21:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 May 2018 19:43:50 -0000
 
-On Mon, May 21, 2018 at 12:13 PM, akuster808 <akuster808@gmail.com> wrote:
-> On 05/21/2018 11:18 AM, Andre McCurdy wrote:
->> On Sun, May 20, 2018 at 7:49 AM, Armin Kuster <akuster808@gmail.com> wrote:
->>> From: Armin Kuster <akuster808@gmail.com>
->>>
->>> [v2]
->>> Add back busybox-udhcpc-no_deconfig.patch ti SRC_URI, missed earlier
->>>
->>> [v1]
->>> removed patches included in update:
->>> busybox/CVE-2011-5325.patch
->>> busybox/CVE-2017-15873.patch
->>> busybox/busybox-CVE-2017-16544.patch
->>>
->>> refactored busybox-udhcpc-no_deconfig.patch for this update
->> Did you check the defconfig?
->  That patch does not touch the defconfigs? It changes the dhcpd.c it self.
+With this update, the python-ply package is required.
+I copied the one from meta-python to core. Once this hits master,
+I will send a patch to remove the same recipe from
+meta-python.
 
-Right, removing that patch has nothing to do with the busybox
-defconfig. I wasn't commenting that particular line in the patch.
+Armin Kuster (2):
+  bind: update to 9.12.1
+  python3-ply: add package needed by bind 9.12 update
 
->> Often it needs a refresh, otherwise any new config options added
->> between busybox 1.27.2 and 1.28.3 will take busybox's defaults (which
->> may enable new applets or features which we haven't historically
->> enabled when configuring busybox for OE).
-> am I missing some context here?
+ ...0001-build-use-pkg-config-to-find-libxml2.patch | 13 +++---
+ ...-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch | 13 +++---
+ .../0001-lib-dns-gen.c-fix-too-long-error.patch    | 13 +++---
+ .../bind/bind/bind-confgen-build-unix.o-once.patch | 48 ----------------------
+ ...-searching-for-json-headers-searches-sysr.patch | 13 +++---
+ .../bind/bind/dont-test-on-host.patch              | 17 --------
+ .../use-python3-and-fix-install-lib-path.patch     | 36 ----------------
+ .../bind/{bind_9.10.6.bb => bind_9.12.1.bb}        | 21 ++++------
+ meta/recipes-devtools/python/python-ply.inc        | 18 ++++++++
+ meta/recipes-devtools/python/python-ply_3.11.bb    |  2 +
+ 10 files changed, 49 insertions(+), 145 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
+ rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.12.1.bb} (86%)
+ create mode 100644 meta/recipes-devtools/python/python-ply.inc
+ create mode 100644 meta/recipes-devtools/python/python-ply_3.11.bb
 
-Refreshing (or at least checking) the busybox defconfig is something
-that should ideally be done whenever the busybox version is updated
-and it wasn't clear from your patch that it's been done, so I just
-wanted to double check.
+-- 
+2.7.4
+
 
