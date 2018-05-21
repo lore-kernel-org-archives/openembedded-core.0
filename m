@@ -1,49 +1,24 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E180774DAD
+Return-Path: <Jibin.Xu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C3674598
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 06:07:23 +0000 (UTC)
-Received: by mail-ot0-f178.google.com with SMTP id h8-v6so15639517otb.2
+	Mon, 21 May 2018 08:53:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4L8rJmV024403
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 May 2018 23:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ecSqfc3M+ekWeNdFiU169avABfU40DI1VGJWlCGF+PY=;
-	b=GltkUi2dgmn/9OECZWyDn36xat6z+9h1Y8UIj+OQ1eVFssXcbMRX5eqykm3j7jHDQO
-	8zYOqAIF1zK4kMBBiY/Ha69MN95rZSgLIOGHK96H6kaNyX/SM6PQ/PWb6ZR2yjEzeq4Z
-	KPGyJLi45OMlVZWe6U9ufahknVGsAdSoo9XbPhWM6U6gO6pVRGdG7NxSjog6uIpl2RiK
-	/YIp9uImFThMWBOiGHeX3fYWUGkpiSXuUVM0tFCKl2r7oztjRbXqUnP3cKIE8cmRhgAT
-	mcq8RfqJErWRx1DGw9t+rXsryARYUyzi53fyuZC0AxhDquuB1Q65VzaPwIBHlzYQbHxY
-	K6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ecSqfc3M+ekWeNdFiU169avABfU40DI1VGJWlCGF+PY=;
-	b=m1CdzjlXFFqtY0PFZm+pFBX31M0riF9MgpzIzUJmDmLrJ6l8ta+nwYl4jwH6bT7jXj
-	6osN/IAIvsChks4HRpUqPC6ZCJWAzfjejrap5dJLSre2S1X/v306adhERhVgc6bppZU0
-	0GRJ6+/zzs+VdSX5YfG+5Cj6F36bsbcuAtR8gpKKk9CC6exix513dF6pijYvnC4O5veI
-	RCehaDpoz1DKNIQQ/BIUZofN8pksvuV0N1HUvWSVu6u8NL0CBKi56Xbt0I38/m5A2hOm
-	XGucG47UBqHKDt2LuqJBglTYvY+U4Y7l3UErznW7/TihyYQ3v0R+FRjhvG5tScnxC1wK
-	LfKA==
-X-Gm-Message-State: ALKqPwfETkjuSv8Hdz77L/dz0MyddHUAq3wBSW/tj7otTrp5fr1FGpAZ
-	637B13FQr7qCTK4GUwF5+eSX5eXvBaMe6ju1B1A=
-X-Google-Smtp-Source: AB8JxZoYmvwv/uk11sCaeb062/+W1S3bNBb/AFoajDsiPkMlpmkyjjoDl7MqwSsnu6ot8nRGEJuxL3l+CEixS7EMxJU=
-X-Received: by 2002:a9d:336c:: with SMTP id
-	u41-v6mr11684852otd.259.1526882844663; 
-	Sun, 20 May 2018 23:07:24 -0700 (PDT)
+	Mon, 21 May 2018 01:53:35 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 21 May 2018 01:53:09 -0700
+From: Jibin Xu <jibin.xu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 May 2018 01:53:06 -0700
+Message-ID: <20180521085306.112262-1-jibin.xu@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Received: by 10.74.11.23 with HTTP; Sun, 20 May 2018 23:07:24 -0700 (PDT)
-In-Reply-To: <20180520220442.16092-2-raj.khem@gmail.com>
-References: <20180520220442.16092-1-raj.khem@gmail.com>
-	<20180520220442.16092-2-raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 21 May 2018 09:07:24 +0300
-Message-ID: <CANNYZj8nv6EDkp46yJjxqBQs3jRZcTFeP19e5uKA_ye0a0JH6A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] webkitgtk: Upgrade to 2.20.2
+Subject: [PATCH] wget: upgrade 1.19.4 -> 1.19.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 06:07:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 May 2018 08:53:44 -0000
+Content-Type: text/plain
 
-2018-05-21 1:04 GMT+03:00 Khem Raj <raj.khem@gmail.com>:
-> +Subject: [PATCH] soup: Forward declare URL class
-> +
-> +This helps getting away with compiler errors seen with clang
-> +
-> +/mnt/a/oe/workspace/sources/webkitgtk/Source/WebCore/platform/network/soup/SoupNetworkSession.h:68:62:
-> +error: unknown type name 'URL'
-> +    static std::optional<ResourceError> checkTLSErrors(const URL&,
-> +GTlsCertificate*, GTlsCertificateFlags);
+Signed-off-by: Jibin Xu <jibin.xu@windriver.com>
+---
+ meta/recipes-extended/wget/{wget_1.19.4.bb => wget_1.19.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/wget/{wget_1.19.4.bb => wget_1.19.5.bb} (60%)
 
-Thanks - gcc has the same issue. I'm not sure how upstream is able to build.
+diff --git a/meta/recipes-extended/wget/wget_1.19.4.bb b/meta/recipes-extended/wget/wget_1.19.5.bb
+similarity index 60%
+rename from meta/recipes-extended/wget/wget_1.19.4.bb
+rename to meta/recipes-extended/wget/wget_1.19.5.bb
+index fb7cce5a20..e37d8c7847 100644
+--- a/meta/recipes-extended/wget/wget_1.19.4.bb
++++ b/meta/recipes-extended/wget/wget_1.19.5.bb
+@@ -3,7 +3,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+           "
+ 
+-SRC_URI[md5sum] = "a2a2c1dc4ac5003fc25a8e60b4a9464e"
+-SRC_URI[sha256sum] = "93fb96b0f48a20ff5be0d9d9d3c4a986b469cb853131f9d5fe4cc9cecbc8b5b5"
++SRC_URI[md5sum] = "2db6f03d655041f82eb64b8c8a1fa7da"
++SRC_URI[sha256sum] = "b39212abe1a73f2b28f4c6cb223c738559caac91d6e416a6d91d4b9d55c9faee"
+ 
+ require wget.inc
+-- 
+2.13.0
 
-> -EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
-> +#EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
-
-This needs a comment or should be removed altogether.
-
-Alex
 
