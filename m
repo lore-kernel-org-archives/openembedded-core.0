@@ -1,23 +1,48 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF4C674C63
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F3CA74CB4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 10:56:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4LAuOoC014069
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 21 May 2018 13:37:45 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id c10-v6so7099321pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 03:56:24 -0700 (PDT)
-Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 21 May 2018 03:56:23 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 May 2018 13:56:22 +0300
-Message-ID: <20180521105622.69482-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.16.2
-MIME-Version: 1.0
-Subject: [rocko][PATCH 1/1] ncurses: Fix CVE-2018-10754
+	Mon, 21 May 2018 06:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=WNOAjrPZO9/Vrm1v4Poci1uxOIWRht3pYR9C1UWGkHY=;
+	b=Ukdk9ft9fVPHsJpXov25uocyBdJCp7OESxtTt5nZ5pxdy/m9jBYlZVmTxDl0kCpC5E
+	XOO5LRdtsjriIYuHZEjuidoqld0rybLAxdLf/a8NK0S8gTHe5znX6dzjDBWAY8VSobru
+	6wlDcBSWoubnpQJDEqcdbjNfMluSIPEM/gH0rUr40MdvyBcnEU45i02xfRNdq1i0Hc80
+	1PhAGzLjm3Km2M3Rxwu0CnNTXJfet7UeRZa26DT421YG9r0em4FQB381K/KnpFEU/x+g
+	1jJbp5V0CY7ln/VOPgY8XxjUlXzuA756qi2Wibhsv+Bqd5ddyjFV+qnRrIs/2hoM2twz
+	APvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WNOAjrPZO9/Vrm1v4Poci1uxOIWRht3pYR9C1UWGkHY=;
+	b=HEzq67z+AfD64RVHaHssi9fhVTAzfIXgAP6rvHDKYMs1rqwav2pnvvo/9OV4wx4px7
+	QQQ5T/avE0ErneJ1pxbdR1FAWhIuX/M6ZgnUcMavQFqPjTMD+rhCbKhyf7sWllr4cGnX
+	D9hIbLU3MR1pTF9IpYKwaLn1OZk5tthvvwFyBxBSzU01VprlhKMNdCixkP9EfV3ZNL2D
+	/6yjbKmQfAZyoQO4wz4X/vbD9tOrOar7dKECseYgByJga4Zcy2fPSky7cfAta63uh+V8
+	96zWDF6DPH/lvlyQ5slAC3AXnWhOAZPsK22FNF4n9NARxkAdBNDzmRWpSbTfhXvAxzTF
+	rz4w==
+X-Gm-Message-State: ALKqPwdfnNTUKnXcB4/iOW1KNofj2XDDX6LfPbYj2xWQF5DV2aYEtMck
+	HKxZ9gqzxlSHdgSs/QmKZlALhA==
+X-Google-Smtp-Source: AB8JxZpWc9WWhO1Lfn6cMGSwznVvVYXHoLqS4C/DkkNW6FJyshD3pqZ4EEHNbKMJkLRdzUmgXYbOMA==
+X-Received: by 2002:a65:4d8a:: with SMTP id
+	p10-v6mr15793872pgq.21.1526909866370; 
+	Mon, 21 May 2018 06:37:46 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::c68])
+	by smtp.gmail.com with ESMTPSA id
+	x71-v6sm39225398pfe.47.2018.05.21.06.37.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 May 2018 06:37:45 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 May 2018 06:37:42 -0700
+Message-Id: <20180521133742.15994-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH V2] webkitgtk: Upgrade to 2.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,497 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 10:56:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 May 2018 13:37:46 -0000
 
-In ncurses before 6.1.20180414, there is a NULL Pointer Dereference in 
-the _nc_parse_entry function of tinfo/parse_entry.c. It could lead to a 
-remote denial of service if the terminfo library code is used to process 
-untrusted terminfo data in which a use-name is invalid syntax.
+Patch it to build with clang
 
-Upstream patch:
-ftp://ftp.invisible-island.net/ncurses/6.1/ncurses-6.1-20180414.patch.gz
+clang 6.0+ driver can correclty detect corss gold linker now
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2018-10754
-https://bugzilla.redhat.com/show_bug.cgi?id=1576119
-https://bugzilla.redhat.com/show_bug.cgi?id=1566575
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../ncurses/files/CVE-2018-10754.patch             | 449 +++++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.0+20170715.bb  |   1 +
- 2 files changed, 450 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/CVE-2018-10754.patch
+V2:
+- Remove code to disabel gold with clang instead of commenting, and descrive the removal
 
-diff --git a/meta/recipes-core/ncurses/files/CVE-2018-10754.patch b/meta/recipes-core/ncurses/files/CVE-2018-10754.patch
+ .../0012-soup-Forward-declare-URL-class.patch | 31 +++++++++++++++++++
+ ...ebkitgtk_2.20.1.bb => webkitgtk_2.20.2.bb} |  6 ++--
+ 2 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.20.1.bb => webkitgtk_2.20.2.bb} (96%)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch b/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
 new file mode 100644
-index 0000000000..f6542cf2b3
+index 0000000000..c689117650
 --- /dev/null
-+++ b/meta/recipes-core/ncurses/files/CVE-2018-10754.patch
-@@ -0,0 +1,449 @@
-+From cc24cd13a8637fdc3228347152cbaea7dd8f56e2 Mon Sep 17 00:00:00 2001
-+From: Ovidiu Panait <ovidiu.panait@windriver.com>
-+Date: Fri, 18 May 2018 08:32:42 +0000
-+Subject: [PATCH] ncurses: CVE-2018-10754
++++ b/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
+@@ -0,0 +1,31 @@
++From 59f6903ad96f3213f248b672d5fd526cc0d666ce Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 20 May 2018 14:28:27 -0700
++Subject: [PATCH] soup: Forward declare URL class
 +
-+# ncurses 6.1 - patch 20180414 - Thomas E. Dickey
-+#
-+# ------------------------------------------------------------------------------
-+#
-+# Ncurses 6.1 is at
-+# 	ftp.gnu.org:/pub/gnu
-+#
-+# Patches for ncurses 6.1 can be found at
-+# 	ftp://ftp.invisible-island.net/ncurses/6.1
-+#	http://invisible-mirror.net/archives/ncurses/6.1 
-+#
-+# ------------------------------------------------------------------------------
-+# ftp://ftp.invisible-island.net/ncurses/6.1/ncurses-6.1-20180414.patch.gz
-+# patch by Thomas E. Dickey <dickey@invisible-island.net>
-+# created  Sat Apr 14 22:50:05 UTC 2018
++This helps getting away with compiler errors seen with clang
 +
-+Upstream-Status: Backport
-+CVE: CVE-2018-10754
++/mnt/a/oe/workspace/sources/webkitgtk/Source/WebCore/platform/network/soup/SoupNetworkSession.h:68:62:
++error: unknown type name 'URL'
++    static std::optional<ResourceError> checkTLSErrors(const URL&,
++GTlsCertificate*, GTlsCertificateFlags);
++                                                             ^
++Upstream-Status: Pending
 +
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ form/form.h                 |  5 +++--
-+ form/form.priv.h            |  7 ++++---
-+ form/frm_driver.c           | 24 +++++++++++++++++++-----
-+ ncurses/curses.priv.h       |  2 --
-+ ncurses/llib-lncursestw     |  9 ++-------
-+ ncurses/llib-lncursesw      |  8 +-------
-+ ncurses/llib-ltinfotw       |  8 +-------
-+ ncurses/llib-ltinfow        |  8 +-------
-+ ncurses/tinfo/alloc_entry.c |  7 +++++--
-+ ncurses/tinfo/alloc_ttype.c | 24 ++++++++++--------------
-+ ncurses/tinfo/comp_parse.c  |  6 +++++-
-+ ncurses/tinfo/parse_entry.c |  8 +++++---
-+ ncurses/tinfo/read_entry.c  |  3 +++
-+ 13 files changed, 59 insertions(+), 60 deletions(-)
++ Source/WebCore/platform/network/soup/SoupNetworkSession.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/form/form.h b/form/form.h
-+index f11807f5..1d4c241d 100644
-+--- a/form/form.h
-++++ b/form/form.h
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1998-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1998-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -30,7 +30,7 @@
-+  *   Author:  Juergen Pfeifer, 1995,1997                                    *
-+  ****************************************************************************/
++diff --git a/Source/WebCore/platform/network/soup/SoupNetworkSession.h b/Source/WebCore/platform/network/soup/SoupNetworkSession.h
++index 03bd72ba..7ca8792d 100644
++--- a/Source/WebCore/platform/network/soup/SoupNetworkSession.h
+++++ b/Source/WebCore/platform/network/soup/SoupNetworkSession.h
++@@ -43,6 +43,7 @@ namespace WebCore {
 + 
-+-/* $Id: form.h,v 0.27 2017/02/11 16:35:42 tom Exp $ */
-++/* $Id: form.h,v 0.28 2018/04/14 21:06:21 Leon.Winter Exp $ */
++ class CertificateInfo;
++ class ResourceError;
+++class URL;
++ struct SoupNetworkProxySettings;
 + 
-+ #ifndef FORM_H
-+ #define FORM_H
-+@@ -222,6 +222,7 @@ typedef void (*Form_Hook)(FORM *);
-+ #define O_STATIC		(0x0200U)
-+ #define O_DYNAMIC_JUSTIFY	(0x0400U)	/* ncurses extension	*/
-+ #define O_NO_LEFT_STRIP		(0x0800U)	/* ncurses extension	*/
-++#define O_EDGE_INSERT_STAY      (0x1000U)	/* ncurses extension	*/
-+ 
-+ /* form options */
-+ #define O_NL_OVERLOAD		(0x0001U)
-+diff --git a/form/form.priv.h b/form/form.priv.h
-+index ad25ec2d..e48a9f26 100644
-+--- a/form/form.priv.h
-++++ b/form/form.priv.h
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1998-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1998-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -30,7 +30,7 @@
-+  *   Author:  Juergen Pfeifer, 1995,1997                                    *
-+  ****************************************************************************/
-+ 
-+-/* $Id: form.priv.h,v 0.42 2017/02/11 16:12:19 tom Exp $ */
-++/* $Id: form.priv.h,v 0.43 2018/04/14 21:06:14 Leon.Winter Exp $ */
-+ 
-+ #ifndef FORM_PRIV_H
-+ #define FORM_PRIV_H 1
-+@@ -166,7 +166,8 @@ TypeArgument;
-+ #define ALL_FIELD_OPTS (Field_Options)( \
-+ 			STD_FIELD_OPTS |\
-+ 			O_DYNAMIC_JUSTIFY |\
-+-			O_NO_LEFT_STRIP)
-++			O_NO_LEFT_STRIP |\
-++			O_EDGE_INSERT_STAY)
-+ 
-+ #define C_BLANK ' '
-+ #define is_blank(c) ((c)==C_BLANK)
-+diff --git a/form/frm_driver.c b/form/frm_driver.c
-+index 45e323f7..7ed06ef7 100644
-+--- a/form/frm_driver.c
-++++ b/form/frm_driver.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1998-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1998-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -808,6 +808,7 @@ _nc_Position_Form_Cursor(FORM *form)
-+ {
-+   FIELD *field;
-+   WINDOW *formwin;
-++  int row, col;
-+ 
-+   if (!form)
-+     return (E_BAD_ARGUMENT);
-+@@ -818,14 +819,17 @@ _nc_Position_Form_Cursor(FORM *form)
-+   field = form->current;
-+   formwin = Get_Form_Window(form);
-+ 
-+-  wmove(form->w, form->currow, form->curcol);
-++  col = Field_Has_Option(field, O_PUBLIC) ? form->curcol : form->begincol;
-++  row = Field_Has_Option(field, O_PUBLIC) ? form->currow : form->toprow;
-++
-++  wmove(form->w, row, col);
-+   if (Has_Invisible_Parts(field))
-+     {
-+       /* in this case fieldwin isn't derived from formwin, so we have
-+          to move the cursor in formwin by hand... */
-+       wmove(formwin,
-+-	    field->frow + form->currow - form->toprow,
-+-	    field->fcol + form->curcol - form->begincol);
-++	    field->frow + row - form->toprow,
-++	    field->fcol + col - form->begincol);
-+       wcursyncup(formwin);
-+     }
-+   else
-+@@ -844,6 +848,7 @@ _nc_Position_Form_Cursor(FORM *form)
-+ |                    E_BAD_ARGUMENT    - invalid form pointer
-+ |                    E_SYSTEM_ERROR    - general error
-+ +--------------------------------------------------------------------------*/
-++static bool move_after_insert = true;
-+ NCURSES_EXPORT(int)
-+ _nc_Refresh_Current_Field(FORM *form)
-+ {
-+@@ -875,7 +880,8 @@ _nc_Refresh_Current_Field(FORM *form)
-+ 	      else
-+ 		{
-+ 		  if (form->curcol >= (form->begincol + field->cols))
-+-		    form->begincol = form->curcol - field->cols + 1;
-++		    form->begincol = form->curcol - field->cols
-++		      + (move_after_insert ? 1 : 0);
-+ 		}
-+ 	      copywin(form->w,
-+ 		      formwin,
-+@@ -4158,6 +4164,12 @@ Data_Entry(FORM *form, int c)
-+ 	  bool End_Of_Field = (((field->drows - 1) == form->currow) &&
-+ 			       ((field->dcols - 1) == form->curcol));
-+ 
-++	  if (Field_Has_Option(field, O_EDGE_INSERT_STAY))
-++	    move_after_insert = !!(form->curcol
-++				   - form->begincol
-++				   - field->cols
-++				   + 1);
-++
-+ 	  SetStatus(form, _WINDOW_MODIFIED);
-+ 	  if (End_Of_Field && !Growable(field) && (Field_Has_Option(field, O_AUTOSKIP)))
-+ 	    result = Inter_Field_Navigation(FN_Next_Field, form);
-+@@ -4322,6 +4334,8 @@ form_driver(FORM *form, int c)
-+   const Binding_Info *BI = (Binding_Info *) 0;
-+   int res = E_UNKNOWN_COMMAND;
-+ 
-++  move_after_insert = true;
-++
-+   T((T_CALLED("form_driver(%p,%d)"), (void *)form, c));
-+ 
-+   if (!form)
-+diff --git a/ncurses/curses.priv.h b/ncurses/curses.priv.h
-+index 839d5b35..aec86543 100644
-+--- a/ncurses/curses.priv.h
-++++ b/ncurses/curses.priv.h
-+@@ -2170,11 +2170,9 @@ extern NCURSES_EXPORT(const TERMTYPE2 *) _nc_fallback2 (const char *);
-+ #if NCURSES_EXT_NUMBERS
-+ extern NCURSES_EXPORT(void) _nc_copy_termtype2 (TERMTYPE2 *, const TERMTYPE2 *);
-+ extern NCURSES_EXPORT(void) _nc_export_termtype2(TERMTYPE *, const TERMTYPE2 *);
-+-extern NCURSES_EXPORT(void) _nc_import_termtype2(TERMTYPE2 *, const TERMTYPE *);
-+ #else
-+ #define _nc_copy_termtype2(dst,src) _nc_copy_termtype((dst),(src))
-+ #define _nc_export_termtype2(dst,src) /* nothing */
-+-#define _nc_import_termtype2(dst,src) /* nothing */
-+ #define _nc_free_termtype2(t) _nc_free_termtype(t)
-+ /* also... */
-+ #define _nc_read_entry2 _nc_read_entry
-+diff --git a/ncurses/llib-lncursestw b/ncurses/llib-lncursestw
-+index f4c211d3..e056ce55 100644
-+--- a/ncurses/llib-lncursestw
-++++ b/ncurses/llib-lncursestw
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 2009-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 2009-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -34,6 +34,7 @@
-+ /* ./tty/hardscroll.c */
-+ 
-+ #include <curses.priv.h>
-++
-+ #undef _nc_oldnums
-+ int	*_nc_oldnums;
-+ 
-+@@ -3741,12 +3742,6 @@ void	_nc_export_termtype2(
-+ 		const TERMTYPE2 *src)
-+ 		{ /* void */ }
-+ 
-+-#undef _nc_import_termtype2
-+-void	_nc_import_termtype2(
-+-		TERMTYPE2 *dst, 
-+-		const TERMTYPE *src)
-+-		{ /* void */ }
-+-
-+ /* ./codes.c */
-+ 
-+ #undef _nc_boolcodes
-+diff --git a/ncurses/llib-lncursesw b/ncurses/llib-lncursesw
-+index 8aacf053..c16f0783 100644
-+--- a/ncurses/llib-lncursesw
-++++ b/ncurses/llib-lncursesw
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 2001-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 2001-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -3732,12 +3732,6 @@ void	_nc_export_termtype2(
-+ 		const TERMTYPE2 *src)
-+ 		{ /* void */ }
-+ 
-+-#undef _nc_import_termtype2
-+-void	_nc_import_termtype2(
-+-		TERMTYPE2 *dst, 
-+-		const TERMTYPE *src)
-+-		{ /* void */ }
-+-
-+ /* ./codes.c */
-+ 
-+ #undef boolcodes
-+diff --git a/ncurses/llib-ltinfotw b/ncurses/llib-ltinfotw
-+index 31376b54..eba1d95c 100644
-+--- a/ncurses/llib-ltinfotw
-++++ b/ncurses/llib-ltinfotw
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 2012-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 2012-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -110,12 +110,6 @@ void	_nc_export_termtype2(
-+ 		const TERMTYPE2 *src)
-+ 		{ /* void */ }
-+ 
-+-#undef _nc_import_termtype2
-+-void	_nc_import_termtype2(
-+-		TERMTYPE2 *dst, 
-+-		const TERMTYPE *src)
-+-		{ /* void */ }
-+-
-+ /* ./codes.c */
-+ 
-+ #undef _nc_boolcodes
-+diff --git a/ncurses/llib-ltinfow b/ncurses/llib-ltinfow
-+index 5b8411c2..9ab9de0b 100644
-+--- a/ncurses/llib-ltinfow
-++++ b/ncurses/llib-ltinfow
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 2012-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 2012-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -110,12 +110,6 @@ void	_nc_export_termtype2(
-+ 		const TERMTYPE2 *src)
-+ 		{ /* void */ }
-+ 
-+-#undef _nc_import_termtype2
-+-void	_nc_import_termtype2(
-+-		TERMTYPE2 *dst, 
-+-		const TERMTYPE *src)
-+-		{ /* void */ }
-+-
-+ /* ./codes.c */
-+ 
-+ #undef boolcodes
-+diff --git a/ncurses/tinfo/alloc_entry.c b/ncurses/tinfo/alloc_entry.c
-+index 09374d6e..fe7892f4 100644
-+--- a/ncurses/tinfo/alloc_entry.c
-++++ b/ncurses/tinfo/alloc_entry.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1998-2013,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1998-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -47,7 +47,7 @@
-+ 
-+ #include <tic.h>
-+ 
-+-MODULE_ID("$Id: alloc_entry.c,v 1.61 2017/08/25 09:09:08 tom Exp $")
-++MODULE_ID("$Id: alloc_entry.c,v 1.62 2018/04/14 20:32:09 tom Exp $")
-+ 
-+ #define ABSENT_OFFSET    -1
-+ #define CANCELLED_OFFSET -2
-+@@ -229,6 +229,9 @@ _nc_merge_entry(ENTRY * const target, ENTRY * const source)
-+     TERMTYPE2 *from = &(source->tterm);
-+     unsigned i;
-+ 
-++    if (source == 0 || from == 0 || target == 0 || to == 0)
-++	return;
-++
-+ #if NCURSES_XNAMES
-+     _nc_align_termtype(to, from);
-+ #endif
-+diff --git a/ncurses/tinfo/alloc_ttype.c b/ncurses/tinfo/alloc_ttype.c
-+index 4a1b6913..6e830d0f 100644
-+--- a/ncurses/tinfo/alloc_ttype.c
-++++ b/ncurses/tinfo/alloc_ttype.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1999-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1999-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -42,7 +42,7 @@
-+ 
-+ #include <tic.h>
-+ 
-+-MODULE_ID("$Id: alloc_ttype.c,v 1.29 2017/04/09 23:15:34 tom Exp $")
-++MODULE_ID("$Id: alloc_ttype.c,v 1.30 2018/04/14 19:24:54 tom Exp $")
-+ 
-+ #if NCURSES_XNAMES
-+ /*
-+@@ -388,12 +388,16 @@ adjust_cancels(TERMTYPE2 *to, TERMTYPE2 *from)
-+ NCURSES_EXPORT(void)
-+ _nc_align_termtype(TERMTYPE2 *to, TERMTYPE2 *from)
-+ {
-+-    int na = (int) NUM_EXT_NAMES(to);
-+-    int nb = (int) NUM_EXT_NAMES(from);
-++    int na;
-++    int nb;
-+     char **ext_Names;
-+ 
-+-    DEBUG(2, ("align_termtype to(%d:%s), from(%d:%s)", na, to->term_names,
-+-	      nb, from->term_names));
-++    na = to ? ((int) NUM_EXT_NAMES(to)) : 0;
-++    nb = from ? ((int) NUM_EXT_NAMES(from)) : 0;
-++
-++    DEBUG(2, ("align_termtype to(%d:%s), from(%d:%s)",
-++	      na, to ? NonNull(to->term_names) : "?",
-++	      nb, from ? NonNull(from->term_names) : "?"));
-+ 
-+     if (na != 0 || nb != 0) {
-+ 	int ext_Booleans, ext_Numbers, ext_Strings;
-+@@ -592,12 +596,4 @@ _nc_export_termtype2(TERMTYPE *dst, const TERMTYPE2 *src)
-+     DEBUG(2, ("_nc_export_termtype2..."));
-+     copy_termtype((TERMTYPE2 *) dst, src, srcINT);
-+ }
-+-
-+-/* FIXME - this will go away when conversion is complete */
-+-NCURSES_EXPORT(void)
-+-_nc_import_termtype2(TERMTYPE2 *dst, const TERMTYPE *src)
-+-{
-+-    DEBUG(2, ("_nc_import_termtype2..."));
-+-    copy_termtype(dst, (const TERMTYPE2 *) src, dstINT);
-+-}
-+ #endif /* NCURSES_EXT_NUMBERS */
-+diff --git a/ncurses/tinfo/comp_parse.c b/ncurses/tinfo/comp_parse.c
-+index 580d4df2..d4875b27 100644
-+--- a/ncurses/tinfo/comp_parse.c
-++++ b/ncurses/tinfo/comp_parse.c
-+@@ -317,6 +317,9 @@ _nc_resolve_uses2(bool fullresolve, bool literal)
-+ 	    char *lookfor = qp->uses[i].name;
-+ 	    long lookline = qp->uses[i].line;
-+ 
-++	    if (lookfor == 0)
-++		continue;
-++
-+ 	    foundit = FALSE;
-+ 
-+ 	    _nc_set_type(child);
-+@@ -394,7 +397,8 @@ _nc_resolve_uses2(bool fullresolve, bool literal)
-+ 		     * subsequent pass.
-+ 		     */
-+ 		    for (i = 0; i < qp->nuses; i++)
-+-			if (qp->uses[i].link->nuses) {
-++			if (qp->uses[i].link
-++			    && qp->uses[i].link->nuses) {
-+ 			    DEBUG(2, ("%s: use entry %d unresolved",
-+ 				      _nc_first_name(qp->tterm.term_names), i));
-+ 			    goto incomplete;
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index bbbfcb27..0389767b 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright (c) 1998-2016,2017 Free Software Foundation, Inc.              *
-++ * Copyright (c) 1998-2017,2018 Free Software Foundation, Inc.              *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+  * copy of this software and associated documentation files (the            *
-+@@ -543,9 +543,11 @@ _nc_parse_entry(ENTRY * entryp, int literal, bool silent)
-+ 		 * Otherwise, look for a base entry that will already
-+ 		 * have picked up defaults via translation.
-+ 		 */
-+-		for (i = 0; i < entryp->nuses; i++)
-+-		    if (!strchr((char *) entryp->uses[i].name, '+'))
-++		for (i = 0; i < entryp->nuses; i++) {
-++		    if (entryp->uses[i].name != 0
-++			&& !strchr(entryp->uses[i].name, '+'))
-+ 			has_base_entry = TRUE;
-++		}
-+ 	    }
-+ 
-+ 	    postprocess_termcap(&entryp->tterm, has_base_entry);
-+diff --git a/ncurses/tinfo/read_entry.c b/ncurses/tinfo/read_entry.c
-+index 3cb02410..dc8ddba8 100644
-+--- a/ncurses/tinfo/read_entry.c
-++++ b/ncurses/tinfo/read_entry.c
-+@@ -717,6 +717,9 @@ _nc_read_entry2(const char *const name, char *const filename, TERMTYPE2 *const t
-+ {
-+     int code = TGETENT_NO;
-+ 
-++    if (name == 0)
-++	return _nc_read_entry2("", filename, tp);
-++
-+     _nc_SPRINTF(filename, _nc_SLIMIT(PATH_MAX)
-+ 		"%.*s", PATH_MAX - 1, name);
-+ 
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
-index d1da5d16e0..9e453ec410 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-             file://0002-configure-reproducible.patch \
-             file://config.cache \
-             file://CVE-2017-13732-CVE-2017-13734-CVE-2017-13730-CVE-2017-13729-CVE-2017-13728-CVE-2017-13731.patch \
-+            file://CVE-2018-10754.patch \
- "
- # commit id corresponds to the revision in package version
- SRCREV = "52681a6a1a18b4d6eb1a716512d0dd827bd71c87"
++ class SoupNetworkSession {
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
+similarity index 96%
+rename from meta/recipes-sato/webkit/webkitgtk_2.20.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
+index 360ab8e69b..a68a69f43c 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.20.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
+@@ -21,10 +21,11 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+            file://0001-Fix-build-with-musl.patch \
+            file://detect-gstreamer-gl.patch \
++           file://0012-soup-Forward-declare-URL-class.patch \
+            "
+ 
+-SRC_URI[md5sum] = "0cd9b9ae1f48c04de5314f77806eceb4"
+-SRC_URI[sha256sum] = "43e43285fa4e393080cc4fbd5ad8644749a75b1e0b811b230b63ae56806c8959"
++SRC_URI[md5sum] = "3fdda40dc10eb2a00d5fba4219b83967"
++SRC_URI[sha256sum] = "dffe93a241f03f1c73b369f4e323e4d8f12e39d33d5515948cbf454ca4b526e2"
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
+@@ -85,7 +86,6 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+-EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
+ 
+ EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
+ 
 -- 
-2.16.2
+2.17.0
 
 
