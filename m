@@ -1,23 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DD10B745AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 08CDD602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 09:37:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 May 2018 02:37:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,426,1520924400"; d="scan'208";a="201078446"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 21 May 2018 02:37:28 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 May 2018 12:37:30 +0300
-Message-Id: <20180521093730.40994-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] wireless-tools: remove the recipe
+	Mon, 21 May 2018 10:15:16 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id n202-v6so20467125ita.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2018 03:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=o+RSXabAAStf7u73OQOiA1H/KK8+r2hE97uFFblHSZQ=;
+	b=kNymEiWUTJtfVTk+tJ2xHmgA/qAkORDSmXD+Hzd9Zk6W2lfzXHOGYcZ4JsVP8QvP8C
+	BD1S7tANm2e1ZLmKfcqrxfp8uS+44U1bdS13iB1348bzSbT2RouPpFdL8qznCxFw2xHh
+	7xihdAh3FUVcMALoENpoyCHdwuujel5xNx2LghI2x7HIE16slgaJsVl2cxFIBjyCK1BS
+	w4YKldATboXo3uf0UUOWkYVDqWl8BXtFuKABpanZCNiPhwjCQqAQAnbWKzyvIP29phPA
+	6rGciOwhVNnTy4UXFOr55/jxdOHi7f+apGFMHUNGPnztJ+8O/cNZ4yQBZV0wUy6i/fRm
+	N1Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=o+RSXabAAStf7u73OQOiA1H/KK8+r2hE97uFFblHSZQ=;
+	b=dM1S5UfsCDSDcGEZMg/zZILFajzweMmEWPa6ElKY17ELmTsu9dy1+DCWmqkC8VUF2U
+	BllT2YDs57iSqOq3jXy39Z8GaOgXnEw0XkzJ7K4pCuyUQgc0CBxrd7ldWM3Ozha4tREL
+	kC/sNbLam6J6WAW++wLTM+C2h6Vj6xAu46/BcY5VvQW8gtvqtLAd1QNUk5GHgAufJN7u
+	bVdxiJ1ijB7hzZ4OxsF9WugRhe87sVcmS6cEtGLGeT7jFtcRgg6Zd9jZyIdnFG28IDCW
+	8hdzSYSi1Cl5IxCdBjhZKpVtoZEXmkeph8iZ97QcVOKXbuMqzTKz3tqWM9vvwbAWkEmX
+	43kA==
+X-Gm-Message-State: ALKqPweODffTbbOmmrcTYqZVFQfJOIg2mi2clEAk1/siWIAaMPfpyRtw
+	vzZxrJgZ3Sbh541OImS//DYqmttkck/Fny5eFeD2Qw==
+X-Google-Smtp-Source: AB8JxZqhc4y4pQf2eKP51DQ+x6Ggdq2I7rpjJIUgJ8kIy/c22e5BPayDrtFSiNeZVNyHMrXs0hbF23cJJQ8Azy+bvdc=
+X-Received: by 2002:a24:496:: with SMTP id
+	144-v6mr16478178itb.131.1526897717841; 
+	Mon, 21 May 2018 03:15:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.239.11 with HTTP; Mon, 21 May 2018 03:14:57 -0700 (PDT)
+In-Reply-To: <CANNYZj8nv6EDkp46yJjxqBQs3jRZcTFeP19e5uKA_ye0a0JH6A@mail.gmail.com>
+References: <20180520220442.16092-1-raj.khem@gmail.com>
+	<20180520220442.16092-2-raj.khem@gmail.com>
+	<CANNYZj8nv6EDkp46yJjxqBQs3jRZcTFeP19e5uKA_ye0a0JH6A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 May 2018 11:14:57 +0100
+Message-ID: <CAJTo0LZdLBNX5p-=2YFj-pJ2m=KHO_MXRD9UVj6L8SuqgSHOdw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] webkitgtk: Upgrade to 2.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,228 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 09:37:29 -0000
+X-List-Received-Date: Mon, 21 May 2018 10:15:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-wireless-tools have been obsolete and superseded by iw for a very long time.
+On 21 May 2018 at 07:07, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> 2018-05-21 1:04 GMT+03:00 Khem Raj <raj.khem@gmail.com>:
+>> +Subject: [PATCH] soup: Forward declare URL class
+>> +
+>> +This helps getting away with compiler errors seen with clang
+>> +
+>> +/mnt/a/oe/workspace/sources/webkitgtk/Source/WebCore/platform/network/soup/SoupNetworkSession.h:68:62:
+>> +error: unknown type name 'URL'
+>> +    static std::optional<ResourceError> checkTLSErrors(const URL&,
+>> +GTlsCertificate*, GTlsCertificateFlags);
+>
+> Thanks - gcc has the same issue. I'm not sure how upstream is able to build.
 
-I've checked that images continue to boot and the graphical connman frontend
-is still able to list wireless networks; there is no evidence that
-wireless-tools are needed by anything.
+https://trac.webkit.org/changeset/231876/webkit
 
-[YOCTO #12727]
-
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../conf/distro/include/default-providers.inc |  1 -
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../wireless-tools/avoid_strip.patch          | 21 --------
- .../wireless-tools/ldflags.patch              | 22 --------
- .../wireless-tools/wireless-tools/man.patch   | 15 ------
- .../wireless-tools/remove.ldconfig.call.patch | 19 -------
- .../wireless-tools/wireless-tools_30.pre9.bb  | 50 -------------------
- .../packagegroups/packagegroup-base.bb        |  2 +-
- 8 files changed, 1 insertion(+), 130 deletions(-)
- delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
- delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
- delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
- delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
- delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index e65c1ed323d..779b03d50cf 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -23,7 +23,6 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
- VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
- VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
--VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
- VIRTUAL-RUNTIME_base-utils ?= "busybox"
- VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
- 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 6d6c148de88..f24e482abe5 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -712,7 +712,6 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-wic-tools = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-wireless-tools = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-x11-common = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
-deleted file mode 100644
-index f34e243de99..00000000000
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools/avoid_strip.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--wireless_tools: Avoid stripping iwmulticall
--
--Upstream-Status: Inappropriate [other]
--  The removed code was from upstream.
--
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
--diff -ur wireless_tools.29.orig/Makefile wireless_tools.29/Makefile
----- wireless_tools.29.orig/Makefile	2011-06-18 11:35:12.183907453 -0500
--+++ wireless_tools.29/Makefile	2011-06-18 11:38:09.995907985 -0500
--@@ -135,9 +135,8 @@
-- 
-- macaddr: macaddr.o $(IWLIB)
-- 
---# Always do symbol stripping here
-- iwmulticall: iwmulticall.o
---	$(CC) $(LDFLAGS) -Wl,-s $(XCFLAGS) -o $@ $^ $(LIBS)
--+	$(CC) $(LDFLAGS) $(STRIPFLAGS) $(XCFLAGS) -o $@ $^ $(LIBS)
-- 
-- # It's a kind of magic...
-- wireless.h:
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
-deleted file mode 100644
-index 6c0d8cbd2e4..00000000000
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools/ldflags.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--wireless-tools: Remove QA warning: No GNU_HASH in the elf binary
--
--Upstream-Status: Inappropriate [other]
--  Useful within bitbake environment only.
--
--Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
--
-----
-- Makefile |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
----- wireless_tools.29.orig/Makefile
--+++ wireless_tools.29/Makefile
--@@ -144,7 +144,7 @@ wireless.h:
-- 
-- # Compilation of the dynamic library
-- $(DYNAMIC): $(OBJS:.o=.so)
---	$(CC) -shared -o $@ -Wl,-soname,$@ $(STRIPFLAGS) $(LIBS) -lc $^
--+	$(CC) -shared -o $@ -Wl,-soname,$@ $(LDFLAGS) $(STRIPFLAGS) $(LIBS) -lc $^
-- 
-- # Compilation of the static library
-- $(STATIC): $(OBJS:.o=.so)
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
-deleted file mode 100644
-index 6a757dae763..00000000000
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Index: wireless_tools.30/Makefile
--===================================================================
----- wireless_tools.30.orig/Makefile	2014-02-01 00:21:04.148463382 -0800
--+++ wireless_tools.30/Makefile	2014-02-01 00:23:35.448072279 -0800
--@@ -76,7 +76,7 @@
-- INSTALL_DIR= $(PREFIX)/sbin
-- INSTALL_LIB= $(PREFIX)/lib
-- INSTALL_INC= $(PREFIX)/include
---INSTALL_MAN= $(PREFIX)/man
--+INSTALL_MAN= $(PREFIX)/share/man
-- 
-- # Various commands
-- RM = rm -f
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
-deleted file mode 100644
-index 3a22c3f1e70..00000000000
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools/remove.ldconfig.call.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--When /etc/ld.so.cache is writeable by user running bitbake then it creates invalid cache 
--(in my case libstdc++.so cannot be found after building zlib(-native) and I have to call 
--touch */libstdc++.so && /sbin/ldconfig to fix it.
--
--So remove ldconfig call from make install-libs
--
--Upstream-Status: Inappropriate [disable feature]
--
--diff -uNr wireless_tools.29.orig/Makefile wireless_tools.29/Makefile
----- wireless_tools.29.orig/Makefile	2007-09-18 01:56:46.000000000 +0200
--+++ wireless_tools.29/Makefile	2012-02-15 20:46:41.780763514 +0100
--@@ -163,7 +163,6 @@
-- 	install -m 755 $(DYNAMIC) $(INSTALL_LIB)
-- 	ln -sfn $(DYNAMIC) $(INSTALL_LIB)/$(DYNAMIC_LINK)
-- 	@echo "*** Don't forget to add $(INSTALL_LIB) to /etc/ld.so.conf, and run ldconfig as root. ***"
---	@$(LDCONFIG) || echo "*** Could not run ldconfig ! ***"
-- 
-- # Install the static library
-- install-static:: $(STATIC)
-diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
-deleted file mode 100644
-index 0a342071e0f..00000000000
---- a/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
-+++ /dev/null
-@@ -1,50 +0,0 @@
--SUMMARY = "Tools for the Linux Standard Wireless Extension Subsystem"
--HOMEPAGE = "https://hewlettpackard.github.io/wireless-tools/Tools.html"
--LICENSE = "GPLv2 & (LGPLv2.1 | MPL-1.1 | BSD)"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--			file://iwconfig.c;beginline=1;endline=12;md5=cf710eb1795c376eb10ea4ff04649caf \
--			file://iwevent.c;beginline=59;endline=72;md5=d66a10026d4394f0a5b1c5587bce4537 \
--			file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
--SECTION = "base"
--PE = "1"
--
--SRC_URI = "https://hewlettpackard.github.io/wireless-tools/wireless_tools.${PV}.tar.gz \
--           file://remove.ldconfig.call.patch \
--           file://man.patch \
--           file://avoid_strip.patch \
--           file://ldflags.patch \
--          "
--SRC_URI[md5sum] = "ca91ba7c7eff9bfff6926b1a34a4697d"
--SRC_URI[sha256sum] = "abd9c5c98abf1fdd11892ac2f8a56737544fe101e1be27c6241a564948f34c63"
--
--UPSTREAM_CHECK_URI = "https://hewlettpackard.github.io/wireless-tools/Tools.html"
--UPSTREAM_CHECK_REGEX = "wireless_tools\.(?P<pver>(\d+)(\..*|))\.tar\.gz"
--
--S = "${WORKDIR}/wireless_tools.30"
--
--CFLAGS =+ "-I${S}"
--EXTRA_OEMAKE = "-e 'BUILD_SHARED=y' \
--		'INSTALL_DIR=${D}${base_sbindir}' \
--		'INSTALL_LIB=${D}${libdir}' \
--		'INSTALL_INC=${D}${includedir}' \
--		'INSTALL_MAN=${D}${mandir}'"
--
--do_compile() {
--	oe_runmake all libiw.a
--}
--
--do_install() {
--	oe_runmake PREFIX=${D} install-iwmulticall install-dynamic install-man install-hdr
--	install -d ${D}${sbindir}
--	install -m 0755 ifrename ${D}${sbindir}/ifrename
--}
--
--PACKAGES = "libiw libiw-dev libiw-doc ifrename-doc ifrename ${PN} ${PN}-doc ${PN}-dbg"
--
--FILES_libiw = "${libdir}/*.so.*"
--FILES_libiw-dev = "${libdir}/*.a ${libdir}/*.so ${includedir}"
--FILES_libiw-doc = "${mandir}/man7"
--FILES_ifrename = "${sbindir}/ifrename"
--FILES_ifrename-doc = "${mandir}/man8/ifrename.8 ${mandir}/man5/iftab.5"
--FILES_${PN} = "${bindir} ${sbindir}/iw* ${base_sbindir} ${base_bindir} ${sysconfdir}/network"
--FILES_${PN}-doc = "${mandir}"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index bb192aed29e..442201c9efa 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -289,7 +289,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
- #
- SUMMARY_packagegroup-base-wifi = "WiFi support"
- RDEPENDS_packagegroup-base-wifi = "\
--    ${VIRTUAL-RUNTIME_wireless-tools} \
-+    iw \
-     wpa-supplicant"
- 
- RRECOMMENDS_packagegroup-base-wifi = "\
--- 
-2.17.0
-
+Ross
 
