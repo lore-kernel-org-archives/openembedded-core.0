@@ -1,44 +1,49 @@
-Return-Path: <tanuk@iki.fi>
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
-	[66.111.4.224])
-	by mail.openembedded.org (Postfix) with ESMTP id D14FC74A05
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2407974797
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 15:30:35 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 22EEF158C
+	Tue, 22 May 2018 15:37:28 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id a6-v6so16608911oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 11:30:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Tue, 22 May 2018 11:30:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=date:from:in-reply-to:message-id
-	:references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=NS2qCfbj/jwqvtgzRs9VLGJDx86T+ZPS+LWT6Q3WJPE=; b=DQNzQVk+
-	iatRJsuEqC9Dw3tf7omLGA47Vd015mFcaMkAaR6wc6fyl+4pEerc4zuaFFjG7ZeZ
-	lrnN9jHlxQLTiy0l4FiJYmWmW2K77meOKrCXz8Fr8JnCWnEldG+aYx281Atnfj7N
-	U1mFRUKRqkNNl11g3OjSaHsO6EbrUkecnkeYtDapqITA/eDT/KRWJWU47WnrTM9n
-	yZpT2dy1akTNZS5AKe2tByXRxL5U/J8uD6GZIEeFwQg+Wf2D9TeR/q8XKhFkRw6W
-	XivtKJvxpTXnFjnuJnzeLjOkoSyqgeQUji9mfY/aalm/tSExCQkrkNbwfv9OfnIB
-	GWdVGVagyF1ioA==
-X-ME-Proxy: <xmx:nTcEW1FB9OvhzNIRZBikcyOcURvDRiLJQN6Z8cLD_45HGvBHA3DnoA>
-X-ME-Proxy: <xmx:nTcEW4yy6_vFARr-QjyHO1oqebvYCfHfWZpmvXvYaifv0t3wu16A2A>
-X-ME-Proxy: <xmx:nTcEW5x9pDZr6AvxfZBi9YZDxiDYOIc8x-CvbmGOk6gszNUkTfKV6A>
-X-ME-Proxy: <xmx:nTcEW2a5KCsCCpiTJ2A0pzR2vpdB5YSTuQtBmuDjpJZ_PZL-l4a8SQ>
-X-ME-Proxy: <xmx:nTcEWzx8YfOa9h8t39cGAQ3O4RBNkGmK3aP1JGZfosQbfJeW6HDqFA>
-X-ME-Proxy: <xmx:nTcEWyr2_aY_Eq3bXlOa1xnDe1He6lZBujkxOPV4oV6D4wmMMJPOdA>
-X-ME-Sender: <xms:nTcEW-FB_a0TA0jDomRbYBWhxpGa8UCOvj2O0LUExVMxAs5FoBi-LQ>
-Received: from localhost.localdomain (unknown [192.40.95.27])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 8526F1025E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 11:30:36 -0400 (EDT)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2018 18:30:11 +0300
-Message-Id: <20180522153011.18761-4-tanuk@iki.fi>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180522153011.18761-1-tanuk@iki.fi>
-References: <20180522153011.18761-1-tanuk@iki.fi>
-Subject: [PATCH 3/3] alsa-utils: 1.1.5 -> 1.1.6
+	Tue, 22 May 2018 08:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EUgh+0qu85kGeG9LYZEQ4W9OXtKQAMXS1ezqDI9cm7E=;
+	b=KT0cVvzeiBZtQNYKyHHISjPD0aradz4D+XTnHhGanU90fOms62CPcDVmKT/0V8XJih
+	0oIvXdVDr4shlNvi2sq5sVjKAOcWgGZVvA7UhZnoEIbbeGz5b4UizqkmtZv+OKfn7mCv
+	RbFC5IdbSRNIDedi//I4WcoBfhOwgmSjnXuELiYAY0DNH9IuyZcEEXVqXT5x44TEN8tN
+	RPzD6W1eKgowpyiQgOXJwDumyHMLWVMVBqnK8ot256bQ2eTi1LPhIDh7kZ5YOKbbni0d
+	Y1ANIjARJaCt5SufQChz5bwH3W1LAVPn5QYY3KqVzoXGnxswIfhoQWeAQP0ejrQFrUih
+	GqwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EUgh+0qu85kGeG9LYZEQ4W9OXtKQAMXS1ezqDI9cm7E=;
+	b=k24HaYdIcqD3toPkUVdI4Xu+dkO6n4QmzQuLuNjZTkcjagMJgle9fFF0ZgmqyVzUzm
+	hCieEy0YtSKgbIygEIdBL0SgcZn8uZ7ult2j5DlQLcKbfz3q2z7eNJUFZKsk4i+OTOPb
+	PFgGZai2m73gg1XNEGVTVmeSeHOBPVLJUmamWEjH9KWrpRDPZ2qprFlf5ra38GbQBgfg
+	EeXiW6NPpMvcRwLSeKH3mgUI9VOa8ThgANUXTYjyplyJMXrbG4/mWbjhrjlF1uftwVuu
+	3cx8v5Ak4LJbaefeGC381mZ4Ukl5J9xrWeVJuJ3d8ZHcQtZwudJ9xout1nvny6NdXpsA
+	0pWg==
+X-Gm-Message-State: ALKqPwfdm7dQAkE/h3ITKWTODOgkl4wv64aacGWQO8avPfCwt7xVjUTP
+	QwEi1scPbQZNrcA4F2p3k+iRo7t+ytSEKi4wXtg=
+X-Google-Smtp-Source: AB8JxZqrdrpb/UcdfVEHeO59tMCuxYbMLZQY3G+tXxwnfpwpz5Ecx1c+nUzdpqFSVRwuRgueFjPT0rb8ie44hpnK18w=
+X-Received: by 2002:aca:3d05:: with SMTP id
+	k5-v6mr15220444oia.302.1527003449798; 
+	Tue, 22 May 2018 08:37:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <613380E3-73CD-4A50-B8E3-337912D28A93@gmail.com>
+	<44b3165e-42fa-6cfc-ca9b-cc11892db157@linux.intel.com>
+In-Reply-To: <44b3165e-42fa-6cfc-ca9b-cc11892db157@linux.intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 22 May 2018 08:37:19 -0700
+Message-ID: <CABcZANmAM5=5W1_BWFC6BG6kwR8SY=HMYXyCFTzKVQrJ-imY2Q@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/oe-init-bashrc: add more user-friendly oe-setup utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,120 +56,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 15:30:36 -0000
+X-List-Received-Date: Tue, 22 May 2018 15:37:29 -0000
+Content-Type: multipart/alternative; boundary="00000000000032345d056ccd322e"
 
-Dropped 0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch,
-because an equivalent patch is included in the new release.
+--00000000000032345d056ccd322e
+Content-Type: text/plain; charset="UTF-8"
 
-License-Update: FSF address updated
+I agree, there are a ton of build dir and project management tools, without
+information about the use cases satisfied and why it's superior to
+alternatives, much less why you think it belongs in oe-core as opposed to
+all the other tools folks use, which would imply tactit approval as the
+official method, particularly going into scripts instead of contrib, I
+doubt this is going anywhere.
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- ...s_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} |  0
- ...t-systemd-unit-restore-the-volume-wh.patch | 56 -------------------
- ...lsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} |  7 +--
- 3 files changed, 3 insertions(+), 60 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} (100%)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} (94%)
+On Mon, May 21, 2018 at 12:04 PM Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.6.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.6.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-deleted file mode 100644
-index 907ca5ce0e..0000000000
---- a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From b9d41b784657152a4c5683a9458dffab557f0689 Mon Sep 17 00:00:00 2001
--From: Koen Kooi <koen@dominion.thruhere.net>
--Date: Fri, 29 Aug 2014 18:58:56 +0300
--Subject: [PATCH] alsactl: don't let systemd unit restore the volume when
-- asound.state is missing
--
--This avoids an error on bootup
--
--Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
--
--Upstream-Status: Pending
--
--Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
--Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
--
--Rebased on 1.1.0.
--
--Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-----
-- alsactl/Makefile.am             | 7 ++++---
-- alsactl/alsa-restore.service.in | 1 +
-- 2 files changed, 5 insertions(+), 3 deletions(-)
--
--diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
--index 90fab9d..190525a 100644
----- a/alsactl/Makefile.am
--+++ b/alsactl/Makefile.am
--@@ -38,9 +38,10 @@ install-data-hook:
-- endif
-- 
-- edit = \
---	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
---		  -e 's,@mydatadir\@,$(mydatadir),g' \
---		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
--+	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' \
--+	       -e 's,@sbindir\@,$(sbindir),g' \
--+	       -e 's,@mydatadir\@,$(mydatadir),g' \
--+	       -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
-- 							< $< > $@ || rm $@
-- 
-- alsa-state.service: alsa-state.service.in
--diff --git a/alsactl/alsa-restore.service.in b/alsactl/alsa-restore.service.in
--index 80fd5fd..6beb36d 100644
----- a/alsactl/alsa-restore.service.in
--+++ b/alsactl/alsa-restore.service.in
--@@ -7,6 +7,7 @@
-- Description=Save/Restore Sound Card State
-- ConditionPathExists=!@daemonswitch@
-- ConditionPathExistsGlob=/dev/snd/control*
--+ConditionPathExists=@localstatedir@/lib/alsa/asound.state
-- 
-- [Service]
-- Type=oneshot
---- 
--2.14.2
--
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
-similarity index 94%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
-index 33215bf159..b8ba0cb22a 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
-@@ -4,7 +4,7 @@ BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
- SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
--                    file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
-+                    file://alsactl/utils.c;beginline=1;endline=20;md5=2ce7f7b6739487fb72c689d46521f958"
- DEPENDS = "alsa-lib ncurses libsamplerate0"
- 
- PACKAGECONFIG ??= "udev"
-@@ -20,11 +20,10 @@ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev
- PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
--           file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
- 
--SRC_URI[md5sum] = "dfe6ea147a5e07a056919591c2f5dac3"
--SRC_URI[sha256sum] = "320bd285e91db6e7fd7db3c9ec6f55b02f35449ff273c7844780ac6a5a3de2e8"
-+SRC_URI[md5sum] = "50ae75567459646b843bed78d916b002"
-+SRC_URI[sha256sum] = "155caecc40b2220f686f34ba3655a53e3bdbc0586adb1056733949feaaf7d36e"
- 
- # On build machines with python-docutils (not python3-docutils !!) installed
- # rst2man (not rst2man.py) is detected and compile fails with
+> On 05/21/2018 06:55 PM, Jens Rehsack wrote:
+> > Move scripts/bashrc from meta-jens/scripts to oe-core to share
+> user-friendly
+> > oe builddir management with community. Using this script will help manage
+> > multiple BSPs and targets like perl developers using perlbrew.
+>
+> Please explain in detail what this does, and why is it superior to
+> existing tools. What are the typical usage scenarios? Where and how this
+> should be documented and tested? It is not a good idea to just add
+> something into scripts/, as no one will know or use it, and so it will
+> just quietly bitrot.
+>
+> > +__oe_check_py () {
+> > +    # Make sure we're not using python v3.x. This check can't go into
+> > +    # sanity.bbclass because bitbake's source code doesn't even pass
+> > +    # parsing stage when used with python v3, so we catch it here so we
+> > +    # can offer a meaningful error message.
+> > +    py_v3_check=`/usr/bin/env python --version 2>&1 | grep "Python 3"`
+> > +    if [ "$py_v3_check" != "" ]; then
+> > +        echo >&2 "Bitbake is not compatible with python v3"
+> > +        echo >&2 "Please set up python v2 as your default python
+> interpreter"
+> > +        return 1
+> > +    fi
+>
+> Bitbake has in fact been compatible with Python 3.x for several
+> releases. The above check is not particularly useful, as /usr/bin/python
+> nearly always points to a 2.x version.
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 -- 
-2.17.0
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--00000000000032345d056ccd322e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">I agree, there are a ton of build dir and project manageme=
+nt tools, without information about the use cases satisfied and why it&#39;=
+s superior to alternatives, much less why you think it belongs in oe-core a=
+s opposed to all the other tools folks use, which would imply tactit approv=
+al as the official method, particularly going into scripts instead of contr=
+ib, I doubt this is going anywhere.<br></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr">On Mon, May 21, 2018 at 12:04 PM Alexander Kanavin &lt;<a=
+ href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.=
+intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 05/21=
+/2018 06:55 PM, Jens Rehsack wrote:<br>
+&gt; Move scripts/bashrc from meta-jens/scripts to oe-core to share user-fr=
+iendly<br>
+&gt; oe builddir management with community. Using this script will help man=
+age<br>
+&gt; multiple BSPs and targets like perl developers using perlbrew.<br>
+<br>
+Please explain in detail what this does, and why is it superior to <br>
+existing tools. What are the typical usage scenarios? Where and how this <b=
+r>
+should be documented and tested? It is not a good idea to just add <br>
+something into scripts/, as no one will know or use it, and so it will <br>
+just quietly bitrot.<br>
+<br>
+&gt; +__oe_check_py () {<br>
+&gt; +=C2=A0 =C2=A0 # Make sure we&#39;re not using python v3.x. This check=
+ can&#39;t go into<br>
+&gt; +=C2=A0 =C2=A0 # sanity.bbclass because bitbake&#39;s source code does=
+n&#39;t even pass<br>
+&gt; +=C2=A0 =C2=A0 # parsing stage when used with python v3, so we catch i=
+t here so we<br>
+&gt; +=C2=A0 =C2=A0 # can offer a meaningful error message.<br>
+&gt; +=C2=A0 =C2=A0 py_v3_check=3D`/usr/bin/env python --version 2&gt;&amp;=
+1 | grep &quot;Python 3&quot;`<br>
+&gt; +=C2=A0 =C2=A0 if [ &quot;$py_v3_check&quot; !=3D &quot;&quot; ]; then=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &gt;&amp;2 &quot;Bitbake is not comp=
+atible with python v3&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &gt;&amp;2 &quot;Please set up pytho=
+n v2 as your default python interpreter&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1<br>
+&gt; +=C2=A0 =C2=A0 fi<br>
+<br>
+Bitbake has in fact been compatible with Python 3.x for several <br>
+releases. The above check is not particularly useful, as /usr/bin/python <b=
+r>
+nearly always points to a 2.x version.<br>
+<br>
+Alex<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
+ics</div></div></div></div>
+
+--00000000000032345d056ccd322e--
