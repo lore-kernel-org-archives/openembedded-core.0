@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f43.google.com (mail-pl0-f43.google.com
-	[209.85.160.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CF55748A5
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 135B3748A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 02:11:57 +0000 (UTC)
-Received: by mail-pl0-f43.google.com with SMTP id i5-v6so9901055plt.2
+	Tue, 22 May 2018 02:17:01 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id p14-v6so7972450pfh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 19:11:58 -0700 (PDT)
+	Mon, 21 May 2018 19:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Dmb46D3Gg9bcQhNJhx/nu2ygDjgRpyq2Ejvq0QGvtEs=;
-	b=hixw9VU5ktiI6DU2XVexrnYzTiSq0LWlwGq82f48dxpMVyfFUay1ZfyHPu6GpHTxmi
-	jwLZcF2y9uJDDeWe8lLvij/cntRWtCmbacGfImvDn6m9nz74Z1/6CoDuRGhRAQ8Ske+4
-	0PE6kw+HkndQ4jcj2uz30Gz+tatuIloWXl1Vi9mZDMySnerxcWNgZr0Gj+qkr3hOFUYn
-	8vQlxFx3w+fR6c81cmn9r0fmCA0eXsqGFgspXAY6gW/YR3luOn1/Zzzqr/YJ9meYAFd9
-	XdolAp6o8repu3PBeczifSUiK0lrXyc+U46f07W+JVpiJ5PrE5klDhcfvGFr7OxjCGxC
-	Icaw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GuQW+jkqGQ9eZ1kku8/AXu0H+EbvU0BA4z9V/GAJSe8=;
+	b=sGIjupcH9fqLMFtukQpkTtuK9YcL8tOhz8Dy6WbadOZAB43KY0VUqArzLAjSo+8TW0
+	OZWojazczrPI0KBrwPIeniPbpdU1nNgADFmQ+mcQvXH8Gji6os529hMp/yNEURJjCZg6
+	uU2yWcHQfkRSrfqf3MQVTguh/fENrKvepIFtGsFCVtHS8xAIuxlAj9UiZuHSesoyDJoQ
+	bj4nHhnk2id1T+XAJ8hRXL4i2+aDMg26pmstWZLI9YlMeJmGUdcR+fhK6NJXVu/ZrXMS
+	4rLNuESw49AttE8lAwVdJRmoZpAtPoAtKIaUfiDzeqzW69u0QOKYrCu9ji3ny3U0eAnA
+	Py8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Dmb46D3Gg9bcQhNJhx/nu2ygDjgRpyq2Ejvq0QGvtEs=;
-	b=UftkjDW1SwdszTHQvIqLaHq477i2Mkla4Hzsq6fmMGtlu1QlGQX7ffhWIe87ENZkcB
-	GwX/A627CLwodNW9tB/LwYlBl0Sowh4YC2lxlHAbDcSq6B2QQZpx07ncvxt55HBgYqc5
-	D5y6RQ6dQNNG6qn/09PwwSi67DH24l5XAP3bySxD6oQ/C91Lk/YpoDfa1AlkWU62+YVO
-	lI0IfQyGuvwWG420iV/J7eqT7JPv7fvYwAxEOyI5WMCw3RIcXD349SkIbdXO7pPoLTP6
-	b3M9Ca3GmaJCRSPe2maH9srjzLXft3mrtvFWoHmlDrecv5JJ8m2rTONfZ6MNPhL6ZQkU
-	zCGg==
-X-Gm-Message-State: ALKqPwdDQdRUnjEEWXOHzspQbpBD0unpcaKrCoNcUefNwHTgMpMYhOyh
-	6eNPsKz/SKKxTITP+Xp7z6tKTw==
-X-Google-Smtp-Source: AB8JxZrYgzeqrWOY3hlAfyyFM8vXhnoCvRpBPtwyzjC85JPkQgFESxxiYSkhPhSLodq79VoSXyPG8Q==
-X-Received: by 2002:a17:902:3381:: with SMTP id
-	b1-v6mr22820932plc.248.1526955118127; 
-	Mon, 21 May 2018 19:11:58 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::c68])
-	by smtp.gmail.com with ESMTPSA id
-	x71-v6sm41582146pfe.47.2018.05.21.19.11.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 May 2018 19:11:57 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GuQW+jkqGQ9eZ1kku8/AXu0H+EbvU0BA4z9V/GAJSe8=;
+	b=DgaD27vIEJJI3NIrFoDwc+CxLi/juXqjhNaDRI8l7pRHqtXq/ndrS/LV3/wGS4SuDW
+	r3xFtuncwZm035vfKA2oywMLs6BZbQlI4h9YXkzkKjiBSmNqTPHMH0HIbUbm9xl9+rRC
+	IGjosg5gfclZDxMhis88HjtZ3AW21XSXxpsnYqNRw/YMU92z7N4uZORd65RcdFIE8ffx
+	F7wKF8VKs3G3KHUjctLSaLHki4KOn59UlQqcCjiAWTNPpQjx5rtamRObIzU4EJqVggkr
+	2v1llsdwRxEJDqDakPnhsx0L+zKCbNFnsVdWMs1OT4vaHSml9ZuS6cGLrYFCgFd85FfO
+	Awkw==
+X-Gm-Message-State: ALKqPwfq2QVrczSAyYL2fkzfv8M5OYv/yZ0DD0Bm8QA5NebwOobsjPAz
+	9OElSOhVt248qII4DnkHBzAzlxOKAFa2pNzn8LM=
+X-Google-Smtp-Source: AB8JxZooLN2f35rxm/pNEzycZhVtakzqvWy2ld9v5iqEAWjSFqeojuwJq4BTu10URNojL797qUweBBGvBe76x74b2Fo=
+X-Received: by 2002:a62:3c10:: with SMTP id
+	j16-v6mr22272315pfa.7.1526955422817; 
+	Mon, 21 May 2018 19:17:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Mon, 21 May 2018 19:16:32
+	-0700 (PDT)
+In-Reply-To: <F01F1AFA-0DE4-4153-A28B-04C5756825E8@gmail.com>
+References: <F01F1AFA-0DE4-4153-A28B-04C5756825E8@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 May 2018 19:11:56 -0700
-Message-Id: <20180522021156.6074-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH V3] webkitgtk: Upgrade to 2.20.2
+Date: Mon, 21 May 2018 22:16:32 -0400
+Message-ID: <CAMKF1srTZKdZkW7mcsw5sEz5TDQpMegFFsd4D+QtXxcFJtT6aw@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] cpan_build.bbclass: tell Module::Build the replacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,93 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 02:11:57 -0000
+X-List-Received-Date: Tue, 22 May 2018 02:17:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Backport a patch to fix build
+On Mon, May 21, 2018 at 11:49 AM, Jens Rehsack <rehsack@gmail.com> wrote:
+> Instead of patching Module::Build, maybe Module::Build::Tiny and all other
+> similar tools, use the official way to tell them which is the target perl
+> on target.
+>
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/classes/cpan_build.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
+> index fac074d610..c2491061fa 100644
+> --- a/meta/classes/cpan_build.bbclass
+> +++ b/meta/classes/cpan_build.bbclass
+> @@ -30,7 +30,7 @@ cpan_build_do_configure () {
+>  }
+>
+>  cpan_build_do_compile () {
+> -        perl Build verbose=1
+> +        perl Build --perl "/usr/bin/perl" verbose=1
 
-clang 6.0+ driver can correclty detect corss gold linker now
+perhaps using $[bindir} instead of hardcoding /usr/bin would be better here
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-V2:
-- Remove code to disable gold with clang instead of commenting, and describe why remove
-
-V3:
-- Mark patch status properly as backport
-
- .../0012-soup-Forward-declare-URL-class.patch | 31 +++++++++++++++++++
- ...ebkitgtk_2.20.1.bb => webkitgtk_2.20.2.bb} |  6 ++--
- 2 files changed, 34 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.20.1.bb => webkitgtk_2.20.2.bb} (96%)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch b/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
-new file mode 100644
-index 0000000000..78fd4dc79b
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0012-soup-Forward-declare-URL-class.patch
-@@ -0,0 +1,31 @@
-+From 59f6903ad96f3213f248b672d5fd526cc0d666ce Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 20 May 2018 14:28:27 -0700
-+Subject: [PATCH] soup: Forward declare URL class
-+
-+This helps getting away with compiler errors seen with clang
-+
-+/mnt/a/oe/workspace/sources/webkitgtk/Source/WebCore/platform/network/soup/SoupNetworkSession.h:68:62:
-+error: unknown type name 'URL'
-+    static std::optional<ResourceError> checkTLSErrors(const URL&,
-+GTlsCertificate*, GTlsCertificateFlags);
-+                                                             ^
-+Upstream-Status: Backport [https://trac.webkit.org/changeset/231876/webkit]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/WebCore/platform/network/soup/SoupNetworkSession.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Source/WebCore/platform/network/soup/SoupNetworkSession.h b/Source/WebCore/platform/network/soup/SoupNetworkSession.h
-+index 03bd72ba..7ca8792d 100644
-+--- a/Source/WebCore/platform/network/soup/SoupNetworkSession.h
-++++ b/Source/WebCore/platform/network/soup/SoupNetworkSession.h
-+@@ -43,6 +43,7 @@ namespace WebCore {
-+ 
-+ class CertificateInfo;
-+ class ResourceError;
-++class URL;
-+ struct SoupNetworkProxySettings;
-+ 
-+ class SoupNetworkSession {
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-similarity index 96%
-rename from meta/recipes-sato/webkit/webkitgtk_2.20.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-index 360ab8e69b..a68a69f43c 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.20.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-@@ -21,10 +21,11 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-Fix-build-with-musl.patch \
-            file://detect-gstreamer-gl.patch \
-+           file://0012-soup-Forward-declare-URL-class.patch \
-            "
- 
--SRC_URI[md5sum] = "0cd9b9ae1f48c04de5314f77806eceb4"
--SRC_URI[sha256sum] = "43e43285fa4e393080cc4fbd5ad8644749a75b1e0b811b230b63ae56806c8959"
-+SRC_URI[md5sum] = "3fdda40dc10eb2a00d5fba4219b83967"
-+SRC_URI[sha256sum] = "dffe93a241f03f1c73b369f4e323e4d8f12e39d33d5515948cbf454ca4b526e2"
- 
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
- 
-@@ -85,7 +86,6 @@ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
- EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
--EXTRA_OECMAKE_append_toolchain-clang = " -DUSE_LD_GOLD=OFF "
- 
- EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
- 
--- 
-2.17.0
-
+>  }
+>
+>  cpan_build_do_install () {
+> --
+> Jens Rehsack - rehsack@gmail.com
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
