@@ -1,48 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E45F174A0D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 16:06:04 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id q72-v6so639000itc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 09:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PqFXLrTH1nAWen9BWlPAVOCimXPlzCu71s45YzatpvA=;
-	b=BiBl2gpIpNU4QW0eGbDQS3iKchssLcGyS3MsbmBiSBo25N/phCJia9y7fpEUs7kE9e
-	UVh3vl43JZ7huAogC/85l14lH8EUh0d4YNSTVAnJGR+nxlvdMFbwWkDRDiYKp+y8LFLs
-	Ls+lJtcqVjTkVQLMH4zP+J017YyZBxD/dr/6q7vvDcPXDmFB+tNxkoaRirON31DavfiE
-	k1fv1zgHLaoIcYuCy7kV4eca3Y5Xh0CLzS91dcrKvLIb1Ko+oUcwxTd70+YhT2aVsnAV
-	HG3GrbWSFx2VkWLFzYYgJrtZgfewBEfV/BWZT860r4dA7WlP0qt03ILIvrVFawBKtcHJ
-	IE4w==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 59A53748A9;
+	Tue, 22 May 2018 16:14:55 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id a137-v6so17260887wme.1;
+	Tue, 22 May 2018 09:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=58hSeY6GxHVaOjjvebh11uYyf6B66R54PJ+dbq0E0dM=;
+	b=pKRy6/1OU4wHoJjw0ynAXWUBpXm/lbFQlBaoDq2akCrCtAEiIKF9afW81cLOsXzXu0
+	h2HGJsU1Bc01EecPMnjOqbpOdy1DOn6v5M/57xAdZ/iU9a9PVR36gdi3d58+VfZMpC1m
+	ww+RGGqui55fL882CgZj7HS5D17UWAPkzrirLmZ4oD4k8bYzK5zaSHvJIWzQM4+Y2Ny7
+	xqgW0UbiqvtONzt/94deJSl+fRlBN1AWsGUeC0cc7HK4Tfb1NzzenvIct0AjMneDC9Id
+	f5KLT4bHY43EJGlqnyWW4wNh86uRF7zpyPL8LRIx3Jn+0ZyflJgZXkXeFc46fHhm226E
+	129w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PqFXLrTH1nAWen9BWlPAVOCimXPlzCu71s45YzatpvA=;
-	b=Olhb6Lb+XmhqL8R/ha5Sm2I9Q9PZj5H47rL1l8OOGasPIlyQ/AEy1yvGyyrZuUO/gh
-	fQwb2VDYEEYLrViiSc2ZlItOWO6earGrJIl6o0yUC118HaYFQnRWNgIEm9YSHGg5olb2
-	xT5Qz6ZntGCsXRE3Qx6yP841lrYlcnWG1Ct1VJuzL1njAZWv1wdrmHb6OuSk8d/sAZfZ
-	v8GexUjp43QWlHIdandrckHGaHyWNw6aB45n0W6ByUQvzhNmoCrdwqTLaqRV7BdVR8PU
-	En5Stug1rnTdNmQELWneaG+XZ5MbXnD5BDzB3hEHONEePwmKGPbRmHbeV358vjHj7/6A
-	U0oA==
-X-Gm-Message-State: ALKqPwfoIFDGWqgjQzQxoOjMTTcQCZrrvy98GIj+l3JHenQEcjtcvf9I
-	Z/OEwfnpoBUCmPhR8i5ZdLhUjLsebq/V1Pqil6P12A==
-X-Google-Smtp-Source: AB8JxZoIuIM/QPgUgjooMEzSxduWZ3avIO75cxX7ekBBd/b3xfPaEwLEpjM8Rg2xaQpWkLac+16ifQcIhfCId3dz5xk=
-X-Received: by 2002:a24:496:: with SMTP id
-	144-v6mr1809416itb.131.1527005165757; 
-	Tue, 22 May 2018 09:06:05 -0700 (PDT)
+	bh=58hSeY6GxHVaOjjvebh11uYyf6B66R54PJ+dbq0E0dM=;
+	b=BwS04MROSWBecWPs4Yd/0XMwWmCNQLnbv1NJbuGSkV92ufXE6E5EKnHf5IYv4xQfxW
+	FXNkUtxKhQJg+9021OWNWBSnRp8PVzQLBGa46/gb7tW+BpLXelBfKIFBZKr/K/EXjl6X
+	fsIWkjAxy4S5h2t+4jW9+7+COVJHRwh27uwlyx1qMzxB0YaYBBofY6lpJPdxKb65oSFk
+	LV6Sl2mCCgMb6jF5lLn8sLfR2iyCqiNi+UTZAO7vhtPp81SEJ/IWuL4S1TOg6LRQOgi5
+	hWGbiIuX6VfhhV9gANR5vyKIYewD94NbUATR2fyPP2RuV7UVJYZygmeGpqjWOg/CknR/
+	6fOg==
+X-Gm-Message-State: ALKqPwcDl+ISRFMNniwxkYeJIeXD93ITDB0vthwQUMI/1GEjcw9E8HKw
+	kocmuyUGFVz3Pjtej9CLyoMLjTkKczW/NUmU5A4=
+X-Google-Smtp-Source: AB8JxZqXF1/gyEIPKVQo0WXOtkqBz13ADWwRHtP17/qMHKy0H3dqKTvREDXWvNPVt9n8nPDTyVZ4I4HEdLSAM/STJn4=
+X-Received: by 2002:a1c:cc08:: with SMTP id h8-v6mr1869196wmb.79.1527005695870;
+	Tue, 22 May 2018 09:14:55 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Tue, 22 May 2018 09:05:45 -0700 (PDT)
-In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
 References: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 May 2018 17:05:45 +0100
-Message-ID: <CAJTo0LZhf6nXfT_O6kfZfO8hkfZQz7dJVek0nF93G0fu+L6QKw@mail.gmail.com>
+In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 22 May 2018 18:14:44 +0200
+Message-ID: <CA+chaQe-1BaJFNARyK4wBh-vSmC=HqpcLHj=i_tHMrq-sa0x1A@mail.gmail.com>
 To: akuster808 <akuster808@gmail.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: meta-openembedded maintainer ship change.
@@ -58,14 +52,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 16:06:05 -0000
+X-List-Received-Date: Tue, 22 May 2018 16:14:55 -0000
+Content-Type: multipart/alternative; boundary="000000000000128a97056ccdb837"
+
+--000000000000128a97056ccdb837
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Armin for all your hard work!
+Thanks Armin and Khem!
 
-Ross
+On Tue, May 22, 2018 at 5:41 PM akuster808 <akuster808@gmail.com> wrote:
 
-On 22 May 2018 at 16:40, akuster808 <akuster808@gmail.com> wrote:
 > Hello all,
 >
 > After much thought, I have decided to step away from being the
@@ -86,4 +82,40 @@ On 22 May 2018 at 16:40, akuster808 <akuster808@gmail.com> wrote:
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--000000000000128a97056ccdb837
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks Armin and Khem!</div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr">On Tue, May 22, 2018 at 5:41 PM akuster808 &lt;<a href=3D=
+"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Hello all,<br>
+<br>
+After much thought, I have decided to step away from being the<br>
+meta-openembedded maintainer, patch wrangler and builder.=C2=A0 Khem Raj ha=
+s<br>
+kindly stepped up to continue these activities. Maintaining this was<br>
+consuming too much of my free time and I need to focus on other things<br>
+in the community.<br>
+<br>
+Thanks for the opportunity to have served you.<br>
+<br>
+Kind regards,<br>
+<br>
+Armin<br>
+<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--000000000000128a97056ccdb837--
