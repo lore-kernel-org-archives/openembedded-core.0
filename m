@@ -1,49 +1,97 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 2407974797
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 15:37:28 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id a6-v6so16608911oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 08:37:30 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 72A7171B99;
+	Tue, 22 May 2018 15:40:58 +0000 (UTC)
+Received: by mail-pg0-f43.google.com with SMTP id k2-v6so8060307pgc.1;
+	Tue, 22 May 2018 08:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EUgh+0qu85kGeG9LYZEQ4W9OXtKQAMXS1ezqDI9cm7E=;
-	b=KT0cVvzeiBZtQNYKyHHISjPD0aradz4D+XTnHhGanU90fOms62CPcDVmKT/0V8XJih
-	0oIvXdVDr4shlNvi2sq5sVjKAOcWgGZVvA7UhZnoEIbbeGz5b4UizqkmtZv+OKfn7mCv
-	RbFC5IdbSRNIDedi//I4WcoBfhOwgmSjnXuELiYAY0DNH9IuyZcEEXVqXT5x44TEN8tN
-	RPzD6W1eKgowpyiQgOXJwDumyHMLWVMVBqnK8ot256bQ2eTi1LPhIDh7kZ5YOKbbni0d
-	Y1ANIjARJaCt5SufQChz5bwH3W1LAVPn5QYY3KqVzoXGnxswIfhoQWeAQP0ejrQFrUih
-	GqwA==
+	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=jM4495kfsDXRYpqySeRRdrigd1dY57iF9NddNTVTxmM=;
+	b=hkRUwk5cHKsNPiXSvFo3/fXgc+Umv6Z/sIB2R3yEXYzHC9Dx1pISA9u5sxHiHKwV8+
+	J+sk1h+ITT7QmV59mp+FWGTX4jOaijouYaUzzxzayo4REvesf7geiWHfkoOxNebvDkbz
+	AERwnkXOd1Mv6BD4lPMP1gV33Nu8fylJ9Hm7UydPYcWL1Nzt8BHZJnuze47+Wgg0T/tA
+	xIDRvt5Y4cs1GwBVNdXz9Dy3qwKgYAf0Bc1iWYMgYITRdKgF6uOq0mvIDufjUeC5Jde8
+	F9FJDOhOegbGFDuC3MaStUc3DLqnfEosLNDraxx9hPwRJgxb664vJRD2dTS+NvMJLyG7
+	L19g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=EUgh+0qu85kGeG9LYZEQ4W9OXtKQAMXS1ezqDI9cm7E=;
-	b=k24HaYdIcqD3toPkUVdI4Xu+dkO6n4QmzQuLuNjZTkcjagMJgle9fFF0ZgmqyVzUzm
-	hCieEy0YtSKgbIygEIdBL0SgcZn8uZ7ult2j5DlQLcKbfz3q2z7eNJUFZKsk4i+OTOPb
-	PFgGZai2m73gg1XNEGVTVmeSeHOBPVLJUmamWEjH9KWrpRDPZ2qprFlf5ra38GbQBgfg
-	EeXiW6NPpMvcRwLSeKH3mgUI9VOa8ThgANUXTYjyplyJMXrbG4/mWbjhrjlF1uftwVuu
-	3cx8v5Ak4LJbaefeGC381mZ4Ukl5J9xrWeVJuJ3d8ZHcQtZwudJ9xout1nvny6NdXpsA
-	0pWg==
-X-Gm-Message-State: ALKqPwfdm7dQAkE/h3ITKWTODOgkl4wv64aacGWQO8avPfCwt7xVjUTP
-	QwEi1scPbQZNrcA4F2p3k+iRo7t+ytSEKi4wXtg=
-X-Google-Smtp-Source: AB8JxZqrdrpb/UcdfVEHeO59tMCuxYbMLZQY3G+tXxwnfpwpz5Ecx1c+nUzdpqFSVRwuRgueFjPT0rb8ie44hpnK18w=
-X-Received: by 2002:aca:3d05:: with SMTP id
-	k5-v6mr15220444oia.302.1527003449798; 
-	Tue, 22 May 2018 08:37:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <613380E3-73CD-4A50-B8E3-337912D28A93@gmail.com>
-	<44b3165e-42fa-6cfc-ca9b-cc11892db157@linux.intel.com>
-In-Reply-To: <44b3165e-42fa-6cfc-ca9b-cc11892db157@linux.intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 22 May 2018 08:37:19 -0700
-Message-ID: <CABcZANmAM5=5W1_BWFC6BG6kwR8SY=HMYXyCFTzKVQrJ-imY2Q@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:content-transfer-encoding
+	:content-language;
+	bh=jM4495kfsDXRYpqySeRRdrigd1dY57iF9NddNTVTxmM=;
+	b=A2irEQTnl4DauLRfd4OYlUT/eAbn3HVhVTrMhvWC8pcx/ZUSR6/tBRP45w2vojSmSP
+	2EDgt33ps/2umq7AtVaSpBxYj+Y+HOPd0Uy5afQ9aYg7Xz42mlWzOVWA6oqaaBpBAv78
+	Vk+2hEhudzuQjxihOQL2sD6u2NUQCmmeL2VsjXqtR99/CNOOwFeMwlzcYQve+sUKyNdQ
+	A6InA4djNQEWzMi0Lddn2TwWMmjH8pb2it8KaIZxsiRwR2jie8IV5NDMo8RJQ2a+7els
+	e5XLW4PoTUCrX99BbA2Qr0HdQeoiu0jztG58PqprpU3eMOLT+vZrCnLq35IgYTSY3+ip
+	M7GQ==
+X-Gm-Message-State: ALKqPwfYpX0PYLzU4c9DSIBQaovW8hI8JvDUb0LESLcje+GjruDOPZId
+	UEq4vx+nEcLtKMmt41k/e2/VlQ==
+X-Google-Smtp-Source: AB8JxZpqgihOSUYF8yO/K5zNpVc9Y4LgNKNreCyX72H2pku9LKNjkmoqi+PQz34XWzmgv8qsY79mzw==
+X-Received: by 2002:a63:6196:: with SMTP id
+	v144-v6mr19895012pgb.264.1527003659070; 
+	Tue, 22 May 2018 08:40:59 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:4d68:9677:cd0e:4ee6?
+	([2601:202:4000:1184:4d68:9677:cd0e:4ee6])
+	by smtp.gmail.com with ESMTPSA id
+	h75-v6sm33733072pfh.148.2018.05.22.08.40.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 May 2018 08:40:58 -0700 (PDT)
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] scripts/oe-init-bashrc: add more user-friendly oe-setup utility
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
+Date: Tue, 22 May 2018 08:40:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+Subject: meta-openembedded maintainer ship change.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,131 +104,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 15:37:29 -0000
-Content-Type: multipart/alternative; boundary="00000000000032345d056ccd322e"
-
---00000000000032345d056ccd322e
-Content-Type: text/plain; charset="UTF-8"
-
-I agree, there are a ton of build dir and project management tools, without
-information about the use cases satisfied and why it's superior to
-alternatives, much less why you think it belongs in oe-core as opposed to
-all the other tools folks use, which would imply tactit approval as the
-official method, particularly going into scripts instead of contrib, I
-doubt this is going anywhere.
-
-On Mon, May 21, 2018 at 12:04 PM Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 05/21/2018 06:55 PM, Jens Rehsack wrote:
-> > Move scripts/bashrc from meta-jens/scripts to oe-core to share
-> user-friendly
-> > oe builddir management with community. Using this script will help manage
-> > multiple BSPs and targets like perl developers using perlbrew.
->
-> Please explain in detail what this does, and why is it superior to
-> existing tools. What are the typical usage scenarios? Where and how this
-> should be documented and tested? It is not a good idea to just add
-> something into scripts/, as no one will know or use it, and so it will
-> just quietly bitrot.
->
-> > +__oe_check_py () {
-> > +    # Make sure we're not using python v3.x. This check can't go into
-> > +    # sanity.bbclass because bitbake's source code doesn't even pass
-> > +    # parsing stage when used with python v3, so we catch it here so we
-> > +    # can offer a meaningful error message.
-> > +    py_v3_check=`/usr/bin/env python --version 2>&1 | grep "Python 3"`
-> > +    if [ "$py_v3_check" != "" ]; then
-> > +        echo >&2 "Bitbake is not compatible with python v3"
-> > +        echo >&2 "Please set up python v2 as your default python
-> interpreter"
-> > +        return 1
-> > +    fi
->
-> Bitbake has in fact been compatible with Python 3.x for several
-> releases. The above check is not particularly useful, as /usr/bin/python
-> nearly always points to a 2.x version.
->
-> Alex
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---00000000000032345d056ccd322e
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Tue, 22 May 2018 15:40:58 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-<div dir=3D"ltr">I agree, there are a ton of build dir and project manageme=
-nt tools, without information about the use cases satisfied and why it&#39;=
-s superior to alternatives, much less why you think it belongs in oe-core a=
-s opposed to all the other tools folks use, which would imply tactit approv=
-al as the official method, particularly going into scripts instead of contr=
-ib, I doubt this is going anywhere.<br></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr">On Mon, May 21, 2018 at 12:04 PM Alexander Kanavin &lt;<a=
- href=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.=
-intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 05/21=
-/2018 06:55 PM, Jens Rehsack wrote:<br>
-&gt; Move scripts/bashrc from meta-jens/scripts to oe-core to share user-fr=
-iendly<br>
-&gt; oe builddir management with community. Using this script will help man=
-age<br>
-&gt; multiple BSPs and targets like perl developers using perlbrew.<br>
-<br>
-Please explain in detail what this does, and why is it superior to <br>
-existing tools. What are the typical usage scenarios? Where and how this <b=
-r>
-should be documented and tested? It is not a good idea to just add <br>
-something into scripts/, as no one will know or use it, and so it will <br>
-just quietly bitrot.<br>
-<br>
-&gt; +__oe_check_py () {<br>
-&gt; +=C2=A0 =C2=A0 # Make sure we&#39;re not using python v3.x. This check=
- can&#39;t go into<br>
-&gt; +=C2=A0 =C2=A0 # sanity.bbclass because bitbake&#39;s source code does=
-n&#39;t even pass<br>
-&gt; +=C2=A0 =C2=A0 # parsing stage when used with python v3, so we catch i=
-t here so we<br>
-&gt; +=C2=A0 =C2=A0 # can offer a meaningful error message.<br>
-&gt; +=C2=A0 =C2=A0 py_v3_check=3D`/usr/bin/env python --version 2&gt;&amp;=
-1 | grep &quot;Python 3&quot;`<br>
-&gt; +=C2=A0 =C2=A0 if [ &quot;$py_v3_check&quot; !=3D &quot;&quot; ]; then=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &gt;&amp;2 &quot;Bitbake is not comp=
-atible with python v3&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &gt;&amp;2 &quot;Please set up pytho=
-n v2 as your default python interpreter&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 1<br>
-&gt; +=C2=A0 =C2=A0 fi<br>
-<br>
-Bitbake has in fact been compatible with Python 3.x for several <br>
-releases. The above check is not particularly useful, as /usr/bin/python <b=
-r>
-nearly always points to a 2.x version.<br>
-<br>
-Alex<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
-iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
-BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
-ics</div></div></div></div>
+Hello all,
 
---00000000000032345d056ccd322e--
+After much thought, I have decided to step away from being the
+meta-openembedded maintainer, patch wrangler and builder.=C2=A0 Khem Raj =
+has
+kindly stepped up to continue these activities. Maintaining this was
+consuming too much of my free time and I need to focus on other things
+in the community.
+
+Thanks for the opportunity to have served you.
+
+Kind regards,
+
+Armin
+
+
+
