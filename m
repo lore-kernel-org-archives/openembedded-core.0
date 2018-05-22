@@ -1,106 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DA9FF747F4
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 89559748AB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 04:05:32 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id v24-v6so10056990plo.3
+	Tue, 22 May 2018 07:49:48 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id m129-v6so30752351wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2018 21:05:34 -0700 (PDT)
+	Tue, 22 May 2018 00:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=ejihfcWeSH2DctEDPf/QnILwxFfyaxS+/mY1l+jD4GM=;
-	b=KxoT8FdL0M1x0Cz0PeSKQVPYg9RSgl8FTFx6QCDwu2Dg9BDtfMNMSyzKxnhOcfeCVj
-	mwkw4NyTNcgPTgQlZLGcg4a8nBe5IVeQS0GL3DL3n6DnzjfaK/9T1dnmQLoI/F/LaF7F
-	gCwtr/dHMeeCvj1XlXC28wSTNeZqGwXxizL99vbVkQ5WiGcfjtRH0wHtMLiPLKd1LGEd
-	1nRU41IQuyrFXrsCQ3MH8+4m8Ogc8F88YdUUHBNc2NErMECItaI/s4VsTmZYWM3Cfogr
-	+nIup9qvsNtgqdGG2DmyHOWGg7pHHZd9QB0xI9ZcurXHzGUKEiRgrtLQxQGUOiEeSqGB
-	F35A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rSM2K8WSeFdCaJy8TeP2u5p4noYYx5W9hFecGJKjD6M=;
+	b=BienceN0tbIwkVRx8HLuLsn+LoBIeSs4Hf6+7wajSpZYStwznpxT+dVuFY9d/y+q3Y
+	bsMkPpXbY2slosm/aBbJ0jXuujnnK7dSVYB8SxXaXJZR14ME5rVtjWnQTy/4ac4inbm5
+	gC4B9/wxdfm8+7F8YE6/mB/ia7p18kgPTRKbdp0ONzl81pMoNJeWmKuhC8VN2YWjm5aT
+	IIxaC7NVaQr1UMdbIbCjiGbjbklBvf2+bRNVBJnCwpM9VdGfNoJAHMU+R19d70RiDr6/
+	MjAR/N1LM6/ZjayNSxZQQqrVB3uI6wDEr7xPiDFheVqOo7XL1shk0v+IiffnbTgHGSXX
+	R91Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=ejihfcWeSH2DctEDPf/QnILwxFfyaxS+/mY1l+jD4GM=;
-	b=RzZx47esAL5XsI4q12/N3RpSrqs9EW19zf9eFtO38NYpsBMb44He6dRGiQM6ksaEmN
-	F1aYQyk/eDE1BlWaYXOmIKeO7R60uTlUPmTRJetH6WEoQvgCRMXoCPAcqS9igXQp1W+S
-	GoQ73z6NcCT1qPFsCY29PsKiRhUwQoAgIoRWJPLp3EAmbzM1qzVznTojkHY5SSbV4lUV
-	vugPN//Mx3oBvHj1qKVyQ+C7c3yNUS1KuAmZWzGyLoR3s+/8wTKCiLC4HTaLQ5PjRHlD
-	PWbBbxiSX+T6sKZSB8Jrs2WQ7sSI+eNJLYCgCi0v7IgNj2Ydqh2oUzZFj3/4vBwCjZ+U
-	3qEA==
-X-Gm-Message-State: ALKqPwdTw7GVm8Mxh08jEetZeusXy5TYYUbx6DdFviOCUdkzTNmWxemT
-	FJ2na2JQr+GOIdJR/VawcpdK0Q==
-X-Google-Smtp-Source: AB8JxZq9IpY8zUHlR7Pf0XSDEl8l72HxMHPm9hiNlJtDDEcNGN3ECBLUO1hkDCzDwioQX2tNd2juYQ==
-X-Received: by 2002:a17:902:d681:: with SMTP id
-	v1-v6mr22849174ply.16.1526961933504; 
-	Mon, 21 May 2018 21:05:33 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1184:cda1:4d10:a5a1:339b?
-	([2601:202:4000:1184:cda1:4d10:a5a1:339b])
-	by smtp.gmail.com with ESMTPSA id
-	h75-v6sm30080430pfh.148.2018.05.21.21.05.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 May 2018 21:05:32 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1526931828-20358-1-git-send-email-akuster808@gmail.com>
-	<CAMKF1spByqR0tuCeY_iW549mK6K6A9nFd1PcEzebFVCDvpVUOg@mail.gmail.com>
-	<8523df99-ce1f-c99e-0379-4b72df9d58ad@gmail.com>
-	<CAMKF1so+vefznkou750crbUntgOhzfJ_RXSn+E91bEb4HbjTUA@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <04088507-78ee-10e5-da79-e11d90384c2b@gmail.com>
-Date: Mon, 21 May 2018 21:05:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rSM2K8WSeFdCaJy8TeP2u5p4noYYx5W9hFecGJKjD6M=;
+	b=b6wGNvHVYupkNjlhW0BBXseMR6OtcqKg7QSooO6g0O3PAkIRJJRcKjyoosnkk3uP8Y
+	AfVMojUgtvabF38+6i+VI9wVaOKLy8NUBbU0aDZSS99lWjt5d4/ZIcNwIrytqkMXPTsb
+	4KAv793jjq1UzdQxQ2EP5CJxyC/FnFc2M9A7ptK1akfeuQrcmCVyQ2f5bEtTGYK+fgn2
+	fQnJq8PA60zg50tA0TfSPDJGxBxRU811ih1VP8CAK6bHFnvMQACLX9ON3f3/SSRtoAMo
+	w+ryMIqWvLZhq9nkinuWSnEtsBL/SB9Q5a7quFwBNjlKmwqn+2fP/tgWOeh35uqjDkuW
+	rGjQ==
+X-Gm-Message-State: ALKqPwe07JVNp6Uq58P2vt3SCJrHWDlcrss3yATEyNCbzuRH14/6vclz
+	5QSBBHcwThGgfYSybcGlriS3fCl+9y+ye8217Yw=
+X-Google-Smtp-Source: AB8JxZp4ZIeu3r5LHW+MlMjqz9BOFGEkeKBpp8BrGHAu2Zk3oTsj5yxwOqkJhUrkq0jdTCwTMUAwKddn9XqEfKjoJf4=
+X-Received: by 2002:a50:e681:: with SMTP id z1-v6mr752232edm.275.1526975388973;
+	Tue, 22 May 2018 00:49:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so+vefznkou750crbUntgOhzfJ_RXSn+E91bEb4HbjTUA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.80.157.72 with HTTP; Tue, 22 May 2018 00:49:48 -0700 (PDT)
+In-Reply-To: <b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
+References: <cover.1526944475.git.denys@ti.com>
+	<b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Tue, 22 May 2018 09:49:48 +0200
+Message-ID: <CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] bind update req. new pkg in core
+Subject: Re: [PATCH 3/4] mtd-utils: upgrade 2.0.1 -> 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -113,118 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 04:05:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-List-Received-Date: Tue, 22 May 2018 07:49:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 05/21/2018 07:25 PM, Khem Raj wrote:
-> On Mon, May 21, 2018 at 9:30 PM, akuster808 <akuster808@gmail.com> wrot=
-e:
->>
->> On 05/21/2018 06:06 PM, Khem Raj wrote:
->>
->>
->> On Mon, May 21, 2018 at 3:44 PM Armin Kuster <akuster808@gmail.com> wr=
-ote:
->>> With this update, the python-ply package is required.
->>> I copied the one from meta-python to core. Once this hits master,
->>> I will send a patch to remove the same recipe from
->>> meta-python.
->>
->> Can this be turned on/off using packageconfig ?
->>
->> Yes we can and it is already in the PACKAGECONFIG options.
->>
->> If we do disable python, then the python binaries that are currently b=
-eing
->> installed will not. Someone decided: dnssec-coverage dnssec-checkds  w=
-here
->> important to install in the current Bind solution.   A new one is bein=
-g
->> added; dnssec-keymgr. If we don't want dnssec support, thats easy to
->> exclude.
->>
-> these all seem to be additional utilities so probably should be
-> packaged into a separate package
-> may be bind-utils
-there is already a bind-utils.=C2=A0 bind-dnssec-utils may be more approp=
-riate.
-it is the if/conditional when python is enabled to do all the right
-things that is going to get ugly.
-
+On Tue, May 22, 2018 at 1:17 AM, Denys Dmytriyenko <denis@denix.org> wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
 >
->> BTW, pthon-ply  exists in 4 other layers besides meta-python and  at
->> different versions.
-> thats less than ideal, and probably should be consolidated, moving to
-> oe-core probably will not
-> solve that problem
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+>  meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
->> let me know which way you want to go.
-> I dont have any strong opinion either way is fine.
-
-I will wait to see who else may want to weight in.
-
-thank for the input.
-
-- armin
+> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> index a0e1cf7..97a3e0c 100644
+> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> @@ -10,9 +10,9 @@ inherit autotools pkgconfig update-alternatives
+>  DEPENDS = "zlib lzo e2fsprogs util-linux"
+>  RDEPENDS_mtd-utils-tests += "bash"
 >
->> - armin
->>
->>
->>
->>
->>
->> If so then it would be ideal
->>
->> If not then please send the removal patches for meta-python regardless=
- so it
->> can be tested together
->>>
->>>
->>> Armin Kuster (2):
->>>   bind: update to 9.12.1
->>>   python3-ply: add package needed by bind 9.12 update
->>>
->>>  ...0001-build-use-pkg-config-to-find-libxml2.patch | 13 +++---
->>>  ...-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch | 13 +++---
->>>  .../0001-lib-dns-gen.c-fix-too-long-error.patch    | 13 +++---
->>>  .../bind/bind/bind-confgen-build-unix.o-once.patch | 48
->>> ----------------------
->>>  ...-searching-for-json-headers-searches-sysr.patch | 13 +++---
->>>  .../bind/bind/dont-test-on-host.patch              | 17 --------
->>>  .../use-python3-and-fix-install-lib-path.patch     | 36 ------------=
-----
->>>  .../bind/{bind_9.10.6.bb =3D> bind_9.12.1.bb}        | 21 ++++------=
+> -PV = "2.0.1+${SRCPV}"
+> +PV = "2.0.2+${SRCPV}"
+>
+> -SRCREV = "9c6173559f95e939e66efb2ec3193d6f3618cf69"
+> +SRCREV = "bc63d36e39f389c8c17f6a8e9db47f2acc884659"
+>  SRC_URI = "git://git.infradead.org/mtd-utils.git \
+>             file://add-exclusion-to-mkfs-jffs2-git-2.patch \
 
->>>  meta/recipes-devtools/python/python-ply.inc        | 18 ++++++++
->>>  meta/recipes-devtools/python/python-ply_3.11.bb    |  2 +
->>>  10 files changed, 49 insertions(+), 145 deletions(-)
->>>  delete mode 100644
->>> meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.pa=
-tch
->>>  delete mode 100644
->>> meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
->>>  delete mode 100644
->>> meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-p=
-ath.patch
->>>  rename meta/recipes-connectivity/bind/{bind_9.10.6.bb =3D> bind_9.12=
-=2E1.bb}
->>> (86%)
->>>  create mode 100644 meta/recipes-devtools/python/python-ply.inc
->>>  create mode 100644 meta/recipes-devtools/python/python-ply_3.11.bb
->>>
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+Hi Denys,
+
+I am just wondering about this patch:we carry it since 2009  [1] and
+is still marked as pending.
+Why was it necessary to ignore part of the filesystem? Can you remember?
+
+Just curious...
+
+Cheers
+Andrea
+
+[1] Denys Dmytriyenko 2009-03-17
+http://cgit.openembedded.org/openembedded/log/recipes/mtd/mtd-utils/add-exclusion-to-mkfs-jffs2-git-2.patch
 
 
+>  "
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
