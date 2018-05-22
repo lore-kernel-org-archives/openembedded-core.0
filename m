@@ -1,56 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97CA574A3A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 19:04:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id D3997183BF;
-	Tue, 22 May 2018 21:04:59 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id rp54GwS66pvb; Tue, 22 May 2018 21:04:58 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 00723183CC;
-	Tue, 22 May 2018 21:04:58 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D03BF1A060;
-	Tue, 22 May 2018 21:04:57 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C2B2F1A05F;
-	Tue, 22 May 2018 21:04:57 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 22 May 2018 21:04:57 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id B67CA1A82;
-	Tue, 22 May 2018 21:04:57 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 22 May 2018 21:04:57 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 22 May 2018 21:04:57 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Hongzhi.Song <hongzhi.song@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [meta-oe][PATCH] Turbostat: add a necessary recipe to
-	meta-oe
-Thread-Index: AQHT8XziCf4IAZMibkanRLFEAwes1qQ8FhoA
-Date: Tue, 22 May 2018 19:04:57 +0000
-Message-ID: <e131262c00064b5baac1ee6f65a9940f@XBOX02.axis.com>
-References: <20180522032646.33000-1-hongzhi.song@windriver.com>
-In-Reply-To: <20180522032646.33000-1-hongzhi.song@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f42.google.com (mail-pl0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B3B274777;
+	Tue, 22 May 2018 22:38:07 +0000 (UTC)
+Received: by mail-pl0-f42.google.com with SMTP id c41-v6so11732407plj.10;
+	Tue, 22 May 2018 15:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mJ+DML3NnIEetDhESQmGNpLWLE5kbEpJaF8i3jNPDWQ=;
+	b=RBAOecMVp6gkbNRcAjabQey1P9bEMYbQbVys9zeoJq8vj3hVXoiAuk8Ryx4ve6yKIX
+	LsJkwaOyvmAJMzX98Pcec1guWQnuRz14WVYIQHc5hLGV60P0C+fN0jvu2Rt4xabqThMN
+	T3N0lmh9E5iOV4qZN8b9gdwtH5t96S0tKMY2JgRrN8Mh5rzPSnaKNblltgQeErAlDDzS
+	oIQgWYWJRUrVuHNTU44NL8Utq0fsK9jYvU+ZAMhvYDwTMiDU4gwYGZXt+PmKYifb7q+t
+	OcLYczyA2oCDdd0At0TpJmrxyy1hJ3i4Wz1krhVQpto5CBZVNn8KDcDUhusrOcc5mt0f
+	oP7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mJ+DML3NnIEetDhESQmGNpLWLE5kbEpJaF8i3jNPDWQ=;
+	b=kTtO2Fm3A1FX0dxzIPUxTKcdRoaW4uiIm0F/p4cvFXG4inJzTlymljpveC2bzzNBsx
+	+ODuX+4KWTTshpH5DO9PSOy/N/KqdXWVmmHRNnzbvLESsq+G5jXNav49gtRR/oHIKkgV
+	GzfMvxm7IXBg4AgFmO/jK1lIyrUDjHRBclQgLzq17aWhi+vxg+b7FSAqo8Sjl08f+CfF
+	voLMPtY83fsjrbx+I2rMIvLjH6l4OjlwWnW2BVG1dnc25OkCX80ZjjYZ45M/1W2netL6
+	O/Nl5J0LTSV7cCP0sZHWLF+p1D8DitHYujGbw5oDgwCcd0A13e2Ap86/MyyID7YQeMve
+	mw5Q==
+X-Gm-Message-State: ALKqPweY4PvEvRmfIezuNB6tqJsbfAzpZojRlpdz5QH+BhdYd5H3XWP2
+	Bk8r2mWxtKgwUfmHh73lLTt0ObcoLZjLRPe30bU=
+X-Google-Smtp-Source: AB8JxZpiJvZWkGt1qUd8qZ/cIXOm/bJDTJykLOCWpbA9nZIlEuBWV6eaSKNtGcahVh2691n2+aDgyslMnJxCEI1M4DY=
+X-Received: by 2002:a17:902:59ce:: with SMTP id
+	d14-v6mr326238plj.253.1527028688210; 
+	Tue, 22 May 2018 15:38:08 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [meta-oe][PATCH] Turbostat: add a necessary recipe to	meta-oe
+Received: by 2002:a17:90a:8b91:0:0:0:0 with HTTP; Tue, 22 May 2018 15:37:37
+	-0700 (PDT)
+In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
+References: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 May 2018 18:37:37 -0400
+Message-ID: <CAMKF1so9=sE=QGD=Y7YysgTUxxUjvcvDJCHtQ5saVJY9Pn44XQ@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-openembedded maintainer ship change.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,115 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 19:05:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 May 2018 22:38:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Hongzhi.Song
-> Sent: den 22 maj 2018 05:27
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [meta-oe][PATCH] Turbostat: add a necessary recipe
-> to meta-oe
+Thanks Armin, I am hoping to keep working with you on various stable
+releases in active maintenance.
 
-This should be sent to openembedded-devel@lists.openembedded.org instead=20
-as it relates to meta-oe and not meta.
 
-> This is an efficient tool to reflect the status of processors.
-> Turbostat reports processor topology, frequency, idle power-state
-> statistics, temperature and power on processors.
->=20
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->  meta-oe/recipes-kernel/turbostat/turbostat.bb | 53
-> +++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 meta-oe/recipes-kernel/turbostat/turbostat.bb
->=20
-> diff --git a/meta-oe/recipes-kernel/turbostat/turbostat.bb b/meta-
-> oe/recipes-kernel/turbostat/turbostat.bb
-> new file mode 100644
-> index 000000000..f4614b406
-> --- /dev/null
-> +++ b/meta-oe/recipes-kernel/turbostat/turbostat.bb
-> @@ -0,0 +1,53 @@
-> +SUMMARY =3D "Report processor frequency and idle statistics"
-> +DESCRIPTION =3D "turbostat  reports processor topology, frequency, idle =
-\
-> +power-state statistics, temperature and power on modern X86 processors. =
-\
-> +Either command is forked and statistics are printed upon its completion,=
- \
-> +or statistics are printed periodically."
-> +
-> +LICENSE =3D "GPLv2"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd7810fab7487fb0aad327b76f1be7=
-cd7"
-> +
-> +inherit kernelsrc
-> +PROVIDES =3D "virtual/turbostat"
 
-Why is virtual/turbostat needed? Are there likely to be alternatives?
-
-> +do_populate_lic[depends] +=3D "virtual/kernel:do_patch"
-> +do_configure[depends] +=3D "virtual/kernel:do_shared_workdir"
-> +
-> +B =3D "${WORKDIR}/${BPN}-${PV}"
-> +
-> +EXTRA_OEMAKE =3D '\
-
-It is better to use " here and ' around ${CC} and ${AR} below.
-
-> +    -C ${S}/tools/power/x86/turbostat \
-
-What about other architectures? If they are not supported, you should add:=
-=20
-
-COMPATIBLE_MACHINE =3D "x86"
-
-> +    O=3D${B} \
-> +    CROSS_COMPILE=3D${TARGET_PREFIX} \
-> +    ARCH=3D${ARCH} \
-> +    CC=3D"${CC}" \
-> +    AR=3D"${AR}" \
-> +'
-
-Combine the two EXTRA_OEMAKE into one.
-
-> +
-> +EXTRA_OEMAKE +=3D "\
-> +    'prefix=3D${prefix}' \
-> +    'bindir=3D${bindir}' \
-> +    'sharedir=3D${datadir}' \
-> +    'sysconfdir=3D${sysconfdir}' \
-> +    'sharedir=3D${@os.path.relpath(datadir, prefix)}' \
-> +    'mandir=3D${@os.path.relpath(mandir, prefix)}' \
-> +    'infodir=3D${@os.path.relpath(infodir, prefix)}' \
-> +"
-> +
-> +do_compile() {
-> +	# Linux kernel build system is expected to do the right thing
-> +	unset CFLAGS
-> +	oe_runmake turbostat
-> +}
-> +
-> +do_install() {
-> +	# Linux kernel build system is expected to do the right thing
-> +	unset CFLAGS
-> +	oe_runmake DESTDIR=3D${D} install
-> +}
-> +
-> +python do_package_prepend() {
-> +    d.setVar('PKGV', d.getVar("KERNEL_VERSION", True).split("-")[0])
-> +}
-> +
-> +TARGET_CC_ARCH +=3D "${LDFLAGS}"
+On Tue, May 22, 2018 at 11:40 AM, akuster808 <akuster808@gmail.com> wrote:
+> Hello all,
+>
+> After much thought, I have decided to step away from being the
+> meta-openembedded maintainer, patch wrangler and builder.  Khem Raj has
+> kindly stepped up to continue these activities. Maintaining this was
+> consuming too much of my free time and I need to focus on other things
+> in the community.
+>
+> Thanks for the opportunity to have served you.
+>
+> Kind regards,
+>
+> Armin
+>
+>
 > --
-> 2.11.0
-
-//Peter
-
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
