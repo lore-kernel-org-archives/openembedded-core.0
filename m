@@ -1,49 +1,41 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E7536749CA
+Return-Path: <tanuk@iki.fi>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+	[66.111.4.224])
+	by mail.openembedded.org (Postfix) with ESMTP id 759E5606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 14:46:16 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id w19-v6so11045211plq.4
+	Tue, 22 May 2018 15:30:19 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 7148D1C89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 07:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=mqDf5FJ9fBzaUXxmlKyZGwZjF9NYp7aY5eHhaKLihQo=;
-	b=GjJlHM22jbkHrD4m2K7pG16aF+WFzohqhtkdeV2u4ePFf+Y2vKspux+4VgTvqjreRR
-	s4f2IZuhNdZz37bRAQtZSqkaG8eNMU1x1PXu1JrP3VXzqu9yzrqz2mS1Udplos7eTAOF
-	UbVlPUyJQnBjLlb9aHiz0jwEVJQbm7kpYuPb+cHl1854010N3nnSMuE1NRThzoIT1Vpw
-	gN1VTxzrpo0GV3G5eYvrRNwcjcyhsRlrpmvENO3BpoM0eOgqYqIucntCWPfagMxF1vAM
-	8qv5nZ9INBw/yBtTrOrgSPOn9LqGc9Lcr4J9bbBZutxk/zedxj7IWnZx698PEueOhkHE
-	8gsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mqDf5FJ9fBzaUXxmlKyZGwZjF9NYp7aY5eHhaKLihQo=;
-	b=MtZDZmOxFX9Ph0Wb4AVKWsyiK1pmFRUf1zpqijOLfVTWIClyFvL8qv6iXhs/tzlbgn
-	hJ1eB/isVSm0tSEEjmFHAWvhN0WhlwQIAx6Lj7W9ep20IcGCVx03DxforE5JsYEP9kT8
-	LvIjYbx3hORKiO0IA0fENYQ/QfCP/WnFWQpNVf5Dw8nJFirY79do0Io7k78U7Ib2u9gH
-	atVJ4gbEm9p8oR5vyq2+SS2E4McQgZo1WGNM7prmcm25OzgFJebKuQS4MO77ZP+S+Q2k
-	4UY8XxRnpKClq8Lj5T6djNUMYX37qMf77q7Ivf5ai46XLFj7vhR9KaQTt/TUtQJcAlLn
-	LFVQ==
-X-Gm-Message-State: ALKqPwfTnrS5AashLklAE6G7llWXBQaPbxoRd4Ssish7CTRZ/G3+j/IM
-	b2d3pwV4wYTTS8M4Ldqx/1tXLg==
-X-Google-Smtp-Source: AB8JxZosfofnIGasyZgJAgL/hsk16gF43amAlVmsb3UxKfx8l69xZPqPUhyOQNb/MAnDXNIr+3vTNg==
-X-Received: by 2002:a17:902:8d81:: with SMTP id
-	v1-v6mr10832869plo.136.1527000377524; 
-	Tue, 22 May 2018 07:46:17 -0700 (PDT)
-Received: from ip-172-31-26-116.ap-northeast-2.compute.internal
-	(ec2-52-79-39-246.ap-northeast-2.compute.amazonaws.com.
-	[52.79.39.246]) by smtp.gmail.com with ESMTPSA id
-	g68-v6sm28690038pfk.53.2018.05.22.07.46.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 May 2018 07:46:16 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
+	Tue, 22 May 2018 11:30:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute5.internal (MEProxy); Tue, 22 May 2018 11:30:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uunlpfXb+WPS4QZfS
+	WLMf7bhVRRRPPqiGIg/LIY7amg=; b=BSSqeU6T0WSPrzdfBs2RSSXPAdTJUTX6n
+	BK2/pTa0DqGQsi6v36/pt1TQ9KVgvBrOVnE5X11HD3rABrDH8ghesxKzbRChyUig
+	sfQblukCYLvbdLujM3Yf41zECGbGgW1aT+zAiJiA211XM7tpaEJXUwcvKxu9Y3KQ
+	CBQVJEbhCUzAc7a3MRXnh/BwMaURBRdkywz9MaSFyr9oanCf1bF6iMzjSWaW/3tW
+	QnfPcIZPPeMsp0DBYWmvtGDkFxRdM18eBz+j8gx1Xc0sjBalulQfZm/DFcwDKs55
+	w8Q2TBf7fDnE5lLZ//9XqLNAaFMBm3SQSJKVnVDxV7vGgNufUp2ng==
+X-ME-Proxy: <xmx:izcEW32ZYABU0XMAl78HU8jysOtsDXy4RKCIiVQXD3zfO7uHYRT7sA>
+X-ME-Proxy: <xmx:izcEW1UTCnZxunEEaPKtORZFz5IKnQP5qqyiZdM77F5joyI80ROGBw>
+X-ME-Proxy: <xmx:izcEWzwH-tDBZESSBSeMNWMwiMb_VG9ynO1jM6TV4ck_Veaw9iSbww>
+X-ME-Proxy: <xmx:izcEW8Tc5DWZEvSURSY6U7OtnjSqydS-0Xx-CjMnf4SlazN-njHAvw>
+X-ME-Proxy: <xmx:izcEWwyk9yUhQ3h-tqioQ4MAClUt3TA-UntVTGNVZ82MfN_mBAkfFg>
+X-ME-Proxy: <xmx:izcEW-2s0V-6qdPlfX1RBLHcGTpcvSd0JSqfeRTjYu37L-yg-YwybA>
+X-ME-Sender: <xms:izcEW8yCs4BM3ZJRkm6Gk0R1DaIzTSd8qGaCPRWk1iTz8VNYT_UB4A>
+Received: from localhost.localdomain (unknown [192.40.95.27])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 762C610264
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 May 2018 11:30:18 -0400 (EDT)
+From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2018 14:46:10 +0000
-Message-Id: <1527000370-17012-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] ethtool: update 4.15 -> 4.16
+Date: Tue, 22 May 2018 18:30:08 +0300
+Message-Id: <20180522153011.18761-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 0/3] libvorbis and alsa recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 14:46:17 -0000
+X-List-Received-Date: Tue, 22 May 2018 15:30:19 -0000
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch   | 2 +-
- meta/recipes-extended/ethtool/{ethtool_4.15.bb => ethtool_4.16.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_4.15.bb => ethtool_4.16.bb} (88%)
+Tanu Kaskinen (3):
+  libvorbis: 1.3.5 -> 1.3.6
+  alsa-plugins: 1.1.5 -> 1.1.6
+  alsa-utils: 1.1.5 -> 1.1.6
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 59299e2..ccb4dd3 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -19,7 +19,7 @@ index cb61a02..c75b9a9 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 4.15, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 4.16, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu])
-diff --git a/meta/recipes-extended/ethtool/ethtool_4.15.bb b/meta/recipes-extended/ethtool/ethtool_4.16.bb
-similarity index 88%
-rename from meta/recipes-extended/ethtool/ethtool_4.15.bb
-rename to meta/recipes-extended/ethtool/ethtool_4.16.bb
-index 8538a75..5ccb162 100644
---- a/meta/recipes-extended/ethtool/ethtool_4.15.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_4.16.bb
-@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
- 
--SRC_URI[md5sum] = "a4b83b35a4bc7d3646d973b0baf36c78"
--SRC_URI[sha256sum] = "3996127fc22950b865287bd9d28c0aa3fcd44e914a5a4ef01de64872106dc178"
-+SRC_URI[md5sum] = "2b50adf06fc1b033951edef5987c32f3"
-+SRC_URI[sha256sum] = "25f8fc3a4b2cb2cbfe8741148d8e743127dd7c951df96d8d6dccb88741f8a27d"
- 
- inherit autotools ptest
- RDEPENDS_${PN}-ptest += "make"
+ ...plugins_1.1.5.bb => alsa-plugins_1.1.6.bb} |   8 +-
+ ...s_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} |   0
+ ...t-systemd-unit-restore-the-volume-wh.patch |  56 ----------
+ ...lsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} |   7 +-
+ .../0001-configure-Check-for-clang.patch      |  20 ++--
+ .../libvorbis/libvorbis/CVE-2017-14632.patch  |  62 -----------
+ .../libvorbis/libvorbis/CVE-2017-14633.patch  |  42 --------
+ .../libvorbis/libvorbis/CVE-2018-5146.patch   | 100 ------------------
+ ...{libvorbis_1.3.5.bb => libvorbis_1.3.6.bb} |   9 +-
+ 9 files changed, 20 insertions(+), 284 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.5.bb => alsa-plugins_1.1.6.bb} (94%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} (100%)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} (94%)
+ delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14632.patch
+ delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2017-14633.patch
+ delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis/CVE-2018-5146.patch
+ rename meta/recipes-multimedia/libvorbis/{libvorbis_1.3.5.bb => libvorbis_1.3.6.bb} (64%)
+
 -- 
-2.7.4
+2.17.0
 
 
