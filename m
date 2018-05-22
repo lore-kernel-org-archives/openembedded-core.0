@@ -1,44 +1,44 @@
 Return-Path: <tanuk@iki.fi>
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
 	[66.111.4.224])
-	by mail.openembedded.org (Postfix) with ESMTP id E3609745D1
+	by mail.openembedded.org (Postfix) with ESMTP id D14FC74A05
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 15:30:33 +0000 (UTC)
+	Tue, 22 May 2018 15:30:35 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 2C7B7182B
+	by mailnew.nyi.internal (Postfix) with ESMTP id 22EEF158C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 11:30:35 -0400 (EDT)
+	Tue, 22 May 2018 11:30:37 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Tue, 22 May 2018 11:30:35 -0400
+	by compute5.internal (MEProxy); Tue, 22 May 2018 11:30:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=date:from:in-reply-to:message-id
 	:references:subject:to:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=hRksqeuLdM1dZ6JF9jkSvipcVNLQjLTArPWPZ15rA3g=; b=UBBASm71
-	14vzAvgk3kUL7JmL+3CZBfN1JtJcoMMrBpVbKXCqJbBc2H7jTuFM3u6keeEmkxBg
-	4la0JF18JVnmso+tX+Ow+Pn5TL3zSUbYnUZ92tb3Bdpuir+U5dm6iw3bpUN/S9DB
-	KT9sqcWCDrTjmV6+f4bWzI38yoGXoJs2drczYPZFK3bUNqdSHtbDxrY9C2Q2FNbm
-	MSvAcBy8JGkLCRRX4el9EG9x1FKRIIpToTs7h5owpX8mjDbJYkPiMvmoR+dnUed8
-	o9g/3IOefS201uvs9jQY0DLthnZNRIA7sir85CndubIunK1d/whbB1hkHFKFUyGp
-	kdQX+Xe7XGS0iw==
-X-ME-Proxy: <xmx:mzcEW9it4Ll_2hsWf0CBSOqcrttUsnuMpbg96plzH1q_G4s-3oZvfw>
-X-ME-Proxy: <xmx:mzcEW1DLmA7bZHkLKsohw-V_BkplM28vflorv5ppIovli5QHF6wJ_Q>
-X-ME-Proxy: <xmx:mzcEW4tzfCcNeWZryD9luu7wCZPZrNYyZ34A0EbQwp_9YswelRXazw>
-X-ME-Proxy: <xmx:mzcEWw-ft_BNM6q9ELBmPymq16yMVt08ZhWcyDLr_4BDKr8JuvHyxw>
-X-ME-Proxy: <xmx:mzcEW42CDH6HnZyBPHf8NK_D2g8oRip2GfFi3cI4UAuAZrkA3QVk9w>
-X-ME-Proxy: <xmx:mzcEW47pQQw_KCFFNPUGwGS0Sd5eG6W0dQTjyqQskNnjRPyr8nkREw>
-X-ME-Sender: <xms:mzcEWwVDNN0EMpVjCVqwGAWhSzNBL-fHiD_b-UXJvadvAgqJZzRUFg>
+	fm2; bh=NS2qCfbj/jwqvtgzRs9VLGJDx86T+ZPS+LWT6Q3WJPE=; b=DQNzQVk+
+	iatRJsuEqC9Dw3tf7omLGA47Vd015mFcaMkAaR6wc6fyl+4pEerc4zuaFFjG7ZeZ
+	lrnN9jHlxQLTiy0l4FiJYmWmW2K77meOKrCXz8Fr8JnCWnEldG+aYx281Atnfj7N
+	U1mFRUKRqkNNl11g3OjSaHsO6EbrUkecnkeYtDapqITA/eDT/KRWJWU47WnrTM9n
+	yZpT2dy1akTNZS5AKe2tByXRxL5U/J8uD6GZIEeFwQg+Wf2D9TeR/q8XKhFkRw6W
+	XivtKJvxpTXnFjnuJnzeLjOkoSyqgeQUji9mfY/aalm/tSExCQkrkNbwfv9OfnIB
+	GWdVGVagyF1ioA==
+X-ME-Proxy: <xmx:nTcEW1FB9OvhzNIRZBikcyOcURvDRiLJQN6Z8cLD_45HGvBHA3DnoA>
+X-ME-Proxy: <xmx:nTcEW4yy6_vFARr-QjyHO1oqebvYCfHfWZpmvXvYaifv0t3wu16A2A>
+X-ME-Proxy: <xmx:nTcEW5x9pDZr6AvxfZBi9YZDxiDYOIc8x-CvbmGOk6gszNUkTfKV6A>
+X-ME-Proxy: <xmx:nTcEW2a5KCsCCpiTJ2A0pzR2vpdB5YSTuQtBmuDjpJZ_PZL-l4a8SQ>
+X-ME-Proxy: <xmx:nTcEWzx8YfOa9h8t39cGAQ3O4RBNkGmK3aP1JGZfosQbfJeW6HDqFA>
+X-ME-Proxy: <xmx:nTcEWyr2_aY_Eq3bXlOa1xnDe1He6lZBujkxOPV4oV6D4wmMMJPOdA>
+X-ME-Sender: <xms:nTcEW-FB_a0TA0jDomRbYBWhxpGa8UCOvj2O0LUExVMxAs5FoBi-LQ>
 Received: from localhost.localdomain (unknown [192.40.95.27])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 95FB410262
+	by mail.messagingengine.com (Postfix) with ESMTPA id 8526F1025E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 11:30:34 -0400 (EDT)
+	Tue, 22 May 2018 11:30:36 -0400 (EDT)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2018 18:30:10 +0300
-Message-Id: <20180522153011.18761-3-tanuk@iki.fi>
+Date: Tue, 22 May 2018 18:30:11 +0300
+Message-Id: <20180522153011.18761-4-tanuk@iki.fi>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180522153011.18761-1-tanuk@iki.fi>
 References: <20180522153011.18761-1-tanuk@iki.fi>
-Subject: [PATCH 2/3] alsa-plugins: 1.1.5 -> 1.1.6
+Subject: [PATCH 3/3] alsa-utils: 1.1.5 -> 1.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +51,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 15:30:34 -0000
+X-List-Received-Date: Tue, 22 May 2018 15:30:36 -0000
+
+Dropped 0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch,
+because an equivalent patch is included in the new release.
 
 License-Update: FSF address updated
 
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- .../alsa/{alsa-plugins_1.1.5.bb => alsa-plugins_1.1.6.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.5.bb => alsa-plugins_1.1.6.bb} (94%)
+ ...s_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} |  0
+ ...t-systemd-unit-restore-the-volume-wh.patch | 56 -------------------
+ ...lsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} |  7 +--
+ 3 files changed, 3 insertions(+), 60 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.5.bb => alsa-utils-scripts_1.1.6.bb} (100%)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.5.bb => alsa-utils_1.1.6.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.6.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.5.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.6.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+deleted file mode 100644
+index 907ca5ce0e..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From b9d41b784657152a4c5683a9458dffab557f0689 Mon Sep 17 00:00:00 2001
+-From: Koen Kooi <koen@dominion.thruhere.net>
+-Date: Fri, 29 Aug 2014 18:58:56 +0300
+-Subject: [PATCH] alsactl: don't let systemd unit restore the volume when
+- asound.state is missing
+-
+-This avoids an error on bootup
+-
+-Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+-
+-Rebased on 1.1.0.
+-
+-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+----
+- alsactl/Makefile.am             | 7 ++++---
+- alsactl/alsa-restore.service.in | 1 +
+- 2 files changed, 5 insertions(+), 3 deletions(-)
+-
+-diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
+-index 90fab9d..190525a 100644
+---- a/alsactl/Makefile.am
+-+++ b/alsactl/Makefile.am
+-@@ -38,9 +38,10 @@ install-data-hook:
+- endif
+- 
+- edit = \
+--	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
+--		  -e 's,@mydatadir\@,$(mydatadir),g' \
+--		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
+-+	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' \
+-+	       -e 's,@sbindir\@,$(sbindir),g' \
+-+	       -e 's,@mydatadir\@,$(mydatadir),g' \
+-+	       -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
+- 							< $< > $@ || rm $@
+- 
+- alsa-state.service: alsa-state.service.in
+-diff --git a/alsactl/alsa-restore.service.in b/alsactl/alsa-restore.service.in
+-index 80fd5fd..6beb36d 100644
+---- a/alsactl/alsa-restore.service.in
+-+++ b/alsactl/alsa-restore.service.in
+-@@ -7,6 +7,7 @@
+- Description=Save/Restore Sound Card State
+- ConditionPathExists=!@daemonswitch@
+- ConditionPathExistsGlob=/dev/snd/control*
+-+ConditionPathExists=@localstatedir@/lib/alsa/asound.state
+- 
+- [Service]
+- Type=oneshot
+--- 
+-2.14.2
+-
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
 similarity index 94%
-rename from meta/recipes-multimedia/alsa/alsa-plugins_1.1.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
-index 4bd0acc54f..17c1879f95 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.5.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.6.bb
-@@ -14,15 +14,15 @@ SECTION = "multimedia"
- # of LGPLv2.1 like the rest of the plugins.
- LICENSE = "LGPLv2.1 & GPLv2+"
- LIC_FILES_CHKSUM = "\
--        file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
--        file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
-+        file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-+        file://COPYING.GPL;md5=59530bdf33659b29e73d4adb9f9f6552 \
-         file://m4/attributes.m4;endline=33;md5=b25958da44c02231e3641f1bccef53eb \
-         file://rate/rate_samplerate.c;endline=35;md5=fd77bce85f4a338c0e8ab18430b69fae \
- "
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
+index 33215bf159..b8ba0cb22a 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.5.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.6.bb
+@@ -4,7 +4,7 @@ BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+-                    file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
++                    file://alsactl/utils.c;beginline=1;endline=20;md5=2ce7f7b6739487fb72c689d46521f958"
+ DEPENDS = "alsa-lib ncurses libsamplerate0"
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/${BP}.tar.bz2"
--SRC_URI[md5sum] = "f898b0e6e8acf3f6f82bc2a0f0c84a97"
--SRC_URI[sha256sum] = "797da5f8f53379fbea28817bc466de16affd2c07849e84f1af8d5e22f7bb7f1c"
-+SRC_URI[md5sum] = "8387279e99feeb2ecffaac5f293223d7"
-+SRC_URI[sha256sum] = "6f1d31ebe3b1fa1cc8dade60b7bed1cb2583ac998167002d350dc0a5e3e40c13"
+ PACKAGECONFIG ??= "udev"
+@@ -20,11 +20,10 @@ PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev
+ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
  
- DEPENDS += "alsa-lib"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
+           "
  
+-SRC_URI[md5sum] = "dfe6ea147a5e07a056919591c2f5dac3"
+-SRC_URI[sha256sum] = "320bd285e91db6e7fd7db3c9ec6f55b02f35449ff273c7844780ac6a5a3de2e8"
++SRC_URI[md5sum] = "50ae75567459646b843bed78d916b002"
++SRC_URI[sha256sum] = "155caecc40b2220f686f34ba3655a53e3bdbc0586adb1056733949feaaf7d36e"
+ 
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
 -- 
 2.17.0
 
