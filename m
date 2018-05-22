@@ -1,41 +1,42 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DCC5749AF
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 52E34749AF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 May 2018 12:25:54 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id f6-v6so31367874wmc.4
+Received: by mail-wm0-f53.google.com with SMTP id o78-v6so33122194wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 05:25:55 -0700 (PDT)
+	Tue, 22 May 2018 05:25:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NqaL+JInmwVTeCXPGZjLXpq2+P/94EA9sOVHMs+939I=;
-	b=CokIM8JWi00BDWoNLO81wn8XM2sG2gly+qrpAGlteRRHzpOieX7kPD0LKxRfn/0FHk
-	eKvffb9XXWlUPx9JRdyyiSX8+2M3pOjkefWOGNGnPTTnBVpgk8P4DqGdfkcl9N82Y/yM
-	Od+KuDFx0AzFTgZsr41qW9N4NkNjYpoq4ow1z1b4npVOYiEvZNGsBbhG4DzUjpbrL3c/
-	2e4yNMhaySesQ2DxOqQIWKvBVpWNtKTwf5jvvi6e5jMku5V6awT6a9hzCplL/7WqXSKJ
-	Yml0EFsVdA32RXGgfuJrJdu7Ryh2qwhul9kM7iTxhZPMKeUxHZOu+dxWgb/YIcf4v0cj
-	OgQA==
-X-Gm-Message-State: ALKqPwc8NLy9E0zOIuakGeWOrus5GIBec0hfrO8yNA7K0m8ZmxmvNPop
-	yGHEyIVnQ3JR47Xab2iKb94FNYeV
-X-Google-Smtp-Source: AB8JxZq4RzeNxeDQdW4bL1ZjIz+cZNQrSW1reimF49FbYSiYbyAgaDBX19HL7m3zT9PzELb+pQTtqw==
-X-Received: by 2002:a50:e1c1:: with SMTP id
-	m1-v6mr2079102edl.198.1526991954656; 
-	Tue, 22 May 2018 05:25:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=6F/07LaJLtfS9Wr9glrKuPsmjTRxtFrLWAPJ3JWjANw=;
+	b=QgqsbYcon4bbCcUUcU1aCAaQwqPPdrchyT0IemiOMCHr4y8StB59P6Ya8io2RYGrBf
+	Tbhlqu0rgBAp36HxHef6I4tnOlFZSa598jk4+EkDCwCGOL8j3dzctGMcpm0vNUC+Ydg6
+	cpaaRd3TdsGyU/O7jSjVJAKHkc159BNU0VjtIs13Vn/ERsi1QFxOk+WLHObXyWaKggGs
+	E2q0lut9riHoIFD6+QXgxk+lPWUoMbaguQm2UwrsaKrrqhMA+wprE0JzOBclT7cuRFLW
+	e82IOJgIjOYnHicMmRXG7FmFtqI2fFuNsBArTXVyEzSxjI513h2pxWrKIAeMxDlD3rZJ
+	GGNQ==
+X-Gm-Message-State: ALKqPwfsg7Nm8Lg5EFQr/ThxyM+SVrTswvmnooIQacWS2yVEn9Vwa9LS
+	UTBpMjYbO13G0ulYo6/iXY4nnLEx
+X-Google-Smtp-Source: AB8JxZqAGqMTiq8vKhjnmW7xvHNk9OdSGDQm8KJB7i+m8QlbUlqlfrlQK6WffyiJOUx8XyJJm26kAg==
+X-Received: by 2002:a50:f0c7:: with SMTP id a7-v6mr2092728edm.90.1526991955565;
+	Tue, 22 May 2018 05:25:55 -0700 (PDT)
 Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	a2-v6sm8752163edd.39.2018.05.22.05.25.53
+	a2-v6sm8752163edd.39.2018.05.22.05.25.54
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 May 2018 05:25:53 -0700 (PDT)
+	Tue, 22 May 2018 05:25:54 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2018 13:25:50 +0100
-Message-Id: <20180522122553.29109-1-git@andred.net>
+Date: Tue, 22 May 2018 13:25:51 +0100
+Message-Id: <20180522122553.29109-2-git@andred.net>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180522122553.29109-1-git@andred.net>
+References: <20180522122553.29109-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
+Subject: [PATCH 2/4] sstate: use SSTATE_EXCLUDEDEPS_SYSROOT for skipping *-initial recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,89 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 12:25:54 -0000
+X-List-Received-Date: Tue, 22 May 2018 12:25:55 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <andre.draszik@jci.com>
 
-Currently, a dependency on any -native recipe will pull in
-all dependencies of that -native recipe in the recipe
-sysroot. This behaviour might not always be wanted, e.g.
-when that -native recipe depends on build-tools that are
-not relevant for the current recipe.
-
-This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
-which will be evaluated for such recursive dependencies to
-be excluded. The idea is similar to
-   http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
-except that the list is not hard-coded anymore.
-
-SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
-expressions of recipe and dependency to ignore, e.g. in
-the above flex-native / bison-native use-case, one would
-specify
-
-    SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
-
-in layer.conf.
-
-The existing special handling of "-initial" as well as
-"base-passwd" and "shadow-sysroot" could also be
-streamlined:
-
-    SSTATE_EXCLUDEDEPS_SYSROOT += "\
-        .*->.*-initial.* \
-        .*(base-passwd|shadow-sysroot)->.* \
-    "
-
-Another anticipated user is meta-java, where certain newer
-JDKs can only be bootstrapped (built) using older JDKs,
-but it doesn't make much sense to copy all those older
-JDKs and their own build tools (ant, etc.) into the
-sysroot of recipes wanting to be built using the newer JDK
-(only), e.g.:
-
-    SSTATE_EXCLUDEDEPS_SYSROOT += "\
-        openjdk-8-native->(ant-native|attr-native|coreutils-native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-native|unzip-native) \
-    "
+Use the newly introduced SSTATE_EXCLUDEDEPS_SYSROOT for specifying
+the *-initial recipes to be excluded from a recipe sysroot.
 
 Signed-off-by: André Draszik <andre.draszik@jci.com>
 ---
- meta/classes/sstate.bbclass | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/classes/sstate.bbclass | 3 ---
+ meta/conf/layer.conf        | 5 +++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 1a95f8f2b9..e5b86ad705 100644
+index e5b86ad705..362729376a 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -897,6 +897,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-     # task is included in taskdependees too
-     # Return - False - We need this dependency
-     #        - True - We can skip this dependency
-+    import re
- 
-     def logit(msg, log):
-         if log is not None:
-@@ -957,6 +958,18 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-             # Nothing need depend on libc-initial/gcc-cross-initial
-             if "-initial" in taskdependees[task][0]:
+@@ -955,9 +955,6 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+             # base-passwd/shadow-sysroot don't need their dependencies
+             if taskdependees[dep][0].endswith(("base-passwd", "shadow-sysroot")):
                  continue
-+            # Allow excluding certain recursive dependencies. If a recipe needs it should add a
-+            # specific dependency itself, rather than relying on one of its dependees to pull
-+            # them in.
-+            # See also http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
-+            not_needed = False
-+            for excl in (d.getVar('SSTATE_EXCLUDEDEPS_SYSROOT') or "").split():
-+                if re.match(excl.split('->', 1)[0], taskdependees[dep][0]):
-+                    if re.match(excl.split('->', 1)[1], taskdependees[task][0]):
-+                        not_needed = True
-+                        break
-+            if not_needed:
-+                continue
-             # For meta-extsdk-toolchain we want all sysroot dependencies
-             if taskdependees[dep][0] == 'meta-extsdk-toolchain':
-                 return False
+-            # Nothing need depend on libc-initial/gcc-cross-initial
+-            if "-initial" in taskdependees[task][0]:
+-                continue
+             # Allow excluding certain recursive dependencies. If a recipe needs it should add a
+             # specific dependency itself, rather than relying on one of its dependees to pull
+             # them in.
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 315fb936fa..a8bebe102c 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -78,5 +78,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   weston-init->kbd \
+ "
+ 
++# Nothing needs to depend on libc-initial/gcc-cross-initial
++SSTATE_EXCLUDEDEPS_SYSROOT += "\
++    .*->.*-initial.* \
++"
++
+ # We need to keep bitbake tools in PATH
+ PATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}:${HOSTTOOLS_DIR}"
 -- 
 2.17.0
 
