@@ -1,53 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
-	[209.85.223.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D0BFA749D8
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DCC5749AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 12:16:53 +0000 (UTC)
-Received: by mail-io0-f194.google.com with SMTP id d11-v6so18194069iof.11
+	Tue, 22 May 2018 12:25:54 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id f6-v6so31367874wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 05:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BTbwoQA6qJjdZBa/azhLZ8Jb/chkYY/yPNlv/J0aV0w=;
-	b=kt9tz9Vsk7Z9lYf1Mcpk0rAIypg2NpRTfdqPXMWfvOeOwDAOqXJ/4Hb5/sysjyp1EC
-	RRM+WS0S5jpI26zreYidGQ+nR5P9CP00mrF9uyQ1+e34Cq3eFZIxvTvmLbomG35lgkj4
-	blj2pgR+fQMLE/0IfHQQnjmRfsXsVOBOOXXoAk45V3jysTMPPSi+NqddTf1Ew0LxsMDG
-	s740NzLWwy9/Zom0i8KVAtoJNUPymHByYBflsXZ19ItG34pOW/lXI1qNpF2Q0oxw3MWh
-	TWrvfOfaqnzG8Skio09rjhoz24ddt4vEn3vOYnriN4gIIAItUw0wH4VEeHlwf1ZPKmJn
-	MmhQ==
+	Tue, 22 May 2018 05:25:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BTbwoQA6qJjdZBa/azhLZ8Jb/chkYY/yPNlv/J0aV0w=;
-	b=c0EILENdgLmRsH9BrqlAd/EDpnc4BYO1VKIPFlcQvu7Q6hkAD3i6jo6svGeNYfbkDB
-	Xwo5/l+bGUGGw4y1R+Zd/yWc2IilSU6rB1KphZ+wc6uI2c48ujpnRlKhVbb4xFAAhac5
-	8AlIHxdigGvJhyV/KpTiEqia9EJOPDQDW00YMnaL61ybWEEM0hWWn+lGbFG7iaTdc2JW
-	AaRWYqodxMDlMycZ3zkKiMmeQa+a6BHEyBzmm/xkAYVdXRFSsJeI7Bhk0lra49x1shwV
-	8n0tQxG8RA+cuXEYVKwYYHyRhT076pziXfPxYCynxahqQbSaWB9Ue4sFCav1fWZqGIgE
-	I4Ew==
-X-Gm-Message-State: ALKqPwfJoZ0CQEcRVN/Sp7xdtRXTYbH1ecAPllK1SITgPPe/RqSQ05Dy
-	/n5/pa9W5rX4rbOlJYtEK4/tiIi3e1qUd5m5rIcNag==
-X-Google-Smtp-Source: AB8JxZrffHX434Tw1kZhVISX3qyt2kWmdN5vgFI94b+pKhCaXbxPrU1GpPjq86avy6213/bBTvjJrRNXeImwPOtNxEU=
-X-Received: by 2002:a6b:208a:: with SMTP id
-	g132-v6mr1148149iog.216.1526991414620; 
-	Tue, 22 May 2018 05:16:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=NqaL+JInmwVTeCXPGZjLXpq2+P/94EA9sOVHMs+939I=;
+	b=CokIM8JWi00BDWoNLO81wn8XM2sG2gly+qrpAGlteRRHzpOieX7kPD0LKxRfn/0FHk
+	eKvffb9XXWlUPx9JRdyyiSX8+2M3pOjkefWOGNGnPTTnBVpgk8P4DqGdfkcl9N82Y/yM
+	Od+KuDFx0AzFTgZsr41qW9N4NkNjYpoq4ow1z1b4npVOYiEvZNGsBbhG4DzUjpbrL3c/
+	2e4yNMhaySesQ2DxOqQIWKvBVpWNtKTwf5jvvi6e5jMku5V6awT6a9hzCplL/7WqXSKJ
+	Yml0EFsVdA32RXGgfuJrJdu7Ryh2qwhul9kM7iTxhZPMKeUxHZOu+dxWgb/YIcf4v0cj
+	OgQA==
+X-Gm-Message-State: ALKqPwc8NLy9E0zOIuakGeWOrus5GIBec0hfrO8yNA7K0m8ZmxmvNPop
+	yGHEyIVnQ3JR47Xab2iKb94FNYeV
+X-Google-Smtp-Source: AB8JxZq4RzeNxeDQdW4bL1ZjIz+cZNQrSW1reimF49FbYSiYbyAgaDBX19HL7m3zT9PzELb+pQTtqw==
+X-Received: by 2002:a50:e1c1:: with SMTP id
+	m1-v6mr2079102edl.198.1526991954656; 
+	Tue, 22 May 2018 05:25:54 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	a2-v6sm8752163edd.39.2018.05.22.05.25.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 May 2018 05:25:53 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 May 2018 13:25:50 +0100
+Message-Id: <20180522122553.29109-1-git@andred.net>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Received: by 10.107.239.11 with HTTP; Tue, 22 May 2018 05:16:34 -0700 (PDT)
-In-Reply-To: <CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
-References: <cover.1526944475.git.denys@ti.com>
-	<b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
-	<CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 May 2018 13:16:34 +0100
-Message-ID: <CAJTo0LaQjo2iUw1BGo18fmH+Mz0j7pnkq7ooX_Q7zNyYa-chVQ@mail.gmail.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH 3/4] mtd-utils: upgrade 2.0.1 -> 2.0.2
+Subject: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,26 +48,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 12:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 22 May 2018 12:25:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 22 May 2018 at 08:49, Andrea Adami <andrea.adami@gmail.com> wrote:
-> I am just wondering about this patch:we carry it since 2009  [1] and
-> is still marked as pending.
-> Why was it necessary to ignore part of the filesystem? Can you remember?
+From: André Draszik <andre.draszik@jci.com>
 
-Make that at least 2004.  This commit in oe-classic touches it:
+Currently, a dependency on any -native recipe will pull in
+all dependencies of that -native recipe in the recipe
+sysroot. This behaviour might not always be wanted, e.g.
+when that -native recipe depends on build-tools that are
+not relevant for the current recipe.
 
-commit c70605ebdca81412a93b4d867de7931543193f26
-Author: Chris Larson <clarson@kergoth.com>
-Date:   Thu Dec 23 21:24:57 2004 +0000
+This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+which will be evaluated for such recursive dependencies to
+be excluded. The idea is similar to
+   http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
+except that the list is not hard-coded anymore.
 
-    Update mtd to a current snapshot, change the mkfs.jffs2 -i cmdline option to
-    -I, and rename mtd and mtd-native to mtd-utils and mtd-utils-native,
-    respectively.
+SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+expressions of recipe and dependency to ignore, e.g. in
+the above flex-native / bison-native use-case, one would
+specify
 
-Prior history is lost to the git/bk migration unless anyone has a
-BitKeeper clone to mine...
+    SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
 
-Ross
+in layer.conf.
+
+The existing special handling of "-initial" as well as
+"base-passwd" and "shadow-sysroot" could also be
+streamlined:
+
+    SSTATE_EXCLUDEDEPS_SYSROOT += "\
+        .*->.*-initial.* \
+        .*(base-passwd|shadow-sysroot)->.* \
+    "
+
+Another anticipated user is meta-java, where certain newer
+JDKs can only be bootstrapped (built) using older JDKs,
+but it doesn't make much sense to copy all those older
+JDKs and their own build tools (ant, etc.) into the
+sysroot of recipes wanting to be built using the newer JDK
+(only), e.g.:
+
+    SSTATE_EXCLUDEDEPS_SYSROOT += "\
+        openjdk-8-native->(ant-native|attr-native|coreutils-native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-native|unzip-native) \
+    "
+
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+---
+ meta/classes/sstate.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1a95f8f2b9..e5b86ad705 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -897,6 +897,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+     # task is included in taskdependees too
+     # Return - False - We need this dependency
+     #        - True - We can skip this dependency
++    import re
+ 
+     def logit(msg, log):
+         if log is not None:
+@@ -957,6 +958,18 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+             # Nothing need depend on libc-initial/gcc-cross-initial
+             if "-initial" in taskdependees[task][0]:
+                 continue
++            # Allow excluding certain recursive dependencies. If a recipe needs it should add a
++            # specific dependency itself, rather than relying on one of its dependees to pull
++            # them in.
++            # See also http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146324.html
++            not_needed = False
++            for excl in (d.getVar('SSTATE_EXCLUDEDEPS_SYSROOT') or "").split():
++                if re.match(excl.split('->', 1)[0], taskdependees[dep][0]):
++                    if re.match(excl.split('->', 1)[1], taskdependees[task][0]):
++                        not_needed = True
++                        break
++            if not_needed:
++                continue
+             # For meta-extsdk-toolchain we want all sysroot dependencies
+             if taskdependees[dep][0] == 'meta-extsdk-toolchain':
+                 return False
+-- 
+2.17.0
+
 
