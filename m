@@ -1,46 +1,29 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 110A474616;
-	Tue, 22 May 2018 15:47:50 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id x12-v6so17139517wmc.0;
-	Tue, 22 May 2018 08:47:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WTHADMSwxRA6eGwYtbqbkYwMQlxlJEeCinsKDE7hc08=;
-	b=eoy6dKBdY2KJYooSogr1YAzl8TGxYwwhMeIKaEYiywASZMOH3jPz1yQkGYxm4dd0V8
-	3aO5Dqf5XYN1CTbW4b3SB4tTBMlCJ5DEGQgowuu/0ucpEwZeUDawQ3YES3QG8+J23/Yv
-	yLPA8P9HsRfXNzwhP4HPA0AJ0I0XW7Sbj427V9vTFzW8kOXJA6+WFzjxBsScSS5EqswQ
-	yRPGhGeHQbJk1Y8v1wP9H93zPVcKk2ElcRoyGkX7/auOh59bEL+lgXqUXn8iZN/zkCB2
-	gF64mVcotm/guzNFqyYA6X8cCPJJ4PvvSRVIxXFYR6Xf8NEPuEvAbtmUkYZ1zMw7jMFg
-	ISOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WTHADMSwxRA6eGwYtbqbkYwMQlxlJEeCinsKDE7hc08=;
-	b=Uo9r98mor3qIzfTqPqKpl8/Q6HCdsqEl0scFppHAapucSTc+DfC8cgV1pwDWlcoGWH
-	1BcN46t8sokd24bdk7gCHl/jDqgNLvP/zK+fWq5NFhi8fOcRCfj2u4qvrqGqhBXynKEt
-	44H8S6fJbWXKuPp/4CJvUKEkmlyfayhs6dP/LJKzHIx0By/vClNfu+NEs3r5rkRlTLLr
-	2HVzxWF0oX4+nFQWjG1A+RGLugtKZfOhkEljdq3Il7VKwF5X2wD5rLV+09kCDIVm25Zr
-	S6wsJi/4uVgj31vumHSMepurHJVokKO/NrmYosxIfQj1kf/zdDV4ipWOsrswny3TitP0
-	EJ8g==
-X-Gm-Message-State: ALKqPwecBkVBbX+j3zPRgEchOVMB50KUd3BY3MDYgp1Z/K5ExgVYeHCP
-	/jzPJxyOkB4GbsnDdD2GAsgbQHBGzEkESephpbI=
-X-Google-Smtp-Source: AB8JxZpgiWoWpjA40EHpMpfwct6zgHpWejztooe8Q/ScP4sdinYIWSPTWeEtnUru8bqHYSAWrjxvQaOpOVXgDVEEbYY=
-X-Received: by 2002:a50:c359:: with SMTP id
-	q25-v6mr3079209edb.178.1527004071273; 
-	Tue, 22 May 2018 08:47:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.157.72 with HTTP; Tue, 22 May 2018 08:47:50 -0700 (PDT)
-In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
-References: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-Date: Tue, 22 May 2018 17:47:50 +0200
-Message-ID: <CAAQYJAsOB6tr2SLEOP1CBsYw_MT9sC0ryfu0LmnWeNYVDhssmg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id C0D9774616;
+	Tue, 22 May 2018 15:52:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 May 2018 08:52:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,430,1520924400"; d="scan'208";a="43867491"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga006.jf.intel.com with ESMTP; 22 May 2018 08:52:37 -0700
+To: akuster808 <akuster808@gmail.com>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+References: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <eea1dc01-ede0-5081-6045-dd1faabde461@linux.intel.com>
+Date: Tue, 22 May 2018 18:52:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
 Subject: Re: meta-openembedded maintainer ship change.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -54,32 +37,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 15:47:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 22 May 2018 15:52:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 22, 2018 at 5:40 PM, akuster808 <akuster808@gmail.com> wrote:
-> Hello all,
->
+On 05/22/2018 06:40 PM, akuster808 wrote:
 > After much thought, I have decided to step away from being the
-> meta-openembedded maintainer, patch wrangler and builder.  Khem Raj has
+> meta-openembedded maintainer, patch wrangler and builder.  Khem Raj has
 > kindly stepped up to continue these activities. Maintaining this was
 > consuming too much of my free time and I need to focus on other things
 > in the community.
->
-> Thanks for the opportunity to have served you.
->
-> Kind regards,
->
-> Armin
->
 
-Many thanks for the time you've spent!
-Andrea
+Thanks Armin, I can only express my support and appreciation.
 
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Being a maintainer comes with an unhealthy dynamic, and generally cannot 
+be sustained indefinitely. It takes massive. yet invisible effort to 
+make things 'just work'. Then that effort is taken for granted by 
+everyone. However, when you mess up, or even simply overlook something, 
+complaints come in thick and fast.
+
+
+Alex
 
