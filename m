@@ -1,51 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0687F746FA
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 91C5C745BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2018 00:14:21 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id e12-v6so20668160iob.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 17:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nmZ7R+bpwbPI3EMsjkZ2FMtIhN8ugGxLGSvASMYRUgY=;
-	b=zezDpod6ElKf+SqQJ6W9tmWPBa2q2qEoDUdJlTxN/3Nhij9xut6evvWht3R1gqNO5Q
-	Wy+DzoLX3NyWKUMrbNIupgNb53TP3PD3mmlS3/tXn821WkkuzzeRPfmHP2KwUZ+x+qvy
-	2DstoJx98b9kyS8U+ylKT9WxwWnBvIzF4Xc6U9lVJCrIdeIU6pFuU4UtC9sm7Wnd8Ohm
-	3hzh1gwbA3ZFFxDxph2AvYvY1jg/sAr7tiplq4Xb6+lb/LRHpV9ercZcbodklw+Mp9qW
-	IxMdZywR4UUD8dG+LICyHaj/wNYzonGOoXRWlXuqrnk1vgzC8tlcXN1zmrsBWn9rFxp6
-	NB7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nmZ7R+bpwbPI3EMsjkZ2FMtIhN8ugGxLGSvASMYRUgY=;
-	b=EZ0UhWup3+SzUOwES7gCichjw1upq+KPpFvdUxgQtK1fRnkJBJFFvlFfND+2vdeGrC
-	9myt+dYgkcKzm0o/uzZiBTNvkjPh6wU6b2/Bs8Sn0DLqpM7I3JfLP0jU5Fx7KN6Z+d+/
-	Oj5U17W1Bl2wLSslcqHD71dx+fhcLDeBo9JYCUUb2op493gmtQ5BWYAHZxIkdqiQVNJr
-	C7lMjKJuJjzcUYinvcQp/9CwREraSgJiL6N8JT2QhBVHHuujQsk6THkT24YJf/tIVW4H
-	SppjdfJsXJ43y09AgZ/WSx3H5dOr5yDMJtixdwyq4jiRfDUa9OMmGu4UrJqPuk80bdKs
-	9fXQ==
-X-Gm-Message-State: ALKqPwdBE6NAJ3CYylVDU4p8siYWr9MwpiOtsRM0g4J6OyJ5Cn3ZcgtP
-	UOZ8h4lS5em+Nd7QyJKAdqywERFfBpxu9g57CMIlgQ==
-X-Google-Smtp-Source: AB8JxZqkHhsXmwN+MT1pO+Gw0C+AerYv7Q+ltM23c0SKIumvNQf/YRS+GzP+E9Rr6LlUZ+NuuKnuJQ8T4KNQUwDczLA=
-X-Received: by 2002:a6b:5507:: with SMTP id j7-v6mr602192iob.23.1527034462944; 
-	Tue, 22 May 2018 17:14:22 -0700 (PDT)
+	Wed, 23 May 2018 00:49:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4N0n0X3023314
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 May 2018 17:49:00 -0700 (PDT)
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 22 May 2018 17:49:00 -0700
+To: Andre McCurdy <armccurdy@gmail.com>, akuster808 <akuster808@gmail.com>
+References: <1526827795-10448-1-git-send-email-akuster@mvista.com>
+	<CAJ86T=XKQdbiH3ND0Smmpne7FX=PqEtox9GJrJJi9WfiRZcOBQ@mail.gmail.com>
+	<759e0c6d-d9cc-4ec2-2e56-871b18ae9313@gmail.com>
+	<CAJ86T=UX195m2f_aSiR4uM7G++1rjLKj+_vvtERsKCLH7uMDOg@mail.gmail.com>
+	<CAJ86T=WVzwj5j+W3GFTtW9akh3M=SEH5HTLVrBt_mkdFV0XCmA@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <b45998ef-41af-b965-c64a-b10a12f5ecfd@windriver.com>
+Date: Tue, 22 May 2018 20:48:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 2002:a6b:ef0b:0:0:0:0:0 with HTTP; Tue, 22 May 2018 17:14:02
-	-0700 (PDT)
-In-Reply-To: <CAKmqyKM1cAX-6ZjgEb2r+4_K-PDdUgcq-Zodr7=cfdkQpzvNsg@mail.gmail.com>
-References: <20180502204907.137185-1-alistair.francis@wdc.com>
-	<CAKmqyKM1cAX-6ZjgEb2r+4_K-PDdUgcq-Zodr7=cfdkQpzvNsg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 May 2018 01:14:02 +0100
-Message-ID: <CAJTo0LaCHutWfBe+zW2dF3JcO4ODzcHa72U96Ta6fPj1SnGpyQ@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>,
-	Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-kernel/linux: Enable NUMA Kconfig from MACHINE_FEATURES
+In-Reply-To: <CAJ86T=WVzwj5j+W3GFTtW9akh3M=SEH5HTLVrBt_mkdFV0XCmA@mail.gmail.com>
+X-Originating-IP: [172.25.44.2]
+Cc: akuster <akuster@mvista.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [V2][PATCH] busybox: update to 1.28.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,61 +39,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2018 00:14:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 May 2018 00:49:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Bruce, can you review this please?
+On 05/22/2018 07:06 PM, Andre McCurdy wrote:
+...
+> Building before and after Armin's patch and then diffing .config files
+> in each build directory gives:
+> 
 
-Ross
+I didn't know what all of these configs were so I've
+listed them below and stated a straw-man opinion as
+to whether to keep them or not.
 
-On 23 May 2018 at 00:45, Alistair Francis <alistair23@gmail.com> wrote:
-> On Wed, May 2, 2018 at 1:49 PM, Alistair Francis
-> <alistair.francis@wdc.com> wrote:
->> If the user has set numa in their MACHINE_FEATURES we should enable
->> NUMA support in the kernel config.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->
-> Ping!
->
-> Alistair
->
->> ---
->>  meta/recipes-kernel/linux/files/numa.cfg  | 4 ++++
->>  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
->>  2 files changed, 7 insertions(+)
->>  create mode 100644 meta/recipes-kernel/linux/files/numa.cfg
->>
->> diff --git a/meta/recipes-kernel/linux/files/numa.cfg b/meta/recipes-kernel/linux/files/numa.cfg
->> new file mode 100644
->> index 0000000000..bb0f9ab20c
->> --- /dev/null
->> +++ b/meta/recipes-kernel/linux/files/numa.cfg
->> @@ -0,0 +1,4 @@
->> +CONFIG_NUMA=y
->> +CONFIG_ACPI_NUMA=y
->> +CONFIG_NUMA_BALANCING=y
->> +CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
->> index 3bb872a32a..e8fb38b8f4 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -28,6 +28,9 @@ KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->>
->>  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
->>
->> +SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
->> +KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
->> +
->>  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->>  # by the kernel. This is typically the branch that should be built,
->>  # and it can be specific to the machine or shared
->> --
->> 2.17.0
->>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Old 1.27.2 specific config options removed:
+> 
+> -CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS=y
+> -CONFIG_FEATURE_ADDUSER_LONG_OPTIONS=y
+> -CONFIG_FEATURE_ENV_LONG_OPTIONS=y
+> -CONFIG_FEATURE_HWCLOCK_LONG_OPTIONS=y
+> -CONFIG_FEATURE_MKDIR_LONG_OPTIONS=y
+
+I'm okay with following upstream busybox wrt long options so
+we can drop this.
+
+> 
+> New 1.28.3 specific options added:
+> 
+> +CONFIG_BB_ARCH=y
+
+Adds 'arch' which is the same output as 'uname -m' but
+I always use arch and didn't know off-hand that uname -m was the same.
+
+Keep it.
+
+> +CONFIG_FEATURE_CATN=y
+   This adds an option to cat:
+    -n numbers all output lines while -b numbers nonempty output lines.
+   The commit that added this feature says:
+      a2bdc5c55 cat: allow compiling out -n and -b
+   so since previously the feature was always available,
+
+I'm okay with keeping it.
+
+> +CONFIG_FEATURE_SH_READ_FRAC=y
+
+   Enables a fractional second read timeout for the shell builtin.
+   bool "read -t N.NNN support (+110 bytes)"
+   Enable support for fractional second timeout in read builtin.
+
+Potentially useful, keep it.
+
+> +CONFIG_FEATURE_SWAPONOFF_LABEL=y
+
+   This allows for specifying a device by label or uuid, rather than by
+   name. This feature utilizes the same functionality as blkid/findfs.
+
+Useful. Keep it.
+
+> +CONFIG_FEATURE_VOLUMEID_MINIX=y
+
+I don't know of a case where this would be generally useful.
+
+Omit.
+
+> +CONFIG_FEATURE_XARGS_SUPPORT_ARGS_FILE=y
+     xargs: support -a FILE
+
+     The GNU-specific option -a lets xargs read the arguments from a file
+     rather than from stdin.
+
+     This is particularly convenient when debugging in gdb interactively,
+     and it might be of more general use.
+
+Huh... what?
+Digging through the findutils repo, I see that there's a better 
+explaination in the findutils/NEWS file from 2004(!):
+
+*** xargs can now read a list of arguments from a named file, allowing
+     the invoked program to use the same stdin as xargs started with
+     (for example ``xargs --arg-file=todo emacs'').
+
+Keep it (I suppose).
+
+> +CONFIG_FEATURE_XARGS_SUPPORT_PARALLEL=y
+
+From: https://bugs.busybox.net/show_bug.cgi?id=9511
+Example:
+find samplegz | xargs -n1 -P4 sh parse.sh
+
+Costs 241 bytes.
+
+Keep it.
+
+The next group are described below but
+I've put my conclusions after each config.
+
+> +CONFIG_HEXEDIT=y
+Drop it.
+
+> +CONFIG_NUKE=y
+Drop it.
+
+> +CONFIG_RESUME=y
+Drop it -- maybe?
+
+> +CONFIG_RUN_INIT=y
+Drop it.
+
+> +CONFIG_SETFATTR=y
+Drop it.
+
+> 
+> So new applets hexedit, nuke, etc, are going to sneak in to our builds
+> unless we refresh our defconfig to disable them.
+> 
+
+
+Here is the rough estimate of the new applet sizes:
+
+$ git show 38da4c4420ea6d7b3cf120c0902458e7d8256560 | \
+    grep "^+//config:.*bool"
++//config:	bool "nuke (2.4 kb)"
++//config:	bool "resume (3.3 kb)"
++//config:	bool "run-init (7.5 kb)"
++//config:	bool "hexedit (20 kb)"
++//config:	bool "setfattr (3.6 kb)"
+
+
+and the commit that added most of the applets that includes
+a brief explanation of the applet's function:
+
+commit ab77e81a8527fa11a4f9392d97c2da037d6f4f98
+Author: Denys Vlasenko <vda.linux@googlemail.com>
+Date:   Fri Aug 18 19:15:29 2017 +0200
+
+     klibc-utils: new applets: resume, nuke, minips
+
+     minips is a pure alias to ps,
+     just in case someone needs 100% klibc-utils compat.
+
+     nuke is a primitive version of "rm -rf" without
+     options and error checks. ~30 bytes.
+
+     resume is a tool for initramfs which resumes from
+     a given block device.
+
+     function                                         old     new   delta
+     resume_main                                        -     582    +582
+     packed_usage                                   31640   31712     +72
+     nuke_main                                          -      28     +28
+     xstrtoull                                          -      24     +24
+     applet_names                                    2646    2665     +19
+     applet_main                                     1532    1544     +12
+     applet_suid                                       96      97      +1
+     applet_install_loc                               192     193      +1
+     applet_flags                                      96      97      +1
+ 
+------------------------------------------------------------------------
+     (add/remove: 5/0 grow/shrink: 6/0 up/down: 740/0)   Total: 740 bytes
+
+     Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+
+
+
+While these are useful utilities,
+I don't see a need for any of the new applets in the oe-core defconfig.
+
+Armin,
+If no one objects to my suggestions, please change the defconfig
+in the next update or ping me and I'll do it.
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
