@@ -1,46 +1,49 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BDFF74739
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0687F746FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 23:45:45 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id k5-v6so11024803wrn.3
+	Wed, 23 May 2018 00:14:21 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id e12-v6so20668160iob.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2018 16:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 22 May 2018 17:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0ay9zJlLNCN5YcaBmhqY4nplNb4+gQZlGBWRv7tdus0=;
-	b=n2fkJ4kinR8kGjH14LXsXIh++Gb3mDpqlnVhAY60/8hTU3oX2jTsRI4So+EHjzFlF7
-	7b2fl0LGT5iNlM6pdR6+08wOVgejSb6Cs62a4z7B+aQnV14AmOXIyua4nEpR9g54KTzS
-	FmPb+oHiv7E+hygmFlba+rWFaAB+oVSzjK858yRAFu5H1PRVMvYSSr1pmEDrXZdOXQrk
-	pEuTui0mf5nmeq2ITYHqr9Q51Ao8wTlhv0v5E2IImib00xR1MuyJjuk/UIxcBSrZUdEi
-	9cyzA3ml3IJF4SJ0r8S+nELMYjWMT8O74HuIasBKqq6hCq6OjbpzL3XODZ0GJg84M/mb
-	n/7Q==
+	:cc; bh=nmZ7R+bpwbPI3EMsjkZ2FMtIhN8ugGxLGSvASMYRUgY=;
+	b=zezDpod6ElKf+SqQJ6W9tmWPBa2q2qEoDUdJlTxN/3Nhij9xut6evvWht3R1gqNO5Q
+	Wy+DzoLX3NyWKUMrbNIupgNb53TP3PD3mmlS3/tXn821WkkuzzeRPfmHP2KwUZ+x+qvy
+	2DstoJx98b9kyS8U+ylKT9WxwWnBvIzF4Xc6U9lVJCrIdeIU6pFuU4UtC9sm7Wnd8Ohm
+	3hzh1gwbA3ZFFxDxph2AvYvY1jg/sAr7tiplq4Xb6+lb/LRHpV9ercZcbodklw+Mp9qW
+	IxMdZywR4UUD8dG+LICyHaj/wNYzonGOoXRWlXuqrnk1vgzC8tlcXN1zmrsBWn9rFxp6
+	NB7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=0ay9zJlLNCN5YcaBmhqY4nplNb4+gQZlGBWRv7tdus0=;
-	b=nhLvZRr0ZbIbXk52/IlEo+LJmuNvQLmDiX5uSofFxfiaeyBCo398l1Gjad2u6sDxJn
-	nD6TcpyNUYsGJtsWlKuatvEP4NqX08V2xrfgnbxTDeEU/VXAjTvL5v6Tz4xqA3apDz5z
-	bN8ZCn9hInCaC2ZJm2ZIpx1f7vm4k4SLdeJVGpJYD2+pNbADgjOnoIfPxuEd38UqANPt
-	uCltmmSDXD044LqHcYGGbk9FxVDfkvZD30a0hQ8jkLio4vDLiiQln+hmFGV2J4nVPTDq
-	OrzVllqRYepMwZZLzxxJJQTQ8PfY66pQceUMvOibrSs673ikBcOIzTXrsBGWlGf2hyPv
-	uZOw==
-X-Gm-Message-State: ALKqPwdSlf7nvJaon4O/XS0rMboQZouL5E8emunJp6NZ5rTFB5IVcMP2
-	s/IBOhOmYNmtJLoQy9KjQmwvWFa9VXAPXP8Os3I=
-X-Google-Smtp-Source: AB8JxZrJ7tjATHjrhu4dAOYn4eg23LdSQnEEr3iBshDPVMRxU8QmYzAiQTtDAsvJNb4raMVAubAj1bX5DyMHzzg0sgc=
-X-Received: by 2002:a19:1003:: with SMTP id f3-v6mr247080lfi.114.1527032745852;
-	Tue, 22 May 2018 16:45:45 -0700 (PDT)
+	bh=nmZ7R+bpwbPI3EMsjkZ2FMtIhN8ugGxLGSvASMYRUgY=;
+	b=EZ0UhWup3+SzUOwES7gCichjw1upq+KPpFvdUxgQtK1fRnkJBJFFvlFfND+2vdeGrC
+	9myt+dYgkcKzm0o/uzZiBTNvkjPh6wU6b2/Bs8Sn0DLqpM7I3JfLP0jU5Fx7KN6Z+d+/
+	Oj5U17W1Bl2wLSslcqHD71dx+fhcLDeBo9JYCUUb2op493gmtQ5BWYAHZxIkdqiQVNJr
+	C7lMjKJuJjzcUYinvcQp/9CwREraSgJiL6N8JT2QhBVHHuujQsk6THkT24YJf/tIVW4H
+	SppjdfJsXJ43y09AgZ/WSx3H5dOr5yDMJtixdwyq4jiRfDUa9OMmGu4UrJqPuk80bdKs
+	9fXQ==
+X-Gm-Message-State: ALKqPwdBE6NAJ3CYylVDU4p8siYWr9MwpiOtsRM0g4J6OyJ5Cn3ZcgtP
+	UOZ8h4lS5em+Nd7QyJKAdqywERFfBpxu9g57CMIlgQ==
+X-Google-Smtp-Source: AB8JxZqkHhsXmwN+MT1pO+Gw0C+AerYv7Q+ltM23c0SKIumvNQf/YRS+GzP+E9Rr6LlUZ+NuuKnuJQ8T4KNQUwDczLA=
+X-Received: by 2002:a6b:5507:: with SMTP id j7-v6mr602192iob.23.1527034462944; 
+	Tue, 22 May 2018 17:14:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:320a:0:0:0:0:0 with HTTP; Tue, 22 May 2018 16:45:15
+Received: by 2002:a6b:ef0b:0:0:0:0:0 with HTTP; Tue, 22 May 2018 17:14:02
 	-0700 (PDT)
-In-Reply-To: <20180502204907.137185-1-alistair.francis@wdc.com>
+In-Reply-To: <CAKmqyKM1cAX-6ZjgEb2r+4_K-PDdUgcq-Zodr7=cfdkQpzvNsg@mail.gmail.com>
 References: <20180502204907.137185-1-alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 22 May 2018 16:45:15 -0700
-Message-ID: <CAKmqyKM1cAX-6ZjgEb2r+4_K-PDdUgcq-Zodr7=cfdkQpzvNsg@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
+	<CAKmqyKM1cAX-6ZjgEb2r+4_K-PDdUgcq-Zodr7=cfdkQpzvNsg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 May 2018 01:14:02 +0100
+Message-ID: <CAJTo0LaCHutWfBe+zW2dF3JcO4ODzcHa72U96Ta6fPj1SnGpyQ@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] recipes-kernel/linux: Enable NUMA Kconfig from MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,51 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 23:45:45 -0000
+X-List-Received-Date: Wed, 23 May 2018 00:14:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 2, 2018 at 1:49 PM, Alistair Francis
-<alistair.francis@wdc.com> wrote:
-> If the user has set numa in their MACHINE_FEATURES we should enable
-> NUMA support in the kernel config.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Bruce, can you review this please?
 
-Ping!
+Ross
 
-Alistair
-
-> ---
->  meta/recipes-kernel/linux/files/numa.cfg  | 4 ++++
->  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
->  2 files changed, 7 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux/files/numa.cfg
+On 23 May 2018 at 00:45, Alistair Francis <alistair23@gmail.com> wrote:
+> On Wed, May 2, 2018 at 1:49 PM, Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+>> If the user has set numa in their MACHINE_FEATURES we should enable
+>> NUMA support in the kernel config.
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 >
-> diff --git a/meta/recipes-kernel/linux/files/numa.cfg b/meta/recipes-kernel/linux/files/numa.cfg
-> new file mode 100644
-> index 0000000000..bb0f9ab20c
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/files/numa.cfg
-> @@ -0,0 +1,4 @@
-> +CONFIG_NUMA=y
-> +CONFIG_ACPI_NUMA=y
-> +CONFIG_NUMA_BALANCING=y
-> +CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 3bb872a32a..e8fb38b8f4 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -28,6 +28,9 @@ KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+> Ping!
 >
->  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+> Alistair
 >
-> +SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
-> +
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->  # by the kernel. This is typically the branch that should be built,
->  # and it can be specific to the machine or shared
+>> ---
+>>  meta/recipes-kernel/linux/files/numa.cfg  | 4 ++++
+>>  meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+>>  2 files changed, 7 insertions(+)
+>>  create mode 100644 meta/recipes-kernel/linux/files/numa.cfg
+>>
+>> diff --git a/meta/recipes-kernel/linux/files/numa.cfg b/meta/recipes-kernel/linux/files/numa.cfg
+>> new file mode 100644
+>> index 0000000000..bb0f9ab20c
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/files/numa.cfg
+>> @@ -0,0 +1,4 @@
+>> +CONFIG_NUMA=y
+>> +CONFIG_ACPI_NUMA=y
+>> +CONFIG_NUMA_BALANCING=y
+>> +CONFIG_NUMA_BALANCING_DEFAULT_ENABLED=y
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+>> index 3bb872a32a..e8fb38b8f4 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+>> @@ -28,6 +28,9 @@ KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+>>
+>>  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+>>
+>> +SRC_URI += "${@bb.utils.contains('MACHINE_FEATURES', 'numa', ' file://numa.cfg', '', d)}"
+>> +KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+>> +
+>>  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+>>  # by the kernel. This is typically the branch that should be built,
+>>  # and it can be specific to the machine or shared
+>> --
+>> 2.17.0
+>>
 > --
-> 2.17.0
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
