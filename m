@@ -1,48 +1,58 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0711974922
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 14:55:54 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id 94-v6so3687027wrf.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 07:55:56 -0700 (PDT)
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C4A6748A9;
+	Thu, 24 May 2018 15:07:57 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id a15-v6so3773224wrm.0;
+	Thu, 24 May 2018 08:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=64irZT/EdcnU6xkLjoOzNYqYzt21KeUO/F12Kq0a5QU=;
-	b=ECBGnaJDy4z8JQyBc7dyL4zu1qKU1uYqMTnhKrmdlnoE4LAgUE9wXzng93cbCqhdrZ
-	GU1VG0LFz6qPQm0Up55ZdhKajsuqh85uALX/nP3owPNnKDfMlWlIVIl3fYTL3ftanjX+
-	oI1bBoMibJHR+qXfVR9vccOW5LLeOXqDljfTl96XicADLLn5WtJxVkx/5I4vfMEZJBKr
-	IZc64D2xwDDntEzjWtwcl7Jv/1wayxXGiKktke7+5CfOYAnl5cBzXPuVNJlWOFgQ1zgK
-	IzRK7h+71tVyjBIGxALcxdndqWwNW5pcZYtko7DO5R2DGg0nqLi1dJ936LjssPlpGP+U
-	6CLA==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=jZwUz2Z81dptT/5ubkunSg8E4yYgSjMHCTjzrSpa3zg=;
+	b=l1tLdyT+0oOhCB4iAP1HKEHFxoly+z84ed8jbbM4A5tp+wXI+VisXqqyWW7Q4P29Et
+	9Nq3/MyGQj5CpmZIxMdrF0cqDBLO8aL5QAEIgbTp6leg29w36AZqI4LFAtj0Fdnmmgei
+	uhqfuu2N5u2bJIPLnrjVtpQmDOZwJprunOHedsUA85Flh9CzEQhW35+4rHQaSirbQmO+
+	fFxHiW7iyHXt7pZqoey3vX7mt1/uaDYyGgT0Z7vC2TAxfv3Nob9GHfe4K9U4/0GwDp27
+	pUy8OHFi6XBa4ipOvJhXyi50cXQDvzVw3TJOTa5mVTXORu25jbFBXu8mESd9vo1gDj4S
+	xZPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=64irZT/EdcnU6xkLjoOzNYqYzt21KeUO/F12Kq0a5QU=;
-	b=hYtzcY1q0CQekDXhDNcUzmmIFm7MhSQlhPeLaZzWFj+8IPeJS5+6ir6S2hBYr0BFKs
-	tqLX9l7fKsZbjw7Xtq1kOvCzEgAk9Cm7ob8C+oTdlPsto07x/3KYC7qm7DtUlNZyXhVS
-	fCI3boHFq6UbuBFpMg61atvfCrUko7/FtC5Krd3NdwFYZPaBGVYaf5Dd3wSRZTjUPMjy
-	Miykuemx84NJWvpqB4kBwDaHOC+Xa/7psfRRab7HFlz1PGDfg5DYWOHF857ZiR7CZv3f
-	OfdDsEmlBtzUMVPyZTkx2rdLZe9XLwvCEpjgPN1yybVQ3wKj5Dw6BVHyR5OCT4NDa0y/
-	UDrg==
-X-Gm-Message-State: ALKqPwe3ouMt9icTRQmUxegiAZLrzHavM48zY2DSHmWmcYYPiCMrwKvW
-	79cFK/uCaRraFNweOxo/Ejf7jg==
-X-Google-Smtp-Source: AB8JxZp1csuTARJd1mqvJf4alJ+6bkjnVPtrWNp6ub7lSkA4RlEmlasbClgk8J+PmdtwpHHiHWu1yw==
-X-Received: by 2002:adf:a292:: with SMTP id
-	s18-v6mr725839wra.114.1527173755208; 
-	Thu, 24 May 2018 07:55:55 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=jZwUz2Z81dptT/5ubkunSg8E4yYgSjMHCTjzrSpa3zg=;
+	b=qQ/MLivtN5aT9xmyviKhjViFW1tel1L5XU3zNGQcT6ZjmGI9ADk9Umb4Mofnbjdj6U
+	SeGINalzkuG1uKiuzCq0CYF41od9aLio8UTMy2MgAb2JO2SyC2zQ0ERU2tpg9fqInt0e
+	lpUqiihDI94SG5W0PRLU4NKaPUtiiHygDxE1ozfydHbnMD8BKM+132z4cee+14O24ePZ
+	260bgyYUocCvsX7e5ZB+wlkq6XrWjEznGcIcljE0uRiLRVFubM+uG6UhzqczbMXdHVQJ
+	lrfvFGamSUrcXoIhuzJ1T5fhTjInQ9ZpNZjU6MsIGW9+zFiWKtmkc//O8282VCZttvPS
+	0V8w==
+X-Gm-Message-State: ALKqPwfCY1PV5vE/h8w5SEsfPSdM0SJSEeBJZ+CmIw98Ozc9I/Xp0L7Y
+	OPjrEm7StTez5T0dLvvDzAU=
+X-Google-Smtp-Source: AB8JxZonWZFLyKUWIeci6p9WLBlciF6d5YAo0UF8G3D8/xzablVSmoGqMXcijklAvsOWgU/7KrBL8w==
+X-Received: by 2002:adf:9ae5:: with SMTP id
+	a92-v6mr6237541wrc.180.1527174478248; 
+	Thu, 24 May 2018 08:07:58 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	g127-v6sm4040882wmf.42.2018.05.24.07.55.54
+	184-v6sm5228785wmv.33.2018.05.24.08.07.56
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 24 May 2018 07:55:54 -0700 (PDT)
+	Thu, 24 May 2018 08:07:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2018 14:56:01 +0000
-Message-Id: <20180524145601.26722-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] perf: fix build with kernel older than 4.8
+Date: Thu, 24 May 2018 17:08:05 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20180524150805.GC1395@jama>
+References: <CAMKF1spa1bbrUjQWbhdUw3C4Cxu99fU=Be3sEm+SYFNq_oxEKw@mail.gmail.com>
+	<CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
+	<8d962430-ac63-5e97-fd32-2c0464c62acb@gmail.com>
+	<20180510191145.GA1954@jama> <20180517104640.GA1398@jama>
+MIME-Version: 1.0
+In-Reply-To: <20180517104640.GA1398@jama>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] GCC 8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +65,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2018 14:55:55 -0000
+X-List-Received-Date: Thu, 24 May 2018 15:07:58 -0000
+X-Groupsio-MsgNum: 111686
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="XWOWbaMNXpFDWE00"
+Content-Disposition: inline
 
-* perf is failing to build for me since this oe-core commit:
-  commit 9b38c824961fc9dce51bda95c25dac91a69fc64f
-  Author: Hongxu Jia <hongxu.jia@windriver.com>
-  Date:   Tue Apr 24 11:33:47 2018 +0800
+--XWOWbaMNXpFDWE00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    perf: make a copy of kernel source to perf workdir
+> That leaves only few issues in our internal components and strange failur=
+e with perf which fails to include various header files:
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:1:28: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:2:26: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:3:25: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:5:41: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:1:28: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:2:26: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:3:25: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:5:41: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:1:28: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:2:26: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:3:25: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:5:41: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:1:28: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:2:26: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:3:25: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/../../../include/linux/list.=
+h:5:41: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/util/include/asm/byteorder.h:2:10: fatal =
+error: ../../../../include/uapi/linux/swab.h: No such file or directory
+> perf/1.0-r9/perf-1.0/tools/perf/arch/arm/include/../../../../include/asm-=
+generic/bitops/fls.h:1:56: error: #include nested too deeply
+> perf/1.0-r9/perf-1.0/tools/perf/arch/arm/include/../../../../include/asm-=
+generic/bitops/fls.h:1:56: error: #include nested too deeply
+> ...
 
-  the problem is that perf sources in kernel older than 4.8 (in my case
-  4.4) are depending on the "global" include headers outside tools
-  directory, e.g. swab.h in:
-  kernel-source/tools$ git grep swab.h
-  perf/MANIFEST:include/linux/swab.h
-  perf/MANIFEST:include/uapi/linux/swab.h
-  perf/util/include/asm/byteorder.h:#include "../../../../include/uapi/linux/swab.h"
+This issue wasn't caused by gcc upgrade, it was caused by:
+https://patchwork.openembedded.org/patch/150269/
+which was included in the same batch of updates when I've included
+these RFT changes.
 
-  this was resolved in 4.8 with:
-  commit 7e3f36411342a54f1981fa97b43550b8406a3d69
-  Author: Arnaldo Carvalho de Melo <acme@redhat.com>
-  Date:   Mon Jul 18 17:42:16 2016 -0300
+I've sent separate fix for perf with slightly longer explanation what
+was wrong:
+https://patchwork.openembedded.org/patch/151017/
 
-    perf tools: Remove tools/perf/util/include/asm/byteorder.h
+Now I got a bit further with testing again, remaining 3 issues in public
+recipes:
 
-    Not used anymore. This also stops include linux/swab.h directly
-    from the kernel sources, remove that reference from the MANIFEST.
+gcc-sanitizers/8.1.0-r0 fails to build with qemuarm (with thumb
+enabled):
+{standard input}: Assembler messages:
+{standard input}:5724: Error: lo register required -- `ldr ip,[sp],#8'
+make[2]: *** [sanitizer_linux.lo] Error 1
 
-  and few more changes to make tools/include more complete and standalone:
-  tools/include in 4.15:
-  asm  asm-generic  linux  tools  trace  uapi
+qtbase/5.6.3+gitAUTOINC+e6f8b072d2-r0 fails to build with qemuarm (with
+thumb
+enabled):
+{standard input}: Assembler messages:
+{standard input}: Error: unaligned opcodes detected in executable segment
+make[2]: *** [.obj/qdrawhelper.o] Error 1
 
-  tools/include in 4.4:
-  asm  asm-generic  linux  tools
+lib32-glibc-initial/2.27-r0 fails to build with multilib
+checking installed Linux kernel header files... missing or too old!
+configure: error: GNU libc requires kernel header files from
+Linux 3.2.0 or later to be installed before configuring.
+The kernel header files are found usually in /usr/include/asm and
+/usr/include/linux; make sure these directories use files from
+Linux 3.2.0 or later.  This check uses <linux/version.h>, so
+make sure that file was built correctly when installing the kernel header
+files.  To use kernel headers not from /usr/include/linux, use the
+configure option --with-headers.
+WARNING: exit code 1 from a shell command.
 
-  but copying the include header even for kernels which don't really
-  need it doesn't add big overhead, so just copy include to perf sources
-  for all kernels.
+Regards,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index fb4e3ac668..51f5597eb9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -98,6 +98,7 @@ EXTRA_OEMAKE += "\
- "
- 
- PERF_SRC ?= "Makefile \
-+             include \
-              tools/arch \
-              tools/build \
-              tools/include \
--- 
-2.17.0
+--XWOWbaMNXpFDWE00
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWwbVVAAKCRA3VSO3ZXaA
+HA50AKCBm3S+4YFWAbPKqmLCkbwbEbdbZwCfY9P+WzbKZhe22O+XbYjulm6WHFA=
+=r+WF
+-----END PGP SIGNATURE-----
+
+--XWOWbaMNXpFDWE00--
