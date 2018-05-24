@@ -1,25 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B120A7482C
+	by mail.openembedded.org (Postfix) with ESMTP id F05FC74832
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 09:36:55 +0000 (UTC)
+	Thu, 24 May 2018 09:36:56 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 May 2018 02:36:57 -0700
+	24 May 2018 02:36:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,436,1520924400"; d="scan'208";a="42455587"
+X-IronPort-AV: E=Sophos;i="5.49,436,1520924400"; d="scan'208";a="42455593"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga008.fm.intel.com with ESMTP; 24 May 2018 02:36:56 -0700
+	by fmsmga008.fm.intel.com with ESMTP; 24 May 2018 02:36:57 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2018 12:36:48 +0300
-Message-Id: <20180524093649.6911-5-alexander.kanavin@linux.intel.com>
+Date: Thu, 24 May 2018 12:36:49 +0300
+Message-Id: <20180524093649.6911-6-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180524093649.6911-1-alexander.kanavin@linux.intel.com>
 References: <20180524093649.6911-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 5/6] qemuwrapper-cross: set LD_LIBRARY_PATH directly
+Subject: [PATCH 6/6] package_manger.py: rework postinst_intercept failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,95 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2018 09:36:55 -0000
+X-List-Received-Date: Thu, 24 May 2018 09:36:57 -0000
 
-Previously the library paths were passed down from recipes, and if
-said recipes were allarch, and library paths were something else
-than /lib and /usr/lib (multilib, x32, etc.), things broke down.
+Previously a warning was printed regardless of context and nature
+of the failure.
+
+Now, the following is considered when a failure happens:
+1) whether we are installing packages into a target image, or populating
+a SDK with host or target packages.
+2) whether the failure was due to qemu not supporting the target machine.
+
+Accordingly, warnings, notes, and failures are printed, and postponing
+to first boot happens if possible.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb    | 2 +-
- scripts/postinst-intercepts/update_font_cache          | 3 +--
- scripts/postinst-intercepts/update_gio_module_cache    | 3 +--
- scripts/postinst-intercepts/update_gtk_immodules_cache | 6 ++----
- scripts/postinst-intercepts/update_pixbuf_cache        | 3 +--
- 5 files changed, 6 insertions(+), 11 deletions(-)
+ meta/lib/oe/package_manager.py                | 19 ++++++++++++++++---
+ meta/lib/oe/sdk.py                            | 12 ++++++------
+ .../qemu/qemuwrapper-cross_1.0.bb             |  5 +++++
+ 3 files changed, 27 insertions(+), 9 deletions(-)
 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 516630b5cfb..f87f76fec99 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -370,7 +370,7 @@ class PackageManager(object, metaclass=ABCMeta):
+                 self._handle_intercept_failure(registered_pkgs)
+ 
+ 
+-    def run_intercepts(self):
++    def run_intercepts(self, populate_sdk=None):
+         intercepts_dir = self.intercepts_dir
+ 
+         bb.note("Running intercept scripts:")
+@@ -392,9 +392,22 @@ class PackageManager(object, metaclass=ABCMeta):
+                 output = subprocess.check_output(script_full, stderr=subprocess.STDOUT)
+                 if output: bb.note(output.decode("utf-8"))
+             except subprocess.CalledProcessError as e:
+-                bb.warn("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
+                 bb.note("Exit code %d. Output:\n%s" % (e.returncode, e.output.decode("utf-8")))
+-                self._postpone_to_first_boot(script_full)
++                if populate_sdk == 'host':
++                    bb.warn("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
++                elif populate_sdk == 'target':
++                    if "qemuwrapper: qemu usermode is not supported" in e.output.decode("utf-8"):
++                        bb.warn("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
++                                % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
++                    else:
++                        bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
++                else:
++                    if "qemuwrapper: qemu usermode is not supported" in e.output.decode("utf-8"):
++                        bb.note("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
++                                % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
++                        self._postpone_to_first_boot(script_full)
++                    else:
++                        bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
+ 
+     @abstractmethod
+     def update(self):
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index d6a503372a3..0d39ea8a91e 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -209,7 +209,7 @@ class RpmSdk(Sdk):
+ 
+         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+ 
+-        self.target_pm.run_intercepts()
++        self.target_pm.run_intercepts(populate_sdk='target')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
+@@ -220,7 +220,7 @@ class RpmSdk(Sdk):
+         self._populate_sysroot(self.host_pm, self.host_manifest)
+         self.install_locales(self.host_pm)
+ 
+-        self.host_pm.run_intercepts()
++        self.host_pm.run_intercepts(populate_sdk='host')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+ 
+@@ -297,7 +297,7 @@ class OpkgSdk(Sdk):
+ 
+         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+ 
+-        self.target_pm.run_intercepts()
++        self.target_pm.run_intercepts(populate_sdk='target')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
+@@ -308,7 +308,7 @@ class OpkgSdk(Sdk):
+         self._populate_sysroot(self.host_pm, self.host_manifest)
+         self.install_locales(self.host_pm)
+ 
+-        self.host_pm.run_intercepts()
++        self.host_pm.run_intercepts(populate_sdk='host')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+ 
+@@ -386,7 +386,7 @@ class DpkgSdk(Sdk):
+ 
+         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+ 
+-        self.target_pm.run_intercepts()
++        self.target_pm.run_intercepts(populate_sdk='target')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
+@@ -399,7 +399,7 @@ class DpkgSdk(Sdk):
+         self._populate_sysroot(self.host_pm, self.host_manifest)
+         self.install_locales(self.host_pm)
+ 
+-        self.host_pm.run_intercepts()
++        self.host_pm.run_intercepts(populate_sdk='host')
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
+ 
 diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index d90ce36ba90..6102db33588 100644
+index 6102db33588..0fe0b511b8f 100644
 --- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
 +++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -15,7 +15,7 @@ do_install () {
- 
- 	echo "#!/bin/sh" > ${D}${bindir_crossscripts}/qemuwrapper
- 	qemu_binary=${@qemu_target_binary(d)}
--	qemu_options='${QEMU_OPTIONS}'
-+	qemu_options='${QEMU_OPTIONS} -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir}'
- 	echo "set -x" >> ${D}${bindir_crossscripts}/qemuwrapper
- 	echo "$qemu_binary $qemu_options \"\$@\"" >> ${D}${bindir_crossscripts}/qemuwrapper
- 
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index bf65e19a41d..e797c65f2fc 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -2,6 +2,5 @@
- 
- set -e
- 
--PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
--					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
- chown -R root:root $D${fontconfigcachedir}
-diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scripts/postinst-intercepts/update_gio_module_cache
-index fc3f9d0d6ce..7ad9c5a7d09 100644
---- a/scripts/postinst-intercepts/update_gio_module_cache
-+++ b/scripts/postinst-intercepts/update_gio_module_cache
-@@ -2,8 +2,7 @@
- 
- set -e
- 
--PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
--	$D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
- 
- [ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
- 	chown root:root $D${libdir}/gio/modules/giomodule.cache
-diff --git a/scripts/postinst-intercepts/update_gtk_immodules_cache b/scripts/postinst-intercepts/update_gtk_immodules_cache
-index e2b9ff74382..8a69a26bb17 100644
---- a/scripts/postinst-intercepts/update_gtk_immodules_cache
-+++ b/scripts/postinst-intercepts/update_gtk_immodules_cache
-@@ -3,15 +3,13 @@
- set -e
- 
- if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
--    PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
--        $D/${bindir}/gtk-query-immodules-2.0 \
-+    PSEUDO_UNLOAD=1 qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-2.0 \
-         > $D${libdir}/gtk-2.0/2.10.0/immodules.cache &&
-         sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
-         chown root:root $D${libdir}/gtk-2.0/2.10.0/immodules.cache
+@@ -32,6 +32,11 @@ if [ \$rc = 255 ]; then
+ 	qemu-i386 $qemu_options "\$@"
+ 	rc=\$?
  fi
- if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
--    PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
--        $D/${bindir}/gtk-query-immodules-3.0 \
-+    PSEUDO_UNLOAD=1 qemuwrapper -L $D $D/${bindir}/gtk-query-immodules-3.0 \
-         > $D${libdir}/gtk-3.0/3.0.0/immodules.cache &&
-         sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
-         chown root:root $D${libdir}/gtk-3.0/3.0.0/immodules.cache
-diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
-index 5d44075fb4c..efb56facc93 100644
---- a/scripts/postinst-intercepts/update_pixbuf_cache
-+++ b/scripts/postinst-intercepts/update_pixbuf_cache
-@@ -5,7 +5,6 @@ set -e
- export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
- export GDK_PIXBUF_FATAL_LOADER=1
++
++if [ ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)} = False ]; then
++        echo "qemuwrapper: qemu usermode is not supported"
++fi
++
+ exit \$rc
+ EOF
  
--PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
--    $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
-     >$GDK_PIXBUF_MODULEDIR/../loaders.cache && \
-     sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
 -- 
 2.17.0
 
