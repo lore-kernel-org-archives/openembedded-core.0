@@ -1,23 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8049660777
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0711974922
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 12:58:44 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 May 2018 05:58:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,436,1520924400"; d="scan'208";a="53510710"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 24 May 2018 05:58:43 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Thu, 24 May 2018 14:55:54 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id 94-v6so3687027wrf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 May 2018 07:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=64irZT/EdcnU6xkLjoOzNYqYzt21KeUO/F12Kq0a5QU=;
+	b=ECBGnaJDy4z8JQyBc7dyL4zu1qKU1uYqMTnhKrmdlnoE4LAgUE9wXzng93cbCqhdrZ
+	GU1VG0LFz6qPQm0Up55ZdhKajsuqh85uALX/nP3owPNnKDfMlWlIVIl3fYTL3ftanjX+
+	oI1bBoMibJHR+qXfVR9vccOW5LLeOXqDljfTl96XicADLLn5WtJxVkx/5I4vfMEZJBKr
+	IZc64D2xwDDntEzjWtwcl7Jv/1wayxXGiKktke7+5CfOYAnl5cBzXPuVNJlWOFgQ1zgK
+	IzRK7h+71tVyjBIGxALcxdndqWwNW5pcZYtko7DO5R2DGg0nqLi1dJ936LjssPlpGP+U
+	6CLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=64irZT/EdcnU6xkLjoOzNYqYzt21KeUO/F12Kq0a5QU=;
+	b=hYtzcY1q0CQekDXhDNcUzmmIFm7MhSQlhPeLaZzWFj+8IPeJS5+6ir6S2hBYr0BFKs
+	tqLX9l7fKsZbjw7Xtq1kOvCzEgAk9Cm7ob8C+oTdlPsto07x/3KYC7qm7DtUlNZyXhVS
+	fCI3boHFq6UbuBFpMg61atvfCrUko7/FtC5Krd3NdwFYZPaBGVYaf5Dd3wSRZTjUPMjy
+	Miykuemx84NJWvpqB4kBwDaHOC+Xa/7psfRRab7HFlz1PGDfg5DYWOHF857ZiR7CZv3f
+	OfdDsEmlBtzUMVPyZTkx2rdLZe9XLwvCEpjgPN1yybVQ3wKj5Dw6BVHyR5OCT4NDa0y/
+	UDrg==
+X-Gm-Message-State: ALKqPwe3ouMt9icTRQmUxegiAZLrzHavM48zY2DSHmWmcYYPiCMrwKvW
+	79cFK/uCaRraFNweOxo/Ejf7jg==
+X-Google-Smtp-Source: AB8JxZp1csuTARJd1mqvJf4alJ+6bkjnVPtrWNp6ub7lSkA4RlEmlasbClgk8J+PmdtwpHHiHWu1yw==
+X-Received: by 2002:adf:a292:: with SMTP id
+	s18-v6mr725839wra.114.1527173755208; 
+	Thu, 24 May 2018 07:55:55 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	g127-v6sm4040882wmf.42.2018.05.24.07.55.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 24 May 2018 07:55:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2018 15:58:50 +0300
-Message-Id: <20180524125850.5942-1-alexander.kanavin@linux.intel.com>
+Date: Thu, 24 May 2018 14:56:01 +0000
+Message-Id: <20180524145601.26722-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] udev: only run qemu from postinst scripts if qemu usermode is supported
+Subject: [PATCH] perf: fix build with kernel older than 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2018 12:58:44 -0000
+X-List-Received-Date: Thu, 24 May 2018 14:55:55 -0000
 
-Otherwise, there would be a failure at image creation time; avoid
-that by postponing to first boot explicitly.
+* perf is failing to build for me since this oe-core commit:
+  commit 9b38c824961fc9dce51bda95c25dac91a69fc64f
+  Author: Hongxu Jia <hongxu.jia@windriver.com>
+  Date:   Tue Apr 24 11:33:47 2018 +0800
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+    perf: make a copy of kernel source to perf workdir
+
+  the problem is that perf sources in kernel older than 4.8 (in my case
+  4.4) are depending on the "global" include headers outside tools
+  directory, e.g. swab.h in:
+  kernel-source/tools$ git grep swab.h
+  perf/MANIFEST:include/linux/swab.h
+  perf/MANIFEST:include/uapi/linux/swab.h
+  perf/util/include/asm/byteorder.h:#include "../../../../include/uapi/linux/swab.h"
+
+  this was resolved in 4.8 with:
+  commit 7e3f36411342a54f1981fa97b43550b8406a3d69
+  Author: Arnaldo Carvalho de Melo <acme@redhat.com>
+  Date:   Mon Jul 18 17:42:16 2016 -0300
+
+    perf tools: Remove tools/perf/util/include/asm/byteorder.h
+
+    Not used anymore. This also stops include linux/swab.h directly
+    from the kernel sources, remove that reference from the MANIFEST.
+
+  and few more changes to make tools/include more complete and standalone:
+  tools/include in 4.15:
+  asm  asm-generic  linux  tools  trace  uapi
+
+  tools/include in 4.4:
+  asm  asm-generic  linux  tools
+
+  but copying the include header even for kernels which don't really
+  need it doesn't add big overhead, so just copy include to perf sources
+  for all kernels.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_237.bb | 10 +++++++---
- meta/recipes-core/udev/eudev_3.2.5.bb    |  8 ++++++--
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
-index b7c2113255f..91783f2ffbe 100644
---- a/meta/recipes-core/systemd/systemd_237.bb
-+++ b/meta/recipes-core/systemd/systemd_237.bb
-@@ -580,9 +580,13 @@ pkg_prerm_${PN} () {
- PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
--		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
--			--root $D
--		chown root:root $D${sysconfdir}/udev/hwdb.bin
-+		if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
-+			${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-+				--root $D
-+			chown root:root $D${sysconfdir}/udev/hwdb.bin
-+		else
-+			$INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
-+		fi
- 	else
- 		udevadm hwdb --update
- 	fi
-diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
-index 88ad8f1b375..75617c8d4ec 100644
---- a/meta/recipes-core/udev/eudev_3.2.5.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.5.bb
-@@ -80,8 +80,12 @@ RPROVIDES_eudev-hwdb += "udev-hwdb"
- PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst_eudev-hwdb () {
-     if test -n "$D"; then
--        ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb --update --root $D
--        chown root:root $D${sysconfdir}/udev/hwdb.bin
-+        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
-+            ${@qemu_run_binary(d, '$D', '${bindir}/udevadm')} hwdb --update --root $D
-+            chown root:root $D${sysconfdir}/udev/hwdb.bin
-+        else
-+            $INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
-+        fi
-     else
-         udevadm hwdb --update
-     fi
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index fb4e3ac668..51f5597eb9 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -98,6 +98,7 @@ EXTRA_OEMAKE += "\
+ "
+ 
+ PERF_SRC ?= "Makefile \
++             include \
+              tools/arch \
+              tools/build \
+              tools/include \
 -- 
 2.17.0
 
