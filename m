@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 166D174D97
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BF63674DAB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:39:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2da1H008161
+	Fri, 25 May 2018 02:39:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2dJ3B026184
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:39:36 -0700 (PDT)
+	Thu, 24 May 2018 19:39:34 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:39:36 -0700
+	14.3.361.1; Thu, 24 May 2018 19:39:08 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:08 +0800
-Message-ID: <4f07965c6bab375f78e6fd6032829566dbab817b.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:06 +0800
+Message-ID: <56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/24] initscripts: Avoid starting rpcbind daemon twice
+Subject: [PATCH 01/24] base.bbclass: Add buildcfg multilib values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +33,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:39:36 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:39:43 -0000
 Content-Type: text/plain
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
 
-Check the status before start it to avoid duplicates.
+When displaying the buildcfg for the end user, add in processing
+of the multilib variants.  Only the items that are not the same as
+the DEFAULTTUNE are displayed.
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+I.e.:
+Build Configuration:
+BB_VERSION        = "1.19.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "CentOS-6.4"
+DISTRO_VERSION    = "oe-core.0"
+MACHINE           = "qemux86-64"
+DEFAULTTUNE       = "x86-64"
+TARGET_SYS        = "x86_64-oe-linux"
+TUNE_FEATURES     = "m64"
+TARGET_FPU        = ""
+lib32:  DEFAULTTUNE       = "x86"
+lib32:  TARGET_SYS        = "i586-oe-linux"
+lib32:  TUNE_FEATURES     = "m32"
+meta              = "master:1975f3d7bbeb184489a5d0a2e0de231f317d3e1b"
+
+The order of the displayed elements was changed slightly to group the
+host information together, as well as group the target information
+together.
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/classes/base.bbclass | 16 +++++++++++++++-
+ meta/conf/bitbake.conf    |  2 +-
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-index fe6c196..be9f597 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
-@@ -67,9 +67,12 @@ if test "$rpcbind" = yes
- then
- 	if test -x /usr/sbin/rpcbind
- 	then
--		echo -n "Starting rpcbind... "
--		start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
--		sleep 2
-+		service rpcbind status > /dev/null
-+		if [ $? != 0 ]; then
-+			echo -n "Starting rpcbind..."
-+			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
-+			sleep 2
-+		fi
- 	fi
- fi
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7c42cf9..fa5c24b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -188,7 +188,7 @@ def get_layers_branch_rev(d):
+     return layers_branch_rev
  
+ 
+-BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
++BUILDCFG_FUNCS ??= "buildcfg_vars buildcfg_multilibs get_layers_branch_rev buildcfg_neededvars"
+ BUILDCFG_FUNCS[type] = "list"
+ 
+ def buildcfg_vars(d):
+@@ -198,6 +198,20 @@ def buildcfg_vars(d):
+         if value is not None:
+             yield '%-20s = "%s"' % (var, value)
+ 
++def buildcfg_multilibs(d):
++    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
++    for variant in variants.split():
++        localdata = bb.data.createCopy(d)
++        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
++        localdata.setVar("OVERRIDES", overrides)
++        bb.data.update_data(localdata)
++        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
++        for var in statusvars:
++            origvalue = d.getVar(var, True)
++            variantvalue = localdata.getVar(var, True)
++            if origvalue is not None and variantvalue is not None and origvalue != variantvalue:
++                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
++
+ def buildcfg_neededvars(d):
+     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
+     pesteruser = []
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6ecf78b..73686ea 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -699,7 +699,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ 
+ # Pre-build configuration output
+ BUILDCFG_HEADER = "Build Configuration:"
+-BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
++BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING DISTRO DISTRO_VERSION MACHINE DEFAULTTUNE TARGET_SYS TUNE_FEATURES TARGET_FPU"
+ BUILDCFG_VARS[type] = "list"
+ BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
+ BUILDCFG_NEEDEDVARS[type] = "list"
 -- 
 2.7.4
 
