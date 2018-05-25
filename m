@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5213674DB1
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B70F374DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:42:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2fpWl026263
+	Fri, 25 May 2018 02:42:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2gc25022222
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:42:06 -0700
+	Thu, 24 May 2018 19:42:38 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:41:40 -0700
+	14.3.361.1; Thu, 24 May 2018 19:42:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:22 +0800
-Message-ID: <1fdb6f1e5a79035b36e20d691a3a03cf4606e563.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:26 +0800
+Message-ID: <8048e1a41e5673733ebcd2e524d67db633977705.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 17/24] toolchain-scripts.bbclass: do not extend dependency if extended already
+Subject: [PATCH 21/24] glibc: re-package for libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:42:15 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:42:36 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-When set MULTILIBS with two or more items, such as for mips64:
+On other distros like ubuntu/centos, libnss-db usually provides:
+- The libraries
+- The Makefile to create database
+  (in /var/db for centos, /var/lib/misc/ for ubuntu)
+- The makedb command (it's in glibc-common for centos7)
 
-MULTILIBS ?= "multilib:lib32 multilib:libn32"
+What we had is:
+- The libraries are in glibc-extra-nss
+- The Makefile is removed
+- The makedb command is in glibc-utils (lack of dependency)
 
-It expands dependency once in mutlib.bbclass, and expand again in
-toolchain-scripts.bbclass which causes error:
+So when glibc-extra-nss is installed but glibc-utils is not,
+we see error like:
+nscd[165]: 165 checking for monitored file `/var/db/group.db': No such file or directory
+nscd[165]: 165 checking for monitored file `/var/db/passwd.db': No such file or directory
 
-| ERROR: Nothing PROVIDES 'virtual/lib32-libn32-libc'. Close matches:
-|   virtual/libn32-libc
-|   virtual/lib32-libc
-|   virtual/libn32-librpc
-| ERROR: Required build target 'libn32-meta-ide-support' has no buildable providers.
-| Missing or unbuildable dependency chain was: ['libn32-meta-ide-support', 'virtual/lib32-libn32-libc']
+And there is not an easy way to create these databases.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+To fix the issue:
+- Re-package the libraries into libnss-db
+- Don't remove the Makefile and add it in libnss-db
+- Add RDEPENDS for libnss-db on glibc-utils and make
+
+Notes:
+For external toolchain, an extra package 'libnss-db' need to be provided
+If replacing glibc from core.
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 71da5e5..848bff4 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -170,7 +170,18 @@ python __anonymous () {
-     deps = ""
-     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
-         deps += " %s:do_populate_sysroot" % dep
--        for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
-+        ml_variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
-+
-+        # don't extend if dep has been extended already
-+        extended = False
-+        for variant in ml_variants:
-+            if dep.startswith(variant) or dep.startswith('virtual/' + variant):
-+                extended = True
-+                break
-+        if extended:
-+            continue
-+
-+        for variant in ml_variants:
-             clsextend = oe.classextend.ClassExtender(variant, d)
-             newdep = clsextend.extend_name(dep)
-             deps += " %s:do_populate_sysroot" % newdep
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index ae3f2f6..ad0c6d5 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -1,6 +1,6 @@
+ INHIBIT_SYSROOT_STRIP = "1"
+ 
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ 
+ # The ld.so in this glibc supports the GNU_HASH
+ RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
+@@ -23,6 +23,8 @@ FILES_ldd = "${bindir}/ldd"
+ FILES_libsegfault = "${base_libdir}/libSegFault*"
+ FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
+ FILES_libmemusage = "${base_libdir}/libmemusage.so"
++FILES_libnss-db = "${base_libdir}/libnss_db.so.* ${base_libdir}/libnss_db-*.so ${localstatedir}/db/Makefile"
++RDEPENDS_libnss-db = "${PN}-utils make"
+ FILES_glibc-extra-nss = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
+ FILES_sln = "${base_sbindir}/sln"
+ FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
+@@ -59,7 +61,6 @@ inherit libc-common multilib_header
+ 
+ do_install_append () {
+ 	rm -f ${D}${sysconfdir}/localtime
+-	rm -rf ${D}${localstatedir}
+ 
+ 	# remove empty glibc dir
+ 	if [ -d ${D}${libexecdir} ]; then
 -- 
 2.7.4
 
