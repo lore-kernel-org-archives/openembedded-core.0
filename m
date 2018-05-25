@@ -1,55 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9251174D03
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E912E74CA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 05:25:09 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id 94-v6so6934182wrf.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 22:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=iuOzpdx9g3nvKU6ynxq0DTSwqYWmfpG1LBx63Cgd930=;
-	b=BQSZrgA8jw/cxXim2Dg4KREsjkCwjumj/RjnxhTMo4bIMpDeNrkWY4Ktr9gSejtiUx
-	/hC60FnFNz29mpD7qJIsVOkLyt4qtnyAdASyRDXRsQXUyv5VRqXE+awV8SJ8R6L0mkIR
-	fLBdOvBVbrwU4qSgIM1tEVtwoNxHMAY+o1CTbhVKCAMAZbxxWa4bSoMVkPEzSVTnO63k
-	bl66+rP0n+PNLQ0Uid1vSzPHtYeSF98BA6ALIcevaNQjPzh5BkA2WJvZXAmz7rsyIZyy
-	3MQNJYcgez/Xpv2rC9eVpXSFmBVGiWPNB06rwGJwkdg9VKXV4xYAv4x8b8ax5lWUzFZu
-	LMZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=iuOzpdx9g3nvKU6ynxq0DTSwqYWmfpG1LBx63Cgd930=;
-	b=tTcgbNcY1zTiZkdJqKNp/7Iuacy9rvuB+4B8bYdvCxVjh++953ccWXIv5B5oFgJFFz
-	RflhQXLEUSNsN2OFMwWed3kpumLkz9iS6sOEh8EctbgUsOtePayuG2atgO4v0kA5MbP8
-	I3Lgg0LWsu8NMaz3fZlPHemOIOJb9RjO+dIRZgu3PDvsnYR1JA9PSCIKYCFx8ECNJaek
-	Yi/yYwSzYGt46O8MaFx1f5MhnhblTvaGk7+A3gPfZLit8D25uXAh8o6sYZEmP3REdPos
-	lmBoLYjIk5kcqo1EfYg1EsrkYoEybHJVP2xsqXHiiNOqV1L3S6dOZ5p4gZguL8515eGT
-	lvPA==
-X-Gm-Message-State: ALKqPwfugAaSPlxH/YbZJ3+1YcS350Sy7KBjcIGBRgDDK2hYcybeGG9w
-	IfI/GiVRThAddTRcYL7CzFLTZw==
-X-Google-Smtp-Source: AB8JxZpEAfypUARHt2xSU00+973cUht5+ETMia2eMVu2/S3Rb/pK7QwigvLBonMig8HoTRyt99GJWA==
-X-Received: by 2002:adf:800c:: with SMTP id 12-v6mr780300wrk.45.1527225910731; 
-	Thu, 24 May 2018 22:25:10 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b14-v6sm359934wrn.57.2018.05.24.22.25.09
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 24 May 2018 22:25:09 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 25 May 2018 07:25:18 +0200
-To: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <20180525052518.GD1395@jama>
-References: <1527194374-2490-1-git-send-email-daniel.diaz@linaro.org>
-	<CAHUNapS-0876NrNQB8=hwNSOHz3GSAFxZ2MkkovhvseSQgdPAg@mail.gmail.com>
+	Fri, 25 May 2018 05:43:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P5hBEW030125
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 24 May 2018 22:43:27 -0700
+Received: from [128.224.27.58] (128.224.27.58) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 24 May 2018 22:42:55 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <cover.1527216285.git.liezhi.yang@windriver.com>
+	<f4bfb14098d86375865642c0ae4eb338ea759b1a.1527216285.git.liezhi.yang@windriver.com>
+	<CAJ86T=V-LQ_MxSfB=NXcz_eMPkPJyJRUJ-3FaHQ-i-N20=JGXw@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <fc12b4f6-0b19-82dc-bee2-fd3f5cb0cca0@windriver.com>
+Date: Fri, 25 May 2018 13:42:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapS-0876NrNQB8=hwNSOHz3GSAFxZ2MkkovhvseSQgdPAg@mail.gmail.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: bump to release 20180515
+In-Reply-To: <CAJ86T=V-LQ_MxSfB=NXcz_eMPkPJyJRUJ-3FaHQ-i-N20=JGXw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/24] dropbear: add default config file to disable root login
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,49 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 05:25:10 -0000
-X-Groupsio-MsgNum: 111739
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W5WqUoFLvi1M7tJE"
-Content-Disposition: inline
-
---W5WqUoFLvi1M7tJE
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 24, 2018 at 05:38:22PM -0400, Trevor Woerner wrote:
-> On Thu, May 24, 2018 at 4:39 PM, Daniel D=EDaz <daniel.diaz@linaro.org> w=
-rote:
->=20
-> > Patches are still fresh as the meadows.
-> >
->=20
-> meaning.... ?
-
-I think it means that he didn't test it very well, because just renaming
-the file without updating SRCREV didn't bump anything and the old
-patches still apply cleanly.
-
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+X-List-Received-Date: Fri, 25 May 2018 05:43:53 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---W5WqUoFLvi1M7tJE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+On 05/25/2018 11:34 AM, Andre McCurdy wrote:
+> On Thu, May 24, 2018 at 7:48 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> root login is disabled by default for openssh and we can
+>> enable it through IMAGE_FEATURES 'debug-tweaks' or
+>> 'allow-empty-password', so change to the same default
+>> behavior for dropbear.
+>>
+>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>> ---
+>>   meta/recipes-core/dropbear/dropbear.inc              | 3 +++
+>>   meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
+>>   2 files changed, 5 insertions(+)
+>>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
+>>
+>> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+>> index 16ac644..3c79be9 100644
+>> --- a/meta/recipes-core/dropbear/dropbear.inc
+>> +++ b/meta/recipes-core/dropbear/dropbear.inc
+>> @@ -20,6 +20,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+>>              file://dropbearkey.service \
+>>              file://dropbear@.service \
+>>              file://dropbear.socket \
+>> +           file://dropbear.default \
+>>              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
+>>
+>>   PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+>> @@ -63,6 +64,8 @@ do_install() {
+>>                  ${D}${sbindir} \
+>>                  ${D}${localstatedir}
+>>
+>> +       install -m 0755 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
+> 
+> Files in /etc/default don't need to be executable.
 
------BEGIN PGP SIGNATURE-----
+Thanks, I updated it to 0644 in the repo:
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWweeFwAKCRA3VSO3ZXaA
-HDz6AJ9gsjxgmLfQsU8ZX8RPAG3kl2EsnwCfTVlBQ3fU6ojH04oHU5ERxxtwTqY=
-=G51r
------END PGP SIGNATURE-----
+install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
 
---W5WqUoFLvi1M7tJE--
+// Robert
+
+> 
+>> +
+>>          install -m 0755 dropbearmulti ${D}${sbindir}/
+>>          ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
+>>
+>> diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.default b/meta/recipes-core/dropbear/dropbear/dropbear.default
+>> new file mode 100644
+>> index 0000000..522453a
+>> --- /dev/null
+>> +++ b/meta/recipes-core/dropbear/dropbear/dropbear.default
+>> @@ -0,0 +1,2 @@
+>> +# Disallow root logins by default
+>> +DROPBEAR_EXTRA_ARGS="-w"
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
