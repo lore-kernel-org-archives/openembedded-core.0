@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C581274E53
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5213674DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:42:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2g91x008180
+	Fri, 25 May 2018 02:42:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2fpWl026263
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:42:09 -0700 (PDT)
+	Thu, 24 May 2018 19:42:06 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:42:08 -0700
+	14.3.361.1; Thu, 24 May 2018 19:41:40 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:24 +0800
-Message-ID: <d846ff46b495829beb9827c5a0f74b9799e1a239.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:22 +0800
+Message-ID: <1fdb6f1e5a79035b36e20d691a3a03cf4606e563.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 19/24] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
+Subject: [PATCH 17/24] toolchain-scripts.bbclass: do not extend dependency if extended already
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:42:08 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:42:15 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
+When set MULTILIBS with two or more items, such as for mips64:
 
-By default, files under conf/ are all added to sdk-conf-manifest, as the
-manifest file is set to 'conf/*'.
+MULTILIBS ?= "multilib:lib32 multilib:libn32"
 
-However, there are situations where some configuration files under conf/
-directory are not intended to be added to sdk-conf-manifest, thus adding
-ESDK_MANIFEST_EXCLUDES to enable users to do this.
+It expands dependency once in mutlib.bbclass, and expand again in
+toolchain-scripts.bbclass which causes error:
 
-This variable takes the form of glob matching.
-e.g.
-ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
-This would exclude all files under conf/ starting with 'autogen' from
-sdk-conf-manifest.
+| ERROR: Nothing PROVIDES 'virtual/lib32-libn32-libc'. Close matches:
+|   virtual/libn32-libc
+|   virtual/lib32-libc
+|   virtual/libn32-librpc
+| ERROR: Required build target 'libn32-meta-ide-support' has no buildable providers.
+| Missing or unbuildable dependency chain was: ['libn32-meta-ide-support', 'virtual/lib32-libn32-libc']
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/toolchain-scripts.bbclass | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index e1bba49..017c4b6 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -484,12 +484,18 @@ python copy_buildsystem () {
-     # sdk_ext_postinst() below) thus the checksum we take here would always
-     # be different.
-     manifest_file_list = ['conf/*']
-+    esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
-+    esdk_manifest_excludes_list = []
-+    for exclude_item in esdk_manifest_excludes:
-+        esdk_manifest_excludes_list += glob.glob(os.path.join(baseoutpath, exclude_item))
-     manifest_file = os.path.join(baseoutpath, 'conf', 'sdk-conf-manifest')
-     with open(manifest_file, 'w') as f:
-         for item in manifest_file_list:
-             for fn in glob.glob(os.path.join(baseoutpath, item)):
-                 if fn == manifest_file:
-                     continue
-+                if fn in esdk_manifest_excludes_list:
-+                    continue
-                 chksum = bb.utils.sha256_file(fn)
-                 f.write('%s\t%s\n' % (chksum, os.path.relpath(fn, baseoutpath)))
- }
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 71da5e5..848bff4 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -170,7 +170,18 @@ python __anonymous () {
+     deps = ""
+     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
+         deps += " %s:do_populate_sysroot" % dep
+-        for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
++        ml_variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
++
++        # don't extend if dep has been extended already
++        extended = False
++        for variant in ml_variants:
++            if dep.startswith(variant) or dep.startswith('virtual/' + variant):
++                extended = True
++                break
++        if extended:
++            continue
++
++        for variant in ml_variants:
+             clsextend = oe.classextend.ClassExtender(variant, d)
+             newdep = clsextend.extend_name(dep)
+             deps += " %s:do_populate_sysroot" % newdep
 -- 
 2.7.4
 
