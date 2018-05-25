@@ -1,25 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AFAB74E1A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F282074D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:52:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2qxYG022985
+	Fri, 25 May 2018 02:53:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2qfFS026452
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:52:59 -0700 (PDT)
+	Thu, 24 May 2018 19:52:56 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:52:58 -0700
+	14.3.361.1; Thu, 24 May 2018 19:52:30 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:54:46 +0800
-Message-ID: <31d93c4a23eec59b835a52dc7002814e1b9fbe22.1527214769.git.Qi.Chen@windriver.com>
+Date: Fri, 25 May 2018 10:54:45 +0800
+Message-ID: <cover.1527214769.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1527214769.git.Qi.Chen@windriver.com>
-References: <cover.1527214769.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] buildtools-tarball: add nativesdk-libnss-nis
+Subject: [PATCH 0/1] buildtools-tarball: add nativesdk-libnss-nis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:52:58 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:53:06 -0000
 Content-Type: text/plain
 
-Recent glibc change removed libnss-nis module from glibc and a new
-recipe libnss-nis.bb was added.
+The following changes since commit d886fa118c930d0e551f2a0ed02b35d08617f746:
 
-After this change, we need to make sure nativesdk-libnss-nis is also
-included in buildtools-tarball, otherwise, we may encounter the following
-error when using 'tar' command from buildtools-tarball.
+  bitbake: bitbake-user-manual: Updated copyright year on title page to 2018 (2018-05-24 17:17:25 +0100)
 
-  tar: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2: \
-       symbol _nsl_default_nss version GLIBC_PRIVATE not defined \
-       in file libnsl.so.1 with link time reference
+are available in the git repository at:
 
-This error occured on my ubuntu16.04 host with 'nis' configured in
-/etc/nssswitch.conf.
+  git://git.pokylinux.org/poky-contrib ChenQi/buildtools-libnss-nis
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/buildtools-libnss-nis
 
-So add nativesdk-libnss-nis to buildtools-tarball to fix this problem.
+Chen Qi (1):
+  buildtools-tarball: add nativesdk-libnss-nis
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index d98a9c9..377733f 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -21,6 +21,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-wget \
-     nativesdk-ca-certificates \
-     nativesdk-texinfo \
-+    nativesdk-libnss-nis \
-     "
- 
- MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
 -- 
 1.9.1
 
