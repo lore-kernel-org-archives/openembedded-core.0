@@ -1,51 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B67FE746A8
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A4A474CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 19:12:28 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id i5-v6so3669246plt.2
+	Fri, 25 May 2018 19:12:30 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id ay10-v6so3676579plb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 12:12:29 -0700 (PDT)
+	Fri, 25 May 2018 12:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+41lvvBzSP7hRJIhymsShxxwBuWb+6tswMqL37hjpXI=;
-	b=AziaRwyl39BBcXT1vBOEsX6FH/qLf2xdvsxxN+DrVk9fg6S0D8seJp3LT0V0KLEAIK
-	+vqQ6UX0K9uHEsUDGO4EXy/nKayyirjycjhPU8Jb6+4g/rRydrZAl1fTrYt+kfpRA+ak
-	B4RhnrNZ3mys6d18vY7+7n5Z5C4I7R3sZI50Slypm5ETv/NfNWb5zsXhkjySCyqpR2bB
-	mPVa9jzeUmN8XHmGxIw0NpixcQZQC9yA8DdkjcoZGKVAp1TViCeuQ8HxuAnq7rjmzSvk
-	+e5EXZ3pB4pt7xws/6hRtcFfIFXFI2valORT8ZFjXS7s/dq196tpciNjYZfb8z/Cps5H
-	OVDw==
+	bh=7U5qolTKKIuBbd7Qvzc9/GoWwzg/9euuXZErnzi+jLk=;
+	b=T3zDcSTOIhnWC1iVy8JDXri0R3AOgtBMbgciHu1rbAwHlKkPFv0OMvhhpjy9uUU3OZ
+	uv6Vspc8BRNHZvctcgsoj3/Vv3yG+PC89O3tQxCibt6WAw16Wc7stHqTWAWexKQ6u6cf
+	RAWxjwOU/aVKfjy59AhSW+lNopmRQS70tGL4RUIsMjh1FnNE+5odqORIfGI8UmWC/qJf
+	T9L1STOaE+vfHbfoEoTTKv24fT50dCjKqr9zfdzxAAQqAK0VI4XbQujRwDETeFRItE9z
+	0mXKVT3U10lv0Ikd91mt8CZB/Wn9AOZibrsmUiMyRZ2Hd+nP3IVHP9hNxrsfqx45TJJA
+	mwTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=+41lvvBzSP7hRJIhymsShxxwBuWb+6tswMqL37hjpXI=;
-	b=c9xOrNqbend2o9djgAT6pHj9zlJ87yj/Gz+4xU+CyTg5XglLd7fygr67xzjdwRy6lp
-	j4B7vPV3UCGd88zGMsCLsccFw7U/MQ7TXflBFjMA3t8fvzKC9mScmmGzIA/2VJjOxpdV
-	SOqGCqBx2p+iR1mvfsWIeyIOwd93E0ejB2REVIGLCoHzYnKHzXjLNqBHahmr3qhbMVLr
-	ILC+ztHWO3Bsm7Z9yk3RmaHsyyhIdH1w9RYRVKFxV9UgbE9FbUegNL8auzVB7d8qCe33
-	FdCF4NHq66NwOOS7/Hlxx/Cpk5w/iGfHhKN0nYUzeRNnJNqYql+fjdwttx/xqfkIXnkR
-	71kQ==
-X-Gm-Message-State: ALKqPweUoXiBTP33LaCReSIEUPc6kJiTJQJFghTms2nda4/5c+zadgUl
-	6rGAz7o4bzM1er7tB1PUY6jHYA==
-X-Google-Smtp-Source: AB8JxZqWvL1D85DFtk5NQwjffNopfOus4IVsKZ7Pb7g1KKzOxPWBlDSOMLvnoDODVVOGxCaMhfMAPg==
-X-Received: by 2002:a17:902:43a4:: with SMTP id
-	j33-v6mr3916916pld.118.1527275549176; 
-	Fri, 25 May 2018 12:12:29 -0700 (PDT)
+	bh=7U5qolTKKIuBbd7Qvzc9/GoWwzg/9euuXZErnzi+jLk=;
+	b=gxycfht+F4fkwTnzY9cnSePY5iNuyaTng5WySRygHX+H6Ryyn/gskPTHD9PtawmO54
+	hr4qN/FUKHg0vIcUw+klWfMN4KMV9/Gm9xNKYLtsKRp3Jr9742AXf7BmwRkpgsur8snj
+	UYUlbR3EfZtGRUVNW39ueTSIbdPUV0j8hJWOxs+OVKlVWir+A5n+seww1PbneO1fZlpm
+	FfpSjQkZj0N72O3i5GqsRBfeQBBrTZQcT0N2rvaSzNsX+KZjM26Ua1Fln+1dMWtyVRpD
+	AdXs/A2dTSxf2V9jeMFCeRymHU/IQkd22p0i2DZPVwnEnvLgixoctQz4si3UMOXAj3tM
+	Qo0w==
+X-Gm-Message-State: ALKqPweXfZf+KaZuMLHz6Zhy+9hx+KXSHggkwCMX+GyrZ9vV1rX+N5Gq
+	8iYtexUGDu1TXe50izlMSsLPXw==
+X-Google-Smtp-Source: AB8JxZrTR7qrci4tRg2QmUtd+H3qZXtOTPbLlfM3jDi86OgcHL/u1V72OMFAMimy0JpOatyDmvelSA==
+X-Received: by 2002:a17:902:581:: with SMTP id
+	f1-v6mr3895053plf.48.1527275551202; 
+	Fri, 25 May 2018 12:12:31 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	a4-v6sm54447252pfj.19.2018.05.25.12.12.28
+	a4-v6sm54447252pfj.19.2018.05.25.12.12.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 May 2018 12:12:28 -0700 (PDT)
+	Fri, 25 May 2018 12:12:30 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 May 2018 12:12:20 -0700
-Message-Id: <1527275541-6450-2-git-send-email-armccurdy@gmail.com>
+Date: Fri, 25 May 2018 12:12:21 -0700
+Message-Id: <1527275541-6450-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1527275541-6450-1-git-send-email-armccurdy@gmail.com>
 References: <1527275541-6450-1-git-send-email-armccurdy@gmail.com>
-Subject: [pyro][PATCH 2/3] package.bbclass: Add '-b' option to file call in isELF
+Subject: [pyro][PATCH 3/3] staging.bbclass: use single quotes for path passed to file in is_elf()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 19:12:28 -0000
+X-List-Received-Date: Fri, 25 May 2018 19:12:31 -0000
 
-From: Mark Hatle <mark.hatle@windriver.com>
+Align staging.bbclass is_elf() with recent changes in package.bbclass
+isELF():
 
-The isELF function works by running:
+  http://git.openembedded.org/openembedded-core/commit/?id=7877761534b0c2492da6289e9f2269d41b6ed464
 
-   result = file <pathname>
-   if 'ELF' in result
-
-By default 'file' will prepend the result with the path name of the file
-that is being checked.  This usually works fine, such as:
-
-$ file /home/foo/openembedded-core/meta/classes/package.bbclass
-/home/foo/openembedded-core/meta/classes/package.bbclass: Python script, ASCII text executable, with very long lines
-
-However, if the path includes 'ELF', ELF will end up in the result, and then
-the check will return positive.
-
-$ file /home/ELF/openembedded-core/meta/classes/package.bbclass
-/home/ELF/openembedded-core/meta/classes/package.bbclass: Python script, ASCII text executable, with very long lines
-
-This will then result in the isELF coming back true, and possibly causing the
-checks that use isELF, such as the 'is it already stripped' check, to do the
-incorrect thing.
-
-Adding the '-b' option to file will result in the path being omitted in the
-result:
-
-$ file /home/ELF/openembedded-core/meta/classes/package.bbclass
-Python script, ASCII text executable, with very long lines
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 5a324e9b2cf6378f8eaa4e394f9cb36d4e2680ac)
+(cherry picked from commit ab056c7f6065f310be4dd256ceb45f85ff981f69)
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/package.bbclass | 2 +-
  meta/classes/staging.bbclass | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 77bbe76..fbf93aa 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -898,7 +898,7 @@ python split_and_strip_files () {
-     # 16 - kernel module
-     def isELF(path):
-         type = 0
--        ret, result = oe.utils.getstatusoutput("file '%s'" % path)
-+        ret, result = oe.utils.getstatusoutput("file -b '%s'" % path)
- 
-         if ret:
-             msg = "split_and_strip_files: 'file %s' failed" % path
 diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 984051d..bff0437 100644
+index bff0437..9230140 100644
 --- a/meta/classes/staging.bbclass
 +++ b/meta/classes/staging.bbclass
 @@ -84,7 +84,7 @@ python sysroot_strip () {
      # 16 - kernel module
      def isELF(path):
          type = 0
--        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
-+        ret, result = oe.utils.getstatusoutput("file -b \"%s\"" % path.replace("\"", "\\\""))
+-        ret, result = oe.utils.getstatusoutput("file -b \"%s\"" % path.replace("\"", "\\\""))
++        ret, result = oe.utils.getstatusoutput("file -b '%s'" % path)
  
          if ret:
              bb.error("split_and_strip_files: 'file %s' failed" % path)
