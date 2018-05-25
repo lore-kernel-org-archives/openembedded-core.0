@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 423D174D6F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 731A074D9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:41:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2emRg026247
+	Fri, 25 May 2018 02:41:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2fc5L022100
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:41:08 -0700
+	Thu, 24 May 2018 19:41:38 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:41:03 -0700
+	14.3.361.1; Thu, 24 May 2018 19:41:38 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:16 +0800
-Message-ID: <a0e82af237232cb4df6b304ef83291c16bedb33b.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:20 +0800
+Message-ID: <7f044e9b3542544ca8bdb264c742b3cffb840af0.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 11/24] gcc-sanitizers: Fix libtool .la files
+Subject: [PATCH 15/24] rootfs-postcommands: split ssh_allow_empty_password
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +32,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:41:17 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:41:37 -0000
 Content-Type: text/plain
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Since libtool sysroot is not set when compiling sanitizers, the libtool
-does no prefix the dependency path correctly. Fix it, so that programs
-can link to sanitizer libraries without error.
+"allow root login" should not be bundled in ssh_allow_empty_password,
+because some distro may want only one of "allow root login" and "allow
+empty password", so split it out into ssh_allow_root_login and add new
+imagefeature allow-root-login so they can be controlled separately,
+debug-tweaks will still include both of them.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/image.bbclass               |  2 +-
+ meta/classes/rootfs-postcommands.bbclass | 25 ++++++++++++++++++++++---
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-index e5e8452..2373dd8 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-@@ -39,6 +39,8 @@ do_install () {
-         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
-     fi
-     chown -R root:root ${D}
-+    # Fix broken libtool with stdc++, as sysroot is not set.
-+    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'${libdir}'@=${libdir}@g" {} \;
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 2247b30..28e64ba 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -23,7 +23,7 @@ inherit ${TESTIMAGECLASS}
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password allow-empty-password post-install-logging"
++IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
+ 
+ # Generate companion debugfs?
+ IMAGE_GEN_DEBUGFS ?= "0"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 5522209..72cc6db 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -2,9 +2,12 @@
+ # Zap the root password if debug-tweaks feature is not enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
+ 
+-# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
++# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+ 
++# Allow dropbear/openssh to accept root logins if debug-tweaks or allow-root-login is enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-root-login' ], "ssh_allow_root_login; ", "",d)}'
++
+ # Enable postinst logging if debug-tweaks is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+ 
+@@ -146,12 +149,11 @@ zap_empty_root_password () {
  }
  
- INHIBIT_DEFAULT_DEPS = "1"
+ #
+-# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
++# allow dropbear/openssh to accept logins from accounts with an empty password string
+ #
+ ssh_allow_empty_password () {
+ 	for config in sshd_config sshd_config_readonly; do
+ 		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
+-			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
+ 			sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
+ 		fi
+ 	done
+@@ -174,6 +176,23 @@ ssh_allow_empty_password () {
+ 	fi
+ }
+ 
++#
++# allow dropbear/openssh to accept root logins
++#
++ssh_allow_root_login () {
++	for config in sshd_config sshd_config_readonly; do
++		if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config ]; then
++			sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/$config
++		fi
++	done
++
++	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
++		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
++			sed -i '/^DROPBEAR_EXTRA_ARGS=/ s/-w//' ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
++		fi
++	fi
++}
++
+ ssh_disable_dns_lookup () {
+ 	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+ 		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
 -- 
 2.7.4
 
