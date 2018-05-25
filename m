@@ -1,98 +1,55 @@
-Return-Path: <niko.mauno@vaisala.com>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0046.outbound.protection.outlook.com [104.47.2.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2454A747FD
+Return-Path: <slemieux.tyco@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 02FDA74926
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 12:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=kQebd6v02CuaTb/YikU86hKaSsDCAzB8FBJyOofUqGc=;
-	b=m4qiDzzlJOfQegDw00odGaDdFvwM5k++9ai6GR9DLFwTeu/nHYX9A85rS5layHzIl8WccRwfPnbHJ2Zr5BWXQ+rG0oTusi7uE68RrjFfrkxHh4bDx37aUrioLUgDhSL39FH39wpXCzyoQ58aGlM8X5Chonybtb/EZqPhT+FQy8I=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=niko.mauno@vaisala.com; 
-Received: from hel-eptripper.corp.vaisala.com (193.143.230.131) by
-	VI1PR06MB1887.eurprd06.prod.outlook.com (2a01:111:e400:c544::21) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.797.11;
-	Fri, 25 May 2018 12:37:58 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 May 2018 12:37:39 +0000
-Message-Id: <20180525123739.73219-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.11.0
+	Fri, 25 May 2018 13:37:48 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id d10-v6so6825021itj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 May 2018 06:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=vpG2yx3MitiXpT/YK5Qp1uSFgoWshdn+tYBG2NAJk+Y=;
+	b=Srso16JgDh7EAZsmSLfXtGwvHISD7+ZTe9gbA46CyAv2Z4WN3GPUu+vEIBeqgModb/
+	b1IwODVjv5M1h1149pb89hOmdoFss5a5BTKSzXrZmNeJisF3bRbSWcH/2D5EuOInmN3h
+	C0NzoK0dWTkF7537NM9IXCCluJvyU0qlSILCcGZNbuZLXNKf9c02qExHGMNzQPxZMsb6
+	ru1ggK6UaKC5N8qvaXy3Z+5RHEXK3esWMDbOyPvnJ66cUvSIcUcatPWzaZpYZiXsEazF
+	Ufhm+7ei6a71/ea4v24/GZLHJbgRjMI6CHuWmV4xUcSDnuHDfSWxuL5ybzZqOLkOYJ4g
+	uRiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=vpG2yx3MitiXpT/YK5Qp1uSFgoWshdn+tYBG2NAJk+Y=;
+	b=ZVaTF5K3oveR1KdnsCRV+NW1KCdrKOY7hDIpsXcdBiW/y5lOYUkOcGxGf+zPvUMt95
+	OYGhzIRLDtzQCxEJmd9blpiYavKi6WnWq886Jd2U1rB10T139+8l7mgYtX9hmPnvbCaG
+	zruSkGZP4WKxKj4xW9HT+RfcE4SDJzUzlYdccZoKMBew20LlxBfS2zTkm7eSqM0rpU34
+	YsXDEUtbWfeLFnqWezGnYrOdy5c32o1KL9mwQYKPuhw91fxoc5DhMCI2Y4JmV3GCHloH
+	oaGwObTbBdvu4SmYn1vKclOi7FfdAVZy/v4oMvOmTaBI45nHxoEt5aOzWJawKYXsca2b
+	3fRQ==
+X-Gm-Message-State: ALKqPwcr1vqIZsIYrzhiuRhAEVFBApzY6M4EJSMoVMka7wp3Nuh/mPS1
+	MDOd7sfGlvJv4ooMVouwtwFEYggLbSb/QJEVNrI=
+X-Google-Smtp-Source: ADUXVKK+yIFF2+z+MK96EnvU4nSD6AuyUT1gopUre+rRxiHAgvBV3XRndqrv4ncs7LicVlsyds5ihdzEbPIBhtrfWMM=
+X-Received: by 2002:a24:9d44:: with SMTP id
+	f65-v6mr2012468itd.119.1527255469742; 
+	Fri, 25 May 2018 06:37:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [193.143.230.131]
-X-ClientProxiedBy: AM6PR0402CA0015.eurprd04.prod.outlook.com
-	(2603:10a6:209::28) To VI1PR06MB1887.eurprd06.prod.outlook.com
-	(2a01:111:e400:c544::21)
-X-MS-PublicTrafficType: Email
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:VI1PR06MB1887; 
-X-Microsoft-Exchange-Diagnostics: 1; VI1PR06MB1887;
-	3:AOHwso3eAlL7SyRJFr2hQslCapEgwDtwupH5CdfpTPUVpQnItRQiG5We3lhQCj1xKstRR7fUF5tM4vY/MW8XfmKorDBhOZ68RpbuuWHIvQABmtgBtlDM6/GRMiaeG6E02VfjEalO8zwedUgxZj3F7tS57oWWTylftlDoBmalybziZWSR5rskL5h5MQTALEtrXN6Pf5jLUKodmWbJi+vfr1zqG1/qW3OY+JZmnAGYQsOP9d3AKnITgdh5Uf8Eeaz/;
-	25:UiWkxhRRqrx8ZvBXT2nz9xi9MLaEY1BQhv4WO/MBVbHUxDMxrO1Jvt4FCAuXUyepZZ/srTDT5L9Wk7fuOqevfnXMtHBH3/h73RQ9nErtLHUURVeN7ePvdl7RbvHtPk0PUcddNrKqiNuCno9MhoXD2cEa8zHNUTTo/4wVFrdheZ50Sq0VlVlxCYIBDNyU5UpiY7dJBrgRBnmCKNIY/ntN/OlAfv0QS6VeCF49kINQUoE+92WYTIwkjZHaDisF2+XnsGdkvLtFvcKkeGxaWoIk4nPImqx8YLsJAGZTn6JmvyOkxWXfdjMuEWJTiDpodWyWWwEoCfEpg3kNWzLcg29R2w==;
-	31:QcH+vuvuCrXluujXdWnb/yTDEluLPoIbnheNpr3MpWjMiH110R6mZeegtP2mevyFlSr+CVmPxs5pSxDHaSHy4w8MxagfSd1fksu26qlJLYGV5O8vSo8EErktuAr/VfcytgM0sSr24CkUwWMg4R1F1+ODBUImpI+/P2KobBckpb8uN9gSsOsr+H7ZWIUYpZPcB5fvMKZa4vzHPDXYVAjAcYyhCpK+PaczCcIKhUYkHgk=
-X-MS-TrafficTypeDiagnostic: VI1PR06MB1887:
-X-Tenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-Microsoft-Exchange-Diagnostics: 1; VI1PR06MB1887;
-	20:O6antDXcUlMUgElvwwUINwu98ohLNz6F0fFq/QI+GlFWIyvG78CKNJFNjEb3aTz1v/c/isLCtofxQM7lRzaTyzOBLcelCI/zWO8nPutFCsLF09p/7wevsnBdkw0xUDQPtyoYOKILuqSPTnCLuUz1g25RjpiQDrzup6fHlME2A+A=;
-	4:mbUQiAGkT/wOD75KPKqGyQOcKlXULe9IPH/Ie9gOAk11WeiwHjE8IxtnsqkFrxOt1eLKcS1sTEqZluIU3qv5KJ3A/1knTKa6qCeJAsOUXU+19rRIgOflSbAomOLaBB/oNQwwK3vKurfcmbn+ufkth2DUkEyZL0HPoZRbyd7fJ60T1qlsxfJ4R3jjUD/UG4zyxRj5yDuiGORc8ZAV143kngrU2wbNNdm2XNiGS3sWKVKDIXaACcBGccN+H03H9O9+0uVuQgXKZ5jgf9m1+TdZAg==
-X-Microsoft-Antispam-PRVS: <VI1PR06MB1887757DE89FAA2CD9965E6281690@VI1PR06MB1887.eurprd06.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-MS-Exchange-SenderADCheck: 1
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(3231254)(944501410)(52105095)(93006095)(93001095)(149027)(150027)(6041310)(20161123564045)(20161123560045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123562045)(20161123558120)(6072148)(201708071742011)(7699016);
-	SRVR:VI1PR06MB1887; BCL:0; PCL:0; RULEID:; SRVR:VI1PR06MB1887; 
-X-Forefront-PRVS: 06833C6A67
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(396003)(39850400004)(376002)(366004)(39380400002)(346002)(189003)(199004)(50226002)(7736002)(36756003)(16586007)(8676002)(97736004)(316002)(25786009)(386003)(6916009)(47776003)(59450400001)(5660300001)(4326008)(186003)(305945005)(16526019)(51416003)(52116002)(66066001)(7696005)(26005)(1857600001)(86362001)(6666003)(956004)(2616005)(486006)(476003)(44832011)(48376002)(50466002)(3846002)(2351001)(6116002)(1076002)(2361001)(106356001)(105586002)(6486002)(2906002)(107886003)(81156014)(81166006)(68736007)(53936002)(478600001)(8936002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR06MB1887;
-	H:hel-eptripper.corp.vaisala.com; FPR:; SPF:None; LANG:en;
-	PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: vaisala.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; VI1PR06MB1887;
-	23:rC+c5V9yrczJeEAFOWwBwF2W3BXDAIXreVDJ0W4VM?=
-	=?us-ascii?Q?zeJYoNnAwPiaFv2G7twkIymwLnSVAkfOkjitOkrQhOqwtmgXFfkwy2xYHdpW?=
-	=?us-ascii?Q?tzsPPPJhlE6YV+mu42yJYqzAiJato5HpvNLWTnCGFVsDPACrzAe9wsKldnrW?=
-	=?us-ascii?Q?3eUzsEnO1qGbPSbDBQQe0o4iz90OOZuRXeFLdRlXmWgc4zTnt5uUSBuGkbsK?=
-	=?us-ascii?Q?n6j+BT1MVrw1ELEBjAuHAHIBxr8cXGJq/DQOmjk9Ch7XOYJ3WV1vKcSYCtF7?=
-	=?us-ascii?Q?MHWY2bUxAEQgLqTRMu5BZdc9DAKm8LvfYKy2oYtUP5wIhynMaLUA5cSHczMQ?=
-	=?us-ascii?Q?trEJjp7YceslwDgLX6TPOwtzwc/1tUzkLxE6Cxo/3FUWSXN3DnZ0bPigYaim?=
-	=?us-ascii?Q?J59kyMsfI0NecFop+nftCck6knoOUsg3kFvgflWAMxd7tFVWDRratKIOJe0i?=
-	=?us-ascii?Q?FMH1GvDc2pCrg4OeWxP2KNGkcPRXG/hYNIIDaT/43SnTBzhYLmz1QrCKR2V3?=
-	=?us-ascii?Q?45VAwTrdChFFn/h6HDuTRPhMfNR/AYUS2dIronSvlTn8mv9mTzTbjv1USCmd?=
-	=?us-ascii?Q?eUac0mnZdugvQsVauD6cwvmuAXlAdG/vDtvsOXwjpfZd4IWK05e9ZyLQCMlw?=
-	=?us-ascii?Q?lrUU2+H29eH0Qt58aZYwMvMjqTU8/NMkadzxvvOiVaueT3zoLu3vlR1Aslsx?=
-	=?us-ascii?Q?fATP7XdgEgb0wpLLanIbu1hcX+D9e18P2YvA5m1VYz7VLV3NahaeR51ISjB6?=
-	=?us-ascii?Q?fOvkZynZrRsGaPjdubScdFnqoki9cCWiBVWbbMnCRmCe4eY//qAnIXUL1wLf?=
-	=?us-ascii?Q?zYMzAR9rOOnskZvc6tHB60bK0Uyo9ucV6tDN8psfM1uF6HGAwgBkkyxxN3tT?=
-	=?us-ascii?Q?0WC8j8epDKOoMCHuNYNVn+lbPVssR/yD67mDYCC1yBqzhN6emFCUHwHeO5eR?=
-	=?us-ascii?Q?jmT4hPhXukpIG5FjZqcVp6Wtwt9KxBZ5QEhDlGz15PiSdBEI+jWX78VfCf43?=
-	=?us-ascii?Q?tBHLc67hOgMAlXqWO0ItEvXnscqwMm3gPJNksLwKqaJ6mXfNAmIg3aZdy35D?=
-	=?us-ascii?Q?2vSDDwSY6Nkyz/Q01AYPUPwl2h1NBZttQV3z++0W0CZYK78CmMwj5uYnp7Oy?=
-	=?us-ascii?Q?4+5pEKTY3E3SCUDWNoQ9Ip4nZrxkzlQiFiKeur1tMVN/E6VdRkFLIVR77xpM?=
-	=?us-ascii?Q?m91tjkpQ+n62+rKT1VQYW7qyyhf12GJvoKdKokFg516dv8OBdV9+y6/qG/gP?=
-	=?us-ascii?Q?76iIy+hnLeOQq1OkJc=3D?=
-X-Microsoft-Antispam-Message-Info: MqweUBFlJeC8aEAdh4Y4aAWA73M3g5EuUsEq3GA56qLuukYv0gxYS/J+nrBI0bU/SbPXwXDVa0Rt3RhEHHXka7OqrUXexT8NeNz0mribY2v68AMl97NQrW9CaRY129Y6y25yBxkmRs6SFAGfp/jUduz73bZ/vj4Ba/+Jo2/AHgnyZcba/1i5Q2Wk2rZWEmwI
-X-Microsoft-Exchange-Diagnostics: 1; VI1PR06MB1887;
-	6:52ajvX/DGvwxJJQSdiaRVt2Nq4CCYNRf+e/2KFbsQTOv0ZdR3+DnsupBysbQ8NDsVyoKMQzT0trT0woluWmyc4FJf4bRYTI+uazJnTvZty9GtXLm9ukdHnWXfSxsISoXaBCWbWaKcxyCIJB+wjhS1b5UxYS3+HapI8Spa+J0eofkRsgC0oIxK/SaJNQ5EFY/WBUj1s6UNn1H5DZ9ZPydVCV7esj8cF8ttf20QIUXsHl98q7/RQLVh/icCL785Dh0n0ry88ZS5gOBdmlNXblcGlVwCc0ea+Kv5DYfwLyM1zEcOw9gZ875nZuTPlILKozN5aXDLT5DAfhUeoAsrNn02Z3vWY2e0NRovnYth6ltmsk7fSeQYacJDK5k1kOk8xnzU4Yqhu5FMRhyis0Dz43HqKCg0bToB3mbjkjfvL2OgENGBXY4BpB5p9l19tJIEywQ6HdG6v70isBPxhYgbqCbYw==;
-	5:eXwPdjazvSGqaCDEprdwk1trVvi5dWUUAxFjVUaLPKlS7gjMM1ivHOPyej8z+NbbVkjxjGwGzOGcDXg6cADhhsP/K8kkLtb6+dvK8/xvUq5AmQNN6zaGbHJQ5wrCu/3y+WMMQSYUP5mueHl+MvCJm13xqV0t/7hVr0fjkzbhcUo=;
-	24:D3y9HZp0L45T9IcO1k+lLX93DXP0B4jPERIZDfoJexrW2cPOPd7IwRtrLN6NHHkhbOzsaLIBG/RxkRoTdzeLwS3xJCVCgG09dzSDUsIfGAU=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; VI1PR06MB1887;
-	7:wAgnmdnmU4T6bZNAfO7QKzln0qtF/e/h/PPDl68woQg0t3J1AeY+C21RC+q5IduHZoTcCPKHGeG0VuNyrhU3ZYf7TPf+9VgpOQdY6OErXiADy65k8GYpTMySVolByB0QHcH+K+lIwHBUPNrWD8EqE73jk7aqX0l/58/GGpAS+R8th/uOTrFHqDlfgkN0eP/nc1/lFiNYhGN428l6wsA3+Tthl9SCoBgRNp5JhZg5TDDsfZJSIQAsyyhvDAheSq9A
-X-MS-Office365-Filtering-Correlation-Id: 22ebe97e-746e-4374-4400-08d5c23c58ab
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2018 12:37:58.2051 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22ebe97e-746e-4374-4400-08d5c23c58ab
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB1887
-Subject: [PATCH] cmake: Export SSH_AUTH_SOCK for cmake at configure
+Received: by 2002:a6b:a74f:0:0:0:0:0 with HTTP; Fri, 25 May 2018 06:37:49
+	-0700 (PDT)
+In-Reply-To: <CADkTA4ORbb+_1MHy-7JRq=PEZW+=FabV4b=6Guo6dxtOnQb0-A@mail.gmail.com>
+References: <BN6PR1201MB01957E06C91D5C5C5B91F7D38B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+	<BN6PR1201MB0195C7EC9D46A3F02DA9DCC38B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+	<CADkTA4NnhmA37wHWk1r4fZoAFZsoV-x=GW+OW_opdL8jwQgRCw@mail.gmail.com>
+	<BN6PR1201MB01951494864FB274FEE4878B8B9F0@BN6PR1201MB0195.namprd12.prod.outlook.com>
+	<CADkTA4ORbb+_1MHy-7JRq=PEZW+=FabV4b=6Guo6dxtOnQb0-A@mail.gmail.com>
+From: Sylvain Lemieux <slemieux.tyco@gmail.com>
+Date: Fri, 25 May 2018 09:37:49 -0400
+Message-ID: <CA+rxa6rGvbEa11ZhgqUB9JqVFiMoWpJ9wKD-5CtN3YQwpU8AdA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: jared.smith@agilent.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: do_kernel_configme and defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,51 +62,233 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 12:52:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 May 2018 13:37:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update cmake_do_configure() to export a set SSH_AUTH_SOCK variable
-before calling cmake.
+Hi Chris,
 
-Otherwise, if cmake call during cmake_do_configure() resorts to
-ExternalProject directive containing a GIT_REPOSITORY entry, and git
-authentication scheme is based on SSH agent forwarding, it fails
-followingly
+the scenario we are using work and apply the kernel config segment on
+top of the defconfig file.
 
-  | Cloning into 'foo'...
-  | Permission denied (publickey).
-  | fatal: Could not read from remote repository.
-  |
-  | Please make sure you have the correct access rights
-  | and the repository exists.
-  |
-  | ...
-  |
-  | CMake Error at .../tmp/foo-gitclone.cmake:66 (message):
-  |   Failed to clone repository: 'ssh://...
+Our BSP layer provide a "defconfig" using the source URI in the kernel
+recipe; any layer that are based on this BSP can add their own kernel
+config fragment.in a bbappend.
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/classes/cmake.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+I am not sure if it is useful to also cover this scenario if we update
+the documentation.
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index fcfd5dda4f..82d36be8ff 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -137,6 +137,11 @@ cmake_do_configure() {
- 		oecmake_sitefile=
- 	fi
- 
-+	# Allow cmake to perform eg. git clone in context where authentication relies on SSH agent forwarding
-+	if [ "${SSH_AUTH_SOCK}" ] ; then
-+		export SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
-+	fi
-+
- 	cmake \
- 	  ${OECMAKE_GENERATOR_ARGS} \
- 	  $oecmake_sitefile \
--- 
-2.11.0
 
+Sylvain Lemieux
+
+On Fri, May 11, 2018 at 6:40 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+>
+> On Fri, May 11, 2018 at 6:17 PM, <chris.laplante@agilent.com> wrote:
+>>
+>> Hi Bruce,
+>>
+>>
+>>
+>> Thanks for your insights. The defconfig is coming from
+>> KBUILD_DEFCONFIG_machinename =3D =E2=80=9Cour_defconfig=E2=80=9D in our =
+machine conf. I
+>> understand that the defconfig is just another configuration fragment, bu=
+t
+>> given that it has its own variable (KBUILD_DEFCONFIG) I guess I was
+>> expecting a bit of =E2=80=9Cmagic=E2=80=9D out of it; namely, ordering s=
+uch that the
+>> fragment called =E2=80=9Cdefconfig=E2=80=9D comes first. Otherwise I don=
+=E2=80=99t really see the
+>> point in supporting in-tree defconfig + .scc/cfg fragments, since the fo=
+rmer
+>> will just wipe out the latter.
+>>
+>>
+>>
+>> That being said, your explanation of the current behavior makes sense, b=
+ut
+>> I think it should be emphasized somewhere in the manual. Care if I submi=
+t a
+>> documentation patch?
+>
+>
+> Absolutely! Feel free to cc' me on the patch and I'll give it a review as
+> well.
+>
+> Bruce
+>
+>>
+>>
+>>
+>> Thanks,
+>> Chris
+>>
+>>
+>>
+>> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+>> Sent: Friday, May 11, 2018 5:09 PM
+>> To: LAPLANTE,CHRIS (A-Little Falls,ex1) <chris.laplante@agilent.com>
+>> Cc: Patches and discussions about the oe-core layer
+>> <openembedded-core@lists.openembedded.org>; SMITH,JARED (A-Little Falls,=
+ex1)
+>> <jared.smith@agilent.com>
+>> Subject: Re: [OE-core] do_kernel_configme and defconfig
+>>
+>>
+>>
+>>
+>>
+>>
+>>
+>> On Fri, May 11, 2018 at 3:28 PM, Chris Laplante via Openembedded-core
+>> <openembedded-core@lists.openembedded.org> wrote:
+>>
+>> OK, I figured out why this happens. This line in kernel-yocto.bbclass:
+>>
+>>
+>>
+>> scc --force -o ${S}/${meta_dir}:cfg,merge,meta ${includes}
+>> ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+>>
+>>
+>>
+>> =E2=80=A6 passes the BSP def before the sccs. In my case, the BSP def is
+>> mymachine.scc, and the sccs is the defconfig. So that=E2=80=99s why the =
+defconfig
+>> comes after the BSP.
+>>
+>>
+>>
+>> My takeaway is that a BSP plus a defconfig is not a supported use case. =
+Is
+>> that correct?
+>>
+>>
+>>
+>> A defconfig isn't magic, it is just another input to the configuration
+>> merging. It will be applied as any other fragment. There is some special
+>> processing only a defconfig is specified, but otherwise, it is the same.=
+ So
+>> in this case, whatever it sets would be applied after the BSP definition=
+ and
+>> would take precedence (last through the gate wins).
+>>
+>>
+>>
+>> If you have a BSP definition, you normally don't have a defconfig. Where
+>> is the defconfig coming from in your scenario ? The SRC_URI ? You can ju=
+st
+>> include it from the .scc files to control the order, which is what is
+>> expected when you have a BSP definition.
+>>
+>>
+>>
+>> Were you seeing none of your options set ? or something else ?
+>>
+>>
+>>
+>>
+>>
+>> If so, I think it=E2=80=99s important to add some sanity checking to
+>> kernel-yocto.bbclass.
+>>
+>>
+>>
+>>
+>>
+>> There's really nothing that could be checked, since the intent of the
+>> fragments isn't known, and for the most part, defconfigs are the same as=
+ any
+>> other fragment (from the point of view of the merging).
+>>
+>>
+>>
+>> Bruce
+>>
+>>
+>>
+>> Thanks,
+>>
+>> Chris
+>>
+>>
+>>
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of C=
+hris
+>> Laplante via Openembedded-core
+>> Sent: Friday, May 11, 2018 2:51 PM
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: SMITH,JARED (A-Little Falls,ex1) <jared.smith@agilent.com>
+>> Subject: [OE-core] do_kernel_configme and defconfig
+>>
+>>
+>>
+>> Hi all,
+>>
+>>
+>>
+>> Is it expected for do_kernel_configme to apply the defconfig last (after
+>> configuration fragments introduced by sccs)?
+>>
+>>
+>>
+>> For some reason, in the call to merge_config,
+>> =E2=80=9C.kernel-meta/configs//./defconfig=E2=80=9D is passed last where=
+as I=E2=80=99d expect it
+>> would be first (since that should be the base config). This is causing
+>> problems, because config options that my config fragments are setting ar=
+e
+>> getting overridden by the defconfig =E2=80=93 it should be the other way=
+ around.
+>>
+>>
+>>
+>> For reference, I=E2=80=99m using Rocko and have just updated to the late=
+st commit.
+>> We have an in-tree defconfig, and we set KBUILD_DEFCONFIG_machinename
+>> appropriately. We are using the separate kernel-meta repository to store
+>> kernel metadata. I have KMACHINE_machinename set up so that it finds the
+>> correct BSP definition .scc file. Still seem to be missing something,
+>> though.
+>>
+>>
+>>
+>> Thanks,
+>>
+>> Chris
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
+>>
+>> --
+>>
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+>> at its end"
+>
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
+ at
+> its end"
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
