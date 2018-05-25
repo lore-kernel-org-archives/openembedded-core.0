@@ -1,25 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B987453F
+	by mail.openembedded.org (Postfix) with ESMTP id 6E2CC74D54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 06:20:33 +0000 (UTC)
+	Fri, 25 May 2018 06:20:34 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 May 2018 23:20:34 -0700
+	24 May 2018 23:20:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,439,1520924400"; d="scan'208";a="61569616"
+X-IronPort-AV: E=Sophos;i="5.49,439,1520924400"; d="scan'208";a="61569619"
 Received: from anmitta2-mobl1.png.intel.com ([10.221.23.24])
-	by orsmga002.jf.intel.com with ESMTP; 24 May 2018 23:20:33 -0700
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2018 23:20:34 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 May 2018 14:20:07 +0800
-Message-Id: <20180525062014.22022-5-anuj.mittal@intel.com>
+Date: Fri, 25 May 2018 14:20:08 +0800
+Message-Id: <20180525062014.22022-6-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20180525062014.22022-1-anuj.mittal@intel.com>
 References: <20180525062014.22022-1-anuj.mittal@intel.com>
-Subject: [PATCH 05/12] gstreamer1.0-plugins-bad: upgrade 1.14.0 -> 1.14.1
+Subject: [PATCH 06/12] gstreamer1.0-plugins-ugly: upgrade 1.14.0 -> 1.14.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 06:20:33 -0000
+X-List-Received-Date: Fri, 25 May 2018 06:20:34 -0000
 
 Bugfixes only. Please see:
 
@@ -40,27 +40,27 @@ https://gstreamer.freedesktop.org/releases/1.14/#1.14.1
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...ugins-bad_1.14.0.bb => gstreamer1.0-plugins-bad_1.14.1.bb} | 4 ++--
+ ...ins-ugly_1.14.0.bb => gstreamer1.0-plugins-ugly_1.14.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.14.0.bb => gstreamer1.0-plugins-bad_1.14.1.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.14.0.bb => gstreamer1.0-plugins-ugly_1.14.1.bb} (90%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-index 87f2d0367a..0e477e5a9c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-@@ -9,8 +9,8 @@ SRC_URI = " \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
- "
--SRC_URI[md5sum] = "555bbe7232fb4653c31b78e1f79068cf"
--SRC_URI[sha256sum] = "ed5e2badb6f2858f60017b93334d91fe58a0e3f85ed2f37f2e931416fafb4f9f"
-+SRC_URI[md5sum] = "c2f963501fc6afc084c418894425dcfd"
-+SRC_URI[sha256sum] = "2a77c6908032aafdf2cd2e5823fec948f16a25c2d1497a953828d762dc20d61a"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.1.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.1.bb
+index c8f778bff3..d9d636ad0b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.1.bb
+@@ -10,8 +10,8 @@ SRC_URI = " \
+             http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+             "
+-SRC_URI[md5sum] = "bcb1f8d9339176aee2b5da2a9cb2df88"
+-SRC_URI[sha256sum] = "3fb9ea5fc8a2de4b3eaec4128d71c6a2d81dd19befe1cd87cb833b98bcb542d1"
++SRC_URI[md5sum] = "d1563f5dc0508afc6f8b261324d765d9"
++SRC_URI[sha256sum] = "cff2430bb13f54ef81409a0b3d65ce409a376d4a7bab57a14a97d602539fe1d3"
  
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
  
 -- 
 2.17.0
