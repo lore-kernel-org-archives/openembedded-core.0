@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 51CC974E31
+	by mail.openembedded.org (Postfix) with ESMTP id 423D174D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:41:11 +0000 (UTC)
+	Fri, 25 May 2018 02:41:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2emRe026247
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2emRg026247
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:41:03 -0700
+	Thu, 24 May 2018 19:41:08 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:40:37 -0700
+	14.3.361.1; Thu, 24 May 2018 19:41:03 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:15 +0800
-Message-ID: <4b9f3a9c9056fa8ec0993e2b6fde5eb9d5583633.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:16 +0800
+Message-ID: <a0e82af237232cb4df6b304ef83291c16bedb33b.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/24] dbus: update build options when enable ptest
+Subject: [PATCH 11/24] gcc-sanitizers: Fix libtool .la files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:41:13 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:41:17 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-It fails to run some dbus-ptest cases that some symbols cannot be found:
+Since libtool sysroot is not set when compiling sanitizers, the libtool
+does no prefix the dependency path correctly. Fix it, so that programs
+can link to sanitizer libraries without error.
 
-| ./test/test-bus: relocation error: ./test/test-bus: symbol
-| _dbus_threads_init_debug, version LIBDBUS_PRIVATE_1.10.10 not defined
-| in file libdbus-1.so.3 with link time reference
-| FAIL: test/test-bus
-
-These missing symbols are controlled by some macros. Update configure
-options and compile macro to make the symbols visible to ptest cases.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-core/dbus/dbus_1.12.8.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.12.8.bb b/meta/recipes-core/dbus/dbus_1.12.8.bb
-index b3ddaaf..ff235f1 100644
---- a/meta/recipes-core/dbus/dbus_1.12.8.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.8.bb
-@@ -92,7 +92,7 @@ pkg_postinst_dbus() {
- 	fi
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index e5e8452..2373dd8 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -39,6 +39,8 @@ do_install () {
+         rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+     fi
+     chown -R root:root ${D}
++    # Fix broken libtool with stdc++, as sysroot is not set.
++    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'${libdir}'@=${libdir}@g" {} \;
  }
  
--EXTRA_OECONF = "--disable-tests \
-+EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '--enable-embedded-tests --enable-asserts --enable-verbose-mode', '--disable-tests', d)} \
-                 --disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
-@@ -102,6 +102,8 @@ EXTRA_OECONF = "--disable-tests \
- EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
- EXTRA_OECONF_append_class-native = " --disable-selinux"
- 
-+EXTRA_OEMAKE = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'CFLAG_VISIBILITY=-fvisibility=default', '', d)}"
-+
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 2.7.4
 
