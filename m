@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4948974E20
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9260374889
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:41:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2fMP1026258
+	Fri, 25 May 2018 02:42:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2g7g6022156
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:41:37 -0700
+	Thu, 24 May 2018 19:42:07 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:41:11 -0700
+	14.3.361.1; Thu, 24 May 2018 19:42:07 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:19 +0800
-Message-ID: <cd014eabcc319aab6c6c95acb90026fe286f9777.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:23 +0800
+Message-ID: <98279ee06e1843d8074add35ee3e865ce509c383.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/24] site/powerpc64-linux: add cvs_cv_func_printf_ptr
+Subject: [PATCH 18/24] shadow: update ownership and permission of /var/spool/mail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:41:46 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:42:06 -0000
 Content-Type: text/plain
 
-Fixed when powerpc64:
-$ bitbake <image> -ctestsdk
-[snip]
-checking whether printf supports %p... configure: error: cannot run test program while cross compiling
-See `config.log' for more details.
-test_cvs (oeqa.sdk.buildcvs.BuildCvsTest) ... FAIL
-[snip]
+From: Kai Kang <kai.kang@windriver.com>
 
-The cvs_cv_func_printf_ptr is already in powerpc32-linux.
+Update shadow to change ownership of /var/spool/mail from root:root to
+root:mail and permission from 0755 to 0775 just as in most popular
+distributions such as fedora and debian(It also set setgid bit in debian
+but we don't need it).
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/site/powerpc64-linux | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/shadow/shadow.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/site/powerpc64-linux b/meta/site/powerpc64-linux
-index d64e230..820a4b8 100644
---- a/meta/site/powerpc64-linux
-+++ b/meta/site/powerpc64-linux
-@@ -37,3 +37,5 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
- # apr
- apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 673207f..ca1facf 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -127,7 +127,8 @@ do_install_append() {
+ 	# Ensure that the image has as a /var/spool/mail dir so shadow can
+ 	# put mailboxes there if the user reconfigures shadow to its
+ 	# defaults (see sed below).
+-	install -d ${D}${localstatedir}/spool/mail
++	install -m 0775 -d ${D}${localstatedir}/spool/mail
++	chown root:mail ${D}${localstatedir}/spool/mail
  
-+# cvs
-+cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
+ 	if [ -e ${WORKDIR}/pam.d ]; then
+ 		install -d ${D}${sysconfdir}/pam.d/
 -- 
 2.7.4
 
