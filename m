@@ -1,48 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 16FBD74891
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3399274598
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:27:33 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id d5-v6so256355oib.5
+	Fri, 25 May 2018 02:39:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2d72Q021825
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=vDLnKpSfJrnnsuphdj5dZeqzRAiIQntrnr9fDCm4uho=;
-	b=u0mvGQF52n48CEZt46iUY7Vu+0YPlUa0wsOU6EvkD+WzUSWb9rOdVoBhCBBsfnAjTb
-	ixGgmK8eoO7U/+5JQ2p1YDTcoGebUg7C9rRBg0gbim9mLQEJZtVpr3vxpmTRoUcFNiSQ
-	BN7Ao8RQxZi/56xynuJnLvpLPJc8ngXPF8kxz5RzxgDndjR5XN7QucdbxFj9sKERLhQ9
-	qvrXRcQYRKZgiHG/6JReN0Fn0mBPXkat7HRyz2fBLSxxEL4Cpk+4uGW4luuWUr8dYoC5
-	ZPvauAS5EIJ1jSakSji6Yvfe3YYFHEKwxCl8WzArcy2WM5p6OwTph8QpEilLXtdit+ZG
-	3v4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vDLnKpSfJrnnsuphdj5dZeqzRAiIQntrnr9fDCm4uho=;
-	b=cTl5tN0OnUBR0urMKKf7g7QFIezQicmvyecyWf+aZAXOdu2gjpHMtuJDIY6Tq80n60
-	bbFQBnCYRdB+zJuZbR+GSV+0XQOzM5KvvYbIyTuX8r2zwhrg0jtmISOYFkkJIbWDnLEb
-	94JEMGvlKRDuV8T+jf751cLl7mgdea/DCo/atg+gjZwXPDgrr0m/N44PEZwoILaAtqm8
-	eOowapo5DFlco65WUYPguBHXzrKqoaGYWQJn2CssvJwZQ+wUR4b2L/yYcWcnL3+9cuiB
-	3swMedHMeSBBNltxAMNCYMSZnLr1oUxyHp5UCYEJQ4mbdWLj3LAUO5MqJEY7HVux8st5
-	aHcQ==
-X-Gm-Message-State: ALKqPwcXYx4ITwA1CYCtT9LVJX0iU7VSlQ1byBKF5/aza6paltJFsxrl
-	09LIna4E5WkO8GMJeTc30NvDZA==
-X-Google-Smtp-Source: ADUXVKKEFLvFGOgOAnPROD8M+UzZ2DLG/JeGiZBhKjC42x93Rfj9X1RD6U/FqyreTF7xoo1108sGIw==
-X-Received: by 2002:aca:df54:: with SMTP id
-	w81-v6mr250159oig.129.1527215254746; 
-	Thu, 24 May 2018 19:27:34 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	r31-v6sm14963233otc.11.2018.05.24.19.27.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 May 2018 19:27:34 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2018 19:27:28 -0700
-Message-Id: <1527215248-7224-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] dropbear: drop obsolete patch 0004-fix-2kb-keys.patch
+	Thu, 24 May 2018 19:39:07 -0700 (PDT)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 24 May 2018 19:39:06 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 25 May 2018 10:48:05 +0800
+Message-ID: <cover.1527216285.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 00/24] meta: various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,57 +30,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:27:34 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:39:07 -0000
+Content-Type: text/plain
 
-This patch has been obsolete since 2005:
+Hi RP and Ross,
 
-  https://github.com/mkj/dropbear/commit/736f370dce614b717193f45d084e9e009de723ce
+These are part of our local patches, most of them have been sent before, but
+didn't get reply, would you please help to review and merge/reject them? Thank
+you very much, All of them are good changes from my side.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/dropbear/dropbear.inc               |  1 -
- .../dropbear/dropbear/0004-fix-2kb-keys.patch         | 19 -------------------
- 2 files changed, 20 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
+// Robert
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 16ac644..a5dcab8 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -14,7 +14,6 @@ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0001-urandom-xauth-changes-to-options.h.patch \
--           file://0004-fix-2kb-keys.patch \
-            file://0007-fix-localoptions-search-path.patch \
-            file://init \
-            file://dropbearkey.service \
-diff --git a/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch b/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
-deleted file mode 100644
-index 60c6a29..0000000
---- a/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--Subject: [PATCH 4/6] fix 2kb keys
--
--Upstream-Status: Inappropriate [configuration]
-----
-- kex.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--Index: dropbear-2017.75/kex.h
--===================================================================
----- dropbear-2017.75.orig/kex.h
--+++ dropbear-2017.75/kex.h
--@@ -106,6 +106,6 @@ int curve25519_donna(unsigned char *out,
-- #endif
-- 
-- 
---#define MAX_KEXHASHBUF 2000
--+#define MAX_KEXHASHBUF 3000
-- 
-- #endif /* DROPBEAR_KEX_H_ */
+The following changes since commit 9da097b0de6425464ebd3f0539b7495b11d139b5:
+
+  libnss-mdns: fix postinst and postrm (2018-05-22 13:09:04 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/24fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/24fixes
+
+Catalin Enache (1):
+  init-install: add timeout for legacy grub
+
+Chen Qi (1):
+  populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
+
+Hu (1):
+  shadow: fix pam configs for chpasswd, newusers
+
+Jackie Huang (3):
+  rootfs-postcommands: split ssh_allow_empty_password
+  dropbear: add default config file to disable root login
+  glibc: re-package for libnss-db
+
+Jian Liu (1):
+  lsof: fix LSOF_CCV in version.h
+
+Kai Kang (4):
+  dbus: update build options when enable ptest
+  dbus-test: sync x11 configure options with dbus
+  toolchain-scripts.bbclass: do not extend dependency if extended
+    already
+  shadow: update ownership and permission of /var/spool/mail
+
+Li Wang (2):
+  gawk: fix command location in ptest script
+  rpcbind: add option to make user able to use fixed port number
+
+Mark Hatle (1):
+  base.bbclass: Add buildcfg multilib values
+
+Mingli Yu (1):
+  at: add libselinux to PACKAGECONFIG
+
+Ovidiu Panait (2):
+  openssl-nativesdk: Fix "can't open config file" warning
+  nativesdk-rpm: Add wrappers for nativesdk support
+
+Robert Yang (3):
+  runqemu-extract-sdk: allow install debugfs on rootfs
+  oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
+  site/powerpc64-linux: add cvs_cv_func_printf_ptr
+
+Shan Hai (1):
+  xinetd: add Init Script Actions to xinetd script
+
+Yadi.hu (1):
+  busybox: handle syslog
+
+Yuanjie Huang (1):
+  gcc-sanitizers: Fix libtool .la files
+
+Yue Tao (1):
+  initscripts: Avoid starting rpcbind daemon twice
+
+ meta/classes/base.bbclass                          |  16 ++-
+ meta/classes/image.bbclass                         |   2 +-
+ meta/classes/populate_sdk_ext.bbclass              |   6 +
+ meta/classes/rootfs-postcommands.bbclass           |  25 +++-
+ meta/classes/toolchain-scripts.bbclass             |  13 ++-
+ meta/conf/bitbake.conf                             |   2 +-
+ meta/lib/oe/copy_buildsystem.py                    |  18 +++
+ .../openssl/openssl/environment.d-openssl.sh       |   1 +
+ meta/recipes-connectivity/openssl/openssl10.inc    |   7 ++
+ .../recipes-connectivity/openssl/openssl_1.0.2o.bb |   5 +
+ .../recipes-connectivity/openssl/openssl_1.1.0h.bb |  11 ++
+ meta/recipes-core/busybox/busybox.inc              |  14 ++-
+ meta/recipes-core/dbus/dbus-test_1.12.8.bb         |   6 +-
+ meta/recipes-core/dbus/dbus_1.12.8.bb              |   4 +-
+ meta/recipes-core/dropbear/dropbear.inc            |   3 +
+ .../dropbear/dropbear/dropbear.default             |   2 +
+ meta/recipes-core/glibc/glibc-package.inc          |   5 +-
+ .../initrdscripts/files/init-install.sh            |   2 +
+ .../initscripts/initscripts-1.0/mountnfs.sh        |   9 +-
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc       |   2 +
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  42 ++++---
+ meta/recipes-extended/at/at_3.1.20.bb              |   6 +
+ meta/recipes-extended/gawk/gawk_4.2.1.bb           |   2 +
+ .../files/Configure-fix-LSOF_CCV-assignment.patch  |  31 +++++
+ meta/recipes-extended/lsof/lsof_4.89.bb            |   4 +-
+ .../rpcbind_add_option_to_fix_port_number.patch    | 130 +++++++++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb     |   1 +
+ meta/recipes-extended/shadow/files/pam.d/chpasswd  |   2 +
+ meta/recipes-extended/shadow/files/pam.d/newusers  |   2 +
+ meta/recipes-extended/shadow/shadow.inc            |   3 +-
+ meta/recipes-extended/xinetd/xinetd/xinetd.init    |  12 +-
+ meta/site/powerpc64-linux                          |   2 +
+ scripts/runqemu-extract-sdk                        |   4 +-
+ 33 files changed, 355 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
+ create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+
 -- 
-1.9.1
+2.7.4
 
 
