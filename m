@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E113274E5D
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4948974E20
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 02:41:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4P2feEs008176
+	Fri, 25 May 2018 02:41:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P2fMP1026258
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2018 19:41:40 -0700 (PDT)
+	Thu, 24 May 2018 19:41:37 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 24 May 2018 19:41:39 -0700
+	14.3.361.1; Thu, 24 May 2018 19:41:11 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2018 10:48:21 +0800
-Message-ID: <f4bfb14098d86375865642c0ae4eb338ea759b1a.1527216285.git.liezhi.yang@windriver.com>
+Date: Fri, 25 May 2018 10:48:19 +0800
+Message-ID: <cd014eabcc319aab6c6c95acb90026fe286f9777.1527216285.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527216285.git.liezhi.yang@windriver.com>
 References: <cover.1527216285.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 16/24] dropbear: add default config file to disable root login
+Subject: [PATCH 14/24] site/powerpc64-linux: add cvs_cv_func_printf_ptr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 02:41:39 -0000
+X-List-Received-Date: Fri, 25 May 2018 02:41:46 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Fixed when powerpc64:
+$ bitbake <image> -ctestsdk
+[snip]
+checking whether printf supports %p... configure: error: cannot run test program while cross compiling
+See `config.log' for more details.
+test_cvs (oeqa.sdk.buildcvs.BuildCvsTest) ... FAIL
+[snip]
 
-root login is disabled by default for openssh and we can
-enable it through IMAGE_FEATURES 'debug-tweaks' or
-'allow-empty-password', so change to the same default
-behavior for dropbear.
+The cvs_cv_func_printf_ptr is already in powerpc32-linux.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc              | 3 +++
- meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
- 2 files changed, 5 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
+ meta/site/powerpc64-linux | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 16ac644..3c79be9 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -20,6 +20,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbearkey.service \
-            file://dropbear@.service \
-            file://dropbear.socket \
-+           file://dropbear.default \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
+diff --git a/meta/site/powerpc64-linux b/meta/site/powerpc64-linux
+index d64e230..820a4b8 100644
+--- a/meta/site/powerpc64-linux
++++ b/meta/site/powerpc64-linux
+@@ -37,3 +37,5 @@ ac_cv_linux_vers=${ac_cv_linux_vers=2}
+ # apr
+ apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-@@ -63,6 +64,8 @@ do_install() {
- 		${D}${sbindir} \
- 		${D}${localstatedir}
- 
-+	install -m 0755 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
-+
- 	install -m 0755 dropbearmulti ${D}${sbindir}/
- 	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
- 
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.default b/meta/recipes-core/dropbear/dropbear/dropbear.default
-new file mode 100644
-index 0000000..522453a
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear.default
-@@ -0,0 +1,2 @@
-+# Disallow root logins by default
-+DROPBEAR_EXTRA_ARGS="-w"
++# cvs
++cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
 -- 
 2.7.4
 
