@@ -1,29 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E912E74CA3
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D61B60110
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 05:43:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4P5hBEW030125
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 May 2018 22:43:27 -0700
-Received: from [128.224.27.58] (128.224.27.58) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 24 May 2018 22:42:55 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1527216285.git.liezhi.yang@windriver.com>
-	<f4bfb14098d86375865642c0ae4eb338ea759b1a.1527216285.git.liezhi.yang@windriver.com>
-	<CAJ86T=V-LQ_MxSfB=NXcz_eMPkPJyJRUJ-3FaHQ-i-N20=JGXw@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <fc12b4f6-0b19-82dc-bee2-fd3f5cb0cca0@windriver.com>
-Date: Fri, 25 May 2018 13:42:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=V-LQ_MxSfB=NXcz_eMPkPJyJRUJ-3FaHQ-i-N20=JGXw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 16/24] dropbear: add default config file to disable root login
+	Fri, 25 May 2018 06:20:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 May 2018 23:20:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,439,1520924400"; d="scan'208";a="61569597"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.23.24])
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2018 23:20:29 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 May 2018 14:20:03 +0800
+Message-Id: <20180525062014.22022-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH v4 01/12] gstreamer: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +30,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 05:43:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 May 2018 06:20:30 -0000
 
+Make sure that the tests are packaged and can be executed
+when ptest is enabled. Also, remove build host specific references
+from Makefile.
 
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
 
-On 05/25/2018 11:34 AM, Andre McCurdy wrote:
-> On Thu, May 24, 2018 at 7:48 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
->>
->> root login is disabled by default for openssh and we can
->> enable it through IMAGE_FEATURES 'debug-tweaks' or
->> 'allow-empty-password', so change to the same default
->> behavior for dropbear.
->>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   meta/recipes-core/dropbear/dropbear.inc              | 3 +++
->>   meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
->>   2 files changed, 5 insertions(+)
->>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
->>
->> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
->> index 16ac644..3c79be9 100644
->> --- a/meta/recipes-core/dropbear/dropbear.inc
->> +++ b/meta/recipes-core/dropbear/dropbear.inc
->> @@ -20,6 +20,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
->>              file://dropbearkey.service \
->>              file://dropbear@.service \
->>              file://dropbear.socket \
->> +           file://dropbear.default \
->>              ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
->>
->>   PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
->> @@ -63,6 +64,8 @@ do_install() {
->>                  ${D}${sbindir} \
->>                  ${D}${localstatedir}
->>
->> +       install -m 0755 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
-> 
-> Files in /etc/default don't need to be executable.
+v4:
+Tweak AM_TESTS_ENVIRONMENT to remove hardcoded paths.
 
-Thanks, I updated it to 0644 in the repo:
+---
+ .../files/add-a-target-to-compile-tests.patch | 69 +++++++++++++++++++
+ .../gstreamer/files/run-ptest                 |  3 +
+ .../gstreamer/gstreamer1.0_1.14.0.bb          | 26 ++++++-
+ 3 files changed, 96 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/files/run-ptest
 
-install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
+diff --git a/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+new file mode 100644
+index 0000000000..d02d869410
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+@@ -0,0 +1,69 @@
++From d61414bc17cf2df019510c2908048c4cabf5cf09 Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anuj.mittal@intel.com>
++Date: Tue, 27 Feb 2018 09:27:01 +0800
++Subject: [PATCH] add targets for test installation
++
++Targets to make sure tests can be installed and then run on
++the target.
++
++Upstream-Status: Inappropriate [specific to oe setup]
++
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
++---
++ tests/check/Makefile.am | 27 ++++++++++++++++++++-------
++ 1 file changed, 20 insertions(+), 7 deletions(-)
++
++diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am
++index 13b916d..a66786d 100644
++--- a/tests/check/Makefile.am
+++++ b/tests/check/Makefile.am
++@@ -8,11 +8,7 @@ REGISTRY_ENVIRONMENT = \
++ 	GST_REGISTRY=$(CHECK_REGISTRY)
++ 
++ AM_TESTS_ENVIRONMENT += \
++-        GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"	\
++-        $(REGISTRY_ENVIRONMENT)					\
++-        GST_PLUGIN_SCANNER_1_0=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner \
++-        GST_PLUGIN_SYSTEM_PATH_1_0=					\
++-        GST_PLUGIN_PATH_1_0=$(top_builddir)/plugins
+++        GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"
++ 
++ plugindir = $(libdir)/gstreamer-@GST_API_VERSION@
++ 
++@@ -178,6 +174,23 @@ noinst_PROGRAMS =
++ 
++ TESTS = $(check_PROGRAMS)
++ 
+++install-ptest: $(TESTS)
+++	@$(INSTALL) -d $(DESTDIR)
+++	@for dir in `find -maxdepth 1 -type d`; do \
+++		if [ -x $$dir/.libs ]; then \
+++			$(INSTALL) -d $(DESTDIR)/$$dir; \
+++			$(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \
+++		fi \
+++	done
+++
+++runtests:
+++	@for b in $(TESTS); do \
+++		if [ -x $$b ]; then \
+++			$(AM_TESTS_ENVIRONMENT) $(SHELL) test-driver --test-name "$$b" \
+++			--log-file $$b.log --trs-file $$b.trs $$b; \
+++		fi \
+++	done
+++
++ noinst_HEADERS = \
++ 	gst/capslist.h \
++ 	gst/struct_arm.h \
++@@ -221,9 +234,9 @@ gst_gstprintf_LDADD = \
++ 	$(LDADD)
++ 
++ elements_fdsrc_CFLAGS=$(GST_OBJ_CFLAGS) $(AM_CFLAGS) \
++-	-DTESTFILE=\"$(top_srcdir)/configure.ac\"
+++	-DTESTFILE=\"Makefile\"
++ elements_filesrc_CFLAGS=$(GST_OBJ_CFLAGS) $(AM_CFLAGS) \
++-	-DTESTFILE=\"$(top_srcdir)/configure.ac\"
+++	-DTESTFILE=\"Makefile\"
++ 
++ libs_controller_LDADD = \
++ 	$(top_builddir)/libs/gst/controller/libgstcontroller-@GST_API_VERSION@.la \
+diff --git a/meta/recipes-multimedia/gstreamer/files/run-ptest b/meta/recipes-multimedia/gstreamer/files/run-ptest
+new file mode 100644
+index 0000000000..473d0b67a7
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/files/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++make -k runtests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+index b4398c8111..e842f30c5a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.0.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPLv2+"
+ 
+ DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
+ 
+-inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc
++inherit autotools pkgconfig gettext upstream-version-is-even gobject-introspection gtk-doc ptest
+ 
+ # This way common/m4/introspection.m4 will come first
+ # (it has a custom INTROSPECTION_INIT macro, and so must be used instead of our common introspection.m4 file)
+@@ -24,11 +24,14 @@ SRC_URI = " \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+     file://gtk-doc-tweaks.patch \
+     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
++    file://add-a-target-to-compile-tests.patch \
++    file://run-ptest \
+ "
+ SRC_URI[md5sum] = "63c7cbfb86aa28c4522e374dc5555b96"
+ SRC_URI[sha256sum] = "fc361367f0d4b780a868a8833f9f30b9c9f4ac9faea4e6b251db8b4b0398466e"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
++                   "
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
+@@ -55,6 +58,7 @@ FILES_${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadi
+ 
+ RRECOMMENDS_${PN}_qemux86 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+ RRECOMMENDS_${PN}_qemux86-64 += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
++RDEPENDS_${PN}-ptest += "make"
+ 
+ delete_pkg_m4_file() {
+         # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+@@ -68,4 +72,22 @@ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs:${B}/libs/gst/base/.libs"
+ }
+ 
++do_compile_ptest() {
++        oe_runmake build-checks
++}
++
++do_install_ptest() {
++        oe_runmake -C tests/check DESTDIR=${D}${PTEST_PATH} install-ptest
++        install -m 644 ${B}/tests/check/Makefile ${D}${PTEST_PATH}
++        install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
++        sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
++            -e 's|${DEBUG_PREFIX_MAP}||g' \
++            -e 's:${HOSTTOOLS_DIR}/::g' \
++            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
++            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \-e 's/^Makefile:/_Makefile:/' \
++            -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./' \
++            -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
++            -i ${D}${PTEST_PATH}/Makefile
++}
++
+ CVE_PRODUCT = "gstreamer"
+-- 
+2.17.0
 
-// Robert
-
-> 
->> +
->>          install -m 0755 dropbearmulti ${D}${sbindir}/
->>          ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
->>
->> diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.default b/meta/recipes-core/dropbear/dropbear/dropbear.default
->> new file mode 100644
->> index 0000000..522453a
->> --- /dev/null
->> +++ b/meta/recipes-core/dropbear/dropbear/dropbear.default
->> @@ -0,0 +1,2 @@
->> +# Disallow root logins by default
->> +DROPBEAR_EXTRA_ARGS="-w"
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
