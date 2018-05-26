@@ -1,32 +1,37 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 677A374AB8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 May 2018 09:50:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 May 2018 02:50:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,443,1520924400"; d="scan'208";a="50448459"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 26 May 2018 02:50:58 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org,
-	"Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <cover.1527216285.git.liezhi.yang@windriver.com>
-	<56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <055a6008-6237-5535-61c5-60162c3e7729@linux.intel.com>
-Date: Sat, 26 May 2018 12:51:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+Return-Path: <damien.riegel@savoirfairelinux.com>
+X-Greylist: delayed 319 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 26 May 2018 12:28:01 UTC
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 3277374BF2;
+	Sat, 26 May 2018 12:28:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0106A9C2EF1;
+	Sat, 26 May 2018 08:22:43 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id v08xWmLYK_JP; Sat, 26 May 2018 08:22:42 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 568239C3016;
+	Sat, 26 May 2018 08:22:42 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id msH4ymxJxyA3; Sat, 26 May 2018 08:22:42 -0400 (EDT)
+Received: from workotop.localdomain (modemcable073.90-22-96.mc.videotron.ca
+	[96.22.90.73])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 281769C2EF1;
+	Sat, 26 May 2018 08:22:42 -0400 (EDT)
+Date: Sat, 26 May 2018 08:22:39 -0400
+From: Damien Riegel <damien.riegel@savoirfairelinux.com>
+To: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20180526122238.mlsunfugwsvtha36@workotop.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 01/24] base.bbclass: Add buildcfg multilib values
+User-Agent: NeoMutt/20180512
+Subject: Generating extensible SDK fails because of missing LAYERSERIES_CORENAMES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 May 2018 09:50:59 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 26 May 2018 12:28:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/25/2018 05:48 AM, Robert Yang wrote:
-> +def buildcfg_multilibs(d):
-> +    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-> +    for variant in variants.split():
-> +        localdata = bb.data.createCopy(d)
-> +        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
-> +        localdata.setVar("OVERRIDES", overrides)
-> +        bb.data.update_data(localdata)
-> +        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
-> +        for var in statusvars:
-> +            origvalue = d.getVar(var, True)
-> +            variantvalue = localdata.getVar(var, True)
-> +            if origvalue is not None and variantvalue is not None and origvalue != variantvalue:
-> +                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
-> +
-
-There are helper functions in utils.bbclass that take care of multilib 
-datastore setup, please use them instead of re-implementing what they 
-do. USe all_multlilib_tune_values() in particular.
+Hi,
 
 
-Alex
+When generating the extended SDK, my setup fails with the following
+error:
+
+  ERROR: Failed to generate filtered task list for extensible SDK:
+  ERROR: bitbake failed:
+  ERROR: Unable to start bitbake server
+
+I digged into the issue and found out why bitbake doesn't
+start.
+
+bitbake thinks layers are incompatible because they define
+LAYERSERIES_COMPAT but LAYERSERIES_CORENAMES is not set. So this check
+in cookerdata.py fails [1].
+
+The reason this check fails is that the core `meta` layer is not listed
+in the generated BBLAYERS, because it's treated in a special way in
+populate_sdk_ext.bbclass [2]. So as this layer is not listed in
+BBLAYERS, the compatibility check fails and bitbake cannot start.
+
+
+Shouldn't `meta` simply be added to BBLAYERS as any other layer? If not,
+what is the proper way to solve my bug?
+
+[1] https://github.com/openembedded/bitbake/blob/master/lib/bb/cookerdata.py#L397
+[2] https://github.com/openembedded/openembedded-core/blob/master/meta/classes/populate_sdk_ext.bbclass#L208
+
+Thank you,
+-- 
+Damien
 
