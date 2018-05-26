@@ -1,51 +1,32 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ot0-f171.google.com (mail-ot0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B66EC74812
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 677A374AB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 May 2018 01:18:17 +0000 (UTC)
-Received: by mail-ot0-f171.google.com with SMTP id n1-v6so7976893otf.7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2018 18:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZrC8I9zavDpA+i9S37wc+vODHB9hkWPBuDfLVNpNfSo=;
-	b=AYYezoaBmF1Dmcbq3xMdO0tHYTA0Z7RLRMzH8vpLPSUBKvo1VkDyxcYWgxjiDrZIjQ
-	C0BgS2Q+lWGVHVcV1kffrwHWwQH73Vtp+qf2W/ytAT0p1XWe8+PK6ofbRQkPOJx+4tnW
-	6EbQ+xqOwcv6ZVQHxrh9eH9weiKAgcMpkkFCuQ9o5qUnbxlcwcemN9U2Nsh1ey92oWxR
-	yz4ghRCH5LbbwFbdvJyHE/zyKl3A6NwRfRmVk7U8ZHeQRu+voAkLBkVFmMuUDal77R9w
-	WOyU4qngeVlUqJQdqxKu7NPZjDES6SFyLCE58OREULj2ua3zyZ1F7w0rfErvJrpadLmp
-	gcLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ZrC8I9zavDpA+i9S37wc+vODHB9hkWPBuDfLVNpNfSo=;
-	b=M5oOJHMt3Ao9Vb/nRuV3DD91NzbYdR9oeUrtCOJazIn8zeulwx7eoLAsd4ume+S07w
-	nJDbFvDhk+fjDC5DNDqgjBPNivl7YyJtgjhhoRSo+RYUm5Q2k2ydTaa/8yX/hX4HjVoJ
-	6Iw9AaC5Z+x1NgzxBOZtuRWgFJpQwcdGGW58eUC+TLeIgFGkq05Ra8QOHUR8qhd9DwgM
-	8bv2koqnAEFkfV4WIXzfPgcKPr8FawV6sHztnL+cKyccnmt9FM5XbSvBJq0EdQQ9+4bL
-	3mREqnA+bk/0zeT4HKcKc20OUUr/MyU7aB2niVjHZ0OA+oN4WMTER0ioolGAWRjK2qBo
-	2LcA==
-X-Gm-Message-State: ALKqPweFAhrospzyw+f2mG7nPYXGuCBliHgIqM1yHRySHQ/XXe2FVw0g
-	8isj/AVkrA6VO2JOEkH37VNxJw==
-X-Google-Smtp-Source: ADUXVKI83BLkvQHgiIjGt5po+hAf9n34p+JQfR3auyL1adyWOVKEj35O0Id+1ybua/TJ12vTlJ3xzA==
-X-Received: by 2002:a9d:5137:: with SMTP id
-	c52-v6mr2863717oth.22.1527297498439; 
-	Fri, 25 May 2018 18:18:18 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	n50-v6sm15726144otb.14.2018.05.25.18.18.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 May 2018 18:18:18 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 May 2018 18:18:08 -0700
-Message-Id: <1527297488-19530-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1527297488-19530-1-git-send-email-armccurdy@gmail.com>
-References: <1527297488-19530-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
+	Sat, 26 May 2018 09:50:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 May 2018 02:50:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,443,1520924400"; d="scan'208";a="50448459"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 26 May 2018 02:50:58 -0700
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org,
+	"Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <cover.1527216285.git.liezhi.yang@windriver.com>
+	<56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <055a6008-6237-5535-61c5-60162c3e7729@linux.intel.com>
+Date: Sat, 26 May 2018 12:51:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 01/24] base.bbclass: Add buildcfg multilib values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 May 2018 01:18:17 -0000
+X-List-Received-Date: Sat, 26 May 2018 09:50:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Previously, ASNEEDED was appended to TARGET_LDFLAGS from
-as-needed.inc via tcmode-default.inc and so may not have been enabled
-for external toolchain builds or other configurations which over-ride
-TCMODE (ie builds which do not include tcmode-default.inc).
+On 05/25/2018 05:48 AM, Robert Yang wrote:
+> +def buildcfg_multilibs(d):
+> +    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
+> +    for variant in variants.split():
+> +        localdata = bb.data.createCopy(d)
+> +        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
+> +        localdata.setVar("OVERRIDES", overrides)
+> +        bb.data.update_data(localdata)
+> +        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
+> +        for var in statusvars:
+> +            origvalue = d.getVar(var, True)
+> +            variantvalue = localdata.getVar(var, True)
+> +            if origvalue is not None and variantvalue is not None and origvalue != variantvalue:
+> +                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
+> +
 
-Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
-ensure that the optimisation is applied to all builds (and for
-consistency with the way that TARGET_LINK_HASH_STYLE is handled).
+There are helper functions in utils.bbclass that take care of multilib 
+datastore setup, please use them instead of re-implementing what they 
+do. USe all_multlilib_tune_values() in particular.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/bitbake.conf                      | 4 +++-
- meta/conf/distro/include/as-needed.inc      | 4 ----
- meta/conf/distro/include/tcmode-default.inc | 3 ---
- 3 files changed, 3 insertions(+), 8 deletions(-)
- delete mode 100644 meta/conf/distro/include/as-needed.inc
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 15f6da7..fab3dcc 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -585,8 +585,10 @@ LINKER_HASH_STYLE_mipsarch = "sysv"
- 
- TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE') != 'gnu']}"
- 
-+ASNEEDED ?= "-Wl,--as-needed"
-+
- export LDFLAGS = "${TARGET_LDFLAGS}"
--export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
-+export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
- 
- # Pass parallel make options to the compile task
- EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
-diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-deleted file mode 100644
-index b163fef..0000000
---- a/meta/conf/distro/include/as-needed.inc
-+++ /dev/null
-@@ -1,4 +0,0 @@
--
--ASNEEDED = "-Wl,--as-needed"
--
--TARGET_LDFLAGS += "${ASNEEDED}"
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 4b58df0..d85fd1e 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -65,12 +65,9 @@ PREFERRED_VERSION_glibc-initial            ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_nativesdk-glibc-initial  ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
- 
--
- PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
- PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
- PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
--# Setup suitable toolchain flags
--require conf/distro/include/as-needed.inc
- 
- GOVERSION ?= "1.9%"
- PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
--- 
-1.9.1
-
+Alex
 
