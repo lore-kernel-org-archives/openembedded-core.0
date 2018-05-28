@@ -1,30 +1,31 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C06CD6069C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 68BEF6079E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 06:54:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40431711"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 28 May 2018 14:54:38 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 141B8472400A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 14:54:35 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Mon, 28 May 2018 14:54:38 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 May 2018 18:20:58 +0800
-Message-ID: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Mon, 28 May 2018 06:58:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4S6uTOf031703
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 27 May 2018 23:57:02 -0700
+Received: from [128.224.27.69] (128.224.27.69) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Sun, 27 May 2018 23:56:12 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cover.1527216285.git.liezhi.yang@windriver.com>
+	<56d696e2a24b5ba066cbb2a02af31bb4496eaa07.1527216285.git.liezhi.yang@windriver.com>
+	<055a6008-6237-5535-61c5-60162c3e7729@linux.intel.com>
+	<7253e4cc-4ef2-522a-df37-383b98cbc81d@windriver.com>
+	<CANNYZj9BPkpwWb5HsKenfM0Qm7qAH8A2T1je6vPai0_izJ+dgQ@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <7e32adb3-b538-ba6d-b2e4-8933bda9080e@windriver.com>
+Date: Mon, 28 May 2018 14:56:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 141B8472400A.A3159
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
+In-Reply-To: <CANNYZj9BPkpwWb5HsKenfM0Qm7qAH8A2T1je6vPai0_izJ+dgQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/24] base.bbclass: Add buildcfg multilib values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,201 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 06:54:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 May 2018 06:58:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-To make dnf work on cross-development environment.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/classes/toolchain-scripts.bbclass             |  1 +
- .../nativesdk-packagegroup-sdk-host.bb             |  4 +++
- meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |  2 +-
- .../createrepo-c/createrepo-c_git.bb               |  7 ++++-
- meta/recipes-devtools/file/file_5.32.bb            |  2 ++
- meta/recipes-devtools/rpm/rpm_4.14.1.bb            | 34 ++++++++++++++++++----
- .../newt/libnewt-python_0.52.20.bb                 |  2 +-
- meta/recipes-extended/newt/libnewt_0.52.20.bb      |  2 +-
- meta/recipes-extended/slang/slang_2.3.2.bb         |  2 +-
- 9 files changed, 46 insertions(+), 10 deletions(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 71da5e5..58dd00e 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -97,6 +97,7 @@ toolchain_shared_env_script () {
- 	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
- 	echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
- 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
-+        echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
- 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
- 	echo 'export ARCH=${ARCH}' >> $script
- 	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index e2f6169..1370a82 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -25,6 +25,10 @@ RDEPENDS_${PN} = "\
-     nativesdk-cmake \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
-     nativesdk-sdk-provides-dummy \
-+    nativesdk-libnewt-python \
-+    nativesdk-createrepo-c \
-+    nativesdk-gpgme \
-+    nativesdk-update-rc.d \
-     "
- 
- RDEPENDS_${PN}_darwin = "\
-diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-index 76d4312..d3d3e2f 100644
---- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-+++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
-@@ -30,4 +30,4 @@ do_install() {
- 	install -m 0755 ${S}/update-rc.d ${D}${sbindir}/update-rc.d
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-index 3176136..9be9f9e 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
-@@ -21,7 +21,7 @@ inherit cmake pkgconfig bash-completion distutils3-base
- 
- EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Direct createrepo to read rpm configuration from our sysroot, not the one it was compiled in
- do_install_append_class-native() {
-@@ -29,3 +29,8 @@ do_install_append_class-native() {
-                 RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm
- }
- 
-+do_install_append_class-nativesdk() {
-+        create_wrapper ${D}/${bindir}/createrepo_c \
-+                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm
-+        rm -rf ${D}/etc
-+}
-diff --git a/meta/recipes-devtools/file/file_5.32.bb b/meta/recipes-devtools/file/file_5.32.bb
-index 5e15925..9b13261 100644
---- a/meta/recipes-devtools/file/file_5.32.bb
-+++ b/meta/recipes-devtools/file/file_5.32.bb
-@@ -43,6 +43,8 @@ do_install_append_class-nativesdk() {
- 
- BBCLASSEXTEND = "native nativesdk"
- PROVIDES_append_class-native = " file-replacement-native"
-+PROVIDES_append_class-nativesdk = " file-replacement-nativesdk"
+On 05/28/2018 01:23 PM, Alexander Kanavin wrote:
+> 2018-05-28 6:24 GMT+03:00 Robert Yang <liezhi.yang@windriver.com>:
+> 
+>> Thanks for the reply, but I'm afraid that all_multlilib_tune_values() isn't
+>> suitable for this case, what need to display is something like:
+>>
+>> lib32:  DEFAULTTUNE       = "x86"
+>> lib32:  TARGET_SYS        = "i686-pokymllib32-linux"
+>> lib32:  TUNE_FEATURES     = "m32"
+>>
+>> But all_multlilib_tune_values() returns all values, e.g:
+>>
+>> DEFAULTTUNE       = "core2-64 x86"
+> 
+> That's right, but you should still use get_multilib_datastore()
+> instead of setting up localdata manually
+
+Thanks, make sense, updated in the repo:
+
++def buildcfg_multilibs(d):
++    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
++    for variant in variants.split():
++        localdata = get_multilib_datastore(variant, d)
++        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
++        for var in statusvars:
++            origvalue = d.getVar(var, True)
++            variantvalue = localdata.getVar(var, True)
++            if origvalue and variantvalue and origvalue != variantvalue:
++                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
 +
- # Don't use NATIVE_PACKAGE_PATH_SUFFIX as that hides libmagic from anyone who
- # depends on file-replacement-native.
- bindir_append_class-native = "/file-native"
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index d49530e..abcad9f 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -50,6 +50,7 @@ S = "${WORKDIR}/git"
- 
- DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
- DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
-+DEPENDS_append_class-nativesdk = " file-replacement-nativesdk"
- 
- inherit autotools gettext pkgconfig python3native
- export PYTHON_ABI
-@@ -67,6 +68,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
- # Disable dbus for native, so that rpm doesn't attempt to inhibit shutdown via session dbus even when plugins support is enabled.
- # Also disable plugins by default for native.
- EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --without-dbus --disable-plugins"
-+EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --localstatedir=/var --without-dbus --disable-plugins"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
-@@ -77,7 +79,18 @@ ASNEEDED = ""
- 
- # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
- # libmagic also has sysroot path contamination, so override it
--do_install_append_class-native() {
-+add_native_or_sdk_wrapper(){
-+        if [ "$1" = "nativesdk" ]; then
-+                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm
-+                RPM_ETCCONFIGDIR=${SDKPATHNATIVE}
-+                MAGIC=${SDKPATHNATIVE}${datadir_native}/misc/magic.mgc
-+
-+        else
-+                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm
-+                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
-+                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc
-+        fi
-+
-         tools="\
-                 ${bindir}/rpm \
-                 ${bindir}/rpm2archive \
-@@ -93,16 +106,27 @@ do_install_append_class-native() {
- 
-         for tool in $tools; do
-                 create_wrapper ${D}$tool \
--                        RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
--                        RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
--                        MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
-+                        RPM_CONFIGDIR=${RPM_CONFIGDIR} \
-+                        RPM_ETCCONFIGDIR=${RPM_ETCCONFIGDIR} \
-+                        MAGIC=${MAGIC} \
-                         RPM_NO_CHROOT_FOR_SCRIPTS=1
-         done
- }
- 
-+do_install_append_class-native() {
-+       add_native_or_sdk_wrapper "native"
-+}
-+do_install_append_class-nativesdk() {
-+       add_native_or_sdk_wrapper "nativesdk"
-+}
-+
- # Rpm's make install creates var/tmp which clashes with base-files packaging
- do_install_append_class-target() {
--    rm -rf ${D}/var
-+       rm -rf ${D}/var
-+}
-+
-+do_install_append_class-nativesdk() {
-+       rm -rf ${D}/var
- }
- 
- do_install_append () {
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
-index 20369ef..433d184 100644
---- a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
-+++ b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
-@@ -25,4 +25,4 @@ PACKAGES_remove = "whiptail"
- 
- FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.20.bb b/meta/recipes-extended/newt/libnewt_0.52.20.bb
-index 65ce70c..264ef3b 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.20.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.20.bb
-@@ -51,4 +51,4 @@ do_compile_prepend() {
- 
- FILES_whiptail = "${bindir}/whiptail"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/slang/slang_2.3.2.bb b/meta/recipes-extended/slang/slang_2.3.2.bb
-index 87fd41a..e53c432 100644
---- a/meta/recipes-extended/slang/slang_2.3.2.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.2.bb
-@@ -78,4 +78,4 @@ FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
- PARALLEL_MAKE = ""
- PARALLEL_MAKEINST = ""
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.7.4
 
+// Robert
 
-
+> 
+> Alex
+> 
 
