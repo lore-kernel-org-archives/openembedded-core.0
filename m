@@ -1,43 +1,30 @@
-Return-Path: <ishitsuka.sc@ncos.nec.co.jp>
-X-Greylist: delayed 818 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 28 May 2018 06:41:42 UTC
-Received: from tyo161.gate.nec.co.jp (tyo161.gate.nec.co.jp [114.179.232.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E03B747E3
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 06:41:42 +0000 (UTC)
-Received: from mailgate01.nec.co.jp ([114.179.233.122])
-	by tyo161.gate.nec.co.jp (8.15.1/8.15.1) with ESMTPS id w4S6S4QB020403
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 15:28:04 +0900
-Received: from mailsv02.nec.co.jp (mailgate-v.nec.co.jp [10.204.236.94])
-	by mailgate01.nec.co.jp (8.15.1/8.15.1) with ESMTP id w4S6S4N0031125
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 15:28:04 +0900
-Received: from mail01b.kamome.nec.co.jp (mail01b.kamome.nec.co.jp [10.25.43.2])
-	by mailsv02.nec.co.jp (8.15.1/8.15.1) with ESMTP id w4S6QGpE016238
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 15:28:04 +0900
-Received: from bpxc99gp.gisp.nec.co.jp ([10.38.151.142] [10.38.151.142]) by
-	mail03.kamome.nec.co.jp with ESMTP id BT-MMP-757109;
-	Mon, 28 May 2018 15:27:08 +0900
-Received: from BPXM17GP.gisp.nec.co.jp ([10.38.151.209]) by
-	BPXC14GP.gisp.nec.co.jp ([10.38.151.142]) with mapi id 14.03.0319.002;
-	Mon, 28 May 2018 15:27:08 +0900
-From: Seiichi Ishitsuka <ishitsuka.sc@ncos.nec.co.jp>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] telnetd:Fix deadlock on cleanup
-Thread-Index: AdP2S72BtbjSe1hGRA+y3gxwx+00Zw==
-Date: Mon, 28 May 2018 06:27:07 +0000
-Message-ID: <D3AF589C68C3694A8188BC776DB93B48A2F26982@BPXM17GP.gisp.nec.co.jp>
-Accept-Language: ja-JP, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.27.178.67]
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C06CD6069C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 May 2018 06:54:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40431711"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 28 May 2018 14:54:38 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 141B8472400A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 May 2018 14:54:35 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Mon, 28 May 2018 14:54:38 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 May 2018 18:20:58 +0800
+Message-ID: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-TM-AS-MML: disable
-Subject: [PATCH] telnetd:Fix deadlock on cleanup
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 141B8472400A.A3159
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,115 +37,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 06:41:43 -0000
-X-Groupsio-MsgNum: 111783
-Content-Language: ja-JP
-Content-Type: multipart/mixed;
-	boundary="_002_D3AF589C68C3694A8188BC776DB93B48A2F26982BPXM17GPgispnec_"
+X-List-Received-Date: Mon, 28 May 2018 06:54:40 -0000
+Content-Type: text/plain
 
---_002_D3AF589C68C3694A8188BC776DB93B48A2F26982BPXM17GPgispnec_
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+To make dnf work on cross-development environment.
 
-Hi all,
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/classes/toolchain-scripts.bbclass             |  1 +
+ .../nativesdk-packagegroup-sdk-host.bb             |  4 +++
+ meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |  2 +-
+ .../createrepo-c/createrepo-c_git.bb               |  7 ++++-
+ meta/recipes-devtools/file/file_5.32.bb            |  2 ++
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb            | 34 ++++++++++++++++++----
+ .../newt/libnewt-python_0.52.20.bb                 |  2 +-
+ meta/recipes-extended/newt/libnewt_0.52.20.bb      |  2 +-
+ meta/recipes-extended/slang/slang_2.3.2.bb         |  2 +-
+ 9 files changed, 46 insertions(+), 10 deletions(-)
 
-I was able to reproduce the old problems shown below with netkit-telnet_0.1=
-7.bb.
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 71da5e5..58dd00e 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -97,6 +97,7 @@ toolchain_shared_env_script () {
+ 	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
+ 	echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
+ 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
++        echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
+ 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
+ 	echo 'export ARCH=${ARCH}' >> $script
+ 	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index e2f6169..1370a82 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -25,6 +25,10 @@ RDEPENDS_${PN} = "\
+     nativesdk-cmake \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-wayland', '', d)} \
+     nativesdk-sdk-provides-dummy \
++    nativesdk-libnewt-python \
++    nativesdk-createrepo-c \
++    nativesdk-gpgme \
++    nativesdk-update-rc.d \
+     "
+ 
+ RDEPENDS_${PN}_darwin = "\
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+index 76d4312..d3d3e2f 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb
+@@ -30,4 +30,4 @@ do_install() {
+ 	install -m 0755 ${S}/update-rc.d ${D}${sbindir}/update-rc.d
+ }
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
+index 3176136..9be9f9e 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
+@@ -21,7 +21,7 @@ inherit cmake pkgconfig bash-completion distutils3-base
+ 
+ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ # Direct createrepo to read rpm configuration from our sysroot, not the one it was compiled in
+ do_install_append_class-native() {
+@@ -29,3 +29,8 @@ do_install_append_class-native() {
+                 RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm
+ }
+ 
++do_install_append_class-nativesdk() {
++        create_wrapper ${D}/${bindir}/createrepo_c \
++                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm
++        rm -rf ${D}/etc
++}
+diff --git a/meta/recipes-devtools/file/file_5.32.bb b/meta/recipes-devtools/file/file_5.32.bb
+index 5e15925..9b13261 100644
+--- a/meta/recipes-devtools/file/file_5.32.bb
++++ b/meta/recipes-devtools/file/file_5.32.bb
+@@ -43,6 +43,8 @@ do_install_append_class-nativesdk() {
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ PROVIDES_append_class-native = " file-replacement-native"
++PROVIDES_append_class-nativesdk = " file-replacement-nativesdk"
++
+ # Don't use NATIVE_PACKAGE_PATH_SUFFIX as that hides libmagic from anyone who
+ # depends on file-replacement-native.
+ bindir_append_class-native = "/file-native"
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+index d49530e..abcad9f 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
+@@ -50,6 +50,7 @@ S = "${WORKDIR}/git"
+ 
+ DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
+ DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
++DEPENDS_append_class-nativesdk = " file-replacement-nativesdk"
+ 
+ inherit autotools gettext pkgconfig python3native
+ export PYTHON_ABI
+@@ -67,6 +68,7 @@ EXTRA_OECONF_append_libc-musl = " --disable-nls"
+ # Disable dbus for native, so that rpm doesn't attempt to inhibit shutdown via session dbus even when plugins support is enabled.
+ # Also disable plugins by default for native.
+ EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --without-dbus --disable-plugins"
++EXTRA_OECONF_append_class-nativesdk = " --sysconfdir=/etc --localstatedir=/var --without-dbus --disable-plugins"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+@@ -77,7 +79,18 @@ ASNEEDED = ""
+ 
+ # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
+ # libmagic also has sysroot path contamination, so override it
+-do_install_append_class-native() {
++add_native_or_sdk_wrapper(){
++        if [ "$1" = "nativesdk" ]; then
++                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm
++                RPM_ETCCONFIGDIR=${SDKPATHNATIVE}
++                MAGIC=${SDKPATHNATIVE}${datadir_native}/misc/magic.mgc
++
++        else
++                RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm
++                RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE}
++                MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc
++        fi
++
+         tools="\
+                 ${bindir}/rpm \
+                 ${bindir}/rpm2archive \
+@@ -93,16 +106,27 @@ do_install_append_class-native() {
+ 
+         for tool in $tools; do
+                 create_wrapper ${D}$tool \
+-                        RPM_CONFIGDIR=${STAGING_LIBDIR_NATIVE}/rpm \
+-                        RPM_ETCCONFIGDIR=${STAGING_DIR_NATIVE} \
+-                        MAGIC=${STAGING_DIR_NATIVE}${datadir_native}/misc/magic.mgc \
++                        RPM_CONFIGDIR=${RPM_CONFIGDIR} \
++                        RPM_ETCCONFIGDIR=${RPM_ETCCONFIGDIR} \
++                        MAGIC=${MAGIC} \
+                         RPM_NO_CHROOT_FOR_SCRIPTS=1
+         done
+ }
+ 
++do_install_append_class-native() {
++       add_native_or_sdk_wrapper "native"
++}
++do_install_append_class-nativesdk() {
++       add_native_or_sdk_wrapper "nativesdk"
++}
++
+ # Rpm's make install creates var/tmp which clashes with base-files packaging
+ do_install_append_class-target() {
+-    rm -rf ${D}/var
++       rm -rf ${D}/var
++}
++
++do_install_append_class-nativesdk() {
++       rm -rf ${D}/var
+ }
+ 
+ do_install_append () {
+diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
+index 20369ef..433d184 100644
+--- a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
++++ b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
+@@ -25,4 +25,4 @@ PACKAGES_remove = "whiptail"
+ 
+ FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.20.bb b/meta/recipes-extended/newt/libnewt_0.52.20.bb
+index 65ce70c..264ef3b 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.20.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.20.bb
+@@ -51,4 +51,4 @@ do_compile_prepend() {
+ 
+ FILES_whiptail = "${bindir}/whiptail"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/slang/slang_2.3.2.bb b/meta/recipes-extended/slang/slang_2.3.2.bb
+index 87fd41a..e53c432 100644
+--- a/meta/recipes-extended/slang/slang_2.3.2.bb
++++ b/meta/recipes-extended/slang/slang_2.3.2.bb
+@@ -78,4 +78,4 @@ FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+ PARALLEL_MAKE = ""
+ PARALLEL_MAKEINST = ""
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.7.4
 
-https://patchwork.openembedded.org/patch/96727/
-https://bugs.launchpad.net/ubuntu/+source/netkit-telnet/+bug/507455
-
-The evaluated environment is,
- glibc  :2.2=20
- kernel :4.4.32
-
-How to reproduce:
-
-Run the script more than once in the background, and
-please adjust CPU usage to 100%.
-
-#!/bin/sh
-
-HOST=3D"host.target"
-USER=3D"root"
-PASS=3D"password"
-
-while :
-  do
-  expect -c "
-  set timeout 10
-  spawn telnet $HOST
-  expect login:\  ; send \"$USER\r\"
-  expect sword:\  ; send \"$PASS\r\"
-  expect \"# \" ; send \"exit\r\"
-  " > /dev/null
-  done
 
 
-Best regards,
-Seiichi Ishitsuka
 
---_002_D3AF589C68C3694A8188BC776DB93B48A2F26982BPXM17GPgispnec_
-Content-Type: application/octet-stream;
-	name="0001-telnetd-Fix-deadlock-on-cleanup.patch"
-Content-Description: 0001-telnetd-Fix-deadlock-on-cleanup.patch
-Content-Disposition: attachment;
-	filename="0001-telnetd-Fix-deadlock-on-cleanup.patch"; size=2957;
-	creation-date="Mon, 28 May 2018 06:21:04 GMT";
-	modification-date="Mon, 28 May 2018 06:20:31 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSBjZGY4ODI5Zjc0M2FkYjNlYzcyYzIzMWVlNTg0M2RhYmVkOTFiMzBmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTZWlpY2hpIElzaGl0c3VrYSA8aXNoaXRzdWthLnNjQG5jb3Mu
-bmVjLmNvLmpwPgpEYXRlOiBUdWUsIDggTWF5IDIwMTggMDk6NTM6MzQgKzA5MDAKU3ViamVjdDog
-W1BBVENIXSB0ZWxuZXRkOkZpeCBkZWFkbG9jayBvbiBjbGVhbnVwCgp0aGUgcGF0Y2ggY29tZXMg
-ZnJvbToKaHR0cHM6Ly9sYXVuY2hwYWRsaWJyYXJpYW4ubmV0LzM3ODgyOTczLzAwMDEtdGVsbmV0
-ZC1GaXgtZGVhZGxvY2stb24tY2xlYW51cC5wYXRjaAoKVGhlIGNsZWFudXAgZnVuY3Rpb24gaW4g
-dGVsbmV0ZCBpcyBjYWxsZWQgYm90aCBkaXJlY3RseSBhbmQgb24gU0lHQ0hMRApzaWduYWxzLiBU
-aGlzLCB1bmZvcnR1bmF0ZWx5LCB0cmlnZ2VyZWQgYSBkZWFkbG9jayBpbiBnbGliYyAyLjIgd2hp
-bGUKcnVubmluZyBvbiBhIDQuNC4zMiBrZXJuZWwuCgpXaGF0IHdlIHdlcmUgc2VlaW5nIGlzIGhh
-bmdzIGxpa2UgdGhlc2U6CgooZ2RiKSBidAogIzAgIDB4NDg5ZmVlNmMgaW4gX19sbGxfbG9ja193
-YWl0X3ByaXZhdGUgKGZ1dGV4PTB4NDhhNWU5YTQgPF9fbGliY191dG1wX2xvY2s+KSBhdCAuL2xv
-d2xldmVsbG9jay5jOjMzCiAjMSAgMHg0OGEyNzkzNCBpbiBfX3V0bXBuYW1lIChmaWxlPTB4NDhh
-YzEyNzggIi92YXIvcnVuL3V0bXAiKSBhdCB1dG1wbmFtZS5jOjQyCiAjMiAgMHg0OGFjMGVjMCBp
-biBsb2dvdXQgKGxpbmU9MHgyN2U5ZCAicHRzLzExIikgYXQgbG9nb3V0LmM6MzIKCkhvdyB0byBy
-ZXByb2R1Y2U6CgpSdW4gdGhlIHNjcmlwdCBtb3JlIHRoYW4gb25jZSBpbiB0aGUgYmFja2dyb3Vu
-ZC4KCiAjIS9iaW4vc2gKCiBIT1NUPSJob3N0LnRhcmdldCIKIFVTRVI9InJvb3QiCiBQQVNTPSJw
-YXNzd29yZCIKCiB3aGlsZSA6CiBkbwogICBleHBlY3QgLWMgIgogICBzZXQgdGltZW91dCAxMAog
-ICBzcGF3biB0ZWxuZXQgJEhPU1QKICAgZXhwZWN0IGxvZ2luOlwgIDsgc2VuZCBcIiRVU0VSXHJc
-IgogICBleHBlY3Qgc3dvcmQ6XCAgOyBzZW5kIFwiJFBBU1NcclwiCiAgIGV4cGVjdCBcIiMgXCIg
-OyBzZW5kIFwiZXhpdFxyXCIKICIgPiAvZGV2L251bGwKIGRvbmUKClNpZ25lZC1vZmYtYnk6IFNl
-aWljaGkgSXNoaXRzdWthIDxpc2hpdHN1a2Euc2NAbmNvcy5uZWMuY28uanA+Ci0tLQogdGVsbmV0
-ZC9leHQuaCAgICAgIHwgIDEgKwogdGVsbmV0ZC9zeXNfdGVybS5jIHwgMTcgKysrKysrKysrKysr
-KysrKy0KIHRlbG5ldGQvdGVsbmV0ZC5jICB8ICAyICstCiAzIGZpbGVzIGNoYW5nZWQsIDE4IGlu
-c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdGVsbmV0ZC9leHQuaCBi
-L3RlbG5ldGQvZXh0LmgKaW5kZXggYjk4ZDZlYy4uMDhmOWQwNyAxMDA2NDQKLS0tIGEvdGVsbmV0
-ZC9leHQuaAorKysgYi90ZWxuZXRkL2V4dC5oCkBAIC05Nyw2ICs5Nyw3IEBAIHZvaWQgYWRkX3Ns
-YyhpbnQsIGludCwgaW50KTsKIHZvaWQgY2hlY2tfc2xjKHZvaWQpOwogdm9pZCBjaGFuZ2Vfc2xj
-KGludCwgaW50LCBpbnQpOwogdm9pZCBjbGVhbnVwKGludCk7Cit2b2lkIGNsZWFudXBfc2lnaGFu
-ZGxlcihpbnQpOwogdm9pZCBjbGllbnRzdGF0KGludCwgaW50LCBpbnQpOwogdm9pZCBjb3B5X3Rl
-cm1idWYoY2hhciAqLCBpbnQpOwogdm9pZCBkZWZlcnNsYyh2b2lkKTsKZGlmZiAtLWdpdCBhL3Rl
-bG5ldGQvc3lzX3Rlcm0uYyBiL3RlbG5ldGQvc3lzX3Rlcm0uYwppbmRleCA1YjRhYTg0Li5jNGZi
-MGY3IDEwMDY0NAotLS0gYS90ZWxuZXRkL3N5c190ZXJtLmMKKysrIGIvdGVsbmV0ZC9zeXNfdGVy
-bS5jCkBAIC03MTksNyArNzE5LDcgQEAgc3RhdGljIHZvaWQgYWRkYXJnKHN0cnVjdCBhcmd2X3N0
-dWZmICphdnMsIGNvbnN0IGNoYXIgKnZhbCkgewogICogVGhpcyBpcyB0aGUgcm91dGluZSB0byBj
-YWxsIHdoZW4gd2UgYXJlIGFsbCB0aHJvdWdoLCB0bwogICogY2xlYW4gdXAgYW55dGhpbmcgdGhh
-dCBuZWVkcyB0byBiZSBjbGVhbmVkIHVwLgogICovCi12b2lkIGNsZWFudXAoaW50IHNpZykgewor
-dm9pZCBjbGVhbnVwX3NpZ2hhbmRsZXIoaW50IHNpZykgewogICAgIGNoYXIgKnA7CiAgICAgKHZv
-aWQpc2lnOwogCkBAIC03NDIsMyArNzQyLDE4IEBAIHZvaWQgY2xlYW51cChpbnQgc2lnKSB7CiAg
-ICAgc2h1dGRvd24obmV0LCAyKTsKICAgICBleGl0KDApOwogfQorCit2b2lkIGNsZWFudXAoaW50
-IHNpZykgeworICAgIHNpZ3NldF90IG1hc2ssIG9sZG1hc2s7CisKKyAgICAvKiBTZXQgdXAgdGhl
-IG1hc2sgb2Ygc2lnbmFscyB0byB0ZW1wb3JhcmlseSBibG9jay4gKi8KKyAgICBzaWdlbXB0eXNl
-dCAoJm1hc2spOworICAgIHNpZ2FkZHNldCAoJm1hc2ssIFNJR0NITEQpOworCisgICAgLyogQmxv
-Y2sgU0lHQ0hMRCB3aGlsZSBydW5uaW5nIGNsZWFudXAgKi8KKyAgICBzaWdwcm9jbWFzayAoU0lH
-X0JMT0NLLCAmbWFzaywgJm9sZG1hc2spOworCisgICAgY2xlYW51cF9zaWdoYW5kbGVyKHNpZyk7
-CisgICAgLyogVGVjaG5pY2FsbHkgbm90IG5lZWRlZCBzaW5jZSBjbGVhbnVwX3NpZ2hhbmRsZXIg
-ZXhpdHMgKi8KKyAgICBzaWdwcm9jbWFzayAoU0lHX1VOQkxPQ0ssICZtYXNrLCBOVUxMKTsKK30K
-ZGlmZiAtLWdpdCBhL3RlbG5ldGQvdGVsbmV0ZC5jIGIvdGVsbmV0ZC90ZWxuZXRkLmMKaW5kZXgg
-OWFjZTgzOC4uNzg4OTE5YyAxMDA2NDQKLS0tIGEvdGVsbmV0ZC90ZWxuZXRkLmMKKysrIGIvdGVs
-bmV0ZC90ZWxuZXRkLmMKQEAgLTgzMyw3ICs4MzMsNyBAQCB2b2lkIHRlbG5ldChpbnQgZiwgaW50
-IHApCiAgICAgc2lnbmFsKFNJR1RUT1UsIFNJR19JR04pOwogI2VuZGlmCiAgICAgCi0gICAgc2ln
-bmFsKFNJR0NITEQsIGNsZWFudXApOworICAgIHNpZ25hbChTSUdDSExELCBjbGVhbnVwX3NpZ2hh
-bmRsZXIpOwogICAgIAogI2lmZGVmIFRJT0NOT1RUWQogICAgIHsKLS0gCjIuNi40Cgo=
-
---_002_D3AF589C68C3694A8188BC776DB93B48A2F26982BPXM17GPgispnec_--
