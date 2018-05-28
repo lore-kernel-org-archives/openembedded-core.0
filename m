@@ -1,24 +1,48 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97CDE6079F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CD89372002
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 13:38:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4SDcLFE008845
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 28 May 2018 13:50:58 +0000 (UTC)
+Received: by mail-ot0-f181.google.com with SMTP id t1-v6so13517858ott.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 06:38:42 -0700
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 28 May 2018 06:38:11 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 May 2018 09:38:06 -0400
-Message-ID: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 28 May 2018 06:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Mpw2eEBCbtA8L3M1qAw71/7up/2Z2yAz5VkU8uqc9dg=;
+	b=CVxGhUqMVrW3CjmgUFBkth79/gSzvBj+yBO1SFNhnnx52DSJqG5fWkr6iHg0F5Mcl5
+	5vuc2+cgYsvnl+IXgvh2QjkyUomPOYgkV7nu6oNpUUfdCs5febiNgoVyCMZA3A1hH1om
+	OscZPO2zlqE8lyfMHozH7Jmx6uJ1i09QaTzyWt7hHXHraMxqdiEPevu2IG/JxSN+hu6s
+	H3pl1uTsV6NVFY0WXQ96ZLPmpxx2iR2/rsiJZgx4ToMv3WVrW5auy1dbu5VaSWvz81NA
+	nTEsLm6Ty8BqHZVhSIV/cuWXGGzveZiG2q0/9lKun9kzZ9kP/BoJ3b9+o5AjAMOKSy1H
+	mWBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Mpw2eEBCbtA8L3M1qAw71/7up/2Z2yAz5VkU8uqc9dg=;
+	b=HVcU+sXwDmXCCGsZwScetF4nbUYoYwL7Z7nnZarDM+QoVF4nBNgUyMeOldWPZJaWf6
+	ECpAtGPFvIYm9YB/zW5xyQkZr8q2vxVhGPmsuh8BCdMUURscE/srW9GywGC89NfzJ5AF
+	KM5427t3L9irXxpFEZu1wo430C3FuHIFZ/MO49CHxh3N5DF2BE/QigcCZDWAe/ymEhVL
+	znL1xUPDvCmnDXhqw8bxvwu691bHsJ+BpHtB8nfmafKCqHjP+xDR1Jfp1FhCD+JfROPQ
+	C+1p2cuCUBVZ3UHdXw/WE1WqT8t0BS03R2Q1A/R7UsL8kGqA/io076JNsaY9F/zo2dKK
+	caHA==
+X-Gm-Message-State: ALKqPwdB5W4bTwnIRK2RYRPMpK/t0KsvQSCuinu//SoI2wILpQdwl3Ps
+	0A9xoJWQDoirBeFoJYu3VvRMx9u1sE4IMwTiJxE=
+X-Google-Smtp-Source: ADUXVKKBhUQDUg5nvMl0WfE4NRPmiXJHCAamaZrnEH1rCAF5oO+R7BYqJDIQjiYqMa4U0EPwTM/JIiaBiQ+neu6/GBE=
+X-Received: by 2002:a9d:cd:: with SMTP id 13-v6mr7945817otk.155.1527515459451; 
+	Mon, 28 May 2018 06:50:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] recipe_links.bbclass: introduction
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Mon, 28 May 2018 06:50:59
+	-0700 (PDT)
+In-Reply-To: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
+References: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 May 2018 16:50:59 +0300
+Message-ID: <CANNYZj9-6cXUBtrrrVTUgj=qYsJTQ6JGTZdYydXJBRX+gUQQCg@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] recipe_links.bbclass: introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,142 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 13:38:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 May 2018 13:50:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This is a new class which can be used (for example via USER_CLASSES in
-local.conf) to make your build more development friendly. When
-included this class will create symlinks to the various bb and
-bbappend files in WORKDIR.
+2018-05-28 16:38 GMT+03:00 Mark Asselstine <mark.asselstine@windriver.com>:
+> This is a new class which can be used (for example via USER_CLASSES in
+> local.conf) to make your build more development friendly. When
+> included this class will create symlinks to the various bb and
+> bbappend files in WORKDIR.
 
-Normally when you are debugging or extending a package's recipe files
-a developer will employ one of a few indirect techniques to determine
-where bb and bbappends files associated with a recipe exist. For
-example they might use bitbake-layers show-recipes or similar, or
-simply rely on their experience to guide them. Even after working with
-openembedded for serveral years now I find these techniques tedious
-and time consuming, and sometimes even hit and miss.
+I do think this is a great idea, I only want to ask, how well this
+integrates with devtool workflows?
+Particularly, 'devtool add/modify/upgrade' do their own recipe copying
+and manipulation, so we should make sure this does not increase the
+confusion.
 
-Since the whereabouts of these files are already stored in various
-files at parse time we can create symlinks to simplify the task of
-finding these files, making them available in WORKDIR for easy
-inpsection and in a convenient location if using devshel for instance.
-
-For now this work is completely optional but we could conceivable make
-this the default behavior if folks find it is convenient and the cost
-of performing these operations across all builds is minimal enough.
-
-recipe_links can safely be added to USER_CLASSES for existing builds,
-care has been taken to avoid this action causing anything to be
-rebuilt. After this has been added you can either 'bitbake <recipe> -C
-unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
-links to be created in the WORKDIR for the specified recipe.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- meta/classes/recipe_links.bbclass | 79 +++++++++++++++++++++++++++++++++++++++
- meta/conf/documentation.conf      |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/classes/recipe_links.bbclass
-
-diff --git a/meta/classes/recipe_links.bbclass b/meta/classes/recipe_links.bbclass
-new file mode 100644
-index 0000000..ea97605
---- /dev/null
-+++ b/meta/classes/recipe_links.bbclass
-@@ -0,0 +1,79 @@
-+# Create symlink in WORKDIR to the various bb and
-+# bbappend files used to define the package ops
-+
-+# Create a symlink given src and dst paths
-+def create_link(d, src, dst):
-+    if os.path.islink(dst):
-+        try:
-+            os.unlink(dst)
-+        except OSError as err:
-+            bb.error("  Failed to cleanup old link %s: %s"
-+                         % (os.path.basename(dst), os.strerror(err.errno)))
-+            return False
-+
-+
-+    try:
-+        os.symlink(src, dst)
-+    except OSError as err:
-+        bb.error("  Failed to create file link for %s: %s"
-+                     % (src, os.strerror(err.errno)))
-+        return False
-+
-+    return True
-+
-+# Ensure the work is scheduled. We do this as a func
-+# to avoid sig changes causing things to be rebuilt
-+# when the class is added/removed after the fact.
-+do_unpack[postfuncs] += "create_recipe_links "
-+do_unpack[vardepsexclude] += "create_recipe_links "
-+python create_recipe_links() {
-+    import re
-+    import glob
-+
-+    workdir = d.getVar('WORKDIR')
-+
-+    # Main recipe file
-+    bb.note("Add main recipe file link:")
-+    bb_path = d.getVar('FILE')
-+    bb_filename = os.path.basename(bb_path)
-+    bb_destname = "%s/%s" % (workdir, bb_filename)
-+    bb.note("  Linking %s" % bb_path)
-+    if not create_link(d, bb_path, bb_destname):
-+        return False
-+
-+    # Cleanup old bbappends links
-+    bb.note("Removing old bbappend links:")
-+    pn = d.getVar('PN')
-+    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
-+    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
-+    for filename in files:
-+        bb.note("  Removing: %s" % filename)
-+        try:
-+            os.unlink(filename)
-+        except OSError as err:
-+            bb.error("  Failed to cleanup old link %s: %s" %
-+                         (os.path.basename(filename), os.strerror(err.errno)))
-+            return False
-+
-+    # Add bbappends links
-+    bb.note("Adding bbappend links:")
-+    included_files = d.getVar('BBINCLUDED').split()
-+    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" % re.escape(pn))
-+    for filename in included_files:
-+        if bbappend_re.match(filename):
-+            bb.note("  Linking %s" % filename)
-+            destname = "00_%s" % (os.path.basename(filename))
-+            while os.path.exists("%s/%s" % (workdir, destname)):
-+                 destname = str(int(destname[:2]) + 1).zfill(2) + destname[2:]
-+            if not create_link(d, filename, "%s/%s" % (workdir, destname)):
-+                return False
-+
-+    return True
-+}
-+
-+# In addition to the func we want to make things able to be (re)run
-+# easily by the user so ensure it is available as a task.
-+addtask do_create_recipe_links
-+python do_create_recipe_links() {
-+    bb.build.exec_func("create_recipe_links", d)
-+}
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 254f8f1..2f6e686 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -21,6 +21,7 @@ do_devpyshell[doc] = "Starts an interactive Python shell for development/debuggi
- do_devshell[doc] = "Starts a shell with the environment set up for development/debugging"
- do_diffconfig[doc] = "Compares the old and new config files after running do_menuconfig for the kernel"
- do_fetch[doc] = "Fetches the source code"
-+do_create_recipe_links[doc] = "Creates links to bb and bbappend files in a package's WORKDIR"
- do_install[doc] = "Copies files from the compilation directory to a holding area"
- do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
- do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
--- 
-2.7.4
-
+Alex
 
