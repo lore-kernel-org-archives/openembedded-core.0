@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B25CE745A7
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 15B8B6025E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 14:19:33 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id w19-v6so7292149plq.4
+	Mon, 28 May 2018 14:25:27 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id d14-v6so5349002pgv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 07:19:34 -0700 (PDT)
+	Mon, 28 May 2018 07:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=soXQAguVQZvgJuWfqN9DwTv4mJmNipYI3hrYGLzmM/k=;
-	b=gpK5PAwsTD0xJrBGyswqTjGUmqAlYycTsKGHdCksupUKodYPlt/SMVUBZBH/Sjf9wq
-	TSK1eZLlaSc3QiMpmhwlsg30ZSV9OFinemeGQBcYY2i8zKWsdKe5TXjLqcq8hrVNS/Ks
-	DspRVMENBbOYNzMeKcrf7OFrr6t3CiB3XUCLfiNlna9ZEGH+wTdHJh+40dYQ5BivcuUG
-	9D0lfXKLDLIpR04WEUi9aYOpUKqW7RExm7BzfNHNLG7pz569a5I6yg0sqOfALF+rn9NI
-	LZAtX3zcXk9Wxm3S4NowCEC8kp2cnuqUaBFxQoL1dBJQPhSA/yKJzsHK6UalZ2jOfNpf
-	mv0g==
+	bh=PPKGwrdaEEVlsVqjdobRwOI7OcqzhTejs9roZdJokc0=;
+	b=rEgGZ/dUjzS3l9zj2w9iI3Im5hGW0T0JfKIlj0yQsXgynctyhYhqn8NjVEsXNUFGRN
+	ynnXjbaRM2K+/4a9mMoRxtkegPrKz06ZXDDp6N8WYDF1WGn836wurz8udLH4W+V7uBqN
+	g/X4RG4hIVtGijHHWuspfxW50v0iH14LmPpIBPjNItGw7j2778lkYG7V9HdCNr1TWT/m
+	0tgEhIl6IOJak4wITcMN1ocoJz4g43y55WbFbBpAwlen8SvXpj2RpIGr7ThW0A5c0S9f
+	jGevbwT+bF8Oocy9BaMmvpB8RM+YVNWBveuSAWfrYDUPGNmvoM9Nthx/9pSQvJNiB6fZ
+	dmPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=soXQAguVQZvgJuWfqN9DwTv4mJmNipYI3hrYGLzmM/k=;
-	b=TO3r5GbKc8sLSppf/4cWwUrSeUldLEernsQl3k2ybKW2yi+Qgossk2dwPyotVtHGYB
-	pR7/h5Jz2VKfQLFmV3p+cnKYlJkVj597Ws8c+THL/PPJYSEA87Jjb5quhdKJMl5VStSb
-	Rbq0hkNGldRvODztgZl122sI+lWrwVLC3daheCC/hpsNlfjcJuoE3SFSFSPrUgmtPzRD
-	OBabLfbyo0DBZv2ST835CWGeI0OcdyaeBfTIkMODIAOh7sOWGBUHxVlWTwgVDN6O4l3A
-	p41ZliMSUAH+lry6lSwy6W0kU9WRyl+CHCQqX6FT/6AdbCTcYmhH837M4oPa1zSZIwfy
-	FI1w==
-X-Gm-Message-State: ALKqPwf576UTqVjdN+7K1yq7NxkXvvgArmyZDnJN0m6hfLMCwytlHipe
-	f/dQsJF4AW8tpvvvNCf+xIvYgQ==
-X-Google-Smtp-Source: ADUXVKI8XtG+oensUD8/wMyyLD24OLosgAN+czdOcmTeWA68F+nMP7HqXwAj1mN65tu8yqxokA1WHQ==
-X-Received: by 2002:a17:902:bd8f:: with SMTP id
-	q15-v6mr4214798pls.161.1527517174258; 
-	Mon, 28 May 2018 07:19:34 -0700 (PDT)
+	bh=PPKGwrdaEEVlsVqjdobRwOI7OcqzhTejs9roZdJokc0=;
+	b=myynNFm52zO2RbpTZ2iI6VlWGiqUOn3qtz4VY4+lj0+slO9V0oYh04MBrjUuCA9EgX
+	K6QlLUUQPlzzX9EKZzOzcTfwtrF26PJ8Pef3fe5uXCNShaBZFGlHiR0dSQnhv33jO/9U
+	GqzFa4Vfg0PHPOCMuiPHHa4huDWH/iC7V9gOLBjQ3zW4txkULr3uIRuTJylP0KykERs/
+	YyzdaP62/eIOBJvM90UsGTufOlw9lF1G2pgUcMxq8Kh2iFW1zAwVrKwoTG//WdRXB5NL
+	E3eHawP1H/8L2/+5SEzmIonSNk69VDLfag7aaLH6PdlQU+QcF9z67XrSdN9dCK39sOQl
+	ZZvw==
+X-Gm-Message-State: ALKqPwcRntAIgwi1yJ2Me5q/Z80m/gFgMSQUD5TlFt1MdlqyvZADNYLg
+	em8GHp1nILyxiYB89xVnM8A+sw==
+X-Google-Smtp-Source: AB8JxZqNL9615Sc/s6mPtYO8HodxobTxZgC4FzjoVDaLxWr9L0cKywd/oTgzo7yOyMS9sbUePYkTcQ==
+X-Received: by 2002:a62:b610:: with SMTP id
+	j16-v6mr13654588pff.17.1527517528362; 
+	Mon, 28 May 2018 07:25:28 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184::5a1c? ([2601:202:4000:1184::5a1c])
 	by smtp.gmail.com with ESMTPSA id
-	i72-v6sm60465686pfe.22.2018.05.28.07.19.33
+	v6-v6sm47370949pfm.120.2018.05.28.07.25.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 May 2018 07:19:33 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <1527275816-6705-1-git-send-email-armccurdy@gmail.com>
+	Mon, 28 May 2018 07:25:27 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1526696034-3857-1-git-send-email-akuster@mvista.com>
+	<1526696034-3857-6-git-send-email-akuster@mvista.com>
+	<CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +89,15 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <e56b6c09-39c5-0e8f-b28b-b5fde79f47d1@gmail.com>
-Date: Mon, 28 May 2018 07:19:32 -0700
+Message-ID: <62741663-6b5c-c4d3-6376-2e5ffe8e197c@gmail.com>
+Date: Mon, 28 May 2018 07:25:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <1527275816-6705-1-git-send-email-armccurdy@gmail.com>
-Subject: Re: [morty][PATCH 1/3] package.bbclass: use single quotes for path passed to file in isELF()
+In-Reply-To: <CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/8] xserver-xorg: upgrade 1.19.6 -> 1.20.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,46 +110,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 14:19:33 -0000
+X-List-Received-Date: Mon, 28 May 2018 14:25:28 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 05/25/2018 12:16 PM, Andre McCurdy wrote:
-> Apparently there are recipes in the wild which generate files with
-> filenames containing '$' characters - which cause errors during
-> packaging.
+On 05/23/2018 04:01 AM, Burton, Ross wrote:
+> This is breaking a number of other bits of X:
 >
-> Instead of adding another special case to escape '$' characters when
-> constructing the command passed to oe.utils.getstatusoutput(), switch
-> to using single quotes to quote the path - and therefore make isELF()
-> consistent with the way filenames and paths are quoted by every other
-> caller of oe.utils.getstatusoutput() in oe-core.
-this series in stable/pyro-mnut
+> - xf86-video-intel (was DRI1 removed or disabled in 1.20?)
+> - xf86-input-mouse
+> - xf86-video-omapfb
+
+hmm, will double check
 
 - armin
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> (cherry picked from commit 7877761534b0c2492da6289e9f2269d41b6ed464)
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/classes/package.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Ross
 >
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index a6f0a7a..531ca4a 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -892,7 +892,7 @@ python split_and_strip_files () {
->      # 16 - kernel module
->      def isELF(path):
->          type = 0
-> -        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
-> +        ret, result = oe.utils.getstatusoutput("file '%s'" % path)
->  
->          if ret:
->              msg = "split_and_strip_files: 'file %s' failed" % path
+> On 19 May 2018 at 03:13, Armin Kuster <akuster808@gmail.com> wrote:
+>> From: Armin Kuster <akuster808@gmail.com>
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  ...1-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch | 19 +++++++++----------
+>>  ...{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} |  4 ++--
+>>  2 files changed, 11 insertions(+), 12 deletions(-)
+>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} (89%)
+>>
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
+>> index 16ec3ed..020a1cf 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
+>> @@ -1,12 +1,13 @@
+>> -Discover monotonic clock using compile-time check
+>> +From 8a91316c4a38f20e7866289f3d779a037d27a129 Mon Sep 17 00:00:00 2001
+>> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>> +Date: Mon, 12 Dec 2016 12:11:39 +0200
+>> +Subject: [PATCH] Discover monotonic clock using compile-time check
+>>
+>>  monotonic clock check does not work when cross-compiling.
+>>
+>>  Upstream-Status: Denied [Does not work on OpenBSD]
+>>  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>>
+>> -
+>> -
+>>  Original patch follows:
+>>
+>>  When xorg-xserver is being cross-compiled, there is currently no way
+>> @@ -21,15 +22,16 @@ monotonic clock is available. This check can run just fine when we are
+>>  cross-compiling.
+>>
+>>  Signed-off-by: David James <davidjames at google.com>
+>> +
+>>  ---
+>>   configure.ac | 17 +++++++----------
+>>   1 file changed, 7 insertions(+), 10 deletions(-)
+>>
+>>  diff --git a/configure.ac b/configure.ac
+>> -index f7ab48c..26e85cd 100644
+>> +index 2b21667..786e002 100644
+>>  --- a/configure.ac
+>>  +++ b/configure.ac
+>> -@@ -1048,19 +1048,16 @@ if ! test "x$have_clock_gettime" = xno; then
+>> +@@ -984,19 +984,16 @@ if ! test "x$have_clock_gettime" = xno; then
+>>           CPPFLAGS="$CPPFLAGS -D_POSIX_C_SOURCE=200112L"
+>>       fi
+>>
+>> @@ -54,8 +56,5 @@ index f7ab48c..26e85cd 100644
+>>  -       [MONOTONIC_CLOCK="cross compiling"])
+>>  +]])],[MONOTONIC_CLOCK=yes], [MONOTONIC_CLOCK=no])
+>>
+>> -     LIBS="$LIBS_SAVE"
+>> -     CPPFLAGS="$CPPFLAGS_SAVE"
+>> ---
+>> -2.1.4
+>> -
+>> +     if test "$MONOTONIC_CLOCK" = "cross compiling"; then
+>> +         AC_CHECK_DECL([CLOCK_MONOTONIC],[MONOTONIC_CLOCK="guessing yes"],[MONOTONIC_CLOCK=no],[#include <time.h>])
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
+>> similarity index 89%
+>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
+>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
+>> index c680cf9..620eb7b 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
+>> @@ -6,8 +6,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
+>>              file://0003-Remove-check-for-useSIGIO-option.patch \
+>>              file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+>>              "
+>> -SRC_URI[md5sum] = "3e47777ff034a331aed2322b078694a8"
+>> -SRC_URI[sha256sum] = "a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
+>> +SRC_URI[md5sum] = "c1ca1ea0a905ea788da03c77cc38b06e"
+>> +SRC_URI[sha256sum] = "9d967d185f05709274ee0c4f861a4672463986e550ca05725ce27974f550d3e6"
+>>
+>>  # These extensions are now integrated into the server, so declare the migration
+>>  # path for in-place upgrades.
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
