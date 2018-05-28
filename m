@@ -1,49 +1,51 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7286D747FF
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 158F16E672
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 18:55:10 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id i14-v6so21655827wre.2
+	Mon, 28 May 2018 19:12:10 +0000 (UTC)
+Received: by mail-ot0-f180.google.com with SMTP id 77-v6so14440932otd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 11:55:11 -0700 (PDT)
+	Mon, 28 May 2018 12:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:mime-version:subject:message-id:date:cc:to;
-	bh=OpSZmSQ6DkY6/grGZrrHkkpWY0TcCY7SYeoNOHvjLm8=;
-	b=TJVQ0ej2hal4/nfa0YwafP3qwvAtTe7pKwLdXnHAlZMecpgb09y10Q92wfnbcLzN3U
-	QKA3704ONW9OiKkP8jbWMH9EaQGzwLIjCu2a1rP0HGoTvLSXxFXWy4POWUoTXclERFsY
-	O3EHYgDEEA7tqq3A8mwCmRMcRTUPQziVg1dKSvZ/TTQ6OfE2ZHfIP3tL+uNAFyf5vi8k
-	GYvXvZ6/VbqLSSnw4JADJs2VM9EWh/0mD95YrS6qjvOxiF8tj6pKJKHlevgDsiGEjejB
-	G2MystVt4CduW3q8+jJo4jtYXVPsCCdTjx4BVQch9A3AFHO8CxUiymOZD+1Xk6R6Otpx
-	ctOQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=71DFYGdj1eMOVulSq29dqwnA7xhFgagev6r0ndPXyPc=;
+	b=Xd/FVrqHqhGed+YIPEDPo6JTqUAfsuV2YMGB6RkKBupnqY/q832Ha5fasmJXAWTsk1
+	RM9qGHZ2LWfGhmNwXHZ9GMwPlyCg8HIWhSgNbXPPvHekFYQlc+6xpNOTZ58v0NF4ZsJ2
+	oJ054E4ErydSbJjLs2sQMyLdAFAJli69zbkSKlPOVqq0sNyhx8R7n+/RbyOAsazTOyza
+	yzdxeLH1vtjswj/RieHRhNmzyphDjX31tQGJ6SwYn4jmNIYG4wam+hEirvxRHSxTBAEy
+	ReXnYDxHlklnN7adw4ODY8doo2O0uzvvof39+hXbLcxBa/w1qeKYE1bTIQHfKnhFZNDa
+	OvPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:subject:message-id:date:cc:to;
-	bh=OpSZmSQ6DkY6/grGZrrHkkpWY0TcCY7SYeoNOHvjLm8=;
-	b=Bf6UWkA6ygaLoeUqwYkmYJ2PLx4r90A6xeVLppwMShHdE8k9GwpaGMxvdgEKLleHaK
-	y/1k6KAMABRRWdVoZqqUT5dO6z/LOLG50zyWAzaOfwbUKEnCHmzp1dE/lR8evJbbyay0
-	FIhKaQMr8nKM0JB9oEYiSuQOe3oNFb08A2U8ED93aFQA29ve5XG77sA6htCbiq6Gy6wV
-	kHujlLfYW3sz3BRd6UGNsaY8ZxdgGmp51nQ1wjwVZXV17oabagOGJ/jKAAsYunk12d0O
-	pe2qFK7VV4r7vOs3nncgd40fe+8A9F1vIh8G0VmyMjPLDUNug0IJN2xRtVRXor3/dYxr
-	tmxw==
-X-Gm-Message-State: ALKqPwcKQzSnAtDF+YPtoOrkEh5Br7NREMA/1NZhjf/IkeluMNahXH+l
-	77r7CuuHf78eC9O66HQtenQuEkl2
-X-Google-Smtp-Source: AB8JxZqn5IVOXu0Frb4psLi3gqhhBZolVY0m2Pzyy/CZwgUdiCI9XmlAlnB8AkxqtknBu5fmCl6yxw==
-X-Received: by 2002:adf:f74c:: with SMTP id
-	z12-v6mr12171393wrp.165.1527533710746; 
-	Mon, 28 May 2018 11:55:10 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	l10-v6sm9602156wrm.29.2018.05.28.11.55.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 May 2018 11:55:09 -0700 (PDT)
-From: Jens Rehsack <rehsack@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 11.3 \(3445.6.18\))
-Message-Id: <0F505E4C-A06A-4217-B410-BA97EA827238@gmail.com>
-Date: Mon, 28 May 2018 20:55:09 +0200
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3445.6.18)
-Subject: [PATCH 2/2] cpan_build.bbclass: tell Module::Build the replacement
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=71DFYGdj1eMOVulSq29dqwnA7xhFgagev6r0ndPXyPc=;
+	b=Z22CQZ3McQkQv+Le6P0Hhq5lriN9kmfIA0pCfgcLvSNuvcOPCv5Pq5ZFrD7TSs9kFp
+	B1R5K8wvJ7pbOx1h/r0ymPvlv9y+rhOYGGghMrX/Ht6qcEqj4dVvNj+zt6D47EsIn6R2
+	UIaTQ7Y+BCIOrLqmO5KBgtbWj0brdeySVtlTDZR46rSaTxnCMeSh++QdBhV2c1XF5osq
+	StAG+idGCLhxNbScCGhryJaUkH20f2ZsS1ERiLTP1yZOB+BUYULMxR65+vm7HNFzPOOb
+	oLZfAeA0nXW9qcGaHt8S2UyAWI1fIdwm3OsePEKr04kncRGM80jbT39u9zrkJ0fMalGx
+	5KAw==
+X-Gm-Message-State: ALKqPweDQ2Ji2LqcaXB7MgTb5AQtlkZxc2BbI6+bewY+Qv//xcOltKMJ
+	+Mt3tZAX489ZJ9/eZKFdzyY7Tqf3yxj+QVokqRc=
+X-Google-Smtp-Source: ADUXVKKpbHostcs9llsjSgRGyPAli5ItGLyDr0hutaXNR9bV2/I15o4HzxeixOofG1INtH1G2sbtPKFvMDl6hhjtnFY=
+X-Received: by 2002:a9d:55a5:: with SMTP id
+	m34-v6mr2745211oth.358.1527534731847; 
+	Mon, 28 May 2018 12:12:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Mon, 28 May 2018 12:12:11
+	-0700 (PDT)
+In-Reply-To: <70B5B287-3F28-4055-9AEF-FF23C60FF6F9@gmail.com>
+References: <613380E3-73CD-4A50-B8E3-337912D28A93@gmail.com>
+	<44b3165e-42fa-6cfc-ca9b-cc11892db157@linux.intel.com>
+	<70B5B287-3F28-4055-9AEF-FF23C60FF6F9@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 May 2018 22:12:11 +0300
+Message-ID: <CANNYZj-oY9-oOTRfoJhB2zM7rZ9_3FMF6HQGirEVPsDe5C6fDQ@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] scripts/oe-init-bashrc: add more user-friendly oe-setup utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 18:55:10 -0000
-X-Groupsio-MsgNum: 111813
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4B250B72-10E4-48C7-97A7-88466C6F5D48";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Mon, 28 May 2018 19:12:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---Apple-Mail=_4B250B72-10E4-48C7-97A7-88466C6F5D48
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+2018-05-28 21:41 GMT+03:00 Jens Rehsack <rehsack@gmail.com>:
+> When I log into my build machine, I just do
+>
+> $ oe_builddir use ~/gpw-community-bsp/gpw-yocto-platform/
+>
+> and I'm in the right location and have all environment settings prepared to start a bitbake immediately.
 
-Instead of patching Module::Build, maybe Module::Build::Tiny and all =
-other
-similar tools, use the official way to tell them which is the target =
-perl
-on target.
+oe-init-build-env does the same thing, how is this better?
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/cpan_build.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> $ oe_builddir help
+> oe_builddir <command> [argument]
+> Available commands:
+>     use         use specified build-dir, setup when local.conf and/or bblayers.conf are missing
+>     setup       create default builddir
+>     avail       list possible build-dir's
+>     layers      list layers used in BSP
+>     repos       list repositories used in BSP
+>     prune       prune old builds
+>     off         remove all settings from oe from shell environment
+>
+> Tells you, what could be expected (very short).
+>
+> It's all plain shell - so everyone can adopt it easily to local requirements. Further, it supports setting flags and tools within ''oe_builddir use''.
 
-diff --git a/meta/classes/cpan_build.bbclass =
-b/meta/classes/cpan_build.bbclass
-index fac074d610..9a2ad895ef 100644
---- a/meta/classes/cpan_build.bbclass
-+++ b/meta/classes/cpan_build.bbclass
-@@ -30,7 +30,7 @@ cpan_build_do_configure () {
- }
+I'd say you should look at existing tools, specifically
+oe-init-build-env and/or oe-setup-builddir, and add any desired
+functionality to them.
 
- cpan_build_do_compile () {
--        perl Build verbose=3D1
-+        perl Build --perl "${bindir}/perl" verbose=3D1
- }
+Alex
 
- cpan_build_do_install () {
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_4B250B72-10E4-48C7-97A7-88466C6F5D48
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlsMUI0ACgkQRJmWrtzl
-Cp0R4w/+OWkLDeQUTmj8r1ZkJw02p9G4GGYLNS7JgLc4MqHEL14czP/RBwidIcgD
-NzvzOPQ3e/lF51ere1hVlvRb7hTO/5+z8y+0+yr0S77/MsCAC3Iq1drY3bZg9A/D
-fvzBm9hsCdk0T5TC+CmHpBBFpe0FPrd4iXROvI+nncGJX0AXDLjrTlUJqUIUE1UK
-+dZDE9+bLqo9thu/zRDDfzltFNHHFr7B/NbvsvYmqjub9rFgOH6RDsZB3eTksKwN
-RlVJfr4oPHH2fBiC/OnaJl+dtjv90z+INlvRhJ1fUlcmKCyE3wqWjxy3fn/N9aTD
-BvupKgG3ycH+KYiXQKU5+4qox+9W+mekRLirtHvwy04qKAUOhvr2xFrsp86LN2k7
-n3MSBqSYr46yim3zLpGOwkcU2zO3WxdCo9zJGCLmKsv8RxktRmde2pqJaIXaKQE7
-YKxfdqmvPQs7f8m5235hx8qU7UME6+T1jQWLiWRd7+bME861hrui20gMsP0MLPEf
-dDEZRVEBtna+wczUv7YodBVYYFPWF6D/o3Ixw/Dh8tzz1bAll7knWHR/6HFQ6j9y
-AQfGR8lXwSjPnDJtANE019TYRY5RZb0DfD3uLSdzOrttk4yQY+YhH8hpUKPFnZwz
-w7K09BoIDa7HmaI7TKLQ6HNdFYgnA7a9EXMtIHEgrmLg+BqraCg=
-=d87p
------END PGP SIGNATURE-----
-
---Apple-Mail=_4B250B72-10E4-48C7-97A7-88466C6F5D48--
