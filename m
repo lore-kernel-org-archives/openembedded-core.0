@@ -1,50 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DC93D74814
+Return-Path: <prvs=06865ee9b6=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 11210 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 28 May 2018 16:51:25 UTC
+Received: from mx36-out25.antispamcloud.com (mx36-out25.antispamcloud.com
+	[209.126.121.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 7204871AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 15:58:34 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id q22-v6so6013730pff.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 08:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=R97CogIa24/7UpdUKhE3ifhhLZfJLLa0BxqeWttH4xo=;
-	b=NDDlmD8+HXK1lyqSf3xIw+WcgVxrzJYnLodrX/32weo4qFcE6w7hkVJDTdMQXtyQ6K
-	REcGZEkJXe6Xr6z0VzXAX6MhaxjAngOD1nX48r0OG6IJlohdlnIX4l5EOTA57HW+y4IZ
-	dGQJRm00DHpfBEQr/KmjY3JikjTgTkmmyhw5SiL9eel/7nswoFJteWJZ6DAEWlYF5ICA
-	oZlqh4PnURyIwvan3BV/xaC5+UyQ9y76ZWPh5Pm/isBF5ONPGRgq17Tikqc8fok98NEU
-	v9waKNNJWAD+NjtoENQdoMh2KxT9WMTbdpj13YBASFKRgZj2+8UV2JPeDqx0O72LPc3o
-	Bp5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=R97CogIa24/7UpdUKhE3ifhhLZfJLLa0BxqeWttH4xo=;
-	b=D64L98WG8u1Ly3WcObLnGBl3mL6jkCqxhqQgYrqaJPVvccu+F65gX2TE3YXsyPsDQ/
-	cAusZJH0OeBJlLXh5OeNv1TNJjTCiF3qwv2ZAWDTU9zmJcX/ODBBDZCn9WoFaAcS27YJ
-	yfd/qTPAIsad0K6nGhTWET/StoizBQGlk3Uj4y1U3e1H2S1BeKzanmK2ybxJFKwWW/EI
-	7H9recnQT+39hMJvyTSttpr3fhjk3r2+82ATiH/Vd8UV3TgBm8psa6fVMypVPk0BxS25
-	UEBE37A+6Tst+lkLtGT7n/LslbaxAA8DB8EeK+4Jxzb6RQ/Sha+q7uUByI9vGkuslK20
-	NAqg==
-X-Gm-Message-State: ALKqPwdEclSYHlkCu7qTpCkM0Ymomylm2IzEbaLnkiMLcbFj6Em1Dl7e
-	V77rMhj+xLCUhFmm9Zj1CQTFCA==
-X-Google-Smtp-Source: ADUXVKJJ3KtFPahOQsi5RCgBF9FbSubjSpoVFuY/Mtv+i5/4YYisybqf2u67ih8/rrBXR0iLar2OOQ==
-X-Received: by 2002:a63:ae43:: with SMTP id e3-v6mr616217pgp.181.1527523115286;
-	Mon, 28 May 2018 08:58:35 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::c68])
-	by smtp.gmail.com with ESMTPSA id
-	v15-v6sm63041892pfa.107.2018.05.28.08.58.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 May 2018 08:58:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 May 2018 08:58:33 -0700
-Message-Id: <20180528155833.24224-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180528155833.24224-1-raj.khem@gmail.com>
-References: <20180528155833.24224-1-raj.khem@gmail.com>
-Subject: [PATCH 3/3] rpcsvc-proto: Update to 1.4
+	Mon, 28 May 2018 16:51:25 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx19.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1fNIRr-0006xl-Oi for openembedded-core@lists.openembedded.org;
+	Mon, 28 May 2018 15:44:36 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 28 May 2018 15:44:26 +0200
+To: <openembedded-core@lists.openembedded.org>
+References: <20180517191536.12283-1-fabio.berton@ossystems.com.br>
+	<CAJ86T=XbsORQD062SHnacc6kk9+cvfpJGdnpe8m_70V8P1McxA@mail.gmail.com>
+	<CAAPZna3aoEwRF-YDB1E1SNEMDouf+mmJW=Y2EBApGVLwCQjJ2Q@mail.gmail.com>
+	<CAJTo0LYuxunVTMqQLmHoAUzTpZavXTHk=ASRMahzEYmYLWabxQ@mail.gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <9b21a161-49c9-01f0-9e28-a23822548966@topic.nl>
+Date: Mon, 28 May 2018 15:44:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYuxunVTMqQLmHoAUzTpZavXTHk=ASRMahzEYmYLWabxQ@mail.gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-AntiSpamCloud-Domain: topic.nl
+X-AntiSpamCloud-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-AntiSpamCloud-Outgoing-Class: ham
+X-AntiSpamCloud-Outgoing-Evidence: SB/global_tokens (0.00396587353944)
+X-Recommended-Action: accept
+X-Filter-ID: EX5BVjFpneJeBchSMxfU5pc66InIi0KfUtnozJbZUsp602E9L7XzfQH6nu9C/Fh9KJzpNe6xgvOx
+	q3u0UDjvOxznj/1iaw5TjLSMy5CpQtFmraJGWVbN0zdCh+St1How4o1YeYC8LHFWCIFgyeyJQefH
+	zJ6mVE7ewsipSVIfs4ZkcKbkYWKvqwdSdDom6Whj4JjiDSrbcmJ1QXhuh4fWdusIlCgsJ+wd19Jr
+	MlGHeJyZ3JKVmi72ocgY5kMQSjs7AS5g9nL+yeFiOR30+l159X3F2AuNuamkoUiKgQQWvzglYYyi
+	NZr+/4JfE7i26Y6ctPZUPzYlTOTdwc0UsK6fWIrhylS5qWRAI3z2YWviHNUM5PgtoxLiSpsrL6hV
+	WLdEFdlTez4Ep6JVGftOsEfid+kwN34980yjfCV4sX61Zxc4sdk5qjpwYvOXccJR9d21dbYb9IXf
+	YGRpVS/0hA4MwgqHdFImokbHb1Y8JYX3OHQYH6QrpfZiTMRk4xXw0fBcBtqB8i92FTFM6tZFBrQi
+	hdYLAvKC1zHldj/T9Lzwwpkgr/U0flMcy2Vi/IcBgY4aV9RsXK5hbay6GIP6nWYE/itJwT/XfkxH
+	9xPaNyUif07BRZ5bjdmflDvnzDfy4SeNZ96dHaC7UHChXOkxWc9etuCyR8XKe+rDPcCSk+CCmxPC
+	TliiVh8R8l8ny+KlNs+OFz5yHpXN8jtyJtgatPn1xY3C/K+1g0mVrzhXrq0GuANyNYPrQUr9AfnI
+	Fu1aDxIghYyNNOlL9xYyf3Hx8dKOR/d+eUKxrGf4z5a9/iqa0/ekvz2MVWmkmrS0d7S6eeQSIbtf
+	63VNbf0lrvssY+k7AMxwmqEEUcRPmZVLGiTKnsgaG73pC/ogJ1E81ivd5h/ZqScLJvOWBji47XTN
+	MLxNCuG2fop4bXUG3rFQ05n2/EwgfZUMtf2KgeH5AUzRMQwAZRWsGw8ac2InzcAP/gmxwHIurxo/
+	E5JUsK35tEEueVyZOSBLIzj9eRoIMYad5NG3HM3WDmaI4FA1v9kem7Jpwg==
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: [PATCH] systemd: Add util-linux-umount to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +66,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 15:58:35 -0000
+X-List-Received-Date: Mon, 28 May 2018 16:51:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Bring in an important fix
-https://bugzilla.redhat.com/show_bug.cgi?id=1559181
+=EF=BB=BFDefinitely, once the RDEPENDS is there, people will forget about i=
+t and it=20
+will still be there long after we've forgotten why it was put there...
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb  |  4 ++--
- .../0001-Use-cross-compiled-rpcgen.patch            | 13 +++++--------
- 2 files changed, 7 insertions(+), 10 deletions(-)
+On 18-05-18 15:20, Burton, Ross wrote:
+> Fixing busybox is a better solution. yes.
+>=20
+> Ross
+>=20
+> On 18 May 2018 at 13:24, Fabio Berton <fabio.berton@ossystems.com.br> wro=
+te:
+>> Yes, I tested this patch seems to work.
+>>
+>> But bug report has:
+>>
+>> "Yeah, this appears to be a limitation of busybox, and needs to be fixed=
+ in
+>> busybox. We focus on util-linux proper, which has supported this option
+>> since generations"
+>>
+>> So, I add umount from util-linux because systemd focus on util-linux and
+>> systemd recipe already has util-linux-mount.
+>>
+>> If add patch to busybox is a better solution I can do this and send to l=
+ist.
+>>
+>> Fabio
+>>
+>> On Thu, May 17, 2018 at 4:53 PM, Andre McCurdy <armccurdy@gmail.com> wro=
+te:
+>>>
+>>> On Thu, May 17, 2018 at 12:15 PM, Fabio Berton
+>>> <fabio.berton@ossystems.com.br> wrote:
+>>>> Images with systemd fails on reboot with error:
+>>>>
+>>>>     [FAILED] Failed unmounting Temporary Directory (/tmp).
+>>>>
+>>>> This happens because busybox umount command doesn't has -c
+>>>> option. Add util-linux-umount that has this option to fix
+>>>> this issue.
+>>>>
+>>>> See details: https://github.com/systemd/systemd/issues/7786
+>>>
+>>> That bug report mentions a fix to busybox. Since the fix is available
+>>> in upstream busybox, maybe better to just backport the patch to our
+>>> version of buysbox:
+>>>
+>>>
+>>> https://git.busybox.net/busybox/commit/?id=3D426134128112738c97a665170b=
+21153ef0764b7d
+>>>
+>>>> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>>>> ---
+>>>>   meta/recipes-core/systemd/systemd_237.bb | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/systemd/systemd_237.bb
+>>>> b/meta/recipes-core/systemd/systemd_237.bb
+>>>> index b7c2113255f..3b0f4580d49 100644
+>>>> --- a/meta/recipes-core/systemd/systemd_237.bb
+>>>> +++ b/meta/recipes-core/systemd/systemd_237.bb
+>>>> @@ -478,7 +478,7 @@ FILES_${PN} =3D " ${base_bindir}/* \
+>>>>
+>>>>   FILES_${PN}-dev +=3D "${base_libdir}/security/*.la
+>>>> ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>>>>
+>>>> -RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount udev (=3D ${EXTENDPKG=
+V})
+>>>> util-linux-agetty"
+>>>> +RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount util-linux-umount ude=
+v (=3D
+>>>> ${EXTENDPKGV}) util-linux-agetty"
+>>>>   RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG',
+>>>> 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+>>>>   RDEPENDS_${PN} +=3D "volatile-binds update-rc.d"
+>>>>
+>>>> --
+>>>> 2.14.2
+>>>>
+>>>> --
+>>>>=20
 
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-index fdeafe283a..cb5b288c48 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto.bb
-@@ -15,9 +15,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0daaf958d5531ab86169ec6e275e1517"
- SECTION = "libs"
- DEPENDS += "rpcsvc-proto-native"
- 
--PV = "1.3.1+git${SRCPV}"
-+PV = "1.4+git${SRCPV}"
- 
--SRCREV = "abcf24a09665b3def0f54c87d2acd4796de5d83a"
-+SRCREV = "9bc3b5b785723cfff459b0c01b39d87d4bed975c"
- 
- SRC_URI = "git://github.com/thkukuk/${BPN} \
-            file://0001-Use-cross-compiled-rpcgen.patch \
-diff --git a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-index 4ee4940295..208974004b 100644
---- a/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-+++ b/meta/recipes-extended/rpcsvc-proto/rpcsvc-proto/0001-Use-cross-compiled-rpcgen.patch
-@@ -10,17 +10,14 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  rpcsvc/Makefile.am | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/rpcsvc/Makefile.am b/rpcsvc/Makefile.am
--index 83867c0..4753242 100644
----- a/rpcsvc/Makefile.am
--+++ b/rpcsvc/Makefile.am
--@@ -12,5 +12,5 @@ nodist_rpcsvc_HEADERS = klm_prot.h nlm_prot.h rstat.h spray.h \
-+Index: git/rpcsvc/Makefile.am
-+===================================================================
-+--- git.orig/rpcsvc/Makefile.am
-++++ git/rpcsvc/Makefile.am
-+@@ -12,5 +12,5 @@ nodist_rpcsvc_HEADERS = klm_prot.h nlm_p
-  	nfs_prot.h rquota.h sm_inter.h
-  
-  %.h: %.x
- -	$(top_builddir)/rpcgen/rpcgen -h -o $@ $<
- +	rpcgen -h -o $@ $<
-  
---- 
--2.17.0
--
--- 
-2.17.0
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+_______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
 
