@@ -1,49 +1,55 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 15B8B6025E
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9811672EA1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 14:25:27 +0000 (UTC)
-Received: by mail-pg0-f45.google.com with SMTP id d14-v6so5349002pgv.8
+	Mon, 28 May 2018 14:39:45 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id j20-v6so5937925pff.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 07:25:28 -0700 (PDT)
+	Mon, 28 May 2018 07:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=PPKGwrdaEEVlsVqjdobRwOI7OcqzhTejs9roZdJokc0=;
-	b=rEgGZ/dUjzS3l9zj2w9iI3Im5hGW0T0JfKIlj0yQsXgynctyhYhqn8NjVEsXNUFGRN
-	ynnXjbaRM2K+/4a9mMoRxtkegPrKz06ZXDDp6N8WYDF1WGn836wurz8udLH4W+V7uBqN
-	g/X4RG4hIVtGijHHWuspfxW50v0iH14LmPpIBPjNItGw7j2778lkYG7V9HdCNr1TWT/m
-	0tgEhIl6IOJak4wITcMN1ocoJz4g43y55WbFbBpAwlen8SvXpj2RpIGr7ThW0A5c0S9f
-	jGevbwT+bF8Oocy9BaMmvpB8RM+YVNWBveuSAWfrYDUPGNmvoM9Nthx/9pSQvJNiB6fZ
-	dmPw==
+	bh=PT93AiEabop0wkP6a0J7T0ORFOO6BJ+F9e2fwg6suXU=;
+	b=UCw/UrN584/UzwTGCRiLg0db7rD8zyZcv2cxzZszUHN3kGLI9syvtebCoqNK/wm6zK
+	fr2P4TbwM6D13FpXwNi/0SQSv3N9XSoaoklKLbMPKtVtABPsaSwlCdeA+wJJktLrBrmV
+	ODxTZtQRwCOqP0sBX5cPo4GdLMAy07K+SeAlS/6UAJhFjk6ijrTBITbgPXmhbLZqJ67N
+	o2RkydA5U1LtC4WKzlxm8occyLbgPglSJ5k4wDjJSHiUMX7nl9ZALuhzz/kqVA6tOoq6
+	zkmhGTw67jtXQMI6ja3UHb0JxCr3Obd77H+PO9GrJPjHW6USRvOAGvtq6G6RXsz5ud7p
+	sYGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=PPKGwrdaEEVlsVqjdobRwOI7OcqzhTejs9roZdJokc0=;
-	b=myynNFm52zO2RbpTZ2iI6VlWGiqUOn3qtz4VY4+lj0+slO9V0oYh04MBrjUuCA9EgX
-	K6QlLUUQPlzzX9EKZzOzcTfwtrF26PJ8Pef3fe5uXCNShaBZFGlHiR0dSQnhv33jO/9U
-	GqzFa4Vfg0PHPOCMuiPHHa4huDWH/iC7V9gOLBjQ3zW4txkULr3uIRuTJylP0KykERs/
-	YyzdaP62/eIOBJvM90UsGTufOlw9lF1G2pgUcMxq8Kh2iFW1zAwVrKwoTG//WdRXB5NL
-	E3eHawP1H/8L2/+5SEzmIonSNk69VDLfag7aaLH6PdlQU+QcF9z67XrSdN9dCK39sOQl
-	ZZvw==
-X-Gm-Message-State: ALKqPwcRntAIgwi1yJ2Me5q/Z80m/gFgMSQUD5TlFt1MdlqyvZADNYLg
-	em8GHp1nILyxiYB89xVnM8A+sw==
-X-Google-Smtp-Source: AB8JxZqNL9615Sc/s6mPtYO8HodxobTxZgC4FzjoVDaLxWr9L0cKywd/oTgzo7yOyMS9sbUePYkTcQ==
-X-Received: by 2002:a62:b610:: with SMTP id
-	j16-v6mr13654588pff.17.1527517528362; 
-	Mon, 28 May 2018 07:25:28 -0700 (PDT)
+	bh=PT93AiEabop0wkP6a0J7T0ORFOO6BJ+F9e2fwg6suXU=;
+	b=J/dqmvDVizQaDBXd8ENkT19EtAnfay6HomHrllDFqfoaNDM4nFg+IRMdVl/yIG6Qtp
+	HokGJpi2G+ws8AUkyVWod9xrN6yYgrq2wCeCr2kNuJmXKNoEw+J/wbw1NDTQCll3gRKa
+	AwLf4TYQgrXdPUty9jt4KqooN6WPumXdBcFeaTtl7AcrcwLztrxasxNoE+FI50nzqxcM
+	9rEjEnmYmMIjtl6JgB1ouovW98z29N9A6vbkWFuh0H3V918gHHEmy7pVmKLl0vW+ilSe
+	4xt30TdRCT5wcrVzbkF8SEFoRrDwBGPbuGsk8/0PH59bynRsBkBRObU/dNoBKJkEfw8q
+	qbHQ==
+X-Gm-Message-State: ALKqPwduSOoOP2+QWE7xR1ai1LnPtobbOdAXo3/3ohg26ANNGgH6C3wL
+	J1I/SSOv1zygSWUYfP/54yc+CQ==
+X-Google-Smtp-Source: ADUXVKIpWPVXNpAOfh8hFEnDK1eeuS8wRMHOKeOsMpDo0wED1LF0xCtwyWdFlD8dRn+9g/6dSdAieQ==
+X-Received: by 2002:a63:a74c:: with SMTP id
+	w12-v6mr5037844pgo.374.1527518386080; 
+	Mon, 28 May 2018 07:39:46 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184::5a1c? ([2601:202:4000:1184::5a1c])
 	by smtp.gmail.com with ESMTPSA id
-	v6-v6sm47370949pfm.120.2018.05.28.07.25.27
+	u13-v6sm15069527pfn.59.2018.05.28.07.39.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 May 2018 07:25:27 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1526696034-3857-1-git-send-email-akuster@mvista.com>
-	<1526696034-3857-6-git-send-email-akuster@mvista.com>
-	<CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
+	Mon, 28 May 2018 07:39:45 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>
+References: <1526827795-10448-1-git-send-email-akuster@mvista.com>
+	<CAJ86T=XKQdbiH3ND0Smmpne7FX=PqEtox9GJrJJi9WfiRZcOBQ@mail.gmail.com>
+	<759e0c6d-d9cc-4ec2-2e56-871b18ae9313@gmail.com>
+	<CAJ86T=UX195m2f_aSiR4uM7G++1rjLKj+_vvtERsKCLH7uMDOg@mail.gmail.com>
+	<CAJ86T=WVzwj5j+W3GFTtW9akh3M=SEH5HTLVrBt_mkdFV0XCmA@mail.gmail.com>
+	<b45998ef-41af-b965-c64a-b10a12f5ecfd@windriver.com>
+	<CAJ86T=VY-OoF+QpL-vAJzhtDiWyZm-vNMptqQ1w-5K3-dHr-sA@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,15 +95,14 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <62741663-6b5c-c4d3-6376-2e5ffe8e197c@gmail.com>
-Date: Mon, 28 May 2018 07:25:26 -0700
+Message-ID: <4bdc7e5c-46cf-0cb2-a1fd-bac15c13f4d7@gmail.com>
+Date: Mon, 28 May 2018 07:39:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] xserver-xorg: upgrade 1.19.6 -> 1.20.0
+In-Reply-To: <CAJ86T=VY-OoF+QpL-vAJzhtDiWyZm-vNMptqQ1w-5K3-dHr-sA@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [V2][PATCH] busybox: update to 1.28.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,111 +115,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 14:25:28 -0000
+X-List-Received-Date: Mon, 28 May 2018 14:39:45 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 
 
 
-On 05/23/2018 04:01 AM, Burton, Ross wrote:
-> This is breaking a number of other bits of X:
+On 05/22/2018 06:19 PM, Andre McCurdy wrote:
+> On Tue, May 22, 2018 at 5:48 PM, Randy MacLeod
+> <randy.macleod@windriver.com> wrote:
+>> On 05/22/2018 07:06 PM, Andre McCurdy wrote:
+>> ...
+>>> Building before and after Armin's patch and then diffing .config file=
+s
+>>> in each build directory gives:
+>>>
+>> I didn't know what all of these configs were so I've
+>> listed them below and stated a straw-man opinion as
+>> to whether to keep them or not.
+> Thanks for digging in to the details!
 >
-> - xf86-video-intel (was DRI1 removed or disabled in 1.20?)
-> - xf86-input-mouse
-> - xf86-video-omapfb
+>>> Old 1.27.2 specific config options removed:
+>>>
+>>> -CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS=3Dy
+>>> -CONFIG_FEATURE_ADDUSER_LONG_OPTIONS=3Dy
+>>> -CONFIG_FEATURE_ENV_LONG_OPTIONS=3Dy
+>>> -CONFIG_FEATURE_HWCLOCK_LONG_OPTIONS=3Dy
+>>> -CONFIG_FEATURE_MKDIR_LONG_OPTIONS=3Dy
+>> I'm okay with following upstream busybox wrt long options so
+>> we can drop this.
+> There's no real choice but to drop these (ie they disappear when you
+> run "make oldconfig").
 
-hmm, will double check
+There is only LONG_OPTIONS now=C2=A0 with ADDGROUP, ADDUSER,=C2=A0 etc co=
+ntrolling
+if its enabled.
+>>> New 1.28.3 specific options added:
+>>>
+>>> +CONFIG_BB_ARCH=3Dy
+>>
+>> Adds 'arch' which is the same output as 'uname -m' but
+>> I always use arch and didn't know off-hand that uname -m was the same.=
 
-- armin
-> Ross
+>>
+>> Keep it.
+>>
+>>> +CONFIG_FEATURE_CATN=3Dy
+>>   This adds an option to cat:
+>>    -n numbers all output lines while -b numbers nonempty output lines.=
+
+>>   The commit that added this feature says:
+>>      a2bdc5c55 cat: allow compiling out -n and -b
+>>   so since previously the feature was always available,
+>>
+>> I'm okay with keeping it.
+>>
+>>> +CONFIG_FEATURE_SH_READ_FRAC=3Dy
+>>
+>>   Enables a fractional second read timeout for the shell builtin.
+>>   bool "read -t N.NNN support (+110 bytes)"
+>>   Enable support for fractional second timeout in read builtin.
+>>
+>> Potentially useful, keep it.
+>>
+>>> +CONFIG_FEATURE_SWAPONOFF_LABEL=3Dy
+>>
+>>   This allows for specifying a device by label or uuid, rather than by=
+
+>>   name. This feature utilizes the same functionality as blkid/findfs.
+>>
+>> Useful. Keep it.
+>>
+>>> +CONFIG_FEATURE_VOLUMEID_MINIX=3Dy
+>>
+>> I don't know of a case where this would be generally useful.
+>>
+>> Omit.
+>>
+>>> +CONFIG_FEATURE_XARGS_SUPPORT_ARGS_FILE=3Dy
+>>     xargs: support -a FILE
+>>
+>>     The GNU-specific option -a lets xargs read the arguments from a fi=
+le
+>>     rather than from stdin.
+>>
+>>     This is particularly convenient when debugging in gdb interactivel=
+y,
+>>     and it might be of more general use.
+>>
+>> Huh... what?
+>> Digging through the findutils repo, I see that there's a better explai=
+nation
+>> in the findutils/NEWS file from 2004(!):
+>>
+>> *** xargs can now read a list of arguments from a named file, allowing=
+
+>>     the invoked program to use the same stdin as xargs started with
+>>     (for example ``xargs --arg-file=3Dtodo emacs'').
+>>
+>> Keep it (I suppose).
+>>
+>>> +CONFIG_FEATURE_XARGS_SUPPORT_PARALLEL=3Dy
+>>
+>> From: https://bugs.busybox.net/show_bug.cgi?id=3D9511
+>> Example:
+>> find samplegz | xargs -n1 -P4 sh parse.sh
+>>
+>> Costs 241 bytes.
+>>
+>> Keep it.
+>>
+>> The next group are described below but
+>> I've put my conclusions after each config.
+>>
+>>> +CONFIG_HEXEDIT=3Dy
+>> Drop it.
+>>
+>>> +CONFIG_NUKE=3Dy
+>> Drop it.
+>>
+>>> +CONFIG_RESUME=3Dy
+>> Drop it -- maybe?
+>>
+>>> +CONFIG_RUN_INIT=3Dy
+>> Drop it.
+>>
+>>> +CONFIG_SETFATTR=3Dy
+>> Drop it.
+>>
+>>> So new applets hexedit, nuke, etc, are going to sneak in to our build=
+s
+>>> unless we refresh our defconfig to disable them.
+>>>
+>>
+>> Here is the rough estimate of the new applet sizes:
+>>
+>> $ git show 38da4c4420ea6d7b3cf120c0902458e7d8256560 | \
+>>    grep "^+//config:.*bool"
+>> +//config:      bool "nuke (2.4 kb)"
+>> +//config:      bool "resume (3.3 kb)"
+>> +//config:      bool "run-init (7.5 kb)"
+>> +//config:      bool "hexedit (20 kb)"
+>> +//config:      bool "setfattr (3.6 kb)"
+>>
+>>
+>> and the commit that added most of the applets that includes
+>> a brief explanation of the applet's function:
+>>
+>> commit ab77e81a8527fa11a4f9392d97c2da037d6f4f98
+>> Author: Denys Vlasenko <vda.linux@googlemail.com>
+>> Date:   Fri Aug 18 19:15:29 2017 +0200
+>>
+>>     klibc-utils: new applets: resume, nuke, minips
+>>
+>>     minips is a pure alias to ps,
+>>     just in case someone needs 100% klibc-utils compat.
+>>
+>>     nuke is a primitive version of "rm -rf" without
+>>     options and error checks. ~30 bytes.
+>>
+>>     resume is a tool for initramfs which resumes from
+>>     a given block device.
+>>
+>>     function                                         old     new   del=
+ta
+>>     resume_main                                        -     582    +5=
+82
+>>     packed_usage                                   31640   31712     +=
+72
+>>     nuke_main                                          -      28     +=
+28
+>>     xstrtoull                                          -      24     +=
+24
+>>     applet_names                                    2646    2665     +=
+19
+>>     applet_main                                     1532    1544     +=
+12
+>>     applet_suid                                       96      97      =
++1
+>>     applet_install_loc                               192     193      =
++1
+>>     applet_flags                                      96      97      =
++1
+>>
+>> ----------------------------------------------------------------------=
+--
+>>     (add/remove: 5/0 grow/shrink: 6/0 up/down: 740/0)   Total: 740 byt=
+es
+>>
+>>     Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+>>
+>>
+>>
+>> While these are useful utilities,
+>> I don't see a need for any of the new applets in the oe-core defconfig=
+=2E
+> All the proposals seem reasonable to me.
 >
-> On 19 May 2018 at 03:13, Armin Kuster <akuster808@gmail.com> wrote:
->> From: Armin Kuster <akuster808@gmail.com>
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  ...1-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch | 19 +++++++++----------
->>  ...{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} |  4 ++--
->>  2 files changed, 11 insertions(+), 12 deletions(-)
->>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} (89%)
->>
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->> index 16ec3ed..020a1cf 100644
->> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->> @@ -1,12 +1,13 @@
->> -Discover monotonic clock using compile-time check
->> +From 8a91316c4a38f20e7866289f3d779a037d27a129 Mon Sep 17 00:00:00 2001
->> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
->> +Date: Mon, 12 Dec 2016 12:11:39 +0200
->> +Subject: [PATCH] Discover monotonic clock using compile-time check
->>
->>  monotonic clock check does not work when cross-compiling.
->>
->>  Upstream-Status: Denied [Does not work on OpenBSD]
->>  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>
->> -
->> -
->>  Original patch follows:
->>
->>  When xorg-xserver is being cross-compiled, there is currently no way
->> @@ -21,15 +22,16 @@ monotonic clock is available. This check can run just fine when we are
->>  cross-compiling.
->>
->>  Signed-off-by: David James <davidjames at google.com>
->> +
->>  ---
->>   configure.ac | 17 +++++++----------
->>   1 file changed, 7 insertions(+), 10 deletions(-)
->>
->>  diff --git a/configure.ac b/configure.ac
->> -index f7ab48c..26e85cd 100644
->> +index 2b21667..786e002 100644
->>  --- a/configure.ac
->>  +++ b/configure.ac
->> -@@ -1048,19 +1048,16 @@ if ! test "x$have_clock_gettime" = xno; then
->> +@@ -984,19 +984,16 @@ if ! test "x$have_clock_gettime" = xno; then
->>           CPPFLAGS="$CPPFLAGS -D_POSIX_C_SOURCE=200112L"
->>       fi
->>
->> @@ -54,8 +56,5 @@ index f7ab48c..26e85cd 100644
->>  -       [MONOTONIC_CLOCK="cross compiling"])
->>  +]])],[MONOTONIC_CLOCK=yes], [MONOTONIC_CLOCK=no])
->>
->> -     LIBS="$LIBS_SAVE"
->> -     CPPFLAGS="$CPPFLAGS_SAVE"
->> ---
->> -2.1.4
->> -
->> +     if test "$MONOTONIC_CLOCK" = "cross compiling"; then
->> +         AC_CHECK_DECL([CLOCK_MONOTONIC],[MONOTONIC_CLOCK="guessing yes"],[MONOTONIC_CLOCK=no],[#include <time.h>])
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->> similarity index 89%
->> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
->> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->> index c680cf9..620eb7b 100644
->> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->> @@ -6,8 +6,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
->>              file://0003-Remove-check-for-useSIGIO-option.patch \
->>              file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
->>              "
->> -SRC_URI[md5sum] = "3e47777ff034a331aed2322b078694a8"
->> -SRC_URI[sha256sum] = "a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
->> +SRC_URI[md5sum] = "c1ca1ea0a905ea788da03c77cc38b06e"
->> +SRC_URI[sha256sum] = "9d967d185f05709274ee0c4f861a4672463986e550ca05725ce27974f550d3e6"
->>
->>  # These extensions are now integrated into the server, so declare the migration
->>  # path for in-place upgrades.
+>> Armin,
+>> If no one objects to my suggestions, please change the defconfig
+>> in the next update or ping me and I'll do it.
+all changes made. Will send v3 shortly
+
+thanks
+Armin
+> As an aside, it looks like the poky-tiny defconfig for busybox hasn't
+> been refreshed since busybox 1.19.3 so anyone building poky-tiny now
+> is going to get 6 years worth of new applets and features which they
+> might not be expecting.
+>
 >> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> # Randy MacLeod
+>> # Wind River Linux
+
 
 
