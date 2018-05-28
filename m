@@ -1,48 +1,26 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f169.google.com (mail-ot0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C0C360807
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BBB4074753
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 13:52:15 +0000 (UTC)
-Received: by mail-ot0-f169.google.com with SMTP id l12-v6so13549474oth.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 06:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=x7Q1KE+tU91ekDfMxilwxa+dBoUVjsIgfzYARb9tk9o=;
-	b=SSYP1V0Tfp8gDOAYQN5EJ+zpIfc3iiOn1bJCbLRWys5DRjfwtwayxa40ZeHnUtvYei
-	ZF9aex4XZp7GhapeJ4dKyWR5Zew1hlVLZeS9P/qpJCkWjxeY8iCpR4siDjdDJXXqo8o4
-	EY+vD3giJIeUQCoPbuO8OTTVhkn9Gb4dYQ5uj/OWkVeu0e2UEvzZja2Z8n5E/758g2po
-	HoIbvcDBz1hHen4H/tTERNi0Zzmoqb0SPMmDcPO9bYq0e5rssta7COEZCbPRPwLsTWoO
-	/3JqRkm1twu9WzaIFaANZWcmQ0zpDCQAtjMQE1lhuQYB7QNIBF7kQDAtp5Y69UhFHtje
-	S1AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=x7Q1KE+tU91ekDfMxilwxa+dBoUVjsIgfzYARb9tk9o=;
-	b=PzKXmpxuCYX9K+0KkeBZR4dgyEhhiWL0YbFbkj3Qu4fWGtxyjo6dpdHuPxcHY48zXY
-	j02ay6wEwcznJVLEp1qgI/SpTkiyD9+ymbHZZxR+/7icyYweqNDN/E6jfX4F9fvfXYiI
-	c/YvjGhkqmoLTvB2ufOmSzzvZssvfSQbEK/OWiUkSJkvYBb7mgam3Wyn2IqxW5QLeHjQ
-	KRLEJN3hTqLYtAI4qXBvbPj4yWCDTu3tv7QnXulkfMAttkuJvcddDWSLR4oRaOs8QbrG
-	R4Vi5JuzcME8revQYMbpiBqGUDVXZ9tQ7NvAsMSLCLxZInoGyVtl0NmEmUW9plX4Sl+a
-	ujBg==
-X-Gm-Message-State: ALKqPwfzWEm0pSRelKujyMRb6C4QTLJkgfdjyonCrAJ1+Maewb9aEZ5L
-	QLJSN0jDRizVB4RH4bizVNikIbyYOhtLCFW4+fjCIw==
-X-Google-Smtp-Source: ADUXVKIdiqlH74oCMXAegyJfXuiCbQGhRhPYzFuP2+w/rU8QF/Wu/bPYhAgJpkudXMSoD6cOoe1Q1ecxceGnSuXj4w0=
-X-Received: by 2002:a9d:598c:: with SMTP id
-	u12-v6mr8182168oth.102.1527515537004; 
-	Mon, 28 May 2018 06:52:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Mon, 28 May 2018 06:52:16
-	-0700 (PDT)
-In-Reply-To: <CANNYZj9-6cXUBtrrrVTUgj=qYsJTQ6JGTZdYydXJBRX+gUQQCg@mail.gmail.com>
+	Mon, 28 May 2018 14:08:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4SE7Y6i010051
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 28 May 2018 07:08:26 -0700
+Received: from yow-masselst-lx1.localnet (128.224.21.83) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 28 May 2018 07:07:54 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 28 May 2018 10:07:54 -0400
+Message-ID: <1836266.iKU578Kg5i@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <CANNYZj-6rir5zZ336Oz80jXL_w-7veu1o3LwDU78_-7EpqgSwg@mail.gmail.com>
 References: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
 	<CANNYZj9-6cXUBtrrrVTUgj=qYsJTQ6JGTZdYydXJBRX+gUQQCg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 28 May 2018 16:52:16 +0300
-Message-ID: <CANNYZj-6rir5zZ336Oz80jXL_w-7veu1o3LwDU78_-7EpqgSwg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+	<CANNYZj-6rir5zZ336Oz80jXL_w-7veu1o3LwDU78_-7EpqgSwg@mail.gmail.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] recipe_links.bbclass: introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,25 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 13:52:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 28 May 2018 14:08:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-(don't forget devtool also has 'edit/find/update-recipe' commands).
+On Monday, May 28, 2018 9:52:16 AM EDT Alexander Kanavin wrote:
+> (don't forget devtool also has 'edit/find/update-recipe' commands).
 
-Alex
+Since it keys off the FILE and BBINCLUDED as parsed it follows along with the 
+devtool workspaces just fine. There should be no confusion added and if 
+anything seeing the link to the bbappend in the devtool workspace being 
+included in the links should add a level of comfort.
 
-2018-05-28 16:50 GMT+03:00 Alexander Kanavin <alex.kanavin@gmail.com>:
-> 2018-05-28 16:38 GMT+03:00 Mark Asselstine <mark.asselstine@windriver.com>:
->> This is a new class which can be used (for example via USER_CLASSES in
->> local.conf) to make your build more development friendly. When
->> included this class will create symlinks to the various bb and
->> bbappend files in WORKDIR.
->
-> I do think this is a great idea, I only want to ask, how well this
-> integrates with devtool workflows?
-> Particularly, 'devtool add/modify/upgrade' do their own recipe copying
-> and manipulation, so we should make sure this does not increase the
-> confusion.
->
+This was sent for RFC quite a while ago, I am only now getting around to 
+pushing for proper inclusion.
+
+Mark
+
+> 
 > Alex
+> 
+> 2018-05-28 16:50 GMT+03:00 Alexander Kanavin <alex.kanavin@gmail.com>:
+> > 2018-05-28 16:38 GMT+03:00 Mark Asselstine 
+<mark.asselstine@windriver.com>:
+> >> This is a new class which can be used (for example via USER_CLASSES in
+> >> local.conf) to make your build more development friendly. When
+> >> included this class will create symlinks to the various bb and
+> >> bbappend files in WORKDIR.
+> > 
+> > I do think this is a great idea, I only want to ask, how well this
+> > integrates with devtool workflows?
+> > Particularly, 'devtool add/modify/upgrade' do their own recipe copying
+> > and manipulation, so we should make sure this does not increase the
+> > confusion.
+> > 
+> > Alex
+
+
+
+
 
