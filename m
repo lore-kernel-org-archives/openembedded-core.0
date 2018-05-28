@@ -1,45 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DA0C6074F
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 97CDE6079F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 12:21:27 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id t11-v6so31714988wmt.0
+	Mon, 28 May 2018 13:38:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4SDcLFE008845
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 05:21:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=SXoM5T1QWNvPuAcXc/BXOvvOTJOlNNc6B5LwQYyVcxk=;
-	b=EWMD+18fvEnf0LaoW9P6eE13Tx5yK8myNy4e6/eu3ZlD4dzbijMPjFUEcINTZ52gKx
-	AO0cP2cV/YwGr3wdsgrPIEr8pmsvB6HukbEInF5HDPnq78l4J6mzvjvhHuSR6GzsuZtb
-	qzkvIGlYRXyA5yjmzUv8Xb44nXvPIKzYKYoNWga92NmxedsdoZiBrw0S5ej1LDRpYkE7
-	VwfkOtMbzmHUV3SQA1bexo0qR/MAaLiHgRV1EzrnWi5RG2MKt8C+mIqgKVWW9u/n4erC
-	sEc0AVCaufviU0y+HtRX8gy36WNJTqRVN74HRMm71fWIth6o0PBumK4Acl7ZTLo22qZ+
-	D5IA==
-X-Gm-Message-State: ALKqPwf8l/tZE/2KnDdD12m82bJbk9eIEaDZG17UWF7gXN0KsgTSzx9o
-	6dCCDu3Z0eYiOLLA29pB54wLoXPF
-X-Google-Smtp-Source: AB8JxZqQhCEmfQnBbiOe9RdQ5rWRbRGTbkOlwp9S5TsQQOEBh0fCnZMi8XQmXR8LnPdxO5FW1avN0A==
-X-Received: by 2002:aa7:d5d1:: with SMTP id
-	d17-v6mr14404517eds.312.1527510087436; 
-	Mon, 28 May 2018 05:21:27 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	v37-v6sm981813edm.0.2018.05.28.05.21.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 28 May 2018 05:21:26 -0700 (PDT)
-Message-ID: <95c10f0a911c861e5bd87275f1d55a1b8e73c7af.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 May 2018 13:21:25 +0100
-In-Reply-To: <0980e127-6744-378f-479a-e841f0a0d20e@vaisala.com>
-References: <20180525123739.73219-1-niko.mauno@vaisala.com>
-	<CABcZANnPjLCrjSksPCDkN0it1jwBS6_MtJjOkCT=NG=Wf-zR6A@mail.gmail.com>
-	<0980e127-6744-378f-479a-e841f0a0d20e@vaisala.com>
-X-Mailer: Evolution 3.28.2-1 
-Mime-Version: 1.0
-Subject: dealing with CMake ExternalProject (was: Re: [PATCH] cmake: Export SSH_AUTH_SOCK for cmake at configure)
+	Mon, 28 May 2018 06:38:42 -0700
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 28 May 2018 06:38:11 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 May 2018 09:38:06 -0400
+Message-ID: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] recipe_links.bbclass: introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,79 +31,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 12:21:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 May 2018 13:38:51 -0000
+Content-Type: text/plain
 
-On Mon, 2018-05-28 at 11:55 +0300, Hannu Lounento wrote:
-> On 25/05/18 18:34, Christopher Larson wrote:
-> > We should probably investigate if it's possible to shift those into 
-> > do_fetch eventually. Contacting upstream during do_configure is not
-> > kosher.
-> 
-> The reason for fetching during configure is that the CMake build system 
-> in the git repository in question (later referred to as the "parent 
-> project") uses the ExternalProject keyword [1], which "creates a custom 
-> target to drive download, update/patch, configure, build, install and 
-> test steps of an external project" [1].
-> 
-> The external project that the aforementioned CMake build system uses is 
-> gtest (later referred to as the "child project"), which is many times 
-> built as part of a parent project. Usually git submodule is used to 
-> clone child projects, which works nicely with Bitbake with the gitsm 
-> fetcher. In this particular case the parent project uses the 
-> ExternalProject keyword instead, which is one of the options suggested 
-> in gtest's documentation [2]. While the parent project is not a public 
-> open source project, it is not in our direct control either and hence we 
-> cannot just change it to use git submodule instead.
+This is a new class which can be used (for example via USER_CLASSES in
+local.conf) to make your build more development friendly. When
+included this class will create symlinks to the various bb and
+bbappend files in WORKDIR.
 
-You can simply instruct ExternalProject to refer to an existing (local)
-directory, instead of a remote git repository.  Either by patching it in
-your parent project's recipe, or trying to get upstream to integrate such a
-change:
+Normally when you are debugging or extending a package's recipe files
+a developer will employ one of a few indirect techniques to determine
+where bb and bbappends files associated with a recipe exist. For
+example they might use bitbake-layers show-recipes or similar, or
+simply rely on their experience to guide them. Even after working with
+openembedded for serveral years now I find these techniques tedious
+and time consuming, and sometimes even hit and miss.
 
-Something along the lines of this works fine for me here:
+Since the whereabouts of these files are already stored in various
+files at parse time we can create symlinks to simplify the task of
+finding these files, making them available in WORKDIR for easy
+inpsection and in a convenient location if using devshel for instance.
 
-CMakeLists.txt:
+For now this work is completely optional but we could conceivable make
+this the default behavior if folks find it is convenient and the cost
+of performing these operations across all builds is minimal enough.
 
-find_path(GTEST_SRC_LOCATION
-    NAMES googlemock/src/gmock-all.cc googletest/src/gtest-all.cc
-    HINTS ENV GTEST_SRC_ROOT
-    PATHS "/usr/src/googletest"
-    NO_DEFAULT_PATH
-    )
-if (GTEST_SRC_LOCATION)
-    set(GTEST_GIT_REPOSITORY "" CACHE INTERNAL "googletest git repository")
-    set(GTEST_GIT_TAG        "" CACHE INTERNAL "googletest git tag")
-else ()
-    set(GTEST_GIT_REPOSITORY "https://github.com/google/googletest.git" CACHE INTERNAL "googletest git repository")
-    set(GTEST_GIT_TAG        "release-1.8.0" CACHE INTERNAL "googletest git tag")
-    set(GTEST_SRC_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/googletest-src" CACHE INTERNAL "googletest source location")
-endif ()
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+recipe_links can safely be added to USER_CLASSES for existing builds,
+care has been taken to avoid this action causing anything to be
+rebuilt. After this has been added you can either 'bitbake <recipe> -C
+unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
+links to be created in the WORKDIR for the specified recipe.
 
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta/classes/recipe_links.bbclass | 79 +++++++++++++++++++++++++++++++++++++++
+ meta/conf/documentation.conf      |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/classes/recipe_links.bbclass
 
-And CMakeLists.txt.in contains (amongst others):
-
-include(ExternalProject)
-ExternalProject_Add(googletest
-  GIT_REPOSITORY    ${GTEST_GIT_REPOSITORY}
-  GIT_TAG           ${GTEST_GIT_TAG}
-  SOURCE_DIR        "${GTEST_SRC_LOCATION}"
-
-
-This way, you can have an independent recipe that downloads gtest, and the
-recipe of your parent project just needs to ensure to depend on the
-downloaded gtest and set the GTEST_SRC_ROOT environment variable. There even
-is a debian package for the gtest source code (hence the /usr/src/googletest
-above), so not only yocto builds, but even local workstation builds outside
-yocto would benefit from such a change.
-
-No need for dramatic changes (such as switching to git submodules).
-
-
-Cheers,
-Andre'
-
+diff --git a/meta/classes/recipe_links.bbclass b/meta/classes/recipe_links.bbclass
+new file mode 100644
+index 0000000..ea97605
+--- /dev/null
++++ b/meta/classes/recipe_links.bbclass
+@@ -0,0 +1,79 @@
++# Create symlink in WORKDIR to the various bb and
++# bbappend files used to define the package ops
++
++# Create a symlink given src and dst paths
++def create_link(d, src, dst):
++    if os.path.islink(dst):
++        try:
++            os.unlink(dst)
++        except OSError as err:
++            bb.error("  Failed to cleanup old link %s: %s"
++                         % (os.path.basename(dst), os.strerror(err.errno)))
++            return False
++
++
++    try:
++        os.symlink(src, dst)
++    except OSError as err:
++        bb.error("  Failed to create file link for %s: %s"
++                     % (src, os.strerror(err.errno)))
++        return False
++
++    return True
++
++# Ensure the work is scheduled. We do this as a func
++# to avoid sig changes causing things to be rebuilt
++# when the class is added/removed after the fact.
++do_unpack[postfuncs] += "create_recipe_links "
++do_unpack[vardepsexclude] += "create_recipe_links "
++python create_recipe_links() {
++    import re
++    import glob
++
++    workdir = d.getVar('WORKDIR')
++
++    # Main recipe file
++    bb.note("Add main recipe file link:")
++    bb_path = d.getVar('FILE')
++    bb_filename = os.path.basename(bb_path)
++    bb_destname = "%s/%s" % (workdir, bb_filename)
++    bb.note("  Linking %s" % bb_path)
++    if not create_link(d, bb_path, bb_destname):
++        return False
++
++    # Cleanup old bbappends links
++    bb.note("Removing old bbappend links:")
++    pn = d.getVar('PN')
++    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
++    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
++    for filename in files:
++        bb.note("  Removing: %s" % filename)
++        try:
++            os.unlink(filename)
++        except OSError as err:
++            bb.error("  Failed to cleanup old link %s: %s" %
++                         (os.path.basename(filename), os.strerror(err.errno)))
++            return False
++
++    # Add bbappends links
++    bb.note("Adding bbappend links:")
++    included_files = d.getVar('BBINCLUDED').split()
++    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" % re.escape(pn))
++    for filename in included_files:
++        if bbappend_re.match(filename):
++            bb.note("  Linking %s" % filename)
++            destname = "00_%s" % (os.path.basename(filename))
++            while os.path.exists("%s/%s" % (workdir, destname)):
++                 destname = str(int(destname[:2]) + 1).zfill(2) + destname[2:]
++            if not create_link(d, filename, "%s/%s" % (workdir, destname)):
++                return False
++
++    return True
++}
++
++# In addition to the func we want to make things able to be (re)run
++# easily by the user so ensure it is available as a task.
++addtask do_create_recipe_links
++python do_create_recipe_links() {
++    bb.build.exec_func("create_recipe_links", d)
++}
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 254f8f1..2f6e686 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -21,6 +21,7 @@ do_devpyshell[doc] = "Starts an interactive Python shell for development/debuggi
+ do_devshell[doc] = "Starts a shell with the environment set up for development/debugging"
+ do_diffconfig[doc] = "Compares the old and new config files after running do_menuconfig for the kernel"
+ do_fetch[doc] = "Fetches the source code"
++do_create_recipe_links[doc] = "Creates links to bb and bbappend files in a package's WORKDIR"
+ do_install[doc] = "Copies files from the compilation directory to a holding area"
+ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
+ do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
+-- 
+2.7.4
 
 
