@@ -1,50 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1F874AD0
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 89495605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 19:23:24 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id i18-v6so9484642qtp.12
+	Tue, 29 May 2018 19:31:40 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r15-v6so15874610wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 12:23:25 -0700 (PDT)
+	Tue, 29 May 2018 12:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yUurr+CfsSv3Mp6k6zvVquclzsjbW/GF0QMeKtYXpo8=;
-	b=LpPMEsdDvspGXjGjlE9a9bzGqVqvELaDRdFO913Bd+iSCDoD6SFNG6w44suLp1eHS/
-	zYvYhe1REI5Jnp+FDEy/v6tXFzLq+qNswVhjaB401awJ/LCsAwzrnMpC/RmtqATVvvd+
-	S+w8bzIkO4W5I1bD4l6LWwj1gWQyyBWCZX0t2CTzaAwzCu/gqbWu1haKIX6Xdp9D9JKf
-	qyoEq3Q2XiiiAjVGgjple5B7Wkrt9rAoJhT9GcmI1YW4wvYOZ4fM9EoZSoxGLwUOod2D
-	zYUTqAzEpZ5od9V+b9KLow6zaypbrKseiLfathJ4GiwGlUFyBb/i9cNa0kIqFTHz0kH/
-	R8fQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=3R/75cVc1BkFWkvtTUTwQqVtoBXObac+frF2zhXnqYQ=;
+	b=YVuXQOB7RKTjIidn69KB11PsI8936YO25ZZJ48eOyI0vMYEmaKp7j1jkZShWYKGxk9
+	WUrjTIsL0vzA9NYsQgGQ+9q4Ft7Ul4/bXV44JRmUN9K6hzoypfVbs9T0Hv2AsanxwZPK
+	X1z8n/CJ7T94PVayk1wtjcER7Z4LuNHY7Re+zY9d4SZ6fCXyytIxST7lWVFNNkZD1k8I
+	LuYYyW/5PK4IOF6YgUMZ18C0WO1ECO/e8Oa3SGGRm3IPUZ9P7Q6LI7Xe8nEm34/RdYfs
+	b9uewb07ax2vLMhM7h+JZ+YM9tqrZUCQ2FVN6gIhzoNSh8VbdBNxEqscyjrMw0ModNu/
+	T/YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yUurr+CfsSv3Mp6k6zvVquclzsjbW/GF0QMeKtYXpo8=;
-	b=ISPCWSG17b5xw3ZG9savwJAvbu3KBbGXoA4J4knxaUI0iIN2Vq3iI3NCbnIdg2o05d
-	Qvn6r8fVi6kTP+76Axz1GM52dAX2icGE4XSP9/MAeh/tq2TL4XfeFwa4f11nn/t082hB
-	HHWKAsQfs2wWCeKAGRX+PDOqxuQ5ETfJld2CV9SGuuFt9DbnJwpqMGGfXbh/YYFZk/Nt
-	mBNWznmIm2NxF8ESR7K/uiWgJp2RgqOeA/F4vwl5BQnfimPdLCCxG245e2XEMFEpOh8h
-	3UgPk8WryMceV5Pjr549LgE7EKVAD29b//AfaxFPVnmBLjukLv3vKQWzkOAMBqXY9ZWQ
-	cjCg==
-X-Gm-Message-State: ALKqPwc8AUgqWqIPuYGBZ/nnyDIonOTdyIVOUXEDgGhPZ4eIDNNbwtz+
-	LQuikdjFeB7rW8ReSLceK9rUFfjiu3XML5QkYLc=
-X-Google-Smtp-Source: ADUXVKJEXCVuk+o8uUB3Vk5VcRWmicAZcBvM+EvfQa423bKh+BkZA6figzWgnsRZvqQFEBaguSA+Tgul7i/iDVmG9l0=
-X-Received: by 2002:ac8:26ea:: with SMTP id
-	39-v6mr18208643qtp.128.1527621804898; 
-	Tue, 29 May 2018 12:23:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:9a0f:0:0:0:0:0 with HTTP; Tue, 29 May 2018 12:22:54
-	-0700 (PDT)
-In-Reply-To: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
-References: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 12:22:54 -0700
-Message-ID: <CAMKF1sqWVd61gS8eksZ_LB2DK00oSzM0BXjDM_5Pxz53SCzGBA@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipe_links.bbclass: introduction
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3R/75cVc1BkFWkvtTUTwQqVtoBXObac+frF2zhXnqYQ=;
+	b=PYPr6QV9jFOWaJSjL27OHGU2ipho/jD5+5o8duH5hkrx99Hq6vY+gkQTL0jXn0nMdc
+	MU4jS8fjbBXfnQcb7lk2p50OXwR27yho1pRqy+iVRNeZ6F2fo5F4AIUkM8ZjfNzrR5p0
+	4MnQfUKmUItee29TO+7+VGrDSQd0W8RLD7lz3i75Vfj5Prek6Fb6CfHdbG3cWD1MEfNO
+	Il29/EyxxBibVI1T4eBAHcH/rfg8dqlWB3dCJqdnobgMEzP+5if5lw3s6FOQIGlx6pub
+	g+WB3UFoeQZCacVQmNfyCUvzQxuufP7cQv7ah0jmfFsKjuWnqJiz/+cUqp8O0Ahx7KGK
+	ze0Q==
+X-Gm-Message-State: ALKqPwdA34pis4/pTkEYBrMqHr8JvAStT1GYftRyKA+1DeEuhex473qA
+	523+DRdM02wxO+RGbYbdPF9zeQ==
+X-Google-Smtp-Source: ADUXVKJBAXx9C7w95sWBMPx3zbDlgJLX1FM9iZ6i3HIQ5xr0ooIYugPuu3r0YSAi360PuuROdKvzSQ==
+X-Received: by 2002:a50:a5b5:: with SMTP id
+	a50-v6mr171782edc.289.1527622300532; 
+	Tue, 29 May 2018 12:31:40 -0700 (PDT)
+Received: from localhost.localdomain (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27]) by smtp.gmail.com with ESMTPSA id
+	m12-v6sm299681edd.86.2018.05.29.12.31.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 May 2018 12:31:39 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 May 2018 21:31:00 +0200
+Message-Id: <20180529193101.43396-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [poky][PATCH 1/2] devtool sdk-update: Support Basic Auth
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,157 +54,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 19:23:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 May 2018 19:31:40 -0000
 
-On Mon, May 28, 2018 at 6:38 AM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> This is a new class which can be used (for example via USER_CLASSES in
-> local.conf) to make your build more development friendly. When
-> included this class will create symlinks to the various bb and
-> bbappend files in WORKDIR.
->
-> Normally when you are debugging or extending a package's recipe files
-> a developer will employ one of a few indirect techniques to determine
-> where bb and bbappends files associated with a recipe exist. For
-> example they might use bitbake-layers show-recipes or similar, or
-> simply rely on their experience to guide them. Even after working with
-> openembedded for serveral years now I find these techniques tedious
-> and time consuming, and sometimes even hit and miss.
->
-> Since the whereabouts of these files are already stored in various
-> files at parse time we can create symlinks to simplify the task of
-> finding these files, making them available in WORKDIR for easy
-> inpsection and in a convenient location if using devshel for instance.
->
-> For now this work is completely optional but we could conceivable make
-> this the default behavior if folks find it is convenient and the cost
-> of performing these operations across all builds is minimal enough.
->
-> recipe_links can safely be added to USER_CLASSES for existing builds,
-> care has been taken to avoid this action causing anything to be
-> rebuilt. After this has been added you can either 'bitbake <recipe> -C
-> unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
-> links to be created in the WORKDIR for the specified recipe.
->
+Support HTTP Basic Auth for plain HTTP downloads as well as for
+downloads performed by git. If the server returns a 401 error
+and Basic Auth is supported by the server, the user is asked for
+credentials.
 
-I think this is not complementing devtool workflow, even though its
-not going to hurt it.
-however, devtool workflow is what we should be targeting as primary
-workflow for OE
-and I do not see a benefit of this in that regard.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+---
+ scripts/lib/devtool/sdk.py | 105 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 97 insertions(+), 8 deletions(-)
 
+diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
+index 4616753797..fbf69264e6 100644
+--- a/scripts/lib/devtool/sdk.py
++++ b/scripts/lib/devtool/sdk.py
+@@ -21,13 +21,93 @@ import logging
+ import glob
+ import shutil
+ import errno
+-import sys
+ import tempfile
+ import re
++import urllib.request
++import base64
++import getpass
++
+ from devtool import exec_build_env_command, setup_tinfoil, parse_recipe, DevtoolError
+ 
+ logger = logging.getLogger('devtool')
+ 
++
++class SdkUpdateHelper(object):
++    """Chache the basic auth credentials of an http connection for http file and git downloads.
++    """
++    def __init__(self, user_name=None):
++        self.__user_name = user_name
++        self.__user_password = None
++        self.__ba_credentials = None
++
++    def ask_ba_credentials(self, user_name=None):
++        '''Ask user for Basic Auth Credentials'''
++        if not self.__user_name:
++            self.__user_name = input("User Name: ")
++        self.__user_password = getpass.getpass()
++
++        credentials = ('%s:%s' % (self.__user_name, self.__user_password))
++        b64_credentials = base64.b64encode(credentials.encode('ascii'))
++        self.__ba_credentials = 'Basic %s' % b64_credentials.decode("ascii")
++
++    def download(self, dl_url, out_file_name):
++        """If the HTTP server returns a 401 error code, a second trial with credentials is started.
++        Currently only basic auth is supported.
++        The implementation does not use pythons advanced authentication and password features since
++        the credentials are used by git as well.
++        git_ functions use credentials if the credentials are prepared by this http download function.
++
++        return 0 = success, 1 = failed
++        """
++        logger.debug("Downloading: %s to %s" % (dl_url, out_file_name))
++        http_con_trials = 2
++        while http_con_trials > 0:
++            req = urllib.request.Request(dl_url)
++            if self.__ba_credentials:
++                req.add_header('Authorization', self.__ba_credentials)
++            try:
++                with urllib.request.urlopen(req) as response, open(out_file_name, 'wb') as out_file:
++                    data = response.read()
++                    out_file.write(data)
++                    return 0  # success
++            except urllib.error.HTTPError as hexp:
++                if hexp.code == 401:
++                    hdrs_lower = {k.lower():v for k,v in hexp.hdrs.items()}
++                    try:
++                        auth_type = hdrs_lower['www-authenticate']
++                        logger.debug("auth_type: %s", auth_type)
++                        if auth_type.lower().startswith('basic'):
++                            self.ask_ba_credentials()  # re-try with credentials
++                        else:
++                            logger.error("HTTP download permission denied, no supported authentication type (%s)" % auth_type)
++                            return 1
++                    except KeyError:
++                        logger.error("HTTP download permission denied, authentication is not supported by the server.")
++                        return 1
++                else:
++                    print(str(hexp.code))
++                    print(str(hexp.msg))
++                    print(str(hexp.hdrs))
++                    return 1
++            http_con_trials -= 1
++        return 1
++
++    def _git_http_command(self, command, updateserver="", cwd=None):
++        git_ba_header = ""
++        if self.__ba_credentials:
++            git_ba_header = "-c http.extraheader=\"Authorization: %s\" " % self.__ba_credentials
++
++        git_cmd = "git %s %s %s" % (git_ba_header, command, updateserver)
++        logger.debug("Running: %s", git_cmd)
++        return subprocess.call(git_cmd, shell=True, cwd=cwd)
++
++    def git_clone(self, updateserver="", cwd=None):
++        return self._git_http_command("clone", updateserver, cwd)
++
++    def git_fetch_all(self, cwd=None):
++        return self._git_http_command("fetch --all", cwd=cwd)
++
++
+ def parse_locked_sigs(sigfile_path):
+     """Return <pn:task>:<hash> dictionary"""
+     sig_dict = {}
+@@ -138,13 +218,16 @@ def sdk_update(args, config, basepath, workspace):
+     finally:
+         tinfoil.shutdown()
+ 
++    sdk_update_helper = SdkUpdateHelper()
+     tmpsdk_dir = tempfile.mkdtemp()
+     try:
+         os.makedirs(os.path.join(tmpsdk_dir, 'conf'))
+         new_locked_sig_file_path = os.path.join(tmpsdk_dir, 'conf', 'locked-sigs.inc')
+         # Fetch manifest from server
+-        tmpmanifest = os.path.join(tmpsdk_dir, 'conf', 'sdk-conf-manifest')
+-        ret = subprocess.call("wget -q -O %s %s/conf/sdk-conf-manifest" % (tmpmanifest, updateserver), shell=True)
++        sdk_conf_mf = 'sdk-conf-manifest'
++        tmpmanifest = os.path.join(tmpsdk_dir, 'conf', sdk_conf_mf)
++        tmpmanifest_url = "%s/conf/sdk-conf-manifest" % updateserver
++        ret = sdk_update_helper.download(tmpmanifest_url, tmpmanifest)
+         if ret != 0:
+             logger.error("Cannot dowload files from %s" % updateserver)
+             return ret
+@@ -155,10 +238,14 @@ def sdk_update(args, config, basepath, workspace):
+         # Update metadata
+         logger.debug("Updating metadata via git ...")
+         #Check for the status before doing a fetch and reset
+-        if os.path.exists(os.path.join(basepath, 'layers/.git')):
++        if os.path.exists(os.path.join(layers_dir, '.git')):
+             out = subprocess.check_output("git status --porcelain", shell=True, cwd=layers_dir)
+             if not out:
+-                ret = subprocess.call("git fetch --all; git reset --hard @{u}", shell=True, cwd=layers_dir)
++                ret = sdk_update_helper.git_fetch_all(layers_dir)
++                if ret == 0:
++                    git_cmd = "git reset --hard @{u}"
++                    logger.debug("Running: %s", git_cmd)
++                    ret = subprocess.call(git_cmd, shell=True, cwd=layers_dir)
+             else:
+                 logger.error("Failed to update metadata as there have been changes made to it. Aborting.");
+                 logger.error("Changed files:\n%s" % out);
+@@ -166,13 +253,15 @@ def sdk_update(args, config, basepath, workspace):
+         else:
+             ret = -1
+         if ret != 0:
+-            ret = subprocess.call("git clone %s/layers/.git" % updateserver, shell=True, cwd=tmpsdk_dir)
++            ret = sdk_update_helper.git_clone("%s/layers/.git" % updateserver, tmpsdk_dir)
+             if ret != 0:
+                 logger.error("Updating metadata via git failed")
+                 return ret
+         logger.debug("Updating conf files ...")
+         for changedfile in changedfiles:
+-            ret = subprocess.call("wget -q -O %s %s/%s" % (changedfile, updateserver, changedfile), shell=True, cwd=tmpsdk_dir)
++            changedfile_url = "%s/%s" % (updateserver, changedfile)
++            logger.debug("Downloading %s from %s", changedfile, changedfile_url)
++            ret = sdk_update_helper.download(changedfile_url, os.path.join(tmpsdk_dir, changedfile))
+             if ret != 0:
+                 logger.error("Updating %s failed" % changedfile)
+                 return ret
+@@ -197,7 +286,7 @@ def sdk_update(args, config, basepath, workspace):
+                 for buildarch, chksum in newsums:
+                     uninative_file = os.path.join('downloads', 'uninative', chksum, '%s-nativesdk-libc.tar.bz2' % buildarch)
+                     mkdir(os.path.join(tmpsdk_dir, os.path.dirname(uninative_file)))
+-                    ret = subprocess.call("wget -q -O %s %s/%s" % (uninative_file, updateserver, uninative_file), shell=True, cwd=tmpsdk_dir)
++                    ret = sdk_update_helper.download("%s/%s" % (updateserver, uninative_file), os.path.join(tmpsdk_dir, uninative_file))
+ 
+         # Ok, all is well at this point - move everything over
+         tmplayers_dir = os.path.join(tmpsdk_dir, 'layers')
+-- 
+2.14.1
 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  meta/classes/recipe_links.bbclass | 79 +++++++++++++++++++++++++++++++++++++++
->  meta/conf/documentation.conf      |  1 +
->  2 files changed, 80 insertions(+)
->  create mode 100644 meta/classes/recipe_links.bbclass
->
-> diff --git a/meta/classes/recipe_links.bbclass b/meta/classes/recipe_links.bbclass
-> new file mode 100644
-> index 0000000..ea97605
-> --- /dev/null
-> +++ b/meta/classes/recipe_links.bbclass
-> @@ -0,0 +1,79 @@
-> +# Create symlink in WORKDIR to the various bb and
-> +# bbappend files used to define the package ops
-> +
-> +# Create a symlink given src and dst paths
-> +def create_link(d, src, dst):
-> +    if os.path.islink(dst):
-> +        try:
-> +            os.unlink(dst)
-> +        except OSError as err:
-> +            bb.error("  Failed to cleanup old link %s: %s"
-> +                         % (os.path.basename(dst), os.strerror(err.errno)))
-> +            return False
-> +
-> +
-> +    try:
-> +        os.symlink(src, dst)
-> +    except OSError as err:
-> +        bb.error("  Failed to create file link for %s: %s"
-> +                     % (src, os.strerror(err.errno)))
-> +        return False
-> +
-> +    return True
-> +
-> +# Ensure the work is scheduled. We do this as a func
-> +# to avoid sig changes causing things to be rebuilt
-> +# when the class is added/removed after the fact.
-> +do_unpack[postfuncs] += "create_recipe_links "
-> +do_unpack[vardepsexclude] += "create_recipe_links "
-> +python create_recipe_links() {
-> +    import re
-> +    import glob
-> +
-> +    workdir = d.getVar('WORKDIR')
-> +
-> +    # Main recipe file
-> +    bb.note("Add main recipe file link:")
-> +    bb_path = d.getVar('FILE')
-> +    bb_filename = os.path.basename(bb_path)
-> +    bb_destname = "%s/%s" % (workdir, bb_filename)
-> +    bb.note("  Linking %s" % bb_path)
-> +    if not create_link(d, bb_path, bb_destname):
-> +        return False
-> +
-> +    # Cleanup old bbappends links
-> +    bb.note("Removing old bbappend links:")
-> +    pn = d.getVar('PN')
-> +    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
-> +    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
-> +    for filename in files:
-> +        bb.note("  Removing: %s" % filename)
-> +        try:
-> +            os.unlink(filename)
-> +        except OSError as err:
-> +            bb.error("  Failed to cleanup old link %s: %s" %
-> +                         (os.path.basename(filename), os.strerror(err.errno)))
-> +            return False
-> +
-> +    # Add bbappends links
-> +    bb.note("Adding bbappend links:")
-> +    included_files = d.getVar('BBINCLUDED').split()
-> +    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" % re.escape(pn))
-> +    for filename in included_files:
-> +        if bbappend_re.match(filename):
-> +            bb.note("  Linking %s" % filename)
-> +            destname = "00_%s" % (os.path.basename(filename))
-> +            while os.path.exists("%s/%s" % (workdir, destname)):
-> +                 destname = str(int(destname[:2]) + 1).zfill(2) + destname[2:]
-> +            if not create_link(d, filename, "%s/%s" % (workdir, destname)):
-> +                return False
-> +
-> +    return True
-> +}
-> +
-> +# In addition to the func we want to make things able to be (re)run
-> +# easily by the user so ensure it is available as a task.
-> +addtask do_create_recipe_links
-> +python do_create_recipe_links() {
-> +    bb.build.exec_func("create_recipe_links", d)
-> +}
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index 254f8f1..2f6e686 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -21,6 +21,7 @@ do_devpyshell[doc] = "Starts an interactive Python shell for development/debuggi
->  do_devshell[doc] = "Starts a shell with the environment set up for development/debugging"
->  do_diffconfig[doc] = "Compares the old and new config files after running do_menuconfig for the kernel"
->  do_fetch[doc] = "Fetches the source code"
-> +do_create_recipe_links[doc] = "Creates links to bb and bbappend files in a package's WORKDIR"
->  do_install[doc] = "Copies files from the compilation directory to a holding area"
->  do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
->  do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
