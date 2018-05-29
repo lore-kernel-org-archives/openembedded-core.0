@@ -1,34 +1,29 @@
-Return-Path: <damien.riegel@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E8F35745D4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 26EB7605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2018 19:48:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 577C09C1C9C;
-	Mon, 28 May 2018 15:48:10 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id g6j9BePwsVyA; Mon, 28 May 2018 15:48:09 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 235489C1CED;
-	Mon, 28 May 2018 15:48:09 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id 4WCxIDDieT-I; Mon, 28 May 2018 15:48:09 -0400 (EDT)
-Received: from workotop.mtl.sfl (unknown [192.168.50.174])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id F378B9C1BD3;
-	Mon, 28 May 2018 15:48:08 -0400 (EDT)
-From: Damien Riegel <damien.riegel@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 May 2018 15:47:44 -0400
-Message-Id: <20180528194744.32247-1-damien.riegel@savoirfairelinux.com>
-X-Mailer: git-send-email 2.17.0
+	Tue, 29 May 2018 01:39:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4T1dnZY007464
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 May 2018 18:39:49 -0700 (PDT)
+Received: from [128.224.27.69] (128.224.27.69) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 28 May 2018 18:39:48 -0700
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1527216285.git.liezhi.yang@windriver.com>
+	<443f9e25b92e4c17bedc679894ba25f4746e7885.1527216285.git.liezhi.yang@windriver.com>
+	<08a213e4-29e8-2d43-156f-5e51a1409b30@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <943e9191-51f5-ab2e-b9b5-96956375d41c@windriver.com>
+Date: Tue, 29 May 2018 09:39:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Subject: [rocko][PATCH] npm.bbclass: Fix building node modules with npm@5
+In-Reply-To: <08a213e4-29e8-2d43-156f-5e51a1409b30@windriver.com>
+Subject: Re: [PATCH 02/24] runqemu-extract-sdk: allow install debugfs on rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,61 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 19:48:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 May 2018 01:39:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-From: B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszor@pr.hu>
 
-npm cache clear throws an error with npm@5 and suggests to
-use npm cache verify instead. But our cache is actually empty,
-so use npm cache clear --force.
 
-npm install in the source directory creates symlinks with npm@5.
+On 05/29/2018 01:14 AM, Randy MacLeod wrote:
+> On 05/24/2018 10:48 PM, Robert Yang wrote:
+>> Usually, the debugfs' (-dbg.tar.*) work follow is:
+> s/work follow/workflow/
+>> 1) Install regular rootfs to dir_foo
+>> 2) Install debugfs (-dbg.tar.*) to the same dir_foo
+>>
+>> So we need allow install debugfs on rootfs.
+> So we need to allow installing the debugfs on top of the rootfs.
+> 
+> 
+> or at least, I think that's what you mean.
 
-Use a combination of npm pack and npm install module-version.tgz
-that works the same way with older and new npm versions and is
-guaranteed to create actual copies instead of directory symlinks.
+Thanks, done.
 
-This change allows using nodejs 8.x LTS, tested with 8.9.4.
+// Robert
 
-Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@pr.hu>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
-I'm sending a request to include this patch in the rocko branch, as the
-version of NodeJS included in rocko version of meta-oe is 8.4.0, so it
-can definitely benefit from this patch.
-
- meta/classes/npm.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index a69bedbb28..898a54eb50 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -31,7 +31,7 @@ npm_do_compile() {
- 	fi
- 	npm set cache ${WORKDIR}/npm_cache
- 	# clear cache before every build
--	npm cache clear
-+	npm cache clear --force
- 	# Install pkg into ${S} without going to the registry
- 	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
- 		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --no-registry ins=
-tall
-@@ -45,7 +45,8 @@ npm_do_install() {
- 	# be created in this directory
- 	export HOME=3D${WORKDIR}
- 	mkdir -p ${NPM_INSTALLDIR}/
--	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arc=
-h=3D${NPM_ARCH} --production --no-registry
-+	npm pack .
-+	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arc=
-h=3D${NPM_ARCH} --production --no-registry ${PN}-${PV}.tgz
- 	if [ -d ${D}${prefix}/etc ] ; then
- 		# This will be empty
- 		rmdir ${D}${prefix}/etc
---=20
-2.17.0
-
+> ../Randy
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   scripts/runqemu-extract-sdk | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
+>> index 2a0dd50..f4286ef 100755
+>> --- a/scripts/runqemu-extract-sdk
+>> +++ b/scripts/runqemu-extract-sdk
+>> @@ -76,7 +76,9 @@ fi
+>>   pseudo_state_dir="$SDK_ROOTFS_DIR/../$(basename 
+>> "$SDK_ROOTFS_DIR").pseudo_state"
+>>   pseudo_state_dir="$(readlink -f $pseudo_state_dir)"
+>> -if [ -e "$pseudo_state_dir" ]; then
+>> +debug_image="`echo $ROOTFS_TARBALL | grep '\-dbg\.tar\.'`"
+>> +
+>> +if [ -e "$pseudo_state_dir" -a -z "$debug_image" ]; then
+>>       echo "Error: $pseudo_state_dir already exists!"
+>>       echo "Please delete the rootfs tree and pseudo directory manually"
+>>           echo "if this is really what you want."
+>>
+> 
+> 
 
