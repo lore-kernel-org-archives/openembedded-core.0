@@ -1,50 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F1B74D47
+Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CA1B74A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 21:29:55 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id e9-v6so7895140pfi.4
+	Tue, 29 May 2018 21:29:56 +0000 (UTC)
+Received: by mail-pf0-f181.google.com with SMTP id a20-v6so7900022pfo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 14:29:56 -0700 (PDT)
+	Tue, 29 May 2018 14:29:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=C6EM1x9L+UxzjBfHI4C7NW+CelHz0Bq5yFFlDzzzUNo=;
-	b=B74DBoaGzZwWDIvfvosuFZfDgJiWKPNYLYnn1IUMDoasrqp1qLG5/F2z1Xo13TuwEf
-	rmQkbgaOv6n2sy2LD+VBB2+ShOnaYkvVVpaq9UV8CBMOX4whwkXhPREaLQdsYI7LD865
-	mEbqRLMHLMOce+4UcZZJfVE4adrHrHVqDM/2lbfUvW1eFTF6BANelef9LCq7kCVppz95
-	ZtpqiuXWxQni2cvpPr1zjmXF0Jw96laI03JIIDN8EktV2vwhBO3fdW/4TeZ63ovsSM1R
-	3ilp/qL8eZaVGwY6Yysffm3T+SUKRlY/xOzoSWtVYUlJX6EzNf+E8xD0STu2iN4TSwqX
-	dq7g==
+	bh=79kSlY+whXlBEx1BE+YHDvWz0Adhe74aOijLuVYLoe8=;
+	b=ZDN1y0CkqAaq1S8UDOblLxTd1tbsWUCRxR51IPTuHZWGC3tOQ3Y8OOuNXA+XFIurMR
+	6nQniNhinwYZqH5EQ1jfvHLrA+kcSsJQPN/ZYgmFHRjqPj5ppWqXcNMs6srE9IvNT8uh
+	q3R9xWREm1gpvbRpr4jYf6UKEogZHpS0NsykPhvif31vm+Bn11VzXAVYsQ6zy5clidlO
+	u+sx6h5dcWS4pmExfiArPvSCMwM21EVCmaXUZV4FCYFMxBtaBGffQV1BUfjdLmySDdTM
+	xY5q/05xJX+XMCV1iAjnXMqy594wZ4E0G3ecIkcCqhajQyVorS/vl1eH9iNKQl2qv8B8
+	ClnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=C6EM1x9L+UxzjBfHI4C7NW+CelHz0Bq5yFFlDzzzUNo=;
-	b=h1xO7020+iXRfLOdDdZQrJ2B05Y0X/w15lu++godagmLJB/4TpHvp1Q6GwmK57+xem
-	DlTHlgMDvL/wOOD/jWa/PLffDRFUCihX5jcNgF4YjUb5D0jh19BI0piAp8ktkEkmXzUJ
-	SZVEYbR+rKhCKgfNJHu/afhwsteZ/wnunUBeAXyZ8daxKI5uetHdrZW0DMzaedkanXYY
-	LtQ6BseVReTe/nP8bEuU5Sy5hfvRTXtAWmBtRVdjyloicO6dw5RBUKqB4jEMi4FeXJX1
-	vpeartCfjIVLHqyHsv8q3cNfBTBOIG99fsArVzubni4xnCk3bC45v06mVCoAFv0H/mPS
-	g9ag==
-X-Gm-Message-State: ALKqPweEccYU8Xbhm/Qmbbl59a7hpZyfcKMYbcynM+RBHhwNrNSCIULK
-	BziCb52ycwLCrJREGFixOl1V2A==
-X-Google-Smtp-Source: ADUXVKJgusyp+uiCM/9denma7+dOrdLOUHOFTgysVkJhj02TC09IGmI34RQ60n/5V0XRyPMp3FeiDg==
-X-Received: by 2002:a63:7b0e:: with SMTP id w14-v6mr64695pgc.165.1527629396291;
-	Tue, 29 May 2018 14:29:56 -0700 (PDT)
+	bh=79kSlY+whXlBEx1BE+YHDvWz0Adhe74aOijLuVYLoe8=;
+	b=HziS29NCRppXtsBfLNBRAhiqzb/P+hKotyEFn34SXOSl3FOvZvg50pbMYJ0V/6XHGz
+	BN6yO3YhCwAiB7/bmwYVCuN9vYfOGs4dEpL1X1lAYhHd9dQTdJloJ1e7zkG1PFo6O2tl
+	GjerhCZoniwtNPUv9e0RVibHg0ovrnaD4gBXyiY44Hx6lQC6ITv8iXYuoATzI563N54p
+	VFUDrWcYo3qovRhIqswz7NbrWwd9q5gmmgmR+0Xp1y73ehZlG7qwsrReXKnrJ1Y+qFd4
+	HFTbL3Om38oAotvhZrX2SOQkk4oeovoXaEUM51m4Azyp1HGCtWLritAzFDtVjvb9A/W7
+	N8Bw==
+X-Gm-Message-State: ALKqPweD9cl907cZlr30K+DjYxYADq2PYw6zn5l/Ek1e8csTmETDczPR
+	hTZp9nCmyicyZkuMFHTd7C6dyQ==
+X-Google-Smtp-Source: ADUXVKL7nPgmrni0VIcANjXctphSM76MWOApwa2Svfcdpv18UdeqsaJfxvPdC2jRX3NJbE10Mma24A==
+X-Received: by 2002:a63:b601:: with SMTP id j1-v6mr56185pgf.335.1527629397769; 
+	Tue, 29 May 2018 14:29:57 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	i7-v6sm24362pfa.34.2018.05.29.14.29.55
+	i7-v6sm24362pfa.34.2018.05.29.14.29.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 29 May 2018 14:29:55 -0700 (PDT)
+	Tue, 29 May 2018 14:29:57 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 May 2018 14:29:44 -0700
-Message-Id: <1527629388-3808-2-git-send-email-armccurdy@gmail.com>
+Date: Tue, 29 May 2018 14:29:45 -0700
+Message-Id: <1527629388-3808-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
 References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 1/5] distcc: move ASNEEDED over-ride into the distcc recipe
+Subject: [PATCH v2 2/5] as-needed.inc: drop ASNEEDED over-ride for openobex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 21:29:55 -0000
+X-List-Received-Date: Tue, 29 May 2018 21:29:57 -0000
 
-Move the recipe specific over-ride for ASNEEDED into the recipe to
-make it more apparent that the over-ride is being applied (and that
-it should be re-checked on version updates, etc).
+The over-ride has been merged into the openobex recipe in meta-oe:
 
-Re-apply change, which was previously merged and then reverted to
-avoid conflicts with a distcc version update.
+  http://git.openembedded.org/meta-openembedded/commit/?id=e59a9738c24ccaeac91740d1f67c607d4ee2a217
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/distro/include/as-needed.inc     | 1 -
- meta/recipes-devtools/distcc/distcc_3.3.bb | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/as-needed.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-index f2e7e7b..9c23564 100644
+index 9c23564..b163fef 100644
 --- a/meta/conf/distro/include/as-needed.inc
 +++ b/meta/conf/distro/include/as-needed.inc
-@@ -1,7 +1,6 @@
+@@ -1,6 +1,4 @@
  
  ASNEEDED = "-Wl,--as-needed"
  
--ASNEEDED_pn-distcc = ""
- ASNEEDED_pn-openobex = ""
- 
+-ASNEEDED_pn-openobex = ""
+-
  TARGET_LDFLAGS += "${ASNEEDED}"
-diff --git a/meta/recipes-devtools/distcc/distcc_3.3.bb b/meta/recipes-devtools/distcc/distcc_3.3.bb
-index 40648e2..33a64ce 100644
---- a/meta/recipes-devtools/distcc/distcc_3.3.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.3.bb
-@@ -25,6 +25,8 @@ S = "${WORKDIR}/git"
- 
- inherit autotools pkgconfig update-rc.d useradd systemd
- 
-+ASNEEDED = ""
-+
- EXTRA_OECONF += "--disable-Werror PYTHON='' --disable-pump-mode"
- 
- USERADD_PACKAGES = "${PN}"
 -- 
 1.9.1
 
