@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9F560851
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E12EE60851
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 17:26:48 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id i18-v6so8978201qtp.12
+	Tue, 29 May 2018 17:29:36 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id x34-v6so6353995qtk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 10:26:49 -0700 (PDT)
+	Tue, 29 May 2018 10:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=tJvsNKXRe9cCujR/vQ3Eg+FH7iNsP4P8S5I6M0JBdNA=;
-	b=fc2su4OQ88eJ6crX7QgHeOfBlq9bjRZFLu/J3tPDOsljf+wNdBUY2yDtWu+Gaazd3s
-	0QIkpQzSlOvGlBqCtmFvxtpjCymegiSsNYBDuZrGbHdDbaRfORXdV0lc2V9CEog+AO2G
-	5f87IMIk+/l1yh83ghsNo/rfDbTlkQpECIhiHPCMle0kqixaB0/r44Dc1WNPerRMeVIw
-	o5n7RCqoK1aY/o9L5BdR0DDQHfh7KZ5/NzO1AUsVbF5iYEkCZ7+9ZFWvq1vi7m59h9z+
-	nTKXXtWpnUVih8ekFFzs7hc7HvfEuwmZ8dM9wchOnn1FOK9R3M/Fynnp4uni4y0fIXwS
-	QIGA==
+	:cc; bh=oKaNAWbKmxrnoAih19qyK6rRobJFKgCtQiocxwh5B3g=;
+	b=evisN559Gz2Km15nqFhuJ7lf8qTTC1AYQX3r2M/OraFrhuhkccLDEv8HdmMkCOUoBl
+	uvm7eKYEnmaWZOH+7VSGtWHFNvk4u0rdoJOE4kNKBiYKILIK349f7FV55b5NpynCw5Uw
+	u4rEIh2pzAG2zdn19PEpNuPcSnd44NA5yMlPEvaL/R0kbMKePxcFSqGfdNbX3+RiMAH6
+	hJSS4WgVxCWy1wG2pZmJHVDESytdm8JBIiuB1ArrMEVf2QNxDqNBZIeN1upQbRjbu7ya
+	OYVQ8PI11p7qE7yH13QtOJYXSDC0CRNzT24psIIFzgUVIjxbFat+rM+Gnu+OQqw9jwsn
+	4CIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=tJvsNKXRe9cCujR/vQ3Eg+FH7iNsP4P8S5I6M0JBdNA=;
-	b=OXAIfDr7cBLVllxy/aUCvOyb6BvxymAW3+I8R5poFPnXOMcbAKV/aJqbQda1L82U2+
-	M+1+QlF70sFYVu1H4NSuiFIPSKf4vCF2PVcXv3hqyvc1VikoNC/rc49NSrUbh0jLxKn0
-	HPo0mqZypAoMwfzssaUUM6wUxVlVAfVocOh3Y5xhuvozhysaB77trA/7oe2eUSo9Sgxd
-	o9Yt4wZfLsTKJSfIFC+iRAENu1oPmZXKXz9ByhL+9YG43dU9+J2ufA1yhYDdbU3R/jHE
-	1sIbNDTv/t02i/hpyybdg9i5pgMPCAiHJPFrwnYdDUWRjcFoNu8ChIJ8+/vp3pzNt4Z8
-	jI2g==
-X-Gm-Message-State: ALKqPwdBjxDEmbKFYY/Dly1YPJjXd9fAR79cDm3fxx+AxfhkZjqyyUu1
-	Hwx7yP6X3OQGUfbLAzbpeyctm0hYPVNBgKJcdTc=
-X-Google-Smtp-Source: ADUXVKIHOYpASm6SqwVsf5tHAc2HMRONg/VJaJfihqsQWFbBgr8JSg23CdzTEaxNTfw3xbvZuOqNuWkzqEMzJFbF2OU=
-X-Received: by 2002:aed:23d0:: with SMTP id
-	k16-v6mr17956725qtc.20.1527614808875; 
-	Tue, 29 May 2018 10:26:48 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=oKaNAWbKmxrnoAih19qyK6rRobJFKgCtQiocxwh5B3g=;
+	b=MpMrWsQ+pG433+d+tRnPVSFVtWDMLpp6iwn//kbGh8C1VJMiPul+d1hEm3872uuKAx
+	m43mdmGTg5jaNJIoYa4kKmR7MBmWpvCrTGIdCK4wgwb+ybQFD2tU7hRXXam2ca2jT4c9
+	yjd7k3zpfwTlHLXDR9OscmgS3I4vfhJOCmky56QYwyB0ERR9lb+0RgYojNqeYhSVpQf5
+	72xuIdq+1258KjrJPex6BdhMIip6a77pyBXIIefU/BOiTXpo6bEpItO+kM4hseqfQMo8
+	HqMb4I+2SQDj9pKbXJZbRjNTIPdUSZpxM16jXUxF63wQtXONBnW5nuxS0cvAmS7Myiar
+	f/gA==
+X-Gm-Message-State: ALKqPwdrit5gNfhWGJee73tCjBURlDZDmvJcBE9j7hC9ihjroiYPxAqd
+	P1lRrt1r/BqrYOqRerkeOBxCB7jgkrCfHM/rh+k=
+X-Google-Smtp-Source: ADUXVKIUR3vJ6OGUhi9i3vQPyROHVmoc2xmd0OrrnXP+JHk9LR6oujbpKZ/y0CAjrYYKerl1ZQeSdh55OfatcbfxHYI=
+X-Received: by 2002:ac8:2b5c:: with SMTP id
+	28-v6mr17379552qtv.117.1527614976069; 
+	Tue, 29 May 2018 10:29:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:9a0f:0:0:0:0:0 with HTTP; Tue, 29 May 2018 10:26:18
+Received: by 2002:a0c:9a0f:0:0:0:0:0 with HTTP; Tue, 29 May 2018 10:29:05
 	-0700 (PDT)
-In-Reply-To: <CAEhQi8krCQK=HoekQXPM-5hTPv-ch6S_qy=wQnVTkwm5XtpQmw@mail.gmail.com>
-References: <CAEhQi8n2uy8y4OyZ+X1hxcEQk54sAV8Ew-_8NsqD+ri8ctfRFg@mail.gmail.com>
-	<CAEhQi8krCQK=HoekQXPM-5hTPv-ch6S_qy=wQnVTkwm5XtpQmw@mail.gmail.com>
+In-Reply-To: <1527215248-7224-1-git-send-email-armccurdy@gmail.com>
+References: <1527215248-7224-1-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 10:26:18 -0700
-Message-ID: <CAMKF1so9VrkxJwaRi3oNT-+8onzOp9m_4Mc8c0nKXQAQe4nvoQ@mail.gmail.com>
-To: =?UTF-8?B?TcOlbnMgWmlnaGVy?= <mans.zigher@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe] protobuf fetch failed
+Date: Tue, 29 May 2018 10:29:05 -0700
+Message-ID: <CAMKF1srvQZ7z3xYaNJU9M_QQNq+pBFftSrJNBWwhcXQp0XDQPw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dropbear: drop obsolete patch 0004-fix-2kb-keys.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,60 +57,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 17:26:48 -0000
+X-List-Received-Date: Tue, 29 May 2018 17:29:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I think the branch has disappeared upstream. No sure if we can find a
-equivalent fork where this branch is intact. then a simple SRC_URI re
-assignment would be enough. Otherwise we might have to upgrade to
-a version that exists now a days
+On Thu, May 24, 2018 at 7:27 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> This patch has been obsolete since 2005:
+>
+>   https://github.com/mkj/dropbear/commit/736f370dce614b717193f45d084e9e009de723ce
+>
 
-On Fri, May 25, 2018 at 1:55 AM, M=C3=A5ns Zigher <mans.zigher@gmail.com> w=
-rote:
-> Sorry disregard my comments on protobuf_3.5.1.bb it works there. But the
-> questions stand when it comes to rocko branch and protobuf_3.4.1.bb.
+Seems fine to drop but I would like to understand why we carried it thus far.
+What is the history of it in OE ?
+
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-core/dropbear/dropbear.inc               |  1 -
+>  .../dropbear/dropbear/0004-fix-2kb-keys.patch         | 19 -------------------
+>  2 files changed, 20 deletions(-)
+>  delete mode 100644 meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
 >
-> BR
-> Mans Zigher
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+> index 16ac644..a5dcab8 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -14,7 +14,6 @@ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 >
-> 2018-05-25 10:52 GMT+02:00 M=C3=A5ns Zigher <mans.zigher@gmail.com>:
->>
->> Hi,
->>
->> I am using rocko and for some reason the fetch started to fail. The reci=
-pe
->> protobuf_3.4.1.bb
->>
->> SRC_URI =3D "git://github.com/google/protobuf.git;branch=3D3.4.x"
->>
->> ERROR: protobuf-3.4.1+gitAUTOINC+b04e5cba35-r0 do_fetch: Fetcher failure
->> for URL: 'git://github.com/google/protobuf.git;branch=3D3.4.x'. Unable t=
-o
->> fetch URL from any source.
->>
->> The strange thing is that I cannot find a branch 3.4.x in the
->> https://github.com/google/protobuf.
->>
->> I also noticed that on master you are using 3.5.1 but the same problem
->> occurs there
->>
->> SRC_URI =3D "git://github.com/google/protobuf.git;branch=3D3.5.x"
->>
->> which is a branch I cannot find.
->>
->> What is it that I am missing here?
->> Would it make sense to use tag instead of branch in the recipe?
->>
->> BR
->> Mans Zigher
->
->
+>  SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+>             file://0001-urandom-xauth-changes-to-options.h.patch \
+> -           file://0004-fix-2kb-keys.patch \
+>             file://0007-fix-localoptions-search-path.patch \
+>             file://init \
+>             file://dropbearkey.service \
+> diff --git a/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch b/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
+> deleted file mode 100644
+> index 60c6a29..0000000
+> --- a/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -Subject: [PATCH 4/6] fix 2kb keys
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> ----
+> - kex.h | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -Index: dropbear-2017.75/kex.h
+> -===================================================================
+> ---- dropbear-2017.75.orig/kex.h
+> -+++ dropbear-2017.75/kex.h
+> -@@ -106,6 +106,6 @@ int curve25519_donna(unsigned char *out,
+> - #endif
+> -
+> -
+> --#define MAX_KEXHASHBUF 2000
+> -+#define MAX_KEXHASHBUF 3000
+> -
+> - #endif /* DROPBEAR_KEX_H_ */
+> --
+> 1.9.1
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
