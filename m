@@ -1,25 +1,49 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 373E960197
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E24560197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 19:45:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4TJia1w019860
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 29 May 2018 12:44:58 -0700
-Received: from yow-masselst-lx1.localnet (128.224.60.223) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 29 May 2018 12:44:42 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 15:44:41 -0400
-Message-ID: <2631786.4GDfVIaf2e@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <CAMKF1sqWVd61gS8eksZ_LB2DK00oSzM0BXjDM_5Pxz53SCzGBA@mail.gmail.com>
+	Tue, 29 May 2018 19:46:57 +0000 (UTC)
+Received: by mail-qk0-f175.google.com with SMTP id d130-v6so7098246qkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 May 2018 12:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GtCCaaGu46RZoYINPFevfw9svXxqLduwjE9qXR4hvM0=;
+	b=LEisZJ1HCnpf2lf3OR23J0Oza4I6C+7RyAYuPSY64ev8T80rSjGU9JSAsBzHFQUzC8
+	LAl5LwHP8iVPNNrkMlBOYnoxs6Bi9J1XFd+s5Q/TSudqIigZqnpL98uw1CVZmg1UYp5Z
+	AhUdP9R0soC7qKPeA9vx23Qg6hK5im61/0r7RlTo7bUrjFbDeXF85OwTs1r0beFZUDUY
+	1BtsCXdtyEBDxijx66my9b4ZN7AEmltLYlkKiQBhv7cq5t/95kwk1zs3jsF46kBaVKKW
+	t40bSUFjtpVmW26s3DmPg6XJUm7foznHvzoGDo15yirnCDLTaJJEldRHdsw3AGuwoZVT
+	0SHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GtCCaaGu46RZoYINPFevfw9svXxqLduwjE9qXR4hvM0=;
+	b=DC4ox8/PtvpeGVMk9JZ6T+nmTPLlCsawsLDFnORQyCqOBh/6m9yenz/cgkQoOtAXDT
+	nl+5R8Vmfu6x0lZ2Pg3flAWWcb+veZsrMLK+lPEB9TkHLY1LKl2D2tSGZIaGNWjmObbm
+	7ud7wITnOJ69npsWYUZiEBR31eS69A/AYZNgYH4mzDbrR8eWK/CBsioKZIsZY8db3Mer
+	R2jA18RE0dqfYMApMVPg0skFOqcuQA7eAJ8xg1dAYUx8RnDouAeWpus5SmETX8wDYrcJ
+	HUYXa2SRtMxdYCEc7lUPE9hWao96WdDz8N4Hmrlmpj5kY+Js+Jw4RD0yvjglFK4wTBdq
+	7HCw==
+X-Gm-Message-State: ALKqPwcM2ImZElDCqN1oscSjlunF1hIDUKujsrYhlT9XT5EpuUzyK0RP
+	aZZROACAHPKh27E/2NEwFRFyn2ac1LAuotyJFh8=
+X-Google-Smtp-Source: ADUXVKLgK0hgSroZqi6sR4U7B9ErVTWPQHyETxkO/Xt9CX7pxAIxkpl9fUA8JkrtExIO+lsSvumzqLms8GY724JCyYU=
+X-Received: by 2002:a37:cbd3:: with SMTP id
+	u80-v6mr15674022qkl.290.1527623218498; 
+	Tue, 29 May 2018 12:46:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a0c:9a0f:0:0:0:0:0 with HTTP; Tue, 29 May 2018 12:46:27
+	-0700 (PDT)
+In-Reply-To: <d883f610-cff1-6b16-97bd-74f84225605a@windriver.com>
 References: <1527514686-21442-1-git-send-email-mark.asselstine@windriver.com>
 	<CAMKF1sqWVd61gS8eksZ_LB2DK00oSzM0BXjDM_5Pxz53SCzGBA@mail.gmail.com>
-MIME-Version: 1.0
+	<d883f610-cff1-6b16-97bd-74f84225605a@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 29 May 2018 12:46:27 -0700
+Message-ID: <CAMKF1spAmk-pAmt=efM+vPeCv6uSfXwapTd_z6gRSacAcEShSg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] recipe_links.bbclass: introduction
@@ -35,183 +59,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 19:45:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 May 2018 19:46:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tuesday, May 29, 2018 3:22:54 PM EDT Khem Raj wrote:
-> On Mon, May 28, 2018 at 6:38 AM, Mark Asselstine
-> 
-> <mark.asselstine@windriver.com> wrote:
-> > This is a new class which can be used (for example via USER_CLASSES in
-> > local.conf) to make your build more development friendly. When
-> > included this class will create symlinks to the various bb and
-> > bbappend files in WORKDIR.
-> > 
-> > Normally when you are debugging or extending a package's recipe files
-> > a developer will employ one of a few indirect techniques to determine
-> > where bb and bbappends files associated with a recipe exist. For
-> > example they might use bitbake-layers show-recipes or similar, or
-> > simply rely on their experience to guide them. Even after working with
-> > openembedded for serveral years now I find these techniques tedious
-> > and time consuming, and sometimes even hit and miss.
-> > 
-> > Since the whereabouts of these files are already stored in various
-> > files at parse time we can create symlinks to simplify the task of
-> > finding these files, making them available in WORKDIR for easy
-> > inpsection and in a convenient location if using devshel for instance.
-> > 
-> > For now this work is completely optional but we could conceivable make
-> > this the default behavior if folks find it is convenient and the cost
-> > of performing these operations across all builds is minimal enough.
-> > 
-> > recipe_links can safely be added to USER_CLASSES for existing builds,
-> > care has been taken to avoid this action causing anything to be
-> > rebuilt. After this has been added you can either 'bitbake <recipe> -C
-> > unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
-> > links to be created in the WORKDIR for the specified recipe.
-> 
-> I think this is not complementing devtool workflow, even though its
-> not going to hurt it.
-> however, devtool workflow is what we should be targeting as primary
-> workflow for OE
-> and I do not see a benefit of this in that regard.
+On Tue, May 29, 2018 at 12:40 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 5/29/18 2:22 PM, Khem Raj wrote:
+>> On Mon, May 28, 2018 at 6:38 AM, Mark Asselstine
+>> <mark.asselstine@windriver.com> wrote:
+>>> This is a new class which can be used (for example via USER_CLASSES in
+>>> local.conf) to make your build more development friendly. When
+>>> included this class will create symlinks to the various bb and
+>>> bbappend files in WORKDIR.
+>>>
+>>> Normally when you are debugging or extending a package's recipe files
+>>> a developer will employ one of a few indirect techniques to determine
+>>> where bb and bbappends files associated with a recipe exist. For
+>>> example they might use bitbake-layers show-recipes or similar, or
+>>> simply rely on their experience to guide them. Even after working with
+>>> openembedded for serveral years now I find these techniques tedious
+>>> and time consuming, and sometimes even hit and miss.
+>>>
+>>> Since the whereabouts of these files are already stored in various
+>>> files at parse time we can create symlinks to simplify the task of
+>>> finding these files, making them available in WORKDIR for easy
+>>> inpsection and in a convenient location if using devshel for instance.
+>>>
+>>> For now this work is completely optional but we could conceivable make
+>>> this the default behavior if folks find it is convenient and the cost
+>>> of performing these operations across all builds is minimal enough.
+>>>
+>>> recipe_links can safely be added to USER_CLASSES for existing builds,
+>>> care has been taken to avoid this action causing anything to be
+>>> rebuilt. After this has been added you can either 'bitbake <recipe> -C
+>>> unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
+>>> links to be created in the WORKDIR for the specified recipe.
+>>>
+>>
+>> I think this is not complementing devtool workflow, even though its
+>> not going to hurt it.
+>> however, devtool workflow is what we should be targeting as primary
+>> workflow for OE
+>> and I do not see a benefit of this in that regard.
+>
+> I think the same could be said about other bbclasses that are not enabled.
+> devtool is not the only workflow, and a lot of people like to work directly
+> using 'bitbake -c devshell' or similar still.
+>
+> As an optional user class, I do think this is reasonable and helpful to many folks.
+>
+> (it also does not clash with the devtool workflow at all, so even if enabled a
+> devtool user won't be negatively impacted by it.)
 
-I agree that this is unrelated to devtool. My only comment was in response to 
-the question that this will play nice with the devtool workspaces, and it 
-does.
-
-As to its usefulness, I think there is plenty of room for small improvements 
-like this without having to push people towards devtool workflows. I have been 
-using it for a while now and I can say with certainty it has saved me time and 
-grief, enough so I wanted to share and not hoard. If others agree and it is 
-merged, great, if not oh well.
-
-Mark
-
-> 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> >  meta/classes/recipe_links.bbclass | 79
-> >  +++++++++++++++++++++++++++++++++++++++ meta/conf/documentation.conf    
-> >   |  1 +
-> >  2 files changed, 80 insertions(+)
-> >  create mode 100644 meta/classes/recipe_links.bbclass
-> > 
-> > diff --git a/meta/classes/recipe_links.bbclass
-> > b/meta/classes/recipe_links.bbclass new file mode 100644
-> > index 0000000..ea97605
-> > --- /dev/null
-> > +++ b/meta/classes/recipe_links.bbclass
-> > @@ -0,0 +1,79 @@
-> > +# Create symlink in WORKDIR to the various bb and
-> > +# bbappend files used to define the package ops
-> > +
-> > +# Create a symlink given src and dst paths
-> > +def create_link(d, src, dst):
-> > +    if os.path.islink(dst):
-> > +        try:
-> > +            os.unlink(dst)
-> > +        except OSError as err:
-> > +            bb.error("  Failed to cleanup old link %s: %s"
-> > +                         % (os.path.basename(dst),
-> > os.strerror(err.errno))) +            return False
-> > +
-> > +
-> > +    try:
-> > +        os.symlink(src, dst)
-> > +    except OSError as err:
-> > +        bb.error("  Failed to create file link for %s: %s"
-> > +                     % (src, os.strerror(err.errno)))
-> > +        return False
-> > +
-> > +    return True
-> > +
-> > +# Ensure the work is scheduled. We do this as a func
-> > +# to avoid sig changes causing things to be rebuilt
-> > +# when the class is added/removed after the fact.
-> > +do_unpack[postfuncs] += "create_recipe_links "
-> > +do_unpack[vardepsexclude] += "create_recipe_links "
-> > +python create_recipe_links() {
-> > +    import re
-> > +    import glob
-> > +
-> > +    workdir = d.getVar('WORKDIR')
-> > +
-> > +    # Main recipe file
-> > +    bb.note("Add main recipe file link:")
-> > +    bb_path = d.getVar('FILE')
-> > +    bb_filename = os.path.basename(bb_path)
-> > +    bb_destname = "%s/%s" % (workdir, bb_filename)
-> > +    bb.note("  Linking %s" % bb_path)
-> > +    if not create_link(d, bb_path, bb_destname):
-> > +        return False
-> > +
-> > +    # Cleanup old bbappends links
-> > +    bb.note("Removing old bbappend links:")
-> > +    pn = d.getVar('PN')
-> > +    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
-> > +    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
-> > +    for filename in files:
-> > +        bb.note("  Removing: %s" % filename)
-> > +        try:
-> > +            os.unlink(filename)
-> > +        except OSError as err:
-> > +            bb.error("  Failed to cleanup old link %s: %s" %
-> > +                         (os.path.basename(filename),
-> > os.strerror(err.errno))) +            return False
-> > +
-> > +    # Add bbappends links
-> > +    bb.note("Adding bbappend links:")
-> > +    included_files = d.getVar('BBINCLUDED').split()
-> > +    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" %
-> > re.escape(pn)) +    for filename in included_files:
-> > +        if bbappend_re.match(filename):
-> > +            bb.note("  Linking %s" % filename)
-> > +            destname = "00_%s" % (os.path.basename(filename))
-> > +            while os.path.exists("%s/%s" % (workdir, destname)):
-> > +                 destname = str(int(destname[:2]) + 1).zfill(2) +
-> > destname[2:] +            if not create_link(d, filename, "%s/%s" %
-> > (workdir, destname)): +                return False
-> > +
-> > +    return True
-> > +}
-> > +
-> > +# In addition to the func we want to make things able to be (re)run
-> > +# easily by the user so ensure it is available as a task.
-> > +addtask do_create_recipe_links
-> > +python do_create_recipe_links() {
-> > +    bb.build.exec_func("create_recipe_links", d)
-> > +}
-> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> > index 254f8f1..2f6e686 100644
-> > --- a/meta/conf/documentation.conf
-> > +++ b/meta/conf/documentation.conf
-> > @@ -21,6 +21,7 @@ do_devpyshell[doc] = "Starts an interactive Python shell
-> > for development/debuggi> 
-> >  do_devshell[doc] = "Starts a shell with the environment set up for
-> >  development/debugging" do_diffconfig[doc] = "Compares the old and new
-> >  config files after running do_menuconfig for the kernel" do_fetch[doc] =
-> >  "Fetches the source code"
-> > 
-> > +do_create_recipe_links[doc] = "Creates links to bb and bbappend files in
-> > a package's WORKDIR"> 
-> >  do_install[doc] = "Copies files from the compilation directory to a
-> >  holding area" do_install_ptest_base[doc] = "Copies the runtime test
-> >  suite files from the compilation directory to a holding area"
-> >  do_kernel_checkout[doc] = "Checks out source/meta branches for a
-> >  linux-yocto style kernel"> 
-> > --
-> > 2.7.4
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
-
+Dont get me wrong I do see that part. I was trying to make a case for promoting
+devtool workflow.
 
