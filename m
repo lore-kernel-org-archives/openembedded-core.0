@@ -1,50 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 22EC174D5E
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CF9174A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 21:29:59 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id x9-v6so7897411pfm.2
+	Tue, 29 May 2018 21:30:01 +0000 (UTC)
+Received: by mail-pf0-f176.google.com with SMTP id c10-v6so7887032pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 14:30:01 -0700 (PDT)
+	Tue, 29 May 2018 14:30:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZrC8I9zavDpA+i9S37wc+vODHB9hkWPBuDfLVNpNfSo=;
-	b=AtkXvGrdfQ0r9+ka0rQRlMFlHE9H9bpFeLIieDW+LuOhyZpER+j8t6cUcf1j9Vdx6c
-	UJnljrUJxa8RgW5xyz5iydWl9eU+0kCuJfD78SF4IZ34LFrIJ0BvFp05/cAA2rpwMybG
-	v+Gtm+1ksVF4YgHyNptTtZ8nc06uC0EZYA4xIg1KWNUI8MhY/gvi1fttE82MqHie9w0v
-	s0s13y4kr2SsgBrBnAu/m7BYNcavI1ZlUSx45gWfn0Z6fGhdE9hLSfA/sV5Db5I71d9m
-	uvD24odRJe1OlcfFXu47wXNlr3o1OxSZWcwkbDiq5NZYHClMdLl/l+EEWobpqgHRhf9/
-	3PIw==
+	bh=w0a9r/5qBnuIHIi8jb7pLDBbOvcbZASfCF4X2B/5Y/g=;
+	b=t+cD8Wl/YDCiMSi7QmWM4txmkj7eAqTYkpIsmk6Ch8sJKSqgJ3M68t0Sixixy3+iA8
+	ari2Zqzz6RE0m7RkrD/pN/ONAiKc8MRcuiNUifwWkMWrCLJ+mAyxfq7ntW4xZxb1+rkq
+	EmxFOngh3zgEel3CSElhPRJ9mWmPLqSDu0uxG1mlXwRvELL504C15tEtSNw4Hc/U4E9h
+	TFKCfCBpDxWDLImg3YiY9a0A1Dx81Ad1QI1ZRxDlKUB3S2HY+0/6i8Dy+aEBmL/ClsFk
+	xJjAFZIF0e+FP9O7eq/0o4GtGa8bSeQ/5FGAMI5yDwaP0xyC/j+0/Tn6wLqArScyxR9R
+	zC3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZrC8I9zavDpA+i9S37wc+vODHB9hkWPBuDfLVNpNfSo=;
-	b=XrJXc5Z7JFAIXKyVT9ELgKxEvAe5eBBqXSufGpTtWfdyK2CIAOA9CXs+v7RCmNKcyt
-	bhmF5f2Qi5vw6AqeXzLvf/YLxcpm32FR45aqqli8D3/VeKmGGXG90TXUPIuBwiz6AMFb
-	I10EOHGNGV9BadTpk/Qzh91TudjXKVcnY7v/3emYrS83bJbHqMRYkidM4nMXHhH8Ncux
-	u8+TYUx39C098CdughSpjVLUOw6JPaVWLkknERyxnm8ubeMuavBZBQzf8QDoPPXHZU7V
-	+GIXQJ1aPh6IwYFz+/t9E0bRPUysfJ26PZ7xgPKUY57YjTc7Z6NfpbQZF5w+k5TOIHx2
-	eeEw==
-X-Gm-Message-State: ALKqPweE9f0FBiGlkd0ekI6i+FDhbWgE/tP2X2LngAMrcDh75D8Rv1mL
-	ocJrqFS2aak3WE82ksYKAYWK1w==
-X-Google-Smtp-Source: ADUXVKJDdoYd7DEv+SRNLx+e04+xZjn1tiXYOqJ2tLqlb3/WoakI4U4UMKLq6lH75p2FZINLJ2vXhQ==
-X-Received: by 2002:a62:2f44:: with SMTP id v65-v6mr85592pfv.83.1527629400712; 
-	Tue, 29 May 2018 14:30:00 -0700 (PDT)
+	bh=w0a9r/5qBnuIHIi8jb7pLDBbOvcbZASfCF4X2B/5Y/g=;
+	b=r5dIbTs9nJaCTiPQazV/lq9ieLXSQb6c9+pjIq++dUjbEcLv24CtxmEV39LNdlJ1wZ
+	MQYF4jBr8/OhoKOP6ATeTYtwDZotyFoeY0O9gWSw5RmAZIAB0XwoOofRE+bsx6Jn+oJ6
+	P+seNCRknIQA9ULAfaRU4shGcB+AgtFB1IycpCJfyhngF/uv7ND+dyMrwQmeVeZsY2b4
+	XISna/P1dpMuyA16OIX1szuzFid5nPw77Ky4E57AfqQ4r9roWQCN0jrIZgX0j7PChtX7
+	bHTmV21ZJb9VhUx5vT7WnhnLzernRnxDEk4osn94zzAYlpTZ/7YwFB7kA8+l32rNoMfh
+	MxOA==
+X-Gm-Message-State: ALKqPwehhXmw4VCJr29lQsNsWolmLSWR2W4NZzrbwg7tX1zThq8REnUn
+	mVz8A1EQy8gP+psGmKPlX0fd1w==
+X-Google-Smtp-Source: ADUXVKJNU/BeE96f3zI8oJaksRJ7t9rGT0XrZ98j9oRNsqgivTHM4zaI8cpgUyE9H94HKp016UxBdA==
+X-Received: by 2002:a63:6887:: with SMTP id
+	d129-v6mr88275pgc.128.1527629402218; 
+	Tue, 29 May 2018 14:30:02 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	i7-v6sm24362pfa.34.2018.05.29.14.29.59
+	i7-v6sm24362pfa.34.2018.05.29.14.30.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 29 May 2018 14:30:00 -0700 (PDT)
+	Tue, 29 May 2018 14:30:01 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 May 2018 14:29:47 -0700
-Message-Id: <1527629388-3808-5-git-send-email-armccurdy@gmail.com>
+Date: Tue, 29 May 2018 14:29:48 -0700
+Message-Id: <1527629388-3808-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
 References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH v2 4/5] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
+Subject: [PATCH v2 5/5] bitbake.conf: fix minor typo in comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 21:30:00 -0000
-
-Previously, ASNEEDED was appended to TARGET_LDFLAGS from
-as-needed.inc via tcmode-default.inc and so may not have been enabled
-for external toolchain builds or other configurations which over-ride
-TCMODE (ie builds which do not include tcmode-default.inc).
-
-Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
-ensure that the optimisation is applied to all builds (and for
-consistency with the way that TARGET_LINK_HASH_STYLE is handled).
+X-List-Received-Date: Tue, 29 May 2018 21:30:01 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/bitbake.conf                      | 4 +++-
- meta/conf/distro/include/as-needed.inc      | 4 ----
- meta/conf/distro/include/tcmode-default.inc | 3 ---
- 3 files changed, 3 insertions(+), 8 deletions(-)
- delete mode 100644 meta/conf/distro/include/as-needed.inc
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 15f6da7..fab3dcc 100644
+index fab3dcc..3f63a25 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -585,8 +585,10 @@ LINKER_HASH_STYLE_mipsarch = "sysv"
+@@ -93,7 +93,7 @@ VOLATILE_LOG_DIR ?= "yes"
+ # Architecture-dependent build variables.
+ ##################################################################
  
- TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE') != 'gnu']}"
- 
-+ASNEEDED ?= "-Wl,--as-needed"
-+
- export LDFLAGS = "${TARGET_LDFLAGS}"
--export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
-+export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
- 
- # Pass parallel make options to the compile task
- EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
-diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-deleted file mode 100644
-index b163fef..0000000
---- a/meta/conf/distro/include/as-needed.inc
-+++ /dev/null
-@@ -1,4 +0,0 @@
--
--ASNEEDED = "-Wl,--as-needed"
--
--TARGET_LDFLAGS += "${ASNEEDED}"
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 4b58df0..d85fd1e 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -65,12 +65,9 @@ PREFERRED_VERSION_glibc-initial            ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_nativesdk-glibc-initial  ?= "${GLIBCVERSION}"
- PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
- 
--
- PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
- PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
- PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
--# Setup suitable toolchain flags
--require conf/distro/include/as-needed.inc
- 
- GOVERSION ?= "1.9%"
- PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+-# Immediate expansion since there is no point in reapeatedly calling
++# Immediate expansion since there is no point in repeatedly calling
+ # os.uname() throughout parsing
+ BUILD_ARCH := "${@os.uname()[4]}"
+ BUILD_OS := "${@os.uname()[0].lower()}"
 -- 
 1.9.1
 
