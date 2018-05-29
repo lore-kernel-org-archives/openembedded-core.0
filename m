@@ -1,51 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A75374966
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B1B960401
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 17:33:22 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id f13-v6so19671164qtp.10
+	Tue, 29 May 2018 18:26:11 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id d4-v6so10658777ual.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 10:33:23 -0700 (PDT)
+	Tue, 29 May 2018 11:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=niYpJL98ZAR0qoO8p01TYso51/Z0HB7smxSH9iOKr10=;
-	b=K8zt03q2MZ01oDP/PDn7Q0y7J2vcLgx6icl5cfYlF1wmMdFlnnerylKPtpiSrI5dhC
-	joZCojzdt2R1IItJhQsafq7xuhh+OMjfrV1B6YG/0TZBoVk0BTPERhwjSKjFDQfY/gWy
-	UOV/MnusA8REgqDVD6apuBpLYpCAs//UlbLwzEAHtSqWQsM4/oPTJki9befYzzLmPxq2
-	oNzS1i4H3MSIq2osf82MLw4jpcetVlzCg1EcKudQoCSSG/tcHsEtSbPORpGlPYu3FtMy
-	8DGdnxK1o/O0ceDRTDTsTl0M7yCrlk9vr1rjFuov23oF4NsJX3Py8NbDAqtvTjYEDRbv
-	rkdw==
+	:cc; bh=awbWQ38F26ZH2yqa1jNI4bHKTw2+vHHJAfVSs+3hviI=;
+	b=TJ3VdlL09yn4bDqsqy7pJUkLBU+as/PettvIEOUVmZu1XnprezlMC6SiuUDp2rv8pt
+	3Zr0vHfD+p2FYRXfNI9LxdbP3F37HP+3fEElHu72ZuYnTjaLnf0JhE704PG/r6aWU65L
+	h/josRO+G/LNIKHJG7l4Hefuui8DfBiOyX6RL+KMt+e1DbE1Z46cau2R0zq8LlKl5FXt
+	5vzmZfLJbUtITcNuDjZSmSYSUkT2NxauTgnckpOl6HvYNheS1GvZJyIPvxq/qdeu28DU
+	sYJDucJYgBmXH7xFVcJd9qFaR6yGYUfVjG79paGJMWpQsZnJW2fORb8E8HxL9yDa971U
+	nXwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=niYpJL98ZAR0qoO8p01TYso51/Z0HB7smxSH9iOKr10=;
-	b=TZa3XEAQWJykervZPVaIWXVAdJpXDEg8v9vFDpTUpaJDR2ElbQTeVXtakvfTV8hR+3
-	Kdmz2woJAXuBASfLNKsa5e3z4Ag69LCazrvnsAl8MvUzlHJpV8LptHEUT2msSUB2xMCZ
-	wB7oh8zK81D+clymgYcmhCLFyt7fd+SuD+PUE4zrC0XdDVaquZf8XMjcTJzIioYPeShs
-	zd2jIMRpMXGcjTr4kTLjylFdVgziY19ffpxnWaXax6e4LeytKh4HNokTgcedQ5emg7OU
-	L78YCLcmTcf9/yXnJsa1ma/oiG1t58y/edkRTS16V1tnqCNWwIfNzdDDTwDjq0C6nF5i
-	48ww==
-X-Gm-Message-State: ALKqPwf9ilSaGqE02IeZ76H5scV01OO9w2vXTQTV9cU4Lu7sxvXuiEO6
-	QECyyVI0m74g0p16rnfLBDnba38M6ag3cCZp0r0=
-X-Google-Smtp-Source: ADUXVKL61ZlfZYWP925y2HgHbBrBKyUVlP1zd9vPKVs70XI4F6uYWvEn2/nkq90H2se6RBEtTkzUB/1IWgb657O0DmI=
-X-Received: by 2002:ac8:2b5c:: with SMTP id
-	28-v6mr17394166qtv.117.1527615203103; 
-	Tue, 29 May 2018 10:33:23 -0700 (PDT)
+	bh=awbWQ38F26ZH2yqa1jNI4bHKTw2+vHHJAfVSs+3hviI=;
+	b=pG/kYKP5Ke0fxhYEWkrApBFI0862n0FwrlyoYl+UwlFjQmtZx6jNemglJFfpgQmrex
+	jZL5TWoql+zti0dCPt0X/eV7N8QkKuGg7InZIFhx5nn2Hy0Tg7YuDxTx3sn9hxCMlf4Q
+	FL5YPlIWgthGvSBUWk1WYtYk1tgWUW4oSzEgVobBLBm9Yc0H8/HcK+0E7PO7O16EfkgY
+	4UNSkFAJ6B40+utuNzgN6rvi/33joOiZ6CHt02G/QnfiCiyTYCWwiF2cdCkaD0sA0DZ0
+	FU7GgIFAE3YQgkM892q8H98lgcngJZIynJ0R6Dl65GSSJ/AvtThU1KZy20VArART2QzL
+	BlSA==
+X-Gm-Message-State: ALKqPwcvu3zhgJdnHlNjm2ZHZKwg00yaSfBlkBwFEn6gUi7bX8QAnq0N
+	mCoLinKf8Cd+5CTzfKE+6q+KGpm/NTMuzwNFNYk=
+X-Google-Smtp-Source: ADUXVKI/XDm7nGBRtGa30FSpkO7K4Tsv4AxsNsgi/43nzgU7CVzEMGQpl367rlUVFMIppY+GYzMP7fqwKnBj9hCRut4=
+X-Received: by 2002:a9f:3352:: with SMTP id
+	a18-v6mr12001825uac.38.1527618372081; 
+	Tue, 29 May 2018 11:26:12 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:9a0f:0:0:0:0:0 with HTTP; Tue, 29 May 2018 10:32:52
-	-0700 (PDT)
-In-Reply-To: <a0e82af237232cb4df6b304ef83291c16bedb33b.1527216285.git.liezhi.yang@windriver.com>
-References: <cover.1527216285.git.liezhi.yang@windriver.com>
-	<a0e82af237232cb4df6b304ef83291c16bedb33b.1527216285.git.liezhi.yang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 10:32:52 -0700
-Message-ID: <CAMKF1sqL1N0g-540M4XJVVFCPZOHJsTs9aDgjVNoM+_i6E763g@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Tue, 29 May 2018 11:26:11 -0700 (PDT)
+In-Reply-To: <CAMKF1srvQZ7z3xYaNJU9M_QQNq+pBFftSrJNBWwhcXQp0XDQPw@mail.gmail.com>
+References: <1527215248-7224-1-git-send-email-armccurdy@gmail.com>
+	<CAMKF1srvQZ7z3xYaNJU9M_QQNq+pBFftSrJNBWwhcXQp0XDQPw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 29 May 2018 11:26:11 -0700
+Message-ID: <CAJ86T=XdWPKG+EURX35cgpxbOL6FetzKdoND+=aXte1MPcxdtw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/24] gcc-sanitizers: Fix libtool .la files
+Subject: Re: [PATCH] dropbear: drop obsolete patch 0004-fix-2kb-keys.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,43 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 17:33:22 -0000
+X-List-Received-Date: Tue, 29 May 2018 18:26:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-this seems fine
+On Tue, May 29, 2018 at 10:29 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, May 24, 2018 at 7:27 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> This patch has been obsolete since 2005:
+>>
+>>   https://github.com/mkj/dropbear/commit/736f370dce614b717193f45d084e9e009de723ce
+>
+> Seems fine to drop but I would like to understand why we carried it thus far.
+> What is the history of it in OE ?
 
-On Thu, May 24, 2018 at 7:48 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> From: Yuanjie Huang <yuanjie.huang@windriver.com>
->
-> Since libtool sysroot is not set when compiling sanitizers, the libtool
-> does no prefix the dependency path correctly. Fix it, so that programs
-> can link to sanitizer libraries without error.
->
-> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> index e5e8452..2373dd8 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> @@ -39,6 +39,8 @@ do_install () {
->          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
->      fi
->      chown -R root:root ${D}
-> +    # Fix broken libtool with stdc++, as sysroot is not set.
-> +    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'${libdir}'@=${libdir}@g" {} \;
->  }
->
->  INHIBIT_DEFAULT_DEPS = "1"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+It's older than the git history in oe-core (ie it was added in August
+2005 as part of the first commit to oe-core).
+
+The patch looks like it was initially created in March 2005 against
+dropbear 0.45.
+
+In 2011 someone (incorrectly) added a tag "Upstream-Status:
+Inappropriate [configuration]".
+
+That's about as much history as we have.
 
