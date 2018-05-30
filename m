@@ -1,55 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3122F74D03
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A76674C39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 02:16:56 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id c2-v6so21373995qtn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 19:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Y7efNwDWVlIf+yHLBNQZ22VU+yX7o4S7oWtOLr4K+cE=;
-	b=LKF9Kj9j6P3pXpV+2pcMEvJTNLAleIfOCU0QQ8YIG2J4TY9v4rx2DT/sskgcr2bbzF
-	QRPuONsKnCxOYygMdARrLQJJK0vt1S+eWjVJKXK6g7aIY0BL7QVGdsKaqEc7DIUo18PE
-	Z4IX2YyPehHFYuqPTroNmAi0m9FYcunduwkV6nZtnEuOAAHQl6OPyvoU51tsUntyDYAj
-	KA3V/nqL22MEcDnUcUCsDJMwwTLgjqADFu7zkv6g2eaNiJCodqXoM2Ju7JCkzE/3XTez
-	nZKXq/o4E5IEknlCRC6+W4mnvOUZihtLdic4RbEbvMyXU3RIGJRZr9/pVke7tqyLEhjn
-	g+aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Y7efNwDWVlIf+yHLBNQZ22VU+yX7o4S7oWtOLr4K+cE=;
-	b=jUvF0pvAxue1opQd7IlGIJ3oTocJ/89sEGpCRofn9NgHp2xM6sIuMq/0IEH/0Yc1Uk
-	LM3ssxhCWWsIfSi/FhmjzLKozyHftFy1tsCQwyZ+Q1tgVJKmDBLnTDd1zY+VpYFSHwk1
-	J9XEeKpRTYNtJVBrIgG4qvn7CMMQVrkKQ6G79OFIQjQNJnhLsFWIYdS5lJs7uIVlK8nH
-	zP6sOmJiJiIg4ZxKs4FRiLKB2u8cMZl56TOLUZcOk+jSA8HXDEJgPVrimlgzghkKOFjn
-	LnD+UOjPFL3IVL5FXxIS/1m4pwIlRcy5g/3/9gkjYJDt6zVGdsjXCraDei7OjKXEh8Tq
-	CZVA==
-X-Gm-Message-State: APt69E2M9206chVCo6lLT1s1ntgf8zL90oItGQrlPf3uDLsjcAoeT3Jc
-	+kxlrjF7RVLUEijHojVt9NLDtRBDiSwSOqxWw4o=
-X-Google-Smtp-Source: ADUXVKLY78RaVU2k+jMYR9a6eFmfDUuRGx2cpWmeW++KqMqPtTLNyPqOfmVWm0z8Rr7XaIw6vKmq/UX5kjNPXk6p3ME=
-X-Received: by 2002:a0c:e485:: with SMTP id n5-v6mr816014qvl.74.1527646617761; 
-	Tue, 29 May 2018 19:16:57 -0700 (PDT)
+	Wed, 30 May 2018 04:27:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U4RGNT003103
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 May 2018 21:27:16 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 29 May 2018 21:27:15 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 May 2018 12:27:13 +0800
+Message-ID: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Tue, 29 May 2018 19:16:27
-	-0700 (PDT)
-In-Reply-To: <CAKmqyKP5HK0F8O74DtVh_=EWDmKW-A9mFVugkv5XvNUB=oh0Mw@mail.gmail.com>
-References: <20180502143733.6303-1-Martin.Jansa@gmail.com>
-	<20180502143733.6303-2-Martin.Jansa@gmail.com>
-	<CAJTo0LYvdpORbNFs4-gOn0QyPSZ3W8nQkZbX7w=C9t_WvTgCRw@mail.gmail.com>
-	<CA+chaQcHdrPsQCJ94t+ifiiKfguuRirNQxY9c-KLfBeXEZqxrw@mail.gmail.com>
-	<CA+chaQcRewrss+RQhhY2PEKJ_VHLyGBHrEOMR7gdFk346a2zQA@mail.gmail.com>
-	<CA+chaQcq+7-XCNOqWcPNaMkXE-u-BhY0A=79ouHFRPh9NzCm8g@mail.gmail.com>
-	<CAKmqyKP5HK0F8O74DtVh_=EWDmKW-A9mFVugkv5XvNUB=oh0Mw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 19:16:27 -0700
-Message-ID: <CAMKF1spNGtWNhSbavgxALEW+Jtnzr8GcxqUNJofqqO==uJUWoA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] qemu: upgrade to 2.12.0
+Subject: [PATCH] qemuwrapper-cross: fix postinst failed warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,31 +29,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 02:16:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 May 2018 04:27:20 -0000
+Content-Type: text/plain
 
-On Tue, May 29, 2018 at 4:14 PM, Alistair Francis <alistair23@gmail.com> wrote:
-> On Tue, May 29, 2018 at 1:40 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> After removing ld-is-gold I was able to reproduce the issue.
->>
->> Unfortunately removing the
->> meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
->> doesn't help with the hang, then I've tried to upgrade to latest SRCREV in
->> qemu master (currently 5a5c383b1373aeb6c87a0d6060f6c3dc7c53082b)
->>
->> Will try to bisect where it started to hang between 2.11.0 and 2.12.0, but
->> it might be faster if Alistair Francis can chime in as the author of this
->> patch, he might have better idea why it stopped working.
->
-> I'm not sure why it would stop working between the two releases.
->
-> I can't reproduce the hang, I just see this compilation error when
-> buidling webkitgtk with musl:
->
-> /scratch/alistair/yocto/oe-master/build/tmp-musl/work/core2-64-oe-linux-musl/webkitgtk/2.20.2-r0/webkitgtk-2.20.2/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
-> fatal error: GL/gl.h: No such file or directory
->  #include <GL/gl.h>
->
-do you have opengl x11 in distro features ? these headers should come
-from mesa-dev
+From: Changqing Li <changqing.li@windriver.com>
+
+1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
+uses qemu usermode by default,  but some architecture such as Intel
+skylake does not support qemu usermode, this can lead to a build warning as below:
+warning: %post(udev-hwdb-1:234-r0.skylake_64) scriptlet failed, exit status
+"WARNING: The postinstall intercept hook 'update_pixbufcache' failed".
+"WARNING: The postinstall intercept hook 'update_gio_module_cache' failed".
+"WARNING: The postinstall intercept hook 'update_font_cache' failed".
+
+Add judgement of qemu usermode in qemuwrapper-cross, when qemu usermode is
+not supported, qemuwrapper exit 1 directly.
+
+2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
+fontcache called update_font_cache, update_font_cache use qemuwrapper,
+qemuwrapper is arch related, so update_font_cache will core dumped as below:
+
+WARNING: The postinstall intercept hook 'update_font_cache' failed,
+NOTE: Exit code 132. Output:
+qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+qemuwrapper: line 5: 267705 Illegal instruction     (core dumped) qemu-x86_64 -r 3.2.0 -cpu core2duo "$@"
+
+in update_font_cache, it runs:
+qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} -E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only
+
+qemuwrapper sets LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} for fc-cache,
+since fontcache inherit allarch, ${base_libdir} is "/lib", ${libdir} is "/usr/lib",
+but in this case, fc-cache need /lib64 and /usr/lib64 to run,
+So fc-cache doesn't work, and caused the warning.
+
+so set the default arch related library path in qemuwrapper, not set in the update_font_cache,
+if binary have extra library path,  it can still pass "-E LD_LIBRARY_PATH=", qemuwrapper will
+append the default library path after it.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/classes/gobject-introspection.bbclass         |  2 +-
+ meta/classes/qemu.bbclass                          |  6 +--
+ .../qemu/files/qemuwrapperhelper.py                | 27 ++++++++++++
+ .../recipes-devtools/qemu/qemuwrapper-cross_1.0.bb | 49 ++++++++++++++--------
+ scripts/postinst-intercepts/update_font_cache      |  3 +-
+ .../postinst-intercepts/update_gio_module_cache    |  3 +-
+ scripts/postinst-intercepts/update_pixbuf_cache    |  3 +-
+ 7 files changed, 63 insertions(+), 30 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/files/qemuwrapperhelper.py
+
+diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+index b6160b8..e4b510e 100644
+--- a/meta/classes/gobject-introspection.bbclass
++++ b/meta/classes/gobject-introspection.bbclass
+@@ -17,7 +17,7 @@ UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspe
+ 
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
+-DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native prelink-native"
++DEPENDS_append_class-target = " gobject-introspection gobject-introspection-native qemu-native prelink-native qemuwrapper-cross"
+ 
+ # Even though introspection is disabled on -native, gobject-introspection package is still
+ # needed for m4 macros.
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index f5c5780..372d087 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -22,13 +22,9 @@ def qemu_target_binary(data):
+ def qemu_wrapper_cmdline(data, rootfs_path, library_paths):
+     import string
+ 
+-    qemu_binary = qemu_target_binary(data)
+-    if qemu_binary == "qemu-allarch":
+-        qemu_binary = "qemuwrapper"
+-
+     qemu_options = data.getVar("QEMU_OPTIONS")    
+ 
+-    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " + rootfs_path\
++    return "PSEUDO_UNLOAD=1 " + "qemuwrapper" + " " + qemu_options + " -L " + rootfs_path\
+             + " -E LD_LIBRARY_PATH=" + ":".join(library_paths) + " "
+ 
+ # Next function will return a string containing the command that is needed to
+diff --git a/meta/recipes-devtools/qemu/files/qemuwrapperhelper.py b/meta/recipes-devtools/qemu/files/qemuwrapperhelper.py
+new file mode 100644
+index 0000000..967f5fd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/qemuwrapperhelper.py
+@@ -0,0 +1,27 @@
++import sys
++
++def qemu_get_parameters():
++    flag = 0
++    parameters=""
++
++    for i in sys.argv[1:-1]:
++        if "LD_LIBRARY_PATH=" in i:
++            flag = 1
++
++    if flag == 0:
++        for index, i in enumerate(sys.argv[1:-1]):
++            if sys.argv[index-1] == '-L':
++                parameters = parameters + "-E LD_LIBRARY_PATH=" + sys.argv[-1] + " " + i + " "
++            else:
++                parameters = parameters + i + " "
++    else:
++        for i in sys.argv[1:-1]:
++            if "LD_LIBRARY_PATH=" in i:
++                parameters = parameters + i + ":" + sys.argv[-1] + " "
++            else:
++                parameters = parameters + i + " "
++
++    print parameters
++
++if __name__ == '__main__':
++    qemu_get_parameters()
+diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+index c983fba..3574286 100644
+--- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
+@@ -1,6 +1,9 @@
+ SUMMARY = "QEMU wrapper script"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++SRC_URI = "file://qemuwrapperhelper.py" 
+ 
+ S = "${WORKDIR}"
+ 
+@@ -12,37 +15,47 @@ do_populate_sysroot[depends] = ""
+ 
+ do_install () {
+ 	install -d ${D}${bindir_crossscripts}/
++	install qemuwrapperhelper.py ${D}${bindir_crossscripts}/
+ 
+ 	echo "#!/bin/sh" > ${D}${bindir_crossscripts}/qemuwrapper
+-	qemu_binary=${@qemu_target_binary(d)}
+-	qemu_options='${QEMU_OPTIONS}'
+-	echo "$qemu_binary $qemu_options \"\$@\"" >> ${D}${bindir_crossscripts}/qemuwrapper
+-	fallback_qemu_bin=
+-	case $qemu_binary in
+-		"qemu-i386")
+-			fallback_qemu_bin=qemu-x86_64
+-			;;
+-		"qemu-x86_64")
+-			fallback_qemu_bin=qemu-i386
+-			;;
+-		*)
+-			;;
+-	esac
+-
+-	if [ -n "$fallback_qemu_bin" ]; then
++
++        if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
++		qemu_binary=${@qemu_target_binary(d)}
++		qemu_options='${QEMU_OPTIONS}'
++		default_library_option='$D/${libdir}:$D/${base_libdir}'
++
++		echo "default_library_option=$default_library_option" >> ${D}${bindir_crossscripts}/qemuwrapper
++		echo "qemu_parameters=\`python ${D}${bindir_crossscripts}/qemuwrapperhelper.py \"\$@\" \$default_library_option \`" >> ${D}${bindir_crossscripts}/qemuwrapper
++		echo "$qemu_binary $qemu_options \$qemu_parameters" >> ${D}${bindir_crossscripts}/qemuwrapper
++		fallback_qemu_bin=
++		case $qemu_binary in
++			"qemu-i386")
++				fallback_qemu_bin=qemu-x86_64
++				;;
++			"qemu-x86_64")
++				fallback_qemu_bin=qemu-i386
++				;;
++			*)
++				;;
++		esac
++
++		if [ -n "$fallback_qemu_bin" ]; then
+ 
+ 		cat >> ${D}${bindir_crossscripts}/qemuwrapper << EOF
+ rc=\$?
+ if [ \$rc = 255 ]; then
+-	$fallback_qemu_bin "\$@"
++	$fallback_qemu_bin \$qemu_parameters
+ 	rc=\$?
+ fi
+ exit \$rc
+ EOF
+-
++		fi
++	else
++		echo "exit 1" >>  ${D}${bindir_crossscripts}/qemuwrapper
+ 	fi
+ 
+ 	chmod +x ${D}${bindir_crossscripts}/qemuwrapper
++	chmod +x ${D}${bindir_crossscripts}/qemuwrapperhelper.py
+ }
+ 
+ SYSROOT_DIRS += "${bindir_crossscripts}"
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index bf65e19..e797c65 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -2,6 +2,5 @@
+ 
+ set -e
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
+-					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
+ chown -R root:root $D${fontconfigcachedir}
+diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scripts/postinst-intercepts/update_gio_module_cache
+index fc3f9d0..7ad9c5a 100644
+--- a/scripts/postinst-intercepts/update_gio_module_cache
++++ b/scripts/postinst-intercepts/update_gio_module_cache
+@@ -2,8 +2,7 @@
+ 
+ set -e
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
+-	$D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
++PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+ 
+ [ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+ 	chown root:root $D${libdir}/gio/modules/giomodule.cache
+diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
+index 5d44075..efb56fa 100644
+--- a/scripts/postinst-intercepts/update_pixbuf_cache
++++ b/scripts/postinst-intercepts/update_pixbuf_cache
+@@ -5,7 +5,6 @@ set -e
+ export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
+ export GDK_PIXBUF_FATAL_LOADER=1
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+-    $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
++PSEUDO_UNLOAD=1 qemuwrapper -L $D $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+     >$GDK_PIXBUF_MODULEDIR/../loaders.cache && \
+     sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
+-- 
+2.7.4
+
 
