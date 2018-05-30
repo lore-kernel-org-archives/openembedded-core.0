@@ -1,25 +1,57 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id A88177198F
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A36B60401
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 14:48:56 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w4UEmvVx012070
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Wed, 30 May 2018 16:35:44 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id n3-v6so5293829lfe.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 16:48:57 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w4UEmvVl023127;
-	Wed, 30 May 2018 16:48:57 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id A82C89550DC;
-	Wed, 30 May 2018 16:48:56 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 May 2018 16:48:52 +0200
-Message-Id: <20180530144852.25539-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] busybox: Fix zlma segfaults
+	Wed, 30 May 2018 09:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tDaJx8u0FZrq86oAOhI7v7FOd6kvYclb5Pm1bL6fzcE=;
+	b=dp+gAKKIOUAc4XnE5R7zAKJKsAcs59NkTqn5LPHNBfiFmiJlLnBrKP9GAjgHxb7QVF
+	a+ifUqrqmm1HdAO6iWfGGbE6U3N35SmkjMlVz68Up5SZuZN077zMwBerD2PFldraCDeT
+	wtVrriF68KDcL8WNvT0CGeuF7VVstGorXjc/VwM3BaV0Uuxuv22DScLuXDFWHrj5Epu7
+	PbYj5Kdm6mO00eGzN844EB7f2pacWxkb1lmsGwv1wbW5Gs8EUjjSP+mAaoNpcORsAyJf
+	BbOkvgx30Y88YdUlBVfYil4SXU6yKoZx2c2gvxIMVDobGGJ1Vp3/4hTHyavQKVpsBJ3Z
+	f89A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tDaJx8u0FZrq86oAOhI7v7FOd6kvYclb5Pm1bL6fzcE=;
+	b=sict7clP2hiabofTwbGNtJl0kU+a1dAF4JBPqHSF4NrhSPfaPcalGGN6S1yveHDkSo
+	n2HpiDfDOZuLZim0qb4RWVdgWsmgVkUnYxdSBbYa82qk3hPfXKyxR3ybrNcwx6/83+7U
+	QbxFxsyTfCQzdpkb461kljVzhCXPa2hnCsZiNBBjgKlBvYMPMUPjNIvZWTgkmQiyPIKZ
+	7Earv+W6egzBVe0UXOU7Ycqye+ckbmPdAmv+P5K9RLJ25pfHP7i9Di5k0/7bJ8WeaAsk
+	w9c0HgZaIEel+mS2TEzkn2Vb4z7vb0/aZiOpA8dIljQoxJ1Cp6CxmpaveyMz0TrFHlZ8
+	DLlw==
+X-Gm-Message-State: ALKqPwfgDgSgfZNIG8jdjqR3h1DoCp7aiFA/ieI79BmDI922y9SQZRUx
+	oYLuMWJ7G9m81N4zeODEjynrJa0Po/6MusOhaY8=
+X-Google-Smtp-Source: ADUXVKK292rM4lN/kR5pqQ+LAvXc6JrVncPq2pgzq0BpZr1yX0uueUbqIkmjna8GDmsB6AorJxpyk45Gfo5dJ7f4P6k=
+X-Received: by 2002:a19:b2c2:: with SMTP id
+	t63-v6mr2256468lfk.27.1527698145168; 
+	Wed, 30 May 2018 09:35:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:3c12:0:0:0:0:0 with HTTP; Wed, 30 May 2018 09:35:14
+	-0700 (PDT)
+In-Reply-To: <CAMKF1spNGtWNhSbavgxALEW+Jtnzr8GcxqUNJofqqO==uJUWoA@mail.gmail.com>
+References: <20180502143733.6303-1-Martin.Jansa@gmail.com>
+	<20180502143733.6303-2-Martin.Jansa@gmail.com>
+	<CAJTo0LYvdpORbNFs4-gOn0QyPSZ3W8nQkZbX7w=C9t_WvTgCRw@mail.gmail.com>
+	<CA+chaQcHdrPsQCJ94t+ifiiKfguuRirNQxY9c-KLfBeXEZqxrw@mail.gmail.com>
+	<CA+chaQcRewrss+RQhhY2PEKJ_VHLyGBHrEOMR7gdFk346a2zQA@mail.gmail.com>
+	<CA+chaQcq+7-XCNOqWcPNaMkXE-u-BhY0A=79ouHFRPh9NzCm8g@mail.gmail.com>
+	<CAKmqyKP5HK0F8O74DtVh_=EWDmKW-A9mFVugkv5XvNUB=oh0Mw@mail.gmail.com>
+	<CAMKF1spNGtWNhSbavgxALEW+Jtnzr8GcxqUNJofqqO==uJUWoA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 30 May 2018 09:35:14 -0700
+Message-ID: <CAKmqyKP9o0Wanb24LisjaYx-J8y5LNtWAn01H-NgmokkQnz0-g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] qemu: upgrade to 2.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +64,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 14:48:58 -0000
+X-List-Received-Date: Wed, 30 May 2018 16:35:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-- fix multiple lzma segmentation faults
-- patch includes multiple fixing commits with tests-cases
+On Tue, May 29, 2018 at 7:16 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, May 29, 2018 at 4:14 PM, Alistair Francis <alistair23@gmail.com> wrote:
+>> On Tue, May 29, 2018 at 1:40 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>> After removing ld-is-gold I was able to reproduce the issue.
+>>>
+>>> Unfortunately removing the
+>>> meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
+>>> doesn't help with the hang, then I've tried to upgrade to latest SRCREV in
+>>> qemu master (currently 5a5c383b1373aeb6c87a0d6060f6c3dc7c53082b)
+>>>
+>>> Will try to bisect where it started to hang between 2.11.0 and 2.12.0, but
+>>> it might be faster if Alistair Francis can chime in as the author of this
+>>> patch, he might have better idea why it stopped working.
+>>
+>> I'm not sure why it would stop working between the two releases.
+>>
+>> I can't reproduce the hang, I just see this compilation error when
+>> buidling webkitgtk with musl:
+>>
+>> /scratch/alistair/yocto/oe-master/build/tmp-musl/work/core2-64-oe-linux-musl/webkitgtk/2.20.2-r0/webkitgtk-2.20.2/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
+>> fatal error: GL/gl.h: No such file or directory
+>>  #include <GL/gl.h>
+>>
+> do you have opengl x11 in distro features ? these headers should come
+> from mesa-dev
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../busybox/busybox/busybox-fix-unlzma-segfaults.patch   | Bin 0 -> 6965 bytes
- meta/recipes-core/busybox/busybox_1.27.2.bb              |   1 +
- 2 files changed, 1 insertion(+)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
+Yep, after adding opengl it builds. I can't reproduce any hangs with
+QEMU 2.12 on top of master. Are there other patches as well that are
+contributing?
 
-diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
-new file mode 100644
-index 0000000000000000000000000000000000000000..405bfbcc58fc0cfadfb22ca2694d4a59ba9bf150
-GIT binary patch
-literal 6965
-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
-W{LcTI1|nRc&RzV|3pPQNK=mIff;bTX
-
-literal 0
-HcmV?d00001
-
-diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-index 36a6342aaf..9f0393505a 100644
---- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-@@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2011-5325.patch \
-            file://CVE-2017-15873.patch \
-            file://busybox-CVE-2017-16544.patch \
-+           file://busybox-fix-unlzma-segfaults.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--- 
-2.11.0
-
+Alistair
 
