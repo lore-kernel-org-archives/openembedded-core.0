@@ -1,47 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE61748CC
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 11:28:31 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id m129-v6so46924864wmb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 04:28:32 -0700 (PDT)
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0330174DEB;
+	Wed, 30 May 2018 13:00:44 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id k17-v6so1255098ita.0;
+	Wed, 30 May 2018 06:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=rxVadPVj9E65f/hrkNar9Kztar+zfMvKJhQt+CsHIv4=;
-	b=Rp3Lmo1YRJuYzB9VDqtsD6U5w2uLFhHhzX4JYSz0FZgNq4exEvrVQHdkxkK/TJFL20
-	SnfuoQVXTK1zTJ44z3nfHx66Fgb3dvDyE+fJsLhDFfmAWjoQlf1bH7ipVdVvNqkHlB5P
-	GKFmsJJX9w6PMcW4Na7/w0d2WDPjXYWOOPKKuNWE990wp0tSim/XPpFb1UQnVmUMSlLf
-	fRS3clhdfZbPBTLL9A1YPshRC3mDQJthg7wtIuGhMZ9ZvXHhtsxQrEQaLfifBvXe5rTE
-	oaprrFa82PcnXFtciSb8a9cfu9dUXeKwSuI3aogld3GNCaK4CDGbQRj5zlH+5iSJBEYw
-	kWAw==
+	bh=iC5H9AphNSAT/HaPh3z493uo4z+P2DNuvn1Uw9DfR5w=;
+	b=WuXaa4S45K/4xsnLjWtZUok0oV6fH5lJBGf2yxd/YVGxCXk1ZRDzxAJkJpe9qLzymx
+	vVeBgQDDJlZIysLMI/Gs8/9MG8VZ/Q4diKSC2Zdj3g1WCBn1ZtoWeKhUX8lLMGWRlq1o
+	y9u3b6Lv1OyPr47LMfz9PBDPirlF3H9jiA4s2lW20KgVMNCdBapf66pGgMKOkaw6rHrq
+	ij5XqNTZFWUaBZycsaDD6TbVaHOAD6TzCBJxZ+psARudnPtZpKvfXIT2EIx+J12zo+62
+	efqtabse0ucnfZTEUJFC+halPmPInvZpWaff9QhcQj1sF8MTD1Rh3+Yj2FwqdnaCHptr
+	YeQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=rxVadPVj9E65f/hrkNar9Kztar+zfMvKJhQt+CsHIv4=;
-	b=MCIScqW5gHHsX1JXrseOAfdHSomKqG1Z/unqEJiIaT3ZFdIMpRewZNMq1PyJe+7IvW
-	p9R86vM4o2GaQSYWGzejBcdzBb5iYC1oVlrmMMv7sPl9hkUK7wAyIdiaiXgyyidbuDNy
-	NdfRi623Opyu0DIItuEBpI7Koiw6W4GOgSWNuw/k4ZWZDsyP4IbVjTO0bCPYM3FNjIef
-	iViRj0Ek9M41DN1JmkHdTWWmO69/x58w8biMiW24I6HuT4NXDLeSpui6WrRLHWT/LIbJ
-	ueagP86mbCVpYjgvhhPI0Q6RcETFccoNs6iUsBilxOskmF1R6aK9grONJ/ab7syzli78
-	T4nw==
-X-Gm-Message-State: ALKqPwc6awWhjTGxkDEZBObOT4E7B/kvYXdNPrzMd+I1vwTtRdYZYA8N
-	RBJyApHK2KcTAuAhH3kau5lJrA==
-X-Google-Smtp-Source: ADUXVKJMlMP6brvuKsOWbfiMo+/yWon94POwUJ/5r571SQoWyemDngcibBFikPNQpQllGgDp46i/Jg==
-X-Received: by 2002:a1c:ea9b:: with SMTP id
-	g27-v6mr1119864wmi.21.1527679712039; 
-	Wed, 30 May 2018 04:28:32 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	i12-v6sm19345703wrn.55.2018.05.30.04.28.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 30 May 2018 04:28:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 May 2018 11:28:29 +0000
-Message-Id: <20180530112829.1944-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] gcc-sanitizers: don't use thumb for armv[45]
+	bh=iC5H9AphNSAT/HaPh3z493uo4z+P2DNuvn1Uw9DfR5w=;
+	b=Fbjy/FC2cA/zo2Ov/oBC7q0lEFXzV3UhBnKg+yBddHUVPUuntFppbEVOUfNtapM5j2
+	EgQ+30cHquIeM6T4NZmFhWF85OXQNB8DrnT57Olxnach2svi4xKxz56e0YPqomW+8ufB
+	gBqKomdJYtjuJ2Ci/zZNUKK8PFJzBnH0GJXQfbYdKMpUCBheKgrMmP9pY6IJhEaLj6T7
+	9BHqqfZkjQj7usmhkxCe5ntkEijVDnu5pGPHPo8Wf42nlKAYr1pkigXevY5uvyeZyeya
+	nlTC0UZzUwkVeDlvoV9+jT+Oriq2rSRkez7CnzMN3LAEPEUA6GQ5xB70USkNzyQXkw1X
+	9k1A==
+X-Gm-Message-State: APt69E3jdjFeL3lJUv0aFbe30T6msf7CRsslufFQibAuyPbleAijEFSw
+	p2tHNytO/n4ULD3av8nYipu3zDg=
+X-Google-Smtp-Source: ADUXVKJqh9lD9tJdHh3JxQ52MSJ21K4o+UWos4Rq2GlJWSug7fvyNuCY+t/lteP5QmWM/YfRNLIodA==
+X-Received: by 2002:a24:ca43:: with SMTP id
+	k64-v6mr1639392itg.44.1527685245301; 
+	Wed, 30 May 2018 06:00:45 -0700 (PDT)
+Received: from threadripper.novatech-llc.local ([216.21.169.52])
+	by smtp.gmail.com with ESMTPSA id
+	f12-v6sm8760868itc.41.2018.05.30.06.00.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 May 2018 06:00:44 -0700 (PDT)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Wed, 30 May 2018 08:00:16 -0500
+Message-Id: <20180530130016.18864-1-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [meta-oe][rocko][PATCH] protobuf: fix SRC_URI by removing branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 11:28:32 -0000
+X-List-Received-Date: Wed, 30 May 2018 13:00:45 -0000
 
-* otherwise it fails with:
-  sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
+The 3.4.x branch was removed upstream but the commit referenced in
+SRCREV is the 3.4.1 release and is still available:
+https://github.com/google/protobuf/releases/tag/v3.4.1
 
-@ 1538 "../../../../../../../../../work-shared/gcc-8.1.0-r0/gcc-8.1.0/libsanitizer/sanitizer_common/sanitizer_linux.cc" 1
-        swi 0x0
-cmp r0, #0
-bne 1f
-ldr r0, [sp, #4]
-ldr ip, [sp], #8
-blx ip
-mov r7, #1
-swi 0x0
-1:
-mov r0, r0
+Drop branch=3.4.x from SRC_URI and just rely on SRCREV.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta-oe/recipes-devtools/protobuf/protobuf_3.4.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
-index 601f666023..f3c7058114 100644
---- a/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
-@@ -1,2 +1,7 @@
- require recipes-devtools/gcc/gcc-${PV}.inc
- require gcc-sanitizers.inc
-+
-+# Building with thumb enabled on armv4t armv5t fails with
-+# sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.4.1.bb b/meta-oe/recipes-devtools/protobuf/protobuf_3.4.1.bb
+index fae7c18a1..fe28f475a 100644
+--- a/meta-oe/recipes-devtools/protobuf/protobuf_3.4.1.bb
++++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.4.1.bb
+@@ -18,7 +18,7 @@ SRCREV = "b04e5cba356212e4e8c66c61bbe0c3a20537c5b9"
+ 
+ PV = "3.4.1+git${SRCPV}"
+ 
+-SRC_URI = "git://github.com/google/protobuf.git;branch=3.4.x"
++SRC_URI = "git://github.com/google/protobuf.git"
+ 
+ EXTRA_OECONF += " --with-protoc=echo"
+ 
 -- 
-2.17.0
+2.11.0
 
 
