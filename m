@@ -1,23 +1,23 @@
 Return-Path: <mkelly@xevo.com>
 Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam03on0076.outbound.protection.outlook.com [104.47.42.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A22E74E40
+	(mail-by2nam03on0074.outbound.protection.outlook.com [104.47.42.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 596F56079F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 23:29:26 +0000 (UTC)
+	Wed, 30 May 2018 23:30:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=mkWkt2kRdPgaxIlcPvFJU+KEz73/9jj4oyWPl174G0o=;
-	b=sx/hWqP3UiOf9zaXfuUJCURbBU4azscX0xFepOdSNUrUhYBzbEyz3at2BOO5Dzu0kjZu9SQbRXsTJ2oh/blbvbNZlhwtwpSX2MlbkmJdCvOTpzTXC20FAS4mS31uzxtuI5vAPTOOHv45g5rW9dJxxFNXMogv8BSPIyOxh7pOTuk=
+	bh=VfocHzJdjHP2o9WqpX73yRgQyrbO1jm0CI5H5p7P954=;
+	b=Fl+61HyPxr8MaekOpXFUXkfH7ubOSYs1S927ge5ZLWjMB52aEKUGAzbquDpwTH6Xv6ortLLFUdNWje9CJ8UQ86HyawugsirRh2u5QMWbFFzTnFT9Lr3eHelS7ynr5qSit/KyPmy4HCgql9mzWxz2xAgkebwlyznrnmHphP8pzOw=
 Received: from columbia.corp.xevo.com (65.122.179.226) by
 	MW2PR0102MB3419.prod.exchangelabs.com (2603:10b6:302:3::12) with
 	Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.797.11;
-	Wed, 30 May 2018 23:14:40 +0000
+	Wed, 30 May 2018 23:14:43 +0000
 From: Martin Kelly <mkelly@xevo.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 May 2018 16:14:02 -0700
-Message-Id: <20180530231407.19759-3-mkelly@xevo.com>
+Date: Wed, 30 May 2018 16:14:05 -0700
+Message-Id: <20180530231407.19759-6-mkelly@xevo.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180530231407.19759-1-mkelly@xevo.com>
 References: <20180530231407.19759-1-mkelly@xevo.com>
@@ -31,16 +31,16 @@ X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
 	SRVR:MW2PR0102MB3419; 
 X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3419;
-	3:SSBs6lt/EuSPwM+S7l3eT9VSqC6jfoO3HuGJitvLYbSpghzwk85UMMqM8wtani3OZFlj7LXBTqsSeXDd17hTc8GjNmqkOWIRrUjOwZAXP50Lgz7G7irluW2QDP8h85CQKeLmTGLjAqNgafalDYsZJuWFoU6C3nh0Fi59rDSjySGMa39+vVaqsop7CGPWrkjpHacIP/gK6dfzawRsomyBj4ev5L4BsimwqEW85j3Vf3CympIHSDoNJdnNISUbwr7a;
-	25:BWefTdMZsO1PFQNqi02IdqZ/DAP/WPY1IJ55sEsFxWoNqXZ0RXduCUNAkfUjlRlhMNfyt3u3WEFS9Jjzs0HG4lLb8JHvB9BXt7CP7Ly/kr5bwvxiyG/ihSGksAf1R0y68zrAkueMi4oeedJEwFTYTGhTGi8HA3JV94RrS8v7/F7RBRlXwhaoM7oNwQ2P1UHbINw3Vi2rDKqpxWV2M33tQHQojOkpmih89eaZkpMXUWj3wR8i6fPvn4K/cjCs9sQbiycFuVK/jVXHPF2GugJethsmV+doQgepbuGr+6pXx0bKIBwKPsNmDbaZrUcpWIq1yBICohNeHULqTB6opie6aQ==;
-	31:Js0mDn8Td3GRxVG5Hw8v+fSYtGdMqKvr35bxZYtaUDfy28NnrFeihEqJoRpGvTCpxdf00nMhPzTs6hoZykAhWIw7OVvetugMJ5VGiWcMd7pg3O/HeZo0MYLZKKnLUsy4wkDtdM38j4PYBoCuvLZsQD9ZOBpHMYz1bXWJJ+WQx2IWC13Ho7Ka9ecoVDn6+y/dph+BcpDt7K7WU4k5LwnG48jowRD3phuvGFZngtUBvh0=
+	3:5DzR9oprjXDrPRJlZ5cXcMdht70ESh3lRkfZVM3Avz11rgyAJSvmcffyted8WwWrD1HBKyhh/OoSSU430Q0eLol3L0pQGZ2scYAqQOXtF9mzUfxLfmfsXftxlCBfeVx6pk8f5CH5E8VbziFFOGH6wYWGpjd8A2MeBIb6KMDlsuZo8GqjiaSF7uBUrwuibjIz9Q/K8cRn7y5ZD85lRNax+Wr4CKVjHMG8DCYr7BO64ARtHB8JUnz+qzuf/KRsPrQE;
+	25:lZ5BZg0ui7DmdSPiVVP0unUIpPG9Vvt1Wb1G1lW7zqRmFUVh+uH89ermocnT1PNqx5qep+tjOjJX58I4uCNh0NpwCoMRlVo+8XxDawLjBbjjtIwsWW4TznQ4mcZFVm+oLTVtUUvHhZuItUSKYnd77Q7XbzABXTWoCCSsrNpWJbdQ9G1REMdagpvG80n1JjEj+4YVXr7j6M4O0fd29ZCuQ39ACxJxZ2lcjak/MDgNggu/pKY3Ap0tSE/CDXpxSCG7nccZUnY55AWbqSvtwhaJLRARkOHam0c/qT/3nTIBSYix1u49iEWoFS513/nbIOWgH0ED0QygtpGHYd93H6k0xA==;
+	31:RKZFDuFK1yHOhEf6Do0jPFBaYaDHR5iuhssr24XlRHDbt4Z1L5nQgEQ3UiTbedRf1orpLwRrDYwSUYERarYzrI17Ffsk84Tey4mY9UK3yAYTsrwjFSkotVMnWZCUsFsRzavX6zA7eCiB4F2Ab2OU5di1vqZRpQLAR4kXmSZG6EXn6Co9UHxESA4vGXYzJNJv0zNL5lL8IPlYATINRdS27wSj3eW99/h/QM+9SsCaHtw=
 X-MS-TrafficTypeDiagnostic: MW2PR0102MB3419:
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=mkelly@xevo.com; 
 X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3419;
-	20:kWKi4pfO6bU1dCEokyI3TQfSPtA/+pdjL4wLeIXDD/4IGrWBx81ZHs0Sjc4oqR3Q/qne6u/Ad4VXJejp1fV6H94/4bkBYQ0kXfeKLInwCJyZpfNEB0T4xZsHAyhxE24IDZ7Xcet6MSO8WGMNW9YE1Zda5Kl6zmRCF9i7zWTZ4evHPjF3/j6q7qGeE5T9PJYau/eD3qs9mjpYgf6QcXEBSjIgLNMBefFYHNI0bujVkn38rbbxp9qEEp2kVOmL5jMxT6T5pZOKjMMlomMJw/xbb1cdTJ6AwzCJp9+0Wh1XoCr10SIXUlNOD4iFDPmm4iWPPCgFTfZBmwSN3DCDUe5N5Kk7YzxvGIqogBx1cBj4AWmUZzlVE3JD/jPvRBwVg7mK6AAhp/HK7m/Ji74KjU6/783sgJzT004G7xRhAIgO3impDTL0nCjRGTvyoREXcWcVufTNQ0bLRmsd1yKh/kfrmRur/yMFSjDZuUT1+AMFM6FqOEoGx29TmrYRXfiZS6Aa;
-	4:cb5nkyk+2GYXuf8deRIh1JQ8dmxcYr+k4teDojDG8j5lEmTbDL2cf3qNcdKeQi3Xrb9gFlwInckouy/hC9gxR2Chb0DRmhgdarPzmxCkWa2BwCos1FhBLr4MXjN3XF/Yvc+GO/WG0LJ1YZw1IwENPSPvJ+aM0JGlNpc6LGsD3wlebLWLYfrloqAWAJ7cHn7rITGht6/NEFBou1KmWPRh4OIAf34ajGF6fqXGLy47ppbmIm0lH3A6tT4C715OmgIHVI6nmgatE/KpXkxsDf3h1w==
-X-Microsoft-Antispam-PRVS: <MW2PR0102MB34198CB264CE562023236EB2AB6C0@MW2PR0102MB3419.prod.exchangelabs.com>
+	20:PbibmwcOlqIzTDJO1VXWbtOlKBkHO7/Wr+5SAPRozzR+/XoVevxPKKeo/+ujdYhGdUUthhKKJuoM93rtQNg+h9h/GhC+BQsyxTzX7O4DRln3wR4RSE4jqLo0WG+SzQv49yAQa7ttifKeRYtdnPFPOEiKn444H+Q+GMQK2pHXKnllQ7gda20aPOnQV1dPvslblAmltvPepcWolpemqPt812V57E+yENXy1VlGEEo1FqsWoXamqQf4Jg29fXlX3RdklPnGgqu+A+s3/J7dTtgRN3w7uuDvbTMDf9XtGsX+Qk2Wqx8vh+syMKaAUiF2UI1TXR3YD7nfH52FI2zs+dYVr+g2cjzR8C0lTVk2mHqpgkeJV17gnpR73iqXPNi32BshcvUdb9+nSACEha1Km5lYL/CzWysoRUBz0jPN3kZUwYAeSGJe2nsgnjvsUXsIKXhk6CG1w6g11541QkgK81Q8CZu/zg6BEC4MVQgt29xk6A5KRUPN0c4lXyKtVXPkFSxe;
+	4:+Pc5jPF6awuieRA8tw7c77Aquw+x41G4f0GFU8rk+rAQPDcbZK0uGfFp1IY/xc0mRf+0r/jNt/3OSxu7t8nOjjcPms7WAAcm9vvOLeHhBxqCvDVbmUDC81dEah1gMO+Egq05TvpcP9ShO90WiSfSBQofH6kG4LRRxq5A2zTvul4zIyNRJkuSLOuACvlP2ctNqAChgvNfMFQXoT1jhjWcYLDerbsBJg3B4ZFu+/RaKOwNKs0rJsEa/orBujuymyisAzsNy+Gb/ppFmbG+UNxIpg==
+X-Microsoft-Antispam-PRVS: <MW2PR0102MB3419E0CB60FB6A73A97A616EAB6C0@MW2PR0102MB3419.prod.exchangelabs.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
@@ -49,53 +49,53 @@ X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	SRVR:MW2PR0102MB3419; 
 X-Forefront-PRVS: 0688BF9B46
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(39850400004)(396003)(39380400002)(366004)(376002)(346002)(199004)(189003)(11346002)(1076002)(486006)(36756003)(16526019)(6916009)(186003)(47776003)(2616005)(956004)(50226002)(3846002)(476003)(6116002)(7696005)(305945005)(86362001)(4326008)(39060400002)(386003)(53936002)(52116002)(51416003)(478600001)(7736002)(26005)(6666003)(107886003)(76176011)(6486002)(48376002)(68736007)(81166006)(54906003)(81156014)(50466002)(8936002)(25786009)(16586007)(8676002)(66066001)(316002)(5660300001)(2906002)(446003)(106356001)(105586002)(97736004)(2351001)(2361001);
+	SFS:(10009020)(39850400004)(396003)(39380400002)(366004)(376002)(346002)(199004)(189003)(59450400001)(11346002)(1076002)(486006)(36756003)(16526019)(6916009)(186003)(47776003)(2616005)(956004)(50226002)(3846002)(476003)(6116002)(7696005)(305945005)(86362001)(4326008)(39060400002)(386003)(53936002)(52116002)(51416003)(478600001)(7736002)(26005)(6666003)(107886003)(76176011)(6486002)(48376002)(68736007)(81166006)(54906003)(81156014)(50466002)(8936002)(25786009)(16586007)(8676002)(66066001)(316002)(5660300001)(2906002)(446003)(106356001)(105586002)(97736004)(2351001)(2361001);
 	DIR:OUT; SFP:1101; SCL:1; SRVR:MW2PR0102MB3419;
 	H:columbia.corp.xevo.com; FPR:; SPF:None; LANG:en;
 	PTR:InfoNoRecords; A:1; MX:1; 
 Received-SPF: None (protection.outlook.com: xevo.com does not designate
 	permitted sender hosts)
 X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MW2PR0102MB3419;
-	23:cYO69IkAx2C8fSwLTxC/gwgaM2LcARsdsSfESC9?=
-	=?us-ascii?Q?tgVxgU0lpbJE18h9QlPwIpB+rIJMqasA0wgxKaav8Inf8ZBcWWFibe7JxN2j?=
-	=?us-ascii?Q?mdlLiehu2qq2ECPRsIOFeeLDcDgHGyzQOTCstTefpg/OCLnDdrmOkoY9A7D2?=
-	=?us-ascii?Q?j9h2h1sboPzIUqwUDhDzhv+RmH4TaGhBFukrJSeQxNqdP1Pg5dEPp5LDO12k?=
-	=?us-ascii?Q?G3YsYCfjZArNdbx82ESaqtE4DB1sv1GTwwtYPXdyB4Y3rIaLnN7FfFuWxDsT?=
-	=?us-ascii?Q?1CWcbyLQR3yyQZ2L9rXYJBfPjOVi6NGtC8r3VaEz8mmXLXfrJ+Uy3qbS+CwS?=
-	=?us-ascii?Q?HuX3s1A2djd7Mpc5idcild/KVgcnEj4Kqw6zh+jp+mDILUwNOPToNcZV/2Wd?=
-	=?us-ascii?Q?+jf33QSBb4/DqgWkkNRVsK1qDquWupOafNwXAgPFgx+WlwRyhsxdfliw6v49?=
-	=?us-ascii?Q?UDe6bx/UyCKo6SgbBnT4MhYs5CyAJMBgCoPVR+Ny0tUgkxYbR4BDCH+Z4zNE?=
-	=?us-ascii?Q?YHBOJFKl5CjNoxQY0u5MIlhKBcAQ/udNKuJLZLl7n7pQi/9MQOJB5g891YrN?=
-	=?us-ascii?Q?gmlUyoula+i2xWlw3ez5LebgEkKoM8n1kG8XWjBKx5+V+ZiZM5/4PtQx7QGx?=
-	=?us-ascii?Q?2LVKY897fVONxiIqjyEOB4wlNsUeCxQL/NojfV6XDwD/9ZJzCUzd94JoWsfz?=
-	=?us-ascii?Q?R/oOgIwb1oNRBA0/cvn3ES2crtuMTMUGRhT0SYV6c0ZY0TP17LR/lUbH+5IM?=
-	=?us-ascii?Q?nQUKLNUcrcz/OOywRW4563mW097A7BiJXx1tmgC3J9fdgLYXmfgPCTH/paEP?=
-	=?us-ascii?Q?3M9fn+tHi3zDFhGcZrtwNgR7KSO5XeUrqWkadvv4rBzjE6mWVMvOwhuLvnd9?=
-	=?us-ascii?Q?WzVHD8qE0ojVkhkM7Je1QCLxe99EtaDdyM1MnVY2IuwSV89xoXqsQxzFHAnw?=
-	=?us-ascii?Q?zWaZKda+EQBOf4zUoh2jKPlU6p4r6nmJzSGcKqTKsjD/and37+2rpQtMi8Nk?=
-	=?us-ascii?Q?ttMI/YT3/tur2tFD8CT6NPnxd0ptZBQe4CtVaUIW5yaeb938wMqMl3/fCWNn?=
-	=?us-ascii?Q?XsJVB6rhF3E0B4Ez6qfEACyMRb64lFJvZjkF9enW7cr03YTL3R2lrDlbWOPc?=
-	=?us-ascii?Q?IeOjfp466AkFEMg+N/hQrkd6DJnDkhPbxOgjmgz7vKYb1B5LIoXnf0591C5Q?=
-	=?us-ascii?Q?39woJUyp6c73PezwpAEnD34xdkzGEXZObeAaWNl/pPSIfSsWNzinaSCg1Dwu?=
-	=?us-ascii?Q?aoKjijXzxGVrzudCZsmPQ5bkcSC+WEpR3Tz2vnMWvVc2AeCygpdX8dMb0+L0?=
-	=?us-ascii?Q?qPw=3D=3D?=
-X-Microsoft-Antispam-Message-Info: yCVLK6qpQHer3J3IVYefY7kV+XphD4pwv33cQlwKKJlbs+e4EVpubLYE+HfnbbflixTyQxIDF6XGCzUS5ArZVFQ7RGeo1Xzk0vWpNwx+WkYOLhZttrsyyK5yvXBKOaWjPxYFrjHrnDTPAhy5lneEyN3gksqY1Ket0F2F3W05jBwUwKoEO5qiltoSIueJTOQY
+	23:Xc7dyMDGkb5fTHl02lAbcj0msT1QBXIAbDwpC90?=
+	=?us-ascii?Q?q6PARXEEMYl1jFF8SCQCXp62D38rlzCp1XDDLnys0RG0G+CUv8DWgjNxO7M0?=
+	=?us-ascii?Q?wiYT/XPBkzL1w/RgEQnoVeBWXVJEzXGpWowcgaMK8mcWLyh4IFvi117yvN5n?=
+	=?us-ascii?Q?uYT148Snmy95MMPgt5xOMvCntH6jdpDpZkPUzAALNoC7AQagHsWEKWRUOeLZ?=
+	=?us-ascii?Q?yQl/TTzyk++GUnDXOx52ztGM8udwWD4TI3tW+o3L6RfwBLD3GuRMpNQcjAk2?=
+	=?us-ascii?Q?vtFvjyUr/mBLHeWGdC+tPfi5g4E+vroKsRjeFF7gGJ5sqzhfYo8OjnWHgdht?=
+	=?us-ascii?Q?q8FTsdymgXrGrTKMSLZUTn6lpWVLfnNokNuodlclXwIF1Etk8Fb0u9HTaCnS?=
+	=?us-ascii?Q?Rd5vM23hMBLkpS8hyPP292oB7Jx6V4vbEJAWIUfKfi+74relsD74oNb3jlI3?=
+	=?us-ascii?Q?WyrjUZquaNvSNISsd03XIYl9wj+08Tx2e8T5LD5FzzDyDSVXlGI2pPaZ65eu?=
+	=?us-ascii?Q?3Lx+1UMpRe1N3eWPmcr8uMK1lbyc3hlHTvNY5QbA49gDPIxu36zrGQQlH8pU?=
+	=?us-ascii?Q?5aYNXaSrDMi/TuRjpu4kVrWXuq56/Ypd5WtQ9RNt+lvR2uKcoEJyeZj6nvvG?=
+	=?us-ascii?Q?BJg2I9neQrNt4uE00XIMWiQloQF5psCt2qyngmgKu+1WGBsrRWMV6qJop5Fg?=
+	=?us-ascii?Q?yDyEBu3JtR0aak335lT0m9mDq+wFfAaXHEykhv2jfP9JJ8PgtuYpFLz5N+BX?=
+	=?us-ascii?Q?PYQ+xMsk+JSVYdJoeDLTyuZaUmSkPoXekZRxuXb1cv8KswfJB14Mx05EzQ9R?=
+	=?us-ascii?Q?9S9er0jgIn0f3bPphZxbaW4YNaqd485Kk3831+5djbuSQTHKJHq0/9VpSKBx?=
+	=?us-ascii?Q?mngFckH8SeaGtdNsFvcQ6boFt1nipW2yi2p3fmyu2ywZyh6ebtHJe1ijcEIr?=
+	=?us-ascii?Q?zGmsHO6o5L5kZGR+L/XGVPGoGn7HQy78FWRjDiftYbYpcLvfsoWK81SehGgV?=
+	=?us-ascii?Q?6HK2qyEywOjgZ7BPXS1WeQz8bLrL6rf85Ypo3XzIXv2jtpp6YRwatTKakiEc?=
+	=?us-ascii?Q?kX/9B9NsrvVB+m2ObcBHaBO2/m0533QnvLePOsAAYIFkBS32ajCVGUAMOFvP?=
+	=?us-ascii?Q?8fAuVpMTjzNqkcnMisL9v3vpl2SkR/vspJOxkafMbOEfIsANP/N34uzBp/za?=
+	=?us-ascii?Q?zaM3cnK3KzoxGMIO1/GV7iz2z6lLesSFlheNJpY9ywTGzuJn4tz6FffijMUw?=
+	=?us-ascii?Q?IZj3Halak3dUy2BsqnPuRK57AKW5o/Ccdq0JolKA+n27gStV6i8ylrSn4+E/?=
+	=?us-ascii?Q?LsIuTWaPK6xAPXGKxVv8rm2I=3D?=
+X-Microsoft-Antispam-Message-Info: qe1LxsSVo4dON1ZgZzTWLSoh+Y5j4h3DdZar7b6k/HbpOnRyAnOTaj0ykKPz35YikJKKlbqrx6Pef8Swgn8PcvyuBFl7bRIzb4dAr1rl9u8oSmpzji2fre4sZc51Ik1Pqradk2eCvQZAyN4ajp2rWtrV7MoKvZW+6/WFrJ/WfXX91cavTtUojmXEqVGzhjWp
 X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3419;
-	6:TpzpejRWmkxWWYxg10nUBw+RylYM9MvR6HQbiJ3iXJh7KqyXNTTxBAZhxfTziH/GCru9sAMp1Pmg6i8uJ2RNSIvQDGubLAj3oh1nNazaq62FV5oWSCeEhP1aV1RCEuNuMj83PFmo+7Juc68uL4hCFb2Jh/65h+ha/FTrnrZ8LXL+NJwyLdGZDNl1+nr8QGNrkBtturq1WTybD/b9m/0dUmpntB+RQi3l0pf2w2B7HQL97uadq2vwV0ZLA+ux/ejBaBfm8b5QHmJTNJGd/jINKJ6jIakDqRnj694dwCngKQ51lW0PbB0AOS3GxAoKdUNONjo/CbcWbZWE5AAc46qDAlyBUlvgkC0KJ3jHUSLdP9dOIhHtQUKqTQOgVKr5g6U6N3VX/wC3FX6a1FPgg2e/omfP18ijRjiuf29I1+wO9OHOHuwVZav8mH+YmvSAyQiEfrciuWzActJl0zqSAMq8Dw==;
-	5:j96C5ablErBk4k6d9rRnaPrZo9U2+F9CAgOT5Nqp6dvLU7Unm+UTSEBWrqaxHdVY08Cydqb/CBWroHyo2q8HV8dQA+dycnmKf5nXlHpFP1YmAPmlc1bF8Nh0jACoF3DwTCHta6k2VlonJlCZ9huo1lYaYKUd+YUQEcnABExQbVY=;
-	24:AoCq6MyyK6LHZ2FMT3YqAZkeFqclbd8SnqrWL3POZc74F8ra48nUwT5hTngeykBCnJkvnKCPW9b9SAgZhi46dmJJOFrBAyBWe3srXpnQC+o=
+	6:LK0+KENGUY0/nGwPTZxi/PHPuv+5RE8D8bxl5hZPBIvaHdS4jC+WHnOxp+EUMsFOiC8eMnphVv310aAqoivK3+nMRfQHYvlYm10gz5aT7fZSNm/03vSdOacoLGSrnotiVSZ6PovP75lOQlpXPkr3VSBgz6C7kr5Z5H5+osnxUGFOjec34qrC9DIeR5pmbepiGnBmm8qljoRFoBtMC56oQ+YHsNMiaG/Gp+OFOYzi9uZ6lrg6VtPwzM69zI9ZUHmUz3WFby59dwJmZs/PKNfs07KgEDYI5cjgVwqemyHHsl7WtiqYzh5zyBl8v/f7+GUBvYbuBADJovRqxxOXAGgMy1AcCSDJxOeMk0Oq12bS3bHpfIrsrFoVB3eWyBoExYn0ukewoEAjPWwFtuQP2iBuhjfBflVR7JNAUjxpWFbgeLsxAfwHiBWTi977LTXTKWDVD4RkAX27hT0HWdUbSlZxVg==;
+	5:5xXDYzlKfWSmiW+uIdKnp7swrxYYVmIOeYVY1A08qTN/CU4eJDJjlOvAPey5b+wsXMxR4HxD7IJOTdQ+aE8LwOVHPc4x4RcOF13huYaFe/qG78k4yg22Ra9lLoDoUihzdxBLoUGqocW5L7OxQFkV0701PultPRhl29A0JK2ZvMI=;
+	24:G4GQB2uUYQJPv7aPp50YmQrfB9b+jweK7lvuvBdN9TZLGS5hfSXzbVlXzgGDdiDrup+fDdTYHgQWKXJP/yrOEaBOPjkm4M6VvAO9MdMTCVQ=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3419;
-	7:C2iqvv0Hr59djZMYkqdV56DNvOSqNv4rVkp80EKH6TTvlB1lpF6mj106TyOrud+Iqkim6j+zcAQpMBC6a2Hgj5jhvExUF3VA1qbr4toE6SJcJ2rPh3VYJeAityKwezGj66sKMJkgj9w2Pqx2VA9OUZM+MaZ2MsjveX4L57yOafFcKIuql577RF62NX0ajCvLU5rQUmEvDg1Fyq+b5SkciuSzwubPSxUAYINDkNumeCS+PC4Bhm/FqetZlyY9gfqG
-X-MS-Office365-Filtering-Correlation-Id: 6838df5d-9809-499a-d3bb-08d5c6831f07
+	7:FxLLd5v4yCIS/X9ikPH3YcFGyLQfVveqBA8QI53z9n8MvCzkiKehLkI/Sck6PVoQG+Asu23GvAsHfK4Emn7XnMXRMc75cKbkFYswsCIGkAFcyCFxIqx5X444HvYmuD0vPzTcf0V6a1FV5UGfLDjIMFSabw/JM9aSMF/9gdvMq4MK9mXlPN/HZuYE2zaxdQY4A3fun2fSy5lmniZbYuprGAui13gy4o0XvWHe4xNC9lsi/Dq9+c7rFxLV4c2ChDvl
+X-MS-Office365-Filtering-Correlation-Id: b1c9456e-8233-4022-3697-08d5c68320cf
 X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2018 23:14:40.6102 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6838df5d-9809-499a-d3bb-08d5c6831f07
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2018 23:14:43.5946 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1c9456e-8233-4022-3697-08d5c68320cf
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR0102MB3419
-Subject: [PATCH 2/7] nativesdk-python*: suppress user site dirs
+Subject: [PATCH 5/7] toolchain-shar-extract: pass env to post-relocate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,61 +108,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 23:29:27 -0000
+X-List-Received-Date: Wed, 30 May 2018 23:30:40 -0000
 Content-Type: text/plain
 
-Currently, $HOME/.local is being added into sys.path in the Python SDK
-causing subtle host contamination. Suppress this by exporting
-PYTHONNOUSERSITE = "1" as documented in PEP 370.
+It's useful for the post-relocate scripts to be able to see the SDK
+environment, for example to see the values of CC, CXX etc. in order to
+dynamically generate toolchain files.
 
-This issue occurred in the past for python*-native and was fixed
-similarly in OE-core commit 8fe9fb4d5a61dcbcb3fc5b9ee0234cc135af873f
-("python*native.bbclass: suppress user site dirs").
+To enable this, source the SDK environment script prior to calling the
+relocate scripts.
 
 Signed-off-by: Martin Kelly <mkelly@xevo.com>
 ---
- meta/recipes-devtools/python/python-scons-native_3.0.1.bb | 2 +-
- meta/recipes-devtools/python/python3_3.5.5.bb             | 2 +-
- meta/recipes-devtools/python/python_2.7.14.bb             | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/toolchain-scripts.bbclass     | 17 +++++++++++++----
+ meta/recipes-core/meta/meta-environment.bb |  5 +++--
+ 2 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_3.0.1.bb b/meta/recipes-devtools/python/python-scons-native_3.0.1.bb
-index dae89ab5d2..68b63c9357 100644
---- a/meta/recipes-devtools/python/python-scons-native_3.0.1.bb
-+++ b/meta/recipes-devtools/python/python-scons-native_3.0.1.bb
-@@ -4,5 +4,5 @@ DEPENDS = "python-native"
- RDEPENDS_${PN} = ""
- 
- do_install_append() {
--    create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}'
-+    create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}' PYTHONNOUSERSITE='1'
- }
-diff --git a/meta/recipes-devtools/python/python3_3.5.5.bb b/meta/recipes-devtools/python/python3_3.5.5.bb
-index f893b846ad..4dae4fa4c6 100644
---- a/meta/recipes-devtools/python/python3_3.5.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.5.bb
-@@ -176,7 +176,7 @@ do_install() {
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index ae7bbef034..5f99fd8c03 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -118,11 +118,20 @@ EOF
  }
  
- do_install_append_class-nativesdk () {
--	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
-+	create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
+ toolchain_create_post_relocate_script() {
+-	script=$1
+-	rm -f $script
+-	touch $script
++	relocate_script=$1
++	sdk_script=$2
++	rm -f $relocate_script
++	touch $relocate_script
++
++    cat >> $relocate_script <<EOF
++# Source the SDK env script in case it is needed for the relocate scripts.
++. $sdk_script
++status=\$?
++if [ \$status != 0 ]; then
++    echo "\$0: Failed to source $sdk_script with status \$status"
++    exit \$status
++fi
+ 
+-    cat >> $script <<EOF
+ if [ -d "${SDKPATHNATIVE}/post-relocate-setup.d/" ]; then
+     for s in ${SDKPATHNATIVE}/post-relocate-setup.d/*; do
+         \$s "\$1"
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index 09f757a087..74c0600c3d 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -51,12 +51,13 @@ create_sdk_files() {
+ 	# Setup site file for external use
+ 	toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS}
+ 
+-	toolchain_create_sdk_env_script ${SDK_OUTPUT}/${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
++	sdk_script="${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}"
++	toolchain_create_sdk_env_script ${SDK_OUTPUT}/${sdk_script}
+ 
+ 	# Add version information
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
+ 
+-	toolchain_create_post_relocate_script ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh
++	toolchain_create_post_relocate_script ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh ${sdk_script}
  }
  
- SSTATE_SCAN_FILES += "Makefile"
-diff --git a/meta/recipes-devtools/python/python_2.7.14.bb b/meta/recipes-devtools/python/python_2.7.14.bb
-index 41a8609b15..b923b9237b 100644
---- a/meta/recipes-devtools/python/python_2.7.14.bb
-+++ b/meta/recipes-devtools/python/python_2.7.14.bb
-@@ -130,7 +130,7 @@ do_install() {
- }
- 
- do_install_append_class-nativesdk () {
--	create_wrapper ${D}${bindir}/python2.7 PYTHONHOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
-+	create_wrapper ${D}${bindir}/python2.7 PYTHONHOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
- }
- 
- SSTATE_SCAN_FILES += "Makefile"
+ do_install() {
 -- 
 2.11.0
 
