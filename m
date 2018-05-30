@@ -1,50 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E23874BE5
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3122F74D03
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 02:13:54 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id q6-v6so21372839qtn.3
+	Wed, 30 May 2018 02:16:56 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id c2-v6so21373995qtn.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 19:13:55 -0700 (PDT)
+	Tue, 29 May 2018 19:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6y9jenRaTU3finsKy13Whq4RQ82rfzND+7SNUKa9hAA=;
-	b=uR5bFziT4BujnJcMf6+gLDipQlsDLex0mtsMxsv5E/bb+Fw0qVcTey2T0up2MlquTz
-	3bZdG1P211ReUgmYmgjmfYYStFCu5wTmZcgaekeI7TAjJyjfD3fPQBc1zKpwdTaN9Ykh
-	PNmz5TZEHPYqbdBpqpOjhREykbQTtu26ZEh9SHY6muC+MDTJGAxYoA+/k0jbnjB8OVjM
-	rNkkbVmy0ScNv0BSiYksqTWsjPG9fgTnPvk+smv/nz7eABBc2t51iZh6n9KOk2OsiwlW
-	ovHeMYw8a1vilV9+ryCDa37ME6bFTGZUcOuAhs3e2nWWf2gV4DfWQB67VMTC/Z4V5Wjs
-	i1eQ==
+	:cc; bh=Y7efNwDWVlIf+yHLBNQZ22VU+yX7o4S7oWtOLr4K+cE=;
+	b=LKF9Kj9j6P3pXpV+2pcMEvJTNLAleIfOCU0QQ8YIG2J4TY9v4rx2DT/sskgcr2bbzF
+	QRPuONsKnCxOYygMdARrLQJJK0vt1S+eWjVJKXK6g7aIY0BL7QVGdsKaqEc7DIUo18PE
+	Z4IX2YyPehHFYuqPTroNmAi0m9FYcunduwkV6nZtnEuOAAHQl6OPyvoU51tsUntyDYAj
+	KA3V/nqL22MEcDnUcUCsDJMwwTLgjqADFu7zkv6g2eaNiJCodqXoM2Ju7JCkzE/3XTez
+	nZKXq/o4E5IEknlCRC6+W4mnvOUZihtLdic4RbEbvMyXU3RIGJRZr9/pVke7tqyLEhjn
+	g+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6y9jenRaTU3finsKy13Whq4RQ82rfzND+7SNUKa9hAA=;
-	b=pwk8ia/n57doKVz+b2r7MCuZdAawAfmcMQjKg95mwV5/gisPNmSX7DblHDL28uzTb0
-	NAkwsqJsrBGIiupNOckvuhwxh2qfrvTfcR4JcdycAOz5Q/9D3pKJCDLQD9HwCpEif2wz
-	djCQ+9P2coUt8IuPuXKk9GPJ+yXqq7KIBnAabXCpTNsY44nmV/W03FfBeYF8zBXoogQf
-	xpUCmZ/QUrjPjVW+Ho+/MNGEqYciys048UInWL3EmSig8bVnBNciHUSEni6jAjtM4Tb2
-	RJRF8p0N07AKw8i1tTr2c93kDGjxoB0BoXg91Y81N2AgIRak106akaex58CP292X1OdL
-	+rKA==
-X-Gm-Message-State: APt69E1dNTtmg7sCJ3jt06sipdNowCa3rpZhHvabPDbmQeZ6+YL8mOyk
-	5fo0p1DXjf8Z+YLkIIHQeZdjOp4Gtr1o7mtTjcM=
-X-Google-Smtp-Source: ADUXVKLDUKFUQGMlKyrRyw/+muHLR9ZwXkvlYkaVj2vgLB/6qflH8p+Zu+CCSiB6ZRY5FnJ2EbM+8dxbid3FeeeJy6E=
-X-Received: by 2002:ac8:2b5c:: with SMTP id 28-v6mr783125qtv.117.1527646434783;
-	Tue, 29 May 2018 19:13:54 -0700 (PDT)
+	bh=Y7efNwDWVlIf+yHLBNQZ22VU+yX7o4S7oWtOLr4K+cE=;
+	b=jUvF0pvAxue1opQd7IlGIJ3oTocJ/89sEGpCRofn9NgHp2xM6sIuMq/0IEH/0Yc1Uk
+	LM3ssxhCWWsIfSi/FhmjzLKozyHftFy1tsCQwyZ+Q1tgVJKmDBLnTDd1zY+VpYFSHwk1
+	J9XEeKpRTYNtJVBrIgG4qvn7CMMQVrkKQ6G79OFIQjQNJnhLsFWIYdS5lJs7uIVlK8nH
+	zP6sOmJiJiIg4ZxKs4FRiLKB2u8cMZl56TOLUZcOk+jSA8HXDEJgPVrimlgzghkKOFjn
+	LnD+UOjPFL3IVL5FXxIS/1m4pwIlRcy5g/3/9gkjYJDt6zVGdsjXCraDei7OjKXEh8Tq
+	CZVA==
+X-Gm-Message-State: APt69E2M9206chVCo6lLT1s1ntgf8zL90oItGQrlPf3uDLsjcAoeT3Jc
+	+kxlrjF7RVLUEijHojVt9NLDtRBDiSwSOqxWw4o=
+X-Google-Smtp-Source: ADUXVKLY78RaVU2k+jMYR9a6eFmfDUuRGx2cpWmeW++KqMqPtTLNyPqOfmVWm0z8Rr7XaIw6vKmq/UX5kjNPXk6p3ME=
+X-Received: by 2002:a0c:e485:: with SMTP id n5-v6mr816014qvl.74.1527646617761; 
+	Tue, 29 May 2018 19:16:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Tue, 29 May 2018 19:13:24
+Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Tue, 29 May 2018 19:16:27
 	-0700 (PDT)
-In-Reply-To: <1527629388-3808-5-git-send-email-armccurdy@gmail.com>
-References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
-	<1527629388-3808-5-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <CAKmqyKP5HK0F8O74DtVh_=EWDmKW-A9mFVugkv5XvNUB=oh0Mw@mail.gmail.com>
+References: <20180502143733.6303-1-Martin.Jansa@gmail.com>
+	<20180502143733.6303-2-Martin.Jansa@gmail.com>
+	<CAJTo0LYvdpORbNFs4-gOn0QyPSZ3W8nQkZbX7w=C9t_WvTgCRw@mail.gmail.com>
+	<CA+chaQcHdrPsQCJ94t+ifiiKfguuRirNQxY9c-KLfBeXEZqxrw@mail.gmail.com>
+	<CA+chaQcRewrss+RQhhY2PEKJ_VHLyGBHrEOMR7gdFk346a2zQA@mail.gmail.com>
+	<CA+chaQcq+7-XCNOqWcPNaMkXE-u-BhY0A=79ouHFRPh9NzCm8g@mail.gmail.com>
+	<CAKmqyKP5HK0F8O74DtVh_=EWDmKW-A9mFVugkv5XvNUB=oh0Mw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 19:13:24 -0700
-Message-ID: <CAMKF1sroBR0o=tfORJxX-Fg5itQLEtBxtiTjia4E2YGYuj1OEg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 29 May 2018 19:16:27 -0700
+Message-ID: <CAMKF1spNGtWNhSbavgxALEW+Jtnzr8GcxqUNJofqqO==uJUWoA@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 4/5] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
+Subject: Re: [PATCH 2/3] qemu: upgrade to 2.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +62,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 02:13:54 -0000
+X-List-Received-Date: Wed, 30 May 2018 02:16:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 29, 2018 at 2:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Previously, ASNEEDED was appended to TARGET_LDFLAGS from
-> as-needed.inc via tcmode-default.inc and so may not have been enabled
-> for external toolchain builds or other configurations which over-ride
-> TCMODE (ie builds which do not include tcmode-default.inc).
+On Tue, May 29, 2018 at 4:14 PM, Alistair Francis <alistair23@gmail.com> wrote:
+> On Tue, May 29, 2018 at 1:40 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> After removing ld-is-gold I was able to reproduce the issue.
+>>
+>> Unfortunately removing the
+>> meta/recipes-devtools/qemu/qemu/linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
+>> doesn't help with the hang, then I've tried to upgrade to latest SRCREV in
+>> qemu master (currently 5a5c383b1373aeb6c87a0d6060f6c3dc7c53082b)
+>>
+>> Will try to bisect where it started to hang between 2.11.0 and 2.12.0, but
+>> it might be faster if Alistair Francis can chime in as the author of this
+>> patch, he might have better idea why it stopped working.
 >
-> Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
-> ensure that the optimisation is applied to all builds (and for
-> consistency with the way that TARGET_LINK_HASH_STYLE is handled).
-
-We have to be ensure that external toolchains can either override or support
---as-needed feature, since we may not be able to control what linker they use
-or version of gnu ld they may deploy.  From internal toolchains pov
-this is a good change, but It would be good if some users of external toolchains
-can chime in.
-
+> I'm not sure why it would stop working between the two releases.
 >
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/conf/bitbake.conf                      | 4 +++-
->  meta/conf/distro/include/as-needed.inc      | 4 ----
->  meta/conf/distro/include/tcmode-default.inc | 3 ---
->  3 files changed, 3 insertions(+), 8 deletions(-)
->  delete mode 100644 meta/conf/distro/include/as-needed.inc
+> I can't reproduce the hang, I just see this compilation error when
+> buidling webkitgtk with musl:
 >
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 15f6da7..fab3dcc 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -585,8 +585,10 @@ LINKER_HASH_STYLE_mipsarch = "sysv"
+> /scratch/alistair/yocto/oe-master/build/tmp-musl/work/core2-64-oe-linux-musl/webkitgtk/2.20.2-r0/webkitgtk-2.20.2/Source/WebCore/platform/graphics/OpenGLShims.h:23:10:
+> fatal error: GL/gl.h: No such file or directory
+>  #include <GL/gl.h>
 >
->  TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE') != 'gnu']}"
->
-> +ASNEEDED ?= "-Wl,--as-needed"
-> +
->  export LDFLAGS = "${TARGET_LDFLAGS}"
-> -export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
-> +export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
->
->  # Pass parallel make options to the compile task
->  EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
-> diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
-> deleted file mode 100644
-> index b163fef..0000000
-> --- a/meta/conf/distro/include/as-needed.inc
-> +++ /dev/null
-> @@ -1,4 +0,0 @@
-> -
-> -ASNEEDED = "-Wl,--as-needed"
-> -
-> -TARGET_LDFLAGS += "${ASNEEDED}"
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index 4b58df0..d85fd1e 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -65,12 +65,9 @@ PREFERRED_VERSION_glibc-initial            ?= "${GLIBCVERSION}"
->  PREFERRED_VERSION_nativesdk-glibc-initial  ?= "${GLIBCVERSION}"
->  PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
->
-> -
->  PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
->  PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
->  PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
-> -# Setup suitable toolchain flags
-> -require conf/distro/include/as-needed.inc
->
->  GOVERSION ?= "1.9%"
->  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+do you have opengl x11 in distro features ? these headers should come
+from mesa-dev
 
