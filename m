@@ -1,23 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C4A74E1A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7514274E40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 08:54:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U8saEW004973
+	Wed, 30 May 2018 08:55:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4U8smiL005008
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 01:54:37 -0700 (PDT)
+	Wed, 30 May 2018 01:55:03 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 30 May 2018 01:54:36 -0700
+	14.3.361.1; Wed, 30 May 2018 01:54:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2018 17:03:47 +0800
-Message-ID: <cover.1527670923.git.liezhi.yang@windriver.com>
+Date: Wed, 30 May 2018 17:03:48 +0800
+Message-ID: <1a7b7f04670c70d69fa21453865cd58c5e7d781a.1527670923.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1527670923.git.liezhi.yang@windriver.com>
+References: <cover.1527670923.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/16 V2] meta: various fixes
+Subject: [PATCH 01/16] base.bbclass: Add buildcfg multilib values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,97 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 08:54:36 -0000
+X-List-Received-Date: Wed, 30 May 2018 08:55:13 -0000
 Content-Type: text/plain
 
-* V2:
-  Rebase to up-to-date master branch and drop already merged patches.
+From: Mark Hatle <mark.hatle@windriver.com>
 
-* V1:
-  Initial version
+When displaying the buildcfg for the end user, add in processing
+of the multilib variants.  Only the items that are not the same as
+the DEFAULTTUNE are displayed.
 
-// Robert
+I.e.:
+Build Configuration:
+BB_VERSION        = "1.19.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "CentOS-6.4"
+DISTRO_VERSION    = "oe-core.0"
+MACHINE           = "qemux86-64"
+DEFAULTTUNE       = "x86-64"
+TARGET_SYS        = "x86_64-oe-linux"
+TUNE_FEATURES     = "m64"
+TARGET_FPU        = ""
+lib32:  DEFAULTTUNE       = "x86"
+lib32:  TARGET_SYS        = "i586-oe-linux"
+lib32:  TUNE_FEATURES     = "m32"
+meta              = "master:1975f3d7bbeb184489a5d0a2e0de231f317d3e1b"
 
-The following changes since commit 760103cdaed3e820888d8984ec0b76cfc831d534:
+The order of the displayed elements was changed slightly to group the
+host information together, as well as group the target information
+together.
 
-  nativesdk-rpm: Add wrappers for nativesdk support (2018-05-29 21:06:03 +0100)
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/base.bbclass | 13 ++++++++++++-
+ meta/conf/bitbake.conf    |  2 +-
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/fix_from_wr
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/fix_from_wr
-
-Catalin Enache (1):
-  init-install: add timeout for legacy grub
-
-Chen Qi (1):
-  populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
-
-Jackie Huang (3):
-  rootfs-postcommands: split ssh_allow_empty_password
-  dropbear: add default config file to disable root login
-  glibc: re-package for libnss-db
-
-Jian Liu (1):
-  lsof: fix LSOF_CCV in version.h
-
-Kai Kang (1):
-  toolchain-scripts.bbclass: do not extend dependency if extended
-    already
-
-Li Wang (1):
-  rpcbind: add option to make user able to use fixed port number
-
-Mark Hatle (1):
-  base.bbclass: Add buildcfg multilib values
-
-Ovidiu Panait (1):
-  openssl-nativesdk: Fix "can't open config file" warning
-
-Robert Yang (3):
-  runqemu-extract-sdk: allow install debugfs on rootfs
-  oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
-  site/powerpc64-linux: add cvs_cv_func_printf_ptr
-
-Shan Hai (1):
-  xinetd: add Init Script Actions to xinetd script
-
-Yadi.hu (1):
-  busybox: handle syslog
-
-Yuanjie Huang (1):
-  gcc-sanitizers: Fix libtool .la files
-
- meta/classes/base.bbclass                          |  13 ++-
- meta/classes/image.bbclass                         |   2 +-
- meta/classes/populate_sdk_ext.bbclass              |   6 +
- meta/classes/rootfs-postcommands.bbclass           |  25 +++-
- meta/classes/toolchain-scripts.bbclass             |  13 ++-
- meta/conf/bitbake.conf                             |   2 +-
- meta/lib/oe/copy_buildsystem.py                    |  18 +++
- .../openssl/openssl/environment.d-openssl.sh       |   1 +
- meta/recipes-connectivity/openssl/openssl10.inc    |   7 ++
- .../recipes-connectivity/openssl/openssl_1.0.2o.bb |   5 +
- .../recipes-connectivity/openssl/openssl_1.1.0h.bb |  11 ++
- meta/recipes-core/busybox/busybox.inc              |  14 ++-
- meta/recipes-core/dropbear/dropbear.inc            |   3 +
- .../dropbear/dropbear/dropbear.default             |   2 +
- meta/recipes-core/glibc/glibc-package.inc          |   5 +-
- .../initrdscripts/files/init-install.sh            |   2 +
- meta/recipes-devtools/gcc/gcc-sanitizers.inc       |   2 +
- .../files/Configure-fix-LSOF_CCV-assignment.patch  |  31 +++++
- meta/recipes-extended/lsof/lsof_4.89.bb            |   4 +-
- .../rpcbind_add_option_to_fix_port_number.patch    | 130 +++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb     |   1 +
- meta/recipes-extended/xinetd/xinetd/xinetd.init    |  12 +-
- meta/site/powerpc64-linux                          |   2 +
- scripts/runqemu-extract-sdk                        |   4 +-
- 24 files changed, 298 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
- create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 1a359a0..47ecff4 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -188,7 +188,7 @@ def get_layers_branch_rev(d):
+     return layers_branch_rev
+ 
+ 
+-BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
++BUILDCFG_FUNCS ??= "buildcfg_vars buildcfg_multilibs get_layers_branch_rev buildcfg_neededvars"
+ BUILDCFG_FUNCS[type] = "list"
+ 
+ def buildcfg_vars(d):
+@@ -198,6 +198,17 @@ def buildcfg_vars(d):
+         if value is not None:
+             yield '%-20s = "%s"' % (var, value)
+ 
++def buildcfg_multilibs(d):
++    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
++    for variant in variants.split():
++        localdata = get_multilib_datastore(variant, d)
++        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
++        for var in statusvars:
++            origvalue = d.getVar(var, True)
++            variantvalue = localdata.getVar(var, True)
++            if origvalue and variantvalue and origvalue != variantvalue:
++                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
++
+ def buildcfg_neededvars(d):
+     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
+     pesteruser = []
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6ecf78b..73686ea 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -699,7 +699,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ 
+ # Pre-build configuration output
+ BUILDCFG_HEADER = "Build Configuration:"
+-BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
++BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING DISTRO DISTRO_VERSION MACHINE DEFAULTTUNE TARGET_SYS TUNE_FEATURES TARGET_FPU"
+ BUILDCFG_VARS[type] = "list"
+ BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
+ BUILDCFG_NEEDEDVARS[type] = "list"
 -- 
 2.7.4
 
