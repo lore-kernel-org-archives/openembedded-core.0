@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E833874EAB
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D6EAC74E40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 08:55:20 +0000 (UTC)
+	Wed, 30 May 2018 08:55:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U8tLA1024089
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U8tNY7004980
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 01:55:21 -0700 (PDT)
+	Wed, 30 May 2018 01:55:23 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 30 May 2018 01:55:21 -0700
+	14.3.361.1; Wed, 30 May 2018 01:55:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2018 17:03:50 +0800
-Message-ID: <57ffc9737ad9e03150d3c5152871b7e163042358.1527670923.git.liezhi.yang@windriver.com>
+Date: Wed, 30 May 2018 17:03:51 +0800
+Message-ID: <fa27b94ef2e43e745091e9d41e9d0ba2454cf056.1527670923.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527670923.git.liezhi.yang@windriver.com>
 References: <cover.1527670923.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/16] lsof: fix LSOF_CCV in version.h
+Subject: [PATCH 04/16] busybox: handle syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +32,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 08:55:21 -0000
+X-List-Received-Date: Wed, 30 May 2018 08:55:22 -0000
 Content-Type: text/plain
 
-From: Jian Liu <jian.liu@windriver.com>
+From: "Yadi.hu" <yadi.hu@windriver.com>
 
-When using cross compiler to build the package "lsof" on a host,
-the value of LSOF_CCV in version.h genegrated by the Makefile
-is the version of the compiler on the host while it should be
-the version of cross compiler.
+If CONFIG_KLOGD is not enabled, then the related service file should
+not be installed, The error message is below:
 
-On Ubuntu host before fixed:
-  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
+    Cannot add dependency job for unit busybox-klogd.service,
+    ignoring: Unit busybox-klogd.service failed to load:
+    No such file or directory.
 
-After fixed:
-  #define   LSOF_CCV        "4.9.1 (GCC) "
+So we should first check the configuration before we install these
+service files.
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Yadi.hu <yadi.hu@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../files/Configure-fix-LSOF_CCV-assignment.patch  | 31 ++++++++++++++++++++++
- meta/recipes-extended/lsof/lsof_4.89.bb            |  4 ++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+ meta/recipes-core/busybox/busybox.inc | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
-new file mode 100644
-index 0000000..a182925
---- /dev/null
-+++ b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
-@@ -0,0 +1,31 @@
-+From c197389c9d8ccdbfcfe1dc31da6b4ce69b90ecf6 Mon Sep 17 00:00:00 2001
-+From: Wenzong Fan <wenzong.fan@windriver.com>
-+Date: Thu, 23 Oct 2014 03:43:27 -0400
-+Subject: [PATCH] Configure: fix LSOF_CCV assignment
-+
-+Allow to use specified LSOF_CC to get the version of linux compiler.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ Configure |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Configure b/Configure
-+index 29c1292..e5a199f 100755
-+--- a/Configure
-++++ b/Configure
-+@@ -2705,8 +2705,8 @@ LOCKF_OWNER4
-+     if test "X$LSOF_CC" = "X"	# {
-+     then
-+       LSOF_CC=cc
-+-      LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
-+     fi	# }
-++    LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
-+     if test "X$LINUX_CONF_CC" = "X"	# {
-+     then
-+       LINUX_CONF_CC=$LSOF_CC
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
-index 14546db..52b40dc 100644
---- a/meta/recipes-extended/lsof/lsof_4.89.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.89.bb
-@@ -13,7 +13,8 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index d1675c3..8c6dbba 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -315,20 +315,24 @@ do_install () {
+         fi
  
- SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
-            file://lsof-remove-host-information.patch \
--          "
-+           file://Configure-fix-LSOF_CCV-assignment.patch \
-+"
+     if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
++            install -d ${D}${systemd_unitdir}/system
++            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-klogd.service.in \
++            > ${D}${systemd_unitdir}/system/busybox-klogd.service
++        fi
++
+         if grep -q "CONFIG_SYSLOGD=y" ${B}/.config; then
+             install -d ${D}${systemd_unitdir}/system
+             sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-syslog.service.in \
+ 		> ${D}${systemd_unitdir}/system/busybox-syslog.service
++            if  [ ! -e ${D}${systemd_unitdir}/system/busybox-klogd.service ] ; then
++                sed -i '/klog/d' ${D}${systemd_unitdir}/system/busybox-syslog.service
++            fi
+             if [ -f ${WORKDIR}/busybox-syslog.default ] ; then
+ 		install -d ${D}${sysconfdir}/default
+ 		install -m 0644 ${WORKDIR}/busybox-syslog.default ${D}${sysconfdir}/default/busybox-syslog
+             fi
+         fi
+-        if grep -q "CONFIG_KLOGD=y" ${B}/.config; then
+-            install -d ${D}${systemd_unitdir}/system
+-            sed 's,@base_sbindir@,${base_sbindir},g' < ${WORKDIR}/busybox-klogd.service.in \
+-		> ${D}${systemd_unitdir}/system/busybox-klogd.service
+-        fi
+     fi
  
- SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
- SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
-@@ -40,6 +41,7 @@ python do_unpack () {
- export LSOF_INCLUDE = "${STAGING_INCDIR}"
- 
- do_configure () {
-+	export LSOF_CC="${CC}"
- 	export LSOF_AR="${AR} cr"
- 	export LSOF_RANLIB="${RANLIB}"
- 	if [ "x${GLIBCVERSION}" != "x" ]; then
+     # Remove the sysvinit specific configuration file for systemd systems to avoid confusion
 -- 
 2.7.4
 
