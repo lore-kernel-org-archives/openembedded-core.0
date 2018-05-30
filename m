@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7514274E40
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E833874EAB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 08:55:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4U8smiL005008
+	Wed, 30 May 2018 08:55:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U8tLA1024089
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 01:55:03 -0700
+	Wed, 30 May 2018 01:55:21 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 30 May 2018 01:54:37 -0700
+	14.3.361.1; Wed, 30 May 2018 01:55:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2018 17:03:48 +0800
-Message-ID: <1a7b7f04670c70d69fa21453865cd58c5e7d781a.1527670923.git.liezhi.yang@windriver.com>
+Date: Wed, 30 May 2018 17:03:50 +0800
+Message-ID: <57ffc9737ad9e03150d3c5152871b7e163042358.1527670923.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1527670923.git.liezhi.yang@windriver.com>
 References: <cover.1527670923.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/16] base.bbclass: Add buildcfg multilib values
+Subject: [PATCH 03/16] lsof: fix LSOF_CCV in version.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 08:55:13 -0000
+X-List-Received-Date: Wed, 30 May 2018 08:55:21 -0000
 Content-Type: text/plain
 
-From: Mark Hatle <mark.hatle@windriver.com>
+From: Jian Liu <jian.liu@windriver.com>
 
-When displaying the buildcfg for the end user, add in processing
-of the multilib variants.  Only the items that are not the same as
-the DEFAULTTUNE are displayed.
+When using cross compiler to build the package "lsof" on a host,
+the value of LSOF_CCV in version.h genegrated by the Makefile
+is the version of the compiler on the host while it should be
+the version of cross compiler.
 
-I.e.:
-Build Configuration:
-BB_VERSION        = "1.19.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "CentOS-6.4"
-DISTRO_VERSION    = "oe-core.0"
-MACHINE           = "qemux86-64"
-DEFAULTTUNE       = "x86-64"
-TARGET_SYS        = "x86_64-oe-linux"
-TUNE_FEATURES     = "m64"
-TARGET_FPU        = ""
-lib32:  DEFAULTTUNE       = "x86"
-lib32:  TARGET_SYS        = "i586-oe-linux"
-lib32:  TUNE_FEATURES     = "m32"
-meta              = "master:1975f3d7bbeb184489a5d0a2e0de231f317d3e1b"
+On Ubuntu host before fixed:
+  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
 
-The order of the displayed elements was changed slightly to group the
-host information together, as well as group the target information
-together.
+After fixed:
+  #define   LSOF_CCV        "4.9.1 (GCC) "
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/classes/base.bbclass | 13 ++++++++++++-
- meta/conf/bitbake.conf    |  2 +-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ .../files/Configure-fix-LSOF_CCV-assignment.patch  | 31 ++++++++++++++++++++++
+ meta/recipes-extended/lsof/lsof_4.89.bb            |  4 ++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 1a359a0..47ecff4 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -188,7 +188,7 @@ def get_layers_branch_rev(d):
-     return layers_branch_rev
- 
- 
--BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
-+BUILDCFG_FUNCS ??= "buildcfg_vars buildcfg_multilibs get_layers_branch_rev buildcfg_neededvars"
- BUILDCFG_FUNCS[type] = "list"
- 
- def buildcfg_vars(d):
-@@ -198,6 +198,17 @@ def buildcfg_vars(d):
-         if value is not None:
-             yield '%-20s = "%s"' % (var, value)
- 
-+def buildcfg_multilibs(d):
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for variant in variants.split():
-+        localdata = get_multilib_datastore(variant, d)
-+        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
-+        for var in statusvars:
-+            origvalue = d.getVar(var, True)
-+            variantvalue = localdata.getVar(var, True)
-+            if origvalue and variantvalue and origvalue != variantvalue:
-+                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
+diff --git a/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+new file mode 100644
+index 0000000..a182925
+--- /dev/null
++++ b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+@@ -0,0 +1,31 @@
++From c197389c9d8ccdbfcfe1dc31da6b4ce69b90ecf6 Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Thu, 23 Oct 2014 03:43:27 -0400
++Subject: [PATCH] Configure: fix LSOF_CCV assignment
 +
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
-     pesteruser = []
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 6ecf78b..73686ea 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -699,7 +699,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
++Allow to use specified LSOF_CC to get the version of linux compiler.
++
++Upstream-Status: Pending
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ Configure |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Configure b/Configure
++index 29c1292..e5a199f 100755
++--- a/Configure
+++++ b/Configure
++@@ -2705,8 +2705,8 @@ LOCKF_OWNER4
++     if test "X$LSOF_CC" = "X"	# {
++     then
++       LSOF_CC=cc
++-      LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
++     fi	# }
+++    LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
++     if test "X$LINUX_CONF_CC" = "X"	# {
++     then
++       LINUX_CONF_CC=$LSOF_CC
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+index 14546db..52b40dc 100644
+--- a/meta/recipes-extended/lsof/lsof_4.89.bb
++++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+@@ -13,7 +13,8 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
  
- # Pre-build configuration output
- BUILDCFG_HEADER = "Build Configuration:"
--BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
-+BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING DISTRO DISTRO_VERSION MACHINE DEFAULTTUNE TARGET_SYS TUNE_FEATURES TARGET_FPU"
- BUILDCFG_VARS[type] = "list"
- BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
- BUILDCFG_NEEDEDVARS[type] = "list"
+ SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
+            file://lsof-remove-host-information.patch \
+-          "
++           file://Configure-fix-LSOF_CCV-assignment.patch \
++"
+ 
+ SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
+ SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+@@ -40,6 +41,7 @@ python do_unpack () {
+ export LSOF_INCLUDE = "${STAGING_INCDIR}"
+ 
+ do_configure () {
++	export LSOF_CC="${CC}"
+ 	export LSOF_AR="${AR} cr"
+ 	export LSOF_RANLIB="${RANLIB}"
+ 	if [ "x${GLIBCVERSION}" != "x" ]; then
 -- 
 2.7.4
 
