@@ -1,27 +1,50 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DC4860049
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D157974D87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 09:37:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U9bSYI005142
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 May 2018 02:37:28 -0700 (PDT)
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 30 May 2018 02:37:28 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	Wed, 30 May 2018 10:12:20 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id d5-v6so12794342oib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2018 03:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PKm/R3wsu6oxegAxq/CZNhQBEZjqgraOLUKGitr8TMg=;
+	b=QFIs2bBXPuLFVXsOw8GiSWIOqG3IIkvcvEu96HWxuKtGCzZPLSFlQCQKYE/+TO8Qxl
+	e0WBwFs3u2Yrcy+tyyzYXe2baPGsW6DxGvyeG1YMJpU3uzRqHJranF9BLS8uc5F6Eps/
+	RPYmRWaqLRyZsDD/6ZhBRDbwPUOPMK9nJgffcfPYicsciYEmEN2bux2gsJi9Cxtpv61v
+	pVov7kNG9Apu1V7ofJZ5H8KiW7LL1xZ1+6YE8qtrN7JZ91hT3DbQ5NL7BImyrYWopv6x
+	UjDUX1YHV8SX7/h46OB5VlE0PR+w0iFNHsySWHWvdPt2UDgewTfB4k++bUPyy01pSUY1
+	1stw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PKm/R3wsu6oxegAxq/CZNhQBEZjqgraOLUKGitr8TMg=;
+	b=IDWwfy+SfooremDer3OeH7uX0097k86n+vDCa4McmXQ3aN0Gomp05CcsIl7Zd3gHAp
+	rJoT1KWgLjZANsSnLJm7JGqrR0yFwL2ZSMzISpyIo1v7fODII+r1F6MrPL6s+pyi0R9A
+	Tq2QixsKqXlg2ZXkNMTnmI2p7HNgxkV289Xg5Oox/9RonFhZVHQXGsGtUDgOvKdBo/cH
+	JLMPEFgkW09K7Pu0n7pYZCmsBPsVCA5kA8b1RR5RwMP+Jb2BiaBTAPK+Sf84Uuf4WxoC
+	wF4MFudnK5uO05QAny7JffmeZg04ZpKPNgBZu5PbfrmvrKqLhhpjz56TYqGjcJVlvXh+
+	KGqg==
+X-Gm-Message-State: ALKqPwe0YCqe5P7rQI7bKgdjzpEJeyhk5Zg+0SoDuMxU2UIddUHPMIV1
+	zrEnNxnNmzYwQ/3K645PpFnUklzNjXNlDceq2e0Yofny
+X-Google-Smtp-Source: ADUXVKKL49zeD59tnM+/moBlmYaq5TD/okw3HsqegySs2rj0jzwfwSy4OWlJZQ8gVG2wNrTzk41zg+Q/xwud+5Y3+bg=
+X-Received: by 2002:a54:4d02:: with SMTP id
+	v2-v6mr1051663oix.190.1527675141756; 
+	Wed, 30 May 2018 03:12:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Wed, 30 May 2018 03:12:21
+	-0700 (PDT)
+In-Reply-To: <7ae03f87-ddea-e8e4-20f6-3d0c2942ad61@windriver.com>
 References: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
 	<CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
 	<5b7ff97e-01dd-527f-9ca2-942997b7e6e9@windriver.com>
-From: cli10 <changqing.li@windriver.com>
-Message-ID: <7ae03f87-ddea-e8e4-20f6-3d0c2942ad61@windriver.com>
-Date: Wed, 30 May 2018 17:37:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <5b7ff97e-01dd-527f-9ca2-942997b7e6e9@windriver.com>
-X-Originating-IP: [128.224.162.228]
+	<7ae03f87-ddea-e8e4-20f6-3d0c2942ad61@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 30 May 2018 13:12:21 +0300
+Message-ID: <CANNYZj9WjP_FU_SbfZ7OpYqVOrm_HD73vNsY3r9WK4mWn7N4fQ@mail.gmail.com>
+To: cli10 <changqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] qemuwrapper-cross: fix postinst failed warning
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,180 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 09:37:29 -0000
-Content-Type: multipart/alternative;
-	boundary="------------866A7D772B9C0BC927437E5C"
-Content-Language: en-US
+X-List-Received-Date: Wed, 30 May 2018 10:12:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------866A7D772B9C0BC927437E5C
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hi, Alex
-
-I have test with your patch,  test passed,  all warnings are fixed:-).
-
-But I have a  problem about this, could you help to give some comments? 
-Thanks.
-
-
-if in the future,  some recipe inherit allarch,  but use 
-@qemu_run_binary directly,  not call qemuwrapper,
-
-I think maybe still will met problem of get wrong base_libdir. so I 
-think maybe we should change qemu_wrapper_cmdline in
-
-qemu.bbclass, like this:
-
--    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " + rootfs_path\
-+    return "PSEUDO_UNLOAD=1 " + "qemuwrapper" + " " + qemu_options + " -L " + rootfs_path\
-              + " -E LD_LIBRARY_PATH=" + ":".join(library_paths) + " "
-
-but some recipe or class like: gtk-doc.bbclass and 
-gobject-introspection_1.56.1.bb,  they use
-
-"@qemu_wrapper_cmdline" directly,  if we change qemu_wrapper_cmdline 
-like above way,  we will met
-
-another problem that  qemuwrapper have set LD_LIBRARY_PATH,  if user 
-need to set extra lib path,  user
-
-setting will override setting in qemuwrapper,  and also this is why in 
-my patch I add a python script qemuwrapperhelper to this.
-
-
-
-On 05/30/2018 03:05 PM, cli10 wrote:
-> OK, I will test with your patch:-)
+2018-05-30 12:37 GMT+03:00 cli10 <changqing.li@windriver.com>:
+> if in the future,  some recipe inherit allarch,  but use @qemu_run_binary
+> directly,  not call qemuwrapper,
 >
-> On 05/30/2018 02:41 PM, Alexander Kanavin wrote:
->> 2018-05-30 7:27 GMT+03:00<changqing.li@windriver.com>:
->>> From: Changqing Li<changqing.li@windriver.com>
->>>
->>> 1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
->>> uses qemu usermode by default,  but some architecture such as Intel
->>> skylake does not support qemu usermode, this can lead to a build warning as below:
->>> 2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
->>> fontcache called update_font_cache, update_font_cache use qemuwrapper,
->>> qemuwrapper is arch related, so update_font_cache will core dumped as below:
->> I need to apologize. I went ahead and fixed all of these issues myself
->> over the weekend, and improved a few other things in how postinsts
->> (and postinst intercepts) are handled. Should've told you immediately.
->> The seven patches have been sent, so if you can test and confirm that
->> they indeed fix these issues, I'd appreciate.
->> http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html
->>
->> Alex
->>
+> I think maybe still will met problem of get wrong base_libdir. so I think
+> maybe we should change qemu_wrapper_cmdline in
 >
-> -- 
-> BRs
+> qemu.bbclass, like this:
 >
-> Sandy(Li Changqing)
-> +861084778653
->
->
+> -    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " +
+> rootfs_path\
+> +    return "PSEUDO_UNLOAD=1 " + "qemuwrapper" + " " + qemu_options + " -L "
+> + rootfs_path\
+>              + " -E LD_LIBRARY_PATH=" + ":".join(library_paths) + " "
 
--- 
-BRs
+qemu_binary is determined like this:
 
-Sandy(Li Changqing)
-+861084778653
+    qemu_binary = qemu_target_binary(data)
+    if qemu_binary == "qemu-allarch":
+        qemu_binary = "qemuwrapper"
 
+So it will fall back to qemuwrapper if the recipe inherits allarch.
 
---------------866A7D772B9C0BC927437E5C
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#99FF99">
-    <p>Hi, Alex</p>
-    <p>I have test with your patch,  test passed,  all warnings are
-      fixed<span class="moz-smiley-s1"><span>:-)</span></span>.<br>
-    </p>
-    <p>But I have a  problem about this, could you help to give some
-      comments? Thanks. </p>
-    <p><br>
-    </p>
-    <p>if in the future,  some recipe inherit allarch,  but use
-      @qemu_run_binary directly,  not call qemuwrapper,</p>
-    <p>I think maybe still will met problem of get wrong base_libdir. so
-      I think maybe we should change qemu_wrapper_cmdline in</p>
-    <p>qemu.bbclass, like this:</p>
-    <pre wrap="">-    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " + rootfs_path\
-+    return "PSEUDO_UNLOAD=1 " + "qemuwrapper" + " " + qemu_options + " -L " + rootfs_path\
-             + " -E LD_LIBRARY_PATH=" + ":".join(library_paths) + " "
-
-</pre>
-    <p>but some recipe or class like: gtk-doc.bbclass and
-      gobject-introspection_1.56.1.bb,  they use <br>
-    </p>
-    <p>"@qemu_wrapper_cmdline" directly,  if we change
-      qemu_wrapper_cmdline like above way,  we will met <br>
-    </p>
-    <p>another problem that  qemuwrapper have set LD_LIBRARY_PATH,  if
-      user need to set extra lib path,  user</p>
-    <p>setting will override setting in qemuwrapper,  and also this is
-      why in my patch I add a python script qemuwrapperhelper to this. <br>
-    </p>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 05/30/2018 03:05 PM, cli10 wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:5b7ff97e-01dd-527f-9ca2-942997b7e6e9@windriver.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      OK, I will test with your patch<span class="moz-smiley-s1"><span>:-)</span></span><br>
-      <br>
-      <div class="moz-cite-prefix">On 05/30/2018 02:41 PM, Alexander
-        Kanavin wrote:<br>
-      </div>
-      <blockquote type="cite"
-cite="mid:CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com">
-        <pre wrap="">2018-05-30 7:27 GMT+03:00  <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>:
-</pre>
-        <blockquote type="cite">
-          <pre wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
-
-1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
-uses qemu usermode by default,  but some architecture such as Intel
-skylake does not support qemu usermode, this can lead to a build warning as below:
-2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
-fontcache called update_font_cache, update_font_cache use qemuwrapper,
-qemuwrapper is arch related, so update_font_cache will core dumped as below:
-</pre>
-        </blockquote>
-        <pre wrap="">I need to apologize. I went ahead and fixed all of these issues myself
-over the weekend, and improved a few other things in how postinsts
-(and postinst intercepts) are handled. Should've told you immediately.
-The seven patches have been sent, so if you can test and confirm that
-they indeed fix these issues, I'd appreciate.
-<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html" moz-do-not-send="true">http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html</a>
+Besides, at this point it's a theoretical problem, right? We don't
+even have a suitable allarch recipe to play with and see where things
+work and where they don't, and whether the fallback to qemuwrapper
+works correctly. If such recipe appears, we can look at the issue
+again.
 
 Alex
 
-</pre>
-      </blockquote>
-      <br>
-      <pre class="moz-signature" cols="72">-- 
-BRs
-
-Sandy(Li Changqing)
-+861084778653</pre>
-      <!--'"--><br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-BRs
-
-Sandy(Li Changqing)
-+861084778653</pre>
-  </body>
-</html>
-
---------------866A7D772B9C0BC927437E5C--
