@@ -1,52 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D157974D87
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CBE61748CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 10:12:20 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id d5-v6so12794342oib.5
+	Wed, 30 May 2018 11:28:31 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id m129-v6so46924864wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 03:12:22 -0700 (PDT)
+	Wed, 30 May 2018 04:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=PKm/R3wsu6oxegAxq/CZNhQBEZjqgraOLUKGitr8TMg=;
-	b=QFIs2bBXPuLFVXsOw8GiSWIOqG3IIkvcvEu96HWxuKtGCzZPLSFlQCQKYE/+TO8Qxl
-	e0WBwFs3u2Yrcy+tyyzYXe2baPGsW6DxGvyeG1YMJpU3uzRqHJranF9BLS8uc5F6Eps/
-	RPYmRWaqLRyZsDD/6ZhBRDbwPUOPMK9nJgffcfPYicsciYEmEN2bux2gsJi9Cxtpv61v
-	pVov7kNG9Apu1V7ofJZ5H8KiW7LL1xZ1+6YE8qtrN7JZ91hT3DbQ5NL7BImyrYWopv6x
-	UjDUX1YHV8SX7/h46OB5VlE0PR+w0iFNHsySWHWvdPt2UDgewTfB4k++bUPyy01pSUY1
-	1stw==
+	h=from:to:cc:subject:date:message-id;
+	bh=rxVadPVj9E65f/hrkNar9Kztar+zfMvKJhQt+CsHIv4=;
+	b=Rp3Lmo1YRJuYzB9VDqtsD6U5w2uLFhHhzX4JYSz0FZgNq4exEvrVQHdkxkK/TJFL20
+	SnfuoQVXTK1zTJ44z3nfHx66Fgb3dvDyE+fJsLhDFfmAWjoQlf1bH7ipVdVvNqkHlB5P
+	GKFmsJJX9w6PMcW4Na7/w0d2WDPjXYWOOPKKuNWE990wp0tSim/XPpFb1UQnVmUMSlLf
+	fRS3clhdfZbPBTLL9A1YPshRC3mDQJthg7wtIuGhMZ9ZvXHhtsxQrEQaLfifBvXe5rTE
+	oaprrFa82PcnXFtciSb8a9cfu9dUXeKwSuI3aogld3GNCaK4CDGbQRj5zlH+5iSJBEYw
+	kWAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=PKm/R3wsu6oxegAxq/CZNhQBEZjqgraOLUKGitr8TMg=;
-	b=IDWwfy+SfooremDer3OeH7uX0097k86n+vDCa4McmXQ3aN0Gomp05CcsIl7Zd3gHAp
-	rJoT1KWgLjZANsSnLJm7JGqrR0yFwL2ZSMzISpyIo1v7fODII+r1F6MrPL6s+pyi0R9A
-	Tq2QixsKqXlg2ZXkNMTnmI2p7HNgxkV289Xg5Oox/9RonFhZVHQXGsGtUDgOvKdBo/cH
-	JLMPEFgkW09K7Pu0n7pYZCmsBPsVCA5kA8b1RR5RwMP+Jb2BiaBTAPK+Sf84Uuf4WxoC
-	wF4MFudnK5uO05QAny7JffmeZg04ZpKPNgBZu5PbfrmvrKqLhhpjz56TYqGjcJVlvXh+
-	KGqg==
-X-Gm-Message-State: ALKqPwe0YCqe5P7rQI7bKgdjzpEJeyhk5Zg+0SoDuMxU2UIddUHPMIV1
-	zrEnNxnNmzYwQ/3K645PpFnUklzNjXNlDceq2e0Yofny
-X-Google-Smtp-Source: ADUXVKKL49zeD59tnM+/moBlmYaq5TD/okw3HsqegySs2rj0jzwfwSy4OWlJZQ8gVG2wNrTzk41zg+Q/xwud+5Y3+bg=
-X-Received: by 2002:a54:4d02:: with SMTP id
-	v2-v6mr1051663oix.190.1527675141756; 
-	Wed, 30 May 2018 03:12:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Wed, 30 May 2018 03:12:21
-	-0700 (PDT)
-In-Reply-To: <7ae03f87-ddea-e8e4-20f6-3d0c2942ad61@windriver.com>
-References: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
-	<CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
-	<5b7ff97e-01dd-527f-9ca2-942997b7e6e9@windriver.com>
-	<7ae03f87-ddea-e8e4-20f6-3d0c2942ad61@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 30 May 2018 13:12:21 +0300
-Message-ID: <CANNYZj9WjP_FU_SbfZ7OpYqVOrm_HD73vNsY3r9WK4mWn7N4fQ@mail.gmail.com>
-To: cli10 <changqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemuwrapper-cross: fix postinst failed warning
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rxVadPVj9E65f/hrkNar9Kztar+zfMvKJhQt+CsHIv4=;
+	b=MCIScqW5gHHsX1JXrseOAfdHSomKqG1Z/unqEJiIaT3ZFdIMpRewZNMq1PyJe+7IvW
+	p9R86vM4o2GaQSYWGzejBcdzBb5iYC1oVlrmMMv7sPl9hkUK7wAyIdiaiXgyyidbuDNy
+	NdfRi623Opyu0DIItuEBpI7Koiw6W4GOgSWNuw/k4ZWZDsyP4IbVjTO0bCPYM3FNjIef
+	iViRj0Ek9M41DN1JmkHdTWWmO69/x58w8biMiW24I6HuT4NXDLeSpui6WrRLHWT/LIbJ
+	ueagP86mbCVpYjgvhhPI0Q6RcETFccoNs6iUsBilxOskmF1R6aK9grONJ/ab7syzli78
+	T4nw==
+X-Gm-Message-State: ALKqPwc6awWhjTGxkDEZBObOT4E7B/kvYXdNPrzMd+I1vwTtRdYZYA8N
+	RBJyApHK2KcTAuAhH3kau5lJrA==
+X-Google-Smtp-Source: ADUXVKJMlMP6brvuKsOWbfiMo+/yWon94POwUJ/5r571SQoWyemDngcibBFikPNQpQllGgDp46i/Jg==
+X-Received: by 2002:a1c:ea9b:: with SMTP id
+	g27-v6mr1119864wmi.21.1527679712039; 
+	Wed, 30 May 2018 04:28:32 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	i12-v6sm19345703wrn.55.2018.05.30.04.28.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 30 May 2018 04:28:30 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 May 2018 11:28:29 +0000
+Message-Id: <20180530112829.1944-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] gcc-sanitizers: don't use thumb for armv[45]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 10:12:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 May 2018 11:28:32 -0000
 
-2018-05-30 12:37 GMT+03:00 cli10 <changqing.li@windriver.com>:
-> if in the future,  some recipe inherit allarch,  but use @qemu_run_binary
-> directly,  not call qemuwrapper,
->
-> I think maybe still will met problem of get wrong base_libdir. so I think
-> maybe we should change qemu_wrapper_cmdline in
->
-> qemu.bbclass, like this:
->
-> -    return "PSEUDO_UNLOAD=1 " + qemu_binary + " " + qemu_options + " -L " +
-> rootfs_path\
-> +    return "PSEUDO_UNLOAD=1 " + "qemuwrapper" + " " + qemu_options + " -L "
-> + rootfs_path\
->              + " -E LD_LIBRARY_PATH=" + ":".join(library_paths) + " "
+* otherwise it fails with:
+  sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
 
-qemu_binary is determined like this:
+@ 1538 "../../../../../../../../../work-shared/gcc-8.1.0-r0/gcc-8.1.0/libsanitizer/sanitizer_common/sanitizer_linux.cc" 1
+        swi 0x0
+cmp r0, #0
+bne 1f
+ldr r0, [sp, #4]
+ldr ip, [sp], #8
+blx ip
+mov r7, #1
+swi 0x0
+1:
+mov r0, r0
 
-    qemu_binary = qemu_target_binary(data)
-    if qemu_binary == "qemu-allarch":
-        qemu_binary = "qemuwrapper"
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-So it will fall back to qemuwrapper if the recipe inherits allarch.
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb b/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
+index 601f666023..f3c7058114 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
+@@ -1,2 +1,7 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-sanitizers.inc
++
++# Building with thumb enabled on armv4t armv5t fails with
++# sanitizer_linux.s:5749: Error: lo register required -- `ldr ip,[sp],#8'
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+-- 
+2.17.0
 
-Besides, at this point it's a theoretical problem, right? We don't
-even have a suitable allarch recipe to play with and see where things
-work and where they don't, and whether the fallback to qemuwrapper
-works correctly. If such recipe appears, we can look at the issue
-again.
-
-Alex
 
