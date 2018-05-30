@@ -1,47 +1,26 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C997745A6
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F61374F0E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 06:41:18 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id f79-v6so1414742oib.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 23:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8sibntBbLz7QpbQvq52JXJbvcS48P6adlCMbpaZO9fw=;
-	b=pHbmpwgYvxBPmwyZPrTF/GD8EdBihGgyzT9AEk73f97r1+F9Fievfpk4onxZTqeUnc
-	Jtx9D56rdmKyYEo9a81Pd/hegASO/dp7dkZtxOm4RNMZGC0SdO1RB+eBl6/s1Jbp8bBy
-	BQXlQKH7f2gpd3WJxaWn/kNwRYXEA+xHNnT1BadS54DW5dGPewXTY+gm/nshe4jYvkTF
-	E6mNMrNIWLPWTC1n0LLvZeOAOpnAp4a2UUhNNmzU/s6lHO8lr89tqcOuVkXZZ4o//Gfp
-	IwJmkMRc3fLGREyexkIIo+GNdISIrkuuFLW89yBKRI5EszO7AaYEuMNPBMjcDnhzDDJS
-	ko0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8sibntBbLz7QpbQvq52JXJbvcS48P6adlCMbpaZO9fw=;
-	b=UKLTRuBrQOM90A30sc3s5fZqthd5+es7jZab1E1nDU3if9BlXC+7JoNGGbzO7ZPz0d
-	TmBm42u7/YZNyWc3YBAek6+3kD9UhOyVzxdIqZ1zVWhlCUExX413c6p/YzM46Ux93JGy
-	13M8OpdLWRDHDxptnTBswZu9QJ4N33ZKYCYAHT+c88SQsDn69zNAjLEDCrYQaOz7VqpC
-	3jzcbeXakPPml79kMs0WR9RPNXAFApjMNtGwqLQAk7OgYR90LUxM1vLAUycbgcZgcqzK
-	l8uiHYWwI9cWvE2L+0+HXkXOJ/Prp2J85CvKt3SQR3S8/TB2aumsDLnMjJ56Tkbz0QJ1
-	A1hw==
-X-Gm-Message-State: ALKqPwd3CjpW06oTojCM1+5gKp9nKYNBuZZLaTrpP6GnaiG6mbTCij0v
-	aNmnMlWsyXGWO2W2JhG3LGHVteCSSwNlkENDVvg=
-X-Google-Smtp-Source: ADUXVKIih0uSX3lleMoRAtiZzlZVaw/9rl20koxYe3FeAkDxkEen5WUUOZYn44CoUAugflFeRQ9lcXFm8p9f3sIia1M=
-X-Received: by 2002:aca:47cb:: with SMTP id
-	u194-v6mr837821oia.45.1527662479998; 
-	Tue, 29 May 2018 23:41:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Tue, 29 May 2018 23:41:19
-	-0700 (PDT)
-In-Reply-To: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
+	Wed, 30 May 2018 07:05:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4U75BNH004285
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 May 2018 00:05:12 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 30 May 2018 00:05:11 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 References: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 30 May 2018 09:41:19 +0300
-Message-ID: <CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
-To: changqing.li@windriver.com
+	<CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
+From: cli10 <changqing.li@windriver.com>
+Message-ID: <5b7ff97e-01dd-527f-9ca2-942997b7e6e9@windriver.com>
+Date: Wed, 30 May 2018 15:05:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
+X-Originating-IP: [128.224.162.228]
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] qemuwrapper-cross: fix postinst failed warning
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,25 +35,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 06:41:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 May 2018 07:05:12 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F8FB926F08C4408C1F71C0A3"
+Content-Language: en-US
 
-2018-05-30 7:27 GMT+03:00  <changqing.li@windriver.com>:
-> From: Changqing Li <changqing.li@windriver.com>
+--------------F8FB926F08C4408C1F71C0A3
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+OK, I will test with your patch:-)
+
+On 05/30/2018 02:41 PM, Alexander Kanavin wrote:
+> 2018-05-30 7:27 GMT+03:00  <changqing.li@windriver.com>:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> 1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
+>> uses qemu usermode by default,  but some architecture such as Intel
+>> skylake does not support qemu usermode, this can lead to a build warning as below:
+>> 2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
+>> fontcache called update_font_cache, update_font_cache use qemuwrapper,
+>> qemuwrapper is arch related, so update_font_cache will core dumped as below:
+> I need to apologize. I went ahead and fixed all of these issues myself
+> over the weekend, and improved a few other things in how postinsts
+> (and postinst intercepts) are handled. Should've told you immediately.
+> The seven patches have been sent, so if you can test and confirm that
+> they indeed fix these issues, I'd appreciate.
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html
 >
-> 1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
-> uses qemu usermode by default,  but some architecture such as Intel
-> skylake does not support qemu usermode, this can lead to a build warning as below:
-> 2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
-> fontcache called update_font_cache, update_font_cache use qemuwrapper,
-> qemuwrapper is arch related, so update_font_cache will core dumped as below:
+> Alex
+>
 
+-- 
+BRs
+
+Sandy(Li Changqing)
++861084778653
+
+
+--------------F8FB926F08C4408C1F71C0A3
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#99FF99">
+    OK, I will test with your patch<span class="moz-smiley-s1"><span>:-)</span></span><br>
+    <br>
+    <div class="moz-cite-prefix">On 05/30/2018 02:41 PM, Alexander
+      Kanavin wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com">
+      <pre wrap="">2018-05-30 7:27 GMT+03:00  <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+
+1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
+uses qemu usermode by default,  but some architecture such as Intel
+skylake does not support qemu usermode, this can lead to a build warning as below:
+2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
+fontcache called update_font_cache, update_font_cache use qemuwrapper,
+qemuwrapper is arch related, so update_font_cache will core dumped as below:
+</pre>
+      </blockquote>
+      <pre wrap="">
 I need to apologize. I went ahead and fixed all of these issues myself
 over the weekend, and improved a few other things in how postinsts
 (and postinst intercepts) are handled. Should've told you immediately.
 The seven patches have been sent, so if you can test and confirm that
 they indeed fix these issues, I'd appreciate.
-http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html">http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html</a>
 
 Alex
 
+</pre>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+BRs
+
+Sandy(Li Changqing)
++861084778653</pre>
+  </body>
+</html>
+
+--------------F8FB926F08C4408C1F71C0A3--
