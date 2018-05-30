@@ -1,55 +1,52 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0165B74D1F
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EF84260068
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 17:39:16 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id x191-v6so11630974vke.10
+	Wed, 30 May 2018 17:46:30 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id g9-v6so13093229uak.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 10:39:18 -0700 (PDT)
+	Wed, 30 May 2018 10:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wGb3NKuax9yT5uvsIzTpxDRjqUGO02Xhdu1UDw1yqW8=;
-	b=EEFYYqjBkC1tFW9w6kkbSAyMs/dg3/nGm6N/46cUk8927isAFo7OgpXPz04ye7BOL4
-	nlHxhGy0JnSuyOJ+1fsm5J4mO/6nQw+lCQmOam/Da6AM7tMDc/hHH3/0NTCrhIvfSyxx
-	kTWA26b9Z7vosr4nq+3L3WIGtVEcBcjAx2V7sxMiW/PX4LHw84XkwKlxy5WZEbYzp+2r
-	JOxcNnrTLQJrGnb1NE1VWWLrl2s1x1UzDxnF+v2PwluZqXA9OYi6ZbIkTSA/qkG+NQZ2
-	XV5+efMm1IJ5eDx/z0TEUphLvjz5+/oR7wJAQZQplBG5T3kG5xASnze8bts/vw9gTREy
-	+1kw==
+	:cc; bh=18pWA6G5LCqiK+jFdjb3fyeXclxVChqxIwgmM18t4z8=;
+	b=OlMaDHXplCQACQM8nLmZYnuczXH2RplnPRxnRvuxxfAruQbe2V+IM3jj4y7bPx/F2O
+	cUcSQg0THEMeusOENRDP+08/QEeB/IS8hXWVtlOI1tCcct4Lvyc3JMQ6uhPppNN0GccX
+	koBMl55gexYw9Yc/RWqQiRFvNW1LThqZWYjHDL3EgJWzUj3fElkivJ4zJ3WTZ46hY6X2
+	lkgEGglveUnLQPfvAxijNOdvM2t/tk8bVYNysWO+hc5JBcahrzctgcd1tSL7wUaja+cH
+	IpxZDU3yYQiGv40C59vU6LLNp329kMseAXQB2vHatDIWvmpHQVzs4irxIGhsK8hGOnvq
+	7ITA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=wGb3NKuax9yT5uvsIzTpxDRjqUGO02Xhdu1UDw1yqW8=;
-	b=htp3AX3BSWgs3KBAoUe8PoO8doADP191x9BSRmsfdhTb7Ybt+p55UocO1NVzqeoQxX
-	ppmSmrNt1LtdPH+gtFoV8oKRVfp4DO9p78FoHnAaNBS2fE3Ojj3JF3gQigKK/3CVdj5Z
-	5x1LmJTNJkW0fuk67u8f/xS9pOZ4L1rXriMHaZXK0wKvGODMCq158UD9K9+ZZnG3+6HB
-	aa2yrXi2SzXbDFq74cJgKtGBlSe2RjilbxCAKzoWh4VhTYkao5v+Sio41EYljBYZBuVh
-	yVodpD6BttkVRdMfWzb3HSa2ICMAtTJOh/wMRTWUnZ77Gntkg9XTl635YZ5RxYxLCg9c
-	FUsw==
-X-Gm-Message-State: ALKqPwe7vw6yaXZIiwmUyniyDdPNw3mUWuFpR6WkwweZmUc7RaPFUwDh
-	UlwAq+SMtwVODn1amzHm72qAjSTKLqv6rpkwEmQ=
-X-Google-Smtp-Source: ADUXVKJ3dNpppIrUyHCsHdNgpa14QMNmj+mKZ11W5rDbPzhISjObeJVnVjlapPbJHk5o5L63pFsEETAkY/qkZ5+NlJk=
-X-Received: by 2002:a1f:a7c7:: with SMTP id
-	q190-v6mr2126242vke.5.1527701957162; 
-	Wed, 30 May 2018 10:39:17 -0700 (PDT)
+	bh=18pWA6G5LCqiK+jFdjb3fyeXclxVChqxIwgmM18t4z8=;
+	b=lDXeM4BfEDnR+LGaydvkkf0v/VsKce7fFj5fDN6ZFVLWpOO5HdanURIqMPfIoYqTlY
+	KuF/sIbFxamIgukMYqIYFn+6QQDwXWtNYaaF87+JgpfxXHX9zY2UYePsPwfBQypiQqyX
+	vO98XNUuMPkpnUrfMRLCw3humH+FIPOO1XwdNksmiQ/HTqQY0TUd2KISASJ/xKnAe97w
+	vd/FWtjIt8JDzWE3qaw6FgdZAunXY68g+o+B+n4lpQq5S9K3aJVnemDENCGZVF/QseTq
+	GgCVDz3Slav2UybFDeRGPw+bODK41Tkt8VfindXxFiHItpcBgJBhbKTbRyRSfQ/5Y2ad
+	cxzQ==
+X-Gm-Message-State: ALKqPwfNjkK7CK4M3MtcbCAttRvaSe9YgoJeGbO2wMlPAyiMylzg2EEc
+	q//0HF9OvRemRMBdse9WS8E1FnqvR7IgD+nzkrc=
+X-Google-Smtp-Source: ADUXVKLPZPaRy4hHoiBe/vvKu2CRtsjkFUoEe/FPrCJ72bMJunWJ4zLgHAk4tLRQgDFaenQTCfqHVa2192cMaUhNevQ=
+X-Received: by 2002:a9f:3766:: with SMTP id
+	a35-v6mr2444484uae.66.1527702391638; 
+	Wed, 30 May 2018 10:46:31 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Wed, 30 May 2018 10:39:16 -0700 (PDT)
-In-Reply-To: <4ab499de-5f57-520e-4951-91f15115435d@gmail.com>
-References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
-	<20180510122036.15212-1-Martin.Jansa@gmail.com>
-	<CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
-	<84e0278e-4ed3-51e7-81b8-f104c469ed4c@gmail.com>
-	<8df86d81-5e7f-46fa-0d25-ecb902d70d8c@gmail.com>
-	<20180510191612.GB1954@jama>
-	<4ab499de-5f57-520e-4951-91f15115435d@gmail.com>
+	Wed, 30 May 2018 10:46:31 -0700 (PDT)
+In-Reply-To: <CAMKF1sroBR0o=tfORJxX-Fg5itQLEtBxtiTjia4E2YGYuj1OEg@mail.gmail.com>
+References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
+	<1527629388-3808-5-git-send-email-armccurdy@gmail.com>
+	<CAMKF1sroBR0o=tfORJxX-Fg5itQLEtBxtiTjia4E2YGYuj1OEg@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 30 May 2018 10:39:16 -0700
-Message-ID: <CAJ86T=Xk+fUWoOM5igiD6ZBTQfb4opLooTa3HeAFHVs7GFAvDg@mail.gmail.com>
+Date: Wed, 30 May 2018 10:46:31 -0700
+Message-ID: <CAJ86T=VWrtpr61mxhwJNDz9FcB-V60CWFdL55Zfkw4pOC9wWkQ@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/5] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,42 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 17:39:17 -0000
+X-List-Received-Date: Wed, 30 May 2018 17:46:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
- On Thu, May 10, 2018 at 12:26 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 5/10/18 12:16 PM, Martin Jansa wrote:
->>>
->>> On second thought, this probably should be enabled using a config
->>> fragment, since its not gonna link in another library it may not be
->>> common case to justify for a default config.
+On Tue, May 29, 2018 at 7:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, May 29, 2018 at 2:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> Previously, ASNEEDED was appended to TARGET_LDFLAGS from
+>> as-needed.inc via tcmode-default.inc and so may not have been enabled
+>> for external toolchain builds or other configurations which over-ride
+>> TCMODE (ie builds which do not include tcmode-default.inc).
 >>
->> That's true, I've enabled CONFIG_FEATURE_MOUNT_NFS mostly to show how to
->> reproduce the issue.
->>
->> If there isn't interest to enable this by default, I'm fine with keeping
->> this
->> locally (to enable it only with our defconfig changes which enable it).
+>> Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
+>> ensure that the optimisation is applied to all builds (and for
+>> consistency with the way that TARGET_LINK_HASH_STYLE is handled).
 >
-> I think keeping it as a nfsmount.cfg which then can be applied via a
-> bbappend could be a good option. May be adding a PACKAGECONFIG to control
-> the -I flag and libtirpc dependency would be nice too
+> We have to be ensure that external toolchains can either override or support
+> --as-needed feature,
 
-According to the busybox config help, CONFIG_FEATURE_MOUNT_NFS is only
-required for kernel versions before 2.6.23. Do we officially support
-kernels that old in oe-core? Or should this be in a .bbappend etc in
-separate layer?
+External toolchains can easily over-ride ASNEEDED if they need to.
 
-//config:config FEATURE_MOUNT_NFS
-//config:    bool "Support mounting NFS file systems on Linux < 2.6.23"
-//config:    default n
-//config:    depends on MOUNT
-//config:    select FEATURE_SYSLOG
-//config:    help
-//config:    Enable mounting of NFS file systems on Linux kernels prior
-//config:    to version 2.6.23. Note that in this case mounting of NFS
-//config:    over IPv6 will not be possible.
-//config:
-//config:    Note that this option links in RPC support from libc,
-//config:    which is rather large (~10 kbytes on uclibc).
+> since we may not be able to control what linker they use
+> or version of gnu ld they may deploy.
+
+When was --as-needed first added to gnu ld? Do you know of an external
+toolchain which might not support it?
+
+> From internal toolchains pov
+> this is a good change, but It would be good if some users of external toolchains
+> can chime in.
 
