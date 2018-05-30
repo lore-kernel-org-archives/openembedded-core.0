@@ -1,51 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A483C74F37
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C997745A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 05:04:57 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id f189-v6so8394744pfa.7
+	Wed, 30 May 2018 06:41:18 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id f79-v6so1414742oib.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 22:04:59 -0700 (PDT)
+	Tue, 29 May 2018 23:41:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BZfQwzK8YO8D1XvY8JQxry22Gu46wMA5fFbsS8Bbs5Y=;
-	b=l2ZJZ1U3Fz3FfjXN+7RZSSVFKkCWqI8jBAlebOtWSC+MLu8ynUTgbZUSTKJiPyaRII
-	DNwdziARXao33COHErY6cnwMGil8lbdg858wx8GP64GdNGP9ibI0M5MI1syhMaYv4GRF
-	QgTk8wsJ3lumCGQuvaT0WDogYYvNj81ms/7SH+UJTITqlRkxpNsRc96i7tfiGsJt+BHq
-	ps+ALuuN/2gNJjpH/rbGnh+m0ahmmFJWibvtBlB+53F6MnKnza6Z5oEO664+9rxTQseA
-	CgM6qOVSRGI5by4ShlCJ55y7zAIsqZlVIRybGdlK5VL+PeJ3O5Dsnl6fLBtgLo5vOiCa
-	Okrw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8sibntBbLz7QpbQvq52JXJbvcS48P6adlCMbpaZO9fw=;
+	b=pHbmpwgYvxBPmwyZPrTF/GD8EdBihGgyzT9AEk73f97r1+F9Fievfpk4onxZTqeUnc
+	Jtx9D56rdmKyYEo9a81Pd/hegASO/dp7dkZtxOm4RNMZGC0SdO1RB+eBl6/s1Jbp8bBy
+	BQXlQKH7f2gpd3WJxaWn/kNwRYXEA+xHNnT1BadS54DW5dGPewXTY+gm/nshe4jYvkTF
+	E6mNMrNIWLPWTC1n0LLvZeOAOpnAp4a2UUhNNmzU/s6lHO8lr89tqcOuVkXZZ4o//Gfp
+	IwJmkMRc3fLGREyexkIIo+GNdISIrkuuFLW89yBKRI5EszO7AaYEuMNPBMjcDnhzDDJS
+	ko0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BZfQwzK8YO8D1XvY8JQxry22Gu46wMA5fFbsS8Bbs5Y=;
-	b=h1VJTo+/RHHgAQ28jW/8UTW62YmI5dla+POWf7WaJtWukJqnVDyA1xIhisCEPf8XGP
-	unFfkw1TTj5Jm/8vqPAbomTtyqHAxpglgyRQJp1Ys094VRy0ZmmOTP2pg26nuolmrNYX
-	m4hnUQg0ohCDNhNx6LQv0ygPv+CKnH2vuUM42fmXBAeKy08WAMuLCj0+GGA9/NI2kwvw
-	8+P0/WR73+n0dJum0h19eWxfACMBaz/39gqEkSpkQKuzqHsrFICk3BTBa6q6gO9grSIh
-	KFCDpgE50V4Hiq7aewp4OmKAlybTjRQdDiSSryWMx8rE9JpS+Ef9f4xQLrgFmTBr3O0q
-	vVvA==
-X-Gm-Message-State: ALKqPwf9f+XeoLq5eTWe0XGGU2mkyxkmDOurVQknXkyhY4XMDJgKHc8Y
-	KqSad4WaxqnlIA1ujM3F8IXXJw==
-X-Google-Smtp-Source: ADUXVKKM+a/aEt38v1e9aD7sEYBtLQKJgfSUskZ/VFn/aV282DxbHrjDvlIAoupCFJuF3IWUzge8JA==
-X-Received: by 2002:a62:2197:: with SMTP id
-	o23-v6mr1318973pfj.202.1527656698656; 
-	Tue, 29 May 2018 22:04:58 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::c68])
-	by smtp.gmail.com with ESMTPSA id
-	l71-v6sm24952157pge.8.2018.05.29.22.04.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 May 2018 22:04:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 May 2018 22:04:52 -0700
-Message-Id: <367ad0e0c3743bf14604d83fc39fba3308f5ad87.1527656441.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <cover.1527656441.git.raj.khem@gmail.com>
-References: <cover.1527656441.git.raj.khem@gmail.com>
-Subject: [PATCH 6/6] tcmode-default: Switch to gcc 8.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8sibntBbLz7QpbQvq52JXJbvcS48P6adlCMbpaZO9fw=;
+	b=UKLTRuBrQOM90A30sc3s5fZqthd5+es7jZab1E1nDU3if9BlXC+7JoNGGbzO7ZPz0d
+	TmBm42u7/YZNyWc3YBAek6+3kD9UhOyVzxdIqZ1zVWhlCUExX413c6p/YzM46Ux93JGy
+	13M8OpdLWRDHDxptnTBswZu9QJ4N33ZKYCYAHT+c88SQsDn69zNAjLEDCrYQaOz7VqpC
+	3jzcbeXakPPml79kMs0WR9RPNXAFApjMNtGwqLQAk7OgYR90LUxM1vLAUycbgcZgcqzK
+	l8uiHYWwI9cWvE2L+0+HXkXOJ/Prp2J85CvKt3SQR3S8/TB2aumsDLnMjJ56Tkbz0QJ1
+	A1hw==
+X-Gm-Message-State: ALKqPwd3CjpW06oTojCM1+5gKp9nKYNBuZZLaTrpP6GnaiG6mbTCij0v
+	aNmnMlWsyXGWO2W2JhG3LGHVteCSSwNlkENDVvg=
+X-Google-Smtp-Source: ADUXVKIih0uSX3lleMoRAtiZzlZVaw/9rl20koxYe3FeAkDxkEen5WUUOZYn44CoUAugflFeRQ9lcXFm8p9f3sIia1M=
+X-Received: by 2002:aca:47cb:: with SMTP id
+	u194-v6mr837821oia.45.1527662479998; 
+	Tue, 29 May 2018 23:41:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Tue, 29 May 2018 23:41:19
+	-0700 (PDT)
+In-Reply-To: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
+References: <1527654433-263632-1-git-send-email-changqing.li@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 30 May 2018 09:41:19 +0300
+Message-ID: <CANNYZj8kCFWOfoDdn+F8LsGtT7oG6TKapBEnzPTSL=K0sttbRg@mail.gmail.com>
+To: changqing.li@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemuwrapper-cross: fix postinst failed warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 05:04:58 -0000
+X-List-Received-Date: Wed, 30 May 2018 06:41:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+2018-05-30 7:27 GMT+03:00  <changqing.li@windriver.com>:
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> 1. some binary like udev-hwdb/pixbufcache/gio-module-cache/fontcache
+> uses qemu usermode by default,  but some architecture such as Intel
+> skylake does not support qemu usermode, this can lead to a build warning as below:
+> 2. font is not arch related, but receipe like liberation-fonts inherit fontcache,
+> fontcache called update_font_cache, update_font_cache use qemuwrapper,
+> qemuwrapper is arch related, so update_font_cache will core dumped as below:
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 4b58df0459..b197819e9e 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,7 +22,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
- 
--GCCVERSION ?= "7.%"
-+GCCVERSION ?= "8.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.30%"
- GDBVERSION ?= "8.1%"
--- 
-2.17.0
+I need to apologize. I went ahead and fixed all of these issues myself
+over the weekend, and improved a few other things in how postinsts
+(and postinst intercepts) are handled. Should've told you immediately.
+The seven patches have been sent, so if you can test and confirm that
+they indeed fix these issues, I'd appreciate.
+http://lists.openembedded.org/pipermail/openembedded-core/2018-May/151196.html
 
+Alex
 
