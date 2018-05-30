@@ -1,53 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F03D74DA7
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9494A749A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 19:11:34 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id j80-v6so13550001qke.9
+	Wed, 30 May 2018 19:40:48 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id r2-v6so6093392lff.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 12:11:35 -0700 (PDT)
+	Wed, 30 May 2018 12:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ew7wkJrVUJZlk6ss/H6tr3lSikh1eF7rsgv0ftK4dS4=;
-	b=UMy9cBeqzJsjhG+GIy94jIdJzQpXqR4BTgfdZOJF6bXzNqcLhRJzU5xdDsPSgb3O+/
-	hzHa6CEATcWrsgYARwuB0OHvMNKtBHv2X0fU8IFHjOPnWjYc/MC+O8ahxdmwktJP9XQc
-	lI5P3MCccvsh2xz11QrvZkMykTdy3y+iHeu4iGwMQNPgAhkN08pn8S4j4BUoBDL+ZNBh
-	Y+EGvTJqg7XRGYwpG3eveCMAT+p+uXUhLL/Bio55gD0PO3XsYS+Mp04wiHdh/EorpvUi
-	KT8HeD/LuzoWs/TrreSXxiHbs2hSh7ssyDB/G3A/dpI8aCStICcPKugaeqq3B+aqmeDT
-	nQyw==
+	h=from:to:cc:subject:date:message-id;
+	bh=PAabAu2OpphXurldEVO5eUnu8YhYzItoTtx6sg9f+C8=;
+	b=KmGviMzXoTF/JvTu+FqgAKg3+sR2MIJCVkjxv8udngj8EWXGq2XlGgoQPqPNCAHKE2
+	ai1FBOyVixXo1tpdwBW2Qmq22fLsWYPB5eX+EMSfoqH77zgWV4Qzm3bAkJIu8bnEOAcd
+	cftzfZiBZuNsyZu5y0m0VwbZDb14XGHfnQEMferg4usUwvGajlFT25z/sh14fbwYWlvR
+	WhU1nPhJbc97oc92BrJa+5NC17tIr9smiePvVCur5gIPBQF8gAOMvYbE4xA4h108aMW+
+	DG7mkXrSO18Bk1efYCEZ3bmzisGeZWPeowwyaB73qulYglgh94Luy+ifr41ugRibAr84
+	2XBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ew7wkJrVUJZlk6ss/H6tr3lSikh1eF7rsgv0ftK4dS4=;
-	b=nbhBJhUhuF+0J1DHVGKhNmneCBS+17v3rO1qi346yrjyEqZC7kxgd2G0+NG2hEzoGZ
-	dtBMldSf4a9CVoRJCL+n76HXykvnrZc+ildRsZt4Cd2ZVhNQZ4XqCxB8+XeKYoCk6hal
-	I8p4dObqEBOYOzeZp4LFP1BUAqjsdhpdOW0abRiI6C850OSqNzd8u5ImWRDWqQxwHvWu
-	MrLfEjw4Ta8OqLsHOgVC0goD+T5R0D7q10tDCGoGNFaKPuH8Taj2wypwyMvXh9QCAaRq
-	vwV2j765iWbiH2ztg/PEd/pFslTBcg9onR97YrhyjeDzLN2YLRtRVxvmc2pLBUVHimqi
-	kcWQ==
-X-Gm-Message-State: APt69E0C1O0Yf4IE4EqDqVf6OGJNFo5duoAhkgQAo53re9j0VdvwWaF9
-	gMl0Cg9jaro+zKIReaJH72kLvqupzXzrPwCaQ4Q=
-X-Google-Smtp-Source: ADUXVKJCHtYBdHzpVdQmLXHtI3VVlhADWy9D7WVxuTArbGKzk2eLhPGIwgR5jbLiaQF0CHJfzs9n0bVuTg2l20Bh1f8=
-X-Received: by 2002:a37:b8c4:: with SMTP id
-	i187-v6mr3674993qkf.412.1527707494889; 
-	Wed, 30 May 2018 12:11:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Wed, 30 May 2018 12:11:04
-	-0700 (PDT)
-In-Reply-To: <CAJ86T=VWrtpr61mxhwJNDz9FcB-V60CWFdL55Zfkw4pOC9wWkQ@mail.gmail.com>
-References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
-	<1527629388-3808-5-git-send-email-armccurdy@gmail.com>
-	<CAMKF1sroBR0o=tfORJxX-Fg5itQLEtBxtiTjia4E2YGYuj1OEg@mail.gmail.com>
-	<CAJ86T=VWrtpr61mxhwJNDz9FcB-V60CWFdL55Zfkw4pOC9wWkQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 May 2018 12:11:04 -0700
-Message-ID: <CAMKF1sqSXP0AqzXZ33t8XxRji_Ah9yLp11y+qrM0cmq=8afqBQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 4/5] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=PAabAu2OpphXurldEVO5eUnu8YhYzItoTtx6sg9f+C8=;
+	b=DXB5IWGT7hrgBHVkOpOXb1UO4CEnWQ2ZyCsYYOL292osYKjRmkjTXkpmNk2r2MJB6+
+	BJD1CJ4oo1+kSd8+bFWhizIs6s7UPHRJvLG8zHiD0UGJPq6D5OEwm0xRhVyKU2CJCNxL
+	EXPnCAj71ZwHM0s2WyZLYyMVB7JFsL4tUo25GYczYyjxSZrheqGYxFpBrrPDAVQJo32j
+	1X68nMnIvu6UmKvo5Y3d8VnyBUnSWlicyFVxIk41pypM1lbWrE2LgjUzZkpBpMyzINyy
+	cFyPryWxoKxzsqxJWzYAw/+Mcor5JZzGr2cKcPfRTQ1PRsy2J2vfFD5Xx6XLSmmicH7l
+	umsw==
+X-Gm-Message-State: ALKqPwc4fuOc7xU4MrsO7jKND0RY3wV6f2oK576hkVPjNGnZf+JzEiMX
+	TVA+OPjwtmgre4OSpfjvZJk+0Q==
+X-Google-Smtp-Source: ADUXVKLoPxum1owa2yA2Bo8NJ2UyUBGoZ2/BW7ta1h64FpqYp0dYzEEygrHu8WL1GtvoZfVviYcklQ==
+X-Received: by 2002:a19:7b11:: with SMTP id
+	w17-v6mr2404248lfc.103.1527709248580; 
+	Wed, 30 May 2018 12:40:48 -0700 (PDT)
+Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
+	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
+	e21-v6sm3228310lfg.74.2018.05.30.12.40.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 30 May 2018 12:40:47 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 May 2018 21:40:43 +0200
+Message-Id: <1527709243-13517-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] kernel-uimage.bbclass: use boolean to check KEEPUIMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 19:11:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 May 2018 19:40:48 -0000
 
-On Wed, May 30, 2018 at 10:46 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, May 29, 2018 at 7:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Tue, May 29, 2018 at 2:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> Previously, ASNEEDED was appended to TARGET_LDFLAGS from
->>> as-needed.inc via tcmode-default.inc and so may not have been enabled
->>> for external toolchain builds or other configurations which over-ride
->>> TCMODE (ie builds which do not include tcmode-default.inc).
->>>
->>> Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
->>> ensure that the optimisation is applied to all builds (and for
->>> consistency with the way that TARGET_LINK_HASH_STYLE is handled).
->>
->> We have to be ensure that external toolchains can either override or support
->> --as-needed feature,
->
-> External toolchains can easily over-ride ASNEEDED if they need to.
->
->> since we may not be able to control what linker they use
->> or version of gnu ld they may deploy.
->
-> When was --as-needed first added to gnu ld? Do you know of an external
-> toolchain which might not support it?
->
+From: Ming Liu <liu.ming50@gmail.com>
 
-If they have new enough binutils it should not be an issue. but I dont know
-if there are such SDKs out there, thats where external toolchain makers can
-help. Otherwise we can assume its fine.
+It now accepts yes/on/1 as positive values.
 
->> From internal toolchains pov
->> this is a good change, but It would be good if some users of external toolchains
->> can chime in.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-uimage.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index 1d8656e..a3a3d33 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -9,9 +9,9 @@ python __anonymous () {
+         # Override KERNEL_IMAGETYPE_FOR_MAKE variable, which is internal
+         # to kernel.bbclass . We override the variable here, since we need
+         # to build uImage using the kernel build system if and only if
+-        # KEEPUIMAGE == yes. Otherwise, we pack compressed vmlinux into
+-        # the uImage .
+-        if d.getVar("KEEPUIMAGE") != 'yes':
++        # KEEPUIMAGE == yes|1|on. Otherwise, we pack compressed vmlinux
++        # into the uImage.
++        if not oe.types.boolean(d.getVar("KEEPUIMAGE")):
+             typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+             if "uImage" in typeformake.split():
+                 d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('uImage', 'vmlinux'))
+-- 
+2.7.4
+
 
