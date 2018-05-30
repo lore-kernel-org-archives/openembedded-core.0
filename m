@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2431571CBD
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E23874BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2018 02:07:25 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id d3-v6so21339194qtp.11
+	Wed, 30 May 2018 02:13:54 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id q6-v6so21372839qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2018 19:07:27 -0700 (PDT)
+	Tue, 29 May 2018 19:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uhV+ryNPn2iMBP6mrUD/Ceab9lJFSJ5z4oPi5NKbVjs=;
-	b=c66nlazWHO277TEEhnwNJytx2lQRCiZVQQoZn/RbT3im0vIUTQrL510GMbr3J4iD0U
-	nJ0BxUWTJ+zyGxCDPYUQzO5/IPqgtSTFPRiCldprfYY+P2c7D24nKFWfS6tneo2bRdNv
-	9BwkuUrRMlnXhCcFu5eEpQGbWvuabq3jZIc/d5eG+4yxChL/sVxrBuOadNHJL9oj/SQ5
-	InwYH85lBAW6JsoUWXvrjCYOeCMprZzd17b1iyxUhi5uzAidv99JuulPhvqixxMUIhcD
-	d6CLXN/e0yO3Tz3Qk2O3fvaRZjKeYQl/comC0cPuxein/fRksN6uQ9g2i18HYrVclJOJ
-	O4ZA==
+	:cc; bh=6y9jenRaTU3finsKy13Whq4RQ82rfzND+7SNUKa9hAA=;
+	b=uR5bFziT4BujnJcMf6+gLDipQlsDLex0mtsMxsv5E/bb+Fw0qVcTey2T0up2MlquTz
+	3bZdG1P211ReUgmYmgjmfYYStFCu5wTmZcgaekeI7TAjJyjfD3fPQBc1zKpwdTaN9Ykh
+	PNmz5TZEHPYqbdBpqpOjhREykbQTtu26ZEh9SHY6muC+MDTJGAxYoA+/k0jbnjB8OVjM
+	rNkkbVmy0ScNv0BSiYksqTWsjPG9fgTnPvk+smv/nz7eABBc2t51iZh6n9KOk2OsiwlW
+	ovHeMYw8a1vilV9+ryCDa37ME6bFTGZUcOuAhs3e2nWWf2gV4DfWQB67VMTC/Z4V5Wjs
+	i1eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=uhV+ryNPn2iMBP6mrUD/Ceab9lJFSJ5z4oPi5NKbVjs=;
-	b=UpKQ5uQhqA7j/spq0SzRgwF/FTzmWbXjyReLM9SCkhu1ENp8tSi0gpyT6QYFBn+g5O
-	dy0/madUMUff6sptAkLV8x1mIr0VTw3rIlStkmynwU+GWEkgzjV9SrUm5x/EEe/tE6+D
-	6EaUqvjhWkvFAuTZxCj1DLmlkmn22r7Db8UQOMu2qkt22lwDYLt6o7Aw6DBzhh7qap7z
-	k3dtxFIpN3u4Fa6MLMrZI1gjdTTN2ibihW/gPm5rf1AFO5cjJMlF13ryHx5gu6BLCceC
-	L7U2kao7z//t0YIvX1ygP8SeA9CQtTOTKgqIxt6uJZnkYu0JKn/gQIov54xGtWI8VFPv
-	n9uw==
-X-Gm-Message-State: APt69E1yxMTGruBciCAJ7wkIhLyH1St/lPtN6nu0NaHPvji6NPTVTWSs
-	6jovmpf2LhTd6IV+Yzp959pDhw9R9TKWQrqnfeQ=
-X-Google-Smtp-Source: ADUXVKJV+5JFU3WmA/vrm5ZRl6xx5kiyLCa7RVcnBW4Y0/zdrK/1aZQSm1cZRiTzSl63WiqD+WxQaB99PcJBBCFyO6k=
-X-Received: by 2002:ac8:26ea:: with SMTP id 39-v6mr816118qtp.128.1527646046787;
-	Tue, 29 May 2018 19:07:26 -0700 (PDT)
+	bh=6y9jenRaTU3finsKy13Whq4RQ82rfzND+7SNUKa9hAA=;
+	b=pwk8ia/n57doKVz+b2r7MCuZdAawAfmcMQjKg95mwV5/gisPNmSX7DblHDL28uzTb0
+	NAkwsqJsrBGIiupNOckvuhwxh2qfrvTfcR4JcdycAOz5Q/9D3pKJCDLQD9HwCpEif2wz
+	djCQ+9P2coUt8IuPuXKk9GPJ+yXqq7KIBnAabXCpTNsY44nmV/W03FfBeYF8zBXoogQf
+	xpUCmZ/QUrjPjVW+Ho+/MNGEqYciys048UInWL3EmSig8bVnBNciHUSEni6jAjtM4Tb2
+	RJRF8p0N07AKw8i1tTr2c93kDGjxoB0BoXg91Y81N2AgIRak106akaex58CP292X1OdL
+	+rKA==
+X-Gm-Message-State: APt69E1dNTtmg7sCJ3jt06sipdNowCa3rpZhHvabPDbmQeZ6+YL8mOyk
+	5fo0p1DXjf8Z+YLkIIHQeZdjOp4Gtr1o7mtTjcM=
+X-Google-Smtp-Source: ADUXVKLDUKFUQGMlKyrRyw/+muHLR9ZwXkvlYkaVj2vgLB/6qflH8p+Zu+CCSiB6ZRY5FnJ2EbM+8dxbid3FeeeJy6E=
+X-Received: by 2002:ac8:2b5c:: with SMTP id 28-v6mr783125qtv.117.1527646434783;
+	Tue, 29 May 2018 19:13:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Tue, 29 May 2018 19:06:56
+Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP; Tue, 29 May 2018 19:13:24
 	-0700 (PDT)
-In-Reply-To: <CAJ86T=WG9cQX8F_-WKQe05zGGap=Ey5hAKXaCaLAn9EbpS3p-w@mail.gmail.com>
-References: <CAJ86T=VefDA6DSEEj06x5SbBvwDKW2mBfxfivPtFcM0kWPn0dA@mail.gmail.com>
-	<CAMKF1sqSR7chwbVcTVVSqO9Fhg_N=fCqtFK20v=LM1cRe2mO2g@mail.gmail.com>
-	<CAJ86T=WG9cQX8F_-WKQe05zGGap=Ey5hAKXaCaLAn9EbpS3p-w@mail.gmail.com>
+In-Reply-To: <1527629388-3808-5-git-send-email-armccurdy@gmail.com>
+References: <1527629388-3808-1-git-send-email-armccurdy@gmail.com>
+	<1527629388-3808-5-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 May 2018 19:06:56 -0700
-Message-ID: <CAMKF1srWOaSaBHL_TWW3cYi7kAav_4L8n_2aLRWp+LSPC8DNDw@mail.gmail.com>
+Date: Tue, 29 May 2018 19:13:24 -0700
+Message-ID: <CAMKF1sroBR0o=tfORJxX-Fg5itQLEtBxtiTjia4E2YGYuj1OEg@mail.gmail.com>
 To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: gcc-runtime: Remove -mcpu=cortex-a7 when building for -march=armv7ve
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/5] bitbake.conf: include ASNEEDED in TARGET_LDFLAGS directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,53 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2018 02:07:27 -0000
+X-List-Received-Date: Wed, 30 May 2018 02:13:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 29, 2018 at 1:34 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, May 29, 2018 at 12:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Tue, May 29, 2018 at 11:41 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> This change looks wrong (or at least incomplete and lacking a decent
->>> explanation):
->>
->> why do you think it is wrong ? I would be happy to make the
->> explanation more decent
->> if you have ideas please share.
+On Tue, May 29, 2018 at 2:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Previously, ASNEEDED was appended to TARGET_LDFLAGS from
+> as-needed.inc via tcmode-default.inc and so may not have been enabled
+> for external toolchain builds or other configurations which over-ride
+> TCMODE (ie builds which do not include tcmode-default.inc).
 >
-> I would be happy to try... if I had any idea why you think you need it!
+> Include ASNEEDED in TARGET_LDFLAGS directly from bitbake.conf to
+> ensure that the optimisation is applied to all builds (and for
+> consistency with the way that TARGET_LINK_HASH_STYLE is handled).
+
+We have to be ensure that external toolchains can either override or support
+--as-needed feature, since we may not be able to control what linker they use
+or version of gnu ld they may deploy.  From internal toolchains pov
+this is a good change, but It would be good if some users of external toolchains
+can chime in.
+
 >
-> What causes the conflict in flags and why hasn't it been seen before?
-> Why do you only need to fix Cortex A7 and not when building for other
-> armv7ve cores?
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/bitbake.conf                      | 4 +++-
+>  meta/conf/distro/include/as-needed.inc      | 4 ----
+>  meta/conf/distro/include/tcmode-default.inc | 3 ---
+>  3 files changed, 3 insertions(+), 8 deletions(-)
+>  delete mode 100644 meta/conf/distro/include/as-needed.inc
 >
-
-gcc-runtime is a bit special where it gets itself configured when
-building cross compiler
-but then we tame it to re-target itself for target using some shims
-e.g. setting generic
-arch values so it can plug itself amicably when we build gcc for
-target and use it ondevice
-because it needs to rely on right combination of options, and gcc for
-target is also made
-to target more common ISAs via doing things like below.
-
-EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
-
-these options cause additional march values to be added.
-
-If you are interested. Plug this patch out and use gcc8 patches I have
-floating around
-and you can see whats going on.
-
-I am also interested in finding a solution where we do not need this patch.
-
->>>
->>>   http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=fbec01f01fdad23d95271db063ee0a4d0ab44568
->>>
->>> It was never posted to the list but seems to have made it as far as master-next.
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 15f6da7..fab3dcc 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -585,8 +585,10 @@ LINKER_HASH_STYLE_mipsarch = "sysv"
+>
+>  TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE') != 'gnu']}"
+>
+> +ASNEEDED ?= "-Wl,--as-needed"
+> +
+>  export LDFLAGS = "${TARGET_LDFLAGS}"
+> -export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
+> +export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED}"
+>
+>  # Pass parallel make options to the compile task
+>  EXTRA_OEMAKE_prepend_task-compile = "${PARALLEL_MAKE} "
+> diff --git a/meta/conf/distro/include/as-needed.inc b/meta/conf/distro/include/as-needed.inc
+> deleted file mode 100644
+> index b163fef..0000000
+> --- a/meta/conf/distro/include/as-needed.inc
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -
+> -ASNEEDED = "-Wl,--as-needed"
+> -
+> -TARGET_LDFLAGS += "${ASNEEDED}"
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index 4b58df0..d85fd1e 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -65,12 +65,9 @@ PREFERRED_VERSION_glibc-initial            ?= "${GLIBCVERSION}"
+>  PREFERRED_VERSION_nativesdk-glibc-initial  ?= "${GLIBCVERSION}"
+>  PREFERRED_VERSION_cross-localedef-native   ?= "${GLIBCVERSION}"
+>
+> -
+>  PREFERRED_VERSION_qemu ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+>  PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
+> -# Setup suitable toolchain flags
+> -require conf/distro/include/as-needed.inc
+>
+>  GOVERSION ?= "1.9%"
+>  PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
