@@ -1,44 +1,27 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 506A6746BB
+Return-Path: <andrej.valek@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id B75A874B03
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:13:53 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id l1-v6so52442243wmb.2
+	Thu, 31 May 2018 08:23:28 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w4V8NSOW014850
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 01:13:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Cv3QNEOOzmEHYH1XjHc4bEJnbdfLUMsyZOP/V0xMA8k=;
-	b=WHdkpvudUWy18LOEeROFvoD0SQbvrpjNLwsHf+els5hQfH0ks5lsqjIYa67g2Aqv0O
-	p9dwBfIxnMj/RxNjLPgXwJlUyST1MZWZHrR589cl+1yDVlOL6JW4jQtKxsn+CDCd5cAA
-	BTxi1tI33dm6/O4pCbgb0byPHMtg2p8d73iNVpLzAbBhxgpEXb7agv1dHHA0lRCe3Y7+
-	3RZsKTXvqHeRG0geNGucpJvtYSGOVW6m4GwM2JDBEOZz1WLH0hMVHxqJY/gMntjV7S/i
-	9NgBw2QRZWJLXLGCyKeO33a3zlKDxE2+3r+Etr8b387EOKkN07S8BRuAmnVy745aNEog
-	3GSA==
-X-Gm-Message-State: ALKqPweO14PLRMducyWfevhhPFGB7dZEG+loYbx2bO2SR+XsIHRS6qY8
-	LYe7wlg1iYOVMfOouzLnzGBB1vc0
-X-Google-Smtp-Source: ADUXVKIhAusuULpWretTfiCXHLEuNSTYwh8I2AVGW3WqfkHzMG1RRSpAxxJrY4GH12MYRtg8nWKE3g==
-X-Received: by 2002:a50:c05e:: with SMTP id
-	u30-v6mr6751814edd.202.1527754434412; 
-	Thu, 31 May 2018 01:13:54 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	f25-v6sm6269602edd.87.2018.05.31.01.13.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 31 May 2018 01:13:53 -0700 (PDT)
-Message-ID: <f3e971e50312b7de1d255f61dc62176a88e6cf6f.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Thu, 31 May 2018 10:23:29 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w4V8NSNJ016093;
+	Thu, 31 May 2018 10:23:28 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 8CC389550DC;
+	Thu, 31 May 2018 10:23:28 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 09:13:52 +0100
-In-Reply-To: <20180531061551.10780-1-andrej.valek@siemens.com>
+Date: Thu, 31 May 2018 10:23:26 +0200
+Message-Id: <20180531082326.6620-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180530144852.25539-1-andrej.valek@siemens.com>
 References: <20180530144852.25539-1-andrej.valek@siemens.com>
-	<20180531061551.10780-1-andrej.valek@siemens.com>
-X-Mailer: Evolution 3.28.2-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] busybox: Fix zlma segfaults
+Subject: [PATCH v3] busybox: Fix lzma segfaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,175 +34,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:13:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 May 2018 08:23:30 -0000
 
-Typo in the subject: zlma -> lzma
+- fix multiple lzma segmentation faults
+- patch includes multiple fixing commits
+- test-cases have been removed due to binary data
 
-A.
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ .../busybox/busybox-fix-lzma-segfaults.patch       | 106 +++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
 
-On Thu, 2018-05-31 at 08:15 +0200, Andrej Valek wrote:
-> - fix multiple lzma segmentation faults
-> - patch includes multiple fixing commits
-> - test-cases have been removed due to binary data
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
->  .../busybox/busybox-fix-unlzma-segfaults.patch     | 106
-> +++++++++++++++++++++
->  meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
->  2 files changed, 107 insertions(+)
->  create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
-> segfaults.patch
-> 
-> diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
-> segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
-> segfaults.patch
-> new file mode 100644
-> index 0000000000..5215da74a5
-> --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
-> @@ -0,0 +1,106 @@
-> +busybox-1.27.2: Fix zlma segfaults
-> +
-> +[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=10871
-> +
-> +libarchive: check buffer index in lzma_decompress
-> +
-> +With specific defconfig busybox fails to check zip fileheader magic
-> +(archival/unzip.c) and uses (archival/libarchive/decompress_unlzma.c)
-> +for decompression which leads to segmentation fault. It prevents
-> accessing into
-> +buffer, which is smaller than pos index. Patch includes multiple
-> segmentation
-> +fault fixes.
-> +
-> +Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=a36
-> 986bb80289c1cd8d15a557e49207c9a42946b]
-> +bug: 10436 10871
-> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> +
-> +diff --git a/archival/libarchive/decompress_unlzma.c
-> b/archival/libarchive/decompress_unlzma.c
-> +index a904087..29eee2a 100644
-> +--- a/archival/libarchive/decompress_unlzma.c
-> ++++ b/archival/libarchive/decompress_unlzma.c
-> +@@ -11,6 +11,14 @@
-> + #include "libbb.h"
-> + #include "bb_archive.h"
-> + 
-> ++
-> ++#if 0
-> ++# define dbg(...) bb_error_msg(__VA_ARGS__)
-> ++#else
-> ++# define dbg(...) ((void)0)
-> ++#endif
-> ++
-> ++
-> + #if ENABLE_FEATURE_LZMA_FAST
-> + #  define speed_inline ALWAYS_INLINE
-> + #  define size_inline
-> +@@ -217,6 +225,7 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 	rc_t *rc;
-> + 	int i;
-> + 	uint8_t *buffer;
-> ++	uint32_t buffer_size;
-> + 	uint8_t previous_byte = 0;
-> + 	size_t buffer_pos = 0, global_pos = 0;
-> + 	int len = 0;
-> +@@ -246,7 +255,8 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 	if (header.dict_size == 0)
-> + 		header.dict_size++;
-> + 
-> +-	buffer = xmalloc(MIN(header.dst_size, header.dict_size));
-> ++	buffer_size = MIN(header.dst_size, header.dict_size);
-> ++	buffer = xmalloc(buffer_size);
-> + 
-> + 	{
-> + 		int num_probs;
-> +@@ -341,8 +351,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 						state = state <
-> LZMA_NUM_LIT_STATES ? 9 : 11;
-> + 
-> + 						pos = buffer_pos - rep0;
-> +-						if ((int32_t)pos < 0)
-> ++						if ((int32_t)pos < 0) {
-> + 							pos +=
-> header.dict_size;
-> ++							/* see
-> unzip_bad_lzma_2.zip: */
-> ++							if (pos >=
-> buffer_size)
-> ++								goto
-> bad;
-> ++						}
-> + 						previous_byte =
-> buffer[pos];
-> + 						goto one_byte1;
-> + #else
-> +@@ -417,6 +431,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 						for (; num_bits2 !=
-> LZMA_NUM_ALIGN_BITS; num_bits2--)
-> + 							rep0 = (rep0 <<
-> 1) | rc_direct_bit(rc);
-> + 						rep0 <<=
-> LZMA_NUM_ALIGN_BITS;
-> ++						if ((int32_t)rep0 < 0) {
-> ++							dbg("%d
-> rep0:%d", __LINE__, rep0);
-> ++							goto bad;
-> ++						}
-> + 						prob3 = p + LZMA_ALIGN;
-> + 					}
-> + 					i2 = 1;
-> +@@ -450,8 +468,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> +  IF_NOT_FEATURE_LZMA_FAST(string:)
-> + 			do {
-> + 				uint32_t pos = buffer_pos - rep0;
-> +-				if ((int32_t)pos < 0)
-> ++				if ((int32_t)pos < 0) {
-> + 					pos += header.dict_size;
-> ++					/* more stringent test (see
-> unzip_bad_lzma_1.zip): */
-> ++					if (pos >= buffer_size)
-> ++						goto bad;
-> ++				}
-> + 				previous_byte = buffer[pos];
-> +  IF_NOT_FEATURE_LZMA_FAST(one_byte2:)
-> + 				buffer[buffer_pos++] = previous_byte;
-> +@@ -478,6 +500,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-> + 		IF_DESKTOP(total_written += buffer_pos;)
-> + 		if (transformer_write(xstate, buffer, buffer_pos) !=
-> (ssize_t)buffer_pos) {
-> +  bad:
-> ++			/* One of our users, bbunpack(), expects _us_ to
-> emit
-> ++			 * the error message (since it's the best place
-> to give
-> ++			 * potentially more detailed information).
-> ++			 * Do not fail silently.
-> ++			 */
-> ++			bb_error_msg("corrupted data");
-> + 			total_written = -1; /* failure */
-> + 		}
-> + 		rc_free(rc);
-> + 
-> diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-
-> core/busybox/busybox_1.27.2.bb
-> index 36a6342aaf..9f0393505a 100644
-> --- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-> @@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV
-> }.tar.bz2;name=tarball \
->             file://CVE-2011-5325.patch \
->             file://CVE-2017-15873.patch \
->             file://busybox-CVE-2017-16544.patch \
-> +           file://busybox-fix-unlzma-segfaults.patch \
->  "
->  SRC_URI_append_libc-musl = " file://musl.cfg "
->  
-> -- 
-> 2.11.0
-> 
+diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
+new file mode 100644
+index 0000000000..da6dfa8023
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
+@@ -0,0 +1,106 @@
++busybox-1.27.2: Fix lzma segfaults
++
++[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=10871
++
++libarchive: check buffer index in lzma_decompress
++
++With specific defconfig busybox fails to check zip fileheader magic
++(archival/unzip.c) and uses (archival/libarchive/decompress_unlzma.c)
++for decompression which leads to segmentation fault. It prevents accessing into
++buffer, which is smaller than pos index. Patch includes multiple segmentation
++fault fixes.
++
++Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=a36986bb80289c1cd8d15a557e49207c9a42946b]
++bug: 10436 10871
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++
++diff --git a/archival/libarchive/decompress_unlzma.c b/archival/libarchive/decompress_unlzma.c
++index a904087..29eee2a 100644
++--- a/archival/libarchive/decompress_unlzma.c
+++++ b/archival/libarchive/decompress_unlzma.c
++@@ -11,6 +11,14 @@
++ #include "libbb.h"
++ #include "bb_archive.h"
++ 
+++
+++#if 0
+++# define dbg(...) bb_error_msg(__VA_ARGS__)
+++#else
+++# define dbg(...) ((void)0)
+++#endif
+++
+++
++ #if ENABLE_FEATURE_LZMA_FAST
++ #  define speed_inline ALWAYS_INLINE
++ #  define size_inline
++@@ -217,6 +225,7 @@ unpack_lzma_stream(transformer_state_t *xstate)
++ 	rc_t *rc;
++ 	int i;
++ 	uint8_t *buffer;
+++	uint32_t buffer_size;
++ 	uint8_t previous_byte = 0;
++ 	size_t buffer_pos = 0, global_pos = 0;
++ 	int len = 0;
++@@ -246,7 +255,8 @@ unpack_lzma_stream(transformer_state_t *xstate)
++ 	if (header.dict_size == 0)
++ 		header.dict_size++;
++ 
++-	buffer = xmalloc(MIN(header.dst_size, header.dict_size));
+++	buffer_size = MIN(header.dst_size, header.dict_size);
+++	buffer = xmalloc(buffer_size);
++ 
++ 	{
++ 		int num_probs;
++@@ -341,8 +351,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
++ 						state = state < LZMA_NUM_LIT_STATES ? 9 : 11;
++ 
++ 						pos = buffer_pos - rep0;
++-						if ((int32_t)pos < 0)
+++						if ((int32_t)pos < 0) {
++ 							pos += header.dict_size;
+++							/* see unzip_bad_lzma_2.zip: */
+++							if (pos >= buffer_size)
+++								goto bad;
+++						}
++ 						previous_byte = buffer[pos];
++ 						goto one_byte1;
++ #else
++@@ -417,6 +431,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
++ 						for (; num_bits2 != LZMA_NUM_ALIGN_BITS; num_bits2--)
++ 							rep0 = (rep0 << 1) | rc_direct_bit(rc);
++ 						rep0 <<= LZMA_NUM_ALIGN_BITS;
+++						if ((int32_t)rep0 < 0) {
+++							dbg("%d rep0:%d", __LINE__, rep0);
+++							goto bad;
+++						}
++ 						prob3 = p + LZMA_ALIGN;
++ 					}
++ 					i2 = 1;
++@@ -450,8 +468,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
++  IF_NOT_FEATURE_LZMA_FAST(string:)
++ 			do {
++ 				uint32_t pos = buffer_pos - rep0;
++-				if ((int32_t)pos < 0)
+++				if ((int32_t)pos < 0) {
++ 					pos += header.dict_size;
+++					/* more stringent test (see unzip_bad_lzma_1.zip): */
+++					if (pos >= buffer_size)
+++						goto bad;
+++				}
++ 				previous_byte = buffer[pos];
++  IF_NOT_FEATURE_LZMA_FAST(one_byte2:)
++ 				buffer[buffer_pos++] = previous_byte;
++@@ -478,6 +500,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
++ 		IF_DESKTOP(total_written += buffer_pos;)
++ 		if (transformer_write(xstate, buffer, buffer_pos) != (ssize_t)buffer_pos) {
++  bad:
+++			/* One of our users, bbunpack(), expects _us_ to emit
+++			 * the error message (since it's the best place to give
+++			 * potentially more detailed information).
+++			 * Do not fail silently.
+++			 */
+++			bb_error_msg("corrupted data");
++ 			total_written = -1; /* failure */
++ 		}
++ 		rc_free(rc);
++ 
+diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
+index 36a6342aaf..92678701fc 100644
+--- a/meta/recipes-core/busybox/busybox_1.27.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
+@@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2011-5325.patch \
+            file://CVE-2017-15873.patch \
+            file://busybox-CVE-2017-16544.patch \
++           file://busybox-fix-lzma-segfaults.patch \
+ "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
+ 
+-- 
+2.11.0
+
 
