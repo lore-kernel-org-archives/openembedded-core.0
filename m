@@ -1,48 +1,49 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5813574703
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B19374F7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 18:26:40 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id 14-v6so12327085oie.3
+	Thu, 31 May 2018 19:35:14 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id c23-v6so9249739uan.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 11:26:42 -0700 (PDT)
+	Thu, 31 May 2018 12:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=u14TWJ2khYL0JLOrUhVH+gIo532HYK8nn2Jipaih1A0=;
-	b=hJGcy/uAx5nFDfnKEu1dF/q3eDN7fDm0yY9LbijA3pq2N/8ZUXPPr0Vvxowxiyws++
-	Ns5s1/m3tQHDq6FAjjCKwQH7SNQnft8kEEnfGTNj7T+SPguJ1qcSL+pUoqIof9mU2v6d
-	tkH3c0s42tD8Q2FakF8E/eVnir1OJluXTpSb1UxDSf3R5S9tzP8wucrCjuZxU7tyDyk1
-	qjhGQVz+PneKOxWs2hyJ2DIG6e1qaIJv67Lhbg6sA2+bFACBmK3TV45WvcvMu9QsAvm2
-	cqcFciD4fLApkvyORkUYo50VA+6DIwXdZJZIjNZta5RxXpY2iMu6cNdIhhu+u1ka8b/X
-	O4/g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HxOOaIX30fzRJ93e0S2aul8UTzj3qMH8t77LjwFO1Rk=;
+	b=h4Buqh3mFYe9/H+SCaZTFJrYntNV/fFLqNxjfX6Ag45nAKKWPDWc/TXXLcj+GBr9z2
+	tkxxINawVeX4UIIuWFiZ+PI8v/qnO+vdN/2nXXiZQsHN2Ptkb6HzqHL/S4S/qFeLjn76
+	pG9H2RmuvK2f67iOtVW/jQx+4IViVms3vdOgzC9oKIG7t2c4oCgnumX/ACcwPuOozgjV
+	E+jHAJ+boqKvdQFqJUxIEsYEyGSTwIf7nLeUX3UrGXfbBaRBY90LcBMAVU7TSYwWR5z8
+	6zvoB6zc4tLwwAle0fshgflyj6VtmKImFxVWWD10h5INy5xS+tysNpE/9+/AxcgCMRfx
+	l7yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=u14TWJ2khYL0JLOrUhVH+gIo532HYK8nn2Jipaih1A0=;
-	b=puah2LpSfh+vXmZh/SS/QsCRNUO207f3zUzuxIIO6GBZhOvdYMesgOtq9hhG2mFJa8
-	Z2s45ZTXvE44jPtIa04Zn86Kmai2gjLZlPdGy5OA3zf1B2akDTFJ3IyUInuxEOBHXfos
-	8frSHDEuurzwzPbK4QdDAHoNekLq8aLlUU4a/nypDNOgAjiyBMel6dw5265ThyeGzAVV
-	1oA8MGtgGVDlzz4o0XrBAcXiMMp51Oc2w1/DHZGbGzk70bLMh4kbjzj+oMPwbppceBwG
-	soh3un4K1c5pdpn2sfhOTdHx+PWEy9+uALaz4pfor/S8Z9OvHJ4TAJy3WMjE3jWCQotr
-	X3rw==
-X-Gm-Message-State: ALKqPwfafbifZLUEwcPZmNzmFYHkTKKV2YPgpKv5DFi0EO6VzoP82Fir
-	J0oTIWr7/yLWWiO7JV+u42sS6E0QVpAhN5tBcyc=
-X-Google-Smtp-Source: ADUXVKJlrFcsA5nRLYYM/qdOaxWhh7skVJPbh5eFVaIP09RtO79cPs63cVY7Ed7RrwDzGX2fbo4rcNZVOvEh8kJOs8I=
-X-Received: by 2002:aca:3d05:: with SMTP id
-	k5-v6mr4800755oia.302.1527791201963; 
-	Thu, 31 May 2018 11:26:41 -0700 (PDT)
+	bh=HxOOaIX30fzRJ93e0S2aul8UTzj3qMH8t77LjwFO1Rk=;
+	b=JWk3Yt6Cq1uIPfVwxu9o23ZuGH6FWqR/c9kFpdCDRKrMgUMD2vvAt6TnYGDVjRtSHj
+	dl/f9Q1TbEhgXH/Qytm+1VViB41BSZK/q/caZsQgQDeePKehQJxjfQ3ackkTt24Q5H4Q
+	pD2d0eP32/VcE/lU16NIfUqAfnjGHLo6D3nV+YcePvGI4kkGIk3q2svaXFcDw+5W7c3O
+	MRy8l5cqvl3H7rwyaxMz6RdTt3fE6nLdpOAmoMvM20qwaoIJDXwtfzIGzGxcnMp5mCIk
+	Unndx6uI+AY8yL+WWwQscn18uHBHpDPLYW7ydiaL7FCgcK/EAaI/USpudbT9SAwkVXKH
+	i0vg==
+X-Gm-Message-State: ALKqPwc910jkzhJoTRerxoGC61R2Yfs6DzGV18QEE7R4JSTeZr/inVGb
+	0aGkZ+NXck/UcyrcQYOe6cmPJiWcYcLxFua/gzA=
+X-Google-Smtp-Source: ADUXVKJooLa7HheXl3qShYzQKHhDoNZ2513TUn098EdnXB/Z8zn5eyrg9KlBzqsPRik7yqQFLDoVv5Uc4ToyPgFqAtg=
+X-Received: by 2002:a9f:3a47:: with SMTP id r7-v6mr5464005uag.44.1527795315802;
+	Thu, 31 May 2018 12:35:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180531172504.28519-1-nick83ola@gmail.com>
-In-Reply-To: <20180531172504.28519-1-nick83ola@gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Thu, 31 May 2018 11:26:30 -0700
-Message-ID: <CABcZANmKZM=D6DG2Y=iAtsODD7b+4GqHsZUiHdR=9rDUaiN_5w@mail.gmail.com>
-To: nick83ola@gmail.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] core: fix /sbin/nologin path
+Received: by 2002:a67:4b48:0:0:0:0:0 with HTTP; Thu, 31 May 2018 12:35:15
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=UsqCs=O8SqTaS5qrKcShkzr0emc_i0W+OcSsvT_pNskQ@mail.gmail.com>
+References: <1527756958-16824-1-git-send-email-liu.ming50@gmail.com>
+	<CAJ86T=UsqCs=O8SqTaS5qrKcShkzr0emc_i0W+OcSsvT_pNskQ@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Thu, 31 May 2018 21:35:15 +0200
+Message-ID: <CALatG=7zaFi0c6+9z+DR3hTA=RpmUYDZjtR6wM87nfRh94wHZQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devicetree.bbclass: replace KERNEL_IMAGETYPE_FOR_MAKE with KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,147 +56,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 18:26:41 -0000
-Content-Type: multipart/alternative; boundary="000000000000e260d8056d849b11"
+X-List-Received-Date: Thu, 31 May 2018 19:35:15 -0000
+Content-Type: multipart/alternative; boundary="00000000000016877a056d85911a"
 
---000000000000e260d8056d849b11
+--00000000000016877a056d85911a
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 31, 2018 at 10:25 AM Nicola Lunghi <nick83ola@gmail.com> wrote:
+Hi, Andre:
 
-> In some yocto recipes the /sbin/nologin path is incorrectly set to
-> /bin/nologin. set it to the correct path ${base_sbindir}/nologin
+Thanks for the review, will do that.
+
+//Ming Liu
+
+2018-05-31 20:00 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+
+> On Thu, May 31, 2018 at 1:55 AM,  <liu.ming50@gmail.com> wrote:
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to
 >
-> Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
-> ---
->  meta-selftest/files/static-passwd        | 20 ++++++++++----------
->  meta/classes/rootfs-postcommands.bbclass |  6 +++---
->  meta/recipes-core/systemd/systemd_237.bb | 19 +++++++++++--------
->  3 files changed, 24 insertions(+), 21 deletions(-)
+> KERNEL_IMAGETYPE is a legacy variable, in the process of being
+> replaced by KERNEL_IMAGETYPES. You should probably use the new
+> variable if possible.
 >
-> diff --git a/meta-selftest/files/static-passwd
-> b/meta-selftest/files/static-passwd
-> index 412f85d469..fe1f3247d4 100644
-> --- a/meta-selftest/files/static-passwd
-> +++ b/meta-selftest/files/static-passwd
-> @@ -1,11 +1,11 @@
->  messagebus:x:500:500::/var/lib/dbus:/bin/false
-> -systemd-bus-proxy:x:501:501::/:/bin/nologin
-> -systemd-network:x:502:502::/:/bin/nologin
-> -systemd-resolve:x:503:503::/:/bin/nologin
-> -systemd-timesync:x:504:504::/:/bin/nologin
-> -polkitd:x:505:505::/:/bin/nologin
-> -avahi:x:509:509::/:/bin/nologin
-> -avahi-autoipd:x:510:510::/:/bin/nologin
-> -rpc:x:511:511::/:/bin/nologin
-> -distcc:x:512:nogroup::/:/bin/nologin
-> -rpcuser:x:513:513::/var/lib/nfs:/bin/nologin
-> +systemd-bus-proxy:x:501:501::/:/sbin/nologin
-> +systemd-network:x:502:502::/:/sbin/nologin
-> +systemd-resolve:x:503:503::/:/sbin/nologin
-> +systemd-timesync:x:504:504::/:/sbin/nologin
-> +polkitd:x:505:505::/:/sbin/nologin
-> +avahi:x:509:509::/:/sbin/nologin
-> +avahi-autoipd:x:510:510::/:/sbin/nologin
-> +rpc:x:511:511::/:/sbin/nologin
-> +distcc:x:512:nogroup::/:/sbin/nologin
-> +rpcuser:x:513:513::/var/lib/nfs:/sbin/nologin
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index a4e627fef8..0ee7391957 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -62,8 +62,8 @@ systemd_create_users () {
->         for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf
-> ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
->                 [ -e $conffile ] || continue
->                 grep -v "^#" $conffile | sed -e '/^$/d' | while read type
-> name id comment; do
-> -               if [ "$type" = "u" ]; then
-> -                       useradd_params="--shell /sbin/nologin"
-> +               if [ "$type" = "u" ]; then:w
+> > be handled in do_install and do_deploy tasks, since we are having some
+> > special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to
+> > replace the real kernel image types during do_compile, like:
+> > in kernel-uimage.bbclass: uImage -> vmlinux
+> > in kernel-fitimage.bbclass: fitImage -> Image/bzImage/zImage...
+> >
+> > but the final images to be installed/deployed should still be uImage or
+> > fitImage.
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> >  meta/classes/kernel-devicetree.bbclass | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/classes/kernel-devicetree.bbclass
+> b/meta/classes/kernel-devicetree.bbclass
+> > index 4f80cc6..04e6321 100644
+> > --- a/meta/classes/kernel-devicetree.bbclass
+> > +++ b/meta/classes/kernel-devicetree.bbclass
+> > @@ -63,7 +63,7 @@ do_install_append() {
+> >                 DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+> >                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+> >                 install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${
+> DTB_BASE_NAME}.${DTB_EXT}
+> > -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> > +               for type in ${KERNEL_IMAGETYPE}; do
+> >                         symlink_name=${type}"-"${
+> KERNEL_IMAGE_SYMLINK_NAME}
+> >                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> >                         ln -sf ${DTB_BASE_NAME}.${DTB_EXT}
+> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+> > @@ -82,7 +82,7 @@ do_deploy_append() {
+> >                 DTB=`normalize_dtb "${DTB}"`
+> >                 DTB_EXT=${DTB##*.}
+> >                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+> > -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> > +               for type in ${KERNEL_IMAGETYPE}; do
+> >                         base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+> >                         symlink_name=${type}"-"${
+> KERNEL_IMAGE_SYMLINK_NAME}
+> >                         DTB_NAME=`echo ${base_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-This won't run as is. ";then:w"
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---000000000000e260d8056d849b11
+--00000000000016877a056d85911a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu=
-, May 31, 2018 at 10:25 AM Nicola Lunghi &lt;<a href=3D"mailto:nick83ola@gm=
-ail.com">nick83ola@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">In some yocto recipes the /sbin/nologin path is incorrectly set to=
+<div dir=3D"ltr">Hi, Andre:<div><br></div><div>Thanks for the review, will =
+do that.</div><div><br></div><div>//Ming Liu</div></div><div class=3D"gmail=
+_extra"><br><div class=3D"gmail_quote">2018-05-31 20:00 GMT+02:00 Andre McC=
+urdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D=
+"_blank">armccurdy@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><span class=3D"">On Thu, May 31, 2018 at 1:55 AM,=C2=A0 &lt;<a href=3D"=
+mailto:liu.ming50@gmail.com">liu.ming50@gmail.com</a>&gt; wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@=
+gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to=
 <br>
-/bin/nologin. set it to the correct path ${base_sbindir}/nologin<br>
 <br>
-Signed-off-by: Nicola Lunghi &lt;<a href=3D"mailto:nick83ola@gmail.com" tar=
-get=3D"_blank">nick83ola@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta-selftest/files/static-passwd=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 20 +++=
-+++++++----------<br>
-=C2=A0meta/classes/rootfs-postcommands.bbclass |=C2=A0 6 +++---<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_237.bb" rel=3D"no=
-referrer" target=3D"_blank">systemd_237.bb</a> | 19 +++++++++++--------<br>
-=C2=A03 files changed, 24 insertions(+), 21 deletions(-)<br>
+</span>KERNEL_IMAGETYPE is a legacy variable, in the process of being<br>
+replaced by KERNEL_IMAGETYPES. You should probably use the new<br>
+variable if possible.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; be handled in do_install and do_deploy tasks, since we are having some=
 <br>
-diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/static=
--passwd<br>
-index 412f85d469..fe1f3247d4 100644<br>
---- a/meta-selftest/files/static-passwd<br>
-+++ b/meta-selftest/files/static-passwd<br>
-@@ -1,11 +1,11 @@<br>
-=C2=A0messagebus:x:500:500::/var/lib/dbus:/bin/false<br>
--systemd-bus-proxy:x:501:501::/:/bin/nologin<br>
--systemd-network:x:502:502::/:/bin/nologin<br>
--systemd-resolve:x:503:503::/:/bin/nologin<br>
--systemd-timesync:x:504:504::/:/bin/nologin<br>
--polkitd:x:505:505::/:/bin/nologin<br>
--avahi:x:509:509::/:/bin/nologin<br>
--avahi-autoipd:x:510:510::/:/bin/nologin<br>
--rpc:x:511:511::/:/bin/nologin<br>
--distcc:x:512:nogroup::/:/bin/nologin<br>
--rpcuser:x:513:513::/var/lib/nfs:/bin/nologin<br>
-+systemd-bus-proxy:x:501:501::/:/sbin/nologin<br>
-+systemd-network:x:502:502::/:/sbin/nologin<br>
-+systemd-resolve:x:503:503::/:/sbin/nologin<br>
-+systemd-timesync:x:504:504::/:/sbin/nologin<br>
-+polkitd:x:505:505::/:/sbin/nologin<br>
-+avahi:x:509:509::/:/sbin/nologin<br>
-+avahi-autoipd:x:510:510::/:/sbin/nologin<br>
-+rpc:x:511:511::/:/sbin/nologin<br>
-+distcc:x:512:nogroup::/:/sbin/nologin<br>
-+rpcuser:x:513:513::/var/lib/nfs:/sbin/nologin<br>
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
--postcommands.bbclass<br>
-index a4e627fef8..0ee7391957 100644<br>
---- a/meta/classes/rootfs-postcommands.bbclass<br>
-+++ b/meta/classes/rootfs-postcommands.bbclass<br>
-@@ -62,8 +62,8 @@ systemd_create_users () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for conffile in ${IMAGE_ROOTFS}/usr/lib/sysuser=
-s.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -e $conffile ] ||=
- continue<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 grep -v &quot;^#&qu=
-ot; $conffile | sed -e &#39;/^$/d&#39; | while read type name id comment; d=
-o<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$type&qu=
-ot; =3D &quot;u&quot; ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0useradd_params=3D&quot;--shell /sbin/nologin&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$type&qu=
-ot; =3D &quot;u&quot; ]; then:w<br></blockquote><div><br></div><div class=
-=3D"">This won&#39;t run as is. &quot;;then:w&quot;<br></div></div>-- <br><=
-div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature=
-"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at g=
-mail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Softw=
-are Engineer, Mentor Graphics</div></div></div></div></div>
+&gt; special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to<=
+br>
+&gt; replace the real kernel image types during do_compile, like:<br>
+&gt; in kernel-uimage.bbclass: uImage -&gt; vmlinux<br>
+&gt; in kernel-fitimage.bbclass: fitImage -&gt; Image/bzImage/zImage...<br>
+&gt;<br>
+&gt; but the final images to be installed/deployed should still be uImage o=
+r<br>
+&gt; fitImage.<br>
+&gt;<br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">li=
+u.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/kernel-<wbr>devicetree.bbclass | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/kernel-<wbr>devicetree.bbclass b/meta/classe=
+s/kernel-<wbr>devicetree.bbclass<br>
+&gt; index 4f80cc6..04e6321 100644<br>
+&gt; --- a/meta/classes/kernel-<wbr>devicetree.bbclass<br>
+&gt; +++ b/meta/classes/kernel-<wbr>devicetree.bbclass<br>
+&gt; @@ -63,7 +63,7 @@ do_install_append() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_PATH=
+=3D`get_real_dtb_path_<wbr>in_kernel &quot;${DTB}&quot;`<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_BASE_=
+NAME=3D`basename ${DTB} .&quot;${DTB_EXT}&quot;`<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -=
+m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${<wbr>DTB_BASE_NAME}.${DTB_EXT=
+}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
+KERNEL_IMAGETYPE_FOR_MAKE}; do<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
+KERNEL_IMAGETYPE}; do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0symlink_name=3D${type}&quot;-&quot;${<wbr>KERNEL_IMAGE_=
+SYMLINK_NAME}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0DTB_SYMLINK_NAME=3D`echo ${symlink_name} | sed &quot;s/=
+${MACHINE}/${DTB_BASE_NAME}<wbr>/g&quot;`<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGED=
+EST}/<wbr>devicetree-${DTB_SYMLINK_NAME}<wbr>.${DTB_EXT}<br>
+&gt; @@ -82,7 +82,7 @@ do_deploy_append() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB=3D`no=
+rmalize_dtb &quot;${DTB}&quot;`<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_EXT=
+=3D${DTB##*.}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_BASE_=
+NAME=3D`basename ${DTB} .&quot;${DTB_EXT}&quot;`<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
+KERNEL_IMAGETYPE_FOR_MAKE}; do<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
+KERNEL_IMAGETYPE}; do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0base_name=3D${type}&quot;-&quot;${KERNEL_<wbr>IMAGE_BAS=
+E_NAME}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0symlink_name=3D${type}&quot;-&quot;${<wbr>KERNEL_IMAGE_=
+SYMLINK_NAME}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0DTB_NAME=3D`echo ${base_name} | sed &quot;s/${MACHINE}/=
+${DTB_BASE_NAME}<wbr>/g&quot;`<br>
+&gt; --<br>
+&gt; 2.7.4<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
---000000000000e260d8056d849b11--
+--00000000000016877a056d85911a--
