@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E9874F49
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB0174F49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:43:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V8hbdP017800
+	Thu, 31 May 2018 08:43:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4V8hKtl008317
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 01:43:37 -0700 (PDT)
+	Thu, 31 May 2018 01:43:35 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 01:43:36 -0700
+	14.3.361.1; Thu, 31 May 2018 01:43:09 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2018 16:45:28 +0800
-Message-ID: <7874302a34c726c1980006cfeb0850a755a99f12.1527755435.git.Qi.Chen@windriver.com>
+Date: Thu, 31 May 2018 16:45:27 +0800
+Message-ID: <57e4cd5f6cf998b6f7b1a939c1cae2ce2a4dbdfd.1527755435.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527755434.git.Qi.Chen@windriver.com>
 References: <cover.1527755434.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/14] testimage-auto.bbclass: execute the same codes as testimage task
+Subject: [PATCH 12/14] bitbake.conf: fix HOSTTOOLS setting related to image testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:43:36 -0000
+X-List-Received-Date: Thu, 31 May 2018 08:43:44 -0000
 Content-Type: text/plain
 
-testimage-auto is expected to run testimage task's codes automatically.
-But in fact, it's currently missing some codes, including testimage_sanity
-and create_rpm_index.
+A list of tools are added to HOSTTOOLS depending on if we inherit
+testimage or not. Unfortunately, if we use TEST_IMAGE variable to
+automate the test, these tools are not added to HOSTTOOLS.
 
-This leads to the problem of unexpected runtime failure of test_dnf_makecache.
-The error message is as below.
-
-  RESULTS - dnf.DnfRepoTest.test_dnf_makecache - Testcase 1744: ERROR
-
-This error is caused by the fact that create_rpm_index is not executed
-before running the tests.
+Modify the condition to also check TEST_IMAGE to fix the above problem.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/testimage-auto.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/testimage-auto.bbclass b/meta/classes/testimage-auto.bbclass
-index e0a22b7..7da516a 100644
---- a/meta/classes/testimage-auto.bbclass
-+++ b/meta/classes/testimage-auto.bbclass
-@@ -16,6 +16,12 @@
- inherit testimage
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6ecf78b..7b7472c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -487,7 +487,7 @@ HOSTTOOLS += " \
+ "
  
- python do_testimage_auto() {
-+    testimage_sanity(d)
-+
-+    if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
-+       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
-+        create_rpm_index(d)
-+
-     testimage_main(d)
- }
- addtask testimage_auto before do_build after do_image_complete
+ # Tools needed to run testimage runtime image testing
+-HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
++HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE') == '1']}"
+ 
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
 -- 
 1.9.1
 
