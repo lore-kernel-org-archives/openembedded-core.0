@@ -1,50 +1,25 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA5774EE5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6525774EB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:56:35 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id y20-v6so8576757lfy.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 01:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=gNm5HHCLJi09Ny2zDmdJQpZZUGQFWm7FeehVvDCATHE=;
-	b=lADT0NGzcToCWETNMG1sV4R5/VVUS5tKsFsIQH7JrLYyOP8l5XgDO7i2Afx1lIp47h
-	b3n/0MrERU++67QpOtt6234Og4jfISfdacYMafy/Yz+IHfB+bJD/B7Ge3fbQ5Y56uh0j
-	oDgBdS5mJ5MuFYQw5ajEKRc6tYlRvFvrRe2DgO1UdiD88TdNSAqDlTQEcwYNCVrVW1Lw
-	e7pjcPE6Fyk1mFdw6iV7mJ8Z819nXfK3vreMpoJSog+hVPmHQHgCQv2nLpEH81m/yhCb
-	TXLD73LRQ8v0y9WEXdSFSM7tg5ifuFWap9Amds7E+lLR3x4f3R7YXq/Cj3DwymLflQhr
-	1x6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=gNm5HHCLJi09Ny2zDmdJQpZZUGQFWm7FeehVvDCATHE=;
-	b=jJ2E3fFYa8F7cwX2y8l78m8WtzFBlbFIrvIyYPUBwgph/2tPeVWoujro0RwUTUl4N9
-	3vJDZIEjc+GYNO70Yx0iRylgDL86/T7p5OvHtA0UQD09IuSbwvLlpRjtDsMTpystxsvH
-	h2aejJE4T144cXEmWt7imeyQhctsAIDOZ6Sfb9lW/L30oPLz1IN5Ci578SN0z2FLuMdr
-	LCeI803SBbWruc6lxFxZyEjKAZ49UwMH52PglIZjMccUwoMhainRbFFEkGTq4F/an0oP
-	SnYoCyRw/XJIBUCJeRXwtbfw1BW5DnyVqX+eF6g8ZV55nFb1CSOxI/qLitk9TRZS3fZe
-	l9dA==
-X-Gm-Message-State: ALKqPweC1YikHZOgEno32+q776+GpraYTyKoGi8wb/Zrin6N0ggRYtwr
-	jurqGuc7L8XhxHmefHDwWsbFwUIk
-X-Google-Smtp-Source: ADUXVKJKImI0ByGXXib8EevMAwrHE1AZaf7vvF6SHiNJ17hiW9PpWTtl9TSyIOOSJH5MGPUuiZZyNw==
-X-Received: by 2002:a19:aa0f:: with SMTP id
-	t15-v6mr1129571lfe.58.1527756995772; 
-	Thu, 31 May 2018 01:56:35 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(m77-218-254-245.cust.tele2.se. [77.218.254.245])
-	by smtp.gmail.com with ESMTPSA id
-	n63-v6sm3189512lfb.46.2018.05.31.01.56.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 31 May 2018 01:56:35 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 10:55:58 +0200
-Message-Id: <1527756958-16824-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] kernel-devicetree.bbclass: replace KERNEL_IMAGETYPE_FOR_MAKE with KERNEL_IMAGETYPE
+	Thu, 31 May 2018 13:13:38 +0000 (UTC)
+Received: from ted ([192.168.3.30]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w4VDDOj3015604
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 31 May 2018 14:13:36 +0100
+Message-ID: <1527772404.16911.155.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mingli.yu@windriver.com, alexander.kanavin@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 31 May 2018 14:13:24 +0100
+In-Reply-To: <20180531062031.40334-1-mingli.yu@windriver.com>
+References: <20180531062031.40334-1-mingli.yu@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:56:36 -0000
+X-List-Received-Date: Thu, 31 May 2018 13:13:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Wed, 2018-05-30 at 23:20 -0700, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> boost_context includes some assembly source
+> files and will export the assembly object file
+> make_x86_64_sysv_elf_gas.o which contains host
+> path as below:
+> $ readelf --wide --symbols /my-build/boost/1.67.0-
+> r0/boost_1_67_0/x86_64-poky-
+> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+> d/libboost_context.so.1.67
+> 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-
+> r0/boost_1_67_0/x86_64-poky-
+> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+> d/asm/make_x86_64_sysv_elf_gas.o
+> 
+> Enable stirp for boost_context to hidden the
+> symbols
+> 
+> [YOCTO #12708]
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 
-It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to
-be handled in do_install and do_deploy tasks, since we are having some
-special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to
-replace the real kernel image types during do_compile, like:
-in kernel-uimage.bbclass: uImage -> vmlinux
-in kernel-fitimage.bbclass: fitImage -> Image/bzImage/zImage...
+This looks very unlikely to ever make it upstream. Rather than carrying
+a patch to boost forever would we want to just strip the file in
+question with a custom command?
 
-but the final images to be installed/deployed should still be uImage or
-fitImage.
+Alternatively, can we stop this path being injected into the binary in
+the first place?
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/kernel-devicetree.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 4f80cc6..04e6321 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -63,7 +63,7 @@ do_install_append() {
- 		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
- 		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
--		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-+		for type in ${KERNEL_IMAGETYPE}; do
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
-@@ -82,7 +82,7 @@ do_deploy_append() {
- 		DTB=`normalize_dtb "${DTB}"`
- 		DTB_EXT=${DTB##*.}
- 		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
--		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-+		for type in ${KERNEL_IMAGETYPE}; do
- 			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
- 			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--- 
-2.7.4
-
+Richard
 
