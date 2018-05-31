@@ -1,32 +1,49 @@
-Return-Path: <Lei.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F95174CEA
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 64F3E74F04
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 14:05:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4VE5HpH015849
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 31 May 2018 07:05:32 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 31 May 2018 07:05:06 -0700
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Dengke Du
-	<dengke.du@windriver.com>
-References: <cover.1527735211.git.dengke.du@windriver.com>
-	<59e700bb0582088cba026b990ed423ab0d1e2ebe.1527735211.git.dengke.du@windriver.com>
-	<CADkTA4MU3Po893UfDcTeusYA0kkJdMHFHPWx3Z3RdMJS5gj8Xg@mail.gmail.com>
-From: lei yang <lei.yang@windriver.com>
-Message-ID: <52e38a62-c73d-1948-e82c-0ae057c91401@windriver.com>
-Date: Thu, 31 May 2018 22:08:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.5.1
+	Thu, 31 May 2018 14:57:38 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id d5-v6so16737604oib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 07:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3y7gT/+w2SqZoFx8/6I4Us8I63tPw6DsUnpRf0525+c=;
+	b=AuYp8Ql2qN3ULuPgDnzFPK4SvdOHohIs8CNIqCUhpha02kfGg5+KvvXutR2Ve/oskW
+	MSF8QZJjcet+r3B1UxmdU8zbaUHZvZWEnx8NgdyA6MnzPiaioXdSx85pfLqFXXAuDP2C
+	9Qst9eeJQEao35KwlCNrN+3B8SougNRr04l+QeOYAiGWllAzr2fvxCoNZ3rLpKBVn1fd
+	C1UGlZPRKibLkYIyu7XhK6EUYmn5APfytzOHINB/COTdM+eGlZZa9hGgnXLT5KtiV/Mq
+	TGBbPHafyLC+TN7n/9/jAmWae8pFfrKUND4KOvCcPDzf8ycEaOdrJGM4mYojO8OvkgOM
+	UtIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3y7gT/+w2SqZoFx8/6I4Us8I63tPw6DsUnpRf0525+c=;
+	b=huux0sYG4wZDmJaCHoP7cHKLNNq+dvm94y4IQRWDbRDJASxUxrsHMzVc5krZv3gosd
+	VuDFxma/yaT+rSbSDY2T5jyA+LQKv8fZ77y0uiHXhN1A1aZlMeoDHJGWo2wWmNDXc18r
+	GLYxg4YRXyxpqbXYRo+b3hBdSwe2jo0kbKOlnqgDYTToxcPzrVX/3TbqFqCRMO74kONz
+	Dy8uWtLZbiD/PLUX/xgTq1uTRhjq24vDo2DemfCvyUj59Ak1B8TKvfwEfD//kqnRA4qj
+	9f+JF2aveAQ8mNMZhqVa2xGhnz7J+4mI0vL0sInZUdg63U/qYR24rcq72kypkUwQffhP
+	sGrQ==
+X-Gm-Message-State: ALKqPweRVTOlZwkx1AhDdPMkteR5G4Mc+IvRh0uEAHEH4IH5bTdYhJ7O
+	GzgVqxxWPea7/XWE08UWr2YPfcI5OFgA6/cThE9Pkg==
+X-Google-Smtp-Source: ADUXVKLjZj2BQ1RcogWB9yDWrmtd5ojWNV/yGaMnUwBjHzx+gJcXVOUunBiFrkLj7npO/6+CCRR32brTg8NqSCJGfB8=
+X-Received: by 2002:aca:ced5:: with SMTP id
+	e204-v6mr4273608oig.206.1527778659235; 
+	Thu, 31 May 2018 07:57:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4MU3Po893UfDcTeusYA0kkJdMHFHPWx3Z3RdMJS5gj8Xg@mail.gmail.com>
-X-Originating-IP: [128.224.162.194]
+References: <cover.1527755434.git.Qi.Chen@windriver.com>
+	<57e4cd5f6cf998b6f7b1a939c1cae2ce2a4dbdfd.1527755435.git.Qi.Chen@windriver.com>
+In-Reply-To: <57e4cd5f6cf998b6f7b1a939c1cae2ce2a4dbdfd.1527755435.git.Qi.Chen@windriver.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 31 May 2018 07:57:27 -0700
+Message-ID: <CABcZANmig7C5KK_+voznmgSPF9k49VQ0Esknc8p9HUX=pMz-FA@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: add ptest support
+Subject: Re: [PATCH 12/14] bitbake.conf: fix HOSTTOOLS setting related to image testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,614 +56,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 14:05:58 -0000
-Content-Type: multipart/alternative;
-	boundary="------------C80FFDB73FFA8D124733A1FE"
+X-List-Received-Date: Thu, 31 May 2018 14:57:38 -0000
+Content-Type: multipart/alternative; boundary="000000000000477c93056d81b029"
 
---------------C80FFDB73FFA8D124733A1FE
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000477c93056d81b029
+Content-Type: text/plain; charset="UTF-8"
 
-hi dengke,
+While you're at it, I'd suggest fixing this to stop using the horrible
+indexing a list with a boolean hack and use a proper inline conditional.
+'foo' if bar else 'baz'.
 
-some of the kernel modules were rmmod-ed twice, some of them forget to 
-be rmmod-ed when it fails,
+On Thu, May 31, 2018 at 1:43 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 
-please take a look.
-
-Lei
-
-
-
-On 2018年05月31日 12:19, Bruce Ashfield wrote:
+> A list of tools are added to HOSTTOOLS depending on if we inherit
+> testimage or not. Unfortunately, if we use TEST_IMAGE variable to
+> automate the test, these tools are not added to HOSTTOOLS.
 >
+> Modify the condition to also check TEST_IMAGE to fix the above problem.
 >
-> On Wed, May 30, 2018 at 11:08 PM, Dengke Du <dengke.du@windriver.com 
-> <mailto:dengke.du@windriver.com>> wrote:
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->     Signed-off-by: Dengke Du <dengke.du@windriver.com
->     <mailto:dengke.du@windriver.com>>
->     ---
->      meta/recipes-kernel/linux/files/run-ptest    | 138
->     ++++++++++++++++++++++++++
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 6ecf78b..7b7472c 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -487,7 +487,7 @@ HOSTTOOLS += " \
+>  "
 >
+>  # Tools needed to run testimage runtime image testing
+> -HOSTTOOLS += "${@['', 'ip ping ps scp ssh
+> stty'][bb.data.inherits_class('testimage', d)]}"
+> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh
+> stty'][bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE') ==
+> '1']}"
 >
-> Nothing else in linux-yocto uses "files", and this shouldn't either.
+>  # Link to these if present
+>  HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat
+> ssh sudo"
+> --
+> 1.9.1
 >
-> We can't guarantee that these are version independent, so they need to 
-> be in  a versioned
-> kernel subdirectory.
->
->      meta/recipes-kernel/linux/linux-yocto.inc     |  8 ++
->      meta/recipes-kernel/linux/linux-yocto_4.14.bb
->     <http://linux-yocto_4.14.bb> |   2 +-
->      3 files changed, 147 insertions(+), 1 deletion(-)
->      create mode 100644 meta/recipes-kernel/linux/files/run-ptest
->
->     diff --git a/meta/recipes-kernel/linux/files/run-ptest
->     b/meta/recipes-kernel/linux/files/run-ptest
->     new file mode 100644
->     index 0000000..a3d9e14
->     --- /dev/null
->     +++ b/meta/recipes-kernel/linux/files/run-ptest
->     @@ -0,0 +1,138 @@
->     +#!/bin/bash
->
->
-> This script should have a license and proper header file.
->
-> Also, if the ptests are mainly trace/sample related, name the script 
-> to indicate that.
->
-> The kernel already has a significant number of selftests, which are 
-> likely better than
-> these ptests. Is there any reason why they aren't being used instead ?
->
->     +depmod
->     +touch kernel.log
->     +
->     +#dma-example bytestream-example inttype-example record-example
->     +list1=("dma-example" "bytestream-example" "inttype-example"
->     "record-example")
->     +for i in "${list1[@]}"
->     +do
->     +  dmesg -c
->     +  modprobe "$i"
->     +  result=""
->     +  IFS="-" read -ra array <<< "$i"
->     +  len=${#array[@]}
->     +  if [ $len -eq 2 ];then
->     +    result="${array[0]}_${array[1]}"
->     +  elif [ $len -eq 3 ];then
->     +    result="${array[0]}_${array[1]}_${array[2]}"
->     +  fi
->     +  lsmod | grep -q "$result"
->     +  if [ $? -eq 0 ];then
->     +    dmesg | grep "test passed"
->     +    if [ $? -eq 0 ];then
->     +      echo "$i: PASS" >> kernel.log
->     +    fi
->     +    rmmod "$i"
->     +  else
->     +    echo "$i: FAILED" >> kernel.log
->     +  fi
->     +done
->     +
->     +#kobject-example kset-example
->     +list2=("kobject-example" "kset-example")
->     +for i in "${list2[@]}"
->     +do
->     +  dmesg -c
->     +  modprobe "$i"
->     +  result=""
->     +  IFS="-" read -ra array <<< "$i"
->     +  len=${#array[@]}
->     +  if [ $len -eq 2 ];then
->     +    result="${array[0]}_${array[1]}"
->     +  elif [ $len -eq 3 ];then
->     +    result="${array[0]}_${array[1]}_${array[2]}"
->     +  fi
->     +  basedir="/sys/kernel/${result}"
->     +  echo "$basedir"
->     +  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e
->     ${basedir}/foo ];then
->     +    echo "$i: PASS" >> kernel.log
->     +    rmmod "$i"
->     +  else
->     +    echo "$i: FAILED" >> kernel.log
->     +  fi
->     +done
->     +
->     +#trace-events-sample
->     +list3="trace-events-sample"
->     +result=""
->     +IFS="-" read -ra array <<< "$list3"
->     +len=${#array[@]}
->     +if [ $len -eq 2 ];then
->     +  result="${array[0]}_${array[1]}"
->     +elif [ $len -eq 3 ];then
->     +  result="${array[0]}_${array[1]}_${array[2]}"
->     +fi
->     +modprobe "$list3"
->     +lsmod | grep "$result"
->     +if [ $? -eq 0 ];then
->     +  if [ -e "/sys/kernel/debug/tracing/events/sample-trace" ];then
->     +    echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable
->     +    sleep 5
->     +    ret=`cat /sys/kernel/debug/tracing/trace | grep hello | head
->     -n1 | cut -d':' -f2`
->     +    if [ "$ret" = " foo_bar" ];then
->     +      echo "$list3: PASS"  >> kernel.log
->     +    else
->     +      echo "$list3: FAILED-" >> kernel.log
->     +    fi
->     +  else
->     +    echo "$list3: FAILED--" >> kernel.log
->     +  fi
->     +else
->     +  echo "$list3: FAILED---" >> kernel.log
->     +fi
->     +rmmod "$list3"
->     +
->     +#trace-printk
->     +list4="trace-printk"
->     +modprobe "$list4"
->     +lsmod | grep "trace_printk"
->     +if [ $? -eq 0 ];then
->     +  ret=`cat /sys/kernel/debug/tracing/trace | grep trace_printk |
->     head -n1 | cut -d':' -f2`
->     +  if [ "$ret" = " trace_printk_irq_work" ];then
->     +    echo "$list4: PASS" >> kernel.log
->     +    rmmod "$list4"
->     +  else
->     +    echo "$list4: FAILED" >> kernel.log
->     +  fi
->     +else
->     +  echo "$list4: FAILED" >> kernel.log
->     +fi
->     +rmmod "$list4"
->     +
->     +#kprobe_example
->     +list5="kprobe_example"
->     +dmesg -c
->     +modprobe "$list5"
->     +lsmod | grep "$list5"
->     +if [ $? -eq 0 ];then
->     +  dmesg | grep "_do_fork"
->     +  if [ $? -eq 0 ];then
->     +    echo "$list5: PASS" >> kernel.log
->     +  else
->     +    echo "$list5: FAILED" >> kernel.log
->     +  fi
->     +else
->     +  echo "$list5: FAILED" >> kernel.log
->     +fi
->     +rmmod "$list5"
->     +
->     +#kretprobe_example
->     +list6="kretprobe_example"
->     +dmesg -c
->     +modprobe "$list6"
->     +lsmod | grep "$list6"
->     +if [ $? -eq 0 ];then
->     +  dmesg | grep "_do_fork returned"
->     +  if [ $? -eq 0 ];then
->     +    echo "$list6: PASS" >> kernel.log
->     +  else
->     +    echo "$list6: FAILED" >> kernel.log
->     +  fi
->     +else
->     +  echo "$list6: FAILED" >> kernel.log
->     +fi
->     +rmmod "$list6"
->     +
->     +echo "#####result#####"
->     +cat kernel.log
->     +rm kernel.log
->     diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->     b/meta/recipes-kernel/linux/linux-yocto.inc
->     index 95ec2a2..7e1773e 100644
->     --- a/meta/recipes-kernel/linux/linux-yocto.inc
->     +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->     @@ -67,3 +67,11 @@ do_install_append(){
->      addtask kernel_version_sanity_check after do_kernel_metadata
->     do_kernel_checkout before do_compile
->      addtask validate_branches before do_patch after do_kernel_checkout
->      addtask kernel_configcheck after do_configure before do_compile
->     +
->     +inherit ptest
->     +SRC_URI_append = " file://run-ptest \
->     +"
->     +do_install_ptest_append() {
->     +       install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
->     +}
->     +KERNEL_FEATURES_append = "
->     ${@bb.utils.contains("DISTRO_FEATURES", "ptest",
->     "features/kernel-sample/kernel-sample.scc", "", d)}"
->     diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->     <http://linux-yocto_4.14.bb>
->     b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->     <http://linux-yocto_4.14.bb>
->     index 16142f8..7002693 100644
->     --- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->     <http://linux-yocto_4.14.bb>
->     +++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->     <http://linux-yocto_4.14.bb>
->     @@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?=
->     "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->      SRCREV_machine_qemux86-64 ?=
->     "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->      SRCREV_machine_qemumips64 ?=
->     "9863b327e770b42b8c18da3e0cfaf06e8f99ae97"
->      SRCREV_machine ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->     -SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
->     +SRCREV_meta ?= "53336e1b7d969f21d8214ec9ceeb48fba4f99372"
->
->
-> Do not bump the SRCREV for meta in this series.
->
-> If your feature depends on something in the meta branch (which it 
-> does), wait until I've sent my next series before sending this.
->
-> Bruce
->
->
->      SRC_URI =
->     "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}
->     <http://git.yoctoproject.org/linux-yocto.git;name=machine;branch=$%7BKBRANCH%7D>;
->     \
->                
->     git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}
->     <http://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=$%7BKMETA%7D>"
->     -- 
->     2.7.4
->
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
 
---------------C80FFDB73FFA8D124733A1FE
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--000000000000477c93056d81b029
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <p>hi dengke,</p>
-    <p>some of the kernel modules were rmmod-ed twice, some of them
-      forget to be rmmod-ed when it fails,</p>
-    <p> please take a look. <br>
-    </p>
-    <p>Lei</p>
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 2018年05月31日 12:19, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CADkTA4MU3Po893UfDcTeusYA0kkJdMHFHPWx3Z3RdMJS5gj8Xg@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Wed, May 30, 2018 at 11:08 PM,
-            Dengke Du <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:dengke.du@windriver.com" target="_blank">dengke.du@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by:
-              Dengke Du &lt;<a moz-do-not-send="true"
-                href="mailto:dengke.du@windriver.com">dengke.du@windriver.com</a>&gt;<br>
-              ---<br>
-              <span class=""> meta/recipes-kernel/linux/<wbr>files/run-ptest 
-                   | 138 ++++++++++++++++++++++++++<br>
-              </span></blockquote>
-            <div><br>
-            </div>
-            <div>Nothing else in linux-yocto uses "files", and this
-              shouldn't either.</div>
-            <div><br>
-            </div>
-            <div>We can't guarantee that these are version independent,
-              so they need to be in  a versioned</div>
-            <div>kernel subdirectory.</div>
-            <div><br>
-            </div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
-                class="">
-                 meta/recipes-kernel/linux/<wbr>linux-yocto.inc     | 
-                 8 ++<br>
-                 meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                  href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                  target="_blank">linu<wbr>x-yocto_4.14.bb</a> |   2 +-<br>
-                 3 files changed, 147 insertions(+), 1 deletion(-)<br>
-                 create mode 100644 meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-                <br>
-              </span>diff --git a/meta/recipes-kernel/linux/<wbr>files/run-ptest
-              b/meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-              new file mode 100644<br>
-              index 0000000..a3d9e14<br>
-              --- /dev/null<br>
-              +++ b/meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-              @@ -0,0 +1,138 @@<br>
-              +#!/bin/bash<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>This script should have a license and proper header
-              file.</div>
-            <div><br>
-            </div>
-            <div>Also, if the ptests are mainly trace/sample related,
-              name the script to indicate that.</div>
-            <div><br>
-            </div>
-            <div>The kernel already has a significant number of
-              selftests, which are likely better than</div>
-            <div>these ptests. Is there any reason why they aren't being
-              used instead ?</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              +depmod<br>
-              +touch kernel.log<br>
-              +<br>
-              +#dma-example bytestream-example inttype-example
-              record-example<br>
-              +list1=("dma-example" "bytestream-example"
-              "inttype-example" "record-example")<br>
-              +for i in "${list1[@]}"<br>
-              +do<br>
-              +  dmesg -c<br>
-              +  modprobe "$i"<br>
-              +  result=""<br>
-              +  IFS="-" read -ra array &lt;&lt;&lt; "$i"<br>
-              +  len=${#array[@]}<br>
-              +  if [ $len -eq 2 ];then<br>
-              +    result="${array[0]}_${array[1]<wbr>}"<br>
-              +  elif [ $len -eq 3 ];then<br>
-              +    result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-              +  fi<br>
-              +  lsmod | grep -q "$result"<br>
-              +  if [ $? -eq 0 ];then<br>
-              +    dmesg | grep "test passed"<br>
-              +    if [ $? -eq 0 ];then<br>
-              +      echo "$i: PASS" &gt;&gt; kernel.log<br>
-              +    fi<br>
-              +    rmmod "$i"<br>
-              +  else<br>
-              +    echo "$i: FAILED" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +done<br>
-              +<br>
-              +#kobject-example kset-example<br>
-              +list2=("kobject-example" "kset-example")<br>
-              +for i in "${list2[@]}"<br>
-              +do<br>
-              +  dmesg -c<br>
-              +  modprobe "$i"<br>
-              +  result=""<br>
-              +  IFS="-" read -ra array &lt;&lt;&lt; "$i"<br>
-              +  len=${#array[@]}<br>
-              +  if [ $len -eq 2 ];then<br>
-              +    result="${array[0]}_${array[1]<wbr>}"<br>
-              +  elif [ $len -eq 3 ];then<br>
-              +    result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-              +  fi<br>
-              +  basedir="/sys/kernel/${result}<wbr>"<br>
-              +  echo "$basedir"<br>
-              +  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e
-              ${basedir}/foo ];then<br>
-              +    echo "$i: PASS" &gt;&gt; kernel.log<br>
-              +    rmmod "$i"<br>
-              +  else<br>
-              +    echo "$i: FAILED" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +done<br>
-              +<br>
-              +#trace-events-sample<br>
-              +list3="trace-events-sample"<br>
-              +result=""<br>
-              +IFS="-" read -ra array &lt;&lt;&lt; "$list3"<br>
-              +len=${#array[@]}<br>
-              +if [ $len -eq 2 ];then<br>
-              +  result="${array[0]}_${array[1]<wbr>}"<br>
-              +elif [ $len -eq 3 ];then<br>
-              +  result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-              +fi<br>
-              +modprobe "$list3"<br>
-              +lsmod | grep "$result"<br>
-              +if [ $? -eq 0 ];then<br>
-              +  if [ -e "/sys/kernel/debug/tracing/<wbr>events/sample-trace"
-              ];then<br>
-              +    echo 1 &gt; /sys/kernel/debug/tracing/<wbr>events/sample-trace/enable<br>
-              +    sleep 5<br>
-              +    ret=`cat /sys/kernel/debug/tracing/<wbr>trace | grep
-              hello | head -n1 | cut -d':' -f2`<br>
-              +    if [ "$ret" = " foo_bar" ];then<br>
-              +      echo "$list3: PASS"  &gt;&gt; kernel.log<br>
-              +    else<br>
-              +      echo "$list3: FAILED-" &gt;&gt; kernel.log<br>
-              +    fi<br>
-              +  else<br>
-              +    echo "$list3: FAILED--" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +else<br>
-              +  echo "$list3: FAILED---" &gt;&gt; kernel.log<br>
-              +fi<br>
-              +rmmod "$list3"<br>
-              +<br>
-              +#trace-printk<br>
-              +list4="trace-printk"<br>
-              +modprobe "$list4"<br>
-              +lsmod | grep "trace_printk"<br>
-              +if [ $? -eq 0 ];then<br>
-              +  ret=`cat /sys/kernel/debug/tracing/<wbr>trace | grep
-              trace_printk | head -n1 | cut -d':' -f2`<br>
-              +  if [ "$ret" = " trace_printk_irq_work" ];then<br>
-              +    echo "$list4: PASS" &gt;&gt; kernel.log<br>
-              +    rmmod "$list4"<br>
-              +  else<br>
-              +    echo "$list4: FAILED" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +else<br>
-              +  echo "$list4: FAILED" &gt;&gt; kernel.log<br>
-              +fi<br>
-              +rmmod "$list4"<br>
-              +<br>
-              +#kprobe_example<br>
-              +list5="kprobe_example"<br>
-              +dmesg -c<br>
-              +modprobe "$list5"<br>
-              +lsmod | grep "$list5"<br>
-              +if [ $? -eq 0 ];then<br>
-              +  dmesg | grep "_do_fork"<br>
-              +  if [ $? -eq 0 ];then<br>
-              +    echo "$list5: PASS" &gt;&gt; kernel.log<br>
-              +  else<br>
-              +    echo "$list5: FAILED" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +else<br>
-              +  echo "$list5: FAILED" &gt;&gt; kernel.log<br>
-              +fi<br>
-              +rmmod "$list5"<br>
-              +<br>
-              +#kretprobe_example<br>
-              +list6="kretprobe_example"<br>
-              +dmesg -c<br>
-              +modprobe "$list6"<br>
-              +lsmod | grep "$list6"<br>
-              +if [ $? -eq 0 ];then<br>
-              +  dmesg | grep "_do_fork returned"<br>
-              +  if [ $? -eq 0 ];then<br>
-              +    echo "$list6: PASS" &gt;&gt; kernel.log<br>
-              +  else<br>
-              +    echo "$list6: FAILED" &gt;&gt; kernel.log<br>
-              +  fi<br>
-              +else<br>
-              +  echo "$list6: FAILED" &gt;&gt; kernel.log<br>
-              +fi<br>
-              +rmmod "$list6"<br>
-              +<br>
-              +echo "#####result#####"<br>
-              +cat kernel.log<br>
-              +rm kernel.log<br>
-              diff --git a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc
-              b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-              index 95ec2a2..7e1773e 100644<br>
-              --- a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-              +++ b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-              @@ -67,3 +67,11 @@ do_install_append(){<br>
-               addtask kernel_version_sanity_check after
-              do_kernel_metadata do_kernel_checkout before do_compile<br>
-               addtask validate_branches before do_patch after
-              do_kernel_checkout<br>
-               addtask kernel_configcheck after do_configure before
-              do_compile<br>
-              +<br>
-              +inherit ptest<br>
-              +SRC_URI_append = " <a class="moz-txt-link-freetext" href="file://run-ptest">file://run-ptest</a> \<br>
-              +"<br>
-              +do_install_ptest_append() {<br>
-              +       install -D ${WORKDIR}/run-ptest
-              ${D}${PTEST_PATH}/run-ptest<br>
-              +}<br>
-              +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_<wbr>FEATURES",
-              "ptest", "features/kernel-sample/<wbr>kernel-sample.scc",
-              "", d)}"<br>
-              diff --git a/meta/recipes-kernel/linux/<a
-                moz-do-not-send="true" href="http://linux-yocto_4.14.bb"
-                rel="noreferrer" target="_blank">li<wbr>nux-yocto_4.14.bb</a>
-              b/meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-              index 16142f8..7002693 100644<br>
-              --- a/meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-              +++ b/meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-              @@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-               SRCREV_machine_qemux86-64 ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-               SRCREV_machine_qemumips64 ?= "<wbr>9863b327e770b42b8c18da3e0cfaf0<wbr>6e8f99ae97"<br>
-               SRCREV_machine ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-              -SRCREV_meta ?= "<wbr>ea9330894eea727bd1655569b16f33<wbr>8976b72563"<br>
-              +SRCREV_meta ?= "<wbr>53336e1b7d969f21d8214ec9ceeb48<wbr>fba4f99372"<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Do not bump the SRCREV for meta in this series.</div>
-            <div><br>
-            </div>
-            <div>If your feature depends on something in the meta branch
-              (which it does), wait until I've sent my next series
-              before sending this.</div>
-            <div><br>
-            </div>
-            <div>Bruce</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <br>
-               SRC_URI = "git://<a moz-do-not-send="true"
-href="http://git.yoctoproject.org/linux-yocto.git;name=machine;branch=$%7BKBRANCH%7D"
-                rel="noreferrer" target="_blank">git.yoctoproject.org/<wbr>linux-yocto.git;name=machine;<wbr>branch=${KBRANCH}</a>;
-              \<br>
-                          git://<a moz-do-not-send="true"
-href="http://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=$%7BKMETA%7D"
-                rel="noreferrer" target="_blank">git.yoctoproject.org/<wbr>yocto-kernel-cache;type=kmeta;<wbr>name=meta;branch=yocto-4.14;<wbr>destsuffix=${KMETA}</a>"<br>
-              <div class="HOEnZb">
-                <div class="h5">-- <br>
-                  2.7.4<br>
-                  <br>
-                  -- <br>
-                  ______________________________<wbr>_________________<br>
-                  Openembedded-core mailing list<br>
-                  <a moz-do-not-send="true"
-                    href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                  <a moz-do-not-send="true"
-                    href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                    rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-                </div>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          <div class="gmail_signature" data-smartmail="gmail_signature">"Thou
-            shalt not follow the NULL pointer, for chaos and madness
-            await thee at its end"</div>
-        </div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
+<div dir=3D"ltr">While you&#39;re at it, I&#39;d suggest fixing this to sto=
+p using the horrible indexing a list with a boolean hack and use a proper i=
+nline conditional. &#39;foo&#39; if bar else &#39;baz&#39;.<br></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr">On Thu, May 31, 2018 at 1:43 AM C=
+hen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">A list of tools are a=
+dded to HOSTTOOLS depending on if we inherit<br>
+testimage or not. Unfortunately, if we use TEST_IMAGE variable to<br>
+automate the test, these tools are not added to HOSTTOOLS.<br>
+<br>
+Modify the condition to also check TEST_IMAGE to fix the above problem.<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
+=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/bitbake.conf | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+index 6ecf78b..7b7472c 100644<br>
+--- a/meta/conf/bitbake.conf<br>
++++ b/meta/conf/bitbake.conf<br>
+@@ -487,7 +487,7 @@ HOSTTOOLS +=3D &quot; \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0# Tools needed to run testimage runtime image testing<br>
+-HOSTTOOLS +=3D &quot;${@[&#39;&#39;, &#39;ip ping ps scp ssh stty&#39;][bb=
+.data.inherits_class(&#39;testimage&#39;, d)]}&quot;<br>
++HOSTTOOLS +=3D &quot;${@[&#39;&#39;, &#39;ip ping ps scp ssh stty&#39;][bb=
+.data.inherits_class(&#39;testimage&#39;, d) or d.getVar(&#39;TEST_IMAGE&#3=
+9;) =3D=3D &#39;1&#39;]}&quot;<br>
+<br>
+=C2=A0# Link to these if present<br>
+=C2=A0HOSTTOOLS_NONFATAL +=3D &quot;aws ccache gcc-ar gpg ld.bfd ld.gold nc=
+ sftp socat ssh sudo&quot;<br>
+-- <br>
+1.9.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
+ics</div></div></div></div>
 
---------------C80FFDB73FFA8D124733A1FE--
+--000000000000477c93056d81b029--
