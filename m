@@ -1,51 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 671A060402
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E1871601F1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:22:58 +0000 (UTC)
-Received: by mail-vk0-f54.google.com with SMTP id m144-v6so14314159vke.4
+	Thu, 31 May 2018 22:50:49 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id p14-v6so11492093pfh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 15:22:59 -0700 (PDT)
+	Thu, 31 May 2018 15:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=PJLKWzhW1dp98hsxg4vyiOeu8gaLRfQDo8roHt3tMC4=;
-	b=iygDq6jDZCTITvVaanL7ZmCiE3qjANV9HGgnnfXlFDrd04t9wZEqpwKWyYvCsKMXGO
-	iELs6E3amQ+70gLOZlDvmFwIk3N7x8kFgcFJ+AHZv4BJj/ESaJoc3NQfTzoBGHK1EW0p
-	LQDNKjCn2v4RbDIDfBLChUqHhS+ZmNp4WjX4O3G5ntUpKWw9fqb6Wlwm8yv+V9MTsTf+
-	Ais6DRhBTP+1zlBwx8UvLSpwtY2HamavdSkOHKdqrZ65zUCWBxbDHPtty1+RxlMzpMqT
-	ZG4JvIz0tWufQQ7ZzyTPu8HC+breD6dMCTGifWon8EwpbMlnkLar/ie19Rk+JKK0CNKz
-	YRJA==
+	h=from:to:cc:subject:date:message-id;
+	bh=YUDEi24xveRfrjl4Y8gS0DLWS4WFs9e6mXzalILEOcU=;
+	b=NGzwQVQDzadHKINwD5K5472vfFVQ9VOaEx8uasY65l+WJ9XqPpBR6W8s8gk5A2Q3nP
+	337fXdNgSWL2C9BI5NHLtnntO+b4dtPr9ExBpbh8h4KtqsBSL4qlld3sUMH2JNEigpPG
+	n1r+/f65jNN2tnF7uWO6D3XyRv+6BhJWTwRMdqdBiUxo07toL927nBEby2Lgzfq4WtpZ
+	gNVkUqf2qMmv3B/6zkE6XMBRa39rhHMhdIpqbDjqBRNlFsg0VTP9ENbiw0nb3OksC0e5
+	Uj6fv3Gn9Dje9Td9cX0lBbjQ3N91s60O/hpt0Y06+jmBQNhwjdWWLMk3JwCxrNxYJO39
+	j8/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=PJLKWzhW1dp98hsxg4vyiOeu8gaLRfQDo8roHt3tMC4=;
-	b=LTwxvc+YbRwuxO2+b+zOOfB+nBjN+LOIgoZzVBz4x0WCmIgzUSJkrs+ihuzkgGw4Ob
-	L54auL2MXEb9NQ4C54vfPmrDZhrch9ec/QSefOasbZjhWKU+gCbzLMpjMSCXE0YXkiw6
-	PYmRqVXK0oqK0JpyZRXv/XhSQQgFc4+UFHVDJRi4dMN0A/qzGdcZoK/WTZ15YAcpZhmO
-	LNC3xc1zUJpHz7f6iqJOPoEVVEthTAq+ZCpUa1siuBVARyb98GFLAP2LfpLJ2ZZJzy+W
-	ArBElbwH0rN+sJZUVvNyHHKeilFrRoX9SUJPFkZgdkQwMTekfpyOlMgJCltx2XfJJCmM
-	s/yg==
-X-Gm-Message-State: ALKqPwc8pO/gm/0byUlnuEshaw0w71NEhHUoHO6M2L7st3zrwu7BtCb/
-	As1xznQOIdrKLjwDTganj9tc/Swmh9V9y4IIuX0=
-X-Google-Smtp-Source: ADUXVKLSDKTzrayWSFYb2cdo0qynqFx2gohee/PG9ZtKtVQ1dRqEUkoKx9jc3SCCRa5uvLPP1cdJsVT/3/LY/Wx7KJ4=
-X-Received: by 2002:a1f:a7c7:: with SMTP id
-	q190-v6mr5224679vke.5.1527805379060; 
-	Thu, 31 May 2018 15:22:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Thu, 31 May 2018 15:22:58 -0700 (PDT)
-In-Reply-To: <20180531200659.28877-1-twoerner@gmail.com>
-References: <20180531200659.28877-1-twoerner@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YUDEi24xveRfrjl4Y8gS0DLWS4WFs9e6mXzalILEOcU=;
+	b=UnuEYzeAfMZ+e08wZneYwpfb21vT2OEpWQzUkY/K6Hf365b9/Kmj313xNJvoaZZbSF
+	IY8LCAHcOh1NDFLtHq3aALhq6b4RPWLHgb9LnwINmZzAy1X33vfgkzFwJuRk0I53AJ6T
+	+ffSXJIitH2s84M9YqvleFtcKKPMG5DKfSDiUc1498lZyfF+8JtgdhAYP1kMNruCbzGP
+	6x2WdtYgdUh+5Ckbx+sXmTBySxKlcU9QZEUJUupwX6l0vHqnu+B2zvi0fw1NLZcTKK63
+	gxywpvGsck4qewb6ZjJo4E7sE5EYIxMF3PTIE3e3/p2TcU4WyuoDuoctwloiKHRt3Cn5
+	UeMw==
+X-Gm-Message-State: ALKqPweDMlF2D4GSSWweCPqKT9rVDoAFEVgLwCHHsY7s25/ET/1kQ64k
+	/mpt+RMq5gEdyWPrLRQkz4gmHQ==
+X-Google-Smtp-Source: ADUXVKLaXKF51DXs0dsCJ7wL8iCC0yVNO2Qd3209TTAxZRgguIIwjcVZFeFikGliErzWYDwxr1Hizg==
+X-Received: by 2002:a62:c95c:: with SMTP id
+	k89-v6mr8404116pfg.47.1527807050710; 
+	Thu, 31 May 2018 15:50:50 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	s4-v6sm50964022pgp.35.2018.05.31.15.50.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 31 May 2018 15:50:50 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 31 May 2018 15:22:58 -0700
-Message-ID: <CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 May 2018 15:50:44 -0700
+Message-Id: <1527807044-19616-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] bitbake.conf: drop redundant -nv from FETCHCMD_wget
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,130 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 22:22:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 May 2018 22:50:50 -0000
 
-On Thu, May 31, 2018 at 1:06 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> Instead of installing an entire recipe's build output (i.e. ${D}), allow =
-the
-> user to optionally specify a package from said recipe to be installed
-> exclusively (i.e. ${PKGDEST}/<package>).
+Since the addition of progress reporting, the wget fetcher will
+over-ride -nv by unconditionally appending "--progress=dot -v" to the
+final wget command line.
 
-I'm not a big devtool user myself, but I'm curious about the
-situations where you might need this?
+  http://git.openembedded.org/bitbake/commit/?id=4027649f422ee64b1c4e1ad8d48ac295050afbff
 
-Are the going to be problems if users want to deploy more than one
-package (or switch between a full deploy and a package) and don't
-deploy and undeploy in the right order?
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
->  scripts/lib/devtool/deploy.py | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
->
-> diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.p=
-y
-> index 52e261d560..c022757519 100644
-> --- a/scripts/lib/devtool/deploy.py
-> +++ b/scripts/lib/devtool/deploy.py
-> @@ -169,11 +169,20 @@ def deploy(args, config, basepath, workspace):
->          except Exception as e:
->              raise DevtoolError('Exception parsing recipe %s: %s' %
->                              (args.recipename, e))
-> -        recipe_outdir =3D rd.getVar('D')
-> +        if args.package:
-> +            recipe_outdir =3D os.path.join(rd.getVar('PKGDEST'), args.pa=
-ckage)
-> +        else:
-> +            recipe_outdir =3D rd.getVar('D')
->          if not os.path.exists(recipe_outdir) or not os.listdir(recipe_ou=
-tdir):
-> -            raise DevtoolError('No files to deploy - have you built the =
-%s '
-> -                            'recipe? If so, the install step has not ins=
-talled '
-> -                            'any files.' % args.recipename)
-> +            if args.package:
-> +                raise DevtoolError('No files to deploy - have you built =
-the %s '
-> +                                'package of the %s recipe? If so, the in=
-stall '
-> +                                'step has not installed any files.'
-> +                                % (args.package, args.recipename))
-> +            else:
-> +                raise DevtoolError('No files to deploy - have you built =
-the %s '
-> +                                'recipe? If so, the install step has not=
- installed '
-> +                                'any files.' % args.recipename)
->
->          if args.strip and not args.dry_run:
->              # Fakeroot copy to new destination
-> @@ -314,8 +323,8 @@ def register_commands(subparsers, context):
->      """Register devtool subcommands from the deploy plugin"""
->
->      parser_deploy =3D subparsers.add_parser('deploy-target',
-> -                                          help=3D'Deploy recipe output f=
-iles to live target machine',
-> -                                          description=3D'Deploys a recip=
-e\'s build output (i.e. the output of the do_install task) to a live target=
- machine over ssh. By default, any existing files will be preserved instead=
- of being overwritten and will be restored if you run devtool undeploy-targ=
-et. Note: this only deploys the recipe itself and not any runtime dependenc=
-ies, so it is assumed that those have been installed on the target beforeha=
-nd.',
-> +                                          help=3D'Deploy build output to=
- a live target machine',
-> +                                          description=3D'Deploys either =
-the full recipe\'s build output (i.e. the output of the do_install task) or=
- a package of a recipe to a live target machine over ssh. By default, any e=
-xisting files will be preserved instead of being overwritten and will be re=
-stored if you run devtool undeploy-target. Note: this only deploys the spec=
-ified item itself and not any runtime dependencies, so it is assumed that t=
-hose have been installed on the target beforehand.',
->                                            group=3D'testbuild')
->      parser_deploy.add_argument('recipename', help=3D'Recipe to deploy')
->      parser_deploy.add_argument('target', help=3D'Live target machine run=
-ning an ssh server: user@hostname[:destdir]')
-> @@ -325,6 +334,7 @@ def register_commands(subparsers, context):
->      parser_deploy.add_argument('-p', '--no-preserve', help=3D'Do not pre=
-serve existing files', action=3D'store_true')
->      parser_deploy.add_argument('--no-check-space', help=3D'Do not check =
-for available space before deploying', action=3D'store_true')
->      parser_deploy.add_argument('-P', '--port', help=3D'Specify port to u=
-se for connection to the target')
-> +    parser_deploy.add_argument('--package', help=3D'Specify a recipe\'s =
-package to deploy', dest=3D'package')
->
->      strip_opts =3D parser_deploy.add_mutually_exclusive_group(required=
-=3DFalse)
->      strip_opts.add_argument('-S', '--strip',
-> @@ -337,8 +347,8 @@ def register_commands(subparsers, context):
->      parser_deploy.set_defaults(func=3Ddeploy)
->
->      parser_undeploy =3D subparsers.add_parser('undeploy-target',
-> -                                            help=3D'Undeploy recipe outp=
-ut files in live target machine',
-> -                                            description=3D'Un-deploys re=
-cipe output files previously deployed to a live target machine by devtool d=
-eploy-target.',
-> +                                            help=3D'Undeploy output file=
-s from a live target machine',
-> +                                            description=3D'Un-deploys ou=
-tput files previously deployed to a live target machine by devtool deploy-t=
-arget.',
->                                              group=3D'testbuild')
->      parser_undeploy.add_argument('recipename', help=3D'Recipe to undeplo=
-y (if not using -a/--all)', nargs=3D'?')
->      parser_undeploy.add_argument('target', help=3D'Live target machine r=
-unning an ssh server: user@hostname')
-> --
-> 2.17.0.582.gccdcbd54c
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3f63a25..907a5cb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -663,7 +663,7 @@ SRC_URI[vardepsexclude] += "\
+ 
+ FETCHCMD_svn = "/usr/bin/env svn --non-interactive --trust-server-cert"
+ FETCHCMD_cvs = "/usr/bin/env cvs"
+-FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --passive-ftp --no-check-certificate"
++FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
+ 
+-- 
+1.9.1
+
 
