@@ -1,45 +1,53 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A6D47601F2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A3ACC746BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 07:01:50 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id d24-v6so8110378lfa.8
+	Thu, 31 May 2018 07:42:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5374D18416
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 00:01:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=0WmBzn2s8wpiOftM5FipepQXYh/RJ0LClKlRvCNymzM=;
-	b=YJOxNRgM6ta8eT0Qt07y+t3G+lQ/sAoLY2V8RQjXiMnXmURbHqjz2FuoS5MBXmS+Up
-	7cBC4KgEy9eQNT3m2Tf9tWHEax8ZGPS3xHCtv3nMwAO5u71ZNv5OAQR9yYHuq5sCo74C
-	HmcUJP7lhzj6sv+2CHvTZoRRoqxwhsW+7/9AQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0WmBzn2s8wpiOftM5FipepQXYh/RJ0LClKlRvCNymzM=;
-	b=T0ySRDaUVGdlKNNI8dL2cMRQF93a/AM/iRlEa9sVrh+JKc9bI/WpPg5DQOOqXaccwn
-	53zieRyxaFU8y8CsSjXZ2uM3OW0SB2aenjl1HycO3+jZmWQOJMlBUl09wQic2mHeoX5n
-	k2Q7Ega5R7pNeTe1E6b/rvcqPYvDG2SHqK3qUIoUeZMkh526Ro7hg0eyB5G7Y6CtHD5E
-	bYdWH+jiXlQ7hBgsQz/PW2tXdetdVDsrKgUZeg4Ioe7ZwMuOfQ3VFQnO63Ix3zEKg3F3
-	4Wfuax0NcjldDjGAQkOtNp5Ujs637TSXb0JfaW6b59wuD6rAj4Iaai+2HW70vfO92qgN
-	ue4A==
-X-Gm-Message-State: ALKqPwcEvnvPmE78ksdXQRp9cFzOGvU0gvifTuTkwp8pQzE6lULJqIXz
-	ZulL2Nmv1CktToBPjcPyyLwnE4PsuJA=
-X-Google-Smtp-Source: ADUXVKLIV3QvgVFFWEPxY5W/WkQJsqM16Vdd2Jjyz5s16wwdSCcjscKgU9AOUCfLZdhg4K0sExYeDA==
-X-Received: by 2002:a19:e497:: with SMTP id
-	x23-v6mr3434023lfi.40.1527750110766; 
-	Thu, 31 May 2018 00:01:50 -0700 (PDT)
-Received: from localhost.localdomain (91-156-68-100.elisa-laajakaista.fi.
-	[91.156.68.100]) by smtp.gmail.com with ESMTPSA id
-	g24-v6sm7490505ljk.7.2018.05.31.00.01.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 May 2018 00:01:50 -0700 (PDT)
-From: Fathi Boudra <fathi.boudra@linaro.org>
+	Thu, 31 May 2018 09:42:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Ch7dA8M8hoHI
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 8B9A8182C9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 732BF1E07B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 678C51E07A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 5BCBB226C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:39 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4V7gUXA031040
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 09:42:30 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4V7gUrf031039
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 May 2018 09:42:30 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 10:01:40 +0300
-Message-Id: <20180531070140.3847-1-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] ltp: build open posix test suite
+Date: Thu, 31 May 2018 09:42:26 +0200
+Message-Id: <cover.1527752449.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2 0/2] Restore performance to rpm in Docker containers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 07:01:50 -0000
+X-List-Received-Date: Thu, 31 May 2018 07:42:40 -0000
 
-We ship the open posix test suite already but it isn't compiled.
-Let's build it and make it ready to use on the device.
+A couple of weeks ago I sent the first version of this patch series to
+restore performance to rpm when building in a Docker container. That
+solution was not accepted, but after discussions with Alexander
+Kanavin and upstream, a proper solution has now been integrated to the
+Git repository for rpm.
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
- meta/recipes-extended/ltp/ltp_20180118.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is the backport of the patches that went into the rpm repository
+to fix the performance problem.
 
-diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
-index 8992f1b0f2..b3e2f533cb 100644
---- a/meta/recipes-extended/ltp/ltp_20180118.bb
-+++ b/meta/recipes-extended/ltp/ltp_20180118.bb
-@@ -59,7 +59,7 @@ export exec_prefix = "/opt/ltp"
- 
- PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
- EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
--EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
-+EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite --with-open-posix-testsuite "
- # ltp network/rpc test cases ftbfs when libtirpc is found
- EXTRA_OECONF += " --without-tirpc "
- 
+//Peter
+
+The following changes since commit 719d068bde55ef29a3468bc0779d4cb0c11e8c1d:
+
+  bitbake: fetch2: fix import error for Python 3.6.5 (2018-05-29 21:07:46 +0100)
+
+are available in the git repository at:
+
+  git://push.yoctoproject.org/poky-contrib pkj/rpm-performance
+
+Peter Kjellerstedt (2):
+  Revert "rpm: add a patch to help with Docker performance issues"
+  rpm: Restore performance in Docker containers
+
+ ...0001-Factor-out-and-unify-setting-CLOEXEC.patch | 148 +++++++++++++++++++++
+ ...FD_CLOEXEC-on-opened-files-before-exec-fr.patch |  49 -------
+ .../files/0002-Optimize-rpmSetCloseOnExec.patch    | 100 ++++++++++++++
+ .../0003-rpmSetCloseOnExec-use-getrlimit.patch     |  53 ++++++++
+ meta/recipes-devtools/rpm/rpm_4.14.1.bb            |   4 +-
+ 5 files changed, 304 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-Factor-out-and-unify-setting-CLOEXEC.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0002-Optimize-rpmSetCloseOnExec.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0003-rpmSetCloseOnExec-use-getrlimit.patch
+
 -- 
-2.17.1
+2.12.0
 
 
