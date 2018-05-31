@@ -1,23 +1,45 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A1966025E
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A6D47601F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 06:20:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V6KWDc016604
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 May 2018 23:20:33 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 30 May 2018 23:20:31 -0700
-From: <mingli.yu@windriver.com>
-To: <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2018 23:20:31 -0700
-Message-ID: <20180531062031.40334-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] boost: Improve reproducibility
+	Thu, 31 May 2018 07:01:50 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id d24-v6so8110378lfa.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 00:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=0WmBzn2s8wpiOftM5FipepQXYh/RJ0LClKlRvCNymzM=;
+	b=YJOxNRgM6ta8eT0Qt07y+t3G+lQ/sAoLY2V8RQjXiMnXmURbHqjz2FuoS5MBXmS+Up
+	7cBC4KgEy9eQNT3m2Tf9tWHEax8ZGPS3xHCtv3nMwAO5u71ZNv5OAQR9yYHuq5sCo74C
+	HmcUJP7lhzj6sv+2CHvTZoRRoqxwhsW+7/9AQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0WmBzn2s8wpiOftM5FipepQXYh/RJ0LClKlRvCNymzM=;
+	b=T0ySRDaUVGdlKNNI8dL2cMRQF93a/AM/iRlEa9sVrh+JKc9bI/WpPg5DQOOqXaccwn
+	53zieRyxaFU8y8CsSjXZ2uM3OW0SB2aenjl1HycO3+jZmWQOJMlBUl09wQic2mHeoX5n
+	k2Q7Ega5R7pNeTe1E6b/rvcqPYvDG2SHqK3qUIoUeZMkh526Ro7hg0eyB5G7Y6CtHD5E
+	bYdWH+jiXlQ7hBgsQz/PW2tXdetdVDsrKgUZeg4Ioe7ZwMuOfQ3VFQnO63Ix3zEKg3F3
+	4Wfuax0NcjldDjGAQkOtNp5Ujs637TSXb0JfaW6b59wuD6rAj4Iaai+2HW70vfO92qgN
+	ue4A==
+X-Gm-Message-State: ALKqPwcEvnvPmE78ksdXQRp9cFzOGvU0gvifTuTkwp8pQzE6lULJqIXz
+	ZulL2Nmv1CktToBPjcPyyLwnE4PsuJA=
+X-Google-Smtp-Source: ADUXVKLIV3QvgVFFWEPxY5W/WkQJsqM16Vdd2Jjyz5s16wwdSCcjscKgU9AOUCfLZdhg4K0sExYeDA==
+X-Received: by 2002:a19:e497:: with SMTP id
+	x23-v6mr3434023lfi.40.1527750110766; 
+	Thu, 31 May 2018 00:01:50 -0700 (PDT)
+Received: from localhost.localdomain (91-156-68-100.elisa-laajakaista.fi.
+	[91.156.68.100]) by smtp.gmail.com with ESMTPSA id
+	g24-v6sm7490505ljk.7.2018.05.31.00.01.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 31 May 2018 00:01:50 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 May 2018 10:01:40 +0300
+Message-Id: <20180531070140.3847-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ltp: build open posix test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,95 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 06:20:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 May 2018 07:01:50 -0000
 
-From: Mingli Yu <mingli.yu@windriver.com>
+We ship the open posix test suite already but it isn't compiled.
+Let's build it and make it ready to use on the device.
 
-boost_context includes some assembly source
-files and will export the assembly object file
-make_x86_64_sysv_elf_gas.o which contains host
-path as below:
-$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67
-42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
-
-Enable stirp for boost_context to hidden the
-symbols
-
-[YOCTO #12708]
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta/recipes-support/boost/boost.inc               |  1 +
- .../boost/boost-context-hidden-the-symbols.patch   | 37 ++++++++++++++++++++++
- meta/recipes-support/boost/boost_1.67.0.bb         |  1 +
- 3 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
+ meta/recipes-extended/ltp/ltp_20180118.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 6984bee7777..5a2086b3332 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -197,4 +197,5 @@ do_install() {
+diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+index 8992f1b0f2..b3e2f533cb 100644
+--- a/meta/recipes-extended/ltp/ltp_20180118.bb
++++ b/meta/recipes-extended/ltp/ltp_20180118.bb
+@@ -59,7 +59,7 @@ export exec_prefix = "/opt/ltp"
  
- }
+ PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
+ EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
+-EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
++EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite --with-open-posix-testsuite "
+ # ltp network/rpc test cases ftbfs when libtirpc is found
+ EXTRA_OECONF += " --without-tirpc "
  
-+INSANE_SKIP_${PN} = "already-stripped"
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch b/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
-new file mode 100644
-index 00000000000..0b6ed285621
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
-@@ -0,0 +1,37 @@
-+From 8e0c2d18a929f05bfadcbf351b244488917af86a Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Wed, 30 May 2018 15:05:57 +0800
-+Subject: [PATCH] boost_context: strip the symbols
-+
-+The boost context library exports the 
-+make_x86_64_sysv_elf_gas.o which contains
-+host path as below:
-+$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67.0
-+
-+42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
-+
-+Enable strip to hidden the symbols for 
-+boost context library 
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ libs/context/build/Jamfile.v2 | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libs/context/build/Jamfile.v2 b/libs/context/build/Jamfile.v2
-+index 82ee76e..a6bd12f 100644
-+--- a/libs/context/build/Jamfile.v2
-++++ b/libs/context/build/Jamfile.v2
-+@@ -822,6 +822,7 @@ lib boost_context
-+    : impl_sources
-+      execution_context.cpp
-+      stack_traits_sources
-++   : <strip>on
-+    ;
-+ 
-+ boost-install boost_context ;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/boost/boost_1.67.0.bb b/meta/recipes-support/boost/boost_1.67.0.bb
-index eb50899d562..8ba32d1574f 100644
---- a/meta/recipes-support/boost/boost_1.67.0.bb
-+++ b/meta/recipes-support/boost/boost_1.67.0.bb
-@@ -7,4 +7,5 @@ SRC_URI += "\
-     file://boost-math-disable-pch-for-gcc.patch \
-     file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
-     file://0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
-+    file://boost-context-hidden-the-symbols.patch \
- "
 -- 
-2.11.0
+2.17.1
 
 
