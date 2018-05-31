@@ -1,55 +1,44 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37EBC74A0E
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 506A6746BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 07:42:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id E954318415
+	Thu, 31 May 2018 08:13:53 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id l1-v6so52442243wmb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:43 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id SSS9dYorippS
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 944DF1840A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 80D901A06F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7597D1A06D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 69CF0226C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:39 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w4V7gUJb031044
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 09:42:30 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w4V7gUmc031043
-	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2018 09:42:30 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 31 May 2018 01:13:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Cv3QNEOOzmEHYH1XjHc4bEJnbdfLUMsyZOP/V0xMA8k=;
+	b=WHdkpvudUWy18LOEeROFvoD0SQbvrpjNLwsHf+els5hQfH0ks5lsqjIYa67g2Aqv0O
+	p9dwBfIxnMj/RxNjLPgXwJlUyST1MZWZHrR589cl+1yDVlOL6JW4jQtKxsn+CDCd5cAA
+	BTxi1tI33dm6/O4pCbgb0byPHMtg2p8d73iNVpLzAbBhxgpEXb7agv1dHHA0lRCe3Y7+
+	3RZsKTXvqHeRG0geNGucpJvtYSGOVW6m4GwM2JDBEOZz1WLH0hMVHxqJY/gMntjV7S/i
+	9NgBw2QRZWJLXLGCyKeO33a3zlKDxE2+3r+Etr8b387EOKkN07S8BRuAmnVy745aNEog
+	3GSA==
+X-Gm-Message-State: ALKqPweO14PLRMducyWfevhhPFGB7dZEG+loYbx2bO2SR+XsIHRS6qY8
+	LYe7wlg1iYOVMfOouzLnzGBB1vc0
+X-Google-Smtp-Source: ADUXVKIhAusuULpWretTfiCXHLEuNSTYwh8I2AVGW3WqfkHzMG1RRSpAxxJrY4GH12MYRtg8nWKE3g==
+X-Received: by 2002:a50:c05e:: with SMTP id
+	u30-v6mr6751814edd.202.1527754434412; 
+	Thu, 31 May 2018 01:13:54 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	f25-v6sm6269602edd.87.2018.05.31.01.13.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 31 May 2018 01:13:53 -0700 (PDT)
+Message-ID: <f3e971e50312b7de1d255f61dc62176a88e6cf6f.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 09:42:27 +0200
-Message-Id: <5f79aff0dde40f6e3d5d755126e41b89f4e97231.1527752449.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1527752449.git.pkj@axis.com>
-References: <cover.1527752449.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2 1/2] Revert "rpm: add a patch to help with Docker performance issues"
+Date: Thu, 31 May 2018 09:13:52 +0100
+In-Reply-To: <20180531061551.10780-1-andrej.valek@siemens.com>
+References: <20180530144852.25539-1-andrej.valek@siemens.com>
+	<20180531061551.10780-1-andrej.valek@siemens.com>
+X-Mailer: Evolution 3.28.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] busybox: Fix zlma segfaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,87 +51,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 07:42:43 -0000
+X-List-Received-Date: Thu, 31 May 2018 08:13:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 6f1822e5f1eaafd8bc46e999de730c1fcca77f3a.
+Typo in the subject: zlma -> lzma
 
-This patch only solved a part of the problem.
+A.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- ...FD_CLOEXEC-on-opened-files-before-exec-fr.patch | 49 ----------------------
- meta/recipes-devtools/rpm/rpm_4.14.1.bb            |  1 -
- 2 files changed, 50 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
-
-diff --git a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch b/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
-deleted file mode 100644
-index 4651409a65..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 982e47df7b82c5ffe3c414cf5641f08dba0f0e64 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 26 Jan 2018 16:32:04 +0200
--Subject: [PATCH] Revert "Set FD_CLOEXEC on opened files before exec from lua
-- script is called"
--
--This reverts commit 7a7c31f551ff167f8718aea6d5048f6288d60205.
--The reason is that when _SC_OPEN_MAX is much higher than the usual 1024
--(for example inside docker), the performance drops sharply.
--
--Upstream has been notified:
--https://bugzilla.redhat.com/show_bug.cgi?id=1537564
--
--Upstream-Status: Inappropriate [upstream needs to come up with a better fix]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- luaext/lposix.c | 12 ------------
-- 1 file changed, 12 deletions(-)
--
--diff --git a/luaext/lposix.c b/luaext/lposix.c
--index 0a7c26c71..c578c5a11 100644
----- a/luaext/lposix.c
--+++ b/luaext/lposix.c
--@@ -335,22 +335,10 @@ static int Pexec(lua_State *L)			/** exec(path,[args]) */
-- 	const char *path = luaL_checkstring(L, 1);
-- 	int i,n=lua_gettop(L);
-- 	char **argv;
---	int flag, fdno, open_max;
-- 
-- 	if (!have_forked)
-- 	    return luaL_error(L, "exec not permitted in this context");
-- 
---	open_max = sysconf(_SC_OPEN_MAX);
---	if (open_max == -1) {
---	    open_max = 1024;
---	}
---	for (fdno = 3; fdno < open_max; fdno++) {
---	    flag = fcntl(fdno, F_GETFD);
---	    if (flag == -1 || (flag & FD_CLOEXEC))
---		continue;
---	    fcntl(fdno, F_SETFD, FD_CLOEXEC);
---	}
---
-- 	argv = malloc((n+1)*sizeof(char*));
-- 	if (argv==NULL) return luaL_error(L,"not enough memory");
-- 	argv[0] = (char*)path;
---- 
--2.15.1
--
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-index cf26c1e8db..ef4b737e9b 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.1.bb
-@@ -39,7 +39,6 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
-            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-            file://0001-perl-disable-auto-reqs.patch \
--           file://0001-Revert-Set-FD_CLOEXEC-on-opened-files-before-exec-fr.patch \
-            file://0001-configure.ac-add-option-for-dbus.patch \
-            "
- 
--- 
-2.12.0
-
+On Thu, 2018-05-31 at 08:15 +0200, Andrej Valek wrote:
+> - fix multiple lzma segmentation faults
+> - patch includes multiple fixing commits
+> - test-cases have been removed due to binary data
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>  .../busybox/busybox-fix-unlzma-segfaults.patch     | 106
+> +++++++++++++++++++++
+>  meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
+>  2 files changed, 107 insertions(+)
+>  create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
+> segfaults.patch
+> 
+> diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
+> segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-
+> segfaults.patch
+> new file mode 100644
+> index 0000000000..5215da74a5
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
+> @@ -0,0 +1,106 @@
+> +busybox-1.27.2: Fix zlma segfaults
+> +
+> +[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=10871
+> +
+> +libarchive: check buffer index in lzma_decompress
+> +
+> +With specific defconfig busybox fails to check zip fileheader magic
+> +(archival/unzip.c) and uses (archival/libarchive/decompress_unlzma.c)
+> +for decompression which leads to segmentation fault. It prevents
+> accessing into
+> +buffer, which is smaller than pos index. Patch includes multiple
+> segmentation
+> +fault fixes.
+> +
+> +Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=a36
+> 986bb80289c1cd8d15a557e49207c9a42946b]
+> +bug: 10436 10871
+> +Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> +
+> +diff --git a/archival/libarchive/decompress_unlzma.c
+> b/archival/libarchive/decompress_unlzma.c
+> +index a904087..29eee2a 100644
+> +--- a/archival/libarchive/decompress_unlzma.c
+> ++++ b/archival/libarchive/decompress_unlzma.c
+> +@@ -11,6 +11,14 @@
+> + #include "libbb.h"
+> + #include "bb_archive.h"
+> + 
+> ++
+> ++#if 0
+> ++# define dbg(...) bb_error_msg(__VA_ARGS__)
+> ++#else
+> ++# define dbg(...) ((void)0)
+> ++#endif
+> ++
+> ++
+> + #if ENABLE_FEATURE_LZMA_FAST
+> + #  define speed_inline ALWAYS_INLINE
+> + #  define size_inline
+> +@@ -217,6 +225,7 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> + 	rc_t *rc;
+> + 	int i;
+> + 	uint8_t *buffer;
+> ++	uint32_t buffer_size;
+> + 	uint8_t previous_byte = 0;
+> + 	size_t buffer_pos = 0, global_pos = 0;
+> + 	int len = 0;
+> +@@ -246,7 +255,8 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> + 	if (header.dict_size == 0)
+> + 		header.dict_size++;
+> + 
+> +-	buffer = xmalloc(MIN(header.dst_size, header.dict_size));
+> ++	buffer_size = MIN(header.dst_size, header.dict_size);
+> ++	buffer = xmalloc(buffer_size);
+> + 
+> + 	{
+> + 		int num_probs;
+> +@@ -341,8 +351,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> + 						state = state <
+> LZMA_NUM_LIT_STATES ? 9 : 11;
+> + 
+> + 						pos = buffer_pos - rep0;
+> +-						if ((int32_t)pos < 0)
+> ++						if ((int32_t)pos < 0) {
+> + 							pos +=
+> header.dict_size;
+> ++							/* see
+> unzip_bad_lzma_2.zip: */
+> ++							if (pos >=
+> buffer_size)
+> ++								goto
+> bad;
+> ++						}
+> + 						previous_byte =
+> buffer[pos];
+> + 						goto one_byte1;
+> + #else
+> +@@ -417,6 +431,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> + 						for (; num_bits2 !=
+> LZMA_NUM_ALIGN_BITS; num_bits2--)
+> + 							rep0 = (rep0 <<
+> 1) | rc_direct_bit(rc);
+> + 						rep0 <<=
+> LZMA_NUM_ALIGN_BITS;
+> ++						if ((int32_t)rep0 < 0) {
+> ++							dbg("%d
+> rep0:%d", __LINE__, rep0);
+> ++							goto bad;
+> ++						}
+> + 						prob3 = p + LZMA_ALIGN;
+> + 					}
+> + 					i2 = 1;
+> +@@ -450,8 +468,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> +  IF_NOT_FEATURE_LZMA_FAST(string:)
+> + 			do {
+> + 				uint32_t pos = buffer_pos - rep0;
+> +-				if ((int32_t)pos < 0)
+> ++				if ((int32_t)pos < 0) {
+> + 					pos += header.dict_size;
+> ++					/* more stringent test (see
+> unzip_bad_lzma_1.zip): */
+> ++					if (pos >= buffer_size)
+> ++						goto bad;
+> ++				}
+> + 				previous_byte = buffer[pos];
+> +  IF_NOT_FEATURE_LZMA_FAST(one_byte2:)
+> + 				buffer[buffer_pos++] = previous_byte;
+> +@@ -478,6 +500,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
+> + 		IF_DESKTOP(total_written += buffer_pos;)
+> + 		if (transformer_write(xstate, buffer, buffer_pos) !=
+> (ssize_t)buffer_pos) {
+> +  bad:
+> ++			/* One of our users, bbunpack(), expects _us_ to
+> emit
+> ++			 * the error message (since it's the best place
+> to give
+> ++			 * potentially more detailed information).
+> ++			 * Do not fail silently.
+> ++			 */
+> ++			bb_error_msg("corrupted data");
+> + 			total_written = -1; /* failure */
+> + 		}
+> + 		rc_free(rc);
+> + 
+> diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-
+> core/busybox/busybox_1.27.2.bb
+> index 36a6342aaf..9f0393505a 100644
+> --- a/meta/recipes-core/busybox/busybox_1.27.2.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
+> @@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV
+> }.tar.bz2;name=tarball \
+>             file://CVE-2011-5325.patch \
+>             file://CVE-2017-15873.patch \
+>             file://busybox-CVE-2017-16544.patch \
+> +           file://busybox-fix-unlzma-segfaults.patch \
+>  "
+>  SRC_URI_append_libc-musl = " file://musl.cfg "
+>  
+> -- 
+> 2.11.0
+> 
 
