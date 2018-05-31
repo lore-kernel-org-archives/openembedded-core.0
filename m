@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4589A74EB2
+	by mail.openembedded.org (Postfix) with ESMTP id 2C19274EB2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 04:34:37 +0000 (UTC)
+	Thu, 31 May 2018 04:34:41 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 May 2018 21:34:39 -0700
+	30 May 2018 21:34:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,462,1520924400"; d="scan'208";a="53627351"
+X-IronPort-AV: E=Sophos;i="5.49,462,1520924400"; d="scan'208";a="53627359"
 Received: from scng1-mobl1.gar.corp.intel.com (HELO
 	anmitta2-MOBL1.png.intel.com) ([10.249.74.164])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 May 2018 21:34:38 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 May 2018 21:34:41 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 12:34:32 +0800
-Message-Id: <20180531043433.19106-1-anuj.mittal@intel.com>
+Date: Thu, 31 May 2018 12:34:33 +0800
+Message-Id: <20180531043433.19106-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.0
-Subject: [PATCH 1/2] qemux86*: change default wic wks to qemux86-directdisk
+In-Reply-To: <20180531043433.19106-1-anuj.mittal@intel.com>
+References: <20180531043433.19106-1-anuj.mittal@intel.com>
+Subject: [PATCH 2/2] qemux86-directdisk.wks: remove uvesafb.mode_option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 04:34:38 -0000
+X-List-Received-Date: Thu, 31 May 2018 04:34:41 -0000
 
-When runqemu is invoked with an image type (wic, hddimg etc) as a parameter,
-the kernel value and command line parameters from qemuboot.conf
-are ignored and not passed to qemu cmdline.
-
-As an example, when using:
-
-$ runqemu wic kvm
-
-It results in no network interface and video mode warnings when qemu is up because
-the -kernel and -append options were not passed.
-
-Change qemu conf to use qemux86-directdisk.wks that supplies the kernel parameters
-that are appended to the bootloader configuration when generating qemu wic
-images instead of relying on qemuboot.conf.
-
-Fixes [YOCTO #12224]
+Let this be dictated by the module parameter value being set by qemu
+machine configuration.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/conf/machine/qemux86-64.conf | 2 +-
- meta/conf/machine/qemux86.conf    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/wic/canned-wks/qemux86-directdisk.wks | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index fcc44595e8..2330c7d86e 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -33,5 +33,5 @@ KERNEL_MODULE_AUTOLOAD += "uvesafb"
- KERNEL_MODULE_PROBECONF += "uvesafb"
- module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+index 1f8466af29..cfa32bd38a 100644
+--- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
++++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+@@ -4,5 +4,5 @@
  
--WKS_FILE ?= "directdisk.wks"
-+WKS_FILE ?= "qemux86-directdisk.wks"
- do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index c53f7a92ce..811e3ef7cf 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -32,5 +32,5 @@ KERNEL_MODULE_AUTOLOAD += "uvesafb"
- KERNEL_MODULE_PROBECONF += "uvesafb"
- module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+ include common.wks.inc
  
--WKS_FILE ?= "directdisk.wks"
-+WKS_FILE ?= "qemux86-directdisk.wks"
- do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
+-bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
++bootloader  --timeout=0  --append="vga=0 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+ 
 -- 
 2.17.0
 
