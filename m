@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CC75C74F62
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 336F074F5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:31:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V8Ve6l017761
+	Thu, 31 May 2018 08:31:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4V8VMam007726
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 01:31:40 -0700 (PDT)
+	Thu, 31 May 2018 01:31:37 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 01:31:40 -0700
+	14.3.361.1; Thu, 31 May 2018 01:31:11 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2018 16:32:54 +0800
-Message-ID: <c80f0708a2a3cbb96fceb39bc73b2ed19908ccdd.1527755435.git.Qi.Chen@windriver.com>
+Date: Thu, 31 May 2018 16:32:52 +0800
+Message-ID: <bdee5d5ca6e9c037c9e1504a062876c68934eb61.1527755435.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527755434.git.Qi.Chen@windriver.com>
 References: <cover.1527755434.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/14] testimage.bbclass: also check 'auto' to create rpm index
+Subject: [PATCH 05/14] oeqa/runtime/cases/dnf_runtime.py: skip test if PACKAGE_FEED_URIS is not set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:31:40 -0000
+X-List-Received-Date: Thu, 31 May 2018 08:31:46 -0000
 Content-Type: text/plain
 
-Having 'auto' in TEST_SUITES will also run the 'dnf' test cases,
-so also check it to determine whether to create rpm index or not.
-
-This is to fix the following error when TEST_SUITES = "auto".
-
-  RESULTS - dnf.DnfRepoTest.test_dnf_makecache - Testcase 1744: ERROR
+This test is to test the behaviour of PACKAGE_FEED_URIS is correct or not.
+If it's not even set, it makes no sense to do such test. So skip this
+test if PACKAGE_FEED_URIS is not set.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/testimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index d97da67..14252ff 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -121,7 +121,7 @@ python do_testimage() {
-     testimage_sanity(d)
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+index 81c50ed..1aa7274 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+@@ -1,6 +1,7 @@
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.runtime.cases.dnf import DnfTest
+ from oeqa.utils.httpserver import HTTPService
++from oeqa.core.decorator.data import skipIfDataVar
  
-     if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
--       and 'dnf' in d.getVar('TEST_SUITES')):
-+       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
-         create_rpm_index(d)
+ class DnfSelftest(DnfTest):
  
-     testimage_main(d)
+@@ -18,6 +19,8 @@ class DnfSelftest(DnfTest):
+         cls.temp_dir.cleanup()
+ 
+     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
++    @skipIfDataVar('PACKAGE_FEED_URIS', None,
++                   'Not suitable as PACKAGE_FEED_URIS is not set')
+     def test_verify_package_feeds(self):
+         """
+         Summary: Check correct setting of PACKAGE_FEED_URIS var
 -- 
 1.9.1
 
