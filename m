@@ -1,48 +1,49 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 04C3174F37
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2099774F01
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 17:34:44 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id z6-v6so2502780wma.0
+	Thu, 31 May 2018 18:00:18 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id o138-v6so3787617vkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 10:34:46 -0700 (PDT)
+	Thu, 31 May 2018 11:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=M0Mk1uPWK15eM+NrIvcabNCBXIngBF7MYTokeVJJAu8=;
-	b=fHPlHV0BKijOAmxpmDSKGs4ip/UXbTLlM1bVO7xDHoaPPt6BVVtbp7rJZhPO9RuHh7
-	slzBncdVNnXn0P5LwIkiUNjzRGi7p+PKMTzJiCrJeTXg63iZala8ZVRJ6/N9vzIIZLH4
-	RgcBNBQG/4toEvnDqqL2tRh/tMDeWNmcbSequjX2VlcSKgiciHa2WsUZuUNjMsCiumLC
-	0JNpcGUOhg5bijPE7Jqs0M5qui19UVPvs7gfcbPzaDy+oMmZ3TJYRUgoAvDtTs+boEP6
-	wLcQuMBFM7VtCBnO76LRZ9EcIMNcZcsL7Y7TlZbPf64W61G85xUeZ5ryHD9CXfHjyPsm
-	HvJw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pS9f5wBcSnA+MrXMJD3Rtva0qFiTRwA1Tghh3Yb5Z7g=;
+	b=PRamREPW/mi4AbTu8sfIcXQJW6kelexJt142YifihrcD4mpLXvnPZB3VAG8O7SjVWl
+	g6BeOGz0hYcpf27wD5mdjJKhVlQ05khFv+1LZxiu1bx35OSZCfPoFE1miMhI/A8BNqTb
+	Ij3sd0PXcJ1WQOBr+PXcBIax9VqPMbmQl2EYfLXVdXOb5STKjFbKnqe8C6Ndl2etB3Fr
+	lv/36nldPL1rF6QTNxn0gcaGisEXOtBPNlu0QGjjoUiUFXPx2TJmcWQEjZOfckyKVm22
+	alpSBPM6jrJGNuJsA08INLT1f1TEX7Fl1kGv++Bqc8iLJoxytfgcTWbkX8vlqxiojbzn
+	YoJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=M0Mk1uPWK15eM+NrIvcabNCBXIngBF7MYTokeVJJAu8=;
-	b=Ksz62Gb0QiHq/JjnGs/J7Rj/MmOo7YQxGrnrPj74UsBghEdDYJ+GGb0K7BUe/8lrAs
-	IDiaMu+MRvs9UKVFWN50MMBgmJtVRe+hclY/O15EcGN3iBeI4nKwoFHoz6UQZw3WeuSQ
-	iLpkQTlRMa36Vq2LG3aVrYzHw0pm8AjJ7Kv9UZ021u7D2uzEPjSTBTjwCyMVdI7N8bKg
-	Ef2+Y+NoK7H0xPRpEHzhXu91ph6AEZrbFbaBVAHHl5IvlYnd98+FORNBKeph1rS8xZI5
-	b21tM/7LN9Qi9o8xyjBB1wY4CyxKk6P6wZjAVonPlUUDeR3sAKEcntwFSBBPCWu3C/Eo
-	DulQ==
-X-Gm-Message-State: ALKqPwfs+AgNBagZSeYraafP3kMS2g0WTYUO61/fui3QSQGIKV4nKPNS
-	VS4f2y1ZgaiVt+M8jFvIZJSPnWns
-X-Google-Smtp-Source: ADUXVKLI8K3JjXNbBOWneRDz0+cYk7qMcqw1RVoRv06gVWs0nzTFqqCZi2SE2xQxqNY8skiWqBiSAg==
-X-Received: by 2002:a50:97e1:: with SMTP id
-	f30-v6mr8781184edb.256.1527788085287; 
-	Thu, 31 May 2018 10:34:45 -0700 (PDT)
-Received: from nick-laptop.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	e6-v6sm20268662edr.23.2018.05.31.10.34.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 May 2018 10:34:44 -0700 (PDT)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 18:34:41 +0100
-Message-Id: <20180531173441.28785-1-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] ifupdown: add ifquery link
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pS9f5wBcSnA+MrXMJD3Rtva0qFiTRwA1Tghh3Yb5Z7g=;
+	b=qtobFNOrvtTF87Gdp0nnpO6UX/Aj5nldkZM5W9l8LDu/1bV9mephQ18CeqUaFvuHRi
+	xFjLQhOEIfZ/sc+I5SOvP26ZorN2K92GPNBuZZ2Le4T1rsL6nInjXVKn6PEplw+adFlE
+	ZZ1a6VJQzyBhr363MkWqoJzihyPYq55QqxImlgHBgwBvWj9GEDTdAdmOIq5d7UHIyrsK
+	33Z56ySkv6Mso7/CcIVxeeJFCQNOZr/N7ceEHuU4KFDHT2J775dt76iOCjWQg5w32sqW
+	ujo3gcjEKHZqIR4iyFBmuhCxoH31kzCfuvXsoZ833DdcjNVHIAr8Z42WpxA1kypEZSBH
+	rAdg==
+X-Gm-Message-State: ALKqPwcIa4Gi58uUoclnala/PQImev4olBHHaJoWP7aZ22dJ9me1t9dD
+	hNcQTcZUUOecse0uW2zjtczTzaLfo7VZxFRpljA=
+X-Google-Smtp-Source: ADUXVKKunZtHlpmY2BS0BXRMRZerOStfEG2C0y0NTjHY91ZHiHBqmQCN2e53dimAjcbSRS8oO8uLnstmPNc+rn2V8MY=
+X-Received: by 2002:a1f:e9c3:: with SMTP id
+	g186-v6mr4715796vkh.194.1527789619453; 
+	Thu, 31 May 2018 11:00:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Thu, 31 May 2018 11:00:19 -0700 (PDT)
+In-Reply-To: <1527756958-16824-1-git-send-email-liu.ming50@gmail.com>
+References: <1527756958-16824-1-git-send-email-liu.ming50@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 31 May 2018 11:00:19 -0700
+Message-ID: <CAJ86T=UsqCs=O8SqTaS5qrKcShkzr0emc_i0W+OcSsvT_pNskQ@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devicetree.bbclass: replace KERNEL_IMAGETYPE_FOR_MAKE with KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 17:34:45 -0000
+X-List-Received-Date: Thu, 31 May 2018 18:00:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-in the ifupdown recipe is missing the ifquery link
+On Thu, May 31, 2018 at 1:55 AM,  <liu.ming50@gmail.com> wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
+>
+> It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to
 
-Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
----
- meta/recipes-core/ifupdown/ifupdown_0.8.16.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+KERNEL_IMAGETYPE is a legacy variable, in the process of being
+replaced by KERNEL_IMAGETYPES. You should probably use the new
+variable if possible.
 
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
-index e9f3a2aee9..88e41732d9 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
-@@ -34,13 +34,15 @@ do_install () {
- 
- 	install -m 0755 ifup ${D}${base_sbindir}/
- 	ln ${D}${base_sbindir}/ifup ${D}${base_sbindir}/ifdown
-+	ln ${D}${base_sbindir}/ifup ${D}${base_sbindir}/ifquery
- 	install -m 0644 ifup.8 ${D}${mandir}/man8
- 	install -m 0644 interfaces.5 ${D}${mandir}/man5
- 	cd ${D}${mandir}/man8 && ln -s ifup.8 ifdown.8
- }
- 
- ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE_${PN} = "ifup ifdown"
-+ALTERNATIVE_${PN} = "ifup ifdown ifquery"
- 
- ALTERNATIVE_LINK_NAME[ifup] = "${base_sbindir}/ifup"
- ALTERNATIVE_LINK_NAME[ifdown] = "${base_sbindir}/ifdown"
-+ALTERNATIVE_LINK_NAME[ifquery] = "${base_sbindir}/ifquery"
--- 
-2.17.0
-
+> be handled in do_install and do_deploy tasks, since we are having some
+> special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to
+> replace the real kernel image types during do_compile, like:
+> in kernel-uimage.bbclass: uImage -> vmlinux
+> in kernel-fitimage.bbclass: fitImage -> Image/bzImage/zImage...
+>
+> but the final images to be installed/deployed should still be uImage or
+> fitImage.
+>
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> ---
+>  meta/classes/kernel-devicetree.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+> index 4f80cc6..04e6321 100644
+> --- a/meta/classes/kernel-devicetree.bbclass
+> +++ b/meta/classes/kernel-devicetree.bbclass
+> @@ -63,7 +63,7 @@ do_install_append() {
+>                 DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+>                 install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+> -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> +               for type in ${KERNEL_IMAGETYPE}; do
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>                         ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+> @@ -82,7 +82,7 @@ do_deploy_append() {
+>                 DTB=`normalize_dtb "${DTB}"`
+>                 DTB_EXT=${DTB##*.}
+>                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+> -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> +               for type in ${KERNEL_IMAGETYPE}; do
+>                         base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+>                         symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+>                         DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
