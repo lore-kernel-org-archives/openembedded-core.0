@@ -1,77 +1,25 @@
-Return-Path: <MANJUKUM@xilinx.com>
-X-Greylist: delayed 1330 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 31 May 2018 02:01:15 UTC
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
-	(mail-sn1nam02on0050.outbound.protection.outlook.com [104.47.36.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B6E16003C;
-	Thu, 31 May 2018 02:01:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=R9QGyCRkycePH8+ATCd26g3OaiLmFNquxa4vtbBXlCk=;
-	b=pslsCXXwkXzsJSRbtxASSzewdNSLuU0NqVox60jNm47BsdvoVs7D39t1yz1fzq4mxVMXArTrWZMjjwAeM0Hjpij9umEZjkuyMhLuPZP2Pqh2fVZtBbG7reVk8PiL5M9GjKOt9pxyQOgVYc3uhW4HQ8HUiG0Q1Xv5bFD84eKQhiY=
-Received: from DM5PR02MB3863.namprd02.prod.outlook.com (52.132.139.146) by
-	DM5PR02MB2635.namprd02.prod.outlook.com (10.168.196.13) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.797.11; Thu, 31 May 2018 01:24:25 +0000
-Received: from DM5PR02MB3863.namprd02.prod.outlook.com
-	([fe80::a980:cb7c:becd:294]) by DM5PR02MB3863.namprd02.prod.outlook.com
-	([fe80::a980:cb7c:becd:294%5]) with mapi id 15.20.0820.010;
-	Thu, 31 May 2018 01:24:25 +0000
-From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-To: akuster808 <akuster808@gmail.com>, OpenEmbedded Devel List
-	<openembedded-devel@lists.openembedded.org>, "Patches and discussions about
-	the oe-core layer" <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] meta-openembedded maintainer ship change.
-Thread-Index: AQHT8eNGBO1ZHlUebEu4X29S3XlotKRJGEnw
-Date: Thu, 31 May 2018 01:24:25 +0000
-Message-ID: <DM5PR02MB38638BEF1BA449483FD4E6C8B9630@DM5PR02MB3863.namprd02.prod.outlook.com>
-References: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
-In-Reply-To: <fc0d7e3b-9d0c-7ea3-1caf-ad3099f40099@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=MANJUKUM@xilinx.com; 
-x-originating-ip: [149.199.62.254]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; DM5PR02MB2635;
-	7:e/FsRkr/FRYBsaT/YPWnPYir/BOl6OZKmH2cZxdBxmJ2hBTrAwUIXyISy7cJzgtgUHooaHD6nDM4P9u+yMGfiTdwdql8CNtp8pw9n9qKmL5WFoiRjgTWt4yhU1zHere0o1bIoZiUa8EloL3fhdCia/DHHJ6sffBkBLhtZhPAfL41TYgHyGnOR+DxBVE6W5DPLLvYy0tlV0v9G6+yiKul0zLrgxukbPbUvM9/xkwcHhLRvH4OhhFZ02Fi41vRdLtT;
-	23:tEBsCGwsyEnq2vonnSzPPwglCfDaO7qPhWFubzap+T4DiiEb328zCxVrw5DVjS+dEdc+2hxtP+uqz1XVVdenYHWCLmLuG6P3T+7MO9atei12XqDk3oXlXwhDW4F/+jq6i4SLKtbbDy/5sVDphibhBw==
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(5600026)(48565401081)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:DM5PR02MB2635; 
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2635:|DM5PR02MB2635:
-x-microsoft-antispam-prvs: <DM5PR02MB2635A8C55061B3D2F11386F6B9630@DM5PR02MB2635.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(264703809997249);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(93006095)(93001095)(10201501046)(3002001)(3231254)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(20161123564045)(20161123562045)(20161123560045)(20161123558120)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011)(7699016);
-	SRVR:DM5PR02MB2635; BCL:0; PCL:0; RULEID:; SRVR:DM5PR02MB2635; 
-x-forefront-prvs: 06891E23FB
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39380400002)(39860400002)(366004)(346002)(376002)(396003)(53754006)(51914003)(13464003)(199004)(189003)(476003)(6306002)(53936002)(97736004)(305945005)(5660300001)(7736002)(3660700001)(11346002)(8936002)(6506007)(33656002)(53546011)(446003)(26005)(5250100002)(68736007)(39060400002)(25786009)(55016002)(316002)(81166006)(81156014)(8676002)(110136005)(6246003)(486006)(6436002)(2900100001)(7696005)(9686003)(14454004)(105586002)(106356001)(478600001)(102836004)(229853002)(2906002)(3280700002)(1720100001)(186003)(99286004)(74316002)(76176011)(86362001)(72206003)(6116002)(966005)(66066001)(3846002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR02MB2635;
-	H:DM5PR02MB3863.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: FpMee4x5/XRDgBkiraKgGQPwgQZEkhYBYGltOTz7xXUJdX5B0+3Q+/hZrSzKnJ6Q6/OiupNWdGQUVaYOLsTt2biZbhUOFNTFWI+VmOtHL1TxqyOi4Y9MKH5l2KINXGRlU6FSUidceXXX1rE87owD5XrvBIlskaSDGUTLzA64PjEvvF6p1tSBSiOAuilSeSr6
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 57C7374616
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 02:59:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V2xWo4014074
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2018 19:59:33 -0700 (PDT)
+Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 30 May 2018 19:59:32 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 May 2018 11:08:30 +0800
+Message-ID: <59e700bb0582088cba026b990ed423ab0d1e2ebe.1527735211.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1527735211.git.dengke.du@windriver.com>
+References: <cover.1527735211.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 18793937-17d0-4034-1395-08d5c6953f31
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18793937-17d0-4034-1395-08d5c6953f31
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2018 01:24:25.4619 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2635
-X-OriginatorOrg: xilinx.com
-Subject: Re: meta-openembedded maintainer ship change.
+Subject: [PATCH 1/1] linux-yocto: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -84,29 +32,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 02:01:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 31 May 2018 02:59:33 -0000
+Content-Type: text/plain
 
-VGhhbmtzIEFybWluIGZvciBhbGwgdGhlIHdvcmsuDQpUaGFua3MgS2hlbQ0KDQotTWFuanUNCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBha3VzdGVy
-ODA4DQo+IFNlbnQ6IFR1ZXNkYXksIE1heSAyMiwgMjAxOCA4OjQxIEFNDQo+IFRvOiBPcGVuRW1i
-ZWRkZWQgRGV2ZWwgTGlzdCA8b3BlbmVtYmVkZGVkLWRldmVsQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+Ow0KPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8
-b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6
-IFtPRS1jb3JlXSBtZXRhLW9wZW5lbWJlZGRlZCBtYWludGFpbmVyIHNoaXAgY2hhbmdlLg0KPiAN
-Cj4gSGVsbG8gYWxsLA0KPiANCj4gQWZ0ZXIgbXVjaCB0aG91Z2h0LCBJIGhhdmUgZGVjaWRlZCB0
-byBzdGVwIGF3YXkgZnJvbSBiZWluZyB0aGUgbWV0YS0NCj4gb3BlbmVtYmVkZGVkIG1haW50YWlu
-ZXIsIHBhdGNoIHdyYW5nbGVyIGFuZCBidWlsZGVyLsKgIEtoZW0gUmFqIGhhcyBraW5kbHkNCj4g
-c3RlcHBlZCB1cCB0byBjb250aW51ZSB0aGVzZSBhY3Rpdml0aWVzLiBNYWludGFpbmluZyB0aGlz
-IHdhcyBjb25zdW1pbmcgdG9vIG11Y2gNCj4gb2YgbXkgZnJlZSB0aW1lIGFuZCBJIG5lZWQgdG8g
-Zm9jdXMgb24gb3RoZXIgdGhpbmdzIGluIHRoZSBjb21tdW5pdHkuDQo+IA0KPiBUaGFua3MgZm9y
-IHRoZSBvcHBvcnR1bml0eSB0byBoYXZlIHNlcnZlZCB5b3UuDQo+IA0KPiBLaW5kIHJlZ2FyZHMs
-DQo+IA0KPiBBcm1pbg0KPiANCj4gDQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0K
-PiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0
-cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+---
+ meta/recipes-kernel/linux/files/run-ptest     | 138 ++++++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |   8 ++
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb |   2 +-
+ 3 files changed, 147 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/linux/files/run-ptest
+
+diff --git a/meta/recipes-kernel/linux/files/run-ptest b/meta/recipes-kernel/linux/files/run-ptest
+new file mode 100644
+index 0000000..a3d9e14
+--- /dev/null
++++ b/meta/recipes-kernel/linux/files/run-ptest
+@@ -0,0 +1,138 @@
++#!/bin/bash
++depmod
++touch kernel.log
++
++#dma-example bytestream-example inttype-example record-example
++list1=("dma-example" "bytestream-example" "inttype-example" "record-example")
++for i in "${list1[@]}"
++do
++  dmesg -c
++  modprobe "$i"
++  result=""
++  IFS="-" read -ra array <<< "$i"
++  len=${#array[@]}
++  if [ $len -eq 2 ];then
++    result="${array[0]}_${array[1]}"
++  elif [ $len -eq 3 ];then
++    result="${array[0]}_${array[1]}_${array[2]}"
++  fi
++  lsmod | grep -q "$result"
++  if [ $? -eq 0 ];then
++    dmesg | grep "test passed"
++    if [ $? -eq 0 ];then
++      echo "$i: PASS" >> kernel.log
++    fi
++    rmmod "$i"
++  else
++    echo "$i: FAILED" >> kernel.log
++  fi
++done
++
++#kobject-example kset-example
++list2=("kobject-example" "kset-example")
++for i in "${list2[@]}"
++do
++  dmesg -c
++  modprobe "$i"
++  result=""
++  IFS="-" read -ra array <<< "$i"
++  len=${#array[@]}
++  if [ $len -eq 2 ];then
++    result="${array[0]}_${array[1]}"
++  elif [ $len -eq 3 ];then
++    result="${array[0]}_${array[1]}_${array[2]}"
++  fi
++  basedir="/sys/kernel/${result}"
++  echo "$basedir"
++  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e ${basedir}/foo ];then
++    echo "$i: PASS" >> kernel.log
++    rmmod "$i"
++  else
++    echo "$i: FAILED" >> kernel.log
++  fi
++done
++
++#trace-events-sample
++list3="trace-events-sample"
++result=""
++IFS="-" read -ra array <<< "$list3"
++len=${#array[@]}
++if [ $len -eq 2 ];then
++  result="${array[0]}_${array[1]}"
++elif [ $len -eq 3 ];then
++  result="${array[0]}_${array[1]}_${array[2]}"
++fi
++modprobe "$list3"
++lsmod | grep "$result"
++if [ $? -eq 0 ];then
++  if [ -e "/sys/kernel/debug/tracing/events/sample-trace" ];then
++    echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable
++    sleep 5
++    ret=`cat /sys/kernel/debug/tracing/trace | grep hello | head -n1 | cut -d':' -f2`
++    if [ "$ret" = " foo_bar" ];then
++      echo "$list3: PASS"  >> kernel.log
++    else
++      echo "$list3: FAILED-" >> kernel.log
++    fi
++  else
++    echo "$list3: FAILED--" >> kernel.log
++  fi
++else
++  echo "$list3: FAILED---" >> kernel.log
++fi
++rmmod "$list3"
++
++#trace-printk
++list4="trace-printk"
++modprobe "$list4"
++lsmod | grep "trace_printk"
++if [ $? -eq 0 ];then
++  ret=`cat /sys/kernel/debug/tracing/trace | grep trace_printk | head -n1 | cut -d':' -f2`
++  if [ "$ret" = " trace_printk_irq_work" ];then
++    echo "$list4: PASS" >> kernel.log
++    rmmod "$list4"
++  else
++    echo "$list4: FAILED" >> kernel.log
++  fi
++else
++  echo "$list4: FAILED" >> kernel.log
++fi
++rmmod "$list4"
++
++#kprobe_example
++list5="kprobe_example"
++dmesg -c
++modprobe "$list5"
++lsmod | grep "$list5"
++if [ $? -eq 0 ];then
++  dmesg | grep "_do_fork"
++  if [ $? -eq 0 ];then
++    echo "$list5: PASS" >> kernel.log
++  else
++    echo "$list5: FAILED" >> kernel.log
++  fi
++else
++  echo "$list5: FAILED" >> kernel.log
++fi
++rmmod "$list5"
++
++#kretprobe_example
++list6="kretprobe_example"
++dmesg -c
++modprobe "$list6"
++lsmod | grep "$list6"
++if [ $? -eq 0 ];then
++  dmesg | grep "_do_fork returned"
++  if [ $? -eq 0 ];then
++    echo "$list6: PASS" >> kernel.log
++  else
++    echo "$list6: FAILED" >> kernel.log
++  fi
++else
++  echo "$list6: FAILED" >> kernel.log
++fi
++rmmod "$list6"
++
++echo "#####result#####"
++cat kernel.log
++rm kernel.log
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 95ec2a2..7e1773e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -67,3 +67,11 @@ do_install_append(){
+ addtask kernel_version_sanity_check after do_kernel_metadata do_kernel_checkout before do_compile
+ addtask validate_branches before do_patch after do_kernel_checkout
+ addtask kernel_configcheck after do_configure before do_compile
++
++inherit ptest
++SRC_URI_append = " file://run-ptest \
++"
++do_install_ptest_append() {
++	install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
++}
++KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", "features/kernel-sample/kernel-sample.scc", "", d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+index 16142f8..7002693 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
+ SRCREV_machine_qemux86-64 ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
+ SRCREV_machine_qemumips64 ?= "9863b327e770b42b8c18da3e0cfaf06e8f99ae97"
+ SRCREV_machine ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
+-SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
++SRCREV_meta ?= "53336e1b7d969f21d8214ec9ceeb48fba4f99372"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+-- 
+2.7.4
+
 
