@@ -1,27 +1,23 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 80DC774E88
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A1966025E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 06:15:54 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w4V6FtKe025722
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:15:55 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w4V6Ftiq014650;
-	Thu, 31 May 2018 08:15:55 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id B85BA9550DC;
-	Thu, 31 May 2018 08:15:54 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 08:15:51 +0200
-Message-Id: <20180531061551.10780-1-andrej.valek@siemens.com>
+	Thu, 31 May 2018 06:20:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V6KWDc016604
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 May 2018 23:20:33 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 30 May 2018 23:20:31 -0700
+From: <mingli.yu@windriver.com>
+To: <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 May 2018 23:20:31 -0700
+Message-ID: <20180531062031.40334-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180530144852.25539-1-andrej.valek@siemens.com>
-References: <20180530144852.25539-1-andrej.valek@siemens.com>
-Subject: [PATCH v2] busybox: Fix zlma segfaults
+MIME-Version: 1.0
+Subject: [PATCH] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,143 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 06:15:56 -0000
+X-List-Received-Date: Thu, 31 May 2018 06:20:36 -0000
+Content-Type: text/plain
 
-- fix multiple lzma segmentation faults
-- patch includes multiple fixing commits
-- test-cases have been removed due to binary data
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+boost_context includes some assembly source
+files and will export the assembly object file
+make_x86_64_sysv_elf_gas.o which contains host
+path as below:
+$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67
+42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
+
+Enable stirp for boost_context to hidden the
+symbols
+
+[YOCTO #12708]
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../busybox/busybox-fix-unlzma-segfaults.patch     | 106 +++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
+ meta/recipes-support/boost/boost.inc               |  1 +
+ .../boost/boost-context-hidden-the-symbols.patch   | 37 ++++++++++++++++++++++
+ meta/recipes-support/boost/boost_1.67.0.bb         |  1 +
+ 3 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
-new file mode 100644
-index 0000000000..5215da74a5
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/busybox-fix-unlzma-segfaults.patch
-@@ -0,0 +1,106 @@
-+busybox-1.27.2: Fix zlma segfaults
-+
-+[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=10871
-+
-+libarchive: check buffer index in lzma_decompress
-+
-+With specific defconfig busybox fails to check zip fileheader magic
-+(archival/unzip.c) and uses (archival/libarchive/decompress_unlzma.c)
-+for decompression which leads to segmentation fault. It prevents accessing into
-+buffer, which is smaller than pos index. Patch includes multiple segmentation
-+fault fixes.
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=a36986bb80289c1cd8d15a557e49207c9a42946b]
-+bug: 10436 10871
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/archival/libarchive/decompress_unlzma.c b/archival/libarchive/decompress_unlzma.c
-+index a904087..29eee2a 100644
-+--- a/archival/libarchive/decompress_unlzma.c
-++++ b/archival/libarchive/decompress_unlzma.c
-+@@ -11,6 +11,14 @@
-+ #include "libbb.h"
-+ #include "bb_archive.h"
-+ 
-++
-++#if 0
-++# define dbg(...) bb_error_msg(__VA_ARGS__)
-++#else
-++# define dbg(...) ((void)0)
-++#endif
-++
-++
-+ #if ENABLE_FEATURE_LZMA_FAST
-+ #  define speed_inline ALWAYS_INLINE
-+ #  define size_inline
-+@@ -217,6 +225,7 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 	rc_t *rc;
-+ 	int i;
-+ 	uint8_t *buffer;
-++	uint32_t buffer_size;
-+ 	uint8_t previous_byte = 0;
-+ 	size_t buffer_pos = 0, global_pos = 0;
-+ 	int len = 0;
-+@@ -246,7 +255,8 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 	if (header.dict_size == 0)
-+ 		header.dict_size++;
-+ 
-+-	buffer = xmalloc(MIN(header.dst_size, header.dict_size));
-++	buffer_size = MIN(header.dst_size, header.dict_size);
-++	buffer = xmalloc(buffer_size);
-+ 
-+ 	{
-+ 		int num_probs;
-+@@ -341,8 +351,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 						state = state < LZMA_NUM_LIT_STATES ? 9 : 11;
-+ 
-+ 						pos = buffer_pos - rep0;
-+-						if ((int32_t)pos < 0)
-++						if ((int32_t)pos < 0) {
-+ 							pos += header.dict_size;
-++							/* see unzip_bad_lzma_2.zip: */
-++							if (pos >= buffer_size)
-++								goto bad;
-++						}
-+ 						previous_byte = buffer[pos];
-+ 						goto one_byte1;
-+ #else
-+@@ -417,6 +431,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 						for (; num_bits2 != LZMA_NUM_ALIGN_BITS; num_bits2--)
-+ 							rep0 = (rep0 << 1) | rc_direct_bit(rc);
-+ 						rep0 <<= LZMA_NUM_ALIGN_BITS;
-++						if ((int32_t)rep0 < 0) {
-++							dbg("%d rep0:%d", __LINE__, rep0);
-++							goto bad;
-++						}
-+ 						prob3 = p + LZMA_ALIGN;
-+ 					}
-+ 					i2 = 1;
-+@@ -450,8 +468,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+  IF_NOT_FEATURE_LZMA_FAST(string:)
-+ 			do {
-+ 				uint32_t pos = buffer_pos - rep0;
-+-				if ((int32_t)pos < 0)
-++				if ((int32_t)pos < 0) {
-+ 					pos += header.dict_size;
-++					/* more stringent test (see unzip_bad_lzma_1.zip): */
-++					if (pos >= buffer_size)
-++						goto bad;
-++				}
-+ 				previous_byte = buffer[pos];
-+  IF_NOT_FEATURE_LZMA_FAST(one_byte2:)
-+ 				buffer[buffer_pos++] = previous_byte;
-+@@ -478,6 +500,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 		IF_DESKTOP(total_written += buffer_pos;)
-+ 		if (transformer_write(xstate, buffer, buffer_pos) != (ssize_t)buffer_pos) {
-+  bad:
-++			/* One of our users, bbunpack(), expects _us_ to emit
-++			 * the error message (since it's the best place to give
-++			 * potentially more detailed information).
-++			 * Do not fail silently.
-++			 */
-++			bb_error_msg("corrupted data");
-+ 			total_written = -1; /* failure */
-+ 		}
-+ 		rc_free(rc);
-+ 
-diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-index 36a6342aaf..9f0393505a 100644
---- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-@@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2011-5325.patch \
-            file://CVE-2017-15873.patch \
-            file://busybox-CVE-2017-16544.patch \
-+           file://busybox-fix-unlzma-segfaults.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 6984bee7777..5a2086b3332 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -197,4 +197,5 @@ do_install() {
  
+ }
+ 
++INSANE_SKIP_${PN} = "already-stripped"
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch b/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
+new file mode 100644
+index 00000000000..0b6ed285621
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/boost-context-hidden-the-symbols.patch
+@@ -0,0 +1,37 @@
++From 8e0c2d18a929f05bfadcbf351b244488917af86a Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Wed, 30 May 2018 15:05:57 +0800
++Subject: [PATCH] boost_context: strip the symbols
++
++The boost context library exports the 
++make_x86_64_sysv_elf_gas.o which contains
++host path as below:
++$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67.0
++
++42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
++
++Enable strip to hidden the symbols for 
++boost context library 
++
++Upstream-Status: Pending
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ libs/context/build/Jamfile.v2 | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/libs/context/build/Jamfile.v2 b/libs/context/build/Jamfile.v2
++index 82ee76e..a6bd12f 100644
++--- a/libs/context/build/Jamfile.v2
+++++ b/libs/context/build/Jamfile.v2
++@@ -822,6 +822,7 @@ lib boost_context
++    : impl_sources
++      execution_context.cpp
++      stack_traits_sources
+++   : <strip>on
++    ;
++ 
++ boost-install boost_context ;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/boost/boost_1.67.0.bb b/meta/recipes-support/boost/boost_1.67.0.bb
+index eb50899d562..8ba32d1574f 100644
+--- a/meta/recipes-support/boost/boost_1.67.0.bb
++++ b/meta/recipes-support/boost/boost_1.67.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += "\
+     file://boost-math-disable-pch-for-gcc.patch \
+     file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+     file://0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
++    file://boost-context-hidden-the-symbols.patch \
+ "
 -- 
 2.11.0
 
