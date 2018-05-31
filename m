@@ -1,49 +1,48 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B19374F7F
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C74174F7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 19:35:14 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id c23-v6so9249739uan.3
+	Thu, 31 May 2018 19:38:41 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id d24-v6so11414076lfa.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 12:35:16 -0700 (PDT)
+	Thu, 31 May 2018 12:38:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HxOOaIX30fzRJ93e0S2aul8UTzj3qMH8t77LjwFO1Rk=;
-	b=h4Buqh3mFYe9/H+SCaZTFJrYntNV/fFLqNxjfX6Ag45nAKKWPDWc/TXXLcj+GBr9z2
-	tkxxINawVeX4UIIuWFiZ+PI8v/qnO+vdN/2nXXiZQsHN2Ptkb6HzqHL/S4S/qFeLjn76
-	pG9H2RmuvK2f67iOtVW/jQx+4IViVms3vdOgzC9oKIG7t2c4oCgnumX/ACcwPuOozgjV
-	E+jHAJ+boqKvdQFqJUxIEsYEyGSTwIf7nLeUX3UrGXfbBaRBY90LcBMAVU7TSYwWR5z8
-	6zvoB6zc4tLwwAle0fshgflyj6VtmKImFxVWWD10h5INy5xS+tysNpE/9+/AxcgCMRfx
-	l7yQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=w9lBgBF9Bz4/kWOBUWUc2rG3FkjNWwfVCGrGzMBhSxg=;
+	b=V0O6j9lPiVHnQ4omLyx1jP9OIIRkJqhvI5RO0eCWMLL8cm2wdKtS1soh3ypxMdATxl
+	MlSw7xJ1kK2Pqyd6BHhq49kIMAhZLG6DtZru0F7dKckDqLPtTg+ro1WnRmDiyfzHsSVc
+	yO2tdX5dIr1YWFX2ubpvZVwlUcnf7/JzJ4rnMwtQqQn99LGCPsTL5QtwWH6Bz3m9eAH+
+	cKDOgiyJgMomoz6Pz5ZO3jEo+3MaquIW4wNN4/kWLW6P0Ga/vPPD8PH/MKDui7iYAHFh
+	rsN4MmrrOen1fyT89QIwEqhq8W0HR1eR3UGOjvHX5gi0S0ybozUny3AeNBEi/IxBUVNk
+	uZmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HxOOaIX30fzRJ93e0S2aul8UTzj3qMH8t77LjwFO1Rk=;
-	b=JWk3Yt6Cq1uIPfVwxu9o23ZuGH6FWqR/c9kFpdCDRKrMgUMD2vvAt6TnYGDVjRtSHj
-	dl/f9Q1TbEhgXH/Qytm+1VViB41BSZK/q/caZsQgQDeePKehQJxjfQ3ackkTt24Q5H4Q
-	pD2d0eP32/VcE/lU16NIfUqAfnjGHLo6D3nV+YcePvGI4kkGIk3q2svaXFcDw+5W7c3O
-	MRy8l5cqvl3H7rwyaxMz6RdTt3fE6nLdpOAmoMvM20qwaoIJDXwtfzIGzGxcnMp5mCIk
-	Unndx6uI+AY8yL+WWwQscn18uHBHpDPLYW7ydiaL7FCgcK/EAaI/USpudbT9SAwkVXKH
-	i0vg==
-X-Gm-Message-State: ALKqPwc910jkzhJoTRerxoGC61R2Yfs6DzGV18QEE7R4JSTeZr/inVGb
-	0aGkZ+NXck/UcyrcQYOe6cmPJiWcYcLxFua/gzA=
-X-Google-Smtp-Source: ADUXVKJooLa7HheXl3qShYzQKHhDoNZ2513TUn098EdnXB/Z8zn5eyrg9KlBzqsPRik7yqQFLDoVv5Uc4ToyPgFqAtg=
-X-Received: by 2002:a9f:3a47:: with SMTP id r7-v6mr5464005uag.44.1527795315802;
-	Thu, 31 May 2018 12:35:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a67:4b48:0:0:0:0:0 with HTTP; Thu, 31 May 2018 12:35:15
-	-0700 (PDT)
-In-Reply-To: <CAJ86T=UsqCs=O8SqTaS5qrKcShkzr0emc_i0W+OcSsvT_pNskQ@mail.gmail.com>
-References: <1527756958-16824-1-git-send-email-liu.ming50@gmail.com>
-	<CAJ86T=UsqCs=O8SqTaS5qrKcShkzr0emc_i0W+OcSsvT_pNskQ@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 31 May 2018 21:35:15 +0200
-Message-ID: <CALatG=7zaFi0c6+9z+DR3hTA=RpmUYDZjtR6wM87nfRh94wHZQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devicetree.bbclass: replace KERNEL_IMAGETYPE_FOR_MAKE with KERNEL_IMAGETYPE
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=w9lBgBF9Bz4/kWOBUWUc2rG3FkjNWwfVCGrGzMBhSxg=;
+	b=EpIm+e9Mukxb+BqJZ62pKodxfHx9U3x80eiHZGvVcLOY2fkfZhWZc4ceKxzbtItZUO
+	TpUe0gTuFMu3XNgF9ZmQgA7pSnsvWrFALGzZ8o/0zkJ1DlN3f3vSEpTSx27tsfB7Phji
+	kn+J9evZgTh5NErQf5Bl+Pz1r1tLQdQk6YG5pO2jlYJ5Ns4Kdk0Xij/3tftLvonDCxSf
+	hhbey/YN+Chgq3ISfU0WxDoEjsQiZ6OKAUWA2BYjDxdAONOvROFjCq3XYCMLjCEoJjcW
+	xBIO4+gB+5LDMDQ+rxyHfoWjv8XS6Xc+4tYvv2mK4KsaDHy6IAFWwg4XBMCxUJputl47
+	0SIw==
+X-Gm-Message-State: ALKqPwfv38opxOmfOnOk1EedjCQhbQ3P8DPtF147x7Kk61HDReMhOAv4
+	Tug1A3KP+AfmiSrhwfk+14pfiQ==
+X-Google-Smtp-Source: ADUXVKLaO1VQ6SuoDnS8Ja3tEmPbemhC82Qg94prY1M7QVBK/cAccR0tBwp+FJLaC3EO/PrNygfOqA==
+X-Received: by 2002:a2e:8246:: with SMTP id j6-v6mr6047465ljh.72.1527795522270;
+	Thu, 31 May 2018 12:38:42 -0700 (PDT)
+Received: from peterliu-Precision-M4800.lan (d83-183-77-184.cust.tele2.se.
+	[83.183.77.184]) by smtp.gmail.com with ESMTPSA id
+	c63-v6sm8053807lfc.37.2018.05.31.12.38.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 31 May 2018 12:38:41 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 May 2018 21:38:26 +0200
+Message-Id: <1527795506-16240-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2] kernel-devicetree.bbclass: replace KERNEL_IMAGETYPE_FOR_MAKE with KERNEL_IMAGETYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,179 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 19:35:15 -0000
-Content-Type: multipart/alternative; boundary="00000000000016877a056d85911a"
+X-List-Received-Date: Thu, 31 May 2018 19:38:42 -0000
 
---00000000000016877a056d85911a
-Content-Type: text/plain; charset="UTF-8"
+From: Ming Liu <liu.ming50@gmail.com>
 
-Hi, Andre:
+It should be KERNEL_IMAGETYPES rather than KERNEL_IMAGETYPE_FOR_MAKE to
+be handled in do_install and do_deploy tasks, since we are having some
+special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to
+replace the real kernel image types during do_compile, like:
+in kernel-uimage.bbclass: uImage -> vmlinux
+in kernel-fitimage.bbclass: fitImage -> Image/bzImage/zImage...
 
-Thanks for the review, will do that.
+but the final images to be installed/deployed should still be uImage or
+fitImage.
 
-//Ming Liu
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-devicetree.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-2018-05-31 20:00 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+index 4f80cc6..b593320 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -63,7 +63,7 @@ do_install_append() {
+ 		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+ 		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+ 		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
++		for type in ${KERNEL_IMAGETYPES}; do
+ 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+@@ -82,7 +82,7 @@ do_deploy_append() {
+ 		DTB=`normalize_dtb "${DTB}"`
+ 		DTB_EXT=${DTB##*.}
+ 		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
++		for type in ${KERNEL_IMAGETYPES}; do
+ 			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+ 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+ 			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-- 
+2.7.4
 
-> On Thu, May 31, 2018 at 1:55 AM,  <liu.ming50@gmail.com> wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to
->
-> KERNEL_IMAGETYPE is a legacy variable, in the process of being
-> replaced by KERNEL_IMAGETYPES. You should probably use the new
-> variable if possible.
->
-> > be handled in do_install and do_deploy tasks, since we are having some
-> > special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to
-> > replace the real kernel image types during do_compile, like:
-> > in kernel-uimage.bbclass: uImage -> vmlinux
-> > in kernel-fitimage.bbclass: fitImage -> Image/bzImage/zImage...
-> >
-> > but the final images to be installed/deployed should still be uImage or
-> > fitImage.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >  meta/classes/kernel-devicetree.bbclass | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-devicetree.bbclass
-> b/meta/classes/kernel-devicetree.bbclass
-> > index 4f80cc6..04e6321 100644
-> > --- a/meta/classes/kernel-devicetree.bbclass
-> > +++ b/meta/classes/kernel-devicetree.bbclass
-> > @@ -63,7 +63,7 @@ do_install_append() {
-> >                 DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
-> >                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-> >                 install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${
-> DTB_BASE_NAME}.${DTB_EXT}
-> > -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-> > +               for type in ${KERNEL_IMAGETYPE}; do
-> >                         symlink_name=${type}"-"${
-> KERNEL_IMAGE_SYMLINK_NAME}
-> >                         DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
-> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> >                         ln -sf ${DTB_BASE_NAME}.${DTB_EXT}
-> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
-> > @@ -82,7 +82,7 @@ do_deploy_append() {
-> >                 DTB=`normalize_dtb "${DTB}"`
-> >                 DTB_EXT=${DTB##*.}
-> >                 DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-> > -               for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-> > +               for type in ${KERNEL_IMAGETYPE}; do
-> >                         base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
-> >                         symlink_name=${type}"-"${
-> KERNEL_IMAGE_SYMLINK_NAME}
-> >                         DTB_NAME=`echo ${base_name} | sed
-> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---00000000000016877a056d85911a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi, Andre:<div><br></div><div>Thanks for the review, will =
-do that.</div><div><br></div><div>//Ming Liu</div></div><div class=3D"gmail=
-_extra"><br><div class=3D"gmail_quote">2018-05-31 20:00 GMT+02:00 Andre McC=
-urdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D=
-"_blank">armccurdy@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><span class=3D"">On Thu, May 31, 2018 at 1:55 AM,=C2=A0 &lt;<a href=3D"=
-mailto:liu.ming50@gmail.com">liu.ming50@gmail.com</a>&gt; wrote:<br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@=
-gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; It should be KERNEL_IMAGETYPE rather than KERNEL_IMAGETYPE_FOR_MAKE to=
-<br>
-<br>
-</span>KERNEL_IMAGETYPE is a legacy variable, in the process of being<br>
-replaced by KERNEL_IMAGETYPES. You should probably use the new<br>
-variable if possible.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; be handled in do_install and do_deploy tasks, since we are having some=
-<br>
-&gt; special logic in kernel-uimage.bbclass and kernel-fitimage.bbclass to<=
-br>
-&gt; replace the real kernel image types during do_compile, like:<br>
-&gt; in kernel-uimage.bbclass: uImage -&gt; vmlinux<br>
-&gt; in kernel-fitimage.bbclass: fitImage -&gt; Image/bzImage/zImage...<br>
-&gt;<br>
-&gt; but the final images to be installed/deployed should still be uImage o=
-r<br>
-&gt; fitImage.<br>
-&gt;<br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">li=
-u.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-<wbr>devicetree.bbclass | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/kernel-<wbr>devicetree.bbclass b/meta/classe=
-s/kernel-<wbr>devicetree.bbclass<br>
-&gt; index 4f80cc6..04e6321 100644<br>
-&gt; --- a/meta/classes/kernel-<wbr>devicetree.bbclass<br>
-&gt; +++ b/meta/classes/kernel-<wbr>devicetree.bbclass<br>
-&gt; @@ -63,7 +63,7 @@ do_install_append() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_PATH=
-=3D`get_real_dtb_path_<wbr>in_kernel &quot;${DTB}&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_BASE_=
-NAME=3D`basename ${DTB} .&quot;${DTB_EXT}&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -=
-m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${<wbr>DTB_BASE_NAME}.${DTB_EXT=
-}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
-KERNEL_IMAGETYPE_FOR_MAKE}; do<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
-KERNEL_IMAGETYPE}; do<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0symlink_name=3D${type}&quot;-&quot;${<wbr>KERNEL_IMAGE_=
-SYMLINK_NAME}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0DTB_SYMLINK_NAME=3D`echo ${symlink_name} | sed &quot;s/=
-${MACHINE}/${DTB_BASE_NAME}<wbr>/g&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGED=
-EST}/<wbr>devicetree-${DTB_SYMLINK_NAME}<wbr>.${DTB_EXT}<br>
-&gt; @@ -82,7 +82,7 @@ do_deploy_append() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB=3D`no=
-rmalize_dtb &quot;${DTB}&quot;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_EXT=
-=3D${DTB##*.}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_BASE_=
-NAME=3D`basename ${DTB} .&quot;${DTB_EXT}&quot;`<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
-KERNEL_IMAGETYPE_FOR_MAKE}; do<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${=
-KERNEL_IMAGETYPE}; do<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0base_name=3D${type}&quot;-&quot;${KERNEL_<wbr>IMAGE_BAS=
-E_NAME}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0symlink_name=3D${type}&quot;-&quot;${<wbr>KERNEL_IMAGE_=
-SYMLINK_NAME}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0DTB_NAME=3D`echo ${base_name} | sed &quot;s/${MACHINE}/=
-${DTB_BASE_NAME}<wbr>/g&quot;`<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.<wbr>openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
-wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---00000000000016877a056d85911a--
