@@ -1,27 +1,23 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id B75A874B03
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CABF74592
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:23:28 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w4V8NSOW014850
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Thu, 31 May 2018 08:30:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V8UWIR017429
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 10:23:29 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w4V8NSNJ016093;
-	Thu, 31 May 2018 10:23:28 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 8CC389550DC;
-	Thu, 31 May 2018 10:23:28 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2018 10:23:26 +0200
-Message-Id: <20180531082326.6620-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180530144852.25539-1-andrej.valek@siemens.com>
-References: <20180530144852.25539-1-andrej.valek@siemens.com>
-Subject: [PATCH v3] busybox: Fix lzma segfaults
+	Thu, 31 May 2018 01:30:32 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 31 May 2018 01:30:31 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 May 2018 16:32:47 +0800
+Message-ID: <cover.1527755434.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 00/14] testimage: restore 'auto' behaviour and a few other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,144 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:23:30 -0000
+X-List-Received-Date: Thu, 31 May 2018 08:30:32 -0000
+Content-Type: text/plain
 
-- fix multiple lzma segmentation faults
-- patch includes multiple fixing commits
-- test-cases have been removed due to binary data
+The following changes since commit 719d068bde55ef29a3468bc0779d4cb0c11e8c1d:
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../busybox/busybox-fix-lzma-segfaults.patch       | 106 +++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
+  bitbake: fetch2: fix import error for Python 3.6.5 (2018-05-29 21:07:46 +0100)
 
-diff --git a/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch b/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
-new file mode 100644
-index 0000000000..da6dfa8023
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
-@@ -0,0 +1,106 @@
-+busybox-1.27.2: Fix lzma segfaults
-+
-+[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=10871
-+
-+libarchive: check buffer index in lzma_decompress
-+
-+With specific defconfig busybox fails to check zip fileheader magic
-+(archival/unzip.c) and uses (archival/libarchive/decompress_unlzma.c)
-+for decompression which leads to segmentation fault. It prevents accessing into
-+buffer, which is smaller than pos index. Patch includes multiple segmentation
-+fault fixes.
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=a36986bb80289c1cd8d15a557e49207c9a42946b]
-+bug: 10436 10871
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/archival/libarchive/decompress_unlzma.c b/archival/libarchive/decompress_unlzma.c
-+index a904087..29eee2a 100644
-+--- a/archival/libarchive/decompress_unlzma.c
-++++ b/archival/libarchive/decompress_unlzma.c
-+@@ -11,6 +11,14 @@
-+ #include "libbb.h"
-+ #include "bb_archive.h"
-+ 
-++
-++#if 0
-++# define dbg(...) bb_error_msg(__VA_ARGS__)
-++#else
-++# define dbg(...) ((void)0)
-++#endif
-++
-++
-+ #if ENABLE_FEATURE_LZMA_FAST
-+ #  define speed_inline ALWAYS_INLINE
-+ #  define size_inline
-+@@ -217,6 +225,7 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 	rc_t *rc;
-+ 	int i;
-+ 	uint8_t *buffer;
-++	uint32_t buffer_size;
-+ 	uint8_t previous_byte = 0;
-+ 	size_t buffer_pos = 0, global_pos = 0;
-+ 	int len = 0;
-+@@ -246,7 +255,8 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 	if (header.dict_size == 0)
-+ 		header.dict_size++;
-+ 
-+-	buffer = xmalloc(MIN(header.dst_size, header.dict_size));
-++	buffer_size = MIN(header.dst_size, header.dict_size);
-++	buffer = xmalloc(buffer_size);
-+ 
-+ 	{
-+ 		int num_probs;
-+@@ -341,8 +351,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 						state = state < LZMA_NUM_LIT_STATES ? 9 : 11;
-+ 
-+ 						pos = buffer_pos - rep0;
-+-						if ((int32_t)pos < 0)
-++						if ((int32_t)pos < 0) {
-+ 							pos += header.dict_size;
-++							/* see unzip_bad_lzma_2.zip: */
-++							if (pos >= buffer_size)
-++								goto bad;
-++						}
-+ 						previous_byte = buffer[pos];
-+ 						goto one_byte1;
-+ #else
-+@@ -417,6 +431,10 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 						for (; num_bits2 != LZMA_NUM_ALIGN_BITS; num_bits2--)
-+ 							rep0 = (rep0 << 1) | rc_direct_bit(rc);
-+ 						rep0 <<= LZMA_NUM_ALIGN_BITS;
-++						if ((int32_t)rep0 < 0) {
-++							dbg("%d rep0:%d", __LINE__, rep0);
-++							goto bad;
-++						}
-+ 						prob3 = p + LZMA_ALIGN;
-+ 					}
-+ 					i2 = 1;
-+@@ -450,8 +468,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+  IF_NOT_FEATURE_LZMA_FAST(string:)
-+ 			do {
-+ 				uint32_t pos = buffer_pos - rep0;
-+-				if ((int32_t)pos < 0)
-++				if ((int32_t)pos < 0) {
-+ 					pos += header.dict_size;
-++					/* more stringent test (see unzip_bad_lzma_1.zip): */
-++					if (pos >= buffer_size)
-++						goto bad;
-++				}
-+ 				previous_byte = buffer[pos];
-+  IF_NOT_FEATURE_LZMA_FAST(one_byte2:)
-+ 				buffer[buffer_pos++] = previous_byte;
-+@@ -478,6 +500,12 @@ unpack_lzma_stream(transformer_state_t *xstate)
-+ 		IF_DESKTOP(total_written += buffer_pos;)
-+ 		if (transformer_write(xstate, buffer, buffer_pos) != (ssize_t)buffer_pos) {
-+  bad:
-++			/* One of our users, bbunpack(), expects _us_ to emit
-++			 * the error message (since it's the best place to give
-++			 * potentially more detailed information).
-++			 * Do not fail silently.
-++			 */
-++			bb_error_msg("corrupted data");
-+ 			total_written = -1; /* failure */
-+ 		}
-+ 		rc_free(rc);
-+ 
-diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-index 36a6342aaf..92678701fc 100644
---- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-@@ -45,6 +45,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2011-5325.patch \
-            file://CVE-2017-15873.patch \
-            file://busybox-CVE-2017-16544.patch \
-+           file://busybox-fix-lzma-segfaults.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/testimage-auto
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/testimage-auto
+
+Chen Qi (14):
+  oeqa/core/loader.py: support the 'auto' keyword
+  testimage.bbclass: fix behavior of empty TEST_SUITES
+  oeqa/core/decorator/__init__.py: set metaclass to ABCMeta
+  oeqa/core/decorator/__init__.py: use 'cls' instead of 'obj'
+  oeqa/runtime/cases/dnf_runtime.py: skip test if PACKAGE_FEED_URIS is
+    not set
+  oeqa/runtime/cases/selftest.py: rename to _selftest.py
+  testimage.bbclass: also check 'auto' to create rpm index
+  oeqa/core/decorator/data.py: fix skipIfNotInDataVar
+  oeqa/runtime/cases/rpm.py: skip if rpm not available
+  oeqa/runtime/cases/multilib.py: skip if needed packages are not
+    available
+  oeqa/runtime/cases/multilib.py: fix test_file_connman skipping logic
+  bitbake.conf: fix HOSTTOOLS setting related to image testing
+  testimage-auto.bbclass: execute the same codes as testimage task
+  oeqa/core/target/ssh.py: increase maximum read bytes from 1024 to 4096
+
+ .../oeqa/runtime/cases/{selftest.py => _selftest.py}    |  0
+ meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py     |  3 +++
+ meta/classes/testimage-auto.bbclass                     |  6 ++++++
+ meta/classes/testimage.bbclass                          | 10 ++++++++--
+ meta/conf/bitbake.conf                                  |  2 +-
+ meta/lib/oeqa/core/decorator/__init__.py                | 10 +++++-----
+ meta/lib/oeqa/core/decorator/data.py                    |  4 ++--
+ meta/lib/oeqa/core/loader.py                            | 17 +++++++++++++----
+ meta/lib/oeqa/core/target/ssh.py                        |  2 +-
+ meta/lib/oeqa/runtime/cases/multilib.py                 |  4 +++-
+ meta/lib/oeqa/runtime/cases/rpm.py                      |  1 +
+ meta/lib/oeqa/selftest/cases/runtime_test.py            |  2 +-
+ 12 files changed, 44 insertions(+), 17 deletions(-)
+ rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (100%)
+
 -- 
-2.11.0
+1.9.1
 
 
