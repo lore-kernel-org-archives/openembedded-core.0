@@ -1,26 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 336F074F5F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB6574EAA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 08:31:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4V8VMam007726
+	Thu, 31 May 2018 08:32:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w4V8WABx014936
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 01:31:37 -0700
+	Thu, 31 May 2018 01:32:10 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 01:31:11 -0700
+	14.3.361.1; Thu, 31 May 2018 01:32:09 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2018 16:32:52 +0800
-Message-ID: <bdee5d5ca6e9c037c9e1504a062876c68934eb61.1527755435.git.Qi.Chen@windriver.com>
+Date: Thu, 31 May 2018 16:32:56 +0800
+Message-ID: <73d9650db47cc9fd12f81f0035c1ed054fa051c9.1527755435.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527755434.git.Qi.Chen@windriver.com>
 References: <cover.1527755434.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/14] oeqa/runtime/cases/dnf_runtime.py: skip test if PACKAGE_FEED_URIS is not set
+Subject: [PATCH 09/14] oeqa/runtime/cases/rpm.py: skip if rpm not available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2018 08:31:46 -0000
+X-List-Received-Date: Thu, 31 May 2018 08:32:09 -0000
 Content-Type: text/plain
 
-This test is to test the behaviour of PACKAGE_FEED_URIS is correct or not.
-If it's not even set, it makes no sense to do such test. So skip this
-test if PACKAGE_FEED_URIS is not set.
+This test case should only run when rpm package is installed.
+So skip it if rpm package is not installed. This fixes:
+
+  RESULTS - rpm.RpmBasicTest.test_rpm_help - Testcase 1059: FAILED
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/runtime/cases/rpm.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-index 81c50ed..1aa7274 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-@@ -1,6 +1,7 @@
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.cases.dnf import DnfTest
- from oeqa.utils.httpserver import HTTPService
-+from oeqa.core.decorator.data import skipIfDataVar
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index 05b94c7..84c59a6 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -16,6 +16,7 @@ class RpmBasicTest(OERuntimeTestCase):
+             cls.skipTest('Tests require image to be build from rpm')
  
- class DnfSelftest(DnfTest):
- 
-@@ -18,6 +19,8 @@ class DnfSelftest(DnfTest):
-         cls.temp_dir.cleanup()
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @skipIfDataVar('PACKAGE_FEED_URIS', None,
-+                   'Not suitable as PACKAGE_FEED_URIS is not set')
-     def test_verify_package_feeds(self):
-         """
-         Summary: Check correct setting of PACKAGE_FEED_URIS var
+     @OETestID(960)
++    @OEHasPackage(['rpm'])
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     def test_rpm_help(self):
+         status, output = self.target.run('rpm --help')
 -- 
 1.9.1
 
