@@ -1,50 +1,53 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BC5B7503C
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CE94D75065
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 22:15:02 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id p11-v6so4373323wmc.4
+	Fri,  1 Jun 2018 22:15:11 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id z6-v6so6824108wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 15:15:04 -0700 (PDT)
+	Fri, 01 Jun 2018 15:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=Leia1IQ/558Fr9a/CQ5pT824q9T/wqBaQuauhzgpqOc=;
-	b=fH7glgzwwfVCt4JnIE+9OMc1vV5kesbQo2qum3l8Xo+27ZG5tS4l/hMz3N9+vax8XK
-	YVrCQT9GxqEfWQatWaGSYwFwikbL0jBYxK9tP//NJ6I1BBEYnsYK1chbMGupgF2sxVu/
-	yfv9286s9SWHGBuy1MVbLaSzsjkZzrPRuCcjqGluhbrPSYZICYabOjWV51alecVjlLZp
-	fMCf5cm6FeemwoJF1KWlNuvwk+nLkR1l4R0aGiTRLdYeGltjOJuPF5nNhrl7GrXBe1PX
-	kkgXFWka1NiZMqvK6IhmU/zGWzw64XXqLc44zIgU0iQeMkVJsTfrUTJBiHO+lUQT0d4u
-	3eoQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=9c4vATChEIJ7yxgif6JxaWl9DNjvjXAmy3YywuNA4vQ=;
+	b=S58KylEgNctUTbwrOO5tkTUIaru3wHCSK/bmYWIBLguVCv/2vx3wyW6ptBw9UZo1l+
+	0/UzKUAaW12HryUfQgpfh5gU7q2KmsXA4A5C9cM1vwNWmYPJWow8/X699Gkng/MHxDnX
+	Gw3CffXkliwOsaPDi8O01X+SL+BQaGHbtUsHJx/P9zNbS6PHIe+Iq9Bei2NLnnOhjScB
+	osJF/1gshoL/EBgdByV2+XRZjFbJ/VzxXG5OeECXmblKLrl1NfNaZ6iv5XnkDwe81qIF
+	wpzY5nVfkLUDIzLSJgZ1jtqIjO1Tm4usYJvthiMPzB7WEKR3UMIihC8Cg5nYOXSkdsPV
+	PSQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Leia1IQ/558Fr9a/CQ5pT824q9T/wqBaQuauhzgpqOc=;
-	b=VlLePXGz3bGggpv//+EYHc+q9mKxTgTgVxNfSLBc+caf1EwRZUL4k0fpr5n20adxFO
-	nd6HMVriMeBVgRFBgwXGD0R6evCCfq8lqV9d9qWx0caz/NEVcrya4rPNG5u6z1gE/OK3
-	5dfOWa+OdFkU/Mc9SLUl2+CFQEfe75Gflljzh4CXQngul0jAF1d6mNkFCvtGdXh6zZwb
-	/+xqN/WeC7ln4n5T9ptotv0Cqn1T2hCWit9PdTbtGLjpg2QJqUcjqGQPl8SRd69ow/LG
-	vfE5d91Fk4Oc5kQfMT8HXfMVv7vyLKRgCutK+Ga33O2p06A+dkvELvxZ7UG3bSTBylVM
-	BdDg==
-X-Gm-Message-State: ALKqPwe2UfzKmXcE7+PpRv18q2kMJiZAraVeiab0cmJ0e8nqyqFloRae
-	rww1kx2JDQnirfKUge5k22Jfkcc3
-X-Google-Smtp-Source: ADUXVKLm2wm/tGO4XUhNTk2nYPFqIsO7VGIC/5zV0SBsUXVB/coA3bPbLo8cVEpBUmvCEFLN4dkRDQ==
-X-Received: by 2002:a50:9b5b:: with SMTP id
-	a27-v6mr14090906edj.60.1527891303239; 
-	Fri, 01 Jun 2018 15:15:03 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=9c4vATChEIJ7yxgif6JxaWl9DNjvjXAmy3YywuNA4vQ=;
+	b=A367GdeTKTMiEcdheKsAZoiFiJke3Llt9ZXLILdSFY4O5yNRG/w6t/rxr9nSbef6JN
+	J9sENLhhRnltD7q10P+UcOJurG54wAEqUCoAk+P2+wHJDLz39o3VBakyP1vFTITU6Hsm
+	IiiRJNDA7rMsGPCwespX6oMyQPmjS0ORP1rYicsmaR7/Go3KeEnToq6Unp7GJGL3bO2P
+	qfPSjzGe/sCletToPZWaNUcTb3pNwuqSZAkEqGqKyr5+4X6GGSDN1xDmCvs7n8niD0Bv
+	5QCa6O07VySQjtfh9rIfokntQmi6+09t6h4UCcmmodSFr1OZpBELiOt1Ove2uDmWjRk8
+	DoBA==
+X-Gm-Message-State: ALKqPwdR76lWYMz7HCsKBLgfI88eP9SbIScdf1XJ+1KBbgxlVAOykAoC
+	5Qi2OG32JOaAGFLIsj4mJyveUxqC
+X-Google-Smtp-Source: ADUXVKIlD/pxaGUxcaDMKl/LzeUGDXDyN64Cp+JZQQtYuajom5CuF4Bu/rsgF0Colgh3Prvtdp3H+g==
+X-Received: by 2002:a50:ba6e:: with SMTP id
+	43-v6mr14390216eds.194.1527891312110; 
+	Fri, 01 Jun 2018 15:15:12 -0700 (PDT)
 Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
 	by smtp.gmail.com with ESMTPSA id
-	t1-v6sm21902962edq.84.2018.06.01.15.15.01
+	t1-v6sm21902962edq.84.2018.06.01.15.15.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Jun 2018 15:15:01 -0700 (PDT)
+	Fri, 01 Jun 2018 15:15:11 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  2 Jun 2018 00:14:39 +0200
-Message-Id: <20180601221440.29992-1-dev@sashko.rv.ua>
+Date: Sat,  2 Jun 2018 00:14:40 +0200
+Message-Id: <20180601221440.29992-2-dev@sashko.rv.ua>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20180601221440.29992-1-dev@sashko.rv.ua>
+References: <20180601221440.29992-1-dev@sashko.rv.ua>
 Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
-Subject: [meta-oe][PATCH 1/2] chrpath: fix SRC_URI
+Subject: [meta-oe][PATCH 2/2] iso-codes: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +60,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 22:15:03 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 22:15:12 -0000
 
 Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
 ---
- meta/recipes-devtools/chrpath/chrpath_0.16.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/iso-codes/iso-codes_3.77.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/chrpath/chrpath_0.16.bb b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
-index b61eef9c8b..0428210567 100644
---- a/meta/recipes-devtools/chrpath/chrpath_0.16.bb
-+++ b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "http://alioth.debian.org/tracker/?atid=412807&group_id=31052"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.77.bb b/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+index bd613ac573..d899a7fa82 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+@@ -3,6 +3,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
-+SRC_URI = "https://src.fedoraproject.org/lookaside/extras/chrpath/chrpath-0.16.tar.gz/2bf8d1d1ee345fc8a7915576f5649982/chrpath-0.16.tar.gz \
-            file://standarddoc.patch"
+ SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
++SRC_URI = "https://ftp.osuosl.org/pub/blfs/conglomeration/iso-codes/iso-codes-${PV}.tar.xz"
+ SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
+ SRC_URI[sha256sum] = "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
  
- SRC_URI[md5sum] = "2bf8d1d1ee345fc8a7915576f5649982"
 -- 
 2.17.0
 
