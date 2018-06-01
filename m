@@ -1,32 +1,24 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F3C974F8A
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AED4C74A17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 07:57:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w517vvgG000684
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 1 Jun 2018 00:57:57 -0700 (PDT)
-Received: from [128.224.162.190] (128.224.162.190) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Fri, 1 Jun 2018 00:57:55 -0700
-To: lei yang <lei.yang@windriver.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-References: <cover.1527735211.git.dengke.du@windriver.com>
-	<59e700bb0582088cba026b990ed423ab0d1e2ebe.1527735211.git.dengke.du@windriver.com>
-	<CADkTA4MU3Po893UfDcTeusYA0kkJdMHFHPWx3Z3RdMJS5gj8Xg@mail.gmail.com>
-	<52e38a62-c73d-1948-e82c-0ae057c91401@windriver.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <758016a2-7147-62be-c974-540135119d1b@windriver.com>
-Date: Fri, 1 Jun 2018 15:55:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Fri,  1 Jun 2018 08:03:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5183F5P011271
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 1 Jun 2018 01:03:37 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 1 Jun 2018 01:03:10 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Jun 2018 04:02:38 -0400
+Message-ID: <1527840158-99078-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <52e38a62-c73d-1948-e82c-0ae057c91401@windriver.com>
-X-Originating-IP: [128.224.162.190]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: add ptest support
+Subject: [PATCH] Meta runtime cases: add testcases for kernel sample
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,646 +31,471 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 07:57:56 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F31973691D61E80D2A21D93C"
-Content-Language: en-US
+X-List-Received-Date: Fri, 01 Jun 2018 08:03:46 -0000
+Content-Type: text/plain
 
---------------F31973691D61E80D2A21D93C
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+We are going to let runtime test support kernel tests. Now we just add
+kernel self-contained sample tests. And we plan to add overall kernel
+tests in the future.
+
+This patch is just add kernel samples test which contains about 13 tests
+enabled by kernel-sample.scc. So it needs statement,
+KERNEL_FEATURES_append += " kernel-sample/kernel-sample.scc" in
+local.conf.
+
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/ksample.py | 440 +++++++++++++++++++++++++++++++++
+ 1 file changed, 440 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
+
+diff --git a/meta/lib/oeqa/runtime/cases/ksample.py b/meta/lib/oeqa/runtime/cases/ksample.py
+new file mode 100644
+index 0000000..8a9d136
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/ksample.py
+@@ -0,0 +1,440 @@
++import os
++import time
++
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.oeid import OETestID
++from oeqa.core.decorator.data import skipIfNotFeature
++
++class KSampleTest(OERuntimeTestCase):
++
++    @OETestID(33)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_trace_events(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_TRACING_SUPPORT')
++        result = "CONFIG_TRACING_SUPPORT=y" in ret
++        if not result:
++            self.skipTest("CONFIG error")
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/trace_events/trace-events-sample.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("trace-events-sample.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe trace-events-sample')
++        msg = 'modprobe trace-events failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep trace_events_sample | cut -d\' \' -f1')
++        self.assertEqual(output, "trace_events_sample", 'lsmod trace_events_sample failed')
++        msg = 'lsmod trace-events failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check dir
++        status, output = self.target.run('ls /sys/kernel/debug/tracing/events/ | grep sample-trace')
++        self.assertEqual(output, "sample-trace", 'no dir of sample-trace')
++        msg = 'if create dir of sample-tree, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # enable trace
++        status, output = self.target.run('echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable')
++        status, output = self.target.run('cat /sys/kernel/debug/tracing/events/sample-trace/enable')
++        self.assertEqual(output, "1", 'failed to enable')
++        msg = 'cat enable, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('cat /sys/kernel/debug/tracing/trace | grep hello | head -n1 | cut -d\':\' -f2')
++        self.assertEqual(output, " foo_bar", 'failed')
++        msg = 'cat trace-events, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # enable trace
++        status, output = self.target.run('echo 0 > /sys/kernel/debug/tracing/events/sample-trace/enable')
++        msg = 'disable, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # clean up trace
++        status, output = self.target.run('echo > /sys/kernel/debug/tracing/trace')
++        msg = 'clearup trace, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod trace-events-sample')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(34)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_trace_printk(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_TRACING_SUPPORT')
++        result = "CONFIG_TRACING_SUPPORT=y" in ret
++        if not result:
++            self.skipTest("CONFIG error")
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/trace_printk/trace-printk.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("trace-printk.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe trace-printk')
++        msg = 'modprobe trace-printk failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep trace_printk | cut -d\' \' -f1')
++        self.assertEqual(output, "trace_printk", 'lsmod trace_printk failed')
++        msg = 'lsmod trace-printk failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('cat /sys/kernel/debug/tracing/trace | grep trace_printk_irq_work | head -n1 | cut -d\':\' -f2')
++        self.assertEqual(output, " trace_printk_irq_work", 'failed')
++        msg = 'cat  trace-printk, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # clean up trace
++        status, output = self.target.run('echo > /sys/kernel/debug/tracing/trace')
++        msg = 'clean up trace, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod trace-printk')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(43)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kprobe_example(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_KPROBES')
++        result = "CONFIG_KPROBES=y" in ret
++        if not result:
++            self.skipTest("CONFIG error")
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kprobes/kprobe_example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("kprobe_example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe kprobe_example')
++        msg = 'modprobe kprobe_example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep kprobe_example | cut -d\' \' -f1')
++        self.assertEqual(output, "kprobe_example", 'lsmod kprobe_example failed')
++        msg = 'lsmod kprobe_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, ret = self.target.run('cat /var/log/messages | grep _do_fork')
++        result = "_do_fork" in ret
++        self.assertTrue(result)
++        msg = 'check result failed, output: %s' % ret
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod kprobe_example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(44)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kretprobe_example(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_KPROBES')
++        result = "CONFIG_KPROBES=y" in ret
++        if not result:
++            self.skipTest("CONFIG error")
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kprobes/kretprobe_example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("kretprobe_example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe kretprobe_example')
++        msg = 'modprobe kretprobe_example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep kretprobe_example | cut -d\' \' -f1')
++        self.assertEqual(output, "kretprobe_example", 'lsmod kretprobe_example failed')
++        msg = 'lsmod kretprobe_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('dmesg | grep Planted | head -n10')
++        msg = 'check result, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod kretprobe_example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(63)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kobject_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kobject/kobject-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("kobject-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe kobject_example')
++        msg = 'modprobe kobject_example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep kobject_example | cut -d\' \' -f1')
++        self.assertEqual(output, "kobject_example", 'lsmod kobject_example failed')
++        msg = 'lsmod kobject_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('ls /sys/kernel/kobject_example/')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod kobject-example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(64)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_kset_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kobject/kset-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("kset-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe kset_example')
++        msg = 'modprobe kset_example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep kset_example | cut -d\' \' -f1')
++        self.assertEqual(output, "kset_example", 'lsmod kset_example failed')
++        msg = 'lsmod kset_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('ls /sys/kernel/kset_example/')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod kset-example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(53)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_dma_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kfifo/dma-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("dma-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe dma-example')
++        msg = 'modprobe dma-example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep dma_example | cut -d\' \' -f1')
++        self.assertEqual(output, "dma_example", 'lsmod dma_example failed')
++        msg = 'lsmod dma_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('dmesg | grep \"test passed\"')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod dma-example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(54)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_bytestream_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kfifo/bytestream-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("bytestream-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe bytestream-example')
++        msg = 'modprobe bytestream-example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep bytestream_example | cut -d\' \' -f1')
++        self.assertEqual(output, "bytestream_example", 'lsmod bytestream_example failed')
++        msg = 'lsmod bytestream_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('dmesg | grep \"test passed\"')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod bytestream-example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(55)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_inttype_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kfifo/inttype-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("inttype-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe inttype-example')
++        msg = 'modprobe inttype-example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep inttype_example | cut -d\' \' -f1')
++        self.assertEqual(output, "inttype_example", 'lsmod inttype_example failed')
++        msg = 'lsmod inttype_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('dmesg | grep \"test passed\"')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod inttype-example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(56)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_record_example(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/kfifo/record-example.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("record-example.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe record-example')
++        msg = 'modprobe record-example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep record_example | cut -d\' \' -f1')
++        self.assertEqual(output, "record_example", 'lsmod record_example failed')
++        msg = 'lsmod record_example failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('dmesg | grep \"test passed\"')
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod record_example')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(63)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_hw_breakpoint_example(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_KALLSYMS_ALL')
++        result = "CONFIG_KALLSYMS_ALL=y" in ret
++        if not result:
++            self.skipTest("CONFIG error")
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/hw_breakpoint/data_breakpoint.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("data_breakpoint.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe data_breakpoint')
++        msg = 'modprobe kobject_example, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep data_breakpoint | cut -d\' \' -f1')
++        self.assertEqual(output, "data_breakpoint", 'lsmod data_breakpoint failed')
++        msg = 'lsmod data_breakpoint failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, output = self.target.run('cat /var/log/messages | grep sample_hbp_handler')
++        result = "sample_hbp_handler" in output
++        self.assertTrue(result)
++        msg = 'check result failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod data_breakpoint')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(73)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_configfs_sample(self):
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/configfs/configfs_sample.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("configfs_sample.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe configfs_sample')
++        msg = 'modprobe configfs_sample, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep configfs_sample | head -n1 | cut -d\' \' -f1')
++        self.assertEqual(output, "configfs_sample", 'lsmod configfs_sample failed')
++        msg = 'lsmod configfs_sample failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        status = 1
++        count = 0
++        while status != 0:
++            time.sleep(1)
++            status, ret = self.target.run('cat /sys/kernel/config/01-childless/description')
++            count = count + 1
++            if count > 300:
++                self.skipTest("Time out for check dir")
++
++        # rmmod
++        status, output = self.target.run('rmmod configfs_sample')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++    @OETestID(83)
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_cn_test(self):
++        # check config
++        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_CONFIGFS_FS')
++        if not ["CONFIG_CONFIGFS_FS=m" in ret or "CONFIG_CONFIGFS_FS=y" in ret]:
++            self.skipTest("CONFIG error")
++
++        # make sure if module exists
++        status, ret = self.target.run('uname -r')
++        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/connector/cn_test.ko"
++        status, output = self.target.run(cmd)
++        if status != 0:
++            self.skipTest("cn_test.ko doesn't exist")
++
++        # modprobe
++        status, output = self.target.run('modprobe cn_test')
++        msg = 'modprobe cn_test, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # lsmod
++        status, output = self.target.run('lsmod | grep cn_test | head -n1 | cut -d\' \' -f1')
++        self.assertEqual(output, "cn_test", 'lsmod cn_test failed')
++        msg = 'lsmod cn_test failed, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++        # check result
++        status, ret = self.target.run('cat /proc/net/connector | grep cn_test | head -n1 | cut -d\' \' -f1')
++        result = "cn_test" in ret
++        self.assertTrue(result)
++        msg = 'check result failed, output: %s' % ret
++        self.assertEqual(status, 0, msg=msg)
++        # rmmod
++        status, output = self.target.run('rmmod cn_test')
++        msg = 'rmmod, output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
+-- 
+2.8.1
 
 
-
-On 2018年05月31日 22:08, lei yang wrote:
->
-> hi dengke,
->
-> some of the kernel modules were rmmod-ed twice, some of them forget to 
-> be rmmod-ed when it fails,
->
-> please take a look.
->
-
-Thanks, after bruce update the SRCREV for kernel meta, I will send v2.
-
-> Lei
->
->
->
-> On 2018年05月31日 12:19, Bruce Ashfield wrote:
->>
->>
->> On Wed, May 30, 2018 at 11:08 PM, Dengke Du <dengke.du@windriver.com 
->> <mailto:dengke.du@windriver.com>> wrote:
->>
->>     Signed-off-by: Dengke Du <dengke.du@windriver.com
->>     <mailto:dengke.du@windriver.com>>
->>     ---
->>      meta/recipes-kernel/linux/files/run-ptest    | 138
->>     ++++++++++++++++++++++++++
->>
->>
->> Nothing else in linux-yocto uses "files", and this shouldn't either.
->>
->> We can't guarantee that these are version independent, so they need 
->> to be in  a versioned
->> kernel subdirectory.
->>
->>      meta/recipes-kernel/linux/linux-yocto.inc    |   8 ++
->>      meta/recipes-kernel/linux/linux-yocto_4.14.bb
->>     <http://linux-yocto_4.14.bb> |   2 +-
->>      3 files changed, 147 insertions(+), 1 deletion(-)
->>      create mode 100644 meta/recipes-kernel/linux/files/run-ptest
->>
->>     diff --git a/meta/recipes-kernel/linux/files/run-ptest
->>     b/meta/recipes-kernel/linux/files/run-ptest
->>     new file mode 100644
->>     index 0000000..a3d9e14
->>     --- /dev/null
->>     +++ b/meta/recipes-kernel/linux/files/run-ptest
->>     @@ -0,0 +1,138 @@
->>     +#!/bin/bash
->>
->>
->> This script should have a license and proper header file.
->>
->> Also, if the ptests are mainly trace/sample related, name the script 
->> to indicate that.
->>
->> The kernel already has a significant number of selftests, which are 
->> likely better than
->> these ptests. Is there any reason why they aren't being used instead ?
->>
->>     +depmod
->>     +touch kernel.log
->>     +
->>     +#dma-example bytestream-example inttype-example record-example
->>     +list1=("dma-example" "bytestream-example" "inttype-example"
->>     "record-example")
->>     +for i in "${list1[@]}"
->>     +do
->>     +  dmesg -c
->>     +  modprobe "$i"
->>     +  result=""
->>     +  IFS="-" read -ra array <<< "$i"
->>     +  len=${#array[@]}
->>     +  if [ $len -eq 2 ];then
->>     +    result="${array[0]}_${array[1]}"
->>     +  elif [ $len -eq 3 ];then
->>     +    result="${array[0]}_${array[1]}_${array[2]}"
->>     +  fi
->>     +  lsmod | grep -q "$result"
->>     +  if [ $? -eq 0 ];then
->>     +    dmesg | grep "test passed"
->>     +    if [ $? -eq 0 ];then
->>     +      echo "$i: PASS" >> kernel.log
->>     +    fi
->>     +    rmmod "$i"
->>     +  else
->>     +    echo "$i: FAILED" >> kernel.log
->>     +  fi
->>     +done
->>     +
->>     +#kobject-example kset-example
->>     +list2=("kobject-example" "kset-example")
->>     +for i in "${list2[@]}"
->>     +do
->>     +  dmesg -c
->>     +  modprobe "$i"
->>     +  result=""
->>     +  IFS="-" read -ra array <<< "$i"
->>     +  len=${#array[@]}
->>     +  if [ $len -eq 2 ];then
->>     +    result="${array[0]}_${array[1]}"
->>     +  elif [ $len -eq 3 ];then
->>     +    result="${array[0]}_${array[1]}_${array[2]}"
->>     +  fi
->>     +  basedir="/sys/kernel/${result}"
->>     +  echo "$basedir"
->>     +  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e
->>     ${basedir}/foo ];then
->>     +    echo "$i: PASS" >> kernel.log
->>     +    rmmod "$i"
->>     +  else
->>     +    echo "$i: FAILED" >> kernel.log
->>     +  fi
->>     +done
->>     +
->>     +#trace-events-sample
->>     +list3="trace-events-sample"
->>     +result=""
->>     +IFS="-" read -ra array <<< "$list3"
->>     +len=${#array[@]}
->>     +if [ $len -eq 2 ];then
->>     +  result="${array[0]}_${array[1]}"
->>     +elif [ $len -eq 3 ];then
->>     +  result="${array[0]}_${array[1]}_${array[2]}"
->>     +fi
->>     +modprobe "$list3"
->>     +lsmod | grep "$result"
->>     +if [ $? -eq 0 ];then
->>     +  if [ -e "/sys/kernel/debug/tracing/events/sample-trace" ];then
->>     +    echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable
->>     +    sleep 5
->>     +    ret=`cat /sys/kernel/debug/tracing/trace | grep hello | head
->>     -n1 | cut -d':' -f2`
->>     +    if [ "$ret" = " foo_bar" ];then
->>     +      echo "$list3: PASS"  >> kernel.log
->>     +    else
->>     +      echo "$list3: FAILED-" >> kernel.log
->>     +    fi
->>     +  else
->>     +    echo "$list3: FAILED--" >> kernel.log
->>     +  fi
->>     +else
->>     +  echo "$list3: FAILED---" >> kernel.log
->>     +fi
->>     +rmmod "$list3"
->>     +
->>     +#trace-printk
->>     +list4="trace-printk"
->>     +modprobe "$list4"
->>     +lsmod | grep "trace_printk"
->>     +if [ $? -eq 0 ];then
->>     +  ret=`cat /sys/kernel/debug/tracing/trace | grep trace_printk |
->>     head -n1 | cut -d':' -f2`
->>     +  if [ "$ret" = " trace_printk_irq_work" ];then
->>     +    echo "$list4: PASS" >> kernel.log
->>     +    rmmod "$list4"
->>     +  else
->>     +    echo "$list4: FAILED" >> kernel.log
->>     +  fi
->>     +else
->>     +  echo "$list4: FAILED" >> kernel.log
->>     +fi
->>     +rmmod "$list4"
->>     +
->>     +#kprobe_example
->>     +list5="kprobe_example"
->>     +dmesg -c
->>     +modprobe "$list5"
->>     +lsmod | grep "$list5"
->>     +if [ $? -eq 0 ];then
->>     +  dmesg | grep "_do_fork"
->>     +  if [ $? -eq 0 ];then
->>     +    echo "$list5: PASS" >> kernel.log
->>     +  else
->>     +    echo "$list5: FAILED" >> kernel.log
->>     +  fi
->>     +else
->>     +  echo "$list5: FAILED" >> kernel.log
->>     +fi
->>     +rmmod "$list5"
->>     +
->>     +#kretprobe_example
->>     +list6="kretprobe_example"
->>     +dmesg -c
->>     +modprobe "$list6"
->>     +lsmod | grep "$list6"
->>     +if [ $? -eq 0 ];then
->>     +  dmesg | grep "_do_fork returned"
->>     +  if [ $? -eq 0 ];then
->>     +    echo "$list6: PASS" >> kernel.log
->>     +  else
->>     +    echo "$list6: FAILED" >> kernel.log
->>     +  fi
->>     +else
->>     +  echo "$list6: FAILED" >> kernel.log
->>     +fi
->>     +rmmod "$list6"
->>     +
->>     +echo "#####result#####"
->>     +cat kernel.log
->>     +rm kernel.log
->>     diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->>     b/meta/recipes-kernel/linux/linux-yocto.inc
->>     index 95ec2a2..7e1773e 100644
->>     --- a/meta/recipes-kernel/linux/linux-yocto.inc
->>     +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->>     @@ -67,3 +67,11 @@ do_install_append(){
->>      addtask kernel_version_sanity_check after do_kernel_metadata
->>     do_kernel_checkout before do_compile
->>      addtask validate_branches before do_patch after do_kernel_checkout
->>      addtask kernel_configcheck after do_configure before do_compile
->>     +
->>     +inherit ptest
->>     +SRC_URI_append = " file://run-ptest \
->>     +"
->>     +do_install_ptest_append() {
->>     +       install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
->>     +}
->>     +KERNEL_FEATURES_append = "
->>     ${@bb.utils.contains("DISTRO_FEATURES", "ptest",
->>     "features/kernel-sample/kernel-sample.scc", "", d)}"
->>     diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->>     <http://linux-yocto_4.14.bb>
->>     b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->>     <http://linux-yocto_4.14.bb>
->>     index 16142f8..7002693 100644
->>     --- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->>     <http://linux-yocto_4.14.bb>
->>     +++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
->>     <http://linux-yocto_4.14.bb>
->>     @@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?=
->>     "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->>      SRCREV_machine_qemux86-64 ?=
->>     "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->>      SRCREV_machine_qemumips64 ?=
->>     "9863b327e770b42b8c18da3e0cfaf06e8f99ae97"
->>      SRCREV_machine ?= "74f6cd2b6976e37491779fcb1bc4966d3a61492c"
->>     -SRCREV_meta ?= "ea9330894eea727bd1655569b16f338976b72563"
->>     +SRCREV_meta ?= "53336e1b7d969f21d8214ec9ceeb48fba4f99372"
->>
->>
->> Do not bump the SRCREV for meta in this series.
->>
->> If your feature depends on something in the meta branch (which it 
->> does), wait until I've sent my next series before sending this.
->>
->> Bruce
->>
->>
->>      SRC_URI =
->>     "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}
->>     <http://git.yoctoproject.org/linux-yocto.git;name=machine;branch=$%7BKBRANCH%7D>;
->>     \
->>                
->>     git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}
->>     <http://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=$%7BKMETA%7D>"
->>     -- 
->>     2.7.4
->>
->>     -- 
->>     _______________________________________________
->>     Openembedded-core mailing list
->>     Openembedded-core@lists.openembedded.org
->>     <mailto:Openembedded-core@lists.openembedded.org>
->>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->>
->>
->>
->>
->> -- 
->> "Thou shalt not follow the NULL pointer, for chaos and madness await 
->> thee at its end"
->>
->>
->
-
-
---------------F31973691D61E80D2A21D93C
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 2018年05月31日 22:08, lei yang wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:52e38a62-c73d-1948-e82c-0ae057c91401@windriver.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <p>hi dengke,</p>
-      <p>some of the kernel modules were rmmod-ed twice, some of them
-        forget to be rmmod-ed when it fails,</p>
-      <p> please take a look. <br>
-      </p>
-    </blockquote>
-    <br>
-    Thanks, after bruce update the SRCREV for kernel meta, I will send
-    v2.<br>
-    <br>
-    <blockquote type="cite"
-      cite="mid:52e38a62-c73d-1948-e82c-0ae057c91401@windriver.com">
-      <p> </p>
-      <p>Lei</p>
-      <p><br>
-      </p>
-      <br>
-      <div class="moz-cite-prefix">On 2018年05月31日 12:19, Bruce Ashfield
-        wrote:<br>
-      </div>
-      <blockquote
-cite="mid:CADkTA4MU3Po893UfDcTeusYA0kkJdMHFHPWx3Z3RdMJS5gj8Xg@mail.gmail.com"
-        type="cite">
-        <div dir="ltr"><br>
-          <div class="gmail_extra"><br>
-            <div class="gmail_quote">On Wed, May 30, 2018 at 11:08 PM,
-              Dengke Du <span dir="ltr">&lt;<a moz-do-not-send="true"
-                  href="mailto:dengke.du@windriver.com" target="_blank">dengke.du@windriver.com</a>&gt;</span>
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by:
-                Dengke Du &lt;<a moz-do-not-send="true"
-                  href="mailto:dengke.du@windriver.com">dengke.du@windriver.com</a>&gt;<br>
-                ---<br>
-                <span class=""> meta/recipes-kernel/linux/<wbr>files/run-ptest 
-                     | 138 ++++++++++++++++++++++++++<br>
-                </span></blockquote>
-              <div><br>
-              </div>
-              <div>Nothing else in linux-yocto uses "files", and this
-                shouldn't either.</div>
-              <div><br>
-              </div>
-              <div>We can't guarantee that these are version
-                independent, so they need to be in  a versioned</div>
-              <div>kernel subdirectory.</div>
-              <div><br>
-              </div>
-              <div> </div>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
-                  class="">  meta/recipes-kernel/linux/<wbr>linux-yocto.inc 
-                     |   8 ++<br>
-                   meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                    href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                    target="_blank">linu<wbr>x-yocto_4.14.bb</a> |   2
-                  +-<br>
-                   3 files changed, 147 insertions(+), 1 deletion(-)<br>
-                   create mode 100644 meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-                  <br>
-                </span>diff --git a/meta/recipes-kernel/linux/<wbr>files/run-ptest
-                b/meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-                new file mode 100644<br>
-                index 0000000..a3d9e14<br>
-                --- /dev/null<br>
-                +++ b/meta/recipes-kernel/linux/<wbr>files/run-ptest<br>
-                @@ -0,0 +1,138 @@<br>
-                +#!/bin/bash<br>
-              </blockquote>
-              <div><br>
-              </div>
-              <div>This script should have a license and proper header
-                file.</div>
-              <div><br>
-              </div>
-              <div>Also, if the ptests are mainly trace/sample related,
-                name the script to indicate that.</div>
-              <div><br>
-              </div>
-              <div>The kernel already has a significant number of
-                selftests, which are likely better than</div>
-              <div>these ptests. Is there any reason why they aren't
-                being used instead ?</div>
-              <div> </div>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                +depmod<br>
-                +touch kernel.log<br>
-                +<br>
-                +#dma-example bytestream-example inttype-example
-                record-example<br>
-                +list1=("dma-example" "bytestream-example"
-                "inttype-example" "record-example")<br>
-                +for i in "${list1[@]}"<br>
-                +do<br>
-                +  dmesg -c<br>
-                +  modprobe "$i"<br>
-                +  result=""<br>
-                +  IFS="-" read -ra array &lt;&lt;&lt; "$i"<br>
-                +  len=${#array[@]}<br>
-                +  if [ $len -eq 2 ];then<br>
-                +    result="${array[0]}_${array[1]<wbr>}"<br>
-                +  elif [ $len -eq 3 ];then<br>
-                +    result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-                +  fi<br>
-                +  lsmod | grep -q "$result"<br>
-                +  if [ $? -eq 0 ];then<br>
-                +    dmesg | grep "test passed"<br>
-                +    if [ $? -eq 0 ];then<br>
-                +      echo "$i: PASS" &gt;&gt; kernel.log<br>
-                +    fi<br>
-                +    rmmod "$i"<br>
-                +  else<br>
-                +    echo "$i: FAILED" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +done<br>
-                +<br>
-                +#kobject-example kset-example<br>
-                +list2=("kobject-example" "kset-example")<br>
-                +for i in "${list2[@]}"<br>
-                +do<br>
-                +  dmesg -c<br>
-                +  modprobe "$i"<br>
-                +  result=""<br>
-                +  IFS="-" read -ra array &lt;&lt;&lt; "$i"<br>
-                +  len=${#array[@]}<br>
-                +  if [ $len -eq 2 ];then<br>
-                +    result="${array[0]}_${array[1]<wbr>}"<br>
-                +  elif [ $len -eq 3 ];then<br>
-                +    result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-                +  fi<br>
-                +  basedir="/sys/kernel/${result}<wbr>"<br>
-                +  echo "$basedir"<br>
-                +  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e
-                ${basedir}/foo ];then<br>
-                +    echo "$i: PASS" &gt;&gt; kernel.log<br>
-                +    rmmod "$i"<br>
-                +  else<br>
-                +    echo "$i: FAILED" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +done<br>
-                +<br>
-                +#trace-events-sample<br>
-                +list3="trace-events-sample"<br>
-                +result=""<br>
-                +IFS="-" read -ra array &lt;&lt;&lt; "$list3"<br>
-                +len=${#array[@]}<br>
-                +if [ $len -eq 2 ];then<br>
-                +  result="${array[0]}_${array[1]<wbr>}"<br>
-                +elif [ $len -eq 3 ];then<br>
-                +  result="${array[0]}_${array[1]<wbr>}_${array[2]}"<br>
-                +fi<br>
-                +modprobe "$list3"<br>
-                +lsmod | grep "$result"<br>
-                +if [ $? -eq 0 ];then<br>
-                +  if [ -e "/sys/kernel/debug/tracing/<wbr>events/sample-trace"
-                ];then<br>
-                +    echo 1 &gt; /sys/kernel/debug/tracing/<wbr>events/sample-trace/enable<br>
-                +    sleep 5<br>
-                +    ret=`cat /sys/kernel/debug/tracing/<wbr>trace |
-                grep hello | head -n1 | cut -d':' -f2`<br>
-                +    if [ "$ret" = " foo_bar" ];then<br>
-                +      echo "$list3: PASS"  &gt;&gt; kernel.log<br>
-                +    else<br>
-                +      echo "$list3: FAILED-" &gt;&gt; kernel.log<br>
-                +    fi<br>
-                +  else<br>
-                +    echo "$list3: FAILED--" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +else<br>
-                +  echo "$list3: FAILED---" &gt;&gt; kernel.log<br>
-                +fi<br>
-                +rmmod "$list3"<br>
-                +<br>
-                +#trace-printk<br>
-                +list4="trace-printk"<br>
-                +modprobe "$list4"<br>
-                +lsmod | grep "trace_printk"<br>
-                +if [ $? -eq 0 ];then<br>
-                +  ret=`cat /sys/kernel/debug/tracing/<wbr>trace | grep
-                trace_printk | head -n1 | cut -d':' -f2`<br>
-                +  if [ "$ret" = " trace_printk_irq_work" ];then<br>
-                +    echo "$list4: PASS" &gt;&gt; kernel.log<br>
-                +    rmmod "$list4"<br>
-                +  else<br>
-                +    echo "$list4: FAILED" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +else<br>
-                +  echo "$list4: FAILED" &gt;&gt; kernel.log<br>
-                +fi<br>
-                +rmmod "$list4"<br>
-                +<br>
-                +#kprobe_example<br>
-                +list5="kprobe_example"<br>
-                +dmesg -c<br>
-                +modprobe "$list5"<br>
-                +lsmod | grep "$list5"<br>
-                +if [ $? -eq 0 ];then<br>
-                +  dmesg | grep "_do_fork"<br>
-                +  if [ $? -eq 0 ];then<br>
-                +    echo "$list5: PASS" &gt;&gt; kernel.log<br>
-                +  else<br>
-                +    echo "$list5: FAILED" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +else<br>
-                +  echo "$list5: FAILED" &gt;&gt; kernel.log<br>
-                +fi<br>
-                +rmmod "$list5"<br>
-                +<br>
-                +#kretprobe_example<br>
-                +list6="kretprobe_example"<br>
-                +dmesg -c<br>
-                +modprobe "$list6"<br>
-                +lsmod | grep "$list6"<br>
-                +if [ $? -eq 0 ];then<br>
-                +  dmesg | grep "_do_fork returned"<br>
-                +  if [ $? -eq 0 ];then<br>
-                +    echo "$list6: PASS" &gt;&gt; kernel.log<br>
-                +  else<br>
-                +    echo "$list6: FAILED" &gt;&gt; kernel.log<br>
-                +  fi<br>
-                +else<br>
-                +  echo "$list6: FAILED" &gt;&gt; kernel.log<br>
-                +fi<br>
-                +rmmod "$list6"<br>
-                +<br>
-                +echo "#####result#####"<br>
-                +cat kernel.log<br>
-                +rm kernel.log<br>
-                diff --git a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc
-                b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-                index 95ec2a2..7e1773e 100644<br>
-                --- a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-                +++ b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-                @@ -67,3 +67,11 @@ do_install_append(){<br>
-                 addtask kernel_version_sanity_check after
-                do_kernel_metadata do_kernel_checkout before do_compile<br>
-                 addtask validate_branches before do_patch after
-                do_kernel_checkout<br>
-                 addtask kernel_configcheck after do_configure before
-                do_compile<br>
-                +<br>
-                +inherit ptest<br>
-                +SRC_URI_append = " <a class="moz-txt-link-freetext"
-                  href="file://run-ptest" moz-do-not-send="true">file://run-ptest</a>
-                \<br>
-                +"<br>
-                +do_install_ptest_append() {<br>
-                +       install -D ${WORKDIR}/run-ptest
-                ${D}${PTEST_PATH}/run-ptest<br>
-                +}<br>
-                +KERNEL_FEATURES_append = "
-                ${@bb.utils.contains("DISTRO_<wbr>FEATURES", "ptest",
-                "features/kernel-sample/<wbr>kernel-sample.scc", "",
-                d)}"<br>
-                diff --git a/meta/recipes-kernel/linux/<a
-                  moz-do-not-send="true"
-                  href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                  target="_blank">li<wbr>nux-yocto_4.14.bb</a>
-                b/meta/recipes-kernel/linux/<a moz-do-not-send="true"
-                  href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                  target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-                index 16142f8..7002693 100644<br>
-                --- a/meta/recipes-kernel/linux/<a
-                  moz-do-not-send="true"
-                  href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                  target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-                +++ b/meta/recipes-kernel/linux/<a
-                  moz-do-not-send="true"
-                  href="http://linux-yocto_4.14.bb" rel="noreferrer"
-                  target="_blank">li<wbr>nux-yocto_4.14.bb</a><br>
-                @@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-                 SRCREV_machine_qemux86-64 ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-                 SRCREV_machine_qemumips64 ?= "<wbr>9863b327e770b42b8c18da3e0cfaf0<wbr>6e8f99ae97"<br>
-                 SRCREV_machine ?= "<wbr>74f6cd2b6976e37491779fcb1bc496<wbr>6d3a61492c"<br>
-                -SRCREV_meta ?= "<wbr>ea9330894eea727bd1655569b16f33<wbr>8976b72563"<br>
-                +SRCREV_meta ?= "<wbr>53336e1b7d969f21d8214ec9ceeb48<wbr>fba4f99372"<br>
-              </blockquote>
-              <div><br>
-              </div>
-              <div>Do not bump the SRCREV for meta in this series.</div>
-              <div><br>
-              </div>
-              <div>If your feature depends on something in the meta
-                branch (which it does), wait until I've sent my next
-                series before sending this.</div>
-              <div><br>
-              </div>
-              <div>Bruce</div>
-              <div> </div>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex"> <br>
-                 SRC_URI = "git://<a moz-do-not-send="true"
-href="http://git.yoctoproject.org/linux-yocto.git;name=machine;branch=$%7BKBRANCH%7D"
-                  rel="noreferrer" target="_blank">git.yoctoproject.org/<wbr>linux-yocto.git;name=machine;<wbr>branch=${KBRANCH}</a>;
-                \<br>
-                            git://<a moz-do-not-send="true"
-href="http://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=$%7BKMETA%7D"
-                  rel="noreferrer" target="_blank">git.yoctoproject.org/<wbr>yocto-kernel-cache;type=kmeta;<wbr>name=meta;branch=yocto-4.14;<wbr>destsuffix=${KMETA}</a>"<br>
-                <div class="HOEnZb">
-                  <div class="h5">-- <br>
-                    2.7.4<br>
-                    <br>
-                    -- <br>
-                    ______________________________<wbr>_________________<br>
-                    Openembedded-core mailing list<br>
-                    <a moz-do-not-send="true"
-                      href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                    <a moz-do-not-send="true"
-                      href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                      rel="noreferrer" target="_blank">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-                  </div>
-                </div>
-              </blockquote>
-            </div>
-            <br>
-            <br clear="all">
-            <div><br>
-            </div>
-            -- <br>
-            <div class="gmail_signature"
-              data-smartmail="gmail_signature">"Thou shalt not follow
-              the NULL pointer, for chaos and madness await thee at its
-              end"</div>
-          </div>
-        </div>
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------F31973691D61E80D2A21D93C--
