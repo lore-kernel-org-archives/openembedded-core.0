@@ -1,51 +1,50 @@
 Return-Path: <twoerner@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0734D747D7
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B9AA74F9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 02:24:00 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id v135-v6so12567411lfa.9
+	Fri,  1 Jun 2018 02:33:32 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id v135-v6so12589653lfa.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 19:24:02 -0700 (PDT)
+	Thu, 31 May 2018 19:33:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Da9Lbg3uCzqUGvhGD/PQHxvqY5bcfKk2sFxOpMZlZdQ=;
-	b=DQTPTFVJjeHDhsXFblmoDRBGjJE8iPpAe2OpOY+xI4XFhS7XPyLpaEwFHP9Xuks5Yy
-	CDHLbYOEfl8ySBSsU/4AIx0RLLaOTTcQXA2MJq3WnO8P7vnH7zqJd5Xlg1rfIC0JMFXk
-	jp85tRd2m9tDsr+3nvKDVVV/YjnNWkCRv7T6VyIU8nRMpPku9W3z8iA5qocJug6vEcOV
-	OKiaCFetU3sIHVO1CaEptBMsTBj1r9ZSTbkIfc3Q13u1DuIPLMfE6u2advqcvUAOj4D3
-	kfncAkphetoxH5U2U5ObPVRfUj5k0flQQ+T/LdFGWkrOSlH49gi+gPVjHA7u/zMHsjcp
-	9jew==
+	:cc; bh=2Kh6faE1R3hHyxtm1XVenqc5U/RAmD5LX2Ywe4h6C0Q=;
+	b=PeuniW4u4ePVJ85/JvTP0NnsAsoXQ8sj12AYryezJk2Mp2PO1ihDASITTISzM3SDtT
+	RQ63dWhAduE4b5ln7U/gaC9c/SsxIZvxuyhytd02/nK9U46274QFw5lNY6zFAxif7QBf
+	UiAUV0o+7wZo1GyzFPgLeMjkLG+aVFbInkB2R8oSdMUG8ssl8564HwSOJyajQqNKqTDq
+	pB3QNuYC+xfQ3QC0aYLStyUct7mhU36wVhfAi3+w2EfivYaQlbfuDvVbvvA7Gu9IVAmJ
+	l04d86yIbbvjwcSq/trImBC9zhAzMPfdYx/0Qs59NmGV7FSml/8iz36oSqHFkjdSJzez
+	xQUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Da9Lbg3uCzqUGvhGD/PQHxvqY5bcfKk2sFxOpMZlZdQ=;
-	b=UhThWkja1Jn9LM/K0V317VmBciEqvAI/bB0Nc16ZX7+2J9gokLs+Ch7DV4dgfHiJ96
-	RGzZNYXAciBXvXPwouVvNvGtHw0myRgViK5J8x9JNk/C+VK09+0I8sQueN71485tqqdC
-	rLyukKCzJSuONQSJ4sottBaF6EOWI+DYXX8ZiaX3ZNd78wlHLx5SgW6ix0dHN3IQRiLI
-	Z1JGggXQYU7vB2vwdOigse/byZMCQ+hdWYTBm4raHpiEiCoC0moU/eA+wNJENJCTGQKK
-	doB9epGUQjuzzXSV6gEVKTafo4O8h7MMyq0p8TJ9F9Si9nSi4ONrqYhCDLon8yh7JRNz
-	pdgg==
-X-Gm-Message-State: ALKqPwc5fxhUxrRqGyg0DYgkMR0FRlQvSpTzeiEXeOTrMuuHNolQZV/f
-	ssA8h1kjW8wDvEERsbaYL3t8Gqp9NI+aTjT5ayA=
-X-Google-Smtp-Source: ADUXVKIQndZlNj3rpr5lm1BiMFwP2blBdkZC7HIU2Fgns8qnzEKEVfTwqGGOSQAxx7xcltKZ+vHgnZTPb0Ndg436AaI=
-X-Received: by 2002:a2e:8350:: with SMTP id
-	l16-v6mr6625610ljh.28.1527819841478; 
-	Thu, 31 May 2018 19:24:01 -0700 (PDT)
+	bh=2Kh6faE1R3hHyxtm1XVenqc5U/RAmD5LX2Ywe4h6C0Q=;
+	b=SzZWiSU5dxolUB7ygFOdY4M1md222eBEjSm5x2FpgxCU/02BSazKIpQ7KBEARMWciL
+	dLZb6gurpzhS9ioZBx8QtGMLecekeBAu2fojUMnw7wBfQVxOSBK8JijijpvWYH9DZbG0
+	/JWZYG3z7OM2Cc1g2YSsOg0avGf44xRut0LJgS1RWUC88j1pthYwUVmGPFOyEoGjMMzw
+	IjOYEpXMHjbe7UOSFV3ikHCtRVcLX6ijIYtQlq2uTcioi1/JhlKhd3BarwihVmlEHrXG
+	szNz+avM2KXViB9pfiOOo7kb+KgDkZboY60+KZXXMuci3nOoxcISxJyL7WKal+r8LD5w
+	CFVA==
+X-Gm-Message-State: ALKqPwfFt96ZCzEFU+LrXzQOROAs/84Kl1rI6jVbtA8JcfEc+QrUpvbo
+	5I2xn7/itsHfqTZzHjBwoHNdeLUDtwbH4U6fjwY=
+X-Google-Smtp-Source: ADUXVKLH0LwROn/7psXrhIoRfCZhcmQWpR4woSJkArGNX1w09nCgfxHJw93Vf0HT9yZoG/KiJh9rU3R0g0lJA0cw7k4=
+X-Received: by 2002:a19:7316:: with SMTP id o22-v6mr4979391lfc.6.1527820412897;
+	Thu, 31 May 2018 19:33:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a19:cb07:0:0:0:0:0 with HTTP; Thu, 31 May 2018 19:23:59
+Received: by 2002:a19:cb07:0:0:0:0:0 with HTTP; Thu, 31 May 2018 19:33:32
 	-0700 (PDT)
-In-Reply-To: <CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
-References: <20180531200659.28877-1-twoerner@gmail.com>
-	<CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
+In-Reply-To: <1527808243-20215-1-git-send-email-armccurdy@gmail.com>
+References: <1527808243-20215-1-git-send-email-armccurdy@gmail.com>
 From: Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 31 May 2018 22:23:59 -0400
-Message-ID: <CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
+Date: Thu, 31 May 2018 22:33:32 -0400
+Message-ID: <CAHUNapTnTwLQ9poPWHCp9PEEjaLZUKikxPE_H7on5uL5xB5OFQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>,
+	meta-intel <meta-intel@yoctoproject.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tune-i586-nlp.inc: drop tuning file for Intel Quark/X1000 CPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,183 +57,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 02:24:01 -0000
-Content-Type: multipart/alternative; boundary="000000000000eea3aa056d8b461a"
+X-List-Received-Date: Fri, 01 Jun 2018 02:33:32 -0000
+Content-Type: multipart/alternative; boundary="000000000000fdcf34056d8b68fd"
 
---000000000000eea3aa056d8b461a
+--000000000000fdcf34056d8b68fd
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Andre, thanks for taking an interest!
+Someone (maybe me??) needs to create a meta-intel-community in which to
+capture these sorts of things. Just because Intel, officially, doesn't
+support it, doesn't mean all the existing Galileos (and I think there's
+another devboard that uses the Quark?) out there should lose support.
 
-On Thu, May 31, 2018 at 6:22 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+On Thu, May 31, 2018 at 7:10 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> On Thu, May 31, 2018 at 1:06 PM, Trevor Woerner <twoerner@gmail.com>
-> wrote:
-> > Instead of installing an entire recipe's build output (i.e. ${D}), allow
-> the
-> > user to optionally specify a package from said recipe to be installed
-> > exclusively (i.e. ${PKGDEST}/<package>).
+> The Quark machine was EOL'ed at the end of 2017 and all support for
+> it has now been removed from meta-intel. Drop the associated tuning
+> file from oe-core.
 >
-> I'm not a big devtool user myself, but I'm curious about the
-> situations where you might need this?
+>   http://git.yoctoproject.org/cgit.cgi/meta-intel/commit/?id=
+> 5dbc69e339588834317b632119717996584b0d6c
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/machine/include/tune-i586-nlp.inc | 19 -------------------
+>  1 file changed, 19 deletions(-)
+>  delete mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
+>
+> diff --git a/meta/conf/machine/include/tune-i586-nlp.inc
+> b/meta/conf/machine/include/tune-i586-nlp.inc
+> deleted file mode 100644
+> index 88e5903..0000000
+> --- a/meta/conf/machine/include/tune-i586-nlp.inc
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -# Settings for the GCC(1) cpu-type "quark":
+> -#
+> -#
+> -#
+> -DEFAULTTUNE ?= "i586-nlp-32"
+> -
+> -# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
+> -require conf/machine/include/x86/arch-x86.inc
+> -
+> -# x86 with no lock prefix
+> -TUNEVALID[i586-nlp] = "IA32 with Lock Prefix omitted"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'i586-nlp', '
+> -march=i586 -Wa,-momit-lock-prefix=yes', '', d)}"
+> -
+> -# Quark tune feature
+> -AVAILTUNES = "i586-nlp-32"
+> -TUNE_FEATURES_tune-i586-nlp-32 = "${TUNE_FEATURES_tune-x86} i586-nlp"
+> -BASE_LIB_tune-i586-nlp-32 = "lib"
+> -TUNE_PKGARCH_tune-i586-nlp-32 = "i586-nlp-32"
+> -PACKAGE_EXTRA_ARCHS_tune-i586-nlp-32 = "i586-nlp-32"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Earlier today I was working on recipes for some software which recently
-added the feature to dlopen() one of a couple shared objects based on
-various conditions. But instead of dlopen()'ing the SONAME, they were
-dlopen()'ing the raw .so file. OE's default packaging, of course, added the
-*.so.0 and *.so.0.0.0 files to the ${PN} package, and the raw *.so files to
-the ${PN}-dev package. So when the app tried to run, it failed.
-
-Investigating, I realised there were two things I could do: 1) add the raw
-*.so files to the ${PN} package (with INSANE_SKIP += "dev-so") or 2) fix
-the app. I decided to try #2, with the help of devtool.
-
-I made one small change to the app, "devtool deploy-target"'ed it, and,
-AMAZINGLY, everything worked!! Wow, what luck! ... or not.
-
-Investigating, I discovered that "devtool deploy-target"'s only mode of
-operation is to upload the entire recipe's ${D} directory (i.e.
-${WORKDIR}/image) to the target! I hope you'll be as surprised by that as
-am I. Considering ${D} includes *.a files, man pages, raw *.so files,
-pkgconfigs, (... thankfully it doesn't also include the -dbg packages) that
-is a lot of stuff to be uploading to the target, a lot of wrong stuff, and
-in my case that hindered my work. Most target filesystems are only 10%
-larger than required to hold their contents, so uploading static libraries,
-man pages, pkgconfigs, etc is not great.
-
-Specifically, these unwanted raw *.so files were hindering my work. My only
-two options were: 1) to use "devtool deploy-target" as-is and then have to
-manually delete all the .so files or 2) come up with a better solution. I
-went with #2 (again).
-
-Many recipes generate just a couple packages: ${PN}, -dbg, -doc, -dev,
--staticdev, -locale. But some generate a whole bunch. In my case my recipe
-is generating a lot of packages, but I only wanted to investigate one. This
-patch allows a developer to focus on just one package, instead of the
-entire recipe.
-
-
-> Are the going to be problems if users want to deploy more than one
-> package (or switch between a full deploy and a package) and don't
-> deploy and undeploy in the right order?
->
-
-In my patch I added a --package option to "devtool deploy-target" but not
-to "devtool undeploy-target". devtool keeps track of what files were
-uploaded by creating a per-package list on the target itself (in
-/.devtool). When you undeploy a recipe, it simply looks for this recipe
-file on the target, reads the files listed there, and undeploys each of the
-files in that list.
-
-Therefore, mixing and matching deploys and undeploys amongst recipes don't
-interfere with each other.
-
-I checked at the time, but I'm not 100% sure now, but I believe if one
-deploys two packages from one recipe, the on-target file gets appended. But
-now I'm not 100% sure, so I'll verify this tomorrow (thanks for the
-reminder). As such, under my scheme, you can deploy recipes and packages at
-will, but then only undeploy the whole kit and caboodle in one go; given a
-recipe name to undeploy, whatever it finds in the on-target record will get
-undeployed.
-
-I think any developer will find this reasonable behaviour (but maybe not?).
-
-In any case, my patch doesn't affect any existing workflows. If a developer
-never notices the new --package option and simply continues to use "devtool
-deploy-target" with just a recipe name, the behaviour will be exactly the
-same. Only when the --package option is used will the new behaviour occur.
-
-I'll verify deploying multiple packages from the same recipe to confirm
-they append the list file. I'll also verify deploying the same package
-multiple times (although my guess is there'll be no difference between this
-and the existing behaviour should one deploy the same recipe multiple
-times).
-
---000000000000eea3aa056d8b461a
+--000000000000fdcf34056d8b68fd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">Hi A=
-ndre, thanks for taking an interest!</div><div class=3D"gmail_quote"><br></=
-div><div class=3D"gmail_quote">On Thu, May 31, 2018 at 6:22 PM, Andre McCur=
-dy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_=
-blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><span class=3D"">On Thu, May 31, 2018 at 1:06 PM, Trevor Woerner &l=
-t;<a href=3D"mailto:twoerner@gmail.com">twoerner@gmail.com</a>&gt; wrote:<b=
+<div dir=3D"ltr"><span style=3D"color:rgb(34,34,34);font-family:arial,sans-=
+serif;font-size:small;font-style:normal;font-variant-ligatures:normal;font-=
+variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;=
+text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;bac=
+kground-color:rgb(255,255,255);text-decoration-style:initial;text-decoratio=
+n-color:initial;float:none;display:inline">Someone (maybe me??) needs to cr=
+eate a meta-intel-community in which to capture these sorts of things. Just=
+ because Intel, officially, doesn&#39;t support it, doesn&#39;t mean all th=
+e existing Galileos (and I think there&#39;s another devboard that uses the=
+ Quark?) out there should lose support.</span><br></div><div class=3D"gmail=
+_extra"><br><div class=3D"gmail_quote">On Thu, May 31, 2018 at 7:10 PM, And=
+re McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" tar=
+get=3D"_blank">armccurdy@gmail.com</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">The Quark machine was EOL&#39;ed at the end of 2017 and all=
+ support for<br>
+it has now been removed from meta-intel. Drop the associated tuning<br>
+file from oe-core.<br>
+<br>
+=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit.cgi/meta-intel/commit/?i=
+d=3D5dbc69e339588834317b632119717996584b0d6c" rel=3D"noreferrer" target=3D"=
+_blank">http://git.yoctoproject.org/<wbr>cgit.cgi/meta-intel/commit/?<wbr>i=
+d=3D<wbr>5dbc69e339588834317b6321197179<wbr>96584b0d6c</a><br>
+<br>
+Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">arm=
+ccurdy@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-i586-nlp.inc | 19 ---------------=
+----<br>
+=C2=A01 file changed, 19 deletions(-)<br>
+=C2=A0delete mode 100644 meta/conf/machine/include/<wbr>tune-i586-nlp.inc<b=
 r>
-&gt; Instead of installing an entire recipe&#39;s build output (i.e. ${D}),=
- allow the<br>
-&gt; user to optionally specify a package from said recipe to be installed<=
-br>
-&gt; exclusively (i.e. ${PKGDEST}/&lt;package&gt;).<br>
 <br>
-</span>I&#39;m not a big devtool user myself, but I&#39;m curious about the=
+diff --git a/meta/conf/machine/include/<wbr>tune-i586-nlp.inc b/meta/conf/m=
+achine/include/<wbr>tune-i586-nlp.inc<br>
+deleted file mode 100644<br>
+index 88e5903..0000000<br>
+--- a/meta/conf/machine/include/<wbr>tune-i586-nlp.inc<br>
++++ /dev/null<br>
+@@ -1,19 +0,0 @@<br>
+-# Settings for the GCC(1) cpu-type &quot;quark&quot;:<br>
+-#<br>
+-#<br>
+-#<br>
+-DEFAULTTUNE ?=3D &quot;i586-nlp-32&quot;<br>
+-<br>
+-# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS<br>
+-require conf/machine/include/x86/arch-<wbr>x86.inc<br>
+-<br>
+-# x86 with no lock prefix<br>
+-TUNEVALID[i586-nlp] =3D &quot;IA32 with Lock Prefix omitted&quot;<br>
+-TUNE_CCARGS .=3D &quot;${@bb.utils.contains(&#39;TUNE_<wbr>FEATURES&#39;, =
+&#39;i586-nlp&#39;, &#39; -march=3Di586 -Wa,-momit-lock-prefix=3Dyes&#39;, =
+&#39;&#39;, d)}&quot;<br>
+-<br>
+-# Quark tune feature<br>
+-AVAILTUNES =3D &quot;i586-nlp-32&quot;<br>
+-TUNE_FEATURES_tune-i586-nlp-<wbr>32 =3D &quot;${TUNE_FEATURES_tune-x86} i5=
+86-nlp&quot;<br>
+-BASE_LIB_tune-i586-nlp-32 =3D &quot;lib&quot;<br>
+-TUNE_PKGARCH_tune-i586-nlp-32 =3D &quot;i586-nlp-32&quot;<br>
+-PACKAGE_EXTRA_ARCHS_tune-<wbr>i586-nlp-32 =3D &quot;i586-nlp-32&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
+1.9.1<br>
 <br>
-situations where you might need this?<br></blockquote><div><br></div><div>E=
-arlier today I was working on recipes for some software which recently adde=
-d the feature to dlopen() one of a couple shared objects based on various c=
-onditions. But instead of dlopen()&#39;ing the SONAME, they were dlopen()&#=
-39;ing the raw .so file. OE&#39;s default packaging, of course, added the *=
-.so.0 and *.so.0.0.0 files to the ${PN} package, and the raw *.so files to =
-the ${PN}-dev package. So when the app tried to run, it failed.</div><div><=
-br></div><div>Investigating, I realised there were two things I could do: 1=
-) add the raw *.so files to the ${PN} package (with INSANE_SKIP +=3D &quot;=
-dev-so&quot;) or 2) fix the app. I decided to try #2, with the help of devt=
-ool.</div><div><br></div><div>I made one small change to the app, &quot;dev=
-tool deploy-target&quot;&#39;ed it, and, AMAZINGLY, everything worked!! Wow=
-, what luck! ... or not.</div><div><br></div><div>Investigating, I discover=
-ed that &quot;devtool deploy-target&quot;&#39;s only mode of operation is t=
-o upload the entire recipe&#39;s ${D} directory (i.e. ${WORKDIR}/image) to =
-the target! I hope you&#39;ll be as surprised by that as am I. Considering =
-${D} includes *.a files, man pages, raw *.so files, pkgconfigs, (... thankf=
-ully it doesn&#39;t also include the -dbg packages) that is a lot of stuff =
-to be uploading to the target, a lot of wrong stuff, and in my case that hi=
-ndered my work. Most target filesystems are only 10% larger than required t=
-o hold their contents, so uploading static libraries, man pages, pkgconfigs=
-, etc is not great.</div><div><br></div><div>Specifically, these unwanted r=
-aw *.so files were hindering my work. My only two options were: 1) to use &=
-quot;devtool deploy-target&quot; as-is and then have to manually delete all=
- the .so files or 2) come up with a better solution. I went with #2 (again)=
-.</div><div><br></div><div>Many recipes generate just a couple packages: ${=
-PN}, -dbg, -doc, -dev, -staticdev, -locale. But some generate a whole bunch=
-. In my case my recipe is generating a lot of packages, but I only wanted t=
-o investigate one. This patch allows a developer to focus on just one packa=
-ge, instead of the entire recipe.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-Are the going to be problems if users want to deploy more than one<br>
-package (or switch between a full deploy and a package) and don&#39;t<br>
-deploy and undeploy in the right order?<br>
-<div class=3D"HOEnZb"><div class=3D"h5"></div></div></blockquote></div><br>=
-</div><div class=3D"gmail_extra">In my patch I added a --package option to =
-&quot;devtool deploy-target&quot; but not to &quot;devtool undeploy-target&=
-quot;. devtool keeps track of what files were uploaded by creating a per-pa=
-ckage list on the target itself (in /.devtool). When you undeploy a recipe,=
- it simply looks for this recipe file on the target, reads the files listed=
- there, and undeploys each of the files in that list.</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Therefore, mixing and match=
-ing deploys and undeploys amongst recipes don&#39;t interfere with each oth=
-er.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I =
-checked at the time, but I&#39;m not 100% sure now, but I believe if one de=
-ploys two packages from one recipe, the on-target file gets appended. But n=
-ow I&#39;m not 100% sure, so I&#39;ll verify this tomorrow (thanks for the =
-reminder). As such, under my scheme, you can deploy recipes and packages at=
- will, but then only undeploy the whole kit and caboodle in one go; given a=
- recipe name to undeploy, whatever it finds in the on-target record will ge=
-t undeployed.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">I think any developer will find this reasonable behaviour (but mayb=
-e not?).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">In any case, my patch doesn&#39;t affect any existing workflows. If a de=
-veloper never notices the new --package option and simply continues to use =
-&quot;devtool deploy-target&quot; with just a recipe name, the behaviour wi=
-ll be exactly the same. Only when the --package option is used will the new=
- behaviour occur.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">I&#39;ll verify deploying multiple packages from the same recip=
-e to confirm they append the list file. I&#39;ll also verify deploying the =
-same package multiple times (although my guess is there&#39;ll be no differ=
-ence between this and the existing behaviour should one deploy the same rec=
-ipe multiple times).</div></div>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
---000000000000eea3aa056d8b461a--
+--000000000000fdcf34056d8b68fd--
