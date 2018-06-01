@@ -1,50 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
-	[209.85.160.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CC1074D3A
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 001C774F37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 17:09:25 +0000 (UTC)
-Received: by mail-pl0-f65.google.com with SMTP id z9-v6so12342505plk.11
+	Fri,  1 Jun 2018 17:12:01 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id a14-v6so12808444pfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 10:09:26 -0700 (PDT)
+	Fri, 01 Jun 2018 10:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=ySpBuCvFO/R0KdOVf3gcXsXyQcDl8oSKh+nTrDVqIRg=;
-	b=Akl7lqcioBctwhyWwLQTiFBXVien8ocSy82+Uhy2/3Yxte7zqQeADbWeWsN8E5fBvp
-	P82G78mHt5nAvJJULN5JGlwM5AehfxPNhIIrg1/W1A26cSNOSo9MzGRzDruVY4dk7/Kd
-	usaZ9tKJitKAzoZuJBniWcSeiyeJAFTlVzs2hfkKV+X5tmFTXlMFVnQmcOSkggwGSPkv
-	OXdz34dulO4uZ2/JVxrbd9sOS1BJOl1tfjaR1yiommhHKVPKPkv0OszOmR5TEBA8VQzz
-	ccHKLbtlamJXgjCplWmr4ZVAUBkcaRKlUCq7UoMMlP6NRfeMCsi3RmT+QRO2/yGI9gtX
-	VAiQ==
+	bh=c0EKLH9GENV7a5b1+yy/g/hw91J0QqNZF3PnrtCt4ko=;
+	b=Hnv8lmXYEtrHgY4mM9NY7eu7Wjau+SC6Dejc9FNRZPsDToJdRhEL/V8xvoSMA6sqYx
+	HnWvnqdBKJcn5/++gw9U4hjPrih/t+lUp+JPvBfB0zvN1aqFfSohzeZNYmapwGLoTtsm
+	ImLrfmNa/n4+5fnUebRGQ/+cczD5CATyD4bWdvMGb3DRHPVyW2+K3DEDhcyh3N5hoPs/
+	qs9AgOzXfe0E6fLomUYf1B1+W2evUSctC3haE6MD8S9rL9XeGab5uQcUTMg2H0YlfT6x
+	q7s/+AWRxwqalf9S1/nxtGdE35SGcsZ4x2mDEi5wFaRfsKY9R2XBfR1F1ZbSooX+nItN
+	f6sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=ySpBuCvFO/R0KdOVf3gcXsXyQcDl8oSKh+nTrDVqIRg=;
-	b=H3CNivEWKt6ATH0n7/+w1MueVBZHayHGPdDdwB3QmUVgX0LRcWTg8r7gojNKKt+5nl
-	3B8h4YaRVKmKeqQa5oNsKqoixu0VlujSdMx6vA7Hpc6RHaDnzTcUHhTEIK71CNuUnT5C
-	OnojsfPRYK3YngsT3MJaZ7WFO4XotG160DJTY69gTVDOcwDRDr793ZUhKR9b68IUmEL6
-	7MMiS74eysNDdlUIm/owzJYFVeRMY/vX0uLkxCd+biJo6JB2ZHkbDgikcx6iyuBTtZMn
-	m2u21cVLWXoLjiacH9VhWjQjQv3nFOZ7GWu8Xkt0ZZxu7MRNv68WyiabUwiwsTGV5gum
-	H/Zg==
-X-Gm-Message-State: ALKqPwcMY//JxzcVWvtWb79uVVrRQFJICsQ1hD2Hd8Q/MlxsdQLr+8lI
-	QcRaTKOOMiWMozFaf8/WNI4Y0BO7
-X-Google-Smtp-Source: ADUXVKIhXWQyCqHRn0eGM8kPdIfpRBppNR1y7gbyhF71cBJ7j0Y98Ffx7AhlAr7ClHwwX4xwKJAeqw==
-X-Received: by 2002:a17:902:42c3:: with SMTP id
-	h61-v6mr11928437pld.164.1527872965851; 
-	Fri, 01 Jun 2018 10:09:25 -0700 (PDT)
+	bh=c0EKLH9GENV7a5b1+yy/g/hw91J0QqNZF3PnrtCt4ko=;
+	b=mOawZlvhNoJOlDVWVd1QXu4wbFXRGwf3LFaeA3OWosb+ggbe8mJPLKTfQ88jpILQf2
+	cvtqVOQZ9HqTcEQ4Q7LnewNbNZ7VxpbJ+Yh1HvyWX3sCibkqlyXSPVciYglrCvgALb9+
+	5zc2AL7A91PlI1IzNOnWafqAxf9u+ncBgzomn0IZ+hEYBTJb/nNCRnO4HzFQq0Na9pKU
+	mNahRRxamdCY8fhJ5fmN4T1RLSXKqTj/AgDnzL8bdOU6PBhwuyNsM12eOKCjO33RvXla
+	mlbsEtwkog+KPJjrPd7vT8ALz7Q0z+gkLyYBVoWrZmZ4hCIh+Ex4ZH5xXKDbiJfF8q5h
+	sP5w==
+X-Gm-Message-State: ALKqPwd2eSvYgF2D7VgIbUp9NyXTlkxcKf7OkpQK4Mscz1N/pgpWc9Nj
+	OWb/kDBTDGZbnRGgj6EVpBw=
+X-Google-Smtp-Source: ADUXVKLiwn0FnK8IfAb5wKjW2rMJUQU7KahsTnplNRAOkvuDHqgEBkFjUdBs0o3aBhp9EViUA+tk/Q==
+X-Received: by 2002:a63:7b1e:: with SMTP id
+	w30-v6mr9574685pgc.249.1527873122875; 
+	Fri, 01 Jun 2018 10:12:02 -0700 (PDT)
 Received: from ?IPv6:2601:646:877f:9499:2ca8:85c9:c335:d6ec?
 	([2601:646:877f:9499:2ca8:85c9:c335:d6ec])
 	by smtp.gmail.com with ESMTPSA id
-	t10-v6sm8750360pgn.20.2018.06.01.10.09.24
+	g80-v6sm889658pfd.21.2018.06.01.10.12.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Jun 2018 10:09:25 -0700 (PDT)
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20180528155833.24224-1-raj.khem@gmail.com>
-	<CA+chaQdTQ8OCmXthjY_Fyq+7En9=GMk8A_KpmVwehuBy6oJvYQ@mail.gmail.com>
-	<CAMKF1sq4xaHNsNBxuLWmhGiuwO2rpRZPbQQhZETnU17hTku=pA@mail.gmail.com>
-	<CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
+	Fri, 01 Jun 2018 10:12:02 -0700 (PDT)
+To: Trevor Woerner <twoerner@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20180531200659.28877-1-twoerner@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
@@ -79,14 +77,14 @@ Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
 	suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
 	XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
 	VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-Message-ID: <51123ef0-14ff-f6a0-c98a-b118ed319fc0@gmail.com>
-Date: Fri, 1 Jun 2018 10:09:19 -0700
+Message-ID: <5e1d741f-e9a9-db4b-4a31-14d8367b3d5b@gmail.com>
+Date: Fri, 1 Jun 2018 10:11:56 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
 	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] systemd: Fix build with gcc8
+In-Reply-To: <20180531200659.28877-1-twoerner@gmail.com>
+Cc: paul.eggleton@linux.intel.com
+Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -99,447 +97,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 17:09:25 -0000
-X-Groupsio-MsgNum: 112028
+X-List-Received-Date: Fri, 01 Jun 2018 17:12:02 -0000
+X-Groupsio-MsgNum: 112029
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="aKcj2jHUSO6KaOKFYF0U0YvdQS7qWEKr6"
+	boundary="g0bI1WORQsHmsdP8PFSAMmoi0J4VSVzMY"
 
---aKcj2jHUSO6KaOKFYF0U0YvdQS7qWEKr6
-Content-Type: multipart/mixed; boundary="A8tSQohetnNKaYW82wzCX4C5iJnYUPDjM";
+--g0bI1WORQsHmsdP8PFSAMmoi0J4VSVzMY
+Content-Type: multipart/mixed; boundary="7YtBhZsg23rLMaZLJtIKFDHJeKFpozIeE";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: <51123ef0-14ff-f6a0-c98a-b118ed319fc0@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] systemd: Fix build with gcc8
-References: <20180528155833.24224-1-raj.khem@gmail.com>
- <CA+chaQdTQ8OCmXthjY_Fyq+7En9=GMk8A_KpmVwehuBy6oJvYQ@mail.gmail.com>
- <CAMKF1sq4xaHNsNBxuLWmhGiuwO2rpRZPbQQhZETnU17hTku=pA@mail.gmail.com>
- <CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
-In-Reply-To: <CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@linux.intel.com
+Message-ID: <5e1d741f-e9a9-db4b-4a31-14d8367b3d5b@gmail.com>
+Subject: Re: [OE-core] [devtool][PATCH] devtool deploy-target: optionally
+ specify package
+References: <20180531200659.28877-1-twoerner@gmail.com>
+In-Reply-To: <20180531200659.28877-1-twoerner@gmail.com>
 
---A8tSQohetnNKaYW82wzCX4C5iJnYUPDjM
+--7YtBhZsg23rLMaZLJtIKFDHJeKFpozIeE
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 6/1/18 7:01 AM, Martin Jansa wrote:
-> No change in PACKAGECONFIG, just default nodistro qemux86 with added
-> systemd and debug build:
-> DISTRO_FEATURES_append =3D " systemd"
-> DEBUG_BUILD =3D "1"
+On 5/31/18 1:06 PM, Trevor Woerner wrote:
+> Instead of installing an entire recipe's build output (i.e. ${D}), allo=
+w the
+> user to optionally specify a package from said recipe to be installed
+> exclusively (i.e. ${PKGDEST}/<package>).
 >=20
 
-hmm so must be some code which is eliminated by compiler optimizations
-with -O2 since with debug build it will use -O1
+Thinking of developer's workflow, it might be needed to be able to
+install debug/dev packages to debug the package on device.
 
->=20
-> On Thu, May 31, 2018 at 6:17 PM Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
->=20
->     On Thu, May 31, 2018 at 9:05 AM, Martin Jansa
->     <martin.jansa@gmail.com <mailto:martin.jansa@gmail.com>> wrote:
->     > Unlike the previous version you had in your RFT branch (which add=
-ed
->     > -Wno-error=3Dformat-truncation) this doesn't seem to be complete =
-fix.
->     >
->     > In qemux86 build which already includes this change I'm seeing:
->     > ../git/src/basic/time-util.c: In function 'format_timespan':
->     > ../git/src/basic/time-util.c:508:46: error: '%0*llu' directive ou=
-tput
->     > between 1 and 2147483647 bytes may cause result to exceed 'INT_MA=
-X'
->     > [-Werror=3Dformat-truncation=3D]
->     >
->     > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->     >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~
->     > ../git/src/basic/time-util.c:508:60: note: format string is
->     defined here
->     >
->     > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->     > ../git/src/basic/time-util.c:508:46: note: directive argument in
->     the range
->     > [0, 18446744073709551614]
->     >
->     > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->     >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~
->     >
->     > And this part doesn't seem to be fixed upstream yet.
->     >
->=20
->     Its possible, that default config I build is not using this code. D=
-o
->     you enable/disable some specific packageconfig and what arch are yo=
-u
->     targetting
->=20
->     > Cheers,
->     >
->     > On Mon, May 28, 2018 at 5:58 PM Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>> wrote:
->     >>
->     >> Signed-off-by: Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>>
->     >> ---
->     >>=C2=A0 ...ange-the-default-device-timeout-to-2.patch |=C2=A0 =C2=A0=
-9 +-
->     >>=C2=A0 ...ation-compile-failure-by-typecasting.patch | 173
->     ++++++++++++++++++
->     >>=C2=A0 meta/recipes-core/systemd/systemd_237.bb
->     <http://systemd_237.bb>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +
->     >>=C2=A0 3 files changed, 177 insertions(+), 6 deletions(-)
->     >>=C2=A0 create mode 100644
->     >>
->     meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compil=
-e-failure-by-typecasting.patch
->     >>
->     >> diff --git
->     >>
->     a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-d=
-efault-device-timeout-to-2.patch
->     >>
->     b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-d=
-efault-device-timeout-to-2.patch
->     >> index b7b1ea0886..98c83620ff 100644
->     >> ---
->     >>
->     a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-d=
-efault-device-timeout-to-2.patch
->     >> +++
->     >>
->     b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-d=
-efault-device-timeout-to-2.patch
->     >> @@ -1,4 +1,4 @@
->     >> -From 9820c165a9e559cf851e3beb60fad2571de4ded2 Mon Sep 17
->     00:00:00 2001
->     >> +From 7844e070745611a52e355b73e7890f360dd540d0 Mon Sep 17
->     00:00:00 2001
->     >>=C2=A0 From: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.=
-com>>
->     >>=C2=A0 Date: Mon, 14 Dec 2015 04:09:19 +0000
->     >>=C2=A0 Subject: [PATCH] core/device.c: Change the default device
->     timeout to 240
->     >> sec.
->     >> @@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>>
->     >>=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->     >>
->     >>=C2=A0 diff --git a/src/core/device.c b/src/core/device.c
->     >> -index 77601c552..98bf49ba2 100644
->     >> +index a43664d3b..4b16a8aec 100644
->     >>=C2=A0 --- a/src/core/device.c
->     >>=C2=A0 +++ b/src/core/device.c
->     >> -@@ -112,7 +112,7 @@ static void device_init(Unit *u) {
->     >> +@@ -113,7 +113,7 @@ static void device_init(Unit *u) {
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * indefinitely for plug=
-ged in devices, something which
->     cannot
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * happen for the other =
-units since their operations
->     time out
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * anyway. */
->     >> @@ -28,6 +28,3 @@ index 77601c552..98bf49ba2 100644
->     >>
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u->ignore_on_isolate =3D=
- true;
->     >>=C2=A0 =C2=A0}
->     >> ---
->     >> -2.16.1
->     >> -
->     >> diff --git
->     >>
->     a/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-comp=
-ile-failure-by-typecasting.patch
->     >>
->     b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-comp=
-ile-failure-by-typecasting.patch
->     >> new file mode 100644
->     >> index 0000000000..e56061f41b
->     >> --- /dev/null
->     >> +++
->     >>
->     b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-comp=
-ile-failure-by-typecasting.patch
->     >> @@ -0,0 +1,173 @@
->     >> +From c2b3ebe112ebfd9f9e82fb1531ee225c3152ca83 Mon Sep 17
->     00:00:00 2001
->     >> +From: Patrick Uiterwijk <patrick@puiterwijk.org
->     <mailto:patrick@puiterwijk.org>>
->     >> +Date: Thu, 22 Feb 2018 19:41:30 +0100
->     >> +Subject: [PATCH] Fix format-truncation compile failure by
->     typecasting USB
->     >> IDs
->     >> + (#8250)
->     >> +
->     >> +This patch adds safe_atoux16 for parsing an unsigned hexadecima=
-l
->     16bit
->     >> int, and
->     >> +uses that for parsing USB device and vendor IDs.
->     >> +
->     >> +This fixes a compile error with gcc-8 because while we know tha=
-t
->     USB IDs
->     >> are 2 bytes,
->     >> +the compiler does not know that.
->     >> +
->     >> +../src/udev/udev-builtin-hwdb.c:80:38: error: '%04X' directive
->     output may
->     >> be
->     >> +truncated writing between 4 and 8 bytes into a region of size
->     between 2
->     >> and 6
->     >> +[-Werror=3Dformat-truncation=3D]
->     >> +
->     >> +Upstream-Status: Backport
->     >>
->     [https://github.com/systemd/systemd/commit/5547c12503a683290eaed479=
-54ffcfb2d1bc03cd]
->     >> +
->     >> +Signed-off-by: Adam Williamson <awilliam@redhat.com
->     <mailto:awilliam@redhat.com>>
->     >> +Signed-off-by: Patrick Uiterwijk <puiterwijk@redhat.com
->     <mailto:puiterwijk@redhat.com>>
->     >> +---
->     >> + src/basic/parse-util.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 24 ++++++++=
-++++++++++++++
->     >> + src/basic/parse-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++
->     >> + src/test/test-parse-util.c=C2=A0 =C2=A0| 39
->     ++++++++++++++++++++++++++++++++++++
->     >> + src/udev/udev-builtin-hwdb.c | 13 ++++++------
->     >> + 4 files changed, 71 insertions(+), 7 deletions(-)
->     >> +
->     >> +diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
->     >> +index 97533721d..ff3fc298a 100644
->     >> +--- a/src/basic/parse-util.c
->     >> ++++ b/src/basic/parse-util.c
->     >> +@@ -532,6 +532,30 @@ int safe_atoi16(const char *s, int16_t *re=
-t) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;
->     >> + }
->     >> +
->     >> ++int safe_atoux16(const char *s, uint16_t *ret) {
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *x =3D NULL;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long l;
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(s);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(ret);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s +=3D strspn(s, WHITESPACE);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D 0;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D strtoul(s, &x, 16);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno > 0)
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- -errno;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!x || x =3D=3D s || *x !=3D 0)=
+although I think we should be able to segment it and may be have an
+option to install the dev part separately
 
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- -EINVAL;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s[0] =3D=3D '-')
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- -ERANGE;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((unsigned long) (uint16_t) l !=
-=3D l)
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- -ERANGE;
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret =3D (uint16_t) l;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;
->     >> ++}
->     >> ++
->     >> + int safe_atod(const char *s, double *ret_d) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_cleanup_(freelocalep) locale=
-_t loc =3D (locale_t) 0;
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *x =3D NULL;
->     >> +diff --git a/src/basic/parse-util.h b/src/basic/parse-util.h
->     >> +index 1eda1d7f9..727422056 100644
->     >> +--- a/src/basic/parse-util.h
->     >> ++++ b/src/basic/parse-util.h
->     >> +@@ -54,6 +54,8 @@ int safe_atou8(const char *s, uint8_t *ret);
->     >> + int safe_atou16(const char *s, uint16_t *ret);
->     >> + int safe_atoi16(const char *s, int16_t *ret);
->     >> +
->     >> ++int safe_atoux16(const char *s, uint16_t *ret);
->     >> ++
->     >> + static inline int safe_atou32(const char *s, uint32_t *ret_u) =
-{
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert_cc(sizeof(uint32_t) =3D=
-=3D sizeof(unsigned));
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return safe_atou(s, (unsigned=
-*) ret_u);
->     >> +diff --git a/src/test/test-parse-util.c b/src/test/test-parse-u=
-til.c
->     >> +index 937500213..a99cea5a1 100644
->     >> +--- a/src/test/test-parse-util.c
->     >> ++++ b/src/test/test-parse-util.c
->     >> +@@ -468,6 +468,44 @@ static void test_safe_atoi16(void) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert_se(r =3D=3D -EINVAL);
->     >> + }
->     >> +
->     >> ++static void test_safe_atoux16(void) {
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int r;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t l;
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("1234", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0x1234);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("abcd", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0xabcd);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("=C2=A0 1234", =
-&l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0x1234);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("12345", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("-1", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("=C2=A0 -1", &l=
-);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("junk", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("123x", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("12.3", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);
->     >> ++
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16("", &l);
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);
->     >> ++}
->     >> ++
->     >> + static void test_safe_atou64(void) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int r;
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t l;
->     >> +@@ -745,6 +783,7 @@ int main(int argc, char *argv[]) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atolli();
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atou16();
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atoi16();
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 test_safe_atoux16();
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atou64();
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atoi64();
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atod();
->     >> +diff --git a/src/udev/udev-builtin-hwdb.c
->     b/src/udev/udev-builtin-hwdb.c
->     >> +index ca7f7c230..dbfe02429 100644
->     >> +--- a/src/udev/udev-builtin-hwdb.c
->     >> ++++ b/src/udev/udev-builtin-hwdb.c
->     >> +@@ -27,6 +27,7 @@
->     >> +
->     >> + #include "alloc-util.h"
->     >> + #include "hwdb-util.h"
->     >> ++#include "parse-util.h"
->     >> + #include "string-util.h"
->     >> + #include "udev-util.h"
->     >> + #include "udev.h"
->     >> +@@ -63,7 +64,7 @@ int udev_builtin_hwdb_lookup(struct
->     udev_device *dev,
->     >> +
->     >> + static const char *modalias_usb(struct udev_device *dev, char
->     *s, size_t
->     >> size) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *v, *p;
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vn, pn;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t vn, pn;
->     >> +
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v =3D udev_device_get_sysattr=
-_value(dev, "idVendor");
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!v)
->     >> +@@ -71,12 +72,10 @@ static const char *modalias_usb(struct
->     udev_device
->     >> *dev, char *s, size_t size) {
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p =3D udev_device_get_sysattr=
-_value(dev, "idProduct");
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!p)
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r=
-eturn NULL;
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vn =3D strtol(v, NULL, 16);
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vn <=3D 0)
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- NULL;
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pn =3D strtol(p, NULL, 16);
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pn <=3D 0)
->     >> +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
- NULL;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (safe_atoux16(v, &vn) < 0)
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (safe_atoux16(p, &pn) < 0)
->     >> ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snprintf(s, size, "usb:v%04Xp=
-%04X*", vn, pn);
->     >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return s;
->     >> + }
->     >> +--
->     >> +2.17.0
->     >> +
->     >> diff --git a/meta/recipes-core/systemd/systemd_237.bb
->     <http://systemd_237.bb>
->     >> b/meta/recipes-core/systemd/systemd_237.bb <http://systemd_237.b=
-b>
->     >> index b7c2113255..c4743a6b9d 100644
->     >> --- a/meta/recipes-core/systemd/systemd_237.bb
->     <http://systemd_237.bb>
->     >> +++ b/meta/recipes-core/systemd/systemd_237.bb
->     <http://systemd_237.bb>
->     >> @@ -52,6 +52,7 @@ SRC_URI +=3D "file://touchscreen.rules \
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0032-memfd=
-=2Epatch \
->     >>
->     >> file://0033-basic-macros-rename-noreturn-into-_noreturn_-8456.pa=
-tch \
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://libmount.p=
-atch \
->     >> +
->     >>
->     file://0034-Fix-format-truncation-compile-failure-by-typecasting.pa=
-tch \
->     >>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0"
->     >>=C2=A0 SRC_URI_append_qemuall =3D "
->     >>
->     file://0001-core-device.c-Change-the-default-device-timeout-to-2.pa=
-tch"
->     >>
->     >> --
->     >> 2.17.0
->     >>
->     >> --
->     >> _______________________________________________
->     >> Openembedded-core mailing list
->     >> Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     >> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  scripts/lib/devtool/deploy.py | 26 ++++++++++++++++++--------
+>  1 file changed, 18 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy=
+=2Epy
+> index 52e261d560..c022757519 100644
+> --- a/scripts/lib/devtool/deploy.py
+> +++ b/scripts/lib/devtool/deploy.py
+> @@ -169,11 +169,20 @@ def deploy(args, config, basepath, workspace):
+>          except Exception as e:
+>              raise DevtoolError('Exception parsing recipe %s: %s' %
+>                              (args.recipename, e))
+> -        recipe_outdir =3D rd.getVar('D')
+> +        if args.package:
+> +            recipe_outdir =3D os.path.join(rd.getVar('PKGDEST'), args.=
+package)
+> +        else:
+> +            recipe_outdir =3D rd.getVar('D')
+>          if not os.path.exists(recipe_outdir) or not os.listdir(recipe_=
+outdir):
+> -            raise DevtoolError('No files to deploy - have you built th=
+e %s '
+> -                            'recipe? If so, the install step has not i=
+nstalled '
+> -                            'any files.' % args.recipename)
+> +            if args.package:
+> +                raise DevtoolError('No files to deploy - have you buil=
+t the %s '
+> +                                'package of the %s recipe? If so, the =
+install '
+> +                                'step has not installed any files.'
+> +                                % (args.package, args.recipename))
+> +            else:
+> +                raise DevtoolError('No files to deploy - have you buil=
+t the %s '
+> +                                'recipe? If so, the install step has n=
+ot installed '
+> +                                'any files.' % args.recipename)
+> =20
+>          if args.strip and not args.dry_run:
+>              # Fakeroot copy to new destination
+> @@ -314,8 +323,8 @@ def register_commands(subparsers, context):
+>      """Register devtool subcommands from the deploy plugin"""
+> =20
+>      parser_deploy =3D subparsers.add_parser('deploy-target',
+> -                                          help=3D'Deploy recipe output=
+ files to live target machine',
+> -                                          description=3D'Deploys a rec=
+ipe\'s build output (i.e. the output of the do_install task) to a live ta=
+rget machine over ssh. By default, any existing files will be preserved i=
+nstead of being overwritten and will be restored if you run devtool undep=
+loy-target. Note: this only deploys the recipe itself and not any runtime=
+ dependencies, so it is assumed that those have been installed on the tar=
+get beforehand.',
+> +                                          help=3D'Deploy build output =
+to a live target machine',
+> +                                          description=3D'Deploys eithe=
+r the full recipe\'s build output (i.e. the output of the do_install task=
+) or a package of a recipe to a live target machine over ssh. By default,=
+ any existing files will be preserved instead of being overwritten and wi=
+ll be restored if you run devtool undeploy-target. Note: this only deploy=
+s the specified item itself and not any runtime dependencies, so it is as=
+sumed that those have been installed on the target beforehand.',
+>                                            group=3D'testbuild')
+>      parser_deploy.add_argument('recipename', help=3D'Recipe to deploy'=
+)
+>      parser_deploy.add_argument('target', help=3D'Live target machine r=
+unning an ssh server: user@hostname[:destdir]')
+> @@ -325,6 +334,7 @@ def register_commands(subparsers, context):
+>      parser_deploy.add_argument('-p', '--no-preserve', help=3D'Do not p=
+reserve existing files', action=3D'store_true')
+>      parser_deploy.add_argument('--no-check-space', help=3D'Do not chec=
+k for available space before deploying', action=3D'store_true')
+>      parser_deploy.add_argument('-P', '--port', help=3D'Specify port to=
+ use for connection to the target')
+> +    parser_deploy.add_argument('--package', help=3D'Specify a recipe\'=
+s package to deploy', dest=3D'package')
+> =20
+>      strip_opts =3D parser_deploy.add_mutually_exclusive_group(required=
+=3DFalse)
+>      strip_opts.add_argument('-S', '--strip',
+> @@ -337,8 +347,8 @@ def register_commands(subparsers, context):
+>      parser_deploy.set_defaults(func=3Ddeploy)
+> =20
+>      parser_undeploy =3D subparsers.add_parser('undeploy-target',
+> -                                            help=3D'Undeploy recipe ou=
+tput files in live target machine',
+> -                                            description=3D'Un-deploys =
+recipe output files previously deployed to a live target machine by devto=
+ol deploy-target.',
+> +                                            help=3D'Undeploy output fi=
+les from a live target machine',
+> +                                            description=3D'Un-deploys =
+output files previously deployed to a live target machine by devtool depl=
+oy-target.',
+>                                              group=3D'testbuild')
+>      parser_undeploy.add_argument('recipename', help=3D'Recipe to undep=
+loy (if not using -a/--all)', nargs=3D'?')
+>      parser_undeploy.add_argument('target', help=3D'Live target machine=
+ running an ssh server: user@hostname')
 >=20
 
 
 
---A8tSQohetnNKaYW82wzCX4C5iJnYUPDjM--
+--7YtBhZsg23rLMaZLJtIKFDHJeKFpozIeE--
 
---aKcj2jHUSO6KaOKFYF0U0YvdQS7qWEKr6
+--g0bI1WORQsHmsdP8PFSAMmoi0J4VSVzMY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCWxF9vwAKCRC7BTNVkZ0z
-FF/TAJ4psWp0JII7B8COZ5YwR8f83X3KKgCff2V7J/Xj6IKv3W0/BFl8iZJPL2w=
-=Sx6s
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCWxF+XAAKCRC7BTNVkZ0z
+FEeMAKCCv8KHd6l1bFlq9DvDt4flFnOMjQCeL+5Kradf2NYJ7oeuqIrWdo9cKqU=
+=bkBU
 -----END PGP SIGNATURE-----
 
---aKcj2jHUSO6KaOKFYF0U0YvdQS7qWEKr6--
+--g0bI1WORQsHmsdP8PFSAMmoi0J4VSVzMY--
