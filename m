@@ -1,23 +1,51 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E9E0745F5
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f179.google.com (mail-ot0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D28B6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 05:18:23 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 May 2018 22:18:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,464,1520924400"; d="scan'208";a="60867562"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.23.24])
-	by orsmga001.jf.intel.com with ESMTP; 31 May 2018 22:18:24 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jun 2018 13:18:18 +0800
-Message-Id: <20180601051818.31971-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] wic/bootimg-efi.py: recognize initrd when using grub
+	Fri,  1 Jun 2018 05:41:32 +0000 (UTC)
+Received: by mail-ot0-f179.google.com with SMTP id i5-v6so28019076otf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 22:41:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2wf1ho8vInP5zw4oEiKYHA2+8JCLXVSc3q970t2XmA0=;
+	b=sLzGWVZn9qp7n6Db/KqpWPYVBh4MTa2ctqHNVgMBqHh9jok6r6KnA+rQqHG6nor9Mx
+	Gxv6ddufJkkTBfEqM21/S7ASG4crOs5sDP8JlP1SYNd0A3+pm9wceBrIgMzxtL0c2wiZ
+	7QI/Vazb5ef/jzUWOBlOvSyMb9KJLtBmuAV7QEPH2ECDO9biqdbnXEkkCfmfixiGFKBO
+	No4ZPI5KA6UydPwqHAsGSkpxjChofSVQ7pVhhnkc24UbCEb3QkAN1nhITjIha4p/dnag
+	KDGlxwyIGPVR+PVVJ58o5YUoVG+6syjBgpdb50sz841kiX8IhjsDqD+Cvt7s46cpC+a9
+	A8XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2wf1ho8vInP5zw4oEiKYHA2+8JCLXVSc3q970t2XmA0=;
+	b=P+fjMNkduTPKHxUYDAHC0Di1lWRY99dZbH5+bHW30ulARorszdf1VhZO4nqfiYQIz5
+	1MTAIIObok7wOpcCVbmYfA7KtDucACeVwePCOA6NCDOuYe/ab7hRnQSYS5BQDB+12oZI
+	af7k2GkOR6MBmteGVjJyuvZ3fyThTyhy7OlpY+WtVjUdZLIwnuW2RbJyekifigPF1It/
+	niIbSfF3hsVuxszPN+99Tbuh4A/y7AzvhUnXtTYsKrZIgu/+OzuI7wIKfa9tH4jM3RnK
+	n++YN2mfXKK4EAZYPksMwc9Ud+9UZzRultsp0Jp4L8ghqFHGy+uvqfrew59Tr9QTM/wm
+	gnHQ==
+X-Gm-Message-State: APt69E02cv/VwvRWg7DK0exqUMfx9ngrAQ6q28MlqGpfoakRnPrkE7xA
+	UlW2cWgHdr/KHEZ9U6h9wgxlpS3l7P2Ev5mDJuY=
+X-Google-Smtp-Source: ADUXVKIS2S0cEcCrhvecBv3EQgzs7Nq31b0r6cEspFxUdYyzL5VCvpPNWBv0xMUwOmvlwHg/REwvzou+i/Zhh1lzlIQ=
+X-Received: by 2002:a9d:4609:: with SMTP id y9-v6mr521073ote.259.1527831694161;
+	Thu, 31 May 2018 22:41:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 31 May 2018 22:41:33
+	-0700 (PDT)
+In-Reply-To: <4de3e30e-48da-24ad-55e9-9b6a3664e67c@windriver.com>
+References: <cover.1527755434.git.Qi.Chen@windriver.com>
+	<23d9ef25030216df5bcfeccfe6dcf12defc53648.1527755434.git.Qi.Chen@windriver.com>
+	<CANNYZj_M2f=R+mro8oUnVV+dWuz42o8T9GpYjhBeujPF=ic=ow@mail.gmail.com>
+	<4de3e30e-48da-24ad-55e9-9b6a3664e67c@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Jun 2018 08:41:33 +0300
+Message-ID: <CANNYZj9sAHZztGjP6W1i51cN4+GMppnJEus5oJoseeeHSTcYbg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/14] oeqa/core/loader.py: support the 'auto' keyword
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,71 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:18:24 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 05:41:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Make sure that we're able to use the initrd value specified in the wks
-file when using grub-efi bootloader with bootimg-efi wic plugin.
+2018-06-01 7:42 GMT+03:00 ChenQi <Qi.Chen@windriver.com>:
+> I agree with you that we need to re-evaluate the settings of
+> DEFAULT_TEST_SUITES.
+>
+> I plan to do this work from next week. And I plan to put such changes in
+> another patchset.
+>
+> Looking at the codes, I can see that the DEFAULT_TEST_SUITES are set with
+> consideration of qemu machines and libc.
+> e.g.
+> # aarch64 has no graphics
+> DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
+> # musl doesn't support systemtap
+> DEFAULT_TEST_SUITES_remove_libc-musl = "stap"
 
-Fixes [YOCTO #12689]
+I suppose we can introduce TEST_SUITES_EXCLUDE for such cases, which
+would be considered when 'auto' is expanded to a specific list?
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 20 +++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index beb74d7a71..0eb86a079f 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -45,7 +45,7 @@ class BootimgEFIPlugin(SourcePlugin):
-     name = 'bootimg-efi'
- 
-     @classmethod
--    def do_configure_grubefi(cls, creator, cr_workdir):
-+    def do_configure_grubefi(cls, hdddir, creator, cr_workdir, source_params):
-         """
-         Create loader-specific (grub-efi) config
-         """
-@@ -62,6 +62,18 @@ class BootimgEFIPlugin(SourcePlugin):
-                 raise WicError("configfile is specified but failed to "
-                                "get it from %s." % configfile)
- 
-+        initrd = source_params.get('initrd')
-+
-+        if initrd:
-+            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-+            if not bootimg_dir:
-+                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
-+
-+            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
-+            exec_cmd(cp_cmd, True)
-+        else:
-+            logger.debug("Ignoring missing initrd")
-+
-         if not custom_cfg:
-             # Create grub configuration using parameters from wks file
-             bootloader = creator.ks.bootloader
-@@ -76,6 +88,10 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-             grubefi_conf += "linux %s root=%s rootwait %s\n" \
-                 % (kernel, creator.rootdev, bootloader.append)
-+
-+            if initrd:
-+               grubefi_conf += "initrd /%s\n" % initrd
-+
-             grubefi_conf += "}\n"
- 
-         logger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg",
-@@ -167,7 +183,7 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         try:
-             if source_params['loader'] == 'grub-efi':
--                cls.do_configure_grubefi(creator, cr_workdir)
-+                cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
-             elif source_params['loader'] == 'systemd-boot':
-                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
-             else:
--- 
-2.17.0
-
+Alex
 
