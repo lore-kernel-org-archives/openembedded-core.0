@@ -1,29 +1,23 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A250D74F99
+	by mail.openembedded.org (Postfix) with ESMTP id 408B660053
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 04:39:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w514dqeY013031
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 31 May 2018 21:39:52 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 31 May 2018 21:39:51 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <cover.1527755434.git.Qi.Chen@windriver.com>
-	<23d9ef25030216df5bcfeccfe6dcf12defc53648.1527755434.git.Qi.Chen@windriver.com>
-	<CANNYZj_M2f=R+mro8oUnVV+dWuz42o8T9GpYjhBeujPF=ic=ow@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <4de3e30e-48da-24ad-55e9-9b6a3664e67c@windriver.com>
-Date: Fri, 1 Jun 2018 12:42:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri,  1 Jun 2018 05:00:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5150j20014556
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2018 22:00:45 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 31 May 2018 22:00:45 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Jun 2018 13:02:57 +0800
+Message-ID: <cover.1527829099.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_M2f=R+mro8oUnVV+dWuz42o8T9GpYjhBeujPF=ic=ow@mail.gmail.com>
-X-Originating-IP: [128.224.162.218]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/14] oeqa/core/loader.py: support the 'auto' keyword
+Subject: [PATCH V2 00/14] testimage: restore 'auto' behaviour and a few other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 04:39:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jun 2018 05:00:45 -0000
+Content-Type: text/plain
 
-On 05/31/2018 09:57 PM, Alexander Kanavin wrote:
-> 2018-05-31 11:32 GMT+03:00 Chen Qi <Qi.Chen@windriver.com>:
->> In previous OEQA, having 'auto' in TEST_SUITES results in executing
->> as many test cases as possible.
->>
->> This behaviour is broken for now. From the codes in core/loader.py,
->> I can see that it tries to use another keyword 'all'. But in fact,
->> it does not work.
->>
->> I've checked the current manual. The manual says using 'auto'.
->> Below is the current information in manual.
->>
->>    """
->>    Alternatively, you can provide the "auto" option to have all applicable
->>    tests run against the image.
->>
->>    TEST_SUITES_append = " auto"
->>    """
->>
->> So we should restore this behaviour. This patch does so.
-> Nice! Can we also try to simplify the setting of DEFAULT_TEST_SUITES
-> in testimage.bbclass using this keyword? Right now it's basically
-> manually created lists, which tend to go out of date.
->
-> Alex
->
+Changes in V2:
+* move codes into testimage_main instead of modifying testimage-auto.bbclass
+* use if...else... instead list index for setting of HOSTTOOLS
 
-Hi Alex,
 
-I agree with you that we need to re-evaluate the settings of 
-DEFAULT_TEST_SUITES.
+The following changes since commit 719d068bde55ef29a3468bc0779d4cb0c11e8c1d:
 
-I plan to do this work from next week. And I plan to put such changes in 
-another patchset.
+  bitbake: fetch2: fix import error for Python 3.6.5 (2018-05-29 21:07:46 +0100)
 
-Looking at the codes, I can see that the DEFAULT_TEST_SUITES are set 
-with consideration of qemu machines and libc.
-e.g.
-# aarch64 has no graphics
-DEFAULT_TEST_SUITES_remove_aarch64 = "xorg"
-# musl doesn't support systemtap
-DEFAULT_TEST_SUITES_remove_libc-musl = "stap"
+are available in the git repository at:
 
-And I guess this work would take some time.
+  git://git.pokylinux.org/poky-contrib ChenQi/testimage-auto
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/testimage-auto
 
-Back to this patchset, I'll sent out V2 soon.
+Chen Qi (14):
+  oeqa/core/loader.py: support the 'auto' keyword
+  testimage.bbclass: fix behavior of empty TEST_SUITES
+  oeqa/core/decorator/__init__.py: set metaclass to ABCMeta
+  oeqa/core/decorator/__init__.py: use 'cls' instead of 'obj'
+  oeqa/runtime/cases/dnf_runtime.py: skip test if PACKAGE_FEED_URIS is
+    not set
+  oeqa/runtime/cases/selftest.py: rename to _selftest.py
+  testimage.bbclass: also check 'auto' to create rpm index
+  oeqa/core/decorator/data.py: fix skipIfNotInDataVar
+  oeqa/runtime/cases/rpm.py: skip if rpm not available
+  oeqa/runtime/cases/multilib.py: skip if needed packages are not
+    available
+  oeqa/runtime/cases/multilib.py: fix test_file_connman skipping logic
+  bitbake.conf: fix HOSTTOOLS setting related to image testing
+  testimage.bbclass: move codes into testimage_main
+  oeqa/core/target/ssh.py: increase maximum read bytes from 1024 to 4096
 
-Best Regards,
-Chen Qi
+ .../runtime/cases/{selftest.py => _selftest.py}     |  0
+ meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py |  3 +++
+ meta/classes/testimage.bbclass                      | 21 +++++++++++++--------
+ meta/conf/bitbake.conf                              |  2 +-
+ meta/lib/oeqa/core/decorator/__init__.py            | 10 +++++-----
+ meta/lib/oeqa/core/decorator/data.py                |  4 ++--
+ meta/lib/oeqa/core/loader.py                        | 17 +++++++++++++----
+ meta/lib/oeqa/core/target/ssh.py                    |  2 +-
+ meta/lib/oeqa/runtime/cases/multilib.py             |  4 +++-
+ meta/lib/oeqa/runtime/cases/rpm.py                  |  1 +
+ meta/lib/oeqa/selftest/cases/runtime_test.py        |  2 +-
+ 11 files changed, 43 insertions(+), 23 deletions(-)
+ rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (100%)
+
+-- 
+1.9.1
+
 
