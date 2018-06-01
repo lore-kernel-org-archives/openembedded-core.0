@@ -1,52 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DF28747D7
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-ot0-f172.google.com (mail-ot0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D1A3B6FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 03:07:20 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id b77-v6so1819615vkb.5
+	Fri,  1 Jun 2018 04:10:29 +0000 (UTC)
+Received: by mail-ot0-f172.google.com with SMTP id q17-v6so17245689otg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 20:07:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oEM9iJQQ4JSWJO/NQNYczq7Il2tDXlnBeXllpyYpzx0=;
-	b=bxelhxMCuHY+/KUm+HOZAD8xr4MoEYbGlHcTnA4rdIrlpjSeZt3NePdIPJ5nLdOn8m
-	yR3U8CnQN84qZKO5bX/fhpPKBrdA/88iIKwRlHaW9jwHrK3nPsNwsiYp6DYTUMtcz86G
-	tIiJIH7Vx1LHQZoOAFpC4jm0puens1zTQz5PEIHkTbW/tcV6Y8IKPLrt/rd2R51zBAH9
-	whl/rzc8ucxvjG5SS9V4jcJy8Kyz/byMmF0YJ6tGnwk2zBzSv/+W3q4ivHM+SdMYxCVF
-	DRJ0WvrxE3I4Y1KSNy4+pmUmZeU8/Y59Bgf7hPlcq9oKys19V2VbWKCiXPweXHU8HF1A
-	6djw==
+	Thu, 31 May 2018 21:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JSM+KfWSf3mtECPttXaLadV5jFgaxDL7S5/j/hPKaEs=;
+	b=S05X7n13AEdbZLs4YiGASoui2cN3W88pv2wrntp4fLhlJ60zTDzy+a7ksUtfHNHY7C
+	KFZbUHkSVdaOl0r2JvfYQ4D+fZkfQRUtmrRnxe4x+2KW2W7s0oATcd9RR0u0p7PPGfG+
+	NVsWjJo+7OADu15ztE1GvAdrb8sNJqgEbEwSU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oEM9iJQQ4JSWJO/NQNYczq7Il2tDXlnBeXllpyYpzx0=;
-	b=aEgiPlkcMvEbDXcwJQzMvVH8z39ZXyPG+I3TuBjUEdx96E4v8VKpTf8pgXE5Y5GBnM
-	ASjX0dbkSDpcfAWHp0clcNenb2nBiclxzVZJFo0tg1wMBxMrzAd6nvC2VwfdfNNyYGPl
-	QE9egU7sgvyStXeReDFsfrfCuv4krbGdnlnoieqjHcf1EYMuutmGqx/Xp+mRGYVhtt8D
-	GIVnYmdlLNTioJZ8mTg2XbdVeoa8ncBAYPrDWkP3p4IfkuemSZoW5KarQXuCIB97aqph
-	hgy+S9bNGQD0xne0djfscGFECaJzfASZDt5EWFpB9RZg6Cmpra1xCMP0qBh1cqP4dnVv
-	t3rA==
-X-Gm-Message-State: ALKqPwdVSSfQwlMKM2xlUZgj9TGI3jmQzLuHuWz3pEtI4BQoZVWXyuBU
-	4WgirtmfBQOHsJmQjEdQaR+tvD+aaQnpYEMuP9Y=
-X-Google-Smtp-Source: ADUXVKLvxklESi+8Dm+8wD1T8cM5tttQrXFfQTGlboNlO0Us5qG3yyOpn9uzeY1r1xzb/YOp0LC5rx08ZlrfAxiostk=
-X-Received: by 2002:a1f:1551:: with SMTP id
-	78-v6mr5174401vkv.174.1527822441609; 
-	Thu, 31 May 2018 20:07:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JSM+KfWSf3mtECPttXaLadV5jFgaxDL7S5/j/hPKaEs=;
+	b=SSA+K+8g1lYbesOIG1BX4O7FFmACl5GYgwFoJC0TY069P4CnkTbJ6ZWEY3E9xlCFIl
+	V/axYUzvevbmQQmUGMeWQldiaagKpVqcpV7dOc1Ky6IGteuA0cFlCnvgcE7oPJYDpF1i
+	9WbEoJXyrX8tMIOTPSUiAitIpJs1VozL+Bz+MOSkWgJfsWVV6efbz8QW7fIvN4/hpXnK
+	P+rS6jSdTNqkx3xogqkHPwQ073fm0r2LDUwCqX+fb9fBg78xBUek8opIf+Sy+H6S1qIt
+	RWjcexuAIlStZZfB0Ybv2rLx3tMmlJ+ZVwT8UNQ++KKEfrQWpaGj1OaC5g2k8n6XodGZ
+	B3BA==
+X-Gm-Message-State: ALKqPwcqsedLcexMUH+/9U/z6bXfjEgRukCP8nCulG6NVfCyboQWyH97
+	I8WGlRUk5HgaeLe/9TUuLG6UvqKNYWI=
+X-Google-Smtp-Source: ADUXVKL80Y6Ee72N5GsAIg1L1BwZJ9o3Y68AOLf6FmZBFd3izFuw20/Q/hA/kQMDS6fBHcWEKvinjg==
+X-Received: by 2002:a9d:16d0:: with SMTP id
+	s16-v6mr6601153ots.294.1527826229381; 
+	Thu, 31 May 2018 21:10:29 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink-187-161-191-185.PCs.InterCable.net. [187.161.191.185])
+	by smtp.googlemail.com with ESMTPSA id
+	r129-v6sm20816980oig.26.2018.05.31.21.10.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 31 May 2018 21:10:27 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 May 2018 23:10:11 -0500
+Message-Id: <1527826211-30954-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Thu, 31 May 2018 20:07:21 -0700 (PDT)
-In-Reply-To: <CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
-References: <20180531200659.28877-1-twoerner@gmail.com>
-	<CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
-	<CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 31 May 2018 20:07:21 -0700
-Message-ID: <CAJ86T=W3ju53TA-za4LMYXKtEqvLvj9B=DjMO+Tu=nsnG7Jehg@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
+Subject: [PATCH v2] ltp: bump to release 20180515
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,106 +56,950 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 03:07:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Jun 2018 04:10:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 31, 2018 at 7:23 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> Hi Andre, thanks for taking an interest!
->
-> On Thu, May 31, 2018 at 6:22 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Thu, May 31, 2018 at 1:06 PM, Trevor Woerner <twoerner@gmail.com>
->> wrote:
->> > Instead of installing an entire recipe's build output (i.e. ${D}), allow
->> > the
->> > user to optionally specify a package from said recipe to be installed
->> > exclusively (i.e. ${PKGDEST}/<package>).
->>
->> I'm not a big devtool user myself, but I'm curious about the
->> situations where you might need this?
->
-> Earlier today I was working on recipes for some software which recently
-> added the feature to dlopen() one of a couple shared objects based on
-> various conditions. But instead of dlopen()'ing the SONAME, they were
-> dlopen()'ing the raw .so file. OE's default packaging, of course, added the
-> *.so.0 and *.so.0.0.0 files to the ${PN} package, and the raw *.so files to
-> the ${PN}-dev package. So when the app tried to run, it failed.
+The following patches have made it to upstream:
+* 0001-configure-Fix-default-value-of-without-numa-switch-i.patch
+* 0001-configure-add-knob-to-control-numa-support.patch
+* 0003-Add-knob-to-control-tirpc-support.patch
+* 0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch
+* 0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
 
-Sounds familiar. I used to maintain this patch for the mesa recipe to
-workaround a similar issue in Qt:
+These patches have been refreshed in order to apply cleanly
+and without any fuzz:
+* 0004-build-Add-option-to-select-libc-implementation.patch
+* 0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+* 0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
+* 0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
+* 0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
 
-  http://lists.openembedded.org/pipermail/openembedded-devel/2015-May/101455.html
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+---
+v2: Actually change SRCREV, refresh/remove patches as needed.
 
-I don't know if later versions of Qt still show the problem (and of
-course, the workaround in the mesa recipe was never merged...).
+ .../ltp/0001-Disable-rpc01-on-glibc-and-musl.patch |  29 -----
+ ...ix-default-value-of-without-numa-switch-i.patch |  31 ------
+ ...onfigure-add-knob-to-control-numa-support.patch |  50 ---------
+ .../0003-Add-knob-to-control-tirpc-support.patch   |  46 --------
+ ...-Add-option-to-select-libc-implementation.patch |  77 ++++++++------
+ ...__GLIBC_PREREQ-is-defined-before-using-it.patch |  26 ++---
+ ...010-replace-__BEGIN_DECLS-and-__END_DECLS.patch |  75 -------------
+ ..._GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch |  27 ++---
+ ...n.h-Use-sighandler_t-instead-of-__sighand.patch |  20 ++--
+ ...etwork-nfsv4-acl-acl1.c-Security-fix-on-s.patch |   2 +-
+ ...-make-is_fuse-return-zero-if-fs_type-is-N.patch |  40 -------
+ meta/recipes-extended/ltp/ltp_20180118.bb          | 117 ---------------------
+ meta/recipes-extended/ltp/ltp_20180515.bb          | 111 +++++++++++++++++++
+ 13 files changed, 197 insertions(+), 454 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-configure-Fix-default-value-of-without-numa-switch-i.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-configure-add-knob-to-control-numa-support.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0003-Add-knob-to-control-tirpc-support.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp_20180118.bb
+ create mode 100644 meta/recipes-extended/ltp/ltp_20180515.bb
 
-> Investigating, I realised there were two things I could do: 1) add the raw
-> *.so files to the ${PN} package (with INSANE_SKIP += "dev-so") or 2) fix the
-> app. I decided to try #2, with the help of devtool.
->
-> I made one small change to the app, "devtool deploy-target"'ed it, and,
-> AMAZINGLY, everything worked!! Wow, what luck! ... or not.
->
-> Investigating, I discovered that "devtool deploy-target"'s only mode of
-> operation is to upload the entire recipe's ${D} directory (i.e.
-> ${WORKDIR}/image) to the target! I hope you'll be as surprised by that as am
-> I. Considering ${D} includes *.a files, man pages, raw *.so files,
-> pkgconfigs, (... thankfully it doesn't also include the -dbg packages) that
-> is a lot of stuff to be uploading to the target, a lot of wrong stuff, and
-> in my case that hindered my work. Most target filesystems are only 10%
-> larger than required to hold their contents, so uploading static libraries,
-> man pages, pkgconfigs, etc is not great.
->
-> Specifically, these unwanted raw *.so files were hindering my work. My only
-> two options were: 1) to use "devtool deploy-target" as-is and then have to
-> manually delete all the .so files or 2) come up with a better solution. I
-> went with #2 (again).
->
-> Many recipes generate just a couple packages: ${PN}, -dbg, -doc, -dev,
-> -staticdev, -locale. But some generate a whole bunch. In my case my recipe
-> is generating a lot of packages, but I only wanted to investigate one. This
-> patch allows a developer to focus on just one package, instead of the entire
-> recipe.
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch b/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
+deleted file mode 100644
+index 78c6dfb..0000000
+--- a/meta/recipes-extended/ltp/ltp/0001-Disable-rpc01-on-glibc-and-musl.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From ff39e6b69f0b26dad8ab685ee6116ff92bc363db Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 28 Apr 2018 00:08:55 -0700
+-Subject: [PATCH] Disable rpc01 on glibc and musl
+-
+-It is not buildable with libtirpc
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- testcases/network/rpc/basic_tests/Makefile | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
+-index 66e9d5675..16a64e7da 100644
+---- a/testcases/network/rpc/basic_tests/Makefile
+-+++ b/testcases/network/rpc/basic_tests/Makefile
+-@@ -23,4 +23,7 @@
+- top_srcdir		?= ../../../..
+- 
+- include $(top_srcdir)/include/mk/env_pre.mk
+-+
+-+FILTER_OUT_DIRS += rpc01
+-+
+- include $(top_srcdir)/include/mk/generic_trunk_target.mk
+--- 
+-2.17.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-configure-Fix-default-value-of-without-numa-switch-i.patch b/meta/recipes-extended/ltp/ltp/0001-configure-Fix-default-value-of-without-numa-switch-i.patch
+deleted file mode 100644
+index da62687..0000000
+--- a/meta/recipes-extended/ltp/ltp/0001-configure-Fix-default-value-of-without-numa-switch-i.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 4ace68a6ba501907a0741dba5f5f155e06a74c35 Mon Sep 17 00:00:00 2001
+-From: Petr Vorel <pvorel@suse.cz>
+-Date: Wed, 7 Feb 2018 11:09:49 +0100
+-Subject: [PATCH] configure: Fix default value of --without-numa switch in help
+-
+-The default value is no.
+-
+-Fixes: 39a85a1f1 ("configure: add knob to control numa support")
+-
+-Signed-off-by: Petr Vorel <pvorel@suse.cz>
+-Upstream-Status: Accepted
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index b39a31d..d66ea00 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -86,7 +86,7 @@ fi
+- # Numa
+- AC_ARG_WITH([numa],
+-   AC_HELP_STRING([--without-numa],
+--    [without numa support (default=yes)]),
+-+    [without numa support (default=no)]),
+-   [with_numa=no],
+-   [with_numa=yes]
+- )
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-configure-add-knob-to-control-numa-support.patch b/meta/recipes-extended/ltp/ltp/0001-configure-add-knob-to-control-numa-support.patch
+deleted file mode 100644
+index 8aaa287..0000000
+--- a/meta/recipes-extended/ltp/ltp/0001-configure-add-knob-to-control-numa-support.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 39a85a1f1e6624f554215ba4b6843d3689a8415e Mon Sep 17 00:00:00 2001
+-From: Anders Roxell <anders.roxell@linaro.org>
+-Date: Mon, 5 Feb 2018 11:56:04 +0100
+-Subject: [PATCH] configure: add knob to control numa support
+-
+-Allow to disable numa from the top level.
+-
+-Based on patch:
+-http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-extended/ltp?id=4c7873552e13dfdba96afca7562c398d2966ca71
+-
+-Reported-by: Roy Li <rongqing.li@windriver.com>
+-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+-Signed-off-by: Petr Vorel <pvorel@suse.cz>
+-Upstream-Status: Accepted
+----
+- configure.ac | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 5c8d4ea..b39a31d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -83,6 +83,14 @@ else
+-     AC_SUBST([WITH_EXPECT],["no"])
+- fi
+- 
+-+# Numa
+-+AC_ARG_WITH([numa],
+-+  AC_HELP_STRING([--without-numa],
+-+    [without numa support (default=yes)]),
+-+  [with_numa=no],
+-+  [with_numa=yes]
+-+)
+-+
+- # Perl
+- AC_ARG_WITH([perl],
+-   [AC_HELP_STRING([--with-perl],
+-@@ -157,7 +165,9 @@ LTP_CHECK_SELINUX
+- LTP_CHECK_SIGNAL
+- LTP_CHECK_SYSCALL_EVENTFD
+- LTP_CHECK_SYSCALL_MODIFY_LDT
+-+if test "x$with_numa" = xyes; then
+- LTP_CHECK_SYSCALL_NUMA
+-+fi
+- LTP_CHECK_SYSCALL_QUOTACTL
+- LTP_CHECK_SYSCALL_SIGNALFD
+- LTP_CHECK_SYSCALL_UNSHARE
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0003-Add-knob-to-control-tirpc-support.patch b/meta/recipes-extended/ltp/ltp/0003-Add-knob-to-control-tirpc-support.patch
+deleted file mode 100644
+index 5cf1e05..0000000
+--- a/meta/recipes-extended/ltp/ltp/0003-Add-knob-to-control-tirpc-support.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From b193011da301b3d944e8fddcf4817513c31c5b88 Mon Sep 17 00:00:00 2001
+-From: Fathi Boudra <fathi.boudra@linaro.org>
+-Date: Thu, 7 Jan 2016 17:36:19 +0000
+-Subject: [PATCH 03/32] Add knob to control tirpc support
+-
+-allow to disable tirpc. Helps to disable it at top level for eg. musl it
+-does not yet work.
+-
+-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+----
+- configure.ac | 9 +++++++++
+- 1 file changed, 9 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index cc50397..9e2936b 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -98,6 +98,13 @@ if test "x$with_python" = xyes; then
+- else
+-     AC_SUBST([WITH_PYTHON],["no"])
+- fi
+-+
+-+# TI RPC
+-+AC_ARG_WITH([tirpc],
+-+  AC_HELP_STRING([--without-tirpc],
+-+    [without libtirpc support]),
+-+  [],[with_tirpc=yes],
+-+)
+- # END tools knobs
+- 
+- # Testsuites knobs
+-@@ -169,7 +176,9 @@ LTP_CHECK_RENAMEAT2
+- LTP_CHECK_FALLOCATE
+- LTP_CHECK_SYSCALL_FCNTL
+- LTP_CHECK_SYSCALL_PERF_EVENT_OPEN
+-+if test "x$with_tirpc" = xyes; then
+- LTP_CHECK_TIRPC
+-+fi
+- LTP_CHECK_TEE
+- LTP_CHECK_SPLICE
+- LTP_CHECK_VMSPLICE
+--- 
+-2.7.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
+index 0781ba1..2df3855 100644
+--- a/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
++++ b/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
+@@ -22,10 +22,10 @@ Upstream-Status: Pending
+  testcases/realtime/stress/pi-tests/Makefile | 5 +++++
+  8 files changed, 35 insertions(+), 2 deletions(-)
+ 
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile
+-+++ git/Makefile
++diff --git a/Makefile b/Makefile
++index 297f8e7..906b280 100644
++--- a/Makefile
+++++ b/Makefile
+ @@ -49,6 +49,11 @@ SKIP_IDCHECK		?= 0
+  UCLINUX			?= 0
+  export UCLINUX
+@@ -38,10 +38,10 @@ Index: git/Makefile
+  # CLEAN_TARGETS:	Targets which exist solely in clean.
+  # COMMON_TARGETS:	Targets which exist in all, clean, and install.
+  # INSTALL_TARGETS:	Targets which exist in clean and install (contains
+-Index: git/testcases/kernel/Makefile
+-===================================================================
+---- git.orig/testcases/kernel/Makefile
+-+++ git/testcases/kernel/Makefile
++diff --git a/testcases/kernel/Makefile b/testcases/kernel/Makefile
++index 50a12fa..4f1987f 100644
++--- a/testcases/kernel/Makefile
+++++ b/testcases/kernel/Makefile
+ @@ -48,13 +48,16 @@ SUBDIRS			+= connectors \
+  			   logging \
+  			   mem \
+@@ -60,10 +60,10 @@ Index: git/testcases/kernel/Makefile
+  ifeq ($(WITH_POWER_MANAGEMENT_TESTSUITE),yes)
+  SUBDIRS			+= power_management
+  endif
+-Index: git/testcases/kernel/sched/Makefile
+-===================================================================
+---- git.orig/testcases/kernel/sched/Makefile
+-+++ git/testcases/kernel/sched/Makefile
++diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Makefile
++index 6245ed0..aa4eb7f 100644
++--- a/testcases/kernel/sched/Makefile
+++++ b/testcases/kernel/sched/Makefile
+ @@ -23,5 +23,7 @@
+  top_srcdir		?= ../../..
+  
+@@ -73,10 +73,10 @@ Index: git/testcases/kernel/sched/Makefile
+ +	FILTER_OUT_DIRS += process_stress
+ +endif
+  include $(top_srcdir)/include/mk/generic_trunk_target.mk
+-Index: git/testcases/kernel/syscalls/Makefile
+-===================================================================
+---- git.orig/testcases/kernel/syscalls/Makefile
+-+++ git/testcases/kernel/syscalls/Makefile
++diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/syscalls/Makefile
++index 8acb395..b749126 100644
++--- a/testcases/kernel/syscalls/Makefile
+++++ b/testcases/kernel/syscalls/Makefile
+ @@ -28,6 +28,11 @@ ifeq ($(UCLINUX),1)
+  FILTER_OUT_DIRS	+= capget capset chmod chown clone fork getcontext llseek \
+  		   mincore mprotect nftw profil remap_file_pages sbrk
+@@ -89,11 +89,11 @@ Index: git/testcases/kernel/syscalls/Makefile
+  
+  ifeq ($(UCLIBC),1)
+  FILTER_OUT_DIRS	+= profil
+-Index: git/testcases/network/nfsv4/acl/Makefile
+-===================================================================
+---- git.orig/testcases/network/nfsv4/acl/Makefile
+-+++ git/testcases/network/nfsv4/acl/Makefile
+-@@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre
++diff --git a/testcases/network/nfsv4/acl/Makefile b/testcases/network/nfsv4/acl/Makefile
++index 8bc78c2..c36cf50 100644
++--- a/testcases/network/nfsv4/acl/Makefile
+++++ b/testcases/network/nfsv4/acl/Makefile
++@@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre.mk
+  
+  LDLIBS			+= $(ACL_LIBS)
+  
+@@ -102,11 +102,25 @@ Index: git/testcases/network/nfsv4/acl/Makefile
+ +endif
+ +
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+-Index: git/testcases/realtime/func/pi-tests/Makefile
+-===================================================================
+---- git.orig/testcases/realtime/func/pi-tests/Makefile
+-+++ git/testcases/realtime/func/pi-tests/Makefile
+-@@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre
++diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
++index 3160813..9bdf5d0 100644
++--- a/testcases/network/rpc/basic_tests/Makefile
+++++ b/testcases/network/rpc/basic_tests/Makefile
++@@ -23,4 +23,9 @@
++ top_srcdir		?= ../../../..
++ 
++ include $(top_srcdir)/include/mk/env_pre.mk
+++
+++ifeq ($(LIBC),musl)
+++FILTER_OUT_DIRS += rpc01
+++endif
+++
++ include $(top_srcdir)/include/mk/generic_trunk_target.mk
++diff --git a/testcases/realtime/func/pi-tests/Makefile b/testcases/realtime/func/pi-tests/Makefile
++index 7a7a57a..5808866 100644
++--- a/testcases/realtime/func/pi-tests/Makefile
+++++ b/testcases/realtime/func/pi-tests/Makefile
++@@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre.mk
+  include $(abs_srcdir)/../../config.mk
+  
+  MAKE_TARGETS		:= testpi-0 testpi-1 testpi-2 testpi-4 testpi-5 testpi-6 testpi-7 sbrk_mutex
+@@ -116,10 +130,10 @@ Index: git/testcases/realtime/func/pi-tests/Makefile
+ +
+  
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+-Index: git/testcases/realtime/stress/pi-tests/Makefile
+-===================================================================
+---- git.orig/testcases/realtime/stress/pi-tests/Makefile
+-+++ git/testcases/realtime/stress/pi-tests/Makefile
++diff --git a/testcases/realtime/stress/pi-tests/Makefile b/testcases/realtime/stress/pi-tests/Makefile
++index 5edc3b4..aa5987a 100644
++--- a/testcases/realtime/stress/pi-tests/Makefile
+++++ b/testcases/realtime/stress/pi-tests/Makefile
+ @@ -24,4 +24,9 @@ top_srcdir		?= ../../../..
+  
+  include $(top_srcdir)/include/mk/env_pre.mk
+@@ -130,3 +144,6 @@ Index: git/testcases/realtime/stress/pi-tests/Makefile
+ +endif
+ +
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
++-- 
++2.7.0
++
+diff --git a/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch b/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+index e325ce4..428ac30 100644
+--- a/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
++++ b/meta/recipes-extended/ltp/ltp/0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+@@ -11,9 +11,9 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
+ ---
+  testcases/kernel/syscalls/accept4/accept4_01.c     |  9 ++++-
+- testcases/kernel/syscalls/getcpu/getcpu01.c        | 40 +++++++++++++++++++++-
+- .../sched_getaffinity/sched_getaffinity01.c        | 26 ++++++++++++++
+- 3 files changed, 73 insertions(+), 2 deletions(-)
++ testcases/kernel/syscalls/getcpu/getcpu01.c        | 39 +++++++++++++++++++++-
++ .../sched_getaffinity/sched_getaffinity01.c        | 26 +++++++++++++++
++ 3 files changed, 72 insertions(+), 2 deletions(-)
+ 
+ diff --git a/testcases/kernel/syscalls/accept4/accept4_01.c b/testcases/kernel/syscalls/accept4/accept4_01.c
+ index 6072bfa..2b090cb 100644
+@@ -102,7 +102,7 @@ index c927512..921b107 100644
+  	*cpu_id = sched_getcpu();
+  #endif
+  	return 0;
+-@@ -191,15 +204,20 @@ unsigned int set_cpu_affinity(void)
++@@ -191,15 +203,20 @@ unsigned int set_cpu_affinity(void)
+  	cpu_set_t *set;
+  	size_t size;
+  	int nrcpus = 1024;
+@@ -123,7 +123,7 @@ index c927512..921b107 100644
+  #if __GLIBC_PREREQ(2, 7)
+  	size = CPU_ALLOC_SIZE(nrcpus);
+  	CPU_ZERO_S(size, set);
+-@@ -207,8 +225,13 @@ realloc:
++@@ -207,8 +224,13 @@ realloc:
+  	size = sizeof(cpu_set_t);
+  	CPU_ZERO(set);
+  #endif
+@@ -137,7 +137,7 @@ index c927512..921b107 100644
+  #if __GLIBC_PREREQ(2, 7)
+  		if (errno == EINVAL && nrcpus < (1024 << 8)) {
+  			nrcpus = nrcpus << 2;
+-@@ -220,10 +243,17 @@ realloc:
++@@ -220,10 +242,17 @@ realloc:
+  				 "NR_CPUS of the kernel is more than 1024, so we'd better use a newer glibc(>= 2.7)");
+  		else
+  #endif
+@@ -155,7 +155,7 @@ index c927512..921b107 100644
+  #if __GLIBC_PREREQ(2, 7)
+  	CPU_ZERO_S(size, set);
+  	CPU_SET_S(cpu_max, size, set);
+-@@ -231,6 +261,10 @@ realloc:
++@@ -231,6 +260,10 @@ realloc:
+  	CPU_ZERO(set);
+  	CPU_SET(cpu_max, set);
+  #endif
+@@ -166,7 +166,7 @@ index c927512..921b107 100644
+  	if (sched_setaffinity(0, size, set) < 0) {
+  		CPU_FREE(set);
+  		tst_brkm(TFAIL, NULL, "sched_setaffinity:errno:%d", errno);
+-@@ -247,11 +281,15 @@ unsigned int max_cpuid(size_t size, cpu_set_t * set)
++@@ -247,11 +280,15 @@ unsigned int max_cpuid(size_t size, cpu_set_t * set)
+  {
+  	unsigned int index, max = 0;
+  	for (index = 0; index < size * BITS_PER_BYTE; index++)
+@@ -186,7 +186,7 @@ diff --git a/testcases/kernel/syscalls/sched_getaffinity/sched_getaffinity01.c b
+ index 9d6a81a..4ed13b2 100644
+ --- a/testcases/kernel/syscalls/sched_getaffinity/sched_getaffinity01.c
+ +++ b/testcases/kernel/syscalls/sched_getaffinity/sched_getaffinity01.c
+-@@ -66,9 +66,11 @@ do { \
++@@ -67,9 +67,11 @@ do { \
+  	tst_resm((TEST_RETURN == -1 ? TPASS : TFAIL) | TTERRNO, #t); \
+  } while (0)
+  
+@@ -198,7 +198,7 @@ index 9d6a81a..4ed13b2 100644
+  
+  int main(int ac, char **av)
+  {
+-@@ -95,14 +97,19 @@ static void do_test(void)
++@@ -96,14 +98,19 @@ static void do_test(void)
+  	pid_t unused_pid;
+  	unsigned len;
+  
+@@ -218,7 +218,7 @@ index 9d6a81a..4ed13b2 100644
+  #if __GLIBC_PREREQ(2, 7)
+  	len = CPU_ALLOC_SIZE(nrcpus);
+  	CPU_ZERO_S(len, mask);
+-@@ -110,10 +117,15 @@ realloc:
++@@ -111,10 +118,15 @@ realloc:
+  	len = sizeof(cpu_set_t);
+  	CPU_ZERO(mask);
+  #endif
+@@ -234,7 +234,7 @@ index 9d6a81a..4ed13b2 100644
+  #if __GLIBC_PREREQ(2, 7)
+  		if (errno == EINVAL && nrcpus < (1024 << 8)) {
+  			nrcpus = nrcpus << 2;
+-@@ -125,17 +137,27 @@ realloc:
++@@ -126,17 +138,27 @@ realloc:
+  				 "newer glibc(>= 2.7)");
+  		else
+  #endif
+@@ -262,7 +262,7 @@ index 9d6a81a..4ed13b2 100644
+  			if (TEST_RETURN != -1)
+  				tst_resm(TPASS, "sched_getaffinity() succeed, "
+  					 "this process %d is running "
+-@@ -143,11 +165,15 @@ realloc:
++@@ -144,11 +166,15 @@ realloc:
+  		}
+  	}
+  
+diff --git a/meta/recipes-extended/ltp/ltp/0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch b/meta/recipes-extended/ltp/ltp/0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch
+deleted file mode 100644
+index b9fce88..0000000
+--- a/meta/recipes-extended/ltp/ltp/0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 0130f4146ced320aadb01b22e36b13d269a8ebba Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 7 Jan 2016 19:48:14 +0000
+-Subject: [PATCH 10/32] replace __BEGIN_DECLS and __END_DECLS
+-
+-They are not portable across libc implementations
+-therefore replace them with expanded macros
+-
+-Include <asm-generic/types.h> to get __s32 definitions
+-its not a generally available typedef
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+----
+- testcases/kernel/syscalls/epoll2/include/epoll.h | 8 ++++++--
+- utils/sctp/include/netinet/sctp.h                | 9 +++++++--
+- 2 files changed, 13 insertions(+), 4 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/epoll2/include/epoll.h b/testcases/kernel/syscalls/epoll2/include/epoll.h
+-index be599c7..8cc5e7e 100644
+---- a/testcases/kernel/syscalls/epoll2/include/epoll.h
+-+++ b/testcases/kernel/syscalls/epoll2/include/epoll.h
+-@@ -85,7 +85,9 @@ struct epoll_event
+- } EPOLL_PACKED;
+- 
+- 
+--__BEGIN_DECLS
+-+#ifdef __cplusplus
+-+extern "C" {
+-+#endif
+- 
+- /* Creates an epoll instance.  Returns an fd for the new instance.
+-    The "size" parameter is a hint specifying the number of file
+-@@ -114,6 +116,8 @@ extern int epoll_ctl (int __epfd, int __op, int __fd,
+- extern int epoll_wait (int __epfd, struct epoll_event *__events,
+- 		       int __maxevents, int __timeout) __THROW;
+- 
+--__END_DECLS
+-+#ifdef __cplusplus
+-+}
+-+#endif
+- 
+- #endif /* sys/epoll.h */
+-diff --git a/utils/sctp/include/netinet/sctp.h b/utils/sctp/include/netinet/sctp.h
+-index 51f5bfb..c61aef3 100644
+---- a/utils/sctp/include/netinet/sctp.h
+-+++ b/utils/sctp/include/netinet/sctp.h
+-@@ -35,9 +35,12 @@
+- 
+- #include <stdint.h>
+- #include <linux/types.h>
+-+#include <asm-generic/types.h>
+- #include <sys/socket.h>
+- 
+--__BEGIN_DECLS
+-+#ifdef __cplusplus
+-+extern "C" {
+-+#endif
+- 
+- typedef __s32 sctp_assoc_t;
+- 
+-@@ -862,6 +865,8 @@ int sctp_recvmsg(int s, void *msg, size_t len, struct sockaddr *from,
+- /* Return the address length for an address family. */
+- int sctp_getaddrlen(sa_family_t family);
+- 
+--__END_DECLS
+-+#ifdef __cplusplus
+-+}
+-+#endif
+- 
+- #endif /* __linux_sctp_h__ */
+--- 
+-2.7.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch b/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
+index 462976d..6c5f360 100644
+--- a/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
++++ b/meta/recipes-extended/ltp/ltp/0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
+@@ -18,10 +18,10 @@ Upstream-Status: Pending
+  testcases/kernel/syscalls/mremap/mremap03.c | 2 ++
+  3 files changed, 7 insertions(+), 1 deletion(-)
+ 
+-Index: git/testcases/kernel/syscalls/mremap/mremap01.c
+-===================================================================
+---- git.orig/testcases/kernel/syscalls/mremap/mremap01.c
+-+++ git/testcases/kernel/syscalls/mremap/mremap01.c
++diff --git a/testcases/kernel/syscalls/mremap/mremap01.c b/testcases/kernel/syscalls/mremap/mremap01.c
++index d63d1e4..24ca174 100644
++--- a/testcases/kernel/syscalls/mremap/mremap01.c
+++++ b/testcases/kernel/syscalls/mremap/mremap01.c
+ @@ -76,10 +76,12 @@
+   */
+  #include <unistd.h>
+@@ -36,10 +36,10 @@ Index: git/testcases/kernel/syscalls/mremap/mremap01.c
+  
+  #include "test.h"
+  #include "safe_macros.h"
+-Index: git/testcases/kernel/syscalls/mremap/mremap02.c
+-===================================================================
+---- git.orig/testcases/kernel/syscalls/mremap/mremap02.c
+-+++ git/testcases/kernel/syscalls/mremap/mremap02.c
++diff --git a/testcases/kernel/syscalls/mremap/mremap02.c b/testcases/kernel/syscalls/mremap/mremap02.c
++index 5a51b9a..a530a6b 100644
++--- a/testcases/kernel/syscalls/mremap/mremap02.c
+++++ b/testcases/kernel/syscalls/mremap/mremap02.c
+ @@ -75,9 +75,11 @@
+  #include <errno.h>
+  #include <unistd.h>
+@@ -52,10 +52,10 @@ Index: git/testcases/kernel/syscalls/mremap/mremap02.c
+  
+  #include "test.h"
+  
+-Index: git/testcases/kernel/syscalls/mremap/mremap03.c
+-===================================================================
+---- git.orig/testcases/kernel/syscalls/mremap/mremap03.c
+-+++ git/testcases/kernel/syscalls/mremap/mremap03.c
++diff --git a/testcases/kernel/syscalls/mremap/mremap03.c b/testcases/kernel/syscalls/mremap/mremap03.c
++index 12e3829..9b39f8b 100644
++--- a/testcases/kernel/syscalls/mremap/mremap03.c
+++++ b/testcases/kernel/syscalls/mremap/mremap03.c
+ @@ -76,9 +76,11 @@
+  #include <errno.h>
+  #include <unistd.h>
+@@ -68,3 +68,6 @@ Index: git/testcases/kernel/syscalls/mremap/mremap03.c
+  
+  #include "test.h"
+  
++-- 
++2.7.0
++
+diff --git a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
+index c730d46..40ee894 100644
+--- a/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
++++ b/meta/recipes-extended/ltp/ltp/0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
+@@ -11,14 +11,14 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ Upstream-Status: Pending
+ ---
+- include/lapi/rt_sigaction.h                      | 2 +-
++ include/lapi/rt_sigaction.h                      | 4 ++--
+  testcases/kernel/syscalls/rt_sigsuspend/Makefile | 3 +++
+- 2 files changed, 4 insertions(+), 1 deletion(-)
++ 2 files changed, 5 insertions(+), 2 deletions(-)
+ 
+-Index: git/include/lapi/rt_sigaction.h
+-===================================================================
+---- git.orig/include/lapi/rt_sigaction.h
+-+++ git/include/lapi/rt_sigaction.h
++diff --git a/include/lapi/rt_sigaction.h b/include/lapi/rt_sigaction.h
++index 18236db..15facda 100644
++--- a/include/lapi/rt_sigaction.h
+++++ b/include/lapi/rt_sigaction.h
+ @@ -36,12 +36,12 @@
+  #if defined(__mips__)
+  struct kernel_sigaction {
+@@ -34,10 +34,10 @@ Index: git/include/lapi/rt_sigaction.h
+  	unsigned long sa_flags;
+  	void (*sa_restorer) (void);
+  	sigset_t sa_mask;
+-Index: git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
+-===================================================================
+---- git.orig/testcases/kernel/syscalls/rt_sigsuspend/Makefile
+-+++ git/testcases/kernel/syscalls/rt_sigsuspend/Makefile
++diff --git a/testcases/kernel/syscalls/rt_sigsuspend/Makefile b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
++index 37bc3a9..2ca7f7c 100644
++--- a/testcases/kernel/syscalls/rt_sigsuspend/Makefile
+++++ b/testcases/kernel/syscalls/rt_sigsuspend/Makefile
+ @@ -19,4 +19,7 @@
+  top_srcdir		?= ../../../..
+  
+diff --git a/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch b/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+index 04532be..e826d48 100644
+--- a/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
++++ b/meta/recipes-extended/ltp/ltp/0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+@@ -27,7 +27,7 @@ diff --git a/testcases/network/nfsv4/acl/acl1.c b/testcases/network/nfsv4/acl/ac
+ index b8b67b4..7c7c506 100644
+ --- a/testcases/network/nfsv4/acl/acl1.c
+ +++ b/testcases/network/nfsv4/acl/acl1.c
+-@@ -314,7 +314,7 @@ void test_acl_default(char *dir, acl_t acl)
++@@ -303,7 +303,7 @@ void test_acl_default(char *dir, acl_t acl)
+  	char *cmd = malloc(256);
+  
+  	strcpy(cmd, "chmod 7777 ");
+diff --git a/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch b/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
+deleted file mode 100644
+index 5096a85..0000000
+--- a/meta/recipes-extended/ltp/ltp/0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 67af7dbe8bdf29f9ed980d8d29feeae32a0a7a1d Mon Sep 17 00:00:00 2001
+-From: Li Wang <liwang@redhat.com>
+-Date: Tue, 23 Jan 2018 17:46:35 +0800
+-Subject: [PATCH] safe_macros: make is_fuse() return zero if fs_type is NULL
+-
+-This commmit 28507e514c(safe_mount: Do not try mount() syscall for FUSE fs)
+-involves FUSE fs check in safe_mount(), but we'd better guarantee the "fs_type"
+-is legal to check in is_fuse() function otherwise system will kill the program.
+-
+-  cmdline="fanotify06"
+-  contacts=""
+-  analysis=exit
+-  <<<test_output>>>
+-  tst_test.c:980: INFO: Timeout per run is 0h 10m 00s
+-  tst_test.c:1025: BROK: Test killed by SIGSEGV!
+-
+-Signed-off-by: Li Wang <liwang@redhat.com>
+-Acked-by: Jan Stancek <jstancek@redhat.com>
+-Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/commit/67af7dbe8bdf29f9ed980d8d29feeae32a0a7a1d]
+----
+- lib/safe_macros.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/lib/safe_macros.c b/lib/safe_macros.c
+-index c48e436dc..abdeca013 100644
+---- a/lib/safe_macros.c
+-+++ b/lib/safe_macros.c
+-@@ -708,6 +708,9 @@ static int is_fuse(const char *fs_type)
+- {
+- 	unsigned int i;
+- 
+-+	if (!fs_type)
+-+		return 0;
+-+
+- 	for (i = 0; i < ARRAY_SIZE(fuse_fs_types); i++) {
+- 		if (!strcmp(fuse_fs_types[i], fs_type))
+- 			return 1;
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp_20180118.bb b/meta/recipes-extended/ltp/ltp_20180118.bb
+deleted file mode 100644
+index 8992f1b..0000000
+--- a/meta/recipes-extended/ltp/ltp_20180118.bb
++++ /dev/null
+@@ -1,117 +0,0 @@
+-SUMMARY = "Linux Test Project"
+-DESCRIPTION = "The Linux Test Project is a joint project with SGI, IBM, OSDL, and Bull with a goal to deliver test suites to the open source community that validate the reliability, robustness, and stability of Linux. The Linux Test Project is a collection of tools for testing the Linux kernel and related features."
+-HOMEPAGE = "http://ltp.sourceforge.net"
+-SECTION = "console/utils"
+-LICENSE = "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
+-LIC_FILES_CHKSUM = "\
+-    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-    file://testcases/kernel/controllers/freezer/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+-    file://testcases/kernel/controllers/freezer/run_freezer.sh;beginline=5;endline=17;md5=86a61d2c042d59836ffb353a21456498 \
+-    file://testcases/kernel/hotplug/memory_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
+-    file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
+-    file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 \
+-    file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+-    file://tools/pounder21/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-    file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 \
+-"
+-
+-DEPENDS = "attr libaio libcap acl openssl zip-native"
+-DEPENDS_append_libc-musl = " fts "
+-EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
+-CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+-CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "731cd34e682d297b207668be8b1d15320a9ac1b1"
+-
+-SRC_URI = "git://github.com/linux-test-project/ltp.git \
+-           file://0001-configure-add-knob-to-control-numa-support.patch \
+-           file://0001-configure-Fix-default-value-of-without-numa-switch-i.patch \
+-           file://0003-Add-knob-to-control-tirpc-support.patch \
+-           file://0004-build-Add-option-to-select-libc-implementation.patch \
+-           file://0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
+-           file://0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch \
+-           file://0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch \
+-           file://0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch \
+-           file://0010-replace-__BEGIN_DECLS-and-__END_DECLS.patch \
+-           file://0018-guard-mallocopt-with-__GLIBC__.patch \
+-           file://0020-getdents-define-getdents-getdents64-only-for-glibc.patch \
+-           file://0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch \
+-           file://0023-ptrace-Use-int-instead-of-enum-__ptrace_request.patch \
+-           file://0024-rt_sigaction-rt_sigprocmark-Define-_GNU_SOURCE.patch \
+-           file://0026-crash01-Define-_GNU_SOURCE.patch \
+-           file://0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch \
+-           file://0034-periodic_output.patch \
+-           file://0035-fix-test_proc_kill-hang.patch \
+-           file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+-           file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+-           file://0040-safe_macros-make-is_fuse-return-zero-if-fs_type-is-N.patch \
+-           file://0001-Disable-rpc01-on-glibc-and-musl.patch \
+-           "
+-
+-S = "${WORKDIR}/git"
+-
+-inherit autotools-brokensep
+-
+-TARGET_CC_ARCH += "${LDFLAGS}"
+-
+-export prefix = "/opt/ltp"
+-export exec_prefix = "/opt/ltp"
+-
+-PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
+-EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
+-EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
+-# ltp network/rpc test cases ftbfs when libtirpc is found
+-EXTRA_OECONF += " --without-tirpc "
+-
+-do_install(){
+-    install -d ${D}/opt/ltp/
+-    oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
+-
+-    # fixup not deploy STPfailure_report.pl to avoid confusing about it fails to run
+-    # as it lacks dependency on some perl moudle such as LWP::Simple
+-    # And this script previously works as a tool for analyzing failures from LTP
+-    # runs on the OSDL's Scaleable Test Platform (STP) and it mainly accesses
+-    # http://khack.osdl.org to retrieve ltp test results run on
+-    # OSDL's Scaleable Test Platform, but now http://khack.osdl.org unaccessible
+-    rm -rf ${D}/opt/ltp/bin/STPfailure_report.pl
+-
+-    # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
+-    cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+-}
+-
+-RDEPENDS_${PN} = "\
+-    acl \
+-    at \
+-    attr \
+-    bash \
+-    cpio \
+-    cronie \
+-    curl \
+-    e2fsprogs-mke2fs \
+-    expect \
+-    gawk \
+-    gzip \
+-    iproute2 \
+-    ldd \
+-    libaio \
+-    logrotate \
+-    perl \
+-    python-core \
+-    procps \
+-    unzip \
+-    util-linux \
+-    which \
+-    tar \
+-"
+-
+-FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/* /opt/ltp/testcases/data/nm01/lib.a /opt/ltp/lib/libmem.a"
+-
+-# Avoid stripping some generated binaries otherwise some of the ltp tests such as ldd01 & nm01 fail
+-INHIBIT_PACKAGE_STRIP_FILES = "/opt/ltp/testcases/bin/nm01 /opt/ltp/testcases/bin/ldd01"
+-INSANE_SKIP_${PN} += "already-stripped staticdev"
+-
+-# Avoid file dependency scans, as LTP checks for things that may or may not
+-# exist on the running system.  For instance it has specific checks for
+-# csh and ksh which are not typically part of OpenEmbedded systems (but
+-# can be added via additional layers.)
+-SKIP_FILEDEPS_${PN} = '1'
+diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
+new file mode 100644
+index 0000000..049b829
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+@@ -0,0 +1,111 @@
++SUMMARY = "Linux Test Project"
++DESCRIPTION = "The Linux Test Project is a joint project with SGI, IBM, OSDL, and Bull with a goal to deliver test suites to the open source community that validate the reliability, robustness, and stability of Linux. The Linux Test Project is a collection of tools for testing the Linux kernel and related features."
++HOMEPAGE = "http://ltp.sourceforge.net"
++SECTION = "console/utils"
++LICENSE = "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
++LIC_FILES_CHKSUM = "\
++    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++    file://testcases/kernel/controllers/freezer/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
++    file://testcases/kernel/controllers/freezer/run_freezer.sh;beginline=5;endline=17;md5=86a61d2c042d59836ffb353a21456498 \
++    file://testcases/kernel/hotplug/memory_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
++    file://testcases/kernel/hotplug/cpu_hotplug/COPYING;md5=e04a2e542b2b8629bf9cd2ba29b0fe41 \
++    file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 \
++    file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
++    file://tools/pounder21/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++    file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++    file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 \
++"
++
++DEPENDS = "attr libaio libcap acl openssl zip-native"
++DEPENDS_append_libc-musl = " fts "
++EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
++CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
++CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
++SRCREV = "96cbf48313afa65ef4d693d3441cbfd60a8d9b27"
++
++SRC_URI = "git://github.com/linux-test-project/ltp.git \
++           file://0004-build-Add-option-to-select-libc-implementation.patch \
++           file://0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
++           file://0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch \
++           file://0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch \
++           file://0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch \
++           file://0018-guard-mallocopt-with-__GLIBC__.patch \
++           file://0020-getdents-define-getdents-getdents64-only-for-glibc.patch \
++           file://0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch \
++           file://0023-ptrace-Use-int-instead-of-enum-__ptrace_request.patch \
++           file://0024-rt_sigaction-rt_sigprocmark-Define-_GNU_SOURCE.patch \
++           file://0026-crash01-Define-_GNU_SOURCE.patch \
++           file://0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch \
++           file://0034-periodic_output.patch \
++           file://0035-fix-test_proc_kill-hang.patch \
++           file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
++           file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
++           "
++
++S = "${WORKDIR}/git"
++
++inherit autotools-brokensep
++
++TARGET_CC_ARCH += "${LDFLAGS}"
++
++export prefix = "/opt/ltp"
++export exec_prefix = "/opt/ltp"
++
++PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
++EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
++EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
++# ltp network/rpc test cases ftbfs when libtirpc is found
++EXTRA_OECONF += " --without-tirpc "
++
++do_install(){
++    install -d ${D}/opt/ltp/
++    oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
++
++    # fixup not deploy STPfailure_report.pl to avoid confusing about it fails to run
++    # as it lacks dependency on some perl moudle such as LWP::Simple
++    # And this script previously works as a tool for analyzing failures from LTP
++    # runs on the OSDL's Scaleable Test Platform (STP) and it mainly accesses
++    # http://khack.osdl.org to retrieve ltp test results run on
++    # OSDL's Scaleable Test Platform, but now http://khack.osdl.org unaccessible
++    rm -rf ${D}/opt/ltp/bin/STPfailure_report.pl
++
++    # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
++    cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
++}
++
++RDEPENDS_${PN} = "\
++    acl \
++    at \
++    attr \
++    bash \
++    cpio \
++    cronie \
++    curl \
++    e2fsprogs-mke2fs \
++    expect \
++    gawk \
++    gzip \
++    iproute2 \
++    ldd \
++    libaio \
++    logrotate \
++    perl \
++    python-core \
++    procps \
++    unzip \
++    util-linux \
++    which \
++    tar \
++"
++
++FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/* /opt/ltp/testcases/data/nm01/lib.a /opt/ltp/lib/libmem.a"
++
++# Avoid stripping some generated binaries otherwise some of the ltp tests such as ldd01 & nm01 fail
++INHIBIT_PACKAGE_STRIP_FILES = "/opt/ltp/testcases/bin/nm01 /opt/ltp/testcases/bin/ldd01"
++INSANE_SKIP_${PN} += "already-stripped staticdev"
++
++# Avoid file dependency scans, as LTP checks for things that may or may not
++# exist on the running system.  For instance it has specific checks for
++# csh and ksh which are not typically part of OpenEmbedded systems (but
++# can be added via additional layers.)
++SKIP_FILEDEPS_${PN} = '1'
+-- 
+2.7.4
 
-All seems reasonable to me. Thanks for taking the time to explain all
-the details!
-
-I wonder whether the default behaviour should just be to not deploy
-files from the -dev package?
-
->> Are the going to be problems if users want to deploy more than one
->> package (or switch between a full deploy and a package) and don't
->> deploy and undeploy in the right order?
->
->
-> In my patch I added a --package option to "devtool deploy-target" but not to
-> "devtool undeploy-target". devtool keeps track of what files were uploaded
-> by creating a per-package list on the target itself (in /.devtool). When you
-> undeploy a recipe, it simply looks for this recipe file on the target, reads
-> the files listed there, and undeploys each of the files in that list.
->
-> Therefore, mixing and matching deploys and undeploys amongst recipes don't
-> interfere with each other.
->
-> I checked at the time, but I'm not 100% sure now, but I believe if one
-> deploys two packages from one recipe, the on-target file gets appended. But
-> now I'm not 100% sure, so I'll verify this tomorrow (thanks for the
-> reminder). As such, under my scheme, you can deploy recipes and packages at
-> will, but then only undeploy the whole kit and caboodle in one go; given a
-> recipe name to undeploy, whatever it finds in the on-target record will get
-> undeployed.
->
-> I think any developer will find this reasonable behaviour (but maybe not?).
-
-If that's how it works then it seems reasonable to me.
-
-> In any case, my patch doesn't affect any existing workflows. If a developer
-> never notices the new --package option and simply continues to use "devtool
-> deploy-target" with just a recipe name, the behaviour will be exactly the
-> same. Only when the --package option is used will the new behaviour occur.
->
-> I'll verify deploying multiple packages from the same recipe to confirm they
-> append the list file. I'll also verify deploying the same package multiple
-> times (although my guess is there'll be no difference between this and the
-> existing behaviour should one deploy the same recipe multiple times).
 
