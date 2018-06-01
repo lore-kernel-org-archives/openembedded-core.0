@@ -1,51 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E61074FFF
+Return-Path: <twoerner@gmail.com>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CF074897
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 14:48:22 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id d2-v6so21149895wrm.10
+	Fri,  1 Jun 2018 14:58:06 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id j13-v6so10827913lfb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 07:48:24 -0700 (PDT)
+	Fri, 01 Jun 2018 07:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Tp5s6PTCry3qZ5jp+OA78f85czhjMkzMWa/h/3+RUgU=;
-	b=hlJj3reng+n3Bwcu5Ng6OqtNc/Bmqdfs1OYc7wcoIol/N3h9QZ1JMXodSdD3v+cpV8
-	qceBsxna6RUtFo+JOfK48kg003dT0jBPa1U6sdDRgbhmh4ibcgN7VVD3nEJFF5NmQJk5
-	f+BGQ+A8iiEb+R2ZBI1JuOKOsSR5nyMbIK7QnhV4Jv0/4JrbH8Ji6hb/NBh+2XO0e1WC
-	efwGTmRgk3EUYp9fFWTQfFcGd1qpGadu/LsqlfOCR+zXo0O1GMOYkVAxHov21BWOTZGE
-	jzN6pdQMdt1D7DAuS8Nyg/uaS4nitvSGRU594HXtShTYdUDc/Ln/pjnnzGHB0+heXOl6
-	YMIQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=1jNMp/havQ7/k2t1sAgHTwbli3+1S1d81t98VqO0l44=;
+	b=DFnF6Mhg4SKiXxTZ8UJxz7k7vB8MlmyHKBkfK2Sgr78qrvSZE3tCR1mOdd/58A98mV
+	8DrtLdS7KDHwQUc9RO9sJCR2Ab1kpeNifZWIO9svCW3r7PhaVMQZYg4KzVOPjqAc4md0
+	HhFLHhjoFwWMMgUZ/43luAloUr5Wy79OdtKA4O89ZTeh4lE1Q49/OEB0iTqzYv8ff65c
+	oMwT5jJpgQb1td5cqZ8dcbawn6NmDOie3XLrKWX2dzNqBJa/LstuDwj3qG5K4hfdWnUR
+	rtdlyDG1UvA6uoumdGvZuhO79PxCLJQPjJn5GPugWiVnYLAkWMCY9F15AYk7zCE4IywF
+	NTEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Tp5s6PTCry3qZ5jp+OA78f85czhjMkzMWa/h/3+RUgU=;
-	b=XAR7JK5fQVnBgdZ9FlwMKaWk3DmynQgirAmLcQ+FWI2Qk50kltatlYdaNHxtKzmcXe
-	vhClrsECX9j3L/DEXAWZPjQ3F7KpFW1A1AzidAjwYpv1hmLqSRCkIjDHQ4hCnZIXqKIL
-	H3qP1l2a1AF7RIDIR9BuZWaByhSkNkkg/PmO/FsprKwvinktB2sn3QKeuJQfUmQ3UTax
-	RKZugK29OxlvrZ7jsI2feWWmRx/qBTSJKC/vmQaCuhKRfEbf6w89y19TY+6T4YbMCguK
-	1C/G/tt1hm0OtZCrJAX7XAw4fJ00JbbGkRvXIxYYIfdpw44PN0kDtoN7Ni7kdH/57/5s
-	6Alw==
-X-Gm-Message-State: ALKqPwe4qcBG0/8pmsTF70U38tT3yHqjtLrpcOWJQrPMHWwksw7Ns6MG
-	itt/ZjCyQcAquvQ/G15ymSqqQMZTvrzCTzh0DbHV5Q==
-X-Google-Smtp-Source: ADUXVKKMLGH946qwBOVBE3S3OtsrktcYG0zTvrOVCAXjEwAGd7Mi7WeSb+XOClJOiNPR1IvSlCnvbKnsNoETtCf/d+8=
-X-Received: by 2002:adf:9561:: with SMTP id
-	88-v6mr4609680wrs.223.1527864503553; 
-	Fri, 01 Jun 2018 07:48:23 -0700 (PDT)
+	bh=1jNMp/havQ7/k2t1sAgHTwbli3+1S1d81t98VqO0l44=;
+	b=jPpOLzuL+6BQoThFe7twuRltoq6N4+RT43Jvr0gdiKyM8/HDa+TOw6JtyhXml45jo6
+	eqA39xRSrpU8I0uveYIbQUjIn1uDgg/FZ+VGIhnVf7bAweUuPotqS6ZodJ5tjuNxwiXp
+	AKxTL1Td5/aibFcKWITwbTZSwnruKnXXmBydjzTPaGEgcqkRoVEw5uc4uAqW4jWl/el3
+	rCJ2SRxTYygbgr6UYusAIZ0SCmRu27B8Yim5sKewNOIupEf8/shFLkmamlwrbmBV0bfR
+	s2bI1rXbT5O6p1z+zn6AeZZRAOe1Zz7j6Jsvic0d0/TxH40ylHmY7GgEq0WAWoZtJEF9
+	9y1g==
+X-Gm-Message-State: APt69E1rTMRnhmQu4vP0r3rFE6hmbGP4eZP3I/UqzYCsi5AcDGk2IAjs
+	WI5fLQSaKFet4u7jyNI2oKt258Q3hHh5F7v5rUg=
+X-Google-Smtp-Source: ADUXVKI2kLh68904Mc2aArSSpDkt23AvrZHiAEUIuO2Tcqq4u4hYkbpfAjG1MlyO91Y+DNQVx8RfNFH8lbF6YzyE7Sc=
+X-Received: by 2002:a19:2101:: with SMTP id
+	h1-v6mr2262044lfh.135.1527865087523; 
+	Fri, 01 Jun 2018 07:58:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180528155833.24224-1-raj.khem@gmail.com>
-	<CA+chaQdTQ8OCmXthjY_Fyq+7En9=GMk8A_KpmVwehuBy6oJvYQ@mail.gmail.com>
-	<CAMKF1sq4xaHNsNBxuLWmhGiuwO2rpRZPbQQhZETnU17hTku=pA@mail.gmail.com>
-	<CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
-In-Reply-To: <CA+chaQccOte4qfnqP7gUxr7DYmweJ2yw0TNJQoZeYCLYTwD3vQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 1 Jun 2018 16:48:14 +0200
-Message-ID: <CA+chaQfFeDNPWWQqukZ=C_3GNpB7ibGUNfZEidkSezvQs4DDZA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] systemd: Fix build with gcc8
+Received: by 2002:a19:cb07:0:0:0:0:0 with HTTP;
+	Fri, 1 Jun 2018 07:58:06 -0700 (PDT)
+In-Reply-To: <CAJ86T=W3ju53TA-za4LMYXKtEqvLvj9B=DjMO+Tu=nsnG7Jehg@mail.gmail.com>
+References: <20180531200659.28877-1-twoerner@gmail.com>
+	<CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
+	<CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
+	<CAJ86T=W3ju53TA-za4LMYXKtEqvLvj9B=DjMO+Tu=nsnG7Jehg@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Fri, 1 Jun 2018 10:58:06 -0400
+Message-ID: <CAHUNapRpokvfA2v+xJKYXzHLE3gSR+3oLQ32_2-+u=t0jHiPJA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,771 +60,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 14:48:23 -0000
-Content-Type: multipart/alternative; boundary="000000000000ffd408056d95acb2"
+X-List-Received-Date: Fri, 01 Jun 2018 14:58:07 -0000
+Content-Type: multipart/alternative; boundary="000000000000ce834c056d95cfcb"
 
---000000000000ffd408056d95acb2
+--000000000000ce834c056d95cfcb
 Content-Type: text/plain; charset="UTF-8"
 
-It fails when -O1 or -Os is being used, builds ok with -O0, -O2, -O3.
+On Thu, May 31, 2018 at 11:07 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Checking a bit more shows that it doesn't fail when -ftree-vrp is used,
-probably because this check is removed as the documentation for -ftree-vrp
-says:
-
--ftree-vrp
-Perform Value Range Propagation on trees. This is similar to the constant
-propagation pass, but instead of values, ranges of values are propagated.
-This allows the optimizers to remove unnecessary range checks like array
-bound checks and null pointer checks. This is enabled by default at -O2 and
-higher. Null pointer check elimination is only done if
--fdelete-null-pointer-checks is enabled.
-
-
-On Fri, Jun 1, 2018 at 4:01 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> No change in PACKAGECONFIG, just default nodistro qemux86 with added
-> systemd and debug build:
-> DISTRO_FEATURES_append = " systemd"
-> DEBUG_BUILD = "1"
+> On Thu, May 31, 2018 at 7:23 PM, Trevor Woerner <twoerner@gmail.com>
+> wrote:
+>
+> I wonder whether the default behaviour should just be to not deploy
+> files from the -dev package?
 >
 >
-> On Thu, May 31, 2018 at 6:17 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Thu, May 31, 2018 at 9:05 AM, Martin Jansa <martin.jansa@gmail.com>
->> wrote:
->> > Unlike the previous version you had in your RFT branch (which added
->> > -Wno-error=format-truncation) this doesn't seem to be complete fix.
->> >
->> > In qemux86 build which already includes this change I'm seeing:
->> > ../git/src/basic/time-util.c: In function 'format_timespan':
->> > ../git/src/basic/time-util.c:508:46: error: '%0*llu' directive output
->> > between 1 and 2147483647 bytes may cause result to exceed 'INT_MAX'
->> > [-Werror=format-truncation=]
->> >
->> > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->> >                                               ^~~~
->> > ../git/src/basic/time-util.c:508:60: note: format string is defined here
->> >
->> > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->> > ../git/src/basic/time-util.c:508:46: note: directive argument in the
->> range
->> > [0, 18446744073709551614]
->> >
->> > "%s"USEC_FMT".%0*"PRI_USEC"%s",
->> >                                               ^~~~
->> >
->> > And this part doesn't seem to be fixed upstream yet.
->> >
->>
->> Its possible, that default config I build is not using this code. Do
->> you enable/disable some specific packageconfig and what arch are you
->> targetting
->>
->> > Cheers,
->> >
->> > On Mon, May 28, 2018 at 5:58 PM Khem Raj <raj.khem@gmail.com> wrote:
->> >>
->> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> >> ---
->> >>  ...ange-the-default-device-timeout-to-2.patch |   9 +-
->> >>  ...ation-compile-failure-by-typecasting.patch | 173 ++++++++++++++++++
->> >>  meta/recipes-core/systemd/systemd_237.bb      |   1 +
->> >>  3 files changed, 177 insertions(+), 6 deletions(-)
->> >>  create mode 100644
->> >>
->> meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compile-failure-by-typecasting.patch
->> >>
->> >> diff --git
->> >>
->> a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
->> >>
->> b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
->> >> index b7b1ea0886..98c83620ff 100644
->> >> ---
->> >>
->> a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
->> >> +++
->> >>
->> b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-default-device-timeout-to-2.patch
->> >> @@ -1,4 +1,4 @@
->> >> -From 9820c165a9e559cf851e3beb60fad2571de4ded2 Mon Sep 17 00:00:00 2001
->> >> +From 7844e070745611a52e355b73e7890f360dd540d0 Mon Sep 17 00:00:00 2001
->> >>  From: Khem Raj <raj.khem@gmail.com>
->> >>  Date: Mon, 14 Dec 2015 04:09:19 +0000
->> >>  Subject: [PATCH] core/device.c: Change the default device timeout to
->> 240
->> >> sec.
->> >> @@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> >>   1 file changed, 1 insertion(+), 1 deletion(-)
->> >>
->> >>  diff --git a/src/core/device.c b/src/core/device.c
->> >> -index 77601c552..98bf49ba2 100644
->> >> +index a43664d3b..4b16a8aec 100644
->> >>  --- a/src/core/device.c
->> >>  +++ b/src/core/device.c
->> >> -@@ -112,7 +112,7 @@ static void device_init(Unit *u) {
->> >> +@@ -113,7 +113,7 @@ static void device_init(Unit *u) {
->> >>            * indefinitely for plugged in devices, something which
->> cannot
->> >>            * happen for the other units since their operations time out
->> >>            * anyway. */
->> >> @@ -28,6 +28,3 @@ index 77601c552..98bf49ba2 100644
->> >>
->> >>           u->ignore_on_isolate = true;
->> >>   }
->> >> ---
->> >> -2.16.1
->> >> -
->> >> diff --git
->> >>
->> a/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compile-failure-by-typecasting.patch
->> >>
->> b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compile-failure-by-typecasting.patch
->> >> new file mode 100644
->> >> index 0000000000..e56061f41b
->> >> --- /dev/null
->> >> +++
->> >>
->> b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compile-failure-by-typecasting.patch
->> >> @@ -0,0 +1,173 @@
->> >> +From c2b3ebe112ebfd9f9e82fb1531ee225c3152ca83 Mon Sep 17 00:00:00 2001
->> >> +From: Patrick Uiterwijk <patrick@puiterwijk.org>
->> >> +Date: Thu, 22 Feb 2018 19:41:30 +0100
->> >> +Subject: [PATCH] Fix format-truncation compile failure by typecasting
->> USB
->> >> IDs
->> >> + (#8250)
->> >> +
->> >> +This patch adds safe_atoux16 for parsing an unsigned hexadecimal 16bit
->> >> int, and
->> >> +uses that for parsing USB device and vendor IDs.
->> >> +
->> >> +This fixes a compile error with gcc-8 because while we know that USB
->> IDs
->> >> are 2 bytes,
->> >> +the compiler does not know that.
->> >> +
->> >> +../src/udev/udev-builtin-hwdb.c:80:38: error: '%04X' directive output
->> may
->> >> be
->> >> +truncated writing between 4 and 8 bytes into a region of size between
->> 2
->> >> and 6
->> >> +[-Werror=format-truncation=]
->> >> +
->> >> +Upstream-Status: Backport
->> >> [
->> https://github.com/systemd/systemd/commit/5547c12503a683290eaed47954ffcfb2d1bc03cd
->> ]
->> >> +
->> >> +Signed-off-by: Adam Williamson <awilliam@redhat.com>
->> >> +Signed-off-by: Patrick Uiterwijk <puiterwijk@redhat.com>
->> >> +---
->> >> + src/basic/parse-util.c       | 24 ++++++++++++++++++++++
->> >> + src/basic/parse-util.h       |  2 ++
->> >> + src/test/test-parse-util.c   | 39
->> ++++++++++++++++++++++++++++++++++++
->> >> + src/udev/udev-builtin-hwdb.c | 13 ++++++------
->> >> + 4 files changed, 71 insertions(+), 7 deletions(-)
->> >> +
->> >> +diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
->> >> +index 97533721d..ff3fc298a 100644
->> >> +--- a/src/basic/parse-util.c
->> >> ++++ b/src/basic/parse-util.c
->> >> +@@ -532,6 +532,30 @@ int safe_atoi16(const char *s, int16_t *ret) {
->> >> +         return 0;
->> >> + }
->> >> +
->> >> ++int safe_atoux16(const char *s, uint16_t *ret) {
->> >> ++        char *x = NULL;
->> >> ++        unsigned long l;
->> >> ++
->> >> ++        assert(s);
->> >> ++        assert(ret);
->> >> ++
->> >> ++        s += strspn(s, WHITESPACE);
->> >> ++
->> >> ++        errno = 0;
->> >> ++        l = strtoul(s, &x, 16);
->> >> ++        if (errno > 0)
->> >> ++                return -errno;
->> >> ++        if (!x || x == s || *x != 0)
->> >> ++                return -EINVAL;
->> >> ++        if (s[0] == '-')
->> >> ++                return -ERANGE;
->> >> ++        if ((unsigned long) (uint16_t) l != l)
->> >> ++                return -ERANGE;
->> >> ++
->> >> ++        *ret = (uint16_t) l;
->> >> ++        return 0;
->> >> ++}
->> >> ++
->> >> + int safe_atod(const char *s, double *ret_d) {
->> >> +         _cleanup_(freelocalep) locale_t loc = (locale_t) 0;
->> >> +         char *x = NULL;
->> >> +diff --git a/src/basic/parse-util.h b/src/basic/parse-util.h
->> >> +index 1eda1d7f9..727422056 100644
->> >> +--- a/src/basic/parse-util.h
->> >> ++++ b/src/basic/parse-util.h
->> >> +@@ -54,6 +54,8 @@ int safe_atou8(const char *s, uint8_t *ret);
->> >> + int safe_atou16(const char *s, uint16_t *ret);
->> >> + int safe_atoi16(const char *s, int16_t *ret);
->> >> +
->> >> ++int safe_atoux16(const char *s, uint16_t *ret);
->> >> ++
->> >> + static inline int safe_atou32(const char *s, uint32_t *ret_u) {
->> >> +         assert_cc(sizeof(uint32_t) == sizeof(unsigned));
->> >> +         return safe_atou(s, (unsigned*) ret_u);
->> >> +diff --git a/src/test/test-parse-util.c b/src/test/test-parse-util.c
->> >> +index 937500213..a99cea5a1 100644
->> >> +--- a/src/test/test-parse-util.c
->> >> ++++ b/src/test/test-parse-util.c
->> >> +@@ -468,6 +468,44 @@ static void test_safe_atoi16(void) {
->> >> +         assert_se(r == -EINVAL);
->> >> + }
->> >> +
->> >> ++static void test_safe_atoux16(void) {
->> >> ++        int r;
->> >> ++        uint16_t l;
->> >> ++
->> >> ++        r = safe_atoux16("1234", &l);
->> >> ++        assert_se(r == 0);
->> >> ++        assert_se(l == 0x1234);
->> >> ++
->> >> ++        r = safe_atoux16("abcd", &l);
->> >> ++        assert_se(r == 0);
->> >> ++        assert_se(l == 0xabcd);
->> >> ++
->> >> ++        r = safe_atoux16("  1234", &l);
->> >> ++        assert_se(r == 0);
->> >> ++        assert_se(l == 0x1234);
->> >> ++
->> >> ++        r = safe_atoux16("12345", &l);
->> >> ++        assert_se(r == -ERANGE);
->> >> ++
->> >> ++        r = safe_atoux16("-1", &l);
->> >> ++        assert_se(r == -ERANGE);
->> >> ++
->> >> ++        r = safe_atoux16("  -1", &l);
->> >> ++        assert_se(r == -ERANGE);
->> >> ++
->> >> ++        r = safe_atoux16("junk", &l);
->> >> ++        assert_se(r == -EINVAL);
->> >> ++
->> >> ++        r = safe_atoux16("123x", &l);
->> >> ++        assert_se(r == -EINVAL);
->> >> ++
->> >> ++        r = safe_atoux16("12.3", &l);
->> >> ++        assert_se(r == -EINVAL);
->> >> ++
->> >> ++        r = safe_atoux16("", &l);
->> >> ++        assert_se(r == -EINVAL);
->> >> ++}
->> >> ++
->> >> + static void test_safe_atou64(void) {
->> >> +         int r;
->> >> +         uint64_t l;
->> >> +@@ -745,6 +783,7 @@ int main(int argc, char *argv[]) {
->> >> +         test_safe_atolli();
->> >> +         test_safe_atou16();
->> >> +         test_safe_atoi16();
->> >> ++        test_safe_atoux16();
->> >> +         test_safe_atou64();
->> >> +         test_safe_atoi64();
->> >> +         test_safe_atod();
->> >> +diff --git a/src/udev/udev-builtin-hwdb.c
->> b/src/udev/udev-builtin-hwdb.c
->> >> +index ca7f7c230..dbfe02429 100644
->> >> +--- a/src/udev/udev-builtin-hwdb.c
->> >> ++++ b/src/udev/udev-builtin-hwdb.c
->> >> +@@ -27,6 +27,7 @@
->> >> +
->> >> + #include "alloc-util.h"
->> >> + #include "hwdb-util.h"
->> >> ++#include "parse-util.h"
->> >> + #include "string-util.h"
->> >> + #include "udev-util.h"
->> >> + #include "udev.h"
->> >> +@@ -63,7 +64,7 @@ int udev_builtin_hwdb_lookup(struct udev_device
->> *dev,
->> >> +
->> >> + static const char *modalias_usb(struct udev_device *dev, char *s,
->> size_t
->> >> size) {
->> >> +         const char *v, *p;
->> >> +-        int vn, pn;
->> >> ++        uint16_t vn, pn;
->> >> +
->> >> +         v = udev_device_get_sysattr_value(dev, "idVendor");
->> >> +         if (!v)
->> >> +@@ -71,12 +72,10 @@ static const char *modalias_usb(struct udev_device
->> >> *dev, char *s, size_t size) {
->> >> +         p = udev_device_get_sysattr_value(dev, "idProduct");
->> >> +         if (!p)
->> >> +                 return NULL;
->> >> +-        vn = strtol(v, NULL, 16);
->> >> +-        if (vn <= 0)
->> >> +-                return NULL;
->> >> +-        pn = strtol(p, NULL, 16);
->> >> +-        if (pn <= 0)
->> >> +-                return NULL;
->> >> ++        if (safe_atoux16(v, &vn) < 0)
->> >> ++              return NULL;
->> >> ++        if (safe_atoux16(p, &pn) < 0)
->> >> ++              return NULL;
->> >> +         snprintf(s, size, "usb:v%04Xp%04X*", vn, pn);
->> >> +         return s;
->> >> + }
->> >> +--
->> >> +2.17.0
->> >> +
->> >> diff --git a/meta/recipes-core/systemd/systemd_237.bb
->> >> b/meta/recipes-core/systemd/systemd_237.bb
->> >> index b7c2113255..c4743a6b9d 100644
->> >> --- a/meta/recipes-core/systemd/systemd_237.bb
->> >> +++ b/meta/recipes-core/systemd/systemd_237.bb
->> >> @@ -52,6 +52,7 @@ SRC_URI += "file://touchscreen.rules \
->> >>             file://0032-memfd.patch \
->> >>
->> >> file://0033-basic-macros-rename-noreturn-into-_noreturn_-8456.patch \
->> >>             file://libmount.patch \
->> >> +
->> >> file://0034-Fix-format-truncation-compile-failure-by-typecasting.patch
->> \
->> >>             "
->> >>  SRC_URI_append_qemuall = "
->> >> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->> >>
->> >> --
->> >> 2.17.0
->> >>
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
+That would certainly be an improvement. But it still wouldn't make sense to
+copy over the -staticdev or -doc packages either. Maybe a better default
+behaviour would be to not copy over the -dev, -staticdev, -doc, -dbg, and
+-locale packages? Or better yet: just copy over the core packages, not any
+of the core-<something> packages? I'm guessing bitbake has a list somewhere
+of these -somethings?
 
---000000000000ffd408056d95acb2
+I wouldn't be surprised if the current behaviour exists simply because ${D}
+is already there and ready to go. My tweak extends the behaviour to send
+another already-there directory: ${PKGDEST} + <package>.
+
+If we were to go this route (i.e. being more selective about which packages
+are sent) do you think this should be the new default behaviour, or should
+the existing default behaviour be preserved and a flag used for this tweak?
+
+
+
+
+> >> Are the going to be problems if users want to deploy more than one
+> >> package (or switch between a full deploy and a package) and don't
+> >> deploy and undeploy in the right order?
+> >
+> >
+> > In my patch I added a --package option to "devtool deploy-target" but
+> not to
+> > "devtool undeploy-target". devtool keeps track of what files were
+> uploaded
+> > by creating a per-package list on the target itself (in /.devtool). When
+> you
+> > undeploy a recipe, it simply looks for this recipe file on the target,
+> reads
+> > the files listed there, and undeploys each of the files in that list.
+> >
+> > Therefore, mixing and matching deploys and undeploys amongst recipes
+> don't
+> > interfere with each other.
+> >
+> > I checked at the time, but I'm not 100% sure now, but I believe if one
+> > deploys two packages from one recipe, the on-target file gets appended.
+> But
+> > now I'm not 100% sure, so I'll verify this tomorrow (thanks for the
+> > reminder). As such, under my scheme, you can deploy recipes and packages
+> at
+> > will, but then only undeploy the whole kit and caboodle in one go; given
+> a
+> > recipe name to undeploy, whatever it finds in the on-target record will
+> get
+> > undeployed.
+> >
+> > I think any developer will find this reasonable behaviour (but maybe
+> not?).
+>
+> If that's how it works then it seems reasonable to me.
+>
+>
+Unfortunately this morning's investigation shows this is not the case. When
+a recipe is deployed to the target, the on-target script looks for evidence
+of this recipe having already been deployed. If that is the case, it
+undeploys the previous deploy before deploying this deploy. That is very
+good behaviour since it catches the cases where the file list might change
+between deployments. But with my tweak as-is, if the user deploys two
+packages from the same recipe, the first one will be undeployed and only
+the second one will remain deployed; this is not reasonable.
+
+Therefore a v2 will be necessary. The question is, which route do I take?
+
+--000000000000ce834c056d95cfcb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">It fails when -O1 or -Os is being used, builds ok with -O0=
-, -O2, -O3.<div><br></div><div>Checking a bit more shows that it doesn&#39;=
-t fail when -ftree-vrp is used, probably because this check is removed as t=
-he documentation for -ftree-vrp says:</div><div><br></div><div><div>-ftree-=
-vrp</div><div>Perform Value Range Propagation on trees. This is similar to =
-the constant propagation pass, but instead of values, ranges of values are =
-propagated. This allows the optimizers to remove unnecessary range checks l=
-ike array bound checks and null pointer checks. This is enabled by default =
-at -O2 and higher. Null pointer check elimination is only done if -fdelete-=
-null-pointer-checks is enabled.</div><div><br></div></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr">On Fri, Jun 1, 2018 at 4:01 PM Martin =
-Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><di=
-v>No change in PACKAGECONFIG, just default nodistro qemux86 with added syst=
-emd and debug build:</div><div><div>DISTRO_FEATURES_append =3D &quot; syste=
-md&quot;</div><div>DEBUG_BUILD =3D &quot;1&quot;</div></div><div><br></div>=
-</div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, May 31, 2018 =
-at 6:17 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
-ank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">On Thu, May 31, 2018 at 9:05 AM, Martin Jansa &lt;<a href=3D"mailto:mar=
-tin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote=
-:<br>
-&gt; Unlike the previous version you had in your RFT branch (which added<br=
->
-&gt; -Wno-error=3Dformat-truncation) this doesn&#39;t seem to be complete f=
-ix.<br>
-&gt;<br>
-&gt; In qemux86 build which already includes this change I&#39;m seeing:<br=
->
-&gt; ../git/src/basic/time-util.c: In function &#39;format_timespan&#39;:<b=
-r>
-&gt; ../git/src/basic/time-util.c:508:46: error: &#39;%0*llu&#39; directive=
- output<br>
-&gt; between 1 and 2147483647 bytes may cause result to exceed &#39;INT_MAX=
-&#39;<br>
-&gt; [-Werror=3Dformat-truncation=3D]<br>
-&gt;<br>
-&gt; &quot;%s&quot;USEC_FMT&quot;.%0*&quot;PRI_USEC&quot;%s&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0^~~~<br>
-&gt; ../git/src/basic/time-util.c:508:60: note: format string is defined he=
-re<br>
-&gt;<br>
-&gt; &quot;%s&quot;USEC_FMT&quot;.%0*&quot;PRI_USEC&quot;%s&quot;,<br>
-&gt; ../git/src/basic/time-util.c:508:46: note: directive argument in the r=
-ange<br>
-&gt; [0, 18446744073709551614]<br>
-&gt;<br>
-&gt; &quot;%s&quot;USEC_FMT&quot;.%0*&quot;PRI_USEC&quot;%s&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0^~~~<br>
-&gt;<br>
-&gt; And this part doesn&#39;t seem to be fixed upstream yet.<br>
-&gt;<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, May 31, 2018 at 11:07 PM, Andre McCurdy <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">O=
+n Thu, May 31, 2018 at 7:23 PM, Trevor Woerner &lt;<a href=3D"mailto:twoern=
+er@gmail.com">twoerner@gmail.com</a>&gt; wrote:<br></span><br>
+I wonder whether the default behaviour should just be to not deploy<br>
+files from the -dev package?<br>
+<span class=3D""><br></span></blockquote><div><br></div><div>That would cer=
+tainly be an improvement. But it still wouldn&#39;t make sense to copy over=
+ the -staticdev or -doc packages either. Maybe a better default behaviour w=
+ould be to not copy over the -dev, -staticdev, -doc, -dbg, and -locale pack=
+ages? Or better yet: just copy over the core packages, not any of the core-=
+&lt;something&gt; packages? I&#39;m guessing bitbake has a list somewhere o=
+f these -somethings?<br></div><div><br></div><div>I wouldn&#39;t be surpris=
+ed if the current behaviour exists simply because ${D} is already there and=
+ ready to go. My tweak extends the behaviour to send another already-there =
+directory: ${PKGDEST} + &lt;package&gt;.</div><div><br></div><div>If we wer=
+e to go this route (i.e. being more selective about which packages are sent=
+) do you think this should be the new default behaviour, or should the exis=
+ting default behaviour be preserved and a flag used for this tweak?<br></di=
+v><div><br></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><span class=3D"">
+&gt;&gt; Are the going to be problems if users want to deploy more than one=
 <br>
-Its possible, that default config I build is not using this code. Do<br>
-you enable/disable some specific packageconfig and what arch are you<br>
-targetting<br>
-<br>
-&gt; Cheers,<br>
+&gt;&gt; package (or switch between a full deploy and a package) and don&#3=
+9;t<br>
+&gt;&gt; deploy and undeploy in the right order?<br>
 &gt;<br>
-&gt; On Mon, May 28, 2018 at 5:58 PM Khem Raj &lt;<a href=3D"mailto:raj.khe=
-m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 ...ange-the-default-device-timeout-to-2.patch |=C2=A0 =C2=A0=
-9 +-<br>
-&gt;&gt;=C2=A0 ...ation-compile-failure-by-typecasting.patch | 173 ++++++++=
-++++++++++<br>
-&gt;&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_237.bb" =
-rel=3D"noreferrer" target=3D"_blank">systemd_237.bb</a>=C2=A0 =C2=A0 =C2=A0=
- |=C2=A0 =C2=A01 +<br>
-&gt;&gt;=C2=A0 3 files changed, 177 insertions(+), 6 deletions(-)<br>
-&gt;&gt;=C2=A0 create mode 100644<br>
-&gt;&gt; meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compi=
-le-failure-by-typecasting.patch<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git<br>
-&gt;&gt; a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-=
-default-device-timeout-to-2.patch<br>
-&gt;&gt; b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-=
-default-device-timeout-to-2.patch<br>
-&gt;&gt; index b7b1ea0886..98c83620ff 100644<br>
-&gt;&gt; ---<br>
-&gt;&gt; a/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-=
-default-device-timeout-to-2.patch<br>
-&gt;&gt; +++<br>
-&gt;&gt; b/meta/recipes-core/systemd/systemd/0001-core-device.c-Change-the-=
-default-device-timeout-to-2.patch<br>
-&gt;&gt; @@ -1,4 +1,4 @@<br>
-&gt;&gt; -From 9820c165a9e559cf851e3beb60fad2571de4ded2 Mon Sep 17 00:00:00=
- 2001<br>
-&gt;&gt; +From 7844e070745611a52e355b73e7890f360dd540d0 Mon Sep 17 00:00:00=
- 2001<br>
-&gt;&gt;=C2=A0 From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
-get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt;&gt;=C2=A0 Date: Mon, 14 Dec 2015 04:09:19 +0000<br>
-&gt;&gt;=C2=A0 Subject: [PATCH] core/device.c: Change the default device ti=
-meout to 240<br>
-&gt;&gt; sec.<br>
-&gt;&gt; @@ -16,10 +16,10 @@ Signed-off-by: Khem Raj &lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt;&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 diff --git a/src/core/device.c b/src/core/device.c<br>
-&gt;&gt; -index 77601c552..98bf49ba2 100644<br>
-&gt;&gt; +index a43664d3b..4b16a8aec 100644<br>
-&gt;&gt;=C2=A0 --- a/src/core/device.c<br>
-&gt;&gt;=C2=A0 +++ b/src/core/device.c<br>
-&gt;&gt; -@@ -112,7 +112,7 @@ static void device_init(Unit *u) {<br>
-&gt;&gt; +@@ -113,7 +113,7 @@ static void device_init(Unit *u) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * indefinitely for plugge=
-d in devices, something which cannot<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * happen for the other un=
-its since their operations time out<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * anyway. */<br>
-&gt;&gt; @@ -28,6 +28,3 @@ index 77601c552..98bf49ba2 100644<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0u-&gt;ignore_on_isolate =
-=3D true;<br>
-&gt;&gt;=C2=A0 =C2=A0}<br>
-&gt;&gt; ---<br>
-&gt;&gt; -2.16.1<br>
-&gt;&gt; -<br>
-&gt;&gt; diff --git<br>
-&gt;&gt; a/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-com=
-pile-failure-by-typecasting.patch<br>
-&gt;&gt; b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-com=
-pile-failure-by-typecasting.patch<br>
-&gt;&gt; new file mode 100644<br>
-&gt;&gt; index 0000000000..e56061f41b<br>
-&gt;&gt; --- /dev/null<br>
-&gt;&gt; +++<br>
-&gt;&gt; b/meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-com=
-pile-failure-by-typecasting.patch<br>
-&gt;&gt; @@ -0,0 +1,173 @@<br>
-&gt;&gt; +From c2b3ebe112ebfd9f9e82fb1531ee225c3152ca83 Mon Sep 17 00:00:00=
- 2001<br>
-&gt;&gt; +From: Patrick Uiterwijk &lt;<a href=3D"mailto:patrick@puiterwijk.=
-org" target=3D"_blank">patrick@puiterwijk.org</a>&gt;<br>
-&gt;&gt; +Date: Thu, 22 Feb 2018 19:41:30 +0100<br>
-&gt;&gt; +Subject: [PATCH] Fix format-truncation compile failure by typecas=
-ting USB<br>
-&gt;&gt; IDs<br>
-&gt;&gt; + (#8250)<br>
-&gt;&gt; +<br>
-&gt;&gt; +This patch adds safe_atoux16 for parsing an unsigned hexadecimal =
-16bit<br>
-&gt;&gt; int, and<br>
-&gt;&gt; +uses that for parsing USB device and vendor IDs.<br>
-&gt;&gt; +<br>
-&gt;&gt; +This fixes a compile error with gcc-8 because while we know that =
-USB IDs<br>
-&gt;&gt; are 2 bytes,<br>
-&gt;&gt; +the compiler does not know that.<br>
-&gt;&gt; +<br>
-&gt;&gt; +../src/udev/udev-builtin-hwdb.c:80:38: error: &#39;%04X&#39; dire=
-ctive output may<br>
-&gt;&gt; be<br>
-&gt;&gt; +truncated writing between 4 and 8 bytes into a region of size bet=
-ween 2<br>
-&gt;&gt; and 6<br>
-&gt;&gt; +[-Werror=3Dformat-truncation=3D]<br>
-&gt;&gt; +<br>
-&gt;&gt; +Upstream-Status: Backport<br>
-&gt;&gt; [<a href=3D"https://github.com/systemd/systemd/commit/5547c12503a6=
-83290eaed47954ffcfb2d1bc03cd" rel=3D"noreferrer" target=3D"_blank">https://=
-github.com/systemd/systemd/commit/5547c12503a683290eaed47954ffcfb2d1bc03cd<=
-/a>]<br>
-&gt;&gt; +<br>
-&gt;&gt; +Signed-off-by: Adam Williamson &lt;<a href=3D"mailto:awilliam@red=
-hat.com" target=3D"_blank">awilliam@redhat.com</a>&gt;<br>
-&gt;&gt; +Signed-off-by: Patrick Uiterwijk &lt;<a href=3D"mailto:puiterwijk=
-@redhat.com" target=3D"_blank">puiterwijk@redhat.com</a>&gt;<br>
-&gt;&gt; +---<br>
-&gt;&gt; + src/basic/parse-util.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 24 ++++++++++=
-++++++++++++<br>
-&gt;&gt; + src/basic/parse-util.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br=
->
-&gt;&gt; + src/test/test-parse-util.c=C2=A0 =C2=A0| 39 ++++++++++++++++++++=
-++++++++++++++++<br>
-&gt;&gt; + src/udev/udev-builtin-hwdb.c | 13 ++++++------<br>
-&gt;&gt; + 4 files changed, 71 insertions(+), 7 deletions(-)<br>
-&gt;&gt; +<br>
-&gt;&gt; +diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c<br>
-&gt;&gt; +index 97533721d..ff3fc298a 100644<br>
-&gt;&gt; +--- a/src/basic/parse-util.c<br>
-&gt;&gt; ++++ b/src/basic/parse-util.c<br>
-&gt;&gt; +@@ -532,6 +532,30 @@ int safe_atoi16(const char *s, int16_t *ret)=
- {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt;&gt; + }<br>
-&gt;&gt; +<br>
-&gt;&gt; ++int safe_atoux16(const char *s, uint16_t *ret) {<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *x =3D NULL;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long l;<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(s);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(ret);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s +=3D strspn(s, WHITESPACE);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D 0;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D strtoul(s, &amp;x, 16);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno &gt; 0)<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -=
-errno;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!x || x =3D=3D s || *x !=3D 0)<b=
-r>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -=
-EINVAL;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s[0] =3D=3D &#39;-&#39;)<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -=
-ERANGE;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((unsigned long) (uint16_t) l !=
-=3D l)<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -=
-ERANGE;<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret =3D (uint16_t) l;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;&gt; ++}<br>
-&gt;&gt; ++<br>
-&gt;&gt; + int safe_atod(const char *s, double *ret_d) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_cleanup_(freelocalep) locale_t=
- loc =3D (locale_t) 0;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *x =3D NULL;<br>
-&gt;&gt; +diff --git a/src/basic/parse-util.h b/src/basic/parse-util.h<br>
-&gt;&gt; +index 1eda1d7f9..727422056 100644<br>
-&gt;&gt; +--- a/src/basic/parse-util.h<br>
-&gt;&gt; ++++ b/src/basic/parse-util.h<br>
-&gt;&gt; +@@ -54,6 +54,8 @@ int safe_atou8(const char *s, uint8_t *ret);<br=
->
-&gt;&gt; + int safe_atou16(const char *s, uint16_t *ret);<br>
-&gt;&gt; + int safe_atoi16(const char *s, int16_t *ret);<br>
-&gt;&gt; +<br>
-&gt;&gt; ++int safe_atoux16(const char *s, uint16_t *ret);<br>
-&gt;&gt; ++<br>
-&gt;&gt; + static inline int safe_atou32(const char *s, uint32_t *ret_u) {<=
+&gt;<br>
+&gt; In my patch I added a --package option to &quot;devtool deploy-target&=
+quot; but not to<br>
+&gt; &quot;devtool undeploy-target&quot;. devtool keeps track of what files=
+ were uploaded<br>
+&gt; by creating a per-package list on the target itself (in /.devtool). Wh=
+en you<br>
+&gt; undeploy a recipe, it simply looks for this recipe file on the target,=
+ reads<br>
+&gt; the files listed there, and undeploys each of the files in that list.<=
 br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert_cc(sizeof(uint32_t) =3D=
-=3D sizeof(unsigned));<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return safe_atou(s, (unsigned*)=
- ret_u);<br>
-&gt;&gt; +diff --git a/src/test/test-parse-util.c b/src/test/test-parse-uti=
-l.c<br>
-&gt;&gt; +index 937500213..a99cea5a1 100644<br>
-&gt;&gt; +--- a/src/test/test-parse-util.c<br>
-&gt;&gt; ++++ b/src/test/test-parse-util.c<br>
-&gt;&gt; +@@ -468,6 +468,44 @@ static void test_safe_atoi16(void) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert_se(r =3D=3D -EINVAL);<br=
->
-&gt;&gt; + }<br>
-&gt;&gt; +<br>
-&gt;&gt; ++static void test_safe_atoux16(void) {<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int r;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t l;<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;1234&quot;,=
- &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0x1234);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;abcd&quot;,=
- &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0xabcd);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;=C2=A0 1234=
-&quot;, &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D 0);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(l =3D=3D 0x1234);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;12345&quot;=
-, &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;-1&quot;, &=
-amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;=C2=A0 -1&q=
-uot;, &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -ERANGE);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;junk&quot;,=
- &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;123x&quot;,=
- &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;12.3&quot;,=
- &amp;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);<br>
-&gt;&gt; ++<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D safe_atoux16(&quot;&quot;, &am=
-p;l);<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert_se(r =3D=3D -EINVAL);<br>
-&gt;&gt; ++}<br>
-&gt;&gt; ++<br>
-&gt;&gt; + static void test_safe_atou64(void) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int r;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t l;<br>
-&gt;&gt; +@@ -745,6 +783,7 @@ int main(int argc, char *argv[]) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atolli();<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atou16();<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atoi16();<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 test_safe_atoux16();<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atou64();<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atoi64();<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_safe_atod();<br>
-&gt;&gt; +diff --git a/src/udev/udev-builtin-hwdb.c b/src/udev/udev-builtin=
--hwdb.c<br>
-&gt;&gt; +index ca7f7c230..dbfe02429 100644<br>
-&gt;&gt; +--- a/src/udev/udev-builtin-hwdb.c<br>
-&gt;&gt; ++++ b/src/udev/udev-builtin-hwdb.c<br>
-&gt;&gt; +@@ -27,6 +27,7 @@<br>
-&gt;&gt; +<br>
-&gt;&gt; + #include &quot;alloc-util.h&quot;<br>
-&gt;&gt; + #include &quot;hwdb-util.h&quot;<br>
-&gt;&gt; ++#include &quot;parse-util.h&quot;<br>
-&gt;&gt; + #include &quot;string-util.h&quot;<br>
-&gt;&gt; + #include &quot;udev-util.h&quot;<br>
-&gt;&gt; + #include &quot;udev.h&quot;<br>
-&gt;&gt; +@@ -63,7 +64,7 @@ int udev_builtin_hwdb_lookup(struct udev_device=
- *dev,<br>
-&gt;&gt; +<br>
-&gt;&gt; + static const char *modalias_usb(struct udev_device *dev, char *s=
-, size_t<br>
-&gt;&gt; size) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *v, *p;<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int vn, pn;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint16_t vn, pn;<br>
-&gt;&gt; +<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0v =3D udev_device_get_sysattr_v=
-alue(dev, &quot;idVendor&quot;);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!v)<br>
-&gt;&gt; +@@ -71,12 +72,10 @@ static const char *modalias_usb(struct udev_d=
-evice<br>
-&gt;&gt; *dev, char *s, size_t size) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p =3D udev_device_get_sysattr_v=
-alue(dev, &quot;idProduct&quot;);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!p)<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret=
-urn NULL;<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vn =3D strtol(v, NULL, 16);<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (vn &lt;=3D 0)<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return N=
-ULL;<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pn =3D strtol(p, NULL, 16);<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pn &lt;=3D 0)<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return N=
-ULL;<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (safe_atoux16(v, &amp;vn) &lt; 0)=
+&gt;<br>
+&gt; Therefore, mixing and matching deploys and undeploys amongst recipes d=
+on&#39;t<br>
+&gt; interfere with each other.<br>
+&gt;<br>
+&gt; I checked at the time, but I&#39;m not 100% sure now, but I believe if=
+ one<br>
+&gt; deploys two packages from one recipe, the on-target file gets appended=
+. But<br>
+&gt; now I&#39;m not 100% sure, so I&#39;ll verify this tomorrow (thanks fo=
+r the<br>
+&gt; reminder). As such, under my scheme, you can deploy recipes and packag=
+es at<br>
+&gt; will, but then only undeploy the whole kit and caboodle in one go; giv=
+en a<br>
+&gt; recipe name to undeploy, whatever it finds in the on-target record wil=
+l get<br>
+&gt; undeployed.<br>
+&gt;<br>
+&gt; I think any developer will find this reasonable behaviour (but maybe n=
+ot?).<br>
 <br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br=
->
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (safe_atoux16(p, &amp;pn) &lt; 0)=
-<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br=
->
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0snprintf(s, size, &quot;usb:v%0=
-4Xp%04X*&quot;, vn, pn);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return s;<br>
-&gt;&gt; + }<br>
-&gt;&gt; +--<br>
-&gt;&gt; +2.17.0<br>
-&gt;&gt; +<br>
-&gt;&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_2=
-37.bb" rel=3D"noreferrer" target=3D"_blank">systemd_237.bb</a><br>
-&gt;&gt; b/meta/recipes-core/systemd/<a href=3D"http://systemd_237.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_237.bb</a><br>
-&gt;&gt; index b7c2113255..c4743a6b9d 100644<br>
-&gt;&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_237.bb" =
-rel=3D"noreferrer" target=3D"_blank">systemd_237.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_237.bb" =
-rel=3D"noreferrer" target=3D"_blank">systemd_237.bb</a><br>
-&gt;&gt; @@ -52,6 +52,7 @@ SRC_URI +=3D &quot;file://touchscreen.rules \<br=
->
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0032-memfd.p=
-atch \<br>
-&gt;&gt;<br>
-&gt;&gt; file://0033-basic-macros-rename-noreturn-into-_noreturn_-8456.patc=
-h \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://libmount.pat=
-ch \<br>
-&gt;&gt; +<br>
-&gt;&gt; file://0034-Fix-format-truncation-compile-failure-by-typecasting.p=
-atch \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;&gt;=C2=A0 SRC_URI_append_qemuall =3D &quot;<br>
-&gt;&gt; file://0001-core-device.c-Change-the-default-device-timeout-to-2.p=
-atch&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.17.0<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; _______________________________________________<br>
-&gt;&gt; Openembedded-core mailing list<br>
-&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
-=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
-rg/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div>
+</span>If that&#39;s how it works then it seems reasonable to me.<br><br></=
+blockquote><div><br></div><div>Unfortunately this morning&#39;s investigati=
+on shows this is not the case. When a recipe is deployed to the target, the=
+ on-target script looks for evidence of this recipe having already been dep=
+loyed. If that is the case, it undeploys the previous deploy before deployi=
+ng this deploy. That is very good behaviour since it catches the cases wher=
+e the file list might change between deployments. But with my tweak as-is, =
+if the user deploys two packages from the same recipe, the first one will b=
+e undeployed and only the second one will remain deployed; this is not reas=
+onable.</div><div><br></div><div>Therefore a v2 will be necessary. The ques=
+tion is, which route do I take?<br></div></div></div></div>
 
---000000000000ffd408056d95acb2--
+--000000000000ce834c056d95cfcb--
