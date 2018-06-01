@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DFBCC74F83
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 521FB74FDD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 05:01:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5151xkJ014718
+	Fri,  1 Jun 2018 05:02:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5151UDk007146
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:01:59 -0700 (PDT)
+	Thu, 31 May 2018 22:01:51 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 22:01:52 -0700
+	14.3.361.1; Thu, 31 May 2018 22:01:46 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jun 2018 13:03:04 +0800
-Message-ID: <e7c98b0a727913d8ab5a8ff170056672ec496f99.1527829100.git.Qi.Chen@windriver.com>
+Date: Fri, 1 Jun 2018 13:03:03 +0800
+Message-ID: <2135721ef52b1d348383d5f3007f3a946e1be4a5.1527829100.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527829099.git.Qi.Chen@windriver.com>
 References: <cover.1527829099.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/14] testimage.bbclass: also check 'auto' to create rpm index
+Subject: [PATCH 06/14] oeqa/runtime/cases/selftest.py: rename to _selftest.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:01:58 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 05:02:00 -0000
 Content-Type: text/plain
 
-Having 'auto' in TEST_SUITES will also run the 'dnf' test cases,
-so also check it to determine whether to create rpm index or not.
+This test modules is designed to be invoked only by selftest. It's
+not meant to be tested by normal runtime test. So it should be renamed
+with '_' prefix, so that it will not be automatically loaded by normal
+runtime tests when 'auto' is in TEST_SUITES.
 
-This is to fix the following error when TEST_SUITES = "auto".
+The failure message is as below.
 
-  RESULTS - dnf.DnfRepoTest.test_dnf_makecache - Testcase 1744: ERROR
+  RESULTS - selftest.Selftest.test_install_package - Testcase -1: FAILED
+
+Also, change selftest/cases/runtime_test.py to use '_selftest' accordingly.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/testimage.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} | 0
+ meta/lib/oeqa/selftest/cases/runtime_test.py                       | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (100%)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index d97da67..14252ff 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -121,7 +121,7 @@ python do_testimage() {
-     testimage_sanity(d)
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.py b/meta-selftest/lib/oeqa/runtime/cases/_selftest.py
+similarity index 100%
+rename from meta-selftest/lib/oeqa/runtime/cases/selftest.py
+rename to meta-selftest/lib/oeqa/runtime/cases/_selftest.py
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 9c9b4b3..def3819 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -122,7 +122,7 @@ class TestImage(OESelftestTestCase):
+             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
  
-     if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
--       and 'dnf' in d.getVar('TEST_SUITES')):
-+       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
-         create_rpm_index(d)
+         features = 'INHERIT += "testimage"\n'
+-        features += 'TEST_SUITES = "ping ssh selftest"\n'
++        features += 'TEST_SUITES = "ping ssh _selftest"\n'
+         self.write_config(features)
  
-     testimage_main(d)
+         # Build core-image-sato and testimage
 -- 
 1.9.1
 
