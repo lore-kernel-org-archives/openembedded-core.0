@@ -1,55 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F037971A88
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BC5B7503C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 22:08:16 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id m194-v6so3515387itg.2
+	Fri,  1 Jun 2018 22:15:02 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id p11-v6so4373323wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 15:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=xAdy3o/ajywz28QDfjH0+7r4xWBbQv/80NVLXxv5Pl8=;
-	b=fD8l9sgk4xlnQRBKMZ4YFXScFr+8bv6LVpi9saQ7u+DrkiPr73cQN59DSr4BIEJAqP
-	LgkJ28qoMOdea16jUJDDlWyNKyQMWM0JPRtzKVdu8OOlVQSneT6jAMo7IIjH3qIU9E2o
-	yirB/Vfq53fkLa19yd8buFFxO/uUKm8AkEo/aiD+I2jAv/PasfPNslg0/6gMiCEZ8NFz
-	dnZn/Kpz7ARsNNT15CeLHYvAMJzi5B2Vnah2E6BTqfyscmEFDWt5vWpd+NsHLIAvyNQq
-	46AbjuodUEAs2vdnPnQwMQTkUHP4uzrp15lmETgCIiLLKu/5eUg0fNe/nNJ1btTutGv8
-	WTzA==
+	Fri, 01 Jun 2018 15:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=Leia1IQ/558Fr9a/CQ5pT824q9T/wqBaQuauhzgpqOc=;
+	b=fH7glgzwwfVCt4JnIE+9OMc1vV5kesbQo2qum3l8Xo+27ZG5tS4l/hMz3N9+vax8XK
+	YVrCQT9GxqEfWQatWaGSYwFwikbL0jBYxK9tP//NJ6I1BBEYnsYK1chbMGupgF2sxVu/
+	yfv9286s9SWHGBuy1MVbLaSzsjkZzrPRuCcjqGluhbrPSYZICYabOjWV51alecVjlLZp
+	fMCf5cm6FeemwoJF1KWlNuvwk+nLkR1l4R0aGiTRLdYeGltjOJuPF5nNhrl7GrXBe1PX
+	kkgXFWka1NiZMqvK6IhmU/zGWzw64XXqLc44zIgU0iQeMkVJsTfrUTJBiHO+lUQT0d4u
+	3eoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=xAdy3o/ajywz28QDfjH0+7r4xWBbQv/80NVLXxv5Pl8=;
-	b=ixIwC/y8pGCBW+1bVHPuZbPRMJXJJrNOL85LHrlkqfontPO5Tpr3St/ztdIwWAy+AZ
-	dWh1iiS4PGo4V7stiIIqrY/J5uc2F1Dp4sX85SCIh/jNURdSa/9WSLvd1ngSvMOtJC1r
-	Nqw1pvXmTxk6X62rV7kbTtCOuTGr/5uU2+txGT9DNXTbNN6mpFVW+ZAyaeD7FPRZxTA7
-	3rVTc4Mb5tpYjYVeo2K+LAU0I341A8HeAnYDZBvU9dFLejnGROIkrQsGhOVs0tljYE6T
-	CuXRu8HdSMw2FXvKGgH50hcQJzc1mda/KPZeDsBd6D7UF8dn/xyIZC4jLQUPvfQHhRUV
-	E0lg==
-X-Gm-Message-State: APt69E3eZeYgDoEdFUKp/0H3Rcg5r3YAIXuw+beP6OQUi8VkyWpVs/BW
-	+K235pqhn7pvJ+nX4kjQUhg=
-X-Google-Smtp-Source: ADUXVKLKCbW961gvH348lMjwQBCaKqOVyAF3GFcAGGwRLUWXhoJW+k3mQrThI35ymqn7H919+1fgXw==
-X-Received: by 2002:a24:4516:: with SMTP id
-	y22-v6mr6072417ita.109.1527890897852; 
-	Fri, 01 Jun 2018 15:08:17 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	k4-v6sm1751479ioc.15.2018.06.01.15.08.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 01 Jun 2018 15:08:17 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1fa5f19ad4ac398de0dc6da40c46ead935133dbe.camel@gmail.com>
-To: Martin Kelly <mkelly@xevo.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 01 Jun 2018 17:08:16 -0500
-In-Reply-To: <20180601210240.14969-6-mkelly@xevo.com>
-References: <20180601210240.14969-1-mkelly@xevo.com>
-	<20180601210240.14969-6-mkelly@xevo.com>
-X-Mailer: Evolution 3.28.2 (3.28.2-1.fc28) 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 5/7] toolchain-shar-extract: pass env to post-relocate
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Leia1IQ/558Fr9a/CQ5pT824q9T/wqBaQuauhzgpqOc=;
+	b=VlLePXGz3bGggpv//+EYHc+q9mKxTgTgVxNfSLBc+caf1EwRZUL4k0fpr5n20adxFO
+	nd6HMVriMeBVgRFBgwXGD0R6evCCfq8lqV9d9qWx0caz/NEVcrya4rPNG5u6z1gE/OK3
+	5dfOWa+OdFkU/Mc9SLUl2+CFQEfe75Gflljzh4CXQngul0jAF1d6mNkFCvtGdXh6zZwb
+	/+xqN/WeC7ln4n5T9ptotv0Cqn1T2hCWit9PdTbtGLjpg2QJqUcjqGQPl8SRd69ow/LG
+	vfE5d91Fk4Oc5kQfMT8HXfMVv7vyLKRgCutK+Ga33O2p06A+dkvELvxZ7UG3bSTBylVM
+	BdDg==
+X-Gm-Message-State: ALKqPwe2UfzKmXcE7+PpRv18q2kMJiZAraVeiab0cmJ0e8nqyqFloRae
+	rww1kx2JDQnirfKUge5k22Jfkcc3
+X-Google-Smtp-Source: ADUXVKLm2wm/tGO4XUhNTk2nYPFqIsO7VGIC/5zV0SBsUXVB/coA3bPbLo8cVEpBUmvCEFLN4dkRDQ==
+X-Received: by 2002:a50:9b5b:: with SMTP id
+	a27-v6mr14090906edj.60.1527891303239; 
+	Fri, 01 Jun 2018 15:15:03 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
+	by smtp.gmail.com with ESMTPSA id
+	t1-v6sm21902962edq.84.2018.06.01.15.15.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Jun 2018 15:15:01 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Jun 2018 00:14:39 +0200
+Message-Id: <20180601221440.29992-1-dev@sashko.rv.ua>
+X-Mailer: git-send-email 2.17.0
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [meta-oe][PATCH 1/2] chrpath: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,98 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 22:08:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jun 2018 22:15:03 -0000
 
-On Fri, 2018-06-01 at 14:02 -0700, Martin Kelly wrote:
-> It's useful for the post-relocate scripts to be able to see the SDK
-> environment, for example to see the values of CC, CXX etc. in order
-> to
-> dynamically generate toolchain files.
-> 
-> To enable this, source the SDK environment script prior to calling
-> the
-> relocate scripts.
-> 
-> Signed-off-by: Martin Kelly <mkelly@xevo.com>
-> ---
->  meta/classes/toolchain-scripts.bbclass     | 17 +++++++++++++----
->  meta/recipes-core/meta/meta-environment.bb |  5 +++--
->  2 files changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/toolchain-scripts.bbclass
-> b/meta/classes/toolchain-scripts.bbclass
-> index ae7bbef034..5f99fd8c03 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -118,11 +118,20 @@ EOF
->  }
->  
->  toolchain_create_post_relocate_script() {
-> -	script=$1
-> -	rm -f $script
-> -	touch $script
-> +	relocate_script=$1
-> +	sdk_script=$2
-> +	rm -f $relocate_script
-> +	touch $relocate_script
-> +
-> +    cat >> $relocate_script <<EOF
-> +# Source the SDK env script in case it is needed for the relocate
-> scripts.
-> +. $sdk_script
+Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+---
+ meta/recipes-devtools/chrpath/chrpath_0.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I had originally done something similar to this when I added support
-for the post-relocate scripts with icecream. However, it is insufficent
-because there can be multiple SDK environment scripts that need to be
-sourced. In order to get a fully correct environment, I had to do:
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.16.bb b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+index b61eef9c8b..0428210567 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.16.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "http://alioth.debian.org/tracker/?atid=412807&group_id=31052"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ 
+-SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
++SRC_URI = "https://src.fedoraproject.org/lookaside/extras/chrpath/chrpath-0.16.tar.gz/2bf8d1d1ee345fc8a7915576f5649982/chrpath-0.16.tar.gz \
+            file://standarddoc.patch"
+ 
+ SRC_URI[md5sum] = "2bf8d1d1ee345fc8a7915576f5649982"
+-- 
+2.17.0
 
- # Setup environment
- for env_setup_script in `ls $1/environment-setup-*`; do
- 	. $env_setup_script
- done
-
-see meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-
-setup.sh
-
-
-> +status=\$?
-> +if [ \$status != 0 ]; then
-> +    echo "\$0: Failed to source $sdk_script with status \$status"
-> +    exit \$status
-> +fi
->  
-> -    cat >> $script <<EOF
->  if [ -d "${SDKPATHNATIVE}/post-relocate-setup.d/" ]; then
->      for s in ${SDKPATHNATIVE}/post-relocate-setup.d/*; do
->          \$s "\$1"
-> diff --git a/meta/recipes-core/meta/meta-environment.bb
-> b/meta/recipes-core/meta/meta-environment.bb
-> index 09f757a087..74c0600c3d 100644
-> --- a/meta/recipes-core/meta/meta-environment.bb
-> +++ b/meta/recipes-core/meta/meta-environment.bb
-> @@ -51,12 +51,13 @@ create_sdk_files() {
->  	# Setup site file for external use
->  	toolchain_create_sdk_siteconfig
-> ${SDK_OUTPUT}/${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS}
->  
-> -	toolchain_create_sdk_env_script
-> ${SDK_OUTPUT}/${SDKPATH}/environment-setup-
-> ${REAL_MULTIMACH_TARGET_SYS}
-> +	sdk_script="${SDKPATH}/environment-setup-
-> ${REAL_MULTIMACH_TARGET_SYS}"
-> +	toolchain_create_sdk_env_script ${SDK_OUTPUT}/${sdk_script}
->  
->  	# Add version information
->  	toolchain_create_sdk_version
-> ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
->  
-> -	toolchain_create_post_relocate_script
-> ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh
-> +	toolchain_create_post_relocate_script
-> ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh ${sdk_script}
->  }
->  
->  do_install() {
 
