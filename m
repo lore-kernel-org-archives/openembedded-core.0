@@ -1,104 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC5E60017
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 09DBA74FAC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 15:15:34 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id x9-v6so12662354pfm.2
+	Fri,  1 Jun 2018 15:42:10 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id t11-v6so3875847wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 08:15:35 -0700 (PDT)
+	Fri, 01 Jun 2018 08:42:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=LHpEjyKJpSzK2A4D6xMWTOWlS6KTvBV/i5AxdfMk5xQ=;
-	b=o+/zzJR9NjI2WVvnQTV2PWQatKRJk8G2ZFFX1tokiepEpQ5fPcXhr0W3gN8vJI1DBC
-	WEmVrNvXP4RG2PWzDjR8Fo3as21MNSI0TKx6/1+NSqVqER16MY978kO0G1K8hkQH5Uok
-	56XRLoUt0lHZgmjyLjK3Qd+O/iwObAGYKHa3wFzG9WVk6RJgPrpzgD8FYB5PKEEzUBU1
-	1dyyj+ZLd2RZZ1FfAytQEnt6Vra+rjnVhedAg3bPAoSQn4kSnUBTBKWrGnm21YLY2dRb
-	4toePLWnliXUrMl2rBjpTV5yFHxGencMVkiPFSokxtyA1iolVCEBPe8NVMH4VhwUgZ4r
-	uzdA==
+	h=from:to:cc:subject:date:message-id;
+	bh=LF//e9I0tAfV4FAa2TKcZmAP+y8f8/WX9pMcerH6KxY=;
+	b=lpQ0nKoKK9BB8DiUX9bIdsS4NZjIM0WY9iY+6TFneazHvKvgJSaJWXxpuDE8vsm5Fo
+	9XeVBMDJ5NPWBuqoVUzynU8tHK2GwWI7l7ACIn9tt/oUTTNimGgyM6WJRp0Gd8KGA/RR
+	MrIl9O9Ujmr6+/dKi8qoygKlnIpVvyN21aWUUWzNI5h5FeiUUbZepi+yNdDjraVWJPyJ
+	4vX23IKpo+gyA7c339E5lrdA135DPxsZEERddhQg9b7zJINFQ/wUCA5ng9p09igvbUA1
+	3eGoKqxwMXn3oaZjp27FGT66NL9/9zLE84WmQTmqIXIzEw3DwCJdlERCKYkkGdomPojA
+	9JkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=LHpEjyKJpSzK2A4D6xMWTOWlS6KTvBV/i5AxdfMk5xQ=;
-	b=HbUnLnAoQEUYQ8x9Q/WLMLURiKj0n+f0c6RxdiGewJAJW3RR8FisB9hsORwGekmKJQ
-	IyYuRarLjzQbCC2QkyCsWsXW7uC/0vR5NHDDCb8elKYf6wr3RKdH1Hyi+q1eTr4hA/0f
-	34ae29OUjPxHJXLslWkzVyGDMq+6Gp1vgPvRlhBon20rGqh9wORfD+7j+FhAaVXsEKGp
-	AGNfyV4TS9xTCyPiYvFIK1Jg4fQxfOdmNSvIq5YRbGBD607zVXw2Qam8rNlzRJvNJlk8
-	C+y6DjXbQXNi2PqSJlJXXwJbI29vm7NJzZ8Xa3r/flpih4W+Fu1oiqjS5ZFjTZ63tL90
-	Lmdg==
-X-Gm-Message-State: ALKqPwe245FIR2h1jTf+4Mpm8c2VR1BYB44ZIDqjlIOV5aQHRPF1AeI9
-	TdkubfLLjaM5pmlKftesstNGVA==
-X-Google-Smtp-Source: ADUXVKK6D4t/LppSpFIkClcZjP3mt2W538MCAJktj0kFk5iqIiH/CHrS0IsKE1UIOq7EvYtSLyPORQ==
-X-Received: by 2002:a63:203:: with SMTP id 3-v6mr9248378pgc.133.1527866135307; 
-	Fri, 01 Jun 2018 08:15:35 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1184:cd69:7d4:a4bc:31b4?
-	([2601:202:4000:1184:cd69:7d4:a4bc:31b4])
-	by smtp.gmail.com with ESMTPSA id
-	k73-v6sm25415179pfb.31.2018.06.01.08.15.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Jun 2018 08:15:34 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1526696034-3857-1-git-send-email-akuster@mvista.com>
-	<1526696034-3857-6-git-send-email-akuster@mvista.com>
-	<CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
-	<62741663-6b5c-c4d3-6376-2e5ffe8e197c@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <108ea3e8-8aef-7bec-ca9c-cda47772a1fe@gmail.com>
-Date: Fri, 1 Jun 2018 08:15:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <62741663-6b5c-c4d3-6376-2e5ffe8e197c@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/8] xserver-xorg: upgrade 1.19.6 -> 1.20.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LF//e9I0tAfV4FAa2TKcZmAP+y8f8/WX9pMcerH6KxY=;
+	b=QvkJbna3KpjDBTELgm9zjR4A+N538ffaCem8V51x6+BlcnJ4hY1WTChmlDJfIi6NaZ
+	PBaLUPl6EDk8RNnWjwoqXGToplzfpZmwwiIhAcsXgv6s2ljmsSB8Xvcv9b24DACTvI0j
+	gwHut+Dxz8jqvZUsv8tMffkbBxRuKFQttZnFPebAzrzbIt2Xxmfxhy72d6hmn2wb2OzA
+	rk3HZS/K0szSCtY6hNMqWIceVy18/WR5yQehsj77uhYm+i444anfaOH/HAc+O0SNyRHK
+	5oRaQI5+CD6CCc3BLBnjldN1+2sM5VllG8HZv2kF9RW4OCktENFSYYmugzfcsGT3dFRI
+	eqYg==
+X-Gm-Message-State: ALKqPwebidpGfCyJ7Hb2qm70cYUeBz6wJKJneafisRdNIK/njh7xZaKU
+	sIBN76sp6v41uSB79x6wkexAfQ==
+X-Google-Smtp-Source: ADUXVKLIOpHwhNYhCUmuiM1GC07YcyPsRTrbapuMbZIG48HP4nsokqhq3xvQuiR57aIPLnRhUXR5Wg==
+X-Received: by 2002:a1c:f714:: with SMTP id
+	v20-v6mr3187135wmh.73.1527867731259; 
+	Fri, 01 Jun 2018 08:42:11 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	w15-v6sm5839098wro.52.2018.06.01.08.42.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 01 Jun 2018 08:42:10 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jun 2018 15:42:09 +0000
+Message-Id: <20180601154209.673-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] systemd: fix build with gcc8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,116 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 15:15:34 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 01 Jun 2018 15:42:11 -0000
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...ild-with-gcc8-Werror-format-truncati.patch | 53 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_237.bb      |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
 
-
-On 05/28/2018 07:25 AM, akuster808 wrote:
->
-> On 05/23/2018 04:01 AM, Burton, Ross wrote:
->> This is breaking a number of other bits of X:
->>
->> - xf86-video-intel (was DRI1 removed or disabled in 1.20?)
-DRI 1 is still there.
-
->> - xf86-input-mouse
-sent fixed for xf86-inout-mount
-
->> - xf86-video-omapfb
-> hmm, will double check
->
-> - armin
->> Ross
->>
->> On 19 May 2018 at 03:13, Armin Kuster <akuster808@gmail.com> wrote:
->>> From: Armin Kuster <akuster808@gmail.com>
->>>
->>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>> ---
->>>  ...1-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch | 19 +++++++++----------
->>>  ...{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} |  4 ++--
->>>  2 files changed, 11 insertions(+), 12 deletions(-)
->>>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.19.6.bb => xserver-xorg_1.20.0.bb} (89%)
->>>
->>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->>> index 16ec3ed..020a1cf 100644
->>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-configure.ac-Fix-check-for-CLOCK_MONOTONIC.patch
->>> @@ -1,12 +1,13 @@
->>> -Discover monotonic clock using compile-time check
->>> +From 8a91316c4a38f20e7866289f3d779a037d27a129 Mon Sep 17 00:00:00 2001
->>> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>> +Date: Mon, 12 Dec 2016 12:11:39 +0200
->>> +Subject: [PATCH] Discover monotonic clock using compile-time check
->>>
->>>  monotonic clock check does not work when cross-compiling.
->>>
->>>  Upstream-Status: Denied [Does not work on OpenBSD]
->>>  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>>
->>> -
->>> -
->>>  Original patch follows:
->>>
->>>  When xorg-xserver is being cross-compiled, there is currently no way
->>> @@ -21,15 +22,16 @@ monotonic clock is available. This check can run just fine when we are
->>>  cross-compiling.
->>>
->>>  Signed-off-by: David James <davidjames at google.com>
->>> +
->>>  ---
->>>   configure.ac | 17 +++++++----------
->>>   1 file changed, 7 insertions(+), 10 deletions(-)
->>>
->>>  diff --git a/configure.ac b/configure.ac
->>> -index f7ab48c..26e85cd 100644
->>> +index 2b21667..786e002 100644
->>>  --- a/configure.ac
->>>  +++ b/configure.ac
->>> -@@ -1048,19 +1048,16 @@ if ! test "x$have_clock_gettime" = xno; then
->>> +@@ -984,19 +984,16 @@ if ! test "x$have_clock_gettime" = xno; then
->>>           CPPFLAGS="$CPPFLAGS -D_POSIX_C_SOURCE=200112L"
->>>       fi
->>>
->>> @@ -54,8 +56,5 @@ index f7ab48c..26e85cd 100644
->>>  -       [MONOTONIC_CLOCK="cross compiling"])
->>>  +]])],[MONOTONIC_CLOCK=yes], [MONOTONIC_CLOCK=no])
->>>
->>> -     LIBS="$LIBS_SAVE"
->>> -     CPPFLAGS="$CPPFLAGS_SAVE"
->>> ---
->>> -2.1.4
->>> -
->>> +     if test "$MONOTONIC_CLOCK" = "cross compiling"; then
->>> +         AC_CHECK_DECL([CLOCK_MONOTONIC],[MONOTONIC_CLOCK="guessing yes"],[MONOTONIC_CLOCK=no],[#include <time.h>])
->>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->>> similarity index 89%
->>> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
->>> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->>> index c680cf9..620eb7b 100644
->>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
->>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.0.bb
->>> @@ -6,8 +6,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
->>>              file://0003-Remove-check-for-useSIGIO-option.patch \
->>>              file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
->>>              "
->>> -SRC_URI[md5sum] = "3e47777ff034a331aed2322b078694a8"
->>> -SRC_URI[sha256sum] = "a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
->>> +SRC_URI[md5sum] = "c1ca1ea0a905ea788da03c77cc38b06e"
->>> +SRC_URI[sha256sum] = "9d967d185f05709274ee0c4f861a4672463986e550ca05725ce27974f550d3e6"
->>>
->>>  # These extensions are now integrated into the server, so declare the migration
->>>  # path for in-place upgrades.
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch b/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
+new file mode 100644
+index 0000000000..e44f431073
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
+@@ -0,0 +1,53 @@
++From f9fd4546c25a15629544bc4642a74d7909cc0840 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Fri, 1 Jun 2018 15:22:28 +0000
++Subject: [PATCH] time-util: fix build with gcc8 -Werror=format-truncation=
++
++* it fails with gcc8 when -O1 or -Os is used (and -ftree-vrp which is added by -O2 and higher isn't used)
++
++../git/src/basic/time-util.c: In function 'format_timespan':
++../git/src/basic/time-util.c:508:46: error: '%0*llu' directive output between 1 and 2147483647 bytes may cause result to exceed 'INT_MAX' [-Werror=format-truncation=]
++                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
++                                              ^~~~
++../git/src/basic/time-util.c:508:60: note: format string is defined here
++                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
++../git/src/basic/time-util.c:508:46: note: directive argument in the range [0, 18446744073709551614]
++                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
++                                              ^~~~
++../git/src/basic/time-util.c:507:37: note: 'snprintf' output 4 or more bytes (assuming 2147483651) into a destination of size 4294967295
++                                 k = snprintf(p, l,
++                                     ^~~~~~~~~~~~~~
++                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
++                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++                                              p > buf ? " " : "",
++                                              ~~~~~~~~~~~~~~~~~~~
++                                              a,
++                                              ~~
++                                              j,
++                                              ~~
++                                              b,
++                                              ~~
++                                              table[i].suffix);
++                                              ~~~~~~~~~~~~~~~~
++cc1: some warnings being treated as errors
++
++Upstream-Status: Submitted https://github.com/systemd/systemd/pull/9156
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ src/basic/time-util.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/basic/time-util.c b/src/basic/time-util.c
++index 0601d4fa9..db5a9cd78 100644
++--- a/src/basic/time-util.c
+++++ b/src/basic/time-util.c
++@@ -484,7 +484,7 @@ char *format_timespan(char *buf, size_t l, usec_t t, usec_t accuracy) {
++                 /* Let's see if we should shows this in dot notation */
++                 if (t < USEC_PER_MINUTE && b > 0) {
++                         usec_t cc;
++-                        int j;
+++                        char j;
++ 
++                         j = 0;
++                         for (cc = table[i].usec; cc > 1; cc /= 10)
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index 2e6558ded1..0113c2dc72 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -54,6 +54,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://libmount.patch \
+            file://0034-Fix-format-truncation-compile-failure-by-typecasting.patch \
+            file://0035-Define-glibc-compatible-basename-for-non-glibc-syste.patch \
++           file://0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+-- 
+2.17.0
 
 
