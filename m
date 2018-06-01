@@ -1,26 +1,50 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C19374FBD
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 23D9F74C1A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 05:03:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5152pkZ007163
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  1 Jun 2018 05:08:46 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id t1-v6so27903505ott.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:03:07 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 22:03:06 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jun 2018 13:03:10 +0800
-Message-ID: <33cf6d3c4a05c6184af9717543a865eca7ed887c.1527829100.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1527829099.git.Qi.Chen@windriver.com>
-References: <cover.1527829099.git.Qi.Chen@windriver.com>
+	Thu, 31 May 2018 22:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=1q0pGTe19fPsGRTPAtG+h5Atmdwu6lFnKqSk8AFVec8=;
+	b=AOg7uvxp/5dOWN4UpdfV2A/H+Nu/peWtF6gVzLhm5cBcGW6HXte7VL7jHX2uF0HPYb
+	h9dyWxUWSl5K78S3j11uklgUxJA3mfwfBCYsjJsDAMfLuJ2Qum/7mNer3XDaHbWCVxFv
+	jTkCp+VC4GfP3xymWsErHXPSbkyNowCnBZ3WT9JFWuX/Z9Kky+7daI30jl6eUKgODGPa
+	0mz/8bIq2p3KO67dYUFwkbGON2GPhRwrKSGQwg9ZZ6uDFKLEVkfrdKdvLU8th9pQMcuJ
+	CFFQXBfTFHttZqII+ytfiDRtJ0d9vW1WCTKcvyL0YAr8YxswMP+hqw7sxGNDMLB9CBz0
+	fkeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=1q0pGTe19fPsGRTPAtG+h5Atmdwu6lFnKqSk8AFVec8=;
+	b=ju+Sin/8LFwcd096nLdMQD6m4VfgpE7D63N6t3JIGclLgpvSuXGExXuufzpxRcM2kH
+	4Fz18Q7z0FNZrh7W95H3Upnj+fMiNwrPcOi5gwKysxY/ig6ky/GZ4VgwG9+TA7T9pRa8
+	XRtIXcbqZSjhuVpLkr9r6JWMNjqXo/S1VWLACiNYLPjKU6LiCpGV2j1Bbm6zQv/yzCB2
+	UF02UhiujIhWJKn85t689uxCfAJX5cOlQE9QIWxKbTOdoj6E7XCVgaONtc6tWsO0rAJQ
+	0TFG+517yz1FQDH6wmakorRrHJrv4ecnB5zLmph1Vt6JgKgdcYBWOPo9zxLVY++hzIwj
+	LOCg==
+X-Gm-Message-State: APt69E04/z9zSAFNZh6yakyvNrO84N55vumhKdx/aD2Kik5Fv6y7mJ/F
+	rZtxNNYqXLdh75ZZ4Wu0b29NWj3XIWSXJzMn/74=
+X-Google-Smtp-Source: ADUXVKKwfuytfcTbk0ssEBR0m1G9dHQbYXCEMmlM3h78Bjel736SQaa802h4Nr6nsfVFeB9Qq5NeQ1BPergN4oSeir4=
+X-Received: by 2002:a9d:4609:: with SMTP id y9-v6mr476866ote.259.1527829728075;
+	Thu, 31 May 2018 22:08:48 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 13/14] testimage.bbclass: move codes into testimage_main
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 31 May 2018 22:08:47
+	-0700 (PDT)
+In-Reply-To: <5B10A3D7.20309@windriver.com>
+References: <20180531062031.40334-1-mingli.yu@windriver.com>
+	<1527772404.16911.155.camel@linuxfoundation.org>
+	<5B10A3D7.20309@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Jun 2018 08:08:47 +0300
+Message-ID: <CANNYZj_3y_uP4a188SREALPvpBL=xnu=QZAW9s7V9iSG2a-t9Q@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:03:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 01 Jun 2018 05:08:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-testimage-auto is expected to run testimage task's codes automatically.
-But in fact, it's currently missing some codes, including testimage_sanity
-and create_rpm_index.
+2018-06-01 4:39 GMT+03:00 Yu, Mingli <mingli.yu@windriver.com>:
 
-This leads to the problem of unexpected runtime failure of test_dnf_makecache.
-The error message is as below.
+>> This looks very unlikely to ever make it upstream. Rather than carrying
+>> a patch to boost forever would we want to just strip the file in
+>> question with a custom command?
+>
+>
+> Thanks very much Richard for your respond!
+> I did try to strip only file which in question, but not find out the
+> solution and then turn to strip the context library.
+>
+> Alex,
+> Do you have any suggestion?
 
-  RESULTS - dnf.DnfRepoTest.test_dnf_makecache - Testcase 1744: ERROR
+Yes - as RP said, please investigate how the path gets into this
+specific file (but not other files) in the first place, and whether we
+can disable or make it not happen, rather than strip the path after
+the fact.
 
-This error is caused by the fact that create_rpm_index is not executed
-before running the tests.
-
-There's no reason why such codes should not be in testimage_main, so
-move them into it.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/testimage.bbclass | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 14252ff..c17a7c6 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -117,13 +117,6 @@ testimage_dump_host () {
- }
- 
- python do_testimage() {
--
--    testimage_sanity(d)
--
--    if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
--       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
--        create_rpm_index(d)
--
-     testimage_main(d)
- }
- 
-@@ -159,6 +152,12 @@ def testimage_main(d):
-         """
-         raise RuntimeError
- 
-+    testimage_sanity(d)
-+
-+    if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
-+       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
-+        create_rpm_index(d)
-+
-     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-     pn = d.getVar("PN")
- 
--- 
-1.9.1
-
+Alex
 
