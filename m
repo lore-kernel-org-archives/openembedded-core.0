@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DFC8260043
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BAEC601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 17:12:45 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id e67-v6so15942756vke.7
+	Fri,  1 Jun 2018 17:21:04 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id b77-v6so3165906vkb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 10:12:46 -0700 (PDT)
+	Fri, 01 Jun 2018 10:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LvbVVTQPezVbiDZ7RsOzmAgnViSY/wRp5N/chl5eYH0=;
-	b=HHdB3c4vPEQL0J2hmMi+IJ8lWmL9q2AUnPXvBcKpLEJa8LLXLrnnNycKLx/GtMSCbx
-	9DT54K6on7IZY6gsvOXgDovhlyjf9FkOb6w0gwOdnpd8z8Irqk9o6V23xdh0pJGzUasN
-	iko7bVfgXu845hLNh3A43xafQ5KQ3/vs0s5av18EXYY1aHaBF2JWKgg3qGLRmeDjFMfg
-	tch+xbBCtXxGqI+yjsERfnSEyY6YLF5gMWQf6jFkVi+vvQsD4B97x7Xi1ZLKtK5D4vcL
-	quVLDedUm7qjnNqubVssM/YJG81kqj77lBoa4+yCeC+ScIE3MxWOiHdwN4SCT0s2OOtu
-	BMvQ==
+	:cc; bh=LuNGFLmsRstShHEUyJE1iEQKsiJOAglzGcnZcRKj3wo=;
+	b=s/nfCzS78rhFx2pvoQx135eiydzF3F36CMhGb5/ac2oaKtk23FOy2wjOgLDgaO35C2
+	Q7CiUC4+vJ8Yl4ctDyeXh9wtzTGFFnMftzD0ymyFmgeSfGomNq6SWKOsBdGFJVdpdaYB
+	ZZOu8fbETZ3yQX4Kwbzi1HbK2lzojwxOSpsV5nEG6o/vWJZQ1dxmQTqzr+8kKCnIj4mn
+	RVoNriIylkRqDPF60aLjFTk5KRVaG4nUzwgrNLV3E9oYvU0N94Gxqs1hthqrTtTWqzuN
+	e1jm7kRo+1r7w4Wy5t9fLO1ofX1qaF8Pm1Ohfo46F5htwXrIneZC6IUrje3PvFToSLQi
+	1OXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=LvbVVTQPezVbiDZ7RsOzmAgnViSY/wRp5N/chl5eYH0=;
-	b=WgQIzfoDKc932KnmNJAYIVRY0dtPC5VFDyavurIfarMUsLf3gBTe5xvgNuV2808QcF
-	bOFatkyGG3Oz0QWLYqqFFBQTx+e3yNJfjtvstQe1KCcpM35YgOZdws94C5p4O69qbN2T
-	+4l7zG1auktpCptiJB9U3IjjAJPZZG3QCxdvBopuKfAqhfBf8aW5isY1pja7hgwtJaS3
-	gsqyJ1eYpaGYnSCAZcDasMt5sQIAT/UJIYQkp3D+tqKJFo0x9NGZvaCN4P5JIYvyJF6m
-	rtWKufmnrJEcpUcTv3oevMxDpfUmkdGrP21qdLqh0LeIhoIBbG83I/LNqfd5VIzMbAfB
-	hNCw==
-X-Gm-Message-State: APt69E0obIM2OsvDFaPIeipZPQsCwAb7Gc9wfreXFt6tHVHpDF/SdbCW
-	VlbhSmfPkdWNWyulheL/DoIGnRDQf8oSa4jgxyY=
-X-Google-Smtp-Source: ADUXVKKPU/eZV6jQsVP+6OYIBZ8rdXABkG1D0Ox9h2Vlx3i1S21FUQQVP/Orq1niFB4EDPdxM1upRQqQ4lnDJO6vJOM=
-X-Received: by 2002:a1f:5d85:: with SMTP id
-	r127-v6mr1533252vkb.20.1527873166439; 
-	Fri, 01 Jun 2018 10:12:46 -0700 (PDT)
+	bh=LuNGFLmsRstShHEUyJE1iEQKsiJOAglzGcnZcRKj3wo=;
+	b=P2i05Mzvw+sYJNxnH6pYMuC6qy4whiVZmC2cETiWPf5qGofnLPg/HwvdiV0ZLsPlt/
+	uCm6ZLR0DL3RLHQc7uNod2Iq0t4VHhfNnZI01UHqJYn2nMGb/iRcNQ6ahMdpNeglolIY
+	/QY444rPm/mXtfE4ur570g28e9k+hVQkSPtQF4HW3uoElN9d8rqpopiAfl6ajQOomOc/
+	af4Iy/gPjeMUI7BmcHrePvwnRuqJhcteMMl3+HFXjxJsNiUWsv4lYmd4UtEWI+mu6Ydh
+	nFQFCtA75rc1Atlq4Dkvv+K79zQ8V9LndqhP7GU560a7ZXivjhxKNPGnfqRuXLDMZvZE
+	UEuA==
+X-Gm-Message-State: ALKqPwfO+rahABYsM4rNAVGZ4aBRAXJTGxta0KJAH498QXAB0Z9BqpO9
+	7STzEqtdoZOtvSIV4O65wT23hVskRRe6ZRMvyUs=
+X-Google-Smtp-Source: ADUXVKJ6MZTH8OaCEXKiuRWNX5QtBAGUDCvrzp/2JNBYEJ1bHHxnIvYdpXJguLKb9+ahdIk6bu7sRWWXE/QQjbvPYpU=
+X-Received: by 2002:a1f:9615:: with SMTP id
+	y21-v6mr7264181vkd.154.1527873665817; 
+	Fri, 01 Jun 2018 10:21:05 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Fri, 1 Jun 2018 10:12:45 -0700 (PDT)
-In-Reply-To: <1527865239-8221-1-git-send-email-akuster808@gmail.com>
-References: <1527865239-8221-1-git-send-email-akuster808@gmail.com>
+	Fri, 1 Jun 2018 10:21:05 -0700 (PDT)
+In-Reply-To: <aa9dd5c5-57b3-ca5f-19c7-a6288ca4fc40@windriver.com>
+References: <1527808243-20215-1-git-send-email-armccurdy@gmail.com>
+	<aa9dd5c5-57b3-ca5f-19c7-a6288ca4fc40@windriver.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 1 Jun 2018 10:12:45 -0700
-Message-ID: <CAJ86T=XwYWyFUAstvrVGfvjY3yS2JPvZXCFch9EyrONfByVYLg@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+Date: Fri, 1 Jun 2018 10:21:05 -0700
+Message-ID: <CAJ86T=Wu5v1VnjfJZWd5wgAEieqfPUJCEHd3KavZ47kUkR4-Gg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox: update to 1.28.4
+Subject: Re: [PATCH] tune-i586-nlp.inc: drop tuning file for Intel Quark/X1000 CPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +57,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 17:12:46 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 17:21:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jun 1, 2018 at 8:00 AM, Armin Kuster <akuster808@gmail.com> wrote:
-> Decided to update again.
+On Fri, Jun 1, 2018 at 7:58 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 5/31/18 6:10 PM, Andre McCurdy wrote:
+>> The Quark machine was EOL'ed at the end of 2017 and all support for
+>> it has now been removed from meta-intel. Drop the associated tuning
+>> file from oe-core.
 >
-> 1.28.3
-> [v3]
-> Update defconfig based on feedback
+> I would rather this remain.  There are still a lot of people using the quark
+> based boards as hobbyists... there is little effort to maintain it for now.
+>
+> (we still have support for ARMv4 for instance, which hasn't really been used in
+> new designs in a while..)
 
-It looks like you've incorporated the contents of the config fragments
-into the new defconfig. e.g. CONFIG_FEATURE_VOLUMEID_EXT (which should
-only be enabled if mount-via-label.cfg is included in SRC_URI) will
-now be enabled unconditionally, etc.
+Is there ever a case when we would drop old tuning files? Or should
+they live on forever?
 
-When you refresh the defconfig you should do so without any config
-fragments enabled. The config fragments should then be reviewed
-individually too.
+We dropped GPLv2 recipes from oe-core on the grounds that they are
+old, unmaintained and untested. ARMv4 CPU tuning files meet those
+criteria too.
 
-> [v2]
-> Add back busybox-udhcpc-no_deconfig.patch ti SRC_URI, missed earlier
+>>   http://git.yoctoproject.org/cgit.cgi/meta-intel/commit/?id=5dbc69e339588834317b632119717996584b0d6c
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/conf/machine/include/tune-i586-nlp.inc | 19 -------------------
+>>  1 file changed, 19 deletions(-)
+>>  delete mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
+>>
+>> diff --git a/meta/conf/machine/include/tune-i586-nlp.inc b/meta/conf/machine/include/tune-i586-nlp.inc
+>> deleted file mode 100644
+>> index 88e5903..0000000
+>> --- a/meta/conf/machine/include/tune-i586-nlp.inc
+>> +++ /dev/null
+>> @@ -1,19 +0,0 @@
+>> -# Settings for the GCC(1) cpu-type "quark":
+>> -#
+>> -#
+>> -#
+>> -DEFAULTTUNE ?= "i586-nlp-32"
+>> -
+>> -# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
+>> -require conf/machine/include/x86/arch-x86.inc
+>> -
+>> -# x86 with no lock prefix
+>> -TUNEVALID[i586-nlp] = "IA32 with Lock Prefix omitted"
+>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'i586-nlp', ' -march=i586 -Wa,-momit-lock-prefix=yes', '', d)}"
+>> -
+>> -# Quark tune feature
+>> -AVAILTUNES = "i586-nlp-32"
+>> -TUNE_FEATURES_tune-i586-nlp-32 = "${TUNE_FEATURES_tune-x86} i586-nlp"
+>> -BASE_LIB_tune-i586-nlp-32 = "lib"
+>> -TUNE_PKGARCH_tune-i586-nlp-32 = "i586-nlp-32"
+>> -PACKAGE_EXTRA_ARCHS_tune-i586-nlp-32 = "i586-nlp-32"
+>>
 >
-> [v1]
-> removed patches included in update:
-> busybox/CVE-2011-5325.patch
-> busybox/CVE-2017-15873.patch
-> busybox/busybox-CVE-2017-16544.patch
->
-> refactored busybox-udhcpc-no_deconfig.patch for this update
->
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
