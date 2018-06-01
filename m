@@ -1,50 +1,23 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D9F74C1A
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E9E0745F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 05:08:46 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id t1-v6so27903505ott.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1q0pGTe19fPsGRTPAtG+h5Atmdwu6lFnKqSk8AFVec8=;
-	b=AOg7uvxp/5dOWN4UpdfV2A/H+Nu/peWtF6gVzLhm5cBcGW6HXte7VL7jHX2uF0HPYb
-	h9dyWxUWSl5K78S3j11uklgUxJA3mfwfBCYsjJsDAMfLuJ2Qum/7mNer3XDaHbWCVxFv
-	jTkCp+VC4GfP3xymWsErHXPSbkyNowCnBZ3WT9JFWuX/Z9Kky+7daI30jl6eUKgODGPa
-	0mz/8bIq2p3KO67dYUFwkbGON2GPhRwrKSGQwg9ZZ6uDFKLEVkfrdKdvLU8th9pQMcuJ
-	CFFQXBfTFHttZqII+ytfiDRtJ0d9vW1WCTKcvyL0YAr8YxswMP+hqw7sxGNDMLB9CBz0
-	fkeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1q0pGTe19fPsGRTPAtG+h5Atmdwu6lFnKqSk8AFVec8=;
-	b=ju+Sin/8LFwcd096nLdMQD6m4VfgpE7D63N6t3JIGclLgpvSuXGExXuufzpxRcM2kH
-	4Fz18Q7z0FNZrh7W95H3Upnj+fMiNwrPcOi5gwKysxY/ig6ky/GZ4VgwG9+TA7T9pRa8
-	XRtIXcbqZSjhuVpLkr9r6JWMNjqXo/S1VWLACiNYLPjKU6LiCpGV2j1Bbm6zQv/yzCB2
-	UF02UhiujIhWJKn85t689uxCfAJX5cOlQE9QIWxKbTOdoj6E7XCVgaONtc6tWsO0rAJQ
-	0TFG+517yz1FQDH6wmakorRrHJrv4ecnB5zLmph1Vt6JgKgdcYBWOPo9zxLVY++hzIwj
-	LOCg==
-X-Gm-Message-State: APt69E04/z9zSAFNZh6yakyvNrO84N55vumhKdx/aD2Kik5Fv6y7mJ/F
-	rZtxNNYqXLdh75ZZ4Wu0b29NWj3XIWSXJzMn/74=
-X-Google-Smtp-Source: ADUXVKKwfuytfcTbk0ssEBR0m1G9dHQbYXCEMmlM3h78Bjel736SQaa802h4Nr6nsfVFeB9Qq5NeQ1BPergN4oSeir4=
-X-Received: by 2002:a9d:4609:: with SMTP id y9-v6mr476866ote.259.1527829728075;
-	Thu, 31 May 2018 22:08:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 31 May 2018 22:08:47
-	-0700 (PDT)
-In-Reply-To: <5B10A3D7.20309@windriver.com>
-References: <20180531062031.40334-1-mingli.yu@windriver.com>
-	<1527772404.16911.155.camel@linuxfoundation.org>
-	<5B10A3D7.20309@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 Jun 2018 08:08:47 +0300
-Message-ID: <CANNYZj_3y_uP4a188SREALPvpBL=xnu=QZAW9s7V9iSG2a-t9Q@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Improve reproducibility
+	Fri,  1 Jun 2018 05:18:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 May 2018 22:18:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,464,1520924400"; d="scan'208";a="60867562"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.23.24])
+	by orsmga001.jf.intel.com with ESMTP; 31 May 2018 22:18:24 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jun 2018 13:18:18 +0800
+Message-Id: <20180601051818.31971-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] wic/bootimg-efi.py: recognize initrd when using grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:08:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Jun 2018 05:18:24 -0000
 
-2018-06-01 4:39 GMT+03:00 Yu, Mingli <mingli.yu@windriver.com>:
+Make sure that we're able to use the initrd value specified in the wks
+file when using grub-efi bootloader with bootimg-efi wic plugin.
 
->> This looks very unlikely to ever make it upstream. Rather than carrying
->> a patch to boost forever would we want to just strip the file in
->> question with a custom command?
->
->
-> Thanks very much Richard for your respond!
-> I did try to strip only file which in question, but not find out the
-> solution and then turn to strip the context library.
->
-> Alex,
-> Do you have any suggestion?
+Fixes [YOCTO #12689]
 
-Yes - as RP said, please investigate how the path gets into this
-specific file (but not other files) in the first place, and whether we
-can disable or make it not happen, rather than strip the path after
-the fact.
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 20 +++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-Alex
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index beb74d7a71..0eb86a079f 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -45,7 +45,7 @@ class BootimgEFIPlugin(SourcePlugin):
+     name = 'bootimg-efi'
+ 
+     @classmethod
+-    def do_configure_grubefi(cls, creator, cr_workdir):
++    def do_configure_grubefi(cls, hdddir, creator, cr_workdir, source_params):
+         """
+         Create loader-specific (grub-efi) config
+         """
+@@ -62,6 +62,18 @@ class BootimgEFIPlugin(SourcePlugin):
+                 raise WicError("configfile is specified but failed to "
+                                "get it from %s." % configfile)
+ 
++        initrd = source_params.get('initrd')
++
++        if initrd:
++            bootimg_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not bootimg_dir:
++                raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
++
++            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
++            exec_cmd(cp_cmd, True)
++        else:
++            logger.debug("Ignoring missing initrd")
++
+         if not custom_cfg:
+             # Create grub configuration using parameters from wks file
+             bootloader = creator.ks.bootloader
+@@ -76,6 +88,10 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+             grubefi_conf += "linux %s root=%s rootwait %s\n" \
+                 % (kernel, creator.rootdev, bootloader.append)
++
++            if initrd:
++               grubefi_conf += "initrd /%s\n" % initrd
++
+             grubefi_conf += "}\n"
+ 
+         logger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg",
+@@ -167,7 +183,7 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         try:
+             if source_params['loader'] == 'grub-efi':
+-                cls.do_configure_grubefi(creator, cr_workdir)
++                cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
+             elif source_params['loader'] == 'systemd-boot':
+                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
+             else:
+-- 
+2.17.0
+
 
