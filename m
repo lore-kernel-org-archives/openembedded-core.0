@@ -1,50 +1,48 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2419474F8A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CBD1D74E98
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 09:39:39 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id c128-v6so12729711oig.11
+	Fri,  1 Jun 2018 10:29:43 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o13-v6so2063035wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2018 02:39:41 -0700 (PDT)
+	Fri, 01 Jun 2018 03:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=x8+H4BjLMjend6j2axUENoseIPyqtAvAhk9M7x6Lbhc=;
-	b=VyK1cwXhRr5fdRLxBOuoqP9NMvQ+4Py7sO8V7/SyLykNVf2+13CGlMG8niC9jPHyD+
-	+HOSnUoFg2rn9jytkBEeRWz0JgF4QdiSZkdj2RqTdWCP3dnT6Czm+RN46q2HrBHYZNTy
-	RQDHPEBi7sMHzItbZr+zvZaxCoECs/7DqcgFK0jM9PooCJGS9yXI/qOd/km31iKGe4NE
-	YRPUeycwHO1p/xKABDWzntxAl7SQOmWasQ9KXsKlmb2ZHGA5bFGWZzXu7HrapA9bqVKE
-	bnNtOhospphvBSYY7tEmEGCyOWeRzUJyc5cu7fm1jiOdn188HjdvzhdzAlLq7VTPSd4f
-	XfqA==
+	h=from:to:subject:date:message-id;
+	bh=DPttuOTvTWgAfrqbiUQFUdmW5y6euZ6megM6eQR0Juw=;
+	b=rKWgHzpnS+Lod1t3Z9YzN7LybQq1LgI6uzJ0NE4aU4J7E+hrDalX9JBbopudPIjTIb
+	Oeey350RphF9oS/J+nxs/vw9BRBuWqG2UHpUNV+MpbtAW4NJCvBiWBJPpKMEP6XDcsLw
+	90eYfnkrDqTBhQwRC/QisNPlPMHX7UqpSR1pPXvQUIVdMy6VaW8EQ/XE1bBCoZtyKX62
+	q4+snR0/+SGiggPt4zHnI6qQ3T08Xjk0OSmz/05r90p4rYiwXlb7TlUkBQPQgDbJectF
+	SuijfmAJO1HaOYpuGLXf53y9h75fEiNX2cEwRbSl5dRljigcPQ41jODWtbz7WgkR4eUy
+	BWaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=x8+H4BjLMjend6j2axUENoseIPyqtAvAhk9M7x6Lbhc=;
-	b=gvsMS4dTvDCO2eyTLMTf4AhvfNidIYq+ShHbrgZKXwLZebA0EfEe+Y2Oa5AWi8Zs+l
-	XpWDuT0M6D9UHZfJhJYcv95cvaeuN0lpuKPQ1UrDyvmct3i8ABCAr8O6pv/xP14uQgDJ
-	vWLYqMQXkMp3kY6Ho3NrmcL2PEh0Qci2fuIOqC/UmejqTQ4mPdlI0371muCNQJtWD9DZ
-	JrTIxzVECkKxKi4CzZ5kp6SAqMKqbjkreq9egnPEbX1dmfZkTXzFtlR3pwyuw2Wj+Lw+
-	Xr1iLlyf1COit+6W3qd5xDTGtJBy7OhIaC5roMvCRqKpNmuRTuqVhR2d65+D56g1QdxR
-	3oOw==
-X-Gm-Message-State: APt69E3eSIt/iYsZWoN/0GEOrLLcOTt6jlZtzGpfLAqaZr8ITJ/2WiVI
-	OwHn785l20/6POR2a1pVSRR5wY5eBLHU3YtrV4s=
-X-Google-Smtp-Source: ADUXVKLbbKKkGjEgc+hCB89asF1ahwGfgCKvrH3j3R83yA8OGnaPQ7/BN2F1ej3iI2SayDHT7cJ03zdz+28m0gFgO1A=
-X-Received: by 2002:aca:5d0b:: with SMTP id
-	r11-v6mr5517810oib.195.1527845980947; 
-	Fri, 01 Jun 2018 02:39:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:5f8d:0:0:0:0:0 with HTTP;
-	Fri, 1 Jun 2018 02:39:20 -0700 (PDT)
-In-Reply-To: <cfd18be2-bcfa-b3f5-ad43-323a8c382edd@windriver.com>
-References: <CABPh3UPoC9VF-6iTMykf8Ohj5SmTBAD7FYUdbd-abTBrWju_=w@mail.gmail.com>
-	<cfd18be2-bcfa-b3f5-ad43-323a8c382edd@windriver.com>
-From: nick83ola <nick83ola@gmail.com>
-Date: Fri, 1 Jun 2018 10:39:20 +0100
-Message-ID: <CABPh3UN7Aq+U9dLZOzu1UZM9-pg3Hfz_Ct2ZYF6H3eqTUOBomw@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe][meta-oe][PATCH 1/3] Mosquitto add a mosquitto conf and logging to the default mosquitto recipe
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DPttuOTvTWgAfrqbiUQFUdmW5y6euZ6megM6eQR0Juw=;
+	b=L/WoTl6vzIh7UBNDtbJP23q4Hjr5LMrNjrCYobaWfzroyKG5GhYul4pi3y/Is8bxEX
+	FrIwIfvoKsszTQ/bcwJsXsJzP80asEqB7goE2vTqskQwa2UXz0dUdTXiJXeUrcBPgRNo
+	JpIQGx3aU6yddvEWgLQ0wxkYsBDJYyHg84CtFTezng59ggPiGQk0qxGu4CABT6JEfDQ7
+	N3FO6/7iaj4QBgxgbGBnb1dSn7GcSNnVvSpd6luyrPE+wY+E6tKt9HKZWkr+KR/XoP48
+	+bMmY17wuS0/YPSSgQtRa1uMo9EujCipUQvLeIIblucksQklUSkRRi9I2neOp3BfoKct
+	/wkg==
+X-Gm-Message-State: APt69E0UdSMrQTfuZ+uDGpCRt45ksj3ZJGcosracP7uDz1cvkTSXA8Dn
+	tJ7/4xRDD5/+f0+MLcaf+hbRpg==
+X-Google-Smtp-Source: ADUXVKI7ZyIYowcKaE3G4vsJ3CBeN1+Ii/7NtXgx3ZhjewogfV8kMlh0z0JcuxP0tdLNYq/gxiZITA==
+X-Received: by 2002:a1c:4189:: with SMTP id
+	o131-v6mr2117739wma.7.1527848984034; 
+	Fri, 01 Jun 2018 03:29:44 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	o16-v6sm21736523wri.67.2018.06.01.03.29.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 01 Jun 2018 03:29:43 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jun 2018 10:29:37 +0000
+Message-Id: <cover.1527848868.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [master][PATCH 0/4] QEmu upgrade to 2.12.0 and switch to libsdl2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 09:39:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Jun 2018 10:29:44 -0000
 
-Thanks
-Sorry for that I will submit everything to the right mailing list :-)
+The following changes since commit 760103cdaed3e820888d8984ec0b76cfc831d534:
 
-Nick
+  nativesdk-rpm: Add wrappers for nativesdk support (2018-05-29 21:06:03 +0100)
 
-On 25 May 2018 at 20:19, Randy MacLeod <randy.macleod@windriver.com> wrote:
-> On 05/25/2018 10:14 AM, nick83ola wrote:
->>
->> The openembedded recipe for mosquitto doesn't provide a default
->> configuration file.
->>
->> Also it install a bunch of examples.
->>
->> This series of patches provide a "default" configuration file and setup
->> logging.
->
->
-> The mosquitto recipe is part of meta-openembedded:
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-connectivity/mosquitto/mosquitto_1.4.14.bb?h=master
->
-> so send a patch to:
->   openembedded-devel@lists.openembedded.org
->
-> Also, patches in email attachments are not the right format, see:
->    https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
->
->
-> Thanks for working on the patch and good luck,
->
-> ../Randy
->
->>
->>
->> Cheers
->>
->> Nicola Lunghi
->>
->>
->>
->>
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/thud
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/thud
+
+Martin Jansa (4):
+  qemu: refresh patches with devtool and make them applicable with git
+  qemu: upgrade to 2.12.0
+  qemu: add PACKAGECONFIG for virglrenderer, usb-redir and spice
+  qemu: use sdl2 instead of sdl1
+
+ meta/conf/distro/include/tcmode-default.inc   |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |  14 +-
+ ...4-treat-DISAS_UPDATE-as-variant-of-D.patch |  67 ---------
+ ...allow-user-to-disable-pointer-grabs.patch} |  42 +++---
+ ...mu-Add-missing-wacom-HID-descriptor.patch} |  24 ++-
+ ...est-which-runs-all-unit-test-cases-.patch} |  12 +-
+ ...-environment-space-to-boot-loader-q.patch} |  17 ++-
+ ...patch => 0005-qemu-disable-Valgrind.patch} |  18 ++-
+ ...searched-during-user-mode-emulation.patch} |  34 +++--
+ ...d.bfd-fix-cflags-and-set-some-envir.patch} |  14 +-
+ ...connect-socket-to-a-spawned-command.patch} |  51 +++----
+ ... 0009-apic-fixup-fallthrough-to-PIC.patch} |  14 +-
+ ...ebkitgtk-hangs-on-32-bit-x86-target.patch} |   9 +-
+ ...r-fix-mmap-munmap-mprotect-mremap-sh.patch | 141 ++++++++++++++++++
+ ...-libcap-header-issue-on-some-distro.patch} |  15 +-
+ ...messages-when-qemi_cpu_kick_thread-.patch} |  13 +-
+ ...2Queue-pointers-in-post_load-routine.patch |  63 --------
+ meta/recipes-devtools/qemu/qemu/memfd.patch   |  57 -------
+ .../qemu/{qemu_2.11.1.bb => qemu_2.12.0.bb}   |  33 ++--
+ 19 files changed, 317 insertions(+), 323 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch
+ rename meta/recipes-devtools/qemu/qemu/{disable-grabs.patch => 0001-sdl.c-allow-user-to-disable-pointer-grabs.patch} (74%)
+ rename meta/recipes-devtools/qemu/qemu/{wacom.patch => 0002-qemu-Add-missing-wacom-HID-descriptor.patch} (87%)
+ rename meta/recipes-devtools/qemu/qemu/{add-ptest-in-makefile-v10.patch => 0003-Add-subpackage-ptest-which-runs-all-unit-test-cases-.patch} (65%)
+ rename meta/recipes-devtools/qemu/qemu/{qemu-enlarge-env-entry-size.patch => 0004-qemu-Add-addition-environment-space-to-boot-loader-q.patch} (66%)
+ rename meta/recipes-devtools/qemu/qemu/{no-valgrind.patch => 0005-qemu-disable-Valgrind.patch} (47%)
+ rename meta/recipes-devtools/qemu/qemu/{pathlimit.patch => 0006-qemu-Limit-paths-searched-during-user-mode-emulation.patch} (78%)
+ rename meta/recipes-devtools/qemu/qemu/{qemu-2.5.0-cflags.patch => 0007-qemu-native-set-ld.bfd-fix-cflags-and-set-some-envir.patch} (45%)
+ rename meta/recipes-devtools/qemu/qemu/{chardev-connect-socket-to-a-spawned-command.patch => 0008-chardev-connect-socket-to-a-spawned-command.patch} (87%)
+ rename meta/recipes-devtools/qemu/qemu/{apic-fixup-fallthrough-to-PIC.patch => 0009-apic-fixup-fallthrough-to-PIC.patch} (80%)
+ rename meta/recipes-devtools/qemu/qemu/{linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch => 0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch} (87%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch
+ rename meta/recipes-devtools/qemu/qemu/{fix-libcap-header-issue-on-some-distro.patch => 0012-fix-libcap-header-issue-on-some-distro.patch} (88%)
+ rename meta/recipes-devtools/qemu/qemu/{cpus.c-qemu_cpu_kick_thread_debugging.patch => 0013-cpus.c-Add-error-messages-when-qemi_cpu_kick_thread-.patch} (87%)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/check-PS2Queue-pointers-in-post_load-routine.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/memfd.patch
+ rename meta/recipes-devtools/qemu/{qemu_2.11.1.bb => qemu_2.12.0.bb} (51%)
+
+-- 
+2.17.0
+
 
