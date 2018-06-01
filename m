@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E563374AA3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7465A60685
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Jun 2018 05:00:46 +0000 (UTC)
+	Fri,  1 Jun 2018 05:01:15 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5150lmR029369
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5151GrK014646
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:00:47 -0700 (PDT)
+	Thu, 31 May 2018 22:01:16 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 22:00:46 -0700
+	14.3.361.1; Thu, 31 May 2018 22:01:15 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jun 2018 13:02:58 +0800
-Message-ID: <b0373b221c0c518bd9aa37ad83024e3bef1a9d17.1527829100.git.Qi.Chen@windriver.com>
+Date: Fri, 1 Jun 2018 13:03:00 +0800
+Message-ID: <ea94ff4788d57a1b714add9389ccc944ebb5af4b.1527829100.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527829099.git.Qi.Chen@windriver.com>
 References: <cover.1527829099.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/14] oeqa/core/loader.py: support the 'auto' keyword
+Subject: [PATCH 03/14] oeqa/core/decorator/__init__.py: set metaclass to ABCMeta
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,84 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:00:47 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 05:01:15 -0000
 Content-Type: text/plain
 
-In previous OEQA, having 'auto' in TEST_SUITES results in executing
-as many test cases as possible.
+OETestFilter is a subclass of OETestDecorator. It wants to make
+use of @abstractmethod decorator. But such decorator requires
+metaclass to be ABCMeta to have effect. So add it now to achieve
+the designed behaviour.
 
-This behaviour is broken for now. From the codes in core/loader.py,
-I can see that it tries to use another keyword 'all'. But in fact,
-it does not work.
-
-I've checked the current manual. The manual says using 'auto'.
-Below is the current information in manual.
-
-  """
-  Alternatively, you can provide the "auto" option to have all applicable
-  tests run against the image.
-
-  TEST_SUITES_append = " auto"
-  """
-
-So we should restore this behaviour. This patch does so.
-
-Also, output warning message is some module is named as 'auto', as this
-is a reserved keyword.
+Comments from python's manual:
+"""
+Using this decorator requires that the class's metaclass is ABCMeta
+or is derived from it.
+"""
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oeqa/core/loader.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/core/decorator/__init__.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
-index a4744de..98fc0f6 100644
---- a/meta/lib/oeqa/core/loader.py
-+++ b/meta/lib/oeqa/core/loader.py
-@@ -155,7 +155,16 @@ class OETestLoader(unittest.TestLoader):
-         class_name = case.__class__.__name__
-         test_name = case._testMethodName
+diff --git a/meta/lib/oeqa/core/decorator/__init__.py b/meta/lib/oeqa/core/decorator/__init__.py
+index 855b6b9..6ca0acf 100644
+--- a/meta/lib/oeqa/core/decorator/__init__.py
++++ b/meta/lib/oeqa/core/decorator/__init__.py
+@@ -2,7 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT)
  
--        if self.modules:
-+        # 'auto' is a reserved key word to run test cases automatically
-+        # warn users if their test case belong to a module named 'auto'
-+        if module_name_small == "auto":
-+            bb.warn("'auto' is a reserved key word for TEST_SUITES. "
-+                    "But test case '%s' is detected to belong to auto module. "
-+                    "Please condier using a new name for your module." % str(case))
-+
-+        # check if case belongs to any specified module
-+        # if 'auto' is specified, such check is skipped
-+        if self.modules and not 'auto' in self.modules:
-             module = None
-             try:
-                 module = self.modules[module_name_small]
-@@ -245,7 +254,7 @@ class OETestLoader(unittest.TestLoader):
-         for tcName in testCaseNames:
-             case = self._getTestCase(testCaseClass, tcName)
-             # Filer by case id
--            if not (self.tests and not 'all' in self.tests
-+            if not (self.tests and not 'auto' in self.tests
-                     and not getCaseID(case) in self.tests):
-                 self._handleTestCaseDecorators(case)
+ from functools import wraps
+-from abc import abstractmethod
++from abc import abstractmethod, ABCMeta
  
-@@ -309,14 +318,14 @@ class OETestLoader(unittest.TestLoader):
-         module_name = module.__name__
+ decoratorClasses = set()
  
-         # Normal test modules are loaded if no modules were specified,
--        # if module is in the specified module list or if 'all' is in
-+        # if module is in the specified module list or if 'auto' is in
-         # module list.
-         # Underscore modules are loaded only if specified in module list.
-         load_module = True if not module_name.startswith('_') \
-                               and (not self.modules \
-                                    or module_name in self.modules \
-                                    or module_name_small in self.modules \
--                                   or 'all' in self.modules) \
-+                                   or 'auto' in self.modules) \
-                            else False
+@@ -10,7 +10,7 @@ def registerDecorator(obj):
+     decoratorClasses.add(obj)
+     return obj
  
-         load_underscore = True if module_name.startswith('_') \
+-class OETestDecorator(object):
++class OETestDecorator(object, metaclass=ABCMeta):
+     case = None # Reference of OETestCase decorated
+     attrs = None # Attributes to be loaded by decorator implementation
+ 
 -- 
 1.9.1
 
