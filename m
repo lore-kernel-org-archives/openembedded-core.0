@@ -1,26 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 521FB74FDD
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CD3FD74FDD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  1 Jun 2018 05:02:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5151UDk007146
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w51521Et029376
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2018 22:01:51 -0700
+	Thu, 31 May 2018 22:02:02 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 31 May 2018 22:01:46 -0700
+	14.3.361.1; Thu, 31 May 2018 22:02:00 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 1 Jun 2018 13:03:03 +0800
-Message-ID: <2135721ef52b1d348383d5f3007f3a946e1be4a5.1527829100.git.Qi.Chen@windriver.com>
+Date: Fri, 1 Jun 2018 13:03:05 +0800
+Message-ID: <72e132a705ac88779eb7c0121b1b0453c2d74413.1527829100.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1527829099.git.Qi.Chen@windriver.com>
 References: <cover.1527829099.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/14] oeqa/runtime/cases/selftest.py: rename to _selftest.py
+Subject: [PATCH 08/14] oeqa/core/decorator/data.py: fix skipIfNotInDataVar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2018 05:02:00 -0000
+X-List-Received-Date: Fri, 01 Jun 2018 05:02:01 -0000
 Content-Type: text/plain
 
-This test modules is designed to be invoked only by selftest. It's
-not meant to be tested by normal runtime test. So it should be renamed
-with '_' prefix, so that it will not be automatically loaded by normal
-runtime tests when 'auto' is in TEST_SUITES.
+The var might not be set, resulting in unexpected error.
 
-The failure message is as below.
+  RESULTS - multilib.MultilibTest.test_check_multilib_libc - Testcase 1593: ERROR
 
-  RESULTS - selftest.Selftest.test_install_package - Testcase -1: FAILED
+The above error is due to MULTILIBS being not set, which is the default
+for OE. This patch fixes this problem.
 
-Also, change selftest/cases/runtime_test.py to use '_selftest' accordingly.
+Also, the debugging message in skipIfNotInDataVar is currently confusing.
+Instead of
+DEBUG: Checking if 'MULTILIBS' value is in 'multilib:lib32' to run the test
+it should be
+DEBUG: Checking if 'MULTILIBS' value contains 'multilib:lib32' to run the test
+
+This patch also fixes it.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} | 0
- meta/lib/oeqa/selftest/cases/runtime_test.py                       | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (100%)
+ meta/lib/oeqa/core/decorator/data.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.py b/meta-selftest/lib/oeqa/runtime/cases/_selftest.py
-similarity index 100%
-rename from meta-selftest/lib/oeqa/runtime/cases/selftest.py
-rename to meta-selftest/lib/oeqa/runtime/cases/_selftest.py
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 9c9b4b3..def3819 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -122,7 +122,7 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
+index ff7bdd9..31c6dd6 100644
+--- a/meta/lib/oeqa/core/decorator/data.py
++++ b/meta/lib/oeqa/core/decorator/data.py
+@@ -61,10 +61,10 @@ class skipIfNotInDataVar(OETestDecorator):
  
-         features = 'INHERIT += "testimage"\n'
--        features += 'TEST_SUITES = "ping ssh selftest"\n'
-+        features += 'TEST_SUITES = "ping ssh _selftest"\n'
-         self.write_config(features)
+     attrs = ('var', 'value', 'msg')
+     def setUpDecorator(self):
+-        msg = ('Checking if %r value is in %r to run '
++        msg = ('Checking if %r value contains %r to run '
+               'the test' % (self.var, self.value))
+         self.logger.debug(msg)
+-        if not self.value in self.case.td.get(self.var):
++        if not self.value in (self.case.td.get(self.var) or ""):
+             self.case.skipTest(self.msg)
  
-         # Build core-image-sato and testimage
+ @registerDecorator
 -- 
 1.9.1
 
