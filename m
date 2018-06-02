@@ -1,61 +1,60 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 098C1607AC
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9047B74D38
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jun 2018 13:35:41 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 18-v6so7716620wml.2
+	Sat,  2 Jun 2018 13:45:25 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id m129-v6so6922811wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Jun 2018 06:35:43 -0700 (PDT)
+	Sat, 02 Jun 2018 06:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:subject:to:cc:references:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=PiqmnTBw/V1ewYW7KylOTAQhl0Qqs4u7XbdDdW81iOs=;
-	b=ftDPcUe2BdD9G31yKsuLPyjDlA4X6uYJfD18uBbkr7tzk9MQVqaeF1UbRs7dBhSjPq
-	I0Q9pB01yI4hrQ3OfnG219ioTkvWE/kkq6oTmMD8X8vVMLzlkaSNrPxKo68uZlr9apuc
-	b3zVCkKD/1w4aI7F9F5o7aBHYd5gBREFCudJH8m/ixKJP1rhy3KaSIzwHLb+ObFZbOPx
-	Z7Fp5D8DD4k8KxSjQaEcHpFv2tDhuTyAGsxCgmWzuuGs3hjcfMC/Xyp3x3EdFxftvJqV
-	a84USbGsHDKCFbXNu618x9s/wAcCuKcJHmjHkSrM6CRepiWIzXLIxOiz3Mle2xYnCxG2
-	oTuQ==
+	bh=i5VKzkRcmV0jbAYo+LhjDe0yxLhz5B1R8xHwL/7OM3U=;
+	b=lFlS9sdxISbVFhm1vVaNiLfi9gxtqWcptTw11VRBAxy2BDXQ84wEUmHnL+tc0DzVsQ
+	yoX2VQErS9SWk187nRed1S+EF367xMgvhJ9EbBDDHRy8qPnfXTy1zOooWhxL7JSicUEi
+	9txGoPf9HgG7nki8Gq3Ae9cr+9+qaGgbdPCjvQxFUuDYp0xb35D9XlJMNoicD8SSB+Ju
+	0W9V3T83yTH3CCv9o8HeU0ajZsXxRdobfFEeGT9NYcz4HQu5n5vBEdI65YW8YgaCnVId
+	lI6auquNZET49N8tWosuxRnhtPbkvKERDACYK6puFHnUMFnGceE3F8Uq6bDcfWDDU0c6
+	a8wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=PiqmnTBw/V1ewYW7KylOTAQhl0Qqs4u7XbdDdW81iOs=;
-	b=tNmkcqI533YFlVWWw56ujr/AlvNkXvFcif253BWmpWykNsXSwziJhNB/v+MrPhgJSd
-	l3lRrPP24poA6iOmamBDyEJBVS5gG/O+SedsIBhulj43Oi5nT6hwDmqPNhvv52S0lbp+
-	1wkiSMz42VB51pdTyKykJkTdZefEhvKAxbqJ5/bwAb7Xgvfzao0QG13tXNZijEt/Jt6d
-	EiACKq/4WnUA+aXs68GIjQwI5TBtVislD0Df0YT3HwOwbqCmkcwkZTqYpIIO7h4Cqxse
-	1DfxcVX6CkqqcQtfLiB1QutDMr+DPzVxMFqeg8R/SEnAQSbawoEEOz5xVpBIPaUqj5xE
-	1PfQ==
-X-Gm-Message-State: ALKqPwfXQN1KYeQB4wuoFz/6bJ+/JNcx4yohGqiakEWHAyD532WVsDBn
-	+e8SWvV9xMxiC4w/0K5bekwZnB2Kx5A=
-X-Google-Smtp-Source: ADUXVKKZpv4vEeaR0Zuk/AXnXChlULWwdd+n6Cfd6/ls4wDD3GgQH9eUXOrkEUyepHwUVo8DhKfGpQ==
-X-Received: by 2002:a50:8fc3:: with SMTP id
-	y61-v6mr16625679edy.11.1527946542008; 
-	Sat, 02 Jun 2018 06:35:42 -0700 (PDT)
+	bh=i5VKzkRcmV0jbAYo+LhjDe0yxLhz5B1R8xHwL/7OM3U=;
+	b=cNjYhktYZAEpdIqiNs6zzEhB2u2tfMBHo2fxp/v8Cih87vDEgRifldc5GbV5jZ+ghH
+	e417D1n8lVmLcpNJSwz3ZMKqTlsUo46eLpxLI2drm5qTFclPmcOkCKZ6x9yoh8MkmRTk
+	AaYHeSJeQ06jeivO+KrT/d4e2HEU/tYoVdprKOSXfzK6xWUe0QbA5sr2l99uRwRYBkfe
+	1JtJGlNaGsYgzmyIfFCk6NtDZYK9grYHY3fasxpMFwlt/78GE9m/0YEPeQoFeOURyui5
+	LsJ42xrznvmu6hJiBop5tmQYIPnQJqFllRS3xaIzwUflT4KgkmUwRAY0F+W7uNwpd5Xe
+	dfiw==
+X-Gm-Message-State: ALKqPwdUY502k7W5mNhBqC7GIEH4IOXV+8AMUEWiEdxqx9PsSMQilWs+
+	BYIXxZKGZSDUnrygmFtdJZe3p5mkHtM=
+X-Google-Smtp-Source: ADUXVKKkXuIeeazV3c2ZffBNzx8q9AgGBvwj0GqrUSqnVyyZhUOJtbGpIYmFIPcJZa9l7OYmYxp8Iw==
+X-Received: by 2002:aa7:d819:: with SMTP id
+	v25-v6mr17416397edq.61.1527947125845; 
+	Sat, 02 Jun 2018 06:45:25 -0700 (PDT)
 Received: from ?IPv6:2a04:ae08:1403:ff00:489:7961:466d:7cf7?
 	([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
 	by smtp.gmail.com with ESMTPSA id
-	c46-v6sm11447617edc.34.2018.06.02.06.35.40
+	x42-v6sm1876227edx.73.2018.06.02.06.45.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Jun 2018 06:35:41 -0700 (PDT)
+	Sat, 02 Jun 2018 06:45:25 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
 To: Alexander Kanavin <alex.kanavin@gmail.com>,
 	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 References: <20180601221440.29992-1-dev@sashko.rv.ua>
-	<20180601221440.29992-2-dev@sashko.rv.ua>
-	<CANNYZj8ZmdHAFix08WYXkLLJ1ZGf5pv8PAHqfR3B4GRHzM_n+w@mail.gmail.com>
-Message-ID: <2a578a24-b2cf-fabf-c86a-89e5ca3ed1d9@sashko.rv.ua>
-Date: Sat, 2 Jun 2018 15:35:40 +0200
+	<CANNYZj8VhXbaD93SpM130mx4v4b1Hjfr7fe8F30g+MR-+FaQxw@mail.gmail.com>
+Message-ID: <d9184760-664e-9d92-b607-53511e8bb1c1@sashko.rv.ua>
+Date: Sat, 2 Jun 2018 15:45:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8ZmdHAFix08WYXkLLJ1ZGf5pv8PAHqfR3B4GRHzM_n+w@mail.gmail.com>
+In-Reply-To: <CANNYZj8VhXbaD93SpM130mx4v4b1Hjfr7fe8F30g+MR-+FaQxw@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH 2/2] iso-codes: fix SRC_URI
+Subject: Re: [meta-oe][PATCH 1/2] chrpath: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,24 +67,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jun 2018 13:35:42 -0000
+X-List-Received-Date: Sat, 02 Jun 2018 13:45:26 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-On 02/06/18 07:19, Alexander Kanavin wrote:
+On 02/06/18 07:24, Alexander Kanavin wrote:
 > 2018-06-02 1:14 GMT+03:00 Oleksandr Kravchuk
 > <open.source@oleksandr-kravchuk.com>:
->>   SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
->> +SRC_URI = "https://ftp.osuosl.org/pub/blfs/conglomeration/iso-codes/iso-codes-${PV}.tar.xz"
-> The correct new URI is
-> https://salsa.debian.org/iso-codes-team/iso-codes, don't grab a random
-> ftp from google search results please.
+>> -SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
+>> +SRC_URI = "https://src.fedoraproject.org/lookaside/extras/chrpath/chrpath-0.16.tar.gz/2bf8d1d1ee345fc8a7915576f5649982/chrpath-0.16.tar.gz \
+>>              file://standarddoc.patch"
+> It's better to stick with debian, the tarball is still available
+> through ${DEBIAN_MIRROR}:
+> http://http.debian.net/debian/pool/main/c/chrpath/chrpath_0.16.orig.tar.gz
+>
+> Can you also investigate the other instances of alioth, namely shadow
+> and minicom please?
 >
 > Alex
-It is not always easy to find "the new" official URI. I took the one 
-that was around for a long time, not "a random ftp from google search 
-results".
 
-I will fix and resend the patch.
+This is a subjective statement. Having mirrors is great, but having a 
+working SRC_URI in the recipe and mirrors five times great: I have seen 
+both original source and the mirror being inaccessible for a period of 
+time multiple times.
 
