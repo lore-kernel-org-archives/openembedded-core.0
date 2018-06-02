@@ -1,28 +1,30 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A88D47871D
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B944D78A3F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 01:21:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5D1LJP6025398
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Jun 2018 18:21:19 -0700 (PDT)
-Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 12 Jun 2018 18:21:19 -0700
-To: "Maxin B. John" <maxin.john@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-	<1528802295-11278-7-git-send-email-maxin.john@intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <3063a563-3960-2a4a-d791-20bc066f7ab6@windriver.com>
-Date: Tue, 12 Jun 2018 21:21:17 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Wed, 13 Jun 2018 02:00:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41003840"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Jun 2018 10:00:28 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 61DCA4B41E96
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jun 2018 10:00:23 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.27) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Wed, 13 Jun 2018 10:00:24 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 2 Jun 2018 14:04:03 -0700
+Message-ID: <1527973443-39251-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1528802295-11278-7-git-send-email-maxin.john@intel.com>
-X-Originating-IP: [172.25.44.2]
-Subject: Re: [PATCH 07/12] libunistring: upgrade to 0.9.10
+X-Originating-IP: [10.167.225.27]
+X-yoursite-MailScanner-ID: 61DCA4B41E96.AD0AD
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] Fix build error when enable archiver.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,111 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 01:21:19 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Jun 2018 02:00:29 -0000
+Content-Type: text/plain
 
-On 06/12/2018 07:18 AM, Maxin B. John wrote:
-> License-Update: Checksum changed due to updation in documentation. There
-> are no changes in the license terms.
+The error is as fllowing:
+ERROR: Task do_deploy_archives in virtual:native:/yocto/poky/meta/recipes-extended/newt/libnewt_0.52.20.bb depends upon non-existent task do_package_write_rpm in virtual:native:/yocto/poky/meta/recipes-extended/newt/libnewt_0.52.20.bb
+ERROR: Command execution failed: 1
 
-That's correct but I'm not sure if we should include
-a checksum on the (GPLv3) COPYING file since the README
-says [1] that:
-    This license is based on the GNU GPL version 3, see file COPYING.
-I'd like to know if the COPYING file changed to say the _actual_
-GPLv2 some day so a checksum would help track such changes.
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/classes/nopackages.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-The README statement is an odd way to convey the license terms.
-Is this just standard FSFese?
-
-The libunistring commit that sets out these terms is from 0.9:
-
-commit 3c15d3a96963703fc02cddda7e968e508638d1b8
-Author: Bruno Haible <bruno@clisp.org>
-Date:   Sun Mar 15 02:10:58 2009 +0100
-
-     License information.
-
-  COPYING     | 674 ++++++++++++++++++++...++++++++++++++++++++
-  COPYING.LIB | 165 +++++++++...++++++++
-  ChangeLog   |   3 +
-  README      |   2 +-
-  4 files changed, 843 insertions(+), 1 deletion(-)
-
-
-which doesn't help much other than the ChangeLog:
-
-+       * COPYING.LIB: New file, from gnulib/doc/COPYING.LESSERv3.
-+       * COPYING: New file, from gnulib/doc/COPYINGv3.
-
-
-../Randy
-
-
-[1] From README:
-
-Copyright
----------
-
-The libunistring library and its header files are dual-licensed under
-"the GNU LGPLv3+ or the GNU GPLv2". This means, you can use it under either
-   - the terms of the GNU Lesser General Public License (LGPL) version 3 or
-     (at your option) any later version, or
-   - the terms of the GNU General Public License (GPL) version 2, or
-   - the same dual license "the GNU LGPLv3+ or the GNU GPLv2".
-
-You find the GNU LGPL version 3 in the file COPYING.LIB.  This license is
-based on the GNU GPL version 3, see file COPYING.
-
-You can find the GNU GPL version 2 at
-<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>.
-
-Note: This dual license makes it possible for the libunistring library
-to be used by packages under GPLv2 or GPLv2+ licenses, in particular. See
-the table in <https://www.gnu.org/licenses/gpl-faq.html#AllCompatibility>.
-
-The documentation is under another license; see in the documentation.
-
-> 
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->   .../libunistring/{libunistring_0.9.9.bb => libunistring_0.9.10.bb}  | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-support/libunistring/{libunistring_0.9.9.bb => libunistring_0.9.10.bb} (85%)
-> 
-> diff --git a/meta/recipes-support/libunistring/libunistring_0.9.9.bb b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
-> similarity index 85%
-> rename from meta/recipes-support/libunistring/libunistring_0.9.9.bb
-> rename to meta/recipes-support/libunistring/libunistring_0.9.10.bb
-> index ab7cba5..97fac4e 100644
-> --- a/meta/recipes-support/libunistring/libunistring_0.9.9.bb
-> +++ b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
-> @@ -16,15 +16,15 @@ SECTION = "devel"
->   LICENSE = "LGPLv3+ | GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
->                       file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
-> -                    file://doc/libunistring.texi;md5=efb80a3799a60f95feaf80661d4f204c \
-> +                    file://doc/libunistring.texi;md5=287fa6075f78a3c85c1a52b0a92547cd \
->                      "
->   
->   SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
->              file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
->              file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
->   "
-> -SRC_URI[md5sum] = "4f689e37e4c3bd67de5786aa51d98b13"
-> -SRC_URI[sha256sum] = "f5e90c08f9e5427ca3a2c0c53f19aa38b25c500913510ad25afef86448bea84a"
-> +SRC_URI[md5sum] = "0d3274e9838396b12200f8b54ddaf43b"
-> +SRC_URI[sha256sum] = "a82e5b333339a88ea4608e4635479a1cfb2e01aafb925e1290b65710d43f610b"
->   
->   inherit autotools texinfo
->   BBCLASSEXTEND = "native nativesdk"
-> 
-
-
+diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bbclass
+index 559f507..d9ddfac 100644
+--- a/meta/classes/nopackages.bbclass
++++ b/meta/classes/nopackages.bbclass
+@@ -10,3 +10,4 @@ deltask do_package_write_ipk_setscene
+ deltask do_package_write_deb_setscene
+ deltask do_package_qa_setscene
+ deltask do_packagedata_setscene
++deltask do_deploy_archives
 -- 
-# Randy MacLeod
-# Wind River Linux
+1.9.1
+
+
+
 
