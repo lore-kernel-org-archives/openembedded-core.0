@@ -1,50 +1,61 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FAB274BC3
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 098C1607AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jun 2018 09:00:34 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id y15-v6so38382435wrg.11
+	Sat,  2 Jun 2018 13:35:41 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 18-v6so7716620wml.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Jun 2018 02:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4RctW7d/oo5VxXU/gH1r4izhn1pLVPdetH9CewB3Q1Y=;
-	b=ttrKWk9BzhxhprCSx3rNiAHDqwaBPBWfQ+VKESySh4SobF7bbeKLeFeFu9AUKvoblV
-	/XbH3dDEo1Zz2sY5WPO3YGTMgdChLBNlkL/rbdbduSey9wcBd+1x7keyavvzjSAk+ebc
-	c1OeXlDGBK+TlBNvCyA45FMGMpWdtsnUxlafOrNCA5LppbEzvRLDR1u9vdrASJszGpSr
-	MGZTfH8zFwdNZzJ7If7pnWYRcCpBy3HYFv3QV/B78/LluC91PlLH4TQmvSt0puwadlQF
-	5LNsX/h7kNQCUZv7zdV18mke2YClydqBHS5jXYZY5uKfxD4ZZ+tnaixbtMobyYWFn4Op
-	AcSA==
+	Sat, 02 Jun 2018 06:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=PiqmnTBw/V1ewYW7KylOTAQhl0Qqs4u7XbdDdW81iOs=;
+	b=ftDPcUe2BdD9G31yKsuLPyjDlA4X6uYJfD18uBbkr7tzk9MQVqaeF1UbRs7dBhSjPq
+	I0Q9pB01yI4hrQ3OfnG219ioTkvWE/kkq6oTmMD8X8vVMLzlkaSNrPxKo68uZlr9apuc
+	b3zVCkKD/1w4aI7F9F5o7aBHYd5gBREFCudJH8m/ixKJP1rhy3KaSIzwHLb+ObFZbOPx
+	Z7Fp5D8DD4k8KxSjQaEcHpFv2tDhuTyAGsxCgmWzuuGs3hjcfMC/Xyp3x3EdFxftvJqV
+	a84USbGsHDKCFbXNu618x9s/wAcCuKcJHmjHkSrM6CRepiWIzXLIxOiz3Mle2xYnCxG2
+	oTuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=4RctW7d/oo5VxXU/gH1r4izhn1pLVPdetH9CewB3Q1Y=;
-	b=RCXzOR63TC2cHi8BSwy1zA/kGAvajoNMTqWjsTHmM2ZyNQ69uw7P/0/aRC1WIKp1iO
-	IcuWNpqos3++PGA2VPeN/QgDPrCZfCa092bzgI7JDq6PMxGQpIAWLZVNKZkf3LddZvd2
-	UmjFPUtUhGvBVVfuEpgU9uD0q/E0GabM8XZHOI5+hjrsQVhDZEGCus19/RbgcSjo3/Pg
-	fLeOPiChV/TBQhbtE7nj++nclO5C75s4uX5c+pzDLHOeBuhApPAMlofIW31ihU0/AjCh
-	UTg6BfgC0Abc0khpHm+EIMCgNqTGwzPq/a9TtSfjpPNnE0y4URi2gnJoekOvQcU48XgV
-	mtOQ==
-X-Gm-Message-State: APt69E0JWI87ZY0R5tYmZBaZtFGG1Zm8S8SxE2TeoDgEXk5ViY8ggRVS
-	+/cWvbus7mBNiDN1FtUy/xQSSw==
-X-Google-Smtp-Source: ADUXVKKzufcoeZpNEFGUUXAlPQwiEY97iKDGQo8nhIN6DPC9ajYYRinyH0fZZkOL4JiOe5/ovfhYEw==
-X-Received: by 2002:a5d:4307:: with SMTP id h7-v6mr210323wrq.58.1527930035557; 
-	Sat, 02 Jun 2018 02:00:35 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	o12-v6sm60446809wrf.30.2018.06.02.02.00.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 02 Jun 2018 02:00:34 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  2 Jun 2018 09:00:34 +0000
-Message-Id: <20180602090034.31810-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180601154209.673-1-Martin.Jansa@gmail.com>
-References: <20180601154209.673-1-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] systemd: fix build with gcc8
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=PiqmnTBw/V1ewYW7KylOTAQhl0Qqs4u7XbdDdW81iOs=;
+	b=tNmkcqI533YFlVWWw56ujr/AlvNkXvFcif253BWmpWykNsXSwziJhNB/v+MrPhgJSd
+	l3lRrPP24poA6iOmamBDyEJBVS5gG/O+SedsIBhulj43Oi5nT6hwDmqPNhvv52S0lbp+
+	1wkiSMz42VB51pdTyKykJkTdZefEhvKAxbqJ5/bwAb7Xgvfzao0QG13tXNZijEt/Jt6d
+	EiACKq/4WnUA+aXs68GIjQwI5TBtVislD0Df0YT3HwOwbqCmkcwkZTqYpIIO7h4Cqxse
+	1DfxcVX6CkqqcQtfLiB1QutDMr+DPzVxMFqeg8R/SEnAQSbawoEEOz5xVpBIPaUqj5xE
+	1PfQ==
+X-Gm-Message-State: ALKqPwfXQN1KYeQB4wuoFz/6bJ+/JNcx4yohGqiakEWHAyD532WVsDBn
+	+e8SWvV9xMxiC4w/0K5bekwZnB2Kx5A=
+X-Google-Smtp-Source: ADUXVKKZpv4vEeaR0Zuk/AXnXChlULWwdd+n6Cfd6/ls4wDD3GgQH9eUXOrkEUyepHwUVo8DhKfGpQ==
+X-Received: by 2002:a50:8fc3:: with SMTP id
+	y61-v6mr16625679edy.11.1527946542008; 
+	Sat, 02 Jun 2018 06:35:42 -0700 (PDT)
+Received: from ?IPv6:2a04:ae08:1403:ff00:489:7961:466d:7cf7?
+	([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
+	by smtp.gmail.com with ESMTPSA id
+	c46-v6sm11447617edc.34.2018.06.02.06.35.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Jun 2018 06:35:41 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+References: <20180601221440.29992-1-dev@sashko.rv.ua>
+	<20180601221440.29992-2-dev@sashko.rv.ua>
+	<CANNYZj8ZmdHAFix08WYXkLLJ1ZGf5pv8PAHqfR3B4GRHzM_n+w@mail.gmail.com>
+Message-ID: <2a578a24-b2cf-fabf-c86a-89e5ca3ed1d9@sashko.rv.ua>
+Date: Sat, 2 Jun 2018 15:35:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8ZmdHAFix08WYXkLLJ1ZGf5pv8PAHqfR3B4GRHzM_n+w@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH 2/2] iso-codes: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,87 +68,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jun 2018 09:00:35 -0000
+X-List-Received-Date: Sat, 02 Jun 2018 13:35:42 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...ild-with-gcc8-Werror-format-truncati.patch | 53 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_237.bb      |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
+On 02/06/18 07:19, Alexander Kanavin wrote:
+> 2018-06-02 1:14 GMT+03:00 Oleksandr Kravchuk
+> <open.source@oleksandr-kravchuk.com>:
+>>   SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+>> +SRC_URI = "https://ftp.osuosl.org/pub/blfs/conglomeration/iso-codes/iso-codes-${PV}.tar.xz"
+> The correct new URI is
+> https://salsa.debian.org/iso-codes-team/iso-codes, don't grab a random
+> ftp from google search results please.
+>
+> Alex
+It is not always easy to find "the new" official URI. I took the one 
+that was around for a long time, not "a random ftp from google search 
+results".
 
-diff --git a/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch b/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
-new file mode 100644
-index 0000000000..fcc7c500ab
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
-@@ -0,0 +1,53 @@
-+From f9fd4546c25a15629544bc4642a74d7909cc0840 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Fri, 1 Jun 2018 15:22:28 +0000
-+Subject: [PATCH] time-util: fix build with gcc8 -Werror=format-truncation=
-+
-+* it fails with gcc8 when -O1 or -Os is used (and -ftree-vrp which is added by -O2 and higher isn't used)
-+
-+../git/src/basic/time-util.c: In function 'format_timespan':
-+../git/src/basic/time-util.c:508:46: error: '%0*llu' directive output between 1 and 2147483647 bytes may cause result to exceed 'INT_MAX' [-Werror=format-truncation=]
-+                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
-+                                              ^~~~
-+../git/src/basic/time-util.c:508:60: note: format string is defined here
-+                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
-+../git/src/basic/time-util.c:508:46: note: directive argument in the range [0, 18446744073709551614]
-+                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
-+                                              ^~~~
-+../git/src/basic/time-util.c:507:37: note: 'snprintf' output 4 or more bytes (assuming 2147483651) into a destination of size 4294967295
-+                                 k = snprintf(p, l,
-+                                     ^~~~~~~~~~~~~~
-+                                              "%s"USEC_FMT".%0*"PRI_USEC"%s",
-+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+                                              p > buf ? " " : "",
-+                                              ~~~~~~~~~~~~~~~~~~~
-+                                              a,
-+                                              ~~
-+                                              j,
-+                                              ~~
-+                                              b,
-+                                              ~~
-+                                              table[i].suffix);
-+                                              ~~~~~~~~~~~~~~~~
-+cc1: some warnings being treated as errors
-+
-+Upstream-Status: Submitted https://github.com/systemd/systemd/pull/9156
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ src/basic/time-util.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/basic/time-util.c b/src/basic/time-util.c
-+index 0601d4fa9..db5a9cd78 100644
-+--- a/src/basic/time-util.c
-++++ b/src/basic/time-util.c
-+@@ -484,7 +484,7 @@ char *format_timespan(char *buf, size_t l, usec_t t, usec_t accuracy) {
-+                 /* Let's see if we should shows this in dot notation */
-+                 if (t < USEC_PER_MINUTE && b > 0) {
-+                         usec_t cc;
-+-                        int j;
-++                        signed char j;
-+ 
-+                         j = 0;
-+                         for (cc = table[i].usec; cc > 1; cc /= 10)
-diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
-index 2e6558ded1..0113c2dc72 100644
---- a/meta/recipes-core/systemd/systemd_237.bb
-+++ b/meta/recipes-core/systemd/systemd_237.bb
-@@ -54,6 +54,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://libmount.patch \
-            file://0034-Fix-format-truncation-compile-failure-by-typecasting.patch \
-            file://0035-Define-glibc-compatible-basename-for-non-glibc-syste.patch \
-+           file://0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch \
-            "
- SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.17.0
-
+I will fix and resend the patch.
 
