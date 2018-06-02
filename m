@@ -1,60 +1,50 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9047B74D38
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 86AB160116
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jun 2018 13:45:25 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id m129-v6so6922811wmb.3
+	Sat,  2 Jun 2018 16:17:07 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id n3-v6so19104643lfe.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Jun 2018 06:45:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=i5VKzkRcmV0jbAYo+LhjDe0yxLhz5B1R8xHwL/7OM3U=;
-	b=lFlS9sdxISbVFhm1vVaNiLfi9gxtqWcptTw11VRBAxy2BDXQ84wEUmHnL+tc0DzVsQ
-	yoX2VQErS9SWk187nRed1S+EF367xMgvhJ9EbBDDHRy8qPnfXTy1zOooWhxL7JSicUEi
-	9txGoPf9HgG7nki8Gq3Ae9cr+9+qaGgbdPCjvQxFUuDYp0xb35D9XlJMNoicD8SSB+Ju
-	0W9V3T83yTH3CCv9o8HeU0ajZsXxRdobfFEeGT9NYcz4HQu5n5vBEdI65YW8YgaCnVId
-	lI6auquNZET49N8tWosuxRnhtPbkvKERDACYK6puFHnUMFnGceE3F8Uq6bDcfWDDU0c6
-	a8wA==
+	Sat, 02 Jun 2018 09:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ns5Mv0X1iBxL+ebuXwV/KdeWhXdG41irff9z0CFUzQE=;
+	b=UTCDrAUTRq9bk85CgXzVCi7IkWooUmjNmX/CK++e0v6HL0hpa/39SUGUlSjpPJ+jzy
+	MjZE8FbtzKeN1uFENUUQ0dPz290yi4XiEcqNC2CKaO3m4rjLwYvD6uthUCFfdjJF41zY
+	MK0lo2PwpgPN3hq4FQVmHI/CViBV3yZkBxFPQt2i8D54QWgz8IpywduAKU9+mrKbwA2u
+	h7fF9cFMR3AceIJGWowsqiAmS+cbvxAUMjR0FumO747IU5LKiWq66V/E4mfZiZKKmtJE
+	KIiMfxjVWE2sdesi1xuX+JMn4SyVLHWQbAsqb73nse7bKqptv9MJ4+oPBqHOtPnYXm6a
+	KlLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=i5VKzkRcmV0jbAYo+LhjDe0yxLhz5B1R8xHwL/7OM3U=;
-	b=cNjYhktYZAEpdIqiNs6zzEhB2u2tfMBHo2fxp/v8Cih87vDEgRifldc5GbV5jZ+ghH
-	e417D1n8lVmLcpNJSwz3ZMKqTlsUo46eLpxLI2drm5qTFclPmcOkCKZ6x9yoh8MkmRTk
-	AaYHeSJeQ06jeivO+KrT/d4e2HEU/tYoVdprKOSXfzK6xWUe0QbA5sr2l99uRwRYBkfe
-	1JtJGlNaGsYgzmyIfFCk6NtDZYK9grYHY3fasxpMFwlt/78GE9m/0YEPeQoFeOURyui5
-	LsJ42xrznvmu6hJiBop5tmQYIPnQJqFllRS3xaIzwUflT4KgkmUwRAY0F+W7uNwpd5Xe
-	dfiw==
-X-Gm-Message-State: ALKqPwdUY502k7W5mNhBqC7GIEH4IOXV+8AMUEWiEdxqx9PsSMQilWs+
-	BYIXxZKGZSDUnrygmFtdJZe3p5mkHtM=
-X-Google-Smtp-Source: ADUXVKKkXuIeeazV3c2ZffBNzx8q9AgGBvwj0GqrUSqnVyyZhUOJtbGpIYmFIPcJZa9l7OYmYxp8Iw==
-X-Received: by 2002:aa7:d819:: with SMTP id
-	v25-v6mr17416397edq.61.1527947125845; 
-	Sat, 02 Jun 2018 06:45:25 -0700 (PDT)
-Received: from ?IPv6:2a04:ae08:1403:ff00:489:7961:466d:7cf7?
-	([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
-	by smtp.gmail.com with ESMTPSA id
-	x42-v6sm1876227edx.73.2018.06.02.06.45.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Jun 2018 06:45:25 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-References: <20180601221440.29992-1-dev@sashko.rv.ua>
-	<CANNYZj8VhXbaD93SpM130mx4v4b1Hjfr7fe8F30g+MR-+FaQxw@mail.gmail.com>
-Message-ID: <d9184760-664e-9d92-b607-53511e8bb1c1@sashko.rv.ua>
-Date: Sat, 2 Jun 2018 15:45:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ns5Mv0X1iBxL+ebuXwV/KdeWhXdG41irff9z0CFUzQE=;
+	b=HoXAp6ITP0jnyGZAaxFZ0AyVMg8L/s7TNxklIzqdKSCacOdhaY5cwxruOuHE33Wrtf
+	PRfT2sw2lFg3pf/UhluaOLMj7Ec8eukFoR2XFYUF0k+mTnP0bj1ZjvZTCsTvYd1ewEQD
+	ACb66nZE5BgygqSoTkc+q0UYVUqKrqu0SAiybN5tuLWi8prtyZSsp+sQgVRpxIo+EjvH
+	ImaNJqBysVm38uAyESiU71wfnBoDnFLNMBg1elH6ALZQmc6REubAxK0htBI7pbuNW+mE
+	i5MOb0IkEdooFlwzg5+EOUeSwrMwTZmQ1rV1jdDxOJUa5sy9rVqEzoBlqbfEFmVsmbV+
+	tvXw==
+X-Gm-Message-State: ALKqPwc7olihpU2t1c+N2VqBYwQxd2eyAMO93/x0vqHAX6NFYaU/NyH2
+	0tDuCVzcNWZvaOyUBciE6g3/oYxzD63v8gEaEIY=
+X-Google-Smtp-Source: ADUXVKLkvISOUhQwEW/RpmL8HcGH/sS5ceJ9gBO5TsdZ/ChtsUumK/8I2PzXg6PlGGg5gMHlVH7HrYEFxDBO0xmaTXk=
+X-Received: by 2002:a19:1003:: with SMTP id
+	f3-v6mr9740536lfi.114.1527956227906; 
+	Sat, 02 Jun 2018 09:17:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8VhXbaD93SpM130mx4v4b1Hjfr7fe8F30g+MR-+FaQxw@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH 1/2] chrpath: fix SRC_URI
+Received: by 2002:a2e:98c6:0:0:0:0:0 with HTTP;
+	Sat, 2 Jun 2018 09:16:37 -0700 (PDT)
+In-Reply-To: <CANNYZj_4YMuZY8Up7ci4-1JGcW2HNAdAM7xG96WpF0mfVKD7EQ@mail.gmail.com>
+References: <20180601221436.27162-1-alistair.francis@wdc.com>
+	<CANNYZj_4YMuZY8Up7ci4-1JGcW2HNAdAM7xG96WpF0mfVKD7EQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 2 Jun 2018 09:16:37 -0700
+Message-ID: <CAKmqyKNtMxYvrrs17NShCOXTvbeS2Wc6sDAmDDNF+bV16G5hdQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] [meta] dbus: Fix X11 compille errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,28 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jun 2018 13:45:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 02 Jun 2018 16:17:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/06/18 07:24, Alexander Kanavin wrote:
-> 2018-06-02 1:14 GMT+03:00 Oleksandr Kravchuk
-> <open.source@oleksandr-kravchuk.com>:
->> -SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
->> +SRC_URI = "https://src.fedoraproject.org/lookaside/extras/chrpath/chrpath-0.16.tar.gz/2bf8d1d1ee345fc8a7915576f5649982/chrpath-0.16.tar.gz \
->>              file://standarddoc.patch"
-> It's better to stick with debian, the tarball is still available
-> through ${DEBIAN_MIRROR}:
-> http://http.debian.net/debian/pool/main/c/chrpath/chrpath_0.16.orig.tar.gz
+On Fri, Jun 1, 2018 at 10:06 PM, Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+> Wait, why is this problem not seen by anyone else, particularly on the
+> autobuilder? Can you provide the failure log please?
+
+That is a good question.
+
+I'll attach the logs when I'm back at work on Monday. I am building
+for RISC-V which is probably why I see it when others don't.
+
+Alistair
+
 >
-> Can you also investigate the other instances of alioth, namely shadow
-> and minicom please?
+> And do the same for the other patch to atk.
 >
 > Alex
-
-This is a subjective statement. Having mirrors is great, but having a 
-working SRC_URI in the recipe and mirrors five times great: I have seen 
-both original source and the mirror being inaccessible for a period of 
-time multiple times.
+>
+> 2018-06-02 1:14 GMT+03:00 Alistair Francis <alistair.francis@wdc.com>:
+>> When building with X11 set in DISTRO_FEATURES we need to specify that we
+>> depend on X11 native for building dbus. Otherwise we see missing include
+>> file compile errors.
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>  meta/recipes-core/dbus/dbus_1.12.8.bb | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-core/dbus/dbus_1.12.8.bb b/meta/recipes-core/dbus/dbus_1.12.8.bb
+>> index b3ddaafab5..40868628f6 100644
+>> --- a/meta/recipes-core/dbus/dbus_1.12.8.bb
+>> +++ b/meta/recipes-core/dbus/dbus_1.12.8.bb
+>> @@ -6,6 +6,7 @@ LICENSE = "AFL-2 | GPLv2+"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+>>                      file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
+>>  DEPENDS = "expat virtual/libintl autoconf-archive"
+>> +DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx11-native', '', d)}"
+>>  RDEPENDS_dbus_class-native = ""
+>>  RDEPENDS_dbus_class-nativesdk = ""
+>>  PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
+>> --
+>> 2.17.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
