@@ -1,50 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f182.google.com (mail-ot0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D88874F9C
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E98D74F75
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Jun 2018 08:07:41 +0000 (UTC)
-Received: by mail-ot0-f182.google.com with SMTP id n3-v6so34036849ota.5
+	Sun,  3 Jun 2018 08:16:42 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id q1-v6so593390oth.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Jun 2018 01:07:42 -0700 (PDT)
+	Sun, 03 Jun 2018 01:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0Ap0H//cnOX1/vdKr8GSK8OoFoEuHQReM1D0SQuLe50=;
-	b=iarTa69pws+wmSpuVljGi7+XkJwra3ZoLOuKRZu+B/tsx2If1AMrsjDNF1SwuUVmdo
-	Y+/pSPzan6KhvjSDlIeVOV9XW6jR4RoNm66VFN8uzIkm0Ty2+jImLlouTmGVPC0yavSO
-	msRVwaFbfIYQBh1JkExQ72jXi5e5aay0YztUXtU1TfxlNLlwZgPWroIoSyFlW4iTxgMn
-	MlnBAydCXF6UJ91I1NxCdptVQc0nS2k4SRRHlK1ghapMC5vWT371hAcbkKQTfRsz+Gsp
-	SjitBeV+QSh4P1El5J638DivyhPwPV1cjljPfwnzpnhg757qpL3YLYdNKjfeuLqCVkgt
-	ZDAQ==
+	:cc; bh=sZGJAzMYlX1tSOs1CaEWTBLFl9dLmgNabVRWzs8AMQc=;
+	b=X9h59IuCNQzVYRGRslrwNdJwaS0gysYe2uJJFW7vxdu+y6mrpqt4Hjaoj3wLgknGtd
+	X74KIX0rOcfjYiKp5vBQPIyNGjrxcDfiDOSUjO3KL0BPWmn8WB0AAGea10+LqX3pkXVu
+	bSQeCeUQB0ADSeuIP0np/GU/PRuGeaLZxQEMLD1xZNZCWIMzvR+FXS2vSr6zP3qaMdP8
+	NEz/jZK9VMJyriymp3dU8GfBhr1yQgwg2zYVXfCJWlQ1edvLQRUjuSTitjm/Ta86RBaV
+	rIgdItLQs8OcvOJhT/r0VMYYAoGllgzJE+6zZboXM7oAtUww7duDsWL4rOMaG3zYTMAn
+	GhOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=0Ap0H//cnOX1/vdKr8GSK8OoFoEuHQReM1D0SQuLe50=;
-	b=rbTFM0EtnYBVbF27HDQT9385IXp+/NSq223aVxhjkuMT5w9LNwgAU9r+F0hfG7ldGs
-	Cwaw6i/o+luHTRVLTJrxsVgik6+P421bckEKiQ0vAsto5AIK3wv+hEdZAlbM+cPZ9Qrc
-	+1igNUnqUSIWjNsv5gz9y84MOaMtWIRqV+BM6yUBLVWh4he/Y5OIcr41v49MHkWj1QUh
-	/bVODe29XPO24+X/D5VzYNhJfWCldAkTUCr4MOJcQveux76SA1oCZPrVj7jWouTBvQzm
-	CWSg9OkL6IFgrEX+b8Ag1lytM1v//CI2c+fU75/uDKTVL6LRMAqwzLWG/HnONiXQJ2pg
-	idZg==
-X-Gm-Message-State: APt69E2lTD9GlHp+nj1mTpDOI6mEleVw2Qt3E8UQAC/HFri+dXuckYdB
-	sjly80nTkI0HR0ZqTiRhfvm+vinMykkFPpl5LcY=
-X-Google-Smtp-Source: ADUXVKLJ8GPwW3g7GLz5H5cGceDveb7XsHS6idnpTf/eyl1lm/4AJOpkYyEZEIG+wLY3kdVuoJzUqifDPKtDYIBcBFk=
-X-Received: by 2002:a9d:3010:: with SMTP id
-	d16-v6mr5211240otc.23.1528013262437; 
-	Sun, 03 Jun 2018 01:07:42 -0700 (PDT)
+	bh=sZGJAzMYlX1tSOs1CaEWTBLFl9dLmgNabVRWzs8AMQc=;
+	b=cdY1P7mnRmJ/R12NQaJSrkSNdMpur7/uzsaiOwJK3hv3e50ObHESIU44PR8UTMMsCT
+	4wb0sA7Fxu5q4UHmrG1m0fv0nF1J4B3hXTOLtPSFkYExKlVWRj6LTdbVa4l8u/i17rEW
+	OppwftF4uexK8u0hkCoKzpkHITV+ZjPJWHbmuwAb+BnyTVkEhtdW4Qx9gSqbXKndawEW
+	DwC5NrkTg3ThKRWWz6Cq3Omjv7tQtqbsr/0NsiHJD8+zrsMW9Y7ZGqRWyxBamBJaXYmQ
+	1h0Km2gWM4pZhduU51o8A3aBd8Nvb8BVOkIEKLrndLeEqdLZiSr1bJ8Kgy08L8E68bye
+	9Xbw==
+X-Gm-Message-State: ALKqPwfUiAYOiUQP4vdw5zL+uzbvt+gmBnfrFyyifrWS65RlwU3JPJbP
+	Rt8/3xD/9bB6Co0VKOXfV7GLe/APjdOVtukqn2s=
+X-Google-Smtp-Source: ADUXVKK3N43lfnbLGNw6ax3Kijcf/wy0xRw6tusn0UMID1/XlVPiy+2Jbul7fAmc/wqrxECdzcWpotpRpgIgYC5qdHs=
+X-Received: by 2002:a9d:cd:: with SMTP id 13-v6mr12126843otk.155.1528013803460;
+	Sun, 03 Jun 2018 01:16:43 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
-	Sun, 3 Jun 2018 01:07:41 -0700 (PDT)
-In-Reply-To: <20180602225958.15177-1-dev@sashko.rv.ua>
-References: <20180602225958.15177-1-dev@sashko.rv.ua>
+	Sun, 3 Jun 2018 01:16:42 -0700 (PDT)
+In-Reply-To: <20180603020326.26196-1-dev@sashko.rv.ua>
+References: <20180603020326.26196-1-dev@sashko.rv.ua>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 3 Jun 2018 11:07:41 +0300
-Message-ID: <CANNYZj8_74p7hEMtFm_QPf5DVr3yyLt23XTQptT6D49rXvdD9w@mail.gmail.com>
+Date: Sun, 3 Jun 2018 11:16:42 +0300
+Message-ID: <CANNYZj_1fwmFOYf8=aPF-QnzYK2Z4bg0edj8ufVgMq71UKgHZg@mail.gmail.com>
 To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH v2 1/2] chrpath: fix SRC_URI
+Subject: Re: [meta-oe][PATCH v3] iso-codes: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,17 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Jun 2018 08:07:41 -0000
+X-List-Received-Date: Sun, 03 Jun 2018 08:16:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-2018-06-03 1:59 GMT+03:00 Oleksandr Kravchuk
+2018-06-03 5:03 GMT+03:00 Oleksandr Kravchuk
 <open.source@oleksandr-kravchuk.com>:
-> -SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
-> +SRC_URI = "http://http.debian.net/debian/pool/main/c/chrpath/chrpath_${PV}.orig.tar.gz \
+> -SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+> -SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
+> -SRC_URI[sha256sum] = "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
+> +SRC_URI = "https://salsa.debian.org/debian/iso-codes/-/archive/upstream/${PV}/iso-codes-upstream-${PV}.tar.bz2"
+> +SRC_URI[md5sum] = "a19626c1abe1b96ade163692cf17b566"
+> +SRC_URI[sha256sum] = "2501501aa26e078a07056c55df5d0c56ce2c03cf1c03a5bccce4f3193c91aea1"
 
+Don't use autogenerated tarballs from git tags, their checksums can
+and do change over time. Switch over directly to git:
 
-Use ${DEBIAN_MIRROR} here please, append /main/... to it. There are
-examples in oe-core. Same for minicom.
+https://salsa.debian.org/iso-codes-team/iso-codes
+
+A fix for shadow recipe is missing.
+
+Before sending the patches, make sure the upstream version check for
+them still works. You can use 'oe-selftest -r distrodata', or run
+'bitbake -c checkpkg <recipes>', followed by inspection of
+tmp/log/checkpkg.csv.
 
 Alex
 
