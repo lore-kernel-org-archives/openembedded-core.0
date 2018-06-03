@@ -1,50 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3704B75110
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 83297750FE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Jun 2018 23:15:47 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x6-v6so2329150wmc.3
+	Sun,  3 Jun 2018 02:03:32 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id m129-v6so8508730wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Jun 2018 16:15:49 -0700 (PDT)
+	Sat, 02 Jun 2018 19:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=IAOmEADWCUWOBJLaDnjfAjd+tBBQAO47FfWd0ckXdwM=;
-	b=TnixcKxzXR7iuB8+aiVbee4G4imxGfCetEfFLGm8uOocXfG7BZaQ0HNa3jnbverzgW
-	DG258q4cjA7cEZp/aNxq8WZJdmFTIaNBV5Y/+enE50xxRRPCgVSxlJnxr5MzwfQ5Dcc/
-	7a+3hA8ragXjVhLTxaiOW7bJbYTI4VmbuPiLS2gzeVRtgp01UTY64a+8TnXQBtSHOM5v
-	+oG9FLfWn+EoaY9cArUFs0Ix9J711AwxMhhaJszid2qflSMOuNBoYRUuOmhJTnZrhXoz
-	0v4Cx8uyDOc9Ys1TlMzDjBHUf2XZ3Adp+3dg+XdYObzCeRHY3jE0O6yIF1Sw6L2U0Q7P
-	eB6w==
+	bh=nKZ61E81Nk2aNTXbC0qK6+S/+dI88ARvOIw1pUep0uU=;
+	b=0ocUCaNCqzsvjjz26gqVFXqAwLR7JhHZ+6YW4AH+C3xK5ZgFRZh5x8caliHFjrfcoL
+	boNuuZg13EsXCgjrw5XSSxIQtaAiz2jz9w10gr4HxurKqYJvyXRaoistyI3JhQGPSmTO
+	JlWjSW5FNC8ssclF0DNKFKExgcQKixU0S9RWAgP2R3Pq2db+NxJgmJRt9zUrSQ/mjY/d
+	izN5bO6PblRM8U2vuzYIun/J8YIfEuKJp5jBwM82X8Jr4Fm2hCvAvC/NPmu376q6AQyB
+	ENELBBHh5bA4kGky39sOHHKn2XGA75fldyKrgV5ywLzXuauZUhR/1adq3miMCWUQLRmW
+	1mXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IAOmEADWCUWOBJLaDnjfAjd+tBBQAO47FfWd0ckXdwM=;
-	b=jlZEfcn7tdkDTkG2rJmEZzkDFXgj1sVru5QDboNF50KrjQqjT69P4fch7YNQgPorNO
-	wmBhgrWLBqybzHBwxdTcfARcQOn6jnBvobGfhAUJXt+sQS5fHaCcmpQjA24vWeFyOPuz
-	y5Tl4JcZ2S8NHD8eplfQzoA2JsSB1SN/vseNlLGwYVSHlbRtr9RWi9zP8IREM2dh39Jb
-	Tq08WY9EPeL1IOWqGPK78VXt9xo/1onY8sT7cOG3NlCgRYauC8J3EPfLqHuCleI4CYB3
-	3cLDnZmVKrfE6mxu/IAyhr1mseQpKUZAxgCnK9sFkg3DCg8zpn7XtTnQwgwuYEzJNHoV
-	PM/A==
-X-Gm-Message-State: ALKqPweY/QuorHIiP+HdbVmo45R/udE0i0awnxTdmMISM7THGLrD1Pnb
-	8SY2IQdljj+1cpexXHWl9Tgz49X6
-X-Google-Smtp-Source: ADUXVKIwzUwJ/aaWU0qrsozC83Swog02/yPaS2WjvN3VTwvlgMKQUGsKri80jZQ3hOEqU4KHuIsMhg==
-X-Received: by 2002:a50:a7c3:: with SMTP id
-	i61-v6mr17843582edc.152.1527981348543; 
-	Sat, 02 Jun 2018 16:15:48 -0700 (PDT)
+	bh=nKZ61E81Nk2aNTXbC0qK6+S/+dI88ARvOIw1pUep0uU=;
+	b=ghD6d1s8ZPf80FmVEYmEjQnj431dM4S4M3pUmH9ZeWq1TaDo/wTHltDZ5FnAgeWIvj
+	a0O5k6dH5JSf/tmlqKOsZsPaYRTlMZ/5HKzWVtW7xi1d1pEwxVX2E8Aa2nCf4+oc1Tcy
+	YMcfouQ5pD2KyfS3d4OEt23j44iicaAmiT0Fj0s5tc+XiICpNOl4GR8UmiGaEdzUBko/
+	4IE3vahjuVi/GBJu2Mp2i6kU9Y8blSOap3N/IQVbkqyI7xWCpT2ZrAhgBgxjqEiHeWL0
+	0hpLO2/Wb1jmBbZup0gM+jjxvbbpfVaXqZV2XbWT1DstFKGcLEN0LxLfQFRH12C1vZ6V
+	85LA==
+X-Gm-Message-State: ALKqPwfxgzKthS8lQvgcT17+OtJGV3zCiSJj/Qd7e2Z89qauSB0bpU5+
+	hyeKMD8NRg4cp/V0eTz5wwmbzxPF
+X-Google-Smtp-Source: ADUXVKLB5G//HZtobdFg4x3tFv1NS+EPZp4sFrRNmVGMTKGSZRbuGSlhGFinJGqIKQJmer0H8Qvkww==
+X-Received: by 2002:a50:b52a:: with SMTP id
+	y39-v6mr18407652edd.195.1527991412774; 
+	Sat, 02 Jun 2018 19:03:32 -0700 (PDT)
 Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
 	by smtp.gmail.com with ESMTPSA id
-	d8-v6sm25065784edk.50.2018.06.02.16.15.47
+	b22-v6sm25468038edn.44.2018.06.02.19.03.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 02 Jun 2018 16:15:48 -0700 (PDT)
+	Sat, 02 Jun 2018 19:03:31 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Jun 2018 01:15:41 +0200
-Message-Id: <20180602231541.30248-1-dev@sashko.rv.ua>
+Date: Sun,  3 Jun 2018 04:03:26 +0200
+Message-Id: <20180603020326.26196-1-dev@sashko.rv.ua>
 X-Mailer: git-send-email 2.17.0
 Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
-Subject: [meta-oe][PATCH] minicom: fix SRC_URI
+Subject: [meta-oe][PATCH v3] iso-codes: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jun 2018 23:15:48 -0000
+X-List-Received-Date: Sun, 03 Jun 2018 02:03:32 -0000
 
-The original source, alioth.debian.org has been permanently taken down
-by the Debian Project. Use Debian mirrors instead.
+The original FTP server, alioth.debian.org has been permanently taken
+down by the Debian Project and replaced with salsa.debian.org.
 
 Source: https://wiki.debian.org/Alioth
 
-Removed UPSTREAM_CHECK_URI for the same reason.
-
 Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
 ---
- meta/recipes-extended/minicom/minicom_2.7.1.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-support/iso-codes/iso-codes_3.77.bb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-index e6afe2b655..40d59e133a 100644
---- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Text-based modem control and terminal emulation program"
--HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
-+HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom/"
- DESCRIPTION = "Minicom is a text-based modem control and terminal emulation program for Unix-like operating systems"
- SECTION = "console/network"
- DEPENDS = "ncurses virtual/libiconv"
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
-                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.77.bb b/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+index bd613ac573..b99fe65879 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+@@ -2,14 +2,16 @@ SUMMARY = "ISO language, territory, currency, script codes and their translation
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
-+SRC_URI = "http://http.debian.net/debian/pool/main/m/minicom/minicom_${PV}.orig.tar.gz \
-            file://allow.to.disable.lockdev.patch \
-            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
-            file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
-@@ -16,8 +16,6 @@ SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz
- SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
- SRC_URI[sha256sum] = "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+-SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+-SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
+-SRC_URI[sha256sum] = "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
++SRC_URI = "https://salsa.debian.org/debian/iso-codes/-/archive/upstream/${PV}/iso-codes-upstream-${PV}.tar.bz2"
++SRC_URI[md5sum] = "a19626c1abe1b96ade163692cf17b566"
++SRC_URI[sha256sum] = "2501501aa26e078a07056c55df5d0c56ce2c03cf1c03a5bccce4f3193c91aea1"
  
--UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
--
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
+ DEPENDS = "gettext-native"
  
++S = "${WORKDIR}/iso-codes-upstream-${PV}"
++
+ inherit allarch autotools
+ 
+ FILES_${PN} += "${datadir}/xml/"
 -- 
 2.17.0
 
