@@ -1,23 +1,50 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C635750D9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f182.google.com (mail-ot0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D88874F9C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Jun 2018 02:14:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w532E1UI020175
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun,  3 Jun 2018 08:07:41 +0000 (UTC)
+Received: by mail-ot0-f182.google.com with SMTP id n3-v6so34036849ota.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 2 Jun 2018 19:14:01 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Sat, 2 Jun 2018 19:14:00 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 2 Jun 2018 22:13:30 -0400
-Message-ID: <1527992010-234058-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Sun, 03 Jun 2018 01:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0Ap0H//cnOX1/vdKr8GSK8OoFoEuHQReM1D0SQuLe50=;
+	b=iarTa69pws+wmSpuVljGi7+XkJwra3ZoLOuKRZu+B/tsx2If1AMrsjDNF1SwuUVmdo
+	Y+/pSPzan6KhvjSDlIeVOV9XW6jR4RoNm66VFN8uzIkm0Ty2+jImLlouTmGVPC0yavSO
+	msRVwaFbfIYQBh1JkExQ72jXi5e5aay0YztUXtU1TfxlNLlwZgPWroIoSyFlW4iTxgMn
+	MlnBAydCXF6UJ91I1NxCdptVQc0nS2k4SRRHlK1ghapMC5vWT371hAcbkKQTfRsz+Gsp
+	SjitBeV+QSh4P1El5J638DivyhPwPV1cjljPfwnzpnhg757qpL3YLYdNKjfeuLqCVkgt
+	ZDAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0Ap0H//cnOX1/vdKr8GSK8OoFoEuHQReM1D0SQuLe50=;
+	b=rbTFM0EtnYBVbF27HDQT9385IXp+/NSq223aVxhjkuMT5w9LNwgAU9r+F0hfG7ldGs
+	Cwaw6i/o+luHTRVLTJrxsVgik6+P421bckEKiQ0vAsto5AIK3wv+hEdZAlbM+cPZ9Qrc
+	+1igNUnqUSIWjNsv5gz9y84MOaMtWIRqV+BM6yUBLVWh4he/Y5OIcr41v49MHkWj1QUh
+	/bVODe29XPO24+X/D5VzYNhJfWCldAkTUCr4MOJcQveux76SA1oCZPrVj7jWouTBvQzm
+	CWSg9OkL6IFgrEX+b8Ag1lytM1v//CI2c+fU75/uDKTVL6LRMAqwzLWG/HnONiXQJ2pg
+	idZg==
+X-Gm-Message-State: APt69E2lTD9GlHp+nj1mTpDOI6mEleVw2Qt3E8UQAC/HFri+dXuckYdB
+	sjly80nTkI0HR0ZqTiRhfvm+vinMykkFPpl5LcY=
+X-Google-Smtp-Source: ADUXVKLJ8GPwW3g7GLz5H5cGceDveb7XsHS6idnpTf/eyl1lm/4AJOpkYyEZEIG+wLY3kdVuoJzUqifDPKtDYIBcBFk=
+X-Received: by 2002:a9d:3010:: with SMTP id
+	d16-v6mr5211240otc.23.1528013262437; 
+	Sun, 03 Jun 2018 01:07:42 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [meta][lib/oeqa][PATCH v3] Meta runtime cases: add testcases for kernel sample
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
+	Sun, 3 Jun 2018 01:07:41 -0700 (PDT)
+In-Reply-To: <20180602225958.15177-1-dev@sashko.rv.ua>
+References: <20180602225958.15177-1-dev@sashko.rv.ua>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 3 Jun 2018 11:07:41 +0300
+Message-ID: <CANNYZj8_74p7hEMtFm_QPf5DVr3yyLt23XTQptT6D49rXvdD9w@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH v2 1/2] chrpath: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,305 +57,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Jun 2018 02:14:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 03 Jun 2018 08:07:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-We are going to let runtime test support kernel tests. Now we just add
-kernel self-contained sample tests. And we plan to add overall kernel
-tests in the future.
+2018-06-03 1:59 GMT+03:00 Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com>:
+> -SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
+> +SRC_URI = "http://http.debian.net/debian/pool/main/c/chrpath/chrpath_${PV}.orig.tar.gz \
 
-This patch is just add kernel samples test which contains about 13 tests
-enabled by kernel-sample.scc. So it needs statement,
-KERNEL_FEATURES_append += " kernel-sample/kernel-sample.scc" in
-local.conf.
 
-kernel-sample feature has been merged into master branch.
+Use ${DEBIAN_MIRROR} here please, append /main/... to it. There are
+examples in oe-core. Same for minicom.
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- meta/lib/oeqa/runtime/cases/ksample.py | 272 +++++++++++++++++++++++++++++++++
- 1 file changed, 272 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
-
-diff --git a/meta/lib/oeqa/runtime/cases/ksample.py b/meta/lib/oeqa/runtime/cases/ksample.py
-new file mode 100644
-index 0000000..719f1a0
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/ksample.py
-@@ -0,0 +1,272 @@
-+import os
-+import time
-+
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.core.decorator.data import skipIfNotFeature
-+
-+class KSample(OERuntimeTestCase):
-+    def send_cmd(self, cmd='', content=''):
-+        comd = cmd + " " + content
-+        status, ret = self.target.run(comd)
-+        msg = '%s failed, %s' % (comd, ret)
-+        self.assertEqual(status, 0, msg=msg)
-+
-+    def check_config(self, config_opt=''):
-+        cmd = "zcat /proc/config.gz | grep %s" % config_opt
-+        status, ret = self.target.run(cmd)
-+        result = ("%s=y" % config_opt) in ret
-+        if not result:
-+            self.skipTest("CONFIG error")
-+
-+    def check_module_exist(self, path='', module_name=''):
-+        status, ret = self.target.run("uname -r")
-+        cmd = "ls " + "/lib/modules/" + ret + "/kernel/samples/" + path + module_name
-+        status, output = self.target.run(cmd)
-+        if status != 0:
-+            error_info = module_name + "doesn't exist"
-+            self.skipTest(error_info)
-+
-+    def send_check(self, cmd='', content='', comp=''):
-+        comd = cmd + " " + content
-+        status, ret = self.target.run(comd)
-+        self.assertEqual(ret, comp, comd)
-+
-+    def send_check_in(self, cmd='', content='', comp=''):
-+        comd = cmd + " " + content
-+        status, ret = self.target.run(comd)
-+        result = ("%s" % comp) in ret
-+        self.assertTrue(result)
-+        self.assertEqual(status, 0, comd)
-+
-+class KSampleTest(KSample):
-+    #trace
-+    @OETestID(33)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_trace_events(self):
-+        # check config
-+        self.check_config("CONFIG_TRACING_SUPPORT")
-+        # make sure if module exists
-+        self.check_module_exist("trace_events/", "trace-events-sample.ko")
-+        # modprobe
-+        self.send_cmd("modprobe", "trace-events-sample")
-+        # lsmod
-+        self.send_check("lsmod", "| grep trace_events_sample | cut -d\' \' -f1", "trace_events_sample")
-+        # check dir
-+        self.send_check("ls", "/sys/kernel/debug/tracing/events/ | grep sample-trace", "sample-trace")
-+        # enable trace
-+        self.send_cmd("echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable")
-+        self.send_cmd("cat /sys/kernel/debug/tracing/events/sample-trace/enable")
-+        # check result
-+        self.send_check("cat", "/sys/kernel/debug/tracing/trace | grep hello | head -n1 | cut -d\':\' -f2", " foo_bar")
-+        # disable trace
-+        self.send_cmd('echo 0 > /sys/kernel/debug/tracing/events/sample-trace/enable')
-+        # clean up trace
-+        self.send_cmd('echo > /sys/kernel/debug/tracing/trace')
-+        # rmmod
-+        self.send_cmd('rmmod trace-events-sample')
-+
-+    @OETestID(34)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_trace_printk(self):
-+        # check config
-+        self.check_config("CONFIG_TRACING_SUPPORT")
-+        # make sure if module exists
-+        self.check_module_exist("trace_printk/", "trace-printk.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'trace-printk')
-+        # lsmod
-+        self.send_check("lsmod", "| grep trace_printk | cut -d\' \' -f1", "trace_printk")
-+        # check result
-+        self.send_check("cat", "/sys/kernel/debug/tracing/trace | grep trace_printk_irq_work | head -n1 | cut -d\':\' -f2", " trace_printk_irq_work")
-+        # clean up trace
-+        self.send_cmd('echo > /sys/kernel/debug/tracing/trace')
-+        # rmmod
-+        self.send_cmd('rmmod trace-printk')
-+    # kprobe
-+    @OETestID(43)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kprobe_example(self):
-+        # check config
-+        self.check_config("CONFIG_KPROBES")
-+        # make sure if module exists
-+        self.check_module_exist("kprobes/", "kprobe_example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'kprobe_example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep kprobe_example | cut -d\' \' -f1", "kprobe_example")
-+        # check result
-+        self.send_check_in("cat", "/var/log/messages | grep _do_fork", "_do_fork")
-+        # rmmod
-+        self.send_cmd('rmmod', 'kprobe_example')
-+
-+    @OETestID(44)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kretprobe_example(self):
-+        # check config
-+        self.check_config("CONFIG_KPROBES")
-+        # make sure if module exists
-+        self.check_module_exist("kprobes/", "kretprobe_example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'kretprobe_example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep kretprobe_example | cut -d\' \' -f1", "kretprobe_example")
-+        # check result
-+        self.send_check_in("dmesg", "| grep Planted | head -n10", "Planted")
-+#        status, output = self.target.run('dmesg | grep Planted | head -n10')
-+#        msg = 'check result, output: %s' % output
-+#        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod kretprobe_example')
-+
-+    @OETestID(63)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kobject_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kobject/", "kobject-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'kobject_example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep kobject_example | cut -d\' \' -f1", "kobject_example")
-+        # check result
-+        status, output = self.target.run('ls /sys/kernel/kobject_example/')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod kobject_example')
-+
-+    @OETestID(64)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kset_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kobject/", "kset-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'kset_example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep kset_example | cut -d\' \' -f1", "kset_example")
-+        # check result
-+        status, output = self.target.run('ls /sys/kernel/kset_example/')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod kset_example')
-+
-+    # kfifo
-+    @OETestID(53)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_dma_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kfifo/", "dma-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'dma-example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep dma_example | cut -d\' \' -f1", "dma_example")
-+        # check result
-+        status, output = self.target.run('dmesg | grep \"test passed\"')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod dma-example')
-+
-+    @OETestID(54)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_bytestream_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kfifo/", "bytestream-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'bytestream-example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep bytestream_example | cut -d\' \' -f1", "bytestream_example")
-+        # check result
-+        status, output = self.target.run('dmesg | grep \"test passed\"')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod bytestream-example')
-+
-+    @OETestID(55)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_inttype_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kfifo/", "inttype-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'inttype-example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep inttype_example | cut -d\' \' -f1", "inttype_example")
-+        # check result
-+        status, output = self.target.run('dmesg | grep \"test passed\"')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod inttype-example')
-+
-+    @OETestID(56)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_inttype_example(self):
-+        # make sure if module exists
-+        self.check_module_exist("kfifo/", "record-example.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'record-example')
-+        # lsmod
-+        self.send_check("lsmod", "| grep record_example | cut -d\' \' -f1", "record_example")
-+        # check result
-+        status, output = self.target.run('dmesg | grep \"test passed\"')
-+        msg = 'check result failed, output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+        # rmmod
-+        self.send_cmd('rmmod record-example')
-+
-+    @OETestID(63)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_hw_breakpoint_example(self):
-+        # check config
-+        self.check_config("CONFIG_KALLSYMS_ALL")
-+        # make sure if module exists
-+        self.check_module_exist("hw_breakpoint/", "data_breakpoint.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'data_breakpoint')
-+        # lsmod
-+        self.send_check("lsmod", "| grep data_breakpoint | cut -d\' \' -f1", "data_breakpoint")
-+        # check result
-+        self.send_check_in("cat", "/var/log/messages | grep sample_hbp_handler", "sample_hbp_handler")
-+        # rmmod
-+        self.send_cmd('rmmod data_breakpoint')
-+
-+    @OETestID(73)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_configfs_sample(self):
-+        # make sure if module exists
-+        self.check_module_exist("configfs/", "configfs_sample.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'configfs_sample')
-+        # lsmod
-+        self.send_check("lsmod", "| grep configfs_sample | cut -d\' \' -f1 | head -n1", "configfs_sample")
-+
-+        status = 1
-+        count = 0
-+        while status != 0:
-+            time.sleep(1)
-+            status, ret = self.target.run('cat /sys/kernel/config/01-childless/description')
-+            count = count + 1
-+            if count > 300:
-+                self.skipTest("Time out for check dir")
-+
-+        # rmmod
-+        status, output = self.target.run('rmmod configfs_sample')
-+
-+    @OETestID(83)
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_cn_test(self):
-+        # check config
-+        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_CONFIGFS_FS')
-+        if not ["CONFIG_CONFIGFS_FS=m" in ret or "CONFIG_CONFIGFS_FS=y" in ret]:
-+            self.skipTest("CONFIG error")
-+        # make sure if module exists
-+        self.check_module_exist("connector/", "cn_test.ko")
-+        # modprobe
-+        self.send_cmd('modprobe', 'cn_test')
-+        # lsmod
-+        self.send_check("lsmod", "| grep cn_test | cut -d\' \' -f1", "cn_test")
-+        # check result
-+        self.send_check_in("cat", "/proc/net/connector | grep cn_test | head -n1 | cut -d\' \' -f1", "cn_test")
--- 
-2.8.1
-
+Alex
 
