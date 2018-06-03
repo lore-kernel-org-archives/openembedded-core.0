@@ -1,26 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A219D60684
+	by mail.openembedded.org (Postfix) with ESMTP id 7D51F71A36
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Jun 2018 16:01:13 +0000 (UTC)
+	Sun,  3 Jun 2018 16:06:11 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w53G1DO2020226
+	w53G6Aw4020649
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sun, 3 Jun 2018 17:01:14 +0100
-Message-ID: <43755bc4971a80f56aa06bbafad9ce0b62c809f9.camel@linuxfoundation.org>
+	verify=NOT); Sun, 3 Jun 2018 17:06:11 +0100
+Message-ID: <7322b07893a6cbd35771d0c132ff907d2ee7a338.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Date: Sun, 03 Jun 2018 17:01:13 +0100
-In-Reply-To: <c445dcff9a4a8f8c5de9fbe7468ccc7fc095857e.1527670923.git.liezhi.yang@windriver.com>
-References: <cover.1527670923.git.liezhi.yang@windriver.com>
-	<c445dcff9a4a8f8c5de9fbe7468ccc7fc095857e.1527670923.git.liezhi.yang@windriver.com>
+Date: Sun, 03 Jun 2018 17:06:10 +0100
+In-Reply-To: <1527868891-231168-1-git-send-email-hongzhi.song@windriver.com>
+References: <1527868891-231168-1-git-send-email-hongzhi.song@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 06/16] gcc-sanitizers: Fix libtool .la files
+Subject: Re: [meta][lib/oeqa][PATCH v2] Meta runtime cases: add testcases for kernel sample
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Jun 2018 16:01:14 -0000
+X-List-Received-Date: Sun, 03 Jun 2018 16:06:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
-> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+On Fri, 2018-06-01 at 12:01 -0400, Hongzhi.Song wrote:
+> We are going to let runtime test support kernel tests. Now we just
+> add
+> kernel self-contained sample tests. And we plan to add overall kernel
+> tests in the future.
 > 
-> Since libtool sysroot is not set when compiling sanitizers, the
-> libtool
-> does no prefix the dependency path correctly. Fix it, so that
-> programs
-> can link to sanitizer libraries without error.
+> This patch is just add kernel samples test which contains about 13
+> tests
+> enabled by kernel-sample.scc. So it needs statement,
+> KERNEL_FEATURES_append += " kernel-sample/kernel-sample.scc" in
+> local.conf.
 > 
-> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 > ---
->  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
->  1 file changed, 2 insertions(+)
+>  meta/lib/oeqa/runtime/cases/ksample.py     | 272
+> +++++++++++++++++++++++++++++
+>  meta/lib/oeqa/runtime/cases/ksample_abs.py | 272
+> +++++++++++++++++++++++++++++
+>  2 files changed, 544 insertions(+)
+>  create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
+>  create mode 100644 meta/lib/oeqa/runtime/cases/ksample_abs.py
 > 
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> index e5e8452..2373dd8 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> @@ -39,6 +39,8 @@ do_install () {
->          rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
->      fi
->      chown -R root:root ${D}
-> +    # Fix broken libtool with stdc++, as sysroot is not set.
-> +    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'${libdir}'@=${libdir}@g" {} \;
->  }
->  
->  INHIBIT_DEFAULT_DEPS = "1"
+> diff --git a/meta/lib/oeqa/runtime/cases/ksample.py
+> b/meta/lib/oeqa/runtime/cases/ksample.py
+> new file mode 100644
+> index 0000000..719f1a0
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/cases/ksample.py
+> @@ -0,0 +1,272 @@
+> +import os
+> +import time
+> +
+> +from oeqa.runtime.case import OERuntimeTestCase
+> +from oeqa.core.decorator.depends import OETestDepends
+> +from oeqa.core.decorator.oeid import OETestID
+> +from oeqa.core.decorator.data import skipIfNotFeature
+> +
+> +class KSample(OERuntimeTestCase):
+> +    def send_cmd(self, cmd='', content=''):
+> +        comd = cmd + " " + content
+> +        status, ret = self.target.run(comd)
+> +        msg = '%s failed, %s' % (comd, ret)
+> +        self.assertEqual(status, 0, msg=msg)
 
-At this point we gave up and started just deleting .la files so I'm not
-sure this matters any more. Do you still need to do this?
-
-Regardless, it would be better to pass in the right libtool sysroot
-rather than hacking the .la files.
+Looks much better but KSample appears to be duplicated in the two
+files. Can you avoid that duplication please!
 
 Cheers,
 
 Richard
-
 
