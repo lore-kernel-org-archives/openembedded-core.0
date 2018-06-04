@@ -1,51 +1,56 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CF11075277
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
+	[209.85.214.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2989C7549B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 23:22:39 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id g9-v6so279459uak.7
+	Mon,  4 Jun 2018 23:33:37 +0000 (UTC)
+Received: by mail-it0-f66.google.com with SMTP id p185-v6so1140507itp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2018 16:22:41 -0700 (PDT)
+	Mon, 04 Jun 2018 16:33:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rZq57KUNsSB4ScDhyHPrfv2G3GFOmx1SwlTSUWkD1w8=;
-	b=WhGqpyAlrvOIFbxXbbWLxfJPEhNHd7z67mZFDSB/S5M06s4G/BAiwr7Ql6/9t2prMs
-	FzS54HtsXmxyMOXPQF8tRZ7afxZoRqD1E0TaSF/CQDEJXha2a3IMZ54fEgB86b0qycEZ
-	cg0tHqXAsz1MCqbePWbI3X/4oY/Uo3uuiVBYHEmTKdnue4nps1dzRxdzGBwxJRfCvfRZ
-	OfVFGGYdmHW0PoX/tX3/zSVeRfTAuq0qk8rAVPfafuXitiQtMOgiWHVuWQ/yU0JuVfdj
-	UCdY7yBGzyRwcUkOpCvriE7ptGhzx7t3fmJRSHdyV6oN4DTSiUIw3tjF6zF22Wv3lcUK
-	4eMQ==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=if483NM/w8xXLWke24zTLkzI8l4erORt1dbPB2MIycM=;
+	b=uumK50/GHVMS6ydKHLY8feMxRtgKkSSA4uMocUK//bhp8fNLbssGEJQzGGVRZAS8KX
+	oWUcrM86CW1G7K5Oa29o7zazigjvyEjKwS8Eh82QYz6ZVv4Nm5CECL1ECxXQJKpErVoP
+	AZBUlFIirQVseZywBNiP+FuLPU1unYopBN7woplfvN2o1/RqzpTX0q4mEBuujmNVZkiK
+	YN/9RZYAgtuV/e1+bec45cG1z/9291mxE7yBBSLNIb/6tLTsmJkbID2Omy91/Y4k6maa
+	Npnz/rUzsX/IkwY+uMxVNPfXz+qeP71ktQQJnTZOI/lTgXosUesZ4UV3atzA6kmyHiMk
+	rneg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rZq57KUNsSB4ScDhyHPrfv2G3GFOmx1SwlTSUWkD1w8=;
-	b=TfGVr3lLh3EPqdT9CFbQD5RgujGtYU0GcIXyKEdVbZ3IcnSPCYbuYHC6kRlqXbCJw3
-	1RpD0FHuZmqLEr8isTk89FKDtUjOM8TajYJOd1QJGIa2InTdN8f0EtRzA4U9kpZ703P0
-	hVIRHEr28bb6jU2Y2M5hU92huJ5eTiF1VHYtUuSjd+UgklvvPtXJOwY1Am6dSpUUSF/J
-	4x8z/e1EZ/72ZOaMnXjbz+lgZ9gMUjfvwLJl1f5wFBaRYENad+kwG0la73JyOPjI0Ed0
-	fr93/0ttZmN7OUvD0ESulHC3qX7O4V2FGmqzqlpgNoZteC6IzgnkQJckoA91SqqEtYGO
-	8k1g==
-X-Gm-Message-State: ALKqPwdPaw5gXJ7ax2vGjlP0suWWNi3Q/mrsQB5RpAIkW1JZkvn15Qbx
-	udliTzgrwXJ5UaHnu35pQx6fXBPGWvRJrti3Fp8=
-X-Google-Smtp-Source: ADUXVKKaOQ9w3qWqT8wqTzMgoFCTEGIx8/nQONiak166a14TLabFJIu8Oux9+JiHxutRoKDHSgwp/w2JApJsxdFZ7Ow=
-X-Received: by 2002:a9f:3352:: with SMTP id
-	a18-v6mr15337556uac.38.1528154560610; 
-	Mon, 04 Jun 2018 16:22:40 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=if483NM/w8xXLWke24zTLkzI8l4erORt1dbPB2MIycM=;
+	b=cdR9iBQBoWFQNXGShdsRjB0yO2acvtkJIY1ksYfXW+LEJ25E4iDh6oOxoId0Zt8ecN
+	eWOjb84msHGiMUuW10RApEbYzfgdxEIQX5RvfSksHR/LTBzgxWNrp22cRsq/GaT3KzFe
+	+k7Lhdl8/VR2islmknq8k7hPgiNZbvRaek+cCPO+ubLbTHKpgDdTdz+cGobDdbfWoD6N
+	2SmGlsrI8UFYZC1sMDPkI7fESwvumPSjdUyEVv2QoGPeG0PRoMPUZSAG60zNl/l7AR/0
+	Nx77lIvRGCM2XZQwUPLaJ1occmgqil3RoFGD2wF6GMXJS7hKeaYijkkmBxmvwvpQWoDF
+	x/DA==
+X-Gm-Message-State: APt69E2D2XTNtzc0pq3bSx7/M1kwvnU5g8jR3tbHTVIIALEIfb0gmxrZ
+	W0Qqh+LePhFpIw05T5a/7Ew=
+X-Google-Smtp-Source: ADUXVKJRnh6lWCe+gW86Qc/eSuCNRlyb6rN8DGwP3XRaWWjNdlc9TOcVc86h4usqZqkiM5pGv4kXPA==
+X-Received: by 2002:a24:b21a:: with SMTP id
+	u26-v6mr12950248ite.81.1528155218290; 
+	Mon, 04 Jun 2018 16:33:38 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
+	80-v6sm116876itk.12.2018.06.04.16.33.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Jun 2018 16:33:36 -0700 (PDT)
+Date: Mon, 4 Jun 2018 19:33:34 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20180604233334.GA21528@linux-uys3>
+References: <20180531200659.28877-1-twoerner@gmail.com>
+	<CAJ86T=XTDOZYzdUTBLSO39XeBu6QhV0U5+U=iGd_hM0OwBXH_Q@mail.gmail.com>
+	<CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
+	<2113513.UM95QSBf6H@peggleto-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Mon, 4 Jun 2018 16:22:40 -0700 (PDT)
-In-Reply-To: <42d1ff74-c9d2-de23-a92d-dfa0eee736af@windriver.com>
-References: <1527286040-11947-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=VFe=vuPfudEY_hUV3MMz34vOak7stiTHR33nTmya68Cg@mail.gmail.com>
-	<42d1ff74-c9d2-de23-a92d-dfa0eee736af@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 4 Jun 2018 16:22:40 -0700
-Message-ID: <CAJ86T=XxoiCLw3xXz-kkvZbDVnWqpjazWPW9b7pf8h3o7o2nJQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <2113513.UM95QSBf6H@peggleto-mobl.ger.corp.intel.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: drop sshd support for DSA host keys
+Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,123 +63,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 23:22:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Jun 2018 23:33:37 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, Jun 4, 2018 at 3:25 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 6/4/18 2:18 PM, Andre McCurdy wrote:
->> On Fri, May 25, 2018 at 3:07 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> DSA keys have been deprecated for some time:
->>>
->>>   https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html
->>
->> Ping.
->>
->> Any issues with this?
->
-> At Wind River we have a series of patches to disable weak-ciphers.  We had
-> globally disabled them a while back and found that a number of applications and
-> customers still were using them for various things.
->
-> Even though they were 'weak', they were still needed.
->
-> See:
->
-> https://github.com/WindRiver-OpenSourceLabs/wrlinux/tree/master-wr/wrlinux-distro/recipes-weak-ciphers
+Hi Paul,
 
-Disabling weak ciphers in openssl and then fixing the fallout in
-*everything* that links with openssl is quite a different and more
-ambitious undertaking.
+I was hoping you'd notice and provide feedback :-D
 
-For ssh host key formats, the only requirement is that host and client
-agree on at least one common format. RSA is the most common and well
-established so as long as we don't disable that, disabling support for
-less common or less secure formats is unlikely to cause any issues.
+On Tue 2018-06-05 @ 10:59:07 AM, Paul Eggleton wrote:
+> > I checked at the time, but I'm not 100% sure now, but I believe if one
+> > deploys two packages from one recipe, the on-target file gets appended. But
+> > now I'm not 100% sure, so I'll verify this tomorrow (thanks for the
+> > reminder). 
+> 
+> The way I recall writing it, it will remove whatever it deployed last time, so 
+> I would be surprised if it were incremental.
 
-Currently for the dropbear ssh server we ONLY enable RSA host keys and
-that seems to be working out fine.
+Yes, further investigation demonstrated this to be the case. This is a good
+feature, since it handles the case where files or filenames might change
+between deployments.
 
-Having our openssh server drop support for DSA host keys seems like
-the right thing to do given potential security concerns and the fact
-that modern ssh clients (e.g. openssh after 7.0p1 from 2015) don't
-support them any more.
+I've since updated the patch (locally) so that the on-target filenames of the
+deployments, e.g. <recipe>.list and <recipe>.preserve, now include the
+optional packagename (if this option is used): e.g. <recipe>.<package>.list
+and <recipe>.<package>.preserve. In this way a user can deploy and undeploy
+multiple packages from the same recipe independently of each other without any
+of them clobbering the other.
 
-> If this work is something that should be submitted to oe-core/meta-openembedded
-> and would be a candidate for merging, I'm all for it.
->
-> My suggestion though would be to reverse the checks we have.. instead of a
-> distro feature of 'openssl-no-weak-ciphers', make it 'allow-weak-ciphers', and
-> disable them by default.
->
-> A few things like Kerberos, freeradius and others require weak ciphers for some
-> functions.  So the corresponding patches for those would need to be developed.
->
-> If this is something we want to do, then the OpenSSH change below could be
-> switched into a PACKAGECONFIG option, and still allow people to define an
-> insecure system -- if they need to...
->
-> --Mark
->
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> ---
->>>  meta/recipes-connectivity/openssh/openssh/sshd_check_keys | 8 --------
->>>  meta/recipes-connectivity/openssh/openssh/sshd_config     | 1 -
->>>  meta/recipes-connectivity/openssh/openssh_7.6p1.bb        | 1 -
->>>  3 files changed, 10 deletions(-)
->>>
->>> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
->>> index 5463b1a..be2e2ec 100644
->>> --- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
->>> +++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
->>> @@ -60,9 +60,6 @@ done
->>>  HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
->>>  [ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
->>>  [ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
->>> -HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
->>> -[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
->>> -[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
->>>  HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
->>>  [ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
->>>  [ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
->>> @@ -79,12 +76,7 @@ if [ ! -f $HOST_KEY_ECDSA ]; then
->>>      echo "  generating ssh ECDSA key..."
->>>      generate_key $HOST_KEY_ECDSA ecdsa
->>>  fi
->>> -if [ ! -f $HOST_KEY_DSA ]; then
->>> -    echo "  generating ssh DSA key..."
->>> -    generate_key $HOST_KEY_DSA dsa
->>> -fi
->>>  if [ ! -f $HOST_KEY_ED25519 ]; then
->>>      echo "  generating ssh ED25519 key..."
->>>      generate_key $HOST_KEY_ED25519 ed25519
->>>  fi
->>> -
->>> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
->>> index 31fe5d9..b7c3ccd 100644
->>> --- a/meta/recipes-connectivity/openssh/openssh/sshd_config
->>> +++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
->>> @@ -22,7 +22,6 @@ Protocol 2
->>>  #HostKey /etc/ssh/ssh_host_key
->>>  # HostKeys for protocol version 2
->>>  #HostKey /etc/ssh/ssh_host_rsa_key
->>> -#HostKey /etc/ssh/ssh_host_dsa_key
->>>  #HostKey /etc/ssh/ssh_host_ecdsa_key
->>>  #HostKey /etc/ssh/ssh_host_ed25519_key
->>>
->>> diff --git a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
->>> index e11e8d7..a527a7c 100644
->>> --- a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
->>> +++ b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
->>> @@ -110,7 +110,6 @@ do_install_append () {
->>>         install -m 644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
->>>         sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
->>>         echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->>> -       echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->>>         echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->>>         echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->>>
->>> --
->>> 1.9.1
->>>
->
+The only caveat, now, would be if the user then deployed the entire recipe. In
+this case the on-target files would still be the things the user was working
+on; the "problem" would be an inconsistency in the on-target devtool
+accounting files. In other words, it would be inadvisable to mix and match
+between using and not using the --package option within the same recipe.
+
+Best regards,
+	Trevor
 
