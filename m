@@ -1,24 +1,26 @@
 Return-Path: <mkelly@xevo.com>
 Received: from NAM01-BY2-obe.outbound.protection.outlook.com
 	(mail-by2nam01on0084.outbound.protection.outlook.com [104.47.34.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B75275438
+	by mail.openembedded.org (Postfix) with ESMTP id 6966C75454
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  4 Jun 2018 23:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=NgA62AZkhUWIBNZf6fA5eOT10YbAwtAgVvwrUI+R0nM=;
-	b=TVyfg9nHVbb+Hl3C/OQCyS2O0OuMoFEdy8rnp+jgKBudcHsQJOBlBzoEe0ynjkpKbH+1kb92+H30eoSjd19pLuS/UEHpfDrkMWNJCSCrqOwqLO4Ql+eFtRsmv7w9Qs3uQCD8xhV7XR4w5K9FRel3qhx5KhVBhpfgMTaCqLgGFaA=
+	bh=Vl+hp1cQImfXWfwzE4rVlAt9kwsH7hzgZ2HwYJNoXl4=;
+	b=jEWmIaRIx6FCY320m7NUtvloWmk6hxp/NhMOaxRwOndEtSUGKNTochD/6ZX2OvJW59NF85XPmGbiwfJRnOep+hXCi3BhvBHPe5G2B9YCvlEzqdyuIg5+z2Xq/XFak2DLtC2mrAZliEIQhuAi1QQHX5Xx3re0I1n8Lb/2RY6SAg4=
 Received: from columbia.corp.xevo.com (65.122.179.226) by
 	DM5PR0102MB3416.prod.exchangelabs.com (2603:10b6:4:a0::17) with
 	Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.820.13; Mon, 4 Jun 2018 23:06:31 +0000
+	15.20.820.13; Mon, 4 Jun 2018 23:06:32 +0000
 From: Martin Kelly <mkelly@xevo.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jun 2018 16:05:56 -0700
-Message-Id: <20180604230602.8461-1-mkelly@xevo.com>
+Date: Mon,  4 Jun 2018 16:05:57 -0700
+Message-Id: <20180604230602.8461-2-mkelly@xevo.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180604230602.8461-1-mkelly@xevo.com>
+References: <20180604230602.8461-1-mkelly@xevo.com>
 MIME-Version: 1.0
 X-Originating-IP: [65.122.179.226]
 X-ClientProxiedBy: MWHPR0201CA0027.namprd02.prod.outlook.com
@@ -29,17 +31,17 @@ X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
 	SRVR:DM5PR0102MB3416; 
 X-Microsoft-Exchange-Diagnostics: 1; DM5PR0102MB3416;
-	3:IosMEbeAj9TWKKuiWml0r5pClAjUaW3Gsr5p6lCrMpvBLfDw51lezVs70l/07/p4vDYY1wHFiRBx5flLsSjrW8cYL3mCcQlaDIlIRX86m7RKBVOgJW+pxf6iA8+hM4GVGVQYdxq4dOyUtDT28rcFxloCdK6O5/FLyBXE+5Zdr2+uPg4g3ycocxdCt4/+NRvU1UhIxlubcFBrE4+RvfpDOIe8NE0wnfNjjCpunU206Ol4nnVJPHfaWwvDrEVUKdWd;
-	25:RnwQJT+wUbcQDCCUmCJ1y52g7lizDdvdzmO/oMIQoZIofuTWKCSTuIX3vqBtJueWeR8lmApyDX+f/hQWvyjScJGCLOlMfOvzQqGQT71dHo4Xt/iv5u89ISkgQtWLtsWp3k+Sl3dmtRlxtAPxb5o91PS2Ywac3l5Rfd9qgUcT2Slg0YDQMLo6uO7FpFSt0CcYqHqgqbFzT7yy3qspQgkIO/vOW7BaMBkZz8QD7D9PdBMKcxyMIMjfwAyppIcNE97za4H1arqO/nYhmKX6PAuJA8wsgvqssGX/fvPQHmrnfUf6lpM6leUFfVe9YsDR0kY6097aReHFa5Q2AaLGdb8SAA==;
-	31:2N9XLTIl/It23GaJ3Ce4JldsRbqoiDgu8Efno8NCqRnQuHu2kxtvMVzScmEVba0hV3mSofidqhwrGvyUrhIclEAFMo/HI11OnXh1M6Ju4S42OF9t5rEiWQ6agfMNGjP/AtM36RKfDkrsFz5GpvAcC2ddUMXA2ZhUc9KPl7bb4AKVSX3nY10QpK48OPue51t5wkMaBVUU3peHvxz5xmp7qEtloF5tX6X7gQmX7d7EP2E=
+	3:MCTR5PwnJY4qHjGxURg2wNr/uSKFW9V9IfGvTWX65zcFj9m9LMlhMTnEs1cOlrwJIcnfQyzJYo2c7apYl2HcHIx7OwDVrNz/lDfR/jhLFAtFLknhNbS8XlZO3SklMRdpHAb8d97QPMjdErSHiN8+bWooyEZ/0TkhYvl7YrQvsUk0nnpe1Zl770WH4209uXulsJLe+c+anELdba76MWyaeQJDgTTmlEwpqCKJJyrLwdVTkftaR4IyUDPLZJOTBRsD;
+	25:W3yauLtB1ShKP72dJ1xlFiq4sjAGdEbUQhHBONCvNfyXUFzZ9Hkb7g4cyXLUAQcNf8TufWvPvujlcJBNW8n5yn279UOpYVbh/EpTETnKzgEKE+xrdwQji5BofXzPMFUcBFCqqMLb49yDrYIaJHK0xpSm8D4Xukl3uXr0RZquQ3yELuiCA+6W/GQ0LLT3BRAD0HJCN8W6zFvCZxhqN72f62zgieNnjgIs/NyZPTGYaUMEGxXMoYy2CFoPnWOCat9pZ9CDbPd4jrTk6x9l6pq5ud6M7PlUEV0G6H4kzgNn1vkJa70OWyaYNJLlP09GC6Eje7bSw7P2pSh0y+I4ntsgGw==;
+	31:BjrvijBmDSLV+xN2nt4Cgd6DDqZV4y+lQKmLGk8NdXVfvZKdAsy6d9QkI1Cxok5k20OMirIlHAtjsNwwovW/heLpocNOp3zrq/UX+Hfxz61Rr48Uay/61KXYIcsARA3QBBCb7N62fHBKkTxRp5XsTsDCVMX+AJseOVfOVDWtxZKyjUCX8sZLVJylJxnsgYCQAp7GDlRlFoaZ4uQ0+MioNvz8KrqI5+1NlXV95SaX0y0=
 X-MS-TrafficTypeDiagnostic: DM5PR0102MB3416:
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=mkelly@xevo.com; 
 X-Microsoft-Exchange-Diagnostics: 1; DM5PR0102MB3416;
-	20:DSJe+EXCbeRJy0Fm1U+U+7uIKnx6oOb+UsxS3uSbBZC5Mk/9in1depqP7gCkbQLZFj1TQFW9szVCg90B0ftSYvqHsO6HOtpnE8A6/2UeFHAuQDVVzMQckUuBOhMsJ5VBr3AkCL8j4LAUbJQ16OawakvYhfkw4MsWcd3Zb2RQy8liR7nz4RdjZ3mShHissS9VdWrfbpJiYGzmQFSE6mIyC91FSyJmOZ8CkObAETrsvWJ/M0C2pAEBz1MTbCQqpNL6z0jpxoHAl29yB79FW15iPDHtGistlU3k03PWEBW2PjH6HFm7kyRv/azc344OoGFoKGbuDorKiiy2Xaf8u3qh1e+PxxBJhSdz9UGqsK5+EZ+cfJLV6GeZmWBZfB0ehBf8/Zk58mTV3lM+AvwcrLbBOS9Fq02HMLzFlDbc88XHpuUOnEeQ0b7YkPCXTB9JU8EJ9FDjcDW61SUsd8P7SQHOgGX9CBMMB7ZvDU7wYWcnq+iDGEN5xSTwgWWntZ1TnCpd;
-	4:TktT20r0+SiOlSmdnRnHU5hG8PIaHV7EtlNWYC6xHxnjoX/JPNUj94sqdnAiLQZ5t2lrAKUGhI0SfdMiL4iptUj5gMlrVfiCjHcjr45yg3S1qfC4jzc4krXzqSFZDIaOBFOrzuMOora64SPrqzdGkv4OSPbzjnGg7m56xV8XwH1JgC3fte73m4gt64Aw7KoF1J1VIECbZStzSv8SVM+Ka57y4ZRNmP+lH+WNdI2uIcLB565L2bQNfXjDcj3ys2rYHt+p33DMD2W/kwXikSdIrEjzSJsDjf3F4J4emauz/BJpUaRCDL6IBE8R1r938TKB
-X-Microsoft-Antispam-PRVS: <DM5PR0102MB3416D3E97CCFD3AD6155CB48AB670@DM5PR0102MB3416.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-Test: UriScan:(264703809997249);
+	20:C+bpZhpM6H7qru18feGW/zmB0NPB6SOohnz2KxKVVqF65g6P3iWXOHpkeHvcCXHK7IpiuiA8fA2tAf2vO8NVUquijoAfsTTyYn9NrcFN04dq6KgxFfdzHVdiSbmjWe1L8Ddf7DhaYPbNoD0qokKv+6Ph+PMfJeeX02GVqfEEB7B8cR/1PJhy1DfMrkCdp28hOII0s7wWhvdH08mc6uuiXymU1X3r3JuLI5OSLX0hdbIUOqBNw7p0EHXd9m7/H054U1TzdInzqZS4lBVjSK+wFg8AEJ7AHagZmKpsRE5Ug8usdoTYzjFDAy6Vx2lOkBaFombKGET9rkbv7BbTlHEoeGmKIHXcSlhipqYPbjKH5I71JwNV0AXFJjfFG08maj82NBAWfGg8pDoug+sooDhgNuJtHpDdSAwF7CG+29zNyQgGJUDdKPgw/ArWPJ+qc0dbnjU8q3w5Vb4XNZDZFXXPFTj4PvG/OFR0jzst3U6VSjfeR2FJwFvwe9eXftTDv9qd;
+	4:7Gq6Se8YqKLGp1dIGc7PN5Ml3y+cwO05VEdfupHu6GAhuROC5cDI2aW/TIw2aIfUD+7/1QjzTfEvy3jxvpSKFflv3JP0TSDGkXQRM2yDwF3PJI5MwTjU/lm6W/H+D/UsZF9RY2Ok1letmkfGjWwOsogPuYOQ1rHUQtwTpL/mtrxYWrSQecC3Dnrtxbb263xFQ840pfZXTaFT62/d+uotoPRd6QAx4EwjuODj4WIFDRZ9t2rV/V6JlJJautolAl+KfVEl1IQYQt8VY4fOJY2u1w==
+X-Microsoft-Antispam-PRVS: <DM5PR0102MB3416AC3C52CA46128871363EAB670@DM5PR0102MB3416.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	RULEID:(6040522)(2401047)(5005006)(8121501046)(3002001)(3231254)(944501410)(52105095)(10201501046)(93006095)(93001095)(149027)(150027)(6041310)(20161123564045)(20161123558120)(20161123560045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011)(7699016);
@@ -47,53 +49,53 @@ X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	SRVR:DM5PR0102MB3416; 
 X-Forefront-PRVS: 069373DFB6
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(366004)(39380400002)(376002)(39850400004)(346002)(396003)(189003)(199004)(39060400002)(81166006)(81156014)(4326008)(54906003)(97736004)(8936002)(5660300001)(2361001)(6306002)(53936002)(50226002)(2616005)(50466002)(16586007)(6486002)(2351001)(48376002)(476003)(186003)(956004)(486006)(47776003)(316002)(26005)(51416003)(386003)(59450400001)(3846002)(6666003)(7736002)(2906002)(16526019)(36756003)(6916009)(305945005)(68736007)(1076002)(66066001)(106356001)(966005)(107886003)(86362001)(8676002)(7696005)(25786009)(52116002)(105586002)(6116002)(478600001);
+	SFS:(10009020)(366004)(39380400002)(376002)(39850400004)(346002)(396003)(189003)(199004)(39060400002)(81166006)(81156014)(4326008)(54906003)(97736004)(446003)(8936002)(5660300001)(2361001)(11346002)(53936002)(50226002)(2616005)(50466002)(16586007)(6486002)(2351001)(48376002)(476003)(186003)(956004)(486006)(47776003)(316002)(26005)(51416003)(76176011)(386003)(3846002)(6666003)(7736002)(2906002)(16526019)(36756003)(6916009)(305945005)(68736007)(1076002)(66066001)(106356001)(107886003)(86362001)(8676002)(7696005)(25786009)(52116002)(105586002)(6116002)(478600001);
 	DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR0102MB3416;
 	H:columbia.corp.xevo.com; FPR:; SPF:None; LANG:en;
 	PTR:InfoNoRecords; MX:1; A:1; 
 Received-SPF: None (protection.outlook.com: xevo.com does not designate
 	permitted sender hosts)
 X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM5PR0102MB3416;
-	23:6pOttEywjxxphvvBYXDMvxSuChrRtYg86hLQtm8?=
-	=?us-ascii?Q?AIEjvT9+bOLfa5ItFmd9QJbOYvJJDey8+AAZ1sun0Ng/1C93r4ihIrpVv+WM?=
-	=?us-ascii?Q?tYGuM3Q8a8/og4KCZe5mdLXjbsc36xFUyAtZ/Q0dAq438ckZBhNh/I1NWNLV?=
-	=?us-ascii?Q?FG8c+zAA/RGwDTj1ELweTRkuUS1kh6eXZREEqHJnHgkjWlYLwb7P2uYbS6tg?=
-	=?us-ascii?Q?E/+S78uGlIfQtbcMPKpxQYBCaeGN73FuB8E4VRsbo1mdltoVac09JmXgOqc+?=
-	=?us-ascii?Q?DhaNDsXjq/NV2So2m1gPvcUrlP0WPJ/xBdN74lKb8QAjkfBnkdhAvaxOA0SH?=
-	=?us-ascii?Q?mE95jOXzWKV/qx/CexOtW9A5kmTj8CNm1wGcQSmyx3OuvbTcLZYWUZydU49w?=
-	=?us-ascii?Q?QzbWMx5YP6Qk5k4VyYPMJOtKu8qOAveecWqVtlNlnsvDklX3vzGFn8ZrzUdT?=
-	=?us-ascii?Q?HvHn8YqlD+RmOU7qoApWMuxLOYPCw29Q0Gu6X7uWs0VOrm9A8SfzzvAzAB7t?=
-	=?us-ascii?Q?8hi6u8tEbaP9P1x7xoIZKjDtz2/zba7eqPBX/y8UZ1HViyNg204bOX/D8Vej?=
-	=?us-ascii?Q?qXe8Gh4Ft7B/f2pdP03aBSQQhoDhH8zAvuwwVE3DlxAZeKtp+4TnxYdacho3?=
-	=?us-ascii?Q?DUOLiRY28vEKiEbFkSrjDOdO6TMlFFMiU03kH0rlK2s+VlkyMRq5DFAhtaWE?=
-	=?us-ascii?Q?Ny5Z5mAXQyoGabdy9vIv5ZbVfr34crx10xtugYryPna588yudfCZKuUyr+iO?=
-	=?us-ascii?Q?G3tvVaCmcGSQ/OA2Pt2WpV93SQv/xJguLBWmPCN8L3Hdb/PCqQmVtoQRlIc9?=
-	=?us-ascii?Q?rAx3RWh9x/kBIXVIqxzQg79IwOONbJk7x0mqVdzdMikg1b2vmVmW+rs/c0Ae?=
-	=?us-ascii?Q?WgiLtjVSeXuUhcXns60ubp4OdfGj/eRr7tyjV9cacXVsDXRY7BLlUkd6T8Qz?=
-	=?us-ascii?Q?rkIAB9wgq2W7Q+TgE08YDwIoFVQB93Qd0jnat8w1gafb+5yHgm+zkVCnfYPQ?=
-	=?us-ascii?Q?YrdSeCpUvs5hZI0cg4CTOGM1+n4VyBGub+T+sGd7iZ5h/r/0Ae/3UB2eLYrR?=
-	=?us-ascii?Q?CoDJzdBH3gAh/2LUtoRdUqkzlZlKvq/1PbShPcGhP95bA0b7elZe6fC+4Bpc?=
-	=?us-ascii?Q?Cddk7TdJv5++euptW9hDyeWjWcJkeU1h+CMoZeLB0sq7baCKozFVpRdb955r?=
-	=?us-ascii?Q?ISN7WwOuSgmlynQeZ8fVa55rCgrYko2EDZ/Ta8z/kh3LQEODLs0Ce9pwvPg0?=
-	=?us-ascii?Q?Ij1Ugg1DFtucY/GF94/JK2lvrA0L5XHTKxmJT5qMB4rmwQyqIZYduo2xpJGB?=
-	=?us-ascii?Q?Etg=3D=3D?=
-X-Microsoft-Antispam-Message-Info: +1YcHDVrECMkCLgZ5FwDj9ElYcIImOFYa5mr5ZOQ2P3rs2cV3ztLgBpHIetyQsBF4nxYXsTgo86Mim0S/2MeKmTLysrY1qvgx90i484/h+c75TxHCgpcIe4yHgd5JZfeUluesIIr7m+4eXjiWo7ESoHgbRtjNSPav6JBg3FiG0/eaF+gOk4DGkQvHXUoush+
+	23:SVf2NqgLBYvqtog17kod/NIBmrvycU+sp/rxKGE?=
+	=?us-ascii?Q?GPT1uTNNalzDHF7V8tYgGOPu3ozpOAEPZ0vpZcwuXy7G59MNiJI3R5sXjHl4?=
+	=?us-ascii?Q?aO1EBOxIhz+oo7zTf4Otf9wiFBC/s5ILpozrgeBL7rR+DrEqjrhA2/4OqDqi?=
+	=?us-ascii?Q?s3iUyyU5JWODsRI6/M42H4p91dqPEHLrJFXJIlSYanpUsYpEA5w6itq2JhNL?=
+	=?us-ascii?Q?yZlKd6B/1YhELbYCiVKaiHSReXiDXElh2/mr+GvNKpmQa85DtwbWl2Nj1iUI?=
+	=?us-ascii?Q?yroBJETtaapJ3ZkL+P5deSkLeQYbjYj++Hlbrfn7xAjtpGzj4zwBIF7FHlCS?=
+	=?us-ascii?Q?h1zAGS01ZprWHKV8w/sEktA+2NnQJGNQ6CouCUK/9StNLJgplvMUj6XloP9N?=
+	=?us-ascii?Q?ORyNMo8l3SSkSKXdOESnmWHlcuyK/vuMmwWFDg5P9TZt51EnO0KFuMiLIbYJ?=
+	=?us-ascii?Q?w0tLbzSpDmTxUcoLDS0gCnYVRlOnNlwo6QyJQx5au2pG5RdbkHwiuKrZzUOc?=
+	=?us-ascii?Q?ZJZnC3SwaJ7se+jOOya3lHEvw1SYlrTjGCJb00X2fglab61XJ0xnik1oF8mX?=
+	=?us-ascii?Q?lFYdzCZ3Z452nDRwsl/bLDnShbLOUaq1Mn1l8NB7ZRad+CzD4vWtaubcV/5G?=
+	=?us-ascii?Q?QJCbD7oD11goUTE2zOWw75YxFSTssCKT/7B42oza0RZ47qx40sDpPM9Gosvh?=
+	=?us-ascii?Q?128xhoD78Ac/jHIu3LJRGfJh+xf6onTZuKXjx1GjSJW/Hlw54NCiOkrMBC1N?=
+	=?us-ascii?Q?niKA/wNmmiMpKWHQ9ZNu2UM0GFAfIpJ/g8BO79w2KtYwAiw5HXinIixgeeEI?=
+	=?us-ascii?Q?JacHlT7rGqyI/kJblr0P9ZLijrpEO0i+Ws6xR1AOF5qsijWgH4wvYk795hse?=
+	=?us-ascii?Q?fe9xEewSnE/R6Lo8kNxDgbm0U/BQHMLDVzdj+WJdpXmtqgkzuphkjQWDuHtr?=
+	=?us-ascii?Q?VajcS2zjpIy8OgurQbT/hqYso1Oq+3DW1slYeNFEdFmMMnH6/GaaZsah6PSZ?=
+	=?us-ascii?Q?U5rRoAw+4xtWo+AdrB11j+CidXUpzu6XFwKxuGv/PBok92Scfve1HPdcGMkF?=
+	=?us-ascii?Q?mBdk9FJLT5hyHEZMOkdudemKrIGiUx/MaS5vi9PFeOCa+F1rRY73BGdrbcec?=
+	=?us-ascii?Q?YNirkKFnCZgXs+5B0Nh823u0A89TqIy8QuobTyqmFAPWCFINylE4HwV/H35E?=
+	=?us-ascii?Q?lRgWXdR2ISz6dDimsNLEJBLljqAoxH5hygjAoJjhr4ss7pWGYW90WX0ipgNj?=
+	=?us-ascii?Q?yQKuff226LMOJQCqFWCe34yvciv1WVzjQYjjUGpAag5KNiO3NzPUMohkBGZf?=
+	=?us-ascii?Q?2VA=3D=3D?=
+X-Microsoft-Antispam-Message-Info: 1i4HCXUpLlvh0JEfnumROsgEqQB1KCDR1pYekXovNTeW3SKukpxP4uS3Q5L66kNylJBTHWVgcMofX8iZW1dfjHL6GaMC2bDn1rzFpofm8ZT1zrU+FUUTmWdrgjG/EMPTu+Ge9xchHYeNWBB/T6vayVIKo5dImJ89MgTyhIcbx9gwfvPfxg0t8PmLPkg3HabE
 X-Microsoft-Exchange-Diagnostics: 1; DM5PR0102MB3416;
-	6:Fwhi/MmytvVixswOwiDu/obKieVrpto13SoksvGFtmWrgHMmaZP7Jlwgveit1+PfiYnRnaNTH7gE4ZX3HwBna6VZYHq7aQH2etjOC24cJM36eXs/Tj7WfoE+IWZ3R4ZlWcp+172+YCgKHrLMEgrHJ5DQtlGgDt10RCV+9dQAu/lXLkHo7JqoLpr/UdneNXKViBNseg4m0lCn6Od79FrI9AjEV86OndWzRS272NGtSuGFBIPFVl62j22wCxBfQwmgE+e0GoTerihmNxeqqY4gwV8lZlRuhy9MS3/h1c52IRcrYFF7gKduCwV71TPaJbNP2yT2VWMdvfdmrxevh6RvNp/jc4S540LZaCpTuRqWTwYO+3sHWGwSWieNppzFdRuHiQN6mJNOw4kbChCH/fU7tjmNef+rcK5AuMfXqUiBZh0CZ+2wCetyB1tve+cVFAWNPNMwAjuscDPcbjVY2b+5Zw==;
-	5:rGZUZc0Mgi9NW0Lux0HH5F7A1rpNr07wYe91f7gwYIu5X4oVosPOIZ3mmI64eE4sFZfLJoPc30t0ihl1uMza0gy+PZ7vx23qpbb8tEAJcjkqcI5VfCGVxGG8ydWaQm73I/f5XuTMjLRrb9JCeaGitoffKL+4uLyod7p+OdA/Ntk=;
-	24:dIzBcdrFG4wdn/g6pdjOPt/a5gKUnLjQ2jeL44LRZukJahD/i1cHj4RvAUcMMYisOKWM5vm3a8XyFBXfxGqcPFZ7aqt05YrBQLpBEKeSRJA=
+	6:tpx2UdEwpOSlJLX1DZpWPWWold3C1DG5b/bcPt1PgTQ/BrKABmasNsVhJjsBE5Tx4ZVuVORUkUPbnPuhPZ5GrBqyCIa0C1VRsaT6fvPuq8r9+agKA4x+qA8F0qJCMkRInI8/II+r4zm1bStOkXT3Om1kTYFdu+Bg3IVju1FrScEHFsNQR9DqHfVUHdaRWwVL/KUPpEUDszdVHVMl/s6IHD1nWlHmvrleKPPKZj9fqji/0sLVPDCkK2bMF6jVE4ihGWuN+k1vtfpN+HXs/F30SW44CSa2LG2YzNM3oBrf9j6t66BoRzpBHc07imqdZ7n5Spzqvpp/ctNKBi/BZzZ8xq+kKAAyFOHVEtApnzK+uOy9GEFBCTHaC0Zk9QHGoNGU+uPoC0oW67FZgYHxWbF9eTCoDK2jTbaxv9jXufJqkJKa6+ypbH2We3QeJRdKW6qA358pg4RcOltYDan4fZjYCA==;
+	5:yYUKdDd5j3sueaGu4iN1qC4btAs6JfBih2PZ581iGERs1xXDeVKn/LejZS7ilpqr1BaLnZd4tBrRKRbspFnfzBGn9hrnqy9+ZY5cPN4HjGy9XAzWivdVzKhcS+lMvGqivgpf7VxkaX4f+U19giQO2gNltIy64Z3ElCUErdkXNBE=;
+	24:+MtvZzEz+3fn7NIs/EGxyHebMH7G4k5b96734DiV35pPnKXnAvpdNoQ8xn/03W6gUHZH1t6Cjz7CQ2MyObFdUqshZL1doDgZa80tIUqyBEw=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-Microsoft-Exchange-Diagnostics: 1; DM5PR0102MB3416;
-	7:JKsfy/WNMDpQJNNGtKQKDtFfBD97e0ClaoZ4oD1SsyteiSoWWD3DHT+tUNGfsLQgasi9X/NDMh+e4RbUH85yUkZ0akEeGMX3Jtw8SCgciTE09m+Uu8heXgxCOrOEndGzs0Jfwvsp39sq9SfaSdqQK4DJFBZFsyb8sXtCkNqnkDpZORR9Q9TeTJRmFxY84f9e5cT9+UKBJIrviZzCye8e4F08kryXqLW8UEeKWJ8d3l+XOTFiqvr3IbOeT0uz28aG
-X-MS-Office365-Filtering-Correlation-Id: be7ab54f-db85-4221-053c-08d5ca6fcff4
+	7:ijVXe+l2/hxkZiE7hqjzZ/n950towRJHH7qfvnFB8EqHhOu2Aw0W7eBiHH6GsPKEAKp+W/TeePXLc0I+wvQKt4Yd08V/dbDdpmu0WKo/WewvLAxo9cgU7oUZHGkpUx0gDpdkKPVbmRzYubZ5zF7GUGQQhnU57DRHYi4Q8/GK6B3WMgiBzrKTCWKTzOJHbU2mh4dQccKld7y5oLlllh/Be7+1qickZMHeHmJ7fcOI4r6+sj5ryO+LJQqV5TgcgyRl
+X-MS-Office365-Filtering-Correlation-Id: ca6aa7c0-cdb1-4053-1b34-08d5ca6fd059
 X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2018 23:06:31.9277 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: be7ab54f-db85-4221-053c-08d5ca6fcff4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2018 23:06:32.5902 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca6aa7c0-cdb1-4053-1b34-08d5ca6fd059
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0102MB3416
-Subject: [PATCH v3 0/6] meson: implement nativesdk support
+Subject: [PATCH v3 1/6] toolchain-scripts: retab file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,56 +111,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 04 Jun 2018 23:06:32 -0000
 Content-Type: text/plain
 
-This patch series implements nativesdk support fer meson. In order to do so, it
-adds a few features to the toolchain-shar-extract functionality, which enables
-a script to run prior to the SDK being extracted. This is important because the
-meson.cross file (which meson uses to find its cross toolchain) allows for only
-absolute paths. Thus, it is important to customize those paths to point to the
-SDK at SDK extraction time. For comparison, cmake did not need this
-functionality because it supports referencing environment variables in the
-toolchain file, so we can just reference the SDK root environment variables.
-The meson maintainers did not want to take that approach, so this seemed like
-the best option.
+Two functions is uses a mix of spaces and tabs. The rest of the file
+uses tabs, so switch to tabs uniformly.
 
-If curious, see the following threads for more background information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146210.html
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146225.html
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146236.html
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146241.html
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146261.html
-http://lists.openembedded.org/pipermail/openembedded-core/2018-January/146262.html
+Signed-off-by: Martin Kelly <mkelly@xevo.com>
+---
+ meta/classes/toolchain-scripts.bbclass | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-v3:
-- Implement review feedback from Joshua Watt (thanks!).
-v2:
-- Switch to new version of patches to fix exe wrappers, as upstream tweaked the
-  previous patch.
-
-Martin Kelly (6):
-  toolchain-scripts: retab file
-  toolchain-scripts: allow non-sh post-relocate
-  toolchain-scripts: print post-relocate error
-  toolchain-scripts: pass env to post-relocate
-  meson: handle exe wrappers
-  meson: enable nativesdk
-
- meta/classes/toolchain-scripts.bbclass             |  48 +-
- meta/recipes-core/meta/meta-environment.bb         |   2 +-
- meta/recipes-devtools/meson/meson.inc              |  22 +
- ...0004-Prettifying-some-output-with-pathlib.patch | 188 +++++
- ...on-command-to-use-when-we-know-what-it-is.patch | 851 +++++++++++++++++++++
- meta/recipes-devtools/meson/meson/meson-setup.py   |  62 ++
- meta/recipes-devtools/meson/meson/meson-wrapper    |  14 +
- meta/recipes-devtools/meson/meson_0.46.1.bb        |  20 +-
- .../meson/nativesdk-meson_0.46.1.bb                |  74 ++
- 9 files changed, 1247 insertions(+), 34 deletions(-)
- create mode 100644 meta/recipes-devtools/meson/meson.inc
- create mode 100644 meta/recipes-devtools/meson/meson/0004-Prettifying-some-output-with-pathlib.patch
- create mode 100644 meta/recipes-devtools/meson/meson/0005-Set-the-meson-command-to-use-when-we-know-what-it-is.patch
- create mode 100755 meta/recipes-devtools/meson/meson/meson-setup.py
- create mode 100755 meta/recipes-devtools/meson/meson/meson-wrapper
- create mode 100644 meta/recipes-devtools/meson/nativesdk-meson_0.46.1.bb
-
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 71da5e5409..a72436167c 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -122,7 +122,7 @@ toolchain_create_post_relocate_script() {
+ 	rm -f $script
+ 	touch $script
+ 
+-    cat >> $script <<EOF
++	cat >> $script <<EOF
+ if [ -d "${SDKPATHNATIVE}/post-relocate-setup.d/" ]; then
+     for s in ${SDKPATHNATIVE}/post-relocate-setup.d/*.sh; do
+         \$s "\$1"
+@@ -166,13 +166,13 @@ toolchain_create_sdk_siteconfig () {
+ toolchain_create_sdk_siteconfig[vardepsexclude] = "TOOLCHAIN_CONFIGSITE_SYSROOTCACHE"
+ 
+ python __anonymous () {
+-    import oe.classextend
+-    deps = ""
+-    for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
+-        deps += " %s:do_populate_sysroot" % dep
+-        for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
+-            clsextend = oe.classextend.ClassExtender(variant, d)
+-            newdep = clsextend.extend_name(dep)
+-            deps += " %s:do_populate_sysroot" % newdep
+-    d.appendVarFlag('do_configure', 'depends', deps)
++	import oe.classextend
++	deps = ""
++	for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
++		deps += " %s:do_populate_sysroot" % dep
++		for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
++			clsextend = oe.classextend.ClassExtender(variant, d)
++			newdep = clsextend.extend_name(dep)
++			deps += " %s:do_populate_sysroot" % newdep
++	d.appendVarFlag('do_configure', 'depends', deps)
+ }
 -- 
 2.11.0
 
