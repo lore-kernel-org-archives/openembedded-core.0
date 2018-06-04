@@ -1,61 +1,53 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4703071E4C
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14312719AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 18:42:00 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id d73-v6so179932iog.3
+	Mon,  4 Jun 2018 18:47:21 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id n3-v6so26848019lfe.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2018 11:42:01 -0700 (PDT)
+	Mon, 04 Jun 2018 11:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=dvYoTDZnVCIo73VtYPSIIdpDlLgz7scmvko+Y1+d03c=;
-	b=REoHOBGUXAJOJJcZKbtBwl4RGY3ofO4WYxOhWEFQmuBaQfi7jpwqsg5elFrNlE9O6N
-	qUDJgH8DUdO0Onlvm5saGEHmMK1mR7STWlcAle1yOyERHbV30a76T9CBgKlB869jhbOB
-	0fcp4Y12qmOWlCGF/yo3gV1tnnsJtmPSUj+gOZOPIybohIoyMV0leLZiZhfxKGw3EOcG
-	p9LkWnFUJ2UODfL5FBh4QU31AuBbalYMWXJ3gHtrIpGbchIVFECwIsdA7Gqe4UUIhEum
-	CwdaAzMn8NmA45hfnobHamtaj7CY+XXTHKFuwcm2++43BmFriJZmD1v+wQykQWrJRgMV
-	lqng==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Fc2s3HZ+emXv/kpGWgYCr4saqNsFSw478dwxck3ootE=;
+	b=e1qqkuM4iPAssr+HsgNM4kj7ZXqE0DRT/ZWqwdXDsNXvQHE2RpSgmfgtfcCXTpQwa9
+	ItG53BPv/qvV8gl0aRYgx6oGeQlPsk/caN02sYQZ6fCK2NG/nhnYZjh2JoVSqqKgEhoA
+	j/WpoiwjlqAIjE/qoT1fkonpmlt0/sU0jcv5QoyFyfZPU6TlRLFkSpjfXGDhgFk33dKi
+	yUdF+mOnpzvojXRudn1waWxNg4D9Z8f5mIV0uMEz0Jdz7HjAo72cx3+yoArg+CAXfDq2
+	W3KxRq1gLvgvMgz72HTLr2SgudPhXxdW18Fd4spJPu855yfR9aZb5FAD31+mPUyvXx3V
+	AXiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=dvYoTDZnVCIo73VtYPSIIdpDlLgz7scmvko+Y1+d03c=;
-	b=ccA0NWfBUsRm8CGHwxUKTXbrJPjn9NSoRGk3rt44lZzPQt9E9LLXN9muKP9PUuzbhv
-	JsYHnPzYeQL2lwfb/mKxKuioHQi9XiG4GdorJUOrfHsT/Lk+RtL9dZf0uKeQspqwEMhY
-	ZHGwxtZoMNZoUHOzoHfq2p8QGoUyLFMT3WPaIrlmxZwok403XSdHR7V4t2cyGPJa02i7
-	QgXPWCRWDfazecbCQs/3ZRU8z5a3TP95AoVGsK2XL3SwUh5y8bMjqu7QnVPSduiXtw/C
-	BFfqHgh4ZlULf6njny8me2MKUgcYwjxsgSzmsYMjjLWnFm/DmbOGDRjDAXLkxsZXCvny
-	UhBg==
-X-Gm-Message-State: APt69E0S78KfgssHs/uIHZK/wemv7fkfTq7oIPaZ6WtXln56ZM3vPvw8
-	Bih8eLjOt+x5eA/dd6/w5jo=
-X-Google-Smtp-Source: ADUXVKL1uKqUYEiC4m/OCKFOKy6s/CHJUzRwMTmuCuxnKCxcCXyxF6UEbf1UWn+7OAkYAI28urXAHA==
-X-Received: by 2002:a6b:a510:: with SMTP id
-	o16-v6mr12689362ioe.271.1528137720986; 
-	Mon, 04 Jun 2018 11:42:00 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	w13-v6sm4766677iom.63.2018.06.04.11.42.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Jun 2018 11:42:00 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <c1afb473c30f4e3a0f53f3bd746df9d064241a14.camel@gmail.com>
-To: Martin Kelly <mkelly@xevo.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 04 Jun 2018 13:42:00 -0500
-In-Reply-To: <d97bdd25-24ee-e7f9-0d11-a99489979e46@xevo.com>
-References: <20180601210240.14969-1-mkelly@xevo.com>
-	<20180601210240.14969-6-mkelly@xevo.com>
-	<1fa5f19ad4ac398de0dc6da40c46ead935133dbe.camel@gmail.com>
-	<5c2bc7c4-6a79-2775-af6a-30fb6d693296@xevo.com>
-	<79a9b2f1db65d8cc4233f93b7b5213d025a6d262.camel@gmail.com>
-	<0994b61a-1465-e227-81ff-6ef60e055656@xevo.com>
-	<e2132fe30522a6ec140f036a244a71d51c476b51.camel@gmail.com>
-	<d97bdd25-24ee-e7f9-0d11-a99489979e46@xevo.com>
-X-Mailer: Evolution 3.28.2 (3.28.2-1.fc28) 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2 5/7] toolchain-shar-extract: pass env to post-relocate
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Fc2s3HZ+emXv/kpGWgYCr4saqNsFSw478dwxck3ootE=;
+	b=WPs5WKKG4l8CyS2063NOtmoG3A7k92kEPtqjUsWizJ8brruHltZJoODhu9xOIXuHjg
+	tYoOr6CE9DjvBDemlk8yLnQfAdyox6JbkvYZ8SZ/uO+aQp/Xih0T4MuE71yLixxyUrMd
+	1DO3vV1l8JJfW3wZs/Pyn/zF7H2w6oK9XsjYnyD0+Xi+0qgP16yghX5CXs+HFXtx+lWN
+	Sp8MG5KCRCoVVcTGRKjyDygtXUNCbW4a6wWy2lINkcOR7qVL0A5Skce5PI0TTfBclQ62
+	ce1pNVngVQzAykxGdmjutyqFZg8TaDjycNGqs4SluPDlkhCKxGb+nMYwcRYZTxUveBCs
+	Ipmg==
+X-Gm-Message-State: APt69E23Fg6bDYLCg2kWe+4h0STnMhjgqmzkK+fQuXIpFjBhAU5kx2aV
+	6vgxzKVTa0CWnlJnoY1kOFR77RetZ3rqYszznmI=
+X-Google-Smtp-Source: ADUXVKIHX+o/UBCnlGGpjUOO/wurYCZOLjLEIW2QP0nwwEfcXV7lCJCz199oV7ueCALE4l+ZoT1C+s/29/PMLnQcHZg=
+X-Received: by 2002:a19:e218:: with SMTP id
+	z24-v6mr10043223lfg.132.1528138042638; 
+	Mon, 04 Jun 2018 11:47:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:98c6:0:0:0:0:0 with HTTP;
+	Mon, 4 Jun 2018 11:46:52 -0700 (PDT)
+In-Reply-To: <19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
+References: <20180601221436.27162-1-alistair.francis@wdc.com>
+	<20180601221436.27162-2-alistair.francis@wdc.com>
+	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
+	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
+	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 4 Jun 2018 11:46:52 -0700
+Message-ID: <CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,193 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 18:42:00 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 18:47:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-06-04 at 11:24 -0700, Martin Kelly wrote:
-> On 06/04/2018 11:20 AM, Joshua Watt wrote:
-> > On Mon, 2018-06-04 at 11:10 -0700, Martin Kelly wrote:
-> > > On 06/04/2018 10:20 AM, Joshua Watt wrote:
-> > > > On Fri, 2018-06-01 at 15:24 -0700, Martin Kelly wrote:
-> > > > > On 06/01/2018 03:08 PM, Joshua Watt wrote:
-> > > > > > On Fri, 2018-06-01 at 14:02 -0700, Martin Kelly wrote:
-> > > > > > > It's useful for the post-relocate scripts to be able to
-> > > > > > > see
-> > > > > > > the
-> > > > > > > SDK
-> > > > > > > environment, for example to see the values of CC, CXX
-> > > > > > > etc. in
-> > > > > > > order
-> > > > > > > to
-> > > > > > > dynamically generate toolchain files.
-> > > > > > > 
-> > > > > > > To enable this, source the SDK environment script prior
-> > > > > > > to
-> > > > > > > calling
-> > > > > > > the
-> > > > > > > relocate scripts.
-> > > > > > > 
-> > > > > > > Signed-off-by: Martin Kelly <mkelly@xevo.com>
-> > > > > > > ---
-> > > > > > >     meta/classes/toolchain-scripts.bbclass     | 17
-> > > > > > > +++++++++++++
-> > > > > > > ----
-> > > > > > >     meta/recipes-core/meta/meta-environment.bb |  5 +++--
-> > > > > > >     2 files changed, 16 insertions(+), 6 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/meta/classes/toolchain-scripts.bbclass
-> > > > > > > b/meta/classes/toolchain-scripts.bbclass
-> > > > > > > index ae7bbef034..5f99fd8c03 100644
-> > > > > > > --- a/meta/classes/toolchain-scripts.bbclass
-> > > > > > > +++ b/meta/classes/toolchain-scripts.bbclass
-> > > > > > > @@ -118,11 +118,20 @@ EOF
-> > > > > > >     }
-> > > > > > >     
-> > > > > > >     toolchain_create_post_relocate_script() {
-> > > > > > > -	script=$1
-> > > > > > > -	rm -f $script
-> > > > > > > -	touch $script
-> > > > > > > +	relocate_script=$1
-> > > > > > > +	sdk_script=$2
-> > > > > > > +	rm -f $relocate_script
-> > > > > > > +	touch $relocate_script
-> > > > > > > +
-> > > > > > > +    cat >> $relocate_script <<EOF
-> > > > > > > +# Source the SDK env script in case it is needed for the
-> > > > > > > relocate
-> > > > > > > scripts.
-> > > > > > > +. $sdk_script
-> > > > > > 
-> > > > > > I had originally done something similar to this when I
-> > > > > > added
-> > > > > > support
-> > > > > > for the post-relocate scripts with icecream. However, it is
-> > > > > > insufficent
-> > > > > > because there can be multiple SDK environment scripts that
-> > > > > > need
-> > > > > > to
-> > > > > > be
-> > > > > > sourced. In order to get a fully correct environment, I had
-> > > > > > to
-> > > > > > do:
-> > > > > > 
-> > > > > >     # Setup environment
-> > > > > >     for env_setup_script in `ls $1/environment-setup-*`; do
-> > > > > >     	. $env_setup_script
-> > > > > >     done
-> > > > > > 
-> > > > > > see meta/recipes-devtools/icecc-toolchain/icecc-
-> > > > > > toolchain/icecc-
-> > > > > > setup.sh
-> > > > > > 
-> > > > > > 
-> > > > > 
-> > > > > There's one overall "SDK environment" script (the one you
-> > > > > source
-> > > > > as
-> > > > > a
-> > > > > user to enter the SDK environment), and also customizable
-> > > > > ones
-> > > > > installed
-> > > > > by nativesdk-* packages (e.g. one that cmake uses). In this
-> > > > > patch, I
-> > > > > had
-> > > > > not intended that post-relocate scripts should be able to see
-> > > > > the
-> > > > > environment scripts for every project but instead just for
-> > > > > the
-> > > > > global
-> > > > > SDK enivorment (to get at variables like
-> > > > > OECORE_NATIVE_SYSROOT).
-> > > > 
-> > > > (Almost) All of the code I can find that deals with the SDK
-> > > > environment
-> > > > supports multiple top level environment-setup-* files. If you
-> > > > happen to
-> > > > have more than one, the relocation script will relocate all of
-> > > > them
-> > > > (meta/files/toolchain-shar-relocate.sh), and the extraction
-> > > > script
-> > > > will
-> > > > give you instructions to source them all (meta/files/toolchain-
-> > > > shar-
-> > > > extract.sh).
-> > > > 
-> > > > It's possible this is some left over anachronism and it has no
-> > > > actual
-> > > > use, but we should either fix it everywhere else or be
-> > > > consistent
-> > > > here.
-> > > > 
-> > > 
-> > > OK, that's good to know.
-> > > 
-> > > > > 
-> > > > > Let me know if I have missed something and not including the
-> > > > > other
-> > > > > environments could cause breakage.
-> > > > > 
-> > > > > Here's what I mean from an example extracted SDK:
-> > > > > 
-> > > > > martin@columbia:~$ ls /opt/xos/nanopi-neo-plus2/*environment*
-> > > > > /opt/xos/nanopi-neo-plus2/environment-setup-aarch64-poky-
-> > > > > linux
-> > > > > 
-> > > > > martin@columbia:~$ ls
-> > > > > /opt/xos/nanopi-neo-plus2/sysroots/x86_64-xevo-
-> > > > > linux/environment-
-> > > > > setup.d/
-> > > > > cmake.sh
-> > > > > 
-> > > > > In the above example, we are currently sourcing only
-> > > > > /opt/xos/nanopi-neo-plus2/environment-setup-aarch64-poky-
-> > > > > linux
-> > > > > and
-> > > > > not
-> > > > > cmake.sh.
-> > > > 
-> > > > Sort of.... environment-setup-aarch64-poky-linux is going to
-> > > > implicitly
-> > > > source the cmake.sh script (see the for loop at the end of the
-> > > > script)
-> > > > 
-> > > 
-> > > Yes, I see that now. Given that the top-level environment-setup
-> > > script
-> > > implicitly sources the individual project sh scripts, isn't it
-> > > correct
-> > > to source only the top-level one? In that way, if the path to the
-> > > individual sh scripts changes, this code won't break, and it
-> > > leaves
-> > > the
-> > > top-level script to the single source of truth with regard to
-> > > environment setup scripts.
-> > 
-> > Yes I agree. I think there was some miscommunication, I wasn't
-> > suggesting that we should be sourcing those manually. I just wanted
-> > to
-> > handle the top level environment-setup-* scripts in a consistent
-> > manner
-> > to the rest of the code (i.e. make sure we source all of them).
-> > 
-> 
-> OK, before I move to the next revision, let me make sure I
-> understand 
-> you correctly:
-> 
-> - There may be multiple top-level environment setup scripts.
-> 
-> - The environment setup script that is always created 
-> (environment-setup-aarch64-poky-linux in our example) sources all
-> the 
-> project-specific files.
-> 
-> - Thus, we should source all top-level environment scripts, but not
-> any 
-> project-specific ones, as they will be pulled in implicitly.
-> 
-> Is that correct?
+On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 06/04/2018 08:17 PM, Alistair Francis wrote:
+>>
+>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>>>
+>>> So why isn't the inherit gettext sufficient?
+>>
+>>
+>> I'm not sure. Here is the error I see when compiling for RISC-V before
+>> this patch:
+>
+>
+> So is the error specific to risc-v? You should dig deeper in that direction
+> then.
 
-That sounds correct
+Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
+not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
+gettext.bbclass so we don't depend on gettext-native.
+
+Do I need to ensure cross-canadian is set for RISC-V builds then?
+
+Alistair
+
+>
+> Alex
 
