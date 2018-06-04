@@ -1,28 +1,57 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BCD874BE2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 591386FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 07:37:07 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w547b6IF026813
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 4 Jun 2018 08:37:07 +0100
-Message-ID: <89df3290e532bcdf42bc7324e0cb87257ae61505.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 04 Jun 2018 08:37:05 +0100
-In-Reply-To: <497b9bb1-54de-7b26-7ce5-ea31fb1505ea@windriver.com>
-References: <cover.1527670923.git.liezhi.yang@windriver.com>
-	<3441eac59a1e61336e04e0bf1a50b484803c9dc7.1527670923.git.liezhi.yang@windriver.com>
-	<cb6ee940d4d8f2b93174e3a5b9ca71701b3488e0.camel@linuxfoundation.org>
-	<497b9bb1-54de-7b26-7ce5-ea31fb1505ea@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 05/16] xinetd: add Init Script Actions to xinetd script
+	Mon,  4 Jun 2018 07:37:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D7B46182D3;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 53dpztxVR4VO; Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 36024182C7;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 205501E072;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 13FDA1E070;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 0779127C0;
+	Mon,  4 Jun 2018 09:37:40 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 4 Jun 2018 09:37:39 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Mon, 4 Jun 2018 09:37:39 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCHv2 1/2] oe-pkgdata-util: Make
+	parse_pkgdatafile() support package suffixed vars
+Thread-Index: AQHT+1X+Wc623TeWHEyRQpCE+2G66qRPtV1w
+Date: Mon, 4 Jun 2018 07:37:39 +0000
+Message-ID: <9f10f38974f049d48f6956fd362b2250@XBOX02.axis.com>
+References: <20180602193033.14641-1-pkj@axis.com>
+	<91de2ba7b196087a5914e1693ff86c3937b50eee.camel@linuxfoundation.org>
+In-Reply-To: <91de2ba7b196087a5914e1693ff86c3937b50eee.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCHv2 1/2] oe-pkgdata-util: Make parse_pkgdatafile() support package suffixed vars
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +64,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 07:37:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jun 2018 07:37:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2018-06-04 at 10:30 +0800, Robert Yang wrote:
-> 
-> On 06/03/2018 11:59 PM, Richard Purdie wrote:
-> > On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
-> > > From: Shan Hai <shan.hai@windriver.com>
-> > > 
-> > > The chkconfig fails to list the xinetd service because the xinetd
-> > > lacks Init Script Actions in it, add the actions to fix it.
-> > > 
-> > > Signed-off-by: Shan Hai <shan.hai@windriver.com>
-> > > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> > > ---
-> > >   meta/recipes-extended/xinetd/xinetd/xinetd.init | 12
-> > > +++++++++++-
-> > >   1 file changed, 11 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.init
-> > > b/meta/recipes-extended/xinetd/xinetd/xinetd.init
-> > > index 777c2c8..a021410 100644
-> > > --- a/meta/recipes-extended/xinetd/xinetd/xinetd.init
-> > > +++ b/meta/recipes-extended/xinetd/xinetd/xinetd.init
-> > > @@ -1,5 +1,15 @@
-> > >   #!/bin/sh
-> > > -#
-> > > +### BEGIN INIT INFO
-> > > +# Provides:          inetd
-> > > +# Required-Start:    $local_fs $remote_fs
-> > > +# Required-Stop:     $local_fs $remote_fs
-> > > +# Should-Start:      $syslog
-> > > +# Should-Stop:       $syslog
-> > > +# Default-Start:     2 3 4 5
-> > > +# Default-Stop:      0 1 6
-> > > +# Short-Description: Start or stop the xinetd daemon.
-> > > +### END INIT INFO
-> > > +
-> > 
-> > Have we some kind of policy which says all init scripts have to
-> > have a
-> > header like this? I'm wondering why this is just getting applied
-> > for
-> > xinetd when there are probably other init scripts which don't have
-> > this. Are we planning to add this everywhere?
-> 
-> We added this is because customer requires, and only for this one. We
-> don't have any plan to add more.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: den 3 juni 2018 18:14
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCHv2 1/2] oe-pkgdata-util: Make
+> parse_pkgdatafile() support package suffixed vars
+>=20
+> On Sat, 2018-06-02 at 21:30 +0200, Peter Kjellerstedt wrote:
+> > Support for variables suffixed with package names, e.g., PKGV_foo, was
+> > removed in commit 3d2c87c4, which broke support for recipes that set
+> > other versions on their packages than what is in ${PV}.
+>=20
+> Would it be possible to write some simple tests for oe-pkgdata-util to
+> make sure we don't break it again?
 
-I don't see the need to have this in OE-Core, it just duplicates
-information from the recipe which can easily become outdated...
+It probably would. However, I am not the one to do the first ones (I=20
+generally suck at anything related to unit tests). But I can probably=20
+help add some to cover our use cases once there is a precedence for=20
+how to do it.
 
-Cheers,
+> Cheers,
+>=20
+> Richard
 
-Richard
+//Peter
+
 
