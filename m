@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DBD775160
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9817D75160
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 03:08:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5438gVf000246
+	Mon,  4 Jun 2018 03:08:48 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5438OxJ003768
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Jun 2018 20:08:42 -0700 (PDT)
+	Sun, 3 Jun 2018 20:08:39 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 3 Jun 2018 20:08:41 -0700
+	14.3.399.0; Sun, 3 Jun 2018 20:08:13 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jun 2018 11:10:06 +0800
-Message-ID: <0f1606ad9eddb77711e4d974f95cb8dfb1a61284.1528081495.git.Qi.Chen@windriver.com>
+Date: Mon, 4 Jun 2018 11:10:04 +0800
+Message-ID: <a5c6c16c2c759c04721e6b2fd1dda67144fbfbbd.1528081495.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1528081495.git.Qi.Chen@windriver.com>
 References: <cover.1528081495.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/14] oeqa/runtime/cases/dnf_runtime.py: skip test if PACKAGE_FEED_URIS is not set
+Subject: [PATCH 03/14] oeqa/core/decorator/__init__.py: set metaclass to ABCMeta
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:08:41 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 03:08:48 -0000
 Content-Type: text/plain
 
-This test is to test the behaviour of PACKAGE_FEED_URIS is correct or not.
-If it's not even set, it makes no sense to do such test. So skip this
-test if PACKAGE_FEED_URIS is not set.
+OETestFilter is a subclass of OETestDecorator. It wants to make
+use of @abstractmethod decorator. But such decorator requires
+metaclass to be ABCMeta to have effect. So add it now to achieve
+the designed behaviour.
+
+Comments from python's manual:
+"""
+Using this decorator requires that the class's metaclass is ABCMeta
+or is derived from it.
+"""
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/core/decorator/__init__.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-index 81c50ed..1aa7274 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-@@ -1,6 +1,7 @@
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.cases.dnf import DnfTest
- from oeqa.utils.httpserver import HTTPService
-+from oeqa.core.decorator.data import skipIfDataVar
+diff --git a/meta/lib/oeqa/core/decorator/__init__.py b/meta/lib/oeqa/core/decorator/__init__.py
+index 855b6b9..6ca0acf 100644
+--- a/meta/lib/oeqa/core/decorator/__init__.py
++++ b/meta/lib/oeqa/core/decorator/__init__.py
+@@ -2,7 +2,7 @@
+ # Released under the MIT license (see COPYING.MIT)
  
- class DnfSelftest(DnfTest):
+ from functools import wraps
+-from abc import abstractmethod
++from abc import abstractmethod, ABCMeta
  
-@@ -18,6 +19,8 @@ class DnfSelftest(DnfTest):
-         cls.temp_dir.cleanup()
+ decoratorClasses = set()
  
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-+    @skipIfDataVar('PACKAGE_FEED_URIS', None,
-+                   'Not suitable as PACKAGE_FEED_URIS is not set')
-     def test_verify_package_feeds(self):
-         """
-         Summary: Check correct setting of PACKAGE_FEED_URIS var
+@@ -10,7 +10,7 @@ def registerDecorator(obj):
+     decoratorClasses.add(obj)
+     return obj
+ 
+-class OETestDecorator(object):
++class OETestDecorator(object, metaclass=ABCMeta):
+     case = None # Reference of OETestCase decorated
+     attrs = None # Attributes to be loaded by decorator implementation
+ 
 -- 
 1.9.1
 
