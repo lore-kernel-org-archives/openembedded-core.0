@@ -1,31 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B5E77016E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 37CC274F99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 08:10:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5489Vjm010347
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Jun 2018 01:09:46 -0700
-Received: from localhost.corp.ad.wrs.com (128.224.162.139) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 4 Jun 2018 01:09:20 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1527670923.git.liezhi.yang@windriver.com>
-	<3441eac59a1e61336e04e0bf1a50b484803c9dc7.1527670923.git.liezhi.yang@windriver.com>
-	<cb6ee940d4d8f2b93174e3a5b9ca71701b3488e0.camel@linuxfoundation.org>
-	<497b9bb1-54de-7b26-7ce5-ea31fb1505ea@windriver.com>
-	<89df3290e532bcdf42bc7324e0cb87257ae61505.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1c9fcba0-ef03-d524-36a2-51885159ffa3@windriver.com>
-Date: Mon, 4 Jun 2018 16:12:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
-MIME-Version: 1.0
-In-Reply-To: <89df3290e532bcdf42bc7324e0cb87257ae61505.camel@linuxfoundation.org>
-Subject: Re: [PATCH 05/16] xinetd: add Init Script Actions to xinetd script
+	Mon,  4 Jun 2018 08:21:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2018 01:21:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,476,1520924400"; d="scan'208";a="64092197"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 04 Jun 2018 01:21:38 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Jun 2018 11:21:51 +0300
+Message-Id: <20180604082153.5814-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 1/3] oeqa: replace Alex Kanavin's @intel email address with a personal one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +30,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 08:10:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jun 2018 08:21:38 -0000
 
-Hi RP,
+As I will be leaving Intel, this address will no longer be valid,
+so swap it for my personal one for now.
 
-On 06/04/2018 03:37 PM, Richard Purdie wrote:
-> On Mon, 2018-06-04 at 10:30 +0800, Robert Yang wrote:
->>
->> On 06/03/2018 11:59 PM, Richard Purdie wrote:
->>> On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
->>>> From: Shan Hai <shan.hai@windriver.com>
->>>>
->>>> The chkconfig fails to list the xinetd service because the xinetd
->>>> lacks Init Script Actions in it, add the actions to fix it.
->>>>
->>>> Signed-off-by: Shan Hai <shan.hai@windriver.com>
->>>> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>>> ---
->>>>    meta/recipes-extended/xinetd/xinetd/xinetd.init | 12
->>>> +++++++++++-
->>>>    1 file changed, 11 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.init
->>>> b/meta/recipes-extended/xinetd/xinetd/xinetd.init
->>>> index 777c2c8..a021410 100644
->>>> --- a/meta/recipes-extended/xinetd/xinetd/xinetd.init
->>>> +++ b/meta/recipes-extended/xinetd/xinetd/xinetd.init
->>>> @@ -1,5 +1,15 @@
->>>>    #!/bin/sh
->>>> -#
->>>> +### BEGIN INIT INFO
->>>> +# Provides:          inetd
->>>> +# Required-Start:    $local_fs $remote_fs
->>>> +# Required-Stop:     $local_fs $remote_fs
->>>> +# Should-Start:      $syslog
->>>> +# Should-Stop:       $syslog
->>>> +# Default-Start:     2 3 4 5
->>>> +# Default-Stop:      0 1 6
->>>> +# Short-Description: Start or stop the xinetd daemon.
->>>> +### END INIT INFO
->>>> +
->>>
->>> Have we some kind of policy which says all init scripts have to
->>> have a
->>> header like this? I'm wondering why this is just getting applied
->>> for
->>> xinetd when there are probably other init scripts which don't have
->>> this. Are we planning to add this everywhere?
->>
->> We added this is because customer requires, and only for this one. We
->> don't have any plan to add more.
-> 
-> I don't see the need to have this in OE-Core, it just duplicates
-> information from the recipe which can easily become outdated...
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 2 +-
+ meta/lib/oeqa/runtime/cases/rpm.py                  | 2 +-
+ meta/lib/oeqa/selftest/cases/distrodata.py          | 4 ++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py        | 4 ++--
+ meta/lib/oeqa/selftest/cases/signing.py             | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
 
-Yes, they may become outdated, but these info are required by lsb:
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+index 81c50ed97b7..5e9ccfb7bd0 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+@@ -24,7 +24,7 @@ class DnfSelftest(DnfTest):
+         Expected: 1. Feeds were correctly set for dnf
+                   2. Update recovers packages from host's repo
+         Author: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+-        Author: Alexander Kanavin <alexander.kanavin@intel.com>
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+         # When we created an image, we had to supply fake ip and port
+         # for the feeds. Now we can patch the real ones into the config file.
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index 05b94c7b40e..4ccfebe075e 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -106,7 +106,7 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+         Expected:    There should be some RPM prefixed entries in the above file.
+         Product:     BSPs
+         Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+-        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+         db_files_cmd = 'ls /var/lib/rpm/__db.*'
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index 7b2800464cb..e7b5e349564 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -21,7 +21,7 @@ class Distrodata(OESelftestTestCase):
+         Summary:     Test that upstream version checks do not regress
+         Expected:    Upstream version checks should succeed except for the recipes listed in the exception list.
+         Product:     oe-core
+-        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+         checkpkg_result = open(os.path.join(get_bb_var("LOG_DIR"), "checkpkg.csv")).readlines()[1:]
+         regressed_failures = [pkg_data[0] for pkg_data in [pkg_line.split('\t') for pkg_line in checkpkg_result] if pkg_data[11] == 'UNKNOWN_BROKEN']
+@@ -46,7 +46,7 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+         Summary:     Test that oe-core recipes have a maintainer
+         Expected:    All oe-core recipes (except a few special static/testing ones) should have a maintainer listed in maintainers.inc file.
+         Product:     oe-core
+-        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+         def is_exception(pkg):
+             exceptions = ["packagegroup-", "initramfs-", "systemd-machine-units", "target-sdk-provides-dummy"]
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 9c9b4b34111..30fd9b2a50f 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -135,7 +135,7 @@ class TestImage(OESelftestTestCase):
+         Summary: Check package feeds functionality for dnf
+         Expected: 1. Check that remote package feeds can be accessed
+         Product: oe-core
+-        Author: Alexander Kanavin <alexander.kanavin@intel.com>
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+         if get_bb_var('DISTRO') == 'poky-tiny':
+             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+@@ -231,7 +231,7 @@ class Postinst(OESelftestTestCase):
+         Expected:       The scriptlet failure is properly reported.
+                         The file that is created after the error in the scriptlet is not present.
+         Product: oe-core
+-        Author: Alexander Kanavin <alexander.kanavin@intel.com>
++        Author: Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+ 
+         import oe.path
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
+index a750cfc7b28..a130ac96cf9 100644
+--- a/meta/lib/oeqa/selftest/cases/signing.py
++++ b/meta/lib/oeqa/selftest/cases/signing.py
+@@ -41,7 +41,7 @@ class Signing(OESelftestTestCase):
+         Expected:    Images can be created from signed packages
+         Product:     oe-core
+         Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        Author:      Alexander Kanavin <alexander.kanavin@intel.com>
++        Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+         import oe.packagedata
+-- 
+2.17.0
 
-http://refspecs.linuxbase.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/initscrcomconv.html
-
-The OE-Core also has other similar init scripts which have similar info:
-
-$ find meta/recipes-* -name '*.init' -exec grep -H '# Provides:' {} \;
-meta/recipes-core/dbus/dbus/dbus-1.init:# Provides:          dbus
-meta/recipes-core/sysvinit/sysvinit/bootlogd.init:# Provides:          bootlogd
-meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init:# Provides: 
-tcf-agent
-meta/recipes-extended/watchdog/watchdog/wd_keepalive.init:# Provides: 
-wd_keepalive
-meta/recipes-extended/cronie/cronie/crond.init:# Provides: crond crontab
-
-And xinetd/xinetd.init is owned by oe-core, it seems that this is the
-only way to fix it.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
 
