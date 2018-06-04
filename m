@@ -1,29 +1,28 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A32574C63
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DE93749F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 11:31:51 +0000 (UTC)
+	Mon,  4 Jun 2018 11:42:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2018 04:31:52 -0700
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2018 04:42:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,476,1520924400"; d="scan'208";a="60190387"
+X-IronPort-AV: E=Sophos;i="5.49,476,1520924400"; d="scan'208";a="60192670"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2018 04:31:52 -0700
-To: Bas Mevissen <abuse@basmevissen.nl>,
-	Openembedded Core <openembedded-core@lists.openembedded.org>
-References: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
+	by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2018 04:42:41 -0700
+To: Kai Kang <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20180604105828.24004-1-kai.kang@windriver.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0c5a1317-bbed-4de5-d0d7-d34989d53e7e@linux.intel.com>
-Date: Mon, 4 Jun 2018 14:32:10 +0300
+Message-ID: <3518da0e-6a89-1288-d6ab-89a8537467f1@linux.intel.com>
+Date: Mon, 4 Jun 2018 14:42:59 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.7.0
 MIME-Version: 1.0
-In-Reply-To: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
-Subject: Re: Summary of kernel-devsrc package issues (Sumo)
+In-Reply-To: <20180604105828.24004-1-kai.kang@windriver.com>
+Subject: Re: [PATCH] man-db: create man db index file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,20 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 11:31:51 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 11:42:40 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 06/04/2018 12:04 PM, Bas Mevissen wrote:
-> I ran into several issues with kernel-devsrc when building Poky Sumu 
-> with the meta-freescale layer for an Freescale i.mx6sx ARM board. In 
-> this mail(thread) I would like to collect them all and discuss the 
-> possible options to resolve them.
+On 06/04/2018 01:58 PM, Kai Kang wrote:
 
-This is probably better discussed here:
-https://lists.yoctoproject.org/listinfo/linux-yocto
+> +pkg_postinst_ontarget_${PN} () {
+> +        ${bindir}/mandb -q
+> +}
+> +
+
+man-db is only the tools for manpages, but not the actual pages. So this 
+will not work as expected when installing or removing packages that 
+contain manpages. It should be added to classes/manpages.bbclass 
+instead, with a RDEPENDS += "man-db". You can also fix man-pages_4.14.bb 
+to inherit the class at the same time.
+
+Oh, and you can also take qemu into use, so that this works also for 
+read only rootfs, and doesn't add to first boot time, like this:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=b42a7a733c7a6b51118ccb3fe6e33c35ac12b4ae
 
 Alex
-
 
