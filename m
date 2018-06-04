@@ -1,29 +1,51 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49A2F60777
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 30B567016E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 09:24:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w549Nuwh012148
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Jun 2018 02:24:12 -0700
-Received: from localhost.corp.ad.wrs.com (128.224.162.139) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 4 Jun 2018 02:23:46 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1527670923.git.liezhi.yang@windriver.com>
-	<88bf43bd0058ea5c78ca82468bccfaebcdb4ab09.1527670923.git.liezhi.yang@windriver.com>
-	<8168c081f3ce907473d2386466daa4f6447f3fa8.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <826cb5f0-e51c-f007-9c4b-6d3abb12ae95@windriver.com>
-Date: Mon, 4 Jun 2018 17:26:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Mon,  4 Jun 2018 10:06:22 +0000 (UTC)
+Received: by mail-it0-f68.google.com with SMTP id v83-v6so9478477itc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Jun 2018 03:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ZDClrjZZjY1NlvX5HP0VnOiZ8YbG4uRcPy+ovGbkPdY=;
+	b=h+gqmwj+cMduJIFrFagcxOiIc9a+8Kly8iK+jOp1NlSv2TbhYeUrMZvM7lM6x49VUH
+	u6eD2afcteMfa0Pw3LY6abMZhSTnJSKPaHWdz6k9eOHitIGMhzOBVnxVL53IGmS+87q4
+	rUVcBMc8UhSo3Q3X1xKZlRX8EjKy/96Lb+EPehs53HCgsyplhtDsFtwgk/QDOG8lJSig
+	QzHXplgHbJ1VfhbvxPcJ/k55PEoEh/nhPBMo58x7eJeHSjQCT90ZlR1nVVPKaYwaZ4xm
+	FCV19p5GR6wQ+f029q1hb96pDhZ4P2GEazOI4HV5NFkBRW0CswQ4/oNSzdPUbcPNwuo8
+	osPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZDClrjZZjY1NlvX5HP0VnOiZ8YbG4uRcPy+ovGbkPdY=;
+	b=dupP0bnkQTH/eXNhtHzQZ0V2w/7TW5LhkskFtSh+sTHqXFXV4UqfcmNvu5IqF8vPVG
+	9a5no0nOBuJL+5j/k/qIotKVEPV9pFV/GAWPwLApjhGsRzRGkNq3+5QReCWHpGMulDWF
+	JIg7ZoJnZ/mMZ1RLH55BvZObkLMB2KE7v/WSFU72kSOQPxkcYnTLkwqkMR5sksv2VeY2
+	l03smp/aW0FO6PK1/5NMGGJvo0TK1Yoa7ywCXPES6WGJV8djjpyc4iHJpVei9cXbUedE
+	tQBduvv0NaJ+MXG2HAs6GTCEVvhipxU5AAxbME3Sgdkx0p1xfryMWZeXEKuG4UUHrRuK
+	OtXg==
+X-Gm-Message-State: APt69E3SeZ3b7nskfQEX+lQXeoKqu547VvnJjg4EYqf1zoTZhigR1nDL
+	pqWxh+gVa/6KyEm+0yWLjFDspe6kywRTvMwzVcZdvA==
+X-Google-Smtp-Source: ADUXVKI807nf2UNJKCnRZERUqP9atYqiWEK6ovoTJc2owFv6aKETBgZx1iEeyskrd6K9evwFq1bMh73qS0BSn8rZs0Y=
+X-Received: by 2002:a24:4d8c:: with SMTP id
+	l134-v6mr13822118itb.60.1528106783257; 
+	Mon, 04 Jun 2018 03:06:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8168c081f3ce907473d2386466daa4f6447f3fa8.camel@linuxfoundation.org>
-Subject: Re: [PATCH 10/16] dropbear: add default config file to disable root login
+Received: by 2002:a6b:f614:0:0:0:0:0 with HTTP;
+	Mon, 4 Jun 2018 03:06:02 -0700 (PDT)
+In-Reply-To: <20180601221436.27162-2-alistair.francis@wdc.com>
+References: <20180601221436.27162-1-alistair.francis@wdc.com>
+	<20180601221436.27162-2-alistair.francis@wdc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Jun 2018 11:06:02 +0100
+Message-ID: <CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 09:24:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jun 2018 10:06:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+So why isn't the inherit gettext sufficient?
 
+Ross
 
-On 06/04/2018 06:41 AM, Richard Purdie wrote:
-> On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
->>
->> root login is disabled by default for openssh and we can
->> enable it through IMAGE_FEATURES 'debug-tweaks' or
->> 'allow-empty-password', so change to the same default
->> behavior for dropbear.
->>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   meta/recipes-core/dropbear/dropbear.inc              | 3 +++
->>   meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
->>   2 files changed, 5 insertions(+)
->>   create mode 100644 meta/recipes-
->> core/dropbear/dropbear/dropbear.default
-> 
-> This or the preceeding patch in the series appears to cause the first
-> failure in:
-> 
-> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1096/steps/Running%20oe-selftest/logs/stdio
-> 
-> (FAIL: test_non_root_user_can_connect_via_ssh_without_password
-> (imagefeatures.ImageFeatures))
-
-Sorry, I'm working on this today, but needs more time to test it.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
+On 1 June 2018 at 23:14, Alistair Francis <alistair.francis@wdc.com> wrote:
+> atk requires xgettext to compile, specify it as a dependency.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/recipes-support/atk/atk_2.28.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/atk/atk_2.28.1.bb b/meta/recipes-support/atk/atk_2.28.1.bb
+> index 657c69d576..1198005804 100644
+> --- a/meta/recipes-support/atk/atk_2.28.1.bb
+> +++ b/meta/recipes-support/atk/atk_2.28.1.bb
+> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                      file://atk/atkutil.c;endline=18;md5=6fd31cd2fdc9b30f619ca8d819bc12d3 \
+>                      file://atk/atk.h;endline=18;md5=fcd7710187e0eae485e356c30d1b0c3b"
+>
+> -DEPENDS = "glib-2.0"
+> +DEPENDS = "glib-2.0 gettext-native"
+>
+>  GNOMEBASEBUILDCLASS = "meson"
+>  inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
+> --
+> 2.17.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
