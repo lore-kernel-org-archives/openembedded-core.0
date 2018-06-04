@@ -1,32 +1,29 @@
-Return-Path: <abuse@basmevissen.nl>
-X-Greylist: delayed 502 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 04 Jun 2018 09:13:23 UTC
-Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D4874AF8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49A2F60777
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 09:13:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by hosting.emcodev.net (Postfix) with ESMTP id 6A6BF212003
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 11:05:01 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at hosting.emcodev.net
-Received: from hosting.emcodev.net ([127.0.0.1])
-	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ukuj5P0bJOES
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 11:04:58 +0200 (CEST)
-Received: from emcodev.nl (localhost [127.0.0.1])
-	by hosting.emcodev.net (Postfix) with ESMTP id 7AD79212002
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 11:04:58 +0200 (CEST)
+	Mon,  4 Jun 2018 09:24:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w549Nuwh012148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Jun 2018 02:24:12 -0700
+Received: from localhost.corp.ad.wrs.com (128.224.162.139) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 4 Jun 2018 02:23:46 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1527670923.git.liezhi.yang@windriver.com>
+	<88bf43bd0058ea5c78ca82468bccfaebcdb4ab09.1527670923.git.liezhi.yang@windriver.com>
+	<8168c081f3ce907473d2386466daa4f6447f3fa8.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <826cb5f0-e51c-f007-9c4b-6d3abb12ae95@windriver.com>
+Date: Mon, 4 Jun 2018 17:26:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Date: Mon, 04 Jun 2018 11:04:58 +0200
-From: Bas Mevissen <abuse@basmevissen.nl>
-To: Openembedded Core <openembedded-core@lists.openembedded.org>
-Message-ID: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
-X-Sender: abuse@basmevissen.nl
-User-Agent: Roundcube Webmail/1.3.6
-Subject: Summary of kernel-devsrc package issues (Sumo)
+In-Reply-To: <8168c081f3ce907473d2386466daa4f6447f3fa8.camel@linuxfoundation.org>
+Subject: Re: [PATCH 10/16] dropbear: add default config file to disable root login
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,90 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 09:13:24 -0000
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+X-List-Received-Date: Mon, 04 Jun 2018 09:24:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-Hi all,
+On 06/04/2018 06:41 AM, Richard Purdie wrote:
+> On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> root login is disabled by default for openssh and we can
+>> enable it through IMAGE_FEATURES 'debug-tweaks' or
+>> 'allow-empty-password', so change to the same default
+>> behavior for dropbear.
+>>
+>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>> ---
+>>   meta/recipes-core/dropbear/dropbear.inc              | 3 +++
+>>   meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
+>>   2 files changed, 5 insertions(+)
+>>   create mode 100644 meta/recipes-
+>> core/dropbear/dropbear/dropbear.default
+> 
+> This or the preceeding patch in the series appears to cause the first
+> failure in:
+> 
+> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1096/steps/Running%20oe-selftest/logs/stdio
+> 
+> (FAIL: test_non_root_user_can_connect_via_ssh_without_password
+> (imagefeatures.ImageFeatures))
 
-I ran into several issues with kernel-devsrc when building Poky Sumu 
-with the meta-freescale layer for an Freescale i.mx6sx ARM board. In 
-this mail(thread) I would like to collect them all and discuss the 
-possible options to resolve them.
+Sorry, I'm working on this today, but needs more time to test it.
 
-* Install dependency issues (both during image creation and manual 
-install on the board):
+// Robert
 
-The kernel-devsrc spec file defines a number of auto-generated run-time 
-dependencies. These include
-(1) /bin/awk
-(2) /usr/bin/python
-
-(1) is due to scripts/ver_linux being an awk script using /bin/awk in 
-its shebang in various (vendor) kernels, even recent ones. Instead of 
-fixing all those kernel sources, I would suggest:
-1a) adding a link to /bin/awk in the awk or the kernel-devsrc package
-1b) automatically fix the kernel source included in the kernel-devsrc 
-package
-1c) having a more helpful error message?
-
-(2) is normally fine, but on my build, there is only /usr/bin/python3. A 
-manually created symlink fixed the issue. I'm wondering what a more 
-permanent solution would be:
-2a) Fix all Python script in the installed kernel source like 1b)? (the 
-python3-native package does create such a symlink, but not the target 
-one!)
-2b) See whether there is a package that already creates that symlink and 
-make kernel-devsrc depend on it?
-
-* External module build issue:
-
-When building an external module (rtl8812au driver) on the board using 
-kernel-devsrc, I ran into the following issues:
-
-(3) No symlink from /lib/modules/`uname -r`/build to the kernel source. 
-Solution:
-3a) Add this symlink (and optionally "source") to kernel-devsrc, 
-comparable to Fedora kernel-headers package
-
-(4) The scripts where not build, resulting in build error. Solution:
-4b) Pre-build scripts ("make scripts") in kernel-devsrc. Should be ok, 
-as the package is already arch dependent.
-
-(remarkably, there is mention of both in the kernel-devsrc.bb file, but 
-I think the current solutions are wrong as the package is not 
-ready-to-use currently)
-
-* Multiple kernel support:
-
-When developing, multiple kernel versions might be installed. Current 
-version of the package installs in /usr/src/kernel without the kver in 
-the patch.
-
-(5) So you can have only 1 set of kernel sources installed. Proposal:
-(5a) Install in /usr/src/kernels/`uname r` following the way Fedora does 
-it.
-
-* Huge size of package
-
-(6) The package contains an awful lot of files and is huge. Not all of 
-them are needed to compile external kernel modules
-6a) Remove the sources and only provide what is needed to build external 
-kernel modules (like fedora)
-6b) Create the package suggested at 6a) (or add it to kernel-dev) and 
-keep the devsrc as the full-source alternative.
-
-
-Your thoughts? I'm more than happy to fix the issues and provide 
-patches. However, I need input on what direction to go on the issues I 
-ran into until now.
-
-Thanks,
-
-Bas.
-
-
+> 
+> Cheers,
+> 
+> Richard
+> 
 
