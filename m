@@ -1,26 +1,26 @@
 Return-Path: <abuse@basmevissen.nl>
 Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
-	by mail.openembedded.org (Postfix) with ESMTP id CAE6B745B7
+	by mail.openembedded.org (Postfix) with ESMTP id 2850660191
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 13:23:46 +0000 (UTC)
+	Mon,  4 Jun 2018 13:35:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by hosting.emcodev.net (Postfix) with ESMTP id 7AEC3212003;
-	Mon,  4 Jun 2018 15:23:46 +0200 (CEST)
+	by hosting.emcodev.net (Postfix) with ESMTP id 915AC212003;
+	Mon,  4 Jun 2018 15:35:54 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at hosting.emcodev.net
 Received: from hosting.emcodev.net ([127.0.0.1])
 	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id MRwQQzip9-a2; Mon,  4 Jun 2018 15:23:46 +0200 (CEST)
+	with ESMTP id t5YzmLwtYIHf; Mon,  4 Jun 2018 15:35:54 +0200 (CEST)
 Received: from emcodev.nl (localhost [127.0.0.1])
-	by hosting.emcodev.net (Postfix) with ESMTP id 19090212002;
-	Mon,  4 Jun 2018 15:23:46 +0200 (CEST)
+	by hosting.emcodev.net (Postfix) with ESMTP id 159D3212002;
+	Mon,  4 Jun 2018 15:35:54 +0200 (CEST)
 MIME-Version: 1.0
-Date: Mon, 04 Jun 2018 15:23:46 +0200
+Date: Mon, 04 Jun 2018 15:35:54 +0200
 From: Bas Mevissen <abuse@basmevissen.nl>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-In-Reply-To: <0c5a1317-bbed-4de5-d0d7-d34989d53e7e@linux.intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4NSLvgp8-YQom+5fcq-_ML_bPOFyCT39673ZKRdVFCHTA@mail.gmail.com>
 References: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
-	<0c5a1317-bbed-4de5-d0d7-d34989d53e7e@linux.intel.com>
-Message-ID: <531e7dab22fda95e4f30e14960590d36@basmevissen.nl>
+	<CADkTA4NSLvgp8-YQom+5fcq-_ML_bPOFyCT39673ZKRdVFCHTA@mail.gmail.com>
+Message-ID: <e1aa9b02f64579de35d33db98661d3c3@basmevissen.nl>
 X-Sender: abuse@basmevissen.nl
 User-Agent: Roundcube Webmail/1.3.6
 Cc: Openembedded Core <openembedded-core@lists.openembedded.org>
@@ -37,31 +37,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 13:23:47 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 13:35:54 -0000
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2018-06-04 13:32, Alexander Kanavin wrote:
-> On 06/04/2018 12:04 PM, Bas Mevissen wrote:
->> I ran into several issues with kernel-devsrc when building Poky Sumu 
->> with the meta-freescale layer for an Freescale i.mx6sx ARM board. In 
->> this mail(thread) I would like to collect them all and discuss the 
+On 2018-06-04 14:32, Bruce Ashfield wrote:
+> On Mon, Jun 4, 2018 at 5:04 AM, Bas Mevissen <abuse@basmevissen.nl>
+> wrote:
+> 
+>> Hi all,
+>> 
+>> I ran into several issues with kernel-devsrc when building Poky Sumu
+>> with the meta-freescale layer for an Freescale i.mx6sx ARM board. In
+>> this mail(thread) I would like to collect them all and discuss the
 >> possible options to resolve them.
+>> 
+>> * Install dependency issues (both during image creation and manual
+>> install on the board):
+>> 
+>> The kernel-devsrc spec file defines a number of auto-generated
+>> run-time dependencies. These include
+>> (1) /bin/awk
+>> (2) /usr/bin/python
+>> 
+>> (1) is due to scripts/ver_linux being an awk script using /bin/awk
+>> in its shebang in various (vendor) kernels, even recent ones.
+>> Instead of fixing all those kernel sources, I would suggest:
+>> 1a) adding a link to /bin/awk in the awk or the kernel-devsrc
+>> package
+>> 1b) automatically fix the kernel source included in the
+>> kernel-devsrc package
+>> 1c) having a more helpful error message?
+>> 
+>> (2) is normally fine, but on my build, there is only
+>> /usr/bin/python3. A manually created symlink fixed the issue. I'm
+>> wondering what a more permanent solution would be:
+>> 2a) Fix all Python script in the installed kernel source like 1b)?
+>> (the python3-native package does create such a symlink, but not the
+>> target one!)
+>> 2b) See whether there is a package that already creates that symlink
+>> and make kernel-devsrc depend on it?
+>> 
+>> * External module build issue:
+>> 
+>> When building an external module (rtl8812au driver) on the board
+>> using kernel-devsrc, I ran into the following issues:
+>> 
+>> (3) No symlink from /lib/modules/`uname -r`/build to the kernel
+>> source. Solution:
+>> 3a) Add this symlink (and optionally "source") to kernel-devsrc,
+>> comparable to Fedora kernel-headers package
+>> 
+>> (4) The scripts where not build, resulting in build error. Solution:
+>> 4b) Pre-build scripts ("make scripts") in kernel-devsrc. Should be
+>> ok, as the package is already arch dependent.
+>> 
+>> (remarkably, there is mention of both in the kernel-devsrc.bb [1]
+>> file, but I think the current solutions are wrong as the package is
+>> not ready-to-use currently)
+>> 
+>> * Multiple kernel support:
+>> 
+>> When developing, multiple kernel versions might be installed.
+>> Current version of the package installs in /usr/src/kernel without
+>> the kver in the patch.
+>> 
+>> (5) So you can have only 1 set of kernel sources installed.
+>> Proposal:
+>> (5a) Install in /usr/src/kernels/`uname r` following the way Fedora
+>> does it.
+>> 
+>> * Huge size of package
+>> 
+>> (6) The package contains an awful lot of files and is huge. Not all
+>> of them are needed to compile external kernel modules
+>> 6a) Remove the sources and only provide what is needed to build
+>> external kernel modules (like fedora)
+>> 6b) Create the package suggested at 6a) (or add it to kernel-dev)
+>> and keep the devsrc as the full-source alternative.
+>> 
+>> Your thoughts? I'm more than happy to fix the issues and provide
+>> patches. However, I need input on what direction to go on the issues
+>> I ran into until now.
 > 
-> This is probably better discussed here:
-> https://lists.yoctoproject.org/listinfo/linux-yocto
+> There's already a completely re-written kernel-devsrc that I posted in
+> the last
+> dev cycle, which will be re-sent in the next few days. The only reason
+> it didn't
+> merge was due to a multlib issue, which should be sorted out now.
 > 
 
-Tnx for the pointer. However, this surprises me a bit. The charter of 
-that ML says: "Development list for the linux-yocto*.git Linux kernel 
-repositories.", while my issues are with a package contained in 
-openembedded-core.
+I wasn't aware of that. I looked up the one you posted in March and that 
+already addresses a lot of the issues I listed. Nice!
+
+> So please, don't do any patches on top of the existing devsrc
+> structure, since
+> it is essentially obsolete.
+> 
+
+Yes, definitely. I'm looking forward to see your updated version.
 
 
-> Alex
+> Cheers,
+> 
+> Bruce
+> 
+>> Thanks,
+>> 
+>> Bas.
+>> 
 
-Regards,
+Cheers,
 
 Bas.
+
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core [2]
+> 
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+> 
+> Links:
+> ------
+> [1] http://kernel-devsrc.bb
+> [2] http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
