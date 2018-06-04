@@ -1,30 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2987374EB2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 547E574EAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 03:04:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5433WD6003689
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Jun 2018 20:03:58 -0700
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Sun, 3 Jun 2018 20:03:48 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1527829099.git.Qi.Chen@windriver.com>
-	<2135721ef52b1d348383d5f3007f3a946e1be4a5.1527829100.git.Qi.Chen@windriver.com>
-	<08b7132659ca0fa714a0db2683e0cfce3be5576c.camel@linuxfoundation.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <c6ce5cf2-fb16-0dbf-cc33-28f3b74b9ddd@windriver.com>
-Date: Mon, 4 Jun 2018 11:06:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Mon,  4 Jun 2018 03:08:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5438BeZ012563
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 Jun 2018 20:08:11 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Sun, 3 Jun 2018 20:08:10 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Jun 2018 11:10:02 +0800
+Message-ID: <202367e35c16ccbde5a95a4c2adb166c2a9a03ae.1528081495.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1528081495.git.Qi.Chen@windriver.com>
+References: <cover.1528081495.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <08b7132659ca0fa714a0db2683e0cfce3be5576c.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 06/14] oeqa/runtime/cases/selftest.py: rename to _selftest.py
+Subject: [PATCH 01/14] oeqa/core/loader.py: support the 'auto' keyword
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +32,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:04:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Jun 2018 03:08:10 -0000
+Content-Type: text/plain
 
-On 06/04/2018 06:42 AM, Richard Purdie wrote:
-> On Fri, 2018-06-01 at 13:03 +0800, Chen Qi wrote:
->> This test modules is designed to be invoked only by selftest. It's
->> not meant to be tested by normal runtime test. So it should be
->> renamed
->> with '_' prefix, so that it will not be automatically loaded by
->> normal
->> runtime tests when 'auto' is in TEST_SUITES.
->>
->> The failure message is as below.
->>
->>    RESULTS - selftest.Selftest.test_install_package - Testcase -1:
->> FAILED
->>
->> Also, change selftest/cases/runtime_test.py to use '_selftest'
->> accordingly.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> This seems to cause the second failure in
->
-> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1096/steps/Running%20oe-selftest/logs/stdio
->
-> Cheers,
->
-> Richard
->
-Hi Richard,
+In previous OEQA, having 'auto' in TEST_SUITES results in executing
+as many test cases as possible.
 
-I've fixed this issue and updated the remote branch.
-I'll send out V3 soon.
+This behaviour is broken for now. From the codes in core/loader.py,
+I can see that it tries to use another keyword 'all'. But in fact,
+it does not work.
 
-Best Regards,
-Chen Qi
+I've checked the current manual. The manual says using 'auto'.
+Below is the current information in manual.
+
+  """
+  Alternatively, you can provide the "auto" option to have all applicable
+  tests run against the image.
+
+  TEST_SUITES_append = " auto"
+  """
+
+So we should restore this behaviour. This patch does so.
+
+Also, output warning message is some module is named as 'auto', as this
+is a reserved keyword.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/lib/oeqa/core/loader.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index a4744de..98fc0f6 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -155,7 +155,16 @@ class OETestLoader(unittest.TestLoader):
+         class_name = case.__class__.__name__
+         test_name = case._testMethodName
+ 
+-        if self.modules:
++        # 'auto' is a reserved key word to run test cases automatically
++        # warn users if their test case belong to a module named 'auto'
++        if module_name_small == "auto":
++            bb.warn("'auto' is a reserved key word for TEST_SUITES. "
++                    "But test case '%s' is detected to belong to auto module. "
++                    "Please condier using a new name for your module." % str(case))
++
++        # check if case belongs to any specified module
++        # if 'auto' is specified, such check is skipped
++        if self.modules and not 'auto' in self.modules:
+             module = None
+             try:
+                 module = self.modules[module_name_small]
+@@ -245,7 +254,7 @@ class OETestLoader(unittest.TestLoader):
+         for tcName in testCaseNames:
+             case = self._getTestCase(testCaseClass, tcName)
+             # Filer by case id
+-            if not (self.tests and not 'all' in self.tests
++            if not (self.tests and not 'auto' in self.tests
+                     and not getCaseID(case) in self.tests):
+                 self._handleTestCaseDecorators(case)
+ 
+@@ -309,14 +318,14 @@ class OETestLoader(unittest.TestLoader):
+         module_name = module.__name__
+ 
+         # Normal test modules are loaded if no modules were specified,
+-        # if module is in the specified module list or if 'all' is in
++        # if module is in the specified module list or if 'auto' is in
+         # module list.
+         # Underscore modules are loaded only if specified in module list.
+         load_module = True if not module_name.startswith('_') \
+                               and (not self.modules \
+                                    or module_name in self.modules \
+                                    or module_name_small in self.modules \
+-                                   or 'all' in self.modules) \
++                                   or 'auto' in self.modules) \
+                            else False
+ 
+         load_underscore = True if module_name.startswith('_') \
+-- 
+1.9.1
+
 
