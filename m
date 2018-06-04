@@ -1,33 +1,27 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id CCA0D74C9E
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 086B674740
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 00:13:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 6C8F3209A1
+	Mon,  4 Jun 2018 02:24:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w542OMsS002995
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 00:13:38 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024) with ESMTP id BZRkNvCO-ne9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 00:13:38 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 4C45D2099C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 00:13:38 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id BFDD6163483; Sun,  3 Jun 2018 20:13:37 -0400 (EDT)
-Date: Sun, 3 Jun 2018 20:13:37 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20180604001337.GX19965@denix.org>
+	Sun, 3 Jun 2018 19:24:37 -0700
+Received: from [128.224.162.156] (128.224.162.156) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Sun, 3 Jun 2018 19:24:11 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1524119747-12549-1-git-send-email-li.zhou@windriver.com>
+From: "Zhou, Li" <li.zhou@windriver.com>
+Message-ID: <5dcc4825-e136-c12d-3c5e-44995bd5dd32@windriver.com>
+Date: Mon, 4 Jun 2018 10:23:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Microsoft has agreed to acquire GitHub
+In-Reply-To: <1524119747-12549-1-git-send-email-li.zhou@windriver.com>
+Subject: Re: [PATCH] eudev: create static nodes from modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,10 +34,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 00:13:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Jun 2018 02:24:47 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Microsoft Is Said to Have Agreed to Acquire Coding Site GitHub
-https://www.bloomberg.com/news/articles/2018-06-03/microsoft-is-said-to-have-agreed-to-acquire-coding-site-github
+Ping
+
+
+On 04/19/2018 02:35 PM, Li Zhou wrote:
+> Revert commit <src/udev/udevd.c: remove create static nodes from modules>
+> because /dev/net/tun is usually needed to already been there when system
+> boots up. With this commit, /dev/net/tun is missing when sysvinit is
+> used.
+>
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> ---
+>   ...01-eudev-create-static-nodes-from-modules.patch | 106 +++++++++++++++++++++
+>   meta/recipes-core/udev/eudev_3.2.5.bb              |   1 +
+>   2 files changed, 107 insertions(+)
+>   create mode 100644 meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
+>
+> diff --git a/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
+> new file mode 100644
+> index 0000000..583873e
+> --- /dev/null
+> +++ b/meta/recipes-core/udev/eudev/0001-eudev-create-static-nodes-from-modules.patch
+> @@ -0,0 +1,106 @@
+> +From 73df4fe0bd6fd2f2600f0d82b3f121c604baf1be Mon Sep 17 00:00:00 2001
+> +From: Li Zhou <li.zhou@windriver.com>
+> +Date: Thu, 12 Apr 2018 05:14:27 -0400
+> +Subject: [PATCH] eudev: create static nodes from modules
+> +
+> +Revert commit <src/udev/udevd.c: remove create static nodes from modules>
+> +
+> +Upstream-Status: Inappropriate [Just for user's convinence]
+> +
+> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> +---
+> + src/udev/udevd.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> + 1 file changed, 71 insertions(+)
+> +
+> +diff --git a/src/udev/udevd.c b/src/udev/udevd.c
+> +index 9c33eba..95774a1 100644
+> +--- a/src/udev/udevd.c
+> ++++ b/src/udev/udevd.c
+> +@@ -979,6 +979,76 @@ static void handle_signal(struct udev *udev, int signo) {
+> +         }
+> + }
+> +
+> ++static void static_dev_create_from_modules(struct udev *udev) {
+> ++        struct utsname kernel;
+> ++        char modules[UTIL_PATH_SIZE];
+> ++        char buf[4096];
+> ++        FILE *f;
+> ++
+> ++        if (uname(&kernel) < 0) {
+> ++                log_error("uname failed: %m");
+> ++                return;
+> ++        }
+> ++
+> ++        strscpyl(modules, sizeof(modules), ROOTPREFIX "/lib/modules/", kernel.release, "/modules.devname", NULL);
+> ++        f = fopen(modules, "re");
+> ++        if (f == NULL)
+> ++                return;
+> ++
+> ++        while (fgets(buf, sizeof(buf), f) != NULL) {
+> ++                char *s;
+> ++                const char *modname;
+> ++                const char *devname;
+> ++                const char *devno;
+> ++                int maj, min;
+> ++                char type;
+> ++                mode_t mode;
+> ++                char filename[UTIL_PATH_SIZE];
+> ++
+> ++                if (buf[0] == '#')
+> ++                        continue;
+> ++
+> ++                modname = buf;
+> ++                s = strchr(modname, ' ');
+> ++                if (s == NULL)
+> ++                        continue;
+> ++                s[0] = '\0';
+> ++
+> ++                devname = &s[1];
+> ++                s = strchr(devname, ' ');
+> ++                if (s == NULL)
+> ++                        continue;
+> ++                s[0] = '\0';
+> ++
+> ++                devno = &s[1];
+> ++                s = strchr(devno, ' ');
+> ++                if (s == NULL)
+> ++                        s = strchr(devno, '\n');
+> ++                if (s != NULL)
+> ++                        s[0] = '\0';
+> ++                if (sscanf(devno, "%c%u:%u", &type, &maj, &min) != 3)
+> ++                        continue;
+> ++
+> ++                mode  = 0600;
+> ++                if (type == 'c')
+> ++                        mode |= S_IFCHR;
+> ++                else if (type == 'b')
+> ++                        mode |= S_IFBLK;
+> ++                else
+> ++                        continue;
+> ++
+> ++                strscpyl(filename, sizeof(filename), "/dev/", devname, NULL);
+> ++                mkdir_parents_label(filename, 0755);
+> ++                mac_selinux_create_file_prepare(filename, mode);
+> ++                log_debug("mknod '%s' %c%u:%u", filename, type, maj, min);
+> ++                if (mknod(filename, mode, makedev(maj, min)) < 0 && errno == EEXIST)
+> ++                        utimensat(AT_FDCWD, filename, NULL, 0);
+> ++                mac_selinux_create_file_clear();
+> ++        }
+> ++
+> ++        fclose(f);
+> ++}
+> ++
+> + /*
+> +  * read the kernel command line, in case we need to get into debug mode
+> +  *   udev.log-priority=<level>                 syslog priority
+> +@@ -1183,6 +1253,7 @@ int main(int argc, char *argv[]) {
+> +         }
+> +
+> +         dev_setup(NULL, UID_INVALID, GID_INVALID);
+> ++        static_dev_create_from_modules(udev);
+> +
+> +         /* before opening new files, make sure std{in,out,err} fds are in a sane state */
+> +         if (arg_daemonize) {
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-core/udev/eudev_3.2.5.bb b/meta/recipes-core/udev/eudev_3.2.5.bb
+> index 88ad8f1..9237944 100644
+> --- a/meta/recipes-core/udev/eudev_3.2.5.bb
+> +++ b/meta/recipes-core/udev/eudev_3.2.5.bb
+> @@ -18,6 +18,7 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+>              file://permissions.rules \
+>              file://run.rules \
+>              file://udev.rules \
+> +           file://0001-eudev-create-static-nodes-from-modules.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "6ca08c0e14380f87df8e8aceac123671"
+
+-- 
+Best Regards!
+Zhou Li
+Phone number: 86-10-84778511
+
 
