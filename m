@@ -1,26 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB87E74EE5
+	by mail.openembedded.org (Postfix) with ESMTP id 2B71575125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 03:10:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5439pd5003795
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Jun 2018 20:10:07 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 3 Jun 2018 20:09:41 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jun 2018 11:10:13 +0800
-Message-ID: <24cd3020b08ff8dff8b3f565e63174bfc75be14d.1528081495.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1528081495.git.Qi.Chen@windriver.com>
-References: <cover.1528081495.git.Qi.Chen@windriver.com>
+	Mon,  4 Jun 2018 03:22:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w543Lflj004021
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 3 Jun 2018 20:21:56 -0700
+Received: from localhost.corp.ad.wrs.com (128.224.162.139) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Sun, 3 Jun 2018 20:21:30 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1527670923.git.liezhi.yang@windriver.com>
+	<c445dcff9a4a8f8c5de9fbe7468ccc7fc095857e.1527670923.git.liezhi.yang@windriver.com>
+	<43755bc4971a80f56aa06bbafad9ce0b62c809f9.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <27145fcd-63d6-a1ec-c011-51dfaec49aba@windriver.com>
+Date: Mon, 4 Jun 2018 11:24:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Subject: [PATCH 12/14] bitbake.conf: fix HOSTTOOLS setting related to image testing
+In-Reply-To: <43755bc4971a80f56aa06bbafad9ce0b62c809f9.camel@linuxfoundation.org>
+Subject: Re: [PATCH 06/16] gcc-sanitizers: Fix libtool .la files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:10:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Jun 2018 03:22:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-A list of tools are added to HOSTTOOLS depending on if we inherit
-testimage or not. Unfortunately, if we use TEST_IMAGE variable to
-automate the test, these tools are not added to HOSTTOOLS.
 
-Modify the condition to also check TEST_IMAGE to fix the above problem.
 
-Also, change to use if...else... instead of list index for such setting.
+On 06/04/2018 12:01 AM, Richard Purdie wrote:
+> On Wed, 2018-05-30 at 17:03 +0800, Robert Yang wrote:
+>> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+>>
+>> Since libtool sysroot is not set when compiling sanitizers, the
+>> libtool
+>> does no prefix the dependency path correctly. Fix it, so that
+>> programs
+>> can link to sanitizer libraries without error.
+>>
+>> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-sanitizers.inc | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> index e5e8452..2373dd8 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> @@ -39,6 +39,8 @@ do_install () {
+>>           rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>>       fi
+>>       chown -R root:root ${D}
+>> +    # Fix broken libtool with stdc++, as sysroot is not set.
+>> +    find ${D} -name \*.la -exec sed -i "/^dependency_libs=/s@'${libdir}'@=${libdir}@g" {} \;
+>>   }
+>>   
+>>   INHIBIT_DEFAULT_DEPS = "1"
+> 
+> At this point we gave up and started just deleting .la files so I'm not
+> sure this matters any more. Do you still need to do this?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sory, I can't find any la files in ${D}, I think that is not needed any more,
+I will drop it in V3.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 6ecf78b..4bac7ea 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -487,7 +487,7 @@ HOSTTOOLS += " \
- "
- 
- # Tools needed to run testimage runtime image testing
--HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
-+HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE') == '1') else ''}"
- 
- # Link to these if present
- HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
--- 
-1.9.1
+// Robert
 
+> 
+> Regardless, it would be better to pass in the right libtool sysroot
+> rather than hacking the .la files.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
