@@ -1,20 +1,29 @@
-Return-Path: <kai.kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B95E74E86
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A32574C63
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 10:59:15 +0000 (UTC)
-Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w54AxFiR010278
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Jun 2018 03:59:15 -0700 (PDT)
-Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Mon, 04 Jun 2018 03:59:15 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jun 2018 03:58:28 -0700
-Message-Id: <20180604105828.24004-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] man-db: create man db index file
+	Mon,  4 Jun 2018 11:31:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2018 04:31:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,476,1520924400"; d="scan'208";a="60190387"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2018 04:31:52 -0700
+To: Bas Mevissen <abuse@basmevissen.nl>,
+	Openembedded Core <openembedded-core@lists.openembedded.org>
+References: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <0c5a1317-bbed-4de5-d0d7-d34989d53e7e@linux.intel.com>
+Date: Mon, 4 Jun 2018 14:32:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
+MIME-Version: 1.0
+In-Reply-To: <be75fca2a4a635993bfaf89073fc0bd3@basmevissen.nl>
+Subject: Re: Summary of kernel-devsrc package issues (Sumo)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,37 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 10:59:16 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 11:31:51 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The man db index file doesn't exist, it causes commands whatis, apropos
-and 'man -f' don't work as expect:
+On 06/04/2018 12:04 PM, Bas Mevissen wrote:
+> I ran into several issues with kernel-devsrc when building Poky Sumu 
+> with the meta-freescale layer for an Freescale i.mx6sx ARM board. In 
+> this mail(thread) I would like to collect them all and discuss the 
+> possible options to resolve them.
 
-| root@qemux86-64:# whatis hosts
-| hosts: nothing appropriate.
+This is probably better discussed here:
+https://lists.yoctoproject.org/listinfo/linux-yocto
 
-Run command mandb to create man db index file when first boot.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/man-db/man-db_2.8.2.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-extended/man-db/man-db_2.8.2.bb b/meta/recipes-extended/man-db/man-db_2.8.2.bb
-index 797f770408d..f47d66ce3df 100644
---- a/meta/recipes-extended/man-db/man-db_2.8.2.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.8.2.bb
-@@ -21,6 +21,10 @@ do_install_append_libc-musl() {
-         rm -f ${D}${libdir}/charset.alias
- }
- 
-+pkg_postinst_ontarget_${PN} () {
-+        ${bindir}/mandb -q
-+}
-+
- FILES_${PN} += "${prefix}/lib/tmpfiles.d"
- 
- FILES_${PN}-dev += "${libdir}/man-db/libman.so ${libdir}/${BPN}/libmandb.so"
--- 
-2.11.0
+Alex
 
 
