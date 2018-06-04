@@ -1,38 +1,58 @@
-Return-Path: <damien.riegel@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AF7D607AC
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 017AE60603
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 18:15:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 42B109C1AB7;
-	Mon,  4 Jun 2018 14:15:46 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id 0Ely6GYTJD3u; Mon,  4 Jun 2018 14:15:45 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id B48D59C3466;
-	Mon,  4 Jun 2018 14:15:45 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id rw5Eda3bBeqj; Mon,  4 Jun 2018 14:15:45 -0400 (EDT)
-Received: from workotop.localdomain (unknown [192.168.50.174])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 91C279C1AB7;
-	Mon,  4 Jun 2018 14:15:45 -0400 (EDT)
-Date: Mon, 4 Jun 2018 14:15:41 -0400
-From: Damien Riegel <damien.riegel@savoirfairelinux.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20180604181541.qar66nffop2ejyqu@workotop.localdomain>
-References: <20180604153827.5186-1-damien.riegel@savoirfairelinux.com>
-	<8d58855729cdcd56b30d8550c529e12595c39be8.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <8d58855729cdcd56b30d8550c529e12595c39be8.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20180512
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] populate_sdk_ext.bbclass: fix corebase identification
+	Mon,  4 Jun 2018 18:20:40 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id g7-v6so70718ioh.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Jun 2018 11:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=HNUPjSMaRCdMHIMgk/kc0PXLuO+kRIXv4Fmphk02B2k=;
+	b=QhTHhtXnQchCVuEMsKDXSWd8F7CNQnYyvwvcuNpNmptjLJvoGkdKDzwF2+W0g1Z3BZ
+	SlNtStYaxBUITiNxFJh2eufWSOM/rRNcPoKMBZbB9TvqrEOeiN2SOhGv+de0NgS9waNH
+	cSqgfesHTmFnBuWGKJtwC0gvV3sa25LK4mRvFWEJ9Sy9TepDE4ZSYfSsuNpHUQUxufGc
+	hBI5hu/bm1eApBS5zKpLXBUNGFwMl+s+IHlWe5a2D+4yPSFeZWbFnlgtEtINj9BDDR15
+	pu/Yxwd3nkn9PMfv2KIrlTL+0Ghc8eOPO1NbCIG2YU6FNhmYS2AaWLczpcyVGWOD2gxX
+	feJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=HNUPjSMaRCdMHIMgk/kc0PXLuO+kRIXv4Fmphk02B2k=;
+	b=Db+OWT/Tla2wgQrG5HIeL9jzPy2bsM6TsenGGA3wWSvdhpb8R/wQzjxQdpiNtuoJvL
+	BawPbib2eGphxiZR+nSy8xRUEKLCgmgsB6L744ahGF54MeKAhtRjv3zOU6+OFozoo30R
+	V9bH0DPL1ZNekSn5NGCY6jW8zEx2hzW09D3qaBmKye+nw0oNYTGEL6yaU6gggOCX8G5f
+	nrmeVVc17yxJmkF9+TdwP5Eaqmm3d895OlnuxsBpDM8l4UN5E0uG818gpBIzulZG5ZjE
+	5jZDz1FeOYFOrzos3UVp1YoZPWSxHaUx2+fzCFW46xBdSP2CpV7NCu1bZoGEWzdI5Cfr
+	S6bA==
+X-Gm-Message-State: APt69E3xBU87wbtHs73S1vRuj7z2raPZnvf7GPGLja3vKx+sU1/2jg1X
+	To7W68MXxZCXYhX2bYu5yZQ=
+X-Google-Smtp-Source: ADUXVKJjSM8uaocxihJ4EE0DtlrV7PT4tym4f2v5BCQ0I2zRIfMQ1FSR2ru6/Mcrq96b7FjN/HMWlg==
+X-Received: by 2002:a6b:6401:: with SMTP id t1-v6mr419276iog.114.1528136441940;
+	Mon, 04 Jun 2018 11:20:41 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	r6-v6sm4681874iog.16.2018.06.04.11.20.41
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 04 Jun 2018 11:20:41 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <e2132fe30522a6ec140f036a244a71d51c476b51.camel@gmail.com>
+To: Martin Kelly <mkelly@xevo.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 04 Jun 2018 13:20:40 -0500
+In-Reply-To: <0994b61a-1465-e227-81ff-6ef60e055656@xevo.com>
+References: <20180601210240.14969-1-mkelly@xevo.com>
+	<20180601210240.14969-6-mkelly@xevo.com>
+	<1fa5f19ad4ac398de0dc6da40c46ead935133dbe.camel@gmail.com>
+	<5c2bc7c4-6a79-2775-af6a-30fb6d693296@xevo.com>
+	<79a9b2f1db65d8cc4233f93b7b5213d025a6d262.camel@gmail.com>
+	<0994b61a-1465-e227-81ff-6ef60e055656@xevo.com>
+X-Mailer: Evolution 3.28.2 (3.28.2-1.fc28) 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2 5/7] toolchain-shar-extract: pass env to post-relocate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +65,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 18:15:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Jun 2018 18:20:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 04, 2018 at 04:54:08PM +0100, Richard Purdie wrote:
-> On Mon, 2018-06-04 at 11:38 -0400, Damien Riegel wrote:
-> > When generating the extended SDK, there is a copy step where this
-> > class
-> > goes through the layers and other stuff that have been copied to
-> > generate the SDK.
+On Mon, 2018-06-04 at 11:10 -0700, Martin Kelly wrote:
+> On 06/04/2018 10:20 AM, Joshua Watt wrote:
+> > On Fri, 2018-06-01 at 15:24 -0700, Martin Kelly wrote:
+> > > On 06/01/2018 03:08 PM, Joshua Watt wrote:
+> > > > On Fri, 2018-06-01 at 14:02 -0700, Martin Kelly wrote:
+> > > > > It's useful for the post-relocate scripts to be able to see
+> > > > > the
+> > > > > SDK
+> > > > > environment, for example to see the values of CC, CXX etc. in
+> > > > > order
+> > > > > to
+> > > > > dynamically generate toolchain files.
+> > > > > 
+> > > > > To enable this, source the SDK environment script prior to
+> > > > > calling
+> > > > > the
+> > > > > relocate scripts.
+> > > > > 
+> > > > > Signed-off-by: Martin Kelly <mkelly@xevo.com>
+> > > > > ---
+> > > > >    meta/classes/toolchain-scripts.bbclass     | 17
+> > > > > +++++++++++++
+> > > > > ----
+> > > > >    meta/recipes-core/meta/meta-environment.bb |  5 +++--
+> > > > >    2 files changed, 16 insertions(+), 6 deletions(-)
+> > > > > 
+> > > > > diff --git a/meta/classes/toolchain-scripts.bbclass
+> > > > > b/meta/classes/toolchain-scripts.bbclass
+> > > > > index ae7bbef034..5f99fd8c03 100644
+> > > > > --- a/meta/classes/toolchain-scripts.bbclass
+> > > > > +++ b/meta/classes/toolchain-scripts.bbclass
+> > > > > @@ -118,11 +118,20 @@ EOF
+> > > > >    }
+> > > > >    
+> > > > >    toolchain_create_post_relocate_script() {
+> > > > > -	script=$1
+> > > > > -	rm -f $script
+> > > > > -	touch $script
+> > > > > +	relocate_script=$1
+> > > > > +	sdk_script=$2
+> > > > > +	rm -f $relocate_script
+> > > > > +	touch $relocate_script
+> > > > > +
+> > > > > +    cat >> $relocate_script <<EOF
+> > > > > +# Source the SDK env script in case it is needed for the
+> > > > > relocate
+> > > > > scripts.
+> > > > > +. $sdk_script
+> > > > 
+> > > > I had originally done something similar to this when I added
+> > > > support
+> > > > for the post-relocate scripts with icecream. However, it is
+> > > > insufficent
+> > > > because there can be multiple SDK environment scripts that need
+> > > > to
+> > > > be
+> > > > sourced. In order to get a fully correct environment, I had to
+> > > > do:
+> > > > 
+> > > >    # Setup environment
+> > > >    for env_setup_script in `ls $1/environment-setup-*`; do
+> > > >    	. $env_setup_script
+> > > >    done
+> > > > 
+> > > > see meta/recipes-devtools/icecc-toolchain/icecc-
+> > > > toolchain/icecc-
+> > > > setup.sh
+> > > > 
+> > > > 
+> > > 
+> > > There's one overall "SDK environment" script (the one you source
+> > > as
+> > > a
+> > > user to enter the SDK environment), and also customizable ones
+> > > installed
+> > > by nativesdk-* packages (e.g. one that cmake uses). In this
+> > > patch, I
+> > > had
+> > > not intended that post-relocate scripts should be able to see the
+> > > environment scripts for every project but instead just for the
+> > > global
+> > > SDK enivorment (to get at variables like OECORE_NATIVE_SYSROOT).
 > > 
-> > The corebase; ie. the folder that contains the core layer 'meta' is
-> > treated in a special way. Unfortunately in our tree, we have:
+> > (Almost) All of the code I can find that deals with the SDK
+> > environment
+> > supports multiple top level environment-setup-* files. If you
+> > happen to
+> > have more than one, the relocation script will relocate all of them
+> > (meta/files/toolchain-shar-relocate.sh), and the extraction script
+> > will
+> > give you instructions to source them all (meta/files/toolchain-
+> > shar-
+> > extract.sh).
 > > 
-> >   layers/meta/meta
-> >            |     `- core layer
-> >            `------- corebase
-> > 
-> > When populate_sdk_ext checks this layer, it thinks wrongly that it's
-> > the
-> > corebase folder, so it treats it differently and doesn't add it to
-> > the
-> > layer list. When bitbake tries to run in the generated SDK, it will
-> > fail
-> > because it doesn't find information stored in that layer.
-> > 
-> > This patch makes sure only the corebase folder is identified as so.
-> > 
-> > Signed-off-by: Damien Riegel <damien.riegel@savoirfairelinux.com>
-> > ---
-> >  meta/classes/populate_sdk_ext.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/populate_sdk_ext.bbclass
-> > b/meta/classes/populate_sdk_ext.bbclass
-> > index 2dd21237e2..917fbfa1b4 100644
-> > --- a/meta/classes/populate_sdk_ext.bbclass
-> > +++ b/meta/classes/populate_sdk_ext.bbclass
-> > @@ -207,7 +207,7 @@ python copy_buildsystem () {
-> >      sdkbblayers = []
-> >      corebase = os.path.basename(d.getVar('COREBASE'))
-> >      for layer in layers_copied:
-> > -        if corebase == os.path.basename(layer):
-> > +        if corebase == layer:
-> >              conf_bbpath = os.path.join('layers', layer, 'bitbake')
+> > It's possible this is some left over anachronism and it has no
+> > actual
+> > use, but we should either fix it everywhere else or be consistent
+> > here.
 > > 
 > 
-> Whilst I appreciate the problem, the fix doesn't look like it would
-> work for other use cases since its comparing a basename on one side and
-> a non-basename on the other...
+> OK, that's good to know.
+> 
+> > > 
+> > > Let me know if I have missed something and not including the
+> > > other
+> > > environments could cause breakage.
+> > > 
+> > > Here's what I mean from an example extracted SDK:
+> > > 
+> > > martin@columbia:~$ ls /opt/xos/nanopi-neo-plus2/*environment*
+> > > /opt/xos/nanopi-neo-plus2/environment-setup-aarch64-poky-linux
+> > > 
+> > > martin@columbia:~$ ls
+> > > /opt/xos/nanopi-neo-plus2/sysroots/x86_64-xevo-linux/environment-
+> > > setup.d/
+> > > cmake.sh
+> > > 
+> > > In the above example, we are currently sourcing only
+> > > /opt/xos/nanopi-neo-plus2/environment-setup-aarch64-poky-linux
+> > > and
+> > > not
+> > > cmake.sh.
+> > 
+> > Sort of.... environment-setup-aarch64-poky-linux is going to
+> > implicitly
+> > source the cmake.sh script (see the for loop at the end of the
+> > script)
+> > 
+> 
+> Yes, I see that now. Given that the top-level environment-setup
+> script 
+> implicitly sources the individual project sh scripts, isn't it
+> correct 
+> to source only the top-level one? In that way, if the path to the 
+> individual sh scripts changes, this code won't break, and it leaves
+> the 
+> top-level script to the single source of truth with regard to 
+> environment setup scripts.
 
-Well, the issue is precisely caused by the comparison of basenames.
+Yes I agree. I think there was some miscommunication, I wasn't
+suggesting that we should be sourcing those manually. I just wanted to
+handle the top level environment-setup-* scripts in a consistent manner
+to the rest of the code (i.e. make sure we source all of them).
 
-    >>> os.path.basename("meta/meta")
-    'meta'
-    >>> os.path.basename("meta")
-    'meta'
-
-So it doesn't differentiate between a layer within corebase and corebase
-itself. copy_bitbake_and_layers seems to do the comparison differently
-[1]. Arguably there, it's comparison between absolute paths, but still.
-
-Do you have suggestions on how I could fix this bug otherwise? Maybe
-copy_bitbake_and_layers could return a tuple (corebase, layers) instead
-of a list that contains copied_layers + corebase.
-
-[1] https://github.com/openembedded/openembedded-core/blob/master/meta/lib/oe/copy_buildsystem.py#L91
-
-Thank for the feedback,
--- 
-Damien
 
