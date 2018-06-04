@@ -1,55 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B16E753F0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CF11075277
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 23:19:19 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id a3-v6so1134629itd.0
+	Mon,  4 Jun 2018 23:22:39 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id g9-v6so279459uak.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2018 16:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 04 Jun 2018 16:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LwFpAMK1tuDEHT4ooBiFwh6Q9emUr1NXnKNDgKoU9Fg=;
-	b=rQ1LtKD8fdRmEyHNiEM6SZqwkTbMoI7XJckv1Wpndx1FrKEsd6Dvoov3aCerVXyKSu
-	WctMv8oP+84JV5YTKYRVGqCPDOffG7BLERh0rJsKJGjmtaAeE7zuylCo5w7dgEhB4/Ne
-	a57aN75V+10CBLhUIxLtUmNEoH4+uC+wjbWV3lBrKWxcBmX3BUCTVOj379GqbQ2L+rJc
-	Vu7+6GnvB4opG3pES8V+oR5IlofIAbnY6qfppOGgRkPtk10Rmg1Su5PCIYvNIR2KvbBy
-	d5kMAegTVzfsN4iNEJC9zlblM3qA84Xyov6R1A7nA32iQorZWPxPLon3vd1mbwckJe0z
-	H9DQ==
+	:cc; bh=rZq57KUNsSB4ScDhyHPrfv2G3GFOmx1SwlTSUWkD1w8=;
+	b=WhGqpyAlrvOIFbxXbbWLxfJPEhNHd7z67mZFDSB/S5M06s4G/BAiwr7Ql6/9t2prMs
+	FzS54HtsXmxyMOXPQF8tRZ7afxZoRqD1E0TaSF/CQDEJXha2a3IMZ54fEgB86b0qycEZ
+	cg0tHqXAsz1MCqbePWbI3X/4oY/Uo3uuiVBYHEmTKdnue4nps1dzRxdzGBwxJRfCvfRZ
+	OfVFGGYdmHW0PoX/tX3/zSVeRfTAuq0qk8rAVPfafuXitiQtMOgiWHVuWQ/yU0JuVfdj
+	UCdY7yBGzyRwcUkOpCvriE7ptGhzx7t3fmJRSHdyV6oN4DTSiUIw3tjF6zF22Wv3lcUK
+	4eMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=LwFpAMK1tuDEHT4ooBiFwh6Q9emUr1NXnKNDgKoU9Fg=;
-	b=V/JMdytiRguz8BdYlxsLZ9n1G+K6BSI10JaQK1vUPBxpOCXgLQFwLdtyVhTkphuGoG
-	+ZAzkXk5l9RFqq63i1w89xxLZMUwS6vI+njgSRytuDdas+0QB37+UaNFsh6oRHUSCZfO
-	oIV82ea/UJRB7MxyZeonCP3E3xsGyNIFCMwm3W3XvNx9R0v8yVE8G8Jx7nBPEqxp6y3I
-	165aLc8FrU5gwGJKQYf4pggwh4tnhKMcUrpEB/ZZjQ10n8CkhISzog9QaVjGAaN9llkM
-	eOZSVuMm5ZZoi+VfGaz3pfNP5Wcy5+0xu2gRnp6u0KYIxns7UKeMdvgbb0UHF4B8Np1D
-	lJ3Q==
-X-Gm-Message-State: ALKqPwf7h0HNyeCBPHzxjI2vxknjRfPalDmI3hpYWLY+sC9VPE/2PEYh
-	iRxuZkfQA4yHElYCdfFPyQzPgb4vn5l5JE6DZz3ueA==
-X-Google-Smtp-Source: ADUXVKJf5HA23JHgmOOu6k9Ahx43Hr8teEa+K2dwT6yKLlYPRS/luNoQVnwI2EFk5DkwskorpD3rhFWWpmx90g4vNH0=
-X-Received: by 2002:a24:184d:: with SMTP id
-	74-v6mr16228122itr.127.1528154360236; 
-	Mon, 04 Jun 2018 16:19:20 -0700 (PDT)
+	bh=rZq57KUNsSB4ScDhyHPrfv2G3GFOmx1SwlTSUWkD1w8=;
+	b=TfGVr3lLh3EPqdT9CFbQD5RgujGtYU0GcIXyKEdVbZ3IcnSPCYbuYHC6kRlqXbCJw3
+	1RpD0FHuZmqLEr8isTk89FKDtUjOM8TajYJOd1QJGIa2InTdN8f0EtRzA4U9kpZ703P0
+	hVIRHEr28bb6jU2Y2M5hU92huJ5eTiF1VHYtUuSjd+UgklvvPtXJOwY1Am6dSpUUSF/J
+	4x8z/e1EZ/72ZOaMnXjbz+lgZ9gMUjfvwLJl1f5wFBaRYENad+kwG0la73JyOPjI0Ed0
+	fr93/0ttZmN7OUvD0ESulHC3qX7O4V2FGmqzqlpgNoZteC6IzgnkQJckoA91SqqEtYGO
+	8k1g==
+X-Gm-Message-State: ALKqPwdPaw5gXJ7ax2vGjlP0suWWNi3Q/mrsQB5RpAIkW1JZkvn15Qbx
+	udliTzgrwXJ5UaHnu35pQx6fXBPGWvRJrti3Fp8=
+X-Google-Smtp-Source: ADUXVKKaOQ9w3qWqT8wqTzMgoFCTEGIx8/nQONiak166a14TLabFJIu8Oux9+JiHxutRoKDHSgwp/w2JApJsxdFZ7Ow=
+X-Received: by 2002:a9f:3352:: with SMTP id
+	a18-v6mr15337556uac.38.1528154560610; 
+	Mon, 04 Jun 2018 16:22:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:f614:0:0:0:0:0 with HTTP;
-	Mon, 4 Jun 2018 16:18:59 -0700 (PDT)
-In-Reply-To: <CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
-References: <20180601221436.27162-1-alistair.francis@wdc.com>
-	<20180601221436.27162-2-alistair.francis@wdc.com>
-	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
-	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
-	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
-	<CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jun 2018 00:18:59 +0100
-Message-ID: <CAJTo0LboMpfRu6rOzXAP+5yzd5yokYp52Cai+cvWDKr_aMkkhg@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Mon, 4 Jun 2018 16:22:40 -0700 (PDT)
+In-Reply-To: <42d1ff74-c9d2-de23-a92d-dfa0eee736af@windriver.com>
+References: <1527286040-11947-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=VFe=vuPfudEY_hUV3MMz34vOak7stiTHR33nTmya68Cg@mail.gmail.com>
+	<42d1ff74-c9d2-de23-a92d-dfa0eee736af@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 4 Jun 2018 16:22:40 -0700
+Message-ID: <CAJ86T=XxoiCLw3xXz-kkvZbDVnWqpjazWPW9b7pf8h3o7o2nJQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: drop sshd support for DSA host keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,43 +58,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 23:19:19 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 23:22:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-That implies that INHIBIT_DEFAULT_DEPS is also evaluating to true,
-which it shouldn't be in ATK.
-
-I'd definitely be checking if that is the case, and if you can
-replicate the failure with e.g. qemuarm.
-
-Ross
-
-On 4 June 2018 at 19:46, Alistair Francis <alistair23@gmail.com> wrote:
-> On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->> On 06/04/2018 08:17 PM, Alistair Francis wrote:
+On Mon, Jun 4, 2018 at 3:25 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> On 6/4/18 2:18 PM, Andre McCurdy wrote:
+>> On Fri, May 25, 2018 at 3:07 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>> DSA keys have been deprecated for some time:
 >>>
->>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
->>> wrote:
->>>>
->>>> So why isn't the inherit gettext sufficient?
+>>>   https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html
+>>
+>> Ping.
+>>
+>> Any issues with this?
+>
+> At Wind River we have a series of patches to disable weak-ciphers.  We had
+> globally disabled them a while back and found that a number of applications and
+> customers still were using them for various things.
+>
+> Even though they were 'weak', they were still needed.
+>
+> See:
+>
+> https://github.com/WindRiver-OpenSourceLabs/wrlinux/tree/master-wr/wrlinux-distro/recipes-weak-ciphers
+
+Disabling weak ciphers in openssl and then fixing the fallout in
+*everything* that links with openssl is quite a different and more
+ambitious undertaking.
+
+For ssh host key formats, the only requirement is that host and client
+agree on at least one common format. RSA is the most common and well
+established so as long as we don't disable that, disabling support for
+less common or less secure formats is unlikely to cause any issues.
+
+Currently for the dropbear ssh server we ONLY enable RSA host keys and
+that seems to be working out fine.
+
+Having our openssh server drop support for DSA host keys seems like
+the right thing to do given potential security concerns and the fact
+that modern ssh clients (e.g. openssh after 7.0p1 from 2015) don't
+support them any more.
+
+> If this work is something that should be submitted to oe-core/meta-openembedded
+> and would be a candidate for merging, I'm all for it.
+>
+> My suggestion though would be to reverse the checks we have.. instead of a
+> distro feature of 'openssl-no-weak-ciphers', make it 'allow-weak-ciphers', and
+> disable them by default.
+>
+> A few things like Kerberos, freeradius and others require weak ciphers for some
+> functions.  So the corresponding patches for those would need to be developed.
+>
+> If this is something we want to do, then the OpenSSH change below could be
+> switched into a PACKAGECONFIG option, and still allow people to define an
+> insecure system -- if they need to...
+>
+> --Mark
+>
+>>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>>> ---
+>>>  meta/recipes-connectivity/openssh/openssh/sshd_check_keys | 8 --------
+>>>  meta/recipes-connectivity/openssh/openssh/sshd_config     | 1 -
+>>>  meta/recipes-connectivity/openssh/openssh_7.6p1.bb        | 1 -
+>>>  3 files changed, 10 deletions(-)
 >>>
+>>> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+>>> index 5463b1a..be2e2ec 100644
+>>> --- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+>>> +++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+>>> @@ -60,9 +60,6 @@ done
+>>>  HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+>>>  [ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+>>>  [ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
+>>> -HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
+>>> -[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
+>>> -[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
+>>>  HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+>>>  [ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+>>>  [ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
+>>> @@ -79,12 +76,7 @@ if [ ! -f $HOST_KEY_ECDSA ]; then
+>>>      echo "  generating ssh ECDSA key..."
+>>>      generate_key $HOST_KEY_ECDSA ecdsa
+>>>  fi
+>>> -if [ ! -f $HOST_KEY_DSA ]; then
+>>> -    echo "  generating ssh DSA key..."
+>>> -    generate_key $HOST_KEY_DSA dsa
+>>> -fi
+>>>  if [ ! -f $HOST_KEY_ED25519 ]; then
+>>>      echo "  generating ssh ED25519 key..."
+>>>      generate_key $HOST_KEY_ED25519 ed25519
+>>>  fi
+>>> -
+>>> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
+>>> index 31fe5d9..b7c3ccd 100644
+>>> --- a/meta/recipes-connectivity/openssh/openssh/sshd_config
+>>> +++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
+>>> @@ -22,7 +22,6 @@ Protocol 2
+>>>  #HostKey /etc/ssh/ssh_host_key
+>>>  # HostKeys for protocol version 2
+>>>  #HostKey /etc/ssh/ssh_host_rsa_key
+>>> -#HostKey /etc/ssh/ssh_host_dsa_key
+>>>  #HostKey /etc/ssh/ssh_host_ecdsa_key
+>>>  #HostKey /etc/ssh/ssh_host_ed25519_key
 >>>
->>> I'm not sure. Here is the error I see when compiling for RISC-V before
->>> this patch:
->>
->>
->> So is the error specific to risc-v? You should dig deeper in that direction
->> then.
+>>> diff --git a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+>>> index e11e8d7..a527a7c 100644
+>>> --- a/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+>>> +++ b/meta/recipes-connectivity/openssh/openssh_7.6p1.bb
+>>> @@ -110,7 +110,6 @@ do_install_append () {
+>>>         install -m 644 ${D}${sysconfdir}/ssh/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>>         sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>>         echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>> -       echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>>         echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>>         echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>>>
+>>> --
+>>> 1.9.1
+>>>
 >
-> Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
-> not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
-> gettext.bbclass so we don't depend on gettext-native.
->
-> Do I need to ensure cross-canadian is set for RISC-V builds then?
->
-> Alistair
->
->>
->> Alex
 
