@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 217FE74BE5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B16574BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 03:10:07 +0000 (UTC)
+	Mon,  4 Jun 2018 03:10:08 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w543A8dI012746
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w543A9IH000261
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 3 Jun 2018 20:10:08 -0700 (PDT)
+	Sun, 3 Jun 2018 20:10:09 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 3 Jun 2018 20:10:07 -0700
+	14.3.399.0; Sun, 3 Jun 2018 20:10:09 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Jun 2018 11:10:14 +0800
-Message-ID: <4f4837ca4fba6532c5cfb90e90ca1a88db985ac5.1528081495.git.Qi.Chen@windriver.com>
+Date: Mon, 4 Jun 2018 11:10:15 +0800
+Message-ID: <bb053bf6ac151d715373ea2a7d46755fa31c3632.1528081495.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1528081495.git.Qi.Chen@windriver.com>
 References: <cover.1528081495.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 13/14] testimage.bbclass: move codes into testimage_main
+Subject: [PATCH 14/14] oeqa/core/target/ssh.py: increase maximum read bytes from 1024 to 4096
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:10:07 -0000
+X-List-Received-Date: Mon, 04 Jun 2018 03:10:08 -0000
 Content-Type: text/plain
 
-testimage-auto is expected to run testimage task's codes automatically.
-But in fact, it's currently missing some codes, including testimage_sanity
-and create_rpm_index.
+When running testimage task for core-image-sato-sdk, the following
+error appeared.
 
-This leads to the problem of unexpected runtime failure of test_dnf_makecache.
-The error message is as below.
+  UnicodeDecodeError: 'utf-8' codec can't decode byte 0x82 at position 0: invalid start byte
 
-  RESULTS - dnf.DnfRepoTest.test_dnf_makecache - Testcase 1744: ERROR
+Checking the codes, I found it's caused by setting a 1024 limit for the
+read method of the StreamReader object.
 
-This error is caused by the fact that create_rpm_index is not executed
-before running the tests.
+Comments from the manual:
+"""
+The chars argument indicates the number of decoded code points or bytes to
+return. The read() method will never return more data than requested, but
+it might return less, if there is not enough available.
+"""
 
-There's no reason why such codes should not be in testimage_main, so
-move them into it.
+When running `systemctl status --full' on target, this error occurs.
+
+This patch increase the bytes limit to 4096 to fix the error.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/testimage.bbclass | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ meta/lib/oeqa/core/target/ssh.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 14252ff..c17a7c6 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -117,13 +117,6 @@ testimage_dump_host () {
- }
- 
- python do_testimage() {
--
--    testimage_sanity(d)
--
--    if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
--       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
--        create_rpm_index(d)
--
-     testimage_main(d)
- }
- 
-@@ -159,6 +152,12 @@ def testimage_main(d):
-         """
-         raise RuntimeError
- 
-+    testimage_sanity(d)
-+
-+    if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
-+       and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SUITES'))):
-+        create_rpm_index(d)
-+
-     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-     pn = d.getVar("PN")
- 
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 151b99a..8ff1f6c 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -208,7 +208,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 try:
+                     if select.select([process.stdout], [], [], 5)[0] != []:
+                         reader = codecs.getreader('utf-8')(process.stdout)
+-                        data = reader.read(1024, 1024)
++                        data = reader.read(1024, 4096)
+                         if not data:
+                             process.stdout.close()
+                             eof = True
 -- 
 1.9.1
 
