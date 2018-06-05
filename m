@@ -1,43 +1,119 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A97478439
+Return-Path: <mkelly@xevo.com>
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-dm3nam03on0054.outbound.protection.outlook.com [104.47.41.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C412878560
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 16:51:05 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id j80-v6so1945676qke.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2018 09:51:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=pLJwv9DOTbyYTmkM2LBW+TZgY6e0r1+mu0FOF7cJh5Y=;
-	b=rvoaIE9XPUBKJGbzlz219bZHo1FB+xuz7mod7p+oLtvEyomHvI5CTEzTno7Tc8We42
-	FQXPAyKRXpqA3HCKNG1mbQyv31hJLYUodSr9+/BwHb+1iot2g5cEemsX05WyMJsXvcjC
-	7R20Arx45kMIIv760zBAsYO2hmEHvpPUGe4jHR4Kl7wptHswX6Mb74GBapylgiTsXkKn
-	Q7e8/anuk0LnVxY7/Dt78+RIBF5e7CYgazg1HyEiZYi3M2S/yZr9rGl9HsyXNl87xP0d
-	ROoLQKmyvj8+TpsdF9KaVroCi2LBzanamjYgjXUNANbQSSv3cGfKJcaajFMYTjgcbCMn
-	QW7A==
-X-Gm-Message-State: APt69E0S9OxSS3+jvHUqRw6GN5w3q3dXPdMxtijUN5pd6Tp40j5NEGIb
-	O7XI0gtU4wDvzVLsjPpbVa8iTw==
-X-Google-Smtp-Source: ADUXVKKebIP8Aih1cdoCIhS1wH4NnWgDg5qcpL2AVmyZeonvBPut0czANN38Y32y/zw1PF1/76qcdw==
-X-Received: by 2002:a37:bb43:: with SMTP id
-	l64-v6mr20407861qkf.414.1528217465883; 
-	Tue, 05 Jun 2018 09:51:05 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
-	by smtp.gmail.com with ESMTPSA id
-	m70-v6sm19551119qkl.72.2018.06.05.09.51.02
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Jun 2018 09:51:04 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Jun 2018 13:50:56 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Jun 2018 13:50:55 -0300
-Message-Id: <20180605165055.19306-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Update 18.0.2 -> 18.1.1
+	Tue,  5 Jun 2018 16:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=8wuZkd+eEyUsyfRGl2ifMtgYl9RZrRPnOsx/gtpv6M8=;
+	b=q2rlHcgi7H4FxGfHlGwfhw0JbhQ97hTlMI1cBgBj81GVAQwaqNK9h5r81jHdwNT8gEUm6qSowmJ3gJvhSdF1tUBfRWtwiCNuDX6lkEhp/QPfA3NRxW5lqxE373TLr9+QTQ7efDRyXzh8ZkYmgePJb7kndX9z0lP8C6o8b10nfyg=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=mkelly@xevo.com; 
+Received: from [192.168.0.3] (97.113.238.55) by
+	MW2PR0102MB3418.prod.exchangelabs.com (2603:10b6:302:3::11) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.820.14; Tue, 5 Jun 2018 16:56:30 +0000
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20180604230602.8461-1-mkelly@xevo.com>
+	<20180604230602.8461-2-mkelly@xevo.com>
+	<248cbe41837f42c88d3b38cefec71a4b@XBOX02.axis.com>
+	<73a2a78cd6778812d9983f044f374e6c2de0b248.camel@linuxfoundation.org>
+	<a72d01504c484595ae44abe19bbf4665@XBOX02.axis.com>
+From: Martin Kelly <mkelly@xevo.com>
+Message-ID: <42738ca8-6427-8f46-fa69-91b9930381b4@xevo.com>
+Date: Tue, 5 Jun 2018 09:56:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <a72d01504c484595ae44abe19bbf4665@XBOX02.axis.com>
+X-Originating-IP: [97.113.238.55]
+X-ClientProxiedBy: MW2PR2101CA0009.namprd21.prod.outlook.com
+	(2603:10b6:302:1::22) To MW2PR0102MB3418.prod.exchangelabs.com
+	(2603:10b6:302:3::11)
+X-MS-PublicTrafficType: Email
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
+	SRVR:MW2PR0102MB3418; 
+X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3418;
+	3:a9uqFaJUC3mvXMrrotxeKL+VxxXvNHvbodd9471LFmkb2bixUauWIiUpyEM8Gmr59Hf5crAhrSrdiGYcAWR55qMfT06Kr3J0txjSb83GTp3SVnSu8YvChjqKsK7TA+B3Lf83qmrv+04snfOfVB9KcxVmP+irHU4SaqTHQ5MfilmXfY6L3E0XhkEaQEkeX8DPiELhu8/oK2IUPp+gs7Y35b6cmphaSwMcZeGAcSyKYsTrWA/leinkI/2DGyeSZjOW;
+	25:cbrcpXnIOBi81lP3eTTKGTnbTRiGyMVBHsPoIOcaE7wvnTNenye9nioovaEMdFS/6kKfyot8yirieYbYdolwruJkVU56jLQRomjC6W2nEPoAwm3onxHpI1yEO1jsL0NqOtmvlQGKUVLfI4F0WAg01PGZyqUjfcskFHrkumwxhCFTgYWfusW0b+5rEW25W1pm65V0GR24rqDVVdyYDnhU8bbqxq7N0JEMpLeP+UF5pVsZpb3xLmHfu/Y7Wjov1ae8IfwZJ6VJ4/eNa1O6GqERTk500SBG/6ns0jv+Kp7pn+z75LSzEYUFLfKH4f3P8IlINcWSHsmaEM2MRXbfUuImlQ==;
+	31:HQ4OIiWdQzA/+3KqMZeGAyEajkP7/vXd0HxrlNnbR5tBR0iEe6C8lvIbW3CQAzBlvR+Sdjt2B8t73BmSLQB19cjYz510dvxRACyNdbGQdVMHpr0pkcJkWxIsWE6Ed446CU8xSz+6AVobodcny7Yu1XhG5Eyq0T+q790tCOw5KQg7k2kklbieqIo2WxZZdH/3kVBiQnYoTpIbc65hqwPoIwyLQaMhx5OroSE1evU80lI=
+X-MS-TrafficTypeDiagnostic: MW2PR0102MB3418:
+X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3418;
+	20:o4jHAheSIsJ5vq4S+2A2X2XQ+qKMe/qYEhgkTNACXh2F89JCg3hwrWNSqIoBhKOoKNF8Rh6APptZlCDLG9Hm3/OJOZ+OM89ROU4qt0Nw97ZTaGBE+qqxxVE9O1cERN7flcd2F+Pnsa1Ng/OqDGz+BywHpFReoQeW4kKursCZ7qrtt9UIWazQyjqnf5bzng4g8LIiLrop/u1C/GmM4r65OFKWE2X+8Xj0+fWsVtwIL3X/EjzpwQ571GCpQuQcUJkLOc2Pa0cRGbw412jw8EyETTFC+MueGL6uwQhE99Jlym9gq/kizRK1Y4trzGmEXcPhvNA8B3zUy3TXfn5cBYO7nOQODZ8JIdpUMQiQ9A8bQNor1Q8YLfHq8B8Im7d6ZYFFyYlvtSM6On7oyXHksAHWS8ARCfU6Yon0Ix3C7IflbeorCeW57YuwAzvTmtYoxbneEcHAUe4mNDel1fN6YodO7bwiYbS1gUCLB8Sbdeh7BWe5+4wO8iFXTW9Q23XCPyKK;
+	4:q92k5dpBKIS3hNUeznB0GL0/LPFgCaGkqtDsccZ+8NPTt3qQ0P3lVcL12Hf+hO3d7juFtDMgODdnU+9y6OufQJ0GZ7eaKS5+zamt9Wabei1G88ZOsF82Bt29D/hPn4J1ftY/PczoVW3utuNCDMj1ru8CnX+w0pioaLjsO430gvpRXWEty/ByTSqqKTO3T0fsJuL0jLZ42oWOcTq3T+LKPK2YQC14vlBX0/xvhxu/KCXOJxTfzYbi0wvzDGQ2/9dxAmgdCpL4HPD4TfDpMQxbqOSEPvdKliKucdh52mRJqEcUFIjAJc4P+HXlcN00rlBv
+X-Microsoft-Antispam-PRVS: <MW2PR0102MB3418660675EEDEA4D31AE260AB660@MW2PR0102MB3418.prod.exchangelabs.com>
+X-Exchange-Antispam-Report-Test: UriScan:(264703809997249);
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(5005006)(8121501046)(3002001)(3231254)(944501410)(52105095)(10201501046)(93006095)(93001095)(149027)(150027)(6041310)(20161123564045)(20161123558120)(20161123560045)(20161123562045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011)(7699016);
+	SRVR:MW2PR0102MB3418; BCL:0; PCL:0; RULEID:;
+	SRVR:MW2PR0102MB3418; 
+X-Forefront-PRVS: 0694C54398
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10009020)(6049001)(376002)(366004)(346002)(39380400002)(396003)(39850400004)(13464003)(199004)(189003)(110136005)(31696002)(53546011)(2501003)(66066001)(65956001)(65806001)(26005)(47776003)(52146003)(386003)(59450400001)(76176011)(23676004)(50466002)(2906002)(67846002)(52116002)(2486003)(53936002)(81156014)(7736002)(8676002)(81166006)(36756003)(6116002)(117156002)(478600001)(8936002)(86362001)(31686004)(64126003)(16576012)(3846002)(58126008)(486006)(65826007)(11346002)(186003)(93886005)(105586002)(476003)(2616005)(956004)(106356001)(16526019)(25786009)(6486002)(6246003)(229853002)(446003)(5660300001)(6666003)(68736007)(97736004)(305945005)(230700001)(77096007)(316002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MW2PR0102MB3418; H:[192.168.0.3];
+	FPR:; SPF:None; LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtNVzJQUjAxMDJNQjM0MTg7MjM6ZmhLRjJTUmdUNVNYOE0rd1BiVERvSmZV?=
+	=?utf-8?B?bFBZam1wMDc3RGNJRmxMUE82OU5xUVlJSFlZamR4M1dHbkxKbWg4NXRacWk4?=
+	=?utf-8?B?SmhVbHZuNUpGSm5hOXVlbHQxM2dwMCsxRUtId0xoRy9sTlUrSkVTU3BGekpt?=
+	=?utf-8?B?ZTNjbTZsN3VsUDI3WmdmK3AyT1NHSWQ4WE1uRlA2ZmRXeEp2K3dJR3p6ZjdU?=
+	=?utf-8?B?WEtvbUY2T3JBajJEaVJTVnh1akM1SWc2eWpGQWUrT2habTNKejFLLzlaOTFK?=
+	=?utf-8?B?Y1pDTWN2blVZT1duamY2V2lhNTNDUkpKQUp4Vm4raExjNFdwejBydzdsVFJw?=
+	=?utf-8?B?SFdvRHJ5UURjQXFQZVV1QXNOUDZjcWRsUnFKbVhteUdTV3Z2eGdpV21HTHM0?=
+	=?utf-8?B?NEZxak9FNll3Q0k2U3piZG9zNkM4aVNmQ21Pdkl3VGVEOUxtdGpoSU91RjlE?=
+	=?utf-8?B?UjlhRUxrT0RTRXZxSWZuMnQrT1Z6QXQ4WEQ5TFkxRjdjaEtCVi8wU20vMDRY?=
+	=?utf-8?B?M1pqVEJLSXhDd1N4K2RJUmdBbytsbGM3MVpTa1JjZSsyb3lnMk5UOFV0VTVo?=
+	=?utf-8?B?bXRoa0cxbHEzbUczYXNWZTVPQU9JcCtDdEtFc2h6UTZ1dlVNWkE0clRiN2pm?=
+	=?utf-8?B?N1RhUUJLUElxSTdIbThoSWVWVHA1MjdDcmxNeWp6aUFHdzFqVjZHajVMNFBW?=
+	=?utf-8?B?a01sak1xOTRzZ1EzempXdmZmanNpazhFSEVqS1VRbENjS1liTjNlNmtETUpl?=
+	=?utf-8?B?ZnFrUHZZWFkyQ1NSa0YyZkFFNmJ4QWM2TW9zTGhNVStHSVVVNEpzWUlwc0xP?=
+	=?utf-8?B?Mm1maWNiTDZKbmU4WVQ2MGFpVk9mdmRyTEkzbkM2OWR0aXFVREE0REc3MnM0?=
+	=?utf-8?B?Vko4S0dkYmlBVEpxemNGWDJiak0yd3dlTXE1QXBrWVVoZEJleWsvRVp2WjFO?=
+	=?utf-8?B?NTZXNzJhaVdkZVdKOSttMTBWMkNVbkdWQm5VeUkrSXJYV1BNTkFDSS9rL3Zu?=
+	=?utf-8?B?L3NNM0x3L21SbHZ1MDd3c0hJaXlwMDZNb3pwOExkQm5aU3Zldjh2UThMTmtH?=
+	=?utf-8?B?L3k1TFNkZE5HSkRPRTRNMWtBRnBnQncyc09XNVR3QXhzN1pDdGNwWW4zNHNV?=
+	=?utf-8?B?UDN1VHhBMzJNcUkwblliTnpHOElTYlNUMVdhM2h0N0ducVdrVVg1MVI2bmRx?=
+	=?utf-8?B?eTlWREErdXVCcEZMRTFubFNzaUtkWHpjWnM0cHB1V3R2NUhWaG9MbUpqdWFh?=
+	=?utf-8?B?NDJUV2xnUUJZU08zYUZiY3QxQnJnN0ZsOXluSnVtaTRPQXFHQ1VoQ2dTMHJu?=
+	=?utf-8?B?N01EU1FkZVNLek5TY1pwY3BSL0JjUHJOb21XQlFTczhhdTFOUGFYMFJaakVB?=
+	=?utf-8?B?eWNtMHhTQjMyZy9Pbm85cEJQeU8rVDF3aWdYV0RKbHg3cDc4VGgvRGxrYVdH?=
+	=?utf-8?B?VmdWeU5sN1ltSkdrQVlkN1hZME9TaVcxYnUrbTlpMDZYZnpLb1FyV1dSUFpL?=
+	=?utf-8?B?Y3l1NTAxV0xZMWJHTk1sMGVINEZHNmNXclZsVERQV0JDS0FiT1MxWWE2SkRp?=
+	=?utf-8?B?L1JiSkFpMVVZZi85R2krZkUrSWE3RzY2RVlMdnczMVFYWEZTSjRhVEdVKzJF?=
+	=?utf-8?B?ejc2Mkh6UG42MFQzVEN3b09idnA0WHpUVTBjL3VUSy9WN0hPUytwQ1lQdzlh?=
+	=?utf-8?B?SUt1NkVMMW5ySmVhdm1wcDFNb3AxdTI5aGQ0dUh3WmtZd2F2QkZEOGpPeG9z?=
+	=?utf-8?B?THp4SkFWMXR3NjdQWjc3VmtTRkRuY2p3VXJGYTVHRVkrTDhFUk1aRC9uallL?=
+	=?utf-8?B?QkNtd0ZId1EyV3B5NVgvMU15S3YvSDZhRlduT0sxOW5KTmNxa0txc0xwMFBh?=
+	=?utf-8?B?QWpQd2xVY1QvYk9DQmhrcXliUDk5anpqRHNQTVcyREFheXRySjlUdCtSNEtO?=
+	=?utf-8?B?eTZmOGZkaHowMmRkODQwUjQ5Y05oMnRUNzREZTNHWmI3VzhRQmtVRjdQT3hZ?=
+	=?utf-8?B?WndCbCtYTHlJcjNWY1YyYzA4cHdtSnZoa0E3VjJwS05NU2JldjNzSVppM2p6?=
+	=?utf-8?Q?ZXrh766p3EFqmmbKq258G8Zzax+?=
+X-Microsoft-Antispam-Message-Info: IJYpEXp8vLEtiwK2cY3IX8IerD7ec+ycrluQIDC6gNKKhJp46WgCRP/bv4LGxjF2y/PUVJn8E6+wNiGHRcSISAMcN6BzRJeMn/ZX6RfN6dstqkvIl8QUb0zdErGfk2FEvTII8BJnB6wXPcMelF/2/zuy+aMxgZMDo2mu0MaKfM99kMKw2SJZmXqtHhIcOPW9
+X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3418;
+	6:AWlL3CYyQGpJUQjl9w1+TM1CiLurA6XBSDPbfONJW1myShBpG02NTFGysnK9jfnulFkoc9547oKY1WZTQQFJ+I8uq+ngsLoeyZZB6qkOD3IRLaMH93D9fIHK7J/n3olEftRaJMZB7l0MGQr0aCtxffr54sTUjwYUQYhUjBlq/crYJMT5AeO6GLOCvqCEPNsBeEwhw7jDTwzmb/gQdNl5wupyFH/Lk8gLbH7zPeCYYMEGFbgjH8jyhOdZqzPLihqnu69U21Dc9/cSQkXC0F5pQnT306LhsaeO95Fm49BL3O6ndmGKir51NHYBt8V9V1jX4YYr5t74MSJTkdJjaEIgQGlZcpI/13pkDW/fDLXIqdSpNmn4Pwm5wv8DKo+7A4jQ9x12r8a8QSk5VdGN3I1F2gyC9k3itTulfChTU8KiN7StLqzoctES5Jfgk1LvbSGY6qOwCDOX0iohc/AiyqLJlA==;
+	5:bnlDjHPfEUeTzjUugdZOhrVIWEG4uoAXZmtiGECo6lZiGiwYCX2Xpe4qpAWf5b4KeU3TQadVT5u0tP6TxIeolKyJwo1SrVapJLpHtOlD2Skfq2J0x4kRYP8LChh5mldPijF+OB6Sl3OflILD+KW3yP/aZNuk37nxqzv3CYTKjHI=;
+	24:dYoIbupzBM1zJM4pszbKFmE77De927rVerSAtYCAaXR30J/wEJeaMH+ktjgbCOrzXpJPaWu867UIDVG86w6exTpHUQYgtJRhDs/UjMbgvtk=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; MW2PR0102MB3418;
+	7:OHBz6kOlMhx+ezofTXVKYz9rzhTKM5gR3JBtcOdufWNdmalJCFo6tu8EQpi0bUOVomUKpqXtsaVxiHWBkP5tPQjYoGxfjHDGShWeFPE2NfM3XgXhqXNGFujOy08WUaQXgJxROkxIIvTfRE3OPCgSrPhLZpZZ0AzKzDCX/tTTYkjI/E2EOrNVP3Ikyerlra7sOyaax6oRzm/tewbTVy9iPJ0lsAc4pqULFj6UpgWRFZd6rHVpUBywQH8yYYPpVDrm
+X-MS-Office365-Filtering-Correlation-Id: ad9af1f2-6a65-4598-1833-08d5cb0548f5
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2018 16:56:30.1465 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad9af1f2-6a65-4598-1833-08d5cb0548f5
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR0102MB3418
+Subject: Re: [PATCH v3 1/6] toolchain-scripts: retab file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,462 +126,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 16:51:05 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 16:56:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This includes all bugfixes of 18.0.x series and major new
-features. For list of changes check:
+On 06/05/2018 05:04 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+>> Sent: den 5 juni 2018 12:37
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Martin Kelly
+>> <mkelly@xevo.com>; openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH v3 1/6] toolchain-scripts: retab file
+>>
+>> On Tue, 2018-06-05 at 10:09 +0000, Peter Kjellerstedt wrote:
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org
+>>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+>>>> Of
+>>>> Martin Kelly
+>>>> Sent: den 5 juni 2018 01:06
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: [OE-core] [PATCH v3 1/6] toolchain-scripts: retab file
+>>>>
+>>>> Two functions is uses a mix of spaces and tabs. The rest of the
+>>>> file
+>>>> uses tabs, so switch to tabs uniformly.
+>>>>
+>>>> Signed-off-by: Martin Kelly <mkelly@xevo.com>
+>>>> ---
+>>>>   meta/classes/toolchain-scripts.bbclass | 20 ++++++++++----------
+>>>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/meta/classes/toolchain-scripts.bbclass
+>>>> b/meta/classes/toolchain-scripts.bbclass
+>>>> index 71da5e5409..a72436167c 100644
+>>>> --- a/meta/classes/toolchain-scripts.bbclass
+>>>> +++ b/meta/classes/toolchain-scripts.bbclass
+>>>> @@ -122,7 +122,7 @@ toolchain_create_post_relocate_script() {
+>>>>   	rm -f $script
+>>>>   	touch $script
+>>>>
+>>>> -    cat >> $script <<EOF
+>>>> +	cat >> $script <<EOF
+>>>>   if [ -d "${SDKPATHNATIVE}/post-relocate-setup.d/" ]; then
+>>>>       for s in ${SDKPATHNATIVE}/post-relocate-setup.d/*.sh; do
+>>>>           \$s "\$1"
+>>>
+>>> This part should be indented using tabs as well.
+>>>
+>>>> @@ -166,13 +166,13 @@ toolchain_create_sdk_siteconfig () {
+>>>>   toolchain_create_sdk_siteconfig[vardepsexclude] =
+>>>> "TOOLCHAIN_CONFIGSITE_SYSROOTCACHE"
+>>>>
+>>>>   python __anonymous () {
+>>>> -    import oe.classextend
+>>>> -    deps = ""
+>>>> -    for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or
+>>>> "").split():
+>>>> -        deps += " %s:do_populate_sysroot" % dep
+>>>> -        for variant in (d.getVar('MULTILIB_VARIANTS') or
+>>>> "").split():
+>>>> -            clsextend = oe.classextend.ClassExtender(variant, d)
+>>>> -            newdep = clsextend.extend_name(dep)
+>>>> -            deps += " %s:do_populate_sysroot" % newdep
+>>>> -    d.appendVarFlag('do_configure', 'depends', deps)
+>>>> +	import oe.classextend
+>>>> +	deps = ""
+>>>> +	for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or
+>>>> "").split():
+>>>> +		deps += " %s:do_populate_sysroot" % dep
+>>>> +		for variant in (d.getVar('MULTILIB_VARIANTS') or
+>>>> "").split():
+>>>> +			clsextend =
+>>>> oe.classextend.ClassExtender(variant, d)
+>>>> +			newdep = clsextend.extend_name(dep)
+>>>> +			deps += " %s:do_populate_sysroot" %
+>> newdep
+>>>> +	d.appendVarFlag('do_configure', 'depends', deps)
+>>>
+>>> This is Python code. I believe the OE-Core standard is for Python
+>>> code
+>>> to be indented using four spaces (whereas shell code should be
+>>> indented
+>>> using tabs).
+>>
+>> I noticed this last bit and simply dropped that patch hunk.
+>>
+>> Cheers,
+>>
+>> Richard
+> 
+> You might want to update the commit message then as well, as it refers
+> to the two functions that are modified, which is no longer the case.
+> 
+> //Peter
+> 
 
-https://www.mesa3d.org/relnotes/18.1.0.html
-https://www.mesa3d.org/relnotes/18.1.1.html
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
- ...am-explictly-add-lib-expat-to-intel-.patch | 18 ++++----
- ...0001-Use-wayland-scanner-in-the-path.patch | 34 ---------------
- ...0002-Simplify-wayland-scanner-lookup.patch | 38 +++++++++++++++++
- ...winsys-svga-drm-Include-sys-types.h.patch} | 12 +++---
- ...-gloat.patch => 0004-hardware-gloat.patch} | 15 +++----
- ...-version-when-using-LLVM-Git-releas.patch} | 13 +++---
- ...Use-Python-3-to-execute-the-scripts.patch} | 12 +++---
- .../mesa/files/disable-asm-on-non-gcc.patch   | 29 -------------
- .../mesa/files/vulkan-mkdir.patch             | 41 -------------------
- .../{mesa-gl_18.0.2.bb => mesa-gl_18.1.1.bb}  |  0
- .../mesa/{mesa_18.0.2.bb => mesa_18.1.1.bb}   | 18 ++++----
- 11 files changed, 84 insertions(+), 146 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
- create mode 100644 meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
- rename meta/recipes-graphics/mesa/files/{0001-winsys-svga-drm-Include-sys-types.h.patch => 0003-winsys-svga-drm-Include-sys-types.h.patch} (80%)
- rename meta/recipes-graphics/mesa/files/{0002-hardware-gloat.patch => 0004-hardware-gloat.patch} (80%)
- rename meta/recipes-graphics/mesa/files/{llvm-config-version.patch => 0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch} (77%)
- rename meta/recipes-graphics/mesa/files/{Use-Python-3-to-execute-the-scripts.patch => 0006-Use-Python-3-to-execute-the-scripts.patch} (76%)
- delete mode 100644 meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_18.0.2.bb => mesa-gl_18.1.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_18.0.2.bb => mesa_18.1.1.bb} (54%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-index f908d46550..c4157483d9 100644
---- a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-@@ -1,8 +1,9 @@
--From 342311dbb190735b7b32ab20f81c1d8dbcfe717a Mon Sep 17 00:00:00 2001
-+From 327c3dcbfa005f5d1b2fcda07ca1198d65bd23c5 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 11 Oct 2017 15:40:42 +0800
--Subject: [PATCH] Makefile.vulkan.am: explictly add lib expat to intel
-+Subject: [PATCH 1/6] Makefile.vulkan.am: explictly add lib expat to intel
-  libvulkan's lib depends
-+Organization: O.S. Systems Software LTDA.
- 
- While built with "-fvisibility=default"
- ...
-@@ -28,11 +29,11 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  src/intel/Makefile.vulkan.am | 1 +
-  1 file changed, 1 insertion(+)
- 
--Index: mesa-17.3.6/src/intel/Makefile.vulkan.am
--===================================================================
----- mesa-17.3.6.orig/src/intel/Makefile.vulkan.am
--+++ mesa-17.3.6/src/intel/Makefile.vulkan.am
--@@ -144,6 +144,7 @@ VULKAN_LIB_DEPS = \
-+diff --git a/src/intel/Makefile.vulkan.am b/src/intel/Makefile.vulkan.am
-+index 4125cb205a..356c4f8452 100644
-+--- a/src/intel/Makefile.vulkan.am
-++++ b/src/intel/Makefile.vulkan.am
-+@@ -161,6 +161,7 @@ VULKAN_LIB_DEPS = \
-  	$(LIBDRM_LIBS) \
-  	$(PTHREAD_LIBS) \
-  	$(DLOPEN_LIBS) \
-@@ -40,3 +41,6 @@ Index: mesa-17.3.6/src/intel/Makefile.vulkan.am
-  	-lm
-  
-  if HAVE_PLATFORM_ANDROID
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
-deleted file mode 100644
-index 2444b2846b..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From c908f0c13ac81a3a52140f129a13b2bc997ff4ee Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 15 Nov 2016 15:20:49 +0200
--Subject: [PATCH] Simplify wayland-scanner lookup
--
--Don't use pkg-config to lookup the path of a binary that's in the path.
--
--Alternatively we'd have to prefix the path returned by pkg-config with
--PKG_CONFIG_SYSROOT_DIR.
--
--Upstream-Status: Pending
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- configure.ac | 7 +------
-- 1 file changed, 1 insertion(+), 6 deletions(-)
--
--Index: mesa-17.3.6/configure.ac
--===================================================================
----- mesa-17.3.6.orig/configure.ac
--+++ mesa-17.3.6/configure.ac
--@@ -1694,12 +1694,7 @@ if test "x$with_platforms" = xauto; then
--     with_platforms=$with_egl_platforms
-- fi
-- 
---PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
---        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
---        WAYLAND_SCANNER='')
---if test "x$WAYLAND_SCANNER" = x; then
---    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
---fi
--+AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
-- 
-- PKG_CHECK_EXISTS([wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], [have_wayland_protocols=yes], [have_wayland_protocols=no])
-- if test "x$have_wayland_protocols" = xyes; then
-diff --git a/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
-new file mode 100644
-index 0000000000..18b69269cd
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
-@@ -0,0 +1,38 @@
-+From 135f6ae990df9abe3765ed339f76c55026c86fe5 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 15 Nov 2016 15:20:49 +0200
-+Subject: [PATCH 2/6] Simplify wayland-scanner lookup
-+Organization: O.S. Systems Software LTDA.
-+
-+Don't use pkg-config to lookup the path of a binary that's in the path.
-+
-+Alternatively we'd have to prefix the path returned by pkg-config with
-+PKG_CONFIG_SYSROOT_DIR.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ configure.ac | 7 +------
-+ 1 file changed, 1 insertion(+), 6 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index f1fbdcc6c7..7c95598afc 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1796,12 +1796,7 @@ for plat in $platforms; do
-+         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
-+         WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-+ 
-+-        PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
-+-                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
-+-                          WAYLAND_SCANNER='')
-+-        if test "x$WAYLAND_SCANNER" = x; then
-+-            AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+-        fi
-++        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+ 
-+         if test "x$WAYLAND_SCANNER" = "x:"; then
-+                 AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-similarity index 80%
-rename from meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-rename to meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-index 549b8671ab..e5246f55c0 100644
---- a/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-+++ b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-@@ -1,7 +1,8 @@
--From d8750776404b1031d762966d0f551d13d2fe05a7 Mon Sep 17 00:00:00 2001
-+From edb22b2f4df8dab39559ace867c3c67bc12851ae Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 16 Aug 2017 18:58:20 -0700
--Subject: [PATCH] winsys/svga/drm: Include sys/types.h
-+Subject: [PATCH 3/6] winsys/svga/drm: Include sys/types.h
-+Organization: O.S. Systems Software LTDA.
- 
- vmw_screen.h uses dev_t which is defines in sys/types.h
- this header is required to be included for getting dev_t
-@@ -11,14 +12,11 @@ system headers
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
--
--Upstream-Status: Submitted
--
-  src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/src/gallium/winsys/svga/drm/vmw_screen.h b/src/gallium/winsys/svga/drm/vmw_screen.h
--index 0ef8e84..2eda97e 100644
-+index f21cabb51f..4c972fdaa9 100644
- --- a/src/gallium/winsys/svga/drm/vmw_screen.h
- +++ b/src/gallium/winsys/svga/drm/vmw_screen.h
- @@ -41,6 +41,7 @@
-@@ -30,5 +28,5 @@ index 0ef8e84..2eda97e 100644
-  #define VMW_GMR_POOL_SIZE (16*1024*1024)
-  #define VMW_QUERY_POOL_SIZE (8192)
- -- 
--2.14.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-similarity index 80%
-rename from meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
-rename to meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-index 0e014dcc80..09db192b57 100644
---- a/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
-+++ b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-@@ -1,7 +1,8 @@
--From 00bcd599310dc7fce4fe336ffd85902429051a0c Mon Sep 17 00:00:00 2001
-+From 52468545daa0c2d205312e06304d8fb374e0bbf0 Mon Sep 17 00:00:00 2001
- From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
- Date: Sun, 20 Mar 2016 13:27:04 +0100
--Subject: [PATCH 2/4] hardware gloat
-+Subject: [PATCH 4/6] hardware gloat
-+Organization: O.S. Systems Software LTDA.
- 
- Upstream-Status: Inappropriate [not author]
- Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-@@ -11,10 +12,10 @@ Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-  2 files changed, 14 insertions(+)
- 
- diff --git a/src/gallium/drivers/llvmpipe/lp_screen.c b/src/gallium/drivers/llvmpipe/lp_screen.c
--index 4f61de8..3b0ec77 100644
-+index 3f5d0327bf..86808e016b 100644
- --- a/src/gallium/drivers/llvmpipe/lp_screen.c
- +++ b/src/gallium/drivers/llvmpipe/lp_screen.c
--@@ -411,6 +411,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
-+@@ -449,6 +449,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
-     if (!format_desc)
-        return FALSE;
-  
-@@ -29,10 +30,10 @@ index 4f61de8..3b0ec77 100644
-            target == PIPE_TEXTURE_1D ||
-            target == PIPE_TEXTURE_1D_ARRAY ||
- diff --git a/src/gallium/drivers/softpipe/sp_screen.c b/src/gallium/drivers/softpipe/sp_screen.c
--index 031602b..c279120 100644
-+index 25f6f74f36..61629ef2ff 100644
- --- a/src/gallium/drivers/softpipe/sp_screen.c
- +++ b/src/gallium/drivers/softpipe/sp_screen.c
--@@ -358,6 +358,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
-+@@ -397,6 +397,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
-     if (!format_desc)
-        return FALSE;
-  
-@@ -47,5 +48,5 @@ index 031602b..c279120 100644
-        return FALSE;
-  
- -- 
--2.7.4
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/llvm-config-version.patch b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-similarity index 77%
-rename from meta/recipes-graphics/mesa/files/llvm-config-version.patch
-rename to meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-index fd79991aab..1664f0610f 100644
---- a/meta/recipes-graphics/mesa/files/llvm-config-version.patch
-+++ b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-@@ -1,5 +1,8 @@
-+From 33025fb1650768a0b923f3c824c270628eef83db Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
--Subject: [PATCH] Properly get LLVM version when using LLVM Git releases
-+Date: Tue, 5 Jun 2018 11:11:10 -0300
-+Subject: [PATCH 5/6] Properly get LLVM version when using LLVM Git releases
-+Organization: O.S. Systems Software LTDA.
- 
- $ llvm-config-host --version
- 5.0.0git-9a5c333388c
-@@ -15,10 +18,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index a02173f244..b107f04c2e 100644
-+index 7c95598afc..c248248c6b 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -995,7 +995,7 @@ strip_unwanted_llvm_flags() {
-+@@ -1075,7 +1075,7 @@ strip_unwanted_llvm_flags() {
-  
-  llvm_set_environment_variables() {
-      if test "x$LLVM_CONFIG" != xno; then
-@@ -27,7 +30,7 @@ index a02173f244..b107f04c2e 100644
-          LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
-          LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
-          LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
--@@ -2644,7 +2644,7 @@ detect_old_buggy_llvm() {
-+@@ -2776,7 +2776,7 @@ detect_old_buggy_llvm() {
-      dnl ourselves.
-      dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
-      dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
-@@ -37,5 +40,5 @@ index a02173f244..b107f04c2e 100644
-  
-      if test "x$llvm_have_one_so" = xyes; then
- -- 
--2.15.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-similarity index 76%
-rename from meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch
-rename to meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-index 0b4aabf979..d32a967159 100644
---- a/meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch
-+++ b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-@@ -1,7 +1,7 @@
--From 18c3e684a8259a0644214f88c7ead7fa31573fd9 Mon Sep 17 00:00:00 2001
-+From 2c6f0c6f83d2012d2ffb64f1caff966497de8f72 Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Fri, 29 Dec 2017 10:27:59 -0200
--Subject: [PATCH] Use Python 3 to execute the scripts
-+Subject: [PATCH 6/6] Use Python 3 to execute the scripts
- Organization: O.S. Systems Software LTDA.
- 
- The MESA build system uses Python 2 but as OE-Core has moved away from
-@@ -15,11 +15,11 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index b107f04c2e..055546142d 100644
-+index c248248c6b..10f199d63c 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -114,7 +114,7 @@ AC_PROG_CXX
-- AM_PROG_CC_C_O
-+@@ -122,7 +122,7 @@ AM_PROG_CC_C_O
-+ AC_PROG_NM
-  AM_PROG_AS
-  AX_CHECK_GNU_MAKE
- -AC_CHECK_PROGS([PYTHON2], [python2.7 python2 python])
-@@ -28,5 +28,5 @@ index b107f04c2e..055546142d 100644
-  AC_PROG_MKDIR_P
-  
- -- 
--2.15.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch b/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
-deleted file mode 100644
-index d2d67558b6..0000000000
---- a/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Configure checks for compiler to be gcc and then it enables asm_offsets
--generation. see
--
--https://cgit.freedesktop.org/mesa/mesa/commit/?id=73c9b4b0e05fc66629ba250846948dc55c0e7a0d
--
--However, we missed the check when enabling this on cross compilation
--when architecture for both host and target is x86
--
--Fixes errors like
--./gen_matypes > matypes.h
--/bin/bash: ./gen_matypes: No such file or directory
--
---Khem
--
--Upstream-Status: Submitted
--
--Index: mesa-12.0.1/configure.ac
--===================================================================
----- mesa-12.0.1.orig/configure.ac
--+++ mesa-12.0.1/configure.ac
--@@ -732,7 +732,7 @@ test "x$enable_asm" = xno && AC_MSG_RESU
-- if test "x$enable_asm" = xyes -a "x$cross_compiling" = xyes; then
--     case "$host_cpu" in
--     i?86 | x86_64 | amd64)
---        if test "x$host_cpu" != "x$target_cpu"; then
--+        if test "x$host_cpu" != "x$target_cpu" -o "x$acv_mesa_CLANG" = xyes; then
--             enable_asm=no
--             AC_MSG_RESULT([no, cross compiling])
--         fi
-diff --git a/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-deleted file mode 100644
-index 9922a55b40..0000000000
---- a/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 4854c72bc21486f81712c8693588f7af6c64cf93 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Wed, 9 May 2018 20:41:36 +0100
--Subject: [PATCH] src/intel/Makefile.vulkan.am: add missing MKDIR_GEN
--
--Out of tree builds can try to write into a directory that doesn't exist yet:
--
--| Traceback (most recent call last):
--|   File "../../../mesa-18.0.2/src/intel/vulkan/anv_icd.py", line 46, in <module>
--|     with open(args.out, 'w') as f:
--| IOError: [Errno 2] No such file or directory: 'vulkan/intel_icd.x86_64.json'
--| Makefile:4882: recipe for target 'vulkan/intel_icd.x86_64.json' failed
--
--Add missing MKDIR_GEN calls to solve this.
-----
-- src/intel/Makefile.vulkan.am | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/src/intel/Makefile.vulkan.am b/src/intel/Makefile.vulkan.am
--index 0bcbf0419c..4125cb205a 100644
----- a/src/intel/Makefile.vulkan.am
--+++ b/src/intel/Makefile.vulkan.am
--@@ -64,10 +64,12 @@ EXTRA_DIST += \
-- 	vulkan/TODO
-- 
-- vulkan/dev_icd.json : vulkan/anv_extensions.py vulkan/anv_icd.py
--+	$(MKDIR_GEN)
-- 	$(AM_V_GEN)$(PYTHON2) $(srcdir)/vulkan/anv_icd.py \
-- 		--lib-path="${abs_top_builddir}/${LIB_DIR}" --out $@
-- 
-- vulkan/intel_icd.@host_cpu@.json : vulkan/anv_extensions.py vulkan/anv_icd.py
--+	$(MKDIR_GEN)
-- 	$(AM_V_GEN)$(PYTHON2) $(srcdir)/vulkan/anv_icd.py \
-- 		--lib-path="${libdir}" --out $@
-- 
---- 
--2.11.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_18.1.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_18.1.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_18.0.2.bb b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
-similarity index 54%
-rename from meta/recipes-graphics/mesa/mesa_18.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_18.1.1.bb
-index f2ac38e919..7aeb28bda3 100644
---- a/meta/recipes-graphics/mesa/mesa_18.0.2.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
-@@ -1,18 +1,16 @@
- require ${BPN}.inc
- 
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
--           file://disable-asm-on-non-gcc.patch \
--	   file://Use-Python-3-to-execute-the-scripts.patch \
--           file://0001-Use-wayland-scanner-in-the-path.patch \
--           file://0002-hardware-gloat.patch \
--           file://llvm-config-version.patch \
--           file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
--           file://vulkan-mkdir.patch \
--           "
-+           file://0002-Simplify-wayland-scanner-lookup.patch \
-+           file://0003-winsys-svga-drm-Include-sys-types.h.patch \
-+           file://0004-hardware-gloat.patch \
-+           file://0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
-+           file://0006-Use-Python-3-to-execute-the-scripts.patch \
-+"
- 
--SRC_URI[md5sum] = "3c303da98ec2ce37c795baeba5aee31e"
--SRC_URI[sha256sum] = "98fa159768482dc568b9f8bf0f36c7acb823fa47428ffd650b40784f16b9e7b3"
-+SRC_URI[md5sum] = "063468c930ff61d211ece0191874fa95"
-+SRC_URI[sha256sum] = "d3312a2ede5aac14a47476b208b8e3a401367838330197c4588ab8ad420d7781"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.17.1
-
+Thanks all; good point about Python and the commit message. I thought 
+about using the one-line || version, but like Richard, I find the 
+explicit if statement more readable, and more consistent with what the 
+rest of the function does.
 
