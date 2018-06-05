@@ -1,27 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 207577556D
+	by mail.openembedded.org (Postfix) with ESMTP id 872807555E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 02:29:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w552T87N009869
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Jun 2018 19:29:08 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 4 Jun 2018 19:29:08 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180604105828.24004-1-kai.kang@windriver.com>
-	<3518da0e-6a89-1288-d6ab-89a8537467f1@linux.intel.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <27a69d94-e215-9c26-3886-5322f1f4e8f4@windriver.com>
-Date: Tue, 5 Jun 2018 10:27:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue,  5 Jun 2018 02:34:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w552Y68S010580
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Jun 2018 19:34:06 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 4 Jun 2018 19:34:06 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Jun 2018 22:32:59 -0400
+Message-ID: <1528165980-163833-2-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1528165980-163833-1-git-send-email-hongzhi.song@windriver.com>
+References: <1528165980-163833-1-git-send-email-hongzhi.song@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <3518da0e-6a89-1288-d6ab-89a8537467f1@linux.intel.com>
-Subject: Re: [PATCH] man-db: create man db index file
+Subject: [meta][PATCH 1/2] meta runtime testcases: enable kernel-sample features for runtime tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 02:29:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 05 Jun 2018 02:34:05 -0000
+Content-Type: text/plain
 
-On 2018年06月04日 19:42, Alexander Kanavin wrote:
-> On 06/04/2018 01:58 PM, Kai Kang wrote:
->
->> +pkg_postinst_ontarget_${PN} () {
->> +        ${bindir}/mandb -q
->> +}
->> +
->
-> man-db is only the tools for manpages, but not the actual pages. So 
-> this will not work as expected when installing or removing packages 
-> that contain manpages. It should be added to classes/manpages.bbclass 
-> instead, with a RDEPENDS += "man-db". You can also fix 
-> man-pages_4.14.bb to inherit the class at the same time.
->
-> Oh, and you can also take qemu into use, so that this works also for 
-> read only rootfs, and doesn't add to first boot time, like this:
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=b42a7a733c7a6b51118ccb3fe6e33c35ac12b4ae 
->
->
-> Alex
->
-Hi Alex,
+Enable kernel-sample features by default with the machine of qemu.
 
-Thanks a lot. I'll try it.
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 3bb872a..b7511e5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -67,3 +67,6 @@ do_install_append(){
+ addtask kernel_version_sanity_check after do_kernel_metadata do_kernel_checkout before do_compile
+ addtask validate_branches before do_patch after do_kernel_checkout
+ addtask kernel_configcheck after do_configure before do_compile
++
++# enable kernel-sample for oeqa/runtime/cases's ksample.py test
++KERNEL_FEATURES_append_qemuall=" features/kernel-sample/kernel-sample.scc"
 -- 
-Regards,
-Neil | Kai Kang
+2.8.1
 
 
