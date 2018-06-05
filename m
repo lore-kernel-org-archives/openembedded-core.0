@@ -1,24 +1,32 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A8D076043
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 56E5874702
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 07:59:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w557wmr0013837
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  5 Jun 2018 08:11:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40751983"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 05 Jun 2018 16:11:39 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 188874B41E91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2018 00:59:03 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 5 Jun 2018 00:58:37 -0700
-From: Changqing Li <changqing.li@windriver.com>
+	Tue,  5 Jun 2018 16:11:34 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.122) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Tue, 5 Jun 2018 16:11:38 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jun 2018 15:58:36 +0800
-Message-ID: <1528185516-258414-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Tue, 5 Jun 2018 16:10:55 +0800
+Message-ID: <20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
+References: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Subject: [PATCH] nettle: do the multilib_header magic for nettle-stdint.h and version.h
+X-Originating-IP: [10.167.226.122]
+X-yoursite-MailScanner-ID: 188874B41E91.AD5B1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] [PATCH] bind:9.10.6 -> 9.10.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +39,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 07:59:13 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 08:11:42 -0000
 Content-Type: text/plain
 
-add multilib support for this receipe, or it will conflicts in mutlilib setting
+1.Upgrade bind from 9.10.6 to 9.10.7.
+2.Update the checksum of LIC_FILES_CHKSUM, since bind has been changed. The lincese has been modified time.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- meta/recipes-support/nettle/nettle_3.4.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../bind/{bind_9.10.6.bb => bind_9.10.7.bb}                 | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.10.7.bb} (90%)
 
-diff --git a/meta/recipes-support/nettle/nettle_3.4.bb b/meta/recipes-support/nettle/nettle_3.4.bb
-index 7a3cc65..ca8450e 100644
---- a/meta/recipes-support/nettle/nettle_3.4.bb
-+++ b/meta/recipes-support/nettle/nettle_3.4.bb
-@@ -25,7 +25,7 @@ SRC_URI[sha256sum] = "ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.7.bb
+similarity index 90%
+rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
+rename to meta/recipes-connectivity/bind/bind_9.10.7.bb
+index 20c8d7b..124968b 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.7.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
  
- UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c767ea4f3cf1017290d5b799fa929f80"
  
--inherit autotools ptest
-+inherit autotools ptest multilib_header
+ DEPENDS = "openssl libcap"
  
- EXTRA_AUTORECONF += "--exclude=aclocal"
+@@ -15,16 +15,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://named.service \
+            file://bind9 \
+            file://init.d-add-support-for-read-only-rootfs.patch \
+-           file://bind-confgen-build-unix.o-once.patch \
+            file://0001-build-use-pkg-config-to-find-libxml2.patch \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+-           file://use-python3-and-fix-install-lib-path.patch \
+            "
  
-@@ -35,6 +35,10 @@ do_compile_ptest() {
-         oe_runmake buildtest
- }
+-SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
+-SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
++SRC_URI[md5sum] = "320b9ef5bdf19ef2718a823d9b4243ba"
++SRC_URI[sha256sum] = "e15e70982d966cd4b194ff483f5cc636c0017b054ae2e332ca3f28fe53f11660"
  
-+do_install_append() {
-+    oe_multilib_header nettle/nettle-stdint.h nettle/version.h
-+}
-+
- do_install_ptest() {
-         install -d ${D}${PTEST_PATH}/testsuite/
-         install ${S}/testsuite/gold-bug.txt ${D}${PTEST_PATH}/testsuite/
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+@@ -36,6 +34,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+                  --with-gssapi=no --with-ecdsa=yes \
+                  --sysconfdir=${sysconfdir}/bind \
+                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
++		--with-eddsa=no \
+                "
+ 
+ inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
+@@ -67,6 +66,7 @@ PACKAGE_BEFORE_PN += "${PN}-utils"
+ FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
+ FILES_${PN}-dev += "${bindir}/isc-config.h"
+ FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
++FILES_${PN} += "/usr/lib/python2.7/site-packages/*"
+ 
+ PACKAGE_BEFORE_PN += "${PN}-libs"
+ FILES_${PN}-libs = "${libdir}/*.so*"
+@@ -88,7 +88,7 @@ do_install_append() {
+ 	install -d "${D}${sysconfdir}/init.d"
+ 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+ 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+-	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
++	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
+ 
+ 	# Install systemd related files
+ 	install -d ${D}${sbindir}
+@@ -120,4 +120,3 @@ CONFFILES_${PN} = " \
+ 	${sysconfdir}/bind/db.local \
+ 	${sysconfdir}/bind/db.root \
+ 	"
+-
 -- 
 2.7.4
+
+
 
 
