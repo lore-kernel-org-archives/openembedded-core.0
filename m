@@ -1,32 +1,30 @@
 Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 56E5874702
+	by mail.openembedded.org (Postfix) with ESMTP id DFAF174702
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 08:11:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40751983"
+	Tue,  5 Jun 2018 08:11:42 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40751985"
 Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 05 Jun 2018 16:11:39 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 188874B41E91
+	by cn.fujitsu.com (Postfix) with ESMTP id 9DA794B41E7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 16:11:34 +0800 (CST)
+	Tue,  5 Jun 2018 16:11:33 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.122) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
 	Server (TLS) id 14.3.399.0; Tue, 5 Jun 2018 16:11:38 +0800
 From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jun 2018 16:10:55 +0800
-Message-ID: <20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
+Date: Tue, 5 Jun 2018 16:10:54 +0800
+Message-ID: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
-References: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.122]
-X-yoursite-MailScanner-ID: 188874B41E91.AD5B1
+X-yoursite-MailScanner-ID: 9DA794B41E7C.A06F7
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] [PATCH] [PATCH] bind:9.10.6 -> 9.10.7
+Subject: [PATCH] [PATCH] bc:1.06 -> 1.07.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,83 +37,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 08:11:42 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 08:11:43 -0000
 Content-Type: text/plain
 
-1.Upgrade bind from 9.10.6 to 9.10.7.
-2.Update the checksum of LIC_FILES_CHKSUM, since bind has been changed. The lincese has been modified time.
+1.Upgrade bc from 1.06 to 1.07.1.
+2.Update the checksum of LIC_FILES_CHKSUM, since GPLv3 has been added into the license of bc.
 
 Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- .../bind/{bind_9.10.6.bb => bind_9.10.7.bb}                 | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.10.7.bb} (90%)
+ meta/recipes-extended/bc/bc_1.06.bb   | 26 --------------------------
+ meta/recipes-extended/bc/bc_1.07.1.bb | 25 +++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+), 26 deletions(-)
+ delete mode 100644 meta/recipes-extended/bc/bc_1.06.bb
+ create mode 100644 meta/recipes-extended/bc/bc_1.07.1.bb
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.7.bb
-similarity index 90%
-rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
-rename to meta/recipes-connectivity/bind/bind_9.10.7.bb
-index 20c8d7b..124968b 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.7.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
- SECTION = "console/network"
- 
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c767ea4f3cf1017290d5b799fa929f80"
- 
- DEPENDS = "openssl libcap"
- 
-@@ -15,16 +15,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://named.service \
-            file://bind9 \
-            file://init.d-add-support-for-read-only-rootfs.patch \
--           file://bind-confgen-build-unix.o-once.patch \
-            file://0001-build-use-pkg-config-to-find-libxml2.patch \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
-            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
--           file://use-python3-and-fix-install-lib-path.patch \
-            "
- 
--SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
--SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
-+SRC_URI[md5sum] = "320b9ef5bdf19ef2718a823d9b4243ba"
-+SRC_URI[sha256sum] = "e15e70982d966cd4b194ff483f5cc636c0017b054ae2e332ca3f28fe53f11660"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
-@@ -36,6 +34,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
-                  --with-gssapi=no --with-ecdsa=yes \
-                  --sysconfdir=${sysconfdir}/bind \
-                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
-+		--with-eddsa=no \
-                "
- 
- inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
-@@ -67,6 +66,7 @@ PACKAGE_BEFORE_PN += "${PN}-utils"
- FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
- FILES_${PN}-dev += "${bindir}/isc-config.h"
- FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
-+FILES_${PN} += "/usr/lib/python2.7/site-packages/*"
- 
- PACKAGE_BEFORE_PN += "${PN}-libs"
- FILES_${PN}-libs = "${libdir}/*.so*"
-@@ -88,7 +88,7 @@ do_install_append() {
- 	install -d "${D}${sysconfdir}/init.d"
- 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
- 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
--	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
-+	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
- 
- 	# Install systemd related files
- 	install -d ${D}${sbindir}
-@@ -120,4 +120,3 @@ CONFFILES_${PN} = " \
- 	${sysconfdir}/bind/db.local \
- 	${sysconfdir}/bind/db.root \
- 	"
+diff --git a/meta/recipes-extended/bc/bc_1.06.bb b/meta/recipes-extended/bc/bc_1.06.bb
+deleted file mode 100644
+index d8c8a86..0000000
+--- a/meta/recipes-extended/bc/bc_1.06.bb
++++ /dev/null
+@@ -1,26 +0,0 @@
+-SUMMARY = "Arbitrary precision calculator language"
+-HOMEPAGE = "http://www.gnu.org/software/bc/bc.html"
 -
+-LICENSE = "GPLv2+ & LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://COPYING.LIB;md5=d8045f3b8f929c1cb29a1e3fd737b499 \
+-                    file://bc/bcdefs.h;endline=31;md5=46dffdaf10a99728dd8ce358e45d46d8 \
+-                    file://dc/dc.h;endline=25;md5=2f9c558cdd80e31b4d904e48c2374328 \
+-                    file://lib/number.c;endline=31;md5=99434a0898abca7784acfd36b8191199"
+-
+-SECTION = "base"
+-DEPENDS = "flex"
+-PR = "r3"
+-
+-SRC_URI = "${GNU_MIRROR}/bc/bc-${PV}.tar.gz \
+-           file://fix-segment-fault.patch "
+-
+-SRC_URI[md5sum] = "d44b5dddebd8a7a7309aea6c36fda117"
+-SRC_URI[sha256sum] = "4ef6d9f17c3c0d92d8798e35666175ecd3d8efac4009d6457b5c99cea72c0e33"
+-
+-inherit autotools texinfo update-alternatives
+-
+-ALTERNATIVE_${PN} = "dc"
+-ALTERNATIVE_PRIORITY = "100"
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
+new file mode 100644
+index 0000000..264d648
+--- /dev/null
++++ b/meta/recipes-extended/bc/bc_1.07.1.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Arbitrary precision calculator language"
++HOMEPAGE = "http://www.gnu.org/software/bc/bc.html"
++
++LICENSE = "GPLv3 & LGPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
++                    file://bc/bcdefs.h;endline=31;md5=8c8b24c7a8dd453e1e310383190a8285 \
++                    file://dc/dc.h;endline=25;md5=636f7358bade791f26a8607a20da0eb7 \
++                    file://lib/number.c;endline=31;md5=5c437fc63f83a46d4d769d4dd1e74525"
++
++SECTION = "base"
++DEPENDS = "flex"
++PR = "r3"
++
++SRC_URI = "${GNU_MIRROR}/bc/bc-${PV}.tar.gz \
++"
++SRC_URI[md5sum] = "cda93857418655ea43590736fc3ca9fc"
++SRC_URI[sha256sum] = "62adfca89b0a1c0164c2cdca59ca210c1d44c3ffc46daf9931cf4942664cb02a"
++
++inherit autotools texinfo update-alternatives
++
++ALTERNATIVE_${PN} = "dc"
++ALTERNATIVE_PRIORITY = "100"
++
++BBCLASSEXTEND = "native"
 -- 
 2.7.4
 
