@@ -1,50 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0880F7707F
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AB2677BEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 15:26:20 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id c128-v6so2432988oig.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2018 08:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VtWvWvOSGGu2HlF7XD0v6Ow64lJcRyDdtcRacoMX4W8=;
-	b=BD4Ttn/38X6U/3U70YTrmzk3CL7V4jr2VVPn6q5oKVVt0xu8YkeN2Vt9hwmiPR5O/7
-	J2xU2o0MB6umYn49z1YsU12CY4nJ4tKJvnaz3LP9dCetFRqATbzIzHtqpLRpAd34PcSi
-	JjnPgGFfRnHUUtlwM05NJqLD8o87f3qAiLWFEPrcK/OMQYmRy7OaLAwJ4L0yVwlVWDAo
-	OO62bep5bepj9vkZYqSJuUOaTO5sqjhjck3Yhh+w3OaYQdbbrihfIyHEYj6xUxqRNuOn
-	c+FYnBAoMdPoEPksSRrwkbCC7L/R2qOVd5bnAQPnLPk8AJ22BWyX6VpjybPyUFQAzhm1
-	iDsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VtWvWvOSGGu2HlF7XD0v6Ow64lJcRyDdtcRacoMX4W8=;
-	b=dBdcCbGTapMMwxyXtP8nz5li4thDcVZTnpfAclLWr7B6AFUg7EdWlkp99NSprWX47R
-	kCGH8s5d4CjI5ukrQHMSokXCwQfl+rRAf9fqlYGPm7hbDuVThcqOiP3DbRd+IBi2st/5
-	4JV9pcifk4bDDvOMdEm3HNPO6T7+7cz40Ri/05kj7b7eA8KzQPoyfqDvasSEHxNxar83
-	/LhNhqunxH0u9NEHq5qMcBxiuwpERilxkmqKlCUWy9nOByVYMNFsoWbCyWiYPJRLjkOf
-	g/FpQraD3fzFf2lk1xE/tAtgvrrW09qto4F4CiBll0jTwUHlb3m2h22SJbpKmvCUW37f
-	6Frw==
-X-Gm-Message-State: ALKqPweX+NNGV05/5NyJURcLa1BkvlwlXGHRK/iZMT9vOz0LE8dAQVc7
-	cN4C0L4cwh2KVfnWC3+2dDMCDP6Yf7veBjTzCaY=
-X-Google-Smtp-Source: ADUXVKIS3YBVnv/tAHSwaNQeCAw84eLoXbDBtIKd5rNGRRoAj9xTTlYEL5Jth5w+Ktf+dJoQQ6bQ4DcFEdrLg4bhN4M=
-X-Received: by 2002:aca:47cb:: with SMTP id
-	u194-v6mr15381326oia.45.1528212381928; 
-	Tue, 05 Jun 2018 08:26:21 -0700 (PDT)
+	Tue,  5 Jun 2018 15:47:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 13A8820BEB;
+	Tue,  5 Jun 2018 15:47:35 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id gj-37rZupntO; Tue,  5 Jun 2018 15:47:35 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id E1FC72085B;
+	Tue,  5 Jun 2018 15:47:33 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 73DE5163483; Tue,  5 Jun 2018 11:47:33 -0400 (EDT)
+Date: Tue, 5 Jun 2018 11:47:33 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Chris Patterson <cjp256@gmail.com>
+Message-ID: <20180605154733.GA19965@denix.org>
+References: <1526063923-32176-1-git-send-email-cjp256@gmail.com>
+	<CABZSBQeejuzPgb1LjjtqSvObDdC59nsHaB3FMsFmpQFoO+bvtA@mail.gmail.com>
+	<CABZSBQfe_Enb6Vnn_O0+mr5QiVq6LnLwo1BevQSu7dNa=xwDEA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
-	Tue, 5 Jun 2018 08:26:21 -0700 (PDT)
-In-Reply-To: <20180605152213.28474-1-dev@sashko.rv.ua>
-References: <20180605152213.28474-1-dev@sashko.rv.ua>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Jun 2018 18:26:21 +0300
-Message-ID: <CANNYZj-tOz83ZEVDwLpFaPi9n92Ac63=UV8QvSONo_pCm=oLag@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] iso-codes: update to 3.79 and fix SRC_URI
+In-Reply-To: <CABZSBQfe_Enb6Vnn_O0+mr5QiVq6LnLwo1BevQSu7dNa=xwDEA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] strongswan: package up sbin debug files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 15:26:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 05 Jun 2018 15:47:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-2018-06-05 18:22 GMT+03:00 Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com>:
-> -SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
-> -SRC_URI[sha256sum] = "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
-> +SRC_URI = "${DEBIAN_MIRROR}/main/i/iso-codes/iso-codes_${PV}.orig.tar.xz"
-> +SRC_URI[md5sum] = "5875d7aa41b1acd7b218631ff7b85464"
-> +SRC_URI[sha256sum] = "cbafd36cd4c588a254c0a5c42e682190c3784ceaf2a098da4c9c4a0cbc842822"
+On Tue, Jun 05, 2018 at 10:39:36AM -0400, Chris Patterson wrote:
+> (after looking at it again, I realize I misfired on the prefix tag and
+> maintainer CC - will resend)
 
-Please use the original upstream git repo. We take sources from
-DEBIAN_MIRROR if the primary upstream source is absent or
-inaccessible, but this is not the case here:
-https://salsa.debian.org/iso-codes-team/iso-codes
+Actually, wrong list - http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
-Alex
+
+> On Tue, Jun 5, 2018 at 10:35 AM, Chris Patterson <cjp256@gmail.com> wrote:
+> > ping :)
+> >
+> > On Fri, May 11, 2018 at 2:38 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> >> From: Chris Patterson <pattersonc@ainfosec.com>
+> >>
+> >> Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
+> >> ---
+> >>  meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
+> >> index f2fe1f1..5cae6ac 100644
+> >> --- a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
+> >> +++ b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
+> >> @@ -46,7 +46,7 @@ inherit autotools systemd pkgconfig
+> >>  RRECOMMENDS_${PN} = "kernel-module-ipsec"
+> >>
+> >>  FILES_${PN} += "${libdir}/ipsec/lib*${SOLIBS}"
+> >> -FILES_${PN}-dbg += "${bindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
+> >> +FILES_${PN}-dbg += "${bindir}/.debug ${sbindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
+> >>  FILES_${PN}-dev += "${libdir}/ipsec/lib*${SOLIBSDEV} ${libdir}/ipsec/*.la"
+> >>  FILES_${PN}-staticdev += "${libdir}/ipsec/*.a"
+> >>
+> >> --
+> >> 2.1.4
+> >>
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
