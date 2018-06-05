@@ -1,61 +1,53 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B628E771B3
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DB2B476004
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 12:04:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 7B0C5183C0;
-	Tue,  5 Jun 2018 14:04:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id u9RfteNDYgQ3; Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C58651838E;
-	Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B357C1A07F;
-	Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A6B831A07E;
-	Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 99BBC2846;
-	Tue,  5 Jun 2018 14:04:40 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 5 Jun 2018 14:04:40 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 5 Jun 2018 14:04:40 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 5 Jun 2018 14:04:40 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Martin Kelly
-	<mkelly@xevo.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3 1/6] toolchain-scripts: retab file
-Thread-Index: AQHT/Fi1WBgxHOcWSkCRFyt67Nh7pqRRcMeQ///nIoCAADm7QA==
-Date: Tue, 5 Jun 2018 12:04:40 +0000
-Message-ID: <a72d01504c484595ae44abe19bbf4665@XBOX02.axis.com>
-References: <20180604230602.8461-1-mkelly@xevo.com>
-	<20180604230602.8461-2-mkelly@xevo.com>
-	<248cbe41837f42c88d3b38cefec71a4b@XBOX02.axis.com>
-	<73a2a78cd6778812d9983f044f374e6c2de0b248.camel@linuxfoundation.org>
-In-Reply-To: <73a2a78cd6778812d9983f044f374e6c2de0b248.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH v3 1/6] toolchain-scripts: retab file
+	Tue,  5 Jun 2018 12:37:41 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id j15-v6so4846640wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jun 2018 05:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=ii4BDPBxEuojatwOB1BCBbuMuOWBdXbA+kd+D/17c64=;
+	b=Pia4V7t6tkGincokBfWgwg3u+DC1wO1qXxy90qhbwYtMgTAc2JZ/i/dYMzk+6v4sIA
+	/XmUvaeqKuzLazRh5eTTaRbSEtOjDSnueDIgOV+CwP9ew6FKf7mf+gwOLv8gqpJ377mW
+	YefyvnhZeg8qxAKkC0wn87bcPpkgZTgxtYyCtVscI2YjPRXYiP8//UYW7YE9C5Wyu8Kw
+	bOWnCxIBvgySHBt+z6xHs7F7XmfsV60z2/o5elvJ7LkBIAVd7nRDr2FqEX8LheCFlOwZ
+	zsnTjYz/CN6IcjBwrPdN04rrc2uRLB6tC7iPrJWd5wSj+8yW/PgS0B+pkzoN8P3ATQbI
+	liMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=ii4BDPBxEuojatwOB1BCBbuMuOWBdXbA+kd+D/17c64=;
+	b=anLKKg71cE0K/wsooN5UviGNgANcaqfaepWNWnm7XtNQ5KE+gYa+Z7K+M08put7ey3
+	Udvw1ydx8yjnZJUrSvZm+eJ7MCX6WpO2gfUZzOc0hTh8asyz87q8r/vWc+rlSDGvpT0m
+	VYXq3a8ktisSYRq6PjYL+xilh1SDDpI2lThjSxCUA3JohZ+57iGTz4AKcSvSvWu9ukTx
+	1UCmsFrW7pBatpkXu1Vsn3ki/hzn3UjrhaymrsmXdPcmCUVeh4W2gXME6WviEIipYe0g
+	rC3TxOSIn1Cj1BrX20+BMc2Sp4ASUEZwbP5HBzDM9JVM9TaSZN4h8dVHT4Epg0sHGN8f
+	oBBQ==
+X-Gm-Message-State: ALKqPwcPFHwUtioyrjFPkbkXKRtMHWk7vHnrIyYkoBaW8YhnnHomY0Mi
+	L9wgKQHRIOCvMb7cRCbOxLM=
+X-Google-Smtp-Source: ADUXVKLZ9U3F+Om3Uq8ULRqLATMpz0zYMX+tJ6DPUReEr7/PYKQxYClP+7GrThuJalFPWiBeu4BCbw==
+X-Received: by 2002:a1c:130c:: with SMTP id
+	12-v6mr10406401wmt.127.1528202262627; 
+	Tue, 05 Jun 2018 05:37:42 -0700 (PDT)
+Received: from [10.42.8.249] (b2b-78-94-80-58.unitymedia.biz. [78.94.80.58])
+	by smtp.gmail.com with ESMTPSA id
+	p3-v6sm33661138wrn.31.2018.06.05.05.37.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Jun 2018 05:37:41 -0700 (PDT)
+From: Jens Rehsack <rehsack@gmail.com>
+Message-Id: <98977A30-5D64-4CDB-9AEA-040AB7A647DC@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 11.4 \(3445.8.2\))
+Date: Tue, 5 Jun 2018 14:37:39 +0200
+In-Reply-To: <61a0d69463b0b86d2de917653f0c7a989c699971.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <98DF6614-20AE-41EB-BC2C-D20A477F63C3@gmail.com>
+	<61a0d69463b0b86d2de917653f0c7a989c699971.camel@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3445.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] cpan_build.bbclass: adopt to recent EU::MM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,70 +60,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 12:04:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 05 Jun 2018 12:37:42 -0000
+X-Groupsio-MsgNum: 112197
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_E29A5B07-1126-4A07-8DC8-6DA17F7E805F";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IGRlbiA1IGp1
-bmkgMjAxOCAxMjozNw0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3Rl
-ZHRAYXhpcy5jb20+OyBNYXJ0aW4gS2VsbHkNCj4gPG1rZWxseUB4ZXZvLmNvbT47IG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggdjMgMS82XSB0b29sY2hhaW4tc2NyaXB0czogcmV0YWIgZmlsZQ0KPiANCj4gT24g
-VHVlLCAyMDE4LTA2LTA1IGF0IDEwOjA5ICswMDAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6
-DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogb3BlbmVtYmVk
-ZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBbbWFpbHRvOm9w
-ZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxm
-DQo+ID4gPiBPZg0KPiA+ID4gTWFydGluIEtlbGx5DQo+ID4gPiBTZW50OiBkZW4gNSBqdW5pIDIw
-MTggMDE6MDYNCj4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+ID4gPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIHYzIDEvNl0gdG9vbGNoYWluLXNj
-cmlwdHM6IHJldGFiIGZpbGUNCj4gPiA+DQo+ID4gPiBUd28gZnVuY3Rpb25zIGlzIHVzZXMgYSBt
-aXggb2Ygc3BhY2VzIGFuZCB0YWJzLiBUaGUgcmVzdCBvZiB0aGUNCj4gPiA+IGZpbGUNCj4gPiA+
-IHVzZXMgdGFicywgc28gc3dpdGNoIHRvIHRhYnMgdW5pZm9ybWx5Lg0KPiA+ID4NCj4gPiA+IFNp
-Z25lZC1vZmYtYnk6IE1hcnRpbiBLZWxseSA8bWtlbGx5QHhldm8uY29tPg0KPiA+ID4gLS0tDQo+
-ID4gPiAgbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRzLmJiY2xhc3MgfCAyMCArKysrKysr
-KysrLS0tLS0tLS0tLQ0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCAx
-MCBkZWxldGlvbnMoLSkNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL3Rv
-b2xjaGFpbi1zY3JpcHRzLmJiY2xhc3MNCj4gPiA+IGIvbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1z
-Y3JpcHRzLmJiY2xhc3MNCj4gPiA+IGluZGV4IDcxZGE1ZTU0MDkuLmE3MjQzNjE2N2MgMTAwNjQ0
-DQo+ID4gPiAtLS0gYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMuYmJjbGFzcw0KPiA+
-ID4gKysrIGIvbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRzLmJiY2xhc3MNCj4gPiA+IEBA
-IC0xMjIsNyArMTIyLDcgQEAgdG9vbGNoYWluX2NyZWF0ZV9wb3N0X3JlbG9jYXRlX3NjcmlwdCgp
-IHsNCj4gPiA+ICAJcm0gLWYgJHNjcmlwdA0KPiA+ID4gIAl0b3VjaCAkc2NyaXB0DQo+ID4gPg0K
-PiA+ID4gLSAgICBjYXQgPj4gJHNjcmlwdCA8PEVPRg0KPiA+ID4gKwljYXQgPj4gJHNjcmlwdCA8
-PEVPRg0KPiA+ID4gIGlmIFsgLWQgIiR7U0RLUEFUSE5BVElWRX0vcG9zdC1yZWxvY2F0ZS1zZXR1
-cC5kLyIgXTsgdGhlbg0KPiA+ID4gICAgICBmb3IgcyBpbiAke1NES1BBVEhOQVRJVkV9L3Bvc3Qt
-cmVsb2NhdGUtc2V0dXAuZC8qLnNoOyBkbw0KPiA+ID4gICAgICAgICAgXCRzICJcJDEiDQo+ID4N
-Cj4gPiBUaGlzIHBhcnQgc2hvdWxkIGJlIGluZGVudGVkIHVzaW5nIHRhYnMgYXMgd2VsbC4NCj4g
-Pg0KPiA+ID4gQEAgLTE2NiwxMyArMTY2LDEzIEBAIHRvb2xjaGFpbl9jcmVhdGVfc2RrX3NpdGVj
-b25maWcgKCkgew0KPiA+ID4gIHRvb2xjaGFpbl9jcmVhdGVfc2RrX3NpdGVjb25maWdbdmFyZGVw
-c2V4Y2x1ZGVdID0NCj4gPiA+ICJUT09MQ0hBSU5fQ09ORklHU0lURV9TWVNST09UQ0FDSEUiDQo+
-ID4gPg0KPiA+ID4gIHB5dGhvbiBfX2Fub255bW91cyAoKSB7DQo+ID4gPiAtICAgIGltcG9ydCBv
-ZS5jbGFzc2V4dGVuZA0KPiA+ID4gLSAgICBkZXBzID0gIiINCj4gPiA+IC0gICAgZm9yIGRlcCBp
-biAoZC5nZXRWYXIoJ1RPT0xDSEFJTl9ORUVEX0NPTkZJR1NJVEVfQ0FDSEUnKSBvcg0KPiA+ID4g
-IiIpLnNwbGl0KCk6DQo+ID4gPiAtICAgICAgICBkZXBzICs9ICIgJXM6ZG9fcG9wdWxhdGVfc3lz
-cm9vdCIgJSBkZXANCj4gPiA+IC0gICAgICAgIGZvciB2YXJpYW50IGluIChkLmdldFZhcignTVVM
-VElMSUJfVkFSSUFOVFMnKSBvcg0KPiA+ID4gIiIpLnNwbGl0KCk6DQo+ID4gPiAtICAgICAgICAg
-ICAgY2xzZXh0ZW5kID0gb2UuY2xhc3NleHRlbmQuQ2xhc3NFeHRlbmRlcih2YXJpYW50LCBkKQ0K
-PiA+ID4gLSAgICAgICAgICAgIG5ld2RlcCA9IGNsc2V4dGVuZC5leHRlbmRfbmFtZShkZXApDQo+
-ID4gPiAtICAgICAgICAgICAgZGVwcyArPSAiICVzOmRvX3BvcHVsYXRlX3N5c3Jvb3QiICUgbmV3
-ZGVwDQo+ID4gPiAtICAgIGQuYXBwZW5kVmFyRmxhZygnZG9fY29uZmlndXJlJywgJ2RlcGVuZHMn
-LCBkZXBzKQ0KPiA+ID4gKwlpbXBvcnQgb2UuY2xhc3NleHRlbmQNCj4gPiA+ICsJZGVwcyA9ICIi
-DQo+ID4gPiArCWZvciBkZXAgaW4gKGQuZ2V0VmFyKCdUT09MQ0hBSU5fTkVFRF9DT05GSUdTSVRF
-X0NBQ0hFJykgb3INCj4gPiA+ICIiKS5zcGxpdCgpOg0KPiA+ID4gKwkJZGVwcyArPSAiICVzOmRv
-X3BvcHVsYXRlX3N5c3Jvb3QiICUgZGVwDQo+ID4gPiArCQlmb3IgdmFyaWFudCBpbiAoZC5nZXRW
-YXIoJ01VTFRJTElCX1ZBUklBTlRTJykgb3INCj4gPiA+ICIiKS5zcGxpdCgpOg0KPiA+ID4gKwkJ
-CWNsc2V4dGVuZCA9DQo+ID4gPiBvZS5jbGFzc2V4dGVuZC5DbGFzc0V4dGVuZGVyKHZhcmlhbnQs
-IGQpDQo+ID4gPiArCQkJbmV3ZGVwID0gY2xzZXh0ZW5kLmV4dGVuZF9uYW1lKGRlcCkNCj4gPiA+
-ICsJCQlkZXBzICs9ICIgJXM6ZG9fcG9wdWxhdGVfc3lzcm9vdCIgJQ0KPiBuZXdkZXANCj4gPiA+
-ICsJZC5hcHBlbmRWYXJGbGFnKCdkb19jb25maWd1cmUnLCAnZGVwZW5kcycsIGRlcHMpDQo+ID4N
-Cj4gPiBUaGlzIGlzIFB5dGhvbiBjb2RlLiBJIGJlbGlldmUgdGhlIE9FLUNvcmUgc3RhbmRhcmQg
-aXMgZm9yIFB5dGhvbg0KPiA+IGNvZGUNCj4gPiB0byBiZSBpbmRlbnRlZCB1c2luZyBmb3VyIHNw
-YWNlcyAod2hlcmVhcyBzaGVsbCBjb2RlIHNob3VsZCBiZQ0KPiA+IGluZGVudGVkDQo+ID4gdXNp
-bmcgdGFicykuDQo+IA0KPiBJIG5vdGljZWQgdGhpcyBsYXN0IGJpdCBhbmQgc2ltcGx5IGRyb3Bw
-ZWQgdGhhdCBwYXRjaCBodW5rLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQpZb3Ug
-bWlnaHQgd2FudCB0byB1cGRhdGUgdGhlIGNvbW1pdCBtZXNzYWdlIHRoZW4gYXMgd2VsbCwgYXMg
-aXQgcmVmZXJzIA0KdG8gdGhlIHR3byBmdW5jdGlvbnMgdGhhdCBhcmUgbW9kaWZpZWQsIHdoaWNo
-IGlzIG5vIGxvbmdlciB0aGUgY2FzZS4NCg0KLy9QZXRlcg0KDQo=
+--Apple-Mail=_E29A5B07-1126-4A07-8DC8-6DA17F7E805F
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
+
+
+> Am 05.06.2018 um 10:43 schrieb Richard Purdie =
+<richard.purdie@linuxfoundation.org>:
+>=20
+> On Mon, 2018-05-28 at 20:55 +0200, Jens Rehsack wrote:
+>> The modern the time, the improvements in ExtUtils::MakeMaker.
+>>=20
+>> Nowadays, .packlist and perllocal.pod aren't touched anymore when =
+appropriate
+>> flags set during configure stage. Controlling the flags globally =
+avoids
+>> dual-life recipes need share patching.
+>>=20
+>> Further: remove prepending ${PERL_ARCHLIB} in PERL5LIB - it's wrong =
+(search
+>> order is site_lib, vendor_lib, core) - and ${PERL_ARCHLIB} contains =
+core
+>> libpath only ...
+>>=20
+>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>> ---
+>> meta/classes/cpan.bbclass | 3 +--
+>> 1 file changed, 1 insertion(+), 2 deletions(-)
+>>=20
+> I put this in for testing but I see:
+>=20
+> $ SDKMACHINE=3D"i686" bitbake nativesdk-libxml-parser-perl
+> [...]
+> ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: =
+nativesdk-libxml-parser-perl: chrpath command failed with exit code 7:
+> =
+b'/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativ=
+esdk-libxml-parser-perl/2.44-r0/package/opt/poky/2.5+snapshot/sysroots/i68=
+6-pokysdk-linux/usr/lib/perl/vendor_perl/5.24.1/auto/XML/Parser/Expat/Expa=
+t.so: =
+RPATH=3D/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux=
+/nativesdk-libxml-parser-perl/2.44-r0/recipe-sysroot/opt/poky/2.5+snapshot=
+/sysroots/i686-pokysdk-linux/usr/lib\n'b"new rpath =
+'$ORIGIN/../../../../../../../../../../../../../../media/build1/poky/build=
+/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.=
+44-r0/recipe-sysroot/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr=
+/lib' too large; maximum length 176\n"
+> ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: Function =
+failed: perform_packagecopy
+> ERROR: Logfile of failure stored in: =
+/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/natives=
+dk-libxml-parser-perl/2.44-r0/temp/log.do_package.23783
+> ERROR: Task =
+(virtual:nativesdk:/media/build1/poky/meta/recipes-devtools/perl/libxml-pa=
+rser-perl_2.44.bb:do_package) failed with exit code '1'
+>=20
+> which seems to reproduce fairly readily both locally and on the
+> autobuilders. Reverting this patch resolves it.
+
+Without having tested that - this seems to come from
+
+-	export PERL5LIB=3D"${PERL_ARCHLIB}"
+
+which is, when do not causing above build failure, kind-of bug-using :)
+
+Always prepending ${PERL_ARCHLIB} causes for cross-building the attempt
+of loading sdk-modules, which is evil.
+
+I'll try to have a detailed look later today or tomorrow.
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_E29A5B07-1126-4A07-8DC8-6DA17F7E805F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlsWhBMACgkQRJmWrtzl
+Cp1GVg/+Isu6Zd4xR8pTUnbGqgMatYAFuQ12IOysF/SAj7xZ4wKonPrIP+zKNBcJ
+w9ZtYZWO+cAGDUONBn3Jvrit3rGd4CR1TQ10/sA6LVDuHVWrxYEkdnQTH2kzfhZk
+Dx2RyYljd1uH54x2DC7IJrxuGfQIg6ALyjJP5JFypkWOOO1XtnahtM5K+9FJyHDz
+CMGPXKlxz7hfMSX5dSl2wm0mYeh97jR//1aHZlUofoWLhXmpog2h0Dxnl1xBFREx
+Xfm2pet65hmDl/ClTgDiKMsRAlqw2wBWKAMCR2ER0CcY6plJh/YJn7VyUOK2VuGj
+R02OAwzoEVw+OrkyEpENNl/vZBv50VNAofSY4Dt1Lsf6PCplqloyhRlKVCAtaFec
+EwpnSuQN7uj6YX16C8xTcdGlIWKCA85L4VnWdwHih3IuZnIQCDflnrkBF++aSFaK
+zZ/IiDzJCqQf/gUvwYtMLdcP7q6pjTnKFrN7swsaP3frioeaCK240djCCHqlrdsl
+pzXKY9CKBbJrGjlWq2SfB2Xtbuf5SnOTSOxHwF2t8nFLMt/O3ysSHbvZHyeKwr5h
+SYx9o6Fpb9qxVZGGQCZPVFKZ4zcRBlymx0IrSxLzOyU0EUghG0X+XVBm6l0l8ilr
+K+Q9DZ8SN5M+DOU4sMeFfYeVFJd2DXXbNO91zIpX2cpknO6uymI=
+=D9+S
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_E29A5B07-1126-4A07-8DC8-6DA17F7E805F--
