@@ -1,50 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E6BD60017
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 617EB78594
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 17:05:38 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id l19-v6so4237069ioj.5
+	Tue,  5 Jun 2018 17:08:58 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id b130-v6so2752362oif.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2018 10:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 05 Jun 2018 10:08:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yfjxcRYlDlF2ihI5Pap1IfsoqCUHZIE+l2+FiJPUwVI=;
-	b=SbeGTri5m+TzZ1Q9YfZlc0i7E22C8sKITchaOTdQm3WbRuNoiqkcrDetkNQam2WVJH
-	8lSIIuOBfyjYaOVnsnUo3AJcIJKm+SpWh0V5cDPWlyOK1mroVOl9+c2ZVyb0i3sBMfD4
-	ukKUTrIBr1GZV+lOYyBSipScqHwsrhSkjiHgIIHgdfJG+JqfaGtzckReVibQC52DHtUw
-	vgibM6R3knhi0xL/R2Nuf+tr4euQCZqKaz0TsMtFAFGHVx2w4LeMtfkKHP+0QlYE8oM8
-	aOxrhpyE3CDjtOPeM01/lnwAIwZv0dUtz9N7mIdCKPc9vMq7r8ryfoe0tkiDwCXrg2GV
-	jnhA==
+	:cc; bh=1c1sOlsbaHKJi2FtSXfI4LM/jbqoTKy5BgjKP/mvTgo=;
+	b=EwGZ5oHpY/4d5Xy5lKvGtWIGriLjxhSq+yW8dgql04QBv9Y/JeLFp7XaMJIHUtqSPE
+	zpw//8ljdsg6iXLtdW4w7iqihFSue9XGCa+hOjZUb/ONurU4w/1d6EPHCaDyDndsuHkn
+	6Lq/b5LTRHzjASd8hkzEXdCSWY6Zleeg2Q+fo+D0rjAwRUW/C4sPLALHHavMbmHotZ4W
+	DEB0qsNHk1bYH2Mt7cyiF6B7yojOx+BcjHFvOkIsA2JU4hzLUaZggkjEhYrvuoY6fP1D
+	e5E9TfueoGePmoFOKfg6EFOM1Q4FVWFkJqpGBqqF9HfqyxHvG0hYAjDL5cRGqLWEJ2Rt
+	HArw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=yfjxcRYlDlF2ihI5Pap1IfsoqCUHZIE+l2+FiJPUwVI=;
-	b=snkOipV8Q8kIFs/CtYBbjtCzmsZhHxYkDGyqxuV1hpm+3MMx+6HuTdW7eO5M/v+XBx
-	BIJIXZU4c83hYOaV2rMdunG9S+55B7mB+WzvHWutKWH+FSqDMQaLq1+Mv9WWmgJuVttJ
-	Mxsp2Qz8uNxZmrdHSjE9mZ2Ept0YIyc4LQiLzyFfmOm538b3n7JXobjb+TyR2wraBCRi
-	jtj+GaLcxRwzjNrqnD4UE8A30XFygK90iDIsXo3ZIXPJeePwdfycobuKS/5QDKHhP7ZU
-	U0pT7tYA33nFZtUYasjjhhaYf6TlpuTcO5uJQ6DwsFEhRq10CWtSn8g53ulSVmhh+OB7
-	hiVg==
-X-Gm-Message-State: APt69E3u+VGeDVY1j9aj/hzU47n0Z62jG9ET5WKi0/3OJl3KORmwse72
-	5JhwlHy/8P5ssk91/kzV/vjdZRv5FUrwL7s496Un7w==
-X-Google-Smtp-Source: ADUXVKKQLGlmAuK3kShMKYNxBPdu1O7QAh1f9yG25J88D8RIkTpsroggWyK1BS7iIMNJZfYU7i51NiEakvFARTlvdO0=
-X-Received: by 2002:a6b:6b19:: with SMTP id
-	g25-v6mr1738499ioc.20.1528218339770; 
-	Tue, 05 Jun 2018 10:05:39 -0700 (PDT)
+	bh=1c1sOlsbaHKJi2FtSXfI4LM/jbqoTKy5BgjKP/mvTgo=;
+	b=diO8sN7TEs1h/xg4DXJ1BEBHwiqVHZAsapqLObtTaS3d+Pmi7fwI/v1DI4UFMwf+kM
+	rEXVJTm0LtVO7BQhVwjIaeQHUG5FsRyfEfLEoRotQ+xjW30pNLFPbObxMpQD3MBGNoR0
+	SoxkHeQgR+O1LVnP9pgoBGy3dCJawGZKB5S4/5FuuLXR478tia4M2S0Hyx0wPZp6ud9y
+	HbDe8gurU+Fq0/aR1ITV1vWAnqUx9ZxUahlQpmimwbc0ojf7FgGhlE8b1EQF0ODCnf1O
+	rYE8BxQ7izQzHJ6rz5eadzQp6EpWanSIaYGh3Rg1imX1FbjM0/3qcm/q6RPiobjHstKk
+	2LkA==
+X-Gm-Message-State: APt69E2b3i6WJz1tS6+8Uv5DKYQY7WLckrpgSurQd8aGR/dzK/6llQ2J
+	/dbh9VpB7iiHhsoxmCXzvxfrIN9Jwz3e2KKHshQ=
+X-Google-Smtp-Source: ADUXVKL4j3Q0gFgdqK/D1ZT4atCoHHs0vU7bvHmuy2OI9XCj+H6qVxc+1biZPfzinQdk6wkUtLyHTn/zD3dVw2EkaJk=
+X-Received: by 2002:aca:fd55:: with SMTP id
+	b82-v6mr13779577oii.321.1528218539070; 
+	Tue, 05 Jun 2018 10:08:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:f614:0:0:0:0:0 with HTTP;
-	Tue, 5 Jun 2018 10:05:19 -0700 (PDT)
-In-Reply-To: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
-References: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jun 2018 18:05:19 +0100
-Message-ID: <CAJTo0LaWr78D1yrZ2V_kocAyoJRbHUB0Qqb6n4M=Ow6s_6Ho6A@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
+	Tue, 5 Jun 2018 10:08:58 -0700 (PDT)
+In-Reply-To: <b3eb0819-7b8f-e101-1977-190a36b53897@sashko.rv.ua>
+References: <20180605160643.23035-1-dev@sashko.rv.ua>
+	<CAJTo0LaneaCdQcEW6tFEFm8xXg2+wfrQ098FE542sNZc9DcDHw@mail.gmail.com>
+	<b3eb0819-7b8f-e101-1977-190a36b53897@sashko.rv.ua>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 5 Jun 2018 20:08:58 +0300
+Message-ID: <CANNYZj-614GuBuz4UQaBF_X9BF1S+DJBZ5kE_ieB7zshKM0MMw@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] bc:1.06 -> 1.07.1
+Subject: Re: [meta-oe][PATCH v3] iso-codes: update to 3.79 and fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,18 +58,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 17:05:38 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 17:08:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 5 June 2018 at 09:10, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> +PR = "r3"
+This was discussed in private. The maintainer uploaded tarballs have a
+random hash in the URI, which will break 'devtool upgrade' and make
+manual updates inconvenient. And autogenerated tarballs are likely to
+suffer from same issue as githb ones.
 
-As this was an upgrade you can remove PR.
+Alex
 
-> +SRC_URI = "${GNU_MIRROR}/bc/bc-${PV}.tar.gz \
-
-Whilst you're here, ${BP} is BPN-PV so this can be
-${GNU_MIRROR}/${BPN}/${BP}.tar.gz
-
-Ross
+2018-06-05 20:04 GMT+03:00 Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com>:
+> Ross -
+>
+> We've discussed this. Check out discussion of v2 of the patch, please.
+>
+>
+>
+> On 05/06/18 19:00, Burton, Ross wrote:
+>>
+>> No need to change to git, salsa has a tarball at
+>> https://salsa.debian.org/iso-codes-team/iso-codes/tags.
+>>
+>> Ross
+>>
+>> On 5 June 2018 at 17:06, Oleksandr Kravchuk
+>> <open.source@oleksandr-kravchuk.com> wrote:
+>>>
+>>> Updated package to version 3.79.
+>>>
+>>> The original FTP server, alioth.debian.org has been permanently taken
+>>> down by the Debian Project and replaced with salsa.debian.org.
+>>>
+>>> Source: https://wiki.debian.org/Alioth
+>>>
+>>> Also added HOMEPAGE, and BUGTRACKER.
+>>>
+>>> Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+>>> ---
+>>>   .../iso-codes/{iso-codes_3.77.bb => iso-codes_3.79.bb} | 10 +++++++---
+>>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>>   rename meta/recipes-support/iso-codes/{iso-codes_3.77.bb =>
+>>> iso-codes_3.79.bb} (56%)
+>>>
+>>> diff --git a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+>>> b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
+>>> similarity index 56%
+>>> rename from meta/recipes-support/iso-codes/iso-codes_3.77.bb
+>>> rename to meta/recipes-support/iso-codes/iso-codes_3.79.bb
+>>> index bd613ac573..72cb542f18 100644
+>>> --- a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
+>>> +++ b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
+>>> @@ -1,15 +1,19 @@
+>>>   SUMMARY = "ISO language, territory, currency, script codes and their
+>>> translations"
+>>> +HOMEPAGE = "https://salsa.debian.org/iso-codes-team/iso-codes"
+>>> +BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
+>>> +
+>>>   LICENSE = "LGPLv2.1"
+>>>   LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+>>>
+>>> -SRC_URI =
+>>> "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+>>> -SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
+>>> -SRC_URI[sha256sum] =
+>>> "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
+>>> +SRC_URI =
+>>> "git://git@salsa.debian.org/iso-codes-team/iso-codes.git;protocol=git"
+>>> +SRCREV = "c1d5dd96b33cb815ebc21d2708bc045b1545249d"
+>>>
+>>>   # inherit gettext cannot be used, because it adds gettext-native to
+>>> BASEDEPENDS which
+>>>   # are inhibited by allarch
+>>>   DEPENDS = "gettext-native"
+>>>
+>>> +S = "${WORKDIR}/git"
+>>> +
+>>>   inherit allarch autotools
+>>>
+>>>   FILES_${PN} += "${datadir}/xml/"
+>>> --
+>>> 2.17.0
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
