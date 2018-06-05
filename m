@@ -1,54 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A6C5786D6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D1F37872C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 19:06:54 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id n1-v6so4145583otf.7
+	Tue,  5 Jun 2018 19:35:51 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id t5-v6so4770210ioa.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2018 12:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 05 Jun 2018 12:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BZDs1sGSmlM2Kw1jyKxcKmoDbxvmkxcOOaEtcp5rrE0=;
-	b=UZrw/jZXP4iprBESrtxPyMs5dx/8xPJp5DKz/pR+zXNDsP2AE8Ayo06B40HEoiYgxc
-	7Uvh6UACEVBPS4BpJsX+IjhAPAa5H00vZH0dbfrhkLXLAd9ZJU8cMUG8RIgGJ+QbnmR2
-	vzL4LO6UQv2h5L1lfLeZiKvi/nD/XBwuLennSN1oyTqJwjVbWXCTQmvrimTNluaNKApb
-	2vI8gCh0MReBl0FP3pxyknL7zQCZHDuHV2TqB4+bgCL3PXbKf72xJIyaOYYNLJ138VH6
-	VRAM/Sab15W2slBZnRvF55HlIRFrYd96uxoa8IfPqI137VVfPxjNTIU9mKTKLH2Xy2SN
-	fCKQ==
+	:cc; bh=uwtqseZ97zOpa5wYwinatYoGeG5UeEQ+OHgJgSZH3y4=;
+	b=u1VnkHfCBxBBpull3cjriPcKwKfsAJKCTKzeUFx61gXq3cvk3w+mpw98hMEgZAegmi
+	+jcrYHLPNGeCQESuoObIOhadl1RGgosMUOlWPwTh8csYMEyaoVcZdtiPdHEQtC1NhrkF
+	pfAOgJBdjsljtktIO5lXJGO023s1CE2O7XvS//dG+cUPkBG0POlhpdN3CNGRvNZqx3lu
+	/qztJjjoQnwPCYEygbKJL2vutSlOX+0IgjnGs5FBuRBdmw80FKHhDKIshfTnLE6l0h70
+	eTqdcUqokItoztKIu/AIg40TDeynvg4w8n+yy6StDR+ApUsPhcQKznQQQggMertUXclf
+	KMmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=BZDs1sGSmlM2Kw1jyKxcKmoDbxvmkxcOOaEtcp5rrE0=;
-	b=t14epzqvG7NEsUxKICaQo8yxou+VVg+DlE6kDbsDyxq6b3b/B7cZJdj6BhxQwgNcON
-	086U2vFcUvIoUjFzRBCcKE6CEnnIlfOGv8I1orqAyRwW9Seanq7yFa2N0dQGFPFstEOU
-	YFt2+5Y4/XVadPSXl+m8n2frkUIL0vMMpiUeBmr46AbKIwCSrQKPZs4PBcctzNVS6ua0
-	1JVt2DrPVLr6datB0xWuB1QCP+K92QNOr/gX8+srGQjcOQDTN+PFbKxv4J3EYLFrrhNj
-	ZzXPSXZCtMLugJaLVddUkmeXaDEnddxrY674LfPP6YZG2K1TK8saOPa2BL8984IWj3Yj
-	KSsA==
-X-Gm-Message-State: APt69E02aoa5erePTdoRGpVHwRHa6DqJXxRV7iNEJlEVrB8lBXFHVta7
-	ECVxdETK5S0rZBFZwRpxUr64/bLhOXCUafgfb3w=
-X-Google-Smtp-Source: ADUXVKIjrj6wwn5T1BOkj4X+vJej8MRIpG/zFO8H+qxSzB4WFkRITSklRcM4KClHsFShGQC+nHEaQ3rf5IDInpbf3E8=
-X-Received: by 2002:a9d:4609:: with SMTP id
-	y9-v6mr11559564ote.259.1528225615164; 
-	Tue, 05 Jun 2018 12:06:55 -0700 (PDT)
+	bh=uwtqseZ97zOpa5wYwinatYoGeG5UeEQ+OHgJgSZH3y4=;
+	b=InBykWdAGYLBQbS0aZdExXoVdLF3VToOsiK+Yvdw/Ap1ecG2G9cTzVZ4eRPqFBtGnH
+	H+f2J6mkGCfQVNPEX6HegDY16SWWSKwlO1mimuzECaYlAhfvcVh1Tmu7hzRC6K5faPVg
+	hzc0YJLAJz/3/b7buJhB7BK+TLpE1YKUPZYlIHZeB7+Ao4+jdZqeSii9OB7n6H0Csloz
+	/qPZ+bZHeB4yE18Hr8rPpaAFvf5c6b6/9vh+3AysJeJsBeARw7dCzat/TpB++kWDYNoH
+	4rlXFPvn6/tQUDG5QlBPC5gyJJhcg7oer718NEiVL5APx7larnlEm4U+Ts4Tn2nWM2Ut
+	Ytxw==
+X-Gm-Message-State: APt69E3nrs2chLfdzLW+HeEXyL44GZjQWClQD5ckPpEYWViF9NHXgipL
+	cZdz+N6tkGLQr1JvCZbdEGUmSuW47rgvK2n9B0utkA==
+X-Google-Smtp-Source: ADUXVKLPBFYUG8XAGmSV8zxaLpShjX5xlHO74SeEM4NIv2635mpvfmajq7XpQZh601yBp37efQaBiWTK4hx/J5VYKbE=
+X-Received: by 2002:a6b:e603:: with SMTP id
+	g3-v6mr10603503ioh.216.1528227352424; 
+	Tue, 05 Jun 2018 12:35:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
-	Tue, 5 Jun 2018 12:06:48 -0700 (PDT)
-In-Reply-To: <CAJTo0LZUR43j58oirDFN02KuFeW5Rtk6erojdp7-JSotUcYmUw@mail.gmail.com>
-References: <20180605160643.23035-1-dev@sashko.rv.ua>
-	<CAJTo0LaneaCdQcEW6tFEFm8xXg2+wfrQ098FE542sNZc9DcDHw@mail.gmail.com>
-	<b3eb0819-7b8f-e101-1977-190a36b53897@sashko.rv.ua>
-	<CANNYZj-614GuBuz4UQaBF_X9BF1S+DJBZ5kE_ieB7zshKM0MMw@mail.gmail.com>
-	<CAJTo0LZUR43j58oirDFN02KuFeW5Rtk6erojdp7-JSotUcYmUw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Jun 2018 22:06:48 +0300
-Message-ID: <CANNYZj883fVxRHWvDZL16=7P=P=ffYjmjq+dZ6vc8ffEVAy+Zw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: Re: [meta-oe][PATCH v3] iso-codes: update to 3.79 and fix SRC_URI
+Received: by 2002:a6b:f614:0:0:0:0:0 with HTTP;
+	Tue, 5 Jun 2018 12:35:32 -0700 (PDT)
+In-Reply-To: <20180604163905.17292-1-dev@sashko.rv.ua>
+References: <20180604163905.17292-1-dev@sashko.rv.ua>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Jun 2018 20:35:32 +0100
+Message-ID: <CAJTo0Lb6RUUcs4Xv+OOo7N8pHyAW2Oeg60jNTeprxiNrA_5MwA@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v3] minicom: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,113 +58,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 19:06:54 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 19:35:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Maybe, if it was commonly needed. But 99.9% of tarball upgrades can be
-done with a simple recipe file rename, with the version propagating
-into the tarball path and filename via ${PV}.
+The Debian mirror network can't be relied upon as files are removed
+once they're not in any releases.  For this reason, we prefer
+snapshot.debian.org for SRC_URI (with DEBIAN_MIRROR for the upstream
+check).
 
-Alex
+Ross
 
-2018-06-05 21:45 GMT+03:00 Burton, Ross <ross.burton@intel.com>:
-> Well that's frustrating isn't it.  Need a way of teaching devtool
-> upgrade how to find new tarball URLs from a HTML page maybe?
+On 4 June 2018 at 17:39, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+> The original source, alioth.debian.org has been permanently taken down
+> by the Debian Project. Use Debian mirrors instead.
 >
-> Ross
+> Source: https://wiki.debian.org/Alioth
 >
-> On 5 June 2018 at 18:08, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->> This was discussed in private. The maintainer uploaded tarballs have a
->> random hash in the URI, which will break 'devtool upgrade' and make
->> manual updates inconvenient. And autogenerated tarballs are likely to
->> suffer from same issue as githb ones.
->>
->> Alex
->>
->> 2018-06-05 20:04 GMT+03:00 Oleksandr Kravchuk
->> <open.source@oleksandr-kravchuk.com>:
->>> Ross -
->>>
->>> We've discussed this. Check out discussion of v2 of the patch, please.
->>>
->>>
->>>
->>> On 05/06/18 19:00, Burton, Ross wrote:
->>>>
->>>> No need to change to git, salsa has a tarball at
->>>> https://salsa.debian.org/iso-codes-team/iso-codes/tags.
->>>>
->>>> Ross
->>>>
->>>> On 5 June 2018 at 17:06, Oleksandr Kravchuk
->>>> <open.source@oleksandr-kravchuk.com> wrote:
->>>>>
->>>>> Updated package to version 3.79.
->>>>>
->>>>> The original FTP server, alioth.debian.org has been permanently taken
->>>>> down by the Debian Project and replaced with salsa.debian.org.
->>>>>
->>>>> Source: https://wiki.debian.org/Alioth
->>>>>
->>>>> Also added HOMEPAGE, and BUGTRACKER.
->>>>>
->>>>> Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
->>>>> ---
->>>>>   .../iso-codes/{iso-codes_3.77.bb => iso-codes_3.79.bb} | 10 +++++++---
->>>>>   1 file changed, 7 insertions(+), 3 deletions(-)
->>>>>   rename meta/recipes-support/iso-codes/{iso-codes_3.77.bb =>
->>>>> iso-codes_3.79.bb} (56%)
->>>>>
->>>>> diff --git a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
->>>>> b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
->>>>> similarity index 56%
->>>>> rename from meta/recipes-support/iso-codes/iso-codes_3.77.bb
->>>>> rename to meta/recipes-support/iso-codes/iso-codes_3.79.bb
->>>>> index bd613ac573..72cb542f18 100644
->>>>> --- a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
->>>>> +++ b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
->>>>> @@ -1,15 +1,19 @@
->>>>>   SUMMARY = "ISO language, territory, currency, script codes and their
->>>>> translations"
->>>>> +HOMEPAGE = "https://salsa.debian.org/iso-codes-team/iso-codes"
->>>>> +BUGTRACKER = "https://salsa.debian.org/iso-codes-team/iso-codes/issues"
->>>>> +
->>>>>   LICENSE = "LGPLv2.1"
->>>>>   LIC_FILES_CHKSUM =
->>>>> "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->>>>>
->>>>> -SRC_URI =
->>>>> "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
->>>>> -SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
->>>>> -SRC_URI[sha256sum] =
->>>>> "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
->>>>> +SRC_URI =
->>>>> "git://git@salsa.debian.org/iso-codes-team/iso-codes.git;protocol=git"
->>>>> +SRCREV = "c1d5dd96b33cb815ebc21d2708bc045b1545249d"
->>>>>
->>>>>   # inherit gettext cannot be used, because it adds gettext-native to
->>>>> BASEDEPENDS which
->>>>>   # are inhibited by allarch
->>>>>   DEPENDS = "gettext-native"
->>>>>
->>>>> +S = "${WORKDIR}/git"
->>>>> +
->>>>>   inherit allarch autotools
->>>>>
->>>>>   FILES_${PN} += "${datadir}/xml/"
->>>>> --
->>>>> 2.17.0
->>>>>
->>>>> --
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+> ---
+>  meta/recipes-extended/minicom/minicom_2.7.1.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> index e6afe2b655..d963da7436 100644
+> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> @@ -1,5 +1,5 @@
+>  SUMMARY = "Text-based modem control and terminal emulation program"
+> -HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
+> +HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom/"
+>  DESCRIPTION = "Minicom is a text-based modem control and terminal emulation program for Unix-like operating systems"
+>  SECTION = "console/network"
+>  DEPENDS = "ncurses virtual/libiconv"
+> @@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+>                      file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+>
+> -SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
+> +SRC_URI = "${DEBIAN_MIRROR}/main/m/minicom/minicom_${PV}.orig.tar.gz \
+>             file://allow.to.disable.lockdev.patch \
+>             file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
+>             file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
+> @@ -16,7 +16,7 @@ SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz
+>  SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
+>  SRC_URI[sha256sum] = "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+>
+> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
+> +UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/minicom/"
+>
+>  PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+> --
+> 2.17.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
