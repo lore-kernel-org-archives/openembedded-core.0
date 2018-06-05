@@ -1,30 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id CC748754CA
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 207577556D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jun 2018 23:34:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2018 16:34:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,477,1520924400"; d="scan'208";a="234362562"
-Received: from mmuhamm2-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.249.65.213])
-	by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2018 16:34:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 05 Jun 2018 11:34:21 +1200
-Message-ID: <2475548.kuvUeEtcnn@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <2113513.UM95QSBf6H@peggleto-mobl.ger.corp.intel.com>
-References: <20180531200659.28877-1-twoerner@gmail.com>
-	<CAHUNapRaJVnECsz3rU2CV265xOJLMPUARfsHZGn-CnY_Kn4j3Q@mail.gmail.com>
-	<2113513.UM95QSBf6H@peggleto-mobl.ger.corp.intel.com>
+	Tue,  5 Jun 2018 02:29:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w552T87N009869
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Jun 2018 19:29:08 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 4 Jun 2018 19:29:08 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180604105828.24004-1-kai.kang@windriver.com>
+	<3518da0e-6a89-1288-d6ab-89a8537467f1@linux.intel.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <27a69d94-e215-9c26-3886-5322f1f4e8f4@windriver.com>
+Date: Tue, 5 Jun 2018 10:27:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [devtool][PATCH] devtool deploy-target: optionally specify package
+In-Reply-To: <3518da0e-6a89-1288-d6ab-89a8537467f1@linux.intel.com>
+Subject: Re: [PATCH] man-db: create man db index file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 23:34:27 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 05 Jun 2018 02:29:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tuesday, 5 June 2018 10:59:07 AM NZST Paul Eggleton wrote:
-> I will note that a small issue with your patch is that if you do use --
-> package 
-> you can no longer just use devtool build to build what you need to deploy, 
-> since that only builds up to do_populate_sysroot / do_packagedata. This in 
-> turn means that you can't use this option within the eSDK as you can't 
-> conveniently run bitbake there (again, intentional).
+On 2018年06月04日 19:42, Alexander Kanavin wrote:
+> On 06/04/2018 01:58 PM, Kai Kang wrote:
+>
+>> +pkg_postinst_ontarget_${PN} () {
+>> +        ${bindir}/mandb -q
+>> +}
+>> +
+>
+> man-db is only the tools for manpages, but not the actual pages. So 
+> this will not work as expected when installing or removing packages 
+> that contain manpages. It should be added to classes/manpages.bbclass 
+> instead, with a RDEPENDS += "man-db". You can also fix 
+> man-pages_4.14.bb to inherit the class at the same time.
+>
+> Oh, and you can also take qemu into use, so that this works also for 
+> read only rootfs, and doesn't add to first boot time, like this:
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=b42a7a733c7a6b51118ccb3fe6e33c35ac12b4ae 
+>
+>
+> Alex
+>
+Hi Alex,
 
-Clearly I'm trying to do too many things this morning - this is completely 
-wrong, do_packagedata depends on do_package so there shouldn't be a problem 
-here. The rest of my reply stands though.
-
-Cheers,
-Paul
+Thanks a lot. I'll try it.
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+Regards,
+Neil | Kai Kang
 
 
