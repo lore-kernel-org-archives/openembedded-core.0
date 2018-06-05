@@ -1,24 +1,26 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CD817542A
+	by mail.openembedded.org (Postfix) with ESMTP id 5DB4B762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 08:43:48 +0000 (UTC)
+	Tue,  5 Jun 2018 09:37:40 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w558hjbo019722
+	w559bdnK023582
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 5 Jun 2018 09:43:46 +0100
-Message-ID: <61a0d69463b0b86d2de917653f0c7a989c699971.camel@linuxfoundation.org>
+	verify=NOT); Tue, 5 Jun 2018 10:37:40 +0100
+Message-ID: <9f0224ad1ad78f3f98af5f2e04e42c5b6f1b588e.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <rehsack@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 05 Jun 2018 09:43:45 +0100
-In-Reply-To: <98DF6614-20AE-41EB-BC2C-D20A477F63C3@gmail.com>
-References: <98DF6614-20AE-41EB-BC2C-D20A477F63C3@gmail.com>
+To: Changqing Li <changqing.li@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 05 Jun 2018 10:37:39 +0100
+In-Reply-To: <ca814488-7ba1-fa34-a8dd-75362b623fc3@windriver.com>
+References: <1526632968-107460-1-git-send-email-changqing.li@windriver.com>
+	<ca814488-7ba1-fa34-a8dd-75362b623fc3@windriver.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 1/2] cpan_build.bbclass: adopt to recent EU::MM
+Subject: Re: [PATCH] gmp: do the multilib_header magic for gmp.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +33,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 08:43:49 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 09:37:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-05-28 at 20:55 +0200, Jens Rehsack wrote:
-> The modern the time, the improvements in ExtUtils::MakeMaker.
-> 
-> Nowadays, .packlist and perllocal.pod aren't touched anymore when appropriate
-> flags set during configure stage. Controlling the flags globally avoids
-> dual-life recipes need share patching.
-> 
-> Further: remove prepending ${PERL_ARCHLIB} in PERL5LIB - it's wrong (search
-> order is site_lib, vendor_lib, core) - and ${PERL_ARCHLIB} contains core
-> libpath only ...
-> 
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
->  meta/classes/cpan.bbclass | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-I put this in for testing but I see:
+On Tue, 2018-06-05 at 15:25 +0800, Changqing Li wrote:
+> Ping
 
-$ SDKMACHINE="i686" bitbake nativesdk-libxml-parser-perl
-[...]
-ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: nativesdk-libxml-parser-perl: chrpath command failed with exit code 7:
-b'/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.44-r0/package/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr/lib/perl/vendor_perl/5.24.1/auto/XML/Parser/Expat/Expat.so: RPATH=/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.44-r0/recipe-sysroot/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr/lib\n'b"new rpath '$ORIGIN/../../../../../../../../../../../../../../media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.44-r0/recipe-sysroot/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr/lib' too large; maximum length 176\n"
-ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: Function failed: perform_packagecopy
-ERROR: Logfile of failure stored in: /media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.44-r0/temp/log.do_package.23783
-ERROR: Task (virtual:nativesdk:/media/build1/poky/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb:do_package) failed with exit code '1'
+Already merged?
 
-which seems to reproduce fairly readily both locally and on the
-autobuilders. Reverting this patch resolves it.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=cc8f888018f55e6227b846429186307000d76a2
 
 Cheers,
 
