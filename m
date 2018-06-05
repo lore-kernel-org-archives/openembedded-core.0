@@ -1,50 +1,50 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AA5196010D
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D87E782E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jun 2018 14:39:56 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id t6-v6so3615359iob.10
+	Tue,  5 Jun 2018 15:22:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id x6-v6so5687069wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2018 07:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=oVyG7YVJc0wP8OAX/9+0zDkLX+inDWRL07h7DZxR/eU=;
-	b=QzbnB2glv/hTvtNz/oyFVDe7wYRI8CrF15AapevHws0dnRpOYaS9OT3oqQONY0fyay
-	PU+1OOqhysYRgRYjLds4JAhs84G1qWplOH5n507MZd1WeXnEkF6DvS+A1Gnx/j5JFG6i
-	jvZdvokLizRMa6YTA77bJXIYVQvWNzr9/rgQgqjYo15diSO4RCjwuUBTAR+DtOdvV5fi
-	Mzm4pYyvH31Ze26BYO79EfYoJPH9KnIuGF4W1mWqYYghhIjPL8cSB91k0LSBlvFibQza
-	WowBHKLDNlsRAUdU9IG2N6Yk4npzSWaVvRvyrz9Pp2zH+1KWa2n7aMX7+3iXLnrB7DDD
-	PwEQ==
+	Tue, 05 Jun 2018 08:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=HxLi5rNN27xC8V6LCz2ycecS/tzljEebrifxfjsunUw=;
+	b=bWjGEnwLSdflTK7wKrnDq0aT8aHOLn0GSR2FLxMoY24jvn9IN9WwS1/Bpleb8PHh9W
+	fiVtT8mrWiHcJ9Sypm+m9THkB5HQIGSZ6jQ0H153Qb5J6kXD8py4k+8hXJB2WJanzJAz
+	jYqjnqUXFTVTuAonb0muCf7H8PBXyJbmz6OQYQeoPn8Se8anj4PsHxYLeJuYGVL4SSUH
+	BConN+/p6kBYRby9/DAmbjPpTBd7df2Q/Lb/AhjuJTmODscf3wIcESrRQ2riHi+pqv+1
+	31w4BVgFEke36x2H6Prbv2mg+uOGZYKWZ/e+K77I2/SzmRgmKVCGuyqMxs4UzEoRk9x5
+	rU4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=oVyG7YVJc0wP8OAX/9+0zDkLX+inDWRL07h7DZxR/eU=;
-	b=XKQ61zag6HXzfUscWe02INC35spmsPAapArWPwOwifpB4iviwJUnUwRofChkAUvvlE
-	tlq003UCbo4v2+5kNCt6nubPwVrRpISWEe7W5CWAY6WxxswIx0nT1wXWWvaJvaNgIiV4
-	vIiSkFZlPpmCOW9FOizB9+xOOVjNboTEigZBsBx4LwpfUIDBltrruPfnzlLp5TuhIlaf
-	ikMxgP7ZjH18CfSHsVfrks9wbEdsGceXu/DSuRiwPrRJqnjQcAokW94OiWI7KuwbdslU
-	qKuqVR7DTrtvRuR04M1P/hS8mo2ocPcR1dt8bQeqdYGi9MRxPEzky5/2T0LFQ8gmIss6
-	ZRdg==
-X-Gm-Message-State: APt69E3g5WY3Rr0OPKx3mj3Go2ardJ+MkBmawLZ1xFChynGK4pfWQAfO
-	rWBfGZI1GmKeB4SHQXoh7f2doffmlxY5gCWWqUmwFQ==
-X-Google-Smtp-Source: ADUXVKKpMVyA5r79Awnv8FBJ7OMgtNigcp650QaAlj6DNxeZFTvcGIZ58KnLqUmSzF0OM3PwuHCxOcKQO+1bhL48CAE=
-X-Received: by 2002:a6b:ab01:: with SMTP id
-	u1-v6mr25471934ioe.214.1528209597405; 
-	Tue, 05 Jun 2018 07:39:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a02:7111:0:0:0:0:0 with HTTP;
-	Tue, 5 Jun 2018 07:39:36 -0700 (PDT)
-In-Reply-To: <CABZSBQeejuzPgb1LjjtqSvObDdC59nsHaB3FMsFmpQFoO+bvtA@mail.gmail.com>
-References: <1526063923-32176-1-git-send-email-cjp256@gmail.com>
-	<CABZSBQeejuzPgb1LjjtqSvObDdC59nsHaB3FMsFmpQFoO+bvtA@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
-Date: Tue, 5 Jun 2018 10:39:36 -0400
-Message-ID: <CABZSBQfe_Enb6Vnn_O0+mr5QiVq6LnLwo1BevQSu7dNa=xwDEA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] strongswan: package up sbin debug files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HxLi5rNN27xC8V6LCz2ycecS/tzljEebrifxfjsunUw=;
+	b=eA02w+r/6fwqkl3g9FC0D2Vr9hp7R+rqTaD5+eGfa04KjAZl1WolK7e7NyOMVyq1vK
+	GZunuMMzS7ISkVPQAZxI4bjTkYfYgUM1y2vPfHNVJBZXlBXf0rITrR55CW14NbtMJyyt
+	8zCg8y32Dy9mqVxpY6frV6PjmouXrls/kep2WL/HfsS/u/54k5eoblPeiiRTmgDzNKvt
+	7qBrApuX9KajH+swCnzE977+OGZsXVH6gplNJy7qWWYMO+ykoICjHCtbuwYbydiA1kCr
+	tWTjzKxzC1k+nsNsAtjSV5NqD7f6Hk6jlmkfXVz5DQ8w+9cf3YSyJjFxWrAq9esrt4uR
+	W2Lg==
+X-Gm-Message-State: ALKqPwdyzjUpjzSMElsfrRjYRBzBCWFFy2cpyMfiawBIJ8EUTZzHEEmQ
+	dIHx+63KmMAr1zNzoYfVFSeLDzlE
+X-Google-Smtp-Source: ADUXVKKY47XcIjuNslagdYHeQuwrD+GNymPeN5oqHfLFZbAkQYFOjkuFJQKDqZlQoKs+eJu9zudsDQ==
+X-Received: by 2002:a50:db8c:: with SMTP id
+	p12-v6mr29408113edk.298.1528212139996; 
+	Tue, 05 Jun 2018 08:22:19 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
+	by smtp.gmail.com with ESMTPSA id
+	r15-v6sm550171edp.92.2018.06.05.08.22.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Jun 2018 08:22:18 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jun 2018 17:22:13 +0200
+Message-Id: <20180605152213.28474-1-dev@sashko.rv.ua>
+X-Mailer: git-send-email 2.17.0
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [meta-oe][PATCH] iso-codes: update to 3.79 and fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 14:39:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 05 Jun 2018 15:22:20 -0000
 
-(after looking at it again, I realize I misfired on the prefix tag and
-maintainer CC - will resend)
+Updated package to version 3.79.
 
-On Tue, Jun 5, 2018 at 10:35 AM, Chris Patterson <cjp256@gmail.com> wrote:
-> ping :)
->
-> On Fri, May 11, 2018 at 2:38 PM, Chris Patterson <cjp256@gmail.com> wrote:
->> From: Chris Patterson <pattersonc@ainfosec.com>
->>
->> Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
->> ---
->>  meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
->> index f2fe1f1..5cae6ac 100644
->> --- a/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
->> +++ b/meta-networking/recipes-support/strongswan/strongswan_5.6.2.bb
->> @@ -46,7 +46,7 @@ inherit autotools systemd pkgconfig
->>  RRECOMMENDS_${PN} = "kernel-module-ipsec"
->>
->>  FILES_${PN} += "${libdir}/ipsec/lib*${SOLIBS}"
->> -FILES_${PN}-dbg += "${bindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
->> +FILES_${PN}-dbg += "${bindir}/.debug ${sbindir}/.debug ${libdir}/ipsec/.debug ${libexecdir}/ipsec/.debug"
->>  FILES_${PN}-dev += "${libdir}/ipsec/lib*${SOLIBSDEV} ${libdir}/ipsec/*.la"
->>  FILES_${PN}-staticdev += "${libdir}/ipsec/*.a"
->>
->> --
->> 2.1.4
->>
+The original FTP server, alioth.debian.org has been permanently taken
+down by the Debian Project and replaced with salsa.debian.org.
+
+Source: https://wiki.debian.org/Alioth
+
+Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+---
+ .../iso-codes/{iso-codes_3.77.bb => iso-codes_3.79.bb}    | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/iso-codes/{iso-codes_3.77.bb => iso-codes_3.79.bb} (58%)
+
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.77.bb b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
+similarity index 58%
+rename from meta/recipes-support/iso-codes/iso-codes_3.77.bb
+rename to meta/recipes-support/iso-codes/iso-codes_3.79.bb
+index bd613ac573..9f982a2668 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_3.77.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_3.79.bb
+@@ -2,14 +2,16 @@ SUMMARY = "ISO language, territory, currency, script codes and their translation
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
+-SRC_URI[md5sum] = "9d0d06cfb4634428b300845edcd7140a"
+-SRC_URI[sha256sum] = "21cd73a4c6f95d9474ebfcffd4e065223857720f24858e564f4409b19f7f0d90"
++SRC_URI = "${DEBIAN_MIRROR}/main/i/iso-codes/iso-codes_${PV}.orig.tar.xz"
++SRC_URI[md5sum] = "5875d7aa41b1acd7b218631ff7b85464"
++SRC_URI[sha256sum] = "cbafd36cd4c588a254c0a5c42e682190c3784ceaf2a098da4c9c4a0cbc842822"
+ 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
+ DEPENDS = "gettext-native"
+ 
++UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/i/iso-codes/"
++
+ inherit allarch autotools
+ 
+ FILES_${PN} += "${datadir}/xml/"
+-- 
+2.17.0
+
 
