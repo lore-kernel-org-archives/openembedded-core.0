@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA98A783E4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D1F3278421
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 02:45:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w562jPqg009471
+	Wed,  6 Jun 2018 02:46:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w562kKUU013487
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2018 19:45:46 -0700
+	Tue, 5 Jun 2018 19:46:20 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 5 Jun 2018 19:45:42 -0700
+	14.3.399.0; Tue, 5 Jun 2018 19:46:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2018 10:54:36 +0800
-Message-ID: <d5660a380fc940a151e55fdb65ba16e9290f9ea3.1528252931.git.liezhi.yang@windriver.com>
+Date: Wed, 6 Jun 2018 10:54:40 +0800
+Message-ID: <df139782d247130634f5a046c6dcfac199854877.1528252931.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1528252931.git.liezhi.yang@windriver.com>
 References: <cover.1528252931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 01/11] base.bbclass: Add buildcfg multilib values
+Subject: [PATCH V3 05/11] oe/copy_buildsystem.py: add SDK_LAYERS_EXCLUDE_PATTERN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 02:45:55 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 02:46:18 -0000
 Content-Type: text/plain
 
-From: Mark Hatle <mark.hatle@windriver.com>
+It is helpful when exclude a lot of layers. It uses python re, and
+supports multiple patterns (separated by space).
 
-When displaying the buildcfg for the end user, add in processing
-of the multilib variants.  Only the items that are not the same as
-the DEFAULTTUNE are displayed.
-
-I.e.:
-Build Configuration:
-BB_VERSION        = "1.19.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "CentOS-6.4"
-DISTRO_VERSION    = "oe-core.0"
-MACHINE           = "qemux86-64"
-DEFAULTTUNE       = "x86-64"
-TARGET_SYS        = "x86_64-oe-linux"
-TUNE_FEATURES     = "m64"
-TARGET_FPU        = ""
-lib32:  DEFAULTTUNE       = "x86"
-lib32:  TARGET_SYS        = "i586-oe-linux"
-lib32:  TUNE_FEATURES     = "m32"
-meta              = "master:1975f3d7bbeb184489a5d0a2e0de231f317d3e1b"
-
-The order of the displayed elements was changed slightly to group the
-host information together, as well as group the target information
-together.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/base.bbclass | 13 ++++++++++++-
- meta/conf/bitbake.conf    |  2 +-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ meta/lib/oe/copy_buildsystem.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 1a359a0..47ecff4 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -188,7 +188,7 @@ def get_layers_branch_rev(d):
-     return layers_branch_rev
- 
- 
--BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
-+BUILDCFG_FUNCS ??= "buildcfg_vars buildcfg_multilibs get_layers_branch_rev buildcfg_neededvars"
- BUILDCFG_FUNCS[type] = "list"
- 
- def buildcfg_vars(d):
-@@ -198,6 +198,17 @@ def buildcfg_vars(d):
-         if value is not None:
-             yield '%-20s = "%s"' % (var, value)
- 
-+def buildcfg_multilibs(d):
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for variant in variants.split():
-+        localdata = get_multilib_datastore(variant, d)
-+        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
-+        for var in statusvars:
-+            origvalue = d.getVar(var, True)
-+            variantvalue = localdata.getVar(var, True)
-+            if origvalue and variantvalue and origvalue != variantvalue:
-+                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 4b94806..c43c2bd 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -1,5 +1,12 @@
+ # This class should provide easy access to the different aspects of the
+ # buildsystem such as layers, bitbake location, etc.
++#
++# SDK_LAYERS_EXCLUDE: Layers which will be excluded from SDK layers.
++# SDK_LAYERS_EXCLUDE_PATTERN: The simiar to SDK_LAYERS_EXCLUDE, this supports
++#                             python regular expression, use space as separator,
++#                              e.g.: ".*-downloads closed-.*"
++#
 +
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
-     pesteruser = []
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3b2ef9f..1d9c715 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -698,7 +698,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ import stat
+ import shutil
  
- # Pre-build configuration output
- BUILDCFG_HEADER = "Build Configuration:"
--BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
-+BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING DISTRO DISTRO_VERSION MACHINE DEFAULTTUNE TARGET_SYS TUNE_FEATURES TARGET_FPU"
- BUILDCFG_VARS[type] = "list"
- BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
- BUILDCFG_NEEDEDVARS[type] = "list"
+@@ -23,8 +30,10 @@ class BuildSystem(object):
+         self.context = context
+         self.layerdirs = [os.path.abspath(pth) for pth in d.getVar('BBLAYERS').split()]
+         self.layers_exclude = (d.getVar('SDK_LAYERS_EXCLUDE') or "").split()
++        self.layers_exclude_pattern = d.getVar('SDK_LAYERS_EXCLUDE_PATTERN')
+ 
+     def copy_bitbake_and_layers(self, destdir, workspace_name=None):
++        import re
+         # Copy in all metadata layers + bitbake (as repositories)
+         layers_copied = []
+         bb.utils.mkdirhier(destdir)
+@@ -40,8 +49,17 @@ class BuildSystem(object):
+         # Exclude layers
+         for layer_exclude in self.layers_exclude:
+             if layer_exclude in layers:
++                bb.note('Excluded %s from sdk layers since it is in SDK_LAYERS_EXCLUDE' % layer_exclude)
+                 layers.remove(layer_exclude)
+ 
++        if self.layers_exclude_pattern:
++            layers_cp = layers[:]
++            for pattern in self.layers_exclude_pattern.split():
++                for layer in layers_cp:
++                    if re.match(pattern, layer):
++                        bb.note('Excluded %s from sdk layers since matched SDK_LAYERS_EXCLUDE_PATTERN' % layer)
++                        layers.remove(layer)
++
+         workspace_newname = workspace_name
+         if workspace_newname:
+             layernames = [os.path.basename(layer) for layer in layers]
 -- 
 2.7.4
 
