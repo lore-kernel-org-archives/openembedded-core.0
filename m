@@ -1,29 +1,25 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D3A6782A9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D054C783E4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 02:09:49 +0000 (UTC)
+	Wed,  6 Jun 2018 02:45:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5629n4V024796
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 5 Jun 2018 19:09:49 -0700 (PDT)
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 5 Jun 2018 19:09:45 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1526632968-107460-1-git-send-email-changqing.li@windriver.com>
-	<ca814488-7ba1-fa34-a8dd-75362b623fc3@windriver.com>
-	<9f0224ad1ad78f3f98af5f2e04e42c5b6f1b588e.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <a540b719-226c-72bb-5f8a-68cacb3a7f58@windriver.com>
-Date: Wed, 6 Jun 2018 10:09:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w562jmJs013168
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jun 2018 19:45:48 -0700 (PDT)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 5 Jun 2018 19:45:47 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Jun 2018 10:54:37 +0800
+Message-ID: <fe59b86a518304bd3aeba3c066280a2ab8887ca1.1528252931.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1528252931.git.liezhi.yang@windriver.com>
+References: <cover.1528252931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <9f0224ad1ad78f3f98af5f2e04e42c5b6f1b588e.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH] gmp: do the multilib_header magic for gmp.h
+Subject: [PATCH V3 02/11] lsof: fix LSOF_CCV in version.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 02:09:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 06 Jun 2018 02:45:47 -0000
+Content-Type: text/plain
 
-Sorry,   I did't noticed that. yes, it have merged
+From: Jian Liu <jian.liu@windriver.com>
 
+When using cross compiler to build the package "lsof" on a host,
+the value of LSOF_CCV in version.h genegrated by the Makefile
+is the version of the compiler on the host while it should be
+the version of cross compiler.
 
-On 06/05/2018 05:37 PM, Richard Purdie wrote:
-> On Tue, 2018-06-05 at 15:25 +0800, Changqing Li wrote:
->> Ping
-> Already merged?
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=cc8f888018f55e6227b846429186307000d76a2
->
-> Cheers,
->
-> Richard
->
+On Ubuntu host before fixed:
+  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
 
+After fixed:
+  #define   LSOF_CCV        "4.9.1 (GCC) "
+
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../files/Configure-fix-LSOF_CCV-assignment.patch  | 42 ++++++++++++++++++++++
+ meta/recipes-extended/lsof/lsof_4.89.bb            |  4 ++-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+
+diff --git a/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+new file mode 100644
+index 0000000..17c5c4b
+--- /dev/null
++++ b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+@@ -0,0 +1,42 @@
++From c197389c9d8ccdbfcfe1dc31da6b4ce69b90ecf6 Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Thu, 23 Oct 2014 03:43:27 -0400
++Subject: [PATCH] Configure: fix LSOF_CCV assignment
++
++When using cross compiler to build the package "lsof" on a host,
++the value of LSOF_CCV in version.h genegrated by the Makefile
++is the version of the compiler on the host while it should be
++the version of cross compiler.
++
++On Ubuntu host before fixed:
++  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
++
++After fixed:
++  #define   LSOF_CCV        "4.9.1 (GCC) "
++
++Upstream-Status: Pending
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
++---
++ Configure |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Configure b/Configure
++index 29c1292..e5a199f 100755
++--- a/Configure
+++++ b/Configure
++@@ -2705,8 +2705,8 @@ LOCKF_OWNER4
++     if test "X$LSOF_CC" = "X"	# {
++     then
++       LSOF_CC=cc
++-      LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
++     fi	# }
+++    LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
++     if test "X$LINUX_CONF_CC" = "X"	# {
++     then
++       LINUX_CONF_CC=$LSOF_CC
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+index 14546db..52b40dc 100644
+--- a/meta/recipes-extended/lsof/lsof_4.89.bb
++++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+@@ -13,7 +13,8 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
+ 
+ SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
+            file://lsof-remove-host-information.patch \
+-          "
++           file://Configure-fix-LSOF_CCV-assignment.patch \
++"
+ 
+ SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
+ SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+@@ -40,6 +41,7 @@ python do_unpack () {
+ export LSOF_INCLUDE = "${STAGING_INCDIR}"
+ 
+ do_configure () {
++	export LSOF_CC="${CC}"
+ 	export LSOF_AR="${AR} cr"
+ 	export LSOF_RANLIB="${RANLIB}"
+ 	if [ "x${GLIBCVERSION}" != "x" ]; then
 -- 
-BRs
-
-Sandy(Li Changqing)
-+861084778653
+2.7.4
 
 
