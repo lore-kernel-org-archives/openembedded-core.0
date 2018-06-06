@@ -1,25 +1,29 @@
-Return-Path: <martin@geanix.com>
-X-Greylist: delayed 433 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 06 Jun 2018 07:04:06 UTC
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id CA2417709E
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9460E7608E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 07:04:06 +0000 (UTC)
-Received: from [10.0.0.220] (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id D87E71C1A2E
+	Wed,  6 Jun 2018 07:34:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w567XxHt015809
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 08:56:52 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
-	<20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <175b4c3b-b5bb-9b94-6c74-eb81b03b1b93@geanix.com>
-Date: Wed, 6 Jun 2018 08:56:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Wed, 6 Jun 2018 00:34:20 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Wed, 6 Jun 2018 00:33:59 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1527043080.git.Qi.Chen@windriver.com>
+	<01db808060198d019ee3a16b4ffc193c31f894a4.1527043080.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <d0f9bbe0-bae6-2758-7049-eabf6f490d28@windriver.com>
+Date: Wed, 6 Jun 2018 15:36:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
-Subject: Re: [PATCH] [PATCH] [PATCH] bind:9.10.6 -> 9.10.7
+In-Reply-To: <01db808060198d019ee3a16b4ffc193c31f894a4.1527043080.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 1/1] sysklogd: fix typo in RCONFLICTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 07:04:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Jun 2018 07:34:29 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hong,
+ping
 
-On 2018-06-05 10:10, Hong Liu wrote:
-> 1.Upgrade bind from 9.10.6 to 9.10.7.
-
-There is a pending patch for updating bind to 9.12.1:
-https://patchwork.openembedded.org/patch/151135/
-
-// Martin
-
-> 2.Update the checksum of LIC_FILES_CHKSUM, since bind has been changed. The lincese has been modified time.
-> 
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+On 05/23/2018 10:39 AM, Chen Qi wrote:
+> It should be RCONFLICTS_${PN} instead of RCONFLICTS_${PN}-syslog.
+> There's no ${PN}-syslog package.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->   .../bind/{bind_9.10.6.bb => bind_9.10.7.bb}                 | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
->   rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.10.7.bb} (90%)
-> 
-> diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.7.bb
-> similarity index 90%
-> rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
-> rename to meta/recipes-connectivity/bind/bind_9.10.7.bb
-> index 20c8d7b..124968b 100644
-> --- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
-> +++ b/meta/recipes-connectivity/bind/bind_9.10.7.bb
-> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
->   SECTION = "console/network"
+>   meta/recipes-extended/sysklogd/sysklogd.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+> index 1a537fa..fc4e67c 100644
+> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+> @@ -33,7 +33,7 @@ SYSTEMD_AUTO_ENABLE = "enable"
 >   
->   LICENSE = "ISC & BSD"
-> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
-> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c767ea4f3cf1017290d5b799fa929f80"
+>   INITSCRIPT_NAME = "syslog"
+>   CONFFILES_${PN} = "${sysconfdir}/syslog.conf"
+> -RCONFLICTS_${PN}-syslog = "rsyslog busybox-syslog syslog-ng"
+> +RCONFLICTS_${PN} = "rsyslog busybox-syslog syslog-ng"
 >   
->   DEPENDS = "openssl libcap"
+>   CFLAGS += "-DSYSV -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
 >   
-> @@ -15,16 +15,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
->              file://named.service \
->              file://bind9 \
->              file://init.d-add-support-for-read-only-rootfs.patch \
-> -           file://bind-confgen-build-unix.o-once.patch \
->              file://0001-build-use-pkg-config-to-find-libxml2.patch \
->              file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
->              file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
->              file://0001-lib-dns-gen.c-fix-too-long-error.patch \
-> -           file://use-python3-and-fix-install-lib-path.patch \
->              "
->   
-> -SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
-> -SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
-> +SRC_URI[md5sum] = "320b9ef5bdf19ef2718a823d9b4243ba"
-> +SRC_URI[sha256sum] = "e15e70982d966cd4b194ff483f5cc636c0017b054ae2e332ca3f28fe53f11660"
->   
->   UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
->   UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
-> @@ -36,6 +34,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
->                    --with-gssapi=no --with-ecdsa=yes \
->                    --sysconfdir=${sysconfdir}/bind \
->                    --with-openssl=${STAGING_DIR_HOST}${prefix} \
-> +		--with-eddsa=no \
->                  "
->   
->   inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
-> @@ -67,6 +66,7 @@ PACKAGE_BEFORE_PN += "${PN}-utils"
->   FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
->   FILES_${PN}-dev += "${bindir}/isc-config.h"
->   FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
-> +FILES_${PN} += "/usr/lib/python2.7/site-packages/*"
->   
->   PACKAGE_BEFORE_PN += "${PN}-libs"
->   FILES_${PN}-libs = "${libdir}/*.so*"
-> @@ -88,7 +88,7 @@ do_install_append() {
->   	install -d "${D}${sysconfdir}/init.d"
->   	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
->   	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
-> -	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
-> +	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
->   
->   	# Install systemd related files
->   	install -d ${D}${sbindir}
-> @@ -120,4 +120,3 @@ CONFFILES_${PN} = " \
->   	${sysconfdir}/bind/db.local \
->   	${sysconfdir}/bind/db.root \
->   	"
-> -
-> 
 
--- 
-Kind regards,
-Martin Hundebøll
-Embedded Linux Consultant
 
-+45 61 65 54 61
-martin@geanix.com
-
-Geanix IVS
-DK39600706
 
