@@ -1,29 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BC705771BC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B326E77DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 07:34:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w567XxHw015809
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jun 2018 00:34:41 -0700
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Wed, 6 Jun 2018 00:34:35 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1525768293.git.Qi.Chen@windriver.com>
-	<1e0c9af91ddb0503b3c02df77a6fd71cba12bab2.1525768293.git.Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <6c3055b5-7568-ca93-c45c-75976e590553@windriver.com>
-Date: Wed, 6 Jun 2018 15:37:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <1e0c9af91ddb0503b3c02df77a6fd71cba12bab2.1525768293.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/1] create-pull-request: handle '/' in subject correctly
+	Wed,  6 Jun 2018 10:15:37 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w56AFaa8020147
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 6 Jun 2018 11:15:37 +0100
+Message-ID: <8ed35481c14f9e1c9d3bd8efa6ad1c89751d6d3e.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
+	List <openembedded-core@lists.openembedded.org>
+Date: Wed, 06 Jun 2018 11:15:36 +0100
+In-Reply-To: <20180605165055.19306-1-otavio@ossystems.com.br>
+References: <20180605165055.19306-1-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] mesa: Update 18.0.2 -> 18.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 07:34:50 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Wed, 06 Jun 2018 10:15:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-ping
+On Tue, 2018-06-05 at 13:50 -0300, Otavio Salvador wrote:
+> This includes all bugfixes of 18.0.x series and major new
+> features. For list of changes check:
+> 
+> https://www.mesa3d.org/relnotes/18.1.0.html
+> https://www.mesa3d.org/relnotes/18.1.1.html
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-On 05/08/2018 04:34 PM, Chen Qi wrote:
-> When subject contains '/', we will meet the following error when
-> using create-pull-request.
->
->    sed: -e expression #1, char 59: unknown option to `s'
->
-> The problem is not critical. But it's better to fix it.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   scripts/create-pull-request | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> index 280880b..b4cf706 100755
-> --- a/scripts/create-pull-request
-> +++ b/scripts/create-pull-request
-> @@ -278,6 +278,7 @@ fi
->   
->   # Replace the SUBJECT token with it.
->   if [ -n "$SUBJECT" ]; then
-> +	SUBJECT="`echo $SUBJECT | sed -e 's#/#\\\\/#g'`"
->   	sed -i -e "s/\*\*\* SUBJECT HERE \*\*\*/$SUBJECT/" "$CL"
->   fi
->   
+This triggered a few failures:
 
+https://autobuilder.yocto.io/builders/nightly-mips-lsb/builds/1037/steps/BuildImages_1/logs/stdio
 
+https://autobuilder.yocto.io/builders/nightly-musl/builds/1074/steps/BuildImages/logs/stdio
+
+https://autobuilder.yocto.io/builders/nightly-wic/builds/1061/steps/BuildImages_3/logs/stdio
+
+Cheers,
+
+Richard
 
