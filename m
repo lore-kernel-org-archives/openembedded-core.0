@@ -1,50 +1,49 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C751C77FF5
+Return-Path: <twoerner@gmail.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 626D1755C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 17:51:24 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id o13-v6so13044630wmf.4
+	Wed,  6 Jun 2018 18:11:48 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id v83-v6so9267780itc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 10:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=mMCwIKna0hbp2fao++AZ04OgFyG0NL7rz6jKgOBJYaA=;
-	b=elLZ9psVlMVGlAxOnss+sj5jDGXnTuXUQX4k/lKgn7StWNOhxtC6JG6dGVSwVyBK15
-	qBlRNmbCvfdTZjogi7Ilp8hEfz/tKh+pA6RuZ6Zq0yLFG3HUupmBWa5idFODKk4oPxCd
-	t4Qa1KcYwL7IAqWZ6vgScEzZK0tzjP2vW+FXQnmiHmoGoX3UvBNUN90aJtlqHpPwt0x1
-	1tN6cVJgMcO/zyq2kLURu70w/ttF9FSVuYOz62yIcQz8WuZYUMDnddxTf3pNjuWMVz5b
-	kdpG3l64FzPaKvdho44J9fjs1vqSTfpEWzoek/TESIZDcsx+fmxBV3wNKD2C1Ki0kuav
-	+VBw==
+	Wed, 06 Jun 2018 11:11:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=ftpyivPF+TGIlwOPIKHhAnO3zc27AJ/HKGbiJzErA54=;
+	b=mdIIjmkDPC7DRdZE3IxqZUHW/gbVUTrm8KfP3n/nT2dDu9vGPh/XbBrqT7cZdiIXwm
+	Y87AuF81TFjD9i+GE8BYaXk9j2dkN3ujZt1xSmfii+tdfHKAt7L0dco7CSQw1VYmi37h
+	ftmhmuVSTjvnM0gcCyELD0JBaGI+C1JUHHbDmcYOzfUgpJmwoi65J3szqCklUxO6Dqz2
+	YYiKfAbLLdOoNfOSuiEknKSlua2An7/TY4/HD12E9/34u8u1U4757hiGb8qvtk2L1p7S
+	vYeq90wjNZi3muNtNFJI8IcdoCMJp072EkCQJ1Y6/jF2kP7myCzBuvTUyky0dXW8TBL2
+	xciw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mMCwIKna0hbp2fao++AZ04OgFyG0NL7rz6jKgOBJYaA=;
-	b=FuKaVtiiNl2/kE/WyOJCzvwbx+orG4VC//80lmVqagP7kjiwmd3kyV8ODPMta6Gr9/
-	8XFGwT100AE21ql/nxRhH1ldPML8RV+1RMlbDTclIGZmZ5JUxA07LeC0HdKqj03i6Gwc
-	9swtxR47/FI1NVD9/1TKV1c3IaM/60IZkIg8Q/9tXvU7JMWEsrdnOvdKf5Lu94FWaxvY
-	+uBX3EWRKw3+sGaSUgmiBpPcwKD2QRyKmEkj1Nvb7CFqrMavKNoVZoRos2Y/sejEBvW1
-	2Az7ukA2V5ofE8Eokop0w32ftmqNTxkni2kBSDo9e0xRPc0AUBP4pTf3sz0+iNqQB8dG
-	mEEg==
-X-Gm-Message-State: APt69E1LQs0JAdpP4fUrIZUEB+XSO+oJ1GXM4PmCIR7YGgoBeREpsu4k
-	SHrdKUA9/vq39C93sLbEKVWvuSpu
-X-Google-Smtp-Source: ADUXVKLlPnfaCZNOlwwmM6borVs2A5qyZTIweA1GTl3FfGeCERW+8B0pGDsdBfNghRfA38vAvnkcXQ==
-X-Received: by 2002:a50:b4a1:: with SMTP id
-	w30-v6mr4879842edd.254.1528307484916; 
-	Wed, 06 Jun 2018 10:51:24 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ftpyivPF+TGIlwOPIKHhAnO3zc27AJ/HKGbiJzErA54=;
+	b=VtWeVdX6va/VGlJqVN8xa9LTCTiC0e0Y9ZTVMHc4Et30Pg1es7lfKiFx3czSY4nGDp
+	+xWpjTtdygQRif6qooSaEt5gZE4dnV0X8ZmF86+/v2xExIhdwRkrpIOUZAtKmnBzogoH
+	obghu3BmAEdYRPutLokVUecBSpXSz3M3aiG9AJ+eIrqFBoMNmi0NeLGixmm9KL58mQDo
+	Z66rOVuaPcusjiqqLse1nUV2/U9/08n1sGTyUVSuiF8nojAl9LZdDm4D38ZC5DzqEjgh
+	dgxQ7ujYrRTeAV2IvAqGlfcZ7j86ezbUpMTzPbeEElI3CT/OhgcOhZm+OHu7RYNXLaV2
+	tDgA==
+X-Gm-Message-State: APt69E09MApnxvMLrH76dYtZRtF5NzOar8Z3CeXww3qfeCNd4e08lhbf
+	yuHOj3tkaeue8F14BihUbJmwCjJy
+X-Google-Smtp-Source: ADUXVKLg3Dyc6Ie3FGUX/ezhYt8mMl9b+PM0HVUoWONIcGhPoxcuN9L+6GJKTAz8eJnQ63Uw8106Yw==
+X-Received: by 2002:a24:c887:: with SMTP id
+	w129-v6mr3480676itf.122.1528308708955; 
+	Wed, 06 Jun 2018 11:11:48 -0700 (PDT)
+Received: from linux-uys3.suse ([206.248.190.95])
 	by smtp.gmail.com with ESMTPSA id
-	j43-v6sm19362331eda.26.2018.06.06.10.51.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Jun 2018 10:51:24 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+	z2-v6sm2153173ita.37.2018.06.06.11.11.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Jun 2018 11:11:47 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Jun 2018 19:50:58 +0200
-Message-Id: <20180606175058.29352-1-dev@sashko.rv.ua>
-X-Mailer: git-send-email 2.17.0
-Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
-Subject: [meta-oe][PATCH v2] minicom: fix SRC_URI
+Date: Wed,  6 Jun 2018 14:11:35 -0400
+Message-Id: <20180606181135.18490-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.17.0.582.gccdcbd54c
+Subject: [PATCH v2] devtool deploy-target: optionally specify package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +56,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 17:51:25 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 18:11:48 -0000
 
-The original source, alioth.debian.org has been permanently taken down
-by the Debian Project. Use snapshot.debian.org instead.
+Instead of installing an entire recipe's build output (i.e. ${D}), allow the
+user to optionally specify the name of one package at a time from said recipe
+to be installed (i.e. ${PKGDEST}/<package>).
 
-Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+NOTE: mixing "deploy-target" commands that have this new --package option and
+"deploy-target" commands without --package against the same recipe is not
+ideal.
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/recipes-extended/minicom/minicom_2.7.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+updates since v1:
+ - The behaviour of deploy-target is to start by trying to remove any previous
+   such deploy-targets with the same deploy-name which have already been
+   deployed on the target. That meant that, with v1, if someone tried to
+   deploy two packages from the same recipe, the second deployment would
+   undeploy the first deployment, then deploy the second. By incorporating the
+   package name into the on-target deploy-name, multiple such deployments can
+   exist at the same time from the same recipe.
+---
+ scripts/lib/devtool/deploy.py | 42 ++++++++++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-index e6afe2b655..a0e8e17f12 100644
---- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Text-based modem control and terminal emulation program"
--HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
-+HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom/"
- DESCRIPTION = "Minicom is a text-based modem control and terminal emulation program for Unix-like operating systems"
- SECTION = "console/network"
- DEPENDS = "ncurses virtual/libiconv"
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
-                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 52e261d560..0bd2a9f63b 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -169,11 +169,20 @@ def deploy(args, config, basepath, workspace):
+         except Exception as e:
+             raise DevtoolError('Exception parsing recipe %s: %s' %
+                             (args.recipename, e))
+-        recipe_outdir = rd.getVar('D')
++        if args.package:
++            recipe_outdir = os.path.join(rd.getVar('PKGDEST'), args.package)
++        else:
++            recipe_outdir = rd.getVar('D')
+         if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+-            raise DevtoolError('No files to deploy - have you built the %s '
+-                            'recipe? If so, the install step has not installed '
+-                            'any files.' % args.recipename)
++            if args.package:
++                raise DevtoolError('No files to deploy - have you built the %s '
++                                'package of the %s recipe? If so, the install '
++                                'step has not installed any files.'
++                                % (args.package, args.recipename))
++            else:
++                raise DevtoolError('No files to deploy - have you built the %s '
++                                'recipe? If so, the install step has not installed '
++                                'any files.' % args.recipename)
  
--SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20180606T155409Z/pool/main/m/minicom/minicom_${PV}.orig.tar.gz \
-            file://allow.to.disable.lockdev.patch \
-            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
-            file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
-@@ -16,7 +16,7 @@ SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz
- SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
- SRC_URI[sha256sum] = "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+         if args.strip and not args.dry_run:
+             # Fakeroot copy to new destination
+@@ -246,7 +255,10 @@ def deploy(args, config, basepath, workspace):
+             shutil.rmtree(tmpdir)
  
--UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
-+UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/minicom/"
+         # Now run the script
+-        ret = exec_fakeroot(rd, 'tar cf - . | ssh  %s %s %s \'sh %s %s %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++        filename = args.recipename
++        if args.package:
++            filename = filename + '.' + args.package
++        ret = exec_fakeroot(rd, 'tar cf - . | ssh  %s %s %s \'sh %s %s %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, filename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
+         if ret != 0:
+             raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+                             'error message')
+@@ -300,13 +312,19 @@ def undeploy(args, config, basepath, workspace):
+         shutil.rmtree(tmpdir)
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+     # Now run the script
+-    ret = subprocess.call('ssh %s %s %s \'sh %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, args.recipename), shell=True)
++    filename = args.recipename
++    if args.package:
++        filename = filename + '.' + args.package
++    ret = subprocess.call('ssh %s %s %s \'sh %s %s\'' % (ssh_port, extraoptions, args.target, tmpscript, filename), shell=True)
+     if ret != 0:
+         raise DevtoolError('Undeploy failed - rerun with -s to get a complete '
+                            'error message')
+ 
+     if not args.all and not args.dry_run:
+-        logger.info('Successfully undeployed %s' % args.recipename)
++        if args.package:
++            logger.info('Successfully undeployed %s' % args.package)
++        else:
++            logger.info('Successfully undeployed %s' % args.recipename)
+     return 0
+ 
+ 
+@@ -314,8 +332,8 @@ def register_commands(subparsers, context):
+     """Register devtool subcommands from the deploy plugin"""
+ 
+     parser_deploy = subparsers.add_parser('deploy-target',
+-                                          help='Deploy recipe output files to live target machine',
+-                                          description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand.',
++                                          help='Deploy build output to a live target machine',
++                                          description='Deploys either the full recipe\'s build output (i.e. the output of the do_install task) or a package of a recipe to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the specified item itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand.',
+                                           group='testbuild')
+     parser_deploy.add_argument('recipename', help='Recipe to deploy')
+     parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
+@@ -325,6 +343,7 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
++    parser_deploy.add_argument('--package', help='Specify a recipe\'s package to deploy', dest='package')
+ 
+     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
+     strip_opts.add_argument('-S', '--strip',
+@@ -337,8 +356,8 @@ def register_commands(subparsers, context):
+     parser_deploy.set_defaults(func=deploy)
+ 
+     parser_undeploy = subparsers.add_parser('undeploy-target',
+-                                            help='Undeploy recipe output files in live target machine',
+-                                            description='Un-deploys recipe output files previously deployed to a live target machine by devtool deploy-target.',
++                                            help='Undeploy output files from a live target machine',
++                                            description='Un-deploys output files previously deployed to a live target machine by devtool deploy-target.',
+                                             group='testbuild')
+     parser_undeploy.add_argument('recipename', help='Recipe to undeploy (if not using -a/--all)', nargs='?')
+     parser_undeploy.add_argument('target', help='Live target machine running an ssh server: user@hostname')
+@@ -347,4 +366,5 @@ def register_commands(subparsers, context):
+     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
+     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
+     parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
++    parser_undeploy.add_argument('--package', help='Specify a recipe\'s package to undeploy', dest='package')
+     parser_undeploy.set_defaults(func=undeploy)
 -- 
-2.17.0
+2.17.0.582.gccdcbd54c
 
 
