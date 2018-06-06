@@ -1,43 +1,49 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C7577E8A
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D0E9754ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 13:46:01 +0000 (UTC)
-Received: by mail-qt0-f169.google.com with SMTP id s9-v6so6363860qtg.2
+	Wed,  6 Jun 2018 15:24:44 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id d8-v6so6757217wro.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 06:46:03 -0700 (PDT)
+	Wed, 06 Jun 2018 08:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=vQkXlYJC6w55Kbivmviz5nZWS3KDM3yGm1AR4nh2oEo=;
+	b=I6IJ9eUMbeYBk4pmhd6pO9GwgaMVJUDPYSCC1Yir2BZVWTO1BmEH7OIWBiuD7IhOGt
+	Su+yGr1J6um/T5sKOGi1zslXv71LPbfiIDJIvA4iwALv6Qz9eJ3Gd42UE3m71ccmJ6fU
+	pVC68yvmw5WPlbup9Orl8ex/kQ1ZhDMtyEwADnRJ88vLi9oXEr4tG8RXVMOhxYMOyjzU
+	D/sJH0K4WwF5H+natOUTu6fLhnkmB4LEPH3RN7FS6RL9YzSzTZ3y9NZB1OfHlVs0BRai
+	G1bLnMblCaN9a1zmw9v1BFW2sAOuBt7Rq0syYTyTAT8JMSOlmdHzw/VplT8CHimlu9MF
+	789A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=+J8/DKVEjkaZn+ePMscGEkwgESvLwiy9kHQ+ZBVxwPc=;
-	b=r6KH18jKMA2kiZCExU4ec8Vks+a4dLhVBKUE1iO/yeqWf+WP2fPPO3g11kZ3x3hDQC
-	at/vD+ILPwpHg8esnmLB7VG+rgWNcJ8/jj+q+5qojyeHVNG0ri7dQqAsPyRtHRX3ECI4
-	oi/zDXG0B29rhqTDYZbViie7QJCLhtAqUk+tp1bh8+Snu80sRgMGK0CtuTp050SlMjr/
-	cdQZmu0ZkVyvOuHxhuykqlO2c7Dq50fj05mXTgI7dMOI6qy7L4cungQBsNQ666w4hWqS
-	zkwF69LifNfJPvfveta8i7//eXyxKigcC4wLMdzAsHLZxh/YBrYBFS4R6vXZrRNayJqn
-	fGnA==
-X-Gm-Message-State: APt69E3zk2we35ustW0kQSbpAi60lcC0huqfgQioIqypgtA17Hh9qOGd
-	Xq5yE5ITkl+Rkplp6nun/yNoHQ==
-X-Google-Smtp-Source: ADUXVKL1EijDniXNOXpFBIsbjcjHeXIYV7i9MM2tVA1xsIaCnFg7BmqFjQy6MLo6/gewQPoiCvTE1w==
-X-Received: by 2002:aed:25b7:: with SMTP id
-	x52-v6mr2769798qtc.224.1528292761975; 
-	Wed, 06 Jun 2018 06:46:01 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.217.140])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=vQkXlYJC6w55Kbivmviz5nZWS3KDM3yGm1AR4nh2oEo=;
+	b=C1b0QSD+XhBo3bO2gpEqFGR2lPt+HllbgUhlKyEoJE9Y6goc1WtJ6EC5Kmd/Af+B2v
+	vSUpqaBUOvpJo2BTIwbypsYBGaj5bw51xaDlbSZyycyUlO4FwaqGLoh4wGQvmIDlxLZV
+	JNm7kXTNVaCIYDu/ng3KKVG+oenPLNHYj/e3nfdeb6H1pZgohqW0o+8P0LTf7XnF/0R7
+	7exK/BsZBNiYJ4pllhhaWhNu2d8YpxG2H/QiPYDFlMm81ab+zH5O62nBhMSU/yY3JShr
+	0W5wwibmMq99Wg25JQ48klRhdqhKToT++gTL09kAYhVvf17b9r0WL1Aez0OUF3j/hoE4
+	9TKw==
+X-Gm-Message-State: APt69E0j7DUzBuj9/OyElc7M1a2YvE+sprmR4BUdUPZgz4piBWCFsR1K
+	w57OCSImOY6eIoegzDOP7wcR0pW0
+X-Google-Smtp-Source: ADUXVKLwJkQhzVOhkddB6aBzieSVZbjzZ/iMWVPwk86fwb4UpcB7YGM/CoSoNnx8EvHys9z+0HoDRQ==
+X-Received: by 2002:adf:94e3:: with SMTP id
+	90-v6mr2656142wrr.110.1528298685376; 
+	Wed, 06 Jun 2018 08:24:45 -0700 (PDT)
+Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
 	by smtp.gmail.com with ESMTPSA id
-	d200-v6sm24311695qkg.18.2018.06.06.06.45.58
+	c131-v6sm4565993wma.41.2018.06.06.08.24.43
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 06 Jun 2018 06:46:01 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 06 Jun 2018 10:45:52 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed,  6 Jun 2018 10:45:48 -0300
-Message-Id: <20180606134548.20523-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.17.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] mesa: Update 18.0.2 -> 18.1.1
+	Wed, 06 Jun 2018 08:24:44 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jun 2018 09:21:19 -0600
+Message-Id: <20180606152119.2651-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.18.0-dev
+Subject: [PATCH] systemd: allow setting time-epoch to epoch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,510 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 13:46:02 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 15:24:45 -0000
 
-This includes all bugfixes of 18.0.x series and major new
-features. For list of changes check:
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-https://www.mesa3d.org/relnotes/18.1.0.html
-https://www.mesa3d.org/relnotes/18.1.1.html
+systemd by default sets the system time at boot to the date of its NEWS
+file. It provides the option to change that at build time, and some
+projects need to come up at a particular date if no RTC is present.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Provide the option to set the time at boot to the epoch instead of the
+date of the NEWS file.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
+ meta/recipes-core/systemd/systemd_237.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v2:
-- fix missing time.h include
-
- ...am-explictly-add-lib-expat-to-intel-.patch | 18 ++++----
- ...0001-Use-wayland-scanner-in-the-path.patch | 34 ---------------
- ...0002-Simplify-wayland-scanner-lookup.patch | 38 +++++++++++++++++
- ...winsys-svga-drm-Include-sys-types.h.patch} | 12 +++---
- ...-gloat.patch => 0004-hardware-gloat.patch} | 15 +++----
- ...-version-when-using-LLVM-Git-releas.patch} | 13 +++---
- ...Use-Python-3-to-execute-the-scripts.patch} | 12 +++---
- ...-dri-i965-Add-missing-time.h-include.patch | 36 ++++++++++++++++
- .../mesa/files/disable-asm-on-non-gcc.patch   | 29 -------------
- .../mesa/files/vulkan-mkdir.patch             | 41 -------------------
- .../{mesa-gl_18.0.2.bb => mesa-gl_18.1.1.bb}  |  0
- .../mesa/{mesa_18.0.2.bb => mesa_18.1.1.bb}   | 19 ++++-----
- 12 files changed, 121 insertions(+), 146 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
- create mode 100644 meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
- rename meta/recipes-graphics/mesa/files/{0001-winsys-svga-drm-Include-sys-types.h.patch => 0003-winsys-svga-drm-Include-sys-types.h.patch} (80%)
- rename meta/recipes-graphics/mesa/files/{0002-hardware-gloat.patch => 0004-hardware-gloat.patch} (80%)
- rename meta/recipes-graphics/mesa/files/{llvm-config-version.patch => 0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch} (77%)
- rename meta/recipes-graphics/mesa/files/{Use-Python-3-to-execute-the-scripts.patch => 0006-Use-Python-3-to-execute-the-scripts.patch} (76%)
- create mode 100644 meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_18.0.2.bb => mesa-gl_18.1.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_18.0.2.bb => mesa_18.1.1.bb} (53%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-index f908d46550..822066243b 100644
---- a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
-@@ -1,8 +1,9 @@
--From 342311dbb190735b7b32ab20f81c1d8dbcfe717a Mon Sep 17 00:00:00 2001
-+From 327c3dcbfa005f5d1b2fcda07ca1198d65bd23c5 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 11 Oct 2017 15:40:42 +0800
--Subject: [PATCH] Makefile.vulkan.am: explictly add lib expat to intel
-+Subject: [PATCH 1/7] Makefile.vulkan.am: explictly add lib expat to intel
-  libvulkan's lib depends
-+Organization: O.S. Systems Software LTDA.
- 
- While built with "-fvisibility=default"
- ...
-@@ -28,11 +29,11 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  src/intel/Makefile.vulkan.am | 1 +
-  1 file changed, 1 insertion(+)
- 
--Index: mesa-17.3.6/src/intel/Makefile.vulkan.am
--===================================================================
----- mesa-17.3.6.orig/src/intel/Makefile.vulkan.am
--+++ mesa-17.3.6/src/intel/Makefile.vulkan.am
--@@ -144,6 +144,7 @@ VULKAN_LIB_DEPS = \
-+diff --git a/src/intel/Makefile.vulkan.am b/src/intel/Makefile.vulkan.am
-+index 4125cb205a..356c4f8452 100644
-+--- a/src/intel/Makefile.vulkan.am
-++++ b/src/intel/Makefile.vulkan.am
-+@@ -161,6 +161,7 @@ VULKAN_LIB_DEPS = \
-  	$(LIBDRM_LIBS) \
-  	$(PTHREAD_LIBS) \
-  	$(DLOPEN_LIBS) \
-@@ -40,3 +41,6 @@ Index: mesa-17.3.6/src/intel/Makefile.vulkan.am
-  	-lm
-  
-  if HAVE_PLATFORM_ANDROID
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch b/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
-deleted file mode 100644
-index 2444b2846b..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-Use-wayland-scanner-in-the-path.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From c908f0c13ac81a3a52140f129a13b2bc997ff4ee Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 15 Nov 2016 15:20:49 +0200
--Subject: [PATCH] Simplify wayland-scanner lookup
--
--Don't use pkg-config to lookup the path of a binary that's in the path.
--
--Alternatively we'd have to prefix the path returned by pkg-config with
--PKG_CONFIG_SYSROOT_DIR.
--
--Upstream-Status: Pending
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- configure.ac | 7 +------
-- 1 file changed, 1 insertion(+), 6 deletions(-)
--
--Index: mesa-17.3.6/configure.ac
--===================================================================
----- mesa-17.3.6.orig/configure.ac
--+++ mesa-17.3.6/configure.ac
--@@ -1694,12 +1694,7 @@ if test "x$with_platforms" = xauto; then
--     with_platforms=$with_egl_platforms
-- fi
-- 
---PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
---        WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
---        WAYLAND_SCANNER='')
---if test "x$WAYLAND_SCANNER" = x; then
---    AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
---fi
--+AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
-- 
-- PKG_CHECK_EXISTS([wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], [have_wayland_protocols=yes], [have_wayland_protocols=no])
-- if test "x$have_wayland_protocols" = xyes; then
-diff --git a/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
-new file mode 100644
-index 0000000000..e7585060ac
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
-@@ -0,0 +1,38 @@
-+From 135f6ae990df9abe3765ed339f76c55026c86fe5 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 15 Nov 2016 15:20:49 +0200
-+Subject: [PATCH 2/7] Simplify wayland-scanner lookup
-+Organization: O.S. Systems Software LTDA.
-+
-+Don't use pkg-config to lookup the path of a binary that's in the path.
-+
-+Alternatively we'd have to prefix the path returned by pkg-config with
-+PKG_CONFIG_SYSROOT_DIR.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ configure.ac | 7 +------
-+ 1 file changed, 1 insertion(+), 6 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index f1fbdcc6c7..7c95598afc 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1796,12 +1796,7 @@ for plat in $platforms; do
-+         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
-+         WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-+ 
-+-        PKG_CHECK_MODULES([WAYLAND_SCANNER], [wayland-scanner],
-+-                          WAYLAND_SCANNER=`$PKG_CONFIG --variable=wayland_scanner wayland-scanner`,
-+-                          WAYLAND_SCANNER='')
-+-        if test "x$WAYLAND_SCANNER" = x; then
-+-            AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+-        fi
-++        AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+ 
-+         if test "x$WAYLAND_SCANNER" = "x:"; then
-+                 AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-similarity index 80%
-rename from meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-rename to meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-index 549b8671ab..17368c88fa 100644
---- a/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-+++ b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-@@ -1,7 +1,8 @@
--From d8750776404b1031d762966d0f551d13d2fe05a7 Mon Sep 17 00:00:00 2001
-+From edb22b2f4df8dab39559ace867c3c67bc12851ae Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 16 Aug 2017 18:58:20 -0700
--Subject: [PATCH] winsys/svga/drm: Include sys/types.h
-+Subject: [PATCH 3/7] winsys/svga/drm: Include sys/types.h
-+Organization: O.S. Systems Software LTDA.
- 
- vmw_screen.h uses dev_t which is defines in sys/types.h
- this header is required to be included for getting dev_t
-@@ -11,14 +12,11 @@ system headers
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
--
--Upstream-Status: Submitted
--
-  src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/src/gallium/winsys/svga/drm/vmw_screen.h b/src/gallium/winsys/svga/drm/vmw_screen.h
--index 0ef8e84..2eda97e 100644
-+index f21cabb51f..4c972fdaa9 100644
- --- a/src/gallium/winsys/svga/drm/vmw_screen.h
- +++ b/src/gallium/winsys/svga/drm/vmw_screen.h
- @@ -41,6 +41,7 @@
-@@ -30,5 +28,5 @@ index 0ef8e84..2eda97e 100644
-  #define VMW_GMR_POOL_SIZE (16*1024*1024)
-  #define VMW_QUERY_POOL_SIZE (8192)
- -- 
--2.14.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-similarity index 80%
-rename from meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
-rename to meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-index 0e014dcc80..f23b9875cd 100644
---- a/meta/recipes-graphics/mesa/files/0002-hardware-gloat.patch
-+++ b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
-@@ -1,7 +1,8 @@
--From 00bcd599310dc7fce4fe336ffd85902429051a0c Mon Sep 17 00:00:00 2001
-+From 52468545daa0c2d205312e06304d8fb374e0bbf0 Mon Sep 17 00:00:00 2001
- From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
- Date: Sun, 20 Mar 2016 13:27:04 +0100
--Subject: [PATCH 2/4] hardware gloat
-+Subject: [PATCH 4/7] hardware gloat
-+Organization: O.S. Systems Software LTDA.
- 
- Upstream-Status: Inappropriate [not author]
- Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-@@ -11,10 +12,10 @@ Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
-  2 files changed, 14 insertions(+)
- 
- diff --git a/src/gallium/drivers/llvmpipe/lp_screen.c b/src/gallium/drivers/llvmpipe/lp_screen.c
--index 4f61de8..3b0ec77 100644
-+index 3f5d0327bf..86808e016b 100644
- --- a/src/gallium/drivers/llvmpipe/lp_screen.c
- +++ b/src/gallium/drivers/llvmpipe/lp_screen.c
--@@ -411,6 +411,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
-+@@ -449,6 +449,13 @@ llvmpipe_is_format_supported( struct pipe_screen *_screen,
-     if (!format_desc)
-        return FALSE;
-  
-@@ -29,10 +30,10 @@ index 4f61de8..3b0ec77 100644
-            target == PIPE_TEXTURE_1D ||
-            target == PIPE_TEXTURE_1D_ARRAY ||
- diff --git a/src/gallium/drivers/softpipe/sp_screen.c b/src/gallium/drivers/softpipe/sp_screen.c
--index 031602b..c279120 100644
-+index 25f6f74f36..61629ef2ff 100644
- --- a/src/gallium/drivers/softpipe/sp_screen.c
- +++ b/src/gallium/drivers/softpipe/sp_screen.c
--@@ -358,6 +358,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
-+@@ -397,6 +397,13 @@ softpipe_is_format_supported( struct pipe_screen *screen,
-     if (!format_desc)
-        return FALSE;
-  
-@@ -47,5 +48,5 @@ index 031602b..c279120 100644
-        return FALSE;
-  
- -- 
--2.7.4
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/llvm-config-version.patch b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-similarity index 77%
-rename from meta/recipes-graphics/mesa/files/llvm-config-version.patch
-rename to meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-index fd79991aab..94189ac714 100644
---- a/meta/recipes-graphics/mesa/files/llvm-config-version.patch
-+++ b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
-@@ -1,5 +1,8 @@
-+From 33025fb1650768a0b923f3c824c270628eef83db Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
--Subject: [PATCH] Properly get LLVM version when using LLVM Git releases
-+Date: Tue, 5 Jun 2018 11:11:10 -0300
-+Subject: [PATCH 5/7] Properly get LLVM version when using LLVM Git releases
-+Organization: O.S. Systems Software LTDA.
- 
- $ llvm-config-host --version
- 5.0.0git-9a5c333388c
-@@ -15,10 +18,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index a02173f244..b107f04c2e 100644
-+index 7c95598afc..c248248c6b 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -995,7 +995,7 @@ strip_unwanted_llvm_flags() {
-+@@ -1075,7 +1075,7 @@ strip_unwanted_llvm_flags() {
-  
-  llvm_set_environment_variables() {
-      if test "x$LLVM_CONFIG" != xno; then
-@@ -27,7 +30,7 @@ index a02173f244..b107f04c2e 100644
-          LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
-          LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
-          LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
--@@ -2644,7 +2644,7 @@ detect_old_buggy_llvm() {
-+@@ -2776,7 +2776,7 @@ detect_old_buggy_llvm() {
-      dnl ourselves.
-      dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
-      dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
-@@ -37,5 +40,5 @@ index a02173f244..b107f04c2e 100644
-  
-      if test "x$llvm_have_one_so" = xyes; then
- -- 
--2.15.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-similarity index 76%
-rename from meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch
-rename to meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-index 0b4aabf979..72ce0a33a0 100644
---- a/meta/recipes-graphics/mesa/files/Use-Python-3-to-execute-the-scripts.patch
-+++ b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
-@@ -1,7 +1,7 @@
--From 18c3e684a8259a0644214f88c7ead7fa31573fd9 Mon Sep 17 00:00:00 2001
-+From 2c6f0c6f83d2012d2ffb64f1caff966497de8f72 Mon Sep 17 00:00:00 2001
- From: Otavio Salvador <otavio@ossystems.com.br>
- Date: Fri, 29 Dec 2017 10:27:59 -0200
--Subject: [PATCH] Use Python 3 to execute the scripts
-+Subject: [PATCH 6/7] Use Python 3 to execute the scripts
- Organization: O.S. Systems Software LTDA.
- 
- The MESA build system uses Python 2 but as OE-Core has moved away from
-@@ -15,11 +15,11 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index b107f04c2e..055546142d 100644
-+index c248248c6b..10f199d63c 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -114,7 +114,7 @@ AC_PROG_CXX
-- AM_PROG_CC_C_O
-+@@ -122,7 +122,7 @@ AM_PROG_CC_C_O
-+ AC_PROG_NM
-  AM_PROG_AS
-  AX_CHECK_GNU_MAKE
- -AC_CHECK_PROGS([PYTHON2], [python2.7 python2 python])
-@@ -28,5 +28,5 @@ index b107f04c2e..055546142d 100644
-  AC_PROG_MKDIR_P
-  
- -- 
--2.15.1
-+2.17.1
- 
-diff --git a/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch b/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
-new file mode 100644
-index 0000000000..e56d1588fd
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
-@@ -0,0 +1,36 @@
-+From 9a25f6e7a0eb8825ab089fdd166dbaee778a4c81 Mon Sep 17 00:00:00 2001
-+From: Otavio Salvador <otavio@ossystems.com.br>
-+Date: Wed, 6 Jun 2018 09:50:35 -0300
-+Subject: [PATCH 7/7] dri: i965: Add missing time.h include
-+Organization: O.S. Systems Software LTDA.
-+
-+This fixes a build error when using musl:
-+
-+,----
-+| In file included from .../src/mesa/drivers/dri/i965/intel_upload.c:33:0:
-+| .../src/mesa/drivers/dri/i965/brw_bufmgr.h:132:4: error: unknown type name 'time_t'
-+|     time_t free_time;
-+|     ^~~~~~
-+`----
-+
-+Upstream-Status: Pending
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ src/mesa/drivers/dri/i965/brw_bufmgr.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/mesa/drivers/dri/i965/brw_bufmgr.h b/src/mesa/drivers/dri/i965/brw_bufmgr.h
-+index 68f5e0c2c8..5b60a23763 100644
-+--- a/src/mesa/drivers/dri/i965/brw_bufmgr.h
-++++ b/src/mesa/drivers/dri/i965/brw_bufmgr.h
-+@@ -37,6 +37,7 @@
-+ #include <stdbool.h>
-+ #include <stdint.h>
-+ #include <stdio.h>
-++#include <time.h>
-+ #include "util/u_atomic.h"
-+ #include "util/list.h"
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch b/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
-deleted file mode 100644
-index d2d67558b6..0000000000
---- a/meta/recipes-graphics/mesa/files/disable-asm-on-non-gcc.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Configure checks for compiler to be gcc and then it enables asm_offsets
--generation. see
--
--https://cgit.freedesktop.org/mesa/mesa/commit/?id=73c9b4b0e05fc66629ba250846948dc55c0e7a0d
--
--However, we missed the check when enabling this on cross compilation
--when architecture for both host and target is x86
--
--Fixes errors like
--./gen_matypes > matypes.h
--/bin/bash: ./gen_matypes: No such file or directory
--
---Khem
--
--Upstream-Status: Submitted
--
--Index: mesa-12.0.1/configure.ac
--===================================================================
----- mesa-12.0.1.orig/configure.ac
--+++ mesa-12.0.1/configure.ac
--@@ -732,7 +732,7 @@ test "x$enable_asm" = xno && AC_MSG_RESU
-- if test "x$enable_asm" = xyes -a "x$cross_compiling" = xyes; then
--     case "$host_cpu" in
--     i?86 | x86_64 | amd64)
---        if test "x$host_cpu" != "x$target_cpu"; then
--+        if test "x$host_cpu" != "x$target_cpu" -o "x$acv_mesa_CLANG" = xyes; then
--             enable_asm=no
--             AC_MSG_RESULT([no, cross compiling])
--         fi
-diff --git a/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-deleted file mode 100644
-index 9922a55b40..0000000000
---- a/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 4854c72bc21486f81712c8693588f7af6c64cf93 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Wed, 9 May 2018 20:41:36 +0100
--Subject: [PATCH] src/intel/Makefile.vulkan.am: add missing MKDIR_GEN
--
--Out of tree builds can try to write into a directory that doesn't exist yet:
--
--| Traceback (most recent call last):
--|   File "../../../mesa-18.0.2/src/intel/vulkan/anv_icd.py", line 46, in <module>
--|     with open(args.out, 'w') as f:
--| IOError: [Errno 2] No such file or directory: 'vulkan/intel_icd.x86_64.json'
--| Makefile:4882: recipe for target 'vulkan/intel_icd.x86_64.json' failed
--
--Add missing MKDIR_GEN calls to solve this.
-----
-- src/intel/Makefile.vulkan.am | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/src/intel/Makefile.vulkan.am b/src/intel/Makefile.vulkan.am
--index 0bcbf0419c..4125cb205a 100644
----- a/src/intel/Makefile.vulkan.am
--+++ b/src/intel/Makefile.vulkan.am
--@@ -64,10 +64,12 @@ EXTRA_DIST += \
-- 	vulkan/TODO
-- 
-- vulkan/dev_icd.json : vulkan/anv_extensions.py vulkan/anv_icd.py
--+	$(MKDIR_GEN)
-- 	$(AM_V_GEN)$(PYTHON2) $(srcdir)/vulkan/anv_icd.py \
-- 		--lib-path="${abs_top_builddir}/${LIB_DIR}" --out $@
-- 
-- vulkan/intel_icd.@host_cpu@.json : vulkan/anv_extensions.py vulkan/anv_icd.py
--+	$(MKDIR_GEN)
-- 	$(AM_V_GEN)$(PYTHON2) $(srcdir)/vulkan/anv_icd.py \
-- 		--lib-path="${libdir}" --out $@
-- 
---- 
--2.11.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb b/meta/recipes-graphics/mesa/mesa-gl_18.1.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_18.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_18.1.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_18.0.2.bb b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
-similarity index 53%
-rename from meta/recipes-graphics/mesa/mesa_18.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_18.1.1.bb
-index f2ac38e919..aab4a19315 100644
---- a/meta/recipes-graphics/mesa/mesa_18.0.2.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
-@@ -1,18 +1,17 @@
- require ${BPN}.inc
- 
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
--           file://disable-asm-on-non-gcc.patch \
--	   file://Use-Python-3-to-execute-the-scripts.patch \
--           file://0001-Use-wayland-scanner-in-the-path.patch \
--           file://0002-hardware-gloat.patch \
--           file://llvm-config-version.patch \
--           file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
--           file://vulkan-mkdir.patch \
--           "
-+           file://0002-Simplify-wayland-scanner-lookup.patch \
-+           file://0003-winsys-svga-drm-Include-sys-types.h.patch \
-+           file://0004-hardware-gloat.patch \
-+           file://0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
-+           file://0006-Use-Python-3-to-execute-the-scripts.patch \
-+           file://0007-dri-i965-Add-missing-time.h-include.patch \
-+"
- 
--SRC_URI[md5sum] = "3c303da98ec2ce37c795baeba5aee31e"
--SRC_URI[sha256sum] = "98fa159768482dc568b9f8bf0f36c7acb823fa47428ffd650b40784f16b9e7b3"
-+SRC_URI[md5sum] = "063468c930ff61d211ece0191874fa95"
-+SRC_URI[sha256sum] = "d3312a2ede5aac14a47476b208b8e3a401367838330197c4588ab8ad420d7781"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index 2e6558ded13..a7b9595bb47 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -155,6 +155,7 @@ PACKAGECONFIG[seccomp] = "-Dseccomp=true,-Dseccomp=false,libseccomp"
+ PACKAGECONFIG[selinux] = "-Dselinux=true,-Dselinux=false,libselinux,initscripts-sushell"
+ PACKAGECONFIG[smack] = "-Dsmack=true,-Dsmack=false"
+ PACKAGECONFIG[sysusers] = "-Dsysusers=true,-Dsysusers=false"
++PACKAGECONFIG[time-epoch] = "-Dtime-epoch=0,,"
+ PACKAGECONFIG[timedated] = "-Dtimedated=true,-Dtimedated=false"
+ PACKAGECONFIG[timesyncd] = "-Dtimesyncd=true,-Dtimesyncd=false"
+ PACKAGECONFIG[usrmerge] = "-Dsplit-usr=false,-Dsplit-usr=true"
 -- 
-2.17.1
+2.18.0-dev
 
 
