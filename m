@@ -1,52 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EC7477194
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f170.google.com (mail-ua0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F21771B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 21:37:38 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id z24-v6so3769969pfe.7
+	Wed,  6 Jun 2018 22:15:45 +0000 (UTC)
+Received: by mail-ua0-f170.google.com with SMTP id c23-v6so5132217uan.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 14:37:39 -0700 (PDT)
+	Wed, 06 Jun 2018 15:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version:in-reply-to
-	:references:content-transfer-encoding;
-	bh=TOM3YVlGmCnoKLKf+YX5/39nlEYndj8Xq/hYxs4hDk8=;
-	b=ihmhH8MCHUJZExyiDU9zh6z51uv196LPgCHrLKTRtMJfAhRErG2ymfDhbIqQb09Ut/
-	BbfKNKA3kEiCqClsJcae3i2Eo9VMeiQ+G5ACYY6KRSfOGbe8F7h9DlysWyHWYlCYaaSS
-	BdgtmatP2I3HKWD3aT9rMWwHg9jlc3ghRJ3TQz34R7GxVhvnArGwhiKrZzhNU78BfFpF
-	HtVxS0oX35TR7lunVH7Maal8gW+8t/o7e3QBAgCpRQn0aJFwIdJqpuhAX4UBr5xRMpg6
-	dIaIcdbxtBEyRWigNsXNzj3thdnPdg1FryDLRw54lWmDB6eOosIhUiqWYer30PxQFCAn
-	aLyg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HpJlFCL5uS1a1PaRqukkOsdDTqw4jS5rJR8Jksd9/1g=;
+	b=hMSunxRrMfrnFYyQLic9n6U9ZnE5e064HAy44yV2BxeJZJYD2+ZOxjeGCJOz+Oowp4
+	zN8o3ViUo9VqihyANm/x2PStG5sPYhcGTG/CVq0P4stvUUdLSvili7awU2mq29s4/pnl
+	BA86af773PeSxCV5S03M3L2BtRlgKW5LxhbmnvYaftNjhbMAoiXWymJrh8Qrr9ykuNaJ
+	jSJH/ikJtUZkXHmsN69fbXglTEnS6l+V8jgYdnzQs2+Fi+rROIdQBSjrW0tdja9Xtloj
+	Knfpk7XpxdIw/ZXthTegvKiFGZIrJ/NxS5oNnalOLX8TGXyU+yir0dBF/JOlNG2StlWf
+	6WdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=TOM3YVlGmCnoKLKf+YX5/39nlEYndj8Xq/hYxs4hDk8=;
-	b=BABZur5bzKmzA6dT6E6IGRY76J3nLsS7Yv+Jy3D8XE8O/w74/inzxgOR+R0Bb0LBmt
-	79u+CGWx3jqGd+0a0Suq3/mgwDryGl1RWjIoqOkvQX+T6cmkAd3DQKVnfq7ICWOuoOD6
-	ud3Ag1e2XDLZ7Q0lfAbZV26VlqPfmpS/pD6ka09NT+Dxpq2j+Qcy5zQGZPIoVQ2/rnXa
-	7p2oL6yfDPQVIuAquN/OnBwni7nv69Fj8vheeAjM01trSsbZpCDxy33yJX3QYWhav08g
-	r+ACTHi+0PM/enjcPRM1qm7yGgjAgOLS0BBpKHqfKBqMlQBkGIeB3P2DpS+oE5HDqw+/
-	ChSw==
-X-Gm-Message-State: APt69E159LeF5a3LDuQM76DGmvqJCjdbMyh/x0yNBMASFwc0o5NpKIDX
-	6cCCBbfizUFEOM3NpZnasGCZhA==
-X-Google-Smtp-Source: ADUXVKKSV1JrBcQCplMv5tulquPGRnv77b+fpDUOVJuMSc5SKD+x/8Zb3lGZn8OxOMoMtLBXYIf5sQ==
-X-Received: by 2002:a62:c8a:: with SMTP id 10-v6mr3997469pfm.27.1528321059106; 
-	Wed, 06 Jun 2018 14:37:39 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::c68])
-	by smtp.gmail.com with ESMTPSA id
-	c191-v6sm30452374pfg.48.2018.06.06.14.37.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Jun 2018 14:37:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Jun 2018 14:37:28 -0700
-Message-Id: <9c383be2c15b851e9f795c1037fa798ce1ce175a.1528320772.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HpJlFCL5uS1a1PaRqukkOsdDTqw4jS5rJR8Jksd9/1g=;
+	b=IvludpMvpVHc1PNu59M0t5iI9/5Hjc4Q8fExYJdEhs0Eb8bgPViWARcZ3++SYjG6Ui
+	xKXZQZwTAaQV/czflUmsIazZT/S+nOLtVStdR30D6wzG+SLSGsZamp+fEgsUg5uqc85u
+	jgn68o+fWq/7AmRu7HQArlbHz8FV3sgsxkTM70wcqahWlzOD/Vs9dblWVQUqOmkMV+ER
+	zSloMjKMnY8EB03X5BoFOWMHZdGX9l9AG3WtPUbo0x3TxFyRTQLWJyOTZPB7XqVRPdsj
+	BL7NiaDENGOMu0b6rYeG31bXB/9xA+F843tlvOYkZlXi3Y+uBBvG0yHvrgowmqQzaY4c
+	r2qA==
+X-Gm-Message-State: APt69E3KdV/jRf86q7rxpXdy52HoBmH9tMr4ysssREW2h5teadmlLw/h
+	ecvfUQ/wsCJ6BZuKBuCZYaKDhDxqDKt29XEdbcs=
+X-Google-Smtp-Source: ADUXVKJ9dHGlSx05kulgeUhXZ8R+lRABNXdEYLf7vYsPOvLthDI7DR+7UFxpBbkvfLseUH99k2s1anu1BO0hT1ci1P4=
+X-Received: by 2002:a9f:2823:: with SMTP id
+	c32-v6mr3473078uac.193.1528323346787; 
+	Wed, 06 Jun 2018 15:15:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1528320772.git.raj.khem@gmail.com>
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Wed, 6 Jun 2018 15:15:46 -0700 (PDT)
+In-Reply-To: <635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
 References: <cover.1528320772.git.raj.khem@gmail.com>
-Subject: [PATCH 12/12] linux-yocto: Fix GCC 8 -Wrestrict error
+	<635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 6 Jun 2018 15:15:46 -0700
+Message-ID: <CAJ86T=U5WPudMu_VBL_Y00DQrOjRb91=x+6+21V0ZQKhCQ7ThA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] tune/arm: Set -mtune instead of -mcpu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,141 +57,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 21:37:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Jun 2018 22:15:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-pager.c: do not alias select() params
+On Wed, Jun 6, 2018 at 2:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> -march option is already used to select the base architecture
+> therefore using -mcpu which infact will reset march+mtune can
+> cause conflicts,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...jtool-perf-Fix-GCC-8-Wrestrict-error.patch | 51 +++++++++++++++++++
- ...d-pager.c-do-not-alias-select-params.patch | 43 ++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.15.bb |  2 +
- 3 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/files/0001-objtool-perf-Fix-GCC-8-Wrestrict-error.patch
- create mode 100644 meta/recipes-kernel/linux/files/0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch
+I think we need to at least understand how and why these conflicts
+have started to occur with gcc 8. The tuning files themselves don't
+contain any conflicts so the conflict must be coming from somewhere
+else. Do we know where?
 
-diff --git a/meta/recipes-kernel/linux/files/0001-objtool-perf-Fix-GCC-8-Wrestrict-error.patch b/meta/recipes-kernel/linux/files/0001-objtool-perf-Fix-GCC-8-Wrestrict-error.patch
-new file mode 100644
-index 0000000000..6389da478c
---- /dev/null
-+++ b/meta/recipes-kernel/linux/files/0001-objtool-perf-Fix-GCC-8-Wrestrict-error.patch
-@@ -0,0 +1,51 @@
-+From 233aa0194c7ca773866f3ec871f5d12d64ad44e1 Mon Sep 17 00:00:00 2001
-+From: Josh Poimboeuf <jpoimboe@redhat.com>
-+Date: Thu, 15 Mar 2018 22:11:54 -0500
-+Subject: [PATCH] objtool, perf: Fix GCC 8 -Wrestrict error
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+commit 854e55ad289ef8888e7991f0ada85d5846f5afb9 upstream.
-+
-+Starting with recent GCC 8 builds, objtool and perf fail to build with
-+the following error:
-+
-+  ../str_error_r.c: In function ‘str_error_r’:
-+  ../str_error_r.c:25:3: error: passing argument 1 to restrict-qualified parameter aliases with argument 5 [-Werror=restrict]
-+     snprintf(buf, buflen, "INTERNAL ERROR: strerror_r(%d, %p, %zd)=%d", errnum, buf, buflen, err);
-+
-+The code seems harmless, but there's probably no benefit in printing the
-+'buf' pointer in this situation anyway, so just remove it to make GCC
-+happy.
-+
-+Reported-by: Laura Abbott <labbott@redhat.com>
-+Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
-+Tested-by: Laura Abbott <labbott@redhat.com>
-+Cc: Adrian Hunter <adrian.hunter@intel.com>
-+Cc: Jiri Olsa <jolsa@kernel.org>
-+Cc: Namhyung Kim <namhyung@kernel.org>
-+Cc: Wang Nan <wangnan0@huawei.com>
-+Link: http://lkml.kernel.org/r/20180316031154.juk2uncs7baffctp@treble
-+Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-+Cc: Fredrik Schön <fredrikschon@gmail.com>
-+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-+---
-+ tools/lib/str_error_r.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/lib/str_error_r.c b/tools/lib/str_error_r.c
-+index d6d65537b0d9..6aad8308a0ac 100644
-+--- a/tools/lib/str_error_r.c
-++++ b/tools/lib/str_error_r.c
-+@@ -22,6 +22,6 @@ char *str_error_r(int errnum, char *buf, size_t buflen)
-+ {
-+ 	int err = strerror_r(errnum, buf, buflen);
-+ 	if (err)
-+-		snprintf(buf, buflen, "INTERNAL ERROR: strerror_r(%d, %p, %zd)=%d", errnum, buf, buflen, err);
-++		snprintf(buf, buflen, "INTERNAL ERROR: strerror_r(%d, [buf], %zd)=%d", errnum, buflen, err);
-+ 	return buf;
-+ }
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-kernel/linux/files/0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch b/meta/recipes-kernel/linux/files/0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch
-new file mode 100644
-index 0000000000..285b13966d
---- /dev/null
-+++ b/meta/recipes-kernel/linux/files/0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch
-@@ -0,0 +1,43 @@
-+From ad343a98e74e85aa91d844310e797f96fee6983b Mon Sep 17 00:00:00 2001
-+From: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-+Date: Tue, 6 Feb 2018 15:37:52 -0800
-+Subject: [PATCH] tools/lib/subcmd/pager.c: do not alias select() params
-+
-+Use a separate fd set for select()-s exception fds param to fix the
-+following gcc warning:
-+
-+  pager.c:36:12: error: passing argument 2 to restrict-qualified parameter aliases with argument 4 [-Werror=restrict]
-+    select(1, &in, NULL, &in, NULL);
-+              ^~~        ~~~
-+
-+Link: http://lkml.kernel.org/r/20180101105626.7168-1-sergey.senozhatsky@gmail.com
-+Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
-+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-+---
-+ tools/lib/subcmd/pager.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/lib/subcmd/pager.c b/tools/lib/subcmd/pager.c
-+index 5ba754d17952..9997a8805a82 100644
-+--- a/tools/lib/subcmd/pager.c
-++++ b/tools/lib/subcmd/pager.c
-+@@ -30,10 +30,13 @@ static void pager_preexec(void)
-+ 	 * have real input
-+ 	 */
-+ 	fd_set in;
-++	fd_set exception;
-+ 
-+ 	FD_ZERO(&in);
-++	FD_ZERO(&exception);
-+ 	FD_SET(0, &in);
-+-	select(1, &in, NULL, &in, NULL);
-++	FD_SET(0, &exception);
-++	select(1, &in, NULL, &exception, NULL);
-+ 
-+ 	setenv("LESS", "FRSX", 0);
-+ }
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-index 32e63a57d6..c05e042f37 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-@@ -28,6 +28,8 @@ SRC_URI += "file://0001-powerpc-Disable-attribute-alias-warnings-from-gcc8.patch
-             file://0002-powerpc-ptrace-Disable-array-bounds-warning-with-gcc.patch \
-             file://0001-mips-Disable-attribute-alias-warnings.patch \
-             file://0001-mips64-Disable-attribute-alias-warning.patch \
-+            file://0001-objtool-perf-Fix-GCC-8-Wrestrict-error.patch \
-+            file://0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch \
- "
- 
- LINUX_VERSION ?= "4.15.13"
--- 
-2.17.1
+This patch is potentially going to hide bugs in cases where components
+try to provide their own CPU specific flags rather than fully
+respecting the flags set by OE. Generally we want to make those cases
+fail so that we can debug and fix them.
 
+> therefore setting just mtune here will ensure
+> that the code is optimized for the given tune as is the intention
+> of mcpu, however with one advantage, it will be targetting broader
+> march value so can be useful for pre-compiled objects where they
+> can be run on wider subset
+>
+> This also fixed occasional conflicts like
+>
+> cc1: error: switch -mcpu=cortex-a7 conflicts with -march=armv7-a switch [-Werror]
+>
+> which is possible combination in some case for packages in OE
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/machine/include/tune-arm1136jf-s.inc   | 2 +-
+>  meta/conf/machine/include/tune-arm920t.inc       | 2 +-
+>  meta/conf/machine/include/tune-arm926ejs.inc     | 2 +-
+>  meta/conf/machine/include/tune-arm9tdmi.inc      | 2 +-
+>  meta/conf/machine/include/tune-cortexa15.inc     | 2 +-
+>  meta/conf/machine/include/tune-cortexa17.inc     | 2 +-
+>  meta/conf/machine/include/tune-cortexa5.inc      | 2 +-
+>  meta/conf/machine/include/tune-cortexa7.inc      | 2 +-
+>  meta/conf/machine/include/tune-cortexa8.inc      | 2 +-
+>  meta/conf/machine/include/tune-cortexa9.inc      | 2 +-
+>  meta/conf/machine/include/tune-ep9312.inc        | 2 +-
+>  meta/conf/machine/include/tune-iwmmxt.inc        | 2 +-
+>  meta/conf/machine/include/tune-strongarm1100.inc | 2 +-
+>  meta/conf/machine/include/tune-thunderx.inc      | 2 +-
+>  meta/conf/machine/include/tune-xscale.inc        | 2 +-
+>  15 files changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+> index c5de63e1cc..02114284e0 100644
+> --- a/meta/conf/machine/include/tune-arm1136jf-s.inc
+> +++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv6hf"
+>  require conf/machine/include/arm/arch-armv6.inc
+>
+>  TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mtune=arm1136jf-s', '', d)}"
+>
+>  AVAILTUNES += "arm1136jfs"
+>  ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
+> diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
+> index c6e74b6772..5e6d4cbd91 100644
+> --- a/meta/conf/machine/include/tune-arm920t.inc
+> +++ b/meta/conf/machine/include/tune-arm920t.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
+>  require conf/machine/include/arm/arch-armv4.inc
+>
+>  TUNEVALID[arm920t] = "Enable arm920t specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mtune=arm920t', '', d)}"
+>
+>  AVAILTUNES += "arm920t"
+>  ARMPKGARCH_tune-arm920t = "arm920t"
+> diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
+> index 81bcda339b..dddccaaae9 100644
+> --- a/meta/conf/machine/include/tune-arm926ejs.inc
+> +++ b/meta/conf/machine/include/tune-arm926ejs.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
+>  require conf/machine/include/arm/arch-armv5-dsp.inc
+>
+>  TUNEVALID[arm926ejs] = "Enable arm926ejs specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mtune=arm926ej-s', '', d)}"
+>
+>  AVAILTUNES += "arm926ejs"
+>  ARMPKGARCH_tune-arm926ejs = "arm926ejs"
+> diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
+> index e9c2b8fcf5..ebac472c5b 100644
+> --- a/meta/conf/machine/include/tune-arm9tdmi.inc
+> +++ b/meta/conf/machine/include/tune-arm9tdmi.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
+>  require conf/machine/include/arm/arch-armv4.inc
+>
+>  TUNEVALID[arm9tdmi] = "Enable arm9tdmi specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mtune=arm9tdmi', '', d)}"
+>
+>  AVAILTUNES += "arm9tdmi"
+>  ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
+> diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
+> index 25e99f93d7..0636306e2f 100644
+> --- a/meta/conf/machine/include/tune-cortexa15.inc
+> +++ b/meta/conf/machine/include/tune-cortexa15.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+>  TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mtune=cortex-a15', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa15 cortexa15t cortexa15-neon cortexa15t-neon cortexa15-neon-vfpv4 cortexa15t-neon-vfpv4"
+> diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
+> index 40392f9bcc..f9774b8b8e 100644
+> --- a/meta/conf/machine/include/tune-cortexa17.inc
+> +++ b/meta/conf/machine/include/tune-cortexa17.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+>  TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mtune=cortex-a17', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa17 cortexa17t cortexa17-neon cortexa17t-neon cortexa17-neon-vfpv4 cortexa17t-neon-vfpv4"
+> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+> index 1f0cda6640..1ececf9621 100644
+> --- a/meta/conf/machine/include/tune-cortexa5.inc
+> +++ b/meta/conf/machine/include/tune-cortexa5.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+>  TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mtune=cortex-a5', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
+> diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
+> index 52415d9c8b..08dd039338 100644
+> --- a/meta/conf/machine/include/tune-cortexa7.inc
+> +++ b/meta/conf/machine/include/tune-cortexa7.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+>  require conf/machine/include/arm/arch-armv7ve.inc
+>
+>  TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mtune=cortex-a7', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon cortexa7t-neon cortexa7-neon-vfpv4 cortexa7t-neon-vfpv4"
+> diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
+> index 8ee8de97f1..cdcb1c7d59 100644
+> --- a/meta/conf/machine/include/tune-cortexa8.inc
+> +++ b/meta/conf/machine/include/tune-cortexa8.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+>  TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mtune=cortex-a8', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon cortexa8t-neon"
+> diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
+> index 0cf323c960..620178d18a 100644
+> --- a/meta/conf/machine/include/tune-cortexa9.inc
+> +++ b/meta/conf/machine/include/tune-cortexa9.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+>  require conf/machine/include/arm/arch-armv7a.inc
+>
+>  TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mtune=cortex-a9', '', d)}"
+>
+>  # Little Endian base configs
+>  AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon cortexa9t-neon"
+> diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
+> index 84ca528d6d..897b904cd1 100644
+> --- a/meta/conf/machine/include/tune-ep9312.inc
+> +++ b/meta/conf/machine/include/tune-ep9312.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "ep9312"
+>  require conf/machine/include/arm/arch-armv4.inc
+>
+>  TUNEVALID[ep9312] = "Enable Intel PXA27x specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mtune=ep9312', '', d)}"
+>
+>  AVAILTUNES += "ep9312"
+>  ARMPKGARCH_tune-ep9312 = "ep9312"
+> diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
+> index f27423cb2e..15cce8d3c5 100644
+> --- a/meta/conf/machine/include/tune-iwmmxt.inc
+> +++ b/meta/conf/machine/include/tune-iwmmxt.inc
+> @@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
+>  require conf/machine/include/arm/arch-armv5-dsp.inc
+>
+>  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mtune=iwmmxt', '', d)}"
+>
+>  AVAILTUNES += "iwmmxt"
+>  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
+> diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
+> index 80cfb8ab8a..7b2fa8e3ab 100644
+> --- a/meta/conf/machine/include/tune-strongarm1100.inc
+> +++ b/meta/conf/machine/include/tune-strongarm1100.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4"
+>  require conf/machine/include/arm/arch-armv4.inc
+>
+>  TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mtune=strongarm1100', '', d)}"
+>
+>  AVAILTUNES += "strongarm"
+>  ARMPKGARCH_tune-strongarm = "strongarm"
+> diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
+> index 3d43b0f7e5..e77d1cdd2d 100644
+> --- a/meta/conf/machine/include/tune-thunderx.inc
+> +++ b/meta/conf/machine/include/tune-thunderx.inc
+> @@ -5,7 +5,7 @@ AVAILTUNES += "thunderx thunderx_be"
+>
+>  TUNEVALID[thunderx] = "Enable instructions for Cavium ThunderX"
+>
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx ', '',d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mtune=thunderx ', '',d)}"
+>
+>  ARMPKGARCH_tune-thunderx ?= "thunderx"
+>  ARMPKGARCH_tune-thunderx_be ?= "thunderx_be"
+> diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
+> index 0d07333955..2a0610fddf 100644
+> --- a/meta/conf/machine/include/tune-xscale.inc
+> +++ b/meta/conf/machine/include/tune-xscale.inc
+> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
+>  require conf/machine/include/arm/arch-armv5-dsp.inc
+>
+>  TUNEVALID[xscale] = "Enable PXA255/PXA26x Xscale specific processor optimizations"
+> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mtune=xscale', '', d)}"
+>
+>  AVAILTUNES += "xscale"
+>  ARMPKGARCH_tune-xscale = "xscale"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
