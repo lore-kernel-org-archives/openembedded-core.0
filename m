@@ -1,51 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DDAF771BF
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C751C77FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 17:45:16 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id h79-v6so6020033oig.13
+	Wed,  6 Jun 2018 17:51:24 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id o13-v6so13044630wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 10:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UQj/qVLDGksCgp34A/HNfWHf+RjFIZ+e5iGEtx5GBw4=;
-	b=Dcnzvu1/Ymnc7m/iJBJ1RtRg0sG8UN656NSx9Zh6NhSoCCI9I5/42p8l4IKZniiwRi
-	YxRMmHRXmavT3FiM/fI1qiskcfgLOD9KthLyLFu6WwlnCoqI5C7oLEQxKVkBKEjPAqgv
-	yQrl3oUnt/yBASvyWUDGD2NHZTh9SQxpJjed5mCPboNGO7/H+HDf8VX+54Uy8xML1JVo
-	OCfQngxGDSfsjQhbqjqX3UwRVnqj+OMNB3PZHfu4CztVQmFhHQSPhnfmvva9Jbyll/zm
-	KvTYIS6GRpiLWI2m15mIkdUQMpLp+Q/vO7uOoIsjZ02kUf1gpAO9hgqiDiIc9SeY8BXt
-	9sZg==
+	Wed, 06 Jun 2018 10:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=mMCwIKna0hbp2fao++AZ04OgFyG0NL7rz6jKgOBJYaA=;
+	b=elLZ9psVlMVGlAxOnss+sj5jDGXnTuXUQX4k/lKgn7StWNOhxtC6JG6dGVSwVyBK15
+	qBlRNmbCvfdTZjogi7Ilp8hEfz/tKh+pA6RuZ6Zq0yLFG3HUupmBWa5idFODKk4oPxCd
+	t4Qa1KcYwL7IAqWZ6vgScEzZK0tzjP2vW+FXQnmiHmoGoX3UvBNUN90aJtlqHpPwt0x1
+	1tN6cVJgMcO/zyq2kLURu70w/ttF9FSVuYOz62yIcQz8WuZYUMDnddxTf3pNjuWMVz5b
+	kdpG3l64FzPaKvdho44J9fjs1vqSTfpEWzoek/TESIZDcsx+fmxBV3wNKD2C1Ki0kuav
+	+VBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UQj/qVLDGksCgp34A/HNfWHf+RjFIZ+e5iGEtx5GBw4=;
-	b=azTSM42bwk7IA3B5zSxFhNNGZg5pgcRav+GwsJUNxt5CYLG+wTYIDoJc0+FDSmXnlN
-	tZsgmAS7TzTSFaJvfJv60NjmTqES1NIb0SHuBN2OLEe0DYQ8WEk4rrF9RAAD7MP06jz2
-	oVnqJPFU8nZ7J82FhGPrzfx//igt33G6AWuOCisPMezI3CmsjFJ/ZBtmhOpyr3++KtfL
-	kdpwjoMjtMQUMYuIlNRiUvTQOzy0zGbnX+AYXqNXoAUyRAP0Csc9id3dV31cFEexR0oX
-	vZchnbFlMIl1pP/RUB3zO4/HnVkblxKQ+QSWfhh1QoOaJcYj1PnvgOa4xlAny2gY8sDz
-	hZyg==
-X-Gm-Message-State: APt69E2g4QIqK81hAzvRLFiUHHYe/YQN27krXHdAfRiihL4Jx796LHHk
-	zgV1WvY8ASLj2oa9dqlMWaFTHVIjYSKihdJp1x4=
-X-Google-Smtp-Source: ADUXVKKu69YK81agCCJzz9pACpbQO1BH7JF1ItyMbfAV00KJyW2rdwcxOuZ3TbqP/5GEpJtoFioTS7j24u0av95Dyk8=
-X-Received: by 2002:aca:47c6:: with SMTP id
-	u189-v6mr2404784oia.100.1528307117533; 
-	Wed, 06 Jun 2018 10:45:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP;
-	Wed, 6 Jun 2018 10:45:16 -0700 (PDT)
-In-Reply-To: <6930e1ac-2a66-5160-1374-b97e67f84cf1@sashko.rv.ua>
-References: <20180604163905.17292-1-dev@sashko.rv.ua>
-	<CAJTo0Lb6RUUcs4Xv+OOo7N8pHyAW2Oeg60jNTeprxiNrA_5MwA@mail.gmail.com>
-	<6930e1ac-2a66-5160-1374-b97e67f84cf1@sashko.rv.ua>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 6 Jun 2018 20:45:16 +0300
-Message-ID: <CANNYZj84o35Apa=kG4KokVe7dBFgdO0iR1QmhCUihhvF3hX10w@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v3] minicom: fix SRC_URI
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=mMCwIKna0hbp2fao++AZ04OgFyG0NL7rz6jKgOBJYaA=;
+	b=FuKaVtiiNl2/kE/WyOJCzvwbx+orG4VC//80lmVqagP7kjiwmd3kyV8ODPMta6Gr9/
+	8XFGwT100AE21ql/nxRhH1ldPML8RV+1RMlbDTclIGZmZ5JUxA07LeC0HdKqj03i6Gwc
+	9swtxR47/FI1NVD9/1TKV1c3IaM/60IZkIg8Q/9tXvU7JMWEsrdnOvdKf5Lu94FWaxvY
+	+uBX3EWRKw3+sGaSUgmiBpPcwKD2QRyKmEkj1Nvb7CFqrMavKNoVZoRos2Y/sejEBvW1
+	2Az7ukA2V5ofE8Eokop0w32ftmqNTxkni2kBSDo9e0xRPc0AUBP4pTf3sz0+iNqQB8dG
+	mEEg==
+X-Gm-Message-State: APt69E1LQs0JAdpP4fUrIZUEB+XSO+oJ1GXM4PmCIR7YGgoBeREpsu4k
+	SHrdKUA9/vq39C93sLbEKVWvuSpu
+X-Google-Smtp-Source: ADUXVKLlPnfaCZNOlwwmM6borVs2A5qyZTIweA1GTl3FfGeCERW+8B0pGDsdBfNghRfA38vAvnkcXQ==
+X-Received: by 2002:a50:b4a1:: with SMTP id
+	w30-v6mr4879842edd.254.1528307484916; 
+	Wed, 06 Jun 2018 10:51:24 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ae08:1403:ff00:489:7961:466d:7cf7])
+	by smtp.gmail.com with ESMTPSA id
+	j43-v6sm19362331eda.26.2018.06.06.10.51.23
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 06 Jun 2018 10:51:24 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <dev@sashko.rv.ua>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jun 2018 19:50:58 +0200
+Message-Id: <20180606175058.29352-1-dev@sashko.rv.ua>
+X-Mailer: git-send-email 2.17.0
+Cc: Oleksandr Kravchuk <dev@sashko.rv.ua>
+Subject: [meta-oe][PATCH v2] minicom: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,94 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 17:45:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Jun 2018 17:51:25 -0000
 
-http://snapshot.debian.org/archive/debian/20180606T155409Z/ .... for
-SRC_URI (fill in the rest).
+The original source, alioth.debian.org has been permanently taken down
+by the Debian Project. Use snapshot.debian.org instead.
 
-${DEBIAN_MIRROR}/..... for UPSTREAM_CHECK_URI (as the above snapshot
-site is static, and won't be receiving new versions).
+Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
+---
+ meta/recipes-extended/minicom/minicom_2.7.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Alex
+diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+index e6afe2b655..a0e8e17f12 100644
+--- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
++++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Text-based modem control and terminal emulation program"
+-HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
++HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom/"
+ DESCRIPTION = "Minicom is a text-based modem control and terminal emulation program for Unix-like operating systems"
+ SECTION = "console/network"
+ DEPENDS = "ncurses virtual/libiconv"
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+ 
+-SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
++SRC_URI = "http://snapshot.debian.org/archive/debian/20180606T155409Z/pool/main/m/minicom/minicom_${PV}.orig.tar.gz \
+            file://allow.to.disable.lockdev.patch \
+            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
+            file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
+@@ -16,7 +16,7 @@ SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz
+ SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
+ SRC_URI[sha256sum] = "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+ 
+-UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
++UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/minicom/"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+-- 
+2.17.0
 
-2018-06-06 20:25 GMT+03:00 Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com>:
-> Gentlemen,
->
-> Could you please clarify which source should be used for SRC_URI instead of
-> alioth.debian.org?
->
-> Thanks.
->
->
->
-> On 05/06/18 21:35, Burton, Ross wrote:
->>
->> The Debian mirror network can't be relied upon as files are removed
->> once they're not in any releases.  For this reason, we prefer
->> snapshot.debian.org for SRC_URI (with DEBIAN_MIRROR for the upstream
->> check).
->>
->> Ross
->>
->> On 4 June 2018 at 17:39, Oleksandr Kravchuk
->> <open.source@oleksandr-kravchuk.com> wrote:
->>>
->>> The original source, alioth.debian.org has been permanently taken down
->>> by the Debian Project. Use Debian mirrors instead.
->>>
->>> Source: https://wiki.debian.org/Alioth
->>>
->>> Signed-off-by: Oleksandr Kravchuk <dev@sashko.rv.ua>
->>> ---
->>>   meta/recipes-extended/minicom/minicom_2.7.1.bb | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb
->>> b/meta/recipes-extended/minicom/minicom_2.7.1.bb
->>> index e6afe2b655..d963da7436 100644
->>> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
->>> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
->>> @@ -1,5 +1,5 @@
->>>   SUMMARY = "Text-based modem control and terminal emulation program"
->>> -HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
->>> +HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom/"
->>>   DESCRIPTION = "Minicom is a text-based modem control and terminal
->>> emulation program for Unix-like operating systems"
->>>   SECTION = "console/network"
->>>   DEPENDS = "ncurses virtual/libiconv"
->>> @@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
->>>   LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645
->>> \
->>>
->>> file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
->>>
->>> -SRC_URI =
->>> "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
->>> +SRC_URI = "${DEBIAN_MIRROR}/main/m/minicom/minicom_${PV}.orig.tar.gz \
->>>              file://allow.to.disable.lockdev.patch \
->>>              file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
->>>              file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
->>> @@ -16,7 +16,7 @@ SRC_URI =
->>> "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz
->>>   SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
->>>   SRC_URI[sha256sum] =
->>> "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
->>>
->>> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
->>> +UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/m/minicom/"
->>>
->>>   PACKAGECONFIG ??= ""
->>>   PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
->>> --
->>> 2.17.0
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
