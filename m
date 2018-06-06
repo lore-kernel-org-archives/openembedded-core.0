@@ -1,26 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6817A78438
+Return-Path: <martin@geanix.com>
+X-Greylist: delayed 433 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 06 Jun 2018 07:04:06 UTC
+Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
+	by mail.openembedded.org (Postfix) with ESMTP id CA2417709E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 02:47:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w562l6Si009494
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  6 Jun 2018 07:04:06 +0000 (UTC)
+Received: from [10.0.0.220] (unknown [85.184.147.232])
+	by mail.hundeboll.net (Postfix) with ESMTPSA id D87E71C1A2E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2018 19:47:21 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 5 Jun 2018 19:46:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2018 10:54:45 +0800
-Message-ID: <c1dfe81fb7102662a0bbb1f63e665b018b929a2a.1528252931.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1528252931.git.liezhi.yang@windriver.com>
-References: <cover.1528252931.git.liezhi.yang@windriver.com>
+	Wed,  6 Jun 2018 08:56:52 +0200 (CEST)
+To: openembedded-core@lists.openembedded.org
+References: <20180605081056.16610-1-hongl.fnst@cn.fujitsu.com>
+	<20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
+Message-ID: <175b4c3b-b5bb-9b94-6c74-eb81b03b1b93@geanix.com>
+Date: Wed, 6 Jun 2018 08:56:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Subject: [PATCH V3 10/11] rpcbind: add option to make user able to use fixed port number
+In-Reply-To: <20180605081056.16610-2-hongl.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] [PATCH] [PATCH] bind:9.10.6 -> 9.10.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,171 +32,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 02:47:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Jun 2018 07:04:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-From: Li Wang <li.wang@windriver.com>
+Hi Hong,
 
-Add option "-p" to specify fixed port number
+On 2018-06-05 10:10, Hong Liu wrote:
+> 1.Upgrade bind from 9.10.6 to 9.10.7.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../rpcbind_add_option_to_fix_port_number.patch    | 130 +++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb     |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
+There is a pending patch for updating bind to 9.12.1:
+https://patchwork.openembedded.org/patch/151135/
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
-new file mode 100644
-index 0000000..434b6b1
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_add_option_to_fix_port_number.patch
-@@ -0,0 +1,130 @@
-+From 76f8598fd20727908e760cbb497dd6a17eda4af5 Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Wed, 17 Sep 2014 13:22:14 +0800
-+Subject: [PATCH] add option to make users able to use fixed port number
-+
-+Upstream-Status: Submitted [https://sourceforge.net/p/rpcbind/discussion/716839/thread/32af721d/]
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ man/rpcbind.8      |  4 +++-
-+ src/rpcb_svc_com.c | 17 +++++++++++++++++
-+ src/rpcbind.c      |  8 ++++++--
-+ 3 files changed, 26 insertions(+), 3 deletions(-)
-+
-+diff --git a/man/rpcbind.8 b/man/rpcbind.8
-+index af6200f..2e6146b 100644
-+--- a/man/rpcbind.8
-++++ b/man/rpcbind.8
-+@@ -11,7 +11,7 @@
-+ .Nd universal addresses to RPC program number mapper
-+ .Sh SYNOPSIS
-+ .Nm
-+-.Op Fl adhiLls
-++.Op Fl adhpiLls
-+ .Sh DESCRIPTION
-+ The
-+ .Nm
-+@@ -107,6 +107,8 @@ will automatically add
-+ and if IPv6 is enabled,
-+ .Li ::1
-+ to the list.
-++.It Fl p
-++Bind for fixed UDP port number
-+ .It Fl i
-+ .Dq Insecure
-+ mode.
-+diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
-+index 8aef9e5..c2632a4 100644
-+--- a/src/rpcb_svc_com.c
-++++ b/src/rpcb_svc_com.c
-+@@ -48,6 +48,7 @@
-+ #include <rpc/rpc.h>
-+ #include <rpc/rpcb_prot.h>
-+ #include <rpc/svc_dg.h>
-++#include <rpc/rpc_com.h>
-+ #include <netconfig.h>
-+ #include <errno.h>
-+ #include <syslog.h>
-+@@ -497,6 +498,7 @@ xdr_opaque_parms(XDR *xdrs, struct r_rmtcall_args *cap)
-+ 
-+ static struct rmtcallfd_list *rmthead;
-+ static struct rmtcallfd_list *rmttail;
-++extern unsigned short fixed_port;
-+ 
-+ int
-+ create_rmtcall_fd(struct netconfig *nconf)
-+@@ -504,6 +506,8 @@ create_rmtcall_fd(struct netconfig *nconf)
-+ 	int fd;
-+ 	struct rmtcallfd_list *rmt;
-+ 	SVCXPRT *xprt;
-++	struct __rpc_sockinfo si;
-++	struct t_bind taddr;
-+ 
-+ 	if ((fd = __rpc_nconf2fd(nconf)) == -1) {
-+ 		if (debugging)
-+@@ -512,6 +516,19 @@ create_rmtcall_fd(struct netconfig *nconf)
-+ 			nconf->nc_device, errno);
-+ 		return (-1);
-+ 	}
-++
-++	if (fixed_port) {
-++		__rpc_fd2sockinfo(fd, &si);
-++		memset(&taddr, 0, sizeof(taddr));
-++		taddr.addr.maxlen = taddr.addr.len = si.si_alen;
-++		taddr.addr.buf = malloc(si.si_alen);
-++		if (taddr.addr.buf == NULL) {
-++			return -1;
-++		}
-++		*(unsigned short *)(&(taddr.addr.buf[0])) = si.si_af;
-++		*(unsigned short *)(&(taddr.addr.buf[2])) = htons(fixed_port);
-++		xprt = svc_tli_create(fd, nconf, &taddr, RPC_MAXDATASIZE, RPC_MAXDATASIZE);
-++	} else
-+ 	xprt = svc_tli_create(fd, 0, (struct t_bind *) 0, 0, 0);
-+ 	if (xprt == NULL) {
-+ 		if (debugging)
-+diff --git a/src/rpcbind.c b/src/rpcbind.c
-+index 137011b..dc3d2d6 100644
-+--- a/src/rpcbind.c
-++++ b/src/rpcbind.c
-+@@ -111,6 +111,7 @@ int runasdaemon = 0;
-+ int insecure = 0;
-+ int oldstyle_local = 0;
-+ int verboselog = 0;
-++unsigned short fixed_port = 0;
-+ 
-+ char **hosts = NULL;
-+ int nhosts = 0;
-+@@ -869,7 +870,7 @@ parseargs(int argc, char *argv[])
-+ {
-+ 	int c;
-+ 	oldstyle_local = 1;
-+-	while ((c = getopt(argc, argv, "adh:ilswf")) != -1) {
-++	while ((c = getopt(argc, argv, "adh:p:ilswf")) != -1) {
-+ 		switch (c) {
-+ 		case 'a':
-+ 			doabort = 1;	/* when debugging, do an abort on */
-+@@ -887,6 +888,9 @@ parseargs(int argc, char *argv[])
-+ 			if (hosts[nhosts - 1] == NULL)
-+ 				errx(1, "Out of memory");
-+ 			break;
-++		case 'p':
-++			fixed_port = atoi(optarg);
-++			break;
-+ 		case 'i':
-+ 			insecure = 1;
-+ 			break;
-+@@ -905,7 +909,7 @@ parseargs(int argc, char *argv[])
-+ 			break;
-+ #endif
-+ 		default:	/* error */
-+-			fprintf(stderr,	"usage: rpcbind [-adhilswf]\n");
-++			fprintf(stderr,	"usage: rpcbind [-adhpilswf]\n");
-+ 			exit (1);
-+ 		}
-+ 	}
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-index dcdee6c..3c6774c 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://0001-rpcbind-pair-all-svc_getargs-calls-with-svc_freeargs.patch \
-            file://pmapproc_dump-Fixed-typo-in-memory-leak-patch.patch \
-            file://rpcbproc_callit_com-Stop-freeing-a-static-pointer.patch \
-+           file://rpcbind_add_option_to_fix_port_number.patch \
-           "
- SRC_URI[md5sum] = "cf10cd41ed8228fc54c316191c1f07fe"
- SRC_URI[sha256sum] = "074a9a530dc7c11e0d905aa59bcb0847c009313f02e98d3d798aa9568f414c66"
+// Martin
+
+> 2.Update the checksum of LIC_FILES_CHKSUM, since bind has been changed. The lincese has been modified time.
+> 
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>   .../bind/{bind_9.10.6.bb => bind_9.10.7.bb}                 | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
+>   rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.10.7.bb} (90%)
+> 
+> diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.10.7.bb
+> similarity index 90%
+> rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
+> rename to meta/recipes-connectivity/bind/bind_9.10.7.bb
+> index 20c8d7b..124968b 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.10.7.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+>   SECTION = "console/network"
+>   
+>   LICENSE = "ISC & BSD"
+> -LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=c767ea4f3cf1017290d5b799fa929f80"
+>   
+>   DEPENDS = "openssl libcap"
+>   
+> @@ -15,16 +15,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+>              file://named.service \
+>              file://bind9 \
+>              file://init.d-add-support-for-read-only-rootfs.patch \
+> -           file://bind-confgen-build-unix.o-once.patch \
+>              file://0001-build-use-pkg-config-to-find-libxml2.patch \
+>              file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+>              file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+>              file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+> -           file://use-python3-and-fix-install-lib-path.patch \
+>              "
+>   
+> -SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
+> -SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
+> +SRC_URI[md5sum] = "320b9ef5bdf19ef2718a823d9b4243ba"
+> +SRC_URI[sha256sum] = "e15e70982d966cd4b194ff483f5cc636c0017b054ae2e332ca3f28fe53f11660"
+>   
+>   UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+>   UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+> @@ -36,6 +34,7 @@ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+>                    --with-gssapi=no --with-ecdsa=yes \
+>                    --sysconfdir=${sysconfdir}/bind \
+>                    --with-openssl=${STAGING_DIR_HOST}${prefix} \
+> +		--with-eddsa=no \
+>                  "
+>   
+>   inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
+> @@ -67,6 +66,7 @@ PACKAGE_BEFORE_PN += "${PN}-utils"
+>   FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
+>   FILES_${PN}-dev += "${bindir}/isc-config.h"
+>   FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
+> +FILES_${PN} += "/usr/lib/python2.7/site-packages/*"
+>   
+>   PACKAGE_BEFORE_PN += "${PN}-libs"
+>   FILES_${PN}-libs = "${libdir}/*.so*"
+> @@ -88,7 +88,7 @@ do_install_append() {
+>   	install -d "${D}${sysconfdir}/init.d"
+>   	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+>   	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+> -	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
+> +	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
+>   
+>   	# Install systemd related files
+>   	install -d ${D}${sbindir}
+> @@ -120,4 +120,3 @@ CONFFILES_${PN} = " \
+>   	${sysconfdir}/bind/db.local \
+>   	${sysconfdir}/bind/db.root \
+>   	"
+> -
+> 
+
 -- 
-2.7.4
+Kind regards,
+Martin Hundebøll
+Embedded Linux Consultant
 
++45 61 65 54 61
+martin@geanix.com
+
+Geanix IVS
+DK39600706
 
