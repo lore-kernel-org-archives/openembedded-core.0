@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C4442786AD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 50BBC78438
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 02:46:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w562kXC4009489
+	Wed,  6 Jun 2018 02:47:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w562lNNQ013584
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2018 19:46:49 -0700
+	Tue, 5 Jun 2018 19:47:23 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 5 Jun 2018 19:46:22 -0700
+	14.3.399.0; Tue, 5 Jun 2018 19:47:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2018 10:54:42 +0800
-Message-ID: <91ccae9686e4afb8e76d524209fc6064bff7404c.1528252931.git.liezhi.yang@windriver.com>
+Date: Wed, 6 Jun 2018 10:54:46 +0800
+Message-ID: <22f056ede391055e4967acf5e7aea9a0215eb4f5.1528252931.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1528252931.git.liezhi.yang@windriver.com>
 References: <cover.1528252931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 07/11] dropbear: add default config file to disable root login
+Subject: [PATCH V3 11/11] openssl-nativesdk: Fix "can't open config file" warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +32,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 02:46:57 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 02:47:22 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-root login is disabled by default for openssh and we can
-enable it through IMAGE_FEATURES 'debug-tweaks' or
-'allow-empty-password', so change to the same default
-behavior for dropbear.
+When SDK is not installed in the default location, openssl will not be
+able to find the the openssl.cnf config file:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+"WARNING: can't open config file: XXXX/usr/lib/ssl/openssl.cnf"
+
+To fix this, we need to provide the environment variable $OPENSSL_CONF
+pointing to the correct config file location.
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc              | 3 +++
- meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
- 2 files changed, 5 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
+ .../openssl/openssl/environment.d-openssl.sh                  |  1 +
+ meta/recipes-connectivity/openssl/openssl10.inc               |  7 +++++++
+ meta/recipes-connectivity/openssl/openssl_1.0.2o.bb           |  5 +++++
+ meta/recipes-connectivity/openssl/openssl_1.1.0h.bb           | 11 +++++++++++
+ 4 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 16ac644..9596363 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -20,6 +20,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://dropbearkey.service \
-            file://dropbear@.service \
-            file://dropbear.socket \
-+           file://dropbear.default \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
- 
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-@@ -63,6 +64,8 @@ do_install() {
- 		${D}${sbindir} \
- 		${D}${localstatedir}
- 
-+	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
-+
- 	install -m 0755 dropbearmulti ${D}${sbindir}/
- 	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
- 
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.default b/meta/recipes-core/dropbear/dropbear/dropbear.default
+diff --git a/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
 new file mode 100644
-index 0000000..522453a
+index 0000000..b9cc24a
 --- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear.default
-@@ -0,0 +1,2 @@
-+# Disallow root logins by default
-+DROPBEAR_EXTRA_ARGS="-w"
++++ b/meta/recipes-connectivity/openssl/openssl/environment.d-openssl.sh
+@@ -0,0 +1 @@
++export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
+diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+index f7a8de8..55dfb7a 100644
+--- a/meta/recipes-connectivity/openssl/openssl10.inc
++++ b/meta/recipes-connectivity/openssl/openssl10.inc
+@@ -282,5 +282,12 @@ do_install_append_class-native() {
+ 	    OPENSSL_ENGINES=${libdir}/ssl/engines
+ }
+ 
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index 413ebf3..7cae553 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -47,6 +47,11 @@ SRC_URI_append_class-target = "\
+            file://reproducible-cflags.patch \
+            file://reproducible-mkbuildinf.patch \
+            "
++
++SRC_URI_append_class-nativesdk = " \
++           file://environment.d-openssl.sh \
++           "
++
+ SRC_URI[md5sum] = "44279b8557c3247cbe324e2322ecd114"
+ SRC_URI[sha256sum] = "ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d"
+ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+index 94b75eb..29f83a3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+@@ -19,6 +19,10 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
+            "
+ 
++SRC_URI_append_class-nativesdk = " \
++           file://environment.d-openssl.sh \
++          "
++
+ S = "${WORKDIR}/openssl-${PV}"
+ 
+ inherit lib_package multilib_header ptest
+@@ -142,6 +146,13 @@ do_install_append_class-native () {
+         sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+ }
+ 
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
+ do_install_ptest() {
+         cp -r * ${D}${PTEST_PATH}
+ 
 -- 
 2.7.4
 
