@@ -1,50 +1,51 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 301AA77CF6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 98AE8754BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 15:26:00 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id t5-v6so8065190ioa.8
+	Wed,  6 Jun 2018 16:49:15 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id d185-v6so8408807ioe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 08:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2+4zUrVfWQY2g5lv0v5AWXM8SFeT90l/Fc4W1FtbTQw=;
-	b=re7GuOSB94I7bKgR67nhbrdZM6vTDy69Duz8F7P8AWCPmC6YsZZQpLEBH17YV9CpIM
-	WF1OC43J0T+3ERl6qV7KFtHp+3Aas20jFysuN/1eGHTArbTJuNBHzqba5tEbimAwG9To
-	fQObL0mtyF5Ey0Ugm8xRnV8WQTL9MBwtDA8FOk7DcvOPV5F/uqpRjlapbT+Fri8wx3ys
-	6I2fwAB/+D3u9nqbhImm5Lg0f/VtjBz+Ty0R0y7DmlPX+BgSBCEhxqY9/Zk53YLhcRKc
-	Mra+KIY6EXZZ3QKrs8lydBDd2afLzjGLt51ADY1UJN3sextMvfERzjFIVX9fwKfx/bND
-	MK9w==
+	Wed, 06 Jun 2018 09:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=D7TQ7QQWSHaZXEo1xF8rfIhBmQC9ibaPbJCL29Mi0DA=;
+	b=B3Qjj+KTevJTqy1M+/MAyTr3BqsKKpJdVTrjR98/LKyOnzKkM3dgzf05gfCfyhVfvc
+	lUkF8NgtXMGTt6GvM0JFraFSBuCQqsCi2YwFAOoqaCCDN0JkV8DEijEmB3aZxQw8AW66
+	XDZp7VWIQ1jU+oEPDcbLM/cJiKT1Ud3wXM5FuEaknUqengCGPYcv32wsTO/L0Pa3U50W
+	ao5jlGVAUsbnTnj3fSzUcyvKouj5ZwV86qALoFfr8D/MDwcTk++nZA/a/FnwnsWjmt1u
+	zcILkYKJm0ZlNtbdVlMUn1qjrFo/ftJW8iFEyIjonjcf7UjwhTAzYcJoFX/rowDA5ryJ
+	lNhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2+4zUrVfWQY2g5lv0v5AWXM8SFeT90l/Fc4W1FtbTQw=;
-	b=nmsojxOLcxWCJhtbUJxu/KOAzi+2jIAbzgwsaitZVcYVwimkc5w9uu8dsXbZh/tz//
-	42xNV6THkdkmTKUC08ARYA1OyZk3G3FL3oDhWfNt72ZvuWnaKZEhbv3AwrltrFRnp+2k
-	HC/FDVPqhIzcPkzXbkLL3Y7GU0XI+E06wnM5+To1hs0Uwd9NjgrkrTSpRCIbTNi186K0
-	0tJB+luMHiCx3UKMCR6vm4k0jXZvluvQXiV09N93vAKABpHFOB+wBqmFSue59RN64Upd
-	vyLrpVUFYXtqT4BXvGW8uogdlR5eDMKnW0PDGXulunUn9jAV/Ysx4W97Hm8c5yRHstww
-	9pBg==
-X-Gm-Message-State: APt69E0VkG1vzo8amCUHMh0Ka1e3f0NPBfvpV3SwtjrQsvAsY7DVyJ/E
-	lVOC/ygTSqy/pQqeF93rFEvHreC6
-X-Google-Smtp-Source: ADUXVKKzEIKfZJI1qudo5jhtL9dAfwxgIOSL2xHVJb0QrqKaNJ8x9VCL50cth6FD5cWRo758SKBM3w==
-X-Received: by 2002:a6b:5f13:: with SMTP id
-	t19-v6mr3746160iob.242.1528298761803; 
-	Wed, 06 Jun 2018 08:26:01 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	80-v6sm1973253itk.12.2018.06.06.08.26.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 06 Jun 2018 08:26:01 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Martin Kelly <mkelly@xevo.com>
-Date: Wed,  6 Jun 2018 10:24:44 -0500
-Message-Id: <20180606152444.21911-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.0
-Subject: [PATCH] icecc-toolchain: Remove environment setup
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=D7TQ7QQWSHaZXEo1xF8rfIhBmQC9ibaPbJCL29Mi0DA=;
+	b=tXY8yc/IybkIx+sTjK275J+8QNx5CZexOL1iHZJG4TYGw9GJg7kf4mA03XrbLK1VPI
+	mYqNuevxd9ZpC12gHeV9Gy+/5mdV0Vbh72uQ0qFPZVEO9NHnSKQVM42/2h6coUpZqKez
+	Lx9nrbxTfZXrKvYgZh/8T8cDcFQz54tR4dqbTTCMA2nhHKea7swMrO7JFA1CvuR6gd2W
+	Gu1P1iBT53sxNRVnw+gm6Vqaz/UMH2XzdprnQ5/6g8j5ZV5xcLbWgn4amZ0SjHw4U0a1
+	iIoE2RlWqsGLQIUi9LF+YrqQnxrWQhmqLROGSO/iuNUA50QPM7+NzqWL3Z+wDcBp7Fku
+	aybg==
+X-Gm-Message-State: APt69E3aayxqMOX3qgnsvbRt0b9ByqKaELqPHJ+t3HCEaauHlzKp3kHQ
+	ULO+1Ih7OekWSmygOJ2YvmdcimqHKCTm++T6wmFk2w==
+X-Google-Smtp-Source: ADUXVKI1G10wWlI8ox7yDW1PVebItI/6257pbCI/zxAkle+WmFu7yIh9YlBFcvLh3EwnnPvEhE/Tq7E1LN0bAsdyXdQ=
+X-Received: by 2002:a6b:2401:: with SMTP id
+	k1-v6mr3459206iok.270.1528303756404; 
+	Wed, 06 Jun 2018 09:49:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a6b:f614:0:0:0:0:0 with HTTP;
+	Wed, 6 Jun 2018 09:48:55 -0700 (PDT)
+In-Reply-To: <31d93c4a23eec59b835a52dc7002814e1b9fbe22.1527214769.git.Qi.Chen@windriver.com>
+References: <cover.1527214769.git.Qi.Chen@windriver.com>
+	<31d93c4a23eec59b835a52dc7002814e1b9fbe22.1527214769.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 Jun 2018 17:48:55 +0100
+Message-ID: <CAJTo0LbuaPOcp0WbB0_T9O+kivU9Wye6Zzb6w8xD-kQXXOpJzg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libnss-nis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 15:26:01 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 16:49:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The handling of the environment setup was moved to the post-relocate
-script handler, and so is no longer necessary in the setup script
+Try building a musl buildtools and it breaks:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- .../icecc-toolchain/icecc-toolchain/icecc-setup.sh           | 5 -----
- 1 file changed, 5 deletions(-)
+ERROR: Nothing RPROVIDES 'nativesdk-libnss-nis' (but
+/home/ross/Yocto/poky/meta/recipes-core/meta/buildtools-tarball.bb
+RDEPENDS on or otherwise requires it)
+nativesdk-libnss-nis was skipped: incompatible with musl C library
 
-diff --git a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
-index 04808265781..25250b7c0e2 100644
---- a/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
-+++ b/meta/recipes-devtools/icecc-toolchain/icecc-toolchain/icecc-setup.sh
-@@ -20,11 +20,6 @@
- # SOFTWARE.
- #
- 
--# Setup environment
--for env_setup_script in `ls $1/environment-setup-*`; do
--	. $env_setup_script
--done
--
- # ICECC_PATH will have been found icecc-env.sh
- if [ -z "$ICECC_PATH" ]; then
-     exit 0
--- 
-2.17.0
+Ross
 
+On 25 May 2018 at 03:54, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Recent glibc change removed libnss-nis module from glibc and a new
+> recipe libnss-nis.bb was added.
+>
+> After this change, we need to make sure nativesdk-libnss-nis is also
+> included in buildtools-tarball, otherwise, we may encounter the following
+> error when using 'tar' command from buildtools-tarball.
+>
+>   tar: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2: \
+>        symbol _nsl_default_nss version GLIBC_PRIVATE not defined \
+>        in file libnsl.so.1 with link time reference
+>
+> This error occured on my ubuntu16.04 host with 'nis' configured in
+> /etc/nssswitch.conf.
+>
+> So add nativesdk-libnss-nis to buildtools-tarball to fix this problem.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> index d98a9c9..377733f 100644
+> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> @@ -21,6 +21,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+>      nativesdk-wget \
+>      nativesdk-ca-certificates \
+>      nativesdk-texinfo \
+> +    nativesdk-libnss-nis \
+>      "
+>
+>  MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
