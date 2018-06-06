@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BE12786C0
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4442786AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 02:46:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w562krKB024886
+	Wed,  6 Jun 2018 02:46:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w562kXC4009489
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2018 19:46:53 -0700 (PDT)
+	Tue, 5 Jun 2018 19:46:49 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 5 Jun 2018 19:46:52 -0700
+	14.3.399.0; Tue, 5 Jun 2018 19:46:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2018 10:54:44 +0800
-Message-ID: <99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
+Date: Wed, 6 Jun 2018 10:54:42 +0800
+Message-ID: <91ccae9686e4afb8e76d524209fc6064bff7404c.1528252931.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1528252931.git.liezhi.yang@windriver.com>
 References: <cover.1528252931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 09/11] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
+Subject: [PATCH V3 07/11] dropbear: add default config file to disable root login
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 02:46:52 -0000
+X-List-Received-Date: Wed, 06 Jun 2018 02:46:57 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
+root login is disabled by default for openssh and we can
+enable it through IMAGE_FEATURES 'debug-tweaks' or
+'allow-empty-password', so change to the same default
+behavior for dropbear.
 
-By default, files under conf/ are all added to sdk-conf-manifest, as the
-manifest file is set to 'conf/*'.
-
-However, there are situations where some configuration files under conf/
-directory are not intended to be added to sdk-conf-manifest, thus adding
-ESDK_MANIFEST_EXCLUDES to enable users to do this.
-
-This variable takes the form of glob matching.
-e.g.
-ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
-This would exclude all files under conf/ starting with 'autogen' from
-sdk-conf-manifest.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-core/dropbear/dropbear.inc              | 3 +++
+ meta/recipes-core/dropbear/dropbear/dropbear.default | 2 ++
+ 2 files changed, 5 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index e1bba49..017c4b6 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -484,12 +484,18 @@ python copy_buildsystem () {
-     # sdk_ext_postinst() below) thus the checksum we take here would always
-     # be different.
-     manifest_file_list = ['conf/*']
-+    esdk_manifest_excludes = (d.getVar('ESDK_MANIFEST_EXCLUDES') or '').split()
-+    esdk_manifest_excludes_list = []
-+    for exclude_item in esdk_manifest_excludes:
-+        esdk_manifest_excludes_list += glob.glob(os.path.join(baseoutpath, exclude_item))
-     manifest_file = os.path.join(baseoutpath, 'conf', 'sdk-conf-manifest')
-     with open(manifest_file, 'w') as f:
-         for item in manifest_file_list:
-             for fn in glob.glob(os.path.join(baseoutpath, item)):
-                 if fn == manifest_file:
-                     continue
-+                if fn in esdk_manifest_excludes_list:
-+                    continue
-                 chksum = bb.utils.sha256_file(fn)
-                 f.write('%s\t%s\n' % (chksum, os.path.relpath(fn, baseoutpath)))
- }
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 16ac644..9596363 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -20,6 +20,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbearkey.service \
+            file://dropbear@.service \
+            file://dropbear.socket \
++           file://dropbear.default \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
+ 
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+@@ -63,6 +64,8 @@ do_install() {
+ 		${D}${sbindir} \
+ 		${D}${localstatedir}
+ 
++	install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
++
+ 	install -m 0755 dropbearmulti ${D}${sbindir}/
+ 	ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
+ 
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.default b/meta/recipes-core/dropbear/dropbear/dropbear.default
+new file mode 100644
+index 0000000..522453a
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/dropbear.default
+@@ -0,0 +1,2 @@
++# Disallow root logins by default
++DROPBEAR_EXTRA_ARGS="-w"
 -- 
 2.7.4
 
