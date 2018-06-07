@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C89AC770CA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0D3B7713D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 07:50:10 +0000 (UTC)
+	Thu,  7 Jun 2018 07:50:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w577oAcg019813
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w577odPZ023976
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Jun 2018 00:50:11 -0700 (PDT)
+	Thu, 7 Jun 2018 00:50:39 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 7 Jun 2018 00:50:10 -0700
+	14.3.399.0; Thu, 7 Jun 2018 00:50:38 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Jun 2018 15:52:45 +0800
-Message-ID: <cover.1528357628.git.Qi.Chen@windriver.com>
+Date: Thu, 7 Jun 2018 15:52:47 +0800
+Message-ID: <3afd66f7ab09914a3717995d51de83e88f376d20.1528357628.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1528357628.git.Qi.Chen@windriver.com>
+References: <cover.1528357628.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] runqemu: clean up correctly on receiving SIGTERM
+Subject: [PATCH 2/2] runqemu-ifdown: ensure to clean up TAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 07:50:10 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 07:50:38 -0000
 Content-Type: text/plain
 
-The following changes since commit 1c7ad49bfd3e60c44281a8f49d69f4b96c359703:
+In runqemu-ifup, ip command is used to add TAP; in runqemu-ifdown,
+we should do the reversed logic, using ip command to delete TAP, to
+make sure TAP is cleaned up by ourselves.
 
-  bitbake: bitbake: Update version to post release 1.39 (2018-06-06 13:35:15 +0100)
+I can see that in runqemu-ifdown script, 'tunctl -d' and 'iptables'
+commands are used to deal with TAP, but these two commands cannot
+make sure that the TAP is cleaned up.
 
-are available in the git repository at:
+runqemu-ifup uses 'ip' to set up TAP, we really need to do the opposite
+in runqemu-ifdown.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/runqemu-sigterm
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/runqemu-sigterm
-
-Chen Qi (2):
-  runqemu: add SIGTERM handler to make sure things are cleaned up
-  runqemu-ifdown: ensure to clean up TAP
-
- scripts/runqemu        | 23 ++++++++++++++++++++++-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  scripts/runqemu-ifdown | 10 ++++++++++
- 2 files changed, 32 insertions(+), 1 deletion(-)
+ 1 file changed, 10 insertions(+)
 
+diff --git a/scripts/runqemu-ifdown b/scripts/runqemu-ifdown
+index ffbc9de..2486968 100755
+--- a/scripts/runqemu-ifdown
++++ b/scripts/runqemu-ifdown
+@@ -51,6 +51,16 @@ fi
+ 
+ $TUNCTL -d $TAP
+ 
++IFCONFIG=`which ip 2> /dev/null`
++if [ "x$IFCONFIG" = "x" ]; then
++	# better than nothing...
++	IFCONFIG=/sbin/ip
++fi
++if [ -x "$IFCONFIG" ]; then
++	if `$IFCONFIG link show $TAP > /dev/null 2>&1`; then
++		$IFCONFIG link del $TAP
++	fi
++fi
+ # cleanup the remaining iptables rules
+ IPTABLES=`which iptables 2> /dev/null`
+ if [ "x$IPTABLES" = "x" ]; then
 -- 
 1.9.1
 
