@@ -1,55 +1,61 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ACA67871D
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A3388787F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 14:05:04 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id x34-v6so9934651qtk.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 07:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kHgJDGCulInFsNUHbgfX+rdhPh9DhwZK8zRUeGZa4N0=;
-	b=dZVW/rEDwIFqU1vQE4wnMmZIc9lroehuKuKkpNN8k+KpZPoLBi62FxsG6GhII0ifcw
-	x1ZDFZrPpIrGQHIX7ow33kLZCGQtv1wrOWh6pYYoKcNZioVYcQMtwZTV2sKEDgxSaYGE
-	q3mqv2gnfH21hHssBUUT4UIAqlHZ7vOEPA0EeiPJD8y+kdeUyP9uNxi7WFJLL4QmHxQ0
-	4/r4qVRwbliGadd7Tjxk1rsJgaL7gVjoXv1J0MrkCa14QNKZ9wW8zdQZQt4DxpqdCyZy
-	GpLjhbiFnc40ITeO1Z/oKJqDtG8Y8eUGz2mPP01gzXQ2jZ/NvjXfzMlzUhSjt/9ZbsIG
-	PW0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kHgJDGCulInFsNUHbgfX+rdhPh9DhwZK8zRUeGZa4N0=;
-	b=UiRCNPZHxsJunlT2iL4YKm/opKqMzqsqcbNAi7B6O+p1XGpXkjuJ8K15X0EjesKxSw
-	5ayeCIWAbIJ3GcvF4woCxjrXELQ6HbEfMqVH58GyWB30DcFxxTfTEK/yAKzcYXbdFc6H
-	rl2MKqj3O1xZfbXzd+FLPlzUBVTkT/mYOnx2x++wFXCtJ6V3qsGQ8SDqB3duNYJ1Yy1k
-	OLDPbqXI5zMUiYrbbyHIaY4XElTC6koSGm7fpLbv8RGJQ6kZ21pG47GQ7N6xiIktK71K
-	jrCZipuYsntMj5Yx7m7/8NE2vmWCT+zMNYYqrdjo8xeYnyspE6Zet+gVrdx2wza0WQKj
-	yxQw==
-X-Gm-Message-State: APt69E1jX30s1/un3gxE4iA8uj/nGBh8nXQ/VSplQAjUaulTUWcMGsCN
-	6jnp2DbPyfZ2kwR4PO7cBXzEfuByoudH0lh0/Co=
-X-Google-Smtp-Source: ADUXVKJk4TzpcaVpDJTIlIWWKIV0zJpBMbO7e0oIorcW86Zgpq0UccS3/BdYt0BTcGRmMnsc4Mmeseb1ADKB3pXVl10=
-X-Received: by 2002:a0c:f806:: with SMTP id
-	r6-v6mr1781809qvn.214.1528380304916; 
-	Thu, 07 Jun 2018 07:05:04 -0700 (PDT)
+	Thu,  7 Jun 2018 14:05:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5167E184A9;
+	Thu,  7 Jun 2018 16:05:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id whlibWyoJdYn; Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 93456184A0;
+	Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7FAD91A067;
+	Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 73B1B1A062;
+	Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 67A602A3B;
+	Thu,  7 Jun 2018 16:05:28 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 7 Jun 2018 16:05:28 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 7 Jun 2018 16:05:28 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Thu, 7 Jun 2018 16:05:28 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: akuster808 <akuster808@gmail.com>
+Thread-Topic: [OE-core] Cherry-pick to Sumo (was: [PATCHv2 1/2]
+	oe-pkgdata-util: Make parse_pkgdatafile() support package suffixed
+	vars)
+Thread-Index: AQHT+01Roqt+tPRN2kqPaTpZgec7haRU2QWw
+Date: Thu, 7 Jun 2018 14:05:27 +0000
+Message-ID: <8406638238c34c4799a21e8e39a4dd49@XBOX02.axis.com>
+References: <058532a438814db98ab5389758a226fd@XBOX02.axis.com>
+	<11df0453-3c35-b868-6d96-b23bd675ae9a@gmail.com>
+In-Reply-To: <11df0453-3c35-b868-6d96-b23bd675ae9a@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP;
-	Thu, 7 Jun 2018 07:04:34 -0700 (PDT)
-In-Reply-To: <CAJ86T=U12bdRd=GtseZc8DSKOyEm=OdM=JJZB_6Uu4c0e5__1w@mail.gmail.com>
-References: <cover.1528320772.git.raj.khem@gmail.com>
-	<635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
-	<CAJ86T=U5WPudMu_VBL_Y00DQrOjRb91=x+6+21V0ZQKhCQ7ThA@mail.gmail.com>
-	<CAMKF1so4AMMhXS4VRNV2CPjvPRbzkPWEW3f=iTNio2jNC1Fgxw@mail.gmail.com>
-	<CAJ86T=VCqqt_7OXT__NLtH_uayoSX_rFS=vXEyOZY3BQz3+FKQ@mail.gmail.com>
-	<5c57a121-c4cd-e548-cd26-182076deb917@gmail.com>
-	<CAJ86T=U12bdRd=GtseZc8DSKOyEm=OdM=JJZB_6Uu4c0e5__1w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Jun 2018 07:04:34 -0700
-Message-ID: <CAMKF1srdYY8MXiFWjk7Khh2TsDQ0faTPV4gn5tRfUwrXEUYpUA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] tune/arm: Set -mtune instead of -mcpu
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Cherry-pick to Sumo (was: [PATCHv2 1/2] oe-pkgdata-util: Make parse_pkgdatafile() support package suffixed vars)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,75 +68,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 14:05:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Jun 2018 14:05:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Jun 7, 2018 at 12:14 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Jun 6, 2018 at 10:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On 6/6/18 4:42 PM, Andre McCurdy wrote:
->>> On Wed, Jun 6, 2018 at 3:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> The -mcpu, -march and -mtune options are not new and gcc 6 and 7 catch
->>> the same conflicts. It doesn't make sense that gcc8 is just catching
->>> more issues.
->>
->> It does make sense. the option parsing for these specific options on arm
->> have been revamped after gcc7, see
->>
->> https://github.com/kraj/gcc/compare/a99ae290af49793cd3db7a74f3dbc59e64d356a1...68b54adbd7b10c66d968d74b96fba552bd46ebb7
->
-> Thanks. These commits seem to be related to handling of options like
-> "-mcpu=cortexa9+nosimd". Was that the error you saw in testing?
->
-> If you can provide the command line that caused the error then it
-> should be quick to establish whether it's gcc8 being more picky.
->
-> Or perhaps there's always been a warning and -Werror has been added to
-> a gcc8 Makefile where it wasn't before?
->
->>> If we are trying to build something which is reusable across multiple
->>> machines with the same architecture then it's a bug to be passing
->>> machine specific CFLAGS. Making the machine specific CFLAGS more
->>> generic is not the right solution.
->>
->> being reusable is a side-effect and a good one. Real problem is we are not
->> matching to what we say in package arches, Probably you are confusing tunes
->> to be meant for static code generation for a given CPU.
->
-> Sorry, I don't really follow what you mean?
->
->> I am interested to
->> hear more ideas to what would be right solution if this is not it.
->
-> I'd like to understand what the problem is first before trying to
-> propose any solutions.
->
-> ie what specifically has changed with gcc8 to cause the error which
-> wasn't seen before?
-
-
-I would suggest take this gcc8 patch series and revert this one then build
-gcc-runtime for rpi3
-
->
->>> Anyway, I suspect the real issue here is that when we build gcc to run
->>> on the target we currently configure using "--with-arch=armv7-a" for
->>> both armv7a and armv7ve. It was done that way deliberately to try to
->>> avoid rebuilds when switching between armv7a and armv7ve machines,
->>> although thinking about that now I'm not sure it makes so much sense.
->>> Does your original problem go away if you simply change:
->>>
->>>    EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
->>>
->>> to
->>>
->>>    EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
->>>
->>> in gcc-target.inc ?
->>
->> No, this is not the problem I am talking about gcc-runtime which is
->> configured during cross build but built for target later on.
->
-> OK, good to rule that out. It's nothing to do with gcc8 and I've sent
-> a separate patch to fix it.
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IFttYWlsdG86
+YWt1c3RlcjgwOEBnbWFpbC5jb21dDQo+IFNlbnQ6IGRlbiAzIGp1bmkgMjAxOCAxNzoxMw0KPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVu
+ZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIENoZXJyeS1waWNrIHRvIFN1bW8gKHdhczogW1BBVENIdjIgMS8yXSBvZS0NCj4g
+cGtnZGF0YS11dGlsOiBNYWtlIHBhcnNlX3BrZ2RhdGFmaWxlKCkgc3VwcG9ydCBwYWNrYWdlIHN1
+ZmZpeGVkIHZhcnMpDQo+IA0KPiBPbiAwNi8wMi8yMDE4IDEyOjQ4IFBNLCBQZXRlciBLamVsbGVy
+c3RlZHQgd3JvdGU6DQo+ID4gVGhlc2UgdHdvIHBhdGNoZXMsIGluIGFkZGl0aW9uIHRvICJvZS1w
+a2dkYXRhLXV0aWw6IGxvb2t1cC1yZWNpcGUsDQo+ID4gcGFja2FnZS1pbmZvOiBEb24ndCBmaW5p
+c2ggcHJlbWF0dXJlbHkiIChjb21taXQgMzJjMmEyZGQpIHRoYXQgaXMNCj4gPiBhbHJlYWR5IG9u
+IG1hc3RlciwgbmVlZCB0byBiZSBjaGVycnktcGlja2VkIHRvIHRoZSBzdW1vIGJyYW5jaCBhcyAN
+Cj4gPiB3ZWxsLiBXaXRob3V0IHRoZW0sIGBvZS1wa2dkYXRhLXV0aWwgcGFja2FnZS1pbmZvIC4u
+LmAgaXMgbW9yZSBvciANCj4gPiBsZXNzIGJyb2tlbi4NCj4gPg0KPiA+IC8vUGV0ZXINCj4gDQo+
+IFRoYW5rcyBwZXRlci4gSSBob3BlIHRvIHJlbWVtYmVyIHRvIGJhY2sgcG9ydCB0aGVtIG9uY2Ug
+dGhleSBoaXQNCj4gbWFzdGVyLg0KPiANCj4gLWFybWluDQoNClRoZXkgaGF2ZSBoaXQgbWFzdGVy
+IG5vdy4gVGhlIGNvbW1pdHMgSSB3YW50IGNoZXJyeS1waWNrZWQgdG8gU3VtbyANCmZyb20gbWFz
+dGVyIGFyZToNCg0KMzJjMmEyZGQgb2UtcGtnZGF0YS11dGlsOiBsb29rdXAtcmVjaXBlLCBwYWNr
+YWdlLWluZm86IERvbid0IGZpbmlzaCBwcmVtYXR1cmVseQ0KMzhmODI4NDIgb2UtcGtnZGF0YS11
+dGlsOiBNYWtlIHBhcnNlX3BrZ2RhdGFmaWxlKCkgc3VwcG9ydCBwYWNrYWdlIHN1ZmZpeGVkIHZh
+cnMNCmNkMTk1YmRmIG9lLXBrZ2RhdGEtdXRpbDogcGFja2FnZS1pbmZvOiBSZS1hZGQgc3VwcG9y
+dCBmb3IgdGhlIC0tZXh0cmEgb3B0aW9uDQoNCi8vUGV0ZXINCg0K
 
