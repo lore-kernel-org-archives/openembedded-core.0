@@ -1,51 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f43.google.com (mail-pl0-f43.google.com
-	[209.85.160.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A2FD7852F
+Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C459783EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 18:48:53 +0000 (UTC)
-Received: by mail-pl0-f43.google.com with SMTP id c41-v6so6680975plj.10
+	Thu,  7 Jun 2018 18:48:54 +0000 (UTC)
+Received: by mail-pl0-f50.google.com with SMTP id g20-v6so6697011plq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 11:48:54 -0700 (PDT)
+	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kyqXML5g7ILSJWWOVNdCzwO8OV9YI1xAdbWnUsROkvc=;
-	b=F2R+sSTSckbGI+94s1hjpswVxuisRjahYx6QQThD31dr01c2jFzFtkEk09uVgNPeHn
-	E2ThRc/hs9T5HznjZxtkm4aZvpo1WUmSqPQwpav7RuCCTjte/9TY4bnaIBH1oppo7jLg
-	qZlaObz8KTWQbLrYmhKAAscuLYbnsiXhQRV5p4vpc3EqdjvMluPA9buO1ugaIjqCigMs
-	DXYB09wJ+6vfyUl5aRB1Mgwr902fiMzcUgVv+FyYWMvrgdgR8fFAiTh3kPO0CK1YBoW0
-	jHLzQLUiTvf4iK1bqm4vD6zl1VO1WeThSohKU2GkmxZsGjYazWSIQZFuMc8J38UIgRQy
-	9SEQ==
+	bh=e9/ev4NaEpnrt4/FaxKyUpkHvXWmDYENrlqc7TdKYZE=;
+	b=f1XZ79IVnZeVE3ALbUAqST7MbtFVx4nmj9bKwytEcywRSMJbYOJldorWnbQRXSLi6P
+	XpbDozsczG8cqTnxKZYrtUpGP1vgjnNYNetInrqkxLYpMw/dgz2X8LyR/goh0W51rmeX
+	JLmiumNKa03N+p8USDvfDVHlOb+A+7+BHXtD6gnEXoMO6RHhNWmXvoqu7al6mLFdWYSp
+	bV4BfUGFGQX82OzeIEl2joVFrUdsYjRcy+855RA3VYITdBue68/aGg+68Ophy49MoUwc
+	+lEMh3qKpV0SD165An8myOMc0k/mcVPLiCN8hG0vHz3xJmWPxeXPdiptQObguGtUJBsG
+	TIsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=kyqXML5g7ILSJWWOVNdCzwO8OV9YI1xAdbWnUsROkvc=;
-	b=tszVcI7vpZdDGc5b03QsHi4ex+2I6UdQiDhXsNGpH/eeh0sCyFlUIT44n7WWydaVl7
-	xrUrxOFn3dGYpOlbwQHOjtyPYIvE6wb1OuCXOsg+Q55K0TV80nOHM1DducCrU0SEwmRD
-	R4jW0Hm+iqr86nR3a2DmRnxcf74XKFt4k9Ck6vUjcGeA/9M5zlU6uWFpZNbn+SZJtZtG
-	N5YyShpKhgIU3KyTkZxvsGbdisjK1YdIAg9fJRzFA2kV0hss4aHaD/bfFkIEadctz/Tx
-	4ZvmBXTxTaq6TcOPoLzOxDuTHHGAmr2fpdJeZruNfEma2HGwIGSkXr5qkq1w7Jj+V64m
-	vBbw==
-X-Gm-Message-State: APt69E3Q5KmjXJenH+5w2qsQiQU7Vpld1BkaFIOly8C0zPP91Nh3IMAI
-	yG/E59PfHxy4APmxW/tUJTiOgA==
-X-Google-Smtp-Source: ADUXVKJ+ANFaAO7923XON8BLif+HRp19FW0fXIWMTkZeSD3C/pSD4ABAy0cUDy8obek02W5FiT+WNQ==
-X-Received: by 2002:a17:902:14b:: with SMTP id
-	69-v6mr3265084plb.184.1528397334227; 
-	Thu, 07 Jun 2018 11:48:54 -0700 (PDT)
+	bh=e9/ev4NaEpnrt4/FaxKyUpkHvXWmDYENrlqc7TdKYZE=;
+	b=hKFpuASfRqrg7rTeNY2y6wMTIY4UOeQthN2p50ykONG56Pyj7eXEL/DKVxCqF4QOsR
+	JxpHqnjNLiwu3KQZNW9Tug0pxDdKzFmQCfgtyA0mSo+HEIYVz5/09m6mhHQb3wsI3Wtv
+	2klTLFAGqsADNeQU5pW4ySChw3KBZozac1eDz7PkWKskqG5h+yBtUUyobIiy+xMS/MPt
+	WhXQQTVv443P456JRtM59bPtA4V+NAj8qSBtzp4IACApbeiZZmRWpxMQPIHI9DqjPdOY
+	ePkMSC0cffyfhdXSG01Y5Geoq/desCQW8uc4tHtGh3wuUJDINC+p8Sgwinri+c440R63
+	9VfQ==
+X-Gm-Message-State: APt69E08Kx24lFjIlwHX82wgGLwafsFzxXFEe/U95nN1aHOBqXNJKq5h
+	sLyCSfhhJjm+OgyXoVS0b9pOLw==
+X-Google-Smtp-Source: ADUXVKLSOPPpm2nIHTs+XcNpC2euPDH8FZ6YSSPvyeLZ6ZuL+ZFmRv/JRGPgD94Dx4E1bnzA3hDbiQ==
+X-Received: by 2002:a17:902:bd95:: with SMTP id
+	q21-v6mr3076824pls.237.1528397335559; 
+	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	f30-v6sm27103558pgn.76.2018.06.07.11.48.53
+	f30-v6sm27103558pgn.76.2018.06.07.11.48.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jun 2018 11:48:53 -0700 (PDT)
+	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2018 11:48:38 -0700
-Message-Id: <1528397320-32269-5-git-send-email-armccurdy@gmail.com>
+Date: Thu,  7 Jun 2018 11:48:39 -0700
+Message-Id: <1528397320-32269-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
 References: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 5/7] openssh: sync local ssh_config + sshd_config files with upstream 7.7p1
+Subject: [PATCH 6/7] openssh: only create sshd host keys which have been enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,145 +58,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 18:48:53 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 18:48:54 -0000
 
-Changes are mostly related to the removal of support for SSH v.1
-protocol, which was dropped from openssh sshd in 7.4p1:
+Previously sshd_check_keys would create a full set of all possible
+sshd host keys, even if sshd_config has been set to only enable
+certain key types.
 
-  https://www.openssh.com/txt/release-7.4
+Update sshd_check_keys to only create keys which have been enabled in
+sshd_config (with a fallback to creating a full set of key types if
+no HostKey options are defined, as before).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../openssh/openssh/ssh_config                     | 12 ++++-----
- .../openssh/openssh/sshd_config                    | 29 ++++++----------------
- 2 files changed, 14 insertions(+), 27 deletions(-)
+ .../openssh/openssh/sshd_check_keys                | 42 ++++++++++------------
+ 1 file changed, 19 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
-index 9e91915..e0d0238 100644
---- a/meta/recipes-connectivity/openssh/openssh/ssh_config
-+++ b/meta/recipes-connectivity/openssh/openssh/ssh_config
-@@ -1,4 +1,4 @@
--#	$OpenBSD: ssh_config,v 1.28 2013/09/16 11:35:43 sthen Exp $
-+#	$OpenBSD: ssh_config,v 1.33 2017/05/07 23:12:57 djm Exp $
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+index be2e2ec..1931dc7 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+@@ -56,27 +56,23 @@ while true ; do
+     esac
+ done
  
- # This is the ssh client system-wide configuration file.  See
- # ssh_config(5) for more information.  This file provides defaults for
-@@ -31,14 +31,14 @@ Host *
- #   AddressFamily any
- #   ConnectTimeout 0
- #   StrictHostKeyChecking ask
--#   IdentityFile ~/.ssh/identity
- #   IdentityFile ~/.ssh/id_rsa
- #   IdentityFile ~/.ssh/id_dsa
-+#   IdentityFile ~/.ssh/id_ecdsa
-+#   IdentityFile ~/.ssh/id_ed25519
- #   Port 22
--#   Protocol 2,1
--#   Cipher 3des
--#   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,arcfour256,arcfour128,aes128-cbc,3des-cbc
--#   MACs hmac-md5,hmac-sha1,umac-64@openssh.com,hmac-ripemd160
-+#   Protocol 2
-+#   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
-+#   MACs hmac-md5,hmac-sha1,umac-64@openssh.com
- #   EscapeChar ~
- #   Tunnel no
- #   TunnelDevice any:any
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
-index b7c3ccd..15f061b 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_config
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_config
-@@ -1,4 +1,4 @@
--#	$OpenBSD: sshd_config,v 1.80 2008/07/02 02:24:18 djm Exp $
-+#	$OpenBSD: sshd_config,v 1.102 2018/02/16 02:32:40 djm Exp $
+-# parse location of keys
+-HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
+-HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
+-HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
+-[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
++HOST_KEYS=$(sed -n 's/^[ \t]*HostKey[ \t]\+\(.*\)/\1/p' "${sshd_config}")
++[ -z "${HOST_KEYS}" ] && HOST_KEYS="$SYSCONFDIR/ssh_host_rsa_key $SYSCONFDIR/ssh_host_ecdsa_key $SYSCONFDIR/ssh_host_ed25519_key"
  
- # This is the sshd server system-wide configuration file.  See
- # sshd_config(5) for more information.
-@@ -7,7 +7,7 @@
- 
- # The strategy used for options in the default sshd_config shipped with
- # OpenSSH is to specify options with their default value where
--# possible, but leave them commented.  Uncommented options change a
-+# possible, but leave them commented.  Uncommented options override the
- # default value.
- 
- #Port 22
-@@ -15,42 +15,30 @@
- #ListenAddress 0.0.0.0
- #ListenAddress ::
- 
--# The default requires explicit activation of protocol 1
--Protocol 2
--
--# HostKey for protocol version 1
--#HostKey /etc/ssh/ssh_host_key
--# HostKeys for protocol version 2
- #HostKey /etc/ssh/ssh_host_rsa_key
- #HostKey /etc/ssh/ssh_host_ecdsa_key
- #HostKey /etc/ssh/ssh_host_ed25519_key
- 
--# Lifetime and size of ephemeral version 1 server key
--#KeyRegenerationInterval 1h
--#ServerKeyBits 1024
--
- # Ciphers and keying
- #RekeyLimit default none
- 
- # Logging
--# obsoletes QuietMode and FascistLogging
- #SyslogFacility AUTH
- #LogLevel INFO
- 
- # Authentication:
- 
- #LoginGraceTime 2m
--#PermitRootLogin yes
-+#PermitRootLogin prohibit-password
- #StrictModes yes
- #MaxAuthTries 6
- #MaxSessions 10
- 
--#RSAAuthentication yes
- #PubkeyAuthentication yes
- 
- # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
- # but this is overridden so installations will only check .ssh/authorized_keys
--AuthorizedKeysFile .ssh/authorized_keys
-+AuthorizedKeysFile	.ssh/authorized_keys
- 
- #AuthorizedPrincipalsFile none
- 
-@@ -58,11 +46,9 @@ AuthorizedKeysFile .ssh/authorized_keys
- #AuthorizedKeysCommandUser nobody
- 
- # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
--#RhostsRSAAuthentication no
--# similar for protocol version 2
- #HostbasedAuthentication no
- # Change to yes if you don't trust ~/.ssh/known_hosts for
--# RhostsRSAAuthentication and HostbasedAuthentication
-+# HostbasedAuthentication
- #IgnoreUserKnownHosts no
- # Don't read the user's ~/.rhosts and ~/.shosts files
- #IgnoreRhosts yes
-@@ -71,7 +57,8 @@ AuthorizedKeysFile .ssh/authorized_keys
- #PasswordAuthentication yes
- #PermitEmptyPasswords no
- 
--# Change to no to disable s/key passwords
-+# Change to yes to enable challenge-response passwords (beware issues with
-+# some PAM modules and threads)
- ChallengeResponseAuthentication no
- 
- # Kerberos options
-@@ -110,7 +97,7 @@ ChallengeResponseAuthentication no
- Compression no
- ClientAliveInterval 15
- ClientAliveCountMax 4
--#UseDNS yes
-+#UseDNS no
- #PidFile /var/run/sshd.pid
- #MaxStartups 10:30:100
- #PermitTunnel no
+-# create keys if necessary
+-if [ ! -f $HOST_KEY_RSA ]; then
+-    echo "  generating ssh RSA key..."
+-    generate_key $HOST_KEY_RSA rsa
+-fi
+-if [ ! -f $HOST_KEY_ECDSA ]; then
+-    echo "  generating ssh ECDSA key..."
+-    generate_key $HOST_KEY_ECDSA ecdsa
+-fi
+-if [ ! -f $HOST_KEY_ED25519 ]; then
+-    echo "  generating ssh ED25519 key..."
+-    generate_key $HOST_KEY_ED25519 ed25519
+-fi
++for key in ${HOST_KEYS} ; do
++    [ -f $key ] && continue
++    case $key in
++    *_rsa_key)
++        echo "  generating ssh RSA host key..."
++        generate_key $key rsa
++        ;;
++    *_ecdsa_key)
++        echo "  generating ssh ECDSA host key..."
++        generate_key $key ecdsa
++        ;;
++    *_ed25519_key)
++        echo "  generating ssh ED25519 host key..."
++        generate_key $key ed25519
++        ;;
++    esac
++done
 -- 
 1.9.1
 
