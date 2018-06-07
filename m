@@ -1,48 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ED00E74520
+Return-Path: <damien.riegel@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6E575296
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 14:35:20 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id 69-v6so6625783wmf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 07:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=sbke/XsrFVt8OehKVohKeR28CZDlFv/ruN9t/qADj00=;
-	b=qQX57mzSezH46Gf8HWnkxNWPoQz6o6tRR086QE4Pu+9XpEcmLKYC1lFzz0mc+hvae9
-	dZvrYQ5nfKrOWygD0yQE/VB5pUbbeL7fltfqX8vEhbRrdrnCYco7gMdikeh31ubSEkYo
-	jWrUyuk7ophGGcMheDQBvvh88sU9esJW0jRav95PzQoiAvq/m/H386Rxx1oLlgtUulXD
-	X9RTWygSZAQnxyV7AVF9WMwxqtx4WHB9UR3LkThch22vH+p6oApyoS2WiL+5heHXiKEN
-	6pxfuELyo5pGifpCE0pNAtUuLAwRuv+B9/2gOOVxH8T7LI90+nDUqqX2od7uTqU5moQS
-	ED5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sbke/XsrFVt8OehKVohKeR28CZDlFv/ruN9t/qADj00=;
-	b=g4qvgUX6+ypqXbMfRo+iZh4t4+ktENi4N6I6pWp39aB36M9Xkwh47xxxLBKJPb4fbG
-	8aZLV2qpbPekfgJoki2c5OwZ+lxjqB7IdqxH1diMrA6ADAB9QeqiDfjH32PwgSylr6E8
-	q9hMmvgu9WlMDP6wV6pnsi851eXiWe3q6uIDFuaTKosFS3jfLnX0tpQAeseXGdzSItxW
-	VqtzBuuk/2wL6zcmctLLHm4Gm+RfGhMcYZxDi6798H8sh9tVZHdVrF/Hc6BaDuZZj9oT
-	zWZSdnnxoHz5w82qOdo8LkaIqOKZUyMPPScQPe7P7iRrhKRPi/brGtrjGULYICDldJR0
-	FK/w==
-X-Gm-Message-State: APt69E3RAcqkPp7+v8RF6C8lw3ShsJNK6+T4GiLnVOBaHwphlcY1oId/
-	P6jszgV6iAP5/lxnwmCX9ccUygVF
-X-Google-Smtp-Source: ADUXVKLymCmKUsQtPGmbzZJUHhHLF6yh6Jlud6+cl9rQEuY1PjQCZGpNfEjKJw6Ej2Th5R9oCKrtJQ==
-X-Received: by 2002:a1c:8a4b:: with SMTP id m72-v6mr1958376wmd.2.1528382121441;
-	Thu, 07 Jun 2018 07:35:21 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t1-v6sm2021475wmt.40.2018.06.07.07.35.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Jun 2018 07:35:20 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu,  7 Jun 2018 14:48:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 98EAF9C1C35;
+	Thu,  7 Jun 2018 10:48:25 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id RpM-rvi4F8Dm; Thu,  7 Jun 2018 10:48:25 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 1EC159C1C71;
+	Thu,  7 Jun 2018 10:48:25 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id zCXWOJvHVcjU; Thu,  7 Jun 2018 10:48:25 -0400 (EDT)
+Received: from workotop.mtl.sfl (unknown [192.168.50.174])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id E9C259C1C35;
+	Thu,  7 Jun 2018 10:48:24 -0400 (EDT)
+From: Damien Riegel <damien.riegel@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2018 15:35:18 +0100
-Message-Id: <20180607143518.12158-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] attr/acl: disable make clean
+Date: Thu,  7 Jun 2018 10:48:14 -0400
+Message-Id: <20180607144814.10678-1-damien.riegel@savoirfairelinux.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH v2] populate_sdk_ext.bbclass: fix corebase identification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +40,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 14:35:21 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 14:48:25 -0000
 
-These packages use hand-grown makefiles which don't handle cleans as they can
-invoke /usr/bin/gmake directly which may not exist.  Until new upstream releases
-are made (which have ported to automake) set CLEANBROKEN to work around this.
+When generating the extended SDK, there is a copy step where this class
+goes through the layers and other stuff that have been copied to
+generate the SDK. The corebase; ie. the folder that contains the core
+layer 'meta' is treated in a special way. Unfortunately in our tree, we
+have:
 
-[ YOCTO #12775 ]
+  sources/meta/meta
+           |     `- core layer
+           `------- corebase
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+In populate_sdk_ext's copy_buildsystem, the heuristic to determine which
+element of the list returned by copy_bitbake_and_layers is corebase is
+fooled by such layout.
+
+In copy_bitbake_and_layers, corebase is already handled specifically and
+reliably, so we should let that function tell us which folder is
+corebase instead of trying to determine it.
+
+To do so, change the return type of copy_bitbake_and_layers to a tuple
+that contains (corebase, copied_layers). It also simplifies the code on
+the caller side.
+
+Signed-off-by: Damien Riegel <damien.riegel@savoirfairelinux.com>
 ---
- meta/recipes-support/attr/ea-acl.inc | 3 +++
- 1 file changed, 3 insertions(+)
+Changes in v2:
+ - move the logic in copy_bitbake_and_layers
 
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-index 1339eccdbd1..9336ffc9389 100644
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ b/meta/recipes-support/attr/ea-acl.inc
-@@ -7,6 +7,9 @@ SRC_URI_append = " file://0001-Added-configure-option-to-enable-disable-static-l
- 
- inherit autotools-brokensep gettext
- 
-+# When upstream is using automake properly, this can be removed
-+CLEANBROKEN = "1"
+ meta/classes/populate_sdk_ext.bbclass | 12 +++---------
+ meta/lib/oe/copy_buildsystem.py       |  8 +++++---
+ 2 files changed, 8 insertions(+), 12 deletions(-)
+
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 2dd21237e2..cc3f5d0e50 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -202,15 +202,9 @@ python copy_buildsystem () {
+         workspace_name = 'orig-workspace'
+     else:
+         workspace_name = None
+-    layers_copied = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers', workspace_name)
+-
+-    sdkbblayers = []
+-    corebase = os.path.basename(d.getVar('COREBASE'))
+-    for layer in layers_copied:
+-        if corebase == os.path.basename(layer):
+-            conf_bbpath = os.path.join('layers', layer, 'bitbake')
+-        else:
+-            sdkbblayers.append(layer)
 +
- # the package comes with a custom config.h.in, it cannot be
- # overwritten by autoheader
- EXTRA_AUTORECONF += "--exclude=autoheader"
++    corebase, sdkbblayers = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers', workspace_name)
++    conf_bbpath = os.path.join('layers', corebase, 'bitbake')
+ 
+     for path in os.listdir(baseoutpath + '/layers'):
+         relpath = os.path.join('layers', path, oe_init_env_script)
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index ac2fae1ed1..05f65ac632 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -26,6 +26,7 @@ class BuildSystem(object):
+ 
+     def copy_bitbake_and_layers(self, destdir, workspace_name=None):
+         # Copy in all metadata layers + bitbake (as repositories)
++        copied_corebase = None
+         layers_copied = []
+         bb.utils.mkdirhier(destdir)
+         layers = list(self.layerdirs)
+@@ -84,17 +85,18 @@ class BuildSystem(object):
+ 
+             layer_relative = os.path.relpath(layerdestpath,
+                                              destdir)
+-            layers_copied.append(layer_relative)
+-
+             # Treat corebase as special since it typically will contain
+             # build directories or other custom items.
+             if corebase == layer:
++                copied_corebase = layer_relative
+                 bb.utils.mkdirhier(layerdestpath)
+                 for f in corebase_files:
+                     f_basename = os.path.basename(f)
+                     destname = os.path.join(layerdestpath, f_basename)
+                     _smart_copy(f, destname)
+             else:
++                layers_copied.append(layer_relative)
++
+                 if os.path.exists(layerdestpath):
+                     bb.note("Skipping layer %s, already handled" % layer)
+                 else:
+@@ -140,7 +142,7 @@ class BuildSystem(object):
+                 layers_copied.remove(layer)
+                 break
+ 
+-        return layers_copied
++        return copied_corebase, layers_copied
+ 
+ def generate_locked_sigs(sigfile, d):
+     bb.utils.mkdirhier(os.path.dirname(sigfile))
 -- 
-2.11.0
+2.17.0
 
 
