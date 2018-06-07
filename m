@@ -1,51 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C459783EF
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E27497852F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 18:48:54 +0000 (UTC)
-Received: by mail-pl0-f50.google.com with SMTP id g20-v6so6697011plq.1
+	Thu,  7 Jun 2018 18:48:55 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id c41-v6so6681030plj.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
+	Thu, 07 Jun 2018 11:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=e9/ev4NaEpnrt4/FaxKyUpkHvXWmDYENrlqc7TdKYZE=;
-	b=f1XZ79IVnZeVE3ALbUAqST7MbtFVx4nmj9bKwytEcywRSMJbYOJldorWnbQRXSLi6P
-	XpbDozsczG8cqTnxKZYrtUpGP1vgjnNYNetInrqkxLYpMw/dgz2X8LyR/goh0W51rmeX
-	JLmiumNKa03N+p8USDvfDVHlOb+A+7+BHXtD6gnEXoMO6RHhNWmXvoqu7al6mLFdWYSp
-	bV4BfUGFGQX82OzeIEl2joVFrUdsYjRcy+855RA3VYITdBue68/aGg+68Ophy49MoUwc
-	+lEMh3qKpV0SD165An8myOMc0k/mcVPLiCN8hG0vHz3xJmWPxeXPdiptQObguGtUJBsG
-	TIsg==
+	bh=xuuLr50dUSa9j7RhhquhMPvQiYoRxlU/w5JMXFYypPc=;
+	b=OZFHVCWrO8XLKBRG9ofhvs/f9KnSRdJqG4wcjuIfKrQ1ZrrvNK5wYeWjWrZJi8Fww+
+	InjsSNNC7qwXqcoKx3vyDmtqdcfd+qiSzS34k/3a1GqYvNQ9au3qDm8UvU6GMJ50+E/S
+	kgj4PL4FGi8aCZnLOSWjZRKxUH+qeMSXesw+QExac829/y2Gm0bh5W84TCeSGxr+nWqJ
+	caMoc6EEOeGnyjtgw7a8DO+zfm5jm5rWg9UEeU3OiUVlqk+6XPepkVS1V1D+hA9dhgj6
+	Hyp5z15d4xGzxGJzvn7/QCZqi/bKz7A70mktND6/gO4XKtbQ8WyB3y6HfASWzPteeEKj
+	KRgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=e9/ev4NaEpnrt4/FaxKyUpkHvXWmDYENrlqc7TdKYZE=;
-	b=hKFpuASfRqrg7rTeNY2y6wMTIY4UOeQthN2p50ykONG56Pyj7eXEL/DKVxCqF4QOsR
-	JxpHqnjNLiwu3KQZNW9Tug0pxDdKzFmQCfgtyA0mSo+HEIYVz5/09m6mhHQb3wsI3Wtv
-	2klTLFAGqsADNeQU5pW4ySChw3KBZozac1eDz7PkWKskqG5h+yBtUUyobIiy+xMS/MPt
-	WhXQQTVv443P456JRtM59bPtA4V+NAj8qSBtzp4IACApbeiZZmRWpxMQPIHI9DqjPdOY
-	ePkMSC0cffyfhdXSG01Y5Geoq/desCQW8uc4tHtGh3wuUJDINC+p8Sgwinri+c440R63
-	9VfQ==
-X-Gm-Message-State: APt69E08Kx24lFjIlwHX82wgGLwafsFzxXFEe/U95nN1aHOBqXNJKq5h
-	sLyCSfhhJjm+OgyXoVS0b9pOLw==
-X-Google-Smtp-Source: ADUXVKLSOPPpm2nIHTs+XcNpC2euPDH8FZ6YSSPvyeLZ6ZuL+ZFmRv/JRGPgD94Dx4E1bnzA3hDbiQ==
-X-Received: by 2002:a17:902:bd95:: with SMTP id
-	q21-v6mr3076824pls.237.1528397335559; 
-	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
+	bh=xuuLr50dUSa9j7RhhquhMPvQiYoRxlU/w5JMXFYypPc=;
+	b=qQP1V5wuqpyWeTdpCAxg0oVDZgWK1bxQkIeMI2DwEse7b7GO2RYtGiVd8nlPpkmOby
+	52x3NQ29M0gnEEbpN393j88lE8WcsgOfBXnGuZWxJdP9hJJYudCZvipeGdLYGCVnGOyB
+	2HTLhiue+aCBNzO80ccJHo1+2JiZbX7LZtIYqfiHunLH8hTdusB+sNsTZ2IV1Ljwaqz/
+	v600Kspbi1spZnfh60jEJP6aFy1RDtwTwF6qLIWXe+pssO/9sDlNtJStynndUW/FH+n9
+	TM5D2rJ8ULpF+VnB5QlK5hINI4Kze11Os4oI+lvXrA+UcZQzsTrOs0LYJkoZD0QVwiOS
+	W5IQ==
+X-Gm-Message-State: APt69E3YxAWIIhhHxOG7T9aLqx6NWwQU+1ispluuMgZEqII63BbSCRcm
+	cgQ1/d/CmfauqukJ9TVjbssk5Q==
+X-Google-Smtp-Source: ADUXVKKiLJ69OJAWbxu5Ff4S7yrxVfWS2b4zZWS/xXEtciTb7TiJxs13Tbh28cLQGqvC5ZMny50Qxw==
+X-Received: by 2002:a17:902:9883:: with SMTP id
+	s3-v6mr3251881plp.194.1528397337043; 
+	Thu, 07 Jun 2018 11:48:57 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	f30-v6sm27103558pgn.76.2018.06.07.11.48.54
+	f30-v6sm27103558pgn.76.2018.06.07.11.48.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jun 2018 11:48:55 -0700 (PDT)
+	Thu, 07 Jun 2018 11:48:56 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2018 11:48:39 -0700
-Message-Id: <1528397320-32269-6-git-send-email-armccurdy@gmail.com>
+Date: Thu,  7 Jun 2018 11:48:40 -0700
+Message-Id: <1528397320-32269-7-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
 References: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 6/7] openssh: only create sshd host keys which have been enabled
+Subject: [PATCH 7/7] rootfs-postcommands.bbclass: drop obsolete sshd UseDNS rootfs postprocessing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 18:48:54 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 18:48:56 -0000
 
-Previously sshd_check_keys would create a full set of all possible
-sshd host keys, even if sshd_config has been set to only enable
-certain key types.
+The sshd UseDNS option has defaulted to "no" since openssh 6.8p1,
+so it's no longer necessary to postprocess the rootfs to force the
+option:
 
-Update sshd_check_keys to only create keys which have been enabled in
-sshd_config (with a fallback to creating a full set of key types if
-no HostKey options are defined, as before).
+  https://www.openssh.com/txt/release-6.8
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../openssh/openssh/sshd_check_keys                | 42 ++++++++++------------
- 1 file changed, 19 insertions(+), 23 deletions(-)
+ meta/classes/rootfs-postcommands.bbclass | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-index be2e2ec..1931dc7 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-@@ -56,27 +56,23 @@ while true ; do
-     esac
- done
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 221869e..9d4d95e 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -36,11 +36,6 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd"
  
--# parse location of keys
--HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
--HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
--HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
-+HOST_KEYS=$(sed -n 's/^[ \t]*HostKey[ \t]\+\(.*\)/\1/p' "${sshd_config}")
-+[ -z "${HOST_KEYS}" ] && HOST_KEYS="$SYSCONFDIR/ssh_host_rsa_key $SYSCONFDIR/ssh_host_ecdsa_key $SYSCONFDIR/ssh_host_ed25519_key"
+ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
  
--# create keys if necessary
--if [ ! -f $HOST_KEY_RSA ]; then
--    echo "  generating ssh RSA key..."
--    generate_key $HOST_KEY_RSA rsa
--fi
--if [ ! -f $HOST_KEY_ECDSA ]; then
--    echo "  generating ssh ECDSA key..."
--    generate_key $HOST_KEY_ECDSA ecdsa
--fi
--if [ ! -f $HOST_KEY_ED25519 ]; then
--    echo "  generating ssh ED25519 key..."
--    generate_key $HOST_KEY_ED25519 ed25519
--fi
-+for key in ${HOST_KEYS} ; do
-+    [ -f $key ] && continue
-+    case $key in
-+    *_rsa_key)
-+        echo "  generating ssh RSA host key..."
-+        generate_key $key rsa
-+        ;;
-+    *_ecdsa_key)
-+        echo "  generating ssh ECDSA host key..."
-+        generate_key $key ecdsa
-+        ;;
-+    *_ed25519_key)
-+        echo "  generating ssh ED25519 host key..."
-+        generate_key $key ed25519
-+        ;;
-+    esac
-+done
+-# Disable DNS lookups, the SSH_DISABLE_DNS_LOOKUP can be overridden to allow
+-# distros to choose not to take this change
+-SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
+-ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
+-
+ # Sort the user and group entries in /etc by ID in order to make the content
+ # deterministic. Package installs are not deterministic, causing the ordering
+ # of entries to change between builds. In case that this isn't desired,
+@@ -171,12 +166,6 @@ ssh_allow_empty_password () {
+ 	fi
+ }
+ 
+-ssh_disable_dns_lookup () {
+-	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-	fi
+-}
+-
+ python sort_passwd () {
+     import rootfspostcommands
+     rootfspostcommands.sort_passwd(d.expand('${IMAGE_ROOTFS}${sysconfdir}'))
 -- 
 1.9.1
 
