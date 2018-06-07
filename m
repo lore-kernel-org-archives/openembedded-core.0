@@ -1,52 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 78CA078658
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ACA67871D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 13:58:49 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id g126-v6so6588336qke.10
+	Thu,  7 Jun 2018 14:05:04 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id x34-v6so9934651qtk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 06:58:50 -0700 (PDT)
+	Thu, 07 Jun 2018 07:05:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=LsMBi+X0RKcp9x4nGMRTRHjG6grdFCH55uZlIJ8qLVA=;
-	b=ZPRYsLq+RagA2fR3zyykWfwDA79QVqRYQwa58e8vy1jFetmDD26x2gmCkXtwPhCEeD
-	U6ceYjoEljOoGudI49AkMKNNTjeB8QJsSo9+MjdGeYeU4vxzAobgYzJBIYbcxEXQfbD2
-	pEnMdXdI8fTRIgXkEYfJgJuKlxGM6sYJfp2eWNtRzLg7OeNWN5VKN5oxwcR/b5rQFS21
-	UiD2KRx8hZ1jErMcgZd+MbIXg59Ecp4wYTAKfi3lHc8tqERjnRqfWIoKOYrYcsebgBF7
-	vM5St/Rfrwx+/L0dwmvZbOsmUazg4ZhAyW4CbcIuCTRqAOiNRrarK3kXB8FHOtjMQVK7
-	rcww==
+	:cc; bh=kHgJDGCulInFsNUHbgfX+rdhPh9DhwZK8zRUeGZa4N0=;
+	b=dZVW/rEDwIFqU1vQE4wnMmZIc9lroehuKuKkpNN8k+KpZPoLBi62FxsG6GhII0ifcw
+	x1ZDFZrPpIrGQHIX7ow33kLZCGQtv1wrOWh6pYYoKcNZioVYcQMtwZTV2sKEDgxSaYGE
+	q3mqv2gnfH21hHssBUUT4UIAqlHZ7vOEPA0EeiPJD8y+kdeUyP9uNxi7WFJLL4QmHxQ0
+	4/r4qVRwbliGadd7Tjxk1rsJgaL7gVjoXv1J0MrkCa14QNKZ9wW8zdQZQt4DxpqdCyZy
+	GpLjhbiFnc40ITeO1Z/oKJqDtG8Y8eUGz2mPP01gzXQ2jZ/NvjXfzMlzUhSjt/9ZbsIG
+	PW0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=LsMBi+X0RKcp9x4nGMRTRHjG6grdFCH55uZlIJ8qLVA=;
-	b=q3O5m4awJqJ3UjUqKigtUxRYx4bmNQNme0Yo+wDW3NoBxjUWJORD7JeKg1aB6u5c64
-	DJ7NPCCvvuYu1+CQWh2N1dTlsIGOIvd+UI3L8f7Hh0ABwE0eebb2K/vJwEfYwUHk+mEc
-	XRUjNiE0MMK/DH0IScEYlmYhrNPe4GF2Nt+swtRyLtr41DF8Rz6EBgN8OMZoxAmxTeFh
-	WSW9iVY2XOVAF9tg14kEFpxxkRWaa5YjXR1OBCm2scTDapsIoyl19nI3rLygX+iTTiCH
-	GMJzFZQ4YPbZgWl7gI43s6Df8JNHqM2alhM3z1rFd2eQcecugMK2oxFD90EomWfh/zM3
-	dzWQ==
-X-Gm-Message-State: APt69E2WvP4wLHmNykyuFbc3w0Yc6BrMoLV/B1UUXF1qtBF92ju1pgU5
-	Pj178QroiKUKcLCimWhGx31mVp/8VVfZ+szxXmM=
-X-Google-Smtp-Source: ADUXVKJAwj9AY1nlnIzB7QXeBYM42mQK4Ixyjz5JettDC7Eoe2Vqzdxfy9YHqM7bITgC5t15mHFs0jBbZoB7hlfM5/Y=
-X-Received: by 2002:a37:cbd3:: with SMTP id
-	u80-v6mr1543376qkl.290.1528379930204; 
-	Thu, 07 Jun 2018 06:58:50 -0700 (PDT)
+	bh=kHgJDGCulInFsNUHbgfX+rdhPh9DhwZK8zRUeGZa4N0=;
+	b=UiRCNPZHxsJunlT2iL4YKm/opKqMzqsqcbNAi7B6O+p1XGpXkjuJ8K15X0EjesKxSw
+	5ayeCIWAbIJ3GcvF4woCxjrXELQ6HbEfMqVH58GyWB30DcFxxTfTEK/yAKzcYXbdFc6H
+	rl2MKqj3O1xZfbXzd+FLPlzUBVTkT/mYOnx2x++wFXCtJ6V3qsGQ8SDqB3duNYJ1Yy1k
+	OLDPbqXI5zMUiYrbbyHIaY4XElTC6koSGm7fpLbv8RGJQ6kZ21pG47GQ7N6xiIktK71K
+	jrCZipuYsntMj5Yx7m7/8NE2vmWCT+zMNYYqrdjo8xeYnyspE6Zet+gVrdx2wza0WQKj
+	yxQw==
+X-Gm-Message-State: APt69E1jX30s1/un3gxE4iA8uj/nGBh8nXQ/VSplQAjUaulTUWcMGsCN
+	6jnp2DbPyfZ2kwR4PO7cBXzEfuByoudH0lh0/Co=
+X-Google-Smtp-Source: ADUXVKJk4TzpcaVpDJTIlIWWKIV0zJpBMbO7e0oIorcW86Zgpq0UccS3/BdYt0BTcGRmMnsc4Mmeseb1ADKB3pXVl10=
+X-Received: by 2002:a0c:f806:: with SMTP id
+	r6-v6mr1781809qvn.214.1528380304916; 
+	Thu, 07 Jun 2018 07:05:04 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:a0c:e486:0:0:0:0:0 with HTTP;
-	Thu, 7 Jun 2018 06:58:19 -0700 (PDT)
-In-Reply-To: <8224f706c78b5e41ce6a3673d221a983ccbffe77.camel@linuxfoundation.org>
+	Thu, 7 Jun 2018 07:04:34 -0700 (PDT)
+In-Reply-To: <CAJ86T=U12bdRd=GtseZc8DSKOyEm=OdM=JJZB_6Uu4c0e5__1w@mail.gmail.com>
 References: <cover.1528320772.git.raj.khem@gmail.com>
-	<CADkTA4OwmjAJwxauPDWpxsoxENxSHpiNWkSm-Y8Gi9_CNdrMqg@mail.gmail.com>
-	<8224f706c78b5e41ce6a3673d221a983ccbffe77.camel@linuxfoundation.org>
+	<635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
+	<CAJ86T=U5WPudMu_VBL_Y00DQrOjRb91=x+6+21V0ZQKhCQ7ThA@mail.gmail.com>
+	<CAMKF1so4AMMhXS4VRNV2CPjvPRbzkPWEW3f=iTNio2jNC1Fgxw@mail.gmail.com>
+	<CAJ86T=VCqqt_7OXT__NLtH_uayoSX_rFS=vXEyOZY3BQz3+FKQ@mail.gmail.com>
+	<5c57a121-c4cd-e548-cd26-182076deb917@gmail.com>
+	<CAJ86T=U12bdRd=GtseZc8DSKOyEm=OdM=JJZB_6Uu4c0e5__1w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Jun 2018 06:58:19 -0700
-Message-ID: <CAMKF1spb1hneH+nyMAQWBOVo87A0CTnop5pWGTz-rRUgR2_AbQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 00/12] Add GCC 8 recipes
+Date: Thu, 7 Jun 2018 07:04:34 -0700
+Message-ID: <CAMKF1srdYY8MXiFWjk7Khh2TsDQ0faTPV4gn5tRfUwrXEUYpUA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] tune/arm: Set -mtune instead of -mcpu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,77 +62,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 13:58:49 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 14:05:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 7, 2018 at 3:42 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2018-06-06 at 20:45 -0400, Bruce Ashfield wrote:
+On Thu, Jun 7, 2018 at 12:14 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Wed, Jun 6, 2018 at 10:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> On 6/6/18 4:42 PM, Andre McCurdy wrote:
+>>> On Wed, Jun 6, 2018 at 3:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> The -mcpu, -march and -mtune options are not new and gcc 6 and 7 catch
+>>> the same conflicts. It doesn't make sense that gcc8 is just catching
+>>> more issues.
 >>
+>> It does make sense. the option parsing for these specific options on arm
+>> have been revamped after gcc7, see
 >>
->> On Wed, Jun 6, 2018 at 5:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > This changeset is including the review feedback from last patchset
->> >
->> > - Fixes ppc such that we dont have to change machine options so it
->> > remains backward compatible and folks can still use gcc7
->> > - Tweaks arm tunes to set -mtune instead of -mcpu, this avoids
->> > conflicts between -march/-mcpu
->> > - Removes workarounds to avoid these conflicts in valgrind
->> > - Add mips 74kc tune files
->> > - Linux yocto changes are also part of Bruce's kernel updates but
->> > this makes it complete until those changes are pulled in
->>
->> Correct. I have all of the gcc8 patches in linux-yocto 4.12/4.14/4.15
->> and linux-yocto-dev.
->>
->> They should have been covered by my last set of SRCREV updates, and I
->> noticed that
->> some are in, and some not.
->>
->> I'll resubmit my SRCREV queue tomorrow, and that will cover the gcc8
->> angle.
+>> https://github.com/kraj/gcc/compare/a99ae290af49793cd3db7a74f3dbc59e64d356a1...68b54adbd7b10c66d968d74b96fba552bd46ebb7
 >
-> Thanks. Khem's series failed since it doesn't cover 4.14, Bruce's
-> patchset helped a lot.
+> Thanks. These commits seem to be related to handling of options like
+> "-mcpu=cortexa9+nosimd". Was that the error you saw in testing?
+>
+> If you can provide the command line that caused the error then it
+> should be quick to establish whether it's gcc8 being more picky.
+>
+> Or perhaps there's always been a warning and -Werror has been added to
+> a gcc8 Makefile where it wasn't before?
+>
+>>> If we are trying to build something which is reusable across multiple
+>>> machines with the same architecture then it's a bug to be passing
+>>> machine specific CFLAGS. Making the machine specific CFLAGS more
+>>> generic is not the right solution.
+>>
+>> being reusable is a side-effect and a good one. Real problem is we are not
+>> matching to what we say in package arches, Probably you are confusing tunes
+>> to be meant for static code generation for a given CPU.
+>
+> Sorry, I don't really follow what you mean?
+>
+>> I am interested to
+>> hear more ideas to what would be right solution if this is not it.
+>
+> I'd like to understand what the problem is first before trying to
+> propose any solutions.
+>
+> ie what specifically has changed with gcc8 to cause the error which
+> wasn't seen before?
 
-yes I only fixed 4.15 since that was default kernel
+
+I would suggest take this gcc8 patch series and revert this one then build
+gcc-runtime for rpi3
 
 >
-> It looks like we have kernel failures with:
+>>> Anyway, I suspect the real issue here is that when we build gcc to run
+>>> on the target we currently configure using "--with-arch=armv7-a" for
+>>> both armv7a and armv7ve. It was done that way deliberately to try to
+>>> avoid rebuilds when switching between armv7a and armv7ve machines,
+>>> although thinking about that now I'm not sure it makes so much sense.
+>>> Does your original problem go away if you simply change:
+>>>
+>>>    EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
+>>>
+>>> to
+>>>
+>>>    EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
+>>>
+>>> in gcc-target.inc ?
+>>
+>> No, this is not the problem I am talking about gcc-runtime which is
+>> configured during cross build but built for target later on.
 >
-> MACHINE="mpc8315e-rdb" DISTRO="poky-lsb" in linux-yocto 4.14
-> https://autobuilder.yocto.io/builders/nightly-ppc-lsb/builds/1051/steps/BuildImages_1/logs/stdio
->
-> MACHINE="mpc8315e-rdb" DISTRO="poky" in linux-yocto 4.15
-> https://autobuilder.yocto.io/builders/nightly-ppc/builds/1066/steps/BuildImages_1/logs/stdio
->
-> MACHINE="edgerouter" DISTRO="poky-lsb" in linux-yocto 4.14:
-> https://autobuilder.yocto.io/builders/nightly-mips-lsb/builds/1040/steps/BuildImages_1/logs/stdio
->
-> MACHINE="edgerouter" DISTRO="poky" in linux-yocto 4.15:
-> https://autobuilder.yocto.io/builders/nightly-mips/builds/1044/steps/BuildImages_1/logs/stdio
->
-> I realised the above may be due to missing BSP SRCREV updates (cc Kevin)?
->
-> With gcc 8, it seems we have a problem with meta-mingw:
->
-> https://autobuilder.yocto.io/builders/nightly-qa-extras/builds/1062/steps/BuildImages_3/logs/stdio
->
-
-yes I have patch for this sent to yp mailing list just now.
-
-> The build isn't finished but I'm hoping these are the main remaining
-> issues.
->
-> Cheers,
->
-> Richard
->
->
->
->
->
->
->
->
+> OK, good to rule that out. It's nothing to do with gcc8 and I've sent
+> a separate patch to fix it.
 
