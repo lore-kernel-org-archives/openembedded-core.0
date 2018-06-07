@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E48EE7713E
+Return-Path: <kai.kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B6EC271B99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 07:50:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w577oMsY019849
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Jun 2018 00:50:37 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 7 Jun 2018 00:50:11 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Jun 2018 15:52:46 +0800
-Message-ID: <a8f5811e20518ee8ec3a2e85916ec8f1cc04427b.1528357628.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1528357628.git.Qi.Chen@windriver.com>
-References: <cover.1528357628.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] runqemu: add SIGTERM handler to make sure things are cleaned up
+	Thu,  7 Jun 2018 09:02:03 +0000 (UTC)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w57922ZU008571;
+	Thu, 7 Jun 2018 02:02:02 -0700 (PDT)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Thu, 07 Jun 2018 02:02:02 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: alexander.kanavin@linux.intel.com
+Date: Thu,  7 Jun 2018 02:01:59 -0700
+Message-Id: <20180607090200.44857-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.11.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] manpages.bbclass: Update RDEPENDS and post install scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,109 +27,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 07:50:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Jun 2018 09:02:03 -0000
 
-Add SIGTERM handler so that runqemu could clean things up correctly
-when receving such signal.
+If a package installs manual files, it should update manual index cache
+after its installation. Add package 'man-db' to RDEPENDS which contains
+command 'mandb' to update the cache. And do the update in the post
+install scripts.
 
-This problem was originally observed when running testimage. On
-some hosts, after running testimage task, the user has to manually
-operate on the tap interface (e.g. `sudo ip link del tap0') in order
-for the next runqemu command to launch successfully.
-
-The problem is about runqemu, SIGTERM and network manager on the host.
-
-In testimage task, the runqemu process will receive SIGTERM. In such
-situation, its cleanup() function is not run, resulting in tap interface
-not cleaned up. On some hosts, the network manager will bring down the
-tap interface automatically, thus this problem. I saw this problem on
-Fedora21.
-
-I think we'd better just clean up the tap interface ourselves.
-
-So this patch adds to runqemu a SIGTERM handler, in which the actual
-qemu process is terminated and other things cleaned up.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- scripts/runqemu | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ meta/classes/manpages.bbclass | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index d998494..de42d0f 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -27,6 +27,7 @@ import fcntl
- import shutil
- import glob
- import configparser
-+import signal
- 
- class RunQemuError(Exception):
-     """Custom exception to raise on known errors."""
-@@ -233,6 +234,10 @@ class BaseConfig(object):
-         # slirp qemus are running.
-         self.mac_tap = "52:54:00:12:34:"
-         self.mac_slirp = "52:54:00:12:35:"
-+        # pid of the actual qemu process
-+        self.qemupid = None
-+        # avoid cleanup twice
-+        self.cleaned = False
- 
-     def acquire_lock(self, error=True):
-         logger.debug("Acquiring lockfile %s..." % self.lock)
-@@ -1200,10 +1205,18 @@ class BaseConfig(object):
-         cmd = "%s %s" % (self.qemu_opt, kernel_opts)
-         logger.info('Running %s\n' % cmd)
-         process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
-+        self.qemupid = process.pid
-         if process.wait():
-             logger.error("Failed to run qemu: %s", process.stderr.read().decode())
- 
-     def cleanup(self):
-+        if self.cleaned:
-+            return
+diff --git a/meta/classes/manpages.bbclass b/meta/classes/manpages.bbclass
+index d16237b8983..50c254763e8 100644
+--- a/meta/classes/manpages.bbclass
++++ b/meta/classes/manpages.bbclass
+@@ -3,3 +3,35 @@
+ # tends to pull in the entire XML stack and other tools, so it's not enabled
+ # by default.
+ PACKAGECONFIG_append_class-target = " ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'manpages', '', d)}"
 +
-+        # avoid dealing with SIGTERM when cleanup function is running
-+        signal.signal(signal.SIGTERM, signal.SIG_IGN)
++inherit qemu
 +
-+        logger.info("Cleaning up")
-         if self.cleantap:
-             cmd = 'sudo %s %s %s' % (self.qemuifdown, self.tap, self.bindir_native)
-             logger.debug('Running %s' % cmd)
-@@ -1227,6 +1240,8 @@ class BaseConfig(object):
-             shutil.rmtree(self.rootfs)
-             shutil.rmtree('%s.pseudo_state' % self.rootfs)
- 
-+        self.cleaned = True
++# usually manual files are packaged to ${PN}-doc except man-pages
++MAN_PKG ?= "${PN}-doc"
 +
-     def load_bitbake_env(self, mach=None):
-         if self.bitbake_e:
-             return
-@@ -1282,6 +1297,13 @@ def main():
-         return 0
-     try:
-         config = BaseConfig()
++# only add man-db to RDEPENDS when manual files are built and installed
++RDEPENDS_${MAN_PKG} += "${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'man-db', '', d)}"
 +
-+        def sigterm_handler(signum, frame):
-+            logger.info("SIGTERM received")
-+            os.kill(config.qemupid, signal.SIGTERM)
-+            config.cleanup()
-+        signal.signal(signal.SIGTERM, sigterm_handler)
++pkg_postinst_append_${MAN_PKG} () {
++	# only update manual page index caches when manual files are built and installed
++	if ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'true', 'false', d)}; then
++		if test -n "$D"; then
++			if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
++				sed "s:\(\s\)/:\1$D/:g" $D${sysconfdir}/man_db.conf | ${@qemu_run_binary(d, '$D', '${bindir}/mandb')} -C - -u -q $D${mandir}
++				mkdir -p $D${localstatedir}/cache/man
++				mv $D${mandir}/index.db $D${localstatedir}/cache/man
++			else
++				$INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
++			fi
++		else
++			mandb -q
++		fi
++	fi
++}
 +
-         config.check_args()
-         config.read_qemuboot()
-         config.check_and_set()
-@@ -1300,7 +1322,6 @@ def main():
-         traceback.print_exc()
-         return 1
-     finally:
--        print("Cleanup")
-         config.cleanup()
- 
- if __name__ == "__main__":
++pkg_postrm_append_${MAN_PKG} () {
++	# only update manual page index caches when manual files are built and installed
++	if ${@bb.utils.contains('PACKAGECONFIG', 'manpages', 'true', 'false', d)}; then
++		mandb -q
++	fi
++}
 -- 
-1.9.1
+2.11.0
 
 
