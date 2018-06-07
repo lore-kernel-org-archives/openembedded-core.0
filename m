@@ -1,52 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F37FC77E94
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D4D67557E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jun 2018 23:42:44 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id n134-v6so4886564vke.12
+	Thu,  7 Jun 2018 00:45:18 +0000 (UTC)
+Received: by mail-lf0-f50.google.com with SMTP id i15-v6so1582328lfc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 16:42:46 -0700 (PDT)
+	Wed, 06 Jun 2018 17:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FK27bXCzMKSe3+Y2jEm8n50lsrhkFT4XJtKiU6a150E=;
-	b=iKa1/il17z5FhvI5nx7sYOxxayC/98j7/3jMU+7HzzuBiKjpS6CuQhMAlJW3FqBSPC
-	E21Uv5sP6GRQxEuhjl8GBnezkiHXZYr8o/nMceMQCv2CuAX9qbgBeFEvZyesV22lGO3Y
-	IRr9OFPx27293UZqZ/9hAYXq4k/fDDWVAbmZu7nWjyt4BiMwJmgvIZQbq0By02Ksbw4G
-	Xt48hP2lmfLSDg4Cpsyu+z8YV3o4bztzAQ4swO7IwyJpCRLKSq4YcL6+fb/M1yfd7si5
-	0poJ/mc+szBSLfmuRJiOtP7U64psRaBIcjHpqOXhDrAxFPXPWLUNwir6wcHGhojQSJUB
-	gAYg==
+	:cc; bh=SV0caWJTPuoF6/OMksQyPPdw+1oPmWk8tJuyfPbY8i0=;
+	b=Zv2kKO8777pi4afHDLHh6atmL9Gda2Li1sHLwjaDYNf9SkTtcc2ach+N4wZj9G/4i/
+	fKzv7vAzX8C7b7iNK3qEGtCeGrk+DBbGslacCvASECL+fkn5sASsvCWl7DaqRq6p0hv6
+	hEfuyN0hTTTvI5VNE3uDa6M/bGQzqiY34XKHt7lp8jLbRL87lXXswAQo70l+9Rl5tjVd
+	B2o/Uc15rp47eUvG0k1TdsQyaquMRIOFcUHn0MWY5qoVcBLV/WJp9086Ofbn/vK6TAsG
+	HdAkrHdsuGPTotxNZCVvqBJ4wx9pSm6IQKmdOCEuKU1k3D2hJJsCRM5yelNFDpCVD5Ta
+	SB5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FK27bXCzMKSe3+Y2jEm8n50lsrhkFT4XJtKiU6a150E=;
-	b=lcQnVoq6ZFrvQrRq0JOdtEAxsyRvuFYqc48Z4vefkiem9jY/nKn7FVhRH8TRUgN/qY
-	2E8Wh540hv+nnkcDT13+MmRl35R57271Ht7mc3NHxPu70q+Clq9B/8+RmByoO6k1IF7P
-	Fo2vAfcFc8dHawDDmR3X4LCuxelICvCRPWabRLaU2HvHZYwMEP5D2FPRADAwUZ+Cyedj
-	tbtsPFNoJj3HFueE6cjUG59C7+cQT8IEZJQfdDSG56AMAPcDxjvsOXkOtj7gveEweqQ4
-	CT6QmlXovP6TUYii4LZJkdqf3mLrdu095/7t/dC1/U4TImpp6CPhIoHF7J/Dq27V+lJJ
-	Pnhw==
-X-Gm-Message-State: APt69E2HDfxtqiO9ZQsaa8PwSziedtvhHBqCeg0/JPoFRjwSQsIuwxkg
-	+VUvgr/YWIZOtY90osWME1Wc5oGyDERHwjieWGc=
-X-Google-Smtp-Source: ADUXVKLnVmGaTZyr7JTRryA1HgwNbXinVNj6KD2rf6NsO8rc6LMRDDuw/rsy9LLF0z+AcPufQ7Nvs6E5A5w3vBWbfak=
-X-Received: by 2002:a1f:c3c7:: with SMTP id
-	t190-v6mr3004087vkf.24.1528328565650; 
-	Wed, 06 Jun 2018 16:42:45 -0700 (PDT)
+	bh=SV0caWJTPuoF6/OMksQyPPdw+1oPmWk8tJuyfPbY8i0=;
+	b=SqncqerbRK+vMuMLXMOJD0et6pf4Cx1xRmAbm9XTt9DCQKA4IQmfgAs3N4LjzN51d8
+	BPgbGX+j7iu1NDVikBrqzPGeWdUGaTzO4SccIZo3GFePdo+EH9fcE3ZqlTl7LNoloPQx
+	osWQPRogUhIlOCxgmb10hnpqOlilYVHVyuRNZtV1/XjabEYmHMJv+mCq2WdOBFK5Vb51
+	pvd9dC/nPhLTMVGAh+m3nS2yRy6N+aplFH7kexOOrN4uwMmU2jaRC4QWKhAMiW86rJYP
+	0BoVhH01U6Yc1sOQ45S93jUcxep+cAvCzMsOWuXeMGrkV0W1BOxGtolW1VEhxrMNu772
+	rlCQ==
+X-Gm-Message-State: APt69E0HjZSh7Oy/M2D2OaDKA35DA8FCxj8L/l6Onq/Qm2LJxbemSSBE
+	bwsESARDw3ZbTjhlnDmrAfeewjWJfPGl2atu1d8=
+X-Google-Smtp-Source: ADUXVKJ654NhRkAVadePIz0xn3kb6CKQVzi33L7hx8MCRiyxdtdjWAM8G6C8okTF/2HmxfTlnHJXfFL5TEHMviPH098=
+X-Received: by 2002:a2e:2bcb:: with SMTP id
+	r72-v6mr3707632ljr.133.1528332318782; 
+	Wed, 06 Jun 2018 17:45:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Wed, 6 Jun 2018 16:42:45 -0700 (PDT)
-In-Reply-To: <CAMKF1so4AMMhXS4VRNV2CPjvPRbzkPWEW3f=iTNio2jNC1Fgxw@mail.gmail.com>
+Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP;
+	Wed, 6 Jun 2018 17:45:18 -0700 (PDT)
+In-Reply-To: <cover.1528320772.git.raj.khem@gmail.com>
 References: <cover.1528320772.git.raj.khem@gmail.com>
-	<635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
-	<CAJ86T=U5WPudMu_VBL_Y00DQrOjRb91=x+6+21V0ZQKhCQ7ThA@mail.gmail.com>
-	<CAMKF1so4AMMhXS4VRNV2CPjvPRbzkPWEW3f=iTNio2jNC1Fgxw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 6 Jun 2018 16:42:45 -0700
-Message-ID: <CAJ86T=VCqqt_7OXT__NLtH_uayoSX_rFS=vXEyOZY3BQz3+FKQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 6 Jun 2018 20:45:18 -0400
+Message-ID: <CADkTA4OwmjAJwxauPDWpxsoxENxSHpiNWkSm-Y8Gi9_CNdrMqg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] tune/arm: Set -mtune instead of -mcpu
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 00/12] Add GCC 8 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,332 +57,622 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2018 23:42:45 -0000
+X-List-Received-Date: Thu, 07 Jun 2018 00:45:19 -0000
+Content-Type: multipart/alternative; boundary="000000000000f5b7f3056e029876"
+
+--000000000000f5b7f3056e029876
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 6, 2018 at 3:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Jun 6, 2018 at 3:15 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Wed, Jun 6, 2018 at 2:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> -march option is already used to select the base architecture
->>> therefore using -mcpu which infact will reset march+mtune can
->>> cause conflicts,
->>
->> I think we need to at least understand how and why these conflicts
->> have started to occur with gcc 8. The tuning files themselves don't
->> contain any conflicts so the conflict must be coming from somewhere
->> else. Do we know where?
+On Wed, Jun 6, 2018 at 5:37 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> This changeset is including the review feedback from last patchset
 >
-> I explained it in previous emails as well, mcpu is a combination of march+mtune
-> how it reduces to these values depends on mcpu value. e.g. setting
-> mcpu=cortex-a7
-> would mean setting march=armv7ve and mtune to cortex-a7 internally
-> along with using code generator to use instructions available for that
-> cpu, thats why it errors out since it does not know which march to
-> use.
-> when we override one of these values on cmdline which we do then this can cause
-> the errors, these errors were happening before too see valgrind patch
-> its that gcc8 is catching more cases.
-
-The -mcpu, -march and -mtune options are not new and gcc 6 and 7 catch
-the same conflicts. It doesn't make sense that gcc8 is just catching
-more issues.
-
-The valgrind case is not a good example. The conflict there comes
-because we leak CFLAGS intended for the target into Makefiles which
-valgrind uses to build test apps which are intended to only run under
-valgrind (ie NOT directly on the target). The real fix there would be
-to prevent the target specific flags being passed to build for those
-few valgrind test apps.
-
-> example is gcc-runtime/libstdc++ which deducts arch flags based on
-> configure options
-> and we do not pass narrow mcpu option to it since we build SDKs which
-> do not target
-> just one particular sub-family of cpu but rather a sub arch
-> do not pass --with-cpu then it enforces some lowest common
-> denominator. When we say -mcpu then we
-> are actually asking the code to be generated for that particular CPU.
-
-If we are trying to build something which is reusable across multiple
-machines with the same architecture then it's a bug to be passing
-machine specific CFLAGS. Making the machine specific CFLAGS more
-generic is not the right solution.
-
-Anyway, I suspect the real issue here is that when we build gcc to run
-on the target we currently configure using "--with-arch=armv7-a" for
-both armv7a and armv7ve. It was done that way deliberately to try to
-avoid rebuilds when switching between armv7a and armv7ve machines,
-although thinking about that now I'm not sure it makes so much sense.
-Does your original problem go away if you simply change:
-
-  EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
-
-to
-
-  EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
-
-in gcc-target.inc ?
-
->>
->> This patch is potentially going to hide bugs in cases where components
->> try to provide their own CPU specific flags rather than fully
->> respecting the flags set by OE. Generally we want to make those cases
->> fail so that we can debug and fix them.
->>
+> - Fixes ppc such that we dont have to change machine options so it remains
+> backward compatible and folks can still use gcc7
+> - Tweaks arm tunes to set -mtune instead of -mcpu, this avoids conflicts
+> between -march/-mcpu
+> - Removes workarounds to avoid these conflicts in valgrind
+> - Add mips 74kc tune files
+> - Linux yocto changes are also part of Bruce's kernel updates but this
+> makes it complete until those changes are pulled in
 >
-> No it wont. they can still do that. Last option wins so nothing changes there.
 
-The thing that changes is that after your patch, gcc will no longer
-report a conflict!
+Correct. I have all of the gcc8 patches in linux-yocto 4.12/4.14/4.15 and
+linux-yocto-dev.
 
-> and in many cases it should be able to override specific flags for
-> specific packages
-> OE is a fall back for general default case.
->
-> A good change this does is that code is targeted for bigger base arch
-> e.g. armv7-a
-> and not for cortex-a8 but its tuned to run better on cortex-a8 when we
-> use -mtune
-> it will still run on other armv7-a based CPUs, so right now when we
-> say our package
-> arch is arm7ve but then use -mcpu=cortex-a7 we are actually doing wrong thing
-> this should have meant package arch to be cortex-a7 as well. Now this
-> will be more
-> inline as well.
->
->
->>> therefore setting just mtune here will ensure
->>> that the code is optimized for the given tune as is the intention
->>> of mcpu, however with one advantage, it will be targetting broader
->>> march value so can be useful for pre-compiled objects where they
->>> can be run on wider subset
->>>
->>> This also fixed occasional conflicts like
->>>
->>> cc1: error: switch -mcpu=cortex-a7 conflicts with -march=armv7-a switch [-Werror]
->>>
->>> which is possible combination in some case for packages in OE
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>  meta/conf/machine/include/tune-arm1136jf-s.inc   | 2 +-
->>>  meta/conf/machine/include/tune-arm920t.inc       | 2 +-
->>>  meta/conf/machine/include/tune-arm926ejs.inc     | 2 +-
->>>  meta/conf/machine/include/tune-arm9tdmi.inc      | 2 +-
->>>  meta/conf/machine/include/tune-cortexa15.inc     | 2 +-
->>>  meta/conf/machine/include/tune-cortexa17.inc     | 2 +-
->>>  meta/conf/machine/include/tune-cortexa5.inc      | 2 +-
->>>  meta/conf/machine/include/tune-cortexa7.inc      | 2 +-
->>>  meta/conf/machine/include/tune-cortexa8.inc      | 2 +-
->>>  meta/conf/machine/include/tune-cortexa9.inc      | 2 +-
->>>  meta/conf/machine/include/tune-ep9312.inc        | 2 +-
->>>  meta/conf/machine/include/tune-iwmmxt.inc        | 2 +-
->>>  meta/conf/machine/include/tune-strongarm1100.inc | 2 +-
->>>  meta/conf/machine/include/tune-thunderx.inc      | 2 +-
->>>  meta/conf/machine/include/tune-xscale.inc        | 2 +-
->>>  15 files changed, 15 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
->>> index c5de63e1cc..02114284e0 100644
->>> --- a/meta/conf/machine/include/tune-arm1136jf-s.inc
->>> +++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv6hf"
->>>  require conf/machine/include/arm/arch-armv6.inc
->>>
->>>  TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mtune=arm1136jf-s', '', d)}"
->>>
->>>  AVAILTUNES += "arm1136jfs"
->>>  ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
->>> diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
->>> index c6e74b6772..5e6d4cbd91 100644
->>> --- a/meta/conf/machine/include/tune-arm920t.inc
->>> +++ b/meta/conf/machine/include/tune-arm920t.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
->>>  require conf/machine/include/arm/arch-armv4.inc
->>>
->>>  TUNEVALID[arm920t] = "Enable arm920t specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mtune=arm920t', '', d)}"
->>>
->>>  AVAILTUNES += "arm920t"
->>>  ARMPKGARCH_tune-arm920t = "arm920t"
->>> diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
->>> index 81bcda339b..dddccaaae9 100644
->>> --- a/meta/conf/machine/include/tune-arm926ejs.inc
->>> +++ b/meta/conf/machine/include/tune-arm926ejs.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
->>>  require conf/machine/include/arm/arch-armv5-dsp.inc
->>>
->>>  TUNEVALID[arm926ejs] = "Enable arm926ejs specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mtune=arm926ej-s', '', d)}"
->>>
->>>  AVAILTUNES += "arm926ejs"
->>>  ARMPKGARCH_tune-arm926ejs = "arm926ejs"
->>> diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
->>> index e9c2b8fcf5..ebac472c5b 100644
->>> --- a/meta/conf/machine/include/tune-arm9tdmi.inc
->>> +++ b/meta/conf/machine/include/tune-arm9tdmi.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
->>>  require conf/machine/include/arm/arch-armv4.inc
->>>
->>>  TUNEVALID[arm9tdmi] = "Enable arm9tdmi specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mtune=arm9tdmi', '', d)}"
->>>
->>>  AVAILTUNES += "arm9tdmi"
->>>  ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
->>> diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
->>> index 25e99f93d7..0636306e2f 100644
->>> --- a/meta/conf/machine/include/tune-cortexa15.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa15.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
->>>  require conf/machine/include/arm/arch-armv7ve.inc
->>>
->>>  TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mtune=cortex-a15', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa15 cortexa15t cortexa15-neon cortexa15t-neon cortexa15-neon-vfpv4 cortexa15t-neon-vfpv4"
->>> diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
->>> index 40392f9bcc..f9774b8b8e 100644
->>> --- a/meta/conf/machine/include/tune-cortexa17.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa17.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
->>>  require conf/machine/include/arm/arch-armv7ve.inc
->>>
->>>  TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mtune=cortex-a17', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa17 cortexa17t cortexa17-neon cortexa17t-neon cortexa17-neon-vfpv4 cortexa17t-neon-vfpv4"
->>> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
->>> index 1f0cda6640..1ececf9621 100644
->>> --- a/meta/conf/machine/include/tune-cortexa5.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa5.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
->>>  require conf/machine/include/arm/arch-armv7a.inc
->>>
->>>  TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mtune=cortex-a5', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
->>> diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
->>> index 52415d9c8b..08dd039338 100644
->>> --- a/meta/conf/machine/include/tune-cortexa7.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa7.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
->>>  require conf/machine/include/arm/arch-armv7ve.inc
->>>
->>>  TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mtune=cortex-a7', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon cortexa7t-neon cortexa7-neon-vfpv4 cortexa7t-neon-vfpv4"
->>> diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
->>> index 8ee8de97f1..cdcb1c7d59 100644
->>> --- a/meta/conf/machine/include/tune-cortexa8.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa8.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
->>>  require conf/machine/include/arm/arch-armv7a.inc
->>>
->>>  TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mtune=cortex-a8', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon cortexa8t-neon"
->>> diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
->>> index 0cf323c960..620178d18a 100644
->>> --- a/meta/conf/machine/include/tune-cortexa9.inc
->>> +++ b/meta/conf/machine/include/tune-cortexa9.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
->>>  require conf/machine/include/arm/arch-armv7a.inc
->>>
->>>  TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mtune=cortex-a9', '', d)}"
->>>
->>>  # Little Endian base configs
->>>  AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon cortexa9t-neon"
->>> diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
->>> index 84ca528d6d..897b904cd1 100644
->>> --- a/meta/conf/machine/include/tune-ep9312.inc
->>> +++ b/meta/conf/machine/include/tune-ep9312.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "ep9312"
->>>  require conf/machine/include/arm/arch-armv4.inc
->>>
->>>  TUNEVALID[ep9312] = "Enable Intel PXA27x specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mtune=ep9312', '', d)}"
->>>
->>>  AVAILTUNES += "ep9312"
->>>  ARMPKGARCH_tune-ep9312 = "ep9312"
->>> diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
->>> index f27423cb2e..15cce8d3c5 100644
->>> --- a/meta/conf/machine/include/tune-iwmmxt.inc
->>> +++ b/meta/conf/machine/include/tune-iwmmxt.inc
->>> @@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
->>>  require conf/machine/include/arm/arch-armv5-dsp.inc
->>>
->>>  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mtune=iwmmxt', '', d)}"
->>>
->>>  AVAILTUNES += "iwmmxt"
->>>  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
->>> diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
->>> index 80cfb8ab8a..7b2fa8e3ab 100644
->>> --- a/meta/conf/machine/include/tune-strongarm1100.inc
->>> +++ b/meta/conf/machine/include/tune-strongarm1100.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4"
->>>  require conf/machine/include/arm/arch-armv4.inc
->>>
->>>  TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mtune=strongarm1100', '', d)}"
->>>
->>>  AVAILTUNES += "strongarm"
->>>  ARMPKGARCH_tune-strongarm = "strongarm"
->>> diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
->>> index 3d43b0f7e5..e77d1cdd2d 100644
->>> --- a/meta/conf/machine/include/tune-thunderx.inc
->>> +++ b/meta/conf/machine/include/tune-thunderx.inc
->>> @@ -5,7 +5,7 @@ AVAILTUNES += "thunderx thunderx_be"
->>>
->>>  TUNEVALID[thunderx] = "Enable instructions for Cavium ThunderX"
->>>
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx ', '',d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mtune=thunderx ', '',d)}"
->>>
->>>  ARMPKGARCH_tune-thunderx ?= "thunderx"
->>>  ARMPKGARCH_tune-thunderx_be ?= "thunderx_be"
->>> diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
->>> index 0d07333955..2a0610fddf 100644
->>> --- a/meta/conf/machine/include/tune-xscale.inc
->>> +++ b/meta/conf/machine/include/tune-xscale.inc
->>> @@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
->>>  require conf/machine/include/arm/arch-armv5-dsp.inc
->>>
->>>  TUNEVALID[xscale] = "Enable PXA255/PXA26x Xscale specific processor optimizations"
->>> -TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mtune=xscale', '', d)}"
->>>
->>>  AVAILTUNES += "xscale"
->>>  ARMPKGARCH_tune-xscale = "xscale"
->>> --
->>> 2.17.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+They should have been covered by my last set of SRCREV updates, and I
+noticed that
+some are in, and some not.
 
+I'll resubmit my SRCREV queue tomorrow, and that will cover the gcc8 angle.
+
+Bruce
+
+
+>
+> The following changes since commit cd195bdf5dd2c8ff03c58a63dcabe8
+> 8b142d2a9c:
+>
+>   oe-pkgdata-util: package-info: Re-add support for the --extra option
+> (2018-06-04 15:14:43 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib kraj/gcc-8
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/gcc-8
+>
+> Khem Raj (12):
+>   tune/arm: Set -mtune instead of -mcpu
+>   valgrind: Remove code to remove -mcpu option on arm
+>   tune-mips-74k.inc: add tune file for 74kc mips
+>   gcc-8: Add recipes for 8.1 release
+>   gcc-8: Disable libssp for non mingw targets
+>   gcc-8: Disable float128 for ppc/musl
+>   gcc-8: Enabled mspe options for rs6000 ppc backend
+>   tcmode-default: Switch to gcc 8.0
+>   linux-yocto: Fix build with gcc8 for ppc
+>   linux-yocto: Fix mips build with gcc8
+>   linux-yocto: Fix mips64 build with gcc8
+>   linux-yocto: Fix GCC 8 -Wrestrict error
+>
+>  meta/conf/distro/include/tcmode-default.inc   |   2 +-
+>  .../machine/include/mips/tune-mips-74k.inc    |  37 +++
+>  .../conf/machine/include/tune-arm1136jf-s.inc |   2 +-
+>  meta/conf/machine/include/tune-arm920t.inc    |   2 +-
+>  meta/conf/machine/include/tune-arm926ejs.inc  |   2 +-
+>  meta/conf/machine/include/tune-arm9tdmi.inc   |   2 +-
+>  meta/conf/machine/include/tune-cortexa15.inc  |   2 +-
+>  meta/conf/machine/include/tune-cortexa17.inc  |   2 +-
+>  meta/conf/machine/include/tune-cortexa5.inc   |   2 +-
+>  meta/conf/machine/include/tune-cortexa7.inc   |   2 +-
+>  meta/conf/machine/include/tune-cortexa8.inc   |   2 +-
+>  meta/conf/machine/include/tune-cortexa9.inc   |   2 +-
+>  meta/conf/machine/include/tune-ep9312.inc     |   2 +-
+>  meta/conf/machine/include/tune-iwmmxt.inc     |   2 +-
+>  .../machine/include/tune-strongarm1100.inc    |   2 +-
+>  meta/conf/machine/include/tune-thunderx.inc   |   2 +-
+>  meta/conf/machine/include/tune-xscale.inc     |   2 +-
+>  meta/recipes-devtools/gcc/gcc-8.1.inc         | 127 +++++++++
+>  ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  42 +++
+>  .../gcc/gcc-8.1/0002-c99-snprintf.patch       |  28 ++
+>  .../0003-gcc-poison-system-directories.patch  | 192 +++++++++++++
+>  .../gcc-8.1/0004-gcc-poison-dir-extend.patch  |  39 +++
+>  ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |  73 +++++
+>  .../gcc-8.1/0006-64-bit-multilib-hack.patch   |  85 ++++++
+>  .../gcc/gcc-8.1/0007-optional-libstdc.patch   | 125 +++++++++
+>  ...gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch |  59 ++++
+>  .../gcc-8.1/0009-COLLECT_GCC_OPTIONS.patch    |  38 +++
+>  ...ts.h-in-B-instead-of-S-and-t-oe-in-B.patch |  96 +++++++
+>  .../0011-fortran-cross-compile-hack.patch     |  46 ++++
+>  .../gcc/gcc-8.1/0012-cpp-honor-sysroot.patch  |  54 ++++
+>  .../0013-MIPS64-Default-to-N64-ABI.patch      |  57 ++++
+>  ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 234 ++++++++++++++++
+>  ...gcc-Fix-argument-list-too-long-error.patch |  40 +++
+>  .../gcc/gcc-8.1/0016-Disable-sdt.patch        | 113 ++++++++
+>  .../gcc/gcc-8.1/0017-libtool.patch            |  42 +++
+>  ...s-fix-v4bx-to-linker-to-support-EABI.patch |  43 +++
+>  ...-config-files-from-B-instead-of-usin.patch | 102 +++++++
+>  ...ir-from-.la-which-usually-points-to-.patch |  31 +++
+>  .../gcc/gcc-8.1/0021-export-CPP.patch         |  53 ++++
+>  ...ILIB_OSDIRNAMES-and-other-multilib-o.patch |  42 +++
+>  ...e-target-gcc-headers-can-be-included.patch |  98 +++++++
+>  ...ild-with-disable-dependency-tracking.patch |  54 ++++
+>  ...t-directory-during-relink-if-inst_pr.patch |  38 +++
+>  ...IR-replacement-instead-of-hardcoding.patch |  29 ++
+>  ...27-aarch64-Add-support-for-musl-ldso.patch |  28 ++
+>  ...-fix-libcc1-s-install-path-and-rpath.patch |  54 ++++
+>  ...le-sysroot-support-for-nativesdk-gcc.patch | 213 +++++++++++++++
+>  ...sroot-gcc-version-specific-dirs-with.patch | 102 +++++++
+>  ...ous-_FOR_BUILD-and-related-variables.patch | 137 ++++++++++
+>  ...032-nios2-Define-MUSL_DYNAMIC_LINKER.patch |  28 ++
+>  ...d-to-link-commandline-for-musl-targe.patch |  87 ++++++
+>  ...bgcc-Add-knob-to-use-ldbl-128-on-ppc.patch | 125 +++++++++
+>  ...using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch |  29 ++
+>  ...as-for-__cpu_indicator_init-instead-.patch |  86 ++++++
+>  .../0037-sync-gcc-stddef.h-with-musl.patch    |  91 ++++++
+>  ...-fault-in-precompiled-header-generat.patch |  60 ++++
+>  .../0039-Fix-for-testsuite-failure.patch      | 258 ++++++++++++++++++
+>  ...Re-introduce-spe-commandline-options.patch |  41 +++
+>  meta/recipes-devtools/gcc/gcc-common.inc      |   2 +-
+>  .../gcc/gcc-cross-canadian_8.1.bb             |   5 +
+>  .../gcc/gcc-cross-initial_8.1.bb              |   2 +
+>  meta/recipes-devtools/gcc/gcc-cross_8.1.bb    |   3 +
+>  .../gcc/gcc-crosssdk-initial_8.1.bb           |   3 +
+>  meta/recipes-devtools/gcc/gcc-crosssdk_8.1.bb |   2 +
+>  meta/recipes-devtools/gcc/gcc-runtime_8.1.bb  |   7 +
+>  .../gcc/gcc-sanitizers_8.1.bb                 |   2 +
+>  meta/recipes-devtools/gcc/gcc-source_8.1.bb   |   4 +
+>  meta/recipes-devtools/gcc/gcc_8.1.bb          |  10 +
+>  .../gcc/libgcc-initial_8.1.bb                 |   2 +
+>  meta/recipes-devtools/gcc/libgcc_8.1.bb       |   2 +
+>  meta/recipes-devtools/gcc/libgfortran_8.1.bb  |   3 +
+>  .../valgrind/valgrind_3.13.0.bb               |  11 -
+>  ...ips-Disable-attribute-alias-warnings.patch |  43 +++
+>  ...ps64-Disable-attribute-alias-warning.patch |  26 ++
+>  ...jtool-perf-Fix-GCC-8-Wrestrict-error.patch |  51 ++++
+>  ...e-attribute-alias-warnings-from-gcc8.patch |  31 +++
+>  ...d-pager.c-do-not-alias-select-params.patch |  43 +++
+>  ...isable-array-bounds-warning-with-gcc.patch |  28 ++
+>  meta/recipes-kernel/linux/linux-yocto_4.15.bb |   8 +
+>  79 files changed, 3648 insertions(+), 28 deletions(-)
+>  create mode 100644 meta/conf/machine/include/mips/tune-mips-74k.inc
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1.inc
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0002-c99-snprintf.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0003-gcc-poison-system-directories.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0004-gcc-poison-dir-
+> extend.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0005-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0006-64-bit-multilib-hack.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0007-optional-libstdc.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0008-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0009-COLLECT_GCC_OPTIONS.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0010-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0011-fortran-cross-
+> compile-hack.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0012-cpp-honor-sysroot.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0013-MIPS64-Default-to-N64-ABI.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0014-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0015-gcc-Fix-argument-list-too-long-error.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0016-Disable-sdt.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0017-libtool.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0018-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0019-Use-the-multilib-config-files-from-B-instead-of-usin.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0020-Avoid-using-libdir-from-.la-which-usually-points-to-.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0021-export-CPP.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0022-Disable-the-MULTILIB_OSDIRNAMES-and-other-multilib-o.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0023-Ensure-target-gcc-headers-can-be-included.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0024-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0025-Don-t-search-host-directory-during-relink-if-inst_pr.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0026-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0027-aarch64-Add-support-for-musl-ldso.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0028-libcc1-fix-libcc1-s-install-path-and-rpath.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0029-handle-sysroot-
+> support-for-nativesdk-gcc.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0030-Search-target-
+> sysroot-gcc-version-specific-dirs-with.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0031-Fix-various-_FOR_BUILD-and-related-variables.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0032-nios2-Define-MUSL_DYNAMIC_LINKER.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0033-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0034-libgcc-Add-knob-to-use-ldbl-128-on-ppc.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0035-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0036-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0037-sync-gcc-stddef.h-with-musl.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0038-fix-segmentation-fault-in-precompiled-header-generat.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0039-Fix-for-testsuite-failure.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-
+> 8.1/0040-Re-introduce-spe-commandline-options.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-cross-canadian_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-cross-initial_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-cross_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-initial_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-runtime_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-sanitizers_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-source_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/gcc_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/libgcc-initial_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/libgcc_8.1.bb
+>  create mode 100644 meta/recipes-devtools/gcc/libgfortran_8.1.bb
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-mips-Disable-
+> attribute-alias-warnings.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-mips64-Disable-
+> attribute-alias-warning.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-objtool-perf-Fix-
+> GCC-8-Wrestrict-error.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-powerpc-Disable-
+> attribute-alias-warnings-from-gcc8.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-tools-lib-subcmd-
+> pager.c-do-not-alias-select-params.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0002-powerpc-ptrace-
+> Disable-array-bounds-warning-with-gcc.patch
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--000000000000f5b7f3056e029876
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Jun 6, 2018 at 5:37 PM, Khem Raj <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">This changeset is includin=
+g the review feedback from last patchset<br>
+<br>
+- Fixes ppc such that we dont have to change machine options so it remains =
+backward compatible and folks can still use gcc7<br>
+- Tweaks arm tunes to set -mtune instead of -mcpu, this avoids conflicts be=
+tween -march/-mcpu<br>
+- Removes workarounds to avoid these conflicts in valgrind<br>
+- Add mips 74kc tune files<br>
+- Linux yocto changes are also part of Bruce&#39;s kernel updates but this =
+makes it complete until those changes are pulled in<br></blockquote><div><b=
+r></div><div>Correct. I have all of the gcc8 patches in linux-yocto 4.12/4.=
+14/4.15 and linux-yocto-dev.</div><div><br></div><div>They should have been=
+ covered by my last set of SRCREV updates, and I noticed that</div><div>som=
+e are in, and some not.</div><div><br></div><div>I&#39;ll resubmit my SRCRE=
+V queue tomorrow, and that will cover the gcc8 angle.</div><div><br></div><=
+div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+The following changes since commit cd195bdf5dd2c8ff03c58a63dcabe8<wbr>8b142=
+d2a9c:<br>
+<br>
+=C2=A0 oe-pkgdata-util: package-info: Re-add support for the --extra option=
+ (2018-06-04 15:14:43 +0100)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
+ib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/<wbr>openembe=
+dded-core-contrib</a> kraj/gcc-8<br>
+=C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded-core-contrib/lo=
+g/?h=3Dkraj/gcc-8" rel=3D"noreferrer" target=3D"_blank">http://cgit.openemb=
+edded.org/<wbr>openembedded-core-contrib/log/<wbr>?h=3Dkraj/gcc-8</a><br>
+<br>
+Khem Raj (12):<br>
+=C2=A0 tune/arm: Set -mtune instead of -mcpu<br>
+=C2=A0 valgrind: Remove code to remove -mcpu option on arm<br>
+=C2=A0 tune-mips-74k.inc: add tune file for 74kc mips<br>
+=C2=A0 gcc-8: Add recipes for 8.1 release<br>
+=C2=A0 gcc-8: Disable libssp for non mingw targets<br>
+=C2=A0 gcc-8: Disable float128 for ppc/musl<br>
+=C2=A0 gcc-8: Enabled mspe options for rs6000 ppc backend<br>
+=C2=A0 tcmode-default: Switch to gcc 8.0<br>
+=C2=A0 linux-yocto: Fix build with gcc8 for ppc<br>
+=C2=A0 linux-yocto: Fix mips build with gcc8<br>
+=C2=A0 linux-yocto: Fix mips64 build with gcc8<br>
+=C2=A0 linux-yocto: Fix GCC 8 -Wrestrict error<br>
+<br>
+=C2=A0meta/conf/distro/include/<wbr>tcmode-default.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0.../machine/include/mips/tune-<wbr>mips-74k.inc=C2=A0 =C2=A0 |=C2=A0 =
+37 +++<br>
+=C2=A0.../conf/machine/include/tune-<wbr>arm1136jf-s.inc |=C2=A0 =C2=A02 +-=
+<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-arm920t.inc=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-arm926ejs.inc=C2=A0 |=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-arm9tdmi.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa15.inc=C2=A0 |=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa17.inc=C2=A0 |=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa5.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa7.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa8.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-cortexa9.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-ep9312.inc=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-iwmmxt.inc=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0.../machine/include/tune-<wbr>strongarm1100.inc=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-thunderx.inc=C2=A0 =C2=A0|=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/conf/machine/include/<wbr>tune-xscale.inc=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0meta/recipes-devtools/gcc/gcc-<wbr>8.1.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 127 +++++++++<br>
+=C2=A0...0001-gcc-4.3.1-ARCH_FLAGS_<wbr>FOR_TARGET.patch |=C2=A0 42 +++<br>
+=C2=A0.../gcc/gcc-8.1/0002-c99-<wbr>snprintf.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 28 ++<br>
+=C2=A0.../0003-gcc-poison-system-<wbr>directories.patch=C2=A0 | 192 +++++++=
+++++++<br>
+=C2=A0.../gcc-8.1/0004-gcc-poison-<wbr>dir-extend.patch=C2=A0 |=C2=A0 39 ++=
++<br>
+=C2=A0...-gcc-4.3.3-SYSROOT_CFLAGS_<wbr>FOR_TARGET.patch |=C2=A0 73 +++++<b=
+r>
+=C2=A0.../gcc-8.1/0006-64-bit-<wbr>multilib-hack.patch=C2=A0 =C2=A0|=C2=A0 =
+85 ++++++<br>
+=C2=A0.../gcc/gcc-8.1/0007-optional-<wbr>libstdc.patch=C2=A0 =C2=A0| 125 ++=
++++++++<br>
+=C2=A0...gcc-disable-MASK_RELAX_PIC_<wbr>CALLS-bit.patch |=C2=A0 59 ++++<br=
+>
+=C2=A0.../gcc-8.1/0009-COLLECT_GCC_<wbr>OPTIONS.patch=C2=A0 =C2=A0 |=C2=A0 =
+38 +++<br>
+=C2=A0...ts.h-in-B-instead-of-S-and-<wbr>t-oe-in-B.patch |=C2=A0 96 +++++++=
+<br>
+=C2=A0.../0011-fortran-cross-<wbr>compile-hack.patch=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 46 ++++<br>
+=C2=A0.../gcc/gcc-8.1/0012-cpp-<wbr>honor-sysroot.patch=C2=A0 |=C2=A0 54 ++=
+++<br>
+=C2=A0.../0013-MIPS64-Default-to-<wbr>N64-ABI.patch=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 57 ++++<br>
+=C2=A0...AMIC_LINKER-and-UCLIBC_<wbr>DYNAMIC_LINKE.patch | 234 ++++++++++++=
+++++<br>
+=C2=A0...gcc-Fix-argument-list-too-<wbr>long-error.patch |=C2=A0 40 +++<br>
+=C2=A0.../gcc/gcc-8.1/0016-Disable-<wbr>sdt.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 113 ++++++++<br>
+=C2=A0.../gcc/gcc-8.1/0017-libtool.<wbr>patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 42 +++<br>
+=C2=A0...s-fix-v4bx-to-linker-to-<wbr>support-EABI.patch |=C2=A0 43 +++<br>
+=C2=A0...-config-files-from-B-<wbr>instead-of-usin.patch | 102 +++++++<br>
+=C2=A0...ir-from-.la-which-usually-<wbr>points-to-.patch |=C2=A0 31 +++<br>
+=C2=A0.../gcc/gcc-8.1/0021-export-<wbr>CPP.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 53 ++++<br>
+=C2=A0...ILIB_OSDIRNAMES-and-other-<wbr>multilib-o.patch |=C2=A0 42 +++<br>
+=C2=A0...e-target-gcc-headers-can-<wbr>be-included.patch |=C2=A0 98 +++++++=
+<br>
+=C2=A0...ild-with-disable-<wbr>dependency-tracking.patch |=C2=A0 54 ++++<br=
+>
+=C2=A0...t-directory-during-relink-<wbr>if-inst_pr.patch |=C2=A0 38 +++<br>
+=C2=A0...IR-replacement-instead-of-<wbr>hardcoding.patch |=C2=A0 29 ++<br>
+=C2=A0...27-aarch64-Add-support-for-<wbr>musl-ldso.patch |=C2=A0 28 ++<br>
+=C2=A0...-fix-libcc1-s-install-path-<wbr>and-rpath.patch |=C2=A0 54 ++++<br=
+>
+=C2=A0...le-sysroot-support-for-<wbr>nativesdk-gcc.patch | 213 ++++++++++++=
++++<br>
+=C2=A0...sroot-gcc-version-specific-<wbr>dirs-with.patch | 102 +++++++<br>
+=C2=A0...ous-_FOR_BUILD-and-related-<wbr>variables.patch | 137 ++++++++++<b=
+r>
+=C2=A0...032-nios2-Define-MUSL_<wbr>DYNAMIC_LINKER.patch |=C2=A0 28 ++<br>
+=C2=A0...d-to-link-commandline-for-<wbr>musl-targe.patch |=C2=A0 87 ++++++<=
+br>
+=C2=A0...bgcc-Add-knob-to-use-ldbl-<wbr>128-on-ppc.patch | 125 +++++++++<br=
+>
+=C2=A0...using-LDFLAGS-not-just-<wbr>SHLIB_LDFLAGS.patch |=C2=A0 29 ++<br>
+=C2=A0...as-for-__cpu_indicator_<wbr>init-instead-.patch |=C2=A0 86 ++++++<=
+br>
+=C2=A0.../0037-sync-gcc-stddef.h-<wbr>with-musl.patch=C2=A0 =C2=A0 |=C2=A0 =
+91 ++++++<br>
+=C2=A0...-fault-in-precompiled-<wbr>header-generat.patch |=C2=A0 60 ++++<br=
+>
+=C2=A0.../0039-Fix-for-testsuite-<wbr>failure.patch=C2=A0 =C2=A0 =C2=A0 | 2=
+58 ++++++++++++++++++<br>
+=C2=A0...Re-introduce-spe-<wbr>commandline-options.patch |=C2=A0 41 +++<br>
+=C2=A0meta/recipes-devtools/gcc/gcc-<wbr>common.inc=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0.../gcc/<a href=3D"http://gcc-cross-canadian_8.1.bb" rel=3D"noreferre=
+r" target=3D"_blank">gcc-cross-canadian_8.<wbr>1.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +<br>
+=C2=A0.../gcc/<a href=3D"http://gcc-cross-initial_8.1.bb" rel=3D"noreferrer=
+" target=3D"_blank">gcc-cross-initial_8.1.<wbr>bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://gcc-cross_8.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">gcc-<wbr>cross_8.1.bb</a>=C2=A0 =C2=A0 |=C2=
+=A0 =C2=A03 +<br>
+=C2=A0.../gcc/<a href=3D"http://gcc-crosssdk-initial_8.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">gcc-crosssdk-initial_<wbr>8.1.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://gcc-crosssdk_8.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcc-<wbr>crosssdk_8.1.bb</a> |=C2=A0 =C2=
+=A02 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://gcc-runtime_8.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcc-<wbr>runtime_8.1.bb</a>=C2=A0 |=C2=A0=
+ =C2=A07 +<br>
+=C2=A0.../gcc/<a href=3D"http://gcc-sanitizers_8.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">gcc-sanitizers_8.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://gcc-source_8.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">gcc-<wbr>source_8.1.bb</a>=C2=A0 =C2=A0|=C2=
+=A0 =C2=A04 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://gcc_8.1.bb" rel=3D"norefe=
+rrer" target=3D"_blank">gcc_<wbr>8.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 10 +<br>
+=C2=A0.../gcc/<a href=3D"http://libgcc-initial_8.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">libgcc-initial_8.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://libgcc_8.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">libg<wbr>cc_8.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0meta/recipes-devtools/gcc/<a href=3D"http://libgfortran_8.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">libg<wbr>fortran_8.1.bb</a>=C2=A0 |=C2=A0=
+ =C2=A03 +<br>
+=C2=A0.../valgrind/<a href=3D"http://valgrind_3.13.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank">valgrind_3.13.0.<wbr>bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 11 -<br>
+=C2=A0...ips-Disable-attribute-<wbr>alias-warnings.patch |=C2=A0 43 +++<br>
+=C2=A0...ps64-Disable-attribute-<wbr>alias-warning.patch |=C2=A0 26 ++<br>
+=C2=A0...jtool-perf-Fix-GCC-8-<wbr>Wrestrict-error.patch |=C2=A0 51 ++++<br=
+>
+=C2=A0...e-attribute-alias-warnings-<wbr>from-gcc8.patch |=C2=A0 31 +++<br>
+=C2=A0...d-pager.c-do-not-alias-<wbr>select-params.patch |=C2=A0 43 +++<br>
+=C2=A0...isable-array-bounds-<wbr>warning-with-gcc.patch |=C2=A0 28 ++<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linu<wbr>x-yocto_4.15.bb</a> |=C2=A0 =C2=
+=A08 +<br>
+=C2=A079 files changed, 3648 insertions(+), 28 deletions(-)<br>
+=C2=A0create mode 100644 meta/conf/machine/include/<wbr>mips/tune-mips-74k.=
+inc<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1.inc<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0001-gcc-4.=
+3.1-ARCH_FLAGS_<wbr>FOR_TARGET.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0002-c99-sn=
+printf.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0003-gcc-po=
+ison-system-<wbr>directories.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0004-gcc-po=
+ison-dir-<wbr>extend.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0005-gcc-4.=
+3.3-SYSROOT_<wbr>CFLAGS_FOR_TARGET.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0006-64-bit=
+-multilib-hack.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0007-option=
+al-libstdc.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0008-gcc-di=
+sable-MASK_<wbr>RELAX_PIC_CALLS-bit.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0009-COLLEC=
+T_GCC_OPTIONS.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0010-Use-th=
+e-defaults.h-<wbr>in-B-instead-of-S-and-t-oe-in-<wbr>B.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0011-fortra=
+n-cross-<wbr>compile-hack.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0012-cpp-ho=
+nor-sysroot.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0013-MIPS64=
+-Default-to-<wbr>N64-ABI.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0014-Define=
+-GLIBC_DYNAMIC_<wbr>LINKER-and-UCLIBC_DYNAMIC_<wbr>LINKE.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0015-gcc-Fi=
+x-argument-<wbr>list-too-long-error.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0016-Disabl=
+e-sdt.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0017-libtoo=
+l.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0018-gcc-ar=
+mv4-pass-fix-<wbr>v4bx-to-linker-to-support-<wbr>EABI.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0019-Use-th=
+e-multilib-<wbr>config-files-from-B-instead-<wbr>of-usin.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0020-Avoid-=
+using-libdir-<wbr>from-.la-which-usually-points-<wbr>to-.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0021-export=
+-CPP.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0022-Disabl=
+e-the-MULTILIB_<wbr>OSDIRNAMES-and-other-multilib-<wbr>o.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0023-Ensure=
+-target-gcc-<wbr>headers-can-be-included.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0024-gcc-4.=
+8-won-t-build-<wbr>with-disable-dependency-<wbr>tracking.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0025-Don-t-=
+search-host-<wbr>directory-during-relink-if-<wbr>inst_pr.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0026-Use-SY=
+STEMLIBS_DIR-<wbr>replacement-instead-of-<wbr>hardcoding.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0027-aarch6=
+4-Add-support-<wbr>for-musl-ldso.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0028-libcc1=
+-fix-libcc1-s-<wbr>install-path-and-rpath.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0029-handle=
+-sysroot-<wbr>support-for-nativesdk-gcc.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0030-Search=
+-target-<wbr>sysroot-gcc-version-specific-<wbr>dirs-with.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0031-Fix-va=
+rious-_FOR_<wbr>BUILD-and-related-variables.<wbr>patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0032-nios2-=
+Define-MUSL_<wbr>DYNAMIC_LINKER.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0033-Add-ss=
+p_nonshared-to-<wbr>link-commandline-for-musl-<wbr>targe.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0034-libgcc=
+-Add-knob-to-<wbr>use-ldbl-128-on-ppc.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0035-Link-l=
+ibgcc-using-<wbr>LDFLAGS-not-just-SHLIB_<wbr>LDFLAGS.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0036-libgcc=
+_s-Use-alias-<wbr>for-__cpu_indicator_init-<wbr>instead-.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0037-sync-g=
+cc-stddef.h-<wbr>with-musl.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0038-fix-se=
+gmentation-<wbr>fault-in-precompiled-header-<wbr>generat.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0039-Fix-fo=
+r-testsuite-<wbr>failure.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/gcc-<wbr>8.1/0040-Re-int=
+roduce-spe-<wbr>commandline-options.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-cr=
+oss-canadian_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>cross-ca=
+nadian_8.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-cr=
+oss-initial_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>cross-ini=
+tial_8.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-cr=
+oss_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>cross_8.1.bb</a><=
+br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-cr=
+osssdk-initial_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>crosss=
+dk-initial_8.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-cr=
+osssdk_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>crosssdk_8.1.b=
+b</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-ru=
+ntime_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>runtime_8.1.bb<=
+/a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-sa=
+nitizers_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>sanitizers_8=
+.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc-so=
+urce_8.1.bb" rel=3D"noreferrer" target=3D"_blank">gcc-<wbr>source_8.1.bb</a=
+><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://gcc_8.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">gcc_<wbr>8.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://libgcc=
+-initial_8.1.bb" rel=3D"noreferrer" target=3D"_blank">libg<wbr>cc-initial_8=
+.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://libgcc=
+_8.1.bb" rel=3D"noreferrer" target=3D"_blank">libg<wbr>cc_8.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/gcc/<a href=3D"http://libgfo=
+rtran_8.1.bb" rel=3D"noreferrer" target=3D"_blank">libg<wbr>fortran_8.1.bb<=
+/a><br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0001-mips-Dis=
+able-<wbr>attribute-alias-warnings.patch<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0001-mips64-D=
+isable-<wbr>attribute-alias-warning.patch<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0001-objtool-=
+perf-Fix-<wbr>GCC-8-Wrestrict-error.patch<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0001-powerpc-=
+Disable-<wbr>attribute-alias-warnings-from-<wbr>gcc8.patch<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0001-tools-li=
+b-subcmd-<wbr>pager.c-do-not-alias-select-<wbr>params.patch<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<wbr>files/0002-powerpc-=
+ptrace-<wbr>Disable-array-bounds-warning-<wbr>with-gcc.patch<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+-- <br>
+2.17.1<br>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div></div>
+
+--000000000000f5b7f3056e029876--
