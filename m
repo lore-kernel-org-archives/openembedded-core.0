@@ -1,49 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F105576E5E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E9F47745B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 06:56:34 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id x18-v6so5777487uaj.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2018 23:56:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3U2G1vpyukcPUkFWYbOGGXIo2vaiAuhXV4xNARRFc4E=;
-	b=MTSiqMCRWK+BeiZ1l1og2unBqZgTthwPGuCP/XsFIFsQvM/gp1QncQ48/hZFj+t5IG
-	40fOv7CXMueWTEu37HkR/ustK/z9DNEdA6X/r6/b1x6Ws2lJ94ZtLl9fsTO92D3CulfR
-	474Slg/Oo8a0QwItbsRVlREnUS+kBU9KY7twBCcjCG90n5U91mYdyZAxAmNHQeeH/VQR
-	r6JvjcTHVqYzTAMkSvdgtt8Q5VJwdzbh0zWpreuV1+sIQ5mNffLtS5YpMCKBzi49I0N0
-	BrbXncRm60PKgyQHJBIwjWUXUStzII3OeK4DpjoZlV1SOFdubQhl3gqhGTIsq+mKxdqr
-	HC3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3U2G1vpyukcPUkFWYbOGGXIo2vaiAuhXV4xNARRFc4E=;
-	b=Ch4sZIyXDuEJWEHr2A+PhKt699V34OpXMOdTSnEJ/tHbK6gauAaF7KGZJoKAaJcnXn
-	MOQjokZYDVtI7Lw6JR4uuBiHWBdb5tMiF4LaC03F74/wDf9QOP0mhF192+yRXSWAZZE8
-	5Fk8cB46rwsyNVCkPLMp8eNylJoBkc4zmbjAT5baZxVV/fea3Xeciecv44iiTS9UN2cV
-	gPqIL/bb3K+f3SxbKJyrfONZQ/WVfqGyrNNWMHt/md0B6uy7jRTO+GlW20y+lgqt33HU
-	EV156rsmsJFKwIgErnv9uJSz6De8svtdxGumDkH48z5xHWIFFBoFE4jPzKgHjkmKlYJA
-	m2kg==
-X-Gm-Message-State: APt69E1yW34xCU6iB/x2fnT9k0LARaRp42dpJWx8CD29CPBApaFbxRjr
-	9KmfGiXgaA56+ryFjWzg7TCy6VHwBpZYFi7H77w=
-X-Google-Smtp-Source: ADUXVKLw4o5YFMfKt0XSs6BGjbZcYlwGodpQjm3x5tJz6jeFQ5CwWX7Kq7cmDLpCTu8UGmfA/2++3tInYMwRwfkhwdE=
-X-Received: by 2002:a9f:3352:: with SMTP id a18-v6mr415973uac.38.1528354595739;
-	Wed, 06 Jun 2018 23:56:35 -0700 (PDT)
+	Thu,  7 Jun 2018 07:01:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5770P3X018454
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Jun 2018 00:00:41 -0700
+Received: from localhost.corp.ad.wrs.com (128.224.162.139) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 7 Jun 2018 00:00:14 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1528252931.git.liezhi.yang@windriver.com>
+	<fe59b86a518304bd3aeba3c066280a2ab8887ca1.1528252931.git.liezhi.yang@windriver.com>
+	<CAJTo0Lb4O3nuCZ6X1gu8yUnfXZK0Ty+sX6YxFb_fhvA-2_GXfA@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <47b0e5d0-c3df-9266-ab4d-5ad13a444a7f@windriver.com>
+Date: Thu, 7 Jun 2018 15:03:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.7.0
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Wed, 6 Jun 2018 23:56:35 -0700 (PDT)
-In-Reply-To: <09084de7-92b5-ae25-06b9-63d97cdd35df@gmail.com>
-References: <1528346078-20408-1-git-send-email-armccurdy@gmail.com>
-	<09084de7-92b5-ae25-06b9-63d97cdd35df@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 6 Jun 2018 23:56:35 -0700
-Message-ID: <CAJ86T=U9J9b1RbT1bW65kv=r9DnVn6OpvKrBHMQr2JjNSh-S1w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-target.inc: configure gcc for armv7ve targets to default to armv7ve
+In-Reply-To: <CAJTo0Lb4O3nuCZ6X1gu8yUnfXZK0Ty+sX6YxFb_fhvA-2_GXfA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3 02/11] lsof: fix LSOF_CCV in version.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +36,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 06:56:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Jun 2018 07:01:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 6, 2018 at 11:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 6/6/18 9:34 PM, Andre McCurdy wrote:
+Hi Ross,
+
+On 06/06/2018 07:52 PM, Burton, Ross wrote:
+> I really wish I didn't look at the lsof recipe...
+> 
+> To my reading if you pass LSOF_CC in do_configure (as you do in this
+> patch) then we don't need to patch Configure to move the LSOF_CCV
+> assignment at all, and can also drop the CC=${CC} from do_compile.
+> 
+> (I'm now going to scoop up the brain that oozed out of my ears off the floor)
+
+Thanks for pointing this out, after more investigations, the issue had been
+fixed by another patch:
+
+meta/recipes-extended/lsof/files/lsof-remove-host-information.patch
+
+So this patch is not needed any more, I've removed if from the PULL repo.
+
+// Robert
+
+> 
+> Ross
+> 
+> On 6 June 2018 at 03:54, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> From: Jian Liu <jian.liu@windriver.com>
 >>
->> Originally these ARM specific EXTRA_OECONF options were applied to
->> both gcc for the target and gcc-cross. That lead to a compromise
->> being made: gcc on the target was configured to default to an ARM
->> architecture which was at least compatible with the target (but not
->> necessarily an exact match) and gcc-cross was configured default to
->> armv7a for both armv7a and armv7ve (to avoid gcc-cross rebuilds when
->> switching between the two).
+>> When using cross compiler to build the package "lsof" on a host,
+>> the value of LSOF_CCV in version.h genegrated by the Makefile
+>> is the version of the compiler on the host while it should be
+>> the version of cross compiler.
 >>
->> However, when these ARM specific EXTRA_OECONF options were moved from
->> gcc-configure-common.inc into gcc-target.inc (ie they were made to
->> apply only to gcc on the target) the compromise no longer needed to
->> be made.
+>> On Ubuntu host before fixed:
+>>    #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
 >>
->> http://git.openembedded.org/openembedded-core/commit/?id=851937dde81de2a9ef54c5f19a78fb12fb82afd4
->
-> this was done with a purpose so we can avoid gcc complaining about
-> incompatible architectures when building programs on device.
-
-Thanks for your reassurance. I know it was done on purpose... because
-it was me that did it! :-)
-
-  http://git.openembedded.org/openembedded-core/commit/?id=02c3ac6f066ccd1cbb6e457080bf10db5d6abfe0
-
-> probably testing compiling some c++ apps on device might be good to validate
-> this if at all this is working.
+>> After fixed:
+>>    #define   LSOF_CCV        "4.9.1 (GCC) "
+>>
+>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+>> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> ---
+>>   .../files/Configure-fix-LSOF_CCV-assignment.patch  | 42 ++++++++++++++++++++++
+>>   meta/recipes-extended/lsof/lsof_4.89.bb            |  4 ++-
+>>   2 files changed, 45 insertions(+), 1 deletion(-)
+>>   create mode 100644 meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+>>
+>> diff --git a/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+>> new file mode 100644
+>> index 0000000..17c5c4b
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/lsof/files/Configure-fix-LSOF_CCV-assignment.patch
+>> @@ -0,0 +1,42 @@
+>> +From c197389c9d8ccdbfcfe1dc31da6b4ce69b90ecf6 Mon Sep 17 00:00:00 2001
+>> +From: Wenzong Fan <wenzong.fan@windriver.com>
+>> +Date: Thu, 23 Oct 2014 03:43:27 -0400
+>> +Subject: [PATCH] Configure: fix LSOF_CCV assignment
+>> +
+>> +When using cross compiler to build the package "lsof" on a host,
+>> +the value of LSOF_CCV in version.h genegrated by the Makefile
+>> +is the version of the compiler on the host while it should be
+>> +the version of cross compiler.
+>> +
+>> +On Ubuntu host before fixed:
+>> +  #define LSOF_CCV        "4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) "
+>> +
+>> +After fixed:
+>> +  #define   LSOF_CCV        "4.9.1 (GCC) "
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +
+>> +---
+>> + Configure |    2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/Configure b/Configure
+>> +index 29c1292..e5a199f 100755
+>> +--- a/Configure
+>> ++++ b/Configure
+>> +@@ -2705,8 +2705,8 @@ LOCKF_OWNER4
+>> +     if test "X$LSOF_CC" = "X" # {
+>> +     then
+>> +       LSOF_CC=cc
+>> +-      LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
+>> +     fi        # }
+>> ++    LSOF_CCV=`$LSOF_CC -v 2>&1 | sed -n 's/.*version \(.*\)/\1/p'`
+>> +     if test "X$LINUX_CONF_CC" = "X"   # {
+>> +     then
+>> +       LINUX_CONF_CC=$LSOF_CC
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+>> index 14546db..52b40dc 100644
+>> --- a/meta/recipes-extended/lsof/lsof_4.89.bb
+>> +++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+>> @@ -13,7 +13,8 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
+>>
+>>   SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
+>>              file://lsof-remove-host-information.patch \
+>> -          "
+>> +           file://Configure-fix-LSOF_CCV-assignment.patch \
+>> +"
+>>
+>>   SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
+>>   SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+>> @@ -40,6 +41,7 @@ python do_unpack () {
+>>   export LSOF_INCLUDE = "${STAGING_INCDIR}"
+>>
+>>   do_configure () {
+>> +       export LSOF_CC="${CC}"
+>>          export LSOF_AR="${AR} cr"
+>>          export LSOF_RANLIB="${RANLIB}"
+>>          if [ "x${GLIBCVERSION}" != "x" ]; then
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
