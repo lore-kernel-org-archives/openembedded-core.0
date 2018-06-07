@@ -1,26 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EE1FA76086
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ACC2C755A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jun 2018 02:09:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5728mGN011973
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Jun 2018 19:09:03 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 6 Jun 2018 19:08:37 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 6 Jun 2018 22:07:28 -0400
-Message-ID: <80628b18166fa08faabc912b0c8064fac40bec0a.1528336755.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1528336755.git.bruce.ashfield@windriver.com>
-References: <cover.1528336755.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/9] linux-yocto/4.12: gcc8 + platform support
+	Thu,  7 Jun 2018 04:34:44 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id j20-v6so4220878pff.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Jun 2018 21:34:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=6SeQ0o0iqTn0M/YZjWpgdz1Q34aDLlrRAsQgGqPffEo=;
+	b=TR9jwXizXXglt9UgjtIoFxauinEgrr+hTt9WWD2/ijOty1jlIKxl1fw00N0hM0ruT7
+	81ogKyhmK2/Vdi06ZKeobfUQYyhoV/ltX7H0uXE7WQwfxD9uaBIALTu/Q7dAdiapn6+1
+	q3Bv3n+ttprYyMxVliRNA2RWMAZOpUfzHLZ3l05YwKOxIG1lZXTnu0QcQqFsbKtGCv3r
+	LG3PUaU9ZBS+oNfFbu8YIiD6rYLqHaX4qc8ZMf3hf+cx73SUqXZpJpFQ85vLoDHCOhVv
+	9ZZaD024OnkABAPlQMPjGpmfDzEfULN2VsJoaBukSSu3L3gxseqy8Ab2nWsmOy7ngNWy
+	PGKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6SeQ0o0iqTn0M/YZjWpgdz1Q34aDLlrRAsQgGqPffEo=;
+	b=js8ckeNyrx4MydzyrKsUXwHomNcKkGgEjGMCX3GuGw/DNlQYjiIpMU99BHQYu5y4CD
+	2xsaM+DN4nMw3n+4Z5N1AlDT0B6DQ9iKbt6cAxeSsDK1TIQskDWH18RoBSXU1hxsWl6Q
+	GandKbrPOcebg0DzE1r+HuSYDiKtYmUFJO+4hnRdLq16LetBsPsCZoafF1R8p0Pmx85A
+	OD7g6YOPvyiLX/6nOQobgPQVw4T6XqXfsvjJNabWGThRbwRqQYcPSiZdVqbra0N++E2I
+	EAjY4QZL2FG0Y2Q+//bR3AAxV/lyFFGBbQ582rTnwzvJnhfZangZbpwzUAmntc9TnbZf
+	qOTw==
+X-Gm-Message-State: APt69E0e3ZpcjQ61Q2tg10DQmpAHsmZrmSMv1dPxX6ikO5+KVxrzqF5f
+	Gcv+XPdfGYM83He+4RNSIs/J9g==
+X-Google-Smtp-Source: ADUXVKLCHlrV1IJy+3bQlxj3jA0sprD5ftGWido7P5a7Y3d4ktaefRsxmeNdiMHNZN7ATu5rlwUF1A==
+X-Received: by 2002:a65:4348:: with SMTP id k8-v6mr265042pgq.341.1528346085592;
+	Wed, 06 Jun 2018 21:34:45 -0700 (PDT)
+Received: from e6520.gateway.sonic.net
+	(173-228-90-54.dsl.dynamic.fusionbroadband.com. [173.228.90.54])
+	by smtp.gmail.com with ESMTPSA id
+	z10-v6sm10840857pfh.83.2018.06.06.21.34.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Jun 2018 21:34:44 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jun 2018 21:34:38 -0700
+Message-Id: <1528346078-20408-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] gcc-target.inc: configure gcc for armv7ve targets to default to armv7ve
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2018 02:09:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Jun 2018 04:34:44 -0000
 
-Integrating the following changes to fix gcc8 issues, add perf support
-for new platforms, and misc bug fixes:
+Originally these ARM specific EXTRA_OECONF options were applied to
+both gcc for the target and gcc-cross. That lead to a compromise
+being made: gcc on the target was configured to default to an ARM
+architecture which was at least compatible with the target (but not
+necessarily an exact match) and gcc-cross was configured default to
+armv7a for both armv7a and armv7ve (to avoid gcc-cross rebuilds when
+switching between the two).
 
-   7e7ac3f0fda9 perf vendor events intel: Update Goldmont events to V12
-   0a384f4a74bb perf intel-pt: Always set no branch for dummy event
-   d55c0eebc474 perf intel-pt: Set no_aux_samples for the tracking event
-   1f0b8b1b621f perf vendor events: Add Goldmont Plus V1 event file
-   6b230bd7967e objtool, perf: Fix GCC 8 -Wrestrict error
-   2eb720eab978 tools/lib/subcmd/pager.c: do not alias select() params
-   16818d5811b1 clocksource/drivers/arm_arch_timer: Fix mem frame loop initialization
-   0924074f300a of: dynamic: fix memory leak related to properties of __of_node_dup
-   f6579a9e6a8e debugobjects: Make kmemleak ignore debug objects
-   9184d19fa9ba intel-socfpga: dts: improve qspi node for rsu feature
-   68846ecd1d27 intel-socfpga: dts: add rsu node to enable rsu driver
-   9f174f4e95f7 FogBugz #514234: arm64: dts: stratix10: Add PL330 DMA to Stratix10 dts
-   8a97ef8580e8 FogBugz #554835-3: Intel RSU binding documentation
-   c850e5570554 FogBugz #554835-1: Add Stratix 10 SoC RSU Driver
-   e030a1b198b4 FogBugz #549288-4: dts: add Stratix10 sdram ecc
-   c25a3bffb901 FogBugz #549288-3: edac: Add support for Stratix10 SDRAM EDAC
-   64430c11c84b FogBugz #549288-2: Add Stratix10 ECC Manager binding
-   c34e0d995e50 FogBugz #549288-1: misc: Stratix10 Protected register access defines
-   ac8afaba8d13 mtd: spi-nor: cadence-quadspi: Fix page fault kernel panic
-   16431863e036 FogBugz #554812: fpga: stratix10: unitialized data
-   1ee99e139667 arm64: dts: stratix10: Change pad skew values for EMAC0 PHY driver
-   3269b14acb76 FogBugz #251539-2: dts: Add Altera Quad SPI Driver Device Tree Binding
-   99a5d81c3ea7 FogBugz #251539-1: Add Altera Quad SPI Driver
+However, when these ARM specific EXTRA_OECONF options were moved from
+gcc-configure-common.inc into gcc-target.inc (ie they were made to
+apply only to gcc on the target) the compromise no longer needed to
+be made.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+  http://git.openembedded.org/openembedded-core/commit/?id=851937dde81de2a9ef54c5f19a78fb12fb82afd4
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 16 ++++++++--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ meta/recipes-devtools/gcc/gcc-target.inc | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index 5edc0fa40b4f..bee1452fe7aa 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index b6e31f5..56e4b95 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -9,13 +9,14 @@ EXTRA_OECONF_PATHS = "\
  
--SRCREV_machine ?= "705d03507a0c10dcbf9cad3ff70f5d60b70f2d99"
-+SRCREV_machine ?= "75a9dd36c291ce674ef6d14b74c5096de9f59ca3"
- SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
+ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index 31307a638558..58a6b27144d0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.12.24"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+-# ARMv6+ adds atomic instructions that affect the ABI in libraries built
+-# with TUNE_CCARGS in gcc-runtime.  Make the compiler default to a
+-# compatible architecture.  armv6 and armv7a cover the minimum tune
+-# features used in OE.
++# Configure gcc running on the target to default to an architecture which will
++# be compatible with that of gcc-runtime (which is cross compiled to be target
++# specific). For example, for ARM, ARMv6+ adds atomic instructions that may
++# affect the ABI in the gcc-runtime libs. Since we can't rely on gcc on the
++# target to always be passed -march etc, its built-in default needs to be safe.
+ EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
+ EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
+-EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
++EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
  
--SRCREV_machine ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
- SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index 8d560127f0f3..12342c419474 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "45824c60ca37f414a5ac5783e970338db9a5a2af"
--SRCREV_machine_qemuarm64 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
--SRCREV_machine_qemumips ?= "66f741b0b3d093e6b6df0f44120913ef3a259e23"
--SRCREV_machine_qemuppc ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
--SRCREV_machine_qemux86 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
--SRCREV_machine_qemux86-64 ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
--SRCREV_machine_qemumips64 ?= "c5d838c9e26bd657b49dfe28b115e5bc4b580850"
--SRCREV_machine ?= "f9d67777b07ac97966186c1b56db78afe2a16f92"
-+SRCREV_machine_qemuarm ?= "e89109c66eecdd78402a6814219658cf48efeba7"
-+SRCREV_machine_qemuarm64 ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
-+SRCREV_machine_qemumips ?= "76f8650f009abea482c8b9b54a4f33510e0812d7"
-+SRCREV_machine_qemuppc ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
-+SRCREV_machine_qemux86 ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
-+SRCREV_machine_qemux86-64 ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
-+SRCREV_machine_qemumips64 ?= "eae7e3959377e0d5514df8add61df074450dbd38"
-+SRCREV_machine ?= "7e7ac3f0fda9707e94b3311a4510ae080cd86238"
- SRCREV_meta ?= "46171de19220c49d670544017cfbeffc1ec70e80"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
+ # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
+ # set in subdir gcc, so subdir libcc1 can't use it, export it here to
 -- 
-2.5.0
+1.9.1
 
 
