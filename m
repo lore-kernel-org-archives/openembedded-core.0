@@ -1,29 +1,48 @@
-Return-Path: <sascha-ml-linux-yocto-oe-core@silbe.org>
-Received: from bbox.sascha.silbe.org (bbox.sascha.silbe.org [46.38.230.149])
-	by mail.openembedded.org (Postfix) with ESMTP id 936ED65CBB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f180.google.com (mail-ua0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 797A47506D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 19:27:24 +0000 (UTC)
-Received: from twin.sascha.silbe.org (twin.sascha.silbe.org [192.168.1.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(Client CN "twin.sascha.silbe.org",
-	Issuer "stunnel Pseudo-CA" (verified OK))
-	by bbox.sascha.silbe.org (Postfix) with ESMTPS id 662FDBEF6C
+	Fri,  8 Jun 2018 19:52:26 +0000 (UTC)
+Received: by mail-ua0-f180.google.com with SMTP id k14-v6so9631182uao.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 21:27:24 +0200 (CEST)
-Received: (nullmailer pid 17462 invoked by uid 8193);
-	Fri, 08 Jun 2018 19:27:24 -0000
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-In-Reply-To: <CANNYZj9uwH9erkgu8Of5xq6PTLfTqdTdnUJtqMbyqgJa1ONKzA@mail.gmail.com>
-References: <20180608161841.10108-1-x-yo17@se-silbe.de>
-	<CANNYZj_V7knzM_+3J+YnHNyG+mbGmkzYBM_GoxTK1jKoYx9UGw@mail.gmail.com>
-	<toeh8mdywfy.fsf@twin.sascha.silbe.org>
-	<CANNYZj9uwH9erkgu8Of5xq6PTLfTqdTdnUJtqMbyqgJa1ONKzA@mail.gmail.com>
-Date: Fri, 08 Jun 2018 21:27:05 +0200
-Message-ID: <toeefhhyt86.fsf@twin.sascha.silbe.org>
+	Fri, 08 Jun 2018 12:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=UtkGFn+XQrhrlIzFKaDBO8AV/qDmV4BK4GFONvDe+nk=;
+	b=m9ADHzhSYZ5SB25LdrGJoE9J/mFe0kC0fJJb8AmO4tSfMmit+Z3ZgMvitQWxhNz4hX
+	5DleydIXN5xCT3YMLMVNqCEAMwakDYyuVHMn8xbz8CSVnv1hNEZs6WNpK6u/Br9E6OxJ
+	WfuKCJefylnFyvuKBeAx5CrkuVj2hqB0jUcwwh5BQiUTzHfGZaRZmga4+u4okh9GEehT
+	uLPV/uZP/1PziGPSWDY97sQJ6FQv7QGVHv6izNko72WnyqzBM/p+xtsf45znLPWJrR3A
+	AB1Y+MqFlwvQU3ZjBXP2IoV88wvZx53xHhq41fi2PFNwdfRNpU/VF2GihFj7pwnB5X74
+	MDZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=UtkGFn+XQrhrlIzFKaDBO8AV/qDmV4BK4GFONvDe+nk=;
+	b=swO1gxXJFIHdQVi/ckg9uSGhXPEic9HhV1mV8ceiXTjrZWW1Z/TJN9iBZrhdDG6ivj
+	3vnl0Fcw0WIY6QaQP9YZNhQUHbLqXNLi2QMmKLlSAk8CfeindaXFSDSCgwRyUhmT3cWb
+	fIJSbF2j4HnoF414rd6EbM3HaN+/FoY4Orab3nI32RYoYBbbzKm4CTCbeHOsAUHZR80B
+	ybvi/OJjHUop14+WzembMbHexxqW7wlHskVd4JiD7eN4WfwgqcLsRfiYYO2hkKgnrKS6
+	AoJwy2erX/0dCOLdLVEpnWATwgImEIwLBxZXXENZYtlT7GSTitxAR2WjwNqmdNr4bdk9
+	SErg==
+X-Gm-Message-State: APt69E3LeVKSpPlr9LY9WXQLJezFHMOQjjEnn6nBUlpvuG0EaKPX4Zh6
+	i7Eml2w962KHjRO6AD2yl3GpEzMyh9wQ/Uy30Bo=
+X-Google-Smtp-Source: ADUXVKJ0JL+sYoRgEh2xA7GACxfY6J0VuanZzXIrg89E0omhhECXxnUms22zfMDXLGUr+dd86wg5HR618B1XJGDNDkk=
+X-Received: by 2002:a9f:3352:: with SMTP id
+	a18-v6mr5116719uac.38.1528487547025; 
+	Fri, 08 Jun 2018 12:52:27 -0700 (PDT)
 MIME-Version: 1.0
-From: Sascha Silbe <x-yo17@se-silbe.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gobject-introspection: relocate typelib repository for native builds
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Fri, 8 Jun 2018 12:52:26 -0700 (PDT)
+In-Reply-To: <1527207259-30592-1-git-send-email-armccurdy@gmail.com>
+References: <1527207259-30592-1-git-send-email-armccurdy@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 8 Jun 2018 12:52:26 -0700
+Message-ID: <CAJ86T=XMSRRnwXqF2J8s=mTYx9rzuN49hRKKJphfPQx-EYj7dQ@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] cpio: move contents of cpio_v2.inc into the cpio recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +55,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 19:27:25 -0000
-X-Groupsio-MsgNum: 112351
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-List-Received-Date: Fri, 08 Jun 2018 19:52:26 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 24, 2018 at 5:14 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Merge contents of cpio_v2.inc into the only recipe which uses it.
 
-Alexander Kanavin <alex.kanavin@gmail.com> writes:
+Ping.
 
-> 2018-06-08 21:17 GMT+03:00 Sascha Silbe <x-yo17@se-silbe.de>:
->>     python3 -c 'from gi.repository import GLib'
+Any issues with this (ie the whole series of 3)?
+
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-extended/cpio/cpio_2.12.bb | 40 ++++++++++++++++++++++++++++--
+>  meta/recipes-extended/cpio/cpio_v2.inc  | 43 ---------------------------------
+>  2 files changed, 38 insertions(+), 45 deletions(-)
+>  delete mode 100644 meta/recipes-extended/cpio/cpio_v2.inc
 >
-> May I ask, what is the use case for running this in the native
-> context? Note that we explicitly disable generating introspection data
-> on the native side (though the g-i class), and so you'll get the
-> typelibs for the base glib that is bundled with g-i tarball, but not
-> anything else.
+> diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
+> index 405a90e..0b83e9b 100644
+> --- a/meta/recipes-extended/cpio/cpio_2.12.bb
+> +++ b/meta/recipes-extended/cpio/cpio_2.12.bb
+> @@ -1,8 +1,13 @@
+> -require cpio_v2.inc
+> -
+> +SUMMARY = "GNU cpio is a program to manage archives of files"
+> +DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
+> +another. It handles a number of cpio formats as well as reading and writing tar files."
+> +HOMEPAGE = "http://www.gnu.org/software/cpio/"
+> +SECTION = "base"
+>  LICENSE = "GPLv3"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+>
+> +DEPENDS = "texinfo-native"
+> +
+>  SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+>             file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+>             file://0001-Fix-CVE-2015-1197.patch \
+> @@ -10,3 +15,34 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+>
+>  SRC_URI[md5sum] = "fc207561a86b63862eea4b8300313e86"
+>  SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713a92e73"
+> +
+> +inherit autotools gettext texinfo
+> +
+> +EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+> +
+> +do_install () {
+> +    autotools_do_install
+> +    if [ "${base_bindir}" != "${bindir}" ]; then
+> +        install -d ${D}${base_bindir}/
+> +        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
+> +        rmdir ${D}${bindir}/
+> +    fi
+> +}
+> +
+> +PACKAGES =+ "${PN}-rmt"
+> +
+> +FILES_${PN}-rmt = "${base_sbindir}/rmt*"
+> +
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY = "100"
+> +
+> +ALTERNATIVE_${PN} = "cpio"
+> +ALTERNATIVE_${PN}-rmt = "rmt"
+> +
+> +ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+> +
+> +ALTERNATIVE_PRIORITY[rmt] = "50"
+> +ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
+> +
+> +BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
+> deleted file mode 100644
+> index 31adb71..0000000
+> --- a/meta/recipes-extended/cpio/cpio_v2.inc
+> +++ /dev/null
+> @@ -1,43 +0,0 @@
+> -SUMMARY = "GNU cpio is a program to manage archives of files"
+> -DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
+> -another. It handles a number of cpio formats as well as reading and writing tar files."
+> -HOMEPAGE = "http://www.gnu.org/software/cpio/"
+> -SECTION = "base"
+> -
+> -DEPENDS = "texinfo-native"
+> -
+> -SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+> -    "
+> -
+> -inherit autotools gettext texinfo
+> -
+> -S = "${WORKDIR}/cpio-${PV}"
+> -
+> -EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+> -
+> -do_install () {
+> -    autotools_do_install
+> -    if [ "${base_bindir}" != "${bindir}" ]; then
+> -        install -d ${D}${base_bindir}/
+> -        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
+> -        rmdir ${D}${bindir}/
+> -    fi
+> -}
+> -
+> -PACKAGES =+ "${PN}-rmt"
+> -
+> -FILES_${PN}-rmt = "${base_sbindir}/rmt*"
+> -
+> -inherit update-alternatives
+> -
+> -ALTERNATIVE_PRIORITY = "100"
+> -
+> -ALTERNATIVE_${PN} = "cpio"
+> -ALTERNATIVE_${PN}-rmt = "rmt"
+> -
+> -ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+> -
+> -ALTERNATIVE_PRIORITY[rmt] = "50"
+> -ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
+> -
+> -BBCLASSEXTEND = "native"
+> --
+> 1.9.1
+>
 
-We have some Python modules that we are extracting some information from
-and generating documentation for at build time; both times the modules
-get imported. We don't need GLib to actually work; it only needs to be
-importable. Fortunately no other typelib is used by the code.
-
-Sascha
-=2D-=20
-Softwareentwicklung Sascha Silbe, Niederhofenstra=C3=9Fe 5/1, 71229 Leonberg
-https://se-silbe.de/
-USt-IdNr.: DE281696641
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBCgAGBQJbGtiKAAoJEMGPauiBMO2X5XMP/3HUqkVVE9eoRO0EG5zP/aoo
-vW1Lual15WnC5rq2iHhyayL5jARCaJeYg+qo5UYRSUmmRBzyA2KIMAO8jTgDj1Vr
-2YJfx2cwD8IT1UhAa6i0GXuI/adBbGbTE+bVtjb23on+5gsdyCRAjwGbtrIpMHj1
-Oe2dlYOYpBbzgSv/PAp47Lu3rL696Ymu8eaqxkuS8uEIzwNlmg029bFJIkWJ12kg
-MqWt0j0VsmEx4Czsg+5I2UcRaMCnGeQY3YZ5MpgOzZRaAGA74A9KZrwlCmMNTapS
-XlJObgguJuIlWzCT/L7VFUh9sbCJfhRofmdKZCBIAA015SdSdjpf/os23IiDzLEZ
-J3kqDUws/dxuPf4zSeqMsVzyw2pHI/ynsC34jX4s8doPXZNanChtRsvakgTXi664
-J94sM91CeYY/06PL3WbY/bK8NorFhzKpsdEZwHVQa40mop8u4KIWs/nRnJMdQo0H
-RELDObT8b8uYAOpARm0jVMHzirgVj1Pwt3m10XsRXanDhGb//s08Giswed0UIayT
-eOvxYbo5GqFLNOJWkW91r/pgcDW1gdyOoW84YYUpx4afhLncpuZ7W38Dbz4FNvgG
-YHzQfl4mToBD6qvWWWCW2nw47Ppjy7uECXsfbfuSG2nKvbSzD93ci4sjbJlbMKXt
-YPP+fa1BfgNAXoNKa4NZ
-=7ms9
------END PGP SIGNATURE-----
-
---=-=-=--
