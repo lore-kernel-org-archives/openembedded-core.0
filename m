@@ -1,48 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f180.google.com (mail-ua0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 797A47506D
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E085746E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 19:52:26 +0000 (UTC)
-Received: by mail-ua0-f180.google.com with SMTP id k14-v6so9631182uao.12
+	Fri,  8 Jun 2018 22:27:03 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id n15-v6so22200131lfn.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2018 12:52:27 -0700 (PDT)
+	Fri, 08 Jun 2018 15:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=UtkGFn+XQrhrlIzFKaDBO8AV/qDmV4BK4GFONvDe+nk=;
-	b=m9ADHzhSYZ5SB25LdrGJoE9J/mFe0kC0fJJb8AmO4tSfMmit+Z3ZgMvitQWxhNz4hX
-	5DleydIXN5xCT3YMLMVNqCEAMwakDYyuVHMn8xbz8CSVnv1hNEZs6WNpK6u/Br9E6OxJ
-	WfuKCJefylnFyvuKBeAx5CrkuVj2hqB0jUcwwh5BQiUTzHfGZaRZmga4+u4okh9GEehT
-	uLPV/uZP/1PziGPSWDY97sQJ6FQv7QGVHv6izNko72WnyqzBM/p+xtsf45znLPWJrR3A
-	AB1Y+MqFlwvQU3ZjBXP2IoV88wvZx53xHhq41fi2PFNwdfRNpU/VF2GihFj7pwnB5X74
-	MDZA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=J5Dve+NvkCzjCW1XXnA4dyVk7BE4nyVukpGbMGzf/Wo=;
+	b=hUS74Mhw31T+yWY+3A0wG0DP3noAjfqte0YgeTv9iB385HFr2ZL3ohBfx7s55O2fQV
+	oaR2UJE4qLKmZN0z2aIjQW0bETuG2SHqr6FW4qe5NbMxHbIretSuk1wOLjUHrknGERNE
+	zy6uD4izkRKnDTgj4D++zrZ1HenlL2idg5DFtGb2IbYhtMjtMHjZdQNGbRcp7PWG2lLr
+	kdl5DCBGWeRgBQccu78sMFgeuHehTuzlOCOvEIkdRfXsg3F/vngL4hYL4MQ1bzznESHm
+	y8HlI6d49NgPfk04G0Ku5F2vYIzjUSJBhizu7zaGMPniI0wTzSzdiuHobapvSEhB/0DB
+	Yl9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=UtkGFn+XQrhrlIzFKaDBO8AV/qDmV4BK4GFONvDe+nk=;
-	b=swO1gxXJFIHdQVi/ckg9uSGhXPEic9HhV1mV8ceiXTjrZWW1Z/TJN9iBZrhdDG6ivj
-	3vnl0Fcw0WIY6QaQP9YZNhQUHbLqXNLi2QMmKLlSAk8CfeindaXFSDSCgwRyUhmT3cWb
-	fIJSbF2j4HnoF414rd6EbM3HaN+/FoY4Orab3nI32RYoYBbbzKm4CTCbeHOsAUHZR80B
-	ybvi/OJjHUop14+WzembMbHexxqW7wlHskVd4JiD7eN4WfwgqcLsRfiYYO2hkKgnrKS6
-	AoJwy2erX/0dCOLdLVEpnWATwgImEIwLBxZXXENZYtlT7GSTitxAR2WjwNqmdNr4bdk9
-	SErg==
-X-Gm-Message-State: APt69E3LeVKSpPlr9LY9WXQLJezFHMOQjjEnn6nBUlpvuG0EaKPX4Zh6
-	i7Eml2w962KHjRO6AD2yl3GpEzMyh9wQ/Uy30Bo=
-X-Google-Smtp-Source: ADUXVKJ0JL+sYoRgEh2xA7GACxfY6J0VuanZzXIrg89E0omhhECXxnUms22zfMDXLGUr+dd86wg5HR618B1XJGDNDkk=
-X-Received: by 2002:a9f:3352:: with SMTP id
-	a18-v6mr5116719uac.38.1528487547025; 
-	Fri, 08 Jun 2018 12:52:27 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=J5Dve+NvkCzjCW1XXnA4dyVk7BE4nyVukpGbMGzf/Wo=;
+	b=JRiuB0+z1hQt9qv4sW5Ciw/F1i2noyyM+ouDrWIALYJNkvc7ijSqZ99lx64MquvT7E
+	+dF9W4YHy5L7T7i3LdoGpd9hI8K20X+42kluAkYmirlAZB6mUBJCfyZh9ORHgSRtPo9R
+	gJLzCtCi8stATZxtvTD/te+/dX9nA/QtGQDk+n05dBWklADzbpQ9QXyu7rxE6l0M4hH3
+	j+ge9FugKBebmCxmXYoSuDHdu3Rm6rd+BGeQlcet//Akfgcr8Pd1yWNv4PPjyI+uaHGs
+	ZdSwc8ntuGHM4htNutlu76aJjTYzyE3lVO+pwQevu9IUvqFgIPSGZemeAIgUKbM0cIjv
+	o3qg==
+X-Gm-Message-State: APt69E1uNcrKhmg9ThwFPruQdFjXzFsk8J9os+VjZk1wVNZVwSLFDpRw
+	LnSKKyNCAs03BwaOLPUmQxQZHYxS/VKi96fiutM=
+X-Google-Smtp-Source: ADUXVKLO2kPmrgScjUmr6gvUpQ9qt/vCawx7PCk6zXaPIiuhwI6F87RPZ+e9aL6vTDZgsbru579WhVqoay/nDh6CyNE=
+X-Received: by 2002:a2e:8455:: with SMTP id
+	u21-v6mr5535619ljh.66.1528496824006; 
+	Fri, 08 Jun 2018 15:27:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Fri, 8 Jun 2018 12:52:26 -0700 (PDT)
-In-Reply-To: <1527207259-30592-1-git-send-email-armccurdy@gmail.com>
-References: <1527207259-30592-1-git-send-email-armccurdy@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 8 Jun 2018 12:52:26 -0700
-Message-ID: <CAJ86T=XMSRRnwXqF2J8s=mTYx9rzuN49hRKKJphfPQx-EYj7dQ@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] cpio: move contents of cpio_v2.inc into the cpio recipe
+References: <cover.1528442551.git.raj.khem@gmail.com>
+	<5cd02eb482d16a30056d860dc3ef24b365eedc88.1528442551.git.raj.khem@gmail.com>
+In-Reply-To: <5cd02eb482d16a30056d860dc3ef24b365eedc88.1528442551.git.raj.khem@gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+Date: Fri, 8 Jun 2018 16:26:52 -0600
+Message-ID: <CACS+7ZSGxyfMhN0SRti8m1h9t1n_HCGfQC1-myiFj+UnkjAGbA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] tcmode-default: Switch to gcc 8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,128 +56,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 19:52:26 -0000
+X-List-Received-Date: Fri, 08 Jun 2018 22:27:03 -0000
+Content-Type: multipart/alternative; boundary="0000000000003c3ced056e28e67d"
+
+--0000000000003c3ced056e28e67d
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 24, 2018 at 5:14 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> Merge contents of cpio_v2.inc into the only recipe which uses it.
+Should the subject read switch to gcc 8.1?
 
-Ping.
+On Fri, 8 Jun 2018, 01:29 Khem Raj, <raj.khem@gmail.com> wrote:
 
-Any issues with this (ie the whole series of 3)?
-
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-extended/cpio/cpio_2.12.bb | 40 ++++++++++++++++++++++++++++--
->  meta/recipes-extended/cpio/cpio_v2.inc  | 43 ---------------------------------
->  2 files changed, 38 insertions(+), 45 deletions(-)
->  delete mode 100644 meta/recipes-extended/cpio/cpio_v2.inc
+>  meta/conf/distro/include/tcmode-default.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
-> index 405a90e..0b83e9b 100644
-> --- a/meta/recipes-extended/cpio/cpio_2.12.bb
-> +++ b/meta/recipes-extended/cpio/cpio_2.12.bb
-> @@ -1,8 +1,13 @@
-> -require cpio_v2.inc
-> -
-> +SUMMARY = "GNU cpio is a program to manage archives of files"
-> +DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
-> +another. It handles a number of cpio formats as well as reading and writing tar files."
-> +HOMEPAGE = "http://www.gnu.org/software/cpio/"
-> +SECTION = "base"
->  LICENSE = "GPLv3"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+> diff --git a/meta/conf/distro/include/tcmode-default.inc
+> b/meta/conf/distro/include/tcmode-default.inc
+> index 8e15f694d0..cb17061706 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -22,7 +22,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial
+> = "${TCLIBC}-initial"
+>  PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?=
+> "nativesdk-glibc-initial"
+>  PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
 >
-> +DEPENDS = "texinfo-native"
-> +
->  SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
->             file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
->             file://0001-Fix-CVE-2015-1197.patch \
-> @@ -10,3 +15,34 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
->
->  SRC_URI[md5sum] = "fc207561a86b63862eea4b8300313e86"
->  SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713a92e73"
-> +
-> +inherit autotools gettext texinfo
-> +
-> +EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
-> +
-> +do_install () {
-> +    autotools_do_install
-> +    if [ "${base_bindir}" != "${bindir}" ]; then
-> +        install -d ${D}${base_bindir}/
-> +        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
-> +        rmdir ${D}${bindir}/
-> +    fi
-> +}
-> +
-> +PACKAGES =+ "${PN}-rmt"
-> +
-> +FILES_${PN}-rmt = "${base_sbindir}/rmt*"
-> +
-> +inherit update-alternatives
-> +
-> +ALTERNATIVE_PRIORITY = "100"
-> +
-> +ALTERNATIVE_${PN} = "cpio"
-> +ALTERNATIVE_${PN}-rmt = "rmt"
-> +
-> +ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
-> +
-> +ALTERNATIVE_PRIORITY[rmt] = "50"
-> +ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
-> +
-> +BBCLASSEXTEND = "native"
-> diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
-> deleted file mode 100644
-> index 31adb71..0000000
-> --- a/meta/recipes-extended/cpio/cpio_v2.inc
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -SUMMARY = "GNU cpio is a program to manage archives of files"
-> -DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
-> -another. It handles a number of cpio formats as well as reading and writing tar files."
-> -HOMEPAGE = "http://www.gnu.org/software/cpio/"
-> -SECTION = "base"
-> -
-> -DEPENDS = "texinfo-native"
-> -
-> -SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-> -    "
-> -
-> -inherit autotools gettext texinfo
-> -
-> -S = "${WORKDIR}/cpio-${PV}"
-> -
-> -EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
-> -
-> -do_install () {
-> -    autotools_do_install
-> -    if [ "${base_bindir}" != "${bindir}" ]; then
-> -        install -d ${D}${base_bindir}/
-> -        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
-> -        rmdir ${D}${bindir}/
-> -    fi
-> -}
-> -
-> -PACKAGES =+ "${PN}-rmt"
-> -
-> -FILES_${PN}-rmt = "${base_sbindir}/rmt*"
-> -
-> -inherit update-alternatives
-> -
-> -ALTERNATIVE_PRIORITY = "100"
-> -
-> -ALTERNATIVE_${PN} = "cpio"
-> -ALTERNATIVE_${PN}-rmt = "rmt"
-> -
-> -ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
-> -
-> -ALTERNATIVE_PRIORITY[rmt] = "50"
-> -ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
-> -
-> -BBCLASSEXTEND = "native"
+> -GCCVERSION ?= "7.%"
+> +GCCVERSION ?= "8.%"
+>  SDKGCCVERSION ?= "${GCCVERSION}"
+>  BINUVERSION ?= "2.30%"
+>  GDBVERSION ?= "8.1%"
 > --
-> 1.9.1
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
+--0000000000003c3ced056e28e67d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Should the subject read switch to gcc 8.1?<br><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr">On Fri, 8 Jun 2018, 01:29 Khem Ra=
+j, &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Khem Raj &lt;<a =
+href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" rel=3D"noreferrer">raj=
+.khem@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/distro/include/tcmode-default.inc | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro=
+/include/tcmode-default.inc<br>
+index 8e15f694d0..cb17061706 100644<br>
+--- a/meta/conf/distro/include/tcmode-default.inc<br>
++++ b/meta/conf/distro/include/tcmode-default.inc<br>
+@@ -22,7 +22,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial =
+=3D &quot;${TCLIBC}-initial&quot;<br>
+=C2=A0PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?=3D &=
+quot;nativesdk-glibc-initial&quot;<br>
+=C2=A0PREFERRED_PROVIDER_virtual/gettext ??=3D &quot;gettext&quot;<br>
+<br>
+-GCCVERSION ?=3D &quot;7.%&quot;<br>
++GCCVERSION ?=3D &quot;8.%&quot;<br>
+=C2=A0SDKGCCVERSION ?=3D &quot;${GCCVERSION}&quot;<br>
+=C2=A0BINUVERSION ?=3D &quot;2.30%&quot;<br>
+=C2=A0GDBVERSION ?=3D &quot;8.1%&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
+.org/mailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div></div>
+
+--0000000000003c3ced056e28e67d--
