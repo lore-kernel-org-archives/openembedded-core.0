@@ -1,50 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F8CF746FA
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 888B0745A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 13:00:56 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id w10-v6so13312287wrk.9
+	Fri,  8 Jun 2018 13:51:56 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id w10-v6so13480760wrk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2018 06:00:57 -0700 (PDT)
+	Fri, 08 Jun 2018 06:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=Lusqrx26RBGu00zHOaz15NHdksrLvXGyDbHNv6/IkQk=;
-	b=Jf74fOSRY/SsX0wLBGwdrVdMQ9qVe+LG1FWF85QfRV3uv/LdkctmptC1SrXLSbF4Ea
-	ElO/DCngYRsEbU3MVvW7AqKxoZMJN+EJo0NJFk/o2ps4elTvpTotIK3T1YUzuI0sPlN+
-	j9ei9xTwfYwO6PVUOmiIhgypxkkpRYk6jYZHM02nqul7V5C0RyRS4C7kVF/FBvF0wml0
-	h0eiq+kG8Zu1xxSr+ogukyaVh8K41gQVOafykigf28QfR6j/zzubvvMXrvhhA6mtuRGl
-	zyDk5r5P0VEX/6NgAv56qIwEiwmpk93N1E0iw5kY6t7g7RtlH1VfDff4GfHED86aCThe
-	O9xg==
+	bh=Qwt708PbwtEmKuC63khS1vbHDmxY2k/OZq+1nTXFg5Y=;
+	b=re5e4focS8Qk4kcMDP6iWJZsUM/imDWz/h0piOyF19gkMFg8z2+piDBVhbsDY4a2Vb
+	Oabv0Fs321KZ6vqUvpbDe9376ccEkRXqfBKK70iR9e7W5ucdbGjavuLbkRkahZ74WnDw
+	55Y45+VW0lZqE3f1Q9qqfubf828aMAaM/dJaZ/7Wp9PIwTkehKXsGe1SVD1SP2jEZH4Z
+	y/WbktkGtjrdeD1pSN8Yt6n5xOwsacu5cO5IcrN+wIvrU38HeOFg4lnWtOaTB0VdozD3
+	zMXr/bclGMM8YEm1dX47Pkuxa+Pysd2y7PdgWyO/T5Cx9+tLkaSgxgRb3ev5IFRJDyVA
+	QucQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Lusqrx26RBGu00zHOaz15NHdksrLvXGyDbHNv6/IkQk=;
-	b=tk0aLfnZOszYYAl8gX5FlkTzytRBiQ38/NYo7kFIMoHXuH4EfIqmtnj+jySbZ9+JbR
-	og0Vz2w41eVMpJZbOcmLDGnmFLSqvYliut0xAIaMHE6UOK3rH18xyq9LyUD4K5Jn2t1R
-	NJoh8PVN5MHVNzXX044FNnE2c2AqYj3iojnqJUXGCns0RR5NfqdX/111CQGlhaSkBatX
-	HVDrssuscrqSm2RnesxT8o//EbHYnKrqElBF6B0MCSBdguE4BfK3btQ3oMBFJFpGFpc0
-	hH4Ydlqmb3uPW/rvU6aOCoRArq3C9yWu/2Y3jIKKptpUzCRN0+Mbq2vX0mfcmvRGQbPH
-	k+Ag==
-X-Gm-Message-State: APt69E3yoYx0Zh2S0TpOCpRAfVJc31NUFOnPlBcbBZnrubv6XQy4Co0y
-	fW/02xp1/IUeJx4hgQwXIrHbwndQ
-X-Google-Smtp-Source: ADUXVKK3Iy8SLEty26xNXdsQ88K6FV3LDWlyUgyN3KnVx3enijeKdg2oubjcKADvuHXmlMuWCQgMww==
-X-Received: by 2002:adf:a645:: with SMTP id
-	k63-v6mr5329319wrc.231.1528462856806; 
-	Fri, 08 Jun 2018 06:00:56 -0700 (PDT)
+	bh=Qwt708PbwtEmKuC63khS1vbHDmxY2k/OZq+1nTXFg5Y=;
+	b=D20BhG+HLczc+l+C/Ld0krAlSZUJAVwiNP/JzTMsi1ZnAn0MHJOx/pvP1SHwQsPJ56
+	ms6B5yNX9A7u3ByZYQxwtEEQnZnZ6DOJ1X832NeMxU5lz6yDf+bFdMoTfbIR+ZA0tewT
+	snuUW+u43AaIl15IIjk3lWOmChH4fGgsU1JEUhgwz9xF3QH10MVP69j6Xt6poyr+Hodt
+	QOPkWYMYdDgDlHethpJZiyH0CT9sBNy6xC7ncZUKPG+7NlXChx4hwvDaoylyf4nGTdqu
+	EQnGzgUc0Isa5q9cgt0DOEyKe+Q88BMXhRsOQ/jccXSNRH0Utdd2+mjxSFkatn9zI26A
+	7fsQ==
+X-Gm-Message-State: APt69E18aNdowJXA0x+rlhP8TW+8AanVVO8l3YcoalFbPEs6JkvrVaw+
+	hK6PWjWIOdJ2Ah2zDvCnTyH+R5/q
+X-Google-Smtp-Source: ADUXVKKPY36TKCugOKCQpF+bOlt+2oYihwpjZszPhGiwkxgFxIrV5++AevOWCLdv9nQWcL7PNf8BiQ==
+X-Received: by 2002:a5d:4307:: with SMTP id h7-v6mr5347998wrq.58.1528465916696;
+	Fri, 08 Jun 2018 06:51:56 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e13-v6sm47433318wrm.45.2018.06.08.06.00.54
+	x5-v6sm27438826wrr.3.2018.06.08.06.51.54
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jun 2018 06:00:55 -0700 (PDT)
+	Fri, 08 Jun 2018 06:51:55 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jun 2018 14:00:52 +0100
-Message-Id: <20180608130052.2598-1-ross.burton@intel.com>
+Date: Fri,  8 Jun 2018 14:51:53 +0100
+Message-Id: <20180608135153.7352-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cmake: fix Upstream-Status tag spelling
+Subject: [PATCH] wayland: fix upstream release checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,96 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 13:00:56 -0000
+X-List-Received-Date: Fri, 08 Jun 2018 13:51:56 -0000
+
+Wayland has moved to GitLab with the result that /releases/ no longer returns a
+directory listing, so the upgrade detection doesn't work.
+
+The upgrade detection can scan releases.html just as well, so tell it to look
+there.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../0001-FindBoost-Fix-incorrect-alphabetisation-of-headers-l.patch     | 2 +-
- .../0002-FindBoost-Implement-Architecture-and-Address-Model-t.patch     | 2 +-
- .../0003-FindBoost-Search-for-upstream-packaged-libs-next-to-.patch     | 2 +-
- .../0004-FindBoost-Generate-imported-targets-for-future-Boost.patch     | 2 +-
- .../cmake/cmake/0005-FindBoost-support-OPTIONAL_COMPONENTS.patch        | 2 +-
- .../0006-FindBoost-Add-support-for-Boost-1.67-with-Python-ver.patch     | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-graphics/wayland/wayland-protocols_1.14.bb | 2 ++
+ meta/recipes-graphics/wayland/wayland_1.15.0.bb         | 2 ++
+ meta/recipes-graphics/wayland/weston_4.0.0.bb           | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-FindBoost-Fix-incorrect-alphabetisation-of-headers-l.patch b/meta/recipes-devtools/cmake/cmake/0001-FindBoost-Fix-incorrect-alphabetisation-of-headers-l.patch
-index a45eda52011..b3a75206f72 100644
---- a/meta/recipes-devtools/cmake/cmake/0001-FindBoost-Fix-incorrect-alphabetisation-of-headers-l.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0001-FindBoost-Fix-incorrect-alphabetisation-of-headers-l.patch
-@@ -5,7 +5,7 @@ Subject: [PATCH 1/6] FindBoost: Fix incorrect alphabetisation of headers list
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
+index 3393a2c797d..873fcf1c282 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
+@@ -14,6 +14,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "5d32eaf0f5d6b7da7f5ad0959e2551e6"
+ SRC_URI[sha256sum] = "9648896b2462b49b15a69b60f44656593c170c0e73121c890eb16d0c1d9376f6"
  
- Affects cmake < 3.11.0
++UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
++
+ inherit allarch autotools pkgconfig
  
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
+ PACKAGES = "${PN}"
+diff --git a/meta/recipes-graphics/wayland/wayland_1.15.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+index 788105bff8e..d037dc46542 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.15.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
+@@ -18,6 +18,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
+ SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
  
-diff --git a/meta/recipes-devtools/cmake/cmake/0002-FindBoost-Implement-Architecture-and-Address-Model-t.patch b/meta/recipes-devtools/cmake/cmake/0002-FindBoost-Implement-Architecture-and-Address-Model-t.patch
-index 88301c64c06..d5d442a519a 100644
---- a/meta/recipes-devtools/cmake/cmake/0002-FindBoost-Implement-Architecture-and-Address-Model-t.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0002-FindBoost-Implement-Architecture-and-Address-Model-t.patch
-@@ -8,7 +8,7 @@ library file name layout.
++UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
++
+ inherit autotools pkgconfig
  
- Affects cmake < 3.11.0
+ EXTRA_OECONF = "--disable-documentation --with-host-scanner"
+diff --git a/meta/recipes-graphics/wayland/weston_4.0.0.bb b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+index 7dfca7fc633..e78b0d91949 100644
+--- a/meta/recipes-graphics/wayland/weston_4.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_4.0.0.bb
+@@ -15,6 +15,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "33709aa4d5916f89643fca0fc0064b39"
+ SRC_URI[sha256sum] = "a0fc0ae7ef83dfbed12abfe9b8096a24a7dd00705e86fa0db1e619ded18b4b58"
  
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0003-FindBoost-Search-for-upstream-packaged-libs-next-to-.patch b/meta/recipes-devtools/cmake/cmake/0003-FindBoost-Search-for-upstream-packaged-libs-next-to-.patch
-index 5178f5c4dc6..a44fa3e3665 100644
---- a/meta/recipes-devtools/cmake/cmake/0003-FindBoost-Search-for-upstream-packaged-libs-next-to-.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0003-FindBoost-Search-for-upstream-packaged-libs-next-to-.patch
-@@ -9,7 +9,7 @@ Upstream packages Boost binaries for Windows with the 'boost' directory
- 
- Affects cmake < 3.11.0
- 
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0004-FindBoost-Generate-imported-targets-for-future-Boost.patch b/meta/recipes-devtools/cmake/cmake/0004-FindBoost-Generate-imported-targets-for-future-Boost.patch
-index bec04c4c140..8101e8f479c 100644
---- a/meta/recipes-devtools/cmake/cmake/0004-FindBoost-Generate-imported-targets-for-future-Boost.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0004-FindBoost-Generate-imported-targets-for-future-Boost.patch
-@@ -13,7 +13,7 @@ support newly-released Boost versions pending a new CMake release.
- 
- Affects cmake < 3.11.0
- 
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0005-FindBoost-support-OPTIONAL_COMPONENTS.patch b/meta/recipes-devtools/cmake/cmake/0005-FindBoost-support-OPTIONAL_COMPONENTS.patch
-index 37d69ba0808..c0330fb335a 100644
---- a/meta/recipes-devtools/cmake/cmake/0005-FindBoost-support-OPTIONAL_COMPONENTS.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0005-FindBoost-support-OPTIONAL_COMPONENTS.patch
-@@ -5,7 +5,7 @@ Subject: [PATCH 5/6] FindBoost: support OPTIONAL_COMPONENTS
- 
- Affects cmake < 3.11.0
- 
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- 
-diff --git a/meta/recipes-devtools/cmake/cmake/0006-FindBoost-Add-support-for-Boost-1.67-with-Python-ver.patch b/meta/recipes-devtools/cmake/cmake/0006-FindBoost-Add-support-for-Boost-1.67-with-Python-ver.patch
-index d25cd356d53..edcfdbefa57 100644
---- a/meta/recipes-devtools/cmake/cmake/0006-FindBoost-Add-support-for-Boost-1.67-with-Python-ver.patch
-+++ b/meta/recipes-devtools/cmake/cmake/0006-FindBoost-Add-support-for-Boost-1.67-with-Python-ver.patch
-@@ -8,7 +8,7 @@ Fixes: #16612, #16335, #16391, #12955
- 
- Affects cmake < 3.11.0
- 
--Upsteam-Status: Backport
-+Upstream-Status: Backport
- [Yocto 12762]
- Signed-off-by: Armin Kuster <akuster808@gmail.com>
- 
++UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
++
+ inherit autotools pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.11.0
 
