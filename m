@@ -1,27 +1,31 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B6F9719AF
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id B920674C00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 02:03:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w58236h8000313
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Jun 2018 19:03:06 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 7 Jun 2018 19:03:05 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1528165980-163833-1-git-send-email-hongzhi.song@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <0c79440f-858d-f155-4cf1-250e79cdcd7c@windriver.com>
-Date: Fri, 8 Jun 2018 10:03:48 +0800
+	Fri,  8 Jun 2018 06:33:25 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w586XMVd005820
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 8 Jun 2018 08:33:22 +0200
+Received: from [192.168.253.100] ([163.242.57.90])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id w586XLGu022940
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 8 Jun 2018 08:33:22 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20180607072501.27158-1-andrej.valek@siemens.com>
+	<20180607073209.27240-1-andrej.valek@siemens.com>
+	<59452b23-7470-588c-75fb-7445aaa13ba1@linux.intel.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Openpgp: preference=signencrypt
+Message-ID: <e09f86d5-ef04-fa9c-8cbf-c0b0f4fa4172@siemens.com>
+Date: Fri, 8 Jun 2018 08:33:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1528165980-163833-1-git-send-email-hongzhi.song@windriver.com>
-X-Originating-IP: [128.224.162.161]
-Subject: Re: [meta][PATCH 0/2] Add kernel-sample tests for runtime test
+In-Reply-To: <59452b23-7470-588c-75fb-7445aaa13ba1@linux.intel.com>
+Subject: Re: [PATCH v2] feat(openssl-1.1): rework packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 02:03:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Jun 2018 06:33:26 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-ping...
+Hi Alex,
 
+On 06/07/18 15:13, Alexander Kanavin wrote:
+> On 06/07/2018 10:32 AM, Andrej Valek wrote:
+>> -do_install_append_class-native () {
+>>           # Install a custom version of c_rehash that can handle sysroots properly.
+>>           # This version is used for example when installing ca-certificates during
+>>           # image creation.
+>>           install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+>>           sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+> 
+> Why is this merged into the main do_install()? Please explain.
+c_rehash was not working on target exactly as on native. (Same perl
+erros). So I have copied this stuff from 1.0.2, it is working on both
+platforms as well.
+> 
+>> +        # Create SSL structure
+>> +        install -d ${D}${sysconfdir}/ssl/
+>> +        mv ${D}${libdir}/ssl-1.1/openssl.cnf \
+>> +           ${D}${libdir}/ssl-1.1/certs \
+>> +           ${D}${libdir}/ssl-1.1/private \
+>> +           \
+>> +           ${D}${sysconfdir}/ssl/
+>> +        ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl-1.1/certs
+>> +        ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl-1.1/private
+>> +        ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl-1.1/openssl.cnf
+> 
+> Please explain this change as well. Resend the patch with the 
+> explanations included in the commit log or (better), the recipe itself.
+During splitting to packages I have compared files with 1.0.2 and I
+wanted to have same file structure. Anyway Debian is using this location
+without modification and You don't like it, so I will revert it.
 
-A bug has been created, but the patch hasn't been adapted.
+But note that bash-completion has the /etc path for openssl.cnf as
+default search path... .
+> 
+> I would like to keep the new openssl recipe short and simple, and so 
+> anything that adds lines and complication should be well justified. :)
+> 
+> Alex
+> 
 
-bug 12774 : https://bugzilla.yoctoproject.org/show_bug.cgi?id=12774
-
-
-We plan to add more tests about kernel in the next time.
-
-
-If there is no objection, could you adapt my patch?
-
-
--- Hongzhi
-
-
-On 2018年06月05日 10:32, Hongzhi.Song wrote:
-> V4:
->   * add support for qemu by default
->
-> V3:
->   * remove duplicated code
->
-> V2:
->   * use shared function to replace similar code
->
-> Hongzhi.Song (2):
->    meta runtime testcases: enable kernel-sample features for runtime
->      tests
->    Meta runtime cases: add testcases for kernel sample
->
->   meta/lib/oeqa/runtime/cases/ksample.py    | 213 ++++++++++++++++++++++++++++++
->   meta/recipes-kernel/linux/linux-yocto.inc |   3 +
->   2 files changed, 216 insertions(+)
->   create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
->
-
+BR,
+Andrej
 
