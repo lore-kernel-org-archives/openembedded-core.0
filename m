@@ -1,49 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 888B0745A7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C94BE75374
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 13:51:56 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id w10-v6so13480760wrk.9
+	Fri,  8 Jun 2018 14:03:37 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id l33-v6so13495211qta.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2018 06:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Qwt708PbwtEmKuC63khS1vbHDmxY2k/OZq+1nTXFg5Y=;
-	b=re5e4focS8Qk4kcMDP6iWJZsUM/imDWz/h0piOyF19gkMFg8z2+piDBVhbsDY4a2Vb
-	Oabv0Fs321KZ6vqUvpbDe9376ccEkRXqfBKK70iR9e7W5ucdbGjavuLbkRkahZ74WnDw
-	55Y45+VW0lZqE3f1Q9qqfubf828aMAaM/dJaZ/7Wp9PIwTkehKXsGe1SVD1SP2jEZH4Z
-	y/WbktkGtjrdeD1pSN8Yt6n5xOwsacu5cO5IcrN+wIvrU38HeOFg4lnWtOaTB0VdozD3
-	zMXr/bclGMM8YEm1dX47Pkuxa+Pysd2y7PdgWyO/T5Cx9+tLkaSgxgRb3ev5IFRJDyVA
-	QucQ==
+	Fri, 08 Jun 2018 07:03:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Qwt708PbwtEmKuC63khS1vbHDmxY2k/OZq+1nTXFg5Y=;
-	b=D20BhG+HLczc+l+C/Ld0krAlSZUJAVwiNP/JzTMsi1ZnAn0MHJOx/pvP1SHwQsPJ56
-	ms6B5yNX9A7u3ByZYQxwtEEQnZnZ6DOJ1X832NeMxU5lz6yDf+bFdMoTfbIR+ZA0tewT
-	snuUW+u43AaIl15IIjk3lWOmChH4fGgsU1JEUhgwz9xF3QH10MVP69j6Xt6poyr+Hodt
-	QOPkWYMYdDgDlHethpJZiyH0CT9sBNy6xC7ncZUKPG+7NlXChx4hwvDaoylyf4nGTdqu
-	EQnGzgUc0Isa5q9cgt0DOEyKe+Q88BMXhRsOQ/jccXSNRH0Utdd2+mjxSFkatn9zI26A
-	7fsQ==
-X-Gm-Message-State: APt69E18aNdowJXA0x+rlhP8TW+8AanVVO8l3YcoalFbPEs6JkvrVaw+
-	hK6PWjWIOdJ2Ah2zDvCnTyH+R5/q
-X-Google-Smtp-Source: ADUXVKKPY36TKCugOKCQpF+bOlt+2oYihwpjZszPhGiwkxgFxIrV5++AevOWCLdv9nQWcL7PNf8BiQ==
-X-Received: by 2002:a5d:4307:: with SMTP id h7-v6mr5347998wrq.58.1528465916696;
-	Fri, 08 Jun 2018 06:51:56 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	x5-v6sm27438826wrr.3.2018.06.08.06.51.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jun 2018 06:51:55 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jun 2018 14:51:53 +0100
-Message-Id: <20180608135153.7352-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] wayland: fix upstream release checking
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=ZVW2L+2Vny+ICXdIuFyIB6Ql+EteYYxSHNageoJOQw0=;
+	b=TvAH/mZsg/7iJVKJnVSiKUVianmbHXLN0YMOfOU87JJSZ06+v77jAwwNwlMAeE+f2c
+	3U4469IjOPodGb0Gk+JRhPISnLcF9BdK5SftJZJCKBKaNr0VqZLTFnO3yDcm+0+m9T3l
+	VaxzE6G6hyKDQZI63ApUb3SIyaCIfaYQxuuYTD0hNQww50FLpgMHG9uG1uAJ9ujtvjJk
+	BuL55lZ6xyX/qgxbJDx6DvSRRSSuUvdXUDdSn6VhDfmoGR0qOur6WYkUCItFcRfJzcGP
+	7w1KS200fADBpXod9H/gnBi6keFWvtqhCEddZ2iPKo1VBtgThDK1h47sOV5l1Fw7EtLo
+	FNmQ==
+X-Gm-Message-State: APt69E1Ns4DsamJvZc39e+KDXlCbi7RSVg5oyId3DIIJmmKXHbO1tSLI
+	9AEeRWRwyMhFwXLH2IjcxlTRgA==
+X-Google-Smtp-Source: ADUXVKLPRvUS87tEUWysnFIvAGZuslgcHFWb8jH7iV2yV2C9hBrr2Akh3/GbQ6zy9DAP2/J5iN4hhg==
+X-Received: by 2002:ac8:5053:: with SMTP id
+	h19-v6mr6066166qtm.71.1528466618402; 
+	Fri, 08 Jun 2018 07:03:38 -0700 (PDT)
+Received: from localhost.localdomain ([187.23.153.102])
+	by smtp.gmail.com with ESMTPSA id
+	l8-v6sm26128240qtf.77.2018.06.08.07.03.35
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 08 Jun 2018 07:03:37 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 08 Jun 2018 11:03:31 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  8 Jun 2018 11:03:30 -0300
+Message-Id: <20180608140330.3266-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.17.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] uboot-extlinux-config.bbclass: Add baudrate in console bootparam
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +50,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 13:51:56 -0000
+X-List-Received-Date: Fri, 08 Jun 2018 14:03:38 -0000
 
-Wayland has moved to GitLab with the result that /releases/ no longer returns a
-directory listing, so the upgrade detection doesn't work.
+By default, we ought to use console="${console},${baudrate}" as
+console bootparam as commonly it is left to be passed with the
+bootargs.
 
-The upgrade detection can scan releases.html just as well, so tell it to look
-there.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-graphics/wayland/wayland-protocols_1.14.bb | 2 ++
- meta/recipes-graphics/wayland/wayland_1.15.0.bb         | 2 ++
- meta/recipes-graphics/wayland/weston_4.0.0.bb           | 2 ++
- 3 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
-index 3393a2c797d..873fcf1c282 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.14.bb
-@@ -14,6 +14,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "5d32eaf0f5d6b7da7f5ad0959e2551e6"
- SRC_URI[sha256sum] = "9648896b2462b49b15a69b60f44656593c170c0e73121c890eb16d0c1d9376f6"
- 
-+UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-+
- inherit allarch autotools pkgconfig
- 
- PACKAGES = "${PN}"
-diff --git a/meta/recipes-graphics/wayland/wayland_1.15.0.bb b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-index 788105bff8e..d037dc46542 100644
---- a/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.15.0.bb
-@@ -18,6 +18,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "b7393c17fdce9a8d383edab656c92fd2"
- SRC_URI[sha256sum] = "eb3fbebb8559d56a80ad3753ec3db800f587329067962dbf65e14488b4b7aeb0"
- 
-+UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-+
- inherit autotools pkgconfig
- 
- EXTRA_OECONF = "--disable-documentation --with-host-scanner"
-diff --git a/meta/recipes-graphics/wayland/weston_4.0.0.bb b/meta/recipes-graphics/wayland/weston_4.0.0.bb
-index 7dfca7fc633..e78b0d91949 100644
---- a/meta/recipes-graphics/wayland/weston_4.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_4.0.0.bb
-@@ -15,6 +15,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "33709aa4d5916f89643fca0fc0064b39"
- SRC_URI[sha256sum] = "a0fc0ae7ef83dfbed12abfe9b8096a24a7dd00705e86fa0db1e619ded18b4b58"
- 
-+UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-+
- inherit autotools pkgconfig useradd distro_features_check
- # depends on virtual/egl
- REQUIRED_DISTRO_FEATURES = "opengl"
+ meta/classes/uboot-extlinux-config.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index 61dff14b7c..c65c421b60 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -58,7 +58,7 @@
+ #
+ # The kernel has an internal default console, which you can override with
+ # a console=...some_tty...
+-UBOOT_EXTLINUX_CONSOLE ??= "console=${console}"
++UBOOT_EXTLINUX_CONSOLE ??= "console=${console},${baudrate}"
+ UBOOT_EXTLINUX_LABELS ??= "linux"
+ UBOOT_EXTLINUX_FDT ??= ""
+ UBOOT_EXTLINUX_FDTDIR ??= "../"
 -- 
-2.11.0
+2.17.1
 
 
