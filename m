@@ -1,66 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0389375149
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5777D7547D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jun 2018 00:57:42 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id 31-v6so7201690plc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2018 17:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Oq7OB4PWAz5jLZv4wF9pTalv4zoLGD1diwFRLyZRPUw=;
-	b=LzXLa93U9LgnZA9vEsia/nbQs6NPY1hr3CS64L5UBOiHOH78EZwAiCxaiEUjfxnumf
-	Wltj2NZhWyqUPQcXtEAilYUtauSIu0YIbWe3jwZiVQAvwAA5NsH0SDwVlFHw7KJVvSc1
-	/uPyvtC1WKDzuzfm7TrmJuxvCRTcRr04BY84FFw9LZUmjONylx2HNJYRUP0qHvk9sU1z
-	HAkU/Jg5Ri7m9v4I9AsOYofzztJ2jM2paHzLH95oV2MZ1v8HJnJKJOdeLx1uAEakwWa8
-	byO5k5tQkLra3dBCIlyVmjNN/J6w5dnwGcWOgT1ADxwCV0txxFyfZ+n0bEIBtcDmVORK
-	aj1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=Oq7OB4PWAz5jLZv4wF9pTalv4zoLGD1diwFRLyZRPUw=;
-	b=FDC0fnykMdKLUEtrNhg/wATxm/5hG6qQhWosAuSOMxlEIVqVRTA79FptZ+3mNkXaus
-	VZ5+TJkZDlQpNMN46xnEYbGf822lPJ9wSzYzrycIybz+2YIXv5CgXeAkKNbQsFKeMSmM
-	BBjNq2OGAVxrbSaTf9m4tINkoNnuOfTlKT8oebBTOhwLvkosBe/EHZI+s9EjbjDW82P5
-	riplrsJDPQIoT7qRHXo+2yEumkbJt7/iTyDPm9MrVpllTOuX4Z4aqemVVtAADx/ye3Qc
-	yIkrZKUhKgCr6RRFqrGkslAAWcixbbnzjyMUh/FEj7QmH6CKlN5n/WUU3eockqKv0Rkx
-	ekuw==
-X-Gm-Message-State: APt69E2Q2iqd5qhEI25YD6OqorEkBHSmgiWtgorF7UoxYTSqjldwJ6IX
-	rjzPCNSFeMkQiFy8YuS4FM+Gk/8h
-X-Google-Smtp-Source: ADUXVKIcJZPHejJO7sL3IxPSDwJo89xEvQ8KLr/qWkCPCXZK6STVehaU1nIytyvQKISWM7qYdd1i9g==
-X-Received: by 2002:a17:902:e85:: with SMTP id
-	5-v6mr4260202plx.318.1528419463428; 
-	Thu, 07 Jun 2018 17:57:43 -0700 (PDT)
-Received: from hermes.local ([2601:646:877f:9499:4576:376:b010:94ac])
-	by smtp.gmail.com with ESMTPSA id
-	131-v6sm98263490pfa.128.2018.06.07.17.57.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Jun 2018 17:57:42 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1528320772.git.raj.khem@gmail.com>
-	<635c8757bf852c8a4248009f241c19146431cacd.1528320772.git.raj.khem@gmail.com>
-	<CAJ86T=U5WPudMu_VBL_Y00DQrOjRb91=x+6+21V0ZQKhCQ7ThA@mail.gmail.com>
-	<CAMKF1so4AMMhXS4VRNV2CPjvPRbzkPWEW3f=iTNio2jNC1Fgxw@mail.gmail.com>
-	<CAJ86T=VCqqt_7OXT__NLtH_uayoSX_rFS=vXEyOZY3BQz3+FKQ@mail.gmail.com>
-	<5c57a121-c4cd-e548-cd26-182076deb917@gmail.com>
-	<CAJ86T=U12bdRd=GtseZc8DSKOyEm=OdM=JJZB_6Uu4c0e5__1w@mail.gmail.com>
-	<CAMKF1srdYY8MXiFWjk7Khh2TsDQ0faTPV4gn5tRfUwrXEUYpUA@mail.gmail.com>
-	<CAJ86T=UTpUaBVcrp-6g_A7e51WhjiSuE7i8wjxzct1ii-xCuqw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <d9536882-8db8-9fb0-91c1-fe1f023efb49@gmail.com>
-Date: Thu, 7 Jun 2018 17:57:42 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.0
+	Fri,  8 Jun 2018 01:08:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5818xAZ017771
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Jun 2018 18:08:59 -0700 (PDT)
+Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 7 Jun 2018 18:08:58 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>, <openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Jun 2018 09:18:31 +0800
+Message-ID: <cover.1528420480.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UTpUaBVcrp-6g_A7e51WhjiSuE7i8wjxzct1ii-xCuqw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/12] tune/arm: Set -mtune instead of -mcpu
+Subject: [PATCH V2 0/1] trace-cmd: add PACKAGECONFIG for audit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,143 +29,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2018 00:57:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jun 2018 01:08:59 -0000
+Content-Type: text/plain
 
+The following changes since commit 90a29096f47981e21e86594ca2310b659844c9c1:
 
+  oe-pkgdata-util: package-info: Re-add support for the --extra option (2018-06-04 15:15:00 +0100)
 
-On 6/7/18 4:38 PM, Andre McCurdy wrote:
-> On Thu, Jun 7, 2018 at 7:04 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Thu, Jun 7, 2018 at 12:14 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Wed, Jun 6, 2018 at 10:58 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> On 6/6/18 4:42 PM, Andre McCurdy wrote:
->>>>> On Wed, Jun 6, 2018 at 3:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>>
->>>>> The -mcpu, -march and -mtune options are not new and gcc 6 and 7 catch
->>>>> the same conflicts. It doesn't make sense that gcc8 is just catching
->>>>> more issues.
->>>>
->>>> It does make sense. the option parsing for these specific options on arm
->>>> have been revamped after gcc7, see
->>>>
->>>> https://github.com/kraj/gcc/compare/a99ae290af49793cd3db7a74f3dbc59e64d356a1...68b54adbd7b10c66d968d74b96fba552bd46ebb7
->>>
->>> Thanks. These commits seem to be related to handling of options like
->>> "-mcpu=cortexa9+nosimd". Was that the error you saw in testing?
->>>
->>> If you can provide the command line that caused the error then it
->>> should be quick to establish whether it's gcc8 being more picky.
->>>
->>> Or perhaps there's always been a warning and -Werror has been added to
->>> a gcc8 Makefile where it wasn't before?
->>>
->>>>> If we are trying to build something which is reusable across multiple
->>>>> machines with the same architecture then it's a bug to be passing
->>>>> machine specific CFLAGS. Making the machine specific CFLAGS more
->>>>> generic is not the right solution.
->>>>
->>>> being reusable is a side-effect and a good one. Real problem is we are not
->>>> matching to what we say in package arches, Probably you are confusing tunes
->>>> to be meant for static code generation for a given CPU.
->>>
->>> Sorry, I don't really follow what you mean?
->>>
->>>> I am interested to
->>>> hear more ideas to what would be right solution if this is not it.
->>>
->>> I'd like to understand what the problem is first before trying to
->>> propose any solutions.
->>>
->>> ie what specifically has changed with gcc8 to cause the error which
->>> wasn't seen before?
->>
->> I would suggest take this gcc8 patch series and revert this one then build
->> gcc-runtime for rpi3
-> 
-> That's the answer to "how do I reproduce the issue" not to "what is the issue".
-> 
+are available in the git repository at:
 
-another way to nudge for some help :) Thanks for digging further details.
+  https://github.com/DengkeDu/openembedded-core.git dengke/trace-cmd
+  https://github.com//tree/dengke/trace-cmd
 
-> Anyway, I can reproduce the issue. The root cause is that gcc-runtime
-> libatomic tries to support runtime selection between different
-> implementations of a few low level functions by making use of the gcc
-> "ifunc" function attribute:
-> 
->    https://gcc.gnu.org/onlinedocs/gcc-8.1.0/gcc/Common-Function-Attributes.html#index-ifunc-function-attribute
-> 
-> ie libatomic can contain versions of functions specific to armv6 or
-> armv7 with selection between them being made at runtime via ifunc.
-> 
-> In order to build the armv7 versions of these few functions, the
-> libatomic Makefiles selectively add -march=armv7-a to CFLAGS. This
-> isn't new - it goes back to at least 2012 in gcc git history.
-> 
->    https://gcc.gnu.org/ml/gcc/2014-01/msg00141.html
-> 
-> What _is_ new is that for ARM, support for ifunc function attributes
-> was not enabled prior to gcc8. ie when building with gcc7, the
-> libatomic configure script determines that the toolchain doesn't
-> support ifunc and libatomic therefore builds without support for
-> runtime function selection... since it never needs to compile armv7
-> specific versions of the runtime selectable functions the -march -vs-
-> -mcpu conflict never happens.
-> 
->    https://gcc.gnu.org/ml/gcc-patches/2017-10/msg00521.html
-> 
-> (Note that ifunc support for ARM in gcc8 is still only enabled for
-> glibc, so this issue doesn't show up at all with musl).
-> 
-> Various solutions are possible:
-> 
-> 1) Let libatomic continue to build with ifunc support enabled, but
-> avoid -march -vs- mcpu conflicts by dropping -mcpu from OE's CFLAGS in
-> the gcc-runtime recipe.
+Dengke Du (1):
+  trace-cmd: add PACKAGECONFIG for audit
 
-I don't think this is required. Even though it might be useful for other 
-reasons.
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
-> 2) Let libatomic continue to build with ifunc support enabled, but
-> avoid -march -vs- -mcpu conflicts by updating the libatomic Makefiles
-> so that they always safely over-ride any combination of -march, -mcpu,
-> etc passed in from the build environment. ie patch the libatomic
-> Makefiles to replace:
-> 
->    IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
-> 
-> with:
-> 
->    IFUNC_OPTIONS = -march=armv7-a+fp -mcpu=generic-armv7-a -DHAVE_KERNEL64
-> 
-> (Regardless of the solution we pick for OE, I think that fix should be
-> submitted upstream to libatomic. There's no need for libatomic to risk
-> build errors by not defining -mcpu in cases where it specifically
-> wants to target armv7a).
-
-I think this is better. Now my memory serves me right I had a local 
-patch few months ago which I discarded where I was using -march with 
-armv7ve but it was limiting for other reasons. I think it would be 
-better to drop -march completely.
-
-IFUNC_OPTIONS = -mcpu=generic-armv7-a -DHAVE_KERNEL64
-
-I will test it out locally and see if that works.
-
-> 
-> 3) Prevent libatomic from building with ifunc support enabled for ARM
-> by forcing "libat_cv_have_ifunc=no" from the gcc-runtime recipe.
-> 
-
-This would be ok too for OE ifuncs dont serve much since we target a 
-specific CPU anyway.
-
-> Votes?
-> 
-
-approach 2 is what we should use.
-
+-- 
+2.7.4
 
 
