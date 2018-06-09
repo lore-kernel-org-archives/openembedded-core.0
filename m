@@ -1,55 +1,101 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 41FDF76009
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 31B5C76054
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jun 2018 14:09:40 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id d2-v6so15995542wrm.10
+	Sat,  9 Jun 2018 14:55:39 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id m5-v6so7694861pgd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jun 2018 07:09:41 -0700 (PDT)
+	Sat, 09 Jun 2018 07:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
-	:references; bh=Hy78vsF+NzXPaq5+o/bn5KnBPML75FAXM6eUlWgim/U=;
-	b=lb/iqPD/n4/JbntSb2o/STRW7ju8zmmofedOzRX0y0jGlXcpq/oAcGhBpBu+hpJ5MW
-	bU61AFznxxTbzghODfSkh1NB7mkMzmEMyRFoY6UfI3eEM7Uz/gNYkQBGZaBaVx9CenBM
-	Mzl81ZJsX1xhyv88zoY2ERYeNnCFwz8zMruPL72Gd9qQiXA3CJaeVaI5rjSwobXE8anO
-	cpwTKlPo42y0hrgcjNm9VXtvOj0SVq7G7zXHu4rkyXWFs2eGHmuF9Uf4nAjvw0NlHKSy
-	X2iD8B2dGwljNyaXXq0r9bybZxDLfwqiUdh3MIZOjjdmvuc7Wg+HimsuvF8wbR4hzwKy
-	XEMg==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=yAkGuJSwd3Mt96T51Rq8bkVWE5FiU8vE1rbFlB9XCns=;
+	b=d4NDz396KVJv3fPGnun79i1mgeY27YhMkkohXaFL/eE+Tx8OnmJlFKWkKa/7LZf6i9
+	F+pyIOE/coQQ4mxENh3i94dnPOI4dgx5ROaQqqEvz8idbjlKHTNZ7ViR8sUXGLZDatq0
+	7skBmPaaBrdJX35Uostqq4/9AV1q+YO/+/jv+Lk4Un8XpJi+/xhlzuc98RBFp1AgX5W7
+	TXm6EPQQAbdPNwgHNuf56ExJxGfzFU9QyDRtMMyRLZS7+Tmf1AinFWG/p0+wj14v0/ii
+	qPWfR404i0nUvRKALeF+e56enodQz5XqTLqv2e8r7yBVw3YFVKvQeSOi4BcLXqwmHMyM
+	yafQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:mime-version:subject:date
-	:in-reply-to:cc:to:references;
-	bh=Hy78vsF+NzXPaq5+o/bn5KnBPML75FAXM6eUlWgim/U=;
-	b=Qxbd7mnCYVg9zJ9NHePz8eAjJtOa3k/hL2IMke0RETkQ/W39+7aEJU6v6bpdn2u3La
-	VdrNa3ujbYuQdanEAsojaVtsiuZYGHUnCv74jRajSu835NH57ySAridlYvTgyojfMdO+
-	tsrQVU/yIGIveIHq9rZov3wnLtBCMUwxtSpcRGiqi9LBekkEfUJfW5ba4mBzF4ouHlcz
-	gncT7xBTGS6AjRsjET4Gt54Tt8sNRaQlmw4olRbU2L90WEWpr2XshM86HCD8fNhorNUr
-	jOX5FXa0wHtZSRDBHrHt77UU8wnR1O6ScW073QtXWnG6Mg/31lbz/EJBsSx4CprVknFM
-	DS4Q==
-X-Gm-Message-State: APt69E218jkJItIx+70FErGdCEYayH9qPyZr5nY5M+2C1a6+OVp2WQuZ
-	RF68EJe2GKen38d1mvAIkHA=
-X-Google-Smtp-Source: ADUXVKIZktJVaEyfISdL2FwEWXDRMXTn0OugwxIOniaUbDrAvvP3wMaptu8bk8xpaoQGUPSn63Ieuw==
-X-Received: by 2002:adf:f546:: with SMTP id
-	j6-v6mr7576281wrp.241.1528553380813; 
-	Sat, 09 Jun 2018 07:09:40 -0700 (PDT)
-Received: from [10.42.8.249] (b2b-78-94-80-58.unitymedia.biz. [78.94.80.58])
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=yAkGuJSwd3Mt96T51Rq8bkVWE5FiU8vE1rbFlB9XCns=;
+	b=iQ5oO8WqHtHMd/btQGI+ZObp2IwqwB+nxvQKN6BSIRT/p/PC3wc5jBPayrJ9lu1Emx
+	RoqDwGIRmkkNUQXWErRIUh7HZFIs4ZCTbLE9Av6HCC3sP8qZvVoTdGhswZfGQp6NAvaJ
+	f/wY0ljmRyUMYat6ayxeRJzXkU27A24cF/6PcRsPYExFcUqEmAH0wvlwKCHGWeTSjx5e
+	2XmIkqDMJo9mhtHc88/iCNgXp7cw78jIzHctdf7IXknDcVqGTWewSLlaWYjJ4L7xlh7y
+	UgfGWrBAgvjvjeZoYHiRyMvEJkJVrQmffoSFbJmFTz65IFz9djYrA+zc191DOs6CfduR
+	A7dA==
+X-Gm-Message-State: APt69E23IZlhVOVrnZorcfToPBZQBLTwo1iYzRaC6CyZAY4trpjdxl05
+	3q+vQA1saJvchN6z9r5P4Eijew==
+X-Google-Smtp-Source: ADUXVKJEdyGi8w1udVxYNC7/l8uptflr2F9UmkpNNwgx4l0hMI/ah+k48xTmZLbMQ9O+CIAoPIuXpg==
+X-Received: by 2002:a65:4607:: with SMTP id v7-v6mr8941524pgq.31.1528556141117;
+	Sat, 09 Jun 2018 07:55:41 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:34b1:53bf:ee45:2976?
+	([2601:202:4000:1184:34b1:53bf:ee45:2976])
 	by smtp.gmail.com with ESMTPSA id
-	e14-v6sm3019653wmh.17.2018.06.09.07.09.39
+	p2-v6sm59110582pgq.14.2018.06.09.07.55.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Jun 2018 07:09:39 -0700 (PDT)
-From: Jens Rehsack <rehsack@gmail.com>
-Message-Id: <76EDCC39-697B-4817-9268-7426ECFD73B8@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 11.4 \(3445.8.2\))
-Date: Sat, 9 Jun 2018 16:09:37 +0200
-In-Reply-To: <98977A30-5D64-4CDB-9AEA-040AB7A647DC@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <98DF6614-20AE-41EB-BC2C-D20A477F63C3@gmail.com>
-	<61a0d69463b0b86d2de917653f0c7a989c699971.camel@linuxfoundation.org>
-	<98977A30-5D64-4CDB-9AEA-040AB7A647DC@gmail.com>
-X-Mailer: Apple Mail (2.3445.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] cpan_build.bbclass: adopt to recent EU::MM
+	Sat, 09 Jun 2018 07:55:40 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1527865239-8221-1-git-send-email-akuster808@gmail.com>
+	<CAJ86T=XwYWyFUAstvrVGfvjY3yS2JPvZXCFch9EyrONfByVYLg@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <dfdc1aa9-5854-81f8-a9c8-f3bbf49c933e@gmail.com>
+Date: Sat, 9 Jun 2018 07:55:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=XwYWyFUAstvrVGfvjY3yS2JPvZXCFch9EyrONfByVYLg@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] busybox: update to 1.28.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,145 +108,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jun 2018 14:09:40 -0000
-X-Groupsio-MsgNum: 112368
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_53502237-72EA-408A-A10B-2030E1B548BA";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
-
---Apple-Mail=_53502237-72EA-408A-A10B-2030E1B548BA
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-
-> Am 05.06.2018 um 14:37 schrieb Jens Rehsack <rehsack@gmail.com>:
->=20
->=20
->=20
->> Am 05.06.2018 um 10:43 schrieb Richard Purdie =
-<richard.purdie@linuxfoundation.org>:
->>=20
->> On Mon, 2018-05-28 at 20:55 +0200, Jens Rehsack wrote:
->>> The modern the time, the improvements in ExtUtils::MakeMaker.
->>>=20
->>> Nowadays, .packlist and perllocal.pod aren't touched anymore when =
-appropriate
->>> flags set during configure stage. Controlling the flags globally =
-avoids
->>> dual-life recipes need share patching.
->>>=20
->>> Further: remove prepending ${PERL_ARCHLIB} in PERL5LIB - it's wrong =
-(search
->>> order is site_lib, vendor_lib, core) - and ${PERL_ARCHLIB} contains =
-core
->>> libpath only ...
->>>=20
->>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
->>> ---
->>> meta/classes/cpan.bbclass | 3 +--
->>> 1 file changed, 1 insertion(+), 2 deletions(-)
->>>=20
->> I put this in for testing but I see:
->>=20
->> $ SDKMACHINE=3D"i686" bitbake nativesdk-libxml-parser-perl
->> [...]
->> ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: =
-nativesdk-libxml-parser-perl: chrpath command failed with exit code 7:
->> =
-b'/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/nativ=
-esdk-libxml-parser-perl/2.44-r0/package/opt/poky/2.5+snapshot/sysroots/i68=
-6-pokysdk-linux/usr/lib/perl/vendor_perl/5.24.1/auto/XML/Parser/Expat/Expa=
-t.so: =
-RPATH=3D/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux=
-/nativesdk-libxml-parser-perl/2.44-r0/recipe-sysroot/opt/poky/2.5+snapshot=
-/sysroots/i686-pokysdk-linux/usr/lib\n'b"new rpath =
-'$ORIGIN/../../../../../../../../../../../../../../media/build1/poky/build=
-/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.=
-44-r0/recipe-sysroot/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr=
-/lib' too large; maximum length 176\n"
->> ERROR: nativesdk-libxml-parser-perl-2.44-r0 do_package: Function =
-failed: perform_packagecopy
->> ERROR: Logfile of failure stored in: =
-/media/build1/poky/build/tmp-222/work/i686-nativesdk-pokysdk-linux/natives=
-dk-libxml-parser-perl/2.44-r0/temp/log.do_package.23783
->> ERROR: Task =
-(virtual:nativesdk:/media/build1/poky/meta/recipes-devtools/perl/libxml-pa=
-rser-perl_2.44.bb:do_package) failed with exit code '1'
->>=20
->> which seems to reproduce fairly readily both locally and on the
->> autobuilders. Reverting this patch resolves it.
->=20
-> Without having tested that - this seems to come from
->=20
-> -	export PERL5LIB=3D"${PERL_ARCHLIB}"
->=20
-> which is, when do not causing above build failure, kind-of bug-using =
-:)
-
-Indeed ...
-
-I could debug the error message
-
-> b"new rpath =
-'$ORIGIN/../../../../../../../../../../../../../../media/build1/poky/build=
-/tmp-222/work/i686-nativesdk-pokysdk-linux/nativesdk-libxml-parser-perl/2.=
-44-r0/recipe-sysroot/opt/poky/2.5+snapshot/sysroots/i686-pokysdk-linux/usr=
-/lib' too large; maximum length 176\n"
-
-down to perform_packagecopy(d)
- -> rpath_replace (d.getVar('PKGD'), d)
- -> process_dir (d.getVar('PKGD'), d.getVar('PKGD') + bindir, d)
- -> process_file_linux(d.expand('${CHRPATH_BIN}'), =
-'...usr/lib/perl/vendor_perl/5.24.1/auto/XML/Parser/Expat/Expat.so', =
-d.getVar('PKGD'), d.getVar('PKGD') + bindir, =
-os.path.normpath(d.getVar('TMPDIR', False)), d) # with d.getVar('PKGD') =
-as rootdir and d.getVar('PKGD') + bindir as baseprefix
- -> new_rpaths.append("$ORIGIN/" + os.path.relpath(rpath, =
-os.path.dirname(fpath.replace(rootdir, "/"))))
-
-I think, that overflow of RPATH is now detected but could happen =
-(depending on configuration even with a shortened PERL5LIB to =
-PERL_ARCHLIB -- so it should be fixed by computing a better relpath for =
-$ORIGIN instead of hiding the bug again.
-
-> Always prepending ${PERL_ARCHLIB} causes for cross-building the =
-attempt
-> of loading sdk-modules, which is evil.
->=20
-> I'll try to have a detailed look later today or tomorrow.
-
-Sorry for being a bit late - hope it helps to figure out the root cause.
-
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_53502237-72EA-408A-A10B-2030E1B548BA
+X-List-Received-Date: Sat, 09 Jun 2018 14:55:40 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+Content-Language: en-US
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlsb36EACgkQRJmWrtzl
-Cp3a8xAAmG9TTTq/hBbsKUypEiMMi3NWrGNQlu8pRZ6q1jF3tm0J2i1z6lG9008A
-54GvHlQgYxjXC8O49W8ZAWYpobu5XUqt09KZwC2T7QX3kQ30KWKm9aD7A9jTKXUO
-mQHOb0GrJmTQD3MzPKjU8BNqPgga88vKos+uRDp3TCgkLJLT2qwO6VzzaOb/NkF4
-RjPHMKgp0zAQnWabvjiAR8aiO9fLqZwjTJ9buci88/EcOV1fM6+e0JU3UvWoUPXa
-CQSXXCtzUbJHKYyNuQLDHJnnBwdkjcpR2q5J98HBPzWkXViNasumA6OhpQL7/OWq
-QlSmz/GYzFRongZOfx+1P10mEAVoe5oFJZl0e8SOF/qAphV/a+E65PyUUsAojMPH
-SpeyBOvnB/5BuR9ebsbOVkhAd48ZhnSuJ2P5M1SdtPCSGo9+4ISGxJ8FO46+d3FJ
-sQ5KMNUARilBCsAZ97y7s8hGhpYSvt54qzSVlEZxVg2jQV5vE3OPLkAccrfsgREd
-C/09iGRjWbU2KrqFey0U/rTmzG5BQWOctA6IHgLGu4VCfzGLDif2f6KH3QLLOZ9h
-c5CJL8M+f4aSlt+eAIEwtBOa2MDZXbGU7Y0SP0ouLqzJ9rVxTtc6sDuwdBJYuYm9
-bKIZeUWvjn6gvvbC4MeX/IaRWNhqRJWVIv7xMhCVxa+x9sLBV40=
-=4Yjz
------END PGP SIGNATURE-----
 
---Apple-Mail=_53502237-72EA-408A-A10B-2030E1B548BA--
+On 06/01/2018 10:12 AM, Andre McCurdy wrote:
+> On Fri, Jun 1, 2018 at 8:00 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>> Decided to update again.
+>>
+>> 1.28.3
+>> [v3]
+>> Update defconfig based on feedback
+> It looks like you've incorporated the contents of the config fragments
+> into the new defconfig. e.g. CONFIG_FEATURE_VOLUMEID_EXT (which should
+> only be enabled if mount-via-label.cfg is included in SRC_URI) will
+> now be enabled unconditionally, etc.
+>
+> When you refresh the defconfig you should do so without any config
+> fragments enabled. The config fragments should then be reviewed
+> individually too.
+I just found this response sitting in my inbox. Thanks for the feedback.
+I will send a new version.
+
+thanks again,
+- armin
+>
+>> [v2]
+>> Add back busybox-udhcpc-no_deconfig.patch ti SRC_URI, missed earlier
+>>
+>> [v1]
+>> removed patches included in update:
+>> busybox/CVE-2011-5325.patch
+>> busybox/CVE-2017-15873.patch
+>> busybox/busybox-CVE-2017-16544.patch
+>>
+>> refactored busybox-udhcpc-no_deconfig.patch for this update
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+
+
