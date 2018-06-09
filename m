@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EB79978816
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F04F2787E1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jun 2018 20:00:48 +0000 (UTC)
-Received: by mail-pg0-f41.google.com with SMTP id c10-v6so2262936pgu.9
+	Sat,  9 Jun 2018 20:00:49 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id 15-v6so7892814pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jun 2018 13:00:50 -0700 (PDT)
+	Sat, 09 Jun 2018 13:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WPoRqtIPccpZ7OLjr0wDeDzdB4McxtEGnSwzvkCZGOY=;
-	b=pz4UaOizWhNV32R2Q5eMLJf08pgm0CcOk87zpvHT6oSRZzQltqPRSpATLTzVv5yBFS
-	rTqwBPBjy1GeHVEwKPpR7A7ERChdu1WZUMoXzwErAQrkRaA/onIgecl6JhVvOAAbeqYc
-	dF/hEyix1E22bhB7l297/KZkiSrP9BZAEdMGO2aZ/BR7FlKAPmnibtcnCeUowp2mPzx9
-	279q6T6QBogJV4O9hCccSZBKdh6HR3ZvXJBy4z76V9THSI+VqSX9P8lqVieXsg7Rop9p
-	J3FT4SOryCWhgoqrF9AtbcueXX2wkJa76Ftcxw0PJG7Tn6LzZ4s3n/NJJD1sUWiQMw5H
-	d/yA==
+	bh=t6o+94Ce39PnejAH0Wq/LTyAhs7A8M43uYDMMGT4dd8=;
+	b=f98TAU5Sxkyt/gkX4ebgT+XPU0sCfMCUQj7ekJYSuk/QfvQOGLa7Qgvk7rRGW7Sk7X
+	Z3en646aI1ebHYWJWUum3NhekjVtKM1SahLCL9YseeolB1ich8v0ihb53wlmJhnq+rKz
+	pWQDUQdMK/q2La4Q2MEUOGWx30B8dIXd3CWg6soMu59l9spWUmbt/FONdRKvLuSf7ZSQ
+	Ci27BbpyWiyea6r7Hee5Ae8Op7I0sNW/8avE6ZKhWC1NfL7SJ1/tF7fABCcPw8knb/iw
+	4ep/7CsLq5ZQZhTBYwlGfBnS1Rm6D+1z+qL2M4xi2EqNU/Uauq8hJvjq2qGUOc7mz+8h
+	CMIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=WPoRqtIPccpZ7OLjr0wDeDzdB4McxtEGnSwzvkCZGOY=;
-	b=k/4nbUuEyATRwRa8P7Xr6/FsITwxtLD+SyuHptObaUjvXTONrWJik0KYmgduGpLvLS
-	7yzUNRVWnuUxcKKMl9Fp4cQlM9Jh6L4B8QowP+kYGviCNJI/uFGJsY06yeH/iNIZk7hq
-	75uf2EgODHa9iXwdBAHvcvEw0Phu3cxByKc/A87WsXE/k7TG7mwGnnStK6NXwJcGyYe0
-	pgBDtxcyzc+0D0r3VC9uYrI3sY5Xw8xQyj4oMVep3iEv21IRCvPJj5pEBfwvuVRCXRSA
-	PAIsyJqTWfaEQlqTxzFAqWSuN1LerSOkPjNTRGw1Lm30rnTsOKXGeXqCFrANzxcSqgJy
-	M6eQ==
-X-Gm-Message-State: APt69E25YwG2Xa8uNM6I0PMd8IQwSY9zPMVqolLxplm36E4rUBB+wLhE
-	DKucGx+fKK76lPqV2h4xWzo=
-X-Google-Smtp-Source: ADUXVKJ+6e1Uu02RPYrx39zE8rWMZO0hsL8RNAtq9mUn6SPn6P4/0mwdKSNLLFks/rt+HbBozCkTPA==
-X-Received: by 2002:aa7:8254:: with SMTP id
-	e20-v6mr11366417pfn.140.1528574450170; 
-	Sat, 09 Jun 2018 13:00:50 -0700 (PDT)
+	bh=t6o+94Ce39PnejAH0Wq/LTyAhs7A8M43uYDMMGT4dd8=;
+	b=Oby3oxswsqhhS8whUJLK6r2PSa2CcjvDXFYDHKlqVKuuVqrzdYkQegZBzyOFe41ey1
+	4eK0oqhnlUFQ4sj3xlVoUgGvc1JnMGa6TGAwoQjxWpbyAbJjBWXpP/oQSUnUtn9KIiX/
+	tJRo6AYCl0QyrolCneiPi0YjeY6Z0nid0U2isiEUHM2tLch6dvwensEijLJ47WBAyqGf
+	PY48gg7r8lF4Kxa1p2tRfPtt+z8j4loh/TsJgllbF902DAU3VJHENZvEBYRoBGoT7BXF
+	fg6/g4CQdl8MuQSIZrJHn1TP8+L8G/N+4fZtmvq+QONKxA4SHSgBl96fy/eYz6LlomyW
+	sfMQ==
+X-Gm-Message-State: APt69E3uEceL3jXICxfV9cBXtRxIkltjluv/hEFLGHbCn7T69TjsU7Mu
+	QBT7Wep6LZX46YkHdr2i/qU=
+X-Google-Smtp-Source: ADUXVKK1b9imn6cFHBdBSuoL5PQrx80NJyd8UFOCep0an8AxHeQuNNCC+F4ls+lqX6wzykTanr1MAw==
+X-Received: by 2002:a62:8552:: with SMTP id
+	u79-v6mr11377487pfd.201.1528574451121; 
+	Sat, 09 Jun 2018 13:00:51 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:34b1:53bf:ee45:2976])
 	by smtp.gmail.com with ESMTPSA id
-	68-v6sm102469622pfk.46.2018.06.09.13.00.49
+	68-v6sm102469622pfk.46.2018.06.09.13.00.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 09 Jun 2018 13:00:49 -0700 (PDT)
+	Sat, 09 Jun 2018 13:00:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jun 2018 13:00:46 -0700
-Message-Id: <1528574447-21755-2-git-send-email-akuster808@gmail.com>
+Date: Sat,  9 Jun 2018 13:00:47 -0700
+Message-Id: <1528574447-21755-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
 References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 1/2] selftest: add cmake test
+Subject: [PATCH 2/2] selftest: add cmake oeqa portion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,92 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jun 2018 20:00:49 -0000
+X-List-Received-Date: Sat, 09 Jun 2018 20:00:50 -0000
 
-This came out of Yocto bug 12762. We need to ensure cmake will support
-various packages in core as they update.
-
-Test case provided by Dennis Menschel <menschel-d@posteo.de>, thanks
-
+add boost
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../recipes-test/cmake/cmake-boost-version-test.bb | 20 ++++++++++++++++++
- .../recipes-test/cmake/files/CMakeLists.txt        | 24 ++++++++++++++++++++++
- .../recipes-test/cmake/files/helloworld.cpp        |  7 +++++++
- 3 files changed, 51 insertions(+)
- create mode 100644 meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
- create mode 100644 meta-selftest/recipes-test/cmake/files/CMakeLists.txt
- create mode 100644 meta-selftest/recipes-test/cmake/files/helloworld.cpp
+ meta/lib/oeqa/selftest/cases/cmake.py | 43 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/cmake.py
 
-diff --git a/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb b/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
+diff --git a/meta/lib/oeqa/selftest/cases/cmake.py b/meta/lib/oeqa/selftest/cases/cmake.py
 new file mode 100644
-index 0000000..7bfd6ef
+index 0000000..aaf7f95
 --- /dev/null
-+++ b/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
-@@ -0,0 +1,20 @@
++++ b/meta/lib/oeqa/selftest/cases/cmake.py
+@@ -0,0 +1,43 @@
++#!/usr/bin/env python
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
 +#
-+# This file was derived from the 'Hello World!' example recipe in the
-+# Yocto Project Development Manual.
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +#
 +
-+SUMMARY = "Simple helloworld application"
-+SECTION = "examples"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++"""Test cases for cmake."""
 +
-+DEPENDS = "boost"
++import os
++import sys
++import unittest
++from glob import glob
 +
-+SRC_URI = " \
-+    file://helloworld.cpp \
-+    file://CMakeLists.txt \
-+"
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runCmd
++from oeqa.core.decorator.oeid import OETestID
 +
-+S = "${WORKDIR}"
++class CmakeSelfTests(OESelftestTestCase):
++    """cmake test class."""
 +
-+inherit cmake
-diff --git a/meta-selftest/recipes-test/cmake/files/CMakeLists.txt b/meta-selftest/recipes-test/cmake/files/CMakeLists.txt
-new file mode 100644
-index 0000000..2dc2c3f
---- /dev/null
-+++ b/meta-selftest/recipes-test/cmake/files/CMakeLists.txt
-@@ -0,0 +1,24 @@
-+cmake_minimum_required(VERSION 3.8)
++    @classmethod
++    def setUpClass(cls):
++        super(CmakeSelfTests, cls).setUpClass()
++        bitbake("core-image-minimal")
 +
-+project(example)
++    @OETestID(3000)
++    def test_boost_vesrion_check(self):
++        """Build Hello world with boost support"""
++        result = runCmd("bitbake cmake-boost-version-test")
++        self.assertEqual(0, result.status)
 +
-+find_package(Boost 1.60 REQUIRED
-+    COMPONENTS
-+        unit_test_framework
-+)
-+
-+add_executable(example
-+    helloworld.cpp
-+)
-+
-+target_link_libraries(example
-+    PRIVATE
-+        Boost::unit_test_framework
-+)
-+
-+install(
-+    TARGETS
-+        example
-+    DESTINATION
-+        bin
-+)
-diff --git a/meta-selftest/recipes-test/cmake/files/helloworld.cpp b/meta-selftest/recipes-test/cmake/files/helloworld.cpp
-new file mode 100644
-index 0000000..81ef9b9
---- /dev/null
-+++ b/meta-selftest/recipes-test/cmake/files/helloworld.cpp
-@@ -0,0 +1,7 @@
-+#include <iostream>
-+
-+int main(int argc, char *argv[])
-+{
-+    std::cout << "Hello World!" << std::endl;
-+    return 0;
-+}
 -- 
 2.7.4
 
