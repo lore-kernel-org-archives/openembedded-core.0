@@ -1,49 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AA52787E1
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EB79978816
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jun 2018 20:00:47 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id q4-v6so6828920pgr.1
+	Sat,  9 Jun 2018 20:00:48 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id c10-v6so2262936pgu.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jun 2018 13:00:49 -0700 (PDT)
+	Sat, 09 Jun 2018 13:00:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=cCeFqNLHtU8sQ/zCcvRmOl+0Qj6M2VUna/Smd6SrcoE=;
-	b=LbRc91YV+kKOdKbca8nH/yb7h1K7WtkD/sTYYApgezzg2REDZnGnMTb15/cd8R0uIS
-	cXUJ6XioR5XrrlNEJPiW0ck7qkMGa5t7lTd4aDRwetKji6/Nebx1MoSEH2unEDwX+yEV
-	4maJz0YJAzC38W+3Ih7VWPS1oZ6myrJYvtSHjl3CxZMbGBqoqZ8GWAV1oAdd1uz9QL0h
-	60e9Ill/Cape8pOeU0orfTKHkFfJPPjzfbBW7UOHcp5BftIKFZznsAuKU4G2QiC79vcX
-	Pcx0KBM0VuJNeKaio3aLeUGsXckPZ3XIn3DwjVntYHX7amTXOK4S4KkdacnMzMbQdxvg
-	kRbQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=WPoRqtIPccpZ7OLjr0wDeDzdB4McxtEGnSwzvkCZGOY=;
+	b=pz4UaOizWhNV32R2Q5eMLJf08pgm0CcOk87zpvHT6oSRZzQltqPRSpATLTzVv5yBFS
+	rTqwBPBjy1GeHVEwKPpR7A7ERChdu1WZUMoXzwErAQrkRaA/onIgecl6JhVvOAAbeqYc
+	dF/hEyix1E22bhB7l297/KZkiSrP9BZAEdMGO2aZ/BR7FlKAPmnibtcnCeUowp2mPzx9
+	279q6T6QBogJV4O9hCccSZBKdh6HR3ZvXJBy4z76V9THSI+VqSX9P8lqVieXsg7Rop9p
+	J3FT4SOryCWhgoqrF9AtbcueXX2wkJa76Ftcxw0PJG7Tn6LzZ4s3n/NJJD1sUWiQMw5H
+	d/yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=cCeFqNLHtU8sQ/zCcvRmOl+0Qj6M2VUna/Smd6SrcoE=;
-	b=BaGfVW09CUSJndiSnkHmaJkFqpu2q/qzvvfe/3fxdQ0aXDR+k8v8rZ/eZ+7kFkx2i1
-	GWMSM74/KVwMmgoVfITujtbqOmyLHaFK43mLd3o7PKoVRb4zBRvprnOg8zugptn5Qu9c
-	iInBL2NUSWBFr0KEhSYKAh09JzU4CnWwbhL4CO4Y36OtlRMsiE3BNScwWC2Bgzq/yeoF
-	NmmRLb5cLBZJMupPe1wW7JMrmoVrkq8H/72gNY/RwodTM4Dm0sLMV2RuRP5cwhNdpAEI
-	dIlxMB+1x2xpc1uZKXDvMbAWbb+uXzn3HDIdqwb1jxv+Mbk1xEWwRh5cfhL3utoDiKvw
-	nkcw==
-X-Gm-Message-State: APt69E3mVQEwGSPtJXSDkjSgf6SIAK3PAK615P8Pg5M2f0Fk94ynmAHG
-	AIgDxNVUaSNjF2kZ5BxIfFk=
-X-Google-Smtp-Source: ADUXVKKvnHriYYyrxHhVh0zE+76u8cNk6CyZZwn6ErpYTYmgH9w+YT2o/Z3IzoXH9J12DUK1N4AGxQ==
-X-Received: by 2002:a62:e401:: with SMTP id
-	r1-v6mr11303085pfh.172.1528574449177; 
-	Sat, 09 Jun 2018 13:00:49 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=WPoRqtIPccpZ7OLjr0wDeDzdB4McxtEGnSwzvkCZGOY=;
+	b=k/4nbUuEyATRwRa8P7Xr6/FsITwxtLD+SyuHptObaUjvXTONrWJik0KYmgduGpLvLS
+	7yzUNRVWnuUxcKKMl9Fp4cQlM9Jh6L4B8QowP+kYGviCNJI/uFGJsY06yeH/iNIZk7hq
+	75uf2EgODHa9iXwdBAHvcvEw0Phu3cxByKc/A87WsXE/k7TG7mwGnnStK6NXwJcGyYe0
+	pgBDtxcyzc+0D0r3VC9uYrI3sY5Xw8xQyj4oMVep3iEv21IRCvPJj5pEBfwvuVRCXRSA
+	PAIsyJqTWfaEQlqTxzFAqWSuN1LerSOkPjNTRGw1Lm30rnTsOKXGeXqCFrANzxcSqgJy
+	M6eQ==
+X-Gm-Message-State: APt69E25YwG2Xa8uNM6I0PMd8IQwSY9zPMVqolLxplm36E4rUBB+wLhE
+	DKucGx+fKK76lPqV2h4xWzo=
+X-Google-Smtp-Source: ADUXVKJ+6e1Uu02RPYrx39zE8rWMZO0hsL8RNAtq9mUn6SPn6P4/0mwdKSNLLFks/rt+HbBozCkTPA==
+X-Received: by 2002:aa7:8254:: with SMTP id
+	e20-v6mr11366417pfn.140.1528574450170; 
+	Sat, 09 Jun 2018 13:00:50 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4000:1184:34b1:53bf:ee45:2976])
 	by smtp.gmail.com with ESMTPSA id
-	68-v6sm102469622pfk.46.2018.06.09.13.00.48
+	68-v6sm102469622pfk.46.2018.06.09.13.00.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 09 Jun 2018 13:00:48 -0700 (PDT)
+	Sat, 09 Jun 2018 13:00:49 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster808@gmail.com,
 	openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jun 2018 13:00:45 -0700
-Message-Id: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+Date: Sat,  9 Jun 2018 13:00:46 -0700
+Message-Id: <1528574447-21755-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Adding cmake selftest
+In-Reply-To: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+Subject: [PATCH 1/2] selftest: add cmake test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +59,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jun 2018 20:00:48 -0000
+X-List-Received-Date: Sat, 09 Jun 2018 20:00:49 -0000
 
-This is my first selftest so any feedback is welcome.
+This came out of Yocto bug 12762. We need to ensure cmake will support
+various packages in core as they update.
 
-This selftest should help catch regressions when boost is updated and cmake is not. It appears cmake may be version sensitive to some packages so we may want to expand these selftests for other packages that live in core.  I got the testcase from Dennis Menschel via Yocto bug 12762 so many thanks.
- 
+Test case provided by Dennis Menschel <menschel-d@posteo.de>, thanks
 
-Armin Kuster (2):
-  selftest: add cmake test
-  selftest: add cmake oeqa portion
-
- .../recipes-test/cmake/cmake-boost-version-test.bb | 20 ++++++++++
- .../recipes-test/cmake/files/CMakeLists.txt        | 24 ++++++++++++
- .../recipes-test/cmake/files/helloworld.cpp        |  7 ++++
- meta/lib/oeqa/selftest/cases/cmake.py              | 43 ++++++++++++++++++++++
- 4 files changed, 94 insertions(+)
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../recipes-test/cmake/cmake-boost-version-test.bb | 20 ++++++++++++++++++
+ .../recipes-test/cmake/files/CMakeLists.txt        | 24 ++++++++++++++++++++++
+ .../recipes-test/cmake/files/helloworld.cpp        |  7 +++++++
+ 3 files changed, 51 insertions(+)
  create mode 100644 meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
  create mode 100644 meta-selftest/recipes-test/cmake/files/CMakeLists.txt
  create mode 100644 meta-selftest/recipes-test/cmake/files/helloworld.cpp
- create mode 100644 meta/lib/oeqa/selftest/cases/cmake.py
 
+diff --git a/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb b/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
+new file mode 100644
+index 0000000..7bfd6ef
+--- /dev/null
++++ b/meta-selftest/recipes-test/cmake/cmake-boost-version-test.bb
+@@ -0,0 +1,20 @@
++#
++# This file was derived from the 'Hello World!' example recipe in the
++# Yocto Project Development Manual.
++#
++
++SUMMARY = "Simple helloworld application"
++SECTION = "examples"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++DEPENDS = "boost"
++
++SRC_URI = " \
++    file://helloworld.cpp \
++    file://CMakeLists.txt \
++"
++
++S = "${WORKDIR}"
++
++inherit cmake
+diff --git a/meta-selftest/recipes-test/cmake/files/CMakeLists.txt b/meta-selftest/recipes-test/cmake/files/CMakeLists.txt
+new file mode 100644
+index 0000000..2dc2c3f
+--- /dev/null
++++ b/meta-selftest/recipes-test/cmake/files/CMakeLists.txt
+@@ -0,0 +1,24 @@
++cmake_minimum_required(VERSION 3.8)
++
++project(example)
++
++find_package(Boost 1.60 REQUIRED
++    COMPONENTS
++        unit_test_framework
++)
++
++add_executable(example
++    helloworld.cpp
++)
++
++target_link_libraries(example
++    PRIVATE
++        Boost::unit_test_framework
++)
++
++install(
++    TARGETS
++        example
++    DESTINATION
++        bin
++)
+diff --git a/meta-selftest/recipes-test/cmake/files/helloworld.cpp b/meta-selftest/recipes-test/cmake/files/helloworld.cpp
+new file mode 100644
+index 0000000..81ef9b9
+--- /dev/null
++++ b/meta-selftest/recipes-test/cmake/files/helloworld.cpp
+@@ -0,0 +1,7 @@
++#include <iostream>
++
++int main(int argc, char *argv[])
++{
++    std::cout << "Hello World!" << std::endl;
++    return 0;
++}
 -- 
 2.7.4
 
