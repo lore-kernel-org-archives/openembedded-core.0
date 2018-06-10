@@ -1,61 +1,104 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B021F78C43
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14EF0770B4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jun 2018 11:05:54 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id f16-v6so17457864wrm.3
+	Sun, 10 Jun 2018 16:04:50 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id f1-v6so10925730plt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jun 2018 04:05:56 -0700 (PDT)
+	Sun, 10 Jun 2018 09:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=SzjuOA47rFt+5oLF5j+cTNZe7fj8KlCMU462nlFLUGU=;
-	b=Hpcn9YYztm0r6mQXfKUpeURdmFeUXQiqZLwiVXkQKTt7z/Rfw+gFKRKopoa9MoSI4k
-	K3QF90VU3nkZwX4tWQKpzFvcc6xvm3NX2lIexvaxtQVG6m3XKG8MtUZTfly3n78u38bD
-	JOEsoOgRROfjPY+qiknNbnQZM90KQ0VIEBr/1bnmGhgqEAeFWCVDm33s3GUDubcY+3C/
-	4orYSBP3pcNA8JS6YeDyxF28tRkBHCS5foPwYtbv3Xmw5RxljTRcJCNBWaK17kSKJN1O
-	L/MbKYpheQFc3xulNh/SXEqKhlWntS+tK7Xg2zUso4HQsCmH96adevwlMRRhqI0/HdkC
-	eHsA==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=dWSqtLM4hSkLXQmPjTJOYRQmHIVr5wg7LSEemEBZKt4=;
+	b=k1HNGXbIsYbgSBFLIY19DNwWf0xeLLBW+UDluvBK11jWE9LOOC0qBiLSJBeeXeKyfo
+	y+3HWUKgDPtEZSwbwyCkJZ2W8J/EEGxm1nz2udpRFLx8UGHz2yvjyOpcfe/aVwuklPKu
+	enxYtW2oRBXzkXrl53Mkg8y19zF+YM8bz0ETVGxNDFqwOGU/u8vvKRJqdi105tatYhUT
+	w3bhWaticib7eL0FGcxKUXuHijfq0Qb06i6A2DY2AN+80BXdUeR3hTLKR9GQQ3ZK2mlY
+	1yY4DoiddmXK7rho3DhXCR7Ii+jrclPy08h10+I3o7Hy8hl41wXBvFyO2a1f3S2L87wb
+	3cYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=SzjuOA47rFt+5oLF5j+cTNZe7fj8KlCMU462nlFLUGU=;
-	b=rw9uVNlV/f71+wQzvn6ugCfOA5ef1nQdqlY/BQgjbMrgVvzDEkiqBcvy9i+l553FdZ
-	C/EF9+hJB2OZsWP3TYwVW5hUAr986cX3qMRrup0PZoFGsk/3U5L2EeXDI2z6RBjtxryM
-	NAebe2UV74LxswJVIRshWiqHRzfEVFiF6G+vnmko5IN+/ZgQn7XwVE1MFoPk794YghGR
-	U4btnyj0ackt9UOrqbiO3ZDA0zJK6R1Z1Z57Xa84xCHt7QtvDlhTQyncBBFHi8DnV7AI
-	k6++kOeIuJ51iOsNSDk1Hk49GEjEr6TSczfm7LV3G1R8P/LM7vDdGfLcMmO69Mw/dp3A
-	NQlQ==
-X-Gm-Message-State: APt69E0aVeZxVUZ3hyR09T2Puw6Mb6bTxDbFhNesN+HoU4xaZOIPICQl
-	QB00epzjDLbIf7CMdaK86EE=
-X-Google-Smtp-Source: ADUXVKKtRuXq7iTeeB+mkLsV9ZOavNsWtqfqss+L+yeE/tfO331JpfHubcjJekL1jNuaftt1HaS4dQ==
-X-Received: by 2002:adf:a148:: with SMTP id
-	r8-v6mr9548585wrr.104.1528628755486; 
-	Sun, 10 Jun 2018 04:05:55 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	n12-v6sm4422692wmh.30.2018.06.10.04.05.53
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 10 Jun 2018 04:05:53 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 10 Jun 2018 13:05:54 +0200
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20180610110554.GA1355@jama>
-References: <CA+chaQcUU=Dew1cATDBpuA2_f_eh1=DAyEMaDHfVx7kY88rZhg@mail.gmail.com>
-	<20180510122036.15212-1-Martin.Jansa@gmail.com>
-	<CAJTo0Lb4aV0BKz=BQCf8-=8i16BDQAJZu8hGqBJoK497GowEUg@mail.gmail.com>
-	<84e0278e-4ed3-51e7-81b8-f104c469ed4c@gmail.com>
-	<8df86d81-5e7f-46fa-0d25-ecb902d70d8c@gmail.com>
-	<20180510191612.GB1954@jama>
-	<4ab499de-5f57-520e-4951-91f15115435d@gmail.com>
-	<CAJ86T=Xk+fUWoOM5igiD6ZBTQfb4opLooTa3HeAFHVs7GFAvDg@mail.gmail.com>
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=dWSqtLM4hSkLXQmPjTJOYRQmHIVr5wg7LSEemEBZKt4=;
+	b=NL345Kj2zs7OxGDDxk0sCs2n/H5QS/Q+aFiiRIxm28jEkbUveoF3H63eAulkrELvWC
+	7oyWomx/FSwpmWD4mefNzizfVcyMi44Z9DK5NxXXFsQmZS49GUiShmq5+/nW2junxU0r
+	gfLpjjq6/dDsXhszHRilXprrPO5tbIehCbwsyfEOj08MamvXoia6iYNsa1bOaeemm3PH
+	T1AW+W3R2XArB5vA7DxvmNnU2wluLGDLpEpUP4Vy3WJMyEYahdgCwbrTPLrr3s1Z2oyQ
+	Q/Gx5QNEVyKK9A0cRdDS8sulpk6aRU8As6f4CUPYBt4yEFZfSGMyrI2FkJjh9wcb241I
+	kQLA==
+X-Gm-Message-State: APt69E3F05Ak4bmUSOo0VO0GS+9ferujltCxmyun3I0sF1JcUBnbVoW6
+	Ott6/w5J3HzLyba2mLF9ECYFww==
+X-Google-Smtp-Source: ADUXVKL4Rh83LGRaMgisJNarSnTCQbhIWh+uzOzaxdRs1TRwEXUSZ2Cf2w0JLPL3jELwfzBT6fjy/A==
+X-Received: by 2002:a17:902:7293:: with SMTP id
+	d19-v6mr15013210pll.142.1528646692047; 
+	Sun, 10 Jun 2018 09:04:52 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:15c3:2e27:788c:8085?
+	([2601:202:4000:1184:15c3:2e27:788c:8085])
+	by smtp.gmail.com with ESMTPSA id
+	131-v6sm109935647pfa.128.2018.06.10.09.04.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 10 Jun 2018 09:04:51 -0700 (PDT)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+	<1528574447-21755-2-git-send-email-akuster808@gmail.com>
+	<CANNYZj8UfLsDXQ=3tOAo+ih2B7T5orT_C9hE02pH_O1rHXtx+w@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
+	IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+	oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
+	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+	8CS2NxU=
+Message-ID: <ea8c1a44-c10a-d693-578f-04ac8f4a4d51@gmail.com>
+Date: Sun, 10 Jun 2018 09:04:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Xk+fUWoOM5igiD6ZBTQfb4opLooTa3HeAFHVs7GFAvDg@mail.gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
+In-Reply-To: <CANNYZj8UfLsDXQ=3tOAo+ih2B7T5orT_C9hE02pH_O1rHXtx+w@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
+Subject: Re: [PATCH 1/2] selftest: add cmake test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,159 +111,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jun 2018 11:05:55 -0000
-X-Groupsio-MsgNum: 112378
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kORqDWCi7qDJ0mEj"
-Content-Disposition: inline
-
---kORqDWCi7qDJ0mEj
-Content-Type: multipart/mixed; boundary="PNTmBPCT7hxwcZjr"
-Content-Disposition: inline
-
---PNTmBPCT7hxwcZjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 30, 2018 at 10:39:16AM -0700, Andre McCurdy wrote:
->  On Thu, May 10, 2018 at 12:26 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> > On 5/10/18 12:16 PM, Martin Jansa wrote:
-> >>>
-> >>> On second thought, this probably should be enabled using a config
-> >>> fragment, since its not gonna link in another library it may not be
-> >>> common case to justify for a default config.
-> >>
-> >> That's true, I've enabled CONFIG_FEATURE_MOUNT_NFS mostly to show how =
-to
-> >> reproduce the issue.
-> >>
-> >> If there isn't interest to enable this by default, I'm fine with keepi=
-ng
-> >> this
-> >> locally (to enable it only with our defconfig changes which enable it).
-> >
-> > I think keeping it as a nfsmount.cfg which then can be applied via a
-> > bbappend could be a good option. May be adding a PACKAGECONFIG to contr=
-ol
-> > the -I flag and libtirpc dependency would be nice too
->=20
-> According to the busybox config help, CONFIG_FEATURE_MOUNT_NFS is only
-> required for kernel versions before 2.6.23. Do we officially support
-> kernels that old in oe-core? Or should this be in a .bbappend etc in
-> separate layer?
-
-OK, I agree that this should be kept in separate layer. If anyone needs
-it, the working version (with tirpc added in CONFIG_EXTRA_LDLIBS) is
-attached.
-
-> //config:config FEATURE_MOUNT_NFS
-> //config:    bool "Support mounting NFS file systems on Linux < 2.6.23"
-> //config:    default n
-> //config:    depends on MOUNT
-> //config:    select FEATURE_SYSLOG
-> //config:    help
-> //config:    Enable mounting of NFS file systems on Linux kernels prior
-> //config:    to version 2.6.23. Note that in this case mounting of NFS
-> //config:    over IPv6 will not be possible.
-> //config:
-> //config:    Note that this option links in RPC support from libc,
-> //config:    which is rather large (~10 kbytes on uclibc).
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---PNTmBPCT7hxwcZjr
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-busybox-Enable-FEATURE_MOUNT_NFS-and-use-libtirpc.patch"
-Content-Transfer-Encoding: quoted-printable
-
-From 3316407c73058173bcfa1b9fabcad4592d23cbfc Mon Sep 17 00:00:00 2001
-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 May 2018 12:08:58 +0000
-Subject: [PATCH] busybox: Enable FEATURE_MOUNT_NFS and use libtirpc
-
-* We dropped in-tree obsoleted rpc from glibc and now busybox builds
-  which had CONFIG_FEATURE_MOUNT_NFS enabled were failing with:
-  | util-linux/mount.c:252:11: fatal error: rpc/rpc.h: No such file or dire=
-ctory
-  |  # include <rpc/rpc.h>
-  |            ^~~~~~~~~~~
-  | compilation terminated.
-  | make[1]: *** [util-linux/mount.o] Error 1
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/busybox/busybox.inc       | 6 +++---
- meta/recipes-core/busybox/busybox/defconfig | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busy=
-box/busybox.inc
-index d1675c37aa..2db19ed317 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -3,7 +3,7 @@ DESCRIPTION =3D "BusyBox combines tiny versions of many com=
-mon UNIX utilities into
- HOMEPAGE =3D "http://www.busybox.net"
- BUGTRACKER =3D "https://bugs.busybox.net/"
-=20
--DEPENDS +=3D "kern-tools-native"
-+DEPENDS +=3D "kern-tools-native libtirpc"
-=20
- # bzip2 applet in busybox is based on lightly-modified bzip2 source
- # the GPL is version 2 only
-@@ -15,8 +15,8 @@ SECTION =3D "base"
- # Whether to split the suid apps into a seperate binary
- BUSYBOX_SPLIT_SUID ?=3D "1"
-=20
--export EXTRA_CFLAGS =3D "${CFLAGS}"
--export EXTRA_LDFLAGS =3D "${LDFLAGS}"
-+export EXTRA_CFLAGS =3D "${CFLAGS} -I${STAGING_INCDIR}/tirpc"
-+export EXTRA_LDFLAGS =3D "${LDFLAGS} -ltirpc"
-=20
- EXTRA_OEMAKE =3D "CC=3D'${CC}' LD=3D'${CCLD}' V=3D1 ARCH=3D${TARGET_ARCH} =
-CROSS_COMPILE=3D${TARGET_PREFIX} SKIP_STRIP=3Dy HOSTCC=3D'${BUILD_CC}' HOST=
-CPP=3D'${BUILD_CPP}'"
-=20
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-cor=
-e/busybox/busybox/defconfig
-index fbb5fd852c..2e920277b7 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -51,7 +51,7 @@ CONFIG_CROSS_COMPILER_PREFIX=3D""
- CONFIG_SYSROOT=3D""
- CONFIG_EXTRA_CFLAGS=3D""
- CONFIG_EXTRA_LDFLAGS=3D""
--CONFIG_EXTRA_LDLIBS=3D""
-+CONFIG_EXTRA_LDLIBS=3D"tirpc"
-=20
- #
- # Installation Options ("make install" behavior)
-@@ -638,7 +638,7 @@ CONFIG_MOUNT=3Dy
- # CONFIG_FEATURE_MOUNT_VERBOSE is not set
- # CONFIG_FEATURE_MOUNT_HELPERS is not set
- # CONFIG_FEATURE_MOUNT_LABEL is not set
--# CONFIG_FEATURE_MOUNT_NFS is not set
-+CONFIG_FEATURE_MOUNT_NFS=3Dy
- # CONFIG_FEATURE_MOUNT_CIFS is not set
- CONFIG_FEATURE_MOUNT_FLAGS=3Dy
- CONFIG_FEATURE_MOUNT_FSTAB=3Dy
---=20
-2.17.1
+X-List-Received-Date: Sun, 10 Jun 2018 16:04:51 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
---PNTmBPCT7hxwcZjr--
 
---kORqDWCi7qDJ0mEj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+On 06/10/2018 12:25 AM, Alexander Kanavin wrote:
+> 2018-06-09 23:00 GMT+03:00 Armin Kuster <akuster808@gmail.com>:
+>> +DEPENDS = "boost"
+>
+>
+>> +find_package(Boost 1.60 REQUIRED
+>> +    COMPONENTS
+>> +        unit_test_framework
+>> +)
+>
+> Is it possible to use something else than boost here, if we want to
+> test cmake's ability to find compoments? 
+I am not a cmake expert by any means. I just took a testcase given that
+found a problem that I fixed earlier this week. I have not other idea
+one would ensure folks don't break cmake when the update packages.
 
------BEGIN PGP SIGNATURE-----
+> So that the build time is as
+> quick as possible - boost isn't particularly fast.
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWx0GEQAKCRA3VSO3ZXaA
-HMO2AKCasmIX+eHmsvhGtRmCTlnGWLayvACfaD0a8uUUmquMKBelAd2Mw6kbyro=
-=7bJ2
------END PGP SIGNATURE-----
+- armin
+>
+> Alex
 
---kORqDWCi7qDJ0mEj--
+
