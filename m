@@ -1,51 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C41AB78AA8
+Return-Path: <andrej.valek@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id DF697753D4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 13:07:15 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id d5-v6so17788421oib.5
+	Mon, 11 Jun 2018 13:30:36 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w5BDUaRw023818
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 06:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3tI/0itAHlZvHgS4q3Kg9xLDiCz+1SaLxP9Vr5koG2Q=;
-	b=XxhxLhwfZFUA3QQcJl3i08KfRLmjzgWKAipCkUfsTA46/uy8sqY7vW9rXoBE0I873b
-	ZqY+IkQDvjC748dVHfOCWGJHaZsaFUuUniiEhOJmpsj3NFPqQf1a6lVFf17KfA0qZjwh
-	4Zex5Onf2sZUpMtywYMzUQtXP+J4BHcc3/JAhc5Fc8lURfIdgkwGGK61cGbcFeBkRB1Z
-	N5BC9xNErNPvn41pV0hSYghnONyIuWvJCYArfBa4oFJfL2QfaRVgqP6XT65Hv7xvDKhS
-	Z9mcXlcnwb0F1/YQt0M60tdLcMkXPWQRWUnK1Tdv1IuRF2WniolDD1N7TLc9xRNIgf7g
-	MQ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3tI/0itAHlZvHgS4q3Kg9xLDiCz+1SaLxP9Vr5koG2Q=;
-	b=hE70bdUuJMIrc+P0OtqKoRqANLCnqhHJWRPO303pFrlXymMcmGXVBPaEjgk68tiTV5
-	EXVC8CcIPyiaCWoWpJ9yFuI7GdAqUtFjliP2jp2C2ilL+icNLuqKhfhd06yGEsSdX6nW
-	7HvOWzH8fTDwaflsA23yui7esvK52aX502DdbGXfWfZrsR/kSwmjvlg5bJ11nE6tEU6N
-	ckgVdq9r+m7HgA13JS8DXuMZFof/2Ib+QmvFtGK4OArZSyv0x9l1+9DxVamCxsrCD5Dk
-	ZQBEP6mz8VefVjE47rPAYgKwidjjSZCQR0VCxweTT5m6h8K8B8xZ3vF0ZCmU2gyULBNQ
-	0wlw==
-X-Gm-Message-State: APt69E0k/yY0J6mtB8XkzsCdaMHcJCKL1RYNAE6Wyjr57Y3r94NcdDZa
-	pdazZd70yBBhkeJmVIVn1jo9YL4Ab3/apUdIhOOhyw==
-X-Google-Smtp-Source: ADUXVKI+ZJUTF/h3DH2EtIifHYao1BuHSLh81qfDQSk6Vcy/gbFhaqw5NqqSxbn+u8mG7W1LABN+H1pm5lSSq/Sdd78=
-X-Received: by 2002:aca:acd7:: with SMTP id
-	v206-v6mr8626187oie.320.1528722436608; 
-	Mon, 11 Jun 2018 06:07:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 06:06:56
-	-0700 (PDT)
-In-Reply-To: <1528574447-21755-3-git-send-email-akuster808@gmail.com>
-References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
-	<1528574447-21755-3-git-send-email-akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jun 2018 14:06:56 +0100
-Message-ID: <CAJTo0LasaDVfZ04i-EYoi8Es7Jw6VLPbejtpCFvWKQXPE8WfCw@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] selftest: add cmake oeqa portion
+	Mon, 11 Jun 2018 15:30:37 +0200
+Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w5BDUafK011964;
+	Mon, 11 Jun 2018 15:30:36 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id D69E48ED3C5;
+	Mon, 11 Jun 2018 15:30:32 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2018 15:30:03 +0200
+Message-Id: <20180611133005.27521-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180608140403.27855-1-andrej.valek@siemens.com>
+References: <20180608140403.27855-1-andrej.valek@siemens.com>
+Subject: [PATCH v4 1/3] openssl-1.1: fix c_rehash perl errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 13:07:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Jun 2018 13:30:37 -0000
 
-On 9 June 2018 at 21:00, Armin Kuster <akuster808@gmail.com> wrote:
-> add boost
+Patch original c_rehash script with Debian patch instead
+of overriding it with own version.
 
-Explain what this test is meant to do so in two years time we're not
-struggling to understand why.
+Error output from c_reshah without patching:
+  Unknown regexp modifier "/b" at ./c_rehash line 15, at end of line
+  Unknown regexp modifier "/W" at ./c_rehash line 28, at end of line
+  Unknown regexp modifier "/3" at ./c_rehash line 28, at end of line
+  Unknown regexp modifier "/2" at ./c_rehash line 28, at end of line
+  No such class installdir at ./c_rehash line 63, near "Prefix our
+  installdir"
+    (Might be a runaway multi-line // string starting on line 28)
+  syntax error at ./c_rehash line 63, near "Prefix our installdir"
+  Can't redeclare "my" in "my" at ./c_rehash line 68, near ""
+  Execution of ./c_rehash aborted due to compilation errors.
 
->  create mode 100644 meta/lib/oeqa/selftest/cases/cmake.py
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Marko Peter <peter.marko@siemens.com>
+---
+ ...le.pl-only-quote-stuff-that-actually-need.patch | 29 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.1.0h.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/debian/Revert-util-dofile.pl-only-quote-stuff-that-actually-need.patch
 
-Squash with the previous commit.
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/Revert-util-dofile.pl-only-quote-stuff-that-actually-need.patch b/meta/recipes-connectivity/openssl/openssl/debian/Revert-util-dofile.pl-only-quote-stuff-that-actually-need.patch
+new file mode 100644
+index 0000000000..25d3093e40
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/debian/Revert-util-dofile.pl-only-quote-stuff-that-actually-need.patch
+@@ -0,0 +1,29 @@
++From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
++Date: Wed, 28 Mar 2018 14:05:53 +0200
++Subject: Revert "util/dofile.pl: only quote stuff that actually needs
++ quoting"
++
++This reverts commit 77ba00bc. We ended up without the quotes.
++
++BTS: #894282
++Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
++---
++ util/dofile.pl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/util/dofile.pl b/util/dofile.pl
++index fc72989b0fd9..a932941cd5ad 100644
++--- a/util/dofile.pl
+++++ b/util/dofile.pl
++@@ -99,9 +99,9 @@ package main;
++ # This adds quotes (") around the given string, and escapes any $, @, \,
++ # " and ' by prepending a \ to them.
++ sub quotify1 {
++-    my $s = my $orig = shift @_;
+++    my $s = shift @_;
++     $s =~ s/([\$\@\\"'])/\\$1/g;
++-    $s ne $orig || $s =~ /\s/ ? '"'.$s.'"' : $s;
+++    '"'.$s.'"';
++ }
++ 
++ # quotify_l LIST
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+index 94b75eb92a..eddf53c992 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
+            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
++           file://debian/Revert-util-dofile.pl-only-quote-stuff-that-actually-need.patch \
+            "
+ 
+ S = "${WORKDIR}/openssl-${PV}"
+-- 
+2.11.0
 
-> +from glob import glob
-
-Not needed.
-
-> +from oeqa.core.decorator.oeid import OETestID
-
-Not needed becase...
-
-> +class CmakeSelfTests(OESelftestTestCase):
-> +    @OETestID(3000)
-
-https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=3000
-"Test case 3000 does not exist"
-
-Don't invent test IDs.
-
-Ross
 
