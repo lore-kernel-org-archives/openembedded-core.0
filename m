@@ -1,29 +1,23 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 135827885F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id B939678AD9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 13:30:53 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w5BDUsTF032314
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 15:30:54 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w5BDUrQH003569;
-	Mon, 11 Jun 2018 15:30:54 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id D4BFF8ED3C5;
-	Mon, 11 Jun 2018 15:30:53 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
+	Mon, 11 Jun 2018 13:37:56 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jun 2018 06:37:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,502,1520924400"; d="scan'208";a="46241292"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga007.fm.intel.com with ESMTP; 11 Jun 2018 06:37:57 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 15:30:05 +0200
-Message-Id: <20180611133005.27521-3-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180611133005.27521-1-andrej.valek@siemens.com>
-References: <20180611133005.27521-1-andrej.valek@siemens.com>
-In-Reply-To: <20180608140403.27855-1-andrej.valek@siemens.com>
-References: <20180608140403.27855-1-andrej.valek@siemens.com>
-Subject: [PATCH v4 3/3] openssl-1.1: /etc/ssl location compatibility
+Date: Mon, 11 Jun 2018 16:38:17 +0300
+Message-Id: <20180611133822.32004-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH 1/6] gtk-immodules-cache.bbclass: convert cache creation to postinst_intercept mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +30,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 13:30:54 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 13:37:56 -0000
 
-Some packages have hard-coded path to /etc/ssl location.
-Create a symlinks to correct location.
+This has the following benefits:
+- consistent with how the other caches are created into target rootfs
+- only runs once per package manager transaction, instead of once per every immodule package
+- correctly postpones to first boot if qemu is not working; from postinst itself
+this would've required special arrangements to avoid what is now a do_rootfs failure.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Marko Peter <peter.marko@siemens.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ meta/classes/gtk-immodules-cache.bbclass      | 70 ++++++++-----------
+ .../update_gtk_immodules_cache                | 18 +++++
+ 2 files changed, 46 insertions(+), 42 deletions(-)
+ create mode 100644 scripts/postinst-intercepts/update_gtk_immodules_cache
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-index df05f3a2b7..487219b600 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-@@ -22,7 +22,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+diff --git a/meta/classes/gtk-immodules-cache.bbclass b/meta/classes/gtk-immodules-cache.bbclass
+index 3d82dbe9e34..9bb0af8b26a 100644
+--- a/meta/classes/gtk-immodules-cache.bbclass
++++ b/meta/classes/gtk-immodules-cache.bbclass
+@@ -10,53 +10,39 @@ GTKIMMODULES_PACKAGES ?= "${PN}"
  
- S = "${WORKDIR}/openssl-${PV}"
- 
--inherit lib_package multilib_header ptest
-+inherit lib_package multilib_header ptest relative_symlinks
- 
- do_configure () {
- 	os=${HOST_OS}
-@@ -133,6 +133,18 @@ EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
- do_install () {
-         oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
-         oe_multilib_header openssl/opensslconf.h
-+
-+        # Create SSL structure for PATH hard-coded packages like ca-certificates
-+        # Debian is also using this technique
-+        install -d ${D}${sysconfdir}/ssl/
-+        mv ${D}${libdir}/ssl-1.1/openssl.cnf \
-+           ${D}${libdir}/ssl-1.1/certs \
-+           ${D}${libdir}/ssl-1.1/private \
-+           \
-+           ${D}${sysconfdir}/ssl/
-+        ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl-1.1/certs
-+        ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl-1.1/private
-+        ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl-1.1/openssl.cnf
+ gtk_immodule_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+-        if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
+-            IMFILES=$(ls $D${libdir}/gtk-2.0/*/immodules/*.so)
+-            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-2.0')} \
+-                $IMFILES > $D${libdir}/gtk-2.0/2.10.0/immodules.cache 2>/dev/null &&
+-                sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
+-        fi
+-        if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
+-            IMFILES=$(ls $D${libdir}/gtk-3.0/*/immodules/*.so)
+-            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-3.0')} \
+-                $IMFILES > $D${libdir}/gtk-3.0/3.0.0/immodules.cache 2>/dev/null &&
+-                sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
+-        fi
+-
+-    [ $? -ne 0 ] && exit 1
+-    exit 0
+-fi
+-if [ ! -z `which gtk-query-immodules-2.0` ]; then
+-    gtk-query-immodules-2.0 > ${libdir}/gtk-2.0/2.10.0/immodules.cache
+-fi
+-if [ ! -z `which gtk-query-immodules-3.0` ]; then
+-    gtk-query-immodules-3.0 > ${libdir}/gtk-3.0/3.0.0/immodules.cache
++    $INTERCEPT_DIR/postinst_intercept update_gtk_immodules_cache ${PKG} \
++            mlprefix=${MLPREFIX} \
++            binprefix=${MLPREFIX} \
++            libdir=${libdir} \
++            libexecdir=${libexecdir} \
++            base_libdir=${base_libdir} \
++            bindir=${bindir}
++else
++    if [ ! -z `which gtk-query-immodules-2.0` ]; then
++        gtk-query-immodules-2.0 > ${libdir}/gtk-2.0/2.10.0/immodules.cache
++    fi
++    if [ ! -z `which gtk-query-immodules-3.0` ]; then
++        gtk-query-immodules-3.0 > ${libdir}/gtk-3.0/3.0.0/immodules.cache
++    fi
+ fi
  }
  
- do_install_append_class-native () {
-@@ -163,6 +175,6 @@ FILES_${PN} =+ " ${libdir}/ssl-1.1/*"
- FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
- RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
- FILES_${PN}-engines = "${libdir}/engines-1.1"
--FILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
--CONFFILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
-+FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf ${libdir}/ssl-1.1/openssl.cnf"
-+CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
- RRECOMMENDS_libcrypto += "openssl-conf"
+ gtk_immodule_cache_postrm() {
+ if [ "x$D" != "x" ]; then
+-        if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
+-            IMFILES=$(ls $D${libdir}/gtk-2.0/*/immodules/*.so)
+-            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-2.0')} \
+-                $IMFILES > $D${libdir}/gtk-2.0/2.10.0/immodules.cache 2>/dev/null &&
+-                sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
+-        fi
+-        if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
+-            IMFILES=$(ls $D${libdir}/gtk-3.0/*/immodules/*.so)
+-            ${@qemu_run_binary(d, '$D', '${bindir}/gtk-query-immodules-3.0')} \
+-                $IMFILES > $D${libdir}/gtk-3.0/3.0.0/immodules.cache 2>/dev/null &&
+-                sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
+-        fi
+-
+-    [ $? -ne 0 ] && exit 1
+-    exit 0
+-fi
+-if [ ! -z `which gtk-query-immodules-2.0` ]; then
+-    gtk-query-immodules-2.0 > ${libdir}/gtk-2.0/2.10.0/immodules.cache
+-fi
+-if [ ! -z `which gtk-query-immodules-3.0` ]; then
+-    gtk-query-immodules-3.0 > ${libdir}/gtk-3.0/3.0.0/immodules.cache
++    $INTERCEPT_DIR/postinst_intercept update_gtk_immodules_cache ${PKG} \
++            mlprefix=${MLPREFIX} \
++            binprefix=${MLPREFIX} \
++            libdir=${libdir} \
++            libexecdir=${libexecdir} \
++            base_libdir=${base_libdir} \
++            bindir=${bindir}
++else
++    if [ ! -z `which gtk-query-immodules-2.0` ]; then
++        gtk-query-immodules-2.0 > ${libdir}/gtk-2.0/2.10.0/immodules.cache
++    fi
++    if [ ! -z `which gtk-query-immodules-3.0` ]; then
++        gtk-query-immodules-3.0 > ${libdir}/gtk-3.0/3.0.0/immodules.cache
++    fi
+ fi
+ }
+ 
+diff --git a/scripts/postinst-intercepts/update_gtk_immodules_cache b/scripts/postinst-intercepts/update_gtk_immodules_cache
+new file mode 100644
+index 00000000000..e2b9ff74382
+--- /dev/null
++++ b/scripts/postinst-intercepts/update_gtk_immodules_cache
+@@ -0,0 +1,18 @@
++#!/bin/sh
++
++set -e
++
++if [ -x $D${bindir}/gtk-query-immodules-2.0 ]; then
++    PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
++        $D/${bindir}/gtk-query-immodules-2.0 \
++        > $D${libdir}/gtk-2.0/2.10.0/immodules.cache &&
++        sed -i -e "s:$D::" $D${libdir}/gtk-2.0/2.10.0/immodules.cache
++        chown root:root $D${libdir}/gtk-2.0/2.10.0/immodules.cache
++fi
++if [ -x $D${bindir}/gtk-query-immodules-3.0 ]; then
++    PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
++        $D/${bindir}/gtk-query-immodules-3.0 \
++        > $D${libdir}/gtk-3.0/3.0.0/immodules.cache &&
++        sed -i -e "s:$D::" $D${libdir}/gtk-3.0/3.0.0/immodules.cache
++        chown root:root $D${libdir}/gtk-3.0/3.0.0/immodules.cache
++fi
 -- 
-2.11.0
+2.17.0
 
 
