@@ -1,49 +1,104 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F065778C81
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D45F578C6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 20:42:46 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id w7-v6so21780747wrn.6
+	Mon, 11 Jun 2018 21:38:35 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id p21-v6so10376045pgd.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 13:42:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=6lW5PQw4gHKp461kHztrdYAzN+lSqDsYB9ayhfTTZN4=;
-	b=l94WWB+ZQkdyCodrlPcTzQRiRzmY4kSGR+CLXEvf4gM1xknFIOI0eyDsO3q3sggeJ3
-	afYgBfYlBhD2wz3nUw45NMY31FxQdwW1I6hrsCM5xYQSB+zOAOSaSTW/fXHnDbSMd/MO
-	/1uNKEcbG3JKGmmRhB4RCh1t+1PFh+loU/cSSvOsHAaLkH5jOeM/t8qZPlveL8TlNqQC
-	SdBQo9La6SE7MasQZ0BEeYEeyPLAvRViSmXEj+7xYAdOzPIZzm9XzrOh2g6O+4NAOFRx
-	YDMYmFNlz6w7ADUwPFYKi2wi9jsNlmosbgIUfVb6mycc4GCH10PfXk4pZ9uxwxyZf7dN
-	XmLQ==
+	Mon, 11 Jun 2018 14:38:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=gkymtWa2oZRRapfhPpM6ij3OdWXCx9batuHE2UhLqM8=;
+	b=JpuW0n6Qdf9UjJvJs5ZD6JEQnab3KljMJsA78CK1+Mg3KrPo7SDPslCNS4RwaewulJ
+	YMMHX6kLnqtPKnuIWs1ggrdRMCtxiTiMlY59PHEtPVtauTLZi4KxlWrXY/P+Eu4BbJuD
+	T8yvziO7OAixPeIvXvz1WMiFRT5HtdbrRCkIvCLR4j/Me7PR9TIBxP5F7HUtgyG6cHoe
+	vSWOdSZ1fpdnO4WPLQ9gYHKS7ViVKFVkiOorwf28oVl/QCK+WjMw6X+SCQyfo9+exGzm
+	NL47bmqRXypaw88HJy6KF7QDIr/aPzmsQ3H0rySi2GguixzOK3o1Pv3vmzQnzvKPL8x3
+	oVtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=6lW5PQw4gHKp461kHztrdYAzN+lSqDsYB9ayhfTTZN4=;
-	b=C6GzoVixhUah2vF27bkGXjCAUFU3b95UQr7MqTwxjzeOFG6XGId2lIoyfOyvHM7uVO
-	A/xhF554ZHnZs/pjDkCgpkl1YdimdaXMoBANV0/JApQs6pG5psLzFwOyCQxQf8vMQxU5
-	W7GCIPEXQcdWc29gWjXjMdD8u7UWGd4yA+SeYYTQV0wocg12V4HvCAc3VoDpZHI6E9ZS
-	NAJGqyWV4rxgA5gnMsmvr6hD+c/Kxwjq+ORYctwoG4ImvqtXHM209YvNeAVbodWulX1V
-	s7RQ06fJKk7Rx3NMlegXnp61VtYThsVw9UFfQXYpteSIe6q1DOOkeR5n8LvfVR/thL6W
-	Fz3A==
-X-Gm-Message-State: APt69E0uLaHGW94HycYl83xZ811ykAEgt3o7VGh7AMTiz9iHlTL7ONd/
-	V4NK27/AZtd9sWNFiArilkREFBFM
-X-Google-Smtp-Source: ADUXVKKzXWEa3MyXTCj3XlOKMsQLPzQrAP10jSZxv7vcWp0Yfx9+x0AHTQUABpd7OW2Z6UVUV+VlCw==
-X-Received: by 2002:adf:9525:: with SMTP id 34-v6mr439918wrs.99.1528749767096; 
-	Mon, 11 Jun 2018 13:42:47 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a184-v6sm9921857wmf.30.2018.06.11.13.42.45
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=gkymtWa2oZRRapfhPpM6ij3OdWXCx9batuHE2UhLqM8=;
+	b=My+HWqmrkU6cNykDRR6jgJEPpBRmclQySbN1eWRbeYjnDwvR2TGjPErG2/GWRShKfG
+	H2IYzC4jP3Eqd2QAvipnscTY0WmFTLhk2cVHUPbcq4dpa9Cr/3KSceLrxY808QkNmMU4
+	mBdARzDKbU/4SDTdy8nP7FGWYiceygauN2yEAeBWTOVzLiGZpRX0URmlswKyJwDMoS5A
+	qMpROs2w+NKK50Jk8mmtdHZ7EKgIj+7LL60Jd7+z/A58XQObVZQ6f1TrZ/ucz448RweQ
+	+RadN19F/jKjxbqK1F0wvo+ORrkk7DPcYXTp76PmqQY14VA9yGY6XwD2RZw7Wu+g0PWE
+	ZWpA==
+X-Gm-Message-State: APt69E1c/qx4FFnkAFoH6R8htvhvFlJNYeCQTrK7pb+rUBglko2F9lCM
+	pATC+FTq/et6oBtlvMIxOH3Kog==
+X-Google-Smtp-Source: ADUXVKJOCixwEinqpHtbwVR7XrxcOqVSA/xt9J1pPCPYPkpGIs5+F/ouepy+YxerpXUUzdKfFph6uA==
+X-Received: by 2002:a62:e208:: with SMTP id a8-v6mr894229pfi.6.1528753116807; 
+	Mon, 11 Jun 2018 14:38:36 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:3dc0:dfd2:694f:63cf?
+	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
+	by smtp.gmail.com with ESMTPSA id
+	o65-v6sm15440832pga.75.2018.06.11.14.38.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jun 2018 13:42:46 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 21:42:43 +0100
-Message-Id: <20180611204243.3022-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] alsa-tools: rewrite packaging
+	Mon, 11 Jun 2018 14:38:35 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_D=c3=adaz?= <daniel.diaz@linaro.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
+	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
+	<CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
+	<CAEUSe7_AH1r9=g_HT-SYZXwyA3oWWxiJQ8z5GrYa31Uf21u0_A@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <11604122-a4df-e93c-6f34-baa7fe733723@gmail.com>
+Date: Mon, 11 Jun 2018 14:38:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAEUSe7_AH1r9=g_HT-SYZXwyA3oWWxiJQ8z5GrYa31Uf21u0_A@mail.gmail.com>
+Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,289 +111,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 20:42:47 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 21:38:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-alsa-tools is actually a collection of 20 separate tools, each with their own
-configure scripts.  The dependencies are varied, old, and estoric (FLTK, GTK+ 1, 2,
-and 3, PyGTK 2, Qt3).
 
-Instead of maintaining patches to try and pick a subset that builds, use
-PACKAGECONFIG and some magic to build what the user requests.
 
-By default we build all the tools which have no dependencies, and the tools
-which need GTK+ 2 or GTK+ 3 if the relevant DISTRO_FEATURES are enabled.
+On 06/11/2018 10:30 AM, Daniel Díaz wrote:
+> On 16 May 2018 at 16:20, Daniel Díaz <daniel.diaz@linaro.org> wrote:
+>> On 6 April 2018 at 15:43, akuster808 <akuster808@gmail.com> wrote:
+>>> On 04/06/2018 10:08 AM, Daniel Díaz Rodríguez wrote:
+>>>> Ping on this series for Morty.
+>>> This needs to be ported to Pyro first. I do it this weekend and morty too.
+>> Ping on this series for Morty.
+> Ping on this series for Morty.
 
-The ncurses build dependency doesn't seem to be checked for, so remove that.
+this is in the stable/morty-next branch which is on hold for the current
+morty QA. 
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...g-Wreserved-user-defined-literal-warnings.patch | 14 +++-
- .../alsa/alsa-tools/autotools.patch                | 44 -----------
- .../alsa/alsa-tools/gitcompile_hdajacksensetest    | 13 ----
- .../alsa/alsa-tools/makefile_no_gtk.patch          | 29 -------
- meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb   | 91 +++++++++++++++-------
- 5 files changed, 71 insertions(+), 120 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
- delete mode 100755 meta/recipes-multimedia/alsa/alsa-tools/gitcompile_hdajacksensetest
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stable/pyro-next&id=76ffc6b7e5ff6f2bab6e53bb07f52a25fcb81ac9
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
-index 2290915eab8..c137bc8a284 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-tools/0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch
-@@ -1,14 +1,18 @@
--From 2e48e4045e1e951433da0ca4b1e49798eedde14f Mon Sep 17 00:00:00 2001
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+From a861bdabf02cd9bfb3ec7c0571c563c0fa14adfb Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 24 Apr 2018 12:21:18 -0700
--Subject: [PATCH] Fix clang -Wreserved-user-defined-literal warnings
-+Date: Tue, 24 Apr 2018 12:24:32 -0700
-+Subject: [PATCH] us428control: Fix clang -Wreserved-user-defined-literal
-+ warnings
- 
- | us428control.cc:66:18: error: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]
- |         printf("usage: "PROGNAME" [-v verbosity_level 0..2] [-c card] [-D device] [-u usb-device] [-m mode]\n");
- |                         ^
- 
--Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10360805/]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Takashi Iwai <tiwai@suse.de>
- ---
-  us428control/us428control.cc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-@@ -26,3 +30,5 @@ index e839bf4..8cb3c42 100644
-  	printf("mode is one of (us224, us428, mixxx)\n");
-  }
-  /*
-+-- 
-+1.7.11.7
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch b/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-deleted file mode 100644
-index c85834a593c..00000000000
---- a/meta/recipes-multimedia/alsa/alsa-tools/autotools.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From b9a65bf3ba5628cfe8cfd2d10ce2dcf11a606775 Mon Sep 17 00:00:00 2001
--From: Dongxiao Xu <dongxiao.xu@intel.com>
--Date: Thu, 14 Jul 2011 15:40:36 +0800
--Subject: [PATCH] alsa-tools: Fix recipe build error.
--
--Add parameters to autoreconf to support cross compile.
--Remove some sub-components which needs further recipe support.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--
--Upstream-Status: Inappropriate [configuration]
--
-----
-- Makefile          | 4 ++--
-- ld10k1/gitcompile | 2 +-
-- 2 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index c32bf25..1119372 100644
----- a/Makefile
--+++ b/Makefile
--@@ -1,8 +1,8 @@
-- VERSION = 1.1.6
-- TOP = .
---SUBDIRS = as10k1 envy24control hdsploader hdspconf hdspmixer \
--+SUBDIRS = as10k1 envy24control \
-- 	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
---	  us428control usx2yloader vxloader echomixer ld10k1 qlo10k1 \
--+	  us428control usx2yloader vxloader echomixer \
-- 	  hwmixvolume hdajackretask hda-verb hdajacksensetest
-- 
-- all:
--diff --git a/ld10k1/gitcompile b/ld10k1/gitcompile
--index 99429ac..20005d9 100755
----- a/ld10k1/gitcompile
--+++ b/ld10k1/gitcompile
--@@ -1,6 +1,6 @@
-- #!/bin/bash
-- 
---autoreconf -fi || exit 1
--+autoreconf $ACLOCAL_FLAGS -fi || exit 1
-- export CFLAGS='-O2 -Wall -pipe -g'
-- echo "CFLAGS=$CFLAGS"
-- echo "./configure $@"
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/gitcompile_hdajacksensetest b/meta/recipes-multimedia/alsa/alsa-tools/gitcompile_hdajacksensetest
-deleted file mode 100755
-index 58328bd3a50..00000000000
---- a/meta/recipes-multimedia/alsa/alsa-tools/gitcompile_hdajacksensetest
-+++ /dev/null
-@@ -1,13 +0,0 @@
--#!/bin/bash
--
--aclocal $ACLOCAL_FLAGS || exit 1
--automake --foreign --add-missing || exit 1
--autoconf || exit 1
--export CFLAGS='-O2 -Wall -pipe -g'
--echo "CFLAGS=$CFLAGS"
--echo "./configure $@"
--./configure $@ || exit 1
--unset CFLAGS
--if [ -z "$GITCOMPILE_NO_MAKE" ]; then
--  make || exit 1
--fi
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch b/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-deleted file mode 100644
-index 54373d1a8f3..00000000000
---- a/meta/recipes-multimedia/alsa/alsa-tools/makefile_no_gtk.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--Remove some sub-components which need gtk+.
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-by: Rogerio Nunes <ronunes@gmail.com>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
--
--Update patch for alsa-tools 1.0.29
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--diff --git a/Makefile b/Makefile
--index 2457a1c..72346d9 100644
----- a/Makefile
--+++ b/Makefile
--@@ -1,9 +1,9 @@
-- VERSION = 1.1.5
-- TOP = .
---SUBDIRS = as10k1 envy24control \
---	  mixartloader pcxhrloader rmedigicontrol sb16_csp seq sscape_ctl \
---	  us428control usx2yloader vxloader echomixer \
---	  hwmixvolume hdajackretask hda-verb hdajacksensetest
--+SUBDIRS = as10k1 \
--+	  mixartloader pcxhrloader sb16_csp seq sscape_ctl \
--+	  us428control usx2yloader vxloader \
--+	  hwmixvolume hda-verb hdajacksensetest
-- 
-- all:
-- 	@for i in $(SUBDIRS); do \
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
-index e065eec6b8d..a54999f817b 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.1.6.bb
-@@ -3,16 +3,13 @@ HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
- SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2+"
--DEPENDS = "alsa-lib ncurses glib-2.0"
-+DEPENDS = "alsa-lib"
- 
- LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://ld10k1/COPYING.LIB;md5=a916467b91076e631dd8edb7424769c7 \
-                     "
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/tools/${BP}.tar.bz2 \
--           file://autotools.patch \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'file://makefile_no_gtk.patch', d)} \
--           file://gitcompile_hdajacksensetest \
-            file://0002-Fix-clang-Wreserved-user-defined-literal-warnings.patch \
-            "
- 
-@@ -20,36 +17,70 @@ SRC_URI[md5sum] = "5ca8c9437ae779997cd62fb2815fef19"
- SRC_URI[sha256sum] = "d69c4dc2fb641a974d9903e9eb78c94cb0c7ac6c45bae664f0c9d6c0a1593227"
- 
- inherit autotools-brokensep pkgconfig
--
-+# brokensep as as10k1 (and probably more) fail out of tree
- CLEANBROKEN = "1"
- 
--EXTRA_OEMAKE += "GITCOMPILE_ARGS='--host=${HOST_SYS} --build=${BUILD_SYS} --target=${TARGET_SYS} --with-libtool-sysroot=${STAGING_DIR_HOST} --prefix=${prefix}'"
--
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk+', '', d)}"
--PACKAGECONFIG[gtk+] = ",,gtk+ gtk+3,"
--
--# configure.ac/.in doesn't exist so force copy
--AUTOTOOLS_COPYACLOCAL = "1"
--
--do_compile_prepend () {
--    #Automake dir is not correctly detected in cross compilation case
--    export AUTOMAKE_DIR="$(automake --print-libdir)"
--    export ACLOCAL_FLAGS="--system-acdir=${ACLOCALDIR}/ ${ACLOCALEXTRAPATH}"
--
--    cp ${WORKDIR}/gitcompile_hdajacksensetest ${S}/hdajacksensetest/gitcompile
-+# Here we use PACKAGECONFIG options to pick which directories we configure/build.
-+# Remember on upgrades to check that no new tools have been added.
-+PACKAGECONFIG ??= "as10k1 hdajacksensetest hda-verb hdsploader ld10k1 mixartloader pcxhrloader \
-+                   sb16_csp seq--sbiload sscape_ctl us428control usx2yloader vxloader \
-+                   ${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK2DISTROFEATURES}', 'echomixer envy24control rmedigicontrol', '', d)} \
-+                   ${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK3DISTROFEATURES}', 'hdajackretask', '', d)} \
-+                   "
-+
-+PACKAGECONFIG[as10k1] = ""
-+PACKAGECONFIG[echomixer] = ",,gtk+"
-+PACKAGECONFIG[envy24control] = ",,gtk+"
-+PACKAGECONFIG[hda-verb] = ""
-+PACKAGECONFIG[hdajackretask] = ",,gtk+3"
-+PACKAGECONFIG[hdajacksensetest] = ",,glib-2.0"
-+PACKAGECONFIG[hdspconf] = ",,fltk"
-+PACKAGECONFIG[hdsploader] = ""
-+PACKAGECONFIG[hdspmixer] = ",,fltk"
-+PACKAGECONFIG[hwmixvolume] = ",,,python-core python-pygtk"
-+PACKAGECONFIG[ld10k1] = ""
-+PACKAGECONFIG[mixartloader] = ""
-+PACKAGECONFIG[pcxhrloader] = ""
-+PACKAGECONFIG[qlo10k1] = ",,qt-x11-free"
-+PACKAGECONFIG[rmedigicontrol] = ",,gtk+"
-+PACKAGECONFIG[sb16_csp] = ""
-+PACKAGECONFIG[seq--sbiload] = ""
-+PACKAGECONFIG[sscape_ctl] = ""
-+PACKAGECONFIG[us428control] = ""
-+PACKAGECONFIG[usx2yloader] = ""
-+PACKAGECONFIG[vxloader] = ""
-+
-+python do_configure() {
-+    for subdir in d.getVar("PACKAGECONFIG").split():
-+        subdir = subdir.replace("--", "/")
-+        bb.note("Configuring %s" % subdir)
-+        dd = d.createCopy()
-+        dd.setVar("S", os.path.join(d.getVar("S"), subdir))
-+        bb.build.exec_func("autotools_do_configure", dd)
- }
- 
--do_install_append() {
--    sed -i -e "s|/usr/bin/python2|/usr/bin/env python2|g" ${D}${bindir}/hwmixvolume
-+python do_compile() {
-+    for subdir in d.getVar("PACKAGECONFIG").split():
-+        subdir = subdir.replace("--", "/")
-+        bb.note("Compiling %s" % subdir)
-+        dd = d.createCopy()
-+        dd.setVar("S", os.path.join(d.getVar("S"), subdir))
-+        bb.build.exec_func("autotools_do_compile", dd)
- }
- 
--PACKAGES =+ "${PN}-hwmixvolume"
--
--FILES_${PN}-hwmixvolume = "${bindir}/hwmixvolume"
--
--FILES_${PN} += "${datadir}/ld10k1 \
--                ${datadir}/icons/hicolor \
--               "
--
--RDEPENDS_${PN}-hwmixvolume += "python"
-+python do_install() {
-+    for subdir in d.getVar("PACKAGECONFIG").split():
-+        subdir = subdir.replace("--", "/")
-+        bb.note("Installing %s" % subdir)
-+        dd = d.createCopy()
-+        dd.setVar("S", os.path.join(d.getVar("S"), subdir))
-+        bb.build.exec_func("autotools_do_install", dd)
-+
-+    # Just remove bash-needing init script that isn't installed as an init script
-+    try:
-+        os.remove(oe.path.join(d.getVar("D"), d.getVar("sbindir"), "ld10k1d"))
-+    except:
-+        pass
-+}
- 
-+FILES_${PN} += "${datadir}"
--- 
-2.11.0
-
+regards,
+Armin
 
