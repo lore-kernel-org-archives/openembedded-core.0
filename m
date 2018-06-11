@@ -1,52 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BFC6478B52
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9877878C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 16:35:52 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id 92-v6so24500855otw.9
+	Mon, 11 Jun 2018 17:22:57 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id g20-v6so12721259plq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 09:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4qx98d3aUvl+CcfUxy+SLT3ul0Wrq+mcijWzbn1ez0A=;
-	b=KVHSA/JjgUSb59bfWEaaK0u1TiVLRBV28FLdThNHvGJOBzCVpsGnAKVHw3pRzAWDCL
-	xh+tLcTMfCYlgRHz4aBaZYx38T0BBOrGFD87HBlOckJyxSfjdD6nazU2dhI1G9YR0yGT
-	8uCSEDYcNEEN9VPjODGYsG05sln7M7gzRhrK3tM0wR2krYvqmVHBOBe2D76vqaWh4Tb3
-	8LL1TsKvXW7N1ehJmmDSJIBabxMi2hU8gbZR9w+BhDhwRQN2HFSz7Vi0c7Fr5TuVUhzG
-	0tF9p+F/ZgCZnp257BHcC2+YGiDbhD9GWVSf9P8btUwGbWRySgaSmHccA1DaQConhLtA
-	f/hw==
+	Mon, 11 Jun 2018 10:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=BmclQoMr2xTt4Al97SHBzs/ps9SK9tsGwV28kILdZxQ=;
+	b=ZzxzyJBjcbK63mXjuL3V8YGRBqGbG2GFfgixJkvj8gZZZ1Ipsc8ZNwHnI5SyNTichb
+	+uTEBvjT60z53q7CIbBT6loJQkdysUimZt7xxlUzCssP7iF5ei+6+Yhq/XY3X4SpnVJ+
+	/hSu7ILpEp0XKGBMSZSrpgnCP0gxKtrTDgr+ZnJ4Ar7PEFNtoKCfdG3wWPU8SVEaxpxQ
+	tC1NcnyX3sllFg5QS3kARtXl4r90rYSmhCbzRvFhw/HFDAi8jgmDkteaTfFlE2h3R+7Q
+	v9DdbVA7ewIOkNL+jsnVXxHQwLtpuG1bReYnWrz3q+8pgWaRW87DnDh09jX+J2BJEbui
+	B3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4qx98d3aUvl+CcfUxy+SLT3ul0Wrq+mcijWzbn1ez0A=;
-	b=JLLo+seOBwsBeCn6sQrEo/m6AGwp/MzWV04oyOGyxs1BeCQ68xtqUiK7EJ5+Pb4AZ8
-	qlotdpkaEKk7ZFS0XlKfPy/tkLmmCBp9ZUA69E/A6Ea9eEJXQKvQ7Ni+ChtcAORTbErA
-	V9lhrpP4q7A2HXTPBZhAM3wM1sTk0GdIrs9xlyV+dKXrlNL3c2J7QPN6pfNXzKMO88aU
-	RsFVLUA5wRaiMMXqyvJ6HqQb/Zjxu1GyY08F021V6AHCTs0ic8YQQIoq6rZ8JgKCYTz7
-	D+/1fCzUWtWpRiq7XEdf+aBUowVQkGec+Tp/llwfhnolAubImYIyQIO0EShyHgxkKPpF
-	xQFQ==
-X-Gm-Message-State: APt69E2tGYQGdnrMImR5fqREk7z/SxBt5K8wz0sxKdjf7F7G8W9XMVpK
-	HqRPoUK+pUBIb5IKkHuPM+VKBpe0300MK1wwox+Miw==
-X-Google-Smtp-Source: ADUXVKKT0BvXXF1hMjt9e6OirC4slCqipQ65W3AcwaQvG200TpOoIk8yxTGbHyZZksekDzPKARmKfWHKWARkUBbsqYw=
-X-Received: by 2002:a9d:2989:: with SMTP id
-	n9-v6mr10995207otb.152.1528734953790; 
-	Mon, 11 Jun 2018 09:35:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 09:35:33
-	-0700 (PDT)
-In-Reply-To: <b9a65b20-120d-e399-606f-3c348fc974a5@mvista.com>
-References: <1528657273-19021-1-git-send-email-jpuhlman@mvista.com>
-	<CAJTo0LZXRFZ2bEgtyjRUGiUyDt_TcyjVUBZjdmtWzGFAE4McEA@mail.gmail.com>
-	<b9a65b20-120d-e399-606f-3c348fc974a5@mvista.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jun 2018 17:35:33 +0100
-Message-ID: <CAJTo0LbROwWA+4_suQ=_sxHMHsv_HST16jVqq3Meqm=DFGuTwQ@mail.gmail.com>
-To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorgproto: Install .pc files in ${libdir}/pkgconfig
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BmclQoMr2xTt4Al97SHBzs/ps9SK9tsGwV28kILdZxQ=;
+	b=Zyo9F+jwkguqe00IqKN7EEqqpjiGa+APjViDO94DwzbbvEkXc342JnOryEfh5mCqFY
+	re4/MZlhLCiOvcz4saLkjdiGw/gYJ0bkj3C1eQY6/6Uz1riR+ZReQjOsQFIJNzzgxx40
+	QXxRAlufjKxOzZFzZDyac3A/+UKAxjRmyPMC0pq/JUHozzeUozVgDIg1UkpaFMfofT7X
+	bfo2XcdQLO0GtPBToZm6T+pbNgWc/dFwr8u4x3mNYKg+9BIXrINQoEOPOQljlWe3JH4q
+	9LpE0/ZGNXGR5wU2PWKR5XFC/1cXCKcgl3vT4fN9mV+W3zQMZCo/pHtaMf8Ckds18OnU
+	1f1A==
+X-Gm-Message-State: APt69E0K5+RpK2+38YP9aDkaupiz2agA5g1eW52R960oe1lUmRKDKCbK
+	EWNSkhRGGxY7pXyhqt9Fq4U=
+X-Google-Smtp-Source: ADUXVKKU3zJTgOHhP20KToE4/ICJ5UMvialItjG8q3t4Prgglwf+REO2AWZ7KmTRoyIY+v86l5RcIA==
+X-Received: by 2002:a17:902:7688:: with SMTP id
+	m8-v6mr117122pll.54.1528737778888; 
+	Mon, 11 Jun 2018 10:22:58 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
+	by smtp.gmail.com with ESMTPSA id
+	a18-v6sm96346167pfn.117.2018.06.11.10.22.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Jun 2018 10:22:58 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2018 10:22:57 -0700
+Message-Id: <1528737777-11279-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] popt: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,79 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 16:35:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Jun 2018 17:22:57 -0000
 
-I'd recommend deleting the libdir lines in every .pc file (and pushing
-the patch upstream).
+It appears the rpm5.org has been down for some time, switch to fossies
 
-Ross
+WARNING: popt-native-1.16-r3 do_fetch: Failed to fetch URL http://rpm5.org/files/popt/popt-1.16.tar.gz, attempting MIRRORS if available
 
-On 11 June 2018 at 17:19, Jeremy A. Puhlman <jpuhlman@mvista.com> wrote:
->
->
-> On 6/11/2018 3:23 AM, Burton, Ross wrote:
->>
->> Upstream will (and do) argue that $datadir is the right location as
->> these headers are architecture-independent.
->>
->> Would the package manager do the right thing if the files didn't have
->> the libdir line in, so where bit-identical?
->
->
-> Yes, if the files are binary identical then the package manager would not
-> call it a conflict.
->
->
->>
->> Ross
->>
->> On 10 June 2018 at 20:01, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
->>>
->>> * --data dir config option is only used to install pkgconfig
->>> * Installing into ${datadir} causes mutlilib conficts on install
->>>
->>>    file /usr/share/pkgconfig/applewmproto.pc conflicts between attempted
->>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
->>> xorgproto-dev-2018.4-r0.corei7_64
->>>    file /usr/share/pkgconfig/bigreqsproto.pc conflicts between attempted
->>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
->>> xorgproto-dev-2018.4-r0.corei7_64
->>>
->>> and so on.
->>>
->>> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
->>> ---
->>>   meta/recipes-graphics/xorg-proto/xorg-proto-common.inc | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
->>> b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
->>> index 7a417c9..7377283 100644
->>> --- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
->>> +++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
->>> @@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
->>>   DEPENDS = "util-macros"
->>>
->>>   inherit autotools pkgconfig
->>> -EXTRA_OECONF = "--without-fop"
->>> +EXTRA_OECONF = "--without-fop --datadir=${libdir}"
->>>
->>>   UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto
->>> --with-xmlto"
->>>
->>> --
->>> 2.6.2
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-> --
-> Jeremy A. Puhlman
-> jpuhlman@mvista.com
->
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 478288f..377d108 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
+ 
+ DEPENDS = "virtual/libiconv"
+ 
+-SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
++SRC_URI = "https://fossies.org/linux/misc/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
+-- 
+2.7.4
+
 
