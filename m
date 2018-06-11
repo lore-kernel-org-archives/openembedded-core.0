@@ -1,55 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5095B78C85
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4715978C9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 21:46:49 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id o17-v6so13194812vka.2
+	Mon, 11 Jun 2018 22:03:21 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id g20-v6so13114163plq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 14:46:50 -0700 (PDT)
+	Mon, 11 Jun 2018 15:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=pj0Bt+uc+Ui4VdiDaOa5AEOMIIL6vRLEbWIHG8OAUVA=;
-	b=Pka1FY9/y/QodEIKUF/N3+70rQA9kxUzC8sAffE/WPnPjBirTiXcV3XOr+qZ9SEVEC
-	pQ1/359QuB69yUyq228TsVZIBhs7AS3X/TpUsOKu0gwKtN8gEobLgGgymKzLghDoGuTx
-	lK3ffYf1mWT7SpMsdsMjDBNOsj9ZCrVmfwmu9I1z4rjhTl89m4t3Hfc8hVthwMqoGj/Q
-	ZoCjLHO7AVwkHuKcptL111+73hMNIKoyOzagfnddkW2DB3AkcZ1w3Rzyx8W89AdjucHY
-	gS+Ay+H7JU1p5bgsXODD2kiQjgHWXS8Rz+MhbjCc9DP0xuJu2Mu38w2a/1QDKOtN/wEI
-	D4YA==
+	h=from:to:subject:date:message-id;
+	bh=oDzR6GJx9r1GKjxCAqQyANuOyzmOU2RkdMNQAJ9nHsY=;
+	b=UQEIv6/lBFLyfVPrVcUGMrTIiQZtP6Ishsw4YYHTbmwtZlQTkI06dbSLmX5an18ShY
+	S2za4s351HW/K2b7Xe1CfH98WmKC5y+XuUAzb6n5gfiOpBAN/kWq+MEbDLMoYknVt5O7
+	RlsXMuBtK6hnAD6j+5Ds9/Z3ZsM3mI1YpeYbiYbjv6wmg6n8+fIAUIgUu3xSEbaRuAxM
+	s0Djwq9cKSNGjoUdMs0f4zmx3EqRs2zndq5kUnWLREh6jx3SpR2UElYEVXVwavLcDUwF
+	40hb8fAOZbJ5MSqup0rnTw0qK0TFKzEzuG3jl6ceD8K4INX5hIT2Piwq7OliuVcga0bB
+	bLlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=pj0Bt+uc+Ui4VdiDaOa5AEOMIIL6vRLEbWIHG8OAUVA=;
-	b=HdsphDXSpGmGEqFx/RSkaX3ZZmXwlllARKCwgT7MFEr4PvKk5sfaO8jbCIfElOUBgQ
-	HDcACaSKxiip16ChzbGKluRS+6Yh0HjuPlFHu2X/CuMTFATaH/bk3m9M/QqbqMRCEMqy
-	MGyY1XmLMtBd138ExemsaK9ufhLrWyBzuZSbSHMkeb8QnFYYVkN2KmCcdryQ2G/Kr0le
-	GNI/42mb1ga/GbqmNYnwIt2vbG6ZmiA3QPLwzNyGApoINm1AzK9NcIkcLdjrgJ0o8yQD
-	X9DypxMTkLYXbFdfZqkGwLDIji5G8YTkyt+AMB9zbErZzdJ/fnGsKL8WTn5EddZ1uCGq
-	G4Jg==
-X-Gm-Message-State: APt69E040XEMl3Ac+qZPqHlrS9E0iIN9wcvZZOTl9XvNoZXut8vRp7fw
-	DsTZ5jIdVf5b6gmTwwTWLfMPaKK2cOIcgq/VwFI=
-X-Google-Smtp-Source: ADUXVKI5vrbdhyzE5KE25gcXf7mDEA07Y0Gz5zyeO+kDFCYgIZpFhtWha7eaoJKG5o07Ce9KK9ikmw2s0AalyxkpNlg=
-X-Received: by 2002:a1f:9615:: with SMTP id
-	y21-v6mr586926vkd.154.1528753610235; 
-	Mon, 11 Jun 2018 14:46:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Mon, 11 Jun 2018 14:46:49 -0700 (PDT)
-In-Reply-To: <11604122-a4df-e93c-6f34-baa7fe733723@gmail.com>
-References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
-	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
-	<CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
-	<CAEUSe7_AH1r9=g_HT-SYZXwyA3oWWxiJQ8z5GrYa31Uf21u0_A@mail.gmail.com>
-	<11604122-a4df-e93c-6f34-baa7fe733723@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 11 Jun 2018 14:46:49 -0700
-Message-ID: <CAJ86T=WsQL-sH_Q75nhV_7U_68RENKeePTLQwPTqDZ7zwvHq6Q@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=oDzR6GJx9r1GKjxCAqQyANuOyzmOU2RkdMNQAJ9nHsY=;
+	b=gZ3KbhVStUcwGME1yD0Ak8ufYRmLtw57K3/jfM+DWSdzFiNoQUGj/4xDArIjYEQRyG
+	hZtmz/AID3VapdErm3g5DEvpOmq21MvFNHIVT2DWnrmW0SFKlgAm7k6pHUDY+7MTxJyy
+	9Z6UNY1JtpF63dsV5rDb36M2vrieOWHHQIzfSrEeDCLWg6BXMocbiJCO7+JQadldvLcG
+	mv8u/Jh/DLESNbgMRx5nKXVktnGYzzRvmkyfWnBqBzrsUn1PuzUsjWi1jcobhuZNHkm4
+	l/HY9F/XxGcKwiXHxyBr6X+ERuWNESLoE4F7oxlVP3B3KtmWTmw1TNU1GOZb49TfC+ZD
+	LJSw==
+X-Gm-Message-State: APt69E2vwIafm7iI7OpywrDI6dmsonySOE6ecC/LGMNK9FiZAVUBKhw7
+	VYnodWFaL3GDSnej9sWoYtV46w==
+X-Google-Smtp-Source: ADUXVKLrVDGuz87PiTQ1mXVHYxP4vT/Uj3Oz82WwfY7lB5px8Z7NqRXes7bfUpWLBb0DFX+/9ygNHw==
+X-Received: by 2002:a17:902:7202:: with SMTP id
+	ba2-v6mr932253plb.119.1528754602233; 
+	Mon, 11 Jun 2018 15:03:22 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
+	by smtp.gmail.com with ESMTPSA id
+	l62-v6sm54472855pga.21.2018.06.11.15.03.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Jun 2018 15:03:21 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2018 15:03:20 -0700
+Message-Id: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] busybox: remove myself as maintainer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,32 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 21:46:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Jun 2018 22:03:21 -0000
 
-On Mon, Jun 11, 2018 at 2:38 PM, akuster808 <akuster808@gmail.com> wrote:
-> On 06/11/2018 10:30 AM, Daniel D=C3=ADaz wrote:
->> On 16 May 2018 at 16:20, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrote=
-:
->>> On 6 April 2018 at 15:43, akuster808 <akuster808@gmail.com> wrote:
->>>> On 04/06/2018 10:08 AM, Daniel D=C3=ADaz Rodr=C3=ADguez wrote:
->>>>> Ping on this series for Morty.
->>>> This needs to be ported to Pyro first. I do it this weekend and morty =
-too.
->>> Ping on this series for Morty.
->> Ping on this series for Morty.
->
-> this is in the stable/morty-next branch which is on hold for the current
-> morty QA.
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dstable=
-/pyro-next&id=3D76ffc6b7e5ff6f2bab6e53bb07f52a25fcb81ac9
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-That's a link for stable/pyro-next.
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 628edac..08d7e1b 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+-RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-- 
+2.7.4
 
-The change doesn't seem to be in stable/morty-next though:
-
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dstable/morty-n=
-ext
 
