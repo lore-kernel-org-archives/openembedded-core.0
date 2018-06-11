@@ -1,47 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 78AB678C78
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3725A78C78
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 22:13:46 +0000 (UTC)
-Received: by mail-vk0-f41.google.com with SMTP id x4-v6so13221954vkx.11
+	Mon, 11 Jun 2018 22:17:32 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id l15-v6so24710254oth.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 15:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 11 Jun 2018 15:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ewSX8ZBIQacNSfL8lWNoYKvjWn1tGBvQyffjE3zTA/0=;
-	b=baj75DhUygBaOPtp4casJ4S81z8PcoKpDTx0VE16zVt4pLWcdEDCbqGCDDG0OH4xY4
-	L0bbMkk9lnmGkc5ZMpzja/fpfn4ZiFRahRbjmBKifRRLuZw9ZpFngk3k0qy5Pl55WzGY
-	rUahzdB8Tm5po9aJCtJ3kJnERSodIECZDngJaHVmDKHp7YgNvFw+vmzBZ3QPrm7oTaZn
-	bKK8aTmFGe6mZbTw1Tb6Jdi9SBiwt4KqiBo4cd3WDUlEb1m9TzwDNXn+W1Qpjf7X8P7f
-	IdSE9A/6Z0L+I7a+mYXXh1t3KsoJHqMmjSP7DC5nTd5zw06KgS5Xi27NVVxA/pr68V8m
-	aToQ==
+	:cc; bh=nE9MnX6ZZCX6a+rWJVp97TwQbyx5mAMMQUMCdkpCcTg=;
+	b=VUpktMui2BLYPGlsgbO1jQleJrgVgkAxsyNPrLTTdQ56Xd2fhMechM9XsvuTwsWuf8
+	pPym7nk00GfrjN3DarFnPZqkHtSc4Vnt7tnkXsL8PegRwPP9EA0UCQd/OFA+2/kyad2I
+	6ZXpwwnwFFwCbqeG+tQiGz/IQ9QdjM5mKIIuZVNw6xctADxtk1lG6o8syAzn6J3vo0tM
+	iRf4w2LYnZLBNLpvcIas3yjkTgv/JX3nVKzsOFc2bDyLeHKc3zZhr+2/H4zMcmbF4dPc
+	zyhYhQOkhSpr313dOPfc0cPUkx+bbayCwpbbiThJemhFgHfnRxotuNZ/jrtyZTDF6Kyo
+	6sAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ewSX8ZBIQacNSfL8lWNoYKvjWn1tGBvQyffjE3zTA/0=;
-	b=lFRTbW1m12klKtyVBMIi73drTsHdN5CJWy71tuiQH4UrWS4tuB7ZYSl0kwJpxQPaPX
-	ACZx7rk40CoAZ3KrToUZjLAwu7/evah4GpfM05tvY5EKg3AKfJj74D3hBq+f14aLF5al
-	bJefqFyx4zKMtmjnKrKLxK/n3sUHTt7cju5G/KZrIUjRJP+W/kGzRXFQzKBcNeqVxKrQ
-	NaEPAjqD/mG+mB9Xn0VJjBeT9PvCOO2/ZjgJ1Ck3hLeqUI15KIvoFIdUvuSnSKvwrtrV
-	BKBYA/KsI3/pPPEYg7lYsA1GGoyV/pA5QtL8AVNiccCSb8B+/BJZosP8CVb2Wc4MD/0w
-	3Cng==
-X-Gm-Message-State: APt69E10241ZnVEstg7KbUOHY9UAc+zLxPC5yp8MR8MRo8d8XwACHrWO
-	S4oTDRa14aYYjEVyfyHB483FYSsdlWniL8fJ8cE=
-X-Google-Smtp-Source: ADUXVKIFiHa8VrYeU0ssV/CLkUTkkaEN24A5tqmSAjkXp8098AcnaqbaOEOtB+PWx1MypE2Ii/ThFaUyOyRT/wIN8co=
-X-Received: by 2002:a1f:142:: with SMTP id 63-v6mr640783vkb.2.1528755227218;
-	Mon, 11 Jun 2018 15:13:47 -0700 (PDT)
+	bh=nE9MnX6ZZCX6a+rWJVp97TwQbyx5mAMMQUMCdkpCcTg=;
+	b=jIasiln7XJ8VewUvDoFZvVhHpouMO6sLjEhGAqk01G2cYmOmVnfiulQYgZENHFjPRq
+	y89vQtP1e0ngv54So/WiYtWGhft8BiVaNG9f7xmXKhx+lJ+XUgeBZHwymv+qSKw1gQxX
+	Oj1xZ4nFd3k+FBBWY0IoQzibv0Kw96MnDyed9OAYovbdqEmLaEVSJdZOaXNytBc1hpIL
+	A7msWTKZaFm5Mu92troSHh6PwMYoLqIRzOL0/qe88hEIg/LDJj5Ay04FX366TV4KxHN/
+	VPQVB1q73cXsEwGRizic6ETJHLOGnf97vH2w7udafxu0yuML/MBgH0tpxxEAxtDwYpvD
+	XnaQ==
+X-Gm-Message-State: APt69E2kXFsELiNI7vdezuvEqtNw0V51nmU5g/DjQmKIdLlJImAhxWnZ
+	aQkGz8DosO5Z2FAKRM8Sdf8p2NXUd7rZg6QfeGLgpQ==
+X-Google-Smtp-Source: ADUXVKIJjQG1tNZVvLszEOVs6u2fxLWdrQUZvlvuFPk9LiyhRBnOugvHENl7zLsT5EA8jDPZWZ5nKD8kbqPu/BowOoo=
+X-Received: by 2002:a9d:1553:: with SMTP id
+	z19-v6mr660266otz.135.1528755454216; 
+	Mon, 11 Jun 2018 15:17:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Mon, 11 Jun 2018 15:13:46 -0700 (PDT)
-In-Reply-To: <CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 15:17:13
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
 References: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
 	<CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 11 Jun 2018 15:13:46 -0700
-Message-ID: <CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jun 2018 23:17:13 +0100
+Message-ID: <CAJTo0LZPfg6AX_1UF08LrnYp=vtQtJZRrRxLpDCtVPC6jEud5Q@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox: remove myself as maintainer.
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,45 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 22:13:46 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 22:17:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 11, 2018 at 3:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Do we have anyone willing to take over?
+They get the AUH upgrade mails, and will be the default assignee for
+bugs in triage.
 
-Does having a designated maintainer actually achieve anything in practice?
+For something like busybox this isn't a huge amount of work.
 
-> Ross
+Ross
+
+On 11 June 2018 at 23:13, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Mon, Jun 11, 2018 at 3:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> Do we have anyone willing to take over?
 >
-> On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/conf/distro/include/maintainers.inc | 1 -
->>  1 file changed, 1 deletion(-)
+> Does having a designated maintainer actually achieve anything in practice?
+>
+>> Ross
 >>
->> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
->> index 628edac..08d7e1b 100644
->> --- a/meta/conf/distro/include/maintainers.inc
->> +++ b/meta/conf/distro/include/maintainers.inc
->> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
->>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
->>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
->>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
->>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
->> --
->> 2.7.4
->>
+>> On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
+>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>> ---
+>>>  meta/conf/distro/include/maintainers.inc | 1 -
+>>>  1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+>>> index 628edac..08d7e1b 100644
+>>> --- a/meta/conf/distro/include/maintainers.inc
+>>> +++ b/meta/conf/distro/include/maintainers.inc
+>>> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
+>>>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
+>>>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
+>>>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
+>>>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>>> --
+>>> 2.7.4
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >> --
 >> _______________________________________________
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
