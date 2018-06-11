@@ -1,77 +1,104 @@
-Return-Path: <DEVARSHT@xilinx.com>
-X-Greylist: delayed 9774 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 11 Jun 2018 14:12:34 UTC
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam01on0054.outbound.protection.outlook.com [104.47.34.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C5AC978B9C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F98378BE8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 14:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=sp7hN8hopKKu/5SEWvxBSw3GQgBT5FgtLr5rIt0Tko4=;
-	b=U3jRrfo9j/sFamxgf5EC/Br6sezRt5+YJkrMHuxu5kzVcx9qULConu9TXmC23fOcxupWhxWsTiVSuN1/XCj6hEdEoPsqdHe0EIY+LRZeGJgP3fkWoifakH83MuxNUt9SaZ/Uy4LPk9YcoK3u5ufXyrSuubgOfaq3JNYAG+G+RbQ=
-Received: from CO1PR02MB094.namprd02.prod.outlook.com (10.242.163.26) by
-	CO1PR02MB112.namprd02.prod.outlook.com (10.242.164.27) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.20.841.18; Mon, 11 Jun 2018 12:39:21 +0000
-Received: from CO1PR02MB094.namprd02.prod.outlook.com
-	([fe80::f873:613:595:f43d]) by CO1PR02MB094.namprd02.prod.outlook.com
-	([fe80::f873:613:595:f43d%13]) with mapi id 15.20.0841.019;
-	Mon, 11 Jun 2018 12:39:20 +0000
-From: Devarsh Thakkar <DEVARSHT@xilinx.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [PATCH] matchbox-terminal: Update commitID
-Thread-Index: AdQBgTcvBLDnKmNSQAGQwemeUacM5g==
-Date: Mon, 11 Jun 2018 12:39:20 +0000
-Message-ID: <CO1PR02MB0944771307967F828960631BC780@CO1PR02MB094.namprd02.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=DEVARSHT@xilinx.com; 
-x-originating-ip: [149.199.62.254]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; CO1PR02MB112;
-	7:Ms+9vGuWL80HjLH+Gfd8S4D3iRfNZUY8QFbhBQByhPFe5L8mymxCcFE4nfnFU06EWvPXLbRhShmxIbjEP3+DxE4XqhkghSszMvQtj/j05/pVCx9U3Jbi1I6bsjeYeovAEv27Tlfhu9PkUIuB2lWhbKWEhyqgzpjsAMQOOLqfaE2tUlO3leh6vumUrTpif9BUlnGPPTFPENNFqvZqIcxXUouHGhMmyZQBgkuNtP3Tl6DrmejHtHjO74VOSZWJQ7+x
-x-ms-exchange-antispam-srfa-diagnostics: SOS;SOR;
-x-forefront-antispam-report: SFV:SKI; SCL:-1; SFV:NSPM;
-	SFS:(10009020)(396003)(39860400002)(39380400002)(346002)(366004)(376002)(189003)(199004)(51914003)(54906003)(81156014)(14454004)(486006)(2900100001)(15650500001)(2420400007)(3660700001)(72206003)(3846002)(8936002)(6116002)(110136005)(68736007)(316002)(2501003)(33656002)(2906002)(5250100002)(10710500007)(229853002)(55016002)(6306002)(966005)(6436002)(305945005)(9686003)(5660300001)(3280700002)(476003)(7736002)(8676002)(74316002)(81166006)(575784001)(106356001)(7110500001)(97736004)(4326008)(107886003)(99286004)(86362001)(26005)(478600001)(53936002)(66066001)(6246003)(25786009)(102836004)(186003)(105586002)(59450400001)(7696005)(6506007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CO1PR02MB112;
-	H:CO1PR02MB094.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(48565401081)(5600026)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
-	SRVR:CO1PR02MB112; 
-x-ms-traffictypediagnostic: CO1PR02MB112:
-x-microsoft-antispam-prvs: <CO1PR02MB112F256E0FBBF5895EEED83BC780@CO1PR02MB112.namprd02.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(264703809997249)(192813158149592);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(8211001083)(6040522)(2401047)(8121501046)(5005006)(10201501046)(93006095)(93001095)(3002001)(3231254)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(6072148)(201708071742011)(7699016);
-	SRVR:CO1PR02MB112; BCL:0; PCL:0; RULEID:; SRVR:CO1PR02MB112; 
-x-forefront-prvs: 070092A9D3
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: OObvXAriEwXYhxfaV6+PdW2fIutIM3GHcVB5zOgQW1zMY1Jejmh/9JD0cX7HM8iA1Kjb129wo+mNg+YnTqxsv+iwFrYJRPHkaaGTu0euI4PuACJ6R3EKjJrT/kI5b9mOzF4HhkZzL9700TZ0RscB4/JbiVwN71KhQ6v2GX9wqlO8q14dXLNsF7Bvh0ICrdF0
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Mon, 11 Jun 2018 14:42:32 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id h12-v6so10341834pfk.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2018 07:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=nEq28hfgm1J/JXjaYiFbMvU4vvpfqI09C5p8PT+KUFU=;
+	b=IubaarRfmf28FQAjSdzBJpv4jRhfMZ7ohucezqe56UCh8JTxguwsOzzIvh4Xam6/FP
+	ATQq780mT44olckmWOwsTFRmwgmUgNKvszX3FNhcxn8OUfyLqmZNHp8JhZPwBveWDrAX
+	wpvrM/gk72Gztr9/fiub1bSciy7SI/+uZYFF2YDZcRex4vvlcH+Eb9fbi2zl1ldtYz6S
+	rg9zxwodbSt7pGp9jWM04SIjoqzZDXa1le6kK8kuS47Q2z4fB3nadPatfAVLSYla+8YT
+	6V9mli32oshrsgFl+qYpYjbSTnnPYZh1s6iYO9fHtCnUnRZQZ5SYFQPA7HVPzo+TzK0p
+	FRZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=nEq28hfgm1J/JXjaYiFbMvU4vvpfqI09C5p8PT+KUFU=;
+	b=il5tyLxjHYC9Qr4vcMRRyVn2pl2kUeqsebjGpXeWpfOENWn/6JIodxM0RHLG+E296c
+	2QdWFVu6OdEeGRb13IaKKfu6kA5j67qtnZ9kzZjv1ntmvNtxPuzJaS0BFHiORU0VHmAu
+	2cLBQh1obmMZE4tPfe9u1/QVrZ8SB0dAGqtn2NjIMcGDXT4C+GYRHQbsvgTBKu5zOGG6
+	i5GzPCIOWTFnihgktHn6cF+0J1h4vUJREXPShkj5t/ZeSmYA3Uf5YMHCzSrTW3KFNE73
+	qeR6PxpyedQiM2z2U79FTnIkK5Sy+KwQ1erbgmzzy2LSrWAfFzjsPSjMVpaZkBi+XcPc
+	fGxg==
+X-Gm-Message-State: APt69E1AcYtEtySfaGjzV3Qk2jXGeIAoIUgFt1xU+fB/EXXebajMgdIn
+	7vdNmuEjxndEK87Gh9Est2B7Tw==
+X-Google-Smtp-Source: ADUXVKKOUe09Qf4gckqz8M5pp5Ah2g2Uu/k442982g3uNZqGSIKyd7JZVDQp3A2UtmazVypr9x8Vuw==
+X-Received: by 2002:a65:554b:: with SMTP id
+	t11-v6mr15311638pgr.130.1528728153428; 
+	Mon, 11 Jun 2018 07:42:33 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:3dc0:dfd2:694f:63cf?
+	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
+	by smtp.gmail.com with ESMTPSA id
+	z192-v6sm37971500pgz.6.2018.06.11.07.42.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Jun 2018 07:42:32 -0700 (PDT)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1528690704-338-1-git-send-email-akuster808@gmail.com>
+	<9739bd9dd81149458033ba72cb7ce411@XBOX02.axis.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <bb38520f-85d7-9e63-83a6-76477073285a@gmail.com>
+Date: Mon, 11 Jun 2018 07:42:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 0d14cfa8-aa02-4211-1a11-08d5cf985a7d
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d14cfa8-aa02-4211-1a11-08d5cf985a7d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2018 12:39:20.1513 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR02MB112
-Cc: Maulik Desai <maulikd@xilinx.com>,
-	Varunkumar Allagadapa <VARUNKUM@xilinx.com>
-Subject: Re: [PATCH] matchbox-terminal: Update commitID
+In-Reply-To: <9739bd9dd81149458033ba72cb7ce411@XBOX02.axis.com>
+Subject: Re: [v5][PATCH] busybox: update to 1.28.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -84,69 +111,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 14:12:35 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 14:42:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
 
-Thanks for the quick review.=20
-Replies inline.
-=20
-> Message: 5
-> Date: Sun, 10 Jun 2018 09:29:14 +0100
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> To: Devarsh Thakkar <devarsh.thakkar@xilinx.com>,
-> 	openembedded-core@lists.openembedded.org
-> Cc: maulikd@xilinx.com, varunkum@xilinx.com, JAEWON@xilinx.com,
-> 	Devarsh Thakkar <devarsht@xilinx.com>
-> Subject: Re: [OE-core] [PATCH] matchbox-terminal: Update commitID
-> Message-ID:
-> 	<56788cd154d9af0b6c9ea2ef78de23b1909fd7ee.camel@linuxfoundati
-> on.org>
-> Content-Type: text/plain; charset=3D"UTF-8"
->=20
-> On Sat, 2018-06-09 at 04:59 -0700, Devarsh Thakkar wrote:
-> > Pull in change which adds support for command line
-> > options (-e and --command) which can be used for
-> > launching programs or running commands in matchbox-terminal
-> > via command line.
-> >
-> > Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
-> > ---
-> >  meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.1.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-
-> > terminal_0.1.bb b/meta/recipes-sato/matchbox-terminal/matchbox-
-> > terminal_0.1.bb
-> > index 4488191..b7fbee7 100644
-> > --- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.1.bb
-> > +++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.1.bb
-> > @@ -10,7 +10,7 @@ DEPENDS =3D "gtk+3 vte"
-> >  SECTION =3D "x11/utils"
-> >
-> >  #SRCREV tagged 0.1
->=20
-> I'm guessing the above comment is no longer valid, nor is the value of
-> PV?
-Yes the comment is no longer valid I will remove that in V2.
-But the PV is still valid as matchbox-terminal package version is still 0.1=
- ( as set in AC_INIT at http://git.yoctoproject.org/cgit.cgi/matchbox-termi=
-nal/tree/configure.ac) even after this commit.
 
->=20
-> > -SRCREV =3D "3ad357db2302760b8a8817b5f4478dd87479442f"
-> > +SRCREV =3D "ccbc3c70946b04313c6166ab0dfef21e5e83c289"
-> >  SRC_URI =3D "git://git.yoctoproject.org/${BPN}"
-> >  UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
-> >
->=20
-> Cheers,
->=20
-> Richard
->=20
-Thanks,
-Devarsh
+On 06/11/2018 01:45 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Armin Kuster
+>> Sent: den 11 juni 2018 06:18
+>> To: akuster808@gmail.com; openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [v5][PATCH] busybox: update to 1.28.4
+>>
+>> refactored busybox-udhcpc-no_deconfig.patch for this update
+>> updated 1.28.3
+>>
+>> [v1]
+>> removed patches included in update:
+>> busybox/CVE-2011-5325.patch
+>> busybox/CVE-2017-15873.patch
+>> busybox/busybox-CVE-2017-16544.patch
+>>
+>> [v2]
+>> Add back busybox-udhcpc-no_deconfig.patch ti SRC_URI, missed earlier
+>>
+>> [v3]
+>> Update defconfig based on feedback
+>>
+>> [v4]
+>> Decided to update again.
+>> 1.28.4
+>>
+>> [v5]
+>> rebased change do to changes in master
+>> squashed .cfg into defconfig and remove files
+>> Delete busybox-fix-lzma-segfaults.patch which is included in updated.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> The commit message should be rewritten to document the final commit, 
+> without any patch series references. They belong after --- below.
+
+Done that before and folks complained so I started included with files
+got removed. May I suggest updating the process so we can be consistent.
+
+- armin
+>
+>> ---
+>>  .../busybox/busybox/CVE-2011-5325.patch            | 481 ---------------------
+>>  .../busybox/busybox/CVE-2017-15873.patch           |  95 ----
+>>  .../busybox/busybox/busybox-CVE-2017-16544.patch   |  43 --
+>>  .../busybox/busybox-fix-lzma-segfaults.patch       | 106 -----
+>>  .../busybox/busybox-udhcpc-no_deconfig.patch       |  36 +-
+>>  meta/recipes-core/busybox/busybox/defconfig        | 278 ++++++------
+>>  meta/recipes-core/busybox/busybox/getopts.cfg      |   3 -
+>>  .../busybox/busybox/login-utilities.cfg            |  13 -
+>>  meta/recipes-core/busybox/busybox/mdev.cfg         |   2 -
+>>  .../busybox/busybox/mount-via-label.cfg            |   9 -
+>>  meta/recipes-core/busybox/busybox/resize.cfg       |   2 -
+>>  meta/recipes-core/busybox/busybox/sha1sum.cfg      |   1 -
+>>  meta/recipes-core/busybox/busybox/sha256sum.cfg    |   1 -
+>>  meta/recipes-core/busybox/busybox/syslog.cfg       |  11 -
+>>  .../{busybox_1.27.2.bb => busybox_1.28.4.bb}       |  15 +-
+>>  15 files changed, 162 insertions(+), 934 deletions(-)
+>>  delete mode 100755 meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2017-15873.patch
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/busybox-CVE-2017-16544.patch
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/busybox-fix-lzma-segfaults.patch
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/getopts.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/login-utilities.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/mount-via-label.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/resize.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/sha1sum.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/sha256sum.cfg
+>>  delete mode 100644 meta/recipes-core/busybox/busybox/syslog.cfg
+>>  rename meta/recipes-core/busybox/{busybox_1.27.2.bb => busybox_1.28.4.bb} (72%)
+> //Peter
+>
+
 
