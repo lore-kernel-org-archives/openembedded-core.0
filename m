@@ -1,50 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4715978C9A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f196.google.com (mail-ot0-f196.google.com
+	[74.125.82.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A94878B08
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 22:03:21 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id g20-v6so13114163plq.1
+	Mon, 11 Jun 2018 22:07:07 +0000 (UTC)
+Received: by mail-ot0-f196.google.com with SMTP id i19-v6so25696993otk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 15:03:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=oDzR6GJx9r1GKjxCAqQyANuOyzmOU2RkdMNQAJ9nHsY=;
-	b=UQEIv6/lBFLyfVPrVcUGMrTIiQZtP6Ishsw4YYHTbmwtZlQTkI06dbSLmX5an18ShY
-	S2za4s351HW/K2b7Xe1CfH98WmKC5y+XuUAzb6n5gfiOpBAN/kWq+MEbDLMoYknVt5O7
-	RlsXMuBtK6hnAD6j+5Ds9/Z3ZsM3mI1YpeYbiYbjv6wmg6n8+fIAUIgUu3xSEbaRuAxM
-	s0Djwq9cKSNGjoUdMs0f4zmx3EqRs2zndq5kUnWLREh6jx3SpR2UElYEVXVwavLcDUwF
-	40hb8fAOZbJ5MSqup0rnTw0qK0TFKzEzuG3jl6ceD8K4INX5hIT2Piwq7OliuVcga0bB
-	bLlg==
+	Mon, 11 Jun 2018 15:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MxlmbNEM1qT9tTQA7ArOMKRD2bsvEFGiGXxZksmfeoM=;
+	b=kmVzvfaySSVCDbRf04TIcyMBKkVyjNAVUmK+nujO/3Tm3/TLcZPPZ8IHRX5J1hqfg6
+	i66VkgM0Wp3841k8dY+GSZxrqmfe3DZ5w+yfrLFhm/v+r5cU8QOwfP4cl4wFXNYEWnnE
+	hqTyLONv+QR88ui8lM1HygjQ5SroUR7j4QnLa3ZdT3YRXZWETcjRryMk/GY7A8HcvC2P
+	+Mdp4DiZCCQ9iAMeXViLuHNR3yTkIqVXHkbP80y+pOgUPfZOj41eKjpCJZmCPcREteFJ
+	PRkAcpGoURBirrbezsPRZiQwtz3fBhvR6QRf1ln2cSuW2IsTXN3lvyxpeWAe5JZmK9cE
+	o0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=oDzR6GJx9r1GKjxCAqQyANuOyzmOU2RkdMNQAJ9nHsY=;
-	b=gZ3KbhVStUcwGME1yD0Ak8ufYRmLtw57K3/jfM+DWSdzFiNoQUGj/4xDArIjYEQRyG
-	hZtmz/AID3VapdErm3g5DEvpOmq21MvFNHIVT2DWnrmW0SFKlgAm7k6pHUDY+7MTxJyy
-	9Z6UNY1JtpF63dsV5rDb36M2vrieOWHHQIzfSrEeDCLWg6BXMocbiJCO7+JQadldvLcG
-	mv8u/Jh/DLESNbgMRx5nKXVktnGYzzRvmkyfWnBqBzrsUn1PuzUsjWi1jcobhuZNHkm4
-	l/HY9F/XxGcKwiXHxyBr6X+ERuWNESLoE4F7oxlVP3B3KtmWTmw1TNU1GOZb49TfC+ZD
-	LJSw==
-X-Gm-Message-State: APt69E2vwIafm7iI7OpywrDI6dmsonySOE6ecC/LGMNK9FiZAVUBKhw7
-	VYnodWFaL3GDSnej9sWoYtV46w==
-X-Google-Smtp-Source: ADUXVKLrVDGuz87PiTQ1mXVHYxP4vT/Uj3Oz82WwfY7lB5px8Z7NqRXes7bfUpWLBb0DFX+/9ygNHw==
-X-Received: by 2002:a17:902:7202:: with SMTP id
-	ba2-v6mr932253plb.119.1528754602233; 
-	Mon, 11 Jun 2018 15:03:22 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
-	by smtp.gmail.com with ESMTPSA id
-	l62-v6sm54472855pga.21.2018.06.11.15.03.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jun 2018 15:03:21 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 15:03:20 -0700
-Message-Id: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] busybox: remove myself as maintainer.
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MxlmbNEM1qT9tTQA7ArOMKRD2bsvEFGiGXxZksmfeoM=;
+	b=DPcwbqBFQGk1UHM99HpOy4hDXOLxdR/64Eb3JD0fzOupYDtl5Id+sNZ6KmZZnMbT8w
+	8kvXy9av0EuquUTjCZHJRbNDYctRn9plu/ZC6lE0Uk/hLFybQKVkX/52ESQoKj/L9D5k
+	xDsvKapI/AKcL6f4U6uMUBrk0FSCCPZOxQfh/MJCrecMvAf3qKvHXIgGK1G8y+p6UA0b
+	RKd0lOmqxJteCGxTjD6l4CqOC/rWsY8N1GdKIYYUTl0+ux1F48b3Q3etqqlMZzchdF/J
+	LGiRPnAbn3DuhE2pswzmeORw5ghV9UTZnAq/SNYuY+cyIA6qQmvP/EYlmjMIeUCepuva
+	qgTw==
+X-Gm-Message-State: APt69E2j0ANovN6nHE8kzGH9kzj+IemaL1kGxTxAYahpzXiTV1c9hkmK
+	TxjJTJ6/aWvpRoRTmvjP5QXVWwRzS2X4JUsmi0Y/KQ==
+X-Google-Smtp-Source: ADUXVKKsMwGoQafKTwSlULvR4p/BGhazmnRUKRBgsqtXptQudOCJisaf/hJxhJ2axI/Qgmp8fhiBWErm7XnmLU2DDFM=
+X-Received: by 2002:a9d:1553:: with SMTP id
+	z19-v6mr638842otz.135.1528754828123; 
+	Mon, 11 Jun 2018 15:07:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 15:06:47
+	-0700 (PDT)
+In-Reply-To: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
+References: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jun 2018 23:06:47 +0100
+Message-ID: <CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: remove myself as maintainer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 22:03:21 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 22:07:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/distro/include/maintainers.inc | 1 -
- 1 file changed, 1 deletion(-)
+Do we have anyone willing to take over?
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 628edac..08d7e1b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
- RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
--- 
-2.7.4
+Ross
 
+On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 628edac..08d7e1b 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
+>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
+>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
+>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
