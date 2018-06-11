@@ -1,32 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 683E078BBA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C41AB78AA8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 12:44:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jun 2018 05:44:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,501,1520924400"; d="scan'208";a="236161275"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga005.fm.intel.com with ESMTP; 11 Jun 2018 05:44:56 -0700
-To: Andrej Valek <andrej.valek@siemens.com>
-References: <24e47452-9ff5-778c-5146-599589458a3f@linux.intel.com>
-	<20180608140403.27855-1-andrej.valek@siemens.com>
-	<CANNYZj9ecWrsg61KiAirO5YnkATOtEihRgym0iD5o1c0po5KNA@mail.gmail.com>
-	<78456fb6-d8a1-c681-792a-36e78d7fb790@siemens.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <58fa6d36-737b-da77-d1ec-f72d50c75e5d@linux.intel.com>
-Date: Mon, 11 Jun 2018 15:45:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.7.0
+	Mon, 11 Jun 2018 13:07:15 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id d5-v6so17788421oib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2018 06:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3tI/0itAHlZvHgS4q3Kg9xLDiCz+1SaLxP9Vr5koG2Q=;
+	b=XxhxLhwfZFUA3QQcJl3i08KfRLmjzgWKAipCkUfsTA46/uy8sqY7vW9rXoBE0I873b
+	ZqY+IkQDvjC748dVHfOCWGJHaZsaFUuUniiEhOJmpsj3NFPqQf1a6lVFf17KfA0qZjwh
+	4Zex5Onf2sZUpMtywYMzUQtXP+J4BHcc3/JAhc5Fc8lURfIdgkwGGK61cGbcFeBkRB1Z
+	N5BC9xNErNPvn41pV0hSYghnONyIuWvJCYArfBa4oFJfL2QfaRVgqP6XT65Hv7xvDKhS
+	Z9mcXlcnwb0F1/YQt0M60tdLcMkXPWQRWUnK1Tdv1IuRF2WniolDD1N7TLc9xRNIgf7g
+	MQ7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=3tI/0itAHlZvHgS4q3Kg9xLDiCz+1SaLxP9Vr5koG2Q=;
+	b=hE70bdUuJMIrc+P0OtqKoRqANLCnqhHJWRPO303pFrlXymMcmGXVBPaEjgk68tiTV5
+	EXVC8CcIPyiaCWoWpJ9yFuI7GdAqUtFjliP2jp2C2ilL+icNLuqKhfhd06yGEsSdX6nW
+	7HvOWzH8fTDwaflsA23yui7esvK52aX502DdbGXfWfZrsR/kSwmjvlg5bJ11nE6tEU6N
+	ckgVdq9r+m7HgA13JS8DXuMZFof/2Ib+QmvFtGK4OArZSyv0x9l1+9DxVamCxsrCD5Dk
+	ZQBEP6mz8VefVjE47rPAYgKwidjjSZCQR0VCxweTT5m6h8K8B8xZ3vF0ZCmU2gyULBNQ
+	0wlw==
+X-Gm-Message-State: APt69E0k/yY0J6mtB8XkzsCdaMHcJCKL1RYNAE6Wyjr57Y3r94NcdDZa
+	pdazZd70yBBhkeJmVIVn1jo9YL4Ab3/apUdIhOOhyw==
+X-Google-Smtp-Source: ADUXVKI+ZJUTF/h3DH2EtIifHYao1BuHSLh81qfDQSk6Vcy/gbFhaqw5NqqSxbn+u8mG7W1LABN+H1pm5lSSq/Sdd78=
+X-Received: by 2002:aca:acd7:: with SMTP id
+	v206-v6mr8626187oie.320.1528722436608; 
+	Mon, 11 Jun 2018 06:07:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <78456fb6-d8a1-c681-792a-36e78d7fb790@siemens.com>
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 06:06:56
+	-0700 (PDT)
+In-Reply-To: <1528574447-21755-3-git-send-email-akuster808@gmail.com>
+References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+	<1528574447-21755-3-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jun 2018 14:06:56 +0100
+Message-ID: <CAJTo0LasaDVfZ04i-EYoi8Es7Jw6VLPbejtpCFvWKQXPE8WfCw@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/2] openssl-1.1: rework packaging
+Subject: Re: [PATCH 2/2] selftest: add cmake oeqa portion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,23 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 12:44:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jun 2018 13:07:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 06/11/2018 09:19 AM, Andrej Valek wrote:
-> Hi Alex,
-> 
-> I have tested your branch and seems to be, that openssl is working
-> correctly.
-> 
-> We are now using original (perl) c_rehash script, but dependency to perl
-> is missing. Are you ok with adding runtime dependency to bin package?
-> Just for notice, it will install perl on target.
+On 9 June 2018 at 21:00, Armin Kuster <akuster808@gmail.com> wrote:
+> add boost
 
-Yes, of course. If c_rehash needs perl interpreter to run, then it has 
-to pull it in.
+Explain what this test is meant to do so in two years time we're not
+struggling to understand why.
 
-Alex
+>  create mode 100644 meta/lib/oeqa/selftest/cases/cmake.py
+
+Squash with the previous commit.
+
+> +from glob import glob
+
+Not needed.
+
+> +from oeqa.core.decorator.oeid import OETestID
+
+Not needed becase...
+
+> +class CmakeSelfTests(OESelftestTestCase):
+> +    @OETestID(3000)
+
+https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=3000
+"Test case 3000 does not exist"
+
+Don't invent test IDs.
+
+Ross
 
