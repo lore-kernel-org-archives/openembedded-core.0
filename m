@@ -1,53 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B07D78997
+Received: from mail-ot0-f182.google.com (mail-ot0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D4086FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 12:15:46 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id t133-v6so17630388oif.10
+	Mon, 11 Jun 2018 12:25:12 +0000 (UTC)
+Received: by mail-ot0-f182.google.com with SMTP id w9-v6so18008571otj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 05:15:47 -0700 (PDT)
+	Mon, 11 Jun 2018 05:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vliAglqSNaK47BEO7fweO2IMiIBXAzGOOdoJ96jIHFI=;
-	b=Lh8PfGbeA6PJZa53qXK3+JKMe11NUWHrFAf9H7LW4vYtAx0t1QHUUXeUUQe2pk67Tg
-	V6DEVA+GFq3LvFB0aFhDaiCNBPb3OQHsMsSrYILUUtoZzFpAJusoFLGpCHB9GIJownU7
-	+A9Oub4q0Ng0vgw1VZzTEiITgrtmtN8ZerlV7uo0B62gpC/POWkoMDmOF6Ozhm/nISzb
-	oULtEty5KMWqsGlveGIao/bRt8xHvNPwLKw5cZjl8kBpTCJ1NRDN02NkXUbnDNXkGoEJ
-	IHIlSd9fANr6HRNxdgF+fdAI3btMWKam1S1A2jKh52LgZV2VLJC5MyQXWzboOduWMdLN
-	LMFg==
+	:cc; bh=ShzB8wtwl4wbcB5H9Iv5JYXtDko1k6/MBux12TRqvsc=;
+	b=cgYsS4oaLdO+gG/1qJ1Wbln1UpmWN2POzeHYUO9vZW/arLNP2vERGJ76zVfXw3HuO9
+	wi9b59hlDlfPwjySvqtsNkCTZL/6GKTI3bVk/ve8L5FwziT7f1IDa1qSQf/iGsR/cdyu
+	3T9A2SHdw3R35971j7wsmeICKuSHDroU98ZPRoCVSKjqAY1tCn5Gl0+pJtCUCOLRib0/
+	7zyofOlslTEnrjkt8vbPYy6tgGVv30uiagF/Szf+fHrgpM+MR3Mx1cs2HDlKniG8SitL
+	rlhFg8r0fBfCYPwS9RwyDAA9mvsca2simxeO1rl7gGl8Jk8Vyg/XBBAU/Bm2Xvvb+URL
+	AXQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=vliAglqSNaK47BEO7fweO2IMiIBXAzGOOdoJ96jIHFI=;
-	b=kn3gjt/hz63guaLDjEOJz3XlOpHN5Atp0ILiu2GyvLcUkO2OdQnpgjmLFE1PMrEA8z
-	PNJY+DcWp6dOOfslDFf92BML/8e7PcvfNpKukfckKZmblecP+rxZPSsNguH0PdjGdg02
-	t2kCmQ2zO8jc1TXRat6CEcHrJb+Xi8Uv0XESrZy9jKVkbTveCnEf3ksYpYAh0LrLc9Tz
-	Dc5IDiQ2bjID1durEFr7CnB/zPDhGic/Yu4UNj6SP5oclFLBz/SEMxEH8UlUKIXEGTp5
-	N1ZJEcNrsqTKVO8xkcsO78YqCHkC2HWPsAw2dig5Cjn23B88kKklCL1+87sy8y63/+bM
-	VTNQ==
-X-Gm-Message-State: APt69E10IKC3CJ1Cb2sDDAw0XfQG+dItTI10QKJa0KzFA1V7jKWAdRoL
-	phAQSqzBXTf+if2KyKrzf/xrakz/mvq+bXXo0JmVQQ==
-X-Google-Smtp-Source: ADUXVKLhIKrP3MTqx+wAhQCZLbGUMGQS5uYIsLmiD2cbLWNgb7TvPdYbMqPV0XBZ28cNdlVfpNva/R+p4IYdujYX2Y0=
-X-Received: by 2002:aca:590a:: with SMTP id
-	n10-v6mr8439963oib.18.1528719347255; 
-	Mon, 11 Jun 2018 05:15:47 -0700 (PDT)
+	bh=ShzB8wtwl4wbcB5H9Iv5JYXtDko1k6/MBux12TRqvsc=;
+	b=hI9jUyaTbZeWabDK7vu0wspd60ji29vE2M++/hFY6d621kk2715zNvUta6+PiNdBas
+	mkWDarAk9DgTGer5Hkv6pa8B6avgf8iVIfonz9UPXLMZAl2Qs6AHnNdQZn3OM9lfii54
+	mOKocvakjwYrgZUMvI4uWYTaTyyfvDrUtsetREom3ryh4OspecQheA21I+A2Gri7jknU
+	1t/4Ls0H1w5CfrIUZRFreM+lk/7Ax10kYqikOMjeQip2C8FkeeA+YM/KHSaRppbYVnpq
+	RYrG5Tx97AToAzMwnZMabDMyxTC6/8Xrh4PbWotwWe2AWDK11EYRYG7fpCLjLebEZjg2
+	tRXA==
+X-Gm-Message-State: APt69E3f3SdOLWLMcFik4IQB7oG/cv8c9xHfRYyoBD08W+0vO7uLn1bk
+	DtUIxryiD5G8dtb2YhfndBnu1amwYDk2L41dtH8DgA==
+X-Google-Smtp-Source: ADUXVKL71RSssJ0/MPAACc8xE47OZysbOqJuRFYIpLRNe+qknNpCsLeFnNxOcJBH+H7T5du33CQlAsCxIdtE+iVF1Mk=
+X-Received: by 2002:a9d:1553:: with SMTP id
+	z19-v6mr9047299otz.135.1528719913533; 
+	Mon, 11 Jun 2018 05:25:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 05:15:26
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 05:24:52
 	-0700 (PDT)
-In-Reply-To: <ea8c1a44-c10a-d693-578f-04ac8f4a4d51@gmail.com>
-References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
-	<1528574447-21755-2-git-send-email-akuster808@gmail.com>
-	<CANNYZj8UfLsDXQ=3tOAo+ih2B7T5orT_C9hE02pH_O1rHXtx+w@mail.gmail.com>
-	<ea8c1a44-c10a-d693-578f-04ac8f4a4d51@gmail.com>
+In-Reply-To: <CAJ86T=XMSRRnwXqF2J8s=mTYx9rzuN49hRKKJphfPQx-EYj7dQ@mail.gmail.com>
+References: <1527207259-30592-1-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=XMSRRnwXqF2J8s=mTYx9rzuN49hRKKJphfPQx-EYj7dQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jun 2018 13:15:26 +0100
-Message-ID: <CAJTo0LarSUWvzyweD1MMbzMCOOBH-95NSpQC67Mz9D5kAcJdLA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] selftest: add cmake test
+Date: Mon, 11 Jun 2018 13:24:52 +0100
+Message-ID: <CAJTo0LZDpYLanarmFAURgDSWGmBgi1wumL7E3iKWnagwHUK+Gg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] cpio: move contents of cpio_v2.inc into the cpio recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,52 +58,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 12:15:46 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 12:25:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Well the problem in 12762 is that cmake *hardcodes a list of valid
-boost versions*, and I'm struggling to understand why this would seem
-like a good idea.
-
-Some thoughts:
-1) We definitely need a selftest for cmake.  We have a few build-stuff
-test cases already (lzip, cpio, galculator in sdk and runtime, some
-other in devtool's selftest).  I believe they need consolidation
-(repeated for runtime and SDK tests) and review (they're all
-autotools-based).  We should definitely be exercising that the build
-systems work on target.
-2) 12762 is a very specific problem with cmake.  Do we want to add a
-whole selftest just for this?  Would it be easier to just patch cmake
-to handle all versions?
+None, thanks for pinging.  Now in MUT.
 
 Ross
 
-On 10 June 2018 at 17:04, akuster808 <akuster808@gmail.com> wrote:
+On 8 June 2018 at 20:52, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Thu, May 24, 2018 at 5:14 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> Merge contents of cpio_v2.inc into the only recipe which uses it.
 >
+> Ping.
 >
-> On 06/10/2018 12:25 AM, Alexander Kanavin wrote:
->> 2018-06-09 23:00 GMT+03:00 Armin Kuster <akuster808@gmail.com>:
->>> +DEPENDS = "boost"
+> Any issues with this (ie the whole series of 3)?
+>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-extended/cpio/cpio_2.12.bb | 40 ++++++++++++++++++++++++++++--
+>>  meta/recipes-extended/cpio/cpio_v2.inc  | 43 ---------------------------------
+>>  2 files changed, 38 insertions(+), 45 deletions(-)
+>>  delete mode 100644 meta/recipes-extended/cpio/cpio_v2.inc
 >>
+>> diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
+>> index 405a90e..0b83e9b 100644
+>> --- a/meta/recipes-extended/cpio/cpio_2.12.bb
+>> +++ b/meta/recipes-extended/cpio/cpio_2.12.bb
+>> @@ -1,8 +1,13 @@
+>> -require cpio_v2.inc
+>> -
+>> +SUMMARY = "GNU cpio is a program to manage archives of files"
+>> +DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
+>> +another. It handles a number of cpio formats as well as reading and writing tar files."
+>> +HOMEPAGE = "http://www.gnu.org/software/cpio/"
+>> +SECTION = "base"
+>>  LICENSE = "GPLv3"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
 >>
->>> +find_package(Boost 1.60 REQUIRED
->>> +    COMPONENTS
->>> +        unit_test_framework
->>> +)
+>> +DEPENDS = "texinfo-native"
+>> +
+>>  SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+>>             file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+>>             file://0001-Fix-CVE-2015-1197.patch \
+>> @@ -10,3 +15,34 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
 >>
->> Is it possible to use something else than boost here, if we want to
->> test cmake's ability to find compoments?
-> I am not a cmake expert by any means. I just took a testcase given that
-> found a problem that I fixed earlier this week. I have not other idea
-> one would ensure folks don't break cmake when the update packages.
->
->> So that the build time is as
->> quick as possible - boost isn't particularly fast.
->
-> - armin
+>>  SRC_URI[md5sum] = "fc207561a86b63862eea4b8300313e86"
+>>  SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713a92e73"
+>> +
+>> +inherit autotools gettext texinfo
+>> +
+>> +EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+>> +
+>> +do_install () {
+>> +    autotools_do_install
+>> +    if [ "${base_bindir}" != "${bindir}" ]; then
+>> +        install -d ${D}${base_bindir}/
+>> +        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
+>> +        rmdir ${D}${bindir}/
+>> +    fi
+>> +}
+>> +
+>> +PACKAGES =+ "${PN}-rmt"
+>> +
+>> +FILES_${PN}-rmt = "${base_sbindir}/rmt*"
+>> +
+>> +inherit update-alternatives
+>> +
+>> +ALTERNATIVE_PRIORITY = "100"
+>> +
+>> +ALTERNATIVE_${PN} = "cpio"
+>> +ALTERNATIVE_${PN}-rmt = "rmt"
+>> +
+>> +ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+>> +
+>> +ALTERNATIVE_PRIORITY[rmt] = "50"
+>> +ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
+>> +
+>> +BBCLASSEXTEND = "native"
+>> diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
+>> deleted file mode 100644
+>> index 31adb71..0000000
+>> --- a/meta/recipes-extended/cpio/cpio_v2.inc
+>> +++ /dev/null
+>> @@ -1,43 +0,0 @@
+>> -SUMMARY = "GNU cpio is a program to manage archives of files"
+>> -DESCRIPTION = "GNU cpio is a tool for creating and extracting archives, or copying files from one place to \
+>> -another. It handles a number of cpio formats as well as reading and writing tar files."
+>> -HOMEPAGE = "http://www.gnu.org/software/cpio/"
+>> -SECTION = "base"
+>> -
+>> -DEPENDS = "texinfo-native"
+>> -
+>> -SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+>> -    "
+>> -
+>> -inherit autotools gettext texinfo
+>> -
+>> -S = "${WORKDIR}/cpio-${PV}"
+>> -
+>> -EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
+>> -
+>> -do_install () {
+>> -    autotools_do_install
+>> -    if [ "${base_bindir}" != "${bindir}" ]; then
+>> -        install -d ${D}${base_bindir}/
+>> -        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
+>> -        rmdir ${D}${bindir}/
+>> -    fi
+>> -}
+>> -
+>> -PACKAGES =+ "${PN}-rmt"
+>> -
+>> -FILES_${PN}-rmt = "${base_sbindir}/rmt*"
+>> -
+>> -inherit update-alternatives
+>> -
+>> -ALTERNATIVE_PRIORITY = "100"
+>> -
+>> -ALTERNATIVE_${PN} = "cpio"
+>> -ALTERNATIVE_${PN}-rmt = "rmt"
+>> -
+>> -ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+>> -
+>> -ALTERNATIVE_PRIORITY[rmt] = "50"
+>> -ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
+>> -
+>> -BBCLASSEXTEND = "native"
+>> --
+>> 1.9.1
 >>
->> Alex
->
 > --
 > _______________________________________________
 > Openembedded-core mailing list
