@@ -1,50 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
-	[74.125.82.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 81E6578AE1
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C45C578B30
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 10:23:50 +0000 (UTC)
-Received: by mail-ot0-f195.google.com with SMTP id q17-v6so23146502otg.2
+	Mon, 11 Jun 2018 11:34:32 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id i83-v6so30006928lfh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 03:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=8gv7sVrfip2Nx8NsE2x7Q/Dr8DFTlttm0jXNoqIg6J4=;
-	b=EZ4xgJkdX8tFW0Iwr+eBcmDxfNL4ihKQRzHHgJaag84GfuERAqvnyyNlmdfZUvl1Ro
-	yeO+G+WfDGvnpgx0XYqvX9B78wQzQftgbVTrbTyqd8KkasWJ62MKvqeH4fh46dTG+3FP
-	lAYsEWiJOgQax7JL4rHpwP3ErE/aZTuo8DVPbO9hqcXV41soaGwGDjkUzwkQXthuN+ah
-	Xt70wrj7Zr4FSP6V/1VMlnbp1q2ULW2iXcwVAT1k3QxJRhZBze/pvTUkm0yTx3Xj0Cxq
-	m+ipKqHExNFHGY7vdEcO69ewV6lZwqZmi3bYUx2bJq3dtle+Z0d2EW5jl5rF5X3zIGed
-	LiPw==
+	Mon, 11 Jun 2018 04:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=2A6oHf0oWHAdIPhLBCrNbeMRlCLzmCuEiDAF/SpFy/Y=;
+	b=lzBlItQJy7kMb/94PnMsn/I40pSHyb3ObrTBVycyyiuzPjuI7ARThK5YJst80je5Qn
+	WrAWtfmxgRuzJKBxeQ7IJZPb9tZtpawK3sUzwUSn9W/bLFt2eKF5vkqWj25U0U8dcXEi
+	FltW3IDW1sL52p5mUjenzUZGs+/fxbkEvQo41R+jyE2ZdIVJwoeqtp+LKMd/pDipVuxr
+	qDkI4nZFgfCVu7NNmC0NLFca35WUYhz9bzwYMyUXmbSdU/+luIG47AzKdDF43j8CSYYY
+	EwQO9o/BDRxduAx9jbPPAw2z23sWcoCPLaeCE8elcaVCf4xlUMQFvrXOBEi1xx8lfnfi
+	5FSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=8gv7sVrfip2Nx8NsE2x7Q/Dr8DFTlttm0jXNoqIg6J4=;
-	b=jWji/WzUSJf7u8hNz1OU+ixLBfprGPV+XrW6+4EePHDlZxLqcV+jufYPHA09CLlTni
-	eXk+5G8Pckz5SjlEIt2+xGc91lR+PImfwDifrXowGP+2dQSTGyDYOZISes7wqlHo4I2d
-	PiGBrYKc0QIlHgdEeKAOzHkAFMJ2KJ66oKBherm8B0JMjGaq0mfaZGwQHFSVcytUaAHI
-	NYFNNC4wZ4q73gNbT4eCk1nWC0d/1bDaZcn94+BJpjEqHGpi1ZWJh5BiwEhU1yxaS6mB
-	XQI0ci3JsVWNXbN3QSD8JgmYh3qJCdc8YzKBe+WbR53sLiK4Aal7ebteZDAXPbAGHPmh
-	bBtQ==
-X-Gm-Message-State: APt69E0uv1GwhvUJIaz8gVpDl2rsbTJtD+Pv2pDd3pFMuazwnklY5sU9
-	UZGImJhdFrTJaJgqxb60M818C694JQuWI2WW9heRBA==
-X-Google-Smtp-Source: ADUXVKJmzvi/Cj6Mh5fSls0mk0Zuq0P7lEskcaIuqL2NX9tdhzmyvDCACb1/yoq/R+d66ZDAIPvQWx1wublqh6oCnqY=
-X-Received: by 2002:a9d:2989:: with SMTP id
-	n9-v6mr10145064otb.152.1528712631526; 
-	Mon, 11 Jun 2018 03:23:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 03:23:30
-	-0700 (PDT)
-In-Reply-To: <1528657273-19021-1-git-send-email-jpuhlman@mvista.com>
-References: <1528657273-19021-1-git-send-email-jpuhlman@mvista.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jun 2018 11:23:30 +0100
-Message-ID: <CAJTo0LZXRFZ2bEgtyjRUGiUyDt_TcyjVUBZjdmtWzGFAE4McEA@mail.gmail.com>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorgproto: Install .pc files in ${libdir}/pkgconfig
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2A6oHf0oWHAdIPhLBCrNbeMRlCLzmCuEiDAF/SpFy/Y=;
+	b=XdAkLRUjo1dSy5GiP+uvDuljdN/yxr8Nw7+VAIaHW8Mz88soDNelK0kgK03k82PJrQ
+	/1JychwSF3BJEsymppTisyjgGq+gh5zmSgebxzDo1jPMFdNWm7RB6irmt/sUTo8E5xlo
+	kYB52dz3OPQKTY9X8CD2SH0ggFrgAFptJB+Xow9kpbGayyN0E0VLTm++Yxp8MWUCXYdM
+	M/br3qCi50X+R67Ob/bizCaSe/D8vcre+TAWX62RUDmVwYQoR4ghoBrXKNK7IVW6knVb
+	znunIDTspmm9jz0vpkr8sxc4otNuXEVj7Mg0Jy5G2aBfNtf1W8beWpWts1E6MzjZAEJB
+	mHEA==
+X-Gm-Message-State: APt69E20zqx3yYN0iE/6dUxOsV/WqZW7ExJo/hv7CXcJ/diH9mYPHYCl
+	bS+mFW2DlSqAp32TZafystLsYFg2
+X-Google-Smtp-Source: ADUXVKKQo2BOwUTenIPnPqeUR6kGCeXkn+QQu8fkbRIwEK0iFhsmWVBqESEbAWBZTUNcPgzDDoC4vw==
+X-Received: by 2002:a19:890a:: with SMTP id
+	l10-v6mr9762360lfd.117.1528716873164; 
+	Mon, 11 Jun 2018 04:34:33 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	(m83-185-243-46.cust.tele2.se. [83.185.243.46])
+	by smtp.gmail.com with ESMTPSA id
+	b204-v6sm4684620lfb.12.2018.06.11.04.34.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Jun 2018 04:34:32 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2018 13:34:27 +0200
+Message-Id: <1528716867-20270-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2] bitbake.conf: add BB_CURRENT_MC to OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 10:23:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 11 Jun 2018 11:34:33 -0000
 
-Upstream will (and do) argue that $datadir is the right location as
-these headers are architecture-independent.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Would the package manager do the right thing if the files didn't have
-the libdir line in, so where bit-identical?
+This is useful when the users want different variables/tasks when using
+multiconfig.
 
-Ross
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10 June 2018 at 20:01, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
-> * --data dir config option is only used to install pkgconfig
-> * Installing into ${datadir} causes mutlilib conficts on install
->
->   file /usr/share/pkgconfig/applewmproto.pc conflicts between attempted
-> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
-> xorgproto-dev-2018.4-r0.corei7_64
->   file /usr/share/pkgconfig/bigreqsproto.pc conflicts between attempted
-> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
-> xorgproto-dev-2018.4-r0.corei7_64
->
-> and so on.
->
-> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-> ---
->  meta/recipes-graphics/xorg-proto/xorg-proto-common.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-> index 7a417c9..7377283 100644
-> --- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-> +++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-> @@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
->  DEPENDS = "util-macros"
->
->  inherit autotools pkgconfig
-> -EXTRA_OECONF = "--without-fop"
-> +EXTRA_OECONF = "--without-fop --datadir=${libdir}"
->
->  UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto --with-xmlto"
->
-> --
-> 2.6.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3b2ef9f..0c803d5 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -731,7 +731,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+ # And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
+ # This works for functions as well, they are really just variables.
+ #
+-OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
++OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:mc-${BB_CURRENT_MC}:forcevariable"
+ LIBCOVERRIDE ?= ""
+ CLASSOVERRIDE ?= "class-target"
+ DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+-- 
+2.7.4
+
 
