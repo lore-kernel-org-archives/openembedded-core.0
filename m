@@ -1,50 +1,53 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C45C578B30
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B07D78997
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 11:34:32 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id i83-v6so30006928lfh.5
+	Mon, 11 Jun 2018 12:15:46 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id t133-v6so17630388oif.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 04:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2A6oHf0oWHAdIPhLBCrNbeMRlCLzmCuEiDAF/SpFy/Y=;
-	b=lzBlItQJy7kMb/94PnMsn/I40pSHyb3ObrTBVycyyiuzPjuI7ARThK5YJst80je5Qn
-	WrAWtfmxgRuzJKBxeQ7IJZPb9tZtpawK3sUzwUSn9W/bLFt2eKF5vkqWj25U0U8dcXEi
-	FltW3IDW1sL52p5mUjenzUZGs+/fxbkEvQo41R+jyE2ZdIVJwoeqtp+LKMd/pDipVuxr
-	qDkI4nZFgfCVu7NNmC0NLFca35WUYhz9bzwYMyUXmbSdU/+luIG47AzKdDF43j8CSYYY
-	EwQO9o/BDRxduAx9jbPPAw2z23sWcoCPLaeCE8elcaVCf4xlUMQFvrXOBEi1xx8lfnfi
-	5FSw==
+	Mon, 11 Jun 2018 05:15:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vliAglqSNaK47BEO7fweO2IMiIBXAzGOOdoJ96jIHFI=;
+	b=Lh8PfGbeA6PJZa53qXK3+JKMe11NUWHrFAf9H7LW4vYtAx0t1QHUUXeUUQe2pk67Tg
+	V6DEVA+GFq3LvFB0aFhDaiCNBPb3OQHsMsSrYILUUtoZzFpAJusoFLGpCHB9GIJownU7
+	+A9Oub4q0Ng0vgw1VZzTEiITgrtmtN8ZerlV7uo0B62gpC/POWkoMDmOF6Ozhm/nISzb
+	oULtEty5KMWqsGlveGIao/bRt8xHvNPwLKw5cZjl8kBpTCJ1NRDN02NkXUbnDNXkGoEJ
+	IHIlSd9fANr6HRNxdgF+fdAI3btMWKam1S1A2jKh52LgZV2VLJC5MyQXWzboOduWMdLN
+	LMFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2A6oHf0oWHAdIPhLBCrNbeMRlCLzmCuEiDAF/SpFy/Y=;
-	b=XdAkLRUjo1dSy5GiP+uvDuljdN/yxr8Nw7+VAIaHW8Mz88soDNelK0kgK03k82PJrQ
-	/1JychwSF3BJEsymppTisyjgGq+gh5zmSgebxzDo1jPMFdNWm7RB6irmt/sUTo8E5xlo
-	kYB52dz3OPQKTY9X8CD2SH0ggFrgAFptJB+Xow9kpbGayyN0E0VLTm++Yxp8MWUCXYdM
-	M/br3qCi50X+R67Ob/bizCaSe/D8vcre+TAWX62RUDmVwYQoR4ghoBrXKNK7IVW6knVb
-	znunIDTspmm9jz0vpkr8sxc4otNuXEVj7Mg0Jy5G2aBfNtf1W8beWpWts1E6MzjZAEJB
-	mHEA==
-X-Gm-Message-State: APt69E20zqx3yYN0iE/6dUxOsV/WqZW7ExJo/hv7CXcJ/diH9mYPHYCl
-	bS+mFW2DlSqAp32TZafystLsYFg2
-X-Google-Smtp-Source: ADUXVKKQo2BOwUTenIPnPqeUR6kGCeXkn+QQu8fkbRIwEK0iFhsmWVBqESEbAWBZTUNcPgzDDoC4vw==
-X-Received: by 2002:a19:890a:: with SMTP id
-	l10-v6mr9762360lfd.117.1528716873164; 
-	Mon, 11 Jun 2018 04:34:33 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(m83-185-243-46.cust.tele2.se. [83.185.243.46])
-	by smtp.gmail.com with ESMTPSA id
-	b204-v6sm4684620lfb.12.2018.06.11.04.34.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jun 2018 04:34:32 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 13:34:27 +0200
-Message-Id: <1528716867-20270-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH V2] bitbake.conf: add BB_CURRENT_MC to OVERRIDES
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vliAglqSNaK47BEO7fweO2IMiIBXAzGOOdoJ96jIHFI=;
+	b=kn3gjt/hz63guaLDjEOJz3XlOpHN5Atp0ILiu2GyvLcUkO2OdQnpgjmLFE1PMrEA8z
+	PNJY+DcWp6dOOfslDFf92BML/8e7PcvfNpKukfckKZmblecP+rxZPSsNguH0PdjGdg02
+	t2kCmQ2zO8jc1TXRat6CEcHrJb+Xi8Uv0XESrZy9jKVkbTveCnEf3ksYpYAh0LrLc9Tz
+	Dc5IDiQ2bjID1durEFr7CnB/zPDhGic/Yu4UNj6SP5oclFLBz/SEMxEH8UlUKIXEGTp5
+	N1ZJEcNrsqTKVO8xkcsO78YqCHkC2HWPsAw2dig5Cjn23B88kKklCL1+87sy8y63/+bM
+	VTNQ==
+X-Gm-Message-State: APt69E10IKC3CJ1Cb2sDDAw0XfQG+dItTI10QKJa0KzFA1V7jKWAdRoL
+	phAQSqzBXTf+if2KyKrzf/xrakz/mvq+bXXo0JmVQQ==
+X-Google-Smtp-Source: ADUXVKLhIKrP3MTqx+wAhQCZLbGUMGQS5uYIsLmiD2cbLWNgb7TvPdYbMqPV0XBZ28cNdlVfpNva/R+p4IYdujYX2Y0=
+X-Received: by 2002:aca:590a:: with SMTP id
+	n10-v6mr8439963oib.18.1528719347255; 
+	Mon, 11 Jun 2018 05:15:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 05:15:26
+	-0700 (PDT)
+In-Reply-To: <ea8c1a44-c10a-d693-578f-04ac8f4a4d51@gmail.com>
+References: <1528574447-21755-1-git-send-email-akuster808@gmail.com>
+	<1528574447-21755-2-git-send-email-akuster808@gmail.com>
+	<CANNYZj8UfLsDXQ=3tOAo+ih2B7T5orT_C9hE02pH_O1rHXtx+w@mail.gmail.com>
+	<ea8c1a44-c10a-d693-578f-04ac8f4a4d51@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Jun 2018 13:15:26 +0100
+Message-ID: <CAJTo0LarSUWvzyweD1MMbzMCOOBH-95NSpQC67Mz9D5kAcJdLA@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] selftest: add cmake test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 11:34:33 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 12:15:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+Well the problem in 12762 is that cmake *hardcodes a list of valid
+boost versions*, and I'm struggling to understand why this would seem
+like a good idea.
 
-This is useful when the users want different variables/tasks when using
-multiconfig.
+Some thoughts:
+1) We definitely need a selftest for cmake.  We have a few build-stuff
+test cases already (lzip, cpio, galculator in sdk and runtime, some
+other in devtool's selftest).  I believe they need consolidation
+(repeated for runtime and SDK tests) and review (they're all
+autotools-based).  We should definitely be exercising that the build
+systems work on target.
+2) 12762 is a very specific problem with cmake.  Do we want to add a
+whole selftest just for this?  Would it be easier to just patch cmake
+to handle all versions?
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3b2ef9f..0c803d5 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -731,7 +731,7 @@ DISTRO_NAME ??= "OpenEmbedded"
- # And finally '<foo>_forcevariable' overrides any standard variable, with the highest priority.
- # This works for functions as well, they are really just variables.
- #
--OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
-+OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:mc-${BB_CURRENT_MC}:forcevariable"
- LIBCOVERRIDE ?= ""
- CLASSOVERRIDE ?= "class-target"
- DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
--- 
-2.7.4
-
+On 10 June 2018 at 17:04, akuster808 <akuster808@gmail.com> wrote:
+>
+>
+> On 06/10/2018 12:25 AM, Alexander Kanavin wrote:
+>> 2018-06-09 23:00 GMT+03:00 Armin Kuster <akuster808@gmail.com>:
+>>> +DEPENDS = "boost"
+>>
+>>
+>>> +find_package(Boost 1.60 REQUIRED
+>>> +    COMPONENTS
+>>> +        unit_test_framework
+>>> +)
+>>
+>> Is it possible to use something else than boost here, if we want to
+>> test cmake's ability to find compoments?
+> I am not a cmake expert by any means. I just took a testcase given that
+> found a problem that I fixed earlier this week. I have not other idea
+> one would ensure folks don't break cmake when the update packages.
+>
+>> So that the build time is as
+>> quick as possible - boost isn't particularly fast.
+>
+> - armin
+>>
+>> Alex
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
