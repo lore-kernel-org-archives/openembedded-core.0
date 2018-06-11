@@ -1,50 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9877878C1F
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 41E1074F35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 17:22:57 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id g20-v6so12721259plq.1
+	Mon, 11 Jun 2018 17:30:03 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id t134-v6so31783446lff.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 10:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=BmclQoMr2xTt4Al97SHBzs/ps9SK9tsGwV28kILdZxQ=;
-	b=ZzxzyJBjcbK63mXjuL3V8YGRBqGbG2GFfgixJkvj8gZZZ1Ipsc8ZNwHnI5SyNTichb
-	+uTEBvjT60z53q7CIbBT6loJQkdysUimZt7xxlUzCssP7iF5ei+6+Yhq/XY3X4SpnVJ+
-	/hSu7ILpEp0XKGBMSZSrpgnCP0gxKtrTDgr+ZnJ4Ar7PEFNtoKCfdG3wWPU8SVEaxpxQ
-	tC1NcnyX3sllFg5QS3kARtXl4r90rYSmhCbzRvFhw/HFDAi8jgmDkteaTfFlE2h3R+7Q
-	v9DdbVA7ewIOkNL+jsnVXxHQwLtpuG1bReYnWrz3q+8pgWaRW87DnDh09jX+J2BJEbui
-	B3LA==
+	Mon, 11 Jun 2018 10:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=39saJ+0jAJ7p0R5WbpFEEx5igQYtKFHGVgCvoaADQbI=;
+	b=fadsk56nPW9KL+6nhDf75J7HfnRqnL/GsiP+rTiLPrb7XoS1lq+aKWcGDmIXhg5P/y
+	/IKDKNxwsLxFw6Zbp6sypInloWDSfuPqgIbHiiD3VU4VpsFWrIdL9mVHifsHalxJ87/5
+	x4EJ9I5nfIIknGyfpfICiy0zYMh+1JJoY7xSk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=BmclQoMr2xTt4Al97SHBzs/ps9SK9tsGwV28kILdZxQ=;
-	b=Zyo9F+jwkguqe00IqKN7EEqqpjiGa+APjViDO94DwzbbvEkXc342JnOryEfh5mCqFY
-	re4/MZlhLCiOvcz4saLkjdiGw/gYJ0bkj3C1eQY6/6Uz1riR+ZReQjOsQFIJNzzgxx40
-	QXxRAlufjKxOzZFzZDyac3A/+UKAxjRmyPMC0pq/JUHozzeUozVgDIg1UkpaFMfofT7X
-	bfo2XcdQLO0GtPBToZm6T+pbNgWc/dFwr8u4x3mNYKg+9BIXrINQoEOPOQljlWe3JH4q
-	9LpE0/ZGNXGR5wU2PWKR5XFC/1cXCKcgl3vT4fN9mV+W3zQMZCo/pHtaMf8Ckds18OnU
-	1f1A==
-X-Gm-Message-State: APt69E0K5+RpK2+38YP9aDkaupiz2agA5g1eW52R960oe1lUmRKDKCbK
-	EWNSkhRGGxY7pXyhqt9Fq4U=
-X-Google-Smtp-Source: ADUXVKKU3zJTgOHhP20KToE4/ICJ5UMvialItjG8q3t4Prgglwf+REO2AWZ7KmTRoyIY+v86l5RcIA==
-X-Received: by 2002:a17:902:7688:: with SMTP id
-	m8-v6mr117122pll.54.1528737778888; 
-	Mon, 11 Jun 2018 10:22:58 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4000:1184:3dc0:dfd2:694f:63cf])
-	by smtp.gmail.com with ESMTPSA id
-	a18-v6sm96346167pfn.117.2018.06.11.10.22.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Jun 2018 10:22:58 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 10:22:57 -0700
-Message-Id: <1528737777-11279-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] popt: update SRC_URI
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=39saJ+0jAJ7p0R5WbpFEEx5igQYtKFHGVgCvoaADQbI=;
+	b=Zks6B9O3bVYfQ9qbS31u2q4XsNeqBKZb3dwunVWtMoRxUN7WIkFF1SiTFllgqfMIhc
+	i1eRcY3ic+ubXz2cLlaRTw1a65pTfiyHleh5LMNHML8PWkPkC13KhwLtxEXdjuSDxxEt
+	K959meibH/NedDpU6zCQXG4SEAVtWikGoxaLr6TOI19NOU1zVIgl2qWyoCjZVvqqmO8k
+	XxWjenHf1qlEXsGPv0eTC7KR2KR1rLVlbXFXMe2h+4FGxU8Bb6i6Yyg7hknXlzUxooqj
+	s+qrDtFmkOsygUcvDRD7uwt0pL5mcInEJGa5V/33XMtLyQ7EaHgdsIzK6OVZYDRSU+la
+	SiIg==
+X-Gm-Message-State: APt69E26QWTKAhhM7R2LTtK58bXx5BS86e8EvJBshp3pTsc14wzaVQmc
+	x+oX1RnzQ7D387/iXKIhzSMOFKyvso5oXwDgly34CW55
+X-Google-Smtp-Source: ADUXVKKtLTtUP83UKTCaY7jYBJH/hxvRU53QUYGG2kI9lQhllw0yGA+MCgEpvngMAibmdfW47rZktOoX6TrWzok5U8k=
+X-Received: by 2002:a19:6550:: with SMTP id c16-v6mr49104lfj.31.1528738203452; 
+	Mon, 11 Jun 2018 10:30:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a19:ea12:0:0:0:0:0 with HTTP; Mon, 11 Jun 2018 10:30:02
+	-0700 (PDT)
+In-Reply-To: <CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
+References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
+	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
+	<CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
+From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
+Date: Mon, 11 Jun 2018 12:30:02 -0500
+Message-ID: <CAEUSe7_AH1r9=g_HT-SYZXwyA3oWWxiJQ8z5GrYa31Uf21u0_A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 17:22:57 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 17:30:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It appears the rpm5.org has been down for some time, switch to fossies
+On 16 May 2018 at 16:20, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wrote:
+> On 6 April 2018 at 15:43, akuster808 <akuster808@gmail.com> wrote:
+>> On 04/06/2018 10:08 AM, Daniel D=C3=ADaz Rodr=C3=ADguez wrote:
+>>> Ping on this series for Morty.
+>> This needs to be ported to Pyro first. I do it this weekend and morty to=
+o.
+> Ping on this series for Morty.
 
-WARNING: popt-native-1.16-r3 do_fetch: Failed to fetch URL http://rpm5.org/files/popt/popt-1.16.tar.gz, attempting MIRRORS if available
+Ping on this series for Morty.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/popt/popt_1.16.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
-index 478288f..377d108 100644
---- a/meta/recipes-support/popt/popt_1.16.bb
-+++ b/meta/recipes-support/popt/popt_1.16.bb
-@@ -8,7 +8,7 @@ PR = "r3"
- 
- DEPENDS = "virtual/libiconv"
- 
--SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
-+SRC_URI = "https://fossies.org/linux/misc/popt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch \
-            file://popt_fix_for_automake-1.12.patch \
-            file://disable_tests.patch \
--- 
-2.7.4
-
+--=20
+ddiaz
 
