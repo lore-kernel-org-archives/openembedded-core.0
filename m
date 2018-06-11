@@ -1,26 +1,25 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B5FF78855
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 79BDB6FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 01:52:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jun 2018 18:52:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,499,1520924400"; d="scan'208";a="236310510"
-Received: from anmitta2-mobl1.png.intel.com (HELO
-	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.20.63])
-	by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2018 18:52:13 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 09:52:07 +0800
-Message-Id: <20180611015207.10465-2-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180611015207.10465-1-anuj.mittal@intel.com>
-References: <20180611015207.10465-1-anuj.mittal@intel.com>
-Subject: [PATCH 2/2] bitbake-blayers/create: add LAYERSERIES_COMPAT
+	Mon, 11 Jun 2018 02:26:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5B2QN9x014343
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Jun 2018 19:26:39 -0700
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Sun, 10 Jun 2018 19:26:12 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jun 2018 10:26:10 +0800
+Message-ID: <1528683970-28397-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.137]
+Subject: [rocko][PATCH] lsb/lsbtests: Update package lists to use latest version of binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 01:52:12 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 02:26:48 -0000
+Content-Type: text/plain
 
-Derive the value for template layer.conf from core layer and add
-dependendency on it too.
+From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
 
-Fixes [YOCTO #12767]
+Currently  package list is pointing to  "lsb-setup-4.1.0-1.noarch.rpm"
+which is not available anymore on
+http://ftp.linuxfoundation.org/pub/lsb/base/released-all/binary/ hence
+BASE_PACKAGES_LIST is updated to point to the latest available version.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+[YOCTO #12240]
+
+(From OE-Core rev: a1e61b05d83de0feeb6d05851477108902d1dfb0)
+
+Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/lib/bblayers/create.py            | 2 +-
- meta/lib/bblayers/templates/layer.conf | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-extended/lsb/lsbtest/packages_list | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
-index c1923166fd..d9699b21f9 100644
---- a/meta/lib/bblayers/create.py
-+++ b/meta/lib/bblayers/create.py
-@@ -44,7 +44,7 @@ class CreatePlugin(LayerPlugin):
-         shutil.copy(license_src, license_dst)
+diff --git a/meta/recipes-extended/lsb/lsbtest/packages_list b/meta/recipes-extended/lsb/lsbtest/packages_list
+index 959f931..1a6c116 100644
+--- a/meta/recipes-extended/lsb/lsbtest/packages_list
++++ b/meta/recipes-extended/lsb/lsbtest/packages_list
+@@ -1,7 +1,7 @@
+ LSB_RELEASE="released-5.0"
+ LSB_ARCH="lsbarch"
  
-         # Create the layer.conf from templates/layer.conf
--        layerconf_template = read_template('layer.conf') % (args.layerdir, args.layerdir, args.layerdir, args.priority)
-+        layerconf_template = read_template('layer.conf') % (args.layerdir, args.layerdir, args.layerdir, args.priority, args.layerdir, args.layerdir)
-         layerconf = os.path.join(conf, 'layer.conf')
-         with open(layerconf, 'w') as fd:
-             fd.write(layerconf_template)
-diff --git a/meta/lib/bblayers/templates/layer.conf b/meta/lib/bblayers/templates/layer.conf
-index 3c0300226c..61b3ad8db3 100644
---- a/meta/lib/bblayers/templates/layer.conf
-+++ b/meta/lib/bblayers/templates/layer.conf
-@@ -8,3 +8,6 @@ BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
- BBFILE_COLLECTIONS += "%s"
- BBFILE_PATTERN_%s = "^${LAYERDIR}/"
- BBFILE_PRIORITY_%s = "%s"
-+
-+LAYERDEPENDS_%s = "core"
-+LAYERSERIES_COMPAT_%s = "${LAYERSERIES_COMPAT_core}"
+-BASE_PACKAGES_LIST="lsb-setup-4.1.0-1.noarch.rpm"
++BASE_PACKAGES_LIST="lsb-setup-5.0.0-2.noarch.rpm"
+ 
+ RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-5.0.0.1-1.targetarch.rpm \
+ 	lsb-tet3-lite-3.7-27.lsb5.targetarch.rpm \
 -- 
-2.17.1
+2.7.4
 
 
