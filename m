@@ -1,36 +1,25 @@
-Return-Path: <damien.riegel@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 63C7078BE9
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 508E578ABC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 15:12:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id E8EF79C1E63;
-	Mon, 11 Jun 2018 11:12:46 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id Fi4iCGY0fqqj; Mon, 11 Jun 2018 11:12:46 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 6890A9C209E;
-	Mon, 11 Jun 2018 11:12:46 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id 3cfW80kGZXQq; Mon, 11 Jun 2018 11:12:46 -0400 (EDT)
-Received: from workotop.localdomain (unknown [192.168.50.174])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 3C9189C1E63;
-	Mon, 11 Jun 2018 11:12:46 -0400 (EDT)
-Date: Mon, 11 Jun 2018 11:12:46 -0400
-From: Damien Riegel <damien.riegel@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20180611151246.pix7bmjnxvkaqtw4@workotop.localdomain>
-References: <20180607144814.10678-1-damien.riegel@savoirfairelinux.com>
+	Mon, 11 Jun 2018 16:11:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5BGBquL012701
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Jun 2018 09:11:53 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 11 Jun 2018 09:11:52 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 11 Jun 2018 12:11:23 -0400
+Message-ID: <1528733483-19785-2-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1528733483-19785-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1528733483-19785-1-git-send-email-bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20180607144814.10678-1-damien.riegel@savoirfairelinux.com>
-User-Agent: NeoMutt/20180512
-Subject: Re: [PATCH v2] populate_sdk_ext.bbclass: fix corebase identification
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.15: crypto: aes-generic - fix aes-generic regression on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,114 +32,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 15:12:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 11 Jun 2018 16:11:53 -0000
+Content-Type: text/plain
 
-Richard, what's your opinion on this v2? It fixes the issue I have while
-addressing the concern you had about the v1.
+Integrating the following upstream commit to fix gcc regression:
 
+    crypto: aes-generic - fix aes-generic regression on powerpc
+
+    commit 6e36719fbe90213fbba9f50093fa2d4d69b0e93c upstream
+
+    My last bugfix added -Os on the command line, which unfortunately
+    caused  a build regression on powerpc in some configurations.
+
+    I've done some more analysis of the original problem and found
+    slightly different workaround that avoids this regression and also
+    results in better performance on gcc-7.0: -fcode-hoisting is an
+    optimization step that got added in gcc-7 and that for all gcc-7 versions causes
+    worse performance.
+
+    This disables -fcode-hoisting on all compilers that understand the
+    option. For gcc-7.1 and 7.2 I found the same performance as my previous
+    patch (using -Os), in gcc-7.0 it was even better. On gcc-8 I could see
+    no change in performance from this patch. In theory, code hoisting
+    should not be able make things better for the AES cipher, so leaving it
+    disabled for gcc-8 only serves to simplify the Makefile
+    change.
+
+    Reported-by: kbuild test robot <fengguang.wu@intel.com>
+    Link: https://www.mail-archive.com/linux-crypto@vger.kernel.org/msg30418.html
+    Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83356
+    Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83651
+    Fixes: 148b974deea9 ("crypto: aes-generic - build with -Os on gcc-7+")
+    Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+    Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+index aa8571fecf33..7cec80e02df5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
+ SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+index a809b7c0ab73..05b076af6cb7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.15.18"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
+ SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+index 77b9110cfb88..6e708550fa4e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "v4.15/standard/base"
+ KBRANCH_qemux86-64 ?= "v4.15/standard/base"
+ KBRANCH_qemumips64 ?= "v4.15/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "da407e5a3514aa6cfc579f52aca8afa279b10669"
+-SRCREV_machine_qemuarm64 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
+-SRCREV_machine_qemumips ?= "8d8f48f09e07bc9ba4db489eab80ae653709fb91"
+-SRCREV_machine_qemuppc ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
+-SRCREV_machine_qemux86 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
+-SRCREV_machine_qemux86-64 ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
+-SRCREV_machine_qemumips64 ?= "9435d73112c64ae058372322d8c7a41ae9e8c000"
+-SRCREV_machine ?= "51273ff79f4ad930f4a788257f58e1266cb236e3"
++SRCREV_machine_qemuarm ?= "2e7f1aeb11d0aedec2ba2ce995933221a0bfddeb"
++SRCREV_machine_qemuarm64 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
++SRCREV_machine_qemumips ?= "43122d3a461b6216ca1a4a568378eea8143cf927"
++SRCREV_machine_qemuppc ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
++SRCREV_machine_qemux86 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
++SRCREV_machine_qemux86-64 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
++SRCREV_machine_qemumips64 ?= "4cc6d70306ff8bd235008d18adee0bc676dc2798"
++SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
+ SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
 -- 
-Damien
+2.5.0
 
-On Thu, Jun 07, 2018 at 10:48:14AM -0400, Damien Riegel wrote:
-> When generating the extended SDK, there is a copy step where this class
-> goes through the layers and other stuff that have been copied to
-> generate the SDK. The corebase; ie. the folder that contains the core
-> layer 'meta' is treated in a special way. Unfortunately in our tree, we
-> have:
-> 
->   sources/meta/meta
->            |     `- core layer
->            `------- corebase
-> 
-> In populate_sdk_ext's copy_buildsystem, the heuristic to determine which
-> element of the list returned by copy_bitbake_and_layers is corebase is
-> fooled by such layout.
-> 
-> In copy_bitbake_and_layers, corebase is already handled specifically and
-> reliably, so we should let that function tell us which folder is
-> corebase instead of trying to determine it.
-> 
-> To do so, change the return type of copy_bitbake_and_layers to a tuple
-> that contains (corebase, copied_layers). It also simplifies the code on
-> the caller side.
-> 
-> Signed-off-by: Damien Riegel <damien.riegel@savoirfairelinux.com>
-> ---
-> Changes in v2:
->  - move the logic in copy_bitbake_and_layers
-> 
->  meta/classes/populate_sdk_ext.bbclass | 12 +++---------
->  meta/lib/oe/copy_buildsystem.py       |  8 +++++---
->  2 files changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-> index 2dd21237e2..cc3f5d0e50 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -202,15 +202,9 @@ python copy_buildsystem () {
->          workspace_name = 'orig-workspace'
->      else:
->          workspace_name = None
-> -    layers_copied = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers', workspace_name)
-> -
-> -    sdkbblayers = []
-> -    corebase = os.path.basename(d.getVar('COREBASE'))
-> -    for layer in layers_copied:
-> -        if corebase == os.path.basename(layer):
-> -            conf_bbpath = os.path.join('layers', layer, 'bitbake')
-> -        else:
-> -            sdkbblayers.append(layer)
-> +
-> +    corebase, sdkbblayers = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers', workspace_name)
-> +    conf_bbpath = os.path.join('layers', corebase, 'bitbake')
->  
->      for path in os.listdir(baseoutpath + '/layers'):
->          relpath = os.path.join('layers', path, oe_init_env_script)
-> diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-> index ac2fae1ed1..05f65ac632 100644
-> --- a/meta/lib/oe/copy_buildsystem.py
-> +++ b/meta/lib/oe/copy_buildsystem.py
-> @@ -26,6 +26,7 @@ class BuildSystem(object):
->  
->      def copy_bitbake_and_layers(self, destdir, workspace_name=None):
->          # Copy in all metadata layers + bitbake (as repositories)
-> +        copied_corebase = None
->          layers_copied = []
->          bb.utils.mkdirhier(destdir)
->          layers = list(self.layerdirs)
-> @@ -84,17 +85,18 @@ class BuildSystem(object):
->  
->              layer_relative = os.path.relpath(layerdestpath,
->                                               destdir)
-> -            layers_copied.append(layer_relative)
-> -
->              # Treat corebase as special since it typically will contain
->              # build directories or other custom items.
->              if corebase == layer:
-> +                copied_corebase = layer_relative
->                  bb.utils.mkdirhier(layerdestpath)
->                  for f in corebase_files:
->                      f_basename = os.path.basename(f)
->                      destname = os.path.join(layerdestpath, f_basename)
->                      _smart_copy(f, destname)
->              else:
-> +                layers_copied.append(layer_relative)
-> +
->                  if os.path.exists(layerdestpath):
->                      bb.note("Skipping layer %s, already handled" % layer)
->                  else:
-> @@ -140,7 +142,7 @@ class BuildSystem(object):
->                  layers_copied.remove(layer)
->                  break
->  
-> -        return layers_copied
-> +        return copied_corebase, layers_copied
->  
->  def generate_locked_sigs(sigfile, d):
->      bb.utils.mkdirhier(os.path.dirname(sigfile))
-> -- 
-> 2.17.0
-> 
 
