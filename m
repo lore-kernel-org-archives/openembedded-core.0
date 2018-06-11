@@ -1,25 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A86878BBF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF8078AF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 13:38:02 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jun 2018 06:38:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.49,502,1520924400"; d="scan'208";a="46241334"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga007.fm.intel.com with ESMTP; 11 Jun 2018 06:38:03 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2018 16:38:22 +0300
-Message-Id: <20180611133822.32004-6-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20180611133822.32004-1-alexander.kanavin@linux.intel.com>
-References: <20180611133822.32004-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 6/6] package_manager.py: rework postinst_intercept failures
+	Mon, 11 Jun 2018 13:39:54 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5BDdrXH018687
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 11 Jun 2018 14:39:54 +0100
+Message-ID: <642b938d82295e3b7ce922dad711c63904d62ca5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Devarsh Thakkar <DEVARSHT@xilinx.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jun 2018 14:39:53 +0100
+In-Reply-To: <CO1PR02MB0944771307967F828960631BC780@CO1PR02MB094.namprd02.prod.outlook.com>
+References: <CO1PR02MB0944771307967F828960631BC780@CO1PR02MB094.namprd02.prod.outlook.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: Maulik Desai <maulikd@xilinx.com>,
+	Varunkumar Allagadapa <VARUNKUM@xilinx.com>
+Subject: Re: [PATCH] matchbox-terminal: Update commitID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,139 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 13:38:02 -0000
+X-List-Received-Date: Mon, 11 Jun 2018 13:39:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Previously a warning was printed regardless of context and nature
-of the failure, and because it was only a warning, it was mostly ignored.
+On Mon, 2018-06-11 at 12:39 +0000, Devarsh Thakkar wrote:
+> Hi Richard,
+> 
+> Thanks for the quick review. 
+> Replies inline.
+>  
+> > Message: 5
+> > Date: Sun, 10 Jun 2018 09:29:14 +0100
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > To: Devarsh Thakkar <devarsh.thakkar@xilinx.com>,
+> > 	openembedded-core@lists.openembedded.org
+> > Cc: maulikd@xilinx.com, varunkum@xilinx.com, JAEWON@xilinx.com,
+> > 	Devarsh Thakkar <devarsht@xilinx.com>
+> > Subject: Re: [OE-core] [PATCH] matchbox-terminal: Update commitID
+> > Message-ID:
+> > 	<56788cd154d9af0b6c9ea2ef78de23b1909fd7ee.camel@linuxfoundati
+> > on.org>
+> > Content-Type: text/plain; charset="UTF-8"
+> > 
+> > On Sat, 2018-06-09 at 04:59 -0700, Devarsh Thakkar wrote:
+> > > Pull in change which adds support for command line
+> > > options (-e and --command) which can be used for
+> > > launching programs or running commands in matchbox-terminal
+> > > via command line.
+> > > 
+> > > Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+> > > ---
+> > >  meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.1.bb | 2
+> > > +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-
+> > > terminal_0.1.bb b/meta/recipes-sato/matchbox-terminal/matchbox-
+> > > terminal_0.1.bb
+> > > index 4488191..b7fbee7 100644
+> > > --- a/meta/recipes-sato/matchbox-terminal/matchbox-
+> > > terminal_0.1.bb
+> > > +++ b/meta/recipes-sato/matchbox-terminal/matchbox-
+> > > terminal_0.1.bb
+> > > @@ -10,7 +10,7 @@ DEPENDS = "gtk+3 vte"
+> > >  SECTION = "x11/utils"
+> > > 
+> > >  #SRCREV tagged 0.1
+> > 
+> > I'm guessing the above comment is no longer valid, nor is the value
+> > of
+> > PV?
+> 
+> Yes the comment is no longer valid I will remove that in V2.
+> But the PV is still valid as matchbox-terminal package version is
+> still 0.1 ( as set in AC_INIT at http://git.yoctoproject.org/cgit.cgi
+> /matchbox-terminal/tree/configure.ac) even after this commit.
 
-Now, the following is considered when a failure happens:
-1) whether we are installing packages into a target image, or populating
-a SDK with host or target packages.
-2) whether the failure was due to qemu not supporting the target machine.
+No, after your change its not the 0.1 release, its 0.1+git<revision>,
+its a different version sometime after 0.1.
 
-Accordingly, warnings, notes, and failures are printed, and postponing
-to first boot happens if possible.
+Cheers,
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/lib/oe/package_manager.py                | 19 ++++++++++++++++---
- meta/lib/oe/sdk.py                            | 12 ++++++------
- .../qemu/qemuwrapper-cross_1.0.bb             |  5 +++++
- 3 files changed, 27 insertions(+), 9 deletions(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 516630b5cfb..f87f76fec99 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -370,7 +370,7 @@ class PackageManager(object, metaclass=ABCMeta):
-                 self._handle_intercept_failure(registered_pkgs)
- 
- 
--    def run_intercepts(self):
-+    def run_intercepts(self, populate_sdk=None):
-         intercepts_dir = self.intercepts_dir
- 
-         bb.note("Running intercept scripts:")
-@@ -392,9 +392,22 @@ class PackageManager(object, metaclass=ABCMeta):
-                 output = subprocess.check_output(script_full, stderr=subprocess.STDOUT)
-                 if output: bb.note(output.decode("utf-8"))
-             except subprocess.CalledProcessError as e:
--                bb.warn("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-                 bb.note("Exit code %d. Output:\n%s" % (e.returncode, e.output.decode("utf-8")))
--                self._postpone_to_first_boot(script_full)
-+                if populate_sdk == 'host':
-+                    bb.warn("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-+                elif populate_sdk == 'target':
-+                    if "qemuwrapper: qemu usermode is not supported" in e.output.decode("utf-8"):
-+                        bb.warn("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
-+                                % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-+                    else:
-+                        bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-+                else:
-+                    if "qemuwrapper: qemu usermode is not supported" in e.output.decode("utf-8"):
-+                        bb.note("The postinstall intercept hook '%s' could not be executed due to missing qemu usermode support, details in %s/log.do_%s"
-+                                % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
-+                        self._postpone_to_first_boot(script_full)
-+                    else:
-+                        bb.fatal("The postinstall intercept hook '%s' failed, details in %s/log.do_%s" % (script, self.d.getVar('T'), self.d.getVar('BB_CURRENTTASK')))
- 
-     @abstractmethod
-     def update(self):
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index d6a503372a3..0d39ea8a91e 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -209,7 +209,7 @@ class RpmSdk(Sdk):
- 
-         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
- 
--        self.target_pm.run_intercepts()
-+        self.target_pm.run_intercepts(populate_sdk='target')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
- 
-@@ -220,7 +220,7 @@ class RpmSdk(Sdk):
-         self._populate_sysroot(self.host_pm, self.host_manifest)
-         self.install_locales(self.host_pm)
- 
--        self.host_pm.run_intercepts()
-+        self.host_pm.run_intercepts(populate_sdk='host')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
- 
-@@ -297,7 +297,7 @@ class OpkgSdk(Sdk):
- 
-         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
- 
--        self.target_pm.run_intercepts()
-+        self.target_pm.run_intercepts(populate_sdk='target')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
- 
-@@ -308,7 +308,7 @@ class OpkgSdk(Sdk):
-         self._populate_sysroot(self.host_pm, self.host_manifest)
-         self.install_locales(self.host_pm)
- 
--        self.host_pm.run_intercepts()
-+        self.host_pm.run_intercepts(populate_sdk='host')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
- 
-@@ -386,7 +386,7 @@ class DpkgSdk(Sdk):
- 
-         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
- 
--        self.target_pm.run_intercepts()
-+        self.target_pm.run_intercepts(populate_sdk='target')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
- 
-@@ -399,7 +399,7 @@ class DpkgSdk(Sdk):
-         self._populate_sysroot(self.host_pm, self.host_manifest)
-         self.install_locales(self.host_pm)
- 
--        self.host_pm.run_intercepts()
-+        self.host_pm.run_intercepts(populate_sdk='host')
- 
-         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND"))
- 
-diff --git a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-index 4b1b46d0bb3..4aada5232d8 100644
---- a/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemuwrapper-cross_1.0.bb
-@@ -20,6 +20,11 @@ do_install () {
- #!/bin/sh
- set -x
- 
-+if [ ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)} = False ]; then
-+        echo "qemuwrapper: qemu usermode is not supported"
-+fi
-+
-+
- $qemu_binary $qemu_options "\$@"
- EOF
- 
--- 
-2.17.0
-
+Richard
 
