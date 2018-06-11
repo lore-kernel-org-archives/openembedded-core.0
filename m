@@ -1,24 +1,59 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9301178C10
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BC67778C00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2018 16:12:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5BGAo3B002138
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Jun 2018 09:11:47 -0700
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 11 Jun 2018 09:11:23 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 11 Jun 2018 12:11:22 -0400
-Message-ID: <1528733483-19785-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
+	Mon, 11 Jun 2018 16:19:05 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id q17-v6so24471448otg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2018 09:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=scfoKCxaB+8JQE9XBpKA89e0Wqqn7jVrCLnPJ9Bl41g=;
+	b=OSHHGO7zK/wNBMAzbxjrdc4ZVTzIH8NUKg3L1aNdUACi7dylCgBeKiQ1ZEL8CgSwJi
+	rQXGzGU3SRPXFMNTA8drNfQPi/PisAGtKeM5VQ73BEoZemW9cFW3n2hvYWmkZo8c3Pfj
+	tYMpTcBbBmvy5TnsL6rZrrTtpIPwR97V7HIrVk1Am6erpJvKza9jdG5+B78N7NlC5xiY
+	J8nEwiiZWCrOoijLDEAGXVMLmvBdNYXwipYd+Tq7Y4ddGXVfNppyk5pB1zJzkhv09kZb
+	MKKhDUT21kh0JDXS8o98UbCAPwx30m5AyT0uvrX6YXvROM8NWULKj+6ld795zjMCj78S
+	KJag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=scfoKCxaB+8JQE9XBpKA89e0Wqqn7jVrCLnPJ9Bl41g=;
+	b=IPeD4mMoXXtuCa7C5Xi0C485VTZ1LMZ4Mkf8+7wEPqaEHtkk92epP9W/WemPfC1Ami
+	TZpdC8BoYKFHvDN/udmRS6uTo03cp8QR4I7fEhNvc+BQFz1P1KSwuw7KP0XlHvHUMgOX
+	QSHhcmQAT5vR9pZ8QFZezP3k6DPeu1L7/rg568c1/SXCeimDNZKGCQMVcmVT769UR3Jj
+	EHFBtl+BXwFyVaXTPcDpt6yrAmTjuDyrGcLCz22yJAQTEyNjfawv6qpTvG2BWcpyYOf+
+	u2IGA2H+yp6AN5rSj3H5QYPqFCYg6WHB746MQt79ye8ldXukG9BfMA4/i01qnIeKDwty
+	EHqg==
+X-Gm-Message-State: APt69E1Exa2UjcdYqF8bm1i3lm3BYQGHkO4OhT6k024lgjG55zV1jpgk
+	5xGdd5QNxHJBKHx44Jjz63Eeu41KZVY=
+X-Google-Smtp-Source: ADUXVKI5p9hn07ctehr3ae5uOHsvvk6Q6GzGXziv5K9DnOcqedZaodZ2SUTdUw+QLYoTmnWNyBtKcQ==
+X-Received: by 2002:a9d:62d3:: with SMTP id
+	z19-v6mr9352610otk.159.1528733946252; 
+	Mon, 11 Jun 2018 09:19:06 -0700 (PDT)
+Received: from ?IPv6:2600:1700:4c90:60a0:5566:b07f:3f47:4a0e?
+	([2600:1700:4c90:60a0:5566:b07f:3f47:4a0e])
+	by smtp.gmail.com with ESMTPSA id
+	l17-v6sm11836900ote.76.2018.06.11.09.19.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Jun 2018 09:19:05 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1528657273-19021-1-git-send-email-jpuhlman@mvista.com>
+	<CAJTo0LZXRFZ2bEgtyjRUGiUyDt_TcyjVUBZjdmtWzGFAE4McEA@mail.gmail.com>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <b9a65b20-120d-e399-606f-3c348fc974a5@mvista.com>
+Date: Mon, 11 Jun 2018 09:19:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.14/4.15: fix gcc8 mips compilation issues
+In-Reply-To: <CAJTo0LZXRFZ2bEgtyjRUGiUyDt_TcyjVUBZjdmtWzGFAE4McEA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xorgproto: Install .pc files in ${libdir}/pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,143 +66,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2018 16:12:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Jun 2018 16:19:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Making the following commit available to fix mips gcc8 build issues:
 
-   commit e25dbfe95302eeaa1a03a828d05c09479574488a
-   Author: Kevin Hao <kexin.hao@windriver.com>
-   Date:   Mon Jun 11 18:17:54 2018 +0800
 
-       MIPS: Use '+=" instead of '=' to avoid the CFLAGS override
+On 6/11/2018 3:23 AM, Burton, Ross wrote:
+> Upstream will (and do) argue that $datadir is the right location as
+> these headers are architecture-independent.
+>
+> Would the package manager do the right thing if the files didn't have
+> the libdir line in, so where bit-identical?
 
-       We used the CFLAGS_xxx to workaround the gcc 8 build warnings
-       for some specific file. But CFLAGS_xxx is also used with '=' in
-       other places of this Makefile. This override the gcc 8 workaround,
-       so replace all the '=' with '+=" to fix this issue.
+Yes, if the files are binary identical then the package manager would 
+not call it a conflict.
 
-       Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-       Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+> Ross
+>
+> On 10 June 2018 at 20:01, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
+>> * --data dir config option is only used to install pkgconfig
+>> * Installing into ${datadir} causes mutlilib conficts on install
+>>
+>>    file /usr/share/pkgconfig/applewmproto.pc conflicts between attempted
+>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
+>> xorgproto-dev-2018.4-r0.corei7_64
+>>    file /usr/share/pkgconfig/bigreqsproto.pc conflicts between attempted
+>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
+>> xorgproto-dev-2018.4-r0.corei7_64
+>>
+>> and so on.
+>>
+>> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+>> ---
+>>   meta/recipes-graphics/xorg-proto/xorg-proto-common.inc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>> index 7a417c9..7377283 100644
+>> --- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>> +++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>> @@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+>>   DEPENDS = "util-macros"
+>>
+>>   inherit autotools pkgconfig
+>> -EXTRA_OECONF = "--without-fop"
+>> +EXTRA_OECONF = "--without-fop --datadir=${libdir}"
+>>
+>>   UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto --with-xmlto"
+>>
+>> --
+>> 2.6.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 16 ++++++++--------
- meta/recipes-kernel/linux/linux-yocto_4.15.bb      | 16 ++++++++--------
- 6 files changed, 20 insertions(+), 20 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index dc09b9088079..00671182d1ee 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "f8ced9d2648cffbb6ce6222bb453540422eb19f2"
-+SRCREV_machine ?= "aeeb2d73f2a828a9c0b121b2aa3bb345009f5698"
- SRCREV_meta ?= "94457657b8d621868672917d1c2631df4a4fadd8"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-index 7cec80e02df5..d166a4098b89 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
-+SRCREV_machine ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
- SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index 2f48bc67de1e..58945f25d081 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-@@ -12,7 +12,7 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "72fa684fc18637c6b385c8fa2335ac4e48240d15"
-+SRCREV_machine ?= "9e246607d5c23f8bb3b8800734b1707766e0b2b9"
- SRCREV_meta ?= "94457657b8d621868672917d1c2631df4a4fadd8"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-index 05b076af6cb7..5f9b3c7fb35f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.15.18"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
-+SRCREV_machine ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
- SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index 12cd8254e0ce..0449213d424b 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "v4.14/standard/base"
- KBRANCH_qemux86-64 ?= "v4.14/standard/base"
- KBRANCH_qemumips64 ?= "v4.14/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "3a7b21b8959eaeb6b3548ccc03e5aeef02757a83"
--SRCREV_machine_qemuarm64 ?= "fff23f8dabf7774db37656037243f5706f311ccd"
--SRCREV_machine_qemumips ?= "825a9302d4829384c5f8ccdf96a71f39441095dd"
--SRCREV_machine_qemuppc ?= "24febbcbc2cefbf05ea038ed1042603142d3b033"
--SRCREV_machine_qemux86 ?= "2bf00ed1aee9c26b48c26b10c731c2f8970d50c2"
--SRCREV_machine_qemux86-64 ?= "2bf00ed1aee9c26b48c26b10c731c2f8970d50c2"
--SRCREV_machine_qemumips64 ?= "a55b95ebad77a4124d5f52a6d121d59e17647289"
--SRCREV_machine ?= "2bf00ed1aee9c26b48c26b10c731c2f8970d50c2"
-+SRCREV_machine_qemuarm ?= "363723ef50c06df54e146c8fe78faa962e96a8c8"
-+SRCREV_machine_qemuarm64 ?= "798d15552a4d5d9355a300290ed6bf72106b7e96"
-+SRCREV_machine_qemumips ?= "6c2433d7c51c3e78b1be2c7d1fbfe840b13d04df"
-+SRCREV_machine_qemuppc ?= "c03babad17499489b20216576d608c94e7fddc5d"
-+SRCREV_machine_qemux86 ?= "65d1c849534179bbfa494f77947f8be615e9871a"
-+SRCREV_machine_qemux86-64 ?= "65d1c849534179bbfa494f77947f8be615e9871a"
-+SRCREV_machine_qemumips64 ?= "59f70381cbde371e41206b7902390ae78558c310"
-+SRCREV_machine ?= "65d1c849534179bbfa494f77947f8be615e9871a"
- SRCREV_meta ?= "94457657b8d621868672917d1c2631df4a4fadd8"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-index 6e708550fa4e..693670c613da 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "v4.15/standard/base"
- KBRANCH_qemux86-64 ?= "v4.15/standard/base"
- KBRANCH_qemumips64 ?= "v4.15/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "2e7f1aeb11d0aedec2ba2ce995933221a0bfddeb"
--SRCREV_machine_qemuarm64 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
--SRCREV_machine_qemumips ?= "43122d3a461b6216ca1a4a568378eea8143cf927"
--SRCREV_machine_qemuppc ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
--SRCREV_machine_qemux86 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
--SRCREV_machine_qemux86-64 ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
--SRCREV_machine_qemumips64 ?= "4cc6d70306ff8bd235008d18adee0bc676dc2798"
--SRCREV_machine ?= "683cfd2540fcb659774458352e8fb121ec764e0e"
-+SRCREV_machine_qemuarm ?= "d16b10fb69974f1804a02f2678f40d22c80526cf"
-+SRCREV_machine_qemuarm64 ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
-+SRCREV_machine_qemumips ?= "182eaefab712f4360126e044c758e75d763d05c4"
-+SRCREV_machine_qemuppc ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
-+SRCREV_machine_qemux86 ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
-+SRCREV_machine_qemux86-64 ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
-+SRCREV_machine_qemumips64 ?= "ce3876a091477260fcb1197e3c6565dfbf9c6e80"
-+SRCREV_machine ?= "e25dbfe95302eeaa1a03a828d05c09479574488a"
- SRCREV_meta ?= "45c256a5ca6f9478bce212fec19e2bc273472631"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
 -- 
-2.5.0
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
