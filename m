@@ -1,26 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E5EA0771BA
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 797C178802
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jun 2018 19:28:44 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5AJSfNi002537
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sun, 10 Jun 2018 20:28:43 +0100
-Message-ID: <4e955e55fee0f60333e6ed7bf8f87433c2d99c17.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ming Liu <liu.ming50@gmail.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 10 Jun 2018 20:28:39 +0100
-In-Reply-To: <CALatG=4e_7nvpG6spimG5a=5e8iX8J4JTB73uJ9zFQOPosL0Eg@mail.gmail.com>
-References: <1528557877-22037-1-git-send-email-liu.ming50@gmail.com>
-	<CALatG=4e_7nvpG6spimG5a=5e8iX8J4JTB73uJ9zFQOPosL0Eg@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] bitbake.conf: add BB_CURRENT_MC to OVERRIDES
+	Mon, 11 Jun 2018 01:52:10 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jun 2018 18:52:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.49,499,1520924400"; d="scan'208";a="236310494"
+Received: from anmitta2-mobl1.png.intel.com (HELO
+	anmitta2-MOBL1.gar.corp.intel.com) ([10.221.20.63])
+	by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2018 18:52:10 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2018 09:52:06 +0800
+Message-Id: <20180611015207.10465-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] bitbake-blayers/create: add version for example recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jun 2018 19:28:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jun 2018 01:52:10 -0000
 
-On Sun, 2018-06-10 at 20:45 +0200, Ming Liu wrote:
-> I saw your comment as follows:
-> 
-> > This adds "" in OVERRIDES in the default case. Whilst I think (but
-> am not 100% sure) we fixed bitbake not to break on such a value, I'm
-> not convinced adding empty elements to it is a good idea and this did
-> used to break things.
-> 
-> No, it will add "default" to OVERRIDES in the default case.
+Add version field in recipe name for example recipe created by
+bitbake-layers.
 
-That is even worse, we do not want to add "default" to overrides since
-any variable containing that word would then be at risk of weird
-breakage.
+Fixes [YOCTO #12767]
 
-Cheers,
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/bblayers/create.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
+index 6a41fe0504..c1923166fd 100644
+--- a/meta/lib/bblayers/create.py
++++ b/meta/lib/bblayers/create.py
+@@ -53,7 +53,7 @@ class CreatePlugin(LayerPlugin):
+         example_template = read_template('example.bb')
+         example = os.path.join(layerdir, 'recipes-' + args.examplerecipe, args.examplerecipe)
+         bb.utils.mkdirhier(example)
+-        with open(os.path.join(example, args.examplerecipe + '.bb'), 'w') as fd:
++        with open(os.path.join(example, args.examplerecipe + '_%s.bb') % args.version, 'w') as fd:
+             fd.write(example_template)
+ 
+         logger.plain('Add your new layer with \'bitbake-layers add-layer %s\'' % args.layerdir)
+@@ -63,4 +63,5 @@ class CreatePlugin(LayerPlugin):
+         parser_create_layer.add_argument('layerdir', help='Layer directory to create')
+         parser_create_layer.add_argument('--priority', '-p', default=6, help='Layer directory to create')
+         parser_create_layer.add_argument('--example-recipe-name', '-e', dest='examplerecipe', default='example', help='Filename of the example recipe')
++        parser_create_layer.add_argument('--example-recipe-version', '-v', dest='version', default='0.1', help='Version number for the example recipe')
+ 
+-- 
+2.17.1
+
 
