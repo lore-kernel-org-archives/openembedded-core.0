@@ -1,49 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
-	[209.85.213.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FFF7603B
+Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ABED78C64
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 17:36:10 +0000 (UTC)
-Received: by mail-vk0-f65.google.com with SMTP id x4-v6so14883210vkx.11
+	Tue, 12 Jun 2018 17:38:50 +0000 (UTC)
+Received: by mail-ua0-f169.google.com with SMTP id d7-v6so1933286uam.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 10:36:12 -0700 (PDT)
+	Tue, 12 Jun 2018 10:38:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IE2xeZwLsP7KW6uCm1a3mEHqq4sY10s9oX1YdFqQ9Ww=;
-	b=BVNziFbwF/Rb2dR8wth8PVveUTrcqAGffqK/5jpNuhYCuXYDsGhOhRLBintRkaZ61c
-	ROmWJF6fe8+Qr+Wtsof3vsqdFIhI70VhXWBwB6l3aERlsUFTizjlzL1Sa4CysnCAmCqJ
-	vMKBZPoyUuGVyrGR8OWA7E3yPaYJ0e+3TKzwy1W56njJHEXXg8CgW2BSK1QSr841x059
-	udfauM1xAMEWPe4X091eFUPXmW81VjoKFCCaQtLMVhK2uMTIJTabhmt31Wvxn7lf4ddR
-	aCVBwzV65uWi/GVelj0nFFjPI9EBgAikGU0cqpBLppbPqiSRd2gr/SJO6cjg9M4/iruf
-	xpQQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=Cq4H7ABU+D4pr2mhxvjhuvAt/jlL63EeMkV2CAM6HOY=;
+	b=oHAaJsZBRyC0NI7RjBf6Beg+wVzSp4SBkLXPK0fpdm80ZYlcwAnT4Zom6LMTn7v/b5
+	JKBBN98O13uJaMnERKwOaPKwChqjoi6f5vJtDSwXB33EskvIcTZlu2VqqfvhOM4SZEPD
+	8YNMDcmkDrZvl+fTEfrqPuSd4Rh02iMqh/O2wL5EqT5VTq2YG7TgTqJ233dbEN4/TACp
+	yyJ3ucf/DNXrQ72Yc9u04Scw0dMRlctuDhZq3HrURNWNPsyXQFvQj5NF00e9oHedGuNS
+	hv2eUadnd2j55O3690uZVfmtcItYlQoLawIcRRDhH1anb7+dS/jBaFMdP+orRgIUhHyx
+	1RkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IE2xeZwLsP7KW6uCm1a3mEHqq4sY10s9oX1YdFqQ9Ww=;
-	b=io21h9VZ7LOYgCzMETOczl5RbTOqgpfrRzAkje08R9Hre4PyTmSlH7X37UTlh72/lh
-	itHSmuzEknVMaticDWm7kzv7BwSuyF0LuGVE1hbgHf+3FHBKqpdUxKqPollIPWbHC3jM
-	OcRw8ycxIpTYwVIxQPPJX5x3CCP0siEQi6KVQLqhJOkNWBFJEbQpQk6VwOUsProKPxeg
-	tKeptM/P2LTBe8TEVRjedFR+kBS1EZ1k/jBWZpcinSJtSjYc88ef+c5oVf9oN5+IFV75
-	yLUQyN2axKVT0mM82qnx20CP4+BT8sGytjFW1LQIBKzp4F0CdogxKNMQfThsnb83Y7HG
-	PdyQ==
-X-Gm-Message-State: APt69E1svHL3u5+3BceMSKvQ42pjb55SXjWqMcAHajgk0nrc+60zSFwG
-	9q7osTcgjVa4Nes72wgs9+fTCohyZlR39AzCfRc=
-X-Google-Smtp-Source: ADUXVKL4+ftIqK3g5BoaQtS0P8MnXKRiFO02OxfWNPmc6hdbiYv6sjhD+dXds8UFTGiPPMQawkPpF/LpNPK2Me5Zt1U=
-X-Received: by 2002:a1f:c3c7:: with SMTP id
-	t190-v6mr926514vkf.24.1528824971506; 
-	Tue, 12 Jun 2018 10:36:11 -0700 (PDT)
+	:message-id:subject:to;
+	bh=Cq4H7ABU+D4pr2mhxvjhuvAt/jlL63EeMkV2CAM6HOY=;
+	b=E+jAV8I738MFv01KeFl9Ta2BhzZ3O4q4bO2uFYavV9C0RyiqGpxlxycS+C4aNfcgdR
+	yXE7kExjX93B4gQ59G7uUnjY3m6zJslkzFt5QINalKT+WjZryXHaI6LlJEaqfnAnpIr2
+	UgYL3YJ661sYKryz0ho4cb3jMsQBn2TYOvCxjoI2J1HdI41XX+NpKKlBVSNwtNsJgqYK
+	bShI3NupyZBdMXN13pxA0HhDjx4976/igk4DEXIxuweWSUQc/5r5nm7Qb1CKNChLeLPw
+	dFQo0PR5c2jc7jnnN9Xf9i73r/sI/H4X1qmWzs4HXv8OtWuUwCwje5H5oeNboL04X7q/
+	Mt0g==
+X-Gm-Message-State: APt69E2wT/BgM+n1nrxDnfEqx8qQQfWLFH8lfHe/bBdcUjxP8LyfPezV
+	Q8tytdBG5Gle1KbUhnP9wwWp8Ttx29NOKFtlriE=
+X-Google-Smtp-Source: ADUXVKKB7k7FckrLaHIdQV0CGPAZAQttb603bj1aSL79GGKRPlnt/0BST0CTRH/801R5wgxxbySjd0F93lbXNH6eoNU=
+X-Received: by 2002:ab0:4045:: with SMTP id
+	h63-v6mr1014089uad.66.1528825131208; 
+	Tue, 12 Jun 2018 10:38:51 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Tue, 12 Jun 2018 10:36:11 -0700 (PDT)
-In-Reply-To: <27e273fe5fe880eac584023153ccef33b65bf859.1527656441.git.raj.khem@gmail.com>
-References: <cover.1527656441.git.raj.khem@gmail.com>
-	<27e273fe5fe880eac584023153ccef33b65bf859.1527656441.git.raj.khem@gmail.com>
+	Tue, 12 Jun 2018 10:38:50 -0700 (PDT)
+In-Reply-To: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
+References: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 12 Jun 2018 10:36:11 -0700
-Message-ID: <CAJ86T=X5vk_=GJ=5vD1-S0b3xJ7mn_mGDqi-SrYiu5whmKBNHQ@mail.gmail.com>
+Date: Tue, 12 Jun 2018 10:38:50 -0700
+Message-ID: <CAJ86T=V8kntC=VVCuLUiBJDpqgZFDcATr5fLmhin0a4qn6ruCQ@mail.gmail.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/6] gcc-runtime: Remove -mcpu=cortex-a7 when building for -march=armv7ve
+Subject: Re: [PATCH 1/7] openssh: stop adding -D__FILE_OFFSET_BITS=64 to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 17:36:11 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 17:38:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 29, 2018 at 10:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> This fixes conflicts like
-> cc1: error: switch -mcpu=cortex-a7 conflicts with -march=armv7-a switch [-Werror]
+On Thu, Jun 7, 2018 at 11:48 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Openssh takes care of enabling large-file support automatically via
+> the AC_SYS_LARGEFILE in the configure.ac, so additional help from the
+> recipe is not required.
+>
+> Even if it were once required, defining __FILE_OFFSET_BITS (ie with
+> double leading underscores) looks like a typo and probably never had
+> any effect anyway?
 
-Ross, this patch still seems to be living on in mut, even after the
-latest rebase. It should be dropped as the latest gcc8 patchset
-contained a better fix.
+Ping.
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Any issues with this (the whole series of 7)?
+
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
->  1 file changed, 2 insertions(+)
+>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> index 72b8081cd3..22617a2838 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -14,6 +14,8 @@ EXTRA_OECONF_PATHS = "\
->      --with-build-sysroot=${STAGING_DIR_TARGET} \
->  "
+> diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+> index 7b6ee5c..7cf34eb 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+> @@ -46,9 +46,6 @@ SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
 >
-> +TUNE_FEATURES_remove_armv7ve = "cortexa7"
-> +
->  EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+>  inherit autotools-brokensep ptest
 >
->  RUNTIMELIBITM = "libitm"
+> -# LFS support:
+> -CFLAGS += "-D__FILE_OFFSET_BITS=64"
+> -
+>  EXTRA_AUTORECONF += "--exclude=aclocal"
+>
+>  # login path is hardcoded in sshd
 > --
-> 2.17.0
+> 1.9.1
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
