@@ -1,50 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CB1778CD2
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 79FCE78CE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 09:33:33 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id l41-v6so23298285wre.7
+	Tue, 12 Jun 2018 09:35:07 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id c15-v6so17430858otl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 02:33:34 -0700 (PDT)
+	Tue, 12 Jun 2018 02:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=kB3AizOzKtWzi034DC0/oyTrY/kwmdazPTX1bGaq4k8=;
-	b=Wz3cV3oSrgLT5vTYRZ6ijECyzQvtcPLVddCJXgyazrjQGMs8EUA2nV/zrK1H1DZYev
-	6q4Hs/ym38DegCdKvo/Z496P1/LpGZTUdteD1/IZaO+GifAlr+WH9zQUBTi+0Lc0eJf0
-	DazK1cvkynOD2giz2gOIgv8BEMWsOO3j8qWCseyX6We9nU7rSHqfrVL9fGb6jw0MwK34
-	DDS2fuscwLoQSJUeZ0jPwmHsu41Bneh2LVh0H/gQGDxtqfkhVQVryTpOdQE0Ng2gnREZ
-	tkdHnCPQcpqhGrLgWKFgUbCh70KNE15U3KVQzV4FZQOC7gPZm2Rk1siAsCmtJ3t7iN/P
-	b0IA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uSx/cbB7KTzaudi4+g93/VO3ofVOoO5EpmCTQvAhsmU=;
+	b=H+AH5vxC2lkb/zddOuQLdtm7aTA3pgmojrb7K4byHnf2p8HdXS0hkZjXaFeHDO/EV0
+	qC9ESDmAXVo+Z4wKcNwr/0V9ZfMJbpP3knkjUCSFhTBRm3prLlh4n966iW/Csb5+DPce
+	JXyvmBwawmGioHjEU8IlL0QZhOV96mnZfoUPh8k/UgVjPtwxwbmpmn/eKcjjBxISRr8U
+	sqiBrpMX8u8SAL75uB0BHuwaOxbecvoYYdz+uORj3wuXAQgIlS+26RfVjToCr0vW9SLx
+	iWBxNxIEqwCkIy6s31wSgusdh4H5xjgLn9yYDzFHhI5cNtFfi3zTcBN6zNZeXTHUhnsS
+	h5Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kB3AizOzKtWzi034DC0/oyTrY/kwmdazPTX1bGaq4k8=;
-	b=n/PLebY6jhAm2yvx2mY6vjP/OHD4NyjHMsMVVObzGxJNRX4iFmpgUl+BEQeFV2UFrh
-	y6+6KoDb35UwTVHTMQmxQeX/EUGGr7RE5h5fMb/d43USDOvOXbMe57zNw2FK9xdhYri/
-	rgqyR2foD0KE+/ocIZ6D1AC5ohcZCXjv2/5BusdagL+KtHoD3G7yOl1U5lmcE+pia+Ts
-	FQq8mqGoXr9zcBsEyfbx9+rGHz0RjuI1g5CuNkqrbBBbjD9V/gkvBpLjOX0X8VHNu375
-	rhWNq79KXsmZu0ag2KA93QF4/0HMWy9EU3ctgucb+v5KnEzTJi04zAMF0SK+hUFoNkYO
-	UuIQ==
-X-Gm-Message-State: APt69E0ddFiq/LIjyEO6DGD3RnidEEdZlXoWFopKns4f9OG+nv5B3x6A
-	PZKBnYxqp3b52Gs60CW0vnHuA8vG
-X-Google-Smtp-Source: ADUXVKIyVX78Jlv+K8BVMq1j5dSkogm0mcA6ZzfaSf7b/+6Rvu/+n1CNvw9Xi9BW9QquAs4bkjxN0g==
-X-Received: by 2002:adf:88b2:: with SMTP id
-	f47-v6mr1891158wrf.55.1528796013756; 
-	Tue, 12 Jun 2018 02:33:33 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	w3-v6sm561040wrr.88.2018.06.12.02.33.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jun 2018 02:33:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2018 10:33:31 +0100
-Message-Id: <20180612093331.1398-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] maintainers: add Andrej Valek as busybox maintain
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uSx/cbB7KTzaudi4+g93/VO3ofVOoO5EpmCTQvAhsmU=;
+	b=K4ZBV2kGgwEKxHSxSK2KaYL3nc6CJEwApjvbrd/aum7aJ1BqPCXk+6KOs8vLuzDw4/
+	bZhY1h+5p07PzjOLANZs7Z2Ic7mN5/y7+b+zzGg/1XuSA0wogRldpA+DcTNz+FKnnBWo
+	AUlEeDTzws4ORdzyBsjtp4QHOdpcDovLWenpYgjyOr3kYcQ8uAKzCr/EtIXL6wxN4Pp3
+	0SWn39rZLlya+g0B7ZFgM417UD87HEx1cAOZmATHOA0YEtwRzaDD5cdkD+otqYSu5XuQ
+	+U2mSPWLNw6YqQyl1K2MF5/W5SuUIo7gfIGkHmfDE4L1IEIQDeLea6x+wn53keZsIz15
+	uYCg==
+X-Gm-Message-State: APt69E08BQCX64TPJymgQ5+6vxO9lpBQf4wk5DX1OTZFmiO0xh7ienVR
+	BeZGmHPddlhUZ7+c22uB0x411Ht5Ht9b5sDDP+jAGg==
+X-Google-Smtp-Source: ADUXVKLBo66TKZ/7m2ypMDN0BajB4j4+GrOuIV0jI1kp1eJDo65rzzWb8b+6vMaMTqns3i3c+hILG7/FWKbO6STXkT0=
+X-Received: by 2002:a9d:357:: with SMTP id 81-v6mr1938469otv.119.1528796108546;
+	Tue, 12 Jun 2018 02:35:08 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 02:34:47
+	-0700 (PDT)
+In-Reply-To: <CANNYZj9_ySuHaqHzA8c=Dhbt=fkEnj8eD0HOcRHpyb7RzW4s_g@mail.gmail.com>
+References: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
+	<CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
+	<CAJTo0LZPfg6AX_1UF08LrnYp=vtQtJZRrRxLpDCtVPC6jEud5Q@mail.gmail.com>
+	<CANNYZj9_ySuHaqHzA8c=Dhbt=fkEnj8eD0HOcRHpyb7RzW4s_g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 12 Jun 2018 10:34:47 +0100
+Message-ID: <CAJTo0LZJM1oyX=3evGj8GS6nF2fCy-LHzX8L7WvKrnzdj-sx_Q@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: remove myself as maintainer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +60,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 09:33:33 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 09:35:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Andrej has kindly stepped up as the busybox maintainer.
+I spoke to Andrej earlier and he has agreed, the patch to change
+ownership is on the list now.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/maintainers.inc | 1 +
- 1 file changed, 1 insertion(+)
+Thanks Armin for being the maintainer, and thanks Andrej for taking over!
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4939c79c9eb..bacdc0b9a29 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -85,6 +85,7 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
- RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-+RECIPE_MAINTAINER_pn-busybox = "Andrej Valek <andrej.valek@siemens.com>"
- RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
--- 
-2.11.0
+Ross
 
+On 12 June 2018 at 10:32, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> I would nominate Andrej Valek <andrej.valek@siemens.com> :-)
+>
+> Being listed in maintainers.inc is indeed not an obligation to fix
+> other people's specific issues or work on recipe enhancements in
+> general. Maintainers are expected to act on AUH version upgrade
+> emails, and look at filed bugs; neither is time consuming.
+>
+> Alex
+>
+>
+> 2018-06-12 1:17 GMT+03:00 Burton, Ross <ross.burton@intel.com>:
+>> They get the AUH upgrade mails, and will be the default assignee for
+>> bugs in triage.
+>>
+>> For something like busybox this isn't a huge amount of work.
+>>
+>> Ross
+>>
+>> On 11 June 2018 at 23:13, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>> On Mon, Jun 11, 2018 at 3:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>>> Do we have anyone willing to take over?
+>>>
+>>> Does having a designated maintainer actually achieve anything in practice?
+>>>
+>>>> Ross
+>>>>
+>>>> On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
+>>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>>>> ---
+>>>>>  meta/conf/distro/include/maintainers.inc | 1 -
+>>>>>  1 file changed, 1 deletion(-)
+>>>>>
+>>>>> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+>>>>> index 628edac..08d7e1b 100644
+>>>>> --- a/meta/conf/distro/include/maintainers.inc
+>>>>> +++ b/meta/conf/distro/include/maintainers.inc
+>>>>> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
+>>>>>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>>>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>>>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>>> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
+>>>>>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
+>>>>>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
+>>>>>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>>>>> --
+>>>>> 2.7.4
+>>>>>
+>>>>> --
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
