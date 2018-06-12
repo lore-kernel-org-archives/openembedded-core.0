@@ -1,50 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f181.google.com (mail-ot0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 29F7A78F6F
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AF5D78F14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 15:22:49 +0000 (UTC)
-Received: by mail-ot0-f181.google.com with SMTP id 92-v6so28486203otw.9
+	Tue, 12 Jun 2018 15:29:28 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id e18-v6so16298642wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 08:22:51 -0700 (PDT)
+	Tue, 12 Jun 2018 08:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yPLTcNQdK5PDUDfZ2LjY5VazVI028P0JKOs/EeQHuPk=;
-	b=gXhblCfv8sUQxwrr4DdUWnWAnXB3ofOkloABiA40X0KHH4blGDFex5rAzvFOA034fM
-	nHuAoNakC7YG582KoHvNNb46/ZDCE5nzcxikRTMERnaNTxj3vOES8mu3/SKfPsDOW4oo
-	PA1bVpT0y9SBvNHxekMcyP1YKKDgLAtwKJeztFFJ8KlHiYvWjOOuIPcnxIcyEUQKAO/F
-	ySGc6GeBpnLs4ttPNiZEtYIs7pcPt9pOp3A+6L4jdZ7bXOo9OH9NUE8YXkNVretY9qsy
-	Vj1NgNjkItQRIg5bJ2fQ214MhOrocIeYaZqR93dKbGVoj2N7dXQB8NFpz2aaOdBte7QJ
-	TYbw==
+	h=from:to:subject:date:message-id;
+	bh=uesKvN1pCb7k9w43CICjxioCS9uju1vSFa64z2FEpgs=;
+	b=V/l8hLIMTy8/mrtpkNuSw2X5Nt8y+l+THVf1D8qJ+KapB3uzfjcmHhOl3PEtSRCXEW
+	0gv01jGnHEQPcC6C6k6LJTxADdGTneJM33uE/GiqHeK+iwHXIwqRI79Qwp+Kcjx9hdNI
+	OSEMya45n3LR1CDMjxeUF6FQSemjXmTeriuAN69fnJ+GnGwuNANA7w7UzeSd/4GnyAsH
+	5YSl3swmbjm26J7ElZnJf50fDNSn7njU+q+m5NuFFDikyypbS5KVOD6gOT6rtRanqYFi
+	ptqkgfb8BR4zN6z7tFcC9JgtBqQzTTJpNAiKiF7ASiylqjtM1odDukNp97ps0v5SBrzS
+	KW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yPLTcNQdK5PDUDfZ2LjY5VazVI028P0JKOs/EeQHuPk=;
-	b=CDdiwroUsZ8beDbJhirrqeo9McDWiCbD8TodFlOhuuF8mxodKp1h8OO6oZRue5wp6e
-	W41daQUffuVBKe6I5diykM2TCDwpjD8hyrlV/red60AvLt50fLtghflkrnOPlq6rc9av
-	pReuSJnsdWpEoyykoRuAPB1RsNO6NF2WWEycRzH2qvXtAlbVXMg2no0dxjruzjCeDwDf
-	z9C9aHUlCydE2sWGHVBpu8/aTr4e3GuOJabnRq0SFadAQkmhepfy0Z2qpojngjY6oWQ7
-	rGLJb1SMR8kQI9lhgW8RSd58oOrEAu1szuNUI3yWrtkG2oC+jL9RaWxT9H7NH5n2AQdb
-	f4NQ==
-X-Gm-Message-State: APt69E3TIQQMk84j1s8Mql7cUCE9V7P/ujiFcFc3OR3JkJOzfMkdMGHk
-	L4ryiCipFk0TVu/P/i5hJJkcCjltHE8aZelPAylfLw==
-X-Google-Smtp-Source: ADUXVKKXTGHcGF819JbUyDyP+fFZgpbPb/kat8QFy7IlVQHJsIswk+SsI3soS31YOBxRiwfpSvhJdmqwkZuVCORAKhs=
-X-Received: by 2002:a9d:2989:: with SMTP id n9-v6mr633117otb.152.1528816970995;
-	Tue, 12 Jun 2018 08:22:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 08:22:30
-	-0700 (PDT)
-In-Reply-To: <1528802295-11278-10-git-send-email-maxin.john@intel.com>
-References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-	<1528802295-11278-10-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Jun 2018 16:22:30 +0100
-Message-ID: <CAJTo0La2YZcarxHy8PCPV8s6BGvRNkWC80XOfovgz-Ag-YyLDQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/12] sqlite3: upgrade to 3.24.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=uesKvN1pCb7k9w43CICjxioCS9uju1vSFa64z2FEpgs=;
+	b=jrLNiFmhi3B+8SYIVjUIEeBQHIXTS9GnQKJtVfWm25EdFP9ziojjrebO4FIYzlPxqL
+	NmSFTYVEo8nZ96+qNMTOtxqLrUCtWzVYWuDrjU0zFHW3hIrEhw3KJqQssCe8aCzPMxvY
+	6kddTMDBUNlQYUxqfsBvUj7QpckqZxOXqhN+0SoENcckGoRGU4WlXhYXxFfivI4cqolh
+	1Mpy2d0l2I0Mc5nd7F6qCNIC51BqjsGVwircMXpw85vbGNJNFUagBccvLW2bOixI0Nax
+	zGoyd4vxytfaOzTYUlgrsP5PHWMzuMPyh1eeZf0XecrN4qQ8viRPcGpXZIojthrOvGHx
+	ZLdQ==
+X-Gm-Message-State: APt69E135Ew4DZmXnO2eeCWenClzuKCbDb/XNjyjJ5JR+4aO5noN9A+n
+	VIULdbaS1wKjLJlhEqo954Pgt+1c
+X-Google-Smtp-Source: ADUXVKJ51irbg2ylDkOQ3yRQDKdX0aGmOWL8LHo0L4+lJwYOvH/+xZNZjCz7s11X+G3Kp7eqT/rAqg==
+X-Received: by 2002:adf:b258:: with SMTP id
+	y24-v6mr655080wra.168.1528817368605; 
+	Tue, 12 Jun 2018 08:29:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v68-v6sm1131388wmd.12.2018.06.12.08.29.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Jun 2018 08:29:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jun 2018 16:29:25 +0100
+Message-Id: <20180612152925.1838-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libdrm: drop uclibc-specific patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 15:22:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Jun 2018 15:29:28 -0000
 
-Fails for me when building pseudo:
+This patch isn't needed for musl or glibc, so drop it.
 
-| /data/poky-tmp/master/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+fddbe854c9-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):
-In function `fts5Bm25Function':
-| sqlite3.c:(.text+0x2a3b8): undefined reference to `log'
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../drm/libdrm/fix_O_CLOEXEC_undeclared.patch      | 24 ----------------------
+ meta/recipes-graphics/drm/libdrm_2.4.92.bb         |  1 -
+ 2 files changed, 25 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
 
-Ross
+diff --git a/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch b/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
+deleted file mode 100644
+index 4708bf1ebb8..00000000000
+--- a/meta/recipes-graphics/drm/libdrm/fix_O_CLOEXEC_undeclared.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-drmdevice.c: define _GNU_SOURCE
+-
+-Include config.h to fix this build error with uclibc:
+-
+-libdrm-2.4.66/tests/drmdevice.c: In function 'main':
+-libdrm-2.4.66/tests/drmdevice.c:96:60: error:
+-'O_CLOEXEC' undeclared (first use in this function)
+-fd = open(devices[i]->nodes[j],O_RDONLY | O_CLOEXEC, 0);
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+-diff -Naur libdrm-2.4.66-orig/tests/drmdevice.c libdrm-2.4.66/tests/drmdevice.c
+---- libdrm-2.4.66-orig/tests/drmdevice.c	2016-02-23 11:34:02.054904502 +0200
+-+++ libdrm-2.4.66/tests/drmdevice.c	2016-02-23 11:35:34.371750383 +0200
+-@@ -21,6 +21,7 @@
+-  *
+-  */
+- 
+-+#include <config.h>
+- #include <errno.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+index 8f59452a49c..2b3bf4f83d2 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+@@ -12,7 +12,6 @@ DEPENDS = "libpthread-stubs libpciaccess"
+ 
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://installtests.patch \
+-           file://fix_O_CLOEXEC_undeclared.patch \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
+ 
+-- 
+2.11.0
 
-On 12 June 2018 at 12:18, Maxin B. John <maxin.john@intel.com> wrote:
-> 3.23.1 -> 3.24.0
->
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} (59%)
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> similarity index 59%
-> rename from meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-> rename to meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> index 3755761..ce18fec 100644
-> --- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-> +++ b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> @@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
->  SRC_URI = "\
->    http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
->    "
-> -SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
-> -SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
-> +SRC_URI[md5sum] = "dcd96fb9bbb603d29f6b0ad9554932ee"
-> +SRC_URI[sha256sum] = "d9d14e88c6fb6d68de9ca0d1f9797477d82fc3aed613558f87ffbdbbc5ceb74a"
-> --
-> 2.4.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
