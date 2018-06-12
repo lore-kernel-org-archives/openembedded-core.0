@@ -1,36 +1,50 @@
-Return-Path: <herve.jourdain@neuf.fr>
-X-Greylist: delayed 534 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 12 Jun 2018 09:39:48 UTC
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.22])
-	by mail.openembedded.org (Postfix) with ESMTP id 6556B78D21
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C084E78DB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 09:39:48 +0000 (UTC)
-Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])
-	by msfrf2632.sfr.fr (SMTP Server) with ESMTP id B7DF91C00200B
+	Tue, 12 Jun 2018 11:04:04 +0000 (UTC)
+Received: by mail-wr0-f171.google.com with SMTP id l10-v6so23618882wrn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 11:30:54 +0200 (CEST)
-Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])	(using
-	TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
-	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2632.sfr.fr (SMTP Server) with ESMTPSA;
-	Tue, 12 Jun 2018 11:30:52 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (LOGIN)
-	smtp.auth=herve.jourdain@neuf.fr
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: 'Koen Kooi' <koen@dominion.thruhere.net>, 'Randy Li'
-	<ayaka@soulik.info>
-References: <20180609062628.32364-1-ayaka@soulik.info>
-	<F1A6604B-E5BB-413F-B7AF-0EC7B85D5C12@dominion.thruhere.net>
-In-Reply-To: <F1A6604B-E5BB-413F-B7AF-0EC7B85D5C12@dominion.thruhere.net>
-Date: Tue, 12 Jun 2018 11:30:48 +0200
-Message-ID: <002901d40230$0fa25690$2ee703b0$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQHJ6eWOd7VehRwCiawuKMWc2ULDKwJvgjnTpF0I9OA=
-X-sfr-mailing: LEGIT
-Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/4] Add tune for ARMv8 and some cortex processors
+	Tue, 12 Jun 2018 04:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=f+PhLjt/991K5+sGIy19fN8iXZeyRltkTeiN+z/H46I=;
+	b=wZ6uRGkL9FE3NMNZsiGsKq1W74V9zBblUJ/CTBBHqTAEoaSGcYvejCKpVHNCIBiBjD
+	qz3KZNMG0Gr6kIJs9jcEYJa0CcdS4paOUlCC8t0iT6sjSXp5XbnjNEapr+4ie0vQEKaB
+	tYxYEoFtDILxn4TRWMGGDLnew1ctkW1DeqA508EMIL7pkMTvO35S88roTnQnRNYEaafg
+	uy9W30mS1IL7v83R1nkzmEvR9fV81sur9bl8QjcTqc7B00rLI0vfdvWNMLLUrwkqyWbh
+	es7EhWp5GJhYVv4SDnnVQEXAq6y4PYx3+g5kelLoFYL9qp+LZA69/LgORD02qqe++K/d
+	0N1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=f+PhLjt/991K5+sGIy19fN8iXZeyRltkTeiN+z/H46I=;
+	b=D+Johrzk5LtTM1TMOTjNferCkdxEWQgDCet+AKs4V+ebMX+tKfkgOwWOwE7BeOKG5q
+	y0d3AorABZFXcLOhNDKHEls2qwSqC0AutAZ82bUpW0MJNkPaLPejP0iia+dky5DwtIsz
+	BCa1rmrGvZOACw6tmJAOwr8QxtEMWA9MOXQuviobRjQHhTkOrkwFcPy/5BnQXJCaFxce
+	i0g1emJrx8k9bgZ99soZJe/Yjqb3iWCyQMh41Jsz7CKhz3mFDbHIJlLxRMV94EJmqz9m
+	sX3dp6CP7q8FiYjantCZjqfqHQ677vPPZxWeruMG5x5k46ic8z1wncGJQZJJE+fT3sAT
+	glMA==
+X-Gm-Message-State: APt69E35wl4Ri/9mAeUDTqVGEEy+Y3BBTOKchEE63bZF5TnL8FIXzsFK
+	zzXOy2kgRTb/P7GsUk9D4EUcsuqw
+X-Google-Smtp-Source: ADUXVKJAG5sEMF77/PoG6suxzroIV7xc6XHRGOl+imDkfZeZw3STty9KR8V+H3fWdeckyMGzvKuGGg==
+X-Received: by 2002:adf:9acc:: with SMTP id
+	a70-v6mr2217257wrc.180.1528801445150; 
+	Tue, 12 Jun 2018 04:04:05 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	n17-v6sm896644wrs.96.2018.06.12.04.04.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Jun 2018 04:04:04 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jun 2018 12:04:02 +0100
+Message-Id: <20180612110402.32107-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] mesa: fix build on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,113 +57,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 09:39:48 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: fr
+X-List-Received-Date: Tue, 12 Jun 2018 11:04:05 -0000
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../mesa/files/missing-time-h.patch                | 29 ++++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_18.1.1.bb          |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/missing-time-h.patch
 
-I believe I'm the "original author" of some patch attempt at tackling =
-this problem, more than a year ago, as referenced in this series.
-And I understand why everyone, Khem being the first and not the only =
-one, would like some "simpler" things for ARM.
-But the problem is that ARM-based SoCs are very diverse, and ARM does =
-have a number of optional IP blocks (such as crypto, but neon is another =
-one, and there are others), defined for each architecture. Then ARM =
-defines some "standard" SoCs (like cortex-A53, cortex-A57, ...) which =
-may set some of those optional IPs as required for that SoC, and the =
-rest still as optional.
-And SoC vendors decide what optional IPs they will implement or not...
-
-So when we're talking "cortex-A53", it's not necessarily the same =
-cortex-A53 for all SoC vendors.
-
-GCC does support all that complexity. So the main question is, do we =
-want to be able to generate code that could take advantage of the =
-optional IPs present on a SoC? Or do we prefer to settle for the least =
-common denominator?
-As someone who is close to the SoC, I definitely would prefer to be able =
-to take advantage of the optional IPs present on an ARM SoC, and I'd =
-rather have a system that can at least support that even if it's =
-slightly more complex. This said, once it's done, most people won't look =
-under the hood but just use it, so the complexity would end up being =
-hidden - much like now with armv7.
-
-I've personally followed up on my patches from last year, and I now have =
-a slightly modified/simplified version of them, which I've used to build =
-some production-ready environments using cortex-a53/armv8 tunes, that =
-trigger the optimization for cortex-a53 + neon. And if the SoC I'm =
-working with had the crypto extension, I would be very happy to build =
-for it, by just switching the tune I use for my cortex-a53 to the armv8 =
-tune supporting crypto.
-
-So I believe now may be a good time to talk this over again, because =
-we're basically building for cortex-a53 with cortexa7/armv7ve, and that =
-is not the most optimal thing to do in my opinion (like, some =
-instructions that were native in armv7ve are simulated in armv8).
-
-One thing that I did come up as a simplification was the handling of =
-thumb, I don't think it needs to be an option anymore, since its support =
-is mandatory in armv8 (but I think it was also the case in armv7). That =
-simplifies things a bit, but nothing fundamental, you still need to =
-carry the support for the optional IPs around...
-And in addition to what I proposed to support last year, we indeed now =
-have to add armv8.1a, armv8.2a, armv8.3a, armv8.4a (so far...), which =
-each have their own specificities/differences that make it unlikely to =
-be supported within a single file.
-
-Thoughts? Can we talk this over, so we can have a chance to have a good =
-support for armv8-32 in oe, instead of everyone doing its own?
-
-Cheers,
-Herve
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of =
-Koen Kooi
-Sent: mardi 12 juin 2018 11:01
-To: Randy Li <ayaka@soulik.info>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 0/4] Add tune for ARMv8 and some cortex =
-processors
-
-
-
-> Op 9 jun. 2018, om 08:26 heeft Randy Li <ayaka@soulik.info> het =
-volgende geschreven:
->=20
-> I read the ARMv8 manual again, it looks the hardware float is=20
-> mandatory in Linux Distributions and toolchain libraries. Even some=20
-> cortex processors can be configured without FPU/NEON hardware, but I=20
-> don't think they would be used in openembeded core.
->=20
-> So I can assume the NEON(SIMD) would exist all the time. Leaving only=20
-> the crc and crypto instructions are optional here.
->=20
->=20
-> Randy Li (4):
->  arch-armv8a.inc: add tune include for armv8
->  tune-cortexa35: add tunes for ARM Cortex-A35
->  tune-cortexa32: add tunes for ARM Cortex-A32
->  tune-cortexa72: add tunes for ARM Cortex-A72
-
-Having been forced to deal with the mess that=E2=80=99s 32-bit arm =
-tunes: Let=E2=80=99s only add an implementation specific tunes *after* =
-having seem conclusive, repeatable benchmark results. 90% of the 32 bit =
-tune files are placebo effect and just explode number of package archs =
-in your distro feed. The goal of aarch64 was to stop being different for =
-the sake of being different, let=E2=80=99s not make a mess because we =
-are used to messes.
-
-regards,
-
-Koen
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-graphics/mesa/files/missing-time-h.patch b/meta/recipes-graphics/mesa/files/missing-time-h.patch
+new file mode 100644
+index 00000000000..5a4dcd9c4da
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/missing-time-h.patch
+@@ -0,0 +1,29 @@
++Upstream-Status: Submitted [https://lists.freedesktop.org/archives/mesa-dev/2018-June/197438.html]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From a138d929be540eee246f8aa6d64e8b6d23922f1b Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 12 Jun 2018 11:57:58 +0100
++Subject: [PATCH] drivers/dri/i965: add missing #include
++
++brw_bufmgr.h uses time_t without include time.h, so the build fails under musl.
++---
++ src/mesa/drivers/dri/i965/brw_bufmgr.h | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/mesa/drivers/dri/i965/brw_bufmgr.h b/src/mesa/drivers/dri/i965/brw_bufmgr.h
++index 68f5e0c2c8..5c2702652b 100644
++--- a/src/mesa/drivers/dri/i965/brw_bufmgr.h
+++++ b/src/mesa/drivers/dri/i965/brw_bufmgr.h
++@@ -37,6 +37,8 @@
++ #include <stdbool.h>
++ #include <stdint.h>
++ #include <stdio.h>
+++#include <time.h>
+++
++ #include "util/u_atomic.h"
++ #include "util/list.h"
++ 
++-- 
++2.11.0
++
+diff --git a/meta/recipes-graphics/mesa/mesa_18.1.1.bb b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
+index 7aeb28bda36..d9feb334e54 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.1.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.1.1.bb
+@@ -7,6 +7,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0004-hardware-gloat.patch \
+            file://0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
+            file://0006-Use-Python-3-to-execute-the-scripts.patch \
++           file://missing-time-h.patch \
+ "
+ 
+ SRC_URI[md5sum] = "063468c930ff61d211ece0191874fa95"
+-- 
+2.11.0
 
 
