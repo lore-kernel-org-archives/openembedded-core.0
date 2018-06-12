@@ -1,25 +1,53 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 626FD78CD7
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
+	[74.125.82.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 831ED78B57
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 09:06:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5C96CNF016858
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Jun 2018 09:32:08 +0000 (UTC)
+Received: by mail-ot0-f194.google.com with SMTP id d19-v6so21712628oti.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 02:06:12 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 12 Jun 2018 02:06:12 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jun 2018 17:08:56 +0800
-Message-ID: <c5c4efe9e8916d3100c21126f1fe5974411c387a.1528772440.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1528772440.git.Qi.Chen@windriver.com>
-References: <cover.1528772440.git.Qi.Chen@windriver.com>
+	Tue, 12 Jun 2018 02:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MwlF6Hu6VZmfw+HSwCYXLA3nfmLnV/VRQPuE6TW4SdU=;
+	b=n+UuGy0micvvmZuVcwpq8XWR9BPDDxunRF0ASa83el3iqWp7Vjr/tdZi7YFdpW5QXr
+	KXiBPuhAt7SDL7P2OQ1O5xZbOx4iOD5kNB1R6DHycTBXWU4QfZg4aANlmvUr7PAOLTyy
+	vL+s5vxWdw9UE5islKN9wJXRFrGihPUeXo5DH06KXsCdKaCmre4P6/raJ3GyXMkEwvKc
+	3i05yMo39bL1TcvK7k5e+NqigEDQLmzw66NAJ97pvQ8STWJaZYjI59Rtu1enOBB+cSKL
+	8C5nbgue7RM3CrnuEaKJE8xWPKf7lODQyiNM/rgtfC8qfbQb/XWuLQfx5Z6vI3L5Yn7x
+	0aTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MwlF6Hu6VZmfw+HSwCYXLA3nfmLnV/VRQPuE6TW4SdU=;
+	b=NOTy/jlTVaIgq4K4FbPBoUmefqkjsyvKphy2rn0dOdgmh9KYq8DNGLrm+rLD2W0cRr
+	KWB2jW/Ll811uwmbQlc2kB/8vA3nR8XH4LmAEWt05bTk2+tdzprMvbdIE+n1WJqp2fES
+	gBB59BuuvT25nHEX230ZNLF4n/fmN1OY1TErvA+zsPcit8edQ40iLufwiQSN1G0dXDQB
+	Rzy4+706inHCJurmGkELbeFCAKGsGvYyvc9Z7N+ihSKyYc8R4MyHgal388AghMOVmYrf
+	+wOby0rI34Eqvw2VBM+4TJRTlhWx++nUb0eatcn3b1QKU5FDToxAUoO7cXdrYA0MKfgO
+	eYUQ==
+X-Gm-Message-State: APt69E2gxgzLDxRLfzQmGZzKNek1kCPV9B/cmwlxA5YlZI82kwJ5SH8a
+	42i/khjJKjgKN2EEewt/HXGetBMvvnsWcMykuMg=
+X-Google-Smtp-Source: ADUXVKJypPSqIBX/Jsb1p2eV7/VeHRTm+T9Iq5A5jEm5uCntztRDfmERgDVWwO3xhgduyTvixqza5DUxWoxuiUFZHCk=
+X-Received: by 2002:a9d:4609:: with SMTP id
+	y9-v6mr1652446ote.259.1528795929506; 
+	Tue, 12 Jun 2018 02:32:09 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oeqa/runtime/cases/selftest.py: rename to _selftest.py
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 02:32:09
+	-0700 (PDT)
+In-Reply-To: <CAJTo0LZPfg6AX_1UF08LrnYp=vtQtJZRrRxLpDCtVPC6jEud5Q@mail.gmail.com>
+References: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
+	<CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
+	<CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
+	<CAJTo0LZPfg6AX_1UF08LrnYp=vtQtJZRrRxLpDCtVPC6jEud5Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 Jun 2018 12:32:09 +0300
+Message-ID: <CANNYZj9_ySuHaqHzA8c=Dhbt=fkEnj8eD0HOcRHpyb7RzW4s_g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Andrej Valek <andrej.valek@siemens.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox: remove myself as maintainer.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +60,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 09:06:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Jun 2018 09:32:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This test modules is designed to be invoked only by selftest. It's
-not meant to be tested by normal runtime test. So it should be renamed
-with '_' prefix, so that it will not be automatically loaded by normal
-runtime tests when 'auto' is in TEST_SUITES.
+I would nominate Andrej Valek <andrej.valek@siemens.com> :-)
 
-The failure message is as below.
+Being listed in maintainers.inc is indeed not an obligation to fix
+other people's specific issues or work on recipe enhancements in
+general. Maintainers are expected to act on AUH version upgrade
+emails, and look at filed bugs; neither is time consuming.
 
-  RESULTS - selftest.Selftest.test_install_package - Testcase -1: FAILED
+Alex
 
-Change selftest/cases/runtime_test.py to use '_selftest' accordingly.
-Rename selftest.json to _selftest.json accordingly.
-Also, fix a typo in runtime_test.py.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../lib/oeqa/runtime/cases/{selftest.json => _selftest.json}          | 0
- meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py}    | 2 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py                          | 4 ++--
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta-selftest/lib/oeqa/runtime/cases/{selftest.json => _selftest.json} (100%)
- rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (94%)
-
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.json b/meta-selftest/lib/oeqa/runtime/cases/_selftest.json
-similarity index 100%
-rename from meta-selftest/lib/oeqa/runtime/cases/selftest.json
-rename to meta-selftest/lib/oeqa/runtime/cases/_selftest.json
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/selftest.py b/meta-selftest/lib/oeqa/runtime/cases/_selftest.py
-similarity index 94%
-rename from meta-selftest/lib/oeqa/runtime/cases/selftest.py
-rename to meta-selftest/lib/oeqa/runtime/cases/_selftest.py
-index 19de740..e6c05ef 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/selftest.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/_selftest.py
-@@ -17,7 +17,7 @@ class Selftest(OERuntimeTestCase):
-         (status, output) = self.target.run("socat -V")
-         self.assertEqual(status, 0, msg="socat is not installed")
- 
--    @OETestDepends(['selftest.Selftest.test_install_package'])
-+    @OETestDepends(['_selftest.Selftest.test_install_package'])
-     def test_verify_uninstall(self):
-         """
-         Summary: Check basic package installation functionality.
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 30fd9b2..3bd0ca6 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -122,10 +122,10 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
- 
-         features = 'INHERIT += "testimage"\n'
--        features += 'TEST_SUITES = "ping ssh selftest"\n'
-+        features += 'TEST_SUITES = "ping ssh _selftest"\n'
-         self.write_config(features)
- 
--        # Build core-image-sato and testimage
-+        # Build core-image-full-cmdline and testimage
-         bitbake('core-image-full-cmdline socat')
-         bitbake('-c testimage core-image-full-cmdline')
- 
--- 
-1.9.1
-
+2018-06-12 1:17 GMT+03:00 Burton, Ross <ross.burton@intel.com>:
+> They get the AUH upgrade mails, and will be the default assignee for
+> bugs in triage.
+>
+> For something like busybox this isn't a huge amount of work.
+>
+> Ross
+>
+> On 11 June 2018 at 23:13, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> On Mon, Jun 11, 2018 at 3:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>> Do we have anyone willing to take over?
+>>
+>> Does having a designated maintainer actually achieve anything in practice?
+>>
+>>> Ross
+>>>
+>>> On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
+>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>>> ---
+>>>>  meta/conf/distro/include/maintainers.inc | 1 -
+>>>>  1 file changed, 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+>>>> index 628edac..08d7e1b 100644
+>>>> --- a/meta/conf/distro/include/maintainers.inc
+>>>> +++ b/meta/conf/distro/include/maintainers.inc
+>>>> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
+>>>>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>>>> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
+>>>>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
+>>>>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
+>>>>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>>>> --
+>>>> 2.7.4
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
