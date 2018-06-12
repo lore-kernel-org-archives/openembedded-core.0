@@ -1,53 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 79FCE78CE8
+Return-Path: <herve.jourdain@neuf.fr>
+X-Greylist: delayed 534 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 12 Jun 2018 09:39:48 UTC
+Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.22])
+	by mail.openembedded.org (Postfix) with ESMTP id 6556B78D21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 09:35:07 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id c15-v6so17430858otl.3
+	Tue, 12 Jun 2018 09:39:48 +0000 (UTC)
+Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])
+	by msfrf2632.sfr.fr (SMTP Server) with ESMTP id B7DF91C00200B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 02:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uSx/cbB7KTzaudi4+g93/VO3ofVOoO5EpmCTQvAhsmU=;
-	b=H+AH5vxC2lkb/zddOuQLdtm7aTA3pgmojrb7K4byHnf2p8HdXS0hkZjXaFeHDO/EV0
-	qC9ESDmAXVo+Z4wKcNwr/0V9ZfMJbpP3knkjUCSFhTBRm3prLlh4n966iW/Csb5+DPce
-	JXyvmBwawmGioHjEU8IlL0QZhOV96mnZfoUPh8k/UgVjPtwxwbmpmn/eKcjjBxISRr8U
-	sqiBrpMX8u8SAL75uB0BHuwaOxbecvoYYdz+uORj3wuXAQgIlS+26RfVjToCr0vW9SLx
-	iWBxNxIEqwCkIy6s31wSgusdh4H5xjgLn9yYDzFHhI5cNtFfi3zTcBN6zNZeXTHUhnsS
-	h5Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uSx/cbB7KTzaudi4+g93/VO3ofVOoO5EpmCTQvAhsmU=;
-	b=K4ZBV2kGgwEKxHSxSK2KaYL3nc6CJEwApjvbrd/aum7aJ1BqPCXk+6KOs8vLuzDw4/
-	bZhY1h+5p07PzjOLANZs7Z2Ic7mN5/y7+b+zzGg/1XuSA0wogRldpA+DcTNz+FKnnBWo
-	AUlEeDTzws4ORdzyBsjtp4QHOdpcDovLWenpYgjyOr3kYcQ8uAKzCr/EtIXL6wxN4Pp3
-	0SWn39rZLlya+g0B7ZFgM417UD87HEx1cAOZmATHOA0YEtwRzaDD5cdkD+otqYSu5XuQ
-	+U2mSPWLNw6YqQyl1K2MF5/W5SuUIo7gfIGkHmfDE4L1IEIQDeLea6x+wn53keZsIz15
-	uYCg==
-X-Gm-Message-State: APt69E08BQCX64TPJymgQ5+6vxO9lpBQf4wk5DX1OTZFmiO0xh7ienVR
-	BeZGmHPddlhUZ7+c22uB0x411Ht5Ht9b5sDDP+jAGg==
-X-Google-Smtp-Source: ADUXVKLBo66TKZ/7m2ypMDN0BajB4j4+GrOuIV0jI1kp1eJDo65rzzWb8b+6vMaMTqns3i3c+hILG7/FWKbO6STXkT0=
-X-Received: by 2002:a9d:357:: with SMTP id 81-v6mr1938469otv.119.1528796108546;
-	Tue, 12 Jun 2018 02:35:08 -0700 (PDT)
+	Tue, 12 Jun 2018 11:30:54 +0200 (CEST)
+Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])	(using
+	TLSv1.2
+	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
+	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
+	by msfrf2632.sfr.fr (SMTP Server) with ESMTPSA;
+	Tue, 12 Jun 2018 11:30:52 +0200 (CEST)
+Authentication-Results: sfr.fr; auth=pass (LOGIN)
+	smtp.auth=herve.jourdain@neuf.fr
+From: Herve Jourdain <herve.jourdain@neuf.fr>
+To: 'Koen Kooi' <koen@dominion.thruhere.net>, 'Randy Li'
+	<ayaka@soulik.info>
+References: <20180609062628.32364-1-ayaka@soulik.info>
+	<F1A6604B-E5BB-413F-B7AF-0EC7B85D5C12@dominion.thruhere.net>
+In-Reply-To: <F1A6604B-E5BB-413F-B7AF-0EC7B85D5C12@dominion.thruhere.net>
+Date: Tue, 12 Jun 2018 11:30:48 +0200
+Message-ID: <002901d40230$0fa25690$2ee703b0$@neuf.fr>
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 02:34:47
-	-0700 (PDT)
-In-Reply-To: <CANNYZj9_ySuHaqHzA8c=Dhbt=fkEnj8eD0HOcRHpyb7RzW4s_g@mail.gmail.com>
-References: <1528754600-26824-1-git-send-email-akuster808@gmail.com>
-	<CAJTo0LYtc4Cdo1zUzc-UK-BOO-J0dA5iQLGEn6vn2zfGhnbRxg@mail.gmail.com>
-	<CAJ86T=U9SjuBJ07aNq_ATukCxCQoEuAo6g4mUso6f71W-sU8cA@mail.gmail.com>
-	<CAJTo0LZPfg6AX_1UF08LrnYp=vtQtJZRrRxLpDCtVPC6jEud5Q@mail.gmail.com>
-	<CANNYZj9_ySuHaqHzA8c=Dhbt=fkEnj8eD0HOcRHpyb7RzW4s_g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Jun 2018 10:34:47 +0100
-Message-ID: <CAJTo0LZJM1oyX=3evGj8GS6nF2fCy-LHzX8L7WvKrnzdj-sx_Q@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox: remove myself as maintainer.
+X-Mailer: Microsoft Outlook 15.0
+Thread-Index: AQHJ6eWOd7VehRwCiawuKMWc2ULDKwJvgjnTpF0I9OA=
+X-sfr-mailing: LEGIT
+Cc: 'OE-core' <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/4] Add tune for ARMv8 and some cortex processors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +43,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 09:35:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Jun 2018 09:39:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: fr
 
-I spoke to Andrej earlier and he has agreed, the patch to change
-ownership is on the list now.
+Hi,
 
-Thanks Armin for being the maintainer, and thanks Andrej for taking over!
+I believe I'm the "original author" of some patch attempt at tackling =
+this problem, more than a year ago, as referenced in this series.
+And I understand why everyone, Khem being the first and not the only =
+one, would like some "simpler" things for ARM.
+But the problem is that ARM-based SoCs are very diverse, and ARM does =
+have a number of optional IP blocks (such as crypto, but neon is another =
+one, and there are others), defined for each architecture. Then ARM =
+defines some "standard" SoCs (like cortex-A53, cortex-A57, ...) which =
+may set some of those optional IPs as required for that SoC, and the =
+rest still as optional.
+And SoC vendors decide what optional IPs they will implement or not...
 
-Ross
+So when we're talking "cortex-A53", it's not necessarily the same =
+cortex-A53 for all SoC vendors.
 
-On 12 June 2018 at 10:32, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> I would nominate Andrej Valek <andrej.valek@siemens.com> :-)
->
-> Being listed in maintainers.inc is indeed not an obligation to fix
-> other people's specific issues or work on recipe enhancements in
-> general. Maintainers are expected to act on AUH version upgrade
-> emails, and look at filed bugs; neither is time consuming.
->
-> Alex
->
->
-> 2018-06-12 1:17 GMT+03:00 Burton, Ross <ross.burton@intel.com>:
->> They get the AUH upgrade mails, and will be the default assignee for
->> bugs in triage.
->>
->> For something like busybox this isn't a huge amount of work.
->>
->> Ross
->>
->> On 11 June 2018 at 23:13, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Mon, Jun 11, 2018 at 3:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>> Do we have anyone willing to take over?
->>>
->>> Does having a designated maintainer actually achieve anything in practice?
->>>
->>>> Ross
->>>>
->>>> On 11 June 2018 at 23:03, Armin Kuster <akuster808@gmail.com> wrote:
->>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>>>> ---
->>>>>  meta/conf/distro/include/maintainers.inc | 1 -
->>>>>  1 file changed, 1 deletion(-)
->>>>>
->>>>> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
->>>>> index 628edac..08d7e1b 100644
->>>>> --- a/meta/conf/distro/include/maintainers.inc
->>>>> +++ b/meta/conf/distro/include/maintainers.inc
->>>>> @@ -85,7 +85,6 @@ RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
->>>>>  RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->>>>>  RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->>>>>  RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
->>>>> -RECIPE_MAINTAINER_pn-busybox = "Armin Kuster <akuster808@gmail.com>"
->>>>>  RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
->>>>>  RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
->>>>>  RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
->>>>> --
->>>>> 2.7.4
->>>>>
->>>>> --
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+GCC does support all that complexity. So the main question is, do we =
+want to be able to generate code that could take advantage of the =
+optional IPs present on a SoC? Or do we prefer to settle for the least =
+common denominator?
+As someone who is close to the SoC, I definitely would prefer to be able =
+to take advantage of the optional IPs present on an ARM SoC, and I'd =
+rather have a system that can at least support that even if it's =
+slightly more complex. This said, once it's done, most people won't look =
+under the hood but just use it, so the complexity would end up being =
+hidden - much like now with armv7.
+
+I've personally followed up on my patches from last year, and I now have =
+a slightly modified/simplified version of them, which I've used to build =
+some production-ready environments using cortex-a53/armv8 tunes, that =
+trigger the optimization for cortex-a53 + neon. And if the SoC I'm =
+working with had the crypto extension, I would be very happy to build =
+for it, by just switching the tune I use for my cortex-a53 to the armv8 =
+tune supporting crypto.
+
+So I believe now may be a good time to talk this over again, because =
+we're basically building for cortex-a53 with cortexa7/armv7ve, and that =
+is not the most optimal thing to do in my opinion (like, some =
+instructions that were native in armv7ve are simulated in armv8).
+
+One thing that I did come up as a simplification was the handling of =
+thumb, I don't think it needs to be an option anymore, since its support =
+is mandatory in armv8 (but I think it was also the case in armv7). That =
+simplifies things a bit, but nothing fundamental, you still need to =
+carry the support for the optional IPs around...
+And in addition to what I proposed to support last year, we indeed now =
+have to add armv8.1a, armv8.2a, armv8.3a, armv8.4a (so far...), which =
+each have their own specificities/differences that make it unlikely to =
+be supported within a single file.
+
+Thoughts? Can we talk this over, so we can have a chance to have a good =
+support for armv8-32 in oe, instead of everyone doing its own?
+
+Cheers,
+Herve
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org =
+[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of =
+Koen Kooi
+Sent: mardi 12 juin 2018 11:01
+To: Randy Li <ayaka@soulik.info>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2 0/4] Add tune for ARMv8 and some cortex =
+processors
+
+
+
+> Op 9 jun. 2018, om 08:26 heeft Randy Li <ayaka@soulik.info> het =
+volgende geschreven:
+>=20
+> I read the ARMv8 manual again, it looks the hardware float is=20
+> mandatory in Linux Distributions and toolchain libraries. Even some=20
+> cortex processors can be configured without FPU/NEON hardware, but I=20
+> don't think they would be used in openembeded core.
+>=20
+> So I can assume the NEON(SIMD) would exist all the time. Leaving only=20
+> the crc and crypto instructions are optional here.
+>=20
+>=20
+> Randy Li (4):
+>  arch-armv8a.inc: add tune include for armv8
+>  tune-cortexa35: add tunes for ARM Cortex-A35
+>  tune-cortexa32: add tunes for ARM Cortex-A32
+>  tune-cortexa72: add tunes for ARM Cortex-A72
+
+Having been forced to deal with the mess that=E2=80=99s 32-bit arm =
+tunes: Let=E2=80=99s only add an implementation specific tunes *after* =
+having seem conclusive, repeatable benchmark results. 90% of the 32 bit =
+tune files are placebo effect and just explode number of package archs =
+in your distro feed. The goal of aarch64 was to stop being different for =
+the sake of being different, let=E2=80=99s not make a mess because we =
+are used to messes.
+
+regards,
+
+Koen
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
