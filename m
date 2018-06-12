@@ -1,30 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9537378D7F
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 53FCB6FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 11:25:52 +0000 (UTC)
+	Tue, 12 Jun 2018 11:25:53 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2018 04:25:53 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2018 04:25:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,214,1526367600"; d="scan'208";a="207381397"
+X-IronPort-AV: E=Sophos;i="5.51,214,1526367600"; d="scan'208";a="46497200"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 12 Jun 2018 04:25:53 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 12 Jun 2018 04:25:54 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id D072C5800AF
+	by linux.intel.com (Postfix) with ESMTP id E54DD580116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 04:25:52 -0700 (PDT)
+	Tue, 12 Jun 2018 04:25:53 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2018 14:18:05 +0300
-Message-Id: <1528802295-11278-2-git-send-email-maxin.john@intel.com>
+Date: Tue, 12 Jun 2018 14:18:06 +0300
+Message-Id: <1528802295-11278-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
 In-Reply-To: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
 References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 02/12] libinput: upgrade to 1.11.0
+Subject: [PATCH 03/12] libsoup-2.4: upgrade to 2.62.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 11:25:52 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 11:25:53 -0000
 
-1.9.4 -> 1.11.0
+2.62.0 -> 2.62.2
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../wayland/{libinput_1.9.4.bb => libinput_1.11.0.bb}                 | 4 ++--
+ .../libsoup/{libsoup-2.4_2.62.0.bb => libsoup-2.4_2.62.2.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{libinput_1.9.4.bb => libinput_1.11.0.bb} (86%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.62.0.bb => libsoup-2.4_2.62.2.bb} (89%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.11.0.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/libinput_1.9.4.bb
-rename to meta/recipes-graphics/wayland/libinput_1.11.0.bb
-index 67a49df..97264ca 100644
---- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.11.0.bb
-@@ -9,8 +9,8 @@ DEPENDS = "libevdev udev mtdev"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.62.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+similarity index 89%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.62.0.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+index 5c9dd19..a9f3554 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.62.0.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-            "
--SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
--SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
-+SRC_URI[md5sum] = "a182dab52f4d33bc1ef50668dcf53cc6"
-+SRC_URI[sha256sum] = "64a36c4f826f4b5d473bf2cb803122f96390a18243ec810f2ce8ac5076a0bc12"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- inherit meson pkgconfig lib_package
+-SRC_URI[md5sum] = "750b6f6136e5fdd82ac07f60b4aea575"
+-SRC_URI[sha256sum] = "ab7c7ae8d19d0a27ab3b6ae21599cec8c7f7b773b3f2b1090c5daf178373aaac"
++SRC_URI[md5sum] = "eaf99b04ac8968ed2b26f2509ba75584"
++SRC_URI[sha256sum] = "9e536fe3da60b25d2c63addb84a9d5072d00b0d8b8cbeabc629a6bcd63f879b6"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
 -- 
 2.4.0
 
