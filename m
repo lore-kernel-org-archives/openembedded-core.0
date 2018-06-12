@@ -1,30 +1,50 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 9956778DC7
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E262778CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 11:26:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2018 04:26:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,214,1526367600"; d="scan'208";a="58555113"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 12 Jun 2018 04:26:04 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 9D3DC5800AF
+	Tue, 12 Jun 2018 11:42:59 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id r83-v6so8880550vkf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 04:26:02 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2018 14:18:14 +0300
-Message-Id: <1528802295-11278-11-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 11/12] bluez5: upgrade to 5.50
+	Tue, 12 Jun 2018 04:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EX5g2H1moHztPBo03efbR/j5bhyOpAmU0HTTBbVMwQg=;
+	b=LuOXKzhV/UkwKFloALqBAxXp6uwF2BWibCE26NQ1a+8GxuidBMU22qT9VOVH2Mfmzm
+	Ih7cjrYPTkRSufLdjXBIkzBjq++oJxBxfhl0m7jE8D68GRjQDQE3IU2ElQKBhBvBRHlc
+	1+kWdP8+61Eo3O6nI3WrHy6zGLESxKgZSn6iwUdqFIX5ILRUFOqx+vk0L71KXtC+gHyY
+	bJEXJqQYX6F1cFD/ZWLGvDBsxmaSyid9oWS1VQz0oTT2xhUSjM0c/FygGTqtTyY6J0zv
+	sbo2br13QO9ybW/7sjHdO2ttvVlMdFvorBxK5zPYfmka70mY/2+v583KNzWgPnCINY7A
+	Tp1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EX5g2H1moHztPBo03efbR/j5bhyOpAmU0HTTBbVMwQg=;
+	b=ZT9t7WJvTFlggZn9oBijdXw2QSxl0CtItiamM210KzyheH9qyTcz18oZ6Mcdji2q3C
+	3tCo02MxIPDEUTMPW2HmXVYqCAh7oLT4pkyDiWMkmTqXkpnxsJpIGhfEJyGgR42sZOyD
+	3C+UF4qEiPZwbSkj4QYjT4jMm4cHYJ/ev/glnoG+PoHePvQUzxbo4NlFqf20hyshcX4t
+	J9xJjRv/UkY61F35a9LZUTqpAeiSxfWhpcWxKV5xrTVo54vz3XS969GngO+xfrH0lNqS
+	wxBKax6AtD/h1sV0cDVztWezT7RSK1waI+ETxth4IHQu0F0UAPYehDrR/XnXpzCpkZq2
+	BKwA==
+X-Gm-Message-State: APt69E1XKP9b8wE6bloLbc7qAmsNpE7hbYSgWf+xy5D3rFrx6WUjx2wQ
+	IItzoQ91K9IGXYeOR2Od3H5N9daWdc6Rzh9A1tk=
+X-Google-Smtp-Source: ADUXVKIX5JvTM1rEM0+PkEO18p1KbSAGz0/Ydh7PjI3RyoVJN51c9WypqeEQym+d+4wcPuhq0g/8xXtqM5hIXVWb8SI=
+X-Received: by 2002:a1f:d5c2:: with SMTP id
+	m185-v6mr1912378vkg.133.1528803780722; 
+	Tue, 12 Jun 2018 04:43:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a67:4b48:0:0:0:0:0 with HTTP; Tue, 12 Jun 2018 04:43:00
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=X_BFLzGB4PDKSOJR3Boiv+gQvTN-3D+d+tk=Otw7iwew@mail.gmail.com>
+References: <1528716867-20270-1-git-send-email-liu.ming50@gmail.com>
+	<CAJ86T=X_BFLzGB4PDKSOJR3Boiv+gQvTN-3D+d+tk=Otw7iwew@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Tue, 12 Jun 2018 13:43:00 +0200
+Message-ID: <CALatG=4B7RYeuxm3QovKGDPjig6=J=kXufomJ=c0uczetU3r0w@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] bitbake.conf: add BB_CURRENT_MC to OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,110 +57,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 11:26:03 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 11:43:00 -0000
+Content-Type: multipart/alternative; boundary="00000000000048050b056e705e5d"
 
-Refresh the following patch:
-        0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
+--00000000000048050b056e705e5d
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...-obexd-without-systemd-in-the-user-sessio.patch | 45 +++++++++-------------
- .../bluez5/{bluez5_5.49.bb => bluez5_5.50.bb}      |  4 +-
- 2 files changed, 21 insertions(+), 28 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.49.bb => bluez5_5.50.bb} (91%)
+Hi, Andre:
+The reason for needing this multiconfig to be in OVERRIDES, for me, is the
+scenario that I have one recipe but some variables/tasks in it are
+different for multiconfig, for instance:
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-index 2fde7bc..da71409 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch
-@@ -1,3 +1,4 @@
-+From 99ccdbe155028c4c789803a429072675b87d0c3a Mon Sep 17 00:00:00 2001
- From: Giovanni Campagna <gcampagna-cNUdlRotFMnNLxjTenLetw@public.gmane.org>
- Date: Sat, 12 Oct 2013 17:45:25 +0200
- Subject: [PATCH] Allow using obexd without systemd in the user session
-@@ -14,19 +15,18 @@ configuration. See thread:
- http://thread.gmane.org/gmane.linux.bluez.kernel/38725/focus=38843
- 
- Signed-off-by: Javier Viguera <javier.viguera@digi.com>
-+
- ---
-- Makefile.obexd                      | 4 ++--
-- obexd/src/org.bluez.obex.service    | 4 ----
-- obexd/src/org.bluez.obex.service.in | 4 ++++
-- 3 files changed, 6 insertions(+), 6 deletions(-)
-- delete mode 100644 obexd/src/org.bluez.obex.service
-- create mode 100644 obexd/src/org.bluez.obex.service.in
-+ Makefile.obexd                                                  | 4 ++--
-+ obexd/src/{org.bluez.obex.service => org.bluez.obex.service.in} | 2 +-
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+ rename obexd/src/{org.bluez.obex.service => org.bluez.obex.service.in} (76%)
- 
- diff --git a/Makefile.obexd b/Makefile.obexd
--index 2e33cbc72f2b..d5d858c857b4 100644
-+index c462692..0325f66 100644
- --- a/Makefile.obexd
- +++ b/Makefile.obexd
--@@ -2,12 +2,12 @@
-+@@ -1,12 +1,12 @@
-  if SYSTEMD
-  systemduserunitdir = @SYSTEMD_USERUNITDIR@
-  systemduserunit_DATA = obexd/src/obex.service
-@@ -39,25 +39,18 @@ index 2e33cbc72f2b..d5d858c857b4 100644
- -EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service
- +EXTRA_DIST += obexd/src/obex.service.in obexd/src/org.bluez.obex.service.in
-  
-- obex_plugindir = $(libdir)/obex/plugins
-+ if OBEX
-  
--diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex.service
--deleted file mode 100644
--index a53808884554..000000000000
-+diff --git a/obexd/src/org.bluez.obex.service b/obexd/src/org.bluez.obex.service.in
-+similarity index 76%
-+rename from obexd/src/org.bluez.obex.service
-+rename to obexd/src/org.bluez.obex.service.in
-+index a538088..9c815f2 100644
- --- a/obexd/src/org.bluez.obex.service
--+++ /dev/null
--@@ -1,4 +0,0 @@
---[D-BUS Service]
---Name=org.bluez.obex
---Exec=/bin/false
---SystemdService=dbus-org.bluez.obex.service
--diff --git a/obexd/src/org.bluez.obex.service.in b/obexd/src/org.bluez.obex.service.in
--new file mode 100644
--index 000000000000..9c815f246b77
----- /dev/null
- +++ b/obexd/src/org.bluez.obex.service.in
--@@ -0,0 +1,4 @@
--+[D-BUS Service]
--+Name=org.bluez.obex
-+@@ -1,4 +1,4 @@
-+ [D-BUS Service]
-+ Name=org.bluez.obex
-+-Exec=/bin/false
- +Exec=@libexecdir@/obexd
--+SystemdService=dbus-org.bluez.obex.service
-+ SystemdService=dbus-org.bluez.obex.service
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.49.bb b/meta/recipes-connectivity/bluez5/bluez5_5.50.bb
-similarity index 91%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.49.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.50.bb
-index b79bda2..6627143 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.49.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.50.bb
-@@ -2,8 +2,8 @@ require bluez5.inc
- 
- REQUIRED_DISTRO_FEATURES = "bluez5"
- 
--SRC_URI[md5sum] = "f210e84db707d66af3b889084a6f8bef"
--SRC_URI[sha256sum] = "33301d7a514c73d535ee1f91c2aed1af1f2e53efe11d3ac06bcf0d7abed2ce95"
-+SRC_URI[md5sum] = "8e35c67c81a55d3ad4c9f22280dae178"
-+SRC_URI[sha256sum] = "5ffcaae18bbb6155f1591be8c24898dc12f062075a40b538b745bfd477481911"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
--- 
-2.4.0
+do_install-mc-default () {}
 
+do_install-mc-foo() {}
 
+and I do not want split them into several almost same recipes with only one
+task different.
+
+//Ming Liu
+
+2018-06-12 1:15 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+
+> On Mon, Jun 11, 2018 at 4:34 AM,  <liu.ming50@gmail.com> wrote:
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > This is useful when the users want different variables/tasks when using
+> > multiconfig.
+>
+> Isn't the idea of multiconfig to select between configurations which
+> already fully define all necessary over-rides?
+>
+> If a particular multiconfig build needs a custom over-ride then the
+> multiconfig can append to OVERRIDES (or MACHINEOVERRIDES etc, as
+> appropriate) directly.
+>
+> ie to avoid confusion isn't it good if building with a multiconfig
+> enabled is always equivalent to building with the contents of the
+> multiconfig file copied directly in local.conf?
+>
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> >  meta/conf/bitbake.conf | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 3b2ef9f..0c803d5 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -731,7 +731,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+> >  # And finally '<foo>_forcevariable' overrides any standard variable,
+> with the highest priority.
+> >  # This works for functions as well, they are really just variables.
+> >  #
+> > -OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${
+> MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:
+> forcevariable"
+> > +OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${
+> MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:
+> mc-${BB_CURRENT_MC}:forcevariable"
+> >  LIBCOVERRIDE ?= ""
+> >  CLASSOVERRIDE ?= "class-target"
+> >  DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000048050b056e705e5d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi, Andre:<br></div><div>The reason for needing this =
+multiconfig to be in OVERRIDES, for me, is the scenario that I have one rec=
+ipe but some variables/tasks in it are different for multiconfig, for insta=
+nce:</div><div><br></div><div>do_install-mc-default () {}</div><div><br></d=
+iv><div>do_install-mc-foo() {}</div><div><br></div><div>and I do not want s=
+plit them into several almost same recipes with only one task different.</d=
+iv><div><br></div><div>//Ming Liu</div><div class=3D"gmail_extra"><br><div =
+class=3D"gmail_quote">2018-06-12 1:15 GMT+02:00 Andre McCurdy <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy=
+@gmail.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D=
+"">On Mon, Jun 11, 2018 at 4:34 AM,=C2=A0 &lt;<a href=3D"mailto:liu.ming50@=
+gmail.com">liu.ming50@gmail.com</a>&gt; wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">liu.ming50@=
+gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; This is useful when the users want different variables/tasks when usin=
+g<br>
+&gt; multiconfig.<br>
+<br>
+</span>Isn&#39;t the idea of multiconfig to select between configurations w=
+hich<br>
+already fully define all necessary over-rides?<br>
+<br>
+If a particular multiconfig build needs a custom over-ride then the<br>
+multiconfig can append to OVERRIDES (or MACHINEOVERRIDES etc, as<br>
+appropriate) directly.<br>
+<br>
+ie to avoid confusion isn&#39;t it good if building with a multiconfig<br>
+enabled is always equivalent to building with the contents of the<br>
+multiconfig file copied directly in local.conf?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com">li=
+u.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/bitbake.conf | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+&gt; index 3b2ef9f..0c803d5 100644<br>
+&gt; --- a/meta/conf/bitbake.conf<br>
+&gt; +++ b/meta/conf/bitbake.conf<br>
+&gt; @@ -731,7 +731,7 @@ DISTRO_NAME ??=3D &quot;OpenEmbedded&quot;<br>
+&gt;=C2=A0 # And finally &#39;&lt;foo&gt;_forcevariable&#39; overrides any =
+standard variable, with the highest priority.<br>
+&gt;=C2=A0 # This works for functions as well, they are really just variabl=
+es.<br>
+&gt;=C2=A0 #<br>
+&gt; -OVERRIDES =3D &quot;${TARGET_OS}:${TRANSLATED_<wbr>TARGET_ARCH}:pn-${=
+PN}:${<wbr>MACHINEOVERRIDES}:${<wbr>DISTROOVERRIDES}:${<wbr>CLASSOVERRIDE}$=
+{LIBCOVERRIDE}:<wbr>forcevariable&quot;<br>
+&gt; +OVERRIDES =3D &quot;${TARGET_OS}:${TRANSLATED_<wbr>TARGET_ARCH}:pn-${=
+PN}:${<wbr>MACHINEOVERRIDES}:${<wbr>DISTROOVERRIDES}:${<wbr>CLASSOVERRIDE}$=
+{LIBCOVERRIDE}:<wbr>mc-${BB_CURRENT_MC}:<wbr>forcevariable&quot;<br>
+&gt;=C2=A0 LIBCOVERRIDE ?=3D &quot;&quot;<br>
+&gt;=C2=A0 CLASSOVERRIDE ?=3D &quot;class-target&quot;<br>
+&gt;=C2=A0 DISTROOVERRIDES ?=3D &quot;${@d.getVar(&#39;DISTRO&#39;) or &#39=
+;&#39;}&quot;<br>
+&gt; --<br>
+&gt; 2.7.4<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div></div>
+
+--00000000000048050b056e705e5d--
