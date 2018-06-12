@@ -1,23 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6615C78CF4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0443D78CF4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 08:29:40 +0000 (UTC)
+	Tue, 12 Jun 2018 08:29:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5C8TeCq020422
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5C8Tg1i016250
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 01:29:41 -0700 (PDT)
+	Tue, 12 Jun 2018 01:29:42 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 12 Jun 2018 01:29:39 -0700
+	14.3.399.0; Tue, 12 Jun 2018 01:29:41 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jun 2018 16:39:16 +0800
-Message-ID: <cover.1528792722.git.liezhi.yang@windriver.com>
+Date: Tue, 12 Jun 2018 16:39:17 +0800
+Message-ID: <067ca88b3cda3f822955c50fa560416f19227a72.1528792722.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1528792722.git.liezhi.yang@windriver.com>
+References: <cover.1528792722.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] send-error-report: decode response from server
+Subject: [PATCH 1/1] send-error-report: decode response from server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,24 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 08:29:40 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 08:29:42 -0000
 Content-Type: text/plain
 
-The following changes since commit 23f15c63777020f5d43b070a1eb2bcf246c19ff8:
+Fixed:
+b'Your entry can be found here: http://<snip>'
 
-  rpm: Fix patch to ensure variables aren't used uninitialised (2018-06-07 08:52:13 +0100)
+Now looks like:
+Your entry can be found here: http://<snip>
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/error_report
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/error_report
-
-Robert Yang (1):
-  send-error-report: decode response from server
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  scripts/send-error-report | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index 15b5e84..cd2e7f4 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -143,7 +143,7 @@ def send_data(data, args):
+         logging.error(e.reason)
+         sys.exit(1)
+ 
+-    print(response.read())
++    print(response.read().decode('utf-8'))
+ 
+ 
+ if __name__ == '__main__':
 -- 
 2.7.4
 
