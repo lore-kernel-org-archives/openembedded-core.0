@@ -1,49 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E3D78ED7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 13DFC78D02
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 13:37:09 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id v131-v6so23407990wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 06:37:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=zEiVmyNzDETqZQft2ByhrbpG52FrD9+lnKLP7WB1auE=;
-	b=hewoMZiUjSV6l/UTaC5oHfkmXKP9DTPWtgGwlvgTVvT9+hxTXebwzJQREJTRNwGDMA
-	xLxCbTuPqZGsOfgeEBjx3Ceku0K8p3KPa6O9YWjbSso2IihlP6on5Puk8jZ5j6bN3pDw
-	Etrd0yFIRAJmmtVxkf0aNAa3gSCI/EgadOanf6hrtqzDJUYJvzz66L6dQmU81I+30ZR9
-	40zSTG/1XPq6a8O945HSDMnHUEpbvGwrbj3PxZ0uhXntycZqhDXMopQRsrlyYRIQ3M8T
-	UjkqlIAcimHQgt5dVmqYFbuL/83iNRd9atMi45zyZztnbTrPnoVGxsEw2x2XMzcUAy2V
-	jshg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=zEiVmyNzDETqZQft2ByhrbpG52FrD9+lnKLP7WB1auE=;
-	b=FddVTpaMp/SyBJz8w9YBP4Vfgz6TvFgACmxUrBlI51Krc9NGRaUqgla6rOq0Tbfnxo
-	+bKWB5CrVFGjFyUgys6/KSCg81mcytii2pRMWv7RGWTnDDLtB5TnC4P+JzaY3eLdHZsp
-	8bqiCeBcB8l8noOfpAoWAamz9uWefWa2VUlLczizitl0d9d1qD0xyC2LSudB387SczMr
-	F8mhYgiLJ9xQJ1SfcPP/Zz4fmS4d9BCR+scp4JqEWZ+rd4EDKod4daBbOzj3Zb0NtYyN
-	NJm3eHIz/vYvf+13FUlSWTmKnll7okn7NoLq9QymyEpmlMkn5Yi2EEdXLucPMYjpcJIW
-	dbRQ==
-X-Gm-Message-State: APt69E1mXbCFP2ieVwmf89+6tuzw6SH6ZzzQWLFD5j882I8mQEt5+/Xg
-	HIhC0HlWov95m8oZJaCD3/kzqRiC
-X-Google-Smtp-Source: ADUXVKKIb3k4m2dwGZZzaETkQkCPRPudN++rhtgs7I/4zDRVIuCOVRbqoIVWNUs5ILYZCdZ6iyLJQg==
-X-Received: by 2002:a1c:8b52:: with SMTP id
-	n79-v6mr287976wmd.148.1528810629398; 
-	Tue, 12 Jun 2018 06:37:09 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e13-v6sm245727wrm.45.2018.06.12.06.37.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Jun 2018 06:37:08 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2018 14:37:05 +0100
-Message-Id: <20180612133705.876-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] rm_work: remove obsolete rm_work_all task
+	Tue, 12 Jun 2018 14:01:49 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5CE1kl3008732
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 12 Jun 2018 15:01:47 +0100
+Message-ID: <40a4d15ed93cffdd15acd88fab2b9492b5a81ca9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jun 2018 15:01:46 +0100
+In-Reply-To: <20180612133705.876-1-ross.burton@intel.com>
+References: <20180612133705.876-1-ross.burton@intel.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] rm_work: remove obsolete rm_work_all task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 13:37:09 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 14:01:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-*all tasks have been deprecated and replaced by bitbake --runall.
+On Tue, 2018-06-12 at 14:37 +0100, Ross Burton wrote:
+> *all tasks have been deprecated and replaced by bitbake --runall.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/rm_work.bbclass | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/meta/classes/rm_work.bbclass
+> b/meta/classes/rm_work.bbclass
+> index 318d121d2b5..ff74d232c97 100644
+> --- a/meta/classes/rm_work.bbclass
+> +++ b/meta/classes/rm_work.bbclass
+> @@ -115,12 +115,6 @@ do_rm_work () {
+>          fi
+>      done
+>  }
+> -do_rm_work_all () {
+> -    :
+> -}
+> -do_rm_work_all[recrdeptask] = "do_rm_work"
+> -do_rm_work_all[noexec] = "1"
+> -addtask rm_work_all after before do_build
+>  
+>  do_populate_sdk[postfuncs] += "rm_work_populatesdk"
+>  rm_work_populatesdk () {
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/rm_work.bbclass | 6 ------
- 1 file changed, 6 deletions(-)
+The idea was to remove the "all" tasks which could be done
+better/differently.
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 318d121d2b5..ff74d232c97 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -115,12 +115,6 @@ do_rm_work () {
-         fi
-     done
- }
--do_rm_work_all () {
--    :
--}
--do_rm_work_all[recrdeptask] = "do_rm_work"
--do_rm_work_all[noexec] = "1"
--addtask rm_work_all after before do_build
- 
- do_populate_sdk[postfuncs] += "rm_work_populatesdk"
- rm_work_populatesdk () {
--- 
-2.11.0
+I think this one may be an integral part of how rm_work gets triggered
+and that without this, bits of the build won't get cleaned up. The key
+part is the "before do_build", i.e. its active in the taskgraph of
+standard builds.
+
+Cheers,
+
+Richard
 
 
