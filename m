@@ -1,28 +1,30 @@
 Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B91806FF78
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9537378D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 11:25:51 +0000 (UTC)
+	Tue, 12 Jun 2018 11:25:52 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2018 04:25:52 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2018 04:25:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,214,1526367600"; d="scan'208";a="46497197"
+X-IronPort-AV: E=Sophos;i="5.51,214,1526367600"; d="scan'208";a="207381397"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga007.fm.intel.com with ESMTP; 12 Jun 2018 04:25:52 -0700
+	by orsmga004.jf.intel.com with ESMTP; 12 Jun 2018 04:25:53 -0700
 Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
 	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id BB73D5800AF
+	by linux.intel.com (Postfix) with ESMTP id D072C5800AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 04:25:51 -0700 (PDT)
+	Tue, 12 Jun 2018 04:25:52 -0700 (PDT)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2018 14:18:04 +0300
-Message-Id: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
+Date: Tue, 12 Jun 2018 14:18:05 +0300
+Message-Id: <1528802295-11278-2-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 01/12] acpid: upgrade to 2.0.29
+In-Reply-To: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
+References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 02/12] libinput: upgrade to 1.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2018 11:25:51 -0000
+X-List-Received-Date: Tue, 12 Jun 2018 11:25:52 -0000
 
-2.0.28 -> 2.0.29
+1.9.4 -> 1.11.0
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-bsp/acpid/{acpid_2.0.28.bb => acpid_2.0.29.bb} | 4 ++--
+ .../wayland/{libinput_1.9.4.bb => libinput_1.11.0.bb}                 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/acpid/{acpid_2.0.28.bb => acpid_2.0.29.bb} (55%)
+ rename meta/recipes-graphics/wayland/{libinput_1.9.4.bb => libinput_1.11.0.bb} (86%)
 
-diff --git a/meta/recipes-bsp/acpid/acpid_2.0.28.bb b/meta/recipes-bsp/acpid/acpid_2.0.29.bb
-similarity index 55%
-rename from meta/recipes-bsp/acpid/acpid_2.0.28.bb
-rename to meta/recipes-bsp/acpid/acpid_2.0.29.bb
-index 686526f..9258486 100644
---- a/meta/recipes-bsp/acpid/acpid_2.0.28.bb
-+++ b/meta/recipes-bsp/acpid/acpid_2.0.29.bb
-@@ -3,5 +3,5 @@ require acpid.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
+diff --git a/meta/recipes-graphics/wayland/libinput_1.9.4.bb b/meta/recipes-graphics/wayland/libinput_1.11.0.bb
+similarity index 86%
+rename from meta/recipes-graphics/wayland/libinput_1.9.4.bb
+rename to meta/recipes-graphics/wayland/libinput_1.11.0.bb
+index 67a49df..97264ca 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.9.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.11.0.bb
+@@ -9,8 +9,8 @@ DEPENDS = "libevdev udev mtdev"
  
--SRC_URI[md5sum] = "0432407b5ff75ae8e08afb43052fde2b"
--SRC_URI[sha256sum] = "980c3a54b0d3f2fd49fd845a0584c5c2abeaab9e9ac09fcbb68686bbb57a7110"
-+SRC_URI[md5sum] = "6dd58a35cac51bd9503d769f5d13d74d"
-+SRC_URI[sha256sum] = "58503b27975c466e627eb741c5453dd662f97edef1a3d0aac822fd03a84203ff"
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+            "
+-SRC_URI[md5sum] = "8b43d07d1698fb207a0492fc67554d4f"
+-SRC_URI[sha256sum] = "0bcdbd4c4e3c2a2db322fbdf2ef3284f2e6d6fb7be3af80e6d8de7783f675190"
++SRC_URI[md5sum] = "a182dab52f4d33bc1ef50668dcf53cc6"
++SRC_URI[sha256sum] = "64a36c4f826f4b5d473bf2cb803122f96390a18243ec810f2ce8ac5076a0bc12"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ inherit meson pkgconfig lib_package
 -- 
 2.4.0
 
