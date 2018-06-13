@@ -1,31 +1,61 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id E95D875167
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EAE207718B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 14:23:33 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jun 2018 07:23:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,219,1526367600"; d="scan'208";a="66679792"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jun 2018 07:23:33 -0700
-Date: Wed, 13 Jun 2018 17:16:08 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 13 Jun 2018 14:32:28 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id l15-v6so3193905oth.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jun 2018 07:32:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=6mX3uBEnvDwbdamJtqJn19Ik7QkG43lLW+7ddM/+6LA=;
+	b=ZvjOXgaN9qi/xEZG3k9Crx1BETBL8jRjtkZ7xQ5rlm3wt46AAk1ldOhUS2NiGboRbJ
+	7w2uXBaKJMcINpjKRRoIqRTLkdGCMcPzrQr+kifef4PtDr6cuRNYt7H0Y4m0ulxLlJpF
+	zRxuHQBFGSbOABSR02LleQudr61jI6+r1nH4kssTx9KnkPZSWe5QW3qF1MvsOS9C5N15
+	nT5XVn1gmbtzEJbblztYfZU27+v6st16+cwGr/vlLisF3WcHl9nSbzcI1+7ZWKLqZ3wP
+	Pbd6wnWZ6QaH4aicSqvDbia4rtgkCro5+bKusLJ0fEr26tY5d+1N6wkXfyMC2GroLbYP
+	N+Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=6mX3uBEnvDwbdamJtqJn19Ik7QkG43lLW+7ddM/+6LA=;
+	b=GH7oEfZEGzJnKYpXVjDH6IJZMDJp1LB8RBXi/r6J8y1sQmUPbJy+pVdNgI3dRBBd6w
+	OwTq/XAXmrWNKTLJSLmv5k1lQJYo5LhIhs9Qz3glQ6IfdC8HxqoEPl7kH6XYBE30Y39Y
+	fHOzxd00I4lhiLYyJZ6luOQDkSGc+xIe9icLNIWdjh1jGkb7LrM7SQxNVGi5TUKrJc8v
+	whrWLnjroCnvMD/o+CD7U78MmTbyp/C0XnOVVpS8m6vuJL/JMuNRNMTTUww3FThgdZ5C
+	mDOIq5C5MFly5awCsjUP9ByOLc87O4L7of25vNrDS8K+o8yRKLvJf2rq/2XkU5IVSEXA
+	dZUw==
+X-Gm-Message-State: APt69E0zd3K5KtNT0Kwy9XNB+ki/wjOkQMomJUheEkGYv7sFADFwz7Re
+	WgpdkKipZJKQMErnwz1DaJcC8pMqJ4o=
+X-Google-Smtp-Source: ADUXVKI/RC8BgYavmKpHaHL/wguv3dVAFrzDfFkvZ7LWZRtRA5h0AoGY/5u1K8pw0t239uFxYe0crg==
+X-Received: by 2002:a9d:269b:: with SMTP id
+	l27-v6mr3480684otb.174.1528900349580; 
+	Wed, 13 Jun 2018 07:32:29 -0700 (PDT)
+Received: from ?IPv6:2600:1700:4c90:60a0:5566:b07f:3f47:4a0e?
+	([2600:1700:4c90:60a0:5566:b07f:3f47:4a0e])
+	by smtp.gmail.com with ESMTPSA id
+	66-v6sm1390515ota.77.2018.06.13.07.32.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jun 2018 07:32:28 -0700 (PDT)
 To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180613141607.GA20630@mbabyjoh-desk.ger.corp.intel.com>
-References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
-	<1528802295-11278-10-git-send-email-maxin.john@intel.com>
-	<CAJTo0La2YZcarxHy8PCPV8s6BGvRNkWC80XOfovgz-Ag-YyLDQ@mail.gmail.com>
+References: <1528657273-19021-1-git-send-email-jpuhlman@mvista.com>
+	<CAJTo0LZXRFZ2bEgtyjRUGiUyDt_TcyjVUBZjdmtWzGFAE4McEA@mail.gmail.com>
+	<b9a65b20-120d-e399-606f-3c348fc974a5@mvista.com>
+	<CAJTo0LbROwWA+4_suQ=_sxHMHsv_HST16jVqq3Meqm=DFGuTwQ@mail.gmail.com>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <31dd38d2-b79a-9ece-ec2c-60d96a952730@mvista.com>
+Date: Wed, 13 Jun 2018 07:32:27 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La2YZcarxHy8PCPV8s6BGvRNkWC80XOfovgz-Ag-YyLDQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <CAJTo0LbROwWA+4_suQ=_sxHMHsv_HST16jVqq3Meqm=DFGuTwQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/12] sqlite3: upgrade to 3.24.0
+Subject: Re: [PATCH] xorgproto: Install .pc files in ${libdir}/pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,58 +68,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 14:23:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Jun 2018 14:32:29 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Hi Ross,
+Okay I did some test builds and nuking the libdir lines worked fine.
 
-On Tue, Jun 12, 2018 at 04:22:30PM +0100, Burton, Ross wrote:
-> Fails for me when building pseudo:
-> 
-> | /data/poky-tmp/master/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+fddbe854c9-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):
-> In function `fts5Bm25Function':
-> | sqlite3.c:(.text+0x2a3b8): undefined reference to `log'
+The patch is submitted here:
+https://lists.x.org/archives/xorg-devel/2018-June/057123.html
 
-In the previous version of sqlite3, FTS5 (full-text search) support was disabled
-by default. However, in version 3.24.0, fts5 is "silently" enabled by default.
-That causes this build failure. We can explicitly disable fts5 in sqlite3 to fix it.
+It wasn't rejected out of hand. Did you want me to roll a update to this 
+with the submitted
+patch, or did you want to wait to see how it pays out on the x-org list?
 
+On 6/11/2018 9:35 AM, Burton, Ross wrote:
+> I'd recommend deleting the libdir lines in every .pc file (and pushing
+> the patch upstream).
+>
 > Ross
+>
+> On 11 June 2018 at 17:19, Jeremy A. Puhlman <jpuhlman@mvista.com> wrote:
+>>
+>> On 6/11/2018 3:23 AM, Burton, Ross wrote:
+>>> Upstream will (and do) argue that $datadir is the right location as
+>>> these headers are architecture-independent.
+>>>
+>>> Would the package manager do the right thing if the files didn't have
+>>> the libdir line in, so where bit-identical?
+>>
+>> Yes, if the files are binary identical then the package manager would not
+>> call it a conflict.
+>>
+>>
+>>> Ross
+>>>
+>>> On 10 June 2018 at 20:01, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
+>>>> * --data dir config option is only used to install pkgconfig
+>>>> * Installing into ${datadir} causes mutlilib conficts on install
+>>>>
+>>>>     file /usr/share/pkgconfig/applewmproto.pc conflicts between attempted
+>>>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
+>>>> xorgproto-dev-2018.4-r0.corei7_64
+>>>>     file /usr/share/pkgconfig/bigreqsproto.pc conflicts between attempted
+>>>> installs of lib32-xorgproto-dev-2018.4-r0.i586 and
+>>>> xorgproto-dev-2018.4-r0.corei7_64
+>>>>
+>>>> and so on.
+>>>>
+>>>> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+>>>> ---
+>>>>    meta/recipes-graphics/xorg-proto/xorg-proto-common.inc | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>>>> b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>>>> index 7a417c9..7377283 100644
+>>>> --- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>>>> +++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+>>>> @@ -14,7 +14,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+>>>>    DEPENDS = "util-macros"
+>>>>
+>>>>    inherit autotools pkgconfig
+>>>> -EXTRA_OECONF = "--without-fop"
+>>>> +EXTRA_OECONF = "--without-fop --datadir=${libdir}"
+>>>>
+>>>>    UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto
+>>>> --with-xmlto"
+>>>>
+>>>> --
+>>>> 2.6.2
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>> --
+>> Jeremy A. Puhlman
+>> jpuhlman@mvista.com
+>>
 
-Best Regards,
-Maxin
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
-> On 12 June 2018 at 12:18, Maxin B. John <maxin.john@intel.com> wrote:
-> > 3.23.1 -> 3.24.0
-> >
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} (59%)
-> >
-> > diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> > similarity index 59%
-> > rename from meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-> > rename to meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> > index 3755761..ce18fec 100644
-> > --- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-> > +++ b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
-> > @@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
-> >  SRC_URI = "\
-> >    http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-> >    "
-> > -SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
-> > -SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
-> > +SRC_URI[md5sum] = "dcd96fb9bbb603d29f6b0ad9554932ee"
-> > +SRC_URI[sha256sum] = "d9d14e88c6fb6d68de9ca0d1f9797477d82fc3aed613558f87ffbdbbc5ceb74a"
-> > --
-> > 2.4.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
