@@ -1,48 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f42.google.com (mail-pl0-f42.google.com
-	[209.85.160.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5107827E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 20D8578C59
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 17:28:40 +0000 (UTC)
-Received: by mail-pl0-f42.google.com with SMTP id c41-v6so1916563plj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 10:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=5mzCC6Agwciekd5v6gHJUY6mpi0ZzkHCyaxLFJYBNCU=;
-	b=niuBZOgecDejuFDi3A3F018CzfV8mUDU361z0wk/J8bcUznM4mv7JvOe7zSF7RAIjD
-	WlTrFbljfDBZ61OyWMNSbti7/aqtsvpfVY5gwZCN9/PXcr4lof6tx31DlJ7aousOtRzJ
-	FpwQbKB18OHoSTsxsQbFRB+3TXWcz/xSeP+QpnX45fAh5bZkHU6/meocaAtHsvS1Wt2Q
-	p0bMqSQRHQ/8iJdgE07+KGrDnqSyWf02uw12T9eaekL9m1N/+ywwjl4piKd9grZiujWB
-	EI1/H7nZx5z1eBaGrZkC9TM4NfpwXx4klOQtkHVplZB6X3oX0tkjbVPzYPY7b440B7nH
-	F6NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5mzCC6Agwciekd5v6gHJUY6mpi0ZzkHCyaxLFJYBNCU=;
-	b=LseMwF+i7/3kYvi50WmhbYcxfrYeJ5iTok6lTLqacpsd1wQ5JJL9w1q9hItoGG++j1
-	MrkS1oxcY2gprP0dMfoz3XXHP118GuH6LouHU5cukhSP5yFGoWz6z5G1cuL1GCrXKsBn
-	ysfOrpRjarwemxHBoky81WppaSk1CEEtWutxiPLuj3u2qvkkYGPd2marBAaq+G3Py0as
-	9uQYFc5ZdYcPjZSY79jRIYus+3M7tBG9Z0hyX8K7zRXyBMaW3twoPb4cJXvXtq1Mq38e
-	nNyj80ocEVy89wYevNdqziKAFAU51SGcYABs1RrM7dOakVfJHLunWCAABC3FeEwTgZ8e
-	EahQ==
-X-Gm-Message-State: APt69E1WhBhG5rQ0XvWXJiyyaYXhu5K06CZb0CIVSp4xAAq0/v7ndihi
-	uLQ2L2qs5HEUVamEsktu9FZ3ag==
-X-Google-Smtp-Source: ADUXVKJ7nLlTr6znPOJsNMQNcDhdsY/R61PVnOFSihbwHJ5Yh7xchfAnsXwgSnlD1JtpoxSnFzoPlw==
-X-Received: by 2002:a17:902:9b82:: with SMTP id
-	y2-v6mr6156909plp.69.1528910921428; 
-	Wed, 13 Jun 2018 10:28:41 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	q71-v6sm4077619pfd.165.2018.06.13.10.28.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jun 2018 10:28:40 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jun 2018 10:28:35 -0700
-Message-Id: <1528910915-4480-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gcc8: drop stray uClibc specific patch
+	Wed, 13 Jun 2018 17:40:09 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Jun 2018 10:40:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,219,1526367600"; d="scan'208";a="64299251"
+Received: from swold-mobl2.jf.intel.com ([10.255.229.140])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2018 10:40:10 -0700
+To: Naresh Kamboju <naresh.kamboju@linaro.org>,
+	openembedded-core@lists.openembedded.org
+References: <1528788854-29279-1-git-send-email-naresh.kamboju@linaro.org>
+From: Saul Wold <sgw@linux.intel.com>
+Message-ID: <283c5cb8-ec62-99a4-156c-8748a46f6ea1@linux.intel.com>
+Date: Wed, 13 Jun 2018 10:40:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <1528788854-29279-1-git-send-email-naresh.kamboju@linaro.org>
+Subject: Re: [PATCH v3] ltp: fix cve-2017-5669 test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,66 +35,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 17:28:40 -0000
+X-List-Received-Date: Wed, 13 Jun 2018 17:40:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-The patch was previously removed for gcc7 but came back with gcc8.
+Can this be backported to both Rocko and Sumo?
 
-  http://git.openembedded.org/openembedded-core/commit/?id=f71bc69e5b7581c53071055b694bb0dbfe4b4a87
+Or is this a case to update LTP in those older releases?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-8.1.inc              |  1 -
- .../gcc/gcc-8.1/0002-c99-snprintf.patch            | 28 ----------------------
- 2 files changed, 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-8.1/0002-c99-snprintf.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.1.inc b/meta/recipes-devtools/gcc/gcc-8.1.inc
-index cb0fbd9..d83ba65 100644
---- a/meta/recipes-devtools/gcc/gcc-8.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.1.inc
-@@ -32,7 +32,6 @@ BASEURI ?= "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.xz"
- SRC_URI = "\
-            ${BASEURI} \
-            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
--           file://0002-c99-snprintf.patch \
-            file://0003-gcc-poison-system-directories.patch \
-            file://0004-gcc-poison-dir-extend.patch \
-            file://0005-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-8.1/0002-c99-snprintf.patch b/meta/recipes-devtools/gcc/gcc-8.1/0002-c99-snprintf.patch
-deleted file mode 100644
-index aa123b4..0000000
---- a/meta/recipes-devtools/gcc/gcc-8.1/0002-c99-snprintf.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 5fbfcf247ed6dd01263639daf0c9c3a291e2fd3a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Mar 2013 08:49:03 +0400
--Subject: [PATCH 02/39] c99-snprintf
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
-----
-- libstdc++-v3/include/c_std/cstdio | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libstdc++-v3/include/c_std/cstdio b/libstdc++-v3/include/c_std/cstdio
--index 1b9571eaa8d..ad816be4fd1 100644
----- a/libstdc++-v3/include/c_std/cstdio
--+++ b/libstdc++-v3/include/c_std/cstdio
--@@ -144,7 +144,7 @@ namespace std
--   using ::vsprintf;
-- } // namespace std
-- 
---#if _GLIBCXX_USE_C99_STDIO
--+#if _GLIBCXX_USE_C99_STDIO || defined(__UCLIBC__)
-- 
-- #undef snprintf
-- #undef vfscanf
---- 
--2.17.0
--
--- 
-1.9.1
+Sau!
+
+
+On 06/12/2018 12:34 AM, Naresh Kamboju wrote:
+> Adding cve-2017-5669 test fix patch which is accepted upstream in LTP repo.
+>
+> Ref:
+> cve-2017-5669: shmat() for 0 (or <PAGESIZE with RND flag) has to fail with REMAPs
+> https://github.com/linux-test-project/ltp/pull/324
+>
+> Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/pull/324]
+> CVE: cve-2017-5669
+> Signed-off-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> ---
+>   ...69-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch | 97 ++++++++++++++++++++++
+>   meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
+>   2 files changed, 98 insertions(+)
+>   create mode 100644 meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>
+> diff --git a/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch b/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+> new file mode 100644
+> index 0000000..2a47785
+> --- /dev/null
+> +++ b/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+> @@ -0,0 +1,97 @@
+> +From b767b73ef027ba8d35f297c7d3659265ac80425b Mon Sep 17 00:00:00 2001
+> +From: Rafael David Tinoco <rafael.tinoco@canonical.com>
+> +Date: Wed, 30 May 2018 09:14:34 -0300
+> +Subject: [PATCH] cve-2017-5669: shmat() for 0 (or <PAGESIZE with RND flag) has
+> + to fail with REMAPs
+> +
+> +Fixes: https://github.com/linux-test-project/ltp/issues/319
+> +
+> +According to upstream thread (https://lkml.org/lkml/2018/5/28/2056),
+> +cve-2017-5669 needs to address the "new" way of handling nil addresses
+> +for shmat() when used with MAP_FIXED or SHM_REMAP flags.
+> +
+> +- mapping nil-page is OK on lower addresses with MAP_FIXED (or else X11 is broken)
+> +- mapping nil-page is NOT OK with SHM_REMAP on lower addresses
+> +
+> +Addresses Davidlohr Bueso's comments/changes:
+> +
+> +commit 8f89c007b6de
+> +Author: Davidlohr Bueso <dave@stgolabs.net>
+> +Date:   Fri May 25 14:47:30 2018 -0700
+> +
+> +    ipc/shm: fix shmat() nil address after round-down when remapping
+> +
+> +commit a73ab244f0da
+> +Author: Davidlohr Bueso <dave@stgolabs.net>
+> +Date:   Fri May 25 14:47:27 2018 -0700
+> +
+> +    Revert "ipc/shm: Fix shmat mmap nil-page protection"
+> +
+> +For previously test, and now broken, made based on:
+> +
+> +commit 95e91b831f87
+> +Author: Davidlohr Bueso <dave@stgolabs.net>
+> +Date:   Mon Feb 27 14:28:24 2017 -0800
+> +
+> +    ipc/shm: Fix shmat mmap nil-page protection
+> +
+> +Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+> +Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> +Reviewed-by: Jan Stancek <jstancek@redhat.com>
+> +
+> +Upstream-Status: Accepted [https://github.com/linux-test-project/ltp/pull/324]
+> +CVE: cve-2017-5669
+> +Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+> +---
+> + testcases/cve/cve-2017-5669.c | 20 +++++++++++++++++++-
+> + 1 file changed, 19 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/testcases/cve/cve-2017-5669.c b/testcases/cve/cve-2017-5669.c
+> +index 1ca5983..0834626 100644
+> +--- a/testcases/cve/cve-2017-5669.c
+> ++++ b/testcases/cve/cve-2017-5669.c
+> +@@ -28,7 +28,20 @@
+> +  * is just to see if we get an access error or some other unexpected behaviour.
+> +  *
+> +  * See commit 95e91b831f (ipc/shm: Fix shmat mmap nil-page protection)
+> ++ *
+> ++ * The commit above disallowed SHM_RND maps to zero (and rounded) entirely and
+> ++ * that broke userland for cases like Xorg. New behavior disallows REMAPs to
+> ++ * lower addresses (0<=PAGESIZE).
+> ++ *
+> ++ * See commit a73ab244f0da (Revert "ipc/shm: Fix shmat mmap nil-page protect...)
+> ++ * See commit 8f89c007b6de (ipc/shm: fix shmat() nil address after round-dow...)
+> ++ * See https://github.com/linux-test-project/ltp/issues/319
+> ++ *
+> ++ * This test needs root permissions or else security_mmap_addr(), from
+> ++ * get_unmapped_area(), will cause permission errors when trying to mmap lower
+> ++ * addresses.
+> +  */
+> ++
+> + #include <sys/types.h>
+> + #include <sys/ipc.h>
+> + #include <sys/shm.h>
+> +@@ -60,7 +73,11 @@ static void cleanup(void)
+> + static void run(void)
+> + {
+> + 	tst_res(TINFO, "Attempting to attach shared memory to null page");
+> +-	shm_addr = shmat(shm_id, ((void *)1), SHM_RND);
+> ++	/*
+> ++	 * shmat() for 0 (or < PAGESIZE with RND flag) has to fail with REMAPs
+> ++	 * https://github.com/linux-test-project/ltp/issues/319
+> ++	 */
+> ++	shm_addr = shmat(shm_id, ((void *)1), SHM_RND | SHM_REMAP);
+> + 	if (shm_addr == (void *)-1) {
+> + 		shm_addr = NULL;
+> + 		if (errno == EINVAL) {
+> +@@ -89,6 +106,7 @@ static void run(void)
+> + }
+> +
+> + static struct tst_test test = {
+> ++	.needs_root = 1,
+> + 	.setup = setup,
+> + 	.cleanup = cleanup,
+> + 	.test_all = run,
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
+> index b07c1b9..48739f1 100644
+> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+> @@ -41,6 +41,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+>              file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+>              file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+>              file://0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch \
+> +           file://0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch \
+>              "
+>   
+>   S = "${WORKDIR}/git"
 
 
