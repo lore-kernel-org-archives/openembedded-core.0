@@ -1,25 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3331078F3A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FE227894C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 07:56:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5D7uEv8027551
+	Wed, 13 Jun 2018 07:56:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5D7tu8k027573
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 00:56:14 -0700 (PDT)
+	Wed, 13 Jun 2018 00:56:11 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 13 Jun 2018 00:56:13 -0700
+	14.3.399.0; Wed, 13 Jun 2018 00:55:39 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jun 2018 15:58:21 +0800
-Message-ID: <b717d2e930f9c34b69ad78e9d82c0d0fd55e726f.1528870775.git.Qi.Chen@windriver.com>
+Date: Wed, 13 Jun 2018 15:58:18 +0800
+Message-ID: <cover.1528870775.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1528870775.git.Qi.Chen@windriver.com>
-References: <cover.1528870775.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/7] watchdog: disable systemd services by default
+Subject: [PATCH 0/7] Fix failures discoved by parselogs and systemd test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 07:56:13 -0000
+X-List-Received-Date: Wed, 13 Jun 2018 07:56:20 -0000
 Content-Type: text/plain
 
-systemd has internal support for watchdog. See the RuntimeWatchdogSec
-in /etc/systemd/system.conf.
+The following changes since commit ddbd7b0cd6580ee26e11aa87e426fb294b372d64:
 
-We'd better just disable this service by default. If users want to use
-watchdog, consider using the systemd one.
+  meta-yocto-bsp: bump to the latest linux stable kernel for edgerouter/beaglebone (2018-06-12 23:34:40 +0100)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/watchdog/watchdog_5.15.bb | 3 +++
- 1 file changed, 3 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-index d3f0353..bfaed9a 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-@@ -40,6 +40,9 @@ INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- SYSTEMD_PACKAGES = "${PN} ${PN}-keepalive"
- SYSTEMD_SERVICE_${PN} = "watchdog.service"
- SYSTEMD_SERVICE_${PN}-keepalive = "wd_keepalive.service"
-+# When using systemd, consider making use of internal watchdog support of systemd.
-+# See RuntimeWatchdogSec in /etc/systemd/system.conf.
-+SYSTEMD_AUTO_ENABLE = "disable"
- 
- do_install_append() {
- 	install -d ${D}${systemd_system_unitdir}
+  git://git.pokylinux.org/poky-contrib ChenQi/parselogs_failures
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/parselogs_failures
+
+Chen Qi (7):
+  oeqa/runtime/cases/parselogs.py: extend common_errors list
+  watchdog: remove the useless watchdog-conf.patch
+  watchdog: disable systemd services by default
+  watchdog: make init script start after syslog
+  watchdog: fix init script for sysvinit
+  oeqa/runtime/cases/parselogs.py: ignore a message from watchdog
+  dnf: default to disable systemd units
+
+ meta/lib/oeqa/runtime/cases/parselogs.py           |   2 +
+ meta/recipes-devtools/dnf/dnf_2.7.5.bb             |   1 +
+ .../watchdog/watchdog/watchdog-conf.patch          |  16 ---
+ .../watchdog/watchdog/watchdog-init.patch          |  56 -----------
+ .../watchdog/watchdog/watchdog.init                | 110 +++++++++++++++++++++
+ meta/recipes-extended/watchdog/watchdog_5.15.bb    |  14 +--
+ 6 files changed, 121 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-conf.patch
+ delete mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-init.patch
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.init
+
 -- 
 1.9.1
 
