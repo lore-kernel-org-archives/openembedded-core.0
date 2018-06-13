@@ -1,47 +1,48 @@
-Return-Path: <sstncr@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BF5A78A1E
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 42EF878B3D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 19:56:10 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id v131-v6so7658743wma.1
+	Wed, 13 Jun 2018 19:56:41 +0000 (UTC)
+Received: by mail-pf0-f172.google.com with SMTP id z24-v6so1964815pfe.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 12:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 13 Jun 2018 12:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=BCYxUS6S+VKbMtB96iI3a8Utebu8sBc62+ZUFW4O4KI=;
-	b=Mi1AWBFtQilrdr/elIFNWTqk9I40Sm7KGhhN/pfXo8GlUWXiTkKLfNyrOjCXauHw7B
-	dRkSOFLr2AoepfDXSH/wlv0AWxHqEV7WyAuDYCBKE2lTKaphbmjvYFEskmaRnk7GiXvo
-	+umrhWlpvZQteAxaIWJ5qbNHvVcyuEu9ijRixwu8i67vf5DVFfwYCWfpD6gPh7ZTnnqk
-	uxlSYZ205JGSyViMcCSn1CrPmgWa2HyJcpu1140P6QvxFKcNP/OsUWMIF3hMkiGr76ua
-	+1yOFTa46KU2tofrMKe93HEUtwalyBCfvZa4Gg48FSJCDckaC2lQDM356AV/U0HvZscZ
-	PDaw==
+	bh=tTcK/uriD3gc1INJQLc7k0lh1fATEFkmSAGzjpVY8yM=;
+	b=xzhGpim9HFyW/oPaFAGTj49e57uejgOrDvpqZYMnL+M0JuA59kfmzeE92VjNS0LkdG
+	eBd7y/7ygN17d6CX+BmSZBatHUfOsEJVWmm1nn+pWFnzO+v4ZOQq2rXthA6MxyAkbbmk
+	NjxXalOIZDrRgpsw61iJfl7XutcfeQG4b8jJD69N3AhAvpkGLXHZRhj1NcQpU9TjIG7W
+	HYIIgCeAvwp2AaChje/wUq893JjCbwbIv65pxMnwl2k2lRUczkXcr6n/ZDEC0badFcjV
+	BvlBTg+HAy3yeOlUZQvl5pSNq4jaYpuwXprFDeez1YnxV8uabyNKL9ArtKYAlb8iyMa3
+	w1Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BCYxUS6S+VKbMtB96iI3a8Utebu8sBc62+ZUFW4O4KI=;
-	b=ENrV9OBgTvMPPlcmhakigUAArCZtrweesoW22Uq4XeUQ/9UjrcfJQkl3oUX6lwG+dE
-	pUbOFhN5EF/7pFhDha2nJVahjxedA7u3fHEr9f+8E+giFR7Y+8+8AK5Vrr1IS39Gg4UC
-	reUau1yHy+hVSZmB7XvXznUprgXHuCq5jqQpugo3cRAw0NEKOtOtKdclOo+3olxX68AF
-	moTmGUmR823NOxWUNZTsjRKvTJadcx9yfutfnBrhrR7SCLf7mOZQskqvy/0/9PSDmUAc
-	zv7PWEq3dcYgNBlEpwSg5cVEknZcel4R5pk5FFuNfKA1i/LWtLGiLK5kiW35el2Nz72h
-	iGKA==
-X-Gm-Message-State: APt69E1OhZ4iKJrtlZ4PGAnnMWLWYU1TewGGMFOrlRYTX4WE8w7fbnqZ
-	bNzeu3fhVA2biEkmqGnzLIUlsu8R
-X-Google-Smtp-Source: ADUXVKJCxEDVwsIBWdOcBq4XDPeXLWDDTVj+MJ2oy6L3wj9nA+4SyYved76OCRFa2d7UQatHqul8pQ==
-X-Received: by 2002:a1c:b2d0:: with SMTP id
-	b199-v6mr4252146wmf.108.1528919771018; 
-	Wed, 13 Jun 2018 12:56:11 -0700 (PDT)
-Received: from ubuntu-xenial.corp.fitbit.com ([188.26.162.253])
+	bh=tTcK/uriD3gc1INJQLc7k0lh1fATEFkmSAGzjpVY8yM=;
+	b=eJkf3sxhKbGJBJqivPssfZOXa/gQuURFj2oAe+Znv35Prah3a1vI09z5NwUomjEBJX
+	TOhW8uVPyDm4Yxh3lq50x1D+DY0jcoZ4ulPKCY0bbrlXQ16jIwEjeJH0L4rzyf2CwpGG
+	d/9JUdc9VPQ8VrCdn4IAksV4sFxyCkwxX4EwiNOx8uNNTpEZkxno9RQM1sfr1LF17ZoL
+	6gp6+pv0g5aevItdgRMLeMfkVd2kpDzuIsf5d6Nrq0z2SHLhI6bzbU20+of6X0aKnIna
+	tlM5tavbnZ7/MaGwKc3/z8540sPT+y5gmaa45q93XBB037hyqJXWOMPbVB5henQD0uAO
+	kBKQ==
+X-Gm-Message-State: APt69E1wIswHyu1o+AqjfkOK5uhUeSp3Y2H6MkMMTcGQ14966EJRl7lP
+	9FWCKLNcXq7rOQdl6oaft2fGpEinUPo=
+X-Google-Smtp-Source: ADUXVKK41bQ8YJjBN6cZoUX5/4bDRGIe37NgctwuPqXhatOzvVQkXxVF2rMD3DoRilfUKDbuj5fUgQ==
+X-Received: by 2002:a63:ab45:: with SMTP id k5-v6mr5282119pgp.23.1528919802312;
+	Wed, 13 Jun 2018 12:56:42 -0700 (PDT)
+Received: from jptest02.mvista.com (64.2.3.196.ptr.us.xo.net. [64.2.3.196])
 	by smtp.gmail.com with ESMTPSA id
-	p196-v6sm3533283wmb.20.2018.06.13.12.56.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Jun 2018 12:56:10 -0700 (PDT)
-From: Stefan Stanacar <sstncr@gmail.com>
+	m16-v6sm3873805pgu.67.2018.06.13.12.56.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Jun 2018 12:56:41 -0700 (PDT)
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jun 2018 19:56:03 +0000
-Message-Id: <20180613195603.5354-1-sstncr@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] default-versions.inc: use weak assignments to allow overwrite
+Date: Wed, 13 Jun 2018 12:53:43 -0700
+Message-Id: <20180613195343.16335-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.14.1.459.g238e487
+Subject: [PATCH master, sumo, rocko] Multilibize the UPDATERCPN variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 19:56:10 -0000
+X-List-Received-Date: Wed, 13 Jun 2018 19:56:41 -0000
 
-default-versions.inc is included by defaultsetup.conf which in bitbake.conf
-is included after local/machine/distro.conf.
-If these are hard assignments distros can's overwrite them.
+The audit package specifies the following:
+UPDATERCPN = "auditd"
 
-Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
+However because it is not multilibized, the value "auditd" is used to
+search for the package to add the post install script too. In the mutlilib
+alternate abi case, that package does not exist. It ends up assigning
+the post install script to the lib32-audit-lic package, which
+subsequently failes to execute the script due to the initscript it is
+trying to turn on is not installed.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/conf/distro/include/default-versions.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/multilib.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index 868073843a..3d88e8f656 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -2,6 +2,6 @@
- # Default preferred versions
- #
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 5f9dc311f4..1dcd350298 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -115,6 +115,7 @@ python __anonymous () {
+     clsextend.map_variable("INITSCRIPT_PACKAGES")
+     clsextend.map_variable("USERADD_PACKAGES")
+     clsextend.map_variable("SYSTEMD_PACKAGES")
++    clsextend.map_variable("UPDATERCPN")
+ }
  
--PREFERRED_VERSION_openssl = "1.0.%"
--PREFERRED_VERSION_openssl-native = "1.0.%"
--PREFERRED_VERSION_nativesdk-openssl = "1.0.%"
-+PREFERRED_VERSION_openssl ?= "1.0.%"
-+PREFERRED_VERSION_openssl-native ?= "1.0.%"
-+PREFERRED_VERSION_nativesdk-openssl ?= "1.0.%"
+ PACKAGEFUNCS_append = " do_package_qa_multilib"
 -- 
-2.17.1
+2.14.1.459.g238e487
 
 
