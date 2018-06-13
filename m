@@ -1,50 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4039271B99
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A88D47871D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 00:35:21 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id x4-v6so491808vkx.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2018 17:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=iCO91otCXQYCJe6HAqNyJzG70Yankyk2ucwkRB4e/W4=;
-	b=ebtN3QCMiTfw1PEX3lk6Y3hWyIR5J/Dxc0emi/cWmAi5x4fFxYwDUGP7rqp//h46r4
-	kQD0rISjAx8Zsfy/eJrMmyL8DIa7P8nMFHbVyg95PpDX01OCs+uWIIXQCC1htIaTKps3
-	8u82YhWL4nMJR/ctzpWNtA9CavK1SEBwKTyujkA1Af9ddzelZN/WxlmiCZwgd52jrB3o
-	s2gdEEYZrHUhUuapXCzuvexBGCjgsiJ52ygsqVGUPh08GgXKjjHWnici3LPgd36Y3Cj0
-	wjELpXSAPdZxlHUJ2tLj/PUXGIRgAWSWdfmkxRkTMGrAQsmn/Atp75cATOrCosj2/813
-	8Rng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=iCO91otCXQYCJe6HAqNyJzG70Yankyk2ucwkRB4e/W4=;
-	b=aepk/C6expC7DayNlPSjKSO9PZJfdJc+RNryR2HzFmxAhVyHNOjRe9sJnNcSVMrXTO
-	4+QeZX6v+ZmbQOy+BUeEptrnpPhxOogAuZ/WcSzpLL6JlslMWmDx3GdxJ/4Yhb8ydsaA
-	RGtIifT96ezEPYvg1i08AKAVo2nSVcd12OS6OUwA+Yu2/wL56SQYFXp0MjVPPbr36263
-	5jMDGbAhSYJJdNrYa68Jtp5L91sNjBA4G2ktrGqtMdOGKOXItVpNLfs5aT39v/wW5xlh
-	L2Ql7rGR1AlrL3PkwXdow1lluAhmVSy5l6vWhLJVZGGmLtyG/DmIzM+RYv5zUy+J+b/q
-	2I5A==
-X-Gm-Message-State: APt69E1UKD699VYgwDdJ31hq1ckj26PbuBuIXjZ914X8oSFlkjQ1kF5j
-	T1qjDd4RxHAh2rhRuZzR0KiG9ZApZGE5/bgvr6g=
-X-Google-Smtp-Source: ADUXVKIlIZ+M1hTFlXkc1eoNpY6lCCCvcOjy4i43CWdmFV61ytAJnYNx3kGEqZ6ZpaLtxGt/yO6KKuVz46EQFW9h7VA=
-X-Received: by 2002:a1f:9757:: with SMTP id
-	z84-v6mr1615834vkd.174.1528850121982; 
-	Tue, 12 Jun 2018 17:35:21 -0700 (PDT)
+	Wed, 13 Jun 2018 01:21:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5D1LJP6025398
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Jun 2018 18:21:19 -0700 (PDT)
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 12 Jun 2018 18:21:19 -0700
+To: "Maxin B. John" <maxin.john@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1528802295-11278-1-git-send-email-maxin.john@intel.com>
+	<1528802295-11278-7-git-send-email-maxin.john@intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <3063a563-3960-2a4a-d791-20bc066f7ab6@windriver.com>
+Date: Tue, 12 Jun 2018 21:21:17 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Tue, 12 Jun 2018 17:35:21 -0700 (PDT)
-In-Reply-To: <CAJ86T=U9J9b1RbT1bW65kv=r9DnVn6OpvKrBHMQr2JjNSh-S1w@mail.gmail.com>
-References: <1528346078-20408-1-git-send-email-armccurdy@gmail.com>
-	<09084de7-92b5-ae25-06b9-63d97cdd35df@gmail.com>
-	<CAJ86T=U9J9b1RbT1bW65kv=r9DnVn6OpvKrBHMQr2JjNSh-S1w@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 12 Jun 2018 17:35:21 -0700
-Message-ID: <CAJ86T=VPE_OGXJ331JdxRynApxtpUOg66p01qvsgVNFw-1y5Ng@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-target.inc: configure gcc for armv7ve targets to default to armv7ve
+In-Reply-To: <1528802295-11278-7-git-send-email-maxin.john@intel.com>
+X-Originating-IP: [172.25.44.2]
+Subject: Re: [PATCH 07/12] libunistring: upgrade to 0.9.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +35,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 00:35:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Jun 2018 01:21:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 6, 2018 at 11:56 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Jun 6, 2018 at 11:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On 6/6/18 9:34 PM, Andre McCurdy wrote:
->>>
->>> Originally these ARM specific EXTRA_OECONF options were applied to
->>> both gcc for the target and gcc-cross. That lead to a compromise
->>> being made: gcc on the target was configured to default to an ARM
->>> architecture which was at least compatible with the target (but not
->>> necessarily an exact match) and gcc-cross was configured default to
->>> armv7a for both armv7a and armv7ve (to avoid gcc-cross rebuilds when
->>> switching between the two).
->>>
->>> However, when these ARM specific EXTRA_OECONF options were moved from
->>> gcc-configure-common.inc into gcc-target.inc (ie they were made to
->>> apply only to gcc on the target) the compromise no longer needed to
->>> be made.
->>>
->>> http://git.openembedded.org/openembedded-core/commit/?id=851937dde81de2a9ef54c5f19a78fb12fb82afd4
+On 06/12/2018 07:18 AM, Maxin B. John wrote:
+> License-Update: Checksum changed due to updation in documentation. There
+> are no changes in the license terms.
 
-Ping.
+That's correct but I'm not sure if we should include
+a checksum on the (GPLv3) COPYING file since the README
+says [1] that:
+    This license is based on the GNU GPL version 3, see file COPYING.
+I'd like to know if the COPYING file changed to say the _actual_
+GPLv2 some day so a checksum would help track such changes.
+
+
+The README statement is an odd way to convey the license terms.
+Is this just standard FSFese?
+
+The libunistring commit that sets out these terms is from 0.9:
+
+commit 3c15d3a96963703fc02cddda7e968e508638d1b8
+Author: Bruno Haible <bruno@clisp.org>
+Date:   Sun Mar 15 02:10:58 2009 +0100
+
+     License information.
+
+  COPYING     | 674 ++++++++++++++++++++...++++++++++++++++++++
+  COPYING.LIB | 165 +++++++++...++++++++
+  ChangeLog   |   3 +
+  README      |   2 +-
+  4 files changed, 843 insertions(+), 1 deletion(-)
+
+
+which doesn't help much other than the ChangeLog:
+
++       * COPYING.LIB: New file, from gnulib/doc/COPYING.LESSERv3.
++       * COPYING: New file, from gnulib/doc/COPYINGv3.
+
+
+../Randy
+
+
+[1] From README:
+
+Copyright
+---------
+
+The libunistring library and its header files are dual-licensed under
+"the GNU LGPLv3+ or the GNU GPLv2". This means, you can use it under either
+   - the terms of the GNU Lesser General Public License (LGPL) version 3 or
+     (at your option) any later version, or
+   - the terms of the GNU General Public License (GPL) version 2, or
+   - the same dual license "the GNU LGPLv3+ or the GNU GPLv2".
+
+You find the GNU LGPL version 3 in the file COPYING.LIB.  This license is
+based on the GNU GPL version 3, see file COPYING.
+
+You can find the GNU GPL version 2 at
+<https://www.gnu.org/licenses/old-licenses/gpl-2.0.html>.
+
+Note: This dual license makes it possible for the libunistring library
+to be used by packages under GPLv2 or GPLv2+ licenses, in particular. See
+the table in <https://www.gnu.org/licenses/gpl-faq.html#AllCompatibility>.
+
+The documentation is under another license; see in the documentation.
+
+> 
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>   .../libunistring/{libunistring_0.9.9.bb => libunistring_0.9.10.bb}  | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-support/libunistring/{libunistring_0.9.9.bb => libunistring_0.9.10.bb} (85%)
+> 
+> diff --git a/meta/recipes-support/libunistring/libunistring_0.9.9.bb b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+> similarity index 85%
+> rename from meta/recipes-support/libunistring/libunistring_0.9.9.bb
+> rename to meta/recipes-support/libunistring/libunistring_0.9.10.bb
+> index ab7cba5..97fac4e 100644
+> --- a/meta/recipes-support/libunistring/libunistring_0.9.9.bb
+> +++ b/meta/recipes-support/libunistring/libunistring_0.9.10.bb
+> @@ -16,15 +16,15 @@ SECTION = "devel"
+>   LICENSE = "LGPLv3+ | GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+>                       file://README;beginline=45;endline=65;md5=08287d16ba8d839faed8d2dc14d7d6a5 \
+> -                    file://doc/libunistring.texi;md5=efb80a3799a60f95feaf80661d4f204c \
+> +                    file://doc/libunistring.texi;md5=287fa6075f78a3c85c1a52b0a92547cd \
+>                      "
+>   
+>   SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
+>              file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
+>              file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+>   "
+> -SRC_URI[md5sum] = "4f689e37e4c3bd67de5786aa51d98b13"
+> -SRC_URI[sha256sum] = "f5e90c08f9e5427ca3a2c0c53f19aa38b25c500913510ad25afef86448bea84a"
+> +SRC_URI[md5sum] = "0d3274e9838396b12200f8b54ddaf43b"
+> +SRC_URI[sha256sum] = "a82e5b333339a88ea4608e4635479a1cfb2e01aafb925e1290b65710d43f610b"
+>   
+>   inherit autotools texinfo
+>   BBCLASSEXTEND = "native nativesdk"
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
