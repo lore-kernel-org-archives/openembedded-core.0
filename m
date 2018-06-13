@@ -1,49 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E640C79069
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 876277604B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 11:50:49 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id e18-v6so2438175wrs.5
+	Wed, 13 Jun 2018 11:50:56 +0000 (UTC)
+Received: by mail-wr0-f177.google.com with SMTP id e18-v6so2438536wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 04:50:51 -0700 (PDT)
+	Wed, 13 Jun 2018 04:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=BEh9Ohx7A87BCDci8gX/n1MyEnj6jJFAe1kpQuXhHPU=;
-	b=xZeLPrvUoW+S/znbQZxu2azR73c6t2SVvXaJ4tIenL7OQuwXri+hwWrFaOYkZhBiLL
-	57svQWDdrnE5/kwfUgvVcbd6K8xomwwp0yS0Cewf8qK0eYRc7b7FyKpDhg5oHr1Xm1iB
-	25FvFmkwkEPswuHllbklNIZG7yWGDtZd+ClOcx9S9vyyeaTVkpt+Wz20+nTPH9vrBUxB
-	SwedFm1Y5rZ5XSOfN2o56j2rTh5MS9M7rNQO01HwgmNPw1Q/dr3wzPybdojviyZlzj/0
-	8k7CnrOaER1UTZa9koOjhDAcDMq0c1pY9QI+uoMBYC/jyk8msyWKyUsBxp/T5Kk5idqD
-	KQPA==
+	bh=UeUg0Z5RsCtt0HsAimnoAemtcIhMXIFQGL8bbNoneDQ=;
+	b=c/LeV/DAW7m9i2S/IFKgL19hlZpDYvYCTabM8PhxR+0Z6U8wDc3yewPHNwgvMXXe5T
+	lcAYbGKJa+AQHH/PTSyAY2Ppa6SW9tCEjR4W8ttxe0+Rx4rjtwsKHBPz64mJ3EDhydFk
+	ZJoR7vVbdeDwL+G35+0mDvi4lquTZzZArqAmMp6ryZwQCc+NyuqKixfxn2RcQI2py0Uo
+	HYjXnNKk5g/WLI1PhRliZOGJbWBoSQa3UHwDYGEVeFOINb9Pj/FXRWU2zxYkMIDgTXN8
+	9BxhU9fEOmRSsRz7+f0Nz/7S4rr2HDN0tuMjoWg5LrsUBumobmmaPi1o+Jv/MaHLB/3+
+	muIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=BEh9Ohx7A87BCDci8gX/n1MyEnj6jJFAe1kpQuXhHPU=;
-	b=Q3lF6OLGeXa/erZBKE9ixfFLvG0agMglK6lQLawQieQIT5da1WJo913pT/alN/rW8y
-	Tfb9IRwb+RO7EST7IRiGB+S4M7UwIHfpl3aMGYGXvga5jMLP/maNR3BoTyJNvL6ZD2Er
-	uWcong0k5JAQAO06vchPsWc2oc+W4sUrB2Z0SupsalJ+UWXKl3wlMj6xS7jLxPa8kmr4
-	LdDBFSO7JEcq/zMqNoit8AH8f0PvZi6H850xXDxnBSp2cErP7KnWGxF6g5EALxwc65Cb
-	DUR15AKcsU6HvMpKP0fb4TDUCS/t38nSIJ4y6Auwh+xBqExWQ1fin62XnC2tPEdVsv+7
-	wSLg==
-X-Gm-Message-State: APt69E1Our3f7JUAqnvN3snE1AYisUYfOWq1P9lbrjMDV8Z0EHiiXyFo
-	hj0DSfSSWrj4REGLMJgC/qWA61eG
-X-Google-Smtp-Source: ADUXVKK2Aqy1EVYo83KIVakr287QLEikb+cdoIdty9kDqI5mGsW6lIIpoUuxP0N91TwSujZJ8yGILQ==
-X-Received: by 2002:a5d:4843:: with SMTP id n3-v6mr3795584wrs.24.1528890650197;
-	Wed, 13 Jun 2018 04:50:50 -0700 (PDT)
+	bh=UeUg0Z5RsCtt0HsAimnoAemtcIhMXIFQGL8bbNoneDQ=;
+	b=hZDbPXAHxk+CW3YXNxE9CJoMC1Qiut21lLnE+6il+PELhFbtowBNKnZu79spyKWbh3
+	8v/hmN9ABB7fxxa8Agy87P/IoB3+u7evda25sDZh3olRC34kXRWtt8V0bsc9Ou3e9Nfl
+	i7T7HRvD0AEHj1+8lv2A0qTwdgTbDTtQ6fXShht6HQulMraRRLJEFW+tezvqrHbpq7h9
+	oyiBuUyOibyfUExSWzmI/ZGcQqaL51YejnQaAtizF5Nc7ECe44xN8vGQ3ukspgR/zdGJ
+	/cJ4HC427LLBfMagJ4AKlY2spETsiNxylrsiJs6+zGfdM56nGljT2bfccEIZ3aMbfD4X
+	YYtQ==
+X-Gm-Message-State: APt69E1i58bIuUa1TVxjhLs7LJQIqcj3AmLB+EiRIMs4lZU4P8+hIh0d
+	7yHuSt+P85prpdP7gqAnzzW0eeZa
+X-Google-Smtp-Source: ADUXVKLZCCLllE6inaw8CvIrostAYkxf1J/petGc8xpd7KoDyf63UFDtQSKuWOAizulFLP0aNKZmVQ==
+X-Received: by 2002:adf:ed52:: with SMTP id
+	u18-v6mr3787191wro.262.1528890656894; 
+	Wed, 13 Jun 2018 04:50:56 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h11-v6sm2214105wrs.85.2018.06.13.04.50.48
+	e63-v6sm4177113wma.46.2018.06.13.04.50.54
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Jun 2018 04:50:49 -0700 (PDT)
+	Wed, 13 Jun 2018 04:50:56 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jun 2018 12:50:45 +0100
-Message-Id: <20180613115045.28339-1-ross.burton@intel.com>
+Date: Wed, 13 Jun 2018 12:50:53 +0100
+Message-Id: <20180613115053.28394-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] meson: only use lists of commands in cross file if required
+Subject: [PATCH] libdrm: port to Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +57,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 11:50:50 -0000
-
-There's a bug in Meson[1] where it find_program("foo") will fail if foo is
-defined in the cross file as a list.
-
-This is causing the Meson build of libdrm to fail, but for this instance we can
-work around the problem by only using lists in the cross file if there are
-arguments, and just using a string if there are not.
-
-[1] https://github.com/mesonbuild/meson/issues/3737
+X-List-Received-Date: Wed, 13 Jun 2018 11:50:56 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/meson.bbclass | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ ...ac-Allow-explicit-enabling-of-cunit-tests.patch | 53 ----------------------
+ .../recipes-graphics/drm/libdrm/installtests.patch | 25 ----------
+ meta/recipes-graphics/drm/libdrm_2.4.92.bb         | 23 ++++------
+ 3 files changed, 9 insertions(+), 92 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/installtests.patch
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 5881765abba..e572344bd20 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -42,7 +42,8 @@ MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
- MESON_CROSS_FILE_class-nativesdk = "--cross-file ${WORKDIR}/meson.cross"
+diff --git a/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch b/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+deleted file mode 100644
+index 40bebc0f50c..00000000000
+--- a/meta/recipes-graphics/drm/libdrm/0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-From e6bd4205b0b546afe991ae6f72256645f4404ad4 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Mon, 5 Sep 2016 14:41:37 +0300
+-Subject: [PATCH libdrm] configure.ac: Allow explicit enabling of cunit tests
+-
+-Add --with-cunit to make it easier to do reproducible builds. Default
+-is still to probe cunit and build opportunistically.
+-
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Submitted [mailing list]
+----
+- configure.ac | 14 ++++++++++++--
+- 1 file changed, 12 insertions(+), 2 deletions(-)
+-
+-Index: libdrm-2.4.91/configure.ac
+-===================================================================
+---- libdrm-2.4.91.orig/configure.ac
+-+++ libdrm-2.4.91/configure.ac
+-@@ -163,6 +163,12 @@ AC_ARG_ENABLE(install-test-programs,
+- 		  [Install test programs (default: no)]),
+- 		  [INSTALL_TESTS=$enableval], [INSTALL_TESTS=no])
+- 
+-+AC_ARG_WITH([cunit],
+-+            [AS_HELP_STRING([--with-cunit],
+-+                            [Build tests that use cunit (default: auto)])],
+-+            [],
+-+            [with_cunit=auto])
+-+
+- dnl ===========================================================================
+- dnl check compiler flags
+- AC_DEFUN([LIBDRM_CC_TRY_FLAG], [
+-@@ -411,7 +417,7 @@ else
+- 	AC_DEFINE(HAVE_RADEON, 0)
+- fi
+- 
+--if test "x$AMDGPU" != xno; then
+-+if test "x$with_cunit" != xno -a "x$AMDGPU" != xno; then
+- 	# Detect cunit library
+- 	PKG_CHECK_MODULES([CUNIT], [cunit >= 2.1], [have_cunit=yes], [have_cunit=no])
+- 	# If pkg-config does not find cunit, check it using AC_CHECK_LIB.  We
+-@@ -436,7 +442,11 @@ if test "x$AMDGPU" = xyes; then
+- 	AC_DEFINE(HAVE_AMDGPU, 1, [Have amdgpu support])
+- 
+- 	if test "x$have_cunit" = "xno"; then
+--		AC_MSG_WARN([Could not find cunit library. Disabling amdgpu tests])
+-+		if test "x$with_cunit" = "xyes"; then
+-+			AC_MSG_ERROR([Could not find cunit library but --with-cunit was given])
+-+		elif test "x$with_cunit" = "xauto"; then
+-+			AC_MSG_WARN([Could not find cunit library. Disabling amdgpu tests])
+-+		fi
+- 	fi
+- else
+- 	AC_DEFINE(HAVE_AMDGPU, 0)
+diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/recipes-graphics/drm/libdrm/installtests.patch
+deleted file mode 100644
+index ec1fb0236e4..00000000000
+--- a/meta/recipes-graphics/drm/libdrm/installtests.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From 5c6eb43c2f6e7f2ee7c25c92e42f4e4403fa0527 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Tue, 21 Feb 2017 14:37:52 +0200
+-Subject: [PATCH] tests: also install test apps
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Yu Ke <ke.yu@intel.com>
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- tests/Makefile.am | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 0355a92..b4882cd 100644
+---- a/tests/Makefile.am
+-+++ b/tests/Makefile.am
+-@@ -45,3 +45,4 @@ TESTS = \
+- check_PROGRAMS = \
+- 	$(TESTS) \
+- 	drmdevice
+-+bin_PROGRAMS = $(check_PROGRAMS)
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+index 2b3bf4f83d2..e77ac671e9d 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+@@ -10,24 +10,19 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs libpciaccess"
  
- def meson_array(var, d):
--    return "', '".join(d.getVar(var).split()).join(("'", "'"))
-+    items = d.getVar(var).split()
-+    return repr(items[0] if len(items) == 1 else items)
+-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+-           file://installtests.patch \
+-           file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+-          "
+-
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f9b00d985f82d0be6ecc20c799acc89e"
+ SRC_URI[sha256sum] = "e9e48fdb4de139dc4d9880aa1473158a16ff6aff63d14341367bd30a51ff39fa"
  
- addtask write_config before do_configure
- do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD AR NM STRIP READELF"
-@@ -50,21 +51,21 @@ do_write_config() {
-     # This needs to be Py to split the args into single-element lists
-     cat >${WORKDIR}/meson.cross <<EOF
- [binaries]
--c = [${@meson_array('CC', d)}]
--cpp = [${@meson_array('CXX', d)}]
--ar = [${@meson_array('AR', d)}]
--nm = [${@meson_array('NM', d)}]
--ld = [${@meson_array('LD', d)}]
--strip = [${@meson_array('STRIP', d)}]
--readelf = [${@meson_array('READELF', d)}]
-+c = ${@meson_array('CC', d)}
-+cpp = ${@meson_array('CXX', d)}
-+ar = ${@meson_array('AR', d)}
-+nm = ${@meson_array('NM', d)}
-+ld = ${@meson_array('LD', d)}
-+strip = ${@meson_array('STRIP', d)}
-+readelf = ${@meson_array('READELF', d)}
- pkgconfig = 'pkg-config'
+-inherit autotools pkgconfig manpages
++inherit meson pkgconfig manpages
++
++EXTRA_OEMESON = "-Dvalgrind=false \
++                 -Dcairo-tests=false \
++                 -Dinstall-test-programs=true \
++                 -Domap=true \
++                 -Detnaviv=true"
  
- [properties]
- needs_exe_wrapper = true
--c_args = [${@meson_array('MESON_C_ARGS', d)}]
--c_link_args = [${@meson_array('MESON_LINK_ARGS', d)}]
--cpp_args = [${@meson_array('MESON_CPP_ARGS', d)}]
--cpp_link_args = [${@meson_array('MESON_LINK_ARGS', d)}]
-+c_args = ${@meson_array('MESON_C_ARGS', d)}
-+c_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
-+cpp_args = ${@meson_array('MESON_CPP_ARGS', d)}
-+cpp_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
- gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+-EXTRA_OECONF += "--disable-cairo-tests \
+-                 --without-cunit \
+-                 --enable-omap-experimental-api \
+-                 --enable-etnaviv-experimental-api \
+-                 --enable-install-test-programs \
+-                 --disable-valgrind \
+-                "
+-PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
++PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native"
  
- [host_machine]
+ ALLOW_EMPTY_${PN}-drivers = "1"
+ PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
 -- 
 2.11.0
 
