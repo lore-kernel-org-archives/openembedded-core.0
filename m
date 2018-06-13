@@ -1,50 +1,50 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 60C5E789D7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 54648788E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 22:25:08 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id t134-v6so6333364lff.6
+	Wed, 13 Jun 2018 22:31:00 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id d5-v6so3879990oib.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 15:25:09 -0700 (PDT)
+	Wed, 13 Jun 2018 15:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=hFXDWo55JZBd7ej42JY5DUOZe8n+aDuHBJCGUUk+2D4=;
-	b=BLYWwLao7d7nU0mxCh4zL+zriKYCS87gAHXEfAZ0mk/+cnfc/Hi9fr8xtylQzav/ap
-	wPLX/YB3ACpekHW6izwZdmdcQqxBbmEskqN+f17Pc7XAWhY4uP4xxfPX2RqsmF/oGuJp
-	igPRNET7YQ3XwS5vden6EFlzDAibuu1NeiycvFIWJN4evs9FXbVS0AXb+dQMxmthH1+V
-	bpLc8BFI/ft9lWNImxSjvpKHaJDeeV6XfUWEF9w1n1xIAc6+R3AljO8t8T597RUyFvVz
-	uIm8hfonTc2+3kal4VOgxIxKBr1uMwJyfSkYgbtS3REL1fgsWwkNAgEmPciSBO+s+tPG
-	1rSg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=n1IaTBdmW5VV83hGNq539M37U9YdFKq4GV9SA+BPQWE=;
+	b=KbdBYXBhsUrRYc8+1GSH8W566oCfT6WlKVHKkrPDmqsMdBs3bUREDMaMBsHAXOzhiy
+	3ZiE+hLEUUwJQw1Bcm7PNEpf9/9yTYyrsBLmtQ+i7HwujGhA+2PoYJbtZODDP6ggISBe
+	7Z4MZm3fB5SaDEv4assVtnLyiBhEi/sJjpLzIQLD2wyQClz018hTz+2hrjLr3THYMhaQ
+	ecPMnucfNu+ax3ul1wwLvmJ8nApr533EQrxizhHjReYZtaKwfMUpjHoELuWx85SZzg8d
+	k2B+NERbIiVcgIBXB+KFruQVMCvm1qgy+s8O2E/5+oE0DqRvKa03qetgMaE7NCjzVyQr
+	vc4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hFXDWo55JZBd7ej42JY5DUOZe8n+aDuHBJCGUUk+2D4=;
-	b=g9mukgx27pfCBmy6mBQGWbOb8bDGA6JJJeue8ZHys2v7w+XJtXf0Acd/FJHFYSAFRc
-	xO+zBFhzU6hDKwD1El0aAr2sV6sNwbwuBo4rbzJY/pwWl45tiL1eyQqt5s+qBlK6O0cs
-	zsBAPpTkxZLlyRyxoYdzletCncxv8MRhWmHI7csA9wZISLQBRIeWyf7BAngoksE76oQD
-	bZowymSri0UQJKrp+a561dMeSC6L5KGojNo+ha39vQnpg3NbEeWSuggoFAD+6dRQi89E
-	7r2JtRBlTfZN+b8OCvrISXNiEwz/axZLoucaovMrQh+uqfYuzwyClfEAUhIHeFIt1NAv
-	DWKA==
-X-Gm-Message-State: APt69E1VVgKxOaqVDLeJmUcRTEc8qnABVfG0BnLb5h4qygC22yCFjSZa
-	I9wjCnv0fNRAK1g375gy+l/vswAM
-X-Google-Smtp-Source: ADUXVKJzO8TBFO5wv9TEG3TONNBtDaMN6lghPkpd2MeCtRejBPdZH36IKhM2Ywkrn23dfkDDeqLyyw==
-X-Received: by 2002:a2e:458a:: with SMTP id s132-v6mr17780lja.92.1528928708505;
-	Wed, 13 Jun 2018 15:25:08 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ae08:1403:ff00:124:d0e4:8f8e:79f3])
-	by smtp.gmail.com with ESMTPSA id
-	b204-v6sm788512lfb.12.2018.06.13.15.25.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Jun 2018 15:25:07 -0700 (PDT)
-From: open.source@oleksandr-kravchuk.com
-X-Google-Original-From: dev@sashko.rv.ua
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2018 00:25:05 +0200
-Message-Id: <20180613222505.17242-1-dev@sashko.rv.ua>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [poky][PATCH] poky: add ubuntu-18.04 to SANITY_TESTED_DISTROS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=n1IaTBdmW5VV83hGNq539M37U9YdFKq4GV9SA+BPQWE=;
+	b=ESVeW8lVPox3oxViyolC/R/YiFLjnHrKFdwRuTvmOON+66nPsC3G9AJWHKpeteOehe
+	0saRT307NsfdvCRMQGb7Vwl4ORkX+pDvhIU3KcDmRPUPkS4eZheW8cOEnGJ1HjwjrvbV
+	5YS/lD9jM/fmZl2OFHFGOdjdFHnBnHJq/R4NDmqCKU90Z5dO8l4phFgjgIVpCBAxo9x/
+	7AEsIXzIVIk7QqwoFM17Sl3zDpZt6Vjq3nk1UeRCL+Nep+Lu5K5d0sQC5safNoH2WGmp
+	9SCfNYkzpUfjrQvWZ95U23k7G3zY5ycmGO3t1pOP2ABLoC9hmOzMDeLnqBt3xS+i0cAJ
+	E7LA==
+X-Gm-Message-State: APt69E3nXDYsUm03C3TCrrkixjdxHrfa793+1Ha8CoTAifdHplLHp68D
+	FshK8IJI27I4U5One8XTxjJ8RPvmyEjBMknnPvB9rg==
+X-Google-Smtp-Source: ADUXVKK/gp/NtZc1eeD8UQ8tmOrwcmxlCAL6OKbTEeipisUwC3hSVUKlWuC31hGykqqHE4zV30HmB8SvYjX7roRfuGk=
+X-Received: by 2002:aca:2808:: with SMTP id 8-v6mr16394oix.235.1528929061405; 
+	Wed, 13 Jun 2018 15:31:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Wed, 13 Jun 2018 15:30:40
+	-0700 (PDT)
+In-Reply-To: <20180613222505.17242-1-dev@sashko.rv.ua>
+References: <20180613222505.17242-1-dev@sashko.rv.ua>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Jun 2018 23:30:40 +0100
+Message-ID: <CAJTo0LaD3UsNR+Y4QN+O0PkToFLEZ+C=zpK_BaNdq3wQgkwo4w@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH] poky: add ubuntu-18.04 to SANITY_TESTED_DISTROS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 22:25:08 -0000
+X-List-Received-Date: Wed, 13 Jun 2018 22:31:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Generally we'll only do this when the autobuilders actually have a
+18.04 builder, which we don't have yet.
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
----
- meta-poky/conf/distro/poky.conf | 1 +
- 1 file changed, 1 insertion(+)
+Ross
 
-diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-index 9bd9ee58c4..19459b1791 100644
---- a/meta-poky/conf/distro/poky.conf
-+++ b/meta-poky/conf/distro/poky.conf
-@@ -71,6 +71,7 @@ SANITY_TESTED_DISTROS ?= " \
-             ubuntu-16.04 \n \
-             ubuntu-16.10 \n \
-             ubuntu-17.04 \n \
-+            ubuntu-18.04 \n \
-             fedora-24 \n \
-             fedora-25 \n \
-             fedora-26 \n \
--- 
-2.17.1
-
+On 13 June 2018 at 23:25,  <open.source@oleksandr-kravchuk.com> wrote:
+> From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+>
+> Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+> ---
+>  meta-poky/conf/distro/poky.conf | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+> index 9bd9ee58c4..19459b1791 100644
+> --- a/meta-poky/conf/distro/poky.conf
+> +++ b/meta-poky/conf/distro/poky.conf
+> @@ -71,6 +71,7 @@ SANITY_TESTED_DISTROS ?= " \
+>              ubuntu-16.04 \n \
+>              ubuntu-16.10 \n \
+>              ubuntu-17.04 \n \
+> +            ubuntu-18.04 \n \
+>              fedora-24 \n \
+>              fedora-25 \n \
+>              fedora-26 \n \
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
