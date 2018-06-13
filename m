@@ -1,51 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B8578AFF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BC9E174AF8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 12:00:11 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id i205-v6so2055708oib.1
+	Wed, 13 Jun 2018 14:01:40 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id o17-v6so1582812vka.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 05:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=e1FlKG4+QOi/7H+vHM28p08nTxIH+u50iF928Hgnbbs=;
-	b=LRnp1D1Ap5gVlicsANnkd0XuIWw2w0PQfSSSu4dqAeFgB0uaRdlRT5EEt2msJKc17B
-	DtDpsqxVCjB8QG92FsllB0EWn23kaYu6lEZTQ8+u/DbIIsy+I992IR8O8JrjgwQVoJ8l
-	S75v5aMpzvWFlYWlDtck5/LTES8YzWTu2c/tQrgn8Q4NaiE/mQK0BMmiRWI4+fh5ZEqg
-	Y8jXKlDJ+2/Jkq0PIOcvYGcOa4tzlKIFv01oswIIjmu31fl617JAbsq2fFQMLE67ZvLj
-	bQOyswqYEPlrRwfmpfNrakqso5SGHot2EpZc42b8wWOg4iUzGgmwybYXs1/mrpIbFpvV
-	N/zQ==
+	Wed, 13 Jun 2018 07:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=J7zMp+IbXpjxnr0kDGnni1ru4et51+rntvMKmulk410=;
+	b=FBmjP1ZzpnbBj0TetSSZbE1344Sml2IFkH7rJkFUPbnslSiorMREx3eHq5hKxrZJkd
+	3psuC/tyQEtCDWV6K7gQQhbKhKdD1gDIzZ674YYwerKIrbRzIiyf011II5IgU5dkLWKn
+	/GH/A1wfI9WDFvDYlvuWWzDKH6EgJw3xz89uiZeL8YL+pnIdgtc2nTiOatYKPO17hpQ+
+	0Kf3ajSLGTRXzajayBvRoeIGSZ5UGykhU1RVEDuqUOk2NxgXKzX8x4epC9BLejmtfB0q
+	AFpZU6Q3c7Ejx0qT0tczyP+T9PkO2RISQnbyIQ344gjuBE8rLY7nPof24ERO0twbEGoJ
+	ocfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=e1FlKG4+QOi/7H+vHM28p08nTxIH+u50iF928Hgnbbs=;
-	b=H7oqapN6dm0ppFnQu9dcYUVNa6c1s5y4gbRioT7yj94QVf/RF8lx4Z3/8y5QPmi+ZV
-	zqDmPBxxR/vE+9SrDX/FdGi89r9ZzGAfSPwj36JRfIe7+Q0Bp3VCiveFmn5339/KiVY2
-	Fbgu5DczHw1SSqc14aPjmBFfDWJXLcTjYnBjhqnh5n1SLXUN6K+YSjMK70x3hJwT+hLz
-	MOoRikEe1nXdEpohd05/lXgJIf8IKUK+1EM4TNRJJyi8umyU2W1auSXimW1Y4DVEROQ8
-	42I8eXVmPO0w84oxjNrUNUNZb+BMVUudkrqtJmcHhJMsOOVYbDvuYAP/qsFFD/uRbuHQ
-	N8Rw==
-X-Gm-Message-State: APt69E0On4aAizolfrwUdM85Z+CGCyTfUoUhGuH30DE/+gByuqq9MwZW
-	t//UDa/bWm9xft9SgfphcNW6whldDxD0mF5J6bwjng==
-X-Google-Smtp-Source: ADUXVKIwIq6G88qBQlFNAvi55GawUzbSkLwuEVkvN2Qdakf2CS/po4rQVbkGyfK5CmCiGCf/pWucve0XJAMk2puD/nE=
-X-Received: by 2002:aca:5406:: with SMTP id
-	i6-v6mr4502064oib.115.1528891212310; 
-	Wed, 13 Jun 2018 05:00:12 -0700 (PDT)
+	bh=J7zMp+IbXpjxnr0kDGnni1ru4et51+rntvMKmulk410=;
+	b=cLLQBJ+7N0AQX1+2mUs3+/d3n25VfBqP+N4nM94Svqn9ww4DHmyUj4HKeN1eQLYgWn
+	UyyWs9S/Y2wcH4W6zrJvHMZMLlm31ouTh+L0kXH4t+5T6xprsANw0XnO8YC3O6XvRggX
+	ECIUwD6h7VAzaFjfsUSLZ+SLNyzEtUj1fGc/9FzWs9g1jlbeWobq3sIzSEqLzHiUigWE
+	jftY/sd4BOoVfrQEg/cYCbzwK5Gxuw3kheHIfUs2EFNgI0JdhsRmgaCl/scekxfmpVPu
+	zAm1Lg/C104jW/TSoItRE+uX8NhNsly8BOm06Udemf4cO3xQ2TosvDHs3JMmS6ETbruw
+	reiQ==
+X-Gm-Message-State: APt69E1q+lrbKtSDggR24LAA2/sPtoIfzm34pc/gdnFDUqOE9VATNCdh
+	jh87ZZlFZvCQ3h8Nk0g4uEjHpis0R8WffybrM+8=
+X-Google-Smtp-Source: ADUXVKInHD6jblWPYGMyxvbB+3njKAuh6JcQvg0EEIkfAblsHk2xMu2mqhVyJg9r3IRcykZqYb53TSwLjZUpozmPsuA=
+X-Received: by 2002:a1f:2c0d:: with SMTP id
+	s13-v6mr3032886vks.106.1528898501375; 
+	Wed, 13 Jun 2018 07:01:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Wed, 13 Jun 2018 04:59:51
-	-0700 (PDT)
-In-Reply-To: <CAJ86T=V8kntC=VVCuLUiBJDpqgZFDcATr5fLmhin0a4qn6ruCQ@mail.gmail.com>
-References: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=V8kntC=VVCuLUiBJDpqgZFDcATr5fLmhin0a4qn6ruCQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Jun 2018 12:59:51 +0100
-Message-ID: <CAJTo0LYSCpoBCQBbDRfGXBvNVzKNaPFtm-3nhL7OZF4+5sbfYg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] openssh: stop adding -D__FILE_OFFSET_BITS=64 to CFLAGS
+References: <20180613061252.18271-1-kai.kang@windriver.com>
+In-Reply-To: <20180613061252.18271-1-kai.kang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Jun 2018 07:01:13 -0700
+Message-ID: <CAMKF1spMCuxOxztWfEGGepupH-K2DOTKwViDf==XoOipocqgHA@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] goarch.bbclass: set SECURITY_CFLAGS for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2018 12:00:11 -0000
+X-List-Received-Date: Wed, 13 Jun 2018 14:01:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Looks good to me, marked for MUT.
+On Wed, Jun 13, 2018 at 12:16 AM <kai.kang@windriver.com> wrote:
+>
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When include conf/distro/include/security_flags.inc, NOPIE flags are
+> still required for MIPS64 target builds. Otherwise it fails to build
+> packages such as glide which inherit go.bbclass:
+>
+> | .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/recipe-sysroot-native/usr/bin/mips64-wrs-linux/../../libexec/mips64-wrs-linux/
+> | gcc/mips64-wrs-linux/7.3.0/ld: .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/go-tmp/go-link-518447869/go.o:
+> | relocation R_MIPS_26 against `a local symbol' can not be used when making a shared object; recompile with -fPIC`
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/classes/goarch.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index f54c5169e3e..5fd9f294a8a 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -36,6 +36,7 @@ COMPATIBLE_HOST_mipsarchn32 = "null"
+>  ARM_INSTRUCTION_SET = "arm"
+>  TUNE_CCARGS_remove = "-march=mips32r2"
+>  SECURITY_CFLAGS_mips = "${SECURITY_NOPIE_CFLAGS}"
+> +SECURITY_CFLAGS_mips64 = "${SECURITY_NOPIE_CFLAGS}"
 
-Ross
+perhaps we should use _mipsall once
 
-On 12 June 2018 at 18:38, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, Jun 7, 2018 at 11:48 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> Openssh takes care of enabling large-file support automatically via
->> the AC_SYS_LARGEFILE in the configure.ac, so additional help from the
->> recipe is not required.
->>
->> Even if it were once required, defining __FILE_OFFSET_BITS (ie with
->> double leading underscores) looks like a typo and probably never had
->> any effect anyway?
+>  SECURITY_NOPIE_CFLAGS ??= ""
 >
-> Ping.
+>  def go_map_arch(a, d):
+> --
+> 2.17.1
 >
-> Any issues with this (the whole series of 7)?
->
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 3 ---
->>  1 file changed, 3 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
->> index 7b6ee5c..7cf34eb 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
->> @@ -46,9 +46,6 @@ SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
->>
->>  inherit autotools-brokensep ptest
->>
->> -# LFS support:
->> -CFLAGS += "-D__FILE_OFFSET_BITS=64"
->> -
->>  EXTRA_AUTORECONF += "--exclude=aclocal"
->>
->>  # login path is hardcoded in sshd
->> --
->> 1.9.1
->>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
