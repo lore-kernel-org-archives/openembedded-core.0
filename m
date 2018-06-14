@@ -1,51 +1,112 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 61EF174EDD
+Return-Path: <prvs=696fae14a=Alistair.Francis@wdc.com>
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FBCB7558E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 19:24:39 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id m21-v6so4892497uan.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 12:24:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VjDpiUCmqSW0tU/dmNLawjJM8tLQlF61oS2L8VGcDys=;
-	b=CMlGVzuS+wrkaiQI/TUn1pbWxR7484Eldez1lgiXcxOj15Gkbt8JxnCHhtDNcA0V+m
-	skfgC2gPzPLXZtC37AB1Bj4UWQ8h8bAyBxG0MP/00/lgp6TjGL4jDtVSBnQOM5hzJe0L
-	UiazB1qDKV1G9e9zJReLbjMvJQbSMeRXLHd/zxwavcOEiiC85yhJGJg/3mHRoN1HsuTg
-	KAwxJQqwQVV17w/r+W2lb4D9zZhXS0JvWxU5DzSscHp9jU9wUhQYIWHlrupmBgqwsqFK
-	dx5YIXdsNBuCTEc9OnZiMSnAM5k21JOQPXA4m5cIBKqqVMHAt3taQ/shxVRklpVc7p1P
-	OUvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=VjDpiUCmqSW0tU/dmNLawjJM8tLQlF61oS2L8VGcDys=;
-	b=WDEFcP3YbYecd+yMr8MB4FRDFzE5c0gA2yJicwVeUW3BmvIGgFDZ4FrsRG/+NAZsi7
-	tdj68nnNLyz+FtCJFQf92hrfiqzAUrqjXCLIgryHkGIpzt4eJTTsLpChZ3L+vh24R78O
-	NFMkZA25QwKNFUHnLS/lGSii0Bhn3VRbDLOyyN4unhD7Z86TNlEUYVHjx+Rbb2hokHYE
-	Lq5hYcEBDtJH/Uekw+CNj7TcRmX6FmyHS8eLwo+fW7HrjYfDyJi9gQ95azZ3tpQJZZ7R
-	XB+FnqchPiXroduC1uuPYhmpWvJmuuwROBYWnsISvmrnGCyn44AA4Cel/mKUNhTsw7Mm
-	JZ3A==
-X-Gm-Message-State: APt69E0ddMagtoM15CRRe5+VsOocRV3pPuF8fM8PX6wHQHyXfVJ8k4Sc
-	Baag0jRzsvKpphOETIqG/VhLgKha19cAeIkHZIg=
-X-Google-Smtp-Source: ADUXVKL77WSaDxJdfAOC+DVQ6BgVfY0GUpKJRd50kVIxEFiSYPCIUL7AjiLXa9QpnAtJ6GSxhz0zCpBbA5tZ/RUx91A=
-X-Received: by 2002:ab0:304e:: with SMTP id
-	x14-v6mr2634396ual.80.1529004280071; 
-	Thu, 14 Jun 2018 12:24:40 -0700 (PDT)
+	Thu, 14 Jun 2018 19:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1529005416; x=1560541416;
+	h=from:to:cc:subject:date:message-id:mime-version;
+	bh=dKKs2LbdiZY8RJCVoBH9Oqc9DcL8mR+zwP5izT3sxKI=;
+	b=lvgxDLuDBU+WQ9H+/fL7VCOpJ0wH9qiSOIWyz4Cl0KUdmtkqu2kg60Ib
+	XxMk4Rqd98/z2SteSydoTIE84oILWlvZ1E8Cbzyg+3rCeVpB4V1Xt0YW6
+	N6oZxDVgeS0A81JYNBe6wD4qzVejp7L7zpnUIDdOCm6kp33YjqalxXarw
+	0aK64/rC4tthnMPy0+KSQBs03tA/p1roMZicp789cH3eVwmaWo9vuBYal
+	+JlPQRF8EyeLKLDwAfWtZAwV9EHcAWgN8ZauLXIuziCPNnyFtpZr6U8Sl
+	70d6+PPWkF70gtkx3FvESwaFvDjz5XlQ1wmcvv5/pgbQzzwga5Zq3Q4Ut A==;
+X-IronPort-AV: E=Sophos;i="5.51,224,1526313600"; d="scan'208";a="80433863"
+Received: from mail-co1nam05lp0085.outbound.protection.outlook.com (HELO
+	NAM05-CO1-obe.outbound.protection.outlook.com) ([216.32.181.85])
+	by ob1.hgst.iphmx.com with ESMTP; 15 Jun 2018 03:43:36 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=wlRFXAjimGQ0HiuEmgfL1xbgy042cfZA7zAU9Ihyfes=;
+	b=NUsBlmBqtou8/6no1pdUTZP4X18415GY92/vDcbe03jCphQqM/LlWeGogUfz18PnR0t/nyy1+bVMyajD9QjnRhuAtxgqY5AKml8ISehSWkxAhh1ia9JGZvS5kZ4C+Xtegk+KUZUww36XWRQG4plLq2gHfbneIwgl5/sm3CeJzi4=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Alistair.Francis@wdc.com; 
+Received: from risc6-mainframe.int.fusionio.com (199.255.44.171) by
+	MWHPR04MB0398.namprd04.prod.outlook.com (2603:10b6:300:70::15) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.863.17; Thu, 14 Jun 2018 19:43:33 +0000
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jun 2018 12:43:19 -0700
+Message-Id: <20180614194322.93009-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
-	<002e01d403d8$b811f1b0$2835d510$@neuf.fr>
-	<20da1542-9903-d4fc-b38f-8f0ad3b2d4a1@gmail.com>
-	<CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
-In-Reply-To: <CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Jun 2018 12:24:13 -0700
-Message-ID: <CAMKF1spJGLVW_HKD9YEgDY6aidz6q_TvjohfoJHnXHDiyc3vtg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] db: disable the ARM assembler mutex code
+X-Originating-IP: [199.255.44.171]
+X-ClientProxiedBy: CO1PR15CA0106.namprd15.prod.outlook.com
+	(2603:10b6:101:21::26) To MWHPR04MB0398.namprd04.prod.outlook.com
+	(2603:10b6:300:70::15)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5c9ca1a5-4566-4ef3-04fb-08d5d22f1d49
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(48565401081)(5600026)(711020)(2017052603328)(7153060)(7193020);
+	SRVR:MWHPR04MB0398; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR04MB0398;
+	3:kY2ND/6A2NuYmHwTBd/Ek78xl5xUPxfGA8J7UP8wkPN0EbjLK7HQ2u30xQct6DBWu70ki3pSFgq4GFp8iKj7jKDQWZbPP2IbsKYBkN77eKdAWrzw+6EIBn/G7pYSd6A5yIS6sUFbY4982G7JYyh+93tKXHE5JpRvd4BJVDxttfgQiN3CvrhK8MjrYlakLhzQ6H29rrbYpvHFdqWOm3Qq4S/dn9kT0z0oG/GA8zn39ErwpXGUtTLP0bq5TT2gRbF+;
+	25:wZyOtXLQwbIHVwsvIYejh6rcvP3H4EV9+npzfIN8/Cir8llVHEHFbApp35fNr8bJU7Ei4AliFUKBYo84fwarbzGMVMF1lUxVXbmNo5O9SL48ldi6blNNJ68BCZcFv5cU2E1nx1pbvBj/wPbtvBT0sBSDO6iGinVLCdQOKU505HXMhyON18SpZsj4PocYrNUlCoxaOXF5x+HH2kw/oORNxy5HdarIxFMC7+TM+pp55mjy653Vj1X5eguAVMOkJqtiRYC0EwBEhwIthhq7WxUxxplC6EcscvIc6vX0Dd0HMD8zwzUiDjvpbmd//mutOYRfrWxr2U8NRnepWfMMFNoLdw==;
+	31:2axJZghSHnIAda5zjf5yZqJ3Nc8WZF0PEsdShnevyQorAdj2GYu6vGCkTlY9BdmFj7ttoPa+twIJ+ksD6GtKJgVKNojCLQIc2H7ae6ZBQbe2U+E92bj9SWF2+1bt91M/D6Ir3Ow4vmQws17N2glqXQVG85aG9UmEWYvoaFu/LIldYOXMZZM7jIy+JUuyC+/D5X/ejHWLq0J1dJME/BifPcvcVuN1gkVAe7sDT2nz7mA=
+X-MS-TrafficTypeDiagnostic: MWHPR04MB0398:
+WDCIPOUTBOUND: EOP-TRUE
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR04MB0398;
+	20:hGcoBRHUQiF7pB8196aU1juJbQzrfNb3Hq+X2P/qqaMtI45vF28+UioKtio/kkFDBA+TxEbrsD4W5Eg0H/7o+j3wMySIl79PxOJFHAFyPuaieZh2v3vmvTsCMG/XiGOADS5bBYScGxdmvvR+YBCDXbHmw/wlj2FX+NOb30ABVOtDgVsTmrXUXY+oQtVFrKMZzfow3cVSdAOa9tJmU0JT9mpVXF8jE49KLZ24UfwkkCIO4IMU/WzBN867WN+pO7TD8b6al81agMc58BHYpS8CPKzNzZfBwMVMAK6QSbEgKBOyaDkksKFuQHfJDLPNO/Z5uRtTX4+RRlDXWp16NQozcDvE0gqrtxdg/XAPo/sI0SufYiotE45350JTPdmVDc4FsOVz0FZFu9NccAoQ9do023m0tLeVyu+yyuiZMvi8RWDx3EzyFD24kMrys26WxkfGWIg/05TCeWhL41fMj4ZI+YCJ6VK9sZnFBU0plc1Xm3AGgkaqn0I0uZbfQv2+WT5V;
+	4:SwgMTQDp5a/iyPrBpWA0tYZm0CpXhCkX8fT6pd+dxwoNgmO5F6ywPOpMl/SKthVa85kercAbArVUExc4UAn2sRjMObPQItrB+8BcReF4uWcY77W+iofrA9jBTrtyOJZ5c52JdeOJ+8YGot4LjlxSp6hHrXGZb4uxkQusRao5RxaKqdnsuvEVRldHg7IKQaFrP7W5OkLgP17MagDy+unolASgfzeGf2XA/vefvpHpFUc76ZAm0Dwyremal9CIw5Kw0UhnS7t6lNDo6WEQOJd24g==
+X-Microsoft-Antispam-PRVS: <MWHPR04MB03984745E9D2356A35778EA4907D0@MWHPR04MB0398.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(10201501046)(93006095)(93001095)(3231254)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123558120)(20161123564045)(20161123560045)(20161123562045)(6072148)(201708071742011)(7699016);
+	SRVR:MWHPR04MB0398; BCL:0; PCL:0; RULEID:; SRVR:MWHPR04MB0398; 
+X-Forefront-PRVS: 0703B549E4
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(376002)(39380400002)(346002)(39860400002)(396003)(366004)(189003)(199004)(25786009)(50466002)(6512007)(4326008)(39060400002)(5660300001)(53936002)(6666003)(2906002)(6916009)(66066001)(106356001)(36756003)(48376002)(47776003)(105586002)(68736007)(2351001)(8676002)(2361001)(97736004)(386003)(6506007)(8936002)(1076002)(72206003)(59450400001)(2616005)(26005)(476003)(81156014)(81166006)(956004)(16526019)(86362001)(486006)(186003)(44832011)(3846002)(478600001)(6116002)(16586007)(50226002)(305945005)(7736002)(316002)(6486002)(52116002)(51416003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR04MB0398;
+	H:risc6-mainframe.int.fusionio.com; FPR:; SPF:None; LANG:en;
+	PTR:InfoNoRecords; MX:1; A:1; 
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR04MB0398;
+	23:WmLBYHfPGoERd+MarFt6kyI6wI7MVMdfNXjS7ytal?=
+	=?us-ascii?Q?XUFhqsZwuzb6O9Ovuv9F8xo2r3K2mh58DgJnC52J/CM1Ak8CM4Xh06eyxFHw?=
+	=?us-ascii?Q?KpJ9pl0bUA5kAKedGWpBZ7ezufSieKYS2ZJ9n3OXZln7gGjbCGTA0Sj9bnbF?=
+	=?us-ascii?Q?3zH1x2IyNNt5I+gaNsAdt//mM0/5a14r/1oFUO+iy/DIa0hyjjCA1o0YSQc/?=
+	=?us-ascii?Q?YOwNYzAZsKCqHPDodEybT4DEu1lgjf5IqSuTUdFyBsPg2UFHKwvIOhDk5b5Y?=
+	=?us-ascii?Q?PZWLJc5ithJamPUnaRgTnx1WJ1cIb3tecwP8EscGGxXOwYnctp9BD0SN4k5Y?=
+	=?us-ascii?Q?GeMHXZ7IjrA5NF18yv3043LTQb//OZpNM/WcrR7AywCZX1yLvdsD9S2QwaXn?=
+	=?us-ascii?Q?FRwYP2hYiERbRgbAXSah0piMoPNu/SewV5oyJkHuw3kxRPXzUCVzwa9omP+q?=
+	=?us-ascii?Q?rpwpe3KiGyyQVlgPNsERx1ozIKod3765sm1GOuILeVUcRkAwS0loEGMVqAXq?=
+	=?us-ascii?Q?XqDaWY8p+sLU8dQHBjKO0sya2EmQZ5qagN26c1LXE/hw2yoTVckLptddmj8Z?=
+	=?us-ascii?Q?veiv7tMiAmDX9r4k6sYB2oFRgS9wVe0DI+Gs1+IrLq9ibTd+reQph9aYie3U?=
+	=?us-ascii?Q?O1T0j3LxnABZuveWgPnSn7sTtE22DPOF2wK9GHhr3S0P7xXjc/VM+IpP7TbA?=
+	=?us-ascii?Q?2WTgS/xnY+IsvtWetdyujJdO+V4m1I2odH+3Y9pdVm3c2UoPPId+iqIEP1sA?=
+	=?us-ascii?Q?/te/V014l6Q0n/cZIT4zyWNkO6C58g49zkOZxBqPWI0A8izhaohQorj13EGq?=
+	=?us-ascii?Q?ezIF3a+eRFIugbUm4Xx019T2+8n1bm7QemRyq0zNOuVgaUB3TkoCCQT8SMB7?=
+	=?us-ascii?Q?VEo0AJrqIF47Nn9ouBbUlC6eTh4H5vlUyd9F/umXu5c01PdVBkspuQBRx5ae?=
+	=?us-ascii?Q?VeOdLx2lCy00pTTBoet2CjK8WavFrqmjD5IrXvCy+K19S0gdLL9iWbsdpsl7?=
+	=?us-ascii?Q?Ekz/vyVzN6H7XfAhUAeWURMgF8jaglI/HcJUZG5UhshuLzml0CeNIasSYxr+?=
+	=?us-ascii?Q?Pux/fxrNSK9A8iYPzBLzJYIC605ZUxZ9ujwy0WuDMJ2iBs8dK1XV5yqy1XmD?=
+	=?us-ascii?Q?L/Kg179trjYKNboe71kg7M9bUzv/QSpCZt87rHzhfDCAgIDrg7Goh7Rj9kVs?=
+	=?us-ascii?Q?49jfVOmdhpvBxFlIhQgGgMdO/vrROovizKt6KkuCu9EmfhzZ5liwF6XAGfE6?=
+	=?us-ascii?Q?TSm5r5i0nU/g5Z75D71pKfJW5mPGXu2nT2OfgvW?=
+X-Microsoft-Antispam-Message-Info: XNIgJ19/TY7NEzc1D1dVXhtJtPq03Rg1hcz+TCBX3x0R0I5hPpxpPCcrQQSccj+cma8jIx9H8B848Ked4Lw8yTIRGdC0RSv4fBiMY19qQrp0t7uSa3/kHalx/Qv+9mYgcBTCms/jPqTa4w1vy/T2FDnSYPuidcFB/mBi5J86sPyGAjv1q98mFGlWl5Jjxg0T
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR04MB0398;
+	6:kEryc2wzLcJ5Ax3X21RLAy/TyP+Ve84H2q7hoG4vD9hTDj3iCRAx2dqUCtC+vFu94pNkvjRxR2H9cYxq60+ONJHl1X9TQc6nzgib6qQztLUvYoTWCS+tJtwwjapFTL7ljnLf8tWdu78AjK1o8CmURNIJPpV7oocvqvlSo4h+LkDSNBCHQRnXwUwdM5Ef+0hKVq62OQ9CSKDdTIgy2HQ8ZBFjlFuNQ1zArG4f0S/msSL4a0GDLwkaFqIzdU3mIfg+xyCaXr5OP7Fcpm3wK/B9lGiMfu9fFKpYAcLjEB7KrjJlsrpd+Cyl4Mtfl6BocK67K0Dmua/oNQBx5+K22hPC5a4B8/tvHD3/fgSJQyssHarIY3JSYULJnkdBDW7m9f18LVkx2bMLJzV28ODOgE3f/gVuH4oaFITHpJ63ezi33aH5l6CvWxpt98Al/bwMLaEtorlpP7q9sgM560GY5n3jmg==;
+	5:q85xLlaqh0rraAVAtYhVK7kJQaFsunFR0ZpUr5uwoE7pH9Q6pJbEnjEFamRZWXmZMsbbUdXnp1zWaR/NKTFG/fRxJK/NeCpO453M4q5CgtuzwG4qAVt4CB0aSxf/HEccbR/mnfUZFnOq9hdkXD0Db7QHQbOXwUbQ0/RG3btEL2M=;
+	24:eP3BlFZ6jZMAXV3jes+BSRH5bytVnm9hzbjz1eK3MESHfVkWxhdzLG6K5U05YK95VgcPTiJj7g+LlxUs95bdS4QMGfNyPgHY+qM5Lx2umO4=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR04MB0398;
+	7:KUEPkKx5u7VXMc/AMiJkSC7sft3Hi6ZxwjRsQ9ZKI4UBaIjYSU4R2S4q0qtHqqG8yuQDa1vKBhPs7z1aK6xO9THjB3n9dWj/103iP8DaGCDXrc2Q3p7vrRAD2DFF1dbm875c1jE/KYwyv5VTOACu6qdssHWU2FtAO7o8N3udy+XPlnv9sPXsBFHRfAjDR7LtMKrprzWd9L6ikKpCZk3tpTu0RQI+akv5AjB62fW9mP58y1AD3z0odNUranmXLl5x;
+	20:L/xdeIDCAa+CqdBehJOEK10GEDhc61y1Sj5W1eFNErvl+v9vLiAEwyZkwYSMJn2hEKi96d2AgmykF5ScVRPr7olVAoYigRvX04vMjw5Pd5h0XievpNPlTVYWpP+QhwM7MbTF0auchZIqbjBtwABAbeg26wfJUIPgicTPYIG4W2Q=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 19:43:33.8132 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c9ca1a5-4566-4ef3-04fb-08d5d22f1d49
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB0398
+Subject: [PATCH 1/4] recipes-devtools/qemu: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,114 +119,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 19:24:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Jun 2018 19:43:34 -0000
+Content-Type: text/plain
 
-On Thu, Jun 14, 2018 at 12:12 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Thu, Jun 14, 2018 at 9:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> > On 6/14/18 5:10 AM, Herve Jourdain wrote:
-> >> Hi,
-> >>
-> >> I believe I solved that same problem by just adding, in the case of armv8
-> >> (which I believe may be the new architecture you're referring to):
-> >> MUTEX_armv8 = ""
-> >> This way, it allows previous versions to work just like they did before,
-> >> without having to disable ARM assembler mutex code for architectures that
-> >> support it correctly - up to armv7ve I believe.
-> >> Of course, we might need to also have a good definition for armv8, which is
-> >> the object of another thread.
-> >
-> > right thats a better approach.
->
-> SWP is not guaranteed to work on SMP systems... and even if it does,
-> performance is likely to be worse than the pthreads version (which can
-> take advantage of the newer instructions).
->
->   https://community.arm.com/processors/b/blog/posts/locks-swps-and-two-smoking-barriers
->
-> In general, use of hand optimised assembler mutex implementations in
-> user space isn't something to be encouraged - use pthreads (or maybe a
-> gcc intrinsic) instead.
->
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-question is about disabling it on old arm machines, do we have data where
-we know that other sync methods without swp works better on armv5 and lower ? Do
-we have gcc intrinsics for those versions of arm ?
-if we do then I think I would agree
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index faaea781cd..d1543b81f9 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -9,7 +9,7 @@ inherit autotools pkgconfig bluetooth
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # QEMU_TARGETS is overridable variable
+-QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
++QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc sh4 x86_64 riscv32 riscv64"
+ 
+ EXTRA_OECONF = " \
+     --prefix=${prefix} \
+-- 
+2.17.1
 
-> I think the original patch is good.
->
-> >> Cheers,
-> >> Herve
-> >>
-> >> -----Original Message-----
-> >> From: openembedded-core-bounces@lists.openembedded.org
-> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> >> Ovidiu Panait
-> >> Sent: jeudi 14 juin 2018 13:55
-> >> To: openembedded-core@lists.openembedded.org
-> >> Subject: [OE-core] [PATCH 1/1] db: disable the ARM assembler mutex code
-> >>
-> >> The swpb in macro MUTEX_SET will cause "undefined instruction" error on the
-> >> new arm arches which don't support this assembly instruction any more. If
-> >> use ldrex/strex to replace swpb, the old arm arches don't support them. So
-> >> to avoid this issue, just disable the ARM assembler mutex code, and use the
-> >> default pthreads mutex.
-> >>
-> >> Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> >> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-> >> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> >> ---
-> >>  meta/recipes-support/db/db_5.3.28.bb | 13 +------------
-> >>  1 file changed, 1 insertion(+), 12 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-support/db/db_5.3.28.bb
-> >> b/meta/recipes-support/db/db_5.3.28.bb
-> >> index 093ee44909..15b4155a29 100644
-> >> --- a/meta/recipes-support/db/db_5.3.28.bb
-> >> +++ b/meta/recipes-support/db/db_5.3.28.bb
-> >> @@ -59,18 +59,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so
-> >> ${libdir}/libdb_cxx.so"
-> >>  # All the --disable-* options replace --enable-smallbuild, which breaks a
-> >> bunch of stuff (eg. postfix)  DB5_CONFIG ?= "--enable-o_direct
-> >> --disable-cryptography --disable-queue --disable-replication
-> >> --disable-verify --disable-compat185 --disable-sql"
-> >>
-> >> -EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
-> >> -
-> >> -# Override the MUTEX setting here, the POSIX library is -# the default -
-> >> "POSIX/pthreads/library".
-> >> -# Don't ignore the nice SWP instruction on the ARM:
-> >> -# These enable the ARM assembler mutex code, this won't -# work with thumb
-> >> compilation...
-> >> -ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
-> >> -MUTEX = ""
-> >> -MUTEX_arm = "${ARM_MUTEX}"
-> >> -MUTEX_armeb = "${ARM_MUTEX}"
-> >> -EXTRA_OECONF += "${MUTEX} STRIP=true"
-> >> +EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot
-> >> STRIP=true"
-> >>  EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
-> >>
-> >>  EXTRA_AUTORECONF += "--exclude=autoheader  -I ${S}/dist/aclocal
-> >> -I${S}/dist/aclocal_java"
-> >> --
-> >> 2.17.1
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>
-> >
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
 
