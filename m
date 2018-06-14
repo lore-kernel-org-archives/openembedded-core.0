@@ -1,47 +1,47 @@
 Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 111BA78883
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 041997869E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 03:38:49 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id p21-v6so2241959pgd.11
+	Thu, 14 Jun 2018 03:41:25 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id z1-v6so2242483pgv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2018 20:38:51 -0700 (PDT)
+	Wed, 13 Jun 2018 20:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=IOAmJH/wI1QAfANtr3S/+Gd2wu18x7lLT9lYhPy/vHE=;
-	b=VEHUiFtokWxj58B7TiBCABtYAIKVySuILGT06TZUd7519/agfajSGFWrvJvkRQOCND
-	3wYtLifCYwTnmhk6HTy0nXK+ZEoB5UW1BVB5PeLgcZhVxmEJSu4oh1/uJpqIBY/piPbb
-	zwgN1W5g4bIDBZU7pTBeVI7EKq82L0c+5YkUoRqygE9d+Jfvt9zbtYRKe6/uhaP103GB
-	/tDGTeZV4BzHNKyV4VbKDGErtz8FuYaXded/H5dGbGXPSOa4VtcsPMKSMscy6ggdeJQo
-	y9hGtHAl+cl0Bh9zqgYoQjCCz/VT+BygYXUnb4cD4b2XZ8YHXxU53glswRlwDSXWjcmY
-	f6nA==
+	bh=5sty7UPbRodznHbO/ocszskMLUAou5YLjr95TC8pQhs=;
+	b=DfcWq+PIWCVxg3T4Ad+qgL8oTonHwRDkny8WTIFk6E3ufJ4ZhzdsvS6zxjxI1nDJNA
+	z5FqSaEI685rGo+EcYwR5Qq8Wl4T39T/gTNKsbZha4tYaq0c9bBJxdQ/O3pI8HByI+OC
+	G9DjqT8I9+CGAJpt4kCN0o2+ZQbmFEdmq8glNR/zNy3L8qXS7FzgSEh5NGOl61U6v+wS
+	bRh7QZCsg0SLwDBDUbEuQ15FufvNdZuu+5R8P4nG/NV65f5ZF62SzPeMu3hT+oZVePTK
+	fVn0z1R2Daynpc/3dRlRxa2wqkkh9ckfGlKaRpGNPVOe5j7ftMOBCeeUoVVbEOtx4SkT
+	ej6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IOAmJH/wI1QAfANtr3S/+Gd2wu18x7lLT9lYhPy/vHE=;
-	b=f47gBCd10ObF2/x/2bu/kEarHiCdj4EPT5I5CePUzBgsqPt2DosLwMf11wQKAceY9h
-	iKjoGEYBJsWmp0mhYLbjTiOOfUMUVCqNk4nyf7ycvsGm4IOHF/T0LWDRYaRrGkY/oqHo
-	kLd0XQEBE5I1vwhT94AVzNe8SJRXQPopu9zEO7IwYOk1p/QHpXU6yOvtODKpsJzNeOPg
-	Evq4sqvcMClT3fDwTuKjLy40lbtiiROYykcwmTvjBqU4HwpcQhcLIm4ahMZ8SEj7JA5R
-	6sqcIq13guqsuf7Yjh3Gkhr3UNaCe0V00oE53RsNHGEflhLDUldMSxE51AWzf42DToe4
-	Ckaw==
-X-Gm-Message-State: APt69E31o+di9ALWSU4w+EwV1yRV00649MEfQtH2mJfFyODOBbF8Aks6
-	5IflZ1w9DBQ2rZsoImWUiNNkIC3lYyg=
-X-Google-Smtp-Source: ADUXVKLa3OJLBbniNGoe7jkyyhgxCboghUHFf5HWeB6sLYv1LT6gTHpjMY4wYvR3CjixkZrsF0sHtQ==
-X-Received: by 2002:a63:12:: with SMTP id 18-v6mr776649pga.121.1528947531007; 
-	Wed, 13 Jun 2018 20:38:51 -0700 (PDT)
+	bh=5sty7UPbRodznHbO/ocszskMLUAou5YLjr95TC8pQhs=;
+	b=GCyUkysNzOj8ZnSz29wGB1yP7bILirsCTaEIjcVbhAxrS9kNKycN4ebN97q/6Smcb/
+	+RqRQQVWDgOO2/rjJ6TcBrypMrqHho+UhIsk55qgxALzprNEWvsni+WVzsUIfsaFEQnS
+	9yaPlEA8GcGikDMALQnsr4FwM79BCDlsyV8Yd/0pQwkYnOiaTQEniqJnfy+eijMn17F/
+	guuRS188AOYj+mZ9wl57nlNSlB0gbEBY7h/gH0EZ97eQNuJOL1Z15HEz3H3mOkMHz4fv
+	cSb5MXKJY4LVfiVQnldyvJkvsFa3Av0CIhKgoNM3XxL56VbDm2YJJcY4zbE0Wr4zlPdw
+	pdGA==
+X-Gm-Message-State: APt69E0rTPehhE8/WZxs7PAgfIoabq2zVTbdfXWr0BF5ymnKqa/QZ0tp
+	x9OIbK8QYz95P3c7Oze3ePRX0KRGu/0=
+X-Google-Smtp-Source: ADUXVKI2/Ry3pTgwsRqeqnDbNexclA14OGHHh7sIMiTEUZsD4eAGULNQdZLNshRXXKUHBKxpEuV/YQ==
+X-Received: by 2002:a65:5944:: with SMTP id g4-v6mr764292pgu.317.1528947686968;
+	Wed, 13 Jun 2018 20:41:26 -0700 (PDT)
 Received: from jptest02.mvista.com (64.2.3.196.ptr.us.xo.net. [64.2.3.196])
 	by smtp.gmail.com with ESMTPSA id
-	b22-v6sm5779924pfi.144.2018.06.13.20.38.50
+	k9-v6sm6918483pgs.49.2018.06.13.20.41.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Jun 2018 20:38:50 -0700 (PDT)
+	Wed, 13 Jun 2018 20:41:26 -0700 (PDT)
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jun 2018 20:35:54 -0700
-Message-Id: <20180614033554.17470-1-jpuhlman@mvista.com>
+Date: Wed, 13 Jun 2018 20:38:34 -0700
+Message-Id: <20180614033834.21966-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.14.1.459.g238e487
-Subject: [PATCH] Qemu: CVE-2018-11806 slirp heap buffer overflow
+Subject: [PATCH][rocko] Qemu CVE-2018-11806 slirp-heap-buffer-overflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,20 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 03:38:50 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 03:41:26 -0000
 
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- ...018-11806-QEMU-slirp-heap-buffer-overflow.patch | 65 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.12.0.bb          |  1 +
- 2 files changed, 66 insertions(+)
+ ...018-11806-QEMU-slirp-heap-buffer-overflow.patch | 69 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb          |  1 +
+ 2 files changed, 70 insertions(+)
  create mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
 new file mode 100644
-index 0000000000..002a1332bf
+index 0000000000..6a518b48dc
 --- /dev/null
 +++ b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,69 @@
++Upstream-status: Backport
++
++https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
++
 +From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
 +From: Jeremy Puhlman <jpuhlman@mvista.com>
 +Date: Thu, 14 Jun 2018 01:28:49 +0000
@@ -133,14 +138,14 @@ index 0000000000..002a1332bf
 +-- 
 +2.13.3
 +
-diff --git a/meta/recipes-devtools/qemu/qemu_2.12.0.bb b/meta/recipes-devtools/qemu/qemu_2.12.0.bb
-index 21796df9d7..98db44a8ef 100644
---- a/meta/recipes-devtools/qemu/qemu_2.12.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.12.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-            file://0009-apic-fixup-fallthrough-to-PIC.patch \
-            file://0010-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0011-Revert-linux-user-fix-mmap-munmap-mprotect-mremap-sh.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+index bdf6c21f87..89c68f272e 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://CVE-2017-14167.patch \
+            file://ppc_locking.patch \
+            file://memfd.patch \
 +           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
