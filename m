@@ -1,46 +1,42 @@
-Return-Path: <naresh.kamboju@linaro.org>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AE2A76087
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 6077A75560
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 13:25:42 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id i83-v6so9426968lfh.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 06:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ijEFbsv8a3eOnM9bOgKkA6Gp7yo88wAbFEE+6PrfGxs=;
-	b=hBbOWSnC3yTkitahWiZF4MZ3g4HxEsx/AGDT3sgLc1OKK+GOngvUJeaFkRfW3uG54u
-	jNccaQCE1XQMTd8mSRM6nxythB8Bo6HCA+ELmqxnJKYdwG4gZbNjUumW32H0K8M6001k
-	pa+StS26IYghX+8roUh1zzmGS1430Tn74SwPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ijEFbsv8a3eOnM9bOgKkA6Gp7yo88wAbFEE+6PrfGxs=;
-	b=FPQ6ck2oCh7N7Vsa/PYy/uBF157oVlaK61OTRbyskXB61JyWg/oPDqSqrp4x4fbAq5
-	0B4yCmiSM/kVMT8tw8aJ5jJxfQCR1haF2fWi4Lo51DMUY1ugBvr6RqsBXoyLA/JZWf2K
-	nxxYnguoEXw9B8L2imo9FnqS8CC19jNLD71SX2B4cQ9runwsWVVvRWJdmy5WxJklhkDe
-	NTKAR5gkb5P3Gzdyl8BiowbiZvYVnGQp6L2atsl/Kvs2dvFTyWVp0rmaQtyshGJmJLFg
-	EozZ6ZQCNQxwalYzrqxgdMLBs8Qitu1HXzwVLupwOF6Ijxqp+3Uqa7Cch/DIeteFvjny
-	2VPg==
-X-Gm-Message-State: APt69E0qrbYpEqblBJYOyB4BQtbybTdn26xRgqr/2zJG/1BYbMFRfKl3
-	3bJ/962twP6/Yhywx7+OEjFhQUXSLFQQ94HYLbJBig==
-X-Google-Smtp-Source: ADUXVKL9H+T+1Z7y1Rf/OHTbJ8lieqGA4394u+jdEVx/jx9Ednq9SEW3Q18UmkaGgUMKo3BZPHWvr6JBuBNWc1pyyAI=
-X-Received: by 2002:a2e:9789:: with SMTP id y9-v6mr1947097lji.52.1528982742797;
-	Thu, 14 Jun 2018 06:25:42 -0700 (PDT)
+	Thu, 14 Jun 2018 13:57:51 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 646205C1ADB;
+	Thu, 14 Jun 2018 15:57:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1528984671;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=9MIhHOK+w3flGyQKzXe4ezsAbolNQ+3XdJQ0p2ihFHU=;
+	b=p3kOyqN9+TFrpi/6opRLYqUyj0Q7a3BA/VyprkdUOmSBXHZ/SweH42OZH1yCGrz3u4iE5k
+	Cd9yR+uNnamyDeK4opMnQkHE6uxMytBbItbgJllC+AeJHMOkn8qx+ZSosc1lmy+vgf/V9F
+	rE+2NHJr1s1DOIRGC2SHLAGBFB3AOzE=
 MIME-Version: 1.0
-Received: by 2002:a19:ee14:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 06:25:42
-	-0700 (PDT)
-In-Reply-To: <283c5cb8-ec62-99a4-156c-8748a46f6ea1@linux.intel.com>
-References: <1528788854-29279-1-git-send-email-naresh.kamboju@linaro.org>
-	<283c5cb8-ec62-99a4-156c-8748a46f6ea1@linux.intel.com>
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Thu, 14 Jun 2018 18:55:42 +0530
-Message-ID: <CA+G9fYsWa39v6fRLoJJr3pbHPZY3RHjEpmugsM4MPkZBkUsy6w@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] ltp: fix cve-2017-5669 test case
+Date: Thu, 14 Jun 2018 15:57:50 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <bbbf2ec8-8c75-5195-b0ff-475c499853e3@linux.intel.com>
+References: <20180516091352.29279-1-stefan@agner.ch>
+	<84556032da03a0e29a955e347028db45@agner.ch>
+	<bbbf2ec8-8c75-5195-b0ff-475c499853e3@linux.intel.com>
+Message-ID: <72038ce45486336b7f3d611d7181e95f@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.4
+X-Spamd-Result: default: False [-0.10 / 15.00]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[]; DKIM_SIGNED(0.00)[];
+	TO_DN_SOME(0.00)[]; RCVD_COUNT_ZERO(0.00)[0];
+	ASN(0.00)[asn:29691, ipnet:2a02:418::/29, country:CH];
+	RCVD_TLS_ALL(0.00)[]; BAYES_HAM(-0.00)[20.67%]; ARC_NA(0.00)[]
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 0/3] postinst fixes for opgk/dpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,19 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 13:25:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Jun 2018 13:57:51 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 13 June 2018 at 23:10, Saul Wold <sgw@linux.intel.com> wrote:
-> Can this be backported to both Rocko and Sumo?
+On 04.06.2018 18:18, Alexander Kanavin wrote:
+> On 06/04/2018 07:06 PM, Stefan Agner wrote:
+> 
+>> Anything holding us back merging this changes?
+> 
+> Please read the Yocto project status mail:
+> 
+> " ·         Patch review/merging was slow over the past week due to
+> Ross being on vacation and changes in Richard’s employment/hardware
+> situation but at least some of the backlog was resolved over the
+> weekend and the hardware issues should be worked around now."
+> 
 
-This can be backported to both Rocko and not sure about Sumo
-(I did not work on Sumo branch).
+Gentle ping on that again.
 
->
-> Or is this a case to update LTP in those older releases?
+This week it read:
+"Due to the milestone, patch merging is slowing to stabilize."
 
-Latest LTP + this fix patch (upstream accepted).
+Also, there have been patches merged which were posted after this
+patchset... It is really rather important for us since it is hard to fix
+in lower layers...
 
-- Naresh
+So I am getting nervous whether it still makes it?
+
+--
+Stefan
 
