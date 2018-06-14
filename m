@@ -1,47 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BD833753E2
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 880C4753E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 16:36:21 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id z24-v6so3504293pfe.7
+	Thu, 14 Jun 2018 16:38:51 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id z1-v6so3156502pgv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 09:36:23 -0700 (PDT)
+	Thu, 14 Jun 2018 09:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=Vm9gQbj0MKJTSfBe1Itejfb6+EPDHsLlqcxMUtzgozY=;
-	b=eGPijo6rssH4cI7X7eQ9WppBTMW7Jksf52fjjRljYYM+Ne1ATTez25MC5HdQ38uCen
-	m9DFULvr1uXrgYE3DOvJPRvoxNqMPNTI7p1ff86jyPSUyWrY745O/ndN1SDkMHyXaiGH
-	W0UYK0ykFgzctDc4m9yvVqpzUlq2R+mfExXqeX4LwbBtYJXHJnPS/+r1wC8Xk1edB2lI
-	QFqo6JyX//rfjf2qeIpxjDGLcCbA29b1iCL6XTJ7AvHzBzdWm7cGSLZGjXaWoAzh2WzI
-	HYtoAx4Tw1REyizNL9MnJq59i5+UAp3E2jmVQSh7cloPhIxHBtlxE3BDIT7rPTrjrUq6
-	sHVQ==
+	bh=4YnbjCxMPB1pukym2LsoOV05DUbqbGa+V06LvL9uqi8=;
+	b=nVpK5SZS65SPCK60S+ETkfz54MW7+aSITjMp01U+DvzA4dRUwxe3xyF6bvgkLXjlEk
+	gfyQK47Rlx6kEpPAtaFkGsc3Ylrv5+WgyMBLOMsMNTfYfodBiqnCrOS3Req4dL/j94A9
+	Yo6tRG36jmHgycuhNaYSoT5ZeZB65KcuwJlgzsbChaAI84ICoh1RXbGZ0MV1t8cVPY5a
+	vFs6dUZ6H9V4EjORsx9Avk6G7LwQ0EWZ+N7JqCRa8sHBNOD8MvvBLLBT5ZbJ8HjKjX+Z
+	6V7AS6qBuaMlWJ3HqBWco7MlRnPAKds08Z++Fu17FdBANHOI1JU/3nRF3Tby17UK/PQv
+	rtMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=Vm9gQbj0MKJTSfBe1Itejfb6+EPDHsLlqcxMUtzgozY=;
-	b=EIJJ5pGQQQMRnRt5Y4Nj/nsXHLe63hoTyOgzxBcfZij/N+u31L2YrcKMw/rKF7lTZQ
-	6JuAY/altR+rPx9QOzj7NRCy4i3vqOepRIFhqQeZX4Lw1hZ7SRmamcWjtdEpUUy5MHB6
-	EPYp/zaU4ThbOi0zaAH34DgGly6w07V44+TLd0kTdRHguNnU8dxtWjFa1Z2CA5Bh9Akq
-	kjXdZPAUUU3n0JBjmECinVDmydp8ht9tSbwTWHjSRlVvgEjHcYYnaz8Kux9OOu1IQy9v
-	IyR7zX5JwSR3MFaG96mtIZIh3XULVSUKgFXsPnfFrDuN+b+00InM6QjcCBBvQiyyR4wA
-	8Tdg==
-X-Gm-Message-State: APt69E3+N9lAEu0GJMTSUV7ZybkNNuxQ97Y8d7VQFGs0ve852uNuw4CE
-	PnnfXRLm2Eqx9TAK+0RmFCNyfk8s
-X-Google-Smtp-Source: ADUXVKLmyQ9wke4TTwOuD6mHK19I3N2dT7wNQfbZALI5XORYTuIf82lFP9vBpugwUxQziyYRg4E82Q==
-X-Received: by 2002:a63:780b:: with SMTP id
-	t11-v6mr2901157pgc.91.1528994182575; 
-	Thu, 14 Jun 2018 09:36:22 -0700 (PDT)
+	bh=4YnbjCxMPB1pukym2LsoOV05DUbqbGa+V06LvL9uqi8=;
+	b=TSWX+Dzc3ZUfWpW7SJu/ZKe8Wlv1oicuv4uWZimZjib/pj56b8677mG/qAe0xAR7nX
+	1auJGYIguV+T+GZx0BkVuJNPCVfL1KTslpoVdWwqg8Ul5PCyAIrnbevA6cG/3Rv7050J
+	wlPi2ZAy/TMkP9LItzaaTptOwTk1mcdd7YG7ogDQIqvg+qdkR7HGCJeyQNaa2RitJR19
+	8xCN5xe2GxPQ/zhJQc/M5QxtqL9oWE+CnkR9eoLSgRkCUfaI+rW3S0DLHOtoXI8gco/H
+	GimH4lDY/pmbdCNqLrA1BS+GwEo8wjvM7P+DB9EroioZJeWogPPXQKp3y0urX3vAtelj
+	lZlw==
+X-Gm-Message-State: APt69E33lXMGuBpRs6ExBe6AgMY4m4q1GYYgzgTEmTjHusf8XFlb7GQI
+	NmVMqxiY1shf3L/sdsxEKOoxPkYQ
+X-Google-Smtp-Source: ADUXVKJKYlNJrEYD9eHOwCRoewjaxUlg2cZCVjm4iY3w+8MPFH+ZzAu/ENWDyJc7toHW42+C9mXUhw==
+X-Received: by 2002:a62:d345:: with SMTP id
+	q66-v6mr10225130pfg.158.1528994332272; 
+	Thu, 14 Jun 2018 09:38:52 -0700 (PDT)
 Received: from ?IPv6:2601:646:877f:9499:819b:b40b:792d:8193?
 	([2601:646:877f:9499:819b:b40b:792d:8193])
 	by smtp.gmail.com with ESMTPSA id
-	j3-v6sm6971875pgp.47.2018.06.14.09.36.21
+	m23-v6sm7344832pgc.37.2018.06.14.09.38.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Jun 2018 09:36:21 -0700 (PDT)
-To: chunrong.guo@nxp.com, openembedded-core@lists.openembedded.org
-References: <1528968301-3209-1-git-send-email-chunrong.guo@nxp.com>
+	Thu, 14 Jun 2018 09:38:51 -0700 (PDT)
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+References: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
@@ -76,13 +75,13 @@ Autocrypt: addr=raj.khem@gmail.com; prefer-encrypt=mutual; keydata=
 	suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
 	XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiwkkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
 	VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-Message-ID: <cfb8f094-4f7a-5816-113d-1014d4180649@gmail.com>
-Date: Thu, 14 Jun 2018 09:36:16 -0700
+Message-ID: <bcb49b46-b97e-399b-5a6c-c994b1628ad6@gmail.com>
+Date: Thu, 14 Jun 2018 09:38:46 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
 	Gecko/20100101 Thunderbird/60.0
 MIME-Version: 1.0
-In-Reply-To: <1528968301-3209-1-git-send-email-chunrong.guo@nxp.com>
-Subject: Re: [PATCH] tune-ppce500v1: Add a tune file for PowerPC e500v1 cores
+In-Reply-To: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
+Subject: Re: [PATCH] ltp: set -fomit-frame-pointer explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,92 +94,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 16:36:21 -0000
-X-Groupsio-MsgNum: 112564
+X-List-Received-Date: Thu, 14 Jun 2018 16:38:51 -0000
+X-Groupsio-MsgNum: 112565
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="enUAzdMdn47wjg0NG92BhL0j8XzSQomvI"
+	boundary="ycTuFgbCdy9aOXoJelnZEvMPg3O49rhen"
 
---enUAzdMdn47wjg0NG92BhL0j8XzSQomvI
-Content-Type: multipart/mixed; boundary="gGCGKPLAyfKyryH40uCLKhENfPQjyhRgX";
+--ycTuFgbCdy9aOXoJelnZEvMPg3O49rhen
+Content-Type: multipart/mixed; boundary="mRqv5eMOBzF67nJ3hCbrxqCukGkjdS8rT";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: chunrong.guo@nxp.com, openembedded-core@lists.openembedded.org
-Message-ID: <cfb8f094-4f7a-5816-113d-1014d4180649@gmail.com>
-Subject: Re: [OE-core] [PATCH] tune-ppce500v1: Add a tune file for PowerPC
- e500v1 cores
-References: <1528968301-3209-1-git-send-email-chunrong.guo@nxp.com>
-In-Reply-To: <1528968301-3209-1-git-send-email-chunrong.guo@nxp.com>
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Message-ID: <bcb49b46-b97e-399b-5a6c-c994b1628ad6@gmail.com>
+Subject: Re: [OE-core] [PATCH] ltp: set -fomit-frame-pointer explicitly
+References: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
 
---gGCGKPLAyfKyryH40uCLKhENfPQjyhRgX
+--mRqv5eMOBzF67nJ3hCbrxqCukGkjdS8rT
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Chunrong
-
-On 6/14/18 2:25 AM, chunrong.guo@nxp.com wrote:
-> From: Chunrong Guo <chunrong.guo@nxp.com>
+On 6/14/18 2:35 AM, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
 >=20
-> Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+> When build ltp with -fno-omit-frame-pointer,
+> it will trigger below error:
+> | cve-2015-3290.c: In function 'child_thread':
+> | cve-2015-3290.c:416:1: error: bp cannot be used in asm here
+>=20
+> And there is also some comment as below in the source
+> file ltp/20180515-r0/git/testcases/cve/cve-2015-3290.c
+> * Build with -O2.  Don't use -fno-omit-frame-pointer.
+>=20
+> So explicitly set -fomit-frame-pointer for compiler
+> to fix the above build error.
+>=20
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  meta/conf/machine/include/tune-ppce500v1.inc | 20 ++++++++++++++++++++=
-
->  1 file changed, 20 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-ppce500v1.inc
+>  meta/recipes-extended/ltp/ltp_20180515.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/meta/conf/machine/include/tune-ppce500v1.inc b/meta/conf/m=
-achine/include/tune-ppce500v1.inc
-> new file mode 100644
-> index 0000000..509c81b
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-ppce500v1.inc
-> @@ -0,0 +1,20 @@
-> +DEFAULTTUNE ?=3D "ppce500v1"
+> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-e=
+xtended/ltp/ltp_20180515.bb
+> index b07c1b9..5ec25ed 100644
+> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+> @@ -19,6 +19,10 @@ LIC_FILES_CHKSUM =3D "\
+>  DEPENDS =3D "attr libaio libcap acl openssl zip-native"
+>  DEPENDS_append_libc-musl =3D " fts "
+>  EXTRA_OEMAKE_append_libc-musl =3D " LIBC=3Dmusl "
 > +
-> +require conf/machine/include/powerpc/arch-powerpc.inc
-> +
-> +TUNEVALID[ppce500v1] =3D "Enable ppce500v1 specific processor optimiza=
-tions"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'ppce500v1', '=
- -mcpu=3D8540', '', d)}"
-> +
-> +TUNEVALID[spe] =3D "Enable SPE ABI extensions"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'ppce500v1',=
- 'spe' ], ' -mabi=3Dspe -mspe -mfloat-gprs=3Ddouble', '', d)}"
-> +TARGET_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'ppce500v1' ,=
- 'spe' ], 'ppc-efd', '', d)}"
-> +
-> +# spe is defined potentially in two places, so we want to be sure it w=
-ill
-> +# only write spe once to the ABIEXTENSIONS field.
-> +SPEABIEXTENSION =3D "${@bb.utils.filter('TUNE_FEATURES', 'spe', d)}"
-> +ABIEXTENSION .=3D "${SPEABIEXTENSION}"
-> +
-> +AVAILTUNES +=3D "ppce500v1"
-> +TUNE_FEATURES_tune-ppce500v1 =3D "m32 spe ppce500v1"
-> +TUNE_PKGARCH_tune-ppce500v1 =3D "ppce500v1"
-> +PACKAGE_EXTRA_ARCHS_tune-ppce500v1 =3D "ppce500v1"
+> +# -fomit-frame-pointer to handle cases where optimisation is set to -O=
+0 or frame
+> +# pointers have been enabled by -fno-omit-frame-pointer earlier in CFL=
+AGS, etc.
+> +CFLAGS_append =3D " ${@bb.utils.contains('SELECTED_OPTIMIZATION', '-fn=
+o-omit-frame-pointer', '-fomit-frame-pointer', '', d)}"
+
+may be just append it unconditionally, what do we lose ?
+CFLAGS +=3D "-fomit-frame-pointer"
+
+>  CFLAGS_append_powerpc64 =3D " -D__SANE_USERSPACE_TYPES__"
+>  CFLAGS_append_mipsarchn64 =3D " -D__SANE_USERSPACE_TYPES__"
+>  SRCREV =3D "96cbf48313afa65ef4d693d3441cbfd60a8d9b27"
 >=20
 
-I must inform that spe backend is moved into obsoleted backends in gcc
-and is slated to be gone in gcc9 unless someone shows up to maintain it.
-With that in mind, I think we should wait and not add this to oe-core
-since this will also become obsolete as we move to new compiler.
 
 
---gGCGKPLAyfKyryH40uCLKhENfPQjyhRgX--
+--mRqv5eMOBzF67nJ3hCbrxqCukGkjdS8rT--
 
---enUAzdMdn47wjg0NG92BhL0j8XzSQomvI
+--ycTuFgbCdy9aOXoJelnZEvMPg3O49rhen
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCWyKZgAAKCRC7BTNVkZ0z
-FJbAAJ9/OIImMkxZAIJfLemxPe9kYoGTBACgjJYfvrvJ/lZRIp0cX8iThgRRuPY=
-=elTP
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCWyKaFgAKCRC7BTNVkZ0z
+FGAzAJ9vR0KbntdNiWU8WGwb0S3TycOlxgCfZIgiJ8PH0oTsH9L4MlTGalaEAgE=
+=a9tv
 -----END PGP SIGNATURE-----
 
---enUAzdMdn47wjg0NG92BhL0j8XzSQomvI--
+--ycTuFgbCdy9aOXoJelnZEvMPg3O49rhen--
