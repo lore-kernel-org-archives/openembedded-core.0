@@ -1,49 +1,56 @@
-Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B62E8754A6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id B803D75397
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 18:27:55 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id b14-v6so3981248pls.5
+	Thu, 14 Jun 2018 18:58:48 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id 14-v6so6649530oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 11:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=0qdU7NzAdNIy8jxOYSetxkkvfnnxXWbl+qqIYRHrRgQ=;
-	b=tDKn7NrvmDAjArfMSfzuzBMN7RMvNvM/OuUbd02G87wHrg7wjoTmfQRQCz6Buu/nqK
-	7Pg80Ypd3+iyHHfCvaFncP9r9ZrpKEvE4fIdGeSIuzgw+FQe/xbnAx36pAeGS1FQEUln
-	I7ysqxwGiMLaM82npqvKfTPPtOrKLzKJRYxaiu/Zh6ppT0ypsa0gkwnKCaPOvjf4tlxj
-	x29OkgdlWyvCA0ncD8PCj44L9CWs8Oa24no+FZMnsNLLnEmk7suZli4F8hHJv5isIzrn
-	S7k2PFwqKXXAqts5mu8Ss/vLTZxwHIz1WbUUnylxnT8/w0nIhqeWWN5Bn2sDztIKYSqn
-	9JQw==
+	Thu, 14 Jun 2018 11:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=UUdwtUmz/cn6pooWb0XBTEQPZ7gnNWfaowmhs+Ry6FM=;
+	b=HGHvCUTSpnnKRMjJLS6TdwPM9/R6aIp1KGmA2cZ+FecUkcUqnVHPWUSBb8YFShNuRP
+	SGmNt8L0171wzE9UvYhP67SJc3P6Qvk7JuA5Datg5OjugiR06fSFA6nMDx0OBzDGHLkV
+	tx41ORAhuDnOXPCMuI6nye/whL4EvdVwO5OzYX1KFcTJH4D068OVErL1BCJxaNPafIts
+	pSJuwyfoToIbXT2+F8mlRXTwv9KtFDEDxEwtXo1gjPBBIZkSBdGRmi4LPMbryYGGpipi
+	c6o/7SKPNfE45i7Qe66QxEFY9Aw5USHceoo9HfwfULYNLKToX2ERmmsY3y5xBuIO0AdT
+	zU5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=0qdU7NzAdNIy8jxOYSetxkkvfnnxXWbl+qqIYRHrRgQ=;
-	b=nBrKl+vR2KZtqA8pbgfrIO5Y9tbUiJI9qTxr76Gpw2OGP35SkvICW7b58YjdVbfCW3
-	XOMCu1A7HyaolVsQEM3DiwJnjQmMWSJkLvaaSfefeQuAnE8b02EKuD178S4egBQBETjl
-	1ab1jg+ZUo6W63GX20v3wyJfOep+rq6PSnOYF1I3K1VIx4UHesH85daY2zY43JiGFlaP
-	d7+b7PkEnhy5mocM4D8sb9mogP9gbVSsgN+TyD1O446nrEnozVfQj4kbLUkXWkxKLDNO
-	yxD3TNXiUWxY+k3c4+aUoTZrBx9Oo9xehXzTrURyF3Lw9179cfDZKS060iiwYA5TuNoH
-	jVCA==
-X-Gm-Message-State: APt69E37ZDsa2G+iIUMChEBrzHUDexPybEqmnLEC5VSI8wa6XjucpwLd
-	k3n07zCRl0Hn+r6+NS3d0eUgaOK/U5A=
-X-Google-Smtp-Source: ADUXVKIebXJ5AxrQg9prLCGj+xl0JR91juZgHxk5lgKDdklS0zQEZ1z8UkwuNun8HxFqP/NNLRI2zw==
-X-Received: by 2002:a17:902:4c:: with SMTP id
-	70-v6mr4220593pla.178.1529000876603; 
-	Thu, 14 Jun 2018 11:27:56 -0700 (PDT)
-Received: from jptest02.mvista.com (64.2.3.196.ptr.us.xo.net. [64.2.3.196])
-	by smtp.gmail.com with ESMTPSA id
-	a23-v6sm4302964pfj.117.2018.06.14.11.27.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Jun 2018 11:27:56 -0700 (PDT)
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2018 11:25:04 -0700
-Message-Id: <20180614182504.23557-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.14.1.459.g238e487
-Subject: [PATCH v2] atk: Correct multilib conflict in header.
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=UUdwtUmz/cn6pooWb0XBTEQPZ7gnNWfaowmhs+Ry6FM=;
+	b=JDsCbVaIvI/iG3xBElCFlM0NmKcM0eS5WR10nC+6nVx4Wh4K7NfxvSs+jrZ3uTah9Q
+	x5zfi9m8ZOKYvi555fI+aCW1F2s/ttor5FnaT+0afOQbUspbJfUM5yLZdUGUgjQLbyNc
+	m22zoSxq7qwTtamhGG+3fw0ncfZ49uuQRNt4rchRKCwUuJ2yErEs8cSNTo5Ef4DSNzxc
+	2F+FUYk0giKNfzkPJETCXQ3UZZ14D8hAZuxLYcyW6mFtIOwiKS7KGkwE7KNsCrYkcLr+
+	/s6Qvl0rNXXtqsP+11kous8tXxTuOOWIAHtO+JCWnNDxvM8if42OmasOgfbY8Pf/+CH3
+	787g==
+X-Gm-Message-State: APt69E1O2PVavqcpcpm4qXlHIAR7Q6lUhBo2MLjRjEIRXTBx3plD0lRK
+	t0JoE9Y1CTmEtb13nhDqNd+2nDm8ZciBhpib6WiVuw==
+X-Google-Smtp-Source: ADUXVKJe/KBlVbq1YD8r7Ibc14vStaaAgaMPFM+2xGD4yHRUVckaPw9EGtWEkVtUJfEyc/mr9GX6zNAPqL/BBL2XtkA=
+X-Received: by 2002:aca:b7c3:: with SMTP id
+	h186-v6mr1723653oif.54.1529002729737; 
+	Thu, 14 Jun 2018 11:58:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 11:58:49
+	-0700 (PDT)
+In-Reply-To: <toe4li5z6pm.fsf@twin.sascha.silbe.org>
+References: <20180608161841.10108-1-x-yo17@se-silbe.de>
+	<CANNYZj_V7knzM_+3J+YnHNyG+mbGmkzYBM_GoxTK1jKoYx9UGw@mail.gmail.com>
+	<toeh8mdywfy.fsf@twin.sascha.silbe.org>
+	<CANNYZj9uwH9erkgu8Of5xq6PTLfTqdTdnUJtqMbyqgJa1ONKzA@mail.gmail.com>
+	<toeefhhyt86.fsf@twin.sascha.silbe.org>
+	<CANNYZj894Yin6tnTSW1Mw3YdcLkX9CdSBcs8kOo1iubi+LmHEA@mail.gmail.com>
+	<toe4li5z6pm.fsf@twin.sascha.silbe.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Jun 2018 21:58:49 +0300
+Message-ID: <CANNYZj8rooTeP4w6xi220WH33qVYCw8ATH+Qo2JkLuQuW=EU_w@mail.gmail.com>
+To: Sascha Silbe <x-yo17@se-silbe.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gobject-introspection: relocate typelib repository for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +63,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 18:27:55 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 18:58:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
----
- .../0001-Switch-from-filename-to-basename.patch    | 38 ++++++++++++++++++++++
- meta/recipes-support/atk/atk_2.28.1.bb             |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
+No, I don't think so. You just need to be patient; patch testing and
+merging are done by one overloaded person. If after 2-3 weeks it's not
+in, resend.
 
-diff --git a/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch b/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
-new file mode 100644
-index 0000000000..047e81fb61
---- /dev/null
-+++ b/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
-@@ -0,0 +1,38 @@
-+Upstream-Status: Submitted
-+
-+From 0330251715fee908f2f162565d4fa1df5030d0c0 Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Thu, 14 Jun 2018 17:21:49 +0000
-+Subject: [PATCH] Switch from filename to basename
-+
-+When atk-enum-types.h is installed in to a system, the user likely has
-+no access to the location where the headers were built, especially if
-+the software was built in a sysroot environment. If the headers were
-+built for a mulitlib environment, the build pathing may be different.
-+Subsequently, if two mulitlib variants of atk are installed together the
-+headers conflict for no other reason then they were built in two
-+different locations. Switching from filename to basename, still should
-+provide sufficient information on the providence of the enums, while not
-+conflicting for really no good reason.
-+
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-+---
-+ atk/atk-enum-types.h.template | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/atk/atk-enum-types.h.template b/atk/atk-enum-types.h.template
-+index 7b4cec4..8321c24 100644
-+--- a/atk/atk-enum-types.h.template
-++++ b/atk/atk-enum-types.h.template
-+@@ -14,7 +14,7 @@ G_BEGIN_DECLS
-+ 
-+ /*** BEGIN file-production ***/
-+ 
-+-/* enumerations from "@filename@" */
-++/* enumerations from "@basename@" */
-+ /*** END file-production ***/
-+ 
-+ /*** BEGIN value-header ***/
-+-- 
-+2.14.1.459.g238e487
-+
-diff --git a/meta/recipes-support/atk/atk_2.28.1.bb b/meta/recipes-support/atk/atk_2.28.1.bb
-index 657c69d576..a051247d8f 100644
---- a/meta/recipes-support/atk/atk_2.28.1.bb
-+++ b/meta/recipes-support/atk/atk_2.28.1.bb
-@@ -27,6 +27,7 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
- 
- SRC_URI_append = " \
-                    file://0001-meson.build-enable-introspection-for-cross-compile.patch \
-+                   file://0001-Switch-from-filename-to-basename.patch \
-                    "
- SRC_URI[archive.md5sum] = "dfb5e7474220afa3f4ca7e45af9f3a11"
- SRC_URI[archive.sha256sum] = "cd3a1ea6ecc268a2497f0cd018e970860de24a6d42086919d6bf6c8e8d53f4fc"
--- 
-2.14.1.459.g238e487
+Alex
 
+2018-06-14 19:13 GMT+03:00 Sascha Silbe <x-yo17@se-silbe.de>:
+> Alexander Kanavin <alex.kanavin@gmail.com> writes:
+>
+>> 2018-06-08 22:27 GMT+03:00 Sascha Silbe <x-yo17@se-silbe.de>:
+>>> We have some Python modules that we are extracting some information fro=
+m
+>>> and generating documentation for at build time; both times the modules
+>>> get imported. We don't need GLib to actually work; it only needs to be
+>>> importable. Fortunately no other typelib is used by the code.
+>>
+>> Thanks for explanation. The patch is fine then and can be added to
+>> oe-core - so that if later g-i needs to be fully supported on the
+>> native side, this part would be already sorted. For now though it's
+>> not 'officially' working.
+>
+> Fair enough. Thanks for the review! Is there anything else I should do
+> for the patch to go in?
+>
+> Sascha
+> --
+> Softwareentwicklung Sascha Silbe, Niederhofenstra=C3=9Fe 5/1, 71229 Leonb=
+erg
+> https://se-silbe.de/
+> USt-IdNr.: DE281696641
 
