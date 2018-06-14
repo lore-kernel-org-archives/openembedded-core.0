@@ -1,58 +1,54 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E3CC760A7
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f176.google.com (mail-ot0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D60437891A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 10:54:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 31754189B5;
-	Thu, 14 Jun 2018 12:54:56 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id SpHpEFhEnZSv; Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 995F5189B2;
-	Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 792BF1E06E;
-	Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6CA251E06C;
-	Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by seth.se.axis.com (Postfix) with ESMTP id 5F2A02EC5;
-	Thu, 14 Jun 2018 12:54:53 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 14 Jun 2018 12:54:53 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 14 Jun 2018 12:54:53 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Thu, 14 Jun 2018 12:54:53 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Lei Maohui <leimaohui@cn.fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core]  [PATCH] Fix build error when enable archiver.
-Thread-Index: AQHUArxrcy8GdmWJZkedEneXZg2zlKRflOzQ
-Date: Thu, 14 Jun 2018 10:54:53 +0000
-Message-ID: <afabcbb9e34e435d8beba477ed3b51ba@XBOX02.axis.com>
-References: <1527973443-39251-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1527973443-39251-1-git-send-email-leimaohui@cn.fujitsu.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 14 Jun 2018 11:09:09 +0000 (UTC)
+Received: by mail-ot0-f176.google.com with SMTP id r18-v6so6608845otk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jun 2018 04:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2GTBP/7389n0x7/XYOde3SBz7aOKxEjmv34WBcanows=;
+	b=RBTe4/ZOoAg7zFnZcwlglOd7LzcPnUjADX9XLUxz1qV70SE40c/zegepXvgTHUaNIr
+	1GT6U4cdKMZmXe7XptncrmakncT9Kb/AsiZED/0LVGHKjJfaU/iLlrVsZtQql0g/T7tO
+	MkCKz47DhAJF0mH02jYi8QJRPHIuJXLzsi4TDv6/75rXAgTtdyLKOHTYuvbgdVUmITlI
+	s+9D+Jf2JCzjM7gP8vwbGN8UxqCNULKnvrQUN8yJsMpFQczOfS2+3JYyEu/Wkfw2Jo6h
+	QRDXf0v204HMYRBnC9ZJGPT/u3caq0r5Uk9Hfji1FtCHE3tz9z4by/xVofyh9sQGHf7P
+	ZL6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2GTBP/7389n0x7/XYOde3SBz7aOKxEjmv34WBcanows=;
+	b=JfKcE6eRiiJ4TxIQ8QzLanqQlj39v5p9j61uLuedfHUOFNM9ii4Lmzg/D9mY6iBQwv
+	zz/2oMbzRBoYnRx+TnTUlUODELTaVTcd1Zofpn1O1QdWEAU/0ILab6QTa7YT+SsFnML5
+	0NdzNSm87ekvRWt6N44eprfrSu/Y9ebHl0f/eNxsY7P57fpySjfB+/taf1PqgX7KGy63
+	fSymu5kPaDjfqIMYOyhhec0IDlCuUdd8dxXRZhUAAdVnejBD+QoxGrqVXTn8XH3KnM2t
+	YpmCcnEFG0U08sZ1H7B62duEccIElQhbBniGuilvWhmZIHUS950VxWPr26Aqy87fQjU7
+	jfSA==
+X-Gm-Message-State: APt69E1wk8hcH5mvIV7KL0n/IcQp5Ct1GDS7iGHGxSXWyFeNB+jh7jtc
+	XQGVTev/7cfXz20NBdwySIAfANUGjfDMs5VBf/zA4Q==
+X-Google-Smtp-Source: ADUXVKKO6qEr4LZeG6W6k8gKimu5u3yUhkSz0KlbVwCmLlb8Dp9dLhyrr4XZiUwOJWmyHuZpTFguZQ/D9dib9Rel0Uw=
+X-Received: by 2002:a9d:50ad:: with SMTP id
+	b45-v6mr995889oth.102.1528974550774; 
+	Thu, 14 Jun 2018 04:09:10 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] Fix build error when enable archiver.
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 04:09:10
+	-0700 (PDT)
+In-Reply-To: <05022c74-c917-09d1-32ca-951e52fa2612@windriver.com>
+References: <cover.1528951773.git.Qi.Chen@windriver.com>
+	<0273521858960b5e6bc63bd83284115dc97a566f.1528951773.git.Qi.Chen@windriver.com>
+	<CANNYZj_Lj=bieGAFpzSU+U0TWKJyfiyL5r8OtgC+brYGVFn=fA@mail.gmail.com>
+	<edf223f6-4bff-c460-1247-5289d9966157@windriver.com>
+	<CANNYZj-tx3svh94xS8ZYoMKQqRV=+N2e_nv3Ag9_5A22WtvSzA@mail.gmail.com>
+	<05022c74-c917-09d1-32ca-951e52fa2612@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Jun 2018 14:09:10 +0300
+Message-ID: <CANNYZj8S67GmCvksnUZE__kMUWBB9Q=6sMVgQ5tvafCZnP4_xA@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] oeqa/runtime/cases/rpm.py: change to use base-passwd-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,49 +61,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 10:54:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Jun 2018 11:09:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Lei Maohui
-> Sent: den 2 juni 2018 23:04
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] Fix build error when enable archiver.
->=20
-> The error is as fllowing:
-> ERROR: Task do_deploy_archives in
-> virtual:native:/yocto/poky/meta/recipes-extended/newt/libnewt_0.52.20.bb =
-depends upon non-existent task
-> do_package_write_rpm in virtual:native:/yocto/poky/meta/recipes-extended/=
-newt/libnewt_0.52.20.bb
-> ERROR: Command execution failed: 1
->=20
-> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-> ---
->  meta/classes/nopackages.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes/nopackages.bbclass b/meta/classes/nopackages.bb=
-class
-> index 559f507..d9ddfac 100644
-> --- a/meta/classes/nopackages.bbclass
-> +++ b/meta/classes/nopackages.bbclass
-> @@ -10,3 +10,4 @@ deltask do_package_write_ipk_setscene
->  deltask do_package_write_deb_setscene
->  deltask do_package_qa_setscene
->  deltask do_packagedata_setscene
-> +deltask do_deploy_archives
-> --
-> 1.9.1
+Right, I see. Thanks for explaining, the patch is fine then.
 
-This cannot be correct. If I am not mistaken, then this would=20
-effectively disable the archiver class from outputting anything for=20
-native packages.
+Alex
 
-//Peter
-
+2018-06-14 12:31 GMT+03:00 ChenQi <Qi.Chen@windriver.com>:
+> Hi Alex,
+>
+> In short, it's about setUpClass.
+> See details below.
+>
+> In fact, if rpm is not installed, these test cases have been skipped.
+>
+> See codes below from rpm.py:
+>
+>     @OETestID(960)
+>     @OEHasPackage(['rpm'])
+>     @OETestDepends(['ssh.SSHTest.test_ssh'])
+>     def test_rpm_help(self):
+>         status, output = self.target.run('rpm --help')
+>         msg = 'status and output: %s and %s' % (status, output)
+>         self.assertEqual(status, 0, msg=msg)
+>
+>     @OETestID(192)
+>     @OETestDepends(['rpm.RpmBasicTest.test_rpm_help'])
+>     def test_rpm_install(self):
+>         status, output = self.target.run('rpm -ivh
+> /tmp/base-passwd-doc.rpm')
+>         msg = 'Failed to install base-passwd-doc package: %s' % output
+>         self.assertEqual(status, 0, msg=msg)
+>
+> You can see that if 'rpm' is not installed on target, the test cases are
+> skipped.
+> The '@skipIfNotFeature' decorator you suggested will achieve the same effect
+> that the above logic has already achieved.
+>
+> The key problem here is that the copying action happens in setUpClass().
+> Even if the testcase is determined to be skipped via the decorator logic,
+> this setUpClass function will still be called.
+>
+> For the current OEQA's runtime testing design, we need to ensure setUpClass
+> do not generate 'error'.
+>
+> For the problem I described in this email, the simplest approach I see here
+> is to change rpm-doc to base-passwd-doc.
+> Another apporach is to check whether 'rpm' is installed in setUpClass()
+> function and if not skip. But this is more complex and kind of weird as
+> we've checked it via @HasPackage and the test cases dependencies are
+> correct.
+>
+> You can do a quick test with the following configuration to reproduce the
+> problem.
+> local.conf:
+> IMAGE_INSTALL_append = " openssh"
+> TEST_IMAGE = "1"
+> TEST_SUITES = "auto"
+>
+> bitbake core-image-minimal
+>
+> Best Regards,
+> Chen Qi
+>
+>
+>
+> On 06/14/2018 04:55 PM, Alexander Kanavin wrote:
+>>
+>> Hello Chen,
+>>
+>> But the test still attempts to run rpm on the target. I can't
+>> understand how target rpm can be available on the image, but at the
+>> same time target rpm-doc package is not available in rpm deploy dir.
+>>
+>> The issue is probably that the test should simply be skipped (in the
+>> same way that dnf testcases are skipped - please refer to them), if
+>> there is no package management on target? Like this:
+>>
+>>      @skipIfNotFeature('package-management',
+>>                        'Test requires package-management to be in
+>> IMAGE_FEATURES')
+>>
+>>
+>> Alex
+>>
+>> 2018-06-14 10:29 GMT+03:00 ChenQi <Qi.Chen@windriver.com>:
+>>>
+>>> On 06/14/2018 02:57 PM, Alexander Kanavin wrote:
+>>>>
+>>>> 2018-06-14 7:52 GMT+03:00 Chen Qi <Qi.Chen@windriver.com>:
+>>>>>
+>>>>> The test cases assume that rpm-doc is built out, as it says it its
+>>>>> comment. This is not always true. And it sometimes results in
+>>>>> following error.
+>>>>>
+>>>>>     |     cls.tc.target.copyTo(test_file, dst)
+>>>>>     | UnboundLocalError: local variable 'test_file' referenced before
+>>>>> assignment
+>>>>
+>>>> Wait, you need to explain this further. What is the situation when it
+>>>> isn't true?
+>>>>
+>>>> Alex
+>>>>
+>>> Hi Alex,
+>>>
+>>> For any image that does not have rpm installed, rpm package is not likely
+>>> to
+>>> be built out.
+>>> Having PACKAGE_CLASSES set to "package_rpm" will only ensure rpm-native
+>>> to
+>>> be built out.
+>>>
+>>> Best Regards,
+>>> Chen Qi
+>
+>
+>
 
