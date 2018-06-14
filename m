@@ -1,6 +1,6 @@
 Return-Path: <prvs=696fae14a=Alistair.Francis@wdc.com>
 Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 7317B75485
+	by mail.openembedded.org (Postfix) with ESMTP id B53EF7558E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 14 Jun 2018 19:45:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
@@ -8,33 +8,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	t=1529006278; x=1560542278;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version;
-	bh=CnwWglzQoAGwKmoPyqFBPMmEegLMIBenCqqe27RZoz4=;
-	b=EpFsAl2sYavBV5bWMlz2RW7pTxzmzTAVk3llEmBHTkPSvSq4QruLx9BQ
-	DOl4tqoaPYaIdmCj8f0Cqm7yTLjxMvIz1F4r1rBuGG3yJzhA9riDBfE0z
-	lWuU1yhrRXBtkYX7Gzs/ID6L3mQD3Ea+T/dhL0CKzLZkQZfPxN5T4DsMm
-	Y1VbLLogg3RO6Uy8TBLYI3O+vXKjIc8Wxzp0JXh3EZmyub6o0TbUoZXym
-	VZRrjK6lpSOa8Az+xkouzXlJt1Xb4LdkawuqeyKI4h/VxA89KhkVK0Sbj
-	lazQji56g3LAXd6GL6655RX87vUBm+Flq+ky6VbH6USJPxIZ0qp3En+oa g==;
-X-IronPort-AV: E=Sophos;i="5.51,224,1526313600"; d="scan'208";a="177386685"
+	bh=AxsoNiCOt7uSrdaEtqSzhRuBqgINgeLEe4+y/zs4vyM=;
+	b=hxh5fl3PB4pKAHpe+EC3mEHPWxe05xfayQK0PtRJBSEtV/zlbGNW+rps
+	s4nc2MUVNPkyOs36g6nB7JkcZHUQOiPEIXoL42l/k9820pcEOKkvNZ2NY
+	7PtpKr0AidqMnF47uMufT1DX/KminHN3JsYQXZ2vaov/iSZnf3+s0BGaN
+	TELwQ3n+7ZoGp9HdDZ5mQXpNnkrCHT+0SV9gC6xwvjNQGPv4B6gw8RMIy
+	CY8y5/lJFr4yKi3tYb6bonkNttuwqIlsDI8xt0nT4AYulk5BbhNx7+28e
+	3uD1uOl4JHcVMDs5eYf6h/jL9lFtVOMtP8VSo/WNGpQ9oTIgbOHzgC6pW A==;
+X-IronPort-AV: E=Sophos;i="5.51,224,1526313600"; d="scan'208";a="177386686"
 Received: from mail-dm3nam03lp0020.outbound.protection.outlook.com (HELO
 	NAM03-DM3-obe.outbound.protection.outlook.com) ([207.46.163.20])
-	by ob1.hgst.iphmx.com with ESMTP; 15 Jun 2018 03:57:56 +0800
+	by ob1.hgst.iphmx.com with ESMTP; 15 Jun 2018 03:57:57 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ZkGeSvifQ0Zi4DeIXKLA9oFoMbniY+pulN2Ww8IE7F8=;
-	b=CUEqozhkV9RLuJZs78kop3YCKdpW/flFZoG0PYiHDsfc5AqT1ov/5DjWKiZMPTDqSzRF2WUVi9QGx39BnFesup76kG8xrek5qoSmGvVBP4kSei67Zh6rfhmd2cY4ZKgU816I0k2ODTHbjHTu/uKwfFOKqH0a1LznWy63fCiCG7c=
+	bh=7YaR03gQ2kUk4LmkJCcUTYbKZmEbtywZ2Lu8OQYUU38=;
+	b=KRVI99uVkBnmJXr3mbMSjdmcJCHsEH5c1aTonBEHyDJHnTlV+uRWaFEigwE4cp6iX+hWMgFfs8aA+4mnku1RSeeJg9/t9bU+zxhOTehOata/7hRN9K4OdejfeLo1VUPAsAUEOooqZ8ALI2ax903EdGvCsgeqCTPsYNy47ky1bAw=
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=Alistair.Francis@wdc.com; 
 Received: from risc6-mainframe.int.fusionio.com (199.255.44.171) by
 	CY4PR04MB0391.namprd04.prod.outlook.com (2603:10b6:903:b1::16) with
 	Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.863.14; Thu, 14 Jun 2018 19:45:16 +0000
+	15.20.863.14; Thu, 14 Jun 2018 19:45:17 +0000
 From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2018 12:45:06 -0700
-Message-Id: <20180614194507.93168-2-alistair.francis@wdc.com>
+Date: Thu, 14 Jun 2018 12:45:07 -0700
+Message-Id: <20180614194507.93168-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180614194507.93168-1-alistair.francis@wdc.com>
 References: <20180614194507.93168-1-alistair.francis@wdc.com>
@@ -45,73 +45,72 @@ X-ClientProxiedBy: CO2PR04CA0113.namprd04.prod.outlook.com
 	(2603:10b6:903:b1::16)
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4153abac-041a-4c5d-dcb4-08d5d22f5ab4
+X-MS-Office365-Filtering-Correlation-Id: 0f7ff987-d87d-4096-cd03-08d5d22f5b05
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(7020095)(4652020)(48565401081)(5600026)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060)(7193020);
 	SRVR:CY4PR04MB0391; 
 X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0391;
-	3:5E1bZlmn67VZTm9XfgD57IjQLmzeNcrmOXN2eUbEdiez7Xlv3PYKjcHjogQ0y/H7EijWwyVmY+vfxjg33b2N+vi+SRElaIo1WVid2yDorLgMl08KQP+rzMIKIed15WXtoSI78smQ+WbamsChxlTIiJTHw+yS1dluC8gMliAI1+G+PxN8frxadsovl3h8IZ5xuFldtv5E4MW6DZIWl+4NDViNPuvsJtHRBNWjq3ipMDSJ06AuO754EINKK/U0IyIZ;
-	25:G5hZN0zEBvy6T2hODJ3z1NPzsrYlOxEMHRSm8xhoI9MYurCZkw4i6VAiBnNp/a7aAjl1QI3KpxFgXIFA5SoDwXbU0fxVF9Oo8TSBqJO4JW6y8B1NYlQiocqtw6BHgS2P0u8UqnnoxR2Pie2H2xSXDW/bktrRKd6cjjXv1o1u76dI8WIc367rG8SGmo2hmRDoH40JdMcoGUjCN6thVRTVF0dCfhPf0BsxJBG1qUWpGzDZovNUqe3Er8ZWy9cgZzp0yp9uz5Eo0IoVtcnBA9LMSO+alTfIrltPzOg8UgPsRmeQf9iPc8lk50ib2unTUUbs6skPnaleE3tjMOTJyaNFrg==;
-	31:rMJax/BtE3DMHxGb1e7N77y5T0XbkhxJQ3cpppwKjTHVYMyX2fKVmcr2ZNCFZdNdzdM+QjUjg6pxnz9xx97wTXe2G3LZBBCKnJfmh8AlQmhrHukGM+czuNy2GNw2P0MCGTc82cbOnmbtZaqbu9WuiTOoKJFDh+yXCKgVj6GLvhd8kGA8yEDajUSxkC8GKWWZQ5phNAjOXJtS6G9eiTHObniwFdFFFf5OPLs2yEdhuLw=
+	3:n05CZ9dYgzQb9PABoqIanRO/x4HF+LrtqVVYza53tE66qDwIlQ3wvF5NmtdK4HLekcf4QJXDizk9Uib9MJWANuS+AmKDHKMZZZt7JKRRVtzl8GOSEq9/syRKY+D4Lnca2GWxe2grkJBJCVgFXwJgIgR9/xsKkZ1+fnON94o25V0tqo8EVUuuBOvKFak6meJ+kKcbvRZPb5+kxIdKmQ/5mCtbMFsMwi3eOi0Os7GOU3ONyU9HkK9DWs3pcRrzlB8n;
+	25:5O18d7P2tUM4sHcZRg9JpG+lOi3WqNuYpaCF3DpPeKowXUp3T/zfgEO/UlccweMW9emqWW7JEc212bJHk4Dr9CR9imIQqmN18sG8S4hUDuK08kvDwnApTvwkUVXN/jQXQFjplotL+whxzAchaXhfJnypMDnoy5VRruiPD7tCZzFjyJx4PmjhtcgAnRi61/7x9SjEBRPydBw7dBxdKlMGkeihOsS5LHmGcFPiS4CcY/5+Gp4heieHTCP+YeJEES4UYnFlv7YDj/296XZ/SbowWADz12O2NrAc9imUMkdvT8JiDFzEKqrjRueUbrLOA07zpi+pnhNmsTHYUUxoIxgnqA==;
+	31:oabvEqWuKXD0I73whu+eRZj+ac0ByU7IklM0xVDhj6QbSwniz+sk1+/oSAtfOEyi1KZBpJVd1OywQ+lTEyw4D52G2aKHcIeJzxY25Pppdb4S/XzLajWjew7KgEChxKzACswm0yPI1ppOuw144Skrr+qG3juEud9X2Bx08yKnBGT7O4KvKpZa2k1XeDvvCr6lWGHDj2aeDvgt2c/rTCfITWwSSzghlivqb918/PUICro=
 X-MS-TrafficTypeDiagnostic: CY4PR04MB0391:
 WDCIPOUTBOUND: EOP-TRUE
 X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0391;
-	20:UCDqr3SkkQX/9zDrW6IpdM6oXFZfH8FSK5Jvlr/dqi44UeGkeQ/R5TknRiClg8BvqatMRzTLMk1cXrU2/vLU9QDzzNlqLpqVBJ/HEei/98xaKj4KrxJhGrs+FE0pQ3bIh7HVZIEtdPbw5QTh1KIqee4EPcOB0ChVbuyXgwNTV0bRY5cOQIqZZifbljl9z/Gwga3LOwiVvQLZGxrOn7yGgzq6hfQtnvP6ORUzOEGoWsQN1OZEkBVzcnV0g8H0ebTH8Vii0KqzZ1uJnUeMcnkkwLQOMoiaVAifd5gdA1JdFOEtRhESsyIVid1ULaICffk8Zvl62Ya7e4ylJie7rfIrlr3SU8cd4CURFqgoR/T9nVgfuETTpKx7fGOxd33ULRFXGnocJnN54Muup2d/uQtzI/k+de0gnSj99eWA02DTtNzxHD/9LfYV0s2wB9VprkphYDkZNw+MtZsfbgyze3knmCI5rYADk8fRlQVsgZ/QuCtBNQpqFZliTPd2ZpOHHotM;
-	4:QDRI4/r20kMrTXKuue0kWZx9br1prxTGK57buwCXz2g0JA27fNOY7hq0qrnEUL8YxfAw/uxrdY5jP/PjbkxcaDrswo5QDL0cvuthiTyIuOyZfOWG2d0y3AMZykNEYllOkRVYgbzgfzzOG9tRcMcpc+NMsOlLTY3tl9hEHIG92weQjkFiiC2ZlwUkW33By/zpf7qQaXWuqeJ7ubDFHnLA0C3ddZ7XpeMDw28c4UEawvOyRnMnlWRS02mlu6XVR6JGlQC7e9yP5bih97JJ+PTNR+mi98IbwYb8fwvaAISHC+WF4hRqt623FmgYfNRrx4zNDXgOHSqdCM58QfXA/xl7SC8cZBlGoUgMiNtaFN0Qsa0=
-X-Microsoft-Antispam-PRVS: <CY4PR04MB0391690B337C94461559F7DA907D0@CY4PR04MB0391.namprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:(85827821059158)(126947320029983);
+	20:ztcTc6qiUzEBYwetszSRlly1CEvRxRNasUsTjRjnixfhkawUy1u4OwK+Mn0mZlc2AozYjXYKBsNHYVKeaz5C+3F6Mr8s3YRH08GPiVCTWDLHHzuj/Uwi1dafu4fvvBFDsHbPJPswwpppkM5JFNhnACqhRyYdo3+cRc+MTJaKkPhj5sR7n3fQUEbYE+dtYJxwKz+g+LmTbKSKD79VfeThJITiSaeB94aJa3Fo6yHLIf+nhZf+kgOAuqJn/WMWZBrELq3EdX+9kapUSJ2NwWSnyp7JYehPiuZ946eSFQCwlfYc7QCLE3nMyUPbMjbcS5LQmxDBftfmbohAnCg6/lsSg3wfuBS9/Pwa6DfK1EkXtALUxe++UZ8vEGMfuAt9UW7N5hg66mtKWCUiqf+IZo51ey0EUtrML8IZXrx4Zuhsabx9CCq6C/fOzoT9mueCDUdTS56eoRY+fBjPy7WKwe57oWLQ2+xgWoZia2RzEM/KtJRAhzQTRQJthGT+PREZmJsS;
+	4:zbF7iWb+W16yLpj2GFl8MP7DIzNMtDlc1hUvgF9gLZsudIaAo5aghn17UqWrZwXmGmtZPEXOoD5UZMv7euxd9mgfDxw2LYcuTMUwkSTcNQQ2yr+TEx/EWW8dH9m89+PAMzYMSyyUgMG1fZN2WYz7ABBLpoC8cPRemeBb/r9QXR9THgY/wFv4WHrGf9SyMUJ6Fdi+QSpnKM90uHpdFIj+tVcEHCWeb/R4m95+WuJHYBbMyP2VP1QTTEpSRco3oma5DCJDnaMsPcAQ89LwiXVAjg==
+X-Microsoft-Antispam-PRVS: <CY4PR04MB039117ED73FCFE2008A89082907D0@CY4PR04MB0391.namprd04.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
 X-MS-Exchange-SenderADCheck: 1
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
 	RULEID:(6040522)(2401047)(8121501046)(5005006)(3002001)(93006095)(93001095)(10201501046)(3231254)(944501410)(52105095)(6055026)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(6072148)(201708071742011)(7699016);
 	SRVR:CY4PR04MB0391; BCL:0; PCL:0; RULEID:; SRVR:CY4PR04MB0391; 
 X-Forefront-PRVS: 0703B549E4
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10019020)(346002)(39380400002)(366004)(376002)(39860400002)(396003)(199004)(189003)(36756003)(50466002)(316002)(6116002)(2906002)(81156014)(305945005)(8676002)(7736002)(97736004)(5660300001)(81166006)(86362001)(575784001)(16586007)(68736007)(3846002)(486006)(6916009)(6666003)(8936002)(50226002)(1076002)(59450400001)(956004)(476003)(2616005)(105586002)(44832011)(53936002)(25786009)(6306002)(26005)(6512007)(51416003)(47776003)(186003)(66066001)(48376002)(2361001)(52116002)(2351001)(478600001)(72206003)(39060400002)(76176011)(446003)(6506007)(11346002)(106356001)(16526019)(386003)(4326008)(6486002);
+	SFS:(10019020)(346002)(39380400002)(366004)(376002)(39860400002)(396003)(199004)(189003)(36756003)(50466002)(316002)(6116002)(2906002)(81156014)(305945005)(8676002)(7736002)(97736004)(5660300001)(81166006)(86362001)(16586007)(68736007)(3846002)(486006)(6916009)(6666003)(8936002)(50226002)(1076002)(59450400001)(956004)(476003)(2616005)(105586002)(44832011)(53936002)(25786009)(26005)(6512007)(51416003)(47776003)(186003)(66066001)(48376002)(2361001)(52116002)(2351001)(478600001)(72206003)(39060400002)(76176011)(446003)(6506007)(11346002)(106356001)(16526019)(386003)(4326008)(6486002);
 	DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR04MB0391;
 	H:risc6-mainframe.int.fusionio.com; FPR:; SPF:None; LANG:en;
 	PTR:InfoNoRecords; A:1; MX:1; 
 X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY4PR04MB0391;
-	23:U+tqhKHvtq9f0hx9BD6hjS1UU/0htYEEATbtib4CQ?=
-	=?us-ascii?Q?ZNbdkfKiWvKje22gppF4Q3ElVSoHq65dx1WcGRWArlv8UWcchvgdWQUKXj3+?=
-	=?us-ascii?Q?BkveF7x4llTJA2PjuA7pr5Pj66voYU7xFyzBogXgIPz8AEz08iXEq4CDINUx?=
-	=?us-ascii?Q?5B5YLbv4OCbeWSPc0aWkHwANmiXr6StHoDuAakc6muPMaxjl1RJVgOVLsqaQ?=
-	=?us-ascii?Q?eww7+Ix65bmnLzXJWbemzn0YCocyE+5h9TwguWn4F3AwuNllFnPx7pBHyWPT?=
-	=?us-ascii?Q?ST1/K2SQTDqt/NaIOLwPyXT5LsSfKxSDvm6uqmhp5KqP+qLJP03vxS7DxBhc?=
-	=?us-ascii?Q?jnbSCTy1hOCiiA0a8p4eOwiePSN13c+5LlWmzTf1RBTdOweIx0gc7dbxAja7?=
-	=?us-ascii?Q?l2VM/ne1gaJj+5Z+Gm6VvKKR2MKEMfGmhCLQVeVtjiW/NDlKCy+g+AbX5Fdu?=
-	=?us-ascii?Q?F1YgsHa/9iU4qW9p5ZeMlRdxJLlHUgt37r9kI+INa1orTkHuFkuedqFfaSwH?=
-	=?us-ascii?Q?RfPBvueTCHmo64BG+AwqzpSMXaFeuloP7psn7wnBNA7/bWGUIKSl+AnPeZed?=
-	=?us-ascii?Q?dbUPo9GF41geqhFwzM/2MjOvEbLJuHjakYANeSC/8NLKcbiClv8pnc/gyYZR?=
-	=?us-ascii?Q?8lghizw0rzT/kFicKTBegln+r1/HUvnNhOLmgZ0MAcvepkcQiHPZh5kW9DVm?=
-	=?us-ascii?Q?R85yUFowapekslpLGuqgnXNyiz+B+adsZ9Ds9QZcetr4tKM5CxKPSkcjidAL?=
-	=?us-ascii?Q?6ZpvZUHeJ+M48YFxFJc6DqKtvWPboVfvwBz72xuLDHNmQ0j6LKpk/pEvGHdd?=
-	=?us-ascii?Q?ecvqOWnvV9N5hG5led5rrv9IRgDsZHj86ezzzaryx1fVCI9Aq83YnrR6HenD?=
-	=?us-ascii?Q?Ot6pWBCyN9OdLf9rghDZydXTXZZ+Gwpof9Rok+FPR0UGBP/kKVRGEzLQipdY?=
-	=?us-ascii?Q?O3y0TXni8ytbFsXW3BtysT3heW008Op9IDE29vw2DtMzyUp+dMGk68AvdyzQ?=
-	=?us-ascii?Q?2LYHw0OgAOJZB4K8QDgIlQRxH7dNnhRYTKVRj/wzEBjsD2mb9P9QYYfh4WRS?=
-	=?us-ascii?Q?4jIvWF6KuZYvtiQ86OpwpdHdnNMSEdx77lSRgeQEZcJERryKnAfXm2uNaXJy?=
-	=?us-ascii?Q?dsSh+pbfl7KfhxOgEP9X/ANLXaO5+nFnb77hsJoM1dG3EyloZv0BEsFYE1M1?=
-	=?us-ascii?Q?Bt3DhauU/OUPkJCcgG1qYSTOyOP7sZMxLuZRqMS7gzMBcOPP5D7aLliltcbG?=
-	=?us-ascii?Q?lUIBdNUKL97LiiiCw6C7bD0wVejVGgwOI2PnS4I5wVAIhM9zA670cnLXsWVh?=
-	=?us-ascii?Q?9p7rsu7JTsGp/Bq6JvqkTqU0aVQi05KuWXne6GGafQfL0krYA5HFtrrteVMg?=
-	=?us-ascii?Q?0vKlOvDsxRUNqVuyFCvIvqjg3s=3D?=
-X-Microsoft-Antispam-Message-Info: bsJ0zCDx7LBFuqvAJ6gSkyfwc2pf2AeOOiM+DQgLuCAH3nAvyDtNLC/I8ZBLOwna/Hy+04lSQZBdLHzWt4VKSA2atoXirLX9252TZ11hMn8DYKkVWhuRwD9jvF4e4X0xBLvA/MbjmNGgNCm8nwThgj8rwYc4cmCIkE4VAikZmpM492jYvtSJ6csPzvwJTJI4
+	23:XZQZW9LiRu4dnvnm6Vj97tJ6HMNsn8NzdBK/mHfus?=
+	=?us-ascii?Q?/2VoLJrPO0pYR3yO5j05wEJHGvo0JI+6AiunTM/e3qEjytPnmn16ypc0zuN3?=
+	=?us-ascii?Q?ZwAYe8kzGU0Stpyftr6/xwsCZ8g1TrqKmfDsN0tOZskejmrdSL8ctnjCA7kt?=
+	=?us-ascii?Q?CzzAUf7lUgQwDlDGBnluWC8Zqut1yHi4XAycssPJVGOihYLiddBTKtZVOIKm?=
+	=?us-ascii?Q?zAk/uTIj51S/big4gcGv5aYx159zOQ0gVPIBUM1ndZYWgh5R39EMdMa86u8g?=
+	=?us-ascii?Q?zemID/6JG1i+nEZJt7eb1jvtdyXxqwchb/1YySijF4EeUkI/WQHZH+53pA7W?=
+	=?us-ascii?Q?xjKwc+lddhPhzyXO2xPwlTlLV+qR/3ocfsdRn22g7gXAn1x/TiVFsAxLCqSF?=
+	=?us-ascii?Q?vf9Rjh12ukQG7G6iD7aSjcPwUw1H+ivSHyI0TLJnficVGfCAX1nd+sdeVmZM?=
+	=?us-ascii?Q?u6GMxyzvT/V2sFZ5SxBW5iVYu0HuFhfXwkBeXV8SdbudrRTpgI7+dM8tnlnN?=
+	=?us-ascii?Q?kPPI13Rl6wg+NtCgH566keIYKm2dlK4Gyu+Cg9z7JlVkk0XtDimazjJslsII?=
+	=?us-ascii?Q?1qtGFegiYzrWDxG8JOMTiVy7ej9k70FNOnEzXPvcUETIlTr1LOloW0/vvJLU?=
+	=?us-ascii?Q?gQRA2o2dFusdM7mFesyq+JLIzFMGSXfp68B2QurMjAvGGjzRlSJsnFsOFIuf?=
+	=?us-ascii?Q?5SI+RTnD3fThoGMzmOJTg7rBYVc2GWo27X08m8LjbuGSAEOg6233m8vfxZSo?=
+	=?us-ascii?Q?iSREaSC7P1HbXYty+0OvzSw79f8yez+f81VSVEimTSQGONZz9/TC1WYyf2O3?=
+	=?us-ascii?Q?RVme2QylWPzOjg7uMijYo/qNq6Bi19DLs5GYKmQDfgPZh5QFs9TOBhz+YQ78?=
+	=?us-ascii?Q?NfpNb0THL8Nc81o24UWxc7u1oLaf22aSAOI3hKU+aUSipFTTjJUq+jRw3C0l?=
+	=?us-ascii?Q?puwsQA/uk3VZCIg9k+wZddJASXgdPJEy1Gf9xPSG4T3AOLWSjdScP8kzyQZS?=
+	=?us-ascii?Q?xhTBvArItzweKhNKoREdrwyQK5Iaz2PHDa1JimOUiDFQNlwFuQuQbT2CyR7y?=
+	=?us-ascii?Q?AmdnkYCGyAuwKJmRIcC85s9yGcRrjNvx3d9n8JRJKYm8LwofxBDB5WsDmlAS?=
+	=?us-ascii?Q?tNh3L04mPDAk+B1pOHI07gZ0kidfdogTrLUd0zC+m2MJWXM79MSTnPnIk6I5?=
+	=?us-ascii?Q?QgSifetJaHcwQmCrS7uF0qTNtJLcs9NxqZSE+K+l7bAhKjrMc/T/vPJvQImx?=
+	=?us-ascii?Q?/RC1se6ZTWWDiTL0g2iJp6GkdbqVWM9cS9yx9IGbEW+jpHWvh0D0Gkufcf8j?=
+	=?us-ascii?Q?W+o+LeM4u1rhHWQSgprdcLhOsRqUyasoTJymkfp8vMp?=
+X-Microsoft-Antispam-Message-Info: xaTPkLqAJXIBhOPbTGFSlg1zhAE48oXKcrhBn6Q6DtrXdL97P7LyBM0OJkSnej6GoYFGs9Wm/FomGYTMy3oUJBTYRUG4dAxUCygbD9thd6qvpFYRbIZMSpU74v7wteu8hwpumfZRk0A1iHqC0kKMB8uHfk8JyN1Kj1MeYYbJk3cj1Ehe7DTwQIgE2ovEeIOF
 X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0391;
-	6:ZpVmFgC9gWwQOD6nVvuAChNZlIXSsCav9YfGqlYdU1CkrDqM9LRwUQidscMiuULwgNyDoK3xsltdREPrgU4rBFeWtp7zT7MeJ0suwEYLLdq/zcqn9b5XlgoL0PBTOByhi7ziLTRBblU7RFUx1oWGEp630i+00yW1mUwKroy0MX4RT/5trcCWNHWiL1uDdUhlmdZYiz5sVnbFx3mBDLa6SS8E6VmKtwb5GL4edQqWX6iacYNbhGN938n3Ngju/YnCjOCvrvoXxlwd8wn2yTAEUAjyBOdLkDQcUhXwB2SYAf+zGW4WqJUlLX2C0XxMN4N/qNPo3L2tDU8CCZZCpOgDpnIbqspeeAoEuHPeJ0BxMjCVqIIUr4cpN0uwRe4hWuQ8U6oDRqLFI8iCv1l/QaRKVhYBM98lkvHKOoVp/9pPKr/d6WutBL0lJab+ZFJt/KbqnhuwSPw//sB6yFXhKwFwdA==;
-	5:jRnBm/o755p7kOHcTdDvcC0j1gT9FBxVUqUgsxbgI0fT05BL2Z3ikg8gcIZAKzBxWBhdJnle6dlunJS7k2PWg5xn3xYTbbhQdpPdjFeVGwZ9RkJtfJ/YKjfiIElMpkgsRlSmLO8wRsBB3pJgiQi8ZXnjQ92OvaWv9Yku0HYte7g=;
-	24:Azcr8QmNBQtWEgQyfvERCtIUzIPSVwoLOYpbgWvvSh7Hn/M7jpsjc4zBzOrL2Ufe7Pz2Y7E8P/g8O3GnKemiegk89Hg4MW3qAZrI+oIFCHY=
+	6:6eweawKHizE4N+YbTVA9eXJCZY81wZJyE1YX9vxZEuqiTsfdlxQf3C3xbE4A88cpEGP8/SrbbFmF1wd4mmqt0qrakh8kCjq664uRwdwjZoavelBCq+htioiO66I6cOdprl14uHHBdlDWniBeTF1HGeEqGHSsu7SKVkvRu8dUT6XnAelSWav+44eETfUk/+/cPrHFUoGiSX6Lt43o1hZ8aiXtuhMexLU073zlfaQ8T9tRdsLxeALWckOQzHzS4O3m1Ar5N0I5SzxyrErXWlQiKaOnbezKrZHgW15JbmK40OrIQm2PYpOI8FdQOg2xBMrZEZsRfgrFLF8wYON0PQCMtjiV0rfEz+8c7F6BoTforaRh0DnJEEKqaE+INiks7s6XHY1z1O/gglp6thCY18yOe8dUyJRxFeuoxifcy0sGOajWUfin5Xt7PA9HQt1AbnpWDcwJzC1ZCuDNwOKiMys5ow==;
+	5:CyHQj2bMtJbafvpeRRxax9+jHdeaXDDLBL3IhShLrkGEiq++Ro68ZUCgSp6hQ8TfL6219Mw6MP1IbIvVbxV6FwW58TB6wAPKSZqhrJgg+bRRNiJ3luCHGlwEScFK3hNCBG99dPWhFLpUd69Je4oSdgW8d3F96uGab3jLLVPIMX4=;
+	24:d1p4k0aT2BhFFrvh0cZ/2kWwexnLiMUzcx932JyXuohSpAVoAjDG8FGta9NL9i8NKXMZ0bQczMss6754SrwTUxLXEZ+SBsWbmrmIFIt75Zo=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
 X-Microsoft-Exchange-Diagnostics: 1; CY4PR04MB0391;
-	7:71ybmv+POgruEZpl9cIy77XOxwfhtXEd4zxilfC3ex/Lol5DyFPRRsU8IujPoT5lG0IcHoModEW19g1dgYPt01Ghr3gjPuJTen+SzaOGrnBIUXmNGMQTueZWYAAZcfJM8x+o08WyD7zmM2cBDz+qXTOHGZ1Jsv3fKI5ousVKKgVtVVinwU46kmbZKj+Z/NWnpnZ8iTg9uFIiQDnzU9VQL2PB28obJ//0PrT0Cr+6otZGoyZE1K3vco2MQBqvcfA8;
-	20:WtUHD5JxOKUGNEuTT8VzSKAGp4NQCHR7pWWae2LCDuxsKIninokw51RdI+U59dE/CrnM+8eZdpWV4k2skGCwxNDcU7uoWlxLRol8fVKjAmzi+fdnKLo943YwdpcqKXiwebEhqV2yX86bvZMnOJbkkO13LM5eL4nXEtQwsPwXp6w=
+	7:I0QkAV8ZLedp+a5+SAHzWgumo2WupnN65HO5UBfXe0n/f4OU7awAwIUo/eB3cu8asUbWl27fY3HrvUBDRTCGtQ6nIQQOZ6KkM12QqC7s5rJm/kkLT9CWGaFqI5O8b0XsLE3THtbgz15j15UFcGdD4XNLokaM06uD8yULrsPYnvgJXi9Tl9B3ToIwxIpQWcAUvll3oE5HDi5CDuJo5s3BLiskaq70VzdL+GavkFRK8k0Om8BRnwN+OWNZRuPZeuqR;
+	20:B8ZW0Yh9+NCQaZJpKRZJljbQjPq+IpPFTZi+Cl005hjlRoMRdJnQOnNjXdR+sjdRItnIhrKe9PkQQhZqLhGh0H6LccahaX/zmWmn60FImTQHqdmRV6JpVcEpjDrA8nHVircESd4X0ogB4z4+5ktEaI15eRH678oNzu6jQS2Nqww=
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 19:45:16.7529 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4153abac-041a-4c5d-dcb4-08d5d22f5ab4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2018 19:45:17.2813 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7ff987-d87d-4096-cd03-08d5d22f5b05
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0391
-Subject: [PATCH 3/4] recipes-support/nspr: Add RISC-V support
+Subject: [PATCH 4/4] recipes-kernel/linux: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -129,132 +128,41 @@ Content-Type: text/plain
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .../0003-Add-riscv-architecture-support.patch | 103 ++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.19.bb        |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0003-Add-riscv-architecture-support.patch
+ meta/recipes-kernel/linux/linux-yocto.inc     | 4 ++++
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/nspr/nspr/0003-Add-riscv-architecture-support.patch b/meta/recipes-support/nspr/nspr/0003-Add-riscv-architecture-support.patch
-new file mode 100644
-index 0000000000..14911440bd
---- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0003-Add-riscv-architecture-support.patch
-@@ -0,0 +1,103 @@
-+From ff3d77742bd3b0272c48ff7472a45e9c537709f2 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 4 Oct 2017 11:55:10 -0700
-+Subject: [PATCH] Add riscv architecture support
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ pr/include/md/_linux.cfg | 46 ++++++++++++++++++++++++++++++++++++++++++++++
-+ pr/include/md/_linux.h   | 14 ++++++++++++++
-+ 2 files changed, 60 insertions(+)
-+
-+diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
-+index 31296a8..d0dde57 100644
-+--- a/pr/include/md/_linux.cfg
-++++ b/pr/include/md/_linux.cfg
-+@@ -360,6 +360,52 @@
-+ #define PR_BYTES_PER_WORD_LOG2   2
-+ #define PR_BYTES_PER_DWORD_LOG2  3
-+ 
-++#elif defined(__riscv) && __riscv_xlen == 64
-++
-++#undef	IS_BIG_ENDIAN
-++#define	IS_LITTLE_ENDIAN 1
-++#define IS_64
-++
-++#define PR_BYTES_PER_BYTE   1
-++#define PR_BYTES_PER_SHORT  2
-++#define PR_BYTES_PER_INT    4
-++#define PR_BYTES_PER_INT64  8
-++#define PR_BYTES_PER_LONG   8
-++#define PR_BYTES_PER_FLOAT  4
-++#define PR_BYTES_PER_DOUBLE 8
-++#define PR_BYTES_PER_WORD   8
-++#define PR_BYTES_PER_DWORD  8
-++
-++#define PR_BITS_PER_BYTE    8
-++#define PR_BITS_PER_SHORT   16
-++#define PR_BITS_PER_INT     32
-++#define PR_BITS_PER_INT64   64
-++#define PR_BITS_PER_LONG    64
-++#define PR_BITS_PER_FLOAT   32
-++#define PR_BITS_PER_DOUBLE  64
-++#define PR_BITS_PER_WORD    64
-++
-++#define PR_BITS_PER_BYTE_LOG2   3
-++#define PR_BITS_PER_SHORT_LOG2  4
-++#define PR_BITS_PER_INT_LOG2    5
-++#define PR_BITS_PER_INT64_LOG2  6
-++#define PR_BITS_PER_LONG_LOG2   6
-++#define PR_BITS_PER_FLOAT_LOG2  5
-++#define PR_BITS_PER_DOUBLE_LOG2 6
-++#define PR_BITS_PER_WORD_LOG2   6
-++
-++#define PR_ALIGN_OF_SHORT   2
-++#define PR_ALIGN_OF_INT     4
-++#define PR_ALIGN_OF_INT64   8
-++#define PR_ALIGN_OF_LONG    8
-++#define PR_ALIGN_OF_FLOAT   4
-++#define PR_ALIGN_OF_DOUBLE  8
-++#define PR_ALIGN_OF_POINTER 8
-++#define PR_ALIGN_OF_WORD    8
-++
-++#define PR_BYTES_PER_WORD_LOG2   3
-++#define PR_BYTES_PER_DWORD_LOG2  3
-++
-+ #elif defined(__sparc__) && defined (__arch64__)
-+ 
-+ #undef	IS_LITTLE_ENDIAN
-+diff --git a/pr/include/md/_linux.h b/pr/include/md/_linux.h
-+index 551918f..3a3cc2e 100644
-+--- a/pr/include/md/_linux.h
-++++ b/pr/include/md/_linux.h
-+@@ -31,6 +31,8 @@
-+ #define _PR_SI_ARCHITECTURE "x86-64"
-+ #elif defined(__mc68000__)
-+ #define _PR_SI_ARCHITECTURE "m68k"
-++#elif defined(__riscv) && __riscv_xlen == 64
-++#define _PR_SI_ARCHITECTURE "rv64"
-+ #elif defined(__sparc__) && defined(__arch64__)
-+ #define _PR_SI_ARCHITECTURE "sparc64"
-+ #elif defined(__sparc__)
-+@@ -151,6 +153,18 @@ extern PRInt32 _PR_x86_64_AtomicSet(PRInt32 *val, PRInt32 newval);
-+ #endif
-+ #endif
-+ 
-++#if defined(__riscv)
-++#if defined(__GNUC__)
-++/* Use GCC built-in functions */
-++#define _PR_HAVE_ATOMIC_OPS
-++#define _MD_INIT_ATOMIC()
-++#define _MD_ATOMIC_INCREMENT(ptr) __sync_add_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_DECREMENT(ptr) __sync_sub_and_fetch(ptr, 1)
-++#define _MD_ATOMIC_ADD(ptr, i) __sync_add_and_fetch(ptr, i)
-++#define _MD_ATOMIC_SET(ptr, nv) __sync_lock_test_and_set(ptr, nv)
-++#endif
-++#endif
-++
-+ #if defined(__powerpc__) && !defined(__powerpc64__)
-+ #define _PR_HAVE_ATOMIC_OPS
-+ #define _MD_INIT_ATOMIC()
-+-- 
-+2.14.2
-+
-diff --git a/meta/recipes-support/nspr/nspr_4.19.bb b/meta/recipes-support/nspr/nspr_4.19.bb
-index de2c87131f..5c37509b1b 100644
---- a/meta/recipes-support/nspr/nspr_4.19.bb
-+++ b/meta/recipes-support/nspr/nspr_4.19.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://remove-srcdir-from-configure-in.patch \
-            file://0002-Add-nios2-support.patch \
-            file://0001-md-Fix-build-with-musl.patch \
-+           file://0003-Add-riscv-architecture-support.patch \
-            file://nspr.pc.in \
- "
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 95ec2a2b41..70a13cdd1e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
+ KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+ KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
  
++DEPENDS_append_riscv64 = " libgcc"
++KERNEL_CC_append_riscv64 = " ${TOOLCHAIN_OPTIONS} ${SECURITY_NOPIE_CFLAGS}"
++KERNEL_LD_append_riscv64 = " -no-pie"
++
+ KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+ 
+ # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+index 693670c613..4ea368a011 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+@@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ 
+-COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++KBUILD_DEFCONFIG_qemuriscv64 = "defconfig"
++KCONFIG_MODE_qemuriscv64 = "--alldefconfig"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemurisc532|qemuriscv64"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 -- 
 2.17.1
 
