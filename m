@@ -1,49 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AB2475430
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 61EF174EDD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 19:20:47 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id b134-v6so4328154vke.13
+	Thu, 14 Jun 2018 19:24:39 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id m21-v6so4892497uan.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 12:20:48 -0700 (PDT)
+	Thu, 14 Jun 2018 12:24:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=c/iw3hd4c6JnYEhllZThQ5JCrtlCDPYSieL3ZMpDWkQ=;
-	b=DCh/B3g2OGz9pVk1MeMhnCxWKizHxj+c7mpXmsUehMvzFEnGWKabqN4F51Q52Tx5xo
-	I1BQX2xIJ/mCMHpI56jkYmHF+inW9eZElj4fpt24ZXl3dq6TNdiLXXD8PMfngQ3pYTUI
-	VFMcuuztxrsR4jSvc+CC+T3oaKczTjEdic0ERyYWmYEhHhHVlU5M05+2HwIQXDM7NCTi
-	1u5P9038TBZ8ejy6ytX7MRsqHimXBX+OUCf8ipVJxOAVzj5witRoK6wctPso07MvdrJd
-	NnPDVdEZ/pJtXBV8jLnHRAm/zNUeuYg0k2EHbUBX2hAbXWh3sJ6M0xXQ2ZDbqZWs/CFS
-	oh1w==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=VjDpiUCmqSW0tU/dmNLawjJM8tLQlF61oS2L8VGcDys=;
+	b=CMlGVzuS+wrkaiQI/TUn1pbWxR7484Eldez1lgiXcxOj15Gkbt8JxnCHhtDNcA0V+m
+	skfgC2gPzPLXZtC37AB1Bj4UWQ8h8bAyBxG0MP/00/lgp6TjGL4jDtVSBnQOM5hzJe0L
+	UiazB1qDKV1G9e9zJReLbjMvJQbSMeRXLHd/zxwavcOEiiC85yhJGJg/3mHRoN1HsuTg
+	KAwxJQqwQVV17w/r+W2lb4D9zZhXS0JvWxU5DzSscHp9jU9wUhQYIWHlrupmBgqwsqFK
+	dx5YIXdsNBuCTEc9OnZiMSnAM5k21JOQPXA4m5cIBKqqVMHAt3taQ/shxVRklpVc7p1P
+	OUvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=c/iw3hd4c6JnYEhllZThQ5JCrtlCDPYSieL3ZMpDWkQ=;
-	b=oOmdg7EwC6PdxXgebicM/dpIq0c29iun6rBzDkAO8xjKA540xASjYg8GOkGRJcxQrj
-	/CqZonNHRZZX19Z5nIBh1m4v/JqAdljPxIcRrbTMbqwNsa2o+bjbz+FhIRbs/rDITye+
-	SNgXDcymkuxwP//0nX20szki7iC5D+qZJqeKGb61AdQJxi9SleG/piY5JyohUJLbJm8F
-	haDdprrEe9iJ94wl+qcGXu0y3DQjEeeRXJx9YDt6Ntp1uuqW9jo5XZ7w/Ml9rsgaQ5f/
-	L4AGVGQ/a4gNaoE0QDHj7DiCa9JvmORn6Q9hiqgj3yfGGDbWhY1YcRxITxUqF6fzG3kD
-	x5hw==
-X-Gm-Message-State: APt69E20rzhD10Ch/VbneenuaV/P6Fffd2p4Xc1gPhVf/5wl7f77rJeN
-	qr0Qvr7rpBBBxTkeXSHpIH8cGtWw5vanyneOgGDOcA==
-X-Google-Smtp-Source: ADUXVKKe8mHPa2ablRmmfvdbU86DUMh5OMvkmtKQc1+MZl6j49IaH3H0YZGwCBInJadOB7Pw7RPs6vooIltZPCPI40M=
-X-Received: by 2002:a1f:9615:: with SMTP id
-	y21-v6mr2428420vkd.154.1529004047861; 
-	Thu, 14 Jun 2018 12:20:47 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=VjDpiUCmqSW0tU/dmNLawjJM8tLQlF61oS2L8VGcDys=;
+	b=WDEFcP3YbYecd+yMr8MB4FRDFzE5c0gA2yJicwVeUW3BmvIGgFDZ4FrsRG/+NAZsi7
+	tdj68nnNLyz+FtCJFQf92hrfiqzAUrqjXCLIgryHkGIpzt4eJTTsLpChZ3L+vh24R78O
+	NFMkZA25QwKNFUHnLS/lGSii0Bhn3VRbDLOyyN4unhD7Z86TNlEUYVHjx+Rbb2hokHYE
+	Lq5hYcEBDtJH/Uekw+CNj7TcRmX6FmyHS8eLwo+fW7HrjYfDyJi9gQ95azZ3tpQJZZ7R
+	XB+FnqchPiXroduC1uuPYhmpWvJmuuwROBYWnsISvmrnGCyn44AA4Cel/mKUNhTsw7Mm
+	JZ3A==
+X-Gm-Message-State: APt69E0ddMagtoM15CRRe5+VsOocRV3pPuF8fM8PX6wHQHyXfVJ8k4Sc
+	Baag0jRzsvKpphOETIqG/VhLgKha19cAeIkHZIg=
+X-Google-Smtp-Source: ADUXVKL77WSaDxJdfAOC+DVQ6BgVfY0GUpKJRd50kVIxEFiSYPCIUL7AjiLXa9QpnAtJ6GSxhz0zCpBbA5tZ/RUx91A=
+X-Received: by 2002:ab0:304e:: with SMTP id
+	x14-v6mr2634396ual.80.1529004280071; 
+	Thu, 14 Jun 2018 12:24:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Thu, 14 Jun 2018 12:20:47 -0700 (PDT)
-In-Reply-To: <bcb49b46-b97e-399b-5a6c-c994b1628ad6@gmail.com>
-References: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
-	<bcb49b46-b97e-399b-5a6c-c994b1628ad6@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 14 Jun 2018 12:20:47 -0700
-Message-ID: <CAJ86T=U0iM3u5Vv-4hOvLFSNs5K8D66++kiRRWqKq7MW=JGyEw@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ltp: set -fomit-frame-pointer explicitly
+References: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
+	<002e01d403d8$b811f1b0$2835d510$@neuf.fr>
+	<20da1542-9903-d4fc-b38f-8f0ad3b2d4a1@gmail.com>
+	<CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
+In-Reply-To: <CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Jun 2018 12:24:13 -0700
+Message-ID: <CAMKF1spJGLVW_HKD9YEgDY6aidz6q_TvjohfoJHnXHDiyc3vtg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] db: disable the ARM assembler mutex code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +58,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 19:20:47 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 19:24:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 14, 2018 at 9:38 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On 6/14/18 2:35 AM, mingli.yu@windriver.com wrote:
->> From: Mingli Yu <Mingli.Yu@windriver.com>
->>
->> When build ltp with -fno-omit-frame-pointer,
->> it will trigger below error:
->> | cve-2015-3290.c: In function 'child_thread':
->> | cve-2015-3290.c:416:1: error: bp cannot be used in asm here
->>
->> And there is also some comment as below in the source
->> file ltp/20180515-r0/git/testcases/cve/cve-2015-3290.c
->> * Build with -O2.  Don't use -fno-omit-frame-pointer.
->>
->> So explicitly set -fomit-frame-pointer for compiler
->> to fix the above build error.
->>
->> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->> ---
->>  meta/recipes-extended/ltp/ltp_20180515.bb | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
->> index b07c1b9..5ec25ed 100644
->> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
->> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
->> @@ -19,6 +19,10 @@ LIC_FILES_CHKSUM = "\
->>  DEPENDS = "attr libaio libcap acl openssl zip-native"
->>  DEPENDS_append_libc-musl = " fts "
->>  EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
->> +
->> +# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
->> +# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
->> +CFLAGS_append = " ${@bb.utils.contains('SELECTED_OPTIMIZATION', '-fno-omit-frame-pointer', '-fomit-frame-pointer', '', d)}"
+On Thu, Jun 14, 2018 at 12:12 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> On Thu, Jun 14, 2018 at 9:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> > On 6/14/18 5:10 AM, Herve Jourdain wrote:
+> >> Hi,
+> >>
+> >> I believe I solved that same problem by just adding, in the case of armv8
+> >> (which I believe may be the new architecture you're referring to):
+> >> MUTEX_armv8 = ""
+> >> This way, it allows previous versions to work just like they did before,
+> >> without having to disable ARM assembler mutex code for architectures that
+> >> support it correctly - up to armv7ve I believe.
+> >> Of course, we might need to also have a good definition for armv8, which is
+> >> the object of another thread.
+> >
+> > right thats a better approach.
+>
+> SWP is not guaranteed to work on SMP systems... and even if it does,
+> performance is likely to be worse than the pthreads version (which can
+> take advantage of the newer instructions).
+>
+>   https://community.arm.com/processors/b/blog/posts/locks-swps-and-two-smoking-barriers
+>
+> In general, use of hand optimised assembler mutex implementations in
+> user space isn't something to be encouraged - use pthreads (or maybe a
+> gcc intrinsic) instead.
+>
 
-This doesn't cover all cases - there may be times when the compiler
-chooses to enable frame pointers without being called with
--fno-omit-frame-pointer.
+question is about disabling it on old arm machines, do we have data where
+we know that other sync methods without swp works better on armv5 and lower ? Do
+we have gcc intrinsics for those versions of arm ?
+if we do then I think I would agree
 
-You could make the append conditional on x86 though (based on the
-error message, it's the x86 frame pointer register which is being used
-by inline assembler).
-
-> may be just append it unconditionally, what do we lose ?
-> CFLAGS += "-fomit-frame-pointer"
+> I think the original patch is good.
 >
->>  CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
->>  CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
->>  SRCREV = "96cbf48313afa65ef4d693d3441cbfd60a8d9b27"
->>
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> >> Cheers,
+> >> Herve
+> >>
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> >> Ovidiu Panait
+> >> Sent: jeudi 14 juin 2018 13:55
+> >> To: openembedded-core@lists.openembedded.org
+> >> Subject: [OE-core] [PATCH 1/1] db: disable the ARM assembler mutex code
+> >>
+> >> The swpb in macro MUTEX_SET will cause "undefined instruction" error on the
+> >> new arm arches which don't support this assembly instruction any more. If
+> >> use ldrex/strex to replace swpb, the old arm arches don't support them. So
+> >> to avoid this issue, just disable the ARM assembler mutex code, and use the
+> >> default pthreads mutex.
+> >>
+> >> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+> >> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+> >> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> >> ---
+> >>  meta/recipes-support/db/db_5.3.28.bb | 13 +------------
+> >>  1 file changed, 1 insertion(+), 12 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-support/db/db_5.3.28.bb
+> >> b/meta/recipes-support/db/db_5.3.28.bb
+> >> index 093ee44909..15b4155a29 100644
+> >> --- a/meta/recipes-support/db/db_5.3.28.bb
+> >> +++ b/meta/recipes-support/db/db_5.3.28.bb
+> >> @@ -59,18 +59,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so
+> >> ${libdir}/libdb_cxx.so"
+> >>  # All the --disable-* options replace --enable-smallbuild, which breaks a
+> >> bunch of stuff (eg. postfix)  DB5_CONFIG ?= "--enable-o_direct
+> >> --disable-cryptography --disable-queue --disable-replication
+> >> --disable-verify --disable-compat185 --disable-sql"
+> >>
+> >> -EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+> >> -
+> >> -# Override the MUTEX setting here, the POSIX library is -# the default -
+> >> "POSIX/pthreads/library".
+> >> -# Don't ignore the nice SWP instruction on the ARM:
+> >> -# These enable the ARM assembler mutex code, this won't -# work with thumb
+> >> compilation...
+> >> -ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
+> >> -MUTEX = ""
+> >> -MUTEX_arm = "${ARM_MUTEX}"
+> >> -MUTEX_armeb = "${ARM_MUTEX}"
+> >> -EXTRA_OECONF += "${MUTEX} STRIP=true"
+> >> +EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot
+> >> STRIP=true"
+> >>  EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
+> >>
+> >>  EXTRA_AUTORECONF += "--exclude=autoheader  -I ${S}/dist/aclocal
+> >> -I${S}/dist/aclocal_java"
+> >> --
+> >> 2.17.1
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>
+> >
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
