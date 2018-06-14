@@ -1,31 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14E4878A2D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A786E7894C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 05:24:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5E5NUL5026496
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Jun 2018 22:23:55 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 13 Jun 2018 22:23:26 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <20180613061252.18271-1-kai.kang@windriver.com>
-	<CAMKF1spMCuxOxztWfEGGepupH-K2DOTKwViDf==XoOipocqgHA@mail.gmail.com>
-	<1ef2ee09-4f69-2a91-80f0-e700bc139e1c@windriver.com>
-	<37dc38fa-f80a-7cff-0409-b9cb72bc10e3@gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <6123589d-5ba7-27a1-4c81-09e06d284435@windriver.com>
-Date: Thu, 14 Jun 2018 13:21:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Thu, 14 Jun 2018 06:50:50 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id i19-v6so5834537otk.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jun 2018 23:50:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pJRQc+pXiR0uZ8VJPu2CXDguNZaPtfBiP0eceoeX3HI=;
+	b=rEScHkP2ZENFDgo2itvOsmId79RTx9LrhEXzTxYzZ4UeNLUKr2Tjv7ccTtQP5jVxm0
+	bFUQigp4I/aJAwHdk7KqHxjMG5S8x7tTf3gA/T5MUxvZp3QXTKHPg3KoILwmCvI/KcIn
+	YRA3CLaRyU2Gr+9FmklA/ws0SpQyZCTG4l6OO/oIrsAkJ+1ehXXXi0bzqXPvG19oVNwk
+	GvkiiOpDFrVcRlpr8J+m6Ro74Z817/tO9XNro4SmcD4hK7oICdHBBJ6YNz3PujwruJ1w
+	zqER3EOiLd+ILp84xV8lz+PMJHiAneckeBEeNg3ObSy204ujkv/MkxsIOvegkPv/C57H
+	vQZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pJRQc+pXiR0uZ8VJPu2CXDguNZaPtfBiP0eceoeX3HI=;
+	b=URZBHT+7JzZA4VgzAbfI1QS7O7b6gGwbNvgeVPlSW6YbnSsi9m/jvsl08I5QKFOpHu
+	yKyYeoaIxwhK2JZdZo8ryx9joRctt9cKQ+VawxEMG86xDTz1EbDMnaf4+u01TE6PowTu
+	hrN9tKaRhyl6asM59Ea++j2fALYnKtOm/SVoDMR9eYtP4/MhH+FK6AQm4QJlDhLICoQU
+	K3YX37U+pJTMX/ER3Yn+j0Led2QrQGz1e6L25U7WtZvUxPvXNu2wByG40xY7ceoi+qRY
+	MR74JEtI8eMXeYZOiU8bhjzzibvElUfY9t9a+Pjh59bnOzy94yj6MPHSbnorJOpEpYzO
+	GZDw==
+X-Gm-Message-State: APt69E3SBgF6OpkOoUhB/YI1t8K1vdU2eNBmD/ZRjSSUCRLIli2EnKYC
+	A0IqA5aOo8vCffg1QGebq01D49UWMsJv0tQx2s0=
+X-Google-Smtp-Source: ADUXVKIH2HVCY8KSqNux6Pf05NHquUzLOFjDj9fTd3R50tomMMdkXLHf2kU/0xNOHkd8sl39eVKluCjGPJFd+OtlnUA=
+X-Received: by 2002:a9d:50ad:: with SMTP id
+	b45-v6mr629585oth.102.1528959051701; 
+	Wed, 13 Jun 2018 23:50:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <37dc38fa-f80a-7cff-0409-b9cb72bc10e3@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] goarch.bbclass: set SECURITY_CFLAGS for mips64
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Wed, 13 Jun 2018 23:50:51
+	-0700 (PDT)
+In-Reply-To: <1528920905-21801-1-git-send-email-jpuhlman@mvista.com>
+References: <1528920905-21801-1-git-send-email-jpuhlman@mvista.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Jun 2018 09:50:51 +0300
+Message-ID: <CANNYZj-BTnb_jGqA0nAwrjdr6mc11jPYmz+uTfRh7Ovpa5g7XQ@mail.gmail.com>
+To: Jeremy Puhlman <jpuhlman@mvista.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] atk: Correct multilib conflict in header.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,79 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 05:24:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 14 Jun 2018 06:50:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2018年06月14日 11:33, Khem Raj wrote:
->
->
-> On 6/13/18 8:15 PM, Kang Kai wrote:
->> On 2018年06月13日 22:01, Khem Raj wrote:
->>> On Wed, Jun 13, 2018 at 12:16 AM <kai.kang@windriver.com> wrote:
->>>> From: Kai Kang <kai.kang@windriver.com>
->>>>
->>>> When include conf/distro/include/security_flags.inc, NOPIE flags are
->>>> still required for MIPS64 target builds. Otherwise it fails to build
->>>> packages such as glide which inherit go.bbclass:
->>>>
->>>> | 
->>>> .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/recipe-sysroot-native/usr/bin/mips64-wrs-linux/../../libexec/mips64-wrs-linux/ 
->>>>
->>>> | gcc/mips64-wrs-linux/7.3.0/ld: 
->>>> .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/go-tmp/go-link-518447869/go.o: 
->>>>
->>>> | relocation R_MIPS_26 against `a local symbol' can not be used 
->>>> when making a shared object; recompile with -fPIC`
->>>>
->>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>> ---
->>>>   meta/classes/goarch.bbclass | 1 +
->>>>   1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
->>>> index f54c5169e3e..5fd9f294a8a 100644
->>>> --- a/meta/classes/goarch.bbclass
->>>> +++ b/meta/classes/goarch.bbclass
->>>> @@ -36,6 +36,7 @@ COMPATIBLE_HOST_mipsarchn32 = "null"
->>>>   ARM_INSTRUCTION_SET = "arm"
->>>>   TUNE_CCARGS_remove = "-march=mips32r2"
->>>>   SECURITY_CFLAGS_mips = "${SECURITY_NOPIE_CFLAGS}"
->>>> +SECURITY_CFLAGS_mips64 = "${SECURITY_NOPIE_CFLAGS}"
->>> perhaps we should use _mipsall once
->> Hi Khem,
->>
->> I don't quite follow you. It seems no such override '_mipsall' 
->> exists. Do you mean 'mipsarch' or something else? Thanks.
->>
->
-> yes mipsarch indeed.
+2018-06-13 23:15 GMT+03:00 Jeremy Puhlman <jpuhlman@mvista.com>:
+> +do_install_append () {
+> +   if [ -e ${D}${includedir}/atk-1.0/atk/atk-enum-types.h ] ; then
+> +      sed -i ${D}${includedir}/atk-1.0/atk/atk-enum-types.h -e "s,${B},,"
+> +   fi
+> +}
 
-Thanks. V2 will be sent.
+Instead of patching it after the fact during installation, can you
+patch it at the source please? Then we have at least a chance of the
+fix being accepted upstream, instead of carrying it forever.
 
---Kai
->
->> Regards,
->> Kai
->>>
->>>>   SECURITY_NOPIE_CFLAGS ??= ""
->>>>
->>>>   def go_map_arch(a, d):
->>>> -- 
->>>> 2.17.1
->>>>
->>>> -- 
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->
+Also, do include comments: we try to avoid recipe snippets that do
+'magic' without any explanation.
 
--- 
-Regards,
-Neil | Kai Kang
-
+Alex
 
