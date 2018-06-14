@@ -1,32 +1,49 @@
-Return-Path: <herve.jourdain@neuf.fr>
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.163])
-	by mail.openembedded.org (Postfix) with ESMTP id C88D1787E5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E2C9C7537C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 12:10:43 +0000 (UTC)
-Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])
-	by msfrf2603.sfr.fr (SMTP Server) with ESMTP id 09C011C001826
+	Thu, 14 Jun 2018 12:27:27 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n5-v6so11599988wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 14:10:44 +0200 (CEST)
-Received: from nbhjo (203-69-87-74.HINET-IP.hinet.net [203.69.87.74])	(using
-	TLSv1.2
-	with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))	(No client
-	certificate requested)	(Authenticated sender: herve.jourdain@neuf.fr)
-	by msfrf2603.sfr.fr (SMTP Server) with ESMTPSA;
-	Thu, 14 Jun 2018 14:10:42 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (LOGIN)
-	smtp.auth=herve.jourdain@neuf.fr
-From: Herve Jourdain <herve.jourdain@neuf.fr>
-To: 'Ovidiu Panait' <ovidiu.panait@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
-In-Reply-To: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
-Date: Thu, 14 Jun 2018 14:10:38 +0200
-Message-ID: <002e01d403d8$b811f1b0$2835d510$@neuf.fr>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQMm0QNrb4sapHzB2tQR4rf39Ym55KG6Dj8w
-X-sfr-mailing: LEGIT
-Subject: Re: [PATCH 1/1] db: disable the ARM assembler mutex code
+	Thu, 14 Jun 2018 05:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=WDGnzsvzjUrG14Te0EmcO6HvD6BimOGYhE93ql4EwDo=;
+	b=n0MvqKSvBMrXoujw3ml6HGVILzVBH8Kx3q6zl6zX44NPLT57g5PGsxgYqN2JVtX8OH
+	zYORT93Vuo3iUzG+FgsNLip7Lm5xguImarQyFyDNKOwVm3hPVQbAVHMJS8FJ2+qZIZbA
+	xSIQYVAVOEwHH80A50gSwRoHECo1gKEB/boFvSiI3RlAl7kT41j6F2f8+8THvQ2Qvn+G
+	1Tog3iFhXpU4aWa8/VW/pgV1/BSLVKxT65wqGyiWojVvYjMHVm81iDJZ+hUwo1iCbToo
+	zgYTRUl4GAMV6Iqji02aCF/Xn07THTvuwOfJpPl3VOL4oaIb6ce9k/CJttbBRMO3GjwG
+	UtWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=WDGnzsvzjUrG14Te0EmcO6HvD6BimOGYhE93ql4EwDo=;
+	b=adN1Ads7Byy06Zm6im3dihxgwTpdBnGedn5KBxh1/ZuNjoZNZYmbK2QTOR+AMJ187h
+	HCqMXhEHfHUSgjMOEBZsfFUwGTWolcCVyTQwSKbw451F1EJjpI0XovrzccaFIjhDgL1N
+	Qs8ZUqll0MoPe4m83lX27GcIdT32WN5mh6LlYlFgoREwWbz1ZiWLcLKUrx2hDZiW5n+4
+	3jtdPcJbux8Ixiu+2lmiMo6LN6AfZY8jX4E7bEkqBo30SM5wh2ATxcUIonFZPC/z7AbU
+	a0eYwcHuTzsOLlvjL1NvZEKw2itvKQHmiLxM65uZjTjyurKmvBLxlb3gkswvUrYZhzm6
+	jCNA==
+X-Gm-Message-State: APt69E251c7A6XMRqe65Zidyn4cLyF1Nh6uJW89BW7+PfYNm8b7X8lUX
+	kmDz5GycM6dJuQVtCcShdcIAjOR1
+X-Google-Smtp-Source: ADUXVKJJ2f8pMjf6sWjU9UB4Jn0kFC73Fxzp4YhEBE6v0jf4tRPy4QZjJHbylqMDY/RGiILkSuJGMg==
+X-Received: by 2002:a1c:4596:: with SMTP id
+	l22-v6mr1770054wmi.33.1528979248370; 
+	Thu, 14 Jun 2018 05:27:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	b80-v6sm7977699wmf.2.2018.06.14.05.27.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Jun 2018 05:27:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jun 2018 13:27:24 +0100
+Message-Id: <20180614122724.12708-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] meson: class improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,83 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 12:10:44 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Language: fr
+X-List-Received-Date: Thu, 14 Jun 2018 12:27:28 -0000
 
-Hi,
+Ensure that the PACKAGECONFIG arguments are always in EXTRA_OEMESON, and log the
+arguments that are being passed in do_configure.
 
-I believe I solved that same problem by just adding, in the case of armv8
-(which I believe may be the new architecture you're referring to):
-MUTEX_armv8 = ""
-This way, it allows previous versions to work just like they did before,
-without having to disable ARM assembler mutex code for architectures that
-support it correctly - up to armv7ve I believe.
-Of course, we might need to also have a good definition for armv8, which is
-the object of another thread.
-
-Cheers,
-Herve
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org
-[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-Ovidiu Panait
-Sent: jeudi 14 juin 2018 13:55
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 1/1] db: disable the ARM assembler mutex code
-
-The swpb in macro MUTEX_SET will cause "undefined instruction" error on the
-new arm arches which don't support this assembly instruction any more. If
-use ldrex/strex to replace swpb, the old arm arches don't support them. So
-to avoid this issue, just disable the ARM assembler mutex code, and use the
-default pthreads mutex.
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
-Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/db/db_5.3.28.bb | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ meta/classes/meson.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb
-b/meta/recipes-support/db/db_5.3.28.bb
-index 093ee44909..15b4155a29 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -59,18 +59,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so
-${libdir}/libdb_cxx.so"
- # All the --disable-* options replace --enable-smallbuild, which breaks a
-bunch of stuff (eg. postfix)  DB5_CONFIG ?= "--enable-o_direct
---disable-cryptography --disable-queue --disable-replication
---disable-verify --disable-compat185 --disable-sql"
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 2c7ce806584..78c5bf3c333 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -35,7 +35,7 @@ MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
+ MESON_HOST_ENDIAN = "bogus-endian"
+ MESON_TARGET_ENDIAN = "bogus-endian"
  
--EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
--
--# Override the MUTEX setting here, the POSIX library is -# the default -
-"POSIX/pthreads/library".
--# Don't ignore the nice SWP instruction on the ARM:
--# These enable the ARM assembler mutex code, this won't -# work with thumb
-compilation...
--ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
--MUTEX = ""
--MUTEX_arm = "${ARM_MUTEX}"
--MUTEX_armeb = "${ARM_MUTEX}"
--EXTRA_OECONF += "${MUTEX} STRIP=true"
-+EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot
-STRIP=true"
- EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
+-EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
++EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
  
- EXTRA_AUTORECONF += "--exclude=autoheader  -I ${S}/dist/aclocal
--I${S}/dist/aclocal_java"
---
-2.17.1
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ MESON_CROSS_FILE = ""
+ MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
+@@ -85,6 +85,7 @@ EOF
+ CONFIGURE_FILES = "meson.build"
+ 
+ meson_do_configure() {
++    bbnote Executing meson ${EXTRA_OEMESON}...
+     if ! meson ${MESONOPTS} "${MESON_SOURCEPATH}" "${B}" ${MESON_CROSS_FILE} ${EXTRA_OEMESON}; then
+         bbfatal_log meson failed
+     fi
+-- 
+2.11.0
 
 
