@@ -1,54 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E37677705D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 393EC75528
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 19:08:51 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id f79-v6so6663605oib.7
+	Thu, 14 Jun 2018 19:12:36 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id s187-v6so4327479vke.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 12:08:53 -0700 (PDT)
+	Thu, 14 Jun 2018 12:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=mz1uMFo1bRwlauyx1XL/Xtdukbp8REVuOzalnEd3ShY=;
-	b=Y5mLP9dDTIKhgMeATGYNeX5xh/puSGMFAnVTXD/mR9G8tQP+50xY4huoiYM5fxpQOt
-	sr3xmd8IgwYc0lI9Em1RumsvgZeUUsWQbr0XHqb8f4DWA+jrl9vN/2dZmcgPlbHvZGnd
-	LkzCOQxhtoYBetlmPIQpfQjacriakgJwyjg9upIrGwIzVrJBEmeVsgwbwZKEBlYvnVPd
-	KjDkfnOTuM8Qg4dAmNUyb8QuHpH1J3VWuRYQCNAGEasayAvYS3hbYyqbRBqGQv+fLxmA
-	rNDYCFPCAFhXicXorZ97Q7etjkBblieo9WCBNZFk082jBWnv1uMlXHS9q10TsmCAetPu
-	fVmA==
+	:cc; bh=woaUNE/Iemu3om3JNv0IKuXkUHpzOsI8WivVPKA/yeg=;
+	b=qf8kXOcgwg/Qy6zSC2M3Z9RuTYYbsXLR8bXVpxjZdTpegC1LerVG26kBxtvda6GpKw
+	KdVtHQLZk+3egf6CZw9uZp4iJ8bjrDXuObepk5Z35qmfoYbopdtlM77aLWiJlXVfZANy
+	xhvh18pwmV9mFtPMdC/HF1QDvsw7eV3dZeXHg0R3Nkxm02Do2fe2ddE6sADAm4N3NEP1
+	yi24wwXN7FmlwLVm7LE4b0VQw6RYw2pT9IpyStv0g5asF/rTLIwWA7WXQEFUAQYiH2+/
+	bcfkaXEj8HCrrOTmV5rKPkLaTYosty0kuyPEcvEtukv+21p7L68RtG5k8ULPazHDPmtJ
+	9krQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=mz1uMFo1bRwlauyx1XL/Xtdukbp8REVuOzalnEd3ShY=;
-	b=ICMnhB8v/eJGaIOhZFjWteGfEDGhw4uKgV/wYd9KEjM1g/5anKgPSNMVKYnohlpLQ3
-	4QsjewCr9biWh6ZPzFf89Mkf+8/brwmrU+KFbc6kpcl4m7Bfi8uMrgDQh3gzSt/ysfN+
-	BNQ8nOmESDZR4Tspkzft2rkR3b94iSfiwmnG/3tx/7g9cwt5gs2tSooH9+1o1KCDyA3p
-	ZLPc8b7QUzUT0bjLqytXZoM/ntQ/qVS3WIj7sOn02DCUvBEiua6e9OsmemkCFzZ9Znqm
-	01ypjCKbsi/tvy2Rut/0jS0+Hcq96hRXUts+ffp1wlZdK7YNLINXiwSlpPb8ua1elRDQ
-	WHwg==
-X-Gm-Message-State: APt69E3Ch5+nO2MVXikOQTJqorgfK/awZMjE1uvLA2elt+MFtaPWPvI/
-	MwnKh6YvdKoiATEV+wNtqfkji6rWGg6Z0jiz9OU=
-X-Google-Smtp-Source: ADUXVKIcoKoG4VRgVcgKEg10PGESJgebFQksSz72eBsfml8pHU25vbBC1VNiHON5fosL9CN3liF8iABEsEEsnWutbxQ=
-X-Received: by 2002:aca:41d6:: with SMTP id
-	o205-v6mr1998170oia.38.1529003332954; 
-	Thu, 14 Jun 2018 12:08:52 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=woaUNE/Iemu3om3JNv0IKuXkUHpzOsI8WivVPKA/yeg=;
+	b=Sp2cXFRjBgL5PK9ZsrWer6ROYDl8dgenH0gHJHRFkvkdsihnGE7RA51Vg0BfaiySJV
+	GR995ogM/YHZ+ogmLP3mD7/E6iuGcij5OZbsAaGvE9XqgST2WyJiL89kuQ30A0TKwCyV
+	IjOa7tb4iuvyqXaRk2hNB1vWFUxmRO/mMSpHzSj4Aj2M4KnlDlIU+fWYBQc4Y+1rAlH4
+	wB2YiG1ELloUmFbEsg192zWS5DFMiQDWeiYObLBfvJg5l+2GQOKt+ar9HlUSOjznyafM
+	fCde3r2kbo24atCWXKicVNvQ9FxOK4g0aJ7wYQkO9ws+GrE955ddjHqLZW7mrrkjh4O7
+	/ZwA==
+X-Gm-Message-State: APt69E2CIHwtqxHI8eEPB8luYOEvgvl5P8OT/z3c+pI9n/z9Yae4zHyi
+	I9YfC9ibN+5yZIzUUd9oQHlpMV8CNzAl1laXXXs=
+X-Google-Smtp-Source: ADUXVKKzu5Oe/IT6q+OdonGIy/hfLgL7yiM+EFlUXJqsTiwj1HAwEQvtrLA/ELuAhJvjQwXnLOKqqCCNUMOptdWHi00=
+X-Received: by 2002:a1f:142:: with SMTP id 63-v6mr2370779vkb.2.1529003557066; 
+	Thu, 14 Jun 2018 12:12:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 12:08:52
-	-0700 (PDT)
-In-Reply-To: <72038ce45486336b7f3d611d7181e95f@agner.ch>
-References: <20180516091352.29279-1-stefan@agner.ch>
-	<84556032da03a0e29a955e347028db45@agner.ch>
-	<bbbf2ec8-8c75-5195-b0ff-475c499853e3@linux.intel.com>
-	<72038ce45486336b7f3d611d7181e95f@agner.ch>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 14 Jun 2018 22:08:52 +0300
-Message-ID: <CANNYZj_0cKie+XytpFL_qQ2oS_K4kBQL226CFkybqSwujOy_GQ@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 0/3] postinst fixes for opgk/dpkg
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Thu, 14 Jun 2018 12:12:36 -0700 (PDT)
+In-Reply-To: <20da1542-9903-d4fc-b38f-8f0ad3b2d4a1@gmail.com>
+References: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
+	<002e01d403d8$b811f1b0$2835d510$@neuf.fr>
+	<20da1542-9903-d4fc-b38f-8f0ad3b2d4a1@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 14 Jun 2018 12:12:36 -0700
+Message-ID: <CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] db: disable the ARM assembler mutex code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,54 +57,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 19:08:52 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 19:12:36 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-No need to be nervous. The patch will make it in; patches do not get
-quietly rejected. If it hasn't showed up yet, it's most likely because
-the patch will be tested on the autobuilder in a separate set from the
-'regular patches', or (yes, this happens) it has slipped through the
-cracks. In that case (I know it's impossible to tell from the
-outside), just resend again.
-
-Also, please do help us out with oe-core patch review and recipe
-maintenance, particularly updating them to latest versions.
-
-
-Alex
-
-2018-06-14 16:57 GMT+03:00 Stefan Agner <stefan@agner.ch>:
-> On 04.06.2018 18:18, Alexander Kanavin wrote:
->> On 06/04/2018 07:06 PM, Stefan Agner wrote:
+On Thu, Jun 14, 2018 at 9:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On 6/14/18 5:10 AM, Herve Jourdain wrote:
+>> Hi,
 >>
->>> Anything holding us back merging this changes?
+>> I believe I solved that same problem by just adding, in the case of armv8
+>> (which I believe may be the new architecture you're referring to):
+>> MUTEX_armv8 = ""
+>> This way, it allows previous versions to work just like they did before,
+>> without having to disable ARM assembler mutex code for architectures that
+>> support it correctly - up to armv7ve I believe.
+>> Of course, we might need to also have a good definition for armv8, which is
+>> the object of another thread.
+>
+> right thats a better approach.
+
+SWP is not guaranteed to work on SMP systems... and even if it does,
+performance is likely to be worse than the pthreads version (which can
+take advantage of the newer instructions).
+
+  https://community.arm.com/processors/b/blog/posts/locks-swps-and-two-smoking-barriers
+
+In general, use of hand optimised assembler mutex implementations in
+user space isn't something to be encouraged - use pthreads (or maybe a
+gcc intrinsic) instead.
+
+I think the original patch is good.
+
+>> Cheers,
+>> Herve
 >>
->> Please read the Yocto project status mail:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Ovidiu Panait
+>> Sent: jeudi 14 juin 2018 13:55
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH 1/1] db: disable the ARM assembler mutex code
 >>
->> " =C2=B7         Patch review/merging was slow over the past week due to
->> Ross being on vacation and changes in Richard=E2=80=99s employment/hardw=
-are
->> situation but at least some of the backlog was resolved over the
->> weekend and the hardware issues should be worked around now."
+>> The swpb in macro MUTEX_SET will cause "undefined instruction" error on the
+>> new arm arches which don't support this assembly instruction any more. If
+>> use ldrex/strex to replace swpb, the old arm arches don't support them. So
+>> to avoid this issue, just disable the ARM assembler mutex code, and use the
+>> default pthreads mutex.
+>>
+>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+>> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+>> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+>> ---
+>>  meta/recipes-support/db/db_5.3.28.bb | 13 +------------
+>>  1 file changed, 1 insertion(+), 12 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/db/db_5.3.28.bb
+>> b/meta/recipes-support/db/db_5.3.28.bb
+>> index 093ee44909..15b4155a29 100644
+>> --- a/meta/recipes-support/db/db_5.3.28.bb
+>> +++ b/meta/recipes-support/db/db_5.3.28.bb
+>> @@ -59,18 +59,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so
+>> ${libdir}/libdb_cxx.so"
+>>  # All the --disable-* options replace --enable-smallbuild, which breaks a
+>> bunch of stuff (eg. postfix)  DB5_CONFIG ?= "--enable-o_direct
+>> --disable-cryptography --disable-queue --disable-replication
+>> --disable-verify --disable-compat185 --disable-sql"
+>>
+>> -EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+>> -
+>> -# Override the MUTEX setting here, the POSIX library is -# the default -
+>> "POSIX/pthreads/library".
+>> -# Don't ignore the nice SWP instruction on the ARM:
+>> -# These enable the ARM assembler mutex code, this won't -# work with thumb
+>> compilation...
+>> -ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
+>> -MUTEX = ""
+>> -MUTEX_arm = "${ARM_MUTEX}"
+>> -MUTEX_armeb = "${ARM_MUTEX}"
+>> -EXTRA_OECONF += "${MUTEX} STRIP=true"
+>> +EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot
+>> STRIP=true"
+>>  EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
+>>
+>>  EXTRA_AUTORECONF += "--exclude=autoheader  -I ${S}/dist/aclocal
+>> -I${S}/dist/aclocal_java"
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >>
 >
-> Gentle ping on that again.
 >
-> This week it read:
-> "Due to the milestone, patch merging is slowing to stabilize."
 >
-> Also, there have been patches merged which were posted after this
-> patchset... It is really rather important for us since it is hard to fix
-> in lower layers...
->
-> So I am getting nervous whether it still makes it?
->
-> --
-> Stefan
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
