@@ -1,24 +1,29 @@
-Return-Path: <Dengke.Du@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E9937883F
+	by mail.openembedded.org (Postfix) with ESMTP id 324AA789A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 02:40:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5E2drhR022921
+	Thu, 14 Jun 2018 03:18:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5E3HYnI023577
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Jun 2018 19:40:19 -0700
-Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 13 Jun 2018 19:39:44 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <bruce.ashfield@gmail.com>
-Date: Thu, 14 Jun 2018 10:49:22 +0800
-Message-ID: <cover.1528944217.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 13 Jun 2018 20:17:55 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 13 Jun 2018 20:17:38 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <20180613061252.18271-1-kai.kang@windriver.com>
+	<CAMKF1spMCuxOxztWfEGGepupH-K2DOTKwViDf==XoOipocqgHA@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <1ef2ee09-4f69-2a91-80f0-e700bc139e1c@windriver.com>
+Date: Thu, 14 Jun 2018 11:15:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V2 0/1] linux-yocto: add ptest support
+In-Reply-To: <CAMKF1spMCuxOxztWfEGGepupH-K2DOTKwViDf==XoOipocqgHA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] goarch.bbclass: set SECURITY_CFLAGS for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 02:40:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Jun 2018 03:18:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Changed in V2:
-	Put the run-ptest script in linux-yocto directory.
+On 2018年06月13日 22:01, Khem Raj wrote:
+> On Wed, Jun 13, 2018 at 12:16 AM <kai.kang@windriver.com> wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> When include conf/distro/include/security_flags.inc, NOPIE flags are
+>> still required for MIPS64 target builds. Otherwise it fails to build
+>> packages such as glide which inherit go.bbclass:
+>>
+>> | .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/recipe-sysroot-native/usr/bin/mips64-wrs-linux/../../libexec/mips64-wrs-linux/
+>> | gcc/mips64-wrs-linux/7.3.0/ld: .../tmp-glibc/work/mips64-wrs-linux/glide/0.13.1-r0/go-tmp/go-link-518447869/go.o:
+>> | relocation R_MIPS_26 against `a local symbol' can not be used when making a shared object; recompile with -fPIC`
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/classes/goarch.bbclass | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+>> index f54c5169e3e..5fd9f294a8a 100644
+>> --- a/meta/classes/goarch.bbclass
+>> +++ b/meta/classes/goarch.bbclass
+>> @@ -36,6 +36,7 @@ COMPATIBLE_HOST_mipsarchn32 = "null"
+>>   ARM_INSTRUCTION_SET = "arm"
+>>   TUNE_CCARGS_remove = "-march=mips32r2"
+>>   SECURITY_CFLAGS_mips = "${SECURITY_NOPIE_CFLAGS}"
+>> +SECURITY_CFLAGS_mips64 = "${SECURITY_NOPIE_CFLAGS}"
+> perhaps we should use _mipsall once
+Hi Khem,
 
-The following changes since commit ddbd7b0cd6580ee26e11aa87e426fb294b372d64:
+I don't quite follow you. It seems no such override '_mipsall' exists. 
+Do you mean 'mipsarch' or something else? Thanks.
 
-  meta-yocto-bsp: bump to the latest linux stable kernel for edgerouter/beaglebone (2018-06-12 23:34:40 +0100)
+Regards,
+Kai
+>
+>>   SECURITY_NOPIE_CFLAGS ??= ""
+>>
+>>   def go_map_arch(a, d):
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-are available in the git repository at:
-
-  https://github.com/DengkeDu/openembedded-core.git kernel-ptest
-  https://github.com//tree/kernel-ptest
-
-Dengke Du (1):
-  linux-yocto: add ptest support
-
- meta/recipes-kernel/linux/linux-yocto/run-ptest | 138 ++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.14.bb   |   9 ++
- 2 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto/run-ptest
 
 -- 
-2.7.4
+Regards,
+Neil | Kai Kang
 
 
