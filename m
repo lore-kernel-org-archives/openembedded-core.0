@@ -1,56 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 59E6F75270
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 786957548B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 22:03:11 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id o71-v6so4607799vke.7
+	Thu, 14 Jun 2018 22:12:44 +0000 (UTC)
+Received: by mail-lf0-f43.google.com with SMTP id t2-v6so5356901lfd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 15:03:12 -0700 (PDT)
+	Thu, 14 Jun 2018 15:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=s6xNWyypgXKnaSE/x6MelElZOL2v5kxCkEtnlbJ7cD8=;
-	b=FOxK+MFenY3Tj7s/oEpTF+0dXBn+vRbk3Qh1AKxHbSVCllqw2KAUbzgaX6WcUc5UVe
-	oWvrU6khLsLTulQbAjMbFjCiUguKlsaJhc4O9UxZFlBaiOrR9pP9PlXThutDhhivYfaD
-	aUYXV1jOaRKM82GxCc2F6HstbkpquGDUSV8eDg5kVRgoJOq6YMYtRzmqOlVFuQvHTZRn
-	fzV2QtOlIqP+fJYBPjUUnBKopfunwOJ4T+kQY7/Uy9a4nVshSoHFJxTlgE0ZRJKOrj2y
-	AABCjxQs6Bvc3db97s+UZivFP267FkWjpfEL8kbMoiF7ROdkCYNUBDmvqYT+7LDgl0d6
-	ucOg==
+	:cc; bh=R5XmC1b8eJ0duGdkj471em+qPx0HPFl0kXGWubTc33c=;
+	b=fyo8OvchlGsm7BAZ0Hhzl9Hd07mGaS1w0tBStWZU1fd2i1btxsL4VzCCed/zv/mb5l
+	Vxk8zaCVLEpk0hpPC9Wg3ZyILdfeky5hNZMD69Gz0FhQLBNRnQZZ6MFLgfPAJwCnydh7
+	DZN90cZ6liuYu4arBxs2UA5yz3Uu65odUaT73Jybt6pMflwthUPU3UxAqW63JTpL5KQw
+	BqOi7d5ExHa+JGKjhJwUWsTh6WBSwjwag8wubVtfZoH9f6rRNbRJycY+ubBtugNmcfm0
+	Fy4wjjNusP4fgIdlE8GDZT/JL+PlW90kShocDdZC+MkqH/U3zkeVX94X6/ln36snOvg+
+	X2Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=s6xNWyypgXKnaSE/x6MelElZOL2v5kxCkEtnlbJ7cD8=;
-	b=ZI6DEGapTOC9d5eGXKextJAzPAvn41HenrGevJ76GTGsddBWVN7wOGovLP/kZNcQIF
-	4sxgTdetam9isGnNpU7y9Cbk3RirsMlNxar3kDqMcadl2n0rg6JBTOHHGV/jc8MVSMWq
-	62hE45dmZBIohkQaldBxcG+NWVdFqJmwWDtnZ7O730TgXZl8GIrkPjqAT9RKpwBrPR+C
-	ouz8LJnPnMCGmbaYLx4ZqU0Sm33itLc+9nYhX1i43xe5D8oei7XmcYcjQSPgoPtzgrWw
-	3YGsFhTDhjE/4XpYSvF8P41OuI3BPjktR1bLKnt2Wl+vO9SoPWdNjCRjwpbcZK4sN/9I
-	eqgg==
-X-Gm-Message-State: APt69E0xUrStJajUjjhwgsrR/OngOW2UjZgqGEoRVgK4MWF4ZzTxOWN8
-	zUuGBeoaL5bpFsTH4CwnphnzDHbZ/g7Y2Uh3tcs=
-X-Google-Smtp-Source: ADUXVKI9cA9Jxc4pjTyWd7YOM9gzj4/+tR2WSVQb7Z7BkKbP1POxKFIysC28g6iTGKC1D+sExfxjIprwc0KaaS93iZw=
-X-Received: by 2002:a1f:9615:: with SMTP id
-	y21-v6mr2774595vkd.154.1529013792238; 
-	Thu, 14 Jun 2018 15:03:12 -0700 (PDT)
+	bh=R5XmC1b8eJ0duGdkj471em+qPx0HPFl0kXGWubTc33c=;
+	b=LY2ZFf84bMMNqxmh20OiRoOxNH2+CxwmX5OocMnemI4HVGoaB2YiFkbJe6uhJQt3H1
+	S3op9M5SdO/WS7iLubyj8nZ9pN4uIugRxt71+dPhmZfKubUtATE5fBX/ecTZwcr0OUZR
+	g5iWgtMGXBPF1EdqleNv6JYK32LUOW7/bZs7T19lReroQ9iH54Vhlsof8DAQBFi5VflH
+	YTY1mIAg81t590OIQczIsKslfL+6a6y/hixkO8n32He4oXJYpknDqKohFYZv8GoS55/S
+	2QC7DGWEAhht7qdQHhOyvJQZs2yV0qE+gqj+gEU/PGP7l/qE/+NLij3GB31WNKQ0WqGb
+	n7vg==
+X-Gm-Message-State: APt69E1zQXcZoHwCcGAe4nHHtqUQDhDA3Px3juaiUlufsTrf/qftLdn5
+	tbWmIf6W8i1J9d50ZZFoO6iUC8EDyjSJRcxW89E=
+X-Google-Smtp-Source: ADUXVKKtXPEjzq0BlLqfnfHz1KHSSeUwbEORgIDUXOOo8XOl4EVd81KxLkINOTJHJk2nOKxZiwwGdEoqwF4VmtekWTs=
+X-Received: by 2002:a2e:585:: with SMTP id 127-v6mr2925224ljf.28.1529014364976;
+	Thu, 14 Jun 2018 15:12:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Thu, 14 Jun 2018 15:03:11 -0700 (PDT)
-In-Reply-To: <CAMKF1srPwWebGHZcmnV5vaNhRgSjrp2DG0CgT44zyUqfnFBf_A@mail.gmail.com>
-References: <1528977321-8121-1-git-send-email-ovidiu.panait@windriver.com>
-	<002e01d403d8$b811f1b0$2835d510$@neuf.fr>
-	<20da1542-9903-d4fc-b38f-8f0ad3b2d4a1@gmail.com>
-	<CAJ86T=UjDUYfQ3wAb4YCT954HjBfZMz1fnFkBxUV40xj=aBgow@mail.gmail.com>
-	<CAMKF1spJGLVW_HKD9YEgDY6aidz6q_TvjohfoJHnXHDiyc3vtg@mail.gmail.com>
-	<CAJ86T=U7Uk0uajnnu=1P_dSxGrO3thQDp9655KC1EEYesPa3_Q@mail.gmail.com>
-	<CAMKF1srPwWebGHZcmnV5vaNhRgSjrp2DG0CgT44zyUqfnFBf_A@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 14 Jun 2018 15:03:11 -0700
-Message-ID: <CAJ86T=WRTcXsWs3V32RC0dTNG-F7va_5m-hd6zYQ6aF6YZcxdw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 15:12:44
+	-0700 (PDT)
+In-Reply-To: <20180614194507.93168-3-alistair.francis@wdc.com>
+References: <20180614194507.93168-1-alistair.francis@wdc.com>
+	<20180614194507.93168-3-alistair.francis@wdc.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 14 Jun 2018 18:12:44 -0400
+Message-ID: <CADkTA4PJuHARyOg7zU4vNktpniz+OFg_1iU7_nUQYWmM2uhxoA@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] db: disable the ARM assembler mutex code
+Subject: Re: [PATCH 4/4] recipes-kernel/linux: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,155 +57,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 22:03:11 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 22:12:44 -0000
+Content-Type: multipart/alternative; boundary="00000000000014bbaf056ea166a2"
+
+--00000000000014bbaf056ea166a2
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 14, 2018 at 2:48 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Jun 14, 2018 at 1:01 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Thu, Jun 14, 2018 at 12:24 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> > On Thu, Jun 14, 2018 at 12:12 PM Andre McCurdy <armccurdy@gmail.com>
->> > wrote:
->> >>
->> >> On Thu, Jun 14, 2018 at 9:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> >> > On 6/14/18 5:10 AM, Herve Jourdain wrote:
->> >> >> Hi,
->> >> >>
->> >> >> I believe I solved that same problem by just adding, in the case of
->> >> >> armv8
->> >> >> (which I believe may be the new architecture you're referring to):
->> >> >> MUTEX_armv8 = ""
->> >> >> This way, it allows previous versions to work just like they did
->> >> >> before,
->> >> >> without having to disable ARM assembler mutex code for architectures
->> >> >> that
->> >> >> support it correctly - up to armv7ve I believe.
->> >> >> Of course, we might need to also have a good definition for armv8,
->> >> >> which is
->> >> >> the object of another thread.
->> >> >
->> >> > right thats a better approach.
->> >>
->> >> SWP is not guaranteed to work on SMP systems... and even if it does,
->> >> performance is likely to be worse than the pthreads version (which can
->> >> take advantage of the newer instructions).
->> >>
->> >>
->> >> https://community.arm.com/processors/b/blog/posts/locks-swps-and-two-smoking-barriers
->> >>
->> >> In general, use of hand optimised assembler mutex implementations in
->> >> user space isn't something to be encouraged - use pthreads (or maybe a
->> >> gcc intrinsic) instead.
->> >>
->> >
->> > question is about disabling it on old arm machines, do we have data
->> > where
->> > we know that other sync methods without swp works better on armv5 and
->> > lower ?
->>
->> On armv5 and below a hand optimised implementation using SWP is likely
->> to be faster than pthreads. No one is suggesting otherwise.
->>
->> On SMP (highly likely nowadays for armv7 and above), SWP simply might
->> not work (aside from the fact that if it does work, it's likely to be
->> slower than pthreads). It's not really a question of performance
->> there, so the proposal to only disable SWP for armv8 doesn't seem like
->> a safe solution.
+On Thu, Jun 14, 2018 at 3:45 PM, Alistair Francis <alistair.francis@wdc.com>
+wrote:
+
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto.inc     | 4 ++++
+>  meta/recipes-kernel/linux/linux-yocto_4.15.bb | 5 ++++-
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 >
-> Suggestion is not to just do it for armv8 but
-> To keep it there where its beneficial
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+> b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 95ec2a2b41..70a13cdd1e 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
+>  KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+>  KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+>
+> +DEPENDS_append_riscv64 = " libgcc"
+> +KERNEL_CC_append_riscv64 = " ${TOOLCHAIN_OPTIONS}
+> ${SECURITY_NOPIE_CFLAGS}"
+> +KERNEL_LD_append_riscv64 = " -no-pie"
+> +
+>  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+>
+>  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+> b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+> index 693670c613..4ea368a011 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
+> @@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>
+>  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>
+> -COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|
+> qemuppc|qemumips|qemumips64|qemux86-64"
+> +KBUILD_DEFCONFIG_qemuriscv64 = "defconfig"
+> +KCONFIG_MODE_qemuriscv64 = "--alldefconfig"
+>
 
-You can always argue that micro optimisations are beneficial. The
-question is whether they make a big enough difference in some real
-world use case to be worth the maintenance effort.
+This doesn't belong in linux-yocto.
 
->> Using pthreads unconditionally is safe and easy. Unless you can prove
->> that hand optimised SWP is really a big win for armv5 (is anyone
->> really running a performance critical database on an armv5 system?)
->> why not keep the recipe simple and use pthreads everywhere?
->>
->> >> I think the original patch is good.
->> >>
->> >> >> Cheers,
->> >> >> Herve
->> >> >>
->> >> >> -----Original Message-----
->> >> >> From: openembedded-core-bounces@lists.openembedded.org
->> >> >> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
->> >> >> Of
->> >> >> Ovidiu Panait
->> >> >> Sent: jeudi 14 juin 2018 13:55
->> >> >> To: openembedded-core@lists.openembedded.org
->> >> >> Subject: [OE-core] [PATCH 1/1] db: disable the ARM assembler mutex
->> >> >> code
->> >> >>
->> >> >> The swpb in macro MUTEX_SET will cause "undefined instruction" error
->> >> >> on the
->> >> >> new arm arches which don't support this assembly instruction any
->> >> >> more. If
->> >> >> use ldrex/strex to replace swpb, the old arm arches don't support
->> >> >> them. So
->> >> >> to avoid this issue, just disable the ARM assembler mutex code, and
->> >> >> use the
->> >> >> default pthreads mutex.
->> >> >>
->> >> >> Signed-off-by: Li Zhou <li.zhou@windriver.com>
->> >> >> Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
->> >> >> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
->> >> >> ---
->> >> >>  meta/recipes-support/db/db_5.3.28.bb | 13 +------------
->> >> >>  1 file changed, 1 insertion(+), 12 deletions(-)
->> >> >>
->> >> >> diff --git a/meta/recipes-support/db/db_5.3.28.bb
->> >> >> b/meta/recipes-support/db/db_5.3.28.bb
->> >> >> index 093ee44909..15b4155a29 100644
->> >> >> --- a/meta/recipes-support/db/db_5.3.28.bb
->> >> >> +++ b/meta/recipes-support/db/db_5.3.28.bb
->> >> >> @@ -59,18 +59,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so
->> >> >> ${libdir}/libdb_cxx.so"
->> >> >>  # All the --disable-* options replace --enable-smallbuild, which
->> >> >> breaks a
->> >> >> bunch of stuff (eg. postfix)  DB5_CONFIG ?= "--enable-o_direct
->> >> >> --disable-cryptography --disable-queue --disable-replication
->> >> >> --disable-verify --disable-compat185 --disable-sql"
->> >> >>
->> >> >> -EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx
->> >> >> --with-sysroot"
->> >> >> -
->> >> >> -# Override the MUTEX setting here, the POSIX library is -# the
->> >> >> default -
->> >> >> "POSIX/pthreads/library".
->> >> >> -# Don't ignore the nice SWP instruction on the ARM:
->> >> >> -# These enable the ARM assembler mutex code, this won't -# work
->> >> >> with thumb
->> >> >> compilation...
->> >> >> -ARM_MUTEX = "--with-mutex=ARM/gcc-assembly"
->> >> >> -MUTEX = ""
->> >> >> -MUTEX_arm = "${ARM_MUTEX}"
->> >> >> -MUTEX_armeb = "${ARM_MUTEX}"
->> >> >> -EXTRA_OECONF += "${MUTEX} STRIP=true"
->> >> >> +EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx
->> >> >> --with-sysroot
->> >> >> STRIP=true"
->> >> >>  EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
->> >> >>
->> >> >>  EXTRA_AUTORECONF += "--exclude=autoheader  -I ${S}/dist/aclocal
->> >> >> -I${S}/dist/aclocal_java"
->> >> >> --
->> >> >> 2.17.1
->> >> >>
->> >> >> --
->> >> >> _______________________________________________
->> >> >> Openembedded-core mailing list
->> >> >> Openembedded-core@lists.openembedded.org
->> >> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >> >>
->> >> >
->> >> >
->> >> >
->> >> > --
->> >> > _______________________________________________
->> >> > Openembedded-core mailing list
->> >> > Openembedded-core@lists.openembedded.org
->> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >> >
+We use defined BSP and configuration fraagments, not in-tree defconfigs
 
+I'm happy to add a BSP definition to the kernel-cache, but this isn't the
+way to add configuration support for the linux-yocto trees
+
+Cheers,
+
+Bruce
+
+
+> +
+> +COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|
+> qemuppc|qemumips|qemumips64|qemux86-64|qemurisc532|qemuriscv64"
+>
+>  # Functionality flags
+>  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--00000000000014bbaf056ea166a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Jun 14, 2018 at 3:45 PM, Alistair Francis <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:alistair.francis@wdc.com" target=3D"_blank">alistair.fra=
+ncis@wdc.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed=
+-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.com">a=
+listair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<wbr>linux-yocto.inc=C2=A0 =C2=A0 =C2=A0| 4=
+ ++++<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">linu<wbr>x-yocto_4.15.bb</a> | 5 ++++-<br=
+>
+=C2=A02 files changed, 8 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc b/meta/recipes-=
+kernel/linux/<wbr>linux-yocto.inc<br>
+index 95ec2a2b41..70a13cdd1e 100644<br>
+--- a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
++++ b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
+@@ -26,6 +26,10 @@ DEPENDS_append_nios2 =3D &quot; libgcc&quot;<br>
+=C2=A0KERNEL_CC_append_nios2 =3D &quot; ${TOOLCHAIN_OPTIONS}&quot;<br>
+=C2=A0KERNEL_LD_append_nios2 =3D &quot; ${TOOLCHAIN_OPTIONS}&quot;<br>
+<br>
++DEPENDS_append_riscv64 =3D &quot; libgcc&quot;<br>
++KERNEL_CC_append_riscv64 =3D &quot; ${TOOLCHAIN_OPTIONS} ${SECURITY_NOPIE_=
+CFLAGS}&quot;<br>
++KERNEL_LD_append_riscv64 =3D &quot; -no-pie&quot;<br>
++<br>
+=C2=A0KERNEL_FEATURES_append_<wbr>qemuall=3D&quot; features/debug/printk.sc=
+c&quot;<br>
+<br>
+=C2=A0# A KMACHINE is the mapping of a yocto $MACHINE to what is built<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.b=
+b" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a> b/meta=
+/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=3D"norefer=
+rer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
+index 693670c613..4ea368a011 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
+@@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
+<br>
+=C2=A0KERNEL_DEVICETREE_qemuarm =3D &quot;versatile-pb.dtb&quot;<br>
+<br>
+-COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|<wbr>qemuppc|qemumi=
+ps|qemumips64|<wbr>qemux86-64&quot;<br>
++KBUILD_DEFCONFIG_qemuriscv64 =3D &quot;defconfig&quot;<br>
++KCONFIG_MODE_qemuriscv64 =3D &quot;--alldefconfig&quot;<br></blockquote><d=
+iv><br></div><div>This doesn&#39;t belong in linux-yocto.</div><div><br></d=
+iv><div>We use defined BSP and configuration fraagments, not in-tree defcon=
+figs</div><div><br></div><div>I&#39;m happy to add a BSP definition to the =
+kernel-cache, but this isn&#39;t the way to add configuration support for t=
+he linux-yocto trees</div><div><br></div><div>Cheers,</div><div><br></div><=
+div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++<br>
++COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|<wbr>qemuppc|qemumi=
+ps|qemumips64|<wbr>qemux86-64|qemurisc532|<wbr>qemuriscv64&quot;<br>
+<br>
+=C2=A0# Functionality flags<br>
+=C2=A0KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.<wbr>sc=
+c&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
+2.17.1<br>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div></div>
+
+--00000000000014bbaf056ea166a2--
