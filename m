@@ -1,49 +1,49 @@
 Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B89927541E
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B62E8754A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 18:07:53 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id q1-v6so3613347pff.13
+	Thu, 14 Jun 2018 18:27:55 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id b14-v6so3981248pls.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 11:07:55 -0700 (PDT)
+	Thu, 14 Jun 2018 11:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=FUPIg2NFBk10I2sQVRVj2aXHWysKYIflgS3lubFnGy0=;
-	b=luPuGdG4MBsCSYGwDTFmofkY01TkHsEzEcahSb7igV3Pm3V4UQx8pKW//UpvXdRxsm
-	dYQVHdXJ4v9Yam7bWJvt7raNEsFd8Obk6OH8sYUry/GLHzCq9/RmBcZdtw+7t7LI2yl+
-	rg6hHTrPQiKLIOqKRrLr9D051A46zUf0daI3aqINEoE5rYfikIBpYh9Ttvmz80pMNrMh
-	BhMXu5F6LX8c0+7UWaN1XnWAeiUc8z52jg3JTOuGrswmbBjeT2nrXU1va0olckgxmBB8
-	jR63OXNspKfWDaSu8W04Sa2YGX+zthjdjQPFFgUHt7KInAnvtC7u7RsdJoeADLBbx5O/
-	AKag==
+	bh=0qdU7NzAdNIy8jxOYSetxkkvfnnxXWbl+qqIYRHrRgQ=;
+	b=tDKn7NrvmDAjArfMSfzuzBMN7RMvNvM/OuUbd02G87wHrg7wjoTmfQRQCz6Buu/nqK
+	7Pg80Ypd3+iyHHfCvaFncP9r9ZrpKEvE4fIdGeSIuzgw+FQe/xbnAx36pAeGS1FQEUln
+	I7ysqxwGiMLaM82npqvKfTPPtOrKLzKJRYxaiu/Zh6ppT0ypsa0gkwnKCaPOvjf4tlxj
+	x29OkgdlWyvCA0ncD8PCj44L9CWs8Oa24no+FZMnsNLLnEmk7suZli4F8hHJv5isIzrn
+	S7k2PFwqKXXAqts5mu8Ss/vLTZxwHIz1WbUUnylxnT8/w0nIhqeWWN5Bn2sDztIKYSqn
+	9JQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=FUPIg2NFBk10I2sQVRVj2aXHWysKYIflgS3lubFnGy0=;
-	b=IfJ8PfIxg52Xs7ceA8sbB9u2sE+2+Wtj/rNf8LMegT1PrKnYJAgaZ5wVL+zmmAZogI
-	bhWRD5sfqUAX80nmRdyPbBiSLi/OeRvruIdxP/8/HpI2Mg2HRYb/z14er7sZgUFAyqnM
-	gZHxlFdN9lzN835Jw3rrzoQVVof4h6SdS6ljenzu3qYOXgzx4bi18Ht41lj4hSxjquvi
-	follO1hqMun5O38UP8ZDTHTgVC7sPHqG7H9uIJjKOBbVzAQSUGQDB5mZHcHS1A8TjwJz
-	anmUIIg+4SgeGF+z8uLQNcLYqqq4qdSaOYGvV3wi99R0X4EpcgrJklLAC6s91Z33yRqu
-	r0eA==
-X-Gm-Message-State: APt69E2VS1kOWl7g0z5LVOD2FN8qeAeJTYpoPqR6GhH5UMBDyVgGGfq2
-	hXuLhUSOUNKLhhaDNfqWYKP5Ov45VYU=
-X-Google-Smtp-Source: ADUXVKJQGQIeRnfQipg7l62u+1ji+o6yB69H0rBOsTAntdouzM5bIqoaQDeedVE9dYy2/byaoOfiBA==
-X-Received: by 2002:a65:5884:: with SMTP id
-	d4-v6mr3131622pgu.292.1528999674639; 
-	Thu, 14 Jun 2018 11:07:54 -0700 (PDT)
+	bh=0qdU7NzAdNIy8jxOYSetxkkvfnnxXWbl+qqIYRHrRgQ=;
+	b=nBrKl+vR2KZtqA8pbgfrIO5Y9tbUiJI9qTxr76Gpw2OGP35SkvICW7b58YjdVbfCW3
+	XOMCu1A7HyaolVsQEM3DiwJnjQmMWSJkLvaaSfefeQuAnE8b02EKuD178S4egBQBETjl
+	1ab1jg+ZUo6W63GX20v3wyJfOep+rq6PSnOYF1I3K1VIx4UHesH85daY2zY43JiGFlaP
+	d7+b7PkEnhy5mocM4D8sb9mogP9gbVSsgN+TyD1O446nrEnozVfQj4kbLUkXWkxKLDNO
+	yxD3TNXiUWxY+k3c4+aUoTZrBx9Oo9xehXzTrURyF3Lw9179cfDZKS060iiwYA5TuNoH
+	jVCA==
+X-Gm-Message-State: APt69E37ZDsa2G+iIUMChEBrzHUDexPybEqmnLEC5VSI8wa6XjucpwLd
+	k3n07zCRl0Hn+r6+NS3d0eUgaOK/U5A=
+X-Google-Smtp-Source: ADUXVKIebXJ5AxrQg9prLCGj+xl0JR91juZgHxk5lgKDdklS0zQEZ1z8UkwuNun8HxFqP/NNLRI2zw==
+X-Received: by 2002:a17:902:4c:: with SMTP id
+	70-v6mr4220593pla.178.1529000876603; 
+	Thu, 14 Jun 2018 11:27:56 -0700 (PDT)
 Received: from jptest02.mvista.com (64.2.3.196.ptr.us.xo.net. [64.2.3.196])
 	by smtp.gmail.com with ESMTPSA id
-	f11-v6sm6940699pgq.18.2018.06.14.11.07.53
+	a23-v6sm4302964pfj.117.2018.06.14.11.27.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Jun 2018 11:07:53 -0700 (PDT)
+	Thu, 14 Jun 2018 11:27:56 -0700 (PDT)
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2018 11:04:55 -0700
-Message-Id: <20180614180455.8161-1-jpuhlman@mvista.com>
+Date: Thu, 14 Jun 2018 11:25:04 -0700
+Message-Id: <20180614182504.23557-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.14.1.459.g238e487
-Subject: [PATCH v2][sumo] Qemu: CVE-2018-11806 slirp-heap-buffer-overflow
+Subject: [PATCH v2] atk: Correct multilib conflict in header.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,102 +56,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 18:07:53 -0000
+X-List-Received-Date: Thu, 14 Jun 2018 18:27:55 -0000
 
 Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- ...018-11806-QEMU-slirp-heap-buffer-overflow.patch | 69 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.11.1.bb          |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+ .../0001-Switch-from-filename-to-basename.patch    | 38 ++++++++++++++++++++++
+ meta/recipes-support/atk/atk_2.28.1.bb             |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
+diff --git a/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch b/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
 new file mode 100644
-index 0000000000..8622360114
+index 0000000000..047e81fb61
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch
-@@ -0,0 +1,69 @@
-+Upstream-Status: Backport
++++ b/meta/recipes-support/atk/atk/0001-Switch-from-filename-to-basename.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: Submitted
 +
-+https://lists.gnu.org/archive/html/qemu-devel/2018-06/msg01012.html
-+
-+From dc21a9d2951f0a2a7e63633e2b5c68c54e4edc4b Mon Sep 17 00:00:00 2001
++From 0330251715fee908f2f162565d4fa1df5030d0c0 Mon Sep 17 00:00:00 2001
 +From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Thu, 14 Jun 2018 01:28:49 +0000
-+Subject: [PATCH] CVE-2018-11806 QEMU: slirp: heap buffer overflow
++Date: Thu, 14 Jun 2018 17:21:49 +0000
++Subject: [PATCH] Switch from filename to basename
 +
-+Subject: [Qemu-devel] [PATCH 1/2] slirp: correct size computation while concatenating mbuf
-+Date:	Tue, 5 Jun 2018 23:38:35 +0530
-+From: Prasad J Pandit <address@hidden>
-+
-+While reassembling incoming fragmented datagrams, 'm_cat' routine
-+extends the 'mbuf' buffer, if it has insufficient room. It computes
-+a wrong buffer size, which leads to overwriting adjacent heap buffer
-+area. Correct this size computation in m_cat.
-+
-+Reported-by: ZDI Disclosures <address@hidden>
-+Signed-off-by: Prasad J Pandit <address@hidden>
-+---
-+ slirp/mbuf.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++When atk-enum-types.h is installed in to a system, the user likely has
++no access to the location where the headers were built, especially if
++the software was built in a sysroot environment. If the headers were
++built for a mulitlib environment, the build pathing may be different.
++Subsequently, if two mulitlib variants of atk are installed together the
++headers conflict for no other reason then they were built in two
++different locations. Switching from filename to basename, still should
++provide sufficient information on the providence of the enums, while not
++conflicting for really no good reason.
 +
 +Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 +---
-+ slirp/mbuf.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ atk/atk-enum-types.h.template | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/slirp/mbuf.c b/slirp/mbuf.c
-+index 5ff2455..7fb4501 100644
-+--- a/slirp/mbuf.c
-++++ b/slirp/mbuf.c
-+@@ -138,7 +138,7 @@ m_cat(struct mbuf *m, struct mbuf *n)
-+ 	 * If there's no room, realloc
-+ 	 */
-+ 	if (M_FREEROOM(m) < n->m_len)
-+-		m_inc(m,m->m_size+MINCSIZE);
-++               m_inc(m, m->m_len + n->m_len);
++diff --git a/atk/atk-enum-types.h.template b/atk/atk-enum-types.h.template
++index 7b4cec4..8321c24 100644
++--- a/atk/atk-enum-types.h.template
+++++ b/atk/atk-enum-types.h.template
++@@ -14,7 +14,7 @@ G_BEGIN_DECLS
 + 
-+ 	memcpy(m->m_data+m->m_len, n->m_data, n->m_len);
-+ 	m->m_len += n->m_len;
-+@@ -158,12 +158,12 @@ m_inc(struct mbuf *m, int size)
++ /*** BEGIN file-production ***/
 + 
-+         if (m->m_flags & M_EXT) {
-+ 	  datasize = m->m_data - m->m_ext;
-+-          m->m_ext = g_realloc(m->m_ext, size);
-++          m->m_ext = g_realloc(m->m_ext, size + datasize);
-+ 	  m->m_data = m->m_ext + datasize;
-+         } else {
-+ 	  char *dat;
-+ 	  datasize = m->m_data - m->m_dat;
-+-          dat = g_malloc(size);
-++          dat = g_malloc(size + datasize);
-+ 	  memcpy(dat, m->m_dat, m->m_size);
++-/* enumerations from "@filename@" */
+++/* enumerations from "@basename@" */
++ /*** END file-production ***/
 + 
-+ 	  m->m_ext = dat;
-+@@ -171,7 +171,7 @@ m_inc(struct mbuf *m, int size)
-+ 	  m->m_flags |= M_EXT;
-+         }
-+ 
-+-        m->m_size = size;
-++        m->m_size = size + datasize;
-+ 
-+ }
-+ 
++ /*** BEGIN value-header ***/
 +-- 
-+2.13.3
++2.14.1.459.g238e487
 +
-diff --git a/meta/recipes-devtools/qemu/qemu_2.11.1.bb b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-index f4b7d69fca..5dc3934f62 100644
---- a/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.11.1.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
-            file://linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://memfd.patch \
-            file://0001-arm-translate-a64-treat-DISAS_UPDATE-as-variant-of-D.patch \
-+           file://0001-CVE-2018-11806-QEMU-slirp-heap-buffer-overflow.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
+diff --git a/meta/recipes-support/atk/atk_2.28.1.bb b/meta/recipes-support/atk/atk_2.28.1.bb
+index 657c69d576..a051247d8f 100644
+--- a/meta/recipes-support/atk/atk_2.28.1.bb
++++ b/meta/recipes-support/atk/atk_2.28.1.bb
+@@ -27,6 +27,7 @@ EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'Tr
  
+ SRC_URI_append = " \
+                    file://0001-meson.build-enable-introspection-for-cross-compile.patch \
++                   file://0001-Switch-from-filename-to-basename.patch \
+                    "
+ SRC_URI[archive.md5sum] = "dfb5e7474220afa3f4ca7e45af9f3a11"
+ SRC_URI[archive.sha256sum] = "cd3a1ea6ecc268a2497f0cd018e970860de24a6d42086919d6bf6c8e8d53f4fc"
 -- 
 2.14.1.459.g238e487
 
