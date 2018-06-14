@@ -1,29 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D066E78A64
+Return-Path: <maxin.john@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 938D7789DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 07:26:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5E7QV3X009325
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Jun 2018 00:26:31 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 14 Jun 2018 00:26:31 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <cover.1528951773.git.Qi.Chen@windriver.com>
-	<0273521858960b5e6bc63bd83284115dc97a566f.1528951773.git.Qi.Chen@windriver.com>
-	<CANNYZj_Lj=bieGAFpzSU+U0TWKJyfiyL5r8OtgC+brYGVFn=fA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <edf223f6-4bff-c460-1247-5289d9966157@windriver.com>
-Date: Thu, 14 Jun 2018 15:29:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 14 Jun 2018 07:46:39 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Jun 2018 00:46:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,222,1526367600"; d="scan'208";a="49255862"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by orsmga008.jf.intel.com with ESMTP; 14 Jun 2018 00:46:39 -0700
+Date: Thu, 14 Jun 2018 10:39:15 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20180614073915.GA9986@mbabyjoh-desk.ger.corp.intel.com>
+References: <1528901652-14840-1-git-send-email-maxin.john@intel.com>
+	<696212b6-cfe1-a882-9395-21093895ad42@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_Lj=bieGAFpzSU+U0TWKJyfiyL5r8OtgC+brYGVFn=fA@mail.gmail.com>
-X-Originating-IP: [128.224.162.218]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] oeqa/runtime/cases/rpm.py: change to use base-passwd-doc
+In-Reply-To: <696212b6-cfe1-a882-9395-21093895ad42@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] sqlite3: upgrade to 3.24.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 07:26:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Jun 2018 07:46:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 06/14/2018 02:57 PM, Alexander Kanavin wrote:
-> 2018-06-14 7:52 GMT+03:00 Chen Qi <Qi.Chen@windriver.com>:
->> The test cases assume that rpm-doc is built out, as it says it its
->> comment. This is not always true. And it sometimes results in
->> following error.
->>
->>    |     cls.tc.target.copyTo(test_file, dst)
->>    | UnboundLocalError: local variable 'test_file' referenced before assignment
-> Wait, you need to explain this further. What is the situation when it
-> isn't true?
->
-> Alex
->
+Hi Khem,
 
-Hi Alex,
+On Wed, Jun 13, 2018 at 08:37:14AM -0700, Khem Raj wrote:
+> Hi Maxin
+> 
+> On 6/13/18 7:54 AM, Maxin B. John wrote:
+> >Disable fts5 support as it causes build errors for pseudo.
+> >
+> >Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> >---
+> >  meta/recipes-support/sqlite/sqlite3.inc                              | 1 +
+> >  meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} | 4 ++--
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-support/sqlite/{sqlite3_3.23.1.bb => sqlite3_3.24.0.bb} (59%)
+> >
+> >diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+> >index 95ec89c..7312c84 100644
+> >--- a/meta/recipes-support/sqlite/sqlite3.inc
+> >+++ b/meta/recipes-support/sqlite/sqlite3.inc
+> >@@ -31,6 +31,7 @@ EXTRA_OECONF = " \
+> >      --enable-shared \
+> >      --enable-threadsafe \
+> >      --disable-static-shell \
+> >+    --enable-fts5=no \
+> >  "
+> 
+> is this causing issues for pseudo target recipe ?
+> perhaps its better to turn it into a packageconfig
 
-For any image that does not have rpm installed, rpm package is not 
-likely to be built out.
-Having PACKAGE_CLASSES set to "package_rpm" will only ensure rpm-native 
-to be built out.
+Ok, Will do that.
+
+> >  CFLAGS_append = " -fPIC"
+> >diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
+> >similarity index 59%
+> >rename from meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+> >rename to meta/recipes-support/sqlite/sqlite3_3.24.0.bb
+> >index 3755761..ce18fec 100644
+> >--- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+> >+++ b/meta/recipes-support/sqlite/sqlite3_3.24.0.bb
+> >@@ -6,5 +6,5 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
+> >  SRC_URI = "\
+> >    http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+> >    "
+> >-SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
+> >-SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
+> >+SRC_URI[md5sum] = "dcd96fb9bbb603d29f6b0ad9554932ee"
+> >+SRC_URI[sha256sum] = "d9d14e88c6fb6d68de9ca0d1f9797477d82fc3aed613558f87ffbdbbc5ceb74a"
 
 Best Regards,
-Chen Qi
+Maxin
 
