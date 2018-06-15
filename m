@@ -1,43 +1,18 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C48974F85
+Return-Path: <ayaka@soulik.info>
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 4751F7518E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 01:39:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41109433"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Jun 2018 09:39:05 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id D34174B41E7D;
-	Fri, 15 Jun 2018 09:39:01 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0399.000; Fri, 15 Jun 2018 09:39:03 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] [PATCH] meta-toolchain: Added dnf-nativesdk into
-	cross-development toolchain.
-Thread-Index: AQHUAWqD1lbikEZYK0W1x1wfHaU3kaRfHv6w//+zbACAAb0l0A==
-Date: Fri, 15 Jun 2018 01:39:02 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF7363AE9E2F@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CAJTo0LZVcc+_ocfuYEUBKK0Hbr0SaZEH7CUYKK17gMk+CXwxwg@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9A7F@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
-In-Reply-To: <CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.300.84
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.35]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: D34174B41E7D.A9E5C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
+	Fri, 15 Jun 2018 03:22:34 +0000 (UTC)
+Received: from misaki.sumomo.pri (unknown
+	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
+	by kozue.soulik.info (Postfix) with ESMTPA id B5F1C1025AA;
+	Fri, 15 Jun 2018 12:23:12 +0900 (JST)
+From: Randy Li <ayaka@soulik.info>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jun 2018 11:22:21 +0800
+Message-Id: <20180615032226.9899-1-ayaka@soulik.info>
+X-Mailer: git-send-email 2.14.4
+Subject: [PATCH v3 0/5] Add tune for ARMv8 and some cortex processors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,32 +25,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 01:39:05 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 15 Jun 2018 03:22:34 -0000
 
-SGkgQWxleDoNCg0KVGhlc2UgcGFja2FnZXMgYXJlIHRha2VuIGZyb20geW9j
-dG8gYnVpbGQgc3lzdGVtLCBhbmQgdGhleSB3aWxsIGJlIGluc3RhbGxlZCBp
-biB5b3VyIGhvc3QgYXMgcm9vdCBmaWxlIHN5c3RlbSwgdGhlbiB5b3UgY2Fu
-IGRlcGxveSB0aGUgcm9vdCBmaWxlIHN5c3RlbSB0byB5b3VyIGVtYmVkZGVk
-IGRldmljZS4NCg0KLS0NClpoZW5nIFJ1b3Fpbg0KTmFuamluZyBGdWppdHN1
-IE5hbmRhIFNvZnR3YXJlIFRlY2guIENvLiwgTHRkLihGTlNUKQ0KQUREUi46
-IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCiAgICAgICBO
-YW5qaW5nLCAyMTAwMTIsIENoaW5hDQpNQUlMIDogemhlbmdycS5mbnN0QGNu
-LmZ1amlzdHUuY29tDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-CkZyb206IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbV0gDQpTZW50OiBUaHVyc2RheSwgSnVuZSAxNCwgMjAxOCAz
-OjAzIFBNDQpUbzogWmhlbmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKmIDx6aGVuZ3Jx
-LmZuc3RAY24uZnVqaXRzdS5jb20+DQpDYzogQnVydG9uLCBSb3NzIDxyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb20+OyBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1j
-b3JlXSBbUEFUQ0hdIG1ldGEtdG9vbGNoYWluOiBBZGRlZCBkbmYtbmF0aXZl
-c2RrIGludG8gY3Jvc3MtZGV2ZWxvcG1lbnQgdG9vbGNoYWluLg0KDQoyMDE4
-LTA2LTE0IDY6MzggR01UKzAzOjAwIFpoZW5nLCBSdW9xaW4gPHpoZW5ncnEu
-Zm5zdEBjbi5mdWppdHN1LmNvbT46DQo+IEkgc3VibWl0dGVkIHRoaXMgcGF0
-Y2ggYWltIHRvIHVzZSBkbmYgb3V0IG9mIFlvY3RvIGJ1aWxkIHN5c3RlbSB0
-byBtYW5hZ2UgcGFja2FnZXMuDQoNClBsZWFzZSBleHBsYWluIHRoaXMgaW4g
-ZGV0YWlsLiBXaGVyZSBhcmUgdGhlIHBhY2thZ2VzIHRha2VuIGZyb20sIGFu
-ZCB3aGVyZSBhcmUgdGhleSBpbnN0YWxsZWQ/DQoNCkFsZXgNCg0KDQoKCg==
+I mistake some thing wrong in the previous version, I have verified
+this version and it works.
+
+I have not found a way to support big little.
+
+Randy Li (5):
+  arch-armv8a.inc: add tune include for armv8
+  tune-cortexa32: add tunes for ARM Cortex-A32
+  tune-cortexa35: add tunes for ARM Cortex-A35
+  tune-cortexa53: add tunes for ARM Cortex-A53
+  tune-cortexa72: add tunes for ARM Cortex-A72
+
+ meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
+ meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++++++++++
+ meta/conf/machine/include/tune-cortexa32.inc  | 15 ++++++++++++++
+ meta/conf/machine/include/tune-cortexa35.inc  | 15 ++++++++++++++
+ meta/conf/machine/include/tune-cortexa53.inc  | 15 ++++++++++++++
+ meta/conf/machine/include/tune-cortexa72.inc  | 12 ++++++++++++
+ 6 files changed, 85 insertions(+), 1 deletion(-)
+ delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+ create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa32.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa35.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa72.inc
+
+-- 
+2.14.4
+
 
