@@ -1,50 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7883A753AF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EA1FA746FA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 22:25:26 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id l14-v6so3955123uao.4
+	Fri, 15 Jun 2018 22:36:51 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id l11-v6so7390540uak.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 15:25:27 -0700 (PDT)
+	Fri, 15 Jun 2018 15:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=Q1pJ1E+Hzs0CzoP/OzlzWmwF4uBYIcMgG0n3y04tbUw=;
-	b=VOUz/J7lxtr8b5bBf3wrVyCTWYzIokXiAtDhQ1c5KlbFMta8kDb9W+3uDsoLW/0dF+
-	0D03a1lppJ3KN1IeLzC6+Zsy4g+pV+P+JJdPchRClkm/TzgFCOkQHlsqb0VaIqXU2lkY
-	FWnS9QilmphUTb6uNfAaQ4N+9diJAzn9FAmAOuCqmpp4zNRueiqGOeK6OgK7BlsykKU3
-	S5xyVMt+CMKy8NHDQ0Yfdh50/nVwndvx+k1jC2CN9tMKTxMv3E55sWdqvx6xLWGBHRiW
-	r/CiB1zsUZt0j2D7N7jjUASjNEEBP1WgR/unOEwFnLIy3/+FTa2HSsSL6GBOCFiW2cnL
-	s04A==
+	bh=ozBo+DNxgFwuKxMeqJ6Afe8AGiyZA+ix05n/iuWgoZk=;
+	b=HXj9Wky+3axjehsA81CZPe6OYUaiqGdY+7JkTsRsMX9dbLkOn/azBBemfoqfcpBXUp
+	nkBsMFdio1ODZkpowx0154d8uqnhSZRmrxF7N8l7AwPfq48cX5toFDdPcVP0VgBlV1hD
+	WYHc/AwqSxYNfnd+M3ocphew37pKdYxMQajGlnuxQjIZvEWDGdMrgiKhnegud7/bQpSZ
+	zRDkCyscSaQNJiuPlxY3P+z9g2Dy5Q8aElBVCe0zWv8sj5NqO9o0FQ/oZI90zJy1lJCW
+	XIU0czSx5aAJFGTjmql25A3xQ/M4Vqr3vRo+0KIwLkGLTVJ2aTAPpW/gQsG8S/ZiCE6c
+	fuQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Q1pJ1E+Hzs0CzoP/OzlzWmwF4uBYIcMgG0n3y04tbUw=;
-	b=tY44ZbHqBiyjoZJiiNyVNZEYQtTaB77rIKbYy+KgwoT4BkBkCwrlcHzlQsopUjG9jF
-	j93g244AaB602VT/Kyz0jSD6yAd8PaPleuuHfcImJmwnHKY1FGYncIq/sLee8yIzoari
-	eVEdR5st7kNUFtQP2DL5n1iIw3i765mLG11TGAdI/3N9rw2XpJk7gNqWfIAKiz1Of1Qh
-	zHi8COrJQ/ki8c667mjZ8zZVtEhgbjA2H+KWCVY6C869Ln7tpefgISaGgzrMKDmymrGG
-	vol2ywX4HQX6tbDvcaHHsX1hWk+Q0v8z1DRfwDxeAADvlLBbJLu52fzPDPp4xSADfpRn
-	cSYA==
-X-Gm-Message-State: APt69E0WequclfU+c1+7OkX9AoRZ+nHqak6GRInsiXE2IMb9XsiSVEte
-	JoV4+Q35ismkR5WJGIR8j2MBnGLPu68O50h6rwg=
-X-Google-Smtp-Source: ADUXVKLl+Q4t/Au5qPeDsh4peuRXu73XYlwNzhU0g3IC+/7u+bleyvhZ+Hau1EuNOLDmNZgtNjahGrU5g30HWJ2XIqE=
-X-Received: by 2002:ab0:1048:: with SMTP id g8-v6mr2262772uab.52.1529101527281;
-	Fri, 15 Jun 2018 15:25:27 -0700 (PDT)
+	bh=ozBo+DNxgFwuKxMeqJ6Afe8AGiyZA+ix05n/iuWgoZk=;
+	b=p/NMyeWPxV/8V5+lXpdoghCWmmjNor86qyzVHdXY4Kz1W2VOlqYF7pEwxQVsc/jfGR
+	RCykUqeraKnOumFAGjUt/rooNugj5+fprQjSvAD32BEMrYoRqfu4wjdbG95v3QhMAZbr
+	MwExmp0UvMBFbn6hTwJHyu8B1ck8KijoOD3GMwKdyTUHzksrnncD95jL6tPOzyQUw1+G
+	kUuOI/rX/mDDKz+zL2tC8HfHSSz2PU6cD52Jk2tjk7+QW/cTVeimrnOQT2mvASvp4j0k
+	BuKZAatSAUArw2pWJEwoXBN1P0MnnCAHCbT3NwKXBdG3ik2vIAtld1URQYQWPOEH3eaR
+	Hy9Q==
+X-Gm-Message-State: APt69E2Vf20DdpikuOFGyAYGq/OdW/SyYsUaiB4qtO717bv+apMFFXnZ
+	yx9+wIjx+Xj4a21QVYFOl8FWOVulF1QXryP1aOg=
+X-Google-Smtp-Source: ADUXVKLGFAVWPeeKl/imtp6RnWxbcOlN+D1Ut5ZxF1AvOL96RwYf4TpgKwnNx5zmlr8vNdB1HmUYwEFtZnILClDFoZ4=
+X-Received: by 2002:ab0:5851:: with SMTP id
+	p17-v6mr2373872uac.164.1529102212559; 
+	Fri, 15 Jun 2018 15:36:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Fri, 15 Jun 2018 15:25:26 -0700 (PDT)
-In-Reply-To: <22e45738-aa92-24c7-a3fc-03a0918a1c3a@windriver.com>
 References: <1529093808-10025-1-git-send-email-armccurdy@gmail.com>
 	<22e45738-aa92-24c7-a3fc-03a0918a1c3a@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 15 Jun 2018 15:25:26 -0700
-Message-ID: <CAJ86T=WwBqJ7upMW=A3jVQOqYCd1Namrmvw62CELTrbcvrUmcw@mail.gmail.com>
+In-Reply-To: <22e45738-aa92-24c7-a3fc-03a0918a1c3a@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Jun 2018 15:36:26 -0700
+Message-ID: <CAMKF1srvZ830wY4_PEV06L4Tea6OkHkSi+fcZMuG0sungLCdyQ@mail.gmail.com>
 To: Mark Hatle <mark.hatle@windriver.com>
 Cc: =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@jci.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [rocko][PATCH] common-licenses: Add BSD-1-Clause
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,76 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 22:25:26 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 22:36:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 15, 2018 at 3:13 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
+On Fri, Jun 15, 2018 at 3:14 PM Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+>
 > On 6/15/18 3:16 PM, Andre McCurdy wrote:
->> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
->>
->> Some projects are starting to use it.
->>   https://spdx.org/licenses//BSD-1-Clause.html
->>
->> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> (cherry picked from commit 77f692ecb39d880b2cb420850a31534860eb2cc5)
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/files/common-licenses/BSD-1-Clause | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>  create mode 100644 meta/files/common-licenses/BSD-1-Clause
->>
->> diff --git a/meta/files/common-licenses/BSD-1-Clause b/meta/files/common=
--licenses/BSD-1-Clause
->> new file mode 100644
->> index 0000000..ded8897
->> --- /dev/null
->> +++ b/meta/files/common-licenses/BSD-1-Clause
->> @@ -0,0 +1,9 @@
->> +
->> +Copyright (c) <YEAR>, <OWNER>
->> +All rights reserved.
->> +
->> +Redistribution and use in source and binary forms, with or without modi=
-fication, are permitted provided that the following conditions are met:
->> +
->> +Redistributions of source code must retain the above copyright notice, =
-this list of conditions and the following disclaimer.
->> +THIS SOFTWARE IS PROVIDED BY Berkeley Software Design, Inc. "AS IS" AND=
- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+> > From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> >
+> > Some projects are starting to use it.
+> >   https://spdx.org/licenses//BSD-1-Clause.html
+> >
+> > Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > (cherry picked from commit 77f692ecb39d880b2cb420850a31534860eb2cc5)
+> > Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> > ---
+> >  meta/files/common-licenses/BSD-1-Clause | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >  create mode 100644 meta/files/common-licenses/BSD-1-Clause
+> >
+> > diff --git a/meta/files/common-licenses/BSD-1-Clause b/meta/files/commo=
+n-licenses/BSD-1-Clause
+> > new file mode 100644
+> > index 0000000..ded8897
+> > --- /dev/null
+> > +++ b/meta/files/common-licenses/BSD-1-Clause
+> > @@ -0,0 +1,9 @@
+> > +
+> > +Copyright (c) <YEAR>, <OWNER>
+> > +All rights reserved.
+> > +
+> > +Redistribution and use in source and binary forms, with or without mod=
+ification, are permitted provided that the following conditions are met:
+> > +
+> > +Redistributions of source code must retain the above copyright notice,=
+ this list of conditions and the following disclaimer.
+> > +THIS SOFTWARE IS PROVIDED BY Berkeley Software Design, Inc. "AS IS" AN=
+D ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 >
 > Hate to nitpick, but isn't BSDi defunct?  I don't think it makes sense to=
  list
 > BSDI, since as far as I know they never had a '1-Clause' license.
-
-You're right.
-
-There doesn't seem to be much consistency in the various BSD licenses
-in meta/files/common-licenses. We currently have:
-
-  BSD : THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS''=
- ...
-
-  BSD-0-Clause : THE SOFTWARE IS PROVIDED "AS IS" ...
-
-  BSD-1-Clause : THIS SOFTWARE IS PROVIDED BY Berkeley Software
-Design, Inc. "AS IS" ...
-
-  BSD-2-Clause : THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS``=
- ...
-
-  BSD-3-Clause : THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS
-AND CONTRIBUTORS "AS IS" ...
-
-  BSD-4-Clause : THIS SOFTWARE IS PROVIDED BY <COPYRIGHT HOLDER> ``AS IS`` =
-...
-
-Every one slightly different!
-
+>
 > Maybe a <Organization Here> would be more appropriate.
 >
+
+I think we should sync the files we carry with SPDX e.g.
+https://github.com/spdx/license-list-data/tree/master/text
+
 > --Mark
 >
 > IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS=
@@ -144,7 +125,12 @@ ND ON
 > (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF =
 THIS
 > SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->> +
->>
+> > +
+> >
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
