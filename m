@@ -1,20 +1,20 @@
 Return-Path: <ayaka@soulik.info>
 Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 484E9753AD
+	by mail.openembedded.org (Postfix) with ESMTP id 9609A75412
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 03:22:40 +0000 (UTC)
+	Fri, 15 Jun 2018 03:22:41 +0000 (UTC)
 Received: from misaki.sumomo.pri (unknown
 	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
-	by kozue.soulik.info (Postfix) with ESMTPA id 13E721025AA;
-	Fri, 15 Jun 2018 12:23:18 +0900 (JST)
+	by kozue.soulik.info (Postfix) with ESMTPA id 1E45A1025B0;
+	Fri, 15 Jun 2018 12:23:19 +0900 (JST)
 From: Randy Li <ayaka@soulik.info>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jun 2018 11:22:24 +0800
-Message-Id: <20180615032226.9899-4-ayaka@soulik.info>
+Date: Fri, 15 Jun 2018 11:22:25 +0800
+Message-Id: <20180615032226.9899-5-ayaka@soulik.info>
 X-Mailer: git-send-email 2.14.4
 In-Reply-To: <20180615032226.9899-1-ayaka@soulik.info>
 References: <20180615032226.9899-1-ayaka@soulik.info>
-Subject: [PATCH v3 3/5] tune-cortexa35: add tunes for ARM Cortex-A35
+Subject: [PATCH v3 4/5] tune-cortexa53: add tunes for ARM Cortex-A53
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,37 +27,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 03:22:40 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 03:22:41 -0000
 
-https://developer.arm.com/products/processors/cortex-a/cortex-a35
+It looks that the Cryptography engine is mandatory in this
+platform.
+
+https://developer.arm.com/products/processors/cortex-a/cortex-a53
 
 Signed-off-by: Randy Li <ayaka@soulik.info>
 ---
- meta/conf/machine/include/tune-cortexa35.inc | 15 +++++++++++++++
+ meta/conf/machine/include/tune-cortexa53.inc | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-cortexa35.inc
+ create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
 
-diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/tune-cortexa35.inc
+diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
 new file mode 100644
-index 0000000000..535a8aef15
+index 0000000000..050a735d8e
 --- /dev/null
-+++ b/meta/conf/machine/include/tune-cortexa35.inc
++++ b/meta/conf/machine/include/tune-cortexa53.inc
 @@ -0,0 +1,15 @@
-+DEFAULTTUNE ?= "cortexa35"
++DEFAULTTUNE ?= "cortexa53"
 +
 +require conf/machine/include/arm/arch-armv8a.inc
 +
-+TUNEVALID[cortexa35] = "Enable Cortex-A35 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa35', ' -mcpu=cortex-a35', '', d)}"
++TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
 +
 +# Little Endian base configs
-+AVAILTUNES += "cortexa35 cortexa35-crypto"
-+ARMPKGARCH_tune-cortexa35             = "cortexa35"
-+ARMPKGARCH_tune-cortexa35-crypto      = "cortexa35"
-+TUNE_FEATURES_tune-cortexa35          = "${TUNE_FEATURES_tune-armv8a-crc} cortexa35"
-+TUNE_FEATURES_tune-cortexa35-crypto   = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa35"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa35             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa35"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa35-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa35 cortexa35-crypto"
++AVAILTUNES += "cortexa53 cortexa53-crypto"
++ARMPKGARCH_tune-cortexa53             = "cortexa53"
++ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53"
++TUNE_FEATURES_tune-cortexa53          = "${TUNE_FEATURES_tune-armv8a-crc} cortexa53"
++TUNE_FEATURES_tune-cortexa53-crypto   = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa53"
++PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
++PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
 -- 
 2.14.4
 
