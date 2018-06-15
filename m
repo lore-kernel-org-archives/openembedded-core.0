@@ -1,19 +1,21 @@
 Return-Path: <sjl@vctlabs.com>
+X-Greylist: delayed 487 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 15 Jun 2018 07:58:41 UTC
 Received: from dent.vctlabs.com (net-cf9a4187.iis.impulse.net [207.154.65.135])
-	by mail.openembedded.org (Postfix) with ESMTP id 55D1F7519B
+	by mail.openembedded.org (Postfix) with ESMTP id 641CD751C2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Jun 2018 07:58:41 +0000 (UTC)
 Received: by dent.vctlabs.com (Postfix, from userid 1000)
-	id 8B3442804CC; Fri, 15 Jun 2018 00:54:33 -0700 (PDT)
-Date: Fri, 15 Jun 2018 00:54:33 -0700
+	id B42B028056D; Fri, 15 Jun 2018 00:56:18 -0700 (PDT)
+Date: Fri, 15 Jun 2018 00:56:18 -0700
 From: "S. Lockwood-Childs" <sjl@vctlabs.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20180615075433.GK31886@vctlabs.com>
+Message-ID: <20180615075618.GL31886@vctlabs.com>
 Mail-Followup-To: "S. Lockwood-Childs" <sjl@vctlabs.com>,
 	openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH] coreutils: fix nativesdk install failure
+Subject: [PATCH] sqlite3: consistent set of features for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +32,29 @@ X-List-Received-Date: Fri, 15 Jun 2018 07:58:41 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-The change "fix hostname conflict with other packages" moved the
-hostname util to the list of base_bindir_progs, so do_install_append()
-now expects hostname to have been built.
-
-coreutils do_install_append() is shared between target and nativesdk
-builds (though not used by native build, see comment) so hostname should
-be enabled to build on both of them.
-
-Signed-off-by: S. Lockwood-Childs <sjl@vctlabs.com>
+Enable use of pread() and enable column metadata API for nativesdk builds.
+This brings nativesdk in line with target and native builds.
 ---
- meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/sqlite/sqlite3.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.29.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
-index 0b8acc5..4704f32 100644
---- a/meta/recipes-core/coreutils/coreutils_8.29.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
-@@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "92d0fa1c311cacefa89853bdb53c62f4110cdfda3820346b59cbd098f4
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 95ec89c..30847b9 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -37,10 +37,12 @@ CFLAGS_append = " -fPIC"
  
- EXTRA_OECONF_class-native = "--without-gmp"
- EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
--EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch"
-+EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch,hostname"
+ # pread() is in POSIX.1-2001 so any reasonable system must surely support it
+ BUILD_CFLAGS += "-DUSE_PREAD"
++BUILDSDK_CFLAGS += "-DUSE_PREAD"
+ TARGET_CFLAGS += "-DUSE_PREAD"
  
- # acl and xattr are not default features
- #
+ # Provide column meta-data API
+ BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
++BUILDSDK_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
+ TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
+ 
+ PACKAGES = "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-staticdev ${PN}"
 -- 
 1.9.4
 
