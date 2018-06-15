@@ -1,46 +1,19 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BA97753A4
+Return-Path: <sjl@vctlabs.com>
+Received: from dent.vctlabs.com (net-cf9a4187.iis.impulse.net [207.154.65.135])
+	by mail.openembedded.org (Postfix) with ESMTP id 55D1F7519B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 07:52:37 +0000 (UTC)
-Received: by mail-wr0-f182.google.com with SMTP id v13-v6so8919050wrp.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 00:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=5jfaCxboNOOBGhwlcNDnnB/po2zvXoYHvGIv1e5qUis=;
-	b=LdABiGTm3j7QOMoeHDsRhlK82xEkOyt2ieLYgA2hr7DLLPUqN3YQaLfhJBqSbIDyKm
-	EIg5HiDKqe5iUZDAFfFc5RpPdJKnCXIQ2AMw3RBWkShx0mLi73h/hcNkQN8N2ESxEqqw
-	Hur7TlqZh9jkA0NGUERLBzLdVrEF/DQUXlvlg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5jfaCxboNOOBGhwlcNDnnB/po2zvXoYHvGIv1e5qUis=;
-	b=Kd1FXNZGh4RlQqx6lVoxuapc2JVSQvef0LjT8JMrL22tWiRIdtr5PLYI4aMH7Buo+x
-	6f497YDyfB/eLHldSlNaHPd8HsQX9poX5294eE4IKjN0KLneLqx4qgLIsyB+Wj/xNN48
-	gk9Z7eIGdI/th4VlJF8dAaduv9eFmwe5dUug9EOVcGCUxdeiCssA9sEZcZGyBZkwInvp
-	pCl5Ji+auI2lYJA5dfRHTArhTBghIGobH6C/uDKZz+sBa09WDhLOw44kP8aRLXZ2cDv3
-	B43NleItb5pVUwLQ3tqHHhvUEg2xjXck29F2lD3nGiZwLvzGIw/Ne8epv5xUEKqkrCCM
-	Sptw==
-X-Gm-Message-State: APt69E2aQdiBOFz9gLj/rW1s114vrhrnM6hMRbW9RQSxi1GrANmaEMpW
-	rnJlsYX4fMy6CRvGXC2XEk/9F2nd3Cw=
-X-Google-Smtp-Source: ADUXVKJMD6/zWraW1UTVoBURR1ZvJUrujKznX2PnYhm+yPZpUxr3fQ8UU6BL8UpjmilobAOdRscErA==
-X-Received: by 2002:adf:824e:: with SMTP id 72-v6mr639390wrb.127.1529049157611;
-	Fri, 15 Jun 2018 00:52:37 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j131-v6sm1735924wmg.24.2018.06.15.00.52.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Jun 2018 00:52:36 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 15 Jun 2018 07:58:41 +0000 (UTC)
+Received: by dent.vctlabs.com (Postfix, from userid 1000)
+	id 8B3442804CC; Fri, 15 Jun 2018 00:54:33 -0700 (PDT)
+Date: Fri, 15 Jun 2018 00:54:33 -0700
+From: "S. Lockwood-Childs" <sjl@vctlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jun 2018 08:52:35 +0100
-Message-Id: <20180615075235.4216-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] yocto-uninative: Update to version 2.1
+Message-ID: <20180615075433.GK31886@vctlabs.com>
+Mail-Followup-To: "S. Lockwood-Childs" <sjl@vctlabs.com>,
+	openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] coreutils: fix nativesdk install failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +26,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 07:52:37 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 07:58:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This fixes issues with fontforge-native.
+The change "fix hostname conflict with other packages" moved the
+hostname util to the list of base_bindir_progs, so do_install_append()
+now expects hostname to have been built.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+coreutils do_install_append() is shared between target and nativesdk
+builds (though not used by native build, see comment) so hostname should
+be enabled to build on both of them.
+
+Signed-off-by: S. Lockwood-Childs <sjl@vctlabs.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index a8e82cb5d75..dcd59f87ccc 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,6 +8,6 @@
+diff --git a/meta/recipes-core/coreutils/coreutils_8.29.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
+index 0b8acc5..4704f32 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.29.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
+@@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "92d0fa1c311cacefa89853bdb53c62f4110cdfda3820346b59cbd098f4
  
- UNINATIVE_MAXGLIBCVERSION = "2.27"
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+-EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch"
++EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch,hostname"
  
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/1.9/"
--UNINATIVE_CHECKSUM[i686] ?= "83a4f927da81d9889ef0cbe5c12cb782e21c6cc11e6155600b94ff0c99576dce"
--UNINATIVE_CHECKSUM[x86_64] ?= "c26622a1f27dbf5b25de986b11584b5c5b2f322d9eb367f705a744f58a5561ec"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.1/"
-+UNINATIVE_CHECKSUM[i686] ?= "a90db17d8845ece764aaac19348cd78504c0e554cb998da39ebad03aeef76185"
-+UNINATIVE_CHECKSUM[x86_64] ?= "d43555df8d5a056ef5b20c7d8e0287207974e09df1e969a3e19302c8b4ea6b4b"
+ # acl and xattr are not default features
+ #
 -- 
-2.17.1
+1.9.4
 
 
