@@ -1,29 +1,23 @@
 Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 643C275422
+	by mail.openembedded.org (Postfix) with ESMTP id 63E827604C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 08:11:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5F8BJKT027212
+	Fri, 15 Jun 2018 08:35:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5F8Z7xj027610
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 15 Jun 2018 01:11:19 -0700 (PDT)
-Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Fri, 15 Jun 2018 01:11:19 -0700
-To: Andre McCurdy <armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-References: <1528968947-430998-1-git-send-email-mingli.yu@windriver.com>
-	<bcb49b46-b97e-399b-5a6c-c994b1628ad6@gmail.com>
-	<CAJ86T=U0iM3u5Vv-4hOvLFSNs5K8D66++kiRRWqKq7MW=JGyEw@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5B2373B6.2080006@windriver.com>
-Date: Fri, 15 Jun 2018 16:07:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Fri, 15 Jun 2018 01:35:07 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Fri, 15 Jun 2018 01:35:07 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<alexander.kanavin@linux.intel.com>, <raj.khem@gmail.com>
+Date: Fri, 15 Jun 2018 16:35:05 +0800
+Message-ID: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=U0iM3u5Vv-4hOvLFSNs5K8D66++kiRRWqKq7MW=JGyEw@mail.gmail.com>
-X-Originating-IP: [128.224.162.173]
-Subject: Re: [PATCH] ltp: set -fomit-frame-pointer explicitly
+Subject: [PATCH V2] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,81 +30,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 08:11:23 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 15 Jun 2018 08:35:08 -0000
+Content-Type: text/plain
 
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
+Set .file section explicitly for .S files to avoid
+the linker introduces the host path in symbols for
+object files whose source file is .S
+Otherwise, there is a host path in the symbols as
+below:
+$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67.0
+42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
 
-On 2018年06月15日 03:20, Andre McCurdy wrote:
-> On Thu, Jun 14, 2018 at 9:38 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On 6/14/18 2:35 AM, mingli.yu@windriver.com wrote:
->>> From: Mingli Yu <Mingli.Yu@windriver.com>
->>>
->>> When build ltp with -fno-omit-frame-pointer,
->>> it will trigger below error:
->>> | cve-2015-3290.c: In function 'child_thread':
->>> | cve-2015-3290.c:416:1: error: bp cannot be used in asm here
->>>
->>> And there is also some comment as below in the source
->>> file ltp/20180515-r0/git/testcases/cve/cve-2015-3290.c
->>> * Build with -O2.  Don't use -fno-omit-frame-pointer.
->>>
->>> So explicitly set -fomit-frame-pointer for compiler
->>> to fix the above build error.
->>>
->>> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>> ---
->>>   meta/recipes-extended/ltp/ltp_20180515.bb | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb b/meta/recipes-extended/ltp/ltp_20180515.bb
->>> index b07c1b9..5ec25ed 100644
->>> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
->>> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
->>> @@ -19,6 +19,10 @@ LIC_FILES_CHKSUM = "\
->>>   DEPENDS = "attr libaio libcap acl openssl zip-native"
->>>   DEPENDS_append_libc-musl = " fts "
->>>   EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
->>> +
->>> +# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
->>> +# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
->>> +CFLAGS_append = " ${@bb.utils.contains('SELECTED_OPTIMIZATION', '-fno-omit-frame-pointer', '-fomit-frame-pointer', '', d)}"
->
-> This doesn't cover all cases - there may be times when the compiler
-> chooses to enable frame pointers without being called with
-> -fno-omit-frame-pointer.
->
-> You could make the append conditional on x86 though (based on the
-> error message, it's the x86 frame pointer register which is being used
-> by inline assembler).
+[YOCTO #12708]
 
-Thanks Khem and Andre!
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ ...e_x86_64_sysv_elf_gas.S-set-.file-section.patch | 48 ++++++++++++++++++++++
+ meta/recipes-support/boost/boost_1.67.0.bb         |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/0001-make_x86_64_sysv_elf_gas.S-set-.file-section.patch
 
-Considering it's x86-64 specific(x86 actually not affected), I will 
-update the logic unconditionally in V2 as below only for x86-64 to cover 
-some cases when the compiler enables frame pointers without being called 
-with -fno-omit-frame-pointer.
+diff --git a/meta/recipes-support/boost/boost/0001-make_x86_64_sysv_elf_gas.S-set-.file-section.patch b/meta/recipes-support/boost/boost/0001-make_x86_64_sysv_elf_gas.S-set-.file-section.patch
+new file mode 100644
+index 0000000..c2ac49e
+--- /dev/null
++++ b/meta/recipes-support/boost/boost/0001-make_x86_64_sysv_elf_gas.S-set-.file-section.patch
+@@ -0,0 +1,48 @@
++From c99f798407e44c86e9f64f5b1adf3b4d0549eef2 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Fri, 15 Jun 2018 16:21:56 +0800
++Subject: [PATCH] make_x86_64_sysv_elf_gas.S: set .file section
++
++Set .file section explicitly for .S files to avoid
++the linker introduces the host path in symbols for
++object files whose source file is .S
++Otherwise, there is a host path in the symbols as below:
++$ readelf --wide --symbols /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/libboost_context.so.1.67.0
++
++42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-r0/boost_1_67_0/x86_64-poky-linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38ed/asm/make_x86_64_sysv_elf_gas.o
++
++Upstream-Status: Pending
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ libs/context/src/asm/make_i386_sysv_elf_gas.S   | 1 +
++ libs/context/src/asm/make_x86_64_sysv_elf_gas.S | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/libs/context/src/asm/make_i386_sysv_elf_gas.S b/libs/context/src/asm/make_i386_sysv_elf_gas.S
++index de77e88..b76de26 100644
++--- a/libs/context/src/asm/make_i386_sysv_elf_gas.S
+++++ b/libs/context/src/asm/make_i386_sysv_elf_gas.S
++@@ -24,6 +24,7 @@
++  *                                                                                      *
++  ****************************************************************************************/
++ 
+++.file "make_i386_sysv_elf_gas.S"
++ .text
++ .globl make_fcontext
++ .align 2
++diff --git a/libs/context/src/asm/make_x86_64_sysv_elf_gas.S b/libs/context/src/asm/make_x86_64_sysv_elf_gas.S
++index 25a0c00..0ef3756 100644
++--- a/libs/context/src/asm/make_x86_64_sysv_elf_gas.S
+++++ b/libs/context/src/asm/make_x86_64_sysv_elf_gas.S
++@@ -24,6 +24,7 @@
++  *                                                                                      *
++  ****************************************************************************************/
++ 
+++.file "make_x86_64_sysv_elf_gas.S"
++ .text
++ .globl make_fcontext
++ .type make_fcontext,@function
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/boost/boost_1.67.0.bb b/meta/recipes-support/boost/boost_1.67.0.bb
+index eb50899..7bb4511 100644
+--- a/meta/recipes-support/boost/boost_1.67.0.bb
++++ b/meta/recipes-support/boost/boost_1.67.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += "\
+     file://boost-math-disable-pch-for-gcc.patch \
+     file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+     file://0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
++    file://0001-make_x86_64_sysv_elf_gas.S-set-.file-section.patch \
+ "
+-- 
+2.7.4
 
-CFLAGS_append_x86-64 = " -fomit-frame-pointer"
-
-Thanks,
-
->
->> may be just append it unconditionally, what do we lose ?
->> CFLAGS += "-fomit-frame-pointer"
->>
->>>   CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
->>>   CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
->>>   SRCREV = "96cbf48313afa65ef4d693d3441cbfd60a8d9b27"
->>>
->>
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
 
