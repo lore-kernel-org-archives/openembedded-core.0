@@ -1,50 +1,43 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 786957548B
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C48974F85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 22:12:44 +0000 (UTC)
-Received: by mail-lf0-f43.google.com with SMTP id t2-v6so5356901lfd.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2018 15:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R5XmC1b8eJ0duGdkj471em+qPx0HPFl0kXGWubTc33c=;
-	b=fyo8OvchlGsm7BAZ0Hhzl9Hd07mGaS1w0tBStWZU1fd2i1btxsL4VzCCed/zv/mb5l
-	Vxk8zaCVLEpk0hpPC9Wg3ZyILdfeky5hNZMD69Gz0FhQLBNRnQZZ6MFLgfPAJwCnydh7
-	DZN90cZ6liuYu4arBxs2UA5yz3Uu65odUaT73Jybt6pMflwthUPU3UxAqW63JTpL5KQw
-	BqOi7d5ExHa+JGKjhJwUWsTh6WBSwjwag8wubVtfZoH9f6rRNbRJycY+ubBtugNmcfm0
-	Fy4wjjNusP4fgIdlE8GDZT/JL+PlW90kShocDdZC+MkqH/U3zkeVX94X6/ln36snOvg+
-	X2Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=R5XmC1b8eJ0duGdkj471em+qPx0HPFl0kXGWubTc33c=;
-	b=LY2ZFf84bMMNqxmh20OiRoOxNH2+CxwmX5OocMnemI4HVGoaB2YiFkbJe6uhJQt3H1
-	S3op9M5SdO/WS7iLubyj8nZ9pN4uIugRxt71+dPhmZfKubUtATE5fBX/ecTZwcr0OUZR
-	g5iWgtMGXBPF1EdqleNv6JYK32LUOW7/bZs7T19lReroQ9iH54Vhlsof8DAQBFi5VflH
-	YTY1mIAg81t590OIQczIsKslfL+6a6y/hixkO8n32He4oXJYpknDqKohFYZv8GoS55/S
-	2QC7DGWEAhht7qdQHhOyvJQZs2yV0qE+gqj+gEU/PGP7l/qE/+NLij3GB31WNKQ0WqGb
-	n7vg==
-X-Gm-Message-State: APt69E1zQXcZoHwCcGAe4nHHtqUQDhDA3Px3juaiUlufsTrf/qftLdn5
-	tbWmIf6W8i1J9d50ZZFoO6iUC8EDyjSJRcxW89E=
-X-Google-Smtp-Source: ADUXVKKtXPEjzq0BlLqfnfHz1KHSSeUwbEORgIDUXOOo8XOl4EVd81KxLkINOTJHJk2nOKxZiwwGdEoqwF4VmtekWTs=
-X-Received: by 2002:a2e:585:: with SMTP id 127-v6mr2925224ljf.28.1529014364976;
-	Thu, 14 Jun 2018 15:12:44 -0700 (PDT)
+	Fri, 15 Jun 2018 01:39:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41109433"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Jun 2018 09:39:05 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id D34174B41E7D;
+	Fri, 15 Jun 2018 09:39:01 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0399.000; Fri, 15 Jun 2018 09:39:03 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH] meta-toolchain: Added dnf-nativesdk into
+	cross-development toolchain.
+Thread-Index: AQHUAWqD1lbikEZYK0W1x1wfHaU3kaRfHv6w//+zbACAAb0l0A==
+Date: Fri, 15 Jun 2018 01:39:02 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF7363AE9E2F@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CAJTo0LZVcc+_ocfuYEUBKK0Hbr0SaZEH7CUYKK17gMk+CXwxwg@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9A7F@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
+In-Reply-To: <CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.300.84
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP; Thu, 14 Jun 2018 15:12:44
-	-0700 (PDT)
-In-Reply-To: <20180614194507.93168-3-alistair.francis@wdc.com>
-References: <20180614194507.93168-1-alistair.francis@wdc.com>
-	<20180614194507.93168-3-alistair.francis@wdc.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 14 Jun 2018 18:12:44 -0400
-Message-ID: <CADkTA4PJuHARyOg7zU4vNktpniz+OFg_1iU7_nUQYWmM2uhxoA@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] recipes-kernel/linux: Add RISC-V support
+X-yoursite-MailScanner-ID: D34174B41E7D.A9E5C
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,170 +50,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2018 22:12:44 -0000
-Content-Type: multipart/alternative; boundary="00000000000014bbaf056ea166a2"
+X-List-Received-Date: Fri, 15 Jun 2018 01:39:05 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---00000000000014bbaf056ea166a2
-Content-Type: text/plain; charset="UTF-8"
+SGkgQWxleDoNCg0KVGhlc2UgcGFja2FnZXMgYXJlIHRha2VuIGZyb20geW9j
+dG8gYnVpbGQgc3lzdGVtLCBhbmQgdGhleSB3aWxsIGJlIGluc3RhbGxlZCBp
+biB5b3VyIGhvc3QgYXMgcm9vdCBmaWxlIHN5c3RlbSwgdGhlbiB5b3UgY2Fu
+IGRlcGxveSB0aGUgcm9vdCBmaWxlIHN5c3RlbSB0byB5b3VyIGVtYmVkZGVk
+IGRldmljZS4NCg0KLS0NClpoZW5nIFJ1b3Fpbg0KTmFuamluZyBGdWppdHN1
+IE5hbmRhIFNvZnR3YXJlIFRlY2guIENvLiwgTHRkLihGTlNUKQ0KQUREUi46
+IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCiAgICAgICBO
+YW5qaW5nLCAyMTAwMTIsIENoaW5hDQpNQUlMIDogemhlbmdycS5mbnN0QGNu
+LmZ1amlzdHUuY29tDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+CkZyb206IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86YWxleC5rYW5hdmlu
+QGdtYWlsLmNvbV0gDQpTZW50OiBUaHVyc2RheSwgSnVuZSAxNCwgMjAxOCAz
+OjAzIFBNDQpUbzogWmhlbmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKmIDx6aGVuZ3Jx
+LmZuc3RAY24uZnVqaXRzdS5jb20+DQpDYzogQnVydG9uLCBSb3NzIDxyb3Nz
+LmJ1cnRvbkBpbnRlbC5jb20+OyBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1j
+b3JlXSBbUEFUQ0hdIG1ldGEtdG9vbGNoYWluOiBBZGRlZCBkbmYtbmF0aXZl
+c2RrIGludG8gY3Jvc3MtZGV2ZWxvcG1lbnQgdG9vbGNoYWluLg0KDQoyMDE4
+LTA2LTE0IDY6MzggR01UKzAzOjAwIFpoZW5nLCBSdW9xaW4gPHpoZW5ncnEu
+Zm5zdEBjbi5mdWppdHN1LmNvbT46DQo+IEkgc3VibWl0dGVkIHRoaXMgcGF0
+Y2ggYWltIHRvIHVzZSBkbmYgb3V0IG9mIFlvY3RvIGJ1aWxkIHN5c3RlbSB0
+byBtYW5hZ2UgcGFja2FnZXMuDQoNClBsZWFzZSBleHBsYWluIHRoaXMgaW4g
+ZGV0YWlsLiBXaGVyZSBhcmUgdGhlIHBhY2thZ2VzIHRha2VuIGZyb20sIGFu
+ZCB3aGVyZSBhcmUgdGhleSBpbnN0YWxsZWQ/DQoNCkFsZXgNCg0KDQoKCg==
 
-On Thu, Jun 14, 2018 at 3:45 PM, Alistair Francis <alistair.francis@wdc.com>
-wrote:
-
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc     | 4 ++++
->  meta/recipes-kernel/linux/linux-yocto_4.15.bb | 5 ++++-
->  2 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
-> b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 95ec2a2b41..70a13cdd1e 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -26,6 +26,10 @@ DEPENDS_append_nios2 = " libgcc"
->  KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->  KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
->
-> +DEPENDS_append_riscv64 = " libgcc"
-> +KERNEL_CC_append_riscv64 = " ${TOOLCHAIN_OPTIONS}
-> ${SECURITY_NOPIE_CFLAGS}"
-> +KERNEL_LD_append_riscv64 = " -no-pie"
-> +
->  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
->
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-> b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-> index 693670c613..4ea368a011 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_4.15.bb
-> @@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL = "2"
->
->  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
->
-> -COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|
-> qemuppc|qemumips|qemumips64|qemux86-64"
-> +KBUILD_DEFCONFIG_qemuriscv64 = "defconfig"
-> +KCONFIG_MODE_qemuriscv64 = "--alldefconfig"
->
-
-This doesn't belong in linux-yocto.
-
-We use defined BSP and configuration fraagments, not in-tree defconfigs
-
-I'm happy to add a BSP definition to the kernel-cache, but this isn't the
-way to add configuration support for the linux-yocto trees
-
-Cheers,
-
-Bruce
-
-
-> +
-> +COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|
-> qemuppc|qemumips|qemumips64|qemux86-64|qemurisc532|qemuriscv64"
->
->  # Functionality flags
->  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---00000000000014bbaf056ea166a2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Jun 14, 2018 at 3:45 PM, Alistair Francis <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:alistair.francis@wdc.com" target=3D"_blank">alistair.fra=
-ncis@wdc.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed=
--off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.com">a=
-listair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<wbr>linux-yocto.inc=C2=A0 =C2=A0 =C2=A0| 4=
- ++++<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">linu<wbr>x-yocto_4.15.bb</a> | 5 ++++-<br=
->
-=C2=A02 files changed, 8 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc b/meta/recipes-=
-kernel/linux/<wbr>linux-yocto.inc<br>
-index 95ec2a2b41..70a13cdd1e 100644<br>
---- a/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-+++ b/meta/recipes-kernel/linux/<wbr>linux-yocto.inc<br>
-@@ -26,6 +26,10 @@ DEPENDS_append_nios2 =3D &quot; libgcc&quot;<br>
-=C2=A0KERNEL_CC_append_nios2 =3D &quot; ${TOOLCHAIN_OPTIONS}&quot;<br>
-=C2=A0KERNEL_LD_append_nios2 =3D &quot; ${TOOLCHAIN_OPTIONS}&quot;<br>
-<br>
-+DEPENDS_append_riscv64 =3D &quot; libgcc&quot;<br>
-+KERNEL_CC_append_riscv64 =3D &quot; ${TOOLCHAIN_OPTIONS} ${SECURITY_NOPIE_=
-CFLAGS}&quot;<br>
-+KERNEL_LD_append_riscv64 =3D &quot; -no-pie&quot;<br>
-+<br>
-=C2=A0KERNEL_FEATURES_append_<wbr>qemuall=3D&quot; features/debug/printk.sc=
-c&quot;<br>
-<br>
-=C2=A0# A KMACHINE is the mapping of a yocto $MACHINE to what is built<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.b=
-b" rel=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a> b/meta=
-/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=3D"norefer=
-rer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
-index 693670c613..4ea368a011 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.15.bb" rel=
-=3D"noreferrer" target=3D"_blank">li<wbr>nux-yocto_4.15.bb</a><br>
-@@ -36,7 +36,10 @@ KCONF_BSP_AUDIT_LEVEL =3D &quot;2&quot;<br>
-<br>
-=C2=A0KERNEL_DEVICETREE_qemuarm =3D &quot;versatile-pb.dtb&quot;<br>
-<br>
--COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|<wbr>qemuppc|qemumi=
-ps|qemumips64|<wbr>qemux86-64&quot;<br>
-+KBUILD_DEFCONFIG_qemuriscv64 =3D &quot;defconfig&quot;<br>
-+KCONFIG_MODE_qemuriscv64 =3D &quot;--alldefconfig&quot;<br></blockquote><d=
-iv><br></div><div>This doesn&#39;t belong in linux-yocto.</div><div><br></d=
-iv><div>We use defined BSP and configuration fraagments, not in-tree defcon=
-figs</div><div><br></div><div>I&#39;m happy to add a BSP definition to the =
-kernel-cache, but this isn&#39;t the way to add configuration support for t=
-he linux-yocto trees</div><div><br></div><div>Cheers,</div><div><br></div><=
-div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+<br>
-+COMPATIBLE_MACHINE =3D &quot;qemuarm|qemuarm64|qemux86|<wbr>qemuppc|qemumi=
-ps|qemumips64|<wbr>qemux86-64|qemurisc532|<wbr>qemuriscv64&quot;<br>
-<br>
-=C2=A0# Functionality flags<br>
-=C2=A0KERNEL_EXTRA_FEATURES ?=3D &quot;features/netfilter/netfilter.<wbr>sc=
-c&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
-2.17.1<br>
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div></div>
-
---00000000000014bbaf056ea166a2--
