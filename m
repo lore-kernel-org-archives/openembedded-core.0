@@ -1,20 +1,20 @@
 Return-Path: <ayaka@soulik.info>
 Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
-	by mail.openembedded.org (Postfix) with ESMTP id ED79D7530F
+	by mail.openembedded.org (Postfix) with ESMTP id 24AFB755B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 03:22:37 +0000 (UTC)
+	Fri, 15 Jun 2018 03:22:39 +0000 (UTC)
 Received: from misaki.sumomo.pri (unknown
 	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
-	by kozue.soulik.info (Postfix) with ESMTPA id 909F91025AA;
-	Fri, 15 Jun 2018 12:23:16 +0900 (JST)
+	by kozue.soulik.info (Postfix) with ESMTPA id 084691025B0;
+	Fri, 15 Jun 2018 12:23:17 +0900 (JST)
 From: Randy Li <ayaka@soulik.info>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jun 2018 11:22:22 +0800
-Message-Id: <20180615032226.9899-2-ayaka@soulik.info>
+Date: Fri, 15 Jun 2018 11:22:23 +0800
+Message-Id: <20180615032226.9899-3-ayaka@soulik.info>
 X-Mailer: git-send-email 2.14.4
 In-Reply-To: <20180615032226.9899-1-ayaka@soulik.info>
 References: <20180615032226.9899-1-ayaka@soulik.info>
-Subject: [PATCH v3 1/5] arch-armv8a.inc: add tune include for armv8
+Subject: [PATCH v3 2/5] tune-cortexa32: add tunes for ARM Cortex-A32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,62 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 03:22:38 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 03:22:39 -0000
 
-There are some addtional instructions apart from bare armv8,
-also there is armv8.1, armv8.2.
-
-Most the processor would support crc, except X-gene 1.
+https://developer.arm.com/products/processors/cortex-a/cortex-a32
 
 Signed-off-by: Randy Li <ayaka@soulik.info>
 ---
- meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
- meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++++++++++
- 2 files changed, 28 insertions(+), 1 deletion(-)
- delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
- create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+ meta/conf/machine/include/tune-cortexa32.inc | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa32.inc
 
-diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
-deleted file mode 100644
-index 5e832fae6d..0000000000
---- a/meta/conf/machine/include/arm/arch-armv8.inc
-+++ /dev/null
-@@ -1 +0,0 @@
--require conf/machine/include/arm/arch-arm64.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
 new file mode 100644
-index 0000000000..323d0d7f0f
+index 0000000000..22f303fae9
 --- /dev/null
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -0,0 +1,28 @@
-+DEFAULTTUNE ?= "armv8a-crc"
++++ b/meta/conf/machine/include/tune-cortexa32.inc
+@@ -0,0 +1,15 @@
++DEFAULTTUNE ?= "cortexa32"
 +
-+TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
-+TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
-+TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
-+TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
-+MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
++require conf/machine/include/arm/arch-armv8a.inc
 +
-+require conf/machine/include/arm/arch-arm64.inc
++TUNEVALID[cortexa32] = "Enable Cortex-A32 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa32', ' -mcpu=cortex-a32', '', d)}"
 +
 +# Little Endian base configs
-+AVAILTUNES += "armv8a armv8a-crc armv8a-crc-crypto armv8a-crypto"
-+ARMPKGARCH_tune-armv8a                    ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
-+ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
-+TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
-+TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
-+TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
-+TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
-+PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
++AVAILTUNES += "cortexa32 cortexa32-crypto"
++ARMPKGARCH_tune-cortexa32             = "cortexa32"
++ARMPKGARCH_tune-cortexa32-crypto      = "cortexa32"
++TUNE_FEATURES_tune-cortexa32          = "${TUNE_FEATURES_tune-armv8a-crc} cortexa32"
++TUNE_FEATURES_tune-cortexa32-crypto   = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa32"
++PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
++PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
 -- 
 2.14.4
 
