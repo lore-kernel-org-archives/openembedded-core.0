@@ -1,46 +1,26 @@
-Return-Path: <okonopli@cisco.com>
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 44B7D77040
+Return-Path: <ayaka@soulik.info>
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+	by mail.openembedded.org (Postfix) with ESMTP id EA55875513
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 15:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4153; q=dns/txt; s=iport;
-	t=1529077352; x=1530286952;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=PRXMDQlWJyy82PJYzgigqOR+/0lPuWsDnX4xy8rhIhc=;
-	b=eh0ZcmALi0hJxpDhYVhSk/eifZKznap3jpYE/Sxsg7Q+6bwO8W1bioA7
-	GA/GGtFqwMT7eT8aQ3j/OjtS4hwt8DeQLxFG1p9TE5ekRKd4PreDh/Ccy
-	1c30IOYJeIVzdRCR9Y5E+TjruRrBIamiqUcbhW8trE+CBq5AeYj1Q8FlL o=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CYAQAP3iNb/xbLJq1bGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYQqbRIog3mIY41JCCGWZwsjhEkCgnM3FQECAQEBAQEBAm0?=
-	=?us-ascii?q?cDIUpAQUjFVELGAICJgICVwYBDAYCAQGDHgKBcg0PqU2CHIRbg2yBaBR3iRU?=
-	=?us-ascii?q?/gTMMglyEX4MXglUCjRuLcwmFeYkCBoE/hACCRYU0h26CH4cNAgQLAhMBgVc?=
-	=?us-ascii?q?igVJwFYJ+CYsIhUE8MJBZAQE?=
-X-IronPort-AV: E=Sophos;i="5.51,227,1526342400"; 
-   d="scan'208";a="4513034"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
-	([173.38.203.22])
-	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jun 2018 15:42:30 +0000
-Received: from [10.61.212.71] ([10.61.212.71]) (authenticated bits=0)
-	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w5FFgFAN028701
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Fri, 15 Jun 2018 15:42:29 GMT
-To: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com,
-	=?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>
-References: <1527256608-28290-1-git-send-email-okonopli@cisco.com>
-From: Oleksii Konoplitskyi <okonopli@cisco.com>
-Message-ID: <fcec90e3-d792-856d-5549-272d5102aeac@cisco.com>
-Date: Fri, 15 Jun 2018 18:42:15 +0300
+	Fri, 15 Jun 2018 16:00:26 +0000 (UTC)
+Received: from [IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4] (unknown
+	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
+	by kozue.soulik.info (Postfix) with ESMTPSA id 42A361025B0;
+	Sat, 16 Jun 2018 01:01:04 +0900 (JST)
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+References: <20180615032226.9899-1-ayaka@soulik.info>
+	<20180615032226.9899-2-ayaka@soulik.info>
+	<CAP71Wjz91m61fs9kxg1F7NCTq=X8Mtkc-CeBFNKZGgi=6tEgmA@mail.gmail.com>
+From: ayaka <ayaka@soulik.info>
+Message-ID: <420b5ed6-a424-9376-9996-bd1a242faafa@soulik.info>
+Date: Sat, 16 Jun 2018 00:00:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1527256608-28290-1-git-send-email-okonopli@cisco.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: okonopli
-Subject: Re: [PATCH] initramfs-framework: add nfsrootfs module
+In-Reply-To: <CAP71Wjz91m61fs9kxg1F7NCTq=X8Mtkc-CeBFNKZGgi=6tEgmA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/5] arch-armv8a.inc: add tune include for armv8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,126 +33,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 15:42:30 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 16:00:27 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-Hi Andre,
 
 
-Could you, please, check if all the features that we discussed in 
-https://patchwork.openembedded.org/patch/149212/ are implemented in this 
-patch?
-
-
-Best regards,
-
-Oleksii
-
-
-On 25.05.18 16:56, Oleksii Konoplitskyi wrote:
-> nfsrootfs module mounts rootfs via nfs parsing "nfsroot" and "ip" cmdline options.
+On 06/15/2018 05:57 PM, Nicolas Dechesne wrote:
+> On Fri, Jun 15, 2018 at 5:22 AM, Randy Li <ayaka@soulik.info> wrote:
+>> There are some addtional instructions apart from bare armv8,
+>> also there is armv8.1, armv8.2.
+>>
+>> Most the processor would support crc, except X-gene 1.
+>>
+>> Signed-off-by: Randy Li <ayaka@soulik.info>
+>> ---
+>>   meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
+>>   meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++++++++++
+>>   2 files changed, 28 insertions(+), 1 deletion(-)
+>>   delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
+> My previous comment still applies here. You can't just delete this
+> file. It's used by many BSP. and it's even used in oe-core itself:
 >
-> Signed-off-by: Oleksii Konoplitskyi <okonopli@cisco.com>
-> ---
->   .../initrdscripts/initramfs-framework/nfsrootfs    | 48 ++++++++++++++++++++++
->   .../initrdscripts/initramfs-framework_1.0.bb       |  7 ++++
->   2 files changed, 55 insertions(+)
->   create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+> layers/openembedded-core/meta/conf/machine/include/tune-thunderx.inc:require
+> conf/machine/include/arm/arch-armv8.inc
+> layers/openembedded-core/meta/conf/machine/qemuarm64.conf:require
+> conf/machine/include/arm/arch-armv8.inc
+I am very sorry about, should I modify those files the same time?
+Since some cortex-m processors also support armv8 instructions, it would 
+be used to run Linux in the
+future.
+Also there would be armv81a, armv82a for the optimization of the 
+armv8.1, armv8.2.
+That is why I want to rename it.
+
+Apart from that ,would you pleased with the contents below?
 >
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-> new file mode 100644
-> index 0000000..e67ee4c
-> --- /dev/null
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
-> @@ -0,0 +1,48 @@
-> +#!/bin/sh
-> +
-> +nfsrootfs_enabled() {
-> +	if [ ${bootparam_root} != "/dev/nfs" ] || [ -z ${bootparam_nfsroot} ]; then
-> +		return 1
-> +	fi
-> +	return 0
-> +}
-> +
-> +nfsrootfs_run() {
-> +	local nfs_opts
-> +	local location
-> +	local flags
-> +	local server_ip
-> +
-> +	nfs_opts=""
-> +	if [ "${bootparam_nfsroot#*,}" != "${bootparam_nfsroot}" ]; then
-> +		nfs_opts="-o ${bootparam_nfsroot#*,}"
-> +	fi
-> +
-> +	location="${bootparam_nfsroot%%,*}"
-> +	if [ "${location#*:}" = "${location}" ]; then
-> +		# server-ip not given. Get server ip from ip option
-> +		server_ip=""
-> +		if [ "${bootparam_ip#*:}" != "${bootparam_ip}" ]; then
-> +			server_ip=$(echo "$bootparam_ip" | cut -d: -f2)
-> +		fi
-> +
-> +		if [ -z "$server_ip" ]; then
-> +			fatal "Server IP is not set. Update ip or nfsroot options."
-> +		fi
-> +		location=${server_ip}:${location}
-> +	fi
-> +
-> +	flags="-o nolock"
-> +	if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | grep -w -q "ro"; then
-> +		if [  -n "$bootparam_rootflags" ]; then
-> +			bootparam_rootflags="$bootparam_rootflags,"
-> +		fi
-> +		bootparam_rootflags="${bootparam_rootflags}ro"
-> +	fi
-> +	if [ -n "$bootparam_rootflags" ]; then
-> +		flags="$flags -o $bootparam_rootflags"
-> +	fi
-> +
-> +	mount -t nfs ${flags} ${nfs_opts} ${location} ${ROOTFS_DIR}
-> +}
-> +
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> index 75d965f..6337b99 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> @@ -9,6 +9,7 @@ inherit allarch
->   
->   SRC_URI = "file://init \
->              file://exec \
-> +           file://nfsrootfs \
->              file://rootfs \
->              file://finish \
->              file://mdev \
-> @@ -24,6 +25,7 @@ do_install() {
->   
->       # base
->       install -m 0755 ${WORKDIR}/init ${D}/init
-> +    install -m 0755 ${WORKDIR}/nfsrootfs ${D}/init.d/85-nfsrootfs
->       install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
->       install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
->   
-> @@ -53,6 +55,7 @@ PACKAGES = "${PN}-base \
->               initramfs-module-mdev \
->               initramfs-module-udev \
->               initramfs-module-e2fs \
-> +            initramfs-module-nfsrootfs \
->               initramfs-module-rootfs \
->               initramfs-module-debug \
->              "
-> @@ -83,6 +86,10 @@ SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystem
->   RDEPENDS_initramfs-module-e2fs = "${PN}-base"
->   FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
->   
-> +SUMMARY_initramfs-module-nfsrootfs = "initramfs support for locating and mounting the root partition via nfs"
-> +RDEPENDS_initramfs-module-nfsrootfs = "${PN}-base"
-> +FILES_initramfs-module-nfsrootfs = "/init.d/85-nfsrootfs"
-> +
->   SUMMARY_initramfs-module-rootfs = "initramfs support for locating and mounting the root partition"
->   RDEPENDS_initramfs-module-rootfs = "${PN}-base"
->   FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
+>>   create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
+>>
+>> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
+>> deleted file mode 100644
+>> index 5e832fae6d..0000000000
+>> --- a/meta/conf/machine/include/arm/arch-armv8.inc
+>> +++ /dev/null
+>> @@ -1 +0,0 @@
+>> -require conf/machine/include/arm/arch-arm64.inc
+>> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+>> new file mode 100644
+>> index 0000000000..323d0d7f0f
+>> --- /dev/null
+>> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+>> @@ -0,0 +1,28 @@
+>> +DEFAULTTUNE ?= "armv8a-crc"
+>> +
+>> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
+>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
+>> +TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
+>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
+>> +TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
+>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
+>> +TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
+>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
+>> +
+>> +require conf/machine/include/arm/arch-arm64.inc
+>> +
+>> +# Little Endian base configs
+>> +AVAILTUNES += "armv8a armv8a-crc armv8a-crc-crypto armv8a-crypto"
+>> +ARMPKGARCH_tune-armv8a                    ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
+>> +ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
+>> +TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
+>> +TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
+>> +TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
+>> +TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
+>> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
+>> --
+>> 2.14.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
