@@ -1,26 +1,49 @@
-Return-Path: <ayaka@soulik.info>
-Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
-	by mail.openembedded.org (Postfix) with ESMTP id EA55875513
+Return-Path: <mihai.serban@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D44474B0D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 16:00:26 +0000 (UTC)
-Received: from [IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4] (unknown
-	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
-	by kozue.soulik.info (Postfix) with ESMTPSA id 42A361025B0;
-	Sat, 16 Jun 2018 01:01:04 +0900 (JST)
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-References: <20180615032226.9899-1-ayaka@soulik.info>
-	<20180615032226.9899-2-ayaka@soulik.info>
-	<CAP71Wjz91m61fs9kxg1F7NCTq=X8Mtkc-CeBFNKZGgi=6tEgmA@mail.gmail.com>
-From: ayaka <ayaka@soulik.info>
-Message-ID: <420b5ed6-a424-9376-9996-bd1a242faafa@soulik.info>
-Date: Sat, 16 Jun 2018 00:00:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAP71Wjz91m61fs9kxg1F7NCTq=X8Mtkc-CeBFNKZGgi=6tEgmA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/5] arch-armv8a.inc: add tune include for armv8
+	Fri, 15 Jun 2018 16:18:52 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id d8-v6so10490500wro.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2018 09:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=55Sf6MRot3gt38C4VwwcCjSBp8FOBThz8IQU6N2CPCQ=;
+	b=uvkl1dF1FjlBgCItL4pxMOuKk/qswgljvVI3Kumzr1ifNOLKpg7saM3boB3ijaT9RM
+	cJPz2sJRsfVpLOKn/DUWUHZzTYSdn/8GkhF0PChhSWoOStn1tZuwaT3QfHwmaYUNT530
+	Pwn2lCItFdxdNam7gDyRhjtDH8IfbPKWCh5qR1WDKkOF0FCjKknzbDX7+mRDPXZ86ni+
+	zEeDhA9qr5R5EW3433EPJH5LQ9Qw5TWOzS3TRhrbdYr5XbSpFphkOKqNImZ1Q9m5TLck
+	xXxKULW+yGgt7byhWxVs9LPazWyH/USy4vHYfeXHTR3e8BE0QKBHRub8OZqRliqLdsLX
+	GAVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=55Sf6MRot3gt38C4VwwcCjSBp8FOBThz8IQU6N2CPCQ=;
+	b=gV02bMosXw9TOIqoXOMY/esSBRD3HfZvfmCCHowv3NA6apnVxgIAuCv25vB6Q5SIBi
+	wswHpfVi7BtMoqRDbaYb84LGHt1chNzEYyLn1ft+42vlzOV8g08vmy5B98EsZpa0Y3Tt
+	zbgdBrNY7VENkZmrYCB8+bMhJrailg55gtIFA63MfSgiylKa7qhnwhZ9HcHQ/uLzFBOv
+	j7yeyfFK8D/TFRVbv4i5U3NkRD+ZiAEd/cwyWBn8ihrIu8BsUkMoDwv/HcLZLKUdGBZp
+	rGbOi78J1mulbmJcRoNp/ucaGLbmz8ICzv4krd1csPKHN1j4aQ2/2rEIHkLmy22lE9Oy
+	vbfA==
+X-Gm-Message-State: APt69E3Sg3XPE4R4hnNGbKZbcWV77nxMBhbjjfRXBhWi5KFrG5CHCIvU
+	MpPbXXzSioNwG2DAvtD/kpzy2Qpp
+X-Google-Smtp-Source: ADUXVKLFU71n9CTc2mGr2hcMFf0U1guuEboOUQvkNuoM5nWoAp8cxGo8o5Slj/CKj6wKlSuTKIDR6w==
+X-Received: by 2002:adf:a9c1:: with SMTP id
+	b59-v6mr2178257wrd.48.1529079532530; 
+	Fri, 15 Jun 2018 09:18:52 -0700 (PDT)
+Received: from mserban-linux.corp.fitbit.com ([86.120.134.70])
+	by smtp.gmail.com with ESMTPSA id
+	m58-v6sm15612728wrf.61.2018.06.15.09.18.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Jun 2018 09:18:51 -0700 (PDT)
+From: Mihai Serban <mihai.serban@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jun 2018 19:18:18 +0300
+Message-Id: <20180615161818.831-1-mihai.serban@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] kernel-fitimage: Allow DTB file relocation at boot time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 16:00:27 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 15 Jun 2018 16:18:52 -0000
 
+Use UBOOT_DTB_LOADADDRESS and UBOOT_DTB_ENTRYPOINT variables to instruct
+U-Boot where to place the selected DTB file when booting the system.
+Without these settings U-Boot uses the relative offset where DTB resides
+inside the loading address of the FIT image.
 
+Signed-off-by: Mihai Serban <mihai.serban@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-On 06/15/2018 05:57 PM, Nicolas Dechesne wrote:
-> On Fri, Jun 15, 2018 at 5:22 AM, Randy Li <ayaka@soulik.info> wrote:
->> There are some addtional instructions apart from bare armv8,
->> also there is armv8.1, armv8.2.
->>
->> Most the processor would support crc, except X-gene 1.
->>
->> Signed-off-by: Randy Li <ayaka@soulik.info>
->> ---
->>   meta/conf/machine/include/arm/arch-armv8.inc  |  1 -
->>   meta/conf/machine/include/arm/arch-armv8a.inc | 28 +++++++++++++++++++++++++++
->>   2 files changed, 28 insertions(+), 1 deletion(-)
->>   delete mode 100644 meta/conf/machine/include/arm/arch-armv8.inc
-> My previous comment still applies here. You can't just delete this
-> file. It's used by many BSP. and it's even used in oe-core itself:
->
-> layers/openembedded-core/meta/conf/machine/include/tune-thunderx.inc:require
-> conf/machine/include/arm/arch-armv8.inc
-> layers/openembedded-core/meta/conf/machine/qemuarm64.conf:require
-> conf/machine/include/arm/arch-armv8.inc
-I am very sorry about, should I modify those files the same time?
-Since some cortex-m processors also support armv8 instructions, it would 
-be used to run Linux in the
-future.
-Also there would be armv81a, armv82a for the optimization of the 
-armv8.1, armv8.2.
-That is why I want to rename it.
-
-Apart from that ,would you pleased with the contents below?
->
->>   create mode 100644 meta/conf/machine/include/arm/arch-armv8a.inc
->>
->> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
->> deleted file mode 100644
->> index 5e832fae6d..0000000000
->> --- a/meta/conf/machine/include/arm/arch-armv8.inc
->> +++ /dev/null
->> @@ -1 +0,0 @@
->> -require conf/machine/include/arm/arch-arm64.inc
->> diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
->> new file mode 100644
->> index 0000000000..323d0d7f0f
->> --- /dev/null
->> +++ b/meta/conf/machine/include/arm/arch-armv8a.inc
->> @@ -0,0 +1,28 @@
->> +DEFAULTTUNE ?= "armv8a-crc"
->> +
->> +TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
->> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
->> +TUNEVALID[simd] = "Enable instructions for ARMv8-a Advanced SIMD and floating-point"
->> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'simd', '+simd', '', d)}"
->> +TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
->> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
->> +TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
->> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
->> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
->> +
->> +require conf/machine/include/arm/arch-arm64.inc
->> +
->> +# Little Endian base configs
->> +AVAILTUNES += "armv8a armv8a-crc armv8a-crc-crypto armv8a-crypto"
->> +ARMPKGARCH_tune-armv8a                    ?= "armv8a"
->> +ARMPKGARCH_tune-armv8a-crc                ?= "armv8a"
->> +ARMPKGARCH_tune-armv8a-crypto             ?= "armv8a"
->> +ARMPKGARCH_tune-armv8a-crc-crypto         ?= "armv8a"
->> +TUNE_FEATURES_tune-armv8a                  = "aarch64 armv8a simd"
->> +TUNE_FEATURES_tune-armv8a-crc              = "${TUNE_FEATURES_tune-armv8a} crc"
->> +TUNE_FEATURES_tune-armv8a-crypto           = "${TUNE_FEATURES_tune-armv8a} crypto"
->> +TUNE_FEATURES_tune-armv8a-crc-crypto       = "${TUNE_FEATURES_tune-armv8a-crc} crypto"
->> +PACKAGE_EXTRA_ARCHS_tune-armv8a            = "aarch64 armv8a simd"
->> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc        = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crc"
->> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto     = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} crypto"
->> +PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} crypto"
->> --
->> 2.14.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 50a91e199069..981d11f19f8d 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -134,6 +134,15 @@ EOF
+ fitimage_emit_section_dtb() {
+ 
+ 	dtb_csum="sha1"
++	dtb_loadline=""
++	dtb_entryline=""
++
++	if [ -n "${UBOOT_DTB_LOADADDRESS}" ]; then
++		dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
++	fi
++	if [ -n "${UBOOT_DTB_ENTRYPOINT}" ]; then
++		dtb_entryline="entry = <${UBOOT_DTB_ENTRYPOINT}>;"
++	fi
+ 
+ 	cat << EOF >> ${1}
+                 fdt@${2} {
+@@ -142,6 +151,8 @@ fitimage_emit_section_dtb() {
+                         type = "flat_dt";
+                         arch = "${UBOOT_ARCH}";
+                         compression = "none";
++                        ${dtb_loadline}
++                        ${dtb_entryline}
+                         hash@1 {
+                                 algo = "${dtb_csum}";
+                         };
+-- 
+2.17.1
 
 
