@@ -1,48 +1,47 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 22EA575045
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D72574C04
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 18:43:18 +0000 (UTC)
-Received: by mail-pl0-f48.google.com with SMTP id b14-v6so5776066pls.5
+	Fri, 15 Jun 2018 18:47:15 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id a14-v6so4795185pgw.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2018 11:43:19 -0700 (PDT)
+	Fri, 15 Jun 2018 11:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=G95+e1PVQ8sKRjIEw4mvtB3xpzVH6EneRKAMKt1p/iM=;
-	b=Z9sqpSc4n8cFInM4eozZLM0mPnrP4Zi4FaI0ymm7f4QBrHdMCGb9/Q115I89L13HIi
-	kQZWsPV8+xNSQVH5BSyzLjTEyIUA+bmFF8orj4TE8OQCCH30Gsj6g3QFr8OebM/bZ0RF
-	Iz8v186PD2VI1k9tIZBKcXWZxWjv3di2K/RoxEW6HTMZM2IV8EY5tFeQ4injrMjqCohS
-	qI2TVnnKQNJYIJdqqHk8FpFUDJLSotC8WwbaC0d8c3AjMgoV+V9Jv3/5Sgq+G+cY/Xl3
-	LbUyKqTkJBluvv0dgzWInEDrFrHwhsm1AJsgFKKQ3mfamGkQt3fIUBPFHiZlHTe9YuXY
-	eOZg==
+	bh=QYRa9A6iTt4i9lR/fD8guVQelXN6fsL6oD/s1MeT3/4=;
+	b=Z+kyzyWEldHur5kTgXfC/JSDpDM8vF6ZiCteUMPXJisNy7PciBJDnYXw87WYeqU/i+
+	Y29FdeVzFA2Ma/GUuNDCZOq5mVbClxekPKlc5OWBSUIjcEvUgp1QPZheVzeGGDcMHTjg
+	P121AtOwMcylmUXS+S1mxA3OKQ1kdqpH9s8zyO/Qn5t4nKu3AC3te00TUMz6cLGI/uD7
+	8jlyYtYELYHepyxTaheG+PWmzYCNSJK7sbvUUM4k6dTGo800aJIfQDOjC8z50Vc/Sw1i
+	k1dEdgOESF4FbVuqnwIyG8GIANnTLaFtkWlYHbJjQc6Nyi4/t7PrjMTEwzYMSUNK/fkr
+	kc5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=G95+e1PVQ8sKRjIEw4mvtB3xpzVH6EneRKAMKt1p/iM=;
-	b=jMp8tvdOyQuATF3+Q3AXNW9nkdC0T+YGVhnjJDkCujN9Y0wQZ3w0ruPXSIglCK8xAc
-	qVyMV9SO0sl47A2JnZATVyCvnFNXKgOpR/jDQiTIeVKfXby4rNNE75/m1SA3wsWMFV87
-	R+DDNFdXlUO4mxwfcm/ff+dqBEkfu+Bh1vuEw9CvYKwVJZqynlDM7L7PgaheW1jszev/
-	JUfwehy1tc5xyugDJzHGer5wmeO815WUYxSMMBzvXVlkwbvkitFFmK5h0ftMuHjE0MYr
-	sak3FLfdaD+G8Ru0upHiVq+N+61DLxECKVsY+x2DeESU1UR1s2vQSqz9KYaldGtZ0aPC
-	UCqA==
-X-Gm-Message-State: APt69E3XlngI08VdTqgtWIEh/BDN4N1UEl+YB4h/rjldhlxLsCgmFze/
-	vNHC9CRV6a6Qrgy9r2j/O4myXA==
-X-Google-Smtp-Source: ADUXVKLgGcI8ZPnPIHxnZWfLmTQnpG6kgeSyBpboItzAKEnO2uS96GOoA7AwfmvU16ywfPrMd5dJxg==
-X-Received: by 2002:a17:902:b20d:: with SMTP id
-	t13-v6mr3342161plr.121.1529088199114; 
-	Fri, 15 Jun 2018 11:43:19 -0700 (PDT)
+	bh=QYRa9A6iTt4i9lR/fD8guVQelXN6fsL6oD/s1MeT3/4=;
+	b=b6pr3qQzPoR8XakCAr4I4S8XQMeQh/3S6UTPGnoZYM4eqMk5ZFOgjS20mp3iEgSRsl
+	owAG/daUz4z7mCl1/U+Ac+wGBDSk1ue8SCmU1pHCKQwMjQ79xizp7zSAiZO42cs1nizo
+	EJjA5cTQP9dBCuhJnX8QsZ1kX7/givjvD86mbpmBMwGeO/cIITDKomvjWLoHatG+KFGp
+	rwTuj1mpfIIKD1+AHIpWmbkYN+jv1ecUs0WY5VKuDs9o/LWi0t2lZPfwqAG93TDfBwds
+	n/quO8ZGLGN+5EjvHquKvwAZsk/C6Eg+4AOYCgMxSADxRPYHoN+nyc1MqSXfSAW5FYhS
+	DbUg==
+X-Gm-Message-State: APt69E2PBGv02thd3Se/wnvtHxXrGOjqpGFDalE/DdTJ2ZjhlOcknLUm
+	wOsHzpKmEfqAQOs8a5Af0OY4SA==
+X-Google-Smtp-Source: ADUXVKJoRTEQQR8BTliE5LqFJbm6z4Hbo+qNs7wZcctAiURSyqb5EB5W06rI/UkyheBkuqjfte38vw==
+X-Received: by 2002:a62:1c43:: with SMTP id
+	c64-v6mr3171404pfc.176.1529088436392; 
+	Fri, 15 Jun 2018 11:47:16 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	r27-v6sm18167337pfg.94.2018.06.15.11.43.18
+	s19-v6sm14993590pfe.97.2018.06.15.11.47.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 15 Jun 2018 11:43:18 -0700 (PDT)
+	Fri, 15 Jun 2018 11:47:15 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jun 2018 11:43:12 -0700
-Message-Id: <1529088192-991-1-git-send-email-armccurdy@gmail.com>
+Date: Fri, 15 Jun 2018 11:47:09 -0700
+Message-Id: <1529088429-1667-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] bitbake.conf: drop FETCHCMD, GITDIR, etc fetcher over-rides
+Subject: [PATCH] rsync: merge rsync.inc into the rsync recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +54,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2018 18:43:18 -0000
+X-List-Received-Date: Fri, 15 Jun 2018 18:47:15 -0000
 
-Following recent updates to the bitbake, the fetchers should now all
-contain safe and correct defaults for the subdirectory within DL_DIR
-to use and the base fetch command to run. It's no longer necessary
-for bitbake.conf to specify these values.
-
-This is cleanup which was originally proposed in 2012:
-
-  http://lists.openembedded.org/pipermail/openembedded-core/2012-July/064224.html
+There's only one user of rsync.inc (meta-gplv2 has its own copy), so
+merge the .inc file into the rsync recipe.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/bitbake.conf | 12 ------------
- 1 file changed, 12 deletions(-)
+ meta/recipes-devtools/rsync/rsync.inc      | 20 --------------------
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb | 28 +++++++++++++++++++++++-----
+ 2 files changed, 23 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rsync/rsync.inc
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3b2ef9f..8588684 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -349,12 +349,6 @@ CACHE = "${TMPDIR}/cache${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('M
- # The persistent cache should be shared by all builds
- PERSISTENT_DIR = "${TOPDIR}/cache"
- LOG_DIR = "${TMPDIR}/log"
--CO_DIR = "${DL_DIR}"
--CVSDIR = "${CO_DIR}/cvs"
--SVNDIR = "${CO_DIR}/svn"
--GITDIR = "${CO_DIR}/git2"
--BZRDIR = "${CO_DIR}/bzr"
--HGDIR = "${CO_DIR}/hg"
- 
- STAMPS_DIR ?= "${TMPDIR}/stamps"
- STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
-@@ -661,12 +655,6 @@ SRC_URI[vardepsexclude] += "\
- #  export DEBIAN_MIRROR = "http://ftp.de.debian.org/debian/pool"
- #     into your local.conf
- 
--FETCHCMD_svn = "/usr/bin/env svn --non-interactive --trust-server-cert"
--FETCHCMD_cvs = "/usr/bin/env cvs"
--FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate"
--FETCHCMD_bzr = "/usr/bin/env bzr"
--FETCHCMD_hg = "/usr/bin/env hg"
+diff --git a/meta/recipes-devtools/rsync/rsync.inc b/meta/recipes-devtools/rsync/rsync.inc
+deleted file mode 100644
+index 26c023a..0000000
+--- a/meta/recipes-devtools/rsync/rsync.inc
++++ /dev/null
+@@ -1,20 +0,0 @@
+-SUMMARY = "File synchronization tool"
+-HOMEPAGE = "http://rsync.samba.org/"
+-BUGTRACKER = "http://rsync.samba.org/bugzilla.html"
+-SECTION = "console/network"
 -
- SRCDATE = "${DATE}"
- SRCREV ??= "INVALID"
- AUTOREV = "${@bb.fetch2.get_autorev(d)}"
+-DEPENDS = "popt"
+-
+-SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+-           file://rsyncd.conf"
+-
+-inherit autotools
+-
+-do_install_append() {
+-	install -d ${D}${sysconfdir}
+-	install -m 0644 ${WORKDIR}/rsyncd.conf ${D}${sysconfdir}
+-}
+-
+-EXTRA_OEMAKE='STRIP=""'
+-
+-PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+index 84a0258..29cb231 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+@@ -1,24 +1,37 @@
+-require rsync.inc
++SUMMARY = "File synchronization tool"
++HOMEPAGE = "http://rsync.samba.org/"
++BUGTRACKER = "http://rsync.samba.org/bugzilla.html"
++SECTION = "console/network"
++# GPLv2+ (<< 3.0.0), GPLv3+ (>= 3.0.0)
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-SRC_URI += "file://makefile-no-rebuild.patch"
++DEPENDS = "popt"
++
++SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
++           file://rsyncd.conf \
++           file://makefile-no-rebuild.patch \
++"
+ 
+ SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+ SRC_URI[sha256sum] = "55cc554efec5fdaad70de921cd5a5eeb6c29a95524c715f3bbf849235b0800c0"
+ 
+-# GPLv2+ (<< 3.0.0), GPLv3+ (>= 3.0.0)
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++inherit autotools
+ 
+ PACKAGECONFIG ??= "acl attr \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ "
++
+ PACKAGECONFIG[acl] = "--enable-acl-support,--disable-acl-support,acl,"
+ PACKAGECONFIG[attr] = "--enable-xattr-support,--disable-xattr-support,attr,"
++PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ 
+ # By default, if crosscompiling, rsync disables a number of
+ # capabilities, hardlinking symlinks and special files (i.e. devices)
+ CACHED_CONFIGUREVARS += "rsync_cv_can_hardlink_special=yes rsync_cv_can_hardlink_symlink=yes"
+ 
++EXTRA_OEMAKE = 'STRIP=""'
++
+ # rsync 3.0 uses configure.sh instead of configure, and
+ # makefile checks the existence of configure.sh
+ do_configure_prepend () {
+@@ -29,4 +42,9 @@ do_configure_append () {
+ 	cp -f ${S}/configure ${S}/configure.sh
+ }
+ 
++do_install_append() {
++	install -d ${D}${sysconfdir}
++	install -m 0644 ${WORKDIR}/rsyncd.conf ${D}${sysconfdir}
++}
++
+ BBCLASSEXTEND = "native"
 -- 
 1.9.1
 
