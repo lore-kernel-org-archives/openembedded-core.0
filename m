@@ -1,49 +1,25 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6307D753BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A22B74759
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2018 07:18:19 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x6-v6so6600101wmc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2018 00:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0K8RB2ijDbxEWVgNxX1eJ4b5Q8BfEVODXVtF1D97FGo=;
-	b=G6W6L93oXLHQcQXz+N4uUNnkC7OTI6p0eU8KXUYbjzEekJ3emfiNgJCEsye5+SYvPV
-	1yi0J4T+wZeudwSikVTg81m6hnJ2Mb8SQNjufzen/lmJtq8VmV4s3FhMt51Rd82po/jc
-	npvYwuDztPDAG7B0ZSQQuekKQrO5OMGoMzpkcAT4XbCsY/esZgBB7FSomZPW14wUPu1R
-	wrF/iQbDfUJNs9d5SxVxnxxRGu4fhRd87GTVYvgXDO2X8EUkuGTv5ESnlA0SWSwDbTEm
-	M39heE9AfFqEBp8hT2ktXy/fJwdKCXv7tON2x5rK8yeOzbJG1NKlxYomYQ6Ik3U1qJyp
-	rqzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=0K8RB2ijDbxEWVgNxX1eJ4b5Q8BfEVODXVtF1D97FGo=;
-	b=KQlbWIxfiAt+FMnPd92l6xp9RG5DFThqZf1RWRonUQpODc/rK5ccxMrjpBkzX5EiTZ
-	xJs9cE4Wbm8qrfzfamTlh/G0Gahp2rQhiDzlLrSJiP3WuH6PgHoY5BK26REwQe/5Wznh
-	ZD1DwA2yTNeqCUzsmNpyQ/Sm4/xLoOi7asH/bzpszulCQvyfO+e+fFCrhhRC0p1u3c3e
-	kZ9XCTIJnT5aEwk9S0YpS7k3jDn866knjHQ/7HzcbRnUEkDfJcPNCYSgtREHqy86IU1I
-	HIUbIRGMzI0ZxXDIkeyiIT+tDcfSIrOGHhJrYTYQ59pIuCpSeoOwiRbSj7+pb/dtKYYT
-	pkYQ==
-X-Gm-Message-State: APt69E3EfY3me9WpNBTkrywATTLe7g9SryswZrBXRJDsUmvvlhzCPMIC
-	hxOjQWHu6A3pFUrGobmks0ESf18I
-X-Google-Smtp-Source: ADUXVKLWQXWs1kLdYtzkCoB1Jm7D0j4+v1hlbtxxrEqVyRRZ50fzwTQUDYNHSweLJ60bWdK8id/CAQ==
-X-Received: by 2002:a1c:3c4:: with SMTP id 187-v6mr3039692wmd.96.1529133499930;
-	Sat, 16 Jun 2018 00:18:19 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	j131-v6sm5450761wmg.24.2018.06.16.00.18.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 16 Jun 2018 00:18:19 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jun 2018 07:17:05 +0000
-Message-Id: <1529133425-9806-2-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1529133425-9806-1-git-send-email-alex.kiernan@gmail.com>
-References: <1529133425-9806-1-git-send-email-alex.kiernan@gmail.com>
-Subject: [PATCH 2/2] kernel-fitimage: Add DTBO support for configurations
+	Sat, 16 Jun 2018 08:58:10 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5G8u8p5015507
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 16 Jun 2018 09:56:10 +0100
+Message-ID: <6f9107538063961f6ace4a680a998942b384e701.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jeremy Puhlman <jpuhlman@mvista.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 16 Jun 2018 09:56:08 +0100
+In-Reply-To: <1529110789-13035-1-git-send-email-jpuhlman@mvista.com>
+References: <1529110789-13035-1-git-send-email-jpuhlman@mvista.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] update-alternatives: Don't process duplicated entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,77 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jun 2018 07:18:19 -0000
+X-List-Received-Date: Sat, 16 Jun 2018 08:58:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When generating overlay DTB configuration sections, U-Boot doesn't want
-the kernel specified again as we already have that in our base DTB. Add
-support for this to allow bootm to process overlay configuration sections.
+On Fri, 2018-06-15 at 17:59 -0700, Jeremy Puhlman wrote:
+> If ALTERNATIVE_<pkg> lists the same entry more then once, the
+> update-alternatives identical install and remove actions are added
+> for
+> each repeated entry. This is exhibited when you add meta-selinux, and
+> examine the busybox package, which installs every link twice because
+> it
+> alters the links to point to the shell replacements so selinux will
+> work
+> with them. This can generate warnings on do_rootfs about similarly
+> prioritized alternatives. Given that at this point in the processing
+> the addtions should always be identical there shouldn't be any good
+> reason to add them twice.
+> 
+> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> ---
+>  meta/classes/update-alternatives.bbclass | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Shouldn't we detect and make this a fatal error in one of the other
+sanity tests like we do for PACKAGES for example? Would there ever be a
+valid use case for duplicate entries here?
 
- meta/classes/kernel-fitimage.bbclass | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index f3c2ff0..c2e227e 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -258,25 +258,34 @@ fitimage_emit_section_config() {
- 	fi
- 
- 	# Test if we have any DTBs at all
--	conf_desc="Linux kernel"
--	kernel_line="kernel = \"kernel@${2}\";"
-+	sep=""
-+	conf_desc=""
-+	kernel_line=""
- 	fdt_line=""
- 	ramdisk_line=""
- 	setup_line=""
- 	default_line=""
- 
-+	if [ -n "${2}" ]; then
-+		conf_desc="Linux kernel"
-+		sep=", "
-+		kernel_line="kernel = \"kernel@${2}\";"
-+	fi
-+
- 	if [ -n "${3}" ]; then
--		conf_desc="${conf_desc}, FDT blob"
-+		conf_desc="${conf_desc}${sep}FDT blob"
-+		sep=", "
- 		fdt_line="fdt = \"fdt@${3}\";"
- 	fi
- 
- 	if [ -n "${4}" ]; then
--		conf_desc="${conf_desc}, ramdisk"
-+		conf_desc="${conf_desc}${sep}ramdisk"
-+		sep=", "
- 		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
- 	fi
- 
- 	if [ -n "${5}" ]; then
--		conf_desc="${conf_desc}, setup"
-+		conf_desc="${conf_desc}${sep}setup"
- 		setup_line="setup = \"setup@${5}\";"
- 	fi
- 
-@@ -413,7 +422,12 @@ fitimage_assemble() {
- 	if [ -n "${DTBS}" ]; then
- 		i=1
- 		for DTB in ${DTBS}; do
--			fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
-+			dtb_ext=${DTB##*.}
-+			if [ "${dtb_ext}" = "dtbo" ]; then
-+				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
-+			else
-+				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
-+			fi
- 			i=`expr ${i} + 1`
- 		done
- 	fi
--- 
-2.7.4
-
+Richard
 
