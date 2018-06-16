@@ -1,47 +1,51 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A6B937198A
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 98CBD7520E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2018 09:28:57 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id j15-v6so7626462wme.0
+	Sat, 16 Jun 2018 09:28:58 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id v13-v6so12047419wrp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2018 02:28:58 -0700 (PDT)
+	Sat, 16 Jun 2018 02:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2nWq5bqkfbeF8katrM2RU2/pDDIKvCz1E+Cl9vWlWSk=;
-	b=RsfEc4COFP8P5igUVX2Zp36xPelZmz7ZtyTyd/lIsBo8Ni8T9X99PCkvBXWdxdD9lY
-	zW7/zLg5bCRJ99gREficvWlPOGu8v1/PMLbzHZh9Cvdh7/SvVVnAOPjNuw8ZsfUH2Qrz
-	kGvYEjXU//6LkEqwcGPfIEiNZQSh0PsqiYonMx91v+p+ryQbSFjDlDjCtIziw/R/y1ok
-	RHsGpC23+54EeGLKHzyzqM/SqGUZu7BIvY6hOA9RtJu2gk0DQt8EHOCMIT19RQxymcZ1
-	NW0UiOWtsvTyc1W8seYcBYXqeuU/VSiUTrjpyutIzqw0CJXQ+mwfVJYcuq6l/ZaxNMxM
-	ZvdQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Jlw9jB3deR3i4RLU27Nmn1qAcUwxFq+pbGTWOvw8CV4=;
+	b=aBhrhIN6ebHwHsF+Za26R9LnCASji6+rX0yxiID+xWYlEXqkQvp2issogLqlGr68p+
+	Sytr7+R+PqHAbG72Vg0xlktGcCf7B4vJPbUhvzYzdAcLxKIFHSuou5Ap5uceyG7cm/c1
+	d7sg3/YgSVvJwRQxjhvEIzxiawjoujAfJbmJYEXWiynzDK9to2BHazmlOKGea2IO42vJ
+	b61obYs9D/C3OBljmcaOgwLu1Dg7B0c3XUUVhFfd5JBj648mr3P2/TULF/6TloGoI9yC
+	oi3lw9sPpSTJcZmCb7Pf7sevxwBQNpGL2xAuvkZPDx5EahOmAw8wID1spiimAs1Cgqv+
+	8V1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2nWq5bqkfbeF8katrM2RU2/pDDIKvCz1E+Cl9vWlWSk=;
-	b=mBF6g82rRP3h7s92Tc+beh90nIWQC2iwki1P3oIMUjIffS3cVUZRYMvllEIUwRyXW2
-	QaSmRoMfZ3ZBoC+pDLSjVTpTHDX0SsVS2CWxiBClWxht/8kdMv5i9fk8pfUUG0yjR6kQ
-	J+9UfB8vlW/SlY5UMffiGT11O0CAJO3ph0nSZ49CleXpfXlxaHK0ylkKBcUAhwluEECJ
-	/Fh+juWaUYV2o7KmOH7dnUU4A5HrRSuTuVEw2OuPH7OcKJojRQ+KGP/lyqnkmudpI5VX
-	K89KETgwBc82Rlh3xDaBNrrvD/4UKHhzOxig/u7F2WSA0QP0joviKqTWS5S4NZ4+NYvJ
-	Sp+A==
-X-Gm-Message-State: APt69E35KXV1evlDUVRnSuGUF8tSyeZPPfzxZIJpJLnQJNPmHw0R6un2
-	jkY0h4GlJT6dHcOFzc0KnsRNSyf6
-X-Google-Smtp-Source: ADUXVKLZX75hUVJPLo6V7kvtAs70VI2X5OlcjDVohLcX07A4i2TAkpoQZKFwFmgTlBcTL76PzgYuiw==
-X-Received: by 2002:a1c:108b:: with SMTP id
-	133-v6mr3714165wmq.146.1529141337898; 
-	Sat, 16 Jun 2018 02:28:57 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Jlw9jB3deR3i4RLU27Nmn1qAcUwxFq+pbGTWOvw8CV4=;
+	b=bWlJZc0XgUbZLrf+CaeKl4qpnqIYj1BoCZhk7ymaWU5rdrNrFxkSTNCvT4TEg75Uhc
+	S+98hoDsD35RbWN+/dDiHymeYUhU4cY4De6os/QqFIqQmhkOEpkPaIQrbmnrZDUBM+rr
+	p4lb47qLxZWWVT+Nluz4U8L8vPtO+OTMfkYmIfj8t4e1r4OV1DbG3ZBd01a0jwtlttIg
+	ch1IHiyJqXkoM4vjOWY4/ZMe9ZMJhqVKjljLxdRxX8s0W3qolQx24nVmyzox4ME7Txit
+	OrWT7/MDqpxcmyMuSjvCCktRwFMc2BdxFoF9+GCTJKgL/gyox0TTCxoAN+gNGE8jd/Yd
+	G2fA==
+X-Gm-Message-State: APt69E0/SzUR0RaH93Ym0RcoC5fmtFztrzpK3acE+qDIOlU6AxLmYnwh
+	8XQ4yGIWI1PkrbrAioey4XpqJhc6
+X-Google-Smtp-Source: ADUXVKLEmoXoZGoYeCtsyYeMsq+WWFPQgxVWiJzo9JHOq0aKCWE3BPrZgxY/7inZEFK0Qx6stqF3wQ==
+X-Received: by 2002:adf:a925:: with SMTP id
+	u34-v6mr4703407wrc.248.1529141338992; 
+	Sat, 16 Jun 2018 02:28:58 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
 	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	o12-v6sm19869509wrf.30.2018.06.16.02.28.56
+	o12-v6sm19869509wrf.30.2018.06.16.02.28.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 16 Jun 2018 02:28:57 -0700 (PDT)
+	Sat, 16 Jun 2018 02:28:58 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jun 2018 09:28:52 +0000
-Message-Id: <1529141333-17754-1-git-send-email-alex.kiernan@gmail.com>
+Date: Sat, 16 Jun 2018 09:28:53 +0000
+Message-Id: <1529141333-17754-2-git-send-email-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 1/2] kernel-fitimage: Allow setting of DTB/DTBO relocation address
+In-Reply-To: <1529141333-17754-1-git-send-email-alex.kiernan@gmail.com>
+References: <1529141333-17754-1-git-send-email-alex.kiernan@gmail.com>
+Subject: [PATCH v2 2/2] kernel-fitimage: Add DTBO support for configurations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,52 +60,109 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 16 Jun 2018 09:28:58 -0000
 
-Introduce UBOOT_DTB_LOADADDRESS and UBOOT_DTBO_LOADADDRESS so that you
-can set where U-Boot loads full and overlay DTBs. This is required when
-using bootm's overlay support to construct the final DTB.
+When generating overlay DTB configuration sections, U-Boot doesn't want
+the kernel specified again as we already have that in our base DTB. Add
+support for this to allow bootm to process overlay configuration sections.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
-This commit conflicts with this patch:
 
-https://patchwork.openembedded.org/series/12589/
+Changes in v2:
+- Use the right branch which ensures that signatures across DTB overlays
+  don't fail because there's no kernel in their configuration
 
-Either that needs applying first and this needs rebasing on top of it, or
-use this one in its place.
-
-Changes in v2: None
-
- meta/classes/kernel-fitimage.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/kernel-fitimage.bbclass | 42 +++++++++++++++++++++++++++---------
+ 1 file changed, 32 insertions(+), 10 deletions(-)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 50a91e1..f3c2ff0 100644
+index f3c2ff0..f84be44 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -135,6 +135,15 @@ fitimage_emit_section_dtb() {
+@@ -258,25 +258,34 @@ fitimage_emit_section_config() {
+ 	fi
  
- 	dtb_csum="sha1"
+ 	# Test if we have any DTBs at all
+-	conf_desc="Linux kernel"
+-	kernel_line="kernel = \"kernel@${2}\";"
++	sep=""
++	conf_desc=""
++	kernel_line=""
+ 	fdt_line=""
+ 	ramdisk_line=""
+ 	setup_line=""
+ 	default_line=""
  
-+	dtb_loadline=""
-+	dtb_ext=${DTB##*.}
-+	if [ "${dtb_ext}" = "dtbo" ]; then
-+		if [ -n "${UBOOT_DTBO_LOADADDRESS}" ]; then
-+			dtb_loadline="load = <${UBOOT_DTBO_LOADADDRESS}>;"
-+		fi
-+	elif [ -n "${UBOOT_DTB_LOADADDRESS}" ]; then
-+		dtb_loadline="load = <${UBOOT_DTB_LOADADDRESS}>;"
++	if [ -n "${2}" ]; then
++		conf_desc="Linux kernel"
++		sep=", "
++		kernel_line="kernel = \"kernel@${2}\";"
 +	fi
- 	cat << EOF >> ${1}
-                 fdt@${2} {
-                         description = "Flattened Device Tree blob";
-@@ -142,6 +151,7 @@ fitimage_emit_section_dtb() {
-                         type = "flat_dt";
-                         arch = "${UBOOT_ARCH}";
-                         compression = "none";
-+                        ${dtb_loadline}
-                         hash@1 {
-                                 algo = "${dtb_csum}";
-                         };
++
+ 	if [ -n "${3}" ]; then
+-		conf_desc="${conf_desc}, FDT blob"
++		conf_desc="${conf_desc}${sep}FDT blob"
++		sep=", "
+ 		fdt_line="fdt = \"fdt@${3}\";"
+ 	fi
+ 
+ 	if [ -n "${4}" ]; then
+-		conf_desc="${conf_desc}, ramdisk"
++		conf_desc="${conf_desc}${sep}ramdisk"
++		sep=", "
+ 		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
+ 	fi
+ 
+ 	if [ -n "${5}" ]; then
+-		conf_desc="${conf_desc}, setup"
++		conf_desc="${conf_desc}${sep}setup"
+ 		setup_line="setup = \"setup@${5}\";"
+ 	fi
+ 
+@@ -299,18 +308,26 @@ EOF
+ 
+ 	if [ ! -z "${conf_sign_keyname}" ] ; then
+ 
+-		sign_line="sign-images = \"kernel\""
++		sign_line="sign-images = "
++		sep=""
++
++		if [ -n "${2}" ]; then
++			sign_line="${sign_line}${sep}\"kernel\""
++			sep=", "
++		fi
+ 
+ 		if [ -n "${3}" ]; then
+-			sign_line="${sign_line}, \"fdt\""
++			sign_line="${sign_line}${sep}\"fdt\""
++			sep=", "
+ 		fi
+ 
+ 		if [ -n "${4}" ]; then
+-			sign_line="${sign_line}, \"ramdisk\""
++			sign_line="${sign_line}${sep}\"ramdisk\""
++			sep=", "
+ 		fi
+ 
+ 		if [ -n "${5}" ]; then
+-			sign_line="${sign_line}, \"setup\""
++			sign_line="${sign_line}${sep}\"setup\""
+ 		fi
+ 
+ 		sign_line="${sign_line};"
+@@ -413,7 +430,12 @@ fitimage_assemble() {
+ 	if [ -n "${DTBS}" ]; then
+ 		i=1
+ 		for DTB in ${DTBS}; do
+-			fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
++			dtb_ext=${DTB##*.}
++			if [ "${dtb_ext}" = "dtbo" ]; then
++				fitimage_emit_section_config ${1} "" "${DTB}" "" "" "`expr ${i} = ${dtbcount}`"
++			else
++				fitimage_emit_section_config ${1} "${kernelcount}" "${DTB}" "${ramdiskcount}" "${setupcount}" "`expr ${i} = ${dtbcount}`"
++			fi
+ 			i=`expr ${i} + 1`
+ 		done
+ 	fi
 -- 
 2.7.4
 
