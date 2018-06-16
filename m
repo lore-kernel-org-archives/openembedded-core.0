@@ -1,25 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D0BA72EA2
+	by mail.openembedded.org (Postfix) with ESMTP id 8E88C6058D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2018 21:30:07 +0000 (UTC)
+	Sat, 16 Jun 2018 21:33:55 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5GLU5xG002938
+	w5GLXn2H002994
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 16 Jun 2018 22:30:06 +0100
-Message-ID: <92feae4657c30ea2eb31fe0b04c00eba413dfca9.camel@linuxfoundation.org>
+	verify=NOT); Sat, 16 Jun 2018 22:33:51 +0100
+Message-ID: <60a306a33463bd9b20631b61e17884012237588b.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jun 2018 22:30:04 +0100
-In-Reply-To: <e01f930a544e33f6ed0504e7cfac12e5da619fc3.1529075133.git.raj.khem@gmail.com>
-References: <cover.1529075133.git.raj.khem@gmail.com>
-	<e01f930a544e33f6ed0504e7cfac12e5da619fc3.1529075133.git.raj.khem@gmail.com>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 16 Jun 2018 22:33:49 +0100
+In-Reply-To: <20180613115053.28394-1-ross.burton@intel.com>
+References: <20180613115053.28394-1-ross.burton@intel.com>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 1/3] mesa: Enable gallium-llvm on x86 and x86_64
+Subject: Re: [PATCH] libdrm: port to Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jun 2018 21:30:07 -0000
+X-List-Received-Date: Sat, 16 Jun 2018 21:33:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2018-06-15 at 08:08 -0700, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Wed, 2018-06-13 at 12:50 +0100, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
->  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
->  2 files changed, 5 insertions(+), 1 deletion(-)
+>  ...ac-Allow-explicit-enabling-of-cunit-tests.patch | 53 ------------
+> ----------
+>  .../recipes-graphics/drm/libdrm/installtests.patch | 25 ----------
+>  meta/recipes-graphics/drm/libdrm_2.4.92.bb         | 23 ++++------
+>  3 files changed, 9 insertions(+), 92 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/drm/libdrm/0001-
+> configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+>  delete mode 100644 meta/recipes-
+> graphics/drm/libdrm/installtests.patch
 
-I think this patch breaks on multlib:
+Fails generally on x86[1] until you add:
 
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/1085/steps/BuildImages_2/logs/stdio
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/1085/steps/BuildImages_3/logs/stdio
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/1085/steps/BuildImages_4/logs/stdio
+EXTRA_OEMESON_append_x86 = " -Dintel=true"
+EXTRA_OEMESON_append_x86-64 = " -Dintel=true"
 
-and x32:
+since the arch detection in cross builds is obviously not quite
+functioning correctly.
 
-https://autobuilder.yocto.io/builders/nightly-x32/builds/1063/steps/BuildImages/logs/stdio
+[1] https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/1068/steps/BuildImages/logs/stdio
+
+after the above 'fix', it still fails on musl:
+
+https://autobuilder.yocto.io/builders/nightly-musl/builds/1095
+https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/541
 
 Cheers,
 
 Richard
+
+
 
