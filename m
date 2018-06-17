@@ -1,48 +1,107 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f46.google.com (mail-vk0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 55BA0744D3
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A838060107
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 14:04:29 +0000 (UTC)
-Received: by mail-vk0-f46.google.com with SMTP id l64-v6so8098343vkl.12
+	Sun, 17 Jun 2018 19:14:26 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id t12-v6so7828011plo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 07:04:30 -0700 (PDT)
+	Sun, 17 Jun 2018 12:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Y/hn5MaL5/kGs7kiifQl7e3hPcMqDW4hswOLjxGvGSw=;
-	b=dqipw5C3h/rcJ6rLjQ+b3zYrdFb9cAuPnGmXJkY9TrWCcdc+jiHKPeVtKhuLvW7hhf
-	/3cP4GlFlkKq9WkeocNQ2KEWgUYewOLPiN6eHWm/Q2tjJi5L7h6E2nyFHt3+FdtO+99i
-	raJiUX5KN+9/iUG6Rwjn+pDiXSPROLuz/xFj0/bcYGLKe9UYb4Elyd/WhuL9JZK7Yw4G
-	bXIWnadvNxuON3tbZyRYmpSLgM4YoT5YQHzd1o4RKFdvEjkg3KxJ9qj9GKola5Xec0hm
-	6ZcRuYfei65ijvtuWgl+lPGTuV6/8e+OUwlfrTnWG1p8kILd/fwzzApUxgj3552SZugM
-	CeOA==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=zMpUJdfOEebSbWvRvGP6f8grCqo4fmf7z92wLeKZSec=;
+	b=GO9kKxnHgtzODWUn2D8GkpMhVDUq/InbLnJm3uffa3ajX2VJWVgD4gYsovEf6Y4l56
+	QY8BSpEEjWk7zJrurVJm3c4nSem7F5GNhcyDAyzV/6qYF8rLYespYAn/DFVtYZ8zKhUA
+	iF71Aq1Mk2ng76hRCyCeQzbXlZVtmQoLIXOjHTrjnyg5hsRV+MshnyhKWQzTLc5hJiMZ
+	18yRYM7bNKayziBYAzfoPRF16ujS4bah2V7UGDrycCb2sAVQTvDhrmhbMkj4ubRpGKmM
+	Cu2WHHwumsnrVzPkTmLE4dpQossi++Ym9plbVtmnsC73Ihx9aUsa/jllueywUwXzN6SL
+	93BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Y/hn5MaL5/kGs7kiifQl7e3hPcMqDW4hswOLjxGvGSw=;
-	b=PCx6YC7mBwTCUhszzH8z2O4+Q+ss/VTWAEzs+tA9Pww73DdkOD4o9TIKUUepQK361Q
-	On2VTvs7jtgXQJRlbFidMQVfgbv79WMUAIyXOdNCuo+qUFVP75iZE7SKZaYPht1VUmCL
-	QZZe/zKdQt5ghyVEs+634ALbJNOUOcmO8zx9NePMXlJWWrKLnB9T6B5QoliTjBNKq59h
-	+OzZ9XvRxdmNF17URCzQmjsou8Ql4PRfFQwu9ADxNCJRQbpOTNz5zJV5mZ8wEixpaHSk
-	6zeJlFH5jRIvdiWqylAWbUQJFTz8KlS5dmDQalQmpQGn/TYC51sVYKNhYR90iD5BuCmF
-	zVpw==
-X-Gm-Message-State: APt69E3Io8SrojMeEGIpGPErXB5l/ogGFZ4d1A87rjJ4kmhaFUKbnZBV
-	kIy42/lq/YJmV5Vkvqk8I04o1PJ1qS0n+BrROUo=
-X-Google-Smtp-Source: ADUXVKIZOtJddkdykOELH9df+y4WWZZnS3c2MR48sJCh5QBSRjE85rphUF4QlipLgRMM+9bEBeSea2JrBVV81hJ9a4c=
-X-Received: by 2002:a1f:5244:: with SMTP id
-	g65-v6mr5131448vkb.28.1529244269925; 
-	Sun, 17 Jun 2018 07:04:29 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=zMpUJdfOEebSbWvRvGP6f8grCqo4fmf7z92wLeKZSec=;
+	b=hau/Dv/V9BN07qDGpksPKQIEW5/U6uWFNERfjztn6Aqcli1ApdRrHUMAGJf3Aa+zYg
+	Hz9QXY6DbTLBLdxH1cC4Nc8pAnKIkShUOeiVJqqze1I7tK0mY7a7WzN1IW3YfliwKw84
+	fCEBa4PG1SiR86ok7QZ4Er/G1C/Y759QH2mEihIqFnXMn/vVwKxWS9+xDytjHO9FasNL
+	gMjk8+6njYo/88AuKurF0xzw9o8SDm5Bfjx8Ya8CLRGYWoohHYV6ChdOU8H51GInGNXb
+	2BRq13vidj33oyxCun9XDrMa4rrFA1ydrFAg6pIi7l2ptBs19Ne42uWJenEe2qMH+Ztc
+	8hDw==
+X-Gm-Message-State: APt69E1qlg7VJ2pSxxGavCIyYUDbRXS288HI3ECUEWemJNZRLMpZyxnr
+	7U/DZpx8z8C4M/KAje7R4cp28w==
+X-Google-Smtp-Source: ADUXVKIqkdcsIpVoZne5P2Pf8v5IZb4lLF06azMCv3hYKIt4grXuDkZIngQxmibfyvS6cBdh1zjNWg==
+X-Received: by 2002:a17:902:7202:: with SMTP id
+	ba2-v6mr10811748plb.119.1529262867742; 
+	Sun, 17 Jun 2018 12:14:27 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:140:af4a:d02e:a5f7?
+	([2601:202:4000:1184:140:af4a:d02e:a5f7])
+	by smtp.gmail.com with ESMTPSA id
+	y23-v6sm26975369pfa.73.2018.06.17.12.14.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 17 Jun 2018 12:14:26 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1526696034-3857-1-git-send-email-akuster@mvista.com>
+	<1526696034-3857-6-git-send-email-akuster@mvista.com>
+	<CAJTo0LbV4mAKK1drQ-LcgsrL8JC_MmYrqhYmM1QPGhJRSx+cPw@mail.gmail.com>
+	<62741663-6b5c-c4d3-6376-2e5ffe8e197c@gmail.com>
+	<108ea3e8-8aef-7bec-ca9c-cda47772a1fe@gmail.com>
+	<CAJTo0LYxERWufiGVoMnq8V+B0r3WaK46GCtTmgQFaPYRLibPMg@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
+	IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+	oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
+	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+	8CS2NxU=
+Message-ID: <793e32c5-c468-0df7-8c9c-6da7174fe857@gmail.com>
+Date: Sun, 17 Jun 2018 12:14:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
-	<83c024358c85f13cf3a8d0d021b090cc755af1a3.camel@linuxfoundation.org>
-In-Reply-To: <83c024358c85f13cf3a8d0d021b090cc755af1a3.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 17 Jun 2018 07:04:18 -0700
-Message-ID: <CAMKF1sqeoLNzuAV8W_LjNk0fNDQDKVT1dF-Hwsv4OTuesib84w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] boost: Improve reproducibility
+In-Reply-To: <CAJTo0LYxERWufiGVoMnq8V+B0r3WaK46GCtTmgQFaPYRLibPMg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/8] xserver-xorg: upgrade 1.19.6 -> 1.20.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,94 +114,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jun 2018 14:04:29 -0000
-Content-Type: multipart/alternative; boundary="0000000000007bdd6f056ed6ed5d"
-
---0000000000007bdd6f056ed6ed5d
-Content-Type: text/plain; charset="UTF-8"
-
-On Sun, Jun 17, 2018 at 2:17 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2018-06-15 at 16:35 +0800, mingli.yu@windriver.com wrote:
-> > From: Mingli Yu <Mingli.Yu@windriver.com>
-> >
-> > Set .file section explicitly for .S files to avoid
-> > the linker introduces the host path in symbols for
-> > object files whose source file is .S
-> > Otherwise, there is a host path in the symbols as
-> > below:
-> > $ readelf --wide --symbols /my-build/boost/1.67.0-
-> > r0/boost_1_67_0/x86_64-poky-
-> > linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
-> > d/libboost_context.so.1.67.0
-> > 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-
-> > r0/boost_1_67_0/x86_64-poky-
-> > linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
-> > d/asm/make_x86_64_sysv_elf_gas.o
-> >
-> > [YOCTO #12708]
-> >
-> > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> >
-> Thanks for working through this, the final result is a much better fix!
+X-List-Received-Date: Sun, 17 Jun 2018 19:14:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
-If we add this directive to all the .S files there
-Then it can be up streamed too
 
->
->
-> Cheers,
->
-> Richard
->
+On 06/13/2018 09:34 AM, Burton, Ross wrote:
+> On 1 June 2018 at 16:15, akuster808 <akuster808@gmail.com> wrote:
+>>
+>> On 05/28/2018 07:25 AM, akuster808 wrote:
+>>> On 05/23/2018 04:01 AM, Burton, Ross wrote:
+>>>> This is breaking a number of other bits of X:
+>>>>
+>>>> - xf86-video-intel (was DRI1 removed or disabled in 1.20?)
+>> DRI 1 is still there.
+> https://cgit.freedesktop.org/xorg/driver/xf86-video-intel/commit/?id=359477215092ac1b602ad1e2f17a28963d9224c2
+> claims otherwise.  Trivial enough to disable in our recipe, I'll send
+> a patch shortly.
 
---0000000000007bdd6f056ed6ed5d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+xf86-video-intel fails without the update so this is a preexisting condition.  I used the latest git hash with includes that fix and it still fails.
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Sun=
-, Jun 17, 2018 at 2:17 AM Richard Purdie &lt;<a href=3D"mailto:richard.purd=
-ie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On Fri, 2018-06-15 at 16:35 +0800, <=
-a href=3D"mailto:mingli.yu@windriver.com" target=3D"_blank">mingli.yu@windr=
-iver.com</a> wrote:<br>
-&gt; From: Mingli Yu &lt;<a href=3D"mailto:Mingli.Yu@windriver.com" target=
-=3D"_blank">Mingli.Yu@windriver.com</a>&gt;<br>
-&gt; <br>
-&gt; Set .file section explicitly for .S files to avoid<br>
-&gt; the linker introduces the host path in symbols for<br>
-&gt; object files whose source file is .S<br>
-&gt; Otherwise, there is a host path in the symbols as<br>
-&gt; below:<br>
-&gt; $ readelf --wide --symbols /my-build/boost/1.67.0-<br>
-&gt; r0/boost_1_67_0/x86_64-poky-<br>
-&gt; linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e<=
-br>
-&gt; d/libboost_context.so.1.67.0<br>
-&gt; 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-<=
-br>
-&gt; r0/boost_1_67_0/x86_64-poky-<br>
-&gt; linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e<=
-br>
-&gt; d/asm/make_x86_64_sysv_elf_gas.o<br>
-&gt; <br>
-&gt; [YOCTO #12708]<br>
-&gt; <br>
-&gt; Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:Mingli.Yu@windriver.com=
-" target=3D"_blank">Mingli.Yu@windriver.com</a>&gt;<br>
-&gt; <br>
-Thanks for working through this, the final result is a much better fix!</bl=
-ockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If we add this direc=
-tive to all the .S files there=C2=A0</div><div dir=3D"auto">Then it can be =
-up streamed too</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
+I poke at it some more.
+Armin
 
---0000000000007bdd6f056ed6ed5d--
+> Ross
+
+
