@@ -1,25 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CCD96076F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 62A1C744D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 13:13:10 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5HDD1mG028781
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sun, 17 Jun 2018 14:13:02 +0100
-Message-ID: <230ed53b0a05b5ed680ceff2d2004a2ddaa5b351.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jun 2018 14:13:01 +0100
-In-Reply-To: <20180522122553.29109-1-git@andred.net>
-References: <20180522122553.29109-1-git@andred.net>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
+	Sun, 17 Jun 2018 13:23:58 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id l22-v6so12620891oib.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Jun 2018 06:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=IpEaF9vJ1Eu1pGOj8aioRm31M38WiQrzTWUGP6CbF7Q=;
+	b=CKK4lzIjdeuvUeR5tS7lbbnp+eKnEAI/3snl34L15hzmzvwmD0o70Jc3almsbFSWM7
+	pq+iA4TaDouHRfbrULRkVJEn1UqQsD7qypa7T+p8Ojmw/DKgCrpb/VvdHyMcDRG+eT3h
+	8Ibm5I0+RNBfl3qOhIsizF6DlyOeRl8CGuVJxN0CXK7hevbLfT51XsFfdiMiBCk8lfpu
+	fjsaqn4ulTLM/Z72x+kycxEc3eOEHaQbQl9CU0ByF0BQeh8bycnDXc0A5OnZIL+a6lcj
+	5jEA8v9Q9LRAX36XKrwrG6CYOEey2i/xB8p7gsXbcf79yOz9CCQuHkXorcvot9YNcGEV
+	WXhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=IpEaF9vJ1Eu1pGOj8aioRm31M38WiQrzTWUGP6CbF7Q=;
+	b=Gg4T5rRRbcLtWPUV2F9aNetHpb05YpJ3enzdxVn2s/rlbTIkFE70aPcFzQtLyfPC0x
+	qaSJun1KF8b/lwGclcdE8jt/p/d3l+cJ4DKoep7oIr6qnuOS2PsaYuNmX48E57BP5Q3t
+	cx3RdKEet46cJGIFmzhQfCTVEzHDdY2g0dqWALK7j0lLFBn/61CyBs+LbngzgeksFRey
+	LtyK41iLDMwq9TmWsQ+KLqZn1WfaS9wkxkwRiBskO3c8aAue70zTpmERKTAxWRCJdGQ6
+	dQAhU3d9G7DpjVQPHu3o0A+4EjzDzg4GVhC1yxByTq0CVfK8QriKA7B9FX43ZMG6wd3L
+	YoGg==
+X-Gm-Message-State: APt69E1sJtO1xSQaYeHEG7RUgFkk8rTPQHUpOVSgZ4csbWv14fwM05Oi
+	TU7yAWVeJAX/3sqENHkICOTWPN5OWcMoBW/Elw47NQ==
+X-Google-Smtp-Source: ADUXVKKrwnsBoYxz09zhg/x0oACy0+DVHDC7hPBRUU0guBigEOAAQLLAv+J0aw/ZeyiLBU+NYENqehX+YjR+swkHFEE=
+X-Received: by 2002:aca:2808:: with SMTP id 8-v6mr5189709oix.235.1529241839343;
+	Sun, 17 Jun 2018 06:23:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Sun, 17 Jun 2018 06:23:38
+	-0700 (PDT)
+In-Reply-To: <60a306a33463bd9b20631b61e17884012237588b.camel@linuxfoundation.org>
+References: <20180613115053.28394-1-ross.burton@intel.com>
+	<60a306a33463bd9b20631b61e17884012237588b.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sun, 17 Jun 2018 14:23:38 +0100
+Message-ID: <CAJTo0LZ9ZLMost=OyVo84tnO4u71_tNbS6eG9jbVkuODXn02kg@mail.gmail.com>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libdrm: port to Meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jun 2018 13:13:11 -0000
+X-List-Received-Date: Sun, 17 Jun 2018 13:23:58 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2018-05-22 at 13:25 +0100, André Draszik wrote:
-> From: André Draszik <andre.draszik@jci.com>
-> 
-> Currently, a dependency on any -native recipe will pull in
-> all dependencies of that -native recipe in the recipe
-> sysroot. This behaviour might not always be wanted, e.g.
-> when that -native recipe depends on build-tools that are
-> not relevant for the current recipe.
-> 
-> This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
-> which will be evaluated for such recursive dependencies to
-> be excluded. The idea is similar to
->    http://lists.openembedded.org/pipermail/openembedded-core/2018-Jan
-> uary/146324.html
-> except that the list is not hard-coded anymore.
-> 
-> SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
-> expressions of recipe and dependency to ignore, e.g. in
-> the above flex-native / bison-native use-case, one would
-> specify
-> 
->     SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
-> 
-> in layer.conf.
-> 
-> The existing special handling of "-initial" as well as
-> "base-passwd" and "shadow-sysroot" could also be
-> streamlined:
-> 
->     SSTATE_EXCLUDEDEPS_SYSROOT += "\
->         .*->.*-initial.* \
->         .*(base-passwd|shadow-sysroot)->.* \
->     "
-> 
-> Another anticipated user is meta-java, where certain newer
-> JDKs can only be bootstrapped (built) using older JDKs,
-> but it doesn't make much sense to copy all those older
-> JDKs and their own build tools (ant, etc.) into the
-> sysroot of recipes wanting to be built using the newer JDK
-> (only), e.g.:
-> 
->     SSTATE_EXCLUDEDEPS_SYSROOT += "\
->         openjdk-8-native->(ant-native|attr-native|coreutils-
-> native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-
-> native|unzip-native) \
->     "
-> 
-> Signed-off-by: André Draszik <andre.draszik@jci.com>
-> ---
->  meta/classes/sstate.bbclass | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
+Arch detection in Meson isn't quite there, for Mesa it fails to build
+assembly bits because host != target (x86-64 != x86-64)...
 
-I have some reservations about this series as I've previously mentioned
-but I had a try at testing it on the autobuilder:
+Ross
 
-https://autobuilder.yocto.io/builders/build-appliance/builds/1059/steps/BuildImages_1/logs/stdio
-
-Basically binutils-cross is bust with errors like:
-
-| x86_64-poky-linux-ar: error while loading shared libraries: libfl.so.2: cannot open shared object file: No such file or directory
-| make[5]: *** [libaudio_resampler_sse.la] Error 127
-
-There are a ton of other failures, I've not waded through them but I'm
-guessing there are similar issues.
-
-Cheers,
-
-Richard
-
+On 16 June 2018 at 22:33,  <richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2018-06-13 at 12:50 +0100, Ross Burton wrote:
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>  ...ac-Allow-explicit-enabling-of-cunit-tests.patch | 53 ------------
+>> ----------
+>>  .../recipes-graphics/drm/libdrm/installtests.patch | 25 ----------
+>>  meta/recipes-graphics/drm/libdrm_2.4.92.bb         | 23 ++++------
+>>  3 files changed, 9 insertions(+), 92 deletions(-)
+>>  delete mode 100644 meta/recipes-graphics/drm/libdrm/0001-
+>> configure.ac-Allow-explicit-enabling-of-cunit-tests.patch
+>>  delete mode 100644 meta/recipes-
+>> graphics/drm/libdrm/installtests.patch
+>
+> Fails generally on x86[1] until you add:
+>
+> EXTRA_OEMESON_append_x86 = " -Dintel=true"
+> EXTRA_OEMESON_append_x86-64 = " -Dintel=true"
+>
+> since the arch detection in cross builds is obviously not quite
+> functioning correctly.
+>
+> [1] https://autobuilder.yocto.io/builders/nightly-deb-non-deb/builds/1068/steps/BuildImages/logs/stdio
+>
+> after the above 'fix', it still fails on musl:
+>
+> https://autobuilder.yocto.io/builders/nightly-musl/builds/1095
+> https://autobuilder.yocto.io/builders/nightly-musl-x86-64/builds/541
+>
+> Cheers,
+>
+> Richard
+>
+>
 
