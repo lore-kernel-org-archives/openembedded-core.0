@@ -1,25 +1,25 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EE3BF75094
+	by mail.openembedded.org (Postfix) with ESMTP id 2CCD96076F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 09:17:40 +0000 (UTC)
+	Sun, 17 Jun 2018 13:13:10 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5H9HWPd022622
+	w5HDD1mG028781
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sun, 17 Jun 2018 10:17:34 +0100
-Message-ID: <83c024358c85f13cf3a8d0d021b090cc755af1a3.camel@linuxfoundation.org>
+	verify=NOT); Sun, 17 Jun 2018 14:13:02 +0100
+Message-ID: <230ed53b0a05b5ed680ceff2d2004a2ddaa5b351.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org,
-	alexander.kanavin@linux.intel.com, raj.khem@gmail.com
-Date: Sun, 17 Jun 2018 10:17:32 +0100
-In-Reply-To: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
-References: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
+	openembedded-core@lists.openembedded.org
+Date: Sun, 17 Jun 2018 14:13:01 +0100
+In-Reply-To: <20180522122553.29109-1-git@andred.net>
+References: <20180522122553.29109-1-git@andred.net>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH V2] boost: Improve reproducibility
+Subject: Re: [PATCH 1/4] sstate: allow specifying indirect dependencies to exclude from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jun 2018 09:17:41 -0000
+X-List-Received-Date: Sun, 17 Jun 2018 13:13:11 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2018-06-15 at 16:35 +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
+On Tue, 2018-05-22 at 13:25 +0100, André Draszik wrote:
+> From: André Draszik <andre.draszik@jci.com>
 > 
-> Set .file section explicitly for .S files to avoid
-> the linker introduces the host path in symbols for
-> object files whose source file is .S
-> Otherwise, there is a host path in the symbols as
-> below:
-> $ readelf --wide --symbols /my-build/boost/1.67.0-
-> r0/boost_1_67_0/x86_64-poky-
-> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
-> d/libboost_context.so.1.67.0
-> 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-
-> r0/boost_1_67_0/x86_64-poky-
-> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
-> d/asm/make_x86_64_sysv_elf_gas.o
+> Currently, a dependency on any -native recipe will pull in
+> all dependencies of that -native recipe in the recipe
+> sysroot. This behaviour might not always be wanted, e.g.
+> when that -native recipe depends on build-tools that are
+> not relevant for the current recipe.
 > 
-> [YOCTO #12708]
+> This change adds a SSTATE_EXCLUDEDEPS_SYSROOT variable,
+> which will be evaluated for such recursive dependencies to
+> be excluded. The idea is similar to
+>    http://lists.openembedded.org/pipermail/openembedded-core/2018-Jan
+> uary/146324.html
+> except that the list is not hard-coded anymore.
 > 
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> SSTATE_EXCLUDEDEPS_SYSROOT is evaluated as two regular
+> expressions of recipe and dependency to ignore, e.g. in
+> the above flex-native / bison-native use-case, one would
+> specify
 > 
-Thanks for working through this, the final result is a much better fix!
+>     SSTATE_EXCLUDEDEPS_SYSROOT = ".*->(flex|bison)-native"
+> 
+> in layer.conf.
+> 
+> The existing special handling of "-initial" as well as
+> "base-passwd" and "shadow-sysroot" could also be
+> streamlined:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         .*->.*-initial.* \
+>         .*(base-passwd|shadow-sysroot)->.* \
+>     "
+> 
+> Another anticipated user is meta-java, where certain newer
+> JDKs can only be bootstrapped (built) using older JDKs,
+> but it doesn't make much sense to copy all those older
+> JDKs and their own build tools (ant, etc.) into the
+> sysroot of recipes wanting to be built using the newer JDK
+> (only), e.g.:
+> 
+>     SSTATE_EXCLUDEDEPS_SYSROOT += "\
+>         openjdk-8-native->(ant-native|attr-native|coreutils-
+> native|icedtea7-native|libxslt-native|make-native|openssl-native|zip-
+> native|unzip-native) \
+>     "
+> 
+> Signed-off-by: André Draszik <andre.draszik@jci.com>
+> ---
+>  meta/classes/sstate.bbclass | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+
+I have some reservations about this series as I've previously mentioned
+but I had a try at testing it on the autobuilder:
+
+https://autobuilder.yocto.io/builders/build-appliance/builds/1059/steps/BuildImages_1/logs/stdio
+
+Basically binutils-cross is bust with errors like:
+
+| x86_64-poky-linux-ar: error while loading shared libraries: libfl.so.2: cannot open shared object file: No such file or directory
+| make[5]: *** [libaudio_resampler_sse.la] Error 127
+
+There are a ton of other failures, I've not waded through them but I'm
+guessing there are similar issues.
 
 Cheers,
 
 Richard
+
 
