@@ -1,47 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E67660750
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EE3BF75094
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 07:58:56 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id l65-v6so6183135pgl.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2018 00:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Q8Nt424zDf/5H7qvXJA1wYpWqrge92HGy+XK2sMf0AI=;
-	b=XrnBODNYdxLVk/yemLAqFjQgSJ889o+8TggIYELqOgBEL1DG3RAiR25EVJxPVepPhE
-	wWIA5++FN26pPtj+pwiCzyB0iPCs9VwxzSd92hcgP1Bm6sJzrmikBSzZUNNhS/v0OjMb
-	yiLycTHdT0gPVWxGRYdqiIPsP2OlLSRR08LloL+lySx5fJOSByrI4sdOtsMF0zPAjf/i
-	a8Pa5YOD9aw/Fq3amoHwoo73hhHcD0si2Uf4wU6/TquRfgrU9YNR9qIMJwj+skyQdokg
-	wwEWSQjgxxzvAx60i8uyOGilSpzxiEfoXcQLaxuWb8P9U/cOwhLmUZA7TciljIUpL1NY
-	xvRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Q8Nt424zDf/5H7qvXJA1wYpWqrge92HGy+XK2sMf0AI=;
-	b=mRMX3qDP/1rvpb06y2GGpguDTUAzJh3XNwXAzFEvXAKzaREn6xQXQ5jU45PPpJanrV
-	R73e0viEj+eICKCDBbM9DqjxMHvAJvZ6DCX0oxG9BWgMXMX15jJUB2HnZwAhn/+dWy7Z
-	+9fED7Bcecfz0P9BvAqmhYdOirwGykN75jGgTTL4hChAuT7qfwwKvR0MFWYwIwxpQOQ+
-	aEs9yL0XjNBwa1e5/5fNzu4kJAH6JLOz2EFolqSmkr8l6aJ+DBIHk3nb7Bwehj32ksa5
-	Nv5YOG/6J/ZkuyZ8JKnYmf7x0GBtTQY2get+j65mWMIXH/APA3Ub4+SJJuEEaDhasRpR
-	qCHA==
-X-Gm-Message-State: APt69E1d38rL1TNUgaviIAfBhYRcoJYls1QhhsECeseQuSSXkdd9PvzP
-	reWM1BUPlA7ogs30O1X6XRG/6g==
-X-Google-Smtp-Source: ADUXVKJtu76s4qN+sQiOepNXxcwhTKYDIL+7+kUNSZU+Ibfm31i/WEX8cEe3BRi8wEk+OGOH9s2LrQ==
-X-Received: by 2002:a63:6142:: with SMTP id
-	v63-v6mr7029650pgb.390.1529222337154; 
-	Sun, 17 Jun 2018 00:58:57 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::91a0])
-	by smtp.gmail.com with ESMTPSA id
-	76-v6sm28937964pfr.172.2018.06.17.00.58.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Jun 2018 00:58:56 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Jun 2018 00:58:57 -0700
-Message-Id: <20180617075857.19431-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] musl: Upgrade to latest
+	Sun, 17 Jun 2018 09:17:40 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5H9HWPd022622
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sun, 17 Jun 2018 10:17:34 +0100
+Message-ID: <83c024358c85f13cf3a8d0d021b090cc755af1a3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org,
+	alexander.kanavin@linux.intel.com, raj.khem@gmail.com
+Date: Sun, 17 Jun 2018 10:17:32 +0100
+In-Reply-To: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
+References: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH V2] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jun 2018 07:58:56 -0000
+X-List-Received-Date: Sun, 17 Jun 2018 09:17:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Changelog:
-https://git.musl-libc.org/cgit/musl/log/?qt=range&q=941bd884cc0221d051840ce6d21650339e711863..d5e55ba3320c30310ca1d8938925d5424a652422
+On Fri, 2018-06-15 at 16:35 +0800, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+> Set .file section explicitly for .S files to avoid
+> the linker introduces the host path in symbols for
+> object files whose source file is .S
+> Otherwise, there is a host path in the symbols as
+> below:
+> $ readelf --wide --symbols /my-build/boost/1.67.0-
+> r0/boost_1_67_0/x86_64-poky-
+> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+> d/libboost_context.so.1.67.0
+> 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-
+> r0/boost_1_67_0/x86_64-poky-
+> linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+> d/asm/make_x86_64_sysv_elf_gas.o
+> 
+> [YOCTO #12708]
+> 
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+Thanks for working through this, the final result is a much better fix!
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index a0a098f5b4..ba2de730f3 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "941bd884cc0221d051840ce6d21650339e711863"
-+SRCREV = "d5e55ba3320c30310ca1d8938925d5424a652422"
- 
- PV = "1.1.19+git${SRCPV}"
- 
--- 
-2.17.1
-
+Richard
 
