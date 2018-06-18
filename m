@@ -1,50 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2A775047
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E9C4175047
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 14:43:18 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id w17-v6so9157084pll.9
+	Mon, 18 Jun 2018 14:43:52 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id q4-v6so7640455pgr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 07:43:19 -0700 (PDT)
+	Mon, 18 Jun 2018 07:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=86JyjpAkUICNcml7DthN7OOes2ODQRKwd7iEGlx9vk0=;
-	b=g5fE35lze8ploVwbplrPY4SvcrnwlDOreWAlV7atWS/w4ISW/ppgu9OFTwdKX8O3co
-	f2pLYe12PlCjpZOe3ho2m8t/yXSr0KprR02R5TjS6VUydMGgo7wYXLjABwV/ybgHCF36
-	FaQNwKsEEDoadjHuzZfW7+rcpEtvN4G93CgRZZr9T1jDsYSc63//UcgMoMMkkg4PJI0n
-	LW+OkvDsBvz3s0+S/+LZRdPrYVdWcKjhcpU0vfkL/5Nta2kPAHkkdZadBWV+6CO7ugZI
-	amynMu/5DSBVet+qXiMU4OUxykX46i3GW2ibHplT2nKmCYTUHhCTfo/DxRcVuoqrM1WR
-	97pA==
+	bh=EtNWycQgyLAGdHJffF1qSeEN5SeAuLV6/M4FsPQcmgA=;
+	b=B244rmuNfr0QKRa3BnV9fLBF3A6MxHndlYPCbHWYRKxhvJ6cGWbEoa+mQJBtGOdMIj
+	Y5tog+wDX90Z+hDOZX/xAwFRWTr3HnTocD/WJp/kJASdFDcWjiUGfBqkhB+tM6AQLJKO
+	H1hRqyRkntM4VjR1WDLhJJAt5ay41bssY3hucXrjoEOUUBsYbinVJuUZtJJuRG52Zlie
+	YDxeA7EF+OprfxXcu76VNrFhS+oCrEc4zTju3bLSq8e3Obg7d9rknsbjULQMNOVIn2wm
+	Q0V2WfdzY0QLqUZg4JnIcS0uV9I5h6b0fRqloovKyQrr/zSdCf3GKOvzNIvFHmAlvN6P
+	2EjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=86JyjpAkUICNcml7DthN7OOes2ODQRKwd7iEGlx9vk0=;
-	b=OsOFkjCxC2+D2aYEMc1UzP09OE2vGf6GO6nSE6NlGfx5+cwl0M2ctQXRqFsrjb0iut
-	K2SW5tbKGpS4xD4NHLj9aoanbae/GW4PRCKyLlhao7heymHqT2neqxYRTHhoAMEUl45Y
-	Y/dj0kXlnAR0iTROneJBLxDzEWZt+NO3BBqZ/E+7Xdk7/8QRDUAqrcuvm3MD8Um8Usve
-	fPi/PLpq7nPoq8vkU7SNndRvbCQvPV5VmwpqXJKr/C0pVYqsGLyww/Si/o0tzaYZF2VR
-	l2pDQgRzrdc4wu1Rq6n30Aouw3oKEd3vqf6CCYTOd9FrqR8oBcydS8ydacs4jqac36Ou
-	EgfQ==
-X-Gm-Message-State: APt69E2DOkqKzhf80GqbTrDyWYkO6wpaDvaWkkJcbKHoScmIzc4yAFOQ
-	IFNK+mki5BWEzWkaYFPznhPAlQ==
-X-Google-Smtp-Source: ADUXVKJD01GhfguDfyLv+ClaUcw7Ag6jEkeWSAajD8zMxflI/s7BJhABlJCdBEsYhBZPxGHiowV8hQ==
-X-Received: by 2002:a17:902:b217:: with SMTP id
-	t23-v6mr14533568plr.312.1529332999458; 
-	Mon, 18 Jun 2018 07:43:19 -0700 (PDT)
+	bh=EtNWycQgyLAGdHJffF1qSeEN5SeAuLV6/M4FsPQcmgA=;
+	b=GyZbsPJaCJ4GG+iXeBn7TvepL5KI9CwV2Mek6JtvQK+F7NnUDKEIFhokx4u8tPc67c
+	r2w3rsWbK0HCD5YVgR7Fcg2f3brTP4HI1m3Eg3JTuK1/H6XHByp+8D91hfEqtcBwJS/S
+	T9qDOSb4GNEJJklJj2unEH//2X/0sWlxRYDCDANnL1DRSyV7SLySfieMnj1BycXM8ZvM
+	3s0nlWhD5xmqlPvgKVQ+cbkvN3+FDpDJMwPF6dTm4dDcu0dyTw5t7cTdYR7d2GgZLsT+
+	SKzLdfi7nR2wF2YLQJPi0EoAjYJh4Tw/LUw6DI/mhYDYE4ql5zvWhww7mXfFPU4t882X
+	Qjvg==
+X-Gm-Message-State: APt69E270J5gXVPx7TlHa9akQNNQ3rkbtBTJt1jhP99tV/Lfnznpfpo9
+	OBq4ax5pijxys6AzUke3VUCw/Q==
+X-Google-Smtp-Source: ADUXVKL27xmu1PUGD8s9sDPE02qgAEIZ9GWDvmKVZGMsNuFd7FrBMTSDlJ5hRRiy2if5CmLFqvDGaQ==
+X-Received: by 2002:a65:5d4a:: with SMTP id
+	e10-v6mr8203932pgt.25.1529333034045; 
+	Mon, 18 Jun 2018 07:43:54 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184:eb:1883:34e0:8f40?
 	([2601:202:4000:1184:eb:1883:34e0:8f40])
 	by smtp.gmail.com with ESMTPSA id
-	b72-v6sm29531025pfj.56.2018.06.18.07.43.18
+	n70-v6sm33184002pfh.140.2018.06.18.07.43.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Jun 2018 07:43:18 -0700 (PDT)
+	Mon, 18 Jun 2018 07:43:53 -0700 (PDT)
 To: Ross Burton <ross.burton@intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <20180618101044.10636-1-ross.burton@intel.com>
+References: <20180618100538.7431-1-ross.burton@intel.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -90,13 +89,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <3f9b3040-3576-ce8d-4736-c664d7623491@gmail.com>
-Date: Mon, 18 Jun 2018 07:43:17 -0700
+Message-ID: <30eef550-3dd5-bb4a-299f-4e9c00113bfc@gmail.com>
+Date: Mon, 18 Jun 2018 07:43:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20180618101044.10636-1-ross.burton@intel.com>
-Subject: Re: [PATCH 1/3] xf86-video-intel: patch cleanup
+In-Reply-To: <20180618100538.7431-1-ross.burton@intel.com>
+Subject: Re: [PATCH] xf86-video-omap: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,104 +108,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2018 14:43:18 -0000
+X-List-Received-Date: Mon, 18 Jun 2018 14:43:53 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 06/18/2018 03:10 AM, Ross Burton wrote:
-> always_include_xorg_server.h.patch is merged upstream, so drop it.
->
-> disable-x11-dri3.patch was purely to solve determinism issues with the shared sysroot, which
-> we don't have anymore.
->
-> Also remove redundant tarball checksums as this recipe fetches from git.
-cool, I will drop the changes I have queue fro this package.
+On 06/18/2018 03:05 AM, Ross Burton wrote:
+> This driver is dead upstream and doesn't appear to provide any advantage over
+> upstream kernel drivers and xserver's modesetting support.
+
+works for me. please remove from maintainer.inc too
 
 thanks,
 Armin
->
 > Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  .../always_include_xorg_server.h.patch             | 24 ----------------------
->  .../xf86-video-intel/disable-x11-dri3.patch        | 17 ---------------
->  .../xorg-driver/xf86-video-intel_git.bb            |  4 ----
->  3 files changed, 45 deletions(-)
->  delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/always_include_xorg_server.h.patch
->  delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-x11-dri3.patch
+>  .../xorg-driver/xf86-video-omap_0.4.5.bb           | 41 ----------------------
+>  1 file changed, 41 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
 >
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/always_include_xorg_server.h.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/always_include_xorg_server.h.patch
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
 > deleted file mode 100644
-> index 8a5dd39ae1e..00000000000
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel/always_include_xorg_server.h.patch
+> index 0430f67b40e..00000000000
+> --- a/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.5.bb
 > +++ /dev/null
-> @@ -1,24 +0,0 @@
-> -Include xorg-server.h to fix build errors seen with glibc 2.20
+> @@ -1,41 +0,0 @@
+> -require xorg-driver-video.inc
 > -
-> -In file included from /home/ubuntu/work/upstream/openembedded-core/build/tmp-glibc/sysroots/qemux86/usr/include/string.h:634:0,
-> -                 from /home/ubuntu/work/upstream/openembedded-core/build/tmp-glibc/work/i586-oe-linux/xf86-video-intel/2_2.99.912-r0/xf86-video-intel-2.99.912/src/backlight.c:39:
-> -/home/ubuntu/work/upstream/openembedded-core/build/tmp-glibc/sysroots/qemux86/usr/include/xorg/os.h:579:1: error: expected identifier or '(' before '__extension__'
-> - strndup(const char *str, size_t n);
-> - ^
+> -SUMMARY = "X.Org X server -- Texas Instruments OMAP framebuffer driver"
 > -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -SUMMARY = "X.Org X server -- TI OMAP integrated graphics chipsets driver"
 > -
-> -Upstream-Status: Pending
+> -DESCRIPTION = "Open-source X.org graphics driver for TI OMAP graphics \
+> -Currently relies on a closed-source submodule for EXA acceleration on \
+> -the following chipsets: \
+> -  + OMAP3430 \
+> -  + OMAP3630 \
+> -  + OMAP4430 \
+> -  + OMAP4460 \
+> -  + OMAP5430 \
+> -  + OMAP5432 \
+> -\
+> -NOTE: this driver is work in progress..  you probably don't want to try \
+> -and use it yet.  The API/ABI between driver and kernel, and driver and \
+> -acceleration submodules is not stable yet.  This driver requires the \
+> -omapdrm kernel driver w/ GEM support. \
+> -"
 > -
-> -Index: xf86-video-intel-2.99.912/src/backlight.c
-> -===================================================================
-> ---- xf86-video-intel-2.99.912.orig/src/backlight.c	2014-04-09 10:41:18.000000000 -0700
-> -+++ xf86-video-intel-2.99.912/src/backlight.c	2014-08-28 18:52:25.524070587 -0700
-> -@@ -29,6 +29,7 @@
-> - #include "config.h"
-> - #endif
-> - 
-> -+#include <xorg-server.h>
-> - #include <sys/types.h>
-> - #include <sys/wait.h>
-> - #include <sys/stat.h>
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-x11-dri3.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-x11-dri3.patch
-> deleted file mode 100644
-> index 3dddd334bf4..00000000000
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel/disable-x11-dri3.patch
-> +++ /dev/null
-> @@ -1,17 +0,0 @@
-> -These modules are only used for tests that don't get installed, and the
-> -automatic detection without explicit dependencies means that a build can find
-> -e.g. xshmfence at configure time but then it's been removed from the sysroot by
-> -the time compile happens.
+> -LICENSE = "GPLv2+"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
+> -DEPENDS += "virtual/libx11 libdrm xorgproto"
 > -
-> -As the tests don't get installed, just disable the checks.
+> -SRC_URI[md5sum] = "3b8ea5e8fba63355c0dc6681c49d5fe5"
+> -SRC_URI[sha256sum] = "93e7d42107521e61f61980eaea64fb452e87b7b94272e48938ac8d904ccfab5a"
 > -
-> -Upstream-Status: Inappropriate [OE-specific]
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -CFLAGS += " -I${STAGING_INCDIR}/xorg "
 > -
-> -diff --git a/configure.ac b/configure.ac
-> -index bd654f3..78a0e0d 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -279 +279 @@ fi
-> --PKG_CHECK_MODULES(X11_DRI3, [xcb-dri3 xcb-sync xcb-xfixes xcb-present x11-xcb xshmfence x11 xcomposite xdamage xrender xrandr xxf86vm xext libdrm], [x11_dri3="yes"], [x11_dri3="no"])
-> -+#PKG_CHECK_MODULES(X11_DRI3, [xcb-dri3 xcb-sync xcb-xfixes xcb-present x11-xcb xshmfence x11 xcomposite xdamage xrender xrandr xxf86vm xext libdrm], [x11_dri3="yes"], [x11_dri3="no"])
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> index 893f5ce3f64..a60da70840d 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-> @@ -14,13 +14,9 @@ PV = "2.99.917+git${SRCPV}"
->  S = "${WORKDIR}/git"
->  
->  SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-intel \
-> -           file://disable-x11-dri3.patch \
-> -           file://always_include_xorg_server.h.patch \
->             file://0001-Add-Coffeelake-PCI-IDs-for-S-Skus.patch \
->             "
->  
-> -SRC_URI[md5sum] = "fa196a66e52c0c624fe5d350af7a5e7b"
-> -SRC_URI[sha256sum] = "00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf9667c9"
->  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
->  
->  DEPENDS += "virtual/libx11 drm libpciaccess pixman"
+> -# Use overlay 2 on omap3 to enable other apps to use overlay 1 (e.g. dmai or omapfbplay)
+> -do_compile_prepend_armv7a () {
+> -        sed -i -e s:fb1:fb2:g ${S}/src/omap_xv.c
+> -}
+> -
+> -python () {
+> -    if not bb.utils.contains ('DISTRO_FEATURES', 'opengl', True, False, d):
+> -        raise bb.parse.SkipRecipe("'opengl' not in DISTRO_FEATURES")
+> -}
+> -
 
 
