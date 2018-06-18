@@ -1,52 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6994374F96
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8629375231
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 10:10:52 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id p11-v6so14410148wmc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 03:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Cnyc/vfG4qdCjzxBugtb+RWxeXwC9Mehgk7Ck1zmmDY=;
-	b=ogiRWZbgt10YDZ7luQh5bBULqGGyonHSrDFpr+2Gkvd+ffRrRtErXt8gRYVQ7eQKTl
-	W+u7q7GStamNAnJl/i/RO5o9lnr5mnGqzBzmLixHpF0R+ndXaROjV3EjFMOUoyt3eym6
-	2qirJheXn553wS/0MxraEBriJRWQAb0RWtjeGuv5RbtTIfbXWWgOjX/hi3CTXqopl5vz
-	JjTt/UaErmeq7BZaQvsgZbYaXsnC7SvbpbbSBfS+8WSgRVNSUL+GAHc0v1adUeRu1o6W
-	ySLC7dxC/3T4dqZt46P++Hea9IcGwpbblz5gsLEDK34jyxBLYwovDvs1DkVCJ4LYeMQp
-	k+rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Cnyc/vfG4qdCjzxBugtb+RWxeXwC9Mehgk7Ck1zmmDY=;
-	b=TI9Px+pOx3BgC7iFWsb4BaNtlKIVjLHItWTU84WmjcpSieENQqk/IdG8j5r2mUgXnt
-	FRD59DNOY6KeDlDqBr0B5ea1U8fixEPwfg330a5kV4tv4hfGEukuLpZkwWxrFqrrzRkX
-	M4BKIV9w/3lfN6d5RQkb3axjbGoZv/28alMzYjEK1LqwCuCGttiIrAku6/j+GXN/rmhT
-	/L8L8XMuhvWaWyq13qwp65Pxaw224Om6iFFjLCVFI2ixSuDl+6NF+clFsQhKx9kO1zq1
-	JWzBGF4QOCxupKz5hgGv/8QbgabwRM/unM9WTZJLlIafPjIdN9tPM5LzMnXeZ2au7YI/
-	uwbQ==
-X-Gm-Message-State: APt69E1d/gfzO0Jc9rW1mQyFocoHu+6UM03bglggtKmh3ZJ6AWM8YEho
-	DGrPoBWgjiwo5VPRh7pZ5pi3tPy8
-X-Google-Smtp-Source: ADUXVKLSB6EjiFgwrzvprSRfPRJugLjx71Gn7/Jm6QUoZ2qvfcNk6vG1k2HslBmfNg6UV3FC1vK8Hg==
-X-Received: by 2002:a1c:dc41:: with SMTP id
-	t62-v6mr8432430wmg.42.1529316652540; 
-	Mon, 18 Jun 2018 03:10:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e2-v6sm17583475wro.97.2018.06.18.03.10.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Jun 2018 03:10:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2018 11:10:44 +0100
-Message-Id: <20180618101044.10636-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180618101044.10636-1-ross.burton@intel.com>
-References: <20180618101044.10636-1-ross.burton@intel.com>
-Subject: [PATCH 3/3] xf86-video-intel: update dependencies for the tools
+	Mon, 18 Jun 2018 10:50:34 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5IAoVbp012174
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 18 Jun 2018 11:50:32 +0100
+Message-ID: <69b1e870bf8e8300273ad04b9ff24bc90a9dc998.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jun 2018 11:50:31 +0100
+In-Reply-To: <20180618100546.7482-1-ross.burton@intel.com>
+References: <20180618100546.7482-1-ross.burton@intel.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] xf86-video-omap: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2018 10:10:52 -0000
+X-List-Received-Date: Mon, 18 Jun 2018 10:50:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 2018-06-18 at 11:05 +0100, Ross Burton wrote:
+> We were shipping the Debian fork of the original code, but that has
+> disappeared
+> now that Alioth is down.  The driver didn't provide anything better
+> than the
+> kernel and xserver's modesetting driver, so remove it.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-index cda1de1eb1a..5cc4eefc785 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
-@@ -31,7 +31,7 @@ PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
- PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
- PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
- PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc xcb-util"
--PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,libxinerama libxrandr libxdamage libxfixes libxcursor libxtst libxext libxrender"
-+PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,libxinerama libxrandr libxdamage libxfixes libxcursor libxtst libxrender libxscrnsaver libxext libx11 pixman libxcb libxshmfence"
- 
- # --enable-kms-only option is required by ROOTLESS_X
- EXTRA_OECONF += '${@oe.utils.conditional( "ROOTLESS_X", "1", " --enable-kms-only", "", d )}'
--- 
-2.11.0
+This should be xf86-video-omapfb. I've tweaked when I added to -next.
 
+Cheers,
+
+Richard
 
