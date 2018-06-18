@@ -1,21 +1,19 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 920C774576
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FA3F744AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 16:20:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5IGKQhB004157
+	Mon, 18 Jun 2018 16:25:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5IGOmhd008959
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Jun 2018 09:20:26 -0700 (PDT)
+	Mon, 18 Jun 2018 09:25:35 -0700
 Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 18 Jun 2018 09:20:25 -0700
-To: Khem Raj <raj.khem@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-References: <1529093808-10025-1-git-send-email-armccurdy@gmail.com>
-	<22e45738-aa92-24c7-a3fc-03a0918a1c3a@windriver.com>
-	<CAMKF1srvZ830wY4_PEV06L4Tea6OkHkSi+fcZMuG0sungLCdyQ@mail.gmail.com>
-	<CAJ86T=VjYfk1T0MmN-6oyVSZmjYXZ3VNnaGAdLt49d12ZDEWwA@mail.gmail.com>
-	<CAMKF1srWE9vVhv7MjcVh32mK+_FPt4OgYU7j9nWhW5fdd_hQ8Q@mail.gmail.com>
+	Mon, 18 Jun 2018 09:25:04 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180618154833.10526-1-ross.burton@intel.com>
 From: Mark Hatle <mark.hatle@windriver.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
@@ -42,16 +40,13 @@ Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
 	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
 	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
 Organization: Wind River Systems
-Message-ID: <547a3ea5-f66a-54fb-163e-0fe31998d59a@windriver.com>
-Date: Mon, 18 Jun 2018 11:20:25 -0500
+Message-ID: <a00c6728-6ec4-8fc4-bbb5-d77e7c688ad8@windriver.com>
+Date: Mon, 18 Jun 2018 11:25:03 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
 	Gecko/20100101 Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srWE9vVhv7MjcVh32mK+_FPt4OgYU7j9nWhW5fdd_hQ8Q@mail.gmail.com>
-Cc: =?UTF-8?Q?Andr=c3=a9_Draszik?= <andre.draszik@jci.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][PATCH] common-licenses: Add BSD-1-Clause
+In-Reply-To: <20180618154833.10526-1-ross.burton@intel.com>
+Subject: Re: [PATCH] mktemp: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,118 +59,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2018 16:20:29 -0000
+X-List-Received-Date: Mon, 18 Jun 2018 16:26:00 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 6/15/18 7:23 PM, Khem Raj wrote:
-> 
-> 
-> On Fri, Jun 15, 2018 at 3:48 PM Andre McCurdy <armccurdy@gmail.com
-> <mailto:armccurdy@gmail.com>> wrote:
-> 
->     On Fri, Jun 15, 2018 at 3:36 PM, Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>> wrote:
->     > On Fri, Jun 15, 2018 at 3:14 PM Mark Hatle <mark.hatle@windriver.com
->     <mailto:mark.hatle@windriver.com>> wrote:
->     >>
->     >> On 6/15/18 3:16 PM, Andre McCurdy wrote:
->     >> > From: André Draszik <andre.draszik@jci.com <mailto:andre.draszik@jci.com>>
->     >> >
->     >> > Some projects are starting to use it.
->     >> >   https://spdx.org/licenses//BSD-1-Clause.html
->     >> >
->     >> > Signed-off-by: André Draszik <andre.draszik@jci.com
->     <mailto:andre.draszik@jci.com>>
->     >> > Signed-off-by: Ross Burton <ross.burton@intel.com
->     <mailto:ross.burton@intel.com>>
->     >> > (cherry picked from commit 77f692ecb39d880b2cb420850a31534860eb2cc5)
->     >> > Signed-off-by: Andre McCurdy <armccurdy@gmail.com
->     <mailto:armccurdy@gmail.com>>
->     >> > ---
->     >> >  meta/files/common-licenses/BSD-1-Clause | 9 +++++++++
->     >> >  1 file changed, 9 insertions(+)
->     >> >  create mode 100644 meta/files/common-licenses/BSD-1-Clause
->     >> >
->     >> > diff --git a/meta/files/common-licenses/BSD-1-Clause
->     b/meta/files/common-licenses/BSD-1-Clause
->     >> > new file mode 100644
->     >> > index 0000000..ded8897
->     >> > --- /dev/null
->     >> > +++ b/meta/files/common-licenses/BSD-1-Clause
->     >> > @@ -0,0 +1,9 @@
->     >> > +
->     >> > +Copyright (c) <YEAR>, <OWNER>
->     >> > +All rights reserved.
->     >> > +
->     >> > +Redistribution and use in source and binary forms, with or without
->     modification, are permitted provided that the following conditions are met:
->     >> > +
->     >> > +Redistributions of source code must retain the above copyright notice,
->     this list of conditions and the following disclaimer.
->     >> > +THIS SOFTWARE IS PROVIDED BY Berkeley Software Design, Inc. "AS IS"
->     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
->     >>
->     >> Hate to nitpick, but isn't BSDi defunct?  I don't think it makes sense to
->     list
->     >> BSDI, since as far as I know they never had a '1-Clause' license.
->     >>
->     >> Maybe a <Organization Here> would be more appropriate.
->     >>
->     >
->     > I think we should sync the files we carry with SPDX e.g.
->     > https://github.com/spdx/license-list-data/tree/master/text
-> 
->     It doesn't look like that will fix the inconsistencies... those
->     versions are inconsistent too:
-> 
-> 
-> We should report that to spdx folks since they 
-> Work on licenses and might be interested in addressing this 
+On 6/18/18 10:48 AM, Ross Burton wrote:
+> Both busybox and coreutils provide mktemp, and the only difference between those
+> (and standalone mktemp) is that coreutils supports --suffix.
 
-Agreed.  I think we need to get the SPDX to fix their examples, and then use
-them once they are fixed.
+I've got no objections to this.. but I do have a question/comment.
 
-As for our version of the code, I'd suggest the "<COPYRIGHT HOLDER>" (as in the
-BSD-4-clause example) in all cases.
+Is mktemp packaged by itself in coreutils or do you need the larger coreutils to
+get it.  (I'm not actually sure it matters, but in the past there were some
+cases where you might not want all of coreutils, but wanted mktemp...)
+
+If there is no standalone mktemp any longer, I think we just need to be prepared
+for someone to come and say they have a use-case... but at this point, I
+wouldn't actively change any of the exiting implementations (busybox/coreutils).
 
 --Mark
 
+> Also mktemp.org has disappeared, so it's fair to assume that the standalone
+> mktemp (last released in 2010) is dead.
 > 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/conf/distro/include/distro_alias.inc          |  1 -
+>  meta/conf/distro/include/maintainers.inc           |  1 -
+>  .../packagegroups/packagegroup-self-hosted.bb      |  1 -
+>  .../mktemp/files/disable-strip.patch               | 15 ---------
+>  .../mktemp/files/fix-parallel-make.patch           | 24 ---------------
+>  meta/recipes-extended/mktemp/mktemp_1.7.bb         | 36 ----------------------
+>  .../packagegroup-core-full-cmdline.bb              |  1 -
+>  .../packagegroups/packagegroup-core-lsb.bb         |  1 -
+>  8 files changed, 80 deletions(-)
+>  delete mode 100644 meta/recipes-extended/mktemp/files/disable-strip.patch
+>  delete mode 100644 meta/recipes-extended/mktemp/files/fix-parallel-make.patch
+>  delete mode 100644 meta/recipes-extended/mktemp/mktemp_1.7.bb
 > 
->     https://github.com/spdx/license-list-data/blob/master/text/BSD-1-Clause.txt
->     : THIS SOFTWARE IS PROVIDED BY Berkeley Software Design, Inc. "AS IS"
-> 
->     https://github.com/spdx/license-list-data/blob/master/text/BSD-2-Clause.txt
->     : THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
->     "AS IS"
-> 
->     etc...
-> 
->     >
->     >> --Mark
->     >>
->     >> IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
->     PURPOSE ARE
->     >> DISCLAIMED. IN NO EVENT SHALL Berkeley Software Design, Inc. BE LIABLE
->     FOR ANY
->     >> DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
->     >> (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
->     >> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
->     AND ON
->     >> ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
->     >> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
->     >> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
->     >> > +
->     >> >
->     >>
->     >> --
->     >> _______________________________________________
->     >> Openembedded-core mailing list
->     >> Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+> index 2edcd5838bf..58c110dbe42 100644
+> --- a/meta/conf/distro/include/distro_alias.inc
+> +++ b/meta/conf/distro/include/distro_alias.inc
+> @@ -242,7 +242,6 @@ DISTRO_PN_ALIAS_pn-mini-x-session = "OSPDT"
+>  DISTRO_PN_ALIAS_pn-mkelfimage = "Ubuntu=mkelfimage Fedora=mkelfimage"
+>  DISTRO_PN_ALIAS_pn-mkfontdir = "Mandriva=mkfontdir Ubuntu=xfonts-utils Fedora=xorg-x11-font-utils"
+>  DISTRO_PN_ALIAS_pn-mkfontscale = "Mandriva=mkfontscale Ubuntu=xfonts-utils Fedora=xorg-x11-font-utils"
+> -DISTRO_PN_ALIAS_pn-mktemp = "Mandriva=mktemp Fedora=mktemp"
+>  DISTRO_PN_ALIAS_pn-mmc-utils = "OE-Core"
+>  DISTRO_PN_ALIAS_pn-modutils-initscripts = "OE-Core"
+>  DISTRO_PN_ALIAS_pn-mtd-utils = "Debian=mtd-utils Ubuntu=mtd-utils"
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 9382d23ef9e..585eac4fc74 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -492,7 +492,6 @@ RECIPE_MAINTAINER_pn-mkelfimage = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-mkfontdir = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-mkfontscale = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-mklibs-native = "Robert Yang <liezhi.yang@windriver.com>"
+> -RECIPE_MAINTAINER_pn-mktemp = "Robert Yang <liezhi.yang@windriver.com>"
+>  RECIPE_MAINTAINER_pn-mmc-utils = "Maxin B. John <maxin.john@intel.com>"
+>  RECIPE_MAINTAINER_pn-mobile-broadband-provider-info = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-modutils-initscripts = "Yi Zhao <yi.zhao@windriver.com>"
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> index 28f06d9c5aa..9a6721ce031 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+> @@ -80,7 +80,6 @@ RDEPENDS_packagegroup-self-hosted-sdk = "\
+>      libstdc++-dev \
+>      libtool \
+>      make \
+> -    mktemp \
+>      perl-module-re \
+>      perl-module-text-wrap \
+>      pkgconfig \
+> diff --git a/meta/recipes-extended/mktemp/files/disable-strip.patch b/meta/recipes-extended/mktemp/files/disable-strip.patch
+> deleted file mode 100644
+> index e06869e3adf..00000000000
+> --- a/meta/recipes-extended/mktemp/files/disable-strip.patch
+> +++ /dev/null
+> @@ -1,15 +0,0 @@
+> -Upstream-Status: Inappropriate [configuration]
+> -
+> -diff --git a/Makefile.in b/Makefile.in
+> -index 37b3cc9..f1026f3 100644
+> ---- a/Makefile.in
+> -+++ b/Makefile.in
+> -@@ -95,7 +95,7 @@ install-dirs:
+> - 	    $(DESTDIR)$(mandir)/man1
+> - 
+> - install-binaries: $(PROG)
+> --	$(INSTALL) -m 0555 -s $(PROG) $(DESTDIR)$(bindir)/$(PROG)
+> -+	$(INSTALL) -m 0555 $(PROG) $(DESTDIR)$(bindir)/$(PROG)
+> - 
+> - install-man:
+> - 	$(INSTALL) -m 0444 $(srcdir)/mktemp.$(mantype) \
+> diff --git a/meta/recipes-extended/mktemp/files/fix-parallel-make.patch b/meta/recipes-extended/mktemp/files/fix-parallel-make.patch
+> deleted file mode 100644
+> index f3b6dcc34ab..00000000000
+> --- a/meta/recipes-extended/mktemp/files/fix-parallel-make.patch
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -This fixes the parallel make install failure
+> -
+> -Upstream-Status: Accepted
+> -http://www.gratisoft.us/bugzilla/show_bug.cgi?id=528
+> -
+> -Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> -
+> -Index: mktemp-1.7/Makefile.in
+> -===================================================================
+> ---- mktemp-1.7.orig/Makefile.in
+> -+++ mktemp-1.7/Makefile.in
+> -@@ -94,10 +94,10 @@ install-dirs:
+> - 	$(SHELL) $(srcdir)/mkinstalldirs $(DESTDIR)$(bindir) \
+> - 	    $(DESTDIR)$(mandir)/man1
+> - 
+> --install-binaries: $(PROG)
+> -+install-binaries: install-dirs $(PROG)
+> - 	$(INSTALL) -m 0555 $(PROG) $(DESTDIR)$(bindir)/$(PROG)
+> - 
+> --install-man:
+> -+install-man: install-dirs
+> - 	$(INSTALL) -m 0444 $(srcdir)/mktemp.$(mantype) \
+> - 	    $(DESTDIR)$(mandir)/man1/mktemp.1
+> - 
+> diff --git a/meta/recipes-extended/mktemp/mktemp_1.7.bb b/meta/recipes-extended/mktemp/mktemp_1.7.bb
+> deleted file mode 100644
+> index e8ae5c6b724..00000000000
+> --- a/meta/recipes-extended/mktemp/mktemp_1.7.bb
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -SUMMARY = "Enables safe temporary file creation from shell scripts"
+> -HOMEPAGE = "http://www.mktemp.org/"
+> -BUGTRACKER = "http://www.mktemp.org/bugs"
+> -SECTION = "console/utils"
+> -LICENSE = "ISC"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=430680f6322a1eb87199b5e01a82c0d4"
+> -
+> -PR = "r3"
+> -
+> -SRC_URI = "ftp://ftp.mktemp.org/pub/mktemp/${BPN}-${PV}.tar.gz \
+> -        file://disable-strip.patch \
+> -        file://fix-parallel-make.patch \
+> -        "
+> -
+> -SRC_URI[md5sum] = "787bbed9fa2ee8e7645733c0e8e65172"
+> -SRC_URI[sha256sum] = "8e94b9e1edf866b2609545da65b627996ac5d158fda071e492bddb2f4a482675"
+> -
+> -inherit autotools update-alternatives
+> -
+> -EXTRA_OECONF = "--with-libc"
+> -
+> -do_install_append () {
+> -	if [ "${base_bindir}" != "${bindir}" ] ; then
+> -		install -d ${D}${base_bindir}
+> -		mv ${D}${bindir}/mktemp ${D}${base_bindir}/mktemp
+> -		rmdir ${D}${bindir}
+> -	fi
+> -}
+> -
+> -ALTERNATIVE_${PN} = "mktemp"
+> -ALTERNATIVE_LINK_NAME[mktemp] = "${base_bindir}/mktemp"
+> -ALTERNATIVE_PRIORITY = "60"
+> -
+> -ALTERNATIVE_${PN}-doc = "mktemp.1"
+> -ALTERNATIVE_PRIORITY_${PN}-doc = "300"
+> -ALTERNATIVE_LINK_NAME[mktemp.1] = "${mandir}/man1/mktemp.1"
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> index 92881e9f322..22b3f6782fe 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+> @@ -86,7 +86,6 @@ RDEPENDS_packagegroup-core-full-cmdline-utils = "\
+>      mc-fish \
+>      mc-helpers \
+>      mc-helpers-perl \
+> -    mktemp \
+>      ncurses \
+>      net-tools \
+>      popt \
+> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> index 53d100ce740..ef6347c7120 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> @@ -158,7 +158,6 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+>      make \
+>      man \
+>      man-pages \
+> -    mktemp \
+>      msmtp \
+>      patch \
+>      procps \
 > 
 
 
