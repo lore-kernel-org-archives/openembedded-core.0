@@ -1,52 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F33D875494
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BBB5775512
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 12:58:20 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id c6-v6so18038687oiy.0
+	Tue, 19 Jun 2018 13:06:52 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id l10-v6so20518775wrn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 05:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 19 Jun 2018 06:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=8+Sb/PgFUNIrQq+0o3bOxTCP0snpq68er+4PKUT9IyI=;
-	b=djmACN4M+G6+xV97j6nT0spqrVZLrgXy0irGzz7N0OHmjT4E5rT8Wa0pyPojYgMVv9
-	RR9527WOgh70Gsr/B7WvkZ+2f1RrPAF5sdG8B+vVKT2laQM4URWZDVBB2vpYw5VhtYIt
-	fpmNnSFkN0J5ztAxheA1YfcA9BzTfBCEfxMhlAtMv4etEY/KzkCBMt4mU937ZzqG0Jxn
-	/vZEqjGkWg3pkDLs7UNpYqaoz4TAhjX7W++9Bl8aCW94WOyrYX39iRccKRMsfl16nUYA
-	39CaPZj4WMT0IR0kI1bXsMSPh513VyQ7ip8XJYU21AWt16zjUUjtfAIZ3VBfw/2Osal1
-	BjTw==
+	:cc; bh=NlR9KfiJsfj1IP7/hrgsSImyDz4bgvzp2Qy1cooWtfk=;
+	b=mAU1dVxPhzTh5wyZYkUy/IrgpsL5KRJKV0z/SVg1omhMkfZXlGpMBFytJbh/NitkZT
+	u9N6ZDLN/hF9lN+XLkbmfjteMQFmbUpjRTmukwWZZ+MKZ9siC8rkhK4sj1CtcPvSxxYb
+	Npk7qPIdeMrLaA0hAkeHwQgPAJkdf9YYbrD3c3SvUnm4cxntBb7cn/C7RicUJM0ScAMA
+	dHyxm+1yjlDH26pWi4KGitGbx24Inp8CUm5dKgh18Z1+FS3iYmeGbWoqttlTrK/KO5Gg
+	quIAg+rAryP3CriU+YAqafqt73R7gUb5jP2kgc2DWCdQGRzA4Ukc2eAGu1BCGeqMUnSK
+	ocZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8+Sb/PgFUNIrQq+0o3bOxTCP0snpq68er+4PKUT9IyI=;
-	b=ZWlEFC3oyhA0uFHR9f3IqdKplcFgdQ2uoc+9pq5absb5hDeStgyiQiY+2Km8ZVINK6
-	0RTeGtasr1NlQ1Qrz0TcW9X/7BY+247Y3ZEiTZx3RmPyslHTRY+vYT+VZWeQJG3h3mbO
-	PsjeEMPw3lOCR2ZKoioxKMymeGfOMPuf4sfmjmkZ2g0CHgbnAl+TWsD2xF7YROux8rGW
-	7QFgPQn0RUyQ9EqDnydnQi2fMHXbR9xsTVXfb2utdRsbPLyumDSH74CuMRmFTipQ8ftA
-	9DV077tlmsQx3HCt3WMfSpBgo0Dmvu/zQ7SLqHescpEd5xfAfQ8Zc84Bsd57nyS8ETy+
-	fvNg==
-X-Gm-Message-State: APt69E08x05r53KlgHisEhG1LJEfJvvCpcyq/xFwUK1wvcwDjl086Cgp
-	muA024wK9/TCiGlEo9eEQaNP7G6e90T9itDFGdwTvA==
-X-Google-Smtp-Source: ADUXVKIafSt5YXn8/vXIqMiAq2bXWuE/qHsfQrsRvbqlHmJ5s6oljF6RrOZBaOWpJ2WdVT4EMRmmn9XtQzrAo5IzNw0=
-X-Received: by 2002:aca:5406:: with SMTP id
-	i6-v6mr9813738oib.115.1529413101762; 
-	Tue, 19 Jun 2018 05:58:21 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=NlR9KfiJsfj1IP7/hrgsSImyDz4bgvzp2Qy1cooWtfk=;
+	b=BJfBeqBIv+sbqN+bV9CWYkKVUu8PDuMyXeQ53/2weAK+CocHM1Kw9QKRIS1Leu1js+
+	qdun+c9eQouf+XfCstPnk/B0kBoyQPiokflRGZ5xWK4UQ7UtM9nBwiYWLrT+S4aesDnM
+	+60f9GFmFPEievLq/PKWKhC6OMfXKEa5fGkmakmV/V4aGN26JHv51PvIzefbk6ucJGH8
+	fSsJLUCLQttBtr0alifkctV4NnhOB1moBSzRE/c5H4rv37HXkZlwQ8OeNzJXFcHHqz7B
+	c+FImHThgJTyyukU3sQqiLU16OsjZ6jdiwcy2S44Qx+dSJuLHl5NmVMuUiElHsKFMktq
+	mSdA==
+X-Gm-Message-State: APt69E2rVwUM21IZ3WXNGUytPu9BZ+zt2UqwrGq+T4MoUcNwdIQlcTLv
+	18X49+inL0RdnXw+5EEsxd0njv/PRd4+M3Xi3DFftDk=
+X-Google-Smtp-Source: ADUXVKJqxWWxih1X1BcmI54qsfXV5rCZco3ICjZSlADg8D5QRQUxAUciY2Xlfbx1dqPk4j07VZJjCIDH0rGlhgaGkik=
+X-Received: by 2002:adf:f090:: with SMTP id
+	n16-v6mr14954599wro.49.1529413613398; 
+	Tue, 19 Jun 2018 06:06:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 05:58:00
+Received: by 2002:a1c:3e0b:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 06:06:52
 	-0700 (PDT)
-In-Reply-To: <CAJTo0LZC5jksFKf9E3vxZbQr9EEdE_gK9wC=v84z6Q9jgQgSTw@mail.gmail.com>
-References: <1529328356-10653-1-git-send-email-akuster808@gmail.com>
-	<CAJTo0LZC5jksFKf9E3vxZbQr9EEdE_gK9wC=v84z6Q9jgQgSTw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Jun 2018 13:58:00 +0100
-Message-ID: <CAJTo0LbRnv-rBa2C03hbdgeqcXt7bTZY36sqZMuk9UzLwrG+9Q@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+In-Reply-To: <20180619114512.11699-3-richard.purdie@linuxfoundation.org>
+References: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
+	<20180619114512.11699-3-richard.purdie@linuxfoundation.org>
+From: Paulo Neves <ptsneves@gmail.com>
+Date: Tue, 19 Jun 2018 15:06:52 +0200
+Message-ID: <CAJO0J4hDdQbK_2jzo_ehd0so1SjWnq2RgT5ESdg7JAfAc8Pvew@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [V5][PATCH] bind: update to 9.12.1
+Subject: Re: [PATCH 3/3] image/testimage: Rework auto image test execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,508 +57,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 12:58:21 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 13:06:53 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Also adding python3 to PACKAGECONFIG just adds a python3-bind package
-with some dnssec binaries in.  Is this intentional?  What happened to
-the isc module that was built in 9.10?
+I support this patch and I see that one of the problems in sumo is
+fixed, namely the HOSTTOOLS missing ip and ping.
+Even so there is one HOSTTOOLS that is missing, ifconfig. As far as I
+know the automatic network setup scripts of runqemu require ifconfig
+for 192.168.7.1 tap setting. Without ifconfig the virtual machine
+cannot be spawned.
 
-Ross
+Also, given the lack of the HOSTTOOLS in the sumo version i have, how
+is this being tested?
 
-On 19 June 2018 at 13:51, Burton, Ross <ross.burton@intel.com> wrote:
-> This still puts /usr/bin/mdig in bind whereas /usr/bin/dig is in
-> bind-utils, which doesn't seem right.
+I also would like to discuss the possibility of testing u-boot in a
+virtual machine. I have a setup where I am able to pass to qemu,
+u-boot.bin as a bios file, and then I am able to boot from tftp
+enabled qemu network device. This allows for unification of test setup
+of virtualized and real target booting. Do you have any integration
+like this in the plans?
+
+Paulo Neves
+
+On Tue, Jun 19, 2018 at 1:45 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> The TEST_IMAGE interface has never particularly worked and image testing currently
+> gets configured manually.
 >
-> Ross
+> This reworks the interface to better serve the needs of its users, replacing it
+> with TESTIMAGE_AUTO.
 >
-> On 18 June 2018 at 14:25, Armin Kuster <akuster808@gmail.com> wrote:
->> LIC_FILES_CHKSUM changed do to updated year
->>
->> removed:
->> dont-test-on-host.patch, no longer implemented
->> drop use-python3-and-fix-install-lib-path.patch, they added the ability =
-to pass in lib dir loctions
->> drop bind-confgen-build-unix.o-once.patch, fix included in update
->>
->> Refresh other patches:
->> add python3 flag for PACKAGECONFIG to pull in python
->> add new config option --with-eddsa=3D
->>
->> [v2]
->> Remove python3 in default PACKACKECONFIG
->> include https://patchwork.openembedded.org/patch/148257/
->> Because of the newly added dependency on meta-python, the python(3)
->> packageconfig is no longer "default-on".
->>
->> Signed-off-by: Martin Hundeb=C3=B8ll <mnhu@prevas.dk>
->>
->> [v3]
->> Made formating and spelling changes per Martin
->>
->> [v4]
->> Minor typo fixes
->> cleanup python3 support
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> Acked-by: Martin Hundeb=C3=B8ll <mnhu@prevas.dk>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  ...0001-build-use-pkg-config-to-find-libxml2.patch | 13 +++---
->>  ...-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch | 13 +++---
->>  .../0001-lib-dns-gen.c-fix-too-long-error.patch    | 13 +++---
->>  .../bind/bind/bind-confgen-build-unix.o-once.patch | 48 ---------------=
--------
->>  ...-searching-for-json-headers-searches-sysr.patch | 13 +++---
->>  .../bind/bind/dont-test-on-host.patch              | 17 --------
->>  .../use-python3-and-fix-install-lib-path.patch     | 36 ---------------=
--
->>  .../bind/{bind_9.10.6.bb =3D> bind_9.12.1.bb}        | 41 ++++++++++---=
------
->>  8 files changed, 44 insertions(+), 150 deletions(-)
->>  delete mode 100644 meta/recipes-connectivity/bind/bind/bind-confgen-bui=
-ld-unix.o-once.patch
->>  delete mode 100644 meta/recipes-connectivity/bind/bind/dont-test-on-hos=
-t.patch
->>  delete mode 100644 meta/recipes-connectivity/bind/bind/use-python3-and-=
-fix-install-lib-path.patch
->>  rename meta/recipes-connectivity/bind/{bind_9.10.6.bb =3D> bind_9.12.1.=
-bb} (75%)
->>
->> diff --git a/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-conf=
-ig-to-find-libxml2.patch b/meta/recipes-connectivity/bind/bind/0001-build-u=
-se-pkg-config-to-find-libxml2.patch
->> index 1e23c0f..6d73e18 100644
->> --- a/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-f=
-ind-libxml2.patch
->> +++ b/meta/recipes-connectivity/bind/bind/0001-build-use-pkg-config-to-f=
-ind-libxml2.patch
->> @@ -15,11 +15,11 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>   configure.in | 23 +++--------------------
->>   1 file changed, 3 insertions(+), 20 deletions(-)
->>
->> -diff --git a/configure.in b/configure.in
->> -index 4da73a4..6f2a754 100644
->> ---- a/configure.in
->> -+++ b/configure.in
->> -@@ -2282,26 +2282,9 @@ case "$use_libxml2" in
->> +Index: bind-9.12.1/configure.in
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +--- bind-9.12.1.orig/configure.in
->> ++++ bind-9.12.1/configure.in
->> +@@ -2569,26 +2569,9 @@ case "$use_libxml2" in
->>                 DST_LIBXML2_INC=3D""
->>                 ;;
->>         auto|yes)
->> @@ -49,6 +49,3 @@ index 4da73a4..6f2a754 100644
->>                 fi
->>                 ;;
->>   esac
->> ---
->> -2.1.4
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNA=
-MESIZE-from-256-to-512.patch b/meta/recipes-connectivity/bind/bind/0001-gen=
-.c-extend-DIRNAMESIZE-from-256-to-512.patch
->> index 1215093..9d87303 100644
->> --- a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-=
-from-256-to-512.patch
->> +++ b/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-=
-from-256-to-512.patch
->> @@ -7,11 +7,11 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>   lib/dns/gen.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> -diff --git a/lib/dns/gen.c b/lib/dns/gen.c
->> -index 7a7dafb..51a0435 100644
->> ---- a/lib/dns/gen.c
->> -+++ b/lib/dns/gen.c
->> -@@ -148,7 +148,7 @@ static const char copyright[] =3D
->> +Index: bind-9.12.1/lib/dns/gen.c
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +--- bind-9.12.1.orig/lib/dns/gen.c
->> ++++ bind-9.12.1/lib/dns/gen.c
->> +@@ -130,7 +130,7 @@ static const char copyright[] =3D
->>   #define TYPECLASSBUF (TYPECLASSLEN + 1)
->>   #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
->>   #define ATTRIBUTESIZE 256
->> @@ -20,6 +20,3 @@ index 7a7dafb..51a0435 100644
->>
->>   static struct cc {
->>         struct cc *next;
->> ---
->> -1.9.1
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-=
-too-long-error.patch b/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen=
-.c-fix-too-long-error.patch
->> index 1ed858c..1e34746 100644
->> --- a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-lon=
-g-error.patch
->> +++ b/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-lon=
-g-error.patch
->> @@ -13,11 +13,11 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.co=
-m>
->>   lib/dns/gen.c |    4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> -diff --git a/lib/dns/gen.c b/lib/dns/gen.c
->> -index 51a0435..3d7214f 100644
->> ---- a/lib/dns/gen.c
->> -+++ b/lib/dns/gen.c
->> -@@ -148,7 +148,11 @@ static const char copyright[] =3D
->> +Index: bind-9.12.1/lib/dns/gen.c
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +--- bind-9.12.1.orig/lib/dns/gen.c
->> ++++ bind-9.12.1/lib/dns/gen.c
->> +@@ -130,7 +130,11 @@ static const char copyright[] =3D
->>   #define TYPECLASSBUF (TYPECLASSLEN + 1)
->>   #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
->>   #define ATTRIBUTESIZE 256
->> @@ -29,6 +29,3 @@ index 51a0435..3d7214f 100644
->>
->>   static struct cc {
->>         struct cc *next;
->> ---
->> -1.7.9.5
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix=
-.o-once.patch b/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix=
-.o-once.patch
->> deleted file mode 100644
->> index 8bc4ea3..0000000
->> --- a/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once=
-.patch
->> +++ /dev/null
->> @@ -1,48 +0,0 @@
->> -From 9b40619ff6fddfef2758ba797789f8487f412df3 Mon Sep 17 00:00:00 2001
->> -From: Robert Yang <liezhi.yang@windriver.com>
->> -Date: Mon, 16 Feb 2015 00:50:01 -0800
->> -Subject: [PATCH] confgen: don't build unix.o twice
->> -
->> -Fixed:
->> -unix/os.o: file not recognized: File truncated
->> -collect2: error: ld returned 1 exit status
->> -
->> -This is because os.o was built twice:
->> -* The implicity rule (depends on unix/os.o)
->> -* The "make all" in unix subdir (depends on unix/os.o)
->> -
->> -Depend on subdirs which is unix only rather than unix/os.o will fix the
->> -problem.
->> -
->> -Upstream-Status: Pending
->> -
->> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> -
->> -Update context(trailing whitespace) for version 9.10.5-P3.
->> -
->> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ----
->> - bin/confgen/Makefile.in |    4 ++--
->> - 1 file changed, 2 insertions(+), 2 deletions(-)
->> -
->> -diff --git a/bin/confgen/Makefile.in b/bin/confgen/Makefile.in
->> -index dca272f..02becce 100644
->> ---- a/bin/confgen/Makefile.in
->> -+++ b/bin/confgen/Makefile.in
->> -@@ -74,11 +74,11 @@ rndc-confgen.@O@: rndc-confgen.c
->> - ddns-confgen.@O@: ddns-confgen.c
->> -       ${LIBTOOL_MODE_COMPILE} ${CC} ${ALL_CFLAGS} -c ${srcdir}/ddns-co=
-nfgen.c
->> -
->> --rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${=
-CONFDEPLIBS}
->> -+rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLI=
-BS} $(SUBDIRS)
->> -       export BASEOBJS=3D"rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}=
-"; \
->> -       ${FINALBUILDCMD}
->> -
->> --ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${=
-CONFDEPLIBS}
->> -+ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLI=
-BS} $(SUBDIRS)
->> -       export BASEOBJS=3D"ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}=
-"; \
->> -       ${FINALBUILDCMD}
->> -
->> ---
->> -1.7.9.5
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-f=
-or-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/b=
-ind-ensure-searching-for-json-headers-searches-sysr.patch
->> index 13df3bb..55ed504 100644
->> --- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json=
--headers-searches-sysr.patch
->> +++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json=
--headers-searches-sysr.patch
->> @@ -31,11 +31,11 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windri=
-ver.com>
->>   configure.in | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> -diff --git a/configure.in b/configure.in
->> -index c9ef3a601343..17a1f613e9ac 100644
->> ---- a/configure.in
->> -+++ b/configure.in
->> -@@ -2139,7 +2139,7 @@ case "$use_libjson" in
->> +Index: bind-9.12.1/configure.in
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +--- bind-9.12.1.orig/configure.in
->> ++++ bind-9.12.1/configure.in
->> +@@ -2610,7 +2610,7 @@ case "$use_libjson" in
->>                 libjson_libs=3D""
->>                 ;;
->>         auto|yes)
->> @@ -44,6 +44,3 @@ index c9ef3a601343..17a1f613e9ac 100644
->>                 do
->>                         if test -f "${d}/include/json/json.h"
->>                         then
->> ---
->> -2.4.2
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch=
- b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
->> deleted file mode 100644
->> index b02ecb1..0000000
->> --- a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
->> +++ /dev/null
->> @@ -1,17 +0,0 @@
->> -Upstream-Status: Pending
->> -
->> -Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> -
->> -Index: bind-9.9.5/bin/Makefile.in
->> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> ---- bind-9.9.5.orig/bin/Makefile.in
->> -+++ bind-9.9.5/bin/Makefile.in
->> -@@ -19,7 +19,7 @@ srcdir =3D     @srcdir@
->> - VPATH =3D               @srcdir@
->> - top_srcdir =3D  @top_srcdir@
->> -
->> --SUBDIRS =3D     named rndc dig delv dnssec tools tests nsupdate \
->> -+SUBDIRS =3D     named rndc dig delv dnssec tools nsupdate \
->> -               check confgen @PYTHON_TOOLS@ @PKCS11_TOOLS@
->> - TARGETS =3D
->> -
->> diff --git a/meta/recipes-connectivity/bind/bind/use-python3-and-fix-ins=
-tall-lib-path.patch b/meta/recipes-connectivity/bind/bind/use-python3-and-f=
-ix-install-lib-path.patch
->> deleted file mode 100644
->> index 9829f15..0000000
->> --- a/meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-li=
-b-path.patch
->> +++ /dev/null
->> @@ -1,36 +0,0 @@
->> -Use python3 rather default python which maybe links to python2 for oe. =
-And add
->> -option for setup.py to install files to right directory.
->> -
->> -Upstream-Status: Inappropriate [OE specific]
->> -
->> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ----
->> -diff --git a/bin/python/Makefile.in b/bin/python/Makefile.in
->> -index a43a3c1..2e727f2 100644
->> ---- a/bin/python/Makefile.in
->> -+++ b/bin/python/Makefile.in
->> -@@ -55,9 +55,9 @@ install:: ${TARGETS} installdirs
->> -       ${INSTALL_DATA} ${srcdir}/dnssec-coverage.8 ${DESTDIR}${mandir}/=
-man8
->> -       if test -n "${PYTHON}" ; then \
->> -               if test -n "${DESTDIR}" ; then \
->> --                      ${PYTHON} ${srcdir}/setup.py install --root=3D${=
-DESTDIR} --prefix=3D${prefix} ; \
->> -+                      ${PYTHON} ${srcdir}/setup.py install --root=3D${=
-DESTDIR} --prefix=3D${prefix} --install-lib=3D${PYTHON_SITEPACKAGES_DIR} ; =
-\
->> -               else \
->> --                      ${PYTHON} ${srcdir}/setup.py install --prefix=3D=
-${prefix} ; \
->> -+                      ${PYTHON} ${srcdir}/setup.py install --prefix=3D=
-${prefix} --install-lib=3D${PYTHON_SITEPACKAGES_DIR} ; \
->> -               fi \
->> -       fi
->> -
->> -diff --git a/configure.in b/configure.in
->> -index 314bb90..867923e 100644
->> ---- a/configure.in
->> -+++ b/configure.in
->> -@@ -227,7 +227,7 @@ AC_ARG_WITH(python,
->> - [  --with-python=3DPATH      specify path to python interpreter],
->> -     use_python=3D"$withval", use_python=3D"unspec")
->> -
->> --python=3D"python python3 python3.5 python3.4 python3.3 python3.2 pytho=
-n2 python2.7"
->> -+python=3D"python3 python3.5 python3.4 python3.3 python3.2 python2 pyth=
-on2.7"
->> -
->> - testargparse=3D'try: import argparse
->> - except: exit(1)'
->> diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipe=
-s-connectivity/bind/bind_9.12.1.bb
->> similarity index 75%
->> rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
->> rename to meta/recipes-connectivity/bind/bind_9.12.1.bb
->> index 20c8d7b..567e843 100644
->> --- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
->> +++ b/meta/recipes-connectivity/bind/bind_9.12.1.bb
->> @@ -3,42 +3,38 @@ HOMEPAGE =3D "http://www.isc.org/sw/bind/"
->>  SECTION =3D "console/network"
->>
->>  LICENSE =3D "ISC & BSD"
->> -LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3Ddba46507446198119bcde32a4f=
-eaab43"
->> +LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3D6ba7c9fe0c888a943c79c93e6d=
-e744fb"
->>
->> -DEPENDS =3D "openssl libcap"
->> +DEPENDS =3D "openssl libcap zlib"
->>
->>  SRC_URI =3D "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
->>             file://conf.patch \
->>             file://make-etc-initd-bind-stop-work.patch \
->> -           file://dont-test-on-host.patch \
->>             file://generate-rndc-key.sh \
->>             file://named.service \
->>             file://bind9 \
->>             file://init.d-add-support-for-read-only-rootfs.patch \
->> -           file://bind-confgen-build-unix.o-once.patch \
->>             file://0001-build-use-pkg-config-to-find-libxml2.patch \
->>             file://bind-ensure-searching-for-json-headers-searches-sysr.=
-patch \
->>             file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
->>             file://0001-lib-dns-gen.c-fix-too-long-error.patch \
->> -           file://use-python3-and-fix-install-lib-path.patch \
->>             "
->>
->> -SRC_URI[md5sum] =3D "84e663284b17aee0df1ce6f248b137d7"
->> -SRC_URI[sha256sum] =3D "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073=
-d1e0d050fdf47e69d"
->> +SRC_URI[md5sum] =3D "ec20f2d6aff50651296fad962d19ccfa"
->> +SRC_URI[sha256sum] =3D "16e446425c35e48b651ddf1171d2115ebf32b07670b652e=
-1030a174038937510"
->>
->>  UPSTREAM_CHECK_URI =3D "https://ftp.isc.org/isc/bind9/"
->>  UPSTREAM_CHECK_REGEX =3D "(?P<pver>9(\.\d+)+(-P\d+)*)/"
->>
->> -
->>  ENABLE_IPV6 =3D "--enable-ipv6=3D${@bb.utils.contains('DISTRO_FEATURES'=
-, 'ipv6', 'yes', 'no', d)}"
->>  EXTRA_OECONF =3D " ${ENABLE_IPV6} --with-libtool --enable-threads \
->>                   --disable-devpoll --enable-epoll --with-gost=3Dno \
->> -                 --with-gssapi=3Dno --with-ecdsa=3Dyes \
->> +                 --with-gssapi=3Dno --with-ecdsa=3Dyes --with-eddsa=3Dn=
-o \
->>                   --sysconfdir=3D${sysconfdir}/bind \
->>                   --with-openssl=3D${STAGING_DIR_HOST}${prefix} \
->>                 "
->>
->> -inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
->> +inherit autotools update-rc.d systemd useradd pkgconfig
->>
->>  export PYTHON_SITEPACKAGES_DIR
->>
->> @@ -48,6 +44,9 @@ PACKAGECONFIG[httpstats] =3D "--with-libxml2,--without=
--libxml2,libxml2"
->>  PACKAGECONFIG[readline] =3D "--with-readline=3D-lreadline,,readline"
->>  PACKAGECONFIG[libedit] =3D "--with-readline=3D-ledit,,libedit"
->>  PACKAGECONFIG[urandom] =3D "--with-randomdev=3D/dev/urandom,--with-rand=
-omdev=3D/dev/random,,"
->> +PACKAGECONFIG[python3] =3D "--with-python=3D${PYTHON} --with-python-ins=
-tall-dir=3D${sbindr} , --without-python, python3-ply-native, python3"
->> +
->> +inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native=
-', '', d)}
->>
->>  USERADD_PACKAGES =3D "${PN}"
->>  USERADD_PARAM_${PN} =3D "--system --home ${localstatedir}/cache/bind --=
-no-create-home \
->> @@ -60,17 +59,22 @@ SYSTEMD_SERVICE_${PN} =3D "named.service"
->>
->>  PARALLEL_MAKE =3D ""
->>
->> -RDEPENDS_${PN} =3D "python3-core"
->>  RDEPENDS_${PN}-dev =3D ""
->>
->>  PACKAGE_BEFORE_PN +=3D "${PN}-utils"
->>  FILES_${PN}-utils =3D "${bindir}/host ${bindir}/dig"
->>  FILES_${PN}-dev +=3D "${bindir}/isc-config.h"
->> -FILES_${PN} +=3D "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES=
-_DIR}"
->> +FILES_${PN} +=3D "${sbindir}/generate-rndc-key.sh"
->>
->>  PACKAGE_BEFORE_PN +=3D "${PN}-libs"
->>  FILES_${PN}-libs =3D "${libdir}/*.so*"
->>
->> +PACKAGES =3D+ "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python=
-3-bind ', '', d)}"
->> +FILES_python3-bind =3D "${sbindir}/dnssec-coverage ${sbindir}/dnssec-ch=
-eckds \
->> +                ${sbindir}/dnssec-keymgr"
->> +RDEPENDS_python3-bind =3D "python3-core"
->> +
->> +
->>  do_install_prepend() {
->>         # clean host path in isc-config.sh before the hardlink created
->>         # by "make install":
->> @@ -88,16 +92,21 @@ do_install_append() {
->>         install -d "${D}${sysconfdir}/init.d"
->>         install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
->>         install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
->> -       sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/d=
-nssec-coverage ${D}${sbindir}/dnssec-checkds
->>
->> +       if ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'true', 'fal=
-se', d)}; then
->> +               sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' \
->> +               ${D}${sbindir}/dnssec-coverage \
->> +               ${D}${sbindir}/dnssec-checkds \
->> +               ${D}${sbindir}/dnssec-keymgr
->> +       fi
->>         # Install systemd related files
->>         install -d ${D}${sbindir}
->>         install -m 755 ${WORKDIR}/generate-rndc-key.sh ${D}${sbindir}
->>         install -d ${D}${systemd_unitdir}/system
->>         install -m 0644 ${WORKDIR}/named.service ${D}${systemd_unitdir}/=
-system
->>         sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
->> -              -e 's,@SBINDIR@,${sbindir},g' \
->> -              ${D}${systemd_unitdir}/system/named.service
->> +               -e 's,@SBINDIR@,${sbindir},g' \
->> +               ${D}${systemd_unitdir}/system/named.service
->>
->>         install -d ${D}${sysconfdir}/default
->>         install -m 0644 ${WORKDIR}/bind9 ${D}${sysconfdir}/default
->> @@ -106,8 +115,6 @@ do_install_append() {
->>                 install -d ${D}${sysconfdir}/tmpfiles.d
->>                 echo "d /run/named 0755 bind bind - -" > ${D}${sysconfdi=
-r}/tmpfiles.d/bind.conf
->>         fi
->> -
->> -    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/isc/*.pyc
->>  }
->>
->>  CONFFILES_${PN} =3D " \
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> This does away with the need for the separate class due to better bitbake APIs for
+> changing tasks.
+>
+> TESTIMAGE_AUTO will automatically boot under qemu any image that is built. It
+> also adds in dependencies so that any SDK for which testing is requested will
+> automatically be built first.
+>
+> The code in bitbake.conf was error prone (e.g. testsdk wasn't considered), this
+> improves it to standardise on IMAGE_CLASSES as the standard configuration mechanism.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/image.bbclass          |  1 -
+>  meta/classes/testimage-auto.bbclass | 23 -----------------------
+>  meta/classes/testimage.bbclass      | 10 +++++++++-
+>  meta/classes/testsdk.bbclass        |  5 +++++
+>  meta/conf/bitbake.conf              |  2 +-
+>  meta/conf/documentation.conf        |  2 +-
+>  meta/conf/local.conf.sample         | 10 ++++++----
+>  7 files changed, 22 insertions(+), 31 deletions(-)
+>  delete mode 100644 meta/classes/testimage-auto.bbclass
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index c4fc457985b..24c1a983f3e 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -6,7 +6,6 @@ IMGCLASSES += "${@['populate_sdk_base', 'populate_sdk_ext']['linux' in d.getVar(
+>  IMGCLASSES += "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso hddimg', 'image-live', '', d)}"
+>  IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-container', '', d)}"
+>  IMGCLASSES += "image_types_wic"
+> -IMGCLASSES += "${@oe.utils.conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
+>  IMGCLASSES += "rootfs-postcommands"
+>  inherit ${IMGCLASSES}
+>
+> diff --git a/meta/classes/testimage-auto.bbclass b/meta/classes/testimage-auto.bbclass
+> deleted file mode 100644
+> index e0a22b773c8..00000000000
+> --- a/meta/classes/testimage-auto.bbclass
+> +++ /dev/null
+> @@ -1,23 +0,0 @@
+> -# Copyright (C) 2013 Intel Corporation
+> -#
+> -# Released under the MIT license (see COPYING.MIT)
+> -
+> -
+> -# Run tests automatically on an image after the image is constructed
+> -# (as opposed to testimage.bbclass alone where tests must be called
+> -# manually using bitbake -c testimage <image>).
+> -#
+> -# NOTE: to use this class, simply set TEST_IMAGE = "1" - no need to
+> -# inherit it since that will be done in image.bbclass when this variable
+> -# has been set.
+> -#
+> -# See testimage.bbclass for the test implementation.
+> -
+> -inherit testimage
+> -
+> -python do_testimage_auto() {
+> -    testimage_main(d)
+> -}
+> -addtask testimage_auto before do_build after do_image_complete
+> -do_testimage_auto[depends] += "${TESTIMAGEDEPENDS}"
+> -do_testimage_auto[lockfiles] += "${TESTIMAGELOCK}"
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index c17a7c604b4..1be22f63047 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -10,6 +10,11 @@
+>  # - first add IMAGE_CLASSES += "testimage" in local.conf
+>  # - build a qemu core-image-sato
+>  # - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
+> +#
+> +# The tests can be run automatically each time an image is built if you set
+> +# TESTIMAGE_AUTO = "1"
+> +
+> +TESTIMAGE_AUTO ??= "0"
+>
+>  # You can set (or append to) TEST_SUITES in local.conf to select the tests
+>  # which you want to run for your target.
+> @@ -382,4 +387,7 @@ def package_extraction(d, test_suites):
+>
+>  testimage_main[vardepsexclude] += "BB_ORIGENV DATETIME"
+>
+> -inherit testsdk
+> +python () {
+> +    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO")):
+> +        bb.build.addtask("testimage", "do_build", "do_image_complete", d)
+> +}
+> diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+> index 2e43343643e..f12725cbab8 100644
+> --- a/meta/classes/testsdk.bbclass
+> +++ b/meta/classes/testsdk.bbclass
+> @@ -194,3 +194,8 @@ python do_testsdkext() {
+>  addtask testsdkext
+>  do_testsdkext[nostamp] = "1"
+>
+> +python () {
+> +    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO")):
+> +        bb.build.addtask("testsdk", None, "do_populate_sdk", d)
+> +        bb.build.addtask("testsdkext", None, "do_populate_sdk_ext", d)
+> +}
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 3b2ef9fb47c..c4dba61cc6b 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -487,7 +487,7 @@ HOSTTOOLS += " \
+>  "
+>
+>  # Tools needed to run testimage runtime image testing
+> -HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE') == '1') else ''}"
+> +HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d)) else ''}"
+>
+>  # Link to these if present
+>  HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index 3189dd39b72..fc6d008807b 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -415,7 +415,7 @@ TARGET_PREFIX[doc] = "The prefix for the cross-compile toolchain (e.g. arm-linux
+>  TARGET_SYS[doc] = "The target system is comprised of TARGET_ARCH,TARGET_VENDOR and TARGET_OS."
+>  TCLIBC[doc] = "Specifies C library (libc) variant to use during the build process. You can select 'baremetal', 'glibc' or 'musl'."
+>  TCMODE[doc] = "Enables an external toolchain (where provided by an additional layer) if set to a value other than 'default'."
+> -TEST_IMAGE[doc] = "Enables test booting of virtual machine images under the QEMU emulator after any root filesystems are created and runs tests against those images."
+> +TESTIMAGE_AUTO[doc] = "Enables test booting of virtual machine images under the QEMU emulator after any root filesystems are created and runs tests against those images each time an image is built."
+>  TEST_QEMUBOOT_TIMEOUT[doc] = "The time in seconds allowed for an image to boot before automated runtime tests begin to run against an image."
+>  TEST_SUITES[doc] = "An ordered list of tests (modules) to run against an image when performing automated runtime testing."
+>  TEST_POWERCONTROL_CMD[doc] = "For automated hardware testing, specifies the command to use to control the power of the target machine under test"
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 17cdd7046e5..1ac4156b903 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -135,10 +135,12 @@ USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+>  # Runtime testing of images
+>  #
+>  # The build system can test booting virtual machine images under qemu (an emulator)
+> -# after any root filesystems are created and run tests against those images. To
+> -# enable this uncomment this line. See classes/testimage(-auto).bbclass for
+> -# further details.
+> -#TEST_IMAGE = "1"
+> +# after any root filesystems are created and run tests against those images. It can also
+> +# run tests against any SDK that are built. To enable this uncomment these lines.
+> +# See classes/test{image,sdk}.bbclass for further details.
+> +#IMAGE_CLASSES += "testimage testsdk"
+> +#TESTIMAGE_AUTO_qemuall = "1"
+> +
+>  #
+>  # Interactive shell configuration
+>  #
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
