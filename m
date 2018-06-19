@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E9E68754A8
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 38498754C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 11:45:14 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id v13-v6so20197704wrp.13
+	Tue, 19 Jun 2018 11:45:16 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id v131-v6so21461161wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 04:45:16 -0700 (PDT)
+	Tue, 19 Jun 2018 04:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WPkTq6sYkQz5C31UMqbBj+wUhcaKfb8/dbYxmE06gS0=;
-	b=USkmue7XgOWYsh3Z7hvD2SjvN511tKNMLNIy2eHZcber2b/V3is/bxX/lLTXhpc5IQ
-	8aBknH2VRZCT5o+rA1NH6Mpx3OQJvxCb781zJr5DdGa91Lsr7gfaheG1bpRvkPSkSuFs
-	nbdQLa2wPKshohpEWof/CwJimA1Ly8zVsFqy4=
+	bh=xGxY3rgoCY6acGQWpzcMrF6WNtMX7UgoSlv/HitlOBs=;
+	b=Ig5U++f6jictGU1SvyvT+GW7zQ2wscrf1kRpmB+U2RHV6hIWsufXO2HBXCCbzvr3ij
+	hHTsLv6HOLtDUVHaXfCNKu+JF7y7ad9XjL0L6ddfRDUyCTxFBPMFT3UsAtDaVNTBGT/S
+	e4MAyl4r08eyquG7W7SX9LEPvqnFmM+EfBcwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=WPkTq6sYkQz5C31UMqbBj+wUhcaKfb8/dbYxmE06gS0=;
-	b=m7aQcH3Bu5L1ncLFpoUu5I04W15sT7FYRxppfDXyWmz/T8lS8JL7yzJgYR5Mcz4ii7
-	QS9hKj+QyYv9C72bVg/O/8YomNfwpDhcp2PmIwyVmZwsBGuHdM/FIzyv7snpf0k/zPzE
-	tlSVbPubGrsQxqW7/70LMiih5mBLDRkHBjgue3ckGpg+5P5pESTobS/OOSJlkzOwyjpX
-	gGQPMY08xnNvplxu92Lzb+6rya2PNgN55/PIKFBovOt7X2Q2kD5FOhqdCOrLzbVT3dGh
-	f8VU5jolK5YEYZpaJ6hgRJubEni0fyoqEyEzpCGfWRjLsF7MpNIvZfxPgLXs+Cg0divX
-	PvxQ==
-X-Gm-Message-State: APt69E0Oh8fuIQOiWPB0yREfxt2u4JLSDIUtiV+KGR9xZwkSjcCnIgIO
-	5RbQMPsbY5pnK/9n+scJ9dnTTTxKAj8=
-X-Google-Smtp-Source: ADUXVKLVjHcuYRoKvwOSgrnWqCOgS7cLaKx8hZZAIa/0TsCLR0S/qgwCa3VgOWnom5oOoPbUQwrXyg==
-X-Received: by 2002:adf:e94e:: with SMTP id
-	m14-v6mr13837077wrn.126.1529408715206; 
-	Tue, 19 Jun 2018 04:45:15 -0700 (PDT)
+	bh=xGxY3rgoCY6acGQWpzcMrF6WNtMX7UgoSlv/HitlOBs=;
+	b=s+4r2juiPMWB9MehIEmJx1xoh5Zcxx97EVyiYOzoFAUjo8l2d45nrM3BtJX7/qU3qR
+	iuwYzUpByxcciSDzGyn2A8vDYVszOHDgL7wE8b6jHjX4rij6BU+H7+8Lc1LE1lUwWCHQ
+	Wtqm39//r2RWdZswN2IZNpQbFkyGu8dATQNTJOHy1gYBrm7mL8jGQR0jOg4z8pJIJLha
+	4nqpoQGfk6+fcUwEsbh2puji6AhaE5OCVAa0ePPUwlWs0BTYxjQlgA5vN3Wv7jmR1nAz
+	72zOmZVMzl/5tvHkX3feYfwCjbMbLbzOJ7H9vpHh5L9ZwlWTtniopcD49+BBsTNsjKl0
+	iETA==
+X-Gm-Message-State: APt69E3T1vqyothhSQ0wrkiGcCswhWKj4mObzqOaliCr1haPn8c/gSpJ
+	76E3qqYCZUCGSvcv+dGOt1Na5juzfrE=
+X-Google-Smtp-Source: ADUXVKLBnSaCisZp4jeYLRYdzzQk8GEAUIEOChqyhIOP9EIcXTKgyJa8UXJLXvKYoLbNXRPu2jSWrg==
+X-Received: by 2002:a1c:7192:: with SMTP id
+	d18-v6mr11351932wmi.115.1529408716590; 
+	Tue, 19 Jun 2018 04:45:16 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	n18-v6sm22065902wrj.58.2018.06.19.04.45.13
+	n18-v6sm22065902wrj.58.2018.06.19.04.45.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Jun 2018 04:45:14 -0700 (PDT)
+	Tue, 19 Jun 2018 04:45:15 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2018 12:45:11 +0100
-Message-Id: <20180619114512.11699-2-richard.purdie@linuxfoundation.org>
+Date: Tue, 19 Jun 2018 12:45:12 +0100
+Message-Id: <20180619114512.11699-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
 References: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/3] image/image-live: Improve handling of live/iso/hddimg types (drop NOISO/NOHDD)
+Subject: [PATCH 3/3] image/testimage: Rework auto image test execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,106 +56,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 11:45:15 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 11:45:16 -0000
 
-The logic can be improved and the historical NOISO/NOHDD variables
-moved into the class and out of common code.
+The TEST_IMAGE interface has never particularly worked and image testing currently
+gets configured manually.
 
-The variables are also then removed in favour of directly controlling
-the behaviour from IMAGE_FSTYPES in line with all the other image types.
+This reworks the interface to better serve the needs of its users, replacing it
+with TESTIMAGE_AUTO.
+
+This does away with the need for the separate class due to better bitbake APIs for
+changing tasks.
+
+TESTIMAGE_AUTO will automatically boot under qemu any image that is built. It
+also adds in dependencies so that any SDK for which testing is requested will
+automatically be built first.
+
+The code in bitbake.conf was error prone (e.g. testsdk wasn't considered), this
+improves it to standardise on IMAGE_CLASSES as the standard configuration mechanism.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image-live.bbclass        |  8 +++-----
- meta/classes/image.bbclass             | 11 +----------
- meta/conf/documentation.conf           |  2 --
- meta/conf/machine/include/x86-base.inc |  3 +--
- 4 files changed, 5 insertions(+), 19 deletions(-)
+ meta/classes/image.bbclass          |  1 -
+ meta/classes/testimage-auto.bbclass | 23 -----------------------
+ meta/classes/testimage.bbclass      | 10 +++++++++-
+ meta/classes/testsdk.bbclass        |  5 +++++
+ meta/conf/bitbake.conf              |  2 +-
+ meta/conf/documentation.conf        |  2 +-
+ meta/conf/local.conf.sample         | 10 ++++++----
+ 7 files changed, 22 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/classes/testimage-auto.bbclass
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 966277c6785..942298a7ce3 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -19,8 +19,6 @@
- 
- # External variables (also used by syslinux.bbclass)
- # ${INITRD} - indicates a list of filesystem images to concatenate and use as an initrd (optional)
--# ${NOISO}  - skip building the ISO image if set to 1
--# ${NOHDD}  - skip building the HDD image if set to 1
- # ${HDDIMG_ID} - FAT image volume-id
- # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
- 
-@@ -80,8 +78,8 @@ populate_live() {
- }
- 
- build_iso() {
--	# Only create an ISO if we have an INITRD and NOISO was not set
--	if [ -z "${INITRD}" ] || [ "${NOISO}" = "1" ]; then
-+	# Only create an ISO if we have an INITRD and the live or iso image type was selected
-+	if [ -z "${INITRD}" ] || [ "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso', '1', '0', d)}" != "1" ]; then
- 		bbnote "ISO image will not be created."
- 		return
- 	fi
-@@ -217,7 +215,7 @@ build_fat_img() {
- 
- build_hddimg() {
- 	# Create an HDD image
--	if [ "${NOHDD}" != "1" ] ; then
-+	if [ "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live hddimg', '1', '0', d)}" = "1" ] ; then
- 		populate_live ${HDDDIR}
- 
- 		if [ "${PCBIOS}" = "1" ]; then
 diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index cc889cf5dfe..c4fc457985b 100644
+index c4fc457985b..24c1a983f3e 100644
 --- a/meta/classes/image.bbclass
 +++ b/meta/classes/image.bbclass
-@@ -1,18 +1,9 @@
--def build_live(d):
--    if bb.utils.contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
--        d.setVar('NOISO', bb.utils.contains('IMAGE_FSTYPES', "iso", "0", "1", d))
--        d.setVar('NOHDD', bb.utils.contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
--        if d.getVar('NOISO') == "0" or d.getVar('NOHDD') == "0":
--            return "image-live"
--        return ""
--    return "image-live"
--
- # Handle inherits of any of the image classes we need
- IMGCLASSES = "rootfs_${IMAGE_PKGTYPE} image_types ${IMAGE_CLASSES}"
- # Only Linux SDKs support populate_sdk_ext, fall back to populate_sdk_base
- # in the non-Linux SDK_OS case, such as mingw32
- IMGCLASSES += "${@['populate_sdk_base', 'populate_sdk_ext']['linux' in d.getVar("SDK_OS")]}"
--IMGCLASSES += "${@build_live(d)}"
-+IMGCLASSES += "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso hddimg', 'image-live', '', d)}"
+@@ -6,7 +6,6 @@ IMGCLASSES += "${@['populate_sdk_base', 'populate_sdk_ext']['linux' in d.getVar(
+ IMGCLASSES += "${@bb.utils.contains_any('IMAGE_FSTYPES', 'live iso hddimg', 'image-live', '', d)}"
  IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-container', '', d)}"
  IMGCLASSES += "image_types_wic"
- IMGCLASSES += "${@oe.utils.conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
+-IMGCLASSES += "${@oe.utils.conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
+ IMGCLASSES += "rootfs-postcommands"
+ inherit ${IMGCLASSES}
+ 
+diff --git a/meta/classes/testimage-auto.bbclass b/meta/classes/testimage-auto.bbclass
+deleted file mode 100644
+index e0a22b773c8..00000000000
+--- a/meta/classes/testimage-auto.bbclass
++++ /dev/null
+@@ -1,23 +0,0 @@
+-# Copyright (C) 2013 Intel Corporation
+-#
+-# Released under the MIT license (see COPYING.MIT)
+-
+-
+-# Run tests automatically on an image after the image is constructed
+-# (as opposed to testimage.bbclass alone where tests must be called
+-# manually using bitbake -c testimage <image>).
+-#
+-# NOTE: to use this class, simply set TEST_IMAGE = "1" - no need to
+-# inherit it since that will be done in image.bbclass when this variable
+-# has been set.
+-#
+-# See testimage.bbclass for the test implementation.
+-
+-inherit testimage
+-
+-python do_testimage_auto() {
+-    testimage_main(d)
+-}
+-addtask testimage_auto before do_build after do_image_complete
+-do_testimage_auto[depends] += "${TESTIMAGEDEPENDS}"
+-do_testimage_auto[lockfiles] += "${TESTIMAGELOCK}"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index c17a7c604b4..1be22f63047 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -10,6 +10,11 @@
+ # - first add IMAGE_CLASSES += "testimage" in local.conf
+ # - build a qemu core-image-sato
+ # - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
++#
++# The tests can be run automatically each time an image is built if you set
++# TESTIMAGE_AUTO = "1"
++
++TESTIMAGE_AUTO ??= "0"
+ 
+ # You can set (or append to) TEST_SUITES in local.conf to select the tests
+ # which you want to run for your target.
+@@ -382,4 +387,7 @@ def package_extraction(d, test_suites):
+ 
+ testimage_main[vardepsexclude] += "BB_ORIGENV DATETIME"
+ 
+-inherit testsdk
++python () {
++    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO")):
++        bb.build.addtask("testimage", "do_build", "do_image_complete", d)
++}
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 2e43343643e..f12725cbab8 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -194,3 +194,8 @@ python do_testsdkext() {
+ addtask testsdkext
+ do_testsdkext[nostamp] = "1"
+ 
++python () {
++    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO")):
++        bb.build.addtask("testsdk", None, "do_populate_sdk", d)
++        bb.build.addtask("testsdkext", None, "do_populate_sdk_ext", d)
++}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3b2ef9fb47c..c4dba61cc6b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -487,7 +487,7 @@ HOSTTOOLS += " \
+ "
+ 
+ # Tools needed to run testimage runtime image testing
+-HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE') == '1') else ''}"
++HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d)) else ''}"
+ 
+ # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
 diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 254f8f19604..3189dd39b72 100644
+index 3189dd39b72..fc6d008807b 100644
 --- a/meta/conf/documentation.conf
 +++ b/meta/conf/documentation.conf
-@@ -288,8 +288,6 @@ MULTIMACH_TARGET_SYS[doc] = "Separates files for different machines such that yo
- 
- NATIVELSBSTRING[doc] = "A string identifying the host distribution."
- NO_RECOMMENDATIONS[doc] = "When set to '1', no recommended packages will be installed. Realize that some recommended packages might be required for certain system functionality, such as kernel-modules. It is up to the user to add packages to IMAGE_INSTALL as needed."
--NOHDD[doc] = "Causes the OpenEmbedded build system to skip building the .hddimg image."
--NOISO[doc] = "Causes the OpenEmbedded build system to skip building the ISO image."
- 
- #O
- 
-diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
-index f8aacea64cc..0edcea7f561 100644
---- a/meta/conf/machine/include/x86-base.inc
-+++ b/meta/conf/machine/include/x86-base.inc
-@@ -10,8 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
- 
- MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
- 
--IMAGE_FSTYPES ?= "live"
--NOISO ?= "1"
-+IMAGE_FSTYPES ?= "hddimg"
- 
- KERNEL_IMAGETYPE ?= "bzImage"
- 
+@@ -415,7 +415,7 @@ TARGET_PREFIX[doc] = "The prefix for the cross-compile toolchain (e.g. arm-linux
+ TARGET_SYS[doc] = "The target system is comprised of TARGET_ARCH,TARGET_VENDOR and TARGET_OS."
+ TCLIBC[doc] = "Specifies C library (libc) variant to use during the build process. You can select 'baremetal', 'glibc' or 'musl'."
+ TCMODE[doc] = "Enables an external toolchain (where provided by an additional layer) if set to a value other than 'default'."
+-TEST_IMAGE[doc] = "Enables test booting of virtual machine images under the QEMU emulator after any root filesystems are created and runs tests against those images."
++TESTIMAGE_AUTO[doc] = "Enables test booting of virtual machine images under the QEMU emulator after any root filesystems are created and runs tests against those images each time an image is built."
+ TEST_QEMUBOOT_TIMEOUT[doc] = "The time in seconds allowed for an image to boot before automated runtime tests begin to run against an image."
+ TEST_SUITES[doc] = "An ordered list of tests (modules) to run against an image when performing automated runtime testing."
+ TEST_POWERCONTROL_CMD[doc] = "For automated hardware testing, specifies the command to use to control the power of the target machine under test"
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 17cdd7046e5..1ac4156b903 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -135,10 +135,12 @@ USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+ # Runtime testing of images
+ #
+ # The build system can test booting virtual machine images under qemu (an emulator)
+-# after any root filesystems are created and run tests against those images. To
+-# enable this uncomment this line. See classes/testimage(-auto).bbclass for
+-# further details.
+-#TEST_IMAGE = "1"
++# after any root filesystems are created and run tests against those images. It can also
++# run tests against any SDK that are built. To enable this uncomment these lines.
++# See classes/test{image,sdk}.bbclass for further details.
++#IMAGE_CLASSES += "testimage testsdk"
++#TESTIMAGE_AUTO_qemuall = "1"
++
+ #
+ # Interactive shell configuration
+ #
 -- 
 2.17.1
 
