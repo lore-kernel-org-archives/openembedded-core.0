@@ -1,52 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 32AC27543C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E730754A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 11:40:11 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id t22-v6so17835504oih.6
+	Tue, 19 Jun 2018 11:45:13 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id o13-v6so19325637wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 04:40:13 -0700 (PDT)
+	Tue, 19 Jun 2018 04:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=CakG62FB/WwUBR6aY1yLUq0x4REkZSGdRRgUed0QgDc=;
-	b=Y01ra1jEKpSQAoy2abXvWoeetOMe9bPzWcRJbWsv5RU6qF2PlzVeg4ZhZoInP0YOty
-	g1Fyb6J0VWuMI/YACKVMgqaWof1U3kCB39qqQ51yvXlOFFxviFTDdQWTSlwWGYAZ6eQ1
-	wFKKS0lYBNBUT2Xc1Dd4Dp8lhr9cG1vXkCbAqpzIAlRTofYMDpVBBbCUYQQfaXV1ZzqS
-	gSHwCYasY02QpGlpvqnZbZu0O6klyC2T3VigXxnU24xA9RBEcH0fXj8J2ZGHuY0dSfx/
-	Eoj1r/kWW9psTdHLyKlFVfBON/bbTbfnXHczVIyMgxcSETN6KKa2ZlaZB+4baZe6qFvV
-	z//Q==
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=7YWtEs+WDSgdSIDvh3UO04nIUzjKwsksJR+KXoy8NWg=;
+	b=hDaAFnMgFsH8UuRXaUJ0HqIrTrBTbL/KcU1UaVrew3yyKky/bF7P8akCqKFXrztR7M
+	tkSEhSuf3UyazsQXBo4f9KOnyrMfOIoqaU9DCPAaeMMpFEp9a4j9NaMLpxQUHEo2Ng8f
+	WrDLhgqyFRli/DnhRRMZX1iJGYtgAuIKb2C/E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=CakG62FB/WwUBR6aY1yLUq0x4REkZSGdRRgUed0QgDc=;
-	b=eMVTLHBTvNypAzwkD5KPo09/ugHw4aOM6hZ9SlvH4FPhHqQIbrooo8+cSNL15xdT2p
-	8/nB0sK/n3hxhkV6jdWWRgMgGWUx8SoFJHOZIb1T6WNJ6zNDQpWUJ87a+8LQoxHjYoP2
-	EJ8zxfFgWqdQ1eY/y2AgmCGwdsnIAYsyesUy+sso01USKU/aPI0PEecjQFM8lZTMzbCl
-	dIA2HsoKBuRNIPTx3RxLC3IO3Z+xq/SbD9SOyab6xMUKPpm+nvLDG4ep+GKn98zUNnth
-	7KiA5wyy8fDNlQ2lajOCen9je2q5fWfZNICOQO1ZGSUgr6wxNPYpkLvoxR2xoSpux5dQ
-	6qhg==
-X-Gm-Message-State: APt69E3uZeT9y+M/JhqHvaVMuBDitAqAS7QlDtA5OxDHLWZn7U/eecnB
-	2uPVZ9SlnaTn1T53YE3Pv5W6ZVs601qzQKmqDIhvYw==
-X-Google-Smtp-Source: ADUXVKIiFXQWYhAXE3bAjpy87eN4hEKqHoPd+01nAVxlNf4wfiWUnWDMIB5JnLv1aNK59jWKP/ljTH1pFcy8cvt3D9U=
-X-Received: by 2002:aca:5406:: with SMTP id
-	i6-v6mr9647323oib.115.1529408412794; 
-	Tue, 19 Jun 2018 04:40:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 04:39:52
-	-0700 (PDT)
-In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD0170F9D06E@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <20180607100153.98443-1-zhixiong.chi@windriver.com>
-	<1B56A49860EB2D45ADE3731B15C959FD0170F9D06E@G08CNEXMBPEKD01.g08.fujitsu.local>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Jun 2018 12:39:52 +0100
-Message-ID: <CAJTo0LZGr_pVJm909T+dxG0bDi=paA6VpdcohacLh=tOqEWwuw@mail.gmail.com>
-To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: fix CVE-2017-18269 and CVE-2018-11236
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7YWtEs+WDSgdSIDvh3UO04nIUzjKwsksJR+KXoy8NWg=;
+	b=H/dhdn/h1QOMngdheYfKa87y3WPedtnzfsid9sn65zocxMLNGXf2Xg6L+gfxiBAtRK
+	ZzkbYijmkmNxBKmv7BteUtGPvtao4zSqXVjCss4dM6yfRUQK9nkNnaTy7MJq9y2WVjt3
+	MrmO+G5uJaE9iNOphD0r0gzN8L5Xxr1VdL4qJPoUv4C9FJuS9jr9w+sq2lLwOjbFXXQ1
+	I/t+7SZMyYF+xnY8WCgmubCBTt3zM2ii4VJTz8QOOdWQ5ZlMrZkGv8FtH4+9Au6F1OUE
+	Lbdn3T8oQ0lpN3l17wjGaEAUFbDTMuzSaxU3MN3Os9q6LRd4Ep4VDkf5CqNpln3nVqga
+	BuHg==
+X-Gm-Message-State: APt69E3l9FxSjNT6oKzy7NaVFKTpq0WgBs5OEMWH5sifkahnwZpbq6GO
+	dH6VxTgU+6KlCScHmAF+0xiKe3KpwNk=
+X-Google-Smtp-Source: ADUXVKIztfc2ua195e80OovUXAT+Dh5C6OU9z4GEYrTaLCvirzjkdtDK1elb0xD8fKoujvH01iOZww==
+X-Received: by 2002:a1c:978f:: with SMTP id
+	z137-v6mr12384831wmd.40.1529408713889; 
+	Tue, 19 Jun 2018 04:45:13 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n18-v6sm22065902wrj.58.2018.06.19.04.45.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Jun 2018 04:45:12 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jun 2018 12:45:10 +0100
+Message-Id: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] image: Combine all the class handling code into a single section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,434 +53,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 11:40:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Jun 2018 11:45:14 -0000
 
-If you submit it as a sumo backport, then yes.
+Right now the code handling class inherits is spread all over and
+its hard to get an idea of what is happening overall. Combine all
+the code together to make it clearer. There shoould be no functionality
+changes.
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass | 45 ++++++++++++++------------------------
+ 1 file changed, 17 insertions(+), 28 deletions(-)
 
-On 19 June 2018 at 07:29, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
-> Hi,
->
-> Is there any plan to merge this patch into sumo branch? It is also apply to sumo branch.
->
-> Best regards
-> Lei
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-
->> core-bounces@lists.openembedded.org] On Behalf Of Zhixiong Chi
->> Sent: Thursday, June 07, 2018 6:02 PM
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH] glibc: fix CVE-2017-18269 and CVE-2018-11236
->>
->> Backport two CVE patches from the upstream
->> https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=summary
->> commit 5460617d1567657621107d895ee2dd83bc1f88f2
->> commit cd66c0e584c6d692bc8347b5e72723d02b8a8ada
->>
->> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
->> ---
->>  meta/recipes-core/glibc/glibc/CVE-2017-18269.patch | 178 +++++++++++++++++++++
->>  meta/recipes-core/glibc/glibc/CVE-2018-11236.patch | 164 +++++++++++++++++++
->>  meta/recipes-core/glibc/glibc_2.27.bb              |   2 +
->>  3 files changed, 344 insertions(+)
->>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2017-18269.patch
->>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11236.patch
->>
->> diff --git a/meta/recipes-core/glibc/glibc/CVE-2017-18269.patch b/meta/recipes-
->> core/glibc/glibc/CVE-2017-18269.patch
->> new file mode 100644
->> index 0000000000..d873c51e60
->> --- /dev/null
->> +++ b/meta/recipes-core/glibc/glibc/CVE-2017-18269.patch
->> @@ -0,0 +1,178 @@
->> +From cd66c0e584c6d692bc8347b5e72723d02b8a8ada Mon Sep 17 00:00:00 2001
->> +From: Andrew Senkevich <andrew.n.senkevich@gmail.com>
->> +Date: Fri, 23 Mar 2018 16:19:45 +0100
->> +Subject: [PATCH] Fix i386 memmove issue (bug 22644).
->> +
->> +     [BZ #22644]
->> +     * sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S: Fixed
->> +     branch conditions.
->> +     * string/test-memmove.c (do_test2): New testcase.
->> +
->> +Upstream-Status: Backport
->> +CVE: CVE-2017-18269
->> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
->> +---
->> + ChangeLog                                          |  8 +++
->> + string/test-memmove.c                              | 58
->> ++++++++++++++++++++++
->> + .../i386/i686/multiarch/memcpy-sse2-unaligned.S    | 12 ++---
->> + 3 files changed, 72 insertions(+), 6 deletions(-)
->> +
->> +diff --git a/ChangeLog b/ChangeLog
->> +index 18ed09e..afdb766 100644
->> +--- a/ChangeLog
->> ++++ b/ChangeLog
->> +@@ -1,3 +1,11 @@
->> ++2018-03-23  Andrew Senkevich  <andrew.senkevich@intel.com>
->> ++        Max Horn  <max@quendi.de>
->> ++
->> ++    [BZ #22644]
->> ++    * sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S: Fixed
->> ++    branch conditions.
->> ++    * string/test-memmove.c (do_test2): New testcase.
->> ++
->> + 2018-02-22  Andrew Waterman <andrew@sifive.com>
->> +
->> +     [BZ # 22884]
->> +diff --git a/string/test-memmove.c b/string/test-memmove.c
->> +index edc7a4c..64e3651 100644
->> +--- a/string/test-memmove.c
->> ++++ b/string/test-memmove.c
->> +@@ -24,6 +24,7 @@
->> + # define TEST_NAME "memmove"
->> + #endif
->> + #include "test-string.h"
->> ++#include <support/test-driver.h>
->> +
->> + char *simple_memmove (char *, const char *, size_t);
->> +
->> +@@ -245,6 +246,60 @@ do_random_tests (void)
->> +     }
->> + }
->> +
->> ++static void
->> ++do_test2 (void)
->> ++{
->> ++  size_t size = 0x20000000;
->> ++  uint32_t * large_buf;
->> ++
->> ++  large_buf = mmap ((void*) 0x70000000, size, PROT_READ | PROT_WRITE,
->> ++                MAP_PRIVATE | MAP_ANON, -1, 0);
->> ++
->> ++  if (large_buf == MAP_FAILED)
->> ++    error (EXIT_UNSUPPORTED, errno, "Large mmap failed");
->> ++
->> ++  if ((uintptr_t) large_buf > 0x80000000 - 128
->> ++      || 0x80000000 - (uintptr_t) large_buf > 0x20000000)
->> ++    {
->> ++      error (0, 0, "Large mmap allocated improperly");
->> ++      ret = EXIT_UNSUPPORTED;
->> ++      munmap ((void *) large_buf, size);
->> ++      return;
->> ++    }
->> ++
->> ++  size_t bytes_move = 0x80000000 - (uintptr_t) large_buf;
->> ++  size_t arr_size = bytes_move / sizeof (uint32_t);
->> ++  size_t i;
->> ++
->> ++  FOR_EACH_IMPL (impl, 0)
->> ++    {
->> ++      for (i = 0; i < arr_size; i++)
->> ++        large_buf[i] = (uint32_t) i;
->> ++
->> ++      uint32_t * dst = &large_buf[33];
->> ++
->> ++#ifdef TEST_BCOPY
->> ++      CALL (impl, (char *) large_buf, (char *) dst, bytes_move);
->> ++#else
->> ++      CALL (impl, (char *) dst, (char *) large_buf, bytes_move);
->> ++#endif
->> ++
->> ++      for (i = 0; i < arr_size; i++)
->> ++    {
->> ++      if (dst[i] != (uint32_t) i)
->> ++        {
->> ++          error (0, 0,
->> ++                 "Wrong result in function %s dst \"%p\" src \"%p\" offset
->> \"%zd\"",
->> ++                 impl->name, dst, large_buf, i);
->> ++          ret = 1;
->> ++          break;
->> ++        }
->> ++    }
->> ++    }
->> ++
->> ++  munmap ((void *) large_buf, size);
->> ++}
->> ++
->> + int
->> + test_main (void)
->> + {
->> +@@ -284,6 +339,9 @@ test_main (void)
->> +     }
->> +
->> +   do_random_tests ();
->> ++
->> ++  do_test2 ();
->> ++
->> +   return ret;
->> + }
->> +
->> +diff --git a/sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S
->> b/sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S
->> +index 9c3bbe7..9aa17de 100644
->> +--- a/sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S
->> ++++ b/sysdeps/i386/i686/multiarch/memcpy-sse2-unaligned.S
->> +@@ -72,7 +72,7 @@ ENTRY (MEMCPY)
->> +     cmp     %edx, %eax
->> +
->> + # ifdef USE_AS_MEMMOVE
->> +-    jg      L(check_forward)
->> ++    ja      L(check_forward)
->> +
->> + L(mm_len_0_or_more_backward):
->> + /* Now do checks for lengths. We do [0..16], [16..32], [32..64], [64..128]
->> +@@ -81,7 +81,7 @@ L(mm_len_0_or_more_backward):
->> +     jbe     L(mm_len_0_16_bytes_backward)
->> +
->> +     cmpl    $32, %ecx
->> +-    jg      L(mm_len_32_or_more_backward)
->> ++    ja      L(mm_len_32_or_more_backward)
->> +
->> + /* Copy [0..32] and return.  */
->> +     movdqu  (%eax), %xmm0
->> +@@ -92,7 +92,7 @@ L(mm_len_0_or_more_backward):
->> +
->> + L(mm_len_32_or_more_backward):
->> +     cmpl    $64, %ecx
->> +-    jg      L(mm_len_64_or_more_backward)
->> ++    ja      L(mm_len_64_or_more_backward)
->> +
->> + /* Copy [0..64] and return.  */
->> +     movdqu  (%eax), %xmm0
->> +@@ -107,7 +107,7 @@ L(mm_len_32_or_more_backward):
->> +
->> + L(mm_len_64_or_more_backward):
->> +     cmpl    $128, %ecx
->> +-    jg      L(mm_len_128_or_more_backward)
->> ++    ja      L(mm_len_128_or_more_backward)
->> +
->> + /* Copy [0..128] and return.  */
->> +     movdqu  (%eax), %xmm0
->> +@@ -132,7 +132,7 @@ L(mm_len_128_or_more_backward):
->> +     add     %ecx, %eax
->> +     cmp     %edx, %eax
->> +     movl    SRC(%esp), %eax
->> +-    jle     L(forward)
->> ++    jbe     L(forward)
->> +     PUSH (%esi)
->> +     PUSH (%edi)
->> +     PUSH (%ebx)
->> +@@ -269,7 +269,7 @@ L(check_forward):
->> +     add     %edx, %ecx
->> +     cmp     %eax, %ecx
->> +     movl    LEN(%esp), %ecx
->> +-    jle     L(forward)
->> ++    jbe     L(forward)
->> +
->> + /* Now do checks for lengths. We do [0..16], [0..32], [0..64], [0..128]
->> +     separately.  */
->> +--
->> +2.9.3
->> diff --git a/meta/recipes-core/glibc/glibc/CVE-2018-11236.patch b/meta/recipes-
->> core/glibc/glibc/CVE-2018-11236.patch
->> new file mode 100644
->> index 0000000000..e2bb40b0de
->> --- /dev/null
->> +++ b/meta/recipes-core/glibc/glibc/CVE-2018-11236.patch
->> @@ -0,0 +1,164 @@
->> +From 5460617d1567657621107d895ee2dd83bc1f88f2 Mon Sep 17 00:00:00 2001
->> +From: Paul Pluzhnikov <ppluzhnikov@google.com>
->> +Date: Tue, 8 May 2018 18:12:41 -0700
->> +Subject: [PATCH] Fix BZ 22786: integer addition overflow may cause stack
->> + buffer overflow when realpath() input length is close to SSIZE_MAX.
->> +
->> +2018-05-09  Paul Pluzhnikov  <ppluzhnikov@google.com>
->> +
->> +     [BZ #22786]
->> +     * stdlib/canonicalize.c (__realpath): Fix overflow in path length
->> +     computation.
->> +     * stdlib/Makefile (test-bz22786): New test.
->> +     * stdlib/test-bz22786.c: New test.
->> +
->> +CVE: CVE-2018-11236
->> +Upstream-Status: Backport
->> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
->> +---
->> + ChangeLog             |  8 +++++
->> + stdlib/Makefile       |  2 +-
->> + stdlib/canonicalize.c |  2 +-
->> + stdlib/test-bz22786.c | 90
->> +++++++++++++++++++++++++++++++++++++++++++++++++++
->> + 4 files changed, 100 insertions(+), 2 deletions(-)
->> + create mode 100644 stdlib/test-bz22786.c
->> +
->> +diff --git a/ChangeLog b/ChangeLog
->> +--- a/ChangeLog
->> ++++ b/ChangeLog
->> +@@ -1,3 +1,11 @@
->> ++2018-05-09  Paul Pluzhnikov  <ppluzhnikov@google.com>
->> ++
->> ++    [BZ #22786]
->> ++    * stdlib/canonicalize.c (__realpath): Fix overflow in path length
->> ++    computation.
->> ++    * stdlib/Makefile (test-bz22786): New test.
->> ++    * stdlib/test-bz22786.c: New test.
->> ++
->> + 2018-03-23  Andrew Senkevich  <andrew.senkevich@intel.com>
->> +         Max Horn  <max@quendi.de>
->> +
->> +diff --git a/stdlib/Makefile b/stdlib/Makefile
->> +index af1643c..1ddb1f9 100644
->> +--- a/stdlib/Makefile
->> ++++ b/stdlib/Makefile
->> +@@ -84,7 +84,7 @@ tests              := tst-strtol tst-strtod testmb testrand
->> testsort testdiv   \
->> +                tst-cxa_atexit tst-on_exit test-atexit-race              \
->> +                test-at_quick_exit-race test-cxa_atexit-race             \
->> +                test-on_exit-race test-dlclose-exit-race                 \
->> +-               tst-makecontext-align
->> ++               tst-makecontext-align test-bz22786
->> +
->> + tests-internal      := tst-strtod1i tst-strtod3 tst-strtod4 tst-strtod5i \
->> +                tst-tls-atexit tst-tls-atexit-nodelete
->> +diff --git a/stdlib/canonicalize.c b/stdlib/canonicalize.c
->> +index 4135f3f..390fb43 100644
->> +--- a/stdlib/canonicalize.c
->> ++++ b/stdlib/canonicalize.c
->> +@@ -181,7 +181,7 @@ __realpath (const char *name, char *resolved)
->> +             extra_buf = __alloca (path_max);
->> +
->> +           len = strlen (end);
->> +-          if ((long int) (n + len) >= path_max)
->> ++          if (path_max - n <= len)
->> +             {
->> +               __set_errno (ENAMETOOLONG);
->> +               goto error;
->> +diff --git a/stdlib/test-bz22786.c b/stdlib/test-bz22786.c
->> +new file mode 100644
->> +index 0000000..e7837f9
->> +--- /dev/null
->> ++++ b/stdlib/test-bz22786.c
->> +@@ -0,0 +1,90 @@
->> ++/* Bug 22786: test for buffer overflow in realpath.
->> ++   Copyright (C) 2018 Free Software Foundation, Inc.
->> ++   This file is part of the GNU C Library.
->> ++
->> ++   The GNU C Library is free software; you can redistribute it and/or
->> ++   modify it under the terms of the GNU Lesser General Public
->> ++   License as published by the Free Software Foundation; either
->> ++   version 2.1 of the License, or (at your option) any later version.
->> ++
->> ++   The GNU C Library is distributed in the hope that it will be useful,
->> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
->> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->> ++   Lesser General Public License for more details.
->> ++
->> ++   You should have received a copy of the GNU Lesser General Public
->> ++   License along with the GNU C Library; if not, see
->> ++   <http://www.gnu.org/licenses/>.  */
->> ++
->> ++/* This file must be run from within a directory called "stdlib".  */
->> ++
->> ++#include <errno.h>
->> ++#include <limits.h>
->> ++#include <stdio.h>
->> ++#include <stdlib.h>
->> ++#include <string.h>
->> ++#include <unistd.h>
->> ++#include <sys/stat.h>
->> ++#include <sys/types.h>
->> ++#include <support/test-driver.h>
->> ++#include <libc-diag.h>
->> ++
->> ++static int
->> ++do_test (void)
->> ++{
->> ++  const char dir[] = "bz22786";
->> ++  const char lnk[] = "bz22786/symlink";
->> ++
->> ++  rmdir (dir);
->> ++  if (mkdir (dir, 0755) != 0 && errno != EEXIST)
->> ++    {
->> ++      printf ("mkdir %s: %m\n", dir);
->> ++      return EXIT_FAILURE;
->> ++    }
->> ++  if (symlink (".", lnk) != 0 && errno != EEXIST)
->> ++    {
->> ++      printf ("symlink (%s, %s): %m\n", dir, lnk);
->> ++      return EXIT_FAILURE;
->> ++    }
->> ++
->> ++  const size_t path_len = (size_t) INT_MAX + 1;
->> ++
->> ++  DIAG_PUSH_NEEDS_COMMENT;
->> ++#if __GNUC_PREREQ (7, 0)
->> ++  /* GCC 7 warns about too-large allocations; here we need such
->> ++     allocation to succeed for the test to work.  */
->> ++  DIAG_IGNORE_NEEDS_COMMENT (7, "-Walloc-size-larger-than=");
->> ++#endif
->> ++  char *path = malloc (path_len);
->> ++  DIAG_POP_NEEDS_COMMENT;
->> ++
->> ++  if (path == NULL)
->> ++    {
->> ++      printf ("malloc (%zu): %m\n", path_len);
->> ++      return EXIT_UNSUPPORTED;
->> ++    }
->> ++
->> ++  /* Construct very long path = "bz22786/symlink/aaaa....."  */
->> ++  char *p = mempcpy (path, lnk, sizeof (lnk) - 1);
->> ++  *(p++) = '/';
->> ++  memset (p, 'a', path_len - (path - p) - 2);
->> ++  p[path_len - (path - p) - 1] = '\0';
->> ++
->> ++  /* This call crashes before the fix for bz22786 on 32-bit platforms.  */
->> ++  p = realpath (path, NULL);
->> ++
->> ++  if (p != NULL || errno != ENAMETOOLONG)
->> ++    {
->> ++      printf ("realpath: %s (%m)", p);
->> ++      return EXIT_FAILURE;
->> ++    }
->> ++
->> ++  /* Cleanup.  */
->> ++  unlink (lnk);
->> ++  rmdir (dir);
->> ++
->> ++  return 0;
->> ++}
->> ++
->> ++#define TEST_FUNCTION do_test
->> ++#include <support/test-driver.c>
->> +--
->> +2.9.3
->> diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-
->> core/glibc/glibc_2.27.bb
->> index d3bdeaefc3..fe23eb6653 100644
->> --- a/meta/recipes-core/glibc/glibc_2.27.bb
->> +++ b/meta/recipes-core/glibc/glibc_2.27.bb
->> @@ -44,6 +44,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->>             file://0028-bits-siginfo-consts.h-enum-definition-for-
->> TRAP_HWBKP.patch \
->>             file://0029-Replace-strncpy-with-memccpy-to-fix-Wstringop-
->> trunca.patch \
->>             file://0030-plural_c_no_preprocessor_lines.patch \
->> +           file://CVE-2017-18269.patch \
->> +           file://CVE-2018-11236.patch \
->>  "
->>
->>  NATIVESDKFIXES ?= ""
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 16c6b1256e2..cc889cf5dfe 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -1,9 +1,23 @@
+-inherit rootfs_${IMAGE_PKGTYPE}
++def build_live(d):
++    if bb.utils.contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
++        d.setVar('NOISO', bb.utils.contains('IMAGE_FSTYPES', "iso", "0", "1", d))
++        d.setVar('NOHDD', bb.utils.contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
++        if d.getVar('NOISO') == "0" or d.getVar('NOHDD') == "0":
++            return "image-live"
++        return ""
++    return "image-live"
+ 
++# Handle inherits of any of the image classes we need
++IMGCLASSES = "rootfs_${IMAGE_PKGTYPE} image_types ${IMAGE_CLASSES}"
+ # Only Linux SDKs support populate_sdk_ext, fall back to populate_sdk_base
+ # in the non-Linux SDK_OS case, such as mingw32
+-SDKEXTCLASS ?= "${@['populate_sdk_base', 'populate_sdk_ext']['linux' in d.getVar("SDK_OS")]}"
+-inherit ${SDKEXTCLASS}
++IMGCLASSES += "${@['populate_sdk_base', 'populate_sdk_ext']['linux' in d.getVar("SDK_OS")]}"
++IMGCLASSES += "${@build_live(d)}"
++IMGCLASSES += "${@bb.utils.contains('IMAGE_FSTYPES', 'container', 'image-container', '', d)}"
++IMGCLASSES += "image_types_wic"
++IMGCLASSES += "${@oe.utils.conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
++IMGCLASSES += "rootfs-postcommands"
++inherit ${IMGCLASSES}
+ 
+ TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+@@ -18,9 +32,6 @@ PATH_prepend = "${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-TESTIMAGECLASS = "${@oe.utils.conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
+-inherit ${TESTIMAGECLASS}
+-
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+@@ -127,23 +138,6 @@ do_rootfs[vardeps] += "${@rootfs_variables(d)}"
+ 
+ do_build[depends] += "virtual/kernel:do_deploy"
+ 
+-def build_live(d):
+-    if bb.utils.contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
+-        d.setVar('NOISO', bb.utils.contains('IMAGE_FSTYPES', "iso", "0", "1", d))
+-        d.setVar('NOHDD', bb.utils.contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
+-        if d.getVar('NOISO') == "0" or d.getVar('NOHDD') == "0":
+-            return "image-live"
+-        return ""
+-    return "image-live"
+-
+-IMAGE_TYPE_live = "${@build_live(d)}"
+-inherit ${IMAGE_TYPE_live}
+-
+-IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
+-inherit ${IMAGE_TYPE_container}
+-
+-IMAGE_TYPE_wic = "image_types_wic"
+-inherit ${IMAGE_TYPE_wic}
+ 
+ python () {
+     def extraimage_getdepends(task):
+@@ -178,9 +172,6 @@ python () {
+     check_image_features(d)
+ }
+ 
+-IMAGE_CLASSES += "image_types"
+-inherit ${IMAGE_CLASSES}
+-
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ 
+ # some default locales
+@@ -192,8 +183,6 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
+ # aren't yet available.
+ PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+ 
+-inherit rootfs-postcommands
+-
+ PACKAGE_EXCLUDE ??= ""
+ PACKAGE_EXCLUDE[type] = "list"
+ 
+-- 
+2.17.1
+
 
