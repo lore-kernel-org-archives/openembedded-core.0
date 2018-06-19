@@ -1,20 +1,20 @@
 Return-Path: <ayaka@soulik.info>
 Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
-	by mail.openembedded.org (Postfix) with ESMTP id BC12F754CA
+	by mail.openembedded.org (Postfix) with ESMTP id 9424B76085
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 19:51:17 +0000 (UTC)
+	Tue, 19 Jun 2018 19:51:19 +0000 (UTC)
 Received: from misaki.sumomo.pri (unknown
 	[IPv6:2001:470:b30d:2:ec4:7aff:fe92:7ff4])
-	by kozue.soulik.info (Postfix) with ESMTPA id 2AFBC100CDA;
-	Wed, 20 Jun 2018 04:51:59 +0900 (JST)
+	by kozue.soulik.info (Postfix) with ESMTPA id E24BC1025B1;
+	Wed, 20 Jun 2018 04:52:03 +0900 (JST)
 From: Randy Li <ayaka@soulik.info>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2018 03:50:45 +0800
-Message-Id: <20180619195046.13424-6-ayaka@soulik.info>
+Date: Wed, 20 Jun 2018 03:50:46 +0800
+Message-Id: <20180619195046.13424-7-ayaka@soulik.info>
 X-Mailer: git-send-email 2.14.4
 In-Reply-To: <20180619195046.13424-1-ayaka@soulik.info>
 References: <20180619195046.13424-1-ayaka@soulik.info>
-Subject: [PATCH v5 5/6] tune-cortexa53: add tunes for ARM Cortex-A53
+Subject: [PATCH v5 6/6] tune-cortexa72: add tunes for ARM Cortex-A72
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,40 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 19:51:17 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 19:51:20 -0000
 
 It looks that the Cryptography engine is mandatory in this
 platform.
 
-https://developer.arm.com/products/processors/cortex-a/cortex-a53
+https://developer.arm.com/products/processors/cortex-a/cortex-a72
 
 Signed-off-by: Randy Li <ayaka@soulik.info>
 ---
- meta/conf/machine/include/tune-cortexa53.inc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-cortexa53.inc
+ meta/conf/machine/include/tune-cortexa72.inc | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa72.inc
 
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
 new file mode 100644
-index 0000000000..050a735d8e
+index 0000000000..8055492b8e
 --- /dev/null
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -0,0 +1,15 @@
-+DEFAULTTUNE ?= "cortexa53"
++++ b/meta/conf/machine/include/tune-cortexa72.inc
+@@ -0,0 +1,12 @@
++DEFAULTTUNE ?= "cortexa72"
 +
 +require conf/machine/include/arm/arch-armv8a.inc
 +
-+TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
++TUNEVALID[cortexa72] = "Enable Cortex-A72 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
 +
 +# Little Endian base configs
-+AVAILTUNES += "cortexa53 cortexa53-crypto"
-+ARMPKGARCH_tune-cortexa53             = "cortexa53"
-+ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53"
-+TUNE_FEATURES_tune-cortexa53          = "${TUNE_FEATURES_tune-armv8a-crc} cortexa53"
-+TUNE_FEATURES_tune-cortexa53-crypto   = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa53"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
-+PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
++AVAILTUNES += "cortexa72"
++ARMPKGARCH_tune-cortexa72             = "cortexa72"
++TUNE_FEATURES_tune-cortexa72          = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa72"
++PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
 -- 
 2.14.4
 
