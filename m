@@ -1,80 +1,28 @@
-Return-Path: <Vignesh.Rajendran@in.bosch.com>
-Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
-	by mail.openembedded.org (Postfix) with ESMTP id E9C247526A
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BFF274603
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 04:54:07 +0000 (UTC)
-Received: from fe0vm1649.rbesz01.com (unknown [139.15.230.188])
-	by fe0vms0187.rbdmz01.com (Postfix) with ESMTPS id 418wbh3L9Tz1XLFYj;
-	Tue, 19 Jun 2018 06:54:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
-	s=2015-01-21; t=1529384048;
-	bh=0/uKPD6zO90LeoOjUbFk1zweH/Se7LWOQW33ahYMDdA=; l=10;
-	h=From:From:Reply-To:Sender;
-	b=dRuLv2gl3bJjcg+HpqG7g04/AnIIzCa3r5bJ1KXTBHN8omU3ZVEvvseuWcnfxauEE
-	hvmyQzLWkwC6YOHjlAyWsiabK6GY9QTQQWKv36/Bkjr5byz3D4duN3fYMvY50B32qQ
-	w/E+ipNNU1z+xoG+Z2L7hqHrCdlcdJ7zFeJudXzk=
-Received: from si0vm4642.rbesz01.com (unknown [10.58.172.176])
-	by fe0vm1649.rbesz01.com (Postfix) with ESMTPS id 418wbh2yMCz1KF;
-	Tue, 19 Jun 2018 06:54:08 +0200 (CEST)
-X-AuditID: 0a3aad12-ef5ff70000016568-74-5b288c6d583e
-Received: from fe0vm1652.rbesz01.com ( [10.58.173.29])
-	(using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by si0vm4642.rbesz01.com (SMG Outbound) with SMTP id
-	B7.52.25960.D6C882B5; Tue, 19 Jun 2018 06:54:05 +0200 (CEST)
-Received: from FE-MBX2038.de.bosch.com (fe-mbx2038.de.bosch.com [10.3.231.48])
-	by fe0vm1652.rbesz01.com (Postfix) with ESMTPS id 418wbh1MwRzBpBW;
-	Tue, 19 Jun 2018 06:54:08 +0200 (CEST)
-Received: from SGPMBX2018.APAC.bosch.com (10.187.83.36) by
-	FE-MBX2038.de.bosch.com (10.3.231.48) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.1.1466.3; Tue, 19 Jun 2018 06:54:07 +0200
-Received: from SGPMBX2020.APAC.bosch.com (10.187.83.43) by
-	SGPMBX2018.APAC.bosch.com (10.187.83.36) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.1.1466.3; Tue, 19 Jun 2018 12:54:05 +0800
-Received: from SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96]) by
-	SGPMBX2020.APAC.bosch.com ([fe80::b526:b737:7eb9:3a96%6]) with mapi id
-	15.01.1466.008; Tue, 19 Jun 2018 12:54:05 +0800
-From: "Vignesh Rajendran (RBEI/ECF3)" <Vignesh.Rajendran@in.bosch.com>
-To: Khem Raj <raj.khem@gmail.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [meta-oe][PATCH] package.bbclass: provide debug
-	sources in externalsrc -dbg packages
-Thread-Index: AQHT7aL1NBdDeQv1gUOwAbts2z5YlqQ4scOAgC1EdYCAAUFHUA==
-Date: Tue, 19 Jun 2018 04:54:05 +0000
-Message-ID: <c26a71ac52144bf1afc9a0c7f42f923a@in.bosch.com>
-References: <1526536200-26106-1-git-send-email-vignesh.rajendran@in.bosch.com>
-	<1909050.5dYaE66dI1@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1sqTp4y-a=cxdhy-DCax+V2h=S+QRY419qYiMgeBNuGtwg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqTp4y-a=cxdhy-DCax+V2h=S+QRY419qYiMgeBNuGtwg@mail.gmail.com>
-Accept-Language: en-US, en-SG
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.187.56.208]
+	Tue, 19 Jun 2018 05:04:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5J53u9i003135
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Jun 2018 22:04:12 -0700
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 18 Jun 2018 22:03:46 -0700
+To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>
+References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
+	<20180504123244.43049-12-alexander.kanavin@linux.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <32602a82-f07d-3c69-2305-3f0f17f4c9dc@windriver.com>
+Date: Tue, 19 Jun 2018 01:03:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA22Tf1CTdRzH+W7PtmeTBx6eB7aPc9g50axLHEYeIkflHxz1V3DXH0mWA57Y
-	TrbRnoFCHecVzTmm+bPLJ6CiLRBmGqe0wDNvRxZD9A4xEiWbgKfLiuRQmYE94xluf/Tf+/t5
-	f16f9/f7ee7BxdRpXI0bzTbGatZXaqUKTJF7PH2tybWmRGf/ZVXO9dm/ZDlXOFWOfYRDL4kL
-	v+fGZIUt/UWFF79tR6+JtyjyyplKYw1jXZe/TWHgTh6TVP2ctbN3Zp90F3LrnEiOA5kNtwdD
-	yIkUOEV+KoKwo1kiHM4geHztVtSZQvBRx1zUmUZwci4gi/AU2YfgR29eREvJAug8/IEoolPJ
-	YvDv4xZ6xOQ2+LuhcaFOkyb42HdMJvSYwTd8ExP0Zpg8EJRENEaugr6OswuaIDdB12dhTAge
-	RHDbN4kihpwsgsETDxaGIjIdWq8exIQwFYxOfC4SHkeC+8wlsaDT4M74vETQK+DP7k6+H+f7
-	n4ETPesEdAUcbgzKhNwU6D86ge1HwMVN5WIEF0dwccQXCOtAaaxRV2PK3pC9PtNayrB1uqzM
-	MoupCwlfkPKhRk+pH5E40iYSmt1rSiiJvoatNfnRC7hIm0Yo3+JLSaWW8lqDnjW8ba2uZFit
-	mkAJCQkU/aTMVpeajCxrtJj9CHCxNpU4/x7PEeX62jrGahEwP1qGY1oV4Sp/fwtFVuhtzHaG
-	qWKsi+4mHNcC0dzIgylWpoLZ+Y6x0rZoa9OFTGW8Ex8rwuV+9DyeyGcHHZFstkpvYo0VUXyp
-	gFOL1RgaQK/gd+0ulxifuPyJS0xhZouZUauIASc/hYz0G6rNT+6h1hCZrRklVFqcEZsVQlcR
-	v0maoCOvSOR/l9gNgPDRTW9QKdFiDFrv4RmyPRmaLowgaPHNIAjd2CsGR+sMBtfu90ngG/uQ
-	BB7+fk8KQz2cDCaCozIYfjQug4fnPpSDc3aPHKYPNcnhn5FHS6D9j8eJ0DoWJqD9uCcJwkeP
-	JEP3sJsE39xsCrj2dNLw6/xPNHBfTtHw2y27Eu7u7lYCdzmghBbvdYCDTsdS8E4dUcPpB50a
-	+PfUdxrwNjUuD/HrFfHrPVX3dGS9Nr3tf9YbrcZep96F9GX5W++H3U8tKysa+KHruR3J0+Tr
-	0vzM+uaCS5qa1V0NxRdHv3a8u5EeWjl+6Ob5A56erXhbm8R9LzhW/2Ygoyp1e+/epALXao+v
-	3nujobB/gO5Ayq9erOMytG1scH5Dce6FlWg5tlH16h1P/8u63N6RzUvmApbJc/vPXgmt3ZGX
-	ocVYgz7rWbGV1f8HdwMsg8gEAAA=
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] package.bbclass: provide debug sources in externalsrc -dbg packages
+In-Reply-To: <20180504123244.43049-12-alexander.kanavin@linux.intel.com>
+X-Originating-IP: [172.25.44.2]
+Subject: Re: [PATCH 12/14] meson: update to 0.46.0 -- broke systemd on qemuppc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,91 +35,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 04:54:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 19 Jun 2018 05:04:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8gS2hlbSwNCg0KPj4gcGVyaGFwcyBzZXR0aW5nIERFQlVHX1BSRUZJWF9NQVAgcmVsYXRp
-dmUgdG8gUyBpbnN0ZWFkIG9mIFdPUktESVIgaXMNCj4+IGdvaW5nIHRvIHRha2UgY2FyZSBvZiB0
-aGlzDQoNCkRvIHlvdSBtZWFuIHRvIGNoYW5nZSBpdCBhdCBiaXRiYWtlLmNvbmYgPw0KDQpNaXQg
-ZnJldW5kbGljaGVuIEdyw7zDn2VuIC8gQmVzdCByZWdhcmRzDQoNClJhamVuZHJhbiBWaWduZXNo
-DQpSQkVJL0VDRjMzICANCg0KVGVsLiArOTEgNDIyIDY3LTY1MTAzIA0KDQoNCi0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBLaGVtIFJhaiBbbWFpbHRvOnJhai5raGVtQGdtYWlsLmNv
-bV0gDQpTZW50OiBNb25kYXksIEp1bmUgMTgsIDIwMTggMTE6MTMgUE0NClRvOiBQYXVsIEVnZ2xl
-dG9uIDxwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbT4NCkNjOiBWaWduZXNoIFJhamVuZHJh
-biAoUkJFSS9FQ0YzKSA8VmlnbmVzaC5SYWplbmRyYW5AaW4uYm9zY2guY29tPjsgUGF0Y2hlcyBh
-bmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFttZXRhLW9l
-XVtQQVRDSF0gcGFja2FnZS5iYmNsYXNzOiBwcm92aWRlIGRlYnVnIHNvdXJjZXMgaW4gZXh0ZXJu
-YWxzcmMgLWRiZyBwYWNrYWdlcw0KDQpPbiBTdW4sIE1heSAyMCwgMjAxOCBhdCAzOjI2IFBNIFBh
-dWwgRWdnbGV0b24NCjxwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6DQo+DQo+
-IEhpIFZpZ25lc2gsDQo+DQo+IFRoYW5rcyBmb3IgdGhlIHBhdGNoLCBhIHF1ZXN0aW9uIGJlbG93
-Lg0KPg0KPiBPbiBUaHVyc2RheSwgMTcgTWF5IDIwMTggNTo1MDowMCBQTSBOWlNUIFZpZ25lc2gg
-UmFqZW5kcmFuIHdyb3RlOg0KPiA+IFRoZSByZWNpcGVzIHdoaWNoIGFyZSB1c2luZyBleHRlcm5h
-bHNyYyBtZXRob2QgZG9lc24ndCBjb250YWluIHRoZQ0KPiA+IGRlYnVnIHNvdXJjZXMgaW4gdGhl
-aXIgLWRiZyBwYWNrYWdlcy4NCj4gPg0KPiA+IEFkZCBhIGhhbmRsaW5nIGluIGNvcHlkZWJ1Z3Nv
-dXJjZXMgZnVuY3Rpb24gdG8gY29weSB0aGUgZGVidWdzb3VyY2VzIGZvcg0KPiA+IGV4dGVybmFs
-c3JjIC1kYmcgcGFja2FnZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBWaWduZXNoIFJhamVu
-ZHJhbiA8dmlnbmVzaC5yYWplbmRyYW5AaW4uYm9zY2guY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRh
-L2NsYXNzZXMvZXh0ZXJuYWxzcmMuYmJjbGFzcyB8ICAzICsrKw0KPiA+ICBtZXRhL2NsYXNzZXMv
-cGFja2FnZS5iYmNsYXNzICAgICB8IDEyICsrKysrKysrKystLQ0KPiA+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDEzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvZXh0ZXJu
-YWxzcmMuYmJjbGFzcw0KPiA+IGluZGV4IGM5ZjVjZjcuLjEzNTY3MGQgMTAwNjQ0DQo+ID4gLS0t
-IGEvbWV0YS9jbGFzc2VzL2V4dGVybmFsc3JjLmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2NsYXNz
-ZXMvZXh0ZXJuYWxzcmMuYmJjbGFzcw0KPiA+IEBAIC0xMjksNiArMTI5LDkgQEAgcHl0aG9uICgp
-IHsNCj4gPiAgICAgICAgICAgICAgZC5zZXRWYXIoJ0NPTkZJR1VSRVNUQU1QRklMRScsIGNvbmZp
-Z3N0YW1wKQ0KPiA+ICAgICAgICAgICAgICBkLnNldFZhcignU1RBTVAnLCAnJHtTVEFNUFNfRElS
-fS93b3JrLXNoYXJlZC8ke1BOfS8ke0VYVEVORFBFfSR7UFZ9LSR7UFJ9JykNCj4gPiAgICAgICAg
-ICAgICAgZC5zZXRWYXIoJ1NUQU1QQ0xFQU4nLCAnJHtTVEFNUFNfRElSfS93b3JrLXNoYXJlZC8k
-e1BOfS8qLSonKQ0KPiA+ICsNCj4gPiArICAgICAjIHNldCBERUJVR19QUkVGSVhfTUFQIHRvIGV4
-dGVybmFsIHNvdXJjZSBwYXRoDQo+ID4gKyAgICAgZC5hcHBlbmRWYXIoIkRFQlVHX1BSRUZJWF9N
-QVAiLCAiLWZkZWJ1Zy1wcmVmaXgtbWFwPSR7RVhURVJOQUxTUkN9PS91c3Ivc3JjL2RlYnVnLyR7
-UE59LyR7RVhURU5EUEV9JHtQVn0tJHtQUn0iKQ0KPiA+ICB9DQo+ID4NCj4gPiAgcHl0aG9uIGV4
-dGVybmFsc3JjX2NvbmZpZ3VyZV9wcmVmdW5jKCkgew0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2Ns
-YXNzZXMvcGFja2FnZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KPiA+
-IGluZGV4IGVkZWZmYTkuLmYwNzFhMmUgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3Bh
-Y2thZ2UuYmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MNCj4g
-PiBAQCAtNDIwLDYgKzQyMCw3IEBAIGRlZiBjb3B5ZGVidWdzb3VyY2VzKGRlYnVnc3JjZGlyLCBk
-KToNCj4gPiAgICAgICAgICB3b3JrZGlyID0gZC5nZXRWYXIoIldPUktESVIiKQ0KPiA+ICAgICAg
-ICAgIHdvcmtwYXJlbnRkaXIgPSBvcy5wYXRoLmRpcm5hbWUob3MucGF0aC5kaXJuYW1lKHdvcmtk
-aXIpKQ0KPiA+ICAgICAgICAgIHdvcmtiYXNlZGlyID0gb3MucGF0aC5iYXNlbmFtZShvcy5wYXRo
-LmRpcm5hbWUod29ya2RpcikpICsgIi8iICsgb3MucGF0aC5iYXNlbmFtZSh3b3JrZGlyKQ0KPiA+
-ICsgICAgICAgIGV4dGVybmFsc3JjID0gZC5nZXRWYXIoJ0VYVEVSTkFMU1JDJywgVHJ1ZSkNCj4g
-Pg0KPiA+ICAgICAgICAgICMgSWYgYnVpbGQgcGF0aCBleGlzdHMgaW4gc291cmNlZmlsZSwgaXQg
-bWVhbnMgdG9vbGNoYWluIGRpZCBub3QgdXNlDQo+ID4gICAgICAgICAgIyAtZmRlYnVnLXByZWZp
-eC1tYXAgdG8gY29tcGlsZQ0KPiA+IEBAIC00NDQsOSArNDQ1LDE2IEBAIGRlZiBjb3B5ZGVidWdz
-b3VyY2VzKGRlYnVnc3JjZGlyLCBkKToNCj4gPiAgICAgICAgICBwcm9jZXNzZGVidWdzcmMgKz0g
-ImZncmVwIC16dyAnJXMnIHwgIg0KPiA+ICAgICAgICAgICMgUmVtb3ZlIHByZWZpeCBpbiB0aGUg
-c291cmNlIHBhdGhzDQo+ID4gICAgICAgICAgcHJvY2Vzc2RlYnVnc3JjICs9ICJzZWQgJ3MjJXMj
-I2cnIHwgIg0KPiA+IC0gICAgICAgIHByb2Nlc3NkZWJ1Z3NyYyArPSAiKGNkICclcycgOyBjcGlv
-IC1wZDBtbEwgLS1uby1wcmVzZXJ2ZS1vd25lciAnJXMlcycgMj4vZGV2L251bGwpIg0KPiA+ICsg
-ICAgICAgICMgaGFuZGxlIGV4dGVybmFsIHNvdXJjZXMgdG8gcHJvdmlkZSBzb3VyY2VzIGluIC1k
-YmcgcGFja2FnZXMNCj4gPiArICAgICAgICBpZiBleHRlcm5hbHNyYzoNCj4gPiArICAgICAgICAg
-ICAgbG9jYWxzcmNfcHJlZml4ID0gIi91c3Ivc3JjL2RlYnVnLyINCj4gPiArICAgICAgICAgICAg
-cHJvY2Vzc2RlYnVnc3JjICs9ICJzZWQgJ3MjJXMvIyNnJyB8ICINCj4gPiArICAgICAgICAgICAg
-cHJvY2Vzc2RlYnVnc3JjICs9ICIoY2QgJyVzJyA7IGNwaW8gLXBkMG1sTCAtLW5vLXByZXNlcnZl
-LW93bmVyICclcyVzLyVzJyAyPi9kZXYvbnVsbCkiDQo+ID4gKyAgICAgICAgICAgIGNtZCA9IHBy
-b2Nlc3NkZWJ1Z3NyYyAlIChzb3VyY2VmaWxlLCB3b3JrYmFzZWRpciwgbG9jYWxzcmNfcHJlZml4
-LCB3b3JrYmFzZWRpciwgZXh0ZXJuYWxzcmMsIGR2YXIsIGRlYnVnc3JjZGlyLCB3b3JrYmFzZWRp
-cikNCj4gPiArICAgICAgICBlbHNlOg0KPiA+ICsgICAgICAgICAgICBwcm9jZXNzZGVidWdzcmMg
-Kz0gIihjZCAnJXMnIDsgY3BpbyAtcGQwbWxMIC0tbm8tcHJlc2VydmUtb3duZXIgJyVzJXMnIDI+
-L2Rldi9udWxsKSINCj4gPiArICAgICAgICAgICAgY21kID0gcHJvY2Vzc2RlYnVnc3JjICUgKHNv
-dXJjZWZpbGUsIHdvcmtiYXNlZGlyLCBsb2NhbHNyY19wcmVmaXgsIHdvcmtwYXJlbnRkaXIsIGR2
-YXIsIGRlYnVnc3JjZGlyKQ0KPiA+DQo+ID4gLSAgICAgICAgY21kID0gcHJvY2Vzc2RlYnVnc3Jj
-ICUgKHNvdXJjZWZpbGUsIHdvcmtiYXNlZGlyLCBsb2NhbHNyY19wcmVmaXgsIHdvcmtwYXJlbnRk
-aXIsIGR2YXIsIGRlYnVnc3JjZGlyKQ0KPiA+ICAgICAgICAgIChyZXR2YWwsIG91dHB1dCkgPSBv
-ZS51dGlscy5nZXRzdGF0dXNvdXRwdXQoY21kKQ0KPiA+ICAgICAgICAgICMgQ2FuICJmYWlsIiBp
-ZiBpbnRlcm5hbCBoZWFkZXJzL3RyYW5zaWVudCBzb3VyY2VzIGFyZSBhdHRlbXB0ZWQNCj4gPiAg
-ICAgICAgICAjaWYgcmV0dmFsOg0KPiA+DQo+DQo+IElzIHRoZXJlIGEgd2F5IHdlIGNhbiBmaXgg
-dGhpcyB3aXRob3V0IGFkZGluZyBhIHJlZmVyZW5jZSB0byBleHRlcm5hbHNyYyBpbg0KPiBwYWNr
-YWdlLmJiY2xhc3M/DQo+DQoNCnBlcmhhcHMgc2V0dGluZyBERUJVR19QUkVGSVhfTUFQIHJlbGF0
-aXZlIHRvIFMgaW5zdGVhZCBvZiBXT1JLRElSIGlzDQpnb2luZyB0byB0YWtlIGNhcmUgb2YgdGhp
-cw0KDQo+IENoZWVycywNCj4gUGF1bA0KPg0KPiAtLQ0KPg0KPiBQYXVsIEVnZ2xldG9uDQo+IElu
-dGVsIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudHJlDQo+DQo+DQo+IC0tDQo+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1j
-b3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmUNCg==
+On 05/04/2018 08:32 AM, Alexander Kanavin wrote:
+> Rebase a couple of patches
+
+
+It seems that this meson update broke systemd on qemuppc.
+I'll look into it a more tomorrow but below is what I know so far.
+It looks like the libsystemd-shared.so size increased by 18% despite
+the build flags being the same!
+
+Despite my IRC handle, I'm a meson newbie so any tips will
+be appreciated. I'll work on getting meson/ninja to be more
+verbose tomorrow to track down what really changed.
+
+
+I recently started testing qemuppc by booting
+core-image-minimal with systemd as init. It fails with:
+
+    /sbin/init: error while loading shared libraries:
+       /lib/systemd/libsystemd-shared-237.so: R_PPC_REL24 relocation at 
+0x0054574c for symbol `strlen' out of range
+
+or in some cases:
+
+   systemd[1]: \
+      unhandled signal 11 at b804b784 nip 0070d184 lr 008ee1ac code 1
+   Kernel panic - not syncing: \
+      Attempted to kill init! exitcode=0x0000000b
+when running:
+     runqemu slirp nographic qemuppc ext4
+
+The error only appears when using the distro poky-lsb
+or a security template in the WR builds.
+
+Adding:
+meta/conf/distro/include/security_flags.inc
++SECURITY_CFLAGS_pn-systemd_powerpc = "${SECURITY_NO_PIE_CFLAGS}"
+
+the systemd configure flags changed from:
+        -no-pie -fno-PIE
+to:
+        -Wformat -Wformat-security -Werror=format-security
+and the problem went away.
+
+Being a sucker for punishment and having a nice builder on hand,
+I decided to bisect the error anyway, assuming that I'd end up
+at a systemd or toolchain uprev. Instead, I ended up at this
+meson update being the culprit.
+
+
+Here are the poky commits with the final stages of a
+git bisect status appended:
+
+53dfa673d7 musl: Upgrade to latest - bad
+...
+several bad results
+...
+96d783fa39 ifupdown: correct the repository location - bad
+a6b62ef9ae meson: update to 0.46.0 - BAD
+26fba81701 webkitgtk: update to 2.20.1 - good
+4c52e22689 procps: update to 3.3.14 - untested
+23320a2c9a libwebp: update to 1.0.0 - good
+...
+some good or unbuildable results
+...
+
+
+Looking at:
+$ buildhistory-diff 10cdd2f bbbbd64
+Changes to images/qemuppc/glibc/core-image-minimal (files-in-image.txt):
+   /etc/udev/hwdb.bin was removed
+   /etc/rpm-postinsts/100-udev-hwdb was added
+   /etc/rpm-postinsts was added
+images/qemuppc/glibc/core-image-minimal:
+   IMAGESIZE changed from 48828 to 43144 (-12%)
+packages/ppc7400-poky-linux/systemd/libnss-myhostname:
+   PKGSIZE changed from 198364 to 132584 (-33%)
+packages/ppc7400-poky-linux/systemd/libnss-mymachines:
+   PKGSIZE changed from 461724 to 394872 (-14%)
+packages/ppc7400-poky-linux/systemd/libudev:
+   PKGSIZE changed from 264200 to 198180 (-25%)
+packages/ppc7400-poky-linux/systemd/systemd-analyze:
+   PKGSIZE changed from 1445140 to 1902168 (+32%)
+packages/ppc7400-poky-linux/systemd/systemd-container:
+   PKGSIZE changed from 528737 to 725017 (+37%)
+packages/ppc7400-poky-linux/systemd/systemd:
+   PKGSIZE changed from 9540698 to 11236850 (+18%)
+
+The systemd package sizes have change quite a bit
+and the main pkg increased by 18% likely putting the
+shared library over a PPC relative jump limit of 8MB iirc.
+
+The configure files changed but only due to a typo fix
+and a warning about a feature that will become an error in
+the next release. None of the flags that get tested and used changed!
+The PIE/pie flags [1] don't change.
+
+The meson compile logs don't help immediately because they
+hide the 'Compiling/Linking' flags but massaging the logs,
+shows that all the same files are compiled and linked.
+
+Any suggestions?
+
+More tomorrow...
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
+
+[1]
+
+$ grep -i pie /tmp/log.do_configure.93182  /tmp/log.do_configure.57702
+/tmp/log.do_configure.93182:Cross C compiler: \
+   powerpc-poky-linux-gcc -m32 -mhard-float -mcpu=7400 -mno-spe \
+     -fstack-protector-strong -D_FORTIFY_SOURCE=2 \
+     -no-pie -fno-PIE \
+ 
+--sysroot=/.../tmp/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot 
+(gcc 7.3.0)
+/tmp/log.do_configure.93182:Compiler for C supports argument -fPIE: YES
+/tmp/log.do_configure.93182:Message: Linking with -pie supported: yes
+
+/tmp/log.do_configure.57702:Cross C compiler: \
+   powerpc-poky-linux-gcc -m32 -mhard-float -mcpu=7400 -mno-spe \
+     -fstack-protector-strong -D_FORTIFY_SOURCE=2 \
+     -no-pie -fno-PIE \
+ 
+--sysroot=/.../tmp/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot 
+(gcc 7.3.0)
+/tmp/log.do_configure.57702:Compiler for C supports arguments -fPIE: YES
+/tmp/log.do_configure.57702:Message: Linking with -pie supported: yes
+
 
