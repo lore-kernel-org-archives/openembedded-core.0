@@ -1,24 +1,47 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CCCE7545B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id EE4D875476
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 10:24:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5JAOMk5010217
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 19 Jun 2018 10:51:45 +0000 (UTC)
+Received: by mail-wr0-f171.google.com with SMTP id w10-v6so20053665wrk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 03:24:48 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 19 Jun 2018 03:24:18 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Jun 2018 03:24:18 -0700
-Message-ID: <20180619102418.116397-1-zhixiong.chi@windriver.com>
+	Tue, 19 Jun 2018 03:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=aMG2PVvBo3M8A2daEIhiS5EsVgcQ6Bs0E/fZ69ZZMpM=;
+	b=BXBG//oKNRe/4qrvG/XzzBLWFWgCbKPKAyspyN/kI9GB9JxBBw+mJbB8ryLJhraTp8
+	qIfUoZnOspsErTy4YBllE05gxhlNgRlR9ERl5LRRhanAHWLElDHJ/kzwt2lgLdNfY/XI
+	W5fotEhDAs9xiFdAoawkEcIei/Sycnvtz6Itw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=aMG2PVvBo3M8A2daEIhiS5EsVgcQ6Bs0E/fZ69ZZMpM=;
+	b=DzTkanxKC8ASnhZo5MMnilGNpgdG8G39OwhS0OFhagyGFMiw6fhDVwSvGGprPnTFgt
+	i7d6LB4DRNEeV8inJYnaAWCYM7nJV2OOJol8NOrTACFC7bd7J4kJgl7/9G3wQP5ipvjQ
+	h1tnmf3PrlqS3lIotLFSjSZS3UvXix+mk/GV74yStz6MsQuIL2t1qmyq33+B6KPsGWaf
+	scgC9HOl8KdBZje/eQU6pcRNgN6CPVOMiuQXwm2p/40Ucgnx80YM9nH/zM8O/nclNjxf
+	gPmMo1t+Kzt1L9JiOh21bzDBfx3SnLZ9fYCfLd6c1otq5mrzcmsBBsrSu+nSN7tPqFa5
+	CDuQ==
+X-Gm-Message-State: APt69E3BT1WnLwnxjN4wivhi1NEqM3UhFkbEwxLOWljgFXY7oacJzHYd
+	glSD0+8yfPwyiwxXUNE9RTXzHQRKZxQ=
+X-Google-Smtp-Source: ADUXVKLaXaT+sD9cYptq0Tb8BaP3vz948PsVm+Ee8u3NGGDoEAiMyvBSOQXw9CzqJwiUPO3JWcY66Q==
+X-Received: by 2002:adf:9dc9:: with SMTP id
+	q9-v6mr14159088wre.12.1529405506215; 
+	Tue, 19 Jun 2018 03:51:46 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n12-v6sm15312083wrp.69.2018.06.19.03.51.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Jun 2018 03:51:45 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jun 2018 11:51:40 +0100
+Message-Id: <20180619105144.10687-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Subject: [PATCH] findutils: make -delete honour the -ignore_readdir_race option
+Subject: [PATCH 1/5] Revert "rm_work: Stop appending _setscene to do_image_complete_setscene stamps"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,186 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 10:24:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Jun 2018 10:51:46 -0000
 
-the '-delete' action no longer complains about disappeared files
-when the '-ignore_readdir_race' option is given, too. That action
-will also returns true in such a case now.
+Whilst this fixes the do_image_complete_setscene append problem, it creates a
+new problem since the code can no longer reach the *do_package_setscene.*
+code block below it. This breaks builds as per [YOCTO #12765]. Revert this
+change in search of a better fix.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+This reverts commit 5479654eeaaa0f81bfff54ca49369c87f1658705.
 ---
- ...-honour-the-ignore_readdir_race-opti.patch | 145 ++++++++++++++++++
- .../findutils/findutils_4.6.0.bb              |   4 +-
- 2 files changed, 148 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
+ meta/classes/rm_work.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-new file mode 100644
-index 0000000000..45e499a184
---- /dev/null
-+++ b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-@@ -0,0 +1,145 @@
-+From 0afb2efada7e435ae18ef7d3db0758464189f44f Mon Sep 17 00:00:00 2001
-+From: Bernhard Voelker <mail@bernhard-voelker.de>
-+Date: Tue, 30 Jan 2018 23:30:09 +0100
-+Subject: find: make -delete honour the -ignore_readdir_race option
-+
-+* find/pred.c (pred_delete): Return true when the -ignore_readdir_race
-+option is active and unlinkat() came back with ENOENT.
-+* doc/find.texi (Option -ignore_readdir_race): Document the change.
-+(Action -delete): Likewise.
-+* find/find.1: Likewise.
-+* NEWS (Bug Fixes): Mention the fix.
-+
-+For now, it seems a bit hard to add a proper test for this,
-+so the following shell snippet demonstrates the race:
-+
-+  $ seq 10 | xargs touch
-+  $ env time -f 'find exit status: %x\nfind time: %e' \
-+      find -ignore_readdir_race -type f \
-+        -delete \
-+        -exec sh -c 'sleep $(basename {})' \; \
-+        -printf 'find deleted: %p\n' \
-+        & \
-+    sleep 20; \
-+    seq 10 | xargs rm -fv; \
-+    wait $!
-+
-+Reported by Alexander Golubev in
-+https://savannah.gnu.org/bugs/?52981
-+
-+Upstream-Status: Backport
-+Signed-off-by : Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ NEWS          |  4 ++++
-+ doc/find.texi | 15 ++++++++++++++-
-+ find/find.1   | 22 ++++++++++++++++++++++
-+ find/pred.c   |  6 ++++++
-+ 4 files changed, 46 insertions(+), 1 deletion(-)
-+
-+diff --git a/NEWS b/NEWS
-+index 88cf17d..9809bf4 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -42,6 +42,10 @@
-+
-+ ** Bug Fixes
-+
-++#52981: find: the '-delete' action no longer complains about disappeared files
-++        when the '-ignore_readdir_race' option is given, too.  That action will
-++        also returns true in such a case now.
-++
-+ Applied patch #8688: Spelling fixes.
-+
-+ * Major changes in release 4.5.18, 2015-12-27
-+diff --git a/doc/find.texi b/doc/find.texi
-+index 3580be7..0089193 100644
-+--- a/doc/find.texi
-++++ b/doc/find.texi
-+@@ -1418,7 +1418,15 @@ gives a significant increase in search speed.
-+ If a file disappears after its name has been read from a directory but
-+ before @code{find} gets around to examining the file with @code{stat},
-+ don't issue an error message.  If you don't specify this option, an
-+-error message will be issued.  This option can be useful in system
-++error message will be issued.
-++
-++Furthermore, @code{find} with the @samp{-ignore_readdir_race} option
-++will ignore errors of the @samp{-delete} action in the case the file
-++has disappeared since the parent directory was read: it will not output
-++an error diagnostic, and the return code of the @samp{-delete} action
-++will be true.
-++
-++This option can be useful in system
-+ scripts (cron scripts, for example) that examine areas of the
-+ filesystem that change frequently (mail queues, temporary directories,
-+ and so forth), because this scenario is common for those sorts of
-+@@ -2779,6 +2787,11 @@ explicitly.
-+ 
-+ If @samp{-delete} fails, @code{find}'s exit status will be nonzero
-+ (when it eventually exits).
-++
-++Together with the @samp{-ignore_readdir_race} option, @code{find} will
-++ignore errors of the @samp{-delete} action in the case the file has disappeared
-++since the parent directory was read: it will not output an error diagnostic, and
-++the return code of the @samp{-delete} action will be true.
-+ @end deffn
-+ 
-+ @node Adding Tests
-+diff --git a/find/find.1 b/find/find.1
-+index 0437cd8..0d44c37 100644
-+--- a/find/find.1
-++++ b/find/find.1
-+@@ -479,6 +479,17 @@ this option on and part of it with this option off
-+ (if you need to do that, you will need to issue two \fBfind\fR commands
-+ instead, one with the option and one without it).
-+ 
-++Furthermore,
-++.B find
-++with the
-++.B \-ignore_readdir_race
-++option will ignore errors of the
-++.B \-delete
-++action in the case the file has disappeared since the parent directory was read:
-++it will not output an error diagnostic, and the return code of the
-++.B \-delete
-++action will be true.
-++
-+ .IP "\-maxdepth \fIlevels\fR"
-+ Descend at most \fIlevels\fR (a non-negative integer) levels of
-+ directories below the starting-points.
-+@@ -1030,6 +1041,17 @@ and
-+ .B \-delete
-+ together.
-+ 
-++Together with the
-++.B \-ignore_readdir_race
-++option,
-++.B find
-++will ignore errors of the
-++.B \-delete
-++action in the case the file has disappeared since the parent directory was
-++read: it will not output an error diagnostic, and the return code of the
-++.B \-delete
-++action will be true.
-++
-+ .IP "\-exec \fIcommand\fR ;"
-+ Execute \fIcommand\fR; true if 0 status is returned.  All following
-+ arguments to
-+diff --git a/find/pred.c b/find/pred.c
-+index 7e2a7bd..af3bacb 100644
-+--- a/find/pred.c
-++++ b/find/pred.c
-+@@ -324,6 +324,12 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
-+ 	}
-+       else
-+ 	{
-++	  if (ENOENT == errno && options.ignore_readdir_race)
-++	    {
-++	      /* Ignore unlink() error for vanished files.  */
-++	      errno = 0;
-++	      return true;
-++	    }
-+ 	  if (EISDIR == errno)
-+ 	    {
-+ 	      if ((flags & AT_REMOVEDIR) == 0)
-+--
-+cgit v1.0-41-gc330
-diff --git a/meta/recipes-extended/findutils/findutils_4.6.0.bb b/meta/recipes-extended/findutils/findutils_4.6.0.bb
-index 072d3b3c05..db03252f54 100644
---- a/meta/recipes-extended/findutils/findutils_4.6.0.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.6.0.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
- 
- DEPENDS = "bison-native"
- 
--SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch"
-+SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-+            file://0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch \
-+"
- 
- SRC_URI[md5sum] = "9936aa8009438ce185bea2694a997fc1"
- SRC_URI[sha256sum] = "ded4c9f73731cd48fec3b6bdaccce896473b6d8e337e9612e16cf1431bb1169d"
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 318d121d2b5..31d99e4554a 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -53,10 +53,6 @@ do_rm_work () {
+             *do_setscene*)
+                 break
+                 ;;
+-            *_setscene*)
+-                i=dummy
+-                break
+-                ;;
+             *sigdata*|*sigbasedata*)
+                 i=dummy
+                 break
+@@ -93,6 +89,10 @@ do_rm_work () {
+                 i=dummy
+                 break
+                 ;;
++            *_setscene*)
++                i=dummy
++                break
++                ;;
+             *$j|*$j.*)
+                 mv $i `echo $i | sed -e "s#${j}#${j}_setscene#"`
+                 i=dummy
 -- 
 2.17.1
 
