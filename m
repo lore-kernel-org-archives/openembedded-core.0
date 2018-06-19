@@ -1,41 +1,31 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EA03752F2
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0001F74A4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 01:21:45 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41216394"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jun 2018 09:21:45 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6DCBF4B41E95;
-	Tue, 19 Jun 2018 09:21:43 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0399.000; Tue, 19 Jun 2018 09:21:48 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core]  [PATCH] Fix build error when enable archiver.
-Thread-Index: AQHUA84oae2KFu6+fkyEyFQqCqwCmaRmzkJA
-Date: Tue, 19 Jun 2018 01:21:48 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD0170F9CEB8@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1527973443-39251-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<afabcbb9e34e435d8beba477ed3b51ba@XBOX02.axis.com>
-In-Reply-To: <afabcbb9e34e435d8beba477ed3b51ba@XBOX02.axis.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.300.84
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.27]
+	Tue, 19 Jun 2018 01:33:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5J1VljI030931
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Jun 2018 18:32:04 -0700
+Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Mon, 18 Jun 2018 18:31:37 -0700
+To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <1529051705-100332-1-git-send-email-mingli.yu@windriver.com>
+	<83c024358c85f13cf3a8d0d021b090cc755af1a3.camel@linuxfoundation.org>
+	<CAMKF1sqeoLNzuAV8W_LjNk0fNDQDKVT1dF-Hwsv4OTuesib84w@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5B285BFC.90103@windriver.com>
+Date: Tue, 19 Jun 2018 09:27:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 6DCBF4B41E95.ABF3B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] Fix build error when enable archiver.
+In-Reply-To: <CAMKF1sqeoLNzuAV8W_LjNk0fNDQDKVT1dF-Hwsv4OTuesib84w@mail.gmail.com>
+X-Originating-IP: [128.224.162.173]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] boost: Improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,57 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 01:21:46 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 19 Jun 2018 01:33:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-SGkgUGV0ZXINCg0KPiBUaGlzIGNhbm5vdCBiZSBjb3JyZWN0LiBJZiBJIGFt
-IG5vdCBtaXN0YWtlbiwgdGhlbiB0aGlzIHdvdWxkDQo+IGVmZmVjdGl2ZWx5
-IGRpc2FibGUgdGhlIGFyY2hpdmVyIGNsYXNzIGZyb20gb3V0cHV0dGluZyBh
-bnl0aGluZyBmb3INCj4gbmF0aXZlIHBhY2thZ2VzLg0KDQpJIGRvbid0IHRo
-aW5rIHRoZXJlIGlzIGFueSBuZWNlc3NhcnkgdG8gY3JlYXRlIGFyY2hpdmVy
-IGZvciB4eC1uYXRpdmUgYXMgc2FtZSBhcyBubyBuZWVkIHRvIGNyZWF0ZSBw
-YWNrYWdlcyBmb3IgeHgtbmF0aXZlLg0KeHgtbmF0aXZlIGlzIG9ubHkgdXNl
-ZnVsIG9uIGJ1aWxkIHN5c3RlbSwgaXQgaXMgbm90IG91dGNvbWUgb2YgYnVp
-bGQgc3lzdGVtLg0KDQpCZXN0IHJlZ2FyZHMNCkxlaQ0KDQoNCj4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgS2plbGxlcnN0
-ZWR0IFttYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tXQ0KPiBT
-ZW50OiBUaHVyc2RheSwgSnVuZSAxNCwgMjAxOCA2OjU1IFBNDQo+IFRvOiBM
-ZWksIE1hb2h1aTsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiBTdWJqZWN0OiBSRTogW09FLWNvcmVdIFtQQVRDSF0gRml4
-IGJ1aWxkIGVycm9yIHdoZW4gZW5hYmxlIGFyY2hpdmVyLg0KPiANCj4gPiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IG9wZW5lbWJl
-ZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+
-IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YNCj4gPiBMZWkgTWFvaHVpDQo+
-ID4gU2VudDogZGVuIDIganVuaSAyMDE4IDIzOjA0DQo+ID4gVG86IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJq
-ZWN0OiBbT0UtY29yZV0gW1BBVENIXSBGaXggYnVpbGQgZXJyb3Igd2hlbiBl
-bmFibGUgYXJjaGl2ZXIuDQo+ID4NCj4gPiBUaGUgZXJyb3IgaXMgYXMgZmxs
-b3dpbmc6DQo+ID4gRVJST1I6IFRhc2sgZG9fZGVwbG95X2FyY2hpdmVzIGlu
-DQo+ID4gdmlydHVhbDpuYXRpdmU6L3lvY3RvL3Bva3kvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjIwLmJiDQo+IGRlcGVuZHMg
-dXBvbiBub24tZXhpc3RlbnQgdGFzaw0KPiA+IGRvX3BhY2thZ2Vfd3JpdGVf
-cnBtIGluIHZpcnR1YWw6bmF0aXZlOi95b2N0by9wb2t5L21ldGEvcmVjaXBl
-cy0NCj4gZXh0ZW5kZWQvbmV3dC9saWJuZXd0XzAuNTIuMjAuYmINCj4gPiBF
-UlJPUjogQ29tbWFuZCBleGVjdXRpb24gZmFpbGVkOiAxDQo+ID4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBMZWkgTWFvaHVpIDxsZWltYW9odWlAY24uZnVqaXRz
-dS5jb20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvY2xhc3Nlcy9ub3BhY2thZ2Vz
-LmJiY2xhc3MgfCAxICsNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL25v
-cGFja2FnZXMuYmJjbGFzcw0KPiBiL21ldGEvY2xhc3Nlcy9ub3BhY2thZ2Vz
-LmJiY2xhc3MNCj4gPiBpbmRleCA1NTlmNTA3Li5kOWRkZmFjIDEwMDY0NA0K
-PiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9ub3BhY2thZ2VzLmJiY2xhc3MNCj4g
-PiArKysgYi9tZXRhL2NsYXNzZXMvbm9wYWNrYWdlcy5iYmNsYXNzDQo+ID4g
-QEAgLTEwLDMgKzEwLDQgQEAgZGVsdGFzayBkb19wYWNrYWdlX3dyaXRlX2lw
-a19zZXRzY2VuZQ0KPiA+ICBkZWx0YXNrIGRvX3BhY2thZ2Vfd3JpdGVfZGVi
-X3NldHNjZW5lDQo+ID4gIGRlbHRhc2sgZG9fcGFja2FnZV9xYV9zZXRzY2Vu
-ZQ0KPiA+ICBkZWx0YXNrIGRvX3BhY2thZ2VkYXRhX3NldHNjZW5lDQo+ID4g
-K2RlbHRhc2sgZG9fZGVwbG95X2FyY2hpdmVzDQo+ID4gLS0NCj4gPiAxLjku
-MQ0KPiANCj4gVGhpcyBjYW5ub3QgYmUgY29ycmVjdC4gSWYgSSBhbSBub3Qg
-bWlzdGFrZW4sIHRoZW4gdGhpcyB3b3VsZA0KPiBlZmZlY3RpdmVseSBkaXNh
-YmxlIHRoZSBhcmNoaXZlciBjbGFzcyBmcm9tIG91dHB1dHRpbmcgYW55dGhp
-bmcgZm9yDQo+IG5hdGl2ZSBwYWNrYWdlcy4NCj4gDQo+IC8vUGV0ZXINCj4g
-DQo+IA0KDQoKCg==
+
+
+On 2018年06月17日 22:04, Khem Raj wrote:
+>
+>
+> On Sun, Jun 17, 2018 at 2:17 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org
+> <mailto:richard.purdie@linuxfoundation.org>> wrote:
+>
+>     On Fri, 2018-06-15 at 16:35 +0800, mingli.yu@windriver.com
+>     <mailto:mingli.yu@windriver.com> wrote:
+>      > From: Mingli Yu <Mingli.Yu@windriver.com
+>     <mailto:Mingli.Yu@windriver.com>>
+>      >
+>      > Set .file section explicitly for .S files to avoid
+>      > the linker introduces the host path in symbols for
+>      > object files whose source file is .S
+>      > Otherwise, there is a host path in the symbols as
+>      > below:
+>      > $ readelf --wide --symbols /my-build/boost/1.67.0-
+>      > r0/boost_1_67_0/x86_64-poky-
+>      > linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+>      > d/libboost_context.so.1.67.0
+>      > 42: 0000000000000000 0 FILE LOCAL DEFAULT ABS /my-build/boost/1.67.0-
+>      > r0/boost_1_67_0/x86_64-poky-
+>      > linux/boost/bin.v2/libs/context/build/aca09349fdb84d131321425f6c3a38e
+>      > d/asm/make_x86_64_sysv_elf_gas.o
+>      >
+>      > [YOCTO #12708]
+>      >
+>      > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com
+>     <mailto:Mingli.Yu@windriver.com>>
+>      >
+>     Thanks for working through this, the final result is a much better fix!
+>
+>
+> If we add this directive to all the .S files there
+> Then it can be up streamed too
+
+Yes, I did try to send the related fix to upstream.
+Thanks Khem's help!
+
+Thanks,
+
+>
+>
+>
+>     Cheers,
+>
+>     Richard
+>
 
