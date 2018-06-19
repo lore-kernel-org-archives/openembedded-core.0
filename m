@@ -1,54 +1,49 @@
-Return-Path: <nirbheek.chauhan@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 928547604F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3507276019
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 20:24:56 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id l19-v6so1426035ioj.5
+	Tue, 19 Jun 2018 21:25:24 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id c15-v6so1371191otl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 13:24:58 -0700 (PDT)
+	Tue, 19 Jun 2018 14:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UkEqhbvL+RmpxGPnWxEyDcJrSwt/ntaukYY9hb3C7Yc=;
-	b=Gis5GqDdQSxmzuKb7g4iazwXctOz/YQErQTB3bmX7pwVG+d4JSre6O5qgyXAvtO3ms
-	08+bgVOJoIDvKjR1JKgUUyGOYVyoDMZgF2AVOZc/tthQGOAK2/uOLJKOO5X/xi5v9mQm
-	mrcGHSR3TP9wDnSLGZILG9GA2Pl7Ya7zihmhW/gF7gRmbPDVMjRytvZ85rJY8P9t8n1e
-	h9T7jLtzNo4zhXPXfl8/BzMbL1A17/j90xzaxDhY3kMnyVbRt76v735fHcAeSrJZbNm3
-	xIRhm4EnmPWBpftuSVmEWWf8T+6wiv8F1Wr/I5+T1qtAAGXNRNXzY2Cr3whUkQEKl2O7
-	LR7g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TEeGzAHEGibgPRJOmhWOcopCegwu6kvS/7uzrd4O1KI=;
+	b=apZFuOQ766xSz/d9KTQhrrCP+j1VCZCNUILxinSQ0v88XcG3e1+2KYKvAqkDJkyN6T
+	Vyb+k+/5Pl93kDW2ZDcTE2ONl5m2cXw//fUhlfD9oAw91T7UHeJvnJ5lIfDJWbFJSP3P
+	pCSw+vAA6XHBy1i898pYf0uf4e9U0ePInazPcc2f32YkCdELHmD2QI8hmOPAVrzjkgNV
+	AwEuwRPGT+d6Y6ZmZq+H3MBHrhzCW+NOL47pq+xLHD/GRxNSMwsoHWW025BDLAl9hUkd
+	+CeNxoA6cIvskRKVLF+eds1USTvGWZAIUoys+fKYF+cHO6hFOfw0ku6NmMQXB0tj+ewy
+	BpTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UkEqhbvL+RmpxGPnWxEyDcJrSwt/ntaukYY9hb3C7Yc=;
-	b=N3S7scJMnD4zM8GUdDWqDZ2Ue2+eiEcauvPV2gxT/IY2r0sXFP9ap/mdu0OliaQF0/
-	ATD4RbY/DwqvJJFxUXVk48MWLrB1O+SE2aHgPs4iM8qh8adyEI1nJUgX75KjHo5adls1
-	iLAfC/wroMFg9clakmF4Kg2CK1hHaiCAR/NueDkvjj/VGRP820G20xL4povUota6X2g4
-	Ovg73abCd9pK1O5xWJIjOQJxAim2wMwajtfHX7TX8uHqFOAjdrQoOd5xEMoJlkTI1zb7
-	7b181EzKz4O2RPHopUytCHoHSQwULoBOxprLcQ48pOG1Y7SoksMgqq/IVqkRx/zrdddn
-	deDA==
-X-Gm-Message-State: APt69E0zhz+gRf9hhjblsYyDznUsYkkMmmJN4OmojK/1pZKL7oE0Ywoc
-	camXZkyQh3lmkTRcJOE/EKRpYmXg3i1/gqbEon8=
-X-Google-Smtp-Source: ADUXVKJg29M2/JEpHEaxJHhJub0XWhb79zS8DpjG4lbEPddozuf1vdRMOFCWcIMsfOZOIIhmiFVtLuGgKUz8QYDMJEU=
-X-Received: by 2002:a6b:6f0b:: with SMTP id
-	k11-v6mr15579823ioc.62.1529439897480; 
-	Tue, 19 Jun 2018 13:24:57 -0700 (PDT)
+	bh=TEeGzAHEGibgPRJOmhWOcopCegwu6kvS/7uzrd4O1KI=;
+	b=CLPzPcvH/cXrMAoyOO+lojz47V8haX2Pms/Yl0CLHO1fyJ9ykADgL/XxDO186LtD64
+	ama9hsx3gtfv7qH3v0i4/aRgcjg4HaSKl3XdL9+hDHGLwwuN4+LYuKJeAg6x3R90tykk
+	Jkk0S425A9EBtaGhpIt0RXnq5PTctcWnfMyzaYWqXh2pWVmYW8dYALnNwEu3k/0tgRNx
+	0Searpxwe3kFqCNUsRMxS/xYNrgRjhifTDhfY92zhCrKGFTh1rebNZIXoFM2Fpyp4TK+
+	FCkM4O+0J/42+1YpJ8iZRF6jx2k0dAwlQbJ6WtDSKUylgY1n3A6ZFCG51I5d2KJ+LodV
+	pZKw==
+X-Gm-Message-State: APt69E3f5AV/f0N2disMWx5yrpBvXcJlFbJ2/yGf8mUmjQQAuRI47wr7
+	7h+6Q7l9PAdN77cJm4N3Ts3LcPPzFPpEZt2IlSc=
+X-Google-Smtp-Source: ADUXVKJTeMj7fVspiWfa7g6RUuXpGl40FD2ma+ZVEG4g6gQXPDLkzdQTJnVoPVr09KlqvIQgK3xss/EDgzSt4gKI31w=
+X-Received: by 2002:a9d:4609:: with SMTP id
+	y9-v6mr10462156ote.259.1529443525231; 
+	Tue, 19 Jun 2018 14:25:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
-	<20180504123244.43049-12-alexander.kanavin@linux.intel.com>
-	<32602a82-f07d-3c69-2305-3f0f17f4c9dc@windriver.com>
-	<CAJTo0La2eicsFUCAPOktYs110iFdOrFWNzLXC+EeeRrDzBHtNQ@mail.gmail.com>
-	<282aab6b-9e7c-1d85-8e1e-443d1156c1fa@gmail.com>
-	<b536b753-8e56-bb37-5a7a-1f66092e9c02@windriver.com>
-	<CANNYZj8M+88frU6ci4n-=ufcMts1764FPK2AdbYSkmboafsnfg@mail.gmail.com>
-In-Reply-To: <CANNYZj8M+88frU6ci4n-=ufcMts1764FPK2AdbYSkmboafsnfg@mail.gmail.com>
-From: Nirbheek Chauhan <nirbheek.chauhan@gmail.com>
-Date: Wed, 20 Jun 2018 01:54:47 +0530
-Message-ID: <CADqQcK7Q_eZBoRiE88_XY=FbZVfJSpkybHdTCPqFM9okVZqYcQ@mail.gmail.com>
-To: alex.kanavin@gmail.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/14] meson: update to 0.46.0 -- broke systemd on qemuppc
+Received: by 2002:a4a:90cd:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 14:25:24
+	-0700 (PDT)
+In-Reply-To: <20180619202029.5338-1-ptsneves@gmail.com>
+References: <20180619202029.5338-1-ptsneves@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 20 Jun 2018 00:25:24 +0300
+Message-ID: <CANNYZj9O89YaqZ8upHXf_-WYY6vmec8We=nb=WKvwY1H2L0Wwg@mail.gmail.com>
+To: Paulo Neves <ptsneves@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] meson-with-tests: Allows for build time tests of meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,33 +56,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 20:24:56 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 21:25:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 20, 2018 at 1:39 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
-> FWIW, I did fix a similar (or maybe even same) issue with this patch:
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/meson/meson/0001-Linker-rules-move-cross_args-in-front-of-output_args.patch
+qemu is notoriously fragile, or non-existent for some MACHINEs. If
+something fails, the failure should be reported as a warning.
+
+Also, can this be enabled for anything in oe-core that currently
+utilizes plain meson? That way the class will actually get used and
+tested.
+
+Alex
+
+2018-06-19 22:20 GMT+02:00 Paulo Neves <ptsneves@gmail.com>:
+> meson build system has the functionality of setting
+> an executable wrapper to run cross-compiled
+> binaries. The setting is called exe_wrapper and can
+> be defined in the meson.cross file. With a valid
+> exe_wrapper meson build system can test if the built
+> binary is sane.
 >
-> It's possible that more rearranging needs to be done, or this patch no
-> longer has the desired effect.
+> Another advantage of setting exe_wrapper setting
+> is that we can run the tests defined in the meson
+> build system. This way if this class is inherited
+> not only are the default targets built, their tests
+> will also run and have an opportunity to fail the
+> the build at the recipe level if necessary.
 >
-
-So far in this thread, I don't see any changes that would cause this
-issue, and that patch shouldn't change things either. The bisection is
-probably significant, but I am not sure what's going.
-
-Also, in general please try to talk to us first before doing a change
-like that (switching the order of cross_args) so we can investigate
-and figure out what we should fix. The cross_args are at the end so
-they can override existing arguments, such as -D flags or -W flags.
-
-Another thing to try would be current git, which has significant
-changes in how we do library resolution, de-duplication, and so on.
-Specifically, instead of `-lfoo`, we now prefer full paths to the
-library to use instead since this allows greater flexibility in
-selecting whether to use shared or static libraries.
-
-Cheers,
-Nirbheek
+> The user of this class should not inherit meson
+> directly but leave it to this class. This class
+> may later be merged into meson.bbclass itself.
+>
+> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+> ---
+>  meta/classes/meson-with-tests.bbclass | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>  create mode 100644 meta/classes/meson-with-tests.bbclass
+>
+> diff --git a/meta/classes/meson-with-tests.bbclass b/meta/classes/meson-with-tests.bbclass
+> new file mode 100644
+> index 0000000000..ddaeebc726
+> --- /dev/null
+> +++ b/meta/classes/meson-with-tests.bbclass
+> @@ -0,0 +1,26 @@
+> +inherit meson
+> +
+> +DEPENDS_append += "qemu-native"
+> +
+> +do_write_config_append() {
+> +  #You need to pass qemu with the sysroot path
+> +  #arguments, but internally meson uses Popen
+> +  #so we could try lists of arguments
+> +  #While passing a list directly in the exe_wrapper
+> +  #parameter passes the sanity test, it later on
+> +  #fails in the actual test run with:
+> +  #TypeError: expect bytes or str, not list
+> +  #So we create an in here wrapper.
+> +  cat > ${WORKDIR}/meson_exe_wrapper.sh << EOF
+> +#!/bin/sh
+> +qemu-${TARGET_ARCH} -L ${RECIPE_SYSROOT} \$@
+> +EOF
+> +
+> +  chmod u+x ${WORKDIR}/meson_exe_wrapper.sh
+> +
+> +  sed "/binaries/a\exe_wrapper = '${WORKDIR}/meson_exe_wrapper.sh'" -i ${WORKDIR}/meson.cross
+> +}
+> +
+> +do_compile_append() {
+> +  ninja test
+> +}
+> --
+> 2.14.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
