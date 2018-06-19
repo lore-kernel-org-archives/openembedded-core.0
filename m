@@ -1,57 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5662476057
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DDE960670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 23:39:45 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id s13-v6so987022uad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 16:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HIs8DNUFzbXprl7tW9jbJXYm14cc13uDDRx4XJei5Ek=;
-	b=Dh+jjYugxflfN916WnUSfrYvb+e06i93BX9207blOWmemnS/+jwoJ+0M8mfTpXE1++
-	JGkHxVHosgqmePkvxPLZMd5lNMCFqer2QCa0Y8SASzUPlufK18oxjGLOsJdzvAuiVziR
-	pNJ/t6pWhxzQOtA94MO65dzQRvP3hIaKIatsvYXLCg9ioJNxOY7oql+TUjWe6i2njcs0
-	NHLvMkwFVuZWfcHpH+nwCFxGGNXaTk8JxC/FUprceWKogvrBs1CWg11UUVTPciJhOric
-	kqr2zitN1aicG5hi3owtNGgzAMcXsI7NUinnpZtwBgCpi5DYdlZQPu49uSIDq7RTZ5fo
-	N5SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HIs8DNUFzbXprl7tW9jbJXYm14cc13uDDRx4XJei5Ek=;
-	b=VNFbikohkmmqwhTSH+CmF9BX1gA9/jfUJ7/bOGH+/m0BDwRxzjv5EYjR52/5kCM27J
-	wpxVZN2v2M0nsuscXYfMteezxxvKkOdH3gnswHObHvBVFLxIliPjDQ52fNwyXbMDnsZR
-	bpn0G9d/PyKHctzfUmQYSpMhbBOb/IXbzNwouUMSziD7LK943F2uFuo5hKYfxK9yWNaU
-	i2flokUDLyozko7tS1w6/ckwpL4JbhMIZUie9iRVskxg55l9i1E0EVC/4yq4b8LDmXKE
-	Iud361Lxm4/MLlPJ278LORH8CkyxO0KJp/ljwmwRtuz6UgKA7L5ZR4rKD4rdnUhYtX98
-	NXAQ==
-X-Gm-Message-State: APt69E1uCPcYwBzWc5+YB8cF9uj5VMBwwaRtofIMbGLUecGdOauSnmk/
-	rziEZmy5EEP4ZbkCEmaXv803GcRhi8qZdnQ2cT4=
-X-Google-Smtp-Source: ADUXVKLHP30sYUtb/VAd5CqwvuDJfqNaJmqsMWVsIzbz4/ssGK0A/DbCb5rG5p+XhtrL4pnnee+zTMvknP5ExYsiGgM=
-X-Received: by 2002:ab0:5851:: with SMTP id
-	p17-v6mr11832542uac.164.1529451585903; 
-	Tue, 19 Jun 2018 16:39:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180504123244.43049-1-alexander.kanavin@linux.intel.com>
-	<20180504123244.43049-12-alexander.kanavin@linux.intel.com>
-	<32602a82-f07d-3c69-2305-3f0f17f4c9dc@windriver.com>
-	<CAJTo0La2eicsFUCAPOktYs110iFdOrFWNzLXC+EeeRrDzBHtNQ@mail.gmail.com>
-	<282aab6b-9e7c-1d85-8e1e-443d1156c1fa@gmail.com>
-	<b536b753-8e56-bb37-5a7a-1f66092e9c02@windriver.com>
-	<CANNYZj8M+88frU6ci4n-=ufcMts1764FPK2AdbYSkmboafsnfg@mail.gmail.com>
-	<CADqQcK7Q_eZBoRiE88_XY=FbZVfJSpkybHdTCPqFM9okVZqYcQ@mail.gmail.com>
-	<CAJTo0LaA44BywL8+0kNRnPJD5b90tA9M0B6wEZ7hOJcbX=L+ZA@mail.gmail.com>
-	<CAJTo0Lbc-csvZj3qZPEvqbVbH-U0TyCgqeUQeF1Z_=xwfe7=NA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbc-csvZj3qZPEvqbVbH-U0TyCgqeUQeF1Z_=xwfe7=NA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jun 2018 16:39:30 -0700
-Message-ID: <CAMKF1soxbtYCax9tiwNwySfy0-+1VAhdbJ2zQMm=vecettKx_w@mail.gmail.com>
+	Tue, 19 Jun 2018 23:53:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4638620BFB;
+	Tue, 19 Jun 2018 23:53:23 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id gSOFCBitdcTE; Tue, 19 Jun 2018 23:53:23 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 18AAD2088D;
+	Tue, 19 Jun 2018 23:53:21 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 9A4241634BF; Tue, 19 Jun 2018 19:53:20 -0400 (EDT)
+Date: Tue, 19 Jun 2018 19:53:20 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20180619235320.GN19965@denix.org>
+References: <cover.1526944475.git.denys@ti.com>
+	<b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
+	<CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
+	<CAJTo0LaQjo2iUw1BGo18fmH+Mz0j7pnkq7ooX_Q7zNyYa-chVQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaQjo2iUw1BGo18fmH+Mz0j7pnkq7ooX_Q7zNyYa-chVQ@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/14] meson: update to 0.46.0 -- broke systemd on qemuppc
+Subject: Re: [PATCH 3/4] mtd-utils: upgrade 2.0.1 -> 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,85 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 23:39:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Jun 2018 23:53:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jun 19, 2018 at 4:13 PM Burton, Ross <ross.burton@intel.com> wrote:
->
-> Okay, odd.  Hacked in a few compile fixes and now systemd v237 fails
-> to build with Meson git master:
->
-> | FAILED: libsystemd.so.0.21.0
-> | powerpc-poky-linux-gcc -m32 -mhard-float -mcpu=7400 -mno-spe
-> -fstack-protector-strong -D_FORTIFY_SOURCE=2 -no-pie -fno-PIE
-> --sysroot=/data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot
->  -o libsystemd.so.0.21.0  -Wl,--no-undefined -Wl,--as-needed -shared
-> -fPIC -Wl,--start-group -Wl,-soname,libsystemd.so.0
-> -Wl,--whole-archive src/libsystemd/libsystemd.a
-> src/journal/libjournal-client.a -Wl,--no-whole-archive -Wl,-z,relro
-> -Wl,-z,now -pie -Wl,--gc-sections src/basic/libbasic.a
-> src/basic/libbasic-gcrypt.a -pthread -shared
-> -Wl,--version-script=/data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/git/src/libsystemd/libsystemd.sym
-> -lrt -Wl,--end-group
-> /data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot/usr/lib/liblzma.so
-> /data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot/lib/libcap.so
-> /data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot/usr/lib/libblkid.so
-> -lrt -m32 -mhard-float -mcpu=7400 -mno-spe -fstack-protector-strong
-> -D_FORTIFY_SOURCE=2 -no-pie -fno-PIE
-> --sysroot=/data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot
-> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong
-> -Wl,-z,relro,-z,now
-> | /data/poky-tmp/master/work/ppc7400-poky-linux/systemd/1_237-r0/recipe-sysroot/usr/lib/../lib/crt1.o:(.rodata+0x4):
-> undefined reference to `main'
->
-> I'm guessing the compile option re-ordering is going wrong with our
-> compiler flags?
->
+On Tue, May 22, 2018 at 01:16:34PM +0100, Burton, Ross wrote:
+> On 22 May 2018 at 08:49, Andrea Adami <andrea.adami@gmail.com> wrote:
+> > I am just wondering about this patch:we carry it since 2009  [1] and
+> > is still marked as pending.
+> > Why was it necessary to ignore part of the filesystem? Can you remember?
+> 
+> Make that at least 2004.  This commit in oe-classic touches it:
+> 
+> commit c70605ebdca81412a93b4d867de7931543193f26
+> Author: Chris Larson <clarson@kergoth.com>
+> Date:   Thu Dec 23 21:24:57 2004 +0000
+> 
+>     Update mtd to a current snapshot, change the mkfs.jffs2 -i cmdline option to
+>     -I, and rename mtd and mtd-native to mtd-utils and mtd-utils-native,
+>     respectively.
+> 
+> Prior history is lost to the git/bk migration unless anyone has a
+> BitKeeper clone to mine...
 
-When building a .so we need to remove pie flags regardless for linker
-and compiler and replace with -fPIC like libtool does
-pie flags are only relevant when building executable.
-Can we try with v238  and see if that helps ?
+So, does this prevent the version upgrade from being merged?
 
-
-> Ross
->
-> On 20 June 2018 at 00:02, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 19 June 2018 at 21:24, Nirbheek Chauhan <nirbheek.chauhan@gmail.com> wrote:
-> >> On Wed, Jun 20, 2018 at 1:39 AM Alexander Kanavin
-> >> <alex.kanavin@gmail.com> wrote:
-> >>> FWIW, I did fix a similar (or maybe even same) issue with this patch:
-> >>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/meson/meson/0001-Linker-rules-move-cross_args-in-front-of-output_args.patch
-> >>>
-> >>> It's possible that more rearranging needs to be done, or this patch no
-> >>> longer has the desired effect.
-> >>>
-> >>
-> >> So far in this thread, I don't see any changes that would cause this
-> >> issue, and that patch shouldn't change things either. The bisection is
-> >> probably significant, but I am not sure what's going.
-> >>
-> >> Also, in general please try to talk to us first before doing a change
-> >> like that (switching the order of cross_args) so we can investigate
-> >> and figure out what we should fix. The cross_args are at the end so
-> >> they can override existing arguments, such as -D flags or -W flags.
-> >>
-> >> Another thing to try would be current git, which has significant
-> >> changes in how we do library resolution, de-duplication, and so on.
-> >> Specifically, instead of `-lfoo`, we now prefer full paths to the
-> >> library to use instead since this allows greater flexibility in
-> >> selecting whether to use shared or static libraries.
-> >
-> > So I just generated a snapshot of current git and am building systemd
-> > with it.  Interestingly, the flag order change is resulting in what
-> > were warnings now being fatal and systemd fails to build.  One was
-> > easily fixed with a patch from master, the other will have to wait
-> > until tomorrow morning, but I will get back to this.
-> >
-> > Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Denys
 
