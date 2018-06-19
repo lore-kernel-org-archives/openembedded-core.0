@@ -1,55 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 755DD7544D
+Return-Path: <sstncr@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C49475545
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 14:03:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id CF87818531;
-	Tue, 19 Jun 2018 16:03:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 2_8F32C2wLEX; Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id A626E18403;
-	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 874C11E09A;
-	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7AD211E096;
-	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6DD4319E5;
-	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 19 Jun 2018 16:03:34 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Tue, 19 Jun 2018 16:03:34 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] subversion: 1.9.7 -> 1.10.0
-Thread-Index: AQHUB8ZTz6YZQZ1ryUCdGjI9K5dOnKRnj0Dg
-Date: Tue, 19 Jun 2018 14:03:34 +0000
-Message-ID: <ead0418805544170893f57cccd105650@XBOX02.axis.com>
-References: <20180619120900.12437-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20180619120900.12437-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] subversion: 1.9.7 -> 1.10.0
+	Tue, 19 Jun 2018 14:10:43 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id v131-v6so742040wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jun 2018 07:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=BCYxUS6S+VKbMtB96iI3a8Utebu8sBc62+ZUFW4O4KI=;
+	b=GjuCqLVX94n1KIgCfEv+APpTTptX4s11sK65PfeGR/JJcmZ7zOSFSHFQFOfFhSmrFl
+	6nl3kBRBxtzD4xSZN/mByQ6Ef9Yo2ZUj/Jdbay3kuIUexYuFK4QGR/OCj6LBB9XLue3C
+	Q/uHHrnTHyo/7JUiQUYtNarGVZC7DwyGcjlmR07LdqW3AmiG6ZZXRSDjtMRMfxaV7D3/
+	CbnQGmpmPcC+CkJHa2jYMIfGDIpxKMqxlgg075uJnuq06iE/d9t8UagWvz7u8AGg1b/Q
+	o3GYpAME7OwoUQiGywnynQhP2odbmF3j/B0IkJF+Onlvit0rxcGoq8KPpKk5KdG+FF6v
+	SE1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BCYxUS6S+VKbMtB96iI3a8Utebu8sBc62+ZUFW4O4KI=;
+	b=WkIOQ8pvGzs6bMCD90MeXVi4Bc7chery/qfXQ+O9Wb7MIFMLdS4h5sOQPYyKit1onh
+	irfszTd923gLEZS1YEAS4T+4iRXk68Jx0Cwi/S6KDD0BqRTknhvY2hDF/VLM2db7ahtl
+	0ZW3r5N/ZHkZ2SkWoiPIlQHXgaHij+cMAQ52UiJckoyj1WgvqT7t/mkKRNgm8ylgWQ2g
+	sfYCh8f3actPS4Cl16XDdWsH4zithCPIMijMXxuI4L+rGPNHU4QkAbkXSljcDqRCgTTQ
+	TBFj0ptjEgoO0gqoARNqOqoL+Ieq7azbLV9vhLRezOBJ6QyS+uOBPwypVO1xpqb44Pd+
+	8cVg==
+X-Gm-Message-State: APt69E3OAJZJS6RVNZ0t0suPadarVcbNOHW04I5ZLv8wpGNZQXew16V4
+	QWq0M+XBAlMD/D55h/T7+SZh/jY5
+X-Google-Smtp-Source: ADUXVKLnZX1zbTMieUptnl0Z6z9gzgVnPTHoU2UqeYEQVWwJabGfYe8XNLCGB5G1A16JY+LriEjPpw==
+X-Received: by 2002:a1c:eb08:: with SMTP id
+	j8-v6mr13338363wmh.160.1529417443844; 
+	Tue, 19 Jun 2018 07:10:43 -0700 (PDT)
+Received: from ubuntu-xenial.corp.fitbit.com ([86.120.134.70])
+	by smtp.gmail.com with ESMTPSA id
+	j131-v6sm226299wmb.35.2018.06.19.07.10.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 19 Jun 2018 07:10:43 -0700 (PDT)
+From: Stefan Stanacar <sstncr@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jun 2018 14:08:49 +0000
+Message-Id: <20180619140849.16963-1-sstncr@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [sumo][PATCH] default-versions.inc: use weak assignments to allow overwrite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,97 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 14:03:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Jun 2018 14:10:43 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Richard Purdie
-> Sent: den 19 juni 2018 14:09
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] subversion: 1.9.7 -> 1.10.0
->=20
-> License changed since licenses for the bundled linenoise and lz4 codebase=
-s
-> were added. We don't build either of them. Add MIT since utf8proc is MIT
-> licensed.
->=20
-> Configure to use the internal utf8proc codebase since we have no copy of =
-that in
-> OE-Core, nor any need to add one.
->=20
-> Add a dependency on lz4 which is now required rather than using the inter=
-nal
-> codebase within subversion.
->=20
-> Drop a patch merged upstream.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  .../{subversion_1.9.7.bb =3D> subversion_1.10.0.bb}    | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->  rename meta/recipes-devtools/subversion/{subversion_1.9.7.bb =3D>
-> subversion_1.10.0.bb} (91%)
->=20
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.9.7.bb
-> b/meta/recipes-devtools/subversion/subversion_1.10.0.bb
-> similarity index 91%
-> rename from meta/recipes-devtools/subversion/subversion_1.9.7.bb
-> rename to meta/recipes-devtools/subversion/subversion_1.10.0.bb
-> index da9de9d5b92..82454ae63c3 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.9.7.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.10.0.bb
-> @@ -1,21 +1,20 @@
->  SUMMARY =3D "Subversion (svn) version control system client"
->  HOMEPAGE =3D "http://subversion.tigris.org"
+default-versions.inc is included by defaultsetup.conf which in bitbake.conf
+is included after local/machine/distro.conf.
+If these are hard assignments distros can's overwrite them.
 
-You should change that since subversion.tigris.org contains the old=20
-homepage:
+Signed-off-by: Stefan Stanacar <sstncr@gmail.com>
+---
+ meta/conf/distro/include/default-versions.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-HOMEPAGE =3D "http://subversion.apache.org"
-
->  SECTION =3D "console/network"
-> -LICENSE =3D "Apache-2"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daf81ae49ba359e70626c05e9bf313=
-709"
-> +LICENSE =3D "Apache-2 & MIT"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D83206f39819e7a4dfca2ff7c190f6=
-ce0"
->=20
-> -DEPENDS =3D "apr-util serf sqlite3 file"
-> +DEPENDS =3D "apr-util serf sqlite3 file lz4"
->  DEPENDS_append_class-native =3D " file-replacement-native"
->=20
->  SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://disable_macos.patch \
-> -           file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
->             file://0001-Fix-libtool-name-in-configure.ac.patch \
->             file://serfmacro.patch \
->             "
->=20
-> -SRC_URI[md5sum] =3D "05b0c677681073920f938c1f322e0be2"
-> -SRC_URI[sha256sum] =3D "c3b118333ce12e501d509e66bb0a47bcc34d053990acab45=
-559431ac3e491623"
-> +SRC_URI[md5sum] =3D "0126847f9e8cb8ed0b90a6a18b203309"
-> +SRC_URI[sha256sum] =3D "2cf23f3abb837dea0585a6b0ebd70e80e01f95bddef7c1aa=
-097c18e3eaa6b584"
->=20
->  inherit autotools pkgconfig gettext
->=20
-> @@ -31,6 +30,7 @@ EXTRA_OECONF =3D " \
->      --without-berkeley-db \
->      --without-swig \
->      --disable-keychain \
-> +    --with-utf8proc=3Dinternal \
->      ac_cv_path_RUBY=3Dnone \
->  "
->=20
-> --
-> 2.17.1
-
-//Peter
+diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
+index 868073843a..3d88e8f656 100644
+--- a/meta/conf/distro/include/default-versions.inc
++++ b/meta/conf/distro/include/default-versions.inc
+@@ -2,6 +2,6 @@
+ # Default preferred versions
+ #
+ 
+-PREFERRED_VERSION_openssl = "1.0.%"
+-PREFERRED_VERSION_openssl-native = "1.0.%"
+-PREFERRED_VERSION_nativesdk-openssl = "1.0.%"
++PREFERRED_VERSION_openssl ?= "1.0.%"
++PREFERRED_VERSION_openssl-native ?= "1.0.%"
++PREFERRED_VERSION_nativesdk-openssl ?= "1.0.%"
+-- 
+2.17.1
 
 
