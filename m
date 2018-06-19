@@ -1,49 +1,50 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A5D0875552
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D0967557F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 18:09:54 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id n24-v6so911709lfh.3
+	Tue, 19 Jun 2018 18:33:14 +0000 (UTC)
+Received: by mail-ua0-f174.google.com with SMTP id 74-v6so470623uav.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 11:09:55 -0700 (PDT)
+	Tue, 19 Jun 2018 11:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/q1L5PeUO12R6xpTBNFt5Yyg7y/2u+T8b6PNATjOiVU=;
-	b=b5AbH1BsGn2u4/D6Wgzukb4AMdA5XhmS3FhQeGPA4yp+5gtoMDFi7YCNbsbD3l1sAX
-	nov/g+tFQjLjMYapPdcJ4SAss1dMTDApNyTenxax6lY04+h/0DYLm4CCZLLWFkGIB7Ug
-	e1oziQeThvNCrg/v90h6SFW1n4z/WuSw19K4PgrRegOMGJQiww2iZRiSNWSd8RSwSAss
-	PqW5S5yos6fz0pp2OuxQk7SU+RbSxFzdKD0S/oucjaz7NIBR64cIea5dsMAF96ARUKxC
-	3D5UZ8hqWkaWgaysSRvrqJyRA4wIgkOyI4q9jSxAEmbr14Rr9mrjMaP7sE9ab0Jf4/oz
-	Dr9Q==
+	:cc; bh=VO9THWYyYaSB/I0W7W/v4an6goj3HvJXxzEo5ZBip4c=;
+	b=A2saVxpT+u4YgyWAdcKjGNCzCBH5sCTtY7Cd4sU8n907HeARkeCqRfP2yLemrQ1xfl
+	Ktj22/72B0g7WzDyUzqhbaLzkHUN5ZtIN4/Wr9Mly3KS7oRthLImw7ZEU+WvsbUs+TWL
+	xRnPP0GIoP99kHK+ULg15sp/Hf1bLrPMQokf0gG3eNgab97LDCzZQeU6x44rV751NWLk
+	hquR7wgvJipZ/IG7g1CCo+ZCpunUirShta/niHiGHsiGjxMU7gJgSddd3GAec3Wceiyi
+	fTKzRFQIT7NFUWMnI4s+An4eRwLjM0uPIpSAlxglSdqp57XeEx6VM3TY7pyBYSl2lske
+	lRFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=/q1L5PeUO12R6xpTBNFt5Yyg7y/2u+T8b6PNATjOiVU=;
-	b=fX6pbrlXe3NNoBLMukuZ4c8zqNWbWyWy/cd+qcO1AzmpSDugT3wyxKb4GYP6oHRDQQ
-	AK9aXZaeNdcJ7+t01dZSVakJX83RloFqdl82HnkhVDD0wTNjsuBJ7DaUtTyUeV0peXF0
-	l9CNVAyhGgjO+AkeKXlW0UXQnmjvupyD/5dMrad86CJGbuOpfHJqnjj/bHdsQXUYjjoL
-	SFzQW+gydrgC9CbB0gIpx0UG32jHaOEPO5QDbrb3jjMHcUGpo9nuZpSvYE2zBj8gyB+J
-	rdYot6eg0gJVwOJbNDIy3tz7nudrjHwTj/+u78csHIDB9TbChvi6bbDZM1Q4Y7iSFbIQ
-	Rqjw==
-X-Gm-Message-State: APt69E1Yj3Aq1y0MTs0fviW8KH67/JIjjfsWTB1t/KfsU86AmAqQQKTk
-	rr7Pcr7UPKZbRDVnG8bNLyq0RPtT5aPM/cdTYNk=
-X-Google-Smtp-Source: ADUXVKINuLt1yO9Tj78utnqExHk0Oq4PfbXw8dXTrqOYqG9kBqNZvWYveK0FcrWsM/+EV2lHLKP/Dwr13ucUbHepcqE=
-X-Received: by 2002:a2e:934d:: with SMTP id
-	m13-v6mr11491098ljh.78.1529431795113; 
-	Tue, 19 Jun 2018 11:09:55 -0700 (PDT)
+	bh=VO9THWYyYaSB/I0W7W/v4an6goj3HvJXxzEo5ZBip4c=;
+	b=sdmuBslk63w1UhD77HWRMay0o2Muy8KZ2Hq3IJbozXcRp5LAObJHavn6zBqH9o5W4s
+	uwbBafRj4ReIFvSsM/wIYG3K0/MdXUg6tp8Muloy0leHdUO7nOK6TT5jboBxWhN262yy
+	hM0K0T9Ewc94If/Ub6uiUV82Cf3zL83dyUXuklZaSgmphjx67qQKacIq+Kl+qG1EfLA0
+	4PyicVU6AlChez0FBbczvS+Slo5B8jqxx00lqBzHjrr0/H5YamyMR4d96Ox43+OHmnB+
+	Y05jO+f2V2WPMRBj5v4+yc0TefcotFEg9hCGMPGakIfaIoJDos5VQtrFul9JhONRI5CS
+	/tuQ==
+X-Gm-Message-State: APt69E3LmY2ni08MXJ5/SrmHGR7ENyOBKCFSYfwCIO9g+rsl2Zkji/aZ
+	jTY61UmXndzx83UEtesmFqgs5+uV1881VCFdjFdHHA==
+X-Google-Smtp-Source: ADUXVKLGCuc1+YloAZ70P9TiTZwM5BwRLUnnrcMuOBZ7wl4RjFAa+ZvkCrupGaFnaqe80B0iNtUjDLillLOLLdY/fjM=
+X-Received: by 2002:ab0:50ba:: with SMTP id
+	c55-v6mr12114853uaa.150.1529433194854; 
+	Tue, 19 Jun 2018 11:33:14 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:3218:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 11:09:24
-	-0700 (PDT)
-In-Reply-To: <20180525155636.116866-1-alistair.francis@wdc.com>
-References: <20180525155636.116866-1-alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Jun 2018 11:09:24 -0700
-Message-ID: <CAKmqyKPDm7i+9xbuFy0BinoT5fGDj6+rUEK5XDyow0NcE-biqA@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-kernel/linux: Enable NUMA Kconfig from MACHINE_FEATURES
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Tue, 19 Jun 2018 11:33:14 -0700 (PDT)
+In-Reply-To: <DB6PR0601MB2133CEC1B8D8FAB2DFC46118C3700@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+References: <DB6PR0601MB2133CEC1B8D8FAB2DFC46118C3700@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 19 Jun 2018 11:33:14 -0700
+Message-ID: <CAJ86T=UUz7_m+P1cWAk8tNT6Y=Cmme-2Jy3b4q8ZUkHzJwi1Gg@mail.gmail.com>
+To: Tobias Olausson <TOl@hms.se>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv4] image_types.bbclass: add optional size to ubi vols
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 18:09:55 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 18:33:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 25, 2018 at 8:56 AM, Alistair Francis
-<alistair.francis@wdc.com> wrote:
-> If the user has set numa in their MACHINE_FEATURES we should enable
-> NUMA support in the kernel config.
+On Tue, Jun 19, 2018 at 8:09 AM, Tobias Olausson <TOl@hms.se> wrote:
+> From 1d15f0d3c516351e6540a912367bcb22f9c25bbf Mon Sep 17 00:00:00 2001
+> From: Tobias Olausson <tol@hms.se>
+> Date: Mon, 18 Jun 2018 15:01:53 +0200
+> Subject: [oe-core][PATCHv4] image_types.bbclass: add optional size to ubi vols
 >
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Ping!
-
-Alistair
-
+> Instead of hard coding the ubi volume to be just large enough to fit the
+> root file system, one can use a variable to set a preferred size.
+>
+> Signed-off-by: Tobias Olausson <tol@hms.se>
 > ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 2 ++
->  1 file changed, 2 insertions(+)
+>  meta/classes/image_types.bbclass | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 3bb872a32a..a8ac237656 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -28,6 +28,8 @@ KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 00a00d318f..2a0a7994c9 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -164,10 +164,22 @@ multiubi_mkfs() {
+>                 local vname="_$3"
+>         fi
 >
->  KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
->
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains('MACHINE_FEATURES', 'numa', 'features/numa/numa.scc', '', d)}"
+> +       # Set UBI_VOL_SIZE (for regular ubi) or UBI_VOL_SIZE_vname for multiubi
+> +       if [ -z "${vname}" ]; then
+> +               local ubi_vol_size=${UBI_VOL_SIZE}
+> +       else
+> +               eval local ubi_vol_size=\"\$UBI_VOL_SIZE${vname}\"
+
+This looks odd. Presumably it (and the multiubi code from which it's
+derived) relies on the _<VOLUMENAME> suffix variables
+(MKUBIFS_ARGS_foo, UBI_VOL_SIZE_foo, etc) being exported from bitbake
+to the shell?
+
+I didn't find any discussion about that from when the original
+multiubi code was merged though. Are there any multiubi users who can
+clarify?
+
+> +       fi
 > +
->  # A KMACHINE is the mapping of a yocto $MACHINE to what is built
->  # by the kernel. This is typically the branch that should be built,
->  # and it can be specific to the machine or shared
+>         echo \[ubifs\] > ubinize${vname}-${IMAGE_NAME}.cfg
+>         echo mode=ubi >> ubinize${vname}-${IMAGE_NAME}.cfg
+>         echo image=${IMGDEPLOYDIR}/${IMAGE_NAME}${vname}${IMAGE_NAME_SUFFIX}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
+>         echo vol_id=0 >> ubinize${vname}-${IMAGE_NAME}.cfg
+> +
+> +       if [ -n "${ubi_vol_size}" ]; then
+> +               echo "vol_size=${ubi_vol_size}" >> ubinize${vname}-${IMAGE_NAME}.cfg
+> +       fi
+> +
+>         echo vol_type=dynamic >> ubinize${vname}-${IMAGE_NAME}.cfg
+>         echo vol_name=${UBI_VOLNAME} >> ubinize${vname}-${IMAGE_NAME}.cfg
+>         echo vol_flags=autoresize >> ubinize${vname}-${IMAGE_NAME}.cfg
 > --
-> 2.17.0
+> 2.17.1
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
