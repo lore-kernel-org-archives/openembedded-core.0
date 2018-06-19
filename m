@@ -1,57 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 725F2745AB
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 382EF74603
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 04:17:53 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id g20-v6so10215450plq.1
+	Tue, 19 Jun 2018 04:25:56 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id b17-v6so9265824pfi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2018 21:17:54 -0700 (PDT)
+	Mon, 18 Jun 2018 21:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=6RRi1E5LDSWiv8xwid8LWoCSZ9A1tXAiQJLHOK7NhRg=;
-	b=pN5x0jfpEctaMnl3CNmGkdn20EP6G5uXhkOrhP9KEVcUpMtntnBL1G3SAoKg+/kbGx
-	/H2oBitgwmqm4CcHWisvheMETRNoHFRaQmqy7wq0c3d/PUA5G+AhLnAZ0du+oEwC5Sbv
-	xK5p/YmF9f6QDYW8W5nGIVaZzi5n98nWYgQr5q3lBP1UW8ilsWYVqdyPhMZOD3q/51F2
-	jsMJfjoCpKmf0f4nWZL/Y19jmMoNY5O7I3XKHBlei/SJ/ofztXGrgcV6+8pfdsfHpxKO
-	7ZHCbxaOE4uy0uNg2UeiZ3VASevN/vErMFkcTktubOGC9VjwNvG7dKsD1Ez7+/Qmmhyc
-	CH8Q==
+	bh=GXBqoOBdaUrpH+bGg2dCA2ZmnTXiGUh0M3aQGQWvMso=;
+	b=KgSWXFWyhZ2Eu+ajIWZ2z0+qnOCcF/dJmRGxMVvfRheMCtcRAPfeFUk5j8Q8I03lVp
+	SQMFYAqP5Rj0WKIPk1uLy9LWUO0qAZRxdzmArp4Et6usUa59WVgQxzjoDcztsdHiagd2
+	sppDYONvSSX7OOeK1pjh2G5HmVC2MljF0CsXKhTcDGlGzRMAkgdCxXLQUUGTBOygySSL
+	zlSdNV5baAQLwgqWhWXGtYPtm6cCrSghgNks/FvfI/s84JZ0ajdjYx9zpZg7NweLv8ZC
+	XAC2oK5F8bfp8gu0g69BMuI1a959KDda260S3R95n8uWxFA3UeEblfXBwbqQ3lZcsL7K
+	oKqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=6RRi1E5LDSWiv8xwid8LWoCSZ9A1tXAiQJLHOK7NhRg=;
-	b=mNdzkQlXci+kikshsN0Seqk0B6H4jGj6ND+nw/ItNZaI5TmJkzV8fkcToq5HS88dKj
-	lFD0CmNGTZ49Hr0rrhMO9H/eu0NJj2j7ZpQf4xE8tEJ4kMF7GRjW7Vvojw6we4bdOOrZ
-	oT46Abc5m1dfI9/R3INi0yj5XVqtrH6Q2w+/3ZN+NSCionMShP+jrWNdezCpBf0NsYvG
-	N86nd/FJwYkA2vI9nLBxUVLqWthk/o41PNFgS6l3Dd+mYZADX5PBx/lLMToYHE8jb+Wh
-	UTi1ASD+p3QiImwi4ibk6WOpEivZQzBjX3WSysYOmu8h45yw0rA5SITLpU2nqxESnPz6
-	iANg==
-X-Gm-Message-State: APt69E2o9A2AQpA4DIdsIy/PNC2VQbizs81NDFicHmdQuLcbkA6FjoPD
-	/FUW/Sr0f5/0VmDekEwZYkemkg==
-X-Google-Smtp-Source: ADUXVKIaMmd18SaBfGTbNOOLn9ourKyRoKfJSCA4RDDZgEKfbSAKmFJ9jOj7bWWHOgaBpVDaD23/XQ==
-X-Received: by 2002:a17:902:bb07:: with SMTP id
-	l7-v6mr11848264pls.73.1529381874305; 
-	Mon, 18 Jun 2018 21:17:54 -0700 (PDT)
+	bh=GXBqoOBdaUrpH+bGg2dCA2ZmnTXiGUh0M3aQGQWvMso=;
+	b=MEvfz1uaAdTbHWFohQWEsa8Otfe27k+yxnP6WRq4vRAex0YbQf82Dkz10kJxlz7hH7
+	wJBz52s4jLOSVx/42Lm1jKqK+neusp1xXwL3s2HjEIH1Ch40/qpCIgbc5zxVQ02u0mXw
+	Slx3zxxUnnrpPdQrkMONWGSXUwJ5X7Xlu+g0q7XO0J67fVBPIdaJEOuxLQPXaf2f9FfS
+	IWUIERa27DY4p4cj3UYis/nLOOoYnwDzxhXZGkDsaq1kfKMU8NFXubWrn1o7mLhXyi9G
+	gXAwUd344KyFuVWkSQnZ3vO0VleI1NaJ+/v+f7V5KrFj4XG7Nlk7vUpF+7BI5xJbcesJ
+	sW4Q==
+X-Gm-Message-State: APt69E2yEZZ1wLgS+a+r+hBxcqhu75rQL3q6HJI1gfYZZmqA6gl5hlSw
+	STl6Z8Ry7T3NWQhgkFCRTZb40A==
+X-Google-Smtp-Source: ADUXVKJn0fSRHxdRbujgx5m9I60bF1M2KRQ8k8KURmB+jr38xz7HcTJ314el99INYHIfV6wy/tLrPA==
+X-Received: by 2002:a62:c918:: with SMTP id
+	k24-v6mr16315504pfg.160.1529382357117; 
+	Mon, 18 Jun 2018 21:25:57 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184:59dc:e6d2:872c:4e7f?
 	([2601:202:4000:1184:59dc:e6d2:872c:4e7f])
 	by smtp.gmail.com with ESMTPSA id
-	z4-v6sm27480403pfm.28.2018.06.18.21.17.53
+	v26-v6sm23846428pfe.13.2018.06.18.21.25.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Jun 2018 21:17:53 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>, Khem Raj <raj.khem@gmail.com>
-References: <1529093808-10025-1-git-send-email-armccurdy@gmail.com>
-	<22e45738-aa92-24c7-a3fc-03a0918a1c3a@windriver.com>
-	<CAMKF1srvZ830wY4_PEV06L4Tea6OkHkSi+fcZMuG0sungLCdyQ@mail.gmail.com>
-	<CAJ86T=VjYfk1T0MmN-6oyVSZmjYXZ3VNnaGAdLt49d12ZDEWwA@mail.gmail.com>
-	<CAMKF1srWE9vVhv7MjcVh32mK+_FPt4OgYU7j9nWhW5fdd_hQ8Q@mail.gmail.com>
-	<547a3ea5-f66a-54fb-163e-0fe31998d59a@windriver.com>
-	<CAJ86T=VbRuByAyGFaf+tRFtyrKMo5K9uZKSsm5mPc9yvMdS+2g@mail.gmail.com>
-	<CAMKF1soHE7ADdihFtuf3j0-8kTHeVH4nUOzwdg44dN79E1YJpQ@mail.gmail.com>
-	<CAJ86T=WDp3BJEXC9WxtQhi6YZr7xpHwG_=XS3jXFb8YdZTuqxQ@mail.gmail.com>
+	Mon, 18 Jun 2018 21:25:56 -0700 (PDT)
+To: Saul Wold <sgw@linux.intel.com>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	openembedded-core@lists.openembedded.org
+References: <1528788854-29279-1-git-send-email-naresh.kamboju@linaro.org>
+	<283c5cb8-ec62-99a4-156c-8748a46f6ea1@linux.intel.com>
+	<20005489-c469-6aea-6471-92867ac55595@linux.intel.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -97,16 +93,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <08301c88-6d98-2433-b352-804db250e4de@gmail.com>
-Date: Mon, 18 Jun 2018 21:17:52 -0700
+Message-ID: <9caf6a77-26d7-939c-cd42-8c2475f53da0@gmail.com>
+Date: Mon, 18 Jun 2018 21:25:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WDp3BJEXC9WxtQhi6YZr7xpHwG_=XS3jXFb8YdZTuqxQ@mail.gmail.com>
-Cc: =?UTF-8?Q?Andr=c3=a9_Draszik?= <andre.draszik@jci.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [rocko][PATCH] common-licenses: Add BSD-1-Clause
+In-Reply-To: <20005489-c469-6aea-6471-92867ac55595@linux.intel.com>
+Subject: Re: [PATCH v3] ltp: fix cve-2017-5669 test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -119,93 +112,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 04:17:53 -0000
+X-List-Received-Date: Tue, 19 Jun 2018 04:25:56 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 06/18/2018 11:00 AM, Andre McCurdy wrote:
-> On Mon, Jun 18, 2018 at 10:54 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Jun 18, 2018 at 10:52 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Mon, Jun 18, 2018 at 9:20 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>> On 6/15/18 7:23 PM, Khem Raj wrote:
->>>>> On Fri, Jun 15, 2018 at 3:48 PM Andre McCurdy <armccurdy@gmail.com
->>>>> <mailto:armccurdy@gmail.com>> wrote:
->>>>>     On Fri, Jun 15, 2018 at 3:36 PM, Khem Raj <raj.khem@gmail.com
->>>>>     <mailto:raj.khem@gmail.com>> wrote:
->>>>>     > On Fri, Jun 15, 2018 at 3:14 PM Mark Hatle <mark.hatle@windriver.com
->>>>>     <mailto:mark.hatle@windriver.com>> wrote:
->>>>>     >>
->>>>>     >> On 6/15/18 3:16 PM, Andre McCurdy wrote:
->>>>>     >> > From: André Draszik <andre.draszik@jci.com <mailto:andre.draszik@jci.com>>
->>>>>     >> >
->>>>>     >> > Some projects are starting to use it.
->>>>>     >> >   https://spdx.org/licenses//BSD-1-Clause.html
->>>>>     >> >
->>>>>     >> > Signed-off-by: André Draszik <andre.draszik@jci.com
->>>>>     <mailto:andre.draszik@jci.com>>
->>>>>     >> > Signed-off-by: Ross Burton <ross.burton@intel.com
->>>>>     <mailto:ross.burton@intel.com>>
->>>>>     >> > (cherry picked from commit 77f692ecb39d880b2cb420850a31534860eb2cc5)
->>>>>     >> > Signed-off-by: Andre McCurdy <armccurdy@gmail.com
->>>>>     <mailto:armccurdy@gmail.com>>
->>>>>     >> > ---
->>>>>     >> >  meta/files/common-licenses/BSD-1-Clause | 9 +++++++++
->>>>>     >> >  1 file changed, 9 insertions(+)
->>>>>     >> >  create mode 100644 meta/files/common-licenses/BSD-1-Clause
->>>>>     >> >
->>>>>     >> > diff --git a/meta/files/common-licenses/BSD-1-Clause
->>>>>     b/meta/files/common-licenses/BSD-1-Clause
->>>>>     >> > new file mode 100644
->>>>>     >> > index 0000000..ded8897
->>>>>     >> > --- /dev/null
->>>>>     >> > +++ b/meta/files/common-licenses/BSD-1-Clause
->>>>>     >> > @@ -0,0 +1,9 @@
->>>>>     >> > +
->>>>>     >> > +Copyright (c) <YEAR>, <OWNER>
->>>>>     >> > +All rights reserved.
->>>>>     >> > +
->>>>>     >> > +Redistribution and use in source and binary forms, with or without
->>>>>     modification, are permitted provided that the following conditions are met:
->>>>>     >> > +
->>>>>     >> > +Redistributions of source code must retain the above copyright notice,
->>>>>     this list of conditions and the following disclaimer.
->>>>>     >> > +THIS SOFTWARE IS PROVIDED BY Berkeley Software Design, Inc. "AS IS"
->>>>>     AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
->>>>>     >>
->>>>>     >> Hate to nitpick, but isn't BSDi defunct?  I don't think it makes sense to
->>>>>     list
->>>>>     >> BSDI, since as far as I know they never had a '1-Clause' license.
->>>>>     >>
->>>>>     >> Maybe a <Organization Here> would be more appropriate.
->>>>>     >>
->>>>>     >
->>>>>     > I think we should sync the files we carry with SPDX e.g.
->>>>>     > https://github.com/spdx/license-list-data/tree/master/text
->>>>>
->>>>>     It doesn't look like that will fix the inconsistencies... those
->>>>>     versions are inconsistent too:
->>>>>
->>>>> We should report that to spdx folks since they
->>>>> Work on licenses and might be interested in addressing this
->>>> Agreed.  I think we need to get the SPDX to fix their examples, and then use
->>>> them once they are fixed.
->>>>
->>>> As for our version of the code, I'd suggest the "<COPYRIGHT HOLDER>" (as in the
->>>> BSD-4-clause example) in all cases.
->>> Agreed. So while Mark and Khem fix up master, is it OK for Armin to
->>> backport the current version to rocko? Or should master and sumo be
->>> updated first?
->> It should get into master for sure before it hits release branches.
-> The current version of the BSD-1 license text has been in master since
-> January. It's already been released in sumo.
+On 06/18/2018 09:58 AM, Saul Wold wrote:
+> Armin
+>
+> Is there any chance of getting this into Sumo and Rocko?
+Is there a chance we can have  a beer the next time I am in Eugene?
 
-got it.
+The CVE framework for LTP appears to be in the Rocko version so a little
+backporting  is in order.. I will poke at it to see how straight forward
+it might be. If i can, you will see patches.
 
-in stable/rocko-nmut
 
-- armin
+- Armin
+>
+>
+> Sau!
+>
+>
+> On 06/13/2018 10:40 AM, Saul Wold wrote:
+>> Can this be backported to both Rocko and Sumo?
+>>
+>> Or is this a case to update LTP in those older releases?
+>>
+>>
+>> Sau!
+>>
+>>
+>> On 06/12/2018 12:34 AM, Naresh Kamboju wrote:
+>>> Adding cve-2017-5669 test fix patch which is accepted upstream in
+>>> LTP repo.
+>>>
+>>> Ref:
+>>> cve-2017-5669: shmat() for 0 (or <PAGESIZE with RND flag) has to
+>>> fail with REMAPs
+>>> https://github.com/linux-test-project/ltp/pull/324
+>>>
+>>> Upstream-Status: Accepted
+>>> [https://github.com/linux-test-project/ltp/pull/324]
+>>> CVE: cve-2017-5669
+>>> Signed-off-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+>>> ---
+>>>   ...69-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch | 97
+>>> ++++++++++++++++++++++
+>>>   meta/recipes-extended/ltp/ltp_20180515.bb          |  1 +
+>>>   2 files changed, 98 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>>> b/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..2a47785
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-extended/ltp/ltp/0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>>> @@ -0,0 +1,97 @@
+>>> +From b767b73ef027ba8d35f297c7d3659265ac80425b Mon Sep 17 00:00:00 2001
+>>> +From: Rafael David Tinoco <rafael.tinoco@canonical.com>
+>>> +Date: Wed, 30 May 2018 09:14:34 -0300
+>>> +Subject: [PATCH] cve-2017-5669: shmat() for 0 (or <PAGESIZE with
+>>> RND flag) has
+>>> + to fail with REMAPs
+>>> +
+>>> +Fixes: https://github.com/linux-test-project/ltp/issues/319
+>>> +
+>>> +According to upstream thread (https://lkml.org/lkml/2018/5/28/2056),
+>>> +cve-2017-5669 needs to address the "new" way of handling nil addresses
+>>> +for shmat() when used with MAP_FIXED or SHM_REMAP flags.
+>>> +
+>>> +- mapping nil-page is OK on lower addresses with MAP_FIXED (or else
+>>> X11 is broken)
+>>> +- mapping nil-page is NOT OK with SHM_REMAP on lower addresses
+>>> +
+>>> +Addresses Davidlohr Bueso's comments/changes:
+>>> +
+>>> +commit 8f89c007b6de
+>>> +Author: Davidlohr Bueso <dave@stgolabs.net>
+>>> +Date:   Fri May 25 14:47:30 2018 -0700
+>>> +
+>>> +    ipc/shm: fix shmat() nil address after round-down when remapping
+>>> +
+>>> +commit a73ab244f0da
+>>> +Author: Davidlohr Bueso <dave@stgolabs.net>
+>>> +Date:   Fri May 25 14:47:27 2018 -0700
+>>> +
+>>> +    Revert "ipc/shm: Fix shmat mmap nil-page protection"
+>>> +
+>>> +For previously test, and now broken, made based on:
+>>> +
+>>> +commit 95e91b831f87
+>>> +Author: Davidlohr Bueso <dave@stgolabs.net>
+>>> +Date:   Mon Feb 27 14:28:24 2017 -0800
+>>> +
+>>> +    ipc/shm: Fix shmat mmap nil-page protection
+>>> +
+>>> +Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+>>> +Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+>>> +Reviewed-by: Jan Stancek <jstancek@redhat.com>
+>>> +
+>>> +Upstream-Status: Accepted
+>>> [https://github.com/linux-test-project/ltp/pull/324]
+>>> +CVE: cve-2017-5669
+>>> +Signed-off-by: Rafael David Tinoco <rafael.tinoco@linaro.org>
+>>> +---
+>>> + testcases/cve/cve-2017-5669.c | 20 +++++++++++++++++++-
+>>> + 1 file changed, 19 insertions(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/testcases/cve/cve-2017-5669.c
+>>> b/testcases/cve/cve-2017-5669.c
+>>> +index 1ca5983..0834626 100644
+>>> +--- a/testcases/cve/cve-2017-5669.c
+>>> ++++ b/testcases/cve/cve-2017-5669.c
+>>> +@@ -28,7 +28,20 @@
+>>> +  * is just to see if we get an access error or some other
+>>> unexpected behaviour.
+>>> +  *
+>>> +  * See commit 95e91b831f (ipc/shm: Fix shmat mmap nil-page
+>>> protection)
+>>> ++ *
+>>> ++ * The commit above disallowed SHM_RND maps to zero (and rounded)
+>>> entirely and
+>>> ++ * that broke userland for cases like Xorg. New behavior disallows
+>>> REMAPs to
+>>> ++ * lower addresses (0<=PAGESIZE).
+>>> ++ *
+>>> ++ * See commit a73ab244f0da (Revert "ipc/shm: Fix shmat mmap
+>>> nil-page protect...)
+>>> ++ * See commit 8f89c007b6de (ipc/shm: fix shmat() nil address after
+>>> round-dow...)
+>>> ++ * See https://github.com/linux-test-project/ltp/issues/319
+>>> ++ *
+>>> ++ * This test needs root permissions or else security_mmap_addr(),
+>>> from
+>>> ++ * get_unmapped_area(), will cause permission errors when trying
+>>> to mmap lower
+>>> ++ * addresses.
+>>> +  */
+>>> ++
+>>> + #include <sys/types.h>
+>>> + #include <sys/ipc.h>
+>>> + #include <sys/shm.h>
+>>> +@@ -60,7 +73,11 @@ static void cleanup(void)
+>>> + static void run(void)
+>>> + {
+>>> +     tst_res(TINFO, "Attempting to attach shared memory to null
+>>> page");
+>>> +-    shm_addr = shmat(shm_id, ((void *)1), SHM_RND);
+>>> ++    /*
+>>> ++     * shmat() for 0 (or < PAGESIZE with RND flag) has to fail
+>>> with REMAPs
+>>> ++     * https://github.com/linux-test-project/ltp/issues/319
+>>> ++     */
+>>> ++    shm_addr = shmat(shm_id, ((void *)1), SHM_RND | SHM_REMAP);
+>>> +     if (shm_addr == (void *)-1) {
+>>> +         shm_addr = NULL;
+>>> +         if (errno == EINVAL) {
+>>> +@@ -89,6 +106,7 @@ static void run(void)
+>>> + }
+>>> +
+>>> + static struct tst_test test = {
+>>> ++    .needs_root = 1,
+>>> +     .setup = setup,
+>>> +     .cleanup = cleanup,
+>>> +     .test_all = run,
+>>> +--
+>>> +2.7.4
+>>> +
+>>> diff --git a/meta/recipes-extended/ltp/ltp_20180515.bb
+>>> b/meta/recipes-extended/ltp/ltp_20180515.bb
+>>> index b07c1b9..48739f1 100644
+>>> --- a/meta/recipes-extended/ltp/ltp_20180515.bb
+>>> +++ b/meta/recipes-extended/ltp/ltp_20180515.bb
+>>> @@ -41,6 +41,7 @@ SRC_URI =
+>>> "git://github.com/linux-test-project/ltp.git \
+>>> file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+>>> \
+>>> file://0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch \
+>>> file://0040-read_all-Define-FNM_EXTMATCH-if-not-already-like-und.patch
+>>> \
+>>> +
+>>> file://0041-cve-2017-5669-shmat-for-0-or-PAGESIZE-with-RND-flag-.patch
+>>> \
+>>>              "
+>>>     S = "${WORKDIR}/git"
+>>
+>
 
 
