@@ -1,52 +1,55 @@
-Return-Path: <ptsneves@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F8475526
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 755DD7544D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 13:32:12 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id k16-v6so20596569wro.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2018 06:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=K7RCs9LAAN/SWMbcTjMPkCJcJFv6bQXJr3eET2CbaOs=;
-	b=hysNFLPo2D1t52ASPDFXxbXlIoSF5T5lZH8ujm/vZB/arhtXa97zNXmRfDwSpIjaWk
-	E9jo5OPODXYyasyjeGWEnONcTFVXlpChHLVZfafSqzETekblzzn6otPn0ixi4tlA5iP9
-	EqMrIi6VhGVN/S8Lzx9crdGA9wXHIH5QFR6fh7hmT3qi19tiD+MvnXD/DG8yIA7xpYmM
-	b9Nb/7OKwo9SLJQ0p1UizT6pkSgdqF3ypvXIeOonBcEdgVzBcfr/01YhTlBRtMn0yZQ8
-	rADUu+McWjl8oB7MS0iPWHTljh04rwHZxMMH2tolSfn0zqnjTbrRwrfcBegZyuaKH77W
-	KiMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=K7RCs9LAAN/SWMbcTjMPkCJcJFv6bQXJr3eET2CbaOs=;
-	b=V+Wy9lIpNUc8/MBMA07tIdUwynZ02BSnWVYXJ6ntSIK8R+Utoz2i3ekaYogtDXYUN5
-	WMVXsBpkbUzPi3NT1m95vTH4ASglo0lWZKVb7aj53JekdZ5imvvsaZ0oZ8YeXtf3SDXc
-	5wjYtOE/HXoV1iqjK8lqtehBPq0H2/7C9OQuHKnmjNO1h6r0F/1XsB3ew+xKHzKcIu3g
-	VXW0+UvHWpUyaQOkpujf2PD+Xr6UvGv4LOD44pCwwXGCkINPV5VGta9WSYIJs3KckhRn
-	IjdTBCm+1i/6Ycnqnl1CdKsh4vHrTM4Mt9AE+0Cd0ISzscYpasgaYrSNBZhG3O2clSMV
-	6HnA==
-X-Gm-Message-State: APt69E2h1RAjI+zEmShdBkjr6WfZNE2ZoAK1DhDhKOWfnuA7K1/HR6Ly
-	nDllIL1lJ9e5o9VujaFoTINo44y3bkZJTEtOiebEeEg=
-X-Google-Smtp-Source: ADUXVKInuvCG3+LteqxxQsooamapXqesfo5cYq/ErqHxlIBWj6uMjAJF2P40e2Ks8t5YxVU2Xf2rAvt0OrNReqXQkkE=
-X-Received: by 2002:adf:cf0d:: with SMTP id
-	o13-v6mr13699769wrj.112.1529415133459; 
-	Tue, 19 Jun 2018 06:32:13 -0700 (PDT)
+	Tue, 19 Jun 2018 14:03:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id CF87818531;
+	Tue, 19 Jun 2018 16:03:39 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 2_8F32C2wLEX; Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id A626E18403;
+	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 874C11E09A;
+	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7AD211E096;
+	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 6DD4319E5;
+	Tue, 19 Jun 2018 16:03:34 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 19 Jun 2018 16:03:34 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Tue, 19 Jun 2018 16:03:34 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] subversion: 1.9.7 -> 1.10.0
+Thread-Index: AQHUB8ZTz6YZQZ1ryUCdGjI9K5dOnKRnj0Dg
+Date: Tue, 19 Jun 2018 14:03:34 +0000
+Message-ID: <ead0418805544170893f57cccd105650@XBOX02.axis.com>
+References: <20180619120900.12437-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20180619120900.12437-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 2002:a1c:3e0b:0:0:0:0:0 with HTTP; Tue, 19 Jun 2018 06:32:13
-	-0700 (PDT)
-In-Reply-To: <CANNYZj_-_TYcU1ZHbesWPiMq-VXdQAcwPeLGGngk=bcQJmkOrQ@mail.gmail.com>
-References: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
-	<20180619114512.11699-3-richard.purdie@linuxfoundation.org>
-	<CAJO0J4hDdQbK_2jzo_ehd0so1SjWnq2RgT5ESdg7JAfAc8Pvew@mail.gmail.com>
-	<CANNYZj_-_TYcU1ZHbesWPiMq-VXdQAcwPeLGGngk=bcQJmkOrQ@mail.gmail.com>
-From: Paulo Neves <ptsneves@gmail.com>
-Date: Tue, 19 Jun 2018 15:32:13 +0200
-Message-ID: <CAJO0J4iGFbi=a6Ekq64RN=GmepjBj9cGbZ_xeqmkG=bSVDsUOQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] image/testimage: Rework auto image test execution
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] subversion: 1.9.7 -> 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +62,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2018 13:32:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Jun 2018 14:03:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I can, but some of the patches i sent earlier did not have comments.
-Maybe I sent them to the wrong place. Furthermore I sometimes have the
-feeling that I may have fixed something which, was not in need of
-fixing, meaning wrong assumptions on my part.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: den 19 juni 2018 14:09
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] subversion: 1.9.7 -> 1.10.0
+>=20
+> License changed since licenses for the bundled linenoise and lz4 codebase=
+s
+> were added. We don't build either of them. Add MIT since utf8proc is MIT
+> licensed.
+>=20
+> Configure to use the internal utf8proc codebase since we have no copy of =
+that in
+> OE-Core, nor any need to add one.
+>=20
+> Add a dependency on lz4 which is now required rather than using the inter=
+nal
+> codebase within subversion.
+>=20
+> Drop a patch merged upstream.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../{subversion_1.9.7.bb =3D> subversion_1.10.0.bb}    | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>  rename meta/recipes-devtools/subversion/{subversion_1.9.7.bb =3D>
+> subversion_1.10.0.bb} (91%)
+>=20
+> diff --git a/meta/recipes-devtools/subversion/subversion_1.9.7.bb
+> b/meta/recipes-devtools/subversion/subversion_1.10.0.bb
+> similarity index 91%
+> rename from meta/recipes-devtools/subversion/subversion_1.9.7.bb
+> rename to meta/recipes-devtools/subversion/subversion_1.10.0.bb
+> index da9de9d5b92..82454ae63c3 100644
+> --- a/meta/recipes-devtools/subversion/subversion_1.9.7.bb
+> +++ b/meta/recipes-devtools/subversion/subversion_1.10.0.bb
+> @@ -1,21 +1,20 @@
+>  SUMMARY =3D "Subversion (svn) version control system client"
+>  HOMEPAGE =3D "http://subversion.tigris.org"
 
-This HOSTTOOLS case was a case in point: If a stable version (SUMO)
-was released like that, I thought it was me who was doing something
-wrong, so I added the ip, ping and ifconfing in my layer.conf and
-"fixed" it for my case.
+You should change that since subversion.tigris.org contains the old=20
+homepage:
 
-I will try to be more active. I am working on a class for the meson
-recipes that appends the exe_wrapper of the .cross file to
-qemu-${TARGET_ARCH} so that we can run unittests in the build time.
-The idea is to left shift and fail the recipe build if tests fail.
+HOMEPAGE =3D "http://subversion.apache.org"
 
+>  SECTION =3D "console/network"
+> -LICENSE =3D "Apache-2"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Daf81ae49ba359e70626c05e9bf313=
+709"
+> +LICENSE =3D "Apache-2 & MIT"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D83206f39819e7a4dfca2ff7c190f6=
+ce0"
+>=20
+> -DEPENDS =3D "apr-util serf sqlite3 file"
+> +DEPENDS =3D "apr-util serf sqlite3 file lz4"
+>  DEPENDS_append_class-native =3D " file-replacement-native"
+>=20
+>  SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>             file://disable_macos.patch \
+> -           file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
+>             file://0001-Fix-libtool-name-in-configure.ac.patch \
+>             file://serfmacro.patch \
+>             "
+>=20
+> -SRC_URI[md5sum] =3D "05b0c677681073920f938c1f322e0be2"
+> -SRC_URI[sha256sum] =3D "c3b118333ce12e501d509e66bb0a47bcc34d053990acab45=
+559431ac3e491623"
+> +SRC_URI[md5sum] =3D "0126847f9e8cb8ed0b90a6a18b203309"
+> +SRC_URI[sha256sum] =3D "2cf23f3abb837dea0585a6b0ebd70e80e01f95bddef7c1aa=
+097c18e3eaa6b584"
+>=20
+>  inherit autotools pkgconfig gettext
+>=20
+> @@ -31,6 +30,7 @@ EXTRA_OECONF =3D " \
+>      --without-berkeley-db \
+>      --without-swig \
+>      --disable-keychain \
+> +    --with-utf8proc=3Dinternal \
+>      ac_cv_path_RUBY=3Dnone \
+>  "
+>=20
+> --
+> 2.17.1
 
-Paulo Neves
+//Peter
 
-On Tue, Jun 19, 2018 at 3:13 PM, Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
-> 2018-06-19 16:06 GMT+03:00 Paulo Neves <ptsneves@gmail.com>:
->> I support this patch and I see that one of the problems in sumo is
->> fixed, namely the HOSTTOOLS missing ip and ping.
->> Even so there is one HOSTTOOLS that is missing, ifconfig. As far as I
->> know the automatic network setup scripts of runqemu require ifconfig
->> for 192.168.7.1 tap setting. Without ifconfig the virtual machine
->> cannot be spawned.
->>
->> Also, given the lack of the HOSTTOOLS in the sumo version i have, how
->> is this being tested?
->>
->> I also would like to discuss the possibility of testing u-boot in a
->> virtual machine. I have a setup where I am able to pass to qemu,
->> u-boot.bin as a bios file, and then I am able to boot from tftp
->> enabled qemu network device. This allows for unification of test setup
->> of virtualized and real target booting. Do you have any integration
->> like this in the plans?
->
-> Paulo, I would recommend that you prepare the patches for all of these
-> things, and send them. Yocto is what you make it, don't expect things
-> to get fixed for you by other people.
->
-> Alex
 
