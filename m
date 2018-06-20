@@ -1,30 +1,103 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id CBBCF75556
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ADD8754D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 14:07:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jun 2018 07:07:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,247,1526367600"; d="scan'208";a="65764521"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2018 07:07:25 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 1358B58012D
+	Wed, 20 Jun 2018 15:25:54 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id r21-v6so1643614pgv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 07:07:24 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2018 17:07:20 +0300
-Message-Id: <1529503642-7158-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1529503642-7158-1-git-send-email-maxin.john@intel.com>
-References: <1529503642-7158-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 3/5] puzzles: upgrade to latest revision
+	Wed, 20 Jun 2018 08:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=kLLbKyes30IwQiSunDgwXs6Kn7HFKAes0ra603ja8uQ=;
+	b=UzlkNfnlG2uya4+nScvCDAh1/b2a0xgd405HsMXc4yDaD2XwOiPhRoJtv2kY/1o7yb
+	hm3xmUvcyErtWKh3A2LgiXLEKjnYMX0WoKzNMojCXiWp8ztnhPYbdFI/DF3SCy504A66
+	VIKWv2p5bRS9o86CogywRhY98Qzj1NiI97wN7953xPQx6ykdQ1f+GobRjGZFwYdjkQdd
+	sDA8SgaYiREAZUjJdMyRg7it4qRaRjYcjW2XNCkF5/5i820cP+0+qrlo55neCAmk5wWw
+	a0H3JAY5edZivl2DVftixLoASPamXofIsGA+2I4TXIO61/EVE9f2lfyGKG0wrUZjCpCm
+	3OOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=kLLbKyes30IwQiSunDgwXs6Kn7HFKAes0ra603ja8uQ=;
+	b=OQYXBsvwX6ZOR0AiV8TimxjqEiANBXsltK3RwHcbwImDZ9daBgeQnTzcLcwZqqwcCt
+	iXp4fnn5QonhUtAtUb8Bc7R+/Ord52ojICPf5lm8o7EtAknB7Wzyrzi2oE3L9gjAGYvf
+	AFFIlDPzy333QNyS4oxpjBNKNgnCZWOwJT+IaJcI5GA+YxMpPaNObAmn26OB0+wjKV74
+	+DtcZug3Gu+BPBUDcdXP+9CFMa8rdsWve3z8rkHZ3vMjnfqqUte2LW3ZIB8nvr2uKf88
+	P7ZQ+LIMhxGEaFDZgH4DNmgAgypYxeIHUzGkiv4tPv1/x+2HZFRtc11s2eCrwIZlCWS+
+	wEpw==
+X-Gm-Message-State: APt69E3cYOaaKVLZLR7WPfCbMTmwqK0VpcfpEkchYgXhxFN7qa9azS9a
+	x3oZoU9k6VTcZHsUYTjjRU2f/g==
+X-Google-Smtp-Source: ADUXVKKpEyYAXiHySVVWaNcDC5zk0KqTLWYXT2BFypJrtD3dh/gY0DkudeSTGHvNYVVyzN1loaiq8Q==
+X-Received: by 2002:a62:d0c5:: with SMTP id
+	p188-v6mr23611558pfg.101.1529508355429; 
+	Wed, 20 Jun 2018 08:25:55 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1184:3431:f53:d718:7f78?
+	([2601:202:4000:1184:3431:f53:d718:7f78])
+	by smtp.gmail.com with ESMTPSA id
+	m5-v6sm9471508pfa.93.2018.06.20.08.25.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Jun 2018 08:25:54 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1529381411-5045-1-git-send-email-akuster808@gmail.com>
+	<1529381411-5045-6-git-send-email-akuster808@gmail.com>
+	<64f3d2c4cba24e1f16619e38ae7f0a6d279606be.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <04217776-ac6a-a695-5563-e1cc19a8c92a@gmail.com>
+Date: Wed, 20 Jun 2018 08:25:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <64f3d2c4cba24e1f16619e38ae7f0a6d279606be.camel@linuxfoundation.org>
+Subject: Re: [PATCH 6/6] nss: update to 3.37.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,90 +110,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2018 14:07:37 -0000
+X-List-Received-Date: Wed, 20 Jun 2018 15:25:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-Remove upstreamed patch:
-        0001-Use-labs-instead-of-abs.patch
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../files/0001-Use-labs-instead-of-abs.patch       | 46 ----------------------
- meta/recipes-sato/puzzles/puzzles_git.bb           |  3 +-
- 2 files changed, 1 insertion(+), 48 deletions(-)
- delete mode 100644 meta/recipes-sato/puzzles/files/0001-Use-labs-instead-of-abs.patch
 
-diff --git a/meta/recipes-sato/puzzles/files/0001-Use-labs-instead-of-abs.patch b/meta/recipes-sato/puzzles/files/0001-Use-labs-instead-of-abs.patch
-deleted file mode 100644
-index f43d1df..0000000
---- a/meta/recipes-sato/puzzles/files/0001-Use-labs-instead-of-abs.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 9808dc09e08937c9bffd858d3ded428225a4312a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 7 Sep 2015 09:02:38 +0000
--Subject: [PATCH] Use labs instead of abs
--
--cluevals is array of longs so we have to use labs() instead of abs()
--since abs() returns int
--
--Fixes
--
--keen.c:1458:17: error: absolute value function 'abs' given an argument
--of type 'long' but has parameter of type 'int' which may cause
--truncation of value
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- keen.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/keen.c b/keen.c
--index a6a7238..1631992 100644
----- a/keen.c
--+++ b/keen.c
--@@ -1043,7 +1043,7 @@ done
-- 		    cluevals[j] *= grid[i];
-- 		    break;
-- 		  case C_SUB:
---		    cluevals[j] = abs(cluevals[j] - grid[i]);
--+		    cluevals[j] = labs(cluevals[j] - grid[i]);
-- 		    break;
-- 		  case C_DIV:
-- 		    {
--@@ -1455,7 +1455,7 @@ static int check_errors(const game_state *state, long *errors)
-- 		cluevals[j] *= state->grid[i];
-- 		break;
-- 	      case C_SUB:
---		cluevals[j] = abs(cluevals[j] - state->grid[i]);
--+		cluevals[j] = labs(cluevals[j] - state->grid[i]);
-- 		break;
-- 	      case C_DIV:
-- 		{
---- 
--2.5.1
--
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 7d08b96..7a6114a 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,13 +10,12 @@ REQUIRED_DISTRO_FEATURES = "x11"
- 
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
-            file://fix-compiling-failure-with-option-g-O.patch \
--           file://0001-Use-labs-instead-of-abs.patch \
-            file://0001-palisade-Fix-warnings-with-clang-on-arm.patch \
-            file://0001-Use-Wno-error-format-overflow-if-the-compiler-suppor.patch \
-            "
- 
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "c6e0161dd475415316ed66dc82794d68e52f0025"
-+SRCREV = "506b07352ae225c74e79f6c6e7872bc2005bdb53"
- PE = "2"
- PV = "0.0+git${SRCPV}"
- 
--- 
-2.4.0
+On 06/19/2018 08:15 AM, Richard Purdie wrote:
+> On Mon, 2018-06-18 at 21:10 -0700, Armin Kuster wrote:
+>> remove Fix-compilation-for-X32.patch as a solution simular is
+>> included in update.
+>>
+>> notable changes:
+>> The TLS 1.3 implementation was updated to Draft 28.
+>> The CA certificates list was updated to version 2.24.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> Failed in -next on qemuarm:
+> http://errors.yoctoproject.org/Errors/Details/180618/
+> http://errors.yoctoproject.org/Errors/Details/180669/
+> http://errors.yoctoproject.org/Errors/Details/180677/
+>
+> qemuppc:
+> http://errors.yoctoproject.org/Errors/Details/180623/
+> http://errors.yoctoproject.org/Errors/Details/180639/
+> http://errors.yoctoproject.org/Errors/Details/180645/
+> http://errors.yoctoproject.org/Errors/Details/180644/
+> http://errors.yoctoproject.org/Errors/Details/180643/
+>
+> qemumips:
+> http://errors.yoctoproject.org/Errors/Details/180655/
+> http://errors.yoctoproject.org/Errors/Details/180670/
+> http://errors.yoctoproject.org/Errors/Details/180678/
+>
+> and more, you get the idea...
+(covers ears) LaLalalalal
+
+it appears to be the same as bug
+https://bugzilla.mozilla.org/show_bug.cgi?format=3Ddefault&id=3D1459739
+
+thanks,
+Armin
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
 
 
