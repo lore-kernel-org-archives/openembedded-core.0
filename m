@@ -1,75 +1,49 @@
-Return-Path: <TOl@hms.se>
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
-	(mail-db5eur01on0088.outbound.protection.outlook.com [104.47.2.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 56F6F77103
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 958C075534
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 16:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hms.se; s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=m/awm/ssnKCtVUXqqAvh9ofbDaoEI2q7kd2XSheMStI=;
-	b=r9y5AfhwO1IzszcD7MMKB/sL+SduSaa982GMy3mizkhSV/V6m6PQUpwXi/DUjLLnLmnd5eVRSWOa+mmCV99beTMOoYfHpbKyC51rVVqQ8FdRZkJlg0XyDjpM4ANzf4MrHYJyusuM3UCGW71iyUftYYdW+wHXEYHsOVQdYpus430=
-Received: from DB6PR0601MB2133.eurprd06.prod.outlook.com (10.168.57.16) by
-	DB6PR0601MB2661.eurprd06.prod.outlook.com (10.168.82.14) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.863.19; Wed, 20 Jun 2018 15:29:00 +0000
-Received: from DB6PR0601MB2133.eurprd06.prod.outlook.com
-	([fe80::41fb:ec8e:a48:574d]) by
-	DB6PR0601MB2133.eurprd06.prod.outlook.com
-	([fe80::41fb:ec8e:a48:574d%2]) with mapi id 15.20.0863.016;
-	Wed, 20 Jun 2018 15:29:00 +0000
-From: Tobias Olausson <TOl@hms.se>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [oe-core][PATCHv4] image_types.bbclass: add optional
-	size to ubi vols
-Thread-Index: AQHUB99xVjrN9KN5CUagy9txV8XV+aRn6DgAgAFaM8Q=
-Date: Wed, 20 Jun 2018 15:29:00 +0000
-Message-ID: <DB6PR0601MB2133389C83155E102AA5E6C1C3770@DB6PR0601MB2133.eurprd06.prod.outlook.com>
-References: <DB6PR0601MB2133CEC1B8D8FAB2DFC46118C3700@DB6PR0601MB2133.eurprd06.prod.outlook.com>,
-	<CAJ86T=UUz7_m+P1cWAk8tNT6Y=Cmme-2Jy3b4q8ZUkHzJwi1Gg@mail.gmail.com>
-In-Reply-To: <CAJ86T=UUz7_m+P1cWAk8tNT6Y=Cmme-2Jy3b4q8ZUkHzJwi1Gg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=TOl@hms.se; 
-x-originating-ip: [88.131.56.168]
-x-ms-publictraffictype: Email
-x-microsoft-exchange-diagnostics: 1; DB6PR0601MB2661;
-	7:uVWFLEwnL9D+mVqV1Ej/u7lNIBUN69ku4G41N998TcpPhv78Rgg4gkAPNfPa+5qYiZ3cO70O+9nrcHU+4tOEeQ066nSHnx7Yb+yBPI8EJto70It3waSWHiWrI3vmQ1GlCjHq0YrbbxJBtVE+uftupczeFki9ro6od8kmJFl/2gva4K7nFSilMhHJWxORXV6zWApkG3U+9cFf630Cpp9z6Xv+hGmJEHBwGllgBJyL1dYFC0BELEtx3UgoW84OLSNS
-x-ms-exchange-antispam-srfa-diagnostics: SOS;
-x-ms-office365-filtering-correlation-id: 9b3767e5-f8e0-4961-f5e7-08d5d6c28c33
-x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(7020095)(4652020)(4534165)(4627221)(201703031133081)(201702281549075)(5600026)(711020)(2017052603328)(7153060)(7193020);
-	SRVR:DB6PR0601MB2661; 
-x-ms-traffictypediagnostic: DB6PR0601MB2661:
-x-microsoft-antispam-prvs: <DB6PR0601MB2661939CF7B21B6D90F925F0C3770@DB6PR0601MB2661.eurprd06.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(85827821059158)(264703809997249);
-x-ms-exchange-senderadcheck: 1
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(6040522)(2401047)(8121501046)(5005006)(10201501046)(3231254)(944501410)(52105095)(3002001)(93006095)(93001095)(149027)(150027)(6041310)(20161123560045)(20161123562045)(20161123558120)(20161123564045)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(6072148)(201708071742011)(7699016);
-	SRVR:DB6PR0601MB2661; BCL:0; PCL:0; RULEID:;
-	SRVR:DB6PR0601MB2661; 
-x-forefront-prvs: 070912876F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(376002)(346002)(396003)(39850400004)(39380400002)(52024003)(199004)(189003)(102836004)(446003)(186003)(66066001)(72206003)(476003)(486006)(53546011)(6506007)(316002)(5660300001)(11346002)(478600001)(8676002)(2900100001)(25786009)(74316002)(9686003)(305945005)(76176011)(74482002)(6916009)(26005)(106356001)(105586002)(6306002)(8936002)(4326008)(97736004)(3280700002)(1720100001)(39060400002)(3660700001)(1411001)(229853002)(81166006)(68736007)(575784001)(99286004)(2906002)(81156014)(6116002)(6246003)(53936002)(14454004)(3846002)(5250100002)(55016002)(86362001)(33656002)(6436002)(966005)(7736002)(7696005)(42262002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0601MB2661;
-	H:DB6PR0601MB2133.eurprd06.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: hms.se does not designate
-	permitted sender hosts)
-x-microsoft-antispam-message-info: w/OXIK/SjXM/zarR1eLpIyuqPYCMjnJuOqeS5lR+JQSPRCeuSV8Ro+O9SjeQtPhbch+ka24fTxfH39lZu3XdpYqASL33/johdo40/qOb5GmVSxK/jEhfqknov9SsObdJ5Z0dkF3vztBauvQ6dGY1e/tTRtU9jBvXibQ6N+ptf37tf8DVA4CGt6eXoMQw6YqdE0Xw4UAtlB4s9QMLMMIzSEgN2Joe/Zl/FModdI6zbDPOceR+6dHir+AJZbCaJ1TCzxMb7q2gHqbZHXWY6vu/bk+8GzoUXLBVu9oC6TN/EqvjAof7wxzGV+3TvSoV7yJJNgee694U3xcTAN3PLs5DJg==
-spamdiagnosticoutput: 1:99
-spamdiagnosticmetadata: NSPM
+	Wed, 20 Jun 2018 17:18:34 +0000 (UTC)
+Received: by mail-ua0-f176.google.com with SMTP id m21-v6so217083uan.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2018 10:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=lVqSMvt+E2+dNcJmqbdXyYYrOY8G7OSEYs2vH1uGtuw=;
+	b=e2DL31LtevyledYM+hOmtnMiug+G8xxFo4QvkPmYz43EWrfjwaIE4A8Cj6VckhuyPS
+	qgxbQ0WocNuhNL2+CwnsvXO6tIgOy2t+YGwNzGXTiTyudjpuEE481VXFp+iNU4hBFR8j
+	4ulMeQGcx4WmUgev8estwzPKBlrhfhAYHbvyUMWun2kzFotg2XCA2Qp30pE2JaQvv3bd
+	wr84VHhzCFl3bnJhtTO+dts9SZrPJ64UuiA1Wzlrf2ED8hmyVx9AwHD30Fr5RI+lKdLn
+	6M/G02ykmMgNkVPt4il+eBYyf74B+WpmZY2rRn8v8/9zJRBkXK44sh8mW1xbgpw+gIse
+	SFvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=lVqSMvt+E2+dNcJmqbdXyYYrOY8G7OSEYs2vH1uGtuw=;
+	b=HVTTulSdKL/yUAvqRose1EPK7a8HLP+3eqFtlFqWpGRJu+FfzE7uIeJrbt2yloobtk
+	vaUByJWd/mOXq52vlSbz/hOGalFL4YE6PwLmAUEAxyWv5tNRMLx6NlVhyHsgu/6fs6tB
+	7HM9kxPQUUmS7sZxt35MXpL7ttx6k5x5OG9SoQB0AM3QJ433aji6ZogVUPDlhKC+1OxA
+	oKMaIXqxEVu1+cbNTYZ4Xso8lvcR1MZ4ISZA1sZtXAsnM24r5/y8aOnn5HAulBO1JxWl
+	9EhGz0zQcHWpliBZcyV3q8Wx34nP8xePUFEnAcXOi0mlT1Nf2ETrg1BiUXznRkcI7pgA
+	Triw==
+X-Gm-Message-State: APt69E3kZF5KzAUtNZXY45ksVPxQnmzFFoS6THhBWRJb3zOLeXKlbUdD
+	kXVuwmcYsT9SyN39Zrh8lMVFs8j7+QfPIdhxeds=
+X-Google-Smtp-Source: ADUXVKKAIzYLKIsdlWgAze4fZF+is6ncJS2HwzLAFySR64jfCqrJwbC0YUaVVOTutj+uR0alJa2vvz6xti9SgZsjAAk=
+X-Received: by 2002:ab0:50f0:: with SMTP id
+	d45-v6mr13950667uaa.45.1529515110592; 
+	Wed, 20 Jun 2018 10:18:30 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: hms.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b3767e5-f8e0-4961-f5e7-08d5d6c28c33
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2018 15:29:00.6383 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5c7c1590-4488-4e42-bc9c-15218f8ac994
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0601MB2661
-Cc: "openembedded-core@lists.openembedded.org"
+References: <1529503642-7158-1-git-send-email-maxin.john@intel.com>
+	<1529503642-7158-5-git-send-email-maxin.john@intel.com>
+In-Reply-To: <1529503642-7158-5-git-send-email-maxin.john@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jun 2018 10:18:04 -0700
+Message-ID: <CAMKF1spbWUXYQ-Gz1z-sbm+f_QYz_FPHh0bR=uqmVbfUTcSULA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv4] image_types.bbclass: add optional size to ubi vols
+Subject: Re: [PATCH 5/5] harfbuzz: upgrade 1.7.5 -> 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,110 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2018 16:02:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Jun 2018 17:18:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hey,
-
-Sorry for top posting. I have done some testing of this during the day, and=
- it seems that this only works if you run "export MKUBIFS_ARGS_foo" and sim=
-ilar in whichever config file contains those settings (such as a machine co=
-nf).
-
-I would have preferred a combined shell/python solution, but that seems to =
-be trickier than I thought, since there is code in place that looks for IMA=
-GE_CMD_multiubi specifically (in image.bbclass), and I have not been able t=
-o override that. Any ideas of making this work without the export hack are =
-welcome.
-
-Cheers,
-=20
- Tobias Olausson
- Development Engineer
- HMS Industrial Networks AB
-
-
-From: Andre McCurdy <armccurdy@gmail.com>
-Sent: Tuesday, June 19, 2018 8:33 PM
-To: Tobias Olausson
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [oe-core][PATCHv4] image_types.bbclass: add optional=
- size to ubi vols
-=A0=20
-
-On Tue, Jun 19, 2018 at 8:09 AM, Tobias Olausson <TOl@hms.se> wrote:
-> From 1d15f0d3c516351e6540a912367bcb22f9c25bbf Mon Sep 17 00:00:00 2001
-> From: Tobias Olausson <tol@hms.se>
-> Date: Mon, 18 Jun 2018 15:01:53 +0200
-> Subject: [oe-core][PATCHv4] image_types.bbclass: add optional size to ubi=
- vols
+On Wed, Jun 20, 2018 at 7:07 AM Maxin B. John <maxin.john@intel.com> wrote:
 >
-> Instead of hard coding the ubi volume to be just large enough to fit the
-> root file system, one can use a variable to set a preferred size.
->
-> Signed-off-by: Tobias Olausson <tol@hms.se>
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
 > ---
->=A0 meta/classes/image_types.bbclass | 12 ++++++++++++
->=A0 1 file changed, 12 insertions(+)
+>  .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.1.bb}             | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.1.bb} (82%)
 >
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
-bbclass
-> index 00a00d318f..2a0a7994c9 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -164,10 +164,22 @@ multiubi_mkfs() {
->=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 local vname=3D"_$3"
->=A0=A0=A0=A0=A0=A0=A0=A0 fi
+> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.1.bb
+> similarity index 82%
+> rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+> rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.8.1.bb
+> index 0a9b029..f8b0056 100644
+> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.1.bb
+> @@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
 >
-> +=A0=A0=A0=A0=A0=A0 # Set UBI_VOL_SIZE (for regular ubi) or UBI_VOL_SIZE_=
-vname for multiubi
-> +=A0=A0=A0=A0=A0=A0 if [ -z "${vname}" ]; then
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 local ubi_vol_size=3D${UBI_VO=
-L_SIZE}
-> +=A0=A0=A0=A0=A0=A0 else
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 eval local ubi_vol_size=3D\"\=
-$UBI_VOL_SIZE${vname}\"
+>  SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+>
+> -SRC_URI[md5sum] = "1466ab51fc5aaa6af4065936939cec62"
+> -SRC_URI[sha256sum] = "84574e1b1f65ca694cb8fb6905309665c0368af18a312357f8ff886ee2f29563"
+> +SRC_URI[md5sum] = "97cb89c6e2a914c05c8b7e858703885f"
+> +SRC_URI[sha256sum] = "fbed6392ddb085e45e6090a9f389f72926d0e355f4b0a2ef51d35cf21686df45"
+>
+>  inherit autotools pkgconfig lib_package gtk-doc
+>
+> @@ -27,6 +27,10 @@ EXTRA_OECONF = " \
+>      --with-glib \
+>      --without-graphite2 \
+>  "
+> +do_install_append() {
+> +    # Remove unnecessary cmake files
+> +    rm -rf ${D}${libdir}/cmake
+> +}
 
-This looks odd. Presumably it (and the multiubi code from which it's
-derived) relies on the _<VOLUMENAME> suffix variables
-(MKUBIFS_ARGS_foo, UBI_VOL_SIZE_foo, etc) being exported from bitbake
-to the shell?
+perhaps they should go into -dev package instead.
 
-I didn't find any discussion about that from when the original
-multiubi code was merged though. Are there any multiubi users who can
-clarify?
-
-> +=A0=A0=A0=A0=A0=A0 fi
-> +
->=A0=A0=A0=A0=A0=A0=A0=A0 echo \[ubifs\] > ubinize${vname}-${IMAGE_NAME}.cf=
-g
->=A0=A0=A0=A0=A0=A0=A0=A0 echo mode=3Dubi >> ubinize${vname}-${IMAGE_NAME}.=
-cfg
->=A0=A0=A0=A0=A0=A0=A0=A0 echo image=3D${IMGDEPLOYDIR}/${IMAGE_NAME}${vname=
-}${IMAGE_NAME_SUFFIX}.ubifs >> ubinize${vname}-${IMAGE_NAME}.cfg
->=A0=A0=A0=A0=A0=A0=A0=A0 echo vol_id=3D0 >> ubinize${vname}-${IMAGE_NAME}.=
-cfg
-> +
-> +=A0=A0=A0=A0=A0=A0 if [ -n "${ubi_vol_size}" ]; then
-> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 echo "vol_size=3D${ubi_vol_si=
-ze}" >> ubinize${vname}-${IMAGE_NAME}.cfg
-> +=A0=A0=A0=A0=A0=A0 fi
-> +
->=A0=A0=A0=A0=A0=A0=A0=A0 echo vol_type=3Ddynamic >> ubinize${vname}-${IMAG=
-E_NAME}.cfg
->=A0=A0=A0=A0=A0=A0=A0=A0 echo vol_name=3D${UBI_VOLNAME} >> ubinize${vname}=
--${IMAGE_NAME}.cfg
->=A0=A0=A0=A0=A0=A0=A0=A0 echo vol_flags=3Dautoresize >> ubinize${vname}-${=
-IMAGE_NAME}.cfg
+>
+>  PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
+>
 > --
-> 2.17.1
+> 2.4.0
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-    =
 
