@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C92775481
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 99F62751D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 11:42:54 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id o13-v6so5447974wmf.4
+	Wed, 20 Jun 2018 12:39:33 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id z207-v6so4713045lff.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 04:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=w4afiNNkrRKQg18JVr5w6EoSeLV6Ho4+9766MSj+RjA=;
-	b=M68lMAUrklsHXxvs9ovhr8UNTIyTwl7p0YOtd7EMcqquQSVDxW1rvZ7mV6ehzT4EXv
-	rT1b+P1Yg8PgQ9px6ULMyztvf1TlvwgZlO2JrS/6UuG9XJkyRPi2QqIa11tT4PeBrpJ+
-	qWb7Fx8xg24/Jf3cabQMts9M5vH0MtWlougv8NgKgMyXpBdHI5H8sZ7nIjWSH/hge0ck
-	Z/3dPYFV11XqVFzsGThZLnipiIwAXBWQd5AKjvk4oJ0/saRHrRBvxiO3hbOAMcFwkD0p
-	zIX8HxPrP7X/LUIykpcF7J5SBoiqoRSdwAi0vfoh57G8lY5tvnD3YXcKrWF6AJAsNFpV
-	9eNQ==
+	Wed, 20 Jun 2018 05:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=0btrp6YfB6DH2eWw7tbMWeleU5Em+w8MEabDcCCo6a4=;
+	b=BCS0TIYVttdPAjxyL7HwOlXCVsvB3HKvtAHTUGEjAOzpmKRuFG7l5x8es8XhJLiwZw
+	Zi7fsplqKPzRfyLqpeyuier5GU0sd1lfinBXaBBdlXin0Qq0/WoR22G2FLJcWZFoaZ+1
+	BVkWNQj3HaS3/F10mp8hFqulcywAkepyjVOEwKCCDhlDK9jY7Qhd/zcNxUt7x90EFlBP
+	R9Zq6u8WQRsyG+sCITmwuIldu+gYVUWA5psMNucKf3wRIzL1NzKH+Xs1GrtZcN3kT1Yq
+	adNtLdWXus2s2H+JQN4Cqii4mHc4Krm6tsGoQHHTRLA9UTxt2j/QB5lg6OHM/5kYwJZ7
+	G5+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=w4afiNNkrRKQg18JVr5w6EoSeLV6Ho4+9766MSj+RjA=;
-	b=C4mvSFpZU4qN9BxvuYuuor/urGCqBGCzciKbc2kS3MbO8MuDJMSZ6bkAR6wztr0BO8
-	bM0mBBsBHu87vLqSQz6gzG7fj6rWQJAtxXwALE2BXhw1lWLVF2oFC9LnlBO2GErIrrZj
-	sDEXviCnRsopOx6/Gh6okp1s3n87QO+CNBYyS6HqCSlwon/N7cxVwCao3X1FAOzgSSS0
-	tgMe5TjvUa3TgLptsPnTaflKQ0DfE5XZuIfveQpTD+UObQUjO80E3+lCDSOXoBeQGCkQ
-	5JQCzNc97ulAJUpwGixaPO0qACiABTQhguuxQCx3vCwXS1lizqaUXhuuoReoV3ppC9UY
-	Wzqw==
-X-Gm-Message-State: APt69E0Sg4b/cbqjQa2dTgK44Zd8g+MCAkoJrKdiSuMPO25YNHcZGRgm
-	7BOxG2F5n6bELCGrSuE9xLwMtPh0
-X-Google-Smtp-Source: ADUXVKJmDrQ2N2/AVsmF1yX4ehXcvyfdZuWX/WxVfv1/YKI900obOkT2Fgnn7Ui4SYCrq/2sVBRx8g==
-X-Received: by 2002:a1c:eacd:: with SMTP id
-	g74-v6mr1359168wmi.103.1529494975246; 
-	Wed, 20 Jun 2018 04:42:55 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e6-v6sm1276951wro.11.2018.06.20.04.42.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Jun 2018 04:42:54 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2018 12:42:52 +0100
-Message-Id: <20180620114252.20561-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=0btrp6YfB6DH2eWw7tbMWeleU5Em+w8MEabDcCCo6a4=;
+	b=Sgghcuw7EOCLSIpGQhrwVGnfIr2djIDhQ9i05O+l/uTWZOxk/Uhwd5BQahUtpE/ZX1
+	zdCWkxIFak7dW48d+NaWp8E7B1gJcCYJlypNYeGAhk6Hxg3jZsELp/tPvPAVQsEr9CL9
+	NC9bjXTZ0ovUnD6Zt7CK8o2JNzZ9u7y7imgjz17sj/+1Qb+vTtHk9tsc5yN/x17A9Sfh
+	B1/YxzK9h62OYsYwj1M1H2jHYnncQ9JbhXDWotXXTPurjEZou6L7D+DPEP5D8HhGBB3e
+	0vBP6dOZfifeRvRwyAjwBXwcbBuv4NOc8+PAb0wb4Z0VwyXrH74dybKivhBE5xP9MDhX
+	VpLg==
+X-Gm-Message-State: APt69E3Md7A+1tqIJzvPOiR3neCdiKyxAkAyMeZirJMrS2GIjOuGF7e9
+	2Bny96BkO+uVolmnLK7kuysZ+tnZN7oRIskFuHo=
+X-Google-Smtp-Source: ADUXVKKSz+AzqQhhTGojiu3JqSbYerYAwycbnieNuIG8TcxYrXRotbVqhydod2MCDq/GMgNSqNccPpUirsxUeYigMdo=
+X-Received: by 2002:a2e:585:: with SMTP id
+	127-v6mr13719865ljf.28.1529498374052; 
+	Wed, 20 Jun 2018 05:39:34 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2] maintainers: update Intel owners
+Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP; Wed, 20 Jun 2018 05:39:33
+	-0700 (PDT)
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD0170F9E983@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1526668676-26167-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<1B56A49860EB2D45ADE3731B15C959FD0170F9E983@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 20 Jun 2018 08:39:33 -0400
+Message-ID: <CADkTA4PaYLT=zT3Py-S2kY=1Yon8HkubyXTmcghgzQH2W-6Qdw@mail.gmail.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>,
+	Ross Burton <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-libc-headers: To fix build error when enable mutilib on aarch64 Big endian.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,146 +59,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2018 11:42:55 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Jun 2018 12:39:34 -0000
+Content-Type: multipart/alternative; boundary="000000000000451d0f056f121767"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/maintainers.inc | 44 ++++++++++++++++----------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+--000000000000451d0f056f121767
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 2f2921b9364..d569e0a7ec3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -45,7 +45,7 @@ RECIPE_MAINTAINER_pn-apt = "Aníbal Limón <limon.anibal@gmail.com>"
- RECIPE_MAINTAINER_pn-apt-native = "Aníbal Limón <limon.anibal@gmail.com>"
- RECIPE_MAINTAINER_pn-argp-standalone = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-asciidoc = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER_pn-aspell = "Jose Lamego <jose.a.lamego@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-aspell = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-assimp = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-at = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-at-spi2-atk = "Maxin B. John <maxin.john@intel.com>"
-@@ -59,11 +59,11 @@ RECIPE_MAINTAINER_pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-avahi-ui = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-base-files = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-base-passwd = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-base-files = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-base-passwd = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-bash-completion = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-bc = "Jose Lamego <jose.a.lamego@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-bc = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-bdwgc = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bind = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils = "Khem Raj <raj.khem@gmail.com>"
-@@ -75,13 +75,13 @@ RECIPE_MAINTAINER_pn-bjam-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-blktool = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-blktrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bluez5 = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-bmap-tools = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-bmap-tools = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-boost = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bootchart2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-bsd-headers = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-btrfs-tools = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-build-appliance-image = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-build-compare = "Randy Witt <randy.e.witt@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-build-compare = "Paul Eggleton <paul.eggleton@linux.intel.com>"
- RECIPE_MAINTAINER_pn-build-sysroots = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -156,7 +156,7 @@ RECIPE_MAINTAINER_pn-enchant = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-ethtool = "Changhyeok Bae <changhyeok.bae@lge.com>"
--RECIPE_MAINTAINER_pn-eudev = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-eudev = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-expat = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-expect = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-ffmpeg = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -261,13 +261,13 @@ RECIPE_MAINTAINER_pn-ifupdown = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-init-ifupdown = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-initramfs-boot = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-initramfs-framework = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
--RECIPE_MAINTAINER_pn-initramfs-live-boot = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initramfs-live-boot-tiny = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initramfs-live-install = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initramfs-live-install-efi = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initramfs-live-install-efi-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initramfs-live-install-testfs = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-initscripts = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-boot = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-boot-tiny = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-install = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-install-efi = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-install-efi-testfs = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initramfs-live-install-testfs = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-initscripts = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-intltool = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-iproute2 = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-iptables = "Changhyeok Bae <changhyeok.bae@lge.com>"
-@@ -304,7 +304,7 @@ RECIPE_MAINTAINER_pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libcgroup = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@intel.com>"
-+RECIPE_MAINTAINER_pn-libconvert-asn1-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-libcroco = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster808@gmail.com>"
-@@ -443,7 +443,7 @@ RECIPE_MAINTAINER_pn-llvm = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lrzsz = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-lsb = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-lsbinitscripts = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-lsbinitscripts = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-lsbtest = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lsof = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -659,11 +659,11 @@ RECIPE_MAINTAINER_pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-systemtap = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-systemtap-uprobes = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-sysvinit = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
--RECIPE_MAINTAINER_pn-sysvinit-inittab = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-sysvinit = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-sysvinit-inittab = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-taglib = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-tar = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-tcf-agent = "Randy Witt <randy.e.witt@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-tcf-agent = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-tcl = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-tcp-wrappers = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-testexport-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -681,11 +681,11 @@ RECIPE_MAINTAINER_pn-u-boot-fw-utils = "Marek Vasut <marek.vasut@gmail.com>"
- RECIPE_MAINTAINER_pn-u-boot-mkimage = "Marek Vasut <marek.vasut@gmail.com>"
- RECIPE_MAINTAINER_pn-ubootchart = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-udev-extraconf = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-unfs3 = "Randy Witt <randy.e.witt@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-update-rc.d = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
-@@ -707,7 +707,7 @@ RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-wic-tools = "Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>"
-+RECIPE_MAINTAINER_pn-wic-tools = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@lge.com>"
- RECIPE_MAINTAINER_pn-x11-common = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
+I can grab this for my queue, and send it along with my next consolidated
+pull request.
+That way, I can give it some extra testing.
+
+Cheers,
+
+Bruce
+
+On Wed, Jun 20, 2018 at 3:12 AM, Lei, Maohui <leimaohui@cn.fujitsu.com>
+wrote:
+
+> Ping
+>
+> > -----Original Message-----
+> > From: Lei, Maohui
+> > Sent: Saturday, May 19, 2018 2:38 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Lei, Maohui
+> > Subject: [OE-core][PATCH] linux-libc-headers: To fix build error when
+> enable
+> > mutilib on aarch64 Big endian.
+> >
+> > Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> > ---
+> >  meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-
+> headers.inc
+> > b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> > index 9903c06..b5cf96d 100644
+> > --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> > +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> > @@ -77,6 +77,10 @@ do_install_append_arm () {
+> >       do_install_armmultilib
+> >  }
+> >
+> > +do_install_append_armeb () {
+> > +     do_install_armmultilib
+> > +}
+> > +
+> >  do_install_armmultilib () {
+> >       oe_multilib_header asm/auxvec.h asm/bitsperlong.h asm/byteorder.h
+> > asm/fcntl.h asm/hwcap.h asm/ioctls.h asm/kvm.h asm/kvm_para.h asm/mman.h
+> > asm/param.h asm/perf_regs.h asm/bpf_perf_event.h
+> >       oe_multilib_header asm/posix_types.h asm/ptrace.h  asm/setup.h
+> > asm/sigcontext.h asm/siginfo.h asm/signal.h asm/stat.h  asm/statfs.h
+> asm/swab.h
+> > asm/types.h asm/unistd.h
+> > --
+> > 1.9.1
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
 -- 
-2.11.0
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--000000000000451d0f056f121767
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">I can grab this for my queue, and send it along with my ne=
+xt consolidated pull request.=C2=A0<div>That way, I can give it some extra =
+testing.</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce<br=
+><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jun 20, =
+2018 at 3:12 AM, Lei, Maohui <span dir=3D"ltr">&lt;<a href=3D"mailto:leimao=
+hui@cn.fujitsu.com" target=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><span class=3D"im HOEnZb">Ping<=
+br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Lei, Maohui<br>
+&gt; Sent: Saturday, May 19, 2018 2:38 AM<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
+bedded-core@lists.<wbr>openembedded.org</a><br>
+&gt; Cc: Lei, Maohui<br>
+&gt; Subject: [OE-core][PATCH] linux-libc-headers: To fix build error when =
+enable<br>
+&gt; mutilib on aarch64 Big endian.<br>
+&gt; <br>
+</span><div class=3D"HOEnZb"><div class=3D"h5">&gt; Signed-off-by: Lei Maoh=
+ui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com">leimaohui@cn.fujitsu.com=
+</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-kernel/linux-<wbr>libc-headers/linux-libc-<wbr>head=
+ers.inc | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-kernel/linux-<wbr>libc-headers/linux-libc-<w=
+br>headers.inc<br>
+&gt; b/meta/recipes-kernel/linux-<wbr>libc-headers/linux-libc-<wbr>headers.=
+inc<br>
+&gt; index 9903c06..b5cf96d 100644<br>
+&gt; --- a/meta/recipes-kernel/linux-<wbr>libc-headers/linux-libc-<wbr>head=
+ers.inc<br>
+&gt; +++ b/meta/recipes-kernel/linux-<wbr>libc-headers/linux-libc-<wbr>head=
+ers.inc<br>
+&gt; @@ -77,6 +77,10 @@ do_install_append_arm () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0do_install_armmultilib<br>
+&gt;=C2=A0 }<br>
+&gt; <br>
+&gt; +do_install_append_armeb () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0do_install_armmultilib<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 do_install_armmultilib () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header asm/auxvec.h asm/bitsperl=
+ong.h asm/byteorder.h<br>
+&gt; asm/fcntl.h asm/hwcap.h asm/ioctls.h asm/kvm.h asm/kvm_para.h asm/mman=
+.h<br>
+&gt; asm/param.h asm/perf_regs.h asm/bpf_perf_event.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header asm/posix_types.h asm/ptr=
+ace.h=C2=A0 asm/setup.h<br>
+&gt; asm/sigcontext.h asm/siginfo.h asm/signal.h asm/stat.h=C2=A0 asm/statf=
+s.h asm/swab.h<br>
+&gt; asm/types.h asm/unistd.h<br>
+&gt; --<br>
+&gt; 1.9.1<br>
+<br>
+<br>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
+u shalt not follow the NULL pointer, for chaos and madness await thee at it=
+s end&quot;</div>
+</div></div></div>
+
+--000000000000451d0f056f121767--
