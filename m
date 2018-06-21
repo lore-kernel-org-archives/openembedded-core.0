@@ -1,52 +1,49 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5500E78698
+Received: from mail-pl0-f53.google.com (mail-pl0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 81EEA7852C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 21:08:04 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id y5-v6so2115346pfn.4
+	Thu, 21 Jun 2018 21:08:15 +0000 (UTC)
+Received: by mail-pl0-f53.google.com with SMTP id 30-v6so2303561pld.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 14:08:05 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xo8TGTJNIob/hVk7MAjc/uHB83ZZyCCl8clE4mO0zZk=;
-	b=cOhqZWuyCjvmKJ4F0lw4YX4EqLZ8ZQnBjZGGy7azFw2Ifgv7jdmYl8kZawKUB0zE9Z
-	NNmIYpr7HfLVwI+6B/tK5XbxHIBqzmW5C8+yIuawQ+nF2GXSwsFWUiFFOkld0rS4HGGN
-	eONw1OLlDQzcMH03+DD7gN4425HVYOPPgcbkANUG1XmItFa9f9TTljTfiNowh2XF2OdZ
-	2ASNvT+MbcXCAiqxJuSJZ6QRXCi+6Tk3Bpo0JxSQfKZ5Ei7eM2FC2mkAlg08j4QjVz+X
-	r8uKeAz1d319f4qFvg8/c55pYrYvv6ZXIrs4dHcaZKwBMqpEYg2zbxMkuhLZm7wPqDGa
-	R9vQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=nIfYp4siAtN29Y3nB2O2KSKU4rgxXwHVg2EBnw5bQNc=;
+	b=aDStP/RWdhS7kumWI3VMAqBwTW4dW1m5WJegNC4ZhuENtLwDW9VWCvBcof4Mrm7lrA
+	htwL46nahegN1QzUXyvH7Gba8JXlsK0Z8qEePPeKdkBiK7PkMozFihwG59LlukLt4jDb
+	RGtr+FpDBRAe6uAcSADjxriHRlZ2YzwqevQJQPyqul+IOvIRwh9phbeYHgBBscj0GHJG
+	MtWWahSJl6jITZDHcqvFbRS/ot/Mw9R2gVOuQ+JLs4Lt2Ygx05asXthZymc+M+lqKBGN
+	X3gzeglk1Ko3+qGTJ7K6SxQmBnhCeG671GpKNRdxfNZvaj4oz2yFYwb8f3o9K2swXT6p
+	hUmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=xo8TGTJNIob/hVk7MAjc/uHB83ZZyCCl8clE4mO0zZk=;
-	b=HaM4CdlSDoHvjA/trSgm4gFf6EBxmjQD0g1XJ6r7KpU0L/yV2aV0kNSrzWqeze7Pm4
-	aU2w4qDK2wJ5YN/ig7OQVv+xhuC5ljYvP5YwcncaAWvRzFBR3iwPQuTbev91z2rEaaxI
-	hAu872w16/+GQcY2UGKevhNnn/WbwtDw0nmQ7qoCb0lyy1kW9OpjNcjcknhDyTg0/tbA
-	rWQcir2tE7OjC+yYhXetU4dfcSvf6yeH27i7LhW06f5dTe6ALE4xkXgRYuQKTtaSJ47Z
-	j0o0GX9wCjTYDZPF2PVB1suu+6P5sFI33q6m1Ch65G9/W5C1c+/M2QrtWHNU4muTPgsR
-	Us4Q==
-X-Gm-Message-State: APt69E1P8OyEfspXksPUWtntt4pMphH47FEGBfWlqAB7VdIrQ/dIad2O
-	WKzQmpjN2NtM5+O9RFFfxMrteHQN
-X-Google-Smtp-Source: ADUXVKLz0aU+BqL70/ZoIiAsW/tH/xBTGUTMY9HpQYcsxBgVMKcCAjfafqhz6SNxlsOWMgC6vYfPRg==
-X-Received: by 2002:a65:4042:: with SMTP id
-	h2-v6mr23231600pgp.78.1529615285211; 
-	Thu, 21 Jun 2018 14:08:05 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nIfYp4siAtN29Y3nB2O2KSKU4rgxXwHVg2EBnw5bQNc=;
+	b=QwphFm42KjItR+z6tHMS/2l0xig2uOpS+4Rs5ZPQDwBQm0oI5KsZvpP1khaBLPc1ha
+	KC96qnUWBQhkqRVt67w0NwXPll0J+16c0uTAB/DJ/orUrihwLpZsvIWov/JOxeRtQKf5
+	FXYpfXQJxgK1sILvqBJX5CH8AhdTOnb47XBjHbk7KzPeNFJ96iSyOGwTeqEgWNhVj9ME
+	89f8hPMCnI/V1xeBCjyoBbPMUHNx78AD6ZsPqahUUOpGRYMeMdK0BKuQcCut6Cs8JlVc
+	rQPvTH/nkGgBIQTuGmb/1fZsG5KjxDcpQNEW+r/hs4z9/yZE5sayEsHFkkYQRGmcnSyk
+	CFqQ==
+X-Gm-Message-State: APt69E0zpXsOliZURCvWoQskhxvFHowb3F+nl4VvJ9BMGRT6vVtjCZUO
+	e/79jQda/HQ+/7bhouMxaII/rhNm
+X-Google-Smtp-Source: ADUXVKJfbyCVsGWmICn8sZUjOz17MAJ6k+sN7aZO2fKu0xWgDvdj8Kgq/KUoyrf/M4et1RqNVjbzaQ==
+X-Received: by 2002:a17:902:42a3:: with SMTP id
+	h32-v6mr29768533pld.72.1529615296399; 
+	Thu, 21 Jun 2018 14:08:16 -0700 (PDT)
 Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
 	by smtp.gmail.com with ESMTPSA id
-	l62-v6sm8448499pga.21.2018.06.21.14.08.02
+	n85-v6sm9836546pfa.146.2018.06.21.14.08.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jun 2018 14:08:04 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:15 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2018 02:07:36 +0500
-Message-Id: <5ce7b09e00b4967d2c0efaad58049cf871fab57a.1529604086.git.chris_larson@mentor.com>
+Date: Fri, 22 Jun 2018 02:08:04 +0500
+Message-Id: <cover.1529604975.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.11.1
-In-Reply-To: <cover.1529604086.git.chris_larson@mentor.com>
-References: <cover.1529604086.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 6/6] perf: drop the rdep on man
+Subject: [PATCH 0/2] rng-tools: start earlier in the boot process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 21:08:04 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 21:08:15 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-It's not common practice to make -doc rdep on man when man pages are
-included, and doing so prevents the recipe from building for non-gplv3
+Entropy is needed earlier in the boot process in some cases, for example
+connman can require it, and rgd doesn't require much, so move it earlier
+in the boot process, 03 for sysvinit, and before sysinit for systemd.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 -
- 1 file changed, 1 deletion(-)
+The following changes since commit 83c9405df5748744ef673ac8757bb89d7050ad8d:
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 51f5597eb92..5e710f61834 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -239,7 +239,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
- 
- RDEPENDS_${PN} += "elfutils bash"
--RDEPENDS_${PN}-doc += "man"
- RDEPENDS_${PN}-archive =+ "bash"
- RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
- RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
+  alsa-tools: rewrite packaging (2018-06-15 11:18:15 +0100)
+
+are available in the git repository at:
+
+  git@github.com:kergoth/openembedded-core.git rng-tools-early
+
+for you to fetch changes up to abb55c262e6dab31c0e77bf800e83cdba155fc13:
+
+  rng-tools: start earlier in the boot process (2018-06-16 02:05:09 +0500)
+
+----------------------------------------------------------------
+Christopher Larson (2):
+  rng-tools: drop unnecessary INHIBIT_UPDATERCD_BBCLASS
+  rng-tools: start earlier in the boot process
+
+ meta/recipes-support/rng-tools/rng-tools/rngd.service | 3 +++
+ meta/recipes-support/rng-tools/rng-tools_5.bb         | 9 +--------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
+
 -- 
 2.11.1
 
