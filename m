@@ -1,55 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A74F5787DD
+Return-Path: <zhe.he@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 75AC477BEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 10:32:53 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id l15-v6so2986286oth.6
+	Thu, 21 Jun 2018 11:08:46 +0000 (UTC)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w5LB8kFM008051
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 03:32:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=s1HhugouvTZ/YfEw2rTT8fJeUc0PVVuQuxwMH2/lUzw=;
-	b=kNzqrRNhszqmzpazTGpoFxR9SxXL8Y7N6efcaRRSzkJRDuUhD08D5pjt+Ege1MTv6I
-	G3dF5TkmmbJm2bv+UiezQOZ++nd63PlzO+Prhg+b3/9xcuHfjaB4E2QmYzSch2IJxMIM
-	U3yMPbztOmLQzOt0sL8Yp8Sm+U1ert+RtZ8KNSGpcs/PwHcXfVNCqtnm/AQXRsrFIjv3
-	XhE2Bgpe05dP3pYbizx2h9vRT//rrEMJ4O8pK18l7q4+akkK9MSa29SyePvFg5Cafvst
-	v6U96nt6O/44uh2TxBJB2LH8AvkVqBdZ0V/lTLpyc/LQV0EqqJ1gZQC8igMTmGqX9oIL
-	quIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=s1HhugouvTZ/YfEw2rTT8fJeUc0PVVuQuxwMH2/lUzw=;
-	b=HgC5uVZ9mqvnankPjc/HxaHbVviKofAsbtVCHc0LdjdL7PwZl//T38oJaLR9n4pAgD
-	h6xcl4EtxQ9VfZJzgDLW0zKBhjXVMf/wgDCxdNjN8mNXr+2RtSTglNE/AYKGtafEJOxX
-	lgfZYXuJWTJD0D4fAkIhN6B13uWBJgn+UERFe8L+FoN/fntoL3fW6Lgn9wJag5DQ9oHW
-	6/9IxW7uURmCphW/zjq0HMdn6O2wXJxl8KCVpFTDABRgd0pQi/Ds00SpcSl+t8X6ajKu
-	rwYyUkNodzRvHnOxvdnP8COT5JwFH+byd5GE/wHx9a7FkddOEaPwRIwLYN3xXGL6zLZc
-	a7Qg==
-X-Gm-Message-State: APt69E2CDdftzkXA2eymRqo5t9iblHWniG8ecDg1KVsXldCFA/6twV6T
-	+7Rw1Bjswf4JgZ7JeAHcC04+BAjtzv3wmb1kY9Nsvw==
-X-Google-Smtp-Source: ADUXVKJhMeQ35eDjFKsU3ZdPiDztN2+rpBezMKMRia2HH73OhDpybgtcMODhfMIe/wPh9vkHCUkZFxVXzMVztUW8WQw=
-X-Received: by 2002:a9d:627:: with SMTP id
-	36-v6mr14191486otn.168.1529577174471; 
-	Thu, 21 Jun 2018 03:32:54 -0700 (PDT)
+	Thu, 21 Jun 2018 04:08:46 -0700 (PDT)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Thu, 21 Jun 2018 04:08:45 -0700
+From: He Zhe <zhe.he@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jun 2018 04:08:45 -0700
+Message-Id: <20180621110845.48767-1-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Thu, 21 Jun 2018 03:32:33
-	-0700 (PDT)
-In-Reply-To: <20180619235320.GN19965@denix.org>
-References: <cover.1526944475.git.denys@ti.com>
-	<b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
-	<CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
-	<CAJTo0LaQjo2iUw1BGo18fmH+Mz0j7pnkq7ooX_Q7zNyYa-chVQ@mail.gmail.com>
-	<20180619235320.GN19965@denix.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Jun 2018 11:32:33 +0100
-Message-ID: <CAJTo0LaTOqJ=4qRY+BhktCPj6BgOj2Do1yp9XXtVZcZ4dgBSKQ@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] mtd-utils: upgrade 2.0.1 -> 2.0.2
+Subject: [PATCH] cryptodev: Fix build errors with v4.17+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,37 +28,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 10:32:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Jun 2018 11:08:46 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sorry, no it doesn't.  I've just picked this in ross/mut but a
-follow-up patch to remove that mystery patch (can't see it being used
-in image generation anywhere) would be good.
+Backport from upstream to update internal syscall function usage.
+https://github.com/cryptodev-linux/cryptodev-linux
+f60aa08c63fc02780554a0a12180a478ca27d49f
 
-Ross
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ .../cryptodev/cryptodev-module_1.9.bb              |  1 +
+ .../0001-ioctl.c-Fix-build-with-linux-4.17.patch   | 43 ++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.17.patch
 
-On 20 June 2018 at 00:53, Denys Dmytriyenko <denis@denix.org> wrote:
-> On Tue, May 22, 2018 at 01:16:34PM +0100, Burton, Ross wrote:
->> On 22 May 2018 at 08:49, Andrea Adami <andrea.adami@gmail.com> wrote:
->> > I am just wondering about this patch:we carry it since 2009  [1] and
->> > is still marked as pending.
->> > Why was it necessary to ignore part of the filesystem? Can you remember?
->>
->> Make that at least 2004.  This commit in oe-classic touches it:
->>
->> commit c70605ebdca81412a93b4d867de7931543193f26
->> Author: Chris Larson <clarson@kergoth.com>
->> Date:   Thu Dec 23 21:24:57 2004 +0000
->>
->>     Update mtd to a current snapshot, change the mkfs.jffs2 -i cmdline option to
->>     -I, and rename mtd and mtd-native to mtd-utils and mtd-utils-native,
->>     respectively.
->>
->> Prior history is lost to the git/bk migration unless anyone has a
->> BitKeeper clone to mine...
->
-> So, does this prevent the version upgrade from being merged?
->
-> --
-> Denys
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+index ed6d0ecae97..6052650c955 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.9.bb
+@@ -10,6 +10,7 @@ DEPENDS += "cryptodev-linux"
+ SRC_URI += " \
+ file://0001-Disable-installing-header-file-provided-by-another-p.patch \
+ file://0001-ioctl.c-Fix-build-with-linux-4.13.patch \
++file://0001-ioctl.c-Fix-build-with-linux-4.17.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.17.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.17.patch
+new file mode 100644
+index 00000000000..5881d1c4eec
+--- /dev/null
++++ b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-with-linux-4.17.patch
+@@ -0,0 +1,43 @@
++From f60aa08c63fc02780554a0a12180a478ca27d49f Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>
++Date: Wed, 23 May 2018 18:43:39 +0300
++Subject: [PATCH] ioctl.c: Fix build with linux 4.17
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Since kernel 4.17-rc1, sys_* syscalls can no longer be called directly:
++819671ff849b ("syscalls: define and explain goal to not call syscalls in the kernel")
++
++Since cryptodev uses sys_close() - and this has been removed in commit:
++2ca2a09d6215 ("fs: add ksys_close() wrapper; remove in-kernel calls to sys_close()")
++cryptodev has to be updated to use the ksys_close() wrapper.
++
++Signed-off-by: Horia Geantă <horia.geanta@nxp.com>
++
++Upstream-Status: Backport
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ ioctl.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/ioctl.c b/ioctl.c
++index d831b0c..2571034 100644
++--- a/ioctl.c
+++++ b/ioctl.c
++@@ -828,7 +828,11 @@ cryptodev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg_)
++ 		fd = clonefd(filp);
++ 		ret = put_user(fd, p);
++ 		if (unlikely(ret)) {
+++#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 17, 0))
++ 			sys_close(fd);
+++#else
+++			ksys_close(fd);
+++#endif
++ 			return ret;
++ 		}
++ 		return ret;
++-- 
++2.7.4
++
+-- 
+2.11.0
+
 
