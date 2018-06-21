@@ -1,48 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
-	[209.85.160.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A8AD78411
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4789A7869C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 01:26:04 +0000 (UTC)
-Received: by mail-pl0-f67.google.com with SMTP id 30-v6so709319pld.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 18:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z3gRey1eL1RcwMNORcqB5bIxlGiz4dQlo1kvcR9OiRQ=;
-	b=pLJlfG4Kq+zELRomJEUDQLSGSEi8nVfnKCIbGnmi+0AAokwXUf2xYs2HsYHV8g4EHH
-	tN9TfZSulSgZpFikH2MuZvUF+h7KbklnnHxNQ7w0jDY9rqfl3N0JM1i5cvqJUwAaVME/
-	I4Xp9Yao2obfac23dzhzfABfU4pDtXAn9Iw4zaSgUPjg0zl7v5XrzUE5yy7Fj4yeM+p3
-	2xP4gE0QMa0uVoGuvN+9O0Yj+QJXttz/3TXYPglSyeWjjvmYmAh/YIfKGGUeJaNT74FO
-	4Fs/00nGoD+irV3SXtO+t8z0pKSlmTVfRAm+pFVR2ckySByW1Mqio9sklV/s51sHaMxf
-	4Vfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Z3gRey1eL1RcwMNORcqB5bIxlGiz4dQlo1kvcR9OiRQ=;
-	b=qxDqoar3TFIUstqOq4aOYQVwgMw1KzUtF9cix7SPX5H9XUoZ16NQNCk1ww1r3//pMw
-	4EzAHNCvgqoLQ3REHgt5pDz9V/XKgMWzTsLmhHI7VNEEwmzFsN8iiZDLvFNRkErVjMmK
-	GJFFEXw7xXCH/IqA81UBC0DactDqUQ4/WREJCWvilTXgVKh7Xd7iOSVV3j/V40QfwXm1
-	FZOumHFP2NH9EYym3QKvyyUrnb5oxZ78aJEaP5xZk+QusIAU1Q2tCN7Df6twesa1rxtj
-	ODM1DmpLYvvbm/XEhRVO3RXb2nbV8nLMntNcfx892ve/hUTTBoQQs61c9Ios3K+10QMQ
-	0NQQ==
-X-Gm-Message-State: APt69E0VFmF8oE4e9qs17tHGklOZrH8/EGywiWzP8LD2R5d8zAHvKJN2
-	3VpX7Fr921h2j9IR2Ow3Jna3Ig==
-X-Google-Smtp-Source: ADUXVKJ3/aKjF2Zmor6xkAylaMUaWIu/ymUWIlFXXfB0WLW55jZHuO5nfgVVl7KlJdtZh2icHRzQyA==
-X-Received: by 2002:a17:902:a518:: with SMTP id
-	s24-v6mr26484462plq.144.1529544365025; 
-	Wed, 20 Jun 2018 18:26:05 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::91a0])
-	by smtp.gmail.com with ESMTPSA id
-	z19-v6sm5151433pfe.163.2018.06.20.18.26.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Jun 2018 18:26:04 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2018 18:26:07 -0700
-Message-Id: <20180621012607.32923-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH V2] gcc-8: Enable fp arch extention when fpu is available
+	Thu, 21 Jun 2018 05:32:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5L5UcRN009567
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 20 Jun 2018 22:31:34 -0700
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Wed, 20 Jun 2018 22:31:27 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180619114512.11699-1-richard.purdie@linuxfoundation.org>
+	<20180619114512.11699-3-richard.purdie@linuxfoundation.org>
+	<4b8dea8f-7f02-98c1-f87b-8b4a80912736@windriver.com>
+	<e679e3237e1e9b57a5c92e809fb6e59c38f8f77f.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <b59446b4-4499-0842-fa0a-7c169ee6bc2c@windriver.com>
+Date: Thu, 21 Jun 2018 13:34:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <e679e3237e1e9b57a5c92e809fb6e59c38f8f77f.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [PATCH 3/3] image/testimage: Rework auto image test execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 01:26:04 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 05:32:01 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is especially needed when defaulting to hard-float ABI
-Fixes errors e.g.
-cc1: error: -mfloat-abi=hard: selected processor lacks an FPU
+On 06/20/2018 05:54 PM, Richard Purdie wrote:
+> On Wed, 2018-06-20 at 08:47 +0800, ChenQi wrote:
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -487,7 +487,7 @@ HOSTTOOLS += " \
+>>>    "
+>>>    
+>>>    # Tools needed to run testimage runtime image testing
+>>> -HOSTTOOLS += "${@'ip ping ps scp ssh stty' if
+>>> (bb.data.inherits_class('testimage', d) or d.getVar('TEST_IMAGE')
+>>> == '1') else ''}"
+>>> +HOSTTOOLS += "${@'ip ping ps scp ssh stty' if
+>>> (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True,
+>>> False, d)) else ''}"
+>> After this change, testimage and testsdk is limited to be used via
+>> IMAGE_CLASSES. Using INHERIT directly will cause commands missing
+>> when testing.
+>> e.g.
+>> INHERIT += "testimage"
+>>
+>> Is it designed to be so?
+> Using INHERIT += "testimage" is bad form since it adds the testimage
+> task to things that it makes no sense with. Consider "bitbake bash -c
+> testimage" for example.
+>
+> So yes, it was designed to do this, unfortunately it breaks the
+> autobuilder though.
+>
+> I will likely want to fix the autobuilder not to do this and use the
+> new test code. We're about to change a lot of the autobuilder codebase
+> around to the new one so it probably makes sense to make that change
+> after we move to the new codebase.
+>
+> For that reason I'll probably temporarily fix INHERIT of testimage to
+> work again but going forward, that support will be removed as it
+> doesn't make sense and IMAGE_CLASSES is the correct way to do it.
+>
+> Does that make sense?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+Yes. Thanks for explaining this in detail.
 
-Fixes [YOCTO #12795]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@intel.com>
----
-V2:
-- Limit the change to gcc8 since gcc7 does not have these extentions
-
- meta/recipes-devtools/gcc/gcc-target.inc | 9 ++++++---
- meta/recipes-devtools/gcc/gcc_8.1.bb     | 4 ++++
- 2 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index 56e4b95af4..bc2236fed0 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -14,9 +14,12 @@ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
- # specific). For example, for ARM, ARMv6+ adds atomic instructions that may
- # affect the ABI in the gcc-runtime libs. Since we can't rely on gcc on the
- # target to always be passed -march etc, its built-in default needs to be safe.
--EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
--EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
--EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
-+
-+ARMFPARCHEXT ?= ""
-+
-+EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
-+EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
-+EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
- 
- # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
- # set in subdir gcc, so subdir libcc1 can't use it, export it here to
-diff --git a/meta/recipes-devtools/gcc/gcc_8.1.bb b/meta/recipes-devtools/gcc/gcc_8.1.bb
-index ab208e7026..7d93590588 100644
---- a/meta/recipes-devtools/gcc/gcc_8.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc_8.1.bb
-@@ -7,4 +7,8 @@ require gcc-target.inc
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- 
-+ARMFPARCHEXT_armv6 = "${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-+ARMFPARCHEXT_armv7a = "${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-+ARMFPARCHEXT_armv7ve = "${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-+
- BBCLASSEXTEND = "nativesdk"
--- 
-2.17.1
-
+Best Regards,
+Chen Qi
 
