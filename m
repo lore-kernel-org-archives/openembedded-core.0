@@ -1,51 +1,52 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 788D77713C
+Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
+	[209.85.160.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 77B9D78542
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 21:07:58 +0000 (UTC)
-Received: by mail-pg0-f48.google.com with SMTP id g26-v6so1954109pgn.11
+	Thu, 21 Jun 2018 21:08:01 +0000 (UTC)
+Received: by mail-pl0-f52.google.com with SMTP id g20-v6so2328544plq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 14:07:59 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BKE9pErR/AXAB7eKyGzAfY9OSW66E8Df+xvncuy/51Q=;
-	b=Uq+lFp/dewCzB5C914yXk10myCqA8siz4poMYs2HuQy9c/yJplX3KspkwKUhXfqXcp
-	WZHr73BDOBCsFLh/kDPK3ALcWElpKECh5gXcTtaxZQJ+ssRLWTd2VTl+tvCJMOxBtRbV
-	hEpFUhaRENaH5jiZMb6OJFrzA3ZgTI6SRPqka1E/gl1wSqUnDe/9dTcas03biA0Doweq
-	MUtclDHM79e+B9sOKtNHWI4x3LRg+P2Lgn36DsWYqZw7af/MINICJLJo1tAlGBywulCI
-	mshNvtVtSkANXL1XzgbgjeaWOMDAslrvy/qBYj3SiGojCBvzcq6IIAC7Wwuj8ouxHq/k
-	TK8w==
+	bh=A1IHM0ZNoogCak759QEHDa/JN6X0SqXAaFxIjGLo1OM=;
+	b=nWWEEAYdWsNXVSW+jsoV8xLj0QNGEBl9/E+osJEg2u4lt5rCNQ35AydxYCcfJqS6g7
+	G8n2gyYDch/Q4v3TXTnYVym1emCcU5hzue8xy9tHc5/W37UJqDUWlgopHoj9DB9s6iYu
+	TUT7RYVspFg0r9frtd7YCVtwqEyQrVshStD/1IhyurDaREjrDxjJUh2zsugH37hwbxlx
+	yMfHUXEgjwhQeCXMrrau3apGI0WKh8zAtUM9+nfU0wDQE7LRXokyb/2UflJPA2jhC913
+	nxOB96zXQuP9xHHA2Jb9AxW9hnsyfC1m7NEnryGJUQ3ax9JhBxQOdrZQlyLVI8kg69fY
+	1NAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=BKE9pErR/AXAB7eKyGzAfY9OSW66E8Df+xvncuy/51Q=;
-	b=Q6giSilCGd6tHw99gffeKysiMydlulDCB6GvzLkET8o0F0rEswhDNs+xu5zRVk6SGx
-	7m59NLAAhk3pFDj2pY3Q+0LfGEFQ1Mdxty6h35te/dh8D+fZg8uEi0JvGq21bcDRidPn
-	PPZ8TsZE884IybTsz6MspJT3EpF1LuFqb7F6T8U8mL0/LEUPUwDF/R6cg9f6/olZhISw
-	qod1U1ox/uRsiK7uS9d7zaLaWbenStOEV1u01xSu+orfTNeq6u33YnLbFZnFUFaNOCtF
-	k/KpGBpBxTddiFuvC4zf/OyT6wGVBCbrg8q8/KmZ3J6yGYJxVI0hswEwIEnGT6vCRELQ
-	wEog==
-X-Gm-Message-State: APt69E1afRIe0Pbub7z6BtVhUf1F694Ej0fY54fqFa1Ged8GYqqdua08
-	6L5A4+qfPRHtIZN9R8WVXfyg93K5
-X-Google-Smtp-Source: ADUXVKIkNWMK7e3W+PImUSzBsw8GAjfQ0SROPzhq7EsFSE3xZ2PS9boJlINNhU43vSKVjH3pU5/sNw==
-X-Received: by 2002:a65:4b0f:: with SMTP id
-	r15-v6mr208765pgq.103.1529615279357; 
-	Thu, 21 Jun 2018 14:07:59 -0700 (PDT)
+	bh=A1IHM0ZNoogCak759QEHDa/JN6X0SqXAaFxIjGLo1OM=;
+	b=HKGFn3ibV8OcapxaQVhyUj4tWpNHlpK9PEw56ek7FmuWp0rx9kvLMRUbm6d6tpIhbC
+	ZHwJpjxqunSNH4RE9KjqgdZJDV5BQ1FwNntKFrRurbtVYw3HF6i4VYSQnVZXqiMycOO/
+	5kBiZzvEBLBClDKFgVN8pmVCW2Ww6Zc2B0iG1NpmM9X/r8XavT31GucJw00zt/RjFd9m
+	dKAIilQxl1c6SM5EbvqI2nnu3B7/7BGjDVCZx4HesiRnYemrhop+UVMxYyJpfs8sZT//
+	SL6vx0GLjv4VReCoc7OCXykfcC7t39RYtHuhivPrLm/OZ2tUl1tOOGkC4HPvSXfiWXcP
+	Palg==
+X-Gm-Message-State: APt69E2wftNSiCY9fncoJ2LZkdXRfjoKULj65DUBJ87531DlkdEZrCm/
+	6PziFM+pDlyGPtp8v647E658XU8u
+X-Google-Smtp-Source: ADUXVKKg9LgFaDnRnUCEESoB0ubd8rBj8+JELeNcqW5sFIHUDciNlHwoXg+Ceo80sUe1YqkktcUsrw==
+X-Received: by 2002:a17:902:d68b:: with SMTP id
+	v11-v6mr29632618ply.16.1529615282336; 
+	Thu, 21 Jun 2018 14:08:02 -0700 (PDT)
 Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
 	by smtp.gmail.com with ESMTPSA id
-	l62-v6sm8448499pga.21.2018.06.21.14.07.56
+	l62-v6sm8448499pga.21.2018.06.21.14.07.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jun 2018 14:07:58 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:01 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2018 02:07:34 +0500
-Message-Id: <cb7ad8b13e852ded07b91006933df73cacb9032a.1529604086.git.chris_larson@mentor.com>
+Date: Fri, 22 Jun 2018 02:07:35 +0500
+Message-Id: <86eb26452d25187a4f545533a5d851d73c5ff0cc.1529604086.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.11.1
 In-Reply-To: <cover.1529604086.git.chris_larson@mentor.com>
 References: <cover.1529604086.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 4/6] ovmf: set PARALLEL_MAKE for target as well
+Subject: [PATCH 5/6] dmidecode: correct docdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 21:07:58 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 21:08:01 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This can fail for target, not just native.
+Without this, the package clutters up the root of /usr/share/doc.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/dmidecode/dmidecode_3.1.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 212530acbf9..e57fa097274 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -39,7 +39,7 @@ SRC_URI[openssl.sha256sum] = "57be8618979d80c910728cfc99369bf97b2a1abd8f366ab6eb
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
+index f83281e2359..b423fda6d24 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
++++ b/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
+@@ -9,6 +9,10 @@ COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
  
- inherit deploy
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
  
--PARALLEL_MAKE_class-native = ""
-+PARALLEL_MAKE = ""
- 
- S = "${WORKDIR}/git"
- 
++# The upstream buildsystem uses 'docdir' as the path where it puts AUTHORS,
++# README, etc, but we don't want those in the root of our docdir.
++docdir .= "/${BPN}"
++
+ do_install() {
+ 	oe_runmake DESTDIR="${D}" install
+ }
 -- 
 2.11.1
 
