@@ -1,22 +1,33 @@
-Return-Path: <martin@geanix.com>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id AC39F77146
+Return-Path: <damien.riegel@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 27F9C771A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 19:16:29 +0000 (UTC)
-Received: from [10.0.0.11] (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id AA2441C0904;
-	Thu, 21 Jun 2018 21:16:28 +0200 (CEST)
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-	openembedded-core@lists.openembedded.org
-References: <20180322134413.8079-1-rasmus.villemoes@prevas.dk>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <c907cd81-910d-bb64-12a8-2145e347f803@geanix.com>
-Date: Thu, 21 Jun 2018 21:16:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <20180322134413.8079-1-rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH] wic: allow bitbake variables in kickstarter files
+	Thu, 21 Jun 2018 20:35:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 5D2B39C3062;
+	Thu, 21 Jun 2018 16:35:55 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id 2YguaBM0Ym5E; Thu, 21 Jun 2018 16:35:54 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id E1ADF9C3551;
+	Thu, 21 Jun 2018 16:35:54 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id gJqk-gnuEQQS; Thu, 21 Jun 2018 16:35:54 -0400 (EDT)
+Received: from workotop.mtl.sfl (unknown [192.168.50.174])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id B7E2F9C3062;
+	Thu, 21 Jun 2018 16:35:54 -0400 (EDT)
+From: Damien Riegel <damien.riegel@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Jun 2018 16:35:49 -0400
+Message-Id: <20180621203549.6187-1-damien.riegel@savoirfairelinux.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] systemd: quote SYSTEMD_SERVICE in prerm and postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,22 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 19:16:30 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-IE
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Jun 2018 20:35:56 -0000
 
-On 2018-03-22 14:44, Rasmus Villemoes wrote:
-> image_types_wic.bbclass has a mechanism for doing variable substitution
-> on .wks files by simply letting the input file be called
-> .wks.in. However, that doesn't allow using variables in files included
-> via the include directive.
-> 
-> This adds (somewhat naive) support for variable substitution in all
-> files parsed by wic. The user should add all required variables to
-> WICVARS to get them exported appropriately.
-> 
-> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Systemd mount configuration file must have a name that match the mount
+point directory they control. So for instance, if a mount file contains
 
-ping³
+    [Mount]
+    ...
+    Where=/mnt/my-data
+
+The file must be named `mnt-my\x2ddata.mount`, or systemd will refuse to
+honour it.
+
+If this config file contains an [Install] section, it will silently fail
+because the unit file is not quoted when systemctl is called. To fix
+that, quote `${SYSTEMD_SERVICE}` in prerm and postinst hooks.
+
+Signed-off-by: Damien Riegel <damien.riegel@savoirfairelinux.com>
+---
+ meta/classes/systemd.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 1b134322fb..589e73c855 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -34,10 +34,10 @@ if type systemctl >/dev/null 2>/dev/null; then
+ 		systemctl daemon-reload
+ 	fi
+ 
+-	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
++	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} "${SYSTEMD_SERVICE}"
+ 
+ 	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+-		systemctl --no-block restart ${SYSTEMD_SERVICE}
++		systemctl --no-block restart "${SYSTEMD_SERVICE}"
+ 	fi
+ fi
+ }
+@@ -51,10 +51,10 @@ fi
+ 
+ if type systemctl >/dev/null 2>/dev/null; then
+ 	if [ -z "$D" ]; then
+-		systemctl stop ${SYSTEMD_SERVICE}
++		systemctl stop "${SYSTEMD_SERVICE}"
+ 	fi
+ 
+-	systemctl $OPTS disable ${SYSTEMD_SERVICE}
++	systemctl $OPTS disable "${SYSTEMD_SERVICE}"
+ fi
+ }
+ 
+-- 
+2.17.1
+
 
