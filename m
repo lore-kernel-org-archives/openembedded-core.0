@@ -1,48 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A0FA877D6D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A21F78690
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 23:33:10 +0000 (UTC)
-Received: by mail-ua0-f195.google.com with SMTP id l11-v6so843475uak.7
+	Thu, 21 Jun 2018 01:06:22 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id l64-v6so860596vkl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2018 16:33:11 -0700 (PDT)
+	Wed, 20 Jun 2018 18:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Iyu+SC76ZWSeEBvRU6rzjayD0hsUKXWBN5KqcglEy80=;
-	b=k+ZtakjLTobTbTxOtVuOc1OgVQniSkVfi8ln9MIbGCm5/YsebV2kK/uiO/Yj7GBwwQ
-	2P/An/YQr1itASaBAICicRYcq+rFhOYBatQX1PSSJWBEEQ1KvooNTPigz+DVtF8oymtv
-	92swFm+XHgOUhriTOUQRe14hwx37ZpXPit05jqmkggVDD1whp99PleEOjwoNR1OeGuUN
-	sCujOqUE/5cnrXvsaujR4lpAmCJwDQp5V9j/QX9mxmar+DSXnTcRQLDzNYhX6+ZZp0E6
-	TWsFyaVZnN4Z4GNvYbCRU1qOpJ4+ZAsgvKixIuF1pK2b51B1z4b2OMn+z335W3rpud8S
-	MtyA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=XFGSRpII+t9l1dNB76a9O52xzx3vVh1dvQpIOtjYlsk=;
+	b=RfpVIRESrGk6kYlCw0yOEaSyzsAcrCAjbohAauqYDWm5FeORIjEkzwKGW9t6x/qx4v
+	6sjGKSyotrKQVXijgU3tUED/AgkDXmMdMazCY6qJQYhSADohAsgFkxS71ODFb89RQDlJ
+	B5n6Dp1g1qfl8tLnoIWiZMkCs+WBuTLLDy3ylJ8Jy5uuSEFMhKHKmIDXQ9BHX+eLCg6y
+	wY7YN9LJlPJ0ci3QxLnDWwsbFENfn/nPddivTS2DkKrxFI/RHYDueBYD/Bdh4tcfMr+l
+	wvdYQtzZWo+qUHqscsTwEolEcFBS2OMDK+FVRXUAW7T/EixFT5IFT52Dfp8MVfYgP0c+
+	XZsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Iyu+SC76ZWSeEBvRU6rzjayD0hsUKXWBN5KqcglEy80=;
-	b=VcZBrIhiWb8pq2dDPaw08XUqL03ZMg5X8KMUcTUaOxseYcUbex0a46D1wqlIKhBbZO
-	ucycwjvhCtB+qrCR0KRV0oHbcXip1+dvYp1e0ybmlG/GDvO53TclxZyZxDLLs+gMlK/O
-	aELPZmhiRSnUQH80rZBEkQ/hpcTTOreGLhK/GBvn5HC9PxC3FieML84vKaJdn5MXXo6H
-	8Aa1bVjU3P98F7TuxtsJ1SuXA7XWHy/x37NnnhllNwIYQJueXWUxIfC2uSlxiBfk87TS
-	v+o58JWOHRj09Pqb3RtkwIXP8PYBIkPVLuWd16OdtUCC5E91sxZwwByqjJ+NWEPQAd1Y
-	CwLg==
-X-Gm-Message-State: APt69E1F1hEUUmMUPT9v75uaoPuabCiCbHGmps/tvpbLI43bviSujuQQ
-	yvtZWnpzQWIupCOxoUOZLMX2UhlfurA5PIV+1fQ=
-X-Google-Smtp-Source: ADUXVKLAFM4uXnzrUYRB4mPtCjSgJpkbGyRmTVumWSScrE5wRbTWn9OmySZBBO4VCenI4VHcrKDyLGagAx2o3dPJIhg=
-X-Received: by 2002:ab0:59e7:: with SMTP id
-	k36-v6mr7681501uad.81.1529537591457; 
-	Wed, 20 Jun 2018 16:33:11 -0700 (PDT)
+	bh=XFGSRpII+t9l1dNB76a9O52xzx3vVh1dvQpIOtjYlsk=;
+	b=CfP4c3SpBqt14VJizbQrtrrU3Qu/C1IRIlEJu5nm4Ye4r/j9aOr6D/j4uxUJQt14CQ
+	/H/GnQOjILndTjVpWzDikO91D58ijBy6v55SjIkAC0cHoPvD59l9CwljvJm7zaK2JrBd
+	lODwCWii8LaMTOrD/hZuamExc/va0VSNRjBbBK6hO+XZOEVbGsjusYRAfNr3aTXkuDnl
+	fg9u+q3/TUtFqMoB7ZFdsH8eVQzbn/JCuuojJ7StnsUM44VQbghN1HWv0O5DtIOBzX08
+	vhksS8ybBoLUwnPDG6bUnxqvBR4aZViEIfQdfOf+rGNdB+/iyGQlHfMHcAvf2CZ3HTpI
+	SFHQ==
+X-Gm-Message-State: APt69E13UmTJKAr0mpsPDL+bTE5vF0o9/VTzOEHUE25mLokqAKdT9i+s
+	+az3nWJKp0mYFV9CpGg/+L+vs+st1WlD6t3c4FY=
+X-Google-Smtp-Source: ADUXVKLhxgD0BKnwjo1CgOb6sUl40nabqLHyj8rZN9K8hTfs4FGj2LVNEfFSPhewUWdc7IfmaEAoSZxhjFhADwQF9ws=
+X-Received: by 2002:a1f:4b86:: with SMTP id
+	y128-v6mr12995687vka.146.1529543182981; 
+	Wed, 20 Jun 2018 18:06:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Wed, 20 Jun 2018 16:33:10 -0700 (PDT)
-In-Reply-To: <20180620052106.22306-1-raj.khem@gmail.com>
 References: <20180620052106.22306-1-raj.khem@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 20 Jun 2018 16:33:10 -0700
-Message-ID: <CAJ86T=Ux4NWkdBcSG68bCprxuDcjacwQJOgoTmQBMufveXXskg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+	<CAJ86T=Ux4NWkdBcSG68bCprxuDcjacwQJOgoTmQBMufveXXskg@mail.gmail.com>
+In-Reply-To: <CAJ86T=Ux4NWkdBcSG68bCprxuDcjacwQJOgoTmQBMufveXXskg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jun 2018 18:05:56 -0700
+Message-ID: <CAMKF1sqTb0NdK=qXya+mTutAOhgwis6rFB2r-i_HOthi5SmniQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-target: Enable fp arch extention when fpu is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,47 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2018 23:33:10 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 01:06:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 19, 2018 at 10:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> This is especially needed when defaulting to hard-float ABI
-> Fixes errors e.g.
-> cc1: error: -mfloat-abi=hard: selected processor lacks an FPU
+No, it wont AFAICT, I guess we need to move this into gcc-8.0.bb
+On Wed, Jun 20, 2018 at 4:33 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
-> Fixes [YOCTO #12795]
+> On Tue, Jun 19, 2018 at 10:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > This is especially needed when defaulting to hard-float ABI
+> > Fixes errors e.g.
+> > cc1: error: -mfloat-abi=hard: selected processor lacks an FPU
+> >
+> > Fixes [YOCTO #12795]
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Ross Burton <ross.burton@intel.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-target.inc | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+> > index 56e4b95af4..92cad28b7a 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> > @@ -14,9 +14,9 @@ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+> >  # specific). For example, for ARM, ARMv6+ adds atomic instructions that may
+> >  # affect the ABI in the gcc-runtime libs. Since we can't rely on gcc on the
+> >  # target to always be passed -march etc, its built-in default needs to be safe.
+> > -EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
+> > -EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
+> > -EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
+> > +EXTRA_OECONF_append_armv6 = " --with-arch=armv6${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
+> > +EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
+> > +EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-target.inc | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Does this work for gcc7?
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-> index 56e4b95af4..92cad28b7a 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -14,9 +14,9 @@ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
->  # specific). For example, for ARM, ARMv6+ adds atomic instructions that may
->  # affect the ABI in the gcc-runtime libs. Since we can't rely on gcc on the
->  # target to always be passed -march etc, its built-in default needs to be safe.
-> -EXTRA_OECONF_append_armv6 = " --with-arch=armv6"
-> -EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
-> -EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve"
-> +EXTRA_OECONF_append_armv6 = " --with-arch=armv6${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-> +EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-> +EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${@'+fp' if d.getVar('TARGET_FPU') == 'hard' else ''}"
-
-Does this work for gcc7?
-
->  # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
->  # set in subdir gcc, so subdir libcc1 can't use it, export it here to
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >  # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
+> >  # set in subdir gcc, so subdir libcc1 can't use it, export it here to
+> > --
+> > 2.17.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
