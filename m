@@ -1,49 +1,52 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pl0-f43.google.com (mail-pl0-f43.google.com
-	[209.85.160.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8025A784DE
+Received: from mail-pl0-f67.google.com (mail-pl0-f67.google.com
+	[209.85.160.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B6057852C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 21:08:32 +0000 (UTC)
-Received: by mail-pl0-f43.google.com with SMTP id t12-v6so2315017plo.7
+	Thu, 21 Jun 2018 21:08:35 +0000 (UTC)
+Received: by mail-pl0-f67.google.com with SMTP id s24-v6so2317464plq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 14:08:33 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=UAEbVy72UBC3wQGp5eCI5ZlikhIL7tjlb9l00xVXx3g=;
-	b=QUtD+qzDaE8EUp8H1oe6XBjcDedirqzGVS1GoY1wpThbW1k/xgk1/fhRyZMTE0pkDv
-	+xG0IBkyZJ8x5G+eUJQ6phF2X3q85YGIGfZ7Sj8KNEVWSrGtBEskUlu+At5Vow8NRzAR
-	6y98M20A89tTvJW+NguYyo1j0goAJfbkw2o9biGIPjb5BO/X+Y8pJ8+fiG4zL3E8BDIf
-	2Sf2rkCN+vzIEJjzUkysMfQCbus77uaLKoKwk/sng7cCIiuBUN/XvYovgCOYedgrYbOu
-	dNwqfYjunc1zmaZ/Q2rnMsUCRA+8cUZKzaVORVc0jXez5jRmUVegZ2XjxGmw4gp2aTH/
-	X6vg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=YDIw8j0tANsvJMWgQKYzek2qaSv5xGzW3vxrCGZTQeI=;
+	b=iCP735EFbzvVk0gCYclpu1qv4eEaijKZhtWQxn7vbMR52MUE7ferGpZAnsp/Pyhp5A
+	2OL8+FZm8Slhjv2hnHl7xjRAU+ovzjTOpwfavysDJI/wGCyzlLLGPAXZOYL0537/1Epj
+	zCC0Jcq0IeYZ/I628KuSli9Dle8cVnc4zOyJ2bY9v5jgUkd+4ZQwczV7fEOsFEEBGzCt
+	/1ANol4YoBGcE07UymDscR6etDHzFc/C81On7zRJPY6SDdFOiQCdp5knrpFVvA0SPlvR
+	PLSbRMdAV8dl/Ji+ivG1zR4TbAsvq6S2wehWG/RTnHjqJJkKzMzXBOw3/dfD5HSlIyTp
+	SU1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UAEbVy72UBC3wQGp5eCI5ZlikhIL7tjlb9l00xVXx3g=;
-	b=JS8It7/zqHDY9vbxfSh0C/x9MIZyFr76Eh48wGCnxYd9uMaWPd02xmpRuggUc7+JrM
-	K9D+EzIKL6hzeo864ma7ofVffOFDKdJUghS/NIDoqD5xdeg+1sPN4Bqva98cnHyPJDpg
-	6aYR2yMlEX23iKGPjU+re9X4mSsIE/tgQSrBf+GBxz3ZdBiRkHX0sYmMQRvYt008wD9Y
-	MxOfd9eFR66i2eGRidBanPKqy/4dnTA6OTwL0QPsF/fToUHTdXOfB61XZf4PSmWp241N
-	EHzO/ZXMRjdXJU9Z3YLUt6iH8hUtx5LMeFvu9s4TvNZO/86A05uTM7ebDEKUsL1HKUMo
-	kZfA==
-X-Gm-Message-State: APt69E3WQT8HOM6OaXeJsQAKjeTzpmfy9nvNhdhZhYGiU8/FPfuVe/Su
-	+utUPEeNE37TcDHdvxtzvidCcrvU
-X-Google-Smtp-Source: ADUXVKLWAW+UP7oKyBy82KPbyVni89pEcTySvn2MztvPNMAsHDsaSR7B73/opf6g6W+fpB6HSQD+Fg==
-X-Received: by 2002:a17:902:8b85:: with SMTP id
-	ay5-v6mr30512720plb.30.1529615313409; 
-	Thu, 21 Jun 2018 14:08:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=YDIw8j0tANsvJMWgQKYzek2qaSv5xGzW3vxrCGZTQeI=;
+	b=j2UQNflXIt0hPa6jtZzhXS3JqpmDRaXObhsMHiE2u62R6bTQDEihyLzeCA/+YxzmLI
+	M2KBtMfAhGyJlnAMIE/6pAN1fLZx3dgae+XoGOi0rNdcgrEapEVcMJrzsaaEG01szqyB
+	oj2oOCXYRui6bWYFJv/H/hDjQmRSlAJFB67is/vdQSr78xSkaAaCnUOd4lQ0QF6Dw3KU
+	q69GYxAxeuKCb5ntjypzMWBWv/f0BE9M0jJVeiJc+aOlidz+s01isemVVf5wAJxSxyR2
+	6nAI17Nin1kd01+7Pgl9rs1vfOi1+fpROLXj4/z9/VIwg/XYmTht9Ft0XQxYRZwKA+Bn
+	lttQ==
+X-Gm-Message-State: APt69E3f3Q4SkRMhj6Bh/JlYTXeJH9myYkumE67WVchLZNq3YTpwuViL
+	pClddLymDqsLwOjp04JyLnEf8eEI
+X-Google-Smtp-Source: ADUXVKLwnpQ5VN7+EYucCELDb6p6RmTakdlqnv+IWlcKotZzJe+0Xn3xBzWcbBNQ2qNrS+xESyEZ5A==
+X-Received: by 2002:a17:902:ba97:: with SMTP id
+	k23-v6mr30374481pls.259.1529615316284; 
+	Thu, 21 Jun 2018 14:08:36 -0700 (PDT)
 Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
 	by smtp.gmail.com with ESMTPSA id
-	8-v6sm10513508pfk.132.2018.06.21.14.08.29
+	8-v6sm10513508pfk.132.2018.06.21.14.08.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jun 2018 14:08:31 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:35 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2018 02:08:18 +0500
-Message-Id: <cover.1529603271.git.chris_larson@mentor.com>
+Date: Fri, 22 Jun 2018 02:08:19 +0500
+Message-Id: <8841def28aeb1532fc6f50ae4144b2be92a0f7b4.1529603271.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.11.1
+In-Reply-To: <cover.1529603271.git.chris_larson@mentor.com>
+References: <cover.1529603271.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/5] Pull postinst-intercepts from BBPATH
+Subject: [PATCH 1/5] oe.path: add which_wild function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 21:08:32 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 21:08:35 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-These are the bits to  allow us to pull intercepts from BBPATH. This is kept
-as a separate class, as it's needed by both image construction and sdk
-construction, the latter to support meta-toolchain & similar recipes.
+This is a function much like shutil.which or bb.utils.which, retaining
+shutil.which-like function semantics, bb.utils.which's support for
+returning available candidates for signatures, and most importantly,
+supports wildcards, returning only the first occurrance of each found
+pathname in the search path.
 
-The following changes since commit 83c9405df5748744ef673ac8757bb89d7050ad8d:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/lib/oe/path.py | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-  alsa-tools: rewrite packaging (2018-06-15 11:18:15 +0100)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/openembedded-core.git bbpath-intercepts
-
-for you to fetch changes up to 4bb748f4c9b177722a13a1f09dcd86b4595752ea:
-
-  populate_sdk_base.bbclass: inherit and use bbpath-intercepts (2018-06-16 02:05:39 +0500)
-
-----------------------------------------------------------------
-Christopher Larson (5):
-  oe.path: add which_wild function
-  oe.package_manager: support loading intercepts from multiple paths
-  bbpath-intercepts.bbclass: add class
-  image.bbclass: inherit and use bbpath-intercepts
-  populate_sdk_base.bbclass: inherit and use bbpath-intercepts
-
- meta/classes/bbpath-intercepts.bbclass | 23 +++++++++++++++++++++++
- meta/classes/image.bbclass             |  3 ++-
- meta/classes/populate_sdk_base.bbclass |  3 ++-
- meta/lib/oe/package_manager.py         | 19 +++++++++++++------
- meta/lib/oe/path.py                    | 34 ++++++++++++++++++++++++++++++++++
- 5 files changed, 74 insertions(+), 8 deletions(-)
- create mode 100644 meta/classes/bbpath-intercepts.bbclass
-
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 76c58fa7601..be02218c31d 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -259,3 +259,37 @@ def is_path_parent(possible_parent, *paths):
+         if not path_abs.startswith(possible_parent_abs):
+             return False
+     return True
++
++def which_wild(pathname, path=None, mode=os.F_OK, *, reverse=False, candidates=False):
++    """Search a search path for pathname, supporting wildcards.
++
++    Return all paths in the specific search path matching the wildcard pattern
++    in pathname, returning only the first encountered for each file. If
++    candidates is True, information on all potential candidate paths are
++    included.
++    """
++    paths = (path or os.environ.get('PATH', os.defpath)).split(':')
++    if reverse:
++        paths.reverse()
++
++    seen, files = set(), []
++    for index, element in enumerate(paths):
++        if not os.path.isabs(element):
++            element = os.path.abspath(element)
++
++        candidate = os.path.join(element, pathname)
++        globbed = glob.glob(candidate)
++        if globbed:
++            for found_path in sorted(globbed):
++                if not os.access(found_path, mode):
++                    continue
++                rel = os.path.relpath(found_path, element)
++                if rel not in seen:
++                    seen.add(rel)
++                    if candidates:
++                        files.append((found_path, [os.path.join(p, rel) for p in paths[:index+1]]))
++                    else:
++                        files.append(found_path)
++
++    return files
++
 -- 
 2.11.1
 
