@@ -1,52 +1,52 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pl0-f52.google.com (mail-pl0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 77B9D78542
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5500E78698
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 21:08:01 +0000 (UTC)
-Received: by mail-pl0-f52.google.com with SMTP id g20-v6so2328544plq.1
+	Thu, 21 Jun 2018 21:08:04 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id y5-v6so2115346pfn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 14:08:02 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=A1IHM0ZNoogCak759QEHDa/JN6X0SqXAaFxIjGLo1OM=;
-	b=nWWEEAYdWsNXVSW+jsoV8xLj0QNGEBl9/E+osJEg2u4lt5rCNQ35AydxYCcfJqS6g7
-	G8n2gyYDch/Q4v3TXTnYVym1emCcU5hzue8xy9tHc5/W37UJqDUWlgopHoj9DB9s6iYu
-	TUT7RYVspFg0r9frtd7YCVtwqEyQrVshStD/1IhyurDaREjrDxjJUh2zsugH37hwbxlx
-	yMfHUXEgjwhQeCXMrrau3apGI0WKh8zAtUM9+nfU0wDQE7LRXokyb/2UflJPA2jhC913
-	nxOB96zXQuP9xHHA2Jb9AxW9hnsyfC1m7NEnryGJUQ3ax9JhBxQOdrZQlyLVI8kg69fY
-	1NAA==
+	bh=xo8TGTJNIob/hVk7MAjc/uHB83ZZyCCl8clE4mO0zZk=;
+	b=cOhqZWuyCjvmKJ4F0lw4YX4EqLZ8ZQnBjZGGy7azFw2Ifgv7jdmYl8kZawKUB0zE9Z
+	NNmIYpr7HfLVwI+6B/tK5XbxHIBqzmW5C8+yIuawQ+nF2GXSwsFWUiFFOkld0rS4HGGN
+	eONw1OLlDQzcMH03+DD7gN4425HVYOPPgcbkANUG1XmItFa9f9TTljTfiNowh2XF2OdZ
+	2ASNvT+MbcXCAiqxJuSJZ6QRXCi+6Tk3Bpo0JxSQfKZ5Ei7eM2FC2mkAlg08j4QjVz+X
+	r8uKeAz1d319f4qFvg8/c55pYrYvv6ZXIrs4dHcaZKwBMqpEYg2zbxMkuhLZm7wPqDGa
+	R9vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=A1IHM0ZNoogCak759QEHDa/JN6X0SqXAaFxIjGLo1OM=;
-	b=HKGFn3ibV8OcapxaQVhyUj4tWpNHlpK9PEw56ek7FmuWp0rx9kvLMRUbm6d6tpIhbC
-	ZHwJpjxqunSNH4RE9KjqgdZJDV5BQ1FwNntKFrRurbtVYw3HF6i4VYSQnVZXqiMycOO/
-	5kBiZzvEBLBClDKFgVN8pmVCW2Ww6Zc2B0iG1NpmM9X/r8XavT31GucJw00zt/RjFd9m
-	dKAIilQxl1c6SM5EbvqI2nnu3B7/7BGjDVCZx4HesiRnYemrhop+UVMxYyJpfs8sZT//
-	SL6vx0GLjv4VReCoc7OCXykfcC7t39RYtHuhivPrLm/OZ2tUl1tOOGkC4HPvSXfiWXcP
-	Palg==
-X-Gm-Message-State: APt69E2wftNSiCY9fncoJ2LZkdXRfjoKULj65DUBJ87531DlkdEZrCm/
-	6PziFM+pDlyGPtp8v647E658XU8u
-X-Google-Smtp-Source: ADUXVKKg9LgFaDnRnUCEESoB0ubd8rBj8+JELeNcqW5sFIHUDciNlHwoXg+Ceo80sUe1YqkktcUsrw==
-X-Received: by 2002:a17:902:d68b:: with SMTP id
-	v11-v6mr29632618ply.16.1529615282336; 
-	Thu, 21 Jun 2018 14:08:02 -0700 (PDT)
+	bh=xo8TGTJNIob/hVk7MAjc/uHB83ZZyCCl8clE4mO0zZk=;
+	b=HaM4CdlSDoHvjA/trSgm4gFf6EBxmjQD0g1XJ6r7KpU0L/yV2aV0kNSrzWqeze7Pm4
+	aU2w4qDK2wJ5YN/ig7OQVv+xhuC5ljYvP5YwcncaAWvRzFBR3iwPQuTbev91z2rEaaxI
+	hAu872w16/+GQcY2UGKevhNnn/WbwtDw0nmQ7qoCb0lyy1kW9OpjNcjcknhDyTg0/tbA
+	rWQcir2tE7OjC+yYhXetU4dfcSvf6yeH27i7LhW06f5dTe6ALE4xkXgRYuQKTtaSJ47Z
+	j0o0GX9wCjTYDZPF2PVB1suu+6P5sFI33q6m1Ch65G9/W5C1c+/M2QrtWHNU4muTPgsR
+	Us4Q==
+X-Gm-Message-State: APt69E1P8OyEfspXksPUWtntt4pMphH47FEGBfWlqAB7VdIrQ/dIad2O
+	WKzQmpjN2NtM5+O9RFFfxMrteHQN
+X-Google-Smtp-Source: ADUXVKLz0aU+BqL70/ZoIiAsW/tH/xBTGUTMY9HpQYcsxBgVMKcCAjfafqhz6SNxlsOWMgC6vYfPRg==
+X-Received: by 2002:a65:4042:: with SMTP id
+	h2-v6mr23231600pgp.78.1529615285211; 
+	Thu, 21 Jun 2018 14:08:05 -0700 (PDT)
 Received: from svr-pkl-eng-07.mgc.mentorg.com ([110.93.212.98])
 	by smtp.gmail.com with ESMTPSA id
-	l62-v6sm8448499pga.21.2018.06.21.14.07.59
+	l62-v6sm8448499pga.21.2018.06.21.14.08.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Jun 2018 14:08:01 -0700 (PDT)
+	Thu, 21 Jun 2018 14:08:04 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2018 02:07:35 +0500
-Message-Id: <86eb26452d25187a4f545533a5d851d73c5ff0cc.1529604086.git.chris_larson@mentor.com>
+Date: Fri, 22 Jun 2018 02:07:36 +0500
+Message-Id: <5ce7b09e00b4967d2c0efaad58049cf871fab57a.1529604086.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.11.1
 In-Reply-To: <cover.1529604086.git.chris_larson@mentor.com>
 References: <cover.1529604086.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 5/6] dmidecode: correct docdir
+Subject: [PATCH 6/6] perf: drop the rdep on man
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 21:08:01 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 21:08:04 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Without this, the package clutters up the root of /usr/share/doc.
+It's not common practice to make -doc rdep on man when man pages are
+included, and doing so prevents the recipe from building for non-gplv3
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-devtools/dmidecode/dmidecode_3.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
-index f83281e2359..b423fda6d24 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.1.bb
-@@ -9,6 +9,10 @@ COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 51f5597eb92..5e710f61834 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -239,7 +239,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ PACKAGES =+ "${PN}-archive ${PN}-tests ${PN}-perl ${PN}-python"
  
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
-+# The upstream buildsystem uses 'docdir' as the path where it puts AUTHORS,
-+# README, etc, but we don't want those in the root of our docdir.
-+docdir .= "/${BPN}"
-+
- do_install() {
- 	oe_runmake DESTDIR="${D}" install
- }
+ RDEPENDS_${PN} += "elfutils bash"
+-RDEPENDS_${PN}-doc += "man"
+ RDEPENDS_${PN}-archive =+ "bash"
+ RDEPENDS_${PN}-python =+ "bash python python-modules ${@bb.utils.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
+ RDEPENDS_${PN}-perl =+ "bash perl perl-modules"
 -- 
 2.11.1
 
