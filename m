@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A0777DAF
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 71FEF74F8A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 17:36:47 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id 188-v6so3663724oid.12
+	Thu, 21 Jun 2018 17:48:05 +0000 (UTC)
+Received: by mail-ua0-f173.google.com with SMTP id z16-v6so2576227uaz.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 10:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 21 Jun 2018 10:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=t4V+AF1IVVv5qFtKljaQ/PL7HyKPyRkVpShjyCRHeCo=;
-	b=vM1C41lNMeg0b/X4oZ6AWd8K3VimtlEGFnfOFtgMKgFxDZbM63Giwvd89R6dMGcnfN
-	5JXs2L2l0XYDu1SJSw3E/I8hxmP3lVkNVmDqUZFGBuiI0jbgCd/ipVGgZkD7Gpr5Le+2
-	yrgEXA2wFkzICey4poDRMMLf1qAJ6mbhCxprr0RxHQQN89hK6UJSsK1CQ8TbUzqIkkID
-	qZdW1pwF5XrKs26zocvfLD5GQFK5vAjsolzPJzfFOL9dAQ4Lg5koKVihfAUhEkRD8ldW
-	XIsyeSaHBs7lsANJtpCZ5dGPSLKYlcGqsx6KfrecCr506U4tfex5Tqc/x1C6EDcbABs2
-	nEvg==
+	:cc; bh=OdaOJ1Q8hdtXE9n2Y9NvZM3bBsyEJ5EdG98Bh4ZFtKU=;
+	b=kxvl3EZ1jyAulTJecvTtzGb+Ka2cUm8MCWicsBMB4PSwDAv3wqedjTwJoDC/qwgfph
+	kKUvKGt+UkHmmg7tnCNHhNbckCXxKR5gBsytiz30ye9KgeWpJYHb9v3esuPrP+1CzevE
+	aRkNF5xEOND6xg2MmMQxMgfHw6jzpBOGPpQKQO0sx6Nz+jQxYR54PhYbHTQNNfIJzNbl
+	jKjgZ7WZdvHf6h/GbcB4T+hTABrozY3ZqkaMQ4ZeSkYTQlQ+tqX7A0enN5IHi4OArg4z
+	eysyMOZa94YigRslUgPL5Homkd+O6VUMyz0csjkGvjqG0ZyRjHTiP3Y3E0UjJiRK8Nfp
+	BDIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=t4V+AF1IVVv5qFtKljaQ/PL7HyKPyRkVpShjyCRHeCo=;
-	b=A2fGAEA37weQGXklVNREc5LzRKpYfgfNHusiwgVZa1Jp8bYzKkeaairagnpDnfOmi9
-	8w3b3kM6LO0RGBmAa+oW1NwExvhJ5HUIHqZvZ5exSRx+80ma28wtZktazLvCGQH04omv
-	HuiFKdavQIXlIVnYTIPOAmqYC1Rl2XTei4xPD9At+VZe5Worum2DMlKRfBurTxAi6zgF
-	8lkv+2013N4QRxufH0z7ORahSq2L6H9O8kH7jVW5BF5WBUTnNp5neuXK9iq85TyilAAj
-	EMLCcA+zD+jt/ZdmCnfdviPPPSR/JwXSTZaDZu+Zun9/14DYWLmNJseyFa8AY3hQPqnn
-	3KfA==
-X-Gm-Message-State: APt69E3TmsTRtZvNvmxF4FfJwRaVIaqicno94pRWk8mLIKTlOIwzUEeI
-	6cGS+anwjZugd/tstgt+/u7zqX+xckiR65DJN6tTgiKf
-X-Google-Smtp-Source: ADUXVKJcpPq1h7vq3w3+Vphha86X/t21eBx/Dyj+eZKlyjGQHHQEkA/RO3yhcX2NS8Z5xAJF7oERKmJYPQIx4Jx7wYA=
-X-Received: by 2002:aca:cd4d:: with SMTP id
-	d74-v6mr15699890oig.170.1529602609021; 
-	Thu, 21 Jun 2018 10:36:49 -0700 (PDT)
+	bh=OdaOJ1Q8hdtXE9n2Y9NvZM3bBsyEJ5EdG98Bh4ZFtKU=;
+	b=kcnl2EppC8b7hEc2LulZX9SimCpYeqrdZnfMydiNVfgG604UZUKPcp8kEFNa7+Arlz
+	ghwFQLJ0B83NW5Hw5YrOAdn6xaryi0tqm8FmeDfr/cRx9/pPOWhm3atuk1dWR0VghpkJ
+	f1edMifoOefljq/x561YRW6n8nVUhnW6HGOSWE0CA2qvD4rXGA1hCcNA8JNN8y95m9MV
+	ClYvH6j0TmStZlr03QwHtZsYaI+oxr426PYqZ4/69sIGj2hST0CpyactBe3LaKMBrRX0
+	rnD/EAfa8IC7WOSWtTASPm6p5uy11ROW9sCuQvkJ7D6+KUvHDTtJTjdKNHM2ZukBlXgf
+	m2Og==
+X-Gm-Message-State: APt69E0Un/BTke/QAyu2vjSypRjFmPtqBvAURQ2nU0aA3ywTS34Cl5v1
+	lJsu+yJGFDJPzfgoOQgXQWN16lXO22jSaNLnYHA=
+X-Google-Smtp-Source: ADUXVKKh65BAGaTY0sbAiw+aClIPkRL2DuF7u+huYAb6gYaJlgPKUH+d5YTxwDW+kJFNgmVf4K6xQqbv2ig5a4t3Clw=
+X-Received: by 2002:ab0:1048:: with SMTP id
+	g8-v6mr15932956uab.52.1529603286179; 
+	Thu, 21 Jun 2018 10:48:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Thu, 21 Jun 2018 10:36:28
-	-0700 (PDT)
+Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
+	Thu, 21 Jun 2018 10:48:05 -0700 (PDT)
 In-Reply-To: <1529570060-22244-1-git-send-email-maxin.john@intel.com>
 References: <1529570060-22244-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Jun 2018 18:36:28 +0100
-Message-ID: <CAJTo0La50QrSiy0KW2SHvUpkG4Dr66uROvALZCL3cgLc8H6Y5g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 21 Jun 2018 10:48:05 -0700
+Message-ID: <CAJ86T=XB3MAAPU5_vJXXdMHO+84wi7-epjj9BEpXPDjKKf-7TQ@mail.gmail.com>
 To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] harfbuzz: upgrade 1.7.5 -> 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,27 +56,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 17:36:48 -0000
+X-List-Received-Date: Thu, 21 Jun 2018 17:48:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Getting a buildhistory warnings that suggests packaging went wrong:
-
-packages/corei7-64-poky-linux/harfbuzz/harfbuzz-bin: PKG changed from
-libharfbuzz-bin to harfbuzz-bin [default] - may indicate debian
-renaming failure
-  * PV changed from "1.7.5" to "1.8.1"
-packages/corei7-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed
-"/usr/lib/libharfbuzz.so.0.10705.0", added
-"/usr/lib/libharfbuzz-subset.so.0.10800.1
-/usr/lib/libharfbuzz.so.0.10800.1 /usr/lib/libharfbuzz-subset.so.0"
-
-The problem is that harfbuzz-subset is in PN so it doesn't know what
-to call the package.  Either pull subset out into a separate package
-(which sounds wrong considering the name) or set LEAD_SONAME.
-
-Ross
-
-On 21 June 2018 at 09:34, Maxin B. John <maxin.john@intel.com> wrote:
+On Thu, Jun 21, 2018 at 1:34 AM, Maxin B. John <maxin.john@intel.com> wrote:
 > Signed-off-by: Maxin B. John <maxin.john@intel.com>
 > ---
 >  .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.1.bb}                | 5 +++--
@@ -107,6 +89,10 @@ On 21 June 2018 at 09:34, Maxin B. John <maxin.john@intel.com> wrote:
 >                         ${libdir}/pkgconfig/harfbuzz-icu.pc \
 >  "
 > +FILES_${PN}-dev += "${libdir}/cmake/harfbuzz/harfbuzz-config.cmake"
+
+Perhaps we should move the cmake.bbclass packaging rule for these
+files into the default packaging rules set by bitbake.conf?
+
 >
 >  BBCLASSEXTEND = "native"
 > --
