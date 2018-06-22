@@ -1,43 +1,33 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CAC375219
+Return-Path: <damien.riegel@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A9E575538
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 18:29:39 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id c198-v6so4176984qkg.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 11:29:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=ImngK/ubtjlolimVspbbuRhPL61guZL1d/RVBRoWiiI=;
-	b=tVEnWgzDDc/+hwrRMgRCncb0LjnV45Khcy2U9K9TRYRJC/NKcY6SreLOXXtpI1daUK
-	XXfesT+O8HBaBtLP+01HzlbRY2+YJPo2I/hzVFJm1kaj/NEs9v/t9KZq8ocF2YGQ6sIn
-	ZCT2E/8YAU5aQ7my3RKMdPRR6THeFgwdzUj/oMro2kxFgtXJPLm+mXj9jTj753nbno74
-	0Qc3hWTwdvlrjEc4A3GUZC0O3xykPide5yZrBw9+C5Nlpd5n2/0atFxxQ8K6VVs/mbj7
-	chR+AtiNzw9XN1+SLVlgamJ+aB2Ul7qFCNIg4+n2GcLtDMJHMl/RoliUrJwR7j4gHavM
-	MniA==
-X-Gm-Message-State: APt69E3yAwgr4Z4Uzto6cvUukKCVc5WSzYOS3w27wYkvrPsgVYF0kaLs
-	hEb93M/UiJ+/apwBbFkH2x2Tbw==
-X-Google-Smtp-Source: ADUXVKKH3CPNsYASyKQhNvFazJeLLydvIQgUJD68k3okENAwk3X3RsVqzJevS+cmNM+rRRcJsxe2sg==
-X-Received: by 2002:a37:9984:: with SMTP id
-	b126-v6mr2231522qke.307.1529692180270; 
-	Fri, 22 Jun 2018 11:29:40 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.218.61])
-	by smtp.gmail.com with ESMTPSA id
-	u1-v6sm5264577qkd.45.2018.06.22.11.29.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 22 Jun 2018 11:29:39 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 22 Jun 2018 15:29:32 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jun 2018 15:29:31 -0300
-Message-Id: <20180622182931.5962-1-otavio@ossystems.com.br>
+	Fri, 22 Jun 2018 18:43:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7208A9C316B;
+	Fri, 22 Jun 2018 14:43:08 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id LETtWvcXgX4F; Fri, 22 Jun 2018 14:43:08 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 054419C3356;
+	Fri, 22 Jun 2018 14:43:08 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id ngOzu6wfCPCc; Fri, 22 Jun 2018 14:43:07 -0400 (EDT)
+Received: from workotop.mtl.sfl (unknown [192.168.50.174])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D98D79C316B;
+	Fri, 22 Jun 2018 14:43:07 -0400 (EDT)
+From: Damien Riegel <damien.riegel@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jun 2018 14:43:01 -0400
+Message-Id: <20180622184302.17835-1-damien.riegel@savoirfairelinux.com>
 X-Mailer: git-send-email 2.17.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] util-linux: Enable unshare utility
+Subject: [PATCH v2 0/1] systemd: escape paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,46 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 18:29:39 -0000
+X-List-Received-Date: Fri, 22 Jun 2018 18:43:08 -0000
 
-It allows to run program with some namespaces unshared from parent.
+This is the second attempt at escaping properly the paths passed to
+various shell scripts in the systemd class.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+I tried various approch to this fix but I'm still not sure I have the
+cleanest solution:
 
- meta/recipes-core/util-linux/util-linux.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ - using inline ${@' '.join(shlex.quote(s) for s in d.getVar('SYSTEMD_SERVICE').split()} 
+   doesn't work as shlex is not imported
+ - creating a `def systemd_escape_paths(d)` function and calling it
+   inline through ${@systemd_escape_paths(d)) has issues as well:
+    - d.getVar('SYSTEMD_SERVICE') returned None (remember the variable
+      is actually SYSTEMD_SERVICE_${PN})
+    - d.expand('SYSTEMD_SERVICE') returns 'SYSTEMD_SERVICE'
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 0b7db529fd..8b633e9ac6 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -35,7 +35,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
-              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit \
--             util-linux-ionice util-linux-switch-root"
-+             util-linux-ionice util-linux-switch-root util-linux-unshare"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
- PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
- 
-@@ -46,7 +46,7 @@ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
-                        --enable-kill --enable-last --enable-mesg --enable-partx \
-                        --enable-raw --enable-rfkill --disable-login \
-                        --disable-vipw --disable-newgrp --disable-chfn-chsh \
--                       --enable-write --enable-mount \
-+                       --enable-write --enable-mount --enable-unshare \
-                        --enable-libuuid --enable-libblkid --enable-fsck \
-                        --disable-minix --disable-bfs --without-udev \
-                        usrsbin_execdir='${sbindir}' \
-@@ -113,6 +113,7 @@ FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
- FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
- 
- FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
-+FILES_util-linux-unshare = "${bindir}/unshare"
- 
- # Util-linux' blkid replaces the e2fsprogs one
- FILES_util-linux-blkid = "${base_sbindir}/blkid*"
+The solution I came up with and that actually works is to inject
+SYSTEMD_SERVICE_ESCAPED in the data store, and use that in the postinst
+and prerm scripts.
+
+Damien Riegel (1):
+  systemd: escape paths passed to shell
+
+ meta/classes/systemd.bbclass | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
 -- 
 2.17.1
 
