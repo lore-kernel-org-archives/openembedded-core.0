@@ -1,56 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4003F7307F
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CF3560234
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 23:55:42 +0000 (UTC)
-Received: by mail-wr0-f182.google.com with SMTP id a12-v6so4893233wro.1
+	Fri, 22 Jun 2018 00:27:56 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id g18-v6so4911819wro.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 16:55:43 -0700 (PDT)
+	Thu, 21 Jun 2018 17:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=tY/S8aio+ACsaAK2vxa1D0sZA4NAVRjo9fuzyIkqGrA=;
-	b=Fy4WKA1m2qUm3yrA4iNTpAhR8Xi2CqQNM7YrblfK/Hh708zi49VX5gIpRjmgjm5Sy1
-	n8IHvnb2DsZG598KvvAp242HtAgCH/K3jVlmIAHsQFtr9Ny2kqX6w8vfivrRmNzk9pIm
-	GbnT7WED/JR2yJU1KgdfPJDCEZAYtITXGBkI/n2DyHBQiZu0PQ0bqK0nuGsxdDMyVZOw
-	N54rXqyeQ5zswbj9xQZRlNQYWOYbG6eD6dLLBeeB9YomLgekPBLueVEvVfIx/scrR/3F
-	0YHBCfZqk+IELP7UId4xl1GXOO+YFrraPtLmgkE4nTqE0A6t57LPbbRhoDeFjXIRCI0U
-	w0JQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=yk0G+OaSxsqHIBPQSazHqYv6ymMn9xAwwy/WVt6dW5Y=;
+	b=f9X0Eobs4SYMieUumORPrhaDegkX/trGl8Gi1nA5FZPVrsWy6FTlejAzHauZ+q19Dj
+	+9BW//u0pD+3OpQaJ4MlUYAuxv0O6uH4OjLxpQ7NTtyYUwv/NU17izKyDzzf+iX9ixcI
+	HCIzgnvpK1TC9gLlRdsJlKW+U4IwZzALMe8ZB5dtcrz5u75V5y9vvvIQ0cGUcIAHf1wt
+	wC0Om/o9td0T8keAUltNOUEnwCp+Fjw2mu/4F9V5qWxdaqFkS+tdO5+P2DlAajR9Cp1S
+	r1IJi+DQXyL7deIIOJdNgcdFK8uEPxeFbvX0f9CnFIkeXkqjWfmmbp+UciEK19EofjOp
+	tOrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=tY/S8aio+ACsaAK2vxa1D0sZA4NAVRjo9fuzyIkqGrA=;
-	b=kcoVCcy1aJv25KaxYbMV2Xw1As5lBXN2cbXUokXBrXyRLqFLyR4H0APPC+9dY77gkU
-	BDjhuAOpd6sNKN0M+agRV75TcvsKRuAqcPJJCI7ZApjBR1LN/1fDEBq920H+23TWi/3S
-	ZvJLyUsyh4OTbPQogxbPxShZKWPoXKBfmivNRcYNyrUZCIHnevW/CAFMJP8yjV3mvVaj
-	z7YM2dczBIomTfuFmGhyFPHOl6Nm5Shry6xJZh/pMvOo8osi7GVnloAgZUeaMK/hpACU
-	hCvR+ZK1/vjh+0FWeKNm5bAR3px8eafGK1+ueoW3u071f0EP/imBIWKnBRzkpwpmo2FU
-	eEqg==
-X-Gm-Message-State: APt69E2iABqvKs1oGkpigsDD+WFu1h8f+V6syZRihvWdbIYSGq8qGXdd
-	cyxSKcgpILj1yeqFW0++bClETOEDFMDQHAixc53MsA==
-X-Google-Smtp-Source: ADUXVKJRj3qyT+epMqZXPgOfxUBF/b8d8vPyN0ALqtFV2MbyCKeje7izZRTNCZMEaFSJQllePBeWeqFcBhpCXkzW7G0=
-X-Received: by 2002:adf:c7c3:: with SMTP id
-	y3-v6mr23558322wrg.230.1529625342899; 
-	Thu, 21 Jun 2018 16:55:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1526944475.git.denys@ti.com>
-	<b3a976f9a497296a3cecd524931f1e8ea048489f.1526944475.git.denys@ti.com>
-	<CAAQYJAvkUet1eLhbLaAFd=QH=ReBc82CcKituaanwZpEXcZEiw@mail.gmail.com>
-	<CAJTo0LaQjo2iUw1BGo18fmH+Mz0j7pnkq7ooX_Q7zNyYa-chVQ@mail.gmail.com>
-	<20180619235320.GN19965@denix.org>
-	<CAJTo0LaTOqJ=4qRY+BhktCPj6BgOj2Do1yp9XXtVZcZ4dgBSKQ@mail.gmail.com>
-	<CA+chaQdwQVw+8e3Vz6pWNpv8_TY4R3vXUgCME=fWeHXBHcw1-g@mail.gmail.com>
-	<CAJTo0LbaVbuZW9XS+pjusuH+wRY0Db3KBcGnN73H5aGNQhe0eA@mail.gmail.com>
-	<CA+chaQfbRX-KmWaNzqebOd7G5fp=KyXYBy69yP1QDt=G3E4qmw@mail.gmail.com>
-In-Reply-To: <CA+chaQfbRX-KmWaNzqebOd7G5fp=KyXYBy69yP1QDt=G3E4qmw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yk0G+OaSxsqHIBPQSazHqYv6ymMn9xAwwy/WVt6dW5Y=;
+	b=D3rF1wMuf0U465ufZIbxDVSL3IWybZTugtQEuUwbb0/qkfJ4vUY1OmhrPpb56BIzHm
+	n6Mj3QSJED7rq6fYF2lCDayJxKWbGPWajaZbmKc0c9oH2zI2l6jReS5abugivf4VohGX
+	CuCg9+/o+/Cnq5FuRqnlvftko39JGp4FOvSYV26KyU8FISVHhWcA9mnUusYzjwAhgCs1
+	Sz28NOLLuay24KHrufu7ADMVmDUhwcuO3fa79Seud4txmx3QKnIYuqA+2L6TmMQXbfX0
+	uRwqP8bhjHzTHulc2akeyByhBRMqC2lff+SYpJqxtbidJNM58BhIm77DUuojnSCjzQjt
+	jbxg==
+X-Gm-Message-State: APt69E2lQDuS0vUyTya7WeFbFpAuqbEBVzBBkeE9x4xkir4OT9IzE+lR
+	6Df3kGfYgaKWQzBdSvjltBGKWA==
+X-Google-Smtp-Source: AAOMgpcvYBnouseteePUgl9NN3QjS8GhHwTHfujVAfYJvc3NbVpRo7OgB/a/kYqK1Yt0i6Rcls+T2w==
+X-Received: by 2002:adf:acc3:: with SMTP id
+	o61-v6mr2933732wrc.34.1529627276708; 
+	Thu, 21 Jun 2018 17:27:56 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	f81-v6sm487147wmh.32.2018.06.21.17.27.55
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 21 Jun 2018 17:27:55 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 22 Jun 2018 01:55:32 +0200
-Message-ID: <CA+chaQcgqFu=DwcWQfe1VmuMDSM=9YJ3-+FXRoxwod+basS6zw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] mtd-utils: upgrade 2.0.1 -> 2.0.2
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jun 2018 00:27:56 +0000
+Message-Id: <20180622002756.19634-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] mdadm: fix one more issue when building with gcc8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,187 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2018 23:55:42 -0000
-Content-Type: multipart/alternative; boundary="00000000000033fb7e056f2fa7b2"
+X-List-Received-Date: Fri, 22 Jun 2018 00:27:56 -0000
 
---00000000000033fb7e056f2fa7b2
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../files/0001-Disable-gcc8-warnings.patch    | 24 ++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-I'm sorry, it's one of those days where "mtd-utils" and "mdadm" look
-exactly the same to me - yeah both are in oe-core, both start with m and
-are related to block devices.
+diff --git a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch b/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
+index 8cf52406c4..739652cd55 100644
+--- a/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
++++ b/meta/recipes-extended/mdadm/files/0001-Disable-gcc8-warnings.patch
+@@ -6,6 +6,14 @@ Subject: [PATCH] Disable gcc8 warnings
+ This is needed until
+ https://bugzilla.redhat.com/show_bug.cgi?id=1553958
+ 
++Fix super0.c issue which is triggered only in DEBUG_BUILD with -O1 (or any
++configuration without -ftree-vrp or with -fno-tree-vrp)
++
++super0.c: In function 'examine_super0':
++super0.c:238:32: error: 'snprintf' output may be truncated before the last format character [-Werror=format-truncation=]
++   snprintf(nb, sizeof(nb), "%4d", d);
++                                ^
++
+ Upstream-Status: Inappropriate [Workaround]
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+@@ -16,8 +24,22 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  super-ddf.c   | 4 ++++
+  super-intel.c | 6 ++++++
+  super1.c      | 5 +++++
+- 5 files changed, 22 insertions(+), 1 deletion(-)
++ super0.c      | 2 +-
++ 6 files changed, 22 insertions(+), 1 deletion(-)
+ 
++diff --git a/super0.c b/super0.c
++index f5b4507..264b598 100644
++--- a/super0.c
+++++ b/super0.c
++@@ -231,7 +231,7 @@
++ 	     d++) {
++ 		mdp_disk_t *dp;
++ 		char *dv;
++-		char nb[11];
+++		char nb[12];
++ 		int wonly, failfast;
++ 		if (d>=0) dp = &sb->disks[d];
++ 		else dp = &sb->this_disk;
+ diff --git a/Monitor.c b/Monitor.c
+ index 802a9d9..23b246b 100644
+ --- a/Monitor.c
+-- 
+2.17.1
 
-And the build failure with mdadm is reproducible with DEBUG_BUILD, -O2 and
-above work fine thanks to -ftree-vrp (similarly like systemd gcc8 issue
-fixed in
-http://git.openembedded.org/openembedded-core/commit/?id=b0fdaedc6e9c233f357022b0fb706cb19757f5c4
-)
 
-
-
-On Thu, Jun 21, 2018 at 1:30 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> It might be DEBUG_BUILD enabled in my builds, let me check.
->
-> On Thu, Jun 21, 2018 at 1:20 PM Burton, Ross <ross.burton@intel.com>
-> wrote:
->
->> Master builds fine for me, but interestingly I don't see that in my
->> mtd-utils unpack.  Do you have patches?
->>
->> Ross
->>
->> On 21 June 2018 at 12:10, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > Does this upgrade fix the build failure with gcc8?
->> >
->> > With current master I'm seeing:
->> > super0.c:238:32: error: 'snprintf' output may be truncated before the
->> last
->> > format character [-Werror=format-truncation=]
->> >
->> > On Thu, Jun 21, 2018 at 12:33 PM Burton, Ross <ross.burton@intel.com>
->> wrote:
->> >>
->> >> Sorry, no it doesn't.  I've just picked this in ross/mut but a
->> >> follow-up patch to remove that mystery patch (can't see it being used
->> >> in image generation anywhere) would be good.
->> >>
->> >> Ross
->> >>
->> >> On 20 June 2018 at 00:53, Denys Dmytriyenko <denis@denix.org> wrote:
->> >> > On Tue, May 22, 2018 at 01:16:34PM +0100, Burton, Ross wrote:
->> >> >> On 22 May 2018 at 08:49, Andrea Adami <andrea.adami@gmail.com>
->> wrote:
->> >> >> > I am just wondering about this patch:we carry it since 2009  [1]
->> and
->> >> >> > is still marked as pending.
->> >> >> > Why was it necessary to ignore part of the filesystem? Can you
->> >> >> > remember?
->> >> >>
->> >> >> Make that at least 2004.  This commit in oe-classic touches it:
->> >> >>
->> >> >> commit c70605ebdca81412a93b4d867de7931543193f26
->> >> >> Author: Chris Larson <clarson@kergoth.com>
->> >> >> Date:   Thu Dec 23 21:24:57 2004 +0000
->> >> >>
->> >> >>     Update mtd to a current snapshot, change the mkfs.jffs2 -i
->> cmdline
->> >> >> option to
->> >> >>     -I, and rename mtd and mtd-native to mtd-utils and
->> >> >> mtd-utils-native,
->> >> >>     respectively.
->> >> >>
->> >> >> Prior history is lost to the git/bk migration unless anyone has a
->> >> >> BitKeeper clone to mine...
->> >> >
->> >> > So, does this prevent the version upgrade from being merged?
->> >> >
->> >> > --
->> >> > Denys
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
-
---00000000000033fb7e056f2fa7b2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m sorry, it&#39;s one of those days where &quot;mtd-=
-utils&quot; and &quot;mdadm&quot; look exactly the same to me - yeah both a=
-re in oe-core, both start with m and are related to block devices.<div><br>=
-</div><div>And the build failure with mdadm is reproducible with DEBUG_BUIL=
-D, -O2 and above work fine thanks to=C2=A0-ftree-vrp (similarly like system=
-d gcc8 issue fixed in=C2=A0<a href=3D"http://git.openembedded.org/openembed=
-ded-core/commit/?id=3Db0fdaedc6e9c233f357022b0fb706cb19757f5c4">http://git.=
-openembedded.org/openembedded-core/commit/?id=3Db0fdaedc6e9c233f357022b0fb7=
-06cb19757f5c4</a> )</div><div><br></div><div><br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr">On Thu, Jun 21, 2018 at 1:30 PM Martin Ja=
-nsa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">It mi=
-ght be DEBUG_BUILD enabled in my builds, let me check.</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr">On Thu, Jun 21, 2018 at 1:20 PM Burton, R=
-oss &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bur=
-ton@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Master=
- builds fine for me, but interestingly I don&#39;t see that in my<br>
-mtd-utils unpack.=C2=A0 Do you have patches?<br>
-<br>
-Ross<br>
-<br>
-On 21 June 2018 at 12:10, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@g=
-mail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br>
-&gt; Does this upgrade fix the build failure with gcc8?<br>
-&gt;<br>
-&gt; With current master I&#39;m seeing:<br>
-&gt; super0.c:238:32: error: &#39;snprintf&#39; output may be truncated bef=
-ore the last<br>
-&gt; format character [-Werror=3Dformat-truncation=3D]<br>
-&gt;<br>
-&gt; On Thu, Jun 21, 2018 at 12:33 PM Burton, Ross &lt;<a href=3D"mailto:ro=
-ss.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:=
-<br>
-&gt;&gt;<br>
-&gt;&gt; Sorry, no it doesn&#39;t.=C2=A0 I&#39;ve just picked this in ross/=
-mut but a<br>
-&gt;&gt; follow-up patch to remove that mystery patch (can&#39;t see it bei=
-ng used<br>
-&gt;&gt; in image generation anywhere) would be good.<br>
-&gt;&gt;<br>
-&gt;&gt; Ross<br>
-&gt;&gt;<br>
-&gt;&gt; On 20 June 2018 at 00:53, Denys Dmytriyenko &lt;<a href=3D"mailto:=
-denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt; wrote:<br>
-&gt;&gt; &gt; On Tue, May 22, 2018 at 01:16:34PM +0100, Burton, Ross wrote:=
-<br>
-&gt;&gt; &gt;&gt; On 22 May 2018 at 08:49, Andrea Adami &lt;<a href=3D"mail=
-to:andrea.adami@gmail.com" target=3D"_blank">andrea.adami@gmail.com</a>&gt;=
- wrote:<br>
-&gt;&gt; &gt;&gt; &gt; I am just wondering about this patch:we carry it sin=
-ce 2009=C2=A0 [1] and<br>
-&gt;&gt; &gt;&gt; &gt; is still marked as pending.<br>
-&gt;&gt; &gt;&gt; &gt; Why was it necessary to ignore part of the filesyste=
-m? Can you<br>
-&gt;&gt; &gt;&gt; &gt; remember?<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Make that at least 2004.=C2=A0 This commit in oe-classic =
-touches it:<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; commit c70605ebdca81412a93b4d867de7931543193f26<br>
-&gt;&gt; &gt;&gt; Author: Chris Larson &lt;<a href=3D"mailto:clarson@kergot=
-h.com" target=3D"_blank">clarson@kergoth.com</a>&gt;<br>
-&gt;&gt; &gt;&gt; Date:=C2=A0 =C2=A0Thu Dec 23 21:24:57 2004 +0000<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0Update mtd to a current snapshot, chan=
-ge the mkfs.jffs2 -i cmdline<br>
-&gt;&gt; &gt;&gt; option to<br>
-&gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0-I, and rename mtd and mtd-native to m=
-td-utils and<br>
-&gt;&gt; &gt;&gt; mtd-utils-native,<br>
-&gt;&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0respectively.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Prior history is lost to the git/bk migration unless anyo=
-ne has a<br>
-&gt;&gt; &gt;&gt; BitKeeper clone to mine...<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; So, does this prevent the version upgrade from being merged?<=
-br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; --<br>
-&gt;&gt; &gt; Denys<br>
-&gt;&gt; --<br>
-&gt;&gt; _______________________________________________<br>
-&gt;&gt; Openembedded-core mailing list<br>
-&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
-=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
-rg/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000033fb7e056f2fa7b2--
