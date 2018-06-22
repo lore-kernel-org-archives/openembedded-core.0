@@ -1,39 +1,51 @@
-Return-Path: <damien.riegel@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC1574AB1
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7675B74C63
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 15:45:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A14B09C31C1;
-	Fri, 22 Jun 2018 11:45:21 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id 7qC9jrMSH6uM; Fri, 22 Jun 2018 11:45:21 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0506C9C32E3;
-	Fri, 22 Jun 2018 11:45:21 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id 9vfrg1N9v0qA; Fri, 22 Jun 2018 11:45:20 -0400 (EDT)
-Received: from workotop.localdomain (unknown [192.168.50.174])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D84399C31C1;
-	Fri, 22 Jun 2018 11:45:20 -0400 (EDT)
-Date: Fri, 22 Jun 2018 11:45:20 -0400
-From: Damien Riegel <damien.riegel@savoirfairelinux.com>
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20180622154520.rugqmqcdc2oelxt2@workotop.localdomain>
-References: <20180621203549.6187-1-damien.riegel@savoirfairelinux.com>
-	<CABcZANm1c9Ydbn3eQMErpkd3LmmOvVkQqh7AHkRcLqnHPmH1Kw@mail.gmail.com>
+	Fri, 22 Jun 2018 15:59:08 +0000 (UTC)
+Received: by mail-oi0-f51.google.com with SMTP id t133-v6so6539643oif.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2018 08:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=rIMhYHofX9n8itwTLfqCXfprXZHG05U/0tQyzx/4Yu4=;
+	b=WBNjWrvcEa8F0EH7IRJnqAUjTEJXrHvBryjoF8pJOM+JpHlocwARcF75UIYq1X2MKq
+	1pOr0v7tLVyKb4qSOGNvHLyxRsM8xuEoUhoYGNrmp2A1438KMysID1UGY2FhGlBLBY4x
+	GLHQLpyWCfJzBLK6daDyAZ4/PbCk2XjJX2NufzQ1jGcPWVUBL+VFSEU8S724qidqojv9
+	Z19B0biZIhZAXiaoHr2v1LIoliqMoxgQ9bmtB+MVtTcWFV/6oBbNOAD4Rt5hDaEmfjQg
+	NWDwSxjnPYfumJxpikcRqF55kkAJyxG1X4SydpcEmZOenip5xSUXgOWt2YPjFZ+qRaK1
+	EBJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=rIMhYHofX9n8itwTLfqCXfprXZHG05U/0tQyzx/4Yu4=;
+	b=LpxI2ZSKPIiAztKn1G4ZG4NoZX36M8zSdhKS1oyhG17MD2QUav7S455jYF/1D7e0Qt
+	7Mpu76HsIYH2s6Oy3yTqqTKks1GdK1W9jUYd97QxIax6ghcGXagWtlXZnh/Um363Ulrs
+	CHTBb/152mGKx1d0RdDc/r4RTd7xAovYgyaEze+cWJWKQx+KP88JFBYJ+xVdvrLGwPab
+	LJbPaVVqrpF3nFgQjonAjkjUdDiVXoa+n0D3MpbA1g9FiepqA0OFehFQFFIp0ctdIzM1
+	qWT63T6pXn1B5d+9p4ateQVtfZzS9qI93+I0qa4cu58M3tNeMGlXG5z600K/CFcVsCP0
+	nU6w==
+X-Gm-Message-State: APt69E013GgFb/x6ytCkFMMF9iQb6kDuV+uZKgB1aWJecgPOdRdh57b1
+	YzpEykhmbbip3KP+JynSFhyG6LmCOp/e0tJRAHU=
+X-Google-Smtp-Source: ADUXVKLbd4PHGQYXRxgoNKRPPbPikWpt1UzC62DN/kX2Rf/tS9gXjznCKAnM9yAdbNbHlkTbdRBnET9pCu2JfTCmgyQ=
+X-Received: by 2002:aca:eb0f:: with SMTP id
+	j15-v6mr1104688oih.85.1529683149447; 
+	Fri, 22 Jun 2018 08:59:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABcZANm1c9Ydbn3eQMErpkd3LmmOvVkQqh7AHkRcLqnHPmH1Kw@mail.gmail.com>
-User-Agent: NeoMutt/20180512
+References: <cover.1529603271.git.chris_larson@mentor.com>
+	<61dc8ffbd2c1268e13572d36916dbe3d54e51cce.1529603271.git.chris_larson@mentor.com>
+	<83bb6e51f031775c329e8d23f1d97151753e1f7d.camel@linuxfoundation.org>
+	<CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
+In-Reply-To: <CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 22 Jun 2018 08:58:57 -0700
+Message-ID: <CABcZANn0HHPvhkX+81-BHrrgP45p6jjPNU3W9Dpb=OgewZgApw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: quote SYSTEMD_SERVICE in prerm and postinst
+Subject: Re: [PATCH 3/5] bbpath-intercepts.bbclass: add class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,112 +58,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 15:45:22 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Jun 2018 15:59:08 -0000
+Content-Type: multipart/alternative; boundary="000000000000bde7b1056f3d1c44"
+
+--000000000000bde7b1056f3d1c44
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, Jun 22, 2018 at 8:10 AM Christopher Larson <kergoth@gmail.com>
+wrote:
+
+>
+>
+> On Fri, Jun 22, 2018 at 12:42 AM Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>
+>> On Fri, 2018-06-22 at 02:08 +0500, Christopher Larson wrote:
+>> > From: Christopher Larson <chris_larson@mentor.com>
+>> >
+>> > This class sets POSTINST_INTERCEPTS and
+>> > POSTINST_INTERCEPTS_CHECKSUMS,
+>> > to allow us to pull intercepts from BBPATH. This is kept as a
+>> > separate
+>> > class, as it's needed by both image construction and sdk
+>> > construction,
+>> > the latter to support meta-toolchain & similar recipes.
+>> >
+>> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>> > ---
+>> >  meta/classes/bbpath-intercepts.bbclass | 23 +++++++++++++++++++++++
+>> >  1 file changed, 23 insertions(+)
+>> >  create mode 100644 meta/classes/bbpath-intercepts.bbclass
+>>
+>> We're struggling a bit with classes and namespaces. I'm wondering if
+>> this might be better as "image-postinst-intercepts.bbclass" or similar.
+>> That would mean the variable namespace matches the class and that the
+>> image classes are more 'together'.
+>>
+>> Your next patch will need rebasing against the changes that just merged
+>> into master in image.bbclass.
+>>
+>> I have also wondered about pushing more code to lib/oe but I can see
+>> why this makes sense as a bbclass.
+>>
+>
+> Yeah, I think in this case this works as a class, but you're right, we
+> should probably shift more to the python package. Namespacing is probably a
+> good idea, we've talked about doing that more in the past. In this case
+> it's technically not image-only, though an sdk uses the same underlying
+> functionality, so it's debatable. I wonder if we should namespace into a
+> subdirectory to also make it easier to make sense of classes/ at a
+> command-line, i.e. inherit image/postinst-intercepts.bbclass? Hmmm.
+>
+
+I'll submit a v2 rebased with the class renamed as you suggested for now,
+later today. Thanks.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--000000000000bde7b1056f3d1c44
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 22, 2018 at 08:32:14AM -0700, Christopher Larson wrote:
-> Have you tried something like this? Might need to shift it to a def'd p=
-ython function to
-> ensure shlex gets imported, though.
->=20
-> systemctl $OPTS disable ${@' '.join(shlex.quote(s) for s in d.getVar
-> ('SYSTEMD_SERVICE').split()}
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri=
+, Jun 22, 2018 at 8:10 AM Christopher Larson &lt;<a href=3D"mailto:kergoth@=
+gmail.com">kergoth@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r">On Fri, Jun 22, 2018 at 12:42 AM Richard Purdie &lt;<a href=3D"mailto:ri=
+chard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfou=
+ndation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, =
+2018-06-22 at 02:08 +0500, Christopher Larson wrote:<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
+&gt; <br>
+&gt; This class sets POSTINST_INTERCEPTS and<br>
+&gt; POSTINST_INTERCEPTS_CHECKSUMS,<br>
+&gt; to allow us to pull intercepts from BBPATH. This is kept as a<br>
+&gt; separate<br>
+&gt; class, as it&#39;s needed by both image construction and sdk<br>
+&gt; construction,<br>
+&gt; the latter to support meta-toolchain &amp; similar recipes.<br>
+&gt; <br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
+entor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/bbpath-intercepts.bbclass | 23 ++++++++++++++++++++=
++++<br>
+&gt;=C2=A0 1 file changed, 23 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/classes/bbpath-intercepts.bbclass<br>
+<br>
+We&#39;re struggling a bit with classes and namespaces. I&#39;m wondering i=
+f<br>
+this might be better as &quot;image-postinst-intercepts.bbclass&quot; or si=
+milar.<br>
+That would mean the variable namespace matches the class and that the<br>
+image classes are more &#39;together&#39;.<br>
+<br>
+Your next patch will need rebasing against the changes that just merged<br>
+into master in image.bbclass.<br>
+<br>
+I have also wondered about pushing more code to lib/oe but I can see<br>
+why this makes sense as a bbclass.<br></blockquote><div><br></div><div clas=
+s=3D"">Yeah, I think in this case this works as a class, but you&#39;re rig=
+ht, we should probably shift more to the python package. Namespacing is pro=
+bably a good idea, we&#39;ve talked about doing that more in the past. In t=
+his case it&#39;s technically not image-only, though an sdk uses the same u=
+nderlying functionality, so it&#39;s debatable. I wonder if we should names=
+pace into a subdirectory to also make it easier to make sense of classes/ a=
+t a command-line, i.e. inherit image/postinst-intercepts.bbclass? Hmmm.</di=
+v></div></div></blockquote><div><br></div><div>I&#39;ll submit a v2 rebased=
+ with the class renamed as you suggested for now, later today. Thanks.<br><=
+/div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Lar=
+son<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
+rus<br>Senior Software Engineer, Mentor Graphics</div></div></div></div></d=
+iv>
 
-Cool, looks way cleaner. I'll give it a try and send a v2 with that if I
-can make it work.
-
-Thanks,
---=20
-Damien
-
-> On Thu, Jun 21, 2018 at 1:36 PM Damien Riegel <[1]damien.riegel@savoirf=
-airelinux.com>
-> wrote:
->=20
->     Systemd mount configuration file must have a name that match the mo=
-unt
->     point directory they control. So for instance, if a mount file cont=
-ains
->=20
->     =A0 =A0 [Mount]
->     =A0 =A0 ...
->     =A0 =A0 Where=3D/mnt/my-data
->=20
->     The file must be named `mnt-my\x2ddata.mount`, or systemd will refu=
-se to
->     honour it.
->=20
->     If this config file contains an [Install] section, it will silently=
- fail
->     because the unit file is not quoted when systemctl is called. To fi=
-x
->     that, quote `${SYSTEMD_SERVICE}` in prerm and postinst hooks.
->=20
->     Signed-off-by: Damien Riegel <[2]damien.riegel@savoirfairelinux.com=
->
->     ---
->     =A0meta/classes/systemd.bbclass | 8 ++++----
->     =A01 file changed, 4 insertions(+), 4 deletions(-)
->=20
->     diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bb=
-class
->     index 1b134322fb..589e73c855 100644
->     --- a/meta/classes/systemd.bbclass
->     +++ b/meta/classes/systemd.bbclass
->     @@ -34,10 +34,10 @@ if type systemctl >/dev/null 2>/dev/null; then
->     =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 systemctl daemon-reload
->     =A0 =A0 =A0 =A0 fi
->=20
->     -=A0 =A0 =A0 =A0systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SE=
-RVICE}
->     +=A0 =A0 =A0 =A0systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} "${SYSTEMD_S=
-ERVICE}"
->=20
->     =A0 =A0 =A0 =A0 if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enabl=
-e" ]; then
->     -=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0systemctl --no-block restart ${SYST=
-EMD_SERVICE}
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0systemctl --no-block restart "${SYS=
-TEMD_SERVICE}"
->     =A0 =A0 =A0 =A0 fi
->     =A0fi
->     =A0}
->     @@ -51,10 +51,10 @@ fi
->=20
->     =A0if type systemctl >/dev/null 2>/dev/null; then
->     =A0 =A0 =A0 =A0 if [ -z "$D" ]; then
->     -=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0systemctl stop ${SYSTEMD_SERVICE}
->     +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0systemctl stop "${SYSTEMD_SERVICE}"
->     =A0 =A0 =A0 =A0 fi
->=20
->     -=A0 =A0 =A0 =A0systemctl $OPTS disable ${SYSTEMD_SERVICE}
->     +=A0 =A0 =A0 =A0systemctl $OPTS disable "${SYSTEMD_SERVICE}"
->     =A0fi
->     =A0}
->=20
->     --
->     2.17.1
->=20
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     [3]Openembedded-core@lists.openembedded.org
->     [4]http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
->=20
->=20
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
->=20
-> References:
->=20
-> [1] mailto:damien.riegel@savoirfairelinux.com
-> [2] mailto:damien.riegel@savoirfairelinux.com
-> [3] mailto:Openembedded-core@lists.openembedded.org
-> [4] http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--000000000000bde7b1056f3d1c44--
