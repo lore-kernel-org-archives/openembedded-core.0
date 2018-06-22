@@ -1,51 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A30275545
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D53174860
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 19:56:35 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id w8-v6so4587200vkh.4
+	Fri, 22 Jun 2018 21:07:44 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id c2-v6so5128872uae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 12:56:36 -0700 (PDT)
+	Fri, 22 Jun 2018 14:07:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3Nt6hqR0+8XKZ3QhMEqfyPyu0zxetqjaKNTgjYiOsiE=;
-	b=Mr7JYAsYzzvmRHVzzQegSMAKxzPVL3WM7I6rX0JdasO3Gy7QVDfOb/N3TnIU2muWe2
-	PbbJtF6csGunnTPpwg+Q9PMA+e9XmVhmRQR8EA2jmNdaa56iWZy+ntwyeTOQNxdS5HaX
-	CypT5/gGQsra3ReJjI/G05Ne005gbgf1NzDobnv17fUfTJyGc3/6r70R7E3rm9E5WIEd
-	ufXibJJlKX+MZPg/CjwnraFxjgSxNum5/JQk5wwW+rlmDM7QPJZsrBqV0dva+WNzwHRQ
-	G5s2nRGaldJk20IqH7tMZgkaH8sf7R63QrF5rXLISiyDRWmoLMlvV+QLzT0Q0p5n7XcG
-	qDzg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=lSrnGqzY1M6wJqMp1kM7t6Ubr+U3aO8RpOtVpBxbkLw=;
+	b=T0OCQH9K9QmtpmwhBtV7omG8xw3/XaDEf+WukCfOMbQyABnnWo6uHeHb1kHCInbSEe
+	fZ8X7NRCv/dTiLJzhY9KThesHM/tYXVfZGkJRFOitYAedqkDBDovnay1K2r9TLns3PNi
+	nqTr8u6OTgYjkOVx+J3vTOUoCAqTmUD/Pu2SnE8BxNSI+eVyvl/9gwDIBADbPh8shZVm
+	7aW2xCDb3haV+Ti6Oo0cnJjUp8pY5D0mAOCcy0g0cWMC2hAVOqEvtzWx5uUDeazd7phQ
+	75Z6mFxErcsdoiymF1p3IdlaC/oSr9ezkB0PfiTkSUp2J+CSFX20pwk3hU/z9+ZC0GMf
+	ZwQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3Nt6hqR0+8XKZ3QhMEqfyPyu0zxetqjaKNTgjYiOsiE=;
-	b=F4S8L2JcCn8lEXN19Hzj+4TrNrU1BLb2fJENHWs0F6llgwi5+aVKZjid9cLe+gUPHK
-	/xTndjdCzbcKcUkvoH92HULG8av712W9k70DTzYNKlH1cXTIuLusHLOAe6D9tZMlZbx9
-	Ew+cMgkZvPFNo2n1sApFCMP5DxaRHT7PnT+8GgmfuxGJekDTYb1rkCtfpVtK03SqAeM2
-	iehLLbETzMzVbA8wUfCQ7gXkxd+/3+vX4nugV9QSUbo1pSX26VU5b0+yQdeYxGhhixZs
-	WhZKNVAKQS0ZVX9TbwFPd1o5p7PSm25yDIrofhMcztciPUeZuVM/6MnlSRSqdZQ2nNNP
-	oZCg==
-X-Gm-Message-State: APt69E36xuy/4bt8wbQCM21bkJKwEpMlHYZMJ80wbb4tOXerO1XV72qR
-	UoynnIEEOP7au+0+fFbgxSgqyjWkYph5Vdqh03U=
-X-Google-Smtp-Source: ADUXVKI90E4FQcgcl0297S/zDqmyWJhbasK9CUXhE6kNUqAToIyHVE6VIp+0kLumjjZNDS2hMPrV+cizCQFirLgRoy0=
-X-Received: by 2002:a1f:b08c:: with SMTP id
-	z134-v6mr1837987vke.194.1529697396207; 
-	Fri, 22 Jun 2018 12:56:36 -0700 (PDT)
+	bh=lSrnGqzY1M6wJqMp1kM7t6Ubr+U3aO8RpOtVpBxbkLw=;
+	b=HTPTNgSYSLPSaseHmscB6zeDeo9Ljyw+qIKWo1ia+nDlL14dnM6vhRQyBmW0fDFQtf
+	BIEOgj++6r9ZfSTExNCVrN1x0jDRFUECk+oTH/gTog2wmVaOR+PdY14tnbctFE+T5Ri1
+	zbwYSmZ705dloCVV2Dyfrx7xVtPmTFPwdp7Xid9ioRwTikQS17Y3piVnm/f2MS8fB0ik
+	+wVEhHG+VfaTE8af4yN3E46d1N82vGdBeSKL4V+hSVBVDoqOri2pseBRuDZ+qdndBMw3
+	d8UO7ITydVhpRmPmXodcDnynKcY+BvQcsp/N5ZJ6WOePOs1Ez8VeYhn+3V14dk6tDgz4
+	LTvQ==
+X-Gm-Message-State: APt69E2KzMCfqfOEAmKsFQFIdwIBrR4pml4s0gx1kRjE59Eu31z1tRsl
+	3waCJcJsSQ/2txTYAP5qUMJkal9L7f5i0gJguPE=
+X-Google-Smtp-Source: ADUXVKKEf55+OirypyC0L7AIJ836RxEOwgGsajSfcxdm6kBYwZIGNItP1JtufhkRb+zJ30HZ7ZfSF0mLezMw4AbHJfc=
+X-Received: by 2002:a9f:3b9b:: with SMTP id
+	r27-v6mr2085419uah.191.1529701664825; 
+	Fri, 22 Jun 2018 14:07:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Fri, 22 Jun 2018 12:56:35 -0700 (PDT)
-In-Reply-To: <19c2948bb4636236596fd89ca6e940dab96a1323.camel@linuxfoundation.org>
-References: <1528397320-32269-1-git-send-email-armccurdy@gmail.com>
-	<1528397320-32269-2-git-send-email-armccurdy@gmail.com>
-	<19c2948bb4636236596fd89ca6e940dab96a1323.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 22 Jun 2018 12:56:35 -0700
-Message-ID: <CAJ86T=Wi8PY6_BoWgvP=iKA3Dc=Eba6B=b-ii4VakheU9tejrw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] openssh: stop manually hiding libutil etc headers from configure
+References: <20180622192316.235356-1-joe.slater@windriver.com>
+	<CA+chaQdiOW9FqcaBnk95MNba=w_LSH0LP3nNATyK5c4nwf6WkQ@mail.gmail.com>
+In-Reply-To: <CA+chaQdiOW9FqcaBnk95MNba=w_LSH0LP3nNATyK5c4nwf6WkQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Jun 2018 14:07:29 -0700
+Message-ID: <CAMKF1sqS=gezXr5ibD+A3Zq-dEaZOjWcTHyyOmxKQO8r+iE8jQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] mdadm: fix format-overflow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,23 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 19:56:35 -0000
+X-List-Received-Date: Fri, 22 Jun 2018 21:07:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jun 15, 2018 at 3:15 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2018-06-07 at 11:48 -0700, Andre McCurdy wrote:
->> Since we now have recipe specific sysroots, drop old workarounds
->> for non-deterministic detection of sysroot header files.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 8 --------
->>  1 file changed, 8 deletions(-)
+On Fri, Jun 22, 2018 at 12:56 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> Even if we have rss, I think showing/documenting these recipes
-> configure scripts autodetect is a good thing so I'd prefer not to drop
-> this kind of code if it isn't causing problems.
+> See https://patchwork.openembedded.org/patch/151888/
+>
 
-It looks like this has sneaked into master-next via mut.
+yeah Martin is frugal with the extra space :)  using 16 probably provides
+some benefits of data being aligned hard to say
+
+> On Fri, Jun 22, 2018 at 9:24 PM Joe Slater <joe.slater@windriver.com> wrote:
+>>
+>> nb[] is not quite big enough.
+>>
+>> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+>> ---
+>>  .../0002-mdadm-Specify-enough-length-when-write-to-buffer.patch     | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch b/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
+>> index cbce053..6bbe8f4 100644
+>> --- a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
+>> +++ b/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
+>> @@ -24,6 +24,10 @@ Change the length to 47.
+>>
+>>  Signed-off-by: Xiao Ni <xni@redhat.com>
+>>  Signed-off-by: Jes Sorensen <Jes.Sorensen@gmail.com>
+>> +
+>> +nb[] actually needs to be at least 12, but we will make it 16.
+>> +
+>> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
+>>  ---
+>>  Upstream-Status: Backport
+>>   Detail.c | 2 +-
+>> @@ -53,7 +57,7 @@ index 938cfd9..f5b4507 100644
+>>                 mdp_disk_t *dp;
+>>                 char *dv;
+>>  -              char nb[5];
+>> -+              char nb[11];
+>> ++              char nb[16];
+>>                 int wonly, failfast;
+>>                 if (d>=0) dp = &sb->disks[d];
+>>                 else dp = &sb->this_disk;
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
