@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 97E2577BC5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 48728783B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 01:26:40 +0000 (UTC)
+	Fri, 22 Jun 2018 01:30:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5M1QesU002308
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5M1UJrh017256
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2018 18:26:40 -0700 (PDT)
+	Thu, 21 Jun 2018 18:30:20 -0700 (PDT)
 Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 21 Jun 2018 18:26:39 -0700
+	Thu, 21 Jun 2018 18:30:18 -0700
 To: <openembedded-core@lists.openembedded.org>
-References: <20180621203549.6187-1-damien.riegel@savoirfairelinux.com>
+References: <cover.1528772440.git.Qi.Chen@windriver.com>
 From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <e3c72d4c-57bd-a444-43c8-0796939089d8@windriver.com>
-Date: Fri, 22 Jun 2018 09:29:37 +0800
+Message-ID: <58c3bbc6-f8e6-c1f0-2b84-39ac0a4d482a@windriver.com>
+Date: Fri, 22 Jun 2018 09:33:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <20180621203549.6187-1-damien.riegel@savoirfairelinux.com>
+In-Reply-To: <cover.1528772440.git.Qi.Chen@windriver.com>
 X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH] systemd: quote SYSTEMD_SERVICE in prerm and postinst
+Subject: Re: [PATCH V3 0/1] oeqa/runtime/cases/selftest.py: rename to _selftest.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 01:26:40 -0000
+X-List-Received-Date: Fri, 22 Jun 2018 01:30:19 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Damien,
+ping
 
-If some recipe has more than one unit file, this patch will cause 
-problem for it.
+I've tested this patch with `oe-selftest -r runtime_test', and the 
+result is correct.
 
 Best Regards,
 Chen Qi
 
-
-On 06/22/2018 04:35 AM, Damien Riegel wrote:
-> Systemd mount configuration file must have a name that match the mount
-> point directory they control. So for instance, if a mount file contains
+On 06/12/2018 05:08 PM, Chen Qi wrote:
+> Changes in V3:
+> * Also rename selftest.json to _selftest.json to avoid runtime_test.py failure in oe-selftest.
+> * Fixed a typo (sato -> full-cmdline)
 >
->      [Mount]
->      ...
->      Where=/mnt/my-data
+> Changes in V2:
+> * Fix to depend on _selftest.Selftest.test_install_package.
 >
-> The file must be named `mnt-my\x2ddata.mount`, or systemd will refuse to
-> honour it.
 >
-> If this config file contains an [Install] section, it will silently fail
-> because the unit file is not quoted when systemctl is called. To fix
-> that, quote `${SYSTEMD_SERVICE}` in prerm and postinst hooks.
+> The following changes since commit fe6e6231441188c3ffe52ef5811a8f30d29ea952:
 >
-> Signed-off-by: Damien Riegel <damien.riegel@savoirfairelinux.com>
-> ---
->   meta/classes/systemd.bbclass | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>    local.conf.sample: update libsdl mentions to libsdl2 (2018-06-07 08:53:19 +0100)
 >
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 1b134322fb..589e73c855 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -34,10 +34,10 @@ if type systemctl >/dev/null 2>/dev/null; then
->   		systemctl daemon-reload
->   	fi
->   
-> -	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
-> +	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} "${SYSTEMD_SERVICE}"
->   
->   	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-> -		systemctl --no-block restart ${SYSTEMD_SERVICE}
-> +		systemctl --no-block restart "${SYSTEMD_SERVICE}"
->   	fi
->   fi
->   }
-> @@ -51,10 +51,10 @@ fi
->   
->   if type systemctl >/dev/null 2>/dev/null; then
->   	if [ -z "$D" ]; then
-> -		systemctl stop ${SYSTEMD_SERVICE}
-> +		systemctl stop "${SYSTEMD_SERVICE}"
->   	fi
->   
-> -	systemctl $OPTS disable ${SYSTEMD_SERVICE}
-> +	systemctl $OPTS disable "${SYSTEMD_SERVICE}"
->   fi
->   }
->   
-
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/rename_selftest
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/rename_selftest
+>
+> Chen Qi (1):
+>    oeqa/runtime/cases/selftest.py: rename to _selftest.py
+>
+>   .../lib/oeqa/runtime/cases/{selftest.json => _selftest.json}          | 0
+>   meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py}    | 2 +-
+>   meta/lib/oeqa/selftest/cases/runtime_test.py                          | 4 ++--
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+>   rename meta-selftest/lib/oeqa/runtime/cases/{selftest.json => _selftest.json} (100%)
+>   rename meta-selftest/lib/oeqa/runtime/cases/{selftest.py => _selftest.py} (94%)
+>
 
 
