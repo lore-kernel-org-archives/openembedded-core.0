@@ -1,24 +1,43 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D775374EC1
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vk0-f53.google.com (mail-vk0-f53.google.com
+	[209.85.213.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9362377133
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 10:12:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5MACDbe017899
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 22 Jun 2018 10:20:09 +0000 (UTC)
+Received: by mail-vk0-f53.google.com with SMTP id r83-v6so3614799vkf.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 03:12:40 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 22 Jun 2018 03:12:17 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jun 2018 03:12:17 -0700
-Message-ID: <20180622101217.63726-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Fri, 22 Jun 2018 03:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=nGLfrKVZOcz5UDEX4fOaJpRsquZoB8Rb0LEIhJu1amM=;
+	b=m/1/oIOdavpqbU3yCKI/yGkZ1e/ywsy3WtRRvQzZxqQiRvIT6xekX2ECnGrAumR53i
+	IPW9ywzxlO96MXAswVHyKdivwgXEHPoB2U+Zz1oSnCikNdtKhguQlZhGTJ7GflNGylb9
+	czQaTnjzeX3iX5PG/hcudYsMBERQ39BdXaASylqzFhkHW+TfArlKpi78W8zi+8p/P82D
+	m/Mmr0YvSjPsWFJQNKhWChb6eDrk4RbzM162u0rXLuht/Vq7zcCa4gPch/CSwz00qMrQ
+	3ozFwGVqHkiQwP2a03ZOxMtHPo2ihp990pWQPdS8WLVs8lIhknvg/tzMaHz7lyhDw8tv
+	TTwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=nGLfrKVZOcz5UDEX4fOaJpRsquZoB8Rb0LEIhJu1amM=;
+	b=cT+vdnmXOkeMz5solDSZqzvt2VpAOm3mcg560whH55jjKIF7dpL9y+fkIE6GoTEPqh
+	d/TAAggNqatOBilFMtjzrBbQs0rsHpDkBL8IswI+tTZt9hH+tHnWtkFDVpjV5/Ytu5ww
+	84QaCFrf3bBMeMRxX8b7DE61gN7Z340E1lgalm5m/sgMT/j0R48HuLycrXoa7cS03NYi
+	EwwhbbY2I103LefO48XBk+uww+NiaObotdXx1gl53eShy9E+G2Xc4XFdsZsvnQHM94rD
+	+f56f9vtGUPPf3MpyhsibOFgNv0iFDnlg0G7jnYriTLHrX58DeRjgTx5MeNQFMowT5lQ
+	9Guw==
+X-Gm-Message-State: APt69E1Zjnxaucyyo40IbysKmmU+V88X5mzU1bePL5IfHj+Vq2tDihxU
+	capt4Nuz3X9ekN+nOht1zQZOgdqOsu9I4h7BzXiVjxdv
+X-Google-Smtp-Source: ADUXVKJ0xqnxLSt6lp7x5/00ch0Zb46bCuOgMxFc9UHe/ce6dYr9Q/OE8lOnvR7ifLwdG5Fo+Ju+/2P47/7TfFWN5Dk=
+X-Received: by 2002:a1f:b593:: with SMTP id
+	e141-v6mr599602vkf.171.1529662810319; 
+	Fri, 22 Jun 2018 03:20:10 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] findutils: update the patch to avoid patch fuzz warning
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 22 Jun 2018 11:19:59 +0100
+Message-ID: <CAO5Uq5QysPpO48CtkpvZ00HToezJxccO_j_HBnTp_OMwcGmncw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, juro.bystricky@intel.com
+Subject: reproducible_final_image_task failing when REPRODUCIBLE_TIMESTAMP_ROOTFS unset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 10:12:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Jun 2018 10:20:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Regenerate the patch to avoid patch fuzz warning.
+I'm trying to use BUILD_REPRODUCIBLE_BINARIES, but I tripped over a
+problem when I'd not set REPRODUCIBLE_TIMESTAMP_ROOTFS.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- ...-honour-the-ignore_readdir_race-opti.patch | 29 ++++++++++---------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+In the reproducible_final_image_task (), we try to set
+REPRODUCIBLE_TIMESTAMP_ROOTFS based on the top most git timestamp, but
+that's failing because the working directory at that point is my build
+directory, which isn't git controlled:
 
-diff --git a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-index 45e499a184..333b38e882 100644
---- a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-+++ b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-@@ -29,6 +29,8 @@ https://savannah.gnu.org/bugs/?52981
- 
- Upstream-Status: Backport
- Signed-off-by : Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+%% original patch: 0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
- ---
-  NEWS          |  4 ++++
-  doc/find.texi | 15 ++++++++++++++-
-@@ -37,22 +39,22 @@ Signed-off-by : Zhixiong Chi <zhixiong.chi@windriver.com>
-  4 files changed, 46 insertions(+), 1 deletion(-)
- 
- diff --git a/NEWS b/NEWS
--index 88cf17d..9809bf4 100644
-+index 660c241..b86ec1e 100644
- --- a/NEWS
- +++ b/NEWS
--@@ -42,6 +42,10 @@
--
-- ** Bug Fixes
--
-+@@ -42,6 +42,10 @@ Updated the Danish translation.
-+ 
-+ ** Bug Fixes:
-+ 
- +#52981: find: the '-delete' action no longer complains about disappeared files
- +        when the '-ignore_readdir_race' option is given, too.  That action will
- +        also returns true in such a case now.
- +
-  Applied patch #8688: Spelling fixes.
--
-+ 
-  * Major changes in release 4.5.18, 2015-12-27
- diff --git a/doc/find.texi b/doc/find.texi
--index 3580be7..0089193 100644
-+index fdeb841..247c19a 100644
- --- a/doc/find.texi
- +++ b/doc/find.texi
- @@ -1418,7 +1418,15 @@ gives a significant increase in search speed.
-@@ -85,11 +87,11 @@ index 3580be7..0089193 100644
-  
-  @node Adding Tests
- diff --git a/find/find.1 b/find/find.1
--index 0437cd8..0d44c37 100644
-+index 7b141b8..0eec41c 100644
- --- a/find/find.1
- +++ b/find/find.1
--@@ -479,6 +479,17 @@ this option on and part of it with this option off
-- (if you need to do that, you will need to issue two \fBfind\fR commands
-+@@ -479,6 +479,17 @@ one part of the filesystem with this option on and part of it with this option
-+ off (if you need to do that, you will need to issue two \fBfind\fR commands
-  instead, one with the option and one without it).
-  
- +Furthermore,
-@@ -125,7 +127,7 @@ index 0437cd8..0d44c37 100644
-  Execute \fIcommand\fR; true if 0 status is returned.  All following
-  arguments to
- diff --git a/find/pred.c b/find/pred.c
--index 7e2a7bd..af3bacb 100644
-+index 32938fb..431f065 100644
- --- a/find/pred.c
- +++ b/find/pred.c
- @@ -324,6 +324,12 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
-@@ -141,5 +143,6 @@ index 7e2a7bd..af3bacb 100644
-  	  if (EISDIR == errno)
-  	    {
-  	      if ((flags & AT_REMOVEDIR) == 0)
----
--cgit v1.0-41-gc330
-+-- 
-+2.17.1
-+
+| NOTE: Executing reproducible_final_image_task ...
+| DEBUG: Executing shell function reproducible_final_image_task
+| fatal: Not a git repository (or any of the parent directories): .git
+| WARNING: /home/vagrant/poky-master/build/tmp/work/nanohub-poky-linux-gnueabi/nano-image-core/1.0-r0/temp/run.reproducible_final_image_task.3664:1
+exit 128 from 'REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1
+--pretty=%ct`'
+
+Clearly just setting REPRODUCIBLE_TIMESTAMP_ROOTFS in my global config
+fixes the problem, but that doesn't help anyone else trying to use
+this... I'm really not sure what repo that piece of code is intending
+to target.
+
 -- 
-2.17.1
-
+Alex Kiernan
 
