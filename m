@@ -1,51 +1,52 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7675B74C63
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 588CD75524
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 15:59:08 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id t133-v6so6539643oif.10
+	Fri, 22 Jun 2018 18:19:22 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id t12-v6so1628692ljc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 08:59:09 -0700 (PDT)
+	Fri, 22 Jun 2018 11:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rIMhYHofX9n8itwTLfqCXfprXZHG05U/0tQyzx/4Yu4=;
-	b=WBNjWrvcEa8F0EH7IRJnqAUjTEJXrHvBryjoF8pJOM+JpHlocwARcF75UIYq1X2MKq
-	1pOr0v7tLVyKb4qSOGNvHLyxRsM8xuEoUhoYGNrmp2A1438KMysID1UGY2FhGlBLBY4x
-	GLHQLpyWCfJzBLK6daDyAZ4/PbCk2XjJX2NufzQ1jGcPWVUBL+VFSEU8S724qidqojv9
-	Z19B0biZIhZAXiaoHr2v1LIoliqMoxgQ9bmtB+MVtTcWFV/6oBbNOAD4Rt5hDaEmfjQg
-	NWDwSxjnPYfumJxpikcRqF55kkAJyxG1X4SydpcEmZOenip5xSUXgOWt2YPjFZ+qRaK1
-	EBJA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=YEnVKqG+tt971r0AF0Eb31/eBo1whaUTkOYYNGy6W68=;
+	b=EUz1nlczaANDhZerdP3YipsW0xjN2ykB2gIYF4pOnlmsJ0/g/H6Opmpv0fb7BrR7BI
+	qni0Ka9XCzT4aFV/Gg+BNKxgJJ8OZwuux+v+RveY8N8009c243LHhV1/uphaqakP/B43
+	z3dgo79+MJeC4O4LO/pc6yDgZrkt+OjsNMTDqmnDMpRswEq1M6xltDcQo8Ac41Yvcui0
+	Ukic2E5IXrXtlA/6/+A4vhrRggSLsosAuXkJHCTUFyRFbR7BFHOnaMe9LP5F5dKGOVhZ
+	zHKcQZb5tqp8lAbpLhBnvLZLsoCZ2Z8M8IAKQRRJiKFzAiD/cLDPsNcLj2Yh3nkOkZXT
+	ZqQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rIMhYHofX9n8itwTLfqCXfprXZHG05U/0tQyzx/4Yu4=;
-	b=LpxI2ZSKPIiAztKn1G4ZG4NoZX36M8zSdhKS1oyhG17MD2QUav7S455jYF/1D7e0Qt
-	7Mpu76HsIYH2s6Oy3yTqqTKks1GdK1W9jUYd97QxIax6ghcGXagWtlXZnh/Um363Ulrs
-	CHTBb/152mGKx1d0RdDc/r4RTd7xAovYgyaEze+cWJWKQx+KP88JFBYJ+xVdvrLGwPab
-	LJbPaVVqrpF3nFgQjonAjkjUdDiVXoa+n0D3MpbA1g9FiepqA0OFehFQFFIp0ctdIzM1
-	qWT63T6pXn1B5d+9p4ateQVtfZzS9qI93+I0qa4cu58M3tNeMGlXG5z600K/CFcVsCP0
-	nU6w==
-X-Gm-Message-State: APt69E013GgFb/x6ytCkFMMF9iQb6kDuV+uZKgB1aWJecgPOdRdh57b1
-	YzpEykhmbbip3KP+JynSFhyG6LmCOp/e0tJRAHU=
-X-Google-Smtp-Source: ADUXVKLbd4PHGQYXRxgoNKRPPbPikWpt1UzC62DN/kX2Rf/tS9gXjznCKAnM9yAdbNbHlkTbdRBnET9pCu2JfTCmgyQ=
-X-Received: by 2002:aca:eb0f:: with SMTP id
-	j15-v6mr1104688oih.85.1529683149447; 
-	Fri, 22 Jun 2018 08:59:09 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=YEnVKqG+tt971r0AF0Eb31/eBo1whaUTkOYYNGy6W68=;
+	b=S/3w+v8AVbjBC8vcAf8yBye/tMepaOrnGc8ufAE+xuxB6ghXN84xVApDEgjS9P6gvG
+	pOMeqeJmqYqCJDBgnO+bFH0E5c8hgt4Ec/owmvp2VErxMZEePdeEhvqtSSKArC1IGlJl
+	/x0v/4+x9grzgur3HzIcXc0GO7NEPU3Ln+iky4hf2RUST1CE7hYjVLZZ/lb3SdNa8OZA
+	nauLDIuCXlnHRS+qHw0/qR6YhFW9dNVE/HaJa7H+ZGZIyhTQdPnSBgUxxJmvP9sucHPE
+	tkelyXqhwJM/VMe9xSTCdOizCa3RS75GKFi+btqNCpv80LIo6DuU9eGjQOLCzBw02/3a
+	my2Q==
+X-Gm-Message-State: APt69E2wXmH7aR7z3ZeO2AXJD5W8ObUhzjwE9Rupb8Mzmso5XaQr86tC
+	OldBJ6wbEzbUpaBAsnoFdjGPYIE8X86xbwg+T7A=
+X-Google-Smtp-Source: ADUXVKL5WjaOOF+07z1AiPrlc7M7VHq6bsznqFUJptTgMm1Ja1SBG8NM58JNhu/RKJ3kGv3SC0xSJx0ugX/jix1IFbk=
+X-Received: by 2002:a2e:5111:: with SMTP id
+	f17-v6mr1812428ljb.16.1529691562913; 
+	Fri, 22 Jun 2018 11:19:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1529603271.git.chris_larson@mentor.com>
-	<61dc8ffbd2c1268e13572d36916dbe3d54e51cce.1529603271.git.chris_larson@mentor.com>
-	<83bb6e51f031775c329e8d23f1d97151753e1f7d.camel@linuxfoundation.org>
-	<CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
-In-Reply-To: <CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Fri, 22 Jun 2018 08:58:57 -0700
-Message-ID: <CABcZANn0HHPvhkX+81-BHrrgP45p6jjPNU3W9Dpb=OgewZgApw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] bbpath-intercepts.bbclass: add class
+Received: by 2002:a2e:4242:0:0:0:0:0 with HTTP; Fri, 22 Jun 2018 11:18:52
+	-0700 (PDT)
+In-Reply-To: <1f1ef3ab-20fb-4323-c9db-172f069768df@geanix.com>
+References: <20180621212648.1556-1-alistair.francis@wdc.com>
+	<20180621212648.1556-2-alistair.francis@wdc.com>
+	<1f1ef3ab-20fb-4323-c9db-172f069768df@geanix.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 22 Jun 2018 11:18:52 -0700
+Message-ID: <CAKmqyKO2C01H0bPnMKZafNK-dcKSgCWwUC0Fg-KWCt9KuKGsTA@mail.gmail.com>
+To: =?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] recipes-support/nspr: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,124 +59,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 15:59:08 -0000
-Content-Type: multipart/alternative; boundary="000000000000bde7b1056f3d1c44"
-
---000000000000bde7b1056f3d1c44
+X-List-Received-Date: Fri, 22 Jun 2018 18:19:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Jun 22, 2018 at 8:10 AM Christopher Larson <kergoth@gmail.com>
-wrote:
-
->
->
-> On Fri, Jun 22, 2018 at 12:42 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Fri, 2018-06-22 at 02:08 +0500, Christopher Larson wrote:
->> > From: Christopher Larson <chris_larson@mentor.com>
->> >
->> > This class sets POSTINST_INTERCEPTS and
->> > POSTINST_INTERCEPTS_CHECKSUMS,
->> > to allow us to pull intercepts from BBPATH. This is kept as a
->> > separate
->> > class, as it's needed by both image construction and sdk
->> > construction,
->> > the latter to support meta-toolchain & similar recipes.
->> >
->> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->> > ---
->> >  meta/classes/bbpath-intercepts.bbclass | 23 +++++++++++++++++++++++
->> >  1 file changed, 23 insertions(+)
->> >  create mode 100644 meta/classes/bbpath-intercepts.bbclass
->>
->> We're struggling a bit with classes and namespaces. I'm wondering if
->> this might be better as "image-postinst-intercepts.bbclass" or similar.
->> That would mean the variable namespace matches the class and that the
->> image classes are more 'together'.
->>
->> Your next patch will need rebasing against the changes that just merged
->> into master in image.bbclass.
->>
->> I have also wondered about pushing more code to lib/oe but I can see
->> why this makes sense as a bbclass.
->>
->
-> Yeah, I think in this case this works as a class, but you're right, we
-> should probably shift more to the python package. Namespacing is probably a
-> good idea, we've talked about doing that more in the past. In this case
-> it's technically not image-only, though an sdk uses the same underlying
-> functionality, so it's debatable. I wonder if we should namespace into a
-> subdirectory to also make it easier to make sense of classes/ at a
-> command-line, i.e. inherit image/postinst-intercepts.bbclass? Hmmm.
->
-
-I'll submit a v2 rebased with the class renamed as you suggested for now,
-later today. Thanks.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---000000000000bde7b1056f3d1c44
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri=
-, Jun 22, 2018 at 8:10 AM Christopher Larson &lt;<a href=3D"mailto:kergoth@=
-gmail.com">kergoth@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r">On Fri, Jun 22, 2018 at 12:42 AM Richard Purdie &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfou=
-ndation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, =
-2018-06-22 at 02:08 +0500, Christopher Larson wrote:<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-&gt; <br>
-&gt; This class sets POSTINST_INTERCEPTS and<br>
-&gt; POSTINST_INTERCEPTS_CHECKSUMS,<br>
-&gt; to allow us to pull intercepts from BBPATH. This is kept as a<br>
-&gt; separate<br>
-&gt; class, as it&#39;s needed by both image construction and sdk<br>
-&gt; construction,<br>
-&gt; the latter to support meta-toolchain &amp; similar recipes.<br>
-&gt; <br>
-&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
-entor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/bbpath-intercepts.bbclass | 23 ++++++++++++++++++++=
-+++<br>
-&gt;=C2=A0 1 file changed, 23 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/classes/bbpath-intercepts.bbclass<br>
-<br>
-We&#39;re struggling a bit with classes and namespaces. I&#39;m wondering i=
-f<br>
-this might be better as &quot;image-postinst-intercepts.bbclass&quot; or si=
-milar.<br>
-That would mean the variable namespace matches the class and that the<br>
-image classes are more &#39;together&#39;.<br>
-<br>
-Your next patch will need rebasing against the changes that just merged<br>
-into master in image.bbclass.<br>
-<br>
-I have also wondered about pushing more code to lib/oe but I can see<br>
-why this makes sense as a bbclass.<br></blockquote><div><br></div><div clas=
-s=3D"">Yeah, I think in this case this works as a class, but you&#39;re rig=
-ht, we should probably shift more to the python package. Namespacing is pro=
-bably a good idea, we&#39;ve talked about doing that more in the past. In t=
-his case it&#39;s technically not image-only, though an sdk uses the same u=
-nderlying functionality, so it&#39;s debatable. I wonder if we should names=
-pace into a subdirectory to also make it easier to make sense of classes/ a=
-t a command-line, i.e. inherit image/postinst-intercepts.bbclass? Hmmm.</di=
-v></div></div></blockquote><div><br></div><div>I&#39;ll submit a v2 rebased=
- with the class renamed as you suggested for now, later today. Thanks.<br><=
-/div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=
-=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Lar=
-son<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
-rus<br>Senior Software Engineer, Mentor Graphics</div></div></div></div></d=
-iv>
+On Thu, Jun 21, 2018 at 10:12 PM, Martin Hundeb=C3=B8ll <martin@geanix.com>=
+ wrote:
+>
+>
+> On 2018-06-21 23:26, Alistair Francis wrote:
+>>
+>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   ...initions-for-the-RISC-V-architecture.patch | 150 ++++++++++++++++++
+>>   meta/recipes-support/nspr/nspr_4.19.bb        |   1 +
+>>   2 files changed, 151 insertions(+)
+>>   create mode 100644
+>> meta/recipes-support/nspr/nspr/0003-Add-type-definitions-for-the-RISC-V-=
+architecture.patch
+>>
+>> diff --git
+>> a/meta/recipes-support/nspr/nspr/0003-Add-type-definitions-for-the-RISC-=
+V-architecture.patch
+>> b/meta/recipes-support/nspr/nspr/0003-Add-type-definitions-for-the-RISC-=
+V-architecture.patch
+>> new file mode 100644
+>> index 0000000000..aa32908d13
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-support/nspr/nspr/0003-Add-type-definitions-for-the-RISC-=
+V-architecture.patch
+>> @@ -0,0 +1,150 @@
+>> +# HG changeset patch
+>> +# User Karsten Merker <merker@debian.org>
+>> +# Date 1523974333 -7200
+>> +# Node ID f47871e2aeb16b39d4f516690e25c81b04d6d05a
+>> +# Parent  776db96f834cb86e8863052201d55f60a2da91cb
+>> +Bug 1308584, Add type definitions for the RISC-V architecture, r=3Dkaie
+>> +
+>> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>> +[ Changes by AF:
+>> + - Rebase on other Yocto patches
+>> +]
+>> +Upstream-Status: Merged [
+>> https://hg.mozilla.org/projects/nspr/rev/f47871e2aeb1 ]
+>
+>
+> I don't think "merged" is a proper upstream status. Should be "backport"
+> instead:
+> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_H=
+eader_Recommendations:_Upstream-Status
 
---000000000000bde7b1056f3d1c44--
+Ah, this is handy, I always forget the status messages. I'll fix in v3.
+
+Alistair
+
+>
+>
+>> +
+>> +diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
+>> +--- a/pr/include/md/_linux.cfg
+>> ++++ b/pr/include/md/_linux.cfg
+>> +@@ -1015,16 +1015,108 @@
+>> + #define PR_ALIGN_OF_FLOAT   4
+>> + #define PR_ALIGN_OF_DOUBLE  4
+>> + #define PR_ALIGN_OF_POINTER 4
+>> + #define PR_ALIGN_OF_WORD    4
+>> +
+>> + #define PR_BYTES_PER_WORD_LOG2   2
+>> + #define PR_BYTES_PER_DWORD_LOG2  3
+>> +
+>> ++#elif defined(__riscv) && (__riscv_xlen =3D=3D 32)
+>> ++
+>> ++#undef  IS_BIG_ENDIAN
+>> ++#define IS_LITTLE_ENDIAN 1
+>> ++#undef  IS_64
+>> ++
+>> ++#define PR_BYTES_PER_BYTE   1
+>> ++#define PR_BYTES_PER_SHORT  2
+>> ++#define PR_BYTES_PER_INT    4
+>> ++#define PR_BYTES_PER_INT64  8
+>> ++#define PR_BYTES_PER_LONG   4
+>> ++#define PR_BYTES_PER_FLOAT  4
+>> ++#define PR_BYTES_PER_DOUBLE 8
+>> ++#define PR_BYTES_PER_WORD   4
+>> ++#define PR_BYTES_PER_DWORD  8
+>> ++
+>> ++#define PR_BITS_PER_BYTE    8
+>> ++#define PR_BITS_PER_SHORT   16
+>> ++#define PR_BITS_PER_INT     32
+>> ++#define PR_BITS_PER_INT64   64
+>> ++#define PR_BITS_PER_LONG    32
+>> ++#define PR_BITS_PER_FLOAT   32
+>> ++#define PR_BITS_PER_DOUBLE  64
+>> ++#define PR_BITS_PER_WORD    32
+>> ++
+>> ++#define PR_BITS_PER_BYTE_LOG2   3
+>> ++#define PR_BITS_PER_SHORT_LOG2  4
+>> ++#define PR_BITS_PER_INT_LOG2    5
+>> ++#define PR_BITS_PER_INT64_LOG2  6
+>> ++#define PR_BITS_PER_LONG_LOG2   5
+>> ++#define PR_BITS_PER_FLOAT_LOG2  5
+>> ++#define PR_BITS_PER_DOUBLE_LOG2 6
+>> ++#define PR_BITS_PER_WORD_LOG2   5
+>> ++
+>> ++#define PR_ALIGN_OF_SHORT   2
+>> ++#define PR_ALIGN_OF_INT     4
+>> ++#define PR_ALIGN_OF_LONG    4
+>> ++#define PR_ALIGN_OF_INT64   8
+>> ++#define PR_ALIGN_OF_FLOAT   4
+>> ++#define PR_ALIGN_OF_DOUBLE  8
+>> ++#define PR_ALIGN_OF_POINTER 4
+>> ++#define PR_ALIGN_OF_WORD    4
+>> ++
+>> ++#define PR_BYTES_PER_WORD_LOG2  2
+>> ++#define PR_BYTES_PER_DWORD_LOG2 3
+>> ++
+>> ++#elif defined(__riscv) && (__riscv_xlen =3D=3D 64)
+>> ++
+>> ++#undef  IS_BIG_ENDIAN
+>> ++#define IS_LITTLE_ENDIAN 1
+>> ++#define IS_64
+>> ++
+>> ++#define PR_BYTES_PER_BYTE   1
+>> ++#define PR_BYTES_PER_SHORT  2
+>> ++#define PR_BYTES_PER_INT    4
+>> ++#define PR_BYTES_PER_INT64  8
+>> ++#define PR_BYTES_PER_LONG   8
+>> ++#define PR_BYTES_PER_FLOAT  4
+>> ++#define PR_BYTES_PER_DOUBLE 8
+>> ++#define PR_BYTES_PER_WORD   8
+>> ++#define PR_BYTES_PER_DWORD  8
+>> ++
+>> ++#define PR_BITS_PER_BYTE    8
+>> ++#define PR_BITS_PER_SHORT   16
+>> ++#define PR_BITS_PER_INT     32
+>> ++#define PR_BITS_PER_INT64   64
+>> ++#define PR_BITS_PER_LONG    64
+>> ++#define PR_BITS_PER_FLOAT   32
+>> ++#define PR_BITS_PER_DOUBLE  64
+>> ++#define PR_BITS_PER_WORD    64
+>> ++
+>> ++#define PR_BITS_PER_BYTE_LOG2   3
+>> ++#define PR_BITS_PER_SHORT_LOG2  4
+>> ++#define PR_BITS_PER_INT_LOG2    5
+>> ++#define PR_BITS_PER_INT64_LOG2  6
+>> ++#define PR_BITS_PER_LONG_LOG2   6
+>> ++#define PR_BITS_PER_FLOAT_LOG2  5
+>> ++#define PR_BITS_PER_DOUBLE_LOG2 6
+>> ++#define PR_BITS_PER_WORD_LOG2   6
+>> ++
+>> ++#define PR_ALIGN_OF_SHORT   2
+>> ++#define PR_ALIGN_OF_INT     4
+>> ++#define PR_ALIGN_OF_LONG    8
+>> ++#define PR_ALIGN_OF_INT64   8
+>> ++#define PR_ALIGN_OF_FLOAT   4
+>> ++#define PR_ALIGN_OF_DOUBLE  8
+>> ++#define PR_ALIGN_OF_POINTER 8
+>> ++#define PR_ALIGN_OF_WORD    8
+>> ++
+>> ++#define PR_BYTES_PER_WORD_LOG2  3
+>> ++#define PR_BYTES_PER_DWORD_LOG2 3
+>> ++
+>> + #else
+>> +
+>> + #error "Unknown CPU architecture"
+>> +
+>> + #endif
+>> +
+>> + #ifndef HAVE_LONG_LONG
+>> + #define       HAVE_LONG_LONG
+>> +diff --git a/pr/include/md/_linux.h b/pr/include/md/_linux.h
+>> +--- a/pr/include/md/_linux.h
+>> ++++ b/pr/include/md/_linux.h
+>> +@@ -54,16 +54,20 @@
+>> + #elif defined(__avr32__)
+>> + #define _PR_SI_ARCHITECTURE "avr32"
+>> + #elif defined(__m32r__)
+>> + #define _PR_SI_ARCHITECTURE "m32r"
+>> + #elif defined(__nios2__)
+>> + #define _PR_SI_ARCHITECTURE "nios2"
+>> + #elif defined(__or1k__)
+>> + #define _PR_SI_ARCHITECTURE "or1k"
+>> ++#elif defined(__riscv) && (__riscv_xlen =3D=3D 32)
+>> ++#define _PR_SI_ARCHITECTURE "riscv32"
+>> ++#elif defined(__riscv) && (__riscv_xlen =3D=3D 64)
+>> ++#define _PR_SI_ARCHITECTURE "riscv64"
+>> + #else
+>> + #error "Unknown CPU architecture"
+>> + #endif
+>> + #define PR_DLL_SUFFIX         ".so"
+>> +
+>> + #define _PR_VMBASE              0x30000000
+>> + #define _PR_STACK_VMBASE      0x50000000
+>> + #define _MD_DEFAULT_STACK_SIZE        65536L
+>> +
+>> diff --git a/meta/recipes-support/nspr/nspr_4.19.bb
+>> b/meta/recipes-support/nspr/nspr_4.19.bb
+>> index de2c87131f..b43c78081d 100644
+>> --- a/meta/recipes-support/nspr/nspr_4.19.bb
+>> +++ b/meta/recipes-support/nspr/nspr_4.19.bb
+>> @@ -11,6 +11,7 @@ SRC_URI =3D
+>> "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
+>>              file://remove-srcdir-from-configure-in.patch \
+>>              file://0002-Add-nios2-support.patch \
+>>              file://0001-md-Fix-build-with-musl.patch \
+>> +
+>> file://0003-Add-type-definitions-for-the-RISC-V-architecture.patch \
+>>              file://nspr.pc.in \
+>>   "
+>>
+>
+>
+> --
+> Kind regards,
+> Martin Hundeb=C3=B8ll
+> Embedded Linux Consultant
+>
+> +45 61 65 54 61
+> martin@geanix.com
+>
+> Geanix IVS
+> DK39600706
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
