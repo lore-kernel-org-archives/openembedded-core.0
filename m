@@ -1,50 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C9C75569
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F12747EC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 21:12:46 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id k16-v6so7932102wro.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2018 14:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3S63vcfDuo6lvWAqnB4HjmkQu6yvS5zZ2cPpELnUaf0=;
-	b=aCe6AIm2SyXWwtR9mPwYI6oAL6wFq4bMXIiqv2csgqog6HAl99hetBjJiNNXhcO83n
-	LLqHMJTZS3h/9YtuErFe2Gv3yr47jAYLX3z/lJ9Kj1fNaMkE0zKb/vSbafti5Hi5Qylx
-	V6IgEUN6iMVs6m2V+wabZy8zGyzYmjcLDoj1AskJkOpS1BdR+E6SwuGbjepln8t/qbkM
-	voO0p8yIH/Kim21/Ll59MzelojB9CwW822F80xHcb0/Yk8a3NyRZLFKCeaqiW6vSVK1t
-	P+MqU1z2rQRLy3rDWoViM7fAqMJP4D7K+UjbwgeFlkNiFaJHqgD1MQCBx7wZouSVpGQg
-	wRuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3S63vcfDuo6lvWAqnB4HjmkQu6yvS5zZ2cPpELnUaf0=;
-	b=KHUTv0K8GXSS2G0dpzG7lEqszhl+RcQTRAt9J9FsA2KS5grstwlmbCi/+VTOm+t6Cg
-	dpbmV7oeZtSTgRroEu0/ViiSv11WWUaR2O3n8z4tisrmhAff3toqiMP/X09xqaDWd+v8
-	/CgRoiV+dlTbGHIg2YVxI+G4ZVg4eJKmssfJ3/cg5dyCASx/Cl4YscTnOYWalQqtsUyW
-	wVJgsQVJ5tkpyL7snQv7eZTzeKmp+Lk13yQ4UuIxmjzYGWgVT1RJc1+uoPSuAqWsrMFy
-	Vrarnc0CzFBZgMPcr9V/DrS1dhtwEKX3Z5fbvmaw50tCRnppkAqrYN2e0gVsik3ZXPHP
-	AOog==
-X-Gm-Message-State: APt69E0uEg9uGw1WyeTU6ysF+cuzDgvSWTgV7fPNA2PtOVXnVKG0oakK
-	CkB6omvrygPr6ZDsHp7f7+tHPmd30ZSBmUv6wKU=
-X-Google-Smtp-Source: AAOMgpcAp2jSW6fpVuGqnbb6/k4dgQOhbTHl15bsKFMW/C/sR715/3EdL1SlTohOSokUIfEu1Js+iksHqWdU1GTV7nI=
-X-Received: by 2002:a5d:4141:: with SMTP id
-	c1-v6mr2646984wrq.129.1529701967190; 
-	Fri, 22 Jun 2018 14:12:47 -0700 (PDT)
+	Sat, 23 Jun 2018 10:50:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41424574"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 23 Jun 2018 18:50:29 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 8C5F64B41ECF;
+	Sat, 23 Jun 2018 18:50:25 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0399.000; Sat, 23 Jun 2018 18:50:29 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH] meta-toolchain: Added dnf-nativesdk into
+	cross-development toolchain.
+Thread-Index: AQHUAWqD1lbikEZYK0W1x1wfHaU3kaRfHv6w//+zbACAAb0l0P//qc+AgA2DPMA=
+Date: Sat, 23 Jun 2018 10:50:27 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF7363AEB0BC@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CAJTo0LZVcc+_ocfuYEUBKK0Hbr0SaZEH7CUYKK17gMk+CXwxwg@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9A7F@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9E2F@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-xJa=pQwc3ORfzjOXqvOyKWHbOFVFPh=oH1J-urrZmKg@mail.gmail.com>
+In-Reply-To: <CANNYZj-xJa=pQwc3ORfzjOXqvOyKWHbOFVFPh=oH1J-urrZmKg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.300.84
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-References: <20180622192316.235356-1-joe.slater@windriver.com>
-	<CA+chaQdiOW9FqcaBnk95MNba=w_LSH0LP3nNATyK5c4nwf6WkQ@mail.gmail.com>
-	<CAMKF1sqS=gezXr5ibD+A3Zq-dEaZOjWcTHyyOmxKQO8r+iE8jQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sqS=gezXr5ibD+A3Zq-dEaZOjWcTHyyOmxKQO8r+iE8jQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 22 Jun 2018 23:12:35 +0200
-Message-ID: <CA+chaQeoHMmaHCDZO5kzqz8r-njvg6t1dbv6GuYrMVQ84vX3dA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] mdadm: fix format-overflow
+X-yoursite-MailScanner-ID: 8C5F64B41ECF.AC31F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,186 +52,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 21:12:46 -0000
-Content-Type: multipart/alternative; boundary="0000000000005de35f056f417e4e"
+X-List-Received-Date: Sat, 23 Jun 2018 10:50:31 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---0000000000005de35f056f417e4e
-Content-Type: text/plain; charset="UTF-8"
+SGkgQWxleO+8mg0KWWVzLCBtb2RpZnlpbmcgdGhlIGltYWdlIHJlY2lwZSBj
+YW4gYWN0dWFsbHkgY3VzdG9taXplIHlvdXIgcm9vdCBmaWxlIHN5c3RlbSwg
+YXMgbGludXggdmVuZG9ycywgdGhleSBhcmUgZmFtaWxpYXIgd2l0aCBiaXRi
+YWtlIGFuZCBpdCdzIHZlcnkgZWFzeSB0byB0aGVtLg0KQnV0LCBhcyBJIGtu
+b3csIHRoZXJlIGFyZSBtYW55IHVzZXJzIHdobyBhcmUgbm90IHZlcnkgZmFt
+aWxpYXIgd2l0aCBiaXRiYWtlIGJ1dCBhbHNvIHdhbnQgdG8gY3VzdG9taXpl
+IHRoZWlyIHJvb3QgZmlsZSBzeXN0ZW0uIEFuZCBpdCdzIGhhcmQgdG8gbWFr
+ZSB0aGVtIGxlYXJuIGhvdyB0byB1c2UgYml0YmFrZS4gDQoNClNvIGlmIGRu
+Zi1uYXRpdmVzZGsgY2FuIGJlIHVzZWQgaW4gc2RrLCBhcyBsaW51eCB2ZW5k
+b3JzLCB0aGV5IG9ubHkgbmVlZCB0byBwcm92aWRlIHJwbSBwYWNrYWdlcyBh
+bmQgc2RrIHRvIHVzZXJzIGluc3RlYWQgb2YgdGVhY2hpbmcgdGhlbSBob3cg
+dG8gdXNlIGJpdGJha2UuIEF0IGxhc3QsIHVzZXJzIGNhbiB1c2UgZG5mLW5h
+dGl2ZXNkayB0byBtYW5hZ2UgdGhlaXIgcGFja2FnZXMgYXMgd2hhdCB0aGV5
+IGRvIGluIHRoZWlyIGhvc3QuDQoNClNvIEkgaG9wZSB0byBhZGQgZG5mLW5h
+dGl2ZXNkayBpbiB0b29sY2hhaW4uDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpaaGVuZyBSdW9xaW4N
+Ck5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0
+ZC4oRk5TVCkNCkFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0d2FyZSBB
+dmVudWUsDQogICAgICAgTmFuamluZywgMjEwMDEyLCBDaGluYQ0KTUFJTCA6
+IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbQ0KDQoNCi0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiBbbWFp
+bHRvOmFsZXgua2FuYXZpbkBnbWFpbC5jb21dIA0KU2VudDogRnJpZGF5LCBK
+dW5lIDE1LCAyMDE4IDEyOjI3IFBNDQpUbzogWmhlbmcsIFJ1b3Fpbi/pg5Eg
+6Iul6ZKmIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQpDYzogQnVy
+dG9uLCBSb3NzIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+OyBPRS1jb3JlIDxv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG1ldGEtdG9vbGNoYWluOiBB
+ZGRlZCBkbmYtbmF0aXZlc2RrIGludG8gY3Jvc3MtZGV2ZWxvcG1lbnQgdG9v
+bGNoYWluLg0KDQpXaGF0IHlvdSBkZXNjcmliZSBpcyBleGFjdGx5IHdoYXQg
+aW1hZ2UgY3JlYXRpb24gZG9lcyAoZWl0aGVyIGRpcmVjdGx5IHRocm91Z2gg
+Yml0YmFrZSwgb3IgdmlhICdkZXZ0b29sIGJ1aWxkLWltYWdlJykuIFdoYXQg
+YmVuZWZpdHMgYXJlIGluIHJ1bm5pbmcgZG5mIGJ5IGhhbmQgZnJvbSBjb21t
+YW5kIGxpbmU/IElmIHRoZSBpZGVhIGlzIHRvIGhhbmQgcGljayBwYWNrYWdl
+cyB0byBhZGQgdG8gYW4gaW1hZ2UsIHRoZW4gaXQncyBiZXR0ZXIgdG8ganVz
+dCBtb2RpZnkgdGhlIGltYWdlIHJlY2lwZSBvciB1c2UgJ2RldnRvb2wgYnVp
+bGQtaW1hZ2UnIGlmIHlvdSBhcmUgZGV2ZWxvcGluZyBhcHBzIGluIGEgd29y
+a3NwYWNlLg0KDQpBbGV4DQoNCjIwMTgtMDYtMTUgNDozOSBHTVQrMDM6MDAg
+WmhlbmcsIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPjoN
+Cj4gSGkgQWxleDoNCj4NCj4gVGhlc2UgcGFja2FnZXMgYXJlIHRha2VuIGZy
+b20geW9jdG8gYnVpbGQgc3lzdGVtLCBhbmQgdGhleSB3aWxsIGJlIGluc3Rh
+bGxlZCBpbiB5b3VyIGhvc3QgYXMgcm9vdCBmaWxlIHN5c3RlbSwgdGhlbiB5
+b3UgY2FuIGRlcGxveSB0aGUgcm9vdCBmaWxlIHN5c3RlbSB0byB5b3VyIGVt
+YmVkZGVkIGRldmljZS4NCj4NCj4gLS0NCj4gWmhlbmcgUnVvcWluDQo+IE5h
+bmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4o
+Rk5TVCkNCj4gQUREUi46IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2
+ZW51ZSwNCj4gICAgICAgIE5hbmppbmcsIDIxMDAxMiwgQ2hpbmENCj4gTUFJ
+TCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbQ0KPg0KPg0KPiAtLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2Fu
+YXZpbiBbbWFpbHRvOmFsZXgua2FuYXZpbkBnbWFpbC5jb21dDQo+IFNlbnQ6
+IFRodXJzZGF5LCBKdW5lIDE0LCAyMDE4IDM6MDMgUE0NCj4gVG86IFpoZW5n
+LCBSdW9xaW4v6YORIOiLpemSpiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3Uu
+Y29tPg0KPiBDYzogQnVydG9uLCBSb3NzIDxyb3NzLmJ1cnRvbkBpbnRlbC5j
+b20+OyBPRS1jb3JlIA0KPiA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFU
+Q0hdIG1ldGEtdG9vbGNoYWluOiBBZGRlZCBkbmYtbmF0aXZlc2RrIGludG8g
+Y3Jvc3MtZGV2ZWxvcG1lbnQgdG9vbGNoYWluLg0KPg0KPiAyMDE4LTA2LTE0
+IDY6MzggR01UKzAzOjAwIFpoZW5nLCBSdW9xaW4gPHpoZW5ncnEuZm5zdEBj
+bi5mdWppdHN1LmNvbT46DQo+PiBJIHN1Ym1pdHRlZCB0aGlzIHBhdGNoIGFp
+bSB0byB1c2UgZG5mIG91dCBvZiBZb2N0byBidWlsZCBzeXN0ZW0gdG8gbWFu
+YWdlIHBhY2thZ2VzLg0KPg0KPiBQbGVhc2UgZXhwbGFpbiB0aGlzIGluIGRl
+dGFpbC4gV2hlcmUgYXJlIHRoZSBwYWNrYWdlcyB0YWtlbiBmcm9tLCBhbmQg
+d2hlcmUgYXJlIHRoZXkgaW5zdGFsbGVkPw0KPg0KPiBBbGV4DQo+DQo+DQo+
+DQo+DQoNCg0KCgo=
 
-Too late I've noticed that it's the same size, but in different file,
-surprisingly I haven't seen the failure in  Detail.c only in the super0.c.
-Maybe it's different issue, but I don't know how to reproduce this one.
-
-But of course, 4 bytes is terrible waste :).
-
-On Fri, Jun 22, 2018 at 11:07 PM Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Fri, Jun 22, 2018 at 12:56 PM Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> >
-> > See https://patchwork.openembedded.org/patch/151888/
-> >
->
-> yeah Martin is frugal with the extra space :)  using 16 probably provides
-> some benefits of data being aligned hard to say
->
-> > On Fri, Jun 22, 2018 at 9:24 PM Joe Slater <joe.slater@windriver.com>
-> wrote:
-> >>
-> >> nb[] is not quite big enough.
-> >>
-> >> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> >> ---
-> >>  .../0002-mdadm-Specify-enough-length-when-write-to-buffer.patch     |
-> 6 +++++-
-> >>  1 file changed, 5 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git
-> a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
-> b/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
-> >> index cbce053..6bbe8f4 100644
-> >> ---
-> a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
-> >> +++
-> b/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch
-> >> @@ -24,6 +24,10 @@ Change the length to 47.
-> >>
-> >>  Signed-off-by: Xiao Ni <xni@redhat.com>
-> >>  Signed-off-by: Jes Sorensen <Jes.Sorensen@gmail.com>
-> >> +
-> >> +nb[] actually needs to be at least 12, but we will make it 16.
-> >> +
-> >> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> >>  ---
-> >>  Upstream-Status: Backport
-> >>   Detail.c | 2 +-
-> >> @@ -53,7 +57,7 @@ index 938cfd9..f5b4507 100644
-> >>                 mdp_disk_t *dp;
-> >>                 char *dv;
-> >>  -              char nb[5];
-> >> -+              char nb[11];
-> >> ++              char nb[16];
-> >>                 int wonly, failfast;
-> >>                 if (d>=0) dp = &sb->disks[d];
-> >>                 else dp = &sb->this_disk;
-> >> --
-> >> 2.7.4
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---0000000000005de35f056f417e4e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Too late I&#39;ve noticed that it&#39;s the same size, but=
- in different file, surprisingly I haven&#39;t seen the failure in=C2=A0<sp=
-an style=3D"text-decoration-style:initial;text-decoration-color:initial;flo=
-at:none;display:inline"><span>=C2=A0</span>Detail.c only in the super0.c. M=
-aybe it&#39;s different issue, but I don&#39;t know how to reproduce this o=
-ne.</span><div><span style=3D"text-decoration-style:initial;text-decoration=
--color:initial;float:none;display:inline"><br></span></div><div><span style=
-=3D"text-decoration-style:initial;text-decoration-color:initial;float:none;=
-display:inline">But of course, 4 bytes is terrible waste :).</span></div></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri, Jun 22, 2018 at=
- 11:07 PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, Jun 22,=
- 2018 at 12:56 PM Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com=
-" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; See <a href=3D"https://patchwork.openembedded.org/patch/151888/" rel=
-=3D"noreferrer" target=3D"_blank">https://patchwork.openembedded.org/patch/=
-151888/</a><br>
-&gt;<br>
-<br>
-yeah Martin is frugal with the extra space :)=C2=A0 using 16 probably provi=
-des<br>
-some benefits of data being aligned hard to say<br>
-<br>
-&gt; On Fri, Jun 22, 2018 at 9:24 PM Joe Slater &lt;<a href=3D"mailto:joe.s=
-later@windriver.com" target=3D"_blank">joe.slater@windriver.com</a>&gt; wro=
-te:<br>
-&gt;&gt;<br>
-&gt;&gt; nb[] is not quite big enough.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriv=
-er.com" target=3D"_blank">joe.slater@windriver.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 .../0002-mdadm-Specify-enough-length-when-write-to-buffer.pa=
-tch=C2=A0 =C2=A0 =C2=A0| 6 +++++-<br>
-&gt;&gt;=C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-=
-enough-length-when-write-to-buffer.patch b/meta/recipes-extended/mdadm/file=
-s/0002-mdadm-Specify-enough-length-when-write-to-buffer.patch<br>
-&gt;&gt; index cbce053..6bbe8f4 100644<br>
-&gt;&gt; --- a/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-=
-length-when-write-to-buffer.patch<br>
-&gt;&gt; +++ b/meta/recipes-extended/mdadm/files/0002-mdadm-Specify-enough-=
-length-when-write-to-buffer.patch<br>
-&gt;&gt; @@ -24,6 +24,10 @@ Change the length to 47.<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 Signed-off-by: Xiao Ni &lt;<a href=3D"mailto:xni@redhat.com"=
- target=3D"_blank">xni@redhat.com</a>&gt;<br>
-&gt;&gt;=C2=A0 Signed-off-by: Jes Sorensen &lt;<a href=3D"mailto:Jes.Sorens=
-en@gmail.com" target=3D"_blank">Jes.Sorensen@gmail.com</a>&gt;<br>
-&gt;&gt; +<br>
-&gt;&gt; +nb[] actually needs to be at least 12, but we will make it 16.<br=
->
-&gt;&gt; +<br>
-&gt;&gt; +Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windri=
-ver.com" target=3D"_blank">joe.slater@windriver.com</a>&gt;<br>
-&gt;&gt;=C2=A0 ---<br>
-&gt;&gt;=C2=A0 Upstream-Status: Backport<br>
-&gt;&gt;=C2=A0 =C2=A0Detail.c | 2 +-<br>
-&gt;&gt; @@ -53,7 +57,7 @@ index 938cfd9..f5b4507 100644<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mdp_d=
-isk_t *dp;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char =
-*dv;<br>
-&gt;&gt;=C2=A0 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char nb[5]=
-;<br>
-&gt;&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char nb[11];<br=
->
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char nb[16];<br=
->
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int w=
-only, failfast;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (d=
-&gt;=3D0) dp =3D &amp;sb-&gt;disks[d];<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else =
-dp =3D &amp;sb-&gt;this_disk;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.7.4<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; _______________________________________________<br>
-&gt;&gt; Openembedded-core mailing list<br>
-&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
-=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
-rg/mailman/listinfo/openembedded-core</a><br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---0000000000005de35f056f417e4e--
