@@ -1,48 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A47DF74C68
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl0-f65.google.com (mail-pl0-f65.google.com
+	[209.85.160.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A1803607DF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jun 2018 18:43:49 +0000 (UTC)
-Received: by mail-pg0-f51.google.com with SMTP id i7-v6so5078756pgp.2
+	Sun, 24 Jun 2018 19:09:03 +0000 (UTC)
+Received: by mail-pl0-f65.google.com with SMTP id g20-v6so5772574plq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jun 2018 11:43:51 -0700 (PDT)
+	Sun, 24 Jun 2018 12:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=8MNwnpgzINzrM4bIEGqGgSzQx2gDp6xY+DbymBUwRmM=;
-	b=lae7q69a/nTIZFZ0UkZDmi1P1cBGNORzSs4i4JEmFbBEsgiF2k2tvPzO1ba8h858Vj
-	X8NK4iQZh9zYT31c3kfUjy8zbFRh9oue36o+pKAhbBWwr+KmGFOOo1pH8rveMa2eD79M
-	tjslvGS30NW19Ibu40ILAS1sPCXX1Y6UBY9lBnGHjVzg3Hlfb//lDeCUdrIYulCJYCwe
-	RiEQmn+B5jZtZ3ctMd678SDFlNlSA+VV0WN+8x19lvc2RHl+pooZ8qQ1Y4KVzzkpzYRq
-	yyF4HeZVNsG2/qdbbVY7MrVscTb3zyKCBjMLlPA4hEAJbQJsI2k3akSTlKANG32VFM7w
-	4d8w==
+	h=from:to:cc:subject:date:message-id;
+	bh=soCFswPBjYC7WoewS8Y+kYIFfp2tMIGNGpOIaJAYN8g=;
+	b=mOjXxK2CRMDvyQIXr3bVdN6tA2gGKBKGku/eizLp9kRnZTPTo5p5Mx+e30zXxnD7Np
+	Y+ZPqDJuPCyf5VSDMLGHM4/cRHdymVyD2MMVst4xe/dzH6lOyp+xCqaDaod6TlKH/eq1
+	nNPwOjZjGlBCnUH/TntVxWfv0VPy62oKT9Sn0Bi8vcQNOxhiWMmHDIRNWffUU501lRoj
+	nuN8BS0IzifqnccLIClfzzaWGfC19jBL8dGuthIIE8+Gnis028xQG29x6zYBzMLVm4uQ
+	1vfBa2AJUlgBHH1r7+kHg/wVXhxccV+P4w6AVHm5f0Az/WNuuy14yq0iNmxHVV2jkeJZ
+	lkvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=8MNwnpgzINzrM4bIEGqGgSzQx2gDp6xY+DbymBUwRmM=;
-	b=BpzqGL3VwumJwrrnc8X5ylKl2KUXzNc6tJxW5PWh3SEhW1OaAT8j27DJgutPPmL8j8
-	THvUv0FIwD2AUjLpVVI3btsGBe/vnt35O5LRD5F6CUJgSp9FxNPwcx17kvKkBl/EDlp7
-	iGechB1cUG5J0F7HeYnpPk2713H6e0szG0oq9SIReHnQcCQcesUhxbOTTxQzx348eAcl
-	WLhJNExkXv7+TaQzec4JHN4TE5+isoSsSGqSAsb35Rf14LjW25+p4FKxPZdhwWmNoVA+
-	QcEGxQO4ykAw31GUtOtTnGMkX+teWIAkJ/+ZKFcPIvGzRRgF/6LszpO9LmjFsUIjSVsp
-	qw5Q==
-X-Gm-Message-State: APt69E0faBM2GrAh791BHM5KdR1o7SSbSo9PrtbL+YlEOnyH950qZ4KV
-	Ekn4mvT3b0AWb0ixKHWKdfw=
-X-Google-Smtp-Source: ADUXVKKeWLjeFmVMziHm/5yiNS0lvWnt2JsDNS7yrIXkNTU7b90BGAKZGT5ODhCnv1L7umCP4/Z5Hg==
-X-Received: by 2002:a63:12:: with SMTP id 18-v6mr8420772pga.121.1529865830197; 
-	Sun, 24 Jun 2018 11:43:50 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4000:1184:89c3:4e4b:df9b:b7de])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=soCFswPBjYC7WoewS8Y+kYIFfp2tMIGNGpOIaJAYN8g=;
+	b=LRnDxMvIySigjtwA+2TyCGT14wtsZtc2+G4iC1GnyDWXPx3DOvwHXe7uh63pqZmDz6
+	a0goETIP5w9W9b39eFURdfd+QCAjl2ZSacoREGZ965hxBvcyrarfKoUKYMSwhRavH22l
+	XH/O9QnWLvZEW2VYlXt13Iz8nTwg+2v6yRKsd5bSraa942/SDaWwVO/bsopKJWL93YDS
+	bv1+q1bt1BXiCzsMHbOTjQs183EchSXTbklEI/hZgSPKNbmqy4MkZAKV4iOaZY4O18dt
+	cFmuPDzWTRNGo9xoA9tojNi+BECvqSXwv35ML8F35uV8s+cJXIjnRnGm89aVe546EhGZ
+	DodQ==
+X-Gm-Message-State: APt69E0S36X5rFb+3JwtFKoCxVlxxfEXNm4Z8KBZa/QbUbCgBMoyxL7p
+	XRJKLA3T1SoHPbDzgS/dyn7a6g==
+X-Google-Smtp-Source: ADUXVKIrVz3feL3xyVhClYMuc20zsm6TMJnhWAO3LuIvCCbJ2sHLJgX1trMhVEIpEDB5sfSyDO9TMw==
+X-Received: by 2002:a17:902:52a6:: with SMTP id
+	a35-v6mr2335536pli.131.1529867344311; 
+	Sun, 24 Jun 2018 12:09:04 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::91a0])
 	by smtp.gmail.com with ESMTPSA id
-	k9-v6sm23531747pfc.179.2018.06.24.11.43.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 24 Jun 2018 11:43:49 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun, 24 Jun 2018 11:43:48 -0700
-Message-Id: <1529865828-13206-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] dhcp: update 4.4.1
+	p73-v6sm32336117pfa.142.2018.06.24.12.09.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 24 Jun 2018 12:09:03 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 24 Jun 2018 12:09:06 -0700
+Message-Id: <20180624190906.44063-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] findutils: Refresh patches with devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,815 +55,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jun 2018 18:43:49 -0000
+X-List-Received-Date: Sun, 24 Jun 2018 19:09:03 -0000
 
-include several CVE fixes.
-CVE: CVE-2018-5733
-CVE: CVE-2018-5732
+We get fuzz warnings when applying these patches and devtool
+reports it
 
-LIC_CHKSUM_FILE updated to SPFX format
-
-https://kb.isc.org/article/AA-01571
-
-remove several patches now included in update.
-Shared libarary support is now enabled in configure+lt, use it
-and revert to autotools-brokensep
-Refresh patches
-
-alings support with bind 9.11.x
-
-add libxml2 support to configure.ac+lt
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc            |  19 +-
- ...o-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch |  13 +-
- .../dhcp/dhcp/0003-link-with-lcrypto.patch         |  13 +-
- .../dhcp/dhcp/0004-Fix-out-of-tree-builds.patch    | 109 +++++------
- .../dhcp/0006-site.h-enable-gentle-shutdown.patch  |  13 +-
- ...re-argument-to-make-the-libxml2-dependenc.patch |  40 +++-
- .../dhcp/dhcp/0010-build-shared-libs.patch         | 208 ---------------------
- ...all-to-isc_app_ctxstart-to-not-get-signal.patch |  81 --------
- ...correct-the-intention-for-xml2-lib-search.patch |  13 +-
- .../dhcp/dhcp/CVE-2017-3144.patch                  |  74 --------
- .../dhcp/{dhcp_4.3.6.bb => dhcp_4.4.1.bb}          |  12 +-
- 11 files changed, 120 insertions(+), 475 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
- rename meta/recipes-connectivity/dhcp/{dhcp_4.3.6.bb => dhcp_4.4.1.bb} (65%)
+ ...charset_alias-when-building-for-musl.patch | 15 +++++-----
+ ...-honour-the-ignore_readdir_race-opti.patch | 29 +++++++++----------
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index e943707..2eb3513 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -8,7 +8,7 @@ easier to administer devices."
- HOMEPAGE = "http://www.isc.org/"
+diff --git a/meta/recipes-extended/findutils/findutils/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/findutils/findutils/0001-Unset-need_charset_alias-when-building-for-musl.patch
+index 8729e1b447..6064d18854 100644
+--- a/meta/recipes-extended/findutils/findutils/0001-Unset-need_charset_alias-when-building-for-musl.patch
++++ b/meta/recipes-extended/findutils/findutils/0001-Unset-need_charset_alias-when-building-for-musl.patch
+@@ -1,4 +1,4 @@
+-From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
++From 86db2a5f3b7ef8113e5384b4e02d2b299c87a047 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Apr 2015 17:02:13 -0700
+ Subject: [PATCH] Unset need_charset_alias when building for musl
+@@ -11,15 +11,16 @@ coreutils
+ Upstream-Status: Pending
  
- LICENSE = "ISC"
--LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1753"
-+LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=004a4db50a1e20972e924a8618747c01"
- 
- DEPENDS = "openssl bind"
- 
-@@ -24,7 +24,7 @@ SRC_URI = "http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
- UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/dhcp/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+\.\d+\.(\d+?))/"
- 
--inherit autotools systemd useradd update-rc.d
-+inherit autotools-brokensep systemd useradd update-rc.d
- 
- USERADD_PACKAGES = "${PN}-server"
- USERADD_PARAM_${PN}-server = "--system --no-create-home --home-dir /var/run/${BPN} --shell /bin/false --user-group ${BPN}"
-@@ -48,11 +48,21 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
-                 --with-srv6-lease-file=${localstatedir}/lib/dhcp/dhcpd6.leases \
-                 --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases \
-                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
--                --with-libbind=${STAGING_LIBDIR}/ \
-                 --enable-paranoia --disable-static \
-                 --with-randomdev=/dev/random \
-+                --with-libbind=${STAGING_DIR_HOST}/usr \
-+		--enable-libtool \
-                "
- 
-+#Enable shared libs per dhcp README
-+do_configure () {
-+	cd ${S}
-+	cp configure.ac+lt configure.ac
-+        autoreconf -i
-+	./configure  ${CONFIGUREOPTS} ${EXTRA_OECONF}	
-+	automake
-+}
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
- do_install_append () {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -d ${D}${sysconfdir}/default
-@@ -96,8 +106,7 @@ PACKAGES += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhc
- PACKAGES_remove = "${PN}"
- RDEPENDS_${PN}-dev = ""
- RDEPENDS_${PN}-staticdev = ""
--
--FILES_${PN}-libs = "${libdir}/libdhcpctl.so.0* ${libdir}/libomapi.so.0*"
-+FILES_${PN}-libs = "${libdir}/libdhcpctl.so.0* ${libdir}/libomapi.so.0* ${libdir}/libdhcp.so.0*"
- 
- FILES_${PN}-server = "${sbindir}/dhcpd ${sysconfdir}/init.d/dhcp-server"
- RRECOMMENDS_${PN}-server = "dhcp-server-config"
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
-index e5b3cf9..d1b57f0 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
-@@ -11,11 +11,11 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  includes/site.h | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
--diff --git a/includes/site.h b/includes/site.h
--index b2f7fd7..280fbb9 100644
----- a/includes/site.h
--+++ b/includes/site.h
--@@ -149,7 +149,8 @@
-+Index: dhcp-4.4.1/includes/site.h
-+===================================================================
-+--- dhcp-4.4.1.orig/includes/site.h
-++++ dhcp-4.4.1/includes/site.h
-+@@ -148,7 +148,8 @@
-  /* Define this if you want the dhcpd.conf file to go somewhere other than
-     the default location.   By default, it goes in /etc/dhcpd.conf. */
-  
-@@ -25,6 +25,3 @@ index b2f7fd7..280fbb9 100644
-  
-  /* Network API definitions.   You do not need to choose one of these - if
-     you don't choose, one will be chosen for you in your system's config
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch b/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
-index 810c7b6..5b35933 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
-@@ -18,11 +18,11 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  configure.ac | 4 ++++
-  1 file changed, 4 insertions(+)
- 
--diff --git a/configure.ac b/configure.ac
--index cdfa352..44fb57e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -591,6 +591,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[void foo() __attribute__((noreturn));
-+Index: dhcp-4.4.1/configure.ac
-+===================================================================
-+--- dhcp-4.4.1.orig/configure.ac
-++++ dhcp-4.4.1/configure.ac
-+@@ -612,6 +612,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]],
-  # Look for optional headers.
-  AC_CHECK_HEADERS(sys/socket.h net/if_dl.h net/if6.h regex.h)
-  
-@@ -33,6 +33,3 @@ index cdfa352..44fb57e 100644
-  # Solaris needs some libraries for functions
-  AC_SEARCH_LIBS(socket, [socket])
-  AC_SEARCH_LIBS(inet_ntoa, [nsl])
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch b/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
-index 7d1d867..b71c93d 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
-@@ -19,82 +19,75 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  server/Makefile.am  | 2 +-
-  6 files changed, 9 insertions(+), 5 deletions(-)
- 
--diff --git a/client/Makefile.am b/client/Makefile.am
--index 2cb83d8..4730bb3 100644
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -7,11 +7,11 @@ SUBDIRS = . tests
-- BINDLIBDIR = @BINDDIR@/lib
-- 
-- AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
---	      -DLOCALSTATEDIR='"$(localstatedir)"'
--+	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
-- 
-- dist_sysconf_DATA = dhclient.conf.example
-- sbin_PROGRAMS = dhclient
---dhclient_SOURCES = clparse.c dhclient.c dhc6.c \
--+dhclient_SOURCES = $(srcdir)/clparse.c $(srcdir)/dhclient.c $(srcdir)/dhc6.c \
-- 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-- 		   scripts/netbsd scripts/nextstep scripts/openbsd \
-- 		   scripts/solaris scripts/openwrt
--diff --git a/common/Makefile.am b/common/Makefile.am
--index 113aee8..0f24fbb 100644
----- a/common/Makefile.am
--+++ b/common/Makefile.am
-+Index: dhcp-4.4.1/common/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/common/Makefile.am
-++++ dhcp-4.4.1/common/Makefile.am
- @@ -1,4 +1,5 @@
- -AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"'
- +AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"'
- +
-  AM_CFLAGS = $(LDAP_CFLAGS)
-  
-- noinst_LIBRARIES = libdhcp.a
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index ceb0de1..ba8dd8b 100644
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -1,5 +1,7 @@
-- BINDLIBDIR = @BINDDIR@/lib
-+ lib_LIBRARIES = libdhcp.a
-+Index: dhcp-4.4.1/dhcpctl/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/dhcpctl/Makefile.am
-++++ dhcp-4.4.1/dhcpctl/Makefile.am
-+@@ -3,6 +3,8 @@ BINDLIBDNSDIR=@BINDLIBDNSDIR@
-+ BINDLIBISCCFGDIR=@BINDLIBISCCFGDIR@
-+ BINDLIBISCDIR=@BINDLIBISCDIR@
-  
- +AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
- +
-  bin_PROGRAMS = omshell
-  lib_LIBRARIES = libdhcpctl.a
-  noinst_PROGRAMS = cltest
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index 446a594..dd1afa0 100644
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -1,4 +1,5 @@
-- BINDLIBDIR = @BINDDIR@/lib
-+Index: dhcp-4.4.1/server/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/server/Makefile.am
-++++ dhcp-4.4.1/server/Makefile.am
-+@@ -4,7 +4,7 @@
-+ # production code. Sadly, we are not there yet.
-+ SUBDIRS = . tests
-+ 
-+-AM_CPPFLAGS = -I.. -DLOCALSTATEDIR='"@localstatedir@"'
-++AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-+ 
-+ dist_sysconf_DATA = dhcpd.conf.example
-+ sbin_PROGRAMS = dhcpd
-+Index: dhcp-4.4.1/client/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/client/Makefile.am
-++++ dhcp-4.4.1/client/Makefile.am
-+@@ -5,7 +5,7 @@
-+ SUBDIRS = . tests
-+ 
-+ AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"'
-+-AM_CPPFLAGS += -DLOCALSTATEDIR='"$(localstatedir)"'
-++AM_CPPFLAGS += -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
-+ 
-+ dist_sysconf_DATA = dhclient.conf.example
-+ sbin_PROGRAMS = dhclient
-+Index: dhcp-4.4.1/omapip/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/omapip/Makefile.am
-++++ dhcp-4.4.1/omapip/Makefile.am
-+@@ -2,6 +2,7 @@ BINDLIBIRSDIR=@BINDLIBIRSDIR@
-+ BINDLIBDNSDIR=@BINDLIBDNSDIR@
-+ BINDLIBISCCFGDIR=@BINDLIBISCCFGDIR@
-+ BINDLIBISCDIR=@BINDLIBISCDIR@
- +AM_CPPFLAGS = -I$(top_srcdir)/includes
-  
-  lib_LIBRARIES = libomapi.a
-  noinst_PROGRAMS = svtest
--diff --git a/relay/Makefile.am b/relay/Makefile.am
--index 3060eca..6d652f6 100644
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -1,6 +1,6 @@
-- BINDLIBDIR = @BINDDIR@/lib
-- 
-+Index: dhcp-4.4.1/relay/Makefile.am
-+===================================================================
-+--- dhcp-4.4.1.orig/relay/Makefile.am
-++++ dhcp-4.4.1/relay/Makefile.am
-+@@ -1,4 +1,4 @@
- -AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"'
- +AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-  
-  sbin_PROGRAMS = dhcrelay
-  dhcrelay_SOURCES = dhcrelay.c
--diff --git a/server/Makefile.am b/server/Makefile.am
--index 54feedf..3990b9c 100644
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -6,7 +6,7 @@ SUBDIRS = . tests
-- 
-- BINDLIBDIR = @BINDDIR@/lib
-- 
---AM_CPPFLAGS = -I.. -DLOCALSTATEDIR='"@localstatedir@"'
--+AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-- 
-- dist_sysconf_DATA = dhcpd.conf.example
-- sbin_PROGRAMS = dhcpd
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
-index c62b283..6ef70cc 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
-@@ -12,11 +12,11 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  includes/site.h | 2 +-
+ ---
+- lib/gnulib.mk | 2 +-
++ gl/lib/Makefile.am | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
  
--diff --git a/includes/site.h b/includes/site.h
--index 280fbb9..e6c2972 100644
----- a/includes/site.h
--+++ b/includes/site.h
--@@ -296,7 +296,7 @@
-+Index: dhcp-4.4.1/includes/site.h
-+===================================================================
-+--- dhcp-4.4.1.orig/includes/site.h
-++++ dhcp-4.4.1/includes/site.h
-+@@ -295,7 +295,7 @@
-     situations.  We plan to revisit this feature and may
-     make non-backwards compatible changes including the
-     removal of this define.  Use at your own risk.  */
-@@ -25,6 +25,3 @@ index 280fbb9..e6c2972 100644
-  
-  /* Include old error codes.  This is provided in case you
-     are building an external program similar to omshell for
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch b/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
-index 43c26ea..feb0754 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
-@@ -15,13 +15,13 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  configure.ac | 11 +++++++++++
-  1 file changed, 11 insertions(+)
+-Index: findutils-4.5.14/gl/lib/Makefile.am
+-===================================================================
+---- findutils-4.5.14.orig/gl/lib/Makefile.am
+-+++ findutils-4.5.14/gl/lib/Makefile.am
+-@@ -1220,7 +1220,7 @@ install-exec-localcharset: all-local
++diff --git a/gl/lib/Makefile.am b/gl/lib/Makefile.am
++index a9e2fe4..1c6ea9c 100644
++--- a/gl/lib/Makefile.am
+++++ b/gl/lib/Makefile.am
++@@ -1234,7 +1234,7 @@ install-exec-localcharset: all-local
+  	  case '$(host_os)' in \
+  	    darwin[56]*) \
+  	      need_charset_alias=true ;; \
+diff --git a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
+index 420e10da02..a570473ccb 100644
+--- a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
++++ b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
+@@ -1,7 +1,7 @@
+-From 0afb2efada7e435ae18ef7d3db0758464189f44f Mon Sep 17 00:00:00 2001
++From a3f4821c4a3f723d21c9298d54bee8a656bfd7fb Mon Sep 17 00:00:00 2001
+ From: Bernhard Voelker <mail@bernhard-voelker.de>
+ Date: Tue, 30 Jan 2018 23:30:09 +0100
+-Subject: find: make -delete honour the -ignore_readdir_race option
++Subject: [PATCH] find: make -delete honour the -ignore_readdir_race option
  
--diff --git a/configure.ac b/configure.ac
--index 44fb57e..8e9f509 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -611,6 +611,17 @@ AC_CHECK_FUNCS(strlcat)
-- # For HP/UX we need -lipv6 for if_nametoindex, perhaps others.
-- AC_SEARCH_LIBS(if_nametoindex, [ipv6])
-+Index: dhcp-4.4.1/configure.ac
-+===================================================================
-+--- dhcp-4.4.1.orig/configure.ac
-++++ dhcp-4.4.1/configure.ac
-+@@ -642,6 +642,17 @@ if test "$have_nanosleep" = "rt"; then
-+ 	LIBS="-lrt $LIBS"
-+ fi
-  
- +AC_ARG_WITH(libxml2,
- +	AS_HELP_STRING([--with-libxml2], [link against libxml2. this is needed if bind was built with xml2 support enabled]),
-@@ -37,6 +37,26 @@ index 44fb57e..8e9f509 100644
-  # check for /dev/random (declares HAVE_DEV_RANDOM)
-  AC_MSG_CHECKING(for random device)
-  AC_ARG_WITH(randomdev,
---- 
--1.8.3.1
--
-+Index: dhcp-4.4.1/configure.ac+lt
-+===================================================================
-+--- dhcp-4.4.1.orig/configure.ac+lt
-++++ dhcp-4.4.1/configure.ac+lt
-+@@ -909,6 +909,18 @@ elif test "$want_libtool" = "yes" -a "$u
-+ fi
-+ AM_CONDITIONAL(INSTALL_BIND, test "$want_install_bind" = "yes")
-+ 
-++AC_ARG_WITH(libxml2,
-++	AS_HELP_STRING([--with-libxml2], [link against libxml2. this is needed if bind was built with xml2 support enabled]),
-++	with_libxml2="$withval", with_libxml2="no")
-++
-++if test x$with_libxml2 != xno; then
-++	AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],,
-++		[if test x$with_libxml2 != xauto; then
-++			AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
-++		fi])
-++fi
-++
-++
-+ # OpenLDAP support.
-+ AC_ARG_WITH(ldap,
-+     AS_HELP_STRING([--with-ldap],[enable OpenLDAP support in dhcpd (default is no)]),
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch b/meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
-deleted file mode 100644
-index f128731..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
-+++ /dev/null
-@@ -1,208 +0,0 @@
--From 76c370a929e5ab5dbc81c2fbcf4e50f4fbc08ce9 Mon Sep 17 00:00:00 2001
--From: Kai Kang <kai.kang@windriver.com>
--Date: Tue, 15 Aug 2017 15:53:37 +0800
--Subject: [PATCH 10/11] build shared libs
--
--Upstream-Status: Pending
--
--Port patches from Fedora to build shared libs rather than static libs.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--Rebase to 4.3.6
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- client/Makefile.am       |  4 ++--
-- common/tests/Makefile.am | 13 +++++--------
-- configure.ac             | 12 ++----------
-- dhcpctl/Makefile.am      | 14 ++++++--------
-- omapip/Makefile.am       |  7 +++----
-- relay/Makefile.am        |  5 ++---
-- server/Makefile.am       |  7 +++----
-- server/tests/Makefile.am |  7 +++----
-- 8 files changed, 26 insertions(+), 43 deletions(-)
--
--diff --git a/client/Makefile.am b/client/Makefile.am
--index 84d8131..e776bf0 100644
----- a/client/Makefile.am
--+++ b/client/Makefile.am
--@@ -15,7 +15,7 @@ dhclient_SOURCES = $(srcdir)/clparse.c $(srcdir)/dhclient.c $(srcdir)/dhc6.c \
-- 		   scripts/bsdos scripts/freebsd scripts/linux scripts/macos \
-- 		   scripts/netbsd scripts/nextstep scripts/openbsd \
-- 		   scripts/solaris scripts/openwrt
---dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
---		 $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
--+dhclient_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
--+		  -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-- man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
-- EXTRA_DIST = $(man_MANS)
--diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
--index 2f98d22..8745e88 100644
----- a/common/tests/Makefile.am
--+++ b/common/tests/Makefile.am
--@@ -15,26 +15,23 @@ ATF_TESTS += alloc_unittest dns_unittest misc_unittest ns_name_unittest
-- alloc_unittest_SOURCES = test_alloc.c $(top_srcdir)/tests/t_api_dhcp.c
-- alloc_unittest_LDADD = $(ATF_LDFLAGS)
-- alloc_unittest_LDADD += ../libdhcp.a  \
---	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
---	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
--+	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-- 
-- dns_unittest_SOURCES = dns_unittest.c $(top_srcdir)/tests/t_api_dhcp.c
-- dns_unittest_LDADD = $(ATF_LDFLAGS)
-- dns_unittest_LDADD += ../libdhcp.a  \
---	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
---	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
--+	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-- 
-- misc_unittest_SOURCES = misc_unittest.c $(top_srcdir)/tests/t_api_dhcp.c
-- misc_unittest_LDADD = $(ATF_LDFLAGS)
-- misc_unittest_LDADD += ../libdhcp.a  \
---	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
---	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
--+	../../omapip/libomapi.la -L$(BINDLIBDIR) -ldns -lisccfg -lisc
-- 
-- ns_name_unittest_SOURCES = ns_name_test.c $(top_srcdir)/tests/t_api_dhcp.c
-- ns_name_unittest_LDADD = $(ATF_LDFLAGS)
-- ns_name_unittest_LDADD += ../libdhcp.a  \
---	../../omapip/libomapi.a $(BINDLIBDIR)/libirs.a \
---	$(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a  $(BINDLIBDIR)/libisc.a
--+	../../omapip/libomapi.a -L$(BINDLIBDIR) \
--+	-ldns -lisccfg -lisc
-- 
-- check: $(ATF_TESTS)
-- 	@if test $(top_srcdir) != ${top_builddir}; then \
--diff --git a/configure.ac b/configure.ac
--index 8e9f509..bfe988a 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -47,16 +47,8 @@ AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = "yes")
-- # Use this to define _GNU_SOURCE to pull in the IPv6 Advanced Socket API.
-- AC_USE_SYSTEM_EXTENSIONS
-- 
---AC_PROG_RANLIB
---
---AC_PATH_PROG(AR, ar)
---AC_SUBST(AR)
---
---if test "X$AR" = "X"; then
---	AC_MSG_ERROR([
---ar program not found.  Please fix your PATH to include the directory in
---which ar resides, or set AR in the environment with the full path to ar.])
---fi
--+# Use libtool to simplify building of shared libraries
--+AC_PROG_LIBTOOL
-- 
-- AC_CONFIG_HEADERS([includes/config.h])
-- 
--diff --git a/dhcpctl/Makefile.am b/dhcpctl/Makefile.am
--index 9b2486e..784cdf7 100644
----- a/dhcpctl/Makefile.am
--+++ b/dhcpctl/Makefile.am
--@@ -3,19 +3,17 @@ BINDLIBDIR = @BINDDIR@
-- AM_CPPFLAGS = -I$(top_srcdir)/includes -I$(top_srcdir)
-- 
-- bin_PROGRAMS = omshell
---lib_LIBRARIES = libdhcpctl.a
--+lib_LTLIBRARIES = libdhcpctl.la
-- noinst_PROGRAMS = cltest
-- man_MANS = omshell.1 dhcpctl.3
-- EXTRA_DIST = $(man_MANS)
-- 
-- omshell_SOURCES = omshell.c
---omshell_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	        $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
---	        $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
--+omshell_LDADD = libdhcpctl.la ../common/libdhcp.a ../omapip/libomapi.la \
--+	        -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-- 
---libdhcpctl_a_SOURCES = dhcpctl.c callback.c remote.c
--+libdhcpctl_la_SOURCES = dhcpctl.c callback.c remote.c
-- 
-- cltest_SOURCES = cltest.c
---cltest_LDADD = libdhcpctl.a ../common/libdhcp.a ../omapip/libomapi.a \
---	       $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
---               $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
--+cltest_LDADD = libdhcpctl.la ../common/libdhcp.a ../omapip/libomapi.la \
--+	       -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
--diff --git a/omapip/Makefile.am b/omapip/Makefile.am
--index e4a8599..c0c7a1e 100644
----- a/omapip/Makefile.am
--+++ b/omapip/Makefile.am
--@@ -1,10 +1,10 @@
-- BINDLIBDIR = @BINDDIR@
-- AM_CPPFLAGS = -I$(top_srcdir)/includes
-- 
---lib_LIBRARIES = libomapi.a
--+lib_LTLIBRARIES = libomapi.la
-- noinst_PROGRAMS = svtest
-- 
---libomapi_a_SOURCES = protocol.c buffer.c alloc.c result.c connection.c \
--+libomapi_la_SOURCES = protocol.c buffer.c alloc.c result.c connection.c \
-- 		     errwarn.c listener.c dispatch.c generic.c support.c \
-- 		     handle.c message.c convert.c hash.c auth.c inet_addr.c \
-- 		     array.c trace.c toisc.c iscprint.c isclib.c
--@@ -13,6 +13,5 @@ man_MANS = omapi.3
-- EXTRA_DIST = $(man_MANS)
-- 
-- svtest_SOURCES = test.c
---svtest_LDADD = libomapi.a $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
---		$(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
--+svtest_LDADD = libomapi.la -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-- 
--diff --git a/relay/Makefile.am b/relay/Makefile.am
--index b3bf578..f47009f 100644
----- a/relay/Makefile.am
--+++ b/relay/Makefile.am
--@@ -4,9 +4,8 @@ AM_CPPFLAGS = -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
-- 
-- sbin_PROGRAMS = dhcrelay
-- dhcrelay_SOURCES = dhcrelay.c
---dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---		 $(BINDLIBDIR)/libirs.a $(BINDLIBDIR)/libdns.a \
---		 $(BINDLIBDIR)/libisccfg.a $(BINDLIBDIR)/libisc.a
--+dhcrelay_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
--+		 -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-- man_MANS = dhcrelay.8
-- EXTRA_DIST = $(man_MANS)
-- 
--diff --git a/server/Makefile.am b/server/Makefile.am
--index b5d8c2d..d7f876d 100644
----- a/server/Makefile.am
--+++ b/server/Makefile.am
--@@ -15,10 +15,9 @@ dhcpd_SOURCES = dhcpd.c dhcp.c bootp.c confpars.c db.c class.c failover.c \
-- 		dhcpv6.c mdb6.c ldap.c ldap_casa.c leasechain.c ldap_krb_helper.c
-- 
-- dhcpd_CFLAGS = $(LDAP_CFLAGS)
---dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.a \
---	      ../dhcpctl/libdhcpctl.a $(BINDLIBDIR)/libirs.a \
---	      $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a \
---	      $(BINDLIBDIR)/libisc.a $(LDAP_LIBS)
--+dhcpd_LDADD = ../common/libdhcp.a ../omapip/libomapi.la \
--+	      ../dhcpctl/libdhcpctl.la -L$(BINDLIBDIR) \
--+	      -lirs -ldns -lisccfg -lisc $(LDAP_LIBS)
-- 
-- man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
-- EXTRA_DIST = $(man_MANS)
--diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
--index 9821081..de95872 100644
----- a/server/tests/Makefile.am
--+++ b/server/tests/Makefile.am
--@@ -19,10 +19,9 @@ DHCPSRC = ../dhcp.c ../bootp.c ../confpars.c ../db.c ../class.c      \
--           ../ddns.c ../dhcpleasequery.c ../dhcpv6.c ../mdb6.c        \
--           ../ldap.c ../ldap_casa.c ../dhcpd.c ../leasechain.c
-- 
---DHCPLIBS = $(top_builddir)/common/libdhcp.a $(top_builddir)/omapip/libomapi.a \
---          $(top_builddir)/dhcpctl/libdhcpctl.a $(BINDLIBDIR)/libirs.a \
---	  $(BINDLIBDIR)/libdns.a $(BINDLIBDIR)/libisccfg.a \
---	  $(BINDLIBDIR)/libisc.a
--+DHCPLIBS = $(top_builddir)/common/libdhcp.a $(top_builddir)/omapip/libomapi.la \
--+          $(top_builddir)/dhcpctl/libdhcpctl.la \
--+          -L$(BINDLIBDIR) -lirs -ldns -lisccfg -lisc
-- 
-- ATF_TESTS =
-- if HAVE_ATF
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch b/meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
-deleted file mode 100644
-index 67bb463..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
-+++ /dev/null
-@@ -1,81 +0,0 @@
--From 37725f3e22edb50e0ca2d1fff971321a5a4d5112 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Wed, 12 Jul 2017 03:05:13 -0400
--Subject: [PATCH 11/11] Moved the call to isc_app_ctxstart() to not get signal
-- block by all threads
--
--Signed-off-by: Francis Dupont <fdupont@isc.org>
--
--In https://source.isc.org/git/bind9.git, since the following
--commit applied:
--...
--commit b99bfa184bc9375421b5df915eea7dfac6a68a99
--Author: Evan Hunt <each@isc.org>
--Date:   Wed Apr 10 13:49:57 2013 -0700
--
--    [master] unify internal and export libraries
--
--    3550.       [func]          Unified the internal and export versions of the
--                        BIND libraries, allowing external clients to use
--                        the same libraries as BIND. [RT #33131]
--...
--(git show b99bfa184bc9375421b5df915eea7dfac6a68a99 -- ./lib/isc/unix/app.c)
--
--In this commit, if bind9 enable threads(ISC_PLATFORM_USETHREADS),
--it blocks signal SIGHUP, SIGINT and SIGTERM in isc__app_ctxstart.
--Which caused dhclient/dhcpd could not be stopped by SIGTERM.
--
--It caused systemd's reboot hung which send SIGTERM by default.
--
--Upstream-Status: Backport [https://source.isc.org/git/dhcp.git]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- omapip/isclib.c | 25 +++++++++++++++----------
-- 1 file changed, 15 insertions(+), 10 deletions(-)
--
--diff --git a/omapip/isclib.c b/omapip/isclib.c
--index ce86490..6a04345 100644
----- a/omapip/isclib.c
--+++ b/omapip/isclib.c
--@@ -185,16 +185,6 @@ dhcp_context_create(int flags,
-- 		if (result != ISC_R_SUCCESS)
-- 			goto cleanup;
-- 
---		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
---		if (result != ISC_R_SUCCESS)
---			return (result);
---		dhcp_gbl_ctx.actx_started = ISC_TRUE;
---
---		/* Not all OSs support suppressing SIGPIPE through socket
---		 * options, so set the sigal action to be ignore.  This allows
---		 * broken connections to fail gracefully with EPIPE on writes */
---		handle_signal(SIGPIPE, SIG_IGN);
---
-- 		result = isc_taskmgr_createinctx(dhcp_gbl_ctx.mctx,
-- 						 dhcp_gbl_ctx.actx,
-- 						 1, 0,
--@@ -217,6 +207,21 @@ dhcp_context_create(int flags,
-- 		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0, &dhcp_gbl_ctx.task);
-- 		if (result != ISC_R_SUCCESS)
-- 			goto cleanup;
--+
--+		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
--+		if (result != ISC_R_SUCCESS)
--+			return (result);
--+		dhcp_gbl_ctx.actx_started = ISC_TRUE;
--+
--+		/* Not all OSs support suppressing SIGPIPE through socket
--+		 * options, so set the sigal action to be ignore.  This allows
--+		 * broken connections to fail gracefully with EPIPE on writes */
--+		handle_signal(SIGPIPE, SIG_IGN);
--+
--+		/* Reset handlers installed by isc_app_ctxstart()
--+		 * to default for control-c and kill */
--+		handle_signal(SIGINT, SIG_DFL);
--+		handle_signal(SIGTERM, SIG_DFL);
-- 	}
-- 
-- #if defined (NSUPDATE)
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch b/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
-index 2d3af9d..39ba65f 100644
---- a/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
-@@ -19,11 +19,11 @@ Signed-off-by: Awais Belal <awais_belal@mentor.com>
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ * find/pred.c (pred_delete): Return true when the -ignore_readdir_race
+ option is active and unlinkat() came back with ENOENT.
+@@ -29,6 +29,7 @@ https://savannah.gnu.org/bugs/?52981
  
--diff --git a/configure.ac b/configure.ac
--index bfe988a..f0459e6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -608,7 +608,7 @@ AC_ARG_WITH(libxml2,
-+Index: dhcp-4.4.1/configure.ac
-+===================================================================
-+--- dhcp-4.4.1.orig/configure.ac
-++++ dhcp-4.4.1/configure.ac
-+@@ -647,7 +647,7 @@ AC_ARG_WITH(libxml2,
-  	with_libxml2="$withval", with_libxml2="no")
-  
-  if test x$with_libxml2 != xno; then
-@@ -32,6 +32,3 @@ index bfe988a..f0459e6 100644
-  		[if test x$with_libxml2 != xauto; then
-  			AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
-  		fi])
---- 
--2.11.1
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch b/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
-deleted file mode 100644
-index 2b2688c..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 8cfdedee369c26d2869b6ec4a64460b5f5a30934 Mon Sep 17 00:00:00 2001
--From: Thomas Markwalder <tmark@isc.org>
--Date: Thu, 7 Dec 2017 11:39:30 -0500
--Subject: [PATCH] [v4_3] Plugs a socket descriptor leak in OMAPI
--
--        Merges in rt46767.
--
--Upstream-Status: Backport
--[https://source.isc.org/cgi-bin/gitweb.cgi?p=dhcp.git;a=commitdiff;h=5097bc0559f592683faac1f67bf350e1bddf6ed4]
--
--CVE: CVE-2017-3144
--
--Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- RELNOTES         | 7 +++++++
-- omapip/buffer.c  | 9 +++++++++
-- omapip/message.c | 2 +-
-- 3 files changed, 17 insertions(+), 1 deletion(-)
--
--diff --git a/RELNOTES b/RELNOTES
--index dd40aaf..3741b80 100644
----- a/RELNOTES
--+++ b/RELNOTES
--@@ -66,6 +66,13 @@ We welcome comments from DHCP users, about this or anything else we do.
-- Email Vicky Risk, Product Manager at vicky@isc.org or discuss on 
-- dhcp-users@lists.isc.org.
-- 
--+- Plugged a socket descriptor leak in OMAPI, that can occur when there is
--+  data pending to be written to an OMAPI connection, when the connection
--+  is closed by the reader.  Thanks to Pavel Zhukov at RedHat for bringing
--+  this issue to our attention and whose patch helped guide us in the right
--+  direction.
--+  [ISc-Bugs #46767]
--+
-- 			Changes since 4.3.6b1
-- 
-- - None
--diff --git a/omapip/buffer.c b/omapip/buffer.c
--index f7fdc32..809034d 100644
----- a/omapip/buffer.c
--+++ b/omapip/buffer.c
--@@ -566,6 +566,15 @@ isc_result_t omapi_connection_writer (omapi_object_t *h)
-- 			omapi_buffer_dereference (&buffer, MDL);
-- 		}
-- 	}
--+
--+	/* If we had data left to write when we're told to disconnect,
--+	* we need recall disconnect, now that we're done writing.
--+	* See rt46767. */
--+	if (c->out_bytes == 0 && c->state == omapi_connection_disconnecting) {
--+		omapi_disconnect (h, 1);
--+		return ISC_R_SHUTTINGDOWN;
--+	}
--+
-- 	return ISC_R_SUCCESS;
-- }
-- 
--diff --git a/omapip/message.c b/omapip/message.c
--index 59ccdc2..21bcfc3 100644
----- a/omapip/message.c
--+++ b/omapip/message.c
--@@ -339,7 +339,7 @@ isc_result_t omapi_message_unregister (omapi_object_t *mo)
-- }
-- 
-- #ifdef DEBUG_PROTOCOL
---static const char *omapi_message_op_name(int op) {
--+const char *omapi_message_op_name(int op) {
-- 	switch (op) {
-- 	case OMAPI_OP_OPEN:    return "OMAPI_OP_OPEN";
-- 	case OMAPI_OP_REFRESH: return "OMAPI_OP_REFRESH";
---- 
--2.7.4
--
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-similarity index 65%
-rename from meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
-rename to meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-index cc13549..3f2fc29 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-@@ -7,16 +7,14 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
-             file://0006-site.h-enable-gentle-shutdown.patch \
-             file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
--            file://0008-tweak-to-support-external-bind.patch \
-             file://0009-remove-dhclient-script-bash-dependency.patch \
--            file://0010-build-shared-libs.patch \
--            file://0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
-             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
--            file://CVE-2017-3144.patch \
--           "
-+"
- 
--SRC_URI[md5sum] = "afa6e9b3eb7539ea048421a82c668adc"
--SRC_URI[sha256sum] = "a41eaf6364f1377fe065d35671d9cf82bbbc8f21207819b2b9f33f652aec6f1b"
-+SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
-+SRC_URI[sha256sum] = "2a22508922ab367b4af4664a0472dc220cc9603482cf3c16d9aff14f3a76b608"
+ Upstream-Status: Backport
+ Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 +
-+LDFLAGS_append = " -pthread"
+ ---
+  NEWS          |  4 ++++
+  doc/find.texi | 15 ++++++++++++++-
+@@ -37,22 +38,22 @@ Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+  4 files changed, 46 insertions(+), 1 deletion(-)
  
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+ diff --git a/NEWS b/NEWS
+-index 88cf17d..9809bf4 100644
++index 660c241..b86ec1e 100644
+ --- a/NEWS
+ +++ b/NEWS
+-@@ -42,6 +42,10 @@
+-
+- ** Bug Fixes
+-
++@@ -42,6 +42,10 @@ Updated the Danish translation.
++ 
++ ** Bug Fixes:
++ 
+ +#52981: find: the '-delete' action no longer complains about disappeared files
+ +        when the '-ignore_readdir_race' option is given, too.  That action will
+ +        also returns true in such a case now.
+ +
+  Applied patch #8688: Spelling fixes.
+-
++ 
+  * Major changes in release 4.5.18, 2015-12-27
+ diff --git a/doc/find.texi b/doc/find.texi
+-index 3580be7..0089193 100644
++index fdeb841..247c19a 100644
+ --- a/doc/find.texi
+ +++ b/doc/find.texi
+ @@ -1418,7 +1418,15 @@ gives a significant increase in search speed.
+@@ -85,11 +86,11 @@ index 3580be7..0089193 100644
+  
+  @node Adding Tests
+ diff --git a/find/find.1 b/find/find.1
+-index 0437cd8..0d44c37 100644
++index 7b141b8..0eec41c 100644
+ --- a/find/find.1
+ +++ b/find/find.1
+-@@ -479,6 +479,17 @@ this option on and part of it with this option off
+- (if you need to do that, you will need to issue two \fBfind\fR commands
++@@ -479,6 +479,17 @@ one part of the filesystem with this option on and part of it with this option
++ off (if you need to do that, you will need to issue two \fBfind\fR commands
+  instead, one with the option and one without it).
+  
+ +Furthermore,
+@@ -125,7 +126,7 @@ index 0437cd8..0d44c37 100644
+  Execute \fIcommand\fR; true if 0 status is returned.  All following
+  arguments to
+ diff --git a/find/pred.c b/find/pred.c
+-index 7e2a7bd..af3bacb 100644
++index 32938fb..431f065 100644
+ --- a/find/pred.c
+ +++ b/find/pred.c
+ @@ -324,6 +324,12 @@ pred_delete (const char *pathname, struct stat *stat_buf, struct predicate *pred
+@@ -141,5 +142,3 @@ index 7e2a7bd..af3bacb 100644
+  	  if (EISDIR == errno)
+  	    {
+  	      if ((flags & AT_REMOVEDIR) == 0)
+---
+-cgit v1.0-41-gc330
 -- 
-2.7.4
+2.18.0
 
 
