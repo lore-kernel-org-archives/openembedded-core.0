@@ -1,26 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AFD975034
+	by mail.openembedded.org (Postfix) with ESMTP id 4A99374EDD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 07:18:58 +0000 (UTC)
+	Mon, 25 Jun 2018 07:22:39 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5P7Ist9024298
+	w5P7MZrU024396
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 25 Jun 2018 08:18:55 +0100
-Message-ID: <575b002da9b0b86490a3eada07f254428549965e.camel@linuxfoundation.org>
+	verify=NOT); Mon, 25 Jun 2018 08:22:36 +0100
+Message-ID: <226b5eb6a987a309622e0e28002a4c5550accefe.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jun 2018 08:18:54 +0100
-In-Reply-To: <1529783581-46179-9-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1529783581-46179-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<1529783581-46179-9-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>, Alexander Kanavin
+	<alex.kanavin@gmail.com>
+Date: Mon, 25 Jun 2018 08:22:35 +0100
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF7363AEB0BC@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1527502858-81691-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CAJTo0LZVcc+_ocfuYEUBKK0Hbr0SaZEH7CUYKK17gMk+CXwxwg@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9A7F@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-ege3VdhZ_AR=CpTmOZc3yyO55BOpt0YZNMk+Ww2BpJA@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AE9E2F@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-xJa=pQwc3ORfzjOXqvOyKWHbOFVFPh=oH1J-urrZmKg@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF7363AEB0BC@G08CNEXMBPEKD01.g08.fujitsu.local>
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
 X-Virus-Scanned: clamav-milter 0.99.4 at dan
 X-Virus-Status: Clean
-Subject: Re: [PATCH 8/8] [PATCH v2] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 07:18:58 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 07:22:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2018-06-24 at 03:53 +0800, Zheng Ruoqin wrote:
-> Add dnf-nativesdk and it's runtime dependence to make dnf work on
-> cross-development environment.
+On Sat, 2018-06-23 at 10:50 +0000, Zheng, Ruoqin wrote:
+> Yes, modifying the image recipe can actually customize your root file
+> system, as linux vendors, they are familiar with bitbake and it's
+> very easy to them.
+> But, as I know, there are many users who are not very familiar with
+> bitbake but also want to customize their root file system. And it's
+> hard to make them learn how to use bitbake. 
 > 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> So if dnf-nativesdk can be used in sdk, as linux vendors, they only
+> need to provide rpm packages and sdk to users instead of teaching
+> them how to use bitbake. At last, users can use dnf-nativesdk to
+> manage their packages as what they do in their host.
+> 
+> So I hope to add dnf-nativesdk in toolchain.
 
-I don't mind adding enough of the changes so that dnf-nativesdk is
-buildable so some of your other patches can be merged.
+I've just replied to the patch. We did once consider extending meta-
+toolchain this way however we also found it simply does not scale.
 
-I do not want to add dnf-nativesdk to meta-toolchain by default however
-as there are many people who don't need this there. I'd suggest this is
-a customisation you'll need to maintain yourselves.
+For example, you can have users add/remote packages but what happens
+when they want to build a new package? Or build a new rootfs?
 
-I appreciate why you want to do this, I also believe we have a better
-technique in the form of the eSDK, where we can use the same tools and
-the same codebase to build for example a rootfs.
+We found that whatever we did with meta-toolchain, we were going to
+have to duplicate code that the core system already has.
 
-The eSDK use case (a locked sstate cache) is designed so that a user
-doesn't need to worry about a whole build, or building from scratch.
-They can use the same tools everyone else uses and the same workflow
-and code to bulld a rootfs or a recipe or any workflow. This makes it
-much more powerful and able to fulfil many different use cases compared
-to meta-toolchain. In the long run I'd therefore prefer we promote this
-and use the eSDK as I think it will become our preferred way of
-handling problems like this.
+For that reason we created eSDK and I'd much rather someone started
+with that and put wrappers around it for the common use cases
+(something like devtool) so that the user doesn't need to use bitbake
+(even if it is used for some things behind the scenes).
 
 Cheers,
 
 Richard
+
 
