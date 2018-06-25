@@ -1,49 +1,49 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 67D9574A03
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
+	[74.125.82.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 936E0746B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 11:34:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 07531184C8
+	Mon, 25 Jun 2018 13:25:08 +0000 (UTC)
+Received: by mail-ot0-f193.google.com with SMTP id i17-v6so4148983otl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:35:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 4rMphOmR2b7n
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2D998184AF
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 19A091A06D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0D3A91A064
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id 011BF912;
-	Mon, 25 Jun 2018 13:34:59 +0200 (CEST)
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id B37F29C0AD; Mon, 25 Jun 2018 13:34:58 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jun 2018 13:34:46 +0200
-Message-Id: <20180625113446.11638-2-olofjn@axis.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180625113446.11638-1-olofjn@axis.com>
-References: <20180625113446.11638-1-olofjn@axis.com>
-X-TM-AS-GCONF: 00
-Cc: Olof Johansson <olofjn@axis.com>
-Subject: [PATCH 2/2] insane.bbclass: Don't let warnings make previous errors non-fatal
+	Mon, 25 Jun 2018 06:25:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lA5kgTjMZj3GxzuqCebq/NgNdVUh1PlOF4aRf7uiiwE=;
+	b=K6Dh8JXwkdsOZOW4xi+1RFTyFS/PaQZBVORAiG9j3TYZJLxwyOS35Y3yOOHKGDoGa4
+	+j6JOlbW5R0/n5dq337BINyaV+uH5ja7AwkBij3QFD0WhegCA8D9r1ey82R5DFhtuqyp
+	kPVXn44k5bQVlYwVG7TGR/cK12ZVIAHtA5qN55Bcw83cl5+h6xk4ZI04HRH2/7tA+vog
+	M/IvTVuOa+oZrYy+On2DaEoBx9hAf2gC57DZhZeYtHnm0PzFRxCDZmn6D0xH0S0cUc0B
+	j6jatuM+6Va9pEju1m1AVsZVA/vdFtx+1s85hW00OcpIjkVQH+uNxfDCY6uv7JjB00SN
+	sHZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lA5kgTjMZj3GxzuqCebq/NgNdVUh1PlOF4aRf7uiiwE=;
+	b=WRPiAgg/cxgP0ogt14EupeddajG/I5S3lpUQJ8RUOjjBKoAvRBPC6ohgZQ3XxZRr1F
+	6LXKAefph9G9uvZzuiWcHOFa1C3wKn/f6dTyLOT3RhujGLaCQrJo0ehe62AUQBajzHe9
+	qts2G/zwKmsqqMEu8rWUOHGu4qTMwLW7llcnyNFWi2RaYdfcHrftx+gEya77zPcL74K2
+	HWsWDIP/oqUMKnixbXQ1Yv0lpgBxv4SIRdZSH1LoEiXtvGAwyX13O9anlwnuSfJTlduI
+	QTt6oNj5NAV9zUpErHKbxkfkrSOuf9rwqKo2ExsWY99RH0Fqn4441Zgnql6akasymqYR
+	y6vQ==
+X-Gm-Message-State: APt69E3GAhT7Y2ol2sDZFzkwBnZGU2UAnF1hfjBHuz06+Tbf6r8qSjLH
+	BDuc0TJHd2tDDpFpHcpcLz6hg5PesQd36oBpDeA=
+X-Google-Smtp-Source: AAOMgpcpfaxQW/T8FzLTMuE7esACzN7Q3WQDMNBskKmy4jAttWhzTjw2nXt5j+unVSJuP+luqAiKeSvSS0oVN3s8Zgs=
+X-Received: by 2002:a9d:4115:: with SMTP id o21-v6mr43024ote.259.1529933109701;
+	Mon, 25 Jun 2018 06:25:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Mon, 25 Jun 2018 06:25:09
+	-0700 (PDT)
+In-Reply-To: <20180625092738.17962-1-olofjn@axis.com>
+References: <20180625092738.17962-1-olofjn@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 25 Jun 2018 15:25:09 +0200
+Message-ID: <CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+To: Olof Johansson <olof.johansson@axis.com>
+Cc: Olof Johansson <olofjn@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +56,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 11:34:59 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 13:25:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-package_qa_handle_error() returns True on non-fatal issues and False on
-fatal issues. But the current usage has been to do
+2018-06-25 11:27 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
+> RPM writes each package scriptlet (post-/preinstall) to /var/tmp/rpm-tmp.XXXXXX
+>  --- a lot of files get created. When debugging is enabled, these temporary
+> scriptlet files aren't cleaned up at all and after a while this results in the
+> filesystem resources are eaten up (like running out of available inodes).
+>
+> This is a quick fix to avoid this. It does degrade functionality for
+> those working with debugging pre-/postintall scripts.
 
-  sane = package_qa_handle_error(...)
+It's better to clean them up in meta/lib/oe/rootfs.py, instead of
+forever carrying a custom patch to rpm.
 
-which would always reset sanity status to be that of the last issue
-identified. This change the assignments to use the &= operator instead:
-
-  sane &= package_qa_handle_error(...)
-
-As far as I can tell, this is not a real problem in practice, because
-warnings of different levels (WARN_QA, ERROR_QA) does not seem to have
-been mixed in a way that triggered this issue.
-
-Signed-off-by: Olof Johansson <olofjn@axis.com>
----
- meta/classes/insane.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index bdfdc315aae..713b40eac42 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -600,7 +600,7 @@ python populate_lic_qa_checksum() {
-         return
- 
-     if not lic_files and d.getVar('SRC_URI'):
--        sane = package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
-+        sane &= package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
- 
-     srcdir = d.getVar('S')
-     corebase_licensefile = d.getVar('COREBASE') + "/LICENSE"
-@@ -608,11 +608,11 @@ python populate_lic_qa_checksum() {
-         try:
-             (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-         except bb.fetch.MalformedUrl:
--            sane = package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
-+            sane &= package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url, d)
-             continue
-         srclicfile = os.path.join(srcdir, path)
-         if not os.path.isfile(srclicfile):
--            sane = package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
-+            sane &= package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
-             continue
- 
-         if (srclicfile == corebase_licensefile):
-@@ -696,7 +696,7 @@ python populate_lic_qa_checksum() {
-             else:
-                 msg = pn + ": LIC_FILES_CHKSUM is not specified for " +  url
-                 msg = msg + "\n" + pn + ": The md5 checksum is " + md5chksum
--            sane = package_qa_handle_error("license-checksum", msg, d)
-+            sane &= package_qa_handle_error("license-checksum", msg, d)
- 
-     if not sane:
-         bb.fatal("Fatal QA errors found, failing task.")
-@@ -733,14 +733,14 @@ def package_qa_check_staged(path,d):
-                     file_content = file_content.replace(recipesysroot, "")
-                     if workdir in file_content:
-                         error_msg = "%s failed sanity test (workdir) in path %s" % (file,root)
--                        sane = package_qa_handle_error("la", error_msg, d)
-+                        sane &= package_qa_handle_error("la", error_msg, d)
-             elif file.endswith(".pc"):
-                 with open(path) as f:
-                     file_content = f.read()
-                     file_content = file_content.replace(recipesysroot, "")
-                     if pkgconfigcheck in file_content:
-                         error_msg = "%s failed sanity test (tmpdir) in path %s" % (file,root)
--                        sane = package_qa_handle_error("pkgconfig", error_msg, d)
-+                        sane &= package_qa_handle_error("pkgconfig", error_msg, d)
- 
-     return sane
- 
--- 
-2.11.0
-
+Alex
 
