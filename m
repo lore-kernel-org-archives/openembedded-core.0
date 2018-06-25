@@ -1,50 +1,47 @@
-Return-Path: <jon.szymaniak.foss@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6981C745A7
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C6B71A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 17:51:44 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id d185-v6so13377979ioe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 10:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2jyJCcTKc01k8L9o6wYkSqudCp8bj8qb2MYnhcmOISo=;
-	b=Z7KaFeX6+snFaQY1h3HcQnyK/DNeNhduyjP5l06+9cVplXnaIdIJH0PnobAF9PRN/L
-	Ln/uueXMS2UfYOlLdua7tUisQF+VcCdlkbfSmpi3PgQQUZnv/R18JmuFJa6m1lpXbupX
-	KkKly81LEZETH0dV8t7cW6EpbluErAiwMivdYd4z5gOcECs993FIKrNDtFYrVPAMyt28
-	e1a0Gj+EFnWTnnjP+JEh2WF1yXCmWHgADaaVY1a352CeyFhI0vvvB56xl/pdvhNazidg
-	Y0SlkXAJgn0N3nxQe6t3kZlIukcGa9zA2YxDT7WUHPdu0rsFGQkPG+hXelGxKucLg7H/
-	vniw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2jyJCcTKc01k8L9o6wYkSqudCp8bj8qb2MYnhcmOISo=;
-	b=GGEXxSDCHY1Oy6IeU2RfOazYwNrKzwBjeWRxXu46bgi5umLkbkahW2or7cqNdm2lTp
-	LwD5Xz/HDNKcknf0Np+O5QYr2jTWALzlfvzyi0xHvy1eumqGDD3ZshiFr+A65crFXR07
-	f7kV7YCoA3obKwDbGvlqyF2n0SPY0RBBkWJlpcNLcUMXkixc1dN/QQQB4pFTOGl2rwhQ
-	CdulaRqSukekUCr5Qpp+jVg7/QeJAR3Wl8i/3ruq46STeQ6tNDhmi0efdVZ8Q0kd2YZ4
-	HfWMAkhtMcQ0v7ZStVxiyXCVIXM3D4SoKQc6cCA9i6aiR+Dp3NH2pRGlt0OJAYvr97rC
-	bm5Q==
-X-Gm-Message-State: APt69E3nVOhDN95Ou3mhxDhCMRVIiNraIz0gpPpWcOUm3capQyfQIYSO
-	Ff7EYEgpFuNLhsbvL8BB5xlbhTAp
-X-Google-Smtp-Source: AAOMgpeK2KrziedxUIMHJQMG/zRAkoRzx0xXbYxroFAsC73DGdl/M5vctpeCKy3+7jtYgIAcpvlEiQ==
-X-Received: by 2002:a6b:7111:: with SMTP id
-	q17-v6mr3199385iog.141.1529949105233; 
-	Mon, 25 Jun 2018 10:51:45 -0700 (PDT)
-Received: from localhost.localdomain
-	(207-229-172-14.s4620.c3-0.mct-cbr1.chi-mct.il.cable.rcncustomer.com.
-	[207.229.172.14]) by smtp.gmail.com with ESMTPSA id
-	z142-v6sm4616244itb.28.2018.06.25.10.51.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 25 Jun 2018 10:51:44 -0700 (PDT)
-From: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jun 2018 12:50:43 -0500
-Message-Id: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Cc: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
-Subject: [PATCH] qemu: Use capstone version included via git submodule
+	Mon, 25 Jun 2018 18:43:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 00E22184ED;
+	Mon, 25 Jun 2018 20:43:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id QiPgyVleoIAp; Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4D1E3184D7;
+	Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3A6DF1E075;
+	Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2ED7B1E054;
+	Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 229251F7F;
+	Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 13CC59C0AD; Mon, 25 Jun 2018 20:43:10 +0200 (CEST)
+Date: Mon, 25 Jun 2018 20:43:10 +0200
+From: Olof Johansson <olof.johansson@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <20180625184309.jctftt6owwq3res6@axis.com>
+Mail-Followup-To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <20180625092738.17962-1-olofjn@axis.com>
+	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 17:51:44 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 18:43:11 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-An optional dependency upon the capstone disassembler was introduced
-in QEMU v2.11.0-rc0. The necessary version of capstone is included
-in the QEMU repository as a git submodule.
+On 18-06-25 15:25 +0200, Alexander Kanavin wrote:
+> It's better to clean them up in meta/lib/oe/rootfs.py, instead of
+> forever carrying a custom patch to rpm.
 
-The QEMU configure script uses pkg-config to determine if an
-installation of capstone already exists on the system, and defaults to
-this, if found. However, there does not appear to be any capstone
-version or API compatibility checks.
+I have the same hesitations, but we don't know the filenames to
+clean up. We can't remove every /var/tmp/rpm-tmp.*, since they
+can be created by unrelated rpm executions.
 
-To avoid any potential version conflicts or API incompatibility issues
-in the future, use the `--enable-capstone=git` argument to force the use
-of the capstone version included by QEMU as a git submodule.
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+This suggests some (probably[*]) larger, upstreamable work done
+in rpm itself, to be able to configure that behavior. I think
+this is better than nothing, for now. Perhaps the bug report
+shouldn't be closed, and this be merged as a workaround? (It
+causes real issues, at least for images with lots of
+pre/postinstalls.)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 094a975177..37f8398967 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -23,6 +23,7 @@ EXTRA_OECONF = " \
-     --libexecdir=${libexecdir} \
-     --localstatedir=${localstatedir} \
-     --with-confsuffix=/${BPN} \
-+    --enable-capstone=git \
-     --disable-strip \
-     --disable-werror \
-     --target-list=${@get_qemu_target_list(d)} \
+Does anybody see value in what --rpmverbosity=debug brings, as
+opposed to the default level of info? Would dropping that from
+lib/oe/package_manager.py's RpmPM._invoke_dnf be a better
+solution, or workaround?
+
+(Or maybe this is a bug in dnf? At least, this side effect is not
+clearly documented, from what I can tell :))
+
 -- 
-2.14.1
+olofjn
 
+*) i'm not a c developer, so at least for me. :(
 
