@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BC4EC74E53
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3633744AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 10:09:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5PA9m42004838
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 25 Jun 2018 11:09:49 +0100
-Message-ID: <b3f7944ccabbcdefd8056b9c43ff884b7861c483.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 25 Jun 2018 11:09:48 +0100
-In-Reply-To: <CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
-References: <cover.1529603271.git.chris_larson@mentor.com>
-	<61dc8ffbd2c1268e13572d36916dbe3d54e51cce.1529603271.git.chris_larson@mentor.com>
-	<83bb6e51f031775c329e8d23f1d97151753e1f7d.camel@linuxfoundation.org>
-	<CABcZAN=aMU1Y7SFJwsJBnF=yKTZsbdx0=TwvsO7cp9HYbWyAcQ@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] bbpath-intercepts.bbclass: add class
+	Mon, 25 Jun 2018 11:34:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 69EB8184C8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:50 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id XPKK7qwdPc29
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:50 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id EF2BA184AF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CC5F51E064
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C06951E057
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id B3D7C912;
+	Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id A64959C0AD; Mon, 25 Jun 2018 13:34:49 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jun 2018 13:34:45 +0200
+Message-Id: <20180625113446.11638-1-olofjn@axis.com>
+X-Mailer: git-send-email 2.11.0
+X-TM-AS-GCONF: 00
+Cc: Olof Johansson <olofjn@axis.com>
+Subject: [PATCH 1/2] insane.bbclass: Make missing license file fatal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,36 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 10:09:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jun 2018 11:34:50 -0000
 
-On Fri, 2018-06-22 at 08:10 -0700, Christopher Larson wrote:
-> Yeah, I think in this case this works as a class, but you're right,
-> we should probably shift more to the python package. Namespacing is
-> probably a good idea, we've talked about doing that more in the past.
+If a license file referenced from LIC_FILES_CHKSUM doesn't exist,
+insane.bbclass would output an error message, but would continue the
+build. This change makes this error fatal (as I suspect has been the
+intention).
 
-Whilst changing what we have today is hard, we can at least do better
-when we add new classes. I've been trying to, not sure how well its
-going but we can try!
+Signed-off-by: Olof Johansson <olofjn@axis.com>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> In this case it's technically not image-only, though an sdk uses the
-> same underlying functionality, so it's debatable. I wonder if we
-> should namespace into a subdirectory to also make it easier to make
-> sense of classes/ at a command-line, i.e. inherit image/postinst-
-> intercepts.bbclass? Hmmm.
-
-I'd thought about image verses sdk and decided its roughly "image" and
-clearer this way that any other I could come up with.
-
-There is an open bug about "global" classes verses "recipe" classes too
-and how hard it is to tell the difference currently. I'd probably
-favour splitting things up a bit. I'd not considered subdirs, its worth
-thinking about...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index bd7f51956a6..bdfdc315aae 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -612,7 +612,7 @@ python populate_lic_qa_checksum() {
+             continue
+         srclicfile = os.path.join(srcdir, path)
+         if not os.path.isfile(srclicfile):
+-            package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
++            sane = package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
+             continue
+ 
+         if (srclicfile == corebase_licensefile):
+-- 
+2.11.0
 
 
