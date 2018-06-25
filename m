@@ -1,48 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FF816AC00
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B6CD560237
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 19:48:07 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id v15-v6so2534344ual.11
+	Mon, 25 Jun 2018 20:52:56 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id g3-v6so7108035ljk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 12:48:08 -0700 (PDT)
+	Mon, 25 Jun 2018 13:52:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6MS6mpUWdjQOLAjHF38uamPaHyNE4vSk4SuJkdfFeCU=;
-	b=PsqJ1s8+T3jbiP/K/NYZiiUAkz+2bDH6sEvPhY9LRoHZPv4bqWas18cqqzY//xuF5Q
-	zPtVJfT3g65a84bS0xFTCCj5Hb5ZSCjCBo346mKOw6aHEItXHLbEE9PNUFGklcxiVd2v
-	bJZ9XVWq0iz2accDxbtc4Y1lPSePpDFIKdVQxDEzXGgclM0Lf8YdF99hN1bG+W7Spavi
-	gX0RAmztbdFZyoauSxDtqimYV6e+JFUySBu18DpHBtvy3gyLkU0UH5xXIHaSeRQVw/Dp
-	92AsEPED880ojSlR6TMCGoDc8RGkKlvS3s6y6VG9Da1VKWqN2zDYNWiYhAs6bXCYPThW
-	ivAA==
+	:cc; bh=OFRYrFbcGj13425ylUgcLKpz7okvZOatCgPgwvgLBEA=;
+	b=ibrWoQl4+NBLclEfLbEjnRzc44bZey+2w9dEgM0toR8tFphTLitaruKv3T1X7JTP5e
+	K4aMuwceL7I82IjkM1GxFNDx5N5T6beL4B87uItgqLDAISUwGmWQNNN39/5wTNsKu3dx
+	G0tYUJ0DFq7YpSmDvjjGG2l1A8uoJWEbo0rmmIWd0HNngNTOxQ9WrsfzGHvah5DPYJbP
+	hNARZzibTWl4KwL/z7Dgr6jHTVbb6tSN6bSVBmzyILRRkoHYB9hGXONPfDsjQNUt38VW
+	QW5rRpqA12wudDXjRSo+Wx4jmlfojcqBxM4pgcLOom4E1croFDkVViWTRpoRrw4BRLKI
+	jNZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6MS6mpUWdjQOLAjHF38uamPaHyNE4vSk4SuJkdfFeCU=;
-	b=ocOGmhb77rgYspHSje/7qe/YU0pXZxOhwvQONy3tFwg0LguCHGDVe+qKViDItSHOAI
-	LOrXhWmI63mVw7jeabBvArkLacuLS/bV2A0nE9ZXbusTUDP5hzHsBM6XKWSURfMxMSJS
-	QNTPIVwanm7surkYDHNbaxZyUzdt7j1R69lzUbOxUeWnN0QGYGC7dt+15u3Jndk5dmYh
-	fsm8k1+WzPPq/VIPxbJ7zq1KVPhK8tvoYpvgVyVezI/wdYBndIXEJbEzzq9bd8LdBTqC
-	WChahV2q5OujF6znE0WX4z84X8QJGR5VQ7tAlUdRT7/5rsi4e5nqs0A5MhNPIPHbpIXD
-	fvIA==
-X-Gm-Message-State: APt69E3U3BDXQg7el9bT36MLGjlgL7EqY0S8A1JQdHbte0cNQ+FfmuXA
-	P3OzcYvM/8LHRw9W6li4WHwwQH8WUDXlhJVEyWY=
-X-Google-Smtp-Source: AAOMgpevNJyBopIvCjOJIMpA7nPYFA84BmifueCRyYScIRewD1rGvt4hXoJX1NOwOukdCfPtV2S8mJkkC5vM354hazk=
-X-Received: by 2002:ab0:50ba:: with SMTP id
-	c55-v6mr9388915uaa.150.1529956088042; 
-	Mon, 25 Jun 2018 12:48:08 -0700 (PDT)
+	bh=OFRYrFbcGj13425ylUgcLKpz7okvZOatCgPgwvgLBEA=;
+	b=qhD/HSBtbMa09bSWCTgpJn9qZs5fqGTsLD5MdA2cq0MmmiFQt9Cdj6d0g8f2fPSwLN
+	Wq+a0h6cesaG10RyvQwfATKTnlKhWnC9c+FOVWn3qM5Wx1kiwKYiGSPZ80brcXXWUgBi
+	LRnSOLXVDlihwf+ZVCpxgbOCOP8zLbVBytXjrzIXT3stVCmnc8eJlTZwOTkwrLauFA0L
+	ouykEGeFpCVJko7j1QwKXeHUr6f/Gggi7rnOiQvPJp7f5QdUouMoY4vJstFeld/hrlH9
+	yIdJJVl58ON3gYlWztiRSknlr8PSFmGnpG2oSFUWQ3zzv8qG5T0BHWnvgMNrEQ5MUnRK
+	WZqw==
+X-Gm-Message-State: APt69E2DyiIFRe6XJfORgBITEcGuyU+IMa2gdyuIfHRJU4sGdzX4zgkD
+	RHt9SHlQFJc+uiyOpmeEM92wCRwamzwlJ4AARxo=
+X-Google-Smtp-Source: ADUXVKKPVGsuZu+ktLIJ/Z3uG4cdJU8WdDapRpRqYRMY/wyZOqYZABeE+clKmnIFomacKw/qZcebw+hLIxUZ+5gAAsk=
+X-Received: by 2002:a2e:1207:: with SMTP id
+	t7-v6mr3674878lje.129.1529959976712; 
+	Mon, 25 Jun 2018 13:52:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:28a:0:0:0:0:0 with HTTP;
-	Mon, 25 Jun 2018 12:48:07 -0700 (PDT)
-In-Reply-To: <1526595546-3621-1-git-send-email-armccurdy@gmail.com>
-References: <1526595546-3621-1-git-send-email-armccurdy@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 25 Jun 2018 12:48:07 -0700
-Message-ID: <CAJ86T=WUXvABmEMrU2VntSAoeWivquCWpWC6kwG4Xzfyz1-5Og@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] libnl: fix CVE-2017-0553
+Received: by 2002:a2e:5408:0:0:0:0:0 with HTTP; Mon, 25 Jun 2018 13:52:55
+	-0700 (PDT)
+In-Reply-To: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
+References: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 25 Jun 2018 16:52:55 -0400
+Message-ID: <CADkTA4P881jar5PygYaY+i4VD_rXYsXOOhU3eZDLWGDn4xRcCA@mail.gmail.com>
+To: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: Use capstone version included via git submodule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,96 +57,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 19:48:07 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 20:52:57 -0000
+Content-Type: multipart/alternative; boundary="000000000000eebe45056f7d90dc"
+
+--000000000000eebe45056f7d90dc
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 17, 2018 at 3:19 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> An elevation of privilege vulnerability in libnl could enable a local
-> malicious application to execute arbitrary code within the context of
-> the Wi-Fi service. This issue is rated as Moderate because it first
-> requires compromising a privileged process and is mitigated by
-> current platform configurations. Product: Android. Versions: 5.0.2,
-> 5.1.1, 6.0, 6.0.1, 7.0, 7.1.1. Android ID: A-32342065. NOTE: this
-> issue also exists in the upstream libnl before 3.3.0 library.
->
->   https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0553
->
-> Backport fix from upstream 3.3.0 release:
->
->   https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb
->   http://lists.infradead.org/pipermail/libnl/2017-May/002313.html
+On Mon, Jun 25, 2018 at 1:50 PM, Jon Szymaniak <jon.szymaniak.foss@gmail.com
+> wrote:
 
-Ping.
+> An optional dependency upon the capstone disassembler was introduced
+> in QEMU v2.11.0-rc0. The necessary version of capstone is included
+> in the QEMU repository as a git submodule.
+>
+> The QEMU configure script uses pkg-config to determine if an
+> installation of capstone already exists on the system, and defaults to
+> this, if found. However, there does not appear to be any capstone
+> version or API compatibility checks.
+>
+> To avoid any potential version conflicts or API incompatibility issues
+> in the future, use the `--enable-capstone=git` argument to force the use
+> of the capstone version included by QEMU as a git submodule.
+>
 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+How exactly does that work when the default qemu recipe is a tar.bz2
+download ?
+
+We can't have the recipe going out to the 'net and fetching / downloading
+source code .. and looking at the option, that appears to be what it would
+do. Or maybe I'm missing where the code is being fetched into place.
+
+This is something that looks like it could be controlled via packageconfig,
+or similar mechanism, versus being hard coded into the configure line.
+
+Also, the patch is missing your Signed-off-by:
+
+Cheers,
+
+Bruce
+
+
 > ---
->  ...eck-for-integer-overflow-in-nlmsg_reserve.patch | 43 ++++++++++++++++++++++
->  meta/recipes-support/libnl/libnl_3.2.28.bb         |  1 +
->  2 files changed, 44 insertions(+)
->  create mode 100644 meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
+>  meta/recipes-devtools/qemu/qemu.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
-> new file mode 100644
-> index 0000000..9e22c40
-> --- /dev/null
-> +++ b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
-> @@ -0,0 +1,43 @@
-> +From 1db543374db3e58faacdfd91e5061a8a595ce505 Mon Sep 17 00:00:00 2001
-> +From: Thomas Haller <thaller@redhat.com>
-> +Date: Mon, 6 Feb 2017 22:23:52 +0100
-> +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
-> +
-> +In general, libnl functions are not robust against calling with
-> +invalid arguments. Thus, never call libnl functions with invalid
-> +arguments. In case of nlmsg_reserve() this means never provide
-> +a @len argument that causes overflow.
-> +
-> +Still, add an additional safeguard to avoid exploiting such bugs.
-> +
-> +Assume that @pad is a trusted, small integer.
-> +Assume that n->nm_size is a valid number of allocated bytes (and thus
-> +much smaller then SIZE_T_MAX).
-> +Assume, that @len may be set to an untrusted value. Then the patch
-> +avoids an integer overflow resulting in reserving too few bytes.
-> +
-> +Upstream-Status: Backport [https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb]
-> +CVE: CVE-2017-0553
-> +
-> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> +---
-> + lib/msg.c | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/lib/msg.c b/lib/msg.c
-> +index e8a7e99..f30fd2d 100644
-> +--- a/lib/msg.c
-> ++++ b/lib/msg.c
-> +@@ -410,6 +410,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
-> +       size_t nlmsg_len = n->nm_nlh->nlmsg_len;
-> +       size_t tlen;
-> +
-> ++      if (len > n->nm_size)
-> ++              return NULL;
-> ++
-> +       tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
-> +
-> +       if ((tlen + nlmsg_len) > n->nm_size)
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-support/libnl/libnl_3.2.28.bb b/meta/recipes-support/libnl/libnl_3.2.28.bb
-> index 26982f3..a74b455 100644
-> --- a/meta/recipes-support/libnl/libnl_3.2.28.bb
-> +++ b/meta/recipes-support/libnl/libnl_3.2.28.bb
-> @@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
->  SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV', True).replace('.','_')}/${BP}.tar.gz \
->             file://fix-pktloc_syntax_h-race.patch \
->             file://fix-pc-file.patch \
-> +           file://lib-check-for-integer-overflow-in-nlmsg_reserve.patch \
->             file://0001-lib-add-utility-function-nl_strerror_l.patch \
->             file://0002-lib-switch-to-using-strerror_l-instead-of-strerror_r.patch \
->             file://0003-src-switch-to-using-strerror_l-instead-of-strerror_r.patch \
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc
+> b/meta/recipes-devtools/qemu/qemu.inc
+> index 094a975177..37f8398967 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -23,6 +23,7 @@ EXTRA_OECONF = " \
+>      --libexecdir=${libexecdir} \
+>      --localstatedir=${localstatedir} \
+>      --with-confsuffix=/${BPN} \
+> +    --enable-capstone=git \
+>      --disable-strip \
+>      --disable-werror \
+>      --target-list=${@get_qemu_target_list(d)} \
 > --
-> 1.9.1
+> 2.14.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--000000000000eebe45056f7d90dc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, Jun 25, 2018 at 1:50 PM, Jon Szymaniak <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:jon.szymaniak.foss@gmail.com" target=3D"_blank">jon.szymani=
+ak.foss@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">A=
+n optional dependency upon the capstone disassembler was introduced<br>
+in QEMU v2.11.0-rc0. The necessary version of capstone is included<br>
+in the QEMU repository as a git submodule.<br>
+<br>
+The QEMU configure script uses pkg-config to determine if an<br>
+installation of capstone already exists on the system, and defaults to<br>
+this, if found. However, there does not appear to be any capstone<br>
+version or API compatibility checks.<br>
+<br>
+To avoid any potential version conflicts or API incompatibility issues<br>
+in the future, use the `--enable-capstone=3Dgit` argument to force the use<=
+br>
+of the capstone version included by QEMU as a git submodule.<br></blockquot=
+e><div><br></div><div>How exactly does that work when the default qemu reci=
+pe is a tar.bz2 download ?</div><div><br></div><div>We can&#39;t have the r=
+ecipe going out to the &#39;net and fetching / downloading source code .. a=
+nd looking at the option, that appears to be what it would do. Or maybe I&#=
+39;m missing where the code is being fetched into place.</div><div><br></di=
+v><div>This is something that looks like it could be controlled via package=
+config, or similar mechanism, versus being hard coded into the configure li=
+ne.</div><div><br></div><div>Also, the patch is missing your Signed-off-by:=
+</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">
+---<br>
+=C2=A0meta/recipes-devtools/qemu/<wbr>qemu.inc | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/qemu/<wbr>qemu.inc b/meta/recipes-devtoo=
+ls/qemu/<wbr>qemu.inc<br>
+index 094a975177..37f8398967 100644<br>
+--- a/meta/recipes-devtools/qemu/<wbr>qemu.inc<br>
++++ b/meta/recipes-devtools/qemu/<wbr>qemu.inc<br>
+@@ -23,6 +23,7 @@ EXTRA_OECONF =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0--libexecdir=3D${libexecdir} \<br>
+=C2=A0 =C2=A0 =C2=A0--localstatedir=3D${<wbr>localstatedir} \<br>
+=C2=A0 =C2=A0 =C2=A0--with-confsuffix=3D/${BPN} \<br>
++=C2=A0 =C2=A0 --enable-capstone=3Dgit \<br>
+=C2=A0 =C2=A0 =C2=A0--disable-strip \<br>
+=C2=A0 =C2=A0 =C2=A0--disable-werror \<br>
+=C2=A0 =C2=A0 =C2=A0--target-list=3D${@get_qemu_<wbr>target_list(d)} \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
+2.14.1<br>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div></div>
+
+--000000000000eebe45056f7d90dc--
