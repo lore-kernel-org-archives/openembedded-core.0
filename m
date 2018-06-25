@@ -1,43 +1,54 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 399EE6079F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EA6376FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 16:16:33 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id l12-v6so2113752lja.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 09:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=/8dKt6D7RKEIWS/9PsEq7CAWvQxWiyKlib+7yn0+hqk=;
-	b=VRS1JR7IpLKhkG5W3GM0OQzyPIUTzI9FfZFewjLEXRxiMToydNmSVT3j3NDEfUwdrv
-	0V+7R1spFforZcMbSyu+bvcqe9E4GGJnkVooxXOI8kdRXi25pFjd2eGsZPP4fnAmiMM3
-	bvc4XQueTIBOmpPyNACzMiQE1S2jHahlZbd3e7W+xz7ufR5e14SQLvZaYBRxuxyETq91
-	uHPLlD/7PXaM59TCoRhjF1cGyKyyapRhHRoa3R0mDI3m0WoOsMJbIPAjH6yLDXehhScL
-	Ho2NJK5yGaRyAtr74lkZn7Am3L6J1PDfFt/m9cDTMghWXQb5/9B8G+lLff0PMOAsbl6M
-	PcfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=/8dKt6D7RKEIWS/9PsEq7CAWvQxWiyKlib+7yn0+hqk=;
-	b=cXU41UpJIC8vkLc3aW/86orYNArAo3kuo6DepOD7JSGkqN1i+QekitpYvl15WJsbqG
-	TLhrGh84HPyuhdAJqaEWpR/UpsloXVuVLoHUCDCeO50KKheEwebNoEprLLbMvxSaiVGW
-	YD8+eF4UV2mycmSm41aQceNvjR/r1H+AxahEmAe9AdUQynU+jTfNqc1Qa0tyDdPXlZlL
-	ByHzJg2wd0UfgasIzVn0daq/o1noc+SC6shfKtL4Eab16LU8MgFwkT2Q8rcOfLn0B3kM
-	Ragy6NFccfrHLDYr5UiyVn6NtrYlDhWagVH50fhODHJOACX2757mWe4c6RVf5KqZaSby
-	YwTQ==
-X-Gm-Message-State: APt69E0PVp9kqU7vcxt1AxJDR+fmCl2feDVTCDhNbGfvLQP+N4JXtyAq
-	uCv4GP9BA3J0c99CG8d/W0n8nkeFmdEJArR6B1YynQ/q
-X-Google-Smtp-Source: ADUXVKJldzjEOAXVrvM2E/g/ZVDSyFE0zXZ2Gjuk3ivDztqhRpiNsvz4RSnLn1ZsxqGP7yrPZdu7DbYkhOkt325XHjA=
-X-Received: by 2002:a2e:2f02:: with SMTP id
-	v2-v6mr8490004ljv.113.1529943394188; 
-	Mon, 25 Jun 2018 09:16:34 -0700 (PDT)
+	Mon, 25 Jun 2018 16:47:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5PGl5IX019538
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 25 Jun 2018 09:47:06 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 25 Jun 2018 09:47:04 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Olof Johansson
+	<olof.johansson@axis.com>
+References: <20180625092738.17962-1-olofjn@axis.com>
+	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
+Date: Mon, 25 Jun 2018 11:47:04 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.8.0
 MIME-Version: 1.0
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Mon, 25 Jun 2018 18:16:17 +0200
-Message-ID: <CAPybu_0D812dEQsOZX8-o-w7roTkqpXdUNsHjM0eJ2R8f6Z+eA@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Bug with multiconfig and allarch packages
+In-Reply-To: <CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Olof Johansson <olofjn@axis.com>
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,218 +61,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 16:16:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 25 Jun 2018 16:47:14 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hello
+On 6/25/18 8:25 AM, Alexander Kanavin wrote:
+> 2018-06-25 11:27 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
+>> RPM writes each package scriptlet (post-/preinstall) to /var/tmp/rpm-tmp.XXXXXX
+>>  --- a lot of files get created. When debugging is enabled, these temporary
+>> scriptlet files aren't cleaned up at all and after a while this results in the
+>> filesystem resources are eaten up (like running out of available inodes).
+>>
+>> This is a quick fix to avoid this. It does degrade functionality for
+>> those working with debugging pre-/postintall scripts.
+> 
+> It's better to clean them up in meta/lib/oe/rootfs.py, instead of
+> forever carrying a custom patch to rpm.
 
-I have a setup on sumo with 4 multiconfig, 3xX86 and 1xarm64. While
-building recipes that are native and allarch at the same time (from
-meta-java). I am having a lot of these errors. Is this something that
-is currently beeing fixed? Am I the only one seeing this?
+My question is "why is this a problem"?  (Why is debugging on for normal usage?)
 
-Thanks
+If you want to enable debugging with RPM, leaving the files is the right answer.
+ Otherwise, as mentioned in the post it's REALLY hard to debug scriptlet failures.
 
+As for the rootfs.py cleaning them up, it's simply not possible -- assuming they
+end up in a shared tmp dir, as you wouldn't have any idea who created them..
+this build, or another, or a system process....  (Now if they only install into
+the image's /var/tmp, thats a completely different case -- but I still question
+why debug is enabled at all.)
 
-pokyuser@d3d188f59a44:/workdir/build$ bitbake world
-Loading cache: 100%
-|#########################################################################################################|
-Time: 0:00:01
-Loaded 6496 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-NOTE: Resolving any missing task queue dependencies
-NOTE: Resolving any missing task queue dependencies
-NOTE: Resolving any missing task queue dependencies
+--Mark
 
-Build Configuration:
-BB_VERSION           = "1.37.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qt5122"
-DISTRO               = "poky-qtec"
-DISTRO_VERSION       = "2.5"
-TUNE_FEATURES        = "dbfp4"
-TARGET_FPU           = ""
-meta
-meta-poky            = "HEAD:9491680e244bee211d45d3d5a9ab7ed96b7b9b6a"
-meta-qtec-bsp        = "HEAD:a10b73103c2baa58cc5c0c44bfd64b9d48919fe4"
-meta-clang           = "HEAD:536536152263e06875722913548f9367f11ab51b"
-meta-qtec-distro     = "HEAD:b916f2cd20010d57979b14837424c7edc53e0d54"
-meta-java            = "HEAD:598499a6d222365417f1fd2e080d30277aec166c"
-meta-qt5             = "HEAD:bc20e3dcd0176529740beb59ccf1f170b9f828a8"
-meta-qtec-hockey     = "HEAD:4d6062504a6d9983d276e6b9d6d77ae6121600c0"
-meta-qtec-bottle     = "HEAD:d235d301bfaa804b76a67d264e9f77b224c59104"
+> Alex
+> 
 
-
-Build Configuration:
-BB_VERSION           = "1.37.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "inteli7"
-DISTRO               = "poky-qtec"
-DISTRO_VERSION       = "2.5"
-TUNE_FEATURES        = "m64 corei7"
-TARGET_FPU           = ""
-meta
-meta-poky            = "HEAD:9491680e244bee211d45d3d5a9ab7ed96b7b9b6a"
-meta-qtec-bsp        = "HEAD:a10b73103c2baa58cc5c0c44bfd64b9d48919fe4"
-meta-clang           = "HEAD:536536152263e06875722913548f9367f11ab51b"
-meta-qtec-distro     = "HEAD:b916f2cd20010d57979b14837424c7edc53e0d54"
-meta-java            = "HEAD:598499a6d222365417f1fd2e080d30277aec166c"
-meta-qt5             = "HEAD:bc20e3dcd0176529740beb59ccf1f170b9f828a8"
-meta-qtec-hockey     = "HEAD:4d6062504a6d9983d276e6b9d6d77ae6121600c0"
-meta-qtec-bottle     = "HEAD:d235d301bfaa804b76a67d264e9f77b224c59104"
-
-
-Build Configuration:
-BB_VERSION           = "1.37.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "aarch64-poky-linux"
-MACHINE              = "qt5506"
-DISTRO               = "poky-qtec"
-DISTRO_VERSION       = "2.5"
-TUNE_FEATURES        = "aarch64"
-TARGET_FPU           = ""
-meta
-meta-poky            = "HEAD:9491680e244bee211d45d3d5a9ab7ed96b7b9b6a"
-meta-qtec-bsp        = "HEAD:a10b73103c2baa58cc5c0c44bfd64b9d48919fe4"
-meta-clang           = "HEAD:536536152263e06875722913548f9367f11ab51b"
-meta-qtec-distro     = "HEAD:b916f2cd20010d57979b14837424c7edc53e0d54"
-meta-java            = "HEAD:598499a6d222365417f1fd2e080d30277aec166c"
-meta-qt5             = "HEAD:bc20e3dcd0176529740beb59ccf1f170b9f828a8"
-meta-qtec-hockey     = "HEAD:4d6062504a6d9983d276e6b9d6d77ae6121600c0"
-meta-qtec-bottle     = "HEAD:d235d301bfaa804b76a67d264e9f77b224c59104"
-
-
-Build Configuration:
-BB_VERSION           = "1.37.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qt5022"
-DISTRO               = "poky-qtec"
-DISTRO_VERSION       = "2.5"
-TUNE_FEATURES        = "bobcat"
-TARGET_FPU           = ""
-meta
-meta-poky            = "HEAD:9491680e244bee211d45d3d5a9ab7ed96b7b9b6a"
-meta-qtec-bsp        = "HEAD:a10b73103c2baa58cc5c0c44bfd64b9d48919fe4"
-meta-clang           = "HEAD:536536152263e06875722913548f9367f11ab51b"
-meta-qtec-distro     = "HEAD:b916f2cd20010d57979b14837424c7edc53e0d54"
-meta-java            = "HEAD:598499a6d222365417f1fd2e080d30277aec166c"
-meta-qt5             = "HEAD:bc20e3dcd0176529740beb59ccf1f170b9f828a8"
-meta-qtec-hockey     = "HEAD:4d6062504a6d9983d276e6b9d6d77ae6121600c0"
-meta-qtec-bottle     = "HEAD:d235d301bfaa804b76a67d264e9f77b224c59104"
-
-Initialising tasks: 100%
-|####################################################################################################|
-Time: 0:02:33
-Checking sstate mirror object availability: 100%
-|############################################################################|
-Time: 0:00:00
-NOTE: Executing SetScene Tasks
-ERROR: mc:inteli7:cup-0.10k-r0 do_package_write_deb_setscene: Error
-executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_package_write_deb_setscene(d)
-     0003:
-File: '/workdir/repo/poky/meta/classes/package_deb.bbclass', lineno:
-345, function: do_package_write_deb_setscene
-     0341:
-     0342:    if os.access(os.path.join(tmpdir, "stamps",
-"DEB_PACKAGE_INDEX_CLEAN"),os.R_OK):
-     0343:        os.unlink(os.path.join(tmpdir, "stamps",
-"DEB_PACKAGE_INDEX_CLEAN"))
-     0344:
- *** 0345:    sstate_setscene(d)
-     0346:}
-     0347:addtask do_package_write_deb_setscene
-     0348:
-     0349:python () {
-File: '/workdir/repo/poky/meta/classes/sstate.bbclass', lineno: 685,
-function: sstate_setscene
-     0681:            break
-     0682:
-     0683:def sstate_setscene(d):
-     0684:    shared_state = sstate_state_fromvars(d)
- *** 0685:    accelerate = sstate_installpkg(shared_state, d)
-     0686:    if not accelerate:
-     0687:        bb.fatal("No suitable staging package found")
-     0688:
-     0689:python sstate_task_prefunc () {
-File: '/workdir/repo/poky/meta/classes/sstate.bbclass', lineno: 332,
-function: sstate_installpkg
-     0328:    for f in (d.getVar('SSTATEPREINSTFUNCS') or '').split()
-+ ['sstate_unpack_package']:
-     0329:        # All hooks should run in the SSTATE_INSTDIR
-     0330:        bb.build.exec_func(f, d, (sstateinst,))
-     0331:
- *** 0332:    return sstate_installpkgdir(ss, d)
-     0333:
-     0334:def sstate_installpkgdir(ss, d):
-     0335:    import oe.path
-     0336:    import subprocess
-File: '/workdir/repo/poky/meta/classes/sstate.bbclass', lineno: 354,
-function: sstate_installpkgdir
-     0350:        oe.path.remove(dir)
-     0351:
-     0352:    for state in ss['dirs']:
-     0353:        prepdir(state[1])
- *** 0354:        os.rename(sstateinst + state[0], state[1])
-     0355:    sstate_install(ss, d)
-     0356:
-     0357:    for plain in ss['plaindirs']:
-     0358:        workdir = d.getVar('WORKDIR')
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
-'/workdir/build/tmp/work/all-poky-linux/cup/0.10k-r0/sstate-install-package_write_deb/deploy-debs'
--> '/workdir/build/tmp/work/all-poky-linux/cup/0.10k-r0/deploy-debs'
-
-WARNING: Logfile for failed setscene task is
-/workdir/build/tmp/work/all-poky-linux/cup/0.10k-r0/temp/log.do_package_write_deb_setscene.5232
-WARNING: Setscene task
-(multiconfig:inteli7:/workdir/repo/poky/../meta-java/recipes-core/cup/cup_0.10k.bb:do_package_write_deb_setscene)
-failed with exit code '1' - real task will be run instead
-ERROR: mc:qt5022:cup-0.10k-r0 do_package_qa_setscene: Package already
-staged (/workdir/build/tmp/sstate-control/manifest-allarch-cup.package_qa)?!
-WARNING: Logfile for failed setscene task is
-/workdir/build/tmp/work/all-poky-linux/cup/0.10k-r0/temp/log.do_package_qa_setscene.5298
-WARNING: Setscene task
-(multiconfig:qt5022:/workdir/repo/poky/../meta-java/recipes-core/cup/cup_0.10k.bb:do_package_qa_setscene)
-failed with exit code '1' - real task will be run instead
-ERROR: jlex-1.2.6-r0 do_package_qa_setscene: Package already staged
-(/workdir/build/tmp/sstate-control/manifest-allarch-jlex.package_qa)?!
-WARNING: Logfile for failed setscene task is
-/workdir/build/tmp/work/all-poky-linux/jlex/1.2.6-r0/temp/log.do_package_qa_setscene.5300
-WARNING: Setscene task
-(/workdir/repo/poky/../meta-java/recipes-core/jlex/jlex_1.2.6.bb:do_package_qa_setscene)
-failed with exit code '1' - real task will be run instead
-ERROR: mc:qt5506:jlex-1.2.6-r0 do_package_write_deb_setscene: Package
-already staged (/workdir/build/tmp/sstate-control/manifest-allarch-jlex.package_write_deb)?!
-WARNING: Logfile for failed setscene task is
-/workdir/build/tmp/work/all-poky-linux/jlex/1.2.6-r0/temp/log.do_package_write_deb_setscene.5345
-ERROR: mc:qt5022:rhino-1.7r4-r0 do_package_qa_setscene: Package
-already staged (/workdir/build/tmp/sstate-control/manifest-allarch-rhino.package_qa)?!
-WARNING: Logfile for failed setscene task is
-/workdir/build/tmp/work/all-poky-linux/rhino/1.7r4-r0/temp/log.do_package_qa_setscene.5349
-WARNING: Setscene task
-(multiconfig:qt5506:/workdir/repo/poky/../meta-java/recipes-core/jlex/jlex_1.2.6.bb:do_package_write_deb_setscene)
-failed with exit code '1' - real task will be run instead
-WARNING: Setscene task
-(multiconfig:qt5022:/workdir/repo/poky/../meta-java/recipes-core/rhino/rhino_1.7r4.bb:do_package_qa_setscene)
-failed with exit code '1' - real task will be run instead
-NOTE: Executing RunQueue Tasks
-No currently running tasks (22732 of 22734)  99%
-|#########################################################################################
-|
-
-
-
--- 
-Ricardo Ribalda
 
