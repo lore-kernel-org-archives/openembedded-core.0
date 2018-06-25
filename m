@@ -1,49 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 936E0746B2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ot0-f180.google.com (mail-ot0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C497A746B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 13:25:08 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id i17-v6so4148983otl.1
+	Mon, 25 Jun 2018 13:41:18 +0000 (UTC)
+Received: by mail-ot0-f180.google.com with SMTP id w9-v6so15067827otj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 06:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 25 Jun 2018 06:41:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lA5kgTjMZj3GxzuqCebq/NgNdVUh1PlOF4aRf7uiiwE=;
-	b=K6Dh8JXwkdsOZOW4xi+1RFTyFS/PaQZBVORAiG9j3TYZJLxwyOS35Y3yOOHKGDoGa4
-	+j6JOlbW5R0/n5dq337BINyaV+uH5ja7AwkBij3QFD0WhegCA8D9r1ey82R5DFhtuqyp
-	kPVXn44k5bQVlYwVG7TGR/cK12ZVIAHtA5qN55Bcw83cl5+h6xk4ZI04HRH2/7tA+vog
-	M/IvTVuOa+oZrYy+On2DaEoBx9hAf2gC57DZhZeYtHnm0PzFRxCDZmn6D0xH0S0cUc0B
-	j6jatuM+6Va9pEju1m1AVsZVA/vdFtx+1s85hW00OcpIjkVQH+uNxfDCY6uv7JjB00SN
-	sHZg==
+	:cc; bh=/qt1qSkw7Bi9G8DTWSUglSICYh/F5U1wq3S+5dcBAUg=;
+	b=yHodD1soa0PP0NRKszi82agkSdpkX1bPBJUBJ2OYdOYIjcdUm4X5Sd4s3a7Z5Vwopd
+	+LyL0X3KerMpf1BHPkmDqigS1jqQeKz+RQV174nksJwMUGygNVlHJdNiogJhlbM26dkx
+	ituOy6X2ipS+HgHi7Iyk3RaxSt6yoAh3ELcTTkpEoBhtsdCmr/e86QDPiPHqmnlEkdkw
+	l822Vrq8I8FR/2OwbHvjMQH7w2lEO54YLTOqESF5WbQVGD27y8H+CUySLZg5/eIcw/ku
+	0ErHCnBI/Mdi89xLJDEeE3CAO02M4mshnRFfRUXb9z1eOHoSMFMagYmp+gzPJuIsCeHV
+	W6Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=lA5kgTjMZj3GxzuqCebq/NgNdVUh1PlOF4aRf7uiiwE=;
-	b=WRPiAgg/cxgP0ogt14EupeddajG/I5S3lpUQJ8RUOjjBKoAvRBPC6ohgZQ3XxZRr1F
-	6LXKAefph9G9uvZzuiWcHOFa1C3wKn/f6dTyLOT3RhujGLaCQrJo0ehe62AUQBajzHe9
-	qts2G/zwKmsqqMEu8rWUOHGu4qTMwLW7llcnyNFWi2RaYdfcHrftx+gEya77zPcL74K2
-	HWsWDIP/oqUMKnixbXQ1Yv0lpgBxv4SIRdZSH1LoEiXtvGAwyX13O9anlwnuSfJTlduI
-	QTt6oNj5NAV9zUpErHKbxkfkrSOuf9rwqKo2ExsWY99RH0Fqn4441Zgnql6akasymqYR
-	y6vQ==
-X-Gm-Message-State: APt69E3GAhT7Y2ol2sDZFzkwBnZGU2UAnF1hfjBHuz06+Tbf6r8qSjLH
-	BDuc0TJHd2tDDpFpHcpcLz6hg5PesQd36oBpDeA=
-X-Google-Smtp-Source: AAOMgpcpfaxQW/T8FzLTMuE7esACzN7Q3WQDMNBskKmy4jAttWhzTjw2nXt5j+unVSJuP+luqAiKeSvSS0oVN3s8Zgs=
-X-Received: by 2002:a9d:4115:: with SMTP id o21-v6mr43024ote.259.1529933109701;
-	Mon, 25 Jun 2018 06:25:09 -0700 (PDT)
+	bh=/qt1qSkw7Bi9G8DTWSUglSICYh/F5U1wq3S+5dcBAUg=;
+	b=ag0DWjqm27vsonawB8sGmqhNosr9CVGuuHKhwszF26suBXFkZ/d3b3+lXwQ1v8nrwD
+	w+WeTMMwnoJvbERfyNyXk/lQS0MGdn7x5UQI2ra5zdzIezPBldvQxcabeNOy27iljnAN
+	ZpVvjHgwsW5xSyTCBDGlDJDBYanDxDQivLOyorPaa/824Mvnnw6/wK/1DFNv8HEdld/G
+	3w1zCynLHuTbNGYq1L8DVvO+HDsvgyT9OBKINYDSoQXOmJ8ND8w/8i+7s0Jh/5KvAmXY
+	rjXIAS2O0wJLcb6W+/Jj4CPaiqKbjjm+lPsPsfIBi0Xx/lkSsFZ3lPz1YbY0n2xsFJcg
+	dKpQ==
+X-Gm-Message-State: APt69E2touKu06PZPL+iMgDxV7ARvIeBdoD6lt5F2YiEA0qzZlBnFg86
+	STzk9q5piW+0tllHKxAXSu5+1AA7L5lT25akRtpd3g==
+X-Google-Smtp-Source: AAOMgpfxbamyCvhuiRvRiT3mTbqDCO6NPmDjE53PM84EdEjDxDRaJbLjnbh54jowxdUoxowCLsboCkYwwGjRZuiSld0=
+X-Received: by 2002:a9d:357:: with SMTP id 81-v6mr7833042otv.119.1529934079601;
+	Mon, 25 Jun 2018 06:41:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Mon, 25 Jun 2018 06:25:09
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP; Mon, 25 Jun 2018 06:40:59
 	-0700 (PDT)
-In-Reply-To: <20180625092738.17962-1-olofjn@axis.com>
-References: <20180625092738.17962-1-olofjn@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 25 Jun 2018 15:25:09 +0200
-Message-ID: <CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
-To: Olof Johansson <olof.johansson@axis.com>
-Cc: Olof Johansson <olofjn@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
+In-Reply-To: <c8a7632a1f27b73ac623c5399ed4e452f2b37571.1529919069.git.Qi.Chen@windriver.com>
+References: <cover.1529919069.git.Qi.Chen@windriver.com>
+	<c8a7632a1f27b73ac623c5399ed4e452f2b37571.1529919069.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 25 Jun 2018 14:40:59 +0100
+Message-ID: <CAJTo0LaW-4wBMWcp+ZdDJd0kKQMm_fRGo6nQph3GKXPJ6SuCPQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] oeqa/runtime/cases/systemd.py: avoid timeout problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,20 +57,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 13:25:08 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 13:41:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-2018-06-25 11:27 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
-> RPM writes each package scriptlet (post-/preinstall) to /var/tmp/rpm-tmp.XXXXXX
->  --- a lot of files get created. When debugging is enabled, these temporary
-> scriptlet files aren't cleaned up at all and after a while this results in the
-> filesystem resources are eaten up (like running out of available inodes).
+The busctl invocation will only rarely be called so is very prone to
+bitrot, maybe it should just always use busctl?
+
+Personally I think that there should be a way for VM time to be
+independent of host time to avoid this sort of problem...
+
+Ross
+
+On 25 June 2018 at 10:33, Chen Qi <Qi.Chen@windriver.com> wrote:
+> I've encountered the following error when doing testimage.
 >
-> This is a quick fix to avoid this. It does degrade functionality for
-> those working with debugging pre-/postintall scripts.
-
-It's better to clean them up in meta/lib/oe/rootfs.py, instead of
-forever carrying a custom patch to rpm.
-
-Alex
+>   RESULTS - systemd.SystemdBasicTests.test_systemd_list - Testcase 551: FAILED
+>
+> After investigation, I found that it's not functionality issue. It's
+> just that the qemu was not running fast enough. And it resulted 'time out'
+> problem when using `systemctl list-unit-files'.
+>
+> The correctness could be verified by using 'busctl' directly.
+> e.g.
+> busctl --timeout=240 call org.freedesktop.systemd1 \
+> /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager \
+> ListUnitFilesByPatterns asas 0 0
+>
+> Checking the source codes, I can see that the timeout is 25s. I don't
+> think we should patch systemd's source codes just for such a simple
+> runtime test case.
+>
+> So instead, I change the test case to use 'busctl' directly if
+> 'systemctl list-unit-files' gets a timeout error.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/systemd.py | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+> index db69384..b4f1025 100644
+> --- a/meta/lib/oeqa/runtime/cases/systemd.py
+> +++ b/meta/lib/oeqa/runtime/cases/systemd.py
+> @@ -81,7 +81,19 @@ class SystemdBasicTests(SystemdTest):
+>      @OETestID(551)
+>      @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
+>      def test_systemd_list(self):
+> -        self.systemctl('list-unit-files')
+> +        command = 'systemctl list-unit-files'
+> +        status, output = self.target.run(command)
+> +        message = '\n'.join([command, output])
+> +        match = re.search('Connection timed out', output)
+> +        if match:
+> +            # it's possible that qemu is running slow
+> +            # use busctl to check the results with timeout set to 240s
+> +            command = 'busctl --timeout=240 call org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager ListUnitFilesByPatterns asas 0 0'
+> +            status, output = self.target.run(command)
+> +            message = '\n'.join([command, output])
+> +            self.assertEqual(status, 0, message)
+> +        else:
+> +            self.assertEqual(status, 0, message)
+>
+>      @OETestID(550)
+>      @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
