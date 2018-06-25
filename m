@@ -1,54 +1,50 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA6376FF78
+Return-Path: <jon.szymaniak.foss@gmail.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6981C745A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 16:47:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5PGl5IX019538
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jun 2018 09:47:06 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 25 Jun 2018 09:47:04 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Olof Johansson
-	<olof.johansson@axis.com>
-References: <20180625092738.17962-1-olofjn@axis.com>
-	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
-Date: Mon, 25 Jun 2018 11:47:04 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Olof Johansson <olofjn@axis.com>
-Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
+	Mon, 25 Jun 2018 17:51:44 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id d185-v6so13377979ioe.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 10:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=2jyJCcTKc01k8L9o6wYkSqudCp8bj8qb2MYnhcmOISo=;
+	b=Z7KaFeX6+snFaQY1h3HcQnyK/DNeNhduyjP5l06+9cVplXnaIdIJH0PnobAF9PRN/L
+	Ln/uueXMS2UfYOlLdua7tUisQF+VcCdlkbfSmpi3PgQQUZnv/R18JmuFJa6m1lpXbupX
+	KkKly81LEZETH0dV8t7cW6EpbluErAiwMivdYd4z5gOcECs993FIKrNDtFYrVPAMyt28
+	e1a0Gj+EFnWTnnjP+JEh2WF1yXCmWHgADaaVY1a352CeyFhI0vvvB56xl/pdvhNazidg
+	Y0SlkXAJgn0N3nxQe6t3kZlIukcGa9zA2YxDT7WUHPdu0rsFGQkPG+hXelGxKucLg7H/
+	vniw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2jyJCcTKc01k8L9o6wYkSqudCp8bj8qb2MYnhcmOISo=;
+	b=GGEXxSDCHY1Oy6IeU2RfOazYwNrKzwBjeWRxXu46bgi5umLkbkahW2or7cqNdm2lTp
+	LwD5Xz/HDNKcknf0Np+O5QYr2jTWALzlfvzyi0xHvy1eumqGDD3ZshiFr+A65crFXR07
+	f7kV7YCoA3obKwDbGvlqyF2n0SPY0RBBkWJlpcNLcUMXkixc1dN/QQQB4pFTOGl2rwhQ
+	CdulaRqSukekUCr5Qpp+jVg7/QeJAR3Wl8i/3ruq46STeQ6tNDhmi0efdVZ8Q0kd2YZ4
+	HfWMAkhtMcQ0v7ZStVxiyXCVIXM3D4SoKQc6cCA9i6aiR+Dp3NH2pRGlt0OJAYvr97rC
+	bm5Q==
+X-Gm-Message-State: APt69E3nVOhDN95Ou3mhxDhCMRVIiNraIz0gpPpWcOUm3capQyfQIYSO
+	Ff7EYEgpFuNLhsbvL8BB5xlbhTAp
+X-Google-Smtp-Source: AAOMgpeK2KrziedxUIMHJQMG/zRAkoRzx0xXbYxroFAsC73DGdl/M5vctpeCKy3+7jtYgIAcpvlEiQ==
+X-Received: by 2002:a6b:7111:: with SMTP id
+	q17-v6mr3199385iog.141.1529949105233; 
+	Mon, 25 Jun 2018 10:51:45 -0700 (PDT)
+Received: from localhost.localdomain
+	(207-229-172-14.s4620.c3-0.mct-cbr1.chi-mct.il.cable.rcncustomer.com.
+	[207.229.172.14]) by smtp.gmail.com with ESMTPSA id
+	z142-v6sm4616244itb.28.2018.06.25.10.51.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Jun 2018 10:51:44 -0700 (PDT)
+From: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jun 2018 12:50:43 -0500
+Message-Id: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Cc: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
+Subject: [PATCH] qemu: Use capstone version included via git submodule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,38 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 16:47:14 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jun 2018 17:51:44 -0000
 
-On 6/25/18 8:25 AM, Alexander Kanavin wrote:
-> 2018-06-25 11:27 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
->> RPM writes each package scriptlet (post-/preinstall) to /var/tmp/rpm-tmp.XXXXXX
->>  --- a lot of files get created. When debugging is enabled, these temporary
->> scriptlet files aren't cleaned up at all and after a while this results in the
->> filesystem resources are eaten up (like running out of available inodes).
->>
->> This is a quick fix to avoid this. It does degrade functionality for
->> those working with debugging pre-/postintall scripts.
-> 
-> It's better to clean them up in meta/lib/oe/rootfs.py, instead of
-> forever carrying a custom patch to rpm.
+An optional dependency upon the capstone disassembler was introduced
+in QEMU v2.11.0-rc0. The necessary version of capstone is included
+in the QEMU repository as a git submodule.
 
-My question is "why is this a problem"?  (Why is debugging on for normal usage?)
+The QEMU configure script uses pkg-config to determine if an
+installation of capstone already exists on the system, and defaults to
+this, if found. However, there does not appear to be any capstone
+version or API compatibility checks.
 
-If you want to enable debugging with RPM, leaving the files is the right answer.
- Otherwise, as mentioned in the post it's REALLY hard to debug scriptlet failures.
+To avoid any potential version conflicts or API incompatibility issues
+in the future, use the `--enable-capstone=git` argument to force the use
+of the capstone version included by QEMU as a git submodule.
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-As for the rootfs.py cleaning them up, it's simply not possible -- assuming they
-end up in a shared tmp dir, as you wouldn't have any idea who created them..
-this build, or another, or a system process....  (Now if they only install into
-the image's /var/tmp, thats a completely different case -- but I still question
-why debug is enabled at all.)
-
---Mark
-
-> Alex
-> 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 094a975177..37f8398967 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -23,6 +23,7 @@ EXTRA_OECONF = " \
+     --libexecdir=${libexecdir} \
+     --localstatedir=${localstatedir} \
+     --with-confsuffix=/${BPN} \
++    --enable-capstone=git \
+     --disable-strip \
+     --disable-werror \
+     --target-list=${@get_qemu_target_list(d)} \
+-- 
+2.14.1
 
 
