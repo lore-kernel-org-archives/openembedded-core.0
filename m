@@ -1,23 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D8A6079F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4D5A751C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 09:31:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5P9V04N022262
+	Mon, 25 Jun 2018 09:31:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5P9VCYM015190
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 02:31:00 -0700 (PDT)
+	Mon, 25 Jun 2018 02:31:27 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 25 Jun 2018 02:30:47 -0700
+	14.3.399.0; Mon, 25 Jun 2018 02:31:01 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Jun 2018 17:33:50 +0800
-Message-ID: <cover.1529919069.git.Qi.Chen@windriver.com>
+Date: Mon, 25 Jun 2018 17:33:51 +0800
+Message-ID: <c8a7632a1f27b73ac623c5399ed4e452f2b37571.1529919069.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1529919069.git.Qi.Chen@windriver.com>
+References: <cover.1529919069.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] oeqa/runtime/cases/systemd.py: avoid timeout problem
+Subject: [PATCH 1/1] oeqa/runtime/cases/systemd.py: avoid timeout problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,24 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 09:31:03 -0000
+X-List-Received-Date: Mon, 25 Jun 2018 09:31:36 -0000
 Content-Type: text/plain
 
-The following changes since commit a5d1288804e517dee113cb9302149541f825d316:
+I've encountered the following error when doing testimage.
 
-  meta-yocto-bsp: Workaround the Ethernet malfunction on edgerouter when building with gcc8 (2018-06-21 09:59:26 +0100)
+  RESULTS - systemd.SystemdBasicTests.test_systemd_list - Testcase 551: FAILED
 
-are available in the git repository at:
+After investigation, I found that it's not functionality issue. It's
+just that the qemu was not running fast enough. And it resulted 'time out'
+problem when using `systemctl list-unit-files'.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-bus-timeout
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-bus-timeout
+The correctness could be verified by using 'busctl' directly.
+e.g.
+busctl --timeout=240 call org.freedesktop.systemd1 \
+/org/freedesktop/systemd1 org.freedesktop.systemd1.Manager \
+ListUnitFilesByPatterns asas 0 0
 
-Chen Qi (1):
-  oeqa/runtime/cases/systemd.py: avoid timeout problem
+Checking the source codes, I can see that the timeout is 25s. I don't
+think we should patch systemd's source codes just for such a simple
+runtime test case.
 
+So instead, I change the test case to use 'busctl' directly if
+'systemctl list-unit-files' gets a timeout error.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/lib/oeqa/runtime/cases/systemd.py | 14 +++++++++++++-
  1 file changed, 13 insertions(+), 1 deletion(-)
 
+diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+index db69384..b4f1025 100644
+--- a/meta/lib/oeqa/runtime/cases/systemd.py
++++ b/meta/lib/oeqa/runtime/cases/systemd.py
+@@ -81,7 +81,19 @@ class SystemdBasicTests(SystemdTest):
+     @OETestID(551)
+     @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
+     def test_systemd_list(self):
+-        self.systemctl('list-unit-files')
++        command = 'systemctl list-unit-files'
++        status, output = self.target.run(command)
++        message = '\n'.join([command, output])
++        match = re.search('Connection timed out', output)
++        if match:
++            # it's possible that qemu is running slow
++            # use busctl to check the results with timeout set to 240s
++            command = 'busctl --timeout=240 call org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager ListUnitFilesByPatterns asas 0 0'
++            status, output = self.target.run(command)
++            message = '\n'.join([command, output])
++            self.assertEqual(status, 0, message)
++        else:
++            self.assertEqual(status, 0, message)
+ 
+     @OETestID(550)
+     @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
 -- 
 1.9.1
 
