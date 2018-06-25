@@ -1,23 +1,26 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E51FF745A7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B12AF74FC3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2018 03:18:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5P3Iob4019857
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jun 2018 20:18:50 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Sun, 24 Jun 2018 20:18:49 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 24 Jun 2018 20:18:49 -0700
-Message-ID: <20180625031849.116287-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Subject: [V2][PATCH] findutils: update the patch to avoid patch fuzz warning
+	Mon, 25 Jun 2018 07:10:28 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5P7AMo5023770
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 25 Jun 2018 08:10:23 +0100
+Message-ID: <ec2d00133973b1c0a464aef2ac4f38035510a508.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jun 2018 08:10:21 +0100
+In-Reply-To: <1529783581-46179-5-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1529783581-46179-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<1529783581-46179-5-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 4/8][PATCH v2] libnewt-python: Add PROVIDES for nativesdk.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,66 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2018 03:18:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Jun 2018 07:10:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Regenerate the patch to avoid patch fuzz warning.
+On Sun, 2018-06-24 at 03:52 +0800, Zheng Ruoqin wrote:
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-devtools/file/file_5.32.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/file/file_5.32.bb b/meta/recipes-
+> devtools/file/file_5.32.bb
+> index 5e15925..9b13261 100644
+> --- a/meta/recipes-devtools/file/file_5.32.bb
+> +++ b/meta/recipes-devtools/file/file_5.32.bb
+> @@ -43,6 +43,8 @@ do_install_append_class-nativesdk() {
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+>  PROVIDES_append_class-native = " file-replacement-native"
+> +PROVIDES_append_class-nativesdk = " file-replacement-nativesdk"
+> +
+>  # Don't use NATIVE_PACKAGE_PATH_SUFFIX as that hides libmagic from
+> anyone who
+>  # depends on file-replacement-native.
+>  bindir_append_class-native = "/file-native"
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- ...-honour-the-ignore_readdir_race-opti.patch | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+The description is wrong, this isn't libnewt-python.
 
-diff --git a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-index 420e10da02..b9a8c08e4b 100644
---- a/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-+++ b/meta/recipes-extended/findutils/findutils/0001-find-make-delete-honour-the-ignore_readdir_race-opti.patch
-@@ -37,22 +37,22 @@ Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-  4 files changed, 46 insertions(+), 1 deletion(-)
- 
- diff --git a/NEWS b/NEWS
--index 88cf17d..9809bf4 100644
-+index 660c241..b86ec1e 100644
- --- a/NEWS
- +++ b/NEWS
--@@ -42,6 +42,10 @@
--
-- ** Bug Fixes
--
-+@@ -42,6 +42,10 @@ Updated the Danish translation.
-+ 
-+ ** Bug Fixes:
-+ 
- +#52981: find: the '-delete' action no longer complains about disappeared files
- +        when the '-ignore_readdir_race' option is given, too.  That action will
- +        also returns true in such a case now.
- +
-  Applied patch #8688: Spelling fixes.
--
-+ 
-  * Major changes in release 4.5.18, 2015-12-27
- diff --git a/doc/find.texi b/doc/find.texi
--index 3580be7..0089193 100644
-+index fdeb841..247c19a 100644
- --- a/doc/find.texi
- +++ b/doc/find.texi
- @@ -1418,7 +1418,15 @@ gives a significant increase in search speed.
-@@ -85,11 +85,11 @@ index 3580be7..0089193 100644
-  
-  @node Adding Tests
- diff --git a/find/find.1 b/find/find.1
--index 0437cd8..0d44c37 100644
-+index 7b141b8..0eec41c 100644
- --- a/find/find.1
- +++ b/find/find.1
--@@ -479,6 +479,17 @@ this option on and part of it with this option off
-- (if you need to do that, you will need to issue two \fBfind\fR commands
-+@@ -479,6 +479,17 @@ one part of the filesystem with this option on and part of it with this option
-+ off (if you need to do that, you will need to issue two \fBfind\fR commands
-  instead, one with the option and one without it).
-  
- +Furthermore,
--- 
-2.17.1
+Also, the use case for file-replacement-native is very specific to file
+from the host system verses file from file-native. Why would you ever
+need this for nativesdk? I'm not sure you'd ever need this?
 
+Cheers,
+
+Richard
 
