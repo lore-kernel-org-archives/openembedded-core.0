@@ -1,27 +1,30 @@
-Return-Path: <tykwon@m2i.co.kr>
-Received: from smtp1.hiworks.co.kr (smtp1.hiworks.co.kr [121.254.168.204])
-	by mail.openembedded.org (Postfix) with ESMTP id 9140160069
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 46ADD74740
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 02:19:37 +0000 (UTC)
-Received: (qmail 834 invoked from network); 26 Jun 2018 11:19:37 +0900
-Received: from unknown (HELO hiworks.co.kr) (192.168.10.219)
-	by 0 (qmail 1.03 + ejcp v14) with SMTP; 26 Jun 2018 11:19:37 +0900
-Received: (qmail 82043 invoked from network); 26 Jun 2018 11:19:36 +0900
-Received: from unknown (HELO DESKTOP3HTLQGF) (tykwon@m2i.co.kr@112.216.145.10)
-	by 0 (qmail 1.03 + ejcp v14) with SMTP; 26 Jun 2018 11:19:36 +0900
-X-Authinfo: HIWORKS SMTP authenticated
-	<tykwon@m2i.co.kr|112.216.145.10|tykwon@m2i.co.kr|180626111936_520982040>
-From: "tykwon" <tykwon@m2i.co.kr>
-To: "'tykwon'" <tykwon@m2i.co.kr>
-References: <0a9d01d40c65$a7effc60$f7cff520$@co.kr>
-In-Reply-To: <0a9d01d40c65$a7effc60$f7cff520$@co.kr>
-Date: Tue, 26 Jun 2018 11:19:37 +0900
-Message-ID: <0b1101d40cf4$21c3a350$654ae9f0$@co.kr>
+	Tue, 26 Jun 2018 05:44:26 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41506802"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 Jun 2018 13:44:26 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 635C74B41EF0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jun 2018 13:44:19 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Tue, 26 Jun 2018 13:44:24 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Jun 2018 13:44:17 +0800
+Message-ID: <1529991857-76866-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdQMZae6tB20CO98QsiSLfz4msbp2wAjlrLw
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: I get "will not overwrite just-created" error during hplip upgrade.
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 635C74B41EF0.A829A
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] glibc: fix CVE-2018-11237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,142 +37,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2018 02:19:38 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0B12_01D40D3F.91AB4B50"
-Content-Language: ko
+X-List-Received-Date: Tue, 26 Jun 2018 05:44:28 -0000
+Content-Type: text/plain
 
-------=_NextPart_000_0B12_01D40D3F.91AB4B50
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+glibc: fix CVE-2018-11237
 
->  I have verified the version of hplip by subdividing it.
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2018-11237.patch | 82 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.27.bb              |  1 +
+ 2 files changed, 83 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
 
->  Up to 3.17.9 is compiled and error starts from 3.17.10.
-
-As a result of checking again, error will occur from version 3.17.11.
-
-Up to version 3.17.10 will be compiled.
-
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch b/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
+new file mode 100644
+index 0000000..632aa56
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
+@@ -0,0 +1,82 @@
++From 9aaaab7c6e4176e61c59b0a63c6ba906d875dc0e Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Tue, 22 May 2018 10:37:59 +0200
++Subject: [PATCH] Don't write beyond destination in
++ __mempcpy_avx512_no_vzeroupper (bug 23196)
++
++When compiled as mempcpy, the return value is the end of the destination
++buffer, thus it cannot be used to refer to the start of it.
++
++2018-05-23  Andreas Schwab  <schwab@suse.de>
++
++       [BZ #23196]
++       CVE-2018-11237
++       * sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S
++       (L(preloop_large)): Save initial destination pointer in %r11 and
++       use it instead of %rax after the loop.
++       * string/test-mempcpy.c (MIN_PAGE_SIZE): Define.
++
++CVE: CVE-2018-11237
++Upstream-Status: Backport
++Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
++---
++ ChangeLog                                               | 9 +++++++++
++ string/test-mempcpy.c                                   | 1 +
++ sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S | 5 +++--
++ 3 files changed, 13 insertions(+), 2 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index fa0a07c..bc09dec 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,12 @@
+++2018-05-23  Andreas Schwab  <schwab@suse.de>
+++
+++	[BZ #23196]
+++	CVE-2018-11237
+++	* sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S
+++	(L(preloop_large)): Save initial destination pointer in %r11 and
+++	use it instead of %rax after the loop.
+++	* string/test-mempcpy.c (MIN_PAGE_SIZE): Define.
+++
++ 2018-05-09  Paul Pluzhnikov  <ppluzhnikov@google.com>
++ 
++ 	[BZ #22786]
++diff --git a/string/test-mempcpy.c b/string/test-mempcpy.c
++index c08fba8..d98ecdd 100644
++--- a/string/test-mempcpy.c
+++++ b/string/test-mempcpy.c
++@@ -18,6 +18,7 @@
++    <http://www.gnu.org/licenses/>.  */
++ 
++ #define MEMCPY_RESULT(dst, len) (dst) + (len)
+++#define MIN_PAGE_SIZE 131072
++ #define TEST_MAIN
++ #define TEST_NAME "mempcpy"
++ #include "test-string.h"
++diff --git a/sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S b/sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S
++index 23c0f7a..a55cf6f 100644
++--- a/sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S
+++++ b/sysdeps/x86_64/multiarch/memmove-avx512-no-vzeroupper.S
++@@ -335,6 +335,7 @@ L(preloop_large):
++ 	ja	L(preloop_large_bkw)
++ 	vmovups	(%rsi), %zmm4
++ 	vmovups	0x40(%rsi), %zmm5
+++	mov     %rdi, %r11
++ 
++ /* Align destination for access with non-temporal stores in the loop.  */
++ 	mov	%rdi, %r8
++@@ -366,8 +367,8 @@ L(gobble_256bytes_nt_loop):
++ 	cmp	$256, %rdx
++ 	ja	L(gobble_256bytes_nt_loop)
++ 	sfence
++-	vmovups	%zmm4, (%rax)
++-	vmovups	%zmm5, 0x40(%rax)
+++	vmovups %zmm4, (%r11)
+++	vmovups %zmm5, 0x40(%r11)
++ 	jmp	L(check)
++ 
++ L(preloop_large_bkw):
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
+index fe23eb6..b14c02c 100644
+--- a/meta/recipes-core/glibc/glibc_2.27.bb
++++ b/meta/recipes-core/glibc/glibc_2.27.bb
+@@ -46,6 +46,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0030-plural_c_no_preprocessor_lines.patch \
+            file://CVE-2017-18269.patch \
+            file://CVE-2018-11236.patch \
++           file://CVE-2018-11237.patch \
+ "
  
+ NATIVESDKFIXES ?= ""
+-- 
+2.7.4
 
 
-------=_NextPart_000_0B12_01D40D3F.91AB4B50
-Content-Type: text/html;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40">
 
-<head>
-<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii">
-<meta name=3DGenerator content=3D"Microsoft Word 12 (filtered medium)">
-<style>
-<!--
- /* Font Definitions */
- @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:"Malgun Gothic";
-	panose-1:2 11 5 3 2 0 0 2 0 4;}
-@font-face
-	{font-family:"Malgun Gothic";
-	panose-1:2 11 5 3 2 0 0 2 0 4;}
- /* Style Definitions */
- p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-autospace:none;
-	word-break:break-hangul;
-	font-size:10.0pt;
-	font-family:"Malgun Gothic";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
-	{mso-style-priority:99;
-	mso-style-link:"\D48D\C120 \B3C4\C6C0\B9D0 \D14D\C2A4\D2B8 Char";
-	margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-autospace:none;
-	word-break:break-hangul;
-	font-size:9.0pt;
-	font-family:"Malgun Gothic";}
-span.Char
-	{mso-style-name:"\D48D\C120 \B3C4\C6C0\B9D0 \D14D\C2A4\D2B8 Char";
-	mso-style-priority:99;
-	mso-style-link:"\D48D\C120 \B3C4\C6C0\B9D0 \D14D\C2A4\D2B8";
-	font-family:"Malgun Gothic";}
-span.EmailStyle19
-	{mso-style-type:personal;
-	font-family:"Malgun Gothic";
-	color:windowtext;}
-span.EmailStyle20
-	{mso-style-type:personal-reply;
-	font-family:"Malgun Gothic";
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page Section1
-	{size:612.0pt 792.0pt;
-	margin:3.0cm 72.0pt 72.0pt 72.0pt;}
-div.Section1
-	{page:Section1;}
--->
-</style>
-<!--[if gte mso 9]><xml>
- <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <o:shapelayout v:ext=3D"edit">
-  <o:idmap v:ext=3D"edit" data=3D"1" />
- </o:shapelayout></xml><![endif]-->
-</head>
-
-<body lang=3DKO link=3Dblue vlink=3Dpurple>
-
-<div class=3DSection1>
-
-<p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'color:#1F497D'>&gt;&nbsp; </span><span
-lang=3DEN-US>I have verified the version of hplip by subdividing =
-it.<o:p></o:p></span></p>
-
-<p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'color:#1F497D'>&gt;&nbsp; </span><span
-lang=3DEN-US>Up to 3.17.9 is compiled and error starts from =
-3.17.10.<o:p></o:p></span></p>
-
-<p class=3DMsoNormal><span lang=3DEN-US style=3D'color:#1F497D'>As a =
-result of
-checking again, error will occur from version =
-3.17.11.<o:p></o:p></span></p>
-
-<p class=3DMsoNormal><span lang=3DEN-US style=3D'color:#1F497D'>Up to =
-version 3.17.10
-will be compiled.</span><span lang=3DEN-US><o:p></o:p></span></p>
-
-<p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p>
-
-</div>
-
-</body>
-
-</html>
-
-------=_NextPart_000_0B12_01D40D3F.91AB4B50--
