@@ -1,51 +1,57 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
 	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F8047450D
+	by mail.openembedded.org (Postfix) with ESMTP id D7303745B9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 22:54:53 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id w7-v6so38282pfn.9
+	Tue, 26 Jun 2018 23:10:04 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id j3-v6so51807pfh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 15:54:54 -0700 (PDT)
+	Tue, 26 Jun 2018 16:10:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=sEVNKCRrdvpfVHYfnTCK7NHheJQ1rhY/NuH3fK+k90Y=;
-	b=qJYBImRoxUp8fqVbuSwYUwJEAnlEqpIPpjZoJqme4AMnGTOZ/LCOM37TwYymN3g3MF
-	cF3JkYyxVHw2MPJclRTrkhVDaH9XQ0rwGZb4Cq6xNxw+8fZx9VmVUOGyY89hV5hUprQd
-	MAE/gnlyvlZ8XbCmFH2ocrtHyT6f+71pd1xIawbJ5azge2zQP2jq0VI8pnBZkZqy79wO
-	wzadem3eSUQ0OJP+iSa54M05l7HyBrEJPK78a22O488A1ANOGPhyW+tT1lHWvfRBe9mR
-	H0MEqZ0NY69LYlyt7AYDVech9s11smmKM1y2n+ob2eKdYhxH79L2fmqUYQDxAMZseFiD
-	1sjw==
+	bh=gzAzMKsrm6/VJ6M+d/3ujwyuJUWNHfR0IClXrUaP4uk=;
+	b=Tt7Db9TZRFaB4bvcSQqEz3Upbdsz9K176jCMFW5tN4GDslQBq3mvt5YJ1xXC/B/8a7
+	Pw4vbXIdzeZIf0ONcAkFJbmc/RI/U8H9saH+zldCi7gcU/G0KYzm+0l30C8ZdMybX3WC
+	grNz3JLrctn1q6yRrEgY4z7Nia05WpIdFeEiZko18H0HkfGA7ZvmDcYYsQTfScE59v9i
+	W2JvHIAlaAUHhFl5Fjx1nmaJQ1lAj6kK2jEUzHedjCga/603Rd22oy7uZs/Xm1o3jFw6
+	b+ANXppMY3CGHoo0SAlykju2bXBqkKWqEkifVwPXl0OGY8xPYT7pl7CBaGcDLhxv1lbK
+	l/rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=sEVNKCRrdvpfVHYfnTCK7NHheJQ1rhY/NuH3fK+k90Y=;
-	b=oFNO0zXR3ug1Yy/44J14Hy5Sj1KAArOVBSmIX4bXMK3j0KpSTuenLIB1MY48zenaCc
-	I+lWZ5cH6e9WyelcGRTv+h2iEMoQXo4ci7RnoYQju581xmB6mSaqYs2UAZuy5ki2BMWG
-	fHQYhTek7kk9/SATj+f/rVNsQXbo7KPP+RnwSbv6Ozft5XkyfCuxvFnKOdS8pZACxCgX
-	zDDJzIC8BFKzHWzrNJ7YYuWKuFRvknlVlNnX27uZCXpX2Le0yvntfH3MvSUp5Ho9JttL
-	qTdWHo3Ymcib5H0hkutZNRNrKrrQkcyR25XAcvWCahlOnvpn5nD7sT0AA3nSmxCmk9Ne
-	nDSw==
-X-Gm-Message-State: APt69E2ZgkuHxrckSqQ0a7LfubYhQamLvZSlIlAKmX/ADA22kV1znrke
-	4yHEQKFqVzXxk95PKe5Ep1PL1A==
-X-Google-Smtp-Source: AAOMgpcDjSGM8heFMoQYaQBHddj4OfB4nGEtosCsRH2MPlbOc6MmX0+qMyRiXaNzOK6F6lv6ivGBAQ==
-X-Received: by 2002:a62:5486:: with SMTP id
-	i128-v6mr3317615pfb.166.1530053694156; 
-	Tue, 26 Jun 2018 15:54:54 -0700 (PDT)
+	bh=gzAzMKsrm6/VJ6M+d/3ujwyuJUWNHfR0IClXrUaP4uk=;
+	b=ePW+N3zvWb3hQqlWZx7z/yTBheqorFjcJBte4UW55hVc+RmabeujThbSUXAerDAeWE
+	YHr4hVs77jWWbRbGQRFXDFgWy1oc94ht2cPGQw+7r9LTHJSVym4OyqA4uxv+Z9XH9XnA
+	tMVDTflaHVGvQ4kIbNFc9RSlNe2yoldFsG5ixDsOgXPpEROltGcsNe0EQE5ISKnsc6EX
+	tOLf5pjPhYV2DsY90u/K8vUWae8nSPbrLEur0LabugLr3r9ilerL/iieI6LED8X2PiuS
+	H9YvLi8VH0VGVgznQBklaXLZB07mVY1gpXFuApYoG1/WMG1ek+yr+ul7Un8G5zt0oHN+
+	q9yA==
+X-Gm-Message-State: APt69E3UD+QN6+D+Gw3IiiLUw8bmfczy75wdUrYRHTIAaX//hXbxgIw6
+	XMz6fpDYsFi3Xl+TfAsPFbk0Qg==
+X-Google-Smtp-Source: ADUXVKJV08Nc0eEXzJQGqWPkUlrMUdSsJCAOvTH8+t+ZuQW7Nn29aZTGeVSVZ+q/c/St+GoUDjDaRg==
+X-Received: by 2002:a65:4a42:: with SMTP id
+	a2-v6mr2995008pgu.367.1530054605876; 
+	Tue, 26 Jun 2018 16:10:05 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184:d981:fc82:1d49:d690?
 	([2601:202:4000:1184:d981:fc82:1d49:d690])
 	by smtp.gmail.com with ESMTPSA id
-	n26-v6sm4456539pfi.168.2018.06.26.15.54.53
+	4-v6sm6486264pfi.78.2018.06.26.16.10.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Jun 2018 15:54:53 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <1526595546-3621-1-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=WUXvABmEMrU2VntSAoeWivquCWpWC6kwG4Xzfyz1-5Og@mail.gmail.com>
+	Tue, 26 Jun 2018 16:10:05 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <CAEUSe78jgx_SYGcPc87F7F80UwDDnnr06sy6hB8K=ha=j8TG9A@mail.gmail.com>
+	<3149f073-f524-d9ce-ad7e-e8a7c09e4dc1@gmail.com>
+	<CAEUSe7-+VYOFA5X5fFR-=fsuzY_RREZ2V_myWTia=dDe7NkPZQ@mail.gmail.com>
+	<CAEUSe7_AH1r9=g_HT-SYZXwyA3oWWxiJQ8z5GrYa31Uf21u0_A@mail.gmail.com>
+	<11604122-a4df-e93c-6f34-baa7fe733723@gmail.com>
+	<CAJ86T=WsQL-sH_Q75nhV_7U_68RENKeePTLQwPTqDZ7zwvHq6Q@mail.gmail.com>
+	<CAEUSe7-NkJJR=ppBd5AoahaRygd4CrcbwgeLTo5VLcWXEiiX2w@mail.gmail.com>
+	<3c778e17-bb7f-e934-e3ce-6f969defdac9@gmail.com>
+	<CAJ86T=V+LjeDqJVug87__MTZT4=aovpij7Q680OD4ywjsGJVgQ@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -91,13 +97,15 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <4356aafe-b1a7-e41c-8bb8-ca703a93c6b5@gmail.com>
-Date: Tue, 26 Jun 2018 15:54:52 -0700
+Message-ID: <e8cb7b00-f921-15dd-2705-0759d09fbb8c@gmail.com>
+Date: Tue, 26 Jun 2018 16:10:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WUXvABmEMrU2VntSAoeWivquCWpWC6kwG4Xzfyz1-5Og@mail.gmail.com>
-Subject: Re: [morty][PATCH] libnl: fix CVE-2017-0553
+In-Reply-To: <CAJ86T=V+LjeDqJVug87__MTZT4=aovpij7Q680OD4ywjsGJVgQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [morty][PATCH 1/2] glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,104 +118,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2018 22:54:53 -0000
+X-List-Received-Date: Tue, 26 Jun 2018 23:10:05 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 06/25/2018 12:48 PM, Andre McCurdy wrote:
-> On Thu, May 17, 2018 at 3:19 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> An elevation of privilege vulnerability in libnl could enable a local
->> malicious application to execute arbitrary code within the context of
->> the Wi-Fi service. This issue is rated as Moderate because it first
->> requires compromising a privileged process and is mitigated by
->> current platform configurations. Product: Android. Versions: 5.0.2,
->> 5.1.1, 6.0, 6.0.1, 7.0, 7.1.1. Android ID: A-32342065. NOTE: this
->> issue also exists in the upstream libnl before 3.3.0 library.
->>
->>   https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0553
->>
->> Backport fix from upstream 3.3.0 release:
->>
->>   https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb
->>   http://lists.infradead.org/pipermail/libnl/2017-May/002313.html
-> Ping.
+On 06/26/2018 03:54 PM, Andre McCurdy wrote:
+> On Tue, Jun 26, 2018 at 3:33 PM, akuster808 <akuster808@gmail.com> wrote:
+>> On 06/18/2018 12:20 PM, Daniel Díaz wrote:
+>>> On 11 June 2018 at 16:46, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>>> On Mon, Jun 11, 2018 at 2:38 PM, akuster808 <akuster808@gmail.com> wrote:
+>>>>> On 06/11/2018 10:30 AM, Daniel Díaz wrote:
+>>>>>> Ping on this series for Morty.
+>>>>> this is in the stable/morty-next branch which is on hold for the current
+>>>>> morty QA.
+>>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=stable/pyro-next&id=76ffc6b7e5ff6f2bab6e53bb07f52a25fcb81ac9
+>>>> That's a link for stable/pyro-next.
+>>>> The change doesn't seem to be in stable/morty-next though:
+>>>>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stable/morty-next
+>>> Is there anything from my side that needs to be done for this patch?
+>> Nope. I have it in the stable/moryt mut branch and trying to address
+>> build issues.
+> Is there anything we can do to help with that?
+Too early to know. thanks for the offer. This is my first opportunity to
+re-run morty-nmut.
+>  The delta between morty
+> and stable/morty-nmut is only 6 patches (and only 5 between morty and
+> stable/morty-mnut), so if these changes introduced the build issue it
+> should be relatively easy to track down.
+its not always the patches. we have newer OS to deal with, build burps etc.
 
-Thanks for the reminder. it in morty mut build.
-- armin
+I know later today how it goes.
+
+regards,
+Armin
 >
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  ...eck-for-integer-overflow-in-nlmsg_reserve.patch | 43 ++++++++++++++++++++++
->>  meta/recipes-support/libnl/libnl_3.2.28.bb         |  1 +
->>  2 files changed, 44 insertions(+)
->>  create mode 100644 meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
->>
->> diff --git a/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
->> new file mode 100644
->> index 0000000..9e22c40
->> --- /dev/null
->> +++ b/meta/recipes-support/libnl/libnl/lib-check-for-integer-overflow-in-nlmsg_reserve.patch
->> @@ -0,0 +1,43 @@
->> +From 1db543374db3e58faacdfd91e5061a8a595ce505 Mon Sep 17 00:00:00 2001
->> +From: Thomas Haller <thaller@redhat.com>
->> +Date: Mon, 6 Feb 2017 22:23:52 +0100
->> +Subject: [PATCH] lib: check for integer-overflow in nlmsg_reserve()
->> +
->> +In general, libnl functions are not robust against calling with
->> +invalid arguments. Thus, never call libnl functions with invalid
->> +arguments. In case of nlmsg_reserve() this means never provide
->> +a @len argument that causes overflow.
->> +
->> +Still, add an additional safeguard to avoid exploiting such bugs.
->> +
->> +Assume that @pad is a trusted, small integer.
->> +Assume that n->nm_size is a valid number of allocated bytes (and thus
->> +much smaller then SIZE_T_MAX).
->> +Assume, that @len may be set to an untrusted value. Then the patch
->> +avoids an integer overflow resulting in reserving too few bytes.
->> +
->> +Upstream-Status: Backport [https://github.com/thom311/libnl/commit/3e18948f17148e6a3c4255bdeaaf01ef6081ceeb]
->> +CVE: CVE-2017-0553
->> +
->> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> +---
->> + lib/msg.c | 3 +++
->> + 1 file changed, 3 insertions(+)
->> +
->> +diff --git a/lib/msg.c b/lib/msg.c
->> +index e8a7e99..f30fd2d 100644
->> +--- a/lib/msg.c
->> ++++ b/lib/msg.c
->> +@@ -410,6 +410,9 @@ void *nlmsg_reserve(struct nl_msg *n, size_t len, int pad)
->> +       size_t nlmsg_len = n->nm_nlh->nlmsg_len;
->> +       size_t tlen;
->> +
->> ++      if (len > n->nm_size)
->> ++              return NULL;
->> ++
->> +       tlen = pad ? ((len + (pad - 1)) & ~(pad - 1)) : len;
->> +
->> +       if ((tlen + nlmsg_len) > n->nm_size)
->> +--
->> +1.9.1
->> +
->> diff --git a/meta/recipes-support/libnl/libnl_3.2.28.bb b/meta/recipes-support/libnl/libnl_3.2.28.bb
->> index 26982f3..a74b455 100644
->> --- a/meta/recipes-support/libnl/libnl_3.2.28.bb
->> +++ b/meta/recipes-support/libnl/libnl_3.2.28.bb
->> @@ -12,6 +12,7 @@ DEPENDS = "flex-native bison-native"
->>  SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV', True).replace('.','_')}/${BP}.tar.gz \
->>             file://fix-pktloc_syntax_h-race.patch \
->>             file://fix-pc-file.patch \
->> +           file://lib-check-for-integer-overflow-in-nlmsg_reserve.patch \
->>             file://0001-lib-add-utility-function-nl_strerror_l.patch \
->>             file://0002-lib-switch-to-using-strerror_l-instead-of-strerror_r.patch \
->>             file://0003-src-switch-to-using-strerror_l-instead-of-strerror_r.patch \
->> --
->> 1.9.1
->>
+>   89940cc libnl: fix CVE-2017-0553
+>   dc6a0c4 staging.bbclass: use single quotes for path passed to file in is_elf()
+>   bd2fd02 package.bbclass: Add '-b' option to file call in isELF
+>   39c8e98 package.bbclass: use single quotes for path passed to file in isELF()
+>   8a1b2b8 gdb: fix header ordering for TRAP_HWBKPT
+>   c944c71 glibc: add missing TRAP_BRANCH/TRAP_HWBKPT definitions
 
 
