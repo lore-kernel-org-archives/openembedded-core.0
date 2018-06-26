@@ -1,29 +1,54 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 951B4607E0
+Return-Path: <jon.szymaniak@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7145B71CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 01:44:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5Q1ixIw012074
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 25 Jun 2018 18:44:59 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Mon, 25 Jun 2018 18:44:58 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1529919069.git.Qi.Chen@windriver.com>
-	<c8a7632a1f27b73ac623c5399ed4e452f2b37571.1529919069.git.Qi.Chen@windriver.com>
-	<CAJTo0LaW-4wBMWcp+ZdDJd0kKQMm_fRGo6nQph3GKXPJ6SuCPQ@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <838c72f4-251b-5183-073e-e83c93230e93@windriver.com>
-Date: Tue, 26 Jun 2018 09:48:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 26 Jun 2018 01:52:49 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id k81-v6so395217oib.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Jun 2018 18:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=Txtqb2k9WO8LOISGOhmkQzZQrKKJFuyXDJzUATLAICQ=;
+	b=BY/rXkuqt7SMgBu0b1oqNKyBMiZ4RyybY+iv9v6zalP9emo0JykYr2CxBhv1pn+muH
+	Jv4bk6WEqsiArXyO/mam4pCjNewAf1HypAgL7SJ2zwM5e7sNn4vhNeMwj7+UWTAm/EBG
+	Myv6T8rlCF9nHinhj+RA/oWapAwUzkOn/YvWsvRTf1gsBU9GBYac3sdaus7xcvME1FZ8
+	PMhGDMO4rOUHuwlcQEVq6XzrWZIWc8lgy6puMpgHyCfgnvm6wOcHOqullpyZCAJB5zX9
+	I33vimZ59msx2I2j3hUT01vgYjcFGbvnAW4PSV7JQv467k9OQbCCG2bufAwvVMy/3NXJ
+	m7+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=Txtqb2k9WO8LOISGOhmkQzZQrKKJFuyXDJzUATLAICQ=;
+	b=aBg1z6KK1ekAvLrcRNSzn2S/yAm7/PKd5xQHuJU5OA10O9fP/s9H4i4NRcWMny4yMK
+	CRoSEM14/j2xoCMFQDpCbd59lUQWi11EtCZvMRI6DnDCAoT4hqJWxVnOsxhmSq7Q2K+z
+	EcbdDQG9948e7sSPrrkAKtnccM+E4ovwZCAWSUP/i4TUl1kqpkBtmwoauiD04sd7MbM/
+	lQcUB6fmMAEGctzf2noxVwT6GWTc+Dd+twMmP/OQH1gYInWp3RzMGkKCyrBZhTWf/n+u
+	YFntkxwsVZmOAnd4NKWjY1ZrbDq8khE0I+/6sDgsmSDCTY1RPCiD70TOvVzCVwyHqG8B
+	tSeg==
+X-Gm-Message-State: APt69E2+FSwEIy2RNsZIwIM49vqGVS32Yg/fDyTKJF9BY4IsLKkDOsWT
+	A8SupITQUZYnF7E9mXKamrnI0W1vusPTDUrnDjI=
+X-Google-Smtp-Source: ADUXVKIkD8XihcIUMmhtqNOoOPj+5ZkZD01poPXvEsU3GUjgJVhs0hCROPUtbC+Fe5EegG+Ct+KvsF96/fJkeMx1Dyo=
+X-Received: by 2002:aca:5217:: with SMTP id
+	g23-v6mr292382oib.255.1529977970261; 
+	Mon, 25 Jun 2018 18:52:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaW-4wBMWcp+ZdDJd0kKQMm_fRGo6nQph3GKXPJ6SuCPQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.218]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] oeqa/runtime/cases/systemd.py: avoid timeout problem
+Sender: jon.szymaniak@gmail.com
+Received: by 2002:a9d:ed1:0:0:0:0:0 with HTTP;
+	Mon, 25 Jun 2018 18:52:29 -0700 (PDT)
+In-Reply-To: <CANge7vXk5XKAwmZEtfww0F0tUvOUyiE=sR3OsJoRZX3P-3kf=A@mail.gmail.com>
+References: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
+	<CADkTA4P881jar5PygYaY+i4VD_rXYsXOOhU3eZDLWGDn4xRcCA@mail.gmail.com>
+	<CANge7vXk5XKAwmZEtfww0F0tUvOUyiE=sR3OsJoRZX3P-3kf=A@mail.gmail.com>
+From: Jon Szymaniak <jon.szymaniak.foss@gmail.com>
+Date: Mon, 25 Jun 2018 20:52:29 -0500
+X-Google-Sender-Auth: EqjqTwkGNuRoJKXCxGsGHkSiAB0
+Message-ID: <CANge7vVSu888hL05s9q07xxZmx1yzxHYD_sRvV8N5YsXsMTQXQ@mail.gmail.com>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemu: Use capstone version included via git submodule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,100 +61,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2018 01:44:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Jun 2018 01:52:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 06/25/2018 09:40 PM, Burton, Ross wrote:
-> The busctl invocation will only rarely be called so is very prone to
-> bitrot, maybe it should just always use busctl?
+I'm sorry for the duplicate email Bruce. Resending because I failed to
+include the list.
+
+On Mon, Jun 25, 2018 at 3:52 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
 >
-> Personally I think that there should be a way for VM time to be
-> independent of host time to avoid this sort of problem...
 >
-> Ross
-
-Hi Ross,
-
-I now realize that I didn't include enough information in the commit 
-message.
-In fact, for qemuarm, this problem always appeared.
-Compared to other qemu bsps (e.g. qemux86-64), qemuarm is running much 
-slower.
-
-I've now updated the commit the message to include this qemuarm info, 
-and also updated the remote branch.
-
-   git://git.pokylinux.org/poky-contrib ChenQi/systemd-bus-timeout
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-bus-timeout
-
-
-If you think we should still use `busctl' directly, I can send out a new 
-patch. Either way is OK to me.
-
-Best Regards,
-Chen Qi
-
-> On 25 June 2018 at 10:33, Chen Qi <Qi.Chen@windriver.com> wrote:
->> I've encountered the following error when doing testimage.
+> On Mon, Jun 25, 2018 at 1:50 PM, Jon Szymaniak
+> <jon.szymaniak.foss@gmail.com> wrote:
 >>
->>    RESULTS - systemd.SystemdBasicTests.test_systemd_list - Testcase 551: FAILED
+>> An optional dependency upon the capstone disassembler was introduced
+>> in QEMU v2.11.0-rc0. The necessary version of capstone is included
+>> in the QEMU repository as a git submodule.
 >>
->> After investigation, I found that it's not functionality issue. It's
->> just that the qemu was not running fast enough. And it resulted 'time out'
->> problem when using `systemctl list-unit-files'.
+>> The QEMU configure script uses pkg-config to determine if an
+>> installation of capstone already exists on the system, and defaults to
+>> this, if found. However, there does not appear to be any capstone
+>> version or API compatibility checks.
 >>
->> The correctness could be verified by using 'busctl' directly.
->> e.g.
->> busctl --timeout=240 call org.freedesktop.systemd1 \
->> /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager \
->> ListUnitFilesByPatterns asas 0 0
->>
->> Checking the source codes, I can see that the timeout is 25s. I don't
->> think we should patch systemd's source codes just for such a simple
->> runtime test case.
->>
->> So instead, I change the test case to use 'busctl' directly if
->> 'systemctl list-unit-files' gets a timeout error.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/lib/oeqa/runtime/cases/systemd.py | 14 +++++++++++++-
->>   1 file changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
->> index db69384..b4f1025 100644
->> --- a/meta/lib/oeqa/runtime/cases/systemd.py
->> +++ b/meta/lib/oeqa/runtime/cases/systemd.py
->> @@ -81,7 +81,19 @@ class SystemdBasicTests(SystemdTest):
->>       @OETestID(551)
->>       @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
->>       def test_systemd_list(self):
->> -        self.systemctl('list-unit-files')
->> +        command = 'systemctl list-unit-files'
->> +        status, output = self.target.run(command)
->> +        message = '\n'.join([command, output])
->> +        match = re.search('Connection timed out', output)
->> +        if match:
->> +            # it's possible that qemu is running slow
->> +            # use busctl to check the results with timeout set to 240s
->> +            command = 'busctl --timeout=240 call org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager ListUnitFilesByPatterns asas 0 0'
->> +            status, output = self.target.run(command)
->> +            message = '\n'.join([command, output])
->> +            self.assertEqual(status, 0, message)
->> +        else:
->> +            self.assertEqual(status, 0, message)
->>
->>       @OETestID(550)
->>       @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> To avoid any potential version conflicts or API incompatibility issues
+>> in the future, use the `--enable-capstone=git` argument to force the use
+>> of the capstone version included by QEMU as a git submodule.
+>
+>
+> How exactly does that work when the default qemu recipe is a tar.bz2
+> download ?
 
+The tar.bz2 fetched by the current recipe actually contains a git
+repo, with the capstone submodule already present in this archive.
 
+> We can't have the recipe going out to the 'net and fetching / downloading
+> source code .. and looking at the option, that appears to be what it would
+> do. Or maybe I'm missing where the code is being fetched into place.
+
+Understood and agreed. I don't *think* it's actually going out and
+fetching anything, but I would certainly need to double check this.
+
+Nonetheless, what I've proposed here doesn't seem like the right
+approach to pursue anyway...
+
+> This is something that looks like it could be controlled via packageconfig,
+> or similar mechanism, versus being hard coded into the configure line.
+
+I had been noticing that the $pkg_config invocation of qemu's
+configure script (line 4594) was picking up the bleeding edge version
+of capstone installed on my build machine, which I had been actively
+hacking on for something unrelated. Ultimately the issues I was
+experiencing with this were a case of PEBKAC. However, this new-ish
+capstone dependency still struck me as something worth having another
+pair of eyes on to avoid future headaches down the road.
+
+The --enable-capstone=git configuration appeared to be the only
+exposed option to skip the $pkg_config invocation in 4592-4612 and
+still allow lines 4616-4627 to pick up the submodule.
+
+Usually, if one does not have capstone installed on their build
+system, this appears to fall back to using the included git submodule.
+
+Reflecting on it further -- what I've proposed here is a gross hack.
+Ultimately I just wanted to ensure that the capstone dependency
+shipped in the tar.bz2 is always what's used, assuming that's what the
+QEMU team tested and deemed adequate.
+
+How would you advise moving forward with a packageconfig solution?
+Does it seem like some change is required to prevent the QEMU
+configure script from diving into the build hosts pkg-config path, or
+is this the desired behavior?
+
+What do you think about instead patching the configure script to just
+set the default to capstone=internal?
+
+> Also, the patch is missing your Signed-off-by:
+Whoops! Noted, thank you! :)
 
