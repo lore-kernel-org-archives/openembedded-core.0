@@ -1,51 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 06734747EB
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C1B9074520
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 14:14:17 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id w7-v6so8152436pfn.9
+	Tue, 26 Jun 2018 14:49:04 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id g3-v6so3453175pfi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 07:14:19 -0700 (PDT)
+	Tue, 26 Jun 2018 07:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=kW6ul+WkkwlUhlwmE0X0AdVL41CtVUfWrTk3Unlzzd8=;
-	b=ckLYYX4ciRFQCfjxLcU1sVDW6qaEX2jFIy6h08VRJ5iwRweAyto/jpcjdWg24lBipP
-	F+C7MBgo0aw73LlnMKjf09xlYQ/kR08P/PTRekqVsbT7IDzfVJGF4lIZDK1w5l5l6ENW
-	jDqnGhH2U8i/JzOW1YfQbyNj1p4HXKIpuFj6bKvN8JCdKzhweDERTeBQUi1hjFXtIPXn
-	/nECGjjd09yw1PQerVfjPOtNnSFb9JqkiKgkq3e5vTQymUzIda2/WpQIEcbLLyx6vgLJ
-	yYJFHrzHrQ5dPXd8fWidbaaYan5eGYRTB7HVDYoxygiJtNWNvO2RccD/vrnpzzgf9dyG
-	4V5w==
+	bh=1lrQbXV0VjH4oymjP1mpOcoonN2T6o4YqWTX2OIGfks=;
+	b=uVa+weNc1YtfEGQhwu0Yrk5aGOhweQOmKapjCD1ehI8G0RWnk6oroyT+8S6EwU5q6z
+	J75KKbgdYxVRm5TU98alUm5MdqQxtOqY5lh9v9uN519JeNoBtT60OlJshg5QkrHARba5
+	dWXrh25bnrln/Gy8kjcpdQvuvkjhAVExBuiuUhOLfjSaZIIOH5ul1MDGJvNUSC1njN86
+	xS+2mdwSOzjeCGQFBD/cHsKFm2I5gtUNNZrNjl7YPVHx2zDB2eb1XhY43xhKarGoNy+5
+	xPJc5qrUJf8klwH+IMpUToHJu2IsN8yPcCq8BbFItaDlzaH5oXz1FRlG71mFsb7SSndP
+	Yxtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=kW6ul+WkkwlUhlwmE0X0AdVL41CtVUfWrTk3Unlzzd8=;
-	b=aaFin9uNZ9/7OBsJCwKXO/d/a5AOZwZTo/o6LLu8II6SKjB7PIV4zDViTNYKX/um0C
-	u46LtlSARi1QvPwmA1ZGy4nYC7LmR7kPTk4Cx2pd9Y1qkcUI1F0PRa4W3HEEP0vpHOFe
-	ANvGH/cPpCgGHbZD8oTA7n+iDzbapNKJgC4hnlwY5YVwtEDkl88JOdMcpHG3C68MVcam
-	Nf/Sr19CTDAfxDy9myjJ97XoRWPEuEmyo6i6A/tUz8zgz08T8ZXRO5mfiSkWrgmahDdh
-	6NOiB1j8R8ubdmlDcKa6G4jy3C4k+QQvQxm1vbXwhc5nWT28ngOl/7493cCHZm3rfo7r
-	xPJw==
-X-Gm-Message-State: APt69E3NNSMFGX/bAsyklCCc/30tvJaSYas6VN29UBzTPbJWzmaCy4Do
-	kYYXy1sqOnFmJzSVtvl3fF9yWQ==
-X-Google-Smtp-Source: AAOMgpd9y8Ttmm9uYBDMeU6JBYGENh7HPJl6ETEQaWfdon2WOsnK7TofDodSWm0K61Rz9MYwQJ667g==
-X-Received: by 2002:a62:df52:: with SMTP id
-	u79-v6mr1754535pfg.164.1530022458857; 
-	Tue, 26 Jun 2018 07:14:18 -0700 (PDT)
+	bh=1lrQbXV0VjH4oymjP1mpOcoonN2T6o4YqWTX2OIGfks=;
+	b=T5YOhOvSOiY7piLBYxPWwApKs3Ikn1bhn4Q9tb/m7DNK24TRxXcFUdmBk8rbv9Ud82
+	UVf9930A9K1pecuanhGBg26xJKhcW3Lu2r/e+ZhPyNJ5MMBzO2CZXj0DXFMSDbnJHiVX
+	XI5EuVLQOtc/EhMLqZxRyLw2N3ovUb+I3g/pNChxgr9YWBpRZVamwEp8Tm8BLfbjsgET
+	0OJWornJKIGK/ciMWy+9SMycvOqKCUXBOH0dpnXPMG30bClTqiWClyHrt65Cz8j4i4sd
+	WKXGtp81NKla56/j+8oJys6vFQEWJ8Opuhk4ew7szZ+PMllSIgPu76athOdlnPhCe9pU
+	x+og==
+X-Gm-Message-State: APt69E3xsMshrxGLsM5UuRmVH7gmuZuZUZ1LuEZdK5Fz6J/ulEqr/ZW7
+	Awq74bYWbwQf9t+qazBbcejrLw==
+X-Google-Smtp-Source: AAOMgpdIGpi9/bwZw/9I52joRgty71fkf0RgEA8GjQAGftVSnYS8RQJ79MId339BnYhv4DTOk11wYg==
+X-Received: by 2002:a62:d345:: with SMTP id
+	q66-v6mr1895958pfg.158.1530024545541; 
+	Tue, 26 Jun 2018 07:49:05 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1184:ed11:f63c:b4bf:cefa?
 	([2601:202:4000:1184:ed11:f63c:b4bf:cefa])
 	by smtp.gmail.com with ESMTPSA id
-	b2-v6sm10996516pfc.44.2018.06.26.07.14.16
+	o72-v6sm3432814pfk.76.2018.06.26.07.49.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Jun 2018 07:14:18 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Hong Liu <hongl.fnst@cn.fujitsu.com>
+	Tue, 26 Jun 2018 07:49:04 -0700 (PDT)
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
 References: <20180626073531.12935-1-hongl.fnst@cn.fujitsu.com>
-	<CAJTo0LaxZK42CR7MM8rT880mDbChVMVihXaya4LvABixrCDZHA@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -91,13 +90,12 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <f4b6d648-24a4-df7c-5710-6c704fa3cbf3@gmail.com>
-Date: Tue, 26 Jun 2018 07:14:16 -0700
+Message-ID: <f5e3af09-3fdd-40f0-b39e-19f42ebf176b@gmail.com>
+Date: Tue, 26 Jun 2018 07:49:03 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaxZK42CR7MM8rT880mDbChVMVihXaya4LvABixrCDZHA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <20180626073531.12935-1-hongl.fnst@cn.fujitsu.com>
 Subject: Re: [PATCH] procps:Fix CVE-2018-1122&CVE-2018-1123
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -111,252 +109,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2018 14:14:18 -0000
+X-List-Received-Date: Tue, 26 Jun 2018 14:49:04 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 06/26/2018 04:27 AM, Burton, Ross wrote:
-> It appears that these are fixed in 3.3.15, so let's just upgrade to
-> that and get all the other security fixes too.
-But I can take this for Sumo if I don't update too.
-
-- armin
-> Ross
+On 06/26/2018 12:35 AM, Hong Liu wrote:
+> 1.0001-top-Do-not-default-to-the-cwd-in-configs_read.patch fixed CVE-2018-1122
 >
-> On 26 June 2018 at 08:35, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->> 1.0001-top-Do-not-default-to-the-cwd-in-configs_read.patch fixed CVE-2018-1122
->>
->> 2.0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch fixed CVE-2018-1123
->> ---
->>  ...put.c-Fix-outbuf-overflows-in-pr_args-etc.patch |  84 +++++++++++++++++
->>  ...Do-not-default-to-the-cwd-in-configs_read.patch | 101 +++++++++++++++++++++
->>  meta/recipes-extended/procps/procps_3.3.14.bb      |   2 +
->>  3 files changed, 187 insertions(+)
->>  create mode 100644 meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
->>  create mode 100644 meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
->>
->> diff --git a/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch b/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
->> new file mode 100644
->> index 0000000..ab4fc23
->> --- /dev/null
->> +++ b/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
->> @@ -0,0 +1,84 @@
->> +From 136e3724952827bbae8887a42d9d2b6f658a48ab Mon Sep 17 00:00:00 2001
->> +From: Qualys Security Advisory <qsa@qualys.com>
->> +Date: Thu, 1 Jan 1970 00:00:00 +0000
->> +Subject: [PATCH] ps/output.c: Fix outbuf overflows in pr_args() etc.
->> +
->> +Because there is usually less than OUTBUF_SIZE available at endp.
->> +
->> +Upstream-Status: Backport
->> +---
->> + ps/output.c | 23 ++++++++++++++---------
->> + 1 file changed, 14 insertions(+), 9 deletions(-)
->> +
->> +diff --git a/ps/output.c b/ps/output.c
->> +index 0c63bb6..4456f28 100644
->> +--- a/ps/output.c
->> ++++ b/ps/output.c
->> +@@ -389,6 +389,9 @@ Modifications to the arguments are not shown.
->> +
->> + // FIXME: some of these may hit the guard page in forest mode
->> +
->> ++#define OUTBUF_SIZE_AT(endp) \
->> ++  (((endp) >= outbuf && (endp) < outbuf + OUTBUF_SIZE) ? (outbuf + OUTBUF_SIZE) - (endp) : 0)
->> ++
->> + /*
->> +  * "args", "cmd", "command" are all the same:  long  unless  c
->> +  * "comm", "ucmd", "ucomm"  are all the same:  short unless -f
->> +@@ -402,15 +405,15 @@ static int pr_args(char *restrict const outbuf, const proc_t *restrict const pp)
->> +   rightward -= fh;
->> +
->> +   if(pp->cmdline && !bsd_c_option)
->> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
->> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
->> +   else
->> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
->> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
->> +
->> +-  if(bsd_e_option && rightward>1) {
->> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
->> +     if(pp->environ && *pp->environ) {
->> +       *endp++ = ' ';
->> +       rightward--;
->> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
->> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
->> +     }
->> +   }
->> +   return max_rightward-rightward;
->> +@@ -429,15 +432,15 @@ static int pr_comm(char *restrict const outbuf, const proc_t *restrict const pp)
->> +   rightward -= fh;
->> +
->> +   if(pp->cmdline && unix_f_option)
->> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
->> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
->> +   else
->> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
->> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
->> +
->> +-  if(bsd_e_option && rightward>1) {
->> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
->> +     if(pp->environ && *pp->environ) {
->> +       *endp++ = ' ';
->> +       rightward--;
->> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
->> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
->> +     }
->> +   }
->> +   return max_rightward-rightward;
->> +@@ -469,11 +472,13 @@ static int pr_fname(char *restrict const outbuf, const proc_t *restrict const pp
->> +   if (rightward>8)  /* 8=default, but forest maybe feeds more */
->> +     rightward = 8;
->> +
->> +-  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE, &rightward);
->> ++  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE_AT(endp), &rightward);
->> +   //return endp - outbuf;
->> +   return max_rightward-rightward;
->> + }
->> +
->> ++#undef OUTBUF_SIZE_AT
->> ++
->> + /* elapsed wall clock time, [[dd-]hh:]mm:ss format (not same as "time") */
->> + static int pr_etime(char *restrict const outbuf, const proc_t *restrict const pp){
->> +   unsigned long t;
->> +--
->> +2.14.3
->> +
->> diff --git a/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch b/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
->> new file mode 100644
->> index 0000000..8b1b904
->> --- /dev/null
->> +++ b/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
->> @@ -0,0 +1,101 @@
->> +From b45c4803dd176f4e3f9d3d47421ddec9bbbe66cd Mon Sep 17 00:00:00 2001
->> +From: Qualys Security Advisory <qsa@qualys.com>
->> +Date: Thu, 1 Jan 1970 00:00:00 +0000
->> +Subject: [PATCH] top: Do not default to the cwd in configs_read().
->> +
->> +If the HOME environment variable is not set, or not absolute, use the
->> +home directory returned by getpwuid(getuid()), if set and absolute
->> +(instead of the cwd "."); otherwise, set p_home to NULL.
->> +
->> +To keep the changes to a minimum, we rely on POSIX, which requires that
->> +fopen() fails with ENOENT if the pathname (Rc_name) is an empty string.
->> +This integrates well into the existing code, and makes write_rcfile()
->> +work without a change.
->> +
->> +Also, it makes the code in configs_read() easier to follow: only set and
->> +use p_home if safe, and only set Rc_name if safe (in all the other cases
->> +it is the empty string, and the fopen() calls fail). Plus, check for
->> +snprintf() truncation (and if it happens, reset Rc_name to the empty
->> +string).
->> +
->> +Important note: top.1 should probably be updated, since it mentions the
->> +fallback to the current working directory.
->> +
->> +Upstream-Status: Backport
->> +---
->> + top/top.c | 33 ++++++++++++++++++++++++++++-----
->> + 1 file changed, 28 insertions(+), 5 deletions(-)
->> +
->> +diff --git a/top/top.c b/top/top.c
->> +index bc609aa..1b5afee 100644
->> +--- a/top/top.c
->> ++++ b/top/top.c
->> +@@ -3810,6 +3810,20 @@ error Hey, fix the above fscanf 'PFLAGSSIZ' dependency !
->> + } // end: config_file
->> +
->> +
->> ++static int snprintf_Rc_name (const char *const format, ...) __attribute__((format(printf,1,2)));
->> ++static int snprintf_Rc_name (const char *const format, ...) {
->> ++   int len;
->> ++   va_list ap;
->> ++   va_start(ap, format);
->> ++   len = vsnprintf(Rc_name, sizeof(Rc_name), format, ap);
->> ++   va_end(ap);
->> ++   if (len <= 0 || (size_t)len >= sizeof(Rc_name)) {
->> ++      Rc_name[0] = '\0';
->> ++      return 0;
->> ++   }
->> ++   return len;
->> ++}
->> ++
->> +         /*
->> +          * Try reading up to 3 rcfiles
->> +          * 1. 'SYS_RCRESTRICT' contains two lines consisting of the secure
->> +@@ -3842,23 +3856,31 @@ static void configs_read (void) {
->> +       fclose(fp);
->> +    }
->> +
->> ++   Rc_name[0] = '\0'; // "fopen() shall fail if pathname is an empty string."
->> +    // attempt to use the legacy file first, if we cannot access that file, use
->> +    // the new XDG basedir locations (XDG_CONFIG_HOME or HOME/.config) instead.
->> +    p_home = getenv("HOME");
->> +-   if (!p_home || p_home[0] == '\0')
->> +-      p_home = ".";
->> +-   snprintf(Rc_name, sizeof(Rc_name), "%s/.%src", p_home, Myname);
->> ++   if (!p_home || p_home[0] != '/') {
->> ++      const struct passwd *const pwd = getpwuid(getuid());
->> ++      if (!pwd || !(p_home = pwd->pw_dir) || p_home[0] != '/') {
->> ++         p_home = NULL;
->> ++      }
->> ++   }
->> ++   if (p_home) {
->> ++      snprintf_Rc_name("%s/.%src", p_home, Myname);
->> ++   }
->> +
->> +    if (!(fp = fopen(Rc_name, "r"))) {
->> +       p = getenv("XDG_CONFIG_HOME");
->> +       // ensure the path we get is absolute, fallback otherwise.
->> +       if (!p || p[0] != '/') {
->> ++         if (!p_home) goto system_default;
->> +          p = fmtmk("%s/.config", p_home);
->> +          (void)mkdir(p, 0700);
->> +       }
->> +-      snprintf(Rc_name, sizeof(Rc_name), "%s/procps", p);
->> ++      if (!snprintf_Rc_name("%s/procps", p)) goto system_default;
->> +       (void)mkdir(Rc_name, 0700);
->> +-      snprintf(Rc_name, sizeof(Rc_name), "%s/procps/%src", p, Myname);
->> ++      if (!snprintf_Rc_name("%s/procps/%src", p, Myname)) goto system_default;
->> +       fp = fopen(Rc_name, "r");
->> +    }
->> +
->> +@@ -3867,6 +3889,7 @@ static void configs_read (void) {
->> +       fclose(fp);
->> +       if (p) goto default_or_error;
->> +    } else {
->> ++system_default:
->> +       fp = fopen(SYS_RCDEFAULTS, "r");
->> +       if (fp) {
->> +          p = config_file(fp, SYS_RCDEFAULTS, &tmp_delay);
->> +--
->> +2.14.3
->> +
->> diff --git a/meta/recipes-extended/procps/procps_3.3.14.bb b/meta/recipes-extended/procps/procps_3.3.14.bb
->> index 1aba511..b7b6b6b 100644
->> --- a/meta/recipes-extended/procps/procps_3.3.14.bb
->> +++ b/meta/recipes-extended/procps/procps_3.3.14.bb
->> @@ -15,6 +15,8 @@ inherit autotools gettext pkgconfig update-alternatives
->>  SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
->>             file://sysctl.conf \
->>             file://0001-Fix-out-of-tree-builds.patch \
->> +           file://0001-top-Do-not-default-to-the-cwd-in-configs_read.patch \
->> +           file://0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch \
->>             "
->>
->>  SRC_URI[md5sum] = "fce371ccc1c15a67af9d85e4057e559d"
->> --
->> 2.7.4
->>
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 2.0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch fixed CVE-2018-1123
+> ---
+>  ...put.c-Fix-outbuf-overflows-in-pr_args-etc.patch |  84 +++++++++++++++++
+>  ...Do-not-default-to-the-cwd-in-configs_read.patch | 101 +++++++++++++++++++++
+>  meta/recipes-extended/procps/procps_3.3.14.bb      |   2 +
+>  3 files changed, 187 insertions(+)
+>  create mode 100644 meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
+>  create mode 100644 meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
+>
+> diff --git a/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch b/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
+> new file mode 100644
+> index 0000000..ab4fc23
+> --- /dev/null
+> +++ b/meta/recipes-extended/procps/procps/0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch
+> @@ -0,0 +1,84 @@
+> +From 136e3724952827bbae8887a42d9d2b6f658a48ab Mon Sep 17 00:00:00 2001
+> +From: Qualys Security Advisory <qsa@qualys.com>
+> +Date: Thu, 1 Jan 1970 00:00:00 +0000
+> +Subject: [PATCH] ps/output.c: Fix outbuf overflows in pr_args() etc.
+> +
+> +Because there is usually less than OUTBUF_SIZE available at endp.
+> +
+> +Upstream-Status: Backport
+Patch missing signed-off-by
+
+
+> +---
+> + ps/output.c | 23 ++++++++++++++---------
+> + 1 file changed, 14 insertions(+), 9 deletions(-)
+> +
+> +diff --git a/ps/output.c b/ps/output.c
+> +index 0c63bb6..4456f28 100644
+> +--- a/ps/output.c
+> ++++ b/ps/output.c
+> +@@ -389,6 +389,9 @@ Modifications to the arguments are not shown.
+> + 
+> + // FIXME: some of these may hit the guard page in forest mode
+> + 
+> ++#define OUTBUF_SIZE_AT(endp) \
+> ++  (((endp) >= outbuf && (endp) < outbuf + OUTBUF_SIZE) ? (outbuf + OUTBUF_SIZE) - (endp) : 0)
+> ++
+> + /*
+> +  * "args", "cmd", "command" are all the same:  long  unless  c
+> +  * "comm", "ucmd", "ucomm"  are all the same:  short unless -f
+> +@@ -402,15 +405,15 @@ static int pr_args(char *restrict const outbuf, const proc_t *restrict const pp)
+> +   rightward -= fh;
+> + 
+> +   if(pp->cmdline && !bsd_c_option)
+> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
+> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
+> +   else
+> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
+> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
+> + 
+> +-  if(bsd_e_option && rightward>1) {
+> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
+> +     if(pp->environ && *pp->environ) {
+> +       *endp++ = ' ';
+> +       rightward--;
+> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
+> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
+> +     }
+> +   }
+> +   return max_rightward-rightward;
+> +@@ -429,15 +432,15 @@ static int pr_comm(char *restrict const outbuf, const proc_t *restrict const pp)
+> +   rightward -= fh;
+> + 
+> +   if(pp->cmdline && unix_f_option)
+> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
+> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
+> +   else
+> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
+> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
+> + 
+> +-  if(bsd_e_option && rightward>1) {
+> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
+> +     if(pp->environ && *pp->environ) {
+> +       *endp++ = ' ';
+> +       rightward--;
+> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
+> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
+> +     }
+> +   }
+> +   return max_rightward-rightward;
+> +@@ -469,11 +472,13 @@ static int pr_fname(char *restrict const outbuf, const proc_t *restrict const pp
+> +   if (rightward>8)  /* 8=default, but forest maybe feeds more */
+> +     rightward = 8;
+> + 
+> +-  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE, &rightward);
+> ++  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE_AT(endp), &rightward);
+> +   //return endp - outbuf;
+> +   return max_rightward-rightward;
+> + }
+> + 
+> ++#undef OUTBUF_SIZE_AT
+> ++
+> + /* elapsed wall clock time, [[dd-]hh:]mm:ss format (not same as "time") */
+> + static int pr_etime(char *restrict const outbuf, const proc_t *restrict const pp){
+> +   unsigned long t;
+> +-- 
+> +2.14.3
+> +
+> diff --git a/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch b/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
+> new file mode 100644
+> index 0000000..8b1b904
+> --- /dev/null
+> +++ b/meta/recipes-extended/procps/procps/0001-top-Do-not-default-to-the-cwd-in-configs_read.patch
+> @@ -0,0 +1,101 @@
+> +From b45c4803dd176f4e3f9d3d47421ddec9bbbe66cd Mon Sep 17 00:00:00 2001
+> +From: Qualys Security Advisory <qsa@qualys.com>
+> +Date: Thu, 1 Jan 1970 00:00:00 +0000
+> +Subject: [PATCH] top: Do not default to the cwd in configs_read().
+> +
+> +If the HOME environment variable is not set, or not absolute, use the
+> +home directory returned by getpwuid(getuid()), if set and absolute
+> +(instead of the cwd "."); otherwise, set p_home to NULL.
+> +
+> +To keep the changes to a minimum, we rely on POSIX, which requires that
+> +fopen() fails with ENOENT if the pathname (Rc_name) is an empty string.
+> +This integrates well into the existing code, and makes write_rcfile()
+> +work without a change.
+> +
+> +Also, it makes the code in configs_read() easier to follow: only set and
+> +use p_home if safe, and only set Rc_name if safe (in all the other cases
+> +it is the empty string, and the fopen() calls fail). Plus, check for
+> +snprintf() truncation (and if it happens, reset Rc_name to the empty
+> +string).
+> +
+> +Important note: top.1 should probably be updated, since it mentions the
+> +fallback to the current working directory.
+> +
+> +Upstream-Status: Backport
+> +---
+> + top/top.c | 33 ++++++++++++++++++++++++++++-----
+> + 1 file changed, 28 insertions(+), 5 deletions(-)
+> +
+> +diff --git a/top/top.c b/top/top.c
+> +index bc609aa..1b5afee 100644
+> +--- a/top/top.c
+> ++++ b/top/top.c
+> +@@ -3810,6 +3810,20 @@ error Hey, fix the above fscanf 'PFLAGSSIZ' dependency !
+> + } // end: config_file
+> + 
+> + 
+> ++static int snprintf_Rc_name (const char *const format, ...) __attribute__((format(printf,1,2)));
+> ++static int snprintf_Rc_name (const char *const format, ...) {
+> ++   int len;
+> ++   va_list ap;
+> ++   va_start(ap, format);
+> ++   len = vsnprintf(Rc_name, sizeof(Rc_name), format, ap);
+> ++   va_end(ap);
+> ++   if (len <= 0 || (size_t)len >= sizeof(Rc_name)) {
+> ++      Rc_name[0] = '\0';
+> ++      return 0;
+> ++   }
+> ++   return len;
+> ++}
+> ++
+> +         /*
+> +          * Try reading up to 3 rcfiles
+> +          * 1. 'SYS_RCRESTRICT' contains two lines consisting of the secure
+> +@@ -3842,23 +3856,31 @@ static void configs_read (void) {
+> +       fclose(fp);
+> +    }
+> + 
+> ++   Rc_name[0] = '\0'; // "fopen() shall fail if pathname is an empty string."
+> +    // attempt to use the legacy file first, if we cannot access that file, use
+> +    // the new XDG basedir locations (XDG_CONFIG_HOME or HOME/.config) instead.
+> +    p_home = getenv("HOME");
+> +-   if (!p_home || p_home[0] == '\0')
+> +-      p_home = ".";
+> +-   snprintf(Rc_name, sizeof(Rc_name), "%s/.%src", p_home, Myname);
+> ++   if (!p_home || p_home[0] != '/') {
+> ++      const struct passwd *const pwd = getpwuid(getuid());
+> ++      if (!pwd || !(p_home = pwd->pw_dir) || p_home[0] != '/') {
+> ++         p_home = NULL;
+> ++      }
+> ++   }
+> ++   if (p_home) {
+> ++      snprintf_Rc_name("%s/.%src", p_home, Myname);
+> ++   }
+> + 
+> +    if (!(fp = fopen(Rc_name, "r"))) {
+> +       p = getenv("XDG_CONFIG_HOME");
+> +       // ensure the path we get is absolute, fallback otherwise.
+> +       if (!p || p[0] != '/') {
+> ++         if (!p_home) goto system_default;
+> +          p = fmtmk("%s/.config", p_home);
+> +          (void)mkdir(p, 0700);
+> +       }
+> +-      snprintf(Rc_name, sizeof(Rc_name), "%s/procps", p);
+> ++      if (!snprintf_Rc_name("%s/procps", p)) goto system_default;
+> +       (void)mkdir(Rc_name, 0700);
+> +-      snprintf(Rc_name, sizeof(Rc_name), "%s/procps/%src", p, Myname);
+> ++      if (!snprintf_Rc_name("%s/procps/%src", p, Myname)) goto system_default;
+> +       fp = fopen(Rc_name, "r");
+> +    }
+> + 
+> +@@ -3867,6 +3889,7 @@ static void configs_read (void) {
+> +       fclose(fp);
+> +       if (p) goto default_or_error;
+> +    } else {
+> ++system_default:
+> +       fp = fopen(SYS_RCDEFAULTS, "r");
+> +       if (fp) {
+> +          p = config_file(fp, SYS_RCDEFAULTS, &tmp_delay);
+> +-- 
+> +2.14.3
+> +
+> diff --git a/meta/recipes-extended/procps/procps_3.3.14.bb b/meta/recipes-extended/procps/procps_3.3.14.bb
+> index 1aba511..b7b6b6b 100644
+> --- a/meta/recipes-extended/procps/procps_3.3.14.bb
+> +++ b/meta/recipes-extended/procps/procps_3.3.14.bb
+> @@ -15,6 +15,8 @@ inherit autotools gettext pkgconfig update-alternatives
+>  SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+>             file://sysctl.conf \
+>             file://0001-Fix-out-of-tree-builds.patch \
+> +           file://0001-top-Do-not-default-to-the-cwd-in-configs_read.patch \
+> +           file://0001-ps-output.c-Fix-outbuf-overflows-in-pr_args-etc.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "fce371ccc1c15a67af9d85e4057e559d"
 
 
