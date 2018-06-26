@@ -1,30 +1,30 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 46ADD74740
+	by mail.openembedded.org (Postfix) with ESMTP id BFC6B60125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 05:44:26 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41506802"
+	Tue, 26 Jun 2018 06:07:50 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41507718"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Jun 2018 13:44:26 +0800
+	by heian.cn.fujitsu.com with ESMTP; 26 Jun 2018 14:07:51 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 635C74B41EF0
+	by cn.fujitsu.com (Postfix) with ESMTP id 97DF74B41EEF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2018 13:44:19 +0800 (CST)
+	Tue, 26 Jun 2018 14:07:48 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Tue, 26 Jun 2018 13:44:24 +0800
+	Server (TLS) id 14.3.399.0; Tue, 26 Jun 2018 14:07:53 +0800
 From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jun 2018 13:44:17 +0800
-Message-ID: <1529991857-76866-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Tue, 26 Jun 2018 14:04:48 +0800
+Message-ID: <1529993088-77227-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 635C74B41EF0.A829A
+X-yoursite-MailScanner-ID: 97DF74B41EEF.AACB3
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] glibc: fix CVE-2018-11237
+Subject: [sumo][PATCH] glibc: fix CVE-2018-11237
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2018 05:44:28 -0000
+X-List-Received-Date: Tue, 26 Jun 2018 06:07:51 -0000
 Content-Type: text/plain
 
 glibc: fix CVE-2018-11237
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2018-11237.patch | 82 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc/CVE-2018-11237.patch | 83 ++++++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.27.bb              |  1 +
- 2 files changed, 83 insertions(+)
+ 2 files changed, 84 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
 
 diff --git a/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch b/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
 new file mode 100644
-index 0000000..632aa56
+index 0000000..33168be
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/CVE-2018-11237.patch
-@@ -0,0 +1,82 @@
+@@ -0,0 +1,83 @@
 +From 9aaaab7c6e4176e61c59b0a63c6ba906d875dc0e Mon Sep 17 00:00:00 2001
 +From: Andreas Schwab <schwab@suse.de>
 +Date: Tue, 22 May 2018 10:37:59 +0200
 +Subject: [PATCH] Don't write beyond destination in
 + __mempcpy_avx512_no_vzeroupper (bug 23196)
 +
-+When compiled as mempcpy, the return value is the end of the destination
++When compiled as mempcpy, the return value is the end of the
++estination
 +buffer, thus it cannot be used to refer to the start of it.
 +
 +2018-05-23  Andreas Schwab  <schwab@suse.de>
@@ -83,7 +84,7 @@ index 0000000..632aa56
 + 3 files changed, 13 insertions(+), 2 deletions(-)
 +
 +diff --git a/ChangeLog b/ChangeLog
-+index fa0a07c..bc09dec 100644
++index 23ff0ea..85f6d25 100644
 +--- a/ChangeLog
 ++++ b/ChangeLog
 +@@ -1,3 +1,12 @@
@@ -96,9 +97,9 @@ index 0000000..632aa56
 ++	use it instead of %rax after the loop.
 ++	* string/test-mempcpy.c (MIN_PAGE_SIZE): Define.
 ++
-+ 2018-05-09  Paul Pluzhnikov  <ppluzhnikov@google.com>
++ 2018-02-22  Andrew Waterman <andrew@sifive.com>
 + 
-+ 	[BZ #22786]
++ 	[BZ # 22884]
 +diff --git a/string/test-mempcpy.c b/string/test-mempcpy.c
 +index c08fba8..d98ecdd 100644
 +--- a/string/test-mempcpy.c
@@ -135,22 +136,22 @@ index 0000000..632aa56
 + 
 + L(preloop_large_bkw):
 +-- 
-+2.7.4
++1.8.3.1
 +
 diff --git a/meta/recipes-core/glibc/glibc_2.27.bb b/meta/recipes-core/glibc/glibc_2.27.bb
-index fe23eb6..b14c02c 100644
+index c814798..59c9d07 100644
 --- a/meta/recipes-core/glibc/glibc_2.27.bb
 +++ b/meta/recipes-core/glibc/glibc_2.27.bb
-@@ -46,6 +46,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+@@ -45,6 +45,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-bits-siginfo-consts.h-enum-definition-for-TRAP_HWBKP.patch \
+            file://0029-Replace-strncpy-with-memccpy-to-fix-Wstringop-trunca.patch \
             file://0030-plural_c_no_preprocessor_lines.patch \
-            file://CVE-2017-18269.patch \
-            file://CVE-2018-11236.patch \
 +           file://CVE-2018-11237.patch \
  "
  
  NATIVESDKFIXES ?= ""
 -- 
-2.7.4
+1.8.3.1
 
 
 
