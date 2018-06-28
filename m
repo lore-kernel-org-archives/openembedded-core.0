@@ -1,31 +1,24 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A512D748F1
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CE9D87471A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 08:45:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w5S8inx2021888
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jun 2018 01:45:05 -0700
-Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 28 Jun 2018 01:44:38 -0700
-To: <openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <1528165980-163833-1-git-send-email-hongzhi.song@windriver.com>
-	<0c79440f-858d-f155-4cf1-250e79cdcd7c@windriver.com>
-	<db096545-45b4-b299-72c4-850b4fb9e248@windriver.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <39c14916-285a-c0e6-96a4-6c7812cfd893@windriver.com>
-Date: Thu, 28 Jun 2018 16:46:05 +0800
+	Thu, 28 Jun 2018 08:48:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w5S8mMKX010377
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2018 01:48:22 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Thu, 28 Jun 2018 01:48:21 -0700
+To: <openembedded-core@lists.openembedded.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <969ccd61-7a03-a81f-c36f-04c5d806d3e2@windriver.com>
+Date: Thu, 28 Jun 2018 16:48:08 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <db096545-45b4-b299-72c4-850b4fb9e248@windriver.com>
-X-Originating-IP: [128.224.162.198]
-Subject: Re: [meta][PATCH 0/2] Add kernel-sample tests for runtime test
+Subject: [RFC] How to deal allarch packages in dependency chain for multilib rootfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +31,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 08:45:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Jun 2018 08:48:23 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5B4AE70FE90E405B134490C0"
 Content-Language: en-US
 
-ping
+--------------5B4AE70FE90E405B134490C0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
--- Hongzhi
+Hi all,
 
+When build 32 bits rootfs with 64 bits bsp, if an allarch/noarch package 
+is installed to lib32 rootfs, it causes
+unexpected 64 bits packages which is required by the allarch package 
+installed to lib32 rootfs.
 
-On 2018年06月19日 13:54, Hongzhi, Song wrote:
-> ping
->
-> --Hongzhi
->
->
-> On 2018年06月08日 10:03, Hongzhi, Song wrote:
->> ping...
->>
->>
->> A bug has been created, but the patch hasn't been adapted.
->>
->> bug 12774 : https://bugzilla.yoctoproject.org/show_bug.cgi?id=12774
->>
->>
->> We plan to add more tests about kernel in the next time.
->>
->>
->> If there is no objection, could you adapt my patch?
->>
->>
->> -- Hongzhi
->>
->>
->> On 2018年06月05日 10:32, Hongzhi.Song wrote:
->>> V4:
->>>   * add support for qemu by default
->>>
->>> V3:
->>>   * remove duplicated code
->>>
->>> V2:
->>>   * use shared function to replace similar code
->>>
->>> Hongzhi.Song (2):
->>>    meta runtime testcases: enable kernel-sample features for runtime
->>>      tests
->>>    Meta runtime cases: add testcases for kernel sample
->>>
->>>   meta/lib/oeqa/runtime/cases/ksample.py    | 213 
->>> ++++++++++++++++++++++++++++++
->>>   meta/recipes-kernel/linux/linux-yocto.inc |   3 +
->>>   2 files changed, 216 insertions(+)
->>>   create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
->>>
->>
->
+Take ca-certificates as example. ca-certificates rdepends on openssl, so 
+if ca-certificates is installed to image,
+64 bits package openssl will be installed too no matter what the rootfs 
+is. But only 32 bits openssl package should
+be installed to 32 bits rootfs.
+
+There are 2 ways to fixed the issue.
+
+1 expand allarch/noarch packages with multilib. So if add 
+ca-certificates to image, lib32-ca-certificates will be
+    installed to 32bits rootfs. And then also the dependency 
+lib32-openssl is installed. That is what we expected.
+
+2 expand DEPENDS/RDEPENDS of allarch/noarch packages with a prefix 
+'noarch-' when multilib is enabled. So then
+ca-certificates requires 'noarch-openssl'. And make both lib32-openssl 
+and openssl provides 'noarch-openssl'.
+    When do_rootfs, there is only one rpm repo 'oe-rootfs-repo' now. We 
+will create repos with different priorities
+    according to different archs/subdirectories. For 32 bits image, make 
+32 bits rpm repo has  higher priority, so lib32-openssl
+    will be installed to 32 bits rootfs rather than 64bits.
+
+I know these 2 ways are not perfect, but only possible ways I have in 
+mind to solve the problem.
+
+Any comment or suggestion is greatly appreciated. Thanks a lot.
+
+-- 
+Regards,
+Neil | Kai Kang
 
 
+--------------5B4AE70FE90E405B134490C0
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><font size="+1">Hi all,</font></p>
+    <p><font size="+1">When build </font><font size="+1"><font
+          size="+1">32 bits rootfs with </font>64 bits bsp, if an
+        allarch/noarch package is installed to lib32 rootfs, it causes<br>
+        unexpected 64 bits packages which is required by the allarch
+        package installed to lib32 rootfs.</font></p>
+    <p><font size="+1">Take ca-certificates as example. </font><font
+        size="+1"><font size="+1">ca-certificates rdepends on openssl,
+          so if </font></font><font size="+1"><font size="+1"><font
+            size="+1"><font size="+1">ca-certificates is installed to
+              image,<br>
+              64 bits package openssl will be installed too no matter
+              what the rootfs is. But only 32 bits openssl package
+              should<br>
+              be installed to 32 bits rootfs.</font></font></font></font></p>
+    <p><font size="+1"><font size="+1"><font size="+1"><font size="+1">There
+              are 2 ways to fixed the issue.</font></font></font></font></p>
+    <p><font size="+1"><font size="+1"><font size="+1"><font size="+1">1
+              expand allarch/noarch packages with multilib. So if add </font></font></font></font><font
+        size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+                size="+1"><font size="+1">ca-certificates to image, </font></font>lib32-</font></font></font></font><font
+        size="+1"><font size="+1">ca-certificates will be<br>
+             installed to 32bits rootfs. And then also the dependency
+          lib32-openssl is installed. That is what we expected.<br>
+        </font></font></p>
+    <p><font size="+1"><font size="+1">2 expand DEPENDS/RDEPENDS of </font></font><font
+        size="+1"><font size="+1"><font size="+1"><font size="+1">allarch/noarch
+              packages with a prefix 'noarch-' when multilib is enabled.
+              So</font> then<br>
+               </font></font></font><font size="+1"><font size="+1"><font
+            size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+                    size="+1"><font size="+1"><font size="+1"><font
+                          size="+1">ca-certificates requires
+                          'noarch-openssl'. And make both lib32-openssl
+                          and openssl provides </font></font></font></font></font></font></font></font></font></font><font
+        size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1">'noarch-openssl'.<br>
+                             When do_rootfs, there is only one rpm repo
+                          'oe-rootfs-repo' now. We will create repos
+                          with different priorities<br>
+                             according to different
+                          archs/subdirectories. For 32 bits image, make
+                          32 bits rpm repo has  higher priority, so </font></font></font></font></font></font></font></font></font></font><font
+        size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1">lib32-openssl<br>
+                             will be installed to 32 bits rootfs rather
+                          than 64bits.</font></font></font></font></font></font></font></font></font></font></p>
+    <p><font size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1">I know
+                          these 2 ways are not perfect, but only
+                          possible ways I have in mind to solve the
+                          problem.</font></font></font></font></font></font></font></font></font></font><font
+        size="+1"><br>
+      </font></p>
+    <p><font size="+1">Any comment or suggestion is greatly appreciated.
+        Thanks a lot.</font></p>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------5B4AE70FE90E405B134490C0--
