@@ -1,52 +1,61 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1527D74813
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FF7574C4D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 17:53:53 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id p17-v6so8853962itc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 10:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Vt0P9GBVzpVw9fNXAs6xZwpp7Le8H8fsIORo1cVmO1o=;
-	b=I5VANm0xuOhh+2ZRXRuCuVzSL6eCdowqsRepkZgLpDtEnA80DPP/2UIqdJqnQVBXcX
-	2//hIPCnb1iBr+fNrkhCbYtUMaB3q+0N96n5StIvNIfL2FVgld+jyw/exwqHtxBcfDck
-	S9HYekxG9m6yM/Q1PMP+MX9NNXEIVW0MIm677X9P28VlD5Xueu4nZcAEICi2xghGlxX+
-	Sy6TfVdjQbUh2qHB4mX/q1TWDLP2C3sajQ1Ze27BlIu48j9nq+AzRO843CtRo/Js0Rmp
-	evo2rhh7t7OKvity1zxN/mu+49IMpRwZdwPhQM9FG71VckeN2HfaivjW4zCRbBP2K8MG
-	Vv1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Vt0P9GBVzpVw9fNXAs6xZwpp7Le8H8fsIORo1cVmO1o=;
-	b=oBLmF4jzg9zSgoM6A9vR6zqIgMT+ekAzHAnDlpp7tXLfrYJ0c83jvjh1cp4PuHUi4r
-	dbtxm5HSXf16GWc1uIfdmWWTdP4SyCXdHbgEMo8+k/k/MKDl6kSwo8myvnuFhpVS2Kec
-	0sMREG16bvCe9UHWm03x6fQfkeRZnpChYcpbJwn4TkFcl9ecTZy8SKUng/8hwoOtGJtD
-	c5VG+TTOAEZFvYJv3E6XX/rAhvnVxMt18Y+1hBA6u1RzbvOYyr+SPlV042vMqguCh8Za
-	s8vNN5oHVK4NdrmKZi4HUFEMnYPi0dO3tGRl6+xg1+ECQyXPbVNp3boD5bp38y7MpIEt
-	J8hA==
-X-Gm-Message-State: APt69E2dUPWSgThnGeie9qdquF03tJF2YE9nJu/RvrIGIGPM6GThYh+C
-	GwJIAHTqxc6vPhtfns/IorWMTsos
-X-Google-Smtp-Source: ADUXVKI9b5mUFOvJwN0fvmyqWxf86rsfFx02HDN8dFJpWn398Th55e/eYy78PS5cUi514alKuIt+Zw==
-X-Received: by 2002:a24:7215:: with SMTP id
-	x21-v6mr8946629itc.131.1530208434882; 
-	Thu, 28 Jun 2018 10:53:54 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	d202-v6sm4350945itc.30.2018.06.28.10.53.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 28 Jun 2018 10:53:54 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jun 2018 12:53:42 -0500
-Message-Id: <20180628175342.16560-2-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180628175342.16560-1-JPEWhacker@gmail.com>
-References: <20180628175342.16560-1-JPEWhacker@gmail.com>
-Subject: [PATCH 2/2] oe-selftest: Add bitbake-layer create-layer test
+	Thu, 28 Jun 2018 18:34:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4740B18361;
+	Thu, 28 Jun 2018 20:34:08 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 57lOGzwPjkLo; Thu, 28 Jun 2018 20:34:05 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 1C661186A7;
+	Thu, 28 Jun 2018 20:34:05 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0A6481A09D;
+	Thu, 28 Jun 2018 20:34:05 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F2A351A09B;
+	Thu, 28 Jun 2018 20:34:04 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 28 Jun 2018 20:34:04 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id E5CB01F60;
+	Thu, 28 Jun 2018 20:34:04 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 28 Jun 2018 20:34:04 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Thu, 28 Jun 2018 20:34:04 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>, "kergoth@gmail.com"
+	<kergoth@gmail.com>
+Thread-Topic: [OE-core] [OE-Core][PATCH 1/2] image: Set COREBASE as the git
+	directory for timestamp
+Thread-Index: AQHUDvUSRT5YkYp5VUGNcqE+UqvRlaR1sfIAgABH0hA=
+Date: Thu, 28 Jun 2018 18:34:04 +0000
+Message-ID: <5847dcfcc2cd4024befae98b7d245c45@XBOX02.axis.com>
+References: <1530014936-10858-1-git-send-email-alex.kiernan@gmail.com>
+	<4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
+	<257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
+	<CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
+	<CAO5Uq5RCb_b=VmdWky+6Cen5509i23mR24G3xx-RMZFoeH6wbw@mail.gmail.com>
+In-Reply-To: <CAO5Uq5RCb_b=VmdWky+6Cen5509i23mR24G3xx-RMZFoeH6wbw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] image: Set COREBASE as the git directory for timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +68,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 17:53:54 -0000
+X-List-Received-Date: Thu, 28 Jun 2018 18:34:08 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Adds a test that creates a layer, adds it to bblayers.conf, then ensure
-that it appears properly in bitbake-layers show-layers.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/selftest/cases/bblayers.py | 26 +++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 90a2249b081..fba7fbb9b0f 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -2,7 +2,7 @@ import os
- import re
- 
- import oeqa.utils.ftools as ftools
--from oeqa.utils.commands import runCmd, get_bb_var
-+from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator.oeid import OETestID
-@@ -85,6 +85,30 @@ class BitbakeLayers(OESelftestTestCase):
-         self.assertNotEqual(result.status, 0, 'bitbake-layers show-recipes -i nonexistentclass should have failed')
-         self.assertIn('ERROR:', result.output)
- 
-+    def test_bitbakelayers_createlayer(self):
-+        priority = 10
-+        layername = 'test-bitbakelayer-layercreate'
-+        layerpath = os.path.join(get_bb_var('COREBASE'), layername)
-+        self.assertFalse(os.path.exists(layerpath), '%s should not exist at this point in time' % layerpath)
-+        result = runCmd('bitbake-layers create-layer --priority=%d %s' % (priority, layerpath))
-+        self.track_for_cleanup(layerpath)
-+        result = runCmd('bitbake-layers add-layer %s' % layerpath)
-+        result = runCmd('bitbake-layers show-layers')
-+        find_in_contents = re.search(re.escape(layername) + r'\s+' + re.escape(layerpath) + r'\s+' + re.escape(str(priority)), result.output)
-+        self.assertTrue(find_in_contents, "%s not found in layers" % layername)
-+
-+        layervars = ['BBFILE_PRIORITY', 'BBFILE_PATTERN', 'LAYERDEPENDS', 'LAYERSERIES_COMPAT']
-+        bb_vars = get_bb_vars(['BBFILE_COLLECTIONS'] + ['%s_%s' % (v, layername) for v in layervars])
-+
-+        for v in layervars:
-+            varname = '%s_%s' % (v, layername)
-+            self.assertTrue(bb_vars[varname], "%s not found" % varname)
-+
-+        find_in_contents = re.search(r'(^|\s)' + re.escape(layername) + r'($|\s)', bb_vars['BBFILE_COLLECTIONS'])
-+        self.assertTrue(find_in_contents, "%s not in BBFILE_COLLECTIONS" % layername)
-+
-+        self.assertEqual(str(priority), bb_vars['BBFILE_PRIORITY_%s' % layername])
-+
-     def get_recipe_basename(self, recipe):
-         recipe_file = ""
-         result = runCmd("bitbake-layers show-recipes -f %s" % recipe)
--- 
-2.17.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4IEtpZXJuYW4gW21haWx0
+bzphbGV4LmtpZXJuYW5AZ21haWwuY29tXQ0KPiBTZW50OiBkZW4gMjgganVuaSAyMDE4IDE3OjU3
+DQo+IFRvOiBrZXJnb3RoQGdtYWlsLmNvbQ0KPiBDYzogcmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZzsgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW09FLUNvcmVdW1BBVENIIDEvMl0gaW1hZ2U6IFNldCBDT1JFQkFT
+RSBhcyB0aGUNCj4gZ2l0IGRpcmVjdG9yeSBmb3IgdGltZXN0YW1wDQo+IA0KPiBPbiBUaHUsIEp1
+biAyOCwgMjAxOCBhdCA0OjMxIFBNIENocmlzdG9waGVyIExhcnNvbiA8a2VyZ290aEBnbWFpbC5j
+b20+DQo+IHdyb3RlOg0KPiA+DQo+ID4gT24gVGh1LCBKdW4gMjgsIDIwMTggYXQgODoyOSBBTSBS
+aWNoYXJkIFB1cmRpZQ0KPiA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3Jv
+dGU6DQo+ID4+DQo+ID4+IE9uIFRodSwgMjAxOC0wNi0yOCBhdCAxNToxOCArMDAwMCwgUGV0ZXIg
+S2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+PiA+IFRoZXJlIGlzIG5vIGd1YXJhbnRlZSB0aGF0ICR7
+Q09SRUJBU0V9IHJlZmVycyB0byBhIHBhdGggdGhhdCBpcw0KPiA+PiA+IHVuZGVyIEdpdCBjb250
+cm9sLiBFLmcuLCBpbiBvdXIgY2FzZSBpdCByZWZlcnMgdG8gYSBkaXJlY3RvcnkgdGhhdA0KPiA+
+PiA+IGlzIHVuZGVyIHJlcG8gY29udHJvbC4gIiR7Q09SRUJBU0V9L21ldGEiIGlzIHByb2JhYmx5
+IGEgYmV0dGVyDQo+ID4+ID4gb3B0aW9uLg0KPiA+Pg0KPiA+PiBZb3UgY291bGQgbWFrZSB0aGF0
+IGFyZ3VtZW50IGFib3V0IC9tZXRhIHRvby4NCj4gPj4NCj4gPj4gSSdkIHN1Z2dlc3QgdGhlIGNv
+ZGUgY2hlY2tzIGZvciAke0NPUkVCQVNFfS8uZ2l0IGFuZCBpZiB0aGF0IGRvZXNuJ3QNCj4gDQo+
+IEluIGEgcG9reSBjaGVja291dCBmcm9tIHJlcG8gKHdoaWNoIGlzIHdoYXQgSSdtIGFsc28gdXNp
+bmcpLA0KPiAke0NPUkVCQVNFfS9tZXRhLy5naXQgZG9lc24ndCBleGlzdCwgYnV0ICR7Q09SRUJB
+U0V9Ly5naXQgZG9lcywgYnV0DQo+IHRoYXQgYWxsIHdvcmtzIGJlY2F1c2UgaXQncyBjbGltYmlu
+ZyB0aGUgZGlyZWN0b3J5IHRyZWUgdG8gZmluZCB0aGUNCj4gLmdpdCBkaXJlY3RvcnkuDQo+IA0K
+PiA+PiBleGlzdCwgZmFsbCBiYWNrIHRvIHRoZSB0aW1lc3RhbXAgb2YgdGhlDQo+ID4+ICR7Q09S
+RUJBU0V9L21ldGEvY29uZi9iaXRiYWtlLmNvbmYgZmlsZS4NCj4gPg0KPiA+IFRoYXQncyBhIGdv
+b2QgaWRlYSwgYnV0IEknZCBzdWdnZXN0IHVzaW5nIGJiLnV0aWxzLndoaWNoKCkgdG8gbG9jYXRl
+DQo+ID4gY29uZi9iaWJha2UuY29uZiByYXRoZXIgdGhhbiBoYXJkY29kaW5nIHRoYXQgcGF0aC4N
+Cj4gDQo+IEhvdyBhYm91dCAodG90YWxseSB1bnRlc3RlZCk6DQo+IA0KPiBpZiBnaXQgLUMgIiR7
+Q09SRUJBU0V9L21ldGEiIHJldi1wYXJzZSAtLXNob3ctdG9wbGV2ZWw7IHRoZW4NCj4gICBSRVBS
+T0RVQ0lCTEVfVElNRVNUQU1QX1JPT1RGUz1gZ2l0IC1DICIke0NPUkVCQVNFfS9tZXRhIiBsb2cg
+LTEgLS1wcmV0dHk9JWN0YA0KPiBlbHNlDQo+ICAgUkVQUk9EVUNJQkxFX1RJTUVTVEFNUF9ST09U
+RlM9YHN0YXQgLWMlWSAke0BiYi51dGlscy53aGljaChiYnBhdGgsICJjb25mL2JpdGJha2UuY29u
+ZiIpfWANCj4gZmkNCj4gDQo+ID8NCg0KWW91IGRvIG5vdCByZWFsbHkgbmVlZCB0aGUgZmlyc3Qg
+Z2l0IGNhbGwgYWJvdmU6DQoNClJFUFJPRFVDSUJMRV9USU1FU1RBTVBfUk9PVEZTPSQoZ2l0IC1D
+ICIke0NPUkVCQVNFfS9tZXRhIiBsb2cgLTEgLS1wcmV0dHk9JWN0IDI+L2Rldi9udWxsKQ0KaWYg
+WyAteiAiJFJFUFJPRFVDSUJMRV9USU1FU1RBTVBfUk9PVEZTIiBdOyB0aGVuDQoJUkVQUk9EVUNJ
+QkxFX1RJTUVTVEFNUF9ST09URlM9JChzdGF0IC1jJVkgJHtAYmIudXRpbHMud2hpY2goYmJwYXRo
+LCAiY29uZi9iaXRiYWtlLmNvbmYiKX0pDQpmaQ0KDQo+IC0tDQo+IEFsZXggS2llcm5hbg0KDQov
+L1BldGVyDQoNCg==
 
