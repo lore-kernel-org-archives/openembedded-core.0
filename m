@@ -1,27 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D2DD74966
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8118874966
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 15:28:58 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w5SFSrVx007917
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Thu, 28 Jun 2018 16:28:54 +0100
-Message-ID: <257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Alex Kiernan
-	<alex.kiernan@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jun 2018 16:28:53 +0100
-In-Reply-To: <4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
+	Thu, 28 Jun 2018 15:31:19 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id 188-v6so5556985oid.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2018 08:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tlLIQ/oR7JWMR6B1EV9huulthHNMLFZGzlw67CjGHTY=;
+	b=AzoeEuRJaYjFQoEjL9+R+c9IaIpmoSpV2ozduG0azc0fdt3XYbOQ/pYzhYtGJRxkLW
+	uYFLEldXVcidr/acRZSkDYCOI5WWTvtYNpi3+I6ZZVmC+S10E5Wt1hfFiSGIngW9/IQV
+	j6nN5D4sc4Ak0b83tHtVLG9nxH4v2T/PyJdDJPTqOk1GJw08yRCd0I4P7ucH1SN20v7j
+	l78yAkGMfT3zsGOo5Ao2zKR4rcVCfEIc39j7/fipqpuEM5zKeCN9f0BJU+Ngr6vGVClr
+	3ujjX5ENrHxlYynXsJzI9dqjJxqx7tcg4d66Mhdf0X/2v5HI+UzmqhcCTs3ir2qHSLpl
+	uuVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tlLIQ/oR7JWMR6B1EV9huulthHNMLFZGzlw67CjGHTY=;
+	b=uJNesdBRgCotzCPLr2OUse+v87hde34a+yi62pDgFOzZSf4QsvCYEkoywWRkDjN/4C
+	HUSGMMujDxA5KRIbZuCZz5lLLq6KY+oyfY1cr2PunHZHqGA5v9/TUu//wUe3yUjhXuas
+	W4g6fl6j526X3zPTdpgHr+OKMoeWFtFNsC1lCTo//d6mgt58VF5uEUgjhVYhXRGiiVh7
+	+1b/eqAk25GcQEBnHA4Uj3dnRE/o057VnzSO/5jctKgjXOw1KdkmULN6zakg3HQ1OvtT
+	xSleifv67iQC3j0MDU3wrs4vMc0ZsDTt+qabu5tFTqIvZqSiyvTZzY5nHGtkcxh03SjD
+	pfiA==
+X-Gm-Message-State: APt69E15kuG4wdDUEiH/RbWg1B15AJSvwdNC7POe20/ur5LHh8GQtqLP
+	eO30VrzJuUhLe6v8MDD+3+G7+sHKUejMYi/Vp5E=
+X-Google-Smtp-Source: AAOMgpf7cNjldu4Gkz+yLA07Vp14o2jrfKovIKQkWvKM+5WhrPaVaEbym2SzXxRo+PazEkSRkHTuUVsdQk4cYE3NJv8=
+X-Received: by 2002:aca:b285:: with SMTP id
+	b127-v6mr6229440oif.130.1530199880120; 
+	Thu, 28 Jun 2018 08:31:20 -0700 (PDT)
+MIME-Version: 1.0
 References: <1530014936-10858-1-git-send-email-alex.kiernan@gmail.com>
 	<4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/2] image: Set COREBASE as the git	directory for timestamp
+	<257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
+In-Reply-To: <257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Thu, 28 Jun 2018 08:31:08 -0700
+Message-ID: <CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: Re: [PATCH 1/2] image: Set COREBASE as the git directory for timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 15:28:59 -0000
+X-List-Received-Date: Thu, 28 Jun 2018 15:31:19 -0000
+Content-Type: multipart/alternative; boundary="0000000000004a41c0056fb56ca8"
+
+--0000000000004a41c0056fb56ca8
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-06-28 at 15:18 +0000, Peter Kjellerstedt wrote:
-> There is no guarantee that ${COREBASE} refers to a path that is
-> under Git control. E.g., in our case it refers to a directory that is
-> under repo control. "${COREBASE}/meta" is probably a better option.
+On Thu, Jun 28, 2018 at 8:29 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-You could make that argument about /meta too.
+> On Thu, 2018-06-28 at 15:18 +0000, Peter Kjellerstedt wrote:
+> > There is no guarantee that ${COREBASE} refers to a path that is
+> > under Git control. E.g., in our case it refers to a directory that is
+> > under repo control. "${COREBASE}/meta" is probably a better option.
+>
+> You could make that argument about /meta too.
+>
+> I'd suggest the code checks for ${COREBASE}/.git and if that doesn't
+> exist, fall back to the timestamp of the
+> ${COREBASE}/meta/conf/bitbake.conf file.
+>
 
-I'd suggest the code checks for ${COREBASE}/.git and if that doesn't
-exist, fall back to the timestamp of the
-${COREBASE}/meta/conf/bitbake.conf file.
+That's a good idea, but I'd suggest using bb.utils.which() to locate
+conf/bibake.conf rather than hardcoding that path.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-Cheers,
+--0000000000004a41c0056fb56ca8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu=
+, Jun 28, 2018 at 8:29 AM Richard Purdie &lt;<a href=3D"mailto:richard.purd=
+ie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">On Thu, 2018-06-28 at 15:18 +0000, P=
+eter Kjellerstedt wrote:<br>
+&gt; There is no guarantee that ${COREBASE} refers to a path that is<br>
+&gt; under Git control. E.g., in our case it refers to a directory that is<=
+br>
+&gt; under repo control. &quot;${COREBASE}/meta&quot; is probably a better =
+option.<br>
+<br>
+You could make that argument about /meta too.<br>
+<br>
+I&#39;d suggest the code checks for ${COREBASE}/.git and if that doesn&#39;=
+t<br>
+exist, fall back to the timestamp of the<br>
+${COREBASE}/meta/conf/bitbake.conf file.<br></blockquote><div><br></div><di=
+v>That&#39;s a good idea, but I&#39;d suggest using bb.utils.which() to loc=
+ate conf/bibake.conf rather than hardcoding that path.<br></div></div>-- <b=
+r><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signat=
+ure"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth a=
+t gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior So=
+ftware Engineer, Mentor Graphics</div></div></div></div></div>
 
-> //Peter
-> 
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> > Of
-> > Alex Kiernan
-> > Sent: den 26 juni 2018 14:09
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [OE-Core][PATCH 1/2] image: Set COREBASE as the
-> > git
-> > directory for timestamp
-> > 
-> > When REPRODUCIBLE_TIMESTAMP_ROOTFS is unset and we want to parse
-> > one
-> > from git, use COREBASE as the base for the git command so we have a
-> > known repository which we're using. Without this the build may fail
-> > if the current directory is not part of a git repository.
-> > 
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> > 
-> >  meta/classes/image.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/image.bbclass
-> > b/meta/classes/image.bbclass
-> > index 8ef06c0..2e88024 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -651,7 +651,7 @@ POPULATE_SDK_PRE_TARGET_COMMAND +=
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'usr
-> >  reproducible_final_image_task () {
-> >      if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
-> >          if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-> > -            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --
-> > pretty=%ct`
-> > +            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}"
-> > log -1
-> > --pretty=%ct`
-> >          fi
-> >          # Set mtime of all files to a reproducible value
-> >          bbnote "reproducible_final_image_task: mtime set to
-> > $REPRODUCIBLE_TIMESTAMP_ROOTFS"
-> > --
-> > 2.7.4
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--0000000000004a41c0056fb56ca8--
