@@ -1,49 +1,29 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 557566E615
+Return-Path: <Arsalan_Awan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id B374E6E671
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 15:57:31 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id n4-v6so3874285uad.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 08:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rwdcWVc3AetOO8QszqoNfoL+n6D0XG57hEWehi6CCSY=;
-	b=MNih1ToJYrw29WBqnzqwPNTmVLqBPLg8G8CQE6UBNmWoQ1vA39ER/PjPdyJ5BULmnQ
-	XjizP1Md0q9Ubf0wnty4FQB3gilQdMHXfjo7BAnYxxND0kYdeO7vEZ1Op8KDG2mMi5dC
-	tYfaeOOzPv15FN3U92zuRvEvrs4uGzdmUGA4z1vpSfReQQPYNSaHCCpNoykqHsMb5RUm
-	G+/bHAcelk+d9TAJj7kQqEsTuydBGNg45lNBeBOYsW4E+8Tsl++UKkhVZxha52DoNBZe
-	HDny61aqeaUxqGMCYmRgx0zDSG6npcrPp/eFqZ3VLvxm/m94+LIno+JDqLL94YNvOfvy
-	6qgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rwdcWVc3AetOO8QszqoNfoL+n6D0XG57hEWehi6CCSY=;
-	b=AhgcsTSwdLhlGp6+MTAUyXIVwXyzyd3WmXHWb4iYJxN/iIrGeeSBFk+FpdBv3PURFX
-	W82wTGHIye6Zhqjn5SDohwuYUgZXdQQvnlxZmsaY03StAwqo63L31UodE8XkEq9kLgkp
-	ak6vMx7MMaBYdlHE4Zc/d2HGdIB3JiLq/9PwHRKbo9yAkIUh7FyMUhKN7T7snCEezIgw
-	hXZqJ6N7fLgI/pLUOzfGUScSQh4sBKSOGHHTY3B4MrlG+X8NbG9s7AC6Zm0oHNcv6Prb
-	+4j3ZM74JwOceg3iSd7wTCr8d02dyCQALT2LRg7LmTnzMdb4RNqSDDe1fhADQYpLwNYo
-	b06g==
-X-Gm-Message-State: APt69E16KJB02wguKbpq5HKogIPFWlw5YR3XVvmgPfG/qk7bpKkUkL6R
-	p+t24iparhqOQ0yFpzJsZgTaHhDCnZg0JWlBdm8=
-X-Google-Smtp-Source: AAOMgpfnBuA9co49jxRwxl4uSRHHSmfYQDerq04msDqgxOoJjGRgRxKBdDCS39M63qHRAFZht4TFIkvILxdWoSQrdO0=
-X-Received: by 2002:ab0:784:: with SMTP id c4-v6mr6883911uaf.97.1530201452093; 
-	Thu, 28 Jun 2018 08:57:32 -0700 (PDT)
+	Thu, 28 Jun 2018 16:26:52 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+	id 1fYXjB-0002UR-2L from Arsalan_Awan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jun 2018 07:16:53 -0700
+Received: from PKL-AAWAN1-UBUNTU.pkl.mentorg.com (137.202.0.87) by
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
+	Server (TLS) id 15.0.1320.4; Thu, 28 Jun 2018 15:16:48 +0100
+From: Arsalan Awan <Arsalan_Awan@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jun 2018 19:16:36 +0500
+Message-ID: <54623c3251a086bd9474d51d60dd46183840506d.1530195143.git.Arsalan_Awan@mentor.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1530195143.git.Arsalan_Awan@mentor.com>
+References: <cover.1530195143.git.Arsalan_Awan@mentor.com>
 MIME-Version: 1.0
-References: <1530014936-10858-1-git-send-email-alex.kiernan@gmail.com>
-	<4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
-	<257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
-	<CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
-In-Reply-To: <CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 28 Jun 2018 16:57:20 +0100
-Message-ID: <CAO5Uq5RCb_b=VmdWky+6Cen5509i23mR24G3xx-RMZFoeH6wbw@mail.gmail.com>
-To: kergoth@gmail.com
-Cc: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image: Set COREBASE as the git directory for timestamp
+X-Originating-IP: [137.202.0.87]
+X-ClientProxiedBy: svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) To
+	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
+Subject: [PATCH 1/1] initrdscripts/init-live.sh: fix mounts w/ spaces fail to move to real rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 15:57:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Jun 2018 16:26:52 -0000
+Content-Type: text/plain
 
-On Thu, Jun 28, 2018 at 4:31 PM Christopher Larson <kergoth@gmail.com> wrote:
->
->
->
-> On Thu, Jun 28, 2018 at 8:29 AM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->>
->> On Thu, 2018-06-28 at 15:18 +0000, Peter Kjellerstedt wrote:
->> > There is no guarantee that ${COREBASE} refers to a path that is
->> > under Git control. E.g., in our case it refers to a directory that is
->> > under repo control. "${COREBASE}/meta" is probably a better option.
->>
->> You could make that argument about /meta too.
->>
->> I'd suggest the code checks for ${COREBASE}/.git and if that doesn't
+From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
 
-In a poky checkout from repo (which is what I'm also using),
-${COREBASE}/meta/.git doesn't exist, but ${COREBASE}/.git does, but
-that all works because it's climbing the directory tree to find the
-.git directory.
+When there are spaces in the mount points of devices e.g.:
 
->> exist, fall back to the timestamp of the
->> ${COREBASE}/meta/conf/bitbake.conf file.
->
->
-> That's a good idea, but I'd suggest using bb.utils.which() to locate conf/bibake.conf rather than hardcoding that path.
+ a partition mounted at "/run/media/My Root Partition-sda1",
 
-How about (totally untested):
+the initrd fails to move such mount points over to the
+corresponding directories at /media under the real root filesystem,
+and the mount points would appear at the same location as they were
+mounted on when detected by initrd, for example:
+ here: "/run/media/My Root Partition-sda1"
+ instead of here: "/media/My Root Partition-sda1"
 
-if git -C "${COREBASE}/meta" rev-parse --show-toplevel; then
-  REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}/meta" log -1 --pretty=%ct`
-else
-  REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y ${@bb.utils.which(bbpath,
-"conf/bitbake.conf")}`
-fi
+This causes issues such as:
 
-?
+  * The disks/partitions cannot be formated with any filesystem
+    using e.g. mkfs.ext4 or mke2fs in general. When tried to do so
+    by making sure the device is not mounted, it failed with
+    errors such as:
 
---
-Alex Kiernan
+    > /dev/sda1 is apparently in use by the system; will not make a
+      filesystem here!
+    > /dev/sda1: Device or resource busy while setting up superblock
+
+  * The read/write operations become extremely slow. e.g. Under testing,
+    it took approx. 2 hours just to copy 700 MB of data to the partition,
+    and it took more than 40 minutes to delete that data from it.
+    Same operations took under 5 minutes on a partition that had no
+    spaces in its mount point (or that was successfully moved to real
+    root by initrd and appeared under /media instead of /run/media).
+
+This commit fixes such issues by quoting the arguments of failing mount
+move commands and by parsing OCT or HEX encoded special characters
+such as spaces to ASCII charecters in the mount points as kernel
+populates the procfs like so.
+
+Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 46cab6c..65183d7 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -95,8 +95,11 @@ boot_live_root() {
+     # Move the mount points of some filesystems over to
+     # the corresponding directories under the real root filesystem.
+     for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
+-        mkdir -p  ${ROOT_MOUNT}/media/${dir##*/}
+-        mount -n --move $dir ${ROOT_MOUNT}/media/${dir##*/}
++        # Parse any OCT or HEX encoded chars such as spaces
++        # in the mount points to actual ASCII chars
++        dir=`printf $dir`
++        mkdir -p "${ROOT_MOUNT}/media/${dir##*/}"
++        mount -n --move "$dir" "${ROOT_MOUNT}/media/${dir##*/}"
+     done
+     mount -n --move /proc ${ROOT_MOUNT}/proc
+     mount -n --move /sys ${ROOT_MOUNT}/sys
+-- 
+2.7.4
+
 
