@@ -1,52 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DDA160017
+Received: from mail-ot0-f170.google.com (mail-ot0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EB16660017
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 11:14:57 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id i17-v6so5697821otl.1
+	Thu, 28 Jun 2018 11:20:20 +0000 (UTC)
+Received: by mail-ot0-f170.google.com with SMTP id i17-v6so5713077otl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 04:14:59 -0700 (PDT)
+	Thu, 28 Jun 2018 04:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=/aLn9wIX7IsMN8XHzaddsJxrjZoiGDl0zbk/Tr9lM9I=;
-	b=H9pzqX03iqwgGhfGYUVmCNhBxYQKtxUnGQ9WTOOB5avZMNpSzvL8kGf9xCOXiz7str
-	5JqSAxfDi2xlSfC9ZOC3StriE93plq0sZrTMaxmfhHWG41dSHnSMZk0zxZAar5IQtoug
-	VdGhbBmIZuWYf00bRk/P8/m/6N7Btfj7QN/mnJT/JHbbI+8Tg69S8RvmHE8Sw0AL1zR4
-	v0sV9MAqi933yhKp/2sH5FmcJOoK0FP374HPFoxUL/GQ7aP+k/sQknND1dvcRGl0To0z
-	BOIUkVnxef0L1ankZ4nu6VpRzl89Nl7n9pGN+7vMIaL+BpKng+6fXJRBEszD9Fj8KP6L
-	NWtw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+vn6xGIISDDdIRDo9g65zL10ZmPWw5+WyRQ0pDoMutQ=;
+	b=WsRS4SFE3hcle+e9UOKl9ecC/3xJ04O3bvyynlMTwCyP/UzDLEFtqi+uMsqnjHrR+r
+	zTq7FWuOaFdGHgspelq3wyvPv+i2GH35oDuxJXNPtbCxy2mR9EqfMSvriyL7oERxd/Ms
+	ST3XVLwgjJLXE9u0UdSZr8v78KPRZn802pvSqGJUoPm5NYR/UdMGkSstJ+RqaofIviR7
+	sttW6Ca5pGHjphThJMcxYYQm26b5nax/YQsKzZ7eSB/mitvihO/NYHdKHM4Um0J8kym2
+	MV6D/wtHpntxNIN2v0tuDS8LamyZhDGZQs3UUsQI6eZQVca5g1LvpTb1LiGz1MNpEWaD
+	H/pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=/aLn9wIX7IsMN8XHzaddsJxrjZoiGDl0zbk/Tr9lM9I=;
-	b=ZcMGHk/DE34xzlyGXLUe304ADWVUnG+hXEU/IN4rejVyBQrUFutgTk0iH58rpb9K2L
-	3E4uBanQ+GBFMMTWCANst41XaxJJkCM39q5i2/FZo6hcunLNOmp1DgnH04+pfGiSPTdg
-	G/NKnzZ5nGMHSrRAbEWskugE3aQvYWS99VGCuvejkH5KeMUSHuKh7V9msHd0UTb2C3kD
-	ebrtYSze/5XVu9qH5HACkiMn88v+ugUKaRBWDesGFicUpOqxgsdvn091DGBLnibEu4vc
-	01RI6z8HQ+wFIABndWVl5vlEB+JIp7GxSKZ0FcEZWJG56IlWDGP5xCpGR+tu+Q8RDINr
-	LLwQ==
-X-Gm-Message-State: APt69E3+T5zZ3+KeGQI4BoSF0qf4WFpOQLoLu8Euz191jhR5gpnOCE6t
-	RHqZmXkcM652bn4G5d+w8HS2PAYW7sQI+N5wXSU=
-X-Google-Smtp-Source: AAOMgpfiNl/1aUv0e/STVJpdrBAhoYFthnFx/dkV6et+lzniiiEm0DN2Jnq1EKqPGy+rg7y/qHmNT4Gz2xhk+Yza5H8=
-X-Received: by 2002:a9d:3010:: with SMTP id
-	d16-v6mr5263558otc.23.1530184499106; 
-	Thu, 28 Jun 2018 04:14:59 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=+vn6xGIISDDdIRDo9g65zL10ZmPWw5+WyRQ0pDoMutQ=;
+	b=X22wa2IkAFW1Q3MgM+YtY/9ckjLdBTsVId1gramMMm1R6tQDeHNX5VQTUAlVuYUN2A
+	Qbeh6QWdHH9EEvbGPp5sf9LdRDsjWSFFuDauiL/gN6RoI6jEpBMjqGiOXI1q4CN4Cft+
+	bGPcF1T/zuESgFENbcC4Yb+cXnNgQ4nG9743Zawgvg6cNnZDp9y0SgTa9fBGIRmGan4Z
+	Pzj3omKx6RZECV4q9W1i/byc86QFDO17EgLlyDTBEi6Rzyq/H2j25BvWplUJQFIG5heg
+	w3cwc+DJS2CbpN3MPEhdusc/y8o/DoD+jacDQLOk8jc8TfXnrumukxo9LzOC4ttritpJ
+	Mrqw==
+X-Gm-Message-State: APt69E2ANGZ4ZuLH+YcyvgtuEehHgvEk07yLUHAtSDAgYnYU3oQ1v2rK
+	LrIeT2ecNKcq1XdWVvEsVKP+bDbR2aRd52NRPws=
+X-Google-Smtp-Source: AAOMgpe7tKk8xx0wDwtlQF4qSrVtmnmzZgWFPxCAfbwzz6yPLJpcrPNjwDo9LmxQw1Vys9Ksk+85YJQcvSIC0nWdZ1Y=
+X-Received: by 2002:a9d:3a24:: with SMTP id
+	j33-v6mr5365587otc.358.1530184821899; 
+	Thu, 28 Jun 2018 04:20:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 04:14:58
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Thu, 28 Jun 2018 04:20:21
 	-0700 (PDT)
-In-Reply-To: <8cf18c72-e899-b425-dc28-9ad2f853ff18@igalia.com>
-References: <CALXw4G6YVNhzjEkz1e9WNW7b-8u0CkRu_6Z2DwjOyp_BQimwwg@mail.gmail.com>
-	<CANNYZj8zmttXP7o_fZF6hfYF4MOwyNTNh1csnHp1c9aV-FTCZQ@mail.gmail.com>
-	<CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
-	<8cf18c72-e899-b425-dc28-9ad2f853ff18@igalia.com>
+In-Reply-To: <CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com>
+References: <969ccd61-7a03-a81f-c36f-04c5d806d3e2@windriver.com>
+	<CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Jun 2018 13:14:58 +0200
-Message-ID: <CANNYZj-NmvChRNb5EaUFYUDqX_QGRfNy0Yj+3Lda-t=uzLUwMA@mail.gmail.com>
-To: Michael Gloff <mgloff@emacinc.com>,
-	OE Core <openembedded-core@lists.openembedded.org>, clopez@igalia.com
-Subject: Re: Sumo webkitgtk fails to compile
+Date: Thu, 28 Jun 2018 13:20:21 +0200
+Message-ID: <CANNYZj8ta8T25nAvb6tuaxx-==+j3DPCApXnA5JizihT5husJQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] How to deal allarch packages in dependency chain for multilib rootfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +58,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 11:14:58 -0000
+X-List-Received-Date: Thu, 28 Jun 2018 11:20:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-TBH, I'm not sure why Michael is seeing this failure either. Sumo does
-get built on the AB against several qemu targets, and the failure does
-not happen there.
+Maybe the better thing to do would be to name the packages in the
+first place in such a way that openssl is a 32 bit package, and
+lib64-openssl is the 64 bit one. Then any noarch package would pull in
+the correct version automatically. Is that not possible somehow?
 
 Alex
 
-2018-06-28 4:28 GMT+02:00 Carlos Alberto Lopez Perez <clopez@igalia.com>:
-> On 27/06/18 19:27, Michael Gloff wrote:
->> # GL/GLES header clash: both define the same thing, differently, on 32 bit
->> x86
->> EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
->> EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
+2018-06-28 13:13 GMT+02:00 Martin Jansa <martin.jansa@gmail.com>:
+> In our build I've removed the openssl runtime dependency
+> (RDEPENDS_${PN}_remove = "openssl"), because we pull the right version of
+> openssl (lib32-openssl in our case) to the image elsewhere.
+>
+> On Thu, Jun 28, 2018 at 10:48 AM Kang Kai <Kai.Kang@windriver.com> wrote:
 >>
->> I think the best thing to do it to turn off USE_GSTREAMER_GL for all
->> architectures. Would a patch doing so be acceptable? I've verified that it
->> will build with the _armv5 case.
+>> Hi all,
+>>
+>> When build 32 bits rootfs with 64 bits bsp, if an allarch/noarch package
+>> is installed to lib32 rootfs, it causes
+>> unexpected 64 bits packages which is required by the allarch package
+>> installed to lib32 rootfs.
+>>
+>> Take ca-certificates as example. ca-certificates rdepends on openssl, so
+>> if ca-certificates is installed to image,
+>> 64 bits package openssl will be installed too no matter what the rootfs
+>> is. But only 32 bits openssl package should
+>> be installed to 32 bits rootfs.
+>>
+>> There are 2 ways to fixed the issue.
+>>
+>> 1 expand allarch/noarch packages with multilib. So if add ca-certificates
+>> to image, lib32-ca-certificates will be
+>>    installed to 32bits rootfs. And then also the dependency lib32-openssl
+>> is installed. That is what we expected.
+>>
+>> 2 expand DEPENDS/RDEPENDS of allarch/noarch packages with a prefix
+>> 'noarch-' when multilib is enabled. So then
+>>    ca-certificates requires 'noarch-openssl'. And make both lib32-openssl
+>> and openssl provides 'noarch-openssl'.
+>>    When do_rootfs, there is only one rpm repo 'oe-rootfs-repo' now. We
+>> will create repos with different priorities
+>>    according to different archs/subdirectories. For 32 bits image, make 32
+>> bits rpm repo has  higher priority, so lib32-openssl
+>>    will be installed to 32 bits rootfs rather than 64bits.
+>>
+>> I know these 2 ways are not perfect, but only possible ways I have in mind
+>> to solve the problem.
+>>
+>> Any comment or suggestion is greatly appreciated. Thanks a lot.
+>>
+>> --
+>> Regards,
+>> Neil | Kai Kang
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> USE_GSTREAMER_GL is a feature of WebKitGTK+ that allows it to leverage
-> hardware-accelerated video decoding (for example: on i.MX6).
 >
-> I think is acceptable to disable this for ARMv5 (because, AFAIK, there
-> isn't any ARMv5 hardware that can leverage this in any case), but this
-> should remain enabled for other architectures.
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
