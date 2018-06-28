@@ -1,49 +1,37 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 15A92748CA
+Return-Path: <clopez@igalia.com>
+X-Greylist: delayed 955 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 28 Jun 2018 02:44:17 UTC
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 102A2605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2018 22:55:25 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id v8-v6so3402610oie.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2018 15:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VyoHsUGAY+bdEAx0h9++5kNnIjOijY4Qv6zQwAJWjFs=;
-	b=VKiHVnOKlwLfQR4Q6fjtHCUWO9333ZjXc0ekkJTvik++76QOeeZkI4qoCABTBWfODK
-	/mfnhvNSYzEet8PL/n4V2PL0eETZqsYXRxeU9fDXfD46rOjwcsaDNnDIJAPnOT57e4Qj
-	/x5Eg01iU2dbM7dkIZWYRCcLzVo0vMo47Vzkv/ZQ0EWtNdJJGAjhLAIZMGghqI6fJETX
-	Zikz8RWGBte7M/B3y4JXfvzI0oKLkBSFekpdAHNU6tQCu5moaeI9ycQ4NNvXgVTf7FSx
-	Oy/R1QV1XVH5A+2YLBdyxZRv0WfBWaIboPQ1NWNuPtGlcHIsHryYrhla5QC3rSUZF8KP
-	52xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VyoHsUGAY+bdEAx0h9++5kNnIjOijY4Qv6zQwAJWjFs=;
-	b=Jtljgmq/rtVYL4VoiR5VXwwRLdpn/R9P/RNhYICvwsPYsT+CHblHcB4W634x5smGf2
-	aT24VnSiu574rQbbQ+sCDIdJppnNgeFDZnpYiXicSD7zxZG4J3r2G0rCdZ5Dj9ZZt+5L
-	EG6032CVIsqjn5bvnx2eCjp07fsP+jYzc2LYlIP4/EOTl3kepvwJV6UQJPYxq15i2iul
-	2dbu87PvjY63AcM2uUL2NBygau44FnF0ITDFXSuVTQdt+QJSEKmlyDsKdClR8Wk9m3p9
-	thxuhk44odC7f+Vjz0TEBxZAIhPfhuUWhssarkkhL8x1T8vzii4XftwH735n51v7qQZA
-	rloQ==
-X-Gm-Message-State: APt69E2o4dGTEBpyG8We/kClrqYDtE17g9iZ3h2F/5MMC1u1yWw3pB4s
-	Bgz9JiY3NX8oy+TvXnNBJBxhFAOpyv21VCTGax4=
-X-Google-Smtp-Source: AAOMgpcEv/EUYH5kkjVrxoxKkC4q+nqUwpaJDBn+snrIukiD6LnY5h86XGPP3AoZ1Ijwc/eu4zfhffF7pOGDvYEPBF8=
-X-Received: by 2002:aca:4782:: with SMTP id
-	u124-v6mr322313oia.45.1530140127059; 
-	Wed, 27 Jun 2018 15:55:27 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Wed, 27 Jun 2018 15:55:26
-	-0700 (PDT)
-In-Reply-To: <CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
+	Thu, 28 Jun 2018 02:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+	bh=JNLALVC/bl39JkyrW+uAS5a2n9m4qmnNJrid1250Ls4=; 
+	b=Y+n3hG+9mTPK/aXzNX1htSdV0munQhb9YH27LGMnVSSnCb9AJ4Spu1gQUf8PbKYSihPTcrR7ks3YS96xMQTVAttJ6E/dKQXy5TlnR0FOKPisPGij4N2h4WV4cIMzY7MDEC3jdcElgwHG2tZvcz6Pn23mzWAtt/4cdNXaOeWeX41uZs1UKds6H7GmUNCwCF3mLZnpVoLxiRVMFqpHmdmBw1dr0iSP6CMv9eRwT4CBHgax3t+/OGJju1jGFdmf/U8BcX2VMWKiGqgwHP348ETNirVmDnPoP7FjF8m3C+MkzqYAt6xb1JRmQyce3EnhXpLc4EVN2t4jb0IRVi24KJ3Csg==;
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1fYMfU-0005xS-UE; Thu, 28 Jun 2018 04:28:21 +0200
+To: Michael Gloff <mgloff@emacinc.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
 References: <CALXw4G6YVNhzjEkz1e9WNW7b-8u0CkRu_6Z2DwjOyp_BQimwwg@mail.gmail.com>
 	<CANNYZj8zmttXP7o_fZF6hfYF4MOwyNTNh1csnHp1c9aV-FTCZQ@mail.gmail.com>
 	<CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Jun 2018 00:55:26 +0200
-Message-ID: <CANNYZj-wJC5+w6e9qEQq4etBd0uWt8DZC2EMErkV2V44D-m5=w@mail.gmail.com>
-To: Michael Gloff <mgloff@emacinc.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: Michael Gloff <mgloff@emacinc.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE Core <openembedded-core@lists.openembedded.org>
+Message-ID: <8cf18c72-e899-b425-dc28-9ad2f853ff18@igalia.com>
+Date: Thu, 28 Jun 2018 04:28:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
+MIME-Version: 1.0
+In-Reply-To: <CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
 Cc: OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: Sumo webkitgtk fails to compile
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,148 +46,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2018 22:55:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Jun 2018 02:44:18 -0000
+X-Groupsio-MsgNum: 112973
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="l5Oq85uKWwCMAsiAwiugOafWOvmb09rje"
 
-Sure, yes. Remember the [sumo] prefix.
+--l5Oq85uKWwCMAsiAwiugOafWOvmb09rje
+Content-Type: multipart/mixed; boundary="ATekw5JmX3NfwTUDPf9yVhrYDGgcIZAyW";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: Michael Gloff <mgloff@emacinc.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Message-ID: <8cf18c72-e899-b425-dc28-9ad2f853ff18@igalia.com>
+Subject: Re: [OE-core] Sumo webkitgtk fails to compile
+References: <CALXw4G6YVNhzjEkz1e9WNW7b-8u0CkRu_6Z2DwjOyp_BQimwwg@mail.gmail.com>
+ <CANNYZj8zmttXP7o_fZF6hfYF4MOwyNTNh1csnHp1c9aV-FTCZQ@mail.gmail.com>
+ <CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
+In-Reply-To: <CALXw4G5TfogpXY27rrnaWvLyrj2HW6F6f450J3GHuM9q=GpOEA@mail.gmail.com>
 
-Alex
+--ATekw5JmX3NfwTUDPf9yVhrYDGgcIZAyW
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-2018-06-27 19:27 GMT+02:00 Michael Gloff <mgloff@emacinc.com>:
-> Alex,
-> Thanks. I looked into the patch [1], but it does not apply to gstreamer
-> 1.12.x. After refreshing the patch, gstreamer1.0-plugins-bad does not build
-> because of the move of some header files to plugins-base in 1.13. I noticed
-> in the recipe:
->
-> # GL/GLES header clash: both define the same thing, differently, on 32 bit
+On 27/06/18 19:27, Michael Gloff wrote:
+> # GL/GLES header clash: both define the same thing, differently, on 32 =
+bit
 > x86
-> EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
-> EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
->
+> EXTRA_OECMAKE_append_x86 =3D " -DUSE_GSTREAMER_GL=3DOFF "
+> EXTRA_OECMAKE_append_x86-x32 =3D " -DUSE_GSTREAMER_GL=3DOFF "
+>=20
 > I think the best thing to do it to turn off USE_GSTREAMER_GL for all
-> architectures. Would a patch doing so be acceptable? I've verified that it
+> architectures. Would a patch doing so be acceptable? I've verified that=
+ it
 > will build with the _armv5 case.
->
-> Thanks,
->
-> Michael Gloff
->
-> [1]
-> https://bug784779.bugzilla-attachments.gnome.org/attachment.cgi?id=357732
->
-> On Tue, Jun 26, 2018 at 2:24 PM, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
->>
->> The bug refers to a gstreamer bug with patches, which you should probably
->> apply:
->> https://bugzilla.gnome.org/show_bug.cgi?id=784779
->>
->> Alex
->>
->> 2018-06-26 20:55 GMT+02:00 Michael Gloff <mgloff@emacinc.com>:
->> > I'm seeing the below errors when trying to build webkitgtk. I am using
->> > base
->> > poky distro on sumo branch without any extra layers with qemuarm
->> > machine. It
->> > looks similar to:
->> > https://bugs.webkit.org/show_bug.cgi?id=175127
->> > which reports that this was fixed upstream, but obviously not in 2.18.6.
->> > Does anyone know what the proper fix for this is or at least a work
->> > around?
->> > Thanks,
->> >
->> > Michael Gloff
->> >
->> > In file included from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GL/gl.h:2055:0,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/OpenGLShims.h:23,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/ANGLEWebKitBridge.h:50,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/GraphicsContext3D.h:28,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/GLContext.h:23,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp:72:
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GL/glext.h:
->> > At global scope:
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GL/glext.h:468:19:
->> > error: conflicting declaration 'typedef ptrdiff_t GLsizeiptr'
->> >  typedef ptrdiff_t GLsizeiptr;
->> >                    ^~~~~~~~~~
->> > In file included from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gstglapi.h:40:0,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gstgl_fwd.h:26,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gl.h:29,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp:69:
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GLES3/gl3.h:75:25:
->> > note: previous declaration as 'typedef khronos_ssize_t GLsizeiptr'
->> >  typedef khronos_ssize_t GLsizeiptr;
->> >                          ^~~~~~~~~~
->> > In file included from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GL/gl.h:2055:0,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/OpenGLShims.h:23,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/ANGLEWebKitBridge.h:50,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/GraphicsContext3D.h:28,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/GLContext.h:23,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp:72:
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GL/glext.h:469:19:
->> > error: conflicting declaration 'typedef ptrdiff_t GLintptr'
->> >  typedef ptrdiff_t GLintptr;
->> >                    ^~~~~~~~
->> > In file included from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gstglapi.h:40:0,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gstgl_fwd.h:26,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gl.h:29,
->> >                  from
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/webkitgtk-2.18.6/Source/WebCore/platform/graphics/gstreamer/MediaPlayerPrivateGStreamerBase.cpp:69:
->> >
->> > /home/mgloff/poky/build/tmp/work/armv5e-poky-linux-gnueabi/webkitgtk/2.18.6-r0/recipe-sysroot/usr/include/GLES3/gl3.h:76:26:
->> > note: previous declaration as 'typedef khronos_intptr_t GLintptr'
->> >  typedef khronos_intptr_t GLintptr;
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
->
->
 
+USE_GSTREAMER_GL is a feature of WebKitGTK+ that allows it to leverage
+hardware-accelerated video decoding (for example: on i.MX6).
+
+I think is acceptable to disable this for ARMv5 (because, AFAIK, there
+isn't any ARMv5 hardware that can leverage this in any case), but this
+should remain enabled for other architectures.
+
+
+
+--ATekw5JmX3NfwTUDPf9yVhrYDGgcIZAyW--
+
+--l5Oq85uKWwCMAsiAwiugOafWOvmb09rje
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAls0R7sACgkQllCJzmuV
++IJZnQ/9H42osqIj2/zJsqoW/z7JPa/ZNQ7YijMobdhQ1SWVY9D5mrpqY4bh3w+Q
+BcWsM4Pf9pQBb9vnpFlyRwkVj05b3/GPEI9oYNkua2+mpQfTeiaIuZrAcITeWPgQ
+j+fM49l9/kG84Jsm0mnOYxBraiV3wKWWtUFFwvK/rI3DlLPQAXal6HKzyTx3Y/ow
+Y8v1Kn/BH1s6VdUMxPBqvOeAnAXd/NurKlUVAu8eY234FmXpjgdMRvt+w+zaJng5
+/JgeVRM4n6Z/DGxK2nFbejhHip+PxNmXgUI1xQ1yDB+47wY0RWmAIgzVKNbEz25L
+eLOpnnDcLJnizbgHnWkfSX+aaGMwuY7Vp5aCk0oW6VilogAwg0ashRpb9xFExek8
+DpgWMzPGTg2cvboUd13kL9LEkz+lXYUY2/gNAusT+e2Lz6syFfyH+jznqGbjUyC+
+Ay2kU2tPOSVJ9j8s2XkeY4xVMvm/gF6l9ZvDYEZxisFTdn2kXF1jIyQAdzGTlwZa
+67/NuN8hTbE7801F9AXUnRBZLG4u9jdpiKaxBu0MPJ6TDaDlCvuDWMuqPOJb78C9
+CKesXBJb6YbcLRv5DLopoK9Abh4w/0ELUcZ+RC9770N6+k+c++GWv6clrTv4m3Qg
+QupIH6yBVnBLNSt/xudbkJu8vImt6og/7TTwW01GTT0Y0DfvakU=
+=c2fq
+-----END PGP SIGNATURE-----
+
+--l5Oq85uKWwCMAsiAwiugOafWOvmb09rje--
