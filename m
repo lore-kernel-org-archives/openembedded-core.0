@@ -1,53 +1,26 @@
-Return-Path: <philip@balister.org>
-X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 28 Jun 2018 20:53:39 UTC
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 37A7774CFB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A63BF74DCB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 20:53:38 +0000 (UTC)
-Received: (qmail 6649 invoked by uid 1003); 28 Jun 2018 20:46:59 -0000
-Received: from unknown (HELO ?192.168.0.149?) (philip@opensdr.com@103.70.64.68)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	28 Jun 2018 20:46:54 -0000
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <aa086d52-abe4-6d02-47d4-a58f63f11534@balister.org>
-Date: Fri, 29 Jun 2018 07:46:07 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
-MIME-Version: 1.0
-Subject: OEDEM Sunday, 21 October 2018 in Edinburgh (before ELCE)
+	Thu, 28 Jun 2018 21:55:00 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w5SLsw8R003014
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 28 Jun 2018 22:54:59 +0100
+Message-ID: <26ebd00a74dd86c7e35fa67ae5ccfae8dec14a38.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jun 2018 22:54:58 +0100
+In-Reply-To: <20180628175342.16560-2-JPEWhacker@gmail.com>
+References: <20180628175342.16560-1-JPEWhacker@gmail.com>
+	<20180628175342.16560-2-JPEWhacker@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] oe-selftest: Add bitbake-layer create-layer test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 20:53:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Jun 2018 21:55:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-OpenEmbedded is holding a developer meting in Edinburgh before ELCE.
-Anyone with an interest in OpenEmbedded development is welcome to
-attend. The core developers enjoy hearing about the needs and problems
-of the larger community.
+On Thu, 2018-06-28 at 12:53 -0500, Joshua Watt wrote:
+> Adds a test that creates a layer, adds it to bblayers.conf, then ensure
+> that it appears properly in bitbake-layers show-layers.
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/bblayers.py | 26 +++++++++++++++++++++++-
+>  1 file changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+> index 90a2249b081..fba7fbb9b0f 100644
+> --- a/meta/lib/oeqa/selftest/cases/bblayers.py
+> +++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+> @@ -2,7 +2,7 @@ import os
+>  import re
+>  
+>  import oeqa.utils.ftools as ftools
+> -from oeqa.utils.commands import runCmd, get_bb_var
+> +from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars
+>  
+>  from oeqa.selftest.case import OESelftestTestCase
+>  from oeqa.core.decorator.oeid import OETestID
+> @@ -85,6 +85,30 @@ class BitbakeLayers(OESelftestTestCase):
+>          self.assertNotEqual(result.status, 0, 'bitbake-layers show-recipes -i nonexistentclass should have failed')
+>          self.assertIn('ERROR:', result.output)
+>  
+> +    def test_bitbakelayers_createlayer(self):
+> +        priority = 10
+> +        layername = 'test-bitbakelayer-layercreate'
+> +        layerpath = os.path.join(get_bb_var('COREBASE'), layername)
+> +        self.assertFalse(os.path.exists(layerpath), '%s should not exist at this point in time' % layerpath)
+> +        result = runCmd('bitbake-layers create-layer --priority=%d %s' % (priority, layerpath))
+> +        self.track_for_cleanup(layerpath)
+> +        result = runCmd('bitbake-layers add-layer %s' % layerpath)
+> +        result = runCmd('bitbake-layers show-layers')
+> +        find_in_contents = re.search(re.escape(layername) + r'\s+' + re.escape(layerpath) + r'\s+' + re.escape(str(priority)), result.output)
+> +        self.assertTrue(find_in_contents, "%s not found in layers" % layername)
 
-At this we are looking for meeting space and it would be a huge help to
-have a better idea of the headcount. Please add yourself if you intend
-to attend the meeting. (If you drop out later, go ahead and remove yourself)
+This looks good and top marks for adding unit tests!
 
-The RSVP web page is:
+One tip learnt from experience is that assertTrue can be problematic
+because when it fails, the debug output it gives is useless as it says
+it wasn't True. In this case, you need to put result.output into the
+msg so that we'd have some chance of debugging it from the failure
+message.
 
-https://www.openembedded.org/wiki/OEDEM_2018
+> +
+> +        layervars = ['BBFILE_PRIORITY', 'BBFILE_PATTERN', 'LAYERDEPENDS', 'LAYERSERIES_COMPAT']
+> +        bb_vars = get_bb_vars(['BBFILE_COLLECTIONS'] + ['%s_%s' % (v, layername) for v in layervars])
+> +
+> +        for v in layervars:
+> +            varname = '%s_%s' % (v, layername)
+> +            self.assertTrue(bb_vars[varname], "%s not found" % varname)
 
-Searching the wiki for OEDEM should get you info from topics discussed
-at past meetings.
+self.assertIsNotNone() ?
 
-If you need to create an account, approval might be delayed a bit as I
-am on vacation ...
+Cheers,
 
-Philip
+Richard
+
+
 
