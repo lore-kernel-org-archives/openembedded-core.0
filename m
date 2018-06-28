@@ -1,29 +1,49 @@
-Return-Path: <Arsalan_Awan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B374E6E671
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B507456D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2018 16:26:52 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1fYXjB-0002UR-2L from Arsalan_Awan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2018 07:16:53 -0700
-Received: from PKL-AAWAN1-UBUNTU.pkl.mentorg.com (137.202.0.87) by
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Thu, 28 Jun 2018 15:16:48 +0100
-From: Arsalan Awan <Arsalan_Awan@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jun 2018 19:16:36 +0500
-Message-ID: <54623c3251a086bd9474d51d60dd46183840506d.1530195143.git.Arsalan_Awan@mentor.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1530195143.git.Arsalan_Awan@mentor.com>
-References: <cover.1530195143.git.Arsalan_Awan@mentor.com>
-MIME-Version: 1.0
-X-Originating-IP: [137.202.0.87]
-X-ClientProxiedBy: svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) To
-	SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
-Subject: [PATCH 1/1] initrdscripts/init-live.sh: fix mounts w/ spaces fail to move to real rootfs
+	Thu, 28 Jun 2018 17:37:57 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id z13-v6so9937573wma.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2018 10:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Yp/6RV3iMSK3Asf3epiLDOx8tQJ2TaT1f6Y9R1qijh4=;
+	b=qFy7/B2muasrw/zOQ4k6qvPzkptqN8xdMn3xNJRRx6fHAORl31r2Te0qiYRiI5qh/5
+	5Hdemi/o3wizL3SdEgEdSpM77PI6thLzomcNWshDX5aCARJQxe0HAFISpFh0dxtXWZB/
+	1GNZnI3LzFvQIoHjtr6zioN0UHGR3e8EsstBJQNWrbZcNZu9YfjdV6fOOUTUVTeuGayn
+	ZzaUChIlH2ZeXA9kz/Q1GoxZjJq3XI9uGsPE0hC3c9fWpF3YSV3/1+nuMXTnE6LkYpFJ
+	8JjVlX94DkLrPAOHx23h5QKvdcnyXLVmeyxkrfpxrQgJmr4X7YLk9GWZQNa0nolETrcm
+	mb3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Yp/6RV3iMSK3Asf3epiLDOx8tQJ2TaT1f6Y9R1qijh4=;
+	b=MY9qohgosBHMbrlfqSO2bdeON7JrNG/dSrlIqCqLVZG/FDPHisZoVIGmubVomKw4by
+	w36cA/d/XaBxjVggqMpfQn2TAVoB1OraRWUJ1JGbex/LX8z8NNUomTiFhx6SawoldmG3
+	iH2oUjJtV1Qs2X/qwMb7aq/QEnNZBaRrZkPHWmlla9yw18TF6IchsFCBYkiCY9xaJE25
+	/xN9QC/sXZi7JNwm0tCamayV1II3/FBsIGtIskaELL22JJVD2B45xt2zNoIccmc5idYJ
+	5Pp1O3a+Eg2eWKK3iRkFatWBZzRgHYL1UoO6Ze0x1mN5w9qzFMj25LL5Lq/ld7bGpyua
+	q73Q==
+X-Gm-Message-State: APt69E1najwObQJAelmaoiJCs+1WJTGAy0nnoo/tGor1iPq3+sRJrEp3
+	ieGp6epK2DEe6lpUK8c0mqlUrwL9
+X-Google-Smtp-Source: AAOMgpfgMQR/Z1MU3zyp7XExzP6wuRZBfGGF63aWbR0/XHVfkpXd1uHWhHsJ0ObhAJgxXSfLU7Y5Ow==
+X-Received: by 2002:a1c:4203:: with SMTP id
+	p3-v6mr9608355wma.111.1530207477895; 
+	Thu, 28 Jun 2018 10:37:57 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	m185-v6sm8746248wma.36.2018.06.28.10.37.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 28 Jun 2018 10:37:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jun 2018 18:37:54 +0100
+Message-Id: <20180628173754.23049-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libsoup: fix CVE-2018-12910
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2018 16:26:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Jun 2018 17:37:57 -0000
 
-From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>
-
-When there are spaces in the mount points of devices e.g.:
-
- a partition mounted at "/run/media/My Root Partition-sda1",
-
-the initrd fails to move such mount points over to the
-corresponding directories at /media under the real root filesystem,
-and the mount points would appear at the same location as they were
-mounted on when detected by initrd, for example:
- here: "/run/media/My Root Partition-sda1"
- instead of here: "/media/My Root Partition-sda1"
-
-This causes issues such as:
-
-  * The disks/partitions cannot be formated with any filesystem
-    using e.g. mkfs.ext4 or mke2fs in general. When tried to do so
-    by making sure the device is not mounted, it failed with
-    errors such as:
-
-    > /dev/sda1 is apparently in use by the system; will not make a
-      filesystem here!
-    > /dev/sda1: Device or resource busy while setting up superblock
-
-  * The read/write operations become extremely slow. e.g. Under testing,
-    it took approx. 2 hours just to copy 700 MB of data to the partition,
-    and it took more than 40 minutes to delete that data from it.
-    Same operations took under 5 minutes on a partition that had no
-    spaces in its mount point (or that was successfully moved to real
-    root by initrd and appeared under /media instead of /run/media).
-
-This commit fixes such issues by quoting the arguments of failing mount
-move commands and by parsing OCT or HEX encoded special characters
-such as spaces to ASCII charecters in the mount points as kernel
-populates the procfs like so.
-
-Signed-off-by: Arsalan H. Awan <Arsalan_Awan@mentor.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/initrdscripts/files/init-live.sh | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../libsoup/libsoup-2.4/CVE-2018-12910.patch       | 32 ++++++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb |  4 +--
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 46cab6c..65183d7 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -95,8 +95,11 @@ boot_live_root() {
-     # Move the mount points of some filesystems over to
-     # the corresponding directories under the real root filesystem.
-     for dir in `awk '/\/dev.* \/run\/media/{print $2}' /proc/mounts`; do
--        mkdir -p  ${ROOT_MOUNT}/media/${dir##*/}
--        mount -n --move $dir ${ROOT_MOUNT}/media/${dir##*/}
-+        # Parse any OCT or HEX encoded chars such as spaces
-+        # in the mount points to actual ASCII chars
-+        dir=`printf $dir`
-+        mkdir -p "${ROOT_MOUNT}/media/${dir##*/}"
-+        mount -n --move "$dir" "${ROOT_MOUNT}/media/${dir##*/}"
-     done
-     mount -n --move /proc ${ROOT_MOUNT}/proc
-     mount -n --move /sys ${ROOT_MOUNT}/sys
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
+new file mode 100644
+index 00000000000..158bf930934
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2018-12910.patch
+@@ -0,0 +1,32 @@
++CVE: CVE-2018-12910
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From db2b0d5809d5f8226d47312b40992cadbcde439f Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@igalia.com>
++Date: Sun, 24 Jun 2018 19:46:19 -0500
++Subject: [PATCH] cookie-jar: bail if hostname is an empty string
++
++There are several other ways to fix the problem with this function, but
++skipping over all of the code is probably the simplest.
++
++Fixes #3
++---
++ libsoup/soup-cookie-jar.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libsoup/soup-cookie-jar.c b/libsoup/soup-cookie-jar.c
++index 2369c8a7..b2b78909 100644
++--- a/libsoup/soup-cookie-jar.c
+++++ b/libsoup/soup-cookie-jar.c
++@@ -307,7 +307,7 @@ get_cookies (SoupCookieJar *jar, SoupURI *uri, gboolean for_http, gboolean copy_
++ 
++ 	priv = soup_cookie_jar_get_instance_private (jar);
++ 
++-	if (!uri->host)
+++	if (!uri->host || !uri->host[0])
++ 		return NULL;
++ 
++ 	/* The logic here is a little weird, but the plan is that if
++-- 
++2.17.1
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+index a9f3554f161..ba3e86a03ca 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.62.2.bb
+@@ -9,8 +9,8 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native"
+ 
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+-SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-
++SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
++           file://CVE-2018-12910.patch"
+ SRC_URI[md5sum] = "eaf99b04ac8968ed2b26f2509ba75584"
+ SRC_URI[sha256sum] = "9e536fe3da60b25d2c63addb84a9d5072d00b0d8b8cbeabc629a6bcd63f879b6"
+ 
 -- 
-2.7.4
+2.11.0
 
 
