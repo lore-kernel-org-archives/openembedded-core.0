@@ -1,102 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A94D8751BF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DBA36006E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 20:40:25 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id l65-v6so4462825pgl.8
+	Fri, 29 Jun 2018 21:01:50 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id z74-v6so5693438qkb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 13:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=+vsasNvINw9q9cARfeMBZjY2jcYKEBtuy1Aw4DjU0z4=;
-	b=mwpCPs03aQjSM0nU92u/f74Ar6M4cEnpgNJbXOEnjICMf6wCcAYbeY2AIf7IaMdsLB
-	E8CHYD0J/9x58Z/CX3YwQr00wzbgxWSAEs6pjOV4ik0ndvwGqVTdQaqwvRlXRxyz9doc
-	YdB/kpSVP+aZPScl/ime8op7gxGtssgprW7lIGnR6+i+1IN/eVL5T/KzdJ3CiaBlm26a
-	ZP6vaeE8038diYwe9u2rco2DoRqxprLep+Th9AroWDEUJHp3cAB4ci5St0pVje1stEPb
-	f/kMoDgNLQxbYMhFS70BDjmab9HcGdNJcmyEojt7VFTwaSFZNBslmWGWgs6e2ik+ZhQD
-	QteQ==
+	Fri, 29 Jun 2018 14:01:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language;
-	bh=+vsasNvINw9q9cARfeMBZjY2jcYKEBtuy1Aw4DjU0z4=;
-	b=NP6ZcR/1EmT0HX4UyBi+Dzqd5Els+fXXYMhP49FzpeH/GXcyNYNl4jjK9yzWIy1LSF
-	uVlPb2NgHcz1N1BQkL9cTflLqFEHUw2V1ODKh/viKjFsrzBlfsRjJfJI+ZMP90qyNCJz
-	YaPWkG63HSkTJu4HXq8gNQm8khqh2YbDxSztabNOF2MVJMv4numn2Avbt5rzX8zL84Iw
-	KbnoEmCpqgHrkZ44nBUpxnTr4kPeUmdd416WosRjLZFLz98O5JqX8RN7oe0+tmXcWISw
-	HzRqztmELU29SXRtHsBxyT8xdUwGQGhmFphYFn+czQGDn6l4XkPKFdQCrNeXTA6WSEQW
-	A9hw==
-X-Gm-Message-State: APt69E1vom6bp+rX5846F9KWxwkwWUYSMIDncjy69lqhUL/8gGaj7v7O
-	UJyOK3PzP5eFrnpwZxcHUand0w==
-X-Google-Smtp-Source: ADUXVKKPTgisljBaaFYqrJes9jP3BBhIcqdpEOc1yiEeyp4/0RrtFGgrF4XE0WVCqAYiwW18YqAVqg==
-X-Received: by 2002:a63:24f:: with SMTP id
-	76-v6mr14135518pgc.252.1530304826592; 
-	Fri, 29 Jun 2018 13:40:26 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1184:993d:73fb:9148:cade?
-	([2601:202:4000:1184:993d:73fb:9148:cade])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=oCpezyTM2JG/NZje5WdnUWNulC+RDPfv+BulNyhlMZw=;
+	b=n/+FYYB0ez3r8lQwVH8AFWr0LvisghSrzGsbqjQ/Wl8xg+R11uEoct8RyCjDT08N4K
+	xDj8GR9ABu8QUiAb1G+Z6jvpc9w8rkDfnIp+PJhvyUeDgyQah/p6HKFmdOhM/53gspi0
+	RlbdYKa08WGSF0J3RZN5mdJwlpM7j+HcHvYk6EjeQmr5xZbEkcEmKeuNFYTgy7opLrw5
+	6Lt+7s3cj5zKCJ+7NkOMZCZvjxRwc64mrGgQyWX7xeN9uWvnqPnAxRn2q4xFPrnWpdLR
+	RUbV52qadwxYlsUiQlMp15j+vf4pJcIWBWMwxZJx6qz/BvvjiO48sWhXgbpMZw/uIb3v
+	MQQg==
+X-Gm-Message-State: APt69E1YLKhHgT8WnWCivTwAFCfZw+8HZoYQwGzDmF4p25YzFEqPqTq1
+	RkJt2BoSXvKTimjzyHoDbFiByQ==
+X-Google-Smtp-Source: AAOMgpdO59hq5IpvqHVg7CUKGlGF82+DjNCgi21ukatp5zzE2n9GPB533v/w8+H1ieKVpatjK6UKHg==
+X-Received: by 2002:a37:ac06:: with SMTP id
+	e6-v6mr6232534qkm.321.1530306110790; 
+	Fri, 29 Jun 2018 14:01:50 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.218.61])
 	by smtp.gmail.com with ESMTPSA id
-	i188-v6sm6651261pfc.3.2018.06.29.13.40.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 29 Jun 2018 13:40:26 -0700 (PDT)
-To: Christopher Larson <kergoth@gmail.com>
-References: <1529865828-13206-1-git-send-email-akuster808@gmail.com>
-	<CABcZANkEA37r6a3wsBsTLirvT5dZ2o+AOpWXONPiXPgRf=5=Cw@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
-	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
-	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
-	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
-	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
-	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
-	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
-	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
-	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
-	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
-	IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
-	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
-	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
-	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
-	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
-	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
-	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
-	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
-	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
-	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
-	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
-	oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
-	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
-	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
-	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
-	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
-	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
-	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
-	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
-	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
-	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
-	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
-	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
-	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
-	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
-	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
-	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
-	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
-	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
-	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
-	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
-	8CS2NxU=
-Message-ID: <fa121093-4696-356f-8f27-96a6573a6bab@gmail.com>
-Date: Fri, 29 Jun 2018 13:40:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CABcZANkEA37r6a3wsBsTLirvT5dZ2o+AOpWXONPiXPgRf=5=Cw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcp: update 4.4.1
+	43-v6sm8976734qtx.12.2018.06.29.14.01.47
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 29 Jun 2018 14:01:49 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 29 Jun 2018 18:01:42 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Jun 2018 18:01:41 -0300
+Message-Id: <20180629210141.23397-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.18.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade 18.1.2 -> 18.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,361 +50,315 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 20:40:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------0E2B9204DB51C56DE14E27A2"
-Content-Language: en-US
+X-List-Received-Date: Fri, 29 Jun 2018 21:01:50 -0000
 
---------------0E2B9204DB51C56DE14E27A2
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+This upgrades mesa to the 18.1.3 stable release.
+
+The changes can be found at:
+
+https://www.mesa3d.org/relnotes/18.1.3.html
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ ...am-explictly-add-lib-expat-to-intel-.patch |  6 ++--
+ ...0002-Simplify-wayland-scanner-lookup.patch | 10 +++---
+ ...-winsys-svga-drm-Include-sys-types.h.patch |  7 ++---
+ .../mesa/files/0004-hardware-gloat.patch      |  6 ++--
+ ...M-version-when-using-LLVM-Git-releas.patch | 12 +++----
+ ...-Use-Python-3-to-execute-the-scripts.patch |  8 ++---
+ ...-dri-i965-Add-missing-time.h-include.patch |  6 ++--
+ ...0008-egl-fix-build-race-in-automake.patch} | 31 ++++++++++++++-----
+ .../{mesa-gl_18.1.2.bb => mesa-gl_18.1.3.bb}  |  0
+ .../mesa/{mesa_18.1.2.bb => mesa_18.1.3.bb}   |  6 ++--
+ 10 files changed, 53 insertions(+), 39 deletions(-)
+ rename meta/recipes-graphics/mesa/files/{parallel-make-race-fix.patch => 0008-egl-fix-build-race-in-automake.patch} (50%)
+ rename meta/recipes-graphics/mesa/{mesa-gl_18.1.2.bb => mesa-gl_18.1.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_18.1.2.bb => mesa_18.1.3.bb} (83%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
+index 822066243b..3529f493e7 100644
+--- a/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
++++ b/meta/recipes-graphics/mesa/files/0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch
+@@ -1,7 +1,7 @@
+-From 327c3dcbfa005f5d1b2fcda07ca1198d65bd23c5 Mon Sep 17 00:00:00 2001
++From b514366df767da9acf991567bbee3eaa0c4ddaa6 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 11 Oct 2017 15:40:42 +0800
+-Subject: [PATCH 1/7] Makefile.vulkan.am: explictly add lib expat to intel
++Subject: [PATCH 1/8] Makefile.vulkan.am: explictly add lib expat to intel
+  libvulkan's lib depends
+ Organization: O.S. Systems Software LTDA.
+ 
+@@ -42,5 +42,5 @@ index 4125cb205a..356c4f8452 100644
+  
+  if HAVE_PLATFORM_ANDROID
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
+index e7585060ac..fb3d49b9be 100644
+--- a/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
++++ b/meta/recipes-graphics/mesa/files/0002-Simplify-wayland-scanner-lookup.patch
+@@ -1,7 +1,7 @@
+-From 135f6ae990df9abe3765ed339f76c55026c86fe5 Mon Sep 17 00:00:00 2001
++From 425c19542f9343e7b6a5b8aea26e1f2897484bc1 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 15 Nov 2016 15:20:49 +0200
+-Subject: [PATCH 2/7] Simplify wayland-scanner lookup
++Subject: [PATCH 2/8] Simplify wayland-scanner lookup
+ Organization: O.S. Systems Software LTDA.
+ 
+ Don't use pkg-config to lookup the path of a binary that's in the path.
+@@ -16,10 +16,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 1 insertion(+), 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index f1fbdcc6c7..7c95598afc 100644
++index 49fa3e8c51..3a8f04bd12 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1796,12 +1796,7 @@ for plat in $platforms; do
++@@ -1810,12 +1810,7 @@ for plat in $platforms; do
+          PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
+          WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+  
+@@ -34,5 +34,5 @@ index f1fbdcc6c7..7c95598afc 100644
+          if test "x$WAYLAND_SCANNER" = "x:"; then
+                  AC_MSG_ERROR([wayland-scanner is needed to compile the wayland platform])
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
+index e5f4dfc075..669e6558d1 100644
+--- a/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
++++ b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
+@@ -1,7 +1,7 @@
+-From edb22b2f4df8dab39559ace867c3c67bc12851ae Mon Sep 17 00:00:00 2001
++From 7701d24b775de9f7b74eaa1ff80c8a6d3fb09c71 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 16 Aug 2017 18:58:20 -0700
+-Subject: [PATCH 3/7] winsys/svga/drm: Include sys/types.h
++Subject: [PATCH 3/8] winsys/svga/drm: Include sys/types.h
+ Organization: O.S. Systems Software LTDA.
+ 
+ vmw_screen.h uses dev_t which is defines in sys/types.h
+@@ -11,7 +11,6 @@ on glibc since sys/types.h is included through another
+ system headers
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Submitted
+ ---
+  src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
+  1 file changed, 1 insertion(+)
+@@ -29,5 +28,5 @@ index f21cabb51f..4c972fdaa9 100644
+  #define VMW_GMR_POOL_SIZE (16*1024*1024)
+  #define VMW_QUERY_POOL_SIZE (8192)
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
+index f23b9875cd..b676b078a3 100644
+--- a/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
++++ b/meta/recipes-graphics/mesa/files/0004-hardware-gloat.patch
+@@ -1,7 +1,7 @@
+-From 52468545daa0c2d205312e06304d8fb374e0bbf0 Mon Sep 17 00:00:00 2001
++From 9bc2dad0257b778faf30edd5bc8f5c19ddf27351 Mon Sep 17 00:00:00 2001
+ From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
+ Date: Sun, 20 Mar 2016 13:27:04 +0100
+-Subject: [PATCH 4/7] hardware gloat
++Subject: [PATCH 4/8] hardware gloat
+ Organization: O.S. Systems Software LTDA.
+ 
+ Upstream-Status: Inappropriate [not author]
+@@ -48,5 +48,5 @@ index 25f6f74f36..61629ef2ff 100644
+        return FALSE;
+  
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+index 94189ac714..bffe8c5b8a 100644
+--- a/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
++++ b/meta/recipes-graphics/mesa/files/0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch
+@@ -1,7 +1,7 @@
+-From 33025fb1650768a0b923f3c824c270628eef83db Mon Sep 17 00:00:00 2001
++From a240a803529225dda630b8f57ca7dfcad61ccd85 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Tue, 5 Jun 2018 11:11:10 -0300
+-Subject: [PATCH 5/7] Properly get LLVM version when using LLVM Git releases
++Subject: [PATCH 5/8] Properly get LLVM version when using LLVM Git releases
+ Organization: O.S. Systems Software LTDA.
+ 
+ $ llvm-config-host --version
+@@ -18,10 +18,10 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 7c95598afc..c248248c6b 100644
++index 3a8f04bd12..59226823ca 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1075,7 +1075,7 @@ strip_unwanted_llvm_flags() {
++@@ -1089,7 +1089,7 @@ strip_unwanted_llvm_flags() {
+  
+  llvm_set_environment_variables() {
+      if test "x$LLVM_CONFIG" != xno; then
+@@ -30,7 +30,7 @@ index 7c95598afc..c248248c6b 100644
+          LLVM_CPPFLAGS=`strip_unwanted_llvm_flags "$LLVM_CONFIG --cppflags"`
+          LLVM_INCLUDEDIR=`$LLVM_CONFIG --includedir`
+          LLVM_LIBDIR=`$LLVM_CONFIG --libdir`
+-@@ -2776,7 +2776,7 @@ detect_old_buggy_llvm() {
++@@ -2793,7 +2793,7 @@ detect_old_buggy_llvm() {
+      dnl ourselves.
+      dnl (See https://llvm.org/bugs/show_bug.cgi?id=6823)
+      dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
+@@ -40,5 +40,5 @@ index 7c95598afc..c248248c6b 100644
+  
+      if test "x$llvm_have_one_so" = xyes; then
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
+index 72ce0a33a0..3aebb1119d 100644
+--- a/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
++++ b/meta/recipes-graphics/mesa/files/0006-Use-Python-3-to-execute-the-scripts.patch
+@@ -1,7 +1,7 @@
+-From 2c6f0c6f83d2012d2ffb64f1caff966497de8f72 Mon Sep 17 00:00:00 2001
++From 66b512e72e164a0da13c1cfffe988188cc2b4988 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Fri, 29 Dec 2017 10:27:59 -0200
+-Subject: [PATCH 6/7] Use Python 3 to execute the scripts
++Subject: [PATCH 6/8] Use Python 3 to execute the scripts
+ Organization: O.S. Systems Software LTDA.
+ 
+ The MESA build system uses Python 2 but as OE-Core has moved away from
+@@ -15,7 +15,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index c248248c6b..10f199d63c 100644
++index 59226823ca..711cb8b82c 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -122,7 +122,7 @@ AM_PROG_CC_C_O
+@@ -28,5 +28,5 @@ index c248248c6b..10f199d63c 100644
+  AC_PROG_MKDIR_P
+  
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch b/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
+index e56d1588fd..e559027c3d 100644
+--- a/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
++++ b/meta/recipes-graphics/mesa/files/0007-dri-i965-Add-missing-time.h-include.patch
+@@ -1,7 +1,7 @@
+-From 9a25f6e7a0eb8825ab089fdd166dbaee778a4c81 Mon Sep 17 00:00:00 2001
++From 23305c16e4444f5aa289f126f040ed061de292c0 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Wed, 6 Jun 2018 09:50:35 -0300
+-Subject: [PATCH 7/7] dri: i965: Add missing time.h include
++Subject: [PATCH 7/8] dri: i965: Add missing time.h include
+ Organization: O.S. Systems Software LTDA.
+ 
+ This fixes a build error when using musl:
+@@ -32,5 +32,5 @@ index 68f5e0c2c8..5b60a23763 100644
+  #include "util/list.h"
+  
+ -- 
+-2.17.1
++2.18.0
+ 
+diff --git a/meta/recipes-graphics/mesa/files/parallel-make-race-fix.patch b/meta/recipes-graphics/mesa/files/0008-egl-fix-build-race-in-automake.patch
+similarity index 50%
+rename from meta/recipes-graphics/mesa/files/parallel-make-race-fix.patch
+rename to meta/recipes-graphics/mesa/files/0008-egl-fix-build-race-in-automake.patch
+index d212a55cbb..f594233206 100644
+--- a/meta/recipes-graphics/mesa/files/parallel-make-race-fix.patch
++++ b/meta/recipes-graphics/mesa/files/0008-egl-fix-build-race-in-automake.patch
+@@ -1,22 +1,34 @@
++From b2aae4b8c6661424c1809d3e7b43f266e35385a6 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Thu, 28 Jun 2018 23:01:59 +0100
++Subject: [PATCH 8/8] egl: fix build race in automake
++Organization: O.S. Systems Software LTDA.
++
+ There is a parallel make build issue in src/egl/drivers/dri2/
+ for wayland builds. Can be reproduced with:
+ 
+ $ rm src/egl/drivers/dri2/*.h src/egl/drivers/dri2/platform_wayland.lo
+ $ make -C src/egl/ drivers/dri2/platform_wayland.lo
+-
+ ../../../mesa-18.1.2/src/egl/drivers/dri2/platform_wayland.c:50:10: fatal error: linux-dmabuf-unstable-v1-client-protocol.h: No such file or directory
+ 
+ This patch adds the missing dependency.
+ 
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Fixes: 02cc359372773800de817 "egl/wayland: Use linux-dmabuf interface for buffers"
++Reviewed-by: Eric Engestrom <eric.engestrom@intel.com>
+ 
+-Upstream-Status: Submitted (https://lists.freedesktop.org/archives/mesa-dev/2018-June/198889.html)
++Upstream-Status: Backport [18.2.0]
+ 
+-Index: mesa-18.1.2/src/egl/Makefile.am
+-===================================================================
+---- mesa-18.1.2.orig/src/egl/Makefile.am
+-+++ mesa-18.1.2/src/egl/Makefile.am
+-@@ -80,6 +80,7 @@ drivers/dri2/linux-dmabuf-unstable-v1-cl
++[Eric: fixed up the commit title]
++Signed-off-by: Eric Engestrom <eric.engestrom@intel.com>
++---
++ src/egl/Makefile.am | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/egl/Makefile.am b/src/egl/Makefile.am
++index 086a4a1e63..116ed4ebf5 100644
++--- a/src/egl/Makefile.am
+++++ b/src/egl/Makefile.am
++@@ -80,6 +80,7 @@ drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h: $(WL_DMABUF_XML)
+  if HAVE_PLATFORM_WAYLAND
+  drivers/dri2/linux-dmabuf-unstable-v1-protocol.lo: drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h
+  drivers/dri2/egl_dri2.lo: drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h
+@@ -24,3 +36,6 @@ Index: mesa-18.1.2/src/egl/Makefile.am
+  
+  AM_CFLAGS += $(WAYLAND_CLIENT_CFLAGS)
+  libEGL_common_la_LIBADD += $(WAYLAND_CLIENT_LIBS)
++-- 
++2.18.0
++
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_18.1.2.bb b/meta/recipes-graphics/mesa/mesa-gl_18.1.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_18.1.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_18.1.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_18.1.2.bb b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+similarity index 83%
+rename from meta/recipes-graphics/mesa/mesa_18.1.2.bb
+rename to meta/recipes-graphics/mesa/mesa_18.1.3.bb
+index 9a9a2b2562..c47c57e9d8 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.1.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+@@ -8,11 +8,11 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0005-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
+            file://0006-Use-Python-3-to-execute-the-scripts.patch \
+            file://0007-dri-i965-Add-missing-time.h-include.patch \
+-           file://parallel-make-race-fix.patch \
++           file://0008-egl-fix-build-race-in-automake.patch \
+ "
+ 
+-SRC_URI[md5sum] = "a2d4f031eb6bd6111d44d84004476918"
+-SRC_URI[sha256sum] = "070bf0648ba5b242d7303ceed32aed80842f4c0ba16e5acc1a650a46eadfb1f9"
++SRC_URI[md5sum] = "b34273403a605f6f98ead00f0bdf8e0b"
++SRC_URI[sha256sum] = "54f08deeda0cd2f818e8d40140040ed013de7852573002453b7f50da9ea738ce"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.18.0
 
 
-
-On 06/29/2018 08:13 AM, Christopher Larson wrote:
->
->
-> On Sun, Jun 24, 2018 at 11:43 AM Armin Kuster <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->     include several CVE fixes.
->     CVE: CVE-2018-5733
->     CVE: CVE-2018-5732
->
->     LIC_CHKSUM_FILE updated to SPFX format
->
->     https://kb.isc.org/article/AA-01571
->
->     remove several patches now included in update.
->     Shared libarary support is now enabled in configure+lt, use it
->     and revert to autotools-brokensep
->     Refresh patches
->
->     alings support with bind 9.11.x
->
->     add libxml2 support to configure.ac <http://configure.ac>+lt
->
->     Signed-off-by: Armin Kuster <akuster808@gmail.com
->     <mailto:akuster808@gmail.com>>
->     ---
->     =C2=A0meta/recipes-connectivity/dhcp/dhcp.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 19 +-
->     =C2=A0...o-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch |=C2=A0 13=
- +-
->     =C2=A0.../dhcp/dhcp/0003-link-with-lcrypto.patch=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0|=C2=A0 13 +-
->     =C2=A0.../dhcp/dhcp/0004-Fix-out-of-tree-builds.patch=C2=A0 =C2=A0 =
-| 109 +++++------
->     =C2=A0.../dhcp/0006-site.h-enable-gentle-shutdown.patch=C2=A0 |=C2=A0=
- 13 +-
->     =C2=A0...re-argument-to-make-the-libxml2-dependenc.patch |=C2=A0 40=
- +++-
->     =C2=A0.../dhcp/dhcp/0010-build-shared-libs.patch=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| 208
->     ---------------------
->     =C2=A0...all-to-isc_app_ctxstart-to-not-get-signal.patch |=C2=A0 81=
- --------
->     =C2=A0...correct-the-intention-for-xml2-lib-search.patch |=C2=A0 13=
- +-
->     =C2=A0.../dhcp/dhcp/CVE-2017-3144.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 74 --------
->     =C2=A0.../dhcp/{dhcp_4.3.6.bb <http://dhcp_4.3.6.bb> =3D> dhcp_4.4.=
-1.bb
->     <http://dhcp_4.4.1.bb>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1=
-2 +-
->     =C2=A011 files changed, 120 insertions(+), 475 deletions(-)
->     =C2=A0delete mode 100644
->     meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
->     =C2=A0delete mode 100644
->     meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_=
-ctxstart-to-not-get-signal.patch
->     =C2=A0delete mode 100644
->     meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch
->     =C2=A0rename meta/recipes-connectivity/dhcp/{dhcp_4.3.6.bb
->     <http://dhcp_4.3.6.bb> =3D> dhcp_4.4.1.bb <http://dhcp_4.4.1.bb>} (=
-65%)
->
->     diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc
->     b/meta/recipes-connectivity/dhcp/dhcp.inc
->     index e943707..2eb3513 100644
->     --- a/meta/recipes-connectivity/dhcp/dhcp.inc
->     +++ b/meta/recipes-connectivity/dhcp/dhcp.inc
->     @@ -8,7 +8,7 @@ easier to administer devices."
->     =C2=A0HOMEPAGE =3D "http://www.isc.org/"
->
->     =C2=A0LICENSE =3D "ISC"
->     -LIC_FILES_CHKSUM =3D
->     "file://LICENSE;beginline=3D4;md5=3Dc5c64d696107f84b56fe337d14da175=
-3"
->     +LIC_FILES_CHKSUM =3D
->     "file://LICENSE;beginline=3D4;md5=3D004a4db50a1e20972e924a8618747c0=
-1"
->
->     =C2=A0DEPENDS =3D "openssl bind"
->
->     @@ -24,7 +24,7 @@ SRC_URI =3D
->     "http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz
->     <http://ftp.isc.org/isc/dhcp/$%7BPV%7D/dhcp-$%7BPV%7D.tar.gz> \
->     =C2=A0UPSTREAM_CHECK_URI =3D "ftp://ftp.isc.org/isc/dhcp/"
->     =C2=A0UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+\.\d+\.(\d+?))/"
->
->     -inherit autotools systemd useradd update-rc.d
->     +inherit autotools-brokensep systemd useradd update-rc.d
->
->     =C2=A0USERADD_PACKAGES =3D "${PN}-server"
->     =C2=A0USERADD_PARAM_${PN}-server =3D "--system --no-create-home
->     --home-dir /var/run/${BPN} --shell /bin/false --user-group ${BPN}"
->     @@ -48,11 +48,21 @@ EXTRA_OECONF =3D
->     "--with-srv-lease-file=3D${localstatedir}/lib/dhcp/dhcpd.leases \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
->     =C2=A0--with-srv6-lease-file=3D${localstatedir}/lib/dhcp/dhcpd6.lea=
-ses \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
->     =C2=A0--with-cli-lease-file=3D${localstatedir}/lib/dhcp/dhclient.le=
-ases \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
->     =C2=A0--with-cli6-lease-file=3D${localstatedir}/lib/dhcp/dhclient6.=
-leases \
->     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --with-lib=
-bind=3D${STAGING_LIBDIR}/ \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--ena=
-ble-paranoia --disable-static \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--wit=
-h-randomdev=3D/dev/random \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --with-lib=
-bind=3D${STAGING_DIR_HOST}/usr \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-li=
-btool \
->     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->
->     +#Enable shared libs per dhcp README
->     +do_configure () {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp configure.ac <http://configure.ac>+l=
-t configure.ac
->     <http://configure.ac>
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 autoreconf -i
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0./configure=C2=A0 ${CONFIGUREOPTS} ${EX=
-TRA_OECONF}=C2=A0 =C2=A0
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0automake
->
->
-> 1. Why run automake when autoreconf already runs automake?
-it caused errors when I did not included.
-
-> 2. Why override do_configure and reproduce what's already in
-> autotools-brokensep rather than doing the cp in a do_configure_prepend?=
-
-I did that first and it did not work. The README regarding *+lt says it
-needs "autoreconf -i". I am only doing this as the current version of
-dhcp has a patch to create shared libs. The isc dhcp solution to this is
-their configure.ac+lt.=C2=A0 I would rather no do this but someone needed=
-
-shared libs.
-
-- armin
-
-
-> --=20
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
-
-
---------------0E2B9204DB51C56DE14E27A2
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 06/29/2018 08:13 AM, Christopher
-      Larson wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CABcZANkEA37r6a3wsBsTLirvT5dZ2o+AOpWXONPiXPgRf=5=Cw@mail.gmail.com">
-      <div dir="ltr"><br>
-        <br>
-        <div class="gmail_quote">
-          <div dir="ltr">On Sun, Jun 24, 2018 at 11:43 AM Armin Kuster
-            &lt;<a href="mailto:akuster808@gmail.com"
-              moz-do-not-send="true">akuster808@gmail.com</a>&gt; wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">include
-            several CVE fixes.<br>
-            CVE: CVE-2018-5733<br>
-            CVE: CVE-2018-5732<br>
-            <br>
-            LIC_CHKSUM_FILE updated to SPFX format<br>
-            <br>
-            <a href="https://kb.isc.org/article/AA-01571"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">https://kb.isc.org/article/AA-01571</a><br>
-            <br>
-            remove several patches now included in update.<br>
-            Shared libarary support is now enabled in configure+lt, use
-            it<br>
-            and revert to autotools-brokensep<br>
-            Refresh patches<br>
-            <br>
-            alings support with bind 9.11.x<br>
-            <br>
-            add libxml2 support to <a href="http://configure.ac"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">configure.ac</a>+lt<br>
-            <br>
-            Signed-off-by: Armin Kuster &lt;<a
-              href="mailto:akuster808@gmail.com" target="_blank"
-              moz-do-not-send="true">akuster808@gmail.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-connectivity/dhcp/dhcp.inc            |  19 +-<br>
-             ...o-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch |  13 +-<br>
-             .../dhcp/dhcp/0003-link-with-lcrypto.patch         |  13 +-<br>
-             .../dhcp/dhcp/0004-Fix-out-of-tree-builds.patch    | 109
-            +++++------<br>
-             .../dhcp/0006-site.h-enable-gentle-shutdown.patch  |  13 +-<br>
-             ...re-argument-to-make-the-libxml2-dependenc.patch |  40
-            +++-<br>
-             .../dhcp/dhcp/0010-build-shared-libs.patch         | 208
-            ---------------------<br>
-             ...all-to-isc_app_ctxstart-to-not-get-signal.patch |  81
-            --------<br>
-             ...correct-the-intention-for-xml2-lib-search.patch |  13 +-<br>
-             .../dhcp/dhcp/CVE-2017-3144.patch                  |  74
-            --------<br>
-             .../dhcp/{<a href="http://dhcp_4.3.6.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">dhcp_4.3.6.bb</a>
-            =&gt; <a href="http://dhcp_4.4.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">dhcp_4.4.1.bb</a>} 
-                    |  12 +-<br>
-             11 files changed, 120 insertions(+), 475 deletions(-)<br>
-             delete mode 100644
-            meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch<br>
-             delete mode 100644
-meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch<br>
-             delete mode 100644
-            meta/recipes-connectivity/dhcp/dhcp/CVE-2017-3144.patch<br>
-             rename meta/recipes-connectivity/dhcp/{<a
-              href="http://dhcp_4.3.6.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">dhcp_4.3.6.bb</a>
-            =&gt; <a href="http://dhcp_4.4.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">dhcp_4.4.1.bb</a>}
-            (65%)<br>
-            <br>
-            diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc
-            b/meta/recipes-connectivity/dhcp/dhcp.inc<br>
-            index e943707..2eb3513 100644<br>
-            --- a/meta/recipes-connectivity/dhcp/dhcp.inc<br>
-            +++ b/meta/recipes-connectivity/dhcp/dhcp.inc<br>
-            @@ -8,7 +8,7 @@ easier to administer devices."<br>
-             HOMEPAGE = "<a href="http://www.isc.org/" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">http://www.isc.org/</a>"<br>
-            <br>
-             LICENSE = "ISC"<br>
-            -LIC_FILES_CHKSUM =
-            <a class="moz-txt-link-rfc2396E" href="file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1753">"file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1753"</a><br>
-            +LIC_FILES_CHKSUM =
-            <a class="moz-txt-link-rfc2396E" href="file://LICENSE;beginline=4;md5=004a4db50a1e20972e924a8618747c01">"file://LICENSE;beginline=4;md5=004a4db50a1e20972e924a8618747c01"</a><br>
-            <br>
-             DEPENDS = "openssl bind"<br>
-            <br>
-            @@ -24,7 +24,7 @@ SRC_URI = "<a
-              href="http://ftp.isc.org/isc/dhcp/$%7BPV%7D/dhcp-$%7BPV%7D.tar.gz"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz</a>
-            \<br>
-             UPSTREAM_CHECK_URI = "<a href="ftp://ftp.isc.org/isc/dhcp/"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">ftp://ftp.isc.org/isc/dhcp/</a>"<br>
-             UPSTREAM_CHECK_REGEX = "(?P&lt;pver&gt;\d+\.\d+\.(\d+?))/"<br>
-            <br>
-            -inherit autotools systemd useradd update-rc.d<br>
-            +inherit autotools-brokensep systemd useradd update-rc.d<br>
-            <br>
-             USERADD_PACKAGES = "${PN}-server"<br>
-             USERADD_PARAM_${PN}-server = "--system --no-create-home
-            --home-dir /var/run/${BPN} --shell /bin/false --user-group
-            ${BPN}"<br>
-            @@ -48,11 +48,21 @@ EXTRA_OECONF =
-            "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases
-            \<br>
-                           
-             --with-srv6-lease-file=${localstatedir}/lib/dhcp/dhcpd6.leases
-            \<br>
-                           
-             --with-cli-lease-file=${localstatedir}/lib/dhcp/dhclient.leases
-            \<br>
-                           
-             --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases
-            \<br>
-            -                --with-libbind=${STAGING_LIBDIR}/ \<br>
-                             --enable-paranoia --disable-static \<br>
-                             --with-randomdev=/dev/random \<br>
-            +                --with-libbind=${STAGING_DIR_HOST}/usr \<br>
-            +               --enable-libtool \<br>
-                            "<br>
-            <br>
-            +#Enable shared libs per dhcp README<br>
-            +do_configure () {<br>
-            +       cd ${S}<br>
-            +       cp <a href="http://configure.ac" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">configure.ac</a>+lt
-            <a href="http://configure.ac" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">configure.ac</a><br>
-            +        autoreconf -i<br>
-            +       ./configure  ${CONFIGUREOPTS} ${EXTRA_OECONF}   <br>
-            +       automake<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>1. Why run automake when autoreconf already runs
-            automake?</div>
-        </div>
-      </div>
-    </blockquote>
-    it caused errors when I did not included. <br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CABcZANkEA37r6a3wsBsTLirvT5dZ2o+AOpWXONPiXPgRf=5=Cw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div>2. Why override do_configure and reproduce what's already
-            in autotools-brokensep rather than doing the cp in a
-            do_configure_prepend?<br clear="all">
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I did that first and it did not work. The README regarding *+lt says
-    it needs "autoreconf -i". I am only doing this as the current
-    version of dhcp has a patch to create shared libs. The isc dhcp
-    solution to this is their configure.ac+lt.  I would rather no do
-    this but someone needed shared libs.<br>
-    <br>
-    - armin<br>
-    <br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CABcZANkEA37r6a3wsBsTLirvT5dZ2o+AOpWXONPiXPgRf=5=Cw@mail.gmail.com">
-      <div dir="ltr">-- <br>
-        <div dir="ltr" class="gmail_signature"
-          data-smartmail="gmail_signature">
-          <div dir="ltr">
-            <div>
-              <div dir="ltr">Christopher Larson<br>
-                kergoth at gmail dot com<br>
-                Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-                Senior Software Engineer, Mentor Graphics</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------0E2B9204DB51C56DE14E27A2--
