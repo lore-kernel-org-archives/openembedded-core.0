@@ -1,30 +1,52 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B918C607AD
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0C574D41
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 08:25:28 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41649284"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 29 Jun 2018 16:25:28 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 677944B41EE4
+	Fri, 29 Jun 2018 12:13:57 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id b134-v6so5177281vke.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 16:25:20 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.122) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Fri, 29 Jun 2018 16:25:22 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jun 2018 16:24:38 +0800
-Message-ID: <20180629082438.16835-1-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
+	Fri, 29 Jun 2018 05:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Mie7TkJTCNgP+wTd7vc5HVodtHRLW4HUPV5OZUf/hFc=;
+	b=tc4WQbXmRFKexsY1njz7/8ZZOkoVSDmM6N5Caxr6K6RVYKkJUfBF8MlOR37UYitmWU
+	kNCxYl6bt/sDcY1O1G3YTTjKi0VOzodcv5pKtUoHTK44RANVP5fOiWU60cipODI9Tk0C
+	N1nEqOLuw/B9Lii06zf9UyJbfUrUrrdAGsDTEhcFQXa4oI84F9Ul81yjYRJ46l8alnCe
+	icAmKnEALDzpsa9NrmZesJnfnhvA3COUBfO0BLRW6crpMf+D3GTrvFQdH7RLzsg6cKSG
+	AR6fPLffVvpqxXpD1bkH9sonTViw0AOTcr0WOQjhW4EtR/Iv/bB+I/F8jT23HZ6h/uoT
+	5hhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Mie7TkJTCNgP+wTd7vc5HVodtHRLW4HUPV5OZUf/hFc=;
+	b=Cb2igkdtVSB3YKEnuaQrvEDr8E5h6o1aof+BkyaK4zUbLSUyTLWS2fUTi0qbSsfxA7
+	dPHJWM6tUL3z1XdfH/NwHvHKOaVWc53Zl0z9ytj5lQs69VM9R4NMQ0oll7vthCHmpquY
+	253H6h1zyJ0pYMDB61YgB8+iwV+UNHIQ/aDFe25ccMgnlT8OGNSdPXVdHfkcfvWt8xJU
+	CMacPdWNJEnlsx2Y0tdQrf76LDRCDzp2TBrSsCtIKxhv3SeXmEuvl6uv+gDAVjbYoNSQ
+	9lcMoTzAZipD2QGImL4Ry2jt0tDdbFJzizy+ZVV9g4PDHfbq/GlyhEFcjeKop6cLNfjH
+	h4SA==
+X-Gm-Message-State: APt69E0tNjlgAdNzhbKR0fsZliteGmnJcWSTOQRGrOjeeWMP84nEAqfE
+	8x6mdcsNB3ljjzu0vzCLKv/soAtKvRy+WukwEJQ=
+X-Google-Smtp-Source: AAOMgpeulu4veVkXLpYLpZTzMsP0OBh8Ycowyeip17nBbRQHeZk9xzTMhxLpM+klY+W3ErvMsn+8iGEJsn3IvYjizwI=
+X-Received: by 2002:a1f:b593:: with SMTP id
+	e141-v6mr9295914vkf.171.1530274437929; 
+	Fri, 29 Jun 2018 05:13:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.122]
-X-yoursite-MailScanner-ID: 677944B41EE4.AC788
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [sumo][PATCH] procps:Fix-CVE-2018-1122&CVE-2018-1123
+References: <1530014936-10858-1-git-send-email-alex.kiernan@gmail.com>
+	<4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
+	<257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
+	<CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
+	<CAO5Uq5RCb_b=VmdWky+6Cen5509i23mR24G3xx-RMZFoeH6wbw@mail.gmail.com>
+	<5847dcfcc2cd4024befae98b7d245c45@XBOX02.axis.com>
+In-Reply-To: <5847dcfcc2cd4024befae98b7d245c45@XBOX02.axis.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 29 Jun 2018 13:13:46 +0100
+Message-ID: <CAO5Uq5RZDB8EunTrvD6mr8VCfb4TLySc81mJNHXYMG5seeqT=A@mail.gmail.com>
+To: peter.kjellerstedt@axis.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image: Set COREBASE as the git directory for timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,202 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 08:25:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Jun 2018 12:13:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fix CVE-2018-1122 & CVE-2018-1122
+On Thu, Jun 28, 2018 at 7:34 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: Alex Kiernan [mailto:alex.kiernan@gmail.com]
+> > Sent: den 28 juni 2018 17:57
+> > To: kergoth@gmail.com
+> > Cc: richard.purdie@linuxfoundation.org; Peter Kjellerstedt
+> > <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [OE-Core][PATCH 1/2] image: Set COREBASE as the
+> > git directory for timestamp
+> >
+> > On Thu, Jun 28, 2018 at 4:31 PM Christopher Larson <kergoth@gmail.com>
+> > wrote:
+> > >
+> > > On Thu, Jun 28, 2018 at 8:29 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >>
+> > >> On Thu, 2018-06-28 at 15:18 +0000, Peter Kjellerstedt wrote:
+> > >> > There is no guarantee that ${COREBASE} refers to a path that is
+> > >> > under Git control. E.g., in our case it refers to a directory that
+> > >> > is under repo control. "${COREBASE}/meta" is probably a better
+> > >> > option.
+> > >>
+> > >> You could make that argument about /meta too.
+> > >>
+> > >> I'd suggest the code checks for ${COREBASE}/.git and if that doesn't
+> >
+> > In a poky checkout from repo (which is what I'm also using),
+> > ${COREBASE}/meta/.git doesn't exist, but ${COREBASE}/.git does, but
+> > that all works because it's climbing the directory tree to find the
+> > .git directory.
+> >
+> > >> exist, fall back to the timestamp of the
+> > >> ${COREBASE}/meta/conf/bitbake.conf file.
+> > >
+> > > That's a good idea, but I'd suggest using bb.utils.which() to locate
+> > > conf/bibake.conf rather than hardcoding that path.
+> >
+> > How about (totally untested):
+> >
+> > if git -C "${COREBASE}/meta" rev-parse --show-toplevel; then
+> >   REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}/meta" log -1 --pretty=%ct`
+> > else
+> >   REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y ${@bb.utils.which(bbpath, "conf/bitbake.conf")}`
+> > fi
+> >
+> > ?
+>
+> You do not really need the first git call above:
+>
+> REPRODUCIBLE_TIMESTAMP_ROOTFS=$(git -C "${COREBASE}/meta" log -1 --pretty=%ct 2>/dev/null)
+> if [ -z "$REPRODUCIBLE_TIMESTAMP_ROOTFS" ]; then
+>         REPRODUCIBLE_TIMESTAMP_ROOTFS=$(stat -c%Y ${@bb.utils.which(bbpath, "conf/bitbake.conf")})
+> fi
+>
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
----
- .../procps/procps/CVE-2018-1122.patch              | 70 ++++++++++++++++++
- .../procps/procps/CVE-2018-1123.patch              | 84 ++++++++++++++++++++++
- meta/recipes-extended/procps/procps_3.3.12.bb      |  2 +
- 3 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1122.patch
- create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1123.patch
+That's true... I'll post an update
 
-diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1122.patch b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
-new file mode 100644
-index 0000000..f840873
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
-@@ -0,0 +1,70 @@
-+From 3cf9b0f403f758a2cfdc6f52f76c261b0f6ce924 Mon Sep 17 00:00:00 2001
-+From: Qualys Security Advisory <qsa@qualys.com>
-+Date: Thu, 1 Jan 1970 00:00:00 +0000
-+Subject: [PATCH 097/126] top: Do not default to the cwd in configs_read().
-+
-+If the HOME environment variable is not set, or not absolute, use the
-+home directory returned by getpwuid(getuid()), if set and absolute
-+(instead of the cwd "."); otherwise, set p_home to NULL.
-+
-+To keep the changes to a minimum, we rely on POSIX, which requires that
-+fopen() fails with ENOENT if the pathname (Rc_name) is an empty string.
-+This integrates well into the existing code, and makes write_rcfile()
-+work without a change.
-+
-+Also, it makes the code in configs_read() easier to follow: only set and
-+use p_home if safe, and only set Rc_name if safe (in all the other cases
-+it is the empty string, and the fopen() calls fail). Plus, check for
-+snprintf() truncation (and if it happens, reset Rc_name to the empty
-+string).
-+
-+Important note: top.1 should probably be updated, since it mentions the
-+fallback to the current working directory.
-+[carnil: Backport to 3.3.12: p_home -> p, context]
-+
-+Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-+---
-+ top/top.c | 33 ++++++++++++++++++++++++++++-----
-+ 1 file changed, 28 insertions(+), 5 deletions(-)
-+
-+--- a/top/top.c
-++++ b/top/top.c
-+@@ -3423,6 +3423,19 @@ static int config_cvt (WIN_t *q) {
-+    return 0;
-+ } // end: config_cvt
-+ 
-++static int snprintf_Rc_name (const char *const format, ...) __attribute__((format(printf,1,2)));
-++static int snprintf_Rc_name (const char *const format, ...) {
-++   int len;
-++   va_list ap;
-++   va_start(ap, format);
-++   len = vsnprintf(Rc_name, sizeof(Rc_name), format, ap);
-++   va_end(ap);
-++   if (len <= 0 || (size_t)len >= sizeof(Rc_name)) {
-++      Rc_name[0] = '\0';
-++      return 0;
-++   }
-++   return len;
-++}
-+ 
-+         /*
-+          * Build the local RC file name then try to read both of 'em.
-+@@ -3445,8 +3458,17 @@ static void configs_read (void) {
-+    FILE *fp;
-+    int i;
-+ 
-++   Rc_name[0] = '\0'; // "fopen() shall fail if pathname is an empty string."
-+    p = getenv("HOME");
-+-   snprintf(Rc_name, sizeof(Rc_name), "%s/.%src", (p && *p) ? p : ".", Myname);
-++   if (!p || p[0] != '/') {
-++      const struct passwd *const pwd = getpwuid(getuid());
-++      if (!pwd || !(p = pwd->pw_dir) || p[0] != '/') {
-++         p = NULL;
-++      }
-++   }
-++   if (p) {
-++      snprintf_Rc_name("%s/.%src", p, Myname);
-++   }
-+ 
-+    fp = fopen(SYS_RCFILESPEC, "r");
-+    if (fp) {
-diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1123.patch b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
-new file mode 100644
-index 0000000..a2060e8
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
-@@ -0,0 +1,84 @@
-+From 136e3724952827bbae8887a42d9d2b6f658a48ab Mon Sep 17 00:00:00 2001
-+From: Qualys Security Advisory <qsa@qualys.com>
-+Date: Thu, 1 Jan 1970 00:00:00 +0000
-+Subject: [PATCH] ps/output.c: Fix outbuf overflows in pr_args() etc.
-+
-+Because there is usually less than OUTBUF_SIZE available at endp.
-+
-+Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-+---
-+ ps/output.c | 23 ++++++++++++++---------
-+ 1 file changed, 14 insertions(+), 9 deletions(-)
-+
-+diff --git a/ps/output.c b/ps/output.c
-+index 0c63bb6..4456f28 100644
-+--- a/ps/output.c
-++++ b/ps/output.c
-+@@ -389,6 +389,9 @@ Modifications to the arguments are not shown.
-+ 
-+ // FIXME: some of these may hit the guard page in forest mode
-+ 
-++#define OUTBUF_SIZE_AT(endp) \
-++  (((endp) >= outbuf && (endp) < outbuf + OUTBUF_SIZE) ? (outbuf + OUTBUF_SIZE) - (endp) : 0)
-++
-+ /*
-+  * "args", "cmd", "command" are all the same:  long  unless  c
-+  * "comm", "ucmd", "ucomm"  are all the same:  short unless -f
-+@@ -402,15 +405,15 @@ static int pr_args(char *restrict const outbuf, const proc_t *restrict const pp)
-+   rightward -= fh;
-+ 
-+   if(pp->cmdline && !bsd_c_option)
-+-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
-++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
-+   else
-+-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
-++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
-+ 
-+-  if(bsd_e_option && rightward>1) {
-++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
-+     if(pp->environ && *pp->environ) {
-+       *endp++ = ' ';
-+       rightward--;
-+-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
-++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
-+     }
-+   }
-+   return max_rightward-rightward;
-+@@ -429,15 +432,15 @@ static int pr_comm(char *restrict const outbuf, const proc_t *restrict const pp)
-+   rightward -= fh;
-+ 
-+   if(pp->cmdline && unix_f_option)
-+-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
-++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
-+   else
-+-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
-++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
-+ 
-+-  if(bsd_e_option && rightward>1) {
-++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
-+     if(pp->environ && *pp->environ) {
-+       *endp++ = ' ';
-+       rightward--;
-+-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
-++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
-+     }
-+   }
-+   return max_rightward-rightward;
-+@@ -469,11 +472,13 @@ static int pr_fname(char *restrict const outbuf, const proc_t *restrict const pp
-+   if (rightward>8)  /* 8=default, but forest maybe feeds more */
-+     rightward = 8;
-+ 
-+-  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE, &rightward);
-++  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE_AT(endp), &rightward);
-+   //return endp - outbuf;
-+   return max_rightward-rightward;
-+ }
-+ 
-++#undef OUTBUF_SIZE_AT
-++
-+ /* elapsed wall clock time, [[dd-]hh:]mm:ss format (not same as "time") */
-+ static int pr_etime(char *restrict const outbuf, const proc_t *restrict const pp){
-+   unsigned long t;
-+-- 
-+2.14.3
-+
-diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
-index ecf215f..29fa95e 100644
---- a/meta/recipes-extended/procps/procps_3.3.12.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.12.bb
-@@ -14,6 +14,8 @@ inherit autotools gettext pkgconfig update-alternatives
- 
- SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
-            file://sysctl.conf \
-+           file://CVE-2018-1122.patch \
-+           file://CVE-2018-1123.patch \
-           "
- 
- SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
--- 
-2.7.4
-
-
-
+--
+Alex Kiernan
 
