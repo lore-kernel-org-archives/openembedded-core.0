@@ -1,52 +1,46 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D0C574D41
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7595474D41
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 12:13:57 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id b134-v6so5177281vke.13
+	Fri, 29 Jun 2018 12:17:00 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id t22-v6so7129506ljc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 05:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 29 Jun 2018 05:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Mie7TkJTCNgP+wTd7vc5HVodtHRLW4HUPV5OZUf/hFc=;
-	b=tc4WQbXmRFKexsY1njz7/8ZZOkoVSDmM6N5Caxr6K6RVYKkJUfBF8MlOR37UYitmWU
-	kNCxYl6bt/sDcY1O1G3YTTjKi0VOzodcv5pKtUoHTK44RANVP5fOiWU60cipODI9Tk0C
-	N1nEqOLuw/B9Lii06zf9UyJbfUrUrrdAGsDTEhcFQXa4oI84F9Ul81yjYRJ46l8alnCe
-	icAmKnEALDzpsa9NrmZesJnfnhvA3COUBfO0BLRW6crpMf+D3GTrvFQdH7RLzsg6cKSG
-	AR6fPLffVvpqxXpD1bkH9sonTViw0AOTcr0WOQjhW4EtR/Iv/bB+I/F8jT23HZ6h/uoT
-	5hhA==
+	:cc:content-transfer-encoding;
+	bh=Z17oRWIi5iQx3ifaEoQHTRvg8lm1p3BYOX5N4NzSdr8=;
+	b=Y56cOA8JApPRN2GXZ6aQPk8vdBx/brKM2jid4WQPHen4w9sJYtKDOVVcsUvt62QfYx
+	7ehB4WL1gnIMgnr/sM/Gbq1ekqPgb5eNIDimlXR4QCx03qY+jEhCnlWgqpLHJyhXACPF
+	dBZ68VKsaqgxZW3KhIwgbNLPsMVjR/Mnsvb5E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Mie7TkJTCNgP+wTd7vc5HVodtHRLW4HUPV5OZUf/hFc=;
-	b=Cb2igkdtVSB3YKEnuaQrvEDr8E5h6o1aof+BkyaK4zUbLSUyTLWS2fUTi0qbSsfxA7
-	dPHJWM6tUL3z1XdfH/NwHvHKOaVWc53Zl0z9ytj5lQs69VM9R4NMQ0oll7vthCHmpquY
-	253H6h1zyJ0pYMDB61YgB8+iwV+UNHIQ/aDFe25ccMgnlT8OGNSdPXVdHfkcfvWt8xJU
-	CMacPdWNJEnlsx2Y0tdQrf76LDRCDzp2TBrSsCtIKxhv3SeXmEuvl6uv+gDAVjbYoNSQ
-	9lcMoTzAZipD2QGImL4Ry2jt0tDdbFJzizy+ZVV9g4PDHfbq/GlyhEFcjeKop6cLNfjH
-	h4SA==
-X-Gm-Message-State: APt69E0tNjlgAdNzhbKR0fsZliteGmnJcWSTOQRGrOjeeWMP84nEAqfE
-	8x6mdcsNB3ljjzu0vzCLKv/soAtKvRy+WukwEJQ=
-X-Google-Smtp-Source: AAOMgpeulu4veVkXLpYLpZTzMsP0OBh8Ycowyeip17nBbRQHeZk9xzTMhxLpM+klY+W3ErvMsn+8iGEJsn3IvYjizwI=
-X-Received: by 2002:a1f:b593:: with SMTP id
-	e141-v6mr9295914vkf.171.1530274437929; 
-	Fri, 29 Jun 2018 05:13:57 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Z17oRWIi5iQx3ifaEoQHTRvg8lm1p3BYOX5N4NzSdr8=;
+	b=uiRVKordES8lw1DAE9EPJo5kmdw/hyHoUgownGP/vJNpg93k9cSr/giWL1r0rNTyIK
+	bbnzT9eTyaoPe1nKrX4UXRnc2M0WDHyxOrP8TLw++UPpfcINhFjJnyrK1evOKpFRRQw7
+	6Btu388l7aUvvZSh9ofsj5NG9mxvlyvrhdxizjapb/raKKhytqe6frt8l4kv/HqOxWCX
+	iGNS/KpdYqClw4t0huAkq04AABo/y5/Z5mQPgEms8v4lCSgiwG9SReI94LOvHlrUtWke
+	wlv9+5WFhMPJdFFvz/ypQT/5HGhIrfTYJXNq7lP/87NOACjFQesXStneJZBqU2l6bIl1
+	KXiQ==
+X-Gm-Message-State: APt69E3klgkXEZCfUy+kXTf6nMiL78aFclRYip9HgBqPe6MY6P0PC7nA
+	lyelsbEJs76LI4m7csIKcU2TEINBdVPaHlHtwJedew==
+X-Google-Smtp-Source: AAOMgpfDbn9Hy8UCZPmHmO1HJuPszoM0Oh5iVu93v1LpYi8ggHLSM0Altyv7m0s+TBhTBbZbPhw7g7vtRtAOY9JdIEM=
+X-Received: by 2002:a2e:9105:: with SMTP id
+	m5-v6mr4722075ljg.121.1530274621011; 
+	Fri, 29 Jun 2018 05:17:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1530014936-10858-1-git-send-email-alex.kiernan@gmail.com>
-	<4ef21051d1ee4c72a7fe24722ec2b31a@XBOX02.axis.com>
-	<257c6bc25cc803109799796700bae278d3803d33.camel@linuxfoundation.org>
-	<CABcZANkB3nH2VGMAGxtTYZu2XZfsfLc0Ch55GkpmY7peN+cdSw@mail.gmail.com>
-	<CAO5Uq5RCb_b=VmdWky+6Cen5509i23mR24G3xx-RMZFoeH6wbw@mail.gmail.com>
-	<5847dcfcc2cd4024befae98b7d245c45@XBOX02.axis.com>
-In-Reply-To: <5847dcfcc2cd4024befae98b7d245c45@XBOX02.axis.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 29 Jun 2018 13:13:46 +0100
-Message-ID: <CAO5Uq5RZDB8EunTrvD6mr8VCfb4TLySc81mJNHXYMG5seeqT=A@mail.gmail.com>
-To: peter.kjellerstedt@axis.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image: Set COREBASE as the git directory for timestamp
+References: <1530194188-6052-1-git-send-email-daniel.diaz@linaro.org>
+In-Reply-To: <1530194188-6052-1-git-send-email-daniel.diaz@linaro.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 29 Jun 2018 14:16:49 +0200
+Message-ID: <CAP71WjzL8jHXRZGrmKOXr1ewK-WNNgdy9-cGpGZbBh+uuHG_uA@mail.gmail.com>
+To: Daniel Diaz <daniel.diaz@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kmscube: Update to master from 2018-06-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,68 +53,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 12:13:57 -0000
+X-List-Received-Date: Fri, 29 Jun 2018 12:17:00 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 28, 2018 at 7:34 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+On Thu, Jun 28, 2018 at 3:56 PM Daniel D=C3=ADaz <daniel.diaz@linaro.org> w=
+rote:
 >
-> > -----Original Message-----
-> > From: Alex Kiernan [mailto:alex.kiernan@gmail.com]
-> > Sent: den 28 juni 2018 17:57
-> > To: kergoth@gmail.com
-> > Cc: richard.purdie@linuxfoundation.org; Peter Kjellerstedt
-> > <peter.kjellerstedt@axis.com>; openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [OE-Core][PATCH 1/2] image: Set COREBASE as the
-> > git directory for timestamp
-> >
-> > On Thu, Jun 28, 2018 at 4:31 PM Christopher Larson <kergoth@gmail.com>
-> > wrote:
-> > >
-> > > On Thu, Jun 28, 2018 at 8:29 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >>
-> > >> On Thu, 2018-06-28 at 15:18 +0000, Peter Kjellerstedt wrote:
-> > >> > There is no guarantee that ${COREBASE} refers to a path that is
-> > >> > under Git control. E.g., in our case it refers to a directory that
-> > >> > is under repo control. "${COREBASE}/meta" is probably a better
-> > >> > option.
-> > >>
-> > >> You could make that argument about /meta too.
-> > >>
-> > >> I'd suggest the code checks for ${COREBASE}/.git and if that doesn't
-> >
-> > In a poky checkout from repo (which is what I'm also using),
-> > ${COREBASE}/meta/.git doesn't exist, but ${COREBASE}/.git does, but
-> > that all works because it's climbing the directory tree to find the
-> > .git directory.
-> >
-> > >> exist, fall back to the timestamp of the
-> > >> ${COREBASE}/meta/conf/bitbake.conf file.
-> > >
-> > > That's a good idea, but I'd suggest using bb.utils.which() to locate
-> > > conf/bibake.conf rather than hardcoding that path.
-> >
-> > How about (totally untested):
-> >
-> > if git -C "${COREBASE}/meta" rev-parse --show-toplevel; then
-> >   REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}/meta" log -1 --pretty=%ct`
-> > else
-> >   REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y ${@bb.utils.which(bbpath, "conf/bitbake.conf")}`
-> > fi
-> >
-> > ?
+> Changes from 0d8de4ce:
+>   c2d4ba8 drm-legacy: fix poll for flip event, actually exit on user inpu=
+t
+>   56c3917 formats: use weston's egl config matching logic, centralize for=
+mat
+>   aac3788 Rework default modifier handling
+>   4f7cec0 Use weak functions to handle lack of gbm modifiers
+>   98f31bf cube-tex: make use of modifiers
+>   063ce5c gbm: fix fallback for drivers that don't support modifiers
+>   9dcce71 add MSAA
 >
-> You do not really need the first git call above:
+> Also refresh gbm_bo_map/_unmap patch.
 >
-> REPRODUCIBLE_TIMESTAMP_ROOTFS=$(git -C "${COREBASE}/meta" log -1 --pretty=%ct 2>/dev/null)
-> if [ -z "$REPRODUCIBLE_TIMESTAMP_ROOTFS" ]; then
->         REPRODUCIBLE_TIMESTAMP_ROOTFS=$(stat -c%Y ${@bb.utils.which(bbpath, "conf/bitbake.conf")})
-> fi
->
+> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
 
-That's true... I'll post an update
+Thanks for sending this out! without
 
---
-Alex Kiernan
+>   063ce5c gbm: fix fallback for drivers that don't support modifiers
+
+kmscube is broken and won't work with Gallium drivers (e.g. freedreno)
+if mesa > 18.x, and since OE-core has mesa 18.1.2, it means kmscube is
+currently broken!
+
+Acked-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+> ---
+>  .../detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch      | 10 ++++=
++-----
+>  meta/recipes-graphics/kmscube/kmscube_git.bb                   |  2 +-
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unm=
+ap-and-use-it-or-avoid-it.patch b/meta/recipes-graphics/kmscube/kmscube/det=
+ect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch
+> index 3605446..611e541 100644
+> --- a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-=
+use-it-or-avoid-it.patch
+> +++ b/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-=
+use-it-or-avoid-it.patch
+> @@ -49,9 +49,9 @@ diff --git a/configure.ac b/configure.ac
+>  index 8397f7b..c7f1f4d 100644
+>  --- a/configure.ac
+>  +++ b/configure.ac
+> -@@ -65,5 +65,8 @@ if test "x$enable_gbm_modifiers" =3D xyes; then
+> -       AC_DEFINE(HAVE_GBM_MODIFIERS, 1, [Define if you can use GBM prope=
+rties.])
+> +@@ -49,5 +49,8 @@ if test "x$HAVE_GST" =3D "xyes"; then
+>   fi
+> + AM_CONDITIONAL(ENABLE_GST, [test "x$HAVE_GST" =3D "xyes"])
+>
+>  +AC_CHECK_LIB([gbm], [gbm_bo_map], [HAVE_GBM_BO_MAP=3Dyes], [])
+>  +AM_CONDITIONAL(ENABLE_GBM_MAP, [test "x$HAVE_GBM_BO_MAP" =3D "xyes"])
+> @@ -99,12 +99,12 @@ diff --git a/kmscube.c b/kmscube.c
+>  index 3a2c4dd..276dc55 100644
+>  --- a/kmscube.c
+>  +++ b/kmscube.c
+> -@@ -142,7 +142,11 @@ int main(int argc, char *argv[])
+> +@@ -148,7 +148,11 @@ int main(int argc, char *argv[])
+>         else if (mode =3D=3D VIDEO)
+> -               egl =3D init_cube_video(gbm, video);
+> +               egl =3D init_cube_video(gbm, video, samples);
+>         else
+>  +#if HAVE_GBM_BO_MAP
+> -               egl =3D init_cube_tex(gbm, mode);
+> +               egl =3D init_cube_tex(gbm, mode, samples);
+>  +#else
+>  +              printf("gbm_bo_map() support missing\n");
+>  +#endif
+> diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-=
+graphics/kmscube/kmscube_git.bb
+> index 5b64ed6..46aeeb0 100644
+> --- a/meta/recipes-graphics/kmscube/kmscube_git.bb
+> +++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+> @@ -6,7 +6,7 @@ DEPENDS =3D "virtual/libgles2 virtual/egl libdrm gstreame=
+r1.0 gstreamer1.0-plugins
+>
+>  LIC_FILES_CHKSUM =3D "file://kmscube.c;beginline=3D1;endline=3D23;md5=3D=
+8b309d4ee67b7315ff7381270dd631fb"
+>
+> -SRCREV =3D "0d8de4ce3a03f36af1817f9b0586d132ad2c5d2e"
+> +SRCREV =3D "9dcce71e603616ee7a54707e932f962cdf8fb20a"
+>  SRC_URI =3D "git://anongit.freedesktop.org/mesa/kmscube;branch=3Dmaster;=
+protocol=3Dgit \
+>      file://detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch"
+>  UPSTREAM_CHECK_COMMITS =3D "1"
+> --
+> 2.7.4
+>
 
