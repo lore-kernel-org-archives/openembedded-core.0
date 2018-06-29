@@ -1,46 +1,48 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7595474D41
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D9B5574E36
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 12:17:00 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id t22-v6so7129506ljc.11
+	Fri, 29 Jun 2018 12:59:08 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id r24-v6so8352388ioh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 05:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Z17oRWIi5iQx3ifaEoQHTRvg8lm1p3BYOX5N4NzSdr8=;
-	b=Y56cOA8JApPRN2GXZ6aQPk8vdBx/brKM2jid4WQPHen4w9sJYtKDOVVcsUvt62QfYx
-	7ehB4WL1gnIMgnr/sM/Gbq1ekqPgb5eNIDimlXR4QCx03qY+jEhCnlWgqpLHJyhXACPF
-	dBZ68VKsaqgxZW3KhIwgbNLPsMVjR/Mnsvb5E=
+	Fri, 29 Jun 2018 05:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+Tw3BRtM+peEtXClXsoRTjbU3GRk+dItwyZ+OpWWFCc=;
+	b=lmgV39fi3R4aWiyGYc0Fvy/jwPaFoskPCyD6+99MWbcLYmgTewNHbxyWJQ/oEa5eHc
+	WH8TvUth93MoqHqeBp2tYNYQmGwO2vnHfWuTHbJQ31Oau0cOpZeIuorhOUNpVgYbX7m3
+	ovL5zyuyO0swgH3kHK87YnRQ4v0FVnrwLwutd4byyjH/3nQ5mIUR1Kb4gbMBHIXzm52X
+	KB4YHQG4n6vkP20RUQqOcPsXCvt6UF0PDgIbuBcpnqBo370zEq7kGw0Vuv621LYN5bqx
+	IxPn/EXw1E72OS1l/rhA6z4EGihYnYIkc6+9ZZgLgNBC5ScXIfiTK5hcJ2BGIgzQYcQE
+	/gig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Z17oRWIi5iQx3ifaEoQHTRvg8lm1p3BYOX5N4NzSdr8=;
-	b=uiRVKordES8lw1DAE9EPJo5kmdw/hyHoUgownGP/vJNpg93k9cSr/giWL1r0rNTyIK
-	bbnzT9eTyaoPe1nKrX4UXRnc2M0WDHyxOrP8TLw++UPpfcINhFjJnyrK1evOKpFRRQw7
-	6Btu388l7aUvvZSh9ofsj5NG9mxvlyvrhdxizjapb/raKKhytqe6frt8l4kv/HqOxWCX
-	iGNS/KpdYqClw4t0huAkq04AABo/y5/Z5mQPgEms8v4lCSgiwG9SReI94LOvHlrUtWke
-	wlv9+5WFhMPJdFFvz/ypQT/5HGhIrfTYJXNq7lP/87NOACjFQesXStneJZBqU2l6bIl1
-	KXiQ==
-X-Gm-Message-State: APt69E3klgkXEZCfUy+kXTf6nMiL78aFclRYip9HgBqPe6MY6P0PC7nA
-	lyelsbEJs76LI4m7csIKcU2TEINBdVPaHlHtwJedew==
-X-Google-Smtp-Source: AAOMgpfDbn9Hy8UCZPmHmO1HJuPszoM0Oh5iVu93v1LpYi8ggHLSM0Altyv7m0s+TBhTBbZbPhw7g7vtRtAOY9JdIEM=
-X-Received: by 2002:a2e:9105:: with SMTP id
-	m5-v6mr4722075ljg.121.1530274621011; 
-	Fri, 29 Jun 2018 05:17:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <1530194188-6052-1-git-send-email-daniel.diaz@linaro.org>
-In-Reply-To: <1530194188-6052-1-git-send-email-daniel.diaz@linaro.org>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 29 Jun 2018 14:16:49 +0200
-Message-ID: <CAP71WjzL8jHXRZGrmKOXr1ewK-WNNgdy9-cGpGZbBh+uuHG_uA@mail.gmail.com>
-To: Daniel Diaz <daniel.diaz@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kmscube: Update to master from 2018-06-17
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+Tw3BRtM+peEtXClXsoRTjbU3GRk+dItwyZ+OpWWFCc=;
+	b=RB1eHMMZ4e7zf4NrnLYPiQRuSCcGZQ9OQ19cf9uqwMzO72Z7AXSDZEl0OBHA8n8sr8
+	uD1sVGo0qLss/6PxewONUohpjOdTsG62idFfvmCn25HRLvaM71Op3jPK9qWPiA0SaZEv
+	D/8tEjYaKIhSWRFVBeLrQV7CqQMi0PFM0gqKxSfPWSp2b0geftnweIY2C8v2x7ZvFMGa
+	kVjkjozqAH5AEumH1ZhJV6uHT5SQiTdit/BpXA/+I3Z/WLkMjOVn9usq9ZaZWPWY1Otd
+	XaechCwQPalerq6vCyPJ9vzuPpoS/LCwJciDbfJC2/4nVH/4nS0pZmu5PqNV1Orsc3td
+	v3vg==
+X-Gm-Message-State: APt69E1Kmip/aS7YVIOT2gIi7EyLN5niGmY+vaRx8/Fh5azPuH26ljNH
+	6KD0mGYasTha8cLq9n1Hfkz+
+X-Google-Smtp-Source: AAOMgpd68UZGTHz/YzehYvln20dInshF/1ZGTU8NBmQ3GsYItkpv9K0OWyL4J2vtlrXMiCXQetmRsQ==
+X-Received: by 2002:a6b:b5c1:: with SMTP id
+	e184-v6mr12373520iof.267.1530277149753; 
+	Fri, 29 Jun 2018 05:59:09 -0700 (PDT)
+Received: from georgedesktop.novatech-llc.local ([216.21.169.52])
+	by smtp.gmail.com with ESMTPSA id
+	b130-v6sm680811itc.38.2018.06.29.05.59.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 29 Jun 2018 05:59:09 -0700 (PDT)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jun 2018 07:58:37 -0500
+Message-Id: <20180629125837.14657-1-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [morty][PATCH] apr: fix off_t size can't match when configure and in target glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,99 +55,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 12:17:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 29 Jun 2018 12:59:10 -0000
 
-On Thu, Jun 28, 2018 at 3:56 PM Daniel D=C3=ADaz <daniel.diaz@linaro.org> w=
-rote:
->
-> Changes from 0d8de4ce:
->   c2d4ba8 drm-legacy: fix poll for flip event, actually exit on user inpu=
-t
->   56c3917 formats: use weston's egl config matching logic, centralize for=
-mat
->   aac3788 Rework default modifier handling
->   4f7cec0 Use weak functions to handle lack of gbm modifiers
->   98f31bf cube-tex: make use of modifiers
->   063ce5c gbm: fix fallback for drivers that don't support modifiers
->   9dcce71 add MSAA
->
-> Also refresh gbm_bo_map/_unmap patch.
->
-> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+From: Dengke Du <dengke.du@windriver.com>
 
-Thanks for sending this out! without
+When subversion run on x86 and lib32 on x86-64, it use the APR's
+apr.h header file. But when configure the APR, APR meets the cross
+compiling, it was hardcoded in configure.in in apr source code. As
+the following:
 
->   063ce5c gbm: fix fallback for drivers that don't support modifiers
+	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
 
-kmscube is broken and won't work with Gallium drivers (e.g. freedreno)
-if mesa > 18.x, and since OE-core has mesa 18.1.2, it means kmscube is
-currently broken!
+It pass 8 bytes to off_t when meets cross compiling, but on x86 or lib32
+the off_t in glibc was 4 bytes, so it let the application who use apr.h
+go to wrong.
 
-Acked-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Such as subversion:
 
-> ---
->  .../detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch      | 10 ++++=
-+-----
->  meta/recipes-graphics/kmscube/kmscube_git.bb                   |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unm=
-ap-and-use-it-or-avoid-it.patch b/meta/recipes-graphics/kmscube/kmscube/det=
-ect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch
-> index 3605446..611e541 100644
-> --- a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-=
-use-it-or-avoid-it.patch
-> +++ b/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-=
-use-it-or-avoid-it.patch
-> @@ -49,9 +49,9 @@ diff --git a/configure.ac b/configure.ac
->  index 8397f7b..c7f1f4d 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -65,5 +65,8 @@ if test "x$enable_gbm_modifiers" =3D xyes; then
-> -       AC_DEFINE(HAVE_GBM_MODIFIERS, 1, [Define if you can use GBM prope=
-rties.])
-> +@@ -49,5 +49,8 @@ if test "x$HAVE_GST" =3D "xyes"; then
->   fi
-> + AM_CONDITIONAL(ENABLE_GST, [test "x$HAVE_GST" =3D "xyes"])
->
->  +AC_CHECK_LIB([gbm], [gbm_bo_map], [HAVE_GBM_BO_MAP=3Dyes], [])
->  +AM_CONDITIONAL(ENABLE_GBM_MAP, [test "x$HAVE_GBM_BO_MAP" =3D "xyes"])
-> @@ -99,12 +99,12 @@ diff --git a/kmscube.c b/kmscube.c
->  index 3a2c4dd..276dc55 100644
->  --- a/kmscube.c
->  +++ b/kmscube.c
-> -@@ -142,7 +142,11 @@ int main(int argc, char *argv[])
-> +@@ -148,7 +148,11 @@ int main(int argc, char *argv[])
->         else if (mode =3D=3D VIDEO)
-> -               egl =3D init_cube_video(gbm, video);
-> +               egl =3D init_cube_video(gbm, video, samples);
->         else
->  +#if HAVE_GBM_BO_MAP
-> -               egl =3D init_cube_tex(gbm, mode);
-> +               egl =3D init_cube_tex(gbm, mode, samples);
->  +#else
->  +              printf("gbm_bo_map() support missing\n");
->  +#endif
-> diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-=
-graphics/kmscube/kmscube_git.bb
-> index 5b64ed6..46aeeb0 100644
-> --- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-> +++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-> @@ -6,7 +6,7 @@ DEPENDS =3D "virtual/libgles2 virtual/egl libdrm gstreame=
-r1.0 gstreamer1.0-plugins
->
->  LIC_FILES_CHKSUM =3D "file://kmscube.c;beginline=3D1;endline=3D23;md5=3D=
-8b309d4ee67b7315ff7381270dd631fb"
->
-> -SRCREV =3D "0d8de4ce3a03f36af1817f9b0586d132ad2c5d2e"
-> +SRCREV =3D "9dcce71e603616ee7a54707e932f962cdf8fb20a"
->  SRC_URI =3D "git://anongit.freedesktop.org/mesa/kmscube;branch=3Dmaster;=
-protocol=3Dgit \
->      file://detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch"
->  UPSTREAM_CHECK_COMMITS =3D "1"
-> --
-> 2.7.4
->
+	svnadmin create test
+
+So we should let the APR detect the correct off_t when cross compiling,
+change it to the following:
+
+	AC_CHECK_SIZEOF(off_t)
+
+The same for the following hardcoded types for cross compiling:
+
+	pid_t	8
+	size_t	8
+	ssize_t	8
+
+Change the above correspondingly.
+
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+Cherry-picked from master e18820ca9202c07e2406d702c46f45415182b7a6
+I spent 4 hours tracking down a problem where apache was responding
+to a request with corrupt Content-Range data. This patch fixes the
+problem.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ ...ze-doesn-t-match-in-glibc-when-cross.patch | 76 +++++++++++++++++++
+ meta/recipes-support/apr/apr_1.5.2.bb         |  1 +
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+
+diff --git a/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+new file mode 100644
+index 0000000000..12371428f0
+--- /dev/null
++++ b/meta/recipes-support/apr/apr/0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+@@ -0,0 +1,76 @@
++From f26e8b88d2c90ed7eb9d4e276412b0923c23d10f Mon Sep 17 00:00:00 2001
++From: Dengke Du <dengke.du@windriver.com>
++Date: Wed, 14 Dec 2016 18:13:08 +0800
++Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
++ compiling
++
++In configure.in, it contains the following:
++
++	APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
++
++the macro "APR_CHECK_SIZEOF_EXTENDED" was defined in build/apr_common.m4,
++it use the "AC_TRY_RUN" macro, this macro let the off_t to 8, when cross
++compiling enable.
++
++So it was hardcoded for cross compiling, we should detect it dynamic based on
++the sysroot's glibc. We change it to the following:
++
++	AC_CHECK_SIZEOF(off_t)
++
++The same for the following hardcoded types for cross compiling:
++
++	pid_t	8
++	ssize_t	8
++	size_t	8
++	off_t	8
++
++Change the above correspondingly.
++
++Signed-off-by: Dengke Du <dengke.du@windriver.com>
++---
++ configure.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index 9d57ae6..5b19940 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -1681,7 +1681,7 @@ else
++     socklen_t_value="int"
++ fi
++ 
++-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], pid_t, 8)
+++AC_CHECK_SIZEOF(pid_t)
++ 
++ if test "$ac_cv_sizeof_pid_t" = "$ac_cv_sizeof_short"; then
++     pid_t_fmt='#define APR_PID_T_FMT "hd"'
++@@ -1750,7 +1750,7 @@ APR_CHECK_TYPES_COMPATIBLE(ssize_t, long, [ssize_t_fmt="ld"])
++ APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned int, [size_t_fmt="u"])
++ APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned long, [size_t_fmt="lu"])
++ 
++-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], ssize_t, 8)
+++AC_CHECK_SIZEOF(ssize_t)
++ 
++ AC_MSG_CHECKING([which format to use for apr_ssize_t])
++ if test -n "$ssize_t_fmt"; then
++@@ -1767,7 +1767,7 @@ fi
++ 
++ ssize_t_fmt="#define APR_SSIZE_T_FMT \"$ssize_t_fmt\""
++ 
++-APR_CHECK_SIZEOF_EXTENDED([#include <stddef.h>], size_t, 8)
+++AC_CHECK_SIZEOF(size_t)
++ 
++ AC_MSG_CHECKING([which format to use for apr_size_t])
++ if test -n "$size_t_fmt"; then
++@@ -1784,7 +1784,7 @@ fi
++ 
++ size_t_fmt="#define APR_SIZE_T_FMT \"$size_t_fmt\""
++ 
++-APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], off_t, 8)
+++AC_CHECK_SIZEOF(off_t)
++ 
++ if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" = "4yes"; then
++     # Enable LFS
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
+index 302c93504b..f560c8b9c4 100644
+--- a/meta/recipes-support/apr/apr_1.5.2.bb
++++ b/meta/recipes-support/apr/apr_1.5.2.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://upgrade-and-fix-1.5.1.patch \
+            file://Fix-packet-discards-HTTP-redirect.patch \
+            file://configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
++           file://0001-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
+ "
+ 
+ SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
+-- 
+2.17.1
+
 
