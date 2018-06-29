@@ -1,25 +1,30 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 207EC60110
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B918C607AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 06:17:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w5T6HFKe019052
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jun 2018 23:17:15 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 28 Jun 2018 23:17:15 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Fri, 29 Jun 2018 02:16:20 -0400
-Message-ID: <1530252980-133637-3-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1530252980-133637-1-git-send-email-hongzhi.song@windriver.com>
-References: <1530252980-133637-1-git-send-email-hongzhi.song@windriver.com>
+	Fri, 29 Jun 2018 08:25:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41649284"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 29 Jun 2018 16:25:28 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 677944B41EE4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2018 16:25:20 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.122) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Fri, 29 Jun 2018 16:25:22 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Jun 2018 16:24:38 +0800
+Message-ID: <20180629082438.16835-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-Subject: [meta][PATCH 2/2] Meta runtime cases: add testcases for kernel sample
+X-Originating-IP: [10.167.226.122]
+X-yoursite-MailScanner-ID: 677944B41EE4.AC788
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [sumo][PATCH] procps:Fix-CVE-2018-1122&CVE-2018-1123
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,237 +37,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 06:17:17 -0000
+X-List-Received-Date: Fri, 29 Jun 2018 08:25:29 -0000
 Content-Type: text/plain
 
-We are going to let runtime test support kernel tests. Now we just add
-kernel self-contained sample tests. And we plan to add overall kernel
-tests in the future.
+Fix CVE-2018-1122 & CVE-2018-1122
 
-This patch is just add kernel samples test which contains about 13 tests
-enabled by kernel-sample.scc. So it needs statement,
-KERNEL_FEATURES_append += " features/kernel-sample/kernel-sample.scc" in
-local.conf.
-
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- meta/lib/oeqa/runtime/cases/ksample.py | 206 +++++++++++++++++++++++++++++++++
- 1 file changed, 206 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/ksample.py
+ .../procps/procps/CVE-2018-1122.patch              | 70 ++++++++++++++++++
+ .../procps/procps/CVE-2018-1123.patch              | 84 ++++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.3.12.bb      |  2 +
+ 3 files changed, 156 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1122.patch
+ create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1123.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/ksample.py b/meta/lib/oeqa/runtime/cases/ksample.py
+diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1122.patch b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
 new file mode 100644
-index 0000000..260bc3c
+index 0000000..f840873
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/ksample.py
-@@ -0,0 +1,206 @@
-+import os
-+import time
++++ b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
+@@ -0,0 +1,70 @@
++From 3cf9b0f403f758a2cfdc6f52f76c261b0f6ce924 Mon Sep 17 00:00:00 2001
++From: Qualys Security Advisory <qsa@qualys.com>
++Date: Thu, 1 Jan 1970 00:00:00 +0000
++Subject: [PATCH 097/126] top: Do not default to the cwd in configs_read().
 +
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.core.decorator.data import skipIfNotFeature
++If the HOME environment variable is not set, or not absolute, use the
++home directory returned by getpwuid(getuid()), if set and absolute
++(instead of the cwd "."); otherwise, set p_home to NULL.
 +
-+# need some kernel fragments
-+# echo "KERNEL_FEATURES_append += \" features\/kernel\-sample\/kernel\-sample.scc\"" >> local.conf
-+class KSample(OERuntimeTestCase):
-+    def cmd_and_check(self, cmd='', match_string=''):
-+        status, output = self.target.run(cmd)
-+        if not match_string:
-+            # send cmd
-+            msg = '%s failed, %s' % (cmd, output)
-+            self.assertEqual(status, 0, msg=msg)
-+        else:
-+            # check result
-+            result = ("%s" % match_string) in output
-+            self.assertTrue(result)
-+            self.assertEqual(status, 0, cmd)
++To keep the changes to a minimum, we rely on POSIX, which requires that
++fopen() fails with ENOENT if the pathname (Rc_name) is an empty string.
++This integrates well into the existing code, and makes write_rcfile()
++work without a change.
 +
-+    def check_config(self, config_opt=''):
-+        cmd = "zcat /proc/config.gz | grep %s" % config_opt
-+        status, output = self.target.run(cmd)
-+        result = ("%s=y" % config_opt) in output
-+        if not result:
-+            self.skipTest("%s is not set" % config_opt)
++Also, it makes the code in configs_read() easier to follow: only set and
++use p_home if safe, and only set Rc_name if safe (in all the other cases
++it is the empty string, and the fopen() calls fail). Plus, check for
++snprintf() truncation (and if it happens, reset Rc_name to the empty
++string).
 +
-+    def check_module_exist(self, path='', module_name=''):
-+        status, output = self.target.run("uname -r")
-+        cmd = "ls " + "/lib/modules/" + output + "/kernel/samples/" + path + module_name
-+        status, output = self.target.run(cmd)
-+        if status != 0:
-+            error_info = module_name + "doesn't exist"
-+            self.skipTest(error_info)
++Important note: top.1 should probably be updated, since it mentions the
++fallback to the current working directory.
++[carnil: Backport to 3.3.12: p_home -> p, context]
 +
-+    def kfifo_func(self, name=''):
-+        module_prename = name + "-example"
-+        module_name = name + "-example.ko"
-+        sysmbol_name = name + "_example"
++Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
++---
++ top/top.c | 33 ++++++++++++++++++++++++++++-----
++ 1 file changed, 28 insertions(+), 5 deletions(-)
 +
-+        # make sure if module exists
-+        self.check_module_exist("kfifo/", module_name)
-+        # modprobe
-+        self.cmd_and_check("modprobe %s" % module_prename)
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep %s | cut -d\' \' -f1" % sysmbol_name, sysmbol_name)
-+        # check result
-+        self.cmd_and_check("dmesg | grep \"test passed\" ", "test passed")
-+        # rmmod
-+        self.cmd_and_check("rmmod %s" %  module_prename)
++--- a/top/top.c
+++++ b/top/top.c
++@@ -3423,6 +3423,19 @@ static int config_cvt (WIN_t *q) {
++    return 0;
++ } // end: config_cvt
++ 
+++static int snprintf_Rc_name (const char *const format, ...) __attribute__((format(printf,1,2)));
+++static int snprintf_Rc_name (const char *const format, ...) {
+++   int len;
+++   va_list ap;
+++   va_start(ap, format);
+++   len = vsnprintf(Rc_name, sizeof(Rc_name), format, ap);
+++   va_end(ap);
+++   if (len <= 0 || (size_t)len >= sizeof(Rc_name)) {
+++      Rc_name[0] = '\0';
+++      return 0;
+++   }
+++   return len;
+++}
++ 
++         /*
++          * Build the local RC file name then try to read both of 'em.
++@@ -3445,8 +3458,17 @@ static void configs_read (void) {
++    FILE *fp;
++    int i;
++ 
+++   Rc_name[0] = '\0'; // "fopen() shall fail if pathname is an empty string."
++    p = getenv("HOME");
++-   snprintf(Rc_name, sizeof(Rc_name), "%s/.%src", (p && *p) ? p : ".", Myname);
+++   if (!p || p[0] != '/') {
+++      const struct passwd *const pwd = getpwuid(getuid());
+++      if (!pwd || !(p = pwd->pw_dir) || p[0] != '/') {
+++         p = NULL;
+++      }
+++   }
+++   if (p) {
+++      snprintf_Rc_name("%s/.%src", p, Myname);
+++   }
++ 
++    fp = fopen(SYS_RCFILESPEC, "r");
++    if (fp) {
+diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1123.patch b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
+new file mode 100644
+index 0000000..a2060e8
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
+@@ -0,0 +1,84 @@
++From 136e3724952827bbae8887a42d9d2b6f658a48ab Mon Sep 17 00:00:00 2001
++From: Qualys Security Advisory <qsa@qualys.com>
++Date: Thu, 1 Jan 1970 00:00:00 +0000
++Subject: [PATCH] ps/output.c: Fix outbuf overflows in pr_args() etc.
 +
-+    def kprobe_func(self, name=''):
-+        # check config
-+        self.check_config("CONFIG_KPROBES")
++Because there is usually less than OUTBUF_SIZE available at endp.
 +
-+        module_prename = name + "_example"
-+        module_name = name + "_example.ko"
-+        sysmbol_name = module_prename
++Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
++---
++ ps/output.c | 23 ++++++++++++++---------
++ 1 file changed, 14 insertions(+), 9 deletions(-)
 +
-+        # make sure if module exists
-+        self.check_module_exist("kprobes/", module_name)
-+        # modprobe
-+        self.cmd_and_check("modprobe %s" % module_prename)
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep %s | cut -d\' \' -f1" % sysmbol_name, sysmbol_name)
-+        # check result
-+        self.cmd_and_check("dmesg | grep Planted | head -n10", "Planted")
-+        # rmmod
-+        self.cmd_and_check("rmmod %s" % module_prename)
++diff --git a/ps/output.c b/ps/output.c
++index 0c63bb6..4456f28 100644
++--- a/ps/output.c
+++++ b/ps/output.c
++@@ -389,6 +389,9 @@ Modifications to the arguments are not shown.
++ 
++ // FIXME: some of these may hit the guard page in forest mode
++ 
+++#define OUTBUF_SIZE_AT(endp) \
+++  (((endp) >= outbuf && (endp) < outbuf + OUTBUF_SIZE) ? (outbuf + OUTBUF_SIZE) - (endp) : 0)
+++
++ /*
++  * "args", "cmd", "command" are all the same:  long  unless  c
++  * "comm", "ucmd", "ucomm"  are all the same:  short unless -f
++@@ -402,15 +405,15 @@ static int pr_args(char *restrict const outbuf, const proc_t *restrict const pp)
++   rightward -= fh;
++ 
++   if(pp->cmdline && !bsd_c_option)
++-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
+++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
++   else
++-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
+++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
++ 
++-  if(bsd_e_option && rightward>1) {
+++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
++     if(pp->environ && *pp->environ) {
++       *endp++ = ' ';
++       rightward--;
++-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
+++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
++     }
++   }
++   return max_rightward-rightward;
++@@ -429,15 +432,15 @@ static int pr_comm(char *restrict const outbuf, const proc_t *restrict const pp)
++   rightward -= fh;
++ 
++   if(pp->cmdline && unix_f_option)
++-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
+++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
++   else
++-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
+++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
++ 
++-  if(bsd_e_option && rightward>1) {
+++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
++     if(pp->environ && *pp->environ) {
++       *endp++ = ' ';
++       rightward--;
++-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
+++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
++     }
++   }
++   return max_rightward-rightward;
++@@ -469,11 +472,13 @@ static int pr_fname(char *restrict const outbuf, const proc_t *restrict const pp
++   if (rightward>8)  /* 8=default, but forest maybe feeds more */
++     rightward = 8;
++ 
++-  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE, &rightward);
+++  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE_AT(endp), &rightward);
++   //return endp - outbuf;
++   return max_rightward-rightward;
++ }
++ 
+++#undef OUTBUF_SIZE_AT
+++
++ /* elapsed wall clock time, [[dd-]hh:]mm:ss format (not same as "time") */
++ static int pr_etime(char *restrict const outbuf, const proc_t *restrict const pp){
++   unsigned long t;
++-- 
++2.14.3
 +
-+    def kobject_func(self, name=''):
-+        module_prename = name + "_example"
-+        module_name = name + "-example.ko"
-+        sysmbol_name = module_prename
-+
-+        # make sure if module exists
-+        self.check_module_exist("kobject/", module_name)
-+        # modprobe
-+        self.cmd_and_check("modprobe %s" % module_prename)
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep %s | cut -d\' \' -f1" % sysmbol_name, sysmbol_name)
-+        # check result
-+        self.cmd_and_check("ls /sys/kernel/%s/" % sysmbol_name, "bar")
-+        # rmmod
-+        self.cmd_and_check("rmmod %s" % module_prename)
-+
-+class KSampleTest(KSample):
-+    # kfifo
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kfifo_test(self):
-+        index = ["dma", "bytestream", "inttype", "record"]
-+        for i in index:
-+            self.kfifo_func(i)
-+
-+    # kprobe
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kprobe_test(self):
-+        index = ["kprobe", "kretprobe"]
-+        for i in index:
-+            self.kprobe_func(i)
-+
-+    # kobject
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_kobject_test(self):
-+        index = ["kobject", "kset"]
-+        for i in index:
-+            self.kobject_func(i)
-+
-+    #trace
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_trace_events(self):
-+        # check config
-+        self.check_config("CONFIG_TRACING_SUPPORT")
-+        # make sure if module exists
-+        self.check_module_exist("trace_events/", "trace-events-sample.ko")
-+        # modprobe
-+        self.cmd_and_check("modprobe trace-events-sample")
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep trace_events_sample | cut -d\' \' -f1", "trace_events_sample")
-+        # check dir
-+        self.cmd_and_check("ls /sys/kernel/debug/tracing/events/ | grep sample-trace", "sample-trace")
-+        # enable trace
-+        self.cmd_and_check("echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable")
-+        self.cmd_and_check("cat /sys/kernel/debug/tracing/events/sample-trace/enable")
-+        # check result
-+        self.cmd_and_check("cat /sys/kernel/debug/tracing/trace | grep hello | head -n1 | cut -d\':\' -f2", " foo_bar")
-+        # disable trace
-+        self.cmd_and_check("echo 0 > /sys/kernel/debug/tracing/events/sample-trace/enable")
-+        # clean up trace
-+        self.cmd_and_check("echo > /sys/kernel/debug/tracing/trace")
-+        # rmmod
-+        self.cmd_and_check("rmmod trace-events-sample")
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_trace_printk(self):
-+        # check config
-+        self.check_config("CONFIG_TRACING_SUPPORT")
-+        # make sure if module exists
-+        self.check_module_exist("trace_printk/", "trace-printk.ko")
-+        # modprobe
-+        self.cmd_and_check("modprobe trace-printk")
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep trace_printk | cut -d\' \' -f1", "trace_printk")
-+        # check result
-+        self.cmd_and_check("cat /sys/kernel/debug/tracing/trace | grep trace_printk_irq_work | head -n1 | cut -d\':\' -f2", " trace_printk_irq_work")
-+        # clean up trace
-+        self.cmd_and_check("echo > /sys/kernel/debug/tracing/trace")
-+        # rmmod
-+        self.cmd_and_check("rmmod trace-printk")
-+
-+    # hw breakpoint
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_hw_breakpoint_example(self):
-+        # check config
-+        self.check_config("CONFIG_KALLSYMS_ALL")
-+        # make sure if module exists
-+        self.check_module_exist("hw_breakpoint/", "data_breakpoint.ko")
-+        # modprobe
-+        self.cmd_and_check("modprobe data_breakpoint")
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep data_breakpoint | cut -d\' \' -f1", "data_breakpoint")
-+        # check result
-+        self.cmd_and_check("cat /var/log/messages | grep sample_hbp_handler", "sample_hbp_handler")
-+        # rmmod
-+        self.cmd_and_check("rmmod data_breakpoint")
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_configfs_sample(self):
-+        # check config
-+        status, ret = self.target.run('zcat /proc/config.gz | grep CONFIG_CONFIGFS_FS')
-+        if not ["CONFIG_CONFIGFS_FS=m" in ret or "CONFIG_CONFIGFS_FS=y" in ret]:
-+            self.skipTest("CONFIG error")
-+        # make sure if module exists
-+        self.check_module_exist("configfs/", "configfs_sample.ko")
-+        # modprobe
-+        self.cmd_and_check("modprobe configfs_sample")
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep configfs_sample | cut -d\' \' -f1 | head -n1", "configfs_sample")
-+
-+        status = 1
-+        count = 0
-+        while status != 0:
-+            time.sleep(1)
-+            status, ret = self.target.run('cat /sys/kernel/config/01-childless/description')
-+            count = count + 1
-+            if count > 200:
-+                self.skipTest("Time out for check dir")
-+
-+        # rmmod
-+        self.cmd_and_check("rmmod configfs_sample")
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_cn_test(self):
-+        # make sure if module exists
-+        self.check_module_exist("connector/", "cn_test.ko")
-+        # modprobe
-+        self.cmd_and_check("modprobe cn_test")
-+        # lsmod
-+        self.cmd_and_check("lsmod | grep cn_test | cut -d\' \' -f1", "cn_test")
-+        # check result
-+        self.cmd_and_check("cat /proc/net/connector | grep cn_test | head -n1 | cut -d\' \' -f1", "cn_test")
-+        # rmmod
-+        self.cmd_and_check("rmmod cn_test")
+diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
+index ecf215f..29fa95e 100644
+--- a/meta/recipes-extended/procps/procps_3.3.12.bb
++++ b/meta/recipes-extended/procps/procps_3.3.12.bb
+@@ -14,6 +14,8 @@ inherit autotools gettext pkgconfig update-alternatives
+ 
+ SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
+            file://sysctl.conf \
++           file://CVE-2018-1122.patch \
++           file://CVE-2018-1123.patch \
+           "
+ 
+ SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
 -- 
-2.8.1
+2.7.4
+
+
 
 
