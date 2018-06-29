@@ -1,40 +1,51 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BC63751BF
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC8C74501
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 21:26:13 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id f1-v6so2113313qti.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 14:26:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=FTOnFgklC2HvkIl5yI0E1qa8oxhLDcqmMkSH1c3bJFY=;
-	b=uoS/tlAwTNNvMGTE196FYHllYEzxjNMSCOFh/IxiqoZ3vZ1SO6+I+fw35Drq1SZJ2H
-	dPEwxUU7oiG0V9PtTLSpmyMU/SvEYAQutW874tlAo1JTFCVNo3bN4tiT729k0vFmI8za
-	5n21uIPyuGc3w4aANL4IEhfbCabF+4n04HRz8tZop01ZEVrNnHESTtKMIYfymBSN/BqF
-	yoZEhnKWF00tLFD1Q0NMgU504zpZDzqp1S7tq9ycfmqui+qNFU9xPGY9cFfwWScNPGAg
-	mHjBF3jmf+yxVxOsYSo4pe0h+XvL/m9XbsLXq05tYZaioLvzeB+pHGqnBclLDgVKf8O9
-	Ondg==
-X-Gm-Message-State: APt69E3T7umswd5Rc1S1IRPtiQ/vp58j9CTc+uUuWgY/pBVkpRSavVqN
-	uJzlAIG6vy+V4e11TLH8mkTd7Z5O
-X-Google-Smtp-Source: AAOMgpfhs8NAdYFFyRUN90G5qFkfc8vBuzyO17UPYwnGiS2KrETOgw7i9MgrZJ3oX08/HQeTU58fvQ==
-X-Received: by 2002:a0c:bf4e:: with SMTP id
-	b14-v6mr14942279qvj.65.1530307573906; 
-	Fri, 29 Jun 2018 14:26:13 -0700 (PDT)
-Received: from sparta.ny.asterius.io
-	(pool-100-33-240-84.nycmny.fios.verizon.net. [100.33.240.84])
-	by smtp.gmail.com with ESMTPSA id
-	h43-v6sm7728700qth.6.2018.06.29.14.26.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Jun 2018 14:26:13 -0700 (PDT)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jun 2018 17:26:04 -0400
-Message-Id: <1530307564-14708-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python*-setuptools: update to 39.2.0
+	Fri, 29 Jun 2018 23:53:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5A316186F0;
+	Sat, 30 Jun 2018 01:53:47 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id p4G2ZkLskpEN; Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id CD85818446;
+	Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AED391A063;
+	Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A2D501A061;
+	Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by thoth.se.axis.com (Postfix) with ESMTP id 947082239;
+	Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id 623739C0AD; Sat, 30 Jun 2018 01:53:46 +0200 (CEST)
+Date: Sat, 30 Jun 2018 01:53:46 +0200
+From: Olof Johansson <olof.johansson@axis.com>
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20180629235346.qsg3sjhpsaqqqcxi@axis.com>
+Mail-Followup-To: OE-core <openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20180625092738.17962-1-olofjn@axis.com>
+	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+	<7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
+	<CANNYZj-MKfxraD-Ho6_Rej3R8dXSAWo3-JtZvQ4SanH183uWvA@mail.gmail.com>
+	<CANNYZj_tSbtCh13rCUVYW0iqozQ65q+OufCgVGSW96J11wibEA@mail.gmail.com>
+	<CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2018 21:26:13 -0000
+X-List-Received-Date: Fri, 29 Jun 2018 23:53:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Update the python{3}-setuptools to the latest stable version
+On 18-06-26 12:33 +0200, Alexander Kanavin wrote:
+> I believe the culprit is likely this patch:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+> 
+> As scriptlets are executed outside of rpm's chroot, they are being
+> written into system's /var/tmp, not rootfs's. This patch should
+> probably be amended to prepend the rootfs path when scriptlets are
+> written out, and then we should be sorted.
 
-Tested on the qemu with core-image-minimal
+Is that not a more invasive change than just removing the tmp
+files unconditionally (especially in terms of maintainability)?
+I'm not even sure how exactly to do that, but I'm obviously
+missing something. For instance, is there a way to manipulate the
+global rpmMacroContext temporarily?
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
- .../{python-setuptools_39.0.1.bb => python-setuptools_39.2.0.bb}      | 0
- .../{python3-setuptools_39.0.1.bb => python3-setuptools_39.2.0.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_39.0.1.bb => python-setuptools_39.2.0.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_39.0.1.bb => python3-setuptools_39.2.0.bb} (100%)
+But your theory seems to be right, no /var/tmp/rpm-tmp.* files
+are created if i drop the patch (but some scripts fail, as
+expected).
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index c5eb4a5..bf654be 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -9,8 +9,8 @@ PYPI_PACKAGE_EXT = "zip"
- 
- inherit pypi
- 
--SRC_URI[md5sum] = "75310b72ca0ab4e673bf7679f69d7a62"
--SRC_URI[sha256sum] = "bec7badf0f60e7fc8153fac47836edc41b74e5d541d7692e614e635720d6a7c7"
-+SRC_URI[md5sum] = "dd4e3fa83a21bf7bf9c51026dc8a4e59"
-+SRC_URI[sha256sum] = "f7cddbb5f5c640311eb00eab6e849f7701fa70bf6a183fc8a2c33dd1d1672fb2"
- 
- DEPENDS += "${PYTHON_PN}"
- DEPENDS_class-native += "${PYTHON_PN}-native"
-diff --git a/meta/recipes-devtools/python/python-setuptools_39.0.1.bb b/meta/recipes-devtools/python/python-setuptools_39.2.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_39.0.1.bb
-rename to meta/recipes-devtools/python/python-setuptools_39.2.0.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_39.0.1.bb b/meta/recipes-devtools/python/python3-setuptools_39.2.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_39.0.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_39.2.0.bb
 -- 
-2.7.4
-
+olofjn
 
