@@ -1,50 +1,56 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-ot0-f194.google.com (mail-ot0-f194.google.com
-	[74.125.82.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B9374E98
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B0A5774749
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 16:20:33 +0000 (UTC)
-Received: by mail-ot0-f194.google.com with SMTP id w22-v6so13131511otk.5
+	Sat, 30 Jun 2018 18:43:37 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id n84-v6so11332067oib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 09:20:34 -0700 (PDT)
+	Sat, 30 Jun 2018 11:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=eT2KXqUyTFvditeR2RqTYw4SHgTcJUt9FTjcwR+pCGM=;
-	b=U800ytWCraG829FHmmBOKoomEC7pvVZtBXhU2dQBcJw9+ZuJkz+/SktlMHBXyyOrQa
-	RGJpkGV04OQF+kwI26NvcdIEtFDQLtXWWSsilADU23ONhWv9KRTsWEb9buc8smqqxvfE
-	1uTXcVdBCQhIjOvUzAf3OjIMw4Ar3hPbGBEsvPmro21fAIJ3ZrydJnDvvKWaEHkk4u/9
-	Z5H/sdZUiAXWXpz6igg67ho7/aYMYcbAHxiSk+ZDFDIxWLF5c5CnDUez35oPfCsQijrU
-	9Im/CLOG0GjTFUBq9f0MFvUZHxcnK35gVDiEyr4Wu2Tqjxu+ctY1S77As9P3noirbVTw
-	XxrA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=lo6m9ZHutRKnanIZTyYBi90wUbxJjTu5wAhd8VY4z+g=;
+	b=Ys/fAyXxz5P/AetIQqp++m+7bZLfhqEfR3zsywJI3J/4HopsOlGJxpRNf9KQVoU8dy
+	KZCyuPORzlIqj96hXStsdNz8X02pC7PcJz4rgpxrv51BlI8x7NspE6Ss2m0GSaAGPyZq
+	6zgjk/jNdHe05wltMDrVQDgxNrcQr2cHHZd+s5WTfvdItL3Irn43zpdBC951gTXsSBLF
+	jo6qrlmErBzVL6NWQco+xoeTMeYk3DzJzF8aTYXN6f4eTlso5mYO5tpLgbu1gJhSHsOW
+	NyRbffHLGnOs+2iY3NV1b8WrbJQGo6fPzr1Qba+37hPP41ciaVeEsX/7zn6lUzyAtVwk
+	kIVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=eT2KXqUyTFvditeR2RqTYw4SHgTcJUt9FTjcwR+pCGM=;
-	b=KfsYrAgEGFkrb8yzaiVOfiJXuph4Rw7HHKoRwR8oeHvuiWdZW96cBxciY84+ATvpBZ
-	Qm1tvS4q1zujmW+n6boWMgepDM5gBTqOsvLNqpSrvLpE6OqPPsSCDxBbIIg0D9UsA8o8
-	OZOTMSwCg2PLByOnOGEhuVeSJKZ6UVG2s96fah9yE5P+QVp50Nv9RKqOiFf5Ky8bHqeQ
-	Q1VoOV4si0dtmk9sLZXIIbU6XVE58HuO5lo5Z9MCMtR+Z5wgqnO8ZY1Tl57tycMrJZ4h
-	Mcbny3WsFM/nyS3LTKMGMva/u1//FSwUf5w/74fiWaUrX+ZZ5CnfG1ycYBnpd0pnIkrm
-	DJRQ==
-X-Gm-Message-State: APt69E3fmReNsrX+RhD6iBabfDHypvFjpoJehJhTaIT/PSt810TBPgf4
-	DoX9y7z8r+n6qSS+h+rY7Vw6F4mqh4mkify0uD4=
-X-Google-Smtp-Source: AAOMgpcAUsM2pFJlMrFxMD7AlQYH3jNLfv19pYN24hGQdve3oLAkay3HEk1OXkBD5YUuIM+VT8p6q6obzRcvGu8IY5w=
-X-Received: by 2002:a9d:25cd:: with SMTP id
-	q71-v6mr11910440ota.262.1530375634226; 
-	Sat, 30 Jun 2018 09:20:34 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=lo6m9ZHutRKnanIZTyYBi90wUbxJjTu5wAhd8VY4z+g=;
+	b=FnBJUW/+c6ElKD2PLEqwb8ZTTN0RweaTEguyTHkPs7gAZcQeQKLj0SrzC2z9vSpMQL
+	o02VZOAPgTRaabqO4lz+BrNM05iZg48OhGeR+hb1Ut/COYzt70nyRwjlcW5B4n4CC385
+	Nq7b3eD0HofeXhLu5dy0oR13R/enk6UQO3VrOyaRqoc00+5Z0m9R7w7NmFmXeeLGsL1d
+	haPu3Ve+iBY/M4Dim/o/Nhr3blw/KyY9NheS5am7NKbOmK0DG/dh23qCJDY3iP86tyul
+	VLYqrcxF62t2lGwz1w4ZMygodUFlesfJsbNQHBZvIdNAeXyzx25UtrTQJ6jvmC3Ahlud
+	fUYA==
+X-Gm-Message-State: APt69E0gH3dKqHhfUkKeUGMG70VFbq25Bud6n/PyP1qkSzh6XpsyGf+8
+	x78+AHzBezHXrEY3cawjFQEvAdiUhZAmalGIRRY=
+X-Google-Smtp-Source: AAOMgpcrWAAzXonjY0hN25vNK1uJYYNwpkds0+o7STuZLSQWvyhQgLovRuZWtdAgSgLlQIVQnPyQt9m8xt0pAxJLIz4=
+X-Received: by 2002:aca:52d1:: with SMTP id
+	g200-v6mr1888787oib.134.1530384218556; 
+	Sat, 30 Jun 2018 11:43:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180628175342.16560-1-JPEWhacker@gmail.com>
-	<20180629175445.21871-1-JPEWhacker@gmail.com>
-	<7fa47b1ad1e01ac0e5d5606ae69ae29a06e94b00.camel@linuxfoundation.org>
-In-Reply-To: <7fa47b1ad1e01ac0e5d5606ae69ae29a06e94b00.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 30 Jun 2018 11:20:22 -0500
-Message-ID: <CAJdd5GYqC70snX0nz50dap7-w=0WVEpP_Q57beub5xgnYP8EdQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: by 2002:a9d:3574:0:0:0:0:0 with HTTP; Sat, 30 Jun 2018 11:43:37
+	-0700 (PDT)
+In-Reply-To: <CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
+References: <20180601221436.27162-1-alistair.francis@wdc.com>
+	<20180601221436.27162-2-alistair.francis@wdc.com>
+	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
+	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
+	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
+	<CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
+	<CAJTo0LboMpfRu6rOzXAP+5yzd5yokYp52Cai+cvWDKr_aMkkhg@mail.gmail.com>
+	<CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+Date: Sat, 30 Jun 2018 21:43:37 +0300
+Message-ID: <CAF6bG8fqn0pgfU18pWWayb4LhZA=dZjwMqGPysPNXCaM8OOr2Q@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oe-selftest: Add bitbake-layer create-layer test
+Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,125 +63,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2018 16:20:33 -0000
+X-List-Received-Date: Sat, 30 Jun 2018 18:43:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 30, 2018 at 4:57 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2018-06-29 at 12:54 -0500, Joshua Watt wrote:
-> > Adds a test that creates a layer, adds it to bblayers.conf, then
-> > ensure
-> > that it appears properly in bitbake-layers show-layers.
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/bblayers.py | 26
-> > +++++++++++++++++++++++-
-> >  1 file changed, 25 insertions(+), 1 deletion(-)
->
-> I ran this on the autobuilder and it showed:
->
-> https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/1154/ste=
-ps/Running%20oe-selftest/logs/stdio
->
-> Tests were working, it runs this test, then everything fails:
->
-> 2018-06-29 23:50:23,781 - oe-selftest - INFO -  ... OK (719.550s)
-> 2018-06-29 23:50:23,783 - oe-selftest - INFO -   test_bitbakelayers_add_r=
-emove (bblayers.BitbakeLayers)
-> 2018-06-29 23:50:39,742 - oe-selftest - INFO -  ... OK (15.959s)
-> 2018-06-29 23:50:39,742 - oe-selftest - INFO -   test_bitbakelayers_creat=
-elayer (bblayers.BitbakeLayers)
-> 2018-06-29 23:50:49,526 - oe-selftest - INFO -  ... OK (9.783s)
-> 2018-06-29 23:50:49,526 - oe-selftest - INFO -   test_bitbakelayers_flatt=
-en (bblayers.BitbakeLayers)
-> 2018-06-29 23:50:49,971 - oe-selftest - INFO -  ... FAIL (0.445s)
-> 2018-06-29 23:50:49,971 - oe-selftest - INFO -   test_bitbakelayers_showa=
-ppends (bblayers.BitbakeLayers)
-> 2018-06-29 23:50:50,356 - oe-selftest - INFO -  ... FAIL (0.385s)
-> 2018-06-29 23:50:50,356 - oe-selftest - INFO -   test_bitbakelayers_showc=
-rossdepends (bblayers.BitbakeLayers)
-> 2018-06-29 23:50:50,761 - oe-selftest - INFO -  ... FAIL (0.405s)
->
-> Later you can see the error:
->
-> ERROR: Layer directory '/home/pokybuild/yocto-autobuilder/yocto-worker/ni=
-ghtly-oe-selftest/build/test-bitbakelayer-layercreate' does not exist! Plea=
-se check BBLAYERS in /home/pokybuild/yocto-autobuilder/yocto-worker/nightly=
--oe-selftest/build/build/conf/bblayers.conf
->
-> so I think something in the cleanup of the test is wrong...
+ This error happens to me with both qemux86 and qemuarm64. Haven't
+tested any others yet.
 
-Oops, sorry about that. I think I saw that my bblayer.conf file was
-correctly restored after oe-selftest completed, and assumed that was
-being done between each test case. It should be fixed now in V3.
 
-I wonder if you could make oe-selftest issue a warning when it exists
-if the original bblayer.conf doesn't match the current one....
+ - ML
 
+On 15 June 2018 at 20:40, Alistair Francis <alistair23@gmail.com> wrote:
+> On Mon, Jun 4, 2018 at 4:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> That implies that INHIBIT_DEFAULT_DEPS is also evaluating to true,
+>> which it shouldn't be in ATK.
+>>
+>> I'd definitely be checking if that is the case, and if you can
+>> replicate the failure with e.g. qemuarm.
 >
-> Cheers,
+> I can't replicate it with qemuarm and checking with bitbake -e I can't
+> see anywhere that the variable is set. Any ideas on what to try to
+> figure out how it is set?
 >
-> Richard
+> Alistair
 >
-> > diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py
-> > b/meta/lib/oeqa/selftest/cases/bblayers.py
-> > index 90a2249b081..f2fc8327647 100644
-> > --- a/meta/lib/oeqa/selftest/cases/bblayers.py
-> > +++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-> > @@ -2,7 +2,7 @@ import os
-> >  import re
-> >
-> >  import oeqa.utils.ftools as ftools
-> > -from oeqa.utils.commands import runCmd, get_bb_var
-> > +from oeqa.utils.commands import runCmd, get_bb_var, get_bb_vars
-> >
-> >  from oeqa.selftest.case import OESelftestTestCase
-> >  from oeqa.core.decorator.oeid import OETestID
-> > @@ -85,6 +85,30 @@ class BitbakeLayers(OESelftestTestCase):
-> >          self.assertNotEqual(result.status, 0, 'bitbake-layers show-
-> > recipes -i nonexistentclass should have failed')
-> >          self.assertIn('ERROR:', result.output)
-> >
-> > +    def test_bitbakelayers_createlayer(self):
-> > +        priority =3D 10
-> > +        layername =3D 'test-bitbakelayer-layercreate'
-> > +        layerpath =3D os.path.join(get_bb_var('COREBASE'), layername)
-> > +        self.assertFalse(os.path.exists(layerpath), '%s should not
-> > exist at this point in time' % layerpath)
-> > +        result =3D runCmd('bitbake-layers create-layer --priority=3D%d
-> > %s' % (priority, layerpath))
-> > +        self.track_for_cleanup(layerpath)
-> > +        result =3D runCmd('bitbake-layers add-layer %s' % layerpath)
-> > +        result =3D runCmd('bitbake-layers show-layers')
-> > +        find_in_contents =3D re.search(re.escape(layername) + r'\s+' +
-> > re.escape(layerpath) + r'\s+' + re.escape(str(priority)),
-> > result.output)
-> > +        self.assertTrue(find_in_contents, "%s not found in
-> > layers\n%s" % (layername, result.output))
-> > +
-> > +        layervars =3D ['BBFILE_PRIORITY', 'BBFILE_PATTERN',
-> > 'LAYERDEPENDS', 'LAYERSERIES_COMPAT']
-> > +        bb_vars =3D get_bb_vars(['BBFILE_COLLECTIONS'] + ['%s_%s' %
-> > (v, layername) for v in layervars])
-> > +
-> > +        for v in layervars:
-> > +            varname =3D '%s_%s' % (v, layername)
-> > +            self.assertIsNotNone(bb_vars[varname], "%s not found" %
-> > varname)
-> > +
-> > +        find_in_contents =3D re.search(r'(^|\s)' +
-> > re.escape(layername) + r'($|\s)', bb_vars['BBFILE_COLLECTIONS'])
-> > +        self.assertTrue(find_in_contents, "%s not in
-> > BBFILE_COLLECTIONS" % layername)
-> > +
-> > +        self.assertEqual(bb_vars['BBFILE_PRIORITY_%s' % layername],
-> > str(priority), 'BBFILE_PRIORITY_%s !=3D %d' % (layername, priority))
-> > +
-> >      def get_recipe_basename(self, recipe):
-> >          recipe_file =3D ""
-> >          result =3D runCmd("bitbake-layers show-recipes -f %s" %
-> > recipe)
+>>
+>> Ross
+>>
+>> On 4 June 2018 at 19:46, Alistair Francis <alistair23@gmail.com> wrote:
+>>> On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
+>>> <alexander.kanavin@linux.intel.com> wrote:
+>>>> On 06/04/2018 08:17 PM, Alistair Francis wrote:
+>>>>>
+>>>>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
+>>>>> wrote:
+>>>>>>
+>>>>>> So why isn't the inherit gettext sufficient?
+>>>>>
+>>>>>
+>>>>> I'm not sure. Here is the error I see when compiling for RISC-V before
+>>>>> this patch:
+>>>>
+>>>>
+>>>> So is the error specific to risc-v? You should dig deeper in that direction
+>>>> then.
+>>>
+>>> Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
+>>> not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
+>>> gettext.bbclass so we don't depend on gettext-native.
+>>>
+>>> Do I need to ensure cross-canadian is set for RISC-V builds then?
+>>>
+>>> Alistair
+>>>
+>>>>
+>>>> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
