@@ -1,40 +1,40 @@
 Return-Path: <straka.derek@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 98CAA601F1
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 593E16FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 09:11:09 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id c8-v6so9971817qtp.10
+	Sat, 30 Jun 2018 09:27:15 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id b129-v6so6280471qke.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 02:11:10 -0700 (PDT)
+	Sat, 30 Jun 2018 02:27:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Hj3+miO9vXWYzm3jwKolRlJN2O0c9LiEAyJDbK0lIlQ=;
-	b=sjgtGdn9z8GkAUvdTWYPqo6HcseG6tgFFwjEuN2rET23PjSZMfTNHHj4QnkKq+dqNF
-	y4Gixn6hdM8+iIqqik2NzTPvIRfgr3SOkO4t6wUbAaB2C6cjH1h4I76SahvisMx1pdM8
-	FO4mkXztc1FE8Y327EkX7NmaqYLjxkViE2tIS04gInUOzXRCz9KfcW4BiT/72fGcvE2Q
-	+bWX/exOfc1oVPv+MnvogfEp8qZ13xlSsvcfJ+Er2SA00ZyZMoDIWiDDzrjLYCKdstvT
-	GUEnMjn0Y8tJFu8We8vkwLbH7pXSwDLo3sxQPPFAK58ozSHh3qpGAMa1JjZOUiZSjH1i
-	Wgkw==
-X-Gm-Message-State: APt69E0HBD/ie/HJNYmMNKvz8tEoLuUJQaI1Erh0EKX1WoQqv/Mj3R6v
-	lgiVROrAj2iEssFo9gAGXbXjWo9Q
-X-Google-Smtp-Source: AAOMgpdrP0u5uc/W5LGS/+vtzt/77/S/YOvAeHpebZSeHxNA9Wh5WJ0EGV8BZsFoRkwNHiVtA03bvA==
-X-Received: by 2002:a0c:d067:: with SMTP id
-	d36-v6mr16016424qvh.216.1530349870027; 
-	Sat, 30 Jun 2018 02:11:10 -0700 (PDT)
+	bh=7kS0X3FejdeI9NK1kn1kz8m/w8t0xJme1vK2Ku8CXcw=;
+	b=oEh/cbHdIX6eYJU5HG2xraaWQGUvcIuBjQ8P2sQZ/KwZx46Ai4VTV7Ww2+F4q2WAvR
+	ozNoFmrjLGdvxSMgxOR8+xneUczYb2ZqwRP2/YpDm/tUlD3ce5CtaIQbmI7SDegyMFQ/
+	SqJm52w1TNgjcnO6ao7Mn6G1oIKhc7ob26QYTYQxlziO2jny9uTtuGgxutOKZvniYT9U
+	Tgx9xDvs9giY/QRBbmKdhMBQeLZ6kbisbnGPrPPb+019jRQHH8GJsEUJrmkFd6GZXFkd
+	2MlIRMqdOSPhVvEfry5ZXb39PHrBiE8bDRvFXJGSw07CG6SpFenUtvyrFTwOVibGr27a
+	0WQg==
+X-Gm-Message-State: APt69E3N+W8WwNOG2xvrsv7HmMz0AZkTa5LUSy1CS+JAHSAU7owaumpv
+	LMtls7v1DtaPWDwF4dAmE1TPQ1Un
+X-Google-Smtp-Source: AAOMgpePMyw2nB94CF4YX//5OkyPAS3DhBFgz2u7eaZpYRhGK1E8W8leMt3Ek9EbWJjeGekrHJEPMQ==
+X-Received: by 2002:a37:9f4c:: with SMTP id
+	i73-v6mr15615527qke.136.1530350835787; 
+	Sat, 30 Jun 2018 02:27:15 -0700 (PDT)
 Received: from sparta.ny.asterius.io
 	(pool-100-33-240-84.nycmny.fios.verizon.net. [100.33.240.84])
 	by smtp.gmail.com with ESMTPSA id
-	r13-v6sm8699917qti.70.2018.06.30.02.11.08
+	f4-v6sm7351852qti.83.2018.06.30.02.27.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 30 Jun 2018 02:11:09 -0700 (PDT)
+	Sat, 30 Jun 2018 02:27:15 -0700 (PDT)
 From: Derek Straka <derek@asterius.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 30 Jun 2018 05:11:01 -0400
-Message-Id: <1530349861-23603-1-git-send-email-derek@asterius.io>
+Date: Sat, 30 Jun 2018 05:27:03 -0400
+Message-Id: <1530350823-15237-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-dbus: update to latest stable version of 1.2.8
+Subject: [PATCH] python3-git: update to 2.1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,46 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2018 09:11:09 -0000
+X-List-Received-Date: Sat, 30 Jun 2018 09:27:15 -0000
 
-Remove the PACKAGECONFIG for documentation as it now requires python3-sphinx which is not
-provided in any existing recipe.
+python3-git was updated to the latest stable version
+
+Tested on qemux86-64 using core-image-minimal
 
 Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- .../python/{python3-dbus_1.2.6.bb => python3-dbus_1.2.8.bb}   | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-dbus_1.2.6.bb => python3-dbus_1.2.8.bb} (62%)
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python3-git_2.1.8.bb => python3-git_2.1.10.bb}            | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.1.8.bb => python3-git_2.1.10.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.6.bb b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-similarity index 62%
-rename from meta/recipes-devtools/python/python3-dbus_1.2.6.bb
-rename to meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-index 19cbae9..c9bf8df 100644
---- a/meta/recipes-devtools/python/python3-dbus_1.2.6.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-@@ -8,15 +8,16 @@ DEPENDS = "expat dbus dbus-glib virtual/libintl"
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
- "
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index 8d37693..5a4d8ff 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -12,8 +12,8 @@ PYPI_PACKAGE = "GitPython"
  
--RSRC_URI[md5sum] = "1ce1ddf2582060f8f971652ea54cc17e"
--SRC_URI[sha256sum] = "32f29c17172cdb9cb61c68b1f1a71dfe7351506fc830869029c47449bd04faeb"
-+SRC_URI[md5sum] = "7379db774c10904f27e7e2743d90fb43"
-+SRC_URI[sha256sum] = "abf12bbb765e300bf8e2a1b2f32f85949eab06998dbda127952c31cb63957b6f"
- S = "${WORKDIR}/dbus-python-${PV}"
+ inherit pypi
  
- inherit distutils3-base autotools pkgconfig
+-SRC_URI[md5sum] = "7a94ee1b923fb772a2a0c6649430a17c"
+-SRC_URI[sha256sum] = "ad61bc25deadb535b047684d06f3654c001d9415e1971e51c9c20f5b510076e9"
++SRC_URI[md5sum] = "e0c773be32ba9cb57a1d703b590f6d3f"
++SRC_URI[sha256sum] = "b60b045cf64a321e5b620debb49890099fa6c7be6dfb7fb249027e5d34227301"
  
--PACKAGECONFIG ?= ""
--PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python3-docutils-native"
--PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python3-docutils-native python3-epydoc-native"
-+# documentation needs python3-sphinx, which is not in oe-core or meta-python for now
-+# change to use PACKAGECONFIG when python3-sphinx is added to oe-core
-+EXTRA_OECONF += "--disable-documentation"
-+
+ DEPENDS = "${PYTHON_PN}-gitdb"
  
- RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
- 
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.8.bb b/meta/recipes-devtools/python/python3-git_2.1.10.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-git_2.1.8.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.10.bb
 -- 
 2.7.4
 
