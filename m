@@ -1,55 +1,40 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot0-f193.google.com (mail-ot0-f193.google.com
-	[74.125.82.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B511745D4
+Return-Path: <straka.derek@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 98CAA601F1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 06:37:07 +0000 (UTC)
-Received: by mail-ot0-f193.google.com with SMTP id k3-v6so12209519otl.12
+	Sat, 30 Jun 2018 09:11:09 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id c8-v6so9971817qtp.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2018 23:37:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=4MgUlZX8kyrUGn32GIl5xUaxiUtiCDH8+Q+HXrPnNpo=;
-	b=OuzFSoBNAhGBgfpWoJfffb23sPCeTn3/V0nWRf+54vs4pgp95cEbqOvPi5uBknuCSc
-	Q2vjjJoDmxbIvLi1R3oSIiViA/PrrPe/yqgzwHZ7qbI2AOlijtRAw7tbCFfILsGyyz0H
-	5Al9hWRKnsPuEmw0xDOM1u74hZORE2+cxnS9EQvSkoJ4dTPRrYv82ki2CrNJjdUnPq0a
-	CyfRY5fTJszCcxAsDr3sjvFIsuuNHQk5SLdcr2GgVq3OKovApsrLMmgAhBkfoVFAkCIa
-	iYu+KFqKOPpsoz6TiChhqT3pid4f1dMXW5MHoPdaNYckDfGcn2QLHht/kaV5lQpQyGSG
-	kByA==
+	Sat, 30 Jun 2018 02:11:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=4MgUlZX8kyrUGn32GIl5xUaxiUtiCDH8+Q+HXrPnNpo=;
-	b=rcFiPFqElGwHRHl+goPOXyCnpYZ9f58YbFlrzIYti67CAcjJ+htrN11UttyEQP050b
-	POEaORyh86cqPIlkm5+1ajbuxdc5hK1uvV4UujRXUOGxUq9w1O3fWk42u/MJjO4Y/GCo
-	Z9ShYcOMAGAIPEoqalUe9fNZ+R7ehkCuuRvccFR8uORLE5U/wNTpBGnObTDkfw452vuv
-	hAh1DKBqieGIEsQkbEAPW1Lq13CIM9VO/zozsGxndDtP1aFLSFh4z95Yau+hgrw9U/oK
-	nIiL4H9Vo7eALW7A9VTGFEUAMfa4LS52yTWYRB1ha57+hrVMPr+sewmNC/e986t1PW2z
-	5e4A==
-X-Gm-Message-State: APt69E0KK7AuX+PhH4Lox92wSF8J6f8O/YkJXZZmD0gzLBWvX2z0f01D
-	tKOze8YuFhH+4J3Z1LCHen6Z8mPis2re/fILCtVaFQ==
-X-Google-Smtp-Source: AAOMgpfi30U8lrcD8HsujJ/75Eymr+mjTYTWrR/P0ekQDysowTNYB6TnPbn5B2StO5kVWFgSgL1BvB58gMLDTlxI01o=
-X-Received: by 2002:a9d:2c5:: with SMTP id
-	63-v6mr10869282otl.155.1530340628273; 
-	Fri, 29 Jun 2018 23:37:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Fri, 29 Jun 2018 23:37:07
-	-0700 (PDT)
-In-Reply-To: <20180629235346.qsg3sjhpsaqqqcxi@axis.com>
-References: <20180625092738.17962-1-olofjn@axis.com>
-	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
-	<7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
-	<CANNYZj-MKfxraD-Ho6_Rej3R8dXSAWo3-JtZvQ4SanH183uWvA@mail.gmail.com>
-	<CANNYZj_tSbtCh13rCUVYW0iqozQ65q+OufCgVGSW96J11wibEA@mail.gmail.com>
-	<CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
-	<20180629235346.qsg3sjhpsaqqqcxi@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 30 Jun 2018 08:37:07 +0200
-Message-ID: <CANNYZj_t-68JsYddLZDu+8JMBCDggtNLKEEMFLpafDFfwn1WgQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Olof Johansson <olof.johansson@axis.com>
-Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Hj3+miO9vXWYzm3jwKolRlJN2O0c9LiEAyJDbK0lIlQ=;
+	b=sjgtGdn9z8GkAUvdTWYPqo6HcseG6tgFFwjEuN2rET23PjSZMfTNHHj4QnkKq+dqNF
+	y4Gixn6hdM8+iIqqik2NzTPvIRfgr3SOkO4t6wUbAaB2C6cjH1h4I76SahvisMx1pdM8
+	FO4mkXztc1FE8Y327EkX7NmaqYLjxkViE2tIS04gInUOzXRCz9KfcW4BiT/72fGcvE2Q
+	+bWX/exOfc1oVPv+MnvogfEp8qZ13xlSsvcfJ+Er2SA00ZyZMoDIWiDDzrjLYCKdstvT
+	GUEnMjn0Y8tJFu8We8vkwLbH7pXSwDLo3sxQPPFAK58ozSHh3qpGAMa1JjZOUiZSjH1i
+	Wgkw==
+X-Gm-Message-State: APt69E0HBD/ie/HJNYmMNKvz8tEoLuUJQaI1Erh0EKX1WoQqv/Mj3R6v
+	lgiVROrAj2iEssFo9gAGXbXjWo9Q
+X-Google-Smtp-Source: AAOMgpdrP0u5uc/W5LGS/+vtzt/77/S/YOvAeHpebZSeHxNA9Wh5WJ0EGV8BZsFoRkwNHiVtA03bvA==
+X-Received: by 2002:a0c:d067:: with SMTP id
+	d36-v6mr16016424qvh.216.1530349870027; 
+	Sat, 30 Jun 2018 02:11:10 -0700 (PDT)
+Received: from sparta.ny.asterius.io
+	(pool-100-33-240-84.nycmny.fios.verizon.net. [100.33.240.84])
+	by smtp.gmail.com with ESMTPSA id
+	r13-v6sm8699917qti.70.2018.06.30.02.11.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 30 Jun 2018 02:11:09 -0700 (PDT)
+From: Derek Straka <derek@asterius.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 30 Jun 2018 05:11:01 -0400
+Message-Id: <1530349861-23603-1-git-send-email-derek@asterius.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] python3-dbus: update to latest stable version of 1.2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2018 06:37:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 30 Jun 2018 09:11:09 -0000
 
-2018-06-30 1:53 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
->> As scriptlets are executed outside of rpm's chroot, they are being
->> written into system's /var/tmp, not rootfs's. This patch should
->> probably be amended to prepend the rootfs path when scriptlets are
->> written out, and then we should be sorted.
->
-> Is that not a more invasive change than just removing the tmp
-> files unconditionally (especially in terms of maintainability)?
-> I'm not even sure how exactly to do that, but I'm obviously
-> missing something. For instance, is there a way to manipulate the
-> global rpmMacroContext temporarily?
+Remove the PACKAGECONFIG for documentation as it now requires python3-sphinx which is not
+provided in any existing recipe.
 
-Removing the tmp files unconditionally is a *workaround* for the fact
-that they are written into an incorrect location, due to a different
-patch removing the use of chroots (so that scriptlets can use native
-tools in a cross-install situation), but not amending temporary
-scriptlet file paths otherwise. The correct location would be the
-/var/tmp directory inside the rootfs.
+Signed-off-by: Derek Straka <derek@asterius.io>
+---
+ .../python/{python3-dbus_1.2.6.bb => python3-dbus_1.2.8.bb}   | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/python/{python3-dbus_1.2.6.bb => python3-dbus_1.2.8.bb} (62%)
 
-The files are created here:
+diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.6.bb b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
+similarity index 62%
+rename from meta/recipes-devtools/python/python3-dbus_1.2.6.bb
+rename to meta/recipes-devtools/python/python3-dbus_1.2.8.bb
+index 19cbae9..c9bf8df 100644
+--- a/meta/recipes-devtools/python/python3-dbus_1.2.6.bb
++++ b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
+@@ -8,15 +8,16 @@ DEPENDS = "expat dbus dbus-glib virtual/libintl"
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
+ "
+ 
+-RSRC_URI[md5sum] = "1ce1ddf2582060f8f971652ea54cc17e"
+-SRC_URI[sha256sum] = "32f29c17172cdb9cb61c68b1f1a71dfe7351506fc830869029c47449bd04faeb"
++SRC_URI[md5sum] = "7379db774c10904f27e7e2743d90fb43"
++SRC_URI[sha256sum] = "abf12bbb765e300bf8e2a1b2f32f85949eab06998dbda127952c31cb63957b6f"
+ S = "${WORKDIR}/dbus-python-${PV}"
+ 
+ inherit distutils3-base autotools pkgconfig
+ 
+-PACKAGECONFIG ?= ""
+-PACKAGECONFIG[docs] = "--enable-html-docs,--disable-html-docs,python3-docutils-native"
+-PACKAGECONFIG[api-docs] = "--enable-api-docs,--disable-api-docs,python3-docutils-native python3-epydoc-native"
++# documentation needs python3-sphinx, which is not in oe-core or meta-python for now
++# change to use PACKAGECONFIG when python3-sphinx is added to oe-core
++EXTRA_OECONF += "--disable-documentation"
++
+ 
+ RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
+ 
+-- 
+2.7.4
 
-lib/rpmscript.c:    FD_t fd = rpmMkTempFile("/", &fn);
-
-Ideally, "/" should've been replaced with rpmtsRootDir(ts), but ts is
-not accessible from the function, or from its parent, or parent
-parent. So yes, I concede this would be too invasive to pass that down
-the call stack. So if you can amend the above patch of mine with your
-change, commit message, and SOB, that should be best. These changes
-really belong together, as a custom fix for the oe build environment.
-
-Alex
 
