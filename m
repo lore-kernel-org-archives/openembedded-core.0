@@ -1,58 +1,54 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 67495744E4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AB8675046
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Jul 2018 18:20:46 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id c6-v6so12784035oiy.0
+	Sun,  1 Jul 2018 22:52:02 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id a24-v6so2920373pfo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Jul 2018 11:20:47 -0700 (PDT)
+	Sun, 01 Jul 2018 15:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7E+zkYPm9uAm0F9EniCnWrznIIn2BgW10CQ/ul26TR8=;
-	b=TAucR90FMW/E5hyA+hezNZpg6m4Aqyc8yc6J2l8U0UaPosk08V/aT/CaU6udRtevqx
-	bTZVqx/H/YL3PNY4tx/jCc6OmWChOY/BIrfL8FOXtDGsmu/NsD1PckBGE+cBjZrnK4NM
-	CRPOD+wE8eyDlqBsIuMWWpJmVLa+Xk/0k0niHqEWYnppIMJFclAordnGB2JJW4kquHuq
-	agCvvPDHGGSU+H4Sh3GGbYqAhkGqYHZEHSwHvOXfzgiN6mVE9fRRqcl0u6KSW2xRH2u0
-	jZuwGripnm8QopEH5F1TrBDSVbJV40fOxKkTXqemDqMUwuOA3CBYqaZ2YTtfWHOyX4BB
-	U04g==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xdk41U09BVuTwFjLMVoVFqGvAZV+4I5YLjoOCf4oi6w=;
+	b=GPCyTzvs+RnBQaRKXr30uRybWqWVMa6VmFv+ZtqMY2YcYNBFwf5Hda75u9yxTasksL
+	YujkTk5U6p+WemN7tC9oaWXYbD41ACpjUSBiXqMhHh2LtMkh7KURDZTMNU1FcWMYmgUo
+	t5AcJa5o7HMMCeNV+y12gTC/36RlgkdsU5w3ZELoUzhiGnYGZHIykCM9V/pmEwA8/L4P
+	mJqo7+E3oWpG0XsiKaIjdaeVaXfjAhA9cSzJFBGmBkuFLwJaVGC/5KjXgCoEZO8Q1cPw
+	equQGaSTVSFqDMwgh51H/ed7mlba1MTiYgyDgX+8G++/fqB3JO7UgW466YGQC92xfpC1
+	PUMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7E+zkYPm9uAm0F9EniCnWrznIIn2BgW10CQ/ul26TR8=;
-	b=Vy5C5/qaFG28Auwu436RaKS+GBl06V/cs4JO+J/0SUgqHzqw6Kfo7oZHzXoXb8/uyR
-	RKbxdTth42qVCSefcqBSSMf5a5Ae2KSrSf22imRvl4c6wk8CcjYuyrEXU4XvztIkf9zO
-	9DrRPavlC4cVpbN3da7+sTKNuHtc3/cti1Pbjr7H3LEt5v2Y32VJVGBqgPzomhkx5MfW
-	ElbGoL5BT4lpORUBSL6C5CcH3Avqi3qv0JsjagyoZBXwx1oPAVM1iV1Muqg/b3pIHw4b
-	5IujKoWBBvu4lTkqPZfErQPvNEf+Ip7szVTGpgz8GEkx3I8WEL2DfasmhV0KDMN1eurn
-	EI8g==
-X-Gm-Message-State: APt69E0NHZvL2TVNn0/XXfonMZCt1ZYRw/s6bcJ2jiMTZL3SXYajaXQz
-	Rx0ivKXq/tHbaSxgt2lEY90TDYeLe8BF/t08WJ8=
-X-Google-Smtp-Source: AAOMgpddw8zyDMa8vYDu1w8s0N19F0lwY22J/H48rcSThamhHPM+FjRtesZUdaZnXsP7J8IHGKi63k2z1IcsebO9X3o=
-X-Received: by 2002:aca:42c3:: with SMTP id
-	p186-v6mr11781557oia.265.1530469247317; 
-	Sun, 01 Jul 2018 11:20:47 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xdk41U09BVuTwFjLMVoVFqGvAZV+4I5YLjoOCf4oi6w=;
+	b=FI6CCBLvrlFwv92ms50XXfqY+pmkoU/a7tvoC0T54mFAV8CytMfmHjC9WIwpy2GLv7
+	29+rxhWabAdYCnUVkbSKvaFkXvCuWOQ9kOmFJjbL/05dtorEVfONcqCJ9df+GeRbObq0
+	V6t55TloZpvLf+r3QljCcmJWjr6/rDelj4z3f6GvTQpfOgZ8UeuAGNnBgnKuUp9e1Ox0
+	87JekshRGOIEit7EvrVaWSNHH2dzwEUA1cNEt4KXIxMKRXMWuxjDQBRjUo+0y67ZD4BZ
+	Uwkt572CqrI2FBXfb4FXMbkQqveRC23Itq9w3Va3+QJNwKNEmwpyOPNYAYrRIibdVT6i
+	ZEVQ==
+X-Gm-Message-State: APt69E3pB0LKMoZbAvfa0FW166Fd7py1yyUvh5+u3Bx+cGSzuruZsGe6
+	Rhzy97RDsh/Gsa8whu98TD8=
+X-Google-Smtp-Source: AAOMgpfW+4vwmWl/Ks5rwgLFWVVeRPr5O8TKKf1M1/xCH8MAZ2m8onFOyg7R6QO1lANazbJlXooNYA==
+X-Received: by 2002:a62:464f:: with SMTP id
+	t76-v6mr4859005pfa.118.1530485523894; 
+	Sun, 01 Jul 2018 15:52:03 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4000:1184:f9e4:5e2e:71ed:81e4])
+	by smtp.gmail.com with ESMTPSA id
+	p76-v6sm27528225pfk.147.2018.07.01.15.52.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 01 Jul 2018 15:52:03 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Sun,  1 Jul 2018 15:52:01 -0700
+Message-Id: <1530485521-22733-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a9d:3574:0:0:0:0:0 with HTTP;
-	Sun, 1 Jul 2018 11:20:46 -0700 (PDT)
-In-Reply-To: <CAF6bG8dJCN47J3Hw7RDJP6iWTA-wpB+Qd3EywJbqi1w8qZPuvw@mail.gmail.com>
-References: <20180601221436.27162-1-alistair.francis@wdc.com>
-	<20180601221436.27162-2-alistair.francis@wdc.com>
-	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
-	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
-	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
-	<CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
-	<CAJTo0LboMpfRu6rOzXAP+5yzd5yokYp52Cai+cvWDKr_aMkkhg@mail.gmail.com>
-	<CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
-	<CAF6bG8fqn0pgfU18pWWayb4LhZA=dZjwMqGPysPNXCaM8OOr2Q@mail.gmail.com>
-	<CAF6bG8dJCN47J3Hw7RDJP6iWTA-wpB+Qd3EywJbqi1w8qZPuvw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-Date: Sun, 1 Jul 2018 21:20:46 +0300
-Message-ID: <CAF6bG8eak_Y2JtCadgfju7FvLr0mcG6oCFUuWrNhzLtDEe6Gyw@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
+Cc: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+Subject: [P=V6][PATCH] bind: update to ESV version 9.11.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,85 +61,419 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Jul 2018 18:20:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 01 Jul 2018 22:52:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
- 3) Adding 'USE_NLS = "yes"' to atk recipe fixes the problem for me.
+LIC_FILES_CHKSUM changed do to updated year
 
+removed:
+dont-test-on-host.patch, no longer implemented
+drop use-python3-and-fix-install-lib-path.patch, they added the ability to pass in lib dir loctions
+drop bind-confgen-build-unix.o-once.patch, fix included in update
 
- - ML
+Refresh other patches:
+add python3 flag for PACKAGECONFIG to pull in python
+add new config option --with-eddsa=no (needs openssl support not released)
 
+[v2]
+Remove python3 in default PACKACKECONFIG
+include https://patchwork.openembedded.org/patch/148257/
+Because of the newly added dependency on meta-python, the python(3)
+packageconfig is no longer "default-on".
 
-On 1 July 2018 at 21:03, Marko Lindqvist <cazfi74@gmail.com> wrote:
->  I think the problem is not with INHIBIT_DEFAULT_DEPS, but with
-> USE_NLS on the next couple of lines. With USE_NLS disabled, the
-> automatic dependency is gettext-minimal-native (not providing
-> xgettext, I think), and not gettext-native.
->
->  1) tmp-glibc/work/aarch64-oe-linux/atk/2.28.1-r0/recipe-sysroot-native/sysroot-providers/gettext-minimal-native
-> is there
->  2) Adding gettext-minimal-native as atk dependency does not fix the
-> issue like adding gettext-native dependency does
->
->
->  - ML
->
->
-> On 30 June 2018 at 21:43, Marko Lindqvist <cazfi74@gmail.com> wrote:
->>  This error happens to me with both qemux86 and qemuarm64. Haven't
->> tested any others yet.
->>
->>
->>  - ML
->>
->> On 15 June 2018 at 20:40, Alistair Francis <alistair23@gmail.com> wrote:
->>> On Mon, Jun 4, 2018 at 4:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>>> That implies that INHIBIT_DEFAULT_DEPS is also evaluating to true,
->>>> which it shouldn't be in ATK.
->>>>
->>>> I'd definitely be checking if that is the case, and if you can
->>>> replicate the failure with e.g. qemuarm.
->>>
->>> I can't replicate it with qemuarm and checking with bitbake -e I can't
->>> see anywhere that the variable is set. Any ideas on what to try to
->>> figure out how it is set?
->>>
->>> Alistair
->>>
->>>>
->>>> Ross
->>>>
->>>> On 4 June 2018 at 19:46, Alistair Francis <alistair23@gmail.com> wrote:
->>>>> On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
->>>>> <alexander.kanavin@linux.intel.com> wrote:
->>>>>> On 06/04/2018 08:17 PM, Alistair Francis wrote:
->>>>>>>
->>>>>>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
->>>>>>> wrote:
->>>>>>>>
->>>>>>>> So why isn't the inherit gettext sufficient?
->>>>>>>
->>>>>>>
->>>>>>> I'm not sure. Here is the error I see when compiling for RISC-V before
->>>>>>> this patch:
->>>>>>
->>>>>>
->>>>>> So is the error specific to risc-v? You should dig deeper in that direction
->>>>>> then.
->>>>>
->>>>> Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
->>>>> not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
->>>>> gettext.bbclass so we don't depend on gettext-native.
->>>>>
->>>>> Do I need to ensure cross-canadian is set for RISC-V builds then?
->>>>>
->>>>> Alistair
->>>>>
->>>>>>
->>>>>> Alex
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
+
+[v3]
+Made formating and spelling changes per Martin
+
+[v4]
+Minor typo fixes
+cleanup python3 support
+
+[v5]
+swtich to 9.11.3 ESV version
+fix isc python install
+keep *.la for dhcp
+update config options
+move mdig to same location as dig
+
+[v6]
+remove incorrect PYTHON_SITEPACKAGES_DIR inclusion
+python3-ply rdepend belongs with pytho3-bind package
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Acked-by: Martin Hundebøll <mnhu@prevas.dk>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ ...-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch | 13 ++--
+ .../0001-lib-dns-gen.c-fix-too-long-error.patch    | 13 ++--
+ .../bind/bind/bind-confgen-build-unix.o-once.patch | 48 -------------
+ ...-searching-for-json-headers-searches-sysr.patch | 13 ++--
+ .../bind/bind/dont-test-on-host.patch              | 17 -----
+ .../use-python3-and-fix-install-lib-path.patch     | 36 ----------
+ .../bind/{bind_9.10.6.bb => bind_9.11.3.bb}        | 81 ++++++++++++----------
+ 7 files changed, 59 insertions(+), 162 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
+ rename meta/recipes-connectivity/bind/{bind_9.10.6.bb => bind_9.11.3.bb} (69%)
+
+diff --git a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch b/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch
+index 1215093..a8d601d 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch
+@@ -7,11 +7,11 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+  lib/dns/gen.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/lib/dns/gen.c b/lib/dns/gen.c
+-index 7a7dafb..51a0435 100644
+---- a/lib/dns/gen.c
+-+++ b/lib/dns/gen.c
+-@@ -148,7 +148,7 @@ static const char copyright[] =
++Index: bind-9.11.3/lib/dns/gen.c
++===================================================================
++--- bind-9.11.3.orig/lib/dns/gen.c
+++++ bind-9.11.3/lib/dns/gen.c
++@@ -130,7 +130,7 @@ static const char copyright[] =
+  #define TYPECLASSBUF (TYPECLASSLEN + 1)
+  #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
+  #define ATTRIBUTESIZE 256
+@@ -20,6 +20,3 @@ index 7a7dafb..51a0435 100644
+  
+  static struct cc {
+  	struct cc *next;
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-long-error.patch b/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-long-error.patch
+index 1ed858c..01874a4 100644
+--- a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-long-error.patch
++++ b/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-long-error.patch
+@@ -13,11 +13,11 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  lib/dns/gen.c |    4 ++++
+  1 file changed, 4 insertions(+)
+ 
+-diff --git a/lib/dns/gen.c b/lib/dns/gen.c
+-index 51a0435..3d7214f 100644
+---- a/lib/dns/gen.c
+-+++ b/lib/dns/gen.c
+-@@ -148,7 +148,11 @@ static const char copyright[] =
++Index: bind-9.11.3/lib/dns/gen.c
++===================================================================
++--- bind-9.11.3.orig/lib/dns/gen.c
+++++ bind-9.11.3/lib/dns/gen.c
++@@ -130,7 +130,11 @@ static const char copyright[] =
+  #define TYPECLASSBUF (TYPECLASSLEN + 1)
+  #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
+  #define ATTRIBUTESIZE 256
+@@ -29,6 +29,3 @@ index 51a0435..3d7214f 100644
+  
+  static struct cc {
+  	struct cc *next;
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch b/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
+deleted file mode 100644
+index 8bc4ea3..0000000
+--- a/meta/recipes-connectivity/bind/bind/bind-confgen-build-unix.o-once.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 9b40619ff6fddfef2758ba797789f8487f412df3 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 16 Feb 2015 00:50:01 -0800
+-Subject: [PATCH] confgen: don't build unix.o twice
+-
+-Fixed:
+-unix/os.o: file not recognized: File truncated
+-collect2: error: ld returned 1 exit status
+-
+-This is because os.o was built twice:
+-* The implicity rule (depends on unix/os.o)
+-* The "make all" in unix subdir (depends on unix/os.o)
+-
+-Depend on subdirs which is unix only rather than unix/os.o will fix the
+-problem.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-Update context(trailing whitespace) for version 9.10.5-P3.
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+- bin/confgen/Makefile.in |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/bin/confgen/Makefile.in b/bin/confgen/Makefile.in
+-index dca272f..02becce 100644
+---- a/bin/confgen/Makefile.in
+-+++ b/bin/confgen/Makefile.in
+-@@ -74,11 +74,11 @@ rndc-confgen.@O@: rndc-confgen.c
+- ddns-confgen.@O@: ddns-confgen.c
+- 	${LIBTOOL_MODE_COMPILE} ${CC} ${ALL_CFLAGS} -c ${srcdir}/ddns-confgen.c
+- 
+--rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${CONFDEPLIBS}
+-+rndc-confgen@EXEEXT@: rndc-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLIBS} $(SUBDIRS)
+- 	export BASEOBJS="rndc-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}"; \
+- 	${FINALBUILDCMD}
+- 
+--ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS} ${CONFDEPLIBS}
+-+ddns-confgen@EXEEXT@: ddns-confgen.@O@ util.@O@ keygen.@O@ ${CONFDEPLIBS} $(SUBDIRS)
+- 	export BASEOBJS="ddns-confgen.@O@ util.@O@ keygen.@O@ ${UOBJS}"; \
+- 	${FINALBUILDCMD}
+- 
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+index 13df3bb..37e210e 100644
+--- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
++++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -31,11 +31,11 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+  configure.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/configure.in b/configure.in
+-index c9ef3a601343..17a1f613e9ac 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -2139,7 +2139,7 @@ case "$use_libjson" in
++Index: bind-9.11.3/configure.in
++===================================================================
++--- bind-9.11.3.orig/configure.in
+++++ bind-9.11.3/configure.in
++@@ -2574,7 +2574,7 @@ case "$use_libjson" in
+  		libjson_libs=""
+  		;;
+  	auto|yes)
+@@ -44,6 +44,3 @@ index c9ef3a601343..17a1f613e9ac 100644
+  		do
+  			if test -f "${d}/include/json/json.h"
+  			then
+--- 
+-2.4.2
+-
+diff --git a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch b/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
+deleted file mode 100644
+index b02ecb1..0000000
+--- a/meta/recipes-connectivity/bind/bind/dont-test-on-host.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Pending
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: bind-9.9.5/bin/Makefile.in
+-===================================================================
+---- bind-9.9.5.orig/bin/Makefile.in
+-+++ bind-9.9.5/bin/Makefile.in
+-@@ -19,7 +19,7 @@ srcdir =	@srcdir@
+- VPATH =		@srcdir@
+- top_srcdir =	@top_srcdir@
+- 
+--SUBDIRS =	named rndc dig delv dnssec tools tests nsupdate \
+-+SUBDIRS =	named rndc dig delv dnssec tools nsupdate \
+- 		check confgen @PYTHON_TOOLS@ @PKCS11_TOOLS@
+- TARGETS =
+- 
+diff --git a/meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch b/meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
+deleted file mode 100644
+index 9829f15..0000000
+--- a/meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Use python3 rather default python which maybe links to python2 for oe. And add
+-option for setup.py to install files to right directory.
+-
+-Upstream-Status: Inappropriate [OE specific]
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-diff --git a/bin/python/Makefile.in b/bin/python/Makefile.in
+-index a43a3c1..2e727f2 100644
+---- a/bin/python/Makefile.in
+-+++ b/bin/python/Makefile.in
+-@@ -55,9 +55,9 @@ install:: ${TARGETS} installdirs
+- 	${INSTALL_DATA} ${srcdir}/dnssec-coverage.8 ${DESTDIR}${mandir}/man8
+- 	if test -n "${PYTHON}" ; then \
+- 		if test -n "${DESTDIR}" ; then \
+--			${PYTHON} ${srcdir}/setup.py install --root=${DESTDIR} --prefix=${prefix} ; \
+-+			${PYTHON} ${srcdir}/setup.py install --root=${DESTDIR} --prefix=${prefix} --install-lib=${PYTHON_SITEPACKAGES_DIR} ; \
+- 		else \
+--			${PYTHON} ${srcdir}/setup.py install --prefix=${prefix} ; \
+-+			${PYTHON} ${srcdir}/setup.py install --prefix=${prefix} --install-lib=${PYTHON_SITEPACKAGES_DIR} ; \
+- 		fi \
+- 	fi
+- 
+-diff --git a/configure.in b/configure.in
+-index 314bb90..867923e 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -227,7 +227,7 @@ AC_ARG_WITH(python,
+- [  --with-python=PATH      specify path to python interpreter],
+-     use_python="$withval", use_python="unspec")
+- 
+--python="python python3 python3.5 python3.4 python3.3 python3.2 python2 python2.7"
+-+python="python3 python3.5 python3.4 python3.3 python3.2 python2 python2.7"
+- 
+- testargparse='try: import argparse
+- except: exit(1)'
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.6.bb b/meta/recipes-connectivity/bind/bind_9.11.3.bb
+similarity index 69%
+rename from meta/recipes-connectivity/bind/bind_9.10.6.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.3.bb
+index 20c8d7b..32f5365 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.6.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.3.bb
+@@ -3,51 +3,50 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=dba46507446198119bcde32a4feaab43"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6ba7c9fe0c888a943c79c93e6de744fb"
+ 
+-DEPENDS = "openssl libcap"
++DEPENDS = "openssl libcap zlib"
+ 
+ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://conf.patch \
+-           file://make-etc-initd-bind-stop-work.patch \
+-           file://dont-test-on-host.patch \
+-           file://generate-rndc-key.sh \
+            file://named.service \
+            file://bind9 \
++           file://generate-rndc-key.sh \
++           file://make-etc-initd-bind-stop-work.patch \
+            file://init.d-add-support-for-read-only-rootfs.patch \
+-           file://bind-confgen-build-unix.o-once.patch \
+-           file://0001-build-use-pkg-config-to-find-libxml2.patch \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+-           file://use-python3-and-fix-install-lib-path.patch \
+-           "
++"
+ 
+-SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
+-SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
++SRC_URI[md5sum] = "4ed2a3f235595eadbd763b7ecb687ca0"
++SRC_URI[sha256sum] = "0d9dde14b2ec7f9cdc3b69f19540c7a2e4eee7b6c727965dfae48810965876f5"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+ 
++inherit autotools update-rc.d systemd useradd pkgconfig
++
++# PACKAGECONFIGs readline and libedit should NOT be set at same time
++PACKAGECONFIG ?= "readline"
++PACKAGECONFIG[httpstats] = "--with-libxml2=${STAGING_DIR_HOST}${prefix},--without-libxml2,libxml2"
++PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
++PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
++PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-randomdev=/dev/random,,"
++PACKAGECONFIG[python3] = "--with-python=${PYTHON} --with-python-install-dir=${D}/${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
+ 
+ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+                  --disable-devpoll --enable-epoll --with-gost=no \
+-                 --with-gssapi=no --with-ecdsa=yes \
++                 --with-gssapi=no --with-ecdsa=yes --with-eddsa=no \
+                  --sysconfdir=${sysconfdir}/bind \
+                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
+                "
+ 
+-inherit autotools update-rc.d systemd useradd pkgconfig python3-dir
++inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native distutils3-base', '', d)}
+ 
+-export PYTHON_SITEPACKAGES_DIR
+-
+-# PACKAGECONFIGs readline and libedit should NOT be set at same time
+-PACKAGECONFIG ?= "readline"
+-PACKAGECONFIG[httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+-PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
+-PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
+-PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-randomdev=/dev/random,,"
++# dhcp needs .la so keep them
++REMOVE_LIBTOOL_LA = "0"
+ 
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--system --home ${localstatedir}/cache/bind --no-create-home \
+@@ -58,19 +57,6 @@ INITSCRIPT_PARAMS = "defaults"
+ 
+ SYSTEMD_SERVICE_${PN} = "named.service"
+ 
+-PARALLEL_MAKE = ""
+-
+-RDEPENDS_${PN} = "python3-core"
+-RDEPENDS_${PN}-dev = ""
+-
+-PACKAGE_BEFORE_PN += "${PN}-utils"
+-FILES_${PN}-utils = "${bindir}/host ${bindir}/dig"
+-FILES_${PN}-dev += "${bindir}/isc-config.h"
+-FILES_${PN} += "${sbindir}/generate-rndc-key.sh ${PYTHON_SITEPACKAGES_DIR}"
+-
+-PACKAGE_BEFORE_PN += "${PN}-libs"
+-FILES_${PN}-libs = "${libdir}/*.so*"
+-
+ do_install_prepend() {
+ 	# clean host path in isc-config.sh before the hardlink created
+ 	# by "make install":
+@@ -79,6 +65,7 @@ do_install_prepend() {
+ }
+ 
+ do_install_append() {
++
+ 	rm "${D}${bindir}/nslookup"
+ 	rm "${D}${mandir}/man1/nslookup.1"
+ 	rmdir "${D}${localstatedir}/run"
+@@ -88,7 +75,12 @@ do_install_append() {
+ 	install -d "${D}${sysconfdir}/init.d"
+ 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+ 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+-	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
++        if ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'true', 'false', d)}; then
++		sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' \
++		${D}${sbindir}/dnssec-coverage \
++		${D}${sbindir}/dnssec-checkds \
++		${D}${sbindir}/dnssec-keymgr
++	fi
+ 
+ 	# Install systemd related files
+ 	install -d ${D}${sbindir}
+@@ -106,8 +98,6 @@ do_install_append() {
+ 		install -d ${D}${sysconfdir}/tmpfiles.d
+ 		echo "d /run/named 0755 bind bind - -" > ${D}${sysconfdir}/tmpfiles.d/bind.conf
+ 	fi
+-
+-    rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/isc/*.pyc
+ }
+ 
+ CONFFILES_${PN} = " \
+@@ -121,3 +111,20 @@ CONFFILES_${PN} = " \
+ 	${sysconfdir}/bind/db.root \
+ 	"
+ 
++PACKAGE_BEFORE_PN += "${PN}-utils"
++FILES_${PN}-utils = "${bindir}/host ${bindir}/dig ${bindir}/mdig"
++FILES_${PN}-dev += "${bindir}/isc-config.h"
++FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
++
++PACKAGE_BEFORE_PN += "${PN}-libs"
++FILES_${PN}-libs = "${libdir}/*.so*"
++FILES_${PN}-staticdev += "${libdir}/*.la"
++
++PACKAGE_BEFORE_PN += "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-bind', '', d)}"
++FILES_python3-bind = "${sbindir}/dnssec-coverage ${sbindir}/dnssec-checkds \
++                ${sbindir}/dnssec-keymgr ${PYTHON_SITEPACKAGES_DIR}"
++
++RDEPENDS_${PN} = "bash"
++RDEPENDS_${PN}-utils = "bash"
++RDEPENDS_${PN}-dev = ""
++RDEPENDS_python3-bind = "python3-core python3-ply"
+-- 
+2.7.4
+
 
