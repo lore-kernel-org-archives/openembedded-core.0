@@ -1,56 +1,48 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B0A5774749
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FD9C74592
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 18:43:37 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id n84-v6so11332067oib.9
+	Sun,  1 Jul 2018 10:33:38 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id t6-v6so395067wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2018 11:43:39 -0700 (PDT)
+	Sun, 01 Jul 2018 03:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=lo6m9ZHutRKnanIZTyYBi90wUbxJjTu5wAhd8VY4z+g=;
-	b=Ys/fAyXxz5P/AetIQqp++m+7bZLfhqEfR3zsywJI3J/4HopsOlGJxpRNf9KQVoU8dy
-	KZCyuPORzlIqj96hXStsdNz8X02pC7PcJz4rgpxrv51BlI8x7NspE6Ss2m0GSaAGPyZq
-	6zgjk/jNdHe05wltMDrVQDgxNrcQr2cHHZd+s5WTfvdItL3Irn43zpdBC951gTXsSBLF
-	jo6qrlmErBzVL6NWQco+xoeTMeYk3DzJzF8aTYXN6f4eTlso5mYO5tpLgbu1gJhSHsOW
-	NyRbffHLGnOs+2iY3NV1b8WrbJQGo6fPzr1Qba+37hPP41ciaVeEsX/7zn6lUzyAtVwk
-	kIVQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=CGFNRWnYTly4gXviAxr22E0/OtR4igNo72cpfiU3KT0=;
+	b=pIf84v/g7ehRqSM4pgUB4lwEcXiLRXotayXjD/zgk84kTV80Bq4a9BS7KW/+8sEuym
+	ekRrf68TWJymwkZNfw0JpXQ+udyVgfICTo5t/bsBF9h4HuYMiolcEbEedeuZ6ObT6BaF
+	2cK4Rme8tRcpEINGF5a5ywzB+X4066+boNVWn37SnJR0VzDIAD3IkGwhIcW0K35iRf8w
+	mnDOrYBIPCAQKyV/O0AfvGG9klTjP5zGTsJ2XADk2+drZLeBZ6p7AkWRvOj2nDlW+kxG
+	YvIt0yxLMxQHWS7FAXN0hmp1ky+TDgEhGj+n68xa31URhzGRoolfOcKs7a4lp4Gp5gfC
+	lQig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=lo6m9ZHutRKnanIZTyYBi90wUbxJjTu5wAhd8VY4z+g=;
-	b=FnBJUW/+c6ElKD2PLEqwb8ZTTN0RweaTEguyTHkPs7gAZcQeQKLj0SrzC2z9vSpMQL
-	o02VZOAPgTRaabqO4lz+BrNM05iZg48OhGeR+hb1Ut/COYzt70nyRwjlcW5B4n4CC385
-	Nq7b3eD0HofeXhLu5dy0oR13R/enk6UQO3VrOyaRqoc00+5Z0m9R7w7NmFmXeeLGsL1d
-	haPu3Ve+iBY/M4Dim/o/Nhr3blw/KyY9NheS5am7NKbOmK0DG/dh23qCJDY3iP86tyul
-	VLYqrcxF62t2lGwz1w4ZMygodUFlesfJsbNQHBZvIdNAeXyzx25UtrTQJ6jvmC3Ahlud
-	fUYA==
-X-Gm-Message-State: APt69E0gH3dKqHhfUkKeUGMG70VFbq25Bud6n/PyP1qkSzh6XpsyGf+8
-	x78+AHzBezHXrEY3cawjFQEvAdiUhZAmalGIRRY=
-X-Google-Smtp-Source: AAOMgpcrWAAzXonjY0hN25vNK1uJYYNwpkds0+o7STuZLSQWvyhQgLovRuZWtdAgSgLlQIVQnPyQt9m8xt0pAxJLIz4=
-X-Received: by 2002:aca:52d1:: with SMTP id
-	g200-v6mr1888787oib.134.1530384218556; 
-	Sat, 30 Jun 2018 11:43:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:3574:0:0:0:0:0 with HTTP; Sat, 30 Jun 2018 11:43:37
-	-0700 (PDT)
-In-Reply-To: <CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
-References: <20180601221436.27162-1-alistair.francis@wdc.com>
-	<20180601221436.27162-2-alistair.francis@wdc.com>
-	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
-	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
-	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
-	<CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
-	<CAJTo0LboMpfRu6rOzXAP+5yzd5yokYp52Cai+cvWDKr_aMkkhg@mail.gmail.com>
-	<CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-Date: Sat, 30 Jun 2018 21:43:37 +0300
-Message-ID: <CAF6bG8fqn0pgfU18pWWayb4LhZA=dZjwMqGPysPNXCaM8OOr2Q@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CGFNRWnYTly4gXviAxr22E0/OtR4igNo72cpfiU3KT0=;
+	b=CejWnhmvm3S6fVtT+lN/Alf5bG1uGRCgTJ57amgq3nBJC2lJZ8GJMA/M4N2ZVFoCcz
+	F4Osc2w/fc/phw6D1HAuWLp9SwKP5zNQjB+U1CBl+09ojWYJR0gvJSzslhKc6FVn48p7
+	WrlDa16YDTeU6eKb1C14brnLsug65IAXChEMZPCLln+Sdq8Eww5tjYduMPiwzENQv65p
+	VJyVqBm5A0HcYforkmFQYrq8EXivDGp65oZZDR57b7GR3bTOrjO1cV2MmwKyotpxWCWN
+	AaP4u+C+09mobMFR0C/nIOl8oENP51j+rl2doohDWuRl7z/YlCEesFCzZuWIQqVopRp+
+	qepA==
+X-Gm-Message-State: APt69E0QDOOSdUq4zexASzYC1n3TvDgsMl9p2XRHgxLzQaYboc6yb+PG
+	1D3lbgRwPlSUtzF7BysSGsW1RhCN
+X-Google-Smtp-Source: AAOMgpc2Hkj7jPlvN37gxIlVUoWl58r2V/z4Er59BPalmELNgzfcI2iHOFGGJZM7lzAC9HEHDk4ZTw==
+X-Received: by 2002:adf:e491:: with SMTP id
+	i17-v6mr1817825wrm.145.1530441219068; 
+	Sun, 01 Jul 2018 03:33:39 -0700 (PDT)
+Received: from localhost.localdomain ([213.205.242.44])
+	by smtp.gmail.com with ESMTPSA id
+	130-v6sm14337312wmr.1.2018.07.01.03.33.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 01 Jul 2018 03:33:38 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  1 Jul 2018 10:33:31 +0000
+Message-Id: <1530441211-30826-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] openssh: Add dependency on ssh for sftp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,63 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2018 18:43:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 01 Jul 2018 10:33:40 -0000
 
- This error happens to me with both qemux86 and qemuarm64. Haven't
-tested any others yet.
+Add missing dependency on the ssh binary for the sftp client to avoid
+failure at runtime if it's not been installed through another dependency
+chain.
 
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
- - ML
+ meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 15 June 2018 at 20:40, Alistair Francis <alistair23@gmail.com> wrote:
-> On Mon, Jun 4, 2018 at 4:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> That implies that INHIBIT_DEFAULT_DEPS is also evaluating to true,
->> which it shouldn't be in ATK.
->>
->> I'd definitely be checking if that is the case, and if you can
->> replicate the failure with e.g. qemuarm.
->
-> I can't replicate it with qemuarm and checking with bitbake -e I can't
-> see anywhere that the variable is set. Any ideas on what to try to
-> figure out how it is set?
->
-> Alistair
->
->>
->> Ross
->>
->> On 4 June 2018 at 19:46, Alistair Francis <alistair23@gmail.com> wrote:
->>> On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
->>> <alexander.kanavin@linux.intel.com> wrote:
->>>> On 06/04/2018 08:17 PM, Alistair Francis wrote:
->>>>>
->>>>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
->>>>> wrote:
->>>>>>
->>>>>> So why isn't the inherit gettext sufficient?
->>>>>
->>>>>
->>>>> I'm not sure. Here is the error I see when compiling for RISC-V before
->>>>> this patch:
->>>>
->>>>
->>>> So is the error specific to risc-v? You should dig deeper in that direction
->>>> then.
->>>
->>> Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
->>> not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
->>> gettext.bbclass so we don't depend on gettext-native.
->>>
->>> Do I need to ensure cross-canadian is set for RISC-V builds then?
->>>
->>> Alistair
->>>
->>>>
->>>> Alex
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+index b3da5f6..d147f43 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+@@ -146,6 +146,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+ 
+ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
++RDEPENDS_${PN}-sftp += "${PN}-ssh"
+ RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
+ 
+ RPROVIDES_${PN}-ssh = "ssh"
+-- 
+2.7.4
+
 
