@@ -1,23 +1,28 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A0137554F
+	by mail.openembedded.org (Postfix) with ESMTP id 51DA1755BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 01:49:21 +0000 (UTC)
+	Mon,  2 Jul 2018 02:05:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w621nL7i026770
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6225Zxq027148
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Jul 2018 18:49:22 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 1 Jul 2018 18:49:21 -0700
-From: <kai.kang@windriver.com>
-To: <raj.khem@gmail.com>
-Date: Mon, 2 Jul 2018 09:15:34 +0800
-Message-ID: <20180702011534.4676-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Sun, 1 Jul 2018 19:05:35 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Sun, 1 Jul 2018 19:05:34 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <969ccd61-7a03-a81f-c36f-04c5d806d3e2@windriver.com>
+	<CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <04cbb0a5-d680-3843-b3a7-9e308c0e10e0@windriver.com>
+Date: Mon, 2 Jul 2018 10:05:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] webkitgtk: 2.20.2 -> 2.20.3
+In-Reply-To: <CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] How to deal allarch packages in dependency chain for multilib rootfs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,130 +35,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 01:49:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Jul 2018 02:05:35 -0000
+Content-Type: multipart/alternative;
+	boundary="------------85ABDB261F0595FD32F5A0F2"
+Content-Language: en-US
 
-From: Kai Kang <kai.kang@windriver.com>
+--------------85ABDB261F0595FD32F5A0F2
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Upgrade webkitgtk from 2.20.2 to 2.20.3.
-* update context of 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-* remove detect-atomics-during-configure.patch that webkitgtk 2.20.3
-  contains the commit of better solution, see
-  https://bugs.webkit.org/show_bug.cgi?id=161900#c9
+Hi Martin,
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...acros-Append-to-I-and-not-to-isystem.patch | 12 +++---
- .../detect-atomics-during-configure.patch     | 43 -------------------
- ...ebkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} |  5 +--
- 3 files changed, 8 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} (96%)
+On 2018年06月28日 19:13, Martin Jansa wrote:
+> In our build I've removed the openssl runtime dependency 
+> (RDEPENDS_${PN}_remove = "openssl"), because we pull the right version 
+> of openssl (lib32-openssl in our case) to the image elsewhere.
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-index 034219f826..b31026448c 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-@@ -41,18 +41,18 @@ index b3c7e0b..88446de 100644
-  target_link_libraries(jsc ${JSC_LIBRARIES})
-  
- diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
--index 32c6ccc..fef5e8b 100644
-+index f7d8d70a..3c27b8bc 100644
- --- a/Source/WebCore/PlatformGTK.cmake
- +++ b/Source/WebCore/PlatformGTK.cmake
--@@ -159,7 +159,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
--         ${GTK2_INCLUDE_DIRS}
--         ${GDK2_INCLUDE_DIRS}
-+@@ -157,7 +157,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-+     target_include_directories(WebCorePlatformGTK2 PRIVATE
-+         ${WebCore_INCLUDE_DIRECTORIES}
-      )
- -    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
- +    target_include_directories(WebCorePlatformGTK2 PRIVATE
-          ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
--     )
--     target_link_libraries(WebCorePlatformGTK2
-+         ${GTK2_INCLUDE_DIRS}
-+         ${GDK2_INCLUDE_DIRS}
- @@ -183,7 +183,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
-  target_include_directories(WebCorePlatformGTK PRIVATE
-      ${WebCore_INCLUDE_DIRECTORIES}
-diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-deleted file mode 100644
-index bbdb64490a..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--From d907ac649ff5514826af9ad7e97e15dfcf79909c Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 17 May 2017 22:34:24 -0700
--Subject: [PATCH] webkitgtk: Fix build for armv5
--
--Taken from
--https://bugs.webkit.org/show_bug.cgi?id=161900
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- Source/WTF/wtf/CMakeLists.txt | 10 +++++++++-
-- 1 file changed, 9 insertions(+), 1 deletion(-)
--
--diff --git a/Source/WTF/wtf/CMakeLists.txt b/Source/WTF/wtf/CMakeLists.txt
--index 220bafd..4e1e9f8 100644
----- a/Source/WTF/wtf/CMakeLists.txt
--+++ b/Source/WTF/wtf/CMakeLists.txt
--@@ -315,7 +315,6 @@ set(WTF_HEADERS
-- 
-- set(WTF_SOURCES
--     Assertions.cpp
---    Atomics.cpp
--     AutomaticThread.cpp
--     BitVector.cpp
--     CPUTime.cpp
--@@ -458,6 +457,15 @@ if (NOT USE_SYSTEM_MALLOC)
--     list(APPEND WTF_LIBRARIES bmalloc)
-- endif ()
-- 
--+file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
--+     "int main(void)\n"
--+     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
--+try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
--+if (NOT ATOMICS_BUILD_SUCCEEDED)
--+    list(APPEND WTF_SOURCES Atomics.cpp)
--+endif ()
--+file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
--+
-- list(APPEND WTF_SOURCES
--     unicode/CollatorDefault.cpp
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-similarity index 96%
-rename from meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-index a68a69f43c..9d0f00a6d6 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-@@ -17,15 +17,14 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-            file://x32_support.patch \
-            file://cross-compile.patch \
--           file://detect-atomics-during-configure.patch \
-            file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            file://0001-Fix-build-with-musl.patch \
-            file://detect-gstreamer-gl.patch \
-            file://0012-soup-Forward-declare-URL-class.patch \
-            "
- 
--SRC_URI[md5sum] = "3fdda40dc10eb2a00d5fba4219b83967"
--SRC_URI[sha256sum] = "dffe93a241f03f1c73b369f4e323e4d8f12e39d33d5515948cbf454ca4b526e2"
-+SRC_URI[md5sum] = "efb69a0cc3cc67ef2647efec22e44c69"
-+SRC_URI[sha256sum] = "579b307d78fa16a73f112790178022166d7ad17d4147492ced9b9fba48f20dd8"
- 
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
- 
+Thanks for your reply.
+
+We have too many different kind of images so it can't be assured that 
+lib32-openssl will be installed to image. And there are also other 
+noarch packages such as docbook-xsl-stylesheets which depends on perl.
+It is better to have a common solution.
+
+Thanks,
+Kai
+
+>
+> On Thu, Jun 28, 2018 at 10:48 AM Kang Kai <Kai.Kang@windriver.com 
+> <mailto:Kai.Kang@windriver.com>> wrote:
+>
+>     Hi all,
+>
+>     When build 32 bits rootfs with 64 bits bsp, if an allarch/noarch
+>     package is installed to lib32 rootfs, it causes
+>     unexpected 64 bits packages which is required by the allarch
+>     package installed to lib32 rootfs.
+>
+>     Take ca-certificates as example. ca-certificates rdepends on
+>     openssl, so if ca-certificates is installed to image,
+>     64 bits package openssl will be installed too no matter what the
+>     rootfs is. But only 32 bits openssl package should
+>     be installed to 32 bits rootfs.
+>
+>     There are 2 ways to fixed the issue.
+>
+>     1 expand allarch/noarch packages with multilib. So if add
+>     ca-certificates to image, lib32-ca-certificates will be
+>        installed to 32bits rootfs. And then also the dependency
+>     lib32-openssl is installed. That is what we expected.
+>
+>     2 expand DEPENDS/RDEPENDS of allarch/noarch packages with a prefix
+>     'noarch-' when multilib is enabled. So then
+>     ca-certificates requires 'noarch-openssl'. And make both
+>     lib32-openssl and openssl provides 'noarch-openssl'.
+>        When do_rootfs, there is only one rpm repo 'oe-rootfs-repo'
+>     now. We will create repos with different priorities
+>        according to different archs/subdirectories. For 32 bits image,
+>     make 32 bits rpm repo has higher priority, so lib32-openssl
+>        will be installed to 32 bits rootfs rather than 64bits.
+>
+>     I know these 2 ways are not perfect, but only possible ways I have
+>     in mind to solve the problem.
+>
+>     Any comment or suggestion is greatly appreciated. Thanks a lot.
+>
+>     -- 
+>     Regards,
+>     Neil | Kai Kang
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
 -- 
-2.17.1
+Regards,
+Neil | Kai Kang
 
 
+--------------85ABDB261F0595FD32F5A0F2
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">Hi Martin,<br>
+      <br>
+      On 2018年06月28日 19:13, Martin Jansa wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">In our build I've removed the openssl runtime
+        dependency (RDEPENDS_${PN}_remove = "openssl"), because we pull
+        the right version of openssl (lib32-openssl in our case) to the
+        image elsewhere.</div>
+    </blockquote>
+    <br>
+    Thanks for your reply.<br>
+    <br>
+    We have too many different kind of images so it can't be assured
+    that lib32-openssl will be installed to image. And there are also
+    other noarch packages such as docbook-xsl-stylesheets which depends
+    on perl.<br>
+    It is better to have a common solution.<br>
+    <br>
+    Thanks,<br>
+    Kai<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQd7LE8y7-xzsPTa0CYS9bq-94MwGE=hFbtgz3odkq-d0g@mail.gmail.com"><br>
+      <div class="gmail_quote">
+        <div dir="ltr">On Thu, Jun 28, 2018 at 10:48 AM Kang Kai &lt;<a
+            href="mailto:Kai.Kang@windriver.com" moz-do-not-send="true">Kai.Kang@windriver.com</a>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          <div text="#000000" bgcolor="#FFFFFF">
+            <p><font size="+1">Hi all,</font></p>
+            <p><font size="+1">When build </font><font size="+1"><font
+                  size="+1">32 bits rootfs with </font>64 bits bsp, if
+                an allarch/noarch package is installed to lib32 rootfs,
+                it causes<br>
+                unexpected 64 bits packages which is required by the
+                allarch package installed to lib32 rootfs.</font></p>
+            <p><font size="+1">Take ca-certificates as example. </font><font
+                size="+1"><font size="+1">ca-certificates rdepends on
+                  openssl, so if </font></font><font size="+1"><font
+                  size="+1"><font size="+1"><font size="+1">ca-certificates
+                      is installed to image,<br>
+                      64 bits package openssl will be installed too no
+                      matter what the rootfs is. But only 32 bits
+                      openssl package should<br>
+                      be installed to 32 bits rootfs.</font></font></font></font></p>
+            <p><font size="+1"><font size="+1"><font size="+1"><font
+                      size="+1">There are 2 ways to fixed the issue.</font></font></font></font></p>
+            <p><font size="+1"><font size="+1"><font size="+1"><font
+                      size="+1">1 expand allarch/noarch packages with
+                      multilib. So if add </font></font></font></font><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1">ca-certificates
+                          to image, </font></font>lib32-</font></font></font></font><font
+                size="+1"><font size="+1">ca-certificates will be<br>
+                     installed to 32bits rootfs. And then also the
+                  dependency lib32-openssl is installed. That is what we
+                  expected.<br>
+                </font></font></p>
+            <p><font size="+1"><font size="+1">2 expand DEPENDS/RDEPENDS
+                  of </font></font><font size="+1"><font size="+1"><font
+                    size="+1"><font size="+1">allarch/noarch packages
+                      with a prefix 'noarch-' when multilib is enabled.
+                      So</font> then<br>
+                       </font></font></font><font size="+1"><font
+                  size="+1"><font size="+1"><font size="+1"><font
+                        size="+1"><font size="+1"><font size="+1"><font
+                              size="+1"><font size="+1"><font size="+1">ca-certificates
+                                  requires 'noarch-openssl'. And make
+                                  both lib32-openssl and openssl
+                                  provides </font></font></font></font></font></font></font></font></font></font><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1"><font
+                            size="+1"><font size="+1"><font size="+1"><font
+                                  size="+1">'noarch-openssl'.<br>
+                                     When do_rootfs, there is only one
+                                  rpm repo 'oe-rootfs-repo' now. We will
+                                  create repos with different priorities<br>
+                                     according to different
+                                  archs/subdirectories. For 32 bits
+                                  image, make 32 bits rpm repo has 
+                                  higher priority, so </font></font></font></font></font></font></font></font></font></font><font
+                size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1"><font
+                            size="+1"><font size="+1"><font size="+1"><font
+                                  size="+1">lib32-openssl<br>
+                                     will be installed to 32 bits rootfs
+                                  rather than 64bits.</font></font></font></font></font></font></font></font></font></font></p>
+            <p><font size="+1"><font size="+1"><font size="+1"><font
+                      size="+1"><font size="+1"><font size="+1"><font
+                            size="+1"><font size="+1"><font size="+1"><font
+                                  size="+1">I know these 2 ways are not
+                                  perfect, but only possible ways I have
+                                  in mind to solve the problem.</font></font></font></font></font></font></font></font></font></font><font
+                size="+1"><br>
+              </font></p>
+            <p><font size="+1">Any comment or suggestion is greatly
+                appreciated. Thanks a lot.</font></p>
+            <pre class="m_1934409344669207458moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+          </div>
+          -- <br>
+          _______________________________________________<br>
+          Openembedded-core mailing list<br>
+          <a href="mailto:Openembedded-core@lists.openembedded.org"
+            target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+          <a
+            href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------85ABDB261F0595FD32F5A0F2--
