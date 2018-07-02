@@ -1,48 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4190F789E1
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CDD07789E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 16:27:23 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id z6-v6so8244017wma.0
+	Mon,  2 Jul 2018 16:27:24 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id f18-v6so2440644wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2018 09:27:24 -0700 (PDT)
+	Mon, 02 Jul 2018 09:27:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IolMV0jowklEFzA7Y/JGxkBpOcZPMIkRVUSPXxDLmGM=;
-	b=USGSIsLgBmzT0MZKmhvfHfDLiEmJKh27iJOg0Ibp+uAH1w6GfUwViBIacBbYWDPNE0
-	YJn/RDvc7b6h1kZZYyuiDkv8m4UUWq0aRo+14fK0wJcpJO7+tE+lUbC6uB158InH9R/v
-	Aexmzlfc9Npx5LOZv60WO4w8WKSY8Fxrd1w1M=
+	bh=MQGX706qeLyQO5hFbcEATy9nZvvt3vTwtwNtfFhw6+I=;
+	b=DDjHyicEibznXV4S26ZpWv9i1qQLZ2IU4U+asder4o+DW1aI8vX3DpXaFYO8r8sB2h
+	gmzs3t4kiujCE2avelNLSTFyNeJmU/azdrjkDKNL5CEZRfoQ09R3+QE8Woss53HHTguk
+	yEiJIXpPquGAEqSEfgb0UcKBaBOHfNinRAk1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=IolMV0jowklEFzA7Y/JGxkBpOcZPMIkRVUSPXxDLmGM=;
-	b=X5+O6qIi8YEvG8ZE7Cq6mFpJAbwQ0mQjGa1294cwoMFi/Iti1auXbSdVWnNkzoTZ8z
-	uuQ+Ep+2Oxn+aoe4Qmg3ZtsYV7znGzIn+VJR0VQuFNIzOd1I//aN5Rqs1hvaTGBGtRwg
-	0Nr1YmIMjw4fL7jWIwgf+12YbRg/F0Z0AI+boUXkRGfP+nZ89YcJWKW9BpaM0um15snq
-	iYVjJnM0lZtUGDtM8YLz3kVb4uQrqzr5U9ZtuLK86g8hfxImkWJREdydSZXfRUshZS2+
-	E9o5lmsjtCaRzGT7sHxVVC/ycic2YMCn6ra6lqRvuc4jQanYAmadRYyFVZ9cfSTHtR1j
-	msbg==
-X-Gm-Message-State: APt69E3ZPtL/w/ZIq2EWX2DAHcvM82dbveYcYphwerF0Ap8md1j9H7FR
-	YAV9IgR2oAmaWRc4bIfyHq0IjrEeC6E=
-X-Google-Smtp-Source: AAOMgpf19v8K8etHJgPy1yEv7Vu8zyORXmc9Khootjd76fZSIe5QvtY6QGfbkupvjS/W2MhAff9apg==
-X-Received: by 2002:a1c:e409:: with SMTP id b9-v6mr8242220wmh.34.1530548843920;
-	Mon, 02 Jul 2018 09:27:23 -0700 (PDT)
+	bh=MQGX706qeLyQO5hFbcEATy9nZvvt3vTwtwNtfFhw6+I=;
+	b=FvyrwVDA+uuOtbr7nIDk8k+VQ/Or3QVISrSYR2Q7/mu8dNV3oID7nr38/r9yTsfHdK
+	0ltXMZ/dfGYnUrwz41os1qGs2dGwUOvlnq5KRR87LO/CTmeixoVfirrr1qh1jPkLIePd
+	HSKuZLv82Sv8uBYTadqSDAD2enlNxUQUvaRhJ/PJGrNPxKW/dV97IgStHSh2ySmle02N
+	NS2ZoUl5fItrdWszIjlkRJ1f3yTPJvLSDgrog0Xq6rmw4xo7ThkN+x8VvYdI1uB/0p9E
+	XJEfqkldU/i6AFFp72ZdssIfDnEq7NlXuxFWlj+NMfRcIWpE8CKNt3lLtuyjjSSRUYFd
+	GyLQ==
+X-Gm-Message-State: APt69E3TwpgV7rAR4VtTn5LWlS1m+8mL8uII8flh1nUJE9mUAdGil+XH
+	mIYjztqMgoRnS2PvcnSfE98A43c3mXo=
+X-Google-Smtp-Source: AAOMgpeGhegOGVnLy9q9Kqpbih4/Vrkd5r8ZUWPfIb/URngA71clOJ6SefzeGYebF/+KpcBIlNlPuA==
+X-Received: by 2002:adf:a18f:: with SMTP id
+	u15-v6mr19813919wru.194.1530548845331; 
+	Mon, 02 Jul 2018 09:27:25 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	17-v6sm12148012wmm.21.2018.07.02.09.27.22
+	17-v6sm12148012wmm.21.2018.07.02.09.27.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Jul 2018 09:27:22 -0700 (PDT)
+	Mon, 02 Jul 2018 09:27:24 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jul 2018 17:27:15 +0100
-Message-Id: <20180702162718.27038-3-richard.purdie@linuxfoundation.org>
+Date: Mon,  2 Jul 2018 17:27:16 +0100
+Message-Id: <20180702162718.27038-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180702162718.27038-1-richard.purdie@linuxfoundation.org>
 References: <20180702162718.27038-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 3/6] classes/utils: Improve all_multilib_tune_values
+Subject: [PATCH 4/6] lib/oe/sstatesig: Fix task mappings from multilib<->non-multilib contexts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 16:27:24 -0000
+X-List-Received-Date: Mon, 02 Jul 2018 16:27:25 -0000
 
-Currently there is duplication in the code, we can clean this up
-by extending the multilib variants list.
+If we're in a multilib context already and want a non-multilib context
+this function returned incorrect values.
 
-This code also currently fails its its called from an existing multilib
-context since its assumes the data store passed in is the non-multilib
-case. When building an image, say lib32-core-image-sato, this leads to
-incorrect PATH values.
+Try and retain optimisations for the common case not needing to request
+a datastore but allow the different multilib/non-multilib combinations
+to work too.
 
-To fix this, we also request a data store for the "" variant allowing
-this corner case to be fixed and for the function to correctly return
-values for each multilib even when a multilib is already selected.
+This fixes bugs where rootfs generation of a multilib image would
+write into incorrect locations, or be unable to find sstate manifest
+files due to incorrect data stores being used to expand data.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/utils.bbclass | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ meta/lib/oe/sstatesig.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 3f4f51b56be..7035f9da253 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -328,15 +328,8 @@ def get_multilib_datastore(variant, d):
- def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
-     """Return a string of all ${var} in all multilib tune configuration"""
-     values = []
--    value = d.getVar(var) or ""
--    if value != "":
--        if need_split:
--            for item in value.split(delim):
--                values.append(item)
--        else:
--            values.append(value)
--    variants = d.getVar("MULTILIB_VARIANTS") or ""
--    for item in variants.split():
-+    variants = (d.getVar("MULTILIB_VARIANTS") or "").split() + ['']
-+    for item in variants:
-         localdata = get_multilib_datastore(item, d)
-         # We need WORKDIR to be consistent with the original datastore
-         localdata.setVar("WORKDIR", d.getVar("WORKDIR"))
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index b82e0f422ee..0aa577d44d2 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -372,8 +372,14 @@ def sstate_get_manifest_filename(task, d):
+ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
+     d2 = d
+     variant = ''
++    curr_variant = ''
++    if d.getVar("BBEXTENDCURR") == "multilib":
++        curr_variant = d.getVar("BBEXTENDVARIANT")
++        if "virtclass-multilib" not in d.getVar("OVERRIDES"):
++            curr_variant = "invalid"
+     if taskdata2.startswith("virtual:multilib"):
+         variant = taskdata2.split(":")[2]
++    if curr_variant != variant:
+         if variant not in multilibcache:
+             multilibcache[variant] = oe.utils.get_multilib_datastore(variant, d)
+         d2 = multilibcache[variant]
 -- 
 2.17.1
 
