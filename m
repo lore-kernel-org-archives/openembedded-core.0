@@ -1,25 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 30591771B6
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7757B77E88
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 05:47:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w625lUEH022576
+	Mon,  2 Jul 2018 05:47:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w625lWgO000804
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Jul 2018 22:47:31 -0700
+	Sun, 1 Jul 2018 22:47:32 -0700 (PDT)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Sun, 1 Jul 2018 22:47:30 -0700
+	14.3.399.0; Sun, 1 Jul 2018 22:47:31 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 2 Jul 2018 13:57:11 +0800
-Message-ID: <f40e29fc182ad642e1ea28ebbff4a2bb7ed35086.1530510873.git.hongxu.jia@windriver.com>
+Date: Mon, 2 Jul 2018 13:57:12 +0800
+Message-ID: <960a5ff0a2f88d4c613c7ec6e0363c7de307d3ea.1530510873.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1530510873.git.hongxu.jia@windriver.com>
 References: <cover.1530510873.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] help2man-native: 1.47.5 -> 1.47.6
+Subject: [PATCH 7/8] libgcrypt: 1.8.2 -> 1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 05:47:30 -0000
+X-List-Received-Date: Mon, 02 Jul 2018 05:47:31 -0000
 Content-Type: text/plain
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../help2man/{help2man-native_1.47.5.bb => help2man-native_1.47.6.bb} | 4 ++--
+ .../libgcrypt/{libgcrypt_1.8.2.bb => libgcrypt_1.8.3.bb}              | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.5.bb => help2man-native_1.47.6.bb} (79%)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.2.bb => libgcrypt_1.8.3.bb} (92%)
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.5.bb b/meta/recipes-devtools/help2man/help2man-native_1.47.6.bb
-similarity index 79%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.5.bb
-rename to meta/recipes-devtools/help2man/help2man-native_1.47.6.bb
-index 2dd6d38..794d308 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.5.bb
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.47.6.bb
-@@ -6,8 +6,8 @@ DEPENDS = "autoconf-native automake-native"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.3.bb
+similarity index 92%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.8.3.bb
+index b36e653..44728a7 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.2.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.3.bb
+@@ -21,8 +21,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
+ "
+-SRC_URI[md5sum] = "cfb0b5c79eab07686b6898160a407139"
+-SRC_URI[sha256sum] = "c8064cae7558144b13ef0eb87093412380efa16c4ee30ad12ecb54886a524c07"
++SRC_URI[md5sum] = "3139c2402e844985a67fb288a930534d"
++SRC_URI[sha256sum] = "66ec90be036747602f2b48f98312361a9180c97c68a690a5f376fa0f67d0af7c"
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "1c886063c9e0ab463906de804596aa2f"
--SRC_URI[sha256sum] = "7ca60b2519fdbe97f463fe2df66a6188d18b514bfd44127d985f0234ee2461b1"
-+SRC_URI[md5sum] = "7424901e6eca8af372d2ad62be5cf659"
-+SRC_URI[sha256sum] = "d91b0295b72a638e4a564f643e4e6d1928779131f628c00f356c13bf336de46f"
- 
- inherit autotools native
+ BINCONFIG = "${bindir}/libgcrypt-config"
  
 -- 
 2.7.4
