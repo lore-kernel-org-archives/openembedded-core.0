@@ -1,27 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7A175551
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D28E7719E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 04:32:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w624WhZk027830
+	Mon,  2 Jul 2018 05:47:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w625lJ30022568
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Jul 2018 21:32:43 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Sun, 1 Jul 2018 21:32:42 -0700
-To: Joe Slater <joe.slater@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180621182217.225893-1-joe.slater@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <f8690960-a8ec-1bc3-df73-723a609f3658@windriver.com>
-Date: Mon, 2 Jul 2018 12:35:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Sun, 1 Jul 2018 22:47:21 -0700
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Sun, 1 Jul 2018 22:47:18 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 2 Jul 2018 13:57:05 +0800
+Message-ID: <cover.1530510873.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180621182217.225893-1-joe.slater@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH 1/1] postinst-intercepts: do not execute any variant of delay_to_first_boot
+Subject: [PATCH 0/8] upgrade 8 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,113 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 04:32:45 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5A89AA31EE7D1F8DDECAF203"
+X-List-Received-Date: Mon, 02 Jul 2018 05:47:21 -0000
+Content-Type: text/plain
 
---------------5A89AA31EE7D1F8DDECAF203
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+Build successfully:
+- qemux86-64 + glibc
+- qemux86-64 + musl
+- qemuarm64 + glibc
+- qemuarm64 + musl
 
-Hi Richard,
+//Hongxu
 
-It seems that this patch could fix 
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/1117/steps/BuildImages_2/logs/stdio.
+The following changes since commit 6f8f984ba363f764e83290b972ec31a90aad1603:
 
-Error message from log is like below:
+  initrdscripts/init-live.sh: fix mounts w/ spaces fail to move to real rootfs (2018-06-28 23:33:55 +0100)
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: The postinstall intercept hook 
-'update_pixbuf_cache-lib32' failed
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20180701
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20180701
+
+Hongxu Jia (8):
+  gnupg: 2.2.5 -> 2.2.8
+  gpgme: 1.10.0 -> 1.11.1
+  man-db: 2.8.2 -> 2.8.3
+  elfutils: 0.170 -> 0.172
+  man-pages: 4.14 -> 4.16
+  help2man-native: 1.47.5 -> 1.47.6
+  libgcrypt: 1.8.2 -> 1.8.3
+  ncurses: 6.1 -> 6.1+20180630
+
+ .../{ncurses_6.1.bb => ncurses_6.1+20180630.bb}    |   2 +-
+ .../{elfutils_0.170.bb => elfutils_0.172.bb}       |  22 +-
+ .../elfutils/files/0001-dso-link-change.patch      |   8 +-
+ ...0001-libasm-may-link-with-libbz2-if-found.patch |  12 +-
+ ...-elf_cvt_gunhash-if-dest-and-src-are-same.patch |   4 +-
+ .../elfutils/files/0003-fixheadercheck.patch       |   6 +-
+ .../0004-Disable-the-test-to-convert-euc-jp.patch  |   4 +-
+ .../files/0005-fix-a-stack-usage-warning.patch     |   8 +-
+ .../files/0006-Fix-build-on-aarch64-musl.patch     |   4 +-
+ ...-path-where-we-have-str-as-uninitialized-.patch |  12 +-
+ ...de-alternatives-for-glibc-assumptions-hel.patch | 201 ++++++-------
+ ...ferences-between-mips-machine-identifiers.patch |   4 -
+ .../{arm_backend.diff => 0001-arm_backend.patch}   | 322 +++++++++++----------
+ .../files/debian/0001-disable_werror.patch         |  35 +++
+ .../files/debian/0001-fix-gcc7-ftbfs.patch         |  57 ++++
+ .../{hppa_backend.diff => 0001-hppa_backend.patch} | 170 ++++++-----
+ ...{mips_backend.patch => 0001-mips_backend.patch} |  31 +-
+ ...s_readelf_w.patch => 0001-mips_readelf_w.patch} |  24 +-
+ .../debian/0001-testsuite-ignore-elflint.patch     |  57 ++++
+ ...-support-for-mips64-abis-in-mips_retval.c.patch |   3 -
+ .../0003-Add-mips-n64-relocation-format-hack.patch |   5 +-
+ .../elfutils/files/debian/hurd_path.patch          |  14 +
+ .../elfutils/files/debian/ignore_strmerge.diff     |  11 +
+ .../elfutils/files/debian/kfreebsd_path.patch      |  17 ++
+ ...-native_1.47.5.bb => help2man-native_1.47.6.bb} |   4 +-
+ .../man-db/{man-db_2.8.2.bb => man-db_2.8.3.bb}    |   4 +-
+ .../{man-pages_4.14.bb => man-pages_4.16.bb}       |   4 +-
+ .../gnupg/{gnupg_2.2.5.bb => gnupg_2.2.8.bb}       |   4 +-
+ .../gpgme/gpgme/0001-pkgconfig.patch               |  18 +-
+ ...python-gpg-error-config-should-not-be-use.patch |  10 +-
+ .../0003-Correctly-install-python-modules.patch    |   6 +-
+ .../gpgme/gpgme/0004-python-import.patch           |   6 +-
+ ...g-skip-all-lib-or-usr-lib-directories-in-.patch |   6 +-
+ .../gpgme/gpgme/0006-fix-build-path-issue.patch    |   6 +-
+ .../0007-qt-python-Add-variables-to-tests.patch    |  12 +-
+ .../gpgme/{gpgme_1.10.0.bb => gpgme_1.11.1.bb}     |   6 +-
+ .../{libgcrypt_1.8.2.bb => libgcrypt_1.8.3.bb}     |   4 +-
+ 37 files changed, 675 insertions(+), 448 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses_6.1.bb => ncurses_6.1+20180630.bb} (86%)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.170.bb => elfutils_0.172.bb} (79%)
+ rename meta/recipes-devtools/elfutils/files/debian/{arm_backend.diff => 0001-arm_backend.patch} (87%)
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/0001-disable_werror.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/0001-fix-gcc7-ftbfs.patch
+ rename meta/recipes-devtools/elfutils/files/debian/{hppa_backend.diff => 0001-hppa_backend.patch} (89%)
+ rename meta/recipes-devtools/elfutils/files/debian/{mips_backend.patch => 0001-mips_backend.patch} (97%)
+ rename meta/recipes-devtools/elfutils/files/debian/{mips_readelf_w.patch => 0001-mips_readelf_w.patch} (48%)
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/0001-testsuite-ignore-elflint.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/hurd_path.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/ignore_strmerge.diff
+ create mode 100644 meta/recipes-devtools/elfutils/files/debian/kfreebsd_path.patch
+ rename meta/recipes-devtools/help2man/{help2man-native_1.47.5.bb => help2man-native_1.47.6.bb} (79%)
+ rename meta/recipes-extended/man-db/{man-db_2.8.2.bb => man-db_2.8.3.bb} (90%)
+ rename meta/recipes-extended/man-pages/{man-pages_4.14.bb => man-pages_4.16.bb} (87%)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.5.bb => gnupg_2.2.8.bb} (92%)
+ rename meta/recipes-support/gpgme/{gpgme_1.10.0.bb => gpgme_1.11.1.bb} (93%)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.2.bb => libgcrypt_1.8.3.bb} (92%)
+
+-- 
+2.7.4
 
 
-Best Regards,
-Chen Qi
-
-
-On 06/22/2018 02:22 AM, Joe Slater wrote:
-> As of commit 2c5c6e3ff we create multilib variants of intercept
-> hooks but we did not account for delay_to_first_boot variants.
-> This was covered up until commit a335e7867, but will now cause
-> an error.
->
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->   meta/lib/oe/package_manager.py | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 20a41d5..9aa5847 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -382,7 +382,8 @@ class PackageManager(object, metaclass=ABCMeta):
->               if script == "postinst_intercept" or not os.access(script_full, os.X_OK):
->                   continue
->   
-> -            if script == "delay_to_first_boot":
-> +            # we do not want to run any multilib variant of this
-> +            if script.startswith("delay_to_first_boot"):
->                   self._postpone_to_first_boot(script_full)
->                   continue
->   
-
-
-
---------------5A89AA31EE7D1F8DDECAF203
-Content-Type: text/html; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Hi Richard,<br>
-      <br>
-      It seems that this patch could fix
-<a class="moz-txt-link-freetext" href="https://autobuilder.yocto.io/builders/nightly-multilib/builds/1117/steps/BuildImages_2/logs/stdio">https://autobuilder.yocto.io/builders/nightly-multilib/builds/1117/steps/BuildImages_2/logs/stdio</a>.<br>
-      <br>
-      Error message from log is like below:<br>
-      <pre><span class="stderr">ERROR: core-image-sato-1.0-r0 do_rootfs: The postinstall intercept hook 'update_pixbuf_cache-lib32' failed</span></pre>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      <br>
-      On 06/22/2018 02:22 AM, Joe Slater wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:20180621182217.225893-1-joe.slater@windriver.com"
-      type="cite">
-      <pre wrap="">As of commit 2c5c6e3ff we create multilib variants of intercept
-hooks but we did not account for delay_to_first_boot variants.
-This was covered up until commit a335e7867, but will now cause
-an error.
-
-Signed-off-by: Joe Slater <a class="moz-txt-link-rfc2396E" href="mailto:joe.slater@windriver.com">&lt;joe.slater@windriver.com&gt;</a>
----
- meta/lib/oe/package_manager.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 20a41d5..9aa5847 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -382,7 +382,8 @@ class PackageManager(object, metaclass=ABCMeta):
-             if script == "postinst_intercept" or not os.access(script_full, os.X_OK):
-                 continue
- 
--            if script == "delay_to_first_boot":
-+            # we do not want to run any multilib variant of this
-+            if script.startswith("delay_to_first_boot"):
-                 self._postpone_to_first_boot(script_full)
-                 continue
- 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------5A89AA31EE7D1F8DDECAF203--
