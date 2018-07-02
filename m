@@ -1,56 +1,56 @@
-Return-Path: <prvs=0721de6c26=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 32397 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 02 Jul 2018 14:55:02 UTC
-Received: from port25.smtp.antispamcloud.com (port25.smtp.antispamcloud.com
-	[46.165.233.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 63662748D5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
+	[209.85.215.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 255EE789D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 14:55:02 +0000 (UTC)
-Received: from [37.74.225.131] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx61.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1fZrnk-0007uA-VY for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2018 07:55:05 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 2 Jul 2018 07:55:02 +0200
-To: <openembedded-core@lists.openembedded.org>
-References: <1530441211-30826-1-git-send-email-alex.kiernan@gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <6b743d05-aa53-bb1c-f96b-f604a77d2911@topic.nl>
-Date: Mon, 2 Jul 2018 07:55:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Mon,  2 Jul 2018 14:57:49 +0000 (UTC)
+Received: by mail-lf0-f67.google.com with SMTP id i15-v6so12284840lfc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Jul 2018 07:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hlGWR34eCSMPscIRr1vYg2fJsLG4P92GH/c45hevc0w=;
+	b=vXZtDfZm0z86PpKpKh7WHeNK0XIuZE6ioEeZFVFxOl28KRpzF6J6/c2dv6otlE322t
+	IxqIYH5BF6Ko6aWEoj2zd7RCv84jw3xioTpWBhkA3bBU2TQf/FOaKE9TJgA7Gng6wGKy
+	3Wcw7cOC2mvUDfvW+dGXrMXi7nHYkMTGqzPHzCscqrZHt2+u9K9pDnThwWGwfhvacmda
+	ppknPou6OgRtxCfTcff219Tw87PcXg4sjnCwlR349glINB54JoESLz0vdDmaWsvL3FVB
+	LyXjw4thvDpEfzzYc3x89OVZFhlzjGeIhqMGRn/XUfYnTW3GQJhb3zv57tDBzYt/m3uJ
+	WSRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hlGWR34eCSMPscIRr1vYg2fJsLG4P92GH/c45hevc0w=;
+	b=Iom4fQwBDbdAarb8ymgC5YLMl1B+6WZsatSDEdTt35GcJlD8Q4grRy+xYaxca/iyTk
+	SC39QD31eroqPhxxTpODsHZ53PMAvBWwlbP9LJAKYO5smkLGRUp4ui8dZDNwrmiXeivs
+	sZTLMjUIY/kLUwFgRVLqHkr8Xf+zkC1VQWGd+1XuPnWmKpTX1Quz3wdfqUY4cf4GEs4G
+	X+6IpuqS8Ian2bSIkVScUaLFHRjc4mBlyG2FF7lljBCK/sA3B+aK1u/U7EJrbGwAGbKr
+	duf81Q4VxrLD+eGwAnoUHUUzRSX78neLWXC4lfe76aEi+t0tcdcC7Z7PDmUXkQnUSZOj
+	MEbQ==
+X-Gm-Message-State: APt69E11rFJqB+e4EZqe3jctwFZ9cRbeIZi6BzH9svwefziQe/6ARjrx
+	B1E0DkUEKRxu4dbI2tOh48u3yEkGez7Y7XHyycU=
+X-Google-Smtp-Source: AAOMgpfFYnsfoUOOubGIOcFD1evdD+D6RB34cxcOJOMrVyQFWlP62MISWAjI0zebR3jd1xEe5MkH4mDhBEeaEY0ioXk=
+X-Received: by 2002:a19:921a:: with SMTP id
+	u26-v6mr16023889lfd.89.1530543469683; 
+	Mon, 02 Jul 2018 07:57:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1530441211-30826-1-git-send-email-alex.kiernan@gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.131
-X-AntiSpamCloud-Domain: topic.nl
-X-AntiSpamCloud-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-AntiSpamCloud-Outgoing-Class: ham
-X-AntiSpamCloud-Outgoing-Evidence: Combined (0.03)
-X-Recommended-Action: accept
-X-Filter-ID: EX5BVjFpneJeBchSMxfU5oh3cwaopxtgsDvH8FU17Al602E9L7XzfQH6nu9C/Fh9KJzpNe6xgvOx
-	q3u0UDjvOxznj/1iaw5TjLSMy5CpQtFmraJGWVbN0zdCh+St1How4o1YeYC8LHFWCIFgyeyJQefH
-	zJ6mVE7ewsipSVIfs4YSVleacBG86y0+cB1D9Ciu4JjiDSrbcmJ1QXhuh4fWdt/Aj79cZapdKACo
-	xXTB236Z3JKVmi72ocgY5kMQSjs7AS5g9nL+yeFiOR30+l159X3F2AuNuamkoUiKgQQWvzglYYyi
-	NZr+/4JfE7i26Y6ctPZUPzYlTOTdwc0UsK6fWIrhylS5qWRAI3z2YWviHNUM5PgtoxLiSpsrL6hV
-	WLdEFdlTez4Ep6JVGftOsEfid+kwN34980yjfCV4sX61ZxdX/LGc1HGkyge+OH1WexgDa2mBsvp2
-	2+B2cECTpdAX092/BpLY2oaU3DFtoijWuhrNcgXXMYaGQeGKWD2ycTNwj/KcGIu4SeJtbJdr4/oj
-	P8UWpjnmAwSMAa8SFs/lvHopOMQJvQ/Ck3iiU+4DQAj307MdygbYAwP95HY9TPHMrX3J+urMxBa8
-	rTN5PXEtA+TC/4IqMDd3R3OoYwhxnciCWKpui1UIyKS8DwXlI5pcNejb5NA413zESMJef949r2it
-	k/3XLTmRwzitRAMwkvBlTWlICWA/jpoCaLd/2BFWJOMRZOqWznTWYsnDz/791NupYrr9/aF/s0iU
-	PFspTh2aQ3W4D2Pl5O1+R6Nzud4ZWH9EiYWtQlDY+Ex+/CmY5hsFBPG7fCFpv7jLxTCvx+CSbmI4
-	udPHYXlUomKSI+ZfkuuO5TcDeKjrEmYPn2IVWRv3ELcsjTwVHlACUiCFmrbWxvQXcOyqIIgFHPwW
-	X+7nurSvXNfMHiSd1NTB4ie6vtrwBTL1+6vDOMemz/4I88NDnUGe2ZB+yd/uaRCBKOKbS2wB1oCZ
-	0xvT8GNaAyQKhz3CJ2dmBcMfeMs+o1d/es7A
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Subject: Re: [PATCH] openssh: Add dependency on ssh for sftp
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP;
+	Mon, 2 Jul 2018 07:57:49 -0700 (PDT)
+In-Reply-To: <CAJTo0LaC=TNwr-eRfHBrV_u6kC1WkJ-AbVS7=-DQg0OrgAfyEg@mail.gmail.com>
+References: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
+	<CADkTA4P881jar5PygYaY+i4VD_rXYsXOOhU3eZDLWGDn4xRcCA@mail.gmail.com>
+	<CANge7vXk5XKAwmZEtfww0F0tUvOUyiE=sR3OsJoRZX3P-3kf=A@mail.gmail.com>
+	<CANge7vVSu888hL05s9q07xxZmx1yzxHYD_sRvV8N5YsXsMTQXQ@mail.gmail.com>
+	<CAJTo0LamQQmTSJTXuPgQmd4MbK4GBrtBD+L0Opg-X4RJCyKcVg@mail.gmail.com>
+	<CANge7vXsQa9n7A8+W11vXwiz=_b2ndVKs2pp660TjjSN96F6Lg@mail.gmail.com>
+	<CAJTo0LaC=TNwr-eRfHBrV_u6kC1WkJ-AbVS7=-DQg0OrgAfyEg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 2 Jul 2018 10:57:49 -0400
+Message-ID: <CADkTA4Nk_QYv+=WVOXp775RnuTpJm0HN8vt+Mu7Z5agHPOnNZw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Jon Szymaniak <jon.szymaniak@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: Use capstone version included via git submodule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +63,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 14:55:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: nl
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Jul 2018 14:57:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-=EF=BB=BFThe sftp-server runs fine using dropbear as SSH backend, I'd expec=
-t the same=20
-to be true for the client. Isn't that the case, and will the sftp client on=
-ly=20
-work with openssh's ssh?
+On Mon, Jul 2, 2018 at 9:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 2 July 2018 at 00:18, Jon Szymaniak <jon.szymaniak@gmail.com> wrote:
+>> Alternatively, if the capstone dissembler only provides value when
+>> debugging qemu itself (as opposed to regular OE/Yocto use-cases),
+>> should we just use "--disable-capstone" ?
+>
+> If that's true, then yes.
 
-On 01-07-18 12:33, Alex Kiernan wrote:
-> Add missing dependency on the ssh binary for the sftp client to avoid
-> failure at runtime if it's not been installed through another dependency
-> chain.
->=20
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->=20
->   meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/re=
-cipes-connectivity/openssh/openssh_7.7p1.bb
-> index b3da5f6..d147f43 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> @@ -146,6 +146,7 @@ FILES_${PN}-keygen =3D "${bindir}/ssh-keygen"
->  =20
->   RDEPENDS_${PN} +=3D "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
->   RDEPENDS_${PN}-sshd +=3D "${PN}-keygen ${@bb.utils.contains('DISTRO_FEA=
-TURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
-> +RDEPENDS_${PN}-sftp +=3D "${PN}-ssh"
->   RDEPENDS_${PN}-ptest +=3D "${PN}-sftp ${PN}-misc ${PN}-sftp-server make=
-"
->  =20
->   RPROVIDES_${PN}-ssh =3D "ssh"
->=20
+agreed.
+
+Bruce
+
+>
+> Ross
 
 
 
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
