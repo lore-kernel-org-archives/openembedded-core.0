@@ -1,56 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 255EE789D8
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C2D789D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 14:57:49 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id i15-v6so12284840lfc.2
+	Mon,  2 Jul 2018 15:03:06 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id k7-v6so12394577wrq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2018 07:57:50 -0700 (PDT)
+	Mon, 02 Jul 2018 08:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hlGWR34eCSMPscIRr1vYg2fJsLG4P92GH/c45hevc0w=;
-	b=vXZtDfZm0z86PpKpKh7WHeNK0XIuZE6ioEeZFVFxOl28KRpzF6J6/c2dv6otlE322t
-	IxqIYH5BF6Ko6aWEoj2zd7RCv84jw3xioTpWBhkA3bBU2TQf/FOaKE9TJgA7Gng6wGKy
-	3Wcw7cOC2mvUDfvW+dGXrMXi7nHYkMTGqzPHzCscqrZHt2+u9K9pDnThwWGwfhvacmda
-	ppknPou6OgRtxCfTcff219Tw87PcXg4sjnCwlR349glINB54JoESLz0vdDmaWsvL3FVB
-	LyXjw4thvDpEfzzYc3x89OVZFhlzjGeIhqMGRn/XUfYnTW3GQJhb3zv57tDBzYt/m3uJ
-	WSRQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=aTAOXJHSu0+ENAIdGB5eSCMMlhdAP+nawuMDGshlprQ=;
+	b=D2brWBwS95dpGBQbRq2BPZ2efdBfD5jsYqB9ScC4R1REHvRsjGn863Uuyf1lXdm3cF
+	8jUr3JI41yVEXOhLrLNOAjqtjTSFzEHdVSBaOKlptGYPuWWv4W7ZomXBZwNTrcGs5as/
+	q0ywXLS6fZK2Gs3eXHKN5C1TvL6NTw8WQETe6mw2ivhFN03OwF5BbhK5+A7F9xK3GqDr
+	8hSxOyVlChlM6PKYYiLLHbIllQmY0C15SuBPtWYq7e8WqRkcKvcEohfTVbDrQCr7YwBk
+	KaynGvyS8mWhelBKKsV1wmLNoivpizQ5TomKFdSG5vOGsazyoO1E51bJXDH9B496whO+
+	aAWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hlGWR34eCSMPscIRr1vYg2fJsLG4P92GH/c45hevc0w=;
-	b=Iom4fQwBDbdAarb8ymgC5YLMl1B+6WZsatSDEdTt35GcJlD8Q4grRy+xYaxca/iyTk
-	SC39QD31eroqPhxxTpODsHZ53PMAvBWwlbP9LJAKYO5smkLGRUp4ui8dZDNwrmiXeivs
-	sZTLMjUIY/kLUwFgRVLqHkr8Xf+zkC1VQWGd+1XuPnWmKpTX1Quz3wdfqUY4cf4GEs4G
-	X+6IpuqS8Ian2bSIkVScUaLFHRjc4mBlyG2FF7lljBCK/sA3B+aK1u/U7EJrbGwAGbKr
-	duf81Q4VxrLD+eGwAnoUHUUzRSX78neLWXC4lfe76aEi+t0tcdcC7Z7PDmUXkQnUSZOj
-	MEbQ==
-X-Gm-Message-State: APt69E11rFJqB+e4EZqe3jctwFZ9cRbeIZi6BzH9svwefziQe/6ARjrx
-	B1E0DkUEKRxu4dbI2tOh48u3yEkGez7Y7XHyycU=
-X-Google-Smtp-Source: AAOMgpfFYnsfoUOOubGIOcFD1evdD+D6RB34cxcOJOMrVyQFWlP62MISWAjI0zebR3jd1xEe5MkH4mDhBEeaEY0ioXk=
-X-Received: by 2002:a19:921a:: with SMTP id
-	u26-v6mr16023889lfd.89.1530543469683; 
-	Mon, 02 Jul 2018 07:57:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP;
-	Mon, 2 Jul 2018 07:57:49 -0700 (PDT)
-In-Reply-To: <CAJTo0LaC=TNwr-eRfHBrV_u6kC1WkJ-AbVS7=-DQg0OrgAfyEg@mail.gmail.com>
-References: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
-	<CADkTA4P881jar5PygYaY+i4VD_rXYsXOOhU3eZDLWGDn4xRcCA@mail.gmail.com>
-	<CANge7vXk5XKAwmZEtfww0F0tUvOUyiE=sR3OsJoRZX3P-3kf=A@mail.gmail.com>
-	<CANge7vVSu888hL05s9q07xxZmx1yzxHYD_sRvV8N5YsXsMTQXQ@mail.gmail.com>
-	<CAJTo0LamQQmTSJTXuPgQmd4MbK4GBrtBD+L0Opg-X4RJCyKcVg@mail.gmail.com>
-	<CANge7vXsQa9n7A8+W11vXwiz=_b2ndVKs2pp660TjjSN96F6Lg@mail.gmail.com>
-	<CAJTo0LaC=TNwr-eRfHBrV_u6kC1WkJ-AbVS7=-DQg0OrgAfyEg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 2 Jul 2018 10:57:49 -0400
-Message-ID: <CADkTA4Nk_QYv+=WVOXp775RnuTpJm0HN8vt+Mu7Z5agHPOnNZw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Jon Szymaniak <jon.szymaniak@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: Use capstone version included via git submodule
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=aTAOXJHSu0+ENAIdGB5eSCMMlhdAP+nawuMDGshlprQ=;
+	b=aV4DmGFpL8YJWblSYmHAvOTzLmGITu+eJWE1c86GHzIohNySvv+NIRCPYXvj5/Hi5p
+	CcU2ve/azFgV3kPWyle8ahUpGDkYRd0TA2WlhIK+vh4E97gIXFlLRRJPVDBFycgANv8m
+	3fxjovJboYhNhD4BUYxF6H/dJL/5emWNFc+2/ax1v3QwLNwfe/xHafaOMU5Chl9PGBd8
+	TZS4F8r/4RM23jk9+3e5vKY9Y6WzdeYhC3jWuCAd5lTJoiEePqPpu+961eJwBPDI2WPa
+	EWRbS1bfoP0az+yp/B7wKBAK4HCyD02S9WXR8VIxYvysOJU7bKXpYT2WHTzaD4Ou4sv/
+	yuTQ==
+X-Gm-Message-State: APt69E1QhGuCK8MKpCp8nwIaBJ/F5D4ATkiZE60zTckWE1cBIE82dosr
+	QvNp3I0o47ClbAHSwhld4HAc9z4LYA==
+X-Google-Smtp-Source: AAOMgpcBIhecTfF4VyB/7mFDiMsu3zgonyvbQzsQiUmBoV0DGG9oSQJK6+XqHaxSMFsq738hjvT7jg==
+X-Received: by 2002:adf:b60d:: with SMTP id
+	f13-v6mr19057499wre.186.1530543787129; 
+	Mon, 02 Jul 2018 08:03:07 -0700 (PDT)
+Received: from pneves.emea.nsn-net.net (59.38.103.87.rev.vodafone.pt.
+	[87.103.38.59]) by smtp.gmail.com with ESMTPSA id
+	k12-v6sm19282478wrr.40.2018.07.02.08.03.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Jul 2018 08:03:06 -0700 (PDT)
+From: Paulo Neves <ptsneves@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Jul 2018 17:03:03 +0200
+Message-Id: <20180702150303.12778-1-ptsneves@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [meta-oe][PATCH] gtest, gmock: Created a git version of gtest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,27 +55,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 14:57:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 Jul 2018 15:03:06 -0000
 
-On Mon, Jul 2, 2018 at 9:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 2 July 2018 at 00:18, Jon Szymaniak <jon.szymaniak@gmail.com> wrote:
->> Alternatively, if the capstone dissembler only provides value when
->> debugging qemu itself (as opposed to regular OE/Yocto use-cases),
->> should we just use "--disable-capstone" ?
->
-> If that's true, then yes.
+There are no new tag releases of the googletest
+repositories for 2 years, while development
+continued.
+Created a new recipe for non tagged release
+hash. This new recipe does not require the
+package config patch as it is supported by
+upstream.
 
-agreed.
+Refactored common recipe data in an include
+file.
+---
+ meta-oe/recipes-test/gtest/gtest.inc      | 19 +++++++++++++++++++
+ meta-oe/recipes-test/gtest/gtest_1.8.0.bb | 20 +-------------------
+ meta-oe/recipes-test/gtest/gtest_git.bb   |  6 ++++++
+ 3 files changed, 26 insertions(+), 19 deletions(-)
+ create mode 100644 meta-oe/recipes-test/gtest/gtest.inc
+ create mode 100644 meta-oe/recipes-test/gtest/gtest_git.bb
 
-Bruce
-
->
-> Ross
-
-
-
+diff --git a/meta-oe/recipes-test/gtest/gtest.inc b/meta-oe/recipes-test/gtest/gtest.inc
+new file mode 100644
+index 000000000..7a834ef25
+--- /dev/null
++++ b/meta-oe/recipes-test/gtest/gtest.inc
+@@ -0,0 +1,19 @@
++DESCRIPTION = "Google's framework for writing C++ tests"
++HOMEPAGE = "https://github.com/google/googletest"
++SECTION = "libs"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://googlemock/LICENSE;md5=cbbd27594afd089daa160d3a16dd515a \
++                    file://googletest/LICENSE;md5=cbbd27594afd089daa160d3a16dd515a"
++
++PROVIDES += "gmock"
++
++S = "${WORKDIR}/git"
++
++inherit cmake
++
++ALLOW_EMPTY_${PN} = "1"
++ALLOW_EMPTY_${PN}-dbg = "1"
++
++RDEPENDS_${PN}-dev += "${PN}-staticdev"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta-oe/recipes-test/gtest/gtest_1.8.0.bb b/meta-oe/recipes-test/gtest/gtest_1.8.0.bb
+index 48cf4e04b..b264862f1 100644
+--- a/meta-oe/recipes-test/gtest/gtest_1.8.0.bb
++++ b/meta-oe/recipes-test/gtest/gtest_1.8.0.bb
+@@ -1,24 +1,6 @@
+-DESCRIPTION = "Google's framework for writing C++ tests"
+-HOMEPAGE = "https://github.com/google/googletest"
+-SECTION = "libs"
+-LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://googlemock/LICENSE;md5=cbbd27594afd089daa160d3a16dd515a \
+-                    file://googletest/LICENSE;md5=cbbd27594afd089daa160d3a16dd515a"
+-
+-PROVIDES += "gmock"
+-
+-S = "${WORKDIR}/git"
++require gtest.inc
+ SRCREV = "ec44c6c1675c25b9827aacd08c02433cccde7780"
+ SRC_URI = "\
+     git://github.com/google/googletest.git;protocol=https; \
+     file://Add-pkg-config-support.patch \
+ "
+-
+-inherit cmake
+-
+-ALLOW_EMPTY_${PN} = "1"
+-ALLOW_EMPTY_${PN}-dbg = "1"
+-
+-RDEPENDS_${PN}-dev += "${PN}-staticdev"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta-oe/recipes-test/gtest/gtest_git.bb b/meta-oe/recipes-test/gtest/gtest_git.bb
+new file mode 100644
+index 000000000..2f091b2c7
+--- /dev/null
++++ b/meta-oe/recipes-test/gtest/gtest_git.bb
+@@ -0,0 +1,6 @@
++require gtest.inc
++SRCREV = "ba96d0b1161f540656efdaed035b3c062b60e006"
++SRC_URI = "\
++    git://github.com/google/googletest.git;protocol=https; \
++"
++
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.14.1
+
 
