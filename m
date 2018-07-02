@@ -1,28 +1,28 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B92D76039
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D7AA78542
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 08:51:05 +0000 (UTC)
+	Mon,  2 Jul 2018 09:46:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w628p7hO029714
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2018 01:51:07 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w629k7Cj012095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Jul 2018 02:46:07 -0700 (PDT)
 Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 2 Jul 2018 01:51:06 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <969ccd61-7a03-a81f-c36f-04c5d806d3e2@windriver.com>
-	<22df428a-c981-bd8f-254d-739296926401@windriver.com>
+	Mon, 2 Jul 2018 02:46:07 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <20180702011534.4676-1-kai.kang@windriver.com>
+	<CAMKF1sqcV=tq1XMSktRNuvTJeEX4sYd=4yBfP8JhukPtqo1pTA@mail.gmail.com>
 From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <1018c740-a3f2-2fb3-366e-f93615beef51@windriver.com>
-Date: Mon, 2 Jul 2018 16:50:40 +0800
+Message-ID: <dba93e8e-abcb-3f83-1749-07a41da95214@windriver.com>
+Date: Mon, 2 Jul 2018 17:45:40 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <22df428a-c981-bd8f-254d-739296926401@windriver.com>
-Subject: Re: [RFC] How to deal allarch packages in dependency chain for multilib rootfs?
+In-Reply-To: <CAMKF1sqcV=tq1XMSktRNuvTJeEX4sYd=4yBfP8JhukPtqo1pTA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: 2.20.2 -> 2.20.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,163 +35,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 08:51:06 -0000
+X-List-Received-Date: Mon, 02 Jul 2018 09:46:08 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-On 2018年06月28日 22:26, Mark Hatle wrote:
-> On 6/28/18 3:48 AM, Kang Kai wrote:
->> Hi all,
+On 2018年07月02日 14:06, Khem Raj wrote:
+> On Sun, Jul 1, 2018 at 6:49 PM <kai.kang@windriver.com> wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
 >>
->> When build 32 bits rootfs with 64 bits bsp, if an allarch/noarch package is
->> installed to lib32 rootfs, it causes
->> unexpected 64 bits packages which is required by the allarch package installed
->> to lib32 rootfs.
+>> Upgrade webkitgtk from 2.20.2 to 2.20.3.
+>> * update context of 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+>> * remove detect-atomics-during-configure.patch that webkitgtk 2.20.3
+>>    contains the commit of better solution, see
+>>    https://bugs.webkit.org/show_bug.cgi?id=161900#c9
+> If you build it with clang on qemux86 then we can verify if the
+> alternative fix is functional
+> for the original intent of this patch that we are dropping here.
+Hi Khem,
+
+I tried with clang and built webkitgtk pass.
+
+1. clone layer meta-clang https://github.com/kraj/meta-clang.git and add 
+to bblayers
+2. set TOOLCHAIN = "clang" for webkitgtk
+3. bitbake webkitgtk successfully.
+
+Regards,
+Kai
+
+>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   ...acros-Append-to-I-and-not-to-isystem.patch | 12 +++---
+>>   .../detect-atomics-during-configure.patch     | 43 -------------------
+>>   ...ebkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} |  5 +--
+>>   3 files changed, 8 insertions(+), 52 deletions(-)
+>>   delete mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+>>   rename meta/recipes-sato/webkit/{webkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} (96%)
 >>
->> Take ca-certificates as example. ca-certificates rdepends on openssl, so if
->> ca-certificates is installed to image,
->> 64 bits package openssl will be installed too no matter what the rootfs is. But
->> only 32 bits openssl package should
->> be installed to 32 bits rootfs.
-
-Hi Mark,
-
-Thanks for your detailed reply.
-
-> With -RPM-, and using names that do not include 'lib32' or other multilib
-> prefixes.  RPM doesn't care 'who' provides openssl, as long as someone provides
-> openssl.  There is a series of weights added to the available providers of
-> openssl.  The package with the highest weight (or maybe lowest) is what ends up
-> being installed.
->
-> In the case where there are two multilibs providing openssl, the system will
-> usually do one of two things:
->
-> 1) Look to see if an existing openssl is set to be installed (just use that version)
->
-> 2) Look to see if the default architecture has the package and use that,
-> otherwise fall back to less priority architectures.  (Again, this is stock RPM
-> behavior.)
->
-> OE has modified the behaviors slightly, so I can't be 100% confident as to how
-> it works in OE in all cases.
-
-Do you mean make lib32-openssl also provides openssl? It should work for 
-do rootfs with repo priorities. But my concern is that
-install package -foo- which requires openssl during runtime by command 
-rpm. If lib32-openssl is installed and it also provides 'openssl',
-then package -foo- could be installed without real 64bits openssl. It 
-may cause malfunction.
-
->> There are 2 ways to fixed the issue.
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+>> index 034219f826..b31026448c 100644
+>> --- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+>> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+>> @@ -41,18 +41,18 @@ index b3c7e0b..88446de 100644
+>>    target_link_libraries(jsc ${JSC_LIBRARIES})
 >>
->> 1 expand allarch/noarch packages with multilib. So if add ca-certificates to
->> image, lib32-ca-certificates will be
->>     installed to 32bits rootfs. And then also the dependency lib32-openssl is
->> installed. That is what we expected.
-> This really isn't the right way to do it, because then you end up with two
-> packages with identical content -- and you then need to ensure that the internal
-> dependencies all 'match'.
->
-> So you've added another layer where you need to ensure that the multilib
-> rdepends are 'specified' and managed properly.  [Yes this can be handled by OE
-> automaticallly], but it doubles the size of the package respository (for no-arch
-> packages), as well as any field upgrades BOTH have to be upgraded together or
-> you will get an error.
-
-Got it.
-
->
->> 2 expand DEPENDS/RDEPENDS of allarch/noarch packages with a prefix 'noarch-'
->> when multilib is enabled. So then
->>     ca-certificates requires 'noarch-openssl'. And make both lib32-openssl and
->> openssl provides 'noarch-openssl'.
-> -today- it should be depending on 'openssl', and all variants of openssl SHOULD
-> be calling themselves/providing 'openssl'.  (The other components of the
-> dependency system will ensure the right 32-bit/64-bit version is selected if
-> needed.)
->
-> And unless the image creator is explicit in their check they may end up with
-> BOTH the 32-bit and 64-bit versions...
->
->>     When do_rootfs, there is only one rpm repo 'oe-rootfs-repo' now. We will
->> create repos with different priorities
-> And this is creating problems.  This is why the priority system (order for
-> dependencies) was put into place originally.  So it would start at the highest
-> priority components and work it's way until it found the right set of matches.
->
-> With DNF and RPM(4), things have changed..  I'm not sure how the priorities are
-> defined in this system -- but really each arch type should be it's own
-> repository in DNF.. and the priorities for each should be ordered to match the
-> user's preferred order for package installation.  (The default behavior is fine
-> for most users, but a way to say -- no really I want 32-bit installed first.. is
-> needed for the multilib image cases..)
-
-Thanks. I'll figure out the priority in DNF and RPM(4).
-
->
-> The reality though for most multilib users is they have one of two use-cases:
->
-> 1) 64-bit kernel, 32-bit userspace (and possibly a 'few' 64-bit binaries)
->
-> 2) 64-bit kernel, 64-bit userspace... They want a small number of libraries from
-> the multilib installed into their main system
->
-> It's the second case where we often get into problems, because the system is
-> really intended for that -- where you would say I expect BOTH openssl 32-bit and
-> 64-bit installed, but many of our users are trying to do I want only the openssl
-> installed for the executables I need.  (reasonable request, just not exactly
-> what RPM was intended to be doing.)
->
->>     according to different archs/subdirectories. For 32 bits image, make 32 bits
->> rpm repo has  higher priority, so lib32-openssl
->>     will be installed to 32 bits rootfs rather than 64bits.
-> Yes, this covers the use case #1 better then anything else we have at this point.
->
->> I know these 2 ways are not perfect, but only possible ways I have in mind to
->> solve the problem.
+>>   diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
+>> -index 32c6ccc..fef5e8b 100644
+>> +index f7d8d70a..3c27b8bc 100644
+>>   --- a/Source/WebCore/PlatformGTK.cmake
+>>   +++ b/Source/WebCore/PlatformGTK.cmake
+>> -@@ -159,7 +159,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
+>> -         ${GTK2_INCLUDE_DIRS}
+>> -         ${GDK2_INCLUDE_DIRS}
+>> +@@ -157,7 +157,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
+>> +     target_include_directories(WebCorePlatformGTK2 PRIVATE
+>> +         ${WebCore_INCLUDE_DIRECTORIES}
+>>        )
+>>   -    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
+>>   +    target_include_directories(WebCorePlatformGTK2 PRIVATE
+>>            ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
+>> -     )
+>> -     target_link_libraries(WebCorePlatformGTK2
+>> +         ${GTK2_INCLUDE_DIRS}
+>> +         ${GDK2_INCLUDE_DIRS}
+>>   @@ -183,7 +183,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
+>>    target_include_directories(WebCorePlatformGTK PRIVATE
+>>        ${WebCore_INCLUDE_DIRECTORIES}
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+>> deleted file mode 100644
+>> index bbdb64490a..0000000000
+>> --- a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
+>> +++ /dev/null
+>> @@ -1,43 +0,0 @@
+>> -From d907ac649ff5514826af9ad7e97e15dfcf79909c Mon Sep 17 00:00:00 2001
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Wed, 17 May 2017 22:34:24 -0700
+>> -Subject: [PATCH] webkitgtk: Fix build for armv5
+>> -
+>> -Taken from
+>> -https://bugs.webkit.org/show_bug.cgi?id=161900
+>> -
+>> -Upstream-Status: Pending
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> -
+>> ----
+>> - Source/WTF/wtf/CMakeLists.txt | 10 +++++++++-
+>> - 1 file changed, 9 insertions(+), 1 deletion(-)
+>> -
+>> -diff --git a/Source/WTF/wtf/CMakeLists.txt b/Source/WTF/wtf/CMakeLists.txt
+>> -index 220bafd..4e1e9f8 100644
+>> ---- a/Source/WTF/wtf/CMakeLists.txt
+>> -+++ b/Source/WTF/wtf/CMakeLists.txt
+>> -@@ -315,7 +315,6 @@ set(WTF_HEADERS
+>> -
+>> - set(WTF_SOURCES
+>> -     Assertions.cpp
+>> --    Atomics.cpp
+>> -     AutomaticThread.cpp
+>> -     BitVector.cpp
+>> -     CPUTime.cpp
+>> -@@ -458,6 +457,15 @@ if (NOT USE_SYSTEM_MALLOC)
+>> -     list(APPEND WTF_LIBRARIES bmalloc)
+>> - endif ()
+>> -
+>> -+file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
+>> -+     "int main(void)\n"
+>> -+     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
+>> -+try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
+>> -+if (NOT ATOMICS_BUILD_SUCCEEDED)
+>> -+    list(APPEND WTF_SOURCES Atomics.cpp)
+>> -+endif ()
+>> -+file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
+>> -+
+>> - list(APPEND WTF_SOURCES
+>> -     unicode/CollatorDefault.cpp
+>> -
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
+>> similarity index 96%
+>> rename from meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
+>> rename to meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
+>> index a68a69f43c..9d0f00a6d6 100644
+>> --- a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
+>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
+>> @@ -17,15 +17,14 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+>>              file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
+>>              file://x32_support.patch \
+>>              file://cross-compile.patch \
+>> -           file://detect-atomics-during-configure.patch \
+>>              file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
+>>              file://0001-Fix-build-with-musl.patch \
+>>              file://detect-gstreamer-gl.patch \
+>>              file://0012-soup-Forward-declare-URL-class.patch \
+>>              "
 >>
->> Any comment or suggestion is greatly appreciated. Thanks a lot.
-> So I can sum this up to:
->
-> Use case 1.. kernel and primary userspace library type don't match is
-> problematic, but not used by a lot of people (AFAIK).
-
-I am sorry that it is the Use case 1 (64-bit kernel, 32-bit userspace) 
-that we want to solve. Because both lib32 (imported by other lib32 
-packages) and
-64bits (imported by noarch pacakge) packages such as perl may be 
-installed to image at same time , it causes some runtime failures such 
-as some perl
-modules don't work.
-
-I once thought to solve the dependency issue in package libsolv. The 
-original thought is to pass a environment variable to identify whether 
-build a lib32 image.
-When resolve the dependencies of noarch package, expand the dependencies 
-according the environment variable. But it seems libsolv treats "all 
-strings and
-relations as unique 32-bit numbers". So it seems it doesn't work this way.
-
-
-Thanks a lot.
-
---Kai
-
->
-> Use case 2.. the embedded nature of trying to develop 'small' [in terms of
-> number of packages installed] filesystems is causing some odd behavior, but a
-> workaround of specifying the -exact- packages you want when this oddity arrives
-> is available.
->
-> --Mark
->
->> -- 
->> Regards,
->> Neil | Kai Kang
+>> -SRC_URI[md5sum] = "3fdda40dc10eb2a00d5fba4219b83967"
+>> -SRC_URI[sha256sum] = "dffe93a241f03f1c73b369f4e323e4d8f12e39d33d5515948cbf454ca4b526e2"
+>> +SRC_URI[md5sum] = "efb69a0cc3cc67ef2647efec22e44c69"
+>> +SRC_URI[sha256sum] = "579b307d78fa16a73f112790178022166d7ad17d4147492ced9b9fba48f20dd8"
 >>
->
+>>   inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+>>
+>> --
+>> 2.17.1
+>>
 
 -- 
 Regards,
