@@ -1,48 +1,97 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
-	[209.85.217.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AC1697754B
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F28C6074F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 06:06:44 +0000 (UTC)
-Received: by mail-ua0-f193.google.com with SMTP id x24-v6so2629673ual.10
+	Mon,  2 Jul 2018 06:39:08 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id i139-v6so7653991wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Jul 2018 23:06:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3Kjpye397gfdXa4CGn3GwiP/YJvofTWrlxRRg3XoeCY=;
-	b=iTQ/g5Tu34fDyDBdXEaQrR9/Gy9XlTi27vHdXDwAyHTvWsjTJKbaevZVWYW27lOetC
-	lWCqcQYNKH79H6pq3ZlxGbJpALUJEY2IgyWsJJwxBlfx0exXpvSMKgWfTsr9n44E+1h1
-	aUgbqdNqU9nHIg0W5Y9ofG3MYr0+Uan6ERNXfW0FWqFQdTBQoFU+DkWXFjMfjLJAlBUr
-	TsjeKql8a2pM2fUMZ1/LXB9qDLaZglZhZAgEFF52eRRD5WikvIDzHNnRGlxZpzpFd1Do
-	jIGGwYA62NhQAOigbbHtefVqwjIozOqmYoCZCr1EawBtqGWHK2tz9rHurMgokTzd0/A3
-	mY4Q==
+	Sun, 01 Jul 2018 23:39:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=u+JZG+yxZptAAYMUBN9n06qDXjHzC1gtzYcDMUkJRvw=;
+	b=bJLP6iVrvV1muOZPZb6h4ZJ2bJqtsuywJReJE3uvJAZfZogrhZFmLUDfR8KYvWJpGe
+	zv1A/khMjqO1b6Yl77QFQS9LMKZCsyI5TpObwLvF7E9LWZJNY7BdWrjjZNU9fd+rzPsF
+	qQI6Ww4V9zhiUUYVSa2sI0cGTgh8llWIuHhXdDZIKGQPaDjB1xXO84AQkeeL634zSuWe
+	tKVV1hACpeMx2GxzogQZev6tn2muyB86+6CoJVZNQ6aR1jBacQA2d8PntplzMwmPRA1T
+	6N5EGyig+IeF00mQ7gvo6aOK6WVJoFRXWb050b6T2R2BrskYOMRkaSz/+wPu090D6lu/
+	DEMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3Kjpye397gfdXa4CGn3GwiP/YJvofTWrlxRRg3XoeCY=;
-	b=STzZi9mG53p7xxiqfsNUW5yWcZza65iqcfXkabjtHeM1MblzmFErK8Q9rR8uMz7+6b
-	Td71mv9aGhhxQ0D5G8BPHJxhNNhZ7nJDcS2mpcUELvoLY3UAFUQfSopw1lLD1futJPLJ
-	S+Mx0cVplpG/AiTw5Dy8yFvNriTasQsMiaevaaJygzeJ/qFDbl3QR0s98UHNUeQFtbBQ
-	3SzGQ2z05KCGpYpfo1rMyVkN0jrpkEanOa3x7CV6UyXaWXS+TRZAL6kL2pj+E0C8b+yu
-	5KWHse6W25PLZDvfbZ0r2SM7ui3stceq7vlOv/OsvuXUGtBc1izEmMju/0Lklct5bEc+
-	MB+w==
-X-Gm-Message-State: APt69E048VQ11AG61IFGwuoR/cSTsZKztO8eqcyR6DuIgE9WkZNrHEiB
-	E4AiuErdAXlCoDPs4WzAnNHpkqh6ToJ3UgkHEc0=
-X-Google-Smtp-Source: AAOMgpesHdmcFenhLSBUyJbAyd+KFGujhKEcOzm4/9NF/j/VwSle69OaaHDS20uHiKWt8tvtjWPdm2rV2ekCYdI0jKY=
-X-Received: by 2002:ab0:50cd:: with SMTP id
-	d13-v6mr12247312uaa.45.1530511605247; 
-	Sun, 01 Jul 2018 23:06:45 -0700 (PDT)
+	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:content-language
+	:content-transfer-encoding;
+	bh=u+JZG+yxZptAAYMUBN9n06qDXjHzC1gtzYcDMUkJRvw=;
+	b=BJcHCBN9CUMrSqIo+4rknnixfwxGX6UsoX4oockfzhTeAeWYk1F02jxJ2cilRY+Dzi
+	DZ1fqF5MZDNQKfZUzaUaUMXYlqHLKMcvDr4FKkIjQvWB3ErZUtSV0SDeoEwJ10ybYpjL
+	Sqsw+h9G+MMJv8ZM0eHE07zG5UkxQiNQQJtuWYUZH+h448uTxKz9E0wSen+GELNvYlCQ
+	IxQ8jVZCcKEpWXmd3sgE4lI+JFz5xeree1Lj3jMK+4F83y7y1FP91jDj7y8tL1UxvjBw
+	0SPLi9iyx1d7iXsFC9KzNOFU/eT54rR6Am5TKz3GgsZ9N1awj5bGivu/S3U9dZ9pfr06
+	d3ow==
+X-Gm-Message-State: APt69E3k+kmmbDcdWkejntIJpnlACPp2IGcn9k5LnG4LYequDNjFmYr2
+	gu8hQlXI/tzDi78zkU87rYc/NQ==
+X-Google-Smtp-Source: AAOMgpfOXg549C9i2939zcc2FPZF6DzRiBDbJe2U25iE/DAJR2S71JxkAYO2SXXZsibivIm8lwUWAQ==
+X-Received: by 2002:a1c:1414:: with SMTP id
+	20-v6mr6952607wmu.119.1530513549070; 
+	Sun, 01 Jul 2018 23:39:09 -0700 (PDT)
+Received: from ?IPv6:2003:a:31:4300::46? ([2003:a:31:4300::46])
+	by smtp.googlemail.com with ESMTPSA id
+	n10-v6sm16523685wrs.64.2018.07.01.23.39.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 01 Jul 2018 23:39:07 -0700 (PDT)
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=sledz@dresearch-fe.de; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <99949e3e-c252-9504-ea89-f379bab6f021@dresearch-fe.de>
+Date: Mon, 2 Jul 2018 08:39:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20180702011534.4676-1-kai.kang@windriver.com>
-In-Reply-To: <20180702011534.4676-1-kai.kang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 1 Jul 2018 23:06:19 -0700
-Message-ID: <CAMKF1sqcV=tq1XMSktRNuvTJeEX4sYd=4yBfP8JhukPtqo1pTA@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: 2.20.2 -> 2.20.3
+Subject: devshell problems after distro upgrade openSUSE Leap 42.3 -> 15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,137 +104,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 06:06:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 Jul 2018 06:39:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 1, 2018 at 6:49 PM <kai.kang@windriver.com> wrote:
->
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Upgrade webkitgtk from 2.20.2 to 2.20.3.
-> * update context of 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> * remove detect-atomics-during-configure.patch that webkitgtk 2.20.3
->   contains the commit of better solution, see
->   https://bugs.webkit.org/show_bug.cgi?id=161900#c9
+After upgrading my build system from openSUSE Leap 42.3 to openSUSE Leap 15.0 a
 
-If you build it with clang on qemux86 then we can verify if the
-alternative fix is functional
-for the original intent of this patch that we are dropping here.
+  bitbake foo -c devshell
 
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  ...acros-Append-to-I-and-not-to-isystem.patch | 12 +++---
->  .../detect-atomics-during-configure.patch     | 43 -------------------
->  ...ebkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} |  5 +--
->  3 files changed, 8 insertions(+), 52 deletions(-)
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
->  rename meta/recipes-sato/webkit/{webkitgtk_2.20.2.bb => webkitgtk_2.20.3.bb} (96%)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> index 034219f826..b31026448c 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> +++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> @@ -41,18 +41,18 @@ index b3c7e0b..88446de 100644
->   target_link_libraries(jsc ${JSC_LIBRARIES})
->
->  diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
-> -index 32c6ccc..fef5e8b 100644
-> +index f7d8d70a..3c27b8bc 100644
->  --- a/Source/WebCore/PlatformGTK.cmake
->  +++ b/Source/WebCore/PlatformGTK.cmake
-> -@@ -159,7 +159,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> -         ${GTK2_INCLUDE_DIRS}
-> -         ${GDK2_INCLUDE_DIRS}
-> +@@ -157,7 +157,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> +     target_include_directories(WebCorePlatformGTK2 PRIVATE
-> +         ${WebCore_INCLUDE_DIRECTORIES}
->       )
->  -    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
->  +    target_include_directories(WebCorePlatformGTK2 PRIVATE
->           ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-> -     )
-> -     target_link_libraries(WebCorePlatformGTK2
-> +         ${GTK2_INCLUDE_DIRS}
-> +         ${GDK2_INCLUDE_DIRS}
->  @@ -183,7 +183,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
->   target_include_directories(WebCorePlatformGTK PRIVATE
->       ${WebCore_INCLUDE_DIRECTORIES}
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch b/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-> deleted file mode 100644
-> index bbdb64490a..0000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/detect-atomics-during-configure.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -From d907ac649ff5514826af9ad7e97e15dfcf79909c Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Wed, 17 May 2017 22:34:24 -0700
-> -Subject: [PATCH] webkitgtk: Fix build for armv5
-> -
-> -Taken from
-> -https://bugs.webkit.org/show_bug.cgi?id=161900
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> ----
-> - Source/WTF/wtf/CMakeLists.txt | 10 +++++++++-
-> - 1 file changed, 9 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/Source/WTF/wtf/CMakeLists.txt b/Source/WTF/wtf/CMakeLists.txt
-> -index 220bafd..4e1e9f8 100644
-> ---- a/Source/WTF/wtf/CMakeLists.txt
-> -+++ b/Source/WTF/wtf/CMakeLists.txt
-> -@@ -315,7 +315,6 @@ set(WTF_HEADERS
-> -
-> - set(WTF_SOURCES
-> -     Assertions.cpp
-> --    Atomics.cpp
-> -     AutomaticThread.cpp
-> -     BitVector.cpp
-> -     CPUTime.cpp
-> -@@ -458,6 +457,15 @@ if (NOT USE_SYSTEM_MALLOC)
-> -     list(APPEND WTF_LIBRARIES bmalloc)
-> - endif ()
-> -
-> -+file(WRITE ${CMAKE_BINARY_DIR}/test_atomics.cpp
-> -+     "int main(void)\n"
-> -+     "{ long long x = 1; return (int) __sync_add_and_fetch_8(&x, 1); }\n")
-> -+try_compile(ATOMICS_BUILD_SUCCEEDED ${CMAKE_BINARY_DIR} ${CMAKE_BINARY_DIR}/test_atomics.cpp)
-> -+if (NOT ATOMICS_BUILD_SUCCEEDED)
-> -+    list(APPEND WTF_SOURCES Atomics.cpp)
-> -+endif ()
-> -+file(REMOVE ${CMAKE_BINARY_DIR}/test_atomics.cpp)
-> -+
-> - list(APPEND WTF_SOURCES
-> -     unicode/CollatorDefault.cpp
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-> similarity index 96%
-> rename from meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-> rename to meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-> index a68a69f43c..9d0f00a6d6 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.20.2.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.20.3.bb
-> @@ -17,15 +17,14 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->             file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
->             file://x32_support.patch \
->             file://cross-compile.patch \
-> -           file://detect-atomics-during-configure.patch \
->             file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
->             file://0001-Fix-build-with-musl.patch \
->             file://detect-gstreamer-gl.patch \
->             file://0012-soup-Forward-declare-URL-class.patch \
->             "
->
-> -SRC_URI[md5sum] = "3fdda40dc10eb2a00d5fba4219b83967"
-> -SRC_URI[sha256sum] = "dffe93a241f03f1c73b369f4e323e4d8f12e39d33d5515948cbf454ca4b526e2"
-> +SRC_URI[md5sum] = "efb69a0cc3cc67ef2647efec22e44c69"
-> +SRC_URI[sha256sum] = "579b307d78fa16a73f112790178022166d7ad17d4147492ced9b9fba48f20dd8"
->
->  inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
->
-> --
-> 2.17.1
->
+no longer switches to the related work directory. The devshell is opened in the original directory without any error or warning instead.
+
+Any hints what's wrong here or how I can debug this behaviour?
+
+BTW: The problem ocurs with pyro, rocko, and sumo branches. Here's one of the configurations.
+
+Build Configuration:
+BB_VERSION        = "1.34.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "opensuseleap-15.0"
+TARGET_SYS        = "arm-angstrom-linux-gnueabi"
+MACHINE           = "himx0294"
+DISTRO            = "angstrom"
+DISTRO_VERSION    = "v2017.06"
+TUNE_FEATURES     = "arm armv7a vfp thumb neon callconvention-hard"
+TARGET_FPU        = "hard"
+meta-hipos        = "HEAD:a42bfbebe01c70076a57228ffa161e8bbe271048"
+meta-freescale    = "pyro:af5a8cf74d488ba45715ed0b0e0441e60b10c31d"
+meta-fsl-arm-extra = "pyro:9613dbc02ca970122a01c935bc9e5789ced73a9d"
+meta-qt5          = "pyro:631ea6373ca3ffb0e17968dfcd6f3171f95bbac6"
+meta-congatec-x86 = "pyro:c8664aa2d7fba32ccdc1e89a83b5fb00796e907d"
+meta-intel        = "pyro:9b37952d6af36358b6397cedf3dd53ec8962b6bf"
+meta-angstrom     = "angstrom-v2017.06-yocto2.3:137803eb32f6b34374c7a5a3c1f03eb88b68e4d4"
+meta-oe
+meta-systemd
+meta-multimedia
+meta-networking
+meta-webserver
+meta-python
+meta-ruby
+meta-efl
+meta-gnome
+meta-xfce         = "pyro:dfbdd28d206a74bf264c2f7ee0f7b3e5af587796"
+meta              = "pyro:819aa151bd634122a46ffdd822064313c67f5ba5"
+meta-hipos-closed = "pyro:a3787398eece562172641491b4a6174e7e32c5f9"
+
+Steffen
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
