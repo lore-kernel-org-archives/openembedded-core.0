@@ -1,55 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ADB3E7895F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0EC789C3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 13:18:53 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id c6-v6so16316991oiy.0
+	Mon,  2 Jul 2018 14:16:53 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id z13-v6so8918087wma.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2018 06:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3/UYzHX1uCqntpS6C1huZY1rSQE4+2uW6EmyPUknpHw=;
-	b=Wf3UxWa3t3QqsZvdDuaBvwMLkQxXCbLXTcyRj4E6hv0LTOvjFbrBjUO472XRAYocXq
-	nuAmX11gkXF8aipwtmlfQUTpjbodp9eThC5DNqwVQTLJTciJ8liBx7wm8lj2KsZGepoh
-	S1+SBRAgcPmL+t7gCIaGEAdZDd1m7WRUrZdWdV8UySH51XnB7ysJgwwijkBNV7jg3sYc
-	lns/qp5Ru7cfzTyI2idvfRaX5+XaFhdaaKtf0wAyMLqNod821sTsskXDhOdjxkYNz+4O
-	/pPX++RUPrK+fJIBObp9kHhKk0MutlgbKzcAlQU1dBaH9meLNCMp3p5riSANDRkZeSwo
-	6irg==
+	Mon, 02 Jul 2018 07:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=RJU5nPJ3orSEqzLLNYjdSIZMGSCOS9Pd8hlSh125LEs=;
+	b=EALjL0cfJm0Clo6GWwehgnsr8LK2ER76n91sHole5r1BDAs41vFDYjYfI8TZzyzfWh
+	KcwPsKKdRziNpiPfWUMGFAFU8dr8gQqZXoYrMQvJftzkFoWhqCps0bjKHv1v4eJLkgLe
+	bu3/f3HTNr4fAqEtiMUCFI7tP2uitvY7o/WuFuWdIWUH/2r8nxbjz8a0tGSpMDUvVfoO
+	tTekONVwY0Vs/7+2igmAFNMH2PT9aXGp5hFC6SirSzEoAw1m4ZB7ubmaDQVkNd3hJEF8
+	5yYO4t1eFKV2iaKxIiFltelYgQiU132VdETvFdDPaRZHBDg1jIxl0ZJ0qC/VlLSWca9q
+	kqOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3/UYzHX1uCqntpS6C1huZY1rSQE4+2uW6EmyPUknpHw=;
-	b=ak2YWOkj/1XoXEPyDfeOJQ7T//rcPa+okrqKJQx5coq6n0/tB+lxzzxW75DQ+LJF/I
-	qI5kKJJBYCD/Aix7/FBC0qlQ8vYKOnQsfoyhsm36dy9QbK34RofVWhaRZnPIrPBa7Zk+
-	HZciR2XsbGjT6Awx5XemT8SGZSgrHoyiuiWJ6h6Wu+bSiRE5HhEJUjjFxEYWIBIA+1It
-	+z2VOo4z9EcGMMFK90J1yZ+1Bl/XywItnVJ72uxsLSx/1p3JfwdXQ3s6iYPUQD5Pl8/p
-	MHXOBvJZVswz+jaD79ET/iJtKCBAEFt5tz/z8rSjkm7UQi8HmuMhuhOLsu/oE54B9jhe
-	jL5Q==
-X-Gm-Message-State: APt69E0vdlIcAU9RZ0tKSllVA7kcWFMYVSSOasb9Qz6FDXOH9+Q9ulol
-	o75/DJYxohmpvnseBPdecwvUFy27ZNomCppelYx9SA==
-X-Google-Smtp-Source: AAOMgpeykz+z3mFimwsfehQlexyi86Tf9Sb3hSfV53xSIgo/LGygI8Zlp8Ypa6JCm6ubgPzSw31musJyRKsYAEU4g0g=
-X-Received: by 2002:aca:f409:: with SMTP id
-	s9-v6mr16751815oih.102.1530537534753; 
-	Mon, 02 Jul 2018 06:18:54 -0700 (PDT)
+	bh=RJU5nPJ3orSEqzLLNYjdSIZMGSCOS9Pd8hlSh125LEs=;
+	b=iLLVk7RhtcwxK3oTqgB92kMjXBq6orCunKXE3J2mfxvgAZ0vvyZ19Gm8toQeWOP8H6
+	R7hNV7JWV8ACzM56o8Ha3HWcGX1Fki/bcNlqro2ze1ncCztkCk5AyiBIYbULR95vpTj8
+	Jyi4ukZ2+rTtVTGa8uc+I+ElKmi1uE55gLRWZJLwuxsR/iYoxGuWfnazlxQdW0jndyt7
+	NpVTo2yXESf+QHLxVTRP6DWSuK3fTwCNYlFUuXPfe7uEVPthuHhk7zFlUnWNG3sJQg1u
+	8A9PmlJtDWvZOfcuVz7xB0RLOKS8CAPIr0HiHYCYwUoCx4Kmdxtr0LHSb0Vs0/+hDL/v
+	2pZQ==
+X-Gm-Message-State: APt69E0yditIKGoFXsQfvXneOe66+5rrms2IwrlifdvkJwDYspG8kmxR
+	ZhSXmDdhRnUHtCjNCvHxJEqUQF9xozTfgCqOpb4=
+X-Google-Smtp-Source: AAOMgpdYrfNmSdG/t26QjWg7pcJIlXuW2l9IEjzGg6T3kzYWApX9JJSu1mmDXc346m4JYP8Uac6AuPlIDSpXyckWydI=
+X-Received: by 2002:a1c:f46:: with SMTP id 67-v6mr5704320wmp.122.1530541014170;
+	Mon, 02 Jul 2018 07:16:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
-	Mon, 2 Jul 2018 06:18:34 -0700 (PDT)
-In-Reply-To: <CANge7vXsQa9n7A8+W11vXwiz=_b2ndVKs2pp660TjjSN96F6Lg@mail.gmail.com>
-References: <20180625175043.25267-1-jon.szymaniak.foss@gmail.com>
-	<CADkTA4P881jar5PygYaY+i4VD_rXYsXOOhU3eZDLWGDn4xRcCA@mail.gmail.com>
-	<CANge7vXk5XKAwmZEtfww0F0tUvOUyiE=sR3OsJoRZX3P-3kf=A@mail.gmail.com>
-	<CANge7vVSu888hL05s9q07xxZmx1yzxHYD_sRvV8N5YsXsMTQXQ@mail.gmail.com>
-	<CAJTo0LamQQmTSJTXuPgQmd4MbK4GBrtBD+L0Opg-X4RJCyKcVg@mail.gmail.com>
-	<CANge7vXsQa9n7A8+W11vXwiz=_b2ndVKs2pp660TjjSN96F6Lg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Jul 2018 14:18:34 +0100
-Message-ID: <CAJTo0LaC=TNwr-eRfHBrV_u6kC1WkJ-AbVS7=-DQg0OrgAfyEg@mail.gmail.com>
-To: Jon Szymaniak <jon.szymaniak@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: Use capstone version included via git submodule
+References: <cover.1511207344.git.Martin.Jansa@gmail.com>
+	<CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
+In-Reply-To: <CAP9ODKrVe=GTLqtXjF54a4sHoRymY85Q6y4=mN++-twUPHYk9Q@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 2 Jul 2018 16:16:44 +0200
+Message-ID: <CA+chaQd9otpzozM5DrifBUVdODogBsVdy2U8czAAd+Ys_6TBtA@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/5] Kernel artifacts naming changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,15 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 13:18:53 -0000
+X-List-Received-Date: Mon, 02 Jul 2018 14:16:54 -0000
+Content-Type: multipart/alternative; boundary="00000000000076bfcc057004d9f3"
+
+--00000000000076bfcc057004d9f3
 Content-Type: text/plain; charset="UTF-8"
 
-On 2 July 2018 at 00:18, Jon Szymaniak <jon.szymaniak@gmail.com> wrote:
-> Alternatively, if the capstone dissembler only provides value when
-> debugging qemu itself (as opposed to regular OE/Yocto use-cases),
-> should we just use "--disable-capstone" ?
+Any comment about this RFC?
 
-If that's true, then yes.
+Should I send rebased version?
 
-Ross
+On Tue, Nov 21, 2017 at 12:58 PM Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
+> Hello Martin,
+>
+> On Mon, Nov 20, 2017 at 6:11 PM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> ...
+> > This RFC doesn't implement it all, but it makes naming all the artifacts
+> in
+> > consistent way a bit easier. If there is an agreement that OE should
+> support
+> > the naming scenario described above, I'll submit the rest of the changes.
+>
+> I think it all makes sense and if we preserve current behavior as
+> default I see it as a very good addition :-)
+>
+> I didn't test the patches myself and I'd like to do a more extensive
+> test once you send the full patchset.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+
+--00000000000076bfcc057004d9f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Any comment about this RFC?<div><br></div><div>Should I se=
+nd rebased version?</div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr">On Tue, Nov 21, 2017 at 12:58 PM Otavio Salvador &lt;<a href=3D"mailto:=
+otavio.salvador@ossystems.com.br">otavio.salvador@ossystems.com.br</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">Hello Martin,<br>
+<br>
+On Mon, Nov 20, 2017 at 6:11 PM, Martin Jansa &lt;<a href=3D"mailto:martin.=
+jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br=
+>
+...<br>
+&gt; This RFC doesn&#39;t implement it all, but it makes naming all the art=
+ifacts in<br>
+&gt; consistent way a bit easier. If there is an agreement that OE should s=
+upport<br>
+&gt; the naming scenario described above, I&#39;ll submit the rest of the c=
+hanges.<br>
+<br>
+I think it all makes sense and if we preserve current behavior as<br>
+default I see it as a very good addition :-)<br>
+<br>
+I didn&#39;t test the patches myself and I&#39;d like to do a more extensiv=
+e<br>
+test once you send the full patchset.<br>
+<br>
+-- <br>
+Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
+">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
+p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
+.ossystems.com.br</a><br>
+Mobile: +55 (53) 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile:=
+ +1 (347) 903-9750<br>
+</blockquote></div>
+
+--00000000000076bfcc057004d9f3--
