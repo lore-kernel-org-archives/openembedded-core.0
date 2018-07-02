@@ -1,23 +1,45 @@
-Return-Path: <info@ib-oezmert.de>
-Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
-	by mail.openembedded.org (Postfix) with ESMTP id 1655F76094
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 96773789E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2018 16:06:04 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.mailbox.org (Postfix) with ESMTPS id 597A7478D2;
-	Mon,  2 Jul 2018 18:06:05 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-	by gerste.heinlein-support.de (gerste.heinlein-support.de
-	[91.198.250.173]) (amavisd-new, port 10030)
-	with ESMTP id jcqqbqZ2x0Pt; Mon,  2 Jul 2018 18:06:04 +0200 (CEST)
-From: =?UTF-8?q?Alp=20=C3=96zmert?= <info@ib-oezmert.de>
+	Mon,  2 Jul 2018 16:27:20 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id s14-v6so2269336wmc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Jul 2018 09:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=6cJPe7WQ8gQ4OFQi8EDCIfZJRl4JjVG9uFjl1V6WIOY=;
+	b=FN2iYTcx5rb+IoQ7QBIfxcWqEKz2CmICpC630npgrSWl80VQ2Yvvq6feNFwMo+Aqma
+	433t31VfZ/eK98t+tL9vjXLLy1+b8LnzrYOjXzPYqmn6fht+XHLvfe/8elxGaNSSdLWv
+	Ze2e0zzuT70YwE8ausF+W0VN4cKMQFYh7CDJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6cJPe7WQ8gQ4OFQi8EDCIfZJRl4JjVG9uFjl1V6WIOY=;
+	b=gJq+BwMxR+/bFJLJrKuztCXCNn+hnr/SyW1M4Ll07lzMxLtenkNgnsvZDlb8Gaj6sx
+	TmKXeoemiPql+3IMg5HI+2ITcPaRPz+OKk2A+3UjFoUeubyW4hcLmFoylJtjqmcKA4oR
+	V4XxKfwmj5As9Q1aurHBVbSklCQUtU0qM520PvuJgWfDnHpeIy8iK8lUNV1LfGvcvQR/
+	idjVIBUgQgCNHmg21SIl6M73PAWlxadYKOTWo/8d5vty9UzSrwEf4tnTROFLJYPVKmWQ
+	6Fob7ay/FGyGwFniIAB3Eir3lam/TP6zL69jqDhTl9Dn/63dP8n82QTsbBYTCjqHfoGn
+	9K1A==
+X-Gm-Message-State: APt69E2rkywM4vAxBQvP7O1+oN43HupJkDL078vj68W9UQ+AstRPc5vD
+	Qe8C+R4CY+3HycJW3pGYw3WHAFWs8+s=
+X-Google-Smtp-Source: AAOMgpcUFrpyzre0xDwAZ5VjbD9lUanpvs+DFahUEBH0I7AMzlSTd+J3tbGGX6WYh3HADBY0R2quPA==
+X-Received: by 2002:a1c:c8:: with SMTP id 191-v6mr8325657wma.115.1530548840960;
+	Mon, 02 Jul 2018 09:27:20 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	17-v6sm12148012wmm.21.2018.07.02.09.27.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Jul 2018 09:27:20 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jul 2018 18:05:47 +0200
-Message-Id: <1530547547-18986-1-git-send-email-info@ib-oezmert.de>
-Subject: [PATCH v2] Fix & extend recommendations for license packages.
+Date: Mon,  2 Jul 2018 17:27:13 +0100
+Message-Id: <20180702162718.27038-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/6] lib/oe/utils: Improve get_multilib_datastore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2018 16:06:05 -0000
+X-List-Received-Date: Mon, 02 Jul 2018 16:27:20 -0000
 
-Changed package recommendations so that the license package of a recipe
-is recommended for all other packages of a recipe instead of for one
-package given by the recipe name.
+Currently this function assumes that no multilib is applied and that
+we're applying a multilib. This means if we're in multilib context
+and want the non-multilib context we can't obtain it (and no other
+function exists for this either).
 
-Pre-patch behaviour results in a missing recommendation when a recipe
-does not have a package with the same name.
+Improve the function to allow this to be requested.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/license.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oe/utils.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 0514e91..5c44bd5 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -167,6 +167,9 @@ def add_package_and_files(d):
-         # first in PACKAGES to be sure that nothing else gets LICENSE_FILES_DIRECTORY
-         d.setVar('PACKAGES', "%s %s" % (pn_lic, packages))
-         d.setVar('FILES_' + pn_lic, files)
-+    for pn in packages.split():
-+        if pn == pn_lic:
-+            continue
-         rrecommends_pn = d.getVar('RRECOMMENDS_' + pn, True)
-         if rrecommends_pn:
-             d.setVar('RRECOMMENDS_' + pn, "%s %s" % (pn_lic, rrecommends_pn))
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 80f0442d0ae..6aed6dc993b 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -327,9 +327,15 @@ def host_gcc_version(d):
+ 
+ def get_multilib_datastore(variant, d):
+     localdata = bb.data.createCopy(d)
+-    overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
+-    localdata.setVar("OVERRIDES", overrides)
+-    localdata.setVar("MLPREFIX", variant + "-")
++    if variant:
++        overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
++        localdata.setVar("OVERRIDES", overrides)
++        localdata.setVar("MLPREFIX", variant + "-")
++    else:
++        overrides = localdata.getVar("OVERRIDES", False).split(":")
++        overrides = ":".join([x for x in overrides if not x.startswith("virtclass-multilib-")])
++        localdata.setVar("OVERRIDES", overrides)
++        localdata.setVar("MLPREFIX", "")
+     return localdata
+ 
+ #
 -- 
-2.7.4
+2.17.1
 
 
