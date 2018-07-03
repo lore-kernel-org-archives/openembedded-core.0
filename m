@@ -1,46 +1,49 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F2B0786EA
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AEF7745F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 12:34:46 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id z6-v6so1349290qti.2
+	Tue,  3 Jul 2018 12:37:48 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id h10-v6so1805921wrq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 05:34:48 -0700 (PDT)
+	Tue, 03 Jul 2018 05:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Nc0P+/AoUpY5KPAEk0FbSAx1qQsWaF6WM/buo+/10Rw=;
+	b=elX9BFX0MHegUk4s/QjGWeqFF5yQ5/lxKXRe3mTE7AxyqGqgtfGS2eK4ND4VYKCY0x
+	y///SPA0uKhhPxYC5oFFkS2WsbTZrYDXrn2q0vRr8oqysh0+9yiMNiBR67o8W0DoNllp
+	G8pX5Ti1miBIxJ62YUwhxg03V6BgU2YsYF/m6H/DTr7H4LUATN5ZS152F+pCqymuwIb9
+	Y1suDkXMOCDBD6zy6oodSuTkrfDcJIIWLzSaU1H2EG3wUmkLh+/2Z0d+Ktg9fxdBa8JS
+	2SCP/cCpRG84Nu+wVx4WOxs0Fpkr1a1LUTi8W5BOfCBU95Ep+AiaYt7niDUfpD5ypgKr
+	BsZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=kaSqRTmAlH0/iX2+5otXAVWd4QI2SU/PvbL3aQRoB7g=;
-	b=o8RO5ugTj7h27lf/DqSMtElUlJi01Y8TEMO5Tq3g1v5H1bKzPpmPxchIlP1pOQxyeg
-	p1PzzivI4lpOr4WQioKg8nz6S/w0jQNIfIkA7sbENmnEhP4BBb2VN2wnCO9FVqkzVk+t
-	OdQ/iFqlxfKrtd4AbQ1sYBsJxbO9z04wnHx8noVKdJa3i8r312mJvxl8nlqWNoqnSsyC
-	O2ZP+vYuoUsGy/yD1mlpI2XXWdf7alvrYjd/Aiu/qLdDjeKTo9sugk2IqnjRJoA6t/BF
-	CDr02OfLU55Z+EKr/1NB6EOSgkASOwLUd8nUNjghSM/uxzYcJa/2lKrpDkIcLM7t0B+1
-	TFCA==
-X-Gm-Message-State: APt69E1LiF76teL7LiPge5szlCLxKXJs5VOF+xmikG9axqEkoSufa/zY
-	JZ8AS/2XGtZGyASWtG4hBbCntw==
-X-Google-Smtp-Source: AAOMgpfHm0FFdnTk/9aJeUL95Gc5ac82wEZbPkU3lhrubQRjoHm8yptSfRq67f0JboD8KuspqfzEZQ==
-X-Received: by 2002:a0c:c505:: with SMTP id
-	x5-v6mr25443357qvi.206.1530621287713; 
-	Tue, 03 Jul 2018 05:34:47 -0700 (PDT)
-Received: from localhost.localdomain ([177.194.218.61])
-	by smtp.gmail.com with ESMTPSA id
-	z202-v6sm603314qka.8.2018.07.03.05.34.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 03 Jul 2018 05:34:47 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 03 Jul 2018 09:34:43 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  3 Jul 2018 09:34:34 -0300
-Message-Id: <20180703123434.29588-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180703123434.29588-1-otavio@ossystems.com.br>
-References: <20180703123434.29588-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] go: Update 1.10.2 -> 1.10.3
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Nc0P+/AoUpY5KPAEk0FbSAx1qQsWaF6WM/buo+/10Rw=;
+	b=ofFOzLFnppsB6cNLNtS7TBSZBMuCR5wlyGWNltf+SRY9b2ziW05eokvetnFG1MAje0
+	tC6G+mMDqT74n3Z5VolWw6uXSbhVl/9OkP41nJdhTQMcHGjGnaodDaoFcgCOEi8ClZud
+	i1iUlY+0LcJ3LFb/0aepmOLImIhe1d4/gBHieDiYXHEr3kc05q7yr6BWrOl3HWdt3Bnl
+	YcxB6F5COU5QQFNa9ueLpzIZR+J+DPHXvj9zSibSzWtQ72tM8vp5/UQEH6lBno1ZURz5
+	3KOI2UU3yIcOII3rum3iw4ok8LHQ2rNbumGEidvFWxD4jUz1TlgDLyEfKODvgMqKyMoe
+	LgpA==
+X-Gm-Message-State: APt69E3ad8p6a83RLaFTSYtFIeAxuse3WdSjge798w9z2EIyrKq8BMxs
+	uEXPImfDLWGwd5QF24Wp8xi82l6d
+X-Google-Smtp-Source: AAOMgpdXaS8nkpaSGaa88vIr1lNsB4cjvk8zOu3Q05+HtcNyW2anwYeD1ZzIUS5hxCntN1p6vmC1oQ==
+X-Received: by 2002:adf:be8d:: with SMTP id
+	i13-v6mr1107939wrh.86.1530621468607; 
+	Tue, 03 Jul 2018 05:37:48 -0700 (PDT)
+Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
+	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
+	i4-v6sm2247128wmf.4.2018.07.03.05.37.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 03 Jul 2018 05:37:48 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jul 2018 12:37:33 +0000
+Message-Id: <1530621453-19618-1-git-send-email-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH v2] openssh: Add dependency on ssh for sftp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 12:34:47 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 12:37:48 -0000
 
-go1.10.3 (released 2018/06/05) includes fixes to the go command, and
-the crypto/tls, crypto/x509, and strings packages. In particular, it
-adds minimal support to the go command for the vgo transition.
+Add missing dependency on the ssh binary for the sftp client to avoid
+failure at runtime if it's not been installed through another dependency
+chain.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+This introduces a note if PREFERRED_RPROVIDER_ssh is not set and it
+can be satisfied by multiple providers (e.g. openssh and dropbear).
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-devtools/go/go-1.10.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+- Depend on ssh not ${PN}-ssh so it can be satisfied by openssh or dropbear
 
-diff --git a/meta/recipes-devtools/go/go-1.10.inc b/meta/recipes-devtools/go/go-1.10.inc
-index 3a135bf283..1df0fc5b6a 100644
---- a/meta/recipes-devtools/go/go-1.10.inc
-+++ b/meta/recipes-devtools/go/go-1.10.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+ meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+index b3da5f6..3240f1e 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+@@ -146,6 +146,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
  
- GO_BASEVERSION = "1.10"
--GO_MINOR = ".2"
-+GO_MINOR = ".3"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+ RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
++RDEPENDS_${PN}-sftp += "ssh"
+ RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
  
-@@ -20,5 +20,5 @@ SRC_URI += "\
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
--SRC_URI[main.md5sum] = "c63b35075bed693bbfc84d4a6262948a"
--SRC_URI[main.sha256sum] = "6264609c6b9cd8ed8e02ca84605d727ce1898d74efa79841660b2e3e985a98bd"
-+SRC_URI[main.md5sum] = "d15dfb264105c5e84fbe33f4a4aa5021"
-+SRC_URI[main.sha256sum] = "567b1cc66c9704d1c019c50bef946272e911ec6baf244310f87f4e678be155f2"
+ RPROVIDES_${PN}-ssh = "ssh"
 -- 
-2.18.0
+2.7.4
 
 
