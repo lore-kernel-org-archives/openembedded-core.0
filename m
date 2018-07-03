@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E211178AC3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 56FB678AD2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 04:02:08 +0000 (UTC)
+	Tue,  3 Jul 2018 04:02:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6342AC4001145
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6342BhD010414
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2018 21:02:10 -0700 (PDT)
+	Mon, 2 Jul 2018 21:02:11 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 2 Jul 2018 21:02:09 -0700
+	14.3.399.0; Mon, 2 Jul 2018 21:02:11 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Jul 2018 12:11:56 +0800
-Message-ID: <3a2e74ca70ef870734858b159cd38ee2443067ed.1530591075.git.liezhi.yang@windriver.com>
+Date: Tue, 3 Jul 2018 12:11:57 +0800
+Message-ID: <5164693a0a16fb1e758eb72e01bd7d70689a8f3d.1530591075.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1530591075.git.liezhi.yang@windriver.com>
 References: <cover.1530591075.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] nfs-utils: 2.1.1 -> 2.3.1
+Subject: [PATCH 5/5] ccache: 3.3.5 -> 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,370 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 04:02:09 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 04:02:10 -0000
 Content-Type: text/plain
 
-* Removed 001-configure-Allow-to-explicitly-disable-nfsidmap.patch,
-  the nfsidmap is enabled when --enable-nfsv4, so I added a
-  PACKAGECONFIG[nfsv4], and default is no since keyutils is not in oe-core by
-  default.
-
-* Removed 0001-include-stdint.h-for-UINT16_MAX-definition.patch and
-  nfs-utils-1.2.3-sm-notify-res_init.patch since they are already in the
-  source.
-
-* Backported two patches from git://git.alpinelinux.org/aports to fix build with musl
+* The license file is changed to LICENSE.adoc, it is still GPLv3+.
+* Removed Revert-Create-man-page-in-the-make-install-from-git-.patch, it was
+  used for fixing a build failure of no asciidoc, but now there is no such a
+  failure, so remove it.
+* Refreshed 0002-dev.mk.in-fix-file-name-too-long.patch
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...gure-Allow-to-explicitly-disable-nfsidmap.patch |  40 -------
- ...nclude-stdint.h-for-UINT16_MAX-definition.patch |  27 -----
- .../nfs-utils-1.2.3-sm-notify-res_init.patch       |  37 ------
- .../nfs-utils/nfs-utils-musl-limits.patch          | 133 +++++++++++++++++++++
- .../nfs-utils/nfs-utils-musl-res_querydomain.patch |  22 ++++
- .../{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb}     |  12 +-
- 6 files changed, 161 insertions(+), 110 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
- rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb} (92%)
+ meta/recipes-devtools/ccache/ccache_3.3.5.bb       | 12 --------
+ meta/recipes-devtools/ccache/ccache_3.4.2.bb       | 11 ++++++++
+ .../0002-dev.mk.in-fix-file-name-too-long.patch    | 15 +++++-----
+ ...te-man-page-in-the-make-install-from-git-.patch | 33 ----------------------
+ 4 files changed, 19 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.3.5.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.4.2.bb
+ delete mode 100644 meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
+diff --git a/meta/recipes-devtools/ccache/ccache_3.3.5.bb b/meta/recipes-devtools/ccache/ccache_3.3.5.bb
 deleted file mode 100644
-index 26b558c..0000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
+index 929f0f1..0000000
+--- a/meta/recipes-devtools/ccache/ccache_3.3.5.bb
 +++ /dev/null
-@@ -1,40 +0,0 @@
--From 9b84cff305866abd150cf1a4c6e7e5ebf8a7eb3a Mon Sep 17 00:00:00 2001
--From: Martin Jansa <Martin.Jansa@gmail.com>
--Date: Fri, 15 Nov 2013 23:21:35 +0100
--Subject: [PATCH] configure: Allow to explicitly disable nfsidmap
+@@ -1,12 +0,0 @@
+-require ccache.inc
 -
--* keyutils availability is autodetected and builds aren't reproducible
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=dae379a85bb6e9d594773e0aa64876f6"
 -
--Upstream-Status: Pending
+-SRC_URI[md5sum] = "eee58db7cce892febddb989308dc568f"
+-SRC_URI[sha256sum] = "190576a6e938760ec8113523e6fd380141117303e90766cc4802e770422b30c6"
 -
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- configure.ac | 10 +++++++++-
-- 1 file changed, 9 insertions(+), 1 deletion(-)
--
--Index: nfs-utils-2.1.1/configure.ac
+-SRC_URI += " \
+-            file://0002-dev.mk.in-fix-file-name-too-long.patch \
+-            file://Revert-Create-man-page-in-the-make-install-from-git-.patch \
+-"
+diff --git a/meta/recipes-devtools/ccache/ccache_3.4.2.bb b/meta/recipes-devtools/ccache/ccache_3.4.2.bb
+new file mode 100644
+index 0000000..7230934
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_3.4.2.bb
+@@ -0,0 +1,11 @@
++require ccache.inc
++
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=2722abeaf1750dbf175b9491112374e1"
++
++SRC_URI[md5sum] = "9e048f88f3897125864f9a5e1abfb72d"
++SRC_URI[sha256sum] = "18a8b14367d63d3d37fb6c33cba60e1b7fcd7a63d608df97c9771ae0d234fee2"
++
++SRC_URI += " \
++            file://0002-dev.mk.in-fix-file-name-too-long.patch \
++"
+diff --git a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch b/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
+index 3f01c69..68c2371 100644
+--- a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
++++ b/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
+@@ -1,4 +1,4 @@
+-From 71bd0082c6edcf73f054a8a4fa34bd8dd4de7cd7 Mon Sep 17 00:00:00 2001
++From 7dab2995ed8eeccd7b0acd79668bc28f3a2427d5 Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Wed, 16 Sep 2015 19:45:40 -0700
+ Subject: [PATCH] dev.mk.in: fix file name too long
+@@ -10,14 +10,15 @@ to fix the problem.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
+ ---
+- dev.mk.in |    2 +-
++ dev.mk.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: ccache-3.3.4/dev.mk.in
 -===================================================================
----- nfs-utils-2.1.1.orig/configure.ac
--+++ nfs-utils-2.1.1/configure.ac
--@@ -92,6 +92,12 @@ AC_ARG_ENABLE(nfsv4,
-- 	AC_SUBST(enable_nfsv4)
-- 	AM_CONDITIONAL(CONFIG_NFSV4, [test "$enable_nfsv4" = "yes"])
-- 
--+AC_ARG_ENABLE(nfsidmap,
--+        [AC_HELP_STRING([--enable-nfsidmap],
--+                        [enable support for NFSv4 idmapper @<:@default=yes@:>@])],
--+        enable_nfsidmap=$enableval,
--+        enable_nfsidmap=yes)
--+
-- AC_ARG_ENABLE(nfsv41,
-- 	[AC_HELP_STRING([--disable-nfsv41],
--                         [disable support for NFSv41 @<:@default=no@:>@])],
--@@ -339,7 +345,7 @@ fi
-- 
-- dnl enable nfsidmap when its support by libnfsidmap
-- AM_CONDITIONAL(CONFIG_NFSDCLTRACK, [test "$enable_nfsdcltrack" = "yes" ])
---AM_CONDITIONAL(CONFIG_NFSIDMAP, [test "$ac_cv_header_keyutils_h$ac_cv_lib_nfsidmap_nfs4_owner_to_uid" = "yesyes"])
--+AM_CONDITIONAL(CONFIG_NFSIDMAP, [test "$enable_nfsidmap$ac_cv_header_keyutils_h$ac_cv_lib_nfsidmap_nfs4_owner_to_uid" = "yesyesyes"])
-- 
-- 
-- if test "$knfsd_cv_glibc2" = no; then
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
+---- ccache-3.3.4.orig/dev.mk.in
+-+++ ccache-3.3.4/dev.mk.in
++diff --git a/dev.mk.in b/dev.mk.in
++index 91b0a57..583ade0 100644
++--- a/dev.mk.in
+++++ b/dev.mk.in
+ @@ -1,7 +1,7 @@
+  # GNU make syntax reigns in this file.
+  
+@@ -25,5 +26,5 @@ Index: ccache-3.3.4/dev.mk.in
+ -all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$<)).d
+ +all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$(subst $(srcdir)/,,$<))).d
+  
++ A2X = a2x
+  ASCIIDOC = asciidoc
+- CPPCHECK = cppcheck
+diff --git a/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch b/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
 deleted file mode 100644
-index 235a2c7..0000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
+index f0208b9..0000000
+--- a/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
 +++ /dev/null
-@@ -1,27 +0,0 @@
--From 36b48057bce76dced335d67a2894a420967811c9 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 20 May 2017 14:07:53 -0700
--Subject: [PATCH] include stdint.h for UINT16_MAX definition
+@@ -1,33 +0,0 @@
+-From 94fabcdda5c7e54ccdbc1f0aeccb26ce30e61226 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Mon, 18 Jul 2016 19:53:00 -0700
+-Subject: [PATCH] Revert "Create man page in the make-install-from-git-repo
+- case"
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-This reverts commit b86784902d28defd5e475c8922de594787df4541.
+-
+-We dont' have asciidoc, so revert it.
+-
+-Upstream-Status: Inappropriate [OE-Core specific]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ----
--Upstream-Status: Pending
+- Makefile.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
-- support/nsm/rpc.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/support/nsm/rpc.c b/support/nsm/rpc.c
--index 4e5f40e..d91c6ea 100644
----- a/support/nsm/rpc.c
--+++ b/support/nsm/rpc.c
--@@ -40,6 +40,7 @@
+-diff --git a/Makefile.in b/Makefile.in
+-index d474f2a..c6cdc04 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -76,7 +76,7 @@ ccache$(EXEEXT): $(ccache_objs) $(extra_libs)
+- 	$(CC) $(all_cflags) -o $@ $(ccache_objs) $(LDFLAGS) $(extra_libs) $(LIBS)
 - 
-- #include <time.h>
-- #include <stdbool.h>
--+#include <stdint.h>
-- #include <string.h>
-- #include <unistd.h>
-- #include <fcntl.h>
+- .PHONY: install
+--install: all $(srcdir)/ccache.1
+-+install: all
+- 	$(installcmd) -d $(DESTDIR)$(bindir)
+- 	$(installcmd) -m 755 ccache$(EXEEXT) $(DESTDIR)$(bindir)
+- 	$(installcmd) -d $(DESTDIR)$(mandir)/man1
 --- 
--2.13.0
+-2.9.0
 -
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-deleted file mode 100644
-index 89a8a57..0000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Fixes errors like
--sm-notify[1070]: DNS resolution of a.b.c.d..com failed; retrying later
--This error will occur anytime sm-notify is run before the network if fully up,
--which is happening more and more with parallel startup systems.
--The res_init() call is simple, safe, quick, and a patch to use it should be
--able to go upstream.  Presumably the whole reason sm-notify tries several
--times is to wait for possible changes to the network configuration, but without
--calling res_init() it will never be aware of those changes
--
--Backported drom Fedora
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--
--Index: nfs-utils-2.1.1/utils/statd/sm-notify.c
--===================================================================
----- nfs-utils-2.1.1.orig/utils/statd/sm-notify.c
--+++ nfs-utils-2.1.1/utils/statd/sm-notify.c
--@@ -28,6 +28,9 @@
-- #include <netdb.h>
-- #include <errno.h>
-- #include <grp.h>
--+#include <netinet/in.h>
--+#include <arpa/nameser.h>
--+#include <resolv.h>
-- 
-- #include "conffile.h"
-- #include "sockaddr.h"
--@@ -89,6 +92,7 @@ smn_lookup(const char *name)
-- 	};
-- 	int error;
-- 
--+	res_init();
-- 	error = getaddrinfo(name, NULL, &hint, &ai);
-- 	if (error != 0) {
-- 		xlog(D_GENERAL, "getaddrinfo(3): %s", gai_strerror(error));
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
-new file mode 100644
-index 0000000..7a4604b
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
-@@ -0,0 +1,133 @@
-+Fixed:
-+| file.c: In function 'generic_make_pathname':
-+| file.c:48:13: error: 'PATH_MAX' undeclared (first use in this function); did you mean 'RAND_MAX'?
-+|   if (size > PATH_MAX)
-+|              ^~~~~~~~
-+[snip]
-+
-+Upstream-Status: Backport [https://git.alpinelinux.org/cgit/aports/tree/main/nfs-utils/limits.patch?id=f6734a77d3caee73325f8cc1f77d1b5117a75096]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ support/export/export.c          | 1 +
-+ support/export/xtab.c            | 1 +
-+ support/misc/file.c              | 1 +
-+ support/nfs/xcommon.c            | 1 +
-+ support/nsm/file.c               | 1 +
-+ utils/blkmapd/device-discovery.c | 1 +
-+ utils/gssd/krb5_util.c           | 1 +
-+ utils/mountd/cache.c             | 1 +
-+ utils/mountd/mountd.c            | 1 +
-+ utils/mountd/rmtab.c             | 1 +
-+ 10 files changed, 10 insertions(+)
-+
-+diff --git a/support/export/export.c b/support/export/export.c
-+--- a/support/export/export.c
-++++ b/support/export/export.c
-+@@ -17,6 +17,7 @@
-+ #include <stdlib.h>
-+ #include <dirent.h>
-+ #include <errno.h>
-++#include <limits.h>
-+ #include "xmalloc.h"
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+diff --git a/support/export/xtab.c b/support/export/xtab.c
-+--- a/support/export/xtab.c
-++++ b/support/export/xtab.c
-+@@ -18,6 +18,7 @@
-+ #include <sys/stat.h>
-+ #include <errno.h>
-+ #include <libgen.h>
-++#include <limits.h>
-+ 
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+diff --git a/support/misc/file.c b/support/misc/file.c
-+--- a/support/misc/file.c
-++++ b/support/misc/file.c
-+@@ -27,6 +27,7 @@
-+ #include <dirent.h>
-+ #include <stdlib.h>
-+ #include <stdbool.h>
-++#include <limits.h>
-+ 
-+ #include "xlog.h"
-+ #include "misc.h"
-+diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
-+--- a/support/nfs/xcommon.c
-++++ b/support/nfs/xcommon.c
-+@@ -16,6 +16,7 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-++#include <limits.h>
-+ 
-+ #include "xcommon.h"
-+ #include "nls.h"	/* _() */
-+diff --git a/support/nsm/file.c b/support/nsm/file.c
-+--- a/support/nsm/file.c
-++++ b/support/nsm/file.c
-+@@ -85,6 +85,7 @@
-+ #include <fcntl.h>
-+ #include <dirent.h>
-+ #include <grp.h>
-++#include <limits.h>
-+ 
-+ #include "xlog.h"
-+ #include "nsm.h"
-+diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-discovery.c
-+--- a/utils/blkmapd/device-discovery.c
-++++ b/utils/blkmapd/device-discovery.c
-+@@ -49,6 +49,7 @@
-+ #include <unistd.h>
-+ #include <libgen.h>
-+ #include <errno.h>
-++#include <limits.h>
-+ #include <libdevmapper.h>
-+ 
-+ #ifdef HAVE_CONFIG_H
-+diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
-+--- a/utils/gssd/krb5_util.c
-++++ b/utils/gssd/krb5_util.c
-+@@ -120,6 +120,7 @@
-+ #endif
-+ #include <krb5.h>
-+ #include <rpc/auth_gss.h>
-++#include <limits.h>
-+ 
-+ #include "gssd.h"
-+ #include "err_util.h"
-+diff --git a/utils/mountd/cache.c b/utils/mountd/cache.c
-+--- a/utils/mountd/cache.c
-++++ b/utils/mountd/cache.c
-+@@ -26,6 +26,7 @@
-+ #include <pwd.h>
-+ #include <grp.h>
-+ #include <mntent.h>
-++#include <limits.h>
-+ #include "misc.h"
-+ #include "nfslib.h"
-+ #include "exportfs.h"
-+diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
-+--- a/utils/mountd/mountd.c
-++++ b/utils/mountd/mountd.c
-+@@ -22,6 +22,7 @@
-+ #include <fcntl.h>
-+ #include <sys/resource.h>
-+ #include <sys/wait.h>
-++#include <limits.h>
-+ 
-+ #include "conffile.h"
-+ #include "xmalloc.h"
-+diff --git a/utils/mountd/rmtab.c b/utils/mountd/rmtab.c
-+--- a/utils/mountd/rmtab.c
-++++ b/utils/mountd/rmtab.c
-+@@ -16,6 +16,7 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ #include <netdb.h>
-++#include <limits.h>
-+ 
-+ #include "misc.h"
-+ #include "exportfs.h"
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
-new file mode 100644
-index 0000000..7a93450
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
-@@ -0,0 +1,22 @@
-+Fixed:
-+configure: error: res_querydomain needed
-+
-+Upstream-Status: Backport [https://git.alpinelinux.org/cgit/aports/tree/main/nfs-utils/musl-res_querydomain.patch?id=f6734a77d3caee73325f8cc1f77d1b5117a75096]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -401,7 +401,7 @@ if test "$enable_gss" = yes; then
-+ fi
-+ 
-+ dnl libdnsidmap specific checks
-+-AC_CHECK_LIB([resolv], [__res_querydomain], , AC_MSG_ERROR(res_querydomain needed))
-++AC_CHECK_LIB([resolv], [res_querydomain], , AC_MSG_ERROR(res_querydomain needed))
-+ 
-+ AC_ARG_ENABLE([ldap],
-+ 	[AS_HELP_STRING([--disable-ldap],[Disable support for LDAP @<:default=detect@:>@])])
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-similarity index 92%
-rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-index 79453ad..52edfb6 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-@@ -19,8 +19,6 @@ USERADD_PARAM_${PN}-client = "--system  --home-dir /var/lib/nfs \
- 			      --shell /bin/false --user-group rpcuser"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.xz \
--           file://0001-configure-Allow-to-explicitly-disable-nfsidmap.patch \
--           file://nfs-utils-1.2.3-sm-notify-res_init.patch \
-            file://nfsserver \
-            file://nfscommon \
-            file://nfs-utils.conf \
-@@ -31,11 +29,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
-            file://nfs-utils-debianize-start-statd.patch \
-            file://bugfix-adjust-statd-service-name.patch \
--           file://0001-include-stdint.h-for-UINT16_MAX-definition.patch \
-+           file://nfs-utils-musl-res_querydomain.patch \
-+           file://nfs-utils-musl-limits.patch \
- "
- 
--SRC_URI[md5sum] = "59dfcb2e6254b129f901f40c86086b13"
--SRC_URI[sha256sum] = "0faeb54c70b84e6bd3b9b6901544b1f6add8d246f35c1683e402daf4e0c719ef"
-+SRC_URI[md5sum] = "d77b182a9ee396aa6221ac2401ad7046"
-+SRC_URI[sha256sum] = "96d06b5a86b185815760d8f04c34fdface8fa8b9949ff256ac05c3ebc08335a5"
- 
- # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
- # pull in the remainder of the dependencies.
-@@ -67,10 +66,11 @@ PACKAGECONFIG ??= "tcp-wrappers \
- "
- PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
--PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- # libdevmapper is available in meta-oe
- PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
-+# keyutils is available in meta-security
-+PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
- 
- PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
- 
 -- 
 2.7.4
 
