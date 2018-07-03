@@ -1,57 +1,43 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 546917871B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 34371786EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 12:33:04 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id k12-v6so3381343oiw.8
+	Tue,  3 Jul 2018 12:34:42 +0000 (UTC)
+Received: by mail-qt0-f182.google.com with SMTP id m13-v6so1349227qth.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 05:33:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=FMb2GSYl+Z9iLNp/ONAhUqmFPSVDw23Y6OhF0tRaNeY=;
-	b=n6cldF2ua2hTDdut9ZsWZYhDsBxykoCu5lSmlvXWLwvIIqWcED+DTQxGh76WsJvfyg
-	Zzx3n7qzjCiUQ2x3Z7GnWwfpxAJt9p/5dCaTangLn2lZk83INoMWTCcGu/dS54RYF4IV
-	zr7ZYVIvw+2SdzajiW7iOgXk9n6K2N1dN/PNMyvLcVd92o2wr0ruh+EIrDdmQmAgNDHf
-	la5UbHSYgf6ZC8yWvCfM9auSlSi6+l0u9BG7+EypaT/ODHFdUEqJZy9rUg3e45z/JVlr
-	uQaS37Ks0Qyld1KPvMZxjy+TtcnHK20WErCr1UV9/22hvGxsgjUrnlPUw0iUfRBAucoj
-	MFeg==
+	Tue, 03 Jul 2018 05:34:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=FMb2GSYl+Z9iLNp/ONAhUqmFPSVDw23Y6OhF0tRaNeY=;
-	b=R6AEHR0a388RusJ7tUwSQsNUJgjIVsZFxR3fUTgB/NivIzDEROHvW1s/bvzCOAZBcU
-	yz3AFnQGuz+25SjKNkIKsomk+SkH72uSLVWvovuZ4fdEOlxbjiwZgzzBTCuoBOpwSwX/
-	TqSbFORTDgfxMY1/w3JS5bUY8HMEhPzpCVUmCBYWXmmX5i9hSy65RVUA+iq31+aAd8v2
-	ozdDWnE6EvP+kEWhlmC4wlBJxHO1jmlj+8eAykM0UI38zMiKStFgGR4YMQd8hgChOGLT
-	VG0IomnC1GINBsK2qEu3H7FmyPH6swcpVtJtqULlhhgy6VqjwmQIzKrdMey3eRP1aQ7a
-	OnhA==
-X-Gm-Message-State: APt69E25kcqIEnj7nEaT1i1puUj1jw7fYYlYeKo9YYSnASYXrpSSdCiP
-	FY0btNwHdasZmo1beVTsuaP43fxikbNdj8HnvtC4kQ==
-X-Google-Smtp-Source: AAOMgpdWmjvvATeWoYIX5jwLeErIfyjBBW/zK52B/lUWql8Oe1NzxU0OhBpNI8qf/Jb1GGqbBDgaQ14dQPTF4j3QjE8=
-X-Received: by 2002:aca:3d4:: with SMTP id
-	203-v6mr10616261oid.321.1530621185191; 
-	Tue, 03 Jul 2018 05:33:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP;
-	Tue, 3 Jul 2018 05:33:04 -0700 (PDT)
-In-Reply-To: <20180703120126.2xrdx77jwcvvfn5b@axis.com>
-References: <20180625092738.17962-1-olofjn@axis.com>
-	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
-	<7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
-	<CANNYZj-MKfxraD-Ho6_Rej3R8dXSAWo3-JtZvQ4SanH183uWvA@mail.gmail.com>
-	<CANNYZj_tSbtCh13rCUVYW0iqozQ65q+OufCgVGSW96J11wibEA@mail.gmail.com>
-	<CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
-	<20180629235346.qsg3sjhpsaqqqcxi@axis.com>
-	<CANNYZj_t-68JsYddLZDu+8JMBCDggtNLKEEMFLpafDFfwn1WgQ@mail.gmail.com>
-	<20180703120126.2xrdx77jwcvvfn5b@axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 3 Jul 2018 14:33:04 +0200
-Message-ID: <CANNYZj9ocLf4uQXwnLWUZB3UHReFxcv4i0Obzjzfj7=UeVuw9g@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	Olof Johansson <olof.johansson@axis.com>
-Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=YPSy09FZLJMBu0sHCe5/pcGCRMvz99hk+3hIJLUr4qU=;
+	b=Lm8f21vkknXan8unRJejXFac0zDB1irKuvHPYDEf4ST1YLNwRy5jcJGZohgd5IluIR
+	uS+DZEjMHYGu5m4vaVqHKAtEDX97PalhmuRZAKRUwLx2byntfglfKfsUGQL2GcuufooJ
+	VmZn/cbmQv0Ws2ggtfPQyWkcVSwv9gw4hLvigW2Y/67pFMyLnWNxAlBT/M+nYD18m0Ph
+	mwBSk3sjvY/jsrl8br/qykYBMxFbF/mOE2dB7bGZKP3MhIg2+g0FWFUPCvLsNXTILwsh
+	tZZG58hiBbtAC/CCU1vt9WPMTcNp/u6+wINovAjbMr6/WK4cJGY7sF6XUeL8l5sf1Me9
+	srYw==
+X-Gm-Message-State: APt69E207MkFnoY2fOEJksnV/DPoq/4eDk6hKBklP7mqJh0TQckCP4Ec
+	NCRpkRMbMIfbv56NRSxt7E5NmA==
+X-Google-Smtp-Source: AAOMgpdZeNA+tXAVUg3VUD0tkCqel2LMSndJFBPteKgvQCdQoGg3Aat7No8w95+ADo2wJsavnIv3Mw==
+X-Received: by 2002:aed:24f0:: with SMTP id
+	u45-v6mr19572983qtc.340.1530621282729; 
+	Tue, 03 Jul 2018 05:34:42 -0700 (PDT)
+Received: from localhost.localdomain ([177.194.218.61])
+	by smtp.gmail.com with ESMTPSA id
+	w79-v6sm153832qkw.35.2018.07.03.05.34.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 03 Jul 2018 05:34:41 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 03 Jul 2018 09:34:35 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  3 Jul 2018 09:34:33 -0300
+Message-Id: <20180703123434.29588-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.18.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] go: Update 1.9.6 -> 1.9.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,25 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 12:33:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Jul 2018 12:34:42 -0000
 
-Thanks, looks good now!
+go1.9.7 (released 2018/06/05) includes fixes to the go command, and
+the crypto/x509, and strings packages. In particular, it adds minimal
+support to the go command for the vgo transition.
 
-Alex
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-2018-07-03 14:01 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
-> On 18-06-30 08:37 +0200, Alexander Kanavin wrote:
->> Ideally, "/" should've been replaced with rpmtsRootDir(ts), but ts is
->> not accessible from the function, or from its parent, or parent
->> parent. So yes, I concede this would be too invasive to pass that down
->> the call stack. So if you can amend the above patch of mine with your
->> change, commit message, and SOB, that should be best. These changes
->> really belong together, as a custom fix for the oe build environment.
->
-> Thanks for the feedback, I just sent a v2 of the patch. Hope it
-> is in line with what you asked for.
->
-> --
-> olofjn
+ meta/recipes-devtools/go/go-1.9.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
+index a942f6d8ab..329cee061c 100644
+--- a/meta/recipes-devtools/go/go-1.9.inc
++++ b/meta/recipes-devtools/go/go-1.9.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.9"
+-GO_MINOR = ".6"
++GO_MINOR = ".7"
+ PV .= "${GO_MINOR}"
+ 
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+@@ -22,5 +22,5 @@ SRC_URI += "\
+ "
+ SRC_URI_append_libc-musl = " file://set-external-linker.patch"
+ 
+-SRC_URI[main.md5sum] = "52c1a3063291036597552d3fed0b2917"
+-SRC_URI[main.sha256sum] = "36f4059be658f7f07091e27fe04bb9e97a0c4836eb446e4c5bac3c90ff9e5828"
++SRC_URI[main.md5sum] = "3c2cf876ed6612a022574a565206c6ea"
++SRC_URI[main.sha256sum] = "582814fa45e8ecb0859a208e517b48aa0ad951e3b36c7fff203d834e0ef27722"
+-- 
+2.18.0
+
 
