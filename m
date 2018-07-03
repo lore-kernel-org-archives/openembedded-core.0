@@ -1,49 +1,66 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AEF7745F3
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F71177D01
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 12:37:48 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id h10-v6so1805921wrq.8
+	Tue,  3 Jul 2018 12:42:12 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id d189-v6so3451558oib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 05:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Nc0P+/AoUpY5KPAEk0FbSAx1qQsWaF6WM/buo+/10Rw=;
-	b=elX9BFX0MHegUk4s/QjGWeqFF5yQ5/lxKXRe3mTE7AxyqGqgtfGS2eK4ND4VYKCY0x
-	y///SPA0uKhhPxYC5oFFkS2WsbTZrYDXrn2q0vRr8oqysh0+9yiMNiBR67o8W0DoNllp
-	G8pX5Ti1miBIxJ62YUwhxg03V6BgU2YsYF/m6H/DTr7H4LUATN5ZS152F+pCqymuwIb9
-	Y1suDkXMOCDBD6zy6oodSuTkrfDcJIIWLzSaU1H2EG3wUmkLh+/2Z0d+Ktg9fxdBa8JS
-	2SCP/cCpRG84Nu+wVx4WOxs0Fpkr1a1LUTi8W5BOfCBU95Ep+AiaYt7niDUfpD5ypgKr
-	BsZA==
+	Tue, 03 Jul 2018 05:42:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=S9fFGHOe8riVheyzNSz7b0CCObAD49h73DenYZKcpF8=;
+	b=EhhHcxYgvGETSTX6FUCnnpCUYQKXODwc/gJh43SNu6mjJ7Qq9N+TVdNBKWAGR/8wrT
+	0nGixM70FBQ+WdZig1gK7RX2zQOYTD3yMUJrrJKdu/POOvDcu1Ss/ihx8ugafx1VuUTW
+	ahE9PRbGg/T5hbWBfIXpoJl/h5IoFm1zAe6yIv/XxzxOPe/G7wJbVqqRjmE/BBjruNyM
+	7ndkCPNJwiqcWBDtDXihBHf9NLewdA9LAFlmsNFxtbmDDwXRF2I6zVHPKFdxMFZFOF4m
+	3OhTn+dvVh+ixmUJ+D7juBPcw6RjfryMwPnFooOv4gVBN1GVL6CKpdSNZOLxIgOCP1xp
+	m0yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Nc0P+/AoUpY5KPAEk0FbSAx1qQsWaF6WM/buo+/10Rw=;
-	b=ofFOzLFnppsB6cNLNtS7TBSZBMuCR5wlyGWNltf+SRY9b2ziW05eokvetnFG1MAje0
-	tC6G+mMDqT74n3Z5VolWw6uXSbhVl/9OkP41nJdhTQMcHGjGnaodDaoFcgCOEi8ClZud
-	i1iUlY+0LcJ3LFb/0aepmOLImIhe1d4/gBHieDiYXHEr3kc05q7yr6BWrOl3HWdt3Bnl
-	YcxB6F5COU5QQFNa9ueLpzIZR+J+DPHXvj9zSibSzWtQ72tM8vp5/UQEH6lBno1ZURz5
-	3KOI2UU3yIcOII3rum3iw4ok8LHQ2rNbumGEidvFWxD4jUz1TlgDLyEfKODvgMqKyMoe
-	LgpA==
-X-Gm-Message-State: APt69E3ad8p6a83RLaFTSYtFIeAxuse3WdSjge798w9z2EIyrKq8BMxs
-	uEXPImfDLWGwd5QF24Wp8xi82l6d
-X-Google-Smtp-Source: AAOMgpdXaS8nkpaSGaa88vIr1lNsB4cjvk8zOu3Q05+HtcNyW2anwYeD1ZzIUS5hxCntN1p6vmC1oQ==
-X-Received: by 2002:adf:be8d:: with SMTP id
-	i13-v6mr1107939wrh.86.1530621468607; 
-	Tue, 03 Jul 2018 05:37:48 -0700 (PDT)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	i4-v6sm2247128wmf.4.2018.07.03.05.37.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Jul 2018 05:37:48 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 12:37:33 +0000
-Message-Id: <1530621453-19618-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH v2] openssh: Add dependency on ssh for sftp
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=S9fFGHOe8riVheyzNSz7b0CCObAD49h73DenYZKcpF8=;
+	b=fRrt200EudYe9nb7vBSVhojIqvkPjxXfGm6k2RbwPsksktAhPBn7dRFHunSivhCvju
+	zPPmttSW/rviFja9mSojO16//c+rVLAswL/Zmoyo/RjrMTr7RUGishkwOKL3FtNlh6wb
+	lbzFq2Ir/z69SKv6/NSHeLhAnfb6RdhztOVHkf0dK164Bv57B5fisNzR0cKwh3ypKT8F
+	Wtn6L65nSpfAaRn5oq+TbGgypFU6IGNJg3uU5S3Xw4+PbAf3WSugj8Um178bATd2i+w9
+	UHIQXAVHrZliJZZWTJByX9kSzyCoUm6dmP2nzTh5wS/2NgCVQoQbpWFaaEgjBk+u+0rX
+	lesQ==
+X-Gm-Message-State: APt69E0K3hhOfGFf76GyjNm7drKi1/rpZpktYJweDFKaBaE4ewFOSiU9
+	Pjq1IiwtPbTt0ZJiXn+URN676CE7
+X-Google-Smtp-Source: AAOMgpeanrW8bIm26eWPlJHAtiftGM+WbMncGqv+eACyXPLPWJvII02Ry/O5tqbMRAKxzowxhhdJyw==
+X-Received: by 2002:aca:5e07:: with SMTP id
+	s7-v6mr21084975oib.353.1530621733096; 
+	Tue, 03 Jul 2018 05:42:13 -0700 (PDT)
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com.
+	[209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+	j29-v6sm423064oth.60.2018.07.03.05.42.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Jul 2018 05:42:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f48.google.com with SMTP id m2-v6so3427066oim.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Jul 2018 05:42:11 -0700 (PDT)
+X-Received: by 2002:aca:494b:: with SMTP id
+	w72-v6mr16432757oia.293.1530621731113; 
+	Tue, 03 Jul 2018 05:42:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:58c5:0:0:0:0:0 with HTTP;
+	Tue, 3 Jul 2018 05:42:10 -0700 (PDT)
+In-Reply-To: <6e8cddd54499f46e091ddc2387d499c2138f81b4.1530591075.git.liezhi.yang@windriver.com>
+References: <cover.1530591075.git.liezhi.yang@windriver.com>
+	<6e8cddd54499f46e091ddc2387d499c2138f81b4.1530591075.git.liezhi.yang@windriver.com>
+Date: Tue, 3 Jul 2018 09:42:10 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo-C1qEh0-6=8cG37g9ZXTUicZUBKj6dLEM9o=W7nxd_g@mail.gmail.com>
+Message-ID: <CAP9ODKo-C1qEh0-6=8cG37g9ZXTUicZUBKj6dLEM9o=W7nxd_g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] git: 2.16.1 -> 2.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +73,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 12:37:48 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 12:42:12 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Add missing dependency on the ssh binary for the sftp client to avoid
-failure at runtime if it's not been installed through another dependency
-chain.
+On Tue, Jul 3, 2018 at 1:11 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> * Removed code for "${D}${exec_prefix}/lib/perl-native/perl" since there is no
+>   such a directory now.
+> * Fixed perl related code.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 
-This introduces a note if PREFERRED_RPROVIDER_ssh is not set and it
-can be satisfied by multiple providers (e.g. openssh and dropbear).
+Latest release is 2.18.0, it makes sense to upgrade to it except if
+there is a reason to avoid it.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
-
-Changes in v2:
-- Depend on ssh not ${PN}-ssh so it can be satisfied by openssh or dropbear
-
- meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-index b3da5f6..3240f1e 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-@@ -146,6 +146,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
-+RDEPENDS_${PN}-sftp += "ssh"
- RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
- 
- RPROVIDES_${PN}-ssh = "ssh"
 -- 
-2.7.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
