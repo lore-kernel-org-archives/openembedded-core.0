@@ -1,49 +1,60 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0743371E4C
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C77E7490C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 13:29:48 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id v16-v6so2360093wmv.5
+	Tue,  3 Jul 2018 14:37:48 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id d189-v6so4244596oib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 06:29:50 -0700 (PDT)
+	Tue, 03 Jul 2018 07:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=qYAZ88IchAo+sTkcb3HrY4MbIAMbXB8JdB7SkHW74Lk=;
-	b=Y6nUleFZbeN31znDP9XKSHYmDCvTsT7YiPEOYCRofVFSg05X3bQcsItq0wSh6+jG9V
-	DSuNzx9k+7PgBWH1OlAydp4oH5X+Wu7JUTHVfJ5ife96rzYXtOx/3a6UOaeA4LW6JBYx
-	UntNKmTj56DUhNNJMhZda54guxo0TLhpNbUroEQJ8/qAdvtFhsUcB/8Q9f79gdjlHoz+
-	it2VFiw0j+dqYbnI08aNo2CAbZgDCFeObSJq5ez4KzeeBoDTJa4K0JTQNiNkhHnpsIlX
-	b4hh2G8TKfdt7Kd41SC+fgJLnGWDZZn8WSSsskxU1o+BKzvqiSVkPUITtTaF49pW/QRr
-	8APw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hWfZr0aqgq/aaF25bdWijlQxdrC416JXGsl1+Cdw3jQ=;
+	b=sYUXs9sr7W442G5C6i0NcKNVqfahO33swrzxstz9mDb09xjqVTT6UzhAXZQlpdV52P
+	FnYC/HXGsLEt+de6OB7S2bP5I/OJy+2IXBhgWNtf7Id1yKplmtvY4tbxvZ3DW5KcgyV5
+	eE/Rqt2f2On8FvxLEvEhn+5U3lKC58bT1y5WjQ4eNGEQS05B8yXLxDzP+SQHLq4I+81C
+	vmt0mbpyLBgb2eOVDyYFI10lqAQDc43Ow3W+Me4lQvegpn2z7c2QtE835UoQ6oW8KiPz
+	WEISEPkUbq2RF0A+e7ux8vFofQboCB89379oIOVTGY6LF46EOTJYLU4saRF3HeRe4w6u
+	RP0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qYAZ88IchAo+sTkcb3HrY4MbIAMbXB8JdB7SkHW74Lk=;
-	b=Pmc91hv2hgh5uWpL40Otu8Q5w5H2PqW4r8jkgGib/FnJGhs4lHCT+TNxFS4jF3Rmsi
-	HAfMz17Hxt3yV7qTtCx4FgqLcOFZ+H+suFBOlziLGLzAE1aRt9Tutvg4oCkZnP6fLjeq
-	RT4s670pwDKJVaHpeuVLVDeX6uqHKSMMY/AB+H+ngFyd0FzTJeJwrz+pm0dB4zmrIcBp
-	zaGAoOT4tYZKuP8lSRo4aPVuQ3IQCC/EijvjLaq65A3W9PVvTKxHRHHAQ5B4OrOmYYcG
-	5eSn8j7W3gBV+KdJ9XEGnoni1y0vMPKb2KFUcPUBwkHZBYt9dOueybJEP+xn56fr91GN
-	/YHA==
-X-Gm-Message-State: APt69E3mSava7UtBSa9zri8lmp/jmwAuytRIEABBhsFoUq6pbyWZRZ54
-	5V/RaVRe9JKyqpyt18NZ1Aw22BWi
-X-Google-Smtp-Source: AAOMgpe/xhBXwXN8p18gY+XsjqG8kj1fjCj+KNHLI4mx9oIAajCM+2JULWyLZRsMA6nMbHih9rf8QQ==
-X-Received: by 2002:a1c:b1d7:: with SMTP id
-	a206-v6mr11417784wmf.61.1530624589429; 
-	Tue, 03 Jul 2018 06:29:49 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	g14-v6sm854851wro.86.2018.07.03.06.29.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Jul 2018 06:29:48 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 14:29:47 +0100
-Message-Id: <20180703132947.22914-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] fstests: remove
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hWfZr0aqgq/aaF25bdWijlQxdrC416JXGsl1+Cdw3jQ=;
+	b=WgaXXixe+Lf70HmJXAI2/Ege/wc/yp0dZReRt10JmuXihqzTkxEGvUlZ/238yZHcOH
+	XUmAUGI3U8dtRkEyR+v3s2bOx7hRjtSzbjDsYi0c359wCKEJbAfz7AWQhD17nuOLTOvz
+	/0FJYw+9nkf8tDNJL7E0bM0OoGNhngwerGbDIzcw7eIAIBr2gr4ucJm52bCDIB2iZ0hB
+	P36fYghtIJi07WGqp9TG51Y9NH8TkgjxaFXmFIB+M7edvV/NEFw+UhAnoI0blsJ4gn/R
+	wqg1BJ02kmQ6NWKipq6sShU8zRTSjM0TIMznFhHd5uGO91qPAtZ9yHXwyftdCKW2M5q8
+	T6qQ==
+X-Gm-Message-State: APt69E2LwROhAQ1uQxL3DPBPrNRW80vaIcagI4e0xr7inwiaB24rKyZD
+	/dSWspuxdhqBkcdMkj58WxvSkY1InL+Xj0tg3ijtJQ==
+X-Google-Smtp-Source: AAOMgpcKr5ND+Tm2YrkAsWsZiejTiqKUQChOnQmR33shQ0mr2RuZI2J9aivr1GWK5x3S2AAV0YV6CJDpt7o+qfCJGFU=
+X-Received: by 2002:aca:2808:: with SMTP id
+	8-v6mr21954109oix.235.1530628669165; 
+	Tue, 03 Jul 2018 07:37:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
+	Tue, 3 Jul 2018 07:37:28 -0700 (PDT)
+In-Reply-To: <CAF6bG8eak_Y2JtCadgfju7FvLr0mcG6oCFUuWrNhzLtDEe6Gyw@mail.gmail.com>
+References: <20180601221436.27162-1-alistair.francis@wdc.com>
+	<20180601221436.27162-2-alistair.francis@wdc.com>
+	<CAJTo0Laocxug2iUZjAD8bLqDN4ho7GPO=_c2ZOQQmvSErOXyyQ@mail.gmail.com>
+	<CAKmqyKN=5JzrFhK0aLvzuxHJFO4PmK_Km2JnynrqKjfovQAokw@mail.gmail.com>
+	<19c52d27-6206-5b80-a41b-f3a106d8d7fd@linux.intel.com>
+	<CAKmqyKO4STCUPJJE7+ZPwSMwGyoUAkcbTckSiByEipGMBDE-RQ@mail.gmail.com>
+	<CAJTo0LboMpfRu6rOzXAP+5yzd5yokYp52Cai+cvWDKr_aMkkhg@mail.gmail.com>
+	<CAKmqyKPEM707Y1aE6+1LUTJorB5o5f9e92y618gowu4ZN8B2Fg@mail.gmail.com>
+	<CAF6bG8fqn0pgfU18pWWayb4LhZA=dZjwMqGPysPNXCaM8OOr2Q@mail.gmail.com>
+	<CAF6bG8dJCN47J3Hw7RDJP6iWTA-wpB+Qd3EywJbqi1w8qZPuvw@mail.gmail.com>
+	<CAF6bG8eak_Y2JtCadgfju7FvLr0mcG6oCFUuWrNhzLtDEe6Gyw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Jul 2018 15:37:28 +0100
+Message-ID: <CAJTo0Lb_z+qSa=_y9Zp0iqU_mAjJJVG0S0c=7RJX+hA1YDQN8Q@mail.gmail.com>
+To: Marko Lindqvist <cazfi74@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] [meta] atk: Specify gettext-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,95 +67,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 13:29:49 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 14:37:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-These tests are very old and there are better benchmarking systems available
-now.
+What was missing all along is that we're talking specifically about
+atk-native here, which disables NLS explicitly.  As Meson doesn't yet
+expose a way to turn off i18n we need to stop that.  For now, adding
+USE_NLS=yes is a suitable workaround (and what glib already does).
+Marko, can you send this patch?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../conf/distro/include/poky-floating-revisions.inc   |  1 -
- meta/conf/distro/include/distro_alias.inc             |  1 -
- meta/conf/distro/include/maintainers.inc              |  1 -
- .../packagegroups/packagegroup-core-tools-testapps.bb |  1 -
- meta/recipes-graphics/fstests/fstests_git.bb          | 19 -------------------
- 5 files changed, 23 deletions(-)
- delete mode 100644 meta/recipes-graphics/fstests/fstests_git.bb
+Arguably, meson.bbclass could do this, but that would be forcing a
+gettext dependency on everything using Meson.
 
-diff --git a/meta-poky/conf/distro/include/poky-floating-revisions.inc b/meta-poky/conf/distro/include/poky-floating-revisions.inc
-index a3da043d9d5..e4454db8d38 100644
---- a/meta-poky/conf/distro/include/poky-floating-revisions.inc
-+++ b/meta-poky/conf/distro/include/poky-floating-revisions.inc
-@@ -26,7 +26,6 @@ SRCREV_pn-sato-icon-theme ?= "${AUTOREV}"
- SRCREV_pn-matchbox-desktop-sato ?= "${AUTOREV}"
- SRCREV_pn-oh-puzzles ?= "${AUTOREV}"
- SRCREV_pn-libowl ?= "${AUTOREV}"
--SRCREV_pn-fstests ?= "${AUTOREV}"
- SRCREV_pn-xvideo-tests ?= "${AUTOREV}"
- SRCREV_pn-clutter ?= "${AUTOREV}"
- SRCREV_pn-clutter-gst ?= "${AUTOREV}"
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 68b731ab2b4..58c110dbe42 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -87,7 +87,6 @@ DISTRO_PN_ALIAS_pn-encodings = "Ubuntu=xfonts-encodings Mandriva=x11-font-encodi
- DISTRO_PN_ALIAS_pn-font-alias = "Fedora=xorg-x11-fonts-base Mandriva=x11-font-alias Meego=xorg-x11-fonts"
- DISTRO_PN_ALIAS_pn-font-util = "Meego=xorg-x11-font-utils Fedora=xorg-x11-font-utils Ubuntu=xfonts-utils Mandriva=x11-font-util Debian=xfonts-utils"
- DISTRO_PN_ALIAS_pn-formfactor = "OE-Core"
--DISTRO_PN_ALIAS_pn-fstests = "OpenedHand"
- DISTRO_PN_ALIAS_pn-gcc-cross-initial = "OE-Core"
- DISTRO_PN_ALIAS_pn-gcc-cross-initial-i586 = "OE-Core"
- DISTRO_PN_ALIAS_pn-gcc-crosssdk-initial = "OE-Core"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0bca773890c..c44f2b804aa 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -163,7 +163,6 @@ RECIPE_MAINTAINER_pn-fontconfig = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-foomatic-filters = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-formfactor = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-freetype = "Maxin B. John <maxin.john@intel.com>"
--RECIPE_MAINTAINER_pn-fstests = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-fts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-gawk = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-gcc = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index b8e507073ae..df43068fe56 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -25,7 +25,6 @@ X11GLTOOLS = "\
-     "
- 
- X11TOOLS = "\
--    fstests \
-     gst-examples \
-     x11perf \
-     xrestop \
-diff --git a/meta/recipes-graphics/fstests/fstests_git.bb b/meta/recipes-graphics/fstests/fstests_git.bb
-deleted file mode 100644
-index 69f217830af..00000000000
---- a/meta/recipes-graphics/fstests/fstests_git.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "Various benchmarning tests for X"
--HOMEPAGE = "http://www.o-hand.com"
--SECTION = "devel"
--LICENSE = "Zlib"
--DEPENDS = "pango libxext libxft virtual/libx11 gtk+"
--
--SRCREV = "e5939ff608b95cdd4d0ab0e1935781ab9a276ac0"
--PV = "0.1+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/${BPN}"
--UPSTREAM_CHECK_COMMITS = "1"
--
--LIC_FILES_CHKSUM = "file://test-pango-gdk.c;endline=24;md5=1ee74ec851ecda57eb7ac6cc180f7655"
--
--S = "${WORKDIR}/git/tests"
--
--inherit autotools pkgconfig distro_features_check
--# depends on virtual/libx11
--REQUIRED_DISTRO_FEATURES = "x11"
--- 
-2.11.0
+Ross
 
+
+
+On 1 July 2018 at 19:20, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>  3) Adding 'USE_NLS = "yes"' to atk recipe fixes the problem for me.
+>
+>
+>  - ML
+>
+>
+> On 1 July 2018 at 21:03, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>>  I think the problem is not with INHIBIT_DEFAULT_DEPS, but with
+>> USE_NLS on the next couple of lines. With USE_NLS disabled, the
+>> automatic dependency is gettext-minimal-native (not providing
+>> xgettext, I think), and not gettext-native.
+>>
+>>  1) tmp-glibc/work/aarch64-oe-linux/atk/2.28.1-r0/recipe-sysroot-native/sysroot-providers/gettext-minimal-native
+>> is there
+>>  2) Adding gettext-minimal-native as atk dependency does not fix the
+>> issue like adding gettext-native dependency does
+>>
+>>
+>>  - ML
+>>
+>>
+>> On 30 June 2018 at 21:43, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>>>  This error happens to me with both qemux86 and qemuarm64. Haven't
+>>> tested any others yet.
+>>>
+>>>
+>>>  - ML
+>>>
+>>> On 15 June 2018 at 20:40, Alistair Francis <alistair23@gmail.com> wrote:
+>>>> On Mon, Jun 4, 2018 at 4:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>>>> That implies that INHIBIT_DEFAULT_DEPS is also evaluating to true,
+>>>>> which it shouldn't be in ATK.
+>>>>>
+>>>>> I'd definitely be checking if that is the case, and if you can
+>>>>> replicate the failure with e.g. qemuarm.
+>>>>
+>>>> I can't replicate it with qemuarm and checking with bitbake -e I can't
+>>>> see anywhere that the variable is set. Any ideas on what to try to
+>>>> figure out how it is set?
+>>>>
+>>>> Alistair
+>>>>
+>>>>>
+>>>>> Ross
+>>>>>
+>>>>> On 4 June 2018 at 19:46, Alistair Francis <alistair23@gmail.com> wrote:
+>>>>>> On Mon, Jun 4, 2018 at 10:20 AM, Alexander Kanavin
+>>>>>> <alexander.kanavin@linux.intel.com> wrote:
+>>>>>>> On 06/04/2018 08:17 PM, Alistair Francis wrote:
+>>>>>>>>
+>>>>>>>> On Mon, Jun 4, 2018 at 3:06 AM, Burton, Ross <ross.burton@intel.com>
+>>>>>>>> wrote:
+>>>>>>>>>
+>>>>>>>>> So why isn't the inherit gettext sufficient?
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> I'm not sure. Here is the error I see when compiling for RISC-V before
+>>>>>>>> this patch:
+>>>>>>>
+>>>>>>>
+>>>>>>> So is the error specific to risc-v? You should dig deeper in that direction
+>>>>>>> then.
+>>>>>>
+>>>>>> Ok, it looks like the line: if d.getVar('INHIBIT_DEFAULT_DEPS') and
+>>>>>> not oe.utils.inherits(d, 'cross-canadian'): is evaluating as true in
+>>>>>> gettext.bbclass so we don't depend on gettext-native.
+>>>>>>
+>>>>>> Do I need to ensure cross-canadian is set for RISC-V builds then?
+>>>>>>
+>>>>>> Alistair
+>>>>>>
+>>>>>>>
+>>>>>>> Alex
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
