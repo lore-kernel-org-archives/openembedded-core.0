@@ -1,51 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E96C87833C
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DABBE7754B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 11:53:38 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id k12-v6so3153490oiw.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 04:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pMG0Ocen7ja45FMJU5xt+N2QA1F2LqGLnQcyrhCpCXs=;
-	b=0+M3gBBhA6f8PVqpQf/RE4Y8n9/TwE0+wDsmKBI0EQ9aMhENSPftfqfA1x08zrvDn0
-	+5J3dw/IJG8tw4SNBeSWYE+VIlecx6lnBNpZ39FpjkdS8TmTq6exVC0LJf/3ZdUbm1+k
-	uzSq31w+FLBRHCgkP4GhbyK0SVCRUH3Z9fnEQxW37lDAENcBIeFbC0075ffBrkirWiSS
-	9QZWbTHJEjbtTXoRsCiUiQC+HxAecyH8VT4zFrIlKwKwMZIDRG6nacIPLxehTqa/cSPp
-	MTZxM+o7NaBC2AFxG5p8fzC44H1jq+Y/lXUaNy7g896abFhYfUzQ07BylgK7Q0HDsby4
-	eGMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pMG0Ocen7ja45FMJU5xt+N2QA1F2LqGLnQcyrhCpCXs=;
-	b=gtP4l3N3IIHT6NI0bRC5Ve2BwX6yrVdFOdzDVKsF5WE/LpuqfoIXRd8fYAzIxAIU4i
-	xC0Otw2wfY7oHgKLhq03eJU5eqvY+rIBnaYMq8hLbHC9gRR+jqicD8g/mOIjqNpxeYhi
-	BCjJ0BN2qzQ/swkixU05mTiZWZjulFVE53r+GzYJXArLuz4nA9vOBIO6vElKAGmudcke
-	vxsGPshuxLVxxfrvbEZTs+u2xWqbai1vezIcWWBNuPEIEBuniclDgeGrtQB2YGCfwCwc
-	RJaOBHal7dqAyY37vFU6okWoZpIYR9AAroRoR05RhV8etMt82LmWEFVxumHNA9INLeaz
-	jcgg==
-X-Gm-Message-State: APt69E3An80rxtA8xT6Q4X8ipOUD1wJ0H4+/1/YuHMw8dEunL9C+LLsq
-	QiFJBQ2iX0j4Kfr51w6HX4/+ZPMSiO481iBiUmgWNQ==
-X-Google-Smtp-Source: AAOMgpdxDikHcUUxJfnfoyLhK9vK55D7WLlYcMn0kqaX1LZlP+VlcE3qlBZuHsxQLkfZ5FacP645SMWsmULUuAdEws8=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr19540936oia.170.1530618819513; 
-	Tue, 03 Jul 2018 04:53:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
-	Tue, 3 Jul 2018 04:53:18 -0700 (PDT)
-In-Reply-To: <3a2e74ca70ef870734858b159cd38ee2443067ed.1530591075.git.liezhi.yang@windriver.com>
-References: <cover.1530591075.git.liezhi.yang@windriver.com>
-	<3a2e74ca70ef870734858b159cd38ee2443067ed.1530591075.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Jul 2018 12:53:18 +0100
-Message-ID: <CAJTo0LajuYfwKDaoUWERa1bCkJo5Sf+ygi9F0ZRiDOMjuBdgVQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] nfs-utils: 2.1.1 -> 2.3.1
+	Tue,  3 Jul 2018 12:00:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 54620183A0;
+	Tue,  3 Jul 2018 14:00:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id CDtHHhv3GEDG; Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 374FF180E6;
+	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1E8551E072;
+	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 11DD81E056;
+	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
+	by seth.se.axis.com (Postfix) with ESMTP id 04B6F2152;
+	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
+	id EB2BB9C0AD; Tue,  3 Jul 2018 14:00:08 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jul 2018 14:00:08 +0200
+Message-Id: <20180703120008.15766-1-olofjn@axis.com>
+X-Mailer: git-send-email 2.11.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH v2] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,385 +47,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 11:53:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Jul 2018 12:00:11 -0000
 
-Failing for me:
+RPM writes each package scriptlet (post-/preinstall) to
+/var/tmp/rpm-tmp.XXXXXX --- a lot of files potentially gets created.
+When debugging is enabled, these temporary scriptlet files aren't
+cleaned up at all and after a while this results in the filesystem
+resources are eaten up (like running out of available inodes).
 
-| checking for res_querydomain in -lresolv... no
-| configure: error: res_querydomain needed
-| NOTE: The following config.log files may provide further information.
+Normally, the temporary files would have been written to the tmp
+directory of the target sysroot (which we can easily clean up), but in
+this tree, you can't necessarily run the scriptlets.
 
-Ross
+Fixes [YOCTO #12792]
 
-On 3 July 2018 at 05:11, Robert Yang <liezhi.yang@windriver.com> wrote:
-> * Removed 001-configure-Allow-to-explicitly-disable-nfsidmap.patch,
->   the nfsidmap is enabled when --enable-nfsv4, so I added a
->   PACKAGECONFIG[nfsv4], and default is no since keyutils is not in oe-core by
->   default.
->
-> * Removed 0001-include-stdint.h-for-UINT16_MAX-definition.patch and
->   nfs-utils-1.2.3-sm-notify-res_init.patch since they are already in the
->   source.
->
-> * Backported two patches from git://git.alpinelinux.org/aports to fix build with musl
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  ...gure-Allow-to-explicitly-disable-nfsidmap.patch |  40 -------
->  ...nclude-stdint.h-for-UINT16_MAX-definition.patch |  27 -----
->  .../nfs-utils-1.2.3-sm-notify-res_init.patch       |  37 ------
->  .../nfs-utils/nfs-utils-musl-limits.patch          | 133 +++++++++++++++++++++
->  .../nfs-utils/nfs-utils-musl-res_querydomain.patch |  22 ++++
->  .../{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb}     |  12 +-
->  6 files changed, 161 insertions(+), 110 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
->  create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
->  create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
->  rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.1.1.bb => nfs-utils_2.3.1.bb} (92%)
->
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
-> deleted file mode 100644
-> index 26b558c..0000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure-Allow-to-explicitly-disable-nfsidmap.patch
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -From 9b84cff305866abd150cf1a4c6e7e5ebf8a7eb3a Mon Sep 17 00:00:00 2001
-> -From: Martin Jansa <Martin.Jansa@gmail.com>
-> -Date: Fri, 15 Nov 2013 23:21:35 +0100
-> -Subject: [PATCH] configure: Allow to explicitly disable nfsidmap
-> -
-> -* keyutils availability is autodetected and builds aren't reproducible
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ----
-> - configure.ac | 10 +++++++++-
-> - 1 file changed, 9 insertions(+), 1 deletion(-)
-> -
-> -Index: nfs-utils-2.1.1/configure.ac
-> -===================================================================
-> ---- nfs-utils-2.1.1.orig/configure.ac
-> -+++ nfs-utils-2.1.1/configure.ac
-> -@@ -92,6 +92,12 @@ AC_ARG_ENABLE(nfsv4,
-> -       AC_SUBST(enable_nfsv4)
-> -       AM_CONDITIONAL(CONFIG_NFSV4, [test "$enable_nfsv4" = "yes"])
-> -
-> -+AC_ARG_ENABLE(nfsidmap,
-> -+        [AC_HELP_STRING([--enable-nfsidmap],
-> -+                        [enable support for NFSv4 idmapper @<:@default=yes@:>@])],
-> -+        enable_nfsidmap=$enableval,
-> -+        enable_nfsidmap=yes)
-> -+
-> - AC_ARG_ENABLE(nfsv41,
-> -       [AC_HELP_STRING([--disable-nfsv41],
-> -                         [disable support for NFSv41 @<:@default=no@:>@])],
-> -@@ -339,7 +345,7 @@ fi
-> -
-> - dnl enable nfsidmap when its support by libnfsidmap
-> - AM_CONDITIONAL(CONFIG_NFSDCLTRACK, [test "$enable_nfsdcltrack" = "yes" ])
-> --AM_CONDITIONAL(CONFIG_NFSIDMAP, [test "$ac_cv_header_keyutils_h$ac_cv_lib_nfsidmap_nfs4_owner_to_uid" = "yesyes"])
-> -+AM_CONDITIONAL(CONFIG_NFSIDMAP, [test "$enable_nfsidmap$ac_cv_header_keyutils_h$ac_cv_lib_nfsidmap_nfs4_owner_to_uid" = "yesyesyes"])
-> -
-> -
-> - if test "$knfsd_cv_glibc2" = no; then
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
-> deleted file mode 100644
-> index 235a2c7..0000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-include-stdint.h-for-UINT16_MAX-definition.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -From 36b48057bce76dced335d67a2894a420967811c9 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 20 May 2017 14:07:53 -0700
-> -Subject: [PATCH] include stdint.h for UINT16_MAX definition
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> -Upstream-Status: Pending
-> -
-> - support/nsm/rpc.c | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/support/nsm/rpc.c b/support/nsm/rpc.c
-> -index 4e5f40e..d91c6ea 100644
-> ---- a/support/nsm/rpc.c
-> -+++ b/support/nsm/rpc.c
-> -@@ -40,6 +40,7 @@
-> -
-> - #include <time.h>
-> - #include <stdbool.h>
-> -+#include <stdint.h>
-> - #include <string.h>
-> - #include <unistd.h>
-> - #include <fcntl.h>
-> ---
-> -2.13.0
-> -
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-> deleted file mode 100644
-> index 89a8a57..0000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-1.2.3-sm-notify-res_init.patch
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -Fixes errors like
-> -sm-notify[1070]: DNS resolution of a.b.c.d..com failed; retrying later
-> -This error will occur anytime sm-notify is run before the network if fully up,
-> -which is happening more and more with parallel startup systems.
-> -The res_init() call is simple, safe, quick, and a patch to use it should be
-> -able to go upstream.  Presumably the whole reason sm-notify tries several
-> -times is to wait for possible changes to the network configuration, but without
-> -calling res_init() it will never be aware of those changes
-> -
-> -Backported drom Fedora
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -
-> -Index: nfs-utils-2.1.1/utils/statd/sm-notify.c
-> -===================================================================
-> ---- nfs-utils-2.1.1.orig/utils/statd/sm-notify.c
-> -+++ nfs-utils-2.1.1/utils/statd/sm-notify.c
-> -@@ -28,6 +28,9 @@
-> - #include <netdb.h>
-> - #include <errno.h>
-> - #include <grp.h>
-> -+#include <netinet/in.h>
-> -+#include <arpa/nameser.h>
-> -+#include <resolv.h>
-> -
-> - #include "conffile.h"
-> - #include "sockaddr.h"
-> -@@ -89,6 +92,7 @@ smn_lookup(const char *name)
-> -       };
-> -       int error;
-> -
-> -+      res_init();
-> -       error = getaddrinfo(name, NULL, &hint, &ai);
-> -       if (error != 0) {
-> -               xlog(D_GENERAL, "getaddrinfo(3): %s", gai_strerror(error));
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
-> new file mode 100644
-> index 0000000..7a4604b
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-limits.patch
-> @@ -0,0 +1,133 @@
-> +Fixed:
-> +| file.c: In function 'generic_make_pathname':
-> +| file.c:48:13: error: 'PATH_MAX' undeclared (first use in this function); did you mean 'RAND_MAX'?
-> +|   if (size > PATH_MAX)
-> +|              ^~~~~~~~
-> +[snip]
-> +
-> +Upstream-Status: Backport [https://git.alpinelinux.org/cgit/aports/tree/main/nfs-utils/limits.patch?id=f6734a77d3caee73325f8cc1f77d1b5117a75096]
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + support/export/export.c          | 1 +
-> + support/export/xtab.c            | 1 +
-> + support/misc/file.c              | 1 +
-> + support/nfs/xcommon.c            | 1 +
-> + support/nsm/file.c               | 1 +
-> + utils/blkmapd/device-discovery.c | 1 +
-> + utils/gssd/krb5_util.c           | 1 +
-> + utils/mountd/cache.c             | 1 +
-> + utils/mountd/mountd.c            | 1 +
-> + utils/mountd/rmtab.c             | 1 +
-> + 10 files changed, 10 insertions(+)
-> +
-> +diff --git a/support/export/export.c b/support/export/export.c
-> +--- a/support/export/export.c
-> ++++ b/support/export/export.c
-> +@@ -17,6 +17,7 @@
-> + #include <stdlib.h>
-> + #include <dirent.h>
-> + #include <errno.h>
-> ++#include <limits.h>
-> + #include "xmalloc.h"
-> + #include "nfslib.h"
-> + #include "exportfs.h"
-> +diff --git a/support/export/xtab.c b/support/export/xtab.c
-> +--- a/support/export/xtab.c
-> ++++ b/support/export/xtab.c
-> +@@ -18,6 +18,7 @@
-> + #include <sys/stat.h>
-> + #include <errno.h>
-> + #include <libgen.h>
-> ++#include <limits.h>
-> +
-> + #include "nfslib.h"
-> + #include "exportfs.h"
-> +diff --git a/support/misc/file.c b/support/misc/file.c
-> +--- a/support/misc/file.c
-> ++++ b/support/misc/file.c
-> +@@ -27,6 +27,7 @@
-> + #include <dirent.h>
-> + #include <stdlib.h>
-> + #include <stdbool.h>
-> ++#include <limits.h>
-> +
-> + #include "xlog.h"
-> + #include "misc.h"
-> +diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
-> +--- a/support/nfs/xcommon.c
-> ++++ b/support/nfs/xcommon.c
-> +@@ -16,6 +16,7 @@
-> + #include <stdio.h>
-> + #include <stdlib.h>
-> + #include <string.h>
-> ++#include <limits.h>
-> +
-> + #include "xcommon.h"
-> + #include "nls.h"      /* _() */
-> +diff --git a/support/nsm/file.c b/support/nsm/file.c
-> +--- a/support/nsm/file.c
-> ++++ b/support/nsm/file.c
-> +@@ -85,6 +85,7 @@
-> + #include <fcntl.h>
-> + #include <dirent.h>
-> + #include <grp.h>
-> ++#include <limits.h>
-> +
-> + #include "xlog.h"
-> + #include "nsm.h"
-> +diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-discovery.c
-> +--- a/utils/blkmapd/device-discovery.c
-> ++++ b/utils/blkmapd/device-discovery.c
-> +@@ -49,6 +49,7 @@
-> + #include <unistd.h>
-> + #include <libgen.h>
-> + #include <errno.h>
-> ++#include <limits.h>
-> + #include <libdevmapper.h>
-> +
-> + #ifdef HAVE_CONFIG_H
-> +diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
-> +--- a/utils/gssd/krb5_util.c
-> ++++ b/utils/gssd/krb5_util.c
-> +@@ -120,6 +120,7 @@
-> + #endif
-> + #include <krb5.h>
-> + #include <rpc/auth_gss.h>
-> ++#include <limits.h>
-> +
-> + #include "gssd.h"
-> + #include "err_util.h"
-> +diff --git a/utils/mountd/cache.c b/utils/mountd/cache.c
-> +--- a/utils/mountd/cache.c
-> ++++ b/utils/mountd/cache.c
-> +@@ -26,6 +26,7 @@
-> + #include <pwd.h>
-> + #include <grp.h>
-> + #include <mntent.h>
-> ++#include <limits.h>
-> + #include "misc.h"
-> + #include "nfslib.h"
-> + #include "exportfs.h"
-> +diff --git a/utils/mountd/mountd.c b/utils/mountd/mountd.c
-> +--- a/utils/mountd/mountd.c
-> ++++ b/utils/mountd/mountd.c
-> +@@ -22,6 +22,7 @@
-> + #include <fcntl.h>
-> + #include <sys/resource.h>
-> + #include <sys/wait.h>
-> ++#include <limits.h>
-> +
-> + #include "conffile.h"
-> + #include "xmalloc.h"
-> +diff --git a/utils/mountd/rmtab.c b/utils/mountd/rmtab.c
-> +--- a/utils/mountd/rmtab.c
-> ++++ b/utils/mountd/rmtab.c
-> +@@ -16,6 +16,7 @@
-> + #include <netinet/in.h>
-> + #include <arpa/inet.h>
-> + #include <netdb.h>
-> ++#include <limits.h>
-> +
-> + #include "misc.h"
-> + #include "exportfs.h"
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
-> new file mode 100644
-> index 0000000..7a93450
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
-> @@ -0,0 +1,22 @@
-> +Fixed:
-> +configure: error: res_querydomain needed
-> +
-> +Upstream-Status: Backport [https://git.alpinelinux.org/cgit/aports/tree/main/nfs-utils/musl-res_querydomain.patch?id=f6734a77d3caee73325f8cc1f77d1b5117a75096]
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + configure.ac | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -401,7 +401,7 @@ if test "$enable_gss" = yes; then
-> + fi
-> +
-> + dnl libdnsidmap specific checks
-> +-AC_CHECK_LIB([resolv], [__res_querydomain], , AC_MSG_ERROR(res_querydomain needed))
-> ++AC_CHECK_LIB([resolv], [res_querydomain], , AC_MSG_ERROR(res_querydomain needed))
-> +
-> + AC_ARG_ENABLE([ldap],
-> +       [AS_HELP_STRING([--disable-ldap],[Disable support for LDAP @<:default=detect@:>@])])
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-> similarity index 92%
-> rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-> rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-> index 79453ad..52edfb6 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-> @@ -19,8 +19,6 @@ USERADD_PARAM_${PN}-client = "--system  --home-dir /var/lib/nfs \
->                               --shell /bin/false --user-group rpcuser"
->
->  SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.xz \
-> -           file://0001-configure-Allow-to-explicitly-disable-nfsidmap.patch \
-> -           file://nfs-utils-1.2.3-sm-notify-res_init.patch \
->             file://nfsserver \
->             file://nfscommon \
->             file://nfs-utils.conf \
-> @@ -31,11 +29,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->             file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
->             file://nfs-utils-debianize-start-statd.patch \
->             file://bugfix-adjust-statd-service-name.patch \
-> -           file://0001-include-stdint.h-for-UINT16_MAX-definition.patch \
-> +           file://nfs-utils-musl-res_querydomain.patch \
-> +           file://nfs-utils-musl-limits.patch \
->  "
->
-> -SRC_URI[md5sum] = "59dfcb2e6254b129f901f40c86086b13"
-> -SRC_URI[sha256sum] = "0faeb54c70b84e6bd3b9b6901544b1f6add8d246f35c1683e402daf4e0c719ef"
-> +SRC_URI[md5sum] = "d77b182a9ee396aa6221ac2401ad7046"
-> +SRC_URI[sha256sum] = "96d06b5a86b185815760d8f04c34fdface8fa8b9949ff256ac05c3ebc08335a5"
->
->  # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
->  # pull in the remainder of the dependencies.
-> @@ -67,10 +66,11 @@ PACKAGECONFIG ??= "tcp-wrappers \
->  "
->  PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
->  PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
-> -PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
->  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
->  # libdevmapper is available in meta-oe
->  PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
-> +# keyutils is available in meta-security
-> +PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
->
->  PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Olof Johansson <olofjn@axis.com>
+---
+ ...installing-execute-package-scriptlets-wit.patch | 35 ++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+index 2be3cb5af3c..4020a310926 100644
+--- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
++++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+@@ -1,4 +1,4 @@
+-From a6f269f879221f2777169c5f7291322afe6b661b Mon Sep 17 00:00:00 2001
++From a89daa75ac970d8e247edc762d1181e9a5b0c5d0 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 17 Jan 2017 14:07:17 +0200
+ Subject: [PATCH] When cross-installing, execute package scriptlets without
+@@ -7,17 +7,42 @@ Subject: [PATCH] When cross-installing, execute package scriptlets without
+ This is triggered only when RPM_NO_CHROOT_FOR_SCRIPTS environment variable is defined.
+ Otherwise they will trigger an explosion of failures, obviously.
+ 
++Amended 2018-07-03 by Olof Johansson <olofjn@axis.com>:
++
++  Remove leaking temporary scriptlet files
++
++  Since we tell dnf to run rpm with debug output, this will result in rpm not
++  cleaning up written temporary scriptlet files (same flag controls both
++  behaviors). This wouldn't have been a problem since we normally would use the
++  target sysroot also for temporary files, but we need to chroot out to be able
++  to actually run the rpm scriptlets (purpose of this patch), so the temporary
++  files are written to the host's /var/tmp/ directory, causing a gradual
++  resource leakage on the host system for every RPM based do_rootfs task
++  executed.
++
++  Signed-off-by: Olof Johansson <olofjn@axis.com>
++
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+- lib/rpmscript.c | 8 +++++++-
+- 1 file changed, 7 insertions(+), 1 deletion(-)
++ lib/rpmscript.c | 11 ++++++++---
++ 1 file changed, 8 insertions(+), 3 deletions(-)
+ 
+ diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 98d3f420d..b95b5d606 100644
++index cc98c4885..f8bd3df04 100644
+ --- a/lib/rpmscript.c
+ +++ b/lib/rpmscript.c
+-@@ -467,7 +467,13 @@ rpmRC rpmScriptRun(rpmScript script, int arg1, int arg2, FD_t scriptFd,
++@@ -394,8 +394,7 @@ exit:
++ 	Fclose(out);	/* XXX dup'd STDOUT_FILENO */
++ 
++     if (fn) {
++-	if (!rpmIsDebug())
++-	    unlink(fn);
+++	unlink(fn);
++ 	free(fn);
++     }
++     free(mline);
++@@ -428,7 +427,13 @@ rpmRC rpmScriptRun(rpmScript script, int arg1, int arg2, FD_t scriptFd,
+  
+      if (rc != RPMRC_FAIL) {
+  	if (script_type & RPMSCRIPTLET_EXEC) {
+-- 
+2.11.0
+
 
