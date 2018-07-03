@@ -1,40 +1,53 @@
 Return-Path: <olof.johansson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DABBE7754B
+	by mail.openembedded.org (Postfix) with ESMTP id 7551878A4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 12:00:10 +0000 (UTC)
+	Tue,  3 Jul 2018 12:01:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 54620183A0;
-	Tue,  3 Jul 2018 14:00:11 +0200 (CEST)
+	by bastet.se.axis.com (Postfix) with ESMTP id 4675418249;
+	Tue,  3 Jul 2018 14:01:32 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id CDtHHhv3GEDG; Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+	with LMTP id d8qherkT8xdS; Tue,  3 Jul 2018 14:01:27 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 374FF180E6;
-	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0E262180D1;
+	Tue,  3 Jul 2018 14:01:27 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1E8551E072;
-	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+	by IMSVA (Postfix) with ESMTP id EFDDF1E08E;
+	Tue,  3 Jul 2018 14:01:26 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 11DD81E056;
-	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by IMSVA (Postfix) with ESMTP id E3ECC1E056;
+	Tue,  3 Jul 2018 14:01:26 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
 	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+	Tue,  3 Jul 2018 14:01:26 +0200 (CEST)
 Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by seth.se.axis.com (Postfix) with ESMTP id 04B6F2152;
-	Tue,  3 Jul 2018 14:00:09 +0200 (CEST)
+	by thoth.se.axis.com (Postfix) with ESMTP id D79B72663;
+	Tue,  3 Jul 2018 14:01:26 +0200 (CEST)
 Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id EB2BB9C0AD; Tue,  3 Jul 2018 14:00:08 +0200 (CEST)
+	id D06A69C0AD; Tue,  3 Jul 2018 14:01:26 +0200 (CEST)
+Date: Tue, 3 Jul 2018 14:01:26 +0200
 From: Olof Johansson <olof.johansson@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 14:00:08 +0200
-Message-Id: <20180703120008.15766-1-olofjn@axis.com>
-X-Mailer: git-send-email 2.11.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20180703120126.2xrdx77jwcvvfn5b@axis.com>
+Mail-Followup-To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <20180625092738.17962-1-olofjn@axis.com>
+	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+	<7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
+	<CANNYZj-MKfxraD-Ho6_Rej3R8dXSAWo3-JtZvQ4SanH183uWvA@mail.gmail.com>
+	<CANNYZj_tSbtCh13rCUVYW0iqozQ65q+OufCgVGSW96J11wibEA@mail.gmail.com>
+	<CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
+	<20180629235346.qsg3sjhpsaqqqcxi@axis.com>
+	<CANNYZj_t-68JsYddLZDu+8JMBCDggtNLKEEMFLpafDFfwn1WgQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj_t-68JsYddLZDu+8JMBCDggtNLKEEMFLpafDFfwn1WgQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-TM-AS-GCONF: 00
-Subject: [PATCH v2] rpm: Avoid leaking temporary scriplet files
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,83 +60,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 12:00:11 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 12:01:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-RPM writes each package scriptlet (post-/preinstall) to
-/var/tmp/rpm-tmp.XXXXXX --- a lot of files potentially gets created.
-When debugging is enabled, these temporary scriptlet files aren't
-cleaned up at all and after a while this results in the filesystem
-resources are eaten up (like running out of available inodes).
+On 18-06-30 08:37 +0200, Alexander Kanavin wrote:
+> Ideally, "/" should've been replaced with rpmtsRootDir(ts), but ts is
+> not accessible from the function, or from its parent, or parent
+> parent. So yes, I concede this would be too invasive to pass that down
+> the call stack. So if you can amend the above patch of mine with your
+> change, commit message, and SOB, that should be best. These changes
+> really belong together, as a custom fix for the oe build environment.
 
-Normally, the temporary files would have been written to the tmp
-directory of the target sysroot (which we can easily clean up), but in
-this tree, you can't necessarily run the scriptlets.
+Thanks for the feedback, I just sent a v2 of the patch. Hope it
+is in line with what you asked for.
 
-Fixes [YOCTO #12792]
-
-Signed-off-by: Olof Johansson <olofjn@axis.com>
----
- ...installing-execute-package-scriptlets-wit.patch | 35 ++++++++++++++++++----
- 1 file changed, 30 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-index 2be3cb5af3c..4020a310926 100644
---- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
-@@ -1,4 +1,4 @@
--From a6f269f879221f2777169c5f7291322afe6b661b Mon Sep 17 00:00:00 2001
-+From a89daa75ac970d8e247edc762d1181e9a5b0c5d0 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 17 Jan 2017 14:07:17 +0200
- Subject: [PATCH] When cross-installing, execute package scriptlets without
-@@ -7,17 +7,42 @@ Subject: [PATCH] When cross-installing, execute package scriptlets without
- This is triggered only when RPM_NO_CHROOT_FOR_SCRIPTS environment variable is defined.
- Otherwise they will trigger an explosion of failures, obviously.
- 
-+Amended 2018-07-03 by Olof Johansson <olofjn@axis.com>:
-+
-+  Remove leaking temporary scriptlet files
-+
-+  Since we tell dnf to run rpm with debug output, this will result in rpm not
-+  cleaning up written temporary scriptlet files (same flag controls both
-+  behaviors). This wouldn't have been a problem since we normally would use the
-+  target sysroot also for temporary files, but we need to chroot out to be able
-+  to actually run the rpm scriptlets (purpose of this patch), so the temporary
-+  files are written to the host's /var/tmp/ directory, causing a gradual
-+  resource leakage on the host system for every RPM based do_rootfs task
-+  executed.
-+
-+  Signed-off-by: Olof Johansson <olofjn@axis.com>
-+
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-- lib/rpmscript.c | 8 +++++++-
-- 1 file changed, 7 insertions(+), 1 deletion(-)
-+ lib/rpmscript.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
- 
- diff --git a/lib/rpmscript.c b/lib/rpmscript.c
--index 98d3f420d..b95b5d606 100644
-+index cc98c4885..f8bd3df04 100644
- --- a/lib/rpmscript.c
- +++ b/lib/rpmscript.c
--@@ -467,7 +467,13 @@ rpmRC rpmScriptRun(rpmScript script, int arg1, int arg2, FD_t scriptFd,
-+@@ -394,8 +394,7 @@ exit:
-+ 	Fclose(out);	/* XXX dup'd STDOUT_FILENO */
-+ 
-+     if (fn) {
-+-	if (!rpmIsDebug())
-+-	    unlink(fn);
-++	unlink(fn);
-+ 	free(fn);
-+     }
-+     free(mline);
-+@@ -428,7 +427,13 @@ rpmRC rpmScriptRun(rpmScript script, int arg1, int arg2, FD_t scriptFd,
-  
-      if (rc != RPMRC_FAIL) {
-  	if (script_type & RPMSCRIPTLET_EXEC) {
 -- 
-2.11.0
-
+olofjn
 
