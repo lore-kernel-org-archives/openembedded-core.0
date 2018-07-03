@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C9937889F
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 95F327889F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 13:04:17 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id 69-v6so2190681wmf.3
+	Tue,  3 Jul 2018 13:04:18 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id n17-v6so2212423wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 06:04:18 -0700 (PDT)
+	Tue, 03 Jul 2018 06:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=qR81l8ZnEmAHZVFcVmlJmvsgOjk/1pg1H6lIYyH7SJg=;
-	b=woMNV01abe172L9UslsOr5kVUncGmDoQYTb7SyqU70uF7NyaojsaWxIAntGGnj0dKA
-	Fd0GXZkVeOA3p9XRJltbVX3Xf7N3x+fxWnQwVmsXOG92PTLb3mnrqV5QIyFvFCRRd/b9
-	V6Gqtxntydx9/uxOvT945/E64b/AUnEVdqeIJKv6V7Qw1bj26lkJ/Zmu5zYexGNeDVTv
-	qi+ARbZpe505fz0FAHtxxat8cWHEN4DIe8noRs5raHo1gWV4rLGecu/nN/PcDX3AJGSO
-	I4ySx7HvZ59XNUw75N9oaM/o3LjxjXLkWN3be/Rx6KI3yzIY3rnoNmyp3vpnfceEP9Ds
-	cGxA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=KmuSQY2Muzs1YcL0rmDm3MqbS00CZ0FRGQ4KqrDwpq4=;
+	b=IJaM9GNfNmXlppgL8d3Am4wEziKF41zYogA2h8bOsXU83AwWQvry5W5H1sGVAf86yY
+	mbpp7dBCQHa6lPe5lrTDkYtod9tM2DCk0yjyL3TtzVEDY3Rq60qzuRg6WqpUuvrNhEEs
+	nWXA6H6cVspckgXTVc4WAgL0VqHJfRWSfA85OrDcXy2nvD7I78WGHBdslGpCR7stQZ4B
+	2brdlJrjzu/20w4KElbHIDs2j3uBqBnMKMsME+chbegYNUFd2idtv5bEyjPLrs4jgLgG
+	ae3qDlE5ktqu667tB0ndqH9kGlRqTZaPb0VeOAHsoPyA/2ONkxlMXtNbW0EgaMZLyfBq
+	BzPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qR81l8ZnEmAHZVFcVmlJmvsgOjk/1pg1H6lIYyH7SJg=;
-	b=AOA7ztTBsvXtoVrUxAv1NIhEAbc+DoAthH8sYJu0eWdjv5Gqq2Tg9iiyf2SjW/B6Ht
-	M/sLBQhO80WFJB03KjdkhO7qfSBoVfoPp9G1EBchylJnATkUpIARI0xDa0vzzuU6bmFA
-	9iUevClshfhwkyUhYBf7y2lUYx1JFCjCrE43unyLN5nbacMFlUr59UeNHeC5avBKuuCW
-	azD6LmtEBq+DXT88SPGEQ//Zdz4tnAnX8y6qTKupwZaETXkDPULg4YXbbwKpOHiZbxXL
-	g+VpjMarpIRXbs9Q4pK/DGxi+KgONeFk5X+nX59+vn/Tbmd8+DSNj5/igArG8gbAUYNs
-	Ra5g==
-X-Gm-Message-State: APt69E1xkAmSs0Q2v/esFa72SrvMGzDS77tN6eHXBFGYHIsF0Wgit9TR
-	dYiKSP/Oa5B2mo/Lp9WU6CgScJI3
-X-Google-Smtp-Source: AAOMgpeKb57EphRj8xhNwNC4QoybAL3VR3A+KorY22NJjBOqHpn/96LZCTqcPdYjpZ56sR3wR/wuzw==
-X-Received: by 2002:a1c:9350:: with SMTP id
-	v77-v6mr11175799wmd.146.1530623057723; 
-	Tue, 03 Jul 2018 06:04:17 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=KmuSQY2Muzs1YcL0rmDm3MqbS00CZ0FRGQ4KqrDwpq4=;
+	b=ZVaGlx3bVh0cX39fdd87bYgvMyraYdN1zKBY0HAKW4IWdgayzNebNsM24IpNzKRgZJ
+	rLc+DhpUhMmJtvpjJKCHNOB7hKjvf8Epb6RwMvuxn+z85dxRVVmRUsVqCKIpzAgVNhCI
+	WZC8v9Yf6X+LMzYscqivt83Q+t7W/RFT00jInSIQOjrgE++w2uC77Q1LMSJLFJvxtLhJ
+	T+5JPD8+HbKAGIYEfSRweS8c1qcyzG15p/9zXepUoKcntLgDaEBZjZBnlEZIJnmUVhLD
+	jpQ3Rh+wAESf1feJh9U7xDfA+l3eqR9tjnoxMrtgL8mLgINkKcbc+z0tnUsXUk4gzzwq
+	Z/ow==
+X-Gm-Message-State: APt69E3FSoRut9EWEOkVQUEUfS1Ozbuv/BJuqTkL2go4/N0mfsRXbGGm
+	yBsq7NZv3cYqw2kH6NDfnl2kC9P3
+X-Google-Smtp-Source: AAOMgpeSH/8r2jFrDpXpLZxluIv6QCHJM5KxXOzJp2nBJTSeWQnXNkDIDZhjCvsqEYAuCStMpemStA==
+X-Received: by 2002:a1c:69c6:: with SMTP id
+	z67-v6mr8444194wmh.159.1530623058994; 
+	Tue, 03 Jul 2018 06:04:18 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	j9-v6sm1863006wrr.52.2018.07.03.06.04.16
+	j9-v6sm1863006wrr.52.2018.07.03.06.04.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Jul 2018 06:04:16 -0700 (PDT)
+	Tue, 03 Jul 2018 06:04:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 14:04:09 +0100
-Message-Id: <20180703130412.26102-1-ross.burton@intel.com>
+Date: Tue,  3 Jul 2018 14:04:10 +0100
+Message-Id: <20180703130412.26102-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/4] meson: various class improvements
+In-Reply-To: <20180703130412.26102-1-ross.burton@intel.com>
+References: <20180703130412.26102-1-ross.burton@intel.com>
+Subject: [PATCH 2/4] meson: map architecture to correct values in cross file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 13:04:17 -0000
+X-List-Received-Date: Tue, 03 Jul 2018 13:04:18 -0000
 
-- Ensure that the PACKAGECONFIG arguments are always in EXTRA_OEMESON
+The cross file specifies the host/target cpu_family, which should be one of a
+defined set of values[1] but if it isn't Meson won't complain and instead
+recipes may behave unexpectedly.
 
-- Log the arguments that are being passed in do_configure.
-
-- Do verbose builds so the compile logs are useful for debugging build problems
+[1] http://mesonbuild.com/Reference-tables.html#cpu-families
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/meson.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/meson.bbclass | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index e572344bd20..c36b634b43d 100644
+index c36b634b43d..d615a84cfb0 100644
 --- a/meta/classes/meson.bbclass
 +++ b/meta/classes/meson.bbclass
-@@ -35,7 +35,7 @@ MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
- MESON_HOST_ENDIAN = "bogus-endian"
- MESON_TARGET_ENDIAN = "bogus-endian"
+@@ -45,6 +45,18 @@ def meson_array(var, d):
+     items = d.getVar(var).split()
+     return repr(items[0] if len(items) == 1 else items)
  
--EXTRA_OEMESON += "${PACKAGECONFIG_CONFARGS}"
-+EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
++# Map our ARCH values to what Meson expects:
++# http://mesonbuild.com/Reference-tables.html#cpu-families
++def meson_cpu_family(var, d):
++    import re
++    arch = d.getVar(var)
++    if arch == 'powerpc':
++        return 'ppc'
++    elif re.match(r"i[3-6]86", arch):
++        return "x86"
++    else:
++        return arch
++
+ addtask write_config before do_configure
+ do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD AR NM STRIP READELF"
+ do_write_config() {
+@@ -70,13 +82,13 @@ gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
  
- MESON_CROSS_FILE = ""
- MESON_CROSS_FILE_class-target = "--cross-file ${WORKDIR}/meson.cross"
-@@ -85,6 +85,7 @@ EOF
- CONFIGURE_FILES = "meson.build"
+ [host_machine]
+ system = '${HOST_OS}'
+-cpu_family = '${HOST_ARCH}'
++cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+ cpu = '${HOST_ARCH}'
+ endian = '${MESON_HOST_ENDIAN}'
  
- meson_do_configure() {
-+    bbnote Executing meson ${EXTRA_OEMESON}...
-     if ! meson ${MESONOPTS} "${MESON_SOURCEPATH}" "${B}" ${MESON_CROSS_FILE} ${EXTRA_OEMESON}; then
-         cat ${B}/meson-logs/meson-log.txt
-         bbfatal_log meson failed
-@@ -118,11 +119,11 @@ meson_do_configure_prepend_class-native() {
- 
- do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
- meson_do_compile() {
--    ninja ${PARALLEL_MAKE}
-+    ninja -v ${PARALLEL_MAKE}
- }
- 
- meson_do_install() {
--    DESTDIR='${D}' ninja ${PARALLEL_MAKEINST} install
-+    DESTDIR='${D}' ninja -v ${PARALLEL_MAKEINST} install
- }
- 
- EXPORT_FUNCTIONS do_configure do_compile do_install
+ [target_machine]
+ system = '${TARGET_OS}'
+-cpu_family = '${TARGET_ARCH}'
++cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+ cpu = '${TARGET_ARCH}'
+ endian = '${MESON_TARGET_ENDIAN}'
+ EOF
 -- 
 2.11.0
 
