@@ -1,25 +1,104 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 56FB678AD2
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 039ED74616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2018 04:02:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6342BhD010414
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  3 Jul 2018 06:04:28 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id n17-v6so885685wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2018 21:02:11 -0700 (PDT)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 2 Jul 2018 21:02:11 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Jul 2018 12:11:57 +0800
-Message-ID: <5164693a0a16fb1e758eb72e01bd7d70689a8f3d.1530591075.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1530591075.git.liezhi.yang@windriver.com>
-References: <cover.1530591075.git.liezhi.yang@windriver.com>
+	Mon, 02 Jul 2018 23:04:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=2qDqMvBVpY6WC8Xv0f1dQzOLVNhWMmxUJQnrw9AqTBA=;
+	b=NHzmKG+rVaAA30fK1stRsNyK70BB+DbY4nQgAAT/PP1pveHGAe2Y4HH6crdEu4XAdy
+	i9uGzPIgrBUkj2WVflZeEBs39jApdCPlzPZTizeHG7jT9F5rye9j5RZ2i41JZdU0uwu5
+	0wPUQviSCdS7e4qShFY8hPHtJe15bWk7opiezhL6aAl4Vnf+fXc4GZE5XpmiCdSh24/Y
+	H/XnYjzqMeb5+KxDIieDFPlkmXV7AtT2F+fm31618Brku+QXpbUKA+wIdIypssrVFigh
+	w9+giTqQsbdcql3KFmm08Oc551JnoxYq0BfzHRACzXveEhjOGDecNwvJ/cUEaVzOsYfI
+	CiMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=2qDqMvBVpY6WC8Xv0f1dQzOLVNhWMmxUJQnrw9AqTBA=;
+	b=K2XezRZ/xrANPZigzQzFYvOtyflWhULoAZmQ5FGXxAYVfY30UzlfmGcL0tw9TgbeoR
+	Qpa3qUah/YPmH3U/MFLyjTljwEKUttpdzi2GK6eDIfE7uYNYbAxeQMHSfpfxhkI6VkxH
+	+r5OHaiyv6js/NBBjYuE9tRrpeIyY3mI7u9DS5CHrTMbprrIaq0Y0zOXWsMTBtH0PvMz
+	4LLoNSZWfWFr0UN2TV1qel1QAkbq6reVd4fUWPDWt4PlmeKzavSfzu/c4JqiIfeu8TZN
+	oAKNj4H3bT888bFTzvkqTLW8Ko/votCiPXz3IMcdzNVrlKy+YIxttKEG8uW6yw7UuF2q
+	kmVg==
+X-Gm-Message-State: APt69E0fasKukzsYBD0Na0dXQ6O24SLIZnyKGYuFw0brA++GqmNHcPSh
+	yZIwNH+Srg16++Ov4dGVpBd+8Q==
+X-Google-Smtp-Source: AAOMgpcp2yWTrFqQXFDTDJuJAhkL99HRKK+L6O1+bvnnl134j6AmiOGsLWPzXvCEQk7gzEdpsY2ANw==
+X-Received: by 2002:a1c:64d5:: with SMTP id
+	y204-v6mr9644354wmb.14.1530597869315; 
+	Mon, 02 Jul 2018 23:04:29 -0700 (PDT)
+Received: from ?IPv6:2003:a:31:4300::46? ([2003:a:31:4300::46])
+	by smtp.googlemail.com with ESMTPSA id
+	y13-v6sm380946wrr.24.2018.07.02.23.04.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Jul 2018 23:04:28 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>
+References: <99949e3e-c252-9504-ea89-f379bab6f021@dresearch-fe.de>
+	<CAMKF1soU6M4zv6Xu4ugwheBHGO49cZSnnOD-PWSWJsCaAJC28g@mail.gmail.com>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=sledz@dresearch-fe.de; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <a212aa5f-27a7-3181-cab8-c07fa5eca72a@dresearch-fe.de>
+Date: Tue, 3 Jul 2018 08:04:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] ccache: 3.3.5 -> 3.4.2
+In-Reply-To: <CAMKF1soU6M4zv6Xu4ugwheBHGO49cZSnnOD-PWSWJsCaAJC28g@mail.gmail.com>
+Cc: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: devshell problems after distro upgrade openSUSE Leap 42.3 -> 15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,139 +111,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2018 04:02:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Jul 2018 06:04:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 
-* The license file is changed to LICENSE.adoc, it is still GPLv3+.
-* Removed Revert-Create-man-page-in-the-make-install-from-git-.patch, it was
-  used for fixing a build failure of no asciidoc, but now there is no such a
-  failure, so remove it.
-* Refreshed 0002-dev.mk.in-fix-file-name-too-long.patch
+On 02.07.2018 20:25, Khem Raj wrote:
+> On Sun, Jul 1, 2018 at 11:39 PM Steffen Sledz <sledz@dresearch-fe.de> wrote:
+>>
+>> After upgrading my build system from openSUSE Leap 42.3 to openSUSE Leap 15.0 a
+>>
+>>   bitbake foo -c devshell
+>>
+>> no longer switches to the related work directory. The devshell is opened in the original directory without any error or warning instead.
+>>
+>> Any hints what's wrong here or how I can debug this behaviour?
+>>
+> 
+> which terminal are you using, probably some default behavior changes there ?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/ccache/ccache_3.3.5.bb       | 12 --------
- meta/recipes-devtools/ccache/ccache_3.4.2.bb       | 11 ++++++++
- .../0002-dev.mk.in-fix-file-name-too-long.patch    | 15 +++++-----
- ...te-man-page-in-the-make-install-from-git-.patch | 33 ----------------------
- 4 files changed, 19 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-devtools/ccache/ccache_3.3.5.bb
- create mode 100644 meta/recipes-devtools/ccache/ccache_3.4.2.bb
- delete mode 100644 meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
+Main terminal is xterm. No special settings for the devshell terminal, so tmux is started like before.
 
-diff --git a/meta/recipes-devtools/ccache/ccache_3.3.5.bb b/meta/recipes-devtools/ccache/ccache_3.3.5.bb
-deleted file mode 100644
-index 929f0f1..0000000
---- a/meta/recipes-devtools/ccache/ccache_3.3.5.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--require ccache.inc
--
--LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=dae379a85bb6e9d594773e0aa64876f6"
--
--SRC_URI[md5sum] = "eee58db7cce892febddb989308dc568f"
--SRC_URI[sha256sum] = "190576a6e938760ec8113523e6fd380141117303e90766cc4802e770422b30c6"
--
--SRC_URI += " \
--            file://0002-dev.mk.in-fix-file-name-too-long.patch \
--            file://Revert-Create-man-page-in-the-make-install-from-git-.patch \
--"
-diff --git a/meta/recipes-devtools/ccache/ccache_3.4.2.bb b/meta/recipes-devtools/ccache/ccache_3.4.2.bb
-new file mode 100644
-index 0000000..7230934
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache_3.4.2.bb
-@@ -0,0 +1,11 @@
-+require ccache.inc
-+
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=2722abeaf1750dbf175b9491112374e1"
-+
-+SRC_URI[md5sum] = "9e048f88f3897125864f9a5e1abfb72d"
-+SRC_URI[sha256sum] = "18a8b14367d63d3d37fb6c33cba60e1b7fcd7a63d608df97c9771ae0d234fee2"
-+
-+SRC_URI += " \
-+            file://0002-dev.mk.in-fix-file-name-too-long.patch \
-+"
-diff --git a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch b/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
-index 3f01c69..68c2371 100644
---- a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
-+++ b/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
-@@ -1,4 +1,4 @@
--From 71bd0082c6edcf73f054a8a4fa34bd8dd4de7cd7 Mon Sep 17 00:00:00 2001
-+From 7dab2995ed8eeccd7b0acd79668bc28f3a2427d5 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Wed, 16 Sep 2015 19:45:40 -0700
- Subject: [PATCH] dev.mk.in: fix file name too long
-@@ -10,14 +10,15 @@ to fix the problem.
- Upstream-Status: Pending
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+
- ---
-- dev.mk.in |    2 +-
-+ dev.mk.in | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: ccache-3.3.4/dev.mk.in
--===================================================================
----- ccache-3.3.4.orig/dev.mk.in
--+++ ccache-3.3.4/dev.mk.in
-+diff --git a/dev.mk.in b/dev.mk.in
-+index 91b0a57..583ade0 100644
-+--- a/dev.mk.in
-++++ b/dev.mk.in
- @@ -1,7 +1,7 @@
-  # GNU make syntax reigns in this file.
-  
-@@ -25,5 +26,5 @@ Index: ccache-3.3.4/dev.mk.in
- -all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$<)).d
- +all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$(subst $(srcdir)/,,$<))).d
-  
-+ A2X = a2x
-  ASCIIDOC = asciidoc
-- CPPCHECK = cppcheck
-diff --git a/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch b/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
-deleted file mode 100644
-index f0208b9..0000000
---- a/meta/recipes-devtools/ccache/files/Revert-Create-man-page-in-the-make-install-from-git-.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 94fabcdda5c7e54ccdbc1f0aeccb26ce30e61226 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Mon, 18 Jul 2016 19:53:00 -0700
--Subject: [PATCH] Revert "Create man page in the make-install-from-git-repo
-- case"
--
--This reverts commit b86784902d28defd5e475c8922de594787df4541.
--
--We dont' have asciidoc, so revert it.
--
--Upstream-Status: Inappropriate [OE-Core specific]
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile.in b/Makefile.in
--index d474f2a..c6cdc04 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -76,7 +76,7 @@ ccache$(EXEEXT): $(ccache_objs) $(extra_libs)
-- 	$(CC) $(all_cflags) -o $@ $(ccache_objs) $(LDFLAGS) $(extra_libs) $(LIBS)
-- 
-- .PHONY: install
---install: all $(srcdir)/ccache.1
--+install: all
-- 	$(installcmd) -d $(DESTDIR)$(bindir)
-- 	$(installcmd) -m 755 ccache$(EXEEXT) $(DESTDIR)$(bindir)
-- 	$(installcmd) -d $(DESTDIR)$(mandir)/man1
---- 
--2.9.0
--
 -- 
-2.7.4
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
