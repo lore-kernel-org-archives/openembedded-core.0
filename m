@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D14487871B
+Received: from mail-pg0-f46.google.com (mail-pg0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A4844746D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 00:07:40 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id c10-v6so1660017pgu.9
+	Wed,  4 Jul 2018 00:11:34 +0000 (UTC)
+Received: by mail-pg0-f46.google.com with SMTP id q14-v6so1659792pgt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 17:07:42 -0700 (PDT)
+	Tue, 03 Jul 2018 17:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=ouARJVIVYQ1XwK4sF/35IFjM2sqwEZZ/xAVkphmkVwQ=;
-	b=nmf6DSL4TftcZXRUtsUU2Z1hRZ775WH9oamRQtaYTxjsRgDITnnF+bBTp1YpnRmU7V
-	/Jqixyg3EFThnQXrdfzZK0gYW6iwhXFGQh4WXaVjwi+v9CbgYHu3Nx0OPiueeqa1EkKK
-	xs08DyHdzYOg2u4sLySi0BNxpqXwAVHGmNfajeYLFtd/YQpcA336g1TIFlm4OhqQ8o5q
-	pzJ0LlMT2H0Dc659MdrU4juZls+THiW2HVdkwVXUoZs09RbTI4I1ySZd/G3rzAZcLCon
-	6Z5ynnQHJLBIoASZfntDHYH4YSt6hpxkXnJg/X+OCtPy/pJ3K0BAH+AGV4ElQLLG9VdH
-	U/eg==
+	bh=7XFembP5AN+H/m4oxJ8LsLimWirh+A6y14cLJhhp5PE=;
+	b=hLVd2kd3RcmFwZvWQOyA0fzTk3PEPuanT9QmmiJZYHxwzOAdiCfUJqFBmXEBf2J64K
+	pzewTyQYJGlJHQSeAS9NbRgl0EIRvZGgaqMIvNwKewFcVFCxTtkZ2l45J3ZM9q0vNHPT
+	IDtwRaeZ9dEavV6m5SsYaXji6QlcIVYMaSgqwlm8pnp9xmeWxpXhdW/Ei0TBPPJuCyv5
+	ZKRVkf+9nVXAlDZVdO9rfW7JKbbLsvwOwW0mDZE3mpRPDnv/4Zw/MmtHqyIDGtywA+hv
+	eV1D3rVr53hZ5Mz6u3jrZqMJ+1eRe+VSV85ln+ypWbse4XHt0U9GCgDLp59/9rKUz4AV
+	rkJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ouARJVIVYQ1XwK4sF/35IFjM2sqwEZZ/xAVkphmkVwQ=;
-	b=YR2jVFB3P3QhKZBbbp99hn/FDOw438kbKAfVHO0QxQtdDuoPmti+1V2BK3RyNDogkg
-	L8UkJgaWd7gEpLGRpL6TVnthoEWuICOk1ndYEgY03JzVKJVK3GLM6/83Qfr6Iew5+/sn
-	DY+c/4v2LvxreOa+PXTTDD1R6qsHgdYfHyGA9cMgSoxnp9IAEraEfaXWYKEjRo7aALM/
-	YM8mM5IaIz5ghw7Ww6ksnDeCpBsSHHaNZVY/4k577CTYodEp/GiqLqEsGr1XjpxMChfW
-	eQwxuJirIh5/QAQi1dSd0aXbpXC2yRvI7vNqEzqHefFeKyEw38hmwHxxjlK58mk2Irar
-	GOUg==
-X-Gm-Message-State: APt69E0PHTxPcahOZ1kOd29xwkH6TPas2aaxeHOTzjKdEegmW4HYxWBv
-	0nrFX8tRzaorN1Ajjaqa97Burw==
-X-Google-Smtp-Source: AAOMgpew+SvjBHXLqx2i936Pwb9SFm49NbfJ52R4YpQ39+ioFC5An6XRS8w+94SKvhSXWscDSIIUNg==
-X-Received: by 2002:a62:dc8f:: with SMTP id
-	c15-v6mr15887693pfl.155.1530662861463; 
-	Tue, 03 Jul 2018 17:07:41 -0700 (PDT)
+	bh=7XFembP5AN+H/m4oxJ8LsLimWirh+A6y14cLJhhp5PE=;
+	b=E/irsWElnmYqct1YBQaJMdgAziV1nZ6Hq7RBrVJk5cL9ajg9/5B7VXN1BLeJOvTCnb
+	/r2M/TALUhqAr6lMxFub/vDHe/jtPtXPjGmrfAOxKRkn/34QxzcoR/5B6B7CWFIDD/CD
+	UTFfL8WGqJGREZ0gu/LKRwkQShQqn9Mfvy41oPHMVtmAhuarLbq/8vO9gwfGSdQxH360
+	rpmWvWAS20eLWlzCEAOxgGtqJRmHDozFuj5Ang2RCyW5Q7VtTeli4YEdfnA2sObxQCGb
+	T9DDK7fqYPGrLNN3eSU/rwoTutiDT1dnXt4R7TSknDo/TToTz8ud3ugx5PstoijqkAqL
+	0lLg==
+X-Gm-Message-State: APt69E3Xi1kZlwbyEaGZiPWKx7QsKlbO13E1ua8G3c1h8c1hNdkDU4rr
+	ycUqzqje6B+Jaz3Qi8XGVmbgBQ==
+X-Google-Smtp-Source: AAOMgpfSe7JQFq4LCGs+UTQY6cJSussKogcjF987yUer3UcG+waLUpxhNbdyRo9c7yHCAobAj5aQrQ==
+X-Received: by 2002:a62:6303:: with SMTP id
+	x3-v6mr31756691pfb.91.1530663095443; 
+	Tue, 03 Jul 2018 17:11:35 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::91a0])
 	by smtp.gmail.com with ESMTPSA id
-	f125-v6sm4085144pfa.26.2018.07.03.17.07.40
+	e65-v6sm5287451pfj.48.2018.07.03.17.11.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Jul 2018 17:07:40 -0700 (PDT)
+	Tue, 03 Jul 2018 17:11:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 17:07:42 -0700
-Message-Id: <20180704000742.39060-1-raj.khem@gmail.com>
+Date: Tue,  3 Jul 2018 17:11:37 -0700
+Message-Id: <20180704001137.41385-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
-Subject: [PATCH] mesa: Fix bild with waylang and egl
+Subject: [PATCH V2] mesa: Fix bild with waylang and egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 00:07:40 -0000
+X-List-Received-Date: Wed, 04 Jul 2018 00:11:34 -0000
 
 When we have wayland enabled with egl then it enables the wayland
 plugin which actually fails to build because its not finding wayland-protocol
@@ -67,9 +67,11 @@ make[4]: *** Waiting for unfinished jobs....
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+V2: Rebase on master
+
  ...ss-compile-WAYLAND_PROTOCOLS_DATADIR.patch | 24 +++++++++++++++++++
  meta/recipes-graphics/mesa/mesa.inc           |  2 ++
- meta/recipes-graphics/mesa/mesa_18.1.2.bb     |  1 +
+ meta/recipes-graphics/mesa/mesa_18.1.3.bb     |  1 +
  3 files changed, 27 insertions(+)
  create mode 100644 meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
 
@@ -116,18 +118,18 @@ index d1723e3506..fed2900577 100644
  # Remove the mesa dependency on mesa-dev, as mesa is empty
  RDEPENDS_${PN}-dev = ""
  
-diff --git a/meta/recipes-graphics/mesa/mesa_18.1.2.bb b/meta/recipes-graphics/mesa/mesa_18.1.2.bb
-index 9a9a2b2562..45f3b3d0d0 100644
---- a/meta/recipes-graphics/mesa/mesa_18.1.2.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.1.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_18.1.3.bb b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+index c47c57e9d8..6af1216b79 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.1.3.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
 @@ -9,6 +9,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
             file://0006-Use-Python-3-to-execute-the-scripts.patch \
             file://0007-dri-i965-Add-missing-time.h-include.patch \
-            file://parallel-make-race-fix.patch \
+            file://0008-egl-fix-build-race-in-automake.patch \
 +           file://cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch \
  "
  
- SRC_URI[md5sum] = "a2d4f031eb6bd6111d44d84004476918"
+ SRC_URI[md5sum] = "b34273403a605f6f98ead00f0bdf8e0b"
 -- 
 2.18.0
 
