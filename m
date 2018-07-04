@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 648F978A1F
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 61FB6789F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 13:30:48 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id b77-v6so3096291vkb.5
+	Wed,  4 Jul 2018 14:55:40 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id q7-v6so1693255pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2018 06:30:49 -0700 (PDT)
+	Wed, 04 Jul 2018 07:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zcO15OsOeap96Z5BA+Tf2e7CJHqrno5O0N5B1gUk8mA=;
-	b=Q1QjhsLrFLvkfpd4vj8YHcOeRFQPWFZdsf4pDycPNneBJkAtKkbd6HS4Mi/9rm90Jd
-	vzgUpAqdmv6fOpCYzhZ9UOlkYqOrb6qtAPQZ0bB1rdbQvupIOlSV1Itr67aAxtXYBD+d
-	hzSv3WDkd4ofsoPWwMUc8L8MV5LLLsRdEVBPF6PBXYMDqwppzURy/Oy54BzOdeEhsVK6
-	UBwjm+oqE45AoTl7H9H0lXg5duOJA6ZW1baFaA2uRU/wHwODaYaUmTyJooiTOEAoAW1F
-	Ce7TwPDfpopgETEzYG7QQSwqpvtWPrrYXWcydsFZWyv+t3oj27we39MoGr9PnE5HpOYl
-	5Flg==
+	h=from:to:cc:subject:date:message-id;
+	bh=SseIfRbG5vjtzxsyJH6GqLVXTFygjrhkySGGKwTjU4M=;
+	b=lBRzI4vNyRB4PtwcxMJ0Tfi1z96gEFh0CJqLeruJpYlWs6se8RX+nP+jpqNN7voy0C
+	0TZJlhAbktI5ShP5gG/gKYilRw2NDtNO+kWC0zqpyGm+V/4Arra8yi2YqXIvP15Fs6QM
+	N3A924wlLSi/bY0Zfc38fXcf1ToBqEgfWZtnLN3U+tsAuI8E1nxbjbnHbxGx71vNeyG0
+	4KWs0pGx1az+I7Ovnoe0KPF5MAwIhQYbVHiEz32IpuzmprDmDHhkourP+o2jSiMztiKp
+	2DPUKoeb/CNu3N33HE3B4Gt+CEK1rLP5005+m/gq+qjiz7vXrIiYLwPbIEhQEZJWrqoW
+	/Lhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zcO15OsOeap96Z5BA+Tf2e7CJHqrno5O0N5B1gUk8mA=;
-	b=goEhLkxzX80+Z3rXYS18dbtavVltpJKHLgVEiH6pxUha0rrAKlcDH8hKMgU2q6Obp5
-	3AR9kG7/FGeC0Cz3r4gmWzwc82619sZ2Rb/nP96Cy0Ze9Qs7FVambVywbNrTdWBX020i
-	OlBjilijWMSnhmOYIl5EQC2EtYlukGbO2QHt7oz4NPhGYhdSzkkk0718Ud0jCnkrjLiK
-	CtZzZ7ssiFDjxdkSNVmWlpTUfseOEbfg5dDTR7fTamHoExHLYerMtmQ3TFl2bgGpGTiS
-	/bNSViFadi99eM2oWi3VMjvfpzBhoUwh0NvC52GRQ+E3Zn7AV9RTjPKz29MahHK5xY4v
-	bn/w==
-X-Gm-Message-State: APt69E0TjXcwp7nW94KGrFU1xjXbj+HnSLHQVmKuh1XHwMa6j45xUtDA
-	Jmql0tyM9tQFYKh9947PeYWlFyIPzgW6DV4+fnM=
-X-Google-Smtp-Source: AAOMgpdcH4LTxLIgkPJKkJKLNcDvWkCD6fs23jeceh/CAdC4+mipi4EyRSikqZaraf9lVqFD4xgQKSfPEvFtyIGvIH0=
-X-Received: by 2002:a1f:20d4:: with SMTP id
-	g203-v6mr1103957vkg.176.1530711049002; 
-	Wed, 04 Jul 2018 06:30:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180704065654.21039-1-zhe.he@windriver.com>
-In-Reply-To: <20180704065654.21039-1-zhe.he@windriver.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SseIfRbG5vjtzxsyJH6GqLVXTFygjrhkySGGKwTjU4M=;
+	b=t1J+0ZhCvpwiJU6aacrTBPBQCBbXqEgIdjgKijxDaRSLgQVpZj67QGzkp1hTPMM3J+
+	FCYlCkvl1JseuuVEslH27NUvSgqgb5Gr7Tnahk2qTBToEz3tXN2rO9EPCWQSQBpZwvdV
+	Hc7pMrwkV7jgVrCi4AqgRqbZm4JIVzxVZVllWp/DGZNPNqqnXTVGkHbRc3RNn0zwfOR+
+	TImgyfJPj+Q0tcbcKCCqiuwKDHNfvYaMNIg2XycohAyqNjIs7bVVWdHwpOI7B8DcVDwv
+	bt0weOMVCFD4M6I6ke4HFxIW4p4OWMvIbmYDTxTUU/UyJwj3bEEgS1BvjzvybEp3CpIO
+	8IIg==
+X-Gm-Message-State: APt69E3QAVFxGQigHm4W+7cJ6KKaC/+EFY5+/Awc0ZaKduhtdNKoJLK0
+	+46WpLFHvDVtoEgTi+CNuB7udQ==
+X-Google-Smtp-Source: AAOMgpeE/24jBvamUjjBMEKNM68atLsxg4DveXdezj9wcF8RYqIct8VXBw6SmsqJrAhjpk7P/SaokQ==
+X-Received: by 2002:a63:65c2:: with SMTP id
+	z185-v6mr2200052pgb.276.1530716141004; 
+	Wed, 04 Jul 2018 07:55:41 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::91a0])
+	by smtp.gmail.com with ESMTPSA id
+	s12-v6sm6312228pfm.41.2018.07.04.07.55.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Jul 2018 07:55:40 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Jul 2018 06:29:40 -0700
-Message-ID: <CAMKF1sr-+FgZYWSD-LEVxZ5uAf7TE8qTPJ7=NYs=ixOPc9cwHA@mail.gmail.com>
-To: zhe.he@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Jul 2018 07:55:41 -0700
+Message-Id: <20180704145541.30314-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] bind: Disable lmdb support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 13:30:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Jul 2018 14:55:40 -0000
 
-i think you can squash both patches into one. Additionally we should
-be able to cover mipsel case as well
-On Tue, Jul 3, 2018 at 11:57 PM He Zhe <zhe.he@windriver.com> wrote:
->
-> OE uses qemumips to simulate a Malta board by default.
->
-> As upstream qemu introduced:
-> https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
->
-> The Malta board can support up to 2GiB of RAM which should
-> be able to boot a Linux kernel built with CONFIG_HIGHMEM
-> enabled and passing "-m 2048" to QEMU and appending the
-> following kernel parameters:
-> ...
-> mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
-> ...
->
-> But the following commit in kernel broke above mem=X@Y setting
-> which added the memory as reserved memory area.
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> ...
-> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
-> Date:   Wed Nov 23 14:43:49 2016 +0100
->
->     MIPS: fix mem=X@Y commandline processing
-> ...
->
-> So remove `mem=*' to disable user-defined physical RAM map
-> which let kernel itself caculates memory ranges.
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  scripts/runqemu | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index de42d0f323..597e7e9a79 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -668,7 +668,10 @@ class BaseConfig(object):
->              logger.info('QB_MEM is not set, use 512M by default')
->              self.set('QB_MEM', '-m 512')
->
-> -        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-> +        mach = self.get('MACHINE')
-> +        if mach != 'qemumips':
-> +            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-> +
->          self.qemu_opt_script += ' %s' % self.get('QB_MEM')
->
->      def check_tcpserial(self):
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+with bind 9.11.2+ when the build host has lmdb installed, bind configure looks into
+host headers and wrongly interprets that it should be enabling lmdb
+
+disable lmdb to fix
+
+| configure: error: found lmdb include but not library.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-connectivity/bind/bind_9.11.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.3.bb b/meta/recipes-connectivity/bind/bind_9.11.3.bb
+index 32f5365e44..1cb1f3fd34 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.3.bb
+@@ -39,6 +39,7 @@ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ye
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+                  --disable-devpoll --enable-epoll --with-gost=no \
+                  --with-gssapi=no --with-ecdsa=yes --with-eddsa=no \
++                 --with-lmdb=no \
+                  --sysconfdir=${sysconfdir}/bind \
+                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
+                "
+-- 
+2.18.0
+
 
