@@ -1,26 +1,47 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8510078ADC
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6B678425
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 02:37:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w642bm13023888
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  4 Jul 2018 03:16:02 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id r16-v6so7981957oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Jul 2018 19:37:58 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 3 Jul 2018 19:37:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Jul 2018 10:47:40 +0800
-Message-ID: <6daac7e46594854572cebb093f3a9306160603e9.1530672257.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1530672257.git.liezhi.yang@windriver.com>
-References: <cover.1530672257.git.liezhi.yang@windriver.com>
+	Tue, 03 Jul 2018 20:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0Xoq0S2lwiJhr5mU1sKQ1tpqV3BF3lmZ1Og6pLtmGN0=;
+	b=dqeEY7wEPcxTkQJvgsb1qzvpOAUEh5pmU1GV3mPI/tlgaCi3JNbCIFBXqjvexZ2+X6
+	bNeE+mrFIxha7zbM+/5pIgspi+J2oDElBO2PoJELF0zXgG2hZXKrdPVS1V6CfmeHd0R4
+	JJhuX/Gto8t4sA3ceOZ3KOREPA5vPlfDlBgYfui1Rjn3AmqfcjK6+CpuNAdRA6NDGmjH
+	DyH/WKmOVynpobvLGzxtMsHolz017Bct2CthNOmGIsFTKEibhx8Ib79NKAmkFpfsoW7B
+	ToJ4LLxb0I7rgSmlLMGMTRk9QO8K/WpLYcELGrqt1n9X19ty2rCl6loXtMGrav92c4FA
+	aFOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0Xoq0S2lwiJhr5mU1sKQ1tpqV3BF3lmZ1Og6pLtmGN0=;
+	b=O8IqVAeXXPUxfTb/zcw5t3FYVNToCw8cQOlN3OJXfvAFSXqBy/C/4vW3fysCe77qPp
+	bY49AF5pdiJdft5VL98TLd7UcCiH2f0+GdBGehh+CbnYu1TAkdI+CNg/YJt7amRaCLfc
+	j/NDsLgkOTYVhli03PuaEIgLVDzYr0tRpvt0oxjRTe0iGIJzYp/+NLRwiKtcxHrSPoHp
+	ytMsJP7ZWwFqAJVI7BbFJKEekNwYY5jOWNtIeVW8HoPk0lR6kKub2pXaO9WvVmNHy0nL
+	Z2Xn3jLj29Pz36TDpbxNI4955Rl6cfh9LjKMkMqgAhAfjU6HrDZ05kSgk6xuXSEUwq3h
+	A2tg==
+X-Gm-Message-State: APt69E0cRqiYWsPCOPXM/4h1zVMebi7NltMy9q3FmTOmjBWhOvukMgPc
+	EOgyxlyXyI7xm7+65iC+fr5VKchWmTpZI3+XUDY=
+X-Google-Smtp-Source: AAOMgpfs8N61DpxRMU+e/6pvcbY86mQnHJJEZosifsOqRxXVqRtsVtlaMq/zcgc5g0mOgPu43n4DP6iPda/fGC0tH7o=
+X-Received: by 2002:aca:2c3:: with SMTP id 186-v6mr282977oic.85.1530674163696; 
+	Tue, 03 Jul 2018 20:16:03 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/2] git: 2.16.1 -> 2.18.0
+References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 3 Jul 2018 20:15:48 -0700
+Message-ID: <CABcZANkGsmoBG=L=RsaJ07TDA6tU6vM5gxiP+m2ER=9BABEqpg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,94 +54,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 02:38:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Jul 2018 03:16:03 -0000
+Content-Type: multipart/alternative; boundary="000000000000cb485b057023d9ac"
 
-* Removed code for "${D}${exec_prefix}/lib/perl-native/perl" since there is no
-  such a directory now.
-* Fixed perl related code.
+--000000000000cb485b057023d9ac
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/git/git.inc       | 12 ++----------
- meta/recipes-devtools/git/git_2.16.1.bb | 11 -----------
- meta/recipes-devtools/git/git_2.18.0.bb | 11 +++++++++++
- 3 files changed, 13 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.16.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.18.0.bb
+On Tue, Jul 3, 2018 at 5:55 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index dd9d792..26a22ac 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -52,13 +52,6 @@ perl_native_fixup () {
- 	       -e 's#${libdir}/perl-native/#${libdir}/#' \
- 	    ${@d.getVar("PERLTOOLS").replace(' /',d.getVar('D') + '/')}
- 
--	# ${libdir} is not applicable here, perl-native files are always
--	# installed to /usr/lib on both 32/64 bits targets.
--
--	mkdir -p ${D}${libdir}
--	mv ${D}${exec_prefix}/lib/perl-native/perl ${D}${libdir}
--	rmdir -p ${D}${exec_prefix}/lib/perl-native || true
--
- 	if [ ! "${@bb.utils.filter('PACKAGECONFIG', 'cvsserver', d)}" ]; then
- 		# Only install the git cvsserver command if explicitly requested
- 		# as it requires the DBI Perl module, which does not exist in
-@@ -72,8 +65,7 @@ perl_native_fixup () {
- 		# if explicitly requested as they require the SVN::Core Perl
- 		# module, which does not exist in OE-Core.
- 		rm -r ${D}${libexecdir}/git-core/git-svn \
--		      ${D}${libdir}/perl/site_perl/*/Git/SVN*
--		sed -i -e '/SVN/d' ${D}${libdir}/perl/site_perl/*/auto/Git/.packlist
-+		      ${D}${datadir}/perl5/Git/SVN*
- 	fi
- }
- 
-@@ -124,7 +116,7 @@ PACKAGES =+ "${PN}-perltools"
- FILES_${PN}-perltools += " \
-     ${PERLTOOLS} \
-     ${libdir}/perl \
--    ${datadir}/perl \
-+    ${datadir}/perl5 \
- "
- 
- RDEPENDS_${PN}-perltools = "${PN} perl perl-module-file-path findutils"
-diff --git a/meta/recipes-devtools/git/git_2.16.1.bb b/meta/recipes-devtools/git/git_2.16.1.bb
-deleted file mode 100644
-index 9dc4eba..0000000
---- a/meta/recipes-devtools/git/git_2.16.1.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "37467da8e79e72f28598d667f219f75e"
--SRC_URI[tarball.sha256sum] = "56cfa48af2b289bba172ca0a47c29f0083f5846cf4759978b70988e4f07fc9fd"
--SRC_URI[manpages.md5sum] = "5587407f3c28446af12fde3f3131ba34"
--SRC_URI[manpages.sha256sum] = "d499e825f429d76862be415f579c20cc26b046573a3a39237acaf9682cb71be7"
-diff --git a/meta/recipes-devtools/git/git_2.18.0.bb b/meta/recipes-devtools/git/git_2.18.0.bb
-new file mode 100644
-index 0000000..72b43a7
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.18.0.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "3f210b2dd1613d90ded3b8732b052025"
-+SRC_URI[tarball.sha256sum] = "94faf2c0b02a7920b0b46f4961d8e9cad08e81418614102898a55f980fa3e7e4"
-+SRC_URI[manpages.md5sum] = "8251512320568a049192a8219c51e905"
-+SRC_URI[manpages.sha256sum] = "6cf38ab3ad43ccdcd6a73ffdcf2a016d56ab6b4b240a574b0bb96f520a04ff55"
+> An over-ride replaces the original value regardless of whether or
+> not it's set up with +=. As replacing the original value seems to be
+> the intention here, drop the += to make it more explicit. Also some
+> minor recipe formatting tweaks.
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>
+
+Technically this is not the case, not precisely. += is appending to any
+existing DEPENDS_class-native value, and only *then* is the override
+applied to replace DEPENDS. So it's not appending to DEPENDS, it's
+appending to DEPENDS_class-native. In this case, it's most likely doing it
+this way in the .inc so it's possible for the recipe including it to define
+DEPENDS_class-native alongside DEPENDS before the inclusion, but this is
+largely pointless, since they can always += to it *after* the inclusion
+instead. So I think you're good, most likely it's still fine to remove it,
+but I wanted to clarify, as there *are* times when this is a useful thing
+to do.
 -- 
-2.7.4
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--000000000000cb485b057023d9ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue=
+, Jul 3, 2018 at 5:55 PM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmai=
+l.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex">An over-ride replaces the original value regardless of whether or<br=
+>
+not it&#39;s set up with +=3D. As replacing the original value seems to be<=
+br>
+the intention here, drop the +=3D to make it more explicit. Also some<br>
+minor recipe formatting tweaks.<br>
+<br>
+Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com" tar=
+get=3D"_blank">armccurdy@gmail.com</a>&gt;<br></blockquote><div><br></div><=
+div class=3D"">Technically this is not the case, not precisely.=C2=A0+=3D i=
+s appending to any existing DEPENDS_class-native value, and only *then* is =
+the override applied to replace DEPENDS. So it&#39;s not appending to DEPEN=
+DS, it&#39;s appending to DEPENDS_class-native. In this case, it&#39;s most=
+ likely doing it this way in the .inc so it&#39;s possible for the recipe i=
+ncluding it to define DEPENDS_class-native alongside DEPENDS before the inc=
+lusion, but this is largely pointless, since they can always=C2=A0+=3D to i=
+t *after* the inclusion instead. So I think you&#39;re good, most likely it=
+&#39;s still fine to remove it, but I wanted to clarify, as there *are* tim=
+es when this is a useful thing to do.<br clear=3D"all"></div></div>-- <br><=
+div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature=
+"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at g=
+mail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Softw=
+are Engineer, Mentor Graphics</div></div></div></div></div>
+
+--000000000000cb485b057023d9ac--
