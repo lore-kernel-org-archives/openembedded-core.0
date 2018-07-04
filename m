@@ -1,50 +1,67 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC5F745AB
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EEE30788FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 20:06:57 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id p11-v6so7587358wmc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2018 13:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=X3ccuJyjXzg9guKusPbsZRizadKuwlF4ixO3U1IOoE4=;
-	b=Uxdjb5xEbtLtjSdrirrK8GwjsOEJEk7nvr90M7/+l6Gef7YsXeFC9kfuvGBJP3SRT8
-	jM1UETwiiCgFraUrPqmeOI/fN1p1wS8Zj/0Ymth7Txtv8iKAt/XpnieCj9A5lUsfy3hq
-	8uTmYX5E9gxSBHA/j30crOk/VPSOFXYLc3IbYNIqiyb6nGwxh2mr0S8dbHXMTQoDFxHK
-	gTLC8bpmf+oJ5keBFStciDjA61F5y6xe9X/wWiYZt15BweP+ZuyoV23SY9dsqXT5gPpn
-	IWmVlVXy1OPAxoyRMo9LGyFXOee/vRKPAuqEmLmFRN69t+uXp146XcNJ5ytbtpkN2rR2
-	VBuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=X3ccuJyjXzg9guKusPbsZRizadKuwlF4ixO3U1IOoE4=;
-	b=MpebCpaS27G2ckj4YEhJoWWOI6wVwxMoVxz3Qe05INmoREWwX55MSaXaI8QvQmuQJq
-	ij9+fHXR6gzH0SZ7lmj7IYlyEob+FXsmRiPlTBjNQQ4WukpYBgOWJ8ZtruQxLm3bZrTB
-	kKtr7QuvYG6n8jZoKG1Bl1BAs51STbgjpl9YaRpyG1kwrhdXkW8bVf/1R+YaEZ5N6dH/
-	MJtuatngVcm+fesHEnUzntJkgIxk0b7U0Tba09GTHALskde/lifg4LmWANkWm/zLo4zG
-	aDQUf8sYBBLOtm+7MDQc/wjmIR591F+C+vl6gHF7C91wN6Zwq79RMHkiOptVgn1xEav4
-	xUlA==
-X-Gm-Message-State: APt69E2s5WqkFOs+0wDtl/vqC7Ee3elg5dPKauRPVmBSFX/L4XpbD6gE
-	Q87loxFFfaHIvPXUQNW/PPQTbQ==
-X-Google-Smtp-Source: AAOMgpcrwG/SZSZkgwy+pzkno2PGofUL3c21xlUvpobeMy2lN2oXuGIjZjuhynGU8zO4/vZuvx/D0w==
-X-Received: by 2002:a1c:eb08:: with SMTP id
-	j8-v6mr2655093wmh.160.1530734818065; 
-	Wed, 04 Jul 2018 13:06:58 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	h2-v6sm4916800wmd.0.2018.07.04.13.06.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 04 Jul 2018 13:06:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jul 2018 20:06:54 +0000
-Message-Id: <20180704200654.285-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CA+chaQd9otpzozM5DrifBUVdODogBsVdy2U8czAAd+Ys_6TBtA@mail.gmail.com>
-References: <CA+chaQd9otpzozM5DrifBUVdODogBsVdy2U8czAAd+Ys_6TBtA@mail.gmail.com>
-Subject: [PATCH] Revert "kernel-devicetree: Corrected normalize_dtb"
+	Wed,  4 Jul 2018 21:46:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id D5A751848E;
+	Wed,  4 Jul 2018 23:46:53 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id jNfDg26Ey3Lj; Wed,  4 Jul 2018 23:46:53 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id EEABC18556;
+	Wed,  4 Jul 2018 23:46:52 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DA7C91E099;
+	Wed,  4 Jul 2018 23:46:52 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CE9521E096;
+	Wed,  4 Jul 2018 23:46:52 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed,  4 Jul 2018 23:46:52 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id C202B26B6;
+	Wed,  4 Jul 2018 23:46:52 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 4 Jul 2018 23:46:52 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 4 Jul 2018 23:46:52 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Wed, 4 Jul 2018 23:46:52 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Olof Johansson <olofjn@axis.com>
+Thread-Topic: [OE-core] [PATCH] rpm: Avoid leaking temporary scriplet files
+Thread-Index: AQHUDGbRtg5uQUcSh0Gznw0gTT9wcKRw1YuAgAA4agCAACregIAABlCAgAD4ygCABZaUAIAAcLGAgAURnACAAAjWAIACS+/g
+Date: Wed, 4 Jul 2018 21:46:52 +0000
+Message-ID: <a5d95932f8e04fb497081c1d4533f1f9@XBOX02.axis.com>
+References: <20180625092738.17962-1-olofjn@axis.com>
+	<CANNYZj_kMAYH6=EcXM4ACwZhUp3qzzZdv9k6nev-v2oitWO6SQ@mail.gmail.com>
+	<7693ed11-5b51-52f6-08f9-4e4f9b76fa90@windriver.com>
+	<CANNYZj-MKfxraD-Ho6_Rej3R8dXSAWo3-JtZvQ4SanH183uWvA@mail.gmail.com>
+	<CANNYZj_tSbtCh13rCUVYW0iqozQ65q+OufCgVGSW96J11wibEA@mail.gmail.com>
+	<CANNYZj-8KYbZw-kcaAU0DQNd9=Lmy4eog75iY+6rtr2as5hEDA@mail.gmail.com>
+	<20180629235346.qsg3sjhpsaqqqcxi@axis.com>
+	<CANNYZj_t-68JsYddLZDu+8JMBCDggtNLKEEMFLpafDFfwn1WgQ@mail.gmail.com>
+	<20180703120126.2xrdx77jwcvvfn5b@axis.com>
+	<CANNYZj9ocLf4uQXwnLWUZB3UHReFxcv4i0Obzjzfj7=UeVuw9g@mail.gmail.com>
+In-Reply-To: <CANNYZj9ocLf4uQXwnLWUZB3UHReFxcv4i0Obzjzfj7=UeVuw9g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] rpm: Avoid leaking temporary scriplet files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +74,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 20:06:57 -0000
+X-List-Received-Date: Wed, 04 Jul 2018 21:46:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 2e7f3b2b9318d1e5395ad58131eafb873f614326.
+Once this hits master, it should also be cherry-picked to Rocko and Sumo.=20
+Should be straightforward as the patch hasn't changed since it was=20
+introduced.
 
-It was breaking quite common use case that the dtb files are in
-some subdirectory and then kernel build fails to build them.
+//Peter
 
-As reported by khem:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-July/152578.html
-me:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-July/152579.html
-on raspberrypi3 build:
-
-make[3]: *** No rule to make target 'arch/arm/boot/dts/dwc2.dtbo'.  Stop.
-arch/arm/Makefile:345: recipe for target 'dwc2.dtbo' failed
-make[2]: *** [dwc2.dtbo] Error 2
-Makefile:146: recipe for target 'sub-make' failed
-
-and trevor on the IRC:
-20:35:49 < tlwoerner> the recent 2e7f3b2b9318d1e5395ad58131eafb873f614326 commit in oe-core seems to cause dragonboard-410c's kernel to fail to build
-20:36:26 < tlwoerner> for the dragonboard-410c, KERNEL_DEVICETREE is set to "qcom/apq8016-sbc.dtb" but the build failure is:
-20:36:37 < tlwoerner> *** No rule to make target 'arch/arm64/boot/dts/dts/qcom/apq8016-sbc.dtb'.  Stop.
-20:36:44 < tlwoerner> i.e. the "qcom/" is getting removed
-20:37:08 < tlwoerner> oops!!
-20:37:33 < tlwoerner> wrong copy&paste, the actual error is:
-20:37:36 < tlwoerner> *** No rule to make target 'arch/arm64/boot/dts/apq8016-sbc.dtb'.  Stop.
-20:37:53 < tlwoerner> i.e., the "qcom/" is being stripped out
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel-devicetree.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 7faa869493..9c5e125981 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -13,8 +13,8 @@ normalize_dtb () {
- 	dtb="$1"
- 	if echo $dtb | grep -q '/dts/'; then
- 		bbwarn "$dtb contains the full path to the the dts file, but only the dtb name should be used."
-+		dtb=`basename $dtb | sed 's,\.dts$,.dtb,g'`
- 	fi
--	dtb=`basename $dtb | sed 's,\.dts$,.dtb,g'`
- 	echo "$dtb"
- }
- 
--- 
-2.17.1
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Alexander Kanavin
+> Sent: den 3 juli 2018 14:33
+> To: OE-core <openembedded-core@lists.openembedded.org>; Olof Johansson
+> <Olof.Johansson@axis.com>
+> Subject: Re: [OE-core] [PATCH] rpm: Avoid leaking temporary scriplet
+> files
+>=20
+> Thanks, looks good now!
+>=20
+> Alex
+>=20
+> 2018-07-03 14:01 GMT+02:00 Olof Johansson <olof.johansson@axis.com>:
+> > On 18-06-30 08:37 +0200, Alexander Kanavin wrote:
+> >> Ideally, "/" should've been replaced with rpmtsRootDir(ts), but ts
+> is
+> >> not accessible from the function, or from its parent, or parent
+> >> parent. So yes, I concede this would be too invasive to pass that
+> down
+> >> the call stack. So if you can amend the above patch of mine with
+> your
+> >> change, commit message, and SOB, that should be best. These changes
+> >> really belong together, as a custom fix for the oe build
+> environment.
+> >
+> > Thanks for the feedback, I just sent a v2 of the patch. Hope it
+> > is in line with what you asked for.
+> >
+> > --
+> > olofjn
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
