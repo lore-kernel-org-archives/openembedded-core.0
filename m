@@ -1,47 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DE6E578A8E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E650A74580
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 16:13:29 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id s12-v6so6758631wmc.1
+	Wed,  4 Jul 2018 16:29:01 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id v8-v6so11734334oie.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2018 09:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=be8xlr6jfLa9/BdUt/27Pl3OYCry/2wSAqLt5RLB2a8=;
-	b=aLdOT94Zq/SU+6m/tk96/DxICxVhY3dg/kKg+8BwbxLE6l5MSjeTFO2XUeEG7s5bJq
-	Zo5GdEijQgNgi6AxMGwtvLkEvQT6mRuuZcKXZ1kH2rKZZtmWIbnNehvF6929a2DMEZRM
-	YcxgyHpQ068P7siSDIuSSjnUlyGinqY3T9xhN3WliWE3ATsFAmVUWXIPXK2vAq32vKXl
-	GAhSxdvPv9LN/UJ9zSJdIXob9yHLx9xUk7t39A2iXa9NOQ+bTdOYgGBBpmQG2oroAFZu
-	pRCzd0uq8anGF+bhYmfczSkwNnrZunKdiARZt21bMvc4zMzLNV3djLgUbZBNvjtrOCS2
-	niBQ==
+	Wed, 04 Jul 2018 09:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hl95eOLBsJRJOqD/iRinUajhv47UQrqCKWFHhlraJTM=;
+	b=FNBN7ANCvWjpXp4/KbM1J+TD8y7BsywfBVJ3SEv6AtlsNzt6QYLWqRq9ThwlW7pPZc
+	QxPoMZKM410HuK4bgRcTBmM12tF1+MiGNO9Y9R2ArSvsjicN0lITMeRDgE4xVTFDH39E
+	e20pFKRTJlkVzZ7cJnvugHp/g2Upfjxjcs9sfObdrfGu3jmpgufBE71zodNcapGl+6Qc
+	JISWlLbclVWOUQ0FuKbZ5OJ8NC/ih5lMIavR8TXTsTYnKeO77Dml76aWFuoD6qfnXhIC
+	hoU+tvpREBM+iWiWFrN4kgjvbdyiesjwIdo51O2pO31ETQbJRBU/ioHLkSnOnTccZY3h
+	mVcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=be8xlr6jfLa9/BdUt/27Pl3OYCry/2wSAqLt5RLB2a8=;
-	b=Zmd4lkKa0Ij0LUJGz+IJZl9NifpK83VuxirmUJfpc/Bgiyfey3Yv9sDbcRzXRr6Uip
-	rXbKkaDaBtt5OKzmSrPzY8ZpY/SkvTcQEqLOf956FeGbldW+iK/e07fsFqoK/gnW4Es0
-	Y4r/3JzYMHzBK7CXnOCMfAJ1grWFFuDbZe1c+EhOHBaN7T+3TJTvw/CCniqWCoj+J1hu
-	q2wTucAwCfsilW/LgSuojJWNYBgqnhzayb+s4H7x1ECqbLlYRqJbCE074a5sUqURDhTM
-	OT11RZ4emkkt9UJTv7xmQ17A4d5NOr8AGXM6wsIEJrQxnDpIaJ2uM3rkYeBb74KjuRRU
-	CR3A==
-X-Gm-Message-State: APt69E3xKTgxJtubmTnWEMPc1OsFW+kLDTUuRkF6xYVs2Kw5NEyJXU95
-	7Z/3ku+afr0gVqpjhDvdfn6680mo0QsLoerRkLg=
-X-Google-Smtp-Source: AAOMgpcX0c8OspE/5Ut5bFzrBrcte72B/6EXVWd5qwT5Q++nQz4qVkufnWMhC6svCSbVCT63mhx9XgKUiTsvITPE590=
-X-Received: by 2002:a1c:f46:: with SMTP id 67-v6mr1860562wmp.122.1530720810483;
-	Wed, 04 Jul 2018 09:13:30 -0700 (PDT)
+	bh=hl95eOLBsJRJOqD/iRinUajhv47UQrqCKWFHhlraJTM=;
+	b=ox/y993Q+HyXO2x+jDqsRl+UNbMEYLw8fFmSAXQF+9B0TALDEa18mFj7he9ZO5ChSH
+	nTahY27EUfjOjcfW39pShDCtqVmoNzmUQSvxy2DCSirnVJw5H3rgRQAnsCDaPrYplXtp
+	6UysjniKVvi5ZWu+zyTKsydBOGRQ9KvnQG31pa1TVSW8Ed1wPbuaf7JEKBpDl8UC6gq3
+	igJSoVO6veSID0Go7Ov3uc1jy/opPsWZ2nY85uTxkIQyw4MfubvrZQMiX79Sc2Ce10hb
+	G7yDxJcDJhv8iUuiWuf+0Mm70qABOfOOOB9H8Bna13cmMh0CEDtprtQZwzK6WEvMWTrZ
+	xVBg==
+X-Gm-Message-State: APt69E3WoUg9nYvhar9yHmCPDu1R7oRnEjkNMiWUxEXLejmZhtHDe711
+	Iia6lDnQg2nNtGfF8jSS0CZ2EdMQx9vwXdWCmItSdQ==
+X-Google-Smtp-Source: AAOMgpdhSaNF+siObLamyhIZ4BLYN47WELVK/U/A2mDUjXTPorfwrCtvYUVmr+AJVXda/95WH5L8FfT8JBShk6kFzeY=
+X-Received: by 2002:aca:5dc5:: with SMTP id
+	r188-v6mr3062455oib.320.1530721742780; 
+	Wed, 04 Jul 2018 09:29:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180702150344.12852-1-ptsneves@gmail.com>
-	<530e7398-c299-f4b9-f18e-dce3ced9ba80@gmail.com>
-In-Reply-To: <530e7398-c299-f4b9-f18e-dce3ced9ba80@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 4 Jul 2018 18:13:19 +0200
-Message-ID: <CA+chaQdsj-Q06itvPYJTrQD6S-8G6eMPhg8A3uTtGGAKRQN0Kg@mail.gmail.com>
+Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
+	Wed, 4 Jul 2018 09:28:42 -0700 (PDT)
+In-Reply-To: <20180704001137.41385-1-raj.khem@gmail.com>
+References: <20180704001137.41385-1-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 Jul 2018 17:28:42 +0100
+Message-ID: <CAJTo0LY75OXe6AmZvdOkT2LRe58k9ZEzgYBtf_xbqnhu7waY=A@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] kernel-devicetree: Corrected normalize_dtb
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] mesa: Fix bild with waylang and egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,152 +57,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 16:13:30 -0000
-Content-Type: multipart/alternative; boundary="00000000000028dca005702eb6b4"
-
---00000000000028dca005702eb6b4
+X-List-Received-Date: Wed, 04 Jul 2018 16:29:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Confirmed.
+FWIW historically we just prepended PKG_CONFIG_SYSROOT or whatever the
+spelling was to the result of the pkg-config calls.  I didn't know
+about PKG_CHECK_VAR before, that's really useful!
 
-I was seeing the same today when testing my rebased changes for
-kernel*bbclasses.
+Have you tried pushing this upstream?  Also note that I've a branch
+moving Mesa to Meson so we'll need to fix this again...
 
-On Wed, Jul 4, 2018 at 6:09 PM Khem Raj <raj.khem@gmail.com> wrote:
+Ross
 
+On 4 July 2018 at 01:11, Khem Raj <raj.khem@gmail.com> wrote:
+> When we have wayland enabled with egl then it enables the wayland
+> plugin which actually fails to build because its not finding wayland-protocol
+> xml templates in proper location which is recipe sysroot since
+> we are cross compiling
 >
+> Fixes build errors e.g.
+> make[4]: *** No rule to make target `//usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml', needed by `drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h'.  Stop.
+> make[4]: *** Waiting for unfinished jobs....
 >
-> On 7/2/18 8:03 AM, Paulo Neves wrote:
-> > The normalize_dtb function was buggy because
-> > it only converted from .dts suffix to .dtb
-> > suffix if the user passed a full source path to
-> > KERNEL_DEVICETREE containing the /dts/ path.
-> > The problem is that if the user did that there
-> > would be a warning.
-> >
-> > On the othet hand if user just set the variable
-> > KERNEL_DEVICETREE="file.dts" the bbclass translation
-> > to the respective .dtb target did not occur and
-> > make would fail saying it has no rule to make target
-> > file.dts
-> >
-> > This patch decouples the logic of having /dts/ in the
-> > path from the target translation.
-> >
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> V2: Rebase on master
 >
-> This breaks a case where relative paths are used e.g. for rpi
-> kernel we use DTB=overlay/xxx.dtbo and DTB=xxx.dtb and so on
-> with this change its going to strip leading directory name and
-> break that assumption.
+>  ...ss-compile-WAYLAND_PROTOCOLS_DATADIR.patch | 24 +++++++++++++++++++
+>  meta/recipes-graphics/mesa/mesa.inc           |  2 ++
+>  meta/recipes-graphics/mesa/mesa_18.1.3.bb     |  1 +
+>  3 files changed, 27 insertions(+)
+>  create mode 100644 meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
 >
-> See
+> diff --git a/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
+> new file mode 100644
+> index 0000000000..b4e3c4995f
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
+> @@ -0,0 +1,24 @@
+> +use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
+> +
+> +This allows to override the wayland-protocols pkgdatadir with the
+> +WAYLAND_PROTOCOLS_DATADIR from environment.
+> +
+> +pkgconfig would return an absolute path in /usr/share/wayland-protocols
+> +for the pkgdatadir value, which is not suitable for cross-compiling.
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Pending
+> +
+> +Index: mesa-18.1.2/configure.ac
+> +===================================================================
+> +--- mesa-18.1.2.orig/configure.ac
+> ++++ mesa-18.1.2/configure.ac
+> +@@ -1808,7 +1808,7 @@ for plat in $platforms; do
+> +         PKG_CHECK_MODULES([WAYLAND_CLIENT], [wayland-client >= $WAYLAND_REQUIRED])
+> +         PKG_CHECK_MODULES([WAYLAND_SERVER], [wayland-server >= $WAYLAND_REQUIRED])
+> +         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
+> +-        WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
+> ++        PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
+> +
+> +         AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
+> +
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index d1723e3506..fed2900577 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -109,6 +109,8 @@ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
 >
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/conf/machine/include/rpi-base.inc#n17
+>  CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
 >
-> > Signed-off-by: Paulo Neves <ptsneves@gmail.com>
-> > ---
-> >   meta/classes/kernel-devicetree.bbclass | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/kernel-devicetree.bbclass
-> b/meta/classes/kernel-devicetree.bbclass
-> > index 4f80cc62eb..9866d844ab 100644
-> > --- a/meta/classes/kernel-devicetree.bbclass
-> > +++ b/meta/classes/kernel-devicetree.bbclass
-> > @@ -13,8 +13,8 @@ normalize_dtb () {
-> >       DTB="$1"
-> >       if echo ${DTB} | grep -q '/dts/'; then
-> >               bbwarn "${DTB} contains the full path to the the dts file,
-> but only the dtb name should be used."
-> > -             DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-> >       fi
-> > +     DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-> >       echo "${DTB}"
-> >   }
-> >
-> >
+> +EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
+> +
+>  # Remove the mesa dependency on mesa-dev, as mesa is empty
+>  RDEPENDS_${PN}-dev = ""
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa_18.1.3.bb b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+> index c47c57e9d8..6af1216b79 100644
+> --- a/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
+> @@ -9,6 +9,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0006-Use-Python-3-to-execute-the-scripts.patch \
+>             file://0007-dri-i965-Add-missing-time.h-include.patch \
+>             file://0008-egl-fix-build-race-in-automake.patch \
+> +           file://cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch \
+>  "
+>
+>  SRC_URI[md5sum] = "b34273403a605f6f98ead00f0bdf8e0b"
+> --
+> 2.18.0
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---00000000000028dca005702eb6b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Confirmed.<div><br></div><div>I was seeing the same today =
-when testing my rebased changes for kernel*bbclasses.</div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr">On Wed, Jul 4, 2018 at 6:09 PM Khem R=
-aj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-On 7/2/18 8:03 AM, Paulo Neves wrote:<br>
-&gt; The normalize_dtb function was buggy because<br>
-&gt; it only converted from .dts suffix to .dtb<br>
-&gt; suffix if the user passed a full source path to<br>
-&gt; KERNEL_DEVICETREE containing the /dts/ path.<br>
-&gt; The problem is that if the user did that there<br>
-&gt; would be a warning.<br>
-&gt; <br>
-&gt; On the othet hand if user just set the variable<br>
-&gt; KERNEL_DEVICETREE=3D&quot;file.dts&quot; the bbclass translation<br>
-&gt; to the respective .dtb target did not occur and<br>
-&gt; make would fail saying it has no rule to make target<br>
-&gt; file.dts<br>
-&gt; <br>
-&gt; This patch decouples the logic of having /dts/ in the<br>
-&gt; path from the target translation.<br>
-&gt; <br>
-<br>
-This breaks a case where relative paths are used e.g. for rpi<br>
-kernel we use DTB=3Doverlay/xxx.dtbo and DTB=3Dxxx.dtb and so on<br>
-with this change its going to strip leading directory name and<br>
-break that assumption.<br>
-<br>
-See<br>
-<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/=
-conf/machine/include/rpi-base.inc#n17" rel=3D"noreferrer" target=3D"_blank"=
->http://git.yoctoproject.org/cgit/cgit.cgi/meta-raspberrypi/tree/conf/machi=
-ne/include/rpi-base.inc#n17</a><br>
-<br>
-&gt; Signed-off-by: Paulo Neves &lt;<a href=3D"mailto:ptsneves@gmail.com" t=
-arget=3D"_blank">ptsneves@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/classes/kernel-devicetree.bbclass | 2 +-<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/ker=
-nel-devicetree.bbclass<br>
-&gt; index 4f80cc62eb..9866d844ab 100644<br>
-&gt; --- a/meta/classes/kernel-devicetree.bbclass<br>
-&gt; +++ b/meta/classes/kernel-devicetree.bbclass<br>
-&gt; @@ -13,8 +13,8 @@ normalize_dtb () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DTB=3D&quot;$1&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if echo ${DTB} | grep -q &#39;/dts/&#39;; th=
-en<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbwarn &quot;${D=
-TB} contains the full path to the the dts file, but only the dtb name shoul=
-d be used.&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB=3D`basename ${DTB=
-} | sed &#39;s,\.dts$,.dtb,g&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DTB=3D`basename ${DTB} | sed &#39;s,\.dts$,.dtb,g=
-&#39;`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;${DTB}&quot;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; <br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---00000000000028dca005702eb6b4--
