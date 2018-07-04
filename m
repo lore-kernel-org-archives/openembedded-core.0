@@ -1,50 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 24F53789B5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 648F978A1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 12:53:29 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id r16-v6so10546006oie.3
+	Wed,  4 Jul 2018 13:30:48 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id b77-v6so3096291vkb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2018 05:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KkoaBH67Zdc/0U0kVKGwTk9VNEOHbMLa9zmqjBup38w=;
-	b=MfEr/CvgMbCnzs/7brZ10KdrtHx85o5HUUaujJDVCfZN9o+PQ8Bg/i1hoFtaB9H8Aa
-	ek3nrDuaCjgWVTWCSomX9Cc2ZhK5OhyGNONwdOJA7CfW90n6QmEVmOWJZUqnvw/hj8xZ
-	VtI9VlijLN3Ug0flXYSdmY1qt+IwgB49Kg/gntzulWU1XrBK3ZIOAcuQOUBlbjiiFTyT
-	i8smjw3CN/HWbyLEQCR7z6QeaCLjX8wQdLGAPdSh18B2ujMgU0w5iRKOj3/TA4J4XnBs
-	qfH0BDLU7wZRzGE/GkX5+bg72kF7gFTEH6RkTBtkupIWDZQ/V9Ra/uCJgeTZZ1m8yTjp
-	2TVA==
+	Wed, 04 Jul 2018 06:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zcO15OsOeap96Z5BA+Tf2e7CJHqrno5O0N5B1gUk8mA=;
+	b=Q1QjhsLrFLvkfpd4vj8YHcOeRFQPWFZdsf4pDycPNneBJkAtKkbd6HS4Mi/9rm90Jd
+	vzgUpAqdmv6fOpCYzhZ9UOlkYqOrb6qtAPQZ0bB1rdbQvupIOlSV1Itr67aAxtXYBD+d
+	hzSv3WDkd4ofsoPWwMUc8L8MV5LLLsRdEVBPF6PBXYMDqwppzURy/Oy54BzOdeEhsVK6
+	UBwjm+oqE45AoTl7H9H0lXg5duOJA6ZW1baFaA2uRU/wHwODaYaUmTyJooiTOEAoAW1F
+	Ce7TwPDfpopgETEzYG7QQSwqpvtWPrrYXWcydsFZWyv+t3oj27we39MoGr9PnE5HpOYl
+	5Flg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KkoaBH67Zdc/0U0kVKGwTk9VNEOHbMLa9zmqjBup38w=;
-	b=I4sWi0q+v6QQ+PgcefK9QoWNDCP43BDqztdfEhpDftrJlztX/lSj/4b3eh1UAq038M
-	T9fUiM2eNnzG83FBoP40HjflcyjseSvQwAAPpz0911H69j+Ec85oisoVG3QiXXC8L5by
-	Zx1ofBBabiW+fznI250GnrR+aIP+eZRgE+ShTCxDN1xvypxQWi8J/d4NacysDRsCiQbQ
-	inG5FfBN9Hvbifk5w0tSV5RePk371cjaiPSwnl3Mwv5stUpDDhJmmr8jrQtikQLozZlW
-	zVM125y5TBxtglECve9YuXWbG0RsyqY+6cMiOx9aOQ5rv/xi/Q819IKUDm2Cg5YXpq4U
-	ZpZg==
-X-Gm-Message-State: APt69E2jDBV422Gpzwjjt1vzMGPswoU6vBa+sRyxYohhmlwcypQ14S+k
-	E4K0VZCYTZDpkzV/pXOG7V1Wt/bYzY+bNYzc2SJqfQ==
-X-Google-Smtp-Source: AAOMgpdo26mOKnwGXchXchUxn2XMdvBePIadHsAY428G1tOdUuNgqeeAMzDUlTdn7Iuj5vYOb0uFv34G5TQSUyRQr30=
-X-Received: by 2002:aca:f409:: with SMTP id
-	s9-v6mr2223641oih.102.1530708810244; 
-	Wed, 04 Jul 2018 05:53:30 -0700 (PDT)
+	bh=zcO15OsOeap96Z5BA+Tf2e7CJHqrno5O0N5B1gUk8mA=;
+	b=goEhLkxzX80+Z3rXYS18dbtavVltpJKHLgVEiH6pxUha0rrAKlcDH8hKMgU2q6Obp5
+	3AR9kG7/FGeC0Cz3r4gmWzwc82619sZ2Rb/nP96Cy0Ze9Qs7FVambVywbNrTdWBX020i
+	OlBjilijWMSnhmOYIl5EQC2EtYlukGbO2QHt7oz4NPhGYhdSzkkk0718Ud0jCnkrjLiK
+	CtZzZ7ssiFDjxdkSNVmWlpTUfseOEbfg5dDTR7fTamHoExHLYerMtmQ3TFl2bgGpGTiS
+	/bNSViFadi99eM2oWi3VMjvfpzBhoUwh0NvC52GRQ+E3Zn7AV9RTjPKz29MahHK5xY4v
+	bn/w==
+X-Gm-Message-State: APt69E0TjXcwp7nW94KGrFU1xjXbj+HnSLHQVmKuh1XHwMa6j45xUtDA
+	Jmql0tyM9tQFYKh9947PeYWlFyIPzgW6DV4+fnM=
+X-Google-Smtp-Source: AAOMgpdcH4LTxLIgkPJKkJKLNcDvWkCD6fs23jeceh/CAdC4+mipi4EyRSikqZaraf9lVqFD4xgQKSfPEvFtyIGvIH0=
+X-Received: by 2002:a1f:20d4:: with SMTP id
+	g203-v6mr1103957vkg.176.1530711049002; 
+	Wed, 04 Jul 2018 06:30:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
-	Wed, 4 Jul 2018 05:53:09 -0700 (PDT)
-In-Reply-To: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
-References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Jul 2018 13:53:09 +0100
-Message-ID: <CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
+References: <20180704065654.21039-1-zhe.he@windriver.com>
+In-Reply-To: <20180704065654.21039-1-zhe.he@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Jul 2018 06:29:40 -0700
+Message-ID: <CAMKF1sr-+FgZYWSD-LEVxZ5uAf7TE8qTPJ7=NYs=ixOPc9cwHA@mail.gmail.com>
+To: zhe.he@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +55,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 12:53:29 -0000
+X-List-Received-Date: Wed, 04 Jul 2018 13:30:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 4 July 2018 at 01:55, Andre McCurdy <armccurdy@gmail.com> wrote:
->  DEPENDS += "${PYTHON_PN}"
-> -DEPENDS_class-native += "${PYTHON_PN}-native"
-> -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
-> +DEPENDS_class-native = "${PYTHON_PN}-native"
-> +DEPENDS_class-nativesdk = "nativesdk-${PYTHON_PN}"
-
-Whilst there's nothing wrong with this patch, as the BBCLASSEXTEND
-handles DEPENDS-munging isn't this a better fix:
-
-  DEPENDS += "${PYTHON_PN}"
- -DEPENDS_class-native += "${PYTHON_PN}-native"
- -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
-
-Ross
+i think you can squash both patches into one. Additionally we should
+be able to cover mipsel case as well
+On Tue, Jul 3, 2018 at 11:57 PM He Zhe <zhe.he@windriver.com> wrote:
+>
+> OE uses qemumips to simulate a Malta board by default.
+>
+> As upstream qemu introduced:
+> https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
+>
+> The Malta board can support up to 2GiB of RAM which should
+> be able to boot a Linux kernel built with CONFIG_HIGHMEM
+> enabled and passing "-m 2048" to QEMU and appending the
+> following kernel parameters:
+> ...
+> mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
+> ...
+>
+> But the following commit in kernel broke above mem=X@Y setting
+> which added the memory as reserved memory area.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
+> ...
+> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
+> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
+> Date:   Wed Nov 23 14:43:49 2016 +0100
+>
+>     MIPS: fix mem=X@Y commandline processing
+> ...
+>
+> So remove `mem=*' to disable user-defined physical RAM map
+> which let kernel itself caculates memory ranges.
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  scripts/runqemu | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index de42d0f323..597e7e9a79 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -668,7 +668,10 @@ class BaseConfig(object):
+>              logger.info('QB_MEM is not set, use 512M by default')
+>              self.set('QB_MEM', '-m 512')
+>
+> -        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
+> +        mach = self.get('MACHINE')
+> +        if mach != 'qemumips':
+> +            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
+> +
+>          self.qemu_opt_script += ' %s' % self.get('QB_MEM')
+>
+>      def check_tcpserial(self):
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
