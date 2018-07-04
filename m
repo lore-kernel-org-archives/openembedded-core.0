@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8843778AE7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AD6478A4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 09:24:08 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id q10-v6so4579104wrd.4
+	Wed,  4 Jul 2018 09:44:01 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id s14-v6so5046022wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2018 02:24:09 -0700 (PDT)
+	Wed, 04 Jul 2018 02:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id;
-	bh=+mTH0LAZJlp9QsnQdrS1LkHI9IhyRIbQQ8q4XDXy/cY=;
-	b=aGw7TVH0ShkAxax2+wFcr+8/4emTE/P/vD+NcShuB0ldAT+AaE6GEOQklnCV8uKrLD
-	vOBuMTxOks2AjM02/w7iFyBqdYuT6vYVmIGuvsvAtiWMcXaG4MTXIgW2EtknELp2SJDu
-	mj9VSeYo9jAqPBY6nm8jgVo1Z7Vn/wciesSQ2R/vv2qEdOZfS2HfOTUvYRDJht/vD3iG
-	KFRMSXvRmOFxJVMrdVO0OEU/8jFWCHHes+9KAgLioonRuvC5EujW6yOYX3XIhj6KawEw
-	Ffp6dPExi0zXPPMXuh0hMuN1Bl/FKhOwDJlHOzEVffqAlrEkjQr4hOnakZBqRut6aAlB
-	XnfA==
+	bh=7Ah2uoTQcOMEtpK4c+b3SG7UIQANRRcXyXdI6dymh8U=;
+	b=VZRQS02Cb/DLTZPHqQXfGW1py/11z78QQ+dIw9Ojki8iFVVJ2wesLA9fidjJ+JGdEV
+	DxApSLMGyj5Nw5vkSQBYKWug2l2yl1Aei5OG/6aRAnLhimDJa00j2npCxEfQLU11Gp8o
+	NK+7CfZNCpPD13E45slW9lUKByKizY5liJUVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+mTH0LAZJlp9QsnQdrS1LkHI9IhyRIbQQ8q4XDXy/cY=;
-	b=XDAvmcmHzr2RjgRYM2IyI7m8AJvX5O//nEorH78bgMe9duJ1LgfDDfVHdh690V76AE
-	lxgepoDkuvLBUimVJzTjLdXGpzxIWSMGM2gJlkjjfTTacLwu0RJpQE2NkQDBPAEG+z+Q
-	524DeX1OS6kay5otJimHkyfDxP12iNMbb4RPsFvKUd5vTwk4bZxVJgfliZdhrioNDg8P
-	yKRdB+KGyH7qbcsS8p5RjiHYAtQe2HQ9kZyQsc3k0Mu7rFMB4gOraLZyToTSKeDCOzyl
-	Snbtu/RzSu/ZFy7aajxW8iR3GQUnVI7wDzFInRog5GbRoscjy3uYEZl2gruP9OZkvX4r
-	j/Ig==
-X-Gm-Message-State: APt69E3o6eRl+NVo2udtJ2Wsor/u2EgtSdT8r2mWLzn824a5cMSq46WA
-	Q3qlMbh1Vtyy4XoJjRWf61JccJRL
-X-Google-Smtp-Source: AAOMgpf6wcWNl2KCE7G7WHlwnA6p0tTn4+O1b1NvvubiEVbQ6cdZj3RCKIAFjAMRH6zO1Np0qZddUA==
-X-Received: by 2002:adf:e285:: with SMTP id v5-v6mr939314wri.54.1530696249004; 
-	Wed, 04 Jul 2018 02:24:09 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o42-v6sm9019021wrc.50.2018.07.04.02.24.08
+	bh=7Ah2uoTQcOMEtpK4c+b3SG7UIQANRRcXyXdI6dymh8U=;
+	b=RG7EAFGSoUifVwq2HI4A0edB91ICqfxdE1gcYxrfVBoYPks2Df4I16pX8SpkFRjlJd
+	CfqqntKjm42YR5gCXIRS2IpfT/xb+tuZRw+0BQL3oiIXfTzeEGfYtFw6vFhvgmaQ1pId
+	Ig0UmUK/rOaWRQkRRz3tfsCqRpA+IGJ6y9SpN9gjmRlpVNiUz9ErdsxQRg5rbuDpZ7Gs
+	PczIQOwoyCQAOiNa05NM3rh5onKQXyRM/bcXo06O71d2/21So+Hwwdja7xMt9aluxiq4
+	ImCU6xvrL3DbJ2yBDC29a5eNTDuiAK8pvXSZWV4Eu5eATaoQZg70HnNWABYM7mxfwm/j
+	1KUA==
+X-Gm-Message-State: APt69E3BYYQXkG5n6kroYL2iQFg/LZPn0tumu4lZJDMVr5SGJ+LglagF
+	Jpq6yC+1E6DbTNKOv5L0Yr3pJ8IddBI=
+X-Google-Smtp-Source: AAOMgpcMZnum0wqm79s3oNryMsyVJjSfWG9+6AqPXUDj+F6FSpmtP7480+LKYfHcBdEpQN0WOvD25A==
+X-Received: by 2002:a1c:2094:: with SMTP id
+	g142-v6mr1029908wmg.144.1530697442098; 
+	Wed, 04 Jul 2018 02:44:02 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o17-v6sm2855303wrp.62.2018.07.04.02.44.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Jul 2018 02:24:08 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 04 Jul 2018 02:44:01 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jul 2018 10:24:06 +0100
-Message-Id: <20180704092406.4319-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] mesa: add lost Upstream-Status tag
+Date: Wed,  4 Jul 2018 10:43:59 +0100
+Message-Id: <20180704094400.9746-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] send-error-report: Fix dubious error reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 09:24:09 -0000
+X-List-Received-Date: Wed, 04 Jul 2018 09:44:02 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Currently this code prints things like:
+
+ERROR: OK
+
+which is unhelpful at best. After this change it would print:
+
+ERROR: HTTP Error 500
+
+which at least gives us something to work on.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch            | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/send-error-report | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-index 669e6558d16..545752274e4 100644
---- a/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-+++ b/meta/recipes-graphics/mesa/files/0003-winsys-svga-drm-Include-sys-types.h.patch
-@@ -11,6 +11,7 @@ on glibc since sys/types.h is included through another
- system headers
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+index cd2e7f4b9db..02014ba9d85 100755
+--- a/scripts/send-error-report
++++ b/scripts/send-error-report
+@@ -140,7 +140,7 @@ def send_data(data, args):
+     try:
+         response = urllib.request.urlopen(req)
+     except urllib.error.HTTPError as e:
+-        logging.error(e.reason)
++        logging.error(str(e))
+         sys.exit(1)
  
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport [7dfdfbf8c37e52e7b9b09f7d1d434edad3ebc864]
- ---
-  src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
-  1 file changed, 1 insertion(+)
+     print(response.read().decode('utf-8'))
 -- 
-2.11.0
+2.17.1
 
 
