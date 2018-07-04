@@ -1,48 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5531378AA7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 411ED784F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2018 00:55:28 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id u16-v6so1795428pfh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2018 17:55:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ND9cBy56Nj3aRpHZ7wlXYkIUm0dvXvDjqvotLg5qGdw=;
-	b=A/Bm9nDRogSi5kPLi2sJKfFvVquQL3Xf9WczRLRYjb+a0M752o65KJOIZ2K/dfJhnq
-	8s6bJXCrVBv5UAXySHPpDtOevKf0A+Eewe85vyOhsOlKJ3ExXjYQGuIIDzcsrcIvn2YW
-	QblmuL1/He6HToGENiryoKcHv96b5wX0My360tzLC+IhJ0YYLRj9oywCMziOunUAhbXV
-	eb0gt2k6lsuJZMF7URQZnUeb1rYCpHWf/x1YAX9g+m+a4KSPS/F3VkAKr4YOOhXLNway
-	yMw9DyoH4FyDwAXs4ZTs+xyhr7k9mtTMYaE9l7yUZl+S7xCYjFd1+fgVM6hmYvgAhL0B
-	5YLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ND9cBy56Nj3aRpHZ7wlXYkIUm0dvXvDjqvotLg5qGdw=;
-	b=YvhMrHbUNomd+ZtH5EdlCGM/poX1LeCgAxvy1ZqVr1uhywpSkoSKXtBJEOk4HbWyVQ
-	X7HZ599wrE94VoU6Tw+2vIr67Djn6MlqscOIuUiKGHWvRQBNkIU2Lhb/OuQQnbprLfk5
-	dg8JgUX5ZwXMNNPHooQ2jPo6gpRvB2gFSi9leCUpVTRWejlYorWQW28fa08UCWJnZkI7
-	i9MkxFN4xPk0QRWpHDGu1vD3fEHFjF1/l3x/jTx59+A2mX6st8U6h6zun43ZXRGxAU+r
-	SdxvxnFCiTDMFzrlZEHyrpw15vcLR9KpwqVtCmWYgzYlU2B+SwyL1YlvMA5Ug4bH3iOS
-	M6bg==
-X-Gm-Message-State: APt69E2jct1l+xOB9D+pASimhILgnGNzXOaaRD2u+JI2SZ6GHHY6nrgc
-	8tLVgnXpRwm7lLOLpoRQ+HZbvg==
-X-Google-Smtp-Source: AAOMgpcmxNzP3O48CT/FKn3cMYpBXL6snSuyYk02Q32Ax53ode36ziGPsx4SAAwy/dCWYJA8cAexcg==
-X-Received: by 2002:a62:864a:: with SMTP id
-	x71-v6mr12203929pfd.252.1530665729290; 
-	Tue, 03 Jul 2018 17:55:29 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	r77-v6sm4479473pfr.117.2018.07.03.17.55.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Jul 2018 17:55:28 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2018 17:55:22 -0700
-Message-Id: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] python-setuptools.inc: avoid using += with an over-ride
+	Wed,  4 Jul 2018 01:29:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w641TIL2003148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Jul 2018 18:29:18 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 3 Jul 2018 18:29:17 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Wed, 4 Jul 2018 09:39:14 +0800
+Message-ID: <1530668354-32157-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LYmJBomuBJ0LGxYy-5UpArmnXbx1dOakozAQZi8H+jHDA@mail.gmail.com>
+References: <CAJTo0LYmJBomuBJ0LGxYy-5UpArmnXbx1dOakozAQZi8H+jHDA@mail.gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH V2] libxml2: fix CVE-2017-8872
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 00:55:28 -0000
+X-List-Received-Date: Wed, 04 Jul 2018 01:29:20 -0000
+Content-Type: text/plain
 
-An over-ride replaces the original value regardless of whether or
-not it's set up with +=. As replacing the original value seems to be
-the intention here, drop the += to make it more explicit. Also some
-minor recipe formatting tweaks.
+The htmlParseTryOrFinish function in HTMLparser.c in libxml2 2.9.4
+allows attackers to cause a denial of service (buffer over-read) or
+information disclosure.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+https://bugzilla.gnome.org/show_bug.cgi?id=775200
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../libxml/libxml2/fix-CVE-2017-8872.patch         | 38 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.8.bb          |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index bf654be..3f1bfaa 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -2,7 +2,6 @@ SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
- HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
- SECTION = "devel/python"
- LICENSE = "MIT"
--
- LIC_FILES_CHKSUM = "file://LICENSE;beginline=1;endline=19;md5=9a33897f1bca1160d7aad3835152e158"
- 
- PYPI_PACKAGE_EXT = "zip"
-@@ -13,16 +12,12 @@ SRC_URI[md5sum] = "dd4e3fa83a21bf7bf9c51026dc8a4e59"
- SRC_URI[sha256sum] = "f7cddbb5f5c640311eb00eab6e849f7701fa70bf6a183fc8a2c33dd1d1672fb2"
- 
- DEPENDS += "${PYTHON_PN}"
--DEPENDS_class-native += "${PYTHON_PN}-native"
--DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
-+DEPENDS_class-native = "${PYTHON_PN}-native"
-+DEPENDS_class-nativesdk = "nativesdk-${PYTHON_PN}"
- 
- DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR} \
-                            --script-dir=${bindir}"
- 
--RDEPENDS_${PN}_class-native = "\
--  ${PYTHON_PN}-distutils \
--  ${PYTHON_PN}-compression \
--"
- RDEPENDS_${PN} = "\
-   ${PYTHON_PN}-compile \
-   ${PYTHON_PN}-compression \
-@@ -41,6 +36,11 @@ RDEPENDS_${PN} = "\
-   ${PYTHON_PN}-xml \
- "
- 
-+RDEPENDS_${PN}_class-native = "\
-+  ${PYTHON_PN}-compression \
-+  ${PYTHON_PN}-distutils \
-+"
+diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
+new file mode 100644
+index 0000000..b34479f
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
+@@ -0,0 +1,38 @@
++From b4bee17b158e289e5c4c9045e64e5374ccafe068 Mon Sep 17 00:00:00 2001
++From: Salvatore Bonaccorso <carnil@debian.org>
++Date: Tue, 3 Jul 2018 15:54:03 +0800
++Subject: [PATCH] Out-of-bounds read in htmlParseTryOrFinish (CVE-2017-8872)
 +
- do_install_prepend() {
-     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
- }
++https://bugzilla.gnome.org/show_bug.cgi?id=775200
++Fixes bug 775200.
++
++Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
++
++Upstream-Status: Submitted
++https://bug775200.bugzilla-attachments.gnome.org/attachment.cgi?id=366193
++CVE: CVE-2017-8872
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ parser.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/parser.c b/parser.c
++index ca9fde2..fb4c889 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -12464,7 +12464,11 @@ xmlHaltParser(xmlParserCtxtPtr ctxt) {
++ 	}
++ 	ctxt->input->cur = BAD_CAST"";
++ 	ctxt->input->base = ctxt->input->cur;
++-        ctxt->input->end = ctxt->input->cur;
+++	ctxt->input->end = ctxt->input->cur;
+++	if (ctxt->input->buf)
+++	    xmlBufEmpty (ctxt->input->buf->buffer);
+++	else
+++	    ctxt->input->length = 0;
++     }
++ }
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+index d55e650..1f22bb0 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
++           file://fix-CVE-2017-8872.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
 -- 
-1.9.1
+2.7.4
 
 
