@@ -1,50 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E5AD789EE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C033A6086F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 15:39:45 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id y70-v6so2797047vkc.0
+	Thu,  5 Jul 2018 15:58:08 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id b15-v6so1454724wrv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2018 08:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=RgYrJ6LqCeTWBh/AU/sakJjccUEvgA6KWF1WLhrwlbU=;
-	b=UpfOZEUOXKFVuGNvXdv8d7eHP92PnHc8lYOgoCHm3e85PTy81UEl0OgKW+Xnb9JvUI
-	cyHH9vkPSjOYdJLuunlbanlVSXWg+tbuwrEn9AOkhFFTqYjqqAkKcK8EM15x/qag+Zb2
-	OTiU6E43QqqLGkXczs61QpqNRS/nRusa7ky85+FjApOx40WcBlez2hE8jCSqOQnhxgG7
-	iOtBTzyZ/pNi5HGrX9hDlqcWDz5/I5CMJ2gVLgnPfmpImUAC5xbgrBMa1eMenCEfaL7T
-	SnT1LAzNn3fjf3//ggaYw36vF/uUL/MOPYwcjbQGBUflWz/drcD7pT02whUrIRoNorW7
-	RiNA==
+	Thu, 05 Jul 2018 08:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ldkAKxEyujIF+sDMV1RlHZvKR1DQ/zIxA/uzbOuKEEM=;
+	b=g59XCoZoIDFExP2gZq05Y8AdwDFh9g+XhkYiRG9W/9uH8GQl+AhLk84V3ISl/QqVqe
+	R1qGwQKAq+7ZvKCJvlkXaI337rYFzHITsVxawvr/Liov7wL0KBl1/eJOXGr+clOGTKDd
+	Y2IscyuT5X/v54NzIG8jgHDbdH/DwR+XCBVLrFEdLeFMPOdamqKU72G2PqJC5o53/L47
+	MWwfKjflULH1a+Sdiq1FrwS23orqaI7Ekn3xP3cgS8OhmYWELTkOSqtXv8+oh6/GOQp9
+	h3llrkHLu65bwCk/P6KYcgae/E2gPL9MLvPWYAuJ07kPWAEWgIyx6ZQQnpWeuM4kwb+E
+	sKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=RgYrJ6LqCeTWBh/AU/sakJjccUEvgA6KWF1WLhrwlbU=;
-	b=YhdXvxXBXyIpFK7vrVRQsqV7HcyL/dfJMGB0T/E3DUybpI3f2pj6ykUc1L25I6pRYn
-	p+5yOP5d+R13SCk/lFP+Feg3OVOqBVvawBa4pwuX339LnkH2YGWGb9R6cr7HcxxIWlSe
-	kK1v4CN7yuKsLzPZX30HK5fKGV5ZWLJ54J6xUKu3wyqvu4XPOYVTRAonR6tJqZpH0lmj
-	6kCLxxIeHUXVbyixeAYMYtB3gcvMh9LaSIgLtqBWjYCYGtbsCd9XuGMFH3QkdxuNLxrH
-	s3AxX7/GhYY75D9Qc8FmyC9Cs3p6y7qkQ54w9JVljaxa/gJNX5eQWe/4PlSnH5R+0puJ
-	no/A==
-X-Gm-Message-State: APt69E3fEWPUAO69gJ4U6JhEMD7ZgNw+EL+P9RWivXZI9Pzp8xExF/7s
-	4qxQpB4Z4CJpPUjMwwuu6V0jpJaVOlgSYUKFTKI=
-X-Google-Smtp-Source: AAOMgpdCtgmCbM3KmZcbKHNcHMXrfnrtRcR65LFTaxzGhaMTV7Ux3Fincp9RSACdXMWOsjVaFxJnsxTF6iLTkTdEaMs=
-X-Received: by 2002:a1f:e605:: with SMTP id d5-v6mr3602231vkh.4.1530805185986; 
-	Thu, 05 Jul 2018 08:39:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180704065654.21039-1-zhe.he@windriver.com>
-	<CAMKF1sr-+FgZYWSD-LEVxZ5uAf7TE8qTPJ7=NYs=ixOPc9cwHA@mail.gmail.com>
-	<0cf4c4a2-c9ef-7f1b-ccfe-f1413dc1f312@windriver.com>
-In-Reply-To: <0cf4c4a2-c9ef-7f1b-ccfe-f1413dc1f312@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jul 2018 08:39:19 -0700
-Message-ID: <CAMKF1sqrosj8d1apbUOSV0NH_XMPKB+yEG_5EQhO1BmZi866Rg@mail.gmail.com>
-To: zhe.he@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ldkAKxEyujIF+sDMV1RlHZvKR1DQ/zIxA/uzbOuKEEM=;
+	b=YXVvT1MbTmg59BQScf+KyUS92FKmXAiXid6hH5531kP7T21Us7v4gyo9ife0uLtNnG
+	qT/mdxooaqsM9yyHCReXOjxzFnceiEfNaDfXfx0iLS+5KNno5JBu4Q4izloPGdDb2KTt
+	8EMnildg8sTLE1o+g/9N8ocMjwMmZJdGwYL1Fao/fXY0viYrhar7jExz8bU3NbGo/kbC
+	f/ZNvUFfazZLjnSzp94+lEeYpm+HYxFtQNitVuBH5G4RsFQI3hryzU+9Beb6T1lUNTUa
+	cbnMGdOnhBGbEf+V38n1tNhcH/n9O35FxGARsvMrhCJtMxlSDy7YjfENz/SVzt7RHlg9
+	mLDw==
+X-Gm-Message-State: APt69E2fXLO60fkPiHRvGB50MClpdX/J4eNU+skYBtBZvqF8SlmfeDGF
+	It+CK9gyFxKI0hX0yXqC5XHK1cGM
+X-Google-Smtp-Source: AAOMgpf2ajD7CAY16US0qtLjtn9S3oKY6QDt06Jt+HFwRaVUY4Vy1UeuUDjoOHNhSLFmxr68oZMNxA==
+X-Received: by 2002:adf:edca:: with SMTP id
+	v10-v6mr4962625wro.264.1530806289002; 
+	Thu, 05 Jul 2018 08:58:09 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r194-v6sm12188065wmd.36.2018.07.05.08.58.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Jul 2018 08:58:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Jul 2018 16:58:04 +0100
+Message-Id: <20180705155805.20847-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] python-numpy: set CLEANBROKEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,119 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 15:39:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Jul 2018 15:58:09 -0000
 
-we need to define a new machine config for qemumipsel.conf something like b=
-elow
+The distutils class is about to do a clean via "setup.py clean", but numpy
+doesn't support this and errors.
 
-#@TYPE: Machine
-#@NAME: mti_malta32_le MIPS
-#@DESCRIPTION: mti_malta32_le
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/python-numpy/python-numpy.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-require conf/machine/include/qemu.inc
-require conf/machine/include/tune-mips32r2.inc
-require conf/machine/include/qemuboot-mips.inc
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+index 1d822fa3fe3..1b51f7baaf2 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+@@ -77,6 +77,8 @@ CONFIGFILESURI_riscv64 = " \
+ 
+ S = "${WORKDIR}/numpy-${PV}"
+ 
++CLEANBROKEN = "1"
++
+ # Make the build fail and replace *config.h with proper one
+ # This is a ugly, ugly hack - Koen
+ do_compile_prepend_class-target() {
+-- 
+2.11.0
 
-DEFAULTTUNE =3D "mips32r2el"
-
-KERNEL_IMAGETYPE =3D "vmlinux"
-KERNEL_ALT_IMAGETYPE =3D "vmlinux.bin"
-
-SERIAL_CONSOLES ?=3D "115200;ttyS0 115200;ttyS1"
-
-MACHINE_EXTRA_RRECOMMENDS =3D " kernel-modules"
-On Thu, Jul 5, 2018 at 2:37 AM He Zhe <zhe.he@windriver.com> wrote:
->
->
->
-> On 2018=E5=B9=B407=E6=9C=8804=E6=97=A5 21:29, Khem Raj wrote:
-> > i think you can squash both patches into one. Additionally we should
-> > be able to cover mipsel case as well
->
-> I started a build with latest poky and only set DEFAULTTUE=3Dmipsel. Is t=
-his the right way to use little endian?
->
-> Then I got the following error and found kernel and kernel modules output=
- are all big endian.
->
-> ERROR: linux-yocto-4.14.48+gitAUTOINC+94457657b8_6c2433d7c5-r0 do_package=
-_qa: QA Issue: Endiannes did not match (1 to 0) on /work/qemumips-poky-linu=
-x/linux-yocto/4.14.48+gitAUTOINC+94457657b8_6c2433d7c5-r0/packages-split/ke=
-rnel-module-i2c-dev-4.14.48-yocto-standard/lib/modules/4.14.48-yocto-standa=
-rd/kernel/drivers/i2c/i2c-dev.ko [arch]
->
-> Then I tried to build a empty file.
-> tmp/work/x86_64-linux/gcc-cross-mipsel/8.1.0-r0/recipe-sysroot-native/usr=
-/bin/mipsel-poky-linux/mipsel-poky-linux-gcc -c a.c
-> as: unrecognized option '-EL'
->
-> Does it mean there something wrong with little endian toolchain?
->
-> Zhe
->
-> > On Tue, Jul 3, 2018 at 11:57 PM He Zhe <zhe.he@windriver.com> wrote:
-> >> OE uses qemumips to simulate a Malta board by default.
-> >>
-> >> As upstream qemu introduced:
-> >> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D94c2b6aff43cdfcfdfb5=
-52773a6b6b973a72ef0b
-> >>
-> >> The Malta board can support up to 2GiB of RAM which should
-> >> be able to boot a Linux kernel built with CONFIG_HIGHMEM
-> >> enabled and passing "-m 2048" to QEMU and appending the
-> >> following kernel parameters:
-> >> ...
-> >> mem=3D256M@0x0 mem=3D256M@0x90000000 mem=3D1536M@0x20000000
-> >> ...
-> >>
-> >> But the following commit in kernel broke above mem=3DX@Y setting
-> >> which added the memory as reserved memory area.
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> >> ...
-> >> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-> >> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
-> >> Date:   Wed Nov 23 14:43:49 2016 +0100
-> >>
-> >>     MIPS: fix mem=3DX@Y commandline processing
-> >> ...
-> >>
-> >> So remove `mem=3D*' to disable user-defined physical RAM map
-> >> which let kernel itself caculates memory ranges.
-> >>
-> >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> >> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> >> ---
-> >>  scripts/runqemu | 5 ++++-
-> >>  1 file changed, 4 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/scripts/runqemu b/scripts/runqemu
-> >> index de42d0f323..597e7e9a79 100755
-> >> --- a/scripts/runqemu
-> >> +++ b/scripts/runqemu
-> >> @@ -668,7 +668,10 @@ class BaseConfig(object):
-> >>              logger.info('QB_MEM is not set, use 512M by default')
-> >>              self.set('QB_MEM', '-m 512')
-> >>
-> >> -        self.kernel_cmdline_script +=3D ' mem=3D%s' % self.get('QB_ME=
-M').replace('-m','').strip() + 'M'
-> >> +        mach =3D self.get('MACHINE')
-> >> +        if mach !=3D 'qemumips':
-> >> +            self.kernel_cmdline_script +=3D ' mem=3D%s' % self.get('Q=
-B_MEM').replace('-m','').strip() + 'M'
-> >> +
-> >>          self.qemu_opt_script +=3D ' %s' % self.get('QB_MEM')
-> >>
-> >>      def check_tcpserial(self):
-> >> --
-> >> 2.11.0
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
