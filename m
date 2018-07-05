@@ -1,29 +1,48 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5995C745BC
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F2DC78A20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 09:37:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w659bOcK008380
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Jul 2018 02:37:24 -0700 (PDT)
-Received: from [128.224.162.216] (128.224.162.216) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 5 Jul 2018 02:37:24 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <20180704065654.21039-1-zhe.he@windriver.com>
-	<CAMKF1sr-+FgZYWSD-LEVxZ5uAf7TE8qTPJ7=NYs=ixOPc9cwHA@mail.gmail.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <0cf4c4a2-c9ef-7f1b-ccfe-f1413dc1f312@windriver.com>
-Date: Thu, 5 Jul 2018 17:37:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Thu,  5 Jul 2018 10:03:47 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id l189-v6so4543674vke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jul 2018 03:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kdpcJ+bsvPfTd+ncHHXWF6pvMH9xR1yrwvq98s8AxPs=;
+	b=f2lIDivOHgBEsI/69rZm1XiSsi09atkC8ApK6dWUXfjAZf6ojZxWqBoN6poxWrkWL7
+	GWuQFe5/ohYOgfAnnwkMf5vAb/v8RxljBcsIAWGB1Vz63zwCY8Brrs5Hudlyxqa27XaQ
+	EXf2I8/Kj+y/5PofqJxexCQZ9eIY5r286SGOaBDaQchsKO9IvrACQwOz8ah3CAagRsMG
+	z5opBSZ//RRtmn1kLvJAE2CYSvMfGtPu3Z5gwvuxOs5G4TGcfVIYIFDtqEjtSoibrNkV
+	S/flN/QWbbwYgIyjhzsGvr/m4f8M2ldDdV2+kJ4woo1nzlD2x4lWYv+Ifu/RXYIpwPct
+	AzVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kdpcJ+bsvPfTd+ncHHXWF6pvMH9xR1yrwvq98s8AxPs=;
+	b=Mb+TVy0KfvxUVjyO8UMRzRKXx4++pAk9XUqgo3v7nJB1K6kNbV7c+g0uE4mXpSeB4c
+	rqo7yx8xPYXWKG9Xknaq5wxIjmy1jq41MpEzEAmiPy6Tvp1ZQNzQlWpNbITVTa/G5aSG
+	EW6O2QMximkT+/+IzTIHTDXToUsWuLsaLgNvleCQ7dgOLerFJ4XuRDhNEnJY5ui+ldVi
+	nlREcPudZCI2Qkl+bGXOidg7tYkpQa60Om9lYiEcjGCplqN+SDK3UNDvKlQsjE9Qn+k+
+	qyLKtqieMTbwXEQGOQ0bPBmCk2CVloKcDSQS8vCKChPKx6gTN9hzGaA/66ge2d9xFLuS
+	Ti8Q==
+X-Gm-Message-State: APt69E1JEd8a8hGTWg1TTDA0VfwvuY1/nJZ0JUpNyJrnuaGSI8g1ka35
+	uVhoRFPifkOj1Qv7wuKpvPvz/hnIRv2G/+RLmEf3mg==
+X-Google-Smtp-Source: AAOMgpcruWylAhuslp9OcSZCE87QwmyMz3bflpzaPqWE7djYxj7Zrci9j0pgXEDOqgA2EP6QiyHRyfDvd1is8/UARXI=
+X-Received: by 2002:a1f:320:: with SMTP id 32-v6mr2919933vkd.13.1530785028284; 
+	Thu, 05 Jul 2018 03:03:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr-+FgZYWSD-LEVxZ5uAf7TE8qTPJ7=NYs=ixOPc9cwHA@mail.gmail.com>
-X-Originating-IP: [128.224.162.216]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] scripts/runqemu: qemumips support up to 2GiB RAM
+References: <1530621453-19618-1-git-send-email-alex.kiernan@gmail.com>
+	<87af19446a0ae84f556b5da5d209245da12f89c3.camel@linuxfoundation.org>
+In-Reply-To: <87af19446a0ae84f556b5da5d209245da12f89c3.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 5 Jul 2018 11:03:37 +0100
+Message-ID: <CAO5Uq5QyYNYzT0bcD_M79WuTx2gSN5OYO-tSA8sWnHxEV47Mxw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] openssh: Add dependency on ssh for sftp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,88 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 09:37:24 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 05 Jul 2018 10:03:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, Jul 5, 2018 at 10:32 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2018-07-03 at 12:37 +0000, Alex Kiernan wrote:
+> > Add missing dependency on the ssh binary for the sftp client to avoid
+> > failure at runtime if it's not been installed through another
+> > dependency
+> > chain.
+> >
+> > This introduces a note if PREFERRED_RPROVIDER_ssh is not set and it
+> > can be satisfied by multiple providers (e.g. openssh and dropbear).
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> > Changes in v2:
+> > - Depend on ssh not ${PN}-ssh so it can be satisfied by openssh or
+> > dropbear
+> >
+> >  meta/recipes-connectivity/openssh/openssh_7.7p1.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> Won't this patch still introduce build time warnings?
+>
 
+Yes, sorry, I intended to tag it as RFC, but clearly didn't.
 
-On 2018年07月04日 21:29, Khem Raj wrote:
-> i think you can squash both patches into one. Additionally we should
-> be able to cover mipsel case as well
+> I have to agree with Mike's comments, I'm very worried this change is
+> going to introduce problems for a lot of people...
+>
 
-I started a build with latest poky and only set DEFAULTTUE=mipsel. Is this the right way to use little endian?
+Yeah :(
 
-Then I got the following error and found kernel and kernel modules output are all big endian.
-
-ERROR: linux-yocto-4.14.48+gitAUTOINC+94457657b8_6c2433d7c5-r0 do_package_qa: QA Issue: Endiannes did not match (1 to 0) on /work/qemumips-poky-linux/linux-yocto/4.14.48+gitAUTOINC+94457657b8_6c2433d7c5-r0/packages-split/kernel-module-i2c-dev-4.14.48-yocto-standard/lib/modules/4.14.48-yocto-standard/kernel/drivers/i2c/i2c-dev.ko [arch]
-
-Then I tried to build a empty file.
-tmp/work/x86_64-linux/gcc-cross-mipsel/8.1.0-r0/recipe-sysroot-native/usr/bin/mipsel-poky-linux/mipsel-poky-linux-gcc -c a.c
-as: unrecognized option '-EL'
-
-Does it mean there something wrong with little endian toolchain?
-
-Zhe
-
-> On Tue, Jul 3, 2018 at 11:57 PM He Zhe <zhe.he@windriver.com> wrote:
->> OE uses qemumips to simulate a Malta board by default.
->>
->> As upstream qemu introduced:
->> https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
->>
->> The Malta board can support up to 2GiB of RAM which should
->> be able to boot a Linux kernel built with CONFIG_HIGHMEM
->> enabled and passing "-m 2048" to QEMU and appending the
->> following kernel parameters:
->> ...
->> mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
->> ...
->>
->> But the following commit in kernel broke above mem=X@Y setting
->> which added the memory as reserved memory area.
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
->> ...
->> commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
->> Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
->> Date:   Wed Nov 23 14:43:49 2016 +0100
->>
->>     MIPS: fix mem=X@Y commandline processing
->> ...
->>
->> So remove `mem=*' to disable user-defined physical RAM map
->> which let kernel itself caculates memory ranges.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> Signed-off-by: He Zhe <zhe.he@windriver.com>
->> ---
->>  scripts/runqemu | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index de42d0f323..597e7e9a79 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -668,7 +668,10 @@ class BaseConfig(object):
->>              logger.info('QB_MEM is not set, use 512M by default')
->>              self.set('QB_MEM', '-m 512')
->>
->> -        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
->> +        mach = self.get('MACHINE')
->> +        if mach != 'qemumips':
->> +            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
->> +
->>          self.qemu_opt_script += ' %s' % self.get('QB_MEM')
->>
->>      def check_tcpserial(self):
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+-- 
+Alex Kiernan
 
