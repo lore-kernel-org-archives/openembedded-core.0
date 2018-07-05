@@ -1,25 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A577778AEA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C06BF78432
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 07:27:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w657RkLd007607
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jul 2018 00:27:46 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 5 Jul 2018 00:27:45 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jul 2018 15:31:03 +0800
-Message-ID: <b667b46f80cdd8772b8c9a1370b1c863d7f94312.1530775716.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1530775716.git.Qi.Chen@windriver.com>
-References: <cover.1530775716.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] systemd-boot: upgrade to 239
+	Thu,  5 Jul 2018 08:21:51 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w658Lnxr025510
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 5 Jul 2018 09:21:50 +0100
+Message-ID: <a333b452e931aba10c78abf179e81f55d9de4c49.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 05 Jul 2018 09:21:49 +0100
+In-Reply-To: <20180704075924.24065-1-Martin.Jansa@gmail.com>
+References: <CA+chaQd9otpzozM5DrifBUVdODogBsVdy2U8czAAd+Ys_6TBtA@mail.gmail.com>
+	<20180704075924.24065-1-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCHv3 1/4] kernel-devicetree.bbclass: Use lowercase names for shell variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 07:27:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jul 2018 08:21:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Upgrade systemd-boot to 239.
+On Wed, 2018-07-04 at 07:59 +0000, Martin Jansa wrote:
+> * just to make it more clear what is local shell variable and what is
+>   replaced by bitbake from the metadata and also to prevent the
+> variable
+>   to be incorrectly expanded by bitbake if someone happens to define
+>   e.g. DTB_BASE_NAME
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/kernel-devicetree.bbclass | 80 +++++++++++++-----------
+> --
+>  1 file changed, 40 insertions(+), 40 deletions(-)
 
-The following patch is removed due to recent fix about meson's cpu family
-mapping and validation.
+I think something in this series is breaking qemuppc automated testing:
 
-  0001-Also-check-i386-i586-and-i686-for-ia32.patch
+https://autobuilder.yocto.io/builders/nightly-ppc/builds/1129
+https://autobuilder.yocto.io/builders/nightly-ppc-lsb/builds/1114
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../{systemd-boot_237.bb => systemd-boot_239.bb}   |  5 ++--
- ...01-Also-check-i386-i586-and-i686-for-ia32.patch | 28 ----------------------
- 2 files changed, 2 insertions(+), 31 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_237.bb => systemd-boot_239.bb} (91%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+Cheers,
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_237.bb b/meta/recipes-core/systemd/systemd-boot_239.bb
-similarity index 91%
-rename from meta/recipes-core/systemd/systemd-boot_237.bb
-rename to meta/recipes-core/systemd/systemd-boot_239.bb
-index afd3848..7fe420c 100644
---- a/meta/recipes-core/systemd/systemd-boot_237.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_239.bb
-@@ -3,9 +3,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
- 
- DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
- 
--SRC_URI += "file://0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
--            file://0027-remove-nobody-user-group-checking.patch \
--            file://0001-Also-check-i386-i586-and-i686-for-ia32.patch \
-+SRC_URI += "file://0002-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
-+            file://0006-remove-nobody-user-group-checking.patch \
-             file://0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch \
-             "
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch b/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-deleted file mode 100644
-index 877bb1c..0000000
---- a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 3e8c19bb1bbc4493c591f75c00c1fefe3b1c8a69 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Tue, 27 Feb 2018 20:42:41 -0800
--Subject: [PATCH] Also check i386, i586 and i686 for ia32
--
--Upstream-Status: Pending
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 28cb8b60e..489531a43 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1217,7 +1217,7 @@ conf.set10('SYSTEMD_SLOW_TESTS_DEFAULT', slow_tests)
-- if get_option('efi')
--         efi_arch = host_machine.cpu_family()
-- 
---        if efi_arch == 'x86'
--+        if efi_arch == 'x86' or efi_arch == 'i386' or efi_arch == 'i586' or efi_arch == 'i686'
--                 EFI_MACHINE_TYPE_NAME = 'ia32'
--                 gnu_efi_arch = 'ia32'
--         elif efi_arch == 'x86_64'
---- 
--2.13.0
--
--- 
-1.9.1
-
+Richard
 
