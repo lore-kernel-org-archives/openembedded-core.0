@@ -1,48 +1,65 @@
-Return-Path: <freebendy@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6599378A52
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6DF789EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 11:39:35 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id m16-v6so1130502pls.11
+	Thu,  5 Jul 2018 13:21:08 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id n84-v6so16769085oib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2018 04:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bnlNPbKE958nVVNfAWJExIiGmA6kxTFCxdR3iLRyIYg=;
-	b=geBaGuYGglOb4VdSi4gvvv5JhOklwFtKtw4FjkO/ykCqPlH5K2TTWtITV0wt5XTmwd
-	bXlyK/JplLXuQfv5g87Tse7W5MGV5xf1o7hm9Q+WrxjU0n/3HwilKuJ7K2sWmY9rvNWt
-	sOyuOZbRjG1HPWEYnK4KNTHa5QN5YLCDkincUA8uX6t7WMHnFBZghxnk5uE9TgXQTChR
-	bvg7s/RJY7xgR6cPG8eM9oHEzD9SEBtIY6+++sj2eZSbUDNIYhr3Hgsp1IC7Pg5kjk8P
-	+2fjxiQ+tn1Omzo7aDQP5Z781nA2r0X3Ydp53m+5ueqJL0uTYtA1na4k6SMeKHVp1B/s
-	6GbQ==
+	Thu, 05 Jul 2018 06:21:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=s/saVit/t3i6AXp9KPA8U35erqqrtLvxe8/xe5V/tOI=;
+	b=zDvaAIjpfHvXEHq3N7mwCb6m1y0a0dmwge5e/wCbwkSl+Kq/cYTxAlfSUXNrLcbhQc
+	HVy0NoSq8HUrq+woyOfEy+9eVCv9NF3y3frAwFb4mEGCMmqjiE4CkyeCSdKtjJsXsS/l
+	aojd1IyRjjRDsfxynlJiSer3tO3jn1gFMkNq5dTp/LNgYCs1aBIMNym6E29yffa5Rk4k
+	PLtxgVo4gQmzzHcVTqNfaV4ATQ/7DD+77JL3g/snlgvJa7fRgHuc4hVL3K6G9OI6Espd
+	pMkTV9kWOq0QNKU5L2BbIhZkXjK0qIPYvpqwPJp0z3UIITqgK+A63PdUKbi/7KvCzCy+
+	iSiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bnlNPbKE958nVVNfAWJExIiGmA6kxTFCxdR3iLRyIYg=;
-	b=jSccMjZn1FVcXSXEn1FegjRthk3Uf9KNfjUB5BmCeDy9kfo3HuwdUPDpNRJ+KAPTjP
-	205SaZP/9lUh1hor++bYE+KhYM2N61mZWVCkg4m75g5XtGPdWsU51ozOo6Y+UAWKUWDw
-	LYCrKHEmJ8fy8Ju7XxUHxvrKROFisFJfjnunr1jn/nmGW/eOT5LPtk3ATTyIEADF+UUg
-	3TBdCAcPURqYKt793ikQwPfJ77ovKfVggrUWs+f9hiL8JbCmI5V7iS26BvBHUkv0MCxK
-	UGb7i2Tw2d5xbpONV2Dzl+Su0fAZQPXLbkvDW+2LmqZOozi2Zg8VFgzuzAt9MBt9+280
-	axyQ==
-X-Gm-Message-State: APt69E0gTVrVuB2lrkdkl+15sjFEBLuYxYhZnWwrvQhKg6eIvYauiyZn
-	K07vjaZ6F+qcSKRkaOkrTihkGT0=
-X-Google-Smtp-Source: AAOMgpf0by+/gQxs+Nu//kp2YKS3XamncI43IB4loPMddI1+Bd0JptCWEYq4asWWi/ZHcPezBFFTog==
-X-Received: by 2002:a17:902:8a87:: with SMTP id
-	p7-v6mr5763771plo.281.1530790776297; 
-	Thu, 05 Jul 2018 04:39:36 -0700 (PDT)
-Received: from localhost.localdomain ([116.7.217.100])
-	by smtp.gmail.com with ESMTPSA id
-	v6-v6sm27313417pfa.28.2018.07.05.04.39.34
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=s/saVit/t3i6AXp9KPA8U35erqqrtLvxe8/xe5V/tOI=;
+	b=GqmQPnP0jwwgrfB5abDl56+4HOHvqG3PMgzTYSWhtcOeOLiq91zxup6K9eGDyCq8Ax
+	A4wnZjG85AYqpCmx88OSQ9zQav/BHBIM8KllPQeGXIesPc8oxFpxQEr4YghbA37X1Yrt
+	a01rAXfnBKZG+IcfUoGyB3SgOhP02E5FO5UDzQPcjaPw38UuqfObay0MNvUxrDUDWfY2
+	0lvGCcUG3ejI1ULQLFL1YgErGw0tFz7Q5YVj05hwklDxBAr38PezEp/1IHo/eOncXUaK
+	RWS40vs3E9Y7tgbs6rR9uSYOTrQ+gq9GzGEph7GveHBbbZnuopNPKcZmfF8XHJW6cefm
+	BmxQ==
+X-Gm-Message-State: APt69E1H7Yu00x72NDnZnQLCACQYhPeD5YKGJhlvSJ4VGDw5F9beiFyf
+	L7A236ehXCyp6UsbV7a4km0Bl5mj
+X-Google-Smtp-Source: AAOMgpfepEI8KaXocqJQaOHCfqvnqQrN6B4KepW2qqs659/LPuYayVWqrx0g82Vjam8mksBGNYo7Qg==
+X-Received: by 2002:aca:698c:: with SMTP id
+	e134-v6mr7308803oic.302.1530796868920; 
+	Thu, 05 Jul 2018 06:21:08 -0700 (PDT)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+	4-v6sm3889599oif.34.2018.07.05.06.21.07
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Jul 2018 04:39:35 -0700 (PDT)
-From: Binghua Guan <freebendy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jul 2018 19:36:59 +0800
-Message-Id: <20180705113659.4198-1-freebendy@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] curl: support mbedtls in PACKAGECONFIG
+	Thu, 05 Jul 2018 06:21:07 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id d189-v6so16787315oib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jul 2018 06:21:07 -0700 (PDT)
+X-Received: by 2002:aca:eb0d:: with SMTP id
+	j13-v6mr7115163oih.304.1530796867242; 
+	Thu, 05 Jul 2018 06:21:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:58c5:0:0:0:0:0 with HTTP;
+	Thu, 5 Jul 2018 06:21:06 -0700 (PDT)
+In-Reply-To: <20180705104501.4166-1-ross.burton@intel.com>
+References: <20180705104501.4166-1-ross.burton@intel.com>
+Date: Thu, 5 Jul 2018 10:21:06 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKowfBC_p=XsqBaVkFDbBxQfXEL1Kr097wcuC5dMzJHJHA@mail.gmail.com>
+Message-ID: <CAP9ODKowfBC_p=XsqBaVkFDbBxQfXEL1Kr097wcuC5dMzJHJHA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: patch cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +72,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 11:39:35 -0000
+X-List-Received-Date: Thu, 05 Jul 2018 13:21:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Binghua Guan <freebendy@gmail.com>
----
- meta/recipes-support/curl/curl_7.60.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Thu, Jul 5, 2018 at 7:45 AM, Ross Burton <ross.burton@intel.com> wrote:
+> 0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch was fixed a
+> different way upstream so remove.
+>
+> 0007-dri-i965-Add-missing-time.h-include.patch is now accepted upstream so mark
+> as backport.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-diff --git a/meta/recipes-support/curl/curl_7.60.0.bb b/meta/recipes-support/curl/curl_7.60.0.bb
-index fe04fa63c9..50c90518d4 100644
---- a/meta/recipes-support/curl/curl_7.60.0.bb
-+++ b/meta/recipes-support/curl/curl_7.60.0.bb
-@@ -31,6 +31,7 @@ PACKAGECONFIG[ldap] = "--enable-ldap,--disable-ldap,"
- PACKAGECONFIG[ldaps] = "--enable-ldaps,--disable-ldaps,"
- PACKAGECONFIG[libidn] = "--with-libidn2,--without-libidn2,libidn2"
- PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
-+PACKAGECONFIG[mbedtls] = "--with-mbedtls=${STAGING_DIR_TARGET},--without-mbedtls,mbedtls"
- PACKAGECONFIG[nghttp2] = "--with-nghttp2,--without-nghttp2,nghttp2"
- PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
- PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
 -- 
-2.11.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
