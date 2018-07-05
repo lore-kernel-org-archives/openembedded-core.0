@@ -1,48 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 50FF27885D
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BF4AA78464
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 22:18:04 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id u8-v6so6390012uao.4
+	Thu,  5 Jul 2018 23:39:29 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id r18-v6so6463041ual.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2018 15:18:05 -0700 (PDT)
+	Thu, 05 Jul 2018 16:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=B1zZgOL1MVtEn0PvvGPakSrL+AMa+CXANP4urU7jaNc=;
-	b=fY886D7EATX060hC2bcKrgROzKnsfZrpUxKcmFCr9z7QbrodZyuEbooCVFXFlJpghP
-	B5abWQYklkg62h5gakpt3y3cOxir9YqUn1n3uaWuj/JSQI9DbPB9vsA5tJBUNrE6E7Re
-	GTwla/l4OBuGbP4vcYKBzdBStmLQJ42y7Iuh167Znk181Aq3QwT150cTg+uF3LtPgWbV
-	qnjuBE9d5DPGjLgpZLssgfIfbiX3Mf44q8IGfL2qrrEoSb+XibGixdDIIu7oncTYCRA3
-	dXgTf1j8pZYZCXJSfnnmioqyIKED04fGuH51nZ6pmsv4SxaMFI7SU46B66zTlD3WWhgZ
-	/JYA==
+	:cc; bh=uk76lV7XXTcB59eGv64+NdeauVhzQXBwDguVwWyESEE=;
+	b=gvKuiQVJl4Mpx6P5y88CPx8daLBQgUYzm5SGWV/0LCHbsm9qwrgMRjcIRi457vWTT7
+	H7lUYBzWMtXuaM/WjDNiav++3kUMFuuatafKneCxmAxcWbLhnF2EyxFlpBytRCFkbUQp
+	3CboOds+xmcWcMEbYnkpRLIZqE9ouewLDOhkrw7QVxJHMgqewVgm8gq+CHP/jHP4AKfM
+	iUH+J8w8JYcxlTtqp6GSWstHyNlHkozy0z+1G2yvDR3HnaofI6m3NDS3pc/PU8B+wb+s
+	AN+lq/o5G0xqpnkatJxv/PMWZmlZjCfxYkcFsWg8dDIfp1ZKUYOhsuIPscgnMRRs/Qqu
+	rYZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=B1zZgOL1MVtEn0PvvGPakSrL+AMa+CXANP4urU7jaNc=;
-	b=sAPxpRJM6wyKT6q46eaoIxjv7U2tuzcvusheUGFpDDiQ5QCsQkd2fAfeKUOyDa5DvA
-	64QAxjnvvDH2VpgZHztzFoXxY+x5yzdGGMT/le6U7GDVD798k3AP1x2BSAEQo3yLea97
-	0cML1sNsroo68M+lhVDTFKnfe0u+0O/K/+ktmvGmnx6oCmwq8/2zpJcKbmbBs50TxbPb
-	p68TIZNOhZL+u4gB6XKpX38QWIBeuCuKi1XvlSyfMq0/FP90mC/nqx//vGkaRrErypdg
-	/+yvWAOJbt8EmQHbwp0dqaitktgFAjwl9ndtXQmzTMF0Um8OxcRS+gRJE3GimC0yb84r
-	5wwA==
-X-Gm-Message-State: APt69E1ZoxiNXVAH4u+YR+YeLZ9NzyVU3g1D/RnBrIzFZsUlknrmMp6D
-	UtS3OUhA20Ez4pVY1rGP7N8Bo/koyd8Gz1iYWThVng==
-X-Google-Smtp-Source: AAOMgpe/NBJ6Lx8tvNpCpn9edBNs7WoFPmzc3yqrMQuh0f0uJCxAkee24+LCZeD/6lLVW7YgSVdN0VpSVUtKmkcFsRE=
-X-Received: by 2002:ab0:e3:: with SMTP id 90-v6mr4392286uaj.52.1530829085109; 
-	Thu, 05 Jul 2018 15:18:05 -0700 (PDT)
+	bh=uk76lV7XXTcB59eGv64+NdeauVhzQXBwDguVwWyESEE=;
+	b=ObZQQRn2zNqFslxARsTKj6KednqQs7wuwFXI0Od/GCR6HEdQJJ+UXHLFIsbtMlVy9f
+	+ruOOME03eUBYNQR6DEX1jc/W/Bwiqd0t68L2t6Us/Lyfs1G9lXpioFPDSMu+ZLvC5nE
+	WlGTIAJKhnlm22geqKUtXVV6doDMuumVZu8v44u3R7PVCkObL0rDio+dEfgjf02pUX9z
+	oJ24pf/bLCJOjogsm/LtvVZ7cKfZs34/k79I9oBMdcYjouV1yLkmbAEI58+bRtks+5eC
+	CTZZVVMmODaYxgIMlNL6nWrJWSTZOoZ9aEMhYhq/hOyaKuom+FAfPhGx7irQJtHCIb+5
+	AfFA==
+X-Gm-Message-State: APt69E0AmiykMa1szfA35dbNFZJtril0GwOrOjnsMCyKqirhPuiy8WkT
+	fxgZCGMSZ8TJPCJZLkdDgw1+WASy3bvVSed8/T0=
+X-Google-Smtp-Source: AAOMgpdfI7QVxptTOpt5IKyQ7xB+xYSX//6r1XgYo4UAfsOQQEbJxDLjxTHUYxttK6tyC8Wk7/XNWcKHHn4JrlriN6I=
+X-Received: by 2002:ab0:136c:: with SMTP id
+	h41-v6mr5173747uae.193.1530833970517; 
+	Thu, 05 Jul 2018 16:39:30 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Thu, 5 Jul 2018 15:18:04 -0700 (PDT)
-In-Reply-To: <20180705205544.24546-1-rasmus.villemoes@prevas.dk>
-References: <20180705205544.24546-1-rasmus.villemoes@prevas.dk>
+	Thu, 5 Jul 2018 16:39:30 -0700 (PDT)
+In-Reply-To: <CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
+References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 5 Jul 2018 15:18:04 -0700
-Message-ID: <CAJ86T=Uya2FV32fUVWfefiQQ8Mc6sgKZ4H30N2rav6tC2J3bJg@mail.gmail.com>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: disable parallelism for 'make clean'
+Date: Thu, 5 Jul 2018 16:39:30 -0700
+Message-ID: <CAJ86T=W1kjJgn-6P2POoLqF4oBcovEs2Sekp-saaD9dqTSzi4w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 22:18:04 -0000
+X-List-Received-Date: Thu, 05 Jul 2018 23:39:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 5, 2018 at 1:55 PM, Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
-> Whenever perf got rebuilt, I was consistently getting errors such as
+On Wed, Jul 4, 2018 at 5:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 4 July 2018 at 01:55, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>  DEPENDS += "${PYTHON_PN}"
+>> -DEPENDS_class-native += "${PYTHON_PN}-native"
+>> -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
+>> +DEPENDS_class-native = "${PYTHON_PN}-native"
+>> +DEPENDS_class-nativesdk = "nativesdk-${PYTHON_PN}"
 >
-> | find: '[...]/perf/1.0-r9/perf-1.0/plugin_mac80211.so': No such file or directory
-> | find: '[...]/perf/1.0-r9/perf-1.0/plugin_mac80211.so': No such file or directory
-> | find: find: '[...]/perf/1.0-r9/perf-1.0/libtraceevent.a''[...]/perf/1.0-r9/perf-1.0/libtraceevent.a': No such file or directory: No such file or directory
-> |
-> [...]
-> | find: cannot delete '/mnt/xfs/devel/pil/yocto/tmp-glibc/work/wandboard-oe-linux-gnueabi/perf/1.0-r9/perf-1.0/util/.pstack.o.cmd': No such file or directory
+> Whilst there's nothing wrong with this patch, as the BBCLASSEXTEND
+> handles DEPENDS-munging isn't this a better fix:
 >
-> breaking the whole build. The root cause seems to be that the implicit
-> 'make clean' done during do_configure ends up running in parallel, and
-> thus multiple find commands attempt to stat and/or delete the same
-> file.
->
-> This patch of tools/perf/Makefile has been ack'ed
-> upstream (lkml.kernel.org/r/20180705134955.GB3686@krava). Since the sed
-> script matches exactly the lines
->
-> clean:
->         $(make)
->
-> it should be harmless to have this even with a fixed kernel, and it can
-> be removed if and when all relevant -stable kernels have it.
+>   DEPENDS += "${PYTHON_PN}"
+>  -DEPENDS_class-native += "${PYTHON_PN}-native"
+>  -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
 
-If it works, then something like this might be a cleaner solution:
-
-  EXTRA_OEMAKE_append_task-configure = " -j1"
-
-(and if it doesn't work, it would be good to understand why).
-
-> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 51f5597eb9..1cf2666ee5 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -145,6 +145,11 @@ python copy_perf_source_from_kernel() {
->              bb.utils.copyfile(src, dest)
->  }
->
-> +do_configure[prefuncs] += "disable_clean_parallelism"
-> +disable_clean_parallelism () {
-> +       sed -i '/^clean:$/{n;s/^\t\$(make)$/\t\$(make) -j1/}' ${S}/tools/perf/Makefile
-> +}
-> +
->  do_configure_prepend () {
->      # If building a multlib based perf, the incorrect library path will be
->      # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
-> --
-> 2.16.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Removing the over-rides completely results in both the native and
+nativesdk variants gaining a new dependency on
+python-distribute-native (courtesy of setuptools.bbclass).
 
