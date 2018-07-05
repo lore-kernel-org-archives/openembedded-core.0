@@ -1,25 +1,24 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C363D78A2C
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AEF578A2C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2018 07:17:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w657HaBG007580
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Jul 2018 00:17:36 -0700 (PDT)
-Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
+	Thu,  5 Jul 2018 07:27:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w657Rh0d031898
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jul 2018 00:27:43 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 5 Jul 2018 00:17:35 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <bruce.ashfield@gmail.com>
-Date: Thu, 5 Jul 2018 15:27:29 +0800
-Message-ID: <4d303c690c8631e5ca11af3b61e19d4a9bf88c9f.1530775399.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1530775399.git.dengke.du@windriver.com>
-References: <cover.1530775399.git.dengke.du@windriver.com>
+	14.3.399.0; Thu, 5 Jul 2018 00:27:42 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Jul 2018 15:31:01 +0800
+Message-ID: <cover.1530775716.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V4 1/1] linux-yocto: add ptest support
+Subject: [PATCH 0/2] upgrade systemd and systemd-boot to 239
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,185 +31,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2018 07:17:36 -0000
+X-List-Received-Date: Thu, 05 Jul 2018 07:27:43 -0000
 Content-Type: text/plain
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto/run-ptest | 144 ++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_4.14.bb   |  10 ++
- 2 files changed, 154 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto/run-ptest
+The following changes since commit 611013a23a0082faa4fda2cd2529668965586a76:
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto/run-ptest b/meta/recipes-kernel/linux/linux-yocto/run-ptest
-new file mode 100644
-index 0000000..d8391b4
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto/run-ptest
-@@ -0,0 +1,144 @@
-+#!/bin/bash
-+depmod
-+touch kernel.log
-+
-+# dma-example: This module shows how to handle fifo dma operations.
-+# bytestream-example: This module shows how to create a byte stream fifo.
-+# inttype-example: This module shows how to create a int type fifo. 
-+# record-example: This module shows how to create a variable sized record fifo.
-+list1=("dma-example" "bytestream-example" "inttype-example" "record-example")
-+for i in "${list1[@]}"
-+do
-+  dmesg -c
-+  modprobe "$i"
-+  mod=${i//-/_}
-+  lsmod | grep -q "$mod"
-+  if [ $? -eq 0 ];then
-+    dmesg | grep "test passed"
-+    if [ $? -eq 0 ];then
-+      echo "PASS: $i" >> kernel.log
-+    fi
-+  else
-+    echo "FAIL: $i" >> kernel.log
-+  fi
-+  rmmod "$i"
-+done
-+
-+# kobject-example: 
-+/*
-+ * This module shows how to create a simple subdirectory in sysfs called
-+ * /sys/kernel/kobject-example  In that directory, 3 files are created:
-+ * "foo", "baz", and "bar".  If an integer is written to these files, it can be
-+ * later read out of it.
-+ */
-+
-+# kset-example:
-+/*
-+ * This module shows how to create a kset in sysfs called
-+ * /sys/kernel/kset-example
-+ * Then tree kobjects are created and assigned to this kset, "foo", "baz",
-+ * and "bar".  In those kobjects, attributes of the same name are also
-+ * created and if an integer is written to these files, it can be later
-+ * read out of it.
-+ */
-+
-+list2=("kobject-example" "kset-example")
-+for i in "${list2[@]}"
-+do
-+  dmesg -c
-+  modprobe "$i"
-+  mod=${i//-/_}
-+  basedir="/sys/kernel/${mod}"
-+  echo "$basedir"
-+  if [ -e ${basedir}/bar -a -e ${basedir}/baz -a -e ${basedir}/foo ];then
-+    echo "PASS: $i" >> kernel.log
-+  else
-+    echo "FAIL: $i" >> kernel.log
-+  fi
-+  rmmod "$i"
-+done
-+
-+# trace-events-sample
-+# This modules test trace-events for a thread "foo_bar", return string "foo_bar" when everything goes well.
-+list3="trace-events-sample"
-+mod=${list3//-/_}
-+modprobe "$list3"
-+lsmod | grep "$mod"
-+if [ $? -eq 0 ];then
-+  if [ -e "/sys/kernel/debug/tracing/events/sample-trace" ];then
-+    echo 1 > /sys/kernel/debug/tracing/events/sample-trace/enable
-+    sleep 5
-+    ret=`cat /sys/kernel/debug/tracing/trace | grep hello | head -n1 | cut -d':' -f2`
-+    if [ "$ret" = " foo_bar" ];then
-+      echo "PASS: $list3"  >> kernel.log
-+    else
-+      echo "FAIL: $list3" >> kernel.log
-+    fi
-+  else
-+    echo "FAIL: $list3" >> kernel.log
-+  fi
-+else
-+  echo "FAILED: $list3" >> kernel.log
-+fi
-+rmmod "$list3"
-+
-+# trace-printk
-+# This modules just a simple test for trace-printk, return string "trace_printk_irq_work" when everything goes well.
-+list4="trace-printk"
-+modprobe "$list4"
-+lsmod | grep "trace_printk"
-+if [ $? -eq 0 ];then
-+  ret=`cat /sys/kernel/debug/tracing/trace | grep trace_printk | head -n1 | cut -d':' -f2`
-+  if [ "$ret" = " trace_printk_irq_work" ];then
-+    echo "PASS: $list4" >> kernel.log
-+  else
-+    echo "FAIL: $list4" >> kernel.log
-+  fi
-+else
-+  echo "FAIL: $list4" >> kernel.log
-+fi
-+rmmod "$list4"
-+
-+# kprobe_example
-+# Here's a sample kernel module showing the use of kprobes to dump a
-+# stack trace and selected registers when _do_fork() is called.
-+list5="kprobe_example"
-+dmesg -c
-+modprobe "$list5"
-+lsmod | grep "$list5"
-+if [ $? -eq 0 ];then
-+  dmesg | grep "_do_fork"
-+  if [ $? -eq 0 ];then
-+    echo "PASS: $list5" >> kernel.log
-+  else
-+    echo "FAIL: $list5" >> kernel.log
-+  fi
-+else
-+  echo "FAIL: $list5" >> kernel.log
-+fi
-+rmmod "$list5"
-+
-+# kretprobe_example
-+# Here's a sample kernel module showing the use of return probes to
-+# report the return value and total time taken for probed function
-+# to run.
-+# When everything goes well, the result contain "_do_fork"
-+list6="kretprobe_example"
-+dmesg -c
-+modprobe "$list6"
-+lsmod | grep "$list6"
-+if [ $? -eq 0 ];then
-+  dmesg | grep "_do_fork returned"
-+  if [ $? -eq 0 ];then
-+    echo "PASS: $list6" >> kernel.log
-+  else
-+    echo "FAIL: $list6" >> kernel.log
-+  fi
-+else
-+  echo "FAIL: $list6" >> kernel.log
-+fi
-+rmmod "$list6"
-+
-+echo "#####result#####"
-+cat kernel.log
-+rm kernel.log
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index 0449213..6fbeec9 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -45,3 +45,13 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
- KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-+inherit ptest
-+SRC_URI_append = " file://run-ptest \
-+"
-+do_install_ptest_append() {
-+	install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
-+	install -D ${S}/tools/testing/fault-injection/failcmd.sh ${D}${PTEST_PATH}/failcmd.sh
-+}
-+KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", "features/kernel-sample/kernel-sample.scc", "", d)}"
+  mesa: add lost Upstream-Status tag (2018-07-05 00:22:08 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/systemd-239
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-239
+
+Chen Qi (2):
+  systemd: upgrade to 239
+  systemd-boot: upgrade to 239
+
+ .../{systemd-boot_237.bb => systemd-boot_239.bb}   |   5 +-
+ meta/recipes-core/systemd/systemd.inc              |   2 +-
+ ...01-Also-check-i386-i586-and-i686-for-ia32.patch |  28 --
+ ...rt_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch |  34 --
+ ...ck-protector-flags-to-workaround-musl-bui.patch |  28 +-
+ ...nv-when-secure-versions-are-not-available.patch |  10 +-
+ ...-install-dependency-links-at-install-tim.patch} |  22 +-
+ ....c-Change-the-default-device-timeout-to-2.patch |  19 +-
+ ...=> 0002-don-t-use-glibc-specific-qsort_r.patch} | 108 +++++-
+ ...per-instead-of-looking-for-relative-opti.patch} |  16 +-
+ ...n_t-is-glibc-specific-use-raw-signature-.patch} |  25 +-
+ ...003-implment-systemd-sysv-install-for-OE.patch} |  10 +-
+ ...lback-parse_printf_format-implementation.patch} |  49 +--
+ ...patch => 0004-rules-whitelist-hd-devices.patch} |   8 +-
+ ...-Make-root-s-home-directory-configurable.patch} |  34 +-
+ ...clude-gshadow-only-if-ENABLE_GSHADOW-is-1.patch |  29 ++
+ ...> 0006-remove-nobody-user-group-checking.patch} |  40 +--
+ ...sic-missing.h-check-for-missing-strndupa.patch} |  66 ++--
+ ...patch => 0007-Include-netinet-if_ether.h.patch} |  51 +--
+ ...evert-rules-remove-firmware-loading-rules.patch |  28 --
+ ...es-watch-metadata-changes-in-ide-devices.patch} |   6 +-
+ ...e-nss-tests-if-nss-systemd-is-not-enable.patch} |  16 +-
+ ...-remove-userspace-firmware-loading-suppor.patch | 377 ---------------------
+ ...f-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} |  86 +++--
+ ...=> 0009-add-missing-FTW_-macros-for-musl.patch} |  12 +-
+ ...es-Build-conditionally-when-ENABLE_MYHOS.patch} |  10 +-
+ .../0009-remove-duplicate-include-uchar.h.patch    |  41 ---
+ .../0010-check-for-uchar.h-in-meson.build.patch    |  45 ---
+ ...l-don-t-fail-if-libc-doesn-t-support-IDN.patch} |  17 +-
+ ...ssing.h-check-for-missing-__compar_fn_t-.patch} |  23 +-
+ ...of-__register_atfork-for-non-glibc-build.patch} |  18 +-
+ ...> 0013-Use-uintmax_t-for-handling-rlim_t.patch} |  33 +-
+ ...ULONG_LONG_MAX-definition-in-case-of-mus.patch} |  12 +-
+ ...xdecoct.c-Include-missing.h-for-strndupa.patch} |  12 +-
+ ...c-Disable-tests-for-missing-typedefs-in-.patch} |  14 +-
+ ...ss-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} |  20 +-
+ ...-compatible-basename-for-non-glibc-syste.patch} |  11 +-
+ ...-check-for-missing-canonicalize_file_name.patch |  47 ---
+ ...ble-buffering-when-writing-to-oom_score_a.patch |  39 +++
+ ...PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch |  43 ---
+ meta/recipes-core/systemd/systemd/0032-memfd.patch | 272 ---------------
+ ...cros-rename-noreturn-into-_noreturn_-8456.patch | 203 -----------
+ ...truncation-compile-failure-by-typecasting.patch | 173 ----------
+ ...ix-build-with-gcc8-Werror-format-truncati.patch |  53 ---
+ meta/recipes-core/systemd/systemd/libmount.patch   |  75 ----
+ .../systemd/{systemd_237.bb => systemd_239.bb}     | 124 +++----
+ 46 files changed, 561 insertions(+), 1833 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_237.bb => systemd-boot_239.bb} (91%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-Hide-__start_BUS_ERROR_MAP-and-__stop_BUS_ERROR_MAP.patch
+ rename meta/recipes-core/systemd/systemd/{0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch => 0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch} (83%)
+ rename meta/recipes-core/systemd/systemd/{0022-don-t-use-glibc-specific-qsort_r.patch => 0002-don-t-use-glibc-specific-qsort_r.patch} (52%)
+ rename meta/recipes-core/systemd/systemd/{0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch => 0002-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch} (83%)
+ rename meta/recipes-core/systemd/systemd/{0024-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch => 0003-comparison_fn_t-is-glibc-specific-use-raw-signature-.patch} (47%)
+ rename meta/recipes-core/systemd/systemd/{0004-implment-systemd-sysv-install-for-OE.patch => 0003-implment-systemd-sysv-install-for-OE.patch} (86%)
+ rename meta/recipes-core/systemd/systemd/{0013-add-fallback-parse_printf_format-implementation.patch => 0004-add-fallback-parse_printf_format-implementation.patch} (93%)
+ rename meta/recipes-core/systemd/systemd/{0005-rules-whitelist-hd-devices.patch => 0004-rules-whitelist-hd-devices.patch} (89%)
+ rename meta/recipes-core/systemd/systemd/{0006-Make-root-s-home-directory-configurable.patch => 0005-Make-root-s-home-directory-configurable.patch} (70%)
+ create mode 100644 meta/recipes-core/systemd/systemd/0005-include-gshadow-only-if-ENABLE_GSHADOW-is-1.patch
+ rename meta/recipes-core/systemd/systemd/{0027-remove-nobody-user-group-checking.patch => 0006-remove-nobody-user-group-checking.patch} (40%)
+ rename meta/recipes-core/systemd/systemd/{0014-src-basic-missing.h-check-for-missing-strndupa.patch => 0006-src-basic-missing.h-check-for-missing-strndupa.patch} (73%)
+ rename meta/recipes-core/systemd/systemd/{0017-Include-netinet-if_ether.h.patch => 0007-Include-netinet-if_ether.h.patch} (68%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0007-Revert-rules-remove-firmware-loading-rules.patch
+ rename meta/recipes-core/systemd/systemd/{0012-rules-watch-metadata-changes-in-ide-devices.patch => 0007-rules-watch-metadata-changes-in-ide-devices.patch} (92%)
+ rename meta/recipes-core/systemd/systemd/{0019-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch => 0008-Do-not-enable-nss-tests-if-nss-systemd-is-not-enable.patch} (60%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0008-Revert-udev-remove-userspace-firmware-loading-suppor.patch
+ rename meta/recipes-core/systemd/systemd/{0015-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch => 0008-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not-.patch} (67%)
+ rename meta/recipes-core/systemd/systemd/{0028-add-missing-FTW_-macros-for-musl.patch => 0009-add-missing-FTW_-macros-for-musl.patch} (79%)
+ rename meta/recipes-core/systemd/systemd/{0029-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch => 0009-nss-mymachines-Build-conditionally-when-ENABLE_MYHOS.patch} (84%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0009-remove-duplicate-include-uchar.h.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0010-check-for-uchar.h-in-meson.build.patch
+ rename meta/recipes-core/systemd/systemd/{0011-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch => 0010-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch} (68%)
+ rename meta/recipes-core/systemd/systemd/{0016-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch => 0011-src-basic-missing.h-check-for-missing-__compar_fn_t-.patch} (63%)
+ rename meta/recipes-core/systemd/systemd/{0030-fix-missing-of-__register_atfork-for-non-glibc-build.patch => 0012-fix-missing-of-__register_atfork-for-non-glibc-build.patch} (75%)
+ rename meta/recipes-core/systemd/systemd/{0026-Use-uintmax_t-for-handling-rlim_t.patch => 0013-Use-uintmax_t-for-handling-rlim_t.patch} (77%)
+ rename meta/recipes-core/systemd/systemd/{0031-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch => 0014-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch} (66%)
+ rename meta/recipes-core/systemd/systemd/{0020-test-hexdecoct.c-Include-missing.h-for-strndupa.patch => 0015-test-hexdecoct.c-Include-missing.h-for-strndupa.patch} (70%)
+ rename meta/recipes-core/systemd/systemd/{0021-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch => 0016-test-sizeof.c-Disable-tests-for-missing-typedefs-in-.patch} (73%)
+ rename meta/recipes-core/systemd/systemd/{0023-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch => 0017-don-t-pass-AT_SYMLINK_NOFOLLOW-flag-to-faccessat.patch} (89%)
+ rename meta/recipes-core/systemd/systemd/{0035-Define-glibc-compatible-basename-for-non-glibc-syste.patch => 0018-Define-glibc-compatible-basename-for-non-glibc-syste.patch} (78%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0018-check-for-missing-canonicalize_file_name.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0019-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0025-Define-_PATH_WTMPX-and-_PATH_UTMPX-if-not-defined.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0032-memfd.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0033-basic-macros-rename-noreturn-into-_noreturn_-8456.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0034-Fix-format-truncation-compile-failure-by-typecasting.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0036-time-util-fix-build-with-gcc8-Werror-format-truncati.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/libmount.patch
+ rename meta/recipes-core/systemd/{systemd_237.bb => systemd_239.bb} (86%)
+
 -- 
-2.7.4
+1.9.1
 
 
