@@ -1,30 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5105178B20
+Return-Path: <okonopli@cisco.com>
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C906578A47
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 10:17:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w66AHAVU007193
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Jul 2018 03:17:11 -0700
-Received: from [128.224.16.191] (128.224.16.191) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 6 Jul 2018 03:17:09 -0700
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Chen Qi
-	<Qi.Chen@windriver.com>
-References: <cover.1528252931.git.liezhi.yang@windriver.com>
-	<99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
-	<52791220.vcYpphDNgo@localhost.localdomain>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5ada2181-c328-82ce-587d-c0299d1a3db0@windriver.com>
-Date: Fri, 6 Jul 2018 18:17:07 +0800
+	Fri,  6 Jul 2018 10:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4914; q=dns/txt; s=iport;
+	t=1530872668; x=1532082268;
+	h=subject:from:to:references:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=OYRsaMtwysHw/PbA3kmdRgoWkMxKri+TLb5/oHHK6cA=;
+	b=O/XLyGfhzWSxKCHzldd+u3IioWhJlTON8tGgazMUYKSBOibYQ+SHIpnH
+	86z4cmii2CYeALlwncv3SloANhkzBWdXDp9g1GUJa0WhuXK9tU/bfdD7y
+	t0Jj61YL+zt/SoVdyXPVQWQpV9v4WWJ+ENuFbdBE0x+FPlpoK9EvpY9kI I=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0B1AQDM+T5b/xbLJq1cGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYQrbRIog3qIY407IpUwgXoLI4RJAoJONRcBAgEBAgEBAm0?=
+	=?us-ascii?q?cDIU3AQUjDwEFUQkCGAICJgICVwcMBgIBAYMcAYFyDQ+NTZtIghyIT4E6FHe?=
+	=?us-ascii?q?JOD+BNgyCXIRkgxeCVQKNOYwWCYYGiRYGgUCEDIJGhUaHe4I6hy8CBAsCEwG?=
+	=?us-ascii?q?BQwI0gVJwFYMkCYsLhUE8MI9SAQE?=
+X-IronPort-AV: E=Sophos;i="5.51,315,1526342400"; 
+   d="scan'208";a="5006318"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2018 10:24:26 +0000
+Received: from [10.61.227.127] ([10.61.227.127]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w66AOLki023109
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Fri, 6 Jul 2018 10:24:26 GMT
+From: Oleksii Konoplitskyi <okonopli@cisco.com>
+To: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
+References: <1527256608-28290-1-git-send-email-okonopli@cisco.com>
+	<fcec90e3-d792-856d-5549-272d5102aeac@cisco.com>
+Message-ID: <41e0d97f-eefc-5314-655e-b8a59e7a3c93@cisco.com>
+Date: Fri, 6 Jul 2018 13:24:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <52791220.vcYpphDNgo@localhost.localdomain>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 09/11] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
+In-Reply-To: <fcec90e3-d792-856d-5549-272d5102aeac@cisco.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: okonopli
+Subject: Re: [PATCH] initramfs-framework: add nfsrootfs module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +53,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 10:17:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 06 Jul 2018 10:24:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+
+ping
 
 
-On 07/06/2018 06:12 PM, Paul Eggleton wrote:
-> Hi Robert / Chen
-> 
-> On Wednesday, 6 June 2018 4:54:44 AM CEST Robert Yang wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
+On 15.06.18 18:42, Oleksii Konoplitskyi wrote:
+> Hi Andre,
+>
+>
+> Could you, please, check if all the features that we discussed in 
+> https://patchwork.openembedded.org/patch/149212/ are implemented in 
+> this patch?
+>
+>
+> Best regards,
+>
+> Oleksii
+>
+>
+> On 25.05.18 16:56, Oleksii Konoplitskyi wrote:
+>> nfsrootfs module mounts rootfs via nfs parsing "nfsroot" and "ip" 
+>> cmdline options.
 >>
->> Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
+>> Signed-off-by: Oleksii Konoplitskyi <okonopli@cisco.com>
+>> ---
+>>   .../initrdscripts/initramfs-framework/nfsrootfs    | 48 
+>> ++++++++++++++++++++++
+>>   .../initrdscripts/initramfs-framework_1.0.bb       |  7 ++++
+>>   2 files changed, 55 insertions(+)
+>>   create mode 100644 
+>> meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
 >>
->> By default, files under conf/ are all added to sdk-conf-manifest, as the
->> manifest file is set to 'conf/*'.
->>
->> However, there are situations where some configuration files under conf/
->> directory are not intended to be added to sdk-conf-manifest, thus adding
->> ESDK_MANIFEST_EXCLUDES to enable users to do this.
->>
->> This variable takes the form of glob matching.
->> e.g.
->> ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
->> This would exclude all files under conf/ starting with 'autogen' from
->> sdk-conf-manifest.
-> 
-> This patch (and 05/11, SDK_LAYERS_EXCLUDE*) worry me a little in that they
-> have the potential to break the resulting eSDK or make it behave in a manner
-> that is different from the build system that produced it. Having said that
-> it's going to be reasonably clear to the user what's happened, assuming they
-> remember they set these variables and in any case I don't expect these are
-> going to be set by many people. Accordingly I won't object to these patches,
-> but could you please add a warning about this issue to the commit message for
-> both? We'd also better ensure they get documented with similar warnings.
-> 
-> Apart from that I'd like to see a different name for the variable here - we
-> don't use the prefix ESDK_ anywhere else, so perhaps SDK_CONF_MANIFEST_EXCLUDE
-> ?
+>> diff --git 
+>> a/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs 
+>> b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+>> new file mode 100644
+>> index 0000000..e67ee4c
+>> --- /dev/null
+>> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/nfsrootfs
+>> @@ -0,0 +1,48 @@
+>> +#!/bin/sh
+>> +
+>> +nfsrootfs_enabled() {
+>> +    if [ ${bootparam_root} != "/dev/nfs" ] || [ -z 
+>> ${bootparam_nfsroot} ]; then
+>> +        return 1
+>> +    fi
+>> +    return 0
+>> +}
+>> +
+>> +nfsrootfs_run() {
+>> +    local nfs_opts
+>> +    local location
+>> +    local flags
+>> +    local server_ip
+>> +
+>> +    nfs_opts=""
+>> +    if [ "${bootparam_nfsroot#*,}" != "${bootparam_nfsroot}" ]; then
+>> +        nfs_opts="-o ${bootparam_nfsroot#*,}"
+>> +    fi
+>> +
+>> +    location="${bootparam_nfsroot%%,*}"
+>> +    if [ "${location#*:}" = "${location}" ]; then
+>> +        # server-ip not given. Get server ip from ip option
+>> +        server_ip=""
+>> +        if [ "${bootparam_ip#*:}" != "${bootparam_ip}" ]; then
+>> +            server_ip=$(echo "$bootparam_ip" | cut -d: -f2)
+>> +        fi
+>> +
+>> +        if [ -z "$server_ip" ]; then
+>> +            fatal "Server IP is not set. Update ip or nfsroot options."
+>> +        fi
+>> +        location=${server_ip}:${location}
+>> +    fi
+>> +
+>> +    flags="-o nolock"
+>> +    if [ -n "$bootparam_ro" ] && ! echo "$bootparam_rootflags" | 
+>> grep -w -q "ro"; then
+>> +        if [  -n "$bootparam_rootflags" ]; then
+>> +            bootparam_rootflags="$bootparam_rootflags,"
+>> +        fi
+>> +        bootparam_rootflags="${bootparam_rootflags}ro"
+>> +    fi
+>> +    if [ -n "$bootparam_rootflags" ]; then
+>> +        flags="$flags -o $bootparam_rootflags"
+>> +    fi
+>> +
+>> +    mount -t nfs ${flags} ${nfs_opts} ${location} ${ROOTFS_DIR}
+>> +}
+>> +
+>> diff --git 
+>> a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb 
+>> b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> index 75d965f..6337b99 100644
+>> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+>> @@ -9,6 +9,7 @@ inherit allarch
+>>     SRC_URI = "file://init \
+>>              file://exec \
+>> +           file://nfsrootfs \
+>>              file://rootfs \
+>>              file://finish \
+>>              file://mdev \
+>> @@ -24,6 +25,7 @@ do_install() {
+>>         # base
+>>       install -m 0755 ${WORKDIR}/init ${D}/init
+>> +    install -m 0755 ${WORKDIR}/nfsrootfs ${D}/init.d/85-nfsrootfs
+>>       install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
+>>       install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
+>>   @@ -53,6 +55,7 @@ PACKAGES = "${PN}-base \
+>>               initramfs-module-mdev \
+>>               initramfs-module-udev \
+>>               initramfs-module-e2fs \
+>> +            initramfs-module-nfsrootfs \
+>>               initramfs-module-rootfs \
+>>               initramfs-module-debug \
+>>              "
+>> @@ -83,6 +86,10 @@ SUMMARY_initramfs-module-e2fs = "initramfs support 
+>> for ext4/ext3/ext2 filesystem
+>>   RDEPENDS_initramfs-module-e2fs = "${PN}-base"
+>>   FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
+>>   +SUMMARY_initramfs-module-nfsrootfs = "initramfs support for 
+>> locating and mounting the root partition via nfs"
+>> +RDEPENDS_initramfs-module-nfsrootfs = "${PN}-base"
+>> +FILES_initramfs-module-nfsrootfs = "/init.d/85-nfsrootfs"
+>> +
+>>   SUMMARY_initramfs-module-rootfs = "initramfs support for locating 
+>> and mounting the root partition"
+>>   RDEPENDS_initramfs-module-rootfs = "${PN}-base"
+>>   FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
+>
 
-Thanks, make sense, will update it next week.
-
-// Robert
-
-> 
-> Cheers,
-> Paul
-> 
-> 
-> 
 
