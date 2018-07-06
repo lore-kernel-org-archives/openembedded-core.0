@@ -1,54 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
-	[209.85.213.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CBBB9771B3
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A54BC78A1B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 18:35:09 +0000 (UTC)
-Received: by mail-vk0-f66.google.com with SMTP id j11-v6so7324022vke.8
+	Fri,  6 Jul 2018 19:05:58 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id n2-v6so315488pgq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2018 11:35:11 -0700 (PDT)
+	Fri, 06 Jul 2018 12:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pWj6kGunxzQ0tN2ZiMppOsVSt3T0ug7HPQPyV63HgGs=;
-	b=GXTRvVwD9rmCyo40T/sFoOyK8+Xp4WlsYW72yZCOYoZtN0c6GuDRgD2KzUJnH0SiH8
-	otXuUgjlpshwTSFxUKPOjFeZGN+GaAJd3CJiC6asmAmixEF7I6oLbUiNqggy6M6Pqwmm
-	R1JCiViT9CqL5PQ8WsvwANQDw9jRkwWV2nTvutkLNEdyAGkIuUo1xZkMvbQfg8zvfupj
-	HlehwQ3K0BOI+DIFj/DFWLhdL6eI2bQIT4Q//7+k/YcHSZtuw8pJhJnLJxGV2pQ+s6I2
-	pqi+lCMl1cYCxwYK7avDdo+NUtZbtwdelnTHxIvlxDE411+RPM3IRJkCduZ2r9e+xddm
-	A70g==
+	h=from:to:cc:subject:date:message-id;
+	bh=BK7NsWzvl/S9mnMWyhzHfGY6dr369S/FTJm1o2aPRX4=;
+	b=NGj6qtoy3N0LAQsyT3o1tqu7l5SbGz/5bK2CAb8/AJLjyTBPeBe+vc9wFdJNLxbDNJ
+	+o2UJt18OC8h/Ta2kJo19KZ09o4ihdftyUWePzAxcqThDdU+PjydEllx703kzsEcvS36
+	M7SmRVCgWTln9hv0TbC8RZQKE67OH860+l5+I3yFrZF4/VgZ2WACSrB+tKalRsEfdgDk
+	CHgs+JUZvPnpWAhdCsCAXTRD8EiOdYkVsTbPiQi6C+1/QzZYYJhwZf8OJTUAe7dHzhxN
+	/2QRJfEfvHXuIrV928n4ChFfPabtXTdfwy8jF4J80TR1uwh60S2nzIFcs3CMosbM3BdO
+	ZhoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=pWj6kGunxzQ0tN2ZiMppOsVSt3T0ug7HPQPyV63HgGs=;
-	b=lTud2smmNllEaqsDkDKJdLVfoNt426kxri8uA2nwR3kJ9LVfpyEkzocdHd9eFoVbRB
-	UU/NyM3MZRGthZt24P24xjfTyxLWtp9AdawHNt0/7Hp8i1ZhflI+HepVLtjYBPqbiUS5
-	VMcuDJmYwoYUf+UhMnsoaECEexqAZbb8cNT2vd0npyMIZhCHldqh7QQGoKBK69yVgnpJ
-	6RTxvtxYtmfTJKxp0yGOS4YkPsWFCkWWPHorU5K7wzXAvG0sgfVeh+iZTq2Ow5YhUFti
-	KDKYVxsSWgfK34z48+FwkQeXr5/9dCEVnvGrev88WHZfR6sRTR2jGaIv+pySl2cGXMK7
-	+vFQ==
-X-Gm-Message-State: APt69E20r/dV3tyCFQwpGNw1iUYnz+XWy72rOp5XIDmHV0HKZbvMEfIk
-	C0cuzXNhdpdYCi95/bWK01s+76ZYe/sc9NIENoM=
-X-Google-Smtp-Source: AAOMgpc9uxuavhN58SeTgTEofH6mEiRNfxauqxPQCbzmZx68hBXJftI086LzIQmoLOW4pbc9L6f5CorsRyTfx4TZBzo=
-X-Received: by 2002:a1f:9757:: with SMTP id
-	z84-v6mr5857677vkd.174.1530902110562; 
-	Fri, 06 Jul 2018 11:35:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 6 Jul 2018 11:35:10 -0700 (PDT)
-In-Reply-To: <CAJTo0LZzdbqxQNU2kvz=a=f3gurXbYPJD-7U37wU4LPGHiE0Aw@mail.gmail.com>
-References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
-	<CAJ86T=W1kjJgn-6P2POoLqF4oBcovEs2Sekp-saaD9dqTSzi4w@mail.gmail.com>
-	<CAJTo0LaUkxKcPhasnQh6KAsh2kv5rEmy-jMW3oXKxttS-kd1mQ@mail.gmail.com>
-	<CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
-	<CAJTo0LZzdbqxQNU2kvz=a=f3gurXbYPJD-7U37wU4LPGHiE0Aw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BK7NsWzvl/S9mnMWyhzHfGY6dr369S/FTJm1o2aPRX4=;
+	b=hl9+GN8FKlFfaVyzNFHUxid4hEzs8BIhaapPdOb6IEKWCoCX9Cl/+5FOQJwvvXIakX
+	bNrgnyBN5BkRoRVx+M7elQ8oKxHi78kPWepMaJl0AFNMWhSQ7v/A4+FZ5biBFW3sriSF
+	6L6eBFoD2YgdgEyBSSto/508WSW5Akq+XFEs8/brd6hQhzGYxKsKWTglfmsImVTg0T9F
+	SPZCHCdk9Pq91gxFah4G6yUIxicaKGA4gfd0ML/XtQ0GmzK7keedwS0TwgFJgruHonTR
+	GUKrxk3pftAnp2Rqv5Z6BvZsaz5eQm9HjTfbwXHWHYGvOGb/DqDVFOb+v1MAnwr6+1cQ
+	IJ3w==
+X-Gm-Message-State: APt69E2iLJB7D9WJhCugAruKxOCTzhhCRbMzfuEj4af/ARld8d200JP8
+	jGYLUJAfo2XJQ/uiM66tT1UWFQ==
+X-Google-Smtp-Source: AAOMgpeYAcmBt2R2JuZy4UiD88zguKBm/SDcB7msDzHe8aWyoxhcs5vhB3p4Trb156QEFxHMTGuptA==
+X-Received: by 2002:a63:1a49:: with SMTP id
+	a9-v6mr10661145pgm.423.1530903959545; 
+	Fri, 06 Jul 2018 12:05:59 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	h75-v6sm22272773pfh.86.2018.07.06.12.05.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 06 Jul 2018 12:05:59 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 6 Jul 2018 11:35:10 -0700
-Message-ID: <CAJ86T=VP+eLW8rPmHgw4hSEyAt4BuRMuAUqJD3r9Z9P42B3_PQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jul 2018 12:05:53 -0700
+Message-Id: <1530903954-20926-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] openssl_1.1: avoid using += with an over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,18 +55,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 18:35:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Jul 2018 19:05:58 -0000
 
-On Fri, Jul 6, 2018 at 8:10 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 6 July 2018 at 01:57, Andre McCurdy <armccurdy@gmail.com> wrote:
->> That all sounds plausible, but starts to unravel into a bigger set of
->> potential cleanups. For example, digging a little more uncovers this
->> from distutils-base.bbclass:
->
-> Let's take these cleanups one at a time.  I've just submitted the
-> distribute->setuptools change as a start.
+Using += with an over-ride can be a source of confusion so try to
+avoid the construct in core recipes.
 
-In that spirit, should we merge the original patch, which cleans up +=
-with an over-ride without changing any dependencies?
+The current usage is incorrect and prevents the aarch64 and musl
+specific config options from being active together.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+index 94b75eb..ac2ad81 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+@@ -122,12 +122,12 @@ do_configure () {
+ #| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
+ #|      return syscall(__NR_eventfd, n);
+ #|                     ^~~~~~~~~~~~
+-EXTRA_OECONF_aarch64 += "no-afalgeng"
++EXTRA_OECONF_append_aarch64 = " no-afalgeng"
+ 
+ #| ./libcrypto.so: undefined reference to `getcontext'
+ #| ./libcrypto.so: undefined reference to `setcontext'
+ #| ./libcrypto.so: undefined reference to `makecontext'
+-EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
++EXTRA_OECONF_append_libc-musl = " -DOPENSSL_NO_ASYNC"
+ 
+ do_install () {
+         oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
+-- 
+1.9.1
+
 
