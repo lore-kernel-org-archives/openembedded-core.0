@@ -1,28 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A3BC787E1
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 70D09605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 02:06:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6626vBF006502
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  6 Jul 2018 03:28:30 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id l64-v6so6056855vkl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jul 2018 19:06:57 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Thu, 5 Jul 2018 19:06:56 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1525401100.git.Qi.Chen@windriver.com>
-	<4fde4c20433e735c2642a0eeef18a595f9116198.1525401100.git.Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <d3536120-caae-0782-b41e-43477555fde8@windriver.com>
-Date: Fri, 6 Jul 2018 10:10:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 05 Jul 2018 20:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YsQXGECfCy0Kh6a1s8xIjmCAzl696m2SYcTmczanGsA=;
+	b=e5AWT/1etwbmY3rpD6NH6NRXDggEvi0qXE7/nrPq8s9Ch45q/+CS1pYC2EC/pNxb35
+	qw3vDIrRSeSAgfAqDlsEpx4Ufe8JHPYlv99edvNig27qo/bkrsM466vcw72YnigJIKHH
+	j167PlvtgBpFhRownejftQHw8dVLDxan4vaUu7wzFiby5/GZ9f6wpgajBkgEHSNsJesT
+	EnYPf+O+L566xxX5Uk6w5unjjfA2Ohz9ZOICD1ryZlOeJ3ApId7mPGMg7V/+Qt0jLCMA
+	FtdIkldJeInbXYg9ZRo0z8+tivex5h8f4FrXY/2ASR5ho3E1poRPlmz3jJNuVTTcDQyy
+	v3OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YsQXGECfCy0Kh6a1s8xIjmCAzl696m2SYcTmczanGsA=;
+	b=m/nJlADwTvChbljfh4u1MIhXJDuk7pYGWBItzdvJl13gxOL0AplNscXPObGFItbaCF
+	FYfK+SaBePEltiQdih6ax4+dH8NBaZ6Qe0udHu/gwgsEyh+3Lfkq15dl9keOX8MYWEfC
+	h5MEVDxCk3fB+1btndHEGNujJwBBs72x0DLkuU7IjyK92u45H0TR2djXFE6713eVfASr
+	Ct89FTOgXhwP3JVnwqayLIvWLoYdT5uMqcNqwa0/oi/P7pX74Jq0QKJPaiWfJAN3Zf2g
+	Gmt5QlQrkeVYEVtfVvQKDAM3N3DUgu8+/bZGzaV6m5xnhGU62nnBbeUq962dnvZ30pQ8
+	k2pQ==
+X-Gm-Message-State: APt69E2KswIjIr+9ICulkkuZVs2GNWRsE9LLgowcE182M90om19EGkCd
+	xDxemYPgzS3FTxgZ7KIlROpqvdH4VDKvFG2pgKe0QA==
+X-Google-Smtp-Source: AAOMgpdcHDMSrrPfeTkQYbBmp1cMpaovuKo8ujxMAI1EwdeYVhYdNelmYGhUlqbWTvBbhyK4B9ZKu/9H+MpXJi5Na3g=
+X-Received: by 2002:a1f:b04c:: with SMTP id
+	z73-v6mr4803760vke.194.1530847711208; 
+	Thu, 05 Jul 2018 20:28:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4fde4c20433e735c2642a0eeef18a595f9116198.1525401100.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH V2 1/1] testsdk.bbclass: set PREMIRRORS for kernel to speed up test
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Thu, 5 Jul 2018 20:28:30 -0700 (PDT)
+In-Reply-To: <20171115124041.23289-1-patrick@advancedtelematic.com>
+References: <20171115124041.23289-1-patrick@advancedtelematic.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 5 Jul 2018 20:28:30 -0700
+Message-ID: <CAJ86T=W476NOCmnwYcfs57wmM1eOshyBaaeSgrF0D6XPgU1Esg@mail.gmail.com>
+To: Patrick Vacek <patrick@advancedtelematic.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] ca-certificates: Add /etc to SYSROOT_DIRS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,58 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 02:06:57 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jul 2018 03:28:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-ping
-
-On 05/04/2018 10:47 AM, Chen Qi wrote:
-> Currently if we do a testsdkext task for the image, it would take
-> very long time to finish. The time is mostly spent fetching kernel
-> source via network.
+On Wed, Nov 15, 2017 at 4:40 AM, Patrick Vacek
+<patrick@advancedtelematic.com> wrote:
+> From: Patrick Vacek <patrickvacek@gmail.com>
 >
-> We have done some configuration in auto.conf, trying to make use
-> of own-mirrors.bbclass to avoid fetching kernel via network.
+> For recipes that depend on native ca-certificates.crt, /etc should be
+> added to the list of directories that automatically populate the
+> sysroot, otherwise the file may not be there.
 >
-> However, the solution normally does not work. Below is some log
-> from log.do_fetch.
->
->    DEBUG: Fetcher failure: Unable to find file \
->    file:///path/to/downloads/git2_git.yoctoproject.org.linux-yocto.git.tar.gz \
->    anywhere.
->
-> The tar.gz file is not available. It is generated only if
-> BB_GENERATE_MIRROR_TARBALLS is set to "1". The default value of
-> BB_GENERATE_MIRROR_TARBALLS is "0", and according to the manual, users
-> need choose to set it to "1" only if they are trying to make a source
-> mirror. So generally, this var's value is "0".
->
-> Anyway, we do need to avoid fetching kernel source from network when
-> doing testsdkext. So set PREMIRRORS in auto.conf to achieve this.
->
-> After this change, the time reduces from 4209.131s to 1399.436s on
-> my local machine.
->
-> [YOCTO #12729]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Patrick Vacek <patrick@advancedtelematic.com>
 > ---
->   meta/classes/testsdk.bbclass | 1 +
->   1 file changed, 1 insertion(+)
+>  meta/recipes-support/ca-certificates/ca-certificates_20170717.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
-> index 2e43343..57f8f21 100644
-> --- a/meta/classes/testsdk.bbclass
-> +++ b/meta/classes/testsdk.bbclass
-> @@ -157,6 +157,7 @@ def testsdkext_main(d):
->               f.write('SSTATE_MIRRORS += " \\n file://.* file://%s/PATH"\n' % test_data.get('SSTATE_DIR'))
->               f.write('SOURCE_MIRROR_URL = "file://%s"\n' % test_data.get('DL_DIR'))
->               f.write('INHERIT += "own-mirrors"\n')
-> +            f.write('PREMIRRORS_prepend = " git://git.yoctoproject.org/.* git://%s/git2/git.yoctoproject.org.BASENAME \\n "\n' % test_data.get('DL_DIR'))
->   
->           # We need to do this in case we have a minimal SDK
->           subprocess.check_output(". %s > /dev/null; devtool sdk-install meta-extsdk-toolchain" % \
+> diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+> index 59e7d51437..52a1a07f68 100644
+> --- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+> +++ b/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
+> @@ -24,6 +24,7 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
+>             file://sbindir.patch"
+>
+>  S = "${WORKDIR}/git"
+> +SYSROOT_DIRS_class-native += "${sysconfdir}"
 
+This change has now been merged, but unfortunately it looks wrong.
+This use of += with an over-ride doesn't achieve what you describe in
+the commit message (the += will append "${sysconfdir}" to the
+over-ride value and then the over-ride value will COMPLETELY REPLACE
+the original value of SYSROOT_DIRS, not add to it).
 
+The change also appears to be unnecessary as ${sysconfdir} is appended
+to SYSROOT_DIRS for -native recipes by default (via
+SYSROOT_DIRS_NATIVE in staging.bbclass).
+
+Exactly what issue were you trying to solve?
+
+>
+>  inherit allarch
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
