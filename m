@@ -1,20 +1,23 @@
-Return-Path: <zhe.he@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D36CC78A2C
+	by mail.openembedded.org (Postfix) with ESMTP id B225678A3C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 09:44:44 +0000 (UTC)
-Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w669iiYL018983
+	Fri,  6 Jul 2018 09:52:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w669qQ0g019911
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2018 02:44:44 -0700 (PDT)
-Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Fri, 06 Jul 2018 02:44:44 -0700
-From: He Zhe <zhe.he@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jul 2018 02:44:44 -0700
-Message-Id: <20180706094444.11006-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] scripts/runqemu: fix qemumips qemumips64 memory detection kernel panic
+	Fri, 6 Jul 2018 02:52:26 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
+	Fri, 6 Jul 2018 02:52:25 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jul 2018 05:51:46 -0400
+Message-ID: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,76 +30,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 09:44:44 -0000
+X-List-Received-Date: Fri, 06 Jul 2018 09:52:25 -0000
+Content-Type: text/plain
 
-$ runqemu qemumips64 core-image-minimal nographic qemuparams="-m 512"
-...
-[    0.000000] Call Trace:
-[    0.000000] [<ffffffff801268c0>] clear_page+0x0/0x128
-[    0.000000] [<ffffffff80238158>] get_page_from_freelist+0xab8/0xc00
-[    0.000000] [<ffffffff80238964>] __alloc_pages_nodemask+0xdc/0xf68
-[    0.000000] [<ffffffff80239808>] __get_free_pages+0x18/0x70
-[    0.000000] [<ffffffff80122a4c>] setup_zero_pages+0x1c/0xb8
-[    0.000000] [<ffffffff80c7c998>] mem_init+0x54/0xa0
-[    0.000000] [<ffffffff80c74904>] start_kernel+0x204/0x4d8
-[    0.000000] [<ffffffff8091dfb0>] kernel_entry+0x0/0x40
-[    0.000000] Code: 02002025  1000f8d9  8e634d7c <34860f80> cc9e0000
-cc9e0020  cc9e0040  cc9e0060  cc9e0080
-[    0.000000]
-[    0.000000] ---[ end trace 0000000000000000 ]---
-[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task!
-...
+The recipe builds the framework for kernel-selftest. Now, it just
+contains two sets of testcase, bpf and vm. We are appending others
+to the recipe.
 
-OE uses qemumips to simulate a Malta board by default.
+It needs some features which will be written into relevant recipe.
+But now, you should add them to conf/local.conf manually.
+KERNEL_FEATURES_append += "features/bpf/bpf.scc"
 
-As upstream qemu introduced:
-https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
-
-The Malta board can support up to 2GiB of RAM which should
-be able to boot a Linux kernel built with CONFIG_HIGHMEM
-enabled and passing "-m 2048" to QEMU and appending the
-following kernel parameters:
-...
-mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
-...
-
-But the following commit in kernel broke above mem=X@Y setting
-which added the memory as reserved memory area.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-...
-commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
-Date:   Wed Nov 23 14:43:49 2016 +0100
-
-    MIPS: fix mem=X@Y commandline processing
-...
-
-So remove `mem=*' to disable user-defined physical RAM map
-which let kernel itself caculates memory ranges.
-
-Author: Hongxu Jia <hongxu.jia@windriver.com>
-[ Merge the two fixes for qemumips32 and qemumips64 into one patch,
-  and add cases for possible mipsel mips64el ]
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../kernel-selftest/kernel-selftest.bb             | 94 ++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+ create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 597e7e9a799..a0c556b8728 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -669,7 +669,7 @@ class BaseConfig(object):
-             self.set('QB_MEM', '-m 512')
- 
-         mach = self.get('MACHINE')
--        if mach != 'qemumips':
-+        if mach != 'qemumips' and mach != 'qemumips64' and mach != 'qemumipsel' and mach != 'qemumips64el':
-             self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
- 
-         self.qemu_opt_script += ' %s' % self.get('QB_MEM')
+diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+new file mode 100644
+index 0000000..28fd178
+--- /dev/null
++++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+@@ -0,0 +1,94 @@
++SUMMARY = "Kernel selftest for Linux"
++DESCRIPTION = "Kernel selftest for Linux"
++LICENSE = "GPLv2"
++
++# for bpf and vm
++DEPENDS = " \
++    elfutils \
++    libcap \
++    libcap-ng \
++    fuse \
++    util-linux \
++    rsync-native \
++"
++# for vm
++RDEPENDS_${PN} += "libgcc \
++                   bash \
++"
++
++do_configure[depends] += "virtual/kernel:do_shared_workdir"
++
++inherit linux-kernel-base kernel-arch
++
++do_populate_lic[depends] += "virtual/kernel:do_patch"
++
++S = "${WORKDIR}/${BP}"
++
++# now we just test bpf and vm
++# we will append other kernel selftest in the future
++TEST_LIST = "bpf \
++             vm \
++"
++
++EXTRA_OEMAKE = '\
++    CROSS_COMPILE=${TARGET_PREFIX} \
++    ARCH=${ARCH} \
++    CC="${CC}" \
++    AR="${AR}" \
++    LD="${LD}" \
++'
++
++EXTRA_OEMAKE += "\
++    'DESTDIR=${D}' \
++"
++
++KERNEL_SELFTEST_SRC ?= "Makefile \
++                        include \
++                        tools \
++                        scripts \
++                        arch \
++"
++
++do_compile() {
++    for i in ${TEST_LIST}
++    do
++        oe_runmake -C ${S}/tools/testing/selftests/${i}
++    done
++}
++
++do_install() {
++    for i in ${TEST_LIST}
++    do
++        oe_runmake -C ${S}/tools/testing/selftests/${i} INSTALL_PATH=${D}/opt/kselftest/${i} install
++    done
++
++    chown root:root  -R ${D}/opt/kselftest
++}
++
++do_configure() {
++    :
++}
++
++do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
++python copy_perf_source_from_kernel() {
++    sources = (d.getVar("KERNEL_SELFTEST_SRC") or "").split()
++    src_dir = d.getVar("STAGING_KERNEL_DIR")
++    dest_dir = d.getVar("S")
++    bb.utils.mkdirhier(dest_dir)
++    for s in sources:
++        src = oe.path.join(src_dir, s)
++        dest = oe.path.join(dest_dir, s)
++        if os.path.isdir(src):
++            oe.path.copytree(src, dest)
++        else:
++            bb.utils.copyfile(src, dest)
++}
++
++remove_clang_related() {
++	sed -i -e '/test_pkt_access/d' -e '/test_pkt_md_access/d' ${S}/tools/testing/selftests/bpf/Makefile
++}
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++INHIBIT_PACKAGE_DEBUG_SPLIT="1"
++FILES_${PN} += "/opt/kselftest/"
 -- 
-2.11.0
+2.8.1
 
 
