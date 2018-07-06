@@ -1,31 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B50378A2F
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 816A678A1F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 08:34:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w668YLTX004871
+	Fri,  6 Jul 2018 09:07:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6697NUM021252
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Jul 2018 01:34:21 -0700
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	Fri, 6 Jul 2018 02:07:23 -0700 (PDT)
+Received: from [128.224.162.149] (128.224.162.149) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Fri, 6 Jul 2018 01:34:20 -0700
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1527214769.git.Qi.Chen@windriver.com>
-	<31d93c4a23eec59b835a52dc7002814e1b9fbe22.1527214769.git.Qi.Chen@windriver.com>
-	<CAJTo0LbuaPOcp0WbB0_T9O+kivU9Wye6Zzb6w8xD-kQXXOpJzg@mail.gmail.com>
-	<CAMKF1sqEzOBqP+ReVAA5zHn1qosQrrpti_2Aigv4OzzU6tF3Kg@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <c5249320-c4a0-b443-4ef5-be8bab9021f7@windriver.com>
-Date: Fri, 6 Jul 2018 16:37:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Fri, 6 Jul 2018 02:07:23 -0700
+To: <bruce.ashfield@gmail.com>
+References: <cover.1530863459.git.dengke.du@windriver.com>
+	<2756919e455edbd10cabd14ed1cb788cb501c7a0.1530863459.git.dengke.du@windriver.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <e314e169-ea01-018b-fffb-998a03aa8cff@windriver.com>
+Date: Fri, 6 Jul 2018 17:04:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqEzOBqP+ReVAA5zHn1qosQrrpti_2Aigv4OzzU6tF3Kg@mail.gmail.com>
-X-Originating-IP: [128.224.162.218]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libnss-nis
+In-Reply-To: <2756919e455edbd10cabd14ed1cb788cb501c7a0.1530863459.git.dengke.du@windriver.com>
+X-Originating-IP: [128.224.162.149]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] kernel-selftest: add it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,82 +35,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 08:34:21 -0000
+X-List-Received-Date: Fri, 06 Jul 2018 09:07:23 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Hi Ross,
+Please ignore this, thanks!
 
-Please consider merging this patch.
 
-With Khem's recent fix "libnss-nis: Limit parse skip only for target 
-recipe on musl", I think this patch could be merged safely.
-I've tested it locally with glibc and musl.
-
-Best Regards,
-Chen Qi
-
-On 06/07/2018 01:17 AM, Khem Raj wrote:
-> On Wed, Jun 6, 2018 at 9:48 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> Try building a musl buildtools and it breaks:
->>
->> ERROR: Nothing RPROVIDES 'nativesdk-libnss-nis' (but
->> /home/ross/Yocto/poky/meta/recipes-core/meta/buildtools-tarball.bb
->> RDEPENDS on or otherwise requires it)
->> nativesdk-libnss-nis was skipped: incompatible with musl C library
->>
-> I think the compatibility check is too greedy in the recipe, this should
-> only be applicable to target class recipe.
+On 2018年07月06日 15:51, Dengke Du wrote:
+> The framework for kernel-selftest, this framework contains many aspect,
+> such as bpf, we should enable bpf kernel feature, this enable bpf syscall.
 >
->> Ross
->>
->> On 25 May 2018 at 03:54, Chen Qi <Qi.Chen@windriver.com> wrote:
->>> Recent glibc change removed libnss-nis module from glibc and a new
->>> recipe libnss-nis.bb was added.
->>>
->>> After this change, we need to make sure nativesdk-libnss-nis is also
->>> included in buildtools-tarball, otherwise, we may encounter the following
->>> error when using 'tar' command from buildtools-tarball.
->>>
->>>    tar: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2: \
->>>         symbol _nsl_default_nss version GLIBC_PRIVATE not defined \
->>>         in file libnsl.so.1 with link time reference
->>>
->>> This error occured on my ubuntu16.04 host with 'nis' configured in
->>> /etc/nssswitch.conf.
->>>
->>> So add nativesdk-libnss-nis to buildtools-tarball to fix this problem.
->>>
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>>   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
->>> index d98a9c9..377733f 100644
->>> --- a/meta/recipes-core/meta/buildtools-tarball.bb
->>> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
->>> @@ -21,6 +21,7 @@ TOOLCHAIN_HOST_TASK ?= "\
->>>       nativesdk-wget \
->>>       nativesdk-ca-certificates \
->>>       nativesdk-texinfo \
->>> +    nativesdk-libnss-nis \
->>>       "
->>>
->>>   MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+> How to test?
+>      On target, enter directory: /opt/kselftest/bpf/, run "./test_align 0 11"
+> this command test all the bpf align testcases.
+>
+> Results:
+>      Test   0: mov ... PASS
+>      Test   1: shift ... PASS
+>      Test   2: addsub ... PASS
+>      Test   3: mul ... PASS
+>      Test   4: unknown shift ... PASS
+>      Test   5: unknown mul ... PASS
+>      Test   6: packet const offset ... PASS
+>      Test   7: packet variable offset ... PASS
+>      Test   8: packet variable offset 2 ... PASS
+>      Test   9: dubious pointer arithmetic ... PASS
+>      Test  10: variable subtraction ... PASS
+>      Test  11: pointer variable subtraction ... PASS
+>      Results: 12 pass 0 fail
+>
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>   .../kernel-selftest/kernel-selftest.bb             | 94 ++++++++++++++++++++++
+>   meta/recipes-kernel/linux/linux-yocto.inc          |  1 +
+>   2 files changed, 95 insertions(+)
+>   create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+>
+> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+> new file mode 100644
+> index 0000000..c976e7b
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+> @@ -0,0 +1,94 @@
+> +SUMMARY = "Kernel selftest for Linux"
+> +DESCRIPTION = "Kernel selftest for Linux"
+> +LICENSE = "GPLv2"
+> +
+> +DEPENDS = " \
+> +    elfutils \
+> +    libcap \
+> +    libcap-ng \
+> +    fuse \
+> +    util-linux \
+> +    rsync-native \
+> +"
+> +
+> +do_configure[depends] += "virtual/kernel:do_shared_workdir"
+> +
+> +inherit linux-kernel-base kernel-arch
+> +
+> +do_populate_lic[depends] += "virtual/kernel:do_patch"
+> +
+> +inherit kernelsrc
+> +
+> +S = "${WORKDIR}/${BP}"
+> +
+> +# The LDFLAGS is required or some old kernels fails due missing
+> +# symbols and this is preferred than requiring patches to every old
+> +# supported kernel.
+> +LDFLAGS="-ldl -lutil"
+> +
+> +EXTRA_OEMAKE = '\
+> +    CROSS_COMPILE=${TARGET_PREFIX} \
+> +    ARCH=${ARCH} \
+> +    CC="${CC}" \
+> +    AR="${AR}" \
+> +    LD="${LD}" \
+> +    EXTRA_CFLAGS="-ldw" \
+> +    ${PACKAGECONFIG_CONFARGS} \
+> +'
+> +
+> +EXTRA_OEMAKE += "\
+> +    'DESTDIR=${D}' \
+> +    'prefix=${prefix}' \
+> +    'bindir=${bindir}' \
+> +    'sharedir=${datadir}' \
+> +    'sysconfdir=${sysconfdir}' \
+> +    'sharedir=${@os.path.relpath(datadir, prefix)}' \
+> +    'mandir=${@os.path.relpath(mandir, prefix)}' \
+> +    'infodir=${@os.path.relpath(infodir, prefix)}' \
+> +"
+> +
+> +KERNEL_SELFTEST_SRC ?= "Makefile \
+> +             include \
+> +             tools \
+> +"
+> +
+> +# Add bpf selftest now, other can be added later.
+> +do_compile () {
+> +	# Linux kernel build system is expected to do the right thing
+> +	unset CFLAGS
+> +	oe_runmake -C ${S}/tools/testing/selftests/bpf
+> +}
+> +
+> +# On target, enter /opt/kselftest/bpf directory, run "./test_align 0 11"
+> +# The test_align testcase test the bpf instruction set, the testcase defined here:
+> +# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/tools/testing/selftests/bpf/test_align.c#n47
+> +do_install () {
+> +	# Linux kernel build system is expected to do the right thing
+> +	unset CFLAGS
+> +	mkdir -p ${D}/opt/kselftest/bpf
+> +	install -m 0755 ${B}/tools/testing/selftests/bpf/test_align ${D}/opt/kselftest/bpf/
+> +}
+> +
+> +do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
+> +python copy_perf_source_from_kernel() {
+> +    sources = (d.getVar("KERNEL_SELFTEST_SRC") or "").split()
+> +    src_dir = d.getVar("STAGING_KERNEL_DIR")
+> +    dest_dir = d.getVar("S")
+> +    bb.utils.mkdirhier(dest_dir)
+> +    for s in sources:
+> +        src = oe.path.join(src_dir, s)
+> +        dest = oe.path.join(dest_dir, s)
+> +        if os.path.isdir(src):
+> +            oe.path.copytree(src, dest)
+> +        else:
+> +            bb.utils.copyfile(src, dest)
+> +}
+> +
+> +remove_clang_related() {
+> +	sed -i -e '/test_pkt_access/d' -e '/test_pkt_md_access/d' ${S}/tools/testing/selftests/bpf/Makefile
+> +}
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +
+> +INHIBIT_PACKAGE_DEBUG_SPLIT="1"
+> +FILES_${PN} += "/opt/kselftest/bpf/*"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 1ebfb60..362d6d8 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -72,3 +72,4 @@ addtask kernel_configcheck after do_configure before do_compile
+>   
+>   # enable kernel-sample for oeqa/runtime/cases's ksample.py test
+>   KERNEL_FEATURES_append_qemuall=" features/kernel-sample/kernel-sample.scc"
+> +KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'features/bpf/bpf.scc', '', d)}"
 
 
