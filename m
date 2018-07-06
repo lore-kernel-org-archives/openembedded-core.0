@@ -1,23 +1,29 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B225678A3C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 66C8460851
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 09:52:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w669qQ0g019911
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2018 02:52:26 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 6 Jul 2018 02:52:25 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jul 2018 05:51:46 -0400
-Message-ID: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Fri,  6 Jul 2018 10:12:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jul 2018 03:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,315,1526367600"; d="scan'208";a="243468468"
+Received: from bachaue1-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+	([10.252.34.184])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2018 03:12:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>, Chen Qi <Qi.Chen@windriver.com>
+Date: Fri, 06 Jul 2018 12:12:06 +0200
+Message-ID: <52791220.vcYpphDNgo@localhost.localdomain>
+Organization: Intel Corporation
+In-Reply-To: <99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
+References: <cover.1528252931.git.liezhi.yang@windriver.com>
+	<99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 09/11] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,125 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 09:52:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jul 2018 10:12:08 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The recipe builds the framework for kernel-selftest. Now, it just
-contains two sets of testcase, bpf and vm. We are appending others
-to the recipe.
+Hi Robert / Chen
 
-It needs some features which will be written into relevant recipe.
-But now, you should add them to conf/local.conf manually.
-KERNEL_FEATURES_append += "features/bpf/bpf.scc"
+On Wednesday, 6 June 2018 4:54:44 AM CEST Robert Yang wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
+> 
+> By default, files under conf/ are all added to sdk-conf-manifest, as the
+> manifest file is set to 'conf/*'.
+> 
+> However, there are situations where some configuration files under conf/
+> directory are not intended to be added to sdk-conf-manifest, thus adding
+> ESDK_MANIFEST_EXCLUDES to enable users to do this.
+> 
+> This variable takes the form of glob matching.
+> e.g.
+> ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
+> This would exclude all files under conf/ starting with 'autogen' from
+> sdk-conf-manifest.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- .../kernel-selftest/kernel-selftest.bb             | 94 ++++++++++++++++++++++
- 1 file changed, 94 insertions(+)
- create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+This patch (and 05/11, SDK_LAYERS_EXCLUDE*) worry me a little in that they 
+have the potential to break the resulting eSDK or make it behave in a manner 
+that is different from the build system that produced it. Having said that 
+it's going to be reasonably clear to the user what's happened, assuming they 
+remember they set these variables and in any case I don't expect these are 
+going to be set by many people. Accordingly I won't object to these patches, 
+but could you please add a warning about this issue to the commit message for 
+both? We'd also better ensure they get documented with similar warnings.
 
-diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-new file mode 100644
-index 0000000..28fd178
---- /dev/null
-+++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-@@ -0,0 +1,94 @@
-+SUMMARY = "Kernel selftest for Linux"
-+DESCRIPTION = "Kernel selftest for Linux"
-+LICENSE = "GPLv2"
-+
-+# for bpf and vm
-+DEPENDS = " \
-+    elfutils \
-+    libcap \
-+    libcap-ng \
-+    fuse \
-+    util-linux \
-+    rsync-native \
-+"
-+# for vm
-+RDEPENDS_${PN} += "libgcc \
-+                   bash \
-+"
-+
-+do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+
-+inherit linux-kernel-base kernel-arch
-+
-+do_populate_lic[depends] += "virtual/kernel:do_patch"
-+
-+S = "${WORKDIR}/${BP}"
-+
-+# now we just test bpf and vm
-+# we will append other kernel selftest in the future
-+TEST_LIST = "bpf \
-+             vm \
-+"
-+
-+EXTRA_OEMAKE = '\
-+    CROSS_COMPILE=${TARGET_PREFIX} \
-+    ARCH=${ARCH} \
-+    CC="${CC}" \
-+    AR="${AR}" \
-+    LD="${LD}" \
-+'
-+
-+EXTRA_OEMAKE += "\
-+    'DESTDIR=${D}' \
-+"
-+
-+KERNEL_SELFTEST_SRC ?= "Makefile \
-+                        include \
-+                        tools \
-+                        scripts \
-+                        arch \
-+"
-+
-+do_compile() {
-+    for i in ${TEST_LIST}
-+    do
-+        oe_runmake -C ${S}/tools/testing/selftests/${i}
-+    done
-+}
-+
-+do_install() {
-+    for i in ${TEST_LIST}
-+    do
-+        oe_runmake -C ${S}/tools/testing/selftests/${i} INSTALL_PATH=${D}/opt/kselftest/${i} install
-+    done
-+
-+    chown root:root  -R ${D}/opt/kselftest
-+}
-+
-+do_configure() {
-+    :
-+}
-+
-+do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
-+python copy_perf_source_from_kernel() {
-+    sources = (d.getVar("KERNEL_SELFTEST_SRC") or "").split()
-+    src_dir = d.getVar("STAGING_KERNEL_DIR")
-+    dest_dir = d.getVar("S")
-+    bb.utils.mkdirhier(dest_dir)
-+    for s in sources:
-+        src = oe.path.join(src_dir, s)
-+        dest = oe.path.join(dest_dir, s)
-+        if os.path.isdir(src):
-+            oe.path.copytree(src, dest)
-+        else:
-+            bb.utils.copyfile(src, dest)
-+}
-+
-+remove_clang_related() {
-+	sed -i -e '/test_pkt_access/d' -e '/test_pkt_md_access/d' ${S}/tools/testing/selftests/bpf/Makefile
-+}
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+INHIBIT_PACKAGE_DEBUG_SPLIT="1"
-+FILES_${PN} += "/opt/kselftest/"
+Apart from that I'd like to see a different name for the variable here - we 
+don't use the prefix ESDK_ anywhere else, so perhaps SDK_CONF_MANIFEST_EXCLUDE 
+?
+
+Cheers,
+Paul
+
+
+
 -- 
-2.8.1
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
 
 
