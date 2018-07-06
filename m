@@ -1,24 +1,30 @@
-Return-Path: <psaavedra@igalia.com>
-X-Greylist: delayed 1546 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 06 Jul 2018 10:16:23 UTC
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id ED89160602
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5105178B20
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 10:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Message-Id:Date:Subject:To:From;
-	bh=84W/5UrI5BI+tID9qcXrqPrerCGsonhKDYDhAVGYG7s=; 
-	b=dwyWOwNpzXoQ+dIYdnDUnoUj8OeC4D2CELMoUXlmRx4X/aNeGWMCgmxQBH+Aw1RW3B0hF5As0g6/Qld81Zo0cNVSlOm9xr1d4omGeCjmL8epA4UyjXPGC3BhF6OT8M8KNEgVeMTS/YVg17TTdUpgitq90ejarQK575Wh3BTECc3Rs2Gxs04dmllnY35BhSV9yYWDnW+zBU530Lz1t6lopVFSY1s7KBD/vtEgUEAQj8ODgZou1YyN25dJdLaGvsbJMXrBxmYpjDK5PmYYInGdoeC+TLbKAAsG1D5Qr14fjJfh2N9/IwRjQJNDvcNGqe73WnvPlVwL12DcIrFUUdVGtw==;
-Received: from buildbox.local.igalia.com ([192.168.10.88])
-	by fanzine.igalia.com with esmtp (Exim) id 1fbNNt-000344-TR
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2018 11:50:38 +0200
-From: Pablo Saavedra <psaavedra@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jul 2018 11:50:23 +0200
-Message-Id: <20180706095023.102107-1-psaavedra@igalia.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [poky][PATCH] Jail patch_task_patch_prefunc in classes/patch into the workdir
+	Fri,  6 Jul 2018 10:17:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w66AHAVU007193
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 6 Jul 2018 03:17:11 -0700
+Received: from [128.224.16.191] (128.224.16.191) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Fri, 6 Jul 2018 03:17:09 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, Chen Qi
+	<Qi.Chen@windriver.com>
+References: <cover.1528252931.git.liezhi.yang@windriver.com>
+	<99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
+	<52791220.vcYpphDNgo@localhost.localdomain>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5ada2181-c328-82ce-587d-c0299d1a3db0@windriver.com>
+Date: Fri, 6 Jul 2018 18:17:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <52791220.vcYpphDNgo@localhost.localdomain>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 09/11] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 10:16:24 -0000
+X-List-Received-Date: Fri, 06 Jul 2018 10:17:11 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-With PATCHTOOL=git patches the changes in the patch_task_postfunc
-of the classes/patch. This works OK when the S dir is a Git repo
-but doesn't if the source is a tarball.
 
-The while condition in the patch_task_patch_prefunc must be
-jailed into the WORKDIR. In the opposite, when you are executing
-the recipe out of a Git subtree the function simply fails but when
-your recipes are into a Git repo the patch_task_postfunc execute a
-commit over your BSP local Git repo adding the changes in an
-arbitrary Git repo found in the path from the SOURCE directory to
-the '/'. This situation is highly probable in  cases like ~home
-directories under the control of a .git repo or Yocto BSP which
-manage the meta layers as git submodules.
+On 07/06/2018 06:12 PM, Paul Eggleton wrote:
+> Hi Robert / Chen
+> 
+> On Wednesday, 6 June 2018 4:54:44 AM CEST Robert Yang wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
+>>
+>> By default, files under conf/ are all added to sdk-conf-manifest, as the
+>> manifest file is set to 'conf/*'.
+>>
+>> However, there are situations where some configuration files under conf/
+>> directory are not intended to be added to sdk-conf-manifest, thus adding
+>> ESDK_MANIFEST_EXCLUDES to enable users to do this.
+>>
+>> This variable takes the form of glob matching.
+>> e.g.
+>> ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
+>> This would exclude all files under conf/ starting with 'autogen' from
+>> sdk-conf-manifest.
+> 
+> This patch (and 05/11, SDK_LAYERS_EXCLUDE*) worry me a little in that they
+> have the potential to break the resulting eSDK or make it behave in a manner
+> that is different from the build system that produced it. Having said that
+> it's going to be reasonably clear to the user what's happened, assuming they
+> remember they set these variables and in any case I don't expect these are
+> going to be set by many people. Accordingly I won't object to these patches,
+> but could you please add a warning about this issue to the commit message for
+> both? We'd also better ensure they get documented with similar warnings.
+> 
+> Apart from that I'd like to see a different name for the variable here - we
+> don't use the prefix ESDK_ anywhere else, so perhaps SDK_CONF_MANIFEST_EXCLUDE
+> ?
 
-This patch fix the changes introduced in
+Thanks, make sense, will update it next week.
 
-  classes/patch: when PATCHTOOL = "git" double-check the repository
-  commit: 86ab56b55164393924b5e688b20e8f3f3f8fc578
-  Author: Paul Eggleton <paul.eggleton@linux.intel.com>
-  Date:   Tue Dec 5 14:36:58 2017 +1300
+// Robert
 
-  classes/patch: when PATCHTOOL = "git" double-check the repository
-
-  If a bug is present or the user has set PATCHTOOL = "git" on a source
-  tree that isn't git, if we try to perform git operations (such as
-  committing or changing branches) when extracting source, then we might
-  in fact be running those operations on the metadata repository if the
-  build directory is underneath, say, poky or OE-Core, and that could
-  make a mess. Check if the source tree is a git repository and refuse
-  to continue if it isn't.
----
- meta/classes/patch.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/patch.bbclass b/meta/classes/patch.bbclass
-index 2fc6925e49..3e0a181821 100644
---- a/meta/classes/patch.bbclass
-+++ b/meta/classes/patch.bbclass
-@@ -33,7 +33,7 @@ python patch_task_patch_prefunc() {
-     if (testsrcdir + os.sep).startswith(workdir + os.sep):
-         # Double-check that either workdir or S or some directory in-between is a git repository
-         found = False
--        while testsrcdir != '/':
-+        while testsrcdir != workdir:
-             if os.path.exists(os.path.join(testsrcdir, '.git')):
-                 found = True
-                 break
--- 
-2.11.0
-
+> 
+> Cheers,
+> Paul
+> 
+> 
+> 
 
