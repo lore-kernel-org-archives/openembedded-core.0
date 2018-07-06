@@ -1,25 +1,29 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D16EA78B2F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D90476024
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 09:08:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6698P4n013420
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2018 02:08:26 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 6 Jul 2018 02:08:25 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jul 2018 05:07:42 -0400
-Message-ID: <cf0cc593ca47deb213a8dacbeeae6deea3b195e4.1530867788.git.hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1530867788.git.hongzhi.song@windriver.com>
-References: <cover.1530867788.git.hongzhi.song@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 2/2] kernel-selftest: add vm testcase to recipe
+	Fri,  6 Jul 2018 09:12:09 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w669BwZ5021252
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 6 Jul 2018 10:11:59 +0100
+Message-ID: <0dd54be24537b0609ca810fff36923019911366a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 06 Jul 2018 10:11:58 +0100
+In-Reply-To: <CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
+References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
+	<CAJ86T=W1kjJgn-6P2POoLqF4oBcovEs2Sekp-saaD9dqTSzi4w@mail.gmail.com>
+	<CAJTo0LaUkxKcPhasnQh6KAsh2kv5rEmy-jMW3oXKxttS-kd1mQ@mail.gmail.com>
+	<CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,128 +36,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 09:08:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jul 2018 09:12:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add vm testcase to recipe, and sightly modify organization of code
+On Thu, 2018-07-05 at 17:57 -0700, Andre McCurdy wrote:
+> On Thu, Jul 5, 2018 at 5:07 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > On 6 July 2018 at 00:39, Andre McCurdy <armccurdy@gmail.com> wrote:
+> > > On Wed, Jul 4, 2018 at 5:53 AM, Burton, Ross <ross.burton@intel.c
+> > > om> wrote:
+> > > > On 4 July 2018 at 01:55, Andre McCurdy <armccurdy@gmail.com>
+> > > > wrote:
+> > > > >  DEPENDS += "${PYTHON_PN}"
+> > > > > -DEPENDS_class-native += "${PYTHON_PN}-native"
+> > > > > -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
+> > > > > +DEPENDS_class-native = "${PYTHON_PN}-native"
+> > > > > +DEPENDS_class-nativesdk = "nativesdk-${PYTHON_PN}"
+> > > > 
+> > > > Whilst there's nothing wrong with this patch, as the
+> > > > BBCLASSEXTEND
+> > > > handles DEPENDS-munging isn't this a better fix:
+> > > > 
+> > > >   DEPENDS += "${PYTHON_PN}"
+> > > >  -DEPENDS_class-native += "${PYTHON_PN}-native"
+> > > >  -DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
+> > > 
+> > > Removing the over-rides completely results in both the native and
+> > > nativesdk variants gaining a new dependency on
+> > > python-distribute-native (courtesy of setuptools.bbclass).
+> > 
+> > setuptools.bbclass:DEPENDS += "python-distribute-native"
+> > 
+> > If python-distribute-native is a build dependency for target then
+> > its a dependency for native and nativesdk too, right?
+> 
+> DEPENDS has been over-ridden for native and nativesdk for some time,
+> so either the dependency gets provided indirectly or it's not
+> required at all?
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- .../kernel-selftest/kernel-selftest.bb             | 62 +++++++++++-----------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+I'd suspect indirectly but hard to tell :/.
 
-diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-index c976e7b..28fd178 100644
---- a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-+++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-@@ -2,6 +2,7 @@ SUMMARY = "Kernel selftest for Linux"
- DESCRIPTION = "Kernel selftest for Linux"
- LICENSE = "GPLv2"
- 
-+# for bpf and vm
- DEPENDS = " \
-     elfutils \
-     libcap \
-@@ -10,6 +11,10 @@ DEPENDS = " \
-     util-linux \
-     rsync-native \
- "
-+# for vm
-+RDEPENDS_${PN} += "libgcc \
-+                   bash \
-+"
- 
- do_configure[depends] += "virtual/kernel:do_shared_workdir"
- 
-@@ -17,14 +22,13 @@ inherit linux-kernel-base kernel-arch
- 
- do_populate_lic[depends] += "virtual/kernel:do_patch"
- 
--inherit kernelsrc
--
- S = "${WORKDIR}/${BP}"
- 
--# The LDFLAGS is required or some old kernels fails due missing
--# symbols and this is preferred than requiring patches to every old
--# supported kernel.
--LDFLAGS="-ldl -lutil"
-+# now we just test bpf and vm
-+# we will append other kernel selftest in the future
-+TEST_LIST = "bpf \
-+             vm \
-+"
- 
- EXTRA_OEMAKE = '\
-     CROSS_COMPILE=${TARGET_PREFIX} \
-@@ -32,41 +36,37 @@ EXTRA_OEMAKE = '\
-     CC="${CC}" \
-     AR="${AR}" \
-     LD="${LD}" \
--    EXTRA_CFLAGS="-ldw" \
--    ${PACKAGECONFIG_CONFARGS} \
- '
- 
- EXTRA_OEMAKE += "\
-     'DESTDIR=${D}' \
--    'prefix=${prefix}' \
--    'bindir=${bindir}' \
--    'sharedir=${datadir}' \
--    'sysconfdir=${sysconfdir}' \
--    'sharedir=${@os.path.relpath(datadir, prefix)}' \
--    'mandir=${@os.path.relpath(mandir, prefix)}' \
--    'infodir=${@os.path.relpath(infodir, prefix)}' \
- "
- 
- KERNEL_SELFTEST_SRC ?= "Makefile \
--             include \
--             tools \
-+                        include \
-+                        tools \
-+                        scripts \
-+                        arch \
- "
- 
--# Add bpf selftest now, other can be added later.
--do_compile () {
--	# Linux kernel build system is expected to do the right thing
--	unset CFLAGS
--	oe_runmake -C ${S}/tools/testing/selftests/bpf
-+do_compile() {
-+    for i in ${TEST_LIST}
-+    do
-+        oe_runmake -C ${S}/tools/testing/selftests/${i}
-+    done
-+}
-+
-+do_install() {
-+    for i in ${TEST_LIST}
-+    do
-+        oe_runmake -C ${S}/tools/testing/selftests/${i} INSTALL_PATH=${D}/opt/kselftest/${i} install
-+    done
-+
-+    chown root:root  -R ${D}/opt/kselftest
- }
- 
--# On target, enter /opt/kselftest/bpf directory, run "./test_align 0 11"
--# The test_align testcase test the bpf instruction set, the testcase defined here:
--# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/tools/testing/selftests/bpf/test_align.c#n47
--do_install () {
--	# Linux kernel build system is expected to do the right thing
--	unset CFLAGS
--	mkdir -p ${D}/opt/kselftest/bpf
--	install -m 0755 ${B}/tools/testing/selftests/bpf/test_align ${D}/opt/kselftest/bpf/
-+do_configure() {
-+    :
- }
- 
- do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
-@@ -91,4 +91,4 @@ remove_clang_related() {
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- INHIBIT_PACKAGE_DEBUG_SPLIT="1"
--FILES_${PN} += "/opt/kselftest/bpf/*"
-+FILES_${PN} += "/opt/kselftest/"
--- 
-2.8.1
+
+> > Considering python-distribute is just an alias for python-
+> > setuptools
+> > (its a RPROVIDES in the recipe, and the pip entry is just a
+> > dependnecy) I guess the setuptools class should follow setuptools3
+> > and
+> > depend on python-setuptools-native instead of
+> > python-distribute-native.
+> > 
+> > Context is this from 2015:
+> > 
+> > commit c4553e07cdbec5c29a74a43e0c5fdb2bb5583f7a
+> > Author: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> > Date:   Thu May 14 16:49:56 2015 +0000
+> > 
+> >     python3-distribute: Upgrade to python3-setuptools 15.2
+> > 
+> >     python3-distribute was merged back to python3-setuptools in
+> > 2013,
+> >     and it is no longer being maintained, this upgrade also
+> > provides
+> >     functionality that will be needed for python3-pip.
+> > 
+> > The same needs to be applied to the py2 classes, as both Py2 and
+> > Py3
+> > use the same version of setuptools.
+> 
+> That all sounds plausible, but starts to unravel into a bigger set of
+> potential cleanups. For example, digging a little more uncovers this
+> from distutils-base.bbclass:
+> 
+>   DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}",
+> ""][(d.getVar('PACKAGES') == '')]}"
+>   RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}'
+> == 'class-target']}"
+> 
+> The first line adding to DEPENDS for target and nativesdk (but not
+> native) and the second line adding to RDEPENDS for target only.
+> Should this be re-written to make use of over-rides?
+
+I suspect class- overrides did not exist when that code was written.
+Rewriting it using them would be a good cleanup.
+
+> And looking at nativesdk builds in general, why does
+> DISTRO_FEATURES_NATIVE contain ipv6 and xattr but
+> DISTRO_FEATURES_NATIVESDK does not? I couldn't find any comments to
+> explain that.
+
+I suspect nativesdk should have those and its just a oversight.
+Unfortunately we have a number of little details like this, I do take a
+pass at some things when I have time but clearly there are things which
+can be improved.
+
+FWIW I tend to look at them from a risk perspective too and how well we
+can know whether the cleanup will or won't risk breakage before
+deciding where to make changes.
+
+Cheers,
+
+Richard
+
 
 
