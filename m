@@ -1,49 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 277EC78A99
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f66.google.com (mail-vk0-f66.google.com
+	[209.85.213.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CBBB9771B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 15:47:52 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id p11-v6so14828187wmc.4
+	Fri,  6 Jul 2018 18:35:09 +0000 (UTC)
+Received: by mail-vk0-f66.google.com with SMTP id j11-v6so7324022vke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2018 08:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=X+gD+4XburGg+a1WYDdQb6ASVsHYHn+PTitCo45vPHc=;
-	b=xZkGaVNf794qs36JI9OqVeghDvSBeQvy+CJhbiwkDuMT3xWzgQpM2GwLPC8KzHCh6V
-	Jb5/qwL1yVbnv58+BFZbq44bT85gLkyQhr7rW2/aA0UMrVNY/yLQCHHu23bg3HJjxxOm
-	DJWaxIYLdFTAB0J41olPKqmCtQZC2YP0zlTnz7H8DNjXk9CG9z0EyzpKDOGv/+Fk+BDj
-	dqweDqw2w+tKLEZIdTmaeY1IX4lbb/ANI6higcIhcMvh7GD78Ot/vEiDgLoCwDtN6Ge9
-	4g957VVMwWwdkDuTR4W/4PZ2ArhzZPMXAYIMdI45geQ34gw08nTpY8tTiw72lD6TCvmw
-	zflw==
+	Fri, 06 Jul 2018 11:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pWj6kGunxzQ0tN2ZiMppOsVSt3T0ug7HPQPyV63HgGs=;
+	b=GXTRvVwD9rmCyo40T/sFoOyK8+Xp4WlsYW72yZCOYoZtN0c6GuDRgD2KzUJnH0SiH8
+	otXuUgjlpshwTSFxUKPOjFeZGN+GaAJd3CJiC6asmAmixEF7I6oLbUiNqggy6M6Pqwmm
+	R1JCiViT9CqL5PQ8WsvwANQDw9jRkwWV2nTvutkLNEdyAGkIuUo1xZkMvbQfg8zvfupj
+	HlehwQ3K0BOI+DIFj/DFWLhdL6eI2bQIT4Q//7+k/YcHSZtuw8pJhJnLJxGV2pQ+s6I2
+	pqi+lCMl1cYCxwYK7avDdo+NUtZbtwdelnTHxIvlxDE411+RPM3IRJkCduZ2r9e+xddm
+	A70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=X+gD+4XburGg+a1WYDdQb6ASVsHYHn+PTitCo45vPHc=;
-	b=QKCxb+eTH2V+r2mzAzek+oFO6id8EmtQh6xenoZvBN1DWQwrCi4/lRDn2WNGsSXE/F
-	PgaYJsJZ1JP6totildBQ4R44SoVx2vgKlxq9LPzD/SkkC2LPYFev3p94GjcwFvPuMb2o
-	Sr3VfvkUkHJEzxHp7pjiOBcAigyGJ6WCZR7uVs2eHwQ1TJYWKG0q1N2FFXoApJgUajUz
-	T8+gM8UTiDHfe+2Ey/yeI6kedCxWBT6mJQuyxsfx6hsSMQ01XKrxteJniqMkemMxK+M8
-	PUJbsoCQNVCKyigUmikDMAfbdQgJLyp9nFVqbVN39m5xSieaxCuFrSK5g1THsXMcDo4u
-	rsfw==
-X-Gm-Message-State: APt69E2hfEJbgYsbwbiY/uhS1qHhJ5s1HoTLwsp2a/Rto1EZZDrpPsZB
-	7XLUgdxweYqxak16Cpuc88JXZB6I
-X-Google-Smtp-Source: AAOMgpcm9Ein7FU6tUwWNWDNoItNdm5esfEY74uoOKsn8ZNSbtnecI6q+4b4CCNSu4EuzT7nxhMWow==
-X-Received: by 2002:a1c:e146:: with SMTP id
-	y67-v6mr6411478wmg.108.1530892072490; 
-	Fri, 06 Jul 2018 08:47:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a2-v6sm6344984wmb.6.2018.07.06.08.47.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Jul 2018 08:47:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jul 2018 16:47:49 +0100
-Message-Id: <20180706154749.19324-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] minicom: remove dead URL from UPSTREAM_CHECK_URI
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pWj6kGunxzQ0tN2ZiMppOsVSt3T0ug7HPQPyV63HgGs=;
+	b=lTud2smmNllEaqsDkDKJdLVfoNt426kxri8uA2nwR3kJ9LVfpyEkzocdHd9eFoVbRB
+	UU/NyM3MZRGthZt24P24xjfTyxLWtp9AdawHNt0/7Hp8i1ZhflI+HepVLtjYBPqbiUS5
+	VMcuDJmYwoYUf+UhMnsoaECEexqAZbb8cNT2vd0npyMIZhCHldqh7QQGoKBK69yVgnpJ
+	6RTxvtxYtmfTJKxp0yGOS4YkPsWFCkWWPHorU5K7wzXAvG0sgfVeh+iZTq2Ow5YhUFti
+	KDKYVxsSWgfK34z48+FwkQeXr5/9dCEVnvGrev88WHZfR6sRTR2jGaIv+pySl2cGXMK7
+	+vFQ==
+X-Gm-Message-State: APt69E20r/dV3tyCFQwpGNw1iUYnz+XWy72rOp5XIDmHV0HKZbvMEfIk
+	C0cuzXNhdpdYCi95/bWK01s+76ZYe/sc9NIENoM=
+X-Google-Smtp-Source: AAOMgpc9uxuavhN58SeTgTEofH6mEiRNfxauqxPQCbzmZx68hBXJftI086LzIQmoLOW4pbc9L6f5CorsRyTfx4TZBzo=
+X-Received: by 2002:a1f:9757:: with SMTP id
+	z84-v6mr5857677vkd.174.1530902110562; 
+	Fri, 06 Jul 2018 11:35:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Fri, 6 Jul 2018 11:35:10 -0700 (PDT)
+In-Reply-To: <CAJTo0LZzdbqxQNU2kvz=a=f3gurXbYPJD-7U37wU4LPGHiE0Aw@mail.gmail.com>
+References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
+	<CAJ86T=W1kjJgn-6P2POoLqF4oBcovEs2Sekp-saaD9dqTSzi4w@mail.gmail.com>
+	<CAJTo0LaUkxKcPhasnQh6KAsh2kv5rEmy-jMW3oXKxttS-kd1mQ@mail.gmail.com>
+	<CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
+	<CAJTo0LZzdbqxQNU2kvz=a=f3gurXbYPJD-7U37wU4LPGHiE0Aw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 6 Jul 2018 11:35:10 -0700
+Message-ID: <CAJ86T=VP+eLW8rPmHgw4hSEyAt4BuRMuAUqJD3r9Z9P42B3_PQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +61,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 15:47:52 -0000
+X-List-Received-Date: Fri, 06 Jul 2018 18:35:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/minicom/minicom_2.7.1.bb | 2 --
- 1 file changed, 2 deletions(-)
+On Fri, Jul 6, 2018 at 8:10 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 6 July 2018 at 01:57, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> That all sounds plausible, but starts to unravel into a bigger set of
+>> potential cleanups. For example, digging a little more uncovers this
+>> from distutils-base.bbclass:
+>
+> Let's take these cleanups one at a time.  I've just submitted the
+> distribute->setuptools change as a start.
 
-diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-index be0b48dfdf5..1e6f1317ebe 100644
---- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-@@ -16,8 +16,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.gz \
- SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
- SRC_URI[sha256sum] = "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
- 
--UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
--
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
- 
--- 
-2.11.0
-
+In that spirit, should we merge the original patch, which cleans up +=
+with an over-ride without changing any dependencies?
 
