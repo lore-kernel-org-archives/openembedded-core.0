@@ -1,50 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 854376093B
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D520F6093B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 15:09:05 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id b15-v6so4521786wrv.10
+	Fri,  6 Jul 2018 15:09:07 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id r16-v6so4531475wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2018 08:09:07 -0700 (PDT)
+	Fri, 06 Jul 2018 08:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=SnpzyqN4xv4OEHemIql7LE/rGFw85TmaR1S85ZPaCDc=;
-	b=ZqJLxT9DfrVnGR7XvIgU4iKyafEVTxGjvgaYzVQcqJaXEC0LVDbxrieFl4PruQe/NS
-	HXDlkDjSCP7ZjYpwpk2qG+IklbueBACMCv/KaQQ6yselZhp5vjO3TWnFMdErydYOC9IS
-	lwnedAhCoED+mIuUk9TsG8LpeUScIvG0EgwCl7F6/Dv2sw57vWpQlNfKqWanU1QOKqsE
-	osXlD1P1rUOL6838ftyF/YSuTHBUdDa0kZwDakVE5FLz4h0Mc+bJKxsot3mLUv9Io2+K
-	Aht4zNBpPOTT35ETpZqXNvKqZ8wEtNuNKX7LeFtjp6Ycu4743cQc68WTVx5ucf2+TNAU
-	W5qQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=lDvEwG6eg0esPoQTFagLqkWtzlxwUIA/I99wLSBzvaw=;
+	b=jQBtmlcIavXibtBtXS7MMyAJ1ZqQSXxvk4FZumSsUx93RTiFz5lc4kAO7zb6qFDXls
+	cHhJZJdi2ZadUt+caWXIE3a77hUdBnUwZZvjw9VFo1e7wbGEPOAl+kzghe321kNmZVbw
+	1npAv9ugvTSaEeANCyhbGFx5Pxt2Zl4HZ4jgvqebnrWiOnDQ5KNRaa+Ze43Y/OgOg5hY
+	JeHF/IXgZdaJrN9JmKGIhwTJCQXD8oGI9+JnH+kGL+qalgn+wfy56GL69t2UovgZ27J6
+	bWyXqCyGyJws1pE1t3SJ7T7/WcSzk4zF8NI3pvWa9eFpQKtcGVAYhEhLCQzlBJ8snRRv
+	izMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=SnpzyqN4xv4OEHemIql7LE/rGFw85TmaR1S85ZPaCDc=;
-	b=sltYcJ89+oIMg/3QWUWl+x+t5njGj/ql3tgnCTQTaF7wPCHqwHgjxJV1HsVceHVwbL
-	DVyedO1uR1q12uK51iNRzpmH1gXepOJ98u3lJE5b7Eon1Mm4oi/Q6BVHOhKqv4PFmXUx
-	wDz/YLzSPa5QqK1kS7ZvJRiGgjXVajwDrxL7YsqVYoOFLa3IHG/ul8FFCytxr6ajD7Jv
-	6rd/p4iQoTGYBh2q23sJ32mg0ByovkWRg/cyf3B3+1qTZsRiQKwbab35QvOu37zQ8oPe
-	vpYT9ZeIU658Y3riP5lV8PGt555S3znqNKRF7NnhcZY5vF63MxQxhLdi5xa58lU6Af5Y
-	t1Gw==
-X-Gm-Message-State: APt69E3VS04uEmEiAfMahZPy5dMLfLm5z14YDDfRaIo9lAL3AnGdTZrw
-	S8sS8duNAdh7x6BDnsk571eB9gjp
-X-Google-Smtp-Source: AAOMgpcptcCHUpkpU5300oDyhRxOocoDijBZAK1FzwWjBOL8J7F3nqeuKZaTGX4frKwS7YbqzTOWMQ==
-X-Received: by 2002:adf:8dad:: with SMTP id
-	o42-v6mr7549534wrb.274.1530889746131; 
-	Fri, 06 Jul 2018 08:09:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=lDvEwG6eg0esPoQTFagLqkWtzlxwUIA/I99wLSBzvaw=;
+	b=aSzxsNM5iULu0c9NSI+b8XWrL8LGfeWPyAl4x0hOotrZDhqlh7eeEcbvd6HFcK5xf3
+	rktpizj+Jgoc0cay9JPswdPsJa1H1vXAEFsKyxzTZLY1p0YS2ukKtWgB9PrUBGItife7
+	5crcPS5bXNEKuUx2JyZxAud5j+UflaaOIyeHt5gweAivXSRb8LjG0FtMTypz77YBlcba
+	b4ma9QELhVe3YleIqqDFzmw00nujmROP9jAI6rTjqluumGhjKGSlv/erplHBeWo48q1V
+	5xs7C0nFj/zjzha5VjemuzE5+zkssTLE/6gmew59K5L9I7NpLBhFoxsuIUBa4dUaHfKi
+	TjBg==
+X-Gm-Message-State: APt69E2TA8ifUEAlJ1XIcFWx6Y1LL0lwVKVSs9jM2jc315HUCiu5pXom
+	A3zzsrMSsb0g6KPVUdp2tfRihigO
+X-Google-Smtp-Source: AAOMgpf8eAuBbCUqAH2IMoqHa/EZrCUmQaS7pjNym0pDMbyAmrC+iMJ+Dik71rAsvkHonn0q1pABLw==
+X-Received: by 2002:adf:9148:: with SMTP id
+	j66-v6mr8255321wrj.118.1530889747491; 
+	Fri, 06 Jul 2018 08:09:07 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	j12-v6sm2831184wrn.29.2018.07.06.08.09.05
+	j12-v6sm2831184wrn.29.2018.07.06.08.09.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Jul 2018 08:09:05 -0700 (PDT)
+	Fri, 06 Jul 2018 08:09:06 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jul 2018 16:08:58 +0100
-Message-Id: <20180706150859.28081-1-ross.burton@intel.com>
+Date: Fri,  6 Jul 2018 16:08:59 +0100
+Message-Id: <20180706150859.28081-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/2] setuptools.bbclass: depend on python-setuptools
+In-Reply-To: <20180706150859.28081-1-ross.burton@intel.com>
+References: <20180706150859.28081-1-ross.burton@intel.com>
+Subject: [PATCH 2/2] distro_alias: remove obsolete python-distribute entry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 15:09:06 -0000
-
-python-distribute is obsolete and is now simply a PROVIDES of python-setuptools,
-so use the right name.
-
-The identical change for setuptools3.bbclass was done in 2015 in 8922e60.
+X-List-Received-Date: Fri, 06 Jul 2018 15:09:08 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/setuptools.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/distro_alias.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/classes/setuptools.bbclass b/meta/classes/setuptools.bbclass
-index 56343b1c731..157ef63b687 100644
---- a/meta/classes/setuptools.bbclass
-+++ b/meta/classes/setuptools.bbclass
-@@ -1,6 +1,6 @@
- inherit distutils
- 
--DEPENDS += "python-distribute-native"
-+DEPENDS += "python-setuptools-native"
- 
- DISTUTILS_INSTALL_ARGS = "--root=${D} \
-     --prefix=${prefix} \
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index 58c110dbe42..1498e124413 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -305,14 +305,12 @@ DISTRO_PN_ALIAS_pn-ptest-runner = "OE-Core"
+ DISTRO_PN_ALIAS_pn-pulseaudio-client-conf-sato = "OE-Core"
+ DISTRO_PN_ALIAS_pn-puzzles = "Debian=sgt-puzzles Fedora=puzzles"
+ DISTRO_PN_ALIAS_pn-python3 = "Fedora=python3 Debian=python3.2"
+-DISTRO_PN_ALIAS_pn-python3-distribute = "Debian=python3-setuptools Fedora=python3-setuptools"
+ DISTRO_PN_ALIAS_pn-python3-iniparse = "Fedora=python-iniparse Debian=python-iniparse"
+ DISTRO_PN_ALIAS_pn-python3-pip = "OpenSuSE=python3-pip Debian=python3-pip"
+ DISTRO_PN_ALIAS_pn-python3-pycurl = "Fedora=python-pycurl Debian=pycurl"
+ DISTRO_PN_ALIAS_pn-python3-pygpgme = "Fedora=python-pygpgme Debian=pygpgme"
+ DISTRO_PN_ALIAS_pn-python3-setuptools = "OpenSuSE=python3-setuptools Debian=python3-setuptools"
+ DISTRO_PN_ALIAS_pn-python-dbus = "Ubuntu=python-dbus Debian=python-dbus Mandriva=python-dbus"
+-DISTRO_PN_ALIAS_pn-python-distribute = "Opensuse=python-setuptools Fedora=python-setuptools"
+ DISTRO_PN_ALIAS_pn-python-git = "Debian=python-git Fedora=GitPython"
+ DISTRO_PN_ALIAS_pn-python-mako = "Fedora=python-mako Opensuse=python-Mako"
+ DISTRO_PN_ALIAS_pn-python-pycairo = "Meego=pycairo Fedora=pycairo Ubuntu=pycairo Debian=pycairo"
 -- 
 2.11.0
 
