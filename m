@@ -1,28 +1,23 @@
-Return-Path: <Dengke.Du@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 816A678A1F
+	by mail.openembedded.org (Postfix) with ESMTP id 534AD78A52
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 09:07:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6697NUM021252
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Jul 2018 02:07:23 -0700 (PDT)
-Received: from [128.224.162.149] (128.224.162.149) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Fri, 6 Jul 2018 02:07:23 -0700
-To: <bruce.ashfield@gmail.com>
-References: <cover.1530863459.git.dengke.du@windriver.com>
-	<2756919e455edbd10cabd14ed1cb788cb501c7a0.1530863459.git.dengke.du@windriver.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <e314e169-ea01-018b-fffb-998a03aa8cff@windriver.com>
-Date: Fri, 6 Jul 2018 17:04:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Fri,  6 Jul 2018 09:08:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6698MH7021256
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 Jul 2018 02:08:22 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Fri, 6 Jul 2018 02:08:21 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Jul 2018 05:07:40 -0400
+Message-ID: <cover.1530867788.git.hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <2756919e455edbd10cabd14ed1cb788cb501c7a0.1530863459.git.dengke.du@windriver.com>
-X-Originating-IP: [128.224.162.149]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel-selftest: add it
+Subject: [PATCH V2 0/2] kernel-selftest: add it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,152 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 09:07:23 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 06 Jul 2018 09:08:21 -0000
+Content-Type: text/plain
 
-Please ignore this, thanks!
+The following changes since commit 611013a23a0082faa4fda2cd2529668965586a76:
 
+  mesa: add lost Upstream-Status tag (2018-07-05 00:22:08 +0100)
 
-On 2018年07月06日 15:51, Dengke Du wrote:
-> The framework for kernel-selftest, this framework contains many aspect,
-> such as bpf, we should enable bpf kernel feature, this enable bpf syscall.
->
-> How to test?
->      On target, enter directory: /opt/kselftest/bpf/, run "./test_align 0 11"
-> this command test all the bpf align testcases.
->
-> Results:
->      Test   0: mov ... PASS
->      Test   1: shift ... PASS
->      Test   2: addsub ... PASS
->      Test   3: mul ... PASS
->      Test   4: unknown shift ... PASS
->      Test   5: unknown mul ... PASS
->      Test   6: packet const offset ... PASS
->      Test   7: packet variable offset ... PASS
->      Test   8: packet variable offset 2 ... PASS
->      Test   9: dubious pointer arithmetic ... PASS
->      Test  10: variable subtraction ... PASS
->      Test  11: pointer variable subtraction ... PASS
->      Results: 12 pass 0 fail
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ---
->   .../kernel-selftest/kernel-selftest.bb             | 94 ++++++++++++++++++++++
->   meta/recipes-kernel/linux/linux-yocto.inc          |  1 +
->   2 files changed, 95 insertions(+)
->   create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
->
-> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-> new file mode 100644
-> index 0000000..c976e7b
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-> @@ -0,0 +1,94 @@
-> +SUMMARY = "Kernel selftest for Linux"
-> +DESCRIPTION = "Kernel selftest for Linux"
-> +LICENSE = "GPLv2"
-> +
-> +DEPENDS = " \
-> +    elfutils \
-> +    libcap \
-> +    libcap-ng \
-> +    fuse \
-> +    util-linux \
-> +    rsync-native \
-> +"
-> +
-> +do_configure[depends] += "virtual/kernel:do_shared_workdir"
-> +
-> +inherit linux-kernel-base kernel-arch
-> +
-> +do_populate_lic[depends] += "virtual/kernel:do_patch"
-> +
-> +inherit kernelsrc
-> +
-> +S = "${WORKDIR}/${BP}"
-> +
-> +# The LDFLAGS is required or some old kernels fails due missing
-> +# symbols and this is preferred than requiring patches to every old
-> +# supported kernel.
-> +LDFLAGS="-ldl -lutil"
-> +
-> +EXTRA_OEMAKE = '\
-> +    CROSS_COMPILE=${TARGET_PREFIX} \
-> +    ARCH=${ARCH} \
-> +    CC="${CC}" \
-> +    AR="${AR}" \
-> +    LD="${LD}" \
-> +    EXTRA_CFLAGS="-ldw" \
-> +    ${PACKAGECONFIG_CONFARGS} \
-> +'
-> +
-> +EXTRA_OEMAKE += "\
-> +    'DESTDIR=${D}' \
-> +    'prefix=${prefix}' \
-> +    'bindir=${bindir}' \
-> +    'sharedir=${datadir}' \
-> +    'sysconfdir=${sysconfdir}' \
-> +    'sharedir=${@os.path.relpath(datadir, prefix)}' \
-> +    'mandir=${@os.path.relpath(mandir, prefix)}' \
-> +    'infodir=${@os.path.relpath(infodir, prefix)}' \
-> +"
-> +
-> +KERNEL_SELFTEST_SRC ?= "Makefile \
-> +             include \
-> +             tools \
-> +"
-> +
-> +# Add bpf selftest now, other can be added later.
-> +do_compile () {
-> +	# Linux kernel build system is expected to do the right thing
-> +	unset CFLAGS
-> +	oe_runmake -C ${S}/tools/testing/selftests/bpf
-> +}
-> +
-> +# On target, enter /opt/kselftest/bpf directory, run "./test_align 0 11"
-> +# The test_align testcase test the bpf instruction set, the testcase defined here:
-> +# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git/tree/tools/testing/selftests/bpf/test_align.c#n47
-> +do_install () {
-> +	# Linux kernel build system is expected to do the right thing
-> +	unset CFLAGS
-> +	mkdir -p ${D}/opt/kselftest/bpf
-> +	install -m 0755 ${B}/tools/testing/selftests/bpf/test_align ${D}/opt/kselftest/bpf/
-> +}
-> +
-> +do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
-> +python copy_perf_source_from_kernel() {
-> +    sources = (d.getVar("KERNEL_SELFTEST_SRC") or "").split()
-> +    src_dir = d.getVar("STAGING_KERNEL_DIR")
-> +    dest_dir = d.getVar("S")
-> +    bb.utils.mkdirhier(dest_dir)
-> +    for s in sources:
-> +        src = oe.path.join(src_dir, s)
-> +        dest = oe.path.join(dest_dir, s)
-> +        if os.path.isdir(src):
-> +            oe.path.copytree(src, dest)
-> +        else:
-> +            bb.utils.copyfile(src, dest)
-> +}
-> +
-> +remove_clang_related() {
-> +	sed -i -e '/test_pkt_access/d' -e '/test_pkt_md_access/d' ${S}/tools/testing/selftests/bpf/Makefile
-> +}
-> +
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +
-> +INHIBIT_PACKAGE_DEBUG_SPLIT="1"
-> +FILES_${PN} += "/opt/kselftest/bpf/*"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-> index 1ebfb60..362d6d8 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -72,3 +72,4 @@ addtask kernel_configcheck after do_configure before do_compile
->   
->   # enable kernel-sample for oeqa/runtime/cases's ksample.py test
->   KERNEL_FEATURES_append_qemuall=" features/kernel-sample/kernel-sample.scc"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'features/bpf/bpf.scc', '', d)}"
+are available in the git repository at:
+
+  https://github.com/csqshz/openembedded-core.git hong/kself
+  https://github.com//tree/hong/kself
+
+Dengke Du (1):
+  kernel-selftest: add it
+
+Hongzhi.Song (1):
+  kernel-selftest: add vm testcase to recipe
+
+ .../kernel-selftest/kernel-selftest.bb             | 94 ++++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc          |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+
+-- 
+2.8.1
 
 
