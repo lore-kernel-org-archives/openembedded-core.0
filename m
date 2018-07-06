@@ -1,24 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D9D77460D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6948078A6F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 13:14:30 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w66DET5H006861
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 6 Jul 2018 14:14:30 +0100
-Message-ID: <c2d5d5a57d805f3f1ac021e8e1171737892484ba.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 06 Jul 2018 14:14:29 +0100
-In-Reply-To: <20180706094444.11006-1-zhe.he@windriver.com>
-References: <20180706094444.11006-1-zhe.he@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] scripts/runqemu: fix qemumips qemumips64 memory detection kernel panic
+	Fri,  6 Jul 2018 13:35:32 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id h10-v6so4231831wre.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jul 2018 06:35:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PaQOs+W4YB1WkusaEHkjEUVBGatq3XB99q7RAnMfLGI=;
+	b=RmIIJFDOchr3bi7FnJl5yrWxKRbjs03ey7L26RIu2XcqIQquIKVHHcBXCA4zQLuwGx
+	Q5/XQfVSI1BNqMitf7wd2vZAO1+s6E9Q5JOTUgoq/r2d+F1NmNFN73NHih1l+ekdDVEA
+	LPrcla0mVeKWBg89WBAaD0mje2xa1WNB3xkOyIDyyPBELDmCne8jcLHR6whcCB2x3FhB
+	+adVMZfNVqNciOkvudz9Hds8lKlN0w+WgX65r5dnYaXZDOPoqBZf7QhDi5fzBI8Agymt
+	SIGa3naA3MlF27cVHHcdN70WA11QB9G/i2DIAO4mhG0lsitjfaH+kmH6hluSfAGHqSCc
+	A1Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PaQOs+W4YB1WkusaEHkjEUVBGatq3XB99q7RAnMfLGI=;
+	b=TEpsB5mOZQGEoKfCWSq3DLkwXeqPCOZ2SUHAARuoCYmlbgj9STDs2F0SsUySBKW2tl
+	due0Itkgo8Aq80Xc3CkzKIeX53v0IdbpXd5bx6uyoWpJLkaFs0WxAZZXpAYgVV+jJ/rJ
+	RgKpx8izapkrBLFvPZCs32K7iIEnYSTpqo2BUxbSlwI4H35ORmyG/J+LxM830kwZbh/M
+	SuzoWLcqZO9AMu9vK6uTC8JTfoWAPLIMSw0y9swhjW3+7DAHpR9Oo3aC+pb9/NMqt9qQ
+	82D5skzXmKtZI4eEv5cNAmzr1AXkWPF8AQva+tkX8F67T3j1dhOeQK2JoG9tAkGw3ZKO
+	dVxg==
+X-Gm-Message-State: APt69E3Vl5WVRGUVMty/t+lxpbeNhv9SPsHV+2zo/afagmv6yeKmEJjl
+	GUVd4ZKCfgGMEJBCCwZYoayN9+m4
+X-Google-Smtp-Source: AAOMgpf662lDw5pdkMYBq09if/DSN4R2AlB2b+URioyj6XYh7UJSjlr9MNyIRlXEPQAtTxONtKG0GA==
+X-Received: by 2002:adf:b0d0:: with SMTP id j16-v6mr7183805wra.3.1530884133460;
+	Fri, 06 Jul 2018 06:35:33 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h8-v6sm6137355wmb.32.2018.07.06.06.35.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Jul 2018 06:35:32 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jul 2018 14:35:30 +0100
+Message-Id: <20180706133530.19524-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] meson: send user to our wiki instead of Meson bug system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 13:14:31 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jul 2018 13:35:33 -0000
 
-On Fri, 2018-07-06 at 02:44 -0700, He Zhe wrote:
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 597e7e9a799..a0c556b8728 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -669,7 +669,7 @@ class BaseConfig(object):
->              self.set('QB_MEM', '-m 512')
->  
->          mach = self.get('MACHINE')
-> -        if mach != 'qemumips':
-> +        if mach != 'qemumips' and mach != 'qemumips64' and mach != 'qemumipsel' and mach != 'qemumips64el':
->              self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
->  
->          self.qemu_opt_script += ' %s' % self.get('QB_MEM')
+If a CPU family isn't recognised the first step should be to verify the mapping.
+Send the user to a wiki page explaining what to do, instead of directly to the
+Meson bug tracker.
 
-Could we not just do:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/meson/meson/validate-cpu.patch | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-if not mach.startswith('qemumips'):
+diff --git a/meta/recipes-devtools/meson/meson/validate-cpu.patch b/meta/recipes-devtools/meson/meson/validate-cpu.patch
+index 8bdb204ab04..e7dad00d47c 100644
+--- a/meta/recipes-devtools/meson/meson/validate-cpu.patch
++++ b/meta/recipes-devtools/meson/meson/validate-cpu.patch
+@@ -100,7 +100,7 @@ index 091d92dc..67177c1f 100644
+  
+      if trial not in known_cpu_families:
+ -        mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+-+        raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+++        raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % trial)
+  
+      return trial
+  
+@@ -109,7 +109,7 @@ index 091d92dc..67177c1f 100644
+  
+                  if entry == 'cpu_family' and res not in known_cpu_families:
+ -                    mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % value)
+-+                    raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % value)
+++                    raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % value)
+  
+                  if self.ok_type(res):
+                      self.config[s][entry] = res
+-- 
+2.11.0
 
-?
-
-Cheers,
-
-Richard
 
