@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 56D946093B
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC9178B58
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2018 15:10:39 +0000 (UTC)
-Received: by mail-oi0-f52.google.com with SMTP id m2-v6so24060943oim.12
+	Fri,  6 Jul 2018 15:15:05 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id i12-v6so24096464oik.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2018 08:10:40 -0700 (PDT)
+	Fri, 06 Jul 2018 08:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=acAZshh+8OG92H1h1or63Aee/Bd6OBXX5euv/nlmRGU=;
-	b=oRrKVSdPm01S/UKaZEsbq//ujkGOSqsUhYkSeTkza5iWNtIxJBrySku2sK3GA0rnli
-	MFN/bhfKuCNx04iNl2US4jElua3XxyYo4BKOXljcZOMt7B9xjm83Qz5HBv0tNhUu6OoI
-	pghmelyBlfHwK6nay5+/akwxJYrbU/lHlLhIJHr1fDdJAeG8xUZsL8ieiOyXpudR/Aa8
-	GbYzsumpJgERCbkEYo8tIlkXxgeWJmhXG3Nv5kHt2a8hYIiEnxxnqDTvBR8EkX7oq1h4
-	/w/5K/b9n0nzZGtMUSqiKAFqnCLF5OR0dcAxJK1RR/ciSyfQBij2OUKfHBF6LBL+UkQa
-	+KvA==
+	:cc; bh=RoR8acBfCAHcog3ezLav5R26ZgLx8xtyIDXqfvhPkzU=;
+	b=r2V0N3Nvj0ixslq6c5cXkhZXpKTO5Sh2c35CCnuCKWA+GElR/KNcKefvy9vSma04QW
+	zfQ+YU7wEicnGLp3+ZGI9sS2Txv+VnYBDj7KE32noBa1//4ZjrPgs6BDxcp3gW5PVVo5
+	Im1yZ9F+yEFYo6I+CbIfZONkm+p7zXcspPUhI6565jks37DNsk7Hv3yh61kaPx1NbNGO
+	ruNbz/gEjHAkZYn1s22ytIMXRMrYuXDJ+eDK21kg6C6GHvXZ0neGgfvta763/ejTplb7
+	QXl91mWE7o2p6clSTgNGGePOVDLHT6qoUWVf6lG2NEd+xNeHIoVsLfq0ZFm4DFG0VXZx
+	/Vbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=acAZshh+8OG92H1h1or63Aee/Bd6OBXX5euv/nlmRGU=;
-	b=GepNHdNRaUpSWoCO0IE6UhwMQGBD/M2v73cjY7EeV65HnhYmblVMkwbfV/MnPiP7z1
-	1For+bQciMAC78gSKFWG3RjZJ/kfhen6YLTzRD55bhx4rjRjNFNrwT3BxLX2gjXqsuzz
-	orVuT7uhaM+tEVnwAp+jpZj92LkYqb+GONGj4zGYjf+jWtHt2oanZDKG+3h/hxheuw7C
-	OlrNZTURLVourcYKY3IAowOJstfjJtJP12YRgKo/mJnOG3MlsekVe4rAT9ersA011v5L
-	6V9QZLHgO8wZhe8+pottBh5C+ABf083+cR2h9dxyyRPIFThhaod5gazP2i0MiM8KDjWs
-	pXCA==
-X-Gm-Message-State: APt69E21SaYO+Bg/DPDg3YhxKBu1rM2rbVFavTkjHqy+WrcJFV1EjxZ8
-	mECGby9X93ZkEn8OJaDZYk+twyx3dM7ZWfCdsLmXEg==
-X-Google-Smtp-Source: AAOMgpdsKFfeEKpBfQzwTvcql6lcJrasjM4m6b6YDczVchhxjcu5JBW6eFufLyu0WkA2F29vDbRScvrnfqTvBBYL49c=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr12542209oia.170.1530889840255; 
-	Fri, 06 Jul 2018 08:10:40 -0700 (PDT)
+	bh=RoR8acBfCAHcog3ezLav5R26ZgLx8xtyIDXqfvhPkzU=;
+	b=exiazlNICeJX9otkZNuHVkzxlMIP2hnAscRMOxhdOPZ5F2vnJYk/TjOn8Gv7IV6FJI
+	/SMjx5s8OOkBJQTkSgJVQQu2JSuqFKndDMTi0312GxAgghHeoqSPmRxPCkDC33Os77A7
+	H2M/gTpt9bQbF/0fayl4iyqbjTH9vjNpoU9W4ZBKrTtmsqczoXSmTzIQeBvZDcYFL9hT
+	wItyixJbTi6p+qHR+N/2Dr39osGbRB9cyymG+2pKKZ/ORwOwftX8TJYUSRJ9AU9U9MTK
+	OmijQAv0Js+locFD3qi7K9Zhw6l2C5CWdYnBUTwyvxaK4ukU3azEaEkI+NVeoaczPwM5
+	viuA==
+X-Gm-Message-State: APt69E0yWGKTanqv4H40sgphymU8W0SHXc1gpQzAOjTf9FEJzt6r7/Kg
+	Pgq8QAzsFj1R58a3qkGl6iPOshGP4c0aNC9zbIclDw==
+X-Google-Smtp-Source: AAOMgpdmiRyrtrCUQOoxpQ2ve730cqNx+5iwx3t2S26NcU+yXNeLKQlJN+puD36ojMtjcZFdjXUwH6KIDozm+526WTI=
+X-Received: by 2002:aca:5f56:: with SMTP id
+	t83-v6mr12532392oib.115.1530890106867; 
+	Fri, 06 Jul 2018 08:15:06 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:ac9:434d:0:0:0:0:0 with HTTP;
-	Fri, 6 Jul 2018 08:10:19 -0700 (PDT)
-In-Reply-To: <CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
-References: <1530665722-23464-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LYhD_m-+d8cxiCDEULgYLEe7OSq12O3Q=CYFRiqJMP+5w@mail.gmail.com>
-	<CAJ86T=W1kjJgn-6P2POoLqF4oBcovEs2Sekp-saaD9dqTSzi4w@mail.gmail.com>
-	<CAJTo0LaUkxKcPhasnQh6KAsh2kv5rEmy-jMW3oXKxttS-kd1mQ@mail.gmail.com>
-	<CAJ86T=ULm4BBu2JWmVTDfuVxh4vcd9FVDVJzyC3Qt6tgiTNHZw@mail.gmail.com>
+	Fri, 6 Jul 2018 08:14:46 -0700 (PDT)
+In-Reply-To: <c5249320-c4a0-b443-4ef5-be8bab9021f7@windriver.com>
+References: <cover.1527214769.git.Qi.Chen@windriver.com>
+	<31d93c4a23eec59b835a52dc7002814e1b9fbe22.1527214769.git.Qi.Chen@windriver.com>
+	<CAJTo0LbuaPOcp0WbB0_T9O+kivU9Wye6Zzb6w8xD-kQXXOpJzg@mail.gmail.com>
+	<CAMKF1sqEzOBqP+ReVAA5zHn1qosQrrpti_2Aigv4OzzU6tF3Kg@mail.gmail.com>
+	<c5249320-c4a0-b443-4ef5-be8bab9021f7@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Jul 2018 16:10:19 +0100
-Message-ID: <CAJTo0LZzdbqxQNU2kvz=a=f3gurXbYPJD-7U37wU4LPGHiE0Aw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 6 Jul 2018 16:14:46 +0100
+Message-ID: <CAJTo0LapqQGDReJkvqeVc9oLpNA0nANs0efbfhHmYeRe88G=eA@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-setuptools.inc: avoid using += with an over-ride
+Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libnss-nis
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,16 +61,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2018 15:10:39 -0000
+X-List-Received-Date: Fri, 06 Jul 2018 15:15:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 6 July 2018 at 01:57, Andre McCurdy <armccurdy@gmail.com> wrote:
-> That all sounds plausible, but starts to unravel into a bigger set of
-> potential cleanups. For example, digging a little more uncovers this
-> from distutils-base.bbclass:
-
-Let's take these cleanups one at a time.  I've just submitted the
-distribute->setuptools change as a start.
+Okay, merged to MUT.  We'll see what the AB thinks!
 
 Ross
+
+On 6 July 2018 at 09:37, ChenQi <Qi.Chen@windriver.com> wrote:
+> Hi Ross,
+>
+> Please consider merging this patch.
+>
+> With Khem's recent fix "libnss-nis: Limit parse skip only for target recipe
+> on musl", I think this patch could be merged safely.
+> I've tested it locally with glibc and musl.
+>
+> Best Regards,
+> Chen Qi
+>
+>
+> On 06/07/2018 01:17 AM, Khem Raj wrote:
+>>
+>> On Wed, Jun 6, 2018 at 9:48 AM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>>>
+>>> Try building a musl buildtools and it breaks:
+>>>
+>>> ERROR: Nothing RPROVIDES 'nativesdk-libnss-nis' (but
+>>> /home/ross/Yocto/poky/meta/recipes-core/meta/buildtools-tarball.bb
+>>> RDEPENDS on or otherwise requires it)
+>>> nativesdk-libnss-nis was skipped: incompatible with musl C library
+>>>
+>> I think the compatibility check is too greedy in the recipe, this should
+>> only be applicable to target class recipe.
+>>
+>>> Ross
+>>>
+>>> On 25 May 2018 at 03:54, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>>
+>>>> Recent glibc change removed libnss-nis module from glibc and a new
+>>>> recipe libnss-nis.bb was added.
+>>>>
+>>>> After this change, we need to make sure nativesdk-libnss-nis is also
+>>>> included in buildtools-tarball, otherwise, we may encounter the
+>>>> following
+>>>> error when using 'tar' command from buildtools-tarball.
+>>>>
+>>>>    tar: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2: \
+>>>>         symbol _nsl_default_nss version GLIBC_PRIVATE not defined \
+>>>>         in file libnsl.so.1 with link time reference
+>>>>
+>>>> This error occured on my ubuntu16.04 host with 'nis' configured in
+>>>> /etc/nssswitch.conf.
+>>>>
+>>>> So add nativesdk-libnss-nis to buildtools-tarball to fix this problem.
+>>>>
+>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>> ---
+>>>>   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>>>>   1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb
+>>>> b/meta/recipes-core/meta/buildtools-tarball.bb
+>>>> index d98a9c9..377733f 100644
+>>>> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+>>>> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+>>>> @@ -21,6 +21,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+>>>>       nativesdk-wget \
+>>>>       nativesdk-ca-certificates \
+>>>>       nativesdk-texinfo \
+>>>> +    nativesdk-libnss-nis \
+>>>>       "
+>>>>
+>>>>   MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
+>>>> --
+>>>> 1.9.1
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
