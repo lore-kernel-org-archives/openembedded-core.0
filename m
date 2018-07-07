@@ -1,25 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B3160069
+Return-Path: <andreas.kling@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2677A607E1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Jul 2018 12:14:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w67CEVtn010430
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 7 Jul 2018 13:14:33 +0100
-Message-ID: <995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 07 Jul 2018 13:14:31 +0100
-In-Reply-To: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
-References: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
+	Sat,  7 Jul 2018 12:28:47 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id s11-v6so6519006wra.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 07 Jul 2018 05:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=hFsy4vghzK+M6DS1jrnRig51uuwnIPNoPjzArGLQbj8=;
+	b=E9DbSX9TwzdvcTsx2Lgxp6q7RWk3KtOsVUbuJT/AvXtwS89NE2fz1MiUnHlnQE1q6E
+	8DWX16cwOzAYWiFQH6kosPpuWMwHLk/7zZhIMDZgUdA6nedO5JQCq8q5qD3OLV/So9in
+	JOmrbsLfJUy5m0ycXtecbXQ6I1g3IV8MaeyHICkXM/z3yASSCImWleGIPrMmwspIScYp
+	rqfyBc+Yn9osifEzZJ1h7cvlzUnHohKl5RJfx971d7cnMoj7J3PmlxrP0nmqvAN/PEs2
+	eg5tRDZJ29sER2j3aDnY1xWRzIPjjJ+EY9yS/BHW8LIw6g8xt7B85U23SLzajaNplig+
+	aEMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=hFsy4vghzK+M6DS1jrnRig51uuwnIPNoPjzArGLQbj8=;
+	b=Bv4fWiogyXKJX0KB6iI/CpmgzvY/ZUJ5RjbRIMKYLggUJXQb6XH4tSdsaG41U4s51t
+	uCIuM8aWewPcPYyI+Utt4zvR7wfCKvQmbjIx6CWwCshh9qG4PJQoKqIHuhZOXf+oSpgD
+	ernW3vFGCyFrWAeSBdbQAvZJFnV0IVLEGldiFcEvJCrjG1b18xIE5ds1cjzU7s4E316h
+	JHeeT7PT+P8Sp3KJoED4yB8ewK7xkSsDgqKQzvgjdA5FKaO7C8t68p3zktKuCmJvifIq
+	3o0k9ujDs9qeo6fVOU1tZTlSJvubvYp3p8xL8q9FzIDCXmIk2v7up/iMdC6BclgeQNfO
+	OPyA==
+X-Gm-Message-State: APt69E1OeaCm4te2bWnX/PNSz1Ahmup6hf7Ps6e7zg9v9z7xvfSUOVhw
+	/tVRUCNUEXC3CYlGpz19OGYioPFC
+X-Google-Smtp-Source: AAOMgpcNxbMJrsMC2dbYm00DJvDS/vU3wp5aQPEk6c6lvF8gHpAQs31U9dQ+vUX2K162TvQJacWFQA==
+X-Received: by 2002:adf:a64d:: with SMTP id
+	k71-v6mr9552375wrc.78.1530966527636; 
+	Sat, 07 Jul 2018 05:28:47 -0700 (PDT)
+Received: from nb-lx-hgc-001.peiker-cee.de ([82.119.189.133])
+	by smtp.gmail.com with ESMTPSA id
+	y102-v6sm2511415wmh.9.2018.07.07.05.28.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 07 Jul 2018 05:28:47 -0700 (PDT)
+From: andreas.kling@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Jul 2018 14:28:40 +0200
+Message-Id: <20180707122840.31909-1-andreas.kling@gmail.com>
+X-Mailer: git-send-email 2.18.0
+Subject: [PATCH] systemd: fix missing path separator in firmware-path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2018 12:14:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Jul 2018 12:28:47 -0000
 
-On Fri, 2018-07-06 at 05:51 -0400, Hongzhi.Song wrote:
-> The recipe builds the framework for kernel-selftest. Now, it just
-> contains two sets of testcase, bpf and vm. We are appending others
-> to the recipe.
-> 
-> It needs some features which will be written into relevant recipe.
-> But now, you should add them to conf/local.conf manually.
-> KERNEL_FEATURES_append += "features/bpf/bpf.scc"
-> 
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->  .../kernel-selftest/kernel-selftest.bb             | 94
-> ++++++++++++++++++++++
->  1 file changed, 94 insertions(+)
->  create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-
-> selftest.bb
-> 
-> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-> b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-> new file mode 100644
-> index 0000000..28fd178
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
-> @@ -0,0 +1,94 @@
-> +SUMMARY = "Kernel selftest for Linux"
-> +DESCRIPTION = "Kernel selftest for Linux"
-> +LICENSE = "GPLv2"
-> +
-> +# for bpf and vm
-> +DEPENDS = " \
-> +    elfutils \
-> +    libcap \
-> +    libcap-ng \
-> +    fuse \
-> +    util-linux \
-> +    rsync-native \
-> +"
+From: Andy Kling <andreas.kling@peiker-cee.de>
 
-This adds a DEPENDS on fuse but fuse is not in OE-Core therefore this
-recipe can never build there.
+udev fails to load firmware for CONFIG_FW_LOADER_USER_HELPER
+systemd-udevd[158]: did not find firmware file 'xxx'
 
-+do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
-+python copy_perf_source_from_kernel() {
+function builtin_firmware currently assumes FIRMWARE_PATH ends with "/"
+fixing the path passed to meson allows the firmware loader to succeed.
+systemd-udevd[145]: writing '/lib/firmware/xxx'
 
-We're copying to perf source here? The function name needs tweaking.
+Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
+---
+ meta/recipes-core/systemd/systemd_237.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index 3efca33e73..8ff049160b 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -185,7 +185,7 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
+                   -Drootlibdir=${rootlibdir} \
+                   -Drootprefix=${rootprefix} \
+                   -Dsysvrcnd-path=${sysconfdir} \
+-                  -Dfirmware-path=${nonarch_base_libdir}/firmware \
++                  -Dfirmware-path=${nonarch_base_libdir}/firmware/ \
+                   "
+ 
+ # Hardcode target binary paths to avoid using paths from sysroot
+-- 
+2.18.0
 
 
