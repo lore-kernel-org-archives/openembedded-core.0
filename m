@@ -1,49 +1,25 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CDCD607A5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B3160069
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Jul 2018 08:52:53 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id v8-v6so27746191oie.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Jul 2018 01:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/irohWedqfdzgk1AL3BAWfBBfYdnzOqHr+tK7oxiKqA=;
-	b=IInAdm241KjcrUj1TfbFzYdWKmUFjOTSqug6uigCEvXRPbhAIp09UFTMyiDjyMbzMD
-	+qoj3W+21ewxC2gn8XtzI3qI/KW/bQCSFQjKJmcEdDAMN2OcTTx+79J8EJOA8yL0ykt9
-	Xbxx1qwGNn6UDiMMKT7LQwkpflGN38GhtNZy3YXxKCuvKQKbHdbYzAo+IF5kIPxql5ok
-	se9+7XmogbYoyurPWGTjx3JpjpQvDNHqe39UgCqeLn8D5L1McBQbrAT8ncsmU5CgNtxJ
-	9BbbFECO3LuVw1s1jbBA7cF3YzrB9ju8fzXIsmBo80d7B4sTj1+XE4N/EDKdbiBTw6wu
-	xtZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/irohWedqfdzgk1AL3BAWfBBfYdnzOqHr+tK7oxiKqA=;
-	b=XTE6tGJ1F2JkkVHyjGOm+AOZFNZUV+ypqvVFRBI3htbkAO0M41Dy01sCnAaupEAQH9
-	pPjJXU7j95/G/5yLRd5C1n0cg6jvFuD6I2RsHun1LVLW99BOqEdZGJD1zkgfupwvS2fL
-	dk6KOhuVED4VZPVLy9g2g38nbSwp1zzoshi7Pr47GstBAvnPPy2Sq2RRgHQuiE6Ozw7U
-	LoyCj773C2cVjE91BpGmF4HvjIh7d1Ml0lWXoJ6XRAog/e55RN14N4lTIPJ+SwMnv5Tl
-	mQLZscJOjroQpN0ynaIli2/wAOBC7kOTFzUgC0xqGynN3PPA/e+QVe4ESiQwMzlUAg3a
-	bvyw==
-X-Gm-Message-State: APt69E0w/TCs6eJENfNqLIO0ztMmYLGZ6rVhkZTPuKy7Bv6qQmKhAs5L
-	G/2UkEIcptbHmZ6PzgEpv5hUYwthT7kt8tlCCss=
-X-Google-Smtp-Source: AAOMgpcnoCDIAVgXcWcGaPOJYF/VZPbXyWEsqdKfnJE+awYsZzXgXxCNnw03UZH5aO33KWVBTXXt23oZ2dVusf61lCU=
-X-Received: by 2002:aca:560d:: with SMTP id
-	k13-v6mr13989857oib.190.1530953573993; 
-	Sat, 07 Jul 2018 01:52:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP;
-	Sat, 7 Jul 2018 01:52:53 -0700 (PDT)
-In-Reply-To: <1530903954-20926-1-git-send-email-armccurdy@gmail.com>
-References: <1530903954-20926-1-git-send-email-armccurdy@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 7 Jul 2018 10:52:53 +0200
-Message-ID: <CANNYZj_aKU=fV7AqF17CVRzgRSC9thHO9aZcw8S5CuHVCB0PYA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] openssl_1.1: avoid using += with an over-ride
+	Sat,  7 Jul 2018 12:14:33 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w67CEVtn010430
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 7 Jul 2018 13:14:33 +0100
+Message-ID: <995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 07 Jul 2018 13:14:31 +0100
+In-Reply-To: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
+References: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2018 08:52:53 -0000
+X-List-Received-Date: Sat, 07 Jul 2018 12:14:33 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We really need a QA warning for this issue. Nobody's going to remember
-what the correct way is. Can you look into it please?
-
-Alex
-
-2018-07-06 21:05 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
-> Using += with an over-ride can be a source of confusion so try to
-> avoid the construct in core recipes.
->
-> The current usage is incorrect and prevents the aarch64 and musl
-> specific config options from being active together.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+On Fri, 2018-07-06 at 05:51 -0400, Hongzhi.Song wrote:
+> The recipe builds the framework for kernel-selftest. Now, it just
+> contains two sets of testcase, bpf and vm. We are appending others
+> to the recipe.
+> 
+> It needs some features which will be written into relevant recipe.
+> But now, you should add them to conf/local.conf manually.
+> KERNEL_FEATURES_append += "features/bpf/bpf.scc"
+> 
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 > ---
->  meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> index 94b75eb..ac2ad81 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-> @@ -122,12 +122,12 @@ do_configure () {
->  #| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
->  #|      return syscall(__NR_eventfd, n);
->  #|                     ^~~~~~~~~~~~
-> -EXTRA_OECONF_aarch64 += "no-afalgeng"
-> +EXTRA_OECONF_append_aarch64 = " no-afalgeng"
->
->  #| ./libcrypto.so: undefined reference to `getcontext'
->  #| ./libcrypto.so: undefined reference to `setcontext'
->  #| ./libcrypto.so: undefined reference to `makecontext'
-> -EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
-> +EXTRA_OECONF_append_libc-musl = " -DOPENSSL_NO_ASYNC"
->
->  do_install () {
->          oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  .../kernel-selftest/kernel-selftest.bb             | 94
+> ++++++++++++++++++++++
+>  1 file changed, 94 insertions(+)
+>  create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-
+> selftest.bb
+> 
+> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+> b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+> new file mode 100644
+> index 0000000..28fd178
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+> @@ -0,0 +1,94 @@
+> +SUMMARY = "Kernel selftest for Linux"
+> +DESCRIPTION = "Kernel selftest for Linux"
+> +LICENSE = "GPLv2"
+> +
+> +# for bpf and vm
+> +DEPENDS = " \
+> +    elfutils \
+> +    libcap \
+> +    libcap-ng \
+> +    fuse \
+> +    util-linux \
+> +    rsync-native \
+> +"
+
+This adds a DEPENDS on fuse but fuse is not in OE-Core therefore this
+recipe can never build there.
+
++do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
++python copy_perf_source_from_kernel() {
+
+We're copying to perf source here? The function name needs tweaking.
+
+Cheers,
+
+Richard
+
 
