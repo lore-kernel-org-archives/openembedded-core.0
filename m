@@ -1,34 +1,46 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BB0375401
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B0001754EC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jul 2018 05:36:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w685aKku001845
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 7 Jul 2018 22:36:20 -0700
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.237]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0399.000;
-	Sat, 7 Jul 2018 22:36:19 -0700
-From: "Song, Hongzhi" <Hongzhi.Song@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] kernel-selftest: Add a recipe on kernel
-	selftest
-Thread-Index: AQHUFewXNXJx6O+LcECnhuXCLx+q+aSEzoPM
-Date: Sun, 8 Jul 2018 05:36:19 +0000
-Message-ID: <854398C72EAB594A93CFE8424E96450116E4E6BE@ALA-MBD.corp.ad.wrs.com>
-References: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>,
-	<995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
-In-Reply-To: <995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.105.68]
+	Sun,  8 Jul 2018 07:29:04 +0000 (UTC)
+Received: by mail-ua0-f179.google.com with SMTP id x18-v6so9947235uaj.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Jul 2018 00:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hR3mUJ3Ws6sQTKfJJyyu9069sxcwVyB927D4v+0ouBo=;
+	b=cWXE7XBQ5vhgjVNs32ljf8wt3dlAjSP5Rk0KgYNPmEPI6jOSC82uymL2hp+l+k76iQ
+	Pa3KsVhD3G0qmFtbggRjYoqWe4FpaZohaWLwGpx17AuaT8TpQBFPOQmj/l7njLwVlnSw
+	ut05IWjUKoGqH8HphEWg1zC+1BXjpr6G3KFh1bdGXP/V1MGMzYJMnh2Brdjv2bRBHgKH
+	c2w2rx3hqh/2Frvpr/4/O/kR/qLtebHa8uecYBi5SioZ+S7/3qoljKlDLXir0MJfz28Y
+	9/pN9EURDsshs7lK4foNi1jMfH6uNRAM/YcjGwSvQlt4vk1+4USZRZ+UV2haU6v2DNZ/
+	QG8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hR3mUJ3Ws6sQTKfJJyyu9069sxcwVyB927D4v+0ouBo=;
+	b=IFPwUOpXzm+3A5Q5yVBfuyqvnrih9kxOf35OPC9rFbUsLsc1izDwnMt0guKOg+Hion
+	nVc6i29TpFdRbrkOy7tUN6O5wpB4X3wZU4FjHtwwKcOfiKokyT6Z0t3MzIOib+kPIveo
+	ssNHWD1j7PvIGqo9bUCpahpTYfZITiWOpXW0hmjqaXpur7oEU4WiStI0Oc7P+s/I9nBC
+	Pv75wyKZT3Rve/doW+/i9JJ9kDfnN3hJ3YY8seD7RAzuzjkBDz2vpkKJlPoEjUMH7QIR
+	WoLQ3dwCRYxFg0pPJ0z5uiEkeN8VqPj6AN+zTbKa5e+k/CtDtEBPewWQlnk2NTmE+BJo
+	Y6Iw==
+X-Gm-Message-State: APt69E2sPyFAG2xWOei4UeMLFFiqEhjNR1K1q88WGTEVIhLZJYiAOaaU
+	i3xRER6syJXxA9ywL7Vgm8p21kAIFLvk5PfGlYs=
+X-Google-Smtp-Source: AAOMgpchy1ZT8V+vL+4fdC0ozmbNZYxH9fd2srsgtdsrKBl1Qx/5rxkRKeAaPv7roO6ms66sYzQfFottJsY7cC6it8k=
+X-Received: by 2002:ab0:16dc:: with SMTP id g28-v6mr9956681uaf.7.1531034934520;
+	Sun, 08 Jul 2018 00:28:54 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
+References: <20180706154749.19324-1-ross.burton@intel.com>
+In-Reply-To: <20180706154749.19324-1-ross.burton@intel.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 8 Jul 2018 00:28:43 -0700
+Message-ID: <CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] minicom: remove dead URL from UPSTREAM_CHECK_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,76 +53,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2018 05:36:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 08 Jul 2018 07:29:04 -0000
+Content-Type: multipart/alternative; boundary="000000000000692f35057077d9be"
+
+--000000000000692f35057077d9be
+Content-Type: text/plain; charset="UTF-8"
+
+All the alioth.debian.org URLs should be changed to use salsa.debian.org.
+Quick search showed:
+https://salsa.debian.org/minicom-team/minicom
+On Fri, Jul 6, 2018 at 8:47 AM Ross Burton <ross.burton@intel.com> wrote:
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-extended/minicom/minicom_2.7.1.bb | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> index be0b48dfdf5..1e6f1317ebe 100644
+> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+> @@ -16,8 +16,6 @@ SRC_URI =
+> "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.gz \
+>  SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
+>  SRC_URI[sha256sum] =
+> "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+>
+> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
+> -
+>  PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--000000000000692f35057077d9be
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=0A=
-________________________________________=0A=
->From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
->Sent: Saturday, July 07, 2018 20:14=0A=
->To: Song, Hongzhi; openembedded-core@lists.openembedded.org=0A=
->Subject: Re: [OE-core] [PATCH v3] kernel-selftest: Add a recipe on kernel =
-selftest=0A=
-=0A=
->On Fri, 2018-07-06 at 05:51 -0400, Hongzhi.Song wrote:=0A=
->> The recipe builds the framework for kernel-selftest. Now, it just=0A=
->> contains two sets of testcase, bpf and vm. We are appending others=0A=
->> to the recipe.=0A=
->>=0A=
->> It needs some features which will be written into relevant recipe.=0A=
->> But now, you should add them to conf/local.conf manually.=0A=
->> KERNEL_FEATURES_append +=3D "features/bpf/bpf.scc"=0A=
->>=0A=
->> Signed-off-by: Dengke Du <dengke.du@windriver.com>=0A=
->> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>=0A=
->> ---=0A=
->>  .../kernel-selftest/kernel-selftest.bb             | 94=0A=
->> ++++++++++++++++++++++=0A=
->>  1 file changed, 94 insertions(+)=0A=
->>  create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-=0A=
->> selftest.bb=0A=
->>=0A=
->> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb=0A=
->> b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb=0A=
->> new file mode 100644=0A=
->> index 0000000..28fd178=0A=
->> --- /dev/null=0A=
->> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb=0A=
->> @@ -0,0 +1,94 @@=0A=
->> +SUMMARY =3D "Kernel selftest for Linux"=0A=
->> +DESCRIPTION =3D "Kernel selftest for Linux"=0A=
->> +LICENSE =3D "GPLv2"=0A=
->> +=0A=
->> +# for bpf and vm=0A=
->> +DEPENDS =3D " \=0A=
->> +    elfutils \=0A=
->> +    libcap \=0A=
->> +    libcap-ng \=0A=
->> +    fuse \=0A=
->> +    util-linux \=0A=
->> +    rsync-native \=0A=
->> +"=0A=
-=0A=
-> This adds a DEPENDS on fuse but fuse is not in OE-Core therefore this=0A=
-> recipe can never build there.=0A=
-=0A=
-Considering other kernel-selftest will depend more recipes probably not exi=
-sting =0A=
-in oe-core. So how do you think about that move the recipe to meta-oe.=0A=
-=0A=
-Best Regards,=0A=
--- Hongzhi=0A=
-=0A=
-> +do_configure[prefuncs] +=3D "copy_perf_source_from_kernel remove_clang_r=
-elated"=0A=
-> +python copy_perf_source_from_kernel() {=0A=
-=0A=
-> We're copying to perf source here? The function name needs tweaking.=0A=
-=0A=
-> Cheers,=0A=
-=0A=
-> Richard=0A=
-=0A=
+All the <a href=3D"http://alioth.debian.org">alioth.debian.org</a> URLs sho=
+uld be changed to use <a href=3D"http://salsa.debian.org">salsa.debian.org<=
+/a>.<br>Quick search showed:<br><a href=3D"https://salsa.debian.org/minicom=
+-team/minicom">https://salsa.debian.org/minicom-team/minicom</a><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr">On Fri, Jul 6, 2018 at 8:47 AM Ross Bu=
+rton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Ross Bur=
+ton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bur=
+ton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a> | 2 --<br>
+=C2=A01 file changed, 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.=
+bb" rel=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a> b/meta/recipe=
+s-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">minicom_2.7.1.bb</a><br>
+index be0b48dfdf5..1e6f1317ebe 100644<br>
+--- a/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a><br>
++++ b/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a><br>
+@@ -16,8 +16,6 @@ SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_$=
+{PV}.orig.tar.gz \<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;9021cb8c5445f6e6e74b2acc39962d62&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;532f836b7a677eb0cb1dca8d70302b73729c3d30=
+df26d58368d712e5cca041f1&quot;<br>
+<br>
+-UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://alioth.debian.org/frs/?gro=
+up_id=3D30018" rel=3D"noreferrer" target=3D"_blank">https://alioth.debian.o=
+rg/frs/?group_id=3D30018</a>&quot;<br>
+-<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;&quot;<br>
+=C2=A0PACKAGECONFIG[lockdev] =3D &quot;--enable-lockdev,--disable-lockdev,l=
+ockdev&quot;<br>
+<br>
+-- <br>
+2.11.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
+--000000000000692f35057077d9be--
