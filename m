@@ -1,43 +1,45 @@
 Return-Path: <ticotimo@gmail.com>
-Received: from mail-ua0-f179.google.com (mail-ua0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B0001754EC
+Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A5DF7546A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jul 2018 07:29:04 +0000 (UTC)
-Received: by mail-ua0-f179.google.com with SMTP id x18-v6so9947235uaj.9
+	Sun,  8 Jul 2018 07:45:40 +0000 (UTC)
+Received: by mail-ua0-f181.google.com with SMTP id x24-v6so9958667ual.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jul 2018 00:29:06 -0700 (PDT)
+	Sun, 08 Jul 2018 00:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hR3mUJ3Ws6sQTKfJJyyu9069sxcwVyB927D4v+0ouBo=;
-	b=cWXE7XBQ5vhgjVNs32ljf8wt3dlAjSP5Rk0KgYNPmEPI6jOSC82uymL2hp+l+k76iQ
-	Pa3KsVhD3G0qmFtbggRjYoqWe4FpaZohaWLwGpx17AuaT8TpQBFPOQmj/l7njLwVlnSw
-	ut05IWjUKoGqH8HphEWg1zC+1BXjpr6G3KFh1bdGXP/V1MGMzYJMnh2Brdjv2bRBHgKH
-	c2w2rx3hqh/2Frvpr/4/O/kR/qLtebHa8uecYBi5SioZ+S7/3qoljKlDLXir0MJfz28Y
-	9/pN9EURDsshs7lK4foNi1jMfH6uNRAM/YcjGwSvQlt4vk1+4USZRZ+UV2haU6v2DNZ/
-	QG8Q==
+	:cc; bh=0Fv9/sghNzlZTWd1brB1gppyK3H3KnGe4ViQkTOQ6Qg=;
+	b=r4MTgE7wqe2jXkAZcMVOIpVMz2ldqYqKVPKnR7IPGu4+LiD1xclj+xkCdr+feK0gXU
+	eHAYFuTo29KC1LgLZnqF6yAsNeILyRmo73DIVofbSgXD12Iz1bnycNHapcYMmuOHglTV
+	oa29XVk4M/PaYaUKLWRgw+3Ndh0fFIG+nkol/sos5KLwNjHBTuPBAGroJOXM/hCXSh8R
+	QBT5idR/fjIIY5wt0EUiLf4rafCe/xt7dKoKFOqfu+7g/iMCsBa9sE0kQirmy+95W71Y
+	QmVcXMra6MZ6hIZPhah7pTnGWOWWIsCxttDB1UwjSQtTPsSG27KBRqzB4FpTn6pihin4
+	aXEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hR3mUJ3Ws6sQTKfJJyyu9069sxcwVyB927D4v+0ouBo=;
-	b=IFPwUOpXzm+3A5Q5yVBfuyqvnrih9kxOf35OPC9rFbUsLsc1izDwnMt0guKOg+Hion
-	nVc6i29TpFdRbrkOy7tUN6O5wpB4X3wZU4FjHtwwKcOfiKokyT6Z0t3MzIOib+kPIveo
-	ssNHWD1j7PvIGqo9bUCpahpTYfZITiWOpXW0hmjqaXpur7oEU4WiStI0Oc7P+s/I9nBC
-	Pv75wyKZT3Rve/doW+/i9JJ9kDfnN3hJ3YY8seD7RAzuzjkBDz2vpkKJlPoEjUMH7QIR
-	WoLQ3dwCRYxFg0pPJ0z5uiEkeN8VqPj6AN+zTbKa5e+k/CtDtEBPewWQlnk2NTmE+BJo
-	Y6Iw==
-X-Gm-Message-State: APt69E2sPyFAG2xWOei4UeMLFFiqEhjNR1K1q88WGTEVIhLZJYiAOaaU
-	i3xRER6syJXxA9ywL7Vgm8p21kAIFLvk5PfGlYs=
-X-Google-Smtp-Source: AAOMgpchy1ZT8V+vL+4fdC0ozmbNZYxH9fd2srsgtdsrKBl1Qx/5rxkRKeAaPv7roO6ms66sYzQfFottJsY7cC6it8k=
-X-Received: by 2002:ab0:16dc:: with SMTP id g28-v6mr9956681uaf.7.1531034934520;
-	Sun, 08 Jul 2018 00:28:54 -0700 (PDT)
+	bh=0Fv9/sghNzlZTWd1brB1gppyK3H3KnGe4ViQkTOQ6Qg=;
+	b=p0f2k60CN1nAnoxm4FZfqz8ANnUtLhkF5hgjHEeFlzmpk83Ef+1xmmy1YE6DNb0neH
+	JLt2F1+JEDvVuuHTYAO7UzvQC/WXhXu5gTIZ/9gFBWHxU+aIh2r3YDVISIDCZ/Pk95ML
+	mEsKOrg3dr7gOdGGdG4zskv34+BjcJ8suWyRzFfH29uueFi+O/5Iljv9u6HQA9RP4awr
+	TjGRIDPi6+2/vjPvVv8PRdjQfdzZlq/Ji7yAC7fKXk+Yi5OoTttE5kaZIDUeutXc4wwg
+	V8IJPSkasHqg0tvc6A6zpVDF9+8Xp+e9YvfGyDRmneV15UqTNI2b3sTSDQk3w5Nx0uJi
+	mdzw==
+X-Gm-Message-State: APt69E1gLNBe6GvNztMPzfnX2UrDugpyRMO2cu0W7c8mWQXGRyVG+iy0
+	4u99pDXWg53L39pIxksLHiGzqJ/lNA0wbdilmuk=
+X-Google-Smtp-Source: AAOMgpfgUAKwTf1+BTnKz8CcB3M+Ug1jVPpwUV/Sl1nqEkm/YhoWO8/VsQ0Kn9XysfFEHaLHQ0nPofDSRelrIFLpkO8=
+X-Received: by 2002:ab0:5323:: with SMTP id
+	x32-v6mr10099602uax.139.1531035941376; 
+	Sun, 08 Jul 2018 00:45:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20180706154749.19324-1-ross.burton@intel.com>
-In-Reply-To: <20180706154749.19324-1-ross.burton@intel.com>
+	<CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
+In-Reply-To: <CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
 From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 8 Jul 2018 00:28:43 -0700
-Message-ID: <CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
+Date: Sun, 8 Jul 2018 00:45:29 -0700
+Message-ID: <CANx9H-BjOBcHU=yyM1s+qfeQQhDra1g3fYNSU57DCmVDh3O0rA@mail.gmail.com>
 To: Ross Burton <ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] minicom: remove dead URL from UPSTREAM_CHECK_URI
@@ -53,62 +55,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2018 07:29:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000692f35057077d9be"
+X-List-Received-Date: Sun, 08 Jul 2018 07:45:40 -0000
+Content-Type: multipart/alternative; boundary="0000000000006c969305707815fc"
 
---000000000000692f35057077d9be
+--0000000000006c969305707815fc
 Content-Type: text/plain; charset="UTF-8"
 
-All the alioth.debian.org URLs should be changed to use salsa.debian.org.
-Quick search showed:
-https://salsa.debian.org/minicom-team/minicom
-On Fri, Jul 6, 2018 at 8:47 AM Ross Burton <ross.burton@intel.com> wrote:
+salsa.debian.org had no tags, so perhaps:
+https://sources.debian.org/src/minicom/
+On Sun, Jul 8, 2018 at 12:28 AM Tim Orling <ticotimo@gmail.com> wrote:
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-extended/minicom/minicom_2.7.1.bb | 2 --
->  1 file changed, 2 deletions(-)
+> All the alioth.debian.org URLs should be changed to use salsa.debian.org.
+> Quick search showed:
+> https://salsa.debian.org/minicom-team/minicom
+> On Fri, Jul 6, 2018 at 8:47 AM Ross Burton <ross.burton@intel.com> wrote:
 >
-> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-> b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-> index be0b48dfdf5..1e6f1317ebe 100644
-> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
-> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
-> @@ -16,8 +16,6 @@ SRC_URI =
-> "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.gz \
->  SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
->  SRC_URI[sha256sum] =
-> "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
->
-> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
-> -
->  PACKAGECONFIG ??= ""
->  PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
->
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>  meta/recipes-extended/minicom/minicom_2.7.1.bb | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb
+>> b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+>> index be0b48dfdf5..1e6f1317ebe 100644
+>> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
+>> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+>> @@ -16,8 +16,6 @@ SRC_URI =
+>> "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.gz \
+>>  SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
+>>  SRC_URI[sha256sum] =
+>> "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
+>>
+>> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
+>> -
+>>  PACKAGECONFIG ??= ""
+>>  PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+>>
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 >
 
---000000000000692f35057077d9be
+--0000000000006c969305707815fc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-All the <a href=3D"http://alioth.debian.org">alioth.debian.org</a> URLs sho=
-uld be changed to use <a href=3D"http://salsa.debian.org">salsa.debian.org<=
-/a>.<br>Quick search showed:<br><a href=3D"https://salsa.debian.org/minicom=
--team/minicom">https://salsa.debian.org/minicom-team/minicom</a><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr">On Fri, Jul 6, 2018 at 8:47 AM Ross Bu=
-rton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Ross Bur=
-ton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bur=
-ton@intel.com</a>&gt;<br>
+<a href=3D"http://salsa.debian.org">salsa.debian.org</a> had no tags, so pe=
+rhaps:<br><a href=3D"https://sources.debian.org/src/minicom/">https://sourc=
+es.debian.org/src/minicom/</a><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r">On Sun, Jul 8, 2018 at 12:28 AM Tim Orling &lt;<a href=3D"mailto:ticotim=
+o@gmail.com">ticotimo@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">All the <a href=3D"http://alioth.debian.org" target=3D"_blank=
+">alioth.debian.org</a> URLs should be changed to use <a href=3D"http://sal=
+sa.debian.org" target=3D"_blank">salsa.debian.org</a>.<br>Quick search show=
+ed:<br><a href=3D"https://salsa.debian.org/minicom-team/minicom" target=3D"=
+_blank">https://salsa.debian.org/minicom-team/minicom</a><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr">On Fri, Jul 6, 2018 at 8:47 AM Ross Burton &l=
+t;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@in=
+tel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-b=
+y: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blan=
+k">ross.burton@intel.com</a>&gt;<br>
 ---<br>
 =C2=A0meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
 =3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a> | 2 --<br>
@@ -149,5 +163,6 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
+</blockquote></div>
 
---000000000000692f35057077d9be--
+--0000000000006c969305707815fc--
