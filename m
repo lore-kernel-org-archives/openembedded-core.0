@@ -1,48 +1,50 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A5DF7546A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f50.google.com (mail-pl0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9484B745D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jul 2018 07:45:40 +0000 (UTC)
-Received: by mail-ua0-f181.google.com with SMTP id x24-v6so9958667ual.10
+	Sun,  8 Jul 2018 14:45:39 +0000 (UTC)
+Received: by mail-pl0-f50.google.com with SMTP id m16-v6so4874040pls.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jul 2018 00:45:41 -0700 (PDT)
+	Sun, 08 Jul 2018 07:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0Fv9/sghNzlZTWd1brB1gppyK3H3KnGe4ViQkTOQ6Qg=;
-	b=r4MTgE7wqe2jXkAZcMVOIpVMz2ldqYqKVPKnR7IPGu4+LiD1xclj+xkCdr+feK0gXU
-	eHAYFuTo29KC1LgLZnqF6yAsNeILyRmo73DIVofbSgXD12Iz1bnycNHapcYMmuOHglTV
-	oa29XVk4M/PaYaUKLWRgw+3Ndh0fFIG+nkol/sos5KLwNjHBTuPBAGroJOXM/hCXSh8R
-	QBT5idR/fjIIY5wt0EUiLf4rafCe/xt7dKoKFOqfu+7g/iMCsBa9sE0kQirmy+95W71Y
-	QmVcXMra6MZ6hIZPhah7pTnGWOWWIsCxttDB1UwjSQtTPsSG27KBRqzB4FpTn6pihin4
-	aXEA==
+	h=from:to:subject:date:message-id;
+	bh=JxCQW8e3cMbNZzXOTMivUvgNsjwbTkzJx1xU4JKgrak=;
+	b=seHV3R8i4FV7ABwoYYMWPooI30Uy09OIszzmDSdmlbrmhJuDrw7v+wTDDlCoTF39E6
+	50CfwRTDmxkl+WwF9N0xw/GTLS3xBTIaYSjNfNz35UommWmWkHzmlwMBHRmwBOVcrIFf
+	CulugToaW0eows1RZaQlcHLG7CUPIaZggzDb5JfKO42eqE7xeXuei/dLbN48mMdaOsJy
+	Dsr87FJL7a3M1G1Nqa06Zx3vJk5oLhRlaTyqyw8mJ2H/wFbzga6p/YWBzIHSIJMZPP/O
+	UpP/D7OeO0cEye5HH4kD09mFmfng7fxeuwPkFeGar2L2l299JGGka38hoARaH+JOD0is
+	Juog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0Fv9/sghNzlZTWd1brB1gppyK3H3KnGe4ViQkTOQ6Qg=;
-	b=p0f2k60CN1nAnoxm4FZfqz8ANnUtLhkF5hgjHEeFlzmpk83Ef+1xmmy1YE6DNb0neH
-	JLt2F1+JEDvVuuHTYAO7UzvQC/WXhXu5gTIZ/9gFBWHxU+aIh2r3YDVISIDCZ/Pk95ML
-	mEsKOrg3dr7gOdGGdG4zskv34+BjcJ8suWyRzFfH29uueFi+O/5Iljv9u6HQA9RP4awr
-	TjGRIDPi6+2/vjPvVv8PRdjQfdzZlq/Ji7yAC7fKXk+Yi5OoTttE5kaZIDUeutXc4wwg
-	V8IJPSkasHqg0tvc6A6zpVDF9+8Xp+e9YvfGyDRmneV15UqTNI2b3sTSDQk3w5Nx0uJi
-	mdzw==
-X-Gm-Message-State: APt69E1gLNBe6GvNztMPzfnX2UrDugpyRMO2cu0W7c8mWQXGRyVG+iy0
-	4u99pDXWg53L39pIxksLHiGzqJ/lNA0wbdilmuk=
-X-Google-Smtp-Source: AAOMgpfgUAKwTf1+BTnKz8CcB3M+Ug1jVPpwUV/Sl1nqEkm/YhoWO8/VsQ0Kn9XysfFEHaLHQ0nPofDSRelrIFLpkO8=
-X-Received: by 2002:ab0:5323:: with SMTP id
-	x32-v6mr10099602uax.139.1531035941376; 
-	Sun, 08 Jul 2018 00:45:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180706154749.19324-1-ross.burton@intel.com>
-	<CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
-In-Reply-To: <CANx9H-BuNP_+EeFJSooZk+awTn3qG5_YU63dypoAWjNvE3k4iQ@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 8 Jul 2018 00:45:29 -0700
-Message-ID: <CANx9H-BjOBcHU=yyM1s+qfeQQhDra1g3fYNSU57DCmVDh3O0rA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] minicom: remove dead URL from UPSTREAM_CHECK_URI
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JxCQW8e3cMbNZzXOTMivUvgNsjwbTkzJx1xU4JKgrak=;
+	b=owbq+TI11dJKuEIRbsgUzTOyixIKpLldHdARBpvslRlpqxFshxRbOyVMSM+RUiP5oi
+	VIIvWK+pXOU3WThNjHJiKFFvogjXTX0Y6NU4neY/rqe5zc8griOWbdMkSdnPF9UO7RHA
+	2LGaPAVwLxaaqum7ZT9BvfiBRnabMJjF0MP5EIDPWbDB9qUsJNp95+3LasEMLiaEnFcR
+	/v4QZrgHvP5+PcF/NRXdI6CUU5+Lr+G2rV6HsYDI2twDNIWhkSacxbyS0tXxvZVDDW3a
+	Eofp6wnjJMZ0ulLj4m0MvA0JDMMQP+DbV5GOPmN1aiyGh3sj3mhRuLuXAOM7ZYo4++PT
+	f7eg==
+X-Gm-Message-State: APt69E1ym+t41sJTGJusvJb1XOyH/VfRXZQuTw7qgKY4QbEFDscsheRW
+	+9QTntBlb9QqTwLfCqfkKdA=
+X-Google-Smtp-Source: AAOMgpdHoN9jzbDe8/ECEFDYOVmpUIpbzBhKu0WGaopZJE9bC4Ug6P97ksTW3BCuIRLfVDv8ANwT8Q==
+X-Received: by 2002:a17:902:988f:: with SMTP id
+	s15-v6mr17195393plp.95.1531061140728; 
+	Sun, 08 Jul 2018 07:45:40 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4000:1184:3c1b:9cfb:14ee:ef7a])
+	by smtp.gmail.com with ESMTPSA id
+	e186-v6sm25076064pfc.13.2018.07.08.07.45.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 08 Jul 2018 07:45:40 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Sun,  8 Jul 2018 07:45:36 -0700
+Message-Id: <1531061139-14602-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/4] xf86-input-mouse: update to 1.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,114 +57,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2018 07:45:40 -0000
-Content-Type: multipart/alternative; boundary="0000000000006c969305707815fc"
+X-List-Received-Date: Sun, 08 Jul 2018 14:45:39 -0000
 
---0000000000006c969305707815fc
-Content-Type: text/plain; charset="UTF-8"
+drop patch now included in update
 
-salsa.debian.org had no tags, so perhaps:
-https://sources.debian.org/src/minicom/
-On Sun, Jul 8, 2018 at 12:28 AM Tim Orling <ticotimo@gmail.com> wrote:
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../0001-Adapt-to-removal-of-xf86GetOS.patch       | 48 ----------------------
+ ...ut-mouse_1.9.2.bb => xf86-input-mouse_1.9.3.bb} |  6 +--
+ 2 files changed, 2 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-mouse/0001-Adapt-to-removal-of-xf86GetOS.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.9.2.bb => xf86-input-mouse_1.9.3.bb} (69%)
 
-> All the alioth.debian.org URLs should be changed to use salsa.debian.org.
-> Quick search showed:
-> https://salsa.debian.org/minicom-team/minicom
-> On Fri, Jul 6, 2018 at 8:47 AM Ross Burton <ross.burton@intel.com> wrote:
->
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> ---
->>  meta/recipes-extended/minicom/minicom_2.7.1.bb | 2 --
->>  1 file changed, 2 deletions(-)
->>
->> diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb
->> b/meta/recipes-extended/minicom/minicom_2.7.1.bb
->> index be0b48dfdf5..1e6f1317ebe 100644
->> --- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
->> +++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
->> @@ -16,8 +16,6 @@ SRC_URI =
->> "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.gz \
->>  SRC_URI[md5sum] = "9021cb8c5445f6e6e74b2acc39962d62"
->>  SRC_URI[sha256sum] =
->> "532f836b7a677eb0cb1dca8d70302b73729c3d30df26d58368d712e5cca041f1"
->>
->> -UPSTREAM_CHECK_URI = "https://alioth.debian.org/frs/?group_id=30018"
->> -
->>  PACKAGECONFIG ??= ""
->>  PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
->>
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse/0001-Adapt-to-removal-of-xf86GetOS.patch b/meta/recipes-graphics/xorg-driver/xf86-input-mouse/0001-Adapt-to-removal-of-xf86GetOS.patch
+deleted file mode 100644
+index 4a082c0..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse/0001-Adapt-to-removal-of-xf86GetOS.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 3c8f243b750a92d5837a449d344ff884dbd02b57 Mon Sep 17 00:00:00 2001
+-From: Adam Jackson <ajax@redhat.com>
+-Date: Thu, 16 Feb 2017 09:21:21 -0500
+-Subject: [PATCH] Adapt to removal of xf86GetOS
+-
+-Signed-off-by: Adam Jackson <ajax@redhat.com>
+-
+-Upstream-Status: Backport
+-Fixes build issue with updated xorg-server changes.
+-
+-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+-
+----
+- src/mouse.c | 11 +++++------
+- 1 file changed, 5 insertions(+), 6 deletions(-)
+-
+-diff --git a/src/mouse.c b/src/mouse.c
+-index dae98aa..40d97a9 100644
+---- a/src/mouse.c
+-+++ b/src/mouse.c
+-@@ -794,7 +794,6 @@ InitProtocols(void)
+- {
+-     int classes;
+-     int i;
+--    const char *osname = NULL;
+- 
+-     if (osInfo)
+-         return TRUE;
+-@@ -821,11 +820,11 @@ InitProtocols(void)
+-                 mouseProtocols[i].id = PROT_UNSUP;
+- 
+-     /* NetBSD uses PROT_BM for "PS/2". */
+--    xf86GetOS(&osname, NULL, NULL, NULL);
+--    if (osname && xf86NameCmp(osname, "netbsd") == 0)
+--        for (i = 0; mouseProtocols[i].name; i++)
+--            if (mouseProtocols[i].id == PROT_PS2)
+--                mouseProtocols[i].id = PROT_BM;
+-+#if defined(__NetBSD__)
+-+    for (i = 0; mouseProtocols[i].name; i++)
+-+        if (mouseProtocols[i].id == PROT_PS2)
+-+            mouseProtocols[i].id = PROT_BM;
+-+#endif
+- 
+-     return TRUE;
+- }
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb
+similarity index 69%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.2.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb
+index 8dea384..c38dab5 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-mouse_1.9.3.bb
+@@ -10,7 +10,5 @@ driver."
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=90ea9f90d72b6d9327dede5ffdb2a510"
+ 
+-SRC_URI += "file://0001-Adapt-to-removal-of-xf86GetOS.patch"
+-
+-SRC_URI[md5sum] = "ce2d679283a22c8e0dccdd9248594845"
+-SRC_URI[sha256sum] = "f425d5b05c6ab412a27e0a1106bb83f9e2662b307210abbe48270892387f4b2f"
++SRC_URI[md5sum] = "a2104693bbcfe1413397f7905eecd3dc"
++SRC_URI[sha256sum] = "93ecb350604d05be98b7d4e5db3b8155a44890069a7d8d6b800c0bea79c85cc5"
+-- 
+2.7.4
 
---0000000000006c969305707815fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<a href=3D"http://salsa.debian.org">salsa.debian.org</a> had no tags, so pe=
-rhaps:<br><a href=3D"https://sources.debian.org/src/minicom/">https://sourc=
-es.debian.org/src/minicom/</a><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r">On Sun, Jul 8, 2018 at 12:28 AM Tim Orling &lt;<a href=3D"mailto:ticotim=
-o@gmail.com">ticotimo@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">All the <a href=3D"http://alioth.debian.org" target=3D"_blank=
-">alioth.debian.org</a> URLs should be changed to use <a href=3D"http://sal=
-sa.debian.org" target=3D"_blank">salsa.debian.org</a>.<br>Quick search show=
-ed:<br><a href=3D"https://salsa.debian.org/minicom-team/minicom" target=3D"=
-_blank">https://salsa.debian.org/minicom-team/minicom</a><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr">On Fri, Jul 6, 2018 at 8:47 AM Ross Burton &l=
-t;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@in=
-tel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-b=
-y: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blan=
-k">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a> | 2 --<br>
-=C2=A01 file changed, 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a> b/meta/recipe=
-s-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">minicom_2.7.1.bb</a><br>
-index be0b48dfdf5..1e6f1317ebe 100644<br>
---- a/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a><br>
-+++ b/meta/recipes-extended/minicom/<a href=3D"http://minicom_2.7.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">minicom_2.7.1.bb</a><br>
-@@ -16,8 +16,6 @@ SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_$=
-{PV}.orig.tar.gz \<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;9021cb8c5445f6e6e74b2acc39962d62&quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;532f836b7a677eb0cb1dca8d70302b73729c3d30=
-df26d58368d712e5cca041f1&quot;<br>
-<br>
--UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://alioth.debian.org/frs/?gro=
-up_id=3D30018" rel=3D"noreferrer" target=3D"_blank">https://alioth.debian.o=
-rg/frs/?group_id=3D30018</a>&quot;<br>
--<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[lockdev] =3D &quot;--enable-lockdev,--disable-lockdev,l=
-ockdev&quot;<br>
-<br>
--- <br>
-2.11.0<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div>
-
---0000000000006c969305707815fc--
