@@ -1,53 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl0-f53.google.com (mail-pl0-f53.google.com
-	[209.85.160.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 64807745D4
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0AA374BEC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Jul 2018 14:45:42 +0000 (UTC)
-Received: by mail-pl0-f53.google.com with SMTP id bi1-v6so4875594plb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jul 2018 07:45:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=zVPWdAMYkc/qsEXVyGhDKdHvU3+46d7qRTusmHIshOc=;
-	b=a8tE10x5ZS0FNEMEnPoPGw54x2uJKcV2xCgdORbSl+840aC0iTl9PIUEUpQ3NdKvLC
-	VECLbUEMdHrIqYcSLZbjqH59CHawOF1L/l9rxl/zuJqEZsxwStiF53ZPue/nrsNZH6Pe
-	UVVoiycDooYo0BVf3NjYrDSreI/GF7PtBTqWwcR2HucafStP6pVyiyzzOBydLRhFgJGd
-	bT4PnGSkjyxlOsvBJVP7gUkZbGrXrm8sD+7TIln4fnI9zh8oQ72/crWnzQPsclDtADpv
-	UCdwZiPBV6/vqA+CT8r46gZjR9/0gh4M2qxowono8aavuHJrbk8CZJTt+k/saKvAw6rI
-	HZEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=zVPWdAMYkc/qsEXVyGhDKdHvU3+46d7qRTusmHIshOc=;
-	b=HlSSRn1WYMSVbK2LoVWWy7Zh7ch3AxkpvFKpiouZecOU2WNNv1jXTVK0mni+eB0fAl
-	00UrDePTNub5EZxn4N2pZAIFCnvDyJp/tcxpDWgI3unrFTPICK7xkyDb9YVwRBN101MH
-	pSlzmV65z+bDXYNeZ8Vpwz1B7Zhp6oxXNKA1h2b/BL2v9rnvVWanMXRVMIiS+igbyUU0
-	dmVCA7F22MQ175LTlx3go8cAEiErAjW9WFPgDX323mR4vJFwHSPrRKFdGLPhi3aDmx3e
-	ZhD/q5lalei1CKuUNWTMa2AF7f9P0QWHGa1FtVjX3oeThE/e7Lixly+nKwA5ei1Q1wzB
-	PqWA==
-X-Gm-Message-State: APt69E22K6dvOBFqZNzRMObESced8bo4PqxnM8BWCl5YbenV2rEQBIZo
-	t6cGm6SuFcxTjwduz9syCvM=
-X-Google-Smtp-Source: AAOMgpexkQ6Pxe1FSomhKBHUH0qoEFZKu580mpwVCLnX65JHPrMYgQv3HVAnbwtZPAYjbyJioFallw==
-X-Received: by 2002:a17:902:422:: with SMTP id
-	31-v6mr17053543ple.320.1531061143593; 
-	Sun, 08 Jul 2018 07:45:43 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4000:1184:3c1b:9cfb:14ee:ef7a])
-	by smtp.gmail.com with ESMTPSA id
-	e186-v6sm25076064pfc.13.2018.07.08.07.45.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 08 Jul 2018 07:45:43 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jul 2018 07:45:39 -0700
-Message-Id: <1531061139-14602-4-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1531061139-14602-1-git-send-email-akuster808@gmail.com>
-References: <1531061139-14602-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 4/4] libxxf86misc: update to 1.0.4
+	Mon,  9 Jul 2018 01:08:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6918JDB029364
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 8 Jul 2018 18:08:19 -0700 (PDT)
+Received: from [128.224.162.149] (128.224.162.149) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Sun, 8 Jul 2018 18:08:19 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Hongzhi.Song"
+	<hongzhi.song@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1530870706-206950-1-git-send-email-hongzhi.song@windriver.com>
+	<995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <89ff8443-4fd2-8f84-6a83-83e5797ef3a0@windriver.com>
+Date: Mon, 9 Jul 2018 09:05:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <995cd601a894144e95c2a2f940b7ba240a2e55f1.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.149]
+Subject: Re: [PATCH v3] kernel-selftest: Add a recipe on kernel selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2018 14:45:42 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 01:08:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../xorg-lib/{libxxf86misc_1.0.3.bb => libxxf86misc_1.0.4.bb}        | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxxf86misc_1.0.3.bb => libxxf86misc_1.0.4.bb} (74%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb b/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.4.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.4.bb
-index 04fe962..45b0673 100644
---- a/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxxf86misc_1.0.4.bb
-@@ -15,6 +15,5 @@ PE = "1"
- 
- XORG_PN = "libXxf86misc"
- 
--SRC_URI[md5sum] = "6bc0bf78909fd71021c466c793d4385c"
--SRC_URI[sha256sum] = "563f4200862efd3334c33a669e0a0aae5bab31f3998db75b87a99a697cc26b5b"
--
-+SRC_URI[md5sum] = "37ad70f8b53b94b550f9290be97fbe2d"
-+SRC_URI[sha256sum] = "a89c03e2b0f16239d67a2031b9003f31b5a686106bbdb3c797fb88ae472af380"
--- 
-2.7.4
+
+On 2018年07月07日 20:14, Richard Purdie wrote:
+> On Fri, 2018-07-06 at 05:51 -0400, Hongzhi.Song wrote:
+>> The recipe builds the framework for kernel-selftest. Now, it just
+>> contains two sets of testcase, bpf and vm. We are appending others
+>> to the recipe.
+>>
+>> It needs some features which will be written into relevant recipe.
+>> But now, you should add them to conf/local.conf manually.
+>> KERNEL_FEATURES_append += "features/bpf/bpf.scc"
+>>
+>> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>> ---
+>>   .../kernel-selftest/kernel-selftest.bb             | 94
+>> ++++++++++++++++++++++
+>>   1 file changed, 94 insertions(+)
+>>   create mode 100644 meta/recipes-kernel/kernel-selftest/kernel-
+>> selftest.bb
+>>
+>> diff --git a/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+>> b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+>> new file mode 100644
+>> index 0000000..28fd178
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/kernel-selftest/kernel-selftest.bb
+>> @@ -0,0 +1,94 @@
+>> +SUMMARY = "Kernel selftest for Linux"
+>> +DESCRIPTION = "Kernel selftest for Linux"
+>> +LICENSE = "GPLv2"
+>> +
+>> +# for bpf and vm
+>> +DEPENDS = " \
+>> +    elfutils \
+>> +    libcap \
+>> +    libcap-ng \
+>> +    fuse \
+>> +    util-linux \
+>> +    rsync-native \
+>> +"
+> This adds a DEPENDS on fuse but fuse is not in OE-Core therefore this
+> recipe can never build there.
+>
+> +do_configure[prefuncs] += "copy_perf_source_from_kernel remove_clang_related"
+> +python copy_perf_source_from_kernel() {
+>
+> We're copying to perf source here? The function name needs tweaking.
+
+This recipe was similar to perf, using the kernel source, so based on 
+perf recipe, we will change it in next patches set.
+
+>
+> Cheers,
+>
+> Richard
+>
 
 
