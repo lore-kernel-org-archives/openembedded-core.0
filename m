@@ -1,27 +1,42 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B1C175401
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id DDD3460229
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 12:58:03 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w69Cw4LW003228
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2018 14:58:04 +0200
-Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w69Cw4BL021618;
-	Mon, 9 Jul 2018 14:58:04 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id A67FD62539B;
-	Mon,  9 Jul 2018 14:58:04 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2018 14:56:57 +0200
-Message-Id: <20180709125657.13192-4-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180709125657.13192-1-andrej.valek@siemens.com>
-References: <20180709125657.13192-1-andrej.valek@siemens.com>
-Subject: [PATCH resend 3/3] openssl-1.1: /etc/ssl location compatibility
+	Mon,  9 Jul 2018 14:59:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jul 2018 07:59:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,330,1526367600"; d="scan'208,217";a="56219886"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by orsmga006.jf.intel.com with ESMTP; 09 Jul 2018 07:59:13 -0700
+Received: from fmsmsx121.amr.corp.intel.com (10.18.125.36) by
+	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 9 Jul 2018 07:59:13 -0700
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.66]) by
+	fmsmsx121.amr.corp.intel.com ([169.254.6.169]) with mapi id
+	14.03.0319.002; Mon, 9 Jul 2018 07:59:13 -0700
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
+Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
+Date: Mon, 9 Jul 2018 14:59:11 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC735C046@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
+dlp-product: dlpe-windows
+dlp-version: 11.0.200.100
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.107]
+MIME-Version: 1.0
+Subject: Yocto Project Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +49,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 12:58:04 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 14:59:28 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC735C046fmsmsx111amrcor_"
 
-Some packages have hard-coded path to /etc/ssl location.
-Create a symlinks to correct location.
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC735C046fmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Marko Peter <peter.marko@siemens.com>
----
- meta/recipes-connectivity/openssl/openssl_1.1.0h.bb | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-index df05f3a2b7..487219b600 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-@@ -22,7 +22,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
- 
- S = "${WORKDIR}/openssl-${PV}"
- 
--inherit lib_package multilib_header ptest
-+inherit lib_package multilib_header ptest relative_symlinks
- 
- do_configure () {
- 	os=${HOST_OS}
-@@ -133,6 +133,18 @@ EXTRA_OECONF_libc-musl += "-DOPENSSL_NO_ASYNC"
- do_install () {
-         oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
-         oe_multilib_header openssl/opensslconf.h
-+
-+        # Create SSL structure for PATH hard-coded packages like ca-certificates
-+        # Debian is also using this technique
-+        install -d ${D}${sysconfdir}/ssl/
-+        mv ${D}${libdir}/ssl-1.1/openssl.cnf \
-+           ${D}${libdir}/ssl-1.1/certs \
-+           ${D}${libdir}/ssl-1.1/private \
-+           \
-+           ${D}${sysconfdir}/ssl/
-+        ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl-1.1/certs
-+        ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl-1.1/private
-+        ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl-1.1/openssl.cnf
- }
- 
- do_install_append_class-native () {
-@@ -163,6 +175,6 @@ FILES_${PN} =+ " ${libdir}/ssl-1.1/*"
- FILES_${PN}-misc = "${libdir}/ssl-1.1/misc"
- RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
- FILES_${PN}-engines = "${libdir}/engines-1.1"
--FILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
--CONFFILES_openssl-conf = "${libdir}/ssl-1.1/openssl.cnf"
-+FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf ${libdir}/ssl-1.1/openssl.cnf"
-+CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
- RRECOMMENDS_libcrypto += "openssl-conf"
--- 
-2.11.0
+All,
 
 
+
+The triage team meets weekly and does its best to handle the bugs reported =
+into the bugzilla. The numbers of people attending that meeting have fallen=
+, as have the number of people available to help fix bugs. One of the thing=
+s we hear users report is they don't know how to help. We (the triage team)=
+ are therefore going to start reporting out the currently 327 unassigned bu=
+gs.
+
+
+
+We're hoping people may be able to spare some time now and again to help ou=
+t with these.
+
+
+
+Bugs are split into two types, "true bugs" where things don't work as they =
+should and "enhancements" which are features we'd want to add to the system=
+.
+
+
+
+There are also roughly three different "priority" classes right now, "2.6",=
+ "2.99" and "Future", the more pressing/urgent issues being in "2.6".
+
+
+
+Please review this link and if a bug is something you would be able to help=
+ with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
+com) an e-mail with the bug number you would like and I will assign it to y=
+ou (please make sure you have a bugzilla account).
+
+The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
+gs
+
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*    Cell:                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC735C046fmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">All,<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
+ handle the bugs reported into the bugzilla. The numbers of people attendin=
+g that meeting have fallen, as have the number of people available to help =
+fix bugs. One of the things we hear
+ users report is they don't know how to help. We (the triage team) are ther=
+efore going to start reporting out the currently 327 unassigned bugs.<o:p><=
+/o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
+e now and again to help out with these.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
+ot; where things don't work as they should and &quot;enhancements&quot; whi=
+ch are features we'd want to add to the system.<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
+rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
+uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
+</o:p></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoPlainText">Please review this link and if a bug is something=
+ you would be able to help with either take ownership of the bug, or send m=
+e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
+ and I will assign it to you (please
+ make sure you have a bugzilla account).<o:p></o:p></p>
+<p class=3D"MsoPlainText"><o:p></o:p></p>
+<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
+ect.org/wiki/Bug_Triage#Unassigned_Bugs">
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
+></p>
+<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
+ns-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC735C046fmsmsx111amrcor_--
