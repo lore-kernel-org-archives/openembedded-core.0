@@ -1,24 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CE0375035
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8629D74621
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 08:46:37 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w698kaI4021465
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 9 Jul 2018 09:46:38 +0100
-Message-ID: <d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 09 Jul 2018 09:46:36 +0100
-In-Reply-To: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
-References: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] coreutils: fix compile error since use wrong libnss_nis.so
+	Mon,  9 Jul 2018 09:39:12 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id w126-v6so34666056oie.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jul 2018 02:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Jkw1VxXjrGBVbYFlgrJScx8N6iMd6bbDfyX4UbnyULs=;
+	b=JK+3R9KENk/kiGOo3WjfEGjSasdYXvRR4yueyZ8eJFbyC5f3P0Z31gxn+4+BquwlEa
+	skw0SAfYk54nrfpZLe13nuHgbfoYzgVZ0qO+lfAChSyZJahp13mQCHs8WrOupPkKn4i+
+	5cMdCMp3WPO1b6sKjaQ1sC/7Z2s5sLHcferlACTPT8zX/lkLW0dThIiooJHB1fo7AnVL
+	4Ie6wMCCj+nUY3/UHzjI1CveYQzpPUhD6C1MYUneWn7UE6A2olUtJQSOa9BuYyOw3pgo
+	ZM9seQGK/Ox+IzoCCLY6ydcsPNGM3a2JIKQSFkMmRwi6V0hHXDUpGhVam/fKiA/4457R
+	KWcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Jkw1VxXjrGBVbYFlgrJScx8N6iMd6bbDfyX4UbnyULs=;
+	b=doUDbWYil8Jo24SqCH8GPTFphVtVhcn9Ja710r9amk0pX7CJ5Dunlm9tpurdQ6w64L
+	n61I+rXGa9pQziqrZbtZBWCWquLQmSWNUZ7/YmQnR+6VYSIP2QVcdTYTT3Pm2ki6pliR
+	hRm7tl9NChVCR2GxCYb9pyTCCi3pbLhpDABTUzJ97sjw1cxHQJl6e5ypofEAy+Ly6/Kl
+	NHbe9mgWr9UvmfKRLJLbwMop0AI9GIg7vbp6O2mcaTnKrQr6rNJB2D2zcZyb2CXm/98Y
+	mgppUvLpx+5lucI+8XP8z5B3S5re7fTalanfBcM8ej+T1XtfzO/ZTtzhs5nnajyClcAO
+	tLsg==
+X-Gm-Message-State: APt69E1XzFFuumNXkTeMyAurhcJUb6lEXlYGZjHhMonQYqBJk9yHSHWD
+	IJQezCqsaxQwm39PFN53QfMhaseni9+YXVE96pZDHg==
+X-Google-Smtp-Source: AAOMgpcg/hTPqs3G405K0mPah1+50/+2Lhz1qgEd8evl0fAxsjua10s1AGzJS6A7hDajqp3WgCZgaqayq3bqqKdaoII=
+X-Received: by 2002:aca:5f56:: with SMTP id
+	t83-v6mr23510773oib.115.1531129154042; 
+	Mon, 09 Jul 2018 02:39:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP;
+	Mon, 9 Jul 2018 02:38:53 -0700 (PDT)
+In-Reply-To: <CAMKF1sqvsQjmhZyBTCz0Kjieitai263b+MbQ2DFy7EOR6++h8A@mail.gmail.com>
+References: <20180705155805.20847-1-ross.burton@intel.com>
+	<20180705155805.20847-2-ross.burton@intel.com>
+	<CAMKF1sqvsQjmhZyBTCz0Kjieitai263b+MbQ2DFy7EOR6++h8A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Jul 2018 10:38:53 +0100
+Message-ID: <CAJTo0LYVwM6ffbGC4Hf36CacjxHmSCTTY6kAf1KWKwcgYc6owg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] distutils: clean the build tree in do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 08:46:38 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 09:39:15 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-07-09 at 15:49 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> id: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2:
-> symbol _nsl_default_nss version GLIBC_PRIVATE not defined in
-> file libnsl.so.1 with link time reference
-> 
-> Recent glibc change removed libnss-nis module from glibc and
-> a new recipe libnss-nis.bb was added. After this change,
-> we need to include native libnss_nis in coreutils. otherwise,
-> with "nis" in host /etc/nssswitch.conf, id will use host
-> libnss_nis.so, which will cause above error
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry about that, I'll run a build against all of meta-python now.
 
-I think this would be fixed by a new version of uninative-tarball after
-the recent change to include libnss-nis in it. We should probably have
-a new release of uninative rather than starting to add these DEPENDS
-everywhere...
+Ross
 
-Cheers,
-
-Richard
+On 8 July 2018 at 01:57, Khem Raj <raj.khem@gmail.com> wrote:
+> For the record this breaks few recipes in meta-python
+>
+> meta-python/recipes-devtools/python/python3-lxml_4.2.3.bb
+> meta-python/recipes-devtools/python/python3-pandas_0.23.1.bb
+> meta-python/recipes-devtools/python/python3-protobuf_3.6.0.bb
+>
+> It would be better if meta-python was exercised as testing for such
+> changes in oe-core for better coverage.
+> On Thu, Jul 5, 2018 at 8:58 AM Ross Burton <ross.burton@intel.com> wrote:
+>>
+>> base_do_configure() tries to do "make clean" if there is a Makefile present.
+>> For most recipes using distutils there is not a Makefile, but we do know that
+>> "setup.py clean" will work so call that instead.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>  meta/classes/distutils3.bbclass | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
+>> index 6c303068820..99ad64d287d 100644
+>> --- a/meta/classes/distutils3.bbclass
+>> +++ b/meta/classes/distutils3.bbclass
+>> @@ -8,6 +8,12 @@ DISTUTILS_STAGE_ALL_ARGS ?= "--prefix=${STAGING_DIR_HOST}${prefix} \
+>>  DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
+>>      --install-data=${D}/${datadir}"
+>>
+>> +distutils3_do_configure() {
+>> +       if [ "${CLEANBROKEN}" != "1" ] ; then
+>> +               ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py clean
+>> +       fi
+>> +}
+>> +
+>>  distutils3_do_compile() {
+>>          STAGING_INCDIR=${STAGING_INCDIR} \
+>>          STAGING_LIBDIR=${STAGING_LIBDIR} \
+>> @@ -71,6 +77,6 @@ distutils3_do_install() {
+>>  }
+>>  distutils3_do_install[vardepsexclude] = "MACHINE"
+>>
+>> -EXPORT_FUNCTIONS do_compile do_install
+>> +EXPORT_FUNCTIONS do_configure do_compile do_install
+>>
+>>  export LDSHARED="${CCLD} -shared"
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
