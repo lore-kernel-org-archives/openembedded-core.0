@@ -1,26 +1,25 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC11475402
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C27CF7520C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 15:25:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w69FPl6b016396
+	Mon,  9 Jul 2018 15:25:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w69FPmqG014752
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Jul 2018 08:25:47 -0700
+	Mon, 9 Jul 2018 08:25:48 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 9 Jul 2018 08:25:46 -0700
+	14.3.399.0; Mon, 9 Jul 2018 08:25:47 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 9 Jul 2018 11:25:38 -0400
-Message-ID: <106b7b18e63be5ee94e135787de0437dadf5aa96.1531149297.git.bruce.ashfield@windriver.com>
+Date: Mon, 9 Jul 2018 11:25:39 -0400
+Message-ID: <76fab7420a6b1764c27f164c00cf8011d47a3253.1531149297.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1531149297.git.bruce.ashfield@windriver.com>
 References: <cover.1531149297.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/7] linux-yocto/4.12: update to v4.12.26
+Subject: [PATCH 7/7] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,222 +35,264 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 09 Jul 2018 15:25:47 -0000
 Content-Type: text/plain
 
-Integrating Paul Gortmaker's -stable 4.12 release, which comprises
-the following commits:
+The existing kernel-devsrc package starts with a full copy of the kernel
+source and then starts to strip out elements that are not required.
 
-b0f63e84c132 Linux 4.12.26
-61be5424616e usbnet: fix alignment for frames with no ethernet header
-6d0519e75609 tipc: fix memory leak in tipc_accept_from_sock()
-8560506d5b7a tipc: call tipc_rcv() only if bearer is up in tipc_udp_recv()
-5ceba73f1c24 tcp: remove buggy call to tcp_v6_restore_cb()
-450a839e54a6 tcp/dccp: block bh before arming time_wait timer
-872d246eaed9 stmmac: reset last TSO segment size after device open
-74386d6ee7bf sit: update frag_off info
-3df033244a42 s390/qeth: fix GSO throughput regression
-b7bd0107008f s390/qeth: fix early exit from error path
-7f02573318ba s390/qeth: build max size GSO skbs on L2 devices
-3c8a527e0496 rds: Fix NULL pointer dereference in __rds_rdma_map
-00c0600c0a35 net: remove hlist_nulls_add_tail_rcu()
-193d9a02e802 net: realtek: r8169: implement set_link_ksettings()
-8fb1c5e220ee net: qmi_wwan: add Quectel BG96 2c7c:0296
-0c2ba29a13d9 net/packet: fix a race in packet_bind() and packet_notifier()
-bb06331e9156 net: openvswitch: datapath: fix data type in queue_gso_packets
-ea15a664c5b8 usb: gadget: ffs: Forbid usb_ep_alloc_request from sleeping
-7f11deffc177 ipmi: Stop timers before cleaning up the module
-fb006a18929e fix kcm_clone()
-ee82eaf439cc RDMA/cxgb4: Annotate r2 and stag as __be32
-b71be191d4ed md: free unused memory after bitmap resize
-6d24efc56915 dm raid: fix panic when attempting to force a raid to sync
-490fc05683b4 blk-mq: Avoid that request queue removal can trigger list corruption
-d9e8cb49aaf1 ide: ide-atapi: fix compile error with defining macro DEBUG
-115978628b54 ipvlan: fix ipv6 outbound device
-ee2ce344ee06 powerpc/powernv/idle: Round up latency and residency values
-0fe4d3f9fb5b afs: Connect up the CB.ProbeUuid
-94bdd552d7b1 IB/mlx5: Assign send CQ and recv CQ of UMR QP
-aa02d85e4d08 IB/mlx4: Increase maximal message size under UD QP
-dd955bcce383 bnxt_re: changing the ip address shouldn't affect new connections
-a4b3e59bcb04 f2fs: fix to clear FI_NO_PREALLOC
-78f9d39a2735 xfrm: Copy policy family in clone_policy
-4577662b6010 atm: horizon: Fix irq release error
-d7241b40fe6d kbuild: rpm-pkg: fix jobserver unavailable warning
-bffb011d5446 mailbox: mailbox-test: don't rely on rx_buffer content to signal data ready
-849ef7edfa4c clk: hi3660: fix incorrect uart3 clock freqency
-d561354fe15d clk: uniphier: fix DAPLL2 clock rate of Pro5
-eada5db0be6e clk: qcom: common: fix legacy board-clock registration
-11ea07285eb4 geneve: fix fill_info when link down
-4e0b53bd177a sctp: return error if the asoc has been peeled off in sctp_wait_for_sndbuf
-be7cba326d33 sctp: use the right sk after waking up from wait_buf sleep
-2c485f6fa3be sctp: do not free asoc when it is already dead in sctp_sendmsg
-6e2b427a32da slub: fix sysfs duplicate filename creation when slub_debug=O
-e66ebbc23607 zsmalloc: calling zs_map_object() from irq is a bug
-dc423eda615d sparc64/mm: set fields in deferred pages
-956c73ca6664 block: wake up all tasks blocked in get_request()
-1f35bda74d1a dt-bindings: usb: fix reg-property port-number range
-412c76f0f9b8 sunrpc: Fix rpc_task_begin trace point
-09f79313b317 NFS: Fix a typo in nfs_rename()
-a550f7b43f63 dynamic-debug-howto: fix optional/omitted ending line number to be LARGE instead of 0
-80f443550f8f lib/genalloc.c: make the avail variable an atomic_long_t
-1dfea0e03917 drivers/rapidio/devices/rio_mport_cdev.c: fix resource leak in error handling path in 'rio_dma_transfer()'
-4add25bf3dff route: update fnhe_expires for redirect when the fnhe exists
-c53ad6cb2f86 route: also update fnhe_genid when updating a route cache
-d09b814cd2aa gre6: use log_ecn_error module parameter in ip6_tnl_rcv()
-f9ef4cd05462 mac80211_hwsim: Fix memory leak in hwsim_new_radio_nl()
-a95269b0e4e5 x86/mpx/selftests: Fix up weird arrays
-76e5bd0ae30a coccinelle: fix parallel build with CHECK=scripts/coccicheck
-59f2aa43a314 kbuild: pkg: use --transform option to prefix paths in tar
-50ce05457e39 irqchip/qcom: Fix u32 comparison with value less than zero
-e3fec500f619 ARM: avoid faulting on qemu
-602f85aeefb7 crypto: talitos - fix ctr-aes-talitos
-73e76cb0ca1f crypto: talitos - fix use of sg_link_tbl_len
-f17fe30404de crypto: talitos - fix AEAD for sha224 on non sha224 capable chips
-f5fa317606b7 crypto: talitos - fix setkey to check key weakness
-519619ec114a crypto: talitos - fix memory corruption on SEC2
-e7984cca5abc crypto: talitos - fix AEAD test failures
-64d05b5d1d86 bus: arm-ccn: fix module unloading Error: Removing state 147 which has instances left.
-e14e213dfd51 bus: arm-ccn: Fix use of smp_processor_id() in preemptible context
-63efd55a2c6b bus: arm-ccn: Check memory allocation failure
-fd30c25b5596 bus: arm-cci: Fix use of smp_processor_id() in preemptible context
-d358187f050b media: dvb: i2c transfers over usb cannot be done from stack
-2ae277ebe31f drm/exynos: gem: Drop NONCONTIG flag for buffers allocated without IOMMU
-0792a5a27074 drm/bridge: analogix dp: Fix runtime PM state in get_modes() callback
-fdc899328ff3 kdb: Fix handling of kallsyms_symbol_next() return value
-08f22e2251fd brcmfmac: change driver unbind order of the sdio function devices
-f9a77013fa02 powerpc/64s: Initialize ISAv3 MMU registers before setting partition table
-9c6dfd696e5a KVM: s390: Fix skey emulation permission check
-092937ce1aae s390: fix compat system call table
-4f4b2e279816 s390: always save and restore all registers on context switch
-8c54b7d880d4 smp/hotplug: Move step CPUHP_AP_SMPCFD_DYING to the correct place
-a2ec325c7d20 iommu/vt-d: Fix scatterlist offset handling
-743ac71ece80 ALSA: usb-audio: Fix the missing ctl name suffix at parsing SU
-1df6e988ae39 ALSA: usb-audio: Add check return value for usb_string()
-974394e57a05 ALSA: usb-audio: Fix out-of-bound error
-f4753360efda ALSA: seq: Remove spurious WARN_ON() at timer check
-478c2ed7ca1c ALSA: pcm: prevent UAF in snd_pcm_info
-b12060cae8c2 btrfs: handle errors while updating refcounts in update_ref_for_cow
-ecfc013c7f23 btrfs: fix missing error return in btrfs_drop_snapshot
-45822ea3d1bf X.509: fix comparisons of ->pkey_algo
-19057ced2699 X.509: reject invalid BIT STRING for subjectPublicKey
-a3ad8e49bc26 KEYS: reject NULL restriction string when type is specified
-7c2ccfe13faa KEYS: add missing permission check for request_key() destination
-664879ff9aef ASN.1: check for error from ASN1_OP_END__ACT actions
-4c0e7ec3072d ASN.1: fix out-of-bounds read when parsing indefinite length item
-17a6f363daf9 efi/esrt: Use memunmap() instead of kfree() to free the remapping
-8dd372dd8845 efi: Move some sysfs files to be read-only by root
-97c6b857262f scsi: libsas: align sata_device's rps_resp on a cacheline
-eb78a8b8f172 scsi: use dma_get_cache_alignment() as minimum DMA alignment
-db4a32fa5cf2 scsi: dma-mapping: always provide dma_get_cache_alignment
-1f55442d0992 isa: Prevent NULL dereference in isa_bus driver callbacks
-93fdb7dc713e hv: kvp: Avoid reading past allocated blocks from KVP file
-d745d533737a pinctrl: armada-37xx: Fix direction_output() callback behavior
-ae6add36f3ce iio: adc: meson-saradc: fix the bit_idx of the adc_en clock
-50c87ecdb250 iio: adc: cpcap: fix incorrect validation
-657257ba13ae iio: health: max30102: Temperature should be in milli Celsius
-3da92b4ab2cc virtio: release virtio index when fail to device_register
-f6fe0d2777b2 can: peak/pcie_fd: fix potential bug in restarting tx queue
-654babccd437 can: usb_8dev: cancel urb on -EPIPE and -EPROTO
-bda1dccdda47 can: esd_usb2: cancel urb on -EPIPE and -EPROTO
-9ff8eb7ef05b can: ems_usb: cancel urb on -EPIPE and -EPROTO
-51e5de2b036b can: mcba_usb: cancel urb on -EPROTO
-c94c94a367ef can: kvaser_usb: cancel urb on -EPIPE and -EPROTO
-c8474d8798ab can: kvaser_usb: ratelimit errors if incomplete messages are received
-1936ba2b0b40 can: kvaser_usb: Fix comparison bug in kvaser_usb_read_bulk_callback()
-bc86162fa81a can: kvaser_usb: free buf in error paths
-4a879f2d1636 can: ti_hecc: Fix napi poll return value for repoll
-09b06e3f7b1d can: flexcan: fix VF610 state transition issue
-f81db8e7d0cb can: peak/pci: fix potential bug when probe() fails
-7b747f65c553 can: mcba_usb: fix device disconnect bug
-0a3964b0a8d3 usb: f_fs: Force Reserved1=1 in OS_DESC_EXT_COMPAT
-d1c24d05d7ec serdev: ttyport: fix tty locking in close
-541fbaaf6db7 serdev: ttyport: fix NULL-deref on hangup
-a6d00d0df9e5 serdev: ttyport: add missing receive_buf sanity checks
-b30e0bedb66b usb: gadget: udc: renesas_usb3: fix number of the pipes
+This results in extra time (I/O) and extra space being taken up in the
+final package. The main purpose of the kernel-devsrc package has been to
+build modules against the running kernel, not to include a full copy of
+the source code for re-building the kernel. The end result was a
+600M kernel-devsrc package.
+
+This restructuring of the package uses an approach similar to other
+distros, where the kernel-devsrc package is for building against the
+running kernel and uses a curated set of copied infrastructure, versus
+a mass copy of the entire kernel.
+
+The differences in this approach versus other is largely due to the
+architecture support and the split build/source directory of the
+kernel.
+
+The result is a kernel-devsrc package of about 10M, which is capable
+of running "make scripts" and compiling kernel modules against the
+running kernel.
+
+Along with the changes to the copying of the infrascture, we also
+have the following changes:
+
+ - a better/more explicit listing of dependencies for on-target
+   builds of "make scripts" or "make modules_prepare"
+
+ - The kernel source is installed into /lib/modules/<version>/build
+   and a symlink created from /usr/src/kernel to the new location.
+   This aligns with the standard location for module support
+   code
+
+ - There is also a symlink from /lib/modules/<version>/source -> build
+   to reserve a spot for a new package that is simply the kernel
+   source. That package is not part of this update.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 201 ++++++++++++++++++++++-------
+ 1 file changed, 154 insertions(+), 47 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index 1f0b7d5e382e..cf6a733ceb69 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 8bbfa23e4b86..d983b921920d 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -30,57 +30,164 @@ do_populate_sysroot[noexec] = "1"
+ S = "${STAGING_KERNEL_DIR}"
+ B = "${STAGING_KERNEL_BUILDDIR}"
+ 
+-KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
+-
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
++KERNEL_BUILD_ROOT="/lib/modules/"
++
+ do_install() {
+-        kerneldir=${D}${KERNEL_SRC_PATH}
+-        install -d $kerneldir
+-
+-        #
+-        # Copy the staging dir source (and module build support) into the devsrc structure.
+-        # We can keep this copy simple and take everything, since a we'll clean up any build
+-        # artifacts afterwards, and the extra i/o is not significant
+-        #
+-        cd ${B}
+-        find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+-        cd ${S}
+-	find . -type d -name '.git*' -prune -o -type d -name '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+-
+-        # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
+-        # The main build artifacts. We clean the directory to avoid QA errors on mismatched
+-        # architecture (since scripts and helpers are native format).
+-        KBUILD_OUTPUT="$kerneldir"
+-        oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
+-        # make clean generates an absolute path symlink called "source"
+-        # in $kerneldir points to $kerneldir, which doesn't make any
+-        # sense, so remove it.
+-        if [ -L $kerneldir/source ]; then
+-            bbnote "Removing $kerneldir/source symlink"
+-            rm -f $kerneldir/source
+-        fi
+-
+-        # As of Linux kernel version 3.0.1, the clean target removes
+-        # arch/powerpc/lib/crtsavres.o which is present in
+-        # KBUILD_LDFLAGS_MODULE, making it required to build external modules.
+-        if [ ${ARCH} = "powerpc" ]; then
+-                mkdir -p $kerneldir/arch/powerpc/lib/
+-                cp ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+-        fi
+-
+-        # Remove fixdep/objtool as they won't be target binaries
+-        for i in fixdep objtool; do
+-                if [ -e $kerneldir/tools/objtool/$i ]; then
+-                        rm -rf $kerneldir/tools/objtool/$i
+-                fi
+-        done
+-
+-        chown -R root:root ${D}
++    kerneldir=${D}${KERNEL_BUILD_ROOT}${KERNEL_VERSION}
++    install -d $kerneldir
++
++    # create the directory structure
++    rm -f $kerneldir/build
++    rm -f $kerneldir/source
++    mkdir -p $kerneldir/build
++
++    # for compatibility with some older variants of this package, we
++    # create  a /usr/src/kernel symlink to /lib/modules/<version>/source
++    mkdir -p ${D}/usr/src
++    (
++	cd ${D}/usr/src
++	ln -s ${KERNEL_BUILD_ROOT}${KERNEL_VERSION}/source kernel
++    )
++
++    # for on target purposes, we unify build and source
++    (
++	cd $kerneldir
++	ln -s build source
++    )
++
++    # first copy everything
++    (
++	cd ${S}
++	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
++    )
++
++    # then drop all but the needed Makefiles/Kconfig files
++    rm -rf $kerneldir/build/Documentation
++    rm -rf $kerneldir/build/scripts
++    rm -rf $kerneldir/build/include
++
++    # now copy in parts from the build that we'll need later
++    (
++	cd ${B}
++
++	cp Module.symvers $kerneldir/build
++	cp System.map* $kerneldir/build
++	if [ -s Module.markers ]; then
++	    cp Module.markers $kerneldir/build
++	fi
++
++	cp .config $kerneldir/build
++
++	# This scripts copy blow up QA, so for now, we require a more
++	# complex 'make scripts' to restore these, versus copying them
++	# here. Left as a reference to indicate that we know the scripts must
++	# be dealt with.
++	# cp -a scripts $kerneldir/build
++	# if [ -f tools/objtool/objtool ]; then
++	#     cp -a tools/objtool/objtool $kerneldir/build/tools/objtool/
++	# fi
++
++        if [ -d arch/${ARCH}/scripts ]; then
++	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
++	fi
++	if [ -f arch/${ARCH}/*lds ]; then
++	    cp -a arch/${ARCH}/*lds $kerneldir/build/arch/${ARCH}
++	fi
++
++	rm -f $kerneldir/build/scripts/*.o
++	rm -f $kerneldir/build/scripts/*/*.o
++
++	if [ "${ARCH}" = "powerpc" ]; then
++	    if [ -e arch/powerpc/lib/crtsavres.S ] ||
++		   [ -e arch/powerpc/lib/crtsavres.o ]; then
++		cp -a --parents arch/powerpc/lib/crtsavres.[So] $kerneldir/build/
++	    fi
++	fi
++
++	cp -a include $kerneldir/build/include
++    )
++
++    # now grab the chunks from the source tree that we need
++    (
++	cd ${S}
++
++	cp -a scripts $kerneldir/build
++	if [ "${ARCH}" = "arm64" ]; then
++	    # arch/arm64/include/asm/xen references arch/arm
++	    cp -a --parents arch/arm/include/asm/xen $kerneldir/build/
++	    # arch/arm64/include/asm/opcodes.h references arch/arm
++	    cp -a --parents arch/arm/include/asm/opcodes.h $kerneldir/build/
++	fi
++
++	# include the machine specific headers for ARM variants, if available.
++	if [ "${ARCH}" = "arm" ]; then
++	    cp -a --parents arch/${ARCH}/mach-*/include $kerneldir/build/
++
++	    # include a few files for 'make prepare'
++	    cp -a --parents arch/arm/tools/gen-mach-types $kerneldir/build/
++	    cp -a --parents arch/arm/tools/mach-types $kerneldir/build/
++	fi
++
++	if [ -d arch/${ARCH}/include ]; then
++	    cp -a --parents arch/${ARCH}/include $kerneldir/build/
++	fi
++
++	cp -a include $kerneldir/build
++
++	cp -a --parents tools/include/tools/le_byteshift.h $kerneldir/build/
++	cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
++
++	if [ "${ARCH}" = "x86" ]; then
++	    # files for 'make prepare' to succeed with kernel-devel
++	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
++	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs_common.c $kerneldir/build/
++	    cp -a --parents arch/x86/tools/relocs.h $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/purgatory.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/sha256.h $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
++	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
++	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
++	fi
++
++	if [ "${ARCH}" = "mips" ]; then
++	    cp -a --parents arch/mips/Kbuild.platforms $kerneldir/build/
++	    cp --parents $(find  -type f -name "Platform") $kerneldir/build
++	fi
++    )
++
++    # Make sure the Makefile and version.h have a matching timestamp so that
++    # external modules can be built
++    touch -r $kerneldir/build/Makefile $kerneldir/build/include/generated/uapi/linux/version.h
++
++    # Copy .config to include/config/auto.conf so "make prepare" is unnecessary.
++    cp $kerneldir/build/.config $kerneldir/build/include/config/auto.conf
++
++    chown -R root:root ${D}
  }
++
+ # Ensure we don't race against "make scripts" during cpio
+ do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
  
--SRCREV_machine ?= "84b640c582ad7f2a968003c38702b39fa6b903b0"
--SRCREV_meta ?= "dcef2499cc6680ce49e1a79ca371bbce403e1b93"
-+SRCREV_machine ?= "7ba09f891939cbf2c58801a7a4a740365896d6ba"
-+SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.12.25"
-+LINUX_VERSION ?= "4.12.26"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index c63860a937bb..9d5e1582b531 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.12.25"
-+LINUX_VERSION ?= "4.12.26"
- 
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_meta ?= "dcef2499cc6680ce49e1a79ca371bbce403e1b93"
-+SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index c244c99e7b06..ac98ca85fc3f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-@@ -11,22 +11,22 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "b1aa2a86605847e98799eb7a9720659639b95c35"
--SRCREV_machine_qemuarm64 ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_machine_qemumips ?= "f2e9eb5ef808d5bf6ef00e549e7f4a297e3101fa"
--SRCREV_machine_qemuppc ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_machine_qemux86 ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_machine_qemux86-64 ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_machine_qemumips64 ?= "f4cade13f87df43e14d340e001b553dcf9665a8e"
--SRCREV_machine ?= "347393ce79e7c4aeb557e76a3255029ac35ff842"
--SRCREV_meta ?= "dcef2499cc6680ce49e1a79ca371bbce403e1b93"
-+SRCREV_machine_qemuarm ?= "86b02dd23be1e3b3449885b38ed1b876ebec31e8"
-+SRCREV_machine_qemuarm64 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_machine_qemumips ?= "67b93101c52504fd5077166c70baa296190e6166"
-+SRCREV_machine_qemuppc ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_machine_qemux86 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_machine_qemux86-64 ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_machine_qemumips64 ?= "38da8c72733da9619bbbddf14140204631faf488"
-+SRCREV_machine ?= "bd8f931e213614bc5fdc6aeaa132d273caa002af"
-+SRCREV_meta ?= "367bd3633d5a661035f90f0b8daa38e97da1a587"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
- 
- DEPENDS += "openssl-native util-linux-native"
- 
--LINUX_VERSION ?= "4.12.25"
-+LINUX_VERSION ?= "4.12.26"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+-PACKAGES = "kernel-devsrc"
+-FILES_${PN} = "${KERNEL_SRC_PATH}"
+-RDEPENDS_${PN} = "bc"
++FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
++FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
++
++DEPENDS += "perf"
++
++RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
++# 4.15+ needs these next two RDEPENDS
++RDEPENDS_${PN} += "openssl-dev util-linux"
++# and x86 needs a bit more for 4.15+
++RDEPENDS_${PN} += "${@bb.utils.contains('ARCH', 'x86', 'elfutils', '', d)}"
 -- 
 2.5.0
 
