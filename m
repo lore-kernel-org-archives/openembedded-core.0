@@ -1,25 +1,23 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C27CF7520C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 558CD74B52
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 15:25:47 +0000 (UTC)
+	Mon,  9 Jul 2018 15:53:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w69FPmqG014752
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w69Fr7NV029054
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Jul 2018 08:25:48 -0700 (PDT)
+	Mon, 9 Jul 2018 08:53:07 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 9 Jul 2018 08:25:47 -0700
+	14.3.399.0; Mon, 9 Jul 2018 08:53:06 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 9 Jul 2018 11:25:39 -0400
-Message-ID: <76fab7420a6b1764c27f164c00cf8011d47a3253.1531149297.git.bruce.ashfield@windriver.com>
+Date: Mon, 9 Jul 2018 11:53:06 -0400
+Message-ID: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1531149297.git.bruce.ashfield@windriver.com>
-References: <cover.1531149297.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 15:25:47 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 15:53:08 -0000
 Content-Type: text/plain
 
 The existing kernel-devsrc package starts with a full copy of the kernel
@@ -74,14 +72,18 @@ have the following changes:
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 201 ++++++++++++++++++++++-------
- 1 file changed, 154 insertions(+), 47 deletions(-)
+
+v2: drop DEPENDS on perf. We no longer need to depend on perf since the source
+    is copied before modification.
+
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 199 ++++++++++++++++++++++-------
+ 1 file changed, 152 insertions(+), 47 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 8bbfa23e4b86..d983b921920d 100644
+index 8bbfa23e4b86..1bfc011a906d 100644
 --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
 +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -30,57 +30,164 @@ do_populate_sysroot[noexec] = "1"
+@@ -30,57 +30,162 @@ do_populate_sysroot[noexec] = "1"
  S = "${STAGING_KERNEL_DIR}"
  B = "${STAGING_KERNEL_BUILDDIR}"
  
@@ -285,8 +287,6 @@ index 8bbfa23e4b86..d983b921920d 100644
 -RDEPENDS_${PN} = "bc"
 +FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
 +FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
-+
-+DEPENDS += "perf"
 +
 +RDEPENDS_${PN} = "bc python ${TCLIBC}-utils"
 +# 4.15+ needs these next two RDEPENDS
