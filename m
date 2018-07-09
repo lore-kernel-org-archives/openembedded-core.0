@@ -1,23 +1,24 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CF68A60720
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CE0375035
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 07:49:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w697nt3O022749
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2018 00:49:55 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 9 Jul 2018 00:49:54 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jul 2018 15:49:52 +0800
-Message-ID: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] coreutils: fix compile error since use wrong libnss_nis.so
+	Mon,  9 Jul 2018 08:46:37 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w698kaI4021465
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 9 Jul 2018 09:46:38 +0100
+Message-ID: <d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 09 Jul 2018 09:46:36 +0100
+In-Reply-To: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
+References: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] coreutils: fix compile error since use wrong libnss_nis.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 07:49:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Jul 2018 08:46:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Mon, 2018-07-09 at 15:49 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> id: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2:
+> symbol _nsl_default_nss version GLIBC_PRIVATE not defined in
+> file libnsl.so.1 with link time reference
+> 
+> Recent glibc change removed libnss-nis module from glibc and
+> a new recipe libnss-nis.bb was added. After this change,
+> we need to include native libnss_nis in coreutils. otherwise,
+> with "nis" in host /etc/nssswitch.conf, id will use host
+> libnss_nis.so, which will cause above error
+> 
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-id: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2:
-symbol _nsl_default_nss version GLIBC_PRIVATE not defined in
-file libnsl.so.1 with link time reference
+I think this would be fixed by a new version of uninative-tarball after
+the recent change to include libnss-nis in it. We should probably have
+a new release of uninative rather than starting to add these DEPENDS
+everywhere...
 
-Recent glibc change removed libnss-nis module from glibc and
-a new recipe libnss-nis.bb was added. After this change,
-we need to include native libnss_nis in coreutils. otherwise,
-with "nis" in host /etc/nssswitch.conf, id will use host
-libnss_nis.so, which will cause above error
+Cheers,
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/coreutils/coreutils_8.29.bb b/meta/recipes-core/coreutils/coreutils_8.29.bb
-index 4704f32..eb9686b 100644
---- a/meta/recipes-core/coreutils/coreutils_8.29.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.29.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;beginline=1;endline=15;md5=1c3f9411e1842a062ce5ce9210beee0e"
- DEPENDS = "gmp libcap"
--DEPENDS_class-native = ""
-+DEPENDS_class-native = "libnss-nis-native"
- 
- inherit autotools gettext texinfo
- 
--- 
-2.7.4
-
+Richard
 
