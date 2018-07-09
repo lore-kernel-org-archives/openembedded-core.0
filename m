@@ -1,51 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9893074E95
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D082274FE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 15:04:58 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id s12-v6so21555660wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2018 08:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mTeoLX5SWe+KTyh1jRQ6gXQiBnKm+o9EBSZEc6X2kNU=;
-	b=NfD7Kh7Yly0J8NkihfE+/hBm3NR0CqB4zODUKFj7kMN0lOUEguFApfVNzaduryeQqv
-	U5HGar15TA1phqf2pX9dngo++V2KyA1szzTfdh//6t/Ip1nasu1xEafyn1Ag0HBLpdMl
-	KpIwYt7ZdfVEL6mo09JdvZ3ukLcq0vk5BnkwPzKdF+3jKcPNKvfjuf2mkpGqdFV1S8QO
-	ZfhzGD+Yde3cSDYDvPlJ9UdZ4IP4KzolMMRnixiaD1j1LuT6KvW4dYPQcm8ig5Ud/vBL
-	/M9+c4ciiPpO+H2xKKnwGyNmRNt9mmTGt368w5gbQubrC9bQGzrtIVGLsAgFF/jcskML
-	IH9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mTeoLX5SWe+KTyh1jRQ6gXQiBnKm+o9EBSZEc6X2kNU=;
-	b=OnAAt4PNehqEws273wqOfZpFAmTnWRTEN3i8Ty/caJbaKS1AcbTXa1Nzykxr2pnYfO
-	1ioliM5Lz8LwLfOkYipPCVBJ138QbP6jMvre2A8aQ9ecpb5HBMp0SWnK2hcaI/iRx1uH
-	RQOZ8y8D2R+GK1kcqeppZTyGsn5oXgMKhW43oZWpbeRbP+u5SWRfReDJxALNyWThNv8T
-	l0xoRSV+v9hSilAudITaFMXPbrtYMS8tiUjd0QA2KfYmeNmpvoGoJeaa0rtrfzO5glWm
-	/lGw1kmjoFYSvXv763a3LlhpmTK8K58+dM9ErlmCdGZ9CcqHNOfiCJHVjTkBFBNcE1UU
-	MJWw==
-X-Gm-Message-State: APt69E1GhqXSgas2RyM5hNSPcFYYH5kS7PNAUQ1z79rMZ/wbf/0qgqX8
-	135oG76wPh5KvSo8cAG9FTzGEQ==
-X-Google-Smtp-Source: AAOMgpcEi/0w/6Ctt6kgvzwCAuCX1zEgccxGinUZOarFnCeImo+pOOrw2WDTtocTcnsniVE1YaCzMw==
-X-Received: by 2002:a1c:b6d6:: with SMTP id
-	g205-v6mr13846645wmf.17.1531148699208; 
-	Mon, 09 Jul 2018 08:04:59 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	72-v6sm13504780wmh.0.2018.07.09.08.04.58
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 09 Jul 2018 08:04:58 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2018 15:05:00 +0000
-Message-Id: <20180709150500.20233-4-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180709150500.20233-1-Martin.Jansa@gmail.com>
-References: <20180709150416.GA1825@jama>
-	<20180709150500.20233-1-Martin.Jansa@gmail.com>
-Subject: [PATCHv4 4/4] kernel.bbclass: move variables for kernel artifacts names to separate bbclass
+	Mon,  9 Jul 2018 15:25:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w69FPetN016389
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Jul 2018 08:25:41 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Mon, 9 Jul 2018 08:25:40 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 9 Jul 2018 11:25:32 -0400
+Message-ID: <cover.1531149297.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] kernel/kernel-yocto: conslidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,79 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 15:04:58 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 15:25:41 -0000
+Content-Type: text/plain
 
-* this makes it easier to access these variables from some other bbclass
-  e.g. sdcard_image-rpi.bbclass in meta-raspberry where we need to know
-  how some files in deploy are named, but we cannot inherit kernel.bbclass
-  as it's used in image recipe not kernel recipe
-* alternatively we can move these to bitbake.conf like similar image variables are:
-  meta/conf/bitbake.conf:IMAGE_BASENAME = "${PN}"
-  meta/conf/bitbake.conf:IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}-${DATETIME}"
-  meta/conf/bitbake.conf:IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+Hi all,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel-artifact-names.bbclass | 19 +++++++++++++++++++
- meta/classes/kernel.bbclass                | 18 +-----------------
- 2 files changed, 20 insertions(+), 17 deletions(-)
- create mode 100644 meta/classes/kernel-artifact-names.bbclass
+Here's the next consolidated kernel pull request. It has a mixture of some
+legwork, version bumps, package re-works and a libc-headers patch I grabbed
+from the mailing list.
 
-diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
-new file mode 100644
-index 0000000000..d696888322
---- /dev/null
-+++ b/meta/classes/kernel-artifact-names.bbclass
-@@ -0,0 +1,19 @@
-+KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+# Don't include the DATETIME variable in the sstate package signatures
-+KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-+KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
-+
-+KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+KERNEL_DTB_BASE_NAME[vardepsexclude] = "DATETIME"
-+KERNEL_DTB_SYMLINK_NAME ?= "${MACHINE}"
-+
-+MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
-+
-+MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
-+MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
-+MODULE_TARBALL_DEPLOY ?= "1"
-+
-+INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
-+INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
-+INITRAMFS_SYMLINK_NAME ?= "initramfs-${MACHINE}"
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 0045cec819..42efa382ad 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -657,23 +657,7 @@ do_sizecheck[dirs] = "${B}"
- 
- addtask sizecheck before do_install after do_strip
- 
--KERNEL_IMAGE_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
--# Don't include the DATETIME variable in the sstate package signatures
--KERNEL_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
--KERNEL_IMAGE_SYMLINK_NAME ?= "${MACHINE}"
--KERNEL_DTB_BASE_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
--KERNEL_DTB_BASE_NAME[vardepsexclude] = "DATETIME"
--KERNEL_DTB_SYMLINK_NAME ?= "${MACHINE}"
--MODULE_IMAGE_BASE_NAME ?= "modules-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
--MODULE_IMAGE_BASE_NAME[vardepsexclude] = "DATETIME"
--MODULE_TARBALL_BASE_NAME ?= "${MODULE_IMAGE_BASE_NAME}.tgz"
--# Don't include the DATETIME variable in the sstate package signatures
--MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
--MODULE_TARBALL_DEPLOY ?= "1"
--
--INITRAMFS_BASE_NAME ?= "initramfs-${PKGE}-${PKGV}-${PKGR}-${MACHINE}-${DATETIME}"
--INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
--INITRAMFS_SYMLINK_NAME ?= "initramfs-${MACHINE}"
-+inherit kernel-artifact-names
- 
- kernel_do_deploy() {
- 	deployDir="${DEPLOYDIR}"
+  [PATCH 4/7] linux-yocto/4.12: bump to v4.12.25
+  [PATCH 6/7] linux-yocto/4.12: update to v4.12.26
+  
+The version bumps are for the 4.12 kernel and are routine CVE/bug fix
+updates. We'll continue doing these for a little while longer, but 4.12 will
+cease getting SRCREV bumps in the next 6 months or so.
+
+  [PATCH 5/7] linux-yocto-dev: bump to 4.18+
+
+This series also bumps linux-yocto-dev to the 4.18 kernel. This is legwork
+for the next "versioned" release kernel, which very well could be 4.18 or
+4.19 if we stretch (it depends on timing and if 4.19 is tagged as LTS, etc).
+
+Also note that I'll drop the 4.15 kernel in the next few weeks, and keep
+4.14, 4.18+ for the fall release.
+
+  [PATCH 1/7] linux-libc-headers: To fix build error when enable mutilib on aarch64 Big endian.
+
+This multlib bug fix was cherry picked from the mailing list and didn't
+cause any issues in my testing.
+
+  [PATCH 2/7] linux-yocto: add qemuarm -tiny support
+
+This is a legwork patch as there was some interest in extendy -tiny support
+to qemuarm. This kernel still needs configuration work (and won't boot), but
+without this patch, working on the configuration is more of a pain.
+
+  [PATCH 3/7] linux-yocto: igb.cfg: change igb config from m to y
+
+This is a configuration change sent by the Intel folks, and it hasn't caused
+any issued here.
+
+  [PATCH 7/7] kernel-devsrc: restructure for out of tree (and on target) module builds
+
+This is the re-submission of the devsrc work that just missed the previous
+release window. There are no (large) structural changes to the patch, and it
+still meets the requirements of the bug, and also solves many of the issues
+reported on the mailing list since it was first submitted.
+
+There was one oustanding multlib issue with the original series, but I have
+done that build:
+
+  require conf/multilib.conf
+  MULTILIBS = "multilib:lib64"
+  DEFAULTTUNE_virtclass-multilib-lib64 = "x86-64"
+
+For qemux86, and I can build kerneldevsrc without issues. If mulitlib blows
+up again, send me the config and I'll look further.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 9b034e9a83a58077519ba57ced482662f973a467:
+
+  bitbake: runqueue: Stop on first unsatisfied dependency (2018-07-09 11:26:56 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  linux-yocto: add qemuarm -tiny support
+  linux-yocto: igb.cfg: change igb config from m to y
+  linux-yocto/4.12: bump to v4.12.25
+  linux-yocto-dev: bump to 4.18+
+  linux-yocto/4.12: update to v4.12.26
+  kernel-devsrc: restructure for out of tree (and on target) module
+    builds
+
+Lei Maohui (1):
+  linux-libc-headers: To fix build error when enable mutilib on aarch64
+    Big endian.
+
+ .../linux-libc-headers/linux-libc-headers.inc      |   4 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb         | 201 ++++++++++++++++-----
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.15.bb   |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.15.bb |   7 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      |  20 +-
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      |  18 +-
+ meta/recipes-kernel/linux/linux-yocto_4.15.bb      |  18 +-
+ 12 files changed, 205 insertions(+), 91 deletions(-)
+
 -- 
-2.17.1
+2.5.0
 
 
