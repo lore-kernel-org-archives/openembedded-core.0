@@ -1,20 +1,24 @@
-Return-Path: <zhe.he@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3547174CEA
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CDFB60291
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 03:14:43 +0000 (UTC)
-Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w693Ehve010419
+	Mon,  9 Jul 2018 06:24:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w696Otip003294
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 8 Jul 2018 20:14:43 -0700 (PDT)
-Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Sun, 08 Jul 2018 20:14:43 -0700
-From: He Zhe <zhe.he@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jul 2018 20:14:43 -0700
-Message-Id: <20180709031443.34942-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v2] scripts/runqemu: fix qemumips qemumips64 memory detection kernel panic
+	Sun, 8 Jul 2018 23:24:55 -0700
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.399.0; Sun, 8 Jul 2018 23:24:54 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Jul 2018 14:34:55 +0800
+Message-ID: <cover.1531118079.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] dwarfsrcfiles: fix typo: debig -> debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,79 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 03:14:43 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 06:24:55 -0000
+Content-Type: text/plain
 
-$ runqemu qemumips64 core-image-minimal nographic qemuparams="-m 512"
-...
-[    0.000000] Call Trace:
-[    0.000000] [<ffffffff801268c0>] clear_page+0x0/0x128
-[    0.000000] [<ffffffff80238158>] get_page_from_freelist+0xab8/0xc00
-[    0.000000] [<ffffffff80238964>] __alloc_pages_nodemask+0xdc/0xf68
-[    0.000000] [<ffffffff80239808>] __get_free_pages+0x18/0x70
-[    0.000000] [<ffffffff80122a4c>] setup_zero_pages+0x1c/0xb8
-[    0.000000] [<ffffffff80c7c998>] mem_init+0x54/0xa0
-[    0.000000] [<ffffffff80c74904>] start_kernel+0x204/0x4d8
-[    0.000000] [<ffffffff8091dfb0>] kernel_entry+0x0/0x40
-[    0.000000] Code: 02002025  1000f8d9  8e634d7c <34860f80> cc9e0000
-cc9e0020  cc9e0040  cc9e0060  cc9e0080
-[    0.000000]
-[    0.000000] ---[ end trace 0000000000000000 ]---
-[    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-[    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task!
-...
+The following changes since commit f57363d307d573554a84443dd774df9549587b94:
 
-OE uses qemumips to simulate a Malta board by default.
+  minicom: remove dead URL from UPSTREAM_CHECK_URI (2018-07-06 22:59:28 +0100)
 
-As upstream qemu introduced:
-https://git.qemu.org/?p=qemu.git;a=commit;h=94c2b6aff43cdfcfdfb552773a6b6b973a72ef0b
+are available in the git repository at:
 
-The Malta board can support up to 2GiB of RAM which should
-be able to boot a Linux kernel built with CONFIG_HIGHMEM
-enabled and passing "-m 2048" to QEMU and appending the
-following kernel parameters:
-...
-mem=256M@0x0 mem=256M@0x90000000 mem=1536M@0x20000000
-...
+  git://git.openembedded.org/openembedded-core-contrib rbt/debug
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/debug
 
-But the following commit in kernel broke above mem=X@Y setting
-which added the memory as reserved memory area.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-...
-commit 73fbc1eba7ffa3bf0ad12486232a8a1edb4e4411
-Author: Marcin Nowakowski <marcin.nowakowski@imgtec.com>
-Date:   Wed Nov 23 14:43:49 2016 +0100
+Robert Yang (1):
+  dwarfsrcfiles: fix typo: debig -> debug
 
-    MIPS: fix mem=X@Y commandline processing
-...
+ meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So remove `mem=*' to disable user-defined physical RAM map
-which let kernel itself caculates memory ranges.
-
-Author: Hongxu Jia <hongxu.jia@windriver.com>
-[ Merge the two fixes for qemumips32 and qemumips64 into one patch,
-  and make it support all mips cases ]
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- scripts/runqemu | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index de42d0f3231..73d7d5818bd 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -668,7 +668,10 @@ class BaseConfig(object):
-             logger.info('QB_MEM is not set, use 512M by default')
-             self.set('QB_MEM', '-m 512')
- 
--        self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-+        mach = self.get('MACHINE')
-+        if not mach.startswith('qemumips'):
-+            self.kernel_cmdline_script += ' mem=%s' % self.get('QB_MEM').replace('-m','').strip() + 'M'
-+
-         self.qemu_opt_script += ' %s' % self.get('QB_MEM')
- 
-     def check_tcpserial(self):
 -- 
-2.11.0
+2.7.4
 
 
