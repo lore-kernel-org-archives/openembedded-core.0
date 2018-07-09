@@ -1,50 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DB9B60269
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 17CC471B69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 19:40:34 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id r18-v6so12448355ual.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2018 12:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=MpL91NrolqmiQlRJWk/ANQja06Ze5Q3UyOkq02m6kvg=;
-	b=B9HsPM4/zHLGaZ25k2k2jo2ndzV4OAWekEkQJ5ZE6WPGDRj0QesvPz3jG6mJu6xsmK
-	N0muTKKzebaY1RM8q2/vo96nyWHQeie1yiDhzxhQFbT53ezInftqjBSHoaEZC8q84g6x
-	BpGY4zPxi4k6W9/x7gSVJWG5r63hSoI56HkVxVgwPzQfkrXoOUAYsknK4/1/XSq/rJFy
-	Qj1eYNIv7QDoQdLiac3EIck7OxFA5iVsVvrVhpKSx8dVUyITOuttrpvTwiZ9oGEvLMJm
-	FGX0j6kCJAFTmmC0/58Irt2VB72KALgHGIrOTBGphZbp4SjK9oKB3SuBce7jYfS6G87f
-	9vyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=MpL91NrolqmiQlRJWk/ANQja06Ze5Q3UyOkq02m6kvg=;
-	b=rpTlqtkmEKdohFEneXqty0xogFKEJtDAPS+etY53ehqG3REhL3o98lOd+YnjdoFxm3
-	jNTjfS50agoeymG5Y5HJIdnI3gdkXvx44Qrz7zPQGSoj5pXRDSDc8yPQ/71DpqIf9N3v
-	hRGPQKyyVTNaLb88rHeaHKaL2NfACTqFSu5MQYG2aTC2hMpZ/97330LMcIR4YxpHP56r
-	hK7amyyAP+X9ceIwD0tzomew31LoqXTp99FYSBS2MiIKQbL6B+FSCd/QRScSXxVj5M36
-	tmFavKW7yREJ2NbQvupqGGalgd6idOx0y5bCsy/BZt98ArmhspDD/1vcZMBSrEqUxgpm
-	kkuw==
-X-Gm-Message-State: APt69E0QMPYB0PlR5L0f78yiEPb7ZhjWKqHfQLt1PnKPZ/yoSoIyWwLQ
-	Cqqd9MQAnTI3pykiml80fhirHwSglhPD9bdJYBKN4w==
-X-Google-Smtp-Source: AAOMgpdaC3K4j1tMbuG4XjMAYakvNranT3S5bPV+OHNfWDxQdLLOpaIyXEH1Yq4DBntLEAOyju4LumwzhmgcU8QaRSs=
-X-Received: by 2002:ab0:136c:: with SMTP id
-	h41-v6mr14651259uae.193.1531165234037; 
-	Mon, 09 Jul 2018 12:40:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Mon, 9 Jul 2018 12:40:33 -0700 (PDT)
-In-Reply-To: <5af302bc.1c69fb81.44885.4061@mx.google.com>
-References: <20180508164658.2935-1-taborskikrzysztof@gmail.com>
-	<5af302bc.1c69fb81.44885.4061@mx.google.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 9 Jul 2018 12:40:33 -0700
-Message-ID: <CAJ86T=Wxh3SzsATsvtB8+CWadp=hjEBXTt1XnwYMFJ4zmVaQ1Q@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] perl: native modules will not trigger build perl for target.
+	Mon,  9 Jul 2018 21:53:56 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w69LrubH015636
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 9 Jul 2018 22:53:57 +0100
+Message-ID: <bc957faf592d60dd8589df23d7807181d06d7fba.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 09 Jul 2018 22:53:56 +0100
+In-Reply-To: <20180709125657.13192-2-andrej.valek@siemens.com>
+References: <20180709125657.13192-1-andrej.valek@siemens.com>
+	<20180709125657.13192-2-andrej.valek@siemens.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH resend 1/3] openssl-1.1: fix c_rehash perl errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,80 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 19:40:35 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 21:53:57 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 9, 2018 at 7:16 AM, taborskikrzysztof
-<taborskikrzysztof@gmail.com> wrote:
-> Can I request review?
-> -------- Oryginalna wiadomo=C5=9B=C4=87 --------
-> Od: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> Data: 08.05.2018 18:46 (GMT+01:00)
-> Do: openembedded-core@lists.openembedded.org
-> DW: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> Temat: [meta-oe][PATCH] perl: native modules will not trigger build perl =
-for
-> target.
->
-> Currently building perl-native modules triggers
-> build perl for target due to PACKAGES_DYNAMIC regex.
->
-> This commit will cause, that perl native modules will
-> trigger perl-native build.
-
-Can you give an example of how to reproduce the problem?
-
-> Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+On Mon, 2018-07-09 at 14:56 +0200, Andrej Valek wrote:
+> Patch original c_rehash script with Debian patch instead
+> of overriding it with own version.
+> 
+> Error output from c_reshah without patching:
+>   Unknown regexp modifier "/b" at ./c_rehash line 15, at end of line
+>   Unknown regexp modifier "/W" at ./c_rehash line 28, at end of line
+>   Unknown regexp modifier "/3" at ./c_rehash line 28, at end of line
+>   Unknown regexp modifier "/2" at ./c_rehash line 28, at end of line
+>   No such class installdir at ./c_rehash line 63, near "Prefix our
+>   installdir"
+>     (Might be a runaway multi-line // string starting on line 28)
+>   syntax error at ./c_rehash line 63, near "Prefix our installdir"
+>   Can't redeclare "my" in "my" at ./c_rehash line 68, near ""
+>   Execution of ./c_rehash aborted due to compilation errors.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Marko Peter <peter.marko@siemens.com>
 > ---
-> meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
-> meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
-> 2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> index a9ab17d16c..71f45890b0 100644
-> --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> @@ -135,3 +135,5 @@ EOF
->
-> # Fix the path in sstate
-> SSTATE_SCAN_FILES +=3D "*.pm *.pod *.h *.pl *.sh"
-> +PACKAGES_DYNAMIC_class-native +=3D "^perl-module-.*native$"
+>  ...le.pl-only-quote-stuff-that-actually-need.patch | 29
+> ++++++++++++++++++++++
+>  .../recipes-connectivity/openssl/openssl_1.1.0h.bb |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-
+> connectivity/openssl/openssl/debian/Revert-util-dofile.pl-only-quote-
+> stuff-that-actually-need.patch
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl/debian/Revert-
+> util-dofile.pl-only-quote-stuff-that-actually-need.patch
+> b/meta/recipes-connectivity/openssl/openssl/debian/Revert-util-
+> dofile.pl-only-quote-stuff-that-actually-need.patch
+> new file mode 100644
+> index 0000000000..25d3093e40
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/debian/Revert-util-
+> dofile.pl-only-quote-stuff-that-actually-need.patch
+> @@ -0,0 +1,29 @@
+> +From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+> +Date: Wed, 28 Mar 2018 14:05:53 +0200
+> +Subject: Revert "util/dofile.pl: only quote stuff that actually
+> needs
+> + quoting"
+> +
+> +This reverts commit 77ba00bc. We ended up without the quotes.
+> +
+> +BTS: #894282
+> +Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+> +---
+> + util/dofile.pl | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
 
-This usage of +=3D with an over-ride is not correct.
+This patch appears to be missing an Upstream-Status line?
 
-However, regardless of that, was this change actually needed?
+Cheers,
 
-If you know of a -native recipe which depends on a
-perl-module-XXX-native package then it's probably a bug in the -native
-recipe. Having perl-native pretend to provide perl-module packages
-probably isn't the right solution.
-
-> diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
-> b/meta/recipes-devtools/perl/perl_5.24.1.bb
-> index 53a426289a..4c6a71082f 100644
-> --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-> @@ -339,7 +339,7 @@ python split_perl_packages () {
->      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
-> }
->
-> -PACKAGES_DYNAMIC +=3D "^perl-module-.*"
-> +PACKAGES_DYNAMIC +=3D "^perl-module-.*(?<!\-native)$"
-> PACKAGES_DYNAMIC_class-nativesdk +=3D "^nativesdk-perl-module-.*"
-
-This usage of +=3D with an over-ride is not correct.
-
-> RPROVIDES_perl-lib =3D "perl-lib"
-> --
-> 2.13.6
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Richard
 
