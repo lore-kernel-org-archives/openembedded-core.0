@@ -1,48 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D3A2F74EE5
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DB9B60269
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2018 18:13:03 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id l123-v6so14208083pfl.13
+	Mon,  9 Jul 2018 19:40:34 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id r18-v6so12448355ual.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2018 11:13:05 -0700 (PDT)
+	Mon, 09 Jul 2018 12:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=hC1jkKhYbJS2VZdtbv2dclUZfBqdrj2syw4/hPH13e0=;
-	b=JceFWxdqFpSpKyiqeKxosIUpvZKuvODEgQBsrBxy+OswtVJ2xEk6SYhzUdivDfKhb4
-	HqjeBhXHbQzxbxdkHHXBLWb2ROHUOA2J9PZ6Zg1cs3EaWQ45PwYw0Rp+VUDOzCe9iyvV
-	LdWuXCrL6ZG+c8feYeOvE/3X5WmyAGkzhoZnva1T+3Gl3r5ygKGL0XUpFxZRGmDZFJeP
-	tjNrEShIzwdKHp+0dcOoipyDGcpN9QPaAW1BTR1gounVbQw7r6rrj0/i6qxBZkW23vcZ
-	e2RLrnnLTzEvJneD7KK2LcVdCtczbQWljyNIQdyN4cOlU02LseQzpUqYefh44Nb07vbw
-	RYvw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=MpL91NrolqmiQlRJWk/ANQja06Ze5Q3UyOkq02m6kvg=;
+	b=B9HsPM4/zHLGaZ25k2k2jo2ndzV4OAWekEkQJ5ZE6WPGDRj0QesvPz3jG6mJu6xsmK
+	N0muTKKzebaY1RM8q2/vo96nyWHQeie1yiDhzxhQFbT53ezInftqjBSHoaEZC8q84g6x
+	BpGY4zPxi4k6W9/x7gSVJWG5r63hSoI56HkVxVgwPzQfkrXoOUAYsknK4/1/XSq/rJFy
+	Qj1eYNIv7QDoQdLiac3EIck7OxFA5iVsVvrVhpKSx8dVUyITOuttrpvTwiZ9oGEvLMJm
+	FGX0j6kCJAFTmmC0/58Irt2VB72KALgHGIrOTBGphZbp4SjK9oKB3SuBce7jYfS6G87f
+	9vyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hC1jkKhYbJS2VZdtbv2dclUZfBqdrj2syw4/hPH13e0=;
-	b=Q7yb5TFGYHH0CI5ykJsdItWs7Fz0/8FmUUDi30INPE7H9x0CCdrkRMXoHQp4kFliVT
-	jOvkiM2Niexz+zuJZlGVXsVvj57wX4rfC/xdlhiDLw6NsEfgA03hicOvQFdqbbkPGR8B
-	o/YF2GESbAvm8ARAlZDf/+Oh/ic+mZtbvSscIu2qHfZZDX3d9BofQ1oMkZxDhzOItC3+
-	19HgE7kQbUvUSAuRyai3Q4mYKCvRHL2hVS7tgM3T5yxjGh+Co5vtD9Kej9TGIZv63MIv
-	D4D5J2i2bvNuf6DnS3pYB+hi/EEWju7I8AM0pvTRlgWMa8CAqc/g5bIEKVaQhzyFPhOj
-	JSYw==
-X-Gm-Message-State: APt69E29hpOvKztHknGjONNA53NItO5L9SHfThzK3R3f9+THC4u0sOCb
-	M4QvRWZvgcYspnJdEPe/AIkvnQ==
-X-Google-Smtp-Source: AAOMgpe0O053RJs9qMVQ5r8nsOSgFjHBjKzW+o/InjhDjhVz9vFc+5LaukDzGPKa+YqyhuUb0x2Rqg==
-X-Received: by 2002:a63:3190:: with SMTP id
-	x138-v6mr19691494pgx.60.1531159984749; 
-	Mon, 09 Jul 2018 11:13:04 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	k12-v6sm24020644pff.31.2018.07.09.11.13.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 09 Jul 2018 11:13:04 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=MpL91NrolqmiQlRJWk/ANQja06Ze5Q3UyOkq02m6kvg=;
+	b=rpTlqtkmEKdohFEneXqty0xogFKEJtDAPS+etY53ehqG3REhL3o98lOd+YnjdoFxm3
+	jNTjfS50agoeymG5Y5HJIdnI3gdkXvx44Qrz7zPQGSoj5pXRDSDc8yPQ/71DpqIf9N3v
+	hRGPQKyyVTNaLb88rHeaHKaL2NfACTqFSu5MQYG2aTC2hMpZ/97330LMcIR4YxpHP56r
+	hK7amyyAP+X9ceIwD0tzomew31LoqXTp99FYSBS2MiIKQbL6B+FSCd/QRScSXxVj5M36
+	tmFavKW7yREJ2NbQvupqGGalgd6idOx0y5bCsy/BZt98ArmhspDD/1vcZMBSrEqUxgpm
+	kkuw==
+X-Gm-Message-State: APt69E0QMPYB0PlR5L0f78yiEPb7ZhjWKqHfQLt1PnKPZ/yoSoIyWwLQ
+	Cqqd9MQAnTI3pykiml80fhirHwSglhPD9bdJYBKN4w==
+X-Google-Smtp-Source: AAOMgpdaC3K4j1tMbuG4XjMAYakvNranT3S5bPV+OHNfWDxQdLLOpaIyXEH1Yq4DBntLEAOyju4LumwzhmgcU8QaRSs=
+X-Received: by 2002:ab0:136c:: with SMTP id
+	h41-v6mr14651259uae.193.1531165234037; 
+	Mon, 09 Jul 2018 12:40:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Mon, 9 Jul 2018 12:40:33 -0700 (PDT)
+In-Reply-To: <5af302bc.1c69fb81.44885.4061@mx.google.com>
+References: <20180508164658.2935-1-taborskikrzysztof@gmail.com>
+	<5af302bc.1c69fb81.44885.4061@mx.google.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2018 11:12:53 -0700
-Message-Id: <1531159973-23897-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2] openssl_1.1: minor recipe formatting tweaks etc
+Date: Mon, 9 Jul 2018 12:40:33 -0700
+Message-ID: <CAJ86T=Wxh3SzsATsvtB8+CWadp=hjEBXTt1XnwYMFJ4zmVaQ1Q@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] perl: native modules will not trigger build perl for target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,114 +57,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2018 18:13:04 -0000
+X-List-Received-Date: Mon, 09 Jul 2018 19:40:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Drop redundant setting of S to its default value and re-order
-variables to align more closely to the OE style-guide.
+On Wed, May 9, 2018 at 7:16 AM, taborskikrzysztof
+<taborskikrzysztof@gmail.com> wrote:
+> Can I request review?
+> -------- Oryginalna wiadomo=C5=9B=C4=87 --------
+> Od: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+> Data: 08.05.2018 18:46 (GMT+01:00)
+> Do: openembedded-core@lists.openembedded.org
+> DW: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+> Temat: [meta-oe][PATCH] perl: native modules will not trigger build perl =
+for
+> target.
+>
+> Currently building perl-native modules triggers
+> build perl for target due to PACKAGES_DYNAMIC regex.
+>
+> This commit will cause, that perl native modules will
+> trigger perl-native build.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- v2: rebase to latest master-next
+Can you give an example of how to reproduce the problem?
 
- .../recipes-connectivity/openssl/openssl_1.1.0h.bb | 50 ++++++++++------------
- 1 file changed, 23 insertions(+), 27 deletions(-)
+> Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+> ---
+> meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
+> meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
+> 2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+> b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+> index a9ab17d16c..71f45890b0 100644
+> --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+> +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+> @@ -135,3 +135,5 @@ EOF
+>
+> # Fix the path in sstate
+> SSTATE_SCAN_FILES +=3D "*.pm *.pod *.h *.pl *.sh"
+> +PACKAGES_DYNAMIC_class-native +=3D "^perl-module-.*native$"
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-index 64b8a99..8d445e4 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
-@@ -8,11 +8,6 @@ SECTION = "libs/network"
- LICENSE = "openssl"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d57d511030c9d66ef5f5966bee5a7eff"
- 
--BBCLASSEXTEND = "native nativesdk"
--
--SRC_URI[md5sum] = "5271477e4d93f4ea032b665ef095ff24"
--SRC_URI[sha256sum] = "5835626cde9e99656585fc7aaa2302a73a7e1340bf8c14fd635a62c66802a517"
--
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://run-ptest \
-            file://openssl-c_rehash.sh \
-@@ -21,12 +16,24 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
- 
- SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
--          "
-+           "
- 
--S = "${WORKDIR}/openssl-${PV}"
-+SRC_URI[md5sum] = "5271477e4d93f4ea032b665ef095ff24"
-+SRC_URI[sha256sum] = "5835626cde9e99656585fc7aaa2302a73a7e1340bf8c14fd635a62c66802a517"
- 
- inherit lib_package multilib_header ptest
- 
-+#| engines/afalg/e_afalg.c: In function 'eventfd':
-+#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
-+#|      return syscall(__NR_eventfd, n);
-+#|                     ^~~~~~~~~~~~
-+EXTRA_OECONF_append_aarch64 = " no-afalgeng"
-+
-+#| ./libcrypto.so: undefined reference to `getcontext'
-+#| ./libcrypto.so: undefined reference to `setcontext'
-+#| ./libcrypto.so: undefined reference to `makecontext'
-+EXTRA_OECONF_append_libc-musl = " -DOPENSSL_NO_ASYNC"
-+
- do_configure () {
- 	os=${HOST_OS}
- 	case $os in
-@@ -122,17 +129,6 @@ do_configure () {
- 	perl ./Configure ${EXTRA_OECONF} --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdirleaf} $target
- }
- 
--#| engines/afalg/e_afalg.c: In function 'eventfd':
--#| engines/afalg/e_afalg.c:110:20: error: '__NR_eventfd' undeclared (first use in this function)
--#|      return syscall(__NR_eventfd, n);
--#|                     ^~~~~~~~~~~~
--EXTRA_OECONF_append_aarch64 = " no-afalgeng"
--
--#| ./libcrypto.so: undefined reference to `getcontext'
--#| ./libcrypto.so: undefined reference to `setcontext'
--#| ./libcrypto.so: undefined reference to `makecontext'
--EXTRA_OECONF_append_libc-musl = " -DOPENSSL_NO_ASYNC"
--
- do_install () {
-         oe_runmake DESTDIR="${D}" MANDIR="${mandir}" MANSUFFIX=ssl install
-         oe_multilib_header openssl/opensslconf.h
-@@ -146,13 +142,11 @@ do_install_append_class-native () {
-         sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
- }
- 
--do_install_append_class-nativesdk() {
--    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
--    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
-+do_install_append_class-nativesdk () {
-+        mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
-+        install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
- }
- 
--FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
--
- do_install_ptest() {
-         cp -r * ${D}${PTEST_PATH}
- 
-@@ -163,10 +157,12 @@ do_install_ptest() {
-         sed -i 's/$target{shared_extension_simple}/".so.ptest"/' ${D}${PTEST_PATH}/test/recipes/90-test_shlibload.t
- }
- 
--RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
--
--FILES_${PN} =+ " ${libdir}/ssl-1.1/*"
--
- PACKAGES =+ "${PN}-engines"
-+
-+FILES_${PN} =+ "${libdir}/ssl-1.1/*"
-+FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
- FILES_${PN}-engines = "${libdir}/engines-1.1"
- 
-+RDEPENDS_${PN}-ptest += "perl-module-file-spec-functions bash python"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
+This usage of +=3D with an over-ride is not correct.
 
+However, regardless of that, was this change actually needed?
+
+If you know of a -native recipe which depends on a
+perl-module-XXX-native package then it's probably a bug in the -native
+recipe. Having perl-native pretend to provide perl-module packages
+probably isn't the right solution.
+
+> diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
+> b/meta/recipes-devtools/perl/perl_5.24.1.bb
+> index 53a426289a..4c6a71082f 100644
+> --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+> @@ -339,7 +339,7 @@ python split_perl_packages () {
+>      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages))
+> }
+>
+> -PACKAGES_DYNAMIC +=3D "^perl-module-.*"
+> +PACKAGES_DYNAMIC +=3D "^perl-module-.*(?<!\-native)$"
+> PACKAGES_DYNAMIC_class-nativesdk +=3D "^nativesdk-perl-module-.*"
+
+This usage of +=3D with an over-ride is not correct.
+
+> RPROVIDES_perl-lib =3D "perl-lib"
+> --
+> 2.13.6
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
