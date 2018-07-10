@@ -1,25 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 07D6765D00
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 25E5774BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 10:21:17 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w6AALGET027137
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 10 Jul 2018 11:21:18 +0100
-Message-ID: <8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 10 Jul 2018 11:21:16 +0100
-In-Reply-To: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+	Tue, 10 Jul 2018 10:35:21 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id r16-v6so41660481oie.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 03:35:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=022w/K2/Y0R8uyz/JQA8zli2XxYKAF/tXlmKm7tqQ5U=;
+	b=Mv1vLbAsjDxCaoYjpVV3okThil9ZuWekRKLgT7Rl6mwX00uICuMvGvpxnP1AjauM3d
+	nbLFZidbwvXVGECR5OgVSS/Mk0lZqTzY6rikEoUCnqCZABgllWJZyj705rYrimCT3pBu
+	IrlDUYBWcQG08OdlCIAJmiLfcLiGSBMIk/PbzH4y+JFH8+jtqQxhB8zUeEpXfTQWbStK
+	KzQF6B3jokKm68WNKJziz1/fkE/54uJzQS+qHqFIZj59IU9Ecz2LOmKzwU1z7LM29JaI
+	pXMpM2fG74yzrOnTH3UPqRBIfcU2450NJy9KOGca/+y/vs/mZilj/crVWiDEG7XmoeSE
+	L1jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=022w/K2/Y0R8uyz/JQA8zli2XxYKAF/tXlmKm7tqQ5U=;
+	b=a072weBAIemdIWgJPU60755r2OyOcE6g6PQHM3hRVQkcAS1TsEHCDBaRXkK386Ry1N
+	Uem8XNzm1kKOgcJfmUUQEByCQVDEjsV0TTfi9mR0UwLyMQ2trkPnX2q76Jh7triucJ89
+	HKfgTUel4vijpkoS1d/F4T0n0lKTNgc8bm4TcPQkc7NZ2gptvK/S7iEYKqWKGuCgXArg
+	qGofWZXLvTu8AfiCps+k490NYDOiGYFG3zzLq1FUfcA+w/fXzjn9iHqdSJcBC7ak9nfQ
+	LsJwS+e5b5vXSXcmgi5j8cZddPpglbO8feJ6aFLDC2gPZa8dlPJ8japXWTbmFmd1TRq6
+	tz+Q==
+X-Gm-Message-State: APt69E1E8eLGu1vpLZtRN3+a6LjcpY6tYHWPbel+Ey8MYttpubPzyRAX
+	WkQdJqPev1D+lSQrg2+gVM6sI3vBvnWu1A6g1DqkXQ==
+X-Google-Smtp-Source: AAOMgpfrpsXOQXc383xIrUaz5SGmZ78HohwCBaZMDMpzkYRUOSEOGYK/X5gk+wSglOcPbUvPpErgfaE9t8R0akJiLKI=
+X-Received: by 2002:aca:f409:: with SMTP id
+	s9-v6mr28687689oih.102.1531218923037; 
+	Tue, 10 Jul 2018 03:35:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 03:35:02
+	-0700 (PDT)
+In-Reply-To: <20180710094936.GB1825@jama>
+References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+	<20180710080702.20527-2-Martin.Jansa@gmail.com>
+	<05aaa19a3bf9bcf837150745d1ee17deaa41304f.camel@linuxfoundation.org>
+	<20180710094936.GB1825@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Jul 2018 11:35:02 +0100
+Message-ID: <CAJTo0LbieaddC3czbhTBA+v8tCo+Fn-c6ToPK9=HDYW5g6B=wg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libdrm: allow to build native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,124 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 10:21:18 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 10:35:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
-> The existing kernel-devsrc package starts with a full copy of the
-> kernel
-> source and then starts to strip out elements that are not required.
-> 
-> This results in extra time (I/O) and extra space being taken up in
-> the
-> final package. The main purpose of the kernel-devsrc package has been
-> to
-> build modules against the running kernel, not to include a full copy
-> of
-> the source code for re-building the kernel. The end result was a
-> 600M kernel-devsrc package.
-> 
-> This restructuring of the package uses an approach similar to other
-> distros, where the kernel-devsrc package is for building against the
-> running kernel and uses a curated set of copied infrastructure,
-> versus
-> a mass copy of the entire kernel.
-> 
-> The differences in this approach versus other is largely due to the
-> architecture support and the split build/source directory of the
-> kernel.
-> 
-> The result is a kernel-devsrc package of about 10M, which is capable
-> of running "make scripts" and compiling kernel modules against the
-> running kernel.
-> 
-> Along with the changes to the copying of the infrascture, we also
-> have the following changes:
-> 
->  - a better/more explicit listing of dependencies for on-target
->    builds of "make scripts" or "make modules_prepare"
-> 
->  - The kernel source is installed into /lib/modules/<version>/build
->    and a symlink created from /usr/src/kernel to the new location.
->    This aligns with the standard location for module support
->    code
-> 
->  - There is also a symlink from /lib/modules/<version>/source ->
-> build
->    to reserve a spot for a new package that is simply the kernel
->    source. That package is not part of this update.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> 
-> v2: drop DEPENDS on perf. We no longer need to depend on perf since
-> the source
->     is copied before modification.
+Whilst I'm not yet convinced this is something we should have on by
+default, I am very interested in seeing it working.
 
-It probably won't surprise you to know there were some issues with this
-patch, sadly.
+Ross
 
-The main recurring issue (on all arches and poky+poky-lsb) is failure
-of the kernelmodule.KernelModuleTest.test_kernel_module test. The exact
-failure varies by arch, for x86-64:
-
-https://autobuilder.yocto.io/builders/nightly-x86-64/builds/1154/steps/Running%20Sanity%20Tests/logs/stdio
-
-|   CHK     include/generated/utsrelease.h
-|   DESCEND  objtool
-| /lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.build:37: /lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include: No such file or directory
-| make[4]: *** No rule to make target '/lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include'.  Stop.
-| make[3]: *** [Makefile:43: /lib/modules/4.14.48-yocto-standard/build/tools/objtool/fixdep-in.o] Error 2
-| make[2]: *** [/lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.include:4: fixdep] Error 2
-| make[1]: *** [Makefile:62: objtool] Error 2
-| make: *** [Makefile:1647: tools/objtool] Error 2
-
-For mips:
-
-https://autobuilder.yocto.io/builders/nightly-mips/builds/1115
-
-|   HOSTCC  scripts/sortextable
-| make[1]: *** No rule to make target 'arch/mips/boot/tools/relocs_32.c', needed by 'arch/mips/boot/tools/relocs_32.o'.  Stop.
-| make: *** [arch/mips/Makefile:16: archscripts] Error 2
-
-(same for mips64)
-
-For arm:
-
-https://autobuilder.yocto.io/builders/nightly-arm/builds/1187/
-
-|   HOSTCC  scripts/sortextable
-| make[1]: *** No rule to make target 'arch/arm/tools/syscall.tbl', needed by 'arch/arm/include/generated/uapi/asm/unistd-common.h'.  Stop.
-| make: *** [arch/arm/Makefile:319: archheaders] Error 2
-
-For arm64:
-
-https://autobuilder.yocto.io/builders/nightly-arm64/builds/1101/steps/Running%20Sanity%20Tests/logs/stdio
-
-|   CHK     include/generated/uapi/linux/version.h
-|   CHK     include/generated/utsrelease.h
-| make[1]: *** No rule to make target 'arch/arm64/kernel/vdso/vdso.lds', needed by 'arch/arm64/kernel/vdso/vdso.so.dbg'.  Stop.
-| make: *** [arch/arm64/Makefile:160: vdso_prepare] Error 2
- 
-
-There was also a failure in building the build-appliance image:
-
-https://autobuilder.yocto.io/builders/build-appliance/builds/1110
-
-and also a failure in one of the multilib builds, probably from
-different dependencies pulled in by kernel-devsrc:
-
-https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/steps/BuildImages_4/logs/stdio
-
-Error: Transaction check error:
-  file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
-  file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
-
-I'll retest with this patch removed just so we can unblock the other patches.
-
-Cheers,
-
-Richard
-
+On 10 July 2018 at 10:49, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Tue, Jul 10, 2018 at 09:45:45AM +0100, Richard Purdie wrote:
+>> Normally I don't mind native/nativesdk variants but libdrm starts to
+>> worry me as its a short step away from mesa and when we've tried native
+>> or nativesdk versions in the past its been a nightmare, particularly
+>> around GL.
+>>
+>> Could you explain a little more about why we need libdrm-native?
+>
+> It's for mesa and nativesdk-mesa indeed and qemu-native with spice,
+> virglrenderer and opengl support enabled.
+>
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-September/142349.html
+>
+>> On Tue, 2018-07-10 at 08:07 +0000, Martin Jansa wrote:
+>> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> > ---
+>> >  meta/recipes-graphics/drm/libdrm_2.4.92.bb | 2 ++
+>> >  1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+>> > b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+>> > index 1526553254..b4d06d19a6 100644
+>> > --- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+>> > +++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+>> > @@ -56,3 +56,5 @@ FILES_${PN}-kms = "${libdir}/libkms*.so.*"
+>> >  FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
+>> >  FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*"
+>> >  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+>> > +
+>> > +BBCLASSEXTEND = "native nativesdk"
+>> > --
+>> > 2.17.1
+>> >
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
