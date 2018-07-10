@@ -1,55 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C4156093A
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E28A605C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 09:52:15 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t6-v6so13901923wrn.7
+	Tue, 10 Jul 2018 10:03:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6AA3jMZ007067
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 02:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=FPszzRX/hLNFYEgDjs+NnxYJtgLqsJpwYcNyuyXIMmY=;
-	b=LTN3nfu2LqCK2Xy0M3Er1c35a/xsY3LlTR3mTkzAzzdOob4G6X42/jlzdajO/x0NLW
-	pLoPsME9QKnWOay+igorSrvbJ6zwI7sugZQVkMTia1qRqPWRG6UytqE0Y/1u409eWmO0
-	o60/ImvHwdR6BVRQ5Mmz372dKQwnc9KJfjsmPwkwIJ3pfoti1GFJ+ngIpz8GezPIyXHL
-	msfxUj44GXtXX1cWqSeQDzwz51gY7GA9dEhVdoq0tth+VT1I7QJLLk8QiLy9hBfpdKjc
-	bV1uudDECYQEmlKgQHk5/VpgjLwZ8cnZhr3DeDpvr+FLDIh9DsxGk8O72W0UsFyoDqWV
-	ra2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=FPszzRX/hLNFYEgDjs+NnxYJtgLqsJpwYcNyuyXIMmY=;
-	b=YZ4bB+884ki2uohmmfaH99ZqhJZbdTYQ3SBRTalZkMCPV/AlmM2GmwX3EKV3eAezPt
-	KsvfWi/3umWUWR6WNkp9Nz6s+QX9m479r5tsH2qMkUSIiC9DR/zyfk3SeJKUZP/13mTt
-	RGjhBwEsXcCDQdy7WAU25R6L74pt5CB+vFSOJhjsIoHZlNQpA5vqguaN/rXaorRwEuYq
-	ltUGtC35szjpqkCkY1+EI6x8dqrASil6peInSFGaEjGtTS1eYK5OBDdlbeBqPnXASH08
-	Ye8pY0gFn945+snu/RtsBb1SgGBEqE7cQLWZdwNlPhHafziXl+IKKwBNwSeGAY5V3Php
-	oEDg==
-X-Gm-Message-State: APt69E0NPDLk3YDyufYScRXFHeeBui9ZqC9ZnT/X+0Cn8kpzypgFbvwJ
-	fLvjwwgUJfMfKUsrD3gKHX5zzg==
-X-Google-Smtp-Source: AAOMgpeYJOscOFou+SSuJMbW7J14pNiVw0Ti2ygQ+OpF3ePIRt8lX10e7fhjnazS7Gc6pXMXW89iYA==
-X-Received: by 2002:adf:fc45:: with SMTP id
-	e5-v6mr12097440wrs.157.1531216336419; 
-	Tue, 10 Jul 2018 02:52:16 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	r17-v6sm13165135wrt.44.2018.07.10.02.52.14
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 10 Jul 2018 02:52:15 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 10 Jul 2018 11:52:23 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20180710095223.GC1825@jama>
-References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
-	<CAJTo0LafAv3Qk0EDWnunng1fq4OENz2DhiOjth19hGNJ__Rh-Q@mail.gmail.com>
+	Tue, 10 Jul 2018 03:03:45 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Tue, 10 Jul 2018 03:03:44 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2018 18:03:42 +0800
+Message-ID: <1531217022-231739-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LafAv3Qk0EDWnunng1fq4OENz2DhiOjth19hGNJ__Rh-Q@mail.gmail.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libdrm: Add PACKAGECONFIG support for all meson options
+Subject: [PATCH] lttng-modules: Fix do_compile failure for btrfs related tracepoints
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,49 +30,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 09:52:15 -0000
-X-Groupsio-MsgNum: 113337
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Fig2xvG2VGoz8o/s"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 10 Jul 2018 10:03:44 -0000
+Content-Type: text/plain
 
---Fig2xvG2VGoz8o/s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: He Zhe <zhe.he@windriver.com>
 
-On Tue, Jul 10, 2018 at 10:41:10AM +0100, Burton, Ross wrote:
-> On 10 July 2018 at 09:07, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > * Use the same defaults as meson does, with few modifications based on
-> >   previous EXTRA_OEMESON
-> > * move libpciaccess dependency to new intel PACKAGECONFIG
-> > * add dependency on util-macros which was previously pulled by
-> >   libpciaccess, because it's still needed even with intel disabled:
-> >   | configure.ac:34: error: must install xorg-macros 1.12 or later
-> >     before running autoconf/autogen
->=20
-> Why is configure giving you an error message when Meson is being used?
+Building lttng-modules with linux-yocto-dev will cause do_compile
+failure:
 
-Because this error message is almost a year old from:
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/qem=
-u&id=3D2eb3926cc54fef8e8cdd39cc20fbdc129aa1e52f
-switch to meson just pushed me to send this part upstream instead of
-rebasing it forever.
+lttng-modules/2.10.6-r0/lttng-modules-2.10.6/probes/../probes/lttng-tracepoint-event-impl.h:143:6: error: conflicting types for 'trace_btrfs_reserve_extent'
+ void trace_##_name(_proto);
+      ^~~~~~
 
-I can update it with meson version of the error if you want.
+The following commit from latest mainline kernel changes some btrfs
+functions' prototype.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+3dca5c942dac60164e6a6e89172f25b86af07ce7
+"btrfs: trace: Remove unnecessary fs_info parameter for btrfs__reserve_extent event class"
 
---Fig2xvG2VGoz8o/s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+This patch backports a commit from upstream to meet the above changes.
 
------BEGIN PGP SIGNATURE-----
+51ab0b1da29354375a19f865abcd233dd2178295
+"Fix: btrfs: Remove unnecessary fs_info parameter"
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW0SB1wAKCRA3VSO3ZXaA
-HDuJAKC4pm16lOG+noXt2tcZUFfqwhiDOwCgg49JCfLBN5Mc1y0EyYHREXKROpU=
-=18l7
------END PGP SIGNATURE-----
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ ...trfs-Remove-unnecessary-fs_info-parameter.patch | 116 +++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb  |   1 +
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
 
---Fig2xvG2VGoz8o/s--
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
+new file mode 100644
+index 0000000..0fe4ee8
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
+@@ -0,0 +1,116 @@
++From 51ab0b1da29354375a19f865abcd233dd2178295 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 18 Jun 2018 14:53:19 -0400
++Subject: [PATCH] Fix: btrfs: Remove unnecessary fs_info parameter
++
++See upstream commit:
++
++  commit 3dca5c942dac60164e6a6e89172f25b86af07ce7
++  Author: Qu Wenruo <wqu@suse.com>
++  Date:   Thu Apr 26 14:24:25 2018 +0800
++
++    btrfs: trace: Remove unnecessary fs_info parameter for btrfs__reserve_extent event class
++
++    fs_info can be extracted from btrfs_block_group_cache, and all
++    btrfs_block_group_cache is created by btrfs_create_block_group_cache()
++    with fs_info initialized, no need to worry about NULL pointer
++    dereference.
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Upstream-Status: Backport
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ instrumentation/events/lttng-module/btrfs.h | 54 ++++++++++++++++++++++++++++-
++ 1 file changed, 53 insertions(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
++index 75cc73b..fd1b6b8 100644
++--- a/instrumentation/events/lttng-module/btrfs.h
+++++ b/instrumentation/events/lttng-module/btrfs.h
++@@ -1658,8 +1658,57 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
++ 
++ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(const struct btrfs_fs_info *info, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(info, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
+++
+++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
+++		 u64 len),
+++
+++	TP_ARGS(block_group, start, len),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, block_group->fs_info->fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, bg_objectid, block_group->key.objectid)
+++		ctf_integer(u64, flags, block_group->flags)
+++		ctf_integer(u64, start, start)
+++		ctf_integer(u64, len, len)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent,
+++
+++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
+++		 u64 len),
+++
+++	TP_ARGS(block_group, start, len)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_cluster,
+++
+++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
+++		 u64 len),
+++
+++	TP_ARGS(block_group, start, len)
+++)
++ 
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
++ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 
++ 	btrfs_find_free_extent,
++@@ -1670,6 +1719,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 	TP_ARGS(info, num_bytes, empty_size, data),
++ 
++ 	TP_FIELDS(
+++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
++ 		ctf_integer(u64, num_bytes, num_bytes)
++ 		ctf_integer(u64, empty_size, empty_size)
++ 		ctf_integer(u64, data, data)
++@@ -1685,6 +1735,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 	TP_ARGS(info, block_group, start, len),
++ 
++ 	TP_FIELDS(
+++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
++ 		ctf_integer(u64, bg_objectid, block_group->key.objectid)
++ 		ctf_integer(u64, flags, block_group->flags)
++ 		ctf_integer(u64, start, start)
++@@ -1722,6 +1773,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 	TP_ARGS(info, num_bytes, empty_size, data),
++ 
++ 	TP_FIELDS(
+++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
++ 		ctf_integer(u64, num_bytes, num_bytes)
++ 		ctf_integer(u64, empty_size, empty_size)
++ 		ctf_integer(u64, data, data)
++-- 
++2.13.3
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
+index 6146966..d9d5588 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
+@@ -14,6 +14,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           file://0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch \
+ "
+ 
+ SRC_URI[md5sum] = "8110099f4615fc89a74ffe9189b56cfc"
+-- 
+2.7.4
+
+
