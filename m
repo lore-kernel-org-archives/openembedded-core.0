@@ -1,50 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F28D974EAB
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id B6723606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 08:06:56 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id b188-v6so23658665wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 01:06:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5YACGNsyed1g4lEHzu5XoEsvGsgyGwAiLHycYV0UUoA=;
-	b=d+a34xfSnwDcme2Sb7+r0mgJ2q0nsjv98H7BKwWQpx0oKipnckRCFyEHzSzJh1xSpf
-	UVDUJrLcGrGBMUOiJKt5gu8EkerA6h6iRpJRWLdWNN5YvRgCnCs5jojdyfXtoX60lgRX
-	pecP/kPbAZF5Ti+1VJyUEkc8a7Mi8Nlr2dZoK/R+ZJxiUiQ/RmdKMkTZOtBtrBP6Rqjz
-	2p0hq8PE6pb//B3fKY1Rpty6JNkThUWvJSGewZ964ORZFO0ZZs2zEgsMfni8IBnrpFEO
-	ov/y9G8Ev+LURC5tkp3fZFkWl6DCi2qwQ2qDRcay89KaoE06porwPr/lj8pfXKu677u8
-	Yo4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=5YACGNsyed1g4lEHzu5XoEsvGsgyGwAiLHycYV0UUoA=;
-	b=hzJ5UyPmBmb3qL4vLT0Ksk2j8XwmUsCGzyhz7SK10S9vrMqqRuWaY4YvbsZh0AAw00
-	ida4dP40uDt3mX5AvoXFPA+hGvZZn3smbx0uB9DvRnxSUuC2EpTejOhWQkdEFyWeo95A
-	6SxZox/pXhANE+MCaY57CT89kbgaGsmthUz2rACJmV5Jex4BiSyFSHwEjpeD6D6hUDoH
-	G/av4BddQpnr6y902i04v9dWC+o6LQ6YHAiG9LRan9DJCkQExvh0O4wIh3yWaw7sZ/Vy
-	0KienETFmbiGx0sxDbybK+u5zOlKL3tD4B2TAqfkJJigCpPKWfLLZ6iTZ2d6W+Kk9USA
-	55vw==
-X-Gm-Message-State: APt69E2Qvoh4ShQC8zwAh7Sw0vIlFFawzcDMZ560QKvyHqBAuBvPQ489
-	0CRcze69zkC1I98WZyaNmukBKA==
-X-Google-Smtp-Source: AAOMgpdk95umXYyDhLV3pM/D5mWdQLIwOFIV8u9guGyk2z5YGY9mtUsDvF/pQiLkZl2WaFyCpC8C2g==
-X-Received: by 2002:a1c:168a:: with SMTP id
-	132-v6mr14899103wmw.13.1531210017654; 
-	Tue, 10 Jul 2018 01:06:57 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	h7-v6sm5512375wrq.41.2018.07.10.01.06.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 10 Jul 2018 01:06:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Tue, 10 Jul 2018 08:41:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jul 2018 01:41:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,333,1526367600"; d="scan'208";a="214788408"
+Received: from hharm-mobl.gar.corp.intel.com (HELO
+	anmitta2-MOBL1.png.intel.com) ([10.255.169.237])
+	by orsmga004.jf.intel.com with ESMTP; 10 Jul 2018 01:41:54 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2018 08:07:02 +0000
-Message-Id: <20180710080702.20527-2-Martin.Jansa@gmail.com>
+Date: Tue, 10 Jul 2018 16:41:40 +0800
+Message-Id: <20180710084141.9705-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180710080702.20527-1-Martin.Jansa@gmail.com>
-References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] libdrm: allow to build native and nativesdk
+Subject: [PATCH 1/2] perf: add dwarf to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,23 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 08:06:57 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 08:41:54 -0000
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Enable perf to be built with DWARF support.
+
+Fixes [YOCTO #3359]
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-graphics/drm/libdrm_2.4.92.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/perf/perf.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
-index 1526553254..b4d06d19a6 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
-@@ -56,3 +56,5 @@ FILES_${PN}-kms = "${libdir}/libkms*.so.*"
- FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
- FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*"
- FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 51f5597eb9..458b355864 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -12,6 +12,7 @@ LICENSE = "GPLv2"
+ PR = "r9"
+ 
+ PACKAGECONFIG ??= "scripting tui libunwind"
++PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
+ PACKAGECONFIG[scripting] = ",NO_LIBPERL=1 NO_LIBPYTHON=1,perl python"
+ # gui support was added with kernel 3.6.35
+ # since 3.10 libnewt was replaced by slang
+@@ -80,7 +81,7 @@ EXTRA_OEMAKE = '\
+     EXTRA_CFLAGS="-ldw" \
+     EXTRA_LDFLAGS="${PERF_EXTRA_LDFLAGS}" \
+     perfexecdir=${libexecdir} \
+-    NO_GTK2=1 NO_DWARF=1 \
++    NO_GTK2=1 \
+     ${PACKAGECONFIG_CONFARGS} \
+ '
+ 
 -- 
 2.17.1
 
