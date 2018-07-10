@@ -1,51 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FDE87553C
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 81B6260720
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 10:42:20 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id r16-v6so41691999oie.3
+	Tue, 10 Jul 2018 12:54:29 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id s11-v6so14493594wra.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 03:42:21 -0700 (PDT)
+	Tue, 10 Jul 2018 05:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tpcR+5USmOUNLv/Gg0apRC40Lxc/aSoPctwB9dTQRso=;
-	b=Gqg533Sl/FpW9UokNLox3PRUKsbNEOW5f+Wu/+aSiE1lVBqex96ZTJRK62jOwbwAvO
-	qebBKZm4PNQuEutEHCdp1aR2cTfOswMkoSbzqoYxJ0Xb6S9ckXwqQ7lx/orwFjGcnzv3
-	MbsRS/ko42dCiLF79FEBNR9tA8Bi9wHpw0YxJZg1+VvH0Q0AwoYVTNaGDi5zFg56KC2I
-	GLu66t7/Csse4R5TnfK6eBzNbVY4rg2dIp/5XXlb3noJ9JFCDAzHFbasoFIkKQLn9mUB
-	K2TjF8b2Zg3una5JqDMMYgLAgMKbNBl2iVqqo8GaU85IsJQb62GKw3vWVpIWbfYhThCa
-	CwOA==
+	h=from:to:subject:date:message-id;
+	bh=oJE/tImWuEjflb1ud+ilYwTmFqWxv7o7wWkcgcgKN8Y=;
+	b=ZNF7N8IO0EBI7Mg85biq7aTtDLGbZdQWgBwqpOaGk5jYpfc6GLq1o1RaJSNXqMJ4M8
+	VMcEe9Hsl9yALHPpPHGPtfirQVP8Y6QFSiA2uQQv+EsOqWK8rmbCbBLOX1SG/exQTZVf
+	I08+/xJPOuNaySNNEDt3LalUctCp2G67T0V8iBrzQVXy50U+N244Cy5cw/Cg5ilED/GR
+	hBiaps7IlB0/sOpggJnvOdiCxVP3MBOwZYt9KVgjSDl3rL2/93nY9o4e1yNk1ilTODr+
+	A5CMsz51bMDgi8l0wzWKBD8UBGRtjILzsbvS5obyDpRugN9HfU6UCPhhaGwbjAKMngNL
+	6fug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tpcR+5USmOUNLv/Gg0apRC40Lxc/aSoPctwB9dTQRso=;
-	b=PwhvEsgH9T3NX3bPcjJSy5DpZeCJgTop1gZJ7zps7cp92yrBXWw9enIV2qAraTJfRE
-	gNwTRMJ1Ghuf/vaGeBBQtFwUE4tR+e1O4UF2OROEgzb5Z9HSpkeoUEpwlu5XXwMrR5ZI
-	9aNvyriRfSRKuN+EVsRbc1F3y6JQ6SE/FIlG5gjBiL88+fOpkyWyoiBvjnXfaCljhT22
-	hI8UW4wX1cPi7T6o+XyX9+pY8tEQjAjmouy/rEN90lKdMhDwfqy2pK0C2OxF9V00+umi
-	5Mw53Lc2uNLyTh8/9AgpshWOCoKvj4dkv7Ias9WgknJ2pZr4olZsYwZxuDPcxvTsA3TP
-	8Z5g==
-X-Gm-Message-State: APt69E2KUIY1el81L/pHvXbULW3ylAeuli7hoOs26jSEXCCJt9a84mX0
-	j2oZ0YbFTNVO8aBreyT61UGTy9NRXZYfYDyw1No8Hg==
-X-Google-Smtp-Source: AAOMgpdKGDEiEZ5GiI4UQ00XinQ888E8XJI7RGkH64dq+UMl9FgOhY7qm8zSbZPFfBZlfgHAFPgT2Z/J1jJsZpL8z4s=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr28952774oia.170.1531219341303; 
-	Tue, 10 Jul 2018 03:42:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 03:42:00
-	-0700 (PDT)
-In-Reply-To: <CAJTo0LZRfP9XGEvGV2_7ZPST8W94b51n=MaweKND3SpoS80P_g@mail.gmail.com>
-References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
-	<CAJTo0LZRfP9XGEvGV2_7ZPST8W94b51n=MaweKND3SpoS80P_g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2018 11:42:00 +0100
-Message-ID: <CAJTo0La5PE5cnhrn7X0Tc=TmRPYL8BAxpkT5-4+uh-1OJ4TFvg@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] ethtool:4.16 -> 4.17
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=oJE/tImWuEjflb1ud+ilYwTmFqWxv7o7wWkcgcgKN8Y=;
+	b=hsqUylCoSrOm1XZslFCHte1Syd96XoI9iuMdhnd7bbbjlGzdirBnok62iQA7VCc02y
+	d2lbL+jlitdkFS3jz8xBnQf7GfbKd9NWN36ZLk0lhoXPtYPwsAihFBPDOBJ8fvw1UkKl
+	ihwhfRR0h/vaSURRkTf7i2KMtUZR0DQZzRMIEFZP9P2oXRynbirNH9F5zY4Y58B0PYFt
+	quxI4DCYUzYaxF/Vard1pwFgw5L96jdy1n3AluMmY7ccGrSKBmnRcztVBysEeVNDxFlI
+	Ul5wJ/L9ltkiOOXsS2fngPrrWvBIOoIXTSVLUhvOkTmtDnpytls+RpBsN8hz94F4zBkb
+	o/PQ==
+X-Gm-Message-State: APt69E3bLEh33OS08iuu05N4uU2fvyGlWgg+t99iZ9ZHpJ0vZJ+cvWhk
+	bHg66VTtlJ3rh/hy+vQgK9JqavU2
+X-Google-Smtp-Source: AAOMgpc0AHvkusDcsyWtHFZS/0P/4oOEri7IQVGOJxxXnvN5ot5uS7UhIwTumegqJtHvEj31dOKKLA==
+X-Received: by 2002:a5d:5641:: with SMTP id
+	j1-v6mr18634987wrw.209.1531227269839; 
+	Tue, 10 Jul 2018 05:54:29 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	f18-v6sm14985543wrt.64.2018.07.10.05.54.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 10 Jul 2018 05:54:28 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jul 2018 13:54:26 +0100
+Message-Id: <20180710125426.31401-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] nfs-utils: remove libnfsidmap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +57,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 10:42:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jul 2018 12:54:29 -0000
 
-(the refresh was trivial so I've done this)
+As of nfs-utils 2.2.1 libnfsidmap has been integrated and isn't an external
+requirement anymore.
 
-On 10 July 2018 at 11:38, Burton, Ross <ross.burton@intel.com> wrote:
-> WARNING: ethtool-4.17-r0 do_patch:
-> Some of the context lines in patches were ignored. This can lead to
-> incorrectly applied patches.
-> The context lines in the patches can be updated with devtool:
->
->     devtool modify <recipe>
->     devtool finish --force-patch-refresh <recipe> <layer_path>
->
-> Then the updated patches and the source tree (in devtool's workspace)
-> should be reviewed to make sure the patches apply in the correct place
-> and don't introduce duplicate lines (which can, and does happen
-> when some of the context is ignored). Further information:
-> http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-> Details:
-> Applying patch avoid_parallel_tests.patch
-> patching file configure.ac
-> Hunk #1 succeeded at 2 with fuzz 1.
->
-> Now at patch avoid_parallel_tests.patch
->
-> On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
->> Upgrade ethtool from 4.16 to 4.17
->>
->> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
->> ---
->>  meta/recipes-extended/ethtool/{ethtool_4.16.bb => ethtool_4.17.bb} | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>  rename meta/recipes-extended/ethtool/{ethtool_4.16.bb => ethtool_4.17.bb} (88%)
->>
->> diff --git a/meta/recipes-extended/ethtool/ethtool_4.16.bb b/meta/recipes-extended/ethtool/ethtool_4.17.bb
->> similarity index 88%
->> rename from meta/recipes-extended/ethtool/ethtool_4.16.bb
->> rename to meta/recipes-extended/ethtool/ethtool_4.17.bb
->> index 5ccb162..844a958 100644
->> --- a/meta/recipes-extended/ethtool/ethtool_4.16.bb
->> +++ b/meta/recipes-extended/ethtool/ethtool_4.17.bb
->> @@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
->>             file://avoid_parallel_tests.patch \
->>             "
->>
->> -SRC_URI[md5sum] = "2b50adf06fc1b033951edef5987c32f3"
->> -SRC_URI[sha256sum] = "25f8fc3a4b2cb2cbfe8741148d8e743127dd7c951df96d8d6dccb88741f8a27d"
->> +SRC_URI[md5sum] = "4dba0345a4ab9f51b4a4a9739284238d"
->> +SRC_URI[sha256sum] = "4130142a15f7409d18de3667998f3c99fba52fd7c8d94be7ecdabf8dcab3d6c1"
->>
->>  inherit autotools ptest
->>  RDEPENDS_${PN}-ptest += "make"
->> --
->> 2.7.4
->>
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Also consolidate nfs-utils patches into a single directory.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc           |  1 -
+ ...clude-sys-types.h-for-getting-u_-typedefs.patch | 27 ----------------------
+ .../libnfsidmap/Set_nobody_user_group.patch        | 18 ---------------
+ .../nfs-utils/libnfsidmap/fix-ac-prereq.patch      | 13 -----------
+ .../nfs-utils/libnfsidmap_0.25.bb                  | 27 ----------------------
+ .../bugfix-adjust-statd-service-name.patch         |  0
+ .../nfs-utils-debianize-start-statd.patch          |  0
+ .../nfs-utils/nfs-utils_2.3.1.bb                   |  2 +-
+ 8 files changed, 1 insertion(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
+ rename meta/recipes-connectivity/nfs-utils/{files => nfs-utils}/bugfix-adjust-statd-service-name.patch (100%)
+ rename meta/recipes-connectivity/nfs-utils/{files => nfs-utils}/nfs-utils-debianize-start-statd.patch (100%)
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index c44f2b804aa..4d58766451e 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -326,7 +326,6 @@ RECIPE_MAINTAINER_pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libnewt = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-libnewt-python = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-libnfsidmap = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libnl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libnotify = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-libnsl2 = "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
+deleted file mode 100644
+index 4ac52904401..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/libnfsidmap/0001-include-sys-types.h-for-getting-u_-typedefs.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From a5e95a42e7bceddc9ecad06694c1a0588f4bafc8 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 14 Apr 2015 07:22:47 -0700
+-Subject: [PATCH] include sys/types.h for getting u_* typedefs
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- cfg.h | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/cfg.h b/cfg.h
+-index d4d4cab..fe49e8f 100644
+---- a/cfg.h
+-+++ b/cfg.h
+-@@ -33,6 +33,7 @@
+- #ifndef _CONF_H_
+- #define _CONF_H_
+- 
+-+#include <sys/types.h>
+- #include "queue.h"
+- 
+- struct conf_list_node {
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch
+deleted file mode 100644
+index 4633da919e7..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/libnfsidmap/Set_nobody_user_group.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Set nobody user and group
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---- a/idmapd.conf
+-+++ b/idmapd.conf
+-@@ -17,8 +17,8 @@
+- 
+- [Mapping]
+- 
+--#Nobody-User = nobody
+--#Nobody-Group = nobody
+-+Nobody-User = nobody
+-+Nobody-Group = nogroup
+- 
+- [Translation]
+- 
+diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch b/meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch
+deleted file mode 100644
+index d81c7c5f326..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/libnfsidmap/fix-ac-prereq.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+---- a/configure.in
+-+++ b/configure.in
+-@@ -1,7 +1,7 @@
+- #                                               -*- Autoconf -*-
+- # Process this file with autoconf to produce a configure script.
+- 
+--AC_PREREQ([2.68])
+-+AC_PREREQ([2.65])
+- AC_INIT([libnfsidmap],[0.25],[linux-nfs@vger.kernel.org])
+- AC_CONFIG_SRCDIR([nfsidmap.h])
+- AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
+deleted file mode 100644
+index 2565771006a..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY = "NFS id mapping library"
+-HOMEPAGE = "http://www.citi.umich.edu/projects/nfsv4/linux/"
+-SECTION = "libs"
+-
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d9c6a2a0ca6017fda7cd905ed2739b37"
+-
+-SRC_URI = "http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/${BPN}-${PV}.tar.gz \
+-           file://fix-ac-prereq.patch \
+-           file://Set_nobody_user_group.patch \
+-           file://0001-include-sys-types.h-for-getting-u_-typedefs.patch \
+-          "
+-
+-SRC_URI[md5sum] = "2ac4893c92716add1a1447ae01df77ab"
+-SRC_URI[sha256sum] = "656d245d84400e1030f8f40a5a27da76370690c4a932baf249110f047fe7efcf"
+-
+-UPSTREAM_CHECK_URI = "http://www.citi.umich.edu/projects/nfsv4/linux/libnfsidmap/"
+-
+-inherit autotools
+-
+-EXTRA_OECONF = "--disable-ldap"
+-
+-do_install_append () {
+-	install -d ${D}${sysconfdir}/
+-	install -m 0644 ${WORKDIR}/${BPN}-${PV}/idmapd.conf ${D}${sysconfdir}/idmapd.conf
+-}
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch
+similarity index 100%
+rename from meta/recipes-connectivity/nfs-utils/files/bugfix-adjust-statd-service-name.patch
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils/bugfix-adjust-statd-service-name.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch
+similarity index 100%
+rename from meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-debianize-start-statd.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+index 6390c324f8f..6d450c75109 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
+@@ -8,7 +8,7 @@ LICENSE = "MIT & GPLv2+ & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
+ 
+ # util-linux for libblkid
+-DEPENDS = "libcap libnfsidmap libevent util-linux sqlite3 libtirpc"
++DEPENDS = "libcap libevent util-linux sqlite3 libtirpc"
+ RDEPENDS_${PN} = "${PN}-client bash"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+-- 
+2.11.0
+
 
