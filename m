@@ -1,27 +1,42 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E66375591
+Return-Path: <prvs=672918582c=adrian.ratiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id E02387603B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 13:09:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6AD9n4B011658
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2018 06:09:49 -0700 (PDT)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 10 Jul 2018 06:09:49 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <6e69d647-df89-056c-9c8e-584e81a5c76a@windriver.com>
-Date: Tue, 10 Jul 2018 09:09:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue, 10 Jul 2018 13:42:46 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w6ADa5hg028981 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 08:42:48 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2k2u1pgvgx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 08:42:47 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com
+	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
+	by us-aus-skprod3.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
+	w6ADgkUo027152
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 08:42:46 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Tue, 10 Jul 2018 08:42:46 -0500
+Received: from ionel-work.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Tue, 10 Jul 2018 08:42:46 -0500
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2018 16:44:09 +0300
+Message-ID: <20180710134409.16911-1-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-07-10_04:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [] default-providers: introduce VIRTUAL-RUNTIME_initscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,145 +49,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 13:09:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jul 2018 13:42:47 -0000
+Content-Type: text/plain
 
-On 07/10/2018 06:21 AM, Richard Purdie wrote:
-> On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
->> The existing kernel-devsrc package starts with a full copy of the
->> kernel
->> source and then starts to strip out elements that are not required.
->>
->> This results in extra time (I/O) and extra space being taken up in
->> the
->> final package. The main purpose of the kernel-devsrc package has been
->> to
->> build modules against the running kernel, not to include a full copy
->> of
->> the source code for re-building the kernel. The end result was a
->> 600M kernel-devsrc package.
->>
->> This restructuring of the package uses an approach similar to other
->> distros, where the kernel-devsrc package is for building against the
->> running kernel and uses a curated set of copied infrastructure,
->> versus
->> a mass copy of the entire kernel.
->>
->> The differences in this approach versus other is largely due to the
->> architecture support and the split build/source directory of the
->> kernel.
->>
->> The result is a kernel-devsrc package of about 10M, which is capable
->> of running "make scripts" and compiling kernel modules against the
->> running kernel.
->>
->> Along with the changes to the copying of the infrascture, we also
->> have the following changes:
->>
->>   - a better/more explicit listing of dependencies for on-target
->>     builds of "make scripts" or "make modules_prepare"
->>
->>   - The kernel source is installed into /lib/modules/<version>/build
->>     and a symlink created from /usr/src/kernel to the new location.
->>     This aligns with the standard location for module support
->>     code
->>
->>   - There is also a symlink from /lib/modules/<version>/source ->
->> build
->>     to reserve a spot for a new package that is simply the kernel
->>     source. That package is not part of this update.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>
->> v2: drop DEPENDS on perf. We no longer need to depend on perf since
->> the source
->>      is copied before modification.
-> 
-> It probably won't surprise you to know there were some issues with this
-> patch, sadly.
-> 
+Commits 1202307b24 ("lsbinitscripts: don't use update-alternatives")
+cdcebd81c87 ("initscripts: don't use update-alternatives") and
+061fa614cec ("update-alternatives.bbclass: refuse to manage SysV init
+scripts") make sure that the lsbinitscripts and initscripts packages
+conflict with eachother and can't be alternatives.
 
-heh. No problem. These are just things I didn't have the configs
-to test.
+lsb has a hardcoded dependency on lsbinitscripts which makes it
+impossible to install on systems using initscripts (acl depends on
+initscripts) and lsbinitscripts also has a runtime dependency on the
+full util-linux package making it an unwanted dependency on busybox
+systems.
 
-Outside of the multilib issue, I can fix things up. For the multlib,
-I have no idea .. since this:
+Therefore introduce VIRTUAL-RUNTIME_initscripts to choose between the
+versions of /etc/init.d/functions and allow installing lsb alongside
+initscripts avoiding the full util-linux dependency.
 
-   file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586 
-conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
+Default it to lsbinitscripts so we don't have a change in the existing
+behavior; distros/users can override it in their conf when needed.
 
-is greek to me :D
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/conf/distro/include/default-providers.inc               | 1 +
+ meta/recipes-extended/lsb/lsb_5.0.bb                         | 3 +--
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-I'll look at these one by one, and see if anyone with more bitbake
-knowledge wants to help out with that last one.
-
-Bruce
-
-
-> The main recurring issue (on all arches and poky+poky-lsb) is failure
-> of the kernelmodule.KernelModuleTest.test_kernel_module test. The exact
-> failure varies by arch, for x86-64:
-> 
-> https://autobuilder.yocto.io/builders/nightly-x86-64/builds/1154/steps/Running%20Sanity%20Tests/logs/stdio
-> 
-> |   CHK     include/generated/utsrelease.h
-> |   DESCEND  objtool
-> | /lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.build:37: /lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include: No such file or directory
-> | make[4]: *** No rule to make target '/lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include'.  Stop.
-> | make[3]: *** [Makefile:43: /lib/modules/4.14.48-yocto-standard/build/tools/objtool/fixdep-in.o] Error 2
-> | make[2]: *** [/lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.include:4: fixdep] Error 2
-> | make[1]: *** [Makefile:62: objtool] Error 2
-> | make: *** [Makefile:1647: tools/objtool] Error 2
-> 
-> For mips:
-> 
-> https://autobuilder.yocto.io/builders/nightly-mips/builds/1115
-> 
-> |   HOSTCC  scripts/sortextable
-> | make[1]: *** No rule to make target 'arch/mips/boot/tools/relocs_32.c', needed by 'arch/mips/boot/tools/relocs_32.o'.  Stop.
-> | make: *** [arch/mips/Makefile:16: archscripts] Error 2
-> 
-> (same for mips64)
-> 
-> For arm:
-> 
-> https://autobuilder.yocto.io/builders/nightly-arm/builds/1187/
-> 
-> |   HOSTCC  scripts/sortextable
-> | make[1]: *** No rule to make target 'arch/arm/tools/syscall.tbl', needed by 'arch/arm/include/generated/uapi/asm/unistd-common.h'.  Stop.
-> | make: *** [arch/arm/Makefile:319: archheaders] Error 2
-> 
-> For arm64:
-> 
-> https://autobuilder.yocto.io/builders/nightly-arm64/builds/1101/steps/Running%20Sanity%20Tests/logs/stdio
-> 
-> |   CHK     include/generated/uapi/linux/version.h
-> |   CHK     include/generated/utsrelease.h
-> | make[1]: *** No rule to make target 'arch/arm64/kernel/vdso/vdso.lds', needed by 'arch/arm64/kernel/vdso/vdso.so.dbg'.  Stop.
-> | make: *** [arch/arm64/Makefile:160: vdso_prepare] Error 2
->   
-> 
-> There was also a failure in building the build-appliance image:
-> 
-> https://autobuilder.yocto.io/builders/build-appliance/builds/1110
-> 
-> and also a failure in one of the multilib builds, probably from
-> different dependencies pulled in by kernel-devsrc:
-> 
-> https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/steps/BuildImages_4/logs/stdio
-> 
-> Error: Transaction check error:
->    file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
->    file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
-> 
-> I'll retest with this patch removed just so we can unblock the other patches.
-> 
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index e65c1ed323..37e7478ea0 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -23,6 +23,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
+ VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
++VIRTUAL-RUNTIME_initscripts ?= "lsbinitscripts"
+ VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
+ VIRTUAL-RUNTIME_base-utils ?= "busybox"
+ VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
+diff --git a/meta/recipes-extended/lsb/lsb_5.0.bb b/meta/recipes-extended/lsb/lsb_5.0.bb
+index df4812e4bc..6cb1751664 100644
+--- a/meta/recipes-extended/lsb/lsb_5.0.bb
++++ b/meta/recipes-extended/lsb/lsb_5.0.bb
+@@ -8,8 +8,7 @@ LSB_CORE_x86 = "lsb-core-ia32"
+ LSB_CORE_x86-64 = "lsb-core-amd64"
+ RPROVIDES_${PN} += "${LSB_CORE}"
+ 
+-# lsb_release needs getopt, lsbinitscripts
+-RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt} lsbinitscripts"
++RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt} ${VIRTUAL-RUNTIME_initscripts}"
+ 
+ LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
+ 
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index 53d100ce74..74547b0773 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -118,7 +118,7 @@ RDEPENDS_packagegroup-core-lsb-misc = "\
+     gettext \
+     gettext-runtime \
+     groff \
+-    lsbinitscripts \
++    ${VIRTUAL_RUNTIME-initscripts} \
+     lsbtest \
+     lsof \
+     strace \
+-- 
+2.18.0
 
 
