@@ -1,39 +1,27 @@
-Return-Path: <straka.derek@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 16857746BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F1EA7746BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 21:18:52 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id b5-v6so10391040qkg.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 14:18:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qWgVxA4jV0Y5+4S1eF3YRBKn0iWqW9cRGQjEcE0YEyI=;
-	b=BW420Zt68vWydOTXvXVzFJItGKVoinjz94akKlvkzMmI/tffR+wWutd9p5EvbKnsvK
-	SQ1TQNz4BNqgf0NfEqWa9LsZx/kWbFCxOJozW6vrNFKl+P3V6uVeUtB40Ya08tD4V/ov
-	2c22016E5CQJ7L1/adrEE3fDR84KR412Xmdw2epd/qltzTEpGYTIChIXA6KxE8dr5bsb
-	9n/FWkUrOsWPoCR4pi1Q6Zc1KWjytu6zZuW6NZcKvF/rxZeG4eOY3XFZ+E0Ebmdu4RFu
-	MyhND4OD0FmKGpdi3AB8K9jVLk6jGoX2iHv41iDQMzURw7LIFO6CN0/HYO2U427cpGko
-	ijyQ==
-X-Gm-Message-State: APt69E26tV127ZW9gyRykgKGy3brv+vXjKvCwPOTR+2VxV5L2w32usy/
-	xCwYliKsHYds+1v8fdRcnJmOqdmb
-X-Google-Smtp-Source: AAOMgpeMqb8hWxcUmviNuFsYrgZmGkY3Vf37jmkWbUyxB09yFl/VIy3QnszfDWQEyBTXiC8aHU+rfA==
-X-Received: by 2002:a37:2ac7:: with SMTP id
-	q68-v6mr23479725qkq.374.1531257532646; 
-	Tue, 10 Jul 2018 14:18:52 -0700 (PDT)
-Received: from sparta.ny.asterius.io ([68.132.61.164])
-	by smtp.gmail.com with ESMTPSA id
-	u27-v6sm14522019qkl.66.2018.07.10.14.18.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 10 Jul 2018 14:18:51 -0700 (PDT)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2018 17:18:46 -0400
-Message-Id: <1531257526-30932-1-git-send-email-derek@asterius.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-pycairo: update to 1.17.1
+	Tue, 10 Jul 2018 21:41:47 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6ALfkPt016851
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 10 Jul 2018 22:41:47 +0100
+Message-ID: <c0baf80e5943135f4f65a93d849ee68419065c45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Tue, 10 Jul 2018 22:41:46 +0100
+In-Reply-To: <47b99eac-867c-9cca-ac43-4d5a06760ed3@windriver.com>
+References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
+	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
+	<47b99eac-867c-9cca-ac43-4d5a06760ed3@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,52 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 21:18:52 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 21:41:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Update the python3-pycairo package to the latest stable version and
-move the .h and .pc files to the standard location
+On Tue, 2018-07-10 at 12:38 -0400, Bruce Ashfield wrote:
+> On 07/10/2018 06:21 AM, Richard Purdie wrote:
+> > On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
+> I'll try the other configs, but clearly I have something different in
+> my x86-64 build.
+> 
+> I can't run the self tests directly, but am copying the files onto my
+> qemu session and running things myself:
+> 
+> root@qemux86-64:/lib/modules/4.14.48-yocto-standard/build# make
+> ARCH=x86 
+> scripts prepare
+> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install 
+> libelf-dev, libelf-devel or elfutils-libelf-devel"
+>    CHK     scripts/mod/devicetable-offsets.h
+>    SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
+>    SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
+>    SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
+>    SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
+>    SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+>    SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+>    SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+>    HOSTCC  arch/x86/tools/relocs_32.o
+>    HOSTCC  arch/x86/tools/relocs_64.o
+>    HOSTCC  arch/x86/tools/relocs_common.o
+>    HOSTLD  arch/x86/tools/relocs
+>    CHK     include/config/kernel.release
+>    CHK     include/generated/uapi/linux/version.h
+>    CHK     include/generated/utsrelease.h
+> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install 
+> libelf-dev, libelf-devel or elfutils-libelf-devel"
+> 
+> root@qemux86-64:/tmp# make
+> make -C /usr/src/kernel M=/tmp modules
+> make[1]: Entering directory '/lib/modules/4.14.48-yocto-
+> standard/build'
+> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install 
+> libelf-dev, libelf-devel or elfutils-libelf-devel"
+>    Building modules, stage 2.
+>    MODPOST 1 modules
+> make[1]: Leaving directory '/lib/modules/4.14.48-yocto-
+> standard/build'
+> root@qemux86-64:/tmp# insmod hellomod.ko
+> [  419.211616] hellomod: loading out-of-tree module taints kernel.
+> [  419.212586] Hello world!
+> 
+> This is on the core-image-kernel-dev image, which is the one that
+> I created to test all this.
+> 
+> What image is that using ? some sato sdk one ?
 
-Tested on the qemu with core-image-minimal
+We really need to find you a way to run these. The problem is the qemu
+graphics piece? You can't have a dummy vncserver or something to direct
+them at?
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- ...{python3-pycairo_1.15.6.bb => python3-pycairo_1.17.1.bb} | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.17.1.bb} (57%)
+The image is a core-image-sato-sdk...
 
-diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
-similarity index 57%
-rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-rename to meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
-index 5c3e1e6..54e7dcd 100644
---- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-+++ b/meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
-@@ -13,8 +13,8 @@ DEPENDS = "cairo"
- SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
- 
--SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
--SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
-+SRC_URI[md5sum] = "34c1ee106655b450c4bd57e29371a4a7"
-+SRC_URI[sha256sum] = "0f0a35ec923d87bc495f6753b1e540fd046d95db56a35250c44089fbce03b698"
- 
- S = "${WORKDIR}/pycairo-${PV}"
- 
-@@ -25,7 +25,10 @@ CFLAGS += "-fPIC"
- BBCLASSEXTEND = "native"
- 
- do_install_append() {
--    install -d ${D}${includedir}/pycairo/
--    install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
-+    install -d ${D}${includedir}/pycairo/ ${D}${libdir}/pkgconfig
-+    # setup.py uses --install-data which points to a non-standard datadir  to install the header and .pc files
-+    # Fix the paths here to install in the standard locations instead
-+    mv ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
-+    mv ${D}${datadir}/lib/pkgconfig/py3cairo.pc ${D}${libdir}/pkgconfig/
-+    rm -rf ${D}${datadir}
- }
--FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
--- 
-2.7.4
+Cheers,
 
+Richard
 
