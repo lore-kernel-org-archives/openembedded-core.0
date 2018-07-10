@@ -1,28 +1,52 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D8BDA75590
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 755617600F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 10:04:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6AA4X65011299
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 10 Jul 2018 10:18:58 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id y207-v6so41556686oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 03:04:33 -0700
-Received: from [128.224.162.216] (128.224.162.216) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 10 Jul 2018 03:04:33 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20180704101756.15289-1-zhe.he@windriver.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <74230a95-b31d-3369-4acd-b90b4863c054@windriver.com>
-Date: Tue, 10 Jul 2018 18:04:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue, 10 Jul 2018 03:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Rh6Dee8DPrUitrFNss0+VaiTYBVOUIcdrehsjS8TMY0=;
+	b=P37iedf8zVZFVAvbdpuCETcoYdgazZWgLcmkttdWIzYXsyeZvWimjqEsLFryRk6J0W
+	p4XE1lwS1n+0YB2T1B/l/WKQhCib0F66zGf/arCC2LftyAp+MFDaJ+6dkZEZe0or709c
+	WM2C7qp9R3erlSPfOTt2h9sDz+luBd0iP1fU0MnQwe0hEB1+NAXxBOioZgk8xzfAwciJ
+	zGgxLajycIUgJmW79FfH1mNN4pFS/mCtIdRYcq4Q7qddqgjZJu/jjJx3KoIE+6xVtrVj
+	pB21lGus0tFDMq1OXJZQwCmL1VyI18duJFzIZHFW92+fr9mVhAOLT1YBV7FD79sSwOP4
+	jb7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Rh6Dee8DPrUitrFNss0+VaiTYBVOUIcdrehsjS8TMY0=;
+	b=EBy1ZVRB3npwtb53TtFcBNFY2SN1S4/uiKYU2mgFw3A1m/O62OhjnO66d9KLta88FM
+	AnUygywVEzcnsrx8nWflIL+Gpa033n2TxpnbevOe4clh2wmQQBIARe/ABEDiSUBQqf3h
+	DBHAki8koRhYaJSE4Oa6LNq+aKVKaeFcFNZZNZkres5JuhoInkwo0SIVSGSL7roiTAjk
+	mR7mlbe7ZnIv95nYCa1sGAba7y1DDCI2orzcCkPTJZztXtoCRwKv7kiv1XehKgbDhe1G
+	Pt48JmVvNyF/3LUjzxKZUoDMOd9PB9MrqHUM+GKMRsrwp9Wb140C8hewSCLFf2+WZMiw
+	Fdng==
+X-Gm-Message-State: AOUpUlGk+0KuATJV7+PRdNAy29sTjX5+jV+ZzynnyNTky8ZwwhLwcATD
+	+BbfRIs7A11jeHf7n/yht5z56yu2sK35qX6H3pKC5g==
+X-Google-Smtp-Source: AAOMgpc6t8Hsy0av6WS1DZvSyUoaklGizupJIJXClQn8BAT2cYGuiXyN3wwwMPXV8S64+4f+l2Xr6NupfD8+fdA19BA=
+X-Received: by 2002:aca:3f41:: with SMTP id
+	m62-v6mr1576002oia.18.1531217939438; 
+	Tue, 10 Jul 2018 03:18:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20180704101756.15289-1-zhe.he@windriver.com>
-X-Originating-IP: [128.224.162.216]
-Subject: Re: [PATCH] lttng-tools: Allow reconnect to relayd
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 03:18:38
+	-0700 (PDT)
+In-Reply-To: <20180710095223.GC1825@jama>
+References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+	<CAJTo0LafAv3Qk0EDWnunng1fq4OENz2DhiOjth19hGNJ__Rh-Q@mail.gmail.com>
+	<20180710095223.GC1825@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Jul 2018 11:18:38 +0100
+Message-ID: <CAJTo0LaZm_3K0uAH_GzbfAvUuhsTfPz+_YMeXcz3OOm35kvHUw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libdrm: Add PACKAGECONFIG support for all meson options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,96 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 10:04:33 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 10 Jul 2018 10:18:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping.
+I can't replicate the error, I don't think util-macros is needed anymore.
 
-Zhe
+Ross
 
-On 2018年07月04日 18:17, He Zhe wrote:
-> If relayd is started after connection attempt from consumerd it will
-> leave the session in disconnected state and causes the following
-> inconvenience. This is covered by an upstream feature, see
-> https://bugs.lttng.org/issues/883. Before it's done, this patches
-> allows users to reconnect to relayd.
+On 10 July 2018 at 10:52, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Tue, Jul 10, 2018 at 10:41:10AM +0100, Burton, Ross wrote:
+>> On 10 July 2018 at 09:07, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> > * Use the same defaults as meson does, with few modifications based on
+>> >   previous EXTRA_OEMESON
+>> > * move libpciaccess dependency to new intel PACKAGECONFIG
+>> > * add dependency on util-macros which was previously pulled by
+>> >   libpciaccess, because it's still needed even with intel disabled:
+>> >   | configure.ac:34: error: must install xorg-macros 1.12 or later
+>> >     before running autoconf/autogen
+>>
+>> Why is configure giving you an error message when Meson is being used?
 >
-> root@localhost:~# lttng enable-event --userspace --all
-> Error: Events: UST create channel failed (channel channel0, session trace_session)
-> root@localhost:~# lttng-relayd -b
-> Warning: No tracing group detected
-> root@localhost:~# lttng enable-event --userspace --all
-> Error: Events: UST create channel failed (channel channel0, session trace_session)
+> Because this error message is almost a year old from:
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=jansa/qemu&id=2eb3926cc54fef8e8cdd39cc20fbdc129aa1e52f
+> switch to meson just pushed me to send this part upstream instead of
+> rebasing it forever.
 >
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  ...ow-multiple-attempts-to-connect-to-relayd.patch | 43 ++++++++++++++++++++++
->  meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb     |  1 +
->  2 files changed, 44 insertions(+)
->  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
+> I can update it with meson version of the error if you want.
 >
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
-> new file mode 100644
-> index 00000000000..62a0978592d
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
-> @@ -0,0 +1,43 @@
-> +From 70eff899104b86bae02862927c76caaef5de5d3c Mon Sep 17 00:00:00 2001
-> +From: Mikael Beckius <mikael.beckius@windriver.com>
-> +Date: Thu, 7 May 2015 16:14:25 +0200
-> +Subject: [PATCH] Allow multiple attempts to connect to relayd.
-> +
-> +It is unclear why a session needs to be made
-> +unusable after a failure to connect to relayd
-> +since a check for a relayd connection is
-> +always made before a session can be configured.
-> +
-> +The behaviour was introduced in:
-> +d9078d0c000d04d49c599a72c1a725026b636ec0
-> +
-> +Signed-off-by: Mikael Beckius <mikael.beckius@windriver.com>
-> +[ The context has moved, adjust the hunk accordingly ]
-> +Signed-off-by: He Zhe <zhe.he@windriver.com>
-> +Upstream-Status: Pending
-> +---
-> + src/bin/lttng-sessiond/cmd.c |    8 --------
-> + 1 file changed, 8 deletions(-)
-> +
-> +diff --git a/src/bin/lttng-sessiond/cmd.c b/src/bin/lttng-sessiond/cmd.c
-> +index 73b4ce3..36f62ee 100644
-> +--- a/src/bin/lttng-sessiond/cmd.c
-> ++++ b/src/bin/lttng-sessiond/cmd.c
-> +@@ -689,14 +689,6 @@ close_sock:
-> + 	free(rsock);
-> + 
-> + error:
-> +-	if (ret != LTTNG_OK) {
-> +-		/*
-> +-		 * The consumer output for this session should not be used anymore
-> +-		 * since the relayd connection failed thus making any tracing or/and
-> +-		 * streaming not usable.
-> +-		 */
-> +-		consumer->enabled = 0;
-> +-	}
-> + 	return ret;
-> + }
-> + 
-> +-- 
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
-> index 93626dd4b5f..e4969c30807 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
-> @@ -30,6 +30,7 @@ PACKAGECONFIG_remove_riscv64 = "lttng-ust"
->  SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
->             file://x32.patch \
->             file://run-ptest \
-> +           file://0001-Allow-multiple-attempts-to-connect-to-relayd.patch \
->             "
->  
->  SRC_URI[md5sum] = "051224eb991aee07f8721ff1877d0b96"
-
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
