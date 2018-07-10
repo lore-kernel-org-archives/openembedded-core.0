@@ -1,50 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 86FD575470
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C8054755B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 09:41:29 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id v8-v6so41404698oie.5
+	Tue, 10 Jul 2018 09:45:55 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id i12-v6so41423768oik.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 02:41:31 -0700 (PDT)
+	Tue, 10 Jul 2018 02:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MErYWBeTvkLZ2GmY5MMIvY9e1Kv6DxBLE42Eg5wOmLU=;
-	b=d8R5jMuSFR2jA5hB75rmacxTk0pJkPldkeGpUCLUg495IG2edgoNU/bURBNZinnnGW
-	BqHSzH2NXivMoOdBqxekpOkzGu992gRjj4l9i6hAXLGyX0WIEQJR6Lp9N8lAkJq6mIQS
-	I2LXuWHRAQiYHWR0OSMwCARV38MypDsZY+GXv8vIHVktRP/LfvNGMwl06STYAuqygbhF
-	MItpdgyqSSfuuYEzJV4amRZRXgF7/kz/VJPMZ5Rea6+xRVcGnpOq0J1qB+/I+9PBYHaX
-	V0kYM3RW7sijsKx7mCAdpi8JMcncnylnuNlVZp99pZl2invwNQlm560vOh7cnAeKLfZW
-	GSqw==
+	:cc; bh=QH6SWO+KKVfNV8gaH5fd4nRdb48eOHkJ0a44NtNzh+E=;
+	b=en1567HfEBEtsGeR6puTTJfyUXImqMmsfc4o2P0GB+OEiRPPPZpkSVxp8jwbPFztMI
+	hm7/1QAWReDbFGlK7BHPpVXNS1yO59rHNRbdFoz4oN4R7OPatuwmCpfVu4pA5cSyD1/x
+	LniGrt8gvTZDhnhXuAW0qaastRwGdwZvPPjqaW3z77HG0LpNu5MhcSOcU4VqLDtExMi2
+	i3UcptKXtnNhdsSRy+47OzO7nb0YswWvvLz0QwFuMzpc8xysfoNT5SqjWI6tLKhwyLmS
+	sZlUVS1oG9XA3w4uMGI86b+/bdNkgIp2N/9bNsD+QYNltyv1LQXOFrzn6YpgkxJh3SGb
+	CLQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=MErYWBeTvkLZ2GmY5MMIvY9e1Kv6DxBLE42Eg5wOmLU=;
-	b=fjilAiBka6lXFZ7iNFLav89Z4qAzfQ0QgCU33VzpjW4FZz5f6SdcIedN+VIA0vo6h1
-	TuJsVghM/ZTldzZUVFtoJdQqCfn1ja85OiBh5+hnfMqJ4yatwPbnAZr608ArNkiNp5RE
-	XI7frYp+nRC6Am0ENkaqDMIIFugvxZeRmKJpbZC0ly2RtJ4yMkcHlMDdI8KCvoITKoXs
-	oONYZO30rGG8mWTX5goIn2HG+6N3ZpvffFgIbDtVqurf/iW69lZ3azOEYN0Y9ODp43km
-	g9UNl7Ha7G2oVnQ9eudIB6hZxtJVoxBsq3legNFAIiqsRNTgtl3kxej139xQonqizI1q
-	Jsmw==
-X-Gm-Message-State: APt69E1w1iiR/gYk3q+oFL7L3lZmR+uXReh4UiEa3InP46i4PsNUinvC
-	fnS365HeL7FfTQ7YIUwN5Tu8qBYLwfRqmyV6e+GAIA==
-X-Google-Smtp-Source: AAOMgpcjc+7S5xrVmBFv8HSx0E+ZdH3WR00yoZorVgh73yz1hQdCghEH6Mx/Fa+V4qS790SA0fidbkhzHqe1HgSvRvo=
-X-Received: by 2002:aca:f409:: with SMTP id
-	s9-v6mr28497883oih.102.1531215690705; 
-	Tue, 10 Jul 2018 02:41:30 -0700 (PDT)
+	bh=QH6SWO+KKVfNV8gaH5fd4nRdb48eOHkJ0a44NtNzh+E=;
+	b=SkOEwM/SWwY+75QHuEEFUmmYnZ7crRF9a/puZ+GeyINj00YrYVz5R5qBICRGCprlAD
+	kDwkf5Y+wF4asdNtkkTQ0f8BBsg91onjqVbHaLykWDjznus91tel+Y8TbjubnwtHAIZN
+	npCKXJA6Rvcxdht8SzcCmYL+KOqenJsNi4Wyn4oVhd0BRLaCF0THdg6LtgJzaTXXB23u
+	G0tAzyp2CJtz1Jy01L5goZ68dG6A0Am8CkJMcJHwy8L0haS/5VPAoGCe7mTr460vSgr4
+	lduZms+ClZKRrBsKC7l14BSm8btoZ47uu0WMITImQTkACIv/E/t3djHB//OS1GlZn1kH
+	5e+A==
+X-Gm-Message-State: APt69E0nC7lddDNFwPhi+RMxSs/In9sbk9snhmKYgNohOnTq1uuubna1
+	31G8SoxcyXzLkQtKWtDLlx5EYxVUdv7femqUrm4GNQ==
+X-Google-Smtp-Source: AAOMgpcCI6hCjH/mW4vuqGCTUKygFqcjlEZWMTDVIiMiPrsHPfJeW1lPWgXPdO6DEY7TSfYa5rqnSwegqR5Lv/+eZ3Y=
+X-Received: by 2002:aca:efd7:: with SMTP id
+	n206-v6mr28925790oih.70.1531215956692; 
+	Tue, 10 Jul 2018 02:45:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:41:10
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:45:36
 	-0700 (PDT)
-In-Reply-To: <20180710080702.20527-1-Martin.Jansa@gmail.com>
-References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20180710024207.6296-2-hongl.fnst@cn.fujitsu.com>
+References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
+	<20180710024207.6296-2-hongl.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2018 10:41:10 +0100
-Message-ID: <CAJTo0LafAv3Qk0EDWnunng1fq4OENz2DhiOjth19hGNJ__Rh-Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 10 Jul 2018 10:45:36 +0100
+Message-ID: <CAJTo0Lbqg9bcSo9XkwGibEZhjz0rS5t0b2sXje4y6HDC8eFMxg@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libdrm: Add PACKAGECONFIG support for all meson options
+Subject: Re: [PATCH] [PATCH] file:5.32 -> 5.33
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,19 +58,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 09:41:29 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 09:45:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 10 July 2018 at 09:07, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * Use the same defaults as meson does, with few modifications based on
->   previous EXTRA_OEMESON
-> * move libpciaccess dependency to new intel PACKAGECONFIG
-> * add dependency on util-macros which was previously pulled by
->   libpciaccess, because it's still needed even with intel disabled:
->   | configure.ac:34: error: must install xorg-macros 1.12 or later
->     before running autoconf/autogen
-
-Why is configure giving you an error message when Meson is being used?
+This has been already submitted, and the usage patch should be dropped
+instead of rebased.
 
 Ross
+
+On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+> Upgrade file from 5.32 to 5.33
+>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  .../file/file/0001-Add-P-prompt-into-Usage-info.patch      | 14 ++++++++------
+>  meta/recipes-devtools/file/{file_5.32.bb => file_5.33.bb}  |  2 +-
+>  2 files changed, 9 insertions(+), 7 deletions(-)
+>  rename meta/recipes-devtools/file/{file_5.32.bb => file_5.33.bb} (96%)
+>
+> diff --git a/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch b/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
+> index 8a16b2c..0d12d86 100644
+> --- a/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
+> +++ b/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
+> @@ -23,16 +23,18 @@ diff --git a/src/file.c b/src/file.c
+>  index 2b15e21..e5a957b 100644
+>  --- a/src/file.c
+>  +++ b/src/file.c
+> -@@ -76,8 +76,8 @@ int getopt_long(int argc, char * const *argv, const char *optstring, const struc
+> +@@ -87,9 +87,8 @@ int getopt_long(int, char * const *, const char *,
+> +
+>   # define USAGE  \
+> -     "Usage: %s [" FILE_FLAGS \
+> -       "] [--apple] [--extension] [--mime-encoding] [--mime-type]\n" \
+> --    "            [-e testname] [-F separator] [-f namefile] [-m magicfiles] " \
+> --    "file ...\n" \
+> +     "Usage: %s [-" FILE_FLAGS "] [--apple] [--extension] [--mime-encoding]\n" \
+> +-    "            [--mime-type] [-e <testname>] [-F <separator>] " \
+> +-    " [-f <namefile>]\n" \
+> +-    "            [-m <magicfiles>] [-P <parameter=value>] <file> ...\n" \
+>  +    "            [-e testname] [-F separator] [-f namefile] [-m magicfiles]\n " \
+>  +    "            [-P parameter=limits] file ...\n" \
+> -     "       %s -C [-m magicfiles]\n" \
+> +     "       %s -C [-m <magicfiles>]\n" \
+>       "       %s [--help]\n"
+> +
+>
+>  --
+>  1.8.3.4
+> diff --git a/meta/recipes-devtools/file/file_5.32.bb b/meta/recipes-devtools/file/file_5.33.bb
+> similarity index 96%
+> rename from meta/recipes-devtools/file/file_5.32.bb
+> rename to meta/recipes-devtools/file/file_5.33.bb
+> index 5e15925..c1688ff 100644
+> --- a/meta/recipes-devtools/file/file_5.32.bb
+> +++ b/meta/recipes-devtools/file/file_5.33.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+>          file://0001-Add-P-prompt-into-Usage-info.patch \
+>          "
+>
+> -SRCREV = "d474e35513940dbca039b510b4de705b44f5bd9c"
+> +SRCREV = "d14511987263ae3c6f5ad28ed7b81c26afdb422c"
+>  S = "${WORKDIR}/git"
+>
+>  inherit autotools
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
