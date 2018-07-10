@@ -1,51 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3914C75562
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 09756755B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 09:46:40 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id i12-v6so41427126oik.2
+	Tue, 10 Jul 2018 09:49:27 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c4-v6so1215172wrs.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 02:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=t/CJ+tnMxLOTx7nIhmypSaUCHzTb16ScluuUyjUTRG8=;
-	b=TiLHX4ZDq2PJJ+gieI2dZebKmhNaPygIisz7JVBfixGo3L70Wyiy1Ijd9ERiedF1O2
-	P0oib8KDpXWy6oH0HFYh9UTPU1TlU0OZid5qVhCnvZyDkgltK8xEFEJB0562gLj7RuoE
-	ictI/jQpShsZKtpV/oN7cRVcMXCFPDZdyu6lPCMy2oc7FYrI3cRyYmuhBEIAQE6q6pFX
-	CFFSSnjbyTSoR4vOCBFlkDWA9HwP7jw65Kq+3GTkx/RTQ19tycD3v1+aiFBbhMCCv+xx
-	rwhYk7lt1cFA+JWowLunD6Z5xnYoGKuEkkWg2mHpMVE52ZZuj/0BcG59X5/EN/4h3G3l
-	YBtQ==
+	Tue, 10 Jul 2018 02:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hh9oc3lKG/ePCCORaV3vc9jFtvpLCX56sXd9/tkz++o=;
+	b=fDnNZTCUc6NlemqPj4nJSlHXUrtWpF8U+eDHajFgAV1UB2PU05IJTT45MhksjoT2lQ
+	hydSI1YMXfG5oLdNaN0wjP4ChwakDkl5j7QUC9zqwAO9Iy24CZVyaky5sqrm/6DHGxe2
+	c28lDT2WE9Fns/d1Tp9Ex102w6kCLAuS3bv1cHZUKLRExAgeppC5So/FXQn+owLAC5q9
+	ANngJHqqvbpFLYhuCXzpwA038RIWdVL0rEtr+W4rEH6ioX8HGac2z4TEMll243AHEJJv
+	rC5nMTFILvSiMOxEGOz95P7GmFXxQHBGz+H5kCXUV+DHIy+OYHMs5gvDNopqMKzvghNB
+	00Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=t/CJ+tnMxLOTx7nIhmypSaUCHzTb16ScluuUyjUTRG8=;
-	b=CCNYZmX6HoNRMzGnugFFH8WzH6Rhw3jTafPwKFVhf4br/EzQwSYGETbsebih6kNhEk
-	9wKLeMz+WARlplYnFXgTOCvowlUw0gLlB3FeAfJFvpQBx7CAl1eX/Ojh9cPfN+2Yi0xW
-	d/AaYUdOdwOOxtXUfbhyD1wYlRAOp3SX6gSLL69IKKuDYGv/XrvpkytzLIVi90OJx7+Q
-	nC9Fz8wgTv313QWjLdRpSn1KQmtZvu5/ftSfTKrbILcHURdj/5UWKh54GtCMAQ1li7Qe
-	0K8FvPMoruc7XPKNwZS6if8KQ3uv1nqQAsme1Zk0HfaREBOgn3GZ9zR30aqwHC8isDPp
-	V3Sw==
-X-Gm-Message-State: APt69E21Zq926/xE2UKgZlNMGeS9I/KtbyNk67l3qJjfDub9kEb2J3X1
-	25V4WmM1aS1QDuFBW/L8I+12lOb8OymT6Q+x0OGGTQ==
-X-Google-Smtp-Source: AAOMgpd4IZXAcDTOOKwuRr8jgFkmSffEaAy+N3piPeC8Oy83582uTRlsvhVRCZ7q0KwilMOxd8F4fvlIIxhaOY38+0k=
-X-Received: by 2002:aca:2808:: with SMTP id
-	8-v6mr28008804oix.235.1531216001316; 
-	Tue, 10 Jul 2018 02:46:41 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hh9oc3lKG/ePCCORaV3vc9jFtvpLCX56sXd9/tkz++o=;
+	b=b0C5wp1DMM/973i+IybBszRam+Aail/o8lfVhc9F4tZOPiQ55NZ/NbPlmTJtwvRm6E
+	2TCz4W201ZXaH+IsgxN2onAmhrUtQ8NztQ8KUYCeQgFSwDjMRDeC1/L4Qi3CETTtHPC5
+	bYGFvl+mFk9XtsV08Q0djh9svBEwkAwRA6exLDrnIyYjGRmcTPxbMOXVTZqwcE51+9E7
+	E6zjKDARo/ihe+N7r3biEt1JkNehvfnVmcJesnkUj4IYO7gDkclIyOX+f9Vt+kzCSiK5
+	2nlR1Fe/6m96rBq4YVdfbYPC0VWiFk3ynawZ9J30dDgS17+w4QJe8/BXoi3ej6gkN063
+	5a6A==
+X-Gm-Message-State: APt69E2Pz0KiVFN3dlUtMsvsFimNAaO6EP/sj46C1iXHP+ZGwCUBuMwR
+	njaMH+V3a8krP6SWRDnE2yV56A==
+X-Google-Smtp-Source: AAOMgpfs4IiSSJtu2SuiaKyzo+s7dC9A6EwBIxkZxCIiLy+AcZpJZ8wCeFPd8AS9IU8EB2GlRAgNow==
+X-Received: by 2002:adf:dbc3:: with SMTP id
+	e3-v6mr16702567wrj.217.1531216168754; 
+	Tue, 10 Jul 2018 02:49:28 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	w2-v6sm28268003wme.45.2018.07.10.02.49.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 10 Jul 2018 02:49:27 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 10 Jul 2018 11:49:36 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20180710094936.GB1825@jama>
+References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+	<20180710080702.20527-2-Martin.Jansa@gmail.com>
+	<05aaa19a3bf9bcf837150745d1ee17deaa41304f.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:46:20
-	-0700 (PDT)
-In-Reply-To: <20180710024207.6296-5-hongl.fnst@cn.fujitsu.com>
-References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
-	<20180710024207.6296-5-hongl.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2018 10:46:20 +0100
-Message-ID: <CAJTo0LYA1p21cRh8uS2DcM0a+uGvRd1_RxQQdaH+Q+j35Bm7Jw@mail.gmail.com>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] nss:3.37.1 -> 3.37.3
+In-Reply-To: <05aaa19a3bf9bcf837150745d1ee17deaa41304f.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] libdrm: allow to build native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +63,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 09:46:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jul 2018 09:49:28 -0000
+X-Groupsio-MsgNum: 113336
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+Content-Disposition: inline
 
-master is at 3.38 now.
+--NDin8bjvE/0mNLFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ross
+On Tue, Jul 10, 2018 at 09:45:45AM +0100, Richard Purdie wrote:
+> Normally I don't mind native/nativesdk variants but libdrm starts to
+> worry me as its a short step away from mesa and when we've tried native
+> or nativesdk versions in the past its been a nightmare, particularly
+> around GL.
+>=20
+> Could you explain a little more about why we need libdrm-native?
 
-On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> Upgrade nss from 3.37.1 to 3.37.3
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-support/nss/{nss_3.37.1.bb => nss_3.37.3.bb} | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/nss/{nss_3.37.1.bb => nss_3.37.3.bb} (97%)
->
-> diff --git a/meta/recipes-support/nss/nss_3.37.1.bb b/meta/recipes-support/nss/nss_3.37.3.bb
-> similarity index 97%
-> rename from meta/recipes-support/nss/nss_3.37.1.bb
-> rename to meta/recipes-support/nss/nss_3.37.3.bb
-> index 0e8b5be..a053659 100644
-> --- a/meta/recipes-support/nss/nss_3.37.1.bb
-> +++ b/meta/recipes-support/nss/nss_3.37.3.bb
-> @@ -25,11 +25,10 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
->             file://nss-fix-nsinstall-build.patch \
->             file://disable-Wvarargs-with-clang.patch \
->             file://pqg.c-ULL_addend.patch \
-> -           file://0001-Bug-1432455-Build-FStar.c-when-not-building-with-int.patch \
->             "
->
-> -SRC_URI[md5sum] = "e9526d7217d02afa96b90b89924c38df"
-> -SRC_URI[sha256sum] = "097b30e436479ad737b3703b25b6198b6513e202731085c6f097d8853dd20405"
-> +SRC_URI[md5sum] = "22e8ce40f80ce1e7d9d92ebd07124840"
-> +SRC_URI[sha256sum] = "9af2bbb615d010bd866bb83f8c0bb22b0fa086171e93030ffb03da3da15cc5be"
->
->  UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
->  UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+It's for mesa and nativesdk-mesa indeed and qemu-native with spice,
+virglrenderer and opengl support enabled.
 
+http://lists.openembedded.org/pipermail/openembedded-core/2017-September/14=
+2349.html
+
+> On Tue, 2018-07-10 at 08:07 +0000, Martin Jansa wrote:
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/recipes-graphics/drm/libdrm_2.4.92.bb | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> > b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> > index 1526553254..b4d06d19a6 100644
+> > --- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> > +++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> > @@ -56,3 +56,5 @@ FILES_${PN}-kms =3D "${libdir}/libkms*.so.*"
+> >  FILES_${PN}-freedreno =3D "${libdir}/libdrm_freedreno.so.*"
+> >  FILES_${PN}-amdgpu =3D "${libdir}/libdrm_amdgpu.so.*"
+> >  FILES_${PN}-etnaviv =3D "${libdir}/libdrm_etnaviv.so.*"
+> > +
+> > +BBCLASSEXTEND =3D "native nativesdk"
+> > --=20
+> > 2.17.1
+> >=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NDin8bjvE/0mNLFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW0SBLwAKCRA3VSO3ZXaA
+HGcsAJ9QtJVZNsn9AjqtJYRb2xlV6ekZ2QCgmnD4nq0KGUIlFM51+SpTUUWYk3I=
+=DY4N
+-----END PGP SIGNATURE-----
+
+--NDin8bjvE/0mNLFQ--
