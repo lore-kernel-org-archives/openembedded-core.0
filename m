@@ -1,49 +1,32 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com
-	[209.85.213.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E78A7455E
+Return-Path: <hongl.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 837B96FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 00:47:34 +0000 (UTC)
-Received: by mail-vk0-f44.google.com with SMTP id b14-v6so11489846vke.13
+	Tue, 10 Jul 2018 02:42:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42039464"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Jul 2018 10:42:43 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6552D4B5CBF2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2018 17:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Yuzg4wBhdJbzWdHiwyxibp5YaU4YlgNK7jIQjePOMyo=;
-	b=A8PmUMMbXZ92Efk+05J5Eiec1j9esbURFT3gOIOx2ixhANuNzOmjFXqsOryR0OizRe
-	hvOzjVue93d2ChArAziGxgo3+cDBa63BeIvVGVyeroSsAT9j3rHok6NVE8mB9VI6eiH6
-	jmqxz+widhl0Jugj3xZCunuKy3VyVdwFWv/mZA5paCzY5VV0/N2SOk/fME2kmlvV8QRm
-	SURnWZVdsPQQkJ34GKm1xHwOFilRr6z9CZ2ZtYy8BeDNjrNwNd0Zgt7JvbEYbzvHEQpN
-	QvMT9mo0pFgtO87i4wtPJRsRlduiepwku+1XtQbLNmAQNxmO+5e8QATIl8zBq0yH+FXj
-	Lnig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Yuzg4wBhdJbzWdHiwyxibp5YaU4YlgNK7jIQjePOMyo=;
-	b=kdsapGq4QJa1Vct5UBNaFWC36hcS0q+hWLA7mORgTFiY8HNiyTJ43oEOF+be2dcjfv
-	tx9JBzwDcO/6TELYUIEeGwgJKFGLUPONot/CalBN9Ip5IhhG5vfB3kCh96ghCa9f26NW
-	TbiWCuhCmbRcCLqr+OpEAl7fSz2inGkUOxXw5UTOIYhNxcjZ03heBrN0pKkkgVI5RxA1
-	fSaI8OPxY0GMIxC13VNxTzcxoOEReuh4SDU3eYCEjq5Ou/xP3WMe4pP67PePSckgxZGP
-	xn1sCa/sZLqSyZ1RXpZwZ/rT+XW0JsHEEdUPp/y3gFMkol+PubVRBzicFV7aCLWEPlJI
-	T1vA==
-X-Gm-Message-State: APt69E1KCa7kX0ddjQKDcOjxr9+L7fTkD+a8q9atbibxC/jbXIFcAKIT
-	kVnqdw7jYjs9mv8ZKbUL2Vn1vx4RP7S+czQVliw=
-X-Google-Smtp-Source: AAOMgpfy5onvwKAFHtlbIeWn8fIo9ZQeX4Wcvrgtqb6ZHkg7JZosEvRCxiXnk0yJhgcBYpbUoncxKAowf463HNptl/c=
-X-Received: by 2002:a1f:3b43:: with SMTP id
-	i64-v6mr12840791vka.2.1531183655021; 
-	Mon, 09 Jul 2018 17:47:35 -0700 (PDT)
+	Tue, 10 Jul 2018 10:42:43 +0800 (CST)
+Received: from localhost.local (10.167.225.78) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Tue, 10 Jul 2018 10:42:42 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2018 10:42:03 +0800
+Message-ID: <20180710024207.6296-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
+References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Mon, 9 Jul 2018 17:47:34 -0700 (PDT)
-In-Reply-To: <20180710000608.18878-1-alistair.francis@wdc.com>
-References: <20180710000608.18878-1-alistair.francis@wdc.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 9 Jul 2018 17:47:34 -0700
-Message-ID: <CAJ86T=Vd0KzB++uZJzcANeKkic+oAAtnJg8RQNWQ-x4pSROtbQ@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [meta] xorg-xserver: Enalbe systemd-logind is using systemd
+X-Originating-IP: [10.167.225.78]
+X-yoursite-MailScanner-ID: 6552D4B5CBF2.AE478
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] [PATCH] harfbuzz:1.7.5 -> 1.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 00:47:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Jul 2018 02:42:44 -0000
+Content-Type: text/plain
 
-On Mon, Jul 9, 2018 at 5:06 PM, Alistair Francis
-<alistair.francis@wdc.com> wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Upgrade harfbuzz from 1.7.5 to 1.7.6.
 
-This has been disable by default for some time, so a few comments to
-justify why it should now be enabled would be helpful.
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+---
+ .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.7.6.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.7.6.bb} (88%)
 
-There are also two typos in the subject line (and a [meta] prefix
-isn't required for patches submitted to oe-core).
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
+index 0a9b029..80d413a 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
+@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "1466ab51fc5aaa6af4065936939cec62"
+-SRC_URI[sha256sum] = "84574e1b1f65ca694cb8fb6905309665c0368af18a312357f8ff886ee2f29563"
++SRC_URI[md5sum] = "ffb94cf2942327344ac31330d07036ba"
++SRC_URI[sha256sum] = "da7bed39134826cd51e57c29f1dfbe342ccedb4f4773b1c951ff05ff383e2e9b"
+ 
+ inherit autotools pkgconfig lib_package gtk-doc
+ 
+-- 
+2.7.4
 
-> ---
->  meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> index 882897bd25..89318e53c5 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> @@ -123,7 +123,7 @@ OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"
->  PACKAGECONFIG ??= "dri2 udev ${XORG_CRYPTO} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '${OPENGL_PKGCONFIGS}', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl wayland', 'xwayland', '', d)} \
-> -                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd systemd-logind', '', d)} \
->  "
->
->  PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
