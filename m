@@ -1,28 +1,50 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B1B475463
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 86FD575470
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 09:27:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6A9RPF4006950
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2018 02:27:25 -0700 (PDT)
-Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 10 Jul 2018 02:27:25 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
-	<d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <e9649579-6b3e-190e-94f8-9d7162063f7e@windriver.com>
-Date: Tue, 10 Jul 2018 17:27:20 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Tue, 10 Jul 2018 09:41:29 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id v8-v6so41404698oie.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 02:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MErYWBeTvkLZ2GmY5MMIvY9e1Kv6DxBLE42Eg5wOmLU=;
+	b=d8R5jMuSFR2jA5hB75rmacxTk0pJkPldkeGpUCLUg495IG2edgoNU/bURBNZinnnGW
+	BqHSzH2NXivMoOdBqxekpOkzGu992gRjj4l9i6hAXLGyX0WIEQJR6Lp9N8lAkJq6mIQS
+	I2LXuWHRAQiYHWR0OSMwCARV38MypDsZY+GXv8vIHVktRP/LfvNGMwl06STYAuqygbhF
+	MItpdgyqSSfuuYEzJV4amRZRXgF7/kz/VJPMZ5Rea6+xRVcGnpOq0J1qB+/I+9PBYHaX
+	V0kYM3RW7sijsKx7mCAdpi8JMcncnylnuNlVZp99pZl2invwNQlm560vOh7cnAeKLfZW
+	GSqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MErYWBeTvkLZ2GmY5MMIvY9e1Kv6DxBLE42Eg5wOmLU=;
+	b=fjilAiBka6lXFZ7iNFLav89Z4qAzfQ0QgCU33VzpjW4FZz5f6SdcIedN+VIA0vo6h1
+	TuJsVghM/ZTldzZUVFtoJdQqCfn1ja85OiBh5+hnfMqJ4yatwPbnAZr608ArNkiNp5RE
+	XI7frYp+nRC6Am0ENkaqDMIIFugvxZeRmKJpbZC0ly2RtJ4yMkcHlMDdI8KCvoITKoXs
+	oONYZO30rGG8mWTX5goIn2HG+6N3ZpvffFgIbDtVqurf/iW69lZ3azOEYN0Y9ODp43km
+	g9UNl7Ha7G2oVnQ9eudIB6hZxtJVoxBsq3legNFAIiqsRNTgtl3kxej139xQonqizI1q
+	Jsmw==
+X-Gm-Message-State: APt69E1w1iiR/gYk3q+oFL7L3lZmR+uXReh4UiEa3InP46i4PsNUinvC
+	fnS365HeL7FfTQ7YIUwN5Tu8qBYLwfRqmyV6e+GAIA==
+X-Google-Smtp-Source: AAOMgpcjc+7S5xrVmBFv8HSx0E+ZdH3WR00yoZorVgh73yz1hQdCghEH6Mx/Fa+V4qS790SA0fidbkhzHqe1HgSvRvo=
+X-Received: by 2002:aca:f409:: with SMTP id
+	s9-v6mr28497883oih.102.1531215690705; 
+	Tue, 10 Jul 2018 02:41:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.228]
-Subject: Re: [PATCH] coreutils: fix compile error since use wrong libnss_nis.so
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:41:10
+	-0700 (PDT)
+In-Reply-To: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Jul 2018 10:41:10 +0100
+Message-ID: <CAJTo0LafAv3Qk0EDWnunng1fq4OENz2DhiOjth19hGNJ__Rh-Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libdrm: Add PACKAGECONFIG support for all meson options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,57 +57,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 09:27:26 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 10 Jul 2018 09:41:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On 10 July 2018 at 09:07, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * Use the same defaults as meson does, with few modifications based on
+>   previous EXTRA_OEMESON
+> * move libpciaccess dependency to new intel PACKAGECONFIG
+> * add dependency on util-macros which was previously pulled by
+>   libpciaccess, because it's still needed even with intel disabled:
+>   | configure.ac:34: error: must install xorg-macros 1.12 or later
+>     before running autoconf/autogen
 
+Why is configure giving you an error message when Meson is being used?
 
-On 07/09/2018 04:46 PM, Richard Purdie wrote:
-> On Mon, 2018-07-09 at 15:49 +0800, changqing.li@windriver.com wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> id: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2:
->> symbol _nsl_default_nss version GLIBC_PRIVATE not defined in
->> file libnsl.so.1 with link time reference
->>
->> Recent glibc change removed libnss-nis module from glibc and
->> a new recipe libnss-nis.bb was added. After this change,
->> we need to include native libnss_nis in coreutils. otherwise,
->> with "nis" in host /etc/nssswitch.conf, id will use host
->> libnss_nis.so, which will cause above error
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> ---
->>   meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
-> I think this would be fixed by a new version of uninative-tarball after
-> the recent change to include libnss-nis in it. We should probably have
-> a new release of uninative rather than starting to add these DEPENDS
-> everywhere...
->
-> Cheers,
->
-> Richard
-
-You're right, checked recently merged buildtools-tarball.bb which fix 
-same error,
-it cannot cover this uninative-tarball, so we still need to add 
-libnss-nis in
-uninative-tarball.  Will you handle fix of uninative-tarball, add 
-libnss-nis to
-http://downloads.yoctoproject.org/releases/uninative?  I should not be 
-able to do
-this.
-
-  //changqing
->
-
--- 
-BRs
-
-Sandy(Li Changqing)
-+861084778653
-
+Ross
 
