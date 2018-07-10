@@ -1,23 +1,28 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E28A605C3
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D8BDA75590
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 10:03:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6AA3jMZ007067
+	Tue, 10 Jul 2018 10:04:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6AA4X65011299
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 03:03:45 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 10 Jul 2018 03:03:44 -0700
-From: <zhe.he@windriver.com>
+	Tue, 10 Jul 2018 03:04:33 -0700
+Received: from [128.224.162.216] (128.224.162.216) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 10 Jul 2018 03:04:33 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jul 2018 18:03:42 +0800
-Message-ID: <1531217022-231739-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+References: <20180704101756.15289-1-zhe.he@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <74230a95-b31d-3369-4acd-b90b4863c054@windriver.com>
+Date: Tue, 10 Jul 2018 18:04:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: Fix do_compile failure for btrfs related tracepoints
+In-Reply-To: <20180704101756.15289-1-zhe.he@windriver.com>
+X-Originating-IP: [128.224.162.216]
+Subject: Re: [PATCH] lttng-tools: Allow reconnect to relayd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,171 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 10:03:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jul 2018 10:04:33 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: He Zhe <zhe.he@windriver.com>
+Ping.
 
-Building lttng-modules with linux-yocto-dev will cause do_compile
-failure:
+Zhe
 
-lttng-modules/2.10.6-r0/lttng-modules-2.10.6/probes/../probes/lttng-tracepoint-event-impl.h:143:6: error: conflicting types for 'trace_btrfs_reserve_extent'
- void trace_##_name(_proto);
-      ^~~~~~
-
-The following commit from latest mainline kernel changes some btrfs
-functions' prototype.
-
-3dca5c942dac60164e6a6e89172f25b86af07ce7
-"btrfs: trace: Remove unnecessary fs_info parameter for btrfs__reserve_extent event class"
-
-This patch backports a commit from upstream to meet the above changes.
-
-51ab0b1da29354375a19f865abcd233dd2178295
-"Fix: btrfs: Remove unnecessary fs_info parameter"
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...trfs-Remove-unnecessary-fs_info-parameter.patch | 116 +++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb  |   1 +
- 2 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
-new file mode 100644
-index 0000000..0fe4ee8
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch
-@@ -0,0 +1,116 @@
-+From 51ab0b1da29354375a19f865abcd233dd2178295 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Mon, 18 Jun 2018 14:53:19 -0400
-+Subject: [PATCH] Fix: btrfs: Remove unnecessary fs_info parameter
-+
-+See upstream commit:
-+
-+  commit 3dca5c942dac60164e6a6e89172f25b86af07ce7
-+  Author: Qu Wenruo <wqu@suse.com>
-+  Date:   Thu Apr 26 14:24:25 2018 +0800
-+
-+    btrfs: trace: Remove unnecessary fs_info parameter for btrfs__reserve_extent event class
-+
-+    fs_info can be extracted from btrfs_block_group_cache, and all
-+    btrfs_block_group_cache is created by btrfs_create_block_group_cache()
-+    with fs_info initialized, no need to worry about NULL pointer
-+    dereference.
-+
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Upstream-Status: Backport
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ instrumentation/events/lttng-module/btrfs.h | 54 ++++++++++++++++++++++++++++-
-+ 1 file changed, 53 insertions(+), 1 deletion(-)
-+
-+diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
-+index 75cc73b..fd1b6b8 100644
-+--- a/instrumentation/events/lttng-module/btrfs.h
-++++ b/instrumentation/events/lttng-module/btrfs.h
-+@@ -1658,8 +1658,57 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
-+ 
-+ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
-+ 
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_fs_info *info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-++
-++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
-++		 u64 len),
-++
-++	TP_ARGS(block_group, start, len),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, block_group->fs_info->fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, bg_objectid, block_group->key.objectid)
-++		ctf_integer(u64, flags, block_group->flags)
-++		ctf_integer(u64, start, start)
-++		ctf_integer(u64, len, len)
-++	)
-++)
-++
-++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent,
-++
-++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
-++		 u64 len),
-++
-++	TP_ARGS(block_group, start, len)
-++)
-++
-++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_cluster,
-++
-++	TP_PROTO(const struct btrfs_block_group_cache *block_group, u64 start,
-++		 u64 len),
-++
-++	TP_ARGS(block_group, start, len)
-++)
-+ 
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-+ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 
-+ 	btrfs_find_free_extent,
-+@@ -1670,6 +1719,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 	TP_ARGS(info, num_bytes, empty_size, data),
-+ 
-+ 	TP_FIELDS(
-++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-+ 		ctf_integer(u64, num_bytes, num_bytes)
-+ 		ctf_integer(u64, empty_size, empty_size)
-+ 		ctf_integer(u64, data, data)
-+@@ -1685,6 +1735,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 	TP_ARGS(info, block_group, start, len),
-+ 
-+ 	TP_FIELDS(
-++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-+ 		ctf_integer(u64, bg_objectid, block_group->key.objectid)
-+ 		ctf_integer(u64, flags, block_group->flags)
-+ 		ctf_integer(u64, start, start)
-+@@ -1722,6 +1773,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 	TP_ARGS(info, num_bytes, empty_size, data),
-+ 
-+ 	TP_FIELDS(
-++		ctf_array(u8, fsid, info->fsid, BTRFS_UUID_SIZE)
-+ 		ctf_integer(u64, num_bytes, num_bytes)
-+ 		ctf_integer(u64, empty_size, empty_size)
-+ 		ctf_integer(u64, data, data)
-+-- 
-+2.13.3
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
-index 6146966..d9d5588 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.6.bb
-@@ -14,6 +14,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           file://0001-Fix-btrfs-Remove-unnecessary-fs_info-parameter.patch \
- "
- 
- SRC_URI[md5sum] = "8110099f4615fc89a74ffe9189b56cfc"
--- 
-2.7.4
+On 2018年07月04日 18:17, He Zhe wrote:
+> If relayd is started after connection attempt from consumerd it will
+> leave the session in disconnected state and causes the following
+> inconvenience. This is covered by an upstream feature, see
+> https://bugs.lttng.org/issues/883. Before it's done, this patches
+> allows users to reconnect to relayd.
+>
+> root@localhost:~# lttng enable-event --userspace --all
+> Error: Events: UST create channel failed (channel channel0, session trace_session)
+> root@localhost:~# lttng-relayd -b
+> Warning: No tracing group detected
+> root@localhost:~# lttng enable-event --userspace --all
+> Error: Events: UST create channel failed (channel channel0, session trace_session)
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  ...ow-multiple-attempts-to-connect-to-relayd.patch | 43 ++++++++++++++++++++++
+>  meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb     |  1 +
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
+>
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
+> new file mode 100644
+> index 00000000000..62a0978592d
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/lttng-tools/0001-Allow-multiple-attempts-to-connect-to-relayd.patch
+> @@ -0,0 +1,43 @@
+> +From 70eff899104b86bae02862927c76caaef5de5d3c Mon Sep 17 00:00:00 2001
+> +From: Mikael Beckius <mikael.beckius@windriver.com>
+> +Date: Thu, 7 May 2015 16:14:25 +0200
+> +Subject: [PATCH] Allow multiple attempts to connect to relayd.
+> +
+> +It is unclear why a session needs to be made
+> +unusable after a failure to connect to relayd
+> +since a check for a relayd connection is
+> +always made before a session can be configured.
+> +
+> +The behaviour was introduced in:
+> +d9078d0c000d04d49c599a72c1a725026b636ec0
+> +
+> +Signed-off-by: Mikael Beckius <mikael.beckius@windriver.com>
+> +[ The context has moved, adjust the hunk accordingly ]
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +Upstream-Status: Pending
+> +---
+> + src/bin/lttng-sessiond/cmd.c |    8 --------
+> + 1 file changed, 8 deletions(-)
+> +
+> +diff --git a/src/bin/lttng-sessiond/cmd.c b/src/bin/lttng-sessiond/cmd.c
+> +index 73b4ce3..36f62ee 100644
+> +--- a/src/bin/lttng-sessiond/cmd.c
+> ++++ b/src/bin/lttng-sessiond/cmd.c
+> +@@ -689,14 +689,6 @@ close_sock:
+> + 	free(rsock);
+> + 
+> + error:
+> +-	if (ret != LTTNG_OK) {
+> +-		/*
+> +-		 * The consumer output for this session should not be used anymore
+> +-		 * since the relayd connection failed thus making any tracing or/and
+> +-		 * streaming not usable.
+> +-		 */
+> +-		consumer->enabled = 0;
+> +-	}
+> + 	return ret;
+> + }
+> + 
+> +-- 
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> index 93626dd4b5f..e4969c30807 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb
+> @@ -30,6 +30,7 @@ PACKAGECONFIG_remove_riscv64 = "lttng-ust"
+>  SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+>             file://x32.patch \
+>             file://run-ptest \
+> +           file://0001-Allow-multiple-attempts-to-connect-to-relayd.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "051224eb991aee07f8721ff1877d0b96"
 
 
