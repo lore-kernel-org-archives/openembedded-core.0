@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C8054755B6
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3914C75562
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 09:45:55 +0000 (UTC)
-Received: by mail-oi0-f43.google.com with SMTP id i12-v6so41423768oik.2
+	Tue, 10 Jul 2018 09:46:40 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id i12-v6so41427126oik.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 02:45:57 -0700 (PDT)
+	Tue, 10 Jul 2018 02:46:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QH6SWO+KKVfNV8gaH5fd4nRdb48eOHkJ0a44NtNzh+E=;
-	b=en1567HfEBEtsGeR6puTTJfyUXImqMmsfc4o2P0GB+OEiRPPPZpkSVxp8jwbPFztMI
-	hm7/1QAWReDbFGlK7BHPpVXNS1yO59rHNRbdFoz4oN4R7OPatuwmCpfVu4pA5cSyD1/x
-	LniGrt8gvTZDhnhXuAW0qaastRwGdwZvPPjqaW3z77HG0LpNu5MhcSOcU4VqLDtExMi2
-	i3UcptKXtnNhdsSRy+47OzO7nb0YswWvvLz0QwFuMzpc8xysfoNT5SqjWI6tLKhwyLmS
-	sZlUVS1oG9XA3w4uMGI86b+/bdNkgIp2N/9bNsD+QYNltyv1LQXOFrzn6YpgkxJh3SGb
-	CLQA==
+	:cc; bh=t/CJ+tnMxLOTx7nIhmypSaUCHzTb16ScluuUyjUTRG8=;
+	b=TiLHX4ZDq2PJJ+gieI2dZebKmhNaPygIisz7JVBfixGo3L70Wyiy1Ijd9ERiedF1O2
+	P0oib8KDpXWy6oH0HFYh9UTPU1TlU0OZid5qVhCnvZyDkgltK8xEFEJB0562gLj7RuoE
+	ictI/jQpShsZKtpV/oN7cRVcMXCFPDZdyu6lPCMy2oc7FYrI3cRyYmuhBEIAQE6q6pFX
+	CFFSSnjbyTSoR4vOCBFlkDWA9HwP7jw65Kq+3GTkx/RTQ19tycD3v1+aiFBbhMCCv+xx
+	rwhYk7lt1cFA+JWowLunD6Z5xnYoGKuEkkWg2mHpMVE52ZZuj/0BcG59X5/EN/4h3G3l
+	YBtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=QH6SWO+KKVfNV8gaH5fd4nRdb48eOHkJ0a44NtNzh+E=;
-	b=SkOEwM/SWwY+75QHuEEFUmmYnZ7crRF9a/puZ+GeyINj00YrYVz5R5qBICRGCprlAD
-	kDwkf5Y+wF4asdNtkkTQ0f8BBsg91onjqVbHaLykWDjznus91tel+Y8TbjubnwtHAIZN
-	npCKXJA6Rvcxdht8SzcCmYL+KOqenJsNi4Wyn4oVhd0BRLaCF0THdg6LtgJzaTXXB23u
-	G0tAzyp2CJtz1Jy01L5goZ68dG6A0Am8CkJMcJHwy8L0haS/5VPAoGCe7mTr460vSgr4
-	lduZms+ClZKRrBsKC7l14BSm8btoZ47uu0WMITImQTkACIv/E/t3djHB//OS1GlZn1kH
-	5e+A==
-X-Gm-Message-State: APt69E0nC7lddDNFwPhi+RMxSs/In9sbk9snhmKYgNohOnTq1uuubna1
-	31G8SoxcyXzLkQtKWtDLlx5EYxVUdv7femqUrm4GNQ==
-X-Google-Smtp-Source: AAOMgpcCI6hCjH/mW4vuqGCTUKygFqcjlEZWMTDVIiMiPrsHPfJeW1lPWgXPdO6DEY7TSfYa5rqnSwegqR5Lv/+eZ3Y=
-X-Received: by 2002:aca:efd7:: with SMTP id
-	n206-v6mr28925790oih.70.1531215956692; 
-	Tue, 10 Jul 2018 02:45:56 -0700 (PDT)
+	bh=t/CJ+tnMxLOTx7nIhmypSaUCHzTb16ScluuUyjUTRG8=;
+	b=CCNYZmX6HoNRMzGnugFFH8WzH6Rhw3jTafPwKFVhf4br/EzQwSYGETbsebih6kNhEk
+	9wKLeMz+WARlplYnFXgTOCvowlUw0gLlB3FeAfJFvpQBx7CAl1eX/Ojh9cPfN+2Yi0xW
+	d/AaYUdOdwOOxtXUfbhyD1wYlRAOp3SX6gSLL69IKKuDYGv/XrvpkytzLIVi90OJx7+Q
+	nC9Fz8wgTv313QWjLdRpSn1KQmtZvu5/ftSfTKrbILcHURdj/5UWKh54GtCMAQ1li7Qe
+	0K8FvPMoruc7XPKNwZS6if8KQ3uv1nqQAsme1Zk0HfaREBOgn3GZ9zR30aqwHC8isDPp
+	V3Sw==
+X-Gm-Message-State: APt69E21Zq926/xE2UKgZlNMGeS9I/KtbyNk67l3qJjfDub9kEb2J3X1
+	25V4WmM1aS1QDuFBW/L8I+12lOb8OymT6Q+x0OGGTQ==
+X-Google-Smtp-Source: AAOMgpd4IZXAcDTOOKwuRr8jgFkmSffEaAy+N3piPeC8Oy83582uTRlsvhVRCZ7q0KwilMOxd8F4fvlIIxhaOY38+0k=
+X-Received: by 2002:aca:2808:: with SMTP id
+	8-v6mr28008804oix.235.1531216001316; 
+	Tue, 10 Jul 2018 02:46:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:45:36
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 02:46:20
 	-0700 (PDT)
-In-Reply-To: <20180710024207.6296-2-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20180710024207.6296-5-hongl.fnst@cn.fujitsu.com>
 References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
-	<20180710024207.6296-2-hongl.fnst@cn.fujitsu.com>
+	<20180710024207.6296-5-hongl.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2018 10:45:36 +0100
-Message-ID: <CAJTo0Lbqg9bcSo9XkwGibEZhjz0rS5t0b2sXje4y6HDC8eFMxg@mail.gmail.com>
+Date: Tue, 10 Jul 2018 10:46:20 +0100
+Message-ID: <CAJTo0LYA1p21cRh8uS2DcM0a+uGvRd1_RxQQdaH+Q+j35Bm7Jw@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] file:5.32 -> 5.33
+Subject: Re: [PATCH] [PATCH] nss:3.37.1 -> 3.37.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 09:45:55 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 09:46:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-This has been already submitted, and the usage patch should be dropped
-instead of rebased.
+master is at 3.38 now.
 
 Ross
 
 On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> Upgrade file from 5.32 to 5.33
+> Upgrade nss from 3.37.1 to 3.37.3
 >
 > Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
->  .../file/file/0001-Add-P-prompt-into-Usage-info.patch      | 14 ++++++++------
->  meta/recipes-devtools/file/{file_5.32.bb => file_5.33.bb}  |  2 +-
->  2 files changed, 9 insertions(+), 7 deletions(-)
->  rename meta/recipes-devtools/file/{file_5.32.bb => file_5.33.bb} (96%)
+>  meta/recipes-support/nss/{nss_3.37.1.bb => nss_3.37.3.bb} | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>  rename meta/recipes-support/nss/{nss_3.37.1.bb => nss_3.37.3.bb} (97%)
 >
-> diff --git a/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch b/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
-> index 8a16b2c..0d12d86 100644
-> --- a/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
-> +++ b/meta/recipes-devtools/file/file/0001-Add-P-prompt-into-Usage-info.patch
-> @@ -23,16 +23,18 @@ diff --git a/src/file.c b/src/file.c
->  index 2b15e21..e5a957b 100644
->  --- a/src/file.c
->  +++ b/src/file.c
-> -@@ -76,8 +76,8 @@ int getopt_long(int argc, char * const *argv, const char *optstring, const struc
-> +@@ -87,9 +87,8 @@ int getopt_long(int, char * const *, const char *,
-> +
->   # define USAGE  \
-> -     "Usage: %s [" FILE_FLAGS \
-> -       "] [--apple] [--extension] [--mime-encoding] [--mime-type]\n" \
-> --    "            [-e testname] [-F separator] [-f namefile] [-m magicfiles] " \
-> --    "file ...\n" \
-> +     "Usage: %s [-" FILE_FLAGS "] [--apple] [--extension] [--mime-encoding]\n" \
-> +-    "            [--mime-type] [-e <testname>] [-F <separator>] " \
-> +-    " [-f <namefile>]\n" \
-> +-    "            [-m <magicfiles>] [-P <parameter=value>] <file> ...\n" \
->  +    "            [-e testname] [-F separator] [-f namefile] [-m magicfiles]\n " \
->  +    "            [-P parameter=limits] file ...\n" \
-> -     "       %s -C [-m magicfiles]\n" \
-> +     "       %s -C [-m <magicfiles>]\n" \
->       "       %s [--help]\n"
-> +
+> diff --git a/meta/recipes-support/nss/nss_3.37.1.bb b/meta/recipes-support/nss/nss_3.37.3.bb
+> similarity index 97%
+> rename from meta/recipes-support/nss/nss_3.37.1.bb
+> rename to meta/recipes-support/nss/nss_3.37.3.bb
+> index 0e8b5be..a053659 100644
+> --- a/meta/recipes-support/nss/nss_3.37.1.bb
+> +++ b/meta/recipes-support/nss/nss_3.37.3.bb
+> @@ -25,11 +25,10 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+>             file://nss-fix-nsinstall-build.patch \
+>             file://disable-Wvarargs-with-clang.patch \
+>             file://pqg.c-ULL_addend.patch \
+> -           file://0001-Bug-1432455-Build-FStar.c-when-not-building-with-int.patch \
+>             "
 >
->  --
->  1.8.3.4
-> diff --git a/meta/recipes-devtools/file/file_5.32.bb b/meta/recipes-devtools/file/file_5.33.bb
-> similarity index 96%
-> rename from meta/recipes-devtools/file/file_5.32.bb
-> rename to meta/recipes-devtools/file/file_5.33.bb
-> index 5e15925..c1688ff 100644
-> --- a/meta/recipes-devtools/file/file_5.32.bb
-> +++ b/meta/recipes-devtools/file/file_5.33.bb
-> @@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
->          file://0001-Add-P-prompt-into-Usage-info.patch \
->          "
+> -SRC_URI[md5sum] = "e9526d7217d02afa96b90b89924c38df"
+> -SRC_URI[sha256sum] = "097b30e436479ad737b3703b25b6198b6513e202731085c6f097d8853dd20405"
+> +SRC_URI[md5sum] = "22e8ce40f80ce1e7d9d92ebd07124840"
+> +SRC_URI[sha256sum] = "9af2bbb615d010bd866bb83f8c0bb22b0fa086171e93030ffb03da3da15cc5be"
 >
-> -SRCREV = "d474e35513940dbca039b510b4de705b44f5bd9c"
-> +SRCREV = "d14511987263ae3c6f5ad28ed7b81c26afdb422c"
->  S = "${WORKDIR}/git"
->
->  inherit autotools
+>  UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+>  UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
 > --
 > 2.7.4
 >
