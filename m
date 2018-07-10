@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B4FF16FF73
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FDE87553C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 10:39:43 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id y207-v6so41649469oie.13
+	Tue, 10 Jul 2018 10:42:20 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id r16-v6so41691999oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 03:39:45 -0700 (PDT)
+	Tue, 10 Jul 2018 03:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7GKOoxjfGIQEGpP3XQH1aKEUAHhfVxn2t6qxPtQs0bw=;
-	b=LX/q1AOYwzWNNmFaod3V0cAN2Ies4UQqqhmUnxZEx5Rh/n9ZHCgkgtm/cx90Q8eACR
-	TTBnDsLk5WtraP43CeLu6sp2cu8zOY2RecFJejUprs1mx68i8VKA26HOvOL5ZuV0TlWj
-	WFA1X9WIQwrT3dFa1HPU2k9/qfX60pcQ0Cw1UrwSDMJ+uJxFC3eiulAJNjQd0GAu26jC
-	URUhkiAFjWk6eaLdOcvlaF2EKv5tSnNXDrkKZmlO8NHAcrIBx6tVSUmHUUoW7yf0G/0v
-	dV17EhCNs8ShwDnC0chqxRD/Q/SlSaEeLQS8BAQSSO4MuXoDBPW/A78mCkOm4C8EUR9Z
-	twKw==
+	:cc; bh=tpcR+5USmOUNLv/Gg0apRC40Lxc/aSoPctwB9dTQRso=;
+	b=Gqg533Sl/FpW9UokNLox3PRUKsbNEOW5f+Wu/+aSiE1lVBqex96ZTJRK62jOwbwAvO
+	qebBKZm4PNQuEutEHCdp1aR2cTfOswMkoSbzqoYxJ0Xb6S9ckXwqQ7lx/orwFjGcnzv3
+	MbsRS/ko42dCiLF79FEBNR9tA8Bi9wHpw0YxJZg1+VvH0Q0AwoYVTNaGDi5zFg56KC2I
+	GLu66t7/Csse4R5TnfK6eBzNbVY4rg2dIp/5XXlb3noJ9JFCDAzHFbasoFIkKQLn9mUB
+	K2TjF8b2Zg3una5JqDMMYgLAgMKbNBl2iVqqo8GaU85IsJQb62GKw3vWVpIWbfYhThCa
+	CwOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=7GKOoxjfGIQEGpP3XQH1aKEUAHhfVxn2t6qxPtQs0bw=;
-	b=mBtW4QtYXS9AbF7hSEdJ1GvanqrwP63h9mGTLzandp/wghAztPGjfl6Xzd8uCG1Q0z
-	H+YW0idJ7nyltAFU94X+ouMJnEbUZIv7P60+GuCvUey2KF0t/TE5bvpD+VZwusAFm018
-	HPJcRi0xcsFRqcdLVTauldYjniGZsKHN+oFndsgkpfA+6F7XOkdegaXi6P09uQA4ufoK
-	NY+rm83UMIQjNHQeqQShqVABjJH0PLWIH5F3OVXG0x1VFKtbakUXbudHGtwxyfr+jfOI
-	vFb1hgzu/6mz9fRhHCfYFsfz+wqESGYZM3kM0jk31zQyk0XguzZ5FUsdQroDi499bNBV
-	96DA==
-X-Gm-Message-State: APt69E1q94elVDUS/KghxxhCIwhSzhukYjgFp7iFbaY+3MGBh4RbcyOU
-	eIKlr8ufe+gL782HVzZ/TKZcbfxXtzI1inn6SoDlxd9I
-X-Google-Smtp-Source: AAOMgpc6mP6dyMQ1DCwUVMz0ubRCkkS32BTvkIT2uYkBXwFZvSgF2UHysfTkywmkn1tuKsHmR0wghfE1kvpBUXbVuIQ=
+	bh=tpcR+5USmOUNLv/Gg0apRC40Lxc/aSoPctwB9dTQRso=;
+	b=PwhvEsgH9T3NX3bPcjJSy5DpZeCJgTop1gZJ7zps7cp92yrBXWw9enIV2qAraTJfRE
+	gNwTRMJ1Ghuf/vaGeBBQtFwUE4tR+e1O4UF2OROEgzb5Z9HSpkeoUEpwlu5XXwMrR5ZI
+	9aNvyriRfSRKuN+EVsRbc1F3y6JQ6SE/FIlG5gjBiL88+fOpkyWyoiBvjnXfaCljhT22
+	hI8UW4wX1cPi7T6o+XyX9+pY8tEQjAjmouy/rEN90lKdMhDwfqy2pK0C2OxF9V00+umi
+	5Mw53Lc2uNLyTh8/9AgpshWOCoKvj4dkv7Ias9WgknJ2pZr4olZsYwZxuDPcxvTsA3TP
+	8Z5g==
+X-Gm-Message-State: APt69E2KUIY1el81L/pHvXbULW3ylAeuli7hoOs26jSEXCCJt9a84mX0
+	j2oZ0YbFTNVO8aBreyT61UGTy9NRXZYfYDyw1No8Hg==
+X-Google-Smtp-Source: AAOMgpdKGDEiEZ5GiI4UQ00XinQ888E8XJI7RGkH64dq+UMl9FgOhY7qm8zSbZPFfBZlfgHAFPgT2Z/J1jJsZpL8z4s=
 X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr28942984oia.170.1531219184768; 
-	Tue, 10 Jul 2018 03:39:44 -0700 (PDT)
+	z136-v6mr28952774oia.170.1531219341303; 
+	Tue, 10 Jul 2018 03:42:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 03:39:24
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 03:42:00
 	-0700 (PDT)
-In-Reply-To: <20180710024207.6296-3-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <CAJTo0LZRfP9XGEvGV2_7ZPST8W94b51n=MaweKND3SpoS80P_g@mail.gmail.com>
 References: <20180710024207.6296-1-hongl.fnst@cn.fujitsu.com>
-	<20180710024207.6296-3-hongl.fnst@cn.fujitsu.com>
+	<CAJTo0LZRfP9XGEvGV2_7ZPST8W94b51n=MaweKND3SpoS80P_g@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2018 11:39:24 +0100
-Message-ID: <CAJTo0LaV+54SATOy4yz-cDH=HjGLc8ivfjawbj3c7x3LGqQaqQ@mail.gmail.com>
+Date: Tue, 10 Jul 2018 11:42:00 +0100
+Message-ID: <CAJTo0La5PE5cnhrn7X0Tc=TmRPYL8BAxpkT5-4+uh-1OJ4TFvg@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [PATCH] harfbuzz:1.7.5 -> 1.7.6
+Subject: Re: [PATCH] [PATCH] ethtool:4.16 -> 4.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +58,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 10:39:43 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 10:42:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Packaging is broken, as it was the last time this was submitted to the list:
+(the refresh was trivial so I've done this)
 
-packages/corei7-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed
-"/usr/lib/libharfbuzz.so.0.10705.0", added
-"/usr/lib/libharfbuzz.so.0.10706.0 /usr/lib/libharfbuzz-subset.so.0
-/usr/lib/libharfbuzz-subset.so.0.10706.0"
-packages/corei7-64-poky-linux/harfbuzz/harfbuzz: PKG changed from
-libharfbuzz0 to harfbuzz [default] - may indicate debian renaming
-failure
-
-Ross
-
-On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> Upgrade harfbuzz from 1.7.5 to 1.7.6.
+On 10 July 2018 at 11:38, Burton, Ross <ross.burton@intel.com> wrote:
+> WARNING: ethtool-4.17-r0 do_patch:
+> Some of the context lines in patches were ignored. This can lead to
+> incorrectly applied patches.
+> The context lines in the patches can be updated with devtool:
 >
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->  .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.7.6.bb}                 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.7.6.bb} (88%)
+>     devtool modify <recipe>
+>     devtool finish --force-patch-refresh <recipe> <layer_path>
 >
-> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
-> similarity index 88%
-> rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
-> rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
-> index 0a9b029..80d413a 100644
-> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
-> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.6.bb
-> @@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
+> Then the updated patches and the source tree (in devtool's workspace)
+> should be reviewed to make sure the patches apply in the correct place
+> and don't introduce duplicate lines (which can, and does happen
+> when some of the context is ignored). Further information:
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+> Details:
+> Applying patch avoid_parallel_tests.patch
+> patching file configure.ac
+> Hunk #1 succeeded at 2 with fuzz 1.
 >
->  SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+> Now at patch avoid_parallel_tests.patch
 >
-> -SRC_URI[md5sum] = "1466ab51fc5aaa6af4065936939cec62"
-> -SRC_URI[sha256sum] = "84574e1b1f65ca694cb8fb6905309665c0368af18a312357f8ff886ee2f29563"
-> +SRC_URI[md5sum] = "ffb94cf2942327344ac31330d07036ba"
-> +SRC_URI[sha256sum] = "da7bed39134826cd51e57c29f1dfbe342ccedb4f4773b1c951ff05ff383e2e9b"
->
->  inherit autotools pkgconfig lib_package gtk-doc
->
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On 10 July 2018 at 03:42, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+>> Upgrade ethtool from 4.16 to 4.17
+>>
+>> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+>> ---
+>>  meta/recipes-extended/ethtool/{ethtool_4.16.bb => ethtool_4.17.bb} | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>  rename meta/recipes-extended/ethtool/{ethtool_4.16.bb => ethtool_4.17.bb} (88%)
+>>
+>> diff --git a/meta/recipes-extended/ethtool/ethtool_4.16.bb b/meta/recipes-extended/ethtool/ethtool_4.17.bb
+>> similarity index 88%
+>> rename from meta/recipes-extended/ethtool/ethtool_4.16.bb
+>> rename to meta/recipes-extended/ethtool/ethtool_4.17.bb
+>> index 5ccb162..844a958 100644
+>> --- a/meta/recipes-extended/ethtool/ethtool_4.16.bb
+>> +++ b/meta/recipes-extended/ethtool/ethtool_4.17.bb
+>> @@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+>>             file://avoid_parallel_tests.patch \
+>>             "
+>>
+>> -SRC_URI[md5sum] = "2b50adf06fc1b033951edef5987c32f3"
+>> -SRC_URI[sha256sum] = "25f8fc3a4b2cb2cbfe8741148d8e743127dd7c951df96d8d6dccb88741f8a27d"
+>> +SRC_URI[md5sum] = "4dba0345a4ab9f51b4a4a9739284238d"
+>> +SRC_URI[sha256sum] = "4130142a15f7409d18de3667998f3c99fba52fd7c8d94be7ecdabf8dcab3d6c1"
+>>
+>>  inherit autotools ptest
+>>  RDEPENDS_${PN}-ptest += "make"
+>> --
+>> 2.7.4
+>>
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
