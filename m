@@ -1,26 +1,26 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id B6A1B71B69
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 546777454B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 08:41:57 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jul 2018 01:41:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,333,1526367600"; d="scan'208";a="214788435"
-Received: from hharm-mobl.gar.corp.intel.com (HELO
-	anmitta2-MOBL1.png.intel.com) ([10.255.169.237])
-	by orsmga004.jf.intel.com with ESMTP; 10 Jul 2018 01:41:58 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2018 16:41:41 +0800
-Message-Id: <20180710084141.9705-2-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180710084141.9705-1-anuj.mittal@intel.com>
-References: <20180710084141.9705-1-anuj.mittal@intel.com>
-Subject: [PATCH 2/2] image-live: fix check for rootfs size with hddimg images
+	Tue, 10 Jul 2018 08:45:47 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6A8jjgn019400
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 10 Jul 2018 09:45:46 +0100
+Message-ID: <05aaa19a3bf9bcf837150745d1ee17deaa41304f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jul 2018 09:45:45 +0100
+In-Reply-To: <20180710080702.20527-2-Martin.Jansa@gmail.com>
+References: <20180710080702.20527-1-Martin.Jansa@gmail.com>
+	<20180710080702.20527-2-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] libdrm: allow to build native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 08:41:57 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 08:45:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently we check if the rootfs.img size is greater than 4 GB and use
-mcopy to copy it over to a hddimg, a FAT32 volume.
+Normally I don't mind native/nativesdk variants but libdrm starts to
+worry me as its a short step away from mesa and when we've tried native
+or nativesdk versions in the past its been a nightmare, particularly
+around GL.
 
-This results in problems when IMAGE_ROOTFS_SIZE is set to be exact 4 GB
-(4294967296 bytes). mcopy uses the max offset/file size to be 4294967295
-and as a result, it errors out without any warning to the user.
+Could you explain a little more about why we need libdrm-native?
 
-Change the 4 GB check to '-ge' to catch these cases. Since we allow
-IMAGE_ROOTFS_SIZE to be in KBs, the maximum allowed is 4194303 KB. Also,
-tweaked the error message to refer to wic too.
+Cheers,
 
-Fixes [YOCTO #12776]
+Richard
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/classes/image-live.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 966277c678..90e5a815c2 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -232,11 +232,11 @@ build_hddimg() {
- 		if [ -f ${HDDDIR}/rootfs.img ]; then
- 			rootfs_img_size=`stat -c '%s' ${HDDDIR}/rootfs.img`
- 			max_size=`expr 4 \* 1024 \* 1024 \* 1024`
--			if [ $rootfs_img_size -gt $max_size ]; then
--				bberror "${HDDDIR}/rootfs.img execeeds 4GB,"
--				bberror "this doesn't work on FAT filesystem, you can try either of:"
--				bberror "1) Reduce the size of rootfs.img"
--				bbfatal "2) Use iso, vmdk or vdi to instead of hddimg\n"
-+			if [ $rootfs_img_size -ge $max_size ]; then
-+				bberror "${HDDDIR}/rootfs.img rootfs size is greather than or equal to 4GB,"
-+				bberror "and this doesn't work on a FAT filesystem. You can either:"
-+				bberror "1) Reduce the size of rootfs.img, or,"
-+				bbfatal "2) Use wic, vmdk or vdi instead of hddimg\n"
- 			fi
- 		fi
- 
--- 
-2.17.1
-
+On Tue, 2018-07-10 at 08:07 +0000, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-graphics/drm/libdrm_2.4.92.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> index 1526553254..b4d06d19a6 100644
+> --- a/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> +++ b/meta/recipes-graphics/drm/libdrm_2.4.92.bb
+> @@ -56,3 +56,5 @@ FILES_${PN}-kms = "${libdir}/libkms*.so.*"
+>  FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
+>  FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*"
+>  FILES_${PN}-etnaviv = "${libdir}/libdrm_etnaviv.so.*"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> -- 
+> 2.17.1
+> 
 
