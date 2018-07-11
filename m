@@ -1,30 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4779076058
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 84CA375577
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 02:34:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6B2YBsk018701
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2018 19:34:11 -0700
-Received: from server.local (128.224.23.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 10 Jul 2018 19:34:11 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-	<47b99eac-867c-9cca-ac43-4d5a06760ed3@windriver.com>
-	<c0baf80e5943135f4f65a93d849ee68419065c45.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <97d70868-7ee5-01a7-7898-2713de76dbcd@windriver.com>
-Date: Tue, 10 Jul 2018 22:34:10 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.0
+	Wed, 11 Jul 2018 03:23:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B3NoZn003460
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2018 20:23:51 -0700 (PDT)
+Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Tue, 10 Jul 2018 20:23:50 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Jul 2018 11:23:44 +0800
+Message-ID: <1531279424-13408-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <c0baf80e5943135f4f65a93d849ee68419065c45.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+X-Originating-IP: [128.224.162.137]
+Subject: [PATCH] file: Security fix CVE-2018-10360
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,87 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 02:34:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jul 2018 03:23:50 -0000
+Content-Type: text/plain
 
-On 2018-07-10 5:41 PM, Richard Purdie wrote:
-> On Tue, 2018-07-10 at 12:38 -0400, Bruce Ashfield wrote:
->> On 07/10/2018 06:21 AM, Richard Purdie wrote:
->>> On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
->> I'll try the other configs, but clearly I have something different in
->> my x86-64 build.
->>
->> I can't run the self tests directly, but am copying the files onto my
->> qemu session and running things myself:
->>
->> root@qemux86-64:/lib/modules/4.14.48-yocto-standard/build# make
->> ARCH=x86
->> scripts prepare
->> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install
->> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>     CHK     scripts/mod/devicetable-offsets.h
->>     SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
->>     SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
->>     SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
->>     SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
->>     SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
->>     SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
->>     SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
->>     HOSTCC  arch/x86/tools/relocs_32.o
->>     HOSTCC  arch/x86/tools/relocs_64.o
->>     HOSTCC  arch/x86/tools/relocs_common.o
->>     HOSTLD  arch/x86/tools/relocs
->>     CHK     include/config/kernel.release
->>     CHK     include/generated/uapi/linux/version.h
->>     CHK     include/generated/utsrelease.h
->> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install
->> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>
->> root@qemux86-64:/tmp# make
->> make -C /usr/src/kernel M=/tmp modules
->> make[1]: Entering directory '/lib/modules/4.14.48-yocto-
->> standard/build'
->> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please install
->> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>     Building modules, stage 2.
->>     MODPOST 1 modules
->> make[1]: Leaving directory '/lib/modules/4.14.48-yocto-
->> standard/build'
->> root@qemux86-64:/tmp# insmod hellomod.ko
->> [  419.211616] hellomod: loading out-of-tree module taints kernel.
->> [  419.212586] Hello world!
->>
->> This is on the core-image-kernel-dev image, which is the one that
->> I created to test all this.
->>
->> What image is that using ? some sato sdk one ?
-> 
-> We really need to find you a way to run these. The problem is the qemu
-> graphics piece? You can't have a dummy vncserver or something to direct
-> them at?
+CVE-2018-10360: The do_core_note function in readelf.c in libmagic.a in
+file 5.33 allows remote attackers to cause a denial of service
+(out-of-bounds read and application crash) via a crafted ELF file.
 
-My config never seems to build and run the tests that I need, I had
-it work once, and then never again. So I prefer to just build, boot
-and run tests manually.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2018-10360
 
-Regardless of the automation, I can easily do "make scripts prepare"
-on the kernel-devsrc package, so that is extremely odd that it doesn't
-work with that image. I'll try and add devsrc to a sato build and see
-of objtool goes nuts.
+Patch from:
+https://github.com/file/file/commit/a642587a9c9e2dd7feacdf513c3643ce26ad3c22
 
-I'm also unable to build lttng-modules for mips at the moment, so at
-least mips is untestable for me.
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../file/file/CVE-2018-10360.patch                 | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/file/file_5.33.bb            |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2018-10360.patch
 
-Bruce
-
-> 
-> The image is a core-image-sato-sdk...
-> 
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/meta/recipes-devtools/file/file/CVE-2018-10360.patch b/meta/recipes-devtools/file/file/CVE-2018-10360.patch
+new file mode 100644
+index 0000000..7f5671b
+--- /dev/null
++++ b/meta/recipes-devtools/file/file/CVE-2018-10360.patch
+@@ -0,0 +1,32 @@
++From df494f4ca494b5e1044052d96a6092a16ef1f6b3 Mon Sep 17 00:00:00 2001
++From: Christos Zoulas <christos@zoulas.com>
++Date: Sat, 9 Jun 2018 16:00:06 +0000
++Subject: [PATCH] Avoid reading past the end of buffer (Rui Reis)
++
++Upstream-Status: Backport
++[https://github.com/file/file/commit/a642587a9c9e2dd7feacdf513c3643ce26ad3c22]
++
++CVE: CVE-2018-10360
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ src/readelf.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/readelf.c b/src/readelf.c
++index 3df0836..d96a538 100644
++--- a/src/readelf.c
+++++ b/src/readelf.c
++@@ -825,7 +825,8 @@ do_core_note(struct magic_set *ms, unsigned char *nbuf, uint32_t type,
++ 
++ 				cname = (unsigned char *)
++ 				    &nbuf[doff + prpsoffsets(i)];
++-				for (cp = cname; *cp && isprint(*cp); cp++)
+++				for (cp = cname; cp < nbuf + size && *cp
+++				    && isprint(*cp); cp++)
++ 					continue;
++ 				/*
++ 				 * Linux apparently appends a space at the end
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/file/file_5.33.bb b/meta/recipes-devtools/file/file_5.33.bb
+index 4126422..745ef10 100644
+--- a/meta/recipes-devtools/file/file_5.33.bb
++++ b/meta/recipes-devtools/file/file_5.33.bb
+@@ -16,6 +16,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "FILE(?P<pver>(?!6_23).+)"
+ 
+ SRC_URI = "git://github.com/file/file.git \
+         file://debian-742262.patch \
++        file://CVE-2018-10360.patch \
+         "
+ 
+ SRCREV = "219846094c7593e27453e62855e61181089c48cf"
+-- 
+2.7.4
 
 
