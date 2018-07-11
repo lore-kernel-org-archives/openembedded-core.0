@@ -1,31 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B066765DB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EA1D975035
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 05:43:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B5hCwE029002
+	Wed, 11 Jul 2018 06:15:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6B6FqVT023546
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2018 22:43:12 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 10 Jul 2018 22:43:11 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1529919069.git.Qi.Chen@windriver.com>
-	<c8a7632a1f27b73ac623c5399ed4e452f2b37571.1529919069.git.Qi.Chen@windriver.com>
-	<CAJTo0LaW-4wBMWcp+ZdDJd0kKQMm_fRGo6nQph3GKXPJ6SuCPQ@mail.gmail.com>
-	<838c72f4-251b-5183-073e-e83c93230e93@windriver.com>
-	<0cdaabbf-0716-53d9-17b8-3daa0ca70f57@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <3cf12664-4fac-2311-eb39-37722dd5d6e3@windriver.com>
-Date: Wed, 11 Jul 2018 13:46:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 10 Jul 2018 23:15:52 -0700
+Received: from [128.224.162.161] (128.224.162.161) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 10 Jul 2018 23:15:45 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1530591075.git.liezhi.yang@windriver.com>
+	<8f4139268beb2ae8229344acf481631425b81675.1530591075.git.liezhi.yang@windriver.com>
+	<CAMKF1spaMzOO62=ibAoL+ZKVuiRkUyfu+BosOJTHoxR1ZYpZQA@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <fc49b695-316c-f963-cc2f-3c231c2842d6@windriver.com>
+Date: Wed, 11 Jul 2018 14:19:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <0cdaabbf-0716-53d9-17b8-3daa0ca70f57@windriver.com>
-X-Originating-IP: [128.224.162.218]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] oeqa/runtime/cases/systemd.py: avoid timeout problem
+In-Reply-To: <CAMKF1spaMzOO62=ibAoL+ZKVuiRkUyfu+BosOJTHoxR1ZYpZQA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] automake: 1.15.1 -> 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,127 +37,414 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 05:43:12 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jul 2018 06:15:52 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-ping
+Hi Khem,
 
-Is there some problem with this patch?
+I've sent patches to oe-devel to fix the problem:
 
-Recently when I'm doing testimage test for systemd upgrade, the 
-'systemctl list-unit-files' command in this test case revealed a 
-'segment fault' error on musl qemuarm.
-So I'd suggest to keep 'systemctl list-unit-files' command and use 
-'busctl' as a fallback in case of timeout.
+sblim-sfcb: fix sfcbinst2mof_DEPENDENCIES in Makefile.am
+ntop: fix so generation in plugins/Makefile.am
 
-Best Regards,
-Chen Qi
+// Robert
 
-On 07/04/2018 06:05 PM, ChenQi wrote:
-> ping
->
->
-> On 06/26/2018 09:48 AM, ChenQi wrote:
->> On 06/25/2018 09:40 PM, Burton, Ross wrote:
->>> The busctl invocation will only rarely be called so is very prone to
->>> bitrot, maybe it should just always use busctl?
->>>
->>> Personally I think that there should be a way for VM time to be
->>> independent of host time to avoid this sort of problem...
->>>
->>> Ross
+On 07/06/2018 02:06 PM, Khem Raj wrote:
+> this is regressing following recipes in meta-openembedded
+> 
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-support/ntop/ntop_5.0.1.bb?h=master
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/sblim-sfcb/sblim-sfcb_1.4.9.bb?h=master
+> 
+> 
+> On Mon, Jul 2, 2018 at 9:02 PM Robert Yang <liezhi.yang@windriver.com> wrote:
 >>
->> Hi Ross,
+>> * Refreshed the following patches:
+>>    - 0001-automake-Add-default-libtool_tag-to-cppasm.patch
+>>    - automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+>>    - buildtest.patch
+>>    - new_rt_path_for_test-driver.patch
+>>    - performance.patch
+>>    - python-libdir.patch
 >>
->> I now realize that I didn't include enough information in the commit 
->> message.
->> In fact, for qemuarm, this problem always appeared.
->> Compared to other qemu bsps (e.g. qemux86-64), qemuarm is running 
->> much slower.
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   ...utomake-Add-default-libtool_tag-to-cppasm.patch | 18 +++---
+>>   ...tion-in-shebangs-with-modern-use-warnings.patch | 68 +++++-----------------
+>>   .../automake/automake/buildtest.patch              | 20 +++++--
+>>   .../automake/new_rt_path_for_test-driver.patch     | 22 +++++--
+>>   .../automake/automake/performance.patch            | 19 ++++--
+>>   .../automake/automake/python-libdir.patch          | 19 +++---
+>>   .../{automake_1.15.1.bb => automake_1.16.1.bb}     |  4 +-
+>>   7 files changed, 82 insertions(+), 88 deletions(-)
+>>   rename meta/recipes-devtools/automake/{automake_1.15.1.bb => automake_1.16.1.bb} (89%)
 >>
->> I've now updated the commit the message to include this qemuarm info, 
->> and also updated the remote branch.
+>> diff --git a/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+>> index 1221f13..deb1d03 100644
+>> --- a/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+>> +++ b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+>> @@ -1,4 +1,4 @@
+>> -From 25a8ac30486798d23f516722d73eb622e6264f28 Mon Sep 17 00:00:00 2001
+>> +From b3c6e1971786cd93a2e3017c92bfbfe96baaf2f7 Mon Sep 17 00:00:00 2001
+>>   From: Khem Raj <raj.khem@gmail.com>
+>>   Date: Wed, 26 Jul 2017 11:19:56 -0700
+>>   Subject: [PATCH] automake: Add default libtool_tag to cppasm.
+>> @@ -6,19 +6,19 @@ Subject: [PATCH] automake: Add default libtool_tag to cppasm.
+>>       * bin/automake.in (register_language): Define default libtool tag to be CC
+>>       since CPPASCOMPILE is using CC to call assembler
 >>
->>   git://git.pokylinux.org/poky-contrib ChenQi/systemd-bus-timeout
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-bus-timeout 
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>>   Upstream-Status: Submitted
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 >>
+>> +---
+>>    bin/automake.in | 1 +
+>>    1 file changed, 1 insertion(+)
 >>
+>> -Index: automake-1.15.1/bin/automake.in
+>> -===================================================================
+>> ---- automake-1.15.1.orig/bin/automake.in
+>> -+++ automake-1.15.1/bin/automake.in
+>> -@@ -831,6 +831,7 @@ register_language ('name' => 'cppasm',
+>> -                  'compiler' => 'CPPASCOMPILE',
+>> +diff --git a/bin/automake.in b/bin/automake.in
+>> +index 3a66965..08ba09a 100644
+>> +--- a/bin/automake.in
+>> ++++ b/bin/automake.in
+>> +@@ -898,6 +898,7 @@ register_language ('name' => 'cppasm',
+>> +                    'libtool_tag' => 'CC',
+>>                     'compile_flag' => '-c',
+>>                     'output_flag' => '-o',
+>>   +                 'libtool_tag' => 'CC',
+>> diff --git a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+>> index 96b5a3d..1592c02 100644
+>> --- a/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+>> +++ b/meta/recipes-devtools/automake/automake/automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch
+>> @@ -1,4 +1,4 @@
+>> -From 41e06b7a354774913dcd2e32a35440e407843357 Mon Sep 17 00:00:00 2001
+>> +From 081385f4d4bba367afad3bff1fa034f5263305e6 Mon Sep 17 00:00:00 2001
+>>   From: Serhii Popovych <spopovyc@cisco.com>
+>>   Date: Wed, 10 Feb 2016 17:07:32 +0000
+>>   Subject: [PATCH] perl: Replace -w option in shebangs with modern "use
+>> @@ -15,24 +15,24 @@ line and add "use warnings" statement.
 >>
->> If you think we should still use `busctl' directly, I can send out a 
->> new patch. Either way is OK to me.
+>>   Upstream-Status: Pending
+>>   Signed-off-by: Serhii Popovych <spopovyc@cisco.com>
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +
+>>   ---
+>> - bin/aclocal.in     | 3 ++-
+>> - bin/automake.in    | 3 ++-
+>> - t/wrap/aclocal.in  | 3 ++-
+>> - t/wrap/automake.in | 3 ++-
+>> - 4 files changed, 8 insertions(+), 4 deletions(-)
+>> + bin/aclocal.in  | 3 ++-
+>> + bin/automake.in | 3 ++-
+>> + 2 files changed, 4 insertions(+), 2 deletions(-)
 >>
->> Best Regards,
->> Chen Qi
+>> -Index: automake-1.15.1/bin/aclocal.in
+>> -===================================================================
+>> ---- automake-1.15.1.orig/bin/aclocal.in
+>> -+++ automake-1.15.1/bin/aclocal.in
+>> +diff --git a/bin/aclocal.in b/bin/aclocal.in
+>> +index b3715d9..461d453 100644
+>> +--- a/bin/aclocal.in
+>> ++++ b/bin/aclocal.in
+>>   @@ -1,4 +1,4 @@
+>>   -#!@PERL@ -w
+>>   +#!@PERL@
+>>    # -*- perl -*-
+>>    # @configure_input@
 >>
->>> On 25 June 2018 at 10:33, Chen Qi <Qi.Chen@windriver.com> wrote:
->>>> I've encountered the following error when doing testimage.
->>>>
->>>>    RESULTS - systemd.SystemdBasicTests.test_systemd_list - Testcase 
->>>> 551: FAILED
->>>>
->>>> After investigation, I found that it's not functionality issue. It's
->>>> just that the qemu was not running fast enough. And it resulted 
->>>> 'time out'
->>>> problem when using `systemctl list-unit-files'.
->>>>
->>>> The correctness could be verified by using 'busctl' directly.
->>>> e.g.
->>>> busctl --timeout=240 call org.freedesktop.systemd1 \
->>>> /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager \
->>>> ListUnitFilesByPatterns asas 0 0
->>>>
->>>> Checking the source codes, I can see that the timeout is 25s. I don't
->>>> think we should patch systemd's source codes just for such a simple
->>>> runtime test case.
->>>>
->>>> So instead, I change the test case to use 'busctl' directly if
->>>> 'systemctl list-unit-files' gets a timeout error.
->>>>
->>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> ---
->>>>   meta/lib/oeqa/runtime/cases/systemd.py | 14 +++++++++++++-
->>>>   1 file changed, 13 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/lib/oeqa/runtime/cases/systemd.py 
->>>> b/meta/lib/oeqa/runtime/cases/systemd.py
->>>> index db69384..b4f1025 100644
->>>> --- a/meta/lib/oeqa/runtime/cases/systemd.py
->>>> +++ b/meta/lib/oeqa/runtime/cases/systemd.py
->>>> @@ -81,7 +81,19 @@ class SystemdBasicTests(SystemdTest):
->>>>       @OETestID(551)
->>>> @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
->>>>       def test_systemd_list(self):
->>>> -        self.systemctl('list-unit-files')
->>>> +        command = 'systemctl list-unit-files'
->>>> +        status, output = self.target.run(command)
->>>> +        message = '\n'.join([command, output])
->>>> +        match = re.search('Connection timed out', output)
->>>> +        if match:
->>>> +            # it's possible that qemu is running slow
->>>> +            # use busctl to check the results with timeout set to 
->>>> 240s
->>>> +            command = 'busctl --timeout=240 call 
->>>> org.freedesktop.systemd1 /org/freedesktop/systemd1 
->>>> org.freedesktop.systemd1.Manager ListUnitFilesByPatterns asas 0 0'
->>>> +            status, output = self.target.run(command)
->>>> +            message = '\n'.join([command, output])
->>>> +            self.assertEqual(status, 0, message)
->>>> +        else:
->>>> +            self.assertEqual(status, 0, message)
->>>>
->>>>       @OETestID(550)
->>>> @OETestDepends(['systemd.SystemdBasicTests.test_systemd_basic'])
->>>> -- 
->>>> 1.9.1
->>>>
->>>> -- 
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> -@@ -33,6 +33,7 @@ BEGIN
+>> +@@ -32,6 +32,7 @@ BEGIN
+>>    }
 >>
+>>    use strict;
+>> @@ -40,17 +40,17 @@ Index: automake-1.15.1/bin/aclocal.in
 >>
->
-
+>>    use Automake::Config;
+>>    use Automake::General;
+>> -Index: automake-1.15.1/bin/automake.in
+>> -===================================================================
+>> ---- automake-1.15.1.orig/bin/automake.in
+>> -+++ automake-1.15.1/bin/automake.in
+>> +diff --git a/bin/automake.in b/bin/automake.in
+>> +index 8377d20..3a66965 100644
+>> +--- a/bin/automake.in
+>> ++++ b/bin/automake.in
+>>   @@ -1,4 +1,4 @@
+>>   -#!@PERL@ -w
+>>   +#!@PERL@
+>>    # -*- perl -*-
+>>    # @configure_input@
+>>
+>> -@@ -28,6 +28,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";
+>> +@@ -28,6 +28,7 @@ eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
+>>    package Automake;
+>>
+>>    use strict;
+>> @@ -58,39 +58,3 @@ Index: automake-1.15.1/bin/automake.in
+>>
+>>    BEGIN
+>>    {
+>> -Index: automake-1.15.1/t/wrap/aclocal.in
+>> -===================================================================
+>> ---- automake-1.15.1.orig/t/wrap/aclocal.in
+>> -+++ automake-1.15.1/t/wrap/aclocal.in
+>> -@@ -1,4 +1,4 @@
+>> --#!@PERL@ -w
+>> -+#!@PERL@
+>> - # @configure_input@
+>> -
+>> - # Copyright (C) 2012-2017 Free Software Foundation, Inc.
+>> -@@ -19,6 +19,7 @@
+>> - BEGIN
+>> - {
+>> -   use strict;
+>> -+  use warnings;
+>> -   @Aclocal::perl_libdirs = ('@abs_top_srcdir@/lib');
+>> -   unshift @Aclocal::perl_libdirs, '@abs_top_builddir@/lib'
+>> -     if '@srcdir@' ne '.';
+>> -Index: automake-1.15.1/t/wrap/automake.in
+>> -===================================================================
+>> ---- automake-1.15.1.orig/t/wrap/automake.in
+>> -+++ automake-1.15.1/t/wrap/automake.in
+>> -@@ -1,4 +1,4 @@
+>> --#!@PERL@ -w
+>> -+#!@PERL@
+>> - # @configure_input@
+>> -
+>> - # Copyright (C) 2012-2017 Free Software Foundation, Inc.
+>> -@@ -19,6 +19,7 @@
+>> - BEGIN
+>> - {
+>> -   use strict;
+>> -+  use warnings;
+>> -   @Automake::perl_libdirs = ('@abs_top_srcdir@/lib');
+>> -   unshift @Automake::perl_libdirs, '@abs_top_builddir@/lib'
+>> -     if '@srcdir@' ne '.';
+>> diff --git a/meta/recipes-devtools/automake/automake/buildtest.patch b/meta/recipes-devtools/automake/automake/buildtest.patch
+>> index c32cd1f..b88b9e8 100644
+>> --- a/meta/recipes-devtools/automake/automake/buildtest.patch
+>> +++ b/meta/recipes-devtools/automake/automake/buildtest.patch
+>> @@ -1,13 +1,25 @@
+>> +From a860b28069785aa5bf2fa9b671287de9af5004ff Mon Sep 17 00:00:00 2001
+>> +From: =?UTF-8?q?Bj=C3=B6rn=20Stenberg?= <bjst@enea.com>
+>> +Date: Wed, 19 Dec 2012 17:18:27 +0100
+>> +Subject: [PATCH] Add a new distro feature "ptest".
+>> +MIME-Version: 1.0
+>> +Content-Type: text/plain; charset=UTF-8
+>> +Content-Transfer-Encoding: 8bit
+>> +
+>>   Split "check-TESTS" into a buildtest and runtest target, so that they can
+>>   be run separately.
+>>
+>>   Signed-off-by: Björn Stenberg <bjst@enea.com>
+>>   Upstream-Status: Pending
+>>
+>> -Index: automake-1.15.1/lib/am/check.am
+>> -===================================================================
+>> ---- automake-1.15.1.orig/lib/am/check.am
+>> -+++ automake-1.15.1/lib/am/check.am
+>> +---
+>> + lib/am/check.am | 11 +++++++++--
+>> + 1 file changed, 9 insertions(+), 2 deletions(-)
+>> +
+>> +diff --git a/lib/am/check.am b/lib/am/check.am
+>> +index e0db651..de137fa 100644
+>> +--- a/lib/am/check.am
+>> ++++ b/lib/am/check.am
+>>   @@ -41,7 +41,7 @@ am__tty_colors = { \
+>>      fi; \
+>>    }
+>> diff --git a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+>> index 2c6594f..1f71722 100644
+>> --- a/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+>> +++ b/meta/recipes-devtools/automake/automake/new_rt_path_for_test-driver.patch
+>> @@ -1,22 +1,32 @@
+>> -Set relative to top_builddir path in Makefile to access test-driver
+>> +From f78dfa39139d528c94d72f27994f337f2fd3b6bd Mon Sep 17 00:00:00 2001
+>> +From: Adrian Calianu <adrian.calianu@enea.com>
+>> +Date: Thu, 25 Feb 2016 16:08:04 +0100
+>> +Subject: [PATCH] Set relative to top_builddir path in Makefile to access
+>> + test-driver
+>>
+>>   Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
+>>   Upstream-Status: Pending
+>>   Bug-Report: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=19042
+>>
+>> +---
+>> + bin/automake.in | 9 ++++++++-
+>> + 1 file changed, 8 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/bin/automake.in b/bin/automake.in
+>> +index a52a489..8377d20 100644
+>>   --- a/bin/automake.in
+>>   +++ b/bin/automake.in
+>> -@@ -272,6 +272,9 @@
+>> +@@ -324,6 +324,9 @@ my $config_aux_dir_set_in_configure_ac = 0;
+>>    # $AM_CONFIG_AUX_DIR is prefixed with $(top_srcdir), so it can be used
+>>    # in Makefiles.
+>>    my $am_config_aux_dir = '';
+>>   +# Directory used at runtime like running test-driver that should not
+>>   +# depend on $(top_srcdir)
+>>   +my $am_config_rt_aux_dir = '';
+>> -
+>> +
+>>    # Directory to search for AC_LIBSOURCE files, as set by AC_CONFIG_LIBOBJ_DIR
+>>    # in configure.ac.
+>> -@@ -4700,7 +4703,7 @@
+>> +@@ -4854,7 +4857,7 @@ sub handle_per_suffix_test
+>>        {
+>>          require_conf_file ("parallel-tests", FOREIGN, 'test-driver');
+>>          define_variable ("${pfx}LOG_DRIVER",
+>> @@ -25,7 +35,7 @@ Bug-Report: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=19042
+>>                           INTERNAL);
+>>        }
+>>      my $driver = '$(' . $pfx . 'LOG_DRIVER)';
+>> -@@ -7284,6 +7287,10 @@
+>> +@@ -7440,6 +7443,10 @@ sub locate_aux_dir ()
+>>      $am_config_aux_dir =
+>>        '$(top_srcdir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
+>>      $am_config_aux_dir =~ s,/*$,,;
+>> @@ -34,3 +44,5 @@ Bug-Report: http://debbugs.gnu.org/cgi/bugreport.cgi?bug=19042
+>>   +    '$(top_builddir)' . ($config_aux_dir eq '.' ? "" : "/$config_aux_dir");
+>>   +  $am_config_rt_aux_dir =~ s,/*$,,;
+>>    }
+>> +
+>> +
+>> diff --git a/meta/recipes-devtools/automake/automake/performance.patch b/meta/recipes-devtools/automake/automake/performance.patch
+>> index 3e6d569..a8ba659 100644
+>> --- a/meta/recipes-devtools/automake/automake/performance.patch
+>> +++ b/meta/recipes-devtools/automake/automake/performance.patch
+>> @@ -1,15 +1,24 @@
+>> +From cd47c328cb53546891bb3dc7c9b2c54ed01cc6d1 Mon Sep 17 00:00:00 2001
+>> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> +Date: Mon, 7 Dec 2015 18:28:05 +0000
+>> +Subject: [PATCH] automake: Remove delays in configure scripts using automake
+>> +
+>>   By default automake puts "sleep 1" into the start of configure scripts
+>> -which adds pointless delays to them. Rather than do this, lets just assume
+>> +which adds pointless delays to them. Rather than do this, lets just assume
+>>   our systems are sane.
+>>
+>>   RP
+>>   2015/12/7
+>>   Upstream-Status: Inappropriate
+>>
+>> -Index: automake-1.15/m4/sanity.m4
+>> -===================================================================
+>> ---- automake-1.15.orig/m4/sanity.m4
+>> -+++ automake-1.15/m4/sanity.m4
+>> +---
+>> + m4/sanity.m4 | 55 -------------------------------------------------------
+>> + 1 file changed, 55 deletions(-)
+>> +
+>> +diff --git a/m4/sanity.m4 b/m4/sanity.m4
+>> +index eaac218..bfdfe88 100644
+>> +--- a/m4/sanity.m4
+>> ++++ b/m4/sanity.m4
+>>   @@ -23,60 +23,5 @@ case $srcdir in
+>>        AC_MSG_ERROR([unsafe srcdir value: '$srcdir']);;
+>>    esac
+>> diff --git a/meta/recipes-devtools/automake/automake/python-libdir.patch b/meta/recipes-devtools/automake/automake/python-libdir.patch
+>> index 2a48b13..ee1f725 100644
+>> --- a/meta/recipes-devtools/automake/automake/python-libdir.patch
+>> +++ b/meta/recipes-devtools/automake/automake/python-libdir.patch
+>> @@ -1,7 +1,7 @@
+>> -From 472a3d36c97ef7535f05d6c185edcbc22b0074c4 Mon Sep 17 00:00:00 2001
+>> +From a80dacd5124d0713cf2c986b28d736e78dc6b0ca Mon Sep 17 00:00:00 2001
+>>   From: Kumar Gala <galak@kernel.crashing.org>
+>>   Date: Thu, 11 Aug 2011 01:26:33 -0500
+>> -Subject: [PATCH 1/4] automake: Update for python.m4 to respect libdir
+>> +Subject: [PATCH] automake: Update for python.m4 to respect libdir
+>>
+>>   Upstream-Status: Inappropriate [embedded specific]
+>>
+>> @@ -17,10 +17,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>>    1 file changed, 7 insertions(+), 20 deletions(-)
+>>
+>>   diff --git a/m4/python.m4 b/m4/python.m4
+>> -index 5b2c695..ed19261 100644
+>> +index 63c0a0e..7bbd2d2 100644
+>>   --- a/m4/python.m4
+>>   +++ b/m4/python.m4
+>> -@@ -91,12 +91,13 @@ AC_DEFUN([AM_PATH_PYTHON],
+>> +@@ -94,12 +94,13 @@ AC_DEFUN([AM_PATH_PYTHON],
+>>        [am_cv_python_version=`$PYTHON -c "import sys; sys.stdout.write(sys.version[[:3]])"`])
+>>      AC_SUBST([PYTHON_VERSION], [$am_cv_python_version])
+>>
+>> @@ -36,7 +36,7 @@ index 5b2c695..ed19261 100644
+>>      AC_SUBST([PYTHON_EXEC_PREFIX], ['${exec_prefix}'])
+>>
+>>      dnl At times (like when building shared libraries) you may want
+>> -@@ -141,14 +142,7 @@ except ImportError:
+>> +@@ -144,14 +145,7 @@ except ImportError:
+>>         else
+>>           am_py_prefix=$prefix
+>>         fi
+>> @@ -52,7 +52,7 @@ index 5b2c695..ed19261 100644
+>>         case $am_cv_python_pythondir in
+>>         $am_py_prefix*)
+>>           am__strip_prefix=`echo "$am_py_prefix" | sed 's|.|.|g'`
+>> -@@ -158,7 +152,7 @@ sys.stdout.write(sitedir)"`
+>> +@@ -161,7 +155,7 @@ sys.stdout.write(sitedir)"`
+>>           case $am_py_prefix in
+>>             /usr|/System*) ;;
+>>             *)
+>> @@ -61,7 +61,7 @@ index 5b2c695..ed19261 100644
+>>            ;;
+>>           esac
+>>           ;;
+>> -@@ -183,14 +177,7 @@ sys.stdout.write(sitedir)"`
+>> +@@ -186,14 +180,7 @@ sys.stdout.write(sitedir)"`
+>>         else
+>>           am_py_exec_prefix=$exec_prefix
+>>         fi
+>> @@ -77,7 +77,7 @@ index 5b2c695..ed19261 100644
+>>         case $am_cv_python_pyexecdir in
+>>         $am_py_exec_prefix*)
+>>           am__strip_prefix=`echo "$am_py_exec_prefix" | sed 's|.|.|g'`
+>> -@@ -200,7 +187,7 @@ sys.stdout.write(sitedir)"`
+>> +@@ -203,7 +190,7 @@ sys.stdout.write(sitedir)"`
+>>           case $am_py_exec_prefix in
+>>             /usr|/System*) ;;
+>>             *)
+>> @@ -86,6 +86,3 @@ index 5b2c695..ed19261 100644
+>>             ;;
+>>           esac
+>>           ;;
+>> ---
+>> -2.8.1
+>> -
+>> diff --git a/meta/recipes-devtools/automake/automake_1.15.1.bb b/meta/recipes-devtools/automake/automake_1.16.1.bb
+>> similarity index 89%
+>> rename from meta/recipes-devtools/automake/automake_1.15.1.bb
+>> rename to meta/recipes-devtools/automake/automake_1.16.1.bb
+>> index 4f9b616..c64ee44 100644
+>> --- a/meta/recipes-devtools/automake/automake_1.15.1.bb
+>> +++ b/meta/recipes-devtools/automake/automake_1.16.1.bb
+>> @@ -27,8 +27,8 @@ SRC_URI += "file://python-libdir.patch \
+>>               file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
+>>               "
+>>
+>> -SRC_URI[md5sum] = "95df3f2d6eb8f81e70b8cb63a93c8853"
+>> -SRC_URI[sha256sum] = "988e32527abe052307d21c8ca000aa238b914df363a617e38f4fb89f5abf6260"
+>> +SRC_URI[md5sum] = "83cc2463a4080efd46a72ba2c9f6b8f5"
+>> +SRC_URI[sha256sum] = "608a97523f97db32f1f5d5615c98ca69326ced2054c9f82e65bade7fc4c9dea8"
+>>
+>>   PERL = "${USRBINPATH}/perl"
+>>   PERL_class-native = "${USRBINPATH}/env perl"
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
