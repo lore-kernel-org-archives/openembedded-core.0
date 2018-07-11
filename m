@@ -1,25 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6F9C7717F
+Return-Path: <obi@opendreambox.org>
+X-Greylist: delayed 440 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 11 Jul 2018 08:48:37 UTC
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9770277195
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 08:01:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B81vGJ015240
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 11 Jul 2018 08:48:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 8903F31E29F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 01:01:57 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 11 Jul 2018 01:01:56 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2018 16:05:16 +0800
-Message-ID: <b1371780446f2631111d6df7952720d721584fd3.1531287598.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1531287598.git.Qi.Chen@windriver.com>
-References: <cover.1531287598.git.Qi.Chen@windriver.com>
+	Wed, 11 Jul 2018 10:41:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id P91GdzPMfTKF
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2018 10:41:15 +0200 (CEST)
+Received: from t460p (p57A61AF4.dip0.t-ipconnect.de [87.166.26.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 89F4931E29EE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2018 10:41:15 +0200 (CEST)
+Date: Wed, 11 Jul 2018 10:41:11 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20180711104111.722b3643@t460p>
+In-Reply-To: <20180711060118.30193-1-Haiqing.Bai@windriver.com>
+References: <20180711060118.30193-1-Haiqing.Bai@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/5] oeqa/runtime/cases/rpm.py: workaround race condition
+Subject: Re: [PATCH] iproute2: create symbol link '/bin/ip' to '/sbin/ip.iproute2'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 08:01:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Jul 2018 08:48:37 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-With the recent change in new systemd version, it's possible that
-a user is deleted before stopping user-runtime-dir@xxx.service.
-See link below.
+On Wed, 11 Jul 2018 14:01:17 +0800
+Haiqing Bai <Haiqing.Bai@windriver.com> wrote:
 
-  https://github.com/systemd/systemd/issues/9541
+> Some applications which depend on iproute/iproute2 need to
+> run '/sbin/ip.iproute2' through the symbol link '/bin/ip'
+> e.g ifupdown.
 
-Workaround this issue by delay for 1 second before deleting user.
+Update-alternatives is supposed to create this link already.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/runtime/cases/rpm.py | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index 1e5e463..2f9dcad 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -87,6 +87,12 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
-             self.assertEqual(status, 0, msg=msg)
- 
-         def unset_up_test_user(u):
-+            # Due to recent change in systemd, we need to sleep for a while
-+            # to avoid unexpected failure of user-runtime-dir@1000.service
-+            # See https://github.com/systemd/systemd/issues/9541
-+            if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
-+                self.target.run('sleep 1')
-+
-             status, output = self.target.run('userdel -r %s' % u)
-             msg = 'Failed to erase user: %s' % output
-             self.assertTrue(status == 0, msg=msg)
--- 
-1.9.1
+> 
+> Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index 4fbfec6f08..71d04a1021 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -29,6 +29,8 @@ do_configure_append () {
+>  do_install () {
+>      oe_runmake DESTDIR=${D} install
+>      mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
+> +    install -d ${D}${base_bindir}
+> +    ln -s ${base_sbindir}/ip.iproute2 ${D}${base_bindir}/ip
+>      install -d ${D}${datadir}
+>      mv ${D}/share/* ${D}${datadir}/ || true
+>      rm ${D}/share -rf || true
 
 
