@@ -1,31 +1,103 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3879975566
+Return-Path: <Rasmus.Villemoes@prevas.se>
+X-Greylist: delayed 3550 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 12 Jul 2018 14:01:33 UTC
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+	(mail-he1eur01on0129.outbound.protection.outlook.com [104.47.0.129])
+	by mail.openembedded.org (Postfix) with ESMTP id 92ACF7551B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 13:55:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6CDtxFE021028
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jul 2018 06:55:59 -0700 (PDT)
-Received: from server.local (128.224.23.197) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 12 Jul 2018 06:55:58 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-	<47b99eac-867c-9cca-ac43-4d5a06760ed3@windriver.com>
-	<c0baf80e5943135f4f65a93d849ee68419065c45.camel@linuxfoundation.org>
-	<dee40069-d36a-2b70-56f6-5b52f3c1e7c4@windriver.com>
-	<f7a60084dfdcbe937ad60021adb1fa6bec88eeff.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <d56fb567-09bd-2c35-28c0-00807a4a2f2d@windriver.com>
-Date: Thu, 12 Jul 2018 09:55:58 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+	Thu, 12 Jul 2018 14:01:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=prevasonline.onmicrosoft.com; s=selector1-prevas-se;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=a3gIhvJJHZ5VZoW2c0d41Qh9HbB4UZT1/drF9o5c0k8=;
+	b=TqZiXZD8tz8i0vx9JhSqgJ/qJrppboQPlL0mEhQAHwLHd+OpMIcHJKuUdt8i+kVs1mZ4VxerYEiDqdHgu8yn9bWC5lCpjHmIUq1ffysxsnUE4eUUPPlTeUG1dclzqHOicEk33qHzqlPy9cvMV+f1AoT0LAYLPV23pYHBTYBJkPg=
+Authentication-Results: spf=none (sender IP is )
+	smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+Received: from prevas-ravi.prevas.se (81.216.59.226) by
+	AM4PR1001MB1332.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:200:98::22) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.930.21;
+	Wed, 11 Jul 2018 14:30:30 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Jul 2018 16:30:19 +0200
+Message-Id: <20180711143019.30896-2-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20180711143019.30896-1-rasmus.villemoes@prevas.dk>
+References: <20180711143019.30896-1-rasmus.villemoes@prevas.dk>
 MIME-Version: 1.0
-In-Reply-To: <f7a60084dfdcbe937ad60021adb1fa6bec88eeff.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+X-Originating-IP: [81.216.59.226]
+X-ClientProxiedBy: LO2P265CA0003.GBRP265.PROD.OUTLOOK.COM
+	(2603:10a6:600:62::15) To AM4PR1001MB1332.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:200:98::22)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5b155fe8-f736-426e-b8bd-08d5e73adaa1
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652040)(8989117)(5600053)(711020)(4534165)(4627221)(201703031133081)(201702281549075)(8990107)(2017052603328)(7153060)(7193020);
+	SRVR:AM4PR1001MB1332; 
+X-Microsoft-Exchange-Diagnostics: 1; AM4PR1001MB1332;
+	3:OTKyb8q/upc2rofJLfR96extHVK2wVeJvozOaPJvY6lVmRAb2uhqscXw4IjDRcr1oEAETjcD6pf2kdABEECdGslCBKQkSic++FpJ8OEc7E6PTEQ/v9mMowDSXjprJyKJzyjgdFL5m2mOb/skYw0Zzovxq5m0GT9BJdc5Gmp0DRVAR2cWNdy1NRRYOwtuTFFKO24sAolFU4GZgEU1Q1ttTyTZQ5QjFUyjqxooj9XUArfOHpZWOnLwoPM4s/cQqMe9;
+	25:H0yrfY5NtUSu64XhAWgKbgNzx8P3eMEXjL0v57kv4ZnqnyV3XDMXLZIRDc/DK6ZUtQHmhl0QcZ9Voj7uZ56nPpbDzh2LAXMbfn02BjMha++qXwSG0u2t1uWO8+wRBucTk4dMvRwPd7kCwiKAWeIyIZxNDZiOPKHSYjh5AVE3fUBfcnSYKAGapJrEnyVqjhas7YwuW2qCHcLs48aI6hG1pA71XoZCJHGBPZH0ImDPQk6ohmlWJS8Mtkd6LTP/nZFpIK4sSIn+R7AB4GRHtUR39m3pdJ2hNKSBlVQCXhqKdfDy9+hTt0SXOisTIZDl3+NE2qjkewqFdfetW6w8KvmHuQ==;
+	31:q+bx4LzwH2E0iT82LXFQbJWUWjTKWNxT2JBSeWSW87fPC4ROJXPYJ9S+vDoSXUZuTc+hri1ASG2f0vA+aagfTYQ6c6tkiVvNlWTSm04EVvCukBDzh+jiDGntbqXSOWOs19PZRFBP6hSEnvJGL+bdSZa1z1zggGO2WJtQdaG1YS23O3n1O6+2tNqvqdV9sqULBpY1Z3IjWTLTa3sJJhdMXw25ZeXwsYGEVW+MYO6Njrs=
+X-MS-TrafficTypeDiagnostic: AM4PR1001MB1332:
+X-Microsoft-Antispam-PRVS: <AM4PR1001MB13324A2B2E2202065B1765F28A5A0@AM4PR1001MB1332.EURPRD10.PROD.OUTLOOK.COM>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-MS-Exchange-SenderADCheck: 1
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(6040522)(2401047)(8121501046)(5005006)(93006095)(10201501046)(3002001)(3231311)(944501410)(52105095)(149027)(150027)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123558120)(20161123562045)(20161123564045)(6072148)(201708071742011)(7699016);
+	SRVR:AM4PR1001MB1332; BCL:0; PCL:0; RULEID:;
+	SRVR:AM4PR1001MB1332; 
+X-Microsoft-Exchange-Diagnostics: 1; AM4PR1001MB1332;
+	4:G7WLUHaLhg2bA2iF+aHLYxrxrgFfq2OMeB+mZBrJZRPPcBgGYd4xJqLPWAy81xsPNwqVGqbTDjf3VJ9ca2Fc2SL5ZNth6zdVwAfsLeDAztYl6n6Vs0H/b2s/mzZLpmHEzTeHUnsi1z/iXXbbuiWbPLB17ejobk44RTtCFlUAQGQLHbouB263x4Qf7t9Og1ZFWbCTkUwk/6xlogEhEmAipNteuCtJjW9yzJiPIikBDxJ43AOamhaVmxf9VR2zFCEGZnjwiTnMT+MWs4QPoQ+eug==
+X-Forefront-PRVS: 0730093765
+X-Forefront-Antispam-Report: SFV:NSPM;
+	SFS:(10019020)(396003)(136003)(39850400004)(366004)(346002)(376002)(199004)(189003)(53416004)(48376002)(7736002)(69596002)(6916009)(44832011)(6666003)(2361001)(50466002)(36756003)(3846002)(1076002)(476003)(956004)(5660300001)(74482002)(66066001)(47776003)(2616005)(486006)(11346002)(6116002)(316002)(76176011)(305945005)(25786009)(6506007)(26005)(386003)(105586002)(4326008)(52116002)(42882007)(16586007)(2351001)(1857600001)(6486002)(97736004)(72206003)(186003)(81156014)(51416003)(68736007)(16526019)(107886003)(53936002)(2906002)(81166006)(50226002)(8976002)(106356001)(6512007)(446003)(8676002)(478600001)(8936002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:AM4PR1001MB1332;
+	H:prevas-ravi.prevas.se; FPR:; SPF:None; LANG:en;
+	PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: prevas.se does not designate
+	permitted sender hosts)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; AM4PR1001MB1332;
+	23:2NS+iUlIegRSHMC4/MtBdSq7qpKzpMNBGIw5Pj3?=
+	=?us-ascii?Q?ZA3cxR1GijlFrOs50gemZP1v+rU34QNNF0e2A9G4lw3Cob5Mtw7wNwAGDuAo?=
+	=?us-ascii?Q?j3FKTM7y7DSpSo4aZef/DuG+nIIHgJSA3u86dlzpRbyfe6q8eTlyFZNyLXqR?=
+	=?us-ascii?Q?9F2dbz+qnWEE/06NCanR9M6dlrcVyUmALw+TAcEs6up5nRQCmw2+zhrQPCXM?=
+	=?us-ascii?Q?+hogJKnyqWUhc2SRz1XlPdL4avWmipRaCXVLgvPE3rXetsSRu2rwU+ce1kkE?=
+	=?us-ascii?Q?qXMnBzXxgm9jF0k1yfLnQCARE5Hf5jERg2CYrc6XW2SNIu3ZPaISaBwtAA5u?=
+	=?us-ascii?Q?JJH5JWtCQUBwheelF2Yjrrd4oX9icxYyK6O4P8wq3EasAnR0JJ6lzyo/aglN?=
+	=?us-ascii?Q?3qZF4Tuh78vHf3CmewmcQP52olJ1ZNUkLF+H6XIqHcAX7/0hloNNDvL/Gj7M?=
+	=?us-ascii?Q?s8+g/bpnK0VBbpcCqyLUy84MerP5Q7q9WMOTTLjyYDsszd4GZgKE3kExWlDM?=
+	=?us-ascii?Q?oReVK9PJFdtajheML8hMZH209DvLzUUuifwDAAOP95APXBNXqWY0lFHPkffZ?=
+	=?us-ascii?Q?GPNpZd5yihUKNXBpdrkwQo5RN/D56ea3YIjk8Q17L2YIqbB5NfjZfEhTE0zc?=
+	=?us-ascii?Q?nYLLiogFDJD5UVmb+RWK0RVyvMO6Sng5I4LfV+EYr5IIGKaF+SvV78wS8x4j?=
+	=?us-ascii?Q?4tbSIqDaKmeGy6CV6kt6q6YzVv4XS9WzBE4dAtS2gKRddKlpFUz4HMi9nTKP?=
+	=?us-ascii?Q?5xPlScxGEFnXHLPtM6OP3zL12FMi9OmxDxYgJ5lf5PJH9GCrJ3nnmvBvue00?=
+	=?us-ascii?Q?NJnPsn6JcL6AtvdgpRM55bFFjH8JE0exKKPiw9IcORKIkkwplQRQxFHOQ7Sx?=
+	=?us-ascii?Q?cbhVJk1JMT+MbK9jmXUopyLb+4sqQb+3SgZUVFYF5KRsbrCBfERkbOaASaQp?=
+	=?us-ascii?Q?B6jDd21SWlGsTGR5S1LG/jsA5XvVFaldzSoTiWIPAYDLMR1UBBNPDzitqmsx?=
+	=?us-ascii?Q?lelmfU/XWHXYyYM5PQ8Ngrr+Gk99/vkiGyPCir4DBgLHM9nNpQZfFj8c0l7y?=
+	=?us-ascii?Q?heF57DvsxYgz2l6MU1txZS8vYNprKLQCV26FVzj0BXXSspIjC1QZc8zfLqTj?=
+	=?us-ascii?Q?qpcXhh8IUGSshdS+h4e6ufyJbWXSErCXGEM7OEbmFlPVCF1vaj3+JQB+T0CF?=
+	=?us-ascii?Q?fLp/RuWi3+v8/D26irSamqKUgy7vXbOiPwNBaGsL958E3ughqXMNiy1W9X/d?=
+	=?us-ascii?Q?l++k/guxSqodYBwOf9WGcntIddsOn4yrXK4Sb7GBvjWOXUVeiyCi+62AKOGw?=
+	=?us-ascii?Q?jDt6+ueEj4HW1UfqB6sZrorAZFxj+4QJHvO0EusiWRBaN6tvgiINNoB5cMSC?=
+	=?us-ascii?Q?4p3Mc32bg/0V1GoUk2ZFwe+JJO1QT7pcDZKL4KLkOX4iMb0yo?=
+X-Microsoft-Antispam-Message-Info: 19aUzcLGgMkNDppsnMTrAkP3CFE1RFtSdBQEzTQaW5+nx3OhuKbO9gTduPttTCD6greh5uRqD7DfnnzRrphCBf7mHi9Lz5gSXkf9OzBVLr/tGRkFgeocbuUvrgIs4EYvhcZSoNcIyCLDYf9eDlg9j7UEhdhcS2t1T1HFtnSt81eqr54Hs5KMueIkWQQZBXnFbmyZ/B+8YGn0KnFq3ZRgQvk7UFiRhgYpluQqndm4LIbQAiDwJox6Ihdit7XAKT8uzqCtpzFcmqffhTZ0ccqq2itJTTkcK9Ipj8Syr+MDj2qqKNzHfMSpJFol/loWdHgJIrS+/pjYI8v8Id/gkutIfWdBv3X/PaMucbC7YI/rR/E=
+X-Microsoft-Exchange-Diagnostics: 1; AM4PR1001MB1332;
+	6:Lsr6PcJkjU4mLi3nKv04eup2ivE7QXJ3l3ravr4voNLA8VK+nthiQC6vQULj5culs1oGwPqGZpFNLQgC/X6+X+lR6WhxW7ll/cSPWUApmzWkj4A7OmrJLfzqgpzIoPN/5XzAVsjC1QzhgXSULPehLG5+AQClYveL4ZnqRYhAeWPZSN2LPBFI2REsoK5KV49QRmkTrsjGD6RvUE4ayQuGvaim3E/hh27JRC9Swo6EButU5UQ2aTHihnBv69RtteFxCG0+nn+0XAuNsBo+iA6tBMTiwT6CeBjX2uVDMtHAa8bP4AXTTVNpSIxAKgHIeyg2pJxnHDm0bc24cNW4Fs3PcZX968Q2QKqNEAqplj5taF8reUZRTp8aqmlObRFhUedMyzH5vO73k+l7toNT1AQzxLsD0HWm14LZfMdAENpZz5prVEi9IlGWPVJf3KfiL3RU2sa2sbJhCRmBUMMJfIBTMA==;
+	5:PG0cNAWvzJNM+L4HIdQakDYM4tVlLQ8Qi7Jcvdv996pzFhYxRPpVHNO/20bfGnjFlm0PtQuE4v6uBuPULjstnrbgpcdTUEutx6JTGJzXezOUWrzbPCiZM4x2YQF1XladUNTIsv5iKR4yP7y2UE6foZwjDP8re0a34d/Jb8Y1rkE=;
+	24:PhZmqHPgDnioT9Z0jvtK1zlrATBixEijBxE+S9eXcsM41jk6eI52rFi2JI7c3+SKE+Eod5kt1TFI8i19fMNmTwthnpvHXOGcph2GSHLin9w=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; AM4PR1001MB1332;
+	7:PgRWjh5e4csXoQ1s7hpS7kYmSTnq2qk2dKqvXObsO5ugcgxEfl6kRRat2URG37p/0GJjuCdOhwxEZPmmeqXVr3rMDt/qZUxkxIgFAhn1Qzpp3cUAHKcyrMZ3AbyFr4LO7fAQPzXEwzgGMva0upWLb0BtH66oaCS5ojgbp+Eitmm4O5BCY5B0y9I+clHX2RN+ZbVUHR+GmLcsgBbbP+dUtuSwoQ2xYzVDTEzOu4MWrWuKIbmgPggOwpNwPN+wnUp8
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2018 14:30:30.2312 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b155fe8-f736-426e-b8bd-08d5e73adaa1
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR1001MB1332
+Subject: [pseudo] [RFC 2/2] pseudo_ipc.c: eliminate some code duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,116 +110,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 13:55:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Jul 2018 14:01:34 -0000
+Content-Type: text/plain
 
-On 2018-07-12 9:53 AM, Richard Purdie wrote:
-> On Thu, 2018-07-12 at 09:49 -0400, Bruce Ashfield wrote:
->> On 2018-07-10 5:41 PM, Richard Purdie wrote:
->>> On Tue, 2018-07-10 at 12:38 -0400, Bruce Ashfield wrote:
->>>> On 07/10/2018 06:21 AM, Richard Purdie wrote:
->>>>> On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
->>>>
->>>> I'll try the other configs, but clearly I have something
->>>> different in
->>>> my x86-64 build.
->>>>
->>>> I can't run the self tests directly, but am copying the files
->>>> onto my
->>>> qemu session and running things myself:
->>>>
->>>> root@qemux86-64:/lib/modules/4.14.48-yocto-standard/build# make
->>>> ARCH=x86
->>>> scripts prepare
->>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>> install
->>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>      CHK     scripts/mod/devicetable-offsets.h
->>>>      SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
->>>>      SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
->>>>      SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
->>>>      SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
->>>>      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
->>>>      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
->>>>      SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
->>>>      HOSTCC  arch/x86/tools/relocs_32.o
->>>>      HOSTCC  arch/x86/tools/relocs_64.o
->>>>      HOSTCC  arch/x86/tools/relocs_common.o
->>>>      HOSTLD  arch/x86/tools/relocs
->>>>      CHK     include/config/kernel.release
->>>>      CHK     include/generated/uapi/linux/version.h
->>>>      CHK     include/generated/utsrelease.h
->>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>> install
->>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>
->>>> root@qemux86-64:/tmp# make
->>>> make -C /usr/src/kernel M=/tmp modules
->>>> make[1]: Entering directory '/lib/modules/4.14.48-yocto-
->>>> standard/build'
->>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>> install
->>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>      Building modules, stage 2.
->>>>      MODPOST 1 modules
->>>> make[1]: Leaving directory '/lib/modules/4.14.48-yocto-
->>>> standard/build'
->>>> root@qemux86-64:/tmp# insmod hellomod.ko
->>>> [  419.211616] hellomod: loading out-of-tree module taints
->>>> kernel.
->>>> [  419.212586] Hello world!
->>>>
->>>> This is on the core-image-kernel-dev image, which is the one that
->>>> I created to test all this.
->>>>
->>>> What image is that using ? some sato sdk one ?
->>>
->>> We really need to find you a way to run these. The problem is the
->>> qemu
->>> graphics piece? You can't have a dummy vncserver or something to
->>> direct
->>> them at?
->>>
->>> The image is a core-image-sato-sdk...
->>
->> I was able to trigger the objtool issue with this image, looking at
->> fixing it and the other arches now.
-> 
-> Since its image related, is it a missing package dependency? Just
-> curious why its happening with some images but not your test ones...
+Since msg->pathlen is set to len in the first branch, we can share the
+final submit-and-check-for-success part of the two branches.
 
-It is. I have extra toolchain elements being installed in 
-core-image-kernel-dev
-that hold things together (i.e. the kernel's objtool doesn't need to
-be built).
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+---
+ pseudo_ipc.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-The obvious fix is to just add an RDEPENDS, but I'm being stubborn
-and trying to make it build on target, since the build of objtool from
-the kernel source is showing me some sort of include path issue that
-I'd like to sort out:
-
-   CC 
-/lib/modules/4.14.48-yocto-standard/build/tools/objtool/exec-cmd.o
-exec-cmd.c: In function 'get_pwd_cwd':
-exec-cmd.c:49:4: error: implicit declaration of function 'strlcpy'; did 
-you mean 'strncpy'? [-Werror=implicit-function-declaration]
-     strlcpy(cwd, pwd, PATH_MAX);
-     ^~~~~~~
-     strncpy
-exec-cmd.c:49:4: error: nested extern declaration of 'strlcpy' 
-[-Werror=nested-externs]
-cc1: all warnings being treated as errors
-
-Cheers,
-
-Bruce
-
-> 
-> Cheers,
-> 
-> Richard
-> 
+diff --git a/pseudo_ipc.c b/pseudo_ipc.c
+index 7786880..3571dad 100644
+--- a/pseudo_ipc.c
++++ b/pseudo_ipc.c
+@@ -113,7 +113,7 @@ do_send(int fd, struct iovec *iov, int iovlen)
+ int
+ pseudo_msg_send(int fd, pseudo_msg_t *msg, size_t len, const char *path) {
+ 	struct iovec iov[2];
+-	int r;
++	int r, iovc;
+ 
+ 	if (!msg)
+ 		return 1;
+@@ -131,11 +131,7 @@ pseudo_msg_send(int fd, pseudo_msg_t *msg, size_t len, const char *path) {
+ 		iov[0].iov_len = PSEUDO_HEADER_SIZE;
+ 		iov[1].iov_base = (void*)path;
+ 		iov[1].iov_len = len;
+-		r = do_send(fd, iov, 2);
+-		pseudo_debug(PDBGF_IPC | PDBGF_VERBOSE, "wrote %d bytes\n", r);
+-		if (pipe_error || (r == -1 && (errno == EBADF || errno == EPIPE)))
+-			return -1;
+-		return ((size_t) r != PSEUDO_HEADER_SIZE + len);
++		iovc = 2;
+ 	} else {
+ 		pseudo_debug(PDBGF_IPC, "msg type %d (%s), result %d (%s), path %.*s, mode 0%o\n",
+ 			msg->type, pseudo_op_name(msg->op),
+@@ -144,12 +140,13 @@ pseudo_msg_send(int fd, pseudo_msg_t *msg, size_t len, const char *path) {
+ 		// display_msg_header(msg);
+ 		iov[0].iov_base = msg;
+ 		iov[0].iov_len = PSEUDO_HEADER_SIZE + msg->pathlen;
+-		r = do_send(fd, iov, 1);
+-		pseudo_debug(PDBGF_IPC | PDBGF_VERBOSE, "wrote %d bytes\n", r);
+-		if (pipe_error || (r == -1 && (errno == EBADF || errno == EPIPE)))
+-			return -1;
+-		return ((size_t) r != PSEUDO_HEADER_SIZE + msg->pathlen);
++		iovc = 1;
+ 	}
++	r = do_send(fd, iov, iovc);
++	pseudo_debug(PDBGF_IPC | PDBGF_VERBOSE, "wrote %d bytes\n", r);
++	if (pipe_error || (r == -1 && (errno == EBADF || errno == EPIPE)))
++		return -1;
++	return ((size_t) r != PSEUDO_HEADER_SIZE + msg->pathlen);
+ }
+ 
+ /* attempts to receive a message from fd
+-- 
+2.16.4
 
 
