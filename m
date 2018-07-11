@@ -1,24 +1,23 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 84CA375577
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 43A247714D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 03:23:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B3NoZn003460
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2018 20:23:51 -0700 (PDT)
-Received: from localhost (128.224.162.137) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 10 Jul 2018 20:23:50 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2018 11:23:44 +0800
-Message-ID: <1531279424-13408-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.137]
-Subject: [PATCH] file: Security fix CVE-2018-10360
+	Wed, 11 Jul 2018 05:20:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jul 2018 22:20:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,337,1526367600"; d="scan'208";a="73846345"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.18.92])
+	by orsmga002.jf.intel.com with ESMTP; 10 Jul 2018 22:20:52 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Jul 2018 13:20:48 +0800
+Message-Id: <20180711052048.21207-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oeqa/parselogs: remove references to BSPs that no longer exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 03:23:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Jul 2018 05:20:52 -0000
 
-CVE-2018-10360: The do_core_note function in readelf.c in libmagic.a in
-file 5.33 allows remote attackers to cause a denial of service
-(out-of-bounds read and application crash) via a crafted ELF file.
+These platform specifc BSPs were removed from meta-intel and superseded by
+intel-core* BSPs.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2018-10360
-
-Patch from:
-https://github.com/file/file/commit/a642587a9c9e2dd7feacdf513c3643ce26ad3c22
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../file/file/CVE-2018-10360.patch                 | 32 ++++++++++++++++++++++
- meta/recipes-devtools/file/file_5.33.bb            |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/file/file/CVE-2018-10360.patch
+ meta/lib/oeqa/runtime/cases/parselogs.py | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/file/file/CVE-2018-10360.patch b/meta/recipes-devtools/file/file/CVE-2018-10360.patch
-new file mode 100644
-index 0000000..7f5671b
---- /dev/null
-+++ b/meta/recipes-devtools/file/file/CVE-2018-10360.patch
-@@ -0,0 +1,32 @@
-+From df494f4ca494b5e1044052d96a6092a16ef1f6b3 Mon Sep 17 00:00:00 2001
-+From: Christos Zoulas <christos@zoulas.com>
-+Date: Sat, 9 Jun 2018 16:00:06 +0000
-+Subject: [PATCH] Avoid reading past the end of buffer (Rui Reis)
-+
-+Upstream-Status: Backport
-+[https://github.com/file/file/commit/a642587a9c9e2dd7feacdf513c3643ce26ad3c22]
-+
-+CVE: CVE-2018-10360
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ src/readelf.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/readelf.c b/src/readelf.c
-+index 3df0836..d96a538 100644
-+--- a/src/readelf.c
-++++ b/src/readelf.c
-+@@ -825,7 +825,8 @@ do_core_note(struct magic_set *ms, unsigned char *nbuf, uint32_t type,
-+ 
-+ 				cname = (unsigned char *)
-+ 				    &nbuf[doff + prpsoffsets(i)];
-+-				for (cp = cname; *cp && isprint(*cp); cp++)
-++				for (cp = cname; cp < nbuf + size && *cp
-++				    && isprint(*cp); cp++)
-+ 					continue;
-+ 				/*
-+ 				 * Linux apparently appends a space at the end
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/file/file_5.33.bb b/meta/recipes-devtools/file/file_5.33.bb
-index 4126422..745ef10 100644
---- a/meta/recipes-devtools/file/file_5.33.bb
-+++ b/meta/recipes-devtools/file/file_5.33.bb
-@@ -16,6 +16,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "FILE(?P<pver>(?!6_23).+)"
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index ba1bb71f22..f0bcd168c6 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -123,15 +123,6 @@ ignore_errors = {
+         'dmi: Firmware registration failed.',
+         'irq: type mismatch, failed to map hwirq-27 for /intc',
+         ] + common_errors,
+-    'emenlow' : [
+-        '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness',
+-        '(EE) Failed to load module "psb"',
+-        '(EE) Failed to load module psb',
+-        '(EE) Failed to load module "psbdrv"',
+-        '(EE) Failed to load module psbdrv',
+-        '(EE) open /dev/fb0: No such file or directory',
+-        '(EE) AIGLX: reverting to software rendering',
+-        ] + x86_common,
+     'intel-core2-32' : [
+         'ACPI: No _BQC method, cannot determine initial brightness',
+         '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness',
+@@ -159,7 +150,6 @@ ignore_errors = {
+         'Bluetooth: hci0: Failed to send firmware data (-38)',
+         'atkbd serio0: Failed to enable keyboard on isa0060/serio0',
+         ] + x86_common,
+-    'crownbay' : x86_common,
+     'genericx86' : x86_common,
+     'genericx86-64' : [
+         'Direct firmware load for i915',
+@@ -172,10 +162,6 @@ ignore_errors = {
+     'edgerouter' : [
+         'Fatal server error:',
+         ] + common_errors,
+-    'jasperforest' : [
+-        'Activated service \'org.bluez\' failed:',
+-        'Unable to find NFC netlink family',
+-        ] + common_errors,
+ }
  
- SRC_URI = "git://github.com/file/file.git \
-         file://debian-742262.patch \
-+        file://CVE-2018-10360.patch \
-         "
- 
- SRCREV = "219846094c7593e27453e62855e61181089c48cf"
+ log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
 -- 
-2.7.4
+2.17.1
 
 
