@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B3A77D6B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 483F777D83
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 08:01:50 +0000 (UTC)
+	Wed, 11 Jul 2018 08:01:52 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B81pU5015228
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6B81rTd000265
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 01:01:51 -0700 (PDT)
+	Wed, 11 Jul 2018 01:01:53 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 11 Jul 2018 01:01:50 -0700
+	14.3.399.0; Wed, 11 Jul 2018 01:01:52 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2018 16:05:13 +0800
-Message-ID: <ad8b4772465856e3ea1205bacbd4c3adf0b3a050.1531287598.git.Qi.Chen@windriver.com>
+Date: Wed, 11 Jul 2018 16:05:14 +0800
+Message-ID: <bf63f9eb867bf63fe2a60561a496ec82e1382242.1531287598.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1531287598.git.Qi.Chen@windriver.com>
 References: <cover.1531287598.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] systemd-boot: upgrade to 239
+Subject: [PATCH 3/5] systemd: remove non-exist firmware-path option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 08:01:50 -0000
+X-List-Received-Date: Wed, 11 Jul 2018 08:01:52 -0000
 Content-Type: text/plain
 
-Upgrade systemd-boot to 239.
-
-The following patch is removed due to recent fix about meson's cpu family
-mapping and validation.
-
-  0001-Also-check-i386-i586-and-i686-for-ia32.patch
+The local patches for userspace firmware loading support are removed
+in systemd 239 recipe. So we also remove this firmware-path option as
+it makes no sense any more.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../{systemd-boot_237.bb => systemd-boot_239.bb}   |  5 ++--
- ...01-Also-check-i386-i586-and-i686-for-ia32.patch | 28 ----------------------
- 2 files changed, 2 insertions(+), 31 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_237.bb => systemd-boot_239.bb} (91%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+ meta/recipes-core/systemd/systemd_239.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_237.bb b/meta/recipes-core/systemd/systemd-boot_239.bb
-similarity index 91%
-rename from meta/recipes-core/systemd/systemd-boot_237.bb
-rename to meta/recipes-core/systemd/systemd-boot_239.bb
-index afd3848..7fe420c 100644
---- a/meta/recipes-core/systemd/systemd-boot_237.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_239.bb
-@@ -3,9 +3,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
+diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
+index 4cfb3be..4b7ecc5 100644
+--- a/meta/recipes-core/systemd/systemd_239.bb
++++ b/meta/recipes-core/systemd/systemd_239.bb
+@@ -187,7 +187,6 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
+                   -Drootlibdir=${rootlibdir} \
+                   -Drootprefix=${rootprefix} \
+                   -Dsysvrcnd-path=${sysconfdir} \
+-                  -Dfirmware-path=${nonarch_base_libdir}/firmware \
+                   "
  
- DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
- 
--SRC_URI += "file://0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
--            file://0027-remove-nobody-user-group-checking.patch \
--            file://0001-Also-check-i386-i586-and-i686-for-ia32.patch \
-+SRC_URI += "file://0002-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
-+            file://0006-remove-nobody-user-group-checking.patch \
-             file://0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch \
-             "
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch b/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-deleted file mode 100644
-index 877bb1c..0000000
---- a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 3e8c19bb1bbc4493c591f75c00c1fefe3b1c8a69 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Tue, 27 Feb 2018 20:42:41 -0800
--Subject: [PATCH] Also check i386, i586 and i686 for ia32
--
--Upstream-Status: Pending
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 28cb8b60e..489531a43 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1217,7 +1217,7 @@ conf.set10('SYSTEMD_SLOW_TESTS_DEFAULT', slow_tests)
-- if get_option('efi')
--         efi_arch = host_machine.cpu_family()
-- 
---        if efi_arch == 'x86'
--+        if efi_arch == 'x86' or efi_arch == 'i386' or efi_arch == 'i586' or efi_arch == 'i686'
--                 EFI_MACHINE_TYPE_NAME = 'ia32'
--                 gnu_efi_arch = 'ia32'
--         elif efi_arch == 'x86_64'
---- 
--2.13.0
--
+ # Hardcode target binary paths to avoid using paths from sysroot
 -- 
 1.9.1
 
