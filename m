@@ -1,26 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E5F277A8F
+Return-Path: <marex@denx.de>
+X-Greylist: delayed 442 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 11 Jul 2018 15:10:45 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 813B9771B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2018 14:57:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2018 07:57:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,338,1526367600"; d="scan'208";a="63922112"
-Received: from bucksteg-mobl.ger.corp.intel.com (HELO localhost.localdomain)
-	([10.252.38.111])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Jul 2018 07:57:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 11 Jul 2018 15:10:45 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 41Qj4X32Tpz1qxx6;
+	Wed, 11 Jul 2018 17:03:24 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 41Qj4X2NX8z1qr9P;
+	Wed, 11 Jul 2018 17:03:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id Hfup28jyjiKe; Wed, 11 Jul 2018 17:03:23 +0200 (CEST)
+X-Auth-Info: 54GdA/L1uJgypBEDtxFWRJorB9+PPCS3yOPHcDeAaTs=
+Received: from kurokawa.lan (ip-86-49-107-50.net.upcbroadband.cz
+	[86.49.107.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed, 11 Jul 2018 17:03:23 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Jul 2018 16:56:50 +0200
-Message-Id: <69f22f2384c53f5cef4cafb5b66f8d25c42247e9.1531320900.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1531320900.git.paul.eggleton@linux.intel.com>
-References: <cover.1531320900.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/3] classes/buildhistory: handle packaged files with names containing spaces
+Date: Wed, 11 Jul 2018 17:03:05 +0200
+Message-Id: <20180711150308.30275-1-marex@denx.de>
+X-Mailer: git-send-email 2.16.2
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/4] u-boot: Add missing dependency on swig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2018 14:57:10 -0000
+X-List-Received-Date: Wed, 11 Jul 2018 15:10:45 -0000
 
-The FILELIST field of the package info file in the buildhistory
-repository is a space-separated list of all of the files in the package.
-If a name of a file packaged by a recipe contains a space character then
-of course the result was that we didn't handle its name properly. To fix
-that, use quotes around any filename containing spaces and at the other
-end use these quotes to extract the proper entries.
+The U-Boot build, in particular the pylibfdt, depends on swig-native.
+Add the missing dependency.
 
-Fixes [YOCTO #12742].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/buildhistory.bbclass    |  3 ++-
- meta/lib/oe/buildhistory_analysis.py | 16 ++++++++++++----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot_2018.05.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 63980f72a52..2e5213e66ec 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -77,6 +77,7 @@ python buildhistory_emit_pkghistory() {
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2018.05.bb b/meta/recipes-bsp/u-boot/u-boot_2018.05.bb
+index 37c21dcaa3..3cdec00cbd 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2018.05.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2018.05.bb
+@@ -1,4 +1,4 @@
+ require u-boot-common_${PV}.inc
+ require u-boot.inc
  
-     import re
-     import json
-+    import shlex
-     import errno
- 
-     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE')
-@@ -287,7 +288,7 @@ python buildhistory_emit_pkghistory() {
-         dictval = json.loads(val)
-         filelist = list(dictval.keys())
-         filelist.sort()
--        pkginfo.filelist = " ".join(filelist)
-+        pkginfo.filelist = " ".join([shlex.quote(x) for x in filelist])
- 
-         pkginfo.size = int(pkgdata['PKGSIZE'])
- 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index ff7815d7c94..ad7fceb8bbc 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -13,6 +13,7 @@ import os.path
- import difflib
- import git
- import re
-+import shlex
- import hashlib
- import collections
- import bb.utils
-@@ -115,10 +116,13 @@ class ChangeRecord:
-                 aitems = pkglist_combine(depvera)
-                 bitems = pkglist_combine(depverb)
-             else:
--                aitems = self.oldvalue.split()
--                bitems = self.newvalue.split()
-                 if self.fieldname == 'FILELIST':
-+                    aitems = shlex.split(self.oldvalue)
-+                    bitems = shlex.split(self.newvalue)
-                     renamed_dirs, aitems, bitems = detect_renamed_dirs(aitems, bitems)
-+                else:
-+                    aitems = self.oldvalue.split()
-+                    bitems = self.newvalue.split()
- 
-             removed = list(set(aitems) - set(bitems))
-             added = list(set(bitems) - set(aitems))
-@@ -409,9 +413,13 @@ def compare_dict_blobs(path, ablob, bblob, report_all, report_ver):
-                     (depvera, depverb) = compare_pkg_lists(astr, bstr)
-                     if depvera == depverb:
-                         continue
--                alist = astr.split()
-+                if key == 'FILELIST':
-+                    alist = shlex.split(astr)
-+                    blist = shlex.split(bstr)
-+                else:
-+                    alist = astr.split()
-+                    blist = bstr.split()
-                 alist.sort()
--                blist = bstr.split()
-                 blist.sort()
-                 # We don't care about the removal of self-dependencies
-                 if pkgname in alist and not pkgname in blist:
+-DEPENDS += "bc-native dtc-native"
++DEPENDS += "bc-native dtc-native swig-native"
 -- 
-2.17.1
+2.16.2
 
 
