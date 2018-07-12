@@ -1,44 +1,48 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 889087546A
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 19FF66FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 15:19:16 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id t198-v6so10591080ywc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 08:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=WkzYKV522hHgqUXQzrQYKwkdmpYpbPpiYvI7OHuLp28=;
-	b=RHCGHQzp5Km0MMOflo2C6ZMyxvOEKO+9CXBL52A0MZra7C5ry3tcN+S27zXw/EKBaW
-	ihgiFl1yVSANiHrEvUwxvJYJMziEQ5cfwTCBvmTmVuO4pQQl40SlVr+Pl86jx4EhRbAY
-	rC7nyMRlzqfASEdKrnarQ4LcsODSWyP2u8YeaKPuHcAtcsJkuws9OXBdt6e07okz7FXF
-	XeEJ/2cqW6+vds1UgieKMIcDB7DR3oxPfCieovKbUUotqTCxh5hTJbZE5a0OOKsHAY9C
-	Eywza92O7NgrARSRZmzelRhVdDLLWijrjylWO3mmtbTqw6rl3reGh1wtWPMFVi6oEZUI
-	LjCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=WkzYKV522hHgqUXQzrQYKwkdmpYpbPpiYvI7OHuLp28=;
-	b=iXGuixEkO1XVxjyNOcybl4/mv4rIfJLZ6aA+XvtCIPz+EZW1kNa9hmPWI6/iIjWHne
-	eCFXQ1FF8E6h9QtdRhRPagJwu9PKpwZmwa7GXu4jMZkVLFKSyeB0w6keFkBGUeIMhyXg
-	QCP8kWkIHPGTaAB4NA8x9fmwh5Nvf/rIC5nik8DZUIzmjuPy9wQgjxZyGJR1pyFQO2zp
-	UgBLel17FZ3YMrHrIzzxb3TglCLAjaqFqdVDS2aN82CDTe2qugC4Mu+gs7XDzbW/Et2J
-	n2J9ZQ3ZkJfAp+uGVnvphijQUdZl/vP12ONUg1x/vPfmVrSiQL0yjATQpJ6/oGnfba6N
-	FSkg==
-X-Gm-Message-State: AOUpUlFHqqnbhNcZ1oJXR+wNwVJRxQhr97ZgYs7Rd3lqM3w0A1UjrHfO
-	dBDTowYLIgShqMJB1OHTpWkOhrReyCNAPnnwpC8=
-X-Google-Smtp-Source: AAOMgpf6nkCfOFwYrTAzSwcvKo6Uu21r/zmGZEW/dUyHqxHWld5w8cOceh2dVohED6KGuo7eNw/4muo9sUKJ5b91x6Y=
-X-Received: by 2002:a81:6d08:: with SMTP id
-	i8-v6mr1364379ywc.114.1531408757036; 
-	Thu, 12 Jul 2018 08:19:17 -0700 (PDT)
+	Thu, 12 Jul 2018 15:42:40 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1fddjm-0005JH-DQ; Thu, 12 Jul 2018 17:42:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=oWCqlGPtILLDuQ02ciUtbYH23c/hMx0iW7fKYdRo+L0=;
+	b=BAV3+oPB8xrZcGP0604cs+aIGs
+	hUY7IjfYqR1j8Esz4nhsBpFga7nGeTYy3XSJNPY0XrTT2JlxB1bSTWR99bnrPeM9X4LUtYKTkiOXm
+	1hqeIhkC1g1cAYjeKBXA8Hv2xn9vgTiVH8jlfap9k3FQaxOTRs0Xl/SMb2vuu/UjYN3t5jR0EgSFb
+	LK3dkEzGOLirmpSxkvOWzKw4feJn3W+ZBoE7R6krwdjgHP6xVBmAsoQkYuvpY2+O3JrTqkP9VjOf6
+	Nfgqb8A8H531COrQkI4iYCMr3X1izvULsTP4v/jx20+xwiKp7NYfWzg8tw+qqLzU3HK69fCx+9n77
+	JSZZ8WSQ==;
+Received: from host-87-242-51-253.prtelecom.hu ([87.242.51.253]
+	helo=localhost.localdomain)
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1fddji-0000K5-1Z; Thu, 12 Jul 2018 17:42:32 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1522806183.git.akuster808@gmail.com>
+	<e929e83164630add80ba28f44d1d34afc2f197c9.1522806183.git.akuster808@gmail.com>
+	<6169db63-d6a3-2953-5770-c7f29dbe67cb@pr.hu>
+	<CAJTo0Lb+eHnDVa+QzVmhRUcAmUx3mddoRCevwO0NsWZBCGuLbQ@mail.gmail.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <fd8740e4-a481-dd96-fc13-b2589ff4bee6@pr.hu>
+Date: Thu, 12 Jul 2018 17:42:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-From: Adam Lee <adam.yh.lee@gmail.com>
-Date: Thu, 12 Jul 2018 11:19:07 -0400
-Message-ID: <CAFeBWL6aUFRraua-xyf49HYvHq=BGMNcZrmo1k6GtpvCpYETSg@mail.gmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Using IMAGE_INSTALL_remove and PNBLACKLIST
+In-Reply-To: <CAJTo0Lb+eHnDVa+QzVmhRUcAmUx3mddoRCevwO0NsWZBCGuLbQ@mail.gmail.com>
+X-Spam-Score: 1.0 (+)
+X-Scan-Signature: f38f4f91aa9d67a621f2150e8515f130
+X-Spam-Tracer: backend.mail.pr.hu 1.0 20180712154232Z
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 18/21] *proto: remove depricated xorg proto header recipes and replace by xorgproto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +55,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 15:19:16 -0000
-Content-Type: multipart/alternative; boundary="000000000000f81a9e0570cee265"
+X-List-Received-Date: Thu, 12 Jul 2018 15:42:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---000000000000f81a9e0570cee265
-Content-Type: text/plain; charset="UTF-8"
+2018-07-12 16:54 keltezéssel, Burton, Ross írta:
+> I guess that tells us how many people actually use xcalibrate...
 
-I am attempting to exclude a package from my system image with this in my
-local.conf:
+The breakage depends on whether you are using a repository to
+upgrade your machines running Yocto or bring them in and reflash
+with a new complete build.
 
-IMAGE_INSTALL_remove += "tiovx-app-host-examples"
-IMAGE_INSTALL_remove += "tiovx-lib-host"
-IMAGE_INSTALL_remove += "tiovx-app-host"
+But anyway, it's the maintainer's call. The previous patch itself
+was an incompatible deviation from upstream and xinput_calibrator
+is usually running locally, not remotely, so it's only an obscure
+corner case.
 
-PNBLACKLIST[tiovx-lib-host] = "Build break"
-PNBLACKLIST[tiovx-app-host] = "Build break"
-PNBLACKLIST[tiovx-app-host-examples] = "Build break"
+> 
+> On 12 July 2018 at 15:07, Böszörményi Zoltán via Openembedded-core
+> <openembedded-core@lists.openembedded.org> wrote:
+>> Hi,
+>>
+>> 2018-04-04 03:49 keltezéssel, Armin Kuster írta:
+>>>
+>>> From: Armin Kuster <akuster@mvista.com>
+>>>
+>>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>>> ---
+>>>    .../xorg-proto/bigreqsproto_1.1.2.bb               | 16 ---------
+>>>    .../xorg-proto/calibrateproto/fix.patch            | 42
+>>> ----------------------
+>>
+>> ...
+>>>
+>>> diff --git a/meta/recipes-graphics/xorg-proto/calibrateproto/fix.patch
+>>> b/meta/recipes-graphics/xorg-proto/calibrateproto/fix.patch
+>>>
+>>> deleted file mode 100644
+>>> index ff8cb25..0000000
+>>> --- a/meta/recipes-graphics/xorg-proto/calibrateproto/fix.patch
+>>> +++ /dev/null
+>>> @@ -1,42 +0,0 @@
+>>> -Upstream-Status: Pending
+>>> -
+>>> -Add missing length fields to the replies. Without these, sanity checking
+>>> in recent X
+>>> -breaks things.
+>>> -
+>>> -RP 11/2/10
+>>> -
+>>> -
+>>> -Index: git/xcalibrateproto.h
+>>> -===================================================================
+>>> ---- git.orig/xcalibrateproto.h 2010-02-11 11:47:45.711985932 +0000
+>>> -+++ git/xcalibrateproto.h      2010-02-11 11:40:21.000000000 +0000
+>>> -@@ -67,13 +67,13 @@
+>>> -     BYTE    type;   /* X_Reply */
+>>> -     BYTE    pad1;
+>>> -     CARD16  sequenceNumber B16;
+>>> -+    CARD32  length;
+>>> -     CARD32  status;
+>>> -     CARD32  pad2 B32;
+>>> -     CARD32  pad3 B32;
+>>> -     CARD32  pad4 B32;
+>>> -     CARD32  pad5 B32;
+>>> -     CARD32  pad6 B32;
+>>> --    CARD32  pad7 B32;
+>>> - } xXCalibrateRawModeReply;
+>>> -
+>>> - #define sz_xXCalibrateRawModeReply    32
+>>> -@@ -92,13 +92,13 @@
+>>> -     BYTE    type;   /* X_Reply */
+>>> -     BYTE    pad1;
+>>> -     CARD16  sequenceNumber B16;
+>>> -+    CARD32  length;
+>>> -     CARD32  x;
+>>> -     CARD32  y;
+>>> -     CARD32  pad2 B32;
+>>> -     CARD32  pad3 B32;
+>>> -     CARD32  pad4 B32;
+>>> -     CARD32  pad5 B32;
+>>> --    CARD32  pad6 B32;
+>>> - } xXCalibrateScreenToCoordReply;
+>>> -
+>>> - #define sz_xXCalibrateScreenToCoordReply      32
+>>
+>>
+>> Haven't you just introduced an incompatible change by not adding the
+>> identical
+>> patch to [PATCH 17/21] xorgproto: add replacement for depricated
+>> calibrateproto ?
+>>
+>> Best regards,
+>> Zoltán Böszörményi
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
-My build is still failing unfortunately:
 
-ERROR: Nothing RPROVIDES 'tiovx-app-host-examples' (but
-/home/ylee/tisdk-20180718/tisdk/sources/meta-arago/meta-arago-distro/recipes-core/packagegroups/
-packagegroup-arago-tisdk-addons.bb RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'tiovx-app-host-examples' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['tiovx-app-host-examples']
-ERROR: Required build target 'packagegroup-arago-tisdk-addons' has no
-buildable providers.
-Missing or unbuildable dependency chain was:
-['packagegroup-arago-tisdk-addons', 'tiovx-app-host-examples']
-
-Is there something else I have to do to eliminate a package that is runtime
-dependent? Thoughts?
-
-Adam
-
---000000000000f81a9e0570cee265
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I am attempting to exclude a package from my system image =
-with this in my local.conf:<div><br></div><div><div>IMAGE_INSTALL_remove +=
-=3D &quot;tiovx-app-host-examples&quot;</div><div>IMAGE_INSTALL_remove +=3D=
- &quot;tiovx-lib-host&quot;</div><div>IMAGE_INSTALL_remove +=3D &quot;tiovx=
--app-host&quot;</div><div><br></div><div>PNBLACKLIST[tiovx-lib-host] =3D &q=
-uot;Build break&quot;</div><div>PNBLACKLIST[tiovx-app-host] =3D &quot;Build=
- break&quot;</div><div>PNBLACKLIST[tiovx-app-host-examples] =3D &quot;Build=
- break&quot;</div><div><br></div><div>My build is still failing unfortunate=
-ly:</div></div><div><br></div><div><div>ERROR: Nothing RPROVIDES &#39;tiovx=
--app-host-examples&#39; (but /home/ylee/tisdk-20180718/tisdk/sources/meta-a=
-rago/meta-arago-distro/recipes-core/packagegroups/<a href=3D"http://package=
-group-arago-tisdk-addons.bb">packagegroup-arago-tisdk-addons.bb</a> RDEPEND=
-S on or otherwise requires it)</div><div>NOTE: Runtime target &#39;tiovx-ap=
-p-host-examples&#39; is unbuildable, removing...</div><div>Missing or unbui=
-ldable dependency chain was: [&#39;tiovx-app-host-examples&#39;]</div><div>=
-ERROR: Required build target &#39;packagegroup-arago-tisdk-addons&#39; has =
-no buildable providers.</div><div>Missing or unbuildable dependency chain w=
-as: [&#39;packagegroup-arago-tisdk-addons&#39;, &#39;tiovx-app-host-example=
-s&#39;]</div><div><br></div><div>Is there something else I have to do to el=
-iminate a package that is runtime dependent? Thoughts?</div></div><div><br>=
-</div><div>Adam</div></div>
-
---000000000000f81a9e0570cee265--
