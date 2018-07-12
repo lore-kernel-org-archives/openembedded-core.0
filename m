@@ -1,23 +1,48 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E94DD78480
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6764360939
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 18:48:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6CImINv010190
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Jul 2018 20:02:01 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id z6-v6so2872863wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 11:48:18 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 12 Jul 2018 11:48:17 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jul 2018 11:48:17 -0700
-Message-ID: <20180712184817.149892-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH V2 1/1] tiff: security fix CVE-2018-10963
+	Thu, 12 Jul 2018 13:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=9mVzs5TbaHXWkKs+XjYlW+8t5t5lQxJfTcoVMLSkIYs=;
+	b=tewIQNcN1UveVtq3QwDN3Om3LF6oLq2ay6bFE81cLrGiNrN7iWYvYB4ivnvaf2SXMZ
+	t8Gnj1KBi5ZrXr/1NO3VgCxzd7ISm4u+vuHAEHZdzFkAv5K33aKpovrZJlJeTfJj8nmM
+	G7E90ImXcFZTUxtRiIALmnqiWW5zp+2OHrO3B3cN1viEHMNP6+OKMv1v4zU6t5tl7SUU
+	OLtR4wV2MWd0bZJxi9unStzAjr5XaBCU6XfS1y0i6mCJaJ1C2ubt0kJbkH0BlY3hRBvD
+	G+A98stvDk/PEznYUlWEphSiU9cwPkTPvB7cj7l7QMK7gpKpgyB5LMFM8H7IhbjQjtoM
+	f0+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9mVzs5TbaHXWkKs+XjYlW+8t5t5lQxJfTcoVMLSkIYs=;
+	b=W+l5JhieWdIAtchFwTiUHXRkIxr8Lc2+oFptEMcVM1ZvHtzR0Eivtl+eEEgFM46r8R
+	Ptn+Etc6710paYTj6qz48Hez/YSWpIJVQPN2jPytDxJR6s6oHgnkRFgbdgHjjA4C3Akh
+	Ag+hf/WyJQcfkjnHgR4bKYSkj15KkcUNorOR3MeNFVfGUN7KaCyCxsB3yRaxtyQJxiPA
+	rFNtY5DG/4YWcsLWeO68xnMeqoUyLd16Y4qRp4K4UNJ/y6VrMJ3Z/Z+Loy9EO2DvIBMe
+	uOXrmfA/q6tYXDvxJGbilkJMSBSxk5ero5G3N37Re3/eRI5N1rQmiNHxyUDYVOP+TUyK
+	hK5Q==
+X-Gm-Message-State: AOUpUlErBbCjLiSjpf8s0LxIBMyP0pVoC/i0g+oIO06GrQ3l4BWuLKTh
+	uXMKfTMuc4mnGwE63eg9A+nhZ346
+X-Google-Smtp-Source: AAOMgpeXqOGTcQDFDDykEifnBwH1VxIzNC5ZEWVtMD1MFdoDuQ6otD/ZURd48RZ1RFEJi5xOe/4wvg==
+X-Received: by 2002:a1c:6709:: with SMTP id b9-v6mr2246444wmc.68.1531425721536;
+	Thu, 12 Jul 2018 13:02:01 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h12-v6sm3031274wmb.3.2018.07.12.13.02.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Jul 2018 13:02:00 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jul 2018 21:01:58 +0100
+Message-Id: <20180712200158.10313-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] python-setuptools: rationalise dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,76 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 18:48:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jul 2018 20:02:01 -0000
 
-Denial of service described at https://nvd.nist.gov/vuln/detail/CVE-2018-10963.
+There's no need to do native- and nativesdk-specific DEPENDS as the
+BBCLASSEXTENDs handles those renames for us.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+There's no need to have a subset of RDEPENDS for class-native as all with the
+new manifest the python-native PROVIDES are complete.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libtiff/files/CVE-2018-10963.patch             | 39 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-10963.patch
+ meta/recipes-devtools/python/python-setuptools.inc | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-10963.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-10963.patch
-new file mode 100644
-index 0000000..7252298
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-10963.patch
-@@ -0,0 +1,39 @@
-+From de144fd228e4be8aa484c3caf3d814b6fa88c6d9 Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Sat, 12 May 2018 14:24:15 +0200
-+Subject: [PATCH] TIFFWriteDirectorySec: avoid assertion. Fixes
-+ http://bugzilla.maptools.org/show_bug.cgi?id=2795.
-+ CVE-2018-10963
-+
-+---
-+CVE: CVE-2018-10963
-+
-+Upstream-Status: Backport [gitlab.com/libtiff/libtiff/commit/de144f...]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+ libtiff/tif_dirwrite.c |    7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
-+index 2430de6..c15a28d 100644
-+--- a/libtiff/tif_dirwrite.c
-++++ b/libtiff/tif_dirwrite.c
-+@@ -695,8 +695,11 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64* pdiroff)
-+ 								}
-+ 								break;
-+ 							default:
-+-								assert(0);   /* we should never get here */
-+-								break;
-++								TIFFErrorExt(tif->tif_clientdata,module,
-++								            "Cannot write tag %d (%s)",
-++								            TIFFFieldTag(o),
-++                                                                            o->field_name ? o->field_name : "unknown");
-++								goto bad;
-+ 						}
-+ 					}
-+ 				}
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-index 8c3bba5..e8e2a11 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2017-9935.patch \
-            file://CVE-2017-18013.patch \
-            file://CVE-2018-5784.patch \
-+           file://CVE-2018-10963.patch \
-           "
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index b121b2ab3c8..ab1c013ef1f 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -12,8 +12,6 @@ SRC_URI[md5sum] = "260630ae1a64bafa39dcc53404d63829"
+ SRC_URI[sha256sum] = "012adb8e25fbfd64c652e99e7bab58799a3aaf05d39ab38561f69190a909015f"
  
- SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
+ DEPENDS += "${PYTHON_PN}"
+-DEPENDS_class-native = "${PYTHON_PN}-native"
+-DEPENDS_class-nativesdk = "nativesdk-${PYTHON_PN}"
+ 
+ DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR} \
+                            --script-dir=${bindir}"
+@@ -35,12 +33,6 @@ RDEPENDS_${PN} = "\
+   ${PYTHON_PN}-unittest \
+   ${PYTHON_PN}-xml \
+ "
+-
+-RDEPENDS_${PN}_class-native = "\
+-  ${PYTHON_PN}-compression \
+-  ${PYTHON_PN}-distutils \
+-"
+-
+ do_install_prepend() {
+     install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+ }
 -- 
-2.7.4
+2.11.0
 
 
