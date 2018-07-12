@@ -1,35 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF07B6E672
+Return-Path: <adam.yh.lee@gmail.com>
+Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
+	[209.85.161.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 16D6260291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 17:07:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6CH7OtL011354
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jul 2018 10:07:24 -0700
-Received: from server.local (128.224.23.195) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 12 Jul 2018 10:07:23 -0700
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-	<47b99eac-867c-9cca-ac43-4d5a06760ed3@windriver.com>
-	<c0baf80e5943135f4f65a93d849ee68419065c45.camel@linuxfoundation.org>
-	<dee40069-d36a-2b70-56f6-5b52f3c1e7c4@windriver.com>
-	<f7a60084dfdcbe937ad60021adb1fa6bec88eeff.camel@linuxfoundation.org>
-	<d56fb567-09bd-2c35-28c0-00807a4a2f2d@windriver.com>
-	<a443bc36-036f-89d2-be6b-b0a5d2d31d98@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <bb435abc-76fe-a4f7-6b1a-75b1d41549ed@windriver.com>
-Date: Thu, 12 Jul 2018 13:07:22 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+	Thu, 12 Jul 2018 17:17:00 +0000 (UTC)
+Received: by mail-yw0-f177.google.com with SMTP id w76-v6so10722208ywg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2018 10:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=oILW2EJTK12JMUCloeWblpQLVFH8shSNBO+ZLQ9VfbE=;
+	b=AjI25QwwBDcSSLYiR/Z8aNdYPQT7uE8tbrQTZaM54+VRKaIMGnMUKKMapwppD3KkVg
+	J71Z0Erp5c2GcnKyDfVsocs9Bmjjvj0XXBuaErFqcC4JZf5yRKvBnNxsan8dr98pBBQ3
+	gPVPMUp6xQS3H+fpIiTS1MQpvkVukegBLAN/fx3FAXYzQAwAV1dVzs45NmvzMxsUAhKA
+	s5hDqCHeInAoazi94n0RlJQW5I5hBaZe5fddw6fFQlh+aNa+WmaA/REIpDLVJ0l71hNC
+	Gqd4OiE03z6/HTkAEoA/jDR9kAH4sR/RinmGmWywGwGQRlvF4IfFHZhf+WsJgaeGZKm9
+	5EYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=oILW2EJTK12JMUCloeWblpQLVFH8shSNBO+ZLQ9VfbE=;
+	b=WkrR89ogA/y8PEBvL6eCu1WWqe+QNEM9dmRK3upzctc9oS02yyPR0bGTDmGdIvQ4qd
+	fvKkGZDKdFZPsVWi7CmggSdYA1Lya6vVsnlTAsJigKCuCV7E/TSAqOVtN3LKFmmNJjHe
+	Eq3urqmXLnSVcY9W0S6FvlMwiasFnt+RQsEVn+arOBS/2ZMKpDLJBYkClmYwa36NQ4aJ
+	AhJjqj+5M7gbOSrMQALEtfWx9PjIZ0tmy+3qWMgBh3Xo6CQs+dFRFjbLC7kznjLMU/RS
+	BPUm/voTjqeh5x5V2zGvHc8p3qnLtVOw22fqzPeZP7o31oKzu8xStJx5BCYUvG3oDdl3
+	Adfg==
+X-Gm-Message-State: AOUpUlFJ8tCA0JOfvfTzRmXEO/Flz0mOZ9A5QlZmhXitfTUVNhjQwA8l
+	62EWg2fGJwicq4QDt0s3nlZP1C11lqa/CsnKPqo=
+X-Google-Smtp-Source: AAOMgpfVJYrU+9k5icrAfDeKPYfkIqmUtivgaFMkXdZmQKJjceSj6OOCZKj7SL77JdJ6qsBW04QC/nPmZw59L5+wF/o=
+X-Received: by 2002:a81:f208:: with SMTP id i8-v6mr1534615ywm.72.1531415821822;
+	Thu, 12 Jul 2018 10:17:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a443bc36-036f-89d2-be6b-b0a5d2d31d98@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+References: <CAFeBWL6aUFRraua-xyf49HYvHq=BGMNcZrmo1k6GtpvCpYETSg@mail.gmail.com>
+	<CAJTo0LYeM6ob7-d+FxNeFgLszvhry0=9Tcb90a-1vU+PXjFppQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYeM6ob7-d+FxNeFgLszvhry0=9Tcb90a-1vU+PXjFppQ@mail.gmail.com>
+From: Adam Lee <adam.yh.lee@gmail.com>
+Date: Thu, 12 Jul 2018 13:16:50 -0400
+Message-ID: <CAFeBWL7d02=O3SKdUYAPOmeJi1hgLyq56EVBO6hDTYmx0kjamw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Using IMAGE_INSTALL_remove and PNBLACKLIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,147 +55,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 17:07:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Jul 2018 17:17:01 -0000
+Content-Type: multipart/alternative; boundary="0000000000001032780570d08851"
 
-On 2018-07-12 1:02 PM, Khem Raj wrote:
-> On 7/12/18 7:55 AM, Bruce Ashfield wrote:
->> On 2018-07-12 9:53 AM, Richard Purdie wrote:
->>> On Thu, 2018-07-12 at 09:49 -0400, Bruce Ashfield wrote:
->>>> On 2018-07-10 5:41 PM, Richard Purdie wrote:
->>>>> On Tue, 2018-07-10 at 12:38 -0400, Bruce Ashfield wrote:
->>>>>> On 07/10/2018 06:21 AM, Richard Purdie wrote:
->>>>>>> On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
->>>>>>
->>>>>> I'll try the other configs, but clearly I have something
->>>>>> different in
->>>>>> my x86-64 build.
->>>>>>
->>>>>> I can't run the self tests directly, but am copying the files
->>>>>> onto my
->>>>>> qemu session and running things myself:
->>>>>>
->>>>>> root@qemux86-64:/lib/modules/4.14.48-yocto-standard/build# make
->>>>>> ARCH=x86
->>>>>> scripts prepare
->>>>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>>>> install
->>>>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>>>       CHK     scripts/mod/devicetable-offsets.h
->>>>>>       SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
->>>>>>       SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
->>>>>>       SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
->>>>>>       SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
->>>>>>       SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
->>>>>>       SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
->>>>>>       SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
->>>>>>       HOSTCC  arch/x86/tools/relocs_32.o
->>>>>>       HOSTCC  arch/x86/tools/relocs_64.o
->>>>>>       HOSTCC  arch/x86/tools/relocs_common.o
->>>>>>       HOSTLD  arch/x86/tools/relocs
->>>>>>       CHK     include/config/kernel.release
->>>>>>       CHK     include/generated/uapi/linux/version.h
->>>>>>       CHK     include/generated/utsrelease.h
->>>>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>>>> install
->>>>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>>>
->>>>>> root@qemux86-64:/tmp# make
->>>>>> make -C /usr/src/kernel M=/tmp modules
->>>>>> make[1]: Entering directory '/lib/modules/4.14.48-yocto-
->>>>>> standard/build'
->>>>>> Makefile:950: "Cannot use CONFIG_STACK_VALIDATION=y, please
->>>>>> install
->>>>>> libelf-dev, libelf-devel or elfutils-libelf-devel"
->>>>>>       Building modules, stage 2.
->>>>>>       MODPOST 1 modules
->>>>>> make[1]: Leaving directory '/lib/modules/4.14.48-yocto-
->>>>>> standard/build'
->>>>>> root@qemux86-64:/tmp# insmod hellomod.ko
->>>>>> [  419.211616] hellomod: loading out-of-tree module taints
->>>>>> kernel.
->>>>>> [  419.212586] Hello world!
->>>>>>
->>>>>> This is on the core-image-kernel-dev image, which is the one that
->>>>>> I created to test all this.
->>>>>>
->>>>>> What image is that using ? some sato sdk one ?
->>>>>
->>>>> We really need to find you a way to run these. The problem is the
->>>>> qemu
->>>>> graphics piece? You can't have a dummy vncserver or something to
->>>>> direct
->>>>> them at?
->>>>>
->>>>> The image is a core-image-sato-sdk...
->>>>
->>>> I was able to trigger the objtool issue with this image, looking at
->>>> fixing it and the other arches now.
->>>
->>> Since its image related, is it a missing package dependency? Just
->>> curious why its happening with some images but not your test ones...
->>
->> It is. I have extra toolchain elements being installed in
->> core-image-kernel-dev
->> that hold things together (i.e. the kernel's objtool doesn't need to
->> be built).
->>
->> The obvious fix is to just add an RDEPENDS, but I'm being stubborn
->> and trying to make it build on target, since the build of objtool from
->> the kernel source is showing me some sort of include path issue that
->> I'd like to sort out:
->>
->>    CC /lib/modules/4.14.48-yocto-standard/build/tools/objtool/exec-cmd.o
->> exec-cmd.c: In function 'get_pwd_cwd':
->> exec-cmd.c:49:4: error: implicit declaration of function 'strlcpy'; did
->> you mean 'strncpy'? [-Werror=implicit-function-declaration]
->>      strlcpy(cwd, pwd, PATH_MAX);
->>      ^~~~~~~
->>      strncpy
->> exec-cmd.c:49:4: error: nested extern declaration of 'strlcpy'
->> [-Werror=nested-externs]
->> cc1: all warnings being treated as errors
->>
-> 
-> Kernel has this function defined in tools/include/linux/string.h so
+--0000000000001032780570d08851
+Content-Type: text/plain; charset="UTF-8"
+
+Right, but I am simply and quickly trying to replicate TI provided SDK
+image.
+So RDEPENDS does not get handled by IMAGE_INSTALL_remove / PNBLACKLIST
+combo, correct?
+
+Adam
+
+On Thu, Jul 12, 2018 at 12:20 PM Burton, Ross <ross.burton@intel.com> wrote:
+
+> Write your own custom image which doesn't include
+> packagegroup-arago-tisdk-addons?
+>
+> Ross
+>
+> On 12 July 2018 at 16:19, Adam Lee <adam.yh.lee@gmail.com> wrote:
+> > I am attempting to exclude a package from my system image with this in my
+> > local.conf:
+> >
+> > IMAGE_INSTALL_remove += "tiovx-app-host-examples"
+> > IMAGE_INSTALL_remove += "tiovx-lib-host"
+> > IMAGE_INSTALL_remove += "tiovx-app-host"
+> >
+> > PNBLACKLIST[tiovx-lib-host] = "Build break"
+> > PNBLACKLIST[tiovx-app-host] = "Build break"
+> > PNBLACKLIST[tiovx-app-host-examples] = "Build break"
+> >
+> > My build is still failing unfortunately:
+> >
+> > ERROR: Nothing RPROVIDES 'tiovx-app-host-examples' (but
+> >
+> /home/ylee/tisdk-20180718/tisdk/sources/meta-arago/meta-arago-distro/recipes-core/packagegroups/
+> packagegroup-arago-tisdk-addons.bb
+> > RDEPENDS on or otherwise requires it)
+> > NOTE: Runtime target 'tiovx-app-host-examples' is unbuildable,
+> removing...
+> > Missing or unbuildable dependency chain was: ['tiovx-app-host-examples']
+> > ERROR: Required build target 'packagegroup-arago-tisdk-addons' has no
+> > buildable providers.
+> > Missing or unbuildable dependency chain was:
+> > ['packagegroup-arago-tisdk-addons', 'tiovx-app-host-examples']
+> >
+> > Is there something else I have to do to eliminate a package that is
+> runtime
+> > dependent? Thoughts?
+> >
+> > Adam
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 >
 
-Well yes, a grep locates that :D
+--0000000000001032780570d08851
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Right, but I am simply and quickly trying to replicate TI =
+provided SDK image.<div>So RDEPENDS does not get handled by IMAGE_INSTALL_r=
+emove / PNBLACKLIST combo, correct?</div><div><br></div><div>Adam</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Thu, Jul 12, 2018 at 1=
+2:20 PM Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burt=
+on@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Write y=
+our own custom image which doesn&#39;t include<br>
+packagegroup-arago-tisdk-addons?<br>
+<br>
+Ross<br>
+<br>
+On 12 July 2018 at 16:19, Adam Lee &lt;<a href=3D"mailto:adam.yh.lee@gmail.=
+com" target=3D"_blank">adam.yh.lee@gmail.com</a>&gt; wrote:<br>
+&gt; I am attempting to exclude a package from my system image with this in=
+ my<br>
+&gt; local.conf:<br>
+&gt;<br>
+&gt; IMAGE_INSTALL_remove +=3D &quot;tiovx-app-host-examples&quot;<br>
+&gt; IMAGE_INSTALL_remove +=3D &quot;tiovx-lib-host&quot;<br>
+&gt; IMAGE_INSTALL_remove +=3D &quot;tiovx-app-host&quot;<br>
+&gt;<br>
+&gt; PNBLACKLIST[tiovx-lib-host] =3D &quot;Build break&quot;<br>
+&gt; PNBLACKLIST[tiovx-app-host] =3D &quot;Build break&quot;<br>
+&gt; PNBLACKLIST[tiovx-app-host-examples] =3D &quot;Build break&quot;<br>
+&gt;<br>
+&gt; My build is still failing unfortunately:<br>
+&gt;<br>
+&gt; ERROR: Nothing RPROVIDES &#39;tiovx-app-host-examples&#39; (but<br>
+&gt; /home/ylee/tisdk-20180718/tisdk/sources/meta-arago/meta-arago-distro/r=
+ecipes-core/packagegroups/<a href=3D"http://packagegroup-arago-tisdk-addons=
+.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-arago-tisdk-addons.b=
+b</a><br>
+&gt; RDEPENDS on or otherwise requires it)<br>
+&gt; NOTE: Runtime target &#39;tiovx-app-host-examples&#39; is unbuildable,=
+ removing...<br>
+&gt; Missing or unbuildable dependency chain was: [&#39;tiovx-app-host-exam=
+ples&#39;]<br>
+&gt; ERROR: Required build target &#39;packagegroup-arago-tisdk-addons&#39;=
+ has no<br>
+&gt; buildable providers.<br>
+&gt; Missing or unbuildable dependency chain was:<br>
+&gt; [&#39;packagegroup-arago-tisdk-addons&#39;, &#39;tiovx-app-host-exampl=
+es&#39;]<br>
+&gt;<br>
+&gt; Is there something else I have to do to eliminate a package that is ru=
+ntime<br>
+&gt; dependent? Thoughts?<br>
+&gt;<br>
+&gt; Adam<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+&gt;<br>
+</blockquote></div>
 
-> however it has it like this
-> 
-> #if defined(__GLIBC__) && !defined(__UCLIBC__)
-> extern size_t strlcpy(char *dest, const char *src, size_t size);
-> #endif
-> 
-> Which means it will not work for musl and we need to ensure that we
-> use -D_GNU_SOURCE for it to be included from standard musl headers
-
-I've never built or supported musl, and since this is using the
-in kernel Makefiles, etc, it isn't something I can patch or fix
-outside of linux-yocto.
-
-I'm just worried about the glibc cases, we can do follow up patches
-later.
-
-Bruce
-
-> 
-> 
->> Cheers,
->>
->> Bruce
->>
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>
-> 
-> 
-
-
+--0000000000001032780570d08851--
