@@ -1,43 +1,49 @@
-Return-Path: <vladzouth@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ADC26011A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4360876060
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 16:32:53 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id l7-v6so28799104ioj.1
+	Thu, 12 Jul 2018 16:40:36 +0000 (UTC)
+Received: by mail-oi0-f47.google.com with SMTP id w126-v6so56961288oie.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 09:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=lrGxvrGBwSmlNpbwuKIj4JUm8ZRXDyUkwcufjrWtu2s=;
-	b=dQNq8kHJt9YIAeC7GO29KLtsLyGXGzqqO8iLafX7Vjccr89t5aunBd09/8i/h8DynR
-	SjY6ZzCcBGNsDzNJk8n/QK6ZDraVSkP4VkXB67qhbMtBx8APdjnLDzhiL950YJXFcqGu
-	0DdgNKUjBqcFc3u7qXb/WVrq6klzyGKlk7EzUDJd3xf1UYNnZi/HkDfs/0hiumfDn47N
-	3kUqx5i82pWDTR5kl/Y/rE3AouwV187sjRsQbJtLYQbVEM/VHGC1gZbDv6YK2C3rzFTn
-	MSFIi2P9X7npnXb+8CIGzsYeDlWiclVwSBJ4qsxKgDUFhdHzp0ktHHWf7ESc2Q1XZKRu
-	cWjQ==
+	Thu, 12 Jul 2018 09:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/gHXwGUo5JHOiMWaAYGKFnzUDqLSydwX56toDssHaEM=;
+	b=I7OqmmwpxDhc9Wx3YswEnZTapB8H1Ef/VwVbHiH3+BL5zxKbhl8OfwqJFcKbbyFFvP
+	XjsWroAyxudVpIi+5IYverfVrQJ8Lgl8GsZQG7NqDGIIBoT4AA8rXPhlw/K8+Jj3sjaK
+	++tw/ITSLS68iLmCJJfdxLIg/+04Cus/Xx/A7LSMLZkYKIKya0Y9rBoKiVkFzjmdO/fw
+	qKfh0gE0Rj8DtkkeXWUj97JGI92gPr9DnfH38vVR8q61KAIdLuACq5jlpo7AgvHpt2I/
+	E+AsogM2jOpPQ4w1n/t6q+mAzX7lvpZOTsORkLJ2KOBUWd7Mq0ok08ch1ed4s53seE1z
+	7RDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=lrGxvrGBwSmlNpbwuKIj4JUm8ZRXDyUkwcufjrWtu2s=;
-	b=IKX5SMfGgI05064oPgdQG2CYcSYgm4O2oC/69zPC8BWh5BiPMHDrQnnITIvJDnfQNN
-	epbv4qWZevEljweIcg5HT38iCn2zEyFe7z3SGULd4nhj9WUaCBJQ/kuP4y22AaVgKGyP
-	PxkzJO1f77jB3gAcestRQBJu+ACSGFJ1J4//gLceTEv8vhzrFrww9dTGm9J6Z0cgDzLY
-	Wxlppf8QK3SP9CNUo+6yykPnL4X2FuG6clJ3UUTP9Y2tOcIyOXjsw77fyhhKp5r1r/Rt
-	aE1hNTQbgcksCPg6UmHdMuJvRnBO6dMq35D13DThdSo/br5QXMvoJStpqVYp9DlqcwBb
-	9trA==
-X-Gm-Message-State: APt69E2ine/CdtXrXRtdO3HjSK4tkWxIm/T9yc0VCdD9jK2ZrQ81HxkG
-	3fFskXxOh5rsh2Ayxt8rWnf5TLmafNwDKgjSeHMV1A==
-X-Google-Smtp-Source: AAOMgpeoRQpxw5/LC/W4IrM/Q80bFhwA49Nqsyc9ZkO4kZiQA1L9bX9fsdt6pXChFYHKLyvS6LWFn5H8DUDUwyfe+S0=
-X-Received: by 2002:a6b:ed0:: with SMTP id
-	199-v6mr28865376ioo.69.1531413174560; 
-	Thu, 12 Jul 2018 09:32:54 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/gHXwGUo5JHOiMWaAYGKFnzUDqLSydwX56toDssHaEM=;
+	b=pGqbZhqv/b+BacEDTOySKULXv54jZbqPcggPHBukgS6D2oAUhdgb3p/J4VP/Z5QOxP
+	7TXooR+UX0Y7WQxOQgCzOpdJoN9nuGVIjX7/CeXKEFep0z+MtJU4zrD7qJLeMzSPvSzO
+	OKCEj8UVnF4y06idNP0SlE5KfsMwtjOweD6FRzzCd/7DTWfHN/xSPlq3XZutOwFchllM
+	paZvXgdI+eyaM6y/dq7KvATOJ33PGGpiAXSv/NOe76s/ZKaaHa3VgZADN9P2iziHFPz+
+	kDCvgG00FfnLkr68CArCS9jO2PSnkDymDDlbVfytkFZ5drgZJdx6PhjxjA+L3t7Gh390
+	qERw==
+X-Gm-Message-State: AOUpUlGpVToCMMzo5op9lbPIOZIDIVRWciNC3u2sPCAFDVd7eDJTlOz5
+	vt+/uB/b/wEzA966SbqHGvNh8tvQv5lWVOJPicVd6Q==
+X-Google-Smtp-Source: AAOMgpeCF7thti19LlZ/714p8HPeCrM99tqfV9WIG5OYewO1UxbZ8BliiJxpQi1nWT8O6nSawH+cne6YdoswrFUUPQw=
+X-Received: by 2002:aca:2808:: with SMTP id 8-v6mr3235953oix.235.1531413637395;
+	Thu, 12 Jul 2018 09:40:37 -0700 (PDT)
 MIME-Version: 1.0
-From: vlad zouth <vladzouth@gmail.com>
-Date: Thu, 12 Jul 2018 18:36:53 +0200
-Message-ID: <CACoJdSaG3UefHMXmfOhe0f7-2rHyfr8B7k4-BZ2iG5uKY_5UBA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Building postgresql_9.4.5: Some Packages are missing in my rootfs
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Thu, 12 Jul 2018 09:40:16
+	-0700 (PDT)
+In-Reply-To: <CACoJdSaG3UefHMXmfOhe0f7-2rHyfr8B7k4-BZ2iG5uKY_5UBA@mail.gmail.com>
+References: <CACoJdSaG3UefHMXmfOhe0f7-2rHyfr8B7k4-BZ2iG5uKY_5UBA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Jul 2018 17:40:16 +0100
+Message-ID: <CAJTo0LaNOgufq6L95XEGD2ChN5c-fbBLLY4UkUDd09=5g8vE-g@mail.gmail.com>
+To: vlad zouth <vladzouth@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Building postgresql_9.4.5: Some Packages are missing in my rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,49 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 16:32:53 -0000
-Content-Type: multipart/alternative; boundary="000000000000462f180570cfeab8"
-
---000000000000462f180570cfeab8
+X-List-Received-Date: Thu, 12 Jul 2018 16:40:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-I am facing an issue about adding postgresql. Here is the recipe files:
+On 12 July 2018 at 17:36, vlad zouth <vladzouth@gmail.com> wrote:
+> Hi,
+> I am facing an issue about adding postgresql. Here is the recipe files:
+>
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgresql_9.4.5.bb?h=krogoth
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgresql.inc?h=krogoth
+>
+> In fact, when i build an image, all the packages included into this recipes
+> are present in the postgresql image directory but, for example all the
+> program added by the variable FILES_${PN}-client are not in my rootfs.
+> For more precision, i use fsl-community-bsp project and krogoth distro to
+> build an image for the tx6s-8035 karo board.
 
-   -
-   http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgresql_9.4.5.bb?h=krogoth
-   -
-   http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgresql.inc?h=krogoth
+If you want postgresql-client to be in your image, then you'll need to
+add postgresql-client to your image (IMAGE_INSTALL, etc).
 
-In fact, when i build an image, all the packages included into this recipes
-are present in the postgresql image directory but, for example all the
-program added by the variable FILES_${PN}-client are not in my rootfs.
-For more precision, i use fsl-community-bsp project and krogoth distro to
-build an image for the tx6s-8035 karo board.
+Ross
 
-Anyone who has faced this king of issue?
-
-Best regards,
-Vlad
-
---000000000000462f180570cfeab8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div>I am facing an issue about adding postgresql. Here=
- is the recipe files:</div><div><ul><li><a href=3D"http://cgit.openembedded=
-.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgresql_9=
-.4.5.bb?h=3Dkrogoth">http://cgit.openembedded.org/meta-openembedded/tree/me=
-ta-oe/recipes-support/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth</a><br></l=
-i><li><a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-o=
-e/recipes-support/postgresql/postgresql.inc?h=3Dkrogoth">http://cgit.openem=
-bedded.org/meta-openembedded/tree/meta-oe/recipes-support/postgresql/postgr=
-esql.inc?h=3Dkrogoth</a></li></ul></div><div>In fact, when i build an image=
-, all the packages included into this recipes are present in the postgresql=
- image directory but, for example all the program added by the variable FIL=
-ES_${PN}-client are not in my rootfs.</div><div>For more precision, i use f=
-sl-community-bsp project and krogoth distro to build an image for the tx6s-=
-8035 karo board.</div><div><br></div><div>Anyone who has faced this king of=
- issue?</div><div><br></div><div>Best regards,</div><div>Vlad</div></div>
-
---000000000000462f180570cfeab8--
