@@ -1,25 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D36F7603B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B70FF754B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 10:00:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6CA0FRu016146
+	Thu, 12 Jul 2018 10:00:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6CA0Hbi000847
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 03:00:15 -0700 (PDT)
+	Thu, 12 Jul 2018 03:00:17 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 12 Jul 2018 03:00:15 -0700
+	14.3.399.0; Thu, 12 Jul 2018 03:00:16 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Jul 2018 18:03:41 +0800
-Message-ID: <220d2cdf11ae6f6e8629ffd9963189f8a5f016b9.1531389673.git.Qi.Chen@windriver.com>
+Date: Thu, 12 Jul 2018 18:03:42 +0800
+Message-ID: <8b95f9f792c91031b7b01cc9e78b9d937db6c353.1531389673.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1531389673.git.Qi.Chen@windriver.com>
 References: <cover.1531389673.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] systemd-boot: upgrade to 239
+Subject: [PATCH 3/3] oeqa/runtime/cases/rpm.py: workaround race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,77 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 10:00:14 -0000
+X-List-Received-Date: Thu, 12 Jul 2018 10:00:17 -0000
 Content-Type: text/plain
 
-Upgrade systemd-boot to 239.
+With the recent change in new systemd version, it's possible that
+a user is deleted before stopping user-runtime-dir@xxx.service.
+See link below.
 
-The following patch is removed due to recent fix about meson's cpu family
-mapping and validation.
+  https://github.com/systemd/systemd/issues/9541
 
-  0001-Also-check-i386-i586-and-i686-for-ia32.patch
+Workaround this issue by delay for 1 second before deleting user.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../{systemd-boot_237.bb => systemd-boot_239.bb}   |  5 ++--
- ...01-Also-check-i386-i586-and-i686-for-ia32.patch | 28 ----------------------
- 2 files changed, 2 insertions(+), 31 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_237.bb => systemd-boot_239.bb} (91%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+ meta/lib/oeqa/runtime/cases/rpm.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_237.bb b/meta/recipes-core/systemd/systemd-boot_239.bb
-similarity index 91%
-rename from meta/recipes-core/systemd/systemd-boot_237.bb
-rename to meta/recipes-core/systemd/systemd-boot_239.bb
-index afd3848..7fe420c 100644
---- a/meta/recipes-core/systemd/systemd-boot_237.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_239.bb
-@@ -3,9 +3,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index 1e5e463..2f9dcad 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -87,6 +87,12 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+             self.assertEqual(status, 0, msg=msg)
  
- DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
- 
--SRC_URI += "file://0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
--            file://0027-remove-nobody-user-group-checking.patch \
--            file://0001-Also-check-i386-i586-and-i686-for-ia32.patch \
-+SRC_URI += "file://0002-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
-+            file://0006-remove-nobody-user-group-checking.patch \
-             file://0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch \
-             "
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch b/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-deleted file mode 100644
-index 877bb1c..0000000
---- a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 3e8c19bb1bbc4493c591f75c00c1fefe3b1c8a69 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Tue, 27 Feb 2018 20:42:41 -0800
--Subject: [PATCH] Also check i386, i586 and i686 for ia32
--
--Upstream-Status: Pending
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 28cb8b60e..489531a43 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1217,7 +1217,7 @@ conf.set10('SYSTEMD_SLOW_TESTS_DEFAULT', slow_tests)
-- if get_option('efi')
--         efi_arch = host_machine.cpu_family()
-- 
---        if efi_arch == 'x86'
--+        if efi_arch == 'x86' or efi_arch == 'i386' or efi_arch == 'i586' or efi_arch == 'i686'
--                 EFI_MACHINE_TYPE_NAME = 'ia32'
--                 gnu_efi_arch = 'ia32'
--         elif efi_arch == 'x86_64'
---- 
--2.13.0
--
+         def unset_up_test_user(u):
++            # Due to recent change in systemd, we need to sleep for a while
++            # to avoid unexpected failure of user-runtime-dir@1000.service
++            # See https://github.com/systemd/systemd/issues/9541
++            if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
++                self.target.run('sleep 1')
++
+             status, output = self.target.run('userdel -r %s' % u)
+             msg = 'Failed to erase user: %s' % output
+             self.assertTrue(status == 0, msg=msg)
 -- 
 1.9.1
 
