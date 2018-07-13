@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EA4A787B5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 521477864F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 02:26:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6D2QPwB025489
+	Fri, 13 Jul 2018 02:26:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D2QQ2h010063
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 19:26:25 -0700
+	Thu, 12 Jul 2018 19:26:26 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 12 Jul 2018 19:26:24 -0700
+	14.3.399.0; Thu, 12 Jul 2018 19:26:25 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2018 10:36:23 +0800
-Message-ID: <b63af566e440719ccf8deb58dd684a1c2f3269ef.1531449293.git.liezhi.yang@windriver.com>
+Date: Fri, 13 Jul 2018 10:36:24 +0800
+Message-ID: <47efbcebc355a5c00a4e53d4a137b86b33278d0a.1531449293.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531449293.git.liezhi.yang@windriver.com>
 References: <cover.1531449293.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V4 3/4] toolchain-scripts.bbclass: do not extend dependency if extended already
+Subject: [PATCH V4 4/4] populate_sdk_ext.bbclass: add SDK_CONF_MANIFEST_EXCLUDE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 02:26:24 -0000
+X-List-Received-Date: Fri, 13 Jul 2018 02:26:25 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-When set MULTILIBS with two or more items, such as for mips64:
+Add SDK_CONF_MANIFEST_EXCLUDE to enable excluding items in sdk-conf-manifest.
 
-MULTILIBS ?= "multilib:lib32 multilib:libn32"
+By default, files under conf/ are all added to sdk-conf-manifest, as the
+manifest file is set to 'conf/*'.
 
-It expands dependency once in mutlib.bbclass, and expand again in
-toolchain-scripts.bbclass which causes error:
+However, there are situations where some configuration files under conf/
+directory are not intended to be added to sdk-conf-manifest, thus adding
+SDK_CONF_MANIFEST_EXCLUDE to enable users to do this.
 
-| ERROR: Nothing PROVIDES 'virtual/lib32-libn32-libc'. Close matches:
-|   virtual/libn32-libc
-|   virtual/lib32-libc
-|   virtual/libn32-librpc
-| ERROR: Required build target 'libn32-meta-ide-support' has no buildable providers.
-| Missing or unbuildable dependency chain was: ['libn32-meta-ide-support', 'virtual/lib32-libn32-libc']
+This variable takes the form of glob matching.
+e.g.
+SDK_CONF_MANIFEST_EXCLUDE = "conf/autogen*"
+This would exclude all files under conf/ starting with 'autogen' from
+sdk-conf-manifest.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes/populate_sdk_ext.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 0ff5301..926be8b 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -190,7 +190,18 @@ python __anonymous () {
-     deps = ""
-     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE') or "").split():
-         deps += " %s:do_populate_sysroot" % dep
--        for variant in (d.getVar('MULTILIB_VARIANTS') or "").split():
-+        ml_variants = (d.getVar('MULTILIB_VARIANTS') or "").split()
-+
-+        # don't extend if dep has been extended already
-+        extended = False
-+        for variant in ml_variants:
-+            if dep.startswith(variant) or dep.startswith('virtual/' + variant):
-+                extended = True
-+                break
-+        if extended:
-+            continue
-+
-+        for variant in ml_variants:
-             clsextend = oe.classextend.ClassExtender(variant, d)
-             newdep = clsextend.extend_name(dep)
-             deps += " %s:do_populate_sysroot" % newdep
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 9c31d70..bbe6c59 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -479,12 +479,19 @@ python copy_buildsystem () {
+     # sdk_ext_postinst() below) thus the checksum we take here would always
+     # be different.
+     manifest_file_list = ['conf/*']
++    esdk_manifest_excludes = (d.getVar('SDK_CONF_MANIFEST_EXCLUDE') or '').split()
++    esdk_manifest_excludes_list = []
++    for exclude_item in esdk_manifest_excludes:
++        esdk_manifest_excludes_list += glob.glob(os.path.join(baseoutpath, exclude_item))
+     manifest_file = os.path.join(baseoutpath, 'conf', 'sdk-conf-manifest')
+     with open(manifest_file, 'w') as f:
+         for item in manifest_file_list:
+             for fn in glob.glob(os.path.join(baseoutpath, item)):
+                 if fn == manifest_file:
+                     continue
++                if fn in esdk_manifest_excludes_list:
++                    bb.note('Exclude %s since it is in SDK_CONF_MANIFEST_EXCLUDE' % fn)
++                    continue
+                 chksum = bb.utils.sha256_file(fn)
+                 f.write('%s\t%s\n' % (chksum, os.path.relpath(fn, baseoutpath)))
+ }
 -- 
 2.7.4
 
