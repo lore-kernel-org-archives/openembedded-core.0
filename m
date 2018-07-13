@@ -1,29 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E8578797
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A69E5787B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 02:20:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D2KSDK026796
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jul 2018 19:20:28 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 12 Jul 2018 19:20:28 -0700
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Chen Qi
-	<Qi.Chen@windriver.com>
-References: <cover.1528252931.git.liezhi.yang@windriver.com>
-	<99ad3edc2b6c1e86c3a9a377a1bf245bced38148.1528252931.git.liezhi.yang@windriver.com>
-	<52791220.vcYpphDNgo@localhost.localdomain>
+	Fri, 13 Jul 2018 02:26:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6D2QJJQ025486
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2018 19:26:20 -0700
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 12 Jul 2018 19:26:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <10f16c0d-2722-fe45-ae04-45afc93bbcb8@windriver.com>
-Date: Fri, 13 Jul 2018 10:23:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jul 2018 10:36:20 +0800
+Message-ID: <cover.1531449293.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <52791220.vcYpphDNgo@localhost.localdomain>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 09/11] populate_sdk_ext.bbclass: add ESDK_MANIFEST_EXCLUDES
+Subject: [PATCH V4 0/4] meta: various fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 02:20:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jul 2018 02:26:19 -0000
+Content-Type: text/plain
 
-HI Paul,
+* V4:
+  - Fix Paul's comments on populate_sdk_ext.bbclass patch
+  - Remove the ones which are already merged.
 
-On 07/06/2018 06:12 PM, Paul Eggleton wrote:
-> Hi Robert / Chen
-> 
-> On Wednesday, 6 June 2018 4:54:44 AM CEST Robert Yang wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Add ESDK_MANIFEST_EXCLUDES to enable excluding items in sdk-conf-manifest.
->>
->> By default, files under conf/ are all added to sdk-conf-manifest, as the
->> manifest file is set to 'conf/*'.
->>
->> However, there are situations where some configuration files under conf/
->> directory are not intended to be added to sdk-conf-manifest, thus adding
->> ESDK_MANIFEST_EXCLUDES to enable users to do this.
->>
->> This variable takes the form of glob matching.
->> e.g.
->> ESDK_MANIFEST_EXCLUDES = "conf/autogen*"
->> This would exclude all files under conf/ starting with 'autogen' from
->> sdk-conf-manifest.
-> 
-> This patch (and 05/11, SDK_LAYERS_EXCLUDE*) worry me a little in that they
-> have the potential to break the resulting eSDK or make it behave in a manner
-> that is different from the build system that produced it. Having said that
-> it's going to be reasonably clear to the user what's happened, assuming they
-> remember they set these variables and in any case I don't expect these are
-> going to be set by many people. Accordingly I won't object to these patches,
-> but could you please add a warning about this issue to the commit message for
-> both? We'd also better ensure they get documented with similar warnings.
+* V3:
+  - Fix RP's comments
+    Fix comments for "lsof: fix LSOF_CCV in version.h"
+    Fix "rootfs-postcommands: split ssh_allow_empty_password" since it caused a oe-selftest case failed.
 
-I think that a bb.note() is enough for it, we don't set them by default,
-but set by users, so they should know something is excluded. So I will add
-a bb.note for it:
+  - Drop already merge commits
 
-bb.note('Exclude %s since it is in SDK_CONF_MANIFEST_EXCLUDE' % fn)
+  - Drop unneeded commit:
+    gcc-sanitizers: Fix libtool .la files
 
-> 
-> Apart from that I'd like to see a different name for the variable here - we
-> don't use the prefix ESDK_ anywhere else, so perhaps SDK_CONF_MANIFEST_EXCLUDE
-> ?
+  - Drop an incorrect commit which caused oe-selftest failed:
+    glibc: re-package for libnss-db
+    This one needs rework.
 
-Thanks, I will update to SDK_CONF_MANIFEST_EXCLUDE in V4.
+  - Ran "oe-selftest -a" to test it.
+
+* V2:
+  Rebase to up-to-date master branch and drop already merged patches.
+
+* V1: Initial version
 
 // Robert
 
-> 
-> Cheers,
-> Paul
-> 
-> 
-> 
+The following changes since commit f9324af88a99eca28b160fa31aa4516fd397e44b:
+
+  distutils3: pass build arguments when doing a clean (2018-07-10 11:10:14 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/fix_from_wr
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/fix_from_wr
+
+Chen Qi (1):
+  populate_sdk_ext.bbclass: add SDK_CONF_MANIFEST_EXCLUDE
+
+Kai Kang (1):
+  toolchain-scripts.bbclass: do not extend dependency if extended
+    already
+
+Mark Hatle (1):
+  base.bbclass: Add buildcfg multilib values
+
+Shan Hai (1):
+  xinetd: add Init Script Actions to xinetd script
+
+ meta/classes/base.bbclass                       | 13 ++++++++++++-
+ meta/classes/populate_sdk_ext.bbclass           |  7 +++++++
+ meta/classes/toolchain-scripts.bbclass          | 13 ++++++++++++-
+ meta/conf/bitbake.conf                          |  2 +-
+ meta/recipes-extended/xinetd/xinetd/xinetd.init | 12 +++++++++++-
+ 5 files changed, 43 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
+
 
