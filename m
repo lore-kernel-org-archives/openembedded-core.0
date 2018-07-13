@@ -1,48 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B466E755A1
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CFBC678568
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 17:37:16 +0000 (UTC)
-Received: by mail-pl0-f48.google.com with SMTP id f4-v6so8291538plb.9
+	Fri, 13 Jul 2018 18:16:03 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id b10-v6so25247927edi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 10:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
-	b=eQ+SEv3jWZeQWJ1P3L3Dm8XB7jnfy78nWb2LfbypmN0PyDNIBLWwpUwgRDJE24smkk
-	gW0sN7wf6IebzJwgqIJeG5/nJTqh9jE/BFV9HskScPkshV6nn8VhDm2hmukFLIOwU9YL
-	0xDKbdCrgMrYdIVuFSUHBUxSwltsM5n3nwHKdOx6ZDBrRbJisPeQm/ewI4YVG7iVV7Bg
-	+A/T4I1WwOJISDiaP3bvabJ6dpgfxp+TAOIC/8FK3xWKe5PhKc7laf3ZNJJAvbbMiDN4
-	qccM1wfxd7UiNFW/NT50zlb9J4+pqLKSSGpv+a7h3XZaKLmZGM2gbluHayoYbg/U5Xt5
-	QGKQ==
+	Fri, 13 Jul 2018 11:16:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ElAPbDjJlXHHohVZqtpgKFiivVx73CGVzS8PJ1UTaec=;
+	b=RIr3hM37AcvHIi62icwJByhsXELN56dcSK7Zl4YO3FR4hKG3Jgc1QiLbcMUjd9B03k
+	lpNQDHNXkLvIoclMdpf4oFSIyxEmMTnz7Y+K6qnYXT/hN6hwEXiqo0hyJFEs6kMKMtQo
+	JmuyP5npBVgrJLH6LRPEzY9NNE7uZXL8Gy/v0nzxjK4XFnQEn16XpuE3Fn0r7HsbYtef
+	50CtA0aViVces/vvdwlQl9iwGPsV95v7qGxRK1FlR/3qQkOFxmghfn9LoF5uD6IHRPSc
+	4eq5rrEWqaFu6PuJ/yYGrgeb1aqwcmqJef9V8vU70dfIoJOvhm4OpUHzwknsr7zWEZ03
+	cqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
-	b=IrcpeNwSFrppzqFqiRC0hIgsWAeXzgfwYjDm3ih9abAyuvkjbBbJtWsaxH/Il4S0hB
-	TbKgvsaw/eFjUP6gGdqDGGw5NbGOccDJyGQ9ZdlBLxw3NIDLroQvUeEkGAz14wa3wkyD
-	IGFGGd/1GpbT38gB3nwk2/biCaLfH6clsHds+5OBbCduoCDos9cqJT9xUonGVuYra4fx
-	0jTtMeGHYlATIvILqBr96cK8E0U3pEDq7Zj79esHNw30AvamGast8uGVP2kWttpt4qu9
-	IFagx3gbPuoOkxRjzTkdy4iydSJIJJ8uJ80KYrdPsHQdRA81o+VJWAjiylJ+w5dr58d3
-	aRWw==
-X-Gm-Message-State: AOUpUlGLaaSSL3MaCS/QEhenRDr7Z489k/V3a5Hmpz9xjtUPxoY/ipGX
-	heHZHMv71uhkNcUdIypvBhPPaw==
-X-Google-Smtp-Source: AAOMgpeXDv1z18a7xadqkNXh9CeLkgZRNMUGLTJiuu9kd1bbiQq7eWmCZxw90bKVkNZi8ZWCURHMgQ==
-X-Received: by 2002:a17:902:d88d:: with SMTP id
-	b13-v6mr7347122plz.314.1531503437255; 
-	Fri, 13 Jul 2018 10:37:17 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::1736])
-	by smtp.gmail.com with ESMTPSA id
-	l190-v6sm2217503pgl.75.2018.07.13.10.37.16
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ElAPbDjJlXHHohVZqtpgKFiivVx73CGVzS8PJ1UTaec=;
+	b=qJ46KAJEnUMcMf4nafU2+u9rAGDX/EzSiTVKWhEiJfDyWplahEpzT/X16xcSSe7noy
+	B9yegt1uY6Pq5R9P9q73aKdS/nOHau5iKYHs5BpfligJp5XF+KaCiNDyxmZKCKtHZAah
+	NUXG8WySTGBlATWe6paPQ4ZB0ajlPTwD8tGTP0zN5KBaGcxcZk5MpUx8sZmD4tS2rNeN
+	iE8H/pfuRYk8FDO4/lARRJj+YHOntqw701bUYWKee07sIXAxiGUTpKSh2ZuAjiej+qyW
+	iP8Ez1zYGdrK1SVpoXwRuL0r1/SqAcRTmSYPg2fePlsfMjVOe4mPoZwyems9ccxns2Qy
+	ATbA==
+X-Gm-Message-State: AOUpUlHQ9YYJFKGaDE5H6FzcjZbgD3XH9nOSC8l3uBmUQF2NDow8k2lD
+	DrTAy8PxaJ725nM7KVL1KCKmeg==
+X-Google-Smtp-Source: AAOMgpdRDni9bNbcA4Bi729FGvA0OdRzjk+ei31h9f9bnwD3A1Ys+owfAj3O9WWvSz4OtpkJWFhAWg==
+X-Received: by 2002:a50:af45:: with SMTP id
+	g63-v6mr8467799edd.30.1531505764651; 
+	Fri, 13 Jul 2018 11:16:04 -0700 (PDT)
+Received: from [172.20.0.85] ([82.163.40.65]) by smtp.gmail.com with ESMTPSA id
+	p18-v6sm7735356edc.5.2018.07.13.11.16.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jul 2018 10:37:16 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2018 10:37:06 -0700
-Message-Id: <20180713173706.7788-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V3] mesa: Fix build with wayland and egl
+	Fri, 13 Jul 2018 11:16:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.15\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <bc25908059f4ae24437052aa39823a3ce7b8a5d9.1531389673.git.Qi.Chen@windriver.com>
+Date: Fri, 13 Jul 2018 20:16:03 +0200
+Message-Id: <15C2AD73-D572-401F-A7B7-9460C6524821@dominion.thruhere.net>
+References: <cover.1531389673.git.Qi.Chen@windriver.com>
+	<bc25908059f4ae24437052aa39823a3ce7b8a5d9.1531389673.git.Qi.Chen@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+X-Mailer: Apple Mail (2.3445.100.15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] systemd: upgrade to 239
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,81 +62,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 17:37:16 -0000
+X-List-Received-Date: Fri, 13 Jul 2018 18:16:04 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-When wayland and egl both are on then it enables the wayland
-plugin which actually fails to build because its not finding wayland-protocol
-xml templates in proper location which is recipe sysroot since
-we are cross compiling
 
-Fixes build errors e.g.
-make[4]: *** No rule to make target `//usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml', needed by `drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h'.  Stop.
-make[4]: *** Waiting for unfinished jobs....
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...ss-compile-WAYLAND_PROTOCOLS_DATADIR.patch | 24 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  2 ++
- meta/recipes-graphics/mesa/mesa_18.1.3.bb     |  1 +
- 3 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
+> Op 12 jul. 2018, om 12:03 heeft Chen Qi <Qi.Chen@windriver.com> het =
+volgende geschreven:
+>=20
+> Upgrade systemd to 239.
 
-diff --git a/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
-new file mode 100644
-index 0000000000..b4e3c4995f
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
-@@ -0,0 +1,24 @@
-+use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
-+
-+This allows to override the wayland-protocols pkgdatadir with the
-+WAYLAND_PROTOCOLS_DATADIR from environment.
-+
-+pkgconfig would return an absolute path in /usr/share/wayland-protocols
-+for the pkgdatadir value, which is not suitable for cross-compiling.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+
-+Index: mesa-18.1.2/configure.ac
-+===================================================================
-+--- mesa-18.1.2.orig/configure.ac
-++++ mesa-18.1.2/configure.ac
-+@@ -1808,7 +1808,7 @@ for plat in $platforms; do
-+         PKG_CHECK_MODULES([WAYLAND_CLIENT], [wayland-client >= $WAYLAND_REQUIRED])
-+         PKG_CHECK_MODULES([WAYLAND_SERVER], [wayland-server >= $WAYLAND_REQUIRED])
-+         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
-+-        WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-++        PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
-+ 
-+         AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+ 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6d61e09bc5..860a2d94cc 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -110,6 +110,8 @@ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
- 
- CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
- 
-+EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
-+
- # Remove the mesa dependency on mesa-dev, as mesa is empty
- RDEPENDS_${PN}-dev = ""
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_18.1.3.bb b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-index 1c76f4b1b1..d72f5d0b6d 100644
---- a/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-@@ -8,6 +8,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0006-Use-Python-3-to-execute-the-scripts.patch \
-            file://0007-dri-i965-Add-missing-time.h-include.patch \
-            file://0008-egl-fix-build-race-in-automake.patch \
-+           file://cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch \
- "
- 
- SRC_URI[md5sum] = "b34273403a605f6f98ead00f0bdf8e0b"
--- 
-2.18.0
+<snip>
 
+When enabling importd I get:
+
+WARNING: systemd-1_239-r0 do_package: QA Issue: systemd: =
+Files/directories were installed but not shipped in any package:
+  /usr/share/dbus-1/system.d/org.freedesktop.import1.conf
+
+So you need something like this on top of your patchset:
+
+@@ -379,6 +379,7 @@ FILES_${PN}-container =3D =
+"${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                          ${libdir}/libnss_mymachines.so.2 \
+                          =
+${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
+                          =
+${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
++                         =
+${datadir}/dbus-1/system.d/org.freedesktop.import1.conf \
+                          =
+${datadir}/dbus-1/system.d/org.freedesktop.machine1.conf \
+                          =
+${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
+                          =
+${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
+
+regards,
+
+Koen=
 
