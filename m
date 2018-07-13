@@ -1,37 +1,50 @@
-Return-Path: <Arsalan_Awan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id E7F3A7017B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1966011F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 11:07:18 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=svr-ies-mbx-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1fdvux-0003af-At from Arsalan_Awan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2018 04:07:19 -0700
-Received: from SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) by
-	svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP
-	Server (TLS) id 15.0.1320.4; Fri, 13 Jul 2018 12:07:16 +0100
-Received: from SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17]) by
-	SVR-IES-MBX-03.mgc.mentorg.com ([fe80::1072:fb6e:87f1:ed17%22]) with
-	mapi id 15.00.1320.000; Fri, 13 Jul 2018 12:07:16 +0100
-From: "Awan, Arsalan" <Arsalan_Awan@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 0/1] fixing initrd mounts w/ spaces fail to move to real
-	rootfs
-Thread-Index: AQHUDuqdOJloDnifOUichZ9c8Os/taSNFUV1
-Date: Fri, 13 Jul 2018 11:07:16 +0000
-Message-ID: <1531480035880.91007@mentor.com>
-References: <cover.1530195143.git.Arsalan_Awan@mentor.com>
-In-Reply-To: <cover.1530195143.git.Arsalan_Awan@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Fri, 13 Jul 2018 12:09:28 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id r16-v6so61821683oie.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2018 05:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=LupeP7Eon7w2K4FVliqCP1WqgDMEHsbofYwuBuLCgtg=;
+	b=PYU5wa0/q6pnqdIEzxvuT+dwj/nQ1y55KQEKyqBjhEslvVZlouK8XOx8EwzjW2vQdK
+	lEYn+65FMY84VPWQvEljOuhCddB8AZTqcLzNH8cwB2FAj9InZXIitkVfRkLt5/YdZcAd
+	fvEh2dP/ZR6XjbAxcgz+bVQiCVc4r1RQUexO4sZXUlvG30dfFFuzEuVH6Vc+hSVbyb1s
+	CS7i3gVeabrxKFYAokUW5DlPdnmLKFoXQBuC3ZmLhnkmK/gtCecz2/oTlPJp9ejIvsGd
+	HIhWVdIkOhDP/8VBxBPOlw3tn+jL6pzZqOu5zcat+Sc0bPPpwtpc53pWeeVpEaVEHSG/
+	pQug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=LupeP7Eon7w2K4FVliqCP1WqgDMEHsbofYwuBuLCgtg=;
+	b=hi6ogyIUDfaUs2yMZrRMXpToAlRVs9ifsceuA5Hj+CiFxctQa/QM2B7Y8YOLK7nMe+
+	/aJV6F/QbmQdUEFvxfwLVI9asY3Bjs+lundSmm/yBn34s38Qv/K2DoU7YXVZztT8TFUt
+	LxACbE/t9hYOUR8s1B7rd0cwfnTFces6sXJ5182D38vTjiSw0HEFJc6Vq19VbqzAFRI5
+	/00My67KOgfebDe9hdayFx9qnfPDOWkLGMazsgMh9CZz5ITBJxmzPA3tDdbSAtjjqP6b
+	HGav+F9m4KJSu7ucWi3+0DX9KkusYeN/uC87POHhJTIVP6UP2GwWqOaIeWX1lmlEafVk
+	M7/Q==
+X-Gm-Message-State: AOUpUlGt7LMyBdlRgQieTAQl0QTJhaBJDddlwKIuxXEHel9FGRZNBdrT
+	v7LuDPwMIyKX9E0p1zIZNb6uPM7Ox64rTX9sk0PJI0tt
+X-Google-Smtp-Source: AAOMgpdgjMC1VyJorAVyQoJocVvs1T+kLi22U58O0EfIelEfTgbWBSHSnIJC/vwACetC11DmHid+7bXt3LVX6MJcvlY=
+X-Received: by 2002:aca:3f41:: with SMTP id
+	m62-v6mr7102030oia.18.1531483770059; 
+	Fri, 13 Jul 2018 05:09:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/1] fixing initrd mounts w/ spaces fail to move to real rootfs
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Fri, 13 Jul 2018 05:09:09
+	-0700 (PDT)
+In-Reply-To: <1531257526-30932-1-git-send-email-derek@asterius.io>
+References: <1531257526-30932-1-git-send-email-derek@asterius.io>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 Jul 2018 13:09:09 +0100
+Message-ID: <CAJTo0La=8MRccUzwb0Eo3bBOD=xGmd+RRfrR-jz15HJdJh_-RQ@mail.gmail.com>
+To: Derek Straka <derek@asterius.io>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python3-pycairo: update to 1.17.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,79 +57,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 11:07:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jul 2018 12:09:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-ping=0A=
-=0A=
-________________________________________=0A=
-From: Awan, Arsalan=0A=
-Sent: Thursday, June 28, 2018 7:16 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Cc: Awan, Arsalan=0A=
-Subject: [PATCH 0/1] fixing initrd mounts w/ spaces fail to move to real ro=
-otfs=0A=
-=0A=
-From: "Arsalan H. Awan" <Arsalan_Awan@mentor.com>=0A=
-=0A=
-When there are spaces in the mount points of devices e.g.:=0A=
-=0A=
- a partition mounted at "/run/media/My Root Partition-sda1",=0A=
-=0A=
-the initrd fails to move such mount points over to the=0A=
-corresponding directories at /media under the real root filesystem,=0A=
-and the mount points would appear at the same location as they were=0A=
-mounted on when detected by initrd, for example:=0A=
- here: "/run/media/My Root Partition-sda1"=0A=
- instead of here: "/media/My Root Partition-sda1"=0A=
-=0A=
-This causes issues such as:=0A=
-=0A=
-  * The disks/partitions cannot be formated with any filesystem=0A=
-    using e.g. mkfs.ext4 or mke2fs in general. When tried to do so=0A=
-    by making sure the device is not mounted, it failed with=0A=
-    errors such as:=0A=
-=0A=
-    > /dev/sda1 is apparently in use by the system; will not make a=0A=
-      filesystem here!=0A=
-    > /dev/sda1: Device or resource busy while setting up superblock=0A=
-=0A=
-  * The read/write operations become extremely slow. e.g. Under testing,=0A=
-    it took approx. 2 hours just to copy 700 MB of data to the partition,=
-=0A=
-    and it took more than 40 minutes to delete that data from it.=0A=
-    Same operations took under 5 minutes on a partition that had no=0A=
-    spaces in its mount point (or that was successfully moved to real=0A=
-    root by initrd and appeared under /media instead of /run/media).=0A=
-=0A=
-This commit fixes such issues by quoting the arguments of failing mount=0A=
-move commands and by parsing OCT or HEX encoded special characters=0A=
-such as spaces to ASCII charecters in the mount points as kernel=0A=
-populates the procfs like so.=0A=
-=0A=
-=0A=
-The following changes since commit 40a904bf8bc1279c3da0893c003f740f1d2066c2=
-:=0A=
-=0A=
-  bitbake.conf: Allow BBINCLUDED to be unset (2018-06-28 12:26:33 +0100)=0A=
-=0A=
-are available in the git repository at:=0A=
-=0A=
-  git://github.com/ArsalanHAwan/openembedded-core initrdscripts-init-live=
-=0A=
-  https://github.com/ArsalanHAwan/openembedded-core/tree/initrdscripts-init=
--live=0A=
-=0A=
-Arsalan H. Awan (1):=0A=
-  initrdscripts/init-live.sh: fix mounts w/ spaces fail to move to real=0A=
-    rootfs=0A=
-=0A=
- meta/recipes-core/initrdscripts/files/init-live.sh | 7 +++++--=0A=
- 1 file changed, 5 insertions(+), 2 deletions(-)=0A=
-=0A=
---=0A=
-2.7.4=0A=
-=0A=
+Hi Derek,
+
+Breaks under multilib configurations:
+
+| mv: cannot stat
+'/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-multilib/build/build/tmp/work/core2-64-poky-linux/python3-pycairo/1.17.1-r0/image/usr/share/lib/pkgconfig/py3cairo.pc':
+No such file or directory
+
+(https://autobuilder.yocto.io/builders/nightly-multilib/builds/1142/steps/BuildImages_2/logs/stdio)
+
+I suspect that the path will be .../usr/share/lib64/pkgconfig/...
+
+Clearly that path is wrong.  Would it be easier to fix the setup.py
+and send a patch?
+
+Ross
+
+On 10 July 2018 at 22:18, Derek Straka <derek@asterius.io> wrote:
+> Update the python3-pycairo package to the latest stable version and
+> move the .h and .pc files to the standard location
+>
+> Tested on the qemu with core-image-minimal
+>
+> Signed-off-by: Derek Straka <derek@asterius.io>
+> ---
+>  ...{python3-pycairo_1.15.6.bb => python3-pycairo_1.17.1.bb} | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.17.1.bb} (57%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
+> similarity index 57%
+> rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+> rename to meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
+> index 5c3e1e6..54e7dcd 100644
+> --- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+> +++ b/meta/recipes-devtools/python/python3-pycairo_1.17.1.bb
+> @@ -13,8 +13,8 @@ DEPENDS = "cairo"
+>  SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+>  UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+>
+> -SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+> -SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
+> +SRC_URI[md5sum] = "34c1ee106655b450c4bd57e29371a4a7"
+> +SRC_URI[sha256sum] = "0f0a35ec923d87bc495f6753b1e540fd046d95db56a35250c44089fbce03b698"
+>
+>  S = "${WORKDIR}/pycairo-${PV}"
+>
+> @@ -25,7 +25,10 @@ CFLAGS += "-fPIC"
+>  BBCLASSEXTEND = "native"
+>
+>  do_install_append() {
+> -    install -d ${D}${includedir}/pycairo/
+> -    install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
+> +    install -d ${D}${includedir}/pycairo/ ${D}${libdir}/pkgconfig
+> +    # setup.py uses --install-data which points to a non-standard datadir  to install the header and .pc files
+> +    # Fix the paths here to install in the standard locations instead
+> +    mv ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
+> +    mv ${D}${datadir}/lib/pkgconfig/py3cairo.pc ${D}${libdir}/pkgconfig/
+> +    rm -rf ${D}${datadir}
+>  }
+> -FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
