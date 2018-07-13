@@ -1,29 +1,23 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DA6C460069
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B9AFE77029
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 20:19:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6CKJUtp026133
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Jul 2018 13:19:31 -0700 (PDT)
-Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 12 Jul 2018 13:19:29 -0700
-To: Andreas Oberritter <obi@opendreambox.org>,
-	<openembedded-core@lists.openembedded.org>, "Bai, Haiqing"
-	<Haiqing.Bai@windriver.com>
-References: <20180711060118.30193-1-Haiqing.Bai@windriver.com>
-	<20180711104111.722b3643@t460p>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <7f9f423d-07ca-2085-c0fc-c9a51ee53d62@windriver.com>
-Date: Thu, 12 Jul 2018 16:19:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Fri, 13 Jul 2018 01:09:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D193DN026277
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2018 18:09:04 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 12 Jul 2018 18:08:57 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jul 2018 09:08:56 +0800
+Message-ID: <1531444136-336197-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180711104111.722b3643@t460p>
-X-Originating-IP: [172.25.44.2]
-Subject: Re: [PATCH] iproute2: create symbol link '/bin/ip' to '/sbin/ip.iproute2'
+Subject: [PATCH] epiphany: fix epiphany cannot start problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2018 20:19:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jul 2018 01:09:03 -0000
+Content-Type: text/plain
 
-On 07/11/2018 04:41 AM, Andreas Oberritter wrote:
-> On Wed, 11 Jul 2018 14:01:17 +0800
-> Haiqing Bai <Haiqing.Bai@windriver.com> wrote:
-> 
->> Some applications which depend on iproute/iproute2 need to
->> run '/sbin/ip.iproute2' through the symbol link '/bin/ip'
->> e.g ifupdown.
-> 
-> Update-alternatives is supposed to create this link already.
+From: Changqing Li <changqing.li@windriver.com>
 
-I assume that update-alternatives is creating
-    /sbin/ip -> /sbin/ip.iproute2
-but for some reason ipupdown is looking for
-    /bin/ip
+Add RDEPEND of gsettings-desktop-schemas to fix below error:
+Error: GLib-GIO-ERROR: Settings schema 'org.gnome.desktop.background'
+is not installed
 
-Is that right Haiqing ?
+This depend was setted in gnome-desktop before, but dropped when we
+drop gnome-desktop after upgrade epiphany to 3.28.1.1.
 
-Why not fix ifupdown?
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-gnome/epiphany/epiphany_3.28.1.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-../Randy
-
-> 
->>
->> Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
->> ---
->>   meta/recipes-connectivity/iproute2/iproute2.inc | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
->> index 4fbfec6f08..71d04a1021 100644
->> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
->> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
->> @@ -29,6 +29,8 @@ do_configure_append () {
->>   do_install () {
->>       oe_runmake DESTDIR=${D} install
->>       mv ${D}${base_sbindir}/ip ${D}${base_sbindir}/ip.iproute2
->> +    install -d ${D}${base_bindir}
->> +    ln -s ${base_sbindir}/ip.iproute2 ${D}${base_bindir}/ip
->>       install -d ${D}${datadir}
->>       mv ${D}/share/* ${D}${datadir}/ || true
->>       rm ${D}/share -rf || true
-> 
-
-
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.28.1.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.28.1.1.bb
+index d6f8eda..65e7b45 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.28.1.1.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.28.1.1.bb
+@@ -19,4 +19,4 @@ SRC_URI[archive.sha256sum] = "99426aa0e386742e924d84b59ec16bf394195fb9fce85d07f7
+ EXTRA_OEMESON += " -Ddistributor_name=${DISTRO}"
+ 
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+-RDEPENDS_${PN} = "iso-codes adwaita-icon-theme"
++RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.7.4
+
 
