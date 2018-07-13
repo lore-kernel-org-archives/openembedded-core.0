@@ -1,33 +1,48 @@
-Return-Path: <ueba.takuma@jp.fujitsu.com>
-Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FB4971A74
+Return-Path: <vladzouth@gmail.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 54B04786A0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 07:12:45 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym04.jp.fujitsu.com with smtp
-	id 4e72_034c_b4494139_d474_43e4_acfc_cb82dccf21cf;
-	Fri, 13 Jul 2018 16:12:43 +0900
-Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
-	[10.134.21.209])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 71951AC01D2
+	Fri, 13 Jul 2018 08:27:22 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id l7-v6so30649628ioj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 16:12:43 +0900 (JST)
-Received: from [10.24.19.186] (ubi186.utsfd.cs.fujitsu.co.jp [10.24.19.186])
-	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 639022CC;
-	Fri, 13 Jul 2018 16:12:43 +0900 (JST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20180711094532.8141-1-ueba.takuma@jp.fujitsu.com>
-	<CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com>
-From: Takuma Ueba <ueba.takuma@jp.fujitsu.com>
-Message-ID: <86a313c1-e70b-20a6-b11e-2a67ed63376e@jp.fujitsu.com>
-Date: Fri, 13 Jul 2018 16:12:43 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Fri, 13 Jul 2018 01:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=f0tT2dl7uMaejmdnGN0ZwfxvwrkzTlgM6PIw/Q2w4GY=;
+	b=rMxTd+8Dvt5/SY72t+q4Mq19AXx0aKG5uMWfIEDEKqFXO+dk0f0zbBdSxPBXNmareh
+	pkKYHU9Sa6wFmhQHxZYeNVIhgdXKNaBJJrmo8Lj1eSQJn9Q1TTcj8dXdzvVCFZ5RWO0i
+	7mUySbrtjf7YzJg3Eu0QTlAZPdcH5Vxc38B00/TybGshLDpS+JncjjBQVwcqFJqaH+Py
+	WMdP5mtUvxi55f+6wwITpXKSIGC5nSZfxCoCieE2V28TCVx5/k2/D5/WUZxFcs6WDxH8
+	JQhGpOZGQPztbQRffCuvPS04TdP3pTk6lN1MsbYJx94yod5gV+UNMuAfPc6KiTn/VDdv
+	aFEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=f0tT2dl7uMaejmdnGN0ZwfxvwrkzTlgM6PIw/Q2w4GY=;
+	b=TGKBTfX5j20+u1S6Diw5aayD6dohcIuUFw+c2Hjb1LesUiJMShbDv8q1xmjZ57ZlaG
+	0vvQCm8ljMpfUoehUwEGTzDG2u+yNsDP9ueD7xlXblm4X16B+B/Axn7NdRfr39Qc5yUh
+	4BnysZFXoMPmQoygj4V8DkqRYvOaR5aUTcr07OpenH2+BoIVfcnUufE6R9e03+nY9vaN
+	IgH18r+NMs6qfm6OmKdX9YYnBJnYZ5hT1/kprsw2JGMwZbGJjZPvlVo99zCXnlYrBHSB
+	f/H5vnAXPB4muDPUWF2SW0voliw+jfrKz3u4fhcvggdFnBZRhMWBO0YL677Qy1na+pHX
+	la9Q==
+X-Gm-Message-State: AOUpUlEuDZ7KOuSiw9ucWXHYMAm1IRXuweKnGaBqDdD5N5iwFv4sFCPK
+	MG6nhOFfziPEqxJ85ZvVld34Ax1F6OKCZuOJGWQ=
+X-Google-Smtp-Source: AAOMgpeEM7x9Ff7eHjq9N9D1uiE6i5x1mbpyEEzR7Wn4PixrnJtA/fH0Yf78DKHxpibOj6W9UfVt5cmC5pEjW3198E8=
+X-Received: by 2002:a6b:b0c5:: with SMTP id
+	z188-v6mr29749181ioe.220.1531470443173; 
+	Fri, 13 Jul 2018 01:27:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com>
-X-TM-AS-MML: disable
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] zip: fix the license description
+References: <CACoJdSaG3UefHMXmfOhe0f7-2rHyfr8B7k4-BZ2iG5uKY_5UBA@mail.gmail.com>
+	<CAJTo0LaNOgufq6L95XEGD2ChN5c-fbBLLY4UkUDd09=5g8vE-g@mail.gmail.com>
+In-Reply-To: <CAJTo0LaNOgufq6L95XEGD2ChN5c-fbBLLY4UkUDd09=5g8vE-g@mail.gmail.com>
+From: vlad zouth <vladzouth@gmail.com>
+Date: Fri, 13 Jul 2018 10:31:21 +0200
+Message-ID: <CACoJdSZgQQBCb0bjvneUYo=1J+39tMwoQgiihBU858D6J3BPuw@mail.gmail.com>
+To: ross.burton@intel.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Building postgresql_9.4.5: Some Packages are missing in my rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +55,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 07:12:46 -0000
-Content-Type: multipart/alternative;
-	boundary="------------611DCA429E7C702FF532FA8D"
-Content-Language: en-US
+X-List-Received-Date: Fri, 13 Jul 2018 08:27:22 -0000
+Content-Type: multipart/alternative; boundary="000000000000bfdc350570dd3f31"
 
---------------611DCA429E7C702FF532FA8D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000bfdc350570dd3f31
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ross
+Thank you !
 
-I'm sorry to trouble you.
-I will resend after this problem solved.
+Le jeu. 12 juil. 2018 =C3=A0 18:40, Burton, Ross <ross.burton@intel.com> a
+=C3=A9crit :
 
-On 2018年07月11日 19:28, Burton, Ross wrote:
-> On 11 July 2018 at 10:45, Takuma Ueba <ueba.takuma@jp.fujitsu.com> wrote:
->> Exactly speaking, BSD-3-Clause differ from Info-ZIP license.
->> Consequently, we fixed license description.
-> WARNING: zip-3.0-r2 do_populate_lic: zip: No generic license file
-> exists for: Info-ZIP in any provider
+> On 12 July 2018 at 17:36, vlad zouth <vladzouth@gmail.com> wrote:
+> > Hi,
+> > I am facing an issue about adding postgresql. Here is the recipe files:
+> >
+> >
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppo=
+rt/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth
+> >
+> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppo=
+rt/postgresql/postgresql.inc?h=3Dkrogoth
+> >
+> > In fact, when i build an image, all the packages included into this
+> recipes
+> > are present in the postgresql image directory but, for example all the
+> > program added by the variable FILES_${PN}-client are not in my rootfs.
+> > For more precision, i use fsl-community-bsp project and krogoth distro =
+to
+> > build an image for the tx6s-8035 karo board.
+>
+> If you want postgresql-client to be in your image, then you'll need to
+> add postgresql-client to your image (IMAGE_INSTALL, etc).
 >
 > Ross
 >
->
 
+--000000000000bfdc350570dd3f31
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------611DCA429E7C702FF532FA8D
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+<div dir=3D"ltr">Thank you !=C2=A0</div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr">Le=C2=A0jeu. 12 juil. 2018 =C3=A0=C2=A018:40, Burton, Ross &lt=
+;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; a =
+=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 12 July 2018 a=
+t 17:36, vlad zouth &lt;<a href=3D"mailto:vladzouth@gmail.com" target=3D"_b=
+lank">vladzouth@gmail.com</a>&gt; wrote:<br>
+&gt; Hi,<br>
+&gt; I am facing an issue about adding postgresql. Here is the recipe files=
+:<br>
+&gt;<br>
+&gt; <a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-oe=
+/recipes-support/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth" rel=3D"norefer=
+rer" target=3D"_blank">http://cgit.openembedded.org/meta-openembedded/tree/=
+meta-oe/recipes-support/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth</a><br>
+&gt; <a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-oe=
+/recipes-support/postgresql/postgresql.inc?h=3Dkrogoth" rel=3D"noreferrer" =
+target=3D"_blank">http://cgit.openembedded.org/meta-openembedded/tree/meta-=
+oe/recipes-support/postgresql/postgresql.inc?h=3Dkrogoth</a><br>
+&gt;<br>
+&gt; In fact, when i build an image, all the packages included into this re=
+cipes<br>
+&gt; are present in the postgresql image directory but, for example all the=
+<br>
+&gt; program added by the variable FILES_${PN}-client are not in my rootfs.=
+<br>
+&gt; For more precision, i use fsl-community-bsp project and krogoth distro=
+ to<br>
+&gt; build an image for the tx6s-8035 karo board.<br>
+<br>
+If you want postgresql-client to be in your image, then you&#39;ll need to<=
+br>
+add postgresql-client to your image (IMAGE_INSTALL, etc).<br>
+<br>
+Ross<br>
+</blockquote></div>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hi Ross<br>
-    <br>
-    <span class="st">I'm sorry to trouble you.<br>
-      I will resend after this problem solved.<br>
-    </span><br>
-    <div class="moz-cite-prefix">On 2018年07月11日 19:28, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com">
-      <pre wrap="">On 11 July 2018 at 10:45, Takuma Ueba <a class="moz-txt-link-rfc2396E" href="mailto:ueba.takuma@jp.fujitsu.com">&lt;ueba.takuma@jp.fujitsu.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Exactly speaking, BSD-3-Clause differ from Info-ZIP license.
-Consequently, we fixed license description.
-</pre>
-      </blockquote>
-      <pre wrap="">
-WARNING: zip-3.0-r2 do_populate_lic: zip: No generic license file
-exists for: Info-ZIP in any provider
-
-Ross
-
-
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------611DCA429E7C702FF532FA8D--
+--000000000000bfdc350570dd3f31--
