@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B3977600F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E9A8787E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 02:26:20 +0000 (UTC)
+	Fri, 13 Jul 2018 02:26:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D2QLhZ010046
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D2QNsL026818
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 19:26:21 -0700 (PDT)
+	Thu, 12 Jul 2018 19:26:23 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 12 Jul 2018 19:26:20 -0700
+	14.3.399.0; Thu, 12 Jul 2018 19:26:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2018 10:36:21 +0800
-Message-ID: <8c5da6490461b333ab4537a7a09ad4fc7826a008.1531449293.git.liezhi.yang@windriver.com>
+Date: Fri, 13 Jul 2018 10:36:22 +0800
+Message-ID: <9059d54acd6d866664966325c7b1aeef65b2972b.1531449293.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531449293.git.liezhi.yang@windriver.com>
 References: <cover.1531449293.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V4 1/4] base.bbclass: Add buildcfg multilib values
+Subject: [PATCH V4 2/4] xinetd: add Init Script Actions to xinetd script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,87 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 02:26:21 -0000
+X-List-Received-Date: Fri, 13 Jul 2018 02:26:22 -0000
 Content-Type: text/plain
 
-From: Mark Hatle <mark.hatle@windriver.com>
+From: Shan Hai <shan.hai@windriver.com>
 
-When displaying the buildcfg for the end user, add in processing
-of the multilib variants.  Only the items that are not the same as
-the DEFAULTTUNE are displayed.
+The chkconfig fails to list the xinetd service because the xinetd
+lacks Init Script Actions in it, add the actions to fix it.
 
-I.e.:
-Build Configuration:
-BB_VERSION        = "1.19.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "CentOS-6.4"
-DISTRO_VERSION    = "oe-core.0"
-MACHINE           = "qemux86-64"
-DEFAULTTUNE       = "x86-64"
-TARGET_SYS        = "x86_64-oe-linux"
-TUNE_FEATURES     = "m64"
-TARGET_FPU        = ""
-lib32:  DEFAULTTUNE       = "x86"
-lib32:  TARGET_SYS        = "i586-oe-linux"
-lib32:  TUNE_FEATURES     = "m32"
-meta              = "master:1975f3d7bbeb184489a5d0a2e0de231f317d3e1b"
-
-The order of the displayed elements was changed slightly to group the
-host information together, as well as group the target information
-together.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Shan Hai <shan.hai@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/classes/base.bbclass | 13 ++++++++++++-
- meta/conf/bitbake.conf    |  2 +-
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ meta/recipes-extended/xinetd/xinetd/xinetd.init | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 1a359a0..47ecff4 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -188,7 +188,7 @@ def get_layers_branch_rev(d):
-     return layers_branch_rev
- 
- 
--BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
-+BUILDCFG_FUNCS ??= "buildcfg_vars buildcfg_multilibs get_layers_branch_rev buildcfg_neededvars"
- BUILDCFG_FUNCS[type] = "list"
- 
- def buildcfg_vars(d):
-@@ -198,6 +198,17 @@ def buildcfg_vars(d):
-         if value is not None:
-             yield '%-20s = "%s"' % (var, value)
- 
-+def buildcfg_multilibs(d):
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for variant in variants.split():
-+        localdata = get_multilib_datastore(variant, d)
-+        statusvars = oe.data.typed_value('BUILDCFG_VARS', d)
-+        for var in statusvars:
-+            origvalue = d.getVar(var, True)
-+            variantvalue = localdata.getVar(var, True)
-+            if origvalue and variantvalue and origvalue != variantvalue:
-+                yield '%-7s %-17s = "%s"' % (variant + ":", var, variantvalue)
+diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.init b/meta/recipes-extended/xinetd/xinetd/xinetd.init
+index 777c2c8..a021410 100644
+--- a/meta/recipes-extended/xinetd/xinetd/xinetd.init
++++ b/meta/recipes-extended/xinetd/xinetd/xinetd.init
+@@ -1,5 +1,15 @@
+ #!/bin/sh
+-#
++### BEGIN INIT INFO
++# Provides:          inetd
++# Required-Start:    $local_fs $remote_fs
++# Required-Stop:     $local_fs $remote_fs
++# Should-Start:      $syslog
++# Should-Stop:       $syslog
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++# Short-Description: Start or stop the xinetd daemon.
++### END INIT INFO
 +
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
-     pesteruser = []
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8f73854..3e0c36e 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -698,7 +698,7 @@ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+ # /etc/init.d/xinetd  --  script to start and stop xinetd.
  
- # Pre-build configuration output
- BUILDCFG_HEADER = "Build Configuration:"
--BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING TARGET_SYS MACHINE DISTRO DISTRO_VERSION TUNE_FEATURES TARGET_FPU"
-+BUILDCFG_VARS = "BB_VERSION BUILD_SYS NATIVELSBSTRING DISTRO DISTRO_VERSION MACHINE DEFAULTTUNE TARGET_SYS TUNE_FEATURES TARGET_FPU"
- BUILDCFG_VARS[type] = "list"
- BUILDCFG_NEEDEDVARS = "TARGET_ARCH TARGET_OS"
- BUILDCFG_NEEDEDVARS[type] = "list"
+ # Source function library.
 -- 
 2.7.4
 
