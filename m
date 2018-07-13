@@ -1,23 +1,33 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BF5760119
+Return-Path: <ueba.takuma@jp.fujitsu.com>
+Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FB4971A74
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 06:57:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jul 2018 23:57:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,347,1526367600"; d="scan'208";a="64392569"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.20.253])
-	by FMSMGA003.fm.intel.com with ESMTP; 12 Jul 2018 23:57:58 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2018 14:57:55 +0800
-Message-Id: <20180713065755.20038-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gstreamer1.0-plugins-good: disable gtk plugin
+	Fri, 13 Jul 2018 07:12:45 +0000 (UTC)
+Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
+	mgwym04.jp.fujitsu.com with smtp
+	id 4e72_034c_b4494139_d474_43e4_acfc_cb82dccf21cf;
+	Fri, 13 Jul 2018 16:12:43 +0900
+Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
+	[10.134.21.209])
+	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 71951AC01D2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2018 16:12:43 +0900 (JST)
+Received: from [10.24.19.186] (ubi186.utsfd.cs.fujitsu.co.jp [10.24.19.186])
+	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 639022CC;
+	Fri, 13 Jul 2018 16:12:43 +0900 (JST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20180711094532.8141-1-ueba.takuma@jp.fujitsu.com>
+	<CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com>
+From: Takuma Ueba <ueba.takuma@jp.fujitsu.com>
+Message-ID: <86a313c1-e70b-20a6-b11e-2a67ed63376e@jp.fujitsu.com>
+Date: Fri, 13 Jul 2018 16:12:43 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com>
+X-TM-AS-MML: disable
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] zip: fix the license description
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 06:57:58 -0000
+X-List-Received-Date: Fri, 13 Jul 2018 07:12:46 -0000
+Content-Type: multipart/alternative;
+	boundary="------------611DCA429E7C702FF532FA8D"
+Content-Language: en-US
 
-gtk-play example assumes that GTK's GL support always works if it is
-compiled in and first tries to use gtkglsink element which leads to
-problems if there are errors while instantiating GL context at a much
-later stage. This failure isn't detected and there is no fallback at
-this point.
+--------------611DCA429E7C702FF532FA8D
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-gtkglsink works on wayland though using poky defaults with gtk+3 since
-the gdk backend does support egl with wayland but it doesn't with x11.
+Hi Ross
 
-Disable the gtk plugin to ensure gtk-play just moves on when gtkglsink
-isn't present. This was the default when gtk was part of -plugins-bad
-before upgrade to 1.14.0.
+I'm sorry to trouble you.
+I will resend after this problem solved.
 
-Fixes [YOCTO #12832]
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../gstreamer/gstreamer1.0-plugins-good_1.14.1.bb                | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
-index 36eb3107ae..673bf10918 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
-@@ -27,7 +27,6 @@ inherit gettext
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
--    ${@bb.utils.contains_any('DISTRO_FEATURES', d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \
-     cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 bz2 zlib mpg123 lame \
- "
- 
--- 
-2.17.1
+On 2018年07月11日 19:28, Burton, Ross wrote:
+> On 11 July 2018 at 10:45, Takuma Ueba <ueba.takuma@jp.fujitsu.com> wrote:
+>> Exactly speaking, BSD-3-Clause differ from Info-ZIP license.
+>> Consequently, we fixed license description.
+> WARNING: zip-3.0-r2 do_populate_lic: zip: No generic license file
+> exists for: Info-ZIP in any provider
+>
+> Ross
+>
+>
 
 
+--------------611DCA429E7C702FF532FA8D
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hi Ross<br>
+    <br>
+    <span class="st">I'm sorry to trouble you.<br>
+      I will resend after this problem solved.<br>
+    </span><br>
+    <div class="moz-cite-prefix">On 2018年07月11日 19:28, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LbmWrs3kJ81oVKcqMMgU00Hoj4XcaiWKUXZD_pwZ11L3g@mail.gmail.com">
+      <pre wrap="">On 11 July 2018 at 10:45, Takuma Ueba <a class="moz-txt-link-rfc2396E" href="mailto:ueba.takuma@jp.fujitsu.com">&lt;ueba.takuma@jp.fujitsu.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Exactly speaking, BSD-3-Clause differ from Info-ZIP license.
+Consequently, we fixed license description.
+</pre>
+      </blockquote>
+      <pre wrap="">
+WARNING: zip-3.0-r2 do_populate_lic: zip: No generic license file
+exists for: Info-ZIP in any provider
+
+Ross
+
+
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------611DCA429E7C702FF532FA8D--
