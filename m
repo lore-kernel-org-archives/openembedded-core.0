@@ -1,48 +1,33 @@
-Return-Path: <vladzouth@gmail.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 54B04786A0
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DB5D3748D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 08:27:22 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id l7-v6so30649628ioj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 01:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=f0tT2dl7uMaejmdnGN0ZwfxvwrkzTlgM6PIw/Q2w4GY=;
-	b=rMxTd+8Dvt5/SY72t+q4Mq19AXx0aKG5uMWfIEDEKqFXO+dk0f0zbBdSxPBXNmareh
-	pkKYHU9Sa6wFmhQHxZYeNVIhgdXKNaBJJrmo8Lj1eSQJn9Q1TTcj8dXdzvVCFZ5RWO0i
-	7mUySbrtjf7YzJg3Eu0QTlAZPdcH5Vxc38B00/TybGshLDpS+JncjjBQVwcqFJqaH+Py
-	WMdP5mtUvxi55f+6wwITpXKSIGC5nSZfxCoCieE2V28TCVx5/k2/D5/WUZxFcs6WDxH8
-	JQhGpOZGQPztbQRffCuvPS04TdP3pTk6lN1MsbYJx94yod5gV+UNMuAfPc6KiTn/VDdv
-	aFEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=f0tT2dl7uMaejmdnGN0ZwfxvwrkzTlgM6PIw/Q2w4GY=;
-	b=TGKBTfX5j20+u1S6Diw5aayD6dohcIuUFw+c2Hjb1LesUiJMShbDv8q1xmjZ57ZlaG
-	0vvQCm8ljMpfUoehUwEGTzDG2u+yNsDP9ueD7xlXblm4X16B+B/Axn7NdRfr39Qc5yUh
-	4BnysZFXoMPmQoygj4V8DkqRYvOaR5aUTcr07OpenH2+BoIVfcnUufE6R9e03+nY9vaN
-	IgH18r+NMs6qfm6OmKdX9YYnBJnYZ5hT1/kprsw2JGMwZbGJjZPvlVo99zCXnlYrBHSB
-	f/H5vnAXPB4muDPUWF2SW0voliw+jfrKz3u4fhcvggdFnBZRhMWBO0YL677Qy1na+pHX
-	la9Q==
-X-Gm-Message-State: AOUpUlEuDZ7KOuSiw9ucWXHYMAm1IRXuweKnGaBqDdD5N5iwFv4sFCPK
-	MG6nhOFfziPEqxJ85ZvVld34Ax1F6OKCZuOJGWQ=
-X-Google-Smtp-Source: AAOMgpeEM7x9Ff7eHjq9N9D1uiE6i5x1mbpyEEzR7Wn4PixrnJtA/fH0Yf78DKHxpibOj6W9UfVt5cmC5pEjW3198E8=
-X-Received: by 2002:a6b:b0c5:: with SMTP id
-	z188-v6mr29749181ioe.220.1531470443173; 
-	Fri, 13 Jul 2018 01:27:23 -0700 (PDT)
+	Fri, 13 Jul 2018 09:12:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6D9CrLZ002572
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 13 Jul 2018 02:12:54 -0700
+Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Fri, 13 Jul 2018 02:12:52 -0700
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <1523948623-176242-1-git-send-email-hongzhi.song@windriver.com>
+	<8f1e2332-a625-7720-c5dc-0f0e6d9a5d27@windriver.com>
+	<14818289-63c3-8bdf-00fa-1dbd73449053@windriver.com>
+	<87690252-b0e8-5b82-e56f-98dad4dd3658@windriver.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <81f661d8-1abd-a6c8-b70d-f83037a4aa61@windriver.com>
+Date: Fri, 13 Jul 2018 17:15:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <CACoJdSaG3UefHMXmfOhe0f7-2rHyfr8B7k4-BZ2iG5uKY_5UBA@mail.gmail.com>
-	<CAJTo0LaNOgufq6L95XEGD2ChN5c-fbBLLY4UkUDd09=5g8vE-g@mail.gmail.com>
-In-Reply-To: <CAJTo0LaNOgufq6L95XEGD2ChN5c-fbBLLY4UkUDd09=5g8vE-g@mail.gmail.com>
-From: vlad zouth <vladzouth@gmail.com>
-Date: Fri, 13 Jul 2018 10:31:21 +0200
-Message-ID: <CACoJdSZgQQBCb0bjvneUYo=1J+39tMwoQgiihBU858D6J3BPuw@mail.gmail.com>
-To: ross.burton@intel.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Building postgresql_9.4.5: Some Packages are missing in my rootfs
+In-Reply-To: <87690252-b0e8-5b82-e56f-98dad4dd3658@windriver.com>
+X-Originating-IP: [128.224.162.198]
+Subject: Re: [PATCH v3] udev-extraconf: Add systemd-mount to udev-extraconf/mount.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,82 +40,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 08:27:22 -0000
-Content-Type: multipart/alternative; boundary="000000000000bfdc350570dd3f31"
+X-List-Received-Date: Fri, 13 Jul 2018 09:12:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---000000000000bfdc350570dd3f31
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ping. Please.
 
-Thank you !
+-- Hongzhi
 
-Le jeu. 12 juil. 2018 =C3=A0 18:40, Burton, Ross <ross.burton@intel.com> a
-=C3=A9crit :
 
-> On 12 July 2018 at 17:36, vlad zouth <vladzouth@gmail.com> wrote:
-> > Hi,
-> > I am facing an issue about adding postgresql. Here is the recipe files:
-> >
-> >
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppo=
-rt/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth
-> >
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppo=
-rt/postgresql/postgresql.inc?h=3Dkrogoth
-> >
-> > In fact, when i build an image, all the packages included into this
-> recipes
-> > are present in the postgresql image directory but, for example all the
-> > program added by the variable FILES_${PN}-client are not in my rootfs.
-> > For more precision, i use fsl-community-bsp project and krogoth distro =
-to
-> > build an image for the tx6s-8035 karo board.
+On 2018年07月03日 11:40, Hongzhi, Song wrote:
+> ping.
 >
-> If you want postgresql-client to be in your image, then you'll need to
-> add postgresql-client to your image (IMAGE_INSTALL, etc).
+> The patch fixes the real problem. Please review it.
 >
-> Ross
+> //Hongzhi
+>
+>
+> On 2018年04月24日 04:20, Randy MacLeod wrote:
+>> On 2018-04-22 11:37 PM, Hongzhi, Song wrote:
+>>> ping
+>>
+>> Please be patient.
+>>
+>> 0e-core-2.5 rc1 is being tested now and only critical blocking fixes 
+>> are being accepted.
+>>
+>> Once the results of 2.5 tests are good, then commits such as this one
+>> can be added to the master[-next] branch and then later cherry-picked 
+>> back to 2.5.1
+>> if needed.
+>>
+>> Give people a few days (or more if things don't go well) to get 2.5 
+>> out the door.
+>>
+>> ../Randy
+>>
+>>>
+>>> // Hongzhi
+>>>
+>>>
+>>> On 2018年04月17日 15:03, Hongzhi.Song wrote:
+>>>> Udev-extraconf works correctly with sysvinit in the aspect of 
+>>>> automounting
+>>>> block devices. But it has a serious problem in case of systemd. 
+>>>> Block devices
+>>>> automounted by udev is unaccessible to host space(out of udevd's 
+>>>> private
+>>>> namespace). For example, we cannot format those block devices.
+>>>>
+>>>> e.g.
+>>>>      root@qemux86:~# mkfs.ext4 /dev/sda1
+>>>>      mke2fs 1.43.8 (1-Jan-2018)
+>>>>      /dev/sda1 contains a ext4 file system
+>>>>      last mounted on Tue Apr  3 06:22:41 2018
+>>>>      Proceed anyway? (y,N) y
+>>>>      /dev/sda1 is apparently in use by the system; will not make a 
+>>>> filesystem here!
+>>>>
+>>>> Other distributions has no such problem, because they use a series 
+>>>> of rules to
+>>>> manager block devices. Different types of block devices match 
+>>>> different rules.
+>>>> But udev-extraconf just use one rule, automount.rules, which 
+>>>> results in this
+>>>> problem.
+>>>>
+>>>> The 'systemd-mount' command is recommended by the systemd community 
+>>>> to solve such
+>>>> problems.
+>>>>
+>>>> This patch makes use of 'systemd-mount' to solve the above problem.
+>>>>
+>>>> [YOCTO #12644]
+>>>>
+>>>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>>>> ---
+>>>>   meta/recipes-core/udev/udev-extraconf/mount.sh | 83 
+>>>> ++++++++++++++++++++------
+>>>>   meta/recipes-core/udev/udev-extraconf_1.1.bb   |  3 +
+>>>>   2 files changed, 69 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh 
+>>>> b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>>>> index d760328..067d4e2 100644
+>>>> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+>>>> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>>>> @@ -4,10 +4,28 @@
+>>>>   #
+>>>>   # Attempt to mount any added block devices and umount any removed 
+>>>> devices
+>>>>   +BASE_INIT="`readlink "@base_sbindir@/init"`"
+>>>> +INIT_SYSTEMD="@systemd_unitdir@/systemd"
+>>>> +
+>>>> +if [ "x$BASE_INIT" = "x$INIT_SYSTEMD" ];then
+>>>> +    # systemd as init uses systemd-mount to mount block devices
+>>>> +    MOUNT="/usr/bin/systemd-mount"
+>>>> +    UMOUNT="/usr/bin/systemd-umount"
+>>>> +
+>>>> +    if [ -x $MOUNT ] && [ -x $UMOUNT ];
+>>>> +    then
+>>>> +        logger "Using systemd-mount to finish mount"
+>>>> +    else
+>>>> +        logger "Linux init is using systemd, so please install 
+>>>> systemd-mount to finish mount"
+>>>> +        exit 1
+>>>> +    fi
+>>>> +else
+>>>> +    MOUNT="/bin/mount"
+>>>> +    UMOUNT="/bin/umount"
+>>>> +fi
+>>>>   -MOUNT="/bin/mount"
+>>>>   PMOUNT="/usr/bin/pmount"
+>>>> -UMOUNT="/bin/umount"
+>>>> +
+>>>>   for line in `grep -h -v ^# /etc/udev/mount.blacklist 
+>>>> /etc/udev/mount.blacklist.d/*`
+>>>>   do
+>>>>       if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+>>>> @@ -17,7 +35,35 @@ do
+>>>>       fi
+>>>>   done
+>>>>   -automount() {
+>>>> +automount_systemd() {
+>>>> +    name="`basename "$DEVNAME"`"
+>>>> +
+>>>> +    [ -d "/run/media/$name" ] || mkdir -p "/run/media/$name"
+>>>> +
+>>>> +    MOUNT="$MOUNT -o silent"
+>>>> +
+>>>> +    # If filesystemtype is vfat, change the ownership group to 
+>>>> 'disk', and
+>>>> +    # grant it with  w/r/x permissions.
+>>>> +    case $ID_FS_TYPE in
+>>>> +    vfat|fat)
+>>>> +        MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print 
+>>>> $3}' /etc/group`"
+>>>> +        ;;
+>>>> +    # TODO
+>>>> +    *)
+>>>> +        ;;
+>>>> +    esac
+>>>> +
+>>>> +    if ! $MOUNT --no-block -t auto $DEVNAME "/run/media/$name"
+>>>> +    then
+>>>> +        #logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME 
+>>>> \"/run/media/$name\" failed!"
+>>>> +        rm_dir "/run/media/$name"
+>>>> +    else
+>>>> +        logger "mount.sh/automount" "Auto-mount of 
+>>>> [/run/media/$name] successful"
+>>>> +        touch "/tmp/.automount-$name"
+>>>> +    fi
+>>>> +}
+>>>> +
+>>>> +automount() {
+>>>>       name="`basename "$DEVNAME"`"
+>>>>         ! test -d "/run/media/$name" && mkdir -p "/run/media/$name"
+>>>> @@ -26,7 +72,7 @@ automount() {
+>>>>       then
+>>>>           MOUNT="$MOUNT -o silent"
+>>>>       fi
+>>>> -
+>>>> +
+>>>>       # If filesystem type is vfat, change the ownership group to 
+>>>> 'disk', and
+>>>>       # grant it with  w/r/x permissions.
+>>>>       case $ID_FS_TYPE in
+>>>> @@ -68,23 +114,26 @@ if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ] 
+>>>> && [ -n "$ID_FS_TYPE" -o "$media_t
+>>>>       elif [ -x $MOUNT ]; then
+>>>>               $MOUNT $DEVNAME 2> /dev/null
+>>>>       fi
+>>>> -
+>>>> +
+>>>>       # If the device isn't mounted at this point, it isn't
+>>>>       # configured in fstab (note the root filesystem can show up as
+>>>>       # /dev/root in /proc/mounts, so check the device number too)
+>>>> -    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+>>>> -        grep -q "^$DEVNAME " /proc/mounts || automount
+>>>> -    fi
+>>>> +    if expr $MAJOR "*" 256 + $MINOR != `stat -c %d /`; then
+>>>> +        if [ "`basename $MOUNT`" = "systemd-mount" ];then
+>>>> +            grep -q "^$DEVNAME " /proc/mounts || automount_systemd
+>>>> +        else
+>>>> +            grep -q "^$DEVNAME " /proc/mounts || automount
+>>>> +        fi
+>>>> +    fi
+>>>>   fi
+>>>>   -
+>>>>   if [ "$ACTION" = "remove" ] || [ "$ACTION" = "change" ] && [ -x 
+>>>> "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
+>>>> -    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " 
+>>>> " `
+>>>> -    do
+>>>> -        $UMOUNT $mnt
+>>>> -    done
+>>>> -
+>>>> -    # Remove empty directories from auto-mounter
+>>>> -    name="`basename "$DEVNAME"`"
+>>>> -    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+>>>> +    for mnt in `cat /proc/mounts | grep "$DEVNAME" | cut -f 2 -d " 
+>>>> " `
+>>>> +    do
+>>>> +        $UMOUNT $mnt
+>>>> +    done
+>>>> +
+>>>> +    # Remove empty directories from auto-mounter
+>>>> +    name="`basename "$DEVNAME"`"
+>>>> +    test -e "/tmp/.automount-$name" && rm_dir "/run/media/$name"
+>>>>   fi
+>>>> diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb 
+>>>> b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+>>>> index 43a1cff..90f933d 100644
+>>>> --- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
+>>>> +++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+>>>> @@ -29,6 +29,9 @@ do_install() {
+>>>>       install -d ${D}${sysconfdir}/udev/scripts/
+>>>>         install -m 0755 ${WORKDIR}/mount.sh 
+>>>> ${D}${sysconfdir}/udev/scripts/mount.sh
+>>>> +    sed -i 's|@systemd_unitdir@|${systemd_unitdir}|g' 
+>>>> ${D}${sysconfdir}/udev/scripts/mount.sh
+>>>> +    sed -i 's|@base_sbindir@|${base_sbindir}|g' 
+>>>> ${D}${sysconfdir}/udev/scripts/mount.sh
+>>>> +
+>>>>       install -m 0755 ${WORKDIR}/network.sh 
+>>>> ${D}${sysconfdir}/udev/scripts
+>>>>   }
+>>>
+>>
 >
 
---000000000000bfdc350570dd3f31
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thank you !=C2=A0</div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr">Le=C2=A0jeu. 12 juil. 2018 =C3=A0=C2=A018:40, Burton, Ross &lt=
-;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; a =
-=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 12 July 2018 a=
-t 17:36, vlad zouth &lt;<a href=3D"mailto:vladzouth@gmail.com" target=3D"_b=
-lank">vladzouth@gmail.com</a>&gt; wrote:<br>
-&gt; Hi,<br>
-&gt; I am facing an issue about adding postgresql. Here is the recipe files=
-:<br>
-&gt;<br>
-&gt; <a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-oe=
-/recipes-support/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth" rel=3D"norefer=
-rer" target=3D"_blank">http://cgit.openembedded.org/meta-openembedded/tree/=
-meta-oe/recipes-support/postgresql/postgresql_9.4.5.bb?h=3Dkrogoth</a><br>
-&gt; <a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-oe=
-/recipes-support/postgresql/postgresql.inc?h=3Dkrogoth" rel=3D"noreferrer" =
-target=3D"_blank">http://cgit.openembedded.org/meta-openembedded/tree/meta-=
-oe/recipes-support/postgresql/postgresql.inc?h=3Dkrogoth</a><br>
-&gt;<br>
-&gt; In fact, when i build an image, all the packages included into this re=
-cipes<br>
-&gt; are present in the postgresql image directory but, for example all the=
-<br>
-&gt; program added by the variable FILES_${PN}-client are not in my rootfs.=
-<br>
-&gt; For more precision, i use fsl-community-bsp project and krogoth distro=
- to<br>
-&gt; build an image for the tx6s-8035 karo board.<br>
-<br>
-If you want postgresql-client to be in your image, then you&#39;ll need to<=
-br>
-add postgresql-client to your image (IMAGE_INSTALL, etc).<br>
-<br>
-Ross<br>
-</blockquote></div>
-
---000000000000bfdc350570dd3f31--
