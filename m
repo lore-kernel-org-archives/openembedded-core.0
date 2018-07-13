@@ -1,25 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 521477864F
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7170F745C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 02:26:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6D2QQ2h010063
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2018 19:26:26 -0700 (PDT)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 12 Jul 2018 19:26:25 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2018 10:36:24 +0800
-Message-ID: <47efbcebc355a5c00a4e53d4a137b86b33278d0a.1531449293.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1531449293.git.liezhi.yang@windriver.com>
-References: <cover.1531449293.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V4 4/4] populate_sdk_ext.bbclass: add SDK_CONF_MANIFEST_EXCLUDE
+	Fri, 13 Jul 2018 02:39:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jul 2018 19:39:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,346,1526367600"; d="scan'208";a="244890971"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.20.253])
+	by fmsmga005.fm.intel.com with ESMTP; 12 Jul 2018 19:39:50 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jul 2018 10:39:44 +0800
+Message-Id: <20180713023944.23722-2-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180713023944.23722-1-anuj.mittal@intel.com>
+References: <20180713023944.23722-1-anuj.mittal@intel.com>
+Subject: [PATCH 2/2] libva-utils: upgrade 2.1.0 -> 2.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 02:26:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Jul 2018 02:39:50 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+* Add vainfo support in Android
+* Remove driver specific test cases
 
-Add SDK_CONF_MANIFEST_EXCLUDE to enable excluding items in sdk-conf-manifest.
-
-By default, files under conf/ are all added to sdk-conf-manifest, as the
-manifest file is set to 'conf/*'.
-
-However, there are situations where some configuration files under conf/
-directory are not intended to be added to sdk-conf-manifest, thus adding
-SDK_CONF_MANIFEST_EXCLUDE to enable users to do this.
-
-This variable takes the form of glob matching.
-e.g.
-SDK_CONF_MANIFEST_EXCLUDE = "conf/autogen*"
-This would exclude all files under conf/ starting with 'autogen' from
-sdk-conf-manifest.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .../libva/{libva-utils_2.1.0.bb => libva-utils_2.2.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-utils_2.1.0.bb => libva-utils_2.2.0.bb} (89%)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 9c31d70..bbe6c59 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -479,12 +479,19 @@ python copy_buildsystem () {
-     # sdk_ext_postinst() below) thus the checksum we take here would always
-     # be different.
-     manifest_file_list = ['conf/*']
-+    esdk_manifest_excludes = (d.getVar('SDK_CONF_MANIFEST_EXCLUDE') or '').split()
-+    esdk_manifest_excludes_list = []
-+    for exclude_item in esdk_manifest_excludes:
-+        esdk_manifest_excludes_list += glob.glob(os.path.join(baseoutpath, exclude_item))
-     manifest_file = os.path.join(baseoutpath, 'conf', 'sdk-conf-manifest')
-     with open(manifest_file, 'w') as f:
-         for item in manifest_file_list:
-             for fn in glob.glob(os.path.join(baseoutpath, item)):
-                 if fn == manifest_file:
-                     continue
-+                if fn in esdk_manifest_excludes_list:
-+                    bb.note('Exclude %s since it is in SDK_CONF_MANIFEST_EXCLUDE' % fn)
-+                    continue
-                 chksum = bb.utils.sha256_file(fn)
-                 f.write('%s\t%s\n' % (chksum, os.path.relpath(fn, baseoutpath)))
- }
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.1.0.bb b/meta/recipes-graphics/libva/libva-utils_2.2.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/libva/libva-utils_2.1.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.2.0.bb
+index a8018ea728..e35085cb98 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.1.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.2.0.bb
+@@ -15,8 +15,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+ 
+ SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "6649be70390606651cb636320bfd43c6"
+-SRC_URI[sha256sum] = "f6a7790c3dcc56537372c90a83036a3136194a8b397e84e97bf9cc9254fa2c51"
++SRC_URI[md5sum] = "93b58aa5b14c16f4bace8a45dc255ec9"
++SRC_URI[sha256sum] = "ed7a6ed1fab657df4e83ea11f90310efcf31c27828f32d65351a28ca3c404dc0"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
+ 
 -- 
-2.7.4
+2.17.1
 
 
