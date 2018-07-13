@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C734C78862
+Received: from mail-pl0-f48.google.com (mail-pl0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B466E755A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 17:21:38 +0000 (UTC)
-Received: by mail-pf0-f171.google.com with SMTP id u16-v6so22985237pfh.3
+	Fri, 13 Jul 2018 17:37:16 +0000 (UTC)
+Received: by mail-pl0-f48.google.com with SMTP id f4-v6so8291538plb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 10:21:40 -0700 (PDT)
+	Fri, 13 Jul 2018 10:37:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=UBeguqz7dKQ52zghW8wv8l05Rwe2CxvdISfZVTCQ/k0=;
-	b=teLhXBgGQ74O/vgWUKN/Olfo6VvQtsQNEl3nRw80/rcJ6ClIUfLEBxqnZofQxznysN
-	gxHfjxbwqUZJMB/MMLH5Aqx63PlQ+xTj6JIhGADLomr2O/FgJCtAbYVNDUeEsOi/7VV0
-	xjvm9Yfh/MUt2e+pb6dJdj4HdkhopOXjA6bZLgcDIjbTt1SXQDgIpA3zn9q4Gk/+QTA9
-	NUcA6Va2sYraYJGSu1pFw1PeFoJgVd+DyWUxAlFp6aaAA/4bI3iP2hiDWza6sg4A4YLY
-	ie/imlO6hy1w66mvuqOP8jicD6Plb/Xn+4V9aR5O/rzsXLbWpiBqKdsj0s4a+I4HmHFa
-	2PMA==
+	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
+	b=eQ+SEv3jWZeQWJ1P3L3Dm8XB7jnfy78nWb2LfbypmN0PyDNIBLWwpUwgRDJE24smkk
+	gW0sN7wf6IebzJwgqIJeG5/nJTqh9jE/BFV9HskScPkshV6nn8VhDm2hmukFLIOwU9YL
+	0xDKbdCrgMrYdIVuFSUHBUxSwltsM5n3nwHKdOx6ZDBrRbJisPeQm/ewI4YVG7iVV7Bg
+	+A/T4I1WwOJISDiaP3bvabJ6dpgfxp+TAOIC/8FK3xWKe5PhKc7laf3ZNJJAvbbMiDN4
+	qccM1wfxd7UiNFW/NT50zlb9J4+pqLKSSGpv+a7h3XZaKLmZGM2gbluHayoYbg/U5Xt5
+	QGKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=UBeguqz7dKQ52zghW8wv8l05Rwe2CxvdISfZVTCQ/k0=;
-	b=mywoHQ7AqJEBzkak4/LUv+Cb6o4tGZpNhPQzdCvWWeC8WRLqWc4F1reJzfIdugiiYy
-	R4u8JP7/Xly7gz3ss7mC5VM/ZC9k2Gb8aC7TttWMBGa9leNzPmZ6+ZQT8AGVmvoxFwBY
-	xgN04DRjHHpD77rFalICUaa0s24ZpkpPqIy2bVQC0VviknZ7Cvo3ExbYYhMR6DO9nqZ5
-	vbqf40BairWuv8j4pz551SK9lkkQLeiSCSpxklkZDulYJZdCkieZCBZfqg797IhUs74R
-	tAq5mE4p6lgsl9qc7pcC50XJ/uRXBs7edmEZFhNuL7eVZZ3OsJOzxsf6QytBM6YOds3L
-	gDQw==
-X-Gm-Message-State: AOUpUlE3FGXob0iWBcH6+m5nHIInSPZPhPTMpyZ9YksBJN2xnSR4LN8n
-	QfaUme692UsnGl2KQjKRWpHrEA==
-X-Google-Smtp-Source: AAOMgpdH+gOmV1lhwtHGgAOXjJxpCO1xoMVrU4/OmJ6hML4ZLFEZN2BC0iflTvAEBtduWRXwkT7Q/Q==
-X-Received: by 2002:a63:1546:: with SMTP id 6-v6mr6949735pgv.271.1531502499431;
-	Fri, 13 Jul 2018 10:21:39 -0700 (PDT)
+	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
+	b=IrcpeNwSFrppzqFqiRC0hIgsWAeXzgfwYjDm3ih9abAyuvkjbBbJtWsaxH/Il4S0hB
+	TbKgvsaw/eFjUP6gGdqDGGw5NbGOccDJyGQ9ZdlBLxw3NIDLroQvUeEkGAz14wa3wkyD
+	IGFGGd/1GpbT38gB3nwk2/biCaLfH6clsHds+5OBbCduoCDos9cqJT9xUonGVuYra4fx
+	0jTtMeGHYlATIvILqBr96cK8E0U3pEDq7Zj79esHNw30AvamGast8uGVP2kWttpt4qu9
+	IFagx3gbPuoOkxRjzTkdy4iydSJIJJ8uJ80KYrdPsHQdRA81o+VJWAjiylJ+w5dr58d3
+	aRWw==
+X-Gm-Message-State: AOUpUlGLaaSSL3MaCS/QEhenRDr7Z489k/V3a5Hmpz9xjtUPxoY/ipGX
+	heHZHMv71uhkNcUdIypvBhPPaw==
+X-Google-Smtp-Source: AAOMgpeXDv1z18a7xadqkNXh9CeLkgZRNMUGLTJiuu9kd1bbiQq7eWmCZxw90bKVkNZi8ZWCURHMgQ==
+X-Received: by 2002:a17:902:d88d:: with SMTP id
+	b13-v6mr7347122plz.314.1531503437255; 
+	Fri, 13 Jul 2018 10:37:17 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1736])
 	by smtp.gmail.com with ESMTPSA id
-	a15-v6sm29564453pfe.32.2018.07.13.10.21.38
+	l190-v6sm2217503pgl.75.2018.07.13.10.37.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jul 2018 10:21:38 -0700 (PDT)
+	Fri, 13 Jul 2018 10:37:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2018 10:21:30 -0700
-Message-Id: <20180713172130.14962-1-raj.khem@gmail.com>
+Date: Fri, 13 Jul 2018 10:37:06 -0700
+Message-Id: <20180713173706.7788-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
-Subject: [PATCH V2] mesa: Fix bild with wayland and egl
+Subject: [PATCH V3] mesa: Fix build with wayland and egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,9 +55,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 17:21:38 -0000
+X-List-Received-Date: Fri, 13 Jul 2018 17:37:16 -0000
 
-When we have wayland enabled with egl then it enables the wayland
+When wayland and egl both are on then it enables the wayland
 plugin which actually fails to build because its not finding wayland-protocol
 xml templates in proper location which is recipe sysroot since
 we are cross compiling
