@@ -1,55 +1,48 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CFBC678568
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 039EA74E1A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 18:16:03 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id b10-v6so25247927edi.2
+	Fri, 13 Jul 2018 21:12:30 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id q7-v6so22182676pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2018 11:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=ElAPbDjJlXHHohVZqtpgKFiivVx73CGVzS8PJ1UTaec=;
-	b=RIr3hM37AcvHIi62icwJByhsXELN56dcSK7Zl4YO3FR4hKG3Jgc1QiLbcMUjd9B03k
-	lpNQDHNXkLvIoclMdpf4oFSIyxEmMTnz7Y+K6qnYXT/hN6hwEXiqo0hyJFEs6kMKMtQo
-	JmuyP5npBVgrJLH6LRPEzY9NNE7uZXL8Gy/v0nzxjK4XFnQEn16XpuE3Fn0r7HsbYtef
-	50CtA0aViVces/vvdwlQl9iwGPsV95v7qGxRK1FlR/3qQkOFxmghfn9LoF5uD6IHRPSc
-	4eq5rrEWqaFu6PuJ/yYGrgeb1aqwcmqJef9V8vU70dfIoJOvhm4OpUHzwknsr7zWEZ03
-	cqAw==
+	Fri, 13 Jul 2018 14:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ua3rwcYFVupWch4fY04FETdVwXmYw9tdtLzi45ftYTU=;
+	b=urB643WlfpHCyVjdDma0hUeYOpxTPh1eN9FgJ+y9getUEvxHR+czVOWSQjcseq1CGB
+	VOuCZ/CL4BTVlY9pN+5Kx7W7epwzE5dCSoqHG4ngPitxu3UgOf+mXhpRuz9rcB7kiz4n
+	GhkMRgTRpLaYGvHe4M85Bf30XqJUzSgJrE0ZOrzTp3Ef/bN6fb0wLF+71ayZ+7uPrD5s
+	xSW9kkyWEEFNsmib3dqRAzj46a4GZT1yIs1tWBTaHFla76LqEjMnKXNZUUC4xtJeSALK
+	hOkKdtBwiEkYFlhvhQa9N52rSbtbKqXDY8EOzSTJOcfI45wjzJwVmKV/GS9HSaB5hAW3
+	Pfbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=ElAPbDjJlXHHohVZqtpgKFiivVx73CGVzS8PJ1UTaec=;
-	b=qJ46KAJEnUMcMf4nafU2+u9rAGDX/EzSiTVKWhEiJfDyWplahEpzT/X16xcSSe7noy
-	B9yegt1uY6Pq5R9P9q73aKdS/nOHau5iKYHs5BpfligJp5XF+KaCiNDyxmZKCKtHZAah
-	NUXG8WySTGBlATWe6paPQ4ZB0ajlPTwD8tGTP0zN5KBaGcxcZk5MpUx8sZmD4tS2rNeN
-	iE8H/pfuRYk8FDO4/lARRJj+YHOntqw701bUYWKee07sIXAxiGUTpKSh2ZuAjiej+qyW
-	iP8Ez1zYGdrK1SVpoXwRuL0r1/SqAcRTmSYPg2fePlsfMjVOe4mPoZwyems9ccxns2Qy
-	ATbA==
-X-Gm-Message-State: AOUpUlHQ9YYJFKGaDE5H6FzcjZbgD3XH9nOSC8l3uBmUQF2NDow8k2lD
-	DrTAy8PxaJ725nM7KVL1KCKmeg==
-X-Google-Smtp-Source: AAOMgpdRDni9bNbcA4Bi729FGvA0OdRzjk+ei31h9f9bnwD3A1Ys+owfAj3O9WWvSz4OtpkJWFhAWg==
-X-Received: by 2002:a50:af45:: with SMTP id
-	g63-v6mr8467799edd.30.1531505764651; 
-	Fri, 13 Jul 2018 11:16:04 -0700 (PDT)
-Received: from [172.20.0.85] ([82.163.40.65]) by smtp.gmail.com with ESMTPSA id
-	p18-v6sm7735356edc.5.2018.07.13.11.16.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Jul 2018 11:16:03 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 12.0 \(3445.100.15\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <bc25908059f4ae24437052aa39823a3ce7b8a5d9.1531389673.git.Qi.Chen@windriver.com>
-Date: Fri, 13 Jul 2018 20:16:03 +0200
-Message-Id: <15C2AD73-D572-401F-A7B7-9460C6524821@dominion.thruhere.net>
-References: <cover.1531389673.git.Qi.Chen@windriver.com>
-	<bc25908059f4ae24437052aa39823a3ce7b8a5d9.1531389673.git.Qi.Chen@windriver.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-X-Mailer: Apple Mail (2.3445.100.15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] systemd: upgrade to 239
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ua3rwcYFVupWch4fY04FETdVwXmYw9tdtLzi45ftYTU=;
+	b=hC7GEk9DfCESBs4fierqcy+Uk14346BWQDl3oyfdsVtnnMN1dOZtxVQcHpjVy3yAvA
+	1mKV9k/TTqXERtGSwOfWikSCytwUP1OAjCw5ro0VFORdFlt36Ajzpph3w4kwFWH97VnY
+	i2TEQlByTgyWnbMNriyPSMLvjXkvC3nlVKh1z/PRxHsQHcENji+Rqa5WFiklFs8Y7bS4
+	G9/fmqXx50PDi5eZHZ1kAboISPtmmj4Q0eCLrH1uR9w/23yzXBnnFH4GQ7OYQg1mlKn7
+	0a//UlOYkJIyUbHIJZbTpoO34tj85oKmJMkz/+3/IPNqfWd2akbWxcO+rkZIgT3XS7nE
+	EXVA==
+X-Gm-Message-State: AOUpUlGk7eKql/KzF5PfX2wJDNERbiwmiHwKOuVmzrc69jKAlycNgwv9
+	QyIoBcooLZ3xo9kagwGG38dmnQ==
+X-Google-Smtp-Source: AAOMgpctoE7fUXOYMF1hPe0Mcs/MgurXsuw7OxMtvxFwyJv8W4rVyXr9Pi8c2d/eEXG939bVswMQwQ==
+X-Received: by 2002:a63:8f03:: with SMTP id
+	n3-v6mr7568468pgd.166.1531516351867; 
+	Fri, 13 Jul 2018 14:12:31 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	o12-v6sm24305369pgd.71.2018.07.13.14.12.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Jul 2018 14:12:31 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jul 2018 14:12:24 -0700
+Message-Id: <1531516345-10287-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] curl: update 7.60.0 -> 7.61.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,45 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2018 18:16:04 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jul 2018 21:12:31 -0000
 
+https://curl.haxx.se/changes.html#7_61_0
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/curl/{curl_7.60.0.bb => curl_7.61.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.60.0.bb => curl_7.61.0.bb} (95%)
 
-> Op 12 jul. 2018, om 12:03 heeft Chen Qi <Qi.Chen@windriver.com> het =
-volgende geschreven:
->=20
-> Upgrade systemd to 239.
+diff --git a/meta/recipes-support/curl/curl_7.60.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+similarity index 95%
+rename from meta/recipes-support/curl/curl_7.60.0.bb
+rename to meta/recipes-support/curl/curl_7.61.0.bb
+index 50c9051..a80f926 100644
+--- a/meta/recipes-support/curl/curl_7.60.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -9,8 +9,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
+ 
+-SRC_URI[md5sum] = "bd2aabf78ded6a9aec8a54532fd6b5d7"
+-SRC_URI[sha256sum] = "897dfb2204bd99be328279f88f55b7c61592216b0542fcbe995c60aa92871e9b"
++SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
++SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c"
+ 
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+-- 
+1.9.1
 
-<snip>
-
-When enabling importd I get:
-
-WARNING: systemd-1_239-r0 do_package: QA Issue: systemd: =
-Files/directories were installed but not shipped in any package:
-  /usr/share/dbus-1/system.d/org.freedesktop.import1.conf
-
-So you need something like this on top of your patchset:
-
-@@ -379,6 +379,7 @@ FILES_${PN}-container =3D =
-"${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${libdir}/libnss_mymachines.so.2 \
-                          =
-${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
-                          =
-${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
-+                         =
-${datadir}/dbus-1/system.d/org.freedesktop.import1.conf \
-                          =
-${datadir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-                          =
-${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
-                          =
-${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-
-regards,
-
-Koen=
 
