@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id D991F6B6EA
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A2A407602C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 19:44:18 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id i26-v6so13816669pfo.12
+	Sun, 15 Jul 2018 19:44:19 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id r1-v6so6690822pgp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 12:44:20 -0700 (PDT)
+	Sun, 15 Jul 2018 12:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
-	b=GqfF6aTl+jK6JjOd9OpCfWWK7Q7dhdfrILQ8SoGsuqjP/BzCD8kXI+launvrAYePtD
-	WChNxiPL7VeyHGPxITW8Z6KMFQ+zGvJpe+3f2xtR8tvWPsbrztu59fxfgFappjL/CdRZ
-	VjRU2vfbXLRFMtYgcBnvN+9EFs5so8h2SYtnrH5pmEle2z3gcXtfIkw6LQ3/A1qMeNmx
-	w6vtodP4MQ4bytBBA0Dd76huhPDyMHwoldgromTpGq9fkZ/ukRjcZeJ7k0QVJcC85b69
-	BQwmlg3mzHnNoY8k7W3/zaMVMvw5jgIDMk/6ZI5C603jJuS284uX1aNfq3oTKrB0I5cr
-	ZArw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=NUs73cznPb/FVZRnBAn1cDry598FAHrdCnmZbwznLvs=;
+	b=Hmfaemj0wzsDHrmC3r0OB70LssoXmiNsxoh6yVsIV7oliLn026FdvWSAJ9M14U4JX2
+	iXNYVD5c4TvYWiR6/3zw6Yp5JI3KT2ohvrkEuclIouYx5yrxkX6maA9qEObItggynHkO
+	4xR4Tqt5viwaIs3SrBprsoxdV93BW9UY+SGAwh8tLbY8RLv+EO1eMlnE77qNeprse+ZH
+	K1/ovWtJIg4Xz0lNT3J1GSmPIf/G/ka4+rGCh33blP0iZ8Mcl+nl7tf8/V2gm6qxFMtf
+	gNi5q3ewk63YvCQuza9yKxTbN9RufCpBFEDppCnLVWzkfzkYr3VJv0O/WhsQB++INcvn
+	zVzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Dqnqyl0t42nhSmAqFUfl4vz/3oIv9zXdrB8DqKb0OcA=;
-	b=pp8aOTNfRLKtnCZdfqm9v4X4lUnh1vcwIfnszX6wwI+PgW/zKn53iJWDoDj92Yc7PN
-	tYwvyAFnPjLP4rZWiuasJoVB/JgqaZR/Jb+JhCGxxRtSabYgYKOO8Lf61qZSSMoMf+xm
-	RVL7963jHfg6a4TLe9bpQJeHO9Wj3XZhqrIedSvGGX0jwEn5MCzv2zqiwKl3mBXVAy1V
-	rxaHTWaqOuO7nIA5OT5spxHnD4nXd4Ii+w8AF3wul4kOHXiEUEZCLV0UjcixEXtANr6r
-	87uqC6eE8F61UP3P/Wo+WiXQtFCFQHtoBaNAc8HXjbxoYZLIHGu8C5/qF5bZh/XtsiSu
-	7j8Q==
-X-Gm-Message-State: AOUpUlFBFhV8GxaxB72K02YxA9yVmpB+3p/wWqPQtYrhvznuWWcYx1zg
-	z+uZ7S2g0G+6yUJU6CfO42YDoA==
-X-Google-Smtp-Source: AAOMgpclgS8+xIvyROhmeqOjKJoTeha6E0aVs6F0wCdsu1DgX9mzTqITTeTxLe7Fb/AXAzfGm14/ew==
-X-Received: by 2002:a63:89c7:: with SMTP id
-	v190-v6mr12894361pgd.194.1531683857600; 
-	Sun, 15 Jul 2018 12:44:17 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=NUs73cznPb/FVZRnBAn1cDry598FAHrdCnmZbwznLvs=;
+	b=U6InogYQqil2aVuDcnrJmViRNeNav8QzXzkIPgnJnaAsxHeCe1+aHpA9EDA517Oy9E
+	xPeanjttur/C4ou/ixWlitE8nIAPZwfJX73U++/GnoPij5n0w3MKvOeam1n9SNPX0V0d
+	yJmav9uUqExYyrplPZPB1ZwH5QOx/YjQ6zYEShg/o0vTX9RQT9nfG6Rka6WPG3nWrPcP
+	mGFC4mhD9iYUV2rtCx5PVddGM0vokrz0bF6cPLFU6yRX3E8Weq1mDu86dqmaryvpCemK
+	JgaMwJqa9cldpQ8O3bJw3BKoA6+fnxkyXTjlwE1F8ocyLpED19xt8/+O6NkcRALsGV0B
+	68dg==
+X-Gm-Message-State: AOUpUlHrNFNPv+yD/LJ0GWk3Cb9zkDqLwVUxrnubm/pwTfC9scNPu89L
+	DBS6qAXiFBYzyHmuAA68xKwgGA==
+X-Google-Smtp-Source: AAOMgpc1UKzcuPhLaxnkW2rMluaCqly5iiXEnI07jDMraQ1Gf3jaRZ9l9yUPHL5rWpemwh9RVQA9Vw==
+X-Received: by 2002:a63:d011:: with SMTP id
+	z17-v6mr12837965pgf.272.1531683858427; 
+	Sun, 15 Jul 2018 12:44:18 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::1736])
 	by smtp.gmail.com with ESMTPSA id
-	x25-v6sm14309360pgv.63.2018.07.15.12.44.16
+	x25-v6sm14309360pgv.63.2018.07.15.12.44.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sun, 15 Jul 2018 12:44:17 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jul 2018 12:44:02 -0700
-Message-Id: <20180715194404.29736-1-raj.khem@gmail.com>
+Date: Sun, 15 Jul 2018 12:44:03 -0700
+Message-Id: <20180715194404.29736-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
-Subject: [PATCH 1/3] mesa: Fix build with wayland and egl
+In-Reply-To: <20180715194404.29736-1-raj.khem@gmail.com>
+References: <20180715194404.29736-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] packagegroups: Disable unbuildable dependencies for riscv64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,78 +60,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 15 Jul 2018 19:44:19 -0000
 
-When wayland and egl both are on then it enables the wayland
-plugin which actually fails to build because its not finding wayland-protocol
-xml templates in proper location which is recipe sysroot since
-we are cross compiling
-
-Fixes build errors e.g.
-make[4]: *** No rule to make target `//usr/share/wayland-protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml', needed by `drivers/dri2/linux-dmabuf-unstable-v1-client-protocol.h'.  Stop.
-make[4]: *** Waiting for unfinished jobs....
+This helps with cleaner world build parsing logs
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ss-compile-WAYLAND_PROTOCOLS_DATADIR.patch | 24 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  2 ++
- meta/recipes-graphics/mesa/mesa_18.1.3.bb     |  1 +
- 3 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
+ .../packagegroups/packagegroup-core-tools-profile.bb           | 3 +++
+ .../packagegroups/packagegroup-core-tools-testapps.bb          | 1 +
+ meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb  | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
-new file mode 100644
-index 0000000000..b4e3c4995f
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch
-@@ -0,0 +1,24 @@
-+use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
-+
-+This allows to override the wayland-protocols pkgdatadir with the
-+WAYLAND_PROTOCOLS_DATADIR from environment.
-+
-+pkgconfig would return an absolute path in /usr/share/wayland-protocols
-+for the pkgdatadir value, which is not suitable for cross-compiling.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+
-+Index: mesa-18.1.2/configure.ac
-+===================================================================
-+--- mesa-18.1.2.orig/configure.ac
-++++ mesa-18.1.2/configure.ac
-+@@ -1808,7 +1808,7 @@ for plat in $platforms; do
-+         PKG_CHECK_MODULES([WAYLAND_CLIENT], [wayland-client >= $WAYLAND_REQUIRED])
-+         PKG_CHECK_MODULES([WAYLAND_SERVER], [wayland-server >= $WAYLAND_REQUIRED])
-+         PKG_CHECK_MODULES([WAYLAND_PROTOCOLS], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED])
-+-        WAYLAND_PROTOCOLS_DATADIR=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`
-++        PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
-+ 
-+         AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner], [:])
-+ 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 6d61e09bc5..860a2d94cc 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -110,6 +110,8 @@ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 5d2b4c8181..520d907714 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -33,6 +33,7 @@ PERF_libc-musl = ""
+ SYSTEMTAP = "systemtap"
+ SYSTEMTAP_libc-musl = ""
+ SYSTEMTAP_nios2 = ""
++SYSTEMTAP_riscv64 = ""
  
- CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
+ # lttng-ust uses sched_getcpu() which is not there on for some platforms.
+ LTTNGUST = "lttng-ust"
+@@ -44,6 +45,7 @@ LTTNGTOOLS_libc-musl = ""
+ LTTNGTOOLS_riscv64 = ""
  
-+EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
-+
- # Remove the mesa dependency on mesa-dev, as mesa is empty
- RDEPENDS_${PN}-dev = ""
+ LTTNGMODULES = "lttng-modules"
++LTTNGMODULES_riscv64 = ""
  
-diff --git a/meta/recipes-graphics/mesa/mesa_18.1.3.bb b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-index 1c76f4b1b1..d72f5d0b6d 100644
---- a/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa_18.1.3.bb
-@@ -8,6 +8,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0006-Use-Python-3-to-execute-the-scripts.patch \
-            file://0007-dri-i965-Add-missing-time.h-include.patch \
-            file://0008-egl-fix-build-race-in-automake.patch \
-+           file://cross-compile-WAYLAND_PROTOCOLS_DATADIR.patch \
+ BABELTRACE = "babeltrace"
+ 
+@@ -58,6 +60,7 @@ VALGRIND_armv5 = ""
+ VALGRIND_armv6 = ""
+ VALGRIND_armeb = ""
+ VALGRIND_aarch64 = ""
++VALGRIND_riscv64 = ""
+ VALGRIND_linux-gnux32 = ""
+ 
+ RDEPENDS_${PN} = "\
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index df43068fe5..a35f15e6ce 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -15,6 +15,7 @@ KEXECTOOLS ?= "kexec"
+ KEXECTOOLS_e5500-64b ?= ""
+ KEXECTOOLS_microblaze ?= ""
+ KEXECTOOLS_nios2 ?= ""
++KEXECTOOLS_riscv64 ?= ""
+ 
+ X11GLTOOLS = "\
+     mesa-demos \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
+index 7d2ccbda22..5afb490aac 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
+@@ -7,3 +7,5 @@ RDEPENDS_${PN} = " \
+     go-runtime-dev \
+     go-runtime-staticdev \
  "
- 
- SRC_URI[md5sum] = "b34273403a605f6f98ead00f0bdf8e0b"
++
++COMPATIBLE_HOST = "^(?!riscv64).*"
 -- 
 2.18.0
 
