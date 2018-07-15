@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE2B71BF0
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B37E5744E4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 15:36:51 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id g6-v6so20558646wrp.0
+	Sun, 15 Jul 2018 15:36:53 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id m1-v6so16737074wrg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 08:36:53 -0700 (PDT)
+	Sun, 15 Jul 2018 08:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=b5iMWJJFNl3FZzfahMs5hQ6LxCYdcXKgg6iv6ztzaRU=;
-	b=JoflIj0Ld+9YEGCuBbWvPA6ZlnM0yd8jjxlg/m8f1QQaKS4uHzneby9+EVgaw+D9VS
-	CTJs6Ga5PCilmORAeARqu9+AP0FKYgutZUOfSMMft2rOlClItJwuj+qkfgCG0mxJjgNK
-	E0YtaI8bSM0aiREXMdrZpDOOlKSxUUYq6v8YI=
+	bh=3/dktMBOsGOePnruZpL4yEJ2VPNhUs+Jqkm1kTgGPOo=;
+	b=c9j9Erhmsu8J4UuxSe1l+ELzbqSOadBeJMJe19dhb5LULz3m2I+qjVYyBe2gd65SHb
+	AD8PD6lDmcobak858pn/H0dPKYPZZDlvRWQ5xOkyfD081LePPkfRhKJ3glVOlQfppzbh
+	unew65MLDzjpspgM+pVy6UcmEd+F0cPc1DLUo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=b5iMWJJFNl3FZzfahMs5hQ6LxCYdcXKgg6iv6ztzaRU=;
-	b=btYWLTtyXtWjMgnj+HT1gE/kfiZ5Ru7YWC1BehXUS9m6QPt1TlViube1syjezGKfvi
-	3Kp2ykM9DuRMJgALBbkAy+8VlnT40aDCpLKkiWqAxChn6l5NsIADW6mEDsEZbuVfOI3c
-	JzO4DLt11w4FGB9SJLIIiT7p1rmw5oeZKBjdKzcdWYbqolFvQV/66hPW6LlWeR+bdAsG
-	4CX6P4gpHCJbUH3BThf1f9cn8ySH7rQGEtrdWepgLBrkuhfJLbxEVPZ76cYXwYO8miiZ
-	yNpTrNsixxGtfbebQzlbtxmIoBnmiZDaBJCqUDFJ76iR0MGFSaY+Ysr6HMkuVkcW3Uf1
-	mLeA==
-X-Gm-Message-State: AOUpUlFQqYfAA7bVIQ7XC/QELmzbsmEg2leQybIFSCPWqWnGIuqgvxgw
-	NQNZWC4K+tGdNqZIhPi0QmYowJLwHus=
-X-Google-Smtp-Source: AAOMgpdJeejR4Jqd8aMlgmHBcMrcSext+3xusRuyHeSX0L1HZHiY8IC2AncFS1akSs7vF/itxESLaA==
-X-Received: by 2002:adf:93a3:: with SMTP id
-	32-v6mr8855806wrp.140.1531669012403; 
-	Sun, 15 Jul 2018 08:36:52 -0700 (PDT)
+	bh=3/dktMBOsGOePnruZpL4yEJ2VPNhUs+Jqkm1kTgGPOo=;
+	b=hGnGuzuf9WQZdisURUyZHQSpNUwZtgLLTDlEUopNeTUgccZZDVtyd8pyEA/4pE3mz9
+	dVKacdNfISV29qbsWaQ/gsrh7gpXmiH8n5/LMn6JNuWYPHhZ6kaH/At/j5QicHy2aOEm
+	WQNWWp766rkh+9ASUgpU7Rvx9YSTJUt4H977MCUgpdMp7rLuiE/CxNHgfU111NI+zu15
+	kkhi3JVsGoMCv/4OEgj6NCnu9Gsj2qtwhrOmTts7smO5e3SKlCH/G0fPnmBk4X+FZ1g7
+	wasBAE1OQye+HvMcV6hJnwcaD1RMKdvXtYZwjpCvEk1jq1sTXxj5tZBMo1hOAQmxpKQB
+	Ysfg==
+X-Gm-Message-State: AOUpUlG+ry5s1yGQ+WhGYdpRjLQaJV9Gk3xnZF/n121rJ0E8knG/cpni
+	BHKE8BYK5oUydEf5ape0op3xA6b5wkk=
+X-Google-Smtp-Source: AAOMgpdkLCdJBMDFa3f3F6hrU/PelUJxotVDCNZQBLuYi2n69bp/SJQ1sTwaAdqki/ui1MUo42v4bw==
+X-Received: by 2002:adf:b2f4:: with SMTP id
+	g107-v6mr10320724wrd.53.1531669014303; 
+	Sun, 15 Jul 2018 08:36:54 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z9-v6sm54571558wre.49.2018.07.15.08.36.50
+	z9-v6sm54571558wre.49.2018.07.15.08.36.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 15 Jul 2018 08:36:51 -0700 (PDT)
+	Sun, 15 Jul 2018 08:36:53 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jul 2018 16:36:35 +0100
-Message-Id: <20180715153641.21029-6-richard.purdie@linuxfoundation.org>
+Date: Sun, 15 Jul 2018 16:36:36 +0100
+Message-Id: <20180715153641.21029-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
 References: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 06/12] oeqa/selftest/devtool: Ensure dbus is built befoe running test
+Subject: [PATCH 07/12] oeqa/selftest/wic: Use a subdir of builddir, not /var/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2018 15:36:52 -0000
+X-List-Received-Date: Sun, 15 Jul 2018 15:36:53 -0000
 
-If dbus isn't build first the dbus dependency of dbus-wait can't be detected
-through pkgconfig and the test fails:
-
-AssertionError: {'DEPENDS': {'dbus'}} != {}
-- {'DEPENDS': {'dbus'}}
-+ {} : Some expected variables not found in recipe: {'DEPENDS': {'dbus'}}
-
-Ensure dbus is built and present in the sysroot.
+Using /var/ leave wic open to races with other processes on the system, use
+a subdir of builddir instead to avoid this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oeqa/selftest/cases/wic.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index d5b6a46d491..723d8e19cfd 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -235,6 +235,8 @@ class DevtoolTests(DevtoolBase):
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 055175212a6..5302e47da1a 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -64,13 +64,13 @@ def only_for_arch(archs, image='core-image-minimal'):
+ class Wic(OESelftestTestCase):
+     """Wic test class."""
  
-     @OETestID(1423)
-     def test_devtool_add_git_local(self):
-+        # We need dbus built so that DEPENDS recognition works
-+        bitbake('dbus')
-         # Fetch source from a remote URL, but do it outside of devtool
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
+-    resultdir = "/var/tmp/wic.oe-selftest/"
+     image_is_ready = False
+     native_sysroot = None
+     wicenv_cache = {}
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
++        self.resultdir = self.builddir + "/wic-tmp/"
+         super(Wic, self).setUpLocal()
+         if not self.native_sysroot:
+             Wic.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'wic-tools')
 -- 
 2.17.1
 
