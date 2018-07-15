@@ -1,49 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C244B75534
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 71D756B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 15:37:01 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id c14-v6so2477717wmb.4
+	Sun, 15 Jul 2018 19:44:18 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id k21-v6so342239pff.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 08:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=yEveh6GJACOteY3qLQgDDRK81cJ6w8Y1hcemigH5qao=;
-	b=OwusYOmYzeyIHI3FQn5avf4C5PjKLn99P2PiZ458+x9gDUNeQvHVIbix3doU8v7PPZ
-	JjZlK97QvuIpGAwaYmo4AQ3ndALHdepfqfXlgtzPxU4dCIiV5xOc0R6PC55/hExo1C/I
-	mgBDJ/U86SGL6XFufOHYvKqURf28huiHJTjAc=
+	Sun, 15 Jul 2018 12:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=C7pyI2ibZHTQdhcWg++py4A4d7a3SXp+8zh3TEYyMK4=;
+	b=YRwsEArYXBd/7pblpZZFPu68Dii0muBlul0W8ZkRZBhLyjmTJ2HldEqeouAMUCKXxK
+	CdwKBxNvnq0sLScTSVnoW11bDSchmIHIMHxwqmNPDXe0Ni8SOH59omY9qOZZG+WDJ04G
+	3KaWyF6mscCYHE4KmCJ9GWzvUhWDsq/Qq6h/LhKqF6jjh/i9bmnoNVk2C9BPkHMJ+/oD
+	0hXe72mqzMf1E6ulIOB3I0/fNgD+Bn9mLSsOBEpj0zGmg2sOrkkNz+YfYFlJvfrmlI5R
+	P+HZjmSpEq0XETnIcmq5DVYslMsKIOOin7Sblcunt4MumMuU/zvJlZ8PyhPx+Pgvtznv
+	dO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=yEveh6GJACOteY3qLQgDDRK81cJ6w8Y1hcemigH5qao=;
-	b=hJ4z9uKLfb8DlEO8c4pyb/FSJ+kcUS8KfEyAaPPEqe4/4Or+qOJ47TeoFb/iFqVGdN
-	Kr6X2knCgSZ+W0WPLkHjN1uPM5FvUCKwCJJ/25ChA86J/6tPc+YxTreRl6ri9KEcDeDk
-	hKQdrldOHfgYR+hvqEOi20UwCEje0tNTXkNb8NDt5Lxojm1ciCRBZX0ZWa2QqWMD/hbF
-	LJ8s5LSFCdVGbDCG+dBQAoqAKQowMphcPMr/CoeNtMi330CtG1lwAmYsIeZAGSFdna+E
-	w1CPHf+HF59RXw4GJXmOBBMoTcqtc59972ShU5gu/S6eVre/OdvRZsm7a/SPtWj5RUhm
-	ioew==
-X-Gm-Message-State: AOUpUlH1y+Y3kbpCfmBIkaVxt+XsvDYrgbnqJVCwxj+qvxfZezuJsDOJ
-	/fxgRW0lfBh1vxdhWVFzwc7BTBzMZ5o=
-X-Google-Smtp-Source: AAOMgpcuRjqwP0JY1oeHgjdVory6VjmBM5RJTXb4NTnF3RhB8crDUj+z3bbXbRUvX09SVYec5wOwaA==
-X-Received: by 2002:a1c:d750:: with SMTP id
-	o77-v6mr7586789wmg.67.1531669022337; 
-	Sun, 15 Jul 2018 08:37:02 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	bh=C7pyI2ibZHTQdhcWg++py4A4d7a3SXp+8zh3TEYyMK4=;
+	b=BnleOuIbfyN1h/Z83zBDhl33uo1EJxgSZ4C1J2WxuYSGlSVr34u6DpAnZwNRmwwA+g
+	4pridNE9zXFTRJljHVXtedBobNm5Dn651gal/7mGIE7PUKWWbQEw2bDToOUbeN3Oc/ne
+	rbk/LE6B6pbzIB4XZAanX+1Yl96HstQvHw22dcFX1tW/vBogHe9hfTfL4ueM8PHq3zfG
+	ZItm0+cM+wMe7wNg/SuKgHpCXJo1lUsaKmfFkGYcEf1lyPIOumBv1Ce47hUUbfnLstZa
+	ZJPvgmvD/v6B7I9GKktpL/6f5QI8u2hylVzGthTBey09Wy1eb5L1sVjhWVOFA3pBZOzo
+	fecQ==
+X-Gm-Message-State: AOUpUlFcuC3rxo8XZWPk2hSUEj54RGP5zCdsvtqb1/D2CHvWIPnaUk+l
+	obKFMIwO/NPb6BsTKJsi/H7wsw==
+X-Google-Smtp-Source: AAOMgpdtikqhEmeYUfKBZy1HZvymDf29psWoqBg9YwwOJ0vaQUz3wdce1cckxlOOs/ZlK+Doi2diPw==
+X-Received: by 2002:a63:29c6:: with SMTP id
+	p189-v6mr13422830pgp.305.1531683859142; 
+	Sun, 15 Jul 2018 12:44:19 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:877f:9499::1736])
 	by smtp.gmail.com with ESMTPSA id
-	z9-v6sm54571558wre.49.2018.07.15.08.37.00
-	for <openembedded-core@lists.openembedded.org>
+	x25-v6sm14309360pgv.63.2018.07.15.12.44.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 15 Jul 2018 08:37:01 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Sun, 15 Jul 2018 12:44:18 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jul 2018 16:36:41 +0100
-Message-Id: <20180715153641.21029-12-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
-References: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 12/12] oeqa/selftest/wic: Split tests into two class groups
+Date: Sun, 15 Jul 2018 12:44:04 -0700
+Message-Id: <20180715194404.29736-3-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20180715194404.29736-1-raj.khem@gmail.com>
+References: <20180715194404.29736-1-raj.khem@gmail.com>
+Subject: [PATCH 3/3] meson: Add risc-v to known architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,76 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2018 15:37:02 -0000
+X-List-Received-Date: Sun, 15 Jul 2018 19:44:18 -0000
 
-This improves test parallelism.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/meson/meson.inc         |  1 +
+ ...nbuild-Recognise-risc-v-architecture.patch | 27 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-mesonbuild-Recognise-risc-v-architecture.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 2771af63674..ba4d3be7a86 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -61,7 +61,7 @@ def only_for_arch(archs, image='core-image-minimal'):
-     return wrapper
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index b278d33b72..a650469e93 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0004-Prettifying-some-output-with-pathlib.patch \
+            file://0005-Set-the-meson-command-to-use-when-we-know-what-it-is.patch \
+            file://validate-cpu.patch \
++           file://0001-mesonbuild-Recognise-risc-v-architecture.patch \
+            "
  
- 
--class Wic(OESelftestTestCase):
-+class WicTestCase(OESelftestTestCase):
-     """Wic test class."""
- 
-     image_is_ready = False
-@@ -71,7 +71,7 @@ class Wic(OESelftestTestCase):
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-         self.resultdir = self.builddir + "/wic-tmp/"
--        super(Wic, self).setUpLocal()
-+        super(WicTestCase, self).setUpLocal()
-         if not self.native_sysroot:
-             Wic.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'wic-tools')
- 
-@@ -92,7 +92,9 @@ class Wic(OESelftestTestCase):
-     def tearDownLocal(self):
-         """Remove resultdir as it may contain images."""
-         rmtree(self.resultdir, ignore_errors=True)
--        super(Wic, self).tearDownLocal()
-+        super(WicTestCase, self).tearDownLocal()
+ SRC_URI[md5sum] = "1698f6526574839de5dcdc45e3f7d582"
+diff --git a/meta/recipes-devtools/meson/meson/0001-mesonbuild-Recognise-risc-v-architecture.patch b/meta/recipes-devtools/meson/meson/0001-mesonbuild-Recognise-risc-v-architecture.patch
+new file mode 100644
+index 0000000000..5abf3642f3
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0001-mesonbuild-Recognise-risc-v-architecture.patch
+@@ -0,0 +1,27 @@
++From 85bb96909d2024769d8e758538a7e8e2004dbb4d Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 14 Jul 2018 13:03:39 -0700
++Subject: [PATCH] mesonbuild: Recognise risc-v architecture
 +
-+class Wic(WicTestCase):
- 
-     @OETestID(1552)
-     def test_version(self):
-@@ -522,6 +524,8 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-                                       % (wks_file, self.resultdir), ignore_status=True).status)
-         os.remove(wks_file)
- 
-+class Wic2(WicTestCase):
++Upstream-Status: Submitted [https://github.com/mesonbuild/meson/pull/3889]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ mesonbuild/environment.py | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-     @OETestID(1496)
-     def test_bmap_short(self):
-         """Test generation of .bmap file -m option"""
-@@ -679,7 +683,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         Test creation of a simple image with partition size controlled through
-         --fixed-size flag
-         """
--        wkspath, wksname = Wic._make_fixed_size_wks(200)
-+        wkspath, wksname = Wic2._make_fixed_size_wks(200)
- 
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-                                    % (wkspath, self.resultdir)).status)
-@@ -711,7 +715,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         --fixed-size flag. The size of partition is intentionally set to 1MiB
-         in order to trigger an error in wic.
-         """
--        wkspath, wksname = Wic._make_fixed_size_wks(1)
-+        wkspath, wksname = Wic2._make_fixed_size_wks(1)
- 
-         self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
-                                    % (wkspath, self.resultdir), ignore_status=True).status)
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index a0580a21..b2041424 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -83,6 +83,8 @@ known_cpu_families = (
++     'ppc',
++     'ppc64',
++     'ppc64le',
+++    'riscv32',
+++    'riscv64',
++     'sparc64',
++     'x86',
++     'x86_64'
++-- 
++2.18.0
++
 -- 
-2.17.1
+2.18.0
 
 
