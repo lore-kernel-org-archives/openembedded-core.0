@@ -1,49 +1,48 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E945C752C1
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A305744E4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 15:36:45 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id o11-v6so6839906wmh.2
+	Sun, 15 Jul 2018 15:36:47 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id s13-v6so8096364wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 08:36:47 -0700 (PDT)
+	Sun, 15 Jul 2018 08:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=9fuHtnn5tC7aBJSIMJmzjQ0szlr7agrBnJpB0zyLK1k=;
-	b=QUqtDflUYcjC9b9CcJpHBq+ax5BOX7tHLUNgsk0C8hlvfLR99x8ALboqFZt/pua8Vj
-	9Y6XACR1LUrP5FuAlNwfNBoG8i3yGyE2Qz3E/D2K1Pl6qfoWSGC/xMK4bSBS90fCF4bl
-	RTpdrHk6ZXV2XiOGvqUxyqdhBdECEeA0+ye1g=
+	bh=h1jk04CR3QdAbLUd16aH/KKQZNDnemItmD+MOX8EugU=;
+	b=D7iGfDYDp3uDXrSdXV7Jj6srQ2EWBRS+qc8bGR+x/v7SO8ykUuTbg2zG75/IzCbe79
+	9B44/S7GeG63HKmCo45sOtfg3TEyNXnjlhiJ96Hp4KVLZN+FK5Cd/7uRqkzczTg4/+ug
+	+pZtpJF5kZorUKFJ9SobGxtqjLBxgn6LnHuRE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=9fuHtnn5tC7aBJSIMJmzjQ0szlr7agrBnJpB0zyLK1k=;
-	b=qHHmdO8/mastKjXiMHW0OZkAh6ihVu2hJMvZ0gZqsZwP92afdVRbbNfYNre05MrQwG
-	/FNi9rsEZmvSAaMFJfUdqzSsbv9bY00C7SeBqRCT0elRlr4PdtIi2epZYcXJim9+RmoW
-	OZLNn/6N82U1VsgjJEp60WORQIoOSrbfTr830ap8jkiA1iBXZ50tEHpb/BVOZRUtmrmU
-	Vlg8aeHtNw6JUmzpu06hwXCHQJxYPxMh8clqKRIbm2+nqyKSnt2zrqTtr2KJeJ53Z8DA
-	78RrQ5Xhz6mS0qN2K7VAIssSv3o6RPRdlVfV+b2r5N6LkCbxWjuaBqgi71IGgfuyvHN7
-	uWLQ==
-X-Gm-Message-State: AOUpUlGM34vGQzMKaEAKT1vvQTr8XL+3Re71nMBBux7vQugrwM9ZkzTV
-	mGutzQDp0Npyb0Gz/QBvKqxYc0myA3w=
-X-Google-Smtp-Source: AAOMgpcNthBUwCfr0V3eYZLaFHA7XZPdSv3qtIeGAcHoHDl7+saBWWW2GPip6CLhur3cC2/eSp0+Pg==
-X-Received: by 2002:a1c:30d2:: with SMTP id
-	w201-v6mr7530857wmw.47.1531669006376; 
-	Sun, 15 Jul 2018 08:36:46 -0700 (PDT)
+	bh=h1jk04CR3QdAbLUd16aH/KKQZNDnemItmD+MOX8EugU=;
+	b=ITmkYKBKBVMbw2lW2bkIAGKyYbVPBnY3Ca7/TgjBh0LKKgYOtTA0weTe22fbVA2jf7
+	WP/noPfMRz3lUeWZIR2U/B/OIQqL5ZDJS2u0ScU8GtHqLQP2QiNKpCFOay3slqbIpwUB
+	4R1pICOvQ2KRr3zwD2d8tayozNTZsdrzu1Du6uxDaFUuu/czmNNuFQnjoInBlgAgC3Mp
+	jmj5FK4DTF62uJkHVtulITk85LdrGsER2mmJOW6h+/WiXK6+wnWccroGjlaTOSRIhdH6
+	izL0HoR81SiCVA++cYodYm2O7mE88JTbgpJCFWJHUpJGfPDF5ZJAl5kxfD23CHxiy6S4
+	zWfQ==
+X-Gm-Message-State: AOUpUlGaGEFB0SWJl2JylfWiBdcnj0gcC7TYycadm9gcHph20PY6HaV/
+	2YVjxSDr8ynC+fgp0uTnXZ0KVit99pY=
+X-Google-Smtp-Source: AAOMgpeN2+354yFCvWQv02CZgr7CistVVWSzUm0t7HB+5j/S8CoA+8CiYV3FclI9J0BCWMI92470SQ==
+X-Received: by 2002:a1c:4405:: with SMTP id r5-v6mr7391603wma.4.1531669007984; 
+	Sun, 15 Jul 2018 08:36:47 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z9-v6sm54571558wre.49.2018.07.15.08.36.45
+	z9-v6sm54571558wre.49.2018.07.15.08.36.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 15 Jul 2018 08:36:45 -0700 (PDT)
+	Sun, 15 Jul 2018 08:36:47 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jul 2018 16:36:31 +0100
-Message-Id: <20180715153641.21029-2-richard.purdie@linuxfoundation.org>
+Date: Sun, 15 Jul 2018 16:36:32 +0100
+Message-Id: <20180715153641.21029-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
 References: <20180715153641.21029-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 02/12] oeqa/selftest/image_tyypedep: Avoid undefined variable failure
+Subject: [PATCH 03/12] oqqa/selftest/lic_checksum: Avoid cache reparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2018 15:36:46 -0000
+X-List-Received-Date: Sun, 15 Jul 2018 15:36:48 -0000
 
-If something goes wrong with the test, dep can be undefined. Avoid a
-traceback for this and handle it more gracefully.
+By having a consistent config for the test, a second reparse is avoided
+and the test runs slightly faster.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/image_typedep.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/selftest/cases/lic_checksum.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/image_typedep.py b/meta/lib/oeqa/selftest/cases/image_typedep.py
-index e6788853a36..932c7f883da 100644
---- a/meta/lib/oeqa/selftest/cases/image_typedep.py
-+++ b/meta/lib/oeqa/selftest/cases/image_typedep.py
-@@ -29,11 +29,14 @@ inherit image
-         # like CONVERSION_DEPENDS_bz2="somedep"
-         result = bitbake('-e emptytest')
+diff --git a/meta/lib/oeqa/selftest/cases/lic_checksum.py b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+index 37407157c1e..f992b3736e4 100644
+--- a/meta/lib/oeqa/selftest/cases/lic_checksum.py
++++ b/meta/lib/oeqa/selftest/cases/lic_checksum.py
+@@ -19,6 +19,8 @@ class LicenseTests(OESelftestTestCase):
+         os.close(lic_file)
+         self.track_for_cleanup(lic_path)
  
-+        dep = None
-         for line in result.output.split('\n'):
-             if line.startswith('CONVERSION_DEPENDS_bz2'):
-                 dep = line.split('=')[1].strip('"')
-                 break
- 
-+        self.assertIsNotNone(dep, "CONVERSION_DEPENDS_bz2 dependency not found in bitbake -e output")
++        self.write_config("INHERIT_remove = \"report-error\"")
 +
-         # Now get the dependency task list and check for the expected task
-         # dependency
-         bitbake('-g emptytest')
+         self.write_recipeinc('emptytest', """
+ INHIBIT_DEFAULT_DEPS = "1"
+ LIC_FILES_CHKSUM = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+@@ -29,7 +31,6 @@ SRC_URI = "file://%s;md5=d41d8cd98f00b204e9800998ecf8427e"
+         with open(lic_path, "w") as f:
+             f.write("data")
+ 
+-        self.write_config("INHERIT_remove = \"report-error\"")
+         result = bitbake(bitbake_cmd, ignore_status=True)
+         if error_msg not in result.output:
+             raise AssertionError(result.output)
 -- 
 2.17.1
 
