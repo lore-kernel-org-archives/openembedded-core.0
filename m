@@ -1,49 +1,48 @@
 Return-Path: <nick83ola@gmail.com>
-Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AE2072EA8
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A93260103
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 08:18:14 +0000 (UTC)
-Received: by mail-yb0-f174.google.com with SMTP id r3-v6so15107886ybo.4
+	Mon, 16 Jul 2018 08:40:52 +0000 (UTC)
+Received: by mail-oi0-f54.google.com with SMTP id d189-v6so73247831oib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 01:18:15 -0700 (PDT)
+	Mon, 16 Jul 2018 01:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=1pw71Ibu1sNX0Shvod49mEbzj22J3UEXrKxy3ExkHRw=;
-	b=s3thOkrDawnzahB5IdSbZ9QSikcKUh8r5Nw4rmuZ69Lke9sysd22QMdbeblc5ngYf1
-	sW73I91I6gMCkvGqmfSLNP1Nc0z7TqViw/9hFLGfLCUvy65JMOwdyyduGlYYsGrtVkKo
-	t7+fLUhvUNV5INgWwcWuPjU9L4L+Npz2EcxhEm3KlQ00o7e57DiqlzHW+X5WE4uDOfq+
-	0SMsNhRLqq3TRsZKhsX+jSX1cxWclcp7k007TGFwpbn/XY8iZtA80z4qM3xgNO84zbtU
-	IlvMCzRvQ0UouH6fo+HmvRU44Y8DuKUqms6tT+Fi2aYjgIZhX89Swff1deMCtoy8aZQI
-	YHNw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ZUJP1hSU/2NzS4oZEUbv8YdSVI2MOi8GZuZkZy1+bBQ=;
+	b=B2MdwE3fPDXQX/jdTCEqvfAS0CD7AIiegwJ2f2Y0eYFNZJAckRJW9iNTnXZkzVcOXQ
+	hlu4zHRuxC2exMOW+DpH3h9pnPgiveL1DIhWE80CnS1cOqLu/bGYTF3hleCD65Hl75Hh
+	/TWsuaPKCk1FDc1IqMdJrY4fXhRGBN8yKXfgHvHwI1Ie4msK/f2yoQ+mvZRCT3qn4oF5
+	wTVvFSnjRAj1DkqrCvBijz8UotPCvhqZpO3eDHFV37dxzNBcDCqOTsY5Eqi+pTQFOooo
+	4dW2ybBnxqh20ykv7/1QZLU+soJHG3LVm4sec5TrASqVrhsDR6aGcB6+HBCguaOwppLj
+	99hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1pw71Ibu1sNX0Shvod49mEbzj22J3UEXrKxy3ExkHRw=;
-	b=uWOBNbl3ygcTGMzic3G5aPu04NDPcoPULMoLcgGQf0BusGaRf8zDDI7PORSot9T5qW
-	fDIb0kgq6m+rG7HZZc72OAJ3gxRcONzdiGek/zWg98zPADk7GHm3GF2CMBKua1BkNqRJ
-	ifWjvHJOce3BEjJ+PgoDkbkjd9GBVI+xkt0eDAbchBFpZ5cWVMTlIsffNSmOaK+vpIf0
-	p+gu9Mvw8VXABK5dK76bdWGpaq/5S5A2XrhbFXq6EIiEqi6cSl4J7jFBZzCwsXrfHeSD
-	qUwM5bT7rND0FvOK5Pjv+SpFeZBGaaJ4uVbzGG0PxG9Qqe1ZjWed3S3t4t2hQkkCuJS5
-	9H0A==
-X-Gm-Message-State: AOUpUlGVr23xERUMB9MhN1uJ0hCNBGUkcJJ7i8OJkBTL2b7NoJLNBzHk
-	8gRxHgCnSR51MVNUqaeT+M0TbQ==
-X-Google-Smtp-Source: AAOMgpcQBL4hSJmKn0Wi5L2V57LGQ9YOmeuMQreNvugIGYGYj7U9e7wA51gbTslqICnVlGMcFhajFw==
-X-Received: by 2002:a25:8102:: with SMTP id
-	o2-v6mr8031248ybk.379.1531729094888; 
-	Mon, 16 Jul 2018 01:18:14 -0700 (PDT)
-Received: from nick-laptop.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	r196-v6sm7577332ywe.25.2018.07.16.01.18.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 01:18:14 -0700 (PDT)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 09:17:59 +0100
-Message-Id: <20180716081759.5747-1-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Nicola Lunghi <nicola.lunghi@jci.com>
-Subject: [meta-oe][poky][PATCH v2] systemd: resolved linked even if the option is disabled
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZUJP1hSU/2NzS4oZEUbv8YdSVI2MOi8GZuZkZy1+bBQ=;
+	b=B26CwOZNNaB+Me8zyr4ONw4hQYA+fpbQ2rjiu9m1uawKU0q5RKWqJrhGN5OlkeswbE
+	f5eLu3/ab37SUcT0e7Ux36sdRSrjZcNHo8kbwuhkz0ZRJpFpjbgs2AxvgwIzLkamydBc
+	Sk/qi/dqF0woRAjc1JPV3FuB9zJvs7/Dag/ZSLB1z1zeKlSXdJK5L4F5BYAVbnxnej3C
+	Ae5xaMtVRSBlRZ9/S3kn/wvy29Q4lnQkE/Amb2PhvvO62P6EzqteW2xCxLlc6lEilSYd
+	0ZEumqkJiCIL7CUagCmvKGZA7sLT0tL/vhoF1m+AXXttberBuiD9RVD4jdzmVzj/AwxX
+	tvOg==
+X-Gm-Message-State: AOUpUlHE78zqvqT/NtfraTVknipLU4gZZN+yuUtbR+2JE2DU7vjOtUzZ
+	QyuabHjTEW0b/UZqNEwhC3uUmaYJT/EEzUL9itQ=
+X-Google-Smtp-Source: AAOMgpcx6PtNF0mDmWtuBizKmM5FnGfb9NbTJ3CAhBcdNgnW7bdAV+M2jkdg8Or7g/vVtTl/yuxtkcXLbinxwumNCT8=
+X-Received: by 2002:aca:5e02:: with SMTP id
+	s2-v6mr17421823oib.176.1531730453270; 
+	Mon, 16 Jul 2018 01:40:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <CABPh3UMZTQwbOhJc0MN9HOg4hThYqG5tcg-sS7OhFjbgrPAhww@mail.gmail.com>
+	<CANNYZj_M=6Ku76j2y=fvdEyN2xvv=8avg4NK-zmg9gs5Ur5nXw@mail.gmail.com>
+In-Reply-To: <CANNYZj_M=6Ku76j2y=fvdEyN2xvv=8avg4NK-zmg9gs5Ur5nXw@mail.gmail.com>
+From: nick83ola <nick83ola@gmail.com>
+Date: Mon, 16 Jul 2018 09:40:41 +0100
+Message-ID: <CABPh3UNKtJ-Nd9r1VtFfeOMAHome5xJGmh-Hfw_qGCbjMxWoig@mail.gmail.com>
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [HELP] ptest & ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +55,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 08:18:14 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 08:40:52 -0000
+Content-Type: multipart/alternative; boundary="0000000000008f1741057119c9e4"
 
-From: Nicola Lunghi <nicola.lunghi@jci.com>
+--0000000000008f1741057119c9e4
+Content-Type: text/plain; charset="UTF-8"
 
-if resolved option is not selected the package systemd-resolved
-is not installed so it cannot provide an alternative for
-resolv.conf
+Hi Alex,
+thanks for your response.
 
-In this recipe the previous check was instead reversing the check (note the !).
+Do you or anyone else have an example about an actual python package that
+use ptest (possibily using distutils/nose/py.test)?
 
-This patch avoid messing with resol.conf link if resolved is disabled in
-the package config.
+Thanks
+Nick
 
-This in particular if we compile systemd with musl where systemd-resolved
-cannot be compiled.
+On Tue, 26 Jun 2018 at 16:07, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Signed-off-by: Nicola Lunghi <nicola.lunghi@jci.com>
----
- meta/recipes-core/systemd/systemd_237.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+> The Yocto documentation has general information:
+>
+>
+> https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest
+>
+> Alex
+>
+>
+> 2018-06-26 14:57 GMT+02:00 nick83ola <nick83ola@gmail.com>:
+> > Hi all,
+> >
+> > I have a python3 package that launch a py.test test suite from
+> > setup.py and I have created a recipe for it using setuptools3
+> >
+> > Anyone has some hint about how to add a ptest target to run the tests
+> > into the final image (or better in a qemu test image)?
+> >
+> > there are some recipe/documentation that I can look at about creating
+> > -ptest target for python packages?
+> >
+> > Regards
+> > Nicola Lunghi
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
-index 3efca33e73..bd6dcef637 100644
---- a/meta/recipes-core/systemd/systemd_237.bb
-+++ b/meta/recipes-core/systemd/systemd_237.bb
-@@ -258,14 +258,11 @@ do_install() {
- 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
- 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
- 	fi
--	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
- 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
- 		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
- 		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
- 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
--	else
--		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
--		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
- 	fi
- 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
- 
-@@ -539,7 +536,7 @@ python __anonymous() {
- # TODO:
- # u-a for runlevel and telinit
- 
--ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel resolv-conf"
-+ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel"
- 
- ALTERNATIVE_TARGET[init] = "${rootlibexecdir}/systemd/systemd"
- ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
-@@ -565,6 +562,7 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
- ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
- ALTERNATIVE_PRIORITY[runlevel] ?= "300"
- 
-+ALTERNATIVE_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
- ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
- ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
- ALTERNATIVE_PRIORITY[resolv-conf] ?= "50"
--- 
-2.17.1
+--0000000000008f1741057119c9e4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Hi Alex, <br></div><div>thanks for your response.</di=
+v><div><br></div><div>Do you or anyone else have an example about an actual=
+ python package that use ptest (possibily using distutils/nose/py.test)?</d=
+iv><div><br></div><div>Thanks<br></div><div>Nick<br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr">On Tue, 26 Jun 2018 at 16:07, Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The Yocto docume=
+ntation has general information:<br>
+<br>
+<a href=3D"https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.h=
+tml#testing-packages-with-ptest" rel=3D"noreferrer" target=3D"_blank">https=
+://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-pack=
+ages-with-ptest</a><br>
+<br>
+Alex<br>
+<br>
+<br>
+2018-06-26 14:57 GMT+02:00 nick83ola &lt;<a href=3D"mailto:nick83ola@gmail.=
+com" target=3D"_blank">nick83ola@gmail.com</a>&gt;:<br>
+&gt; Hi all,<br>
+&gt;<br>
+&gt; I have a python3 package that launch a py.test test suite from<br>
+&gt; setup.py and I have created a recipe for it using setuptools3<br>
+&gt;<br>
+&gt; Anyone has some hint about how to add a ptest target to run the tests<=
+br>
+&gt; into the final image (or better in a qemu test image)?<br>
+&gt;<br>
+&gt; there are some recipe/documentation that I can look at about creating<=
+br>
+&gt; -ptest target for python packages?<br>
+&gt;<br>
+&gt; Regards<br>
+&gt; Nicola Lunghi<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
+--0000000000008f1741057119c9e4--
