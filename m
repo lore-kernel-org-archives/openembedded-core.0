@@ -1,48 +1,27 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A93260103
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB5C7458B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 08:40:52 +0000 (UTC)
-Received: by mail-oi0-f54.google.com with SMTP id d189-v6so73247831oib.6
+	Mon, 16 Jul 2018 09:09:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6G99Cu1004541
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 01:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZUJP1hSU/2NzS4oZEUbv8YdSVI2MOi8GZuZkZy1+bBQ=;
-	b=B2MdwE3fPDXQX/jdTCEqvfAS0CD7AIiegwJ2f2Y0eYFNZJAckRJW9iNTnXZkzVcOXQ
-	hlu4zHRuxC2exMOW+DpH3h9pnPgiveL1DIhWE80CnS1cOqLu/bGYTF3hleCD65Hl75Hh
-	/TWsuaPKCk1FDc1IqMdJrY4fXhRGBN8yKXfgHvHwI1Ie4msK/f2yoQ+mvZRCT3qn4oF5
-	wTVvFSnjRAj1DkqrCvBijz8UotPCvhqZpO3eDHFV37dxzNBcDCqOTsY5Eqi+pTQFOooo
-	4dW2ybBnxqh20ykv7/1QZLU+soJHG3LVm4sec5TrASqVrhsDR6aGcB6+HBCguaOwppLj
-	99hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZUJP1hSU/2NzS4oZEUbv8YdSVI2MOi8GZuZkZy1+bBQ=;
-	b=B26CwOZNNaB+Me8zyr4ONw4hQYA+fpbQ2rjiu9m1uawKU0q5RKWqJrhGN5OlkeswbE
-	f5eLu3/ab37SUcT0e7Ux36sdRSrjZcNHo8kbwuhkz0ZRJpFpjbgs2AxvgwIzLkamydBc
-	Sk/qi/dqF0woRAjc1JPV3FuB9zJvs7/Dag/ZSLB1z1zeKlSXdJK5L4F5BYAVbnxnej3C
-	Ae5xaMtVRSBlRZ9/S3kn/wvy29Q4lnQkE/Amb2PhvvO62P6EzqteW2xCxLlc6lEilSYd
-	0ZEumqkJiCIL7CUagCmvKGZA7sLT0tL/vhoF1m+AXXttberBuiD9RVD4jdzmVzj/AwxX
-	tvOg==
-X-Gm-Message-State: AOUpUlHE78zqvqT/NtfraTVknipLU4gZZN+yuUtbR+2JE2DU7vjOtUzZ
-	QyuabHjTEW0b/UZqNEwhC3uUmaYJT/EEzUL9itQ=
-X-Google-Smtp-Source: AAOMgpcx6PtNF0mDmWtuBizKmM5FnGfb9NbTJ3CAhBcdNgnW7bdAV+M2jkdg8Or7g/vVtTl/yuxtkcXLbinxwumNCT8=
-X-Received: by 2002:aca:5e02:: with SMTP id
-	s2-v6mr17421823oib.176.1531730453270; 
-	Mon, 16 Jul 2018 01:40:53 -0700 (PDT)
+	Mon, 16 Jul 2018 02:09:12 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Mon, 16 Jul 2018 02:09:11 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20180716081759.5747-1-nick83ola@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <30a8009d-b30f-b55b-bb31-ac1330273835@windriver.com>
+Date: Mon, 16 Jul 2018 17:12:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <CABPh3UMZTQwbOhJc0MN9HOg4hThYqG5tcg-sS7OhFjbgrPAhww@mail.gmail.com>
-	<CANNYZj_M=6Ku76j2y=fvdEyN2xvv=8avg4NK-zmg9gs5Ur5nXw@mail.gmail.com>
-In-Reply-To: <CANNYZj_M=6Ku76j2y=fvdEyN2xvv=8avg4NK-zmg9gs5Ur5nXw@mail.gmail.com>
-From: nick83ola <nick83ola@gmail.com>
-Date: Mon, 16 Jul 2018 09:40:41 +0100
-Message-ID: <CABPh3UNKtJ-Nd9r1VtFfeOMAHome5xJGmh-Hfw_qGCbjMxWoig@mail.gmail.com>
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [HELP] ptest & ptest
+In-Reply-To: <20180716081759.5747-1-nick83ola@gmail.com>
+X-Originating-IP: [128.224.162.218]
+Subject: Re: [meta-oe][poky][PATCH v2] systemd: resolved linked even if the option is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,100 +34,333 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 08:40:52 -0000
-Content-Type: multipart/alternative; boundary="0000000000008f1741057119c9e4"
+X-List-Received-Date: Mon, 16 Jul 2018 09:09:12 -0000
+Content-Type: multipart/alternative;
+	boundary="------------A9B846D7902A4EA8C2303005"
 
---0000000000008f1741057119c9e4
-Content-Type: text/plain; charset="UTF-8"
+--------------A9B846D7902A4EA8C2303005
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Alex,
-thanks for your response.
+Hi Nicola,
 
-Do you or anyone else have an example about an actual python package that
-use ptest (possibily using distutils/nose/py.test)?
+As I replied on poky mailing list to this patch, you need to first check 
+the following three commits.
 
-Thanks
-Nick
+commit 00e4662e55f66570cae29240c22b4d74b79d3ca5
+Author: Maxin B. John <maxin.john@intel.com>
+Date:   Mon Jun 12 18:10:21 2017 +0300
 
-On Tue, 26 Jun 2018 at 16:07, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+     systemd: enable resolved and networkd
 
-> The Yocto documentation has general information:
+     Enable systemd-resolved and systemd-networkd by default.
+     Make it co-exist with connman and  Fix associated problems
+     in read-only rootfs.
+
+     Fixes [YOCTO #11331]
+
+     (From OE-Core rev: d9b6d538e3d81ab0d5e7b7b6adecef555d782217)
+
+     Signed-off-by: Maxin B. John <maxin.john@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit 669edd04432f8e76e32bd7f34f4d9aa63eef4038
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Fri Dec 16 14:07:31 2016 -0800
+
+     systemd: point to correct resolv.conf when resolved is enabled
+
+     latest systemd has changed the resolved defaults which points to
+     127.0.0.53 port 53 on local network. If someone wants to use
+     host-local IP address then it can be pointed to copy in /lib/systemd
+
+     (From OE-Core rev: 99d1199fd0961f94732a1a533d66472ca17cf6f5)
+
+     Signed-off-by: Khem Raj <raj.khem@gmail.com>
+     Signed-off-by: Ross Burton <ross.burton@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+commit b80da02ce9b683f96393fe0ea1f5f1a5f1a07c89
+Author: Christopher Larson <chris_larson@mentor.com>
+Date:   Wed Nov 4 20:19:19 2015 -0700
+
+     systemd: arrange for volatile /etc/resolv.conf
+
+     On sysvinit systems, volatiles is configured to make 
+/etc/resolv.conf symlink
+     to a file in a volatile path, which lets us write to 
+/etc/resolv.conf for
+     read-only-rootfs. For systemd, this isn't set up unless we enable
+     systemd-resolved, which we don't by default. When it's not enabled, 
+create the
+     /etc/resolv.conf symlink and ensure the volatile path is created on 
+boot with
+     tmpfiles.d.
+
+     (From OE-Core rev: 7f087f161e8942bcd35f88999dfca418f01cd7fa)
+
+     Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+     Signed-off-by: Ross Burton <ross.burton@intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Best Regards,
+Chen Qi
+
+
+On 07/16/2018 04:17 PM, Nicola Lunghi wrote:
+> From: Nicola Lunghi <nicola.lunghi@jci.com>
 >
+> if resolved option is not selected the package systemd-resolved
+> is not installed so it cannot provide an alternative for
+> resolv.conf
 >
-> https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest
+> In this recipe the previous check was instead reversing the check (note the !).
 >
-> Alex
+> This patch avoid messing with resol.conf link if resolved is disabled in
+> the package config.
 >
+> This in particular if we compile systemd with musl where systemd-resolved
+> cannot be compiled.
 >
-> 2018-06-26 14:57 GMT+02:00 nick83ola <nick83ola@gmail.com>:
-> > Hi all,
-> >
-> > I have a python3 package that launch a py.test test suite from
-> > setup.py and I have created a recipe for it using setuptools3
-> >
-> > Anyone has some hint about how to add a ptest target to run the tests
-> > into the final image (or better in a qemu test image)?
-> >
-> > there are some recipe/documentation that I can look at about creating
-> > -ptest target for python packages?
-> >
-> > Regards
-> > Nicola Lunghi
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Nicola Lunghi <nicola.lunghi@jci.com>
+> ---
+>   meta/recipes-core/systemd/systemd_237.bb | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
 >
+> diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+> index 3efca33e73..bd6dcef637 100644
+> --- a/meta/recipes-core/systemd/systemd_237.bb
+> +++ b/meta/recipes-core/systemd/systemd_237.bb
+> @@ -258,14 +258,11 @@ do_install() {
+>   	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+>   		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
+>   	fi
+> -	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
+> +	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
+>   		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+>   		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+>   		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+>   		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+> -	else
+> -		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+> -		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+>   	fi
+>   	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
+>   
+> @@ -539,7 +536,7 @@ python __anonymous() {
+>   # TODO:
+>   # u-a for runlevel and telinit
+>   
+> -ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel resolv-conf"
+> +ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel"
+>   
+>   ALTERNATIVE_TARGET[init] = "${rootlibexecdir}/systemd/systemd"
+>   ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
+> @@ -565,6 +562,7 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
+>   ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+>   ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>   
+> +ALTERNATIVE_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
+>   ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+>   ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
+>   ALTERNATIVE_PRIORITY[resolv-conf] ?= "50"
 
---0000000000008f1741057119c9e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Alex, <br></div><div>thanks for your response.</di=
-v><div><br></div><div>Do you or anyone else have an example about an actual=
- python package that use ptest (possibily using distutils/nose/py.test)?</d=
-iv><div><br></div><div>Thanks<br></div><div>Nick<br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr">On Tue, 26 Jun 2018 at 16:07, Alexande=
-r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The Yocto docume=
-ntation has general information:<br>
-<br>
-<a href=3D"https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.h=
-tml#testing-packages-with-ptest" rel=3D"noreferrer" target=3D"_blank">https=
-://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-pack=
-ages-with-ptest</a><br>
-<br>
-Alex<br>
-<br>
-<br>
-2018-06-26 14:57 GMT+02:00 nick83ola &lt;<a href=3D"mailto:nick83ola@gmail.=
-com" target=3D"_blank">nick83ola@gmail.com</a>&gt;:<br>
-&gt; Hi all,<br>
-&gt;<br>
-&gt; I have a python3 package that launch a py.test test suite from<br>
-&gt; setup.py and I have created a recipe for it using setuptools3<br>
-&gt;<br>
-&gt; Anyone has some hint about how to add a ptest target to run the tests<=
-br>
-&gt; into the final image (or better in a qemu test image)?<br>
-&gt;<br>
-&gt; there are some recipe/documentation that I can look at about creating<=
-br>
-&gt; -ptest target for python packages?<br>
-&gt;<br>
-&gt; Regards<br>
-&gt; Nicola Lunghi<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
 
---0000000000008f1741057119c9e4--
+--------------A9B846D7902A4EA8C2303005
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">Hi Nicola,<br>
+      <br>
+      As I replied on poky mailing list to this patch, you need to first
+      check the following three commits.<br>
+      <br>
+      commit 00e4662e55f66570cae29240c22b4d74b79d3ca5
+      <br>
+      Author: Maxin B. John <a class="moz-txt-link-rfc2396E"
+        href="mailto:maxin.john@intel.com">&lt;maxin.john@intel.com&gt;</a>
+      <br>
+      Date:   Mon Jun 12 18:10:21 2017 +0300
+      <br>
+      <br>
+          systemd: enable resolved and networkd
+      <br>
+      <br>
+          Enable systemd-resolved and systemd-networkd by default.
+      <br>
+          Make it co-exist with connman and  Fix associated problems
+      <br>
+          in read-only rootfs.
+      <br>
+      <br>
+          Fixes [YOCTO #11331]
+      <br>
+      <br>
+          (From OE-Core rev: d9b6d538e3d81ab0d5e7b7b6adecef555d782217)
+      <br>
+      <br>
+          Signed-off-by: Maxin B. John <a class="moz-txt-link-rfc2396E"
+        href="mailto:maxin.john@intel.com">&lt;maxin.john@intel.com&gt;</a>
+      <br>
+          Signed-off-by: Richard Purdie <a
+        class="moz-txt-link-rfc2396E"
+        href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+      <br>
+      <br>
+      commit 669edd04432f8e76e32bd7f34f4d9aa63eef4038
+      <br>
+      Author: Khem Raj <a class="moz-txt-link-rfc2396E"
+        href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
+      <br>
+      Date:   Fri Dec 16 14:07:31 2016 -0800
+      <br>
+      <br>
+          systemd: point to correct resolv.conf when resolved is enabled
+      <br>
+      <br>
+          latest systemd has changed the resolved defaults which points
+      to
+      <br>
+          127.0.0.53 port 53 on local network. If someone wants to use
+      <br>
+          host-local IP address then it can be pointed to copy in
+      /lib/systemd
+      <br>
+      <br>
+          (From OE-Core rev: 99d1199fd0961f94732a1a533d66472ca17cf6f5)
+      <br>
+      <br>
+          Signed-off-by: Khem Raj <a class="moz-txt-link-rfc2396E"
+        href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
+      <br>
+          Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E"
+        href="mailto:ross.burton@intel.com">&lt;ross.burton@intel.com&gt;</a>
+      <br>
+          Signed-off-by: Richard Purdie <a
+        class="moz-txt-link-rfc2396E"
+        href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+      <br>
+      <br>
+      commit b80da02ce9b683f96393fe0ea1f5f1a5f1a07c89
+      <br>
+      Author: Christopher Larson <a class="moz-txt-link-rfc2396E"
+        href="mailto:chris_larson@mentor.com">&lt;chris_larson@mentor.com&gt;</a>
+      <br>
+      Date:   Wed Nov 4 20:19:19 2015 -0700
+      <br>
+      <br>
+          systemd: arrange for volatile /etc/resolv.conf
+      <br>
+      <br>
+          On sysvinit systems, volatiles is configured to make
+      /etc/resolv.conf symlink
+      <br>
+          to a file in a volatile path, which lets us write to
+      /etc/resolv.conf for
+      <br>
+          read-only-rootfs. For systemd, this isn't set up unless we
+      enable
+      <br>
+          systemd-resolved, which we don't by default. When it's not
+      enabled, create the
+      <br>
+          /etc/resolv.conf symlink and ensure the volatile path is
+      created on boot with
+      <br>
+          tmpfiles.d.
+      <br>
+      <br>
+          (From OE-Core rev: 7f087f161e8942bcd35f88999dfca418f01cd7fa)
+      <br>
+      <br>
+          Signed-off-by: Christopher Larson <a
+        class="moz-txt-link-rfc2396E"
+        href="mailto:chris_larson@mentor.com">&lt;chris_larson@mentor.com&gt;</a>
+      <br>
+          Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E"
+        href="mailto:ross.burton@intel.com">&lt;ross.burton@intel.com&gt;</a>
+      <br>
+          Signed-off-by: Richard Purdie <a
+        class="moz-txt-link-rfc2396E"
+        href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+      <br>
+      <br>
+      Best Regards,<br>
+      Chen Qi<br>
+      <br>
+      <br>
+      On 07/16/2018 04:17 PM, Nicola Lunghi wrote:<br>
+    </div>
+    <blockquote cite="mid:20180716081759.5747-1-nick83ola@gmail.com"
+      type="cite">
+      <pre wrap="">From: Nicola Lunghi <a class="moz-txt-link-rfc2396E" href="mailto:nicola.lunghi@jci.com">&lt;nicola.lunghi@jci.com&gt;</a>
+
+if resolved option is not selected the package systemd-resolved
+is not installed so it cannot provide an alternative for
+resolv.conf
+
+In this recipe the previous check was instead reversing the check (note the !).
+
+This patch avoid messing with resol.conf link if resolved is disabled in
+the package config.
+
+This in particular if we compile systemd with musl where systemd-resolved
+cannot be compiled.
+
+Signed-off-by: Nicola Lunghi <a class="moz-txt-link-rfc2396E" href="mailto:nicola.lunghi@jci.com">&lt;nicola.lunghi@jci.com&gt;</a>
+---
+ meta/recipes-core/systemd/systemd_237.bb | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index 3efca33e73..bd6dcef637 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -258,14 +258,11 @@ do_install() {
+ 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+ 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
+ 	fi
+-	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
++	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
+ 		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' &gt;&gt;${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+ 		echo 'd /run/systemd/resolve 0755 root root -' &gt;&gt;${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+ 		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' &gt;&gt;${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+ 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+-	else
+-		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+-		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+ 	fi
+ 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
+ 
+@@ -539,7 +536,7 @@ python __anonymous() {
+ # TODO:
+ # u-a for runlevel and telinit
+ 
+-ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel resolv-conf"
++ALTERNATIVE_${PN} = "init halt reboot shutdown poweroff runlevel"
+ 
+ ALTERNATIVE_TARGET[init] = "${rootlibexecdir}/systemd/systemd"
+ ALTERNATIVE_LINK_NAME[init] = "${base_sbindir}/init"
+@@ -565,6 +562,7 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
+ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+ 
++ALTERNATIVE_${PN} += <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('PACKAGECONFIG','resolved','resolv-conf','',d)}">"${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"</a>
+ ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
+ ALTERNATIVE_PRIORITY[resolv-conf] ?= "50"
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------A9B846D7902A4EA8C2303005--
