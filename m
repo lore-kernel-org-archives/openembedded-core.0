@@ -1,51 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A2A407602C
+Return-Path: <Rui.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F21606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 19:44:19 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id r1-v6so6690822pgp.11
+	Mon, 16 Jul 2018 02:55:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6G2tFwa001552
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2018 12:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NUs73cznPb/FVZRnBAn1cDry598FAHrdCnmZbwznLvs=;
-	b=Hmfaemj0wzsDHrmC3r0OB70LssoXmiNsxoh6yVsIV7oliLn026FdvWSAJ9M14U4JX2
-	iXNYVD5c4TvYWiR6/3zw6Yp5JI3KT2ohvrkEuclIouYx5yrxkX6maA9qEObItggynHkO
-	4xR4Tqt5viwaIs3SrBprsoxdV93BW9UY+SGAwh8tLbY8RLv+EO1eMlnE77qNeprse+ZH
-	K1/ovWtJIg4Xz0lNT3J1GSmPIf/G/ka4+rGCh33blP0iZ8Mcl+nl7tf8/V2gm6qxFMtf
-	gNi5q3ewk63YvCQuza9yKxTbN9RufCpBFEDppCnLVWzkfzkYr3VJv0O/WhsQB++INcvn
-	zVzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=NUs73cznPb/FVZRnBAn1cDry598FAHrdCnmZbwznLvs=;
-	b=U6InogYQqil2aVuDcnrJmViRNeNav8QzXzkIPgnJnaAsxHeCe1+aHpA9EDA517Oy9E
-	xPeanjttur/C4ou/ixWlitE8nIAPZwfJX73U++/GnoPij5n0w3MKvOeam1n9SNPX0V0d
-	yJmav9uUqExYyrplPZPB1ZwH5QOx/YjQ6zYEShg/o0vTX9RQT9nfG6Rka6WPG3nWrPcP
-	mGFC4mhD9iYUV2rtCx5PVddGM0vokrz0bF6cPLFU6yRX3E8Weq1mDu86dqmaryvpCemK
-	JgaMwJqa9cldpQ8O3bJw3BKoA6+fnxkyXTjlwE1F8ocyLpED19xt8/+O6NkcRALsGV0B
-	68dg==
-X-Gm-Message-State: AOUpUlHrNFNPv+yD/LJ0GWk3Cb9zkDqLwVUxrnubm/pwTfC9scNPu89L
-	DBS6qAXiFBYzyHmuAA68xKwgGA==
-X-Google-Smtp-Source: AAOMgpc1UKzcuPhLaxnkW2rMluaCqly5iiXEnI07jDMraQ1Gf3jaRZ9l9yUPHL5rWpemwh9RVQA9Vw==
-X-Received: by 2002:a63:d011:: with SMTP id
-	z17-v6mr12837965pgf.272.1531683858427; 
-	Sun, 15 Jul 2018 12:44:18 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:877f:9499::1736])
-	by smtp.gmail.com with ESMTPSA id
-	x25-v6sm14309360pgv.63.2018.07.15.12.44.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 15 Jul 2018 12:44:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Jul 2018 12:44:03 -0700
-Message-Id: <20180715194404.29736-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20180715194404.29736-1-raj.khem@gmail.com>
-References: <20180715194404.29736-1-raj.khem@gmail.com>
-Subject: [PATCH 2/3] packagegroups: Disable unbuildable dependencies for riscv64
+	Sun, 15 Jul 2018 19:55:15 -0700 (PDT)
+Received: from pek-rwang4-d1.wrs.com (128.224.162.148) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.399.0; Sun, 15 Jul 2018 19:55:14 -0700
+From: Rui Wang <rui.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jul 2018 10:55:08 +0800
+Message-ID: <1531709708-13389-1-git-send-email-rui.wang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] bash: fix wrong exit status offset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2018 19:44:19 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 02:55:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This helps with cleaner world build parsing logs
+In Linux，8 bits of the return code and 8 bits of the number of
+the killing signal are mixed into a single value on the exit code,
+so the exit status offset should be 8. But the autoconf checker
+can not determine it while cross compiling, and then it is set to
+the default value 0, which will cause generating the wrong exit
+code if program exit with an error code.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Rui Wang <rui.wang@windriver.com>
 ---
- .../packagegroups/packagegroup-core-tools-profile.bb           | 3 +++
- .../packagegroups/packagegroup-core-tools-testapps.bb          | 1 +
- meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb  | 2 ++
- 3 files changed, 6 insertions(+)
+ meta/recipes-extended/bash/bash.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 5d2b4c8181..520d907714 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -33,6 +33,7 @@ PERF_libc-musl = ""
- SYSTEMTAP = "systemtap"
- SYSTEMTAP_libc-musl = ""
- SYSTEMTAP_nios2 = ""
-+SYSTEMTAP_riscv64 = ""
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index f4e1f7a11f..ada9f51ca2 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -7,7 +7,7 @@ DEPENDS = "ncurses bison-native virtual/libiconv"
+ inherit autotools gettext texinfo update-alternatives ptest
  
- # lttng-ust uses sched_getcpu() which is not there on for some platforms.
- LTTNGUST = "lttng-ust"
-@@ -44,6 +45,7 @@ LTTNGTOOLS_libc-musl = ""
- LTTNGTOOLS_riscv64 = ""
+ EXTRA_AUTORECONF += "--exclude=autoheader --exclude=aclocal"
+-EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
++EXTRA_OECONF = "--enable-job-control --without-bash-malloc bash_cv_wexitstatus_offset=8"
  
- LTTNGMODULES = "lttng-modules"
-+LTTNGMODULES_riscv64 = ""
- 
- BABELTRACE = "babeltrace"
- 
-@@ -58,6 +60,7 @@ VALGRIND_armv5 = ""
- VALGRIND_armv6 = ""
- VALGRIND_armeb = ""
- VALGRIND_aarch64 = ""
-+VALGRIND_riscv64 = ""
- VALGRIND_linux-gnux32 = ""
- 
- RDEPENDS_${PN} = "\
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index df43068fe5..a35f15e6ce 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -15,6 +15,7 @@ KEXECTOOLS ?= "kexec"
- KEXECTOOLS_e5500-64b ?= ""
- KEXECTOOLS_microblaze ?= ""
- KEXECTOOLS_nios2 ?= ""
-+KEXECTOOLS_riscv64 ?= ""
- 
- X11GLTOOLS = "\
-     mesa-demos \
-diff --git a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-index 7d2ccbda22..5afb490aac 100644
---- a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-@@ -7,3 +7,5 @@ RDEPENDS_${PN} = " \
-     go-runtime-dev \
-     go-runtime-staticdev \
- "
-+
-+COMPATIBLE_HOST = "^(?!riscv64).*"
+ # If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
+ # startup files, even if they are not interactive.
 -- 
-2.18.0
+2.13.3
 
 
