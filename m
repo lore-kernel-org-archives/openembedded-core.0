@@ -1,50 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E6341786BF
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D6E04771B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 16:33:34 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id s11-v6so32551065wra.13
+	Mon, 16 Jul 2018 17:48:45 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id j19-v6so5295615ljc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 09:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=+uEM9/7RP60DdS6hjPa0RT3SjE7sTeXwfB2Ea1qPs9Y=;
-	b=DfTrWMScASF4b7ybU+D1MfCMprlvUCD3CaHxgHY6/Ge/9r7Uba8YeMNsjJEUnMK8Ig
-	R/MlEmKmeNJY/7ek969hT6U1HsYcK5AFA+IDQgVTK5RaAEq8ofs9Jw7hZ5568kY0z/D3
-	sUHXprEIo/zoehVQAAmhhQxk4nmQLi7x7z70g=
+	Mon, 16 Jul 2018 10:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=dsSxSQ5qZBk8oVRMn07Yom6mdGh/HQGhIk/kqPr+LcY=;
+	b=ZLb9Ce++zbHfQnB2HcLktQrnwJhQO8yVcZhyPi/dQHEwSzPwFcvNj7bOWl7ak0Xoqh
+	MdFNqlp4x3giUkpcs6EDBlVQ1z1KArNSTiusRxmQU4fFLtcng+L+u/DPfXTFYKIa5SPl
+	uuH6+qxhG2GWg33tOtlaJZaZB7441uOkSdBWykB2wYtlArSk4p8a1sn8IHa4pHNkE/tk
+	weD1ct1vEYg0fIbLeQrcYFkVwt3f6CSL728KG3+zZgPY842Baa8FGtEvu8sVPkVHBhhV
+	zQ9LeaCeiSInIPQF7qiGiNqNxku6n12a6+3Ki8gUd5v639KyJqDY0wQG40yhC4V4CjGf
+	OVVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=+uEM9/7RP60DdS6hjPa0RT3SjE7sTeXwfB2Ea1qPs9Y=;
-	b=jszMIs8RhSsVnM+WBlmwME0A0oGB602uAA6WrELmLpwGGNnfXW/62UNLzvR2DO9DxV
-	w6fJT8QOKaILPulWX21Y7xZXHV0t5NYHsRMscuU/LKjTdInLLtIG4G1zcnCw0SfjCrpr
-	yZfJEx9zFAbEruBF+ZiVu+66tjzEWvyG2YpLYwhdAdWWFzva4WLVm5zctKmseURl2iVn
-	pkhbTEA+hjPYqGbci2ASfWMeuheR332QZM0g3ap9/Awyv3xIeQjIm6a7i0itZ0cTFGmp
-	226XRXhLqJS5FrtIjX5pvZJiBqDXkpIB9k6TN0jji3YJHF+T8R/DHgzK6bOAqnIBNcUo
-	h6Sg==
-X-Gm-Message-State: AOUpUlFP1qmMWzU64smiHfQvCRQpI8h6uLMda7lCwSfRc9oOexjSyUM3
-	i44/d0ZMbY3d9DenWM3/VF5sa/KazU8=
-X-Google-Smtp-Source: AAOMgpfeShx3NJYb9CUAdMA24V7ZEEHtuFB92WxsFgaYkaqfD8ApQFWSXsWO5GeCYCtZpWUL1aoSZw==
-X-Received: by 2002:adf:efc1:: with SMTP id
-	i1-v6mr6107406wrp.151.1531758815381; 
-	Mon, 16 Jul 2018 09:33:35 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j65-v6sm13571188wmd.39.2018.07.16.09.33.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 09:33:34 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 17:33:25 +0100
-Message-Id: <20180716163325.13847-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
-References: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 6/6] oeqa/decorator: Improve reliability
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=dsSxSQ5qZBk8oVRMn07Yom6mdGh/HQGhIk/kqPr+LcY=;
+	b=GM0hKavmnxmRDUZ3dbAIgLcpguCJfMz6cfAtpLW04ivQx6WZgDSkq2Tyjx9ug3BwFq
+	p3dcS5APi8nYvwmWmEJ0PEEJGlqCJJgUy2HlO0uUr2SQEkEnkoJ2XrK8MfzB1w0zlVLY
+	GJpRtFZmLw1fLELdk3YADftjSjlt5P87FmrgYVrZkTaqQDDFodFYQX5ZbwhH3z3KKJwt
+	zW1wcWwH7gW0XHyIiHBtkhUlTUwfenfHN+QkYMLJtqSkGMWbuFzKZFPmdhX5g4fCHWtz
+	6evhh98TQlVRDCJSg7nHKB4viQk0/dtDrIs0R0t8Jn+kngpt8ulgq21LuPi7ZJPg4bQB
+	QNlw==
+X-Gm-Message-State: AOUpUlGwOzE+h6Faf8TTI0v4ZV6t3Oszlg3iGT6ZDis0SR5CG4kPzVVs
+	ukZA1olXB9cCjT5HQ4Y8FF77JhWm1BoqLX+10ns=
+X-Google-Smtp-Source: AAOMgpemJkxkCBv0gYpnTuwVTs4UxETvmj9G4XTQG9VutIJ3iTGWrbqjH0s1M6+HYL3i31kjV3CZUZ9hEzsU6MiyVTo=
+X-Received: by 2002:a2e:5012:: with SMTP id
+	e18-v6mr11421379ljb.22.1531763326447; 
+	Mon, 16 Jul 2018 10:48:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:8749:0:0:0:0:0 with HTTP; Mon, 16 Jul 2018 10:48:15
+	-0700 (PDT)
+In-Reply-To: <20180716153005.16552-1-ross.burton@intel.com>
+References: <20180716153005.16552-1-ross.burton@intel.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 16 Jul 2018 10:48:15 -0700
+Message-ID: <CAKmqyKM3jxBMcy=8hVmp7qGZYPdOWjkAt9HxKxMSpON5NCrX-g@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] atk: add explicit gettext-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 16:33:35 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 17:48:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Checking if the dependency had any failure is unreliable, for example
-if the underlying data doesn't get transferred and the list is empty,
-success of the dependency is assumed.
+On Mon, Jul 16, 2018 at 8:30 AM, Ross Burton <ross.burton@intel.com> wrote:
+> In native builds we attempt to turn off i18n but this doesn't work in Meson
+> yet[1] but as the gettext class reduces dependencies in native builds we need to
+> add gettext-native to DEPENDS explicitly.
+>
+> [1] https://github.com/mesonbuild/meson/issues/821
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Since we now have success data available, change the code to use it.
+This fixes the build issue for me.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/core/decorator/depends.py | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+Tested-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/meta/lib/oeqa/core/decorator/depends.py b/meta/lib/oeqa/core/decorator/depends.py
-index 69c604d8f4b..109cc88cff9 100644
---- a/meta/lib/oeqa/core/decorator/depends.py
-+++ b/meta/lib/oeqa/core/decorator/depends.py
-@@ -63,13 +63,15 @@ def _order_test_case_by_depends(cases, depends):
-     return [cases[case_id] for case_id in cases_ordered]
- 
- def _skipTestDependency(case, depends):
--    skipReasons = ['errors', 'failures', 'skipped']
--
--    for reason in skipReasons:
--        for test, _ in getattr(case.tc.results, reason):
--            if test.id() in depends:
--                raise SkipTest("Test case %s depends on %s and was in %s." \
--                        % (case.id(), test.id(), reason))
-+    for dep in depends:
-+        found = False
-+        for test, _ in case.tc.results.successes:
-+            if test.id() == dep:
-+                found = True
-+                break
-+        if not found:
-+            raise SkipTest("Test case %s depends on %s but it didn't pass/run." \
-+                        % (case.id(), test.id()))
- 
- @registerDecorator
- class OETestDepends(OETestDiscover):
--- 
-2.17.1
+Alistair
 
+> ---
+>  meta/recipes-support/atk/atk_2.28.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/atk/atk_2.28.1.bb b/meta/recipes-support/atk/atk_2.28.1.bb
+> index a051247d8ff..d64df37f5de 100644
+> --- a/meta/recipes-support/atk/atk_2.28.1.bb
+> +++ b/meta/recipes-support/atk/atk_2.28.1.bb
+> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>                      file://atk/atkutil.c;endline=18;md5=6fd31cd2fdc9b30f619ca8d819bc12d3 \
+>                      file://atk/atk.h;endline=18;md5=fcd7710187e0eae485e356c30d1b0c3b"
+>
+> -DEPENDS = "glib-2.0"
+> +DEPENDS = "gettext-native glib-2.0"
+>
+>  GNOMEBASEBUILDCLASS = "meson"
+>  inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
