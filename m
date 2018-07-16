@@ -1,49 +1,49 @@
 Return-Path: <olof.johansson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E835B7504B
+	by mail.openembedded.org (Postfix) with ESMTP id 80E0876E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 15:06:07 +0000 (UTC)
+	Mon, 16 Jul 2018 15:06:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id A1D2F1843F
+	by bastet.se.axis.com (Postfix) with ESMTP id 4767B18409
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
+	Mon, 16 Jul 2018 17:06:09 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id sGBciXMpGLsv
+	port 10024) with LMTP id QY9XEnnx9CvD
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2539A18346
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C760D18346
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F33DA1A088
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B1C021E07D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 17:06:07 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E7EF61A082
+	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A61951E078
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 17:06:07 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 17:06:07 +0200 (CEST)
+	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
 Received: from lnxolofjn.se.axis.com (lnxolofjn.se.axis.com [10.92.17.1])
-	by thoth.se.axis.com (Postfix) with ESMTP id DBB92386;
-	Mon, 16 Jul 2018 17:06:07 +0200 (CEST)
+	by seth.se.axis.com (Postfix) with ESMTP id 99EF4FB6;
+	Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
 Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)
-	id D457B9C0AD; Mon, 16 Jul 2018 17:06:07 +0200 (CEST)
+	id 934739C0AD; Mon, 16 Jul 2018 17:06:08 +0200 (CEST)
 From: Olof Johansson <olof.johansson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 17:05:55 +0200
-Message-Id: <20180716150556.16415-4-olofjn@axis.com>
+Date: Mon, 16 Jul 2018 17:05:56 +0200
+Message-Id: <20180716150556.16415-5-olofjn@axis.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180716150556.16415-1-olofjn@axis.com>
 References: <20180716150556.16415-1-olofjn@axis.com>
 X-TM-AS-GCONF: 00
 Cc: Olof Johansson <olofjn@axis.com>
-Subject: [PATCH 3/4] spdx.bbclass: Make use of bb.utils' sha1_file()
+Subject: [PATCH 4/4] spdx.bbclass: Encode strings before passing to hashlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +58,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Jul 2018 15:06:08 -0000
 
-The same functionality already exists within bitbake, so avoid
-duplicating.
+In python3, passing a unicode object to hashlib will result in an
+exception that encourages you to encode it first.
 
 Signed-off-by: Olof Johansson <olofjn@axis.com>
 ---
- meta/classes/spdx.bbclass | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meta/classes/spdx.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
-index 9e374d70a6c..a3e22afc33d 100644
+index a3e22afc33d..fb78e274a8e 100644
 --- a/meta/classes/spdx.bbclass
 +++ b/meta/classes/spdx.bbclass
-@@ -202,13 +202,8 @@ def list_files(dir):
-     return
- 
- def hash_file(file_name):
--    try:
--        with open(file_name, 'rb') as f:
--            data_string = f.read()
--            sha1 = hash_string(data_string)
--            return sha1
--    except:
--        return None
-+    from bb.utils import sha1_file
-+    return sha1_file(file_name)
- 
+@@ -208,7 +208,7 @@ def hash_file(file_name):
  def hash_string(data):
      import hashlib
+     sha1 = hashlib.sha1()
+-    sha1.update(data)
++    sha1.update(data.encode('utf-8'))
+     return sha1.hexdigest()
+ 
+ def run_fossology(foss_command, full_spdx):
 -- 
 2.11.0
 
