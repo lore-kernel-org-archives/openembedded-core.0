@@ -1,46 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 645AA71AC1
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 259BF71AC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 16:33:27 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id s13-v6so10444520wmc.1
+	Mon, 16 Jul 2018 16:33:28 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id c13-v6so32519597wrt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 09:33:28 -0700 (PDT)
+	Mon, 16 Jul 2018 09:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=O8oW2/2mSfro9k7pK7JGLR5oBsTzZSizKggHTmmOmVQ=;
-	b=WrQVSUzPGX6V5IqpQ9p4zw66eOFnni2s25b9IKgIUEk+7RkQfadkoK6ZBnlPGRrgDD
-	wEDakC/s/bHKaUmoRIiWZ606YzBEuN/pWXUdBwGlyNCwdzt1y1tuwpFKoecGnP2Aovxw
-	R7apheg+Hl7H18e3uBOQ56gIWTJtqCXeQkdwg=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=dx/l+vgFpQj5SkiqQR/AvSoEPeQFxxyiDcdQ0+3Ks6g=;
+	b=di54NxGzESjAM6fhyoZusnscirHxh6nH44QxhDU3Y9gzGC55cVQHWilTe1iFReLaVj
+	3TMz4DtlYPUSgV4bu3aqRCyYCxA5sLMBrnFiv3CtzwJr0/3Bp9IjnYgtU2oFJNr+6RVV
+	lL638LojPyEVEpT6Mn5u103ujJ+7DhM6XsCJ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=O8oW2/2mSfro9k7pK7JGLR5oBsTzZSizKggHTmmOmVQ=;
-	b=c9BxbaiXcFXdNnmVKZjE8FMS+NXTz6QjzBA4kconRXXQzNh/npuK+Di19Y1vB+xAaS
-	WA77Rl+y6jFUDrB21LvbqJcxfD/5ujpfdjtZrXVpzLlkkZJm1QFqJdyKsgf23eIbawPK
-	v5iCdufZ0C4HN1xMOH1kSHd4ZvRVD1rfQRvJqx6YslzQ2yNqm9DbgTBGC2HAxKY1o5Vm
-	M/hXzYjmifZ1H3WL5Vlfelx8q8gKRsrdJKFopfVVsy4WY2KMnBpCVikUTEBeR7+YOZPI
-	SVWvZo05ttrnhJRm9NX+YVvLnR1G0ROMKzMDLYGiRo+wQYN7JujWQcnpWtnhk1dEF+aE
-	m9KQ==
-X-Gm-Message-State: AOUpUlEHKbhyCfs/s5utSkjZn0LRd2CTUDs/KSs3P9mxAaLucQxS14vU
-	qMLRlKmvHqK5agbHO8foVtjM3ROBxME=
-X-Google-Smtp-Source: AAOMgpehi+URLe3B/fiF+e3G3r8Qc1ZcwBjDX/DCo3kIO72jDCxQehn/evFk8Pm2oUmvZ9afjCVqyw==
-X-Received: by 2002:a1c:ee9a:: with SMTP id
-	j26-v6mr9900981wmi.116.1531758807491; 
-	Mon, 16 Jul 2018 09:33:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=dx/l+vgFpQj5SkiqQR/AvSoEPeQFxxyiDcdQ0+3Ks6g=;
+	b=SllMvWk7JzvWF5XmmzQ+72ftqL+zWdhq3fh4L1ucyum5I09+sNvfkNSw73iffOkP0/
+	5nUNwL8SA8LhnI7gOOFrl8N5P634DyP9sGy8MBVBsVZCC08Vp/uNuQs594evIaujUsLu
+	OwPCVLZS7Hlr1OGHd62/BJ0gyBsXDKYB48+sHpe+jkfdjBnrCVYSgfdJNKRr+RmzBPWz
+	bS8wxtTLiXzbKWbcrMFxnQ+WPX/qJ8s95R2wVa1dXlpyKKju1rWInO4Cj6pmNDeraYYK
+	kCzf56nZHJaKLgiodrcENGp2y/mZkHEebkbmxBzjzJyf3WwH9cAM577uKy2dXl538cRb
+	YInQ==
+X-Gm-Message-State: AOUpUlEegHg+Eg5LkURuGOjYQzRmbz/baTLjwry209onGPqqptTkgb2x
+	NQ/3i6C1qim9+HG45vcOwD0ZQukKiZY=
+X-Google-Smtp-Source: AAOMgpc0kR15WUmxjHryiPj1CjsKCHgHJzeIRy+59tAcJxoECrPE3cvNpvx/LVaPBNP7PXZeeq3uEg==
+X-Received: by 2002:adf:ecc6:: with SMTP id
+	s6-v6mr13284452wro.160.1531758809171; 
+	Mon, 16 Jul 2018 09:33:29 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j65-v6sm13571188wmd.39.2018.07.16.09.33.25
+	j65-v6sm13571188wmd.39.2018.07.16.09.33.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 09:33:26 -0700 (PDT)
+	Mon, 16 Jul 2018 09:33:28 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 17:33:20 +0100
-Message-Id: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
+Date: Mon, 16 Jul 2018 17:33:21 +0100
+Message-Id: <20180716163325.13847-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/6] oeqa: Add selftest parallelisation support
+In-Reply-To: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
+References: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/6] oeqa/core/threaded: Remove in favour of using concurrenttests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,412 +57,607 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 16:33:27 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 16:33:29 -0000
 
-This allows oe-selftest to take a -j option which specifies how much test
-parallelisation to use. Currently this is "module" based with each module
-being split and run in a separate build directory. Further splitting could
-be done but this seems a good compromise between test setup and parallelism.
+We have several options for parallel processing in oeqa, parallel
+execution of modules, threading and mulitple processes for the runners.
 
-You need python-testtools and python-subunit installed to use this but only
-when the -j option is specified.
+After much experimentation is appears the most scalable and least
+invasive approach is multiple processes using concurrenttestsuite
+from testtools. This means we can drop the current threading code
+which is only used by the sdk test execution.
 
-See notes posted to the openedmbedded-architecture list for more details
-about the design choices here.
+oeqa/decorator/depends: Remove threading code
 
-Some of this functionality may make more sense in the oeqa core ultimately.
+Revert "oeqa/sdk: Enable usage of OEQA thread mode"
+This reverts commit adc434c0636b7dea2ef70c8d2c8e61cdb5c703b1.
+
+Revert "oeqa/core/tests: Add tests of OEQA Threaded mode"
+This reverts commit a4eef558c9933eb32413b61ff80a11b999951b40.
+
+Revert "oeqa/core/decorator/oetimeout: Add support for OEQA threaded mode"
+This reverts commit d3d4ba902dee8b19fa1054330cffdf73f9b81fe7.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/context.py               |  10 +-
- meta/lib/oeqa/core/runner.py                |  24 +-
- meta/lib/oeqa/core/utils/concurrencytest.py | 254 ++++++++++++++++++++
- meta/lib/oeqa/selftest/context.py           |   8 +-
- 4 files changed, 288 insertions(+), 8 deletions(-)
- create mode 100644 meta/lib/oeqa/core/utils/concurrencytest.py
+ meta/classes/testsdk.bbclass                  |   4 -
+ meta/lib/oeqa/core/decorator/depends.py       |   7 +-
+ meta/lib/oeqa/core/decorator/oetimeout.py     |  40 +--
+ .../tests/cases/loader/threaded/threaded.py   |  12 -
+ .../cases/loader/threaded/threaded_alone.py   |   8 -
+ .../cases/loader/threaded/threaded_depends.py |  10 -
+ .../cases/loader/threaded/threaded_module.py  |  12 -
+ meta/lib/oeqa/core/tests/common.py            |  10 -
+ meta/lib/oeqa/core/tests/test_decorators.py   |  12 -
+ meta/lib/oeqa/core/tests/test_loader.py       |  30 +-
+ meta/lib/oeqa/core/threaded.py                | 275 ------------------
+ meta/lib/oeqa/sdk/context.py                  |   5 +-
+ 12 files changed, 14 insertions(+), 411 deletions(-)
+ delete mode 100644 meta/lib/oeqa/core/tests/cases/loader/threaded/threaded.py
+ delete mode 100644 meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_alone.py
+ delete mode 100644 meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_depends.py
+ delete mode 100644 meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_module.py
+ delete mode 100644 meta/lib/oeqa/core/threaded.py
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index 10481b44b61..8cdfbf834f3 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -58,14 +58,20 @@ class OETestContext(object):
-                 modules_required, filters)
-         self.suites = self.loader.discover()
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index e6e3c74bdb6..2b5d66b1931 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -24,8 +24,6 @@ def testsdk_main(d):
+     from oeqa.sdk.context import OESDKTestContext, OESDKTestContextExecutor
+     from oeqa.utils import make_logger_bitbake_compatible
  
--    def runTests(self, skips=[]):
-+    def runTests(self, processes=None, skips=[]):
-         self.runner = self.runnerClass(self, descriptions=False, verbosity=2, buffer=True)
+-    bb.event.enable_threadlock()
+-
+     pn = d.getVar("PN")
+     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
  
-         # Dinamically skip those tests specified though arguments
-         self.skipTests(skips)
+@@ -99,8 +97,6 @@ def testsdkext_main(d):
+     from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
+     from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
  
-         self._run_start_time = time.time()
--        result = self.runner.run(self.suites)
-+        if processes:
-+            from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
-+
-+            concurrent_suite = ConcurrentTestSuite(self.suites, processes)
-+            result = self.runner.run(concurrent_suite)
-+        else:
-+            result = self.runner.run(self.suites)
-         self._run_end_time = time.time()
+-    bb.event.enable_threadlock()
+-
+     pn = d.getVar("PN")
+     logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
  
-         return result
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 219102c6b0f..6adbe3827b4 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -43,11 +43,17 @@ class OETestResult(_TestResult):
-         super(OETestResult, self).__init__(*args, **kwargs)
+diff --git a/meta/lib/oeqa/core/decorator/depends.py b/meta/lib/oeqa/core/decorator/depends.py
+index baa04341c71..99eccc12685 100644
+--- a/meta/lib/oeqa/core/decorator/depends.py
++++ b/meta/lib/oeqa/core/decorator/depends.py
+@@ -3,7 +3,6 @@
  
-         self.successes = []
-+        self.starttime = {}
-+        self.endtime = {}
-+        self.progressinfo = {}
+ from unittest import SkipTest
  
-         self.tc = tc
-         self._tc_map_results()
+-from oeqa.core.threaded import OETestRunnerThreaded
+ from oeqa.core.exception import OEQADependency
  
-     def startTest(self, test):
-+        # May have been set by concurrencytest
-+        if test.id() not in self.starttime:
-+            self.starttime[test.id()] = time.time()
-         super(OETestResult, self).startTest(test)
+ from . import OETestDiscover, registerDecorator
+@@ -64,11 +63,7 @@ def _order_test_case_by_depends(cases, depends):
+     return [cases[case_id] for case_id in cases_ordered]
  
-     def _tc_map_results(self):
-@@ -57,6 +63,12 @@ class OETestResult(_TestResult):
-         self.tc._results['expectedFailures'] = self.expectedFailures
-         self.tc._results['successes'] = self.successes
+ def _skipTestDependency(case, depends):
+-    if isinstance(case.tc.runner, OETestRunnerThreaded):
+-        import threading
+-        results = case.tc._results[threading.get_ident()]
+-    else:
+-        results = case.tc._results
++    results = case.tc._results
  
-+    def stopTest(self, test):
-+        self.endtime[test.id()] = time.time()
-+        super(OETestResult, self).stopTest(test)
-+        if test.id() in self.progressinfo:
-+            print(self.progressinfo[test.id()])
-+
-     def logSummary(self, component, context_msg=''):
-         elapsed_time = self.tc._run_end_time - self.tc._run_start_time
-         self.tc.logger.info("SUMMARY:")
-@@ -141,12 +153,16 @@ class OETestResult(_TestResult):
-                     if hasattr(d, 'oeid'):
-                         oeid = d.oeid
+     skipReasons = ['errors', 'failures', 'skipped']
  
-+            t = ""
-+            if case.id() in self.starttime and case.id() in self.endtime:
-+                t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
-+
-             if fail:
--                self.tc.logger.info("RESULTS - %s - Testcase %s: %s" % (case.id(),
--                    oeid, desc))
-+                self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
-+                    oeid, desc, t))
-             else:
--                self.tc.logger.info("RESULTS - %s - Testcase %s: %s" % (case.id(),
--                    oeid, 'UNKNOWN'))
-+                self.tc.logger.info("RESULTS - %s - Testcase %s: %s%s" % (case.id(),
-+                    oeid, 'UNKNOWN', t))
+diff --git a/meta/lib/oeqa/core/decorator/oetimeout.py b/meta/lib/oeqa/core/decorator/oetimeout.py
+index f85e7d97923..a247583f7f1 100644
+--- a/meta/lib/oeqa/core/decorator/oetimeout.py
++++ b/meta/lib/oeqa/core/decorator/oetimeout.py
+@@ -1,12 +1,8 @@
+ # Copyright (C) 2016 Intel Corporation
+ # Released under the MIT license (see COPYING.MIT)
  
- class OEListTestsResult(object):
-     def wasSuccessful(self):
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-new file mode 100644
-index 00000000000..850586516a4
---- /dev/null
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -0,0 +1,254 @@
-+#!/usr/bin/env python3
-+#
-+# Modified for use in OE by Richard Purdie, 2018
-+#
-+# Modified by: Corey Goldberg, 2013
-+#   License: GPLv2+
-+#
-+# Original code from:
-+#   Bazaar (bzrlib.tests.__init__.py, v2.6, copied Jun 01 2013)
-+#   Copyright (C) 2005-2011 Canonical Ltd
-+#   License: GPLv2+
-+
-+import os
-+import sys
-+import traceback
-+import unittest
-+import subprocess
-+import testtools
-+import threading
-+import time
-+import io
-+
-+from queue import Queue
-+from itertools import cycle
-+from subunit import ProtocolTestCase, TestProtocolClient
-+from subunit.test_results import AutoTimingTestResultDecorator
-+from testtools import ThreadsafeForwardingResult, iterate_tests
-+
-+import bb.utils
-+import oe.path
-+
-+_all__ = [
-+    'ConcurrentTestSuite',
-+    'fork_for_tests',
-+    'partition_tests',
-+]
-+
-+#
-+# Patch the version from testtools to allow access to _test_start and allow
-+# computation of timing information and threading progress
-+#
-+class BBThreadsafeForwardingResult(ThreadsafeForwardingResult):
-+
-+    def __init__(self, target, semaphore, threadnum, totalinprocess, totaltests):
-+        super(BBThreadsafeForwardingResult, self).__init__(target, semaphore)
-+        self.threadnum = threadnum
-+        self.totalinprocess = totalinprocess
-+        self.totaltests = totaltests
-+
-+    def _add_result_with_semaphore(self, method, test, *args, **kwargs):
-+        self.semaphore.acquire()
-+        try:
-+            self.result.starttime[test.id()] = self._test_start.timestamp()
-+            self.result.threadprogress[self.threadnum].append(test.id())
-+            totalprogress = sum(len(x) for x in self.result.threadprogress.values())
-+            self.result.progressinfo[test.id()] = "%s: %s/%s %s/%s (%ss) (%s)" % (
-+                    self.threadnum,
-+                    len(self.result.threadprogress[self.threadnum]),
-+                    self.totalinprocess,
-+                    totalprogress,
-+                    self.totaltests,
-+                    "{0:.2f}".format(time.time()-self._test_start.timestamp()),
-+                    test.id())
-+        finally:
-+            self.semaphore.release()
-+        super(BBThreadsafeForwardingResult, self)._add_result_with_semaphore(method, test, *args, **kwargs)
-+
-+#
-+# A dummy structure to add to io.StringIO so that the .buffer object
-+# is available and accepts writes. This allows unittest with buffer=True
-+# to interact ok with subunit which wants to access sys.stdout.buffer.
-+#
-+class dummybuf(object):
-+   def __init__(self, parent):
-+       self.p = parent
-+   def write(self, data):
-+       self.p.write(data.decode("utf-8"))
-+
-+#
-+# Taken from testtools.ConncurrencyTestSuite but modified for OE use
-+#
-+class ConcurrentTestSuite(unittest.TestSuite):
-+
-+    def __init__(self, suite, processes):
-+        super(ConcurrentTestSuite, self).__init__([suite])
-+        self.processes = processes
-+
-+    def run(self, result):
-+        tests, totaltests = fork_for_tests(self.processes, self)
-+        try:
-+            threads = {}
-+            queue = Queue()
-+            semaphore = threading.Semaphore(1)
-+            result.threadprogress = {}
-+            for i, (test, testnum) in enumerate(tests):
-+                result.threadprogress[i] = []
-+                process_result = BBThreadsafeForwardingResult(result, semaphore, i, testnum, totaltests)
-+                # Force buffering of stdout/stderr so the console doesn't get corrupted by test output
-+                # as per default in parent code
-+                process_result.buffer = True
-+                # We have to add a buffer object to stdout to keep subunit happy
-+                process_result._stderr_buffer = io.StringIO()
-+                process_result._stderr_buffer.buffer = dummybuf(process_result._stderr_buffer)
-+                process_result._stdout_buffer = io.StringIO()
-+                process_result._stdout_buffer.buffer = dummybuf(process_result._stdout_buffer)
-+                reader_thread = threading.Thread(
-+                    target=self._run_test, args=(test, process_result, queue))
-+                threads[test] = reader_thread, process_result
-+                reader_thread.start()
-+            while threads:
-+                finished_test = queue.get()
-+                threads[finished_test][0].join()
-+                del threads[finished_test]
-+        except:
-+            for thread, process_result in threads.values():
-+                process_result.stop()
-+            raise
-+
-+    def _run_test(self, test, process_result, queue):
-+        try:
-+            try:
-+                test.run(process_result)
-+            except Exception:
-+                # The run logic itself failed
-+                case = testtools.ErrorHolder(
-+                    "broken-runner",
-+                    error=sys.exc_info())
-+                case.run(process_result)
-+        finally:
-+            queue.put(test)
-+
-+def removebuilddir(d):
-+    delay = 5
-+    while delay and os.path.exists(d + "/bitbake.lock"):
-+        time.sleep(1)
-+        delay = delay - 1
-+    bb.utils.prunedir(d)
-+
-+def fork_for_tests(concurrency_num, suite):
-+    result = []
-+    test_blocks = partition_tests(suite, concurrency_num)
-+    # Clear the tests from the original suite so it doesn't keep them alive
-+    suite._tests[:] = []
-+    totaltests = sum(len(x) for x in test_blocks)
-+    for process_tests in test_blocks:
-+        numtests = len(process_tests)
-+        process_suite = unittest.TestSuite(process_tests)
-+        # Also clear each split list so new suite has only reference
-+        process_tests[:] = []
-+        c2pread, c2pwrite = os.pipe()
-+        # Clear buffers before fork to avoid duplicate output
-+        sys.stdout.flush()
-+        sys.stderr.flush()
-+        pid = os.fork()
-+        if pid == 0:
-+            ourpid = os.getpid()
-+            try:
-+                newbuilddir = None
-+                stream = os.fdopen(c2pwrite, 'wb', 1)
-+                os.close(c2pread)
-+
-+                # Create a new separate BUILDDIR for each group of tests
-+                if 'BUILDDIR' in os.environ:
-+                    builddir = os.environ['BUILDDIR']
-+                    newbuilddir = builddir + "-st-" + str(ourpid)
-+                    selftestdir = os.path.abspath(builddir + "/../meta-selftest")
-+                    newselftestdir = newbuilddir + "/meta-selftest"
-+
-+                    bb.utils.mkdirhier(newbuilddir)
-+                    oe.path.copytree(builddir + "/conf", newbuilddir + "/conf")
-+                    oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
-+                    oe.path.copytree(selftestdir, newselftestdir)
-+
-+                    for e in os.environ:
-+                        if builddir in os.environ[e]:
-+                            os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
-+
-+                    subprocess.check_output("git init; git add *; git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
-+
-+                    # Tried to used bitbake-layers add/remove but it requires recipe parsing and hence is too slow
-+                    subprocess.check_output("sed %s/conf/bblayers.conf -i -e 's#%s#%s#g'" % (newbuilddir, selftestdir, newselftestdir), cwd=newbuilddir, shell=True)
-+
-+                    os.chdir(newbuilddir)
-+
-+                    for t in process_suite:
-+                        if not hasattr(t, "tc"):
-+                            continue
-+                        cp = t.tc.config_paths
-+                        for p in cp:
-+                            if selftestdir in cp[p] and newselftestdir not in cp[p]:
-+                                cp[p] = cp[p].replace(selftestdir, newselftestdir)
-+                            if builddir in cp[p] and newbuilddir not in cp[p]:
-+                                cp[p] = cp[p].replace(builddir, newbuilddir)
-+
-+                # Leave stderr and stdout open so we can see test noise
-+                # Close stdin so that the child goes away if it decides to
-+                # read from stdin (otherwise its a roulette to see what
-+                # child actually gets keystrokes for pdb etc).
-+                newsi = os.open(os.devnull, os.O_RDWR)
-+                os.dup2(newsi, sys.stdin.fileno())
-+
-+                subunit_client = TestProtocolClient(stream)
-+                # Force buffering of stdout/stderr so the console doesn't get corrupted by test output
-+                # as per default in parent code
-+                subunit_client.buffer = True
-+                subunit_result = AutoTimingTestResultDecorator(subunit_client)
-+                process_suite.run(subunit_result)
-+                if ourpid != os.getpid():
-+                    os._exit(0)
-+                if newbuilddir:
-+                    removebuilddir(newbuilddir)
-+            except:
-+                # Don't do anything with process children
-+                if ourpid != os.getpid():
-+                    os._exit(1)
-+                # Try and report traceback on stream, but exit with error
-+                # even if stream couldn't be created or something else
-+                # goes wrong.  The traceback is formatted to a string and
-+                # written in one go to avoid interleaving lines from
-+                # multiple failing children.
-+                try:
-+                    stream.write(traceback.format_exc().encode('utf-8'))
-+                except:
-+                    sys.stderr.write(traceback.format_exc())
-+                finally:
-+                    if newbuilddir:
-+                        removebuilddir(newbuilddir)
-+                    os._exit(1)
-+            os._exit(0)
-+        else:
-+            os.close(c2pwrite)
-+            stream = os.fdopen(c2pread, 'rb', 1)
-+            test = ProtocolTestCase(stream)
-+            result.append((test, numtests))
-+    return result, totaltests
-+
-+def partition_tests(suite, count):
-+    # Keep tests from the same class together but allow tests from modules
-+    # to go to different processes to aid parallelisation.
-+    modules = {}
-+    for test in iterate_tests(suite):
-+        m = test.__module__ + "." + test.__class__.__name__
-+        if m not in modules:
-+            modules[m] = []
-+        modules[m].append(test)
-+
-+    # Simply divide the test blocks between the available processes
-+    partitions = [list() for _ in range(count)]
-+    for partition, m in zip(cycle(partitions), modules):
-+        partition.extend(modules[m])
-+
-+    # No point in empty threads so drop them
-+    return [p for p in partitions if p]
-+
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 9e90d3c2565..c937b8171c9 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -25,14 +25,14 @@ class OESelftestTestContext(OETestContext):
-         self.custommachine = None
-         self.config_paths = config_paths
+-from . import OETestDecorator, registerDecorator
+-
+ import signal
+-from threading import Timer
+-
+-from oeqa.core.threaded import OETestRunnerThreaded
++from . import OETestDecorator, registerDecorator
+ from oeqa.core.exception import OEQATimeoutError
  
--    def runTests(self, machine=None, skips=[]):
-+    def runTests(self, processes=None, machine=None, skips=[]):
-         if machine:
-             self.custommachine = machine
-             if machine == 'random':
-                 self.custommachine = choice(self.machines)
-             self.logger.info('Run tests with custom MACHINE set to: %s' % \
-                     self.custommachine)
--        return super(OESelftestTestContext, self).runTests(skips)
-+        return super(OESelftestTestContext, self).runTests(processes, skips)
+ @registerDecorator
+@@ -14,32 +10,16 @@ class OETimeout(OETestDecorator):
+     attrs = ('oetimeout',)
  
-     def listTests(self, display_type, machine=None):
-         return super(OESelftestTestContext, self).listTests(display_type)
-@@ -68,6 +68,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                 action="store_true", default=False,
-                 help='List all available tests.')
+     def setUpDecorator(self):
+-        self.logger.debug("Setting up a %d second(s) timeout" % self.oetimeout)
+-
+-        if isinstance(self.case.tc.runner, OETestRunnerThreaded):
+-            self.timeouted = False
+-            def _timeoutHandler():
+-                self.timeouted = True
+-
+-            self.timer = Timer(self.oetimeout, _timeoutHandler)
+-            self.timer.start()
+-        else:
+-            timeout = self.oetimeout
+-            def _timeoutHandler(signum, frame):
+-                raise OEQATimeoutError("Timed out after %s "
++        timeout = self.oetimeout
++        def _timeoutHandler(signum, frame):
++            raise OEQATimeoutError("Timed out after %s "
+                     "seconds of execution" % timeout)
  
-+        parser.add_argument('-j', '--num-processes', dest='processes', action='store',
-+                type=int, help="number of processes to execute in parallel with")
-+
-         parser.add_argument('--machine', required=False, choices=['random', 'all'],
-                             help='Run tests on different machines (random/all).')
-         
-@@ -137,6 +140,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                 self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+-            self.alarmSignal = signal.signal(signal.SIGALRM, _timeoutHandler)
+-            signal.alarm(self.oetimeout)
++        self.logger.debug("Setting up a %d second(s) timeout" % self.oetimeout)
++        self.alarmSignal = signal.signal(signal.SIGALRM, _timeoutHandler)
++        signal.alarm(self.oetimeout)
  
-         self.tc_kwargs['run']['skips'] = args.skips
-+        self.tc_kwargs['run']['processes'] = args.processes
+     def tearDownDecorator(self):
+-        if isinstance(self.case.tc.runner, OETestRunnerThreaded):
+-            self.timer.cancel()
+-            self.logger.debug("Removed Timer handler")
+-            if self.timeouted:
+-                raise OEQATimeoutError("Timed out after %s "
+-                    "seconds of execution" % self.oetimeout)
+-        else:
+-            signal.alarm(0)
+-            signal.signal(signal.SIGALRM, self.alarmSignal)
+-            self.logger.debug("Removed SIGALRM handler")
++        signal.alarm(0)
++        signal.signal(signal.SIGALRM, self.alarmSignal)
++        self.logger.debug("Removed SIGALRM handler")
+diff --git a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded.py b/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded.py
+deleted file mode 100644
+index 0fe4cb3f116..00000000000
+--- a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded.py
++++ /dev/null
+@@ -1,12 +0,0 @@
+-# Copyright (C) 2017 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT)
+-
+-from oeqa.core.case import OETestCase
+-
+-class ThreadedTest(OETestCase):
+-    def test_threaded_no_depends(self):
+-        self.assertTrue(True, msg='How is this possible?')
+-
+-class ThreadedTest2(OETestCase):
+-    def test_threaded_same_module(self):
+-        self.assertTrue(True, msg='How is this possible?')
+diff --git a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_alone.py b/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_alone.py
+deleted file mode 100644
+index 905f397846b..00000000000
+--- a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_alone.py
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# Copyright (C) 2017 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT)
+-
+-from oeqa.core.case import OETestCase
+-
+-class ThreadedTestAlone(OETestCase):
+-    def test_threaded_alone(self):
+-        self.assertTrue(True, msg='How is this possible?')
+diff --git a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_depends.py b/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_depends.py
+deleted file mode 100644
+index 0c158d3bacf..00000000000
+--- a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_depends.py
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# Copyright (C) 2017 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT)
+-
+-from oeqa.core.case import OETestCase
+-from oeqa.core.decorator.depends import OETestDepends
+-
+-class ThreadedTest3(OETestCase):
+-    @OETestDepends(['threaded.ThreadedTest.test_threaded_no_depends'])
+-    def test_threaded_depends(self):
+-        self.assertTrue(True, msg='How is this possible?')
+diff --git a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_module.py b/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_module.py
+deleted file mode 100644
+index 63d17e04018..00000000000
+--- a/meta/lib/oeqa/core/tests/cases/loader/threaded/threaded_module.py
++++ /dev/null
+@@ -1,12 +0,0 @@
+-# Copyright (C) 2017 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT)
+-
+-from oeqa.core.case import OETestCase
+-
+-class ThreadedTestModule(OETestCase):
+-    def test_threaded_module(self):
+-        self.assertTrue(True, msg='How is this possible?')
+-
+-class ThreadedTestModule2(OETestCase):
+-    def test_threaded_module2(self):
+-        self.assertTrue(True, msg='How is this possible?')
+diff --git a/meta/lib/oeqa/core/tests/common.py b/meta/lib/oeqa/core/tests/common.py
+index 19323234094..52b18a1c3ea 100644
+--- a/meta/lib/oeqa/core/tests/common.py
++++ b/meta/lib/oeqa/core/tests/common.py
+@@ -33,13 +33,3 @@ class TestBase(unittest.TestCase):
+         tc.loadTests(self.cases_path, modules=modules, tests=tests,
+                      filters=filters)
+         return tc
+-
+-    def _testLoaderThreaded(self, d={}, modules=[],
+-            tests=[], filters={}):
+-        from oeqa.core.threaded import OETestContextThreaded
+-
+-        tc = OETestContextThreaded(d, self.logger)
+-        tc.loadTests(self.cases_path, modules=modules, tests=tests,
+-                     filters=filters)
+-
+-        return tc
+diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
+index cf99e0d72da..f7d11e885a4 100755
+--- a/meta/lib/oeqa/core/tests/test_decorators.py
++++ b/meta/lib/oeqa/core/tests/test_decorators.py
+@@ -131,17 +131,5 @@ class TestTimeoutDecorator(TestBase):
+         msg = "OETestTimeout didn't restore SIGALRM"
+         self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
  
-     def _pre_run(self):
-         def _check_required_env_variables(vars):
+-    def test_timeout_thread(self):
+-        tests = ['timeout.TimeoutTest.testTimeoutPass']
+-        msg = 'Failed to run test using OETestTimeout'
+-        tc = self._testLoaderThreaded(modules=self.modules, tests=tests)
+-        self.assertTrue(tc.runTests().wasSuccessful(), msg=msg)
+-
+-    def test_timeout_threaded_fail(self):
+-        tests = ['timeout.TimeoutTest.testTimeoutFail']
+-        msg = "OETestTimeout test didn't timeout as expected"
+-        tc = self._testLoaderThreaded(modules=self.modules, tests=tests)
+-        self.assertFalse(tc.runTests().wasSuccessful(), msg=msg)
+-
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/meta/lib/oeqa/core/tests/test_loader.py b/meta/lib/oeqa/core/tests/test_loader.py
+index e0d917d317d..b79b8bad4da 100755
+--- a/meta/lib/oeqa/core/tests/test_loader.py
++++ b/meta/lib/oeqa/core/tests/test_loader.py
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ 
+-# Copyright (C) 2016-2017 Intel Corporation
++# Copyright (C) 2016 Intel Corporation
+ # Released under the MIT license (see COPYING.MIT)
+ 
+ import os
+@@ -82,33 +82,5 @@ class TestLoader(TestBase):
+         msg = 'Expected modules from two different paths'
+         self.assertEqual(modules, expected_modules, msg=msg)
+ 
+-    def test_loader_threaded(self):
+-        cases_path = self.cases_path
+-
+-        self.cases_path = [os.path.join(self.cases_path, 'loader', 'threaded')]
+-
+-        tc = self._testLoaderThreaded()
+-        self.assertEqual(len(tc.suites), 3, "Expected to be 3 suites")
+-
+-        case_ids = ['threaded.ThreadedTest.test_threaded_no_depends',
+-                'threaded.ThreadedTest2.test_threaded_same_module',
+-                'threaded_depends.ThreadedTest3.test_threaded_depends']
+-        for case in tc.suites[0]._tests:
+-            self.assertEqual(case.id(),
+-                    case_ids[tc.suites[0]._tests.index(case)])
+-
+-        case_ids = ['threaded_alone.ThreadedTestAlone.test_threaded_alone']
+-        for case in tc.suites[1]._tests:
+-            self.assertEqual(case.id(),
+-                    case_ids[tc.suites[1]._tests.index(case)])
+-
+-        case_ids = ['threaded_module.ThreadedTestModule.test_threaded_module',
+-                'threaded_module.ThreadedTestModule2.test_threaded_module2']
+-        for case in tc.suites[2]._tests:
+-            self.assertEqual(case.id(),
+-                    case_ids[tc.suites[2]._tests.index(case)])
+-
+-        self.cases_path = cases_path
+-
+ if __name__ == '__main__':
+     unittest.main()
+diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
+deleted file mode 100644
+index 2cafe03a212..00000000000
+--- a/meta/lib/oeqa/core/threaded.py
++++ /dev/null
+@@ -1,275 +0,0 @@
+-# Copyright (C) 2017 Intel Corporation
+-# Released under the MIT license (see COPYING.MIT)
+-
+-import threading
+-import multiprocessing
+-import queue
+-import time
+-
+-from unittest.suite import TestSuite
+-
+-from oeqa.core.loader import OETestLoader
+-from oeqa.core.runner import OEStreamLogger, OETestResult, OETestRunner
+-from oeqa.core.context import OETestContext
+-
+-class OETestLoaderThreaded(OETestLoader):
+-    def __init__(self, tc, module_paths, modules, tests, modules_required,
+-            filters, process_num=0, *args, **kwargs):
+-        super(OETestLoaderThreaded, self).__init__(tc, module_paths, modules,
+-                tests, modules_required, filters, *args, **kwargs)
+-
+-        self.process_num = process_num
+-
+-    def discover(self):
+-        suite = super(OETestLoaderThreaded, self).discover()
+-
+-        if self.process_num <= 0:
+-            self.process_num = min(multiprocessing.cpu_count(),
+-                    len(suite._tests))
+-
+-        suites = []
+-        for _ in range(self.process_num):
+-            suites.append(self.suiteClass())
+-
+-        def _search_for_module_idx(suites, case):
+-            """
+-                Cases in the same module needs to be run
+-                in the same thread because PyUnit keeps track
+-                of setUp{Module, Class,} and tearDown{Module, Class,}.
+-            """
+-
+-            for idx in range(self.process_num):
+-                suite = suites[idx]
+-                for c in suite._tests:
+-                    if case.__module__ == c.__module__:
+-                        return idx
+-
+-            return -1
+-
+-        def _search_for_depend_idx(suites, depends):
+-            """
+-                Dependency cases needs to be run in the same
+-                thread, because OEQA framework look at the state
+-                of dependant test to figure out if skip or not.
+-            """
+-
+-            for idx in range(self.process_num):
+-                suite = suites[idx]
+-
+-                for case in suite._tests:
+-                    if case.id() in depends:
+-                        return idx
+-            return -1
+-
+-        def _get_best_idx(suites):
+-            sizes = [len(suite._tests) for suite in suites]
+-            return sizes.index(min(sizes))
+-
+-        def _fill_suites(suite):
+-            idx = -1
+-            for case in suite:
+-                if isinstance(case, TestSuite):
+-                    _fill_suites(case)
+-                else:
+-                    idx = _search_for_module_idx(suites, case)
+-
+-                    depends = {}
+-                    if 'depends' in self.tc._registry:
+-                        depends = self.tc._registry['depends']
+-
+-                    if idx == -1 and case.id() in depends:
+-                        case_depends = depends[case.id()] 
+-                        idx = _search_for_depend_idx(suites, case_depends)
+-
+-                    if idx == -1:
+-                        idx = _get_best_idx(suites)
+-
+-                    suites[idx].addTest(case)
+-        _fill_suites(suite)
+-
+-        suites_tmp = suites
+-        suites = []
+-        for suite in suites_tmp:
+-            if len(suite._tests) > 0:
+-                suites.append(suite)
+-
+-        return suites
+-
+-class OEStreamLoggerThreaded(OEStreamLogger):
+-    _lock = threading.Lock()
+-    buffers = {}
+-
+-    def write(self, msg):
+-        tid = threading.get_ident()
+-
+-        if not tid in self.buffers:
+-            self.buffers[tid] = ""
+-
+-        if msg:
+-            self.buffers[tid] += msg
+-
+-    def finish(self):
+-        tid = threading.get_ident()
+-        
+-        self._lock.acquire()
+-        self.logger.info('THREAD: %d' % tid)
+-        self.logger.info('-' * 70)
+-        for line in self.buffers[tid].split('\n'):
+-            self.logger.info(line)
+-        self._lock.release()
+-
+-class OETestResultThreadedInternal(OETestResult):
+-    def _tc_map_results(self):
+-        tid = threading.get_ident()
+-        
+-        # PyUnit generates a result for every test module run, test
+-        # if the thread already has an entry to avoid lose the previous
+-        # test module results.
+-        if not tid in self.tc._results:
+-            self.tc._results[tid] = {}
+-            self.tc._results[tid]['failures'] = self.failures
+-            self.tc._results[tid]['errors'] = self.errors
+-            self.tc._results[tid]['skipped'] = self.skipped
+-            self.tc._results[tid]['expectedFailures'] = self.expectedFailures
+-
+-class OETestResultThreaded(object):
+-    _results = {}
+-    _lock = threading.Lock()
+-
+-    def __init__(self, tc):
+-        self.tc = tc
+-
+-    def _fill_tc_results(self):
+-        tids = list(self.tc._results.keys())
+-        fields = ['failures', 'errors', 'skipped', 'expectedFailures']
+-
+-        for tid in tids:
+-            result = self.tc._results[tid]
+-            for field in fields:
+-                if not field in self.tc._results:
+-                    self.tc._results[field] = []
+-                self.tc._results[field].extend(result[field])
+-
+-    def addResult(self, result, run_start_time, run_end_time):
+-        tid = threading.get_ident()
+-
+-        self._lock.acquire()
+-        self._results[tid] = {}
+-        self._results[tid]['result'] = result
+-        self._results[tid]['run_start_time'] = run_start_time 
+-        self._results[tid]['run_end_time'] = run_end_time 
+-        self._results[tid]['result'] = result
+-        self._lock.release()
+-
+-    def wasSuccessful(self):
+-        wasSuccessful = True
+-        for tid in self._results.keys():
+-            wasSuccessful = wasSuccessful and \
+-                    self._results[tid]['result'].wasSuccessful()
+-        return wasSuccessful
+-
+-    def stop(self):
+-        for tid in self._results.keys():
+-            self._results[tid]['result'].stop()
+-
+-    def logSummary(self, component, context_msg=''):
+-        elapsed_time = (self.tc._run_end_time - self.tc._run_start_time)
+-
+-        self.tc.logger.info("SUMMARY:")
+-        self.tc.logger.info("%s (%s) - Ran %d tests in %.3fs" % (component,
+-            context_msg, len(self.tc._registry['cases']), elapsed_time))
+-        if self.wasSuccessful():
+-            msg = "%s - OK - All required tests passed" % component
+-        else:
+-            msg = "%s - FAIL - Required tests failed" % component
+-        self.tc.logger.info(msg)
+-
+-    def logDetails(self):
+-        if list(self._results):
+-            tid = list(self._results)[0]
+-            result = self._results[tid]['result']
+-            result.logDetails()
+-
+-class _Worker(threading.Thread):
+-    """Thread executing tasks from a given tasks queue"""
+-    def __init__(self, tasks, result, stream):
+-        threading.Thread.__init__(self)
+-        self.tasks = tasks
+-
+-        self.result = result
+-        self.stream = stream
+-
+-    def run(self):
+-        while True:
+-            try:
+-                func, args, kargs = self.tasks.get(block=False)
+-            except queue.Empty:
+-                break
+-
+-            try:
+-                run_start_time = time.time()
+-                rc = func(*args, **kargs)
+-                run_end_time = time.time()
+-                self.result.addResult(rc, run_start_time, run_end_time)
+-                self.stream.finish()
+-            except Exception as e:
+-                print(e)
+-            finally:
+-                self.tasks.task_done()
+-
+-class _ThreadedPool:
+-    """Pool of threads consuming tasks from a queue"""
+-    def __init__(self, num_workers, num_tasks, stream=None, result=None):
+-        self.tasks = queue.Queue(num_tasks)
+-        self.workers = []
+-
+-        for _ in range(num_workers):
+-            worker = _Worker(self.tasks, result, stream)
+-            self.workers.append(worker)
+-
+-    def start(self):
+-        for worker in self.workers:
+-            worker.start()
+-
+-    def add_task(self, func, *args, **kargs):
+-        """Add a task to the queue"""
+-        self.tasks.put((func, args, kargs))
+-
+-    def wait_completion(self):
+-        """Wait for completion of all the tasks in the queue"""
+-        self.tasks.join()
+-        for worker in self.workers:
+-            worker.join()
+-
+-class OETestRunnerThreaded(OETestRunner):
+-    streamLoggerClass = OEStreamLoggerThreaded
+-
+-    def __init__(self, tc, *args, **kwargs):
+-        super(OETestRunnerThreaded, self).__init__(tc, *args, **kwargs)
+-        self.resultclass = OETestResultThreadedInternal # XXX: XML reporting overrides at __init__
+-
+-    def run(self, suites):
+-        result = OETestResultThreaded(self.tc)
+-
+-        pool = _ThreadedPool(len(suites), len(suites), stream=self.stream,
+-                result=result)
+-        for s in suites:
+-            pool.add_task(super(OETestRunnerThreaded, self).run, s)
+-        pool.start()
+-        pool.wait_completion()
+-        result._fill_tc_results()
+-
+-        return result
+-
+-class OETestContextThreaded(OETestContext):
+-    loaderClass = OETestLoaderThreaded
+-    runnerClass = OETestRunnerThreaded
+-
+-    def loadTests(self, module_paths, modules=[], tests=[],
+-            modules_manifest="", modules_required=[], filters={}, process_num=0):
+-        if modules_manifest:
+-            modules = self._read_modules_from_manifest(modules_manifest)
+-
+-        self.loader = self.loaderClass(self, module_paths, modules, tests,
+-                modules_required, filters, process_num)
+-        self.suites = self.loader.discover()
+diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
+index b3d7c751837..82e4c19bfc1 100644
+--- a/meta/lib/oeqa/sdk/context.py
++++ b/meta/lib/oeqa/sdk/context.py
+@@ -6,10 +6,9 @@ import sys
+ import glob
+ import re
+ 
+-from oeqa.core.context import OETestContextExecutor
+-from oeqa.core.threaded import OETestContextThreaded
++from oeqa.core.context import OETestContext, OETestContextExecutor
+ 
+-class OESDKTestContext(OETestContextThreaded):
++class OESDKTestContext(OETestContext):
+     sdk_files_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "files")
+ 
+     def __init__(self, td=None, logger=None, sdk_dir=None, sdk_env=None,
 -- 
 2.17.1
 
