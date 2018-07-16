@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 50C7974D6B
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
+	[209.85.213.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 72E0074596
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 13:06:59 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id h20-v6so15703084wmb.4
+	Mon, 16 Jul 2018 14:19:05 +0000 (UTC)
+Received: by mail-vk0-f42.google.com with SMTP id 125-v6so21746385vke.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 06:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=CCJj/h6dculr+x3uAwVuUiO+BtUjwP10kmV0ex1R0v4=;
-	b=pGmW1EuI63FC/JjC2o8GgzRWv6QnJ6yljc1xMT+zVldLR1FAX6M+21VP+bnm0QBbqG
-	tXpDCUT5daI4rbq0RCiNLJNtYy6/uD53WOvBVlJ4oWVH4VFHPKhi5aGJayrnbrXLPK3h
-	ZVmshIrf5+WLOEasL1IKhYuJTPnV04VKF66FPUBeETRTbcQIIc7J0QRH/PSOPE94kNlu
-	SaKBGkkDN6dZ+W/wa42cqwIMskDUDg6ZMWNrG7BJChAXT6mKfK7iOvS1hSQxX0jXeHGl
-	tDeOQq1lw4ecDb+Dy3CzAl6wW8NTo8qy5h67JMDyg/JLum0O1lQbW3DfhBncEsl+JbIj
-	p69Q==
+	Mon, 16 Jul 2018 07:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=5NZ5Zv6suEOOp32DTEkbgMJdBSkiOomLT0DDobjGhdQ=;
+	b=YbjtnfpdJ/c9eUsDlt6w2NzDyWLDIiQ5Mw9XQNpXJU1+u3BvqA6J0XWWG8a3yan0U9
+	mhWCKg7z3YlILhRTyiZwMpxQHyznayBxzUpQHD9dKeuXn0+2lkVeTLzk+ea5nRqTAR+j
+	Kw6/h0hipVdjkywbRxTUWZj31V1KsNdJRA4lOD/wglBC9bMBsf3udWyjLh0nkaw4u6Mk
+	30jDNiHiuldMuOgnT9Qig+h0rrjd0nk7OVIn1XPN0x1uJHmU9AntFN+opz1cdtdia5Nc
+	sTKrQzhN+ePadFgIu70wXXAELKGVE7rNBR40rmWQ3HTMT1hZB85HXuckr9JAUG5C8XHS
+	rfmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=CCJj/h6dculr+x3uAwVuUiO+BtUjwP10kmV0ex1R0v4=;
-	b=q+GvijN5W0Yn5cJENsFpjKYPYLF9Lac8cb//Zt+GJ+6A+VbqjDfI4/sUvawiZe8Jzm
-	TAlkhuyQzy4K7RNN2sAnn5WOWedTnDCtzfirHcSXGNjDk6QR8qz3mPsNWNfpZINexv9W
-	DtkDnSLo44G3HKvD7ARga/Ay7DK7MRdRILNy2IcaSTXhMnIrI+z5T/sxuxxpJ9732jXO
-	xB9HVRznoW97i1iufkIWdLMkqfsNq+pIKXFY4n9GszVIdmy9M6XvMGmWsxkkNBpJ9yjA
-	qiIavX6ecz6t6NBdEckESSQYEIoFyqbKxsQS15c3lJYHXzW3NHQRkuiTQbDZKVEHk890
-	clag==
-X-Gm-Message-State: AOUpUlGmO7ZzGZw8SS+A10bWV5cpkFXp6lfWDpwRnjDOQFcf8MxF0Rbg
-	nu1tCrqtofxJwpfTp76DC6cco46e
-X-Google-Smtp-Source: AAOMgpeo+enqOKYHM30I0krWInpN+ZUAooRd0wookYpVuEAcS5kEq0kzrgV1Y0mHi03mrJ9kDWaBiw==
-X-Received: by 2002:a1c:d844:: with SMTP id
-	p65-v6mr9683942wmg.64.1531746419713; 
-	Mon, 16 Jul 2018 06:06:59 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t70-v6sm11629248wme.7.2018.07.16.06.06.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 06:06:59 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 14:06:57 +0100
-Message-Id: <20180716130657.13712-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] gnutls: use HTTP instead of FTP
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=5NZ5Zv6suEOOp32DTEkbgMJdBSkiOomLT0DDobjGhdQ=;
+	b=GdnV4QP7zScfBkN2+DnxGRI6dUgA9HqB6aIDddVrLWBYn/7AedgmxujPO+9ZB57pNg
+	mXpi4HdLK76PwfxbswJRiG3BDuISGbHmwDlOzSQ7cfLNA0rv0CPyFbXVqrucdnLNvDLK
+	gs1bkIYD3+ltayfNULKrTlGYrnHIhtn+PHRCDSssOMs5V0IPBunP6uMz3fbWijXSg6Wc
+	l1xqN6TaMont9y7AcxTbk58QUT3TolVpqhZ2OnF+iOXYQV9laskcDKkjKdWsD72+mPY3
+	Kr7P+CbA0N7V0tiLK0Mqo7oDUOszy91yOSN9eHcwHDUW6qIU09EHAQOE7rdGysLo9hWm
+	8frA==
+X-Gm-Message-State: AOUpUlHDtK6Sdgku6/yipLypfsg6m/ZCBRfkZPvbDAENtyG+XXSzxg/A
+	bWQZPSlzsgsdHYxQb+/jxyWhIzPtvMk1KXokS1g=
+X-Google-Smtp-Source: AAOMgpfxTtA2gM6wqJ7k4BkL8hrefI2WwrP99vBG5Er+RMTMbIPTxMOfv9BFo2kpc4O448/R/BzqcBA2ORjd2xcO0Yg=
+X-Received: by 2002:a1f:992:: with SMTP id
+	140-v6mr10212607vkj.182.1531750746103; 
+	Mon, 16 Jul 2018 07:19:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <CABPh3UMZTQwbOhJc0MN9HOg4hThYqG5tcg-sS7OhFjbgrPAhww@mail.gmail.com>
+	<CANNYZj_M=6Ku76j2y=fvdEyN2xvv=8avg4NK-zmg9gs5Ur5nXw@mail.gmail.com>
+	<CABPh3UNKtJ-Nd9r1VtFfeOMAHome5xJGmh-Hfw_qGCbjMxWoig@mail.gmail.com>
+In-Reply-To: <CABPh3UNKtJ-Nd9r1VtFfeOMAHome5xJGmh-Hfw_qGCbjMxWoig@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 16 Jul 2018 07:18:55 -0700
+Message-ID: <CANx9H-AaXcGjX_D3CBYeXXcFWpezkMkjmpHXxj-TmxjLnAphpQ@mail.gmail.com>
+To: nick83ola <nick83ola@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [HELP] ptest & ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +56,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 13:06:59 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 14:19:05 -0000
+Content-Type: multipart/alternative; boundary="0000000000001b221905711e8310"
 
-HTTP is in general more reliable so use that in the SRC_URI.
+--0000000000001b221905711e8310
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/gnutls/gnutls.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://cgit.openembedded.org/meta-openembedded/tree/meta-python/recipes-devtools/python/python-cryptography_2.2.2.bb
+http://cgit.openembedded.org/meta-openembedded/tree/meta-python/recipes-devtools/python/python-pygpgme_0.3.bb
+On Mon, Jul 16, 2018 at 1:41 AM nick83ola <nick83ola@gmail.com> wrote:
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 7bcb9133ad9..98ec8d9667b 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -17,7 +17,7 @@ DEPENDS_append_libc-musl = " argp-standalone"
- 
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
--SRC_URI = "ftp://ftp.gnutls.org/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
-+SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz"
- 
- inherit autotools texinfo binconfig pkgconfig gettext lib_package gtk-doc
- 
--- 
-2.11.0
+> Hi Alex,
+> thanks for your response.
+>
+> Do you or anyone else have an example about an actual python package that
+> use ptest (possibily using distutils/nose/py.test)?
+>
+> Thanks
+> Nick
+>
+> On Tue, 26 Jun 2018 at 16:07, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> The Yocto documentation has general information:
+>>
+>>
+>> https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-packages-with-ptest
+>>
+>> Alex
+>>
+>>
+>> 2018-06-26 14:57 GMT+02:00 nick83ola <nick83ola@gmail.com>:
+>> > Hi all,
+>> >
+>> > I have a python3 package that launch a py.test test suite from
+>> > setup.py and I have created a recipe for it using setuptools3
+>> >
+>> > Anyone has some hint about how to add a ptest target to run the tests
+>> > into the final image (or better in a qemu test image)?
+>> >
+>> > there are some recipe/documentation that I can look at about creating
+>> > -ptest target for python packages?
+>> >
+>> > Regards
+>> > Nicola Lunghi
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000001b221905711e8310
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<a href=3D"http://cgit.openembedded.org/meta-openembedded/tree/meta-python/=
+recipes-devtools/python/python-cryptography_2.2.2.bb">http://cgit.openembed=
+ded.org/meta-openembedded/tree/meta-python/recipes-devtools/python/python-c=
+ryptography_2.2.2.bb</a><br><a href=3D"http://cgit.openembedded.org/meta-op=
+enembedded/tree/meta-python/recipes-devtools/python/python-pygpgme_0.3.bb">=
+http://cgit.openembedded.org/meta-openembedded/tree/meta-python/recipes-dev=
+tools/python/python-pygpgme_0.3.bb</a><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr">On Mon, Jul 16, 2018 at 1:41 AM nick83ola &lt;<a href=3D"mailto:=
+nick83ola@gmail.com">nick83ola@gmail.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><div dir=3D"ltr"><div>Hi Alex, <br></div><div>thanks f=
+or your response.</div><div><br></div><div>Do you or anyone else have an ex=
+ample about an actual python package that use ptest (possibily using distut=
+ils/nose/py.test)?</div><div><br></div><div>Thanks<br></div><div>Nick<br></=
+div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue, 26 Jun 20=
+18 at 16:07, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
+" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">The Yocto documentation has general information:<br>
+<br>
+<a href=3D"https://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.h=
+tml#testing-packages-with-ptest" rel=3D"noreferrer" target=3D"_blank">https=
+://www.yoctoproject.org/docs/latest/dev-manual/dev-manual.html#testing-pack=
+ages-with-ptest</a><br>
+<br>
+Alex<br>
+<br>
+<br>
+2018-06-26 14:57 GMT+02:00 nick83ola &lt;<a href=3D"mailto:nick83ola@gmail.=
+com" target=3D"_blank">nick83ola@gmail.com</a>&gt;:<br>
+&gt; Hi all,<br>
+&gt;<br>
+&gt; I have a python3 package that launch a py.test test suite from<br>
+&gt; setup.py and I have created a recipe for it using setuptools3<br>
+&gt;<br>
+&gt; Anyone has some hint about how to add a ptest target to run the tests<=
+br>
+&gt; into the final image (or better in a qemu test image)?<br>
+&gt;<br>
+&gt; there are some recipe/documentation that I can look at about creating<=
+br>
+&gt; -ptest target for python packages?<br>
+&gt;<br>
+&gt; Regards<br>
+&gt; Nicola Lunghi<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+</blockquote></div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--0000000000001b221905711e8310--
