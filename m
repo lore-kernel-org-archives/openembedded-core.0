@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D49471AC1
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 82A317550F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 16:33:32 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id c13-v6so32519783wrt.1
+	Mon, 16 Jul 2018 16:33:33 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id f21-v6so3627327wmc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 09:33:33 -0700 (PDT)
+	Mon, 16 Jul 2018 09:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=263CP5d/krJCJ9n5Mj5NsLh9FzlApVv9H4rJJTO4b7Q=;
-	b=MYdPWLZonuaENwJYrxScWTbVD+66iDUQ+/KVIEh8qzzHp8JhNHLLLzb3EIfFFOMoCt
-	8TqKhKHQ1PctQtaFt+HNaWHU3BJB39PmoY5vuuAbGwKQaaV5GXepQ1VY3dkZjVkaYWXA
-	IwBS2IKPmyGEe8AnxtdFKfTeqR+ccQAxh9BWg=
+	bh=QWpmDKg7+bBveWjVB2xemcb5zA0gP2Ky7Z+eA2prf6k=;
+	b=bJN/XkCKc8+4kSocEEUV9ahBILgLm4WRIunnIUibzhLhSpSDu7IFzVyZQ5fxtOW2Q2
+	7BdXKdkPRWIHxTkAmLDfBsGMnCQolwjHbEpQICcYWiBcVa2ixYseVuNggRr73taOvnjK
+	7ZoA0CGf82K0VhfmFvIM1saWT3L+qrbWlK54A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=263CP5d/krJCJ9n5Mj5NsLh9FzlApVv9H4rJJTO4b7Q=;
-	b=e3PV5V0H/1ql0dSZIsTuW1a6QRx58KdVEcM3T7zvdbhm5svuiqOqcIQ1qqhapuw+SQ
-	AHeKH5cOemfbzOLItXbKCNu+TYsDeqYhVNQZmMZDRlgkQ1zmB32Sc6oiAnLqJil4CRH6
-	lFXUCXrFZ2wzMhFWBRiwnP6gqOLfrBT3tzOIghGO6oF9X+6QD/uzYgM3Q4ukLgm8ql9J
-	oXUQCobOl8tMOzVD3Uh3cC3MAVQbMGOKzedfUK8Sy4SbRsbbqJLT9hd68dvUMaVt8p0I
-	xKpPQkgoLBjpCqKtKRtTFQthICz8qjStMAW9ey+1jrobkq8qX1wVQhcruLJsrj6/gnJ3
-	lazw==
-X-Gm-Message-State: AOUpUlEXE7OAH2W3sF5GhaYQxLAMEEZPicFI5c6hUps3iSKJyCChGmGf
-	WYmhYOpHAyUOf/D60K15ocS+wjuzfVc=
-X-Google-Smtp-Source: AAOMgpc90wy6Xr+1rXb5ePpC4Id8F2kU/TMQzZkMbSoR9vFmcEsMMU8Q2doSuhaycUU2WHHzNea+Ow==
-X-Received: by 2002:adf:94e2:: with SMTP id
-	89-v6mr11291097wrr.48.1531758812743; 
-	Mon, 16 Jul 2018 09:33:32 -0700 (PDT)
+	bh=QWpmDKg7+bBveWjVB2xemcb5zA0gP2Ky7Z+eA2prf6k=;
+	b=g2DXbgATLWBfx/x5LJ4Yci05HumvCK6h7KnNqobeZ2ab+iwlvb4m8qjFXOo7wpLH7W
+	QrzggwBxa2WT9IVc//Q+LkGYbknHg/XA14kwoLglC3XdzeSGaYzjF5F8xgUvnICwoqMT
+	WMY3sgwaUZ6jWtR6IipGFx4RatIyTq7QLRiYzl44r43aeRCuyrwRKRLOhBRDiXxQWpg/
+	bXcTU523hZHFifwYsANtUWP+6ZxqWRW9HonzJ5CitS1l7Gt+ADepFb8uj5XPdD35ZATJ
+	WWdi+tDNrUa2QEwKUAbI0Ip+O/z+DwhGVkq5oyInMxXqfyW5/lBlFxFaOALLJQI2V5o7
+	Prlg==
+X-Gm-Message-State: AOUpUlEiL3wqEXJPQr/VX3bVzmhRG/Bi1YQnAMsuYpGR3ZuuC6tZR+f3
+	qGeF7nsu4/pJGfdFbV8sH/aARwZE7Vs=
+X-Google-Smtp-Source: AAOMgpcHynDu3wiz8BnW0r+oJkpsAJPbUS0jV0P7HsHzg9l3E2+kBnbol2LcpJNOCuRQYLqsMF03IQ==
+X-Received: by 2002:a1c:3f08:: with SMTP id
+	m8-v6mr11051460wma.88.1531758813982; 
+	Mon, 16 Jul 2018 09:33:33 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j65-v6sm13571188wmd.39.2018.07.16.09.33.31
+	j65-v6sm13571188wmd.39.2018.07.16.09.33.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 09:33:31 -0700 (PDT)
+	Mon, 16 Jul 2018 09:33:33 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2018 17:33:23 +0100
-Message-Id: <20180716163325.13847-4-richard.purdie@linuxfoundation.org>
+Date: Mon, 16 Jul 2018 17:33:24 +0100
+Message-Id: <20180716163325.13847-5-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
 References: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 4/6] oeqa: Remove xmlrunner
+Subject: [PATCH 5/6] testsdk: Enable multiprocess execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,101 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 16:33:32 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 16:33:33 -0000
 
-This isn't present on modern distros by default and doesn't work with
-testtools, needing multiple code paths in the code. Remove it in favour
-of finding a better replacement for results collection/analysis.
+This uses the new concurrenttest code to enable parallel test execution
+if specified.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/runner.py | 54 ++++++------------------------------
- 1 file changed, 9 insertions(+), 45 deletions(-)
+ meta/classes/testsdk.bbclass | 7 ++++++-
+ meta/lib/oeqa/sdk/context.py | 4 ++++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 0f84a1d2803..6650a63ce73 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -7,16 +7,8 @@ import unittest
- import logging
- import re
+diff --git a/meta/classes/testsdk.bbclass b/meta/classes/testsdk.bbclass
+index 2b5d66b1931..5df17bfa9e3 100644
+--- a/meta/classes/testsdk.bbclass
++++ b/meta/classes/testsdk.bbclass
+@@ -42,6 +42,8 @@ def testsdk_main(d):
+     host_pkg_manifest = OESDKTestContextExecutor._load_manifest(
+         d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.host.manifest"))
  
--xmlEnabled = False
--try:
--    import xmlrunner
--    from xmlrunner.result import _XMLTestResult as _TestResult
--    from xmlrunner.runner import XMLTestRunner as _TestRunner
--    xmlEnabled = True
--except ImportError:
--    # use the base runner instead
--    from unittest import TextTestResult as _TestResult
--    from unittest import TextTestRunner as _TestRunner
-+from unittest import TextTestResult as _TestResult
-+from unittest import TextTestRunner as _TestRunner
++    processes = d.getVar("TESTIMAGE_NUMBER_THREADS") or d.getVar("BB_NUMBER_THREADS")
++
+     sdk_dir = d.expand("${WORKDIR}/testimage-sdk/")
+     bb.utils.remove(sdk_dir, True)
+     bb.utils.mkdirhier(sdk_dir)
+@@ -65,7 +67,10 @@ def testsdk_main(d):
+             import traceback
+             bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
  
- class OEStreamLogger(object):
-     def __init__(self, logger):
-@@ -84,19 +76,10 @@ class OETestResult(_TestResult):
-         found = False
+-        result = tc.runTests()
++        if processes:
++            result = tc.runTests(processes=int(processes))
++        else:
++            result = tc.runTests()
  
-         for (scase, msg) in getattr(self, type):
--            # XXX: When XML reporting is enabled scase is
--            # xmlrunner.result._TestInfo instance instead of
--            # string.
--            if xmlEnabled:
--                if case.id() == scase.test_id:
--                    found = True
--                    break
--                scase_str = scase.test_id
--            else:
--                if case.id() == scase.id():
--                    found = True
--                    break
--                scase_str = str(scase.id())
-+            if case.id() == scase.id():
-+                found = True
-+                break
-+            scase_str = str(scase.id())
+         component = "%s %s" % (pn, OESDKTestContextExecutor.name)
+         context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
+diff --git a/meta/lib/oeqa/sdk/context.py b/meta/lib/oeqa/sdk/context.py
+index 82e4c19bfc1..7c091c0534c 100644
+--- a/meta/lib/oeqa/sdk/context.py
++++ b/meta/lib/oeqa/sdk/context.py
+@@ -65,6 +65,9 @@ class OESDKTestContextExecutor(OETestContextExecutor):
+         sdk_rgroup.add_argument('--sdk-dir', required=False, action='store', 
+             help='sdk installed directory')
  
-             # When fails at module or class level the class name is passed as string
-             # so figure out to see if match
-@@ -167,33 +150,14 @@ class OETestRunner(_TestRunner):
-     streamLoggerClass = OEStreamLogger
++        self.parser.add_argument('-j', '--num-processes', dest='processes', action='store',
++                type=int, help="number of processes to execute in parallel with")
++
+     @staticmethod
+     def _load_manifest(manifest):
+         pkg_manifest = {}
+@@ -85,6 +88,7 @@ class OESDKTestContextExecutor(OETestContextExecutor):
+                 OESDKTestContextExecutor._load_manifest(args.target_manifest)
+         self.tc_kwargs['init']['host_pkg_manifest'] = \
+                 OESDKTestContextExecutor._load_manifest(args.host_manifest)
++        self.tc_kwargs['run']['processes'] = args.processes
  
-     def __init__(self, tc, *args, **kwargs):
--        if xmlEnabled:
--            if not kwargs.get('output'):
--                kwargs['output'] = os.path.join(os.getcwd(),
--                        'TestResults_%s_%s' % (time.strftime("%Y%m%d%H%M%S"), os.getpid()))
--
-         kwargs['stream'] = self.streamLoggerClass(tc.logger)
-         super(OETestRunner, self).__init__(*args, **kwargs)
-         self.tc = tc
-         self.resultclass = OETestResult
- 
--    # XXX: The unittest-xml-reporting package defines _make_result method instead
--    # of _makeResult standard on unittest.
--    if xmlEnabled:
--        def _make_result(self):
--            """
--            Creates a TestResult object which will be used to store
--            information about the executed tests.
--            """
--            # override in subclasses if necessary.
--            return self.resultclass(self.tc,
--                self.stream, self.descriptions, self.verbosity, self.elapsed_times
--            )
--    else:
--        def _makeResult(self):
--            return self.resultclass(self.tc, self.stream, self.descriptions,
--                    self.verbosity)
--
-+    def _makeResult(self):
-+        return self.resultclass(self.tc, self.stream, self.descriptions,
-+                self.verbosity)
- 
-     def _walk_suite(self, suite, func):
-         for obj in suite:
+     @staticmethod
+     def _get_sdk_environs(sdk_dir):
 -- 
 2.17.1
 
