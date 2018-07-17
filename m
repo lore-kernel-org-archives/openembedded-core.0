@@ -1,51 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 67850789A5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C3C9789A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 16:39:31 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 69-v6so29633wmf.3
+	Tue, 17 Jul 2018 16:57:45 +0000 (UTC)
+Received: by mail-vk0-f48.google.com with SMTP id j11-v6so957810vke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 09:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=d4A101zkKdgxLw0I9YhgxdbWft+sxmajktb8PjDmsF4=;
-	b=VdPhnZsyOxQLMMo9w3tXVemyVCdcECj21rj3n1RgT//I5dOdML7S2JLZY2xI6YGn61
-	+l1HLJWupjuIKbzoxZsx7TRBizkMUgjSh2uZzn/eUJNhnPqz5K27sRiMgK0/6fV/uc6u
-	ieCXm723zT3Xu3As9NcE0FX83G6PtgiwttDNZZrOVQ13woACmbXFdrWA9mqfsXBRi4hU
-	CD1rHD6B/E4IP4Kq66fW8N8Ecu83/my2ncyEuwJ1K96tNAe6jitLERcMnVcWFGhrikxZ
-	zVyiC1zg8uBK38p5yxX1Ve1sb3+X2NdWs3Sk20d+2gcpl+AZ2ZJTO/aeod7FPQ3CZNMz
-	6VKw==
+	Tue, 17 Jul 2018 09:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=kMHfAXclwR97P4WWBP4c/7mvsCmQo6AlbisYcOh9Iuc=;
+	b=OKDmhgzE3x+rMdn/tXgDvY01HzpbPYBp8KJV5MYfWKGfQI6kBDngSfYyPJO2fi0qj6
+	74dehHLytyhvEck1pjT28jJFkt7wWIrZRsWwFJ91FwYDrIAcBP9R+GCvKkkTdURqsgxm
+	KvC1QuK9HROvu5W4srA3gRpNb/ZpVfBtCy+3wVgL82W0CBXYr9i6lNbijDOWCglY7R9e
+	M1BnQQeNAbN3r2L0ihPUiX+YuRGccgYUC6r38lO5dyd9lbXPFeWTvrPd0eLlHN8q83Tu
+	9yroau1dQf50siv9iPuYHyvtvux1xKkOcr2S7ZRBQjzW3Ev5vyeN7MFhbjqER+1YkoFZ
+	dHYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=d4A101zkKdgxLw0I9YhgxdbWft+sxmajktb8PjDmsF4=;
-	b=QczLwEUBIBYl+deunyAzFXE1+wqIOVV7ByKvD0ZGKNtBnooR2+ZlXF/loO2aQST4La
-	71IrFMeqvVSxt5q76WpfbmYIF3zbNJPpBb77X2J+5gMAla751YqI/oirziXSzxG/Qwy+
-	bLjb79V/WsAVKCppr6QVtEeJQtsnaRP1pMgpWFpxV1aDLkj1qo3oM32y1k6ObMZG56Lw
-	1mJTh76MV6gdgkkDatoszHhBvqJSaHYQGafmHWl9Ccy7fzf/fuyqZ6Tb7VPLehTPgLE7
-	PxN1TkJ3HcuoK9JUWptuezsEK1qMcqDR66+UiW+2y0a9/aDzSGq+TR0zvWFeByVC+1rP
-	4Xsg==
-X-Gm-Message-State: AOUpUlES2UlQrav95ucfMzvGadYERBl5oJ02D4p93lBsC2VPMhTqmpbC
-	1+ygWaPpStPPKkBMn8AMurxculZ+
-X-Google-Smtp-Source: AAOMgpc6w9F3CkkZ0xDj1CGSlpo89X6tgWBZJIyrTPTyJwJrCO5Vt/0aZvqTRdzJw+89xXMUwUS3Sg==
-X-Received: by 2002:a1c:90e:: with SMTP id 14-v6mr1873880wmj.130.1531845571896;
-	Tue, 17 Jul 2018 09:39:31 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	i125-v6sm15958wmd.11.2018.07.17.09.39.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jul 2018 09:39:31 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2018 17:39:10 +0100
-Message-Id: <20180717163910.3196-15-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180717163910.3196-1-ross.burton@intel.com>
-References: <20180717163910.3196-1-ross.burton@intel.com>
-Subject: [PATCH 15/15] ca-certificates: upgrade 20170717 -> 20180409
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=kMHfAXclwR97P4WWBP4c/7mvsCmQo6AlbisYcOh9Iuc=;
+	b=YCf7CYwebFF94xJXquUINAvuvUuLmwxDPz6gnS/CUAmvgs82Bsta39/O6swYIU9Yk/
+	xcJpfnpyvPdwGnaz740KWofnY1kDFV6AiQjPs0g/4Q7HNuUjYwKWM1zlxzxEnJb9XPny
+	4hj84c+npkthjo/cOgFlCSJaJUt4498qgK8LY7K/OsR3rWRaVapk2C+H8tAZvnEEMC9b
+	yXiNhHSacaxKLwzxujL4BGQF4/qwV42t4uniSZ3FgQYnLpPTd5dFo7on2hgq2OQ9MjXP
+	3m2UjqgG4HaQgTXuzD03Dk5G7X9tyOS5VJh5//rFZWqykJo4rRPJkfYHXyNuDcxMx4lZ
+	bMNw==
+X-Gm-Message-State: AOUpUlHdcEBVe9dIRCp+rqyynbp3SAwD6Zh1nrgJ5XIZK3d3vKD/Z3tV
+	WIJh9ERSrUNtvVNJPv9VEkl6dYohFSiAmm1vlVw=
+X-Google-Smtp-Source: AAOMgpf/dfBJnjJ671uSJDXb2ieS3QQsdsnv1bsi2ILYfyrMmel3rBuvP+n4dfBA51QQRZ5zgW3MCyhWFFhZLEQSsps=
+X-Received: by 2002:a1f:9d16:: with SMTP id g22-v6mr1355607vke.5.1531846665847;
+	Tue, 17 Jul 2018 09:57:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Tue, 17 Jul 2018 09:57:45 -0700 (PDT)
+In-Reply-To: <DB6PR0601MB21336F7A8CB14036C06506FCC34A0@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+References: <DB6PR0601MB2133CEC1B8D8FAB2DFC46118C3700@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+	<CAJ86T=UUz7_m+P1cWAk8tNT6Y=Cmme-2Jy3b4q8ZUkHzJwi1Gg@mail.gmail.com>
+	<DB6PR0601MB2133389C83155E102AA5E6C1C3770@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+	<CAJ86T=VVumy=u-OT9voyVJ-SBcO+tW=Pf-M8S5FXxHXzgVycsg@mail.gmail.com>
+	<DB6PR0601MB21336F7A8CB14036C06506FCC34A0@DB6PR0601MB2133.eurprd06.prod.outlook.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 17 Jul 2018 09:57:45 -0700
+Message-ID: <CAJ86T=UkYDfv0_oag61tGn9VHfxA-waTBzJ2ZPcieu8tEPztPg@mail.gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, 
+	Ross Burton <ross.burton@intel.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCHv4] image_types.bbclass: add optional size to ubi vols
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +61,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 16:39:31 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 16:57:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../{ca-certificates_20170717.bb => ca-certificates_20180409.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20170717.bb => ca-certificates_20180409.bb} (95%)
+On Mon, Jun 25, 2018 at 1:51 AM, Tobias Olausson <TOl@hms.se> wrote:
+> Just wanted to bump this, since I still see that v3 of this patch and not v4 (this one) is in master-next.
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-similarity index 95%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-index 24d3a6e4d3e..0d57083c522 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20170717.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20180409.bb
-@@ -5,7 +5,7 @@ This derived from Debian's CA Certificates."
- HOMEPAGE = "http://packages.debian.org/sid/ca-certificates"
- SECTION = "misc"
- LICENSE = "GPL-2.0+ & MPL-2.0"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968"
-+LIC_FILES_CHKSUM = "file://debian/copyright;md5=aeb420429b1659507e0a5a1b123e8308"
- 
- # This is needed to ensure we can run the postinst at image creation time
- DEPENDS = ""
-@@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
- # Need c_rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
--SRCREV = "34b8e19e541b8af4076616b2e170c7a70cdaded0"
-+SRCREV = "dbbd11e56af93bb79f21d0ee6059a901f83f70a5"
- 
- SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
--- 
-2.11.0
+The buggy version of this patch just got merged to master-next, via mut.
 
+It's missing Ross's signed-off-by so it looks like the change was
+originally merged directly to master-next, then mut was rebased to
+master-next, then the change stuck around in mut after being dropped
+from master-next...
 
