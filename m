@@ -1,51 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 36D60789A7
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B71678998
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 16:39:21 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id y22-v6so50233wma.0
+	Tue, 17 Jul 2018 16:39:22 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id j5-v6so1884875wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 09:39:22 -0700 (PDT)
+	Tue, 17 Jul 2018 09:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=dXpwTBOD+Suee/gSopdCp0aDbcbCINLeOhSaJQ5KC+I=;
-	b=n54lcGDQnxInCsOrj036PvbIn7tOgM1TJqOIbFJ+u8YMuiGZB1s8Zz9wvfXA3pFokO
-	HrbGUFdfBlImrz9dKjvT5p7haSt9YMRX8gMlrhBGkRA7C8F0BTF5JQ7nU4tM7ZGTNG9X
-	80iFrugirSvVuTUOjRlP5EoKAoLgYfPxNZalAKJx7ZK+5DbGGU0LzGjWgyvuYezgjCrv
-	QCrmWkzFTiT28HNhRhJTMOmYPYIgaNG9xVDSmHCLg1vmaVk5uZg+yO8STH0fh+1gBMLY
-	JQRe1wFZuswDIa15iFlr1XKdwOTSdVlNFQTE5J0n5rXCXVp2RXFmzUoWPnZxU07qbMoY
-	+JHQ==
+	bh=f0NjTiDIOAt0+BVxUFAJMgJuB/bij5rFAV5FBhMkHzs=;
+	b=1gUF7hxQzW9FHyt4GrbxjYTh3sgv5sn24DSqVSYfFH51Gx7qZ0IPWQpw/0Kirw3aPO
+	6YBd7D5aZdt5ZEIpoJpxor7VIfcw0jhWKw8dO3s0/b3XJdxGG4pdtm5/i8fiKrNaa1S8
+	K/jYYnx+4FXj/c1+fGohk+OySnKymgJMBWGBr/fwAobAy+uSMd+YMlFT9Q0ouT1ZgI9t
+	ktMgcZHH1KDznMCHmCoSUFkQ3Jkq/5dpz6KbHoNpx4nOqXdTBhVvKQfrk4dRfCeEADcl
+	wspevWCN7eQ7Re8mifIlvTQ6j0qp6D+r+W+qrTlv91naa/nlWHVD35pJf6dD687K1WQ6
+	QUWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=dXpwTBOD+Suee/gSopdCp0aDbcbCINLeOhSaJQ5KC+I=;
-	b=peSM0ssKV5vlWFmBEjZJPLq4qgFENEKvxVWDIoxM4jEM6s+myMbus5vCQGnLSBJiHj
-	phZQRAktXRmR7OWPUo9Cf1ejO0IYJlYUq7mNhLj5ucapkR2e64owuVSnkcrwr3ohsYBv
-	0EgEIPrF+1V66R2Kj4fV5to3ux5Iv3QLDs+iMIFT7vutTexoF11B7aeTaY+/4Qgbu6Qr
-	kXuu6TRFPO1zzBL5S11EWxnXtsYuRH5S7DDRh5EIjow9e5qIpcGK1Q2Md1WTNENDDwxt
-	DxlO9jNlfeU3qqJEuMdTn4GtIp163GNE8QaZX9kX96lYZLnMJOhhmNVDQllhqtfa6/9u
-	Htug==
-X-Gm-Message-State: AOUpUlEaNWH3zSUznRXpcs0M2C1PHozV2YE8jSRmqclrxzJMzyiRd1Je
-	wPDlwrqzHNuEpscjexQW44/QYpG8
-X-Google-Smtp-Source: AAOMgpd23cE8AfUQsJXUdYlomcKvC1uZVPb3VS2jN13pTD8hwiQCHJF4tTO6Vtrz5JHdn0f96angPw==
-X-Received: by 2002:a1c:6709:: with SMTP id b9-v6mr1890442wmc.68.1531845561539;
-	Tue, 17 Jul 2018 09:39:21 -0700 (PDT)
+	bh=f0NjTiDIOAt0+BVxUFAJMgJuB/bij5rFAV5FBhMkHzs=;
+	b=R3DIso1XQt6FlRyQUt4F6E69niUuiQfSe0kud7mpJTkqfcwr1Syw2hSEPIRFGx9Qwj
+	ocW6VC3MI7AVi7+PlEdIk/L5K4JJTUk7n6WjHQuyy2zXoi/fHnPaGOz9/2be8aj7+YlV
+	nuag8MQ3xwfol2Hp/oMivsp+3sgAo5skWbdx5eAy8ooSeUTXjeR96Y1Fjzq/7dbslqQR
+	RD4RtGp+AuovqBkcfwLx7nlZH8Ns3Q/gjWQnrSl2CmOe+vMSnTdFRGuhtapFg4SQct85
+	2GyVbz9C7htx4q6r3oQGQozPy1uwseLfLlUtvfP7gjLWKcL6jz5mYjeBFuO2C3GLA0rr
+	FQ+w==
+X-Gm-Message-State: AOUpUlG1IiKc390XZ1ZNHyyLV91USQPs+EsoP1wwonai+g/afhNdczrR
+	g2aTgPmZnWDkXNfVR8/2XkkLZQYj
+X-Google-Smtp-Source: AAOMgpcQ4mbxr+dEpNB2Xwu9kqEXNhxZc7SqdgCLhJfib1WnZZuSli6m7hHo/qO0aMWMN0rTf/qLag==
+X-Received: by 2002:adf:9546:: with SMTP id
+	64-v6mr1875515wrs.257.1531845563059; 
+	Tue, 17 Jul 2018 09:39:23 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	i125-v6sm15958wmd.11.2018.07.17.09.39.20
+	i125-v6sm15958wmd.11.2018.07.17.09.39.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jul 2018 09:39:20 -0700 (PDT)
+	Tue, 17 Jul 2018 09:39:22 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2018 17:39:01 +0100
-Message-Id: <20180717163910.3196-6-ross.burton@intel.com>
+Date: Tue, 17 Jul 2018 17:39:02 +0100
+Message-Id: <20180717163910.3196-7-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180717163910.3196-1-ross.burton@intel.com>
 References: <20180717163910.3196-1-ross.burton@intel.com>
-Subject: [PATCH 06/15] libgpg-error: upgrade 1.31 -> 1.32
+Subject: [PATCH 07/15] sysstat: upgrade 11.7.3 -> 11.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 16:39:21 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 16:39:22 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libgpg-error/{libgpg-error_1.31.bb => libgpg-error_1.32.bb}       | 4 ++--
+ .../recipes-extended/sysstat/{sysstat_11.7.3.bb => sysstat_11.7.4.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.31.bb => libgpg-error_1.32.bb} (93%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.7.3.bb => sysstat_11.7.4.bb} (53%)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.31.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-similarity index 93%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.31.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-index 5dd861501eb..098242ea105 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.31.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-@@ -15,8 +15,8 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
- 	  "
--SRC_URI[md5sum] = "5cc6df0fea27832e9cdbafc60f51561b"
--SRC_URI[sha256sum] = "40d0a823c9329478063903192a1f82496083b277265904878f4bc09e0db7a4ef"
-+SRC_URI[md5sum] = "ef3d928a5a453fa701ecc3bb22be1c64"
-+SRC_URI[sha256sum] = "c345c5e73cc2332f8d50db84a2280abfb1d8f6d4f1858b9daa30404db44540ca"
+diff --git a/meta/recipes-extended/sysstat/sysstat_11.7.3.bb b/meta/recipes-extended/sysstat/sysstat_11.7.4.bb
+similarity index 53%
+rename from meta/recipes-extended/sysstat/sysstat_11.7.3.bb
+rename to meta/recipes-extended/sysstat/sysstat_11.7.4.bb
+index 8c8974827b7..c9b9130e9ff 100644
+--- a/meta/recipes-extended/sysstat/sysstat_11.7.3.bb
++++ b/meta/recipes-extended/sysstat/sysstat_11.7.4.bb
+@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
- BINCONFIG = "${bindir}/gpg-error-config"
+ SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
  
+-SRC_URI[md5sum] = "c40cefdc7649c7554ecf1d56bf485d09"
+-SRC_URI[sha256sum] = "8ea4ffcce8dae68a1cbb6acaa131ae7e3e6c5765134e670aa9baa38c1bcc66ea"
++SRC_URI[md5sum] = "421f958db80e67a27eda1ff6b8ebcdeb"
++SRC_URI[sha256sum] = "a96265a22784c29888669f961a0896841d177853f8f057efe063e891962b9090"
 -- 
 2.11.0
 
