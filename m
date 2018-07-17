@@ -1,25 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C8CF97887B
+	by mail.openembedded.org (Postfix) with ESMTP id 58EDB78882
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 02:01:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6H21hqa015220
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 19:01:44 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 16 Jul 2018 19:01:43 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jul 2018 10:05:12 +0800
-Message-ID: <5295abf3d83cb0dfd3a3d90e2ff878e80bdb5c12.1531792805.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1531792805.git.Qi.Chen@windriver.com>
-References: <cover.1531792805.git.Qi.Chen@windriver.com>
+	Tue, 17 Jul 2018 03:35:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6H3ZGmc015922
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Jul 2018 20:35:17 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 16 Jul 2018 20:35:16 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Mon, 16 Jul 2018 23:34:30 -0400
+Message-ID: <e733dc175396969a5959c8059a3f575ad254d472.1531798346.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1531798346.git.hongxu.jia@windriver.com>
+References: <cover.1531798346.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] systemd-boot: upgrade to 239
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH 1/2] distutils/setuptools-native: do not try to fetch code during do_compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,78 +32,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 02:01:43 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 03:35:17 -0000
 Content-Type: text/plain
 
-Upgrade systemd-boot to 239.
+If a python recipe is using setuptools and the setup_requires argument, where
+setuptools will use easy_install to fetch the module if it isn't
+present.
 
-The following patch is removed due to recent fix about meson's cpu family
-mapping and validation.
+The build failed on a machine where a proxy was required, but succeeded on a
+machine which had direct access to the internet
 
-  0001-Also-check-i386-i586-and-i686-for-ia32.patch
+Add var-NO_FETCH_BUILD, and set it in distutils_do_compile which does not
+allow to fetch code from internet during do_compile.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Example result:
+...
+ERROR: Do not try to fetch `pytest-runner1' for building. Please add its native recipe to DEPENDS.
+Traceback (most recent call last):
+  File "setup.py", line 56, in <module>
+...
+
+The improvement is flexible for test_requirements argument (used at
+`setup.py test'), where use easy_install also.
+
+[YOCTO #12084]
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../{systemd-boot_237.bb => systemd-boot_239.bb}   |  5 ++--
- ...01-Also-check-i386-i586-and-i686-for-ia32.patch | 28 ----------------------
- 2 files changed, 2 insertions(+), 31 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_237.bb => systemd-boot_239.bb} (91%)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
+ meta/classes/distutils.bbclass                     |  2 ++
+ ...ionally-do-not-fetch-code-by-easy_install.patch | 35 ++++++++++++++++++++++
+ .../python/python-setuptools_40.0.0.bb             |  2 ++
+ 3 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_237.bb b/meta/recipes-core/systemd/systemd-boot_239.bb
-similarity index 91%
-rename from meta/recipes-core/systemd/systemd-boot_237.bb
-rename to meta/recipes-core/systemd/systemd-boot_239.bb
-index afd3848..7fe420c 100644
---- a/meta/recipes-core/systemd/systemd-boot_237.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_239.bb
-@@ -3,9 +3,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 1930c35..872f4e3 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -8,6 +8,8 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
+     --install-data=${D}/${datadir}"
  
- DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
+ distutils_do_compile() {
++         NO_FETCH_BUILD=1 \
++         NO_FETCH_BUILD_HELP="Please add its native recipe to DEPENDS." \
+          STAGING_INCDIR=${STAGING_INCDIR} \
+          STAGING_LIBDIR=${STAGING_LIBDIR} \
+          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
+diff --git a/meta/recipes-devtools/python/python-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+new file mode 100644
+index 0000000..441af16
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -0,0 +1,35 @@
++From 019422d19c6401fa8f45b1311ecd31bb087c809d Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 17 Jul 2018 10:13:38 +0800
++Subject: [PATCH] conditionally do not fetch code by easy_install
++
++If var-NO_FETCH_BUILD is set, do not allow to fetch code from
++internet by easy_install, and log the help message from
++var-NO_FETCH_BUILD_HELP
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ setuptools/command/easy_install.py | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
++index 85ee40f..7eb9d2a 100755
++--- a/setuptools/command/easy_install.py
+++++ b/setuptools/command/easy_install.py
++@@ -637,6 +637,11 @@ class easy_install(Command):
++             os.path.exists(tmpdir) and rmtree(rmtree_safe(tmpdir))
++ 
++     def easy_install(self, spec, deps=False):
+++        if os.environ.get('NO_FETCH_BUILD', None):
+++            log.error("ERROR: Do not try to fetch `%s' for building. %s" %
+++                             (spec,  os.environ.get('NO_FETCH_BUILD_HELP', '')))
+++            return None
+++
++         if not self.editable:
++             self.install_site_py()
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb b/meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+index cf94404..9d9a093 100644
+--- a/meta/recipes-devtools/python/python-setuptools_40.0.0.bb
++++ b/meta/recipes-devtools/python/python-setuptools_40.0.0.bb
+@@ -1,5 +1,7 @@
+ require python-setuptools.inc
  
--SRC_URI += "file://0003-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
--            file://0027-remove-nobody-user-group-checking.patch \
--            file://0001-Also-check-i386-i586-and-i686-for-ia32.patch \
-+SRC_URI += "file://0002-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch \
-+            file://0006-remove-nobody-user-group-checking.patch \
-             file://0001-Fix-to-run-efi_cc-and-efi_ld-correctly-when-cross-co.patch \
-             "
++SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
++
+ PROVIDES = "python-distribute"
  
-diff --git a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch b/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-deleted file mode 100644
-index 877bb1c..0000000
---- a/meta/recipes-core/systemd/systemd/0001-Also-check-i386-i586-and-i686-for-ia32.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 3e8c19bb1bbc4493c591f75c00c1fefe3b1c8a69 Mon Sep 17 00:00:00 2001
--From: Chen Qi <Qi.Chen@windriver.com>
--Date: Tue, 27 Feb 2018 20:42:41 -0800
--Subject: [PATCH] Also check i386, i586 and i686 for ia32
--
--Upstream-Status: Pending
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 28cb8b60e..489531a43 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1217,7 +1217,7 @@ conf.set10('SYSTEMD_SLOW_TESTS_DEFAULT', slow_tests)
-- if get_option('efi')
--         efi_arch = host_machine.cpu_family()
-- 
---        if efi_arch == 'x86'
--+        if efi_arch == 'x86' or efi_arch == 'i386' or efi_arch == 'i586' or efi_arch == 'i686'
--                 EFI_MACHINE_TYPE_NAME = 'ia32'
--                 gnu_efi_arch = 'ia32'
--         elif efi_arch == 'x86_64'
---- 
--2.13.0
--
+ inherit setuptools
 -- 
-1.9.1
+2.8.1
 
 
