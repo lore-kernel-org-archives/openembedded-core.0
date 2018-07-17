@@ -1,26 +1,53 @@
-Return-Path: <mohamad.noor.alim.hussin@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id BA7F2745C9
+Return-Path: <rv@rasmusvillemoes.dk>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A03D71957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 06:55:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jul 2018 23:55:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,364,1526367600"; d="scan'208";a="216611826"
-Received: from alim-desktop.png.intel.com ([172.30.199.42])
-	by orsmga004.jf.intel.com with ESMTP; 16 Jul 2018 23:55:25 -0700
-From: mohamad.noor.alim.hussin@intel.com
-To: yocto@yoctoproject.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 17 Jul 2018 14:54:56 +0800
-Message-Id: <1531810496-2948-1-git-send-email-mohamad.noor.alim.hussin@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: mohamad.noor.alim.hussin@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runtime/cases/manualbsp: Add BSP testcases
+	Tue, 17 Jul 2018 08:13:28 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id v9-v6so215658ljk.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2018 01:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rasmusvillemoes.dk; s=google;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=3WbaT+Gtct4r8G9ZpkclIsp0oPv781gK5RuWJySEiLE=;
+	b=HVPIfiTHnlY9GCrv1NAIemYiiNWMeFwfOUypeF5MJDjN8dajxKY7xw1Ivi+nOAUsaO
+	tXXuo9EKEcdTGAfOfWuNYs2QkyyZ/RzxfKOLW5PhC6mCJKrDa60YivEIDnMl16AgLeMg
+	NL0Yi4qJjpatWrhvQKqOnzXRdAPxQy7qIL8aI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=3WbaT+Gtct4r8G9ZpkclIsp0oPv781gK5RuWJySEiLE=;
+	b=ajvdKTsjgbsOhVu8S2qXL0BwFexu6qS3QHmLWuOSu+qeQO4wxo3S1zo8FijjHhAFQ4
+	43JC6AAewSUougCqmlDL78hYzlUZf+NLiM0cEB9ts8o2kvwI6yYFb0+k3ZtRysNJNJwK
+	0PGObrNoDiIVZYgbA66/DauFRtA5MzLN5cQaM7SbDTJJwZX7y18dp3aOKMT+B+IMAPyY
+	8o0QI2BjAmDM+N8zn32DH917iSaEWKPJ6YHm4X0x5yI1q2Z2AWijO8+xqy8lh3rKvcxe
+	npZNjaqZsw8NFwFn78aXjmnjaSqsX9P/W+pO8iGjvLxaQgU8IMZxNwg7FmQdN9exrV+4
+	hZpA==
+X-Gm-Message-State: AOUpUlGX00y2B6GYVX/ypRmRnBnfkQyN08NlCCsf5Dyz9F051oU4SiTi
+	n9WvRqHaVXk8BhPF/DiwGGDelA==
+X-Google-Smtp-Source: AAOMgpeuzjtywEhda/6fzz2SIWw/sN4cyyez2JdhDSSLIOd5yzHND9moT3f62PgJY0QDO2o1CRTZdw==
+X-Received: by 2002:a2e:557:: with SMTP id 84-v6mr640846ljf.152.1531815208742; 
+	Tue, 17 Jul 2018 01:13:28 -0700 (PDT)
+Received: from [172.16.11.32] ([81.216.59.226])
+	by smtp.gmail.com with ESMTPSA id
+	t2-v6sm68501ljj.46.2018.07.17.01.13.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Jul 2018 01:13:28 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
+References: <20180711113856.7518-1-rasmus.villemoes@prevas.dk>
+From: Rasmus Villemoes <rv@rasmusvillemoes.dk>
+Message-ID: <0e5d44c6-25f9-39dc-2743-db0359ac9eeb@rasmusvillemoes.dk>
+Date: Tue, 17 Jul 2018 10:13:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20180711113856.7518-1-rasmus.villemoes@prevas.dk>
+Cc: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+Subject: Re: [RFC PATCH] package.bbclass: improve -dbg and -src package ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,312 +60,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 06:55:26 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 08:13:28 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
+ping...
 
-Manualbsp.py contain test cases that was converted from manual testcases
-to auto which would run on Yocto reference boards such as Minnowboard,
-NUC, edgerouter and beaglebone. The testcase was added to support QA
-automation which target devices attached with removable media and would
-boot up using LAVA faramework. The testcase ID was taken form existing
-manual testcase on Testopia[1].
-
-There are 2 scripts called manualbsp.py and bsphardware that needed
-to execute the test cases.
-
-Manualbsp.py contain testcases that need to run on target devices.
-There are 2 classes in this patch, BSPRuntimeTest and BSPHardwareTest.
-BSPRuntimeTest class used to run test such as check runlevel 3 or 5
-at runtime and check bash package.
-
-BSPHardware class would run test on removeable media such as USB stick,
-hard disk and MicroSD. The test cases are mount/unmount, read & write
-to removable media.
-
-Bsphardware script was written to reduce complexity of code from
-Manualbsp.py. It is used for device detection, mount/unmount and
-check runlevel on target device under test. This script would copy
-to target device as Manualbsp.py depend on it.
-
-Reference:
-[1] https://bugzilla.yoctoproject.org/tr_show_run.cgi?run_id=9635.
-
-Signed-off-by: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
----
- meta/lib/oeqa/runtime/cases/manualbsp.py | 122 ++++++++++++++++++++++++++++
- meta/lib/oeqa/runtime/files/bsphardware  | 132 +++++++++++++++++++++++++++++++
- 2 files changed, 254 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/manualbsp.py
- create mode 100755 meta/lib/oeqa/runtime/files/bsphardware
-
-diff --git a/meta/lib/oeqa/runtime/cases/manualbsp.py b/meta/lib/oeqa/runtime/cases/manualbsp.py
-new file mode 100644
-index 0000000..22d0d33
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/manualbsp.py
-@@ -0,0 +1,122 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+import subprocess
-+import time
-+
-+class BspRuntimeTest(OERuntimeTestCase):
-+
-+    @OETestID(240)
-+    def test_check_bash(self):
-+        status, output = self.target.run('which bash')
-+        msg = ('bash shell not working as expected. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestID(228)
-+    def test_runlevel_5(self):
-+        status, output = self.target.run('init 5')
-+        msg = ('System unable to init 5 '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 255, msg = msg)
-+        time.sleep(2)
-+        command = 'bsphardware -r 5'
-+        status, output = self.target.run(command)
-+        msg = ('System did not start from runlevel 5. '
-+                'Status:%s.' % (status))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestID(198)
-+    def test_runlevel_3(self):
-+        status, output = self.target.run('init 3')
-+        msg = ('System unable to start with runlevel 3. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 255, msg = msg)
-+        time.sleep(2)
-+        command = 'bsphardware -r 3'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to change from runlevel 5 to 3. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+class BspHardwareTest(OERuntimeTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        src = os.path.join(cls.tc.runtime_files_dir, 'bsphardware')
-+        cls.tc.target.run('mkdir ~/test')
-+        cls.tc.target.copyTo(src, '/usr/bin')
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        cls.tc.target.run('rm -rf ~/test')
-+
-+    @OETestID(216)
-+    def test_USB_mount(self):
-+        command = 'bsphardware -d sd -sp 1 -m ~/test/stick'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to mount USB stick. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestID(217)
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_write_file'])
-+    def test_USB_read_file(self):
-+        command = 'cat ~/test/stick/hello_stick'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to read file from USB stick. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_mount'])
-+    @OETestID(219)
-+    def test_USB_write_file(self):
-+        command = 'touch ~/test/stick/hello_stick'
-+        status, output = self.target.run(command)
-+        msg = ('Status and  output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_mount'])
-+    @OETestID(218)
-+    def test_USB_unmount(self):
-+        command = 'bsphardware -u ~/test/stick'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to unmount USB stick. ' 
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestID(241)
-+    def test_MicroSD_mount(self):
-+        command = 'bsphardware -d mmc -sp p1 -m ~/test/microsd'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to mount MicroSD. '
-+                'Status and output:%s and %s.' %(status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_write_file'])
-+    @OETestID(242)
-+    def test_MicroSD_read_file(self):
-+        command = 'cat ~/test/microsd/hello_mmc'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to read MicroSD. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_mount'])
-+    @OETestID(244)
-+    def test_MicroSD_write_file(self):
-+        command = 'touch ~/test/microsd/hello_mmc'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to write to MicroSD. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-+    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_mount'])
-+    @OETestID(243)
-+    def test_MicroSD_unmount(self):
-+        command = 'bsphardware -u ~/test/microsd'
-+        status, output = self.target.run(command)
-+        msg = ('Unable to unmount MicroSD. '
-+                'Status and output:%s and %s.' % (status, output))
-+        self.assertEqual(status, 0, msg = msg)
-+
-diff --git a/meta/lib/oeqa/runtime/files/bsphardware b/meta/lib/oeqa/runtime/files/bsphardware
-new file mode 100755
-index 0000000..3973825
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/bsphardware
-@@ -0,0 +1,132 @@
-+#!/bin/bash
-+
-+# Description: This script used for Yocto Project BSP test.
-+#              manualbsp.py script is depend on this script
-+#              that available in poky/meta/lib/oeqa/runtime/cases/manualbsp.py.
-+#              This script is should be located in
-+#              poky/meta/lib/oeqa/runtime/cases/
-+
-+LOG_FILE="/tmp/bsphardware.log"
-+
-+usage() {
-+echo "BSP hardware test is a script used to test hardware"
-+echo "such as USB stick, micro SD and SSD hard disk on Yocto Project."$'\n'
-+echo "Usage:"
-+echo " -d, --device <keyword, e.g. sd/mmc>            Get device's name"
-+echo " -sp, --setPartition <partition's number>       Set partition's number "
-+echo " -m, --mount <path/to/mount>                    Mount the device to /path/to/mount"
-+echo " -u, --umount <path/to/unmount>                 Unmont the mounted device"
-+echo " -r, --runlevel <3|5>                           Get runlevel on current system"
-+echo " -h, --help                                     Show the usage"$'\n'
-+echo "Examples"
-+echo " bsphardware -d sda -sp 1 -m ~/data   Mount /dev/sda1 on ~/data"
-+}
-+
-+options() {
-+SETPARTITION=""
-+DEVICE=""
-+while [[ $# -gt 0 ]]; do
-+case "$1" in
-+    -d|--device)
-+        echo "[INFO]: get device's name" 2>&1 | tee -a $LOG_FILE
-+        array_devices=()
-+        index_device=()
-+        array_devices=$(ls /dev/$2*)
-+        for i in ${array_devices[@]}
-+        do
-+            index_device+=($i)
-+        done
-+        DEVICE="${index_device[0]}"
-+        echo "[INFO]: Detected device: $DEVICE"$'\n' 2>&1 | tee -a $LOG_FILE
-+        ;;
-+    -sp| --setPartition)
-+        echo "[INFO]: Set partition: $2" 2>&1 | tee -a $LOG_FILE
-+        SETPARTITION=$2
-+        ;;
-+    -m|mount)
-+        if [[ ! -d $2 ]];then
-+            mkdir -p $2
-+        fi
-+        if [[ "$DEVICE" == "" || " $SETPARTITION" == "" ]]; then
-+            echo "[ERROR]: Target device and partition not found." 2>&1 | tee -a $LOG_FILE 
-+            echo "[INFO]: Use -d <device_keyword> -sp <partition's number> -m <dir>"  2>&1 | tee -a $LOG_FILE
-+        else
-+            echo "[INFO]: Mounting removable media..." 2>&1 | tee -a $LOG_FILE
-+            echo "[DEBUG]: commandline: mount $DEVICE$SETPARTITION $2"$'\n' 2>&1 | tee -a $LOG_FILE > /dev/null
-+            mount $DEVICE$SETPARTITION $2
-+        fi
-+        if [[ $? -eq 0 ]]; then
-+            echo "[INFO]: Device $DEVICE$SETPARTITION mount successfully"$'\n' 2>&1 | tee -a $LOG_FILE
-+            exit 0
-+        else
-+            echo "[ERROR]: Unable to mount device $DEVICE$SETPARTITION. Device does not exist"$'\n' 2>&1 | tee -a $LOG_FILE
-+            exit 1
-+        fi
-+        ;;
-+    -u|umount)
-+        echo "[INFO]: Unmount $2" 2>&1 | tee -a $LOG_FILE
-+        if [[ -d $2 ]]; then
-+            echo "[DEBUG]: commandline: umount from $2" 2>&1 | tee -a $LOG_FILE > /dev/null
-+            umount $2
-+        else
-+            echo "[Error]: No mount point on $2"$'\n' 2>&1 | tee -a $LOG_FILE
-+            exit 1
-+        fi
-+        if [[ $? -eq 0 ]];then 
-+            echo "[INFO]: Device $2 unmount successfully" 2>&1 | tee -a $LOG_FILE
-+            echo "[INFO]: Removing mount point on $2" $'\n' 2>&1 | tee -a $LOG_FILE
-+            rm -rf $2
-+        else
-+            echo "[ERROR]: Unable to unmount from $2"$'\n' 2>&1 | tee -a $LOG_FILE
-+        fi
-+        ;;
-+    -r|--runlevel)
-+        level=$(runlevel | cut -d " " -f2)
-+        echo "[DEBUG]: commandline: runlevel | cut -d ' ' -f2" 2>&1 | tee -a $LOG_FILE > /dev/null
-+        if [[ "$2" == "3" || "$2" == "5" ]]; then
-+            if [[ "$level" == "3" && "$level" == "$2" ]]; then
-+                echo "[DEBUG]: Test runlevel 3"  2>&1 | tee -a $LOG_FILE
-+                echo "[INFO]: System start with runlevel: $level"$'\n' 2>&1 | tee -a $LOG_FILE
-+                exit 0
-+            elif [[ "$level" == "5" && "$level" == "$2" ]]; then
-+                echo "[DEBUG]: Test runlevel 5" 2>&1 | tee -a $LOG_FILE > /dev/null
-+                echo "[INFO]: System start with runlevel: $level"$'\n' 2>&1 | tee -a $LOG_FILE
-+                exit 0
-+            else
-+                echo "[INFO]: System did not start with runlevel: $2"$'\n' 2>&1 | tee -a $LOG_FILE
-+                exit 1
-+            fi
-+        else
-+            echo "[ERROR]: Runlevel other than 3 & 5 are not allowed."$'\n' 2>&1 | tee -a $LOG_FILE
-+            exit 1
-+        fi
-+        ;;
-+    -h|--help)
-+        usage
-+        exit 0
-+        ;;
-+    *) 
-+        echo "[Error]: Arguments $1 is not exists."$'\n' 2>&1 | tee -a $LOG_FILE
-+        usage
-+        exit 1
-+        ;;
-+esac
-+shift
-+shift
-+done
-+}
-+
-+main() {
-+if [ "$#" == "0" ];then
-+    usage
-+    exit 1
-+esh vs shlse
-+    echo "[INFO]: Start-Date: $(date '+%Y-%m-%d %H:%M:%S')" 2>&1 | tee -a $LOG_FILE > /dev/null
-+    echo "[DEBUG]: commandline: $0 ${POSITIONAL[*]}" 2>&1 | tee -a $LOG_FILE > /dev/null
-+    options "${POSITIONAL[@]}"
-+fi
-+}
-+
-+POSITIONAL=()
-+POSITIONAL+=("$@")
-+main ${POSITIONAL[@]}
--- 
-2.7.4
+On 2018-07-11 13:38, Rasmus Villemoes wrote:
+> nativesdk-gpgme fails package_qa when setting PACKAGE_DEBUG_SPLIT_STYLE
+> = "debug-with-srcpkg".
+> 
+> ERROR: nativesdk-gpgme-1.10.0-r0 do_package_qa: QA Issue: non debug package contains .debug directory: nativesdk-python3-gpg path /work/x86_64-nativesdk-oesdk-linux/nativesdk-gpgme/1.10.0-r0/packages-split/nativesdk-python3-gpg/usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/lib/python3.5/site-packages/gpg/.debug/_gpgme.cpython-35m-x86_64-linux-gnu.so [debug-files]
+> 
+> This turns out to be because the automatic moving of the -dbg package to
+> the beginning of the package list is disabled in that case, so the
+> python3-gpg packages that the recipe prepends to PACKAGES ends up before
+> the -dbg package.
+> 
+> It's not clear why the "and not split_source_package" was added when
+> debug-with-srcpkg was introduced. Presumably the intention was to
+> prevent the -dbg package to end up before the -src package, which we of
+> course need to. But at the same time, we still need -dbg packages to end
+> up before all other packages.
+> 
+> Using list.insert(0, ...) also means that if there happens to more than
+> one -dbg package, their relative ordering gets inverted in the new list.
+> 
+> This tries to fix these issues by sorting the packages by (priority,
+> original position), where priority is 10 for -src, 30 for -dbg and 50
+> for everything else. That guarantees that packages of the same "type"
+> preserve their relative ordering, while also ensuring that -dbg always
+> preceed other packages. This scheme is also quite extensible, and,
+> should the need arise, one could even expose the priorities as a knob
+> the recipe author could use to ensure specific orderings of packages
+> instead of the somewhat fragile and coarse-grained method of "prepend or
+> append, and ensure you do that in a proper order".
+> 
+> Probably the autodebug condition needs to stay, but I think the
+> split_source_package condition in the preceding elif should be removed,
+> so that that logic applies to all packages called -src, not just the one
+> we might have created a few lines above.
+> 
+> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> ---
+>  meta/classes/package.bbclass | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 8276046369..72b9c66c3b 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1151,21 +1151,22 @@ python populate_packages () {
+>  
+>      # Sanity check PACKAGES for duplicates
+>      # Sanity should be moved to sanity.bbclass once we have the infrastructure
+> -    package_list = []
+> +    package_dict = {}
+>  
+> -    for pkg in packages.split():
+> -        if pkg in package_list:
+> +    for i, pkg in enumerate(packages.split()):
+> +        if pkg in package_dict:
+>              msg = "%s is listed in PACKAGES multiple times, this leads to packaging errors." % pkg
+>              package_qa_handle_error("packages-list", msg, d)
+>          # If debug-with-srcpkg mode is enabled then the src package will have
+>          # priority over dbg package when assigning the files.
+>          # This allows src package to include source files and remove them from dbg.
+>          elif split_source_package and pkg.endswith("-src"):
+> -            package_list.insert(0, pkg)
+> -        elif autodebug and pkg.endswith("-dbg") and not split_source_package:
+> -            package_list.insert(0, pkg)
+> +            package_dict[pkg] = (10, i)
+> +        elif autodebug and pkg.endswith("-dbg"):
+> +            package_dict[pkg] = (30, i)
+>          else:
+> -            package_list.append(pkg)
+> +            package_dict[pkg] = (50, i)
+> +    package_list = sorted(package_dict.keys(), key=package_dict.get)
+>      d.setVar('PACKAGES', ' '.join(package_list))
+>      pkgdest = d.getVar('PKGDEST')
+>  
+> 
 
 
