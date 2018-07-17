@@ -1,50 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B94B789E0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 11:23:03 +0000 (UTC)
-Received: by mail-oi0-f44.google.com with SMTP id q11-v6so1273056oic.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 04:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rad2F9ik/xGbLoma9UkHbhKc9Lo2AZKTg8Hz12BVjsk=;
-	b=j1bZrgtlJz8scoYXlDbrVPj4vWWOgqbZ1tzDP9irS9nFPl/It7vuKp5AuQKn6V2b4t
-	7jmRKTBS/c396ncas+irBZkYH32dlx1A9yufHaGVcaxGDpFwTJzsXhlTwjV0AZRP8/mH
-	60Avjza8h10bJpBBj7rv7VvOnFoV5fybunfQ8wY8nnN5CscD6GoKCJ4DAg0AsUN+jXes
-	F1TkVP1fRdqEM/cAKvARuOJPev8Da8NX1J5qsf0pU+S9G2rbWw2hLUCIOudNoyjnobis
-	vFh3gLuaLxkzs9x51phEBRVtGqSWMA8uS/521fmf96jBZ7k9rTgH7MZF/XjLO+HGeN+f
-	3mKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rad2F9ik/xGbLoma9UkHbhKc9Lo2AZKTg8Hz12BVjsk=;
-	b=X49Q4cBhWo4HtSrs1QZ1KxhMi115ZOQjhywsz+u8gCF0eCZv+IO6BOMIkK0Mo38GTJ
-	8cbmOlxLr4oWWj+C8nwJIWyoXI/grViQpZVVNes+coAIiHDppT9ege6cf7JC1jxw3e2H
-	+3tPiEvfSK1xtAzRnwEhV7TfMit6kUi0d0Ms8XLBA+c8isHZrrc+LiZvFGNGuf7JFTvg
-	7jR9B45SpHY6AbdZn8OTS1VU2pp7CUx4cIZ2Krg+NPnpGSj61n72fVnRugQnCi2cvss8
-	brQVQLl3Ugl4P6fq3/ENFUWxeYz5mp9BmfliiYBpPlwviTabXAEvC50ZONdzKxL1KcqW
-	J7IA==
-X-Gm-Message-State: AOUpUlHeAlLFNIa+MPdeW7r7cO9AHECxDWHI6/8We4tdjdLKVRycjebV
-	XMpqk5BC5ejn22U8lE4i3HI8Kzt+idhW7iLYxCwLqg==
-X-Google-Smtp-Source: AAOMgpf2qI+ticUDpeGdZkGydKnZewXkSsFcUPpQ9gAKTIh21iv8tKjm7JyuK4D2xz25+pyXvjALha3LqWb52gV3VXA=
-X-Received: by 2002:aca:f409:: with SMTP id
-	s9-v6mr1282631oih.102.1531826584375; 
-	Tue, 17 Jul 2018 04:23:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 04:22:43
-	-0700 (PDT)
-In-Reply-To: <20180716210407.21494-1-alistair.francis@wdc.com>
-References: <20180716210407.21494-1-alistair.francis@wdc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Jul 2018 12:22:43 +0100
-Message-ID: <CAJTo0LZ-mLb2xHgP1-3tbPP-Q=Sjk_as8i-tpXTWrhHHbbQs=w@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dbus: Enable user-session package config when x11 is set
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 54EED78862;
+	Tue, 17 Jul 2018 12:11:56 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6HCBsSE024607
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 17 Jul 2018 13:11:55 +0100
+Message-ID: <c90e84ccea269649256438f026bf97cfeb794800.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>, bitbake-devel@lists.openembedded.org, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jul 2018 13:11:54 +0100
+In-Reply-To: <20180716203728.23078-9-JPEWhacker@gmail.com>
+References: <20180716203728.23078-1-JPEWhacker@gmail.com>
+	<20180716203728.23078-9-JPEWhacker@gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [bitbake-devel] [RFC 8/9] hashserver: Add initial reference server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 11:23:03 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 12:11:56 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Unless you're building a pure Wayland system when you'd also want a
-user session.  Maybe we should just turn it on always?
+On Mon, 2018-07-16 at 15:37 -0500, Joshua Watt wrote:
+> Adds an initial reference implementation of the hash server.
+> 
+> NOTE: This is my first dive into HTTP & REST technologies. Feedback
+> is
+> appreciated. Also, I don't think it will be necessary for this
+> reference
+> implementation to live in bitbake, and it can be moved to it's own
+> independent project if necessary?
+> 
+> Also, this server has some concurrency issues that I haven't tracked
+> down and will occasionally fail to record a new POST'd task with an
+> error indicating the database is locked. Based on some reading, I
+> believe this is because the server is using a sqlite backend, and it
+> would go away with a more production worthy backend. Anyway, it is
+> good
+> enough for some preliminary testing.
+> 
+> Starting the server is simple and only requires pipenv to be
+> installed:
+> 
+>  $ pipenv shell
+>  $ ./app.py
 
-Ross
+I need to spend some time digesting this series but this patch did make
+me a little sad.
 
-On 16 July 2018 at 22:04, Alistair Francis <alistair.francis@wdc.com> wrote:
-> When x11 is set in DISTRO_FEATURES enable user-session in dbus as the
-> user is probably targeting a user session.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta/recipes-core/dbus/dbus_1.12.8.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/dbus/dbus_1.12.8.bb b/meta/recipes-core/dbus/dbus_1.12.8.bb
-> index b3ddaafab5..7499b93244 100644
-> --- a/meta/recipes-core/dbus/dbus_1.12.8.bb
-> +++ b/meta/recipes-core/dbus/dbus_1.12.8.bb
-> @@ -102,7 +102,9 @@ EXTRA_OECONF = "--disable-tests \
->  EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
->  EXTRA_OECONF_append_class-native = " --disable-selinux"
->
-> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
-> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 user-session', '', d)} \
-> +                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> +                  "
->  PACKAGECONFIG_class-native = ""
->  PACKAGECONFIG_class-nativesdk = ""
->
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I'm hoping we can make the hash equivalence server something people use
+easily and perhaps part of bitbake. The dependencies you've used in
+this code mean it has a significantly higher "barrier to use" than most
+of our other code though :(
+
+On the one hand I can understand people wanting to use dependencies and
+new technology. On the other, keeping things simple also has
+advantages.
+
+Even the minimum python version is potentially problematic, we don't
+even have working recipes for python 3.6!
+
+I appreciate its a reference and means we can test the rest of the code
+ so its good but we may need a different implementation of this
+ultimately.
+
+Cheers,
+
+Richard
+
 
