@@ -1,23 +1,25 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 11128789C6
+	by mail.openembedded.org (Postfix) with ESMTP id 079F2789CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 09:50:49 +0000 (UTC)
+	Tue, 17 Jul 2018 09:53:58 +0000 (UTC)
 Received: from [172.16.1.14] (62-178-50-190.cable.dynamic.surfer.at
-	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 824C510DB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 11:50:50 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 603F810DB;
+	Tue, 17 Jul 2018 11:53:59 +0200 (CEST)
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <20180717093523.5582-1-dv@pseudoterminal.org>
-	<20180717093523.5582-3-dv@pseudoterminal.org>
+	<20180717093523.5582-2-dv@pseudoterminal.org>
+	<CA+chaQcHrnAFA5wmOx2QAj=-58wR-HUri+VWiXn6FBmm2BVJUw@mail.gmail.com>
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <a86c521e-d008-823f-3f5e-d2147ef89d31@pseudoterminal.org>
-Date: Tue, 17 Jul 2018 11:50:50 +0200
+Message-ID: <328d9bf4-dbf8-0f65-7e6d-e0199697625e@pseudoterminal.org>
+Date: Tue, 17 Jul 2018 11:53:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180717093523.5582-3-dv@pseudoterminal.org>
-Subject: Re: [PATCH 3/6] gstreamer1.0-plugin-bad: Update packageconfigs
+In-Reply-To: <CA+chaQcHrnAFA5wmOx2QAj=-58wR-HUri+VWiXn6FBmm2BVJUw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] gstreamer1.0-plugin-good: Update packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,147 +32,331 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 09:50:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jul 2018 09:53:59 -0000
+Content-Type: multipart/alternative;
+	boundary="------------4A9C3222C3342183974E855F"
 Content-Language: en-US
 
-Please note that libnice 0.1.14 is a requirement for the webrtc plugins. 
-I submitted a libnice recipe upgrade to 0.1.14 a few months ago. Please 
-commit that one first so we can have full WebRTC support (not just 
-webrtcdsp) in gstreamer1.0-plugins-bad.
+--------------4A9C3222C3342183974E855F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+The zlib and bz2 switches enable zlib and bzip2 support in the qtdemux 
+and matroska plugins. They do not enable some sort of standalone 
+bz2/zlib plugins. Is there any reason why these shouldn't be enabled always?
 
 
-On 2018-07-17 11:35, Carlos Rafael Giani wrote:
-> * Add packageconfigs for gl, libde265, lcms2, openh264, tinyalsa, ttml,
->    webrtc, webrtcdsp
-> * Add note about neon being dead (and --disable-neon config switch)
-> * Remove unnecessary gstglconfig.h line, since that file is no longer
->    part of -bad (it is in -base now)
-> * Update EXTRA_OECONF flags, since new plugins got added to -bad
-> * Add ttml to the default packageconfigs since its dependencies are
->    all in oe-core
-> ---
->   .../gstreamer1.0-plugins-bad_1.14.1.bb        | 35 ++++++++++++++-----
->   1 file changed, 26 insertions(+), 9 deletions(-)
+On 2018-07-17 11:50, Martin Jansa wrote:
+> Why do you remove bz2 and zlib PACKAGECONFIGs instead of just enabling 
+> them by default?
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-> index 0e477e5a9c..721df60b8d 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-> @@ -27,9 +27,14 @@ PACKAGECONFIG ??= " \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
->       ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-> -    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile uvch264 webp \
-> +    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-> +    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile ttml uvch264 webp \
->   "
->   
-> +# the gl packageconfig enables OpenGL elements that haven't been ported
-> +# to -base yet. They depend on the gstgl library in -base, so we do
-> +# not add GL dependencies here, since these are taken care of in -base.
-> +
->   PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
->   PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
->   PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
-> @@ -43,13 +48,17 @@ PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
->   PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
->   PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
->   PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
-> +PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,"
->   PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
-> +PACKAGECONFIG[libde265]        = "--enable-libde265,--disable-libde265,libde265"
->   PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
->   PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
-> +PACKAGECONFIG[lcms2]           = "--enable-lcms2,--disable-lcms2,lcms"
->   PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
->   PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
->   PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
->   PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
-> +PACKAGECONFIG[openh264]        = "--enable-openh264,--disable-openh264,openh264"
->   PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
->   # the opus encoder/decoder elements are now in the -base package,
->   # but the opus parser remains in -bad
-> @@ -61,28 +70,38 @@ PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
->   PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
->   PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
->   PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
-> +PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
-> +PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
->   PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
->   PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
->   PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
->   PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan"
->   PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
->   PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-> +PACKAGECONFIG[webrtc]          = "--enable-webrtc,--disable-webrtc,libnice"
-> +PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-audio-processing"
->   
->   # these plugins have no corresponding library in OE-core or meta-openembedded:
->   #   openni2 winks direct3d directsound winscreencap acm apple_media iqa
-> -#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa libde265
-> -#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openh264 opensles soundtouch spandsp
-> -#   spc teletextdec tinyalsa vdpau wasapi x265 zbar webrtcdsp
-> +#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa
-> +#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openmpt opensles soundtouch
-> +#   spandsp spc teletextdec vdpau wasapi x265 zbar
-> +
-> +# these plugins have been removed from oe-core because their upstream dependencies
-> +# are no longer maintained or available:
-> +#   neon
->   
->   EXTRA_OECONF += " \
->       --enable-decklink \
->       --enable-dvb \
->       --enable-fbdev \
-> +    --enable-ipcpipeline \
->       --enable-netsim \
->       --enable-shm \
->       --enable-vcd \
->       --disable-acm \
->       --disable-android_media \
-> +    --disable-aom \
->       --disable-apple_media \
->       --disable-avc \
->       --disable-bs2b \
-> @@ -97,26 +116,25 @@ EXTRA_OECONF += " \
->       --disable-iqa \
->       --disable-kate \
->       --disable-ladspa \
-> -    --disable-libde265 \
->       --disable-lv2 \
->       --disable-mpeg2enc \
->       --disable-mplex \
->       --disable-msdk \
->       --disable-musepack \
-> +    --disable-neon \
->       --disable-nvenc \
->       --disable-ofa \
->       --disable-openexr \
-> -    --disable-openh264 \
-> +    --disable-openmpt \
->       --disable-openni2 \
->       --disable-opensles \
->       --disable-soundtouch \
->       --disable-spandsp \
->       --disable-spc \
-> +    --disable-srt \
->       --disable-teletextdec \
-> -    --disable-tinyalsa \
->       --disable-vdpau \
->       --disable-wasapi \
-> -    --disable-webrtcdsp \
->       --disable-wildmidi \
->       --disable-winks \
->       --disable-winscreencap \
-> @@ -130,7 +148,6 @@ export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
->   ARM_INSTRUCTION_SET_armv4 = "arm"
->   ARM_INSTRUCTION_SET_armv5 = "arm"
->   
-> -FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
->   FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
->   FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
->   FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+> On Tue, Jul 17, 2018 at 11:45 AM Carlos Rafael Giani 
+> <dv@pseudoterminal.org <mailto:dv@pseudoterminal.org>> wrote:
+>
+>     * Always enable bz2 and zlib, since these are part of oe-core, and
+>       dependencies that are in oe-core can be always enabled
+>     * There is no twolame recipe in oe-core or in meta-openembedded, so
+>       disable it
+>     * Reorder the packageconfigs alphabetically
+>
+>     Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org
+>     <mailto:dv@pseudoterminal.org>>
+>     ---
+>      .../gstreamer1.0-plugins-good_1.14.1.bb
+>     <http://gstreamer1.0-plugins-good_1.14.1.bb>        | 17
+>     +++++++++--------
+>      1 file changed, 9 insertions(+), 8 deletions(-)
+>
+>     diff --git
+>     a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+>     <http://gstreamer1.0-plugins-good_1.14.1.bb>
+>     b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+>     <http://gstreamer1.0-plugins-good_1.14.1.bb>
+>     index 36eb3107ae..baeb19ddfe 100644
+>     ---
+>     a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+>     <http://gstreamer1.0-plugins-good_1.14.1.bb>
+>     +++
+>     b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+>     <http://gstreamer1.0-plugins-good_1.14.1.bb>
+>     @@ -18,7 +18,7 @@ LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+>                          file://common/coverage/coverage-report.pl
+>     <http://coverage-report.pl>;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607
+>     \
+>      file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+>
+>     -DEPENDS += "gstreamer1.0-plugins-base libcap"
+>     +DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"
+>      RPROVIDES_${PN}-pulseaudio += "${PN}-pulse"
+>      RPROVIDES_${PN}-soup += "${PN}-souphttpsrc"
+>
+>     @@ -28,7 +28,7 @@ PACKAGECONFIG ??= " \
+>          ${GSTREAMER_ORC} \
+>          ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+>          ${@bb.utils.contains_any('DISTRO_FEATURES',
+>     d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \
+>     -    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib
+>     v4l2 bz2 zlib mpg123 lame \
+>     +    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup
+>     speex taglib v4l2 \
+>      "
+>
+>      X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+>     @@ -37,11 +37,14 @@ PACKAGECONFIG[cairo]      =
+>     "--enable-cairo,--disable-cairo,cairo"
+>      PACKAGECONFIG[dv1394]     =
+>     "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+>      PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+>      PACKAGECONFIG[gdk-pixbuf] =
+>     "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+>     +PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+>      PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+>      PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+>      PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
+>     +PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+>      PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+>      PACKAGECONFIG[libv4l2]    =
+>     "--with-libv4l2,--without-libv4l2,v4l-utils"
+>     +PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+>      PACKAGECONFIG[pulseaudio] =
+>     "--enable-pulse,--disable-pulse,pulseaudio"
+>      PACKAGECONFIG[soup]       =
+>     "--enable-soup,--disable-soup,libsoup-2.4"
+>      PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+>     @@ -50,11 +53,6 @@ PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2
+>     --enable-v4l2-probe,--disable-gst
+>      PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+>      PACKAGECONFIG[wavpack]    =
+>     "--enable-wavpack,--disable-wavpack,wavpack"
+>      PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+>     -PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
+>     -PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
+>     -PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+>     -PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+>     -PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+>
+>      # qt5 support is disabled, because it is not present in OE core,
+>     and requires more work than
+>      # just adding a packageconfig (it requires access to moc, uic,
+>     rcc, and qmake paths).
+>     @@ -62,7 +60,9 @@ PACKAGECONFIG[gtk]        =
+>     "--enable-gtk3,--disable-gtk3,gtk+3"
+>      # in a gstreamer1.0-plugins-good bbappend).
+>
+>      EXTRA_OECONF += " \
+>     +    --enable-bz2 \
+>          --enable-oss \
+>     +    --enable-zlib \
+>          --disable-aalib \
+>          --disable-aalibtest \
+>          --disable-directsound \
+>     @@ -71,9 +71,10 @@ EXTRA_OECONF += " \
+>          --disable-oss4 \
+>          --disable-osx_audio \
+>          --disable-osx_video \
+>     +    --disable-qt \
+>          --disable-shout2 \
+>     +    --disable-twolame \
+>          --disable-waveform \
+>     -    --disable-qt \
+>      "
+>
+>      FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+>     -- 
+>     2.17.1
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
+--------------4A9C3222C3342183974E855F
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>The zlib and bz2 switches enable zlib and bzip2 support in the
+      qtdemux and matroska plugins. They do not enable some sort of
+      standalone bz2/zlib plugins. Is there any reason why these
+      shouldn't be enabled always?<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 2018-07-17 11:50, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQcHrnAFA5wmOx2QAj=-58wR-HUri+VWiXn6FBmm2BVJUw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <div dir="ltr">Why do you remove bz2 and zlib PACKAGECONFIGs
+        instead of just enabling them by default?</div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr">On Tue, Jul 17, 2018 at 11:45 AM Carlos Rafael
+          Giani &lt;<a href="mailto:dv@pseudoterminal.org"
+            moz-do-not-send="true">dv@pseudoterminal.org</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">* Always
+          enable bz2 and zlib, since these are part of oe-core, and<br>
+            dependencies that are in oe-core can be always enabled<br>
+          * There is no twolame recipe in oe-core or in
+          meta-openembedded, so<br>
+            disable it<br>
+          * Reorder the packageconfigs alphabetically<br>
+          <br>
+          Signed-off-by: Carlos Rafael Giani &lt;<a
+            href="mailto:dv@pseudoterminal.org" target="_blank"
+            moz-do-not-send="true">dv@pseudoterminal.org</a>&gt;<br>
+          ---<br>
+           .../<a href="http://gstreamer1.0-plugins-good_1.14.1.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">gstreamer1.0-plugins-good_1.14.1.bb</a> 
+                 | 17 +++++++++--------<br>
+           1 file changed, 9 insertions(+), 8 deletions(-)<br>
+          <br>
+          diff --git a/meta/recipes-multimedia/gstreamer/<a
+            href="http://gstreamer1.0-plugins-good_1.14.1.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">gstreamer1.0-plugins-good_1.14.1.bb</a>
+          b/meta/recipes-multimedia/gstreamer/<a
+            href="http://gstreamer1.0-plugins-good_1.14.1.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">gstreamer1.0-plugins-good_1.14.1.bb</a><br>
+          index 36eb3107ae..baeb19ddfe 100644<br>
+          --- a/meta/recipes-multimedia/gstreamer/<a
+            href="http://gstreamer1.0-plugins-good_1.14.1.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">gstreamer1.0-plugins-good_1.14.1.bb</a><br>
+          +++ b/meta/recipes-multimedia/gstreamer/<a
+            href="http://gstreamer1.0-plugins-good_1.14.1.bb"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">gstreamer1.0-plugins-good_1.14.1.bb</a><br>
+          @@ -18,7 +18,7 @@ LIC_FILES_CHKSUM =
+          "<a class="moz-txt-link-freetext" href="file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343">file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343</a> \<br>
+                               <a class="moz-txt-link-freetext" href="file://common/coverage/">file://common/coverage/</a><a
+            href="http://coverage-report.pl" rel="noreferrer"
+            target="_blank" moz-do-not-send="true">coverage-report.pl</a>;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607
+          \<br>
+                             
+ <a class="moz-txt-link-freetext" href="file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe">file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe</a>"<br>
+          <br>
+          -DEPENDS += "gstreamer1.0-plugins-base libcap"<br>
+          +DEPENDS += "gstreamer1.0-plugins-base libcap zlib bzip2"<br>
+           RPROVIDES_${PN}-pulseaudio += "${PN}-pulse"<br>
+           RPROVIDES_${PN}-soup += "${PN}-souphttpsrc"<br>
+          <br>
+          @@ -28,7 +28,7 @@ PACKAGECONFIG ??= " \<br>
+               ${GSTREAMER_ORC} \<br>
+               ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11',
+          d)} \<br>
+               ${@bb.utils.contains_any('DISTRO_FEATURES',
+          d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \<br>
+          -    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib
+          v4l2 bz2 zlib mpg123 lame \<br>
+          +    cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup
+          speex taglib v4l2 \<br>
+           "<br>
+          <br>
+           X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes
+          libxdamage"<br>
+          @@ -37,11 +37,14 @@ PACKAGECONFIG[cairo]      =
+          "--enable-cairo,--disable-cairo,cairo"<br>
+           PACKAGECONFIG[dv1394]     =
+          "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394
+          libraw1394"<br>
+           PACKAGECONFIG[flac]       =
+          "--enable-flac,--disable-flac,flac"<br>
+           PACKAGECONFIG[gdk-pixbuf] =
+          "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"<br>
+          +PACKAGECONFIG[gtk]        =
+          "--enable-gtk3,--disable-gtk3,gtk+3"<br>
+           PACKAGECONFIG[gudev]      =
+          "--with-gudev,--without-gudev,libgudev"<br>
+           PACKAGECONFIG[jack]       =
+          "--enable-jack,--disable-jack,jack"<br>
+           PACKAGECONFIG[jpeg]       =
+          "--enable-jpeg,--disable-jpeg,jpeg"<br>
+          +PACKAGECONFIG[lame]       =
+          "--enable-lame,--disable-lame,lame"<br>
+           PACKAGECONFIG[libpng]     =
+          "--enable-libpng,--disable-libpng,libpng"<br>
+           PACKAGECONFIG[libv4l2]    =
+          "--with-libv4l2,--without-libv4l2,v4l-utils"<br>
+          +PACKAGECONFIG[mpg123]     =
+          "--enable-mpg123,--disable-mpg123,mpg123"<br>
+           PACKAGECONFIG[pulseaudio] =
+          "--enable-pulse,--disable-pulse,pulseaudio"<br>
+           PACKAGECONFIG[soup]       =
+          "--enable-soup,--disable-soup,libsoup-2.4"<br>
+           PACKAGECONFIG[speex]      =
+          "--enable-speex,--disable-speex,speex"<br>
+          @@ -50,11 +53,6 @@ PACKAGECONFIG[v4l2]       =
+          "--enable-gst_v4l2 --enable-v4l2-probe,--disable-gst<br>
+           PACKAGECONFIG[vpx]        =
+          "--enable-vpx,--disable-vpx,libvpx"<br>
+           PACKAGECONFIG[wavpack]    =
+          "--enable-wavpack,--disable-wavpack,wavpack"<br>
+           PACKAGECONFIG[x11]        =
+          "--enable-x,--disable-x,${X11DEPENDS}"<br>
+          -PACKAGECONFIG[bz2]        =
+          "--enable-bz2,--disable-bz2,bzip2"<br>
+          -PACKAGECONFIG[zlib]       =
+          "--enable-zlib,--disable-zlib,zlib"<br>
+          -PACKAGECONFIG[lame]       =
+          "--enable-lame,--disable-lame,lame"<br>
+          -PACKAGECONFIG[mpg123]     =
+          "--enable-mpg123,--disable-mpg123,mpg123"<br>
+          -PACKAGECONFIG[gtk]        =
+          "--enable-gtk3,--disable-gtk3,gtk+3"<br>
+          <br>
+           # qt5 support is disabled, because it is not present in OE
+          core, and requires more work than<br>
+           # just adding a packageconfig (it requires access to moc,
+          uic, rcc, and qmake paths).<br>
+          @@ -62,7 +60,9 @@ PACKAGECONFIG[gtk]        =
+          "--enable-gtk3,--disable-gtk3,gtk+3"<br>
+           # in a gstreamer1.0-plugins-good bbappend).<br>
+          <br>
+           EXTRA_OECONF += " \<br>
+          +    --enable-bz2 \<br>
+               --enable-oss \<br>
+          +    --enable-zlib \<br>
+               --disable-aalib \<br>
+               --disable-aalibtest \<br>
+               --disable-directsound \<br>
+          @@ -71,9 +71,10 @@ EXTRA_OECONF += " \<br>
+               --disable-oss4 \<br>
+               --disable-osx_audio \<br>
+               --disable-osx_video \<br>
+          +    --disable-qt \<br>
+               --disable-shout2 \<br>
+          +    --disable-twolame \<br>
+               --disable-waveform \<br>
+          -    --disable-qt \<br>
+           "<br>
+          <br>
+           FILES_${PN}-equalizer +=
+          "${datadir}/gstreamer-1.0/presets/*.prs"<br>
+          -- <br>
+          2.17.1<br>
+          <br>
+          -- <br>
+          _______________________________________________<br>
+          Openembedded-core mailing list<br>
+          <a href="mailto:Openembedded-core@lists.openembedded.org"
+            target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+          <a
+            href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+            rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------4A9C3222C3342183974E855F--
