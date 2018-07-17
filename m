@@ -1,54 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BB13782EF
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8687778985
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 19:05:44 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id b15-v6so4058011oib.10
+	Tue, 17 Jul 2018 19:21:56 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id q11-v6so4136096oic.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 12:05:45 -0700 (PDT)
+	Tue, 17 Jul 2018 12:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IhGaQujJL0P8k9s2Lu0D5Uz6y+rvyzWHNGciLTtt+VA=;
-	b=wHKaDN0RMerfkCFMe9gXO2J1mRmQ7tLJbYderWj29AUBYR3R4/OvTPCJSJnbaTJNT8
-	SUmB4vq5h/m682br0Idl4qKSNJVBfuUIc0UN/lJ7tYxl2lKXZaspeA5VYF9/KpMPXT3/
-	9Nz7jin3qpWX5Wzh68UjUSNhvQf1sNYF2717hnwYng1pPyUEgcKatbYjwn90emFp3pXf
-	pSfvNwa/gLFqTD40IpMFlfEU+B3gRcZOzsZgPhAE5AiYXjuXazGg9zjujikC4og7g7+H
-	DUAgc31BtZQdzePARSD3inaPJ2eRct+z7JmsDpeBYMmpS/6Cnv8YsufRcGtlqfYEXHcm
-	dJpA==
+	:cc; bh=8cB30SZGgl16loeniIkiR4PSBHuRztHFUje4KtZzIYE=;
+	b=lZXcIBSzzFmP+pVkxptmggM3D2IJK0GhPeh664usP8Byq74yGXYOxLYaWpEZHBINYK
+	P6ZwyCTZcJg8SUNbkoAb86k6G4RjDFXNp6dXXlAs2qPeuW/Wuw2ar3WwL+VFWanZHyx6
+	pLWe+cOfc5jyd45tLKjsdIzc7G3Be7biDWHOtnnnwoH0030jcnmGBp91ThDQxwZPp7nf
+	//YavpzOmpbN8pTGxU+TBQN3HWRtzvVSGz4GFhruvv4OdxVXasTHHgDlwKs7mmtU5OtT
+	FZebMi02xLanzuOjr7Hqd2TiWlLU9CmhiCPIrXK6g1XCksuZlzeXSGgEyS90KnFytI7p
+	mdow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=IhGaQujJL0P8k9s2Lu0D5Uz6y+rvyzWHNGciLTtt+VA=;
-	b=DfW0NUlPrZY+QFhl/pnjXbrOjS9F/B88fYUFUW2OEsnLfk6kMpC7JDO4V5Sk4XzPK5
-	joRp4hEPlrwDLwwD0osiMoqe7KE3vLPkPj3t1Cm6SLjI1ZlZ4NsGrhtE+jYwo+b527jo
-	15bw12aiD1mx/UIywlfyGJ20EWDEEYy2szx/COYj2yr6uDApMvuDUfx5PYSJGOAsMv69
-	/kdBIp2Od/q9Eag+cCdMHH/4S2jFCJvmeJHk+lABECfKZjAx1T/r2DicuDU9pWRqHngm
-	tar2tUalK348QWzEJwwVydyu6Zogd9OmTp+njB5wu59weEtUaBIEo9Dm3JS6nY2pcfNA
-	qPVA==
-X-Gm-Message-State: AOUpUlHE57yqykLXHT2KXaqf5DUD50LoWKPpf+gf9fYPhGSJ24snZnnS
-	wVCKc3EvOzPlbrDkVh/peg3a1k2uOfnkGhPPYFH6uw==
-X-Google-Smtp-Source: AAOMgpe/xR78bBBpePrwMS24nnHgzgl0g44nlTpEwohitaQmOyeB8dYS24H/c88fW+P2oHXRirNCLd32Zxp+h+U1vnI=
-X-Received: by 2002:aca:2808:: with SMTP id 8-v6mr3194793oix.235.1531854345571;
-	Tue, 17 Jul 2018 12:05:45 -0700 (PDT)
+	bh=8cB30SZGgl16loeniIkiR4PSBHuRztHFUje4KtZzIYE=;
+	b=J4HLYd74scS1/ggTbbrCoQ/4gi57BCETw3JIpUgFod4pL0wm/IDa4lNbPql4J8ceYv
+	hNLMASsixM8Oq7yChbn8vaEcR2axnZ4YP2y7W7B01cZJEZK8qMxgg6GNoeYU5u93InBX
+	4trPKrlkSBSm61vaZQDPxgiYv0fCL6Re3vnoM5N9fA0P7GKD025DkoKfq0CmggQvrSaX
+	+5CXtsejVNZj2L6Gi7cPdiCbYabQ/z48OlKIxoYGd3whps7Up5GzkguqbEm3/4MawKOg
+	OGYItoV0ggXFWulB5JE21Kv+DRQ0Bf/+fe5LlPHVtLDFDalmK/7kj7q82H4x2M2mD5YZ
+	1Rbw==
+X-Gm-Message-State: AOUpUlHNWis2o43UvIdeJ7cZxpOXUTynFMtm6vJOxnvNUGDD7H89tR+C
+	ceyEQI8h/p9yfylS+GsR8h8VYnWvrwkj+WC1vQ9ooQ==
+X-Google-Smtp-Source: AAOMgpfsZVjZEXR/Q+qltgdSWNuISZx4mXdDEUsWueCs6yKVtq84dlX5wh0fxpRJAXhAJrmZBEF6v3axcBF+F/KLg1Y=
+X-Received: by 2002:aca:3f41:: with SMTP id
+	m62-v6mr3347258oia.18.1531855317542; 
+	Tue, 17 Jul 2018 12:21:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 12:05:24
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 17 Jul 2018 12:21:36
 	-0700 (PDT)
-In-Reply-To: <CAJ86T=XhVww9055CC8dcyySHPhiRfK1bDPdoyQwzFCXorep6yg@mail.gmail.com>
-References: <1531850817-26274-1-git-send-email-armccurdy@gmail.com>
-	<CAMKF1sp3z1n+t5QKgbiWn6MkXEGOEFF_8G_X=1dYFTcx48U3RQ@mail.gmail.com>
-	<CAJ86T=WYor_Gf2dpio37Yu86bmCfeDht9s6p02XFgH_2QDOv9w@mail.gmail.com>
-	<CAMKF1spGseSt53y4jON1S0sX8VFn4MfuQhyfPNfh3zK0Jt4asQ@mail.gmail.com>
-	<CAJ86T=XhVww9055CC8dcyySHPhiRfK1bDPdoyQwzFCXorep6yg@mail.gmail.com>
+In-Reply-To: <CAMKF1sq+kYj+hiPRRMbwZOR-Rr-MRmSM5aAoKUEWwiyROQPT3g@mail.gmail.com>
+References: <20180717163910.3196-1-ross.burton@intel.com>
+	<20180717163910.3196-12-ross.burton@intel.com>
+	<CAMKF1sq+kYj+hiPRRMbwZOR-Rr-MRmSM5aAoKUEWwiyROQPT3g@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Jul 2018 20:05:24 +0100
-Message-ID: <CAJTo0LbasEDM9nTA43Gm4rc+L_b5s4P1A2k9dEzh2TE1TSNSGA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 17 Jul 2018 20:21:36 +0100
+Message-ID: <CAJTo0LZCVmN1bZfOEUPqp01kamBs6sgnycfkwyERCx0oZjSYYQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: disable C source code generator
+Subject: Re: [PATCH 12/15] harfbuzz: upgrade 1.7.5 -> 1.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,15 +60,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 19:05:44 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 19:21:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 17 July 2018 at 19:49, Andre McCurdy <armccurdy@gmail.com> wrote:
-> It's an extremely obscure feature and I think PACKAGECONFIG options
-> should be reserved for stuff which we want to advertise as being
-> something a general user might want or need to control.
-
-FWIW, agreed.
+Realised I forgot to put that and updated my branch.  Because there's
+a new library, libharfbuzz-subset.so, which doesn't justify a new
+subpackage but otherwise upsets the renaming.
 
 Ross
+
+On 17 July 2018 at 19:23, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Jul 17, 2018 at 9:41 AM Ross Burton <ross.burton@intel.com> wrote:
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>  .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.4.bb}              | 7 ++++---
+>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>  rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.4.bb} (86%)
+>>
+>> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+>> similarity index 86%
+>> rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+>> rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+>> index 0a9b029461f..4d5964d6bb7 100644
+>> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+>> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+>> @@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+>>  DEPENDS = "glib-2.0 cairo fontconfig freetype"
+>>
+>>  SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+>> -
+>> -SRC_URI[md5sum] = "1466ab51fc5aaa6af4065936939cec62"
+>> -SRC_URI[sha256sum] = "84574e1b1f65ca694cb8fb6905309665c0368af18a312357f8ff886ee2f29563"
+>> +SRC_URI[md5sum] = "f176eeda0a4e51a056d3ea6b9e65c27f"
+>> +SRC_URI[sha256sum] = "3c592f86fa0da69e2e0e98cae9f5d5b61def3bb7948aa00ca45748f27fa545fd"
+>>
+>>  inherit autotools pkgconfig lib_package gtk-doc
+>>
+>> @@ -30,6 +29,8 @@ EXTRA_OECONF = " \
+>>
+>>  PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
+>>
+>> +LEAD_SONAME = "libharfbuzz.so"
+>> +
+>
+> why is this needed in this version
+>
+>>  FILES_${PN}-icu = "${libdir}/libharfbuzz-icu.so.*"
+>>  FILES_${PN}-icu-dev = "${libdir}/libharfbuzz-icu.la \
+>>                         ${libdir}/libharfbuzz-icu.so \
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
