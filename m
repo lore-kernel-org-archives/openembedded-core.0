@@ -1,48 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BD4D7872C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ua0-f176.google.com (mail-ua0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D38ED789BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 18:07:02 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id y19-v6so1708165qto.5
+	Tue, 17 Jul 2018 18:23:27 +0000 (UTC)
+Received: by mail-ua0-f176.google.com with SMTP id q12-v6so1295910ual.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 11:07:04 -0700 (PDT)
+	Tue, 17 Jul 2018 11:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=KV7S6GeyojoU2rmWdzgMbfJAygjp8R+YoufgVoMrv38=;
-	b=gtYVQ05tUkDTB9ZIFyaJIcMUYtFXTp+6Bc7FhpRngi9jGfSzJ5tiDRRrnxC73SNAuJ
-	BQ4V8BdSfaF1bf/KUwmhBIBZqRXrvPRbhD4Iu5BSM+7RiswZqCAZQH7V+JuS8krQiYHn
-	yy88j80wLKEGsU+lfSzH7HN/Q0DUaQi292PdOeN2srwkCSPfpj0TgMgt5a/PN82X2X0x
-	NOUY+SYe1PY7kymeaoiLWiRbOPlkH909Ku0x5EkLzJOAAsGOZOLi/iO57Sw1xugYuDNb
-	ORRhavTjqQAUndw79y2U4rUaE0cpw1IrHvqB/2kBPVNqx7CxchnJ3tz4jJAGB1yw7JKf
-	x/DQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ioCq/3awSZn7Jt/CL51Zr3/BlJXR8wlmXxvw5JOljxc=;
+	b=k61+4rLV7Qo+gyoIbAEQIdCX+7Mh6ENYjEV9NaIajRF+eg5hMoQ1zxwieYkGRYsN8g
+	l5sxz2qrALRJWvlaNFlOWg+dwfsu7jpGOSolsWwzuK6k9mBuCh2DLB3j7z/gZWK0IX5z
+	jGQ4zP2ZXdHyKXKh6YM3xZ62JqDV1XgGGUCH2yFOW841aSzUNiYbhl8zufrR4Zh4XNG9
+	tiMCxq89G8xB3Q/FWy8zwXlCjVxjUodxKwzQXR8rnUXQxsS5BVCJphOKAByyfOZ7jBk6
+	NmO6rREijmSWqM2xSfrsmU7VBgk6fEjfeATfs1/AbPiYRoRczK/16ztV7L70CxVMl6SM
+	3IoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=KV7S6GeyojoU2rmWdzgMbfJAygjp8R+YoufgVoMrv38=;
-	b=dz8HFhTNJs2moHStz7ry7vxKhw1KZesy+n5Nsg9QLoP0TaDiktMabfqamIIXJD3fYU
-	MR+apryyX+Qm/fRINmEBeHz4iv9b25r75Ys08Fh/SSkJy3LzCn7F7d0lXWVENZlrgAHA
-	YVxvptTxhfQB1CbnHzOrtCpuIKLvw411WvQuZqkoBt+t4OelR92nzRoSeCnKlvV1e/dQ
-	WTUGOCHMdpo3H+gvF498pw18FwJ5v6RG/et98UgrLCmsNnpgUAGnzQlL5XqppESkOOJB
-	AHd8unYryPotEU9THyXtKlq3btJCArQ6TiSgr8szmJvWDJ6eXv8notshT7I9JTnvhPzT
-	ABtA==
-X-Gm-Message-State: AOUpUlHeegBe8qPRQzaVgFgMKE0QUxMB5JusK0QrQPDojMfbeu3Im3xO
-	hJZY4vWqPN3PmH1QJ/c2PdO6Yg==
-X-Google-Smtp-Source: AAOMgpfxqIKy0IvFZisQ96QdmJ0SW3pcYrMg6+HqbSE9ezJSbLNkDMF1ROG+ayZ1OtBi0orajINqhQ==
-X-Received: by 2002:ac8:1bb8:: with SMTP id
-	z53-v6mr2772740qtj.278.1531850823713; 
-	Tue, 17 Jul 2018 11:07:03 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	v192-v6sm1343896qkb.0.2018.07.17.11.07.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 Jul 2018 11:07:03 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2018 11:06:57 -0700
-Message-Id: <1531850817-26274-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] curl: disable C source code generator
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ioCq/3awSZn7Jt/CL51Zr3/BlJXR8wlmXxvw5JOljxc=;
+	b=HGWidJnCgzlS1PaDouJ5P1rm/WgymXhGGIITlv//1fCgm1p/8dkOgun8xNDltyTCLF
+	EfmAEry1K6Je3xw9cpfG8c125firPPfEH5TQ7ReX7tadS0nQchly9WEPXSRHFKD9UlVC
+	zdpFKCjcNRouY2HbVF5mIxTRjk8dz6j/8aRRvgcHlevjAeYfKZ9y+0rwD63+bGp8kXPU
+	0EMHa7kaGuQiCmNAxYdPD4o3SRdaYFX7NzSAaQJy0IetOvNzHIN6RJujAC789cg/Nofl
+	HQk+HJFnh5GUZ3iBppEAsziHmCyUwcxIPBP67ZgowoliNd4K8yl2dXmvmBobOiwmRhIR
+	I9ZQ==
+X-Gm-Message-State: AOUpUlEhB2Aoeee+ZIv0vMph96j6Asefbc1BqtR0LieBJDYy/VCScltg
+	yQEKrwnfwl9S6iHqusKN7KNblWangEonLVBvLT4=
+X-Google-Smtp-Source: AAOMgpfnGf1rcCQykzlbLrbpwVpj4D+TEJrQEXUMxVgFqZVGC/97BgMKGyjcTO1sFAf5dPOZT4jEstI2PVE1nxP7mr4=
+X-Received: by 2002:a9f:33d8:: with SMTP id
+	y24-v6mr1771353uab.164.1531851808498; 
+	Tue, 17 Jul 2018 11:23:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180717163910.3196-1-ross.burton@intel.com>
+	<20180717163910.3196-12-ross.burton@intel.com>
+In-Reply-To: <20180717163910.3196-12-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Jul 2018 11:23:02 -0700
+Message-ID: <CAMKF1sq+kYj+hiPRRMbwZOR-Rr-MRmSM5aAoKUEWwiyROQPT3g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 12/15] harfbuzz: upgrade 1.7.5 -> 1.8.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 18:07:03 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 18:23:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The --libcurl command line option causes curl to generate C source
-code which, when compiled and linked with libcurl, creates a binary
-which behaves in the same way as curl when run with the other options
-passed on the curl command line.
+On Tue, Jul 17, 2018 at 9:41 AM Ross Burton <ross.burton@intel.com> wrote:
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  .../harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.4.bb}              | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>  rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.7.5.bb => harfbuzz_1.8.4.bb} (86%)
+>
+> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+> similarity index 86%
+> rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+> rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+> index 0a9b029461f..4d5964d6bb7 100644
+> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.7.5.bb
+> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.8.4.bb
+> @@ -11,9 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+>  DEPENDS = "glib-2.0 cairo fontconfig freetype"
+>
+>  SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+> -
+> -SRC_URI[md5sum] = "1466ab51fc5aaa6af4065936939cec62"
+> -SRC_URI[sha256sum] = "84574e1b1f65ca694cb8fb6905309665c0368af18a312357f8ff886ee2f29563"
+> +SRC_URI[md5sum] = "f176eeda0a4e51a056d3ea6b9e65c27f"
+> +SRC_URI[sha256sum] = "3c592f86fa0da69e2e0e98cae9f5d5b61def3bb7948aa00ca45748f27fa545fd"
+>
+>  inherit autotools pkgconfig lib_package gtk-doc
+>
+> @@ -30,6 +29,8 @@ EXTRA_OECONF = " \
+>
+>  PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
+>
+> +LEAD_SONAME = "libharfbuzz.so"
+> +
 
-  https://curl.haxx.se/docs/manpage.html#--libcurl
+why is this needed in this version
 
-It's a development tool and not generally useful on the target,
-especially if the target doesn't contain a toolchain etc.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/curl/curl_7.61.0.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
-index 03d627e..cc983fd 100644
---- a/meta/recipes-support/curl/curl_7.61.0.bb
-+++ b/meta/recipes-support/curl/curl_7.61.0.bb
-@@ -49,6 +49,7 @@ PACKAGECONFIG[verbose] = "--enable-verbose,--disable-verbose"
- PACKAGECONFIG[zlib] = "--with-zlib=${STAGING_LIBDIR}/../,--without-zlib,zlib"
- 
- EXTRA_OECONF = " \
-+    --disable-libcurl-option \
-     --disable-ntlm-wb \
-     --enable-crypto-auth \
-     --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
--- 
-1.9.1
-
+>  FILES_${PN}-icu = "${libdir}/libharfbuzz-icu.so.*"
+>  FILES_${PN}-icu-dev = "${libdir}/libharfbuzz-icu.la \
+>                         ${libdir}/libharfbuzz-icu.so \
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
