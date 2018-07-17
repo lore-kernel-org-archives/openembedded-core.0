@@ -1,62 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B75256E688
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AFC46E688
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 01:39:02 +0000 (UTC)
-Received: by mail-pl0-f66.google.com with SMTP id f6-v6so2143356plo.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 18:39:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=zTM9ECV8Cz2ZCXH5bkodfpjXWXwgp2lGkX9s/9V5qKI=;
-	b=cP+hJPNpkLjT8Cb8C6HhkRocgEP/XlQbMx0DJzD1P3bYi0Ws7tcaGr3PjJzJCV6ToI
-	fli0sIeX0fxHK1U/+BzVEWO9D//nXd96hMoYTkGE9LDq1f0sJ8OY3RKoVF5jyVF4PCh2
-	8bVFK+ABB/WAoDnnb5URUQwNEhcD9RzTujc292PNgCEHGcjExOwyaALn0NIv76Gp+wmQ
-	mJPDJN2Rb/JPwWrwhqLoSUJlCC0ys5iteUfU2nMHxH4w81j1Jp8fiwxLGKVGyv/Z0L5d
-	zA0ZEtnEPVN/Ffdl3gBJxZTCEtqPbwY62U37Q9SrnZvU2ZwNsxYy5433RGJMP4Ree3/K
-	zleQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=zTM9ECV8Cz2ZCXH5bkodfpjXWXwgp2lGkX9s/9V5qKI=;
-	b=D9odQQFQn5vF+j7er1YIcQEbPvygCaX2FDRj6y9pAky2Ukq2tqrxXg3vfBNlGHY2up
-	IjjhSRJbywgTk4nCS1akoBIveOm9ijiV1EASSYstBTTvjQZrXUEiGvG9hbeXLK4qtiQX
-	D+7ZrnxFnRBa8vQ9D82MbQX90lemoIw/RMeQwj4Q/RiHwyVZeF1A3yrU4ElP3VJAvpRS
-	PoyWQhShFIsu7UTWSCqc+wqN/IdjQChEZHvmrDzV+yPYL8xmIOIoHCAX9i7ErvHMlYgs
-	M9h/a/47JDCxZeCiyX+hlyQcierJe+Bc7RCewHy9rfAjfUCtmfo5uJWqxyPqp3H4z/ko
-	VPyg==
-X-Gm-Message-State: AOUpUlFFkfozlVfHCAdXj43Q6CCdglLFA/IRHoa28twdCovwPxrgoXEh
-	cyMvEpq4tKoRWacECELi4BEN/Wxj
-X-Google-Smtp-Source: AAOMgpcNpb32/II8HDezYCtgyeJuUDQPaTyH6kQnd+c9lHj7ZWNOZankYaPOmrGI35bSN2qOIFF1Ag==
-X-Received: by 2002:a17:902:1703:: with SMTP id
-	i3-v6mr18419182pli.263.1531791543376; 
-	Mon, 16 Jul 2018 18:39:03 -0700 (PDT)
-Received: from hermes.local ([2601:646:877f:9499:7d41:3be:d05:72ba])
-	by smtp.gmail.com with ESMTPSA id
-	22-v6sm65367125pfl.126.2018.07.16.18.39.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Jul 2018 18:39:02 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>,
-	Alistair Francis <alistair23@gmail.com>
-References: <20180716225009.3403-1-alistair.francis@wdc.com>
-	<CAJ86T=ULkG-857p6d4XMLo+rPxjwQxxK7x20mCkqxRsxSNTAjg@mail.gmail.com>
-	<CAKmqyKPM+dbsKuF1PinvhVuuQ-ersVygS-R0YW0U=pHbY=D7bw@mail.gmail.com>
-	<CAJ86T=UobqEgPdQWgV0hg4wWyx0ZpvCu0kGtxhvvwXKdvPWv8w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <79334d98-d203-ffa7-a5e4-49f905367c08@gmail.com>
-Date: Mon, 16 Jul 2018 18:39:01 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.0
+	Tue, 17 Jul 2018 01:47:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6H1lOWt015159
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Jul 2018 18:47:24 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
+	Mon, 16 Jul 2018 18:47:23 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1531711090.git.Qi.Chen@windriver.com>
+	<e6af6b2eb01b9352c712b960445cec300ac5aaf7.1531711090.git.Qi.Chen@windriver.com>
+	<CAJTo0LaiXVFq8jXwpbes1cP=-OWrw0NDWDWCVK0iN_=zprbX_w@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <39d1f7eb-f114-bf92-c318-c98664c12d65@windriver.com>
+Date: Tue, 17 Jul 2018 09:50:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UobqEgPdQWgV0hg4wWyx0ZpvCu0kGtxhvvwXKdvPWv8w@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Enable coredump if it is in PACKAGECONFIG
+In-Reply-To: <CAJTo0LaiXVFq8jXwpbes1cP=-OWrw0NDWDWCVK0iN_=zprbX_w@mail.gmail.com>
+X-Originating-IP: [128.224.162.218]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] oeqa/runtime/cases/rpm.py: workaround race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,132 +36,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 01:39:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Tue, 17 Jul 2018 01:47:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+I'll backport the patch, integrate it into the upgrade patch and send 
+out V6.
+
+Best Regards,
+Chen Qi
+
+On 07/16/2018 07:15 PM, Burton, Ross wrote:
+> Still refusing to accept a "sleep 1" on a race:
+>
+> 1) a 1 second sleep just makes the race rarer, a loaded host and
+> you'll hit it again and want to push it to 2 seconds
+> 2) Upstream fix at
+> https://github.com/systemd/systemd/commit/86d18f3b09ec984ef3732567af992adb2dc77a8a
+>
+> Ross
+>
+> On 16 July 2018 at 04:20, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> With the recent change in new systemd version, it's possible that
+>> a user is deleted before stopping user-runtime-dir@xxx.service.
+>> See link below.
+>>
+>>    https://github.com/systemd/systemd/issues/9541
+>>
+>> Workaround this issue by delay for 1 second before deleting user.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/lib/oeqa/runtime/cases/rpm.py | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+>> index 1e5e463..2f9dcad 100644
+>> --- a/meta/lib/oeqa/runtime/cases/rpm.py
+>> +++ b/meta/lib/oeqa/runtime/cases/rpm.py
+>> @@ -87,6 +87,12 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+>>               self.assertEqual(status, 0, msg=msg)
+>>
+>>           def unset_up_test_user(u):
+>> +            # Due to recent change in systemd, we need to sleep for a while
+>> +            # to avoid unexpected failure of user-runtime-dir@1000.service
+>> +            # See https://github.com/systemd/systemd/issues/9541
+>> +            if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
+>> +                self.target.run('sleep 1')
+>> +
+>>               status, output = self.target.run('userdel -r %s' % u)
+>>               msg = 'Failed to erase user: %s' % output
+>>               self.assertTrue(status == 0, msg=msg)
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-On 7/16/18 5:00 PM, Andre McCurdy wrote:
-> On Mon, Jul 16, 2018 at 4:22 PM, Alistair Francis <alistair23@gmail.com> wrote:
->> On Mon, Jul 16, 2018 at 4:19 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Mon, Jul 16, 2018 at 3:50 PM, Alistair Francis
->>> <alistair.francis@wdc.com> wrote:
->>>> Previously if coredump was enabled in PACKAGECONFIG the user would still
->>>> need to modify the conf file to enable it. Now the config will be
->>>> enabled if coredump is enalbed in the PACKAGECONFIG.
-                             ^^^^^^^
-another typo
-
->>>>
->>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>>> ---
->>>>   .../systemd/systemd/coredump.conf             | 21 +++++++++++++++++++
->>>>   meta/recipes-core/systemd/systemd_237.bb      |  5 +++++
->>>>   2 files changed, 26 insertions(+)
->>>>   create mode 100644 meta/recipes-core/systemd/systemd/coredump.conf
->>>>
->>>> diff --git a/meta/recipes-core/systemd/systemd/coredump.conf b/meta/recipes-core/systemd/systemd/coredump.conf
->>>> new file mode 100644
->>>> index 0000000000..4cbc19cdc5
->>>> --- /dev/null
->>>> +++ b/meta/recipes-core/systemd/systemd/coredump.conf
->>>> @@ -0,0 +1,21 @@
->>>> +#  This file is part of systemd.
->>>
->>> If this file is part of systemd, why does it need to be added to
->>> oe-core? Isn't there a copy somewhere in the systemd source directory
->>> which could be used?
->>
->> The file is included by default, but by default the coredump config is disabled.
->>
->> At first I was modifying the systemd source to enable it but I thought
->> that this would be a better approach as it allows explicit editing
->> instead of a diff which needs to be maintained.
-> 
-> A diff doesn't need to maintained until it fails to apply - and then
-> it generally NEEDS to be maintained, or at least reviewed.
-> 
-> If you unconditionally over-write a file then there's not warning when
-> your version becomes stale.
-> 
-> However, if you don't like patching, then an alternative could be to
-> use sed, e.g. something like:
-> 
->    sed 's/^#\(\(Storage\|Compress\|ProcessSizeMax\|ExternalSizeMax\).*=.*\)/\1/'
-> -i ${D}${sysconfdir}/systemd/coredump.conf
-> 
->>>> +#  systemd is free software; you can redistribute it and/or modify it
->>>> +#  under the terms of the GNU Lesser General Public License as published by
->>>> +#  the Free Software Foundation; either version 2.1 of the License, or
->>>> +#  (at your option) any later version.
->>>> +#
->>>> +# Entries in this file show the compile time defaults.
->>>> +# You can change settings by editing this file.
->>>> +# Defaults can be restored by simply deleting this file.
->>>> +#
->>>> +# See coredump.conf(5) for details.
->>>> +
->>>> +[Coredump]
->>>> +Storage=external
->>>> +Compress=yes
->>>> +ProcessSizeMax=2G
->>>> +ExternalSizeMax=2G
->>>> +#JournalSizeMax=767M
->>>> +#MaxUse=
->>>> +#KeepFree=
-
-We also need an easy way to make these values configurable during build, 
-since machines may not have these kind of resources to offer and would 
-like to use smaller value set.
-
->>>> diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
->>>> index 3efca33e73..db2848fd65 100644
->>>> --- a/meta/recipes-core/systemd/systemd_237.bb
->>>> +++ b/meta/recipes-core/systemd/systemd_237.bb
->>>> @@ -276,6 +276,11 @@ do_install() {
->>>>                          chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->>>>                  fi
->>>>          fi
->>>> +
->>>> +  # If coredump was enalbed, enable it in the config
->>>
->>> Typo.
->>
->> Thanks, I'll fix it.
->>
->>>
->>>> +  if ${@bb.utils.contains('PACKAGECONFIG', 'coredump', 'true', 'false', d)}; then
->>>> +    install -Dm 0755 ${FILE_DIRNAME}/${BPN}/coredump.conf ${D}${sysconfdir}/systemd/
->>>
->>> Installing from the meta layer directly to ${D} is not the typical
->>> approach and may cause unexpected problems (e.g. the recipe won't get
->>> rebuilt if the file is changed, etc).
->>
->> What is the preferred approach?
-> 
-> Add the file the SRC_URI and then install from ${WORKDIR}. There are
-> many example of that if you read through recipes in oe-core.
-> 
->> Alistair
->>
->>>
->>>> +  fi
->>>>   }
->>>>
->>>>
->>>> --
->>>> 2.17.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
