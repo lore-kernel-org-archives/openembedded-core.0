@@ -1,27 +1,29 @@
 Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 40ACE789AE
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id A547D789B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 09:10:43 +0000 (UTC)
+	Tue, 17 Jul 2018 09:10:48 +0000 (UTC)
 Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w6H9AisZ025404
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w6H9Ampm013478
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 11:10:44 +0200
+	Tue, 17 Jul 2018 11:10:48 +0200
 Received: from dev.vm6.ccp.siemens.com ([163.242.57.90])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w6H9Ahgj026611;
-	Tue, 17 Jul 2018 11:10:44 +0200
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id w6H9Amx5027186;
+	Tue, 17 Jul 2018 11:10:48 +0200
 Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 89A11969B09;
-	Tue, 17 Jul 2018 11:10:44 +0200 (CEST)
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 5ED59969B09;
+	Tue, 17 Jul 2018 11:10:49 +0200 (CEST)
 From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2018 11:10:32 +0200
-Message-Id: <20180717091035.26461-1-andrej.valek@siemens.com>
+Date: Tue, 17 Jul 2018 11:10:33 +0200
+Message-Id: <20180717091035.26461-2-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20180717091035.26461-1-andrej.valek@siemens.com>
+References: <20180717091035.26461-1-andrej.valek@siemens.com>
 In-Reply-To: <20180709125657.13192-1-andrej.valek@siemens.com>
 References: <20180709125657.13192-1-andrej.valek@siemens.com>
-Subject: [PATCH v6 0/3] Openssl 1.1 upgrading
+Subject: [PATCH v6 1/3] openssl-1.1: fix c_rehash perl errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +36,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 09:10:44 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 09:10:49 -0000
 
-Changes:
+Patch original c_rehash script with Debian patch instead
+of overriding it with own version.
 
-[v4]
- - just resend series
+Error output from c_reshah without patching:
+  Unknown regexp modifier "/b" at ./c_rehash line 15, at end of line
+  Unknown regexp modifier "/W" at ./c_rehash line 28, at end of line
+  Unknown regexp modifier "/3" at ./c_rehash line 28, at end of line
+  Unknown regexp modifier "/2" at ./c_rehash line 28, at end of line
+  No such class installdir at ./c_rehash line 63, near "Prefix our
+  installdir"
+    (Might be a runaway multi-line // string starting on line 28)
+  syntax error at ./c_rehash line 63, near "Prefix our installdir"
+  Can't redeclare "my" in "my" at ./c_rehash line 68, near ""
+  Execution of ./c_rehash aborted due to compilation errors.
 
-[v5]
- - sync dofile.pl patch with mainline
-
-[v6]
- - sync changes with current master
-
-Andrej Valek (3):
-  openssl-1.1: fix c_rehash perl errors
-  openssl-1.1: rework packaging
-  openssl-1.1: /etc/ssl location compatibility
-
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Marko Peter <peter.marko@siemens.com>
+---
  ...-dofile.pl-only-quote-stuff-that-actually.patch | 29 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.1.0h.bb | 27 ++++++++++++++++++--
- 2 files changed, 54 insertions(+), 2 deletions(-)
+ .../recipes-connectivity/openssl/openssl_1.1.0h.bb |  1 +
+ 2 files changed, 30 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch
 
+diff --git a/meta/recipes-connectivity/openssl/openssl/0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch b/meta/recipes-connectivity/openssl/openssl/0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch
+new file mode 100644
+index 0000000000..81a9b2d060
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch
+@@ -0,0 +1,29 @@
++openssl-1.1.0h: Fix c_rehash perl errors
++
++[No upstream tracking] -- https://github.com/openssl/openssl/issues/5772
++
++dofile.pl: Revert only quote stuff that actually needs quoting
++
++This wasn't a good solution, too many things depend on the quotes being
++there consistently.
++
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/00701e5ea84861b74d9d624f21a6b3fcb12e8acd]
++bug: 5772
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++
++diff --git a/util/dofile.pl b/util/dofile.pl
++index 955224df7d..b0e20681dd 100644
++--- a/util/dofile.pl
+++++ b/util/dofile.pl
++@@ -99,9 +99,9 @@ package main;
++ # This adds quotes (") around the given string, and escapes any $, @, \,
++ # " and ' by prepending a \ to them.
++ sub quotify1 {
++-    my $s = my $orig = shift @_;
+++    my $s = shift @_;
++     $s =~ s/([\$\@\\"'])/\\$1/g;
++-    $s ne $orig || $s =~ /\s/ ? '"'.$s.'"' : $s;
+++    '"'.$s.'"';
++ }
++ 
++ # quotify_l LIST
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+index 8d445e4655..c5de085521 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.0h.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
+            file://0001-Take-linking-flags-from-LDFLAGS-env-var.patch \
++           file://0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
 -- 
 2.11.0
 
