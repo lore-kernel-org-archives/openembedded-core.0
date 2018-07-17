@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AB6D878984
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 295617898A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 16:39:23 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id y22-v6so50382wma.0
+	Tue, 17 Jul 2018 16:39:25 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id r16-v6so1887532wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 09:39:25 -0700 (PDT)
+	Tue, 17 Jul 2018 09:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=VNDLMyt53TjcXh7cqfaLGzdA70gzWc+QsMoRr9KLdX4=;
-	b=xIy+NqmUs0+mAl2rIaT2x1jYt4S70ITB5rYLfZaqwVrPWZUooWoJucQd7+aiFa1V0M
-	ucPH8zn6Y75mx4v2n6yWmn7zFeQTzcnmRSu7RCKAi1S7a30edNIfiBAlAXqNezun/q5V
-	dBo0lj/CwRXPw0kPRKpJ1VzNPnhFPBWxZ+bNO3hNPTYV7GAK3LqfHsw+2r2bM/J5DwpU
-	DBZRuGIoAUAY8RuyQ8n1KoUfdJeaEvBl76Nv9fISkHhPc4/EZybvC3ONEFda4/lmVFZu
-	TnS3meX8/yIhH794mvFO/VN5oCdO5BI05z1KsE3N17ZDMsbtobyuVls6+XxZ3Y4azIu6
-	oWAw==
+	bh=ik+am51asfUNR52drAUjDSvZGUzOGS9d4o2VHPgyBQo=;
+	b=Zi/MbOFQFyocdOyXbPFri28c1LOpp65D4kKgJStHOXn9stujVOlBOYZHNC8bvlI8xg
+	hCmZVYJbrH2d8RyCRgPZmgnNdDc+EuuAip2Da5mwfpKa+9pRMwZbaPYcCa3LL72vYYYB
+	S9Li7rq3fymOW8UFrQvc6/ehW4zUtAaxyllvRO8UthZHAttpv2eIyTVHGXKhcFJwytpP
+	llfwY2eFkrCkTSTfMLh8VDDePXR2R4KK8GPZgoxtozcsT/u9BWpiDn5CW9/w4enFUdx0
+	cHhBPbUB7XKUbys4uxETWux83Dt1eGSF1LkpzzWGvD7mT8WRzVKCH88higjds6qwkZHi
+	cywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=VNDLMyt53TjcXh7cqfaLGzdA70gzWc+QsMoRr9KLdX4=;
-	b=I1tGYwP5cYYbLvxzVUHuE7C8h6Dz4kwa7CThQ8azrsxdmyFlIqUJQ0ydERLGXbwCvy
-	AlplL1woxzTH8hpP8+WWYkcVYp4MBBHjGUgQcEW480ZAPAuUoNJtCzqMIE5GiT644ONQ
-	7JQctx9cHWFZiOAmbeF2JJVWzl1iQUqTFUoWrjoV+8cr0/Fu1vr/NPOQhMaR5VfKLMZi
-	Ua07xa9JAcd/xW5FvY4Ety8YtOn1c5ua133tI56AN1KViUyprLvvjlU8g7Iy5DRtEW5M
-	+DnR+3R4qa+rp1cw+/VCOnN717Z9X1IWBgyaEget1HvzUPQEhNLEzFLXIECT0DX1bxmw
-	Q8OA==
-X-Gm-Message-State: AOUpUlGVhaLfy1v+kWP4sByiiYlNQznkSaDbifEkVCRiEtaUXXV9C3ft
-	VlRZnw0OAdULv8hnNQCRUfgWEm60
-X-Google-Smtp-Source: AAOMgpc7LLULP8XvOW2eT/WOj4mNdUOFAev8j24eBLjSsqvubMFcDmQcd3WNFGResTYgSS19bYkY8g==
-X-Received: by 2002:a1c:81c5:: with SMTP id
-	c188-v6mr1720553wmd.122.1531845564050; 
-	Tue, 17 Jul 2018 09:39:24 -0700 (PDT)
+	bh=ik+am51asfUNR52drAUjDSvZGUzOGS9d4o2VHPgyBQo=;
+	b=dztXd5DQAOsRSqHol5nP9jzp+uriPkmZvEliA2FiIcRhWH7cotQvLWwnkWlqkuvnCS
+	EYCK0RwdfXbrWdrU4TNblsvSqRWcS9wvM+lNvxXI0mtBklcIZRvE4ToN1tXBPu1aes5f
+	NH7B+cQTcB7FTbELPZrm8sMdRcJMvkkPDOEEMsqJ+Ng8YzvTUEAibl+rglBlBgEILcNk
+	I5mbGQCw4Oz+zwgEX5dOUlpDdW3GtuHa+jvpARLGSdA3MR9zEwWjhs3qU1VVoet6so5B
+	/RQLmj/1jZFFSF97yJ3Jib5DPRCcDc1HG4Gf2bsaixK09Fb2P/4pM98cUUbJq/4zCiw0
+	HSEg==
+X-Gm-Message-State: AOUpUlE6Pnjjn44LB1XqUhpwULdjmlYsjTQZq+j6pKrd27DFfhGMFs/4
+	tHynN9v6j9vSUq/Xjqb5ojDofzU4
+X-Google-Smtp-Source: AAOMgpe73jYKs8HQ3/Ze4nXR9h+5DYhIWNl7pTRsTIRYYM2MAwAoAVAZeOh172pu4uRChgTe4jAsqg==
+X-Received: by 2002:adf:80c9:: with SMTP id 67-v6mr1847394wrl.95.1531845565592;
+	Tue, 17 Jul 2018 09:39:25 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	i125-v6sm15958wmd.11.2018.07.17.09.39.23
+	i125-v6sm15958wmd.11.2018.07.17.09.39.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Jul 2018 09:39:23 -0700 (PDT)
+	Tue, 17 Jul 2018 09:39:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2018 17:39:03 +0100
-Message-Id: <20180717163910.3196-8-ross.burton@intel.com>
+Date: Tue, 17 Jul 2018 17:39:04 +0100
+Message-Id: <20180717163910.3196-9-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180717163910.3196-1-ross.burton@intel.com>
 References: <20180717163910.3196-1-ross.burton@intel.com>
-Subject: [PATCH 08/15] xz: upgrade 5.2.3 -> 5.2.4
+Subject: [PATCH 09/15] strace: upgrade 4.22 -> 4.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +59,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 16:39:24 -0000
+X-List-Received-Date: Tue, 17 Jul 2018 16:39:25 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/xz/{xz_5.2.3.bb => xz_5.2.4.bb} | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.2.3.bb => xz_5.2.4.bb} (84%)
+ ...aw_syscall.h-avoid-r7-specified-register-.patch | 74 ----------------------
+ .../strace/{strace_4.22.bb => strace_4.23.bb}      |  5 +-
+ 2 files changed, 2 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
+ rename meta/recipes-devtools/strace/{strace_4.22.bb => strace_4.23.bb} (90%)
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.3.bb b/meta/recipes-extended/xz/xz_5.2.4.bb
-similarity index 84%
-rename from meta/recipes-extended/xz/xz_5.2.3.bb
-rename to meta/recipes-extended/xz/xz_5.2.4.bb
-index 8d7f0f19943..791746e1cf2 100644
---- a/meta/recipes-extended/xz/xz_5.2.3.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.4.bb
-@@ -15,15 +15,16 @@ LICENSE_${PN}-dbg = "GPLv2+"
- LICENSE_${PN}-locale = "GPLv2+"
- LICENSE_liblzma = "PD"
+diff --git a/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch b/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
+deleted file mode 100644
+index 8584291ba83..00000000000
+--- a/meta/recipes-devtools/strace/strace/0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 0c75ebaad09d6d3f2395dfe6160904af883dd0d9 Mon Sep 17 00:00:00 2001
+-From: Andre McCurdy <armccurdy@gmail.com>
+-Date: Tue, 15 May 2018 15:34:39 -0700
+-Subject: [PATCH] linux/arm/raw_syscall.h: avoid r7 specified register
+- variables with Thumb
+-
+-If Thumb code is being generated and frame pointers are enabled, the
+-Thumb frame pointer in r7 clashes with any local variable which may
+-need to be assigned to r7 (e.g. the syscall NR when making a raw
+-syscall).
+-
+-With gcc, the double use of r7 results in a build error, e.g.
+-
+-  strace-4.22/tests/inject-nf.c:86:1: error: r7 cannot be used in asm here
+-
+-With clang, the double use of r7 can result in the compiler silently
+-generating broken code which crashes at run time due to frame pointer
+-corruption:
+-
+-  https://bugs.llvm.org/show_bug.cgi?id=34165
+-
+-In most cases the problem isn't visible as frame pointers will be
+-disabled automatically due to optimisation level. However to handle
+-cases where frame pointers are enabled (e.g. when CFLAGS etc are set
+-to support a debug build, etc) provide a version of raw_syscall_0
+-which manually saves and restores the frame pointer value in r7
+-to a temporary register before setting up the syscall NR in r7
+-and invoking the syscall.
+-
+-* linux/arm/raw_syscall.h (raw_syscall_0) [__thumb__]: Provide
+-an alternative version.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+----
+- linux/arm/raw_syscall.h | 15 +++++++++++++++
+- 1 file changed, 15 insertions(+)
+-
+-diff --git a/linux/arm/raw_syscall.h b/linux/arm/raw_syscall.h
+-index 69c7e23..ec534ec 100644
+---- a/linux/arm/raw_syscall.h
+-+++ b/linux/arm/raw_syscall.h
+-@@ -36,12 +36,27 @@ static inline kernel_ulong_t
+- raw_syscall_0(const kernel_ulong_t nr, kernel_ulong_t *err)
+- {
+- 	*err = 0;
+-+
+-+#ifdef __thumb__ /* && FRAME_POINTERS_ENABLED */
+-+
+-+	register kernel_ulong_t rt;
+-+	register kernel_ulong_t r0 __asm__("r0");
+-+	__asm__ __volatile__("mov %1,r7; mov r7,%2; swi 0x0; mov r7,%1"
+-+			     : "=r"(r0), "=&r"(rt)
+-+			     : "r"(nr)
+-+			     : "memory");
+-+
+-+#else
+-+
+- 	register kernel_ulong_t r7 __asm__("r7") = nr;
+- 	register kernel_ulong_t r0 __asm__("r0");
+- 	__asm__ __volatile__("swi 0x0"
+- 			     : "=r"(r0)
+- 			     : "r"(r7)
+- 			     : "memory");
+-+
+-+#endif
+-+
+- 	return r0;
+- }
+- # define raw_syscall_0 raw_syscall_0
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/strace/strace_4.22.bb b/meta/recipes-devtools/strace/strace_4.23.bb
+similarity index 90%
+rename from meta/recipes-devtools/strace/strace_4.22.bb
+rename to meta/recipes-devtools/strace/strace_4.23.bb
+index 99691f87c37..0c159fc6f6b 100644
+--- a/meta/recipes-devtools/strace/strace_4.22.bb
++++ b/meta/recipes-devtools/strace/strace_4.23.bb
+@@ -14,10 +14,9 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://mips-SIGEMT.patch \
+            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
+-           file://0001-linux-arm-raw_syscall.h-avoid-r7-specified-register-.patch \
+            "
+-SRC_URI[md5sum] = "7a2a7d7715da6e6834bc65bd09bace1c"
+-SRC_URI[sha256sum] = "068cd09264c95e4d591bbcd3ea08f99a693ed8663cd5169b0fdad72eb5bdb39d"
++SRC_URI[md5sum] = "fad4bba0947553cef34d46a9fd78f039"
++SRC_URI[sha256sum] = "7860a6965f1dd832747bd8281a04738274398d32c56e9fbd0a68b1bb9ec09aad"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
-                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
--                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
-+                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
-+                    "
+ inherit autotools ptest bluetooth
  
- SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[md5sum] = "ef68674fb47a8b8e741b34e429d86e9d"
--SRC_URI[sha256sum] = "71928b357d0a09a12a4b4c5fafca8c31c19b0e7d3b8ebb19622e96f26dbf28cb"
-+SRC_URI[md5sum] = "5ace3264bdd00c65eeec2891346f65e6"
-+SRC_URI[sha256sum] = "b512f3b726d3b37b6dc4c8570e137b9311e7552e8ccbab4d39d47ce5f4177145"
- UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- inherit autotools gettext
 -- 
 2.11.0
 
