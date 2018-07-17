@@ -1,33 +1,26 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CC0965CE8
+Return-Path: <mohamad.noor.alim.hussin@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7F2745C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2018 06:44:40 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 83A64E01480; Mon, 16 Jul 2018 23:44:41 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7F249E01743
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 23:44:30 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id C66EB440021
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2018 23:44:29 -0700 (PDT)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20180717064429.C66EB440021@auh.yoctoproject.org>
-Date: Mon, 16 Jul 2018 23:44:29 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2018-07-16
+	Tue, 17 Jul 2018 06:55:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jul 2018 23:55:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,364,1526367600"; d="scan'208";a="216611826"
+Received: from alim-desktop.png.intel.com ([172.30.199.42])
+	by orsmga004.jf.intel.com with ESMTP; 16 Jul 2018 23:55:25 -0700
+From: mohamad.noor.alim.hussin@intel.com
+To: yocto@yoctoproject.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 17 Jul 2018 14:54:56 +0800
+Message-Id: <1531810496-2948-1-git-send-email-mohamad.noor.alim.hussin@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: mohamad.noor.alim.hussin@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/runtime/cases/manualbsp: Add BSP testcases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,154 +33,312 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2018 06:44:40 -0000
-Content-Type: multipart/mixed; boundary="===============8970263805786820973=="
+X-List-Received-Date: Tue, 17 Jul 2018 06:55:26 -0000
 
---===============8970263805786820973==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+From: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMTEK
-ICAgICAgICBhY3BpY2EsIDIwMTgwNjI5LCBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYUBsaW5h
-cm8ub3JnPgogICAgICAgIHUtYm9vdC1ta2ltYWdlLCAyMDE4LjA3LCBNYXJlayBWYXN1dCA8bWFy
-ZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIG5mcy11dGlscywgMi4zLjIsIFJvYmVydCBZYW5n
-IDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHdlc3RvbiwgNC4wLjkxLCBEZW55
-cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgogICAgICAgIHB5dGhvbjMtcHljYWlybywgMS4x
-Ny4xLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGZyZWV0eXBlLCAy
-LjkuMSwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZHBrZywg
-MS4xOS4wLjUsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAgICAg
-IGlwdGFibGVzLCAxLjguMCwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGxnZS5jb20+
-CiAgICAgICAgbWVzYSwgMTguMS40LCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvckBv
-c3N5c3RlbXMuY29tLmJyPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi41Ni4xLCBNYXhpbiBC
-LiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBlbGZ1dGlscywgMC4xNzMsIEhv
-bmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICogU3VjY2VlZGVkOiAzNgog
-ICAgICAgIGN1cHMsIDIuMi44LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgd2F5bGFuZCwgMS4xNS45MSwgRGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAg
-ICAgICBsaWJncGctZXJyb3IsIDEuMzIsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVy
-LmNvbT4KICAgICAgICBiYWJlbHRyYWNlLCAxLjUuNiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
-a2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlidmEsIDIuMi4wLCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYmlucHV0LCAxLjExLjIsIE1heGluIEIuIEpv
-aG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIHZhbGEsIDAuNDAuNywgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgc3FsaXRlMywgMy4yNC4w
-LCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBnbnUtY29uZmln
-LCAyMDE1MDcyOC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFu
-Z0B3aW5kcml2ZXIuY29tPgogICAgICAgIHhmODYtdmlkZW8tZmJkZXYsIDAuNS4wLCBBcm1pbiBL
-dXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIHh6LCA1LjIuNCwgRGVueXMgRG15
-dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBjYS1jZXJ0aWZpY2F0ZXMsIDIwMTgwNDA5
-LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaW51
-eC1maXJtd2FyZSwgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9yIDxv
-dGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBwaWdsaXQsIDEuMC1uZXct
-Y29tbWl0cy1hdmFpbGFibGUsIE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgog
-ICAgICAgIGhhcmZidXp6LCAxLjguMywgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5j
-b20+CiAgICAgICAgY3VybCwgNy42MS4wLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwu
-Y29tPgogICAgICAgIHN0cmFjZSwgNC4yMywgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRy
-aXZlci5jb20+CiAgICAgICAgeGY4Ni1pbnB1dC1saWJpbnB1dCwgMC4yOC4wLCBBcm1pbiBLdXN0
-ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGJpbmQsIDkuMTMuMiwgQXJtaW4gS3Vz
-dGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICB4c2VydmVyLXhvcmcsIDEuMjAuMCwg
-QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBwdXp6bGVzLCAwLjAt
-bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNv
-bT4KICAgICAgICBtYXRjaGJveC10ZXJtaW5hbCwgMC4yLCBNYXhpbiBCLiBKb2huIDxtYXhpbi5q
-b2huQGludGVsLmNvbT4KICAgICAgICBwY2l1dGlscywgMy42LjEsIENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4KICAgICAgICBzeXNzdGF0LCAxMS43LjQsIENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJ2YS11dGlscywgMi4yLjAsIEFudWogTWl0dGFsIDxh
-bnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3B0ZmRpc2ssIDEuMC40LCBBbGV4YW5kZXIg
-S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwa2djb25mLCAxLjUuMSwg
-TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgY2FudGFyZWxsLWZv
-bnRzLCAwLjAuMjUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-ICAgICAgIGxpYnlhbWwsIDAuMi4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KICAgICAgICBidHJmcy10b29scywgNC4xNywgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgYmlzb24sIDMuMC41LCBDaGVuIFFpIDxRaS5D
-aGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgZ3N0LWV4YW1wbGVzLCAwLjAuMS1uZXctY29tbWl0
-cy1hdmFpbGFibGUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAg
-Y3JlYXRlcmVwby1jLCAwLjExLjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
-aWwuY29tPgogICAgICAgIGVwaXBoYW55LCAzLjI4LjMuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZ251cGcsIDIuMi45LCBIb25neHUgSmlhIDxo
-b25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgc2hhcmVkLW1pbWUtaW5mbywgMS4xMCwg
-TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9v
-bCBlcnJvcik6IDQ2CiAgICAgICAgaWZ1cGRvd24sIDAuOC4zMywgTWF4aW4gQi4gSm9obiA8bWF4
-aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgbGlicmVwbywgMS45LjAsIEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGJjLCAxLjA3LjEsIFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgcGFuZ28sIDEuNDIuMSwgTWF4aW4g
-Qi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgZ2RibSwgMS4xNiwgQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgY29yZXV0aWxzLCA4
-LjMwLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgaWN1LCA2Mi4xLCBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBhdHRyLCAy
-LjQuNDgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBmbGV4LCAyLjYu
-NCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHRjZi1hZ2VudCwgMS43
-LjAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgdXNidXRpbHMs
-IDAxMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
-YnVzeWJveCwgMS4yOS4xLCBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0BzaWVtZW5zLmNvbT4K
-ICAgICAgICBlMmZzcHJvZ3MsIDEuNDQuMywgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRy
-aXZlci5jb20+CiAgICAgICAgdnVsa2FuLCAxLjEuNzMuMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4u
-am9obkBpbnRlbC5jb20+CiAgICAgICAgc3lzdGVtdGFwLCAzLjMsIFZpY3RvciBLYW1lbnNreSA8
-a2FtZW5za3lAY2lzY28uY29tPgogICAgICAgIHB5dGhvbjMsIDMuNy4wLCBEZXJlayBTdHJha2Eg
-PGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGdkay1waXhidWYsIDIuMzYuMTIsIE1heGluIEIu
-IEpvaG4gPG1heGluLmpvaG5AaW50ZWwuY29tPgogICAgICAgIGxpYmljYWwsIDMuMC4zLCBNYXhp
-biBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBhcHQsIDEuNi4zLCBBbsOt
-YmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBsaWJkbmYsIDAuMTUu
-MiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbWVz
-b24sIDAuNDcuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgc2hhZG93LCA0LjYsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAg
-ICBxZW11LCAzLjAuMC1yYzAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZv
-dW5kYXRpb24ub3JnPgogICAgICAgIHJlMmMsIDEuMC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogICAgICAgIHZ1bGthbi1kZW1vcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
-TWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBpbnRlbC5jb20+CiAgICAgICAgc3F1YXNoZnMtdG9v
-bHMsIDQuMy1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3
-aW5kcml2ZXIuY29tPgogICAgICAgIGJ1aWxkLWNvbXBhcmUsIDIwMTUuMDIuMTAtbmV3LWNvbW1p
-dHMtYXZhaWxhYmxlLCBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNv
-bT4KICAgICAgICBzeXN0ZW1kLWJvb3QsIDIzOSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIu
-Y29tPgogICAgICAgIGZvbnRjb25maWcsIDIuMTMuMCwgTWF4aW4gQi4gSm9obiA8bWF4aW4uam9o
-bkBpbnRlbC5jb20+CiAgICAgICAgYWNsLCAyLjIuNTMsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICBsc2Jpbml0c2NyaXB0cywgMTAuMDAuMCwgUm9zcyBCdXJ0b24gPHJv
-c3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBwdWxzZWF1ZGlvLCAxMi4xLCBUYW51IEthc2tp
-bmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgcGVybCwgNS4yOC4wLCBNYXhpbiBCLiBKb2huIDxt
-YXhpbi5qb2huQGludGVsLmNvbT4KICAgICAgICBtcGZyLCA0LjAuMSwgS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45MCwgUm9zcyBCdXJ0b24gPHJvc3Mu
-YnVydG9uQGludGVsLmNvbT4KICAgICAgICBnbywgMS4xMC4zLCBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgogICAgICAgIHN5c3RlbXRhcC11cHJvYmVzLCAzLjMsIFZpY3RvciBLYW1lbnNr
-eSA8a2FtZW5za3lAY2lzY28uY29tPgogICAgICAgIGNvbm5tYW4sIDEuMzYsIENoYW5naHllb2sg
-QmFlIDxjaGFuZ2h5ZW9rLmJhZUBsZ2UuY29tPgogICAgICAgIGJ1aWxkLWFwcGxpYW5jZS1pbWFn
-ZSwgMTkuMC4wLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9u
-Lm9yZz4KICAgICAgICBsdHRuZy10b29scywgMi4xMC40LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICBsem9wLCAxLjA0LCBEZW55cyBE
-bXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgogICAgICAgIGRuZiwgMy4wLjMsIEFsZXhhbmRlciBL
-YW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGJpbnV0aWxzLCAyLjMxLCBL
-aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGlwdXRpbHMsIHMyMDE4MDYyOSwg
-Q2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGxnZS5jb20+CiAgICAgICAgbGx2bSwgNi4w
-LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
-ICAgICBzZWQsIDQuNSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgoKICAgIFRPVEFM
-OiBhdHRlbXB0ZWQ9OTMgc3VjY2VlZGVkPTM2KDM4LjcxJSkgZmFpbGVkPTU3KDYxLjI5JSkKClJl
-Y2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgTWF4aW4gQi4gSm9o
-biA8bWF4aW4uam9objogYXR0ZW1wdGVkPTE4IHN1Y2NlZWRlZD04KDQ0LjQ0JSkgZmFpbGVkPTEw
-KDU1LjU2JSkKICAgIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yOiBhdHRlbXB0ZWQ9
-MiBzdWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIFZpY3RvciBLYW1lbnNr
-eSA8a2FtZW5za3k6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAu
-MDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9
-MygxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEZhdGhpIEJvdWRyYSA8ZmF0aGkuYm91ZHJh
-OiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTAoMC4wMCUpIGZh
-aWxlZD00KDEwMC4wMCUpCiAgICBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDg6IGF0dGVtcHRlZD01
-IHN1Y2NlZWRlZD01KDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgQW7DrWJhbCBMaW3Ds24g
-PGxpbW9uLmFuaWJhbDogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEw
-MC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRlbXB0ZWQ9MSBzdWNj
-ZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEFuZHJlaiBWYWxlayA8YW5kcmVq
-LnZhbGVrOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkK
-ICAgIERlbnlzIERteXRyaXllbmtvIDxkZW55czogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTIoNTAu
-MDAlKSBmYWlsZWQ9Mig1MC4wMCUpCiAgICBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmc6IGF0dGVt
-cHRlZD01IHN1Y2NlZWRlZD0yKDQwLjAwJSkgZmFpbGVkPTMoNjAuMDAlKQogICAgRGVyZWsgU3Ry
-YWthIDxkZXJlazogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4w
-MCUpCiAgICBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD0zIHN1Y2Nl
-ZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MygxMDAuMDAlKQogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0
-ZW1wdGVkPTExIHN1Y2NlZWRlZD00KDM2LjM2JSkgZmFpbGVkPTcoNjMuNjQlKQogICAgS2hlbSBS
-YWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTUoMTAw
-LjAwJSkKICAgIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZTogYXR0ZW1wdGVkPTMgc3Vj
-Y2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0zKDEwMC4wMCUpCiAgICBNYXJlayBWYXN1dCA8bWFyZWsu
-dmFzdXQ6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQog
-ICAgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTE2IHN1Y2NlZWRl
-ZD05KDU2LjI1JSkgZmFpbGVkPTcoNDMuNzUlKQogICAgVGFudSBLYXNraW5lbiA8dGFudWs6IGF0
-dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgSG9uZ3h1
-IEppYSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTIoNjYuNjclKSBmYWlsZWQ9
-MSgzMy4zMyUpCg==
+Manualbsp.py contain test cases that was converted from manual testcases
+to auto which would run on Yocto reference boards such as Minnowboard,
+NUC, edgerouter and beaglebone. The testcase was added to support QA
+automation which target devices attached with removable media and would
+boot up using LAVA faramework. The testcase ID was taken form existing
+manual testcase on Testopia[1].
 
---===============8970263805786820973==--
+There are 2 scripts called manualbsp.py and bsphardware that needed
+to execute the test cases.
+
+Manualbsp.py contain testcases that need to run on target devices.
+There are 2 classes in this patch, BSPRuntimeTest and BSPHardwareTest.
+BSPRuntimeTest class used to run test such as check runlevel 3 or 5
+at runtime and check bash package.
+
+BSPHardware class would run test on removeable media such as USB stick,
+hard disk and MicroSD. The test cases are mount/unmount, read & write
+to removable media.
+
+Bsphardware script was written to reduce complexity of code from
+Manualbsp.py. It is used for device detection, mount/unmount and
+check runlevel on target device under test. This script would copy
+to target device as Manualbsp.py depend on it.
+
+Reference:
+[1] https://bugzilla.yoctoproject.org/tr_show_run.cgi?run_id=9635.
+
+Signed-off-by: Mohamad Noor Alim Hussin <mohamad.noor.alim.hussin@intel.com>
+---
+ meta/lib/oeqa/runtime/cases/manualbsp.py | 122 ++++++++++++++++++++++++++++
+ meta/lib/oeqa/runtime/files/bsphardware  | 132 +++++++++++++++++++++++++++++++
+ 2 files changed, 254 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/manualbsp.py
+ create mode 100755 meta/lib/oeqa/runtime/files/bsphardware
+
+diff --git a/meta/lib/oeqa/runtime/cases/manualbsp.py b/meta/lib/oeqa/runtime/cases/manualbsp.py
+new file mode 100644
+index 0000000..22d0d33
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/manualbsp.py
+@@ -0,0 +1,122 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.oeid import OETestID
++import subprocess
++import time
++
++class BspRuntimeTest(OERuntimeTestCase):
++
++    @OETestID(240)
++    def test_check_bash(self):
++        status, output = self.target.run('which bash')
++        msg = ('bash shell not working as expected. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestID(228)
++    def test_runlevel_5(self):
++        status, output = self.target.run('init 5')
++        msg = ('System unable to init 5 '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 255, msg = msg)
++        time.sleep(2)
++        command = 'bsphardware -r 5'
++        status, output = self.target.run(command)
++        msg = ('System did not start from runlevel 5. '
++                'Status:%s.' % (status))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestID(198)
++    def test_runlevel_3(self):
++        status, output = self.target.run('init 3')
++        msg = ('System unable to start with runlevel 3. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 255, msg = msg)
++        time.sleep(2)
++        command = 'bsphardware -r 3'
++        status, output = self.target.run(command)
++        msg = ('Unable to change from runlevel 5 to 3. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++class BspHardwareTest(OERuntimeTestCase):
++
++    @classmethod
++    def setUpClass(cls):
++        src = os.path.join(cls.tc.runtime_files_dir, 'bsphardware')
++        cls.tc.target.run('mkdir ~/test')
++        cls.tc.target.copyTo(src, '/usr/bin')
++
++    @classmethod
++    def tearDownClass(cls):
++        cls.tc.target.run('rm -rf ~/test')
++
++    @OETestID(216)
++    def test_USB_mount(self):
++        command = 'bsphardware -d sd -sp 1 -m ~/test/stick'
++        status, output = self.target.run(command)
++        msg = ('Unable to mount USB stick. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestID(217)
++    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_write_file'])
++    def test_USB_read_file(self):
++        command = 'cat ~/test/stick/hello_stick'
++        status, output = self.target.run(command)
++        msg = ('Unable to read file from USB stick. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_mount'])
++    @OETestID(219)
++    def test_USB_write_file(self):
++        command = 'touch ~/test/stick/hello_stick'
++        status, output = self.target.run(command)
++        msg = ('Status and  output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestDepends(['manualbsp.BspHardwareTest.test_USB_mount'])
++    @OETestID(218)
++    def test_USB_unmount(self):
++        command = 'bsphardware -u ~/test/stick'
++        status, output = self.target.run(command)
++        msg = ('Unable to unmount USB stick. ' 
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestID(241)
++    def test_MicroSD_mount(self):
++        command = 'bsphardware -d mmc -sp p1 -m ~/test/microsd'
++        status, output = self.target.run(command)
++        msg = ('Unable to mount MicroSD. '
++                'Status and output:%s and %s.' %(status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_write_file'])
++    @OETestID(242)
++    def test_MicroSD_read_file(self):
++        command = 'cat ~/test/microsd/hello_mmc'
++        status, output = self.target.run(command)
++        msg = ('Unable to read MicroSD. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_mount'])
++    @OETestID(244)
++    def test_MicroSD_write_file(self):
++        command = 'touch ~/test/microsd/hello_mmc'
++        status, output = self.target.run(command)
++        msg = ('Unable to write to MicroSD. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
++    @OETestDepends(['manualbsp.BspHardwareTest.test_MicroSD_mount'])
++    @OETestID(243)
++    def test_MicroSD_unmount(self):
++        command = 'bsphardware -u ~/test/microsd'
++        status, output = self.target.run(command)
++        msg = ('Unable to unmount MicroSD. '
++                'Status and output:%s and %s.' % (status, output))
++        self.assertEqual(status, 0, msg = msg)
++
+diff --git a/meta/lib/oeqa/runtime/files/bsphardware b/meta/lib/oeqa/runtime/files/bsphardware
+new file mode 100755
+index 0000000..3973825
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/bsphardware
+@@ -0,0 +1,132 @@
++#!/bin/bash
++
++# Description: This script used for Yocto Project BSP test.
++#              manualbsp.py script is depend on this script
++#              that available in poky/meta/lib/oeqa/runtime/cases/manualbsp.py.
++#              This script is should be located in
++#              poky/meta/lib/oeqa/runtime/cases/
++
++LOG_FILE="/tmp/bsphardware.log"
++
++usage() {
++echo "BSP hardware test is a script used to test hardware"
++echo "such as USB stick, micro SD and SSD hard disk on Yocto Project."$'\n'
++echo "Usage:"
++echo " -d, --device <keyword, e.g. sd/mmc>            Get device's name"
++echo " -sp, --setPartition <partition's number>       Set partition's number "
++echo " -m, --mount <path/to/mount>                    Mount the device to /path/to/mount"
++echo " -u, --umount <path/to/unmount>                 Unmont the mounted device"
++echo " -r, --runlevel <3|5>                           Get runlevel on current system"
++echo " -h, --help                                     Show the usage"$'\n'
++echo "Examples"
++echo " bsphardware -d sda -sp 1 -m ~/data   Mount /dev/sda1 on ~/data"
++}
++
++options() {
++SETPARTITION=""
++DEVICE=""
++while [[ $# -gt 0 ]]; do
++case "$1" in
++    -d|--device)
++        echo "[INFO]: get device's name" 2>&1 | tee -a $LOG_FILE
++        array_devices=()
++        index_device=()
++        array_devices=$(ls /dev/$2*)
++        for i in ${array_devices[@]}
++        do
++            index_device+=($i)
++        done
++        DEVICE="${index_device[0]}"
++        echo "[INFO]: Detected device: $DEVICE"$'\n' 2>&1 | tee -a $LOG_FILE
++        ;;
++    -sp| --setPartition)
++        echo "[INFO]: Set partition: $2" 2>&1 | tee -a $LOG_FILE
++        SETPARTITION=$2
++        ;;
++    -m|mount)
++        if [[ ! -d $2 ]];then
++            mkdir -p $2
++        fi
++        if [[ "$DEVICE" == "" || " $SETPARTITION" == "" ]]; then
++            echo "[ERROR]: Target device and partition not found." 2>&1 | tee -a $LOG_FILE 
++            echo "[INFO]: Use -d <device_keyword> -sp <partition's number> -m <dir>"  2>&1 | tee -a $LOG_FILE
++        else
++            echo "[INFO]: Mounting removable media..." 2>&1 | tee -a $LOG_FILE
++            echo "[DEBUG]: commandline: mount $DEVICE$SETPARTITION $2"$'\n' 2>&1 | tee -a $LOG_FILE > /dev/null
++            mount $DEVICE$SETPARTITION $2
++        fi
++        if [[ $? -eq 0 ]]; then
++            echo "[INFO]: Device $DEVICE$SETPARTITION mount successfully"$'\n' 2>&1 | tee -a $LOG_FILE
++            exit 0
++        else
++            echo "[ERROR]: Unable to mount device $DEVICE$SETPARTITION. Device does not exist"$'\n' 2>&1 | tee -a $LOG_FILE
++            exit 1
++        fi
++        ;;
++    -u|umount)
++        echo "[INFO]: Unmount $2" 2>&1 | tee -a $LOG_FILE
++        if [[ -d $2 ]]; then
++            echo "[DEBUG]: commandline: umount from $2" 2>&1 | tee -a $LOG_FILE > /dev/null
++            umount $2
++        else
++            echo "[Error]: No mount point on $2"$'\n' 2>&1 | tee -a $LOG_FILE
++            exit 1
++        fi
++        if [[ $? -eq 0 ]];then 
++            echo "[INFO]: Device $2 unmount successfully" 2>&1 | tee -a $LOG_FILE
++            echo "[INFO]: Removing mount point on $2" $'\n' 2>&1 | tee -a $LOG_FILE
++            rm -rf $2
++        else
++            echo "[ERROR]: Unable to unmount from $2"$'\n' 2>&1 | tee -a $LOG_FILE
++        fi
++        ;;
++    -r|--runlevel)
++        level=$(runlevel | cut -d " " -f2)
++        echo "[DEBUG]: commandline: runlevel | cut -d ' ' -f2" 2>&1 | tee -a $LOG_FILE > /dev/null
++        if [[ "$2" == "3" || "$2" == "5" ]]; then
++            if [[ "$level" == "3" && "$level" == "$2" ]]; then
++                echo "[DEBUG]: Test runlevel 3"  2>&1 | tee -a $LOG_FILE
++                echo "[INFO]: System start with runlevel: $level"$'\n' 2>&1 | tee -a $LOG_FILE
++                exit 0
++            elif [[ "$level" == "5" && "$level" == "$2" ]]; then
++                echo "[DEBUG]: Test runlevel 5" 2>&1 | tee -a $LOG_FILE > /dev/null
++                echo "[INFO]: System start with runlevel: $level"$'\n' 2>&1 | tee -a $LOG_FILE
++                exit 0
++            else
++                echo "[INFO]: System did not start with runlevel: $2"$'\n' 2>&1 | tee -a $LOG_FILE
++                exit 1
++            fi
++        else
++            echo "[ERROR]: Runlevel other than 3 & 5 are not allowed."$'\n' 2>&1 | tee -a $LOG_FILE
++            exit 1
++        fi
++        ;;
++    -h|--help)
++        usage
++        exit 0
++        ;;
++    *) 
++        echo "[Error]: Arguments $1 is not exists."$'\n' 2>&1 | tee -a $LOG_FILE
++        usage
++        exit 1
++        ;;
++esac
++shift
++shift
++done
++}
++
++main() {
++if [ "$#" == "0" ];then
++    usage
++    exit 1
++esh vs shlse
++    echo "[INFO]: Start-Date: $(date '+%Y-%m-%d %H:%M:%S')" 2>&1 | tee -a $LOG_FILE > /dev/null
++    echo "[DEBUG]: commandline: $0 ${POSITIONAL[*]}" 2>&1 | tee -a $LOG_FILE > /dev/null
++    options "${POSITIONAL[@]}"
++fi
++}
++
++POSITIONAL=()
++POSITIONAL+=("$@")
++main ${POSITIONAL[@]}
+-- 
+2.7.4
+
+
