@@ -1,56 +1,47 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DDE678883;
-	Wed, 18 Jul 2018 13:53:11 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id 72-v6so4229162itw.3;
-	Wed, 18 Jul 2018 06:53:12 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D3CD97899B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2018 14:27:41 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id h22-v6so2598944vke.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2018 07:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=jpdjHX2FzzZ3gJPd/X/f7qOrDAyu/XhLQH4IyyjvnRY=;
-	b=n/VGjmCVA5429kDWObr0rfq8gHKP05nW9YeQXk1fNuXIQ7jWWoxpKHkXH9yC6A91Hc
-	8tONCY0CtP4fZ3GRQshc7sWJC1reBy19pr1ey8RHQCgLM2hCGxJEwVsXSRy2YTilD0Di
-	3YDW8EIuT/u9ir2hYXnDlinK9ilpBdqlj9/hPE7+o9FGOXXupl8qeu4K5/8GZywsD11Y
-	zQbAYEwXP3KgtLE/00K+6DzC2QYtdtAmgOkYj9tpMffxLt7DNSMZiW3MavpaatmWCLkT
-	gBWBLqDC0XyQ7340zT2ZHh1fAX59fT5DCAHMG36R2FNgv61LpQsvQEVABzHbBpyVxNy3
-	iKPA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=K14tPVljY621D6jGGtKFtXIDtBNvV8VkCF+MnlHkih0=;
+	b=rkwpZ/f4M8X42bHPx62zpn64GUyLRXU3xgQvgyOrV3iJ3EWrtQcqVmS3Z+LgFTF3o0
+	Fw81IZoU8Y/otlCqWmnrrMNnP62GdOkCSND/d6zU5IVChKmMha5lOQmhLiPd41ol3XN0
+	WRHQRXdjeO71dr8M1vgURR7I+OyxugrCNYTnrOP7nB5q/TlVhGvm1IvYNxo+Bm2LJpjt
+	9EA2W99KBaoDeXf9432kgBq3M2GBOWJxQRzywlOzN4L85D3i9wZ583JX1+7YlNSExuFB
+	tUW1yQAYejOAnoMyDSsRhKsDsokeHEMoJRvJYxT+i8rKVjtIM8OY8jl3JI5Zqa7COnOB
+	IU6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=jpdjHX2FzzZ3gJPd/X/f7qOrDAyu/XhLQH4IyyjvnRY=;
-	b=iAWgY9szjjrgNzQWWZxoZpj1p1Z2agb0MjGrCQ/5zv+3kwo1l9XvW0AsoTf4HgLHyp
-	j4dxL2RlvW18VyJ2YOWiQgLSSRYBCgoiaGTSdNlQ6wlf/knBro3NXUyx6qslp8NG3E/f
-	dz4hA5n/2nZnBU/73viMDz3TvV6wTA5FRqeP+VhssHnpwYnKEknN45V7yPTkE5ydMlaD
-	i2hoAsvUewXVmfr0TcLVrnoldm9T64NqdMJzv4G3goOHhpFZ14vhjfJsYtkz8u8VbsPO
-	7w4z6qNSIHW+W7bYYfQraYDloyT1C7MeDa1toEfwCd+c6+mKoH3I1uAO6EkUQzaEPE2X
-	J6yA==
-X-Gm-Message-State: AOUpUlF0ktvzuSmfouEga7BVghPZKhEyhjssnYNB/cJxd4xxqE7wiTG8
-	m3tZ4wGNyFSc7LCz11I5RIE=
-X-Google-Smtp-Source: AAOMgpdbOhXjUf5Aie4fUXADgQo2mNUyaVo3oWC5VSlZFv5aL3roXDKiFsvEEtHmNvuIgNlSf3WSRw==
-X-Received: by 2002:a02:8b57:: with SMTP id
-	w23-v6mr5305019jak.73.1531921992302; 
-	Wed, 18 Jul 2018 06:53:12 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	x76-v6sm1491937itb.17.2018.07.18.06.53.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 18 Jul 2018 06:53:11 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <4bc3d13a7652fbce838d519eb8dfa827e78e8e6d.camel@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2018 08:53:11 -0500
-In-Reply-To: <c90e84ccea269649256438f026bf97cfeb794800.camel@linuxfoundation.org>
-References: <20180716203728.23078-1-JPEWhacker@gmail.com>
-	<20180716203728.23078-9-JPEWhacker@gmail.com>
-	<c90e84ccea269649256438f026bf97cfeb794800.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
-Mime-Version: 1.0
-Subject: Re: [bitbake-devel] [RFC 8/9] hashserver: Add initial reference server
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=K14tPVljY621D6jGGtKFtXIDtBNvV8VkCF+MnlHkih0=;
+	b=MI/OBPwgTT2w522WTseZ0nol05lW2VaUJF8lhntmxw2z4JYXlPMSvFPWaMjMZMwr0g
+	wi22uupHE1YcWD38X0LLTuZJjwEhmcEv49rWd/0nqX5Zx+r1jskzjRDEoDsCk6jKXzos
+	6ja3o7qH+P9L09G/M6vwN1PiHuoQ0yUNZ+pu04dCnepeKJGQ34zqifN/kLb9YewihKUR
+	heSecrT5BE2YW78aoftfCIAfABQm6l8Ivxnhk4hEElBKWQjFyb1P8w5WyOCua8v+KGLC
+	BNrom1sT4Q4P1z8oAbalEk+hFiFaRGCQyfZKCNi/bYBWigmPOYDbT1R9fPptDBZsXiGA
+	BOgg==
+X-Gm-Message-State: AOUpUlEPzkeFEJfEaLAUR+ESWx7eg6mCuJSwdiGF2EvigQkCRgxgz7j1
+	NWQM2/2q7F3EnokUSDhmVltrrmKTb9kOpS4PxNE=
+X-Google-Smtp-Source: AAOMgpeN+ZHPWQW1L7fP1J6LVg7GV/nNx3KvONUQNwkA2ZYgePCejjU69TC/lCwGGviUpVERQQ/wDiXYMuY2nP4AlAU=
+X-Received: by 2002:a1f:e605:: with SMTP id d5-v6mr3450805vkh.4.1531924062545; 
+	Wed, 18 Jul 2018 07:27:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20180717201021.1640-1-raj.khem@gmail.com>
+	<CAJTo0LaufeWeBLdsY1XAt=XU-ifopVm64mqEUDUCiZSbwwCb1w@mail.gmail.com>
+In-Reply-To: <CAJTo0LaufeWeBLdsY1XAt=XU-ifopVm64mqEUDUCiZSbwwCb1w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 18 Jul 2018 07:27:31 -0700
+Message-ID: <CAMKF1sotZc-6f0H5SKo=jySoVdPeXp+f-dP5Bacs+Cg39vf03w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] binutils: Upgrade to 2.31 release branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,77 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 13:53:11 -0000
+X-List-Received-Date: Wed, 18 Jul 2018 14:27:42 -0000
+Content-Type: multipart/alternative; boundary="000000000000922a68057146dd9e"
+
+--000000000000922a68057146dd9e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-07-17 at 13:11 +0100, Richard Purdie wrote:
-> On Mon, 2018-07-16 at 15:37 -0500, Joshua Watt wrote:
-> > Adds an initial reference implementation of the hash server.
-> > 
-> > NOTE: This is my first dive into HTTP & REST technologies. Feedback
-> > is
-> > appreciated. Also, I don't think it will be necessary for this
-> > reference
-> > implementation to live in bitbake, and it can be moved to it's own
-> > independent project if necessary?
-> > 
-> > Also, this server has some concurrency issues that I haven't
-> > tracked
-> > down and will occasionally fail to record a new POST'd task with an
-> > error indicating the database is locked. Based on some reading, I
-> > believe this is because the server is using a sqlite backend, and
-> > it
-> > would go away with a more production worthy backend. Anyway, it is
-> > good
-> > enough for some preliminary testing.
-> > 
-> > Starting the server is simple and only requires pipenv to be
-> > installed:
-> > 
-> >  $ pipenv shell
-> >  $ ./app.py
-> 
-> I need to spend some time digesting this series but this patch did
-> make
-> me a little sad.
-> 
-> I'm hoping we can make the hash equivalence server something people
-> use
-> easily and perhaps part of bitbake. The dependencies you've used in
-> this code mean it has a significantly higher "barrier to use" than
-> most
-> of our other code though :(
-> 
-> On the one hand I can understand people wanting to use dependencies
-> and
-> new technology. On the other, keeping things simple also has
-> advantages.
-> 
-> Even the minimum python version is potentially problematic, we don't
-> even have working recipes for python 3.6!
-> 
-> I appreciate its a reference and means we can test the rest of the
-> code
->  so its good but we may need a different implementation of this
-> ultimately.
+Thanks! Yes I had tried that patch locally here and
+It is the right one
 
-I had a look around, and I think it should be quite feasible to
-implement a reference server using only the standard Python libraries
-(e.g. SimpleHTTPServer). The actual API that the server is *required*
-to implement is very small (a single endpoint of "/v1/equivalent" with
-GET and POST methods). It will probably have a number of limitations
-(scalability, authentication, security, etc.) but for something to get
-started or for automated testing purposes, I think it will be
-sufficient.
+On Wed, Jul 18, 2018 at 5:21 AM Burton, Ross <ross.burton@intel.com> wrote:
 
-I'll probably wait a few days at least before I loop back around to
-look at that, so I'd like to leave this discussion open, e.g. Do we
-want a simpler reference implementation?
+> Breaks grub-efi:
+>
+> DEBUG: Executing shell function do_mkimage
+> grub-mkimage: error: relocation 0x4 is not implemented yet.
+>
+> Looks like
+> http://git.savannah.gnu.org/cgit/grub.git/commit/util?id=842c390469e2c2e10b5aa36700324cd3bde25875
+> ,
+> i'll pick that in.
+>
+> Apart from that though, everything else built so I'll respin with this
+> grub patch and then we get the selftests...
+>
+> Ross
+>
 
-> 
-> Cheers,
-> 
-> Richard
-> 
+--000000000000922a68057146dd9e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><div dir=3D"auto">Thanks! Yes I had tried that patch locally here and=
+=C2=A0</div></div><div dir=3D"auto">It is the right one</div><div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Jul 18, 2018 at 5:21 AM Burt=
+on, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Breaks grub-efi:<br=
+>
+<br>
+DEBUG: Executing shell function do_mkimage<br>
+grub-mkimage: error: relocation 0x4 is not implemented yet.<br>
+<br>
+Looks like <a href=3D"http://git.savannah.gnu.org/cgit/grub.git/commit/util=
+?id=3D842c390469e2c2e10b5aa36700324cd3bde25875" rel=3D"noreferrer" target=
+=3D"_blank">http://git.savannah.gnu.org/cgit/grub.git/commit/util?id=3D842c=
+390469e2c2e10b5aa36700324cd3bde25875</a>,<br>
+i&#39;ll pick that in.<br>
+<br>
+Apart from that though, everything else built so I&#39;ll respin with this<=
+br>
+grub patch and then we get the selftests...<br>
+<br>
+Ross<br>
+</blockquote></div></div>
+
+--000000000000922a68057146dd9e--
