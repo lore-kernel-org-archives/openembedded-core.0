@@ -1,23 +1,59 @@
-Return-Path: <raphael.kubo.da.costa@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E60C6789CF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7161E789E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 11:18:04 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jul 2018 04:18:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,370,1526367600"; d="scan'208";a="57455628"
-Received: from rkubodac-desk.ger.corp.intel.com ([10.252.5.122])
-	by orsmga007.jf.intel.com with ESMTP; 18 Jul 2018 04:17:50 -0700
-From: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2018 13:17:47 +0200
-Message-Id: <20180718111747.54105-1-raphael.kubo.da.costa@intel.com>
-X-Mailer: git-send-email 2.14.4
-Subject: [pyro][PATCH] gcc: Backport upstream r261799
+	Wed, 18 Jul 2018 12:16:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 794E018568;
+	Wed, 18 Jul 2018 14:16:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id bd_H7ZNJWyTH; Wed, 18 Jul 2018 14:16:18 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 068CA182C6;
+	Wed, 18 Jul 2018 14:16:18 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E596E1E079;
+	Wed, 18 Jul 2018 14:16:17 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D9E891E078;
+	Wed, 18 Jul 2018 14:16:17 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed, 18 Jul 2018 14:16:17 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id CDB0517DD;
+	Wed, 18 Jul 2018 14:16:17 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 18 Jul 2018 14:16:17 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 18 Jul 2018 14:16:17 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Wed, 18 Jul 2018 14:16:17 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/6] gstreamer1.0-plugin-base: Update
+	packageconfigs
+Thread-Index: AQHUHbLqp1s/gHbLc0Ckih3vokxxrKSU2+JQ
+Date: Wed, 18 Jul 2018 12:16:17 +0000
+Message-ID: <ab21735150494d73905719782959b68d@XBOX02.axis.com>
+References: <20180717093523.5582-1-dv@pseudoterminal.org>
+In-Reply-To: <20180717093523.5582-1-dv@pseudoterminal.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 1/6] gstreamer1.0-plugin-base: Update	packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,548 +66,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 11:18:05 -0000
+X-List-Received-Date: Wed, 18 Jul 2018 12:16:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The upstream commit merges several bug fixes into the GCC 6 branch; we are
-specifically interested in the fix for GCC bug 83623, which was causing
-Chromium 68+ to fail to build on ARM and aarch64 with
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Carlos Rafael Giani
+> Sent: den 17 juli 2018 11:35
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 1/6] gstreamer1.0-plugin-base: Update
+> packageconfigs
+>=20
+> * Always enable zlib, since it is part of oe-core, and dependencies that
+>   are in oe-core can be always enabled
 
-    In file included from ../../third_party/skia/third_party/skcms/src/Transform.c:176:0:
-    ../../third_party/skia/third_party/skcms/src/Transform_inl.h: In function 'exec_ops':
-    ../../third_party/skia/third_party/skcms/src/Transform_inl.h:459:32: internal compiler error: in convert_move, at expr.c:299
-         v = (U16)( ((v<<8)|(v>>8)) & 0xffff );
-                  ~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+Just because it can be enabled does not mean it should be unconditionally=20
+enabled. If building for an environment where, e.g., flash memory is scarce=
+,=20
+every byte counts. Keeping the packageconfig and leaving it enabled by=20
+default will give the same result, but for someone trying to remove anythin=
+g=20
+they do not need, it is then more obvious that the jpeg dependency is=20
+optional and can be removed if wanted.
 
-Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
----
- meta/recipes-devtools/gcc/gcc-6.4.inc              |   1 +
- ...18-06-20-Richard-Biener-rguenther-suse.de.patch | 504 +++++++++++++++++++++
- 2 files changed, 505 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
+> * The jpeg packageconfig is not needed, since there are no configuration
+>   switches to enable or disable it, and libjpeg-turbo is part of oe-core
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
-index daa9e42af8..f3cada2e9f 100644
---- a/meta/recipes-devtools/gcc/gcc-6.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
-@@ -86,6 +86,7 @@ SRC_URI = "\
- BACKPORTS = "\
-            file://CVE-2016-6131.patch \
-            file://0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
-+           file://0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch \
-            file://0001-enable-FL_LPAE-flag-for-armv7ve-cores.patch \
-            file://0001-i386-Move-struct-ix86_frame-to-machine_function.patch \
-            file://0002-i386-Use-reference-of-struct-ix86_frame-to-avoid-cop.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch b/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
-new file mode 100644
-index 0000000000..55d420147b
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.4/0058-2018-06-20-Richard-Biener-rguenther-suse.de.patch
-@@ -0,0 +1,504 @@
-+Upstream-Status: Backport
-+
-+Upstream's GCC 6 backport includes several changes, but it's the fix
-+for bug 63623 that is required to build Chromium >= 68 with GCC 6 on
-+ARM-based architectures.
-+
-+Signed-off-by: Raphael Kubo da Costa <raphael.kubo.da.costa@intel.com>
-+---
-+From 4ff56937609df5e6373d83d197a85c062454bc05 Mon Sep 17 00:00:00 2001
-+From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Wed, 20 Jun 2018 11:09:28 +0000
-+Subject: [PATCH] 2018-06-20  Richard Biener  <rguenther@suse.de>
-+
-+	Backport from mainline
-+	2018-01-01  Jakub Jelinek  <jakub@redhat.com>
-+
-+	PR middle-end/83623
-+	* expmed.c (expand_shift_1): For 2-byte rotates by BITS_PER_UNIT,
-+	check for bswap in mode rather than HImode and use that in expand_unop
-+	too.
-+
-+	* gcc.dg/pr83623.c: New test.
-+
-+	2017-09-26  Richard Biener  <rguenther@suse.de>
-+
-+	Backport from mainline
-+	2017-09-20  Richard Biener  <rguenther@suse.de>
-+
-+	PR tree-optimization/82264
-+	* tree-ssa-sccvn.c (vn_phi_eq): Use safe_dyn_cast to check
-+	for GIMPLE_CONDs.
-+	(vn_phi_lookup): Likewise.
-+	(vn_phi_insert): Likewise.
-+	* is-a.h (safe_dyn_cast): New.
-+
-+	* gcc.dg/torture/pr82264.c: New testcase.
-+
-+	2017-09-25  Richard Biener  <rguenther@suse.de>
-+
-+	PR tree-optimization/82285
-+	* tree-vect-patterns.c (vect_recog_bool_pattern): Also handle
-+	enumeral types.
-+
-+	* gcc.dg/torture/pr82285.c: New testcase.
-+
-+	2017-11-24  Richard Biener  <rguenther@suse.de>
-+
-+	PR tree-optimization/82402
-+	* tree-vect-loop-manip.c (create_lcssa_for_virtual_phi): Properly
-+	set SSA_NAME_OCCURS_IN_ABNORMAL_PHI.
-+
-+	* gcc.dg/torture/pr82402.c: New testcase.
-+
-+	2017-10-24  Richard Biener  <rguenther@suse.de>
-+
-+	PR tree-optimization/82697
-+	* tree-ssa-phiopt.c (cond_store_replacement): Use alias-set
-+	zero for conditional load and unconditional store.
-+
-+	* gcc.dg/torture/pr82697.c: New testcase.
-+
-+	2017-11-02  Richard Biener  <rguenther@suse.de>
-+
-+	PR middle-end/82765
-+	* varasm.c (decode_addr_const): Make offset HOST_WIDE_INT.
-+	Truncate ARRAY_REF index and element size.
-+
-+	* gcc.dg/pr82765.c: New testcase.
-+
-+	2018-01-08  Richard Biener  <rguenther@suse.de>
-+
-+	PR middle-end/83713
-+	* convert.c (do_narrow): Properly guard TYPE_OVERFLOW_WRAPS checks.
-+
-+	* g++.dg/torture/pr83713.C: New testcase.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-6-branch@261799 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+ gcc/ChangeLog                          | 51 ++++++++++++++++++++++++++++++++++
-+ gcc/convert.c                          |  6 ++--
-+ gcc/expmed.c                           |  5 ++--
-+ gcc/is-a.h                             | 14 ++++++++++
-+ gcc/testsuite/ChangeLog                | 41 +++++++++++++++++++++++++++
-+ gcc/testsuite/g++.dg/torture/pr83713.C | 12 ++++++++
-+ gcc/testsuite/gcc.dg/pr82765.c         |  5 ++++
-+ gcc/testsuite/gcc.dg/pr83623.c         | 12 ++++++++
-+ gcc/testsuite/gcc.dg/torture/pr82264.c | 21 ++++++++++++++
-+ gcc/testsuite/gcc.dg/torture/pr82285.c | 16 +++++++++++
-+ gcc/testsuite/gcc.dg/torture/pr82402.c | 20 +++++++++++++
-+ gcc/testsuite/gcc.dg/torture/pr82697.c | 23 +++++++++++++++
-+ gcc/tree-ssa-alias.c                   | 31 +++++++++++++++------
-+ gcc/tree-ssa-phiopt.c                  | 17 +++++++++++-
-+ gcc/tree-ssa-sccvn.c                   | 17 +++++-------
-+ gcc/tree-vect-loop-manip.c             |  2 ++
-+ gcc/tree-vect-patterns.c               |  2 +-
-+ gcc/varasm.c                           |  7 +++--
-+ 18 files changed, 273 insertions(+), 29 deletions(-)
-+ create mode 100644 gcc/testsuite/g++.dg/torture/pr83713.C
-+ create mode 100644 gcc/testsuite/gcc.dg/pr82765.c
-+ create mode 100644 gcc/testsuite/gcc.dg/pr83623.c
-+ create mode 100644 gcc/testsuite/gcc.dg/torture/pr82264.c
-+ create mode 100644 gcc/testsuite/gcc.dg/torture/pr82285.c
-+ create mode 100644 gcc/testsuite/gcc.dg/torture/pr82402.c
-+ create mode 100644 gcc/testsuite/gcc.dg/torture/pr82697.c
-+
-+diff --git a/gcc/convert.c b/gcc/convert.c
-+index 455304adb0c..f4b4712f023 100644
-+--- a/gcc/convert.c
-++++ b/gcc/convert.c
-+@@ -459,8 +459,10 @@ do_narrow (location_t loc,
-+ 	     type in case the operation in outprec precision
-+ 	     could overflow.  Otherwise, we would introduce
-+ 	     signed-overflow undefinedness.  */
-+-	  || ((!TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg0))
-+-	       || !TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg1)))
-++	  || ((!(INTEGRAL_TYPE_P (TREE_TYPE (arg0))
-++		 && TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg0)))
-++	       || !(INTEGRAL_TYPE_P (TREE_TYPE (arg1))
-++		    && TYPE_OVERFLOW_WRAPS (TREE_TYPE (arg1))))
-+ 	      && ((TYPE_PRECISION (TREE_TYPE (arg0)) * 2u
-+ 		   > outprec)
-+ 		  || (TYPE_PRECISION (TREE_TYPE (arg1)) * 2u
-+diff --git a/gcc/expmed.c b/gcc/expmed.c
-+index 80edb0d03fb..8e069455bc2 100644
-+--- a/gcc/expmed.c
-++++ b/gcc/expmed.c
-+@@ -2361,9 +2361,8 @@ expand_shift_1 (enum tree_code code, machine_mode mode, rtx shifted,
-+       && CONST_INT_P (op1)
-+       && INTVAL (op1) == BITS_PER_UNIT
-+       && GET_MODE_SIZE (scalar_mode) == 2
-+-      && optab_handler (bswap_optab, HImode) != CODE_FOR_nothing)
-+-    return expand_unop (HImode, bswap_optab, shifted, NULL_RTX,
-+-				  unsignedp);
-++      && optab_handler (bswap_optab, mode) != CODE_FOR_nothing)
-++    return expand_unop (mode, bswap_optab, shifted, NULL_RTX, unsignedp);
-+ 
-+   if (op1 == const0_rtx)
-+     return shifted;
-+diff --git a/gcc/is-a.h b/gcc/is-a.h
-+index 872aec1f5e7..05dd11dbe75 100644
-+--- a/gcc/is-a.h
-++++ b/gcc/is-a.h
-+@@ -103,6 +103,11 @@ TYPE dyn_cast <TYPE> (pointer)
-+     Note that we have converted two sets of assertions in the calls to varpool
-+     into safe and efficient use of a variable.
-+ 
-++TYPE safe_dyn_cast <TYPE> (pointer)
-++
-++    Like dyn_cast <TYPE> (pointer), except that it accepts null pointers
-++    and returns null results for them.
-++
-+ 
-+ If you use these functions and get a 'inline function not defined' or a
-+ 'missing symbol' error message for 'is_a_helper<....>::test', it means that
-+@@ -222,4 +227,13 @@ dyn_cast (U *p)
-+     return static_cast <T> (0);
-+ }
-+ 
-++/* Similar to dyn_cast, except that the pointer may be null.  */
-++
-++template <typename T, typename U>
-++inline T
-++safe_dyn_cast (U *p)
-++{
-++  return p ? dyn_cast <T> (p) : 0;
-++}
-++
-+ #endif  /* GCC_IS_A_H  */
-+diff --git a/gcc/testsuite/g++.dg/torture/pr83713.C b/gcc/testsuite/g++.dg/torture/pr83713.C
-+new file mode 100644
-+index 00000000000..ca6af04406d
-+--- /dev/null
-++++ b/gcc/testsuite/g++.dg/torture/pr83713.C
-+@@ -0,0 +1,12 @@
-++// { dg-do compile }
-++
-++class a
-++{
-++  char b;
-++  void c ();
-++};
-++void
-++a::c ()
-++{
-++  &b + ((long long) &b & 0);
-++}
-+diff --git a/gcc/testsuite/gcc.dg/pr82765.c b/gcc/testsuite/gcc.dg/pr82765.c
-+new file mode 100644
-+index 00000000000..dde0aeba7ef
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr82765.c
-+@@ -0,0 +1,5 @@
-++/* { dg-do compile } */
-++/* { dg-options "-Os -w" } */
-++
-++int a[1][1];
-++int main() { int *b[] = {a, a[1820408606019012862278468], a, a, a}; }
-+diff --git a/gcc/testsuite/gcc.dg/pr83623.c b/gcc/testsuite/gcc.dg/pr83623.c
-+new file mode 100644
-+index 00000000000..5d62c04f542
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/pr83623.c
-+@@ -0,0 +1,12 @@
-++/* PR middle-end/83623 */
-++/* { dg-do compile } */
-++/* { dg-options "-O2" } */
-++/* { dg-additional-options "-mmovbe" { target i?86-*-* x86_64-*-* } } */
-++
-++unsigned short __attribute__ ((__vector_size__ (16))) x;
-++
-++void
-++foo (void)
-++{
-++  x = x << 8 | x >> 8;
-++}
-+diff --git a/gcc/testsuite/gcc.dg/torture/pr82264.c b/gcc/testsuite/gcc.dg/torture/pr82264.c
-+new file mode 100644
-+index 00000000000..2bc03674ccd
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/torture/pr82264.c
-+@@ -0,0 +1,21 @@
-++/* { dg-do compile } */
-++
-++char a;
-++int c;
-++unsigned b ();
-++unsigned
-++setjmp ()
-++{
-++}
-++static void
-++d ()
-++{
-++  if (b ())
-++    c = 3;
-++}
-++void
-++e ()
-++{
-++  d ();
-++  a && ({ setjmp (); });
-++}
-+diff --git a/gcc/testsuite/gcc.dg/torture/pr82285.c b/gcc/testsuite/gcc.dg/torture/pr82285.c
-+new file mode 100644
-+index 00000000000..6edc75070b2
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/torture/pr82285.c
-+@@ -0,0 +1,16 @@
-++/* { dg-do run } */
-++
-++enum tst { first = 0, second = 1 };
-++
-++int
-++main ()
-++{
-++  enum tst data[16];
-++
-++  for (unsigned i = 0; i < 16; i++)
-++    data[i] = (i < 5 ? second : first);
-++
-++  if (data[2] != second)
-++    __builtin_abort ();
-++  return 0;
-++}
-+diff --git a/gcc/testsuite/gcc.dg/torture/pr82402.c b/gcc/testsuite/gcc.dg/torture/pr82402.c
-+new file mode 100644
-+index 00000000000..cf90d5c6faf
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/torture/pr82402.c
-+@@ -0,0 +1,20 @@
-++/* { dg-do compile } */
-++
-++typedef int jmp_buf[1];
-++
-++extern void exit(int) __attribute__((__noreturn__));
-++extern int setjmpx(jmp_buf) __attribute__((__returns_twice__));
-++
-++jmp_buf jbAnagram;
-++int a[6];
-++int d;
-++int b () { exit (1); }
-++int c () { b (); }
-++int e ()
-++{
-++  int f = 0;
-++  for (; f < 6; f++)
-++    a[f] = d;
-++  c ();
-++  setjmpx (jbAnagram);
-++}
-+diff --git a/gcc/testsuite/gcc.dg/torture/pr82697.c b/gcc/testsuite/gcc.dg/torture/pr82697.c
-+new file mode 100644
-+index 00000000000..57da8a264b9
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.dg/torture/pr82697.c
-+@@ -0,0 +1,23 @@
-++/* { dg-do run } */
-++
-++__attribute__((noinline,noclone))
-++void test(int *pi, long *pl, int f)
-++{
-++  *pl = 0;
-++
-++  *pi = 1;
-++
-++  if (f)
-++    *pl = 2;
-++}
-++
-++int main()
-++{
-++  void *p = __builtin_malloc(sizeof (long));
-++
-++  test(p, p, 0);
-++
-++  if (*(int *)p != 1)
-++    __builtin_abort ();
-++  return 0;
-++}
-+diff --git a/gcc/tree-ssa-alias.c b/gcc/tree-ssa-alias.c
-+index 08f10e5248b..3f0011f3d10 100644
-+--- a/gcc/tree-ssa-alias.c
-++++ b/gcc/tree-ssa-alias.c
-+@@ -2235,6 +2235,7 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-+       if (ref->ref)
-+ 	{
-+ 	  tree base = ref->ref;
-++	  tree innermost_dropped_array_ref = NULL_TREE;
-+ 	  if (handled_component_p (base))
-+ 	    {
-+ 	      tree saved_lhs0 = NULL_TREE;
-+@@ -2254,6 +2255,11 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-+ 		  TREE_OPERAND (base, 0) = saved_base0;
-+ 		  if (res)
-+ 		    break;
-++		  /* Remember if we drop an array-ref that we need to
-++		     double-check not being at struct end.  */ 
-++		  if (TREE_CODE (base) == ARRAY_REF
-++		      || TREE_CODE (base) == ARRAY_RANGE_REF)
-++		    innermost_dropped_array_ref = base;
-+ 		  /* Otherwise drop handled components of the access.  */
-+ 		  base = saved_base0;
-+ 		}
-+@@ -2262,15 +2268,22 @@ stmt_kills_ref_p (gimple *stmt, ao_ref *ref)
-+ 		TREE_OPERAND (lhs, 0) = saved_lhs0;
-+ 	    }
-+ 	  /* Finally check if the lhs has the same address and size as the
-+-	     base candidate of the access.  */
-+-	  if (lhs == base
-+-	      || (((TYPE_SIZE (TREE_TYPE (lhs))
-+-		    == TYPE_SIZE (TREE_TYPE (base)))
-+-		   || (TYPE_SIZE (TREE_TYPE (lhs))
-+-		       && TYPE_SIZE (TREE_TYPE (base))
-+-		       && operand_equal_p (TYPE_SIZE (TREE_TYPE (lhs)),
-+-					   TYPE_SIZE (TREE_TYPE (base)), 0)))
-+-		  && operand_equal_p (lhs, base, OEP_ADDRESS_OF)))
-++	     base candidate of the access.  Watch out if we have dropped
-++	     an array-ref that was at struct end, this means ref->ref may
-++	     be outside of the TYPE_SIZE of its base.  */
-++	  if ((! innermost_dropped_array_ref
-++	       || ! array_at_struct_end_p (innermost_dropped_array_ref))
-++	      && (lhs == base
-++		  || (((TYPE_SIZE (TREE_TYPE (lhs))
-++			== TYPE_SIZE (TREE_TYPE (base)))
-++		       || (TYPE_SIZE (TREE_TYPE (lhs))
-++			   && TYPE_SIZE (TREE_TYPE (base))
-++			   && operand_equal_p (TYPE_SIZE (TREE_TYPE (lhs)),
-++					       TYPE_SIZE (TREE_TYPE (base)),
-++					       0)))
-++		      && operand_equal_p (lhs, base,
-++					  OEP_ADDRESS_OF
-++					  | OEP_MATCH_SIDE_EFFECTS))))
-+ 	    return true;
-+ 	}
-+ 
-+diff --git a/gcc/tree-ssa-phiopt.c b/gcc/tree-ssa-phiopt.c
-+index f6880ba88f3..fb6e8be4343 100644
-+--- a/gcc/tree-ssa-phiopt.c
-++++ b/gcc/tree-ssa-phiopt.c
-+@@ -1761,9 +1761,24 @@ cond_store_replacement (basic_block middle_bb, basic_block join_bb,
-+   gsi_remove (&gsi, true);
-+   release_defs (assign);
-+ 
-++  /* Make both store and load use alias-set zero as we have to
-++     deal with the case of the store being a conditional change
-++     of the dynamic type.  */
-++  lhs = unshare_expr (lhs);
-++  tree *basep = &lhs;
-++  while (handled_component_p (*basep))
-++    basep = &TREE_OPERAND (*basep, 0);
-++  if (TREE_CODE (*basep) == MEM_REF
-++      || TREE_CODE (*basep) == TARGET_MEM_REF)
-++    TREE_OPERAND (*basep, 1)
-++      = fold_convert (ptr_type_node, TREE_OPERAND (*basep, 1));
-++  else
-++    *basep = build2 (MEM_REF, TREE_TYPE (*basep),
-++		     build_fold_addr_expr (*basep),
-++		     build_zero_cst (ptr_type_node));
-++
-+   /* 2) Insert a load from the memory of the store to the temporary
-+         on the edge which did not contain the store.  */
-+-  lhs = unshare_expr (lhs);
-+   name = make_temp_ssa_name (TREE_TYPE (lhs), NULL, "cstore");
-+   new_stmt = gimple_build_assign (name, lhs);
-+   gimple_set_location (new_stmt, locus);
-+diff --git a/gcc/tree-ssa-sccvn.c b/gcc/tree-ssa-sccvn.c
-+index 65077ede43c..15838975f37 100644
-+--- a/gcc/tree-ssa-sccvn.c
-++++ b/gcc/tree-ssa-sccvn.c
-+@@ -2841,16 +2841,13 @@ vn_phi_eq (const_vn_phi_t const vp1, const_vn_phi_t const vp2)
-+ 	      return false;
-+ 
-+ 	    /* Verify the controlling stmt is the same.  */
-+-	    gimple *last1 = last_stmt (idom1);
-+-	    gimple *last2 = last_stmt (idom2);
-+-	    if (gimple_code (last1) != GIMPLE_COND
-+-		|| gimple_code (last2) != GIMPLE_COND)
-++	    gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1));
-++	    gcond *last2 = safe_dyn_cast <gcond *> (last_stmt (idom2));
-++	    if (! last1 || ! last2)
-+ 	      return false;
-+ 	    bool inverted_p;
-+-	    if (! cond_stmts_equal_p (as_a <gcond *> (last1),
-+-				      vp1->cclhs, vp1->ccrhs,
-+-				      as_a <gcond *> (last2),
-+-				      vp2->cclhs, vp2->ccrhs,
-++	    if (! cond_stmts_equal_p (last1, vp1->cclhs, vp1->ccrhs,
-++				      last2, vp2->cclhs, vp2->ccrhs,
-+ 				      &inverted_p))
-+ 	      return false;
-+ 
-+@@ -2935,7 +2932,7 @@ vn_phi_lookup (gimple *phi)
-+   vp1.ccrhs = NULL_TREE;
-+   basic_block idom1 = get_immediate_dominator (CDI_DOMINATORS, vp1.block);
-+   if (EDGE_COUNT (idom1->succs) == 2)
-+-    if (gcond *last1 = dyn_cast <gcond *> (last_stmt (idom1)))
-++    if (gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1)))
-+       {
-+ 	vp1.cclhs = vn_valueize (gimple_cond_lhs (last1));
-+ 	vp1.ccrhs = vn_valueize (gimple_cond_rhs (last1));
-+@@ -2981,7 +2978,7 @@ vn_phi_insert (gimple *phi, tree result)
-+   vp1->ccrhs = NULL_TREE;
-+   basic_block idom1 = get_immediate_dominator (CDI_DOMINATORS, vp1->block);
-+   if (EDGE_COUNT (idom1->succs) == 2)
-+-    if (gcond *last1 = dyn_cast <gcond *> (last_stmt (idom1)))
-++    if (gcond *last1 = safe_dyn_cast <gcond *> (last_stmt (idom1)))
-+       {
-+ 	vp1->cclhs = vn_valueize (gimple_cond_lhs (last1));
-+ 	vp1->ccrhs = vn_valueize (gimple_cond_rhs (last1));
-+diff --git a/gcc/tree-vect-loop-manip.c b/gcc/tree-vect-loop-manip.c
-+index 7ec6daec0e6..ecd41d86b29 100644
-+--- a/gcc/tree-vect-loop-manip.c
-++++ b/gcc/tree-vect-loop-manip.c
-+@@ -1231,6 +1231,8 @@ slpeel_tree_peel_loop_to_edge (struct loop *loop, struct loop *scalar_loop,
-+ 	    gimple *stmt;
-+ 	    use_operand_p use_p;
-+ 
-++	    SSA_NAME_OCCURS_IN_ABNORMAL_PHI (new_vop)
-++	      = SSA_NAME_OCCURS_IN_ABNORMAL_PHI (vop);
-+ 	    add_phi_arg (new_phi, vop, exit_e, UNKNOWN_LOCATION);
-+ 	    gimple_phi_set_result (new_phi, new_vop);
-+ 	    FOR_EACH_IMM_USE_STMT (stmt, imm_iter, vop)
-+diff --git a/gcc/tree-vect-patterns.c b/gcc/tree-vect-patterns.c
-+index c2a6f0d3fd5..1d419495dff 100644
-+--- a/gcc/tree-vect-patterns.c
-++++ b/gcc/tree-vect-patterns.c
-+@@ -3363,7 +3363,7 @@ vect_recog_bool_pattern (vec<gimple *> *stmts, tree *type_in,
-+   rhs_code = gimple_assign_rhs_code (last_stmt);
-+   if (CONVERT_EXPR_CODE_P (rhs_code))
-+     {
-+-      if (TREE_CODE (TREE_TYPE (lhs)) != INTEGER_TYPE
-++      if (! INTEGRAL_TYPE_P (TREE_TYPE (lhs))
-+ 	  || TYPE_PRECISION (TREE_TYPE (lhs)) == 1)
-+ 	return NULL;
-+       vectype = get_vectype_for_scalar_type (TREE_TYPE (lhs));
-+diff --git a/gcc/varasm.c b/gcc/varasm.c
-+index b65f29c13a4..2e88e71c25d 100644
-+--- a/gcc/varasm.c
-++++ b/gcc/varasm.c
-+@@ -2806,7 +2806,7 @@ static void
-+ decode_addr_const (tree exp, struct addr_const *value)
-+ {
-+   tree target = TREE_OPERAND (exp, 0);
-+-  int offset = 0;
-++  HOST_WIDE_INT offset = 0;
-+   rtx x;
-+ 
-+   while (1)
-+@@ -2820,8 +2820,9 @@ decode_addr_const (tree exp, struct addr_const *value)
-+       else if (TREE_CODE (target) == ARRAY_REF
-+ 	       || TREE_CODE (target) == ARRAY_RANGE_REF)
-+ 	{
-+-	  offset += (tree_to_uhwi (TYPE_SIZE_UNIT (TREE_TYPE (target)))
-+-		     * tree_to_shwi (TREE_OPERAND (target, 1)));
-++	  /* Truncate big offset.  */
-++	  offset += (TREE_INT_CST_LOW (TYPE_SIZE_UNIT (TREE_TYPE (target)))
-++		     * TREE_INT_CST_LOW (TREE_OPERAND (target, 1)));
-+ 	  target = TREE_OPERAND (target, 0);
-+ 	}
-+       else if (TREE_CODE (target) == MEM_REF
-+-- 
-+2.14.4
-+
--- 
-2.14.4
+Same here as for zlib.
+
+> * libpng is a dependency, and is part of oe-core, so add it to DEPENDS
+
+This too is optional and should have a packageconfig (which can be=20
+enabled by default since it is pulled in anyway due to other dependencies).
+
+> * There is no libvisual recipe in oe-core or in meta-openembedded, so
+>   the visual packageconfig needs to go
+> * Reorder the packageconfigs alphabetically
+
+You also add dependencies on libgudev and libdrm, without mentioning it her=
+e.
+Why is this? They too are optional, and they have not been needed before.=20
+If you want to add support for them, then do so by adding packageconfigs=20
+(which I don't think should be enabled by default to maintain the=20
+configuration as it was).
+
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  .../gstreamer1.0-plugins-base_1.14.1.bb       | 26 +++++++++++--------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_=
+1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.1=
+4.1.bb
+> index 8d7d3c6192..52722ff615 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.1.=
+bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.1.=
+bb
+> @@ -24,18 +24,21 @@ SRC_URI[sha256sum] =3D
+> "1026c7c3082d825d9b5d034c1a6dd8a4ebab60eb3738b0a0afde4ad2dc
+>=20
+>  S =3D "${WORKDIR}/gst-plugins-base-${PV}"
+>=20
+> -DEPENDS +=3D "iso-codes util-linux"
+> +DEPENDS +=3D "iso-codes util-linux zlib libgudev libdrm jpeg libpng"
+>=20
+>  inherit gettext
+>=20
+>  PACKAGES_DYNAMIC =3D+ "^libgst.*"
+>=20
+> +# opengl packageconfig factored out to make it easy for distros
+> +# and BSP layers to pick either (desktop) opengl, gles2, or no GL
+>  PACKAGECONFIG_GL ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'opengl',=
+ 'gles2 egl', '', d)}"
+> +
+>  PACKAGECONFIG ??=3D " \
+>      ${GSTREAMER_ORC} \
+> -    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa x11', d)} \
+> -    gio-unix-2.0 ogg pango theora vorbis zlib jpeg \
+>      ${PACKAGECONFIG_GL} \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa x11', d)} \
+> +    gio-unix-2.0 ogg pango theora vorbis \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland egl', ''=
+, d)} \
+>  "
+>=20
+> @@ -45,26 +48,27 @@ X11DISABLEOPTS =3D "--disable-x --disable-xvideo --
+> disable-xshm"
+>=20
+>  PACKAGECONFIG[alsa]         =3D "--enable-alsa,--disable-alsa,alsa-lib"
+>  PACKAGECONFIG[cdparanoia]   =3D "--enable-cdparanoia,--disable-cdparanoi=
+a,cdparanoia"
+> +PACKAGECONFIG[egl]          =3D "--enable-egl,--disable-egl,virtual/egl"
+>  PACKAGECONFIG[gio-unix-2.0] =3D "--enable-gio_unix_2_0,--disable-gio_uni=
+x_2_0,glib-2.0"
+> +PACKAGECONFIG[gles2]        =3D "--enable-gles2,--disable-gles2,virtual/=
+libgles2"
+>  PACKAGECONFIG[ivorbis]      =3D "--enable-ivorbis,--disable-ivorbis,trem=
+or"
+>  PACKAGECONFIG[ogg]          =3D "--enable-ogg,--disable-ogg,libogg"
+> +PACKAGECONFIG[opengl]       =3D "--enable-opengl,--disable-opengl,virtua=
+l/libgl libglu"
+>  PACKAGECONFIG[opus]         =3D "--enable-opus,--disable-opus,libopus"
+>  PACKAGECONFIG[pango]        =3D "--enable-pango,--disable-pango,pango"
+>  PACKAGECONFIG[theora]       =3D "--enable-theora,--disable-theora,libthe=
+ora"
+> -PACKAGECONFIG[visual]       =3D "--enable-libvisual,--disable-libvisual,=
+libvisual"
+>  PACKAGECONFIG[vorbis]       =3D "--enable-vorbis,--disable-vorbis,libvor=
+bis"
+>  PACKAGECONFIG[x11]          =3D "${X11ENABLEOPTS},${X11DISABLEOPTS},${X1=
+1DEPENDS}"
+> -PACKAGECONFIG[zlib]         =3D "--enable-zlib,--disable-zlib,zlib"
+> -PACKAGECONFIG[opengl]       =3D "--enable-opengl,--disable-opengl,virtua=
+l/libgl libglu"
+> -PACKAGECONFIG[gles2]        =3D "--enable-gles2,--disable-gles2,virtual/=
+libgles2"
+> -PACKAGECONFIG[egl]          =3D "--enable-egl,--disable-egl,virtual/egl"
+>  PACKAGECONFIG[wayland]      =3D "--enable-wayland,--disable-wayland,wayl=
+and-native wayland wayland-protocols libdrm"
+> -PACKAGECONFIG[jpeg]         =3D ",,jpeg"
+>=20
+> +EXTRA_OECONF +=3D " \
+> +    --enable-zlib \
+> +    --disable-libvisual \
+> +"
+> +
+> +FILES_${PN}-dev +=3D "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglco=
+nfig.h"
+>  FILES_${MLPREFIX}libgsttag-1.0 +=3D "${datadir}/gst-plugins-base/1.0/lic=
+ense-translations.dict"
+>=20
+>  do_compile_prepend() {
+>          export GIR_EXTRA_LIBS_PATH=3D"${B}/gst-libs/gst/tag/.libs:${B}/g=
+st-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs:${B}/gst-libs/gst/rtp=
+/.libs:${B}/gst-libs/gst/allocators/.libs"
+>  }
+> -
+> -FILES_${PN}-dev +=3D "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglco=
+nfig.h"
+> --
+> 2.17.1
+
+//Peter
 
 
