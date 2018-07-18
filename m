@@ -1,50 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CCE978998
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 09F437872C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 16:00:10 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id v14-v6so5213952wro.5
+	Wed, 18 Jul 2018 18:25:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6IIP1l5028675
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 09:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=K7fCKaQ8oisaKv1DCiOhf0NurHNvgN+a15+LVFSQ67M=;
-	b=YPLKhZIgckinvEUx5im/Ba6W1M96N1q825KUKvjrQWWXpN6fdplPj/dn875YPAsDEx
-	7J/LwGZqMQV7MWATna57ClK62fuwsxXWphWgXnlVLsFAOR7DBKAyAHS+EizxRS7jRKWJ
-	r5Eacdqgwj1Iq9afzn67aw/GICe0kuWFACljKrre/fr6lXVnmv+4V1+QRmz+0J/3YZ1q
-	BwB1h/s986VouqxC7noLB4+effFXsM2vXxFrqMy5ADM996MY5P11/LXJfVfaXvdvFhWo
-	5GwTL4OmCLEnt/lZXpJUeuG4fxNBe/VLuVmWE2EjsZGgvACTX7qPJ1WLcR7tEa+U6qgV
-	zr3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=K7fCKaQ8oisaKv1DCiOhf0NurHNvgN+a15+LVFSQ67M=;
-	b=kaQ1WqifptVeToqGH80QEC2+8DlERkI3gZ9To+9EItZIiQVvaOPLxHTZ7M/YBy61Lg
-	Iew5boBBFrgCLhf5OzQFc/E+BPEPEmD/hR44D35ODCPngcma2QZBg2GtGYmSL4eRfdpa
-	H7cuPEMlpb/bRJOWpDFrXlbYzfGoDhy+uNDjkhk6YEnvATsnZJxRZ+fkdmzg7AyHqzjv
-	TNEjN0Olq4vGvIDzHdwXhM1b18a9yw/Tp07Rbtdg/6I9/ny0GpD/JqGh9kh9zik+a6bi
-	Z9psWvIBV3ayhWNGuPQkUFLMZyLHP9jNM1vrNYc58rivsYAVdYd/6pShhyjnilWKx8tl
-	G8UQ==
-X-Gm-Message-State: AOUpUlHh4dbACUZ0xVz7cpb0itDGTGl9SgV04g22bHk6nx+fCcXoPqvR
-	0AvSNoCmdoju/izktxMVT0xP7usN
-X-Google-Smtp-Source: AAOMgpew6lM5/P11SWiioG84Hpbjc74TWcp+Xg51xdI2VywOkKKMlhUyjvDEd5PfMQzMWymcz9hhTA==
-X-Received: by 2002:adf:ab14:: with SMTP id
-	q20-v6mr4727238wrc.239.1531929610752; 
-	Wed, 18 Jul 2018 09:00:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d102-v6sm5220812wma.10.2018.07.18.09.00.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Jul 2018 09:00:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2018 17:00:08 +0100
-Message-Id: <20180718160008.8457-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cmake: put cmake.m4 and toolchain file in PN
+	Wed, 18 Jul 2018 11:25:01 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 18 Jul 2018 11:25:00 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Jul 2018 11:24:59 -0700
+Message-ID: <20180718182500.16793-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Subject: [PATCH 1/2] tiff: security fix CVE-2018-8905
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +31,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 16:00:10 -0000
+X-List-Received-Date: Wed, 18 Jul 2018 18:25:01 -0000
+Content-Type: text/plain
 
-Previously cmake-dev held some files which should be in cmake.
+Buffer overflow described at nvd.nits.gov/vuln/detail/CVE-2018-8905.
 
-- cmake.m4 should be in installed in cmake so it can be used out of the box
-- nativesdk-specific OEToolchainConfig.cmake file used to be in cmake, but the
-  change of default packaging rules move it into cmake-dev.  This recipe is the
-  exception and it should be moved back.
-
-Add the extra paths to cmake, and clear FILES for cmake-dev to ensure nothing
-else slips in.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- meta/recipes-devtools/cmake/cmake_3.11.4.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../libtiff/files/CVE-2018-8905.patch              | 61 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.11.4.bb b/meta/recipes-devtools/cmake/cmake_3.11.4.bb
-index eb055b97571..e0457677e86 100644
---- a/meta/recipes-devtools/cmake/cmake_3.11.4.bb
-+++ b/meta/recipes-devtools/cmake/cmake_3.11.4.bb
-@@ -46,7 +46,8 @@ do_install_append_class-nativesdk() {
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
+new file mode 100644
+index 0000000..962646d
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
+@@ -0,0 +1,61 @@
++From 58a898cb4459055bb488ca815c23b880c242a27d Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sat, 12 May 2018 15:32:31 +0200
++Subject: [PATCH] LZWDecodeCompat(): fix potential index-out-of-bounds write.
++ Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2780 /
++ CVE-2018-8905
++
++The fix consists in using the similar code LZWDecode() to validate we
++don't write outside of the output buffer.
++
++---
++CVE: CVE-2018-8905
++
++Upstream-Status: Backport [gitlab.com/libtiff/libtiff/commit/58a898...]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++---
++ libtiff/tif_lzw.c |   18 ++++++++++++------
++ 1 file changed, 12 insertions(+), 6 deletions(-)
++
++diff --git a/libtiff/tif_lzw.c b/libtiff/tif_lzw.c
++index 4ccb443..94d85e3 100644
++--- a/libtiff/tif_lzw.c
+++++ b/libtiff/tif_lzw.c
++@@ -602,6 +602,7 @@ LZWDecodeCompat(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
++ 	char *tp;
++ 	unsigned char *bp;
++ 	int code, nbits;
+++	int len;
++ 	long nextbits, nextdata, nbitsmask;
++ 	code_t *codep, *free_entp, *maxcodep, *oldcodep;
++ 
++@@ -753,13 +754,18 @@ LZWDecodeCompat(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
++ 				}  while (--occ);
++ 				break;
++ 			}
++-			assert(occ >= codep->length);
++-			op += codep->length;
++-			occ -= codep->length;
++-			tp = op;
+++			len = codep->length;
+++			tp = op + len;
++ 			do {
++-				*--tp = codep->value;
++-			} while( (codep = codep->next) != NULL );
+++				int t;
+++				--tp;
+++				t = codep->value;
+++				codep = codep->next;
+++				*tp = (char)t;
+++			} while (codep && tp > op);
+++			assert(occ >= len);
+++			op += len;
+++			occ -= len;
++ 		} else {
++ 			*op++ = (char)code;
++ 			occ--;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+index e8e2a11..53b2b81 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
+@@ -10,6 +10,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2017-18013.patch \
+            file://CVE-2018-5784.patch \
+            file://CVE-2018-10963.patch \
++           file://CVE-2018-8905.patch \
+           "
  
- FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}"
- 
--FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
-+FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION} ${datadir}/cmake ${datadir}/aclocal"
- FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
-+FILES_${PN}-dev = ""
- 
- BBCLASSEXTEND = "nativesdk"
+ SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
 -- 
-2.11.0
+2.7.4
 
 
