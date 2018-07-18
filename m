@@ -1,47 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D3CD97899B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CCE978998
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 14:27:41 +0000 (UTC)
-Received: by mail-vk0-f68.google.com with SMTP id h22-v6so2598944vke.4
+	Wed, 18 Jul 2018 16:00:10 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v14-v6so5213952wro.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 07:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=K14tPVljY621D6jGGtKFtXIDtBNvV8VkCF+MnlHkih0=;
-	b=rkwpZ/f4M8X42bHPx62zpn64GUyLRXU3xgQvgyOrV3iJ3EWrtQcqVmS3Z+LgFTF3o0
-	Fw81IZoU8Y/otlCqWmnrrMNnP62GdOkCSND/d6zU5IVChKmMha5lOQmhLiPd41ol3XN0
-	WRHQRXdjeO71dr8M1vgURR7I+OyxugrCNYTnrOP7nB5q/TlVhGvm1IvYNxo+Bm2LJpjt
-	9EA2W99KBaoDeXf9432kgBq3M2GBOWJxQRzywlOzN4L85D3i9wZ583JX1+7YlNSExuFB
-	tUW1yQAYejOAnoMyDSsRhKsDsokeHEMoJRvJYxT+i8rKVjtIM8OY8jl3JI5Zqa7COnOB
-	IU6A==
+	Wed, 18 Jul 2018 09:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=K7fCKaQ8oisaKv1DCiOhf0NurHNvgN+a15+LVFSQ67M=;
+	b=YPLKhZIgckinvEUx5im/Ba6W1M96N1q825KUKvjrQWWXpN6fdplPj/dn875YPAsDEx
+	7J/LwGZqMQV7MWATna57ClK62fuwsxXWphWgXnlVLsFAOR7DBKAyAHS+EizxRS7jRKWJ
+	r5Eacdqgwj1Iq9afzn67aw/GICe0kuWFACljKrre/fr6lXVnmv+4V1+QRmz+0J/3YZ1q
+	BwB1h/s986VouqxC7noLB4+effFXsM2vXxFrqMy5ADM996MY5P11/LXJfVfaXvdvFhWo
+	5GwTL4OmCLEnt/lZXpJUeuG4fxNBe/VLuVmWE2EjsZGgvACTX7qPJ1WLcR7tEa+U6qgV
+	zr3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=K14tPVljY621D6jGGtKFtXIDtBNvV8VkCF+MnlHkih0=;
-	b=MI/OBPwgTT2w522WTseZ0nol05lW2VaUJF8lhntmxw2z4JYXlPMSvFPWaMjMZMwr0g
-	wi22uupHE1YcWD38X0LLTuZJjwEhmcEv49rWd/0nqX5Zx+r1jskzjRDEoDsCk6jKXzos
-	6ja3o7qH+P9L09G/M6vwN1PiHuoQ0yUNZ+pu04dCnepeKJGQ34zqifN/kLb9YewihKUR
-	heSecrT5BE2YW78aoftfCIAfABQm6l8Ivxnhk4hEElBKWQjFyb1P8w5WyOCua8v+KGLC
-	BNrom1sT4Q4P1z8oAbalEk+hFiFaRGCQyfZKCNi/bYBWigmPOYDbT1R9fPptDBZsXiGA
-	BOgg==
-X-Gm-Message-State: AOUpUlEPzkeFEJfEaLAUR+ESWx7eg6mCuJSwdiGF2EvigQkCRgxgz7j1
-	NWQM2/2q7F3EnokUSDhmVltrrmKTb9kOpS4PxNE=
-X-Google-Smtp-Source: AAOMgpeN+ZHPWQW1L7fP1J6LVg7GV/nNx3KvONUQNwkA2ZYgePCejjU69TC/lCwGGviUpVERQQ/wDiXYMuY2nP4AlAU=
-X-Received: by 2002:a1f:e605:: with SMTP id d5-v6mr3450805vkh.4.1531924062545; 
-	Wed, 18 Jul 2018 07:27:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180717201021.1640-1-raj.khem@gmail.com>
-	<CAJTo0LaufeWeBLdsY1XAt=XU-ifopVm64mqEUDUCiZSbwwCb1w@mail.gmail.com>
-In-Reply-To: <CAJTo0LaufeWeBLdsY1XAt=XU-ifopVm64mqEUDUCiZSbwwCb1w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 18 Jul 2018 07:27:31 -0700
-Message-ID: <CAMKF1sotZc-6f0H5SKo=jySoVdPeXp+f-dP5Bacs+Cg39vf03w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: Upgrade to 2.31 release branch
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=K7fCKaQ8oisaKv1DCiOhf0NurHNvgN+a15+LVFSQ67M=;
+	b=kaQ1WqifptVeToqGH80QEC2+8DlERkI3gZ9To+9EItZIiQVvaOPLxHTZ7M/YBy61Lg
+	Iew5boBBFrgCLhf5OzQFc/E+BPEPEmD/hR44D35ODCPngcma2QZBg2GtGYmSL4eRfdpa
+	H7cuPEMlpb/bRJOWpDFrXlbYzfGoDhy+uNDjkhk6YEnvATsnZJxRZ+fkdmzg7AyHqzjv
+	TNEjN0Olq4vGvIDzHdwXhM1b18a9yw/Tp07Rbtdg/6I9/ny0GpD/JqGh9kh9zik+a6bi
+	Z9psWvIBV3ayhWNGuPQkUFLMZyLHP9jNM1vrNYc58rivsYAVdYd/6pShhyjnilWKx8tl
+	G8UQ==
+X-Gm-Message-State: AOUpUlHh4dbACUZ0xVz7cpb0itDGTGl9SgV04g22bHk6nx+fCcXoPqvR
+	0AvSNoCmdoju/izktxMVT0xP7usN
+X-Google-Smtp-Source: AAOMgpew6lM5/P11SWiioG84Hpbjc74TWcp+Xg51xdI2VywOkKKMlhUyjvDEd5PfMQzMWymcz9hhTA==
+X-Received: by 2002:adf:ab14:: with SMTP id
+	q20-v6mr4727238wrc.239.1531929610752; 
+	Wed, 18 Jul 2018 09:00:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d102-v6sm5220812wma.10.2018.07.18.09.00.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Jul 2018 09:00:10 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2018 17:00:08 +0100
+Message-Id: <20180718160008.8457-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] cmake: put cmake.m4 and toolchain file in PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 14:27:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000922a68057146dd9e"
+X-List-Received-Date: Wed, 18 Jul 2018 16:00:10 -0000
 
---000000000000922a68057146dd9e
-Content-Type: text/plain; charset="UTF-8"
+Previously cmake-dev held some files which should be in cmake.
 
-Thanks! Yes I had tried that patch locally here and
-It is the right one
+- cmake.m4 should be in installed in cmake so it can be used out of the box
+- nativesdk-specific OEToolchainConfig.cmake file used to be in cmake, but the
+  change of default packaging rules move it into cmake-dev.  This recipe is the
+  exception and it should be moved back.
 
-On Wed, Jul 18, 2018 at 5:21 AM Burton, Ross <ross.burton@intel.com> wrote:
+Add the extra paths to cmake, and clear FILES for cmake-dev to ensure nothing
+else slips in.
 
-> Breaks grub-efi:
->
-> DEBUG: Executing shell function do_mkimage
-> grub-mkimage: error: relocation 0x4 is not implemented yet.
->
-> Looks like
-> http://git.savannah.gnu.org/cgit/grub.git/commit/util?id=842c390469e2c2e10b5aa36700324cd3bde25875
-> ,
-> i'll pick that in.
->
-> Apart from that though, everything else built so I'll respin with this
-> grub patch and then we get the selftests...
->
-> Ross
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/cmake/cmake_3.11.4.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---000000000000922a68057146dd9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/cmake/cmake_3.11.4.bb b/meta/recipes-devtools/cmake/cmake_3.11.4.bb
+index eb055b97571..e0457677e86 100644
+--- a/meta/recipes-devtools/cmake/cmake_3.11.4.bb
++++ b/meta/recipes-devtools/cmake/cmake_3.11.4.bb
+@@ -46,7 +46,8 @@ do_install_append_class-nativesdk() {
+ 
+ FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}"
+ 
+-FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
++FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION} ${datadir}/cmake ${datadir}/aclocal"
+ FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
++FILES_${PN}-dev = ""
+ 
+ BBCLASSEXTEND = "nativesdk"
+-- 
+2.11.0
 
-<div><div dir=3D"auto">Thanks! Yes I had tried that patch locally here and=
-=C2=A0</div></div><div dir=3D"auto">It is the right one</div><div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Jul 18, 2018 at 5:21 AM Burt=
-on, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Breaks grub-efi:<br=
->
-<br>
-DEBUG: Executing shell function do_mkimage<br>
-grub-mkimage: error: relocation 0x4 is not implemented yet.<br>
-<br>
-Looks like <a href=3D"http://git.savannah.gnu.org/cgit/grub.git/commit/util=
-?id=3D842c390469e2c2e10b5aa36700324cd3bde25875" rel=3D"noreferrer" target=
-=3D"_blank">http://git.savannah.gnu.org/cgit/grub.git/commit/util?id=3D842c=
-390469e2c2e10b5aa36700324cd3bde25875</a>,<br>
-i&#39;ll pick that in.<br>
-<br>
-Apart from that though, everything else built so I&#39;ll respin with this<=
-br>
-grub patch and then we get the selftests...<br>
-<br>
-Ross<br>
-</blockquote></div></div>
 
---000000000000922a68057146dd9e--
