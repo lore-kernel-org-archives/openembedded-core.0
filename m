@@ -1,24 +1,25 @@
 Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 09F437872C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CF567872C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 18:25:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6IIP1l5028675
+	Wed, 18 Jul 2018 18:25:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6IIP2Xv002137
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 11:25:01 -0700
+	Wed, 18 Jul 2018 11:25:02 -0700 (PDT)
 Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 18 Jul 2018 11:25:00 -0700
+	Wed, 18 Jul 2018 11:25:01 -0700
 From: Joe Slater <joe.slater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jul 2018 11:24:59 -0700
-Message-ID: <20180718182500.16793-1-joe.slater@windriver.com>
+Date: Wed, 18 Jul 2018 11:25:00 -0700
+Message-ID: <20180718182500.16793-2-joe.slater@windriver.com>
 X-Mailer: git-send-email 2.13.0
+In-Reply-To: <20180718182500.16793-1-joe.slater@windriver.com>
+References: <20180718182500.16793-1-joe.slater@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] tiff: security fix CVE-2018-8905
+Subject: [PATCH 2/2] tiff: security fix CVE-2018-7456
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,91 +35,208 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 18 Jul 2018 18:25:01 -0000
 Content-Type: text/plain
 
-Buffer overflow described at nvd.nits.gov/vuln/detail/CVE-2018-8905.
+NULL pointer use as described at nvd.nist.gov/vuln/detail/CVE-2018-7456.
 
 Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- .../libtiff/files/CVE-2018-8905.patch              | 61 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
+ .../libtiff/files/CVE-2018-7456.patch              | 178 +++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |   1 +
+ 2 files changed, 179 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
 new file mode 100644
-index 0000000..962646d
+index 0000000..2c11f93
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-8905.patch
-@@ -0,0 +1,61 @@
-+From 58a898cb4459055bb488ca815c23b880c242a27d Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Sat, 12 May 2018 15:32:31 +0200
-+Subject: [PATCH] LZWDecodeCompat(): fix potential index-out-of-bounds write.
-+ Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2780 /
-+ CVE-2018-8905
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
+@@ -0,0 +1,178 @@
++From be4c85b16e8801a16eec25e80eb9f3dd6a96731b Mon Sep 17 00:00:00 2001
++From: Hugo Lefeuvre <hle@debian.org>
++Date: Sun, 8 Apr 2018 14:07:08 -0400
++Subject: [PATCH] Fix NULL pointer dereference in TIFFPrintDirectory
 +
-+The fix consists in using the similar code LZWDecode() to validate we
-+don't write outside of the output buffer.
++The TIFFPrintDirectory function relies on the following assumptions,
++supposed to be guaranteed by the specification:
++
++(a) A Transfer Function field is only present if the TIFF file has
++    photometric type < 3.
++
++(b) If SamplesPerPixel > Color Channels, then the ExtraSamples field
++    has count SamplesPerPixel - (Color Channels) and contains
++    information about supplementary channels.
++
++While respect of (a) and (b) are essential for the well functioning of
++TIFFPrintDirectory, no checks are realized neither by the callee nor
++by TIFFPrintDirectory itself. Hence, following scenarios might happen
++and trigger the NULL pointer dereference:
++
++(1) TIFF File of photometric type 4 or more has illegal Transfer
++    Function field.
++
++(2) TIFF File has photometric type 3 or less and defines a
++    SamplesPerPixel field such that SamplesPerPixel > Color Channels
++    without defining all extra samples in the ExtraSamples fields.
++
++In this patch, we address both issues with respect of the following
++principles:
++
++(A) In the case of (1), the defined transfer table should be printed
++    safely even if it isn't 'legal'. This allows us to avoid expensive
++    checks in TIFFPrintDirectory. Also, it is quite possible that
++    an alternative photometric type would be developed (not part of the
++    standard) and would allow definition of Transfer Table. We want
++    libtiff to be able to handle this scenario out of the box.
++
++(B) In the case of (2), the transfer table should be printed at its
++    right size, that is if TIFF file has photometric type Palette
++    then the transfer table should have one row and not three, even
++    if two extra samples are declared.
++
++In order to fulfill (A) we simply add a new 'i < 3' end condition to
++the broken TIFFPrintDirectory loop. This makes sure that in any case
++where (b) would be respected but not (a), everything stays fine.
++
++(B) is fulfilled by the loop condition
++'i < td->td_samplesperpixel - td->td_extrasamples'. This is enough as
++long as (b) is respected.
++
++Naturally, we also make sure (b) is respected. This is done in the
++TIFFReadDirectory function by making sure any non-color channel is
++counted in ExtraSamples.
++
++This commit addresses CVE-2018-7456.
 +
 +---
-+CVE: CVE-2018-8905
++CVE: CVE-2018-7456
 +
-+Upstream-Status: Backport [gitlab.com/libtiff/libtiff/commit/58a898...]
++Upstream-Status: Backport [gitlab.com/libtiff/libtiff/commit/be4c85b...]
 +
 +Signed-off-by: Joe Slater <joe.slater@windriver.com>
 +
 +---
-+ libtiff/tif_lzw.c |   18 ++++++++++++------
-+ 1 file changed, 12 insertions(+), 6 deletions(-)
++ libtiff/tif_dirread.c |   62 +++++++++++++++++++++++++++++++++++++++++++++++++
++ libtiff/tif_print.c   |    2 +-
++ 2 files changed, 63 insertions(+), 1 deletion(-)
 +
-+diff --git a/libtiff/tif_lzw.c b/libtiff/tif_lzw.c
-+index 4ccb443..94d85e3 100644
-+--- a/libtiff/tif_lzw.c
-++++ b/libtiff/tif_lzw.c
-+@@ -602,6 +602,7 @@ LZWDecodeCompat(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
-+ 	char *tp;
-+ 	unsigned char *bp;
-+ 	int code, nbits;
-++	int len;
-+ 	long nextbits, nextdata, nbitsmask;
-+ 	code_t *codep, *free_entp, *maxcodep, *oldcodep;
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index 6baa7b3..af5b84a 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -165,6 +165,7 @@ static int TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32 nstrips, uin
++ static int TIFFFetchSubjectDistance(TIFF*, TIFFDirEntry*);
++ static void ChopUpSingleUncompressedStrip(TIFF*);
++ static uint64 TIFFReadUInt64(const uint8 *value);
+++static int _TIFFGetMaxColorChannels(uint16 photometric);
 + 
-+@@ -753,13 +754,18 @@ LZWDecodeCompat(TIFF* tif, uint8* op0, tmsize_t occ0, uint16 s)
-+ 				}  while (--occ);
-+ 				break;
++ static int _TIFFFillStrilesInternal( TIFF *tif, int loadStripByteCount );
++ 
++@@ -3505,6 +3506,35 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
++ }
++ 
++ /*
+++ * Return the maximum number of color channels specified for a given photometric
+++ * type. 0 is returned if photometric type isn't supported or no default value
+++ * is defined by the specification.
+++ */
+++static int _TIFFGetMaxColorChannels( uint16 photometric )
+++{
+++    switch (photometric) {
+++	case PHOTOMETRIC_PALETTE:
+++	case PHOTOMETRIC_MINISWHITE:
+++	case PHOTOMETRIC_MINISBLACK:
+++            return 1;
+++	case PHOTOMETRIC_YCBCR:
+++	case PHOTOMETRIC_RGB:
+++	case PHOTOMETRIC_CIELAB:
+++            return 3;
+++	case PHOTOMETRIC_SEPARATED:
+++	case PHOTOMETRIC_MASK:
+++            return 4;
+++	case PHOTOMETRIC_LOGL:
+++	case PHOTOMETRIC_LOGLUV:
+++	case PHOTOMETRIC_CFA:
+++	case PHOTOMETRIC_ITULAB:
+++	case PHOTOMETRIC_ICCLAB:
+++	default:
+++            return 0;
+++    }
+++}
+++
+++/*
++  * Read the next TIFF directory from a file and convert it to the internal
++  * format. We read directories sequentially.
++  */
++@@ -3520,6 +3550,7 @@ TIFFReadDirectory(TIFF* tif)
++ 	uint32 fii=FAILED_FII;
++         toff_t nextdiroff;
++     int bitspersample_read = FALSE;
+++        int color_channels;
++ 
++ 	tif->tif_diroff=tif->tif_nextdiroff;
++ 	if (!TIFFCheckDirOffset(tif,tif->tif_nextdiroff))
++@@ -4024,6 +4055,37 @@ TIFFReadDirectory(TIFF* tif)
 + 			}
-+-			assert(occ >= codep->length);
-+-			op += codep->length;
-+-			occ -= codep->length;
-+-			tp = op;
-++			len = codep->length;
-++			tp = op + len;
-+ 			do {
-+-				*--tp = codep->value;
-+-			} while( (codep = codep->next) != NULL );
-++				int t;
-++				--tp;
-++				t = codep->value;
-++				codep = codep->next;
-++				*tp = (char)t;
-++			} while (codep && tp > op);
-++			assert(occ >= len);
-++			op += len;
-++			occ -= len;
-+ 		} else {
-+ 			*op++ = (char)code;
-+ 			occ--;
++ 		}
++ 	}
+++
+++	/*
+++	 * Make sure all non-color channels are extrasamples.
+++	 * If it's not the case, define them as such.
+++	 */
+++        color_channels = _TIFFGetMaxColorChannels(tif->tif_dir.td_photometric);
+++        if (color_channels && tif->tif_dir.td_samplesperpixel - tif->tif_dir.td_extrasamples > color_channels) {
+++                uint16 old_extrasamples;
+++                uint16 *new_sampleinfo;
+++
+++                TIFFWarningExt(tif->tif_clientdata,module, "Sum of Photometric type-related "
+++                    "color channels and ExtraSamples doesn't match SamplesPerPixel. "
+++                    "Defining non-color channels as ExtraSamples.");
+++
+++                old_extrasamples = tif->tif_dir.td_extrasamples;
+++                tif->tif_dir.td_extrasamples = (tif->tif_dir.td_samplesperpixel - color_channels);
+++
+++                // sampleinfo should contain information relative to these new extra samples
+++                new_sampleinfo = (uint16*) _TIFFcalloc(tif->tif_dir.td_extrasamples, sizeof(uint16));
+++                if (!new_sampleinfo) {
+++                    TIFFErrorExt(tif->tif_clientdata, module, "Failed to allocate memory for "
+++                                "temporary new sampleinfo array (%d 16 bit elements)",
+++                                tif->tif_dir.td_extrasamples);
+++                    goto bad;
+++                }
+++
+++                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16));
+++                _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
+++                _TIFFfree(new_sampleinfo);
+++        }
+++
++ 	/*
++ 	 * Verify Palette image has a Colormap.
++ 	 */
++diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
++index 8deceb2..1d86adb 100644
++--- a/libtiff/tif_print.c
+++++ b/libtiff/tif_print.c
++@@ -544,7 +544,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
++ 				uint16 i;
++ 				fprintf(fd, "    %2ld: %5u",
++ 				    l, td->td_transferfunction[0][l]);
++-				for (i = 1; i < td->td_samplesperpixel; i++)
+++				for (i = 1; i < td->td_samplesperpixel - td->td_extrasamples && i < 3; i++)
++ 					fprintf(fd, " %5u",
++ 					    td->td_transferfunction[i][l]);
++ 				fputc('\n', fd);
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-index e8e2a11..53b2b81 100644
+index 53b2b81..fa64d11 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2017-18013.patch \
+@@ -11,6 +11,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://CVE-2018-5784.patch \
             file://CVE-2018-10963.patch \
-+           file://CVE-2018-8905.patch \
+            file://CVE-2018-8905.patch \
++           file://CVE-2018-7456.patch \
            "
  
  SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
