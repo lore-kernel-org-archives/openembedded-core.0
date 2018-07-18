@@ -1,25 +1,49 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CF567872C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F84D7899B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 18:25:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6IIP2Xv002137
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Jul 2018 18:26:21 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id v25-v6so3731078wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 11:25:02 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 18 Jul 2018 11:25:01 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jul 2018 11:25:00 -0700
-Message-ID: <20180718182500.16793-2-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20180718182500.16793-1-joe.slater@windriver.com>
-References: <20180718182500.16793-1-joe.slater@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] tiff: security fix CVE-2018-7456
+	Wed, 18 Jul 2018 11:26:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=VYQIRST2XMacXlicbVeYeeW0yhimMTJpF4NWEQU352E=;
+	b=gR7xq6nux9li726kGejyo+D8TECO/n5oRvcVONzZLkkFZU6u5wl+RiITPDukGsl/HJ
+	HqIiKy+3ocEQcvTFtfcABLgbp8IRxfQkKt3K1it4rO6Qt4eRWRUGmAPMVDXHXq85l/xf
+	hoQkE8mZguP+56ZiABBCaABER54p4hO4EDHLSTwoVovg7BsYCx54R2B9RH2h6sOkgQhx
+	iGaybD12rWaz236ltxJGBkR+4JNai1TL2nlmymanew8gpkhM8DBKxZzs6eYNbIwhiPmt
+	NZFqMyumndIvpB5UpgkAKXx5eaTzeGmq+1lmh0JbnL/MHisxeedhi1xs+3DQ7XOSS4Tb
+	25gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VYQIRST2XMacXlicbVeYeeW0yhimMTJpF4NWEQU352E=;
+	b=LcoDPYB/VjU55x01vQGnYoiHpN2s4oMfIwkFg0230UZALew8IwLZ3+XGR6nT7hJfI7
+	dR6YSRGeGD2+JKAl7EvbjRwWY4oG/MVFQyHf9XnZDSXoxQTEcmytV4DqRc5KwBJj7PNC
+	Q2FvtdTsikvlfksNBT8d25BgM8nsri0YnKvHVKxmTKrt7Mc/kmFdS5GSLpsWVRKFifEN
+	Q0HGZZERmtMVNVCHOIg6JNGyZKJ57DaGTQfKTpzDq20/VDQ6eFIxWeA4pqS4idYJQ8lg
+	3FNJ2lpyFWg/kOl6DESxI1ITPUhOit9ewgOwU9lEyea2zdE4T19zPxwPLrcHJSXOyve5
+	47aw==
+X-Gm-Message-State: AOUpUlGphliMsbjBJ267On3BrnVW8hMJpN+B1TSfsIDhP1mBAF0f6t8+
+	egn7eLytuJkkG8fDFTP2boHRIfD4
+X-Google-Smtp-Source: AAOMgpcXzkVKfSRiOt5l/r+MhHVTHrrixoOvdaRqAPbeqCpSGS2FZ6dbQZNNMP2Hs9AdvDC7LutDgQ==
+X-Received: by 2002:a1c:864c:: with SMTP id
+	i73-v6mr2419125wmd.40.1531938381694; 
+	Wed, 18 Jul 2018 11:26:21 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	x124-v6sm1886158wmg.38.2018.07.18.11.26.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Jul 2018 11:26:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2018 19:26:15 +0100
+Message-Id: <20180718182616.18372-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] gnu-config: remove obsolete version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,215 +56,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 18:25:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Jul 2018 18:26:21 -0000
 
-NULL pointer use as described at nvd.nist.gov/vuln/detail/CVE-2018-7456.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libtiff/files/CVE-2018-7456.patch              | 178 +++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.9.bb      |   1 +
- 2 files changed, 179 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
+ .../gnu-config/gnu-config/musl-support.patch       | 25 --------------
+ .../gnu-config/gnu-config_20120814.bb              | 40 ----------------------
+ 2 files changed, 65 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gnu-config/gnu-config/musl-support.patch
+ delete mode 100644 meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch b/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
-new file mode 100644
-index 0000000..2c11f93
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2018-7456.patch
-@@ -0,0 +1,178 @@
-+From be4c85b16e8801a16eec25e80eb9f3dd6a96731b Mon Sep 17 00:00:00 2001
-+From: Hugo Lefeuvre <hle@debian.org>
-+Date: Sun, 8 Apr 2018 14:07:08 -0400
-+Subject: [PATCH] Fix NULL pointer dereference in TIFFPrintDirectory
-+
-+The TIFFPrintDirectory function relies on the following assumptions,
-+supposed to be guaranteed by the specification:
-+
-+(a) A Transfer Function field is only present if the TIFF file has
-+    photometric type < 3.
-+
-+(b) If SamplesPerPixel > Color Channels, then the ExtraSamples field
-+    has count SamplesPerPixel - (Color Channels) and contains
-+    information about supplementary channels.
-+
-+While respect of (a) and (b) are essential for the well functioning of
-+TIFFPrintDirectory, no checks are realized neither by the callee nor
-+by TIFFPrintDirectory itself. Hence, following scenarios might happen
-+and trigger the NULL pointer dereference:
-+
-+(1) TIFF File of photometric type 4 or more has illegal Transfer
-+    Function field.
-+
-+(2) TIFF File has photometric type 3 or less and defines a
-+    SamplesPerPixel field such that SamplesPerPixel > Color Channels
-+    without defining all extra samples in the ExtraSamples fields.
-+
-+In this patch, we address both issues with respect of the following
-+principles:
-+
-+(A) In the case of (1), the defined transfer table should be printed
-+    safely even if it isn't 'legal'. This allows us to avoid expensive
-+    checks in TIFFPrintDirectory. Also, it is quite possible that
-+    an alternative photometric type would be developed (not part of the
-+    standard) and would allow definition of Transfer Table. We want
-+    libtiff to be able to handle this scenario out of the box.
-+
-+(B) In the case of (2), the transfer table should be printed at its
-+    right size, that is if TIFF file has photometric type Palette
-+    then the transfer table should have one row and not three, even
-+    if two extra samples are declared.
-+
-+In order to fulfill (A) we simply add a new 'i < 3' end condition to
-+the broken TIFFPrintDirectory loop. This makes sure that in any case
-+where (b) would be respected but not (a), everything stays fine.
-+
-+(B) is fulfilled by the loop condition
-+'i < td->td_samplesperpixel - td->td_extrasamples'. This is enough as
-+long as (b) is respected.
-+
-+Naturally, we also make sure (b) is respected. This is done in the
-+TIFFReadDirectory function by making sure any non-color channel is
-+counted in ExtraSamples.
-+
-+This commit addresses CVE-2018-7456.
-+
-+---
-+CVE: CVE-2018-7456
-+
-+Upstream-Status: Backport [gitlab.com/libtiff/libtiff/commit/be4c85b...]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+ libtiff/tif_dirread.c |   62 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ libtiff/tif_print.c   |    2 +-
-+ 2 files changed, 63 insertions(+), 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 6baa7b3..af5b84a 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -165,6 +165,7 @@ static int TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, uint32 nstrips, uin
-+ static int TIFFFetchSubjectDistance(TIFF*, TIFFDirEntry*);
-+ static void ChopUpSingleUncompressedStrip(TIFF*);
-+ static uint64 TIFFReadUInt64(const uint8 *value);
-++static int _TIFFGetMaxColorChannels(uint16 photometric);
-+ 
-+ static int _TIFFFillStrilesInternal( TIFF *tif, int loadStripByteCount );
-+ 
-+@@ -3505,6 +3506,35 @@ static void TIFFReadDirEntryOutputErr(TIFF* tif, enum TIFFReadDirEntryErr err, c
-+ }
-+ 
-+ /*
-++ * Return the maximum number of color channels specified for a given photometric
-++ * type. 0 is returned if photometric type isn't supported or no default value
-++ * is defined by the specification.
-++ */
-++static int _TIFFGetMaxColorChannels( uint16 photometric )
-++{
-++    switch (photometric) {
-++	case PHOTOMETRIC_PALETTE:
-++	case PHOTOMETRIC_MINISWHITE:
-++	case PHOTOMETRIC_MINISBLACK:
-++            return 1;
-++	case PHOTOMETRIC_YCBCR:
-++	case PHOTOMETRIC_RGB:
-++	case PHOTOMETRIC_CIELAB:
-++            return 3;
-++	case PHOTOMETRIC_SEPARATED:
-++	case PHOTOMETRIC_MASK:
-++            return 4;
-++	case PHOTOMETRIC_LOGL:
-++	case PHOTOMETRIC_LOGLUV:
-++	case PHOTOMETRIC_CFA:
-++	case PHOTOMETRIC_ITULAB:
-++	case PHOTOMETRIC_ICCLAB:
-++	default:
-++            return 0;
-++    }
-++}
-++
-++/*
-+  * Read the next TIFF directory from a file and convert it to the internal
-+  * format. We read directories sequentially.
-+  */
-+@@ -3520,6 +3550,7 @@ TIFFReadDirectory(TIFF* tif)
-+ 	uint32 fii=FAILED_FII;
-+         toff_t nextdiroff;
-+     int bitspersample_read = FALSE;
-++        int color_channels;
-+ 
-+ 	tif->tif_diroff=tif->tif_nextdiroff;
-+ 	if (!TIFFCheckDirOffset(tif,tif->tif_nextdiroff))
-+@@ -4024,6 +4055,37 @@ TIFFReadDirectory(TIFF* tif)
-+ 			}
-+ 		}
-+ 	}
-++
-++	/*
-++	 * Make sure all non-color channels are extrasamples.
-++	 * If it's not the case, define them as such.
-++	 */
-++        color_channels = _TIFFGetMaxColorChannels(tif->tif_dir.td_photometric);
-++        if (color_channels && tif->tif_dir.td_samplesperpixel - tif->tif_dir.td_extrasamples > color_channels) {
-++                uint16 old_extrasamples;
-++                uint16 *new_sampleinfo;
-++
-++                TIFFWarningExt(tif->tif_clientdata,module, "Sum of Photometric type-related "
-++                    "color channels and ExtraSamples doesn't match SamplesPerPixel. "
-++                    "Defining non-color channels as ExtraSamples.");
-++
-++                old_extrasamples = tif->tif_dir.td_extrasamples;
-++                tif->tif_dir.td_extrasamples = (tif->tif_dir.td_samplesperpixel - color_channels);
-++
-++                // sampleinfo should contain information relative to these new extra samples
-++                new_sampleinfo = (uint16*) _TIFFcalloc(tif->tif_dir.td_extrasamples, sizeof(uint16));
-++                if (!new_sampleinfo) {
-++                    TIFFErrorExt(tif->tif_clientdata, module, "Failed to allocate memory for "
-++                                "temporary new sampleinfo array (%d 16 bit elements)",
-++                                tif->tif_dir.td_extrasamples);
-++                    goto bad;
-++                }
-++
-++                memcpy(new_sampleinfo, tif->tif_dir.td_sampleinfo, old_extrasamples * sizeof(uint16));
-++                _TIFFsetShortArray(&tif->tif_dir.td_sampleinfo, new_sampleinfo, tif->tif_dir.td_extrasamples);
-++                _TIFFfree(new_sampleinfo);
-++        }
-++
-+ 	/*
-+ 	 * Verify Palette image has a Colormap.
-+ 	 */
-+diff --git a/libtiff/tif_print.c b/libtiff/tif_print.c
-+index 8deceb2..1d86adb 100644
-+--- a/libtiff/tif_print.c
-++++ b/libtiff/tif_print.c
-+@@ -544,7 +544,7 @@ TIFFPrintDirectory(TIFF* tif, FILE* fd, long flags)
-+ 				uint16 i;
-+ 				fprintf(fd, "    %2ld: %5u",
-+ 				    l, td->td_transferfunction[0][l]);
-+-				for (i = 1; i < td->td_samplesperpixel; i++)
-++				for (i = 1; i < td->td_samplesperpixel - td->td_extrasamples && i < 3; i++)
-+ 					fprintf(fd, " %5u",
-+ 					    td->td_transferfunction[i][l]);
-+ 				fputc('\n', fd);
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-index 53b2b81..fa64d11 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.9.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2018-5784.patch \
-            file://CVE-2018-10963.patch \
-            file://CVE-2018-8905.patch \
-+           file://CVE-2018-7456.patch \
-           "
- 
- SRC_URI[md5sum] = "54bad211279cc93eb4fca31ba9bfdc79"
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config/musl-support.patch b/meta/recipes-devtools/gnu-config/gnu-config/musl-support.patch
+deleted file mode 100644
+index 3147435a6e5..00000000000
+--- a/meta/recipes-devtools/gnu-config/gnu-config/musl-support.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-support musl
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: gnu-config-20120814/config.sub
+-===================================================================
+---- gnu-config-20120814.orig/config.sub	2012-09-18 02:27:45.000000000 -0700
+-+++ gnu-config-20120814/config.sub	2014-03-26 00:34:19.955996709 -0700
+-@@ -123,6 +123,7 @@
+- maybe_os=`echo $1 | sed 's/^\(.*\)-\([^-]*-[^-]*\)$/\2/'`
+- case $maybe_os in
+-   nto-qnx* | linux-gnu* | linux-android* | linux-dietlibc | linux-newlib* | \
+-+  linux-musl* | \
+-   linux-uclibc* | uclinux-uclibc* | uclinux-gnu* | kfreebsd*-gnu* | \
+-   knetbsd*-gnu* | netbsd*-gnu* | \
+-   kopensolaris*-gnu* | \
+-@@ -1365,6 +1366,7 @@
+- 	      | -cygwin* | -msys* | -pe* | -psos* | -moss* | -proelf* | -rtems* \
+- 	      | -mingw32* | -mingw64* | -linux-gnu* | -linux-android* \
+- 	      | -linux-newlib* | -linux-uclibc* \
+-+	      | -linux-musl* \
+- 	      | -uxpv* | -beos* | -mpeix* | -udk* \
+- 	      | -interix* | -uwin* | -mks* | -rhapsody* | -darwin* | -opened* \
+- 	      | -openstep* | -oskit* | -conix* | -pw32* | -nonstopux* \
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb b/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
+deleted file mode 100644
+index 3d428b9b78f..00000000000
+--- a/meta/recipes-devtools/gnu-config/gnu-config_20120814.bb
++++ /dev/null
+@@ -1,40 +0,0 @@
+-SUMMARY = "gnu-configize"
+-DESCRIPTION = "Tool that installs the GNU config.guess / config.sub into a directory tree"
+-SECTION = "devel"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://config.guess;endline=39;md5=b79a4663475f4d724846463277817e0d"
+-
+-DEPENDS_class-native = "hostperl-runtime-native"
+-
+-INHIBIT_DEFAULT_DEPS = "1"
+-
+-
+-SRC_URI = "http://downloads.yoctoproject.org/releases/gnu-config/gnu-config-${PV}.tar.bz2 \
+-	   file://musl-support.patch \
+-           file://gnu-configize.in"
+-
+-SRC_URI[md5sum] = "bcfca5a2bb39edad4aae5a65efc84094"
+-SRC_URI[sha256sum] = "44f99a8e76f3e8e4fec0bb5ad4762f8e44366168554ce66cb85afbe2ed3efd8b"
+-
+-CLEANBROKEN = "1"
+-
+-do_compile[noexec] = "1"
+-
+-do_install () {
+-	install -d ${D}${datadir}/gnu-config \
+-		   ${D}${bindir}
+-	cat ${WORKDIR}/gnu-configize.in | \
+-		sed -e 's,@gnu-configdir@,${datadir}/gnu-config,g' \
+-		    -e 's,@autom4te_perllibdir@,${datadir}/autoconf,g' > ${D}${bindir}/gnu-configize
+-	# In the native case we want the system perl as perl-native can't have built yet
+-	if [ "${PN}" != "gnu-config-native" -a "${PN}" != "nativesdk-gnu-config" ]; then
+-		sed -i -e 's,/usr/bin/env,${bindir}/env,g' ${D}${bindir}/gnu-configize
+-	fi
+-	chmod 755 ${D}${bindir}/gnu-configize
+-	install -m 0644 config.guess config.sub ${D}${datadir}/gnu-config/
+-}
+-
+-PACKAGES = "${PN}"
+-FILES_${PN} = "${bindir} ${datadir}/gnu-config"
+-
+-BBCLASSEXTEND = "native nativesdk"
 -- 
-2.7.4
+2.11.0
 
 
