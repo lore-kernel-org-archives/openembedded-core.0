@@ -1,24 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B95E78982
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 90C62784B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 00:47:05 +0000 (UTC)
+	Wed, 18 Jul 2018 00:47:06 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6I0l5cY016511
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6I0l7kx028956
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Jul 2018 17:47:05 -0700 (PDT)
+	Tue, 17 Jul 2018 17:47:07 -0700 (PDT)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 17 Jul 2018 17:47:04 -0700
+	14.3.399.0; Tue, 17 Jul 2018 17:47:06 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 18 Jul 2018 08:57:01 +0800
-Message-ID: <8c23a9922f3670cdc069e6d7243d550f5693da79.1531875240.git.hongxu.jia@windriver.com>
+Date: Wed, 18 Jul 2018 08:57:02 +0800
+Message-ID: <943c8993f97254f7f703f972be58886afc810970.1531875240.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1531875240.git.hongxu.jia@windriver.com>
 References: <cover.1531875240.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] python-setuptools.inc: clean up useless local var-DISTUTILS_INSTALL_ARGS
+Subject: [PATCH 3/3] python3-pip: clean up obsolete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 00:47:05 -0000
+X-List-Received-Date: Wed, 18 Jul 2018 00:47:06 -0000
 Content-Type: text/plain
 
 Since unify var-DISTUTILS_INSTALL_ARGS in distutils and setuptools,
-The local var-DISTUTILS_INSTALL_ARGS broke do_install
-...
-error: option --script-dir not recognized
-ERROR: python3 setup.py install execution failed.
-...
+- The local DISTUTILS_INSTALL_ARGS assignment is obsolete;
+- The site.py is not be generated any more;
+- The layout is in a standard pip dir (such as /usr/lib/python3.5/site-
+  packages/pip rather than /lib/python3.5/site-packages/pip-10.0.1-
+  py3.5.egg/pip), the pth file is not required;
+
+`#!/usr/bin/env python3' is already used, do not manually sed.
 
 [YOCTO #8446]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc | 3 ---
- 1 file changed, 3 deletions(-)
+ meta/recipes-devtools/python/python3-pip_10.0.1.bb | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 25be446..512d1ce 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -16,9 +16,6 @@ DEPENDS += "${PYTHON_PN}"
- DEPENDS_class-native += "${PYTHON_PN}-native"
- DEPENDS_class-nativesdk += "nativesdk-${PYTHON_PN}"
+diff --git a/meta/recipes-devtools/python/python3-pip_10.0.1.bb b/meta/recipes-devtools/python/python3-pip_10.0.1.bb
+index 100d4d0..8deec2b 100644
+--- a/meta/recipes-devtools/python/python3-pip_10.0.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_10.0.1.bb
+@@ -11,27 +11,9 @@ SRC_URI[sha256sum] = "f2bd08e0cd1b06e10218feaf6fef299f473ba706582eb3bd9d52203fdb
  
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR} \
--                           --script-dir=${bindir}"
+ inherit pypi distutils3
+ 
+-DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
 -
- RDEPENDS_${PN}_class-native = "\
-   ${PYTHON_PN}-distutils \
-   ${PYTHON_PN}-compression \
+-do_install_prepend() {
+-    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+-}
+-
+-# Use setuptools site.py instead, avoid shared state issue
+ do_install_append() {
+-    rm ${D}${PYTHON_SITEPACKAGES_DIR}/site.py
+-    rm ${D}${PYTHON_SITEPACKAGES_DIR}/__pycache__/site.cpython-*.pyc
+-
+     # Install as pip3 and leave pip2 as default
+     rm ${D}/${bindir}/pip
+-
+-    # Installed eggs need to be passed directly to the interpreter via a pth file
+-    echo "./${PYPI_PACKAGE}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${PYPI_PACKAGE}-${PV}.pth
+-
+-    # Make sure we use /usr/bin/env python3
+-    for PYTHSCRIPT in `grep -rIl ${bindir} ${D}${bindir}/pip3*`; do
+-        sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
+-    done
+ }
+ 
+ RDEPENDS_${PN} = "\
 -- 
 2.7.4
 
