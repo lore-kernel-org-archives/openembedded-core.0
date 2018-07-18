@@ -1,50 +1,50 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 02C7C6003C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A0376789A9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 19:50:20 +0000 (UTC)
-Received: by mail-lf0-f50.google.com with SMTP id b22-v6so4319413lfa.3
+	Wed, 18 Jul 2018 22:48:03 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id w8-v6so2674178ply.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 12:50:22 -0700 (PDT)
+	Wed, 18 Jul 2018 15:48:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VwSU8S2+nyrSd9BaUOOwXYKIMW//S2E8EsA60PlgXEw=;
-	b=VGWHISaUUy9deH+Cx/3Feq5e4l+ywJvXJBuMUkCw0Cs9ibPFBEyWoBz/VVDv/9Kyt2
-	fD5vgOEEjT98cXOJQII1La46VAjWT1nqXZ4lsGY/g6gsetbZJPVaAnFnOh79ZCg+lDhs
-	ExNdWWfh5Wlju/zFQENIoFpo3herKr39eOftV6T+pdpnv8sXiAAh+PdOPYlR1//I2OtK
-	9xHPi8/muKnFALOPfZQsl1/I6bu9hxJAGrSNJgtB16dleP2V6c0BF6zmF9ny0Uo8Qj1q
-	QIEf2RXgfF/wwJAt7e+NjrCp8zs3YJi6bqGLErzGr7sFe3pAI607LKBYq3fuTfCArPm+
-	jofw==
+	h=from:to:subject:date:message-id;
+	bh=BZz9sSEpdNRlzisr/CMYmjm1K7HI6iul7Iz/70xJBCc=;
+	b=HDlcxUCi6OmF1wj6KHO/7JP4p/8497TsVz8PJfoPApuE3zVv7a86rnKgyhGkacDy3f
+	eP62V3L5XN9JkZ2XaYlj7HXzPM68lffoZi+x0hJELSnC6RnyPf/0GdapUscu0iq4xpJD
+	y7OzdtYTRlbbj45CwK4tXYqEIbDfD7RzpZHyLFym1EojDzdlFk/S1bnPCN6Hn4qQzfuX
+	jiZh+2szJGVqYgyavmmP6tybVLHawMPsFpSCrHUbhZapNg5omufTT+x0sjYeupHBVVyG
+	Tbf4XEfO3/pzfl5RpDkXODujsCZb0/s9ouo5BqugN3hQ0M+ZfvOnS/j8alYqT2wS3QKU
+	WqsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=VwSU8S2+nyrSd9BaUOOwXYKIMW//S2E8EsA60PlgXEw=;
-	b=hnSWtduteXnG24yXx43wkpUE2bTAeBnMMCeSeBCoT4NN+amhd5mqak7Vh6sse9UNXz
-	cC84JHb8m4sz7Nh0j0UjWpWuNUZc7FpsLIsXL6EuQwZ/Zfr4LN2qdNlwf9FqqMN5fQL2
-	9zGyF7Vcilx3USV5NmatccriCXxysRHMLMV5+Bf0J/MrCox8ZSkPBBXN5hv859HKKuUD
-	gAWz4e8rIGGe2b0voDfUDRDVeT21N2lby249ARIaks3q7cPPyUXtGKwe6cIOi5rO0xyN
-	YZ4hwfIHdNBYxxQolsQekIhY2RCIPkKP15yS911/LW6PeoWsuTvx5CGPdrJ+CB237vVr
-	yx2g==
-X-Gm-Message-State: AOUpUlFqqswaQrhZlD4POnbGyoWUeUpINzFlfd/j4NWtzkaFBCN5F8Hk
-	DtYF2AqJhW4n/zSvWf08TMR3z2O1qv73TcJrZeI=
-X-Google-Smtp-Source: AAOMgpegEx1hIRmcOZDUD0/yYNDvhEX6N7a3WXOdhCEDY+shXTvSW30W/bg4sMQ4OUb+FVxzb1Whl7JLnh/z8Dl70eU=
-X-Received: by 2002:a19:de4e:: with SMTP id
-	v75-v6mr4605877lfg.14.1531943421370; 
-	Wed, 18 Jul 2018 12:50:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:9696:0:0:0:0:0 with HTTP; Wed, 18 Jul 2018 12:49:50
-	-0700 (PDT)
-In-Reply-To: <b562af34-25d1-67e5-0eb5-8de62a8b3e2e@windriver.com>
-References: <20180716225009.3403-1-alistair.francis@wdc.com>
-	<b562af34-25d1-67e5-0eb5-8de62a8b3e2e@windriver.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 18 Jul 2018 12:49:50 -0700
-Message-ID: <CAKmqyKNTOhiWn7nZwHEgMiH01c-0wqJ6RN6TpEG6wCuCxS0KRQ@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Enable coredump if it is in PACKAGECONFIG
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BZz9sSEpdNRlzisr/CMYmjm1K7HI6iul7Iz/70xJBCc=;
+	b=IqXimKey2JrEVgIqAkaC4qiLGxHo22V3Cay43bc1oKZMVcqRQg76HF7fETjBfRfp15
+	yFnluH1OWMG+VKKrygojydJrmEBUDY7Fe5nJlCoKnsQq9V+J1kypqqbN6/3UopzJbBVE
+	cunzAbkO6OLE4XjyTmg2qmBK5eRQ9sY6TZ/oOxGv/64RU34Ktzopia4S+gtOvZfMeMaE
+	+igWakVZmacIAUZk5a6K+ED1mRsm9LehNZ+Xi+aSBouavpa62IvsTT+m9PlycITyuQMk
+	oitpdRF8I3ZusexItB5+dk4U7llCPMRjHvMWnWTT684MdP3VC/ez4Cbi49Zin1m+GB2Q
+	KNSQ==
+X-Gm-Message-State: AOUpUlFOwB51jshfyTWAgym9TVWMydPkZDiRQq0FfdtQHFPglyhIDskB
+	ogD55kXgNrRYRpozM6AqhEE=
+X-Google-Smtp-Source: AAOMgpfi9xUaENxc8/kZ5n059y9ocVHutPg6gzKNiDrjIzrr/NMblJC2B9o+JfYDb9yv2jCXouRThg==
+X-Received: by 2002:a17:902:1025:: with SMTP id
+	b34-v6mr7517528pla.112.1531954084682; 
+	Wed, 18 Jul 2018 15:48:04 -0700 (PDT)
+Received: from localhost.localdomain
+	(50-196-136-220-static.hfc.comcastbusiness.net. [50.196.136.220])
+	by smtp.gmail.com with ESMTPSA id
+	84-v6sm11964343pfj.33.2018.07.18.15.48.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 18 Jul 2018 15:48:04 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2018 15:48:03 -0700
+Message-Id: <1531954083-7637-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] bind: update to 9.11.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,95 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 19:50:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Jul 2018 22:48:03 -0000
 
-On Mon, Jul 16, 2018 at 6:57 PM, ChenQi <Qi.Chen@windriver.com> wrote:
-> Hi Alistair,
->
-> I don't think this file needs to be modified. And you are uncommenting the
-> default values. The behavior is expected to remain the same.
->
-> Also, I just did a quick test with coredump enabled and things were working
-> correctly.
+include:
+CVE-2018-5738
 
-You are right, it works for me now as well.
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-connectivity/bind/{bind_9.11.3.bb => bind_9.11.4.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.3.bb => bind_9.11.4.bb} (97%)
 
-Is it still worth adding this with support for setting custom values?
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.3.bb b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.11.3.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.4.bb
+index 1cb1f3f..7522fdb 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.4.bb
+@@ -19,8 +19,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+ "
+ 
+-SRC_URI[md5sum] = "4ed2a3f235595eadbd763b7ecb687ca0"
+-SRC_URI[sha256sum] = "0d9dde14b2ec7f9cdc3b69f19540c7a2e4eee7b6c727965dfae48810965876f5"
++SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
++SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+-- 
+2.7.4
 
-Alistair
-
->
-> Best Regards,
-> Chen Qi
->
->
-> On 07/17/2018 06:50 AM, Alistair Francis wrote:
->>
->> Previously if coredump was enabled in PACKAGECONFIG the user would still
->> need to modify the conf file to enable it. Now the config will be
->> enabled if coredump is enalbed in the PACKAGECONFIG.
->>
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>   .../systemd/systemd/coredump.conf             | 21 +++++++++++++++++++
->>   meta/recipes-core/systemd/systemd_237.bb      |  5 +++++
->>   2 files changed, 26 insertions(+)
->>   create mode 100644 meta/recipes-core/systemd/systemd/coredump.conf
->>
->> diff --git a/meta/recipes-core/systemd/systemd/coredump.conf
->> b/meta/recipes-core/systemd/systemd/coredump.conf
->> new file mode 100644
->> index 0000000000..4cbc19cdc5
->> --- /dev/null
->> +++ b/meta/recipes-core/systemd/systemd/coredump.conf
->> @@ -0,0 +1,21 @@
->> +#  This file is part of systemd.
->> +#
->> +#  systemd is free software; you can redistribute it and/or modify it
->> +#  under the terms of the GNU Lesser General Public License as published
->> by
->> +#  the Free Software Foundation; either version 2.1 of the License, or
->> +#  (at your option) any later version.
->> +#
->> +# Entries in this file show the compile time defaults.
->> +# You can change settings by editing this file.
->> +# Defaults can be restored by simply deleting this file.
->> +#
->> +# See coredump.conf(5) for details.
->> +
->> +[Coredump]
->> +Storage=external
->> +Compress=yes
->> +ProcessSizeMax=2G
->> +ExternalSizeMax=2G
->> +#JournalSizeMax=767M
->> +#MaxUse=
->> +#KeepFree=
->> diff --git a/meta/recipes-core/systemd/systemd_237.bb
->> b/meta/recipes-core/systemd/systemd_237.bb
->> index 3efca33e73..db2848fd65 100644
->> --- a/meta/recipes-core/systemd/systemd_237.bb
->> +++ b/meta/recipes-core/systemd/systemd_237.bb
->> @@ -276,6 +276,11 @@ do_install() {
->>                         chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->>                 fi
->>         fi
->> +
->> +  # If coredump was enalbed, enable it in the config
->> +  if ${@bb.utils.contains('PACKAGECONFIG', 'coredump', 'true', 'false',
->> d)}; then
->> +    install -Dm 0755 ${FILE_DIRNAME}/${BPN}/coredump.conf
->> ${D}${sysconfdir}/systemd/
->> +  fi
->>   }
->>
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
