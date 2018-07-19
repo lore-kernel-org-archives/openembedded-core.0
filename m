@@ -1,57 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0606978A95
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E8286FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 21:36:50 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id v26-v6so8316169iog.5
+	Thu, 19 Jul 2018 23:25:42 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id w14-v6so8294792eds.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 14:36:52 -0700 (PDT)
+	Thu, 19 Jul 2018 16:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=/9YM+zliVqyiht8gBt8fAU7c7NU8NuxGWTlOPkMwmFM=;
-	b=Uu7l9y41dwBzHi61Zed+RIbupaBT3INrXLsiV/2eenI9Egb+QS4fkRgXrubEZiu+oC
-	UXzLce4c/Rf3szB3EKts+FG+uVTndmc31lgS3eFXWXrQK42Os3NDnzIbc6j8VpY/Qgid
-	bt1cwMWioOk4Zabnk2sBrMgSuli6NcKaSoV7ZuN4KbKIxSiLvJYAl9b+nqqadQFJb6AK
-	XIAlGiZrga5ILCc6W/gUl3DINppsHpwcD2YTRGTmY/niNl7bvVzlPskHRs4VxFauS5OO
-	BQ0wW2Jspc3l8XU7eJYTm2okYAgUxcdCIo4YvzHi1Cz0nZ9RKMH4QFXQMjd/M69/0i2A
-	eCmA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=a2+3mMsLIYVvkCGuIePv6saqWEjbLQfB/8HbxU2YW7I=;
+	b=JITT4GzCalKnNd1DDvr9sb8PB7VW0MRWuSwsRqDndFmX1KPboR1/c27mjHXeRY3awP
+	lLyA3CGwc/NaBGCGA19Kv2/EmqyzRYlRQ4UJoTWGv729eSXsZBVZv8Vnx6hYIybcxhIm
+	I149VrEY4zruUQVXNpkcgDpBcCrCoL9zYZTq/UkEF42RpBijfzTDI4f1IsMKiIiNDmwp
+	9rT8CPsZxZA6HiExHjmbxN5Sl5tWsELNr5ZF6n/rWlzNemiMpOwtOIn3cxqJcyCKFJvL
+	kPql3t10CgRigILuE3+rBj/ORfg8j/UkVZOKEdCz/C9w/lWo/6pnNLVtofJ7pNZpPa5h
+	a5xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=/9YM+zliVqyiht8gBt8fAU7c7NU8NuxGWTlOPkMwmFM=;
-	b=qVFbqqgsU5qhFB/KMHimCrbqs6D0n2C3px9BVhWOHHSLPCEurjY+5p3mCZXj+NxK8u
-	lHWh03MPg209vE46zNojopWJEFxlZdCjOAAVzhCWGqdTJGiZM58LE/Zoop9kF6gm44R1
-	ndcuQpjNjxUfdDIA2/y7qKiRtPmn+OiEBrXLVP73xRyHeBxCE4bfLMxPXCuniU6gI4+j
-	v2s+U+yeAcec9Aspr0IF8MvepIx11AGpcoFhIOEDvSp3kFjj6HpSeDctbJ/OvesolK9n
-	WXI+aSDsNfoTG0otp2OS/njCCzgSek0AmzCkufrPDN7N2jzG5WcAJb1elBC5Kjv4hm3P
-	Osfg==
-X-Gm-Message-State: AOUpUlG6DlG149B8ohq1ExFwBCD61pk2xm+vQByEFMSLgHtPikdTVfRH
-	4waHfMmCsNp2PqlKmlH200A=
-X-Google-Smtp-Source: AAOMgpcN3soL7XX+PR4O6AJXifX3toIuAY9J3rrQeSGMKz0ZEzmFlqBIHU5YSJUszd5O49hJ4niAFA==
-X-Received: by 2002:a6b:a382:: with SMTP id
-	m124-v6mr10101845ioe.188.1532036211749; 
-	Thu, 19 Jul 2018 14:36:51 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	d12-v6sm233013itf.44.2018.07.19.14.36.51
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 19 Jul 2018 14:36:51 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <1850d1e3aba2151c44800c7b29b79f273607f0c1.camel@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Jul 2018 16:36:50 -0500
-In-Reply-To: <CAJTo0LaZRbRZgd9Usy7PPE4JDxaGUO0gO5kxrm5=K2LvE95hkw@mail.gmail.com>
-References: <20180719163102.15234-1-JPEWhacker@gmail.com>
-	<CAJTo0LaZRbRZgd9Usy7PPE4JDxaGUO0gO5kxrm5=K2LvE95hkw@mail.gmail.com>
-X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
-Mime-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Fix pylibfdt generation
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=a2+3mMsLIYVvkCGuIePv6saqWEjbLQfB/8HbxU2YW7I=;
+	b=uI9E3L6TsPTKyFg5IQVZBYTICFg/IBzJ5vef+DHc7TOmHr/L7SuMDCZ7F0fbyqW257
+	b4LLXA9QNsobkchru0qf62C6ju6WWYUJ06vpHkkRX0ROKNZefESmKTrhp9XKijNm2JQL
+	zlqOtJMOLrH7MZ9yvTgXmn0bvNY65pE7pwY10Q4ErGfeEwgzsljrLFUGPCzdyqKH+RBb
+	4b/hu3sLSUfQBdMYCMaiCKkBOpMCDxemmbURHKP4cSRSaSubKrTy2eQQ7E192SWIlTKF
+	VWbj/XJEk9ktKa9Ep+WoxTQYINGMncHgzbZ7v6mO2rC7bzeSxgyPwvq5091JT46H96s9
+	JFvA==
+X-Gm-Message-State: AOUpUlFzP6wG18q9aM80qBRutKoMUav3vrcWoomS6zHmhZTVO76eSE+x
+	N41kk+yPAXS8rhW+9Jr0bOkFUNg3FrnVo6SbPgM=
+X-Google-Smtp-Source: AAOMgpdUc7oiXPFbg8UGMVzmwpfg44FTeXfap1O3p1Krh2i2xqaZ1B6PH14QpuUx/dLsHSagK3sEEVcyEW/JLP8JYuw=
+X-Received: by 2002:a50:b8a6:: with SMTP id l35-v6mr39780ede.273.1532042743196;
+	Thu, 19 Jul 2018 16:25:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a50:e70e:0:0:0:0:0 with HTTP; Thu, 19 Jul 2018 16:25:42
+	-0700 (PDT)
+In-Reply-To: <20180719135752.43056-1-raj.khem@gmail.com>
+References: <20180719135752.43056-1-raj.khem@gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Fri, 20 Jul 2018 01:25:42 +0200
+Message-ID: <CAAQYJAuSyJQP8zC7PAsETAOpWHjKTmfpxZAAOBuhvv8U0FYnpg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] musl: Fix dirent struct alignment issue seen on armv5te
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,34 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 21:36:51 -0000
+X-List-Received-Date: Thu, 19 Jul 2018 23:25:42 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2018-07-19 at 21:10 +0100, Burton, Ross wrote:
-> On 19 July 2018 at 17:31, Joshua Watt <jpewhacker@gmail.com> wrote:
-> > +EXTRA_OEMAKE += 'PYTHON=nativepython
-> > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
-> > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
-> > +DEPENDS += "bc-native dtc-native swig-native python-native"
-> 
-> Instead of setting PYTHON and DEPENDS, you can just inherit
-> pythonnative.
+On Thu, Jul 19, 2018 at 3:57 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Full logs
+> https://git.musl-libc.org/cgit/musl/log/?qt=range&q=9cad27a3dc1a4eb349b6591e4dc8cc89dce32277..18fbc7e4fa254696eb024f56ee74704805925fad
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index b56870cb3f..9a3bbef68e 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -3,7 +3,7 @@
+>
+>  require musl.inc
+>
+> -SRCREV = "9cad27a3dc1a4eb349b6591e4dc8cc89dce32277"
+> +SRCREV = "18fbc7e4fa254696eb024f56ee74704805925fad"
+>
+>  PV = "1.1.19+git${SRCPV}"
+>
+> --
+> 2.18.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I tried that, but pythonnative.bbclass appears to export the wrong
-variables for this case:
- export STAGING_INCDIR
- export STAGING_LIBDIR
+Thanks. Patch fixes the issue: no more alignment traps on armv5te.
+Tested on pxa255/corgi.
 
-u-boot actually needs:
-
- STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
- STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}
-
-I'm not sure where the disconnect is there?
-
-> 
-> Or ideally, if it can use Python 3, inherit python3native.
-> 
-> Ross
+Acked-by: Andrea Adami <andrea.adami@gmail.com>
 
