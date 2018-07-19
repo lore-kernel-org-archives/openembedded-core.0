@@ -1,50 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C6C98789BC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 219CB789C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 18:01:49 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id h20-v6so7253419wmb.4
+	Thu, 19 Jul 2018 18:19:59 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id h4-v6so8050055qtj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 11:01:51 -0700 (PDT)
+	Thu, 19 Jul 2018 11:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xB4dq6p3YJUfrcTmRWsXyPeCX3Bpb7iTTT2NcSgAkgI=;
-	b=F2vk75DxQis4mJR+PC7QbFnRYggD4NQP3P0bSzyt2CbxWknTD8M5K+Tza6G5HKqJbQ
-	ChUWByBBVRt0e0Pjgp9eEOfn4Y7tnEVmrejG4X6zySNDnqfDeOo/vfDKmT1RJgrY7ynm
-	JcRW3X+2tmUSYfQCtFvdqZQo2rMoeGBT6ISm8SWfQtOVMHZt4LCd9zxD339ott/7Zbet
-	d4ULrC8nWzDEstqKg4tbo5h7/lj1vcvncHPfoMay3yCKHgSAujvfXWFY8nvfCDEGbt7w
-	V/Zd0F4pn5RSsYA1Y6/+h6I8BtdQqR/fT9LcR+yDwXNeiqoVa68LldsVVoRIXI3UzL7Y
-	6Y2A==
+	:cc; bh=V6gwZ3S6XXO9zefqC5D7MgFx0XUTA6ik7kxyl0x0umA=;
+	b=ou0wtc0iu3fnIuSwq63ueYoW1a0liM+WPPc6cy99AZn8WUWxIgiK2Q3Ai7UwgTabZs
+	TL/U8Z+o9RCEcTP9zu2ypkQyNI0bDd90sAr3I4fnK4p1+8Lq5C955AbPP7HyCHgxd2Cs
+	iXKJzP91OALIvoS2UBh4sbQRvan4CTgLRdUGJa2g3xRVtMTNQjtpM6iSpj8GoxT+1yHT
+	eP+XO5DihWj8CgW9nvAZLa8hW1bBJ/JBxm04MJUUWjLaZ1JNKdYchNOiyDDhCJ6QpGKP
+	ZImNY0umknuJW9ecyhyYdwjRoLu/VuOFoW6e2D9rxpyCTB6Db9CQHJGH2Q8j7dzvW7cW
+	B3/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=xB4dq6p3YJUfrcTmRWsXyPeCX3Bpb7iTTT2NcSgAkgI=;
-	b=YFY2t5kQkzGOtdgpzI3edP/V0MPT20Rx2fwEg1zY5iQCBkjI5B74I9eS2ZFbnhDYzL
-	Pv2+YrXgCmFpsdsXM0EAm4IlnpByZT6hyuxa4rUTpJx73C/S5Q1T4PPxObrVgT4HUtkQ
-	wHAunRCa+H0fKYBQXCAGZ/+vdgIxu8u29NbxPG26xlsaHHYxu4pjlfhiabWNpYCufZHw
-	T8yLPRdynihSnZ392KxokueS2w6M+V6JRi94YOLi94k6mY5WGiW4ALujj2MxdCs8b0FU
-	SwRWwlNFtnZ2EErOSBOMtcmu3MRzkyShdGEOgrpynuBZNyreHMEXtjJ7F50El0bdczsh
-	PdAQ==
-X-Gm-Message-State: AOUpUlH7Be59dY/mWFFPd7aZXBdC4BP5Qu21qP7An9x6AcXyHQaswZNM
-	m7AVeYxUt9+lE8M0AcjmHVyMNM/X/EIbk4Ogd7c=
-X-Google-Smtp-Source: AAOMgpfKWgRk+qx9v4S2WByh2NN7YFIGXFDwBUd6/ljV0kTEI9Oh49UlQg6vLxynT4OMYoSMyNOPirLOm9lzA8tfxM0=
-X-Received: by 2002:a1c:f46:: with SMTP id 67-v6mr4579874wmp.122.1532023310561;
-	Thu, 19 Jul 2018 11:01:50 -0700 (PDT)
+	bh=V6gwZ3S6XXO9zefqC5D7MgFx0XUTA6ik7kxyl0x0umA=;
+	b=EtmtHSIN4sgt5rg/U2+UJ+gl7KCktYQJJCi1GH1uYiK+1/bCkvZuLh56XSdJLM5SSq
+	5yFm063d92jo/RNTzK1IeUwe3agi6KbEhMLoet7/0Ykj2z6wK0IqPfZj8eJYkwQv39LX
+	k7i+uHkBnfG3vM+e1Q0YTCZ1bWPzdHm/HCsONKN+UgpxwKwfWVaDKiNi2VFJoEDOTQpn
+	0n6XvZiuhq+n8j+GIySDHV5u/V4p72K6eSp7q/mOJGfOn+bp3oESAqj7MhEiNaBGJICL
+	6cCHd/diy8g1ULO6ccv7OrzFZLFn7smfILPaL5Cv5RsZ6Ny5RaeSYOkoUvNvm5JGqRPj
+	NkVQ==
+X-Gm-Message-State: AOUpUlFrYd/ikW8x7VgO633QkkfNbhvnK6e0USzhIWIbVPu2TAw0+Uw6
+	uWf02lfT914VxaEsy0Gij7ec02SiDIwoCOijIg8=
+X-Google-Smtp-Source: AAOMgpd+D0E0tAcjtfOHvWPgew/PbuGgjqO1Kr5zHRWORNnen3O2P8xOkKU8xVzXQKH0vW4I4ylqCzKgtYF02WiqZzY=
+X-Received: by 2002:a0c:e0c8:: with SMTP id
+	x8-v6mr11792201qvk.74.1532024400750; 
+	Thu, 19 Jul 2018 11:20:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180711150308.30275-1-marex@denx.de>
-	<CAJTo0Latp_c1LVzzObR+FPYosVDuohbRwnGfOGruxaoHLSr8Uw@mail.gmail.com>
-	<95864f6b-fae7-eb3a-ac2c-0e4efb18f88a@denx.de>
-	<17eec68ff43fcf0259a4e89233e66a02907d0153.camel@gmail.com>
-In-Reply-To: <17eec68ff43fcf0259a4e89233e66a02907d0153.camel@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 19 Jul 2018 20:01:39 +0200
-Message-ID: <CA+chaQfa5vCqWZ_0e5MPyr1B2Fh25ec4N_Hpa92Hv_AkHetHoQ@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+References: <1532020379-32243-1-git-send-email-alex.kiernan@gmail.com>
+	<096e8a04-c49b-88ae-df8e-444cf4c33c94@gmail.com>
+	<CAO5Uq5SBCQes7uM9sg=Zy847nKWUzB43zqJ8VRQRxj7qfzS8-Q@mail.gmail.com>
+In-Reply-To: <CAO5Uq5SBCQes7uM9sg=Zy847nKWUzB43zqJ8VRQRxj7qfzS8-Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 19 Jul 2018 11:19:46 -0700
+Message-ID: <CAMKF1spcSe1bvUpK4fw=Fnd6veiyDU6VrPa8_kdQHkhuVwnWKA@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] u-boot: Add missing dependency on swig
+Subject: Re: [PATCH] image: Use ${COREBASE}/meta for timestamp, fallback to bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,137 +57,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 18:01:50 -0000
-Content-Type: multipart/alternative; boundary="00000000000036b57305715df96b"
+X-List-Received-Date: Thu, 19 Jul 2018 18:20:00 -0000
+Content-Type: multipart/alternative; boundary="00000000000031b09005715e3aaa"
 
---00000000000036b57305715df96b
+--00000000000031b09005715e3aaa
 Content-Type: text/plain; charset="UTF-8"
 
-FWIW: my do_compile_prepend hack to stop autodetecting swig from sysroot
-(in pre-RSS - recipe specific sysroots in Yocto 2.2) stopped working in
-2017.07 version where it was moved from tools/Makefile:
-https://github.com/u-boot/u-boot/commit/727f153629719c93f9c5df6e391fdfee32377ca7#diff-c9b3e9a4c86396781af56d6bdfc8c9f3
+On Thu, Jul 19, 2018 at 10:26 AM Alex Kiernan <alex.kiernan@gmail.com>
+wrote:
+>
+> On Thu, Jul 19, 2018 at 6:21 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> >
+> >
+> > On 7/19/18 10:12 AM, Alex Kiernan wrote:
+> > > To handle the case where ${COREBASE} isn't the git directory, but
+> > > ${COREBASE}/meta might be (since that's the layer that sets up the
+COREBASE
+> > > variable), use the timestamp from there. If that fails use the
+timestamp
+> > > from conf/bitbake.conf.
+> >
+> > whats the chance that ${COREBASE}/meta might also not be a directory
+> > under git when compared to ${COREBASE} ?
+> >
+>
+> About the same I expect, but if it's not then git will climb up to
+> ${COREBASE} so I think we're better off.
+>
+> And if it doesn't find one then it falls back to the timestamp on
+> bitbake.conf - I've just been testing a snapshot of the layers as a
+> tarball and building successfully inside that when there's no git
+> directories for it to find at all.
+>
 
-It was still building without swig I belive until 2018.07 version which
-doesn't use "$(if $(shell which swig 2> /dev/null)" to check for native
-swig anymore since:
-https://github.com/u-boot/u-boot/commit/15b97f5c5e6d88e0560c6928f3acd01c999a494d#diff-c9b3e9a4c86396781af56d6bdfc8c9f3
+OK lets stay with adding bitbake.conf as fallback.
 
-Thanks Joshua for the fix.
-
-On Thu, Jul 19, 2018 at 7:00 PM Joshua Watt <jpewhacker@gmail.com> wrote:
-
-> On Wed, 2018-07-11 at 20:56 +0200, Marek Vasut wrote:
-> > On 07/11/2018 06:10 PM, Burton, Ross wrote:
-> > > On 11 July 2018 at 16:03, Marek Vasut <marex@denx.de> wrote:
-> > > > The U-Boot build, in particular the pylibfdt, depends on swig-
-> > > > native.
-> > > > Add the missing dependency.
 > > >
-> > > If pylibfdt isn't usually needed (which it cant be, if swig is an
-> > > optional build dependency which isn't on my machines, or the
-> > > autobuilders, right?) can we just disable the building of pylibfdt
-> > > instead?
-> >
-> > Why do you think libpyfdt isn't usually needed ?
-> >
-> > Why do you think swig is optional dependency ?
->
-> I encountered this same issue and was able to track it down. The
-> problem is that u-boot is building pylibfdt using the host Python
-> instead of using python-native provided by bitbake. pylibfdt is a non-
-> optional dependency for several u-boot configurations, in my case qemu-
-> x86 and qemu-x84_64.
->
-> I pushed a patch to the mailing list that I think fixes this: http://li
-> sts.openembedded.org/pipermail/openembedded-core/2018-July/153115.html
->
-> >
-> > > Ross
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > > ---
 > > >
-> >
-> >
-> > --
-> > Best regards,
-> > Marek Vasut
+> > >   meta/classes/image.bbclass | 5 ++++-
+> > >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > > index adc50c9..0afebff 100644
+> > > --- a/meta/classes/image.bbclass
+> > > +++ b/meta/classes/image.bbclass
+> > > @@ -651,7 +651,10 @@ POPULATE_SDK_PRE_TARGET_COMMAND +=
+"${@bb.utils.contains('DISTRO_FEATURES', 'usr
+> > >   reproducible_final_image_task () {
+> > >       if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+> > >           if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
+> > > -            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}" log
+-1 --pretty=%ct`
+> > > +            REPRODUCIBLE_TIMESTAMP_ROOTFS=`git -C "${COREBASE}/meta"
+log -1 --pretty=%ct 2>/dev/null` || true
+> > > +            if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" = "" ]; then
+> > > +                REPRODUCIBLE_TIMESTAMP_ROOTFS=`stat -c%Y
+${@bb.utils.which(d.getVar("BBPATH"), "conf/bitbake.conf")}`
+> > > +            fi
+> > >           fi
+> > >           # Set mtime of all files to a reproducible value
+> > >           bbnote "reproducible_final_image_task: mtime set to
+$REPRODUCIBLE_TIMESTAMP_ROOTFS"
+> > >
+>
+>
+>
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Alex Kiernan
 
---00000000000036b57305715df96b
+--00000000000031b09005715e3aaa
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">FWIW: my do_compile_prepend hack to stop autodetecting swi=
-g from sysroot (in pre-RSS - recipe specific sysroots in Yocto 2.2) stopped=
- working in 2017.07 version where it was moved from tools/Makefile:<div><a =
-href=3D"https://github.com/u-boot/u-boot/commit/727f153629719c93f9c5df6e391=
-fdfee32377ca7#diff-c9b3e9a4c86396781af56d6bdfc8c9f3">https://github.com/u-b=
-oot/u-boot/commit/727f153629719c93f9c5df6e391fdfee32377ca7#diff-c9b3e9a4c86=
-396781af56d6bdfc8c9f3</a><br></div><div><br></div><div>It was still buildin=
-g without swig I belive until 2018.07 version which doesn&#39;t use &quot;$=
-(if $(shell which swig 2&gt; /dev/null)&quot; to check for native swig anym=
-ore since:</div><div><a href=3D"https://github.com/u-boot/u-boot/commit/15b=
-97f5c5e6d88e0560c6928f3acd01c999a494d#diff-c9b3e9a4c86396781af56d6bdfc8c9f3=
-">https://github.com/u-boot/u-boot/commit/15b97f5c5e6d88e0560c6928f3acd01c9=
-99a494d#diff-c9b3e9a4c86396781af56d6bdfc8c9f3</a><br></div><div><br></div><=
-div>Thanks Joshua for the fix.</div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr">On Thu, Jul 19, 2018 at 7:00 PM Joshua Watt &lt;<a href=3D"m=
-ailto:jpewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">On Wed, 2018-07-11 at 20:56 +0200, Marek Vasut=
- wrote:<br>
-&gt; On 07/11/2018 06:10 PM, Burton, Ross wrote:<br>
-&gt; &gt; On 11 July 2018 at 16:03, Marek Vasut &lt;<a href=3D"mailto:marex=
-@denx.de" target=3D"_blank">marex@denx.de</a>&gt; wrote:<br>
-&gt; &gt; &gt; The U-Boot build, in particular the pylibfdt, depends on swi=
-g-<br>
-&gt; &gt; &gt; native.<br>
-&gt; &gt; &gt; Add the missing dependency.<br>
-&gt; &gt; <br>
-&gt; &gt; If pylibfdt isn&#39;t usually needed (which it cant be, if swig i=
-s an<br>
-&gt; &gt; optional build dependency which isn&#39;t on my machines, or the<=
+<div><br>
+On Thu, Jul 19, 2018 at 10:26 AM Alex Kiernan &lt;<a href=3D"mailto:alex.ki=
+ernan@gmail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt; wrote:<br=
+>
+&gt;<br>
+&gt; On Thu, Jul 19, 2018 at 6:21 PM Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; On 7/19/18 10:12 AM, Alex Kiernan wrote:<br>
+&gt; &gt; &gt; To handle the case where ${COREBASE} isn&#39;t the git direc=
+tory, but<br>
+&gt; &gt; &gt; ${COREBASE}/meta might be (since that&#39;s the layer that s=
+ets up the COREBASE<br>
+&gt; &gt; &gt; variable), use the timestamp from there. If that fails use t=
+he timestamp<br>
+&gt; &gt; &gt; from conf/bitbake.conf.<br>
+&gt; &gt;<br>
+&gt; &gt; whats the chance that ${COREBASE}/meta might also not be a direct=
+ory<br>
+&gt; &gt; under git when compared to ${COREBASE} ?<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; About the same I expect, but if it&#39;s not then git will climb up to=
+<br>
+&gt; ${COREBASE} so I think we&#39;re better off.<br>
+&gt;<br>
+&gt; And if it doesn&#39;t find one then it falls back to the timestamp on<=
 br>
-&gt; &gt; autobuilders, right?) can we just disable the building of pylibfd=
-t<br>
-&gt; &gt; instead?<br>
-&gt; <br>
-&gt; Why do you think libpyfdt isn&#39;t usually needed ?<br>
-&gt; <br>
-&gt; Why do you think swig is optional dependency ?<br>
+&gt; bitbake.conf - I&#39;ve just been testing a snapshot of the layers as =
+a<br>
+&gt; tarball and building successfully inside that when there&#39;s no git<=
+br>
+&gt; directories for it to find at all.<br>
+&gt;<br>
+<br></div><div>
+OK lets stay with adding bitbake.conf as fallback. <br></div><div>
 <br>
-I encountered this same issue and was able to track it down. The<br>
-problem is that u-boot is building pylibfdt using the host Python<br>
-instead of using python-native provided by bitbake. pylibfdt is a non-<br>
-optional dependency for several u-boot configurations, in my case qemu-<br>
-x86 and qemu-x84_64.<br>
-<br>
-I pushed a patch to the mailing list that I think fixes this: <a href=3D"ht=
-tp://li" rel=3D"noreferrer" target=3D"_blank">http://li</a><br>
-<a href=3D"http://sts.openembedded.org/pipermail/openembedded-core/2018-Jul=
-y/153115.html" rel=3D"noreferrer" target=3D"_blank">sts.openembedded.org/pi=
-permail/openembedded-core/2018-July/153115.html</a><br>
-<br>
-&gt; <br>
-&gt; &gt; Ross<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -- <br>
-&gt; Best regards,<br>
-&gt; Marek Vasut<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Alex Kiernan &lt;<a href=3D"mailto:alex.kiern=
+an@gmail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0meta/classes/image.bbclass | 5 ++++-<br>
+&gt; &gt; &gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 1 deletion(-)<b=
+r>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/meta/classes/image.bbclass b/meta/classes/image=
+.bbclass<br>
+&gt; &gt; &gt; index adc50c9..0afebff 100644<br>
+&gt; &gt; &gt; --- a/meta/classes/image.bbclass<br>
+&gt; &gt; &gt; +++ b/meta/classes/image.bbclass<br>
+&gt; &gt; &gt; @@ -651,7 +651,10 @@ POPULATE_SDK_PRE_TARGET_COMMAND +=3D &q=
+uot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;usr<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0reproducible_final_image_task () {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${BUILD_REPRODUCIBLE_BI=
+NARIES}&quot; =3D &quot;1&quot; ]; then<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$REPRODUC=
+IBLE_TIMESTAMP_ROOTFS&quot; =3D &quot;&quot; ]; then<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REPRODUCIBLE_TIME=
+STAMP_ROOTFS=3D`git -C &quot;${COREBASE}&quot; log -1 --pretty=3D%ct`<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REPRODUCIBLE_TIME=
+STAMP_ROOTFS=3D`git -C &quot;${COREBASE}/meta&quot; log -1 --pretty=3D%ct 2=
+&gt;/dev/null` || true<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${REPR=
+ODUCIBLE_TIMESTAMP_ROOTFS}&quot; =3D &quot;&quot; ]; then<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REP=
+RODUCIBLE_TIMESTAMP_ROOTFS=3D`stat -c%Y ${@bb.utils.which(d.getVar(&quot;BB=
+PATH&quot;), &quot;conf/bitbake.conf&quot;)}`<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Set mtime of all f=
+iles to a reproducible value<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbnote &quot;reprodu=
+cible_final_image_task: mtime set to $REPRODUCIBLE_TIMESTAMP_ROOTFS&quot;<b=
+r>
+&gt; &gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Alex Kiernan<br>
+</div>
 
---00000000000036b57305715df96b--
+--00000000000031b09005715e3aaa--
