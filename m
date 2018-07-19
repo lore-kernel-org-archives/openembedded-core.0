@@ -1,29 +1,23 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9852C7458D
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0BB74CAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 01:38:09 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jul 2018 18:38:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,371,1526367600"; d="scan'208";a="57992794"
-Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.20.253])
-	([10.221.20.253])
-	by orsmga008.jf.intel.com with ESMTP; 18 Jul 2018 18:38:07 -0700
-To: Carlos Rafael Giani <dv@pseudoterminal.org>,
-	openembedded-core@lists.openembedded.org
-References: <20180717093523.5582-1-dv@pseudoterminal.org>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <461ba09d-eb1e-7278-9b44-e42732e11df4@intel.com>
-Date: Thu, 19 Jul 2018 09:38:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Thu, 19 Jul 2018 05:43:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6J5hb8c014904
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2018 22:43:37 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Wed, 18 Jul 2018 22:43:36 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Jul 2018 13:47:17 +0800
+Message-ID: <cover.1531979156.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20180717093523.5582-1-dv@pseudoterminal.org>
-Subject: Re: [PATCH 1/6] gstreamer1.0-plugin-base: Update packageconfigs
+Subject: [PATCH 0/1] logging: use warning instead warn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 01:38:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Jul 2018 05:43:37 -0000
+Content-Type: text/plain
 
-On 07/17/2018 05:35 PM, Carlos Rafael Giani wrote:
-> * There is no libvisual recipe in oe-core or in meta-openembedded, so
->   the visual packageconfig needs to go
+The following changes since commit b0f2f690a3513e4c9fa30fee1b8d7ac2d7140657:
 
-What is the benefit of removing it as compared to just letting it be
-present as a configurable option which isn't enabled by default and is
-still valid? It might be needed by layers outside of
-oe-core/meta-openembedded ...
+  systemd-boot: upgrade to 239 (2018-07-18 10:18:42 +0100)
 
-It was added specifically in a commit and I see a recipe present when I
-search on layers.openembedded.org.
+are available in the git repository at:
 
-Thanks,
+  git://git.pokylinux.org/poky-contrib ChenQi/logging-warning
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/logging-warning
 
-Anuj
+Chen Qi (1):
+  logging: use warning instead warn
+
+ meta/lib/oe/terminal.py               |  6 +++---
+ meta/lib/oeqa/selftest/context.py     |  2 +-
+ meta/lib/oeqa/utils/qemurunner.py     |  4 ++--
+ scripts/combo-layer                   |  2 +-
+ scripts/contrib/verify-homepage.py    |  2 +-
+ scripts/lib/devtool/export.py         |  2 +-
+ scripts/lib/devtool/import.py         |  8 ++++----
+ scripts/lib/devtool/standard.py       | 16 ++++++++--------
+ scripts/lib/devtool/upgrade.py        |  6 +++---
+ scripts/lib/recipetool/append.py      | 14 +++++++-------
+ scripts/lib/recipetool/create.py      |  4 ++--
+ scripts/lib/recipetool/create_kmod.py |  2 +-
+ scripts/lib/recipetool/create_npm.py  |  6 +++---
+ scripts/lib/recipetool/newappend.py   |  4 ++--
+ scripts/lib/wic/engine.py             |  2 +-
+ scripts/runqemu                       | 16 ++++++++--------
+ 16 files changed, 48 insertions(+), 48 deletions(-)
+
+-- 
+1.9.1
+
 
