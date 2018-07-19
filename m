@@ -1,49 +1,29 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FE5974B83
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9852C7458D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 01:27:07 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id q11-v6so12434980oic.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2018 18:27:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xcaeNq0sPpL5fJRWK921bF7MGNfKLQU6d+nvcgcUup4=;
-	b=VsliZOc8UqefCx+W9HR+jz5T1L1lshcnJS4SNhUJJHDQQivSPX1EYDInJuK5DVQpzn
-	Q0l573mQvkLUZQGstSVIlMnpnkoBXUc2D5wDinZ11FHdlTdYoGR7QV4X+qsoUD9Dvjk5
-	xXSr3JcaLHuvARziIKmzp6GjF9Aeh9Wm+kuOY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xcaeNq0sPpL5fJRWK921bF7MGNfKLQU6d+nvcgcUup4=;
-	b=Q12LhBma95rdgYty1B0cyVBBEUQdyU7DZm3lOdGg67y3ca4L+qg2JsS1uHoK1A5pPY
-	hh6TL/RN1EWKD6MeYHNMKrS+wRRFxiuuw55MWDdw57dOJghpNspbj8s9JhphEgb4lse+
-	FQNmy3HU/0SvP5crQmqK67fdrtZMRhIhIXzOhUlWCqzvtalM3eWi3j0jbNzvmvAakRpV
-	RP4ps7JPeuPC3Xl/3kTu2j8rH5g1oxd7nOuXjfjl+0TYzARFMnO5UI8Yabi9MRCOeP8l
-	kV5f1Jmnnalv89wd58nWVyrQ5OB6KAsrc7mMWtiWtdCXfFnrK1FS+ICI+99A55dqjFri
-	Lniw==
-X-Gm-Message-State: AOUpUlEwxy1nZFdTawA0lUkCDgBm3cLDe/rfsDh/UtYbOphJyWygfbj7
-	Qqrn3weJLImarP9CFelkJWpuv0IMqXc=
-X-Google-Smtp-Source: AAOMgpd6MHSbskA2rPs+5hrTJrJLkRs7TAh0o0IL/bUe+3miH+LIV7YvFXyrebucN7x4TT3qK7tkag==
-X-Received: by 2002:aca:d4d7:: with SMTP id
-	l206-v6mr8326217oig.52.1531963627877; 
-	Wed, 18 Jul 2018 18:27:07 -0700 (PDT)
-Received: from aura.cortijodelrio.net
-	(CableLink-187-161-189-57.PCs.InterCable.net. [187.161.189.57])
-	by smtp.googlemail.com with ESMTPSA id
-	i132-v6sm8340235oif.20.2018.07.18.18.27.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Jul 2018 18:27:06 -0700 (PDT)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2018 20:26:58 -0500
-Message-Id: <1531963618-29674-1-git-send-email-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 2.7.4
+	Thu, 19 Jul 2018 01:38:09 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Jul 2018 18:38:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,371,1526367600"; d="scan'208";a="57992794"
+Received: from anmitta2-mobl1.png.intel.com (HELO [10.221.20.253])
+	([10.221.20.253])
+	by orsmga008.jf.intel.com with ESMTP; 18 Jul 2018 18:38:07 -0700
+To: Carlos Rafael Giani <dv@pseudoterminal.org>,
+	openembedded-core@lists.openembedded.org
+References: <20180717093523.5582-1-dv@pseudoterminal.org>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <461ba09d-eb1e-7278-9b44-e42732e11df4@intel.com>
+Date: Thu, 19 Jul 2018 09:38:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH][RFC] glibc: Avoid multilibbing on wordsize.h
+In-Reply-To: <20180717093523.5582-1-dv@pseudoterminal.org>
+Subject: Re: [PATCH 1/6] gstreamer1.0-plugin-base: Update packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 01:27:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Jul 2018 01:38:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Once another header #includes <bits/wordsize.h>, there is a
-potential recursion going on because the
-multilib_header_wrapper.h #includes <bits/wordsize.h> again!
+On 07/17/2018 05:35 PM, Carlos Rafael Giani wrote:
+> * There is no libvisual recipe in oe-core or in meta-openembedded, so
+>   the visual packageconfig needs to go
 
-This should not happen because an __arm__ (32-bits) or an
-__aarch64__ (64-bits) environment guarantees that we will
-be getting the correct definition, but when building against
-a different target (like BPF), recursion is what happens.
+What is the benefit of removing it as compared to just letting it be
+present as a configurable option which isn't enabled by default and is
+still valid? It might be needed by layers outside of
+oe-core/meta-openembedded ...
 
-This can be seen, for instance, when building eBPF programs
-from the kernel with `clang -target bpf', such as the ones
-located in linux/tools/testing/selftests/bpf/.
+It was added specifically in a commit and I see a recipe present when I
+search on layers.openembedded.org.
 
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
----
- meta/recipes-core/glibc/glibc-package.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks,
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index ae3f2f6..a4f61f8 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -136,8 +136,7 @@ do_install_append_armeb () {
- }
- 
- do_install_armmultilib () {
--
--	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
-+	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
- 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
- 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
- 
--- 
-2.7.4
-
+Anuj
 
