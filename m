@@ -1,25 +1,22 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C216578A68
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EBA278A68
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 14:49:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6JEn5A4026876
+	Thu, 19 Jul 2018 14:51:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6JEpgNU012015
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Jul 2018 07:49:05 -0700
+	Thu, 19 Jul 2018 07:51:43 -0700 (PDT)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 19 Jul 2018 07:49:04 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 19 Jul 2018 07:51:42 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 19 Jul 2018 22:59:06 +0800
-Message-ID: <bc5ed81c566f0a742f77c5963e1f455f662a03b4.1532012164.git.hongxu.jia@windriver.com>
+Date: Thu, 19 Jul 2018 23:01:51 +0800
+Message-ID: <1532012511-40908-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1532012164.git.hongxu.jia@windriver.com>
-References: <cover.1532012164.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] python3-pip: clean up obsolete
+Subject: [PATCH] systemtap: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +29,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 14:49:04 -0000
+X-List-Received-Date: Thu, 19 Jul 2018 14:51:42 -0000
 Content-Type: text/plain
 
-Since unify var-DISTUTILS_INSTALL_ARGS in distutils and setuptools,
-- The local DISTUTILS_INSTALL_ARGS assignment is obsolete;
-- The site.py is not be generated any more;
-- The layout is in a standard pip dir (such as /usr/lib/python3.5/site-
-  packages/pip rather than /lib/python3.5/site-packages/pip-10.0.1-
-  py3.5.egg/pip), the pth file is not required;
+- Fix build path issue of .pyc files;
 
-`#!/usr/bin/env python3' is already used, do not manually sed.
+- Fix build path issue of c++ object files;
 
-[YOCTO #8446]
+[YOCTO #12528]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python3-pip_10.0.1.bb | 18 ------------------
- 1 file changed, 18 deletions(-)
+ ...all-python-modules-to-correct-library-dir.patch | 11 ++++++--
+ ...1-improve-reproducibility-for-c-compiling.patch | 31 ++++++++++++++++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |  8 ++++++
+ 3 files changed, 48 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip_10.0.1.bb b/meta/recipes-devtools/python/python3-pip_10.0.1.bb
-index 100d4d0..8deec2b 100644
---- a/meta/recipes-devtools/python/python3-pip_10.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_10.0.1.bb
-@@ -11,27 +11,9 @@ SRC_URI[sha256sum] = "f2bd08e0cd1b06e10218feaf6fef299f473ba706582eb3bd9d52203fdb
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
+index 528864c..c7ba338 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
+@@ -5,6 +5,13 @@ Subject: [PATCH] Install python modules to correct library dir.
  
- inherit pypi distutils3
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++Supply "--root" directory to the "install" command, and use
++it as a prefix to strip off the purported filename encoded
++in bytecode files. (It strips build path prefix from .pyc files)
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  python/Makefile.am | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+@@ -18,7 +25,7 @@ index a254480f9..efe9f3c01 100644
+  	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON) setup.py build \
+           --build-base $(shell readlink -f $(builddir))/py2build \
+ -	 install --prefix $(DESTDIR)$(prefix) \
+-+	 install --prefix $(DESTDIR)$(prefix) --install-lib=$(DESTDIR)${pythondir} \
+++	 install --root $(DESTDIR) --prefix $(prefix) --prefix $(prefix) --install-lib=${pythondir} \
+  	 --single-version-externally-managed \
+  	 --record $(shell readlink -f $(builddir))/py2build/install_files.txt \
+           --verbose)
+@@ -27,7 +34,7 @@ index a254480f9..efe9f3c01 100644
+  	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON3) setup.py build \
+           --build-base $(shell readlink -f $(builddir))/py3build \
+ -	 install --prefix $(DESTDIR)$(prefix) \
+-+	 install --prefix $(DESTDIR)$(prefix) --install-lib=$(DESTDIR)${python3dir} \
+++	 install --root $(DESTDIR) --prefix $(prefix) --install-lib=${python3dir} \
+  	 --single-version-externally-managed \
+  	 --record $(shell readlink -f $(builddir))/py3build/install_files.txt \
+           --verbose)
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+new file mode 100644
+index 0000000..15a6f2a
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+@@ -0,0 +1,31 @@
++From 6288ba5df0a8c73ef842b609081449ac4de86123 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 18 Jul 2018 16:58:33 +0800
++Subject: [PATCH] improve reproducibility for c++ compiling
++
++Use relative dir to include header string_ref to
++strip build path prefix in c++ object file
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ stringtable.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/stringtable.h b/stringtable.h
++index 5fc42e7..6fd8a1e 100644
++--- a/stringtable.h
+++++ b/stringtable.h
++@@ -19,7 +19,7 @@
++ 
++ #if defined(HAVE_BOOST_UTILITY_STRING_REF_HPP)
++ #include <boost/version.hpp>
++-#include <boost/utility/string_ref.hpp> //header with string_ref
+++#include "@RELATIVE_STAGING_INCDIR@/boost/utility/string_ref.hpp" //header with string_ref
++ 
++ // XXX: experimental tunables
++ #define INTERNED_STRING_FIND_MEMMEM 1 /* perf stat indicates a very slight benefit */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index b280f58..0b7833e 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -3,6 +3,8 @@ HOMEPAGE = "https://sourceware.org/systemtap/"
  
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${PYTHON_SITEPACKAGES_DIR}"
--
--do_install_prepend() {
--    install -d ${D}${PYTHON_SITEPACKAGES_DIR}
--}
--
--# Use setuptools site.py instead, avoid shared state issue
- do_install_append() {
--    rm ${D}${PYTHON_SITEPACKAGES_DIR}/site.py
--    rm ${D}${PYTHON_SITEPACKAGES_DIR}/__pycache__/site.cpython-*.pyc
--
-     # Install as pip3 and leave pip2 as default
-     rm ${D}/${bindir}/pip
--
--    # Installed eggs need to be passed directly to the interpreter via a pth file
--    echo "./${PYPI_PACKAGE}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/${PYPI_PACKAGE}-${PV}.pth
--
--    # Make sure we use /usr/bin/env python3
--    for PYTHSCRIPT in `grep -rIl ${bindir} ${D}${bindir}/pip3*`; do
--        sed -i -e '1s|^#!.*|#!/usr/bin/env python3|' $PYTHSCRIPT
--    done
- }
+ require systemtap_git.inc
  
- RDEPENDS_${PN} = "\
++SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch"
++
+ DEPENDS = "elfutils"
+ 
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+@@ -25,6 +27,12 @@ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,
+ 
+ inherit autotools gettext pkgconfig distutils3-base
+ 
++do_configure_prepend () {
++    # Improve reproducibility for c++ object files
++    reltivepath="${@os.path.relpath(d.getVar('STAGING_INCDIR'), d.getVar('S'))}"
++    sed -i "s:@RELATIVE_STAGING_INCDIR@:$reltivepath:g" ${S}/stringtable.h
++}
++
+ do_install_append () {
+    if [ ! -f ${D}${bindir}/stap ]; then
+       # translator disabled case, need to leave only minimal runtime
 -- 
 2.7.4
 
