@@ -1,33 +1,20 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A93D9744D2
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F0F778A26
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 09:54:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42418201"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jul 2018 17:54:46 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id ED8A64B5CF57
+	Thu, 19 Jul 2018 10:07:19 +0000 (UTC)
+Received: from localhost.localdomain (62-178-50-190.cable.dynamic.surfer.at
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 0C14B15BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 17:54:42 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.78) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server id 14.3.399.0; Thu, 19 Jul 2018 17:54:45 +0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20180629082438.16835-1-hongl.fnst@cn.fujitsu.com>
-From: hongl <hongl.fnst@cn.fujitsu.com>
-Message-ID: <ee964399-84e2-7bc8-7cf8-88fc98d47064@cn.fujitsu.com>
-Date: Thu, 19 Jul 2018 17:54:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20180629082438.16835-1-hongl.fnst@cn.fujitsu.com>
-X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: ED8A64B5CF57.AD79A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [sumo][PATCH] procps:Fix-CVE-2018-1122&CVE-2018-1123
+	Thu, 19 Jul 2018 12:07:20 +0200 (CEST)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jul 2018 12:07:10 +0200
+Message-Id: <20180719100714.9639-2-dv@pseudoterminal.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180719100714.9639-1-dv@pseudoterminal.org>
+References: <20180719100714.9639-1-dv@pseudoterminal.org>
+Subject: [PATCH v2 2/6] gstreamer1.0-plugin-good: Update packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,215 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 09:54:48 -0000
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 19 Jul 2018 10:07:19 -0000
 
-ping
+* There is no twolame recipe in oe-core or in meta-openembedded, so
+  disable it
+* Reorder the packageconfigs alphabetically
 
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ .../gstreamer/gstreamer1.0-plugins-good_1.14.1.bb   | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-> Fix CVE-2018-1122 & CVE-2018-1122
->
-> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
-> ---
->   .../procps/procps/CVE-2018-1122.patch              | 70 ++++++++++++++++++
->   .../procps/procps/CVE-2018-1123.patch              | 84 ++++++++++++++++++++++
->   meta/recipes-extended/procps/procps_3.3.12.bb      |  2 +
->   3 files changed, 156 insertions(+)
->   create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1122.patch
->   create mode 100644 meta/recipes-extended/procps/procps/CVE-2018-1123.patch
->
-> diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1122.patch b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
-> new file mode 100644
-> index 0000000..f840873
-> --- /dev/null
-> +++ b/meta/recipes-extended/procps/procps/CVE-2018-1122.patch
-> @@ -0,0 +1,70 @@
-> +From 3cf9b0f403f758a2cfdc6f52f76c261b0f6ce924 Mon Sep 17 00:00:00 2001
-> +From: Qualys Security Advisory <qsa@qualys.com>
-> +Date: Thu, 1 Jan 1970 00:00:00 +0000
-> +Subject: [PATCH 097/126] top: Do not default to the cwd in configs_read().
-> +
-> +If the HOME environment variable is not set, or not absolute, use the
-> +home directory returned by getpwuid(getuid()), if set and absolute
-> +(instead of the cwd "."); otherwise, set p_home to NULL.
-> +
-> +To keep the changes to a minimum, we rely on POSIX, which requires that
-> +fopen() fails with ENOENT if the pathname (Rc_name) is an empty string.
-> +This integrates well into the existing code, and makes write_rcfile()
-> +work without a change.
-> +
-> +Also, it makes the code in configs_read() easier to follow: only set and
-> +use p_home if safe, and only set Rc_name if safe (in all the other cases
-> +it is the empty string, and the fopen() calls fail). Plus, check for
-> +snprintf() truncation (and if it happens, reset Rc_name to the empty
-> +string).
-> +
-> +Important note: top.1 should probably be updated, since it mentions the
-> +fallback to the current working directory.
-> +[carnil: Backport to 3.3.12: p_home -> p, context]
-> +
-> +Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-> +---
-> + top/top.c | 33 ++++++++++++++++++++++++++++-----
-> + 1 file changed, 28 insertions(+), 5 deletions(-)
-> +
-> +--- a/top/top.c
-> ++++ b/top/top.c
-> +@@ -3423,6 +3423,19 @@ static int config_cvt (WIN_t *q) {
-> +    return 0;
-> + } // end: config_cvt
-> +
-> ++static int snprintf_Rc_name (const char *const format, ...) __attribute__((format(printf,1,2)));
-> ++static int snprintf_Rc_name (const char *const format, ...) {
-> ++   int len;
-> ++   va_list ap;
-> ++   va_start(ap, format);
-> ++   len = vsnprintf(Rc_name, sizeof(Rc_name), format, ap);
-> ++   va_end(ap);
-> ++   if (len <= 0 || (size_t)len >= sizeof(Rc_name)) {
-> ++      Rc_name[0] = '\0';
-> ++      return 0;
-> ++   }
-> ++   return len;
-> ++}
-> +
-> +         /*
-> +          * Build the local RC file name then try to read both of 'em.
-> +@@ -3445,8 +3458,17 @@ static void configs_read (void) {
-> +    FILE *fp;
-> +    int i;
-> +
-> ++   Rc_name[0] = '\0'; // "fopen() shall fail if pathname is an empty string."
-> +    p = getenv("HOME");
-> +-   snprintf(Rc_name, sizeof(Rc_name), "%s/.%src", (p && *p) ? p : ".", Myname);
-> ++   if (!p || p[0] != '/') {
-> ++      const struct passwd *const pwd = getpwuid(getuid());
-> ++      if (!pwd || !(p = pwd->pw_dir) || p[0] != '/') {
-> ++         p = NULL;
-> ++      }
-> ++   }
-> ++   if (p) {
-> ++      snprintf_Rc_name("%s/.%src", p, Myname);
-> ++   }
-> +
-> +    fp = fopen(SYS_RCFILESPEC, "r");
-> +    if (fp) {
-> diff --git a/meta/recipes-extended/procps/procps/CVE-2018-1123.patch b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
-> new file mode 100644
-> index 0000000..a2060e8
-> --- /dev/null
-> +++ b/meta/recipes-extended/procps/procps/CVE-2018-1123.patch
-> @@ -0,0 +1,84 @@
-> +From 136e3724952827bbae8887a42d9d2b6f658a48ab Mon Sep 17 00:00:00 2001
-> +From: Qualys Security Advisory <qsa@qualys.com>
-> +Date: Thu, 1 Jan 1970 00:00:00 +0000
-> +Subject: [PATCH] ps/output.c: Fix outbuf overflows in pr_args() etc.
-> +
-> +Because there is usually less than OUTBUF_SIZE available at endp.
-> +
-> +Signed-off-by: Qualys Security Advisory <qsa@qualys.com>
-> +---
-> + ps/output.c | 23 ++++++++++++++---------
-> + 1 file changed, 14 insertions(+), 9 deletions(-)
-> +
-> +diff --git a/ps/output.c b/ps/output.c
-> +index 0c63bb6..4456f28 100644
-> +--- a/ps/output.c
-> ++++ b/ps/output.c
-> +@@ -389,6 +389,9 @@ Modifications to the arguments are not shown.
-> +
-> + // FIXME: some of these may hit the guard page in forest mode
-> +
-> ++#define OUTBUF_SIZE_AT(endp) \
-> ++  (((endp) >= outbuf && (endp) < outbuf + OUTBUF_SIZE) ? (outbuf + OUTBUF_SIZE) - (endp) : 0)
-> ++
-> + /*
-> +  * "args", "cmd", "command" are all the same:  long  unless  c
-> +  * "comm", "ucmd", "ucomm"  are all the same:  short unless -f
-> +@@ -402,15 +405,15 @@ static int pr_args(char *restrict const outbuf, const proc_t *restrict const pp)
-> +   rightward -= fh;
-> +
-> +   if(pp->cmdline && !bsd_c_option)
-> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
-> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
-> +   else
-> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
-> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
-> +
-> +-  if(bsd_e_option && rightward>1) {
-> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
-> +     if(pp->environ && *pp->environ) {
-> +       *endp++ = ' ';
-> +       rightward--;
-> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
-> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
-> +     }
-> +   }
-> +   return max_rightward-rightward;
-> +@@ -429,15 +432,15 @@ static int pr_comm(char *restrict const outbuf, const proc_t *restrict const pp)
-> +   rightward -= fh;
-> +
-> +   if(pp->cmdline && unix_f_option)
-> +-    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE, &rightward);
-> ++    endp += escaped_copy(endp, *pp->cmdline, OUTBUF_SIZE_AT(endp), &rightward);
-> +   else
-> +-    endp += escape_command(endp, pp, OUTBUF_SIZE, &rightward, ESC_DEFUNCT);
-> ++    endp += escape_command(endp, pp, OUTBUF_SIZE_AT(endp), &rightward, ESC_DEFUNCT);
-> +
-> +-  if(bsd_e_option && rightward>1) {
-> ++  if(bsd_e_option && rightward>1 && OUTBUF_SIZE_AT(endp)>1) {
-> +     if(pp->environ && *pp->environ) {
-> +       *endp++ = ' ';
-> +       rightward--;
-> +-      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE, &rightward);
-> ++      endp += escape_strlist(endp, pp->environ, OUTBUF_SIZE_AT(endp), &rightward);
-> +     }
-> +   }
-> +   return max_rightward-rightward;
-> +@@ -469,11 +472,13 @@ static int pr_fname(char *restrict const outbuf, const proc_t *restrict const pp
-> +   if (rightward>8)  /* 8=default, but forest maybe feeds more */
-> +     rightward = 8;
-> +
-> +-  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE, &rightward);
-> ++  endp += escape_str(endp, pp->cmd, OUTBUF_SIZE_AT(endp), &rightward);
-> +   //return endp - outbuf;
-> +   return max_rightward-rightward;
-> + }
-> +
-> ++#undef OUTBUF_SIZE_AT
-> ++
-> + /* elapsed wall clock time, [[dd-]hh:]mm:ss format (not same as "time") */
-> + static int pr_etime(char *restrict const outbuf, const proc_t *restrict const pp){
-> +   unsigned long t;
-> +--
-> +2.14.3
-> +
-> diff --git a/meta/recipes-extended/procps/procps_3.3.12.bb b/meta/recipes-extended/procps/procps_3.3.12.bb
-> index ecf215f..29fa95e 100644
-> --- a/meta/recipes-extended/procps/procps_3.3.12.bb
-> +++ b/meta/recipes-extended/procps/procps_3.3.12.bb
-> @@ -14,6 +14,8 @@ inherit autotools gettext pkgconfig update-alternatives
->   
->   SRC_URI = "http://downloads.sourceforge.net/project/procps-ng/Production/procps-ng-${PV}.tar.xz \
->              file://sysctl.conf \
-> +           file://CVE-2018-1122.patch \
-> +           file://CVE-2018-1123.patch \
->             "
->   
->   SRC_URI[md5sum] = "957e42e8b193490b2111252e4a2b443c"
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+index 36eb3107ae..beae43f915 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+@@ -28,20 +28,24 @@ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+     ${@bb.utils.contains_any('DISTRO_FEATURES', d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \
+-    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 bz2 zlib mpg123 lame \
++    bz2 cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 zlib \
+ "
+ 
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+ 
++PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
+ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+ PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+ PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+ PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
++PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+ PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+ PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
++PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+ PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+ PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
++PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+ PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
+ PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+@@ -50,11 +54,7 @@ PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2 --enable-v4l2-probe,--disable-gst
+ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+ PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+ PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+-PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
+ PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
+-PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+-PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+-PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+ 
+ # qt5 support is disabled, because it is not present in OE core, and requires more work than
+ # just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+@@ -71,9 +71,10 @@ EXTRA_OECONF += " \
+     --disable-oss4 \
+     --disable-osx_audio \
+     --disable-osx_video \
++    --disable-qt \
+     --disable-shout2 \
++    --disable-twolame \
+     --disable-waveform \
+-    --disable-qt \
+ "
+ 
+ FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
 -- 
-“‘…œ°¢§Ë§Ì§∑§Ø§™Óä§§§§§ø§∑§ﬁ§π
--------------------------------------------------------
-Hong Liu
-Developement Dept.1
-Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
-TEL£∫+86+25-86630566-8540
-FUJITSU INTERNAL£∫7998-8555
-EMail£∫hongl.fnst@cn.fujitsu.com
-
-
+2.17.1
 
 
