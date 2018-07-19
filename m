@@ -1,60 +1,44 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B02D175114
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A8D478A91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 14:02:31 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id v14-v6so8204290wro.5
+	Thu, 19 Jul 2018 14:17:46 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id t14-v6so5274170uao.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 07:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=bL7bOG2orRYKdjvYl+uL76tGSNJ9UXn97ikvhcN1dsg=;
-	b=keFUvjNlJRfCKG6O8GOgKelyLv4Unv36hWX9iL8THtS7ZX0NLYnzjPIT2FDcKX/NQt
-	y0pm/GDx8AU0Wj8YqLooK05XuOYPwmhDyrsnVGA66AI3JK+2Ss8LUxgWiktMve437FzH
-	xTV6DcFItoA0Vk7cJZ8thXox5pBFiziV5jl65n5nCaYBepkhE9TcHPy8Y9oWYkKPLd0h
-	7IBFdgq4a3hshG7neFrOLsbJYXFcNydh8M5wko4y9epEgZ/qmd9ndDMqv4F1GVV0n93j
-	RbxKQatM/RS7c8IMl4KD+gHRrIcjYHz3tJs6zvW4/NB0S4bRHHBBojHk8ctWjfS4uxIy
-	4QSQ==
+	Thu, 19 Jul 2018 07:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=b+BvaKAC9Ab5Zhzl3frjoFucN6xCA/gqAhT1LLsvOdM=;
+	b=fJ6PT9b1oLzUHs/5HsNPxtVW8wDu/81GhEtajXpWQw9NctyBbUJkHywlBtc3mYYIyu
+	nnGaQzKzoRcpnXlqF/+7rg8U4mRLxspLoFBJ+95MdsjlIs9wIIrp4qvViEhTPTy9cKhX
+	8SyKkFimTEobDPhxj2tQNO/feL0ot8vrQlm/g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=bL7bOG2orRYKdjvYl+uL76tGSNJ9UXn97ikvhcN1dsg=;
-	b=l/0Iwb7ZHDBx0bwsPO5K1sXfq4urcP2+Sj2z4fsK6W/65eFkYmtZVoqW5qZXaugamR
-	ysvg12RoePb29oRuozfUP2meG9trHRvQ3eE8DbUSzpCaMoE+gxnGo0L9uVXWsJz9j/2R
-	/ZU5pyPbhzA1kim/q5jzVDMli2O86Q1hUnSpcpjZKvsx9qMidjoBpHL6E8VpHfbQnjsq
-	F26ocz6+2Ww5Yuz03x2QEFwvzi9KBtKw1L0XOcFdGmCOee6DVasal3EOU9Bl9EH9Y+tx
-	GhP97LsYih4aL1q8wfoDrdoURLmEckQ39fry6OOOicROB7ZGomXk6tHt5Zej/TGsFfRr
-	hkKg==
-X-Gm-Message-State: AOUpUlEpOJHslxkVlGbhfJu148k2pn0RbzI6zQ19yZW6IVnmsa5J9xZt
-	PkqpKJfpPRhB6fvOKSNluwRPFkdW
-X-Google-Smtp-Source: AAOMgpfm5RBeCM+gx+CCspnO5Hm1k68pRKmc+GQwM11WkZmR9lTHsLiBhk+JS6QhvMN7Hp0Qe+IXyA==
-X-Received: by 2002:adf:fd12:: with SMTP id
-	e18-v6mr7318811wrr.280.1532008952236; 
-	Thu, 19 Jul 2018 07:02:32 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	j131-v6sm4606931wmb.35.2018.07.19.07.02.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 19 Jul 2018 07:02:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 19 Jul 2018 16:02:34 +0200
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <20180719140234.GD1436@jama>
-References: <20180719100714.9639-1-dv@pseudoterminal.org>
-	<20180719110720.GA1436@jama>
-	<1eb8494d-fb4b-1585-3502-4142548345a5@pseudoterminal.org>
-	<20180719121252.GB1436@jama>
-	<bfaa505c-1ffe-3c22-e0f3-9a06f4fab4bc@pseudoterminal.org>
-	<20180719132046.GC1436@jama>
-	<26d1dd91-a30d-a8db-61f9-5f1a3cf59520@pseudoterminal.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=b+BvaKAC9Ab5Zhzl3frjoFucN6xCA/gqAhT1LLsvOdM=;
+	b=Iyl1k61h+xtGnSTvE77cv3AbSzBPOoeD+sYiRD5iSEfBxA1UVKx5af6lmXSJLgl5TJ
+	qOQBCK2O/P2MRvQ4SLM59dJBop8+zD7JmzgEX8Go25YPM/rqHBDQSGwd/214/t71aDh2
+	V8O3VUgA0b9eP1YaKEr150wRgN4Do0saWT6vMhAluGhLqeP7QLDpO0hIt5eOmgfEEIlx
+	Y/N8PoYxIdajTgH1A6gNgU0MQh48D2GXNtqqlzVZF5AU6BYGKVMy8BKNs0e+Awlni2C3
+	6aIo5Gol9vKKZjqAvGNH3IaJ0wUst94QXuPawT1++Ni8pRKrLAcd9eDm21g0/NPrc1qw
+	5p2g==
+X-Gm-Message-State: AOUpUlHefpY1uGakgz2PQT8UV4/YPj6l98bkbdE3ArPDLqPm8qQLMQzB
+	a8OJ4xKBJjU+C+fejtttdxB1+x1y1POJD1VakT/BFA==
+X-Google-Smtp-Source: AAOMgpe9rn4RChzTeufS+9PZs8eSnj5jjEKeVWZPWig3UB4/wmatXlIMdeHysxkaSe26j+NguTlJOvBFhcxvDTjYlT4=
+X-Received: by 2002:a9f:3a46:: with SMTP id
+	r6-v6mr6795821uag.145.1532009867948; 
+	Thu, 19 Jul 2018 07:17:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <26d1dd91-a30d-a8db-61f9-5f1a3cf59520@pseudoterminal.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/6] gstreamer1.0-plugin-base: Update packageconfigs
+References: <1531963618-29674-1-git-send-email-daniel.diaz@linaro.org>
+In-Reply-To: <1531963618-29674-1-git-send-email-daniel.diaz@linaro.org>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Thu, 19 Jul 2018 09:17:36 -0500
+Message-ID: <CA+_AqitG1e1=310aqEcxp0aXgeiP3oDJ8W+u=9Xy+HFS_KyMfw@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_D=C3=ADaz_Rodr=C3=ADguez?= <daniel.diaz@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] glibc: Avoid multilibbing on wordsize.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,188 +51,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 14:02:32 -0000
-X-Groupsio-MsgNum: 113694
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="DiL7RhKs8rK9YGuF"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Jul 2018 14:17:47 -0000
+Content-Type: multipart/alternative; boundary="000000000000f8c57705715ad74b"
 
---DiL7RhKs8rK9YGuF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000f8c57705715ad74b
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 19, 2018 at 03:38:16PM +0200, Carlos Rafael Giani wrote:
-> The main problem I see with all of this - aside from filling the recipes=
-=20
-> with packageconfigs that may or may not become actually usable in the=20
-> future - is that when the packageconfig recipes don't yet exist, you are=
-=20
-> essentially speculating. Even the *names* of the dependencies may turn=20
-> out to be different in the future (foo vs. libfoo for example). Or=20
-> perhaps you need to include more dependencies, like what can happen with=
-=20
-> OpenGL ES (it also needs libEGL).
->=20
->=20
-> On 2018-07-19 15:20, Martin Jansa wrote:
-> > On Thu, Jul 19, 2018 at 02:47:58PM +0200, Carlos Rafael Giani wrote:
-> >>
-> >> On 2018-07-19 14:12, Martin Jansa wrote:
-> >>> On Thu, Jul 19, 2018 at 01:16:51PM +0200, Carlos Rafael Giani wrote:
-> >>>> As a general rule, I think adding packageconfigs to an oe-core recipe
-> >>>> that has dependencies outside of oe-core and meta-openembedded is
-> >>>> questionable. Take the qt5 packageconfig for example. It is *not* pa=
-rt
-> >>>> of gstreamer1.0-plugins-good in oe-core, and for good reason - it ne=
-eds
-> >>>> extra switches for passing paths to moc, uic etc.
-> >>> I don't see what's questionable with that. PACKAGECONFIG is just a way
-> >>> to pass configure options like EXTRA_OECONF just with benefit that it=
-'s
-> >>> easily switched from outside and that it encapsulates build time and
-> >>> runtime dependencies together with the options.
-> >>>
-> >>>> Now, what if a recipe outside of oe-core and meta-openembedded is ju=
-st
-> >>>> like that? It needs its own customizations, its own switches. It wou=
-ld
-> >>>> be better off setting up its own packageconfig, just like what that
-> >>>> bbappend in meta-qt5 does.
-> >>> If someone submits PACKAGECONFIG addition for something which only
-> >>> exists in his own layer, I'm fine with that, why should we make it
-> >>> harder for people to use oe-core or meta-oe recipes?
-> >> Adding a .bbappend that adds the packageconfig does not sound hard to
-> >> me. However, having packageconfigs whose dependencies may or may not be
-> >> dead (because of the layer being dead) sounds more like a maintenance
-> >> problem.
-> > It's not too hard, but completely unnecessary when the PACKAGECONFIG was
-> > already there in oe-core and you're removing it for no good reason.
-> > Especially if such PACKAGECONFIG needs to be added by multiple people in
-> > multiple projects instead of just once in the recipe where it belongs.
->=20
-> libvisual is not in oe-core or meta-openembedded, otherwise I would have=
-=20
-> added it. As for zlib etc. I already added them back in in v2 of the=20
-> patches.
+On Wed, 18 Jul 2018 at 20:27, Daniel D=C3=ADaz <daniel.diaz@linaro.org> wro=
+te:
 
-But you're still _removing_ the PACKAGECONFIG for libvisual.
+> Once another header #includes <bits/wordsize.h>, there is a
+> potential recursion going on because the
+> multilib_header_wrapper.h #includes <bits/wordsize.h> again!
+>
+> This should not happen because an __arm__ (32-bits) or an
+> __aarch64__ (64-bits) environment guarantees that we will
+> be getting the correct definition, but when building against
+> a different target (like BPF), recursion is what happens.
+>
+> This can be seen, for instance, when building eBPF programs
+> from the kernel with `clang -target bpf', such as the ones
+> located in linux/tools/testing/selftests/bpf/.
+>
+> Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
 
-> > And it brings annoying issues like the gstreamer bbappend in meta-qt5
-> > without any good reason.
-> >
-> > Carrying libdrm PACKAGECONFIGs in my bbappend was simple enough, but
-> > then Ross migrated libdrm from autotools to meson and instead of simply
-> > updating the PACKAGECONFIGs to the format used by meson atomically with
-> > the meson migration in the same commit I had to update the .bbappend,
-> > which caused my layer to require new oe-core again (to have the meson
-> > migration, because the PACKAGECONFIG isn't backwards compatible) and at
-> > that time I've rather submitted all my PACKAGECONFIGs to oe-core instead
-> > of maintenance burden to keep them locally.
->=20
-> As said, I can then agree to add packageconfigs for recipes that already=
-=20
-> exist somewhere. But adding them speculatively with not-yet-existing=20
+> ---
+>  meta/recipes-core/glibc/glibc-package.inc | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc
+> b/meta/recipes-core/glibc/glibc-package.inc
+> index ae3f2f6..a4f61f8 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -136,8 +136,7 @@ do_install_append_armeb () {
+>  }
+>
+>  do_install_armmultilib () {
+> -
+> -       oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h
+> bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
+> +       oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h
+> bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
+>         oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h
+> bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.=
+h
+> bits/setjmp.h
+>         oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h
+> bits/statfs.h bits/typesizes.h
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Except you can never know what exists elsewhere, because not all layers
-are public or on layerindex.
+--000000000000f8c57705715ad74b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> dependencies is an entirely different matter. I wouldn't do that.=20
-> Instead, I'd keep the --disable-twolame etc. switches around.
->=20
-> > Congrats! but it still doesn't mean we should add more of them without
-> > good reasons, right?
->=20
-> Sure, but avoiding them is not a high priority for me. They are more of=
-=20
-> an annoyance than an outright problem.
->=20
->=20
-> > And what about people who have libvisual in their layer (from
-> > meta-debian or meta-qt5-extra or written from scratch) are they also now
-> > responsible for maintaining bbappend PACKAGECONFIG for gstreamer?
->=20
-> Yeah, at least initially. If some layer introduces a recipe that happens=
-=20
-> to have a corresponding plugin in base/good/bad/ugly, it makes sense to=
-=20
-> add a .bbappend at first. Later on, you can patch oe-core if it sounds=20
-> like having this packageconfig in a central place makes sense. To me,=20
-> this sounds like a more modular approach.
->=20
->=20
-> >> Eh, I don't think I can agree with that approach. Having an openexr
-> >> packageconfig for example implies that this packageconfig is actually
-> >> usable and gstreamer1.0-plugins-bad can be built with it enabled. But
-> >> adding it without an openexr dependency? Sounds broken to me. This is
-> >> why I prefer to keep such features disabled until there is a recipe for
-> >> them in meta-openembedded.
-> > It's not broken, it just isn't well tested. Everybody tests only the
-> > explicitly disabled path until someone actually tries to enable it,
-> > which is exactly the same for disabled PACKAGECONFIG and --disable-foo
-> > in EXTRA_OECONF.
-> >
-> > I'm not saying that these features should be enabled! Of course not,
-> > they cannot be for features which require extra dependencies from other
-> > layers. I'm just saying that --disable-twolame from
-> > PACKAGECONFIG[twolame] is much better than --disable-twolame from
-> > EXTRA_OECONF, because is easy to enable without the .bbappend and in
-> > most cases it will work if you provide necessary dependencies or show
-> > reasonable error showing what you need to provide.
-> >
->=20
-> It is not about them being enabled, but about what happens if someone=20
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed=
+, 18 Jul 2018 at 20:27, Daniel D=C3=ADaz &lt;<a href=3D"mailto:daniel.diaz@=
+linaro.org">daniel.diaz@linaro.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">Once another header #includes &lt;bits/wordsize.h&gt;, there=
+ is a<br>
+potential recursion going on because the<br>
+multilib_header_wrapper.h #includes &lt;bits/wordsize.h&gt; again!<br>
+<br>
+This should not happen because an __arm__ (32-bits) or an<br>
+__aarch64__ (64-bits) environment guarantees that we will<br>
+be getting the correct definition, but when building against<br>
+a different target (like BPF), recursion is what happens.<br>
+<br>
+This can be seen, for instance, when building eBPF programs<br>
+from the kernel with `clang -target bpf&#39;, such as the ones<br>
+located in linux/tools/testing/selftests/bpf/.<br>
+<br>
+Signed-off-by: Daniel D=C3=ADaz &lt;<a href=3D"mailto:daniel.diaz@linaro.or=
+g" target=3D"_blank">daniel.diaz@linaro.org</a>&gt;<br></blockquote><div><s=
+pan style=3D"font-size:small;background-color:rgb(255,255,255);text-decorat=
+ion-style:initial;text-decoration-color:initial;float:none;display:inline">=
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org">anibal.limon@linaro.org</a></span><span style=3D"font-size:small;=
+background-color:rgb(255,255,255);text-decoration-style:initial;text-decora=
+tion-color:initial;float:none;display:inline">&gt;</span>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">
+---<br>
+=C2=A0meta/recipes-core/glibc/glibc-package.inc | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
+glibc/glibc-package.inc<br>
+index ae3f2f6..a4f61f8 100644<br>
+--- a/meta/recipes-core/glibc/glibc-package.inc<br>
++++ b/meta/recipes-core/glibc/glibc-package.inc<br>
+@@ -136,8 +136,7 @@ do_install_append_armeb () {<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_install_armmultilib () {<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header bits/endian.h bits/fcntl.h b=
+its/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize=
+.h<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header bits/endian.h bits/fcntl.h b=
+its/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_multilib_header bits/local_lim.h bits/mman.h=
+ bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h=C2=A0 bits/sem.h=
+=C2=A0 bits/semaphore.h bits/setjmp.h<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_multilib_header bits/shm.h bits/sigstack.h b=
+its/stat.h bits/statfs.h bits/typesizes.h<br>
+<br>
+-- <br>
+2.7.4<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
 
-you said "why I prefer to keep such features disabled" in previous
-e-mail.
-
-> sees these packageconfigs and tries to enable them. Then, oops, they=20
-> don't work, because the dependency is non-existent. So, if this=20
-> packageconfig _cannot_ work because the dependency doesn't exist yet=20
-> anywhere in any layer, why is this packageconfig there in the first place?
-
-Because it's our best shot on making it configure-able, if someone names
-the dependency differently, then the PACKAGECONFIG can be improved later
-or that extra dependency can get PROVIDES with the name used in
-PACKAGECONFIG. But that's still closer to usable than
-
-EXTRA_OECONF_remove =3D "--disable-foo"
-EXTRA_OECONF_append =3D " --enable-foo"
-DEPENDS_append =3D " foo"
-RDEPENDS_${PN}_append =3D " foo-utils"
-
-or adding PACKAGECONFIG in bbappend and ending with --disable-foo
-followed by --enable-foo in EXTRA_OECONF.
-
-> For example, the libneon recipe got removed because upstream is dead.=20
-> Would you still keep its packageconfig around just in case someone=20
-> decides to bring back the recipe for their own personal layer?
-> (Ironically, I just noticed that I made a mistake by _not_ removing the=
-=20
-> neon packageconfig while still adding --disable-neon to EXTRA_OECONF ..)
-
-Yes, I would keep PACKAGECONFIG for it, because for most people it will
-result in the same --disable-neon and for someone who had neon
-PACKAGECONFIG enabled before it will work after bringing back just the
-libneon recipe (without reinventing PACKAGECONFIG knob in gstreamer
-bbappend).
-
-I don't want to continue in this discussion, hopefully someone else will
-add an opinion as well.
-
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---DiL7RhKs8rK9YGuF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCW1CZ+QAKCRA3VSO3ZXaA
-HJupAJ9IHMiX3WKF8259/LL+VNZ2ONLxEwCbBMP5rV3Oor33XUmuvzbsMkBL73s=
-=PFMJ
------END PGP SIGNATURE-----
-
---DiL7RhKs8rK9YGuF--
+--000000000000f8c57705715ad74b--
