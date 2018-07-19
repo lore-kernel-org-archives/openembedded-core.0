@@ -1,22 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EBA278A68
+Return-Path: <betacentauri@arcor.de>
+Received: from mx009.vodafonemail.xion.oxcs.net
+	(mx009.vodafonemail.xion.oxcs.net [153.92.174.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 854867489E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 14:51:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6JEpgNU012015
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Jul 2018 07:51:43 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 19 Jul 2018 07:51:42 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 19 Jul 2018 23:01:51 +0800
-Message-ID: <1532012511-40908-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 19 Jul 2018 16:25:46 +0000 (UTC)
+Received: from vsmx002.vodafonemail.xion.oxcs.net (unknown [192.168.75.192])
+	by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTP id 54DF5D9B1C0;
+	Thu, 19 Jul 2018 16:25:42 +0000 (UTC)
+Received: from null (app-38.app.xion.oxcs.net [10.10.1.38])
+	by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTPA id 30E8E199C67;
+	Thu, 19 Jul 2018 16:25:38 +0000 (UTC)
+Date: Thu, 19 Jul 2018 18:25:37 +0200 (CEST)
+From: betacentauri@arcor.de
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Message-ID: <828545568.7654.1532017538070@mail.vodafone.de>
+In-Reply-To: <66fc8713-3bf4-add4-0026-dbd029c8fea2@gmail.com>
+References: <1530811589-29601-1-git-send-email-betacentauri@arcor.de>
+	<66fc8713-3bf4-add4-0026-dbd029c8fea2@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] systemtap: improve reproducibility
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev34
+X-Originating-Client: com.openexchange.ox.gui.dhtml
+X-VADE-STATUS: LEGIT
+Subject: Re: [PATCH] libnss-mdns: Fix search path for avahi socket file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,123 +36,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 14:51:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Jul 2018 16:25:48 -0000
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_7653_12669079.1532017538062"
 
-- Fix build path issue of .pyc files;
+------=_Part_7653_12669079.1532017538062
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-- Fix build path issue of c++ object files;
+There are several ways to fix it.
 
-[YOCTO #12528]
+1. Patching Makefiles (see patch in the ticket: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12843)
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...all-python-modules-to-correct-library-dir.patch | 11 ++++++--
- ...1-improve-reproducibility-for-c-compiling.patch | 31 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.bb     |  8 ++++++
- 3 files changed, 48 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
+2. Add localstatedir = "/"
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-index 528864c..c7ba338 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-@@ -5,6 +5,13 @@ Subject: [PATCH] Install python modules to correct library dir.
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+Supply "--root" directory to the "install" command, and use
-+it as a prefix to strip off the purported filename encoded
-+in bytecode files. (It strips build path prefix from .pyc files)
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
- ---
-  python/Makefile.am | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
-@@ -18,7 +25,7 @@ index a254480f9..efe9f3c01 100644
-  	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON) setup.py build \
-           --build-base $(shell readlink -f $(builddir))/py2build \
- -	 install --prefix $(DESTDIR)$(prefix) \
--+	 install --prefix $(DESTDIR)$(prefix) --install-lib=$(DESTDIR)${pythondir} \
-++	 install --root $(DESTDIR) --prefix $(prefix) --prefix $(prefix) --install-lib=${pythondir} \
-  	 --single-version-externally-managed \
-  	 --record $(shell readlink -f $(builddir))/py2build/install_files.txt \
-           --verbose)
-@@ -27,7 +34,7 @@ index a254480f9..efe9f3c01 100644
-  	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON3) setup.py build \
-           --build-base $(shell readlink -f $(builddir))/py3build \
- -	 install --prefix $(DESTDIR)$(prefix) \
--+	 install --prefix $(DESTDIR)$(prefix) --install-lib=$(DESTDIR)${python3dir} \
-++	 install --root $(DESTDIR) --prefix $(prefix) --install-lib=${python3dir} \
-  	 --single-version-externally-managed \
-  	 --record $(shell readlink -f $(builddir))/py3build/install_files.txt \
-           --verbose)
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
-new file mode 100644
-index 0000000..15a6f2a
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-improve-reproducibility-for-c-compiling.patch
-@@ -0,0 +1,31 @@
-+From 6288ba5df0a8c73ef842b609081449ac4de86123 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 18 Jul 2018 16:58:33 +0800
-+Subject: [PATCH] improve reproducibility for c++ compiling
-+
-+Use relative dir to include header string_ref to
-+strip build path prefix in c++ object file
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ stringtable.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/stringtable.h b/stringtable.h
-+index 5fc42e7..6fd8a1e 100644
-+--- a/stringtable.h
-++++ b/stringtable.h
-+@@ -19,7 +19,7 @@
-+ 
-+ #if defined(HAVE_BOOST_UTILITY_STRING_REF_HPP)
-+ #include <boost/version.hpp>
-+-#include <boost/utility/string_ref.hpp> //header with string_ref
-++#include "@RELATIVE_STAGING_INCDIR@/boost/utility/string_ref.hpp" //header with string_ref
-+ 
-+ // XXX: experimental tunables
-+ #define INTERNED_STRING_FIND_MEMMEM 1 /* perf stat indicates a very slight benefit */
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index b280f58..0b7833e 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -3,6 +3,8 @@ HOMEPAGE = "https://sourceware.org/systemtap/"
- 
- require systemtap_git.inc
- 
-+SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch"
-+
- DEPENDS = "elfutils"
- 
- EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-@@ -25,6 +27,12 @@ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,
- 
- inherit autotools gettext pkgconfig distutils3-base
- 
-+do_configure_prepend () {
-+    # Improve reproducibility for c++ object files
-+    reltivepath="${@os.path.relpath(d.getVar('STAGING_INCDIR'), d.getVar('S'))}"
-+    sed -i "s:@RELATIVE_STAGING_INCDIR@:$reltivepath:g" ${S}/stringtable.h
-+}
-+
- do_install_append () {
-    if [ ! -f ${D}${bindir}/stap ]; then
-       # translator disabled case, need to leave only minimal runtime
--- 
-2.7.4
+3. Adding --localstatedir=${root_prefix} to EXTRA_OECONF
+
+4. Don't fix it as /var/run should be a link to /run.
 
 
+So what is the preferred solution?
+
+
+> Khem Raj <raj.khem@gmail.com mailto:raj.khem@gmail.com > hat am 5. Juli 2018 um 19:48 geschrieben:
+> 
+> 
+>     On 7/5/18 10:26 AM, Betacentauri wrote:
+> 
+>         > > Since v0.7 avahi uses /run/avahi-daemon/socket.
+> >         libnss searches in $(localstatedir)/run/avahi-daemon/.
+> >         Set localstatedir to / to fix mdns resolving.
+> >         ---
+> >         meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb | 2 ++
+> >         1 file changed, 2 insertions(+)
+> > 
+> >         diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >         index 5be5e4f..d0eb276 100644
+> >         --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >         +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+> >         @@ -17,6 +17,8 @@ SRC_URI[sha256sum] = "1e683c2e7c3921814706d62fbbd3e9cbf493a75fa00255e0e715508d81
+> > 
+> >         S = "${WORKDIR}/nss-mdns-${PV}"
+> > 
+> >         +localstatedir = "/"
+> >         +
+> > 
+> >     >     Adding --localstatedir=${root_prefix} to EXTRA_OECONF perhaps is better
+>     for description.
+> 
+>         > > inherit autotools
+> > 
+> >         EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+> > 
+> >     > 
+
+------=_Part_7653_12669079.1532017538062
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html><head>
+    <meta charset=3D"UTF-8">
+</head><body><p>There are several ways to fix it.<br></p><p>1. Patching Mak=
+efiles (see patch in the ticket: <a href=3D"https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D12843)">https://bugzilla.yoctoproject.org/show_bug.cgi=
+?id=3D12843)</a><br></p><p>2. Add localstatedir =3D &#34;/&#34;<br></p><p>3=
+. Adding --localstatedir=3D${root_prefix} to EXTRA_OECONF<br></p><p>4. Don&=
+#39;t fix it as /var/run should be a link to /run.<br></p><p><br></p><p>So =
+what is the preferred solution?<br></p><p><br></p><blockquote type=3D"cite"=
+>Khem Raj &#60;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>=
+&#62; hat am 5. Juli 2018 um 19:48 geschrieben:<br><br><br>On 7/5/18 10:26 =
+AM, Betacentauri wrote:<blockquote type=3D"cite">Since v0.7 avahi uses /run=
+/avahi-daemon/socket.<br>libnss searches in $(localstatedir)/run/avahi-daem=
+on/.<br>Set localstatedir to / to fix mdns resolving.<br>---<br> meta/recip=
+es-connectivity/libnss-mdns/libnss-mdns_0.10.bb | 2 ++<br> 1 file changed, =
+2 insertions(+)<br><br>diff --git a/meta/recipes-connectivity/libnss-mdns/l=
+ibnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10=
+.bb<br>index 5be5e4f..d0eb276 100644<br>--- a/meta/recipes-connectivity/lib=
+nss-mdns/libnss-mdns_0.10.bb<br>+++ b/meta/recipes-connectivity/libnss-mdns=
+/libnss-mdns_0.10.bb<br>@@ -17,6 +17,8 @@ SRC_URI[sha256sum] =3D &#34;1e683=
+c2e7c3921814706d62fbbd3e9cbf493a75fa00255e0e715508d81<br> <br> S =3D &#34;$=
+{WORKDIR}/nss-mdns-${PV}&#34;<br> <br>+localstatedir =3D &#34;/&#34;<br>+</=
+blockquote><br>Adding --localstatedir=3D${root_prefix} to EXTRA_OECONF perh=
+aps is better<br>for description.<blockquote type=3D"cite">inherit autotool=
+s<br> <br> EXTRA_OECONF =3D &#34;--libdir=3D${base_libdir} --disable-lynx -=
+-enable-avahi&#34;</blockquote></blockquote></body></html>
+=20
+
+------=_Part_7653_12669079.1532017538062--
