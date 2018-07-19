@@ -1,40 +1,18 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D06478A14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 10:07:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42418844"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jul 2018 18:07:18 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5EE034B625E6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 18:07:18 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0399.000; Thu, 19 Jul 2018 18:07:23 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][sumo][PATCH] glibc: fix CVE-2018-11237
-Thread-Index: AQHUDRQF7YBldLtrIUeAyTYMjqAR/qSWdULQ
-Date: Thu, 19 Jul 2018 10:07:23 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF738709D5BE@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1529993088-77227-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1529993088-77227-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.300.84
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.35]
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9761071993;
+	Thu, 19 Jul 2018 10:32:51 +0000 (UTC)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 5EE034B625E6.AB78B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [sumo][PATCH] glibc: fix CVE-2018-11237
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Thu, 19 Jul 2018 10:32:53 -0000
+Message-ID: <20180719103253.13840.47919@do.openembedded.org>
+References: <20180719100714.9639-1-dv@pseudoterminal.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180719100714.9639-1-dv@pseudoterminal.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gZ3N0cmVhbWVyMS4wLXBsdWdpbi1iYXNlOi4uLiIgYW5kIDUgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,111 +25,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 10:07:21 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 19 Jul 2018 10:32:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-UGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
-RnJvbTogWmhlbmcsIFJ1b3Fpbi/WoyDI9MfVIA0KU2VudDogVHVlc2RheSwg
-SnVuZSAyNiwgMjAxOCAyOjA1IFBNDQpUbzogb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IFpoZW5nLCBSdW9xaW4v1qMg
-yPTH1SA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KU3ViamVjdDog
-W09FLWNvcmVdW3N1bW9dW1BBVENIXSBnbGliYzogZml4IENWRS0yMDE4LTEx
-MjM3DQoNCmdsaWJjOiBmaXggQ1ZFLTIwMTgtMTEyMzcNCg0KU2lnbmVkLW9m
-Zi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5j
-b20+DQotLS0NCiBtZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy9DVkUt
-MjAxOC0xMTIzNy5wYXRjaCB8IDgzICsrKysrKysrKysrKysrKysrKysrKysN
-CiBtZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliY18yLjI3LmJiICAgICAg
-ICAgICAgICB8ICAxICsNCiAyIGZpbGVzIGNoYW5nZWQsIDg0IGluc2VydGlv
-bnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUv
-Z2xpYmMvZ2xpYmMvQ1ZFLTIwMTgtMTEyMzcucGF0Y2gNCg0KZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjL0NWRS0yMDE4LTEx
-MjM3LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMvQ1ZF
-LTIwMTgtMTEyMzcucGF0Y2gNCm5ldyBmaWxlIG1vZGUgMTAwNjQ0DQppbmRl
-eCAwMDAwMDAwLi4zMzE2OGJlDQotLS0gL2Rldi9udWxsDQorKysgYi9tZXRh
-L3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy9DVkUtMjAxOC0xMTIzNy5wYXRj
-aA0KQEAgLTAsMCArMSw4MyBAQA0KK0Zyb20gOWFhYWFiN2M2ZTQxNzZlNjFj
-NTliMGE2M2M2YmE5MDZkODc1ZGMwZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDENCitGcm9tOiBBbmRyZWFzIFNjaHdhYiA8c2Nod2FiQHN1c2UuZGU+DQor
-RGF0ZTogVHVlLCAyMiBNYXkgMjAxOCAxMDozNzo1OSArMDIwMA0KK1N1Ympl
-Y3Q6IFtQQVRDSF0gRG9uJ3Qgd3JpdGUgYmV5b25kIGRlc3RpbmF0aW9uIGlu
-ICANCitfX21lbXBjcHlfYXZ4NTEyX25vX3Z6ZXJvdXBwZXIgKGJ1ZyAyMzE5
-NikNCisNCitXaGVuIGNvbXBpbGVkIGFzIG1lbXBjcHksIHRoZSByZXR1cm4g
-dmFsdWUgaXMgdGhlIGVuZCBvZiB0aGUgZXN0aW5hdGlvbiANCitidWZmZXIs
-IHRodXMgaXQgY2Fubm90IGJlIHVzZWQgdG8gcmVmZXIgdG8gdGhlIHN0YXJ0
-IG9mIGl0Lg0KKw0KKzIwMTgtMDUtMjMgIEFuZHJlYXMgU2Nod2FiICA8c2No
-d2FiQHN1c2UuZGU+DQorDQorICAgICAgIFtCWiAjMjMxOTZdDQorICAgICAg
-IENWRS0yMDE4LTExMjM3DQorICAgICAgICogc3lzZGVwcy94ODZfNjQvbXVs
-dGlhcmNoL21lbW1vdmUtYXZ4NTEyLW5vLXZ6ZXJvdXBwZXIuUw0KKyAgICAg
-ICAoTChwcmVsb29wX2xhcmdlKSk6IFNhdmUgaW5pdGlhbCBkZXN0aW5hdGlv
-biBwb2ludGVyIGluICVyMTEgYW5kDQorICAgICAgIHVzZSBpdCBpbnN0ZWFk
-IG9mICVyYXggYWZ0ZXIgdGhlIGxvb3AuDQorICAgICAgICogc3RyaW5nL3Rl
-c3QtbWVtcGNweS5jIChNSU5fUEFHRV9TSVpFKTogRGVmaW5lLg0KKw0KK0NW
-RTogQ1ZFLTIwMTgtMTEyMzcNCitVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0
-DQorU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RA
-Y24uZnVqaXRzdS5jb20+DQorLS0tDQorIENoYW5nZUxvZyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA5ICsrKysr
-KysrKw0KKyBzdHJpbmcvdGVzdC1tZW1wY3B5LmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwgMSArDQorIHN5c2RlcHMveDg2XzY0L211
-bHRpYXJjaC9tZW1tb3ZlLWF2eDUxMi1uby12emVyb3VwcGVyLlMgfCA1ICsr
-Ky0tDQorIDMgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSkNCisNCitkaWZmIC0tZ2l0IGEvQ2hhbmdlTG9nIGIvQ2hh
-bmdlTG9nDQoraW5kZXggMjNmZjBlYS4uODVmNmQyNSAxMDA2NDQNCistLS0g
-YS9DaGFuZ2VMb2cNCisrKysgYi9DaGFuZ2VMb2cNCitAQCAtMSwzICsxLDEy
-IEBADQorKzIwMTgtMDUtMjMgIEFuZHJlYXMgU2Nod2FiICA8c2Nod2FiQHN1
-c2UuZGU+DQorKw0KKysJW0JaICMyMzE5Nl0NCisrCUNWRS0yMDE4LTExMjM3
-DQorKwkqIHN5c2RlcHMveDg2XzY0L211bHRpYXJjaC9tZW1tb3ZlLWF2eDUx
-Mi1uby12emVyb3VwcGVyLlMNCisrCShMKHByZWxvb3BfbGFyZ2UpKTogU2F2
-ZSBpbml0aWFsIGRlc3RpbmF0aW9uIHBvaW50ZXIgaW4gJXIxMSBhbmQNCisr
-CXVzZSBpdCBpbnN0ZWFkIG9mICVyYXggYWZ0ZXIgdGhlIGxvb3AuDQorKwkq
-IHN0cmluZy90ZXN0LW1lbXBjcHkuYyAoTUlOX1BBR0VfU0laRSk6IERlZmlu
-ZS4NCisrDQorIDIwMTgtMDItMjIgIEFuZHJldyBXYXRlcm1hbiA8YW5kcmV3
-QHNpZml2ZS5jb20+DQorIA0KKyAJW0JaICMgMjI4ODRdDQorZGlmZiAtLWdp
-dCBhL3N0cmluZy90ZXN0LW1lbXBjcHkuYyBiL3N0cmluZy90ZXN0LW1lbXBj
-cHkuYyBpbmRleCANCitjMDhmYmE4Li5kOThlY2RkIDEwMDY0NA0KKy0tLSBh
-L3N0cmluZy90ZXN0LW1lbXBjcHkuYw0KKysrKyBiL3N0cmluZy90ZXN0LW1l
-bXBjcHkuYw0KK0BAIC0xOCw2ICsxOCw3IEBADQorICAgIDxodHRwOi8vd3d3
-LmdudS5vcmcvbGljZW5zZXMvPi4gICovDQorIA0KKyAjZGVmaW5lIE1FTUNQ
-WV9SRVNVTFQoZHN0LCBsZW4pIChkc3QpICsgKGxlbikNCisrI2RlZmluZSBN
-SU5fUEFHRV9TSVpFIDEzMTA3Mg0KKyAjZGVmaW5lIFRFU1RfTUFJTg0KKyAj
-ZGVmaW5lIFRFU1RfTkFNRSAibWVtcGNweSINCisgI2luY2x1ZGUgInRlc3Qt
-c3RyaW5nLmgiDQorZGlmZiAtLWdpdCBhL3N5c2RlcHMveDg2XzY0L211bHRp
-YXJjaC9tZW1tb3ZlLWF2eDUxMi1uby12emVyb3VwcGVyLlMgDQorYi9zeXNk
-ZXBzL3g4Nl82NC9tdWx0aWFyY2gvbWVtbW92ZS1hdng1MTItbm8tdnplcm91
-cHBlci5TDQoraW5kZXggMjNjMGY3YS4uYTU1Y2Y2ZiAxMDA2NDQNCistLS0g
-YS9zeXNkZXBzL3g4Nl82NC9tdWx0aWFyY2gvbWVtbW92ZS1hdng1MTItbm8t
-dnplcm91cHBlci5TDQorKysrIGIvc3lzZGVwcy94ODZfNjQvbXVsdGlhcmNo
-L21lbW1vdmUtYXZ4NTEyLW5vLXZ6ZXJvdXBwZXIuUw0KK0BAIC0zMzUsNiAr
-MzM1LDcgQEAgTChwcmVsb29wX2xhcmdlKToNCisgCWphCUwocHJlbG9vcF9s
-YXJnZV9ia3cpDQorIAl2bW92dXBzCSglcnNpKSwgJXptbTQNCisgCXZtb3Z1
-cHMJMHg0MCglcnNpKSwgJXptbTUNCisrCW1vdiAgICAgJXJkaSwgJXIxMQ0K
-KyANCisgLyogQWxpZ24gZGVzdGluYXRpb24gZm9yIGFjY2VzcyB3aXRoIG5v
-bi10ZW1wb3JhbCBzdG9yZXMgaW4gdGhlIGxvb3AuICAqLw0KKyAJbW92CSVy
-ZGksICVyOA0KK0BAIC0zNjYsOCArMzY3LDggQEAgTChnb2JibGVfMjU2Ynl0
-ZXNfbnRfbG9vcCk6DQorIAljbXAJJDI1NiwgJXJkeA0KKyAJamEJTChnb2Ji
-bGVfMjU2Ynl0ZXNfbnRfbG9vcCkNCisgCXNmZW5jZQ0KKy0Jdm1vdnVwcwkl
-em1tNCwgKCVyYXgpDQorLQl2bW92dXBzCSV6bW01LCAweDQwKCVyYXgpDQor
-Kwl2bW92dXBzICV6bW00LCAoJXIxMSkNCisrCXZtb3Z1cHMgJXptbTUsIDB4
-NDAoJXIxMSkNCisgCWptcAlMKGNoZWNrKQ0KKyANCisgTChwcmVsb29wX2xh
-cmdlX2Jrdyk6DQorLS0NCisxLjguMy4xDQorDQpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmNfMi4yNy5iYiBiL21ldGEvcmVj
-aXBlcy1jb3JlL2dsaWJjL2dsaWJjXzIuMjcuYmINCmluZGV4IGM4MTQ3OTgu
-LjU5YzlkMDcgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGli
-Yy9nbGliY18yLjI3LmJiDQorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGli
-Yy9nbGliY18yLjI3LmJiDQpAQCAtNDUsNiArNDUsNyBAQCBTUkNfVVJJID0g
-IiR7R0xJQkNfR0lUX1VSSX07YnJhbmNoPSR7U1JDQlJBTkNIfTtuYW1lPWds
-aWJjIFwNCiAgICAgICAgICAgIGZpbGU6Ly8wMDI4LWJpdHMtc2lnaW5mby1j
-b25zdHMuaC1lbnVtLWRlZmluaXRpb24tZm9yLVRSQVBfSFdCS1AucGF0Y2gg
-XA0KICAgICAgICAgICAgZmlsZTovLzAwMjktUmVwbGFjZS1zdHJuY3B5LXdp
-dGgtbWVtY2NweS10by1maXgtV3N0cmluZ29wLXRydW5jYS5wYXRjaCBcDQog
-ICAgICAgICAgICBmaWxlOi8vMDAzMC1wbHVyYWxfY19ub19wcmVwcm9jZXNz
-b3JfbGluZXMucGF0Y2ggXA0KKyAgICAgICAgICAgZmlsZTovL0NWRS0yMDE4
-LTExMjM3LnBhdGNoIFwNCiAiDQogDQogTkFUSVZFU0RLRklYRVMgPz0gIiIN
-Ci0tDQoxLjguMy4xDQoNCgoK
+== Series Details ==
+
+Series: "[v2] gstreamer1.0-plugin-base:..." and 5 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13098/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ff0b682b80)
+
+* Patch            [v2,3/6] gstreamer1.0-plugin-bad: Update packageconfigs
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0010-gl-Add-switch-for-explicitely-enabling-disabling-GBM.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0010-gl-Add-switch-for-explicitely-enabling-disabling-GBM.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
