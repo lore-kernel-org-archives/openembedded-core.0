@@ -1,48 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 02CD175260
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0606978A95
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 20:10:48 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id i12-v6so17321229oik.2
+	Thu, 19 Jul 2018 21:36:50 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id v26-v6so8316169iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 13:10:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=SbG1zkmTjpsACVBrgcN5PnPskSpDS6PbM6eYHXhtGEw=;
-	b=LR6KzYr92nNlbOjgjrQyZSGKO5BzZ+6ycn/nnijW6djEXxD7qYG9oJ5Iob2fRna5v6
-	4mUYQjt2YHMJdjwGmSxsYlUo9KX8VtgE/CmcJosuRQ/bT0gc+eONp+ghc30C4eCIF6Lk
-	KXvH0Hlw8RUIHcGHRrEsl/D6ZeMdLM5RGoRpzE2rPEfgjRzqSnJ17v5lBSvxZuS2Chz2
-	p8udXglznvR0AlMuUGDk4LKz+JGDn01/PHA0AotDSU9IpNZeereJem9Dd80sQcujrUjE
-	Cbdi3BJFuP1E3LgbzhIAm9TbzqH+m9RNTWz9ljkspCz4KtLfjlOmPkHXmPtHTstxXQjW
-	aBHw==
+	Thu, 19 Jul 2018 14:36:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=/9YM+zliVqyiht8gBt8fAU7c7NU8NuxGWTlOPkMwmFM=;
+	b=Uu7l9y41dwBzHi61Zed+RIbupaBT3INrXLsiV/2eenI9Egb+QS4fkRgXrubEZiu+oC
+	UXzLce4c/Rf3szB3EKts+FG+uVTndmc31lgS3eFXWXrQK42Os3NDnzIbc6j8VpY/Qgid
+	bt1cwMWioOk4Zabnk2sBrMgSuli6NcKaSoV7ZuN4KbKIxSiLvJYAl9b+nqqadQFJb6AK
+	XIAlGiZrga5ILCc6W/gUl3DINppsHpwcD2YTRGTmY/niNl7bvVzlPskHRs4VxFauS5OO
+	BQ0wW2Jspc3l8XU7eJYTm2okYAgUxcdCIo4YvzHi1Cz0nZ9RKMH4QFXQMjd/M69/0i2A
+	eCmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=SbG1zkmTjpsACVBrgcN5PnPskSpDS6PbM6eYHXhtGEw=;
-	b=t4VmTLptT6eMhDFBQ6kwnhrCIkhFqALEj1FzkPzglgUdlqcKOPT2i1k+aeABWPmYul
-	hC1P7xnJK2L1IEs4GlpcgsBde3I+oYrIhXKMxhvdk84oXpexPmOHMa86tvTCPgqHDfyi
-	tES95dzE16UXs+gABToFDMSQsbvP7TUQv2D7jwQUWozp1c51cfCZQ1+RvrbH5sFbac84
-	jEU2h2v/RTEDr7nPQoLXv5ED2QRWcR9XWSTBhPlBNsew0hj3lSOSNFCz1fUcuTP1rtFX
-	oWsZK+WUf5a/1PTlzqgxrGsOtS20eGChSg7B2ncG0qljHR/DQlhWvYztsOu5wkovKqbu
-	T1LQ==
-X-Gm-Message-State: AOUpUlEq+zZHVyUcJhE5IB+NDfHTXf9Khl6eMOfLjC5hj9THzLMLMJua
-	4ggTO32iiop8WpQ7hq1A2Ql/ZKdCPq+X70g/BiEJQg==
-X-Google-Smtp-Source: AAOMgpeT+20x60kzr9AYI7Y0PQkXDD46sPPc/N1vYQyLLmwGTEVXmtE+t0kOfT2z/5RPEgHkQ72hmiV+xb9xGjuRz6k=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr13205792oia.170.1532031050009; 
-	Thu, 19 Jul 2018 13:10:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Thu, 19 Jul 2018 13:10:29
-	-0700 (PDT)
-In-Reply-To: <20180719163102.15234-1-JPEWhacker@gmail.com>
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=/9YM+zliVqyiht8gBt8fAU7c7NU8NuxGWTlOPkMwmFM=;
+	b=qVFbqqgsU5qhFB/KMHimCrbqs6D0n2C3px9BVhWOHHSLPCEurjY+5p3mCZXj+NxK8u
+	lHWh03MPg209vE46zNojopWJEFxlZdCjOAAVzhCWGqdTJGiZM58LE/Zoop9kF6gm44R1
+	ndcuQpjNjxUfdDIA2/y7qKiRtPmn+OiEBrXLVP73xRyHeBxCE4bfLMxPXCuniU6gI4+j
+	v2s+U+yeAcec9Aspr0IF8MvepIx11AGpcoFhIOEDvSp3kFjj6HpSeDctbJ/OvesolK9n
+	WXI+aSDsNfoTG0otp2OS/njCCzgSek0AmzCkufrPDN7N2jzG5WcAJb1elBC5Kjv4hm3P
+	Osfg==
+X-Gm-Message-State: AOUpUlG6DlG149B8ohq1ExFwBCD61pk2xm+vQByEFMSLgHtPikdTVfRH
+	4waHfMmCsNp2PqlKmlH200A=
+X-Google-Smtp-Source: AAOMgpcN3soL7XX+PR4O6AJXifX3toIuAY9J3rrQeSGMKz0ZEzmFlqBIHU5YSJUszd5O49hJ4niAFA==
+X-Received: by 2002:a6b:a382:: with SMTP id
+	m124-v6mr10101845ioe.188.1532036211749; 
+	Thu, 19 Jul 2018 14:36:51 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	d12-v6sm233013itf.44.2018.07.19.14.36.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 19 Jul 2018 14:36:51 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1850d1e3aba2151c44800c7b29b79f273607f0c1.camel@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 19 Jul 2018 16:36:50 -0500
+In-Reply-To: <CAJTo0LaZRbRZgd9Usy7PPE4JDxaGUO0gO5kxrm5=K2LvE95hkw@mail.gmail.com>
 References: <20180719163102.15234-1-JPEWhacker@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Jul 2018 21:10:29 +0100
-Message-ID: <CAJTo0LaZRbRZgd9Usy7PPE4JDxaGUO0gO5kxrm5=K2LvE95hkw@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
+	<CAJTo0LaZRbRZgd9Usy7PPE4JDxaGUO0gO5kxrm5=K2LvE95hkw@mail.gmail.com>
+X-Mailer: Evolution 3.28.3 (3.28.3-1.fc28) 
+Mime-Version: 1.0
 Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: Fix pylibfdt generation
@@ -58,16 +64,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 20:10:49 -0000
+X-List-Received-Date: Thu, 19 Jul 2018 21:36:51 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 19 July 2018 at 17:31, Joshua Watt <jpewhacker@gmail.com> wrote:
-> +EXTRA_OEMAKE += 'PYTHON=nativepython STAGING_INCDIR=${STAGING_INCDIR_NATIVE} STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
-> +DEPENDS += "bc-native dtc-native swig-native python-native"
+On Thu, 2018-07-19 at 21:10 +0100, Burton, Ross wrote:
+> On 19 July 2018 at 17:31, Joshua Watt <jpewhacker@gmail.com> wrote:
+> > +EXTRA_OEMAKE += 'PYTHON=nativepython
+> > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
+> > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
+> > +DEPENDS += "bc-native dtc-native swig-native python-native"
+> 
+> Instead of setting PYTHON and DEPENDS, you can just inherit
+> pythonnative.
 
-Instead of setting PYTHON and DEPENDS, you can just inherit pythonnative.
+I tried that, but pythonnative.bbclass appears to export the wrong
+variables for this case:
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
 
-Or ideally, if it can use Python 3, inherit python3native.
+u-boot actually needs:
 
-Ross
+ STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
+ STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}
+
+I'm not sure where the disconnect is there?
+
+> 
+> Or ideally, if it can use Python 3, inherit python3native.
+> 
+> Ross
 
