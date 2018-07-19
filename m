@@ -1,50 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EC91778A34
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E121578AB2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 23:45:40 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id k12-v6so18170609oiw.8
+	Thu, 19 Jul 2018 23:46:23 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id v25-v6so7783319wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 16:45:42 -0700 (PDT)
+	Thu, 19 Jul 2018 16:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NzPrTSSEOE8+0fO3omsol1ElmPHz1M68p9E+IojEz2s=;
-	b=0eFvNVf+8dXvX5niU6nZfHDkrpz/1N4RWq0X7cHA9JWfMJtUFFcjY2122aAFqPSw9i
-	ZL4pM0GhnCnVqNsMG13Lxe4mTR1nI4rfzfQeGCFeSDvWO3NRmb1GfI6xsNGV+x7+spef
-	voCEddarDFl4WQEDT31Nsmzo5kKSGp61LLgDmZLzJ2VgYMFARW/k/Ss7dj4uwrYeRqzI
-	rExe4UiS2/z1/oodEzPw78+zSoMSTVM+Jii9m7/EdqGhadrw8yooaQYc4AVjUK1N4Chz
-	XGXwTJR6czw+PZyEXph9bZlxSCziDD3geIN6o1kdr6kI3u4WLHtvkVajmOCgrLVH4vYr
-	MB7A==
+	h=from:to:subject:date:message-id;
+	bh=BgTrUv/joxymPCGTBwcGidaiMj6CUuzjQmVtx2Mgn2Y=;
+	b=VYqyj7fh9UcVGknfcRz0ebagK0vTU4NM7hgcoSbIGtOr3ZYEGDeTIZrB1J6PvBxxZA
+	My2Xz+zkztijS7nakm+Dmuiywe4eorVXgIN19E3+F1uC/ci5QUWvz00S0V+aFWgWi5D4
+	9KvRpPwPZmrL+v6Rr5X4U/E/gltw5frsBR25GDPqzPqgcNsmH3TRdQotQ6MFBePc78uE
+	cbOEfkVPjR6ulXTFKvepTyifkg2HPHHymSNwoQ5yu+mGU995wE4V6qIx09u7MDP//Idr
+	KCXtvYwt8SAWUVMEAGxNC9MrajZiRCqNhhrbeG4VJ/GiBWPQXhAN/BpxEvo2a8eyE9nP
+	eaug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NzPrTSSEOE8+0fO3omsol1ElmPHz1M68p9E+IojEz2s=;
-	b=MPigA5uOcxJdXFinADWnUlHiVumvdQr8S81+eI/pGEVHFz8A5qkesHJmrudipOYzuO
-	ONv6EXBQdwjFNWfMYYoMsl35vL7li9G/Fa69Fs/UPNtOvd97lOqIXFsOh4wFtLaWYDHy
-	VOERa11LSTMCGdOj/XX0cQvdncA7LhLea8LQztGAiuJlhAfxzuOiB9cf75212cEGiZ+J
-	E7wh/AImwSvag5goxkdBkfxtV7hLnfAGtbod5AKVCjTA005BKJxk2YI4pEgfEJYCIel0
-	Qn87bMbyjXoVSSjEjjHSyhbttgV8qfjIDC7u68cmDZ2yxB/0T4Fd5yb0I4at1q3ejn3q
-	jMHQ==
-X-Gm-Message-State: AOUpUlEjOmethRO6/QJ8PKZ2GpWwKZds1p7ufod3d8E8KD5AyYANs4w7
-	YcmEp6JFHb+ZcBIyFFdvfma2ytQ4FQMl4QBWHpDtAw==
-X-Google-Smtp-Source: AAOMgpdX0+bm4DrpCr4zLX+XNJAoiHlWskcKH2pfimjgTtE0AjFkk8TKh+hSCPOGBZQmY/R+XQIdhhqpOd5Bu+KKnO4=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr140795oia.170.1532043941900; 
-	Thu, 19 Jul 2018 16:45:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Thu, 19 Jul 2018 16:45:21
-	-0700 (PDT)
-In-Reply-To: <20180719134150.8488-1-adrian.ratiu@ni.com>
-References: <20180719134150.8488-1-adrian.ratiu@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Jul 2018 00:45:21 +0100
-Message-ID: <CAJTo0LYfgcFCwKNRTxLQJLJ+hWMK56FeaSZEMFp2zBBXZBPpqg@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lsb: fix usrmerge install path & QA warning
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BgTrUv/joxymPCGTBwcGidaiMj6CUuzjQmVtx2Mgn2Y=;
+	b=GehRr8rt7B5dSGE9dc/ZDLX9FZdP3sS+spALXaYlGaWlDWkA8viWBo5oT/+xSlZYu2
+	pxi7T/px6bK7lsVi/S00nH1jrm7X8rh9lwmtik0FO4ZxMrDogipEKW4VPykmwm02kkRl
+	z7lVyMqPVOev9YQHQXQJGb3t3UBgvHQx+suWYTcUaDjYmVcXEK3m/k7QrJ5BgGGCW1OC
+	6+dTP63tuxxTlyfT/zbqUb+0PoWYFV34RG93tLpRvIFbG3oMgf5g8iRYjMJcK33FZigu
+	B375Oym0XblgoCLUtT2weD98pUIf+25TXQ1RCvD1VZGs7EZATVPqJkWvmgOYHL429Hky
+	YbjQ==
+X-Gm-Message-State: AOUpUlEWjPAwxzZ1LV2blUHpKjrZ5rzmDcSI7n6yDITTKW/QlOnJawc7
+	yhJYK+6GwK/DzPVkumR4GCLqF6sOyyk=
+X-Google-Smtp-Source: AAOMgpeyDdRVrSd5nkP3PRn/1pgGrilmjO5GGDU/96cUhyansPrn7rij/qksOvM8YikrYetCztrXHA==
+X-Received: by 2002:a1c:57c1:: with SMTP id l184-v6mr77434wmb.16.1532043984277;
+	Thu, 19 Jul 2018 16:46:24 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	64-v6sm384397wrj.50.2018.07.19.16.46.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Jul 2018 16:46:23 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2018 00:46:21 +0100
+Message-Id: <20180719234621.26804-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oeqa: rationalise Perl tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +55,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 23:45:41 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 19 Jul 2018 23:46:24 -0000
 
-Remember to check what happens without usrmerge:
+As with the Python test, this can be both better and faster.  No need to copy a
+file, just run a one-liner.
 
-packages/corei7-64-poky-linux/lsb/lsb: FILELIST: directory renamed
-/bin -> /bin/bin, changed order
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/files/test.pl         |  2 --
+ meta/lib/oeqa/runtime/cases/perl.py | 32 ++++----------------------------
+ meta/lib/oeqa/sdk/cases/perl.py     | 25 +++++++------------------
+ 3 files changed, 11 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/lib/oeqa/files/test.pl
 
-lsb:
-/bin/bin/lsb_release
+diff --git a/meta/lib/oeqa/files/test.pl b/meta/lib/oeqa/files/test.pl
+deleted file mode 100644
+index 689c8f16355..00000000000
+--- a/meta/lib/oeqa/files/test.pl
++++ /dev/null
+@@ -1,2 +0,0 @@
+-$a = 9.01e+21 - 9.01e+21 + 0.01;
+-print ("the value of a is ", $a, "\n");
+diff --git a/meta/lib/oeqa/runtime/cases/perl.py b/meta/lib/oeqa/runtime/cases/perl.py
+index d0b7e8ed925..afeeb180e24 100644
+--- a/meta/lib/oeqa/runtime/cases/perl.py
++++ b/meta/lib/oeqa/runtime/cases/perl.py
+@@ -1,37 +1,13 @@
+ import os
+ 
+ from oeqa.runtime.case import OERuntimeTestCase
+-from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.core.decorator.oeid import OETestID
+ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class PerlTest(OERuntimeTestCase):
+-
+-    @classmethod
+-    def setUpClass(cls):
+-        src = os.path.join(cls.tc.files_dir, 'test.pl')
+-        dst = '/tmp/test.pl'
+-        cls.tc.target.copyTo(src, dst)
+-
+-    @classmethod
+-    def tearDownClass(cls):
+-        dst = '/tmp/test.pl'
+-        cls.tc.target.run('rm %s' % dst)
+-
+-    @OETestID(1141)
+-    @OETestDepends(['ssh.SSHTest.test_ssh'])
+-    @OEHasPackage(['perl'])
+-    def test_perl_exists(self):
+-        status, output = self.target.run('which perl')
+-        msg = 'Perl binary not in PATH or not on target.'
+-        self.assertEqual(status, 0, msg=msg)
+-
+     @OETestID(208)
+-    @OETestDepends(['perl.PerlTest.test_perl_exists'])
++    @OEHasPackage(['perl'])
+     def test_perl_works(self):
+-        status, output = self.target.run('perl /tmp/test.pl')
+-        msg = 'Exit status was not 0. Output: %s' % output
+-        self.assertEqual(status, 0, msg=msg)
+-
+-        msg = 'Incorrect output: %s' % output
+-        self.assertEqual(output, "the value of a is 0.01", msg=msg)
++        status, output = self.target.run("perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'")
++        self.assertEqual(status, 0)
++        self.assertEqual(output, "Hello, world")
+diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
+index 8085678116c..ff50b468006 100644
+--- a/meta/lib/oeqa/sdk/cases/perl.py
++++ b/meta/lib/oeqa/sdk/cases/perl.py
+@@ -1,8 +1,4 @@
+-import os
+-import shutil
+ import unittest
+-
+-from oeqa.core.utils.path import remove_safe
+ from oeqa.sdk.case import OESDKTestCase
+ 
+ class PerlTest(OESDKTestCase):
+@@ -12,17 +8,10 @@ class PerlTest(OESDKTestCase):
+                 self.tc.hasHostPackage("perl-native")):
+             raise unittest.SkipTest("No perl package in the SDK")
+ 
+-        for f in ['test.pl']:
+-            shutil.copyfile(os.path.join(self.tc.files_dir, f),
+-                    os.path.join(self.tc.sdk_dir, f))
+-        self.testfile = os.path.join(self.tc.sdk_dir, "test.pl")
+-
+-    def test_perl_exists(self):
+-        self._run('which perl')
+-
+-    def test_perl_works(self):
+-        self._run('perl %s' % self.testfile)
+-
+-    @classmethod
+-    def tearDownClass(self):
+-        remove_safe(self.testfile)
++    def test_perl(self):
++        try:
++            cmd = "perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'"
++            output = self._run(cmd)
++            self.assertEqual(output, "Hello, world")
++        except subprocess.CalledProcessError as e:
++            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
+-- 
+2.11.0
 
-Ross
-
-On 19 July 2018 at 14:41, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> ${base_prefix} is set in bitbake.conf to empty. This makes lsb_release
-> always install under /bin which is a problem if usrmerge is in
-> DISTRO_FEATURES, because it needs to be installed under /usr/bin.
->
-> By using ${base_bindir} instead, we fix the usrmerge install path and
-> the following QA warning goes away.
->
-> WARNING: lsb-5.0-r0 do_package: QA Issue: lsb: Files/directories were
-> installed but not shipped in any package:
->   /bin
->   /bin/lsb_release
-> Please set FILES such that these items are packaged. Alternatively
-> if they are unneeded, avoid installing them or delete them within do_install.
-> lsb: 2 installed and not shipped files. [installed-vs-shipped]
->
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> ---
->  meta/recipes-extended/lsb/lsb_5.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/lsb/lsb_5.0.bb b/meta/recipes-extended/lsb/lsb_5.0.bb
-> index 746204b6ec..1657ba6f78 100644
-> --- a/meta/recipes-extended/lsb/lsb_5.0.bb
-> +++ b/meta/recipes-extended/lsb/lsb_5.0.bb
-> @@ -33,7 +33,7 @@ S = "${WORKDIR}/lsb-release-1.4"
->  CLEANBROKEN = "1"
->
->  do_install() {
-> -       oe_runmake install prefix=${D}${base_prefix} mandir=${D}${datadir}/man/ DESTDIR=${D}
-> +       oe_runmake install prefix=${D}${base_bindir} mandir=${D}${datadir}/man/ DESTDIR=${D}
->
->         # these two dirs are needed by package lsb-dist-checker
->         mkdir -p ${D}${sysconfdir}/opt
-> --
-> 2.18.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
