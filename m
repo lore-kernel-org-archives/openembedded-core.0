@@ -1,50 +1,50 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 4742278B55
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B58178B53
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 11:15:28 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h10-v6so10950154wre.6
+	Fri, 20 Jul 2018 11:15:29 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id s9-v6so9138127wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 04:15:29 -0700 (PDT)
+	Fri, 20 Jul 2018 04:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=c2Tw1hkGg1DSH1/UjxI66SpzWQ1wuvw5x9k9yhzEgQE=;
-	b=aMTixHgbcmUQAYlkkt7CgC7/z9yGWT1YkNowrKoQiV0IWrbZ/1UEm+4ZkQ4uNi+xBe
-	/Xu4UO03Xzav+8jkhjnLyoI1JQnKTLW41NaJEAFADB8sbxHxuGMnTMiuSiE7doTWoa+W
-	G9wC9hgFkYvKDAE59a9K0wEkakts/9krdaO0/SZ1JN8usvrqZmJA7482AsXCw2IeidvI
-	VkBJSDvg0gvxsqbHc/r5yYVAVQ38UPYRMXj849mOJU5LFIZmG5VdetdEqMlYGwUD8gUl
-	p0DdQIFW+WIeILKqU37Kxg2LmDhNkPMXQTDWqQHCl1Sdy/bnTSMNoqE35+chiCNdeMBN
-	z/7Q==
+	bh=i3Rc0nq+kzz6QuCgoURENxMWMoaepS4ZH5j4a96eTwU=;
+	b=Wu+wJU4+bRl1PatMmwxLxJaeSe5yx1bcarHCxIna1b6NVr49/BhIA5WNQCviGjG0DF
+	yeUSBT8hmSjenTcQnVDZX9oGmVaoSAT8O3hTHGlKo5uJacpz68uQcoVQ2+0teuPwLf1g
+	wm1BWxHEq4iSprBMRAqNDb1V/TXR6SFoEVyrp5ZdC1u9d2pHu17eZt7rkQr+gWesRDud
+	gKP7IrgF5yMHj7jEtMB8Ad6CGLsNiZoO49q/2wFT6zNZg+kWn0D9U1cZ90XjAOoQX9Xi
+	2k6OvnsBwtIpE/zKAF0RqXt/5gBSU+QX2Zu7qq003fZ9ebXPK6CsjF+GB+kDdShiYIsJ
+	Bx+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=c2Tw1hkGg1DSH1/UjxI66SpzWQ1wuvw5x9k9yhzEgQE=;
-	b=k/1YGXnF93/wis3A3jttKbba8bd6YiiWkeNF6XsFv/hBH3UNUhGWVOcTo9QUkgvqmg
-	kzaUB7y3+XtM+QLYXyg2i+oDZJ+qZ4zB2vHKZGFX8x1vZM6ZORgA08BnOsdPfTUO33va
-	K52QkxAPneCDq9xrZM9lab0H1nkUlTqboTZSAgLRDpdOEXTQiPv0PbXNRJev2siQLB1Z
-	YEgaO6ejsPVCZ4cVQI+inWSg3sDmE6G8qtcXzycmURTIkd/XJggf7QAKsh0sl4dYrE7N
-	wylwVMCa2E7IlwAFEOBy3lb6OVqV5aV5HE6//x6eWJPAbcYsLx+hSjIorpc+ADLv2hBx
-	em0A==
-X-Gm-Message-State: AOUpUlH4JMCsRXW4TrQGF7M2BnTb//eiQvVsMmvagzT8bdzvNToG/bHA
-	xoWHkJqEeA42qEdrwZvNyTCp7sAD
-X-Google-Smtp-Source: AAOMgpfLrCWHh6QHhn7tLDGvhfe67AcR3w+Tp20ftHrOKFv+iL5Oa0SwyoekpH43UbVS6TmByVR6Iw==
-X-Received: by 2002:adf:fb43:: with SMTP id c3-v6mr1249806wrs.32.1532085328819;
-	Fri, 20 Jul 2018 04:15:28 -0700 (PDT)
+	bh=i3Rc0nq+kzz6QuCgoURENxMWMoaepS4ZH5j4a96eTwU=;
+	b=mit8jdzoUfdJtB9b59D7SdgUymQX3jAczaqDHphrjvgOiPfTxfyYqcEJtlgxenAEQj
+	mQdvEzOC7lCzGxpQRVrdj1/hRPDKPRf0QmXnL71SruWRpseLig/5KrqYN/ne+5Xi3wbU
+	0CJOB5xCA4B6pU9bKUsXaehp6WjCqkYrOfQxtAaFCFebo+N3SwBYOcJRJ4CXpKqVnVB5
+	ZgYp5gQq6ZLWAty99v2zhSxshv9M+Z0RbygL8g5u9qBQ7tJV+1CLFquvQxlEFFhZURsm
+	obq/nQzU3RxMwxO6ddKeRYAGZSV5szjnqaNuAAV6lf6VWEZI7gaI2C9gdRG++ANtFlkd
+	RlLg==
+X-Gm-Message-State: AOUpUlHAFLIqW2XfsBeZdxSwDhOo6guEjU+0iZRFhLSQfeGaXmEBrVtW
+	zva4TgQjOnZzfFIxwf0x8Ll8uILI
+X-Google-Smtp-Source: AAOMgpfMe1nHNcvcItzs78uFivUhSWTaQf5BcGxx4BIFzDps8hUr9aS1hch6d88FhBBVeB3kukjsrA==
+X-Received: by 2002:a1c:b586:: with SMTP id
+	e128-v6mr1182916wmf.141.1532085330094; 
+	Fri, 20 Jul 2018 04:15:30 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	c5-v6sm1729862wrh.36.2018.07.20.04.15.27
+	67-v6sm1404665wmg.34.2018.07.20.04.15.29
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 20 Jul 2018 04:15:28 -0700 (PDT)
+	Fri, 20 Jul 2018 04:15:29 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 11:15:25 +0000
-Message-Id: <81f848e5d760fdfa20b99a2087afdd44c0bfb515.1532085117.git.Martin.Jansa@gmail.com>
+Date: Fri, 20 Jul 2018 11:15:26 +0000
+Message-Id: <f0c42b1dcae7712bb5de0a57e75a25194ef938b1.1532085117.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1532085117.git.Martin.Jansa@gmail.com>
 References: <cover.1532085117.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/3] linux-firmware: add ${PN}-cypress-license handling from meta-raspberrypi
+Subject: [PATCH 2/3] linux-firmware: update LICENSE for bcm43* packages according to WHENCE file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +57,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 11:15:28 -0000
+X-List-Received-Date: Fri, 20 Jul 2018 11:15:29 -0000
 
-* this will break meta-raspberrypi once more, by including
-  ${PN}-cypress-license package twice in PACKAGES
-  I've sent fix here:
-  https://github.com/agherzan/meta-raspberrypi/pull/295
+* the license was updated
+  brcm/brcmfmac43430-sdio.bin:
+  https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=ec734a30
+  brcm/brcmfmac43340-sdio.bin:
+  https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=5ac5ad5c
+  brcm/brcmfmac43362-sdio.bin:
+  https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=be1c535e
+  brcm/brcmfmac4354-sdio.bin:
+  https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=a2921812
+
+* this shows that with every upgrade the changes in WHENCE file should
+  checked carefully
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../linux-firmware/linux-firmware_git.bb             | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../linux-firmware/linux-firmware_git.bb      | 41 ++++++++++---------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index dff34e3e3a..898c87dcd1 100644
+index 898c87dcd1..480018a7e9 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -14,6 +14,7 @@ LICENSE = "\
-     & Firmware-cavium \
-     & Firmware-chelsio_firmware \
-     & Firmware-cw1200 \
-+    & Firmware-cypress \
-     & Firmware-dib0700 \
-     & Firmware-e100 \
-     & Firmware-ene_firmware \
-@@ -74,6 +75,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
-     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
-     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-+    file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
-     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
-@@ -135,6 +137,7 @@ NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
- NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
- NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
- NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
-+NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
- NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
- NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
- NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
-@@ -233,6 +236,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8168 \
-+             ${PN}-cypress-license \
-              ${PN}-broadcom-license \
-              ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 \
-              ${PN}-bcm43362 ${PN}-bcm4339 ${PN}-bcm43430 ${PN}-bcm4354 \
-@@ -556,6 +560,14 @@ RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm43430 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
+@@ -516,11 +516,7 @@ RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
+ LICENSE_${PN}-bcm4329 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4330 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4334 = "Firmware-broadcom_bcm43xx"
+-LICENSE_${PN}-bcm43340 = "Firmware-broadcom_bcm43xx"
+-LICENSE_${PN}-bcm43362 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4339 = "Firmware-broadcom_bcm43xx"
+-LICENSE_${PN}-bcm43430 = "Firmware-broadcom_bcm43xx"
+-LICENSE_${PN}-bcm4354 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-broadcom-license = "Firmware-broadcom_bcm43xx"
  
-+# For broadcom cypress
-+
-+LICENSE_${PN}-cypress-license = "Firmware-cypress"
-+
-+FILES_${PN}-cypress-license = "\
-+  ${nonarch_base_libdir}/firmware/LICENCE.cypress \
+ FILES_${PN}-broadcom-license = " \
+@@ -535,38 +531,43 @@ FILES_${PN}-bcm4330 = " \
+ FILES_${PN}-bcm4334 = " \
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4334-sdio.bin \
+ "
+-FILES_${PN}-bcm43340 = " \
+-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.bin \
+-"
+-FILES_${PN}-bcm43362 = " \
+-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43362-sdio.bin \
+-"
+ FILES_${PN}-bcm4339 = " \
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4339-sdio.bin \
+ "
+-FILES_${PN}-bcm43430 = " \
+-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin \
+-"
+-FILES_${PN}-bcm4354 = " \
+-  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bin \
+-"
+ 
+ RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
+-RDEPENDS_${PN}-bcm43340 += "${PN}-broadcom-license"
+-RDEPENDS_${PN}-bcm43362 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
+-RDEPENDS_${PN}-bcm43430 += "${PN}-broadcom-license"
+-RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
+ 
+ # For broadcom cypress
+ 
++LICENSE_${PN}-bcm43340 = "Firmware-cypress"
++LICENSE_${PN}-bcm43362 = "Firmware-cypress"
++LICENSE_${PN}-bcm43430 = "Firmware-cypress"
++LICENSE_${PN}-bcm4354 = "Firmware-cypress"
+ LICENSE_${PN}-cypress-license = "Firmware-cypress"
+ 
+ FILES_${PN}-cypress-license = "\
+   ${nonarch_base_libdir}/firmware/LICENCE.cypress \
+ "
++FILES_${PN}-bcm43340 = " \
++  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.bin \
++"
++FILES_${PN}-bcm43362 = " \
++  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43362-sdio.bin \
++"
++FILES_${PN}-bcm43430 = " \
++  ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin \
++"
++FILES_${PN}-bcm4354 = " \
++  ${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bin \
 +"
 +
++RDEPENDS_${PN}-bcm43340 += "${PN}-cypress-license"
++RDEPENDS_${PN}-bcm43362 += "${PN}-cypress-license"
++RDEPENDS_${PN}-bcm43430 += "${PN}-cypress-license"
++RDEPENDS_${PN}-bcm4354 += "${PN}-cypress-license"
+ 
  # For Broadcom bnx2-mips
  #
- # which is a separate case to the other Broadcom firmwares since its
 -- 
 2.17.1
 
