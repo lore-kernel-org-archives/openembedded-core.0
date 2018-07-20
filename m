@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E121578AB2
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id CADCC71985
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 23:46:23 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id v25-v6so7783319wmc.0
+	Fri, 20 Jul 2018 02:04:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42456669"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Jul 2018 10:04:17 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 02F1D4B625E7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2018 16:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=BgTrUv/joxymPCGTBwcGidaiMj6CUuzjQmVtx2Mgn2Y=;
-	b=VYqyj7fh9UcVGknfcRz0ebagK0vTU4NM7hgcoSbIGtOr3ZYEGDeTIZrB1J6PvBxxZA
-	My2Xz+zkztijS7nakm+Dmuiywe4eorVXgIN19E3+F1uC/ci5QUWvz00S0V+aFWgWi5D4
-	9KvRpPwPZmrL+v6Rr5X4U/E/gltw5frsBR25GDPqzPqgcNsmH3TRdQotQ6MFBePc78uE
-	cbOEfkVPjR6ulXTFKvepTyifkg2HPHHymSNwoQ5yu+mGU995wE4V6qIx09u7MDP//Idr
-	KCXtvYwt8SAWUVMEAGxNC9MrajZiRCqNhhrbeG4VJ/GiBWPQXhAN/BpxEvo2a8eyE9nP
-	eaug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=BgTrUv/joxymPCGTBwcGidaiMj6CUuzjQmVtx2Mgn2Y=;
-	b=GehRr8rt7B5dSGE9dc/ZDLX9FZdP3sS+spALXaYlGaWlDWkA8viWBo5oT/+xSlZYu2
-	pxi7T/px6bK7lsVi/S00nH1jrm7X8rh9lwmtik0FO4ZxMrDogipEKW4VPykmwm02kkRl
-	z7lVyMqPVOev9YQHQXQJGb3t3UBgvHQx+suWYTcUaDjYmVcXEK3m/k7QrJ5BgGGCW1OC
-	6+dTP63tuxxTlyfT/zbqUb+0PoWYFV34RG93tLpRvIFbG3oMgf5g8iRYjMJcK33FZigu
-	B375Oym0XblgoCLUtT2weD98pUIf+25TXQ1RCvD1VZGs7EZATVPqJkWvmgOYHL429Hky
-	YbjQ==
-X-Gm-Message-State: AOUpUlEWjPAwxzZ1LV2blUHpKjrZ5rzmDcSI7n6yDITTKW/QlOnJawc7
-	yhJYK+6GwK/DzPVkumR4GCLqF6sOyyk=
-X-Google-Smtp-Source: AAOMgpeyDdRVrSd5nkP3PRn/1pgGrilmjO5GGDU/96cUhyansPrn7rij/qksOvM8YikrYetCztrXHA==
-X-Received: by 2002:a1c:57c1:: with SMTP id l184-v6mr77434wmb.16.1532043984277;
-	Thu, 19 Jul 2018 16:46:24 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	64-v6sm384397wrj.50.2018.07.19.16.46.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Jul 2018 16:46:23 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 00:46:21 +0100
-Message-Id: <20180719234621.26804-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa: rationalise Perl tests
+	Fri, 20 Jul 2018 10:04:16 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Fri, 20 Jul 2018 10:04:16 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jul 2018 10:03:18 +0800
+Message-ID: <1532052198-101385-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: 02F1D4B625E7.A5477
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] sshd: add sshd.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,112 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2018 23:46:24 -0000
+X-List-Received-Date: Fri, 20 Jul 2018 02:04:25 -0000
+Content-Type: text/plain
 
-As with the Python test, this can be both better and faster.  No need to copy a
-file, just run a one-liner.
+Add sshd.service for user to start the sshd daemon.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/lib/oeqa/files/test.pl         |  2 --
- meta/lib/oeqa/runtime/cases/perl.py | 32 ++++----------------------------
- meta/lib/oeqa/sdk/cases/perl.py     | 25 +++++++------------------
- 3 files changed, 11 insertions(+), 48 deletions(-)
- delete mode 100644 meta/lib/oeqa/files/test.pl
+ meta/recipes-connectivity/openssh/openssh/sshd.service | 16 ++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_7.7p1.bb     |  6 ++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd.service
 
-diff --git a/meta/lib/oeqa/files/test.pl b/meta/lib/oeqa/files/test.pl
-deleted file mode 100644
-index 689c8f16355..00000000000
---- a/meta/lib/oeqa/files/test.pl
-+++ /dev/null
-@@ -1,2 +0,0 @@
--$a = 9.01e+21 - 9.01e+21 + 0.01;
--print ("the value of a is ", $a, "\n");
-diff --git a/meta/lib/oeqa/runtime/cases/perl.py b/meta/lib/oeqa/runtime/cases/perl.py
-index d0b7e8ed925..afeeb180e24 100644
---- a/meta/lib/oeqa/runtime/cases/perl.py
-+++ b/meta/lib/oeqa/runtime/cases/perl.py
-@@ -1,37 +1,13 @@
- import os
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.service b/meta/recipes-connectivity/openssh/openssh/sshd.service
+new file mode 100644
+index 0000000..eb87d32
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/sshd.service
+@@ -0,0 +1,16 @@
++[Unit]
++Description=OpenSSH server daemon
++Documentation=man:sshd(8) man:sshd_config(5)
++After=network.target sshd-keygen.service
++Wants=sshd-keygen.service
++
++[Service]
++EnvironmentFile=/etc/sysconfig/sshd
++ExecStart=/usr/sbin/sshd -D $OPTIONS
++ExecReload=/bin/kill -HUP $MAINPID
++KillMode=process
++Restart=on-failure
++RestartSec=42s
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+index b3da5f6..b4f4c6d 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://ssh_config \
+            file://init \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           ${@bb.utils.contains('SSHD_DAEMON', 'service', '${SSHD_DAEMON_SRC_URI}', '', d)} \
+            file://sshd.socket \
+            file://sshd@.service \
+            file://sshdgenkeys.service \
+@@ -30,6 +31,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
  
- from oeqa.runtime.case import OERuntimeTestCase
--from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.runtime.decorator.package import OEHasPackage
+ PAM_SRC_URI = "file://sshd"
  
- class PerlTest(OERuntimeTestCase):
--
--    @classmethod
--    def setUpClass(cls):
--        src = os.path.join(cls.tc.files_dir, 'test.pl')
--        dst = '/tmp/test.pl'
--        cls.tc.target.copyTo(src, dst)
--
--    @classmethod
--    def tearDownClass(cls):
--        dst = '/tmp/test.pl'
--        cls.tc.target.run('rm %s' % dst)
--
--    @OETestID(1141)
--    @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['perl'])
--    def test_perl_exists(self):
--        status, output = self.target.run('which perl')
--        msg = 'Perl binary not in PATH or not on target.'
--        self.assertEqual(status, 0, msg=msg)
--
-     @OETestID(208)
--    @OETestDepends(['perl.PerlTest.test_perl_exists'])
-+    @OEHasPackage(['perl'])
-     def test_perl_works(self):
--        status, output = self.target.run('perl /tmp/test.pl')
--        msg = 'Exit status was not 0. Output: %s' % output
--        self.assertEqual(status, 0, msg=msg)
--
--        msg = 'Incorrect output: %s' % output
--        self.assertEqual(output, "the value of a is 0.01", msg=msg)
-+        status, output = self.target.run("perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'")
-+        self.assertEqual(status, 0)
-+        self.assertEqual(output, "Hello, world")
-diff --git a/meta/lib/oeqa/sdk/cases/perl.py b/meta/lib/oeqa/sdk/cases/perl.py
-index 8085678116c..ff50b468006 100644
---- a/meta/lib/oeqa/sdk/cases/perl.py
-+++ b/meta/lib/oeqa/sdk/cases/perl.py
-@@ -1,8 +1,4 @@
--import os
--import shutil
- import unittest
--
--from oeqa.core.utils.path import remove_safe
- from oeqa.sdk.case import OESDKTestCase
++SSHD_DAEMON_SRC_URI = "file://sshd.service"
++
+ SRC_URI[md5sum] = "68ba883aff6958297432e5877e9a0fe2"
+ SRC_URI[sha256sum] = "d73be7e684e99efcd024be15a30bffcbe41b012b2f7b3c9084aed621775e6b8f"
  
- class PerlTest(OESDKTestCase):
-@@ -12,17 +8,10 @@ class PerlTest(OESDKTestCase):
-                 self.tc.hasHostPackage("perl-native")):
-             raise unittest.SkipTest("No perl package in the SDK")
+@@ -111,6 +114,9 @@ do_install_append () {
+ 	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
  
--        for f in ['test.pl']:
--            shutil.copyfile(os.path.join(self.tc.files_dir, f),
--                    os.path.join(self.tc.sdk_dir, f))
--        self.testfile = os.path.join(self.tc.sdk_dir, "test.pl")
--
--    def test_perl_exists(self):
--        self._run('which perl')
--
--    def test_perl_works(self):
--        self._run('perl %s' % self.testfile)
--
--    @classmethod
--    def tearDownClass(self):
--        remove_safe(self.testfile)
-+    def test_perl(self):
-+        try:
-+            cmd = "perl -e '$_=\"Uryyb, jbeyq\"; tr/a-zA-Z/n-za-mN-ZA-M/;print'"
-+            output = self._run(cmd)
-+            self.assertEqual(output, "Hello, world")
-+        except subprocess.CalledProcessError as e:
-+            self.fail("Unexpected exit %d (output %s)" % (e.returncode, e.output))
+ 	install -d ${D}${systemd_unitdir}/system
++	if [ "${@bb.utils.filter('SSHD_DAEMON', 'service', d)}" ]; then
++	        install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_unitdir}/system
++        fi
+ 	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
+ 	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
+ 	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
 -- 
-2.11.0
+2.7.4
+
+
 
 
