@@ -1,27 +1,49 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EB65574585
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BE9DF744AE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 19:59:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6KJxn7C013292
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 20 Jul 2018 21:08:54 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id p22-v6so8295070uao.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 12:59:49 -0700 (PDT)
-Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 20 Jul 2018 12:59:48 -0700
-To: <changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1531461790-205233-1-git-send-email-changqing.li@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <332517d6-ba4f-79dd-4a79-880ee6b7e374@windriver.com>
-Date: Fri, 20 Jul 2018 15:59:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 20 Jul 2018 14:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jAXFy20+I1I5Ds7qh6aUfmvDMh8GTedkQ5YUECqYphw=;
+	b=knq9VjHFCJ5CqGgROpPd2KnyflyMiQRhzflopBLVt4/UUTmUXuHo3onhqXizgtMeXK
+	wfZvNVi6sFhhaZWwzIgY8VG4QTlz94CmL1GXzoy+VVp8VQ4pl2vOnxaHbp/ukd3OXY02
+	eRWmVSh71gaumbWtgyEuIdEJunpCQJpCmIkEEExeZsoen6HTHIROjWOvm+pXvYeMgT47
+	TfaWmVXPh5/GRMN6WqpvuaCcaIuSGXpBnY93xKJN/Kbp9g/ZV6qygFSRAivyus5+83K+
+	rRAcYF1NAWwyZoHK8FR3bI6SAME3i5npwvM7wWK6SKxH8nvoepbeMR2BZViukjdHRFiB
+	wrCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jAXFy20+I1I5Ds7qh6aUfmvDMh8GTedkQ5YUECqYphw=;
+	b=nsRmq/oiJKUMy6AWL4Kc/yaMxKWrQULqMOeGhun9y1qJlYQV1CvsbwXwPWKTfInBDQ
+	NOGSFQT6blYxM0om+BTdzRptiYNTBP5OLkTWCc7wyOCVQWGH1XcD/qfd1uWcPhOjQotv
+	NYMV/r4t1RsRk79Ex7q/JppBtWls+jGvQZUwEKLZvNjiAOoQkgyAL9kKb6/CWQjsRtWe
+	XvvnaQjHC5BeB/rPThLWl8jHd7muGyS71sFzSOAnCoseeWoQianjQWgPZRsEGR0iNtpp
+	wqIUfaI3QhX1Imr8ugtQ96Lh7taoqpEFC1ifWxhE2xgAYA6sbn9YL3Ek7hQx2FfvI9ok
+	p3OA==
+X-Gm-Message-State: AOUpUlHkfE7KzEbTKU7FRqVlPS4Z21oOZKvvqMbNWXMOPOXNTOFYMi1z
+	AlueN9gafu1aBhUdJytHHIqf4xNP69uosgamH4U=
+X-Google-Smtp-Source: AAOMgpdghgRtYJoZqfVRhgIpniuPXOFT+I/zGuMdRU6xqFXvL5ZO/8INUEaGDP5wnILQxAu7Igm2W5WVU1eA3Ui66pY=
+X-Received: by 2002:ab0:5c9:: with SMTP id e67-v6mr2524720uae.66.1532120935544;
+	Fri, 20 Jul 2018 14:08:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1531461790-205233-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [172.25.44.2]
-Subject: Re: [PATCH] openssh: Restore TCP wrappers support --> remove tcp-wrappers in next release?
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Fri, 20 Jul 2018 14:08:55 -0700 (PDT)
+In-Reply-To: <1520710049-85318-1-git-send-email-juro.bystricky@intel.com>
+References: <1520710049-85318-1-git-send-email-juro.bystricky@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 20 Jul 2018 14:08:55 -0700
+Message-ID: <CAJ86T=WQy=Zn5Nmy5n6voqw4vhgwJt6+vskX4R8ZdiB5HG4FJQ@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl_1.0.2n: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,270 +56,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 19:59:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2018 21:08:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 07/13/2018 02:03 AM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> From: Wenzong Fan <wenzong.fan@windriver.com>
-> 
-> The /etc/hosts.deny doesn't work for sshd without tcp-wrappers support,
-> apply below patch from Debian to fix it.
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+On Sat, Mar 10, 2018 at 11:27 AM, Juro Bystricky
+<juro.bystricky@intel.com> wrote:
+> Improve reproducible build of:
+>
+> openssl-staticdev
+> openssl-dbg
+> libcrypto
+>
+> There are two main causes that prevent reproducible build, both related to
+> the generated file "buildinf.h":
+>
+> 1. "buildinf.h" contains build host CFLAGS, containing various build
+>    host references.  We need to pass sanitized CFLAGS to the script
+>    generating this file ("mkbuildinf.pl". )
+>
+> 2. We also need to modify the script "mkbuildinf.pl" itsel in order to
+>    generate a build timestamp based on SOURCE_DATE_EPOCH, if present in
+>    the environment.
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 > ---
->   .../0001-Restore-TCP-wrappers-support.patch        | 171 +++++++++++++++++++++
->   meta/recipes-connectivity/openssh/openssh_7.7p1.bb |   4 +
->   2 files changed, 175 insertions(+)
->   create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-Restore-TCP-wrappers-support.patch
-> 
-> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-Restore-TCP-wrappers-support.patch b/meta/recipes-connectivity/openssh/openssh/0001-Restore-TCP-wrappers-support.patch
-> new file mode 100644
-> index 0000000..5f3efa6
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh/0001-Restore-TCP-wrappers-support.patch
-> @@ -0,0 +1,171 @@
-> +From 03cdbc92adf763f9ff5bb89f7820f9e1734f745b Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Fri, 13 Jul 2018 12:16:18 +0800
-> +Subject: [PATCH] Restore TCP wrappers support
+>  .../openssl-1.0.2n/reproducible-cflags.patch        | 20 ++++++++++++++++++++
+>  .../openssl-1.0.2n/reproducible-mkbuildinf.patch    | 21 +++++++++++++++++++++
+>  meta/recipes-connectivity/openssl/openssl10.inc     |  3 +++
+>  meta/recipes-connectivity/openssl/openssl_1.0.2n.bb |  5 +++++
+>  4 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2n/reproducible-cflags.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2n/reproducible-mkbuildinf.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+> index 02a0e16..0598195 100644
+> --- a/meta/recipes-connectivity/openssl/openssl10.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl10.inc
+> @@ -162,6 +162,9 @@ do_configure () {
+>
+>  do_compile_prepend_class-target () {
+>      sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
+> +    oe_runmake depend
+> +       cc_sanitized=`echo "${CC} ${CFLAG}" | sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' -e 's|${DEBUG_PREFIX_MAP}||g'`
+> +       oe_runmake CC_INFO="${cc_sanitized}"
+
+Here calls to "oe_runmake depend" and "oe_runmake" are made from the
+target specific do_compile_prepend(), but the original calls (without
+sanitised CC_INFO) are then run again from do_compile(), ie:
+
+  do_compile() {
+    sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
+    oe_runmake depend
+    cc_sanitized=`echo ...`
+    oe_runmake CC_INFO="${cc_sanitized}"
+    oe_runmake depend
+    oe_runmake
+  }
+
+Is the intention really to run "oe_runmake depend" and "oe_runmake" twice?
+
+>  }
+>
+>  do_compile () {
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
+> index 32444c6..f07289d 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2n.bb
+> @@ -43,6 +43,11 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+>             file://0001-Fix-build-with-clang-using-external-assembler.patch \
+>             file://0001-openssl-force-soft-link-to-avoid-rare-race.patch \
+>             "
 > +
-> +Support for TCP wrappers was dropped in OpenSSH 6.7.  See this message
-> +and thread:
-> +
-> +  https://lists.mindrot.org/pipermail/openssh-unix-dev/2014-April/032497.html
-> +
-> +It is true that this reduces preauth attack surface in sshd.  On the
-> +other hand, this support seems to be quite widely used, and abruptly
-> +dropping it (from the perspective of users who don't read
-> +openssh-unix-dev) could easily cause more serious problems in practice.
-> +
-> +Upstream-Status: Inappropriate
-> +
-> +This patch was imported by wenzong firstly, the following sign is not
-> +the origin author, just adjust it to fit for new version of openssh.
-
-I suppose we can do this for one more release but
-we shouldn't carry tcp-wrappers support [1] forever without
-considering alternatives.
-
-
-FYI,
-Fedora has started a process to deprecate tcp-wrappers:
-    https://fedoraproject.org/wiki/Changes/Deprecate_TCP_wrappers
-The first step is to require that individual services use the
-tcp-wrapper tcpd monitor. There is (of course!) a systemd solution:
-   Add simple eBPF-based per-unit IP access lists and accounting
-   https://github.com/systemd/systemd/pull/6764
-That went into v235, in October 2017.
-
-I'm not sure what plans Debian or other distros have.
-Buildroot doesn't seem to support tcp-wrappers at all.
-
-If there are no objections to removing tcp-wrappers from oe-core
-in 2.7/2.8, I will open a YP Bugzilla enhancement next week.
-
-../Randy
-
-
-[1]  There are a number of packages that optionally depend
-      on tcp-wrappers:
-
-oe-core:
-$ rgrep -il "PACKAGECONFIG\[tcp-wrappers\]" *
-meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.1.bb
-meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-meta/recipes-extended/quota/quota_4.04.bb
-meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-meta/recipes-extended/rpcbind/rpcbind_0.2.4.bb
-
-meta-oe:
-$ rgrep -il "PACKAGECONFIG\[tcp-wrappers\]" *
-meta-networking/recipes-daemons/atftp/atftp_git.bb
-meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb
-
-
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +
-> +---
-> + configure.ac | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> + sshd.8       |  7 +++++++
-> + sshd.c       | 26 ++++++++++++++++++++++++++
-> + 3 files changed, 89 insertions(+)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 663062b..a2accdd 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -1542,6 +1542,61 @@ AC_ARG_WITH([skey],
-> + 	]
-> + )
-> +
-> ++#Check whether user wants TCP wrappers support
-> ++TCPW_MSG="no"
-> ++AC_ARG_WITH([tcp-wrappers],
-> ++       [  --with-tcp-wrappers[[=PATH]] Enable tcpwrappers support (optionally in PATH)],
-> ++       [
-> ++               if test "x$withval" != "xno" ; then
-> ++                       saved_LIBS="$LIBS"
-> ++                       saved_LDFLAGS="$LDFLAGS"
-> ++                       saved_CPPFLAGS="$CPPFLAGS"
-> ++                       if test -n "${withval}" && \
-> ++                           test "x${withval}" != "xyes"; then
-> ++                               if test -d "${withval}/lib"; then
-> ++                                       if test -n "${need_dash_r}"; then
-> ++                                               LDFLAGS="-L${withval}/lib -R${withval}/lib ${LDFLAGS}"
-> ++                                       else
-> ++                                               LDFLAGS="-L${withval}/lib ${LDFLAGS}"
-> ++                                       fi
-> ++                               else
-> ++                                       if test -n "${need_dash_r}"; then
-> ++                                               LDFLAGS="-L${withval} -R${withval} ${LDFLAGS}"
-> ++                                       else
-> ++                                               LDFLAGS="-L${withval} ${LDFLAGS}"
-> ++                                       fi
-> ++                               fi
-> ++                               if test -d "${withval}/include"; then
-> ++                                       CPPFLAGS="-I${withval}/include ${CPPFLAGS}"
-> ++                               else
-> ++                                       CPPFLAGS="-I${withval} ${CPPFLAGS}"
-> ++                               fi
-> ++                       fi
-> ++                       LIBS="-lwrap $LIBS"
-> ++                       AC_MSG_CHECKING([for libwrap])
-> ++                       AC_LINK_IFELSE([AC_LANG_PROGRAM([[
-> ++#include <sys/types.h>
-> ++#include <sys/socket.h>
-> ++#include <netinet/in.h>
-> ++#include <tcpd.h>
-> ++int deny_severity = 0, allow_severity = 0;
-> ++                               ]], [[
-> ++       hosts_access(0);
-> ++                               ]])], [
-> ++                                       AC_MSG_RESULT([yes])
-> ++                                       AC_DEFINE([LIBWRAP], [1],
-> ++                                               [Define if you want
-> ++                                               TCP Wrappers support])
-> ++                                       SSHDLIBS="$SSHDLIBS -lwrap"
-> ++                                       TCPW_MSG="yes"
-> ++                               ], [
-> ++                                       AC_MSG_ERROR([*** libwrap missing])
-> ++                       ])
-> ++                       LIBS="$saved_LIBS"
-> ++               fi
-> ++       ]
-> ++)
-> ++
-> + # Check whether user wants to use ldns
-> + LDNS_MSG="no"
-> + AC_ARG_WITH(ldns,
-> +@@ -5216,6 +5271,7 @@ echo "                   OSF SIA support: $SIA_MSG"
-> + echo "                 KerberosV support: $KRB5_MSG"
-> + echo "                   SELinux support: $SELINUX_MSG"
-> + echo "                     S/KEY support: $SKEY_MSG"
-> ++echo "              TCP Wrappers support: $TCPW_MSG"
-> + echo "              MD5 password support: $MD5_MSG"
-> + echo "                   libedit support: $LIBEDIT_MSG"
-> + echo "                   libldns support: $LDNS_MSG"
-> +diff --git a/sshd.8 b/sshd.8
-> +index 968ba66..c8299d5 100644
-> +--- a/sshd.8
-> ++++ b/sshd.8
-> +@@ -845,6 +845,12 @@ the user's home directory becomes accessible.
-> + This file should be writable only by the user, and need not be
-> + readable by anyone else.
-> + .Pp
-> ++.It Pa /etc/hosts.allow
-> ++.It Pa /etc/hosts.deny
-> ++Access controls that should be enforced by tcp-wrappers are defined here.
-> ++Further details are described in
-> ++.Xr hosts_access 5 .
-> ++.Pp
-> + .It Pa /etc/hosts.equiv
-> + This file is for host-based authentication (see
-> + .Xr ssh 1 ) .
-> +@@ -947,6 +953,7 @@ The content of this file is not sensitive; it can be world-readable.
-> + .Xr ssh-keygen 1 ,
-> + .Xr ssh-keyscan 1 ,
-> + .Xr chroot 2 ,
-> ++.Xr hosts_access 5 ,
-> + .Xr login.conf 5 ,
-> + .Xr moduli 5 ,
-> + .Xr sshd_config 5 ,
-> +diff --git a/sshd.c b/sshd.c
-> +index fd95b68..82607d8 100644
-> +--- a/sshd.c
-> ++++ b/sshd.c
-> +@@ -123,6 +123,13 @@
-> + #include "version.h"
-> + #include "ssherr.h"
-> +
-> ++#ifdef LIBWRAP
-> ++#include <tcpd.h>
-> ++#include <syslog.h>
-> ++int allow_severity;
-> ++int deny_severity;
-> ++#endif /* LIBWRAP */
-> ++
-> + /* Re-exec fds */
-> + #define REEXEC_DEVCRYPTO_RESERVED_FD	(STDERR_FILENO + 1)
-> + #define REEXEC_STARTUP_PIPE_FD		(STDERR_FILENO + 2)
-> +@@ -2036,6 +2043,25 @@ main(int ac, char **av)
-> + 	audit_connection_from(remote_ip, remote_port);
-> + #endif
-> +
-> ++#ifdef LIBWRAP
-> ++       allow_severity = options.log_facility|LOG_INFO;
-> ++       deny_severity = options.log_facility|LOG_WARNING;
-> ++       /* Check whether logins are denied from this host. */
-> ++       if (packet_connection_is_on_socket()) {
-> ++               struct request_info req;
-> ++
-> ++               request_init(&req, RQ_DAEMON, __progname, RQ_FILE, sock_in, 0);
-> ++               fromhost(&req);
-> ++
-> ++               if (!hosts_access(&req)) {
-> ++                       debug("Connection refused by tcp wrapper");
-> ++                       refuse(&req);
-> ++                       /* NOTREACHED */
-> ++                       fatal("libwrap refuse returns");
-> ++               }
-> ++       }
-> ++#endif /* LIBWRAP */
-> ++
-> + 	rdomain = ssh_packet_rdomain_in(ssh);
-> +
-> + 	/* Log the connection. */
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> index b3da5f6..0696587 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.7p1.bb
-> @@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->              file://sshd_check_keys \
->              file://add-test-support-for-busybox.patch \
->              file://disable-ciphers-not-supported-by-OpenSSL-DES.patch \
-> +           file://0001-Restore-TCP-wrappers-support.patch \
->              "
->   
->   PAM_SRC_URI = "file://sshd"
-> @@ -61,6 +62,9 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
->   # musl doesn't implement wtmp/utmp
->   EXTRA_OECONF_append_libc-musl = " --disable-wtmp"
->   
-> +PACKAGECONFIG ??= "tcp-wrappers"
-> +PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
-> +
->   # Since we do not depend on libbsd, we do not want configure to use it
->   # just because it finds libutil.h.  But, specifying --disable-libutil
->   # causes compile errors, so...
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+> +SRC_URI_append_class-target = "\
+> +           file://reproducible-cflags.patch \
+> +           file://reproducible-mkbuildinf.patch \
+> +           "
+>  SRC_URI[md5sum] = "13bdc1b1d1ff39b6fd42a255e74676a4"
+>  SRC_URI[sha256sum] = "370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe"
+>
 
