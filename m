@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C368671E4C
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E65F6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 10:39:51 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id j5-v6so10848708wrr.8
+	Fri, 20 Jul 2018 10:39:53 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id h20-v6so9248533wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 03:39:53 -0700 (PDT)
+	Fri, 20 Jul 2018 03:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YRn3BzjFIhN+w3/8v0BkRavH/RHSNo4H9N+YKJ7qI+E=;
-	b=d2Pg++iK5caJhy7h57vbO7/F9JdNNDJhjKVDivROeyv9aVNz50SD3hUyDH27xv2a0W
-	+81pxvRaZpt3inIpjAKa0f6ZI2ht+5rltZ8vIGez3YFqk/IBk5scfQx4u73sBHo0SjWn
-	P1GyactVW12zST/ENxZKWqAqCESynF+q9cZFQ=
+	bh=QRcgOr/IzavONk45jt1DtJh/qdIXw2mePSu0wHSQKYA=;
+	b=EQzg1yUIo8hiM9ObqMmDDlJ/b1sd1ZFwFIsn9NGykwfmsTENXWLOO0EAAffN9UIrHF
+	HYqguHMKB9l/jFDSYJuklafztSoLvLI61DtZ2HEbfvsGoDYqmIG3LAuS9iQ5YpN3x9SY
+	v3ZOX+ElSyQ3ZKK909QsDjb6d2xGVrCHldOKk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=YRn3BzjFIhN+w3/8v0BkRavH/RHSNo4H9N+YKJ7qI+E=;
-	b=JkfCrN+IW0IhXH1sw3aYUwdm2NCgSjJblDMrZfqoplz8z66YMsGffkCj/z+gfzPQWP
-	wc0N3rDZISaiXvJx8Ha9gcq9odrUFsiLD1GEdHTDNwkDihhd1l8z58Ef/iRnAPKs5K91
-	zHG92qEF9wvF06pydbb/oy8zxrEPq9ztIrW11h78pTVK2Lr/l+VyzCk6JOsJgNQ3loIv
-	o+2NLEimMKt6I1UFG6GRbuuxEqxn7l1Tcx1A2/I0CujGeFP7d39nrHp7BDRq4pqRpHJ3
-	JGleoDcvDs5GB6HfXhGZJ8mL9us44KUfB6yc2loqiVBLjv/xJCmBktdq5yWkkR5FSWx9
-	8z2Q==
-X-Gm-Message-State: AOUpUlEBd/jvRmwpZtbhwVGY5VGqxG0uV2tIh7DPjmGZ0hgVRYJ5Tc24
-	vjzVHZuJ98E8Fh86H8E1H2vtAYsX7wCDxA==
-X-Google-Smtp-Source: AAOMgpfF+iSL8Gh0PcGXH21TezH20dBErvK4m6WzFXRDcxMJW90gN6rxz66G7GTwU+CL6yP0Jc4r1w==
-X-Received: by 2002:adf:adc9:: with SMTP id
-	w67-v6mr1059115wrc.135.1532083192287; 
-	Fri, 20 Jul 2018 03:39:52 -0700 (PDT)
+	bh=QRcgOr/IzavONk45jt1DtJh/qdIXw2mePSu0wHSQKYA=;
+	b=pVBsIfJtdlb0Gzq4h/y0qXiUQZ1EY2rj4nZJS+oUKAGeQGuUGrA5h5PVyR9aMyIJLl
+	2ENd+ZihEbZATVw69WcC2HcI/MHz/ET9WwYZoko/CgnLAwxQZbABuxxiSepHUZYCib9n
+	4K/maU5yoqDJokdiqRIAMnZcmVZakslKtSRictYFLYTAQw+MJLdvexRSyE5q1yMoHu/h
+	J77TgSH0xTsEG/CP51RhUrHNt9LBLKkK5dwpE/Q28a9oy1pApT6NyIGF4K6KUbEQNnzO
+	H2VP9DAiMBYxFssVesiROD3FV55Bj97OzEPrGq5WCklPSXV9ntvxvKaQvvtZSK7DS5nQ
+	g3sg==
+X-Gm-Message-State: AOUpUlGiWNaIoapo7LLs5466RyopSewBGNYYp9lRzD0ivuQGAuJLnZh5
+	076fb6h9Grv58jU7dW23EoQO5knihELVAQ==
+X-Google-Smtp-Source: AAOMgpdw02SKL+1x+zNC6kW0x6Agv7ARTjIrYMYKOoQmYciuAeMheKT/8KVfZvhBX4cAEoDdJ1U9VA==
+X-Received: by 2002:a1c:d946:: with SMTP id
+	q67-v6mr1180406wmg.156.1532083193661; 
+	Fri, 20 Jul 2018 03:39:53 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	t184-v6sm1204848wmf.18.2018.07.20.03.39.50
+	t184-v6sm1204848wmf.18.2018.07.20.03.39.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jul 2018 03:39:51 -0700 (PDT)
+	Fri, 20 Jul 2018 03:39:52 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 11:39:40 +0100
-Message-Id: <20180720103948.30044-2-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jul 2018 11:39:41 +0100
+Message-Id: <20180720103948.30044-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
 References: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 02/10] package: Rework PACKAGELOCK based upon sstate for do_packagedata
+Subject: [PATCH 03/10] package_ipk|deb: Use oe.utils.multiprocess_launch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,116 +56,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 10:39:52 -0000
+X-List-Received-Date: Fri, 20 Jul 2018 10:39:53 -0000
 
-I think this lock dates from before we had sstate for do_packagedata.
+The current code had broken exception handling due to the use of a
+"traceback" variable as well as an import. Use the new library code
+for this instead which reduces code duplication and has fixed/improved
+exception handling.
 
-Since WORKDIR is recipe specific and we write into WORKDIR, we no longer need
-any write locks in the do_packagedata code itself, its handled by the sstate
-task lock for the final copy in at the end. The final write lock can be simply
-removed.
-
-The only time we need read locking is when actually reading data from the
-shared directory. We can therefore reduce the window the lock is held
-significantly as well, hence improving the speed of packagedata tasks running
-in parallel.
+The chdir code can be dropped since any directory changes are in other
+processes now so there is no need for it here and the code no longer
+changes directory.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ meta/classes/package_deb.bbclass | 51 +-------------------------------
+ meta/classes/package_ipk.bbclass | 51 +-------------------------------
+ 2 files changed, 2 insertions(+), 100 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 07bc37879c6..6f7015d9129 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1411,9 +1411,6 @@ fi
-     pkgdest = d.getVar('PKGDEST')
-     pkgdatadir = d.getVar('PKGDESTWORK')
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 2e8d17d3c71..6f815916531 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -41,32 +41,6 @@ def debian_arch_map(arch, tune):
+     return arch
  
--    # Take shared lock since we're only reading, not writing
--    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+ python do_package_deb () {
 -
-     data_file = pkgdatadir + d.expand("/${PN}" )
-     f = open(data_file, 'w')
-     f.write("PACKAGES: %s\n" % packages)
-@@ -1518,7 +1515,6 @@ fi
-     if bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d):
-         write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
+-    import multiprocessing
+-    import traceback
+-
+-    class DebianWritePkgProcess(multiprocessing.Process):
+-        def __init__(self, *args, **kwargs):
+-            multiprocessing.Process.__init__(self, *args, **kwargs)
+-            self._pconn, self._cconn = multiprocessing.Pipe()
+-            self._exception = None
+-
+-        def run(self):
+-            try:
+-                multiprocessing.Process.run(self)
+-                self._cconn.send(None)
+-            except Exception as e:
+-                tb = traceback.format_exc()
+-                self._cconn.send((e, tb))
+-
+-        @property
+-        def exception(self):
+-            if self._pconn.poll():
+-                self._exception = self._pconn.recv()
+-            return self._exception
+-
+-    oldcwd = os.getcwd()
+-
+     packages = d.getVar('PACKAGES')
+     if not packages:
+         bb.debug(1, "PACKAGES not defined, nothing to package")
+@@ -76,30 +50,7 @@ python do_package_deb () {
+     if os.access(os.path.join(tmpdir, "stamps", "DEB_PACKAGE_INDEX_CLEAN"),os.R_OK):
+         os.unlink(os.path.join(tmpdir, "stamps", "DEB_PACKAGE_INDEX_CLEAN"))
  
--    bb.utils.unlockfile(lf)
+-    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
+-    launched = []
+-    error = None
+-    pkgs = packages.split()
+-    while not error and pkgs:
+-        if len(launched) < max_process:
+-            p = DebianWritePkgProcess(target=deb_write_pkg, args=(pkgs.pop(), d))
+-            p.start()
+-            launched.append(p)
+-        for q in launched:
+-            # The finished processes are joined when calling is_alive()
+-            if not q.is_alive():
+-                launched.remove(q)
+-            if q.exception:
+-                error, traceback = q.exception
+-                break
+-
+-    for p in launched:
+-        p.join()
+-
+-    os.chdir(oldcwd)
+-
+-    if error:
+-        raise error
++    oe.utils.multiprocess_launch(deb_write_pkg, packages.split(), d, extraargs=(d,))
  }
- emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
+ do_package_deb[vardeps] += "deb_write_pkg"
+ do_package_deb[vardepsexclude] = "BB_NUMBER_THREADS"
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index a0b34fa7a5d..5eb910ca318 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -17,32 +17,6 @@ OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKA
+ OPKGLIBDIR = "${localstatedir}/lib"
  
-@@ -1629,9 +1625,6 @@ python package_do_shlibs() {
- 
-     shlibswork_dir = d.getVar('SHLIBSWORKDIR')
- 
--    # Take shared lock since we're only reading, not writing
--    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+ python do_package_ipk () {
+-    import multiprocessing
+-    import traceback
 -
-     def linux_so(file, needed, sonames, renames, pkgver):
-         needs_ldconfig = False
-         ldir = os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
-@@ -1744,7 +1737,11 @@ python package_do_shlibs() {
-     use_ldconfig = bb.utils.contains('DISTRO_FEATURES', 'ldconfig', True, False, d)
- 
-     needed = {}
-+
-+    # Take shared lock since we're only reading, not writing
-+    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
-     shlib_provider = oe.package.read_shlib_providers(d)
-+    bb.utils.unlockfile(lf)
- 
-     for pkg in shlib_pkgs:
-         private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or d.getVar('PRIVATE_LIBS') or ""
-@@ -1800,8 +1797,6 @@ python package_do_shlibs() {
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
-         bb.debug(1, 'LIBNAMES: pkg %s sonames %s' % (pkg, sonames))
- 
--    bb.utils.unlockfile(lf)
+-    class IPKWritePkgProcess(multiprocessing.Process):
+-        def __init__(self, *args, **kwargs):
+-            multiprocessing.Process.__init__(self, *args, **kwargs)
+-            self._pconn, self._cconn = multiprocessing.Pipe()
+-            self._exception = None
 -
-     assumed_libs = d.getVar('ASSUME_SHLIBS')
-     if assumed_libs:
-         libdir = d.getVar("libdir")
-@@ -1914,9 +1909,6 @@ python package_do_pkgconfig () {
-                             if hdr == 'Requires':
-                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
- 
--    # Take shared lock since we're only reading, not writing
--    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+-        def run(self):
+-            try:
+-                multiprocessing.Process.run(self)
+-                self._cconn.send(None)
+-            except Exception as e:
+-                tb = traceback.format_exc()
+-                self._cconn.send((e, tb))
 -
-     for pkg in packages.split():
-         pkgs_file = os.path.join(shlibswork_dir, pkg + ".pclist")
-         if pkgconfig_provided[pkg] != []:
-@@ -1925,6 +1917,9 @@ python package_do_pkgconfig () {
-                 f.write('%s\n' % p)
-             f.close()
- 
-+    # Take shared lock since we're only reading, not writing
-+    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
-+
-     # Go from least to most specific since the last one found wins
-     for dir in reversed(shlibs_dirs):
-         if not os.path.exists(dir):
-@@ -1940,6 +1935,8 @@ python package_do_pkgconfig () {
-                 for l in lines:
-                     pkgconfig_provided[pkg].append(l.rstrip())
- 
-+    bb.utils.unlockfile(lf)
-+
-     for pkg in packages.split():
-         deps = []
-         for n in pkgconfig_needed[pkg]:
-@@ -1957,8 +1954,6 @@ python package_do_pkgconfig () {
-             for dep in deps:
-                 fd.write(dep + '\n')
-             fd.close()
+-        @property
+-        def exception(self):
+-            if self._pconn.poll():
+-                self._exception = self._pconn.recv()
+-            return self._exception
 -
--    bb.utils.unlockfile(lf)
+-
+-    oldcwd = os.getcwd()
+-
+     workdir = d.getVar('WORKDIR')
+     outdir = d.getVar('PKGWRITEDIRIPK')
+     tmpdir = d.getVar('TMPDIR')
+@@ -61,30 +35,7 @@ python do_package_ipk () {
+     if os.access(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"), os.R_OK):
+         os.unlink(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"))
+ 
+-    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
+-    launched = []
+-    error = None
+-    pkgs = packages.split()
+-    while not error and pkgs:
+-        if len(launched) < max_process:
+-            p = IPKWritePkgProcess(target=ipk_write_pkg, args=(pkgs.pop(), d))
+-            p.start()
+-            launched.append(p)
+-        for q in launched:
+-            # The finished processes are joined when calling is_alive()
+-            if not q.is_alive():
+-                launched.remove(q)
+-            if q.exception:
+-                error, traceback = q.exception
+-                break
+-
+-    for p in launched:
+-        p.join()
+-
+-    os.chdir(oldcwd)
+-
+-    if error:
+-        raise error
++    oe.utils.multiprocess_launch(ipk_write_pkg, packages.split(), d, extraargs=(d,))
  }
- 
- def read_libdep_files(d):
+ do_package_ipk[vardeps] += "ipk_write_pkg"
+ do_package_ipk[vardepsexclude] = "BB_NUMBER_THREADS"
 -- 
 2.17.1
 
