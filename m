@@ -1,18 +1,46 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AB2B78B46;
-	Fri, 20 Jul 2018 10:02:55 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hong Liu <hongl.fnst@cn.fujitsu.com>
-Date: Fri, 20 Jul 2018 10:02:57 -0000
-Message-ID: <20180720100257.13844.47753@do.openembedded.org>
-References: <20180720093813.16328-1-hongl.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180720093813.16328-1-hongl.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgeHo6NS4yLjMgLT4gNS4yLjQ=?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A85F178B2C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2018 10:39:50 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id h20-v6so9248371wmb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2018 03:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=RhkQW9c2wzf4hEdSaOxejMyKKq7ATOTHsJjOE9cYDds=;
+	b=Y2pIcEGslCKx70SDcMuNuVQ3SQYvGJa564SFyWf7kL6bxBq6ZJp8IUtXSWnkQwW5BH
+	QiqAXl34EoWu3iMfI6WegKjoFxAKuqKUTsNy9L+GJ+n+93IcxBcwYGKuNJ9ROaCg/kXG
+	eoqrdrHdLRF9hRkEoif+i9snUd9pN7XS0JRLY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RhkQW9c2wzf4hEdSaOxejMyKKq7ATOTHsJjOE9cYDds=;
+	b=hMsgDUsqNaG+MBiCGK6FTLzdkXoGNFfEtmGdh8SomWdkcTRZiy0b4A2lCaNeQEUKYD
+	VHUHlCec5v6LzbX2J1P1a0//O2POGpWpqTpfqN8CoeSniBJqKOjZMkSvsq2YwrF43nxQ
+	+UTM24cyORXOiqlopPdLMOXpBI5NN//plS1L8/zcelxaUuBDSUXjFJdZ8QqjQd6VVscV
+	/qqiPUfkT4EymR172HPttOcWF/Ot9YDkDQHBjSBRum/ubx3SZwdOMzO+O6k11uRGseg/
+	rSPQnEsKbTUvWolY6/ZyVn4rmD+MAhhEI9qL8mhA0H2nz0Xj1222re/NFKhnXyEe35mP
+	JIbg==
+X-Gm-Message-State: AOUpUlFwg3mvObET2uWkrPPrIRN72/5zlfDZTnrmqEYQX6Matc2iZ5SC
+	p+nyaDoanNXRyqawAA5U7bvMyhZh+FrioA==
+X-Google-Smtp-Source: AAOMgpdItBw58cO/KOWGUEIpRJQ69OSQWosOOGtR0dzepsyDkuG30CHOqC5pltVYGY5cDLrMjJw7hQ==
+X-Received: by 2002:a1c:3e8e:: with SMTP id
+	l136-v6mr1113101wma.45.1532083190892; 
+	Fri, 20 Jul 2018 03:39:50 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t184-v6sm1204848wmf.18.2018.07.20.03.39.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Jul 2018 03:39:50 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2018 11:39:39 +0100
+Message-Id: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/10] utils: Add multiprocess_launch API and testcase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +53,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 10:02:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2018 10:39:50 -0000
 
-== Series Details ==
+The current methods of spawning processes for parallel execution have
+issues around collection of results or exceptions.
 
-Series: xz:5.2.3 -> 5.2.4
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13124/
-State : failure
+Take the code from package_ipk/deb, make it generic, add a results
+collection mechanism, fix the exception handling and for it into a
+standard library function.
 
-== Summary ==
+Also add a test case which tests both the success and failure modes
+of operation to stop this functionality regressiing again.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             LIC_FILES_CHKSUM changed on target xz but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
-  Current checksum file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 
-  New checksum     file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504                     file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oe/utils.py                        | 70 +++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/oelib/utils.py | 46 +++++++++++++-
+ 2 files changed, 115 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 6aed6dc993b..77c1939b8ab 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -1,4 +1,6 @@
+ import subprocess
++import multiprocessing
++import traceback
+ 
+ def read_file(filename):
+     try:
+@@ -280,6 +282,74 @@ def multiprocess_exec(commands, function):
+ 
+     return results
+ 
++# For each item in items, call the function 'target' with item as the first 
++# argument, extraargs as the other arguments and handle any exceptions in the
++# parent thread
++def multiprocess_launch(target, items, d, extraargs=None):
++
++    class ProcessLauch(multiprocessing.Process):
++        def __init__(self, *args, **kwargs):
++            multiprocessing.Process.__init__(self, *args, **kwargs)
++            self._pconn, self._cconn = multiprocessing.Pipe()
++            self._exception = None
++            self._result = None
++
++        def run(self):
++            try:
++                ret = self._target(*self._args, **self._kwargs)
++                self._cconn.send((None, ret))
++            except Exception as e:
++                tb = traceback.format_exc()
++                self._cconn.send((e, tb))
++
++        def update(self):
++            if self._pconn.poll():
++                (e, tb) = self._pconn.recv()
++                if e is not None:
++                    self._exception = (e, tb)
++                else:
++                    self._result = tb
++
++        @property
++        def exception(self):
++            self.update()
++            return self._exception
++
++        @property
++        def result(self):
++            self.update()
++            return self._result
++
++    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
++    launched = []
++    errors = []
++    results = []
++    items = list(items)
++    while (items and not errors) or launched:
++        if not errors and items and len(launched) < max_process:
++            args = (items.pop(),)
++            if extraargs is not None:
++                args = args + extraargs
++            p = ProcessLauch(target=target, args=args)
++            p.start()
++            launched.append(p)
++        for q in launched:
++            # The finished processes are joined when calling is_alive()
++            if not q.is_alive():
++                if q.exception:
++                    errors.append(q.exception)
++                if q.result:
++                    results.append(q.result)
++                launched.remove(q)
++    # Paranoia doesn't hurt
++    for p in launched:
++        p.join()
++    if errors:
++        for (e, tb) in errors:
++            bb.error(str(tb))
++        bb.fatal("Fatal errors occurred in subprocesses, tracebacks printed above")
++    return results
++
+ def squashspaces(string):
+     import re
+     return re.sub("\s+", " ", string).strip()
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+index 9fb6c1576e0..275aeda74eb 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
+@@ -1,5 +1,8 @@
++import sys
+ from unittest.case import TestCase
+-from oe.utils import packages_filter_out_system, trim_version
++from contextlib import contextmanager
++from io import StringIO
++from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch
+ 
+ class TestPackagesFilterOutSystem(TestCase):
+     def test_filter(self):
+@@ -49,3 +52,44 @@ class TestTrimVersion(TestCase):
+         self.assertEqual(trim_version("1.2.3", 2), "1.2")
+         self.assertEqual(trim_version("1.2.3", 3), "1.2.3")
+         self.assertEqual(trim_version("1.2.3", 4), "1.2.3")
++
++
++class TestMultiprocessLaunch(TestCase):
++
++    def test_multiprocesslaunch(self):
++        import bb
++
++        def testfunction(item, d):
++            if item == "2" or item == "1":
++                raise KeyError("Invalid number %s" % item)
++            return "Found %s" % item
++
++        def dummyerror(msg):
++            print("ERROR: %s" % msg)
++
++        @contextmanager
++        def captured_output():
++            new_out, new_err = StringIO(), StringIO()
++            old_out, old_err = sys.stdout, sys.stderr
++            try:
++                sys.stdout, sys.stderr = new_out, new_err
++                yield sys.stdout, sys.stderr
++            finally:
++                sys.stdout, sys.stderr = old_out, old_err
++
++        d = bb.data_smart.DataSmart()
++        bb.error = dummyerror
++
++        # Assert the function returns the right results
++        result = multiprocess_launch(testfunction, ["3", "4", "5", "6"], d, extraargs=(d,))
++        self.assertIn("Found 3", result)
++        self.assertIn("Found 4", result)
++        self.assertIn("Found 5", result)
++        self.assertIn("Found 6", result)
++        self.assertEqual(len(result), 4)
++
++        # Assert the function prints exceptions
++        with captured_output() as (out, err):
++            self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
++        self.assertIn("KeyError: 'Invalid number 1'", out.getvalue())
++        self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
+-- 
+2.17.1
 
 
