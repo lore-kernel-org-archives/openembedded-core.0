@@ -1,46 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A85F178B2C
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C368671E4C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 10:39:50 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id h20-v6so9248371wmb.4
+	Fri, 20 Jul 2018 10:39:51 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id j5-v6so10848708wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 03:39:51 -0700 (PDT)
+	Fri, 20 Jul 2018 03:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=RhkQW9c2wzf4hEdSaOxejMyKKq7ATOTHsJjOE9cYDds=;
-	b=Y2pIcEGslCKx70SDcMuNuVQ3SQYvGJa564SFyWf7kL6bxBq6ZJp8IUtXSWnkQwW5BH
-	QiqAXl34EoWu3iMfI6WegKjoFxAKuqKUTsNy9L+GJ+n+93IcxBcwYGKuNJ9ROaCg/kXG
-	eoqrdrHdLRF9hRkEoif+i9snUd9pN7XS0JRLY=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=YRn3BzjFIhN+w3/8v0BkRavH/RHSNo4H9N+YKJ7qI+E=;
+	b=d2Pg++iK5caJhy7h57vbO7/F9JdNNDJhjKVDivROeyv9aVNz50SD3hUyDH27xv2a0W
+	+81pxvRaZpt3inIpjAKa0f6ZI2ht+5rltZ8vIGez3YFqk/IBk5scfQx4u73sBHo0SjWn
+	P1GyactVW12zST/ENxZKWqAqCESynF+q9cZFQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=RhkQW9c2wzf4hEdSaOxejMyKKq7ATOTHsJjOE9cYDds=;
-	b=hMsgDUsqNaG+MBiCGK6FTLzdkXoGNFfEtmGdh8SomWdkcTRZiy0b4A2lCaNeQEUKYD
-	VHUHlCec5v6LzbX2J1P1a0//O2POGpWpqTpfqN8CoeSniBJqKOjZMkSvsq2YwrF43nxQ
-	+UTM24cyORXOiqlopPdLMOXpBI5NN//plS1L8/zcelxaUuBDSUXjFJdZ8QqjQd6VVscV
-	/qqiPUfkT4EymR172HPttOcWF/Ot9YDkDQHBjSBRum/ubx3SZwdOMzO+O6k11uRGseg/
-	rSPQnEsKbTUvWolY6/ZyVn4rmD+MAhhEI9qL8mhA0H2nz0Xj1222re/NFKhnXyEe35mP
-	JIbg==
-X-Gm-Message-State: AOUpUlFwg3mvObET2uWkrPPrIRN72/5zlfDZTnrmqEYQX6Matc2iZ5SC
-	p+nyaDoanNXRyqawAA5U7bvMyhZh+FrioA==
-X-Google-Smtp-Source: AAOMgpdItBw58cO/KOWGUEIpRJQ69OSQWosOOGtR0dzepsyDkuG30CHOqC5pltVYGY5cDLrMjJw7hQ==
-X-Received: by 2002:a1c:3e8e:: with SMTP id
-	l136-v6mr1113101wma.45.1532083190892; 
-	Fri, 20 Jul 2018 03:39:50 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=YRn3BzjFIhN+w3/8v0BkRavH/RHSNo4H9N+YKJ7qI+E=;
+	b=JkfCrN+IW0IhXH1sw3aYUwdm2NCgSjJblDMrZfqoplz8z66YMsGffkCj/z+gfzPQWP
+	wc0N3rDZISaiXvJx8Ha9gcq9odrUFsiLD1GEdHTDNwkDihhd1l8z58Ef/iRnAPKs5K91
+	zHG92qEF9wvF06pydbb/oy8zxrEPq9ztIrW11h78pTVK2Lr/l+VyzCk6JOsJgNQ3loIv
+	o+2NLEimMKt6I1UFG6GRbuuxEqxn7l1Tcx1A2/I0CujGeFP7d39nrHp7BDRq4pqRpHJ3
+	JGleoDcvDs5GB6HfXhGZJ8mL9us44KUfB6yc2loqiVBLjv/xJCmBktdq5yWkkR5FSWx9
+	8z2Q==
+X-Gm-Message-State: AOUpUlEBd/jvRmwpZtbhwVGY5VGqxG0uV2tIh7DPjmGZ0hgVRYJ5Tc24
+	vjzVHZuJ98E8Fh86H8E1H2vtAYsX7wCDxA==
+X-Google-Smtp-Source: AAOMgpfF+iSL8Gh0PcGXH21TezH20dBErvK4m6WzFXRDcxMJW90gN6rxz66G7GTwU+CL6yP0Jc4r1w==
+X-Received: by 2002:adf:adc9:: with SMTP id
+	w67-v6mr1059115wrc.135.1532083192287; 
+	Fri, 20 Jul 2018 03:39:52 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	t184-v6sm1204848wmf.18.2018.07.20.03.39.49
+	t184-v6sm1204848wmf.18.2018.07.20.03.39.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jul 2018 03:39:50 -0700 (PDT)
+	Fri, 20 Jul 2018 03:39:51 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 11:39:39 +0100
-Message-Id: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jul 2018 11:39:40 +0100
+Message-Id: <20180720103948.30044-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 01/10] utils: Add multiprocess_launch API and testcase
+In-Reply-To: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
+References: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 02/10] package: Rework PACKAGELOCK based upon sstate for do_packagedata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,169 +57,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 10:39:50 -0000
+X-List-Received-Date: Fri, 20 Jul 2018 10:39:52 -0000
 
-The current methods of spawning processes for parallel execution have
-issues around collection of results or exceptions.
+I think this lock dates from before we had sstate for do_packagedata.
 
-Take the code from package_ipk/deb, make it generic, add a results
-collection mechanism, fix the exception handling and for it into a
-standard library function.
+Since WORKDIR is recipe specific and we write into WORKDIR, we no longer need
+any write locks in the do_packagedata code itself, its handled by the sstate
+task lock for the final copy in at the end. The final write lock can be simply
+removed.
 
-Also add a test case which tests both the success and failure modes
-of operation to stop this functionality regressiing again.
+The only time we need read locking is when actually reading data from the
+shared directory. We can therefore reduce the window the lock is held
+significantly as well, hence improving the speed of packagedata tasks running
+in parallel.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/utils.py                        | 70 +++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/oelib/utils.py | 46 +++++++++++++-
- 2 files changed, 115 insertions(+), 1 deletion(-)
+ meta/classes/package.bbclass | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 6aed6dc993b..77c1939b8ab 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -1,4 +1,6 @@
- import subprocess
-+import multiprocessing
-+import traceback
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 07bc37879c6..6f7015d9129 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1411,9 +1411,6 @@ fi
+     pkgdest = d.getVar('PKGDEST')
+     pkgdatadir = d.getVar('PKGDESTWORK')
  
- def read_file(filename):
-     try:
-@@ -280,6 +282,74 @@ def multiprocess_exec(commands, function):
+-    # Take shared lock since we're only reading, not writing
+-    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+-
+     data_file = pkgdatadir + d.expand("/${PN}" )
+     f = open(data_file, 'w')
+     f.write("PACKAGES: %s\n" % packages)
+@@ -1518,7 +1515,6 @@ fi
+     if bb.data.inherits_class('allarch', d) and not bb.data.inherits_class('packagegroup', d):
+         write_extra_runtime_pkgs(global_variants, packages, pkgdatadir)
  
-     return results
+-    bb.utils.unlockfile(lf)
+ }
+ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse ${PKGDESTWORK}/runtime-rprovides"
  
-+# For each item in items, call the function 'target' with item as the first 
-+# argument, extraargs as the other arguments and handle any exceptions in the
-+# parent thread
-+def multiprocess_launch(target, items, d, extraargs=None):
-+
-+    class ProcessLauch(multiprocessing.Process):
-+        def __init__(self, *args, **kwargs):
-+            multiprocessing.Process.__init__(self, *args, **kwargs)
-+            self._pconn, self._cconn = multiprocessing.Pipe()
-+            self._exception = None
-+            self._result = None
-+
-+        def run(self):
-+            try:
-+                ret = self._target(*self._args, **self._kwargs)
-+                self._cconn.send((None, ret))
-+            except Exception as e:
-+                tb = traceback.format_exc()
-+                self._cconn.send((e, tb))
-+
-+        def update(self):
-+            if self._pconn.poll():
-+                (e, tb) = self._pconn.recv()
-+                if e is not None:
-+                    self._exception = (e, tb)
-+                else:
-+                    self._result = tb
-+
-+        @property
-+        def exception(self):
-+            self.update()
-+            return self._exception
-+
-+        @property
-+        def result(self):
-+            self.update()
-+            return self._result
-+
-+    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
-+    launched = []
-+    errors = []
-+    results = []
-+    items = list(items)
-+    while (items and not errors) or launched:
-+        if not errors and items and len(launched) < max_process:
-+            args = (items.pop(),)
-+            if extraargs is not None:
-+                args = args + extraargs
-+            p = ProcessLauch(target=target, args=args)
-+            p.start()
-+            launched.append(p)
-+        for q in launched:
-+            # The finished processes are joined when calling is_alive()
-+            if not q.is_alive():
-+                if q.exception:
-+                    errors.append(q.exception)
-+                if q.result:
-+                    results.append(q.result)
-+                launched.remove(q)
-+    # Paranoia doesn't hurt
-+    for p in launched:
-+        p.join()
-+    if errors:
-+        for (e, tb) in errors:
-+            bb.error(str(tb))
-+        bb.fatal("Fatal errors occurred in subprocesses, tracebacks printed above")
-+    return results
-+
- def squashspaces(string):
-     import re
-     return re.sub("\s+", " ", string).strip()
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/utils.py b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-index 9fb6c1576e0..275aeda74eb 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/utils.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/utils.py
-@@ -1,5 +1,8 @@
-+import sys
- from unittest.case import TestCase
--from oe.utils import packages_filter_out_system, trim_version
-+from contextlib import contextmanager
-+from io import StringIO
-+from oe.utils import packages_filter_out_system, trim_version, multiprocess_launch
+@@ -1629,9 +1625,6 @@ python package_do_shlibs() {
  
- class TestPackagesFilterOutSystem(TestCase):
-     def test_filter(self):
-@@ -49,3 +52,44 @@ class TestTrimVersion(TestCase):
-         self.assertEqual(trim_version("1.2.3", 2), "1.2")
-         self.assertEqual(trim_version("1.2.3", 3), "1.2.3")
-         self.assertEqual(trim_version("1.2.3", 4), "1.2.3")
+     shlibswork_dir = d.getVar('SHLIBSWORKDIR')
+ 
+-    # Take shared lock since we're only reading, not writing
+-    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+-
+     def linux_so(file, needed, sonames, renames, pkgver):
+         needs_ldconfig = False
+         ldir = os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
+@@ -1744,7 +1737,11 @@ python package_do_shlibs() {
+     use_ldconfig = bb.utils.contains('DISTRO_FEATURES', 'ldconfig', True, False, d)
+ 
+     needed = {}
 +
++    # Take shared lock since we're only reading, not writing
++    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+     shlib_provider = oe.package.read_shlib_providers(d)
++    bb.utils.unlockfile(lf)
+ 
+     for pkg in shlib_pkgs:
+         private_libs = d.getVar('PRIVATE_LIBS_' + pkg) or d.getVar('PRIVATE_LIBS') or ""
+@@ -1800,8 +1797,6 @@ python package_do_shlibs() {
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+         bb.debug(1, 'LIBNAMES: pkg %s sonames %s' % (pkg, sonames))
+ 
+-    bb.utils.unlockfile(lf)
+-
+     assumed_libs = d.getVar('ASSUME_SHLIBS')
+     if assumed_libs:
+         libdir = d.getVar("libdir")
+@@ -1914,9 +1909,6 @@ python package_do_pkgconfig () {
+                             if hdr == 'Requires':
+                                 pkgconfig_needed[pkg] += exp.replace(',', ' ').split()
+ 
+-    # Take shared lock since we're only reading, not writing
+-    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
+-
+     for pkg in packages.split():
+         pkgs_file = os.path.join(shlibswork_dir, pkg + ".pclist")
+         if pkgconfig_provided[pkg] != []:
+@@ -1925,6 +1917,9 @@ python package_do_pkgconfig () {
+                 f.write('%s\n' % p)
+             f.close()
+ 
++    # Take shared lock since we're only reading, not writing
++    lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"), True)
 +
-+class TestMultiprocessLaunch(TestCase):
+     # Go from least to most specific since the last one found wins
+     for dir in reversed(shlibs_dirs):
+         if not os.path.exists(dir):
+@@ -1940,6 +1935,8 @@ python package_do_pkgconfig () {
+                 for l in lines:
+                     pkgconfig_provided[pkg].append(l.rstrip())
+ 
++    bb.utils.unlockfile(lf)
 +
-+    def test_multiprocesslaunch(self):
-+        import bb
-+
-+        def testfunction(item, d):
-+            if item == "2" or item == "1":
-+                raise KeyError("Invalid number %s" % item)
-+            return "Found %s" % item
-+
-+        def dummyerror(msg):
-+            print("ERROR: %s" % msg)
-+
-+        @contextmanager
-+        def captured_output():
-+            new_out, new_err = StringIO(), StringIO()
-+            old_out, old_err = sys.stdout, sys.stderr
-+            try:
-+                sys.stdout, sys.stderr = new_out, new_err
-+                yield sys.stdout, sys.stderr
-+            finally:
-+                sys.stdout, sys.stderr = old_out, old_err
-+
-+        d = bb.data_smart.DataSmart()
-+        bb.error = dummyerror
-+
-+        # Assert the function returns the right results
-+        result = multiprocess_launch(testfunction, ["3", "4", "5", "6"], d, extraargs=(d,))
-+        self.assertIn("Found 3", result)
-+        self.assertIn("Found 4", result)
-+        self.assertIn("Found 5", result)
-+        self.assertIn("Found 6", result)
-+        self.assertEqual(len(result), 4)
-+
-+        # Assert the function prints exceptions
-+        with captured_output() as (out, err):
-+            self.assertRaises(bb.BBHandledException, multiprocess_launch, testfunction, ["1", "2", "3", "4", "5", "6"], d, extraargs=(d,))
-+        self.assertIn("KeyError: 'Invalid number 1'", out.getvalue())
-+        self.assertIn("KeyError: 'Invalid number 2'", out.getvalue())
+     for pkg in packages.split():
+         deps = []
+         for n in pkgconfig_needed[pkg]:
+@@ -1957,8 +1954,6 @@ python package_do_pkgconfig () {
+             for dep in deps:
+                 fd.write(dep + '\n')
+             fd.close()
+-
+-    bb.utils.unlockfile(lf)
+ }
+ 
+ def read_libdep_files(d):
 -- 
 2.17.1
 
