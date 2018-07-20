@@ -1,25 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E60EB78A90
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CD6CC78A90
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 15:58:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w6KFwWpC009567
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 16:58:33 +0100
-Message-ID: <e8d9f535385d6520dbd775761c2057b0b66509b0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 20 Jul 2018 16:03:27 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id z13-v6so10316185wma.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2018 09:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=FyjJyvuFTxDWxYsNOB6Sq5i+ChLQL74ZhXMH6d+9bPE=;
+	b=TAzjV60ppE52iXenm1eP3MXkUX3GYXYG+M4ROvfwZavmo7QCqngJPR8OldP39l7gso
+	irPOjVCnpJ/MNt8y9CcxE2iyYjX00ICPEMrP5Kof/aVNNBHi8AWJlEkxiqNU0gsd451K
+	Mp1IDBcDt4AjoA1f0a4tlgUxqoHczgjU5XWkmr/y2xLONEMTRPuKWOd+76RHA6ndzDYY
+	tnlLlwCTk9+DlT6oCZmoHgNxJ3Ki3X0PV+j/lITRcfUvLOOyCoLwMzTUsRdd1IQVjgBE
+	jWo+NmcOK0BXfae4JHZsSvuy7xYQe1uH7YXs2MJr9nS3FuToVzILuO++WRFYVX0iOdDp
+	PSpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=FyjJyvuFTxDWxYsNOB6Sq5i+ChLQL74ZhXMH6d+9bPE=;
+	b=pE8EE6WniuzRH4i2k5iD7rRsDkvkchiT2wSj40//IlR45vYbD9J4ViLvgVtqxET2vS
+	nDyEMWy2WxEVRMbILQX2BZCeedZS5mr0nufVFqyPBWCOsryAhIfTjYvQQoUku9oNBxz8
+	wrGtNZB+ibR9gRMbwIAZBEvGRP8DGXDUQTVS6YlTKW3gAWSFQZlo0kyw3rVSWuHj0dfP
+	YvOwxyNELL8jH9UkTgXzp6vgKr/T7YKdO3QuSfbMg4XxKa3QINbZ3MKeigZVBZYvlK4v
+	v+tjai6QeZNeHfhe9lndOrUZsTbJJb1+YjX1Zr4AjT+VFhWb3yOZv0OT9mCxCa5h2CLC
+	JrAA==
+X-Gm-Message-State: AOUpUlEZzpP0pairBZ1KXmPTWbpLfXemY05qneeX/pz714NY1OJfzPjs
+	tat2VTJxzNPYF7xeLPbp7Qz8OHKt
+X-Google-Smtp-Source: AAOMgpfblOj9RD4tUSqWMm0tLD/aq477/Jr1bRfze9emw8R2xVUXczOR8SuL0goXNCN08xQXc3OzXA==
+X-Received: by 2002:a1c:700a:: with SMTP id
+	l10-v6mr1916094wmc.90.1532102608303; 
+	Fri, 20 Jul 2018 09:03:28 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	e196-v6sm4599197wmf.46.2018.07.20.09.03.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 20 Jul 2018 09:03:27 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 16:58:32 +0100
-In-Reply-To: <20180720154845.4449-1-richard.purdie@linuxfoundation.org>
-References: <20180720154845.4449-1-richard.purdie@linuxfoundation.org>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Request for help - Simple cleanup/optimisation task
+Date: Fri, 20 Jul 2018 16:03:26 +0000
+Message-Id: <20180720160326.18935-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CA+chaQe0U+-KTqnMe015uKuF5ExFY4qq0Brbnx7thOzNLoFvSA@mail.gmail.com>
+References: <CA+chaQe0U+-KTqnMe015uKuF5ExFY4qq0Brbnx7thOzNLoFvSA@mail.gmail.com>
+Subject: [sumo][PATCH] gio-module-cache.bbclass: disable update_gio_module_cache postinst script for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,131 +57,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 15:58:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2018 16:03:28 -0000
 
-On Fri, 2018-07-20 at 16:48 +0100, Richard Purdie wrote:
-> Replace usage of oe.utils.getstatusoutput() with direct subprocess
-> calls. The call is just a wraper to the subprocess call of the same
-> name and requires the caller to handle exceptions themselves. We
-> usually do this badly, failing to show the output or the command or
-> the return code.
-> 
-> Its much safer to rely on a call like subprocess.check_output()
-> instead.
-> 
-> This also makes it easier to spot and remove cases where shell=True
-> isn't needed in a later cleanup.
+* it fails to execute native binary inside the qemu usermode for target
+  arch as shown e.g. for qemuarm and raspberrypi3 build on x86_64
+  builder:
 
-The change below is something I'd worked on to cleaup up code in
-package.bbclass. It removes the oe.utils.getstatusoutput() calls and
-replaced them with subprocess.check_output().
+  qemuarm-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/temp/log.do_populate_sdk:
+    NOTE: > Executing update_gio_module_cache-nativesdk intercept ...
+    WARNING: The postinstall intercept hook 'update_gio_module_cache-nativesdk' failed, details in log.do_populate_sdk
+    qemuarm-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec/nativesdk-gio-querymodules: Invalid ELF image for this architecture
 
-We could really do with replacing the other users of this function
-which a quick grep shows are in the files:
+  qemuarm-webos-linux-gnueabi/my-sdk/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/armv5te-webos-linux-gnueabi/usr/libexec/gio-querymodules:
+    ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.2.0, BuildID[sha1]=5b7f0c77e8ee9587f4e02eaf1d54a1e230e539bd, stripped
+  qemuarm-webos-linux-gnueabi/my-sdk/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec/nativesdk-gio-querymodules:
+    ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.2.0, BuildID[sha1]=eeded124aa53c7ac997dd6326e5d9b75e8d9c43d, stripped
 
-classes/kernel-yocto.bbclass
-classes/compress_doc
-classes/sanity.bbclass
-lib/oe/patch.py
-lib/oe/gpg_sign.py
+  qemuarm-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/intercept_scripts-ac629c4abfb418548877d2a412f7e552bd21e66f0b645b8875dc56ed9f0df40d/update_gio_module_cache-nativesdk
+bindir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/bin
+base_libdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/lib
+libexecdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec
+libdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/lib
+binprefix=nativesdk-
 
-We'd probably need to ensure the output has the .decode("utf-8") if the
-output is used in code, I did that in some of the earlier
-package.bbclass patches but not here.
+set -e
 
-I'm hoping we could then drop some of the custom exception handling
-which is often errorprone/buggy like the patch below.
+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E
+LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
+        $D${libexecdir}/${binprefix}gio-querymodules
+$D${libdir}/gio/modules/
 
-The second step is then to go over the subprocess calls and look at the
-ones specifying shell=True. For example in sanity.bbclass it has:
+[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+        chown root:root $D${libdir}/gio/modules/giomodule.cache
 
-status, result = oe.utils.getstatusoutput("tar --version")
+  raspberrypi3-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/temp/log.do_populate_sdk:
+    NOTE: > Executing update_gio_module_cache-nativesdk intercept ...
+    WARNING: The postinstall intercept hook 'update_gio_module_cache-nativesdk' failed, details in log.do_populate_sdk
+    raspberrypi3-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec/nativesdk-gio-querymodules: Invalid ELF image for this architecture
 
-which could be ["tar", "--version"] as the cmd, then we don't need
-shell=True and we save the process overhead of starting the subshell.
+  raspberrypi3-webos-linux-gnueabi/my-sdk/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/cortexa7t2hf-neon-vfpv4-webos-linux-gnueabi/usr/libexec/gio-querymodules:
+    ELF 32-bit LSB  executable, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.2.0, BuildID[sha1]=5267f1e542b014522af5ab54443d768ba6b47351, stripped
+  raspberrypi3-webos-linux-gnueabi/my-sdk/1.0.0-1-r3/sdk/image/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec/nativesdk-gio-querymodules:
+    ELF 64-bit LSB  executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 3.2.0, BuildID[sha1]=eeded124aa53c7ac997dd6326e5d9b75e8d9c43d, stripped
 
-It sounds trivial but these calls all mount up. Some cases justify the
-shell usage, many don't. shlex may be an option in some cases.
+  raspberrypi3-webos-linux-gnueabi/webos-ndk-basic/1.0.0-1-r3/intercept_scripts-a4270d1427cca0a9d172dbcd8dc262957c8e081c657e1123cc9ad551d65f22ea/update_gio_module_cache-nativesdk
+bindir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/bin
+base_libdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/lib
+libexecdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/libexec
+libdir=/opt/webos-sdk-x86_64/7.0~s14/sysroots/x86_64-webossdk-linux/usr/lib
+binprefix=nativesdk-
 
-Does anyone fancy working on such a cleanup/optimisation? It seems like
-something someone might be happy to help with and see their name in the
-commit logs? :)
+set -e
 
-Cheers,
+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E
+LD_LIBRARY_PATH=$D${libdir}:$D${base_libdir} \
+        $D${libexecdir}/${binprefix}gio-querymodules
+$D${libdir}/gio/modules/
 
-Richard
+[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+        chown root:root $D${libdir}/gio/modules/giomodule.cache
 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/package.bbclass | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 978a8fbeb57..86a6090f1b0 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -430,6 +430,7 @@ def copydebugsources(debugsrcdir, d):
->      # and copied to the destination here.
->  
->      import stat
-> +    import subprocess
->  
->      sourcefile = d.expand("${WORKDIR}/debugsources.list")
->      if debugsrcdir and os.path.isfile(sourcefile):
-> @@ -466,23 +467,20 @@ def copydebugsources(debugsrcdir, d):
->          processdebugsrc += "(cd '%s' ; cpio -pd0mlL --no-preserve-owner '%s%s' 2>/dev/null)"
->  
->          cmd = processdebugsrc % (sourcefile, workbasedir, localsrc_prefix, workparentdir, dvar, debugsrcdir)
-> -        (retval, output) = oe.utils.getstatusoutput(cmd)
-> -        # Can "fail" if internal headers/transient sources are attempted
-> -        #if retval:
-> -        #    bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
-> +        try:
-> +            subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-> +        except subprocess.CalledProcessError:
-> +            # Can "fail" if internal headers/transient sources are attempted
-> +            pass
->  
->          # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
->          # Work around this by manually finding and copying any symbolic links that made it through.
->          cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s' 2>/dev/null)" % (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dvar, debugsrcdir)
-> -        (retval, output) = oe.utils.getstatusoutput(cmd)
-> -        if retval:
-> -            bb.fatal("debugsrc symlink fixup failed with exit code %s (cmd was %s)" % (retval, cmd))
-> +        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->  
->          # The copy by cpio may have resulted in some empty directories!  Remove these
->          cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
-> -        (retval, output) = oe.utils.getstatusoutput(cmd)
-> -        if retval:
-> -            bb.fatal("empty directory removal failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-> +        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->  
->          # Also remove debugsrcdir if its empty
->          for p in nosuchdir[::-1]:
-> @@ -643,6 +641,8 @@ python package_do_split_locales() {
->  }
->  
->  python perform_packagecopy () {
-> +    import subprocess
-> +
->      dest = d.getVar('D')
->      dvar = d.getVar('PKGD')
->  
-> @@ -650,9 +650,7 @@ python perform_packagecopy () {
->      # files to operate on
->      # Preserve sparse files and hard links
->      cmd = 'tar -cf - -C %s -p . | tar -xf - -C %s' % (dest, dvar)
-> -    (retval, output) = oe.utils.getstatusoutput(cmd)
-> -    if retval:
-> -        bb.fatal("file copy failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-> +    subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->  
->      # replace RPATHs for the nativesdk binaries, to make them relocatable
->      if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d):
-> -- 
-> 2.17.1
-> 
+* it isn't needed in master, because nativesdk postinst were fixed by:
+  commit d10fd6ae3fe46290c6e3a5250878966d9f12ca3f
+  Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+  Date:   Mon Jun 11 16:38:20 2018 +0300
+  Subject: qemuwrapper-cross: enable multilib and nativesdk variants of the script
+* which depends on:
+  commit d4f5b8e26acaadffac6df10f9a9d9ebfb3045f5f
+  Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+  Date:   Mon Jun 11 16:38:17 2018 +0300
+  Subject: gtk-immodules-cache.bbclass: convert cache creation to postinst_intercept mechanism
+
+* backporting just these 2 isn't enough, we would need to backport
+  something else as well, otherwise it fails with:
+  webos-ndk-basic/1.0.0-1-r3/intercept_scripts-a4270d1427cca0a9d172dbcd8dc262957c8e081c657e1123cc9ad551d65f22ea/update_gio_module_cache-nativesdk:
+  nativesdk-qemuwrapper: not found
+
+  and at this point I would rather safely disable it for nativesdk
+  in sumo instead of backporting bunch more commits to stable branch
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/gio-module-cache.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/gio-module-cache.bbclass b/meta/classes/gio-module-cache.bbclass
+index e429bd3197..0520c2257f 100644
+--- a/meta/classes/gio-module-cache.bbclass
++++ b/meta/classes/gio-module-cache.bbclass
+@@ -2,6 +2,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+ inherit qemu
+ 
+ GIO_MODULE_PACKAGES ??= "${PN}"
++GIO_MODULE_PACKAGES_class-nativesdk = ""
+ 
+ gio_module_cache_common() {
+ if [ "x$D" != "x" ]; then
+-- 
+2.17.1
+
 
