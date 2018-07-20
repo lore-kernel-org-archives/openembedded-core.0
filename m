@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D5D66025F
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E93745ED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 10:40:00 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id v14-v6so10860766wro.5
+	Fri, 20 Jul 2018 10:40:01 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id t13-v6so1429292wrv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 03:40:01 -0700 (PDT)
+	Fri, 20 Jul 2018 03:40:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/BrcP0ODiy4gF0fA4orxF7ljj4lCBXqjc5OpzHxWFOw=;
-	b=BepX0pShYRFmuvkWbwMn8BjLVbEJNkCdCHqCV090LYuoJgm+XDXlAsLjbF4ELVAgnu
-	m1rTpdGiuBEq2X2e6VUhz+4mwyfwtvfszR0AeZrawECMDNYUjTolXdrOc/yAghDPWdNV
-	84R4BkB/eb7hZKNp23cauktx9icqftMJCVvKk=
+	bh=FBNpRT9CXdFcygGVDqHGw/018cEnVCeafR5ngz8u+Kg=;
+	b=ZM+y/R9qV1c0Eet5cGsw9n+DEc8xOJcDHmVwVgIPSobgKnKGq0fQAMV9wNQJLTUcws
+	LP9WwfLAGE6Ss6vzkYDKEo8S603t/4xm68+La6tqtC1KjSNdIS9lQMpr5yPsv8Vp6MS5
+	mDv7q1i5hMXc44O+A27r0uKiXAtY3VW3UTRqg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=/BrcP0ODiy4gF0fA4orxF7ljj4lCBXqjc5OpzHxWFOw=;
-	b=PeJNgpnMvKfiNE6KXN0kC9APdSLRHvNOPViGy4eO3USy4t1jPdIMs4jwiyIboWXo5I
-	F/wp3hFs/RqTSccmQWVD6MXhYE7JjTgSC4SqXWIh6R4TYnQp1lJrKdFsTrnJa6ZQUxbF
-	XYP/Ow4Vysg3wRsJwVCMmSPUKKB11oNoV974xqvY3zzGh6xlBejuxptDWVxHtE0k6Mcj
-	RuYo1g8eajk3JEqOqhiOm6Jx0JbLojVkAEu7tsZHGpYY+BxFVOSstJB2yPoW1JUBmnfi
-	xE56ONgJ17cqGWSvM+nWZyVEPexgdTZei5fpzBc1JcygzsA4WgHkj9J4ZdVFa22MRTQb
-	E0Yw==
-X-Gm-Message-State: AOUpUlFde8f595OcxGpQYIA/FvRuJA366tzJ4HMJyJaLMD7qsFi1r9DM
-	n1VrjqVWZo04OkJH4BELIKuUuxv/ze9Teg==
-X-Google-Smtp-Source: AAOMgpdFdghTejhU0g5LOxRAq404PRjZcyFZ1UzoKSQZoOQ4jhtfexL4lebCl4AEVQB208/hUq7Nug==
-X-Received: by 2002:adf:8385:: with SMTP id 5-v6mr1114653wre.13.1532083200606; 
-	Fri, 20 Jul 2018 03:40:00 -0700 (PDT)
+	bh=FBNpRT9CXdFcygGVDqHGw/018cEnVCeafR5ngz8u+Kg=;
+	b=IL1Fb1I18lCMsdroABNuEuAfkbxbbUzrAOG34JKlZb9qyXmvFsvYhwy9MS0a8GoAvI
+	+AcQ8K2Gz1oqdQPjfNwQsJI40XtXtGR4gpCIruj9QjK1lVX5YRHal0kxPZShoDhqEoqd
+	EW1jIl7Y+LWRmb2EiJwyaiwkiB/uFBWNSs9pKLVFiB+CUahKkjhUqd4cFczsCUvqI/Bv
+	qEAOqhdvj6le5NdYJek0e15jEyhrxUc6/BLsAPyflMICoHwa80RH28HX7TaRcdt+akEg
+	KRW8Sbr6r6D53JZCywqH0ySEYn8AmL69MN+d9B7iQDnETWJssOWXJg+8CeB7H3906lV+
+	WA/w==
+X-Gm-Message-State: AOUpUlFIG2CnCeIm/no4DLc0Tn+dEq49SH3HQs9TYDP3k7rP8I4MXl9R
+	Tf5y5uyee6dGxVwiyvCAQGc4Np0Z2uESgw==
+X-Google-Smtp-Source: AAOMgpc4PN2AUVFgDpMl2qb11TV8rxn2gJ6g3hwx6woXdAozxg1wBKiT/2C5iDg4D8WoQ0ZJEWcy2g==
+X-Received: by 2002:adf:8481:: with SMTP id 1-v6mr1161147wrg.34.1532083202178; 
+	Fri, 20 Jul 2018 03:40:02 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	t184-v6sm1204848wmf.18.2018.07.20.03.39.59
+	t184-v6sm1204848wmf.18.2018.07.20.03.40.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jul 2018 03:39:59 -0700 (PDT)
+	Fri, 20 Jul 2018 03:40:00 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2018 11:39:46 +0100
-Message-Id: <20180720103948.30044-8-richard.purdie@linuxfoundation.org>
+Date: Fri, 20 Jul 2018 11:39:47 +0100
+Message-Id: <20180720103948.30044-9-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
 References: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 08/10] package: Refactor to remove isElf/is_elf function duplication
+Subject: [PATCH 09/10] package: Call file to determine elf status in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,188 +56,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 10:40:00 -0000
+X-List-Received-Date: Fri, 20 Jul 2018 10:40:02 -0000
 
-There are probably further cleanups needed here but this at least removes
-the major code duplication between these two similar funcitons, keeping the
-kernel module ".ko" extension check for efficiency to avoid opening and
-reading file contents in the general case.
+This allows the calls to is_elf (which calls file) to happen in parallel
+allowing a speedup of do_package and do_populate_sysroot for native
+recipes.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass | 40 ++------------------
- meta/lib/oe/package.py       | 73 +++++++++++++++++++++---------------
- 2 files changed, 47 insertions(+), 66 deletions(-)
+ meta/classes/package.bbclass | 85 +++++++++++++++++++++---------------
+ meta/lib/oe/package.py       |  8 +++-
+ 2 files changed, 56 insertions(+), 37 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 74c96b9b725..222b78fe165 100644
+index 222b78fe165..978a8fbeb57 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -936,38 +936,6 @@ python split_and_strip_files () {
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-     bb.utils.remove(sourcefile)
- 
--    # Return type (bits):
--    # 0 - not elf
--    # 1 - ELF
--    # 2 - stripped
--    # 4 - executable
--    # 8 - shared library
--    # 16 - kernel module
--    def isELF(path):
--        type = 0
--        result = subprocess.check_output(["file", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
--
--        # Not stripped
--        if "ELF" in result:
--            type |= 1
--            if "not stripped" not in result:
--                type |= 2
--            if "executable" in result:
--                type |= 4
--            if "shared" in result:
--                type |= 8
--        return type
--
--    def isStaticLib(path):
--        if path.endswith('.a') and not os.path.islink(path):
--            with open(path, 'rb') as fh:
--                # The magic must include the first slash to avoid
--                # matching golang static libraries
--                magic = b'!<arch>\x0a/'
--                start = fh.read(len(magic))
--                return start == magic
--        return False
--
-     #
-     # First lets figure out all of the files we may have to process ... do this only once!
-     #
-@@ -987,7 +955,7 @@ python split_and_strip_files () {
-                 if file.endswith(".ko") and file.find("/lib/modules/") != -1:
-                     kernmods.append(file)
-                     continue
--                if isStaticLib(file):
-+                if oe.package.is_static_lib(file):
-                     staticlibs.append(file)
-                     continue
- 
-@@ -1017,14 +985,14 @@ python split_and_strip_files () {
-                     # If it's a symlink, and points to an ELF file, we capture the readlink target
+@@ -949,6 +949,8 @@ python split_and_strip_files () {
+     skipfiles = (d.getVar("INHIBIT_PACKAGE_STRIP_FILES") or "").split()
+     if (d.getVar('INHIBIT_PACKAGE_STRIP') != '1' or \
+             d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT') != '1'):
++        checkelf = {}
++        checkelflinks = {}
+         for root, dirs, files in cpath.walk(dvar):
+             for f in files:
+                 file = os.path.join(root, f)
+@@ -982,44 +984,57 @@ python split_and_strip_files () {
+                 # Check its an executable
+                 if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
+                         or ((file.startswith(libdir) or file.startswith(baselibdir)) and (".so" in f or ".node" in f)):
+-                    # If it's a symlink, and points to an ELF file, we capture the readlink target
++
                      if cpath.islink(file):
-                         target = os.readlink(file)
--                        if isELF(ltarget):
--                            #bb.note("Sym: %s (%d)" % (ltarget, isELF(ltarget)))
-+                        if oe.package.is_elf(ltarget):
-+                            #bb.note("Sym: %s (%d)" % (ltarget, oe.package.is_elf(ltarget)))
-                             symlinks[file] = target
+-                        target = os.readlink(file)
+-                        if oe.package.is_elf(ltarget):
+-                            #bb.note("Sym: %s (%d)" % (ltarget, oe.package.is_elf(ltarget)))
+-                            symlinks[file] = target
++                        checkelflinks[file] = ltarget
                          continue
++                    # Use a reference of device ID and inode number to identify files
++                    file_reference = "%d_%d" % (s.st_dev, s.st_ino)
++                    checkelf[file] = (file, file_reference)
++
++        results = oe.utils.multiprocess_launch(oe.package.is_elf, checkelflinks.values(), d)
++        results_map = {}
++        for (ltarget, elf_file) in results:
++            results_map[ltarget] = elf_file
++        for file in checkelflinks:
++            ltarget = checkelflinks[file]
++            # If it's a symlink, and points to an ELF file, we capture the readlink target
++            if results_map[ltarget]:
++                target = os.readlink(file)
++                #bb.note("Sym: %s (%d)" % (ltarget, results_map[ltarget]))
++                symlinks[file] = target
++
++        results = oe.utils.multiprocess_launch(oe.package.is_elf, checkelf.keys(), d)
++        for (file, elf_file) in results:
++            # It's a file (or hardlink), not a link
++            # ...but is it ELF, and is it already stripped?
++            if elf_file & 1:
++                if elf_file & 2:
++                    if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
++                        bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
++                    else:
++                        msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
++                        package_qa_handle_error("already-stripped", msg, d)
++                    continue
  
-                     # It's a file (or hardlink), not a link
-                     # ...but is it ELF, and is it already stripped?
--                    elf_file = isELF(file)
-+                    elf_file = oe.package.is_elf(file)
-                     if elf_file & 1:
-                         if elf_file & 2:
-                             if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
+-                    # It's a file (or hardlink), not a link
+-                    # ...but is it ELF, and is it already stripped?
+-                    elf_file = oe.package.is_elf(file)
+-                    if elf_file & 1:
+-                        if elf_file & 2:
+-                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split():
+-                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
+-                            else:
+-                                msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
+-                                package_qa_handle_error("already-stripped", msg, d)
+-                            continue
+-
+-                        # At this point we have an unstripped elf file. We need to:
+-                        #  a) Make sure any file we strip is not hardlinked to anything else outside this tree
+-                        #  b) Only strip any hardlinked file once (no races)
+-                        #  c) Track any hardlinks between files so that we can reconstruct matching debug file hardlinks
+-
+-                        # Use a reference of device ID and inode number to identify files
+-                        file_reference = "%d_%d" % (s.st_dev, s.st_ino)
+-                        if file_reference in inodes:
+-                            os.unlink(file)
+-                            os.link(inodes[file_reference][0], file)
+-                            inodes[file_reference].append(file)
+-                        else:
+-                            inodes[file_reference] = [file]
+-                            # break hardlink
+-                            bb.utils.copyfile(file, file)
+-                            elffiles[file] = elf_file
+-                        # Modified the file so clear the cache
+-                        cpath.updatecache(file)
++                # At this point we have an unstripped elf file. We need to:
++                #  a) Make sure any file we strip is not hardlinked to anything else outside this tree
++                #  b) Only strip any hardlinked file once (no races)
++                #  c) Track any hardlinks between files so that we can reconstruct matching debug file hardlinks
++
++                # Use a reference of device ID and inode number to identify files
++                file_reference = checkelf[file]
++                if file_reference in inodes:
++                    os.unlink(file)
++                    os.link(inodes[file_reference][0], file)
++                    inodes[file_reference].append(file)
++                else:
++                    inodes[file_reference] = [file]
++                    # break hardlink
++                    bb.utils.copyfile(file, file)
++                    elffiles[file] = elf_file
++                # Modified the file so clear the cache
++                cpath.updatecache(file)
+ 
+     #
+     # First lets process debug splitting
 diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 8a303106a9f..a435d661a62 100644
+index a435d661a62..ac0f44efda1 100644
 --- a/meta/lib/oe/package.py
 +++ b/meta/lib/oe/package.py
-@@ -1,8 +1,11 @@
-+import mmap
-+import subprocess
-+
- def runstrip(arg):
-     # Function to strip a single file, called from split_and_strip_files below
-     # A working 'file' (one which works on the target architecture)
+@@ -74,7 +74,7 @@ def is_elf(path):
+         if "relocatable" in result:
+             if path.endswith(".ko") and path.find("/lib/modules/") != -1 and is_kernel_module(path):
+                 exec_type |= 16
+-    return exec_type
++    return (path, exec_type)
+ 
+ def is_static_lib(path):
+     if path.endswith('.a') and not os.path.islink(path):
+@@ -107,6 +107,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=
      #
--    # The elftype is a bit pattern (explained in split_and_strip_files) to tell
-+    # The elftype is a bit pattern (explained in is_elf below) to tell
-     # us what type of file we're processing...
-     # 4 - executable
-     # 8 - shared library
-@@ -44,6 +47,44 @@ def runstrip(arg):
+     # First lets figure out all of the files we may have to process
+     #
++    checkelf = []
+     for root, dirs, files in os.walk(dstdir):
+         for f in files:
+             file = os.path.join(root, f)
+@@ -132,7 +133,10 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=
  
-     return
- 
-+# Detect .ko module by searching for "vermagic=" string
-+def is_kernel_module(path):
-+    with open(path) as f:
-+        return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
-+
-+# Return type (bits):
-+# 0 - not elf
-+# 1 - ELF
-+# 2 - stripped
-+# 4 - executable
-+# 8 - shared library
-+# 16 - kernel module
-+def is_elf(path):
-+    exec_type = 0
-+    result = subprocess.check_output(["file", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
-+
-+    if "ELF" in result:
-+        exec_type |= 1
-+        if "not stripped" not in result:
-+            exec_type |= 2
-+        if "executable" in result:
-+            exec_type |= 4
-+        if "shared" in result:
-+            exec_type |= 8
-+        if "relocatable" in result:
-+            if path.endswith(".ko") and path.find("/lib/modules/") != -1 and is_kernel_module(path):
-+                exec_type |= 16
-+    return exec_type
-+
-+def is_static_lib(path):
-+    if path.endswith('.a') and not os.path.islink(path):
-+        with open(path, 'rb') as fh:
-+            # The magic must include the first slash to avoid
-+            # matching golang static libraries
-+            magic = b'!<arch>\x0a/'
-+            start = fh.read(len(magic))
-+            return start == magic
-+    return False
- 
- def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=False):
-     """
-@@ -56,35 +97,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, qa_already_stripped=
-     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
-     This is for proper logging and messages only.
-     """
--    import stat, errno, oe.path, oe.utils, mmap, subprocess
--
--    # Detect .ko module by searching for "vermagic=" string
--    def is_kernel_module(path):
--        with open(path) as f:
--            return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
--
--    # Return type (bits):
--    # 0 - not elf
--    # 1 - ELF
--    # 2 - stripped
--    # 4 - executable
--    # 8 - shared library
--    # 16 - kernel module
--    def is_elf(path):
--        exec_type = 0
--        result = subprocess.check_output(["file", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
--
--        if "ELF" in result:
--            exec_type |= 1
--            if "not stripped" not in result:
--                exec_type |= 2
--            if "executable" in result:
--                exec_type |= 4
--            if "shared" in result:
--                exec_type |= 8
--            if "relocatable" in result and is_kernel_module(path):
--                exec_type |= 16
--        return exec_type
-+    import stat, errno, oe.path, oe.utils
- 
-     elffiles = {}
-     inodes = {}
+                 # It's a file (or hardlink), not a link
+                 # ...but is it ELF, and is it already stripped?
+-                elf_file = is_elf(file)
++                checkelf.append(file)
++    results = oe.utils.multiprocess_launch(is_elf, checkelf, d)
++    for (file, elf_file) in results:
++                #elf_file = is_elf(file)
+                 if elf_file & 1:
+                     if elf_file & 2:
+                         if qa_already_stripped:
 -- 
 2.17.1
 
