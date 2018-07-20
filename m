@@ -1,18 +1,47 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D765C75129;
-	Fri, 20 Jul 2018 11:02:50 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 20 Jul 2018 11:02:52 -0000
-Message-ID: <20180720110252.13841.11889@do.openembedded.org>
-References: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180720103948.30044-1-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWxzOiBBZGQgbXVsdGlwcm9jZXNzX2xhdW5jaC4uLiIgYW5kIDkgbW9yZQ==?=
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B472078B53
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2018 11:15:24 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id z13-v6so9411072wma.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2018 04:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=O0fR2MBWsWWXETHqRx4Z+QtagGcKfZGW8hvRdBy6PLU=;
+	b=pemB0hbskqB6Fw7xqeIvWWU9dJxUu4f60NKUERlO4gv3Zk7KTvTU9pZnboG0HDCtYJ
+	zPOFrhxzQQeJQ0BcX0PMF4zNQFYt2vWL0vzaoWQrYelBKcwJ2QybPb9Laj1Y6aEtg/Ao
+	FK2lRw7kbkDfDhh+rDQrNy9jUTfWQ0qyUkOWYgbahBGnfxYb2Z1dJM1fd79Wqg31MCo0
+	kz9sVtJk19H+6D5keaGb2zeV0LKqGlx+f6IJfJbxWXhR+H+aUnsr5wcXFwNjfiM1Y0PE
+	6fs2ujZZsVt6a4ujR0v8JBYKsZYMq5gf0rbMcwbYZocbKMeYb0GTnT8Ma7HBfJvXgoY7
+	BvGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=O0fR2MBWsWWXETHqRx4Z+QtagGcKfZGW8hvRdBy6PLU=;
+	b=gaxyPgHGQLKW3wmsxwCbKBHOw1kBTwE40ncXxncEZIIL55DNJFII3wkBNSlNagnYMr
+	ya6WTcqSqr1T0Nj5bISVFHTNt8i5BdjoBwX3xUsO/21aG66JXtek+oF/lAdsbqo5LFhI
+	0guWzu6TOoq7gJ+IPEdR6ZrJUy4MyJO1IKd+gzS3nyudthG+qzvhPuWxq1GoMuc/TPZA
+	kbSKUkM0NiVW2PymcN2pfeiBJT8AXBnLXOHFvEGNHHJ3VylvbabjAFjWbZKIKwbp+f9S
+	X/0z+OzL1yVhdrC5nGHfs9hMQuidac5+W9N3YOHC3hMjafGEC0iZpv5YaJLZyhz+jshr
+	8gwQ==
+X-Gm-Message-State: AOUpUlEkCtsvjip0VQzd1Y0zL73CJ9/v+qyJY9lCJtMiMrBDmwY7rY1Q
+	otswthiiljqHdT9CRq3qpn6Y3q8l
+X-Google-Smtp-Source: AAOMgpfuZiD/4hRdtKFz+IdL51eIhbOGC2xJQnval+Rfk3JSnDv3Ak+FMKNpX8B67LxUjQdduW+/zA==
+X-Received: by 2002:a1c:dc41:: with SMTP id
+	t62-v6mr1313307wmg.42.1532085325331; 
+	Fri, 20 Jul 2018 04:15:25 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	i2-v6sm1725459wri.53.2018.07.20.04.15.24
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 20 Jul 2018 04:15:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2018 11:15:24 +0000
+Message-Id: <cover.1532085117.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/3] linux-firmware improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 11:02:51 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2018 11:15:24 -0000
 
-== Series Details ==
+I care only about the 1st commit, the rest is just what I've noticed
+while reading the WHENCE file.
 
-Series: "utils: Add multiprocess_launch..." and 9 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13126/
-State : failure
+Separating other packages might be useful for someone, the catch-all
+linux-firmware package is still huge:
 
-== Summary ==
+160M    1_0.0+gitAUTOINC+d114732723-r0.old/packages-split/linux-firmware
+147M    1_0.0+gitAUTOINC+d114732723-r0/packages-split/linux-firmware
 
+The following changes since commit ff0b682b807959521c85716296de7a1d26d7d18f:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  systemd-boot: upgrade to 239 (2018-07-18 10:13:30 +0100)
 
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib jansa/firmware
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/firmware
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ff0b682b80)
+Martin Jansa (3):
+  linux-firmware: add ${PN}-cypress-license handling from
+    meta-raspberrypi
+  linux-firmware: update LICENSE for bcm43* packages according to WHENCE
+    file
+  linux-firmware: add separate packages for all brcm files
 
+ .../linux-firmware/linux-firmware_git.bb      | 194 ++++++++++++++----
+ 1 file changed, 151 insertions(+), 43 deletions(-)
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.17.1
 
 
