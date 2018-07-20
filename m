@@ -1,45 +1,18 @@
-Return-Path: <prvs=67396d1221=adrian.ratiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id BFFC078B53
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 11:16:36 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
-	w6KBG6Vn013529 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 06:16:37 -0500
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2kafrc53fw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 06:16:37 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.16.0.22/8.16.0.22) with ESMTPS id
-	w6KBGbXE025708
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2018 06:16:37 -0500
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 20 Jul 2018 06:16:36 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 20 Jul 2018 06:16:36 -0500
-Received: from ionel-work.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Fri, 20 Jul 2018 06:16:36 -0500
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jul 2018 14:18:16 +0300
-Message-ID: <20180720111816.14125-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.18.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC9B74D58;
+	Fri, 20 Jul 2018 11:35:16 +0000 (UTC)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-07-20_03:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-Subject: [PATCH v3] lsb: fix usrmerge install paths
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 20 Jul 2018 11:35:17 -0000
+Message-ID: <20180720113517.13842.57745@do.openembedded.org>
+References: <cover.1532085117.git.Martin.Jansa@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1532085117.git.Martin.Jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgtZmlybXdhcmUgaW1wcm92ZW1lbnRz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,63 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2018 11:16:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Jul 2018 11:35:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-${base_prefix} is set in bitbake.conf to empty. This makes lsb_release
-always install under /bin which is a problem if usrmerge is in
-DISTRO_FEATURES, because it needs to be installed under /usr/bin.
+== Series Details ==
 
-By using ${root_prefix} instead, we fix the usrmerge install path and
-the following QA warning goes away while keeping the non-usrmerge path
-identical.
+Series: linux-firmware improvements
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13128/
+State : failure
 
-WARNING: lsb-5.0-r0 do_package: QA Issue: lsb: Files/directories were
-installed but not shipped in any package:
-  /bin
-  /bin/lsb_release
-Please set FILES such that these items are packaged. Alternatively
-if they are unneeded, avoid installing them or delete them within do_install.
-lsb: 2 installed and not shipped files. [installed-vs-shipped]
+== Summary ==
 
-Also if usrmerge is defined don't try to create the lib64 symlink
-because base-files handles it to avoid the do_rootfs error
 
-Collected errors:
- * check_data_file_clashes: Package lsb wants to install file
- tmp-glibc/work/x64-nilrt-linux/test-image/1.0-r0/rootfs/lib64
-         But that file is already provided by package  * base-files
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+
+
+* Issue             LIC_FILES_CHKSUM changed on target linux-firmware but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
+  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
+  Current checksum     file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31     file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29     file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3     file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc     file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb     file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570     file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed     file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f     file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa     file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5     file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5     file://LICENCE.tda7706-firmware.txt;md5=835997cf5e3c131d0dddd695c7d9103e     file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f     file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca     file://WHENCE;md5=eaaf310bac02fee05ea1b334f58c5caf 
+  New checksum         file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31     file://LICENSE.amdgpu;md5=0aa3c2f3e736af320a08a3aeeccecf29     file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13     file://LICENSE.atmel;md5=aa74ac0c60595dee4d4e239107ea77a3     file://LICENCE.broadcom_bcm43xx;md5=3160c14df7228891b868060e1951dfbc     file://LICENCE.ca0132;md5=209b33e66ee5be0461f13d31da392198     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921     file://LICENCE.fw_sst_0f28;md5=6353931c988ad52818ae733ac61cd293     file://LICENCE.go7007;md5=c0bb9f6aaaba55b0529ee9b30aa66beb     file://GPL-2;md5=b234ee4d69f5fce4486a80fdaf4a4263     file://LICENSE.hfi1_firmware;md5=5e7b6e586ce7339d12689e49931ad444     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36     file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570     file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b     file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed     file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f     file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa     file://LICENCE.qat_firmware;md5=9e7d8bea77612d7cc7d9e9b54b623062     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5     file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5     file://LICENCE.tda7706-firmware.txt;md5=835997cf5e3c131d0dddd695c7d9103e     file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f     file://LICENCE.wl1251;md5=ad3f81922bb9e197014bb187289d3b5b     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca     file://WHENCE;md5=eaaf310bac02fee05ea1b334f58c5caf 
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/lsb/lsb_5.0.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/lsb/lsb_5.0.bb b/meta/recipes-extended/lsb/lsb_5.0.bb
-index df4812e4bc..d1de334008 100644
---- a/meta/recipes-extended/lsb/lsb_5.0.bb
-+++ b/meta/recipes-extended/lsb/lsb_5.0.bb
-@@ -34,7 +34,7 @@ S = "${WORKDIR}/lsb-release-1.4"
- CLEANBROKEN = "1"
- 
- do_install() {
--	oe_runmake install prefix=${D}${base_prefix} mandir=${D}${datadir}/man/ DESTDIR=${D}
-+	oe_runmake install prefix=${D}${root_prefix} mandir=${D}${datadir}/man/ DESTDIR=${D}
- 
- 	# these two dirs are needed by package lsb-dist-checker
- 	mkdir -p ${D}${sysconfdir}/opt
-@@ -99,7 +99,9 @@ do_install_append() {
-        fi
- 
-        if [ "${TARGET_ARCH}" = "x86_64" ]; then
--               if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
-+       	       # don't symlink if usrmerge is in DISTRO_FEATURES as it manages the symlink
-+               if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','false','true',d)} && \
-+	       	  [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
-                    lnr ${D}${base_libdir} ${D}${base_prefix}/lib64
-                fi
- 	       cd ${D}${base_libdir}
--- 
-2.18.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
