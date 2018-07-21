@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A8F3789FE
+	by mail.openembedded.org (Postfix) with ESMTP id 2D19F78BB8
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 21 Jul 2018 08:20:24 +0000 (UTC)
 Received: from localhost.localdomain (62-178-50-190.cable.dynamic.surfer.at
-	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 7D02616B3
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 4683E16AE
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 21 Jul 2018 10:20:24 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jul 2018 10:20:15 +0200
-Message-Id: <20180721082018.21735-3-dv@pseudoterminal.org>
+Date: Sat, 21 Jul 2018 10:20:14 +0200
+Message-Id: <20180721082018.21735-2-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180721082018.21735-1-dv@pseudoterminal.org>
 References: <20180721082018.21735-1-dv@pseudoterminal.org>
-Subject: [PATCH v3 3/6] gstreamer1.0-plugin-bad: Update packageconfigs
+Subject: [PATCH v3 2/6] gstreamer1.0-plugin-good: Update packageconfigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,136 +29,69 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 21 Jul 2018 08:20:24 -0000
 
-* Add packageconfigs for gl, libde265, lcms2, openh264, tinyalsa, ttml,
-  webrtc, webrtcdsp
-* Add note about neon being dead (and --disable-neon config switch)
-* Remove unnecessary gstglconfig.h line, since that file is no longer
-  part of -bad (it is in -base now)
-* Update EXTRA_OECONF flags, since new plugins got added to -bad
-* Add ttml to the default packageconfigs since its dependencies are
-  all in oe-core
----
- .../gstreamer1.0-plugins-bad_1.14.1.bb        | 35 ++++++++++++++-----
- 1 file changed, 26 insertions(+), 9 deletions(-)
+* There is no twolame recipe in oe-core or in meta-openembedded, so
+  disable it
+* Reorder the packageconfigs alphabetically
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-index 0e477e5a9c..721df60b8d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-@@ -27,9 +27,14 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
--    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile uvch264 webp \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-+    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile ttml uvch264 webp \
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ .../gstreamer/gstreamer1.0-plugins-good_1.14.1.bb   | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+index 36eb3107ae..beae43f915 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.14.1.bb
+@@ -28,20 +28,24 @@ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
+     ${@bb.utils.contains_any('DISTRO_FEATURES', d.getVar('GTK3DISTROFEATURES'), 'gtk', '', d)} \
+-    cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib v4l2 bz2 zlib mpg123 lame \
++    bz2 cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 zlib \
  "
  
-+# the gl packageconfig enables OpenGL elements that haven't been ported
-+# to -base yet. They depend on the gstgl library in -base, so we do
-+# not add GL dependencies here, since these are taken care of in -base.
-+
- PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
- PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
- PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
-@@ -43,13 +48,17 @@ PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
- PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
-+PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,"
- PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
-+PACKAGECONFIG[libde265]        = "--enable-libde265,--disable-libde265,libde265"
- PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
- PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
-+PACKAGECONFIG[lcms2]           = "--enable-lcms2,--disable-lcms2,lcms"
- PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
- PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
- PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
- PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
-+PACKAGECONFIG[openh264]        = "--enable-openh264,--disable-openh264,openh264"
- PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
- # the opus encoder/decoder elements are now in the -base package,
- # but the opus parser remains in -bad
-@@ -61,28 +70,38 @@ PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
- PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
-+PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
-+PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
- PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
- PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
- PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan"
- PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-+PACKAGECONFIG[webrtc]          = "--enable-webrtc,--disable-webrtc,libnice"
-+PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-audio-processing"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
  
- # these plugins have no corresponding library in OE-core or meta-openembedded:
- #   openni2 winks direct3d directsound winscreencap acm apple_media iqa
--#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa libde265
--#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openh264 opensles soundtouch spandsp
--#   spc teletextdec tinyalsa vdpau wasapi x265 zbar webrtcdsp
-+#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa
-+#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openmpt opensles soundtouch
-+#   spandsp spc teletextdec vdpau wasapi x265 zbar
-+
-+# these plugins have been removed from oe-core because their upstream dependencies
-+# are no longer maintained or available:
-+#   neon
++PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
+ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+ PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
+ PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+ PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
++PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
+ PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+ PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
++PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+ PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+ PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
++PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+ PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
+ PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
+@@ -50,11 +54,7 @@ PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2 --enable-v4l2-probe,--disable-gst
+ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+ PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+ PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
+-PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
+ PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
+-PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
+-PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
+-PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
  
- EXTRA_OECONF += " \
-     --enable-decklink \
-     --enable-dvb \
-     --enable-fbdev \
-+    --enable-ipcpipeline \
-     --enable-netsim \
-     --enable-shm \
-     --enable-vcd \
-     --disable-acm \
-     --disable-android_media \
-+    --disable-aom \
-     --disable-apple_media \
-     --disable-avc \
-     --disable-bs2b \
-@@ -97,26 +116,25 @@ EXTRA_OECONF += " \
-     --disable-iqa \
-     --disable-kate \
-     --disable-ladspa \
--    --disable-libde265 \
-     --disable-lv2 \
-     --disable-mpeg2enc \
-     --disable-mplex \
-     --disable-msdk \
-     --disable-musepack \
-+    --disable-neon \
-     --disable-nvenc \
-     --disable-ofa \
-     --disable-openexr \
--    --disable-openh264 \
-+    --disable-openmpt \
-     --disable-openni2 \
-     --disable-opensles \
-     --disable-soundtouch \
-     --disable-spandsp \
-     --disable-spc \
-+    --disable-srt \
-     --disable-teletextdec \
--    --disable-tinyalsa \
-     --disable-vdpau \
-     --disable-wasapi \
--    --disable-webrtcdsp \
-     --disable-wildmidi \
-     --disable-winks \
-     --disable-winscreencap \
-@@ -130,7 +148,6 @@ export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
+ # qt5 support is disabled, because it is not present in OE core, and requires more work than
+ # just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+@@ -71,9 +71,10 @@ EXTRA_OECONF += " \
+     --disable-oss4 \
+     --disable-osx_audio \
+     --disable-osx_video \
++    --disable-qt \
+     --disable-shout2 \
++    --disable-twolame \
+     --disable-waveform \
+-    --disable-qt \
+ "
  
--FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
- FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
- FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
- FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+ FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
 -- 
 2.17.1
 
