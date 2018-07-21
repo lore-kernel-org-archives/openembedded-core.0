@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f44.google.com (mail-pl0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A33878B0D
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+	[209.85.210.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 709E16E688
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jul 2018 16:27:29 +0000 (UTC)
-Received: by mail-pl0-f44.google.com with SMTP id f6-v6so6458149plo.1
+	Sat, 21 Jul 2018 16:27:30 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id b17-v6so256392pfi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jul 2018 09:27:30 -0700 (PDT)
+	Sat, 21 Jul 2018 09:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=F2XLTFfq0gVslWe/7Q5V0zHo60YcKXd5yVgZMG08MGU=;
-	b=ok+AqNmauw/VqR1ZPnmvpZn2QJdUKb1o+f2HXPI8UxAIS8ni1k0Eor1no2gGvTtLfa
-	RxR2RZh86IwGY2z5f2ipRUFLMfLkmrujYk8gbhH+cnSn9N7tKD7RQvr32bs3wCvdSskd
-	tJgoKtCrJl2VacgmT7aFf5+ypO4QzY/PDXWZ2s35O7aj/7k9wF0km24ZPeYlCr/rIpmA
-	Pj2MgDL1i97xvf5dA2sZ3Q4W+h8/OfSfbJ9F4QazszwUqYewqqMMtd7QSEkD2uM3YWdz
-	O39wYVstlTWEO6EuzwD0kJ1ohtGD9h7vGJhLMpdvE8qqsfgI+2QR0DC73fQ7o4j5QFg/
-	QnMQ==
+	bh=RXfqmrIe2VjT9MghBPraX/wDlUY7AhFJEaQeyuFGUB4=;
+	b=I1AkL+IbEnBEH/WhjvgBQOCpGP8sBgbQMwxe2WrP6+vJzcqcVaRg7yCiQZZMYToUlM
+	Jb2tglF//uPLWRSozwKr/53DJ+/vTTbkBmzSxdnXUqjxU+2+Ibe2MwO9FVwRuMuODF9W
+	6SJR8IIzJ26faWAD4WwI9FAXCHMuSTAjWMCYhygUUqJXy8hbzMx9qS7ZvID/Gxx9USN2
+	ige4XJ3UF1gEJLMSKmwCsEmLrd4Yd7eDdLPSVsHg5R8WfJhvfTvS7sQllhhcazBAs4/T
+	Gk3InzfUAXyhjtzMex5S0KYvYdHaTADrDzeUyuo0XuYqEdf1PnELvklzteQCs5DW9G09
+	x+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=F2XLTFfq0gVslWe/7Q5V0zHo60YcKXd5yVgZMG08MGU=;
-	b=ZfJqGgkyF2PUPhM/+KgaLUTqcHYA36m+Db1K8oK+4ub6Vhg6ZAgrIVtXNCY3FTKYYX
-	a+QEpoZUy+8fKmKz32iHKT1P2BF1mcmSkgwAyKtHv+ml1sLSNRp8D3KTXzIOwCMKTRbH
-	9JnK+LoveilNRZt5RZUv+9e0UZxhVTIjhojurIqVtvxaS+YQvCnMLAMPXD2YtP1lqmHm
-	lJnDVas046svFPUTC80EanfrXBESh7p0+7jpxJc6A0e2Yahzd1iHbE/MeMLPV4N0Je9y
-	ebAe3m2S/z7hSMqrYCGt3r58HoJC0KStq8A3cS4dGbYDSIPwbeur8g7GIwmYamx9rDIr
-	VmOw==
-X-Gm-Message-State: AOUpUlGtvUzG+h7Jps8IOgNi9XtOykspDdZXMWF6NhwP1UZVaFBx7+0T
-	BmmLrxoOqFGWRs6t4OABM6xVS1r7
-X-Google-Smtp-Source: AAOMgpdnfDlC67KlUqbgPZNS75j/a0wZSSWYKCQrGnL7t404VuhqBB2ocbxmz7PPJxDym2aGxqf6bA==
-X-Received: by 2002:a17:902:b58b:: with SMTP id
-	a11-v6mr5413057pls.34.1532190450036; 
-	Sat, 21 Jul 2018 09:27:30 -0700 (PDT)
+	bh=RXfqmrIe2VjT9MghBPraX/wDlUY7AhFJEaQeyuFGUB4=;
+	b=OPR3DpSRgxmZIUd6u7Q5x58vq4l4TPzabXTmCki/plfy0j0Rvja6jFN6h9Wq+ZdcLd
+	SSCD0Ctl4kRLxgCmpksy1lG1CMGW/HfDuVv1USi3rXZKZa2YvLdJ6FJlBcxO6wvW8wrY
+	5f69txLyJ4EHE9pxP4VWGzoi5j2182cCV+yNtEJB/mXsIg/9z7venFRU2ETYPFiAKtXU
+	J7J7KMNnYsEcMN4PgUPH4nJJvmsWpV43pE22PRJF6ZFR5cNMP7vBD6Cp+qO+/r1q6anI
+	75KMymxNbDAwGdPBNKmF0xo58aDdanGxM1/GWEUCvHdpl59MoWnxf5R5eVzx6DsdUOMH
+	kzNQ==
+X-Gm-Message-State: AOUpUlESC2YH0Bp8K8DnKKSoxMQ2sysWQEq50j6FRDbQ/lYl2KAIIdM+
+	QK/ja4rOuKF1RyBqtd5XKhyS/Qb8
+X-Google-Smtp-Source: AAOMgpc5irXTq04Uh840NC12u3AkkxNFKz+vlrIdpbeMOeKu7YyFWhn7OW+BF8n7jrk5UF1AgW8kXA==
+X-Received: by 2002:a63:af14:: with SMTP id
+	w20-v6mr6349738pge.47.1532190451204; 
+	Sat, 21 Jul 2018 09:27:31 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:877f:9499::8092])
 	by smtp.gmail.com with ESMTPSA id
-	k26-v6sm14485231pfb.167.2018.07.21.09.27.28
+	k26-v6sm14485231pfb.167.2018.07.21.09.27.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 21 Jul 2018 09:27:29 -0700 (PDT)
+	Sat, 21 Jul 2018 09:27:30 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jul 2018 09:27:13 -0700
-Message-Id: <20180721162715.12611-5-raj.khem@gmail.com>
+Date: Sat, 21 Jul 2018 09:27:14 -0700
+Message-Id: <20180721162715.12611-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20180721162715.12611-1-raj.khem@gmail.com>
 References: <20180721162715.12611-1-raj.khem@gmail.com>
-Subject: [PATCH 5/7] gstreamer1.0-plugins-bad: Find wayland-protocol files in proper location during cross compile
+Subject: [PATCH 6/7] xserver-xorg: Find wayland-protocol files in proper location during cross compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jul 2018 16:27:29 -0000
+X-List-Received-Date: Sat, 21 Jul 2018 16:27:30 -0000
 
 Fixes
-
-| make[3]: *** No rule to make target 'viewporter-protocol.c', needed by 'all'.  Stop.
-| make[3]: Leaving directory '/home/jenkins/oe/world/oe-build/build/tmpfs/work/armv5e-bec-linux-gnueabi/gstreamer1.0-plugins-bad/1.14.1-r0/build/ext/wayland'
-| Makefile:1288: recipe for target 'wayland' failed
-| make[2]: *** [wayland] Error 2
+| make[2]: *** No rule to make target '//usr/share/wayland-protocols/unstable/relative-pointer/relative-pointer-unstable-v1.xml', needed by 'relative-pointer-unstable-v1-client-protocol.h'.  Stop.
+| make[2]: *** Waiting for unfinished jobs....
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
  ...R-for-defining-WAYLAND_PROTOCOLS_DAT.patch | 31 +++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.14.1.bb        | 20 ++++++------
- 2 files changed, 42 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+ .../xorg-xserver/xserver-xorg_1.19.6.bb       |  3 ++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
 new file mode 100644
-index 0000000000..5c14a70cec
+index 0000000000..caad2781a8
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch
 @@ -0,0 +1,31 @@
-+From bfa34a3fa9b426f28163e9ba0539180b021d81f3 Mon Sep 17 00:00:00 2001
++From 03b856b08a2a9403dbd556c48ab4a94338f7893b Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 20 Jul 2018 23:24:05 -0700
++Date: Fri, 20 Jul 2018 23:29:35 -0700
 +Subject: [PATCH] use PKG_CHECK_VAR for defining WAYLAND_PROTOCOLS_DATADIR
 +
 +This allows to override the wayland-protocols pkgdatadir with the
@@ -98,55 +95,36 @@ index 0000000000..5c14a70cec
 + 1 file changed, 2 insertions(+), 1 deletion(-)
 +
 +diff --git a/configure.ac b/configure.ac
-+index 79cfda4..b75c082 100644
++index 14dfc2e..3bd18a0 100644
 +--- a/configure.ac
 ++++ b/configure.ac
-+@@ -1333,7 +1333,8 @@ AG_GST_CHECK_FEATURE(WAYLAND, [wayland sink], wayland , [
-+   PKG_CHECK_MODULES(WAYLAND, wayland-client >= 1.4.0 libdrm >= 2.4.55 wayland-protocols >= 1.4, [
-+     if test "x$wayland_scanner" != "x"; then
-+       HAVE_WAYLAND="yes"
-+-      AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
-++      PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
-++      AC_SUBST(WAYLAND_PROTOCOLS_DATADIR)
-+     else
-+       AC_MSG_RESULT([wayland-scanner is required to build the wayland plugin])
-+       HAVE_WAYLAND="no"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-index 0e477e5a9c..b4fb672b46 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-@@ -1,14 +1,14 @@
- require gstreamer1.0-plugins.inc
- 
--SRC_URI = " \
--    http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
--    file://configure-allow-to-disable-libssh2.patch \
--    file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
--    file://avoid-including-sys-poll.h-directly.patch \
--    file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
--    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
--    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
--"
-+SRC_URI = "http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
-+           file://configure-allow-to-disable-libssh2.patch \
-+           file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
-+           file://avoid-including-sys-poll.h-directly.patch \
-+           file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
-+           file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-+           file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
-+           file://0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
-+           "
- SRC_URI[md5sum] = "c2f963501fc6afc084c418894425dcfd"
- SRC_URI[sha256sum] = "2a77c6908032aafdf2cd2e5823fec948f16a25c2d1497a953828d762dc20d61a"
- 
-@@ -127,6 +127,8 @@ EXTRA_OECONF += " \
- 
- export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
++@@ -2530,7 +2530,8 @@ if test "x$XWAYLAND" = xyes; then
++ 	AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner],,
++ 		     [${WAYLAND_PREFIX}/bin$PATH_SEPARATOR$PATH])
++ 
++-	AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, `$PKG_CONFIG --variable=pkgdatadir wayland-protocols`)
+++	PKG_CHECK_VAR([WAYLAND_PROTOCOLS_DATADIR], [wayland-protocols >= $WAYLAND_PROTOCOLS_REQUIRED], pkgdatadir)
+++	AC_SUBST([WAYLAND_PROTOCOLS_DATADIR])
++ fi
++ 
++ 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
+index c680cf9e89..27d4e75b1e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.19.6.bb
+@@ -5,10 +5,13 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
+             file://0003-modesetting-Fix-16-bit-depth-bpp-mode.patch \
+             file://0003-Remove-check-for-useSIGIO-option.patch \
+             file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
++            file://0001-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+             "
+ SRC_URI[md5sum] = "3e47777ff034a331aed2322b078694a8"
+ SRC_URI[sha256sum] = "a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
  
 +EXTRA_OEMAKE += "WAYLAND_PROTOCOLS_DATADIR=${STAGING_DATADIR}/wayland-protocols"
 +
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
  
 -- 
 2.18.0
