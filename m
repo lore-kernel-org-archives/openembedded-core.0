@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id AAE6878B38
+	by mail.openembedded.org (Postfix) with ESMTP id F32BE78BC5
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 21 Jul 2018 09:24:07 +0000 (UTC)
 Received: from localhost.localdomain (62-178-50-190.cable.dynamic.surfer.at
-	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id 2C69716B5
+	[62.178.50.190]) by ptmx.org (Postfix) with ESMTPSA id ADF4916B7
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 21 Jul 2018 11:24:08 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jul 2018 11:23:59 +0200
-Message-Id: <20180721092402.20271-3-dv@pseudoterminal.org>
+Date: Sat, 21 Jul 2018 11:24:01 +0200
+Message-Id: <20180721092402.20271-5-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180721092402.20271-1-dv@pseudoterminal.org>
 References: <20180721092402.20271-1-dv@pseudoterminal.org>
-Subject: [PATCH v4 3/6] gstreamer1.0-plugin-bad: Update packageconfigs
+Subject: [PATCH v4 5/6] gstreamer1.0-vaapi: Add patch for EGL CFLAGS for proper EGL support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,138 +29,64 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 21 Jul 2018 09:24:08 -0000
 
-* Add packageconfigs for gl, libde265, lcms2, openh264, tinyalsa, ttml,
-  webrtc, webrtcdsp
-* Add note about neon being dead (and --disable-neon config switch)
-* Remove unnecessary gstglconfig.h line, since that file is no longer
-  part of -bad (it is in -base now)
-* Update EXTRA_OECONF flags, since new plugins got added to -bad
-* Add ttml to the default packageconfigs since its dependencies are
-  all in oe-core
-
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../gstreamer1.0-plugins-bad_1.14.1.bb        | 35 ++++++++++++++-----
- 1 file changed, 26 insertions(+), 9 deletions(-)
+ ...le.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch | 33 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-vaapi_1.14.1.bb    |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-index 0e477e5a9c..721df60b8d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.1.bb
-@@ -27,9 +27,14 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
--    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile uvch264 webp \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-+    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile ttml uvch264 webp \
- "
- 
-+# the gl packageconfig enables OpenGL elements that haven't been ported
-+# to -base yet. They depend on the gstgl library in -base, so we do
-+# not add GL dependencies here, since these are taken care of in -base.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
+new file mode 100644
+index 0000000000..d7b8984953
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
+@@ -0,0 +1,33 @@
++From 5403a89e6a7ac72a23e0221075c0c19b5f85a021 Mon Sep 17 00:00:00 2001
++From: Fabio Berton <fabio.berton@ossystems.com.br>
++Date: Wed, 13 Jun 2018 09:09:25 -0300
++Subject: [PATCH] gst/vaapi/Makefile.am: Add EGL_CFLAGS to libgstvaapi CFLAGS
++Organization: O.S. Systems Software LTDA.
 +
- PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
- PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
- PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
-@@ -43,13 +48,17 @@ PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
- PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
-+PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,"
- PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
-+PACKAGECONFIG[libde265]        = "--enable-libde265,--disable-libde265,libde265"
- PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
- PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
-+PACKAGECONFIG[lcms2]           = "--enable-lcms2,--disable-lcms2,lcms"
- PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
- PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
- PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
- PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
-+PACKAGECONFIG[openh264]        = "--enable-openh264,--disable-openh264,openh264"
- PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
- # the opus encoder/decoder elements are now in the -base package,
- # but the opus parser remains in -bad
-@@ -61,28 +70,38 @@ PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
- PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
- PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
-+PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
-+PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
- PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
- PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
- PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan"
- PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
-+PACKAGECONFIG[webrtc]          = "--enable-webrtc,--disable-webrtc,libnice"
-+PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-audio-processing"
- 
- # these plugins have no corresponding library in OE-core or meta-openembedded:
- #   openni2 winks direct3d directsound winscreencap acm apple_media iqa
--#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa libde265
--#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openh264 opensles soundtouch spandsp
--#   spc teletextdec tinyalsa vdpau wasapi x265 zbar webrtcdsp
-+#   android_media avc bs2b chromaprint daala dts fdkaac gme gsm kate ladspa
-+#   lv2 mpeg2enc mplex msdk musepack nvenc ofa openmpt opensles soundtouch
-+#   spandsp spc teletextdec vdpau wasapi x265 zbar
++We need this to pass correctly EGL CFLAGS when building with EGL support.
 +
-+# these plugins have been removed from oe-core because their upstream dependencies
-+# are no longer maintained or available:
-+#   neon
++Upstream-Status: Pending
++
++Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++---
++ gst/vaapi/Makefile.am | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/gst/vaapi/Makefile.am b/gst/vaapi/Makefile.am
++index b299ac98..d6cab71f 100644
++--- a/gst/vaapi/Makefile.am
+++++ b/gst/vaapi/Makefile.am
++@@ -24,6 +24,10 @@ libgstvaapi_LIBS += $(top_builddir)/gst-libs/gst/vaapi/libgstvaapi-glx.la
++ endif
++ 
++ if USE_EGL
+++libgstvaapi_CFLAGS += \
+++	$(EGL_CFLAGS)	\
+++	$(NULL)
+++
++ libgstvaapi_LIBS += $(top_builddir)/gst-libs/gst/vaapi/libgstvaapi-egl.la
++ endif
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.1.bb
+index e647458fab..63290326a5 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.1.bb
+@@ -9,6 +9,7 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- EXTRA_OECONF += " \
-     --enable-decklink \
-     --enable-dvb \
-     --enable-fbdev \
-+    --enable-ipcpipeline \
-     --enable-netsim \
-     --enable-shm \
-     --enable-vcd \
-     --disable-acm \
-     --disable-android_media \
-+    --disable-aom \
-     --disable-apple_media \
-     --disable-avc \
-     --disable-bs2b \
-@@ -97,26 +116,25 @@ EXTRA_OECONF += " \
-     --disable-iqa \
-     --disable-kate \
-     --disable-ladspa \
--    --disable-libde265 \
-     --disable-lv2 \
-     --disable-mpeg2enc \
-     --disable-mplex \
-     --disable-msdk \
-     --disable-musepack \
-+    --disable-neon \
-     --disable-nvenc \
-     --disable-ofa \
-     --disable-openexr \
--    --disable-openh264 \
-+    --disable-openmpt \
-     --disable-openni2 \
-     --disable-opensles \
-     --disable-soundtouch \
-     --disable-spandsp \
-     --disable-spc \
-+    --disable-srt \
-     --disable-teletextdec \
--    --disable-tinyalsa \
-     --disable-vdpau \
-     --disable-wasapi \
--    --disable-webrtcdsp \
-     --disable-wildmidi \
-     --disable-winks \
-     --disable-winscreencap \
-@@ -130,7 +148,6 @@ export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
++           file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
+           "
  
--FILES_${PN}-dev += "${libdir}/gstreamer-${LIBV}/include/gst/gl/gstglconfig.h"
- FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
- FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
- FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+ SRC_URI[md5sum] = "38c5b2390797b7a0a269a5ab6c8cbe8f"
 -- 
 2.17.1
 
