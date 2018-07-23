@@ -1,51 +1,49 @@
-Return-Path: <taborskikrzysztof@gmail.com>
-Received: from mail-yw0-f176.google.com (mail-yw0-f176.google.com
-	[209.85.161.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 801A774FE8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 572FE74F9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 12:57:10 +0000 (UTC)
-Received: by mail-yw0-f176.google.com with SMTP id v197-v6so170166ywg.3
+	Mon, 23 Jul 2018 13:16:07 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id n11-v6so1168783wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 05:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4Oz7TV2fn+rKGbBxE+36xNd+IPJiSf+qgNuDeq9sT4Q=;
-	b=BcmbMzwnvfZuNPIuINSvbB+p6NAgUrAIxEL2lWMycPj2JaqyzDRbF46kZU35UxdnK+
-	4uJzeV+vKOE2HQzp9kyYyo169wset1Jv9asdWcfi6MAc58UP6iJnygS6ZqtiBMENf9oQ
-	FMfOypdrDBS10z+W23H5AUwheGddWQaWeEVVt9aewDbnv/oIuqlsKH5tDSy4zskgEsqv
-	1QmlcHmCQZhn0SLyTENxm/CNNFETcxpGrzJxlHP51uwbyrKRRIt0LG0Ml6vxRuGUN/NE
-	scFs1NOQfOX/5l2CWCcOQqeb4/seKn7Pm1f8qMCxF9QTQzwfWrl3U0tu1jutxGqmz1G/
-	aZwg==
+	Mon, 23 Jul 2018 06:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=UHJC8NBY7vOna0fwkVW5gKTsjEps51JIkw7zjSG78bs=;
+	b=vE70X1FKuMJnphHKt+6jHZ5gbHZz5JC6v8cBh4qe4GvSknz4TSWQx4MdvWSUYGj/hH
+	4dN7Ie+6nZ+Max2c5PttdmRJxXvVdhEKOdRUp3VZcwfxSCESZIO497nWfG/+wXY3j0NU
+	2I8/eS0RT28CE8En9gQCxP6JwrnxmM3x1n5wx8AWwT+TmeHCLFKHnAJsJzRzq8Tt9Uw4
+	y0hRFQlWmWej8YMTALlq1maD4aFFc+v6fo5U4QDEPSbmqLm/TOwtI457LUq6cW3UOAiA
+	J91CkNNEQ/UOZtVtmQaXCQDGTWnxOIx7eWlCKIFatfsG93B9x6w7CCYfncgnCdpk/H6O
+	caeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4Oz7TV2fn+rKGbBxE+36xNd+IPJiSf+qgNuDeq9sT4Q=;
-	b=Tptdzi75uvFifxpnGw6IyDLOivt1hr/8tGtJN1oRg68HwiTr8hKfTUbFWp9yUAT/Ta
-	mb8raPtshM0pwSrLiatSNRmEh1UsHJK01ghAqSQvspcycG1OQeUrVrbNMyQV3BPrZlSO
-	AcR7fXYGpIVWTxHfS67JIBjS2HJlifuN6WgSW0GvQNro0L+3UzoyUFTIyvEyWkRfnAHq
-	wLBAhDBqLAOZiBMXv2jB9DVOICR8Y0gizL90ZjHrUzThAyhss5knGGeUPv4Sy8q66FE1
-	9fALTmHEr2r1UJblUnwfEQxqQEKxvxwwbMlaS70ztGDkoz8vUT6wVcDVka/ffdj+M1Lo
-	7NsQ==
-X-Gm-Message-State: AOUpUlGkrF+dIUpocWu8pekwxwRc1vVe+Bifsl9/Qg77GyteXZvBamF4
-	MthVRIu+LlKUwOd8yI0Miur8QGcHcslA4dnqxPE=
-X-Google-Smtp-Source: AAOMgpdgfwb+MUcw2szy1tOIUKJ8I1tPY63mcACEV/DyYXhj/97OytE3MZGaOabimVyNfN1AHlkgyj2775i3aCWi3yc=
-X-Received: by 2002:a81:6bc6:: with SMTP id
-	g189-v6mr6541390ywc.267.1532350631306; 
-	Mon, 23 Jul 2018 05:57:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a5b:2cf:0:0:0:0:0 with HTTP;
-	Mon, 23 Jul 2018 05:57:10 -0700 (PDT)
-In-Reply-To: <CAJ86T=Wxh3SzsATsvtB8+CWadp=hjEBXTt1XnwYMFJ4zmVaQ1Q@mail.gmail.com>
-References: <20180508164658.2935-1-taborskikrzysztof@gmail.com>
-	<5af302bc.1c69fb81.44885.4061@mx.google.com>
-	<CAJ86T=Wxh3SzsATsvtB8+CWadp=hjEBXTt1XnwYMFJ4zmVaQ1Q@mail.gmail.com>
-From: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-Date: Mon, 23 Jul 2018 14:57:10 +0200
-Message-ID: <CAFmD+WEeyHwEQs825up0Q=yF4n3gvQU-eav3RZdJ9nt5NLECwQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] perl: native modules will not trigger build perl for target.
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UHJC8NBY7vOna0fwkVW5gKTsjEps51JIkw7zjSG78bs=;
+	b=W0av1/G8aZ2YOET6Vwgzl35TjZTRZtxuGSdGgKkPGuvhtbjbohCJBw4eoUnEfOA5ho
+	8knN/xnzu9qFviok44G6Kiy4j2/8mvLraZ36cVod/V5ZMJsoEokYpdq6LHEe7/Sld/S1
+	FPQH7NrO5XOU31mYDkzaqiQmWWfpoqKPYe18XC0SiP33fkJWGJD8aVltVXm5oW8eq5nS
+	clrxA0VUV7UV6AVK4qXsix7sKdsWZn/Xg6kYKf1q6bSahdzzL7qq6oC5Ztj5p0mVtN1N
+	yfzII9ePcNY90Cyloqb1kMHp7Prj2/UHebvdDXdTrQSyueVQ437JVTLXtPin+bWXsy/a
+	5rrg==
+X-Gm-Message-State: AOUpUlFMJ3CHuxVu09Kp0kd6jn/J9hx0PtR+gN1vBI+Ku5vVRxCjFS2j
+	CLTDRI9CXx+th5XEFIiYdRG25+nP5nE=
+X-Google-Smtp-Source: AAOMgpdnErlbZ5wS+/SPQjgoabhjYjtb+99EU4NRDQpH9biBeEU/bwMDQfnV+Z+Qm+WnsSfCGxo1uQ==
+X-Received: by 2002:a1c:228b:: with SMTP id
+	i133-v6mr7898104wmi.69.1532351767372; 
+	Mon, 23 Jul 2018 06:16:07 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	31-v6sm13124996wra.26.2018.07.23.06.16.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Jul 2018 06:16:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2018 14:16:04 +0100
+Message-Id: <20180723131604.24326-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] iputils: upgrade to s20190629
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,217 +56,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 12:57:10 -0000
-Content-Type: multipart/alternative; boundary="0000000000000cecc50571aa2fdc"
+X-List-Received-Date: Mon, 23 Jul 2018 13:16:07 -0000
 
---0000000000000cecc50571aa2fdc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Drop upstreamed patch.
 
-Change was already merged:
-http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools=
-?id=3D7dd9772eca6df52db09b65537fdf689f1aa3fd8f
+Change license checksums to check the License files themselves (BSD3 and GPL2),
+and the tool-to-license file (LICENSE).  Changes to LICENSE will now be
+detected.
 
-Is your request still valid?
+Update libidn build-dependency to libidn2.
 
-2018-07-09 21:40 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../iputils/files/0001-Fix-build-on-MUSL.patch     | 95 ----------------------
+ .../{iputils_s20161105.bb => iputils_s20180629.bb} | 18 ++--
+ 2 files changed, 8 insertions(+), 105 deletions(-)
+ delete mode 100644 meta/recipes-extended/iputils/files/0001-Fix-build-on-MUSL.patch
+ rename meta/recipes-extended/iputils/{iputils_s20161105.bb => iputils_s20180629.bb} (70%)
 
-> On Wed, May 9, 2018 at 7:16 AM, taborskikrzysztof
-> <taborskikrzysztof@gmail.com> wrote:
-> > Can I request review?
-> > -------- Oryginalna wiadomo=C5=9B=C4=87 --------
-> > Od: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> > Data: 08.05.2018 18:46 (GMT+01:00)
-> > Do: openembedded-core@lists.openembedded.org
-> > DW: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> > Temat: [meta-oe][PATCH] perl: native modules will not trigger build per=
-l
-> for
-> > target.
-> >
-> > Currently building perl-native modules triggers
-> > build perl for target due to PACKAGES_DYNAMIC regex.
-> >
-> > This commit will cause, that perl native modules will
-> > trigger perl-native build.
->
-> Can you give an example of how to reproduce the problem?
->
-> > Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
-> > ---
-> > meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
-> > meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
-> > 2 files changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> > b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> > index a9ab17d16c..71f45890b0 100644
-> > --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> > +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-> > @@ -135,3 +135,5 @@ EOF
-> >
-> > # Fix the path in sstate
-> > SSTATE_SCAN_FILES +=3D "*.pm *.pod *.h *.pl *.sh"
-> > +PACKAGES_DYNAMIC_class-native +=3D "^perl-module-.*native$"
->
-> This usage of +=3D with an over-ride is not correct.
->
-> However, regardless of that, was this change actually needed?
->
-> If you know of a -native recipe which depends on a
-> perl-module-XXX-native package then it's probably a bug in the -native
-> recipe. Having perl-native pretend to provide perl-module packages
-> probably isn't the right solution.
->
-> > diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
-> > b/meta/recipes-devtools/perl/perl_5.24.1.bb
-> > index 53a426289a..4c6a71082f 100644
-> > --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-> > +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-> > @@ -339,7 +339,7 @@ python split_perl_packages () {
-> >      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), ' '.join(packages)=
-)
-> > }
-> >
-> > -PACKAGES_DYNAMIC +=3D "^perl-module-.*"
-> > +PACKAGES_DYNAMIC +=3D "^perl-module-.*(?<!\-native)$"
-> > PACKAGES_DYNAMIC_class-nativesdk +=3D "^nativesdk-perl-module-.*"
->
-> This usage of +=3D with an over-ride is not correct.
->
-> > RPROVIDES_perl-lib =3D "perl-lib"
-> > --
-> > 2.13.6
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
->
+diff --git a/meta/recipes-extended/iputils/files/0001-Fix-build-on-MUSL.patch b/meta/recipes-extended/iputils/files/0001-Fix-build-on-MUSL.patch
+deleted file mode 100644
+index ce8cfebbb03..00000000000
+--- a/meta/recipes-extended/iputils/files/0001-Fix-build-on-MUSL.patch
++++ /dev/null
+@@ -1,95 +0,0 @@
+-From c6c5966d9fae27bc2f0a34ab59b999555111bd2d Mon Sep 17 00:00:00 2001
+-From: Aric Belsito <lluixhi@gmail.com>
+-Date: Sun, 29 Oct 2017 23:17:03 +0100
+-Subject: [PATCH] Fix build on MUSL
+-
+-Add missing AI_IDN and NI_IDN declarations.
+-
+-Bug: https://bugs.gentoo.org/503914
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- arping.c      |  7 +++++++
+- ping.h        | 11 +++++++++++
+- tracepath.c   |  8 ++++++++
+- traceroute6.c |  4 ++++
+- 4 files changed, 30 insertions(+)
+-
+-diff --git a/arping.c b/arping.c
+-index 1a3f40b..531d29d 100644
+---- a/arping.c
+-+++ b/arping.c
+-@@ -45,6 +45,13 @@ struct sysfs_devattr_values;
+- #ifdef USE_IDN
+- #include <idna.h>
+- #include <locale.h>
+-+
+-+#ifndef AI_IDN
+-+#define AI_IDN 0x0040
+-+#endif
+-+#ifndef AI_CANONIDN
+-+#define AI_CANONIDN 0x0080
+-+#endif
+- #endif
+- 
+- #include "SNAPSHOT.h"
+-diff --git a/ping.h b/ping.h
+-index 749f3ff..227315f 100644
+---- a/ping.h
+-+++ b/ping.h
+-@@ -38,6 +38,17 @@
+- #include <locale.h>
+- #include <idna.h>
+- #include <stringprep.h>
+-+
+-+#ifndef AI_IDN
+-+#define AI_IDN 0x0040
+-+#endif
+-+#ifndef AI_CANONIDN
+-+#define AI_CANONIDN 0x0080
+-+#endif
+-+#ifndef NI_IDN
+-+#define NI_IDN 32
+-+#endif
+-+
+- #define getaddrinfo_flags (AI_CANONNAME | AI_IDN | AI_CANONIDN)
+- #define getnameinfo_flags NI_IDN
+- #else
+-diff --git a/tracepath.c b/tracepath.c
+-index 74a829d..dcec5b9 100644
+---- a/tracepath.c
+-+++ b/tracepath.c
+-@@ -30,6 +30,14 @@
+- #ifdef USE_IDN
+- #include <idna.h>
+- #include <locale.h>
+-+
+-+#ifndef AI_IDN
+-+#define AI_IDN 0x0040
+-+#endif
+-+#ifndef NI_IDN
+-+#define NI_IDN 32
+-+#endif
+-+
+- #define getnameinfo_flags	NI_IDN
+- #else
+- #define getnameinfo_flags	0
+-diff --git a/traceroute6.c b/traceroute6.c
+-index 48fc5c5..8d1eebf 100644
+---- a/traceroute6.c
+-+++ b/traceroute6.c
+-@@ -251,6 +251,10 @@
+- #include <idna.h>
+- #include <locale.h>
+- 
+-+#ifndef NI_IDN
+-+#define NI_IDN 32
+-+#endif
+-+
+- #define getnameinfo_flags	NI_IDN
+- #else
+- #define getnameinfo_flags	0
+--- 
+-2.15.1
+-
+diff --git a/meta/recipes-extended/iputils/iputils_s20161105.bb b/meta/recipes-extended/iputils/iputils_s20180629.bb
+similarity index 70%
+rename from meta/recipes-extended/iputils/iputils_s20161105.bb
+rename to meta/recipes-extended/iputils/iputils_s20180629.bb
+index 0125739b034..d421cc34e77 100644
+--- a/meta/recipes-extended/iputils/iputils_s20161105.bb
++++ b/meta/recipes-extended/iputils/iputils_s20180629.bb
+@@ -6,25 +6,23 @@ SECTION = "console/network"
+ 
+ LICENSE = "BSD & GPLv2+"
+ 
+-LIC_FILES_CHKSUM = "file://ping.c;beginline=1;endline=35;md5=f9ceb201733e9a6cf8f00766dd278d82 \
+-                    file://tracepath.c;beginline=1;endline=10;md5=0ecea2bf60bff2f3d840096d87647f3d \
+-                    file://arping.c;beginline=1;endline=11;md5=fe84301b5c2655c950f8b92a057fafa6 \
+-                    file://tftpd.c;beginline=1;endline=32;md5=28834bf8a91a5b8a92755dbee709ef96 "
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b792e38abdc59f766a3153908f23e766 \
++                    file://LICENSE.BSD3;md5=0f00d99239d922ffd13cabef83b33444 \
++                    file://LICENSE.GPL2;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ DEPENDS = "gnutls libcap libgcrypt"
+ 
+-SRC_URI = "git://github.com/iputils/iputils \
+-           file://0001-Fix-build-on-MUSL.patch \
+-           "
++SRC_URI = "git://github.com/iputils/iputils"
++SRCREV = "f6aac8dbe3f8c45c53424854a3312bdd8cdd58d3"
++
+ S = "${WORKDIR}/git"
+-SRCREV = "bffc0e957b98d626ab4cea218c89251201425442"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
+ 
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+-PACKAGECONFIG ?= ""
+-PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn"
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn2"
+ 
+ do_compile () {
+ 	oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" ${PACKAGECONFIG_CONFARGS} all
+-- 
+2.11.0
 
 
-
---=20
-Pozdrawiam,
-Krzysiek Taborski
-
---0000000000000cecc50571aa2fdc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Change was already merged:<br><a href=3D"http://cgit.=
-openembedded.org/openembedded-core/commit/meta/recipes-devtools?id=3D7dd977=
-2eca6df52db09b65537fdf689f1aa3fd8f">http://cgit.openembedded.org/openembedd=
-ed-core/commit/meta/recipes-devtools?id=3D7dd9772eca6df52db09b65537fdf689f1=
-aa3fd8f</a><br><br></div>Is your request still valid?<br></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">2018-07-09 21:40 GMT+02:00 =
-Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" =
-target=3D"_blank">armccurdy@gmail.com</a>&gt;</span>:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">On Wed, May 9, 2018 at 7:16 AM, taborskikrzysztof<br>
-&lt;<a href=3D"mailto:taborskikrzysztof@gmail.com">taborskikrzysztof@gmail.=
-com</a>&gt; wrote:<br>
-&gt; Can I request review?<br>
-<span class=3D"">&gt; -------- Oryginalna wiadomo=C5=9B=C4=87 --------<br>
-&gt; Od: Krzysztof Taborski &lt;<a href=3D"mailto:taborskikrzysztof@gmail.c=
-om">taborskikrzysztof@gmail.com</a>&gt;<br>
-&gt; Data: 08.05.2018 18:46 (GMT+01:00)<br>
-&gt; Do: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
-bedded-core@lists.<wbr>openembedded.org</a><br>
-&gt; DW: Krzysztof Taborski &lt;<a href=3D"mailto:taborskikrzysztof@gmail.c=
-om">taborskikrzysztof@gmail.com</a>&gt;<br>
-&gt; Temat: [meta-oe][PATCH] perl: native modules will not trigger build pe=
-rl for<br>
-&gt; target.<br>
-&gt;<br>
-&gt; Currently building perl-native modules triggers<br>
-&gt; build perl for target due to PACKAGES_DYNAMIC regex.<br>
-&gt;<br>
-&gt; This commit will cause, that perl native modules will<br>
-&gt; trigger perl-native build.<br>
-<br>
-</span>Can you give an example of how to reproduce the problem?<br>
-<span class=3D""><br>
-&gt; Signed-off-by: Krzysztof Taborski &lt;<a href=3D"mailto:taborskikrzysz=
-tof@gmail.com">taborskikrzysztof@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" re=
-l=3D"noreferrer" target=3D"_blank">per<wbr>l-native_5.24.1.bb</a> | 2 ++<br=
->
-&gt; meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"no=
-referrer" target=3D"_blank">per<wbr>l_5.24.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 2 +-<br>
-&gt; 2 files changed, 3 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_=
-5.24.1.bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb<=
-/a><br>
-&gt; b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.bb" =
-rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-&gt; index a9ab17d16c..71f45890b0 100644<br>
-&gt; --- a/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/perl/<a href=3D"http://perl-native_5.24.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl-native_5.24.1.bb</a><br>
-&gt; @@ -135,3 +135,5 @@ EOF<br>
-&gt;<br>
-&gt; # Fix the path in sstate<br>
-&gt; SSTATE_SCAN_FILES +=3D &quot;*.pm *.pod *.h *.pl *.sh&quot;<br>
-&gt; +PACKAGES_DYNAMIC_class-native +=3D &quot;^perl-module-.*native$&quot;=
-<br>
-<br>
-</span>This usage of +=3D with an over-ride is not correct.<br>
-<br>
-However, regardless of that, was this change actually needed?<br>
-<br>
-If you know of a -native recipe which depends on a<br>
-perl-module-XXX-native package then it&#39;s probably a bug in the -native<=
-br>
-recipe. Having perl-native pretend to provide perl-module packages<br>
-probably isn&#39;t the right solution.<br>
-<span class=3D""><br>
-&gt; diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-&gt; b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=3D"=
-noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-&gt; index 53a426289a..4c6a71082f 100644<br>
-&gt; --- a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.24.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">p<wbr>erl_5.24.1.bb</a><br>
-&gt; @@ -339,7 +339,7 @@ python split_perl_packages () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 d.setVar(d.expand(&quot;<wbr>RRECOMMENDS_${PN}-mod=
-ules&quot;), &#39; &#39;.join(packages))<br>
-&gt; }<br>
-&gt;<br>
-&gt; -PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*&quot;<br>
-&gt; +PACKAGES_DYNAMIC +=3D &quot;^perl-module-.*(?&lt;!\-native)$<wbr>&quo=
-t;<br>
-&gt; PACKAGES_DYNAMIC_class-<wbr>nativesdk +=3D &quot;^nativesdk-perl-modul=
-e-.*&quot;<br>
-<br>
-</span>This usage of +=3D with an over-ride is not correct.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; RPROVIDES_perl-lib =3D &quot;perl-lib&quot;<br>
-&gt; --<br>
-&gt; 2.13.6<br>
-&gt;<br>
-&gt;<br>
-</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.<wbr>openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
-wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-&gt;<br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr">P=
-ozdrawiam,<div>Krzysiek Taborski</div></div></div>
-</div>
-
---0000000000000cecc50571aa2fdc--
