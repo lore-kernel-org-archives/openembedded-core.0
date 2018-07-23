@@ -1,53 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C118D74C37
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 16F59746E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 11:51:28 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id b15-v6so389920wrv.10
+	Mon, 23 Jul 2018 12:31:21 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id e7-v6so519694wrs.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 04:51:30 -0700 (PDT)
+	Mon, 23 Jul 2018 05:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JySazNr1g+k/XbcFZOUadvNP1A2aJcLmLp3YQ1t6UzQ=;
-	b=bgBjBjABVqpJlXo9eYKIkgyOzKDtxWiORqzqlPSSuOuijHd/oPkOkxkWoljEYKD3eV
-	rbBVnJxeOASO35WP+2MGSoXYOxcogfv++KKf+ZiDoXWIlEvzKX+c9l6uI01vGHvk/1ZS
-	5MQygZdaLlzRzeVfeOSHeDqEPnOlzqCPqwikhgUMBwlTQqYg124Ed/XYn84Op7t6Gb7I
-	L03/s83QwLssuDA2qE67jU/Xr+0Jepyme40QhJeDEf8IZCp6WmC6dck3x9FEHAwa8cs/
-	1wA8fH6qBNbPg5hF3zUptqgQfqhhMUkmKk4gz9jwu0jL9/uS9fnEX9rYNXXgeAChuRCY
-	1bVA==
+	h=from:to:subject:date:message-id;
+	bh=GbUguiEzvNWpomjcuxn2PgEISHGTSC81rUYPlqq/SiA=;
+	b=IkvT2aCMhlNa5qvoQlIzFz/eWFlPR2BGi86TL4MxHeq4KTMBNnU6+7hTimWrE6jdHu
+	1mbkb7oXotTWwQBQX4jCqhW4RyuGpradHVyeb2FEhzefK2CMbgf8/aaXM4fgqASziIfq
+	tw2OcXVst+VUZsHEbfm56b06bzwyT2ujGGNKjrXSkn6jUbFRpzjZ2tCQbr0ROfxz7R0Y
+	Y32Zg/qWu05ur0Z6leR/Q7B9MSXSIfxGumsv3SEkLB/BR9E3UTQbEIT0EVGH9kUF97Jt
+	41OVR5dd6792hdtqofRVhGYc+4ufhakZIJoQ3V91RGAvVfuad2x2YY1uUFvdOCctaQ4y
+	Ueng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=JySazNr1g+k/XbcFZOUadvNP1A2aJcLmLp3YQ1t6UzQ=;
-	b=Wy22sZ5UsdA3wj2Xc/RyvTT5y7emIXR9S8TrwQ4FUvgr8Rww4XNOgDZsq26rgUMVTb
-	uAMCfvdR/4haYh4vnddjt2WxCIzCI2ZPx7mq4yUSC32U8uzI28RoNizCsfPXtHbi/9U5
-	8wlwNMHAjJKJveM+bYHCn0gM8nwoxZQ6F4LcFMeAM5UgHmzoOiaVzxvXWCosQpW6eSJq
-	2QwyWlJdV8HcvSJX/eVodp8w8lBo9MhZcyy8qU+GNOhTDQo2GZn0DOlm8c5PcoutXe7k
-	d15TDQqQQCl3J/rdUkwMauBOro6aHyJIMPUOihcNGFoBqKocW934TrVhsqE/0u7McC06
-	zS2Q==
-X-Gm-Message-State: AOUpUlEeQO7VqCN03QUVvC5keRm74hhyAc0CcoLbrzoIZO4Gm+LoVYIj
-	JsbOwR2+VC1ZFTtALs26pWSyviu/KO4=
-X-Google-Smtp-Source: AAOMgpc2yls8oxG5gL8jE6hBmNsoy/2K3cv8GCLs3knZsy6UCQTVa3RTlv55N8P8p6g+siFgXcRO6Q==
-X-Received: by 2002:a5d:550a:: with SMTP id
-	b10-v6mr8667062wrv.228.1532346689463; 
-	Mon, 23 Jul 2018 04:51:29 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=GbUguiEzvNWpomjcuxn2PgEISHGTSC81rUYPlqq/SiA=;
+	b=oNWXc0yUuy4t5aQ8AWTLAFLOWrbyvkMlzUsWdh2ubmrfb+KtnfwiICE32DHM+bhgrK
+	RsOkpfQoXpFBW075L/CB/fKcr5PjwaG1eWzoQg/tes5dUmC9NDJyuY2eC9GH9Zeskday
+	W73Z+OsXBbGJ3VQDQExayY2Mv0Bkdx90NkRfQa/h9muSodpYJpzbdxrWryaf8EgY7a4L
+	PU0lVgkyHKwhYHD+zgQO8eB77MBwE+0QuGN4LuRXq4z9GnrXzq3NTjIL9gXdRqLBmFbU
+	Tdt7Y+Rv91i2NPGvlFGkgHzU86tl4iORUBMvKyjfiQTFJqifkqcP+C3WCzYjELxhmXOl
+	54eg==
+X-Gm-Message-State: AOUpUlFR1VuRD8ZN526xOva5Fn/vfLibgRMp4Ea7Hs7CmPwGSDu4T4Su
+	OL5dSqgZ3VOWqXZytCQGVsprVCwCgKw=
+X-Google-Smtp-Source: AAOMgpcCWCengqQJUV7JolfPJaSKq30wDmrUS4lZXvaDOfA3xkpCGIAZHqfShGwDgI9hdcbRCxVqcQ==
+X-Received: by 2002:adf:e687:: with SMTP id r7-v6mr9074084wrm.35.1532349082437;
+	Mon, 23 Jul 2018 05:31:22 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h12-v6sm12861055wmb.3.2018.07.23.04.51.28
+	c13-v6sm13188575wrt.24.2018.07.23.05.31.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Jul 2018 04:51:28 -0700 (PDT)
+	Mon, 23 Jul 2018 05:31:21 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jul 2018 12:51:24 +0100
-Message-Id: <20180723115124.27548-3-ross.burton@intel.com>
+Date: Mon, 23 Jul 2018 13:31:20 +0100
+Message-Id: <20180723123120.7299-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180723115124.27548-1-ross.burton@intel.com>
-References: <20180723115124.27548-1-ross.burton@intel.com>
-Subject: [PATCH 3/3] gnutls: fix libidn dependencies
+Subject: [PATCH] curl: enable libidn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 11:51:30 -0000
+X-List-Received-Date: Mon, 23 Jul 2018 12:31:22 -0000
 
-gnutls only works with libidn2, so update the build dependency.
+Now that oe-core has libidn2 we can enable it by default in target curl builds.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-support/curl/curl_7.61.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index b62a137e595..876a3847b0e 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -25,10 +25,8 @@ PACKAGECONFIG ??= "libidn"
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index cc983fd4a6d..76f55094a41 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
  
- # You must also have CONFIG_SECCOMP enabled in the kernel for
- # seccomp to work.
--#
- PACKAGECONFIG[seccomp] = "ac_cv_libseccomp=yes,ac_cv_libseccomp=no,libseccomp"
--
--PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn"
-+PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
- PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy threaded-resolver verbose zlib"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls libidn proxy threaded-resolver verbose zlib"
+ PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver verbose zlib"
+ PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl threaded-resolver verbose zlib"
+ 
 -- 
 2.11.0
 
