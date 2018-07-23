@@ -1,23 +1,24 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB9ED74743
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CBBC975463
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 07:37:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6N7bFX1006708
+	Mon, 23 Jul 2018 07:37:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6N7bjFC027257
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 00:37:15 -0700 (PDT)
+	Mon, 23 Jul 2018 00:37:45 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 23 Jul 2018 00:37:08 -0700
-From: <changqing.li@windriver.com>
+	14.3.399.0; Mon, 23 Jul 2018 00:37:44 -0700
+From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Jul 2018 15:37:07 +0800
-Message-ID: <1532331427-405224-1-git-send-email-changqing.li@windriver.com>
+Date: Mon, 23 Jul 2018 15:37:42 +0800
+Message-ID: <1532331462-445753-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] apr: fix ptest hangs since enter non-terminating loop
+Subject: [PATCH] grub2.inc: set GRUBPLATFORM_arm to efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,71 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 07:37:15 -0000
+X-List-Received-Date: Mon, 23 Jul 2018 07:37:44 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-ptest hangs in teststr since enter non-terminating loop,
-fixed by a backport patch
+* grub-efi support on arm is enabled as below
+  commit:
+  commit 65f9fb788371a9a08e3b0e6febecb9cc2aaeefe7
+  Author: Kristian Amlie <kristian.amlie@northern.tech>
+  Date:   Tue Jul 10 16:07:12 2018 +0200
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+     grub-efi: Provide target architecture for 32-bit ARM.
+
+* But it fails on arm as below:
+  | grub-mkimage: error: cannot open `./grub-core//serial.mod': No such file or directory.
+
+  Set GRUBPLATFORM_arm = "efi" to fix the above error
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- .../apr/0008-apr-fix-ptest-hang-in-teststr.patch   | 32 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.6.3.bb              |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0008-apr-fix-ptest-hang-in-teststr.patch
+ meta/recipes-bsp/grub/grub2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/apr/apr/0008-apr-fix-ptest-hang-in-teststr.patch b/meta/recipes-support/apr/apr/0008-apr-fix-ptest-hang-in-teststr.patch
-new file mode 100644
-index 0000000..6809fa6
---- /dev/null
-+++ b/meta/recipes-support/apr/apr/0008-apr-fix-ptest-hang-in-teststr.patch
-@@ -0,0 +1,32 @@
-+From 036f90748247417dbfa714b1b912ca7dd4053f04 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Mon, 23 Jul 2018 14:12:35 +0800
-+Subject: [PATCH] apr: fix ptest hang in teststr
-+
-+ptest hang in teststr since turns into a non-terminating loop,
-+fix by below backported patch.
-+
-+Upstream-Status: Backport[https://github.com/apache/apr/commit/
-+         2e8fbff4ecf82d0decf6baf774c209948f2f4998?diff=unified]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ test/teststr.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/teststr.c b/test/teststr.c
-+index d9a5054..951a830 100644
-+--- a/test/teststr.c
-++++ b/test/teststr.c
-+@@ -307,7 +307,7 @@ static void overflow_strfsize(abts_case *tc, void *data)
-+     for (; off < 999999999; off += 999) {
-+         apr_strfsize(off, buf);
-+     }
-+-    for (off = 1; off < LONG_MAX && off > 0; off *= 2) {
-++    for (off = LONG_MAX; off > 1; off /= 2) {
-+         apr_strfsize(off, buf);
-+         apr_strfsize(off + 1, buf);
-+         apr_strfsize(off - 1, buf);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/apr/apr_1.6.3.bb b/meta/recipes-support/apr/apr_1.6.3.bb
-index 87b8787..e044c4a 100644
---- a/meta/recipes-support/apr/apr_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr_1.6.3.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://0005-configure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch \
-            file://0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
-            file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch \
-+           file://0008-apr-fix-ptest-hang-in-teststr.patch \
- "
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index a8f335e..7709426 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -32,7 +32,7 @@ COMPATIBLE_HOST_armv7ve = 'null'
+ # configure.ac has code to set this automagically from the target tuple
+ # but the OE freeform one (core2-foo-bar-linux) don't work with that.
  
- SRC_URI[md5sum] = "12f2a349483ad6f12db49ba01fbfdbfa"
+-GRUBPLATFORM_arm = "uboot"
++GRUBPLATFORM_arm = "efi"
+ GRUBPLATFORM_aarch64 = "efi"
+ GRUBPLATFORM ??= "pc"
+ 
 -- 
 2.7.4
 
