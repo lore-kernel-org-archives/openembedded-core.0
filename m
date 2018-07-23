@@ -1,30 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C795174FE8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6290775035
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 14:11:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6NEBY9a017460
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Jul 2018 17:01:13 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id h3-v6so1802273wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 07:11:35 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Mon, 23 Jul 2018 07:11:34 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <969ccd61-7a03-a81f-c36f-04c5d806d3e2@windriver.com>
-	<22df428a-c981-bd8f-254d-739296926401@windriver.com>
-	<1018c740-a3f2-2fb3-366e-f93615beef51@windriver.com>
-	<24847408-a32e-2109-8b5d-c718e900cb9f@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <a43c5b47-bda7-2176-a101-9830d4543491@windriver.com>
-Date: Mon, 23 Jul 2018 22:09:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <24847408-a32e-2109-8b5d-c718e900cb9f@windriver.com>
-Subject: Re: [RFC] How to deal allarch packages in dependency chain for multilib rootfs?
+	Mon, 23 Jul 2018 10:01:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=pYZE4/NZqJiMSqgwGfAPjfUNHu53ZZNoAHIOktily54=;
+	b=jV0tHohKESjFO9N3ycIKayhptzo+IgDBszjQgm72StEdI/w1NUO3YhuY7zzVNxt065
+	vA85vCvOc4Sop3tFFaqtfYHdDMnHwQcDz57Hwr76yo9KO2Z6l7bgRZVFkpkOVlJA7Ufx
+	QbXD7tvBCDi8PReE7VuJbpUzpwCHN+QclCcLR+v47/5vzXd3RvxWQvhcawosOgfgMuNK
+	R681xL2xq2nMVnz5oue+spX5fKrTmZfHFXng9v+zqT2h2SRYFt3+JT/MAEbJuU3BvbNB
+	YVO6EUztk9VtRfayjECTaYblIJbXkFsXQt0kOERwhJH/WRhX5j3+vhPwcgYASNU5QbTf
+	Q+SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pYZE4/NZqJiMSqgwGfAPjfUNHu53ZZNoAHIOktily54=;
+	b=raafwxjmyhU+ECFxF399lWP5yfHes787LwKREvgBTLX+7dsff27sXqUk81DLQ4u3Ye
+	mL+q7zuhGseALx5yoTEl79rFt8TNiY/RQLZOTWWcPGq1HXpR6CQu6diXuQrjYcPtH6Eu
+	aXCkWAcFb5s7Y8sOeZhy0qkSam+dRCkwIvClNJOGpl35S2TYlGnmUJTI7l3HeXAUNBaD
+	78FU63DDSR+WgjrjhPDhbc+qnFM9iuKk67YJBOBY2FCoXMc9hWoavN4vPDv7eg7uZNQh
+	vMDXuZEjy7fsiE6zS4OYIkmpfCtiafhMxmG0bZJWGOjvMYUC9y7kRoDMou0Xl74dgJx/
+	05eA==
+X-Gm-Message-State: AOUpUlG7dOK0JLypJCEl+uXds0vEJ4vjYvakChufXNKBgQYW8GmNXgHI
+	xqFUKcRLNAxOy4dEzctAgGiIG1Av2pc=
+X-Google-Smtp-Source: AAOMgpe8KA5xyeVU/uluwMYjK9HCL0J3Tj7VSSQkacGT4sLtEirE/Kdpca7hbqh/KEpl4oV/JlLesw==
+X-Received: by 2002:a1c:15ce:: with SMTP id
+	197-v6mr7470608wmv.99.1532365273834; 
+	Mon, 23 Jul 2018 10:01:13 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	w142-v6sm16516388wme.13.2018.07.23.10.01.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Jul 2018 10:01:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2018 18:01:11 +0100
+Message-Id: <20180723170111.22412-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] packagegroup-core-full-cmdline: clean up system-services dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,235 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 14:11:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 23 Jul 2018 17:01:13 -0000
 
-On 2018年07月18日 04:21, Mark Hatle wrote:
-> On 7/2/18 3:50 AM, Kang Kai wrote:
->> On 2018年06月28日 22:26, Mark Hatle wrote:
->>> On 6/28/18 3:48 AM, Kang Kai wrote:
->>>> Hi all,
->>>>
->>>> When build 32 bits rootfs with 64 bits bsp, if an allarch/noarch package is
->>>> installed to lib32 rootfs, it causes
->>>> unexpected 64 bits packages which is required by the allarch package installed
->>>> to lib32 rootfs.
->>>>
->>>> Take ca-certificates as example. ca-certificates rdepends on openssl, so if
->>>> ca-certificates is installed to image,
->>>> 64 bits package openssl will be installed too no matter what the rootfs is. But
->>>> only 32 bits openssl package should
->>>> be installed to 32 bits rootfs.
->> Hi Mark,
->>
->> Thanks for your detailed reply.
->>
->>> With -RPM-, and using names that do not include 'lib32' or other multilib
->>> prefixes.  RPM doesn't care 'who' provides openssl, as long as someone provides
->>> openssl.  There is a series of weights added to the available providers of
->>> openssl.  The package with the highest weight (or maybe lowest) is what ends up
->>> being installed.
->>>
->>> In the case where there are two multilibs providing openssl, the system will
->>> usually do one of two things:
->>>
->>> 1) Look to see if an existing openssl is set to be installed (just use that version)
->>>
->>> 2) Look to see if the default architecture has the package and use that,
->>> otherwise fall back to less priority architectures.  (Again, this is stock RPM
->>> behavior.)
->>>
->>> OE has modified the behaviors slightly, so I can't be 100% confident as to how
->>> it works in OE in all cases.
->> Do you mean make lib32-openssl also provides openssl? It should work for
->> do rootfs with repo priorities. But my concern is that
->> install package -foo- which requires openssl during runtime by command
->> rpm. If lib32-openssl is installed and it also provides 'openssl',
->> then package -foo- could be installed without real 64bits openssl. It
->> may cause malfunction.
-> RPM has ELF dependencies and named dependencies.  The named dependencies (at
-> least in the past) had been translated to the generic name, as well as the
-> multilib name.  This allowed someone to say 'give me openssl', and it didn't
-> matter which.
->
-> For another package that required libssl (64-bit) it would have had a dependency
-> on libssl(64) added to it, automatically, by the packaging system when building
-> RPMs.  These dependencies are only added when using RPMs, and there is
-> (intentionally) no manual way to specify them.
->
-> Where this falls down is perl where we might have a 32-bit and/or 64-bit perl..
-> and we wanted one or the other for a specific module.  Pam historically had a
-> similar problem as the PAM subsystem was 64-bit -- but for some reason we'd end
-> up installing only the 32-bit components.
->
-> (Mind you as far as I know neither of these cases are part of the allarch issues
-> you are concerned with.)
->
->>>> There are 2 ways to fixed the issue.
->>>>
->>>> 1 expand allarch/noarch packages with multilib. So if add ca-certificates to
->>>> image, lib32-ca-certificates will be
->>>>      installed to 32bits rootfs. And then also the dependency lib32-openssl is
->>>> installed. That is what we expected.
->>> This really isn't the right way to do it, because then you end up with two
->>> packages with identical content -- and you then need to ensure that the internal
->>> dependencies all 'match'.
->>>
->>> So you've added another layer where you need to ensure that the multilib
->>> rdepends are 'specified' and managed properly.  [Yes this can be handled by OE
->>> automaticallly], but it doubles the size of the package respository (for no-arch
->>> packages), as well as any field upgrades BOTH have to be upgraded together or
->>> you will get an error.
->> Got it.
->>
->>>> 2 expand DEPENDS/RDEPENDS of allarch/noarch packages with a prefix 'noarch-'
->>>> when multilib is enabled. So then
->>>>      ca-certificates requires 'noarch-openssl'. And make both lib32-openssl and
->>>> openssl provides 'noarch-openssl'.
->>> -today- it should be depending on 'openssl', and all variants of openssl SHOULD
->>> be calling themselves/providing 'openssl'.  (The other components of the
->>> dependency system will ensure the right 32-bit/64-bit version is selected if
->>> needed.)
->>>
->>> And unless the image creator is explicit in their check they may end up with
->>> BOTH the 32-bit and 64-bit versions...
->>>
->>>>      When do_rootfs, there is only one rpm repo 'oe-rootfs-repo' now. We will
->>>> create repos with different priorities
->>> And this is creating problems.  This is why the priority system (order for
->>> dependencies) was put into place originally.  So it would start at the highest
->>> priority components and work it's way until it found the right set of matches.
->>>
->>> With DNF and RPM(4), things have changed..  I'm not sure how the priorities are
->>> defined in this system -- but really each arch type should be it's own
->>> repository in DNF.. and the priorities for each should be ordered to match the
->>> user's preferred order for package installation.  (The default behavior is fine
->>> for most users, but a way to say -- no really I want 32-bit installed first.. is
->>> needed for the multilib image cases..)
->> Thanks. I'll figure out the priority in DNF and RPM(4).
->>
->>> The reality though for most multilib users is they have one of two use-cases:
->>>
->>> 1) 64-bit kernel, 32-bit userspace (and possibly a 'few' 64-bit binaries)
->>>
->>> 2) 64-bit kernel, 64-bit userspace... They want a small number of libraries from
->>> the multilib installed into their main system
->>>
->>> It's the second case where we often get into problems, because the system is
->>> really intended for that -- where you would say I expect BOTH openssl 32-bit and
->>> 64-bit installed, but many of our users are trying to do I want only the openssl
->>> installed for the executables I need.  (reasonable request, just not exactly
->>> what RPM was intended to be doing.)
->>>
->>>>      according to different archs/subdirectories. For 32 bits image, make 32 bits
->>>> rpm repo has  higher priority, so lib32-openssl
->>>>      will be installed to 32 bits rootfs rather than 64bits.
->>> Yes, this covers the use case #1 better then anything else we have at this point.
->>>
->>>> I know these 2 ways are not perfect, but only possible ways I have in mind to
->>>> solve the problem.
->>>>
->>>> Any comment or suggestion is greatly appreciated. Thanks a lot.
->>> So I can sum this up to:
->>>
->>> Use case 1.. kernel and primary userspace library type don't match is
->>> problematic, but not used by a lot of people (AFAIK).
->> I am sorry that it is the Use case 1 (64-bit kernel, 32-bit userspace)
->> that we want to solve. Because both lib32 (imported by other lib32
->> packages) and
->> 64bits (imported by noarch pacakge) packages such as perl may be
->> installed to image at same time , it causes some runtime failures such
->> as some perl
->> modules don't work.
+The 'system services' packagegroup depends on a number of packages which are not
+system services, so remove them from the list.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../packagegroups/packagegroup-core-full-cmdline.bb               | 8 --------
+ 1 file changed, 8 deletions(-)
 
-Hi Mark,
-
-Thanks a lot for your reply.
-
-> There should -never- be a situation with a 32-bit and 64-bit (or any multilib)
-> 'allarch' package changes.  If it does, it's simply NOT allarch.  Allarch means
-> there are no architecture dependencies in that package.  If there are -any-, the
-> thing should be properly declared to a specific arch, even if it only contains
-> configuration files.
-
-For allarch packages such as ca-certificates, I believe that it only 
-needs an 'openssl' and no matter whether lib64-openssl or lib32-openssl 
-exists.
-So in my WIP patch, I make allarch package only depends on a virtual 
-'noarch-foo' and both lib64-foo and lib32-foo provide foo.
-And during do rootfs, according to image type(whether core-image-sato or 
-lib32-core-image-sato) to install proper provider.
-
->
-> Maybe the right answer is to add a QA step that verifies all 'allarch' versions
-> are the same..  (I'm not exactly sure how you would do this, try to build all
-> 'multilib' variants of any specific allarch and verify they didn't change perhaps?)
->
->> I once thought to solve the dependency issue in package libsolv. The
->> original thought is to pass a environment variable to identify whether
->> build a lib32 image.
->> When resolve the dependencies of noarch package, expand the dependencies
->> according the environment variable. But it seems libsolv treats "all
->> strings and
->> relations as unique 32-bit numbers". So it seems it doesn't work this way.
-> Ya, I don't think fixing it in the solver is the right answer.   Whatever the
-> solution, it has to be generic to work for all of the packaging formats.
->
-> The basic rules, as I understand them, are:
->
-> 1) allarch/noarch -- must be -identical- across all architectures [with the same
-> distro configuration]
-> 2) recipes/packages that require allarch must not expect any architecture
-> dependent behavior, including path names.  (lib vs lib64, etc)
-
-Yes. Currently the problem is to resolve dependency of allarch packages. 
-And will not affect packages which depends on allarch packages.
-
-
-Regards,
-Kai
-
-
-
->
-> 3) regular arch packages should do dependencies based on package names (and
-> other declared virtual dependencies)
->
-> 4) rpm [automatic] internal dependencies should resolve executable dynamic
-> linking issues.
->
-> Known caveats are PAM, Perl and maybe Python modules that have no ELF component,
-> but may have be loaded at runtime and need to match another executable
-> environment.  How to resolve this, we need to be explicit in the recipes.. i.e.
-> a 32-bit pam module must require 32-bit pam and NOT satisfy a 64-bit
-> applications PAM needs.
->
-> (Not sure the above really helps, but it may clarify things a bit.)
->
-> --Mark
->
->> Thanks a lot.
->>
->> --Kai
->>
->>> Use case 2.. the embedded nature of trying to develop 'small' [in terms of
->>> number of packages installed] filesystems is causing some odd behavior, but a
->>> workaround of specifying the -exact- packages you want when this oddity arrives
->>> is available.
->>>
->>> --Mark
->>>
->>>> -- 
->>>> Regards,
->>>> Neil | Kai Kang
->>>>
->
-
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+index 1b938fb849c..e8616880248 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
+@@ -133,16 +133,8 @@ RDEPENDS_packagegroup-core-full-cmdline-multiuser = "\
+ 
+ RDEPENDS_packagegroup-core-full-cmdline-sys-services = "\
+     at \
+-    bzip2 \
+     cronie \
+-    dbus \
+-    elfutils \
+-    gzip \
+-    less \
+     logrotate \
+     nfs-utils \
+-    pciutils \
+     rpcbind \
+-    tcp-wrappers \
+-    tzdata \
+     "
 -- 
-Regards,
-Neil | Kai Kang
+2.11.0
 
 
