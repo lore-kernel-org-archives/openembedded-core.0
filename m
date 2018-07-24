@@ -1,50 +1,48 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1209974BC2
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C48F771B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 10:53:23 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id a3-v6so3679474wrt.2
+	Tue, 24 Jul 2018 10:53:25 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id y2-v6so1452655wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 03:53:25 -0700 (PDT)
+	Tue, 24 Jul 2018 03:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=rhEznJtmyIj2+PKp380B5WtfXQawp7m/hV8/Q2mssso=;
-	b=TLUX2RNnmt0iDSN+1fqwmsaVrRR+Eia8/hd9fNj30I3YMj68WkCQU3SQ+1HdI0YodX
-	WQuj6Bmb1QAzu44DqN4NnmsdWukjqZDJ76pRa+P7hso3jJk//p3ylpD0EAg+fjOjek1E
-	aHGVQr2LO+Q1cKOur5NhV0RpR+2dwpoEouMww=
+	bh=1iGAv9xwxIvJi1+wAczVyQSzRFc/BDlx+9TstZFDJac=;
+	b=JPk+XWqwqr89H2bY7bpWtz0t0x+tfMvAoVOJJ9lIHOdzn+6ljefcWZkikmPdscbVlw
+	CcxS1LIFAmaKiR1Z/EQX2Mg+qU5r7lk6VEh9gAokYIljGQIW/e91okTHztp379rn/Fsn
+	cvM8vH9Esk4IMThiP8Oci+CmDGwmidSNlVX6s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=rhEznJtmyIj2+PKp380B5WtfXQawp7m/hV8/Q2mssso=;
-	b=LvGlry/wuZOE0vJi+SDIey0KtChCb0rW7pYqZ7OlZ/xLk8y+ulytR+Q4QQVRl5XtcG
-	YnxKzT2zEm/LYjtlLp/4rOnQQM/yPaPJTU3il9HzyUfAJ3QPOcFrd2lq/0NOd6XZ2Bk6
-	3SFmvUSS2Y4EqeIIKKnclqYmkU2WRlH7kF2OGe9m9a63/cIAj3/DgrkSARUrxXTFVJaZ
-	wxyrLo2UkfkaE+q+o/lfDHxrWKhNvUsYCBY+BME0i0apnuhQcozOlQsTDimmLdoldNxg
-	onOActZ8tNzEJ88om8/TLMM4scGMWlhKEbnK5kZyzP2VE0vFhw+CXr2ymTNq8yd9txkw
-	7KaQ==
-X-Gm-Message-State: AOUpUlGVHpf1CjPX9zES+f6464MjAru7s6or6Z2qcyK/+3/yk82cTGHR
-	jS2A11rublRkKhlc6KY9sMooIH71YfO3pg==
-X-Google-Smtp-Source: AAOMgpf3i6F2svPRM5/oFU/XMrB61T9BiWGWmAKOcACIxvksz54oYP470EqdAXzxhEA6DVQ7k6uJbw==
-X-Received: by 2002:a5d:438d:: with SMTP id
-	i13-v6mr11718629wrq.156.1532429604428; 
-	Tue, 24 Jul 2018 03:53:24 -0700 (PDT)
+	bh=1iGAv9xwxIvJi1+wAczVyQSzRFc/BDlx+9TstZFDJac=;
+	b=iPKEmWc4N4Wff4REY2mFBOz33ZgAuJnluEzVBAWxkx+jyz6Ylay7r/JqnCos/RXdah
+	tbnG7QWHozeotv0Rw58AGHP+eW2mfAyI3YGnozk1JN8msjKtVpxNRPP6c7IVOfVQKAA3
+	UdgrW4tLtAFA6YZuBgYTeMVBr88x1yW1QxPQ1CPKQXmarP/196Su4SG+U9++GE6ZrvUw
+	7EapUoJ/PY8EPlG64Ge6FLpCYMotbHtTUv6iLM1Rx/sEXPTC5ZmDVifuDoAEq7Q0vE5r
+	uT0xDKcMe6ANLb2SQDgEg7+X90bynrxvAkJWXim23Fvg/AOL/0Nvm67L5jf9BWNmEhS8
+	V+ug==
+X-Gm-Message-State: AOUpUlGgy4ruWcJgRl8Ji0ccz6SDjMqAon4Fh6KJ6e6ZG0SonUhCu+H1
+	oHzxLR8VamfEfDJUGZA2cor+/itzxeiKPA==
+X-Google-Smtp-Source: AAOMgpdfqCgYxjGtRuEpWs2I2S7vpAVh/srw9AtGsNRMW0EAB+K/DbylJgIj5BTk7pJMk9IQiamClQ==
+X-Received: by 2002:a1c:f03:: with SMTP id 3-v6mr1619997wmp.129.1532429605849; 
+	Tue, 24 Jul 2018 03:53:25 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e10-v6sm2037488wmh.19.2018.07.24.03.53.22
+	e10-v6sm2037488wmh.19.2018.07.24.03.53.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Jul 2018 03:53:23 -0700 (PDT)
+	Tue, 24 Jul 2018 03:53:24 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jul 2018 11:53:15 +0100
-Message-Id: <20180724105316.2085-5-richard.purdie@linuxfoundation.org>
+Date: Tue, 24 Jul 2018 11:53:16 +0100
+Message-Id: <20180724105316.2085-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180724105316.2085-1-richard.purdie@linuxfoundation.org>
 References: <20180724105316.2085-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 5/6] license_image: Fix race
+Subject: [PATCH 6/6] uninative-tarball: Add nativesdk-libnss-nis to resolve glibc symbol issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,178 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 10:53:24 -0000
+X-List-Received-Date: Tue, 24 Jul 2018 10:53:25 -0000
 
-The current code pokes into do_deploy manifests from do_image_complete when the
-do_image_complete task may or may not depend upon the do_deploy tasks in question.
-Often it gets lucky, sometimes it results in build failures.
-
-To fix this, split the functionality to its own task which can have the correct
-task dependencies. This means the data in BB_TASKDEPDATA is definitive, the other
-code can be dropped, as can the IMAGE_EXTRATYPES do_populate_lic dependencies
-from image.bbclass.
-
-This fixes bugs which show up as:
-
-NOTE: recipe linux-yocto-4.14.48+gitAUTOINC+d64aec9793_97c8063d2d-r0: task do_deploy: Started
-ERROR: core-image-minimal-1.0-r0 do_image_complete: Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:write_deploy_manifest(d)
-     0003:
-File: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/classes/license.bbclass', lineno: 33, function: write_deploy_manifest
-     0029:        'w+').write(output)
-     0030:}
-     0031:
-     0032:python write_deploy_manifest() {
- *** 0033:    license_deployed_manifest(d)
-     0034:}
-     0035:
-     0036:python license_create_manifest() {
-     0037:    import oe.packagedata
-File: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/classes/license.bbclass', lineno: 191, function: license_deployed_manifest
-     0187:        # It is necessary to mark this will be used for image manifest
-     0188:        man_dic[dep]["IMAGE_MANIFEST"] = True
-     0189:        man_dic[dep]["PN"] = dep
-     0190:        man_dic[dep]["FILES"] = \
- *** 0191:            " ".join(get_deployed_files(dep_dic[dep]))
-     0192:        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
-     0193:            for line in f.readlines():
-     0194:                key,val = line.split(": ", 1)
-     0195:                man_dic[dep][key] = val[:-1]
-File: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/classes/license.bbclass', lineno: 289, function: get_deployed_files
-     0285:    """
-     0286:
-     0287:    dep_files = []
-     0288:    excluded_files = []
- *** 0289:    with open(man_file, "r") as manifest:
-     0290:        all_files = manifest.read()
-     0291:    for f in all_files.splitlines():
-     0292:        if ((not (os.path.islink(f) or os.path.isdir(f))) and
-     0293:                not os.path.basename(f) in excluded_files):
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build-st-730/tmp/sstate-control/manifest-qemux86_64-linux-yocto.deploy'
-
-ERROR: core-image-minimal-1.0-r0 do_image_complete: Function failed: write_deploy_manifest
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build-st-730/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp/log.do_image_complete.50537
-NOTE: recipe core-image-minimal-1.0-r0: task do_image_complete: Failed
-ERROR: Task (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/recipes-core/images/core-image-minimal.bb:do_image_complete) failed with exit code '1'
-NOTE: recipe linux-yocto-4.14.48+gitAUTOINC+d64aec9793_97c8063d2d-r0: task do_deploy: Succeeded
+We need this to avoid symbol mismatch issues for binaries that use this
+on newer systems which then won't run on older ones where it isn't present.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image.bbclass         |  1 -
- meta/classes/license_image.bbclass | 58 ++++--------------------------
- 2 files changed, 6 insertions(+), 53 deletions(-)
+ meta/recipes-core/meta/uninative-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index adc50c99bcd..c3e73676dca 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -141,7 +141,6 @@ python () {
-             deps += " %s:%s" % (dep, task)
-         return deps
+diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+index c38c2a445e9..e0cb9ffee0d 100644
+--- a/meta/recipes-core/meta/uninative-tarball.bb
++++ b/meta/recipes-core/meta/uninative-tarball.bb
+@@ -16,6 +16,7 @@ TOOLCHAIN_HOST_TASK = "\
+     nativesdk-glibc-gconv-libjis \
+     nativesdk-patchelf \
+     nativesdk-libxcrypt \
++    nativesdk-libnss-nis \
+     "
  
--    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_populate_lic'))
-     d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
- 
-     deps = " " + imagetypes_getdepends(d)
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index efeedce519f..f0fbb763f1d 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -11,10 +11,6 @@ python write_package_manifest() {
-         'w+').write(output)
- }
- 
--python write_deploy_manifest() {
--    license_deployed_manifest(d)
--}
--
- python license_create_manifest() {
-     import oe.packagedata
-     from oe.rootfs import image_list_installed_packages
-@@ -197,11 +193,6 @@ def get_deployed_dependencies(d):
-     depends = list(set([dep[0] for dep
-                     in list(taskdata.values())
-                     if not dep[0].endswith("-native")]))
--    extra_depends = d.getVar("EXTRA_IMAGEDEPENDS")
--    boot_depends = get_boot_dependencies(d)
--    depends.extend(extra_depends.split())
--    depends.extend(boot_depends)
--    depends = list(set(depends))
- 
-     # To verify what was deployed it checks the rootfs dependencies against
-     # the SSTATE_MANIFESTS for "deploy" task.
-@@ -210,15 +201,6 @@ def get_deployed_dependencies(d):
-     sstate_manifest_dir = d.getVar("SSTATE_MANIFESTS")
-     archs = list(set(d.getVar("SSTATE_ARCHS").split()))
-     for dep in depends:
--        # Some recipes have an arch on their own, so we try that first.
--        special_arch = d.getVar("PACKAGE_ARCH_pn-%s" % dep)
--        if special_arch:
--            sstate_manifest_file = os.path.join(sstate_manifest_dir,
--                    "manifest-%s-%s.deploy" % (special_arch, dep))
--            if os.path.exists(sstate_manifest_file):
--                deploy[dep] = sstate_manifest_file
--                continue
--
-         for arch in archs:
-             sstate_manifest_file = os.path.join(sstate_manifest_dir,
-                     "manifest-%s-%s.deploy" % (arch, dep))
-@@ -229,38 +211,6 @@ def get_deployed_dependencies(d):
-     return deploy
- get_deployed_dependencies[vardepsexclude] = "BB_TASKDEPDATA"
- 
--def get_boot_dependencies(d):
--    """
--    Return the dependencies from boot tasks
--    """
--
--    depends = []
--    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
--    # Only bootimg includes the depends flag
--    boot_depends_string = d.getVarFlag("do_bootimg", "depends") or ""
--    boot_depends = [dep.split(":")[0] for dep
--                in boot_depends_string.split()
--                if not dep.split(":")[0].endswith("-native")]
--    for dep in boot_depends:
--        info_file = os.path.join(d.getVar("LICENSE_DIRECTORY"),
--                dep, "recipeinfo")
--        # If the recipe and dependency name is the same
--        if os.path.exists(info_file):
--            depends.append(dep)
--        # We need to search for the provider of the dependency
--        else:
--            for taskdep in taskdepdata.values():
--                # The fifth field contains what the task provides
--                if dep in taskdep[4]:
--                    info_file = os.path.join(
--                            d.getVar("LICENSE_DIRECTORY"),
--                            taskdep[0], "recipeinfo")
--                    if os.path.exists(info_file):
--                        depends.append(taskdep[0])
--                        break
--    return depends
--get_boot_dependencies[vardepsexclude] = "BB_TASKDEPDATA"
--
- def get_deployed_files(man_file):
-     """
-     Get the files deployed from the sstate manifest
-@@ -279,6 +229,10 @@ def get_deployed_files(man_file):
- ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
- do_rootfs[recrdeptask] += "do_populate_lic"
- 
--IMAGE_POSTPROCESS_COMMAND_prepend = "write_deploy_manifest; "
--do_image[recrdeptask] += "do_populate_lic"
-+python do_populate_lic_deploy() {
-+    license_deployed_manifest(d)
-+}
-+
-+addtask populate_lic_deploy before do_build after do_image_complete
-+do_populate_lic_deploy[recrdeptask] += "do_populate_lic do_deploy"
- 
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 2.17.1
 
