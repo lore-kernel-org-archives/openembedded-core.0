@@ -1,40 +1,48 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B3075114
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
+	[209.85.160.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 846CA6FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 02:37:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42574401"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Jul 2018 10:37:32 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id AE14D4B66A23;
-	Tue, 24 Jul 2018 10:37:30 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0399.000; Tue, 24 Jul 2018 10:37:27 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v3] sshd: add sshd.service
-Thread-Index: AQHUIm6BKpPfg0jFbUq0GJZKHRvJ66SdqLSg
-Date: Tue, 24 Jul 2018 02:37:32 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF738709DE20@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1532336544-107337-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CAJTo0LZTO7OxZokj2pymX7PaLqBRq5KiyyBij3Ncq8j59YrE7w@mail.gmail.com>
-In-Reply-To: <CAJTo0LZTO7OxZokj2pymX7PaLqBRq5KiyyBij3Ncq8j59YrE7w@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.300.84
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.35]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: AE14D4B66A23.AB31D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] sshd: add sshd.service
+	Tue, 24 Jul 2018 02:39:01 +0000 (UTC)
+Received: by mail-pl0-f66.google.com with SMTP id z7-v6so1046259plo.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2018 19:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=llLqHnOCCqrUfTv0fI16JebOoP/Qefr4XxN5h9vZwcQ=;
+	b=rbRfPEhfPL7dJVNHjJJfzLxON94Zbp41X4Q7jQmlaD2odzFe663xyPbdy0IfGUuaxW
+	B65Yb5HurcMYUubFZ4WWVGgYFCsSXHmNKoSS1vYSAYKkQhohq1Sb9mHvzWnLcCnhVMNs
+	egU1lva5C0jWJ3HPhM9cIojbsIkOZgAc2PjSGoSwSOKlkGyg6iljYCgUXLUKRXcfTbCK
+	rCwZ+ckUB6sFPbDdRqKw5gY8Si6utAf5fqQv96XgLiYXzkmrzO0GZlf6fXmA4oBZLQzF
+	OBJA6EOZBoiUWISdZOqehFMrf6dnL6RerMdJ49tRg0aKvkJhW/S0DHLo1HiV5AN/5XT5
+	JbsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=llLqHnOCCqrUfTv0fI16JebOoP/Qefr4XxN5h9vZwcQ=;
+	b=rKjZGjrlKbA4tuS0+fst4M6XIyvi8btYBgdSsbopVKDyR5+d17uGBm5SwBWdlyeRLu
+	vMtsHVGZSiAtcxYBvSZHh0SIZgrMGOAJM3qcX4/ZKF8BWUyhr7Cd54lUr9WlUQ4mLe5T
+	lSQfiUgKGzoLOdatQwE7jxD6L44nwskEI20GYTzyMxTLc0yJhQ83gqIAohJxwfnfKdWi
+	hR3bPBjfuxk1pHbTr2qKmRQCSrCt6vFXZgldi6lTTJafZK3TIzWikWrJUqCEmOG0esbO
+	pAFovZZRVhLQG+CAf90wKhr347Kb5tLrsP2LAIFWSiEX+/w/nq12iQTHTY4OI2GmgmYZ
+	uxOw==
+X-Gm-Message-State: AOUpUlFHLz+kWnISv7VNfqqbeZCJJzs1eBDTXtInqc6sY2Ma3VbbhyP2
+	/XRcweS3t2I06/5bcKvIPWpBQ6av
+X-Google-Smtp-Source: AAOMgpeJW1QOLTOVBngctqMkoO4URPK/8plzAF0zqBZIEqHU9xIkB6YaL9vr66jvsc+DIv6zdmqKdg==
+X-Received: by 2002:a17:902:bc41:: with SMTP id
+	t1-v6mr15394452plz.26.1532399942231; 
+	Mon, 23 Jul 2018 19:39:02 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	y132-v6sm14746314pfb.91.2018.07.23.19.39.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Jul 2018 19:39:01 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2018 19:38:47 -0700
+Message-Id: <1532399935-32296-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/9] openssl_1.0: merge openssl10.inc into the openssl_1.0.2o.bb recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,98 +55,658 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 02:37:41 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 24 Jul 2018 02:39:01 -0000
 
-SGkgUm9zczoNCiAgICAgICAgSSB3YW50IHRvIGFkZCB0aGlzIGZvciBpbiBV
-YnVudHUgYW5kIEZlZG9yYSwgc3NoZC5zb2NrZXQgYW5kIHNzaGQuc2Vydmlj
-ZSBjYW4gYm90aCBjb2V4aXN0Lg0KICAgICAgICBTbywgbWF5YmUgd2UgcHJv
-dmlkZSBib3RoIG9mIHRoZW0sIGFuZCB1c2VyIGNhbiBjaG9vc2UgdGhlIHdh
-eSB0aGV5IHdhbnQuICAgICAgICANCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClpoZW5nIFJ1b3Fpbg0K
-TmFuamluZyBGdWppdHN1IE5hbmRhIFNvZnR3YXJlIFRlY2guIENvLiwgTHRk
-LihGTlNUKQ0KQUREUi46IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2
-ZW51ZSwNCiAgICAgICBOYW5qaW5nLCAyMTAwMTIsIENoaW5hDQpNQUlMIDog
-emhlbmdycS5mbnN0QGNuLmZ1amlzdHUuY29tDQoNCi0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb21dIA0KU2VudDogTW9uZGF5LCBKdWx5IDIzLCAy
-MDE4IDY6MTggUE0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYgPHpo
-ZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVj
-dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjNdIHNzaGQ6IGFkZCBzc2hkLnNl
-cnZpY2UNCg0KU3RpbGwgbm8gZXhwbGFuYXRpb24gd2h5IHlvdSdkIHdhbnQg
-dG8gZG8gdGhpcyBhbmQgbm90IHVzZSBzb2NrZXQgYWN0aXZhdGlvbi4NCg0K
-Um9zcw0KDQpPbiAyMyBKdWx5IDIwMTggYXQgMTA6MDIsIFpoZW5nIFJ1b3Fp
-biA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPiB3cm90ZToNCj4gQWRk
-IHNzaGQuc2VydmljZSBmb3IgdXNlciB0byBzdGFydCB0aGUgc3NoZCBkYWVt
-b24uDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdy
-cS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZSB8
-IDE2ICsrKysrKysrKysrKysrKysNCj4gIG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzcuN3AxLmJiICAgICB8ICA2ICsrKysr
-Kw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspDQo+ICBj
-cmVhdGUgbW9kZSAxMDA2NDQgDQo+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZQ0KPg0KPiBkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5z
-c2gvc3NoZC5zZXJ2aWNlIA0KPiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvb3BlbnNzaC9vcGVuc3NoL3NzaGQuc2VydmljZQ0KPiBuZXcgZmlsZSBt
-b2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi4yZDI3MTdkDQo+IC0tLSAv
-ZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9v
-cGVuc3NoL29wZW5zc2gvc3NoZC5zZXJ2aWNlDQo+IEBAIC0wLDAgKzEsMTYg
-QEANCj4gK1tVbml0XQ0KPiArRGVzY3JpcHRpb249T3BlblNTSCBzZXJ2ZXIg
-ZGFlbW9uDQo+ICtXYW50cz1zc2hkZ2Vua2V5cy5zZXJ2aWNlDQo+ICtBZnRl
-cj1zc2hkZ2Vua2V5cy5zZXJ2aWNlDQo+ICsNCj4gK1tTZXJ2aWNlXQ0KPiAr
-RW52aXJvbm1lbnQ9IlNTSERfT1BUUz0iDQo+ICtFbnZpcm9ubWVudEZpbGU9
-LS9ldGMvZGVmYXVsdC9zc2gNCj4gK0V4ZWNTdGFydD0tQFNCSU5ESVJAL3Nz
-aGQgLWkgJFNTSERfT1BUUyBFeGVjUmVsb2FkPUBCQVNFX0JJTkRJUkAva2ls
-bCANCj4gKy1IVVAgJE1BSU5QSUQgS2lsbE1vZGU9cHJvY2VzcyBSZXN0YXJ0
-PW9uLWZhaWx1cmUgUmVzdGFydFNlYz00MnMNCj4gKw0KPiArW0luc3RhbGxd
-DQo+ICtXYW50ZWRCeT1tdWx0aS11c2VyLnRhcmdldA0KPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hf
-Ny43cDEuYmIgDQo+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
-c3NoL29wZW5zc2hfNy43cDEuYmINCj4gaW5kZXggYjNkYTVmNi4uYjRmNGM2
-ZCAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9v
-cGVuc3NoL29wZW5zc2hfNy43cDEuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNy43cDEuYmINCj4gQEAg
-LTE3LDYgKzE3LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vZnRwLm9wZW5ic2Qu
-b3JnL3B1Yi9PcGVuQlNEL09wZW5TU0gvcG9ydGFibGUvb3BlbnNzaC0ke1BW
-fS50YXINCj4gICAgICAgICAgICAgZmlsZTovL3NzaF9jb25maWcgXA0KPiAg
-ICAgICAgICAgICBmaWxlOi8vaW5pdCBcDQo+ICAgICAgICAgICAgICR7QGJi
-LnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAncGFtJywgDQo+
-ICcke1BBTV9TUkNfVVJJfScsICcnLCBkKX0gXA0KPiArICAgICAgICAgICAk
-e0BiYi51dGlscy5jb250YWlucygnU1NIRF9EQUVNT04nLCAnc2VydmljZScs
-IA0KPiArICcke1NTSERfREFFTU9OX1NSQ19VUkl9JywgJycsIGQpfSBcDQo+
-ICAgICAgICAgICAgIGZpbGU6Ly9zc2hkLnNvY2tldCBcDQo+ICAgICAgICAg
-ICAgIGZpbGU6Ly9zc2hkQC5zZXJ2aWNlIFwNCj4gICAgICAgICAgICAgZmls
-ZTovL3NzaGRnZW5rZXlzLnNlcnZpY2UgXCBAQCAtMzAsNiArMzEsOCBAQCBT
-UkNfVVJJID0gDQo+ICJodHRwOi8vZnRwLm9wZW5ic2Qub3JnL3B1Yi9PcGVu
-QlNEL09wZW5TU0gvcG9ydGFibGUvb3BlbnNzaC0ke1BWfS50YXINCj4NCj4g
-IFBBTV9TUkNfVVJJID0gImZpbGU6Ly9zc2hkIg0KPg0KPiArU1NIRF9EQUVN
-T05fU1JDX1VSSSA9ICJmaWxlOi8vc3NoZC5zZXJ2aWNlIg0KPiArDQo+ICBT
-UkNfVVJJW21kNXN1bV0gPSAiNjhiYTg4M2FmZjY5NTgyOTc0MzJlNTg3N2U5
-YTBmZTIiDQo+ICBTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDczYmU3ZTY4NGU5
-OWVmY2QwMjRiZTE1YTMwYmZmY2JlNDFiMDEyYjJmN2IzYzkwODRhZWQ2MjE3
-NzVlNmI4ZiINCj4NCj4gQEAgLTExMSw2ICsxMTQsOSBAQCBkb19pbnN0YWxs
-X2FwcGVuZCAoKSB7DQo+ICAgICAgICAgZWNobyAiSG9zdEtleSAvdmFyL3J1
-bi9zc2gvc3NoX2hvc3RfZWQyNTUxOV9rZXkiID4+IA0KPiAke0R9JHtzeXNj
-b25mZGlyfS9zc2gvc3NoZF9jb25maWdfcmVhZG9ubHkNCj4NCj4gICAgICAg
-ICBpbnN0YWxsIC1kICR7RH0ke3N5c3RlbWRfdW5pdGRpcn0vc3lzdGVtDQo+
-ICsgICAgICAgaWYgWyAiJHtAYmIudXRpbHMuZmlsdGVyKCdTU0hEX0RBRU1P
-TicsICdzZXJ2aWNlJywgZCl9IiBdOyB0aGVuDQo+ICsgICAgICAgICAgICAg
-ICBpbnN0YWxsIC1jIC1tIDA2NDQgJHtXT1JLRElSfS9zc2hkLnNlcnZpY2Ug
-JHtEfSR7c3lzdGVtZF91bml0ZGlyfS9zeXN0ZW0NCj4gKyAgICAgICAgZmkN
-Cj4gICAgICAgICBpbnN0YWxsIC1jIC1tIDA2NDQgJHtXT1JLRElSfS9zc2hk
-LnNvY2tldCAke0R9JHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbQ0KPiAgICAg
-ICAgIGluc3RhbGwgLWMgLW0gMDY0NCAke1dPUktESVJ9L3NzaGRALnNlcnZp
-Y2UgJHtEfSR7c3lzdGVtZF91bml0ZGlyfS9zeXN0ZW0NCj4gICAgICAgICBp
-bnN0YWxsIC1jIC1tIDA2NDQgJHtXT1JLRElSfS9zc2hkZ2Vua2V5cy5zZXJ2
-aWNlIA0KPiAke0R9JHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbQ0KPiAtLQ0K
-PiAyLjcuNA0KPg0KPg0KPg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQt
-Y29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg0K
-Cgo=
+The openssl10.inc include file only has one user, so we can improve
+maintainability by merging the include file into the recipe which
+uses it.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl10.inc    | 296 --------------------
+ .../recipes-connectivity/openssl/openssl_1.0.2o.bb | 310 ++++++++++++++++++++-
+ 2 files changed, 300 insertions(+), 306 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl10.inc
+
+diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+deleted file mode 100644
+index 1f8834f..0000000
+--- a/meta/recipes-connectivity/openssl/openssl10.inc
++++ /dev/null
+@@ -1,296 +0,0 @@
+-SUMMARY = "Secure Socket Layer"
+-DESCRIPTION = "Secure Socket Layer (SSL) binary and related cryptographic tools."
+-HOMEPAGE = "http://www.openssl.org/"
+-BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
+-SECTION = "libs/network"
+-
+-# "openssl | SSLeay" dual license
+-LICENSE = "openssl"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+-
+-DEPENDS = "makedepend-native hostperl-runtime-native"
+-DEPENDS_append_class-target = " openssl-native"
+-
+-PROVIDES += "openssl10"
+-
+-SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+-          "
+-S = "${WORKDIR}/openssl-${PV}"
+-UPSTREAM_CHECK_REGEX = "openssl-(?P<pver>1\.0.+)\.tar"
+-
+-PACKAGECONFIG ?= "cryptodev-linux"
+-PACKAGECONFIG[perl] = ",,,"
+-PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryptodev-linux"
+-
+-TERMIO_libc-musl = "-DTERMIOS"
+-TERMIO ?= "-DTERMIO"
+-# Avoid binaries being marked as requiring an executable stack since it 
+-# doesn't(which causes and this causes issues with SELinux
+-CFLAG = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
+-	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
+-
+-export DIRS = "crypto ssl apps"
+-export EX_LIBS = "-lgcc -ldl"
+-export AS = "${CC} -c"
+-
+-# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
+-CCACHE = ""
+-
+-inherit pkgconfig siteinfo multilib_header ptest relative_symlinks
+-
+-PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+-FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+-FILES_libssl = "${libdir}/libssl${SOLIBS}"
+-FILES_${PN} =+ " ${libdir}/ssl/*"
+-FILES_${PN}-misc = "${libdir}/ssl/misc"
+-RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
+-
+-# Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
+-# package RRECOMMENDS on this package.  This will enable the configuration
+-# file to be installed for both the base openssl package and the libcrypto
+-# package since the base openssl package depends on the libcrypto package.
+-FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+-CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+-RRECOMMENDS_libcrypto += "openssl-conf"
+-RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
+-
+-# Remove this to enable SSLv3. SSLv3 is defaulted to disabled due to the POODLE
+-# vulnerability
+-EXTRA_OECONF = " -no-ssl3"
+-
+-do_configure_prepend_darwin () {
+-	sed -i -e '/version-script=openssl\.ld/d' Configure
+-}
+-
+-do_configure () {
+-	cd util
+-	perl perlpath.pl ${STAGING_BINDIR_NATIVE}
+-	cd ..
+-	ln -sf apps/openssl.pod crypto/crypto.pod ssl/ssl.pod doc/
+-
+-	os=${HOST_OS}
+-	case $os in
+-	linux-gnueabi |\
+-	linux-gnuspe |\
+-	linux-musleabi |\
+-	linux-muslspe |\
+-	linux-musl )
+-		os=linux
+-		;;
+-		*)
+-		;;
+-	esac
+-	target="$os-${HOST_ARCH}"
+-	case $target in
+-	linux-arm)
+-		target=linux-armv4
+-		;;
+-	linux-armeb)
+-		target=linux-elf-armeb
+-		;;
+-	linux-aarch64*)
+-		target=linux-aarch64
+-		;;
+-	linux-sh3)
+-		target=debian-sh3
+-		;;
+-	linux-sh4)
+-		target=debian-sh4
+-		;;
+-	linux-i486)
+-		target=debian-i386-i486
+-		;;
+-	linux-i586 | linux-viac3)
+-		target=debian-i386-i586
+-		;;
+-	linux-i686)
+-		target=debian-i386-i686/cmov
+-		;;
+-	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
+-		target=linux-x32
+-		;;
+-	linux-gnu64-x86_64)
+-		target=linux-x86_64
+-		;;
+-	linux-gnun32-mips*el)
+-		target=debian-mipsn32el
+-		;;
+-	linux-gnun32-mips*)
+-		target=debian-mipsn32
+-		;;
+-	linux-mips*64*el)
+-		target=debian-mips64el
+-		;;
+-	linux-mips*64*)
+-		target=debian-mips64
+-		;;
+-	linux-mips*el)
+-		target=debian-mipsel
+-		;;
+-	linux-mips*)
+-		target=debian-mips
+-		;;
+-	linux-microblaze*|linux-nios2*|linux-gnu*ilp32**)
+-		target=linux-generic32
+-		;;
+-	linux-powerpc)
+-		target=linux-ppc
+-		;;
+-	linux-powerpc64)
+-		target=linux-ppc64
+-		;;
+-	linux-riscv64)
+-		target=linux-generic64
+-		;;
+-	linux-riscv32)
+-		target=linux-generic32
+-		;;
+-	linux-supersparc)
+-		target=linux-sparcv8
+-		;;
+-	linux-sparc)
+-		target=linux-sparcv8
+-		;;
+-	darwin-i386)
+-		target=darwin-i386-cc
+-		;;
+-	esac
+-	# inject machine-specific flags
+-	sed -i -e "s|^\(\"$target\",\s*\"[^:]\+\):\([^:]\+\)|\1:${CFLAG}|g" Configure
+-        useprefix=${prefix}
+-        if [ "x$useprefix" = "x" ]; then
+-                useprefix=/
+-        fi        
+-	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
+-	perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=${libdirleaf} $target
+-}
+-
+-do_compile_prepend_class-target () {
+-    sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
+-    oe_runmake depend
+-	cc_sanitized=`echo "${CC} ${CFLAG}" | sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' -e 's|${DEBUG_PREFIX_MAP}||g'`
+-	oe_runmake CC_INFO="${cc_sanitized}"
+-}
+-
+-do_compile () {
+-	oe_runmake depend
+-	oe_runmake
+-}
+-
+-do_compile_ptest () {
+-	# build dependencies for test directory too
+-	export DIRS="$DIRS test"
+-	oe_runmake depend
+-	oe_runmake buildtest
+-}
+-
+-do_install () {
+-	# Create ${D}/${prefix} to fix parallel issues
+-	mkdir -p ${D}/${prefix}/
+-
+-	oe_runmake INSTALL_PREFIX="${D}" MANDIR="${mandir}" install
+-
+-	oe_libinstall -so libcrypto ${D}${libdir}
+-	oe_libinstall -so libssl ${D}${libdir}
+-
+-	install -d ${D}${includedir}
+-	cp --dereference -R include/openssl ${D}${includedir}
+-
+-	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
+-	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
+-
+-	oe_multilib_header openssl/opensslconf.h
+-	if [ "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}" ]; then
+-		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+-		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
+-	else
+-		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
+-	fi
+-
+-	# Create SSL structure
+-	install -d ${D}${sysconfdir}/ssl/
+-	mv ${D}${libdir}/ssl/openssl.cnf \
+-	   ${D}${libdir}/ssl/certs \
+-	   ${D}${libdir}/ssl/private \
+-	   \
+-	   ${D}${sysconfdir}/ssl/
+-	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
+-	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
+-	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
+-
+-	# Rename man pages to prefix openssl10-*
+-	for f in `find ${D}${mandir} -type f`; do
+-	    mv $f $(dirname $f)/openssl10-$(basename $f)
+-	done
+-	for f in `find ${D}${mandir} -type l`; do
+-	    ln_f=`readlink $f`
+-	    rm -f $f
+-	    ln -s openssl10-$ln_f $(dirname $f)/openssl10-$(basename $f)
+-	done
+-}
+-
+-do_install_ptest () {
+-	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
+-
+-        # Replace the path to native perl with the path to target perl
+-        sed -i 's,^PERL=.*,PERL=${bindir}/perl,' ${D}${PTEST_PATH}/Makefile
+-
+-	cp Configure config e_os.h ${D}${PTEST_PATH}
+-	cp -r -L include ${D}${PTEST_PATH}
+-	ln -sf ${libdir}/libcrypto.a ${D}${PTEST_PATH}
+-	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
+-	mkdir -p ${D}${PTEST_PATH}/crypto
+-	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
+-	cp -r certs ${D}${PTEST_PATH}
+-	mkdir -p ${D}${PTEST_PATH}/apps
+-	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+-	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+-	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
+-	cp apps/server.pem              ${D}${PTEST_PATH}/apps
+-	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
+-	mkdir -p ${D}${PTEST_PATH}/util
+-	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
+-	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
+-	# Time stamps are relevant for "make alltests", otherwise
+-	# make may try to recompile binaries. Not only must the
+-	# binary files be newer than the sources, they also must
+-	# be more recent than the header files in /usr/include.
+-	#
+-	# Using "cp -a" is not sufficient, because do_install
+-	# does not preserve the original time stamps.
+-	#
+-	# So instead of using the original file stamps, we set
+-	# the current time for all files. Binaries will get
+-	# modified again later when stripping them, but that's okay.
+-	touch ${D}${PTEST_PATH}
+-	find ${D}${PTEST_PATH} -type f -print0 | xargs --verbose -0 touch -r ${D}${PTEST_PATH}
+-
+-	# exclude binary files or the package won't install
+-	for d in ssltest_old v3ext x509aux; do
+-		rm -rf ${D}${libdir}/${BPN}/ptest/test/$d
+-	done
+-
+-	# Remove build host references
+-	sed -i \
+-       -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
+-       -e 's|${DEBUG_PREFIX_MAP}||g' \
+-       ${D}${PTEST_PATH}/Makefile ${D}${PTEST_PATH}/Configure
+-}
+-
+-do_install_append_class-native() {
+-	create_wrapper ${D}${bindir}/openssl \
+-	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
+-	    SSL_CERT_DIR=${libdir}/ssl/certs \
+-	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
+-	    OPENSSL_ENGINES=${libdir}/ssl/engines
+-}
+-
+-do_install_append_class-nativesdk() {
+-    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+-    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
+-}
+-
+-FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index 7cae553..619f3d8 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -1,17 +1,20 @@
+-require openssl10.inc
+-
+-# For target side versions of openssl enable support for OCF Linux driver
+-# if they are available.
+-
+-CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+-CFLAG_append_class-native = " -fPIC"
++SUMMARY = "Secure Socket Layer"
++DESCRIPTION = "Secure Socket Layer (SSL) binary and related cryptographic tools."
++HOMEPAGE = "http://www.openssl.org/"
++BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
++SECTION = "libs/network"
+ 
++# "openssl | SSLeay" dual license
++LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
+ 
+-export DIRS = "crypto ssl apps engines"
+-export OE_LDFLAGS="${LDFLAGS}"
++DEPENDS = "makedepend-native hostperl-runtime-native"
++DEPENDS_append_class-target = " openssl-native"
++
++PROVIDES += "openssl10"
+ 
+-SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
++SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
++           file://find.pl;subdir=openssl-${PV}/util/ \
+            file://run-ptest \
+            file://openssl-c_rehash.sh \
+            file://configure-targets.patch \
+@@ -55,9 +58,64 @@ SRC_URI_append_class-nativesdk = " \
+ SRC_URI[md5sum] = "44279b8557c3247cbe324e2322ecd114"
+ SRC_URI[sha256sum] = "ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d"
+ 
++S = "${WORKDIR}/openssl-${PV}"
++UPSTREAM_CHECK_REGEX = "openssl-(?P<pver>1\.0.+)\.tar"
++
++PACKAGECONFIG ?= "cryptodev-linux"
++PACKAGECONFIG[perl] = ",,,"
++PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryptodev-linux"
++
++TERMIO_libc-musl = "-DTERMIOS"
++TERMIO ?= "-DTERMIO"
++# Avoid binaries being marked as requiring an executable stack since it 
++# doesn't(which causes and this causes issues with SELinux
++CFLAG = "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
++	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
++
++# For target side versions of openssl enable support for OCF Linux driver
++# if they are available.
++
++CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
++CFLAG_append_class-native = " -fPIC"
++
++export DIRS = "crypto ssl apps engines"
++export EX_LIBS = "-lgcc -ldl"
++export AS = "${CC} -c"
++
++export OE_LDFLAGS = "${LDFLAGS}"
++
++# openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
++CCACHE = ""
++
++inherit pkgconfig siteinfo multilib_header ptest relative_symlinks
++
++PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
++FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
++FILES_libssl = "${libdir}/libssl${SOLIBS}"
++FILES_${PN} =+ " ${libdir}/ssl/*"
++FILES_${PN}-misc = "${libdir}/ssl/misc"
++RDEPENDS_${PN}-misc = "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}"
++
++# Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
++# package RRECOMMENDS on this package.  This will enable the configuration
++# file to be installed for both the base openssl package and the libcrypto
++# package since the base openssl package depends on the libcrypto package.
++FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
++CONFFILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
++RRECOMMENDS_libcrypto += "openssl-conf"
++RDEPENDS_${PN}-ptest += "${PN}-misc make perl perl-module-filehandle bc"
++
+ PACKAGES =+ "${PN}-engines"
+ FILES_${PN}-engines = "${libdir}/ssl/engines/*.so ${libdir}/engines"
+ 
++# Remove this to enable SSLv3. SSLv3 is defaulted to disabled due to the POODLE
++# vulnerability
++EXTRA_OECONF = " -no-ssl3"
++
++do_configure_prepend_darwin () {
++	sed -i -e '/version-script=openssl\.ld/d' Configure
++}
++
+ # The crypto_use_bigint patch means that perl's bignum module needs to be
+ # installed, but some distributions (for example Fedora 23) don't ship it by
+ # default.  As the resulting error is very misleading check for bignum before
+@@ -67,3 +125,235 @@ do_configure_prepend() {
+ 		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
+ 	fi
+ }
++
++do_configure () {
++	cd util
++	perl perlpath.pl ${STAGING_BINDIR_NATIVE}
++	cd ..
++	ln -sf apps/openssl.pod crypto/crypto.pod ssl/ssl.pod doc/
++
++	os=${HOST_OS}
++	case $os in
++	linux-gnueabi |\
++	linux-gnuspe |\
++	linux-musleabi |\
++	linux-muslspe |\
++	linux-musl )
++		os=linux
++		;;
++		*)
++		;;
++	esac
++	target="$os-${HOST_ARCH}"
++	case $target in
++	linux-arm)
++		target=linux-armv4
++		;;
++	linux-armeb)
++		target=linux-elf-armeb
++		;;
++	linux-aarch64*)
++		target=linux-aarch64
++		;;
++	linux-sh3)
++		target=debian-sh3
++		;;
++	linux-sh4)
++		target=debian-sh4
++		;;
++	linux-i486)
++		target=debian-i386-i486
++		;;
++	linux-i586 | linux-viac3)
++		target=debian-i386-i586
++		;;
++	linux-i686)
++		target=debian-i386-i686/cmov
++		;;
++	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
++		target=linux-x32
++		;;
++	linux-gnu64-x86_64)
++		target=linux-x86_64
++		;;
++	linux-gnun32-mips*el)
++		target=debian-mipsn32el
++		;;
++	linux-gnun32-mips*)
++		target=debian-mipsn32
++		;;
++	linux-mips*64*el)
++		target=debian-mips64el
++		;;
++	linux-mips*64*)
++		target=debian-mips64
++		;;
++	linux-mips*el)
++		target=debian-mipsel
++		;;
++	linux-mips*)
++		target=debian-mips
++		;;
++	linux-microblaze*|linux-nios2*|linux-gnu*ilp32**)
++		target=linux-generic32
++		;;
++	linux-powerpc)
++		target=linux-ppc
++		;;
++	linux-powerpc64)
++		target=linux-ppc64
++		;;
++	linux-riscv64)
++		target=linux-generic64
++		;;
++	linux-riscv32)
++		target=linux-generic32
++		;;
++	linux-supersparc)
++		target=linux-sparcv8
++		;;
++	linux-sparc)
++		target=linux-sparcv8
++		;;
++	darwin-i386)
++		target=darwin-i386-cc
++		;;
++	esac
++	# inject machine-specific flags
++	sed -i -e "s|^\(\"$target\",\s*\"[^:]\+\):\([^:]\+\)|\1:${CFLAG}|g" Configure
++        useprefix=${prefix}
++        if [ "x$useprefix" = "x" ]; then
++                useprefix=/
++        fi        
++	libdirleaf="$(echo ${libdir} | sed s:$useprefix::)"
++	perl ./Configure ${EXTRA_OECONF} shared --prefix=$useprefix --openssldir=${libdir}/ssl --libdir=${libdirleaf} $target
++}
++
++do_compile_prepend_class-target () {
++    sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
++    oe_runmake depend
++	cc_sanitized=`echo "${CC} ${CFLAG}" | sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' -e 's|${DEBUG_PREFIX_MAP}||g'`
++	oe_runmake CC_INFO="${cc_sanitized}"
++}
++
++do_compile () {
++	oe_runmake depend
++	oe_runmake
++}
++
++do_compile_ptest () {
++	# build dependencies for test directory too
++	export DIRS="$DIRS test"
++	oe_runmake depend
++	oe_runmake buildtest
++}
++
++do_install () {
++	# Create ${D}/${prefix} to fix parallel issues
++	mkdir -p ${D}/${prefix}/
++
++	oe_runmake INSTALL_PREFIX="${D}" MANDIR="${mandir}" install
++
++	oe_libinstall -so libcrypto ${D}${libdir}
++	oe_libinstall -so libssl ${D}${libdir}
++
++	install -d ${D}${includedir}
++	cp --dereference -R include/openssl ${D}${includedir}
++
++	install -Dm 0755 ${WORKDIR}/openssl-c_rehash.sh ${D}${bindir}/c_rehash
++	sed -i -e 's,/etc/openssl,${sysconfdir}/ssl,g' ${D}${bindir}/c_rehash
++
++	oe_multilib_header openssl/opensslconf.h
++	if [ "${@bb.utils.filter('PACKAGECONFIG', 'perl', d)}" ]; then
++		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
++		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
++	else
++		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
++	fi
++
++	# Create SSL structure
++	install -d ${D}${sysconfdir}/ssl/
++	mv ${D}${libdir}/ssl/openssl.cnf \
++	   ${D}${libdir}/ssl/certs \
++	   ${D}${libdir}/ssl/private \
++	   \
++	   ${D}${sysconfdir}/ssl/
++	ln -sf ${sysconfdir}/ssl/certs ${D}${libdir}/ssl/certs
++	ln -sf ${sysconfdir}/ssl/private ${D}${libdir}/ssl/private
++	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${libdir}/ssl/openssl.cnf
++
++	# Rename man pages to prefix openssl10-*
++	for f in `find ${D}${mandir} -type f`; do
++	    mv $f $(dirname $f)/openssl10-$(basename $f)
++	done
++	for f in `find ${D}${mandir} -type l`; do
++	    ln_f=`readlink $f`
++	    rm -f $f
++	    ln -s openssl10-$ln_f $(dirname $f)/openssl10-$(basename $f)
++	done
++}
++
++do_install_ptest () {
++	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
++
++        # Replace the path to native perl with the path to target perl
++        sed -i 's,^PERL=.*,PERL=${bindir}/perl,' ${D}${PTEST_PATH}/Makefile
++
++	cp Configure config e_os.h ${D}${PTEST_PATH}
++	cp -r -L include ${D}${PTEST_PATH}
++	ln -sf ${libdir}/libcrypto.a ${D}${PTEST_PATH}
++	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
++	mkdir -p ${D}${PTEST_PATH}/crypto
++	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
++	cp -r certs ${D}${PTEST_PATH}
++	mkdir -p ${D}${PTEST_PATH}/apps
++	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
++	ln -sf ${sysconfdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
++	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
++	cp apps/server.pem              ${D}${PTEST_PATH}/apps
++	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
++	mkdir -p ${D}${PTEST_PATH}/util
++	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
++	install util/shlib_wrap.sh     ${D}${PTEST_PATH}/util
++	# Time stamps are relevant for "make alltests", otherwise
++	# make may try to recompile binaries. Not only must the
++	# binary files be newer than the sources, they also must
++	# be more recent than the header files in /usr/include.
++	#
++	# Using "cp -a" is not sufficient, because do_install
++	# does not preserve the original time stamps.
++	#
++	# So instead of using the original file stamps, we set
++	# the current time for all files. Binaries will get
++	# modified again later when stripping them, but that's okay.
++	touch ${D}${PTEST_PATH}
++	find ${D}${PTEST_PATH} -type f -print0 | xargs --verbose -0 touch -r ${D}${PTEST_PATH}
++
++	# exclude binary files or the package won't install
++	for d in ssltest_old v3ext x509aux; do
++		rm -rf ${D}${libdir}/${BPN}/ptest/test/$d
++	done
++
++	# Remove build host references
++	sed -i \
++       -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
++       -e 's|${DEBUG_PREFIX_MAP}||g' \
++       ${D}${PTEST_PATH}/Makefile ${D}${PTEST_PATH}/Configure
++}
++
++do_install_append_class-native() {
++	create_wrapper ${D}${bindir}/openssl \
++	    OPENSSL_CONF=${libdir}/ssl/openssl.cnf \
++	    SSL_CERT_DIR=${libdir}/ssl/certs \
++	    SSL_CERT_FILE=${libdir}/ssl/cert.pem \
++	    OPENSSL_ENGINES=${libdir}/ssl/engines
++}
++
++do_install_append_class-nativesdk() {
++    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
++    install -m 644 ${WORKDIR}/environment.d-openssl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/openssl.sh
++}
++
++FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.9.1
+
 
