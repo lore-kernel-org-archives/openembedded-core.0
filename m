@@ -1,48 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C48F771B4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E5660797
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 10:53:25 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id y2-v6so1452655wma.1
+	Tue, 24 Jul 2018 11:05:08 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id 13-v6so6741087ois.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 03:53:26 -0700 (PDT)
+	Tue, 24 Jul 2018 04:05:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1iGAv9xwxIvJi1+wAczVyQSzRFc/BDlx+9TstZFDJac=;
-	b=JPk+XWqwqr89H2bY7bpWtz0t0x+tfMvAoVOJJ9lIHOdzn+6ljefcWZkikmPdscbVlw
-	CcxS1LIFAmaKiR1Z/EQX2Mg+qU5r7lk6VEh9gAokYIljGQIW/e91okTHztp379rn/Fsn
-	cvM8vH9Esk4IMThiP8Oci+CmDGwmidSNlVX6s=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=anzH79pO/hOSZkWJ8u7qdpAtR2KKFmmkr0WOXjZQJKg=;
+	b=fzFFOaNptFzPZl9Xs2MMu/HJcOKKACqJXRsZ9SgrEl/QevZuBenlj3jZyvSPJXRjgE
+	rrXPbhbbwxjieisKM9c7TD9jWeRNFUSdpBe4dZQwgB8I1E9jbmLHrXqMQFjzgKgwCrlm
+	CiltbAi0wDj3BTXoi4nP8IeWdGmuVBCuD40bu+QlF7HOn3t2/Ltd6RCzxBj9DmUBV2Oc
+	oN8fAqqb3hnKUQ2vVHV0zsVF7fg3CsqXPZX/rbUvOhUYAjWx5LToa9xqzl+YqPpC6wq6
+	/nbgT1NZNHKlSFNVMAp0O2dI2rH48y7DvhPsIWHIleAtGGI7ureZI02RzAEfI9/Ix7IO
+	jpJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=1iGAv9xwxIvJi1+wAczVyQSzRFc/BDlx+9TstZFDJac=;
-	b=iPKEmWc4N4Wff4REY2mFBOz33ZgAuJnluEzVBAWxkx+jyz6Ylay7r/JqnCos/RXdah
-	tbnG7QWHozeotv0Rw58AGHP+eW2mfAyI3YGnozk1JN8msjKtVpxNRPP6c7IVOfVQKAA3
-	UdgrW4tLtAFA6YZuBgYTeMVBr88x1yW1QxPQ1CPKQXmarP/196Su4SG+U9++GE6ZrvUw
-	7EapUoJ/PY8EPlG64Ge6FLpCYMotbHtTUv6iLM1Rx/sEXPTC5ZmDVifuDoAEq7Q0vE5r
-	uT0xDKcMe6ANLb2SQDgEg7+X90bynrxvAkJWXim23Fvg/AOL/0Nvm67L5jf9BWNmEhS8
-	V+ug==
-X-Gm-Message-State: AOUpUlGgy4ruWcJgRl8Ji0ccz6SDjMqAon4Fh6KJ6e6ZG0SonUhCu+H1
-	oHzxLR8VamfEfDJUGZA2cor+/itzxeiKPA==
-X-Google-Smtp-Source: AAOMgpdfqCgYxjGtRuEpWs2I2S7vpAVh/srw9AtGsNRMW0EAB+K/DbylJgIj5BTk7pJMk9IQiamClQ==
-X-Received: by 2002:a1c:f03:: with SMTP id 3-v6mr1619997wmp.129.1532429605849; 
-	Tue, 24 Jul 2018 03:53:25 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e10-v6sm2037488wmh.19.2018.07.24.03.53.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Jul 2018 03:53:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jul 2018 11:53:16 +0100
-Message-Id: <20180724105316.2085-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180724105316.2085-1-richard.purdie@linuxfoundation.org>
-References: <20180724105316.2085-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 6/6] uninative-tarball: Add nativesdk-libnss-nis to resolve glibc symbol issues
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=anzH79pO/hOSZkWJ8u7qdpAtR2KKFmmkr0WOXjZQJKg=;
+	b=rYK6LPddVe/z063RDKhDh8k9hfIBnhXx4khXKjAdMQjgbw0iWWq5TAIRGQZ/7pcTos
+	VQdLplc7fwvOA/ZroIxAzIxkC0jvlmduUX/mzXkgX19YYGxpimZnBOYdU4BoHUb8j3tR
+	AZPe6wktPyobRwAEOpzld+yLsH+XWu2/qIHO4S1OEyJ05syTmJLBGxjIZvTRa92kvga+
+	n4v1QXRTIZmKY0Qjij9sYLmpWxbJSqyuZzoYUOwQmcTPB4mA2xRVtx9HUIoHhOClmAYq
+	Wv1NohWq3n/bjct1vTnObdcoYd0aC1r/pXLTBYXl5B1fejF93FBtcxO3XMa+RpcdkJjL
+	o/qw==
+X-Gm-Message-State: AOUpUlGX4lfL2/APkVDFoyI7/gZXZXEIIjGoh9fErTuC/fnrA/tc0BkC
+	CY+JrhrgTgJc0XRKsM3CebMjmtNYvhV/v0aMPyVvEWl9
+X-Google-Smtp-Source: AAOMgpcU5l8GbdnE32bNsVBM8vwN45fOnnBgiEzE2z2Fem/ZSMnDtrBi3ggPbdnk8obhZX37gPeRUPd05wGz008FAJ8=
+X-Received: by 2002:aca:f409:: with SMTP id
+	s9-v6mr2869513oih.102.1532430309383; 
+	Tue, 24 Jul 2018 04:05:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 24 Jul 2018 04:04:48
+	-0700 (PDT)
+In-Reply-To: <20180724105222.25606-6-dv@pseudoterminal.org>
+References: <20180724105222.25606-1-dv@pseudoterminal.org>
+	<20180724105222.25606-6-dv@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 24 Jul 2018 12:04:48 +0100
+Message-ID: <CAJTo0LavvoSVEOFXEwcJB3snMk7HgR-CWJF_hhVDAT9UyJqRLQ@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 6/6] gstreamer1.0-libav: Replace German umlaut to avoid parsing problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 10:53:25 -0000
+X-List-Received-Date: Tue, 24 Jul 2018 11:05:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We need this to avoid symbol mismatch issues for binaries that use this
-on newer systems which then won't run on older ones where it isn't present.
+It can? Where?  That's surely a bug...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/meta/uninative-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+Ross
 
-diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
-index c38c2a445e9..e0cb9ffee0d 100644
---- a/meta/recipes-core/meta/uninative-tarball.bb
-+++ b/meta/recipes-core/meta/uninative-tarball.bb
-@@ -16,6 +16,7 @@ TOOLCHAIN_HOST_TASK = "\
-     nativesdk-glibc-gconv-libjis \
-     nativesdk-patchelf \
-     nativesdk-libxcrypt \
-+    nativesdk-libnss-nis \
-     "
- 
- INHIBIT_DEFAULT_DEPS = "1"
--- 
-2.17.1
-
+On 24 July 2018 at 11:52, Carlos Rafael Giani <dv@pseudoterminal.org> wrote=
+:
+> The umlaut can cause issues related to encoding; avoid by replacing it
+>
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  .../workaround-to-build-gst-libav-for-i586-with-gcc.patch       | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaro=
+und-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gs=
+treamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.=
+patch
+> index 36abf8607e..5355480aa4 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-=
+build-gst-libav-for-i586-with-gcc.patch
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-=
+build-gst-libav-for-i586-with-gcc.patch
+> @@ -1,5 +1,5 @@
+>  Description: Workaround to build libav for i586 with gcc 4.9.2 by avoidi=
+ng memset
+> -Author: Bernhard =C3=9Cbelacker <bernhardu@vr-web.de>
+> +Author: Bernhard Uebelacker <bernhardu@vr-web.de>
+>
+>  ---
+>  Bug-Debian: https://bugs.debian.org/783082
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
