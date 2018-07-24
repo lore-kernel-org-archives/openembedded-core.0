@@ -1,27 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A223F75532
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CC92360197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 08:33:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6O8Xgjr010360
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jul 2018 01:33:42 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 24 Jul 2018 01:33:41 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1531122592-221110-1-git-send-email-changqing.li@windriver.com>
-	<d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9e9af3a2-d086-f60f-027f-7527cf7fd93b@windriver.com>
-Date: Tue, 24 Jul 2018 16:32:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Tue, 24 Jul 2018 08:37:54 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id y207-v6so6070014oie.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2018 01:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=2mo0WJ2gfd7vl6EdxKsf4NErfYU86dQZImbLK98abuk=;
+	b=CGbBvo4nlL0yD6ZtRo6eVBh8g4ZsssXsP2U+7LgiWhYy0YvGtKTjJxsIaZS2IRY1y7
+	2cyx9wqydEcrhPeOxd66tcaxyD7SO0vQ0k1CNT2LaVAKohSzqd6rfuWe7bfspI94BMPd
+	KUs7aQ3tlOn3qxFWBO7nuXgfEn5gFXKpuBoXCb/QCj5ehio0WTBSfx1qTeeiI5NbBZU5
+	hDhlIFZd7hWftxAPgDa4KpfUmeBhIgAABh8XhHUuPLSHrgZ8Ndg8h4MLBrxCaJj5h7Ox
+	rs3NngdTDZx04ZWtinYHTAW9qhbOPO5M7s4UNz1VMx8GmiVM5+AYViVYUdj/rWbWQrBX
+	fAsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=2mo0WJ2gfd7vl6EdxKsf4NErfYU86dQZImbLK98abuk=;
+	b=KmhIOE80PNZkf/meIX7u4pVIsfz+CKxjglDyrh7IfuV9AOSJRmfkHdjPmrY6cPK4p4
+	XzGf7HJgNiWUIRHRIjqfU7sjgdc8ZYp0Jijqd5vV4TqieXusHqNnA6sx4rT8ag/ts8aA
+	ROhdRA0WIFoWNkPlU7Hu5v4rgh2KcZ50rZh2HasCNO4RR+FGXvhjk/2YGs6nmHjTXTYB
+	LsLSiiXQhsIcIwv8znBF8cM9RDdDG6xYw458EwpyGTZsdJUcLvWvmym/wFBpePbWOOSj
+	sCkuZpwuSbTBlBd96BGyG/fUbgPEMqB4/s+tRtl0P2mfwxdMOREOI/sHzC8YNCEwBv3z
+	vTug==
+X-Gm-Message-State: AOUpUlGQuvNLRJZQd22hxxBjtdgC7YuJuX1fFFIdliGTxOVzA+7UhqoT
+	xYUGemTsYjdjsqUDKgezvProtI7xjHKFa697HDE=
+X-Google-Smtp-Source: AAOMgpfUw6yRRbpdvm1G1rgvuOAz8f3ujT0NsxHp1pBcndG4nPRxSSpSmuy3xjugFYug6kNLuw9+7qfs1KclE+9kuFQ=
+X-Received: by 2002:aca:4fcf:: with SMTP id
+	d198-v6mr2010662oib.51.1532421475752; 
+	Tue, 24 Jul 2018 01:37:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d1627eab4bff8883c6238d32c7704d4c29741d70.camel@linuxfoundation.org>
-Subject: Re: [PATCH] coreutils: fix compile error since use wrong libnss_nis.so
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Tue, 24 Jul 2018 01:37:55
+	-0700 (PDT)
+In-Reply-To: <CAJTo0LaFai2biC-973Da-o7NMFwYkMWRTa4F5O+prseWFNwW4A@mail.gmail.com>
+References: <1532418493-21449-1-git-send-email-ovidiu.panait@windriver.com>
+	<CAJTo0LaFai2biC-973Da-o7NMFwYkMWRTa4F5O+prseWFNwW4A@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 24 Jul 2018 10:37:55 +0200
+Message-ID: <CANNYZj-FSOW33dXtdmo=467nktA_W8oXWknzUOURKWWb331tEQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lsof: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,44 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 08:33:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2018 08:37:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi RP,
+Also, if an upgrade is undesirable for some reason, then such changes
+need UPSTREAM_CHECK_URI, or we'll be missing new upstream releases.
 
-On 07/09/2018 04:46 PM, Richard Purdie wrote:
-> On Mon, 2018-07-09 at 15:49 +0800, changqing.li@windriver.com wrote:
->> From: Changqing Li <changqing.li@windriver.com>
+Alex
+
+2018-07-24 10:07 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
+> Well for master if there's a new version then a better fix would be to
+> upgrade, but we do need to make sure the previous releases are using
+> mirrors.
+>
+> On 24 July 2018 at 08:48, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
+>> lsof 4.89 archive has been moved to OLD directory and turned into tar.gz,
+>> so update SRC_URI and checksums.
 >>
->> id: relocation error: /lib/x86_64-linux-gnu/libnss_nis.so.2:
->> symbol _nsl_default_nss version GLIBC_PRIVATE not defined in
->> file libnsl.so.1 with link time reference
->>
->> Recent glibc change removed libnss-nis module from glibc and
->> a new recipe libnss-nis.bb was added. After this change,
->> we need to include native libnss_nis in coreutils. otherwise,
->> with "nis" in host /etc/nssswitch.conf, id will use host
->> libnss_nis.so, which will cause above error
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 >> ---
->>   meta/recipes-core/coreutils/coreutils_8.29.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> I think this would be fixed by a new version of uninative-tarball after
-> the recent change to include libnss-nis in it. We should probably have
-> a new release of uninative rather than starting to add these DEPENDS
-> everywhere...
-
-When do you plan to rebuild uninative-tarball, please ? I can help if needed.
-
-// Robert
-
-> 
-> Cheers,
-> 
-> Richard
-> 
+>>  meta/recipes-extended/lsof/lsof_4.89.bb | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+>> index 14546db23c..b58b8281f9 100644
+>> --- a/meta/recipes-extended/lsof/lsof_4.89.bb
+>> +++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+>> @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
+>>  # https://people.freebsd.org/~abe/ ). http://www.mirrorservice.org seems to be
+>>  # the most commonly used alternative.
+>>
+>> -SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
+>> +SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/OLD/lsof_${PV}.tar.gz \
+>>             file://lsof-remove-host-information.patch \
+>>            "
+>>
+>> -SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
+>> -SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+>> +SRC_URI[md5sum] = "8afbaff3ee308edc130bdc5df0801c8f"
+>> +SRC_URI[sha256sum] = "5d08da7ebe049c9d9a6472d6afb81aa5af54c4733a3f8822cbc22b57867633c9"
+>>
+>>  LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
+>>
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
