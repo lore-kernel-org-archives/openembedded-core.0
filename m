@@ -1,31 +1,55 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 264117017B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
+	[209.85.213.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E99C2745B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 20:18:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6OKIRM2022338
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jul 2018 13:18:27 -0700
-Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 24 Jul 2018 13:18:27 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <1532418493-21449-1-git-send-email-ovidiu.panait@windriver.com>
-	<CAJTo0LaFai2biC-973Da-o7NMFwYkMWRTa4F5O+prseWFNwW4A@mail.gmail.com>
-	<CANNYZj-FSOW33dXtdmo=467nktA_W8oXWknzUOURKWWb331tEQ@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <618229eb-0ae4-e749-23f5-0cb1c2f3ceac@windriver.com>
-Date: Tue, 24 Jul 2018 16:18:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Tue, 24 Jul 2018 20:20:30 +0000 (UTC)
+Received: by mail-vk0-f67.google.com with SMTP id y70-v6so2709363vkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2018 13:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=to7g9nmioOArQj4ZEMSXZp7QtSQgf1SIR6JcqZ5s++E=;
+	b=Y4VBHY7cSgGRrISHutZHzObGkxUUGe8xCnsqKRbgzKu/5kybXiQKp2GfDd3Y/PmNpY
+	p6XiSfzaVQUzMLMr189O5f+gevlNvl+vjdGkw+d7LNt8g++7JoCoRHxHlG5il2Kr+ViA
+	P36MSXhSLn8lbHNafS7et8VD+9Al3KSQd/EKTaNvVFiSEIL6/gJzxtmDMhdXhoZEsNeM
+	fv+n7phEtbNY5mB/McQzerqsefKN5WNVog3OPtpovg3+U4068IOUSIpVy6GQQqgsOyWr
+	HC1ZeimUH0p3/HX5Q/ZnI3ej5ue54icuCV5ShCQq8HzktTTnOZfS9J7kGZg2ZGgjg4d5
+	yx9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=to7g9nmioOArQj4ZEMSXZp7QtSQgf1SIR6JcqZ5s++E=;
+	b=Pv5ke8guMfQkREOtq2iWW0QYCPWOdYpcsIVWU6AppZW28n2u3RLICRLmw0YsS1khmU
+	IaBgs5ZR1VXc88qcPTGlWacHzPbltucw7LRGZ7L62FfcISRKkqcPI2d+e8IbgDiqnD0Z
+	212MHPu30Nh5DCvBnJAdSKerxVMx1kNNaplX6g+ZUmsjaZK0O52rrxD2V53BaQqSTAm2
+	jjt8dTkhERpL2UxWFMy3hrvrJPRYZtn+h3+0iD5R1UvDXkTlxJ4LipUcAtm3QpGsnL6b
+	x+osVYVBSAc0Hs8/7KpgG3sAdY0ikvHbtaRR7GYI0s3wajJguDc4krsirQc2CQGQQ4sE
+	iSOw==
+X-Gm-Message-State: AOUpUlFfJ5mmY5dMlDc901EGh0CFJiu+oEho/WSsn4G3ZigEwjVF62gh
+	HGLBHsTe9hncUbszmOC3PC4YGpAoJy1i0VBfyaw=
+X-Google-Smtp-Source: AAOMgpcu4wh0JMhKyhC8cS/p9X+ZY+w+X8t9bRkTng8d38ywmnVvNe3C4uvU3FNh1X66Dsa2mrpVgM207EiJqcdnz1o=
+X-Received: by 2002:a1f:c252:: with SMTP id
+	s79-v6mr11353281vkf.127.1532463631721; 
+	Tue, 24 Jul 2018 13:20:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj-FSOW33dXtdmo=467nktA_W8oXWknzUOURKWWb331tEQ@mail.gmail.com>
-X-Originating-IP: [172.25.44.2]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lsof: Update SRC_URI
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Tue, 24 Jul 2018 13:20:31 -0700 (PDT)
+In-Reply-To: <CAFmD+WEhmrCpo-xhaBWanXPPBLxBS+y6YaECxO68SRsy30LnAg@mail.gmail.com>
+References: <20180508164658.2935-1-taborskikrzysztof@gmail.com>
+	<5af302bc.1c69fb81.44885.4061@mx.google.com>
+	<CAJ86T=Wxh3SzsATsvtB8+CWadp=hjEBXTt1XnwYMFJ4zmVaQ1Q@mail.gmail.com>
+	<CAFmD+WEeyHwEQs825up0Q=yF4n3gvQU-eav3RZdJ9nt5NLECwQ@mail.gmail.com>
+	<CAJ86T=VBxXPmDwg6S7q9vLjubLwDoSHtZiQ6k-Q475BV-az=Ow@mail.gmail.com>
+	<CAFmD+WEhmrCpo-xhaBWanXPPBLxBS+y6YaECxO68SRsy30LnAg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 24 Jul 2018 13:20:31 -0700
+Message-ID: <CAJ86T=WvP9X1zNJD-tqyqSkg4w5QRBde5m4dx728MLsqsGAC-w@mail.gmail.com>
+To: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] perl: native modules will not trigger build perl for target.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,94 +62,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 20:18:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2018 20:20:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/24/2018 04:37 AM, Alexander Kanavin wrote:
-> Also, if an upgrade is undesirable for some reason, then such changes
-> need UPSTREAM_CHECK_URI, or we'll be missing new upstream releases.
-> 
-> Alex
-> 
-> 2018-07-24 10:07 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
->> Well for master if there's a new version then a better fix would be to
->> upgrade, 
+On Tue, Jul 24, 2018 at 12:22 AM, Krzysztof Taborski
+<taborskikrzysztof@gmail.com> wrote:
+> Hello,
+> Example recipe (recipe.bb for example):
+> """
+> LICENSE=3D"CLOSED"
+>
+> RDEPENDS_${PN} =3D "perl-module-file-glob"
+>
+> BBCLASSEXTEND =3D "native nativesdk"
+> do_install() {
+>     install -d ${D}/${bindir}
+>     echo "my perl script" > ${D}/${bindir}/recipe.pl
+> }
+> inherit perlnative
+> ""
+>
+> When my patch is removed and I will call: "'bitbake recipe-native".
+> Then I have dependency:
+> recipe-native -> perl (target version)
+> This is not correct, that native recipe has dependency to target recipe.
 
-Yes, there's a 4.91 as of March and a github repo in the works
-according to the members-only list archive:
+There are two parts to this issue.
 
+First, the dependency between recipe-native and perl is certainly a
+bug and your fix for that in the perl recipe looks good, ie setting
 
-On  Fri Jun 22 09:55:59 EDT 2018, Victor Abell wrote:
+  PACKAGES_DYNAMIC +=3D "^perl-module-.*(?<!\-native)$"
 
-   I am slowly making progress for the release of lsof to GitHUB
-   from its Purdue Research Foundation copyright.  I have finally
-   reached a person who works on open source distribution issues.
-   He and I have had several discussions about lsof and its copyright
-   and he now understands what needs to be done.  He has formulated
-   a request to the senior IP officer for the release and we are waiting
-   the response.
+However, after making that first fix, although the recipe-native ->
+perl dependency will be gone, trying to build your recipe-native
+should now generate a build failure - bitbake will correctly report
+that nothing provides a package called "perl-module-file-glob-native".
 
-so for oe-core-2.6, we should use 4.91.
+The question is really how to fix that new build failure.
 
+One approach (the approach you took - the second part of your patch)
+is to update the perl-native recipe so that pretends to provide
+packages named "perl-module-XXX-native".
 
->> but we do need to make sure the previous releases are using
->> mirrors.
+The alternative approach is to explicitly set RDEPENDS for the -native
+build of your recipe to over-ride the false dependency added by the
+native class dependency renaming e.g.
 
-I expect that Ovidiu just forgot the branch prefix in his subject line.
-Do you want him to resend for 2.5 and 2.4 ?
+  RDEPENDS_${PN}_class-native =3D "perl-native"
 
-../Randy
+That second approach is basically what the autoconf recipe does to
+solve a similar problem:
 
+  http://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/=
+autoconf/autoconf.inc?h=3Dsumo
 
+As to which is the more "correct" approach, I'm not really sure.
+Opinions welcome...
 
+> When I called (bitbake recipe-native -g) I can find:
+> "recipe-native" -> "perl"
+> in recipe-depends.dot
+>
+> This was my original problem. Please correct me, if missed something.
+>
+> usage of +=3D with an over-ride - I've just copied it from nativesdk
+> over-ride, which was already in perl recipe.
+>
+>
+> Best regards,
+> Krzysztof Taborski
+>
+> 2018-07-23 19:23 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
 >>
->> On 24 July 2018 at 08:48, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
->>> lsof 4.89 archive has been moved to OLD directory and turned into tar.gz,
->>> so update SRC_URI and checksums.
->>>
->>> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
->>> ---
->>>   meta/recipes-extended/lsof/lsof_4.89.bb | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
->>> index 14546db23c..b58b8281f9 100644
->>> --- a/meta/recipes-extended/lsof/lsof_4.89.bb
->>> +++ b/meta/recipes-extended/lsof/lsof_4.89.bb
->>> @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
->>>   # https://people.freebsd.org/~abe/ ). http://www.mirrorservice.org seems to be
->>>   # the most commonly used alternative.
->>>
->>> -SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
->>> +SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/OLD/lsof_${PV}.tar.gz \
->>>              file://lsof-remove-host-information.patch \
->>>             "
->>>
->>> -SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
->>> -SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
->>> +SRC_URI[md5sum] = "8afbaff3ee308edc130bdc5df0801c8f"
->>> +SRC_URI[sha256sum] = "5d08da7ebe049c9d9a6472d6afb81aa5af54c4733a3f8822cbc22b57867633c9"
->>>
->>>   LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
->>>
->>> --
->>> 2.17.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
+>> On Mon, Jul 23, 2018 at 5:57 AM, Krzysztof Taborski
+>> <taborskikrzysztof@gmail.com> wrote:
+>> > Change was already merged:
+>> >
+>> > http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-dev=
+tools?id=3D7dd9772eca6df52db09b65537fdf689f1aa3fd8f
+>> >
+>> > Is your request still valid?
+>>
+>> Yes, although the change was merged, it's not clear that it was correct.
+>>
+>> Native recipes aren't split into packages, so there are no -native
+>> versions of the perl modules. If you have a recipe which depends on
+>> "perl-module-XXX-native" it's likely a bug in that recipe - not in
+>> perl-native.
+>>
+>> What recipe did you find which depends on a -native version of a perl
+>> module?
+>>
+>> > 2018-07-09 21:40 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+>> >>
+>> >> On Wed, May 9, 2018 at 7:16 AM, taborskikrzysztof
+>> >> <taborskikrzysztof@gmail.com> wrote:
+>> >> > Can I request review?
+>> >> > -------- Oryginalna wiadomo=C5=9B=C4=87 --------
+>> >> > Od: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+>> >> > Data: 08.05.2018 18:46 (GMT+01:00)
+>> >> > Do: openembedded-core@lists.openembedded.org
+>> >> > DW: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+>> >> > Temat: [meta-oe][PATCH] perl: native modules will not trigger build
+>> >> > perl
+>> >> > for
+>> >> > target.
+>> >> >
+>> >> > Currently building perl-native modules triggers
+>> >> > build perl for target due to PACKAGES_DYNAMIC regex.
+>> >> >
+>> >> > This commit will cause, that perl native modules will
+>> >> > trigger perl-native build.
+>> >>
+>> >> Can you give an example of how to reproduce the problem?
+>> >>
+>> >> > Signed-off-by: Krzysztof Taborski <taborskikrzysztof@gmail.com>
+>> >> > ---
+>> >> > meta/recipes-devtools/perl/perl-native_5.24.1.bb | 2 ++
+>> >> > meta/recipes-devtools/perl/perl_5.24.1.bb        | 2 +-
+>> >> > 2 files changed, 3 insertions(+), 1 deletion(-)
+>> >> >
+>> >> > diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+>> >> > b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+>> >> > index a9ab17d16c..71f45890b0 100644
+>> >> > --- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+>> >> > +++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
+>> >> > @@ -135,3 +135,5 @@ EOF
+>> >> >
+>> >> > # Fix the path in sstate
+>> >> > SSTATE_SCAN_FILES +=3D "*.pm *.pod *.h *.pl *.sh"
+>> >> > +PACKAGES_DYNAMIC_class-native +=3D "^perl-module-.*native$"
+>> >>
+>> >> This usage of +=3D with an over-ride is not correct.
+>> >>
+>> >> However, regardless of that, was this change actually needed?
+>> >>
+>> >> If you know of a -native recipe which depends on a
+>> >> perl-module-XXX-native package then it's probably a bug in the -nativ=
+e
+>> >> recipe. Having perl-native pretend to provide perl-module packages
+>> >> probably isn't the right solution.
+>> >>
+>> >> > diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb
+>> >> > b/meta/recipes-devtools/perl/perl_5.24.1.bb
+>> >> > index 53a426289a..4c6a71082f 100644
+>> >> > --- a/meta/recipes-devtools/perl/perl_5.24.1.bb
+>> >> > +++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+>> >> > @@ -339,7 +339,7 @@ python split_perl_packages () {
+>> >> >      d.setVar(d.expand("RRECOMMENDS_${PN}-modules"), '
+>> >> > '.join(packages))
+>> >> > }
+>> >> >
+>> >> > -PACKAGES_DYNAMIC +=3D "^perl-module-.*"
+>> >> > +PACKAGES_DYNAMIC +=3D "^perl-module-.*(?<!\-native)$"
+>> >> > PACKAGES_DYNAMIC_class-nativesdk +=3D "^nativesdk-perl-module-.*"
+>> >>
+>> >> This usage of +=3D with an over-ride is not correct.
+>> >>
+>> >> > RPROVIDES_perl-lib =3D "perl-lib"
+>> >> > --
+>> >> > 2.13.6
+>> >> >
+>> >> >
+>> >> > --
+>> >> > _______________________________________________
+>> >> > Openembedded-core mailing list
+>> >> > Openembedded-core@lists.openembedded.org
+>> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >> >
+>> >
+>> >
+>> >
+>> >
+>> > --
+>> > Pozdrawiam,
+>> > Krzysiek Taborski
+>
+>
+>
+>
+> --
+> Pozdrawiam,
+> Krzysiek Taborski
 
