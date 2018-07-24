@@ -1,51 +1,48 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id F24016FFC7
+Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
+	[209.85.160.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C8775114
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 01:56:48 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id y10-v6so1746953uao.4
+	Tue, 24 Jul 2018 02:32:22 +0000 (UTC)
+Received: by mail-pl0-f68.google.com with SMTP id m16-v6so1038218pls.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2018 18:56:50 -0700 (PDT)
+	Mon, 23 Jul 2018 19:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iKkUiD+dFTH0t5ohas28nBYyT/9n0eP4lPrfcQ2pb1s=;
-	b=irB20Sfc6haMv4jJs4vc5cYSDDHbnMTDlxWMcKD2sm6wPipxtGeqylPRgpm3WWrMmt
-	Wy3M068F12dMAbMXpWd7FddXt+QDu6KNjnGu/V4/3MZS1BMyl5xQMYSHk7IiEn5R07kx
-	znqjAAZbJdCqyXI0/C50Z09QGIB6IRtDxx1Ptgtrmz38qeFi4cAVhcKIGcs31vz4nPqf
-	u7NFeOrGVVLlndyOPn0QhehJ8djb7EVxzxzIvvdhhjFUy9/Wfl3pODtCFqwOCMyk5/b9
-	ykVIO9/HjkMJjhZm/i2F0Qbc3nvQAZ5GHb37Dpx647BJCAt/Se+ebx7Ze5udR3itkeU6
-	jXag==
+	h=from:to:cc:subject:date:message-id;
+	bh=kfy8NFhL7i0pni0irqi6doudoF7xkC8Ae57AP67r78A=;
+	b=hu4UW+cVNFQLP71lDSdbTNSa4XsfkrjjuUrmPYqhBU8QXv5eWrANmOZ3aVB0/wpZgJ
+	qmFO4drOxOc9CTOcjWfmAgRohZgrZaUeq40M6jTYcxrRpOV5pRvV9eubgbKQDRnT3Lgs
+	moaSIGC8rbQypUDBeDEK3xE2zf8AIm1MqOSMQZOmK3yge/NczUrd2eZO66XOKvQxR4Mg
+	hzJXH5INQhcLjCeVf+xh+lIsfgnjGOPzOFb8atifGOmhuVGeb8HB/RT+rTiIIo952N+o
+	lYHck5NZ26YsWr50mEI+0rAYNDtBAfVzELxhhPMd2R3yRUPjrD3YYWBs0JvTsX+FKFOz
+	eDRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iKkUiD+dFTH0t5ohas28nBYyT/9n0eP4lPrfcQ2pb1s=;
-	b=j2SNu0UJuv6jaHLaebdw1HfICAEB5AecmGxhpzxoxO2SrO/xzFU87c9O+IUFWvSXhq
-	8qMWyN/SESKDIc1ajZHZzCfViwUdlagfTP8YsF/7mPOmrykimC+i2XtlEYbjiusuxflk
-	YQyuaeSBmqHM9r4Cmq3Si14GUme/iv5r+e1BOrRsrlJuTEq8oGJ3a1/AxE2T1BB6BqTG
-	gwR5zG7kyuf/oLH/BCMAouqawr0k2Sa2R4w6cSFz2HUbtSrVLlLu/GX+Fp7j1dQ7zGc5
-	R8yCp8SmszQiPj1k0KQT8D7QmyWGzTA0brlrZn2uTsjQLhjBnund0cXXliVUaIbsd79j
-	SfWQ==
-X-Gm-Message-State: AOUpUlHeyif8tpzG5zsdzJ4qQNPUoDGAeplar0RlPYVy8KHoHHpJj0n4
-	hPmg828cYV66677oNgc8k94NFrBhbYV4YOoqb7Q=
-X-Google-Smtp-Source: AAOMgpcA3yKZnlLqZrw+ijm07W8Csn89e2mv4UNfiQPKP6N4upTLvnhyBy5MiJa4+WGy1R/Wy649zn8o6ue8D7tKci8=
-X-Received: by 2002:a9f:3f8c:: with SMTP id
-	k12-v6mr10520193uaj.38.1532397409778; 
-	Mon, 23 Jul 2018 18:56:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Mon, 23 Jul 2018 18:56:49 -0700 (PDT)
-In-Reply-To: <CAKmqyKNrUdU9wcUH8no9J_XNE=4ztujQ95tap7Zk5HBWv9XT9g@mail.gmail.com>
-References: <20180718225304.28673-1-alistair.francis@wdc.com>
-	<CAJ86T=XuEUrsb8gZAXmh3m+sXFpU2T=bXqNRhjLYUNCH9DNtDg@mail.gmail.com>
-	<CAKmqyKNrUdU9wcUH8no9J_XNE=4ztujQ95tap7Zk5HBWv9XT9g@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kfy8NFhL7i0pni0irqi6doudoF7xkC8Ae57AP67r78A=;
+	b=dc1K+szLWIuy8FcMtpeK34ACdgM/dK02pQa4unHEMpS0jezBqcutm1bMUUQ6b/myk6
+	okGVAZH4RGI39PE+KTeSC46qixVtOHRZ74Isb1X0OS0w1y+2vLbc8cZShrZ/nsQ21x0E
+	env68BlVTmjZMDVFS/6kbuPGo7GtEOVDifL9qimtC5L55MTZcEUjdt/aGqm/SHFrMgva
+	ZrxBx0d3boBf+9ef5RgRcJBf6XpKgqlgKBYKQd+nsFfJSlAv1+pWZqx4FbYu7WeXx1nH
+	Oh85TS1lOTpzyra3lQAY4I610eqy8cGTCTMcoGqpen1lxPmzrgBh5b679scKobhxVFLK
+	aAYg==
+X-Gm-Message-State: AOUpUlHXR1FdQZ191r0q9voXAHr6JNadNkGtzSi758lPuzVg/SsRoCi7
+	5PGICKAc/yAVj2thwn/KrHQUSS/U
+X-Google-Smtp-Source: AAOMgpf/hENpv+w49fGnf0T35Z18+IdROEYiPrFtzRgg6x5TCDH8SMwgrLLjCyhDUPd/TzSi80CIQg==
+X-Received: by 2002:a17:902:76c2:: with SMTP id
+	j2-v6mr15049606plt.19.1532399543309; 
+	Mon, 23 Jul 2018 19:32:23 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	g11-v6sm13126527pfh.63.2018.07.23.19.32.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Jul 2018 19:32:22 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 23 Jul 2018 18:56:49 -0700
-Message-ID: <CAJ86T=WiP390poQ2=7zuedrmfipMY8ojGuFfjcXw_Br8UPktwA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: Allow custom coredump config options
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2018 19:32:18 -0700
+Message-Id: <1532399538-32084-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] autotools.bbclass: fix autoreconf bbnote commandline arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,71 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 01:56:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 24 Jul 2018 02:32:22 -0000
 
-On Mon, Jul 23, 2018 at 4:16 PM, Alistair Francis <alistair23@gmail.com> wrote:
-> On Wed, Jul 18, 2018 at 4:48 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Wed, Jul 18, 2018 at 3:53 PM, Alistair Francis
->> <alistair.francis@wdc.com> wrote:
->>> If the user has enabled coredump let's allow them to customise the
->>> config options.
->>>
->>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>> ---
->>>  meta/recipes-core/systemd/systemd_239.bb | 12 ++++++++++++
->>>  1 file changed, 12 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_239.bb b/meta/recipes-core/systemd/systemd_239.bb
->>> index 7822548993..a625d060a9 100644
->>> --- a/meta/recipes-core/systemd/systemd_239.bb
->>> +++ b/meta/recipes-core/systemd/systemd_239.bb
->>> @@ -279,6 +279,18 @@ do_install() {
->>>                         chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->>>                 fi
->>>         fi
->>> +
->>> +  # If coredump was enabled, enable it in the config.
->>> +  # This just sets the default, but can be used to customise the values.
->>> +  if ${@bb.utils.contains('PACKAGECONFIG', 'coredump', 'true', 'false', d)}; then
->>> +    sed 's|#Storage.*|Storage=external|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#Compress.*|Compress=yes|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#ProcessSizeMax.*|ProcessSizeMax=2G|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#ExternalSizeMax.*|ExternalSizeMax=2G|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#JournalSizeMax.*|JournalSizeMax=767M|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#MaxUse.*|MaxUse=|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>> +    sed 's|#KeepFree.*|KeepFree=|g' -i ${D}${sysconfdir}/systemd/coredump.conf
->>
->> How does this allow the user to customise the config options?
->
-> They can edit the sed command line and have different options.
+Leaving -Wcross out of the bbnote version of the autoreconf command
+seems to be a long standing inconsistency (dating back to the very
+first commit in oe-core) but there's no obvious reason to do so.
 
-Editing the sed commands won't help users who prefer to customise
-their builds via a .bbappend or by over-riding variables from
-local.conf.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/autotools.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For users who edit recipes directly, providing a place-holder may not
-be very useful either since those users can edit the recipe to their
-liking and add any sed commands etc they need anyway. So this change
-would be useful to quite a narrow audience.
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index cc857ac..81d3674 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -225,7 +225,7 @@ autotools_do_configure() {
+ 			find ${S} -ignore_readdir_race -name $i -delete
+ 		done
+ 
+-		bbnote Executing ACLOCAL=\"$ACLOCAL\" autoreconf --verbose --install --force ${EXTRA_AUTORECONF} $acpaths
++		bbnote Executing ACLOCAL=\"$ACLOCAL\" autoreconf -Wcross --verbose --install --force ${EXTRA_AUTORECONF} $acpaths
+ 		ACLOCAL="$ACLOCAL" autoreconf -Wcross --verbose --install --force ${EXTRA_AUTORECONF} $acpaths || die "autoreconf execution failed."
+ 		cd $olddir
+ 	fi
+-- 
+1.9.1
 
->> By forcing the options to the _current_ default values you are
->> creating a maintenance problem - ie you'll still be forcing these
->> values even if/when the upstream defaults are changed.
->
-> That is a good point, is there a usual way to allow edits to config
-> files like this?
-
-There are a few different ways. If an upstream reference config file
-is really unusable then it might be OK to patch it from the recipe.
-
-Perhaps the ideal case though is for the configure process to provide
-control over any key values etc in the files which get installed. e.g.
-instead of shipping and installing a fixed "options.conf" file, the
-upstream source would ship an "options.conf.in" file which would get
-transformed into "options.conf" as part of running the configure
-process, based on configure options or auto detection etc in the
-configure script. Configuring a build via configure options is
-generally the preferred approach (better than patching or running sed
-on output files etc).
 
