@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5A271AC1
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 966E6606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 07:30:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6O7Ub1Q002192
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Jul 2018 00:30:37 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Tue, 24 Jul 2018 00:30:36 -0700
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20180723190928.27368-1-raj.khem@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <f8b662f7-28e8-9692-5cd7-36faadc6e45a@windriver.com>
-Date: Tue, 24 Jul 2018 15:34:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 24 Jul 2018 07:58:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6O7w4Ex001642
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2018 00:58:04 -0700
+Received: from l1.corp.ad.wrs.com (128.224.124.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 24 Jul 2018 00:58:03 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jul 2018 10:48:13 +0300
+Message-ID: <1532418493-21449-1-git-send-email-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20180723190928.27368-1-raj.khem@gmail.com>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH] defaultsetup.conf: Enable security flags+pie by default
+Subject: [PATCH] lsof: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 07:30:37 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2018 07:58:04 -0000
+Content-Type: text/plain
 
-Hi Khem,
+lsof 4.89 archive has been moved to OLD directory and turned into tar.gz,
+so update SRC_URI and checksums.
 
-The comments in security-flags.inc also needs to be modified to remove 
-'poky-lsb' info.
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/recipes-extended/lsof/lsof_4.89.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I'd suggest we still put it into distro conf file (poky.conf) instead of 
-defaultsetup.conf, because defaultsetup.conf is included by 
-bitbake.conf. I think things in defaultsetup.conf should be necessary 
-default values to build things out. I don't think security flags is 
-necessary to build things out.
-
-Also, I got a question when I just looked at this file.
-Do you think we should adjust CFLAGS and LDFALGS in security_flags.inc 
-instead of the current TARGET_CC_ARCH and TARGET_LDFLAGS? We are naming 
-variables to SECURITY_CFLAGS and SECURITY_LDFLAGS, it seems that they 
-belong to CFLAGS and LDFLAGS naturally. But I'm not sure about it.
-
-Best Regards,
-Chen Qi
-
-
-On 07/24/2018 03:09 AM, Khem Raj wrote:
-> This has been an opt-in for so long, some distributions e.g.
-> poky-lsb uses it by default however, since most of linux
-> distros have started to default to these settings for security
-> enhancements, time has come for OE to make it default too
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/conf/distro/defaultsetup.conf | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-> index ca2f9178d2..352e279596 100644
-> --- a/meta/conf/distro/defaultsetup.conf
-> +++ b/meta/conf/distro/defaultsetup.conf
-> @@ -1,6 +1,7 @@
->   include conf/distro/include/default-providers.inc
->   include conf/distro/include/default-versions.inc
->   include conf/distro/include/default-distrovars.inc
-> +require conf/distro/include/security_flags.inc
->   include conf/distro/include/world-broken.inc
->   
->   TCMODE ?= "default"
-
+diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+index 14546db23c..b58b8281f9 100644
+--- a/meta/recipes-extended/lsof/lsof_4.89.bb
++++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+@@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429
+ # https://people.freebsd.org/~abe/ ). http://www.mirrorservice.org seems to be
+ # the most commonly used alternative.
+ 
+-SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2 \
++SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/unix/lsof/OLD/lsof_${PV}.tar.gz \
+            file://lsof-remove-host-information.patch \
+           "
+ 
+-SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
+-SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
++SRC_URI[md5sum] = "8afbaff3ee308edc130bdc5df0801c8f"
++SRC_URI[sha256sum] = "5d08da7ebe049c9d9a6472d6afb81aa5af54c4733a3f8822cbc22b57867633c9"
+ 
+ LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
+ 
+-- 
+2.17.1
 
 
