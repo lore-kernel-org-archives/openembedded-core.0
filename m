@@ -1,46 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E132747E9
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A20C2747E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 14:12:46 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id q12-v6so4210414qtp.6
+	Tue, 24 Jul 2018 14:14:05 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id e19-v6so4206738qtp.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 07:12:48 -0700 (PDT)
+	Tue, 24 Jul 2018 07:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PSyq6zq/uTHFh/OfqEXDVWpJrZFsoduO6iGVsRMXTSk=;
-	b=s5B6aGdOzAv2xqCug+oGG3JzdK6YVPgLLdyfZ9ghLLljZOkuHDz4sqn2gV6pdI7cq+
-	7gG+muUQ6BxtH5gbfcbzCpEp1AvsOpH9fzHxwOMQ8pX3Yc0LpVPnL7R1A2lv6sHMul9D
-	CUPqIzWy1P6+EjW/6uL0T3KADymdUEp+qwK8r3vTK3FdkcdUhfvH5nmHAIyXJaCf+Ebf
-	5knkN0ib1nFWFQKcwlQ3GCKSVPh+J300P2+qR/FbWp7THhEfIbLedX5bMK9SN7sh27Te
-	kn2ZO7ZyoHzHaLG0csVaLKjmi8+LGnssMq9P88K+FytNvUzq65I4nsSd+FjDOIRgcGhQ
-	3tHQ==
+	:cc; bh=RlePOjU8UKmYmxdCowlkzbaaixs+Nbv/DhU64qK9u1g=;
+	b=KcOTPL35fgYAdc7g5hBox7N7RAnWnnDOG6F1I1ijfaDx+ESquEIzeDli/g50f0xf3u
+	RuHW0cpALyrOAkUNeIbE+YR3bN4+el2vAMvwJCeU6+TyQoFcQ+b5/ZBRhl/IdbZzKyhc
+	sTGZGM+2TSnankwDIYkom51+hJW/CpwENsF4i8/WMus7dvCOBJ0C9yGRWw0hjjc87f4x
+	2jwNDVot+jAN5UlroqAPvJWGWnEfnceO4ZRRBXJW28zbfie6k0VaUi9SgrMxCTq0sVoE
+	YbfWRT/L7NXei9NHEZiNeU61hP6OzPBqYE7zJNGOOHC+XcIxgj/k5abWnBTupf51g0Tu
+	lglw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PSyq6zq/uTHFh/OfqEXDVWpJrZFsoduO6iGVsRMXTSk=;
-	b=Z3IdTpeyQ2lYu2mjeu4U41YFDVkmBjZHiaO+Kqp6PS9c8n9wkUK9UZrNTYFKSlHkqU
-	dTvQPWFVFBPLJVCLIoCz2BGF4O4dxLVNW4hKqBqXDArsGc7smnESqJ6WMhqHPHC/MzP8
-	R8aZNnfKNfxU7Z7Pf9ue0YC+ljfvPcqw9/rSI55sKQBfyUaCfb7iDhIowuetwIqW8AKS
-	0VE1v0SZkEmteUH45bMThHqEeCW1Qxp/mcbTf8P0k8NjBNQmHsTcSPhusgXqlgMJuCMb
-	kKduE79UNQatjSpYZeZpNf4Im6MYEhpQQ8+ZsLQQNs4Et8ft9cTxwEw+mWInvmYPkXaI
-	FvxA==
-X-Gm-Message-State: AOUpUlFUE8suiCRrgDlFVcJla4K8YpyaMKYHABUraFYKo8zNbaMMsdqQ
-	8C7DyoPKUmaGzRWQXUP40N8duqhbjN5woDEAWdg=
-X-Google-Smtp-Source: AAOMgpeJ+dPgcIUV5DERcY4VOZTpI2xuvL3cuORA+tVx/M2+vV6YLUOsmyOgaS5yn2litYmz2xTO2oZ3IbsgrAVZhUA=
-X-Received: by 2002:ac8:91d:: with SMTP id
-	t29-v6mr16491094qth.188.1532441567285; 
-	Tue, 24 Jul 2018 07:12:47 -0700 (PDT)
+	bh=RlePOjU8UKmYmxdCowlkzbaaixs+Nbv/DhU64qK9u1g=;
+	b=UGjjC9ob6ep5Fd2ECYRAXyQnhbsbrcZWokjYfiXSdxkT1SQ3MmVvf83VFIvKCqGSFM
+	Wv18wpGn4qIiQqbqBYSSB8f8iyEcyp6WUbVj5EfqyryPQVILZbM7N2jg/oVKWFiYNUHs
+	DfDn3WsxjU50d7EHPqiDqSuATVFL0cvVhEx5h9peGOjtSvQFHLxzJaJR0GW07JkUVxKe
+	0Wcj8mdHLYYlO0Nc87qlZFH6tQ8wLhmaYnJEQssuJLBQptM1jStH712yMunn+M5cUoxA
+	mdgDF6kIcQLOVjc8fRvgji+rwDxAC+tfwXjA7PYsGCOijnXucj3ByGG6YOKGxCFzpWlm
+	hbEA==
+X-Gm-Message-State: AOUpUlG3qh0oqmRP7/h7nbCeQBUrc7ItGnddlzcqusmFRNPVOAFS2y6u
+	qx5Cgs6K/k63IK9Yx2YMtsqjm8MjPNFNBV/09yAgAg==
+X-Google-Smtp-Source: AAOMgpcamB53v3N/kmVS7OwcKJ/OhjZOPbGjsHSn8WO5khmKbPf2Zjyph5G0rFXjFw9D9BB1plUXZ6+pHttvW/AHUSw=
+X-Received: by 2002:ac8:2ad8:: with SMTP id
+	c24-v6mr16744140qta.117.1532441646280; 
+	Tue, 24 Jul 2018 07:14:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20180723190928.27368-1-raj.khem@gmail.com>
-	<f8b662f7-28e8-9692-5cd7-36faadc6e45a@windriver.com>
-In-Reply-To: <f8b662f7-28e8-9692-5cd7-36faadc6e45a@windriver.com>
+	<d73b4b20-e8e4-658c-bef9-769142560e19@intel.com>
+In-Reply-To: <d73b4b20-e8e4-658c-bef9-769142560e19@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 24 Jul 2018 07:12:21 -0700
-Message-ID: <CAMKF1spfo0rTE31BiCuYPZuR2GQ=U4i9LBGkQ_r3HQdZf4udsQ@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
+Date: Tue, 24 Jul 2018 07:13:39 -0700
+Message-ID: <CAMKF1sr8XxcjcSupKeeCPdZksfE8obesp4uj+U1nf=WDYxxP8w@mail.gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] defaultsetup.conf: Enable security flags+pie by default
@@ -56,66 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 14:12:46 -0000
+X-List-Received-Date: Tue, 24 Jul 2018 14:14:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 24, 2018 at 12:30 AM ChenQi <Qi.Chen@windriver.com> wrote:
->
-> Hi Khem,
->
-> The comments in security-flags.inc also needs to be modified to remove
-> 'poky-lsb' info.
->
-> I'd suggest we still put it into distro conf file (poky.conf) instead of
-> defaultsetup.conf, because defaultsetup.conf is included by
-> bitbake.conf. I think things in defaultsetup.conf should be necessary
-> default values to build things out. I don't think security flags is
-> necessary to build things out.
-
-this is the default setup, even non-poky users will get consistent experience.
-
->
-> Also, I got a question when I just looked at this file.
-> Do you think we should adjust CFLAGS and LDFALGS in security_flags.inc
-> instead of the current TARGET_CC_ARCH and TARGET_LDFLAGS?
-
-in many cases packages do not honor CFLAGS/LDFLAGS say during configure
-
-We are naming
-> variables to SECURITY_CFLAGS and SECURITY_LDFLAGS, it seems that they
-> belong to CFLAGS and LDFLAGS naturally. But I'm not sure about it.
->
-yes they do, but this makes it easy to override the setting for packages where
-these options are needed to be overridden or modified.
-
-
-> Best Regards,
-> Chen Qi
->
+On Mon, Jul 23, 2018 at 11:42 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
 >
 > On 07/24/2018 03:09 AM, Khem Raj wrote:
 > > This has been an opt-in for so long, some distributions e.g.
 > > poky-lsb uses it by default however, since most of linux
 > > distros have started to default to these settings for security
 > > enhancements, time has come for OE to make it default too
+>
+> Should be removed from poky-lsb in that case otherwise gives duplicate
+> inclusion warnings.
+>
+
+yes. after this patch lands we can do that.
+
 > >
 > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > > ---
-> >   meta/conf/distro/defaultsetup.conf | 1 +
-> >   1 file changed, 1 insertion(+)
+> >  meta/conf/distro/defaultsetup.conf | 1 +
+> >  1 file changed, 1 insertion(+)
 > >
 > > diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
 > > index ca2f9178d2..352e279596 100644
 > > --- a/meta/conf/distro/defaultsetup.conf
 > > +++ b/meta/conf/distro/defaultsetup.conf
 > > @@ -1,6 +1,7 @@
-> >   include conf/distro/include/default-providers.inc
-> >   include conf/distro/include/default-versions.inc
-> >   include conf/distro/include/default-distrovars.inc
+> >  include conf/distro/include/default-providers.inc
+> >  include conf/distro/include/default-versions.inc
+> >  include conf/distro/include/default-distrovars.inc
 > > +require conf/distro/include/security_flags.inc
-> >   include conf/distro/include/world-broken.inc
+> >  include conf/distro/include/world-broken.inc
 > >
-> >   TCMODE ?= "default"
->
+> >  TCMODE ?= "default"
+> >
 >
 
