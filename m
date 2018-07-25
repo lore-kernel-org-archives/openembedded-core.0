@@ -1,23 +1,47 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CA9E6025E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EB1D1753E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 13:16:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6PDGg40017821
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 Jul 2018 13:49:29 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id h10-v6so7498330wre.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 06:16:42 -0700 (PDT)
-Received: from l1.corp.ad.wrs.com (128.224.124.169) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 25 Jul 2018 06:16:29 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jul 2018 16:06:39 +0300
-Message-ID: <1532523999-8955-1-git-send-email-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] lsof: upgrade 4.89 -> 4.91
+	Wed, 25 Jul 2018 06:49:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=w8ffSh6twBDsEHpVE0buYgKPdP5WfvWpNsIZP0zvH8Y=;
+	b=Shz1piXQr3osAAiEqFZQHT25DWHr9arZU/HilnTq7PWQv7mBaMDZ92Tmfslh8TI1BX
+	9YDZDz7PtY9Ae19cibDYxnjNBwufLWYmLHsBa2a5qXTTt9hEkA/N+VyVqq9rXBrxWVR+
+	dqDl1lWLqffLOS3bCkcZdd9qWUCx06vDOFDcE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=w8ffSh6twBDsEHpVE0buYgKPdP5WfvWpNsIZP0zvH8Y=;
+	b=NpeArE6kuajyTSoi6PzFBQ+JR74BtQEJdWN/EBBO3SGRHmt9e0g2T1wHcxqGBLANC3
+	wGiZ9qQTTKEGg/m2Zgp88Fpi37X9EVaTtrNkZ57v4nPcbm0gT64jKy8NpOIzFaxFWatR
+	V64e97JPiFcs6tJ0llaLJrtSE3ASitWLhCGdrFuGhSHhruHMSm5a8kL14B+x9VAKj52C
+	MMY+hQYNsSZhTO+uUqnCK/1h9/k1VMMZsVVFa8j1fKb50Z5s2NPxrcw/UVbtKqYiFoVn
+	AXjQwWx3ijkPuW27eeXIz98rRXVFkvCMDSIhQq+gNX6n8YF4OGSz8/BTpdvmaDUgw5AH
+	mEBQ==
+X-Gm-Message-State: AOUpUlHklhoqE3ch1tYW6Gs1cR6z+Q/+yk3w8MzdA5ZIm1W3RGigx7UX
+	ngOzJTdHmGjT9uuG0Bn0+kPKdaRZRJHNww==
+X-Google-Smtp-Source: AAOMgpfzHWZWHcSkYaFlUEe/cveLqhDOwykJvkKwru+XONUM2KPwt2QbpFPwgcazlaoJu4dT9JHNvA==
+X-Received: by 2002:a5d:4b50:: with SMTP id
+	w16-v6mr14535017wrs.87.1532526570514; 
+	Wed, 25 Jul 2018 06:49:30 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e12-v6sm12895471wrt.29.2018.07.25.06.49.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Jul 2018 06:49:29 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jul 2018 14:49:26 +0100
+Message-Id: <20180725134927.5839-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] selftest/bblayers: Place the test layer directory in builddir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 13:16:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Jul 2018 13:49:31 -0000
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Placing the layer in meta means the directory is in an unclean state
+which may influence other tests. Use our build directory instead
+since we 'own' that. This helps keep oe-selftest parallelisation
+clean.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/lsof/{lsof_4.89.bb => lsof_4.91.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lsof/{lsof_4.89.bb => lsof_4.91.bb} (93%)
+ meta/lib/oeqa/selftest/cases/bblayers.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.91.bb
-similarity index 93%
-rename from meta/recipes-extended/lsof/lsof_4.89.bb
-rename to meta/recipes-extended/lsof/lsof_4.91.bb
-index 14546db23c..0128de4a6e 100644
---- a/meta/recipes-extended/lsof/lsof_4.89.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.91.bb
-@@ -15,8 +15,8 @@ SRC_URI = "http://www.mirrorservice.org/sites/lsof.itap.purdue.edu/pub/tools/uni
-            file://lsof-remove-host-information.patch \
-           "
- 
--SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
--SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
-+SRC_URI[md5sum] = "148ed410cb52e08c2adc0c60f480f11f"
-+SRC_URI[sha256sum] = "c9da946a525fbf82ff80090b6d1879c38df090556f3fe0e6d782cb44172450a3"
- 
- LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- 
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index 3448ae1999b..447c54b7e60 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -88,7 +88,7 @@ class BitbakeLayers(OESelftestTestCase):
+     def test_bitbakelayers_createlayer(self):
+         priority = 10
+         layername = 'test-bitbakelayer-layercreate'
+-        layerpath = os.path.join(get_bb_var('COREBASE'), layername)
++        layerpath = os.path.join(self.builddir, layername)
+         self.assertFalse(os.path.exists(layerpath), '%s should not exist at this point in time' % layerpath)
+         result = runCmd('bitbake-layers create-layer --priority=%d %s' % (priority, layerpath))
+         self.track_for_cleanup(layerpath)
 -- 
 2.17.1
 
