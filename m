@@ -1,49 +1,48 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A1674553
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D7A5F6FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 03:16:25 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id m16-v6so2632974pls.11
+	Wed, 25 Jul 2018 05:57:10 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id y19-v6so6555063qto.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2018 20:16:26 -0700 (PDT)
+	Tue, 24 Jul 2018 22:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7wzgHbKAzBFCybyDO4jWLP9MnFAieBTakGfvZ7Cjhic=;
-	b=H2LfDk/QOXpkkAV2QGtu3ed1VEkU7/K/CROoH0jjgtEWcJuAIcGx547xo5ovpAUB1d
-	va6u8mlvpvLXXSmAK6KEc6o1r3ms8A5X7tIRHr0sa0Ti3e/goSkKG7stgfwk5EfDM1XL
-	tR3u18eyhb9bfy79X0qZbfJ0475y4ogzsD9I3rJIV6LH4xV/IXwtOVlgeQLoCbwZwgri
-	QbaWsmBP0k+RFdCvlbrxw/qmA4SAE75unBM0nB8M54K0WdU8WPeZeOGYNdROKRV0wpZO
-	UlzmoSd/NuYLUAfTI3VL+RSu1bPhkGXCQzbh/HtGLqCqEDKBBsUXJAJwcDZTGkOrb4g2
-	tEcw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bPb+rVODtM3w1+LrZe7sfEYwqFlrho8UTmTzYc73FQc=;
+	b=Bpmmu1T1zafktmHYOk7nqClLE9pU6cIt2TeYDf8f0iKIjsTWC/5EJSI+gj+BW4DKJQ
+	arW84+XeQ26xpWDtP0qNiyG/xy3Z/GfhcrdjB/usO36DVOyWcGNlaAHl44JHHR8vk/cO
+	S+vphyFK19/Wdh4aW4kFuvlSI7R7eeaq9+qlJkoloUFFC9ltNixgy68em5biZEB5EExP
+	CDEFC/NFAvpSWhncuvasP+hcmqok8KCDttRPqlkEVxp9r+Oj+kW5ia/YwR4DB0U0rIZG
+	FVE2Rx4w5oihBBVnLFFMKkfcG+EXxVQJv93oroNaGa4o/tFipDsfZdkza3ScbQ5bWIHZ
+	EPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7wzgHbKAzBFCybyDO4jWLP9MnFAieBTakGfvZ7Cjhic=;
-	b=jMTc+UZsTEZP3sQPWOQIAEL5jrC51lA7p4/uIAKTncxBIlQyCjVHHOoAnjdaoX0M47
-	TzVUrCNxsfUQ0lE4wIxrXMW1cYyKLXHZrb1PvzU0tYTcIZKK2lEE3fnO+LhR/Q0Nobt2
-	hdIFsqSSqrgbbaZoF8CjWYt2F44GJ2Vs4uRQ/6RVUDWuphlveBclYzPByUVTSAZjsxjh
-	UItONBpk/GIrseJh1BGUEON2j22RWMPbg7VMUwvKDjtHUUVNUD8OFIlx3f1am4mmXSuC
-	MBEWAbUJWWZroYS7hutNRu37GEu1ZzQzKJ4mvNK0ge8AJTTi1wVtlZNJ1g/cxyOucsNR
-	kI8g==
-X-Gm-Message-State: AOUpUlF1iPdpzLcirXVqEFTgPRNjMf/ifZA7OEia0gmICu1RHLjV4hnH
-	MXsj2xR19l3FFjXt53K9o1iuFXHIJxM=
-X-Google-Smtp-Source: AAOMgpdQijOZofjoIV89zMBiDbs51wmzYh09G0QqKvcEdQ4e8acngBaop4xohoihD7iDUldSnpgLUA==
-X-Received: by 2002:a17:902:bc41:: with SMTP id
-	t1-v6mr19593887plz.26.1532488585978; 
-	Tue, 24 Jul 2018 20:16:25 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	16-v6sm19294548pfp.6.2018.07.24.20.16.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Jul 2018 20:16:24 -0700 (PDT)
-From: Christopher Clark <christopher.w.clark@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Jul 2018 20:16:13 -0700
-Message-Id: <1532488573-19987-1-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] binutils : enable production of EFI binaries on x86-64
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bPb+rVODtM3w1+LrZe7sfEYwqFlrho8UTmTzYc73FQc=;
+	b=ASSr+lhQRo0topatO0njT9XltBGc7M04W82kHxslectID/QSBZ9DVkSjykKBVIckFx
+	mPTXSYRFRnUSrZj8YWQ6/lgVZHVAUK8NzlWSD/nc6K+pAAokjeSKb0r55hraaAsWUmLn
+	rE6K+Wq6dQyIkk5ZBG+PmTUjUYvM1eAtIawJlzXCHgpgdotblcQ8ht6Di8WaIU3nJpHr
+	okKDAjsC2O/qFZk78CcBM4E4TnzDvSbIUvdtj1EgX8Lgn62RQ+NSa7BBU3bvIt4nKnOk
+	hBayeLNkmpfCOj7y2BEu0ZzRV2l1v8rOrwHZJU/+5zQdfyPxYx8qmi8fuvn9aK0JvDrl
+	UqBA==
+X-Gm-Message-State: AOUpUlEbQjYEYNuCUcEN2fgiMEn0zQ/gRmb0+mhRlGGonT/Hg7lIDlQt
+	VyE8OhqPK8cCScvj3GnKKDzoctiGR8tggUC4nXg=
+X-Google-Smtp-Source: AAOMgpdRx6TmX8OaOQRgmPgFgbMlDUNLgAf+VsraFrZ99RojS1Ss2ei5R0SbvP5IN+9GCmX7r27i11/WB2hku0NsqcY=
+X-Received: by 2002:ac8:2ad8:: with SMTP id
+	c24-v6mr19542849qta.117.1532498231522; 
+	Tue, 24 Jul 2018 22:57:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <1532488573-19987-1-git-send-email-christopher.w.clark@gmail.com>
+In-Reply-To: <1532488573-19987-1-git-send-email-christopher.w.clark@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 24 Jul 2018 22:56:45 -0700
+Message-ID: <CAMKF1sr-j2=S1r37V8MaMX4E8KEvMwSrDoMJ0DfLAgvodSZa+w@mail.gmail.com>
+To: christopher.w.clark@gmail.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] binutils : enable production of EFI binaries on x86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 03:16:25 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 05:57:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Christopher Clark <christopher.clark6@baesystems.com>
+On Tue, Jul 24, 2018 at 8:16 PM Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+> From: Christopher Clark <christopher.clark6@baesystems.com>
+>
+> When MACHINE_FEATURES includes "efi" and target is x86-64,
+> enable the linker to produce Portable Executables: EFI binaries.
+>
+> Supplies "--enable-targets=x86_64-pep" in EXTRA_OECONF.
+>
+> Enables building the EFI variant of the Xen hypervisor.
+>
+> Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils.inc | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> index 37813dd..eedcc7e 100644
+> --- a/meta/recipes-devtools/binutils/binutils.inc
+> +++ b/meta/recipes-devtools/binutils/binutils.inc
+> @@ -69,12 +69,15 @@ python do_package_prepend() {
+>
+>  B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+>
+> +ENABLE_EFI_BINARIES_x86-64 = "--enable-targets=x86_64-pep"
+> +
 
-When MACHINE_FEATURES includes "efi" and target is x86-64,
-enable the linker to produce Portable Executables: EFI binaries.
 
-Supplies "--enable-targets=x86_64-pep" in EXTRA_OECONF.
 
-Enables building the EFI variant of the Xen hypervisor.
+>  EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+>                  --disable-werror \
+>                  --enable-deterministic-archives \
+>                  --enable-plugins \
+>                  ${LDGOLD} \
+> -                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+> +                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
+> +                ${@bb.utils.contains('MACHINE_FEATURES', 'efi', '${ENABLE_EFI_BINARIES}', '', d)}"
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I think we should avoid using machine features rather enable this
+emulation unconditionally for efi enabled
+targets, which for now are arm/x86/x86_64/aarch64
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 37813dd..eedcc7e 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -69,12 +69,15 @@ python do_package_prepend() {
- 
- B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
- 
-+ENABLE_EFI_BINARIES_x86-64 = "--enable-targets=x86_64-pep"
-+
- EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
-                 --disable-werror \
-                 --enable-deterministic-archives \
-                 --enable-plugins \
-                 ${LDGOLD} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
-+                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
-+                ${@bb.utils.contains('MACHINE_FEATURES', 'efi', '${ENABLE_EFI_BINARIES}', '', d)}"
- 
- LDGOLD_class-native = ""
- LDGOLD_class-crosssdk = ""
--- 
-2.7.4
-
+>
+>  LDGOLD_class-native = ""
+>  LDGOLD_class-crosssdk = ""
+> --
+> 2.7.4
+>
 
