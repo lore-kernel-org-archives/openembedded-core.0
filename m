@@ -1,28 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ECCD972002
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A5C1777DC9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 15:44:17 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w6PFiAVf020602
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Wed, 25 Jul 2018 16:44:11 +0100
-Message-ID: <1e7b73de0e6a19f5401ed9ab6b206bfc020a8376.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>, rbilovol@cisco.com
-Date: Wed, 25 Jul 2018 16:44:10 +0100
-In-Reply-To: <CABcZANkLbfW8XcynJmjzWFnzxT_fkxkCqA3OAUDtfqFo-_r95g@mail.gmail.com>
-References: <1511349605-22464-1-git-send-email-rbilovol@cisco.com>
-	<6fc7ed17-7619-15b8-fc7e-5fdab594fcbf@cisco.com>
-	<CABcZANkLbfW8XcynJmjzWFnzxT_fkxkCqA3OAUDtfqFo-_r95g@mail.gmail.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, xe-linux-external@cisco.com
-Subject: Re: [PATCH] relocate_sdk.py: remove hardcoded SDK path
+	Wed, 25 Jul 2018 16:34:51 +0000 (UTC)
+Received: by mail-qt0-f174.google.com with SMTP id h4-v6so8242029qtj.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jul 2018 09:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3c8d554U54VxXixqDP4pVeeHPOcyw8dZBmqQqYM/GIw=;
+	b=TxqMUzt1qryan75zT1Xgw6YN3kL+c1+8URGw1twNPcxCq4+iE30dqC3IzjCDhi9M1t
+	qmExrHfPCxnvNDJ3O/pvySqX/b7+7yJR4fgf6pOnybsE/Jmwp7sWKVFLR6jv05b0GQwk
+	ywLl3cPyIsnpekHCntLLsjRs5oWHswR1lfLgkQHHn+3vi2IHkCHuXvshqaGih71SFEC1
+	tV+eESSvZhOQZpAd8FIkPu1t5sCC1f4qgmWvJaEPT4LCXCwiJZIb8iJMuQ+BzkPqik3M
+	rdwZ83h1DdxZvtzlx67cSY3BtwIGdYMAyaMgqQHnxHy2w020iQwbYHZZgWeYcrI8MT0U
+	lw4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3c8d554U54VxXixqDP4pVeeHPOcyw8dZBmqQqYM/GIw=;
+	b=JOhjP5/6SeoWr/RynI/MhEWZTI6HelygnOLTz6bun7YMVjB1lpNFQN606OJyh3IGZ5
+	P/D414waKkaZ6c/1y4wKMlKsnP0zdpoIE1YQ0GlXnvQn4jzBgPofIxm4iWg/kLxWx5j8
+	KGdHs674VDMfDLEchJggv2SL4ASwWcwdD07KQr7sEJtrNaB9fNgzLdvaEs6xuC5W6R5J
+	ImyQ2CrpJ6iqkcsbSx688cPYyTBjj5gOd1Fcfblrd80Hni6y65ppwVQZ/RW/Cjc3QooY
+	dKLd9v2RFNtI8GujbxRA0W8HIViN0uEfegCI9tdTDTLSO2HrXoyMw8H4U6mIMdz29308
+	LaaQ==
+X-Gm-Message-State: AOUpUlEvdTW8utB38fpN/WnrOG06wFz2WsTzPO1+Dnc0L+Qs1dYYntZx
+	Q1HGQMBoDBDkr4HCkyvyZ87gyt0qzUZLT31H0V0=
+X-Google-Smtp-Source: AAOMgpfUusxDOG04hJZXuCUaclzKqs5OBJptCMWDBpJ1KaW2X+x1vrdZD0rI2TjrlMGRkYQMeZs5B+NBDtuVGr/kj+E=
+X-Received: by 2002:ac8:3209:: with SMTP id
+	x9-v6mr21963405qta.128.1532536492212; 
+	Wed, 25 Jul 2018 09:34:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAFeBWL4WvT2CJkd25BVwje6_KvKZ5wquM6+YyPeHzywdMTT_iA@mail.gmail.com>
+	<CAJ86T=W-DOtSSpBb_tK_XuiPJAxteirR8xeCvWz5q9Hv3Q3-xg@mail.gmail.com>
+In-Reply-To: <CAJ86T=W-DOtSSpBb_tK_XuiPJAxteirR8xeCvWz5q9Hv3Q3-xg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Jul 2018 09:34:41 -0700
+Message-ID: <CAMKF1sqORifnSdwyUiQdGpEA1k1xxokSSAi17Z1z2OgSwe7c+g@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Setting include path in a recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,143 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 15:44:18 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 16:34:51 -0000
+Content-Type: multipart/alternative; boundary="0000000000003948b50571d57552"
+
+--0000000000003948b50571d57552
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Whilst we merged this, it has unfortunately totally broken uninative-
-tarball. We're under pressure to update to a new uninative to unbreak
-builds on recent distros with sstate sharing and this now blocks doing
-so.
+On Tue, Jul 24, 2018 at 10:51 AM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-I can't add the value to the relocate_sdk.py call from
-uninative.bbclass since I don't know what value the tarball would have
-been generated with.
+> On Tue, Jul 24, 2018 at 6:52 AM, Adam Lee <adam.yh.lee@gmail.com> wrote:
+> >
+> > How do I defined a custom include path for an autotools recipe?
+> >
+> > This may as well be explained somewhere in the reference manual, but I
+> can't
+> > seem to find it.
+>
+> Assuming you want to add a custom directory which is within sysroot:
+>
+> CPPFLAGS += "-I=/usr/include/specialheaders"
+> --
 
-I suspect I'll have to revert this and then you can work on a way to
-fix this...
 
-Cheers,
+-I= is gcc specific using STAGING_INCDIR would be portable
 
-Richard
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-On Tue, 2018-07-17 at 08:22 -0700, Christopher Larson wrote:
-> IMHO this is a solid improvement that should go in.
-> 
-> On Tue, Jul 17, 2018 at 8:09 AM Ruslan Bilovol via Openembedded-core
-> <openembedded-core@lists.openembedded.org> wrote:
-> > Hi all,
-> > 
-> > Any comments on this patch?
-> > 
-> > Thanks
-> > Ruslan
-> > 
-> > On 11/22/2017 01:20 PM, Ruslan Bilovol wrote:
-> > > This patch removes hardcodes added to relocate_sdk.py
-> > > during SDK build, making it flexible and reusable.
-> > > Now default SDK path is passed to the script as
-> > > parameter rather then harcoded inside it.
-> > > 
-> > > This allows to reuse this script for multiple
-> > > relocations, and adds possibility to relocate
-> > > SDK multiple times
-> > > 
-> > > Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-> > > ---
-> > >   meta/classes/populate_sdk_base.bbclass |  5 -----
-> > >   meta/files/toolchain-shar-relocate.sh  |  2 +-
-> > >   scripts/relocate_sdk.py                | 17 +++++++++--------
-> > >   3 files changed, 10 insertions(+), 14 deletions(-)
-> > > 
-> > > diff --git a/meta/classes/populate_sdk_base.bbclass
-> > b/meta/classes/populate_sdk_base.bbclass
-> > > index 424c63c..e7aa5a8 100644
-> > > --- a/meta/classes/populate_sdk_base.bbclass
-> > > +++ b/meta/classes/populate_sdk_base.bbclass
-> > > @@ -152,11 +152,6 @@ do_populate_sdk[stamp-extra-info] =
-> > "${MACHINE}${SDKMACHINE}"
-> > >   
-> > >   fakeroot create_sdk_files() {
-> > >       cp ${COREBASE}/scripts/relocate_sdk.py
-> > ${SDK_OUTPUT}/${SDKPATH}/
-> > > -
-> > > -     # Replace the ##DEFAULT_INSTALL_DIR## with the correct
-> > pattern.
-> > > -     # Escape special characters like '+' and '.' in the SDKPATH
-> > > -     escaped_sdkpath=$(echo ${SDKPATH} |sed -e
-> > "s:[\+\.]:\\\\\\\\\0:g")
-> > > -     sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:"
-> > ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
-> > >   }
-> > >   
-> > >   python check_sdk_sysroots() {
-> > > diff --git a/meta/files/toolchain-shar-relocate.sh
-> > b/meta/files/toolchain-shar-relocate.sh
-> > > index e3c1001..f82ff2b 100644
-> > > --- a/meta/files/toolchain-shar-relocate.sh
-> > > +++ b/meta/files/toolchain-shar-relocate.sh
-> > > @@ -36,7 +36,7 @@ if [ x\${PYTHON} = "x"  ]; then
-> > >       echo "SDK could not be relocated.  No python found."
-> > >       exit 1
-> > >   fi
-> > > -\${PYTHON} ${env_setup_script%/*}/relocate_sdk.py
-> > $target_sdk_dir $dl_path $executable_files
-> > > +\${PYTHON} ${env_setup_script%/*}/relocate_sdk.py
-> > $DEFAULT_INSTALL_DIR $target_sdk_dir $dl_path $executable_files
-> > >   EOF
-> > >   
-> > >   $SUDO_EXEC mv $tdir/relocate_sdk.sh
-> > ${env_setup_script%/*}/relocate_sdk.sh
-> > > diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-> > > index c752fa2..0d5a6f5 100755
-> > > --- a/scripts/relocate_sdk.py
-> > > +++ b/scripts/relocate_sdk.py
-> > > @@ -38,8 +38,6 @@ else:
-> > >       def b(x):
-> > >           return x.encode(sys.getfilesystemencoding())
-> > >   
-> > > -old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
-> > > -
-> > >   def get_arch():
-> > >       f.seek(0)
-> > >       e_ident =f.read(16)
-> > > @@ -212,19 +210,22 @@ def change_dl_sysdirs(elf_file_name):
-> > >           f.write(sysdirslen)
-> > >   
-> > >   # MAIN
-> > > -if len(sys.argv) < 4:
-> > > +if len(sys.argv) < 5:
-> > >       sys.exit(-1)
-> > >   
-> > >   # In python > 3, strings may also contain Unicode characters.
-> > So, convert
-> > >   # them to bytes
-> > >   if sys.version_info < (3,):
-> > > -    new_prefix = sys.argv[1]
-> > > -    new_dl_path = sys.argv[2]
-> > > +    new_prefix = sys.argv[2]
-> > > +    new_dl_path = sys.argv[3]
-> > >   else:
-> > > -    new_prefix = sys.argv[1].encode()
-> > > -    new_dl_path = sys.argv[2].encode()
-> > > +    new_prefix = sys.argv[2].encode()
-> > > +    new_dl_path = sys.argv[3].encode()
-> > > +
-> > > +executables_list = sys.argv[4:]
-> > >   
-> > > -executables_list = sys.argv[3:]
-> > > +old_prefix_ne = b(sys.argv[1])
-> > > +old_prefix = re.compile(re.escape(old_prefix_ne));
-> > >   
-> > >   for e in executables_list:
-> > >       perms = os.stat(e)[stat.ST_MODE]
-> > > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+--0000000000003948b50571d57552
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Tue,=
+ Jul 24, 2018 at 10:51 AM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gma=
+il.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">On Tue, Jul 24, 2018 at 6:52 AM, Adam Lee &lt;<a href=3D"mailto:ada=
+m.yh.lee@gmail.com" target=3D"_blank">adam.yh.lee@gmail.com</a>&gt; wrote:<=
+br>
+&gt;<br>
+&gt; How do I defined a custom include path for an autotools recipe?<br>
+&gt;<br>
+&gt; This may as well be explained somewhere in the reference manual, but I=
+ can&#39;t<br>
+&gt; seem to find it.<br>
+<br>
+Assuming you want to add a custom directory which is within sysroot:<br>
+<br>
+CPPFLAGS +=3D &quot;-I=3D/usr/include/specialheaders&quot;<br>
+-- </blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">-I=3D is gcc =
+specific using STAGING_INCDIR would be portable=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--0000000000003948b50571d57552--
