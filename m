@@ -1,49 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 96801753E2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A51B75532
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 13:49:31 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id s12-v6so2856605wmc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 06:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mDv6S4+Elv0tGodCysOZY6mDIuDrQubYuGpALGdAY2k=;
-	b=SsC63p8z0o7V6r3OmJ4WwT2x/w+z5O3NW4igpC5lIF6sSsH3cf9DrLVMs6VZu1cbcK
-	wLNfeOC7GjqXueul7efrxvq9xgGxGtjuoB8bxFgUY2xEvlKbgzF9k6Zs+DbH+fc+HWuX
-	+nZtIW3jZxnwIp116aCULfwhq8UfXm80vQItE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=mDv6S4+Elv0tGodCysOZY6mDIuDrQubYuGpALGdAY2k=;
-	b=Dxt0L11n14rPpcMX5Tvtbi+PYuUoXG2DIjr+8YfxAwuzjiqFYESb8KFLw1Wt/bSN8+
-	yohsvqvHi//ibloml8ttblptS2nl+42lUIpeFbo+0iwixuMnR4KYn/yWp0+JohzdGvhW
-	yxvCsqhZfpNVYxIzm6PsVPTzbhWWNFRaTf3dhFfP2PcOQWpSc6FDW90Uy3XSdJRPVUZO
-	5nuscqnKmO5RKfkl7LOzFzXP8F1PKgUsNvs93C4A0cR91oS1BdwI6T20J/b9Y65hLU4q
-	nSf8kXEUWzf1OzlPugRDvY5T+1zXoFjz/vCkLwfQ/jTjR0nN8qNo18TeJLAd/bP+U5sN
-	cghA==
-X-Gm-Message-State: AOUpUlHl0T1R24xaFji8CKxmBIm/dUlBptvzJpRpFv21wrdsVcCtKGHL
-	fyHwI9Xidz4YBPwxW56u1llW3B65N5zZ+A==
-X-Google-Smtp-Source: AAOMgpeZXZEKvwN8G1avQ51nPENxg/78X3KtTVVMEiItKCxzJE+Tjod0BKBuEIEzi8Oz9PVVnRpmwQ==
-X-Received: by 2002:a1c:37cd:: with SMTP id
-	e196-v6mr4543324wma.84.1532526572092; 
-	Wed, 25 Jul 2018 06:49:32 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e12-v6sm12895471wrt.29.2018.07.25.06.49.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Jul 2018 06:49:31 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2018 14:49:27 +0100
-Message-Id: <20180725134927.5839-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180725134927.5839-1-richard.purdie@linuxfoundation.org>
-References: <20180725134927.5839-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] selftest/bbtests: Add test for bitbake execution outside the build directory
+	Wed, 25 Jul 2018 13:57:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6PDvKm0016311
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Jul 2018 06:57:25 -0700
+Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Wed, 25 Jul 2018 06:57:07 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1532505359-3185-1-git-send-email-hongxu.jia@windriver.com>
+	<CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <e79f3725-aee4-e458-4856-7d438870838f@windriver.com>
+Date: Wed, 25 Jul 2018 21:57:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: fix compile failure on beaglebone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 13:49:31 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 13:57:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Also fix a related test's error message to match what it does.
+On 2018年07月25日 17:53, Burton, Ross wrote:
+> On 25 July 2018 at 08:55, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> +Upstream-Status: Pending
+> You'll be submitting this upstream right?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/bbtests.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Of course, I submitted upstream after oe-core
+There patch review system is based on bugzilla
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index 350614967c9..005fdd09640 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -15,16 +15,26 @@ class BitbakeTests(OESelftestTestCase):
-                 return l
- 
-     @OETestID(789)
-+    # Test bitbake can run from the <builddir>/conf directory
-     def test_run_bitbake_from_dir_1(self):
-         os.chdir(os.path.join(self.builddir, 'conf'))
-         self.assertEqual(bitbake('-e').status, 0, msg = "bitbake couldn't run from \"conf\" dir")
- 
-     @OETestID(790)
-+    # Test bitbake can run from the <builddir>'s parent directory
-     def test_run_bitbake_from_dir_2(self):
-         my_env = os.environ.copy()
-         my_env['BBPATH'] = my_env['BUILDDIR']
-         os.chdir(os.path.dirname(os.environ['BUILDDIR']))
--        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from builddir")
-+        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from builddir's parent directory")
-+
-+    # Test bitbake can run from some other random system location (we use /tmp/)
-+    def test_run_bitbake_from_dir_3(self):
-+        my_env = os.environ.copy()
-+        my_env['BBPATH'] = my_env['BUILDDIR']
-+        os.chdir("/tmp/")
-+        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from /tmp/")
-+
- 
-     @OETestID(806)
-     def test_event_handler(self):
--- 
-2.17.1
+https://bugs.webkit.org/show_bug.cgi?id=187991
+
+Patch status seems ` commit-queue-'
+
+//Hongxu
+> Ross
+
 
 
