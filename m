@@ -1,28 +1,28 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A51B75532
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id ECCD972002
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 13:57:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6PDvKm0016311
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Jul 2018 06:57:25 -0700
-Received: from [128.224.162.202] (128.224.162.202) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 25 Jul 2018 06:57:07 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1532505359-3185-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <e79f3725-aee4-e458-4856-7d438870838f@windriver.com>
-Date: Wed, 25 Jul 2018 21:57:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: fix compile failure on beaglebone
+	Wed, 25 Jul 2018 15:44:17 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6PFiAVf020602
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 25 Jul 2018 16:44:11 +0100
+Message-ID: <1e7b73de0e6a19f5401ed9ab6b206bfc020a8376.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>, rbilovol@cisco.com
+Date: Wed, 25 Jul 2018 16:44:10 +0100
+In-Reply-To: <CABcZANkLbfW8XcynJmjzWFnzxT_fkxkCqA3OAUDtfqFo-_r95g@mail.gmail.com>
+References: <1511349605-22464-1-git-send-email-rbilovol@cisco.com>
+	<6fc7ed17-7619-15b8-fc7e-5fdab594fcbf@cisco.com>
+	<CABcZANkLbfW8XcynJmjzWFnzxT_fkxkCqA3OAUDtfqFo-_r95g@mail.gmail.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, xe-linux-external@cisco.com
+Subject: Re: [PATCH] relocate_sdk.py: remove hardcoded SDK path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +35,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 13:57:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 25 Jul 2018 15:44:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2018年07月25日 17:53, Burton, Ross wrote:
-> On 25 July 2018 at 08:55, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> +Upstream-Status: Pending
-> You'll be submitting this upstream right?
+Whilst we merged this, it has unfortunately totally broken uninative-
+tarball. We're under pressure to update to a new uninative to unbreak
+builds on recent distros with sstate sharing and this now blocks doing
+so.
 
-Of course, I submitted upstream after oe-core
-There patch review system is based on bugzilla
+I can't add the value to the relocate_sdk.py call from
+uninative.bbclass since I don't know what value the tarball would have
+been generated with.
 
-https://bugs.webkit.org/show_bug.cgi?id=187991
+I suspect I'll have to revert this and then you can work on a way to
+fix this...
 
-Patch status seems ` commit-queue-'
+Cheers,
 
-//Hongxu
-> Ross
+Richard
 
-
+On Tue, 2018-07-17 at 08:22 -0700, Christopher Larson wrote:
+> IMHO this is a solid improvement that should go in.
+> 
+> On Tue, Jul 17, 2018 at 8:09 AM Ruslan Bilovol via Openembedded-core
+> <openembedded-core@lists.openembedded.org> wrote:
+> > Hi all,
+> > 
+> > Any comments on this patch?
+> > 
+> > Thanks
+> > Ruslan
+> > 
+> > On 11/22/2017 01:20 PM, Ruslan Bilovol wrote:
+> > > This patch removes hardcodes added to relocate_sdk.py
+> > > during SDK build, making it flexible and reusable.
+> > > Now default SDK path is passed to the script as
+> > > parameter rather then harcoded inside it.
+> > > 
+> > > This allows to reuse this script for multiple
+> > > relocations, and adds possibility to relocate
+> > > SDK multiple times
+> > > 
+> > > Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+> > > ---
+> > >   meta/classes/populate_sdk_base.bbclass |  5 -----
+> > >   meta/files/toolchain-shar-relocate.sh  |  2 +-
+> > >   scripts/relocate_sdk.py                | 17 +++++++++--------
+> > >   3 files changed, 10 insertions(+), 14 deletions(-)
+> > > 
+> > > diff --git a/meta/classes/populate_sdk_base.bbclass
+> > b/meta/classes/populate_sdk_base.bbclass
+> > > index 424c63c..e7aa5a8 100644
+> > > --- a/meta/classes/populate_sdk_base.bbclass
+> > > +++ b/meta/classes/populate_sdk_base.bbclass
+> > > @@ -152,11 +152,6 @@ do_populate_sdk[stamp-extra-info] =
+> > "${MACHINE}${SDKMACHINE}"
+> > >   
+> > >   fakeroot create_sdk_files() {
+> > >       cp ${COREBASE}/scripts/relocate_sdk.py
+> > ${SDK_OUTPUT}/${SDKPATH}/
+> > > -
+> > > -     # Replace the ##DEFAULT_INSTALL_DIR## with the correct
+> > pattern.
+> > > -     # Escape special characters like '+' and '.' in the SDKPATH
+> > > -     escaped_sdkpath=$(echo ${SDKPATH} |sed -e
+> > "s:[\+\.]:\\\\\\\\\0:g")
+> > > -     sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:"
+> > ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+> > >   }
+> > >   
+> > >   python check_sdk_sysroots() {
+> > > diff --git a/meta/files/toolchain-shar-relocate.sh
+> > b/meta/files/toolchain-shar-relocate.sh
+> > > index e3c1001..f82ff2b 100644
+> > > --- a/meta/files/toolchain-shar-relocate.sh
+> > > +++ b/meta/files/toolchain-shar-relocate.sh
+> > > @@ -36,7 +36,7 @@ if [ x\${PYTHON} = "x"  ]; then
+> > >       echo "SDK could not be relocated.  No python found."
+> > >       exit 1
+> > >   fi
+> > > -\${PYTHON} ${env_setup_script%/*}/relocate_sdk.py
+> > $target_sdk_dir $dl_path $executable_files
+> > > +\${PYTHON} ${env_setup_script%/*}/relocate_sdk.py
+> > $DEFAULT_INSTALL_DIR $target_sdk_dir $dl_path $executable_files
+> > >   EOF
+> > >   
+> > >   $SUDO_EXEC mv $tdir/relocate_sdk.sh
+> > ${env_setup_script%/*}/relocate_sdk.sh
+> > > diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+> > > index c752fa2..0d5a6f5 100755
+> > > --- a/scripts/relocate_sdk.py
+> > > +++ b/scripts/relocate_sdk.py
+> > > @@ -38,8 +38,6 @@ else:
+> > >       def b(x):
+> > >           return x.encode(sys.getfilesystemencoding())
+> > >   
+> > > -old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+> > > -
+> > >   def get_arch():
+> > >       f.seek(0)
+> > >       e_ident =f.read(16)
+> > > @@ -212,19 +210,22 @@ def change_dl_sysdirs(elf_file_name):
+> > >           f.write(sysdirslen)
+> > >   
+> > >   # MAIN
+> > > -if len(sys.argv) < 4:
+> > > +if len(sys.argv) < 5:
+> > >       sys.exit(-1)
+> > >   
+> > >   # In python > 3, strings may also contain Unicode characters.
+> > So, convert
+> > >   # them to bytes
+> > >   if sys.version_info < (3,):
+> > > -    new_prefix = sys.argv[1]
+> > > -    new_dl_path = sys.argv[2]
+> > > +    new_prefix = sys.argv[2]
+> > > +    new_dl_path = sys.argv[3]
+> > >   else:
+> > > -    new_prefix = sys.argv[1].encode()
+> > > -    new_dl_path = sys.argv[2].encode()
+> > > +    new_prefix = sys.argv[2].encode()
+> > > +    new_dl_path = sys.argv[3].encode()
+> > > +
+> > > +executables_list = sys.argv[4:]
+> > >   
+> > > -executables_list = sys.argv[3:]
+> > > +old_prefix_ne = b(sys.argv[1])
+> > > +old_prefix = re.compile(re.escape(old_prefix_ne));
+> > >   
+> > >   for e in executables_list:
+> > >       perms = os.stat(e)[stat.ST_MODE]
+> > > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
