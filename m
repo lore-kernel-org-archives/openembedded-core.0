@@ -1,53 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FD9260800
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CFBAF60801
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 19:53:16 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id b15-v6so16046884oib.10
+	Wed, 25 Jul 2018 20:04:49 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id q11-v6so16085290oic.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 12:53:17 -0700 (PDT)
+	Wed, 25 Jul 2018 13:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=rjlIf0lpp48MfNxxUkQGhBRVATT9r49+6Z2xsg/bUmU=;
-	b=iL+iV2xnHXiu/B2KSLqabUcaFOrq3+3kOnINxSTklKnzi+4EMqmPOln0OHkwpUHqJt
-	rSIX6uXuPSFfQDfhSFEIxuMUPzmDSmJmzdfJQSliwsCCK+oDvbzXvkgAZmRcUJpmbTsI
-	giFyidHQOLDKRqXRlV9UBWI0NtPhy7epnZ/gkvqkK0eDL+k9aUOEafbMn5XkTY3iNRzY
-	egKzoK2kSWizpav/BUhGGvP/T3cY5egtNoJS0ae9yTfcKzNwIGIWOVmM4GlavXGMPG2q
-	e0BpPxKfDTDlT8lXk2x2oCz1HV+b+tCfwIZdx0AOsuFbmSyG68ozh0koSYhyQLO+Y2By
-	ULZg==
+	:cc; bh=EkJfTvyyXHewf8ciFdXTdIMEPZyM1DwDxP+UUh2pb7w=;
+	b=mK/p8eq6AYLDkIGRM1kLtDsX3CbBl01LjBoUq1y2sFN+3n1YGQTfAp3B8EXlO38qg/
+	HlPBfDApxw3hk424cPnrBOrDRtH19IHT+S15sO/z7On8qvevEyHL20lHBGLnkYG6Z2Sq
+	IdN8hs4LotvFRKQuGnfaIjhks5g36414VthSvQ7Oqry326wxb6dhgbk0K+yW0Sdzhj7o
+	Oq42pGtiWQMPQjFsxcILIP/MkGtGanyVaV2lDSXigU/RcmPEPtz+xa5xdzLhTBdWulIT
+	29i8Qj1UyWLFy/HMXEmoWPWMCHDGaE/URIS0xqgCnsaAS0FhmGWQKY8bpW/ROgpZN2uZ
+	PuTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=rjlIf0lpp48MfNxxUkQGhBRVATT9r49+6Z2xsg/bUmU=;
-	b=gi16tQvl/aYtBnvPyF9XFk/pbyNJjJPhv/oX3IbLovzZqRiQiGY4vrwjULiNZOmbR7
-	e4XbUoFtujapUtUS+VIOMjTNHoqDM96mINntMvrxnqqMRSXU7wpLL7i3VPdv/dOIURJQ
-	uLa/8ecq47UmbfXS+bH8mCLSVZ7hHeqL3YXanNJsBDaOtCwXIyx9qpHpdvADg4JtHOqG
-	GHnYMkYsOIBpdT8La/BwGrHgYpTZkefYGg2kHPaa8Nf8S6Dcf3CMRRMOV/cpCnanNVeK
-	f+yNRthIZ2fOjI75mQjfRWg8mgxIPAJo2P8Rq3JMxv94WLXDBbJXVxkecrvqQ1AYqT1i
-	iE2g==
-X-Gm-Message-State: AOUpUlHOVSt+JgiNxp8CJqIHpZMq/B9QNRlM8mPqlKkxGV8CAok6iK7Y
-	ou9eNAxV02rCS4a6VS+Or+1Qry22o18g3vDhJnzWlFrS
-X-Google-Smtp-Source: AAOMgpf75prUGej9HeNARWaOyu9f11PDS+UGoZNouvGdw4KElXiUP7UeyocytffIn55FdP158FIN9eiBvtivYbvlkrs=
-X-Received: by 2002:aca:3f41:: with SMTP id
-	m62-v6mr5207576oia.18.1532548397387; 
-	Wed, 25 Jul 2018 12:53:17 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=EkJfTvyyXHewf8ciFdXTdIMEPZyM1DwDxP+UUh2pb7w=;
+	b=oE/XubLTJCoIVZiQUoKLJUx6AB35Rf1xPh2Zfhtt1lNvTuDxHcfaW4X0FWV3W4of/A
+	9YqxeTYyr0nuUbmbEuDJWsnFw4CgaV+ajWiJ+03FcwEC0qY81yK11Yq5x4bXdILRkcXr
+	YrrkRWAAVQn3NDzBgdBPy2kyMggBhU5YuLyLSIkgb+lUJeP3ZwZQc6z8pB2kdF4fR15V
+	BW+mdgsCdJg8JF2C+VgKUKytgjQsTe7e49TUtKKQgNc/cw6RTQ8vY1Np3hZNhZLX5rXn
+	QseyOk+WaasCt9K4mc20QGi/Xku0SgptHOPC8TxiaglFMiT0MDDwvI5FqB06FWnq15rd
+	B7Nw==
+X-Gm-Message-State: AOUpUlEZ8IWKPk4MNTsr2WKE6+0MgDtSF8U7S0qkqhHpZBGKw6FimPIH
+	W6m1hN72Jj+HBVLfduSk+Yi3otUB1Xyv5gAv78C5hw==
+X-Google-Smtp-Source: AAOMgpdTXEUIILkrH4QYqNHmzk+cEzuqDC7vfnMR5jAjE7Ohet9eexapEhxdOS4d9XNOBhaXJKloYkam508Vuoi/s6Q=
+X-Received: by 2002:aca:b256:: with SMTP id
+	b83-v6mr5141738oif.235.1532549090968; 
+	Wed, 25 Jul 2018 13:04:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 12:52:56
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 13:04:30
 	-0700 (PDT)
-In-Reply-To: <e79f3725-aee4-e458-4856-7d438870838f@windriver.com>
-References: <1532505359-3185-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
-	<e79f3725-aee4-e458-4856-7d438870838f@windriver.com>
+In-Reply-To: <618229eb-0ae4-e749-23f5-0cb1c2f3ceac@windriver.com>
+References: <1532418493-21449-1-git-send-email-ovidiu.panait@windriver.com>
+	<CAJTo0LaFai2biC-973Da-o7NMFwYkMWRTa4F5O+prseWFNwW4A@mail.gmail.com>
+	<CANNYZj-FSOW33dXtdmo=467nktA_W8oXWknzUOURKWWb331tEQ@mail.gmail.com>
+	<618229eb-0ae4-e749-23f5-0cb1c2f3ceac@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 25 Jul 2018 20:52:56 +0100
-Message-ID: <CAJTo0LYdkR+2p4FGDgQJFsOGTFMqsS1Syr015sz2d1_nS3KPFg@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Wed, 25 Jul 2018 21:04:30 +0100
+Message-ID: <CAJTo0LYOv4phpZTqcUue9AxY-GDj1h63pA7AEdwJLTz_t0=eNg@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: fix compile failure on beaglebone
+Subject: Re: [PATCH] lsof: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +60,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 19:53:16 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 20:04:50 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-U-S should be Submitted with a link to that bug then.
+On 24 July 2018 at 21:18, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> I expect that Ovidiu just forgot the branch prefix in his subject line.
+> Do you want him to resend for 2.5 and 2.4 ?
+
+Probably for the best to be sure that the relevant release maintainer
+sees the patches.
 
 Ross
-
-On 25 July 2018 at 14:57, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> On 2018=E5=B9=B407=E6=9C=8825=E6=97=A5 17:53, Burton, Ross wrote:
->>
->> On 25 July 2018 at 08:55, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->>>
->>> +Upstream-Status: Pending
->>
->> You'll be submitting this upstream right?
->
->
-> Of course, I submitted upstream after oe-core
-> There patch review system is based on bugzilla
->
-> https://bugs.webkit.org/show_bug.cgi?id=3D187991
->
-> Patch status seems ` commit-queue-'
->
-> //Hongxu
->>
->> Ross
->
->
->
 
