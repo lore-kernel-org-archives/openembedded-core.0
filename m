@@ -1,46 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5126086F
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B81B26067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 22:06:13 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id s9-v6so7229wmh.3
+	Wed, 25 Jul 2018 22:47:32 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id t25-v6so77050wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 15:06:15 -0700 (PDT)
+	Wed, 25 Jul 2018 15:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=1AjpWp0t6s4lgHaWU+NETqGdnPw0F7GzvR/cgOH3h9w=;
-	b=FyFA4FQu/YvdwKlYzKxpjA22C/DgXUQixyR51onyedsGNzOeJpnZHJqCunkIQaPHZT
-	WhJUOch7JXktjtpuyoOEEXn78yYjsIHiRtv3taw8MW+/vd+BLhTWdAYnRDwIXBEmiOp7
-	qStv2NN9SgLk3WghUICnkDXroZJz2N3VJhlf0=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=e3jn/vzOTC5WwoUkkvLx0IHRnksdZGBvd10M08noetY=;
+	b=A5eLwwoImDNh6zJlH1PP2MeGfGTdHrISvYzqa1wT3MXUZx7fBrPQM5KjAN2gIcmKqS
+	6POpI4l1v66hym8ULHZ9D+9xvdyyc7cmASmU5PhlQwGKKcz1FE8i3Q5d6Kuhi/yZUeYm
+	8r1wDgpdV7BG4eZXgoFqQ8GEavB0MYgEsgawk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1AjpWp0t6s4lgHaWU+NETqGdnPw0F7GzvR/cgOH3h9w=;
-	b=SfJpdT+W0MgH1+CuZCu7hCtAB7MTqiiSNkXCPSGwX2ki7uh7clhZRDndwvRviAIH3o
-	2NUKRctMtZOAmttMAUSZY7oTh9BdZfcZ52b6Iea/FTtu4ZUOJY3Gt7fDBINv+pAT54Xc
-	vYUeu4XDiBGPZoje1IQnymb1HihALU1AVLnVPkzvNn8x7y6BNh+ouyze/OtNgwQX3zVA
-	Sq6UPfp0aYbg4gj/yIIIffCyWNl6wdsruFgFCBuXHIdoabPrOz0oIj0NxzLW9r1edjqN
-	q4RAtUR1Rv0dTD6yyUWaFlaqE4AEg7q3BI0bOL/QmSW0OCL5jt1xhyJCMmUtHJcW382/
-	UESQ==
-X-Gm-Message-State: AOUpUlGDrJw9d2dPq20BNqfDIsmTVJr8Bp7e+xJLWAxGQ23EDojt1NAh
-	LSirC9NiVBk5V0xrSBOPZdVVVs3tBvuKXg==
-X-Google-Smtp-Source: AAOMgpeCCL/6qhDdko1iimzSwCUfeptEcJZ0DTIeHBGs33lBTxNZtbwuWMkigXMfZQpLyx8/zBeZvg==
-X-Received: by 2002:a1c:9e4d:: with SMTP id
-	h74-v6mr6013976wme.70.1532556374214; 
-	Wed, 25 Jul 2018 15:06:14 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=e3jn/vzOTC5WwoUkkvLx0IHRnksdZGBvd10M08noetY=;
+	b=SqQSK2mV2ecu9z6yBg+Md+rkZQnLP24SZV68TjfX9oW+UfWRI5FVlCApBV8HVveaO3
+	sdVEiqDH93DcLXY/7kUfdNpjTCZ8vKDGVP77eQyXqLZQnURUzPSesqnWGedQH1PO6Qua
+	JRPDOaacd43OmXWwZxGJ78lxZpGoe8U9ldMnU4LC5RZiDJrKQCnlxY2rCzLTjG6zesTl
+	PqD9y8COKiTgHQeH6cEMMWrEB1tFgzuHBxCfUcKYmxdArUXi+cQJ7pMHcZ/7hHLwZ98e
+	GyWDogNp7DZxQVfvrDadkXh7+8+Gh6rsOxTbCxuSjMzH7IgRS0uENCsGGn57zK4/buz/
+	kMRQ==
+X-Gm-Message-State: AOUpUlGDBtA/4wGZIOqd7Mxe2px2exStv0mVmPMmmW2QIEnorcHOC+MR
+	/MHToVN6ZVnWdN0yaO94BPdmHw==
+X-Google-Smtp-Source: AAOMgpfURqbqL80d3XTmUesE0Lg2kHt7znkHKbIADWO0OCJABWZjF9GPGUKR0ai7NrHjMskNaAiDmw==
+X-Received: by 2002:a1c:f306:: with SMTP id
+	q6-v6mr5671061wmq.111.1532558853162; 
+	Wed, 25 Jul 2018 15:47:33 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s9-v6sm3610680wmc.34.2018.07.25.15.06.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Jul 2018 15:06:13 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2018 23:06:12 +0100
-Message-Id: <20180725220612.17061-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] uninative-tarball: Add nativesdk-libnss-nis to resolve glibc symbol issues
+	w8-v6sm15688628wrp.72.2018.07.25.15.47.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 25 Jul 2018 15:47:32 -0700 (PDT)
+Message-ID: <30c2f9cc5e10db824fb7df312bee88e17814221c.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: kai.kang@windriver.com, mark.hatle@windriver.com
+Date: Wed, 25 Jul 2018 23:47:30 +0100
+In-Reply-To: <20180725164107.8891-1-kai.kang@windriver.com>
+References: <20180725164107.8891-1-kai.kang@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/2] Install rdependent of allarch package with same multilib variant of image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +58,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 22:06:14 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 22:47:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We need this to avoid symbol mismatch issues for binaries that use this
-on newer systems which then won't run on older ones where it isn't present.
+Hi Kai,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/yocto-uninative.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On Thu, 2018-07-26 at 00:41 +0800, kai.kang@windriver.com wrote:
+> The series rfc patch is trying to install 64bits packages which is
+> required by allarch package to 32 bits image. Work for rpm and need
+> little more work and test for dpkg and opkg.
+> 
+> Take ca-certificates as example. It requires openssl. So it intalls
+> openssl for both core-image-sato and lib32-core-image-sato. But
+> lib32-openssl is expected to be installed to lib32-core-image-sato.
+> 
+> So extend rdpendent of allarch package with all multilib variants and
+> 'noarch-' as well.
+> 
+> Extend
+> ca-certificates -> openssl
+> 
+> to
+> 
+> ca-certificates -> openssl, lib32-openssl, noarch-openssl
+> 
+> Rdepends on openssl and lib32-openssl make both of them exist in
+> oe-core-repo when do rootfs. And then make both openssl and
+> lib32-openssl provide noarch-openssl. And only keep noarch-openssl in
+> RDEPENDS when write package for ca-certificates. When do image rootfs
+> for lib32-core-image-sato, remove openssl if installed already and
+> install lib32-openssl to provide noarch-openssl for allarch pacakge
+> ca-certificates.
+> 
+> And extend rprovides of allarch package with prefix 'noarch-' too
+> that
+> it may be required by other allarch packages. Put all dependent
+> packages
+> of all allarch recipes in oe-core to a new ariable
+> 'ALLARCH_RDEP_PKGS'.
+> 
+> Any comment for this method is welcomed. Thanks a lot.
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index dcd59f87ccc..38080c63b58 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,6 +8,7 @@
- 
- UNINATIVE_MAXGLIBCVERSION = "2.27"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.1/"
--UNINATIVE_CHECKSUM[i686] ?= "a90db17d8845ece764aaac19348cd78504c0e554cb998da39ebad03aeef76185"
--UNINATIVE_CHECKSUM[x86_64] ?= "d43555df8d5a056ef5b20c7d8e0287207974e09df1e969a3e19302c8b4ea6b4b"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.2/"
-+UNINATIVE_CHECKSUM[i686] ?= "036b60092fe4acfa1a321d110673030db20344a2d56f33a4d047f0279498bdad"
-+UNINATIVE_CHECKSUM[x86_64] ?= "e3b77208169bf1ac4e89496f3cdbf27695f5b18a2694a908a793390f28b67f83"
-+
--- 
-2.17.1
+I think this is kind of the right direction but its not ready in this
+form. Taking a step back and thinking about this problem, its actually
+similar to the allarch recipes signature problem.
 
+Normally if A DEPENDS on B, the taskhash of A includes the taskhash of
+B. In the allarch case this is problematic so you see ca-certificates-
+>openssl listed in SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.
+
+I think (but am not 100% sure) that everything you list in
+ALLARCH_RDEP_PKGS is already covered somewhere in
+SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS.
+
+I'd therefore propose using SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS instead of
+adding a ALLARCH_RDEP_PKGS which duplicates information. I can't see
+any case where you'd want an entry in one but not the other.
+
+Rather than changing the RPROVIDES/RDEPENDS in package_{deb|ipk|rpm},
+you should do this once in package.bbclass.
+
+There is a bigger problem though since the allarch recipe signature
+filtering doesn't change what bitbake will actually build, only how its
+represented in sstate and the circumstances under which it would
+rebuild it. If ca-certificates DEPENDS on openssl, it will build
+openssl whether you're targeting core-image-sato or lib32-core-image-
+sato. This potentially means you can end up in a situation where it
+wouldn't build lib32-openssl if nothing else in lib32-core-image-sato
+depended upon it more directly.
+
+There is no easy way to solve this problem since somehow, if you're
+building lib32-<image> it needs to build lib32-openssl and if you're
+building <image> it needs to build openssl. "pushing" that information
+back up the dependency chain is very hard, we have no such mechanism.
+
+I'm afraid I don't have a solution for this piece, its a very hard
+problem to solve. Your current patches happen to work as there are
+other more direct dependencies which tend to ensure the right thing
+happens but we can't rely on that and it probably isn't the case for
+all the dependencies.
+
+Finally, the package manager shouldn't really need changes for this
+approach to work. If things RPROVIDE and RDEPEND on the noarch
+versions, the feed priorities should mean the right things happen. If
+that doesn't happen automatically, the feed prorities are not working
+correctly and that needs fixing, not the 2/2 patch you're proposing. I
+suspect this issue needs fixing regardless of anything else.
+
+Cheers,
+
+Richard
 
