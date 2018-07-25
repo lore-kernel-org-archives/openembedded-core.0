@@ -1,52 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A6D9A74583
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 53EEA744C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 18:12:00 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id r15-v6so7089816ioa.3
+	Wed, 25 Jul 2018 18:36:01 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id i12-v6so15686289oik.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 11:12:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=L61C4NY0MLorRYQlZ4SCGzUBpJaVMLKyLLAFkImKHWY=;
-	b=vYTcXXHbTsZ12HOTFWxN4JquW4ie9ocSL3j3eIDaa8inKevOQ1XZVgdtdtwZNhzAQc
-	weTjMIEdzFcHjC3rFwRR4526FVJ5y3e9D2YWoISHqSvaAdbxlAUxKkByZhgnKxi0vWWE
-	4JbQVkIUAaSXeaWZVms3IaJY/IWGK+dRXKwABTti2eCFP2UVU4dVtjJEhUkWCpKi4ofW
-	YJdfJjBpCQwv0P8rCW/15E+x23tcIfMNiIUM0BQjhXIjn5EeSb/UsGXlVHtpZujF9p6t
-	0FkmvEmzb2FP/6Py7aG65p/CzwugZKcy9DkEbtBrCdmMSWr99p3LGvoLK6jqunHYnaFJ
-	Fmnw==
+	Wed, 25 Jul 2018 11:36:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SibXw9mm5Rj5zeMJe9aIF04VPYDC1X2FuZH7qH58mC4=;
+	b=Vx/527kT+g0ZdkwmcrZ3YRzVY0HAMy+FSTYPwQVDKcLdXkNwaVAguvDrgWH8NS7UXB
+	EQW1nTODguogMjNfbupVCDYVBmycwfG6TM+zkYORLFMp0pHv9bOBaeZbLb7LtfEQHo80
+	4lmZZyz/TEJMCEHIhmPua8IoxPdY1DQDUGUgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=L61C4NY0MLorRYQlZ4SCGzUBpJaVMLKyLLAFkImKHWY=;
-	b=oSn1NTNY1ZeoFE5DMxigAyF33rzxwr/R0rscO/zjkMRZfGIsXi1R3j+pDjYx/7TCya
-	vxPmCVtpcSKx+gCWQgM7xM1SiPr24OQkpPtlV9bOywmqXrAXLk+k8LIbL6qRnpfUoZAu
-	qWgDa01JEVPi5MOdFRCb4Q1GuSv86aMU5B4UzwjOIxQZ1pOPCDe83eDYL2u3uugDABQx
-	Z0lLzO7QmoiFd3X7l3oq5khmFhTK4y/r8WHZFYz9RhW/c8917ZhrKsI8ri6wAY9vOLmu
-	EDpHekMt3DqhzrMnaV/f35CUdX+CV6qLJBAmK3tFQMCoMiV95/VrxRUIdJ2Sv7u39WgT
-	q0lg==
-X-Gm-Message-State: AOUpUlE10H+/H8X+knbNWFEjjQ/NZpB/QBUyLamLhDODzkoc+Xj0zSxV
-	RPg3eKV/lplRXpXtGpzzRqbJBsiM
-X-Google-Smtp-Source: AAOMgpcZmmogvNw+zOI4fbQ73oOeh67TnwndmAwlzED5Wb0NOGZH25js08TMjE7D6EX2HJv76UU5Jg==
-X-Received: by 2002:a5e:9812:: with SMTP id
-	s18-v6mr17637178ioj.117.1532542321442; 
-	Wed, 25 Jul 2018 11:12:01 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	u127-v6sm5525333iod.54.2018.07.25.11.12.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 25 Jul 2018 11:12:01 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SibXw9mm5Rj5zeMJe9aIF04VPYDC1X2FuZH7qH58mC4=;
+	b=gnRI+lIM+XF+S1PsYiwoB1PLKWA/ucBCuxlLQk0IVNplXFTpjg712QubMTYYINrHqo
+	KC74GOBZegVCWv7o4rDl3xgL4b91IllG5UqZeedKcgpjfKTMVjOxdOIW4EqNaubc1NGu
+	IL5wFh2YApq5jVmJy4U/LeJZRGepNLQ1gTevzPPusJY9lokikvKXmabrWPTd9Xqqx/+a
+	lw3ZR4WQ6/C0FFEvpfD/1HNu9TSTMplFYPkO/IJsccpdHcmEZWBaImI2B6CvrAMjV1q7
+	FWgbTpxoPR++xpm8XGs2fiSlHEjHDp2FilmeuTlKuFt0sk8TQEoPjwDvZozHrhEcj9FU
+	+vdQ==
+X-Gm-Message-State: AOUpUlHQuLViqw3Ox6Y8K9uqobMi7AV/N+oWQKowtiuCm2gnEG6ukMQg
+	ffPTejTCcExIRw9SIhIArPPm1NJtKek=
+X-Google-Smtp-Source: AAOMgpeJbu+rLQhv6q/KYFuDwIkqnEk5uo6hvBrRiZ8DgCt2jBUOBT9c2R8SlcdsMrcMGT5k4Elm4A==
+X-Received: by 2002:aca:ba57:: with SMTP id
+	k84-v6mr4209048oif.10.1532543761830; 
+	Wed, 25 Jul 2018 11:36:01 -0700 (PDT)
+Received: from aura.cortijodelrio.net
+	(CableLink-187-161-193-121.PCs.InterCable.net. [187.161.193.121])
+	by smtp.googlemail.com with ESMTPSA id
+	y85-v6sm16327063oie.25.2018.07.25.11.36.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 Jul 2018 11:36:00 -0700 (PDT)
+From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2018 13:11:58 -0500
-Message-Id: <20180725181158.13285-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180725180316.6352-1-JPEWhacker@gmail.com>
-References: <20180725180316.6352-1-JPEWhacker@gmail.com>
-Subject: [sumo][PATCH v2] u-boot: Fix build race condition
+Date: Wed, 25 Jul 2018 13:35:34 -0500
+Message-Id: <1532543734-17529-1-git-send-email-daniel.diaz@linaro.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] glibc: Avoid multilibbing on wordsize.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 18:12:00 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 18:36:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Backports 2f61b13d6acba787b00598d519c85222e993e4ca (included in the
-2018.07 release) which fixes a race condition when building.
+Once another header #includes <bits/wordsize.h>, there is a
+potential recursion going on because the
+multilib_header_wrapper.h #includes <bits/wordsize.h> again!
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+This should not happen because an __arm__ (32-bits) or an
+__aarch64__ (64-bits) environment guarantees that we will
+be getting the correct definition, but when building against
+a different target (like BPF), recursion is what happens.
+
+This can be seen, for instance, when building eBPF programs
+from the kernel with `clang -target bpf', such as the ones
+located in linux/tools/testing/selftests/bpf/.
+
+Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- ...efi_loader-avoid-make-race-condition.patch | 51 +++++++++++++++++++
- .../u-boot/u-boot-common_2018.01.inc          |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
+ meta/recipes-core/glibc/glibc-package.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-new file mode 100644
-index 0000000000..da7e27c64c
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-@@ -0,0 +1,51 @@
-+From 5c2e24a9ed54dfee77d1844a080e998b4affe916 Mon Sep 17 00:00:00 2001
-+From: Heinrich Schuchardt <xypron.glpk@gmx.de>
-+Date: Sat, 2 Jun 2018 19:00:41 +0200
-+Subject: [PATCH] efi_loader: avoid make race condition
-+
-+When U-Boot is built with 'make -j' there is not guarantee that targets in
-+directory arch/ are built before targets in directory lib/. The current
-+build instruction for EFI binaries in lib/ rely on dependencies in arch/.
-+If $(EFI_CRT0) or $(EFI_RELOC) is not yet built before trying to build
-+%.efi an error
-+    *** No rule to make target '%.efi'
-+occurs.
-+
-+With the patch separate copies of $(EFI_CRT0) and $(EFI_RELOC) named
-+efi_crt0.o and efi_reloc.o are built in lib/efi_loader and
-+lib/efi_selftest.
-+
-+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-+Signed-off-by: Alexander Graf <agraf@suse.de>
-+
-+Upstream-Status: Backport from 2018.07
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+---
-+ scripts/Makefile.lib | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-+index 8f19b2db56..f2f398c935 100644
-+--- a/scripts/Makefile.lib
-++++ b/scripts/Makefile.lib
-+@@ -404,8 +404,14 @@ cmd_efi_ld = $(LD) -nostdlib -znocombreloc -T $(EFI_LDS_PATH) -shared \
-+ 
-+ EFI_LDS_PATH = $(srctree)/arch/$(ARCH)/lib/$(EFI_LDS)
-+ 
-+-$(obj)/%_efi.so: $(obj)/%.o arch/$(ARCH)/lib/$(EFI_CRT0) \
-+-		arch/$(ARCH)/lib/$(EFI_RELOC)
-++$(obj)/efi_crt0.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_CRT0:.o=.S)
-++	$(call if_changed_dep,as_o_S)
-++
-++$(obj)/efi_reloc.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_RELOC:.o=.c) $(recordmcount_source) FORCE
-++	$(call cmd,force_checksrc)
-++	$(call if_changed_rule,cc_o_c)
-++
-++$(obj)/%_efi.so: $(obj)/%.o $(obj)/efi_crt0.o $(obj)/efi_reloc.o
-+ 	$(call cmd,efi_ld)
-+ 
-+ # ACPI
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-index d2073ea0c7..11b82b7e26 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-@@ -11,6 +11,7 @@ SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index ae3f2f6..a4f61f8 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -136,8 +136,7 @@ do_install_append_armeb () {
+ }
  
- SRC_URI = "git://git.denx.de/u-boot.git \
-     file://MPC8315ERDB-enable-DHCP.patch \
-+    file://0001-efi_loader-avoid-make-race-condition.patch \
- "
+ do_install_armmultilib () {
+-
+-	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
++	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
+ 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
+ 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
  
- S = "${WORKDIR}/git"
 -- 
-2.17.1
+2.7.4
 
 
