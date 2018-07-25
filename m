@@ -1,49 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B4636E650
+Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
+	[209.85.223.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A6D9A74583
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 18:03:26 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id e14-v6so1683615itf.1
+	Wed, 25 Jul 2018 18:12:00 +0000 (UTC)
+Received: by mail-io0-f196.google.com with SMTP id r15-v6so7089816ioa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 11:03:27 -0700 (PDT)
+	Wed, 25 Jul 2018 11:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=1GLlisiE9BQaD6eUdhnwVRWvc3R9ZBOd5wlDYwaqdH4=;
-	b=M1XApvAGWuEzOaDyYYeOtsMtqiSKNI/DuICSgnmwDfrLppUwMU1tAhkzAQ7PKZMNrP
-	6dyLbjhiHeh6YLjtras/UXIoL8OPcqszXxSgs8omCb/9wOs9kQFk2UJeQgyNs8LRzDT+
-	TCF9wXtwenKJqTkbLdNozpvVz+nvLiznvGqD25k42A0BHaODTYJbaq+bzk1tUx+dt4aw
-	LR8lQtRAVmf2PSDyucmyduulFYXMvfL9GqbuM36DRi5UmVI2g8Q4UF8CEMn/E1uPUzM6
-	D7IuzR/ssNi7OLn81gBlQkpTLeUkIQCPy6wCd3DFabvxOApNPwmmMTMTzO2hJm3M16W/
-	DHWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=L61C4NY0MLorRYQlZ4SCGzUBpJaVMLKyLLAFkImKHWY=;
+	b=vYTcXXHbTsZ12HOTFWxN4JquW4ie9ocSL3j3eIDaa8inKevOQ1XZVgdtdtwZNhzAQc
+	weTjMIEdzFcHjC3rFwRR4526FVJ5y3e9D2YWoISHqSvaAdbxlAUxKkByZhgnKxi0vWWE
+	4JbQVkIUAaSXeaWZVms3IaJY/IWGK+dRXKwABTti2eCFP2UVU4dVtjJEhUkWCpKi4ofW
+	YJdfJjBpCQwv0P8rCW/15E+x23tcIfMNiIUM0BQjhXIjn5EeSb/UsGXlVHtpZujF9p6t
+	0FkmvEmzb2FP/6Py7aG65p/CzwugZKcy9DkEbtBrCdmMSWr99p3LGvoLK6jqunHYnaFJ
+	Fmnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1GLlisiE9BQaD6eUdhnwVRWvc3R9ZBOd5wlDYwaqdH4=;
-	b=TWjE+ZaQ36hUkxWTf7rrpA16wsvKvtP9tUM7sRWVA2OtjGsTolzlneO8vfnznAXR09
-	/AKvzrqVZv0VzQB8f/aDBVD7SxGieTy+H+e/is4/JqFvhHEu54kN2JIOcTJdG/egLGyJ
-	tRPLMAueQQHi3nP4cc0FGwAED7json3jrvhOuEGChyWqV2PZsW7hq6oIupDWJFkFo359
-	2I0Os2fdDoW5Qbn/5ZfJXV2lkWflvj7DFtw5gKPLBCrtCh5Gh/n2ueDJvJ8SeS8RQU6q
-	uDLsVM2OZ8ZTOnYA7nYuNLx/m5yMhhcXjYHb5xifiJ5wiNEY26Cmzdsngrkj2XyZ8LJ+
-	TGiQ==
-X-Gm-Message-State: AOUpUlFNWvAU7YOD3yJjAkEvbOgP07vRxBLDc1F4tEIucsrBCtHsUQcc
-	HJDt9BIkyO5ivy7kwH/hYTP2XGKJ
-X-Google-Smtp-Source: AAOMgpeyF/6Ox/vgCXmAXcLIh8qrkVaBnm52oWTz+1tZ2vvHwDXYK16AC5wYVSxmqOiIl5uiBLyWsg==
-X-Received: by 2002:a24:e008:: with SMTP id c8-v6mr6735649ith.99.1532541807082;
-	Wed, 25 Jul 2018 11:03:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=L61C4NY0MLorRYQlZ4SCGzUBpJaVMLKyLLAFkImKHWY=;
+	b=oSn1NTNY1ZeoFE5DMxigAyF33rzxwr/R0rscO/zjkMRZfGIsXi1R3j+pDjYx/7TCya
+	vxPmCVtpcSKx+gCWQgM7xM1SiPr24OQkpPtlV9bOywmqXrAXLk+k8LIbL6qRnpfUoZAu
+	qWgDa01JEVPi5MOdFRCb4Q1GuSv86aMU5B4UzwjOIxQZ1pOPCDe83eDYL2u3uugDABQx
+	Z0lLzO7QmoiFd3X7l3oq5khmFhTK4y/r8WHZFYz9RhW/c8917ZhrKsI8ri6wAY9vOLmu
+	EDpHekMt3DqhzrMnaV/f35CUdX+CV6qLJBAmK3tFQMCoMiV95/VrxRUIdJ2Sv7u39WgT
+	q0lg==
+X-Gm-Message-State: AOUpUlE10H+/H8X+knbNWFEjjQ/NZpB/QBUyLamLhDODzkoc+Xj0zSxV
+	RPg3eKV/lplRXpXtGpzzRqbJBsiM
+X-Google-Smtp-Source: AAOMgpcZmmogvNw+zOI4fbQ73oOeh67TnwndmAwlzED5Wb0NOGZH25js08TMjE7D6EX2HJv76UU5Jg==
+X-Received: by 2002:a5e:9812:: with SMTP id
+	s18-v6mr17637178ioj.117.1532542321442; 
+	Wed, 25 Jul 2018 11:12:01 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	f204-v6sm2993205itc.13.2018.07.25.11.03.26
+	u127-v6sm5525333iod.54.2018.07.25.11.12.00
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 25 Jul 2018 11:03:26 -0700 (PDT)
+	Wed, 25 Jul 2018 11:12:01 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2018 13:03:16 -0500
-Message-Id: <20180725180316.6352-1-JPEWhacker@gmail.com>
+Date: Wed, 25 Jul 2018 13:11:58 -0500
+Message-Id: <20180725181158.13285-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Cc: Joshua Watt <JPEWhacker@gmain.com>
-Subject: [sumo][PATCH] u-boot: Fix build race condition
+In-Reply-To: <20180725180316.6352-1-JPEWhacker@gmail.com>
+References: <20180725180316.6352-1-JPEWhacker@gmail.com>
+Subject: [sumo][PATCH v2] u-boot: Fix build race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +59,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 18:03:26 -0000
-
-From: Joshua Watt <JPEWhacker@gmain.com>
+X-List-Received-Date: Wed, 25 Jul 2018 18:12:00 -0000
 
 Backports 2f61b13d6acba787b00598d519c85222e993e4ca (included in the
 2018.07 release) which fixes a race condition when building.
 
-Change-Id: If7af74cafd9d22fcb23cfe2ffd12084ca5ca083b
-Signed-off-by: Joshua Watt <JPEWhacker@gmain.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
  ...efi_loader-avoid-make-race-condition.patch | 51 +++++++++++++++++++
  .../u-boot/u-boot-common_2018.01.inc          |  1 +
