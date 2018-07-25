@@ -1,27 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 74963755A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EF44753F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 08:53:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6P8reOD012530
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 Jul 2018 09:53:34 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id b15-v6so12774178oib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 01:53:56 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Wed, 25 Jul 2018 01:53:51 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1532507399.git.liezhi.yang@windriver.com>
-	<6c7e807f1f1369aa865201b4678a1764ab6c1ef1.1532507399.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <23ad59e9-6407-89b3-81d9-a1fb54ad87e5@windriver.com>
-Date: Wed, 25 Jul 2018 16:53:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Wed, 25 Jul 2018 02:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=8COOlEFXD4antxREFfkLjUUNMqL5KW1a8yRWuWl/+z4=;
+	b=vm9m5cGAHFu8Qf0u1D92lPvAgkljgEnt506a1KrSzPme083eUddh09AQi+Zy32cCe9
+	46cwsUPyV6hfdJ5xnT/FYPJ8yhJefVKiz1mha1IxQdY2DMlATfFTj8v8WiNp8A9sf8Mp
+	U+9eoBC5BqT7LE+fSMKtvIFRPMwbFC5LhyjEQI6pWbOX/TP602Hd8jlsUF5KVC6oxUHz
+	o4uMa37mBVwPgpbH0dmA7K+NloxLJV8XoBLPWyLKFjZlCTObcwmlKTrgnRIqo4fyPf7B
+	sNzqY9mz/fgiMXba5camqq+PTuhSLj+D60z5saNxBYSxLAEl62TZGSJr+c00F2KjC9IA
+	7P/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=8COOlEFXD4antxREFfkLjUUNMqL5KW1a8yRWuWl/+z4=;
+	b=MLfiDv8i6uIsC6PxNkhXYMPL+s4XGXiJPyY6nHmZLEzirahloTzX1EP+uwueg8Brim
+	wluJI7HZB6OmffAZ6YtsSduMk6PRpvGxUyXQagNBy6GhJQgDDeNEwk6kgmmI73Esoj+p
+	nTZMP1RbLbm+mtIkaj/BCxzJNWQRDRwq1WJx0fY7rG5xXgcOXbaDmKAL9NTGlo/siJSn
+	aXTIOhUFZRiaATAzhTsR6E0ykY+IKzLCeu+y9c3x4AI7ZCL1/O6QP6SbOyi57d3XGaBx
+	pUFEAdcAPqAuNhaLtyzibDZFzfGKjnqa5k8ZygzFSqPyRS+x4ZvkejupBh/Ah9pQyhL2
+	/vYw==
+X-Gm-Message-State: AOUpUlHGoxDSsTWC/QgHUJRErlR6qt3m8SIEHFDX55bdgTNn9NLk9t/9
+	8+p1tSiHNiuHtSLeECssMyaVj9DxK/LqDUQRPgekfpON
+X-Google-Smtp-Source: AAOMgpeJXbJ4bHZTo7Clqmhmwp2nB9QtIGlq5tCVleIaea3Lm8tuuUmPcXrYxDuu+qORQr8bEQ60fnXmTcUO2fYwH5c=
+X-Received: by 2002:aca:b256:: with SMTP id
+	b83-v6mr2733529oif.235.1532512415637; 
+	Wed, 25 Jul 2018 02:53:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6c7e807f1f1369aa865201b4678a1764ab6c1ef1.1532507399.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 2/3] runqemu: default qemumips memory to 256M
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 02:53:14
+	-0700 (PDT)
+In-Reply-To: <1532505359-3185-1-git-send-email-hongxu.jia@windriver.com>
+References: <1532505359-3185-1-git-send-email-hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 25 Jul 2018 10:53:14 +0100
+Message-ID: <CAJTo0La7u5xz_m4J1bbtW2F-14-jBzCd5W7fMZ4FrWrOEQo33Q@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: fix compile failure on beaglebone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,70 +57,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 08:53:55 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jul 2018 09:53:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry, please ignore this one, it had been fixed by:
+On 25 July 2018 at 08:55, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> +Upstream-Status: Pending
 
-commit c68e4c6e3eb612bb7afd9d7f1e9a6dc295d44346
-Author: He Zhe <zhe.he@windriver.com>
-Date:   Sun Jul 8 20:14:43 2018 -0700
+You'll be submitting this upstream right?
 
-     scripts/runqemu: fix qemumips qemumips64 memory detection kernel panic
-
-
-I removed it from repo.
-
-// Robert
-
-On 07/25/2018 04:34 PM, Robert Yang wrote:
-> The qemumips or qemumips64 can't be boot with 512M.
-> 
-> *Fixed when no QB_MEM is set:
->   - runqemu qemumips nographic core-image-minimal
-> [    0.000000] Call Trace:
-> [    0.000000] [<8011c010>] clear_page+0x0/0x128
-> [    0.000000] [<8022b818>] get_page_from_freelist+0xa1c/0xb48
-> [    0.000000] [<8022c00c>] __alloc_pages_nodemask+0xd8/0xf0c
-> [    0.000000] [<8022ce58>] __get_free_pages+0x18/0x60
-> [    0.000000] [<80118674>] setup_zero_pages+0x1c/0x98
-> [    0.000000] [<80bd23e4>] mem_init+0x44/0x54
-> [    0.000000] [<80bca964>] start_kernel+0x20c/0x4bc
-> [    0.000000] [<80920090>] kernel_entry+0x0/0x40
-> [    0.000000] Code: 00000000  00000000  00000000 <34860f80> cc9e0000  cc9e0010  cc9e0020  cc9e0030  cc9e0040
-> [    0.000000]
-> [    0.000000] ---[ end trace 0000000000000000 ]---
-> [    0.000000] Kernel panic - not syncing: Attempted to kill the idle task!
-> [    0.000000] ---[ end Kernel panic - not syncing: Attempted to kill the idle task!
-> 
-> [YOCTO #11521]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   scripts/runqemu | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 73d7d58..7a13e5d 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -665,8 +665,13 @@ class BaseConfig(object):
->           if s:
->               self.set('QB_MEM', '-m %s' % s.group(1))
->           elif not self.get('QB_MEM'):
-> -            logger.info('QB_MEM is not set, use 512M by default')
-> -            self.set('QB_MEM', '-m 512')
-> +            mach = self.get('MACHINE')
-> +            if mach.startswith('qemumips'):
-> +                logger.info('QB_MEM is not set, use 256M by default')
-> +                self.set('QB_MEM', '-m 256')
-> +            else:
-> +                logger.info('QB_MEM is not set, use 512M by default')
-> +                self.set('QB_MEM', '-m 512')
->   
->           mach = self.get('MACHINE')
->           if not mach.startswith('qemumips'):
-> 
+Ross
 
