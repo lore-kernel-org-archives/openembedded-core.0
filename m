@@ -1,25 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 435C278870
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D79BD78844
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 17:16:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6PHGV2D020092
+	Wed, 25 Jul 2018 17:16:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6PHGY1T022552
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Jul 2018 10:16:32 -0700 (PDT)
+	Wed, 25 Jul 2018 10:16:34 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Wed, 25 Jul 2018 10:16:31 -0700
+	14.3.399.0; Wed, 25 Jul 2018 10:16:33 -0700
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>, <mark.hatle@windriver.com>
-Date: Thu, 26 Jul 2018 00:41:06 +0800
-Message-ID: <20180725164107.8891-2-kai.kang@windriver.com>
+Date: Thu, 26 Jul 2018 00:41:07 +0800
+Message-ID: <20180725164107.8891-3-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20180725164107.8891-1-kai.kang@windriver.com>
 References: <20180725164107.8891-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 1/2] make allarch packages don't dependent specific multilib package
+Subject: [RFC PATCH 2/2] WIP: install rdependent packages of allarch packages according to image rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,233 +33,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 17:16:32 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 17:16:35 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The dependencies of allarch packages doesn't not extend when enable
-multilib. So take ca-certificates as an example, it always requires
-openssl no matter whether multilib is enabled. For multilib image such
-as lib32-core-image-sato, it installs 64 bits openssl rather than
-lib32-openssl which is expected.
-
-So extend rdependencies of allarch package with prefix 'noarch-' and all
-of multilib variants. For
-
-ca-certificates -> openssl
-
-exends to
-
-ca-certificates -> openssl, lib32-openssl, noarch-openssl
-
-Rdepends on openssl and lib32-openssl make both of them exist in
-oe-core-repo when do rootfs. And then make both openssl and
-lib32-openssl provide noarch-openssl. And only keep noarch-openssl in
-RDEPENDS when write package for ca-certificates. So when do image rootfs
-for lib32-core-image-sato, remove openssl if installed already and
-install lib32-openssl for allarch pacakge ca-certificates.
-
-And extend rprovides of allarch package with prefix 'noarch-' too that
-it may be required by other allarch packages. Put all dependent packages
-of all allarch recipes in oe-core to a new ariable 'ALLARCH_RDEP_PKGS'.
+Add interface is_leaf to package managers. If any multilib variant of
+package from 'ALLARCH_RDEP_PKGS' is installed to image rootfs, then
+install the packages with 'BBEXTENDVARIANT' of current image and remove
+the already installed package if not required by others and not add to
+image intentionally.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes/allarch.bbclass         |  3 ---
- meta/classes/multilib.bbclass        |  3 ++-
- meta/classes/multilib_global.bbclass | 31 +++++++++++++++++++++++++++-
- meta/classes/nativesdk.bbclass       |  8 +++++++
- meta/classes/package_deb.bbclass     |  7 ++++++-
- meta/classes/package_ipk.bbclass     |  7 ++++++-
- meta/classes/package_rpm.bbclass     |  8 ++++++-
- meta/conf/multilib.conf              | 16 ++++++++++++++
- 8 files changed, 75 insertions(+), 8 deletions(-)
+ meta/lib/oe/package_manager.py | 51 ++++++++++++++++++++++++++++++++--
+ meta/lib/oe/rootfs.py          | 28 +++++++++++++++++++
+ 2 files changed, 77 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 1eebe0bf2e..52efba405a 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -42,9 +42,6 @@ python () {
-         d.setVar("INHIBIT_PACKAGE_DEBUG_SPLIT", "1")
-         d.setVar("INHIBIT_PACKAGE_STRIP", "1")
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 9aa5847c8a..eeaf297432 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -249,7 +249,7 @@ class DpkgIndexer(Indexer):
+                 release.write("Label: %s\n" % arch)
  
--        # These multilib values shouldn't change allarch packages so exclude them
--        d.appendVarFlag("emit_pkgdata", "vardepsexclude", " MULTILIB_VARIANTS")
--        d.appendVarFlag("write_specfile", "vardepsexclude", " MULTILIBS")
-         d.appendVarFlag("do_package", "vardepsexclude", " package_do_shlibs")
-     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
-         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index f2ac8bdfef..f9417ce69e 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -134,7 +134,8 @@ python do_package_qa_multilib() {
-                 i = i[len('virtual/'):]
-             if (not i.startswith('kernel-module')) and (not i.startswith(mlprefix)) and \
-                 (not 'cross-canadian' in i) and (not i.startswith("nativesdk-")) and \
--                (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')):
-+                (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')) and \
-+                (not i.startswith("noarch")):
-                 candidates.append(i)
-         if len(candidates) > 0:
-             msg = "%s package %s - suspicious values '%s' in %s" \
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index d2ec1adfea..a5e3046498 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -161,6 +161,16 @@ multilib_virtclass_handler_vendor[eventmask] = "bb.event.ConfigParsed"
- 
- python multilib_virtclass_handler_global () {
-     variant = e.data.getVar("BBEXTENDVARIANT")
+             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
+-            
 +
-+    # make packages from ALLARCH_RDEP_PKGS provide noarch-pkg
-+    if not (bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data)):
-+        for pkg in (e.data.getVar("PACKAGES") or "").split():
-+            bpkg = pkg.lstrip(variant + "-" if variant else "")
-+            if bpkg in (e.data.getVar("ALLARCH_RDEP_PKGS") or ""):
-+                rprovs = d.getVar("RPROVIDES_%s" % pkg) or ""
-+                rprovs = rprovs + " noarch-" + bpkg
-+                d.setVar("RPROVIDES_%s" % pkg, rprovs.strip())
-+
-     if variant:
-         return
+             index_cmds.append(cmd)
  
-@@ -194,9 +204,28 @@ python multilib_virtclass_handler_global () {
-                 for clsextend in clsextends:
-                     rprovs = rprovs + " " + clsextend.map_variable("RPROVIDES_%s" % pkg, setvar=False)
-                     rprovs = rprovs + " " + clsextend.extname + "-" + pkg
-+
-+                if bb.data.inherits_class('allarch', e.data):
-+                    # make allarch pkg rprovides noarch-itself
-+                    if not pkg.endswith(("-dbg", "-dev", "-staticdev")):
-+                        rprovs = rprovs + " noarch-" + pkg
-+
-                 e.data.setVar("RPROVIDES_%s" % pkg, rprovs)
-+
-+            # Process RDEPENDS for noarch recipe
-+            if bb.data.inherits_class('allarch', e.data) and \
-+                not (bb.data.inherits_class('nativesdk', e.data) or bb.data.inherits_class('crosssdk', e.data)):
-+                noarch_clsext = oe.classextend.ClassExtender('noarch', e.data)
-+                for pkg in (e.data.getVar("PACKAGES") or "").split():
-+                    if pkg.endswith(("-dbg", "-dev", "-staticdev")):
-+                        continue
-+
-+                    rdeps = e.data.getVar("RDEPENDS_%s" % pkg) or ""
-+                    rdeps = rdeps + " " + noarch_clsext.map_variable("RDEPENDS_%s" % pkg, setvar=False)
-+                    for clsextend in clsextends:
-+                        rdeps = rdeps + " " + clsextend.map_variable("RDEPENDS_%s" % pkg, setvar=False)
-+                    e.data.setVar("RDEPENDS_%s" % pkg, rdeps)
- }
+             deb_dirs_found = True
+@@ -448,6 +448,13 @@ class PackageManager(object, metaclass=ABCMeta):
+     def list_installed(self):
+         pass
  
- addhandler multilib_virtclass_handler_global
- multilib_virtclass_handler_global[eventmask] = "bb.event.RecipeParsed"
--
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index ab566e9803..8f8af8f188 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -95,6 +95,14 @@ python () {
-     clsextend.map_packagevars()
-     clsextend.map_variable("PROVIDES")
-     clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
++    @abstractmethod
++    def is_leaf(self, pkg):
++        """
++        Whether pkg is required by other packages
++        """
++        pass
 +
-+    # make variant-pkg from ALLARCH_RDEP_PKGS provides noarch-pkg
-+    for pkg in (d.getVar("PACKAGES") or "").split():
-+        bpkg = pkg.replace("nativesdk-", "")
-+        if bpkg in (d.getVar("ALLARCH_RDEP_PKGS") or "").split():
-+            rprovs = d.getVar("RPROVIDES_%s" % pkg) or ""
-+            rprovs = rprovs + " noarch-" + pkg
-+            d.setVar("RPROVIDES_%s" % pkg, rprovs)
- }
- 
- addhandler nativesdk_virtclass_handler
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 2e8d17d3c7..71f69b9ac3 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -245,7 +245,12 @@ def deb_write_pkg(pkg, d):
-                     elif (v or "").startswith("> "):
-                         var[dep][i] = var[dep][i].replace("> ", ">> ")
- 
--        rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
-+        rdepends = localdata.getVar("RDEPENDS") or ""
-+        if bb.data.inherits_class('allarch', localdata) \
-+            and not bb.data.inherits_class('packagegroup', localdata) \
-+            and not pkg.endswith(("-dbg", "-dev", "-staticdev")):
-+            rdepends =  " ".join(list(filter(lambda dep: dep.startswith('noarch-'), rdepends.split())))
-+        rdepends = bb.utils.explode_dep_versions2(rdepends)
-         debian_cmp_remap(rdepends)
-         for dep in list(rdepends.keys()):
-                 if dep == pkg:
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index a0b34fa7a5..783a2302bf 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -225,7 +225,12 @@ def ipk_write_pkg(pkg, d):
-                     elif (v or "").startswith("> "):
-                         var[dep][i] = var[dep][i].replace("> ", ">> ")
- 
--        rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
-+        rdepends = localdata.getVar("RDEPENDS") or ""
-+        if bb.data.inherits_class('allarch', localdata) \
-+            and not bb.data.inherits_class('packagegroup', localdata) \
-+            and not pkg.endswith(("-dbg", "-dev", "-staticdev")):
-+            rdepends = " ".join(list(filter(lambda dep: dep.startswith('noarch-'), rdepends)))
-+        rdepends = bb.utils.explode_dep_versions2(rdepends)
-         debian_cmp_remap(rdepends)
-         rrecommends = bb.utils.explode_dep_versions2(localdata.getVar("RRECOMMENDS") or "")
-         debian_cmp_remap(rrecommends)
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 21ada348aa..dbd7cc3701 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -333,6 +333,13 @@ python write_specfile () {
- 
-         localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
- 
-+        if bb.data.inherits_class('allarch', localdata) \
-+            and not bb.data.inherits_class('packagegroup', localdata) \
-+            and not pkg.endswith(("-dbg", "-dev", "-staticdev")):
-+            rdeps = (localdata.getVar('RDEPENDS') or "").split()
-+            rdeps = list(filter(lambda dep: dep.startswith('noarch-'), rdeps))
-+            localdata.setVar('RDEPENDS', ' '.join(rdeps))
+     @abstractmethod
+     def extract(self, pkg):
+         """
+@@ -587,7 +594,7 @@ def create_packages_dir(d, rpm_repo_dir, deploydir, taskname, filterbydependenci
+     pn = d.getVar("PN")
+     seendirs = set()
+     multilibs = {}
+-   
 +
-         conffiles = get_conffiles(pkg, d)
-         dirfiles = localdata.getVar('DIRFILES')
-         if dirfiles is not None:
-@@ -372,7 +379,6 @@ python write_specfile () {
-         splitrprerm    = localdata.getVar('pkg_prerm')
-         splitrpostrm   = localdata.getVar('pkg_postrm')
+     rpm_subrepo_dir = oe.path.join(rpm_repo_dir, "rpm")
  
--
-         if not perfiledeps:
-             # Add in summary of per file dependencies
-             splitrdepends = splitrdepends + " " + get_perfile('RDEPENDS', pkg, d)
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index e74dec81a8..2466befbca 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -26,3 +26,19 @@ OPKG_ARGS_append = " --force-maintainer --force-overwrite"
- PKG_CONFIG_PATH .= ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
- PKG_CONFIG_PATH[vardepsexclude] = "datadir WORKDIR"
- PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
+     bb.utils.remove(rpm_subrepo_dir, recurse=True)
+@@ -895,6 +902,20 @@ class RpmPM(PackageManager):
+ 
+         return packages
+ 
++    def is_leaf(self, pkg):
++        if not pkg:
++            return False
 +
-+# resolve runtime dependencies of allarch packages when enable multilib
-+ALLARCH_RDEP_PKGS ?= "\
-+    bash \
-+    busybox-mdev \
-+    font-util \
-+    fontconfig-utils \
-+    kbd \
-+    openssl \
-+    perl \
-+    ppp \
-+    udev \
-+    udev-extraconf \
-+    weston \
-+    ${VIRTUAL-RUNTIME_base-utils} \
-+"
++        cmd = bb.utils.which(os.getenv('PATH'), "rpm")
++        args = ["-q", "--whatrequires", "--root=%s" % self.target_rootfs]
++
++        bb.note("Running %s" % ' '.join([cmd] + args + [pkg]))
++        # return value 0 stands for other(s) require(s) pkg
++        if subprocess.call([cmd] + args + [pkg], shell=True):
++            return True
++        else:
++            return False
++
+     def update(self):
+         self._invoke_dnf(["makecache", "--refresh"])
+ 
+@@ -1327,6 +1348,12 @@ class OpkgPM(OpkgDpkgPM):
+     def list_installed(self):
+         return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list_pkgs()
+ 
++    def is_leaf(self, pkg):
++        if not pkg:
++            return False
++
++
++
+     def handle_bad_recommendations(self):
+         bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS") or ""
+         if bad_recommendations.strip() == "":
+@@ -1753,6 +1780,26 @@ class DpkgPM(OpkgDpkgPM):
+     def list_installed(self):
+         return DpkgPkgsList(self.d, self.target_rootfs).list_pkgs()
+ 
++    def is_leaf(self, pkg):
++        bb.warn("=====================in dpkg is_leaf()\n")
++        if not pkg:
++            return False
++
++        cmd = "%s rdepends %s" % (self.apt_cache_cmd, pkg)
++
++        try:
++            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
++        except subprocess.CalledProcessError as e:
++            bb.fatal("Unable to list rdepends packages. Command '%s' "
++                     "returned %d:\n%s" % (cmd, e.returncode, e.output.decode("utf-8")))
++
++        bb.warn(output)
++        bb.warn(len(output.split()))
++        if len(output.split()) > 2:
++            return False
++        else:
++            return True
++
+     def package_info(self, pkg):
+         """
+         Returns a dictionary with the package info.
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 28642abbd9..54bde6798b 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -170,6 +170,7 @@ class Rootfs(object, metaclass=ABCMeta):
+ 
+     def create(self):
+         bb.note("###### Generate rootfs #######")
++        bb.warn(" in create ###### Generate rootfs #######")
+         pre_process_cmds = self.d.getVar("ROOTFS_PREPROCESS_COMMAND")
+         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
+         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
+@@ -213,6 +214,9 @@ class Rootfs(object, metaclass=ABCMeta):
+ 
+         self._uninstall_unneeded()
+ 
++        bb.warn("========= in rootfs() before self._fix_allarch_ml_rdeps\n")
++        self._fix_allarch_ml_rdeps()
++
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+ 
+@@ -279,6 +283,30 @@ class Rootfs(object, metaclass=ABCMeta):
+             # Remove the package manager data files
+             self.pm.remove_packaging_data()
+ 
++    def _fix_allarch_ml_rdeps(self):
++        variant = self.d.getVar("BBEXTENDVARIANT") or ""
++        ml_variants = self.d.getVar("MULTILIB_VARIANTS") or ""
++
++        packages = self.pm.list_installed()
++
++        pkg_to_remove = list()
++        bb.warn("======= in _fix_allarch_ml_rdeps \n")
++        for var in ml_variants.split():
++            for pkg in (self.d.getVar("ALLARCH_RDEP_PKGS") or "").split():
++                ml_pkg = pkg if var == variant else var + "-" + pkg
++                if ml_pkg in packages:
++                    cur_pkg = variant + "-" + pkg if variant else pkg
++                    if not cur_pkg in packages:
++                        self.pm.install([cur_pkg])
++                    if self.pm.is_leaf(ml_pkg) \
++                        and ml_pkg not in (self.d.getVar("IMAGE_INSTALL") or "").split():
++                        pkg_to_remove.append(ml_pkg)
++
++        bb.note("Following duplicated packages required by all arch packages \
++                will be removed: %s" % " ".join(pkg_to_remove))
++        self.pm.update()
++        self.pm.remove(pkg_to_remove)
++
+     def _run_ldconfig(self):
+         if self.d.getVar('LDCONFIGDEPEND'):
+             bb.note("Executing: ldconfig -r" + self.image_rootfs + "-c new -v")
 -- 
 2.17.1
 
