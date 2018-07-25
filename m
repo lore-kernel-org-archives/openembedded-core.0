@@ -1,50 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ED9F789B2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 664AF60801
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 20:05:11 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id p10-v6so7742327ljg.2
+	Wed, 25 Jul 2018 20:08:50 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id k12-v6so16129854oiw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 13:05:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 25 Jul 2018 13:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hR87Fm9j/P4+qlc3brkBG/PLa1Adw+BObWiopcxSwgQ=;
-	b=g26Uz1m5kZF4GINHxA05v/sA/UtQv2NpvkJfG5MuukW7j5xtzEayNVkyDtz4+i1Vyj
-	3a2KTy5WJpzwhkMZaNE6XcwNuouAGdmKEeIe0KuJG4rX7ErQNhY5WMmLQmSX4iynvOBI
-	Ib8/eQ5sXFOtUTU9AJFLOoZF6iLvRVMqgagmO+6aFadlEjC9E15DZEiFuOysdvDCSaCe
-	X3h6rbMGKxC6wYCYkYsPpOz45E14LCJExRXSObIQl4r+DuJG5Qf9bvnYelT2uhgcE6N8
-	u1MgyLjPYynEoAFREO3jssBWuciYmSHE2PnHAs1WEJAnsF/2y6oc5OUgaOCT4dv47ui+
-	rX3Q==
+	:cc; bh=WX3sQnOI4cFrQmTqG438FG3ed4gSSa3Cm69iphoYEPY=;
+	b=Hifgrg89YtNdZ+BXzw9UxcAxbQ7tZHq1DH9bLdRzWd9gu/CBjtfYlToHchI9eaLKsp
+	KMW13YqgwstAHwHGIl+04sn4IBPYOICop4R+tasc/MhBQdr1U8vhzgnGqNIZH7OXxwqi
+	kaCjaL0EtWuUw+eMPBuCqzGK6J8VIWdC4zvKtHBNtvvdx/xG34/lyhDaDqFcvoOfHo4e
+	NDbaLshAwhgoQp6xYu2J4r09vMgB5uNSx/BOWaic1cqHvE5igyPEk9gkx5ZrdMT7kjHl
+	UQgWokhroH2ykjKbIg1DkjMvjrt41vbaB3N21LhnOafFUfVAG0dE6xj+WswL/o/twVMF
+	96XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=hR87Fm9j/P4+qlc3brkBG/PLa1Adw+BObWiopcxSwgQ=;
-	b=NvksibU/0aok2vwZDlsXjknp19Wt3LV7E0C+eSCUUzassQkFYY0pQLxlMk07iHxQcZ
-	pkp8Bzz6Z/aTNjH1+oKai8GBjwWm2IBwJgReEcKoVs6uh0GDM8xgfktavja6m3fGPo6F
-	MKNqADXYU7npAcHIr+NuikvVvbk6Bv7+YS24se4D8v2SfsFUg9uh2fLjj87+wxhqcxye
-	62rhvm005aROd8t7vOrfFz44TssCcbURSlX9FYRS12TZKmNlzrXNfwhiqNO+hhAEEZo4
-	Sp30XO+E+ZfZggeNy6DV6eW/KkLhg9U8b55VXrcjjADUCg//JMswjBMg1B2O4orMku7O
-	2oTA==
-X-Gm-Message-State: AOUpUlFeHat/O6kR8EajwdEjtOykd8fR9wtb9SK42L6wvnDRJmY40rSD
-	lcZAX6QePp4v0debwaJxtlVFWMDekf6KcpdHNk4=
-X-Google-Smtp-Source: AAOMgpdfASOELcBeaw7/D3JxTH1M5dj6l1vM0ortqtXzyAr6BPigzo8R6SZq9qlKDwNxxLsnViYCP4JNO2yNKYpFUFA=
-X-Received: by 2002:a2e:6a04:: with SMTP id
-	f4-v6mr16892969ljc.109.1532549112092; 
-	Wed, 25 Jul 2018 13:05:12 -0700 (PDT)
+	bh=WX3sQnOI4cFrQmTqG438FG3ed4gSSa3Cm69iphoYEPY=;
+	b=VFrXDLFj6Doxpuk21tD+CdWMThp85j/dHipsUrr54Q6uCLL1Uk0frDK+A2UDLb/2ub
+	aplI5p9qcP0XyjYIDMXzU4KgfxoXcn6rBeGUBKyP1XXbRzN42wLDrQ+7Y6oRI8tj42Hr
+	VCkXk5j+S2mj/2jLyOnKnAdnnBJhCpoawtuugvKH5qMuoTMevGsDMrM7J2XyU2+FlYGK
+	QKdycTBnxy/iivcSm3WSjBwuZeineazaptntbf7yD83hPypmT1erqstvCHMVagbZrU55
+	bfSNXzLNZEce40FIsnutSKrZ1bN31IS3n0fm1JGTAI9vBbVwScMh2uOlK65vvl9kw8pQ
+	r6BA==
+X-Gm-Message-State: AOUpUlGx0rM2B87LkXOJn9OEEcOzAPtxBkIoakn5FxCEBLw4sySqUjEm
+	Ebg/lk+eVHFXeB8TR8NnT2FoNOC31TWyR/3zqsf/MZ1u
+X-Google-Smtp-Source: AAOMgpeoT/gvi1uZ/fIEzmEEl0mQL17PhRNlMl9CSuBZUNU0ryPSkXUCFGU1xNt5bd2CZ5htGwBrKO0/78hPAwridEY=
+X-Received: by 2002:aca:e185:: with SMTP id
+	y127-v6mr4973724oig.245.1532549331438; 
+	Wed, 25 Jul 2018 13:08:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:85a:0:0:0:0:0 with HTTP;
-	Wed, 25 Jul 2018 13:05:10 -0700 (PDT)
-In-Reply-To: <CAJTo0LZZU9_XSu3+HBmDEjKFgS_znfTkdyzBSd-XChXaEncnow@mail.gmail.com>
-References: <20180725183529.4478-1-JPEWhacker@gmail.com>
-	<CAJTo0LZZU9_XSu3+HBmDEjKFgS_znfTkdyzBSd-XChXaEncnow@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 25 Jul 2018 16:05:10 -0400
-Message-ID: <CADkTA4MOJMPrdbxuFUp5Nchv=2MJaztUpmodRqC7QPrRWaZg9g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Wed, 25 Jul 2018 13:08:30
+	-0700 (PDT)
+In-Reply-To: <20180721162715.12611-3-raj.khem@gmail.com>
+References: <20180721162715.12611-1-raj.khem@gmail.com>
+	<20180721162715.12611-3-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 25 Jul 2018 21:08:30 +0100
+Message-ID: <CAJTo0LbU0UhP6OzHJwJQBcFXw+y3+9f+1BxFiQX3FCbotxOtFQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/kernel-yocto: Cleanup getstatusoutput usage
+Subject: Re: [PATCH 3/7] libsdl2: Find wayland-protocol files in proper location during cross compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 20:05:11 -0000
+X-List-Received-Date: Wed, 25 Jul 2018 20:08:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 25, 2018 at 3:50 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 25 July 2018 at 19:35, Joshua Watt <jpewhacker@gmail.com> wrote:
->> -    cmd = d.expand("cd ${S}; kconf_check --report -o ${S}/%s/cfg/ ${B}/.config ${S} %s" % (kmeta,configs))
->> -    ret, result = oe.utils.getstatusoutput("%s%s" % (pathprefix, cmd))
->> +    try:
->> +        configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
->> +    except subprocess.CalledProcessError:
->> +        # Is this really non-fatal?
->> +        pass
->> +
->> +    try:
->> +        subprocess.check_call(['kconf_check', '--report', '-o',
->> +                '%s/%s/cfg' % (s, kmeta), d.getVar('B') + '/.config', s, configs], cwd=s, env=env)
->> +    except subprocess.CalledProcessError:
->> +        # Is this really non-fatal?
->> +        pass
->
-> CCing Bruce for his feedback.  Either one or both of these calls can
-> fail without it being fatal which should be documented, or it
-> shouldn't be catching the exceptions.
+On 21 July 2018 at 17:27, Khem Raj <raj.khem@gmail.com> wrote:
+> +pkgconfig would return an absolute path in /usr/share/wayland-protocols
+> +for the pkgdatadir value, which is not suitable for cross-compiling.
 
-Yah.
+For reference this is due to pkgconf (not pkgconfig) having different
+behaviour compared to pkgconfig, which is breaking recipes.
+Personally I consider this a bug in pkgconf and there are bugs
+upstream (and new releases) which may solve it directly instead of
+having to fix every user of Weston (which isn't the only user of this
+pattern).
 
-Don't grab this patch at all. I have a set of changes that muck all
-about in here, so I'll have to look and integrate things by hand.
-
-My question about the change .. is why ? I really don't like cleanup
-patches on principle, and want things pinned to a bug, a performance
-issue or something else.
-
-Cheers,
-
-Bruce
-
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Ross
 
