@@ -1,48 +1,50 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-it0-f66.google.com (mail-it0-f66.google.com
-	[209.85.214.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B662778AFA
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2830978B17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 23:46:45 +0000 (UTC)
-Received: by mail-it0-f66.google.com with SMTP id q20-v6so303762ith.0
+	Thu, 26 Jul 2018 00:01:42 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id x5-v6so6323848pgp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2018 16:46:47 -0700 (PDT)
+	Wed, 25 Jul 2018 17:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=ploBS/pSHF15iG2J1jCdSMksBpCDIlbIUCOL1/boJG8=;
-	b=ttLAAFXPkKe2olJXBB1cKxPz88VMZ703XkrFO3UHinwueXNHTdyTy98/0ozMv26aUw
-	73fKm9iaFKM30ibOVDllua+7sCltxLvPoU9u4qQFJk6idYk0hOFj2BO33fNvFqwPknwt
-	aoc/O3GjIU/664IIV1O+T+L6qWivmqcznJP8pRe3I03DWO9bJSHWOOHtu0DMOhNgXU0O
-	hf6iZ0khO10f66DqtiTXLIFy2n2e41fn3WdEEZfj07BdfEPzXedKVKwKdXjfmxeNX57Y
-	ZpJyHP2nS4LkBPYs7eWmFNYK76XCauDkRcc8mWHLsA6YXaYLnS8ZsytikJYSfNsZeuNc
-	YI0Q==
+	bh=N/Ja/sbR6EfvTTdwiA/T0t0h1fJX3gkKtDMY+BGTIOg=;
+	b=PSRj860dqweS+fm/T2otbyY/javT2UPtOmk0SGas/86Q8dOW6dpg0VTduPHPspyR7p
+	Fpt0XbHfLdvdsvO3Zj5UG5EDFtjiKwDnhJfxajZCdtN0+96PsbuXE0IY7VhIYD2k9DR+
+	NT1V+Z6zcq22Ms8ZFibvPbgv6GBY2XB5q5NirEc5KxfCzB6v6XzAg/eKeCeUXCq0YJce
+	t/Vxrc5dN05/akMvjRzqoGked7/zXnY1ufYGnjFOhjIWm5WG19jnEeHFSOY6R7SHwimz
+	RLdbn2kq20yVy0/dvauY3LHpqobRkCYIGo3iFVnABjQYZbVE1vvWioZmbJ1S+ASRBz72
+	ikzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ploBS/pSHF15iG2J1jCdSMksBpCDIlbIUCOL1/boJG8=;
-	b=YfUlaAcXkE3ipJnbpTk2UA9pluYx6z0oxfK3czMzSeZHOVkyFeXxveVj2ErDT6irF9
-	A78MceR98ejsBjVNilIRfXKOG5FiRTrk54GeNSWHUAzPb3JMyXSaSSaj7hA5HHdtFtJV
-	agdsARjK0LhYXHZuqqXU+JCb2Q0oJh0meiaue4dYEbzcet4bWKqW3UtiKrKX2ezozwWg
-	2lPWUE/KqDjQHKnJ3IMq5U693TmFdHx0J3kmgyMg7zdm0gmF52mWpX98schl+GAG4i4X
-	WH2CJZClFEODWGURapxoTlTKzWCABHp2t/l3v9s7ElvDu0G3KkNqHI/ZyI0tMPMcwaDu
-	av8A==
-X-Gm-Message-State: AOUpUlEUKpC1adEGYpJFCiURcvXXcCBkvjkEgEBR/yDwK0Eo1mQj+qD6
-	3BLY3Aaa4fpu0vQ1VNdtdBUzCptn
-X-Google-Smtp-Source: AAOMgpecRLYEc8U2m4d5c9/uALPmVYxwu3fbAJd1H2iyrwshMpIj/oVmj8/hWFB4v8Q2FUUmxqM5xg==
-X-Received: by 2002:a24:5cc8:: with SMTP id q191-v6mr77118itb.63.1532562406365;
-	Wed, 25 Jul 2018 16:46:46 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	125-v6sm48042itm.29.2018.07.25.16.46.44
+	bh=N/Ja/sbR6EfvTTdwiA/T0t0h1fJX3gkKtDMY+BGTIOg=;
+	b=nt60XYajo1Z7vc+LtPSN8qri+SqrXjT5CTWsYVXxrWZjWiKZOGuF+iWnnlEaMYpjMC
+	CvBCQq/GGSl9LCU+MXM43N1bCu/bXX8M971ABY0bWG+NVaDR9mU94gCZPGh+Q+Nekn9C
+	YrFbB1R8LXjNelp7j+gHAq9RE78gP/NBUC6T9olR633XKyuILh/Y+BgCypo3Tr8UaUIQ
+	bTV/JDj6BSSopsf4gx7q69urBFAqg9KWnCCAiBRB+tC3vahRRlu1mlGNeAlwBPeAT7WU
+	s/dTyfZvvIp78Z/6MJhyrXoPk9K7UXa4RmC2qQZH3G9KsRq/Hl3Pw6j/6txAQFw98MyW
+	Cm5g==
+X-Gm-Message-State: AOUpUlEMye7xsxlqYa6FE35MtL3IbgkxhofNQHmSvGi9z/ialeeSH/qL
+	8hYBeal8HnO+bSy+/SmQdT1jBcC/
+X-Google-Smtp-Source: AAOMgpd2DmGjQbK23RDaC6rb3vUeN4pIQ4xgGDuWyaRa7fKtoF5rNQhBWjK/eu2BXN6hNYR8G0PnuA==
+X-Received: by 2002:a63:9e0a:: with SMTP id
+	s10-v6mr22305768pgd.326.1532563302988; 
+	Wed, 25 Jul 2018 17:01:42 -0700 (PDT)
+Received: from ip-172-31-26-116.ap-northeast-2.compute.internal
+	(ec2-52-79-39-246.ap-northeast-2.compute.amazonaws.com.
+	[52.79.39.246]) by smtp.gmail.com with ESMTPSA id
+	o3-v6sm18385392pgv.53.2018.07.25.17.01.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Jul 2018 16:46:45 -0700 (PDT)
-From: Christopher Clark <christopher.w.clark@gmail.com>
+	Wed, 25 Jul 2018 17:01:42 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2018 16:46:34 -0700
-Message-Id: <1532562394-27081-1-git-send-email-christopher.w.clark@gmail.com>
+Date: Thu, 26 Jul 2018 00:01:37 +0000
+Message-Id: <1532563297-1824-1-git-send-email-changhyeok.bae@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2] binutils : enable x86_64-pep for producing EFI binaries
+Cc: Tzu Hsiang Lin <t9360341@ntut.org.tw>
+Subject: [bitbake-devel][PATCH][1.32] fetch2: fix import error for Python 3.6.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2018 23:46:45 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 00:01:42 -0000
 
-From: Christopher Clark <christopher.clark6@baesystems.com>
+From: Tzu Hsiang Lin <t9360341@ntut.org.tw>
 
-On EFI architectures (arm/x86/x86_64/aarch64) add the x86_64-pep
-emulation support to the linker to enable production of Portable
-Executables for EFI binaries.
+When running bitbake command with Python 3.6.5 always result in
+import error causing by the change of distutils module.
+This patch replaces the method to search executable in PATH by
+"/usr/bin/env <command>".
 
-Enables building the EFI variant of the Xen hypervisor.
-
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+Signed-off-by: Tzu Hsiang Lin <t9360341@ntut.org.tw>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ lib/bb/fetch2/clearcase.py | 3 +--
+ lib/bb/fetch2/npm.py       | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 37813dd..b3efbad 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -69,12 +69,19 @@ python do_package_prepend() {
+diff --git a/lib/bb/fetch2/clearcase.py b/lib/bb/fetch2/clearcase.py
+index 70e280a..b0b5eff 100644
+--- a/lib/bb/fetch2/clearcase.py
++++ b/lib/bb/fetch2/clearcase.py
+@@ -70,7 +70,6 @@ from   bb.fetch2 import FetchMethod
+ from   bb.fetch2 import FetchError
+ from   bb.fetch2 import runfetchcmd
+ from   bb.fetch2 import logger
+-from   distutils import spawn
  
- B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+ class ClearCase(FetchMethod):
+     """Class to fetch urls via 'clearcase'"""
+@@ -108,7 +107,7 @@ class ClearCase(FetchMethod):
+         else:
+             ud.module = ""
  
-+def enable_efi_targets(d):
-+    translated_arch = d.getVar('TRANSLATED_TARGET_ARCH')
-+    if translated_arch in ["x86-64", "i586", "i686", "arm", "aarch64"]:
-+        return "--enable-targets=x86_64-pep"
-+    return ""
-+
- EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
-                 --disable-werror \
-                 --enable-deterministic-archives \
-                 --enable-plugins \
-                 ${LDGOLD} \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
-+                ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
-+                ${@enable_efi_targets(d)}"
+-        ud.basecmd = d.getVar("FETCHCMD_ccrc", True) or spawn.find_executable("cleartool") or spawn.find_executable("rcleartool")
++        ud.basecmd = d.getVar("FETCHCMD_ccrc") or "/usr/bin/env cleartool || rcleartool"
  
- LDGOLD_class-native = ""
- LDGOLD_class-crosssdk = ""
+         if data.getVar("SRCREV", d, True) == "INVALID":
+           raise FetchError("Set a valid SRCREV for the clearcase fetcher in your recipe, e.g. SRCREV = \"/main/LATEST\" or any other label of your choice.")
+diff --git a/lib/bb/fetch2/npm.py b/lib/bb/fetch2/npm.py
+index 699ae72..7ccaba9 100644
+--- a/lib/bb/fetch2/npm.py
++++ b/lib/bb/fetch2/npm.py
+@@ -33,7 +33,6 @@ from   bb.fetch2 import runfetchcmd
+ from   bb.fetch2 import logger
+ from   bb.fetch2 import UnpackError
+ from   bb.fetch2 import ParameterError
+-from   distutils import spawn
+ 
+ def subprocess_setup():
+     # Python installs a SIGPIPE handler by default. This is usually not what
 -- 
 2.7.4
 
