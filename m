@@ -1,58 +1,46 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EA14A78ADC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 57A3178C16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 12:30:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 416C018585;
-	Thu, 26 Jul 2018 14:30:23 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id ykkYo_7bwAIr; Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 8F8E6182CF;
-	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7650B1A08A;
-	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 693061A088;
-	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id 5E1303028;
-	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 26 Jul 2018 14:30:21 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1365.000; Thu, 26 Jul 2018 14:30:21 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: ChenQi <Qi.Chen@windriver.com>, Ricardo Salveti <rsalveti@rsalveti.net>
-Thread-Topic: [OE-core] [PATCH 1/2] systemd: upgrade to 239
-Thread-Index: AQHUHXIp1Bo6awZYuUKdWGWDOwqN/KSge6UAgABxFICAAI5GgA==
-Date: Thu, 26 Jul 2018 12:30:21 +0000
-Message-ID: <90a08929e5fe482b9cde1599fa2585a2@XBOX02.axis.com>
-References: <cover.1531792805.git.Qi.Chen@windriver.com>
-	<29d24bb7dc5de1ae18398b5754b675fdf9b9fdf3.1531792805.git.Qi.Chen@windriver.com>
-	<CAHYQr0pwkuE6B1CcN2TLhJ=YyXDHQH0v-SV7ejxL+05ifnmbMQ@mail.gmail.com>
-	<105601ae-614a-5d9b-3822-598b009f8859@windriver.com>
-In-Reply-To: <105601ae-614a-5d9b-3822-598b009f8859@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] systemd: upgrade to 239
+	Thu, 26 Jul 2018 12:30:57 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id c14-v6so1794529wmb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 05:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=tSuz+uWBBLD8+R9/ZsD2l42Z1zQfHCfd7N0pAJi5s1Q=;
+	b=BIWMX9cd5YwRbt841nOuJtmOI6S22jkqmp+zuxc4l7vwFqjSM7H7FUdxcYd4Eu9eDe
+	D6tRWBiX5jU70BgiAs7JTQILtVZeRHmckfZEEDSKDJ4ANZR2zOkH/Pze+fayZf/F6p/h
+	AuA5CzkCHbabuVMKkKCbI8mK9fCY1WwPWfGIQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tSuz+uWBBLD8+R9/ZsD2l42Z1zQfHCfd7N0pAJi5s1Q=;
+	b=W73Xxy52eOvPfJ1fktLtAUDirAJKm1e/kmzpA8l54XcARHgSRzkg0aAAbybOdXf9Tg
+	BUIeQvjZB2r4/2ibBCgW3VNFoj48VxomrI/rX0cS93eDmtcypkQJibzL2NL6YeR/o8lx
+	80Q7/nQycFtMBD3fzl6dZcOyF+WTiJ3IMiBHJ+0KC/PB8abZ7Yi0Oodey/EYJ9Gliink
+	2GhvK1DhIqyp+71Y2o9t/3gbyJXc5iIzQDTdv6cn4vR5xFKZeQHY4wN1VN5UnuDA58zQ
+	yq5H8U2V8xGWCV1qPL6xtR636TDe+GFxjaLEzO/NxVwxyUVVf2bIOCQnE90SJVJ8/fia
+	LCGw==
+X-Gm-Message-State: AOUpUlH+Zh3Q1X4debYzMWxeqhZo9/tI6likZ4Pq/5y4UE2skFfwHhEe
+	v5rEdIEy1xphT2ERbR17OtfcIq5dSoU3pA==
+X-Google-Smtp-Source: AAOMgpcYYLTQYwJnWVIzWDaXoJC2WYbX033hTeHT6asxjSsxEiAtxyjmIS/hDiVNjgUxKHPihYoQgg==
+X-Received: by 2002:a1c:c3c4:: with SMTP id
+	t187-v6mr1501557wmf.123.1532608257710; 
+	Thu, 26 Jul 2018 05:30:57 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l14-v6sm1946074wrw.65.2018.07.26.05.30.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 26 Jul 2018 05:30:56 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2018 13:30:55 +0100
+Message-Id: <20180726123055.30518-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] selftest/wic: Fix/cleanup class setup code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,83 +53,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 12:30:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2018 12:30:57 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of ChenQi
-> Sent: den 26 juli 2018 07:51
-> To: Ricardo Salveti <rsalveti@rsalveti.net>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 1/2] systemd: upgrade to 239
->=20
-> On 07/26/2018 07:05 AM, Ricardo Salveti wrote:
-> > On Mon, Jul 16, 2018 at 11:05 PM, Chen Qi <Qi.Chen@windriver.com> wrote=
-:
-> >> Upgrade systemd to 239.
+The code was using Wic instead of WicTestCase for image_is_ready and
+native_sysroot which was confusing some tests. Fix image_is_ready.
 
-[cut]
+For native_sysroot, convert the only user to just run the call itself
+as there is no point in executing this for all the other tests which
+don't use the value.
 
-> >> 3. update-alternatives changes
-> >>    The utilities like shutdown, poweroff, etc. are now created as syml=
-inks
-> >>    at do_install. So there's no need to use update-alternatives mechan=
-ism
-> >>    anymore to create the symlinks now. In addtion, I don't think we> n=
-ow
-> >>    support multiple init systems at one running system, so there's rea=
-lly
-> >>    no need to use update-alternatives mechanism here.
-> >
-> > I noticed that reboot stopped working locally as I had busybox
-> > installed together with systemd, and the busybox version ended up
-> > being used as it was provided via update-alternatives.
-> >
-> > Looking for possible similar broken links, I found that
-> > update-alternatives ended up pointing reboot, halt and poweroff to the
-> > busybox binary instead of systemctl. Should we revert the changes and
-> > bring back update-alternatives for them?
-> >
-> > Thanks,
->=20
-> I think the correct direction to fix this problem is to make busybox
-> only provide init utilities (reboot, halt, etc) when init manager is
-> set to busybox.
->=20
-> We current have in busybox recipe's SRC_URI:
->             ${@["",
-> "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') =3D=3D
-> 'busybox')]} \
->=20
-> I think the init utilities should be moved to init.cfg.
->=20
-> Please check my logic to see if you can agree with it.
-> We have two facts here.
-> 1. Init utilities (reboot, halt, etc.) are tightly bond to the specific
-> implementation of PID 1.
-> 2. We only allow one PID 1 in our image. (VIRTUAL-RUNTIME_init_manager).
-> So we can conclude from the above two facts that it does not make much
-> sense to have multiple providers of init utilities while we only allow
-> one PID 1 provider on image.
->=20
-> After all, we are using update-*alternatives*, things that this
-> mechanism manages are supposed to generally serve as alternatives to
-> each other.
->=20
-> Best Regards,
-> Chen Qi
+Whilst here, move _get_image_env_path to the base class alongside
+its parent variabe and fix it to use WicTestCase.
 
-For what it is worth, we have a package that installs wrappers for init and=
-=20
-reboot, which is now causing image creation to fail due to the change to=20
-systemd since both packages now try to install init and reboot. I can of=20
-course add a systemd_%.bbappend to remove init and reboot, but that means=20
-the systemd package is broken unless the package with the wrappers is =20
-always installed.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 31 ++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-//Peter
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index cfee9d1e71d..36ee5e5a146 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -65,27 +65,24 @@ class WicTestCase(OESelftestTestCase):
+     """Wic test class."""
+ 
+     image_is_ready = False
+-    native_sysroot = None
+     wicenv_cache = {}
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+         self.resultdir = self.builddir + "/wic-tmp/"
+         super(WicTestCase, self).setUpLocal()
+-        if not self.native_sysroot:
+-            Wic.native_sysroot = get_bb_var('STAGING_DIR_NATIVE', 'wic-tools')
+ 
+         # Do this here instead of in setUpClass as the base setUp does some
+         # clean up which can result in the native tools built earlier in
+         # setUpClass being unavailable.
+-        if not Wic.image_is_ready:
++        if not WicTestCase.image_is_ready:
+             if get_bb_var('USE_NLS') == 'yes':
+                 bitbake('wic-tools')
+             else:
+                 self.skipTest('wic-tools cannot be built due its (intltool|gettext)-native dependency and NLS disable')
+ 
+             bitbake('core-image-minimal')
+-            Wic.image_is_ready = True
++            WicTestCase.image_is_ready = True
+ 
+         rmtree(self.resultdir, ignore_errors=True)
+ 
+@@ -94,6 +91,16 @@ class WicTestCase(OESelftestTestCase):
+         rmtree(self.resultdir, ignore_errors=True)
+         super(WicTestCase, self).tearDownLocal()
+ 
++    def _get_image_env_path(self, image):
++        """Generate and obtain the path to <image>.env"""
++        if image not in WicTestCase.wicenv_cache:
++            self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
++            bb_vars = get_bb_vars(['STAGING_DIR', 'MACHINE'], image)
++            stdir = bb_vars['STAGING_DIR']
++            machine = bb_vars['MACHINE']
++            WicTestCase.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
++        return WicTestCase.wicenv_cache[image]
++
+ class Wic(WicTestCase):
+ 
+     @OETestID(1552)
+@@ -534,16 +541,6 @@ class Wic2(WicTestCase):
+         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*direct")))
+         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*direct.bmap")))
+ 
+-    def _get_image_env_path(self, image):
+-        """Generate and obtain the path to <image>.env"""
+-        if image not in self.wicenv_cache:
+-            self.assertEqual(0, bitbake('%s -c do_rootfs_wicenv' % image).status)
+-            bb_vars = get_bb_vars(['STAGING_DIR', 'MACHINE'], image)
+-            stdir = bb_vars['STAGING_DIR']
+-            machine = bb_vars['MACHINE']
+-            self.wicenv_cache[image] = os.path.join(stdir, machine, 'imgdata')
+-        return self.wicenv_cache[image]
+-
+     @OETestID(1347)
+     def test_image_env(self):
+         """Test generation of <image>.env files."""
+@@ -683,9 +680,11 @@ class Wic2(WicTestCase):
+ 
+         wicimg = wicout[0]
+ 
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++
+         # verify partition size with wic
+         res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
+-                     native_sysroot=self.native_sysroot)
++                     native_sysroot=native_sysroot)
+ 
+         # parse parted output which looks like this:
+         # BYT;\n
+-- 
+2.17.1
 
 
