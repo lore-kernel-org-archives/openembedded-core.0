@@ -1,49 +1,49 @@
 Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 34CD678C27
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E551978C29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 14:39:04 +0000 (UTC)
-Received: by mail-oi0-f65.google.com with SMTP id i12-v6so3358270oik.2
+	Thu, 26 Jul 2018 14:39:35 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id y207-v6so3339679oie.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 07:39:05 -0700 (PDT)
+	Thu, 26 Jul 2018 07:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=JHuqnINCg8+pJilqj5Riznu1z4v8wiQu/RQmpD0EK4o=;
-	b=LZKTjinT5WuQ9kIw3m6XDEFc7cYnq4DObMHd2sd3yNNz3KLB2Xqhs3D9yBzuEZmIte
-	oesqZ723xiq2rqngAt9VqE8xBpOqLXEuscy6T3tb2KlMSp6StbIt0zcmkFlC5qmyIu6L
-	EVRysrgK26zEyiye5CNaXKjPy01Uq5uzTP8lM=
+	bh=iDwFbm3Ae6jvky8+Z0XqmVOdYBXo9lhHFsJIJ9G1htw=;
+	b=T3pT8lVir9XpNrfB5gQXLzpveZj+Fl64R68MqkoO+uEcWsgAHworMxf6au9aw+9Vd0
+	I6A0T9oQFbG7MM9teLJZqBOGqKWo3Y4AXenHvZlq3G4O4BYZwygKCSc0U6js1Pmm7vN1
+	5PwUiU8ir8dvF8cURTS81jQAKnjIlFgaSvbnA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=JHuqnINCg8+pJilqj5Riznu1z4v8wiQu/RQmpD0EK4o=;
-	b=cb6B/tt1xC6+xttQYet3O9PuAfsQ1gXaCPMpOkOi7SxUHiFvaINxn4Kf2+u++9FbuG
-	nUp/4492PBjoVSc8FvoEQoebmF21lv0VFpUYJCP3wk+PnwghfaTL5FbZCWvyU/CvLlSJ
-	NgNYJJb4KLifCKSxCzs1AJWlpacxasmN/1NTsgFreoHDj5BNutYI41dAg9bJppu8HR8t
-	PYljPIqOdgmp8gHi29nqS6FYBnzAFo7HcgAaaA5sAF8k7u618kcdpNxufPcG/WZzvhGz
-	np7oKclri+LS4iLiIUzEqqMNrEzab2jbEEYTJD+SpJx9BKHFhHjGgRVr50+kGoqG05Yl
-	VXDA==
-X-Gm-Message-State: AOUpUlHv/7uW53O50qvqYDDza3JodFWVtEbUVTfi/URSoQ+fo/4o70U7
-	s1OeFxlEroUIbIKjeBnWAJqr04mLHDE=
-X-Google-Smtp-Source: AAOMgpccFw178U0yWYFuxJ4mdfYBtnZWQhPmmb15AUaWy0o2wb7s1T4Lx0vhaDRFzIc7gLgEsevUFQ==
-X-Received: by 2002:aca:c484:: with SMTP id
-	u126-v6mr2317910oif.209.1532615944780; 
-	Thu, 26 Jul 2018 07:39:04 -0700 (PDT)
+	bh=iDwFbm3Ae6jvky8+Z0XqmVOdYBXo9lhHFsJIJ9G1htw=;
+	b=Q6bLBLzGTBkQZ1tYfTlfrlPn62fSIsi0kgTsNDsWNFVoirXa4YGKI2m1uozfRQWRhN
+	AtoikUxwuP2fIdPl7ZeOrqLy+VXkphuvgRV9jEGVwPBGFVX1qczMePJnmZhPDLaSMLyk
+	WtFwqft76/K+DJqBqB/EWYHxJLHRW5jNpAw7ZvlTZuKpFUbYPetrztxiBvRE74wRGQlj
+	QMEGYZwwt/SBxW36kGLYVgXNFuI4td3/y2PDTcFewYItrf9ShmTVPkWSRpozoyW6mBSz
+	Cs7hI15s/CUviq+LrF/Q8vwRlskGIruIKFf5Ivh0VDKiBs4v9EVTWWXWgk2OWuYasEUD
+	g6Ag==
+X-Gm-Message-State: AOUpUlGVv+Dtt8UHJtMogf2vvu8T8vcx2l464e8ZLjxOhRHfmjWJbmMB
+	M3JA5ANj34IAkXj97+gqby1XjCGic+A=
+X-Google-Smtp-Source: AAOMgpe6TGVnLIKpJga2Rz2QbVWr1lyjeK8oLnDqqJEWZPv3dbMJvsECUdyShTHWtCOrsaANwNxcgw==
+X-Received: by 2002:aca:f401:: with SMTP id
+	s1-v6mr2388582oih.269.1532615976455; 
+	Thu, 26 Jul 2018 07:39:36 -0700 (PDT)
 Received: from aura.cortijodelrio.net
 	(CableLink-187-161-193-121.PCs.InterCable.net. [187.161.193.121])
 	by smtp.googlemail.com with ESMTPSA id
-	m203-v6sm2110840oig.42.2018.07.26.07.39.03
+	l204-v6sm850193oia.45.2018.07.26.07.39.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Jul 2018 07:39:03 -0700 (PDT)
+	Thu, 26 Jul 2018 07:39:35 -0700 (PDT)
 From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2018 09:38:53 -0500
-Message-Id: <1532615933-26925-1-git-send-email-daniel.diaz@linaro.org>
+Date: Thu, 26 Jul 2018 09:39:26 -0500
+Message-Id: <1532615966-27414-1-git-send-email-daniel.diaz@linaro.org>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [rocko][PATCH] glibc: Avoid multilibbing on wordsize.h
+Subject: [sumo][PATCH] glibc: Avoid multilibbing on wordsize.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:39:05 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 14:39:36 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -83,10 +83,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index b6d8074..c360dd9 100644
+index 728bc53..35f5231 100644
 --- a/meta/recipes-core/glibc/glibc-package.inc
 +++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -136,8 +136,7 @@ do_install_append_armeb () {
+@@ -137,8 +137,7 @@ do_install_append_armeb () {
  }
  
  do_install_armmultilib () {
