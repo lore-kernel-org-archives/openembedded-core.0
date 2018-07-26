@@ -1,49 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 53BC578C0C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AEA0060234
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 14:15:25 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id q12-v6so1664049qtp.6
+	Thu, 26 Jul 2018 14:17:57 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id y9-v6so2203466wma.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 07:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZLqXM6xMb5P12sOvm0XoV4uKQPMyRNZC7ZOCdNtno/I=;
-	b=mPsj7C1qSLojxCSbXs57wgKzcELTX1W/NsgA93B15wF+LyQt6hawRzI3HQkl5qV4G/
-	RCJLiLCH3l6o1/GE8J0iv7IWFqckGVIoRxDHvRCnNg4jpjcbPU9f0GR29qopBr2fAF5I
-	GEZuyAvyeAchD9ItxdiBXhZKsiiAYP8r5EorEcGy0y2Ro6PAfdIr6QfOpgbqJ+2iAQN8
-	/yOFrAKscwqcQWcjBj2ewEwzR+rkykqelf4fenNZD4tugQMCCodgE2H5uQ/UBSb/wZ4E
-	nFWgWqlpHA27yVWMn5HTxXX4vHUAkrGyZryk8tmzsFdrehvzNtBiPvuMUG280w0JGujK
-	5YZQ==
+	Thu, 26 Jul 2018 07:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=jFykRIDrLFxTDHJCRlOCAMeG1KVp/Eo+d89LD/bVFd8=;
+	b=a/vpCfjBjy/m0EOpW63Q1eYUaaBuhFvlUuCLrkVy9eFHZmWJJZJXAX+0j8t9tZ/MST
+	S+Q5eqIYdnJvX/g4lfQJPLbEshl12JRM6TaH+6fdN2GGr8CAillNrrHqccsKqPUq/nwX
+	Vr/GRtu333pRB9NjywpRlMBz9X6CmxGgwtl7I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZLqXM6xMb5P12sOvm0XoV4uKQPMyRNZC7ZOCdNtno/I=;
-	b=M88j3m2/SAxrPSAywtsYTXK/+mNcKRZABh5bY7g+ZFt0dWmreobzqcxnjdueNxwjBW
-	qaDBE5bKXIZj+sUCYlfdwNM1E/r4iBY96X2f8klOTjKL+enikjvL1xipJYyzncdeFlG7
-	CNFpUA+89SMbouS73C/IIT86e7ufnfmGxfmYCcK43RvbBIQcrSgwy8d49Ok/nBS3v57c
-	fiCO4YTCpv+05/2R+86pIMPo+J+cGvSEOFYIW4i0PnZBGSz3E7zubM1Gcb8axEugkych
-	FNBTMmPdT0+HfeugYFA9kT+GzNbqY+/TJiqWPnREIObn5tMQgNVHRo2c5fFZF743T1YS
-	ETeQ==
-X-Gm-Message-State: AOUpUlF4LCu/hCz3hxCRNJzglEYFqlurzbHUtSDD3CQXIwP5iRU4/TT0
-	aEUX2w5i4Qw+ge8jQ9Jd0Vf0x+q0xIK1rDRJyqI=
-X-Google-Smtp-Source: AAOMgpe6CvCa10rJZk3jx1WMzW2n/oQmrEcH5bs4QiUkWmgre13iku/9rkVCni1Let2R4xfN/dSPIieEQaI44n5vMTg=
-X-Received: by 2002:ac8:3209:: with SMTP id
-	x9-v6mr2060363qta.128.1532614525877; 
-	Thu, 26 Jul 2018 07:15:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <1532562394-27081-1-git-send-email-christopher.w.clark@gmail.com>
-	<4dc8f36e3667d46e4df740f35c4a47349b25541f.camel@linuxfoundation.org>
-In-Reply-To: <4dc8f36e3667d46e4df740f35c4a47349b25541f.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jul 2018 07:14:59 -0700
-Message-ID: <CAMKF1srU3arodZ57ZG22qWZ1haYvJ3OVL=1JHoTn7WNArDmT_A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] binutils : enable x86_64-pep for producing EFI binaries
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=jFykRIDrLFxTDHJCRlOCAMeG1KVp/Eo+d89LD/bVFd8=;
+	b=LzNdA+Q4jE6rGxcrikXjRrnqMZlFOXpv1mmpWsqHaBvDn9mLihN4e5bvWcDfGM2uH7
+	ExkQ9M2NNDNGwQRikWt6lcoAQiFKZ+unZOMg1KOZdZ+S4kVVHPClpQ+GgqwHDDPYFKun
+	OuVyY/helrKYrSHNgTRKywto8aV+2BCaS5BJBpuPpBWrs+jYTO7E1Y2SZ6rNpdngZ+MH
+	aM3wPvimIll8Vz0jAcNl2dF46WZbY+ES9/d2VwWlHCV2aaaxxdFhXEKYf+uXsUfOM0c3
+	O+Ad0lQ4q/IslJ+qaxfHYsPo2+FeIdqLMDsAHl1Ct1nutvj/ygbmso5MaI8mJ1R7eRMG
+	5UMQ==
+X-Gm-Message-State: AOUpUlHkumiad33jcWytfo9BzP4Gmu2tuNLnhpZjKx1+4qmLAKPKOsUT
+	HnbIxqLwWxBk3in47uo60CcmsA==
+X-Google-Smtp-Source: AAOMgpfhn+TFsakii7cjTSCHtZgNnU548uz7nb8szm5qFIoaviGqkdWqeZjzKAxbl6bJaj4TubAkKQ==
+X-Received: by 2002:a1c:6d1c:: with SMTP id
+	i28-v6mr1799954wmc.97.1532614678394; 
+	Thu, 26 Jul 2018 07:17:58 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r8-v6sm1102215wmh.37.2018.07.26.07.17.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 26 Jul 2018 07:17:57 -0700 (PDT)
+Message-ID: <4bdbc774f6b6fe04fc4301980729c890a0502c8d.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Thu, 26 Jul 2018 15:17:56 +0100
+In-Reply-To: <1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
+References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
+	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
+	<1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,57 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:15:25 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 14:17:58 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 26, 2018 at 5:48 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2018-07-25 at 16:46 -0700, Christopher Clark wrote:
-> > From: Christopher Clark <christopher.clark6@baesystems.com>
-> >
-> > On EFI architectures (arm/x86/x86_64/aarch64) add the x86_64-pep
-> > emulation support to the linker to enable production of Portable
-> > Executables for EFI binaries.
-> >
-> > Enables building the EFI variant of the Xen hypervisor.
-> >
-> > Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
-> > ---
-> >  meta/recipes-devtools/binutils/binutils.inc | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/binutils/binutils.inc
-> > b/meta/recipes-devtools/binutils/binutils.inc
-> > index 37813dd..b3efbad 100644
-> > --- a/meta/recipes-devtools/binutils/binutils.inc
-> > +++ b/meta/recipes-devtools/binutils/binutils.inc
-> > @@ -69,12 +69,19 @@ python do_package_prepend() {
-> >
-> >  B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
-> >
-> > +def enable_efi_targets(d):
-> > +    translated_arch = d.getVar('TRANSLATED_TARGET_ARCH')
-> > +    if translated_arch in ["x86-64", "i586", "i686", "arm",
-> > "aarch64"]:
-> > +        return "--enable-targets=x86_64-pep"
-> > +    return ""
+On Thu, 2018-07-26 at 10:04 -0400, Bruce Ashfield wrote:
+> On 2018-07-10 6:21 AM, Richard Purdie wrote:
+> > and also a failure in one of the multilib builds, probably from
+> > different dependencies pulled in by kernel-devsrc:
+> > 
+> > https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/
+> > steps/BuildImages_4/logs/stdio
+> > 
+> > Error: Transaction check error:
+> >    file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586
+> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
+> >    file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586 
+> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
+> > 
+> 
+> And that leaves this error.
+> 
+> I've not been able to reproduce it, and I've been looking at the
+> elfutils RDEPENDS that is part of kernel devsrc, since that is what
+> pulls in libtool as a DEPENDS.
+> 
+> I'm not seeing any difference in the way that it is pulled in, versus
+> the other uses.
+> 
+> In particular, perf also has elfutils as a REDEPENDS, but yet it
+> builds
+> in the same configuration. Can you spot the difference in how it is
+> used ?
+> 
+> elfutils is potentially required at tools build time, hence why it is
+> a RDEPENDS in devsrc, but a DEPENDS in the main linux-yocto recipes.
+> If there's another way to express this, let me know and I can switch
+> to that.
+> 
+> And finally, I did build the old reproducing configuration for
+> multlib that you mentioned before .. can you point me at this config,
+> so I can try again ?
 
-may be we can just use  overrides instead of function
+This is a timely reminder that I've been meaning to look at this. I
+think the config is:
+t
+MACHINE=qemux86
+require conf/multilib.conf 
+MULTILIBS = "multilib:lib64" 
+DEFAULTTUNE_virtclass-multilib-lib64 = "x86-64" 
 
->
-> Just to double check, is "x86_64-pep" the right value even on arm?
->
+then bitbake lib64-core-image-sato-sdk
 
-right, It should be PE emulation for the given arch I believe
+which seems like an odd mix of 64bit with a 32 bit kernel but is
+nonetheless what it appears to be building. I suspect it will fail the
+same way with the x86-64 machine too though.
 
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I have a build running now to check if I can replicate and perhaps dig
+into it further.
+
+Cheers,
+
+Richard
+
 
