@@ -1,51 +1,63 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id EC39478C31
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E64472EA1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 15:04:34 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id v71-v6so3106106itb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 08:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=fruSdWIH6/JAJMvzsO1oA+FDe52LcMSVOeVUs35ZI+Y=;
-	b=sc6BMMNdi9Zz3KOx/HDZ2XOmM2lgLadvRVAiZxqR0Fqi/WWHe/ysK1T1GunnjpAxA+
-	2EH4npwyTbwmK475ETfNDN45Dc1fnvbR59menRgw/K1VR2TlIrwDN4r9OMt53j+PNQZQ
-	+YftE++OD2hHm1kkdglZpNGfAFbkDGkiPiH/dr6Sh6K1GFIQMgcwZc0g1OY/7l1URXEv
-	PBuy9Hn25L/ph/tS/1g68gv4kKpg2MWOKCzScAJdm9/LLce/wwF3vnQvJNabJAgqkO+5
-	IW6pqt8Bk00szltHmH9GMrYiPXRers/5HKMDXx/zjnTEmYBSuepzapgXD+/1k8D0fyN2
-	fWiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=fruSdWIH6/JAJMvzsO1oA+FDe52LcMSVOeVUs35ZI+Y=;
-	b=XDC+YZ6/rDSdA6ln7AOI0jwYrvMEMiMAe/CgSW8GKvG/xtRC/2NBtluVJcuwgP/mxD
-	MSBdmLMf1obM6moUx3oZD0i1XxiZM03I7/8vTgcQizpi6a3gTneksfn1UIMSEg5oZg8l
-	bBtrTcfNA8K3oko4rUkvUzdzsbZ7tVt7ySAWr706U+c4rIGsdmgvpDmWMmNne0PWBrdB
-	prJrc4ZKydlSeaiYLZR/hTwu+SrkhD2exzfTx4H93IU+BpXoRSPJaBtI8YfXMX5+LH5H
-	fkXIDYxiG8ACgfvO2fKuqHe3+SP85dveUXkGh90aVN3Hyno+bf/6BPa04NrhfuFW5HzE
-	4Gxw==
-X-Gm-Message-State: AOUpUlHqFm2mAnokkGsn5+9QUmtMJJ04BXEF+fbvxuyuLoE8J33zVsE7
-	8Zf0SYk13cjYiI2sgXXG90xDD6E7
-X-Google-Smtp-Source: AAOMgpd0+VyVNBiWwVVKKVaU0wzM8i0HSOzQdAraDlEP8bjPHpvk7m1bsIPU0+vIppfCZifrUGPODg==
-X-Received: by 2002:a02:cd2:: with SMTP id 79-v6mr2294822jan.100.1532617475757;
-	Thu, 26 Jul 2018 08:04:35 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	e140-v6sm507212iof.50.2018.07.26.08.04.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 26 Jul 2018 08:04:35 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2018 10:04:09 -0500
-Message-Id: <20180726150409.26104-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180725181158.13285-1-JPEWhacker@gmail.com>
-References: <20180725181158.13285-1-JPEWhacker@gmail.com>
-Subject: [sumo][PATCH v3] u-boot: Fix build race condition
+	Thu, 26 Jul 2018 15:07:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 0465B18434;
+	Thu, 26 Jul 2018 17:07:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id BB5cEeNqHrTt; Thu, 26 Jul 2018 17:07:42 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 9F19E18418;
+	Thu, 26 Jul 2018 17:07:41 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 85F1A1A07C;
+	Thu, 26 Jul 2018 17:07:41 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 79CE21A070;
+	Thu, 26 Jul 2018 17:07:41 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 26 Jul 2018 17:07:41 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 6EED11FC6;
+	Thu, 26 Jul 2018 17:07:41 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 26 Jul 2018 17:07:41 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 26 Jul 2018 17:07:41 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Thu, 26 Jul 2018 17:07:41 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Ricardo Salveti <rsalveti@rsalveti.net>
+Thread-Topic: [OE-core] [PATCH 1/2] systemd: upgrade to 239
+Thread-Index: AQHUHXIp1Bo6awZYuUKdWGWDOwqN/KSge6UAgABxFICAAI5GgIAABLqAgAAofiA=
+Date: Thu, 26 Jul 2018 15:07:41 +0000
+Message-ID: <6220ed829b804d49b167503234a07fb0@XBOX02.axis.com>
+References: <cover.1531792805.git.Qi.Chen@windriver.com>
+	<29d24bb7dc5de1ae18398b5754b675fdf9b9fdf3.1531792805.git.Qi.Chen@windriver.com>
+	<CAHYQr0pwkuE6B1CcN2TLhJ=YyXDHQH0v-SV7ejxL+05ifnmbMQ@mail.gmail.com>
+	<105601ae-614a-5d9b-3822-598b009f8859@windriver.com>
+	<90a08929e5fe482b9cde1599fa2585a2@XBOX02.axis.com>
+	<CAHYQr0rsGOVc-4d-9ntLA0STTcZR2g+E8gqy9kpak1FD0Y6ztw@mail.gmail.com>
+In-Reply-To: <CAHYQr0rsGOVc-4d-9ntLA0STTcZR2g+E8gqy9kpak1FD0Y6ztw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] systemd: upgrade to 239
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,90 +70,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 15:04:35 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 15:07:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backports 2f61b13d6acba787b00598d519c85222e993e4ca (included in the
-2018.07 release) which fixes a race condition when building.
-
-[YOCTO #12705]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- ...efi_loader-avoid-make-race-condition.patch | 51 +++++++++++++++++++
- .../u-boot/u-boot-common_2018.01.inc          |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-
-diff --git a/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-new file mode 100644
-index 0000000000..da7e27c64c
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-@@ -0,0 +1,51 @@
-+From 5c2e24a9ed54dfee77d1844a080e998b4affe916 Mon Sep 17 00:00:00 2001
-+From: Heinrich Schuchardt <xypron.glpk@gmx.de>
-+Date: Sat, 2 Jun 2018 19:00:41 +0200
-+Subject: [PATCH] efi_loader: avoid make race condition
-+
-+When U-Boot is built with 'make -j' there is not guarantee that targets in
-+directory arch/ are built before targets in directory lib/. The current
-+build instruction for EFI binaries in lib/ rely on dependencies in arch/.
-+If $(EFI_CRT0) or $(EFI_RELOC) is not yet built before trying to build
-+%.efi an error
-+    *** No rule to make target '%.efi'
-+occurs.
-+
-+With the patch separate copies of $(EFI_CRT0) and $(EFI_RELOC) named
-+efi_crt0.o and efi_reloc.o are built in lib/efi_loader and
-+lib/efi_selftest.
-+
-+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-+Signed-off-by: Alexander Graf <agraf@suse.de>
-+
-+Upstream-Status: Backport from 2018.07
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+---
-+ scripts/Makefile.lib | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-+index 8f19b2db56..f2f398c935 100644
-+--- a/scripts/Makefile.lib
-++++ b/scripts/Makefile.lib
-+@@ -404,8 +404,14 @@ cmd_efi_ld = $(LD) -nostdlib -znocombreloc -T $(EFI_LDS_PATH) -shared \
-+ 
-+ EFI_LDS_PATH = $(srctree)/arch/$(ARCH)/lib/$(EFI_LDS)
-+ 
-+-$(obj)/%_efi.so: $(obj)/%.o arch/$(ARCH)/lib/$(EFI_CRT0) \
-+-		arch/$(ARCH)/lib/$(EFI_RELOC)
-++$(obj)/efi_crt0.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_CRT0:.o=.S)
-++	$(call if_changed_dep,as_o_S)
-++
-++$(obj)/efi_reloc.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_RELOC:.o=.c) $(recordmcount_source) FORCE
-++	$(call cmd,force_checksrc)
-++	$(call if_changed_rule,cc_o_c)
-++
-++$(obj)/%_efi.so: $(obj)/%.o $(obj)/efi_crt0.o $(obj)/efi_reloc.o
-+ 	$(call cmd,efi_ld)
-+ 
-+ # ACPI
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-index d2073ea0c7..11b82b7e26 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-@@ -11,6 +11,7 @@ SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
- 
- SRC_URI = "git://git.denx.de/u-boot.git \
-     file://MPC8315ERDB-enable-DHCP.patch \
-+    file://0001-efi_loader-avoid-make-race-condition.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNhcmRvIFNhbHZldGkgPHJz
+YWx2ZXRpQHJzYWx2ZXRpLm5ldD4NCj4gU2VudDogZGVuIDI2IGp1bGkgMjAxOCAxNjozNw0KPiBU
+bzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IENj
+OiBDaGVuUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEv
+Ml0gc3lzdGVtZDogdXBncmFkZSB0byAyMzkNCj4gDQo+IE9uIFRodSwgSnVsIDI2LCAyMDE4IGF0
+IDk6MzAgQU0sIFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
+Y29tPiB3cm90ZToNCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTog
+b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IDxvcGVu
+ZW1iZWRkZWQtDQo+ID4+IGNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBC
+ZWhhbGYgT2YgQ2hlblFpDQo+ID4+IFNlbnQ6IGRlbiAyNiBqdWxpIDIwMTggMDc6NTENCj4gPj4g
+VG86IFJpY2FyZG8gU2FsdmV0aSA8cnNhbHZldGlAcnNhbHZldGkubmV0Pg0KPiA+PiBDYzogb3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCAxLzJdIHN5c3RlbWQ6IHVwZ3JhZGUgdG8gMjM5DQo+ID4+DQo+ID4+
+IE9uIDA3LzI2LzIwMTggMDc6MDUgQU0sIFJpY2FyZG8gU2FsdmV0aSB3cm90ZToNCj4gPj4gPiBP
+biBNb24sIEp1bCAxNiwgMjAxOCBhdCAxMTowNSBQTSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
+ZXIuY29tPg0KPiB3cm90ZToNCj4gPj4gPj4gVXBncmFkZSBzeXN0ZW1kIHRvIDIzOS4NCj4gPg0K
+PiA+IFtjdXRdDQo+ID4NCj4gPj4gPj4gMy4gdXBkYXRlLWFsdGVybmF0aXZlcyBjaGFuZ2VzDQo+
+ID4+ID4+ICAgIFRoZSB1dGlsaXRpZXMgbGlrZSBzaHV0ZG93biwgcG93ZXJvZmYsIGV0Yy4gYXJl
+IG5vdyBjcmVhdGVkIGFzDQo+IHN5bWxpbmtzDQo+ID4+ID4+ICAgIGF0IGRvX2luc3RhbGwuIFNv
+IHRoZXJlJ3Mgbm8gbmVlZCB0byB1c2UgdXBkYXRlLWFsdGVybmF0aXZlcw0KPiBtZWNoYW5pc20N
+Cj4gPj4gPj4gICAgYW55bW9yZSB0byBjcmVhdGUgdGhlIHN5bWxpbmtzIG5vdy4gSW4gYWRkdGlv
+biwgSSBkb24ndCB0aGluaw0KPiB3ZT4gbm93DQo+ID4+ID4+ICAgIHN1cHBvcnQgbXVsdGlwbGUg
+aW5pdCBzeXN0ZW1zIGF0IG9uZSBydW5uaW5nIHN5c3RlbSwgc28NCj4gdGhlcmUncyByZWFsbHkN
+Cj4gPj4gPj4gICAgbm8gbmVlZCB0byB1c2UgdXBkYXRlLWFsdGVybmF0aXZlcyBtZWNoYW5pc20g
+aGVyZS4NCj4gPj4gPg0KPiA+PiA+IEkgbm90aWNlZCB0aGF0IHJlYm9vdCBzdG9wcGVkIHdvcmtp
+bmcgbG9jYWxseSBhcyBJIGhhZCBidXN5Ym94DQo+ID4+ID4gaW5zdGFsbGVkIHRvZ2V0aGVyIHdp
+dGggc3lzdGVtZCwgYW5kIHRoZSBidXN5Ym94IHZlcnNpb24gZW5kZWQgdXANCj4gPj4gPiBiZWlu
+ZyB1c2VkIGFzIGl0IHdhcyBwcm92aWRlZCB2aWEgdXBkYXRlLWFsdGVybmF0aXZlcy4NCj4gPj4g
+Pg0KPiA+PiA+IExvb2tpbmcgZm9yIHBvc3NpYmxlIHNpbWlsYXIgYnJva2VuIGxpbmtzLCBJIGZv
+dW5kIHRoYXQNCj4gPj4gPiB1cGRhdGUtYWx0ZXJuYXRpdmVzIGVuZGVkIHVwIHBvaW50aW5nIHJl
+Ym9vdCwgaGFsdCBhbmQgcG93ZXJvZmYgdG8NCj4gdGhlDQo+ID4+ID4gYnVzeWJveCBiaW5hcnkg
+aW5zdGVhZCBvZiBzeXN0ZW1jdGwuIFNob3VsZCB3ZSByZXZlcnQgdGhlIGNoYW5nZXMNCj4gYW5k
+DQo+ID4+ID4gYnJpbmcgYmFjayB1cGRhdGUtYWx0ZXJuYXRpdmVzIGZvciB0aGVtPw0KPiA+PiA+
+DQo+ID4+ID4gVGhhbmtzLA0KPiA+Pg0KPiA+PiBJIHRoaW5rIHRoZSBjb3JyZWN0IGRpcmVjdGlv
+biB0byBmaXggdGhpcyBwcm9ibGVtIGlzIHRvIG1ha2UgYnVzeWJveA0KPiA+PiBvbmx5IHByb3Zp
+ZGUgaW5pdCB1dGlsaXRpZXMgKHJlYm9vdCwgaGFsdCwgZXRjKSB3aGVuIGluaXQgbWFuYWdlciBp
+cw0KPiA+PiBzZXQgdG8gYnVzeWJveC4NCj4gPj4NCj4gPj4gV2UgY3VycmVudCBoYXZlIGluIGJ1
+c3lib3ggcmVjaXBlJ3MgU1JDX1VSSToNCj4gPj4gICAgICAgICAgICAgJHtAWyIiLA0KPiA+PiAi
+ZmlsZTovL2luaXQuY2ZnIl1bKGQuZ2V0VmFyKCdWSVJUVUFMLVJVTlRJTUVfaW5pdF9tYW5hZ2Vy
+JykgPT0NCj4gPj4gJ2J1c3lib3gnKV19IFwNCj4gPj4NCj4gPj4gSSB0aGluayB0aGUgaW5pdCB1
+dGlsaXRpZXMgc2hvdWxkIGJlIG1vdmVkIHRvIGluaXQuY2ZnLg0KPiA+Pg0KPiA+PiBQbGVhc2Ug
+Y2hlY2sgbXkgbG9naWMgdG8gc2VlIGlmIHlvdSBjYW4gYWdyZWUgd2l0aCBpdC4NCj4gPj4gV2Ug
+aGF2ZSB0d28gZmFjdHMgaGVyZS4NCj4gPj4gMS4gSW5pdCB1dGlsaXRpZXMgKHJlYm9vdCwgaGFs
+dCwgZXRjLikgYXJlIHRpZ2h0bHkgYm9uZCB0byB0aGUNCj4gc3BlY2lmaWMNCj4gPj4gaW1wbGVt
+ZW50YXRpb24gb2YgUElEIDEuDQo+ID4+IDIuIFdlIG9ubHkgYWxsb3cgb25lIFBJRCAxIGluIG91
+ciBpbWFnZS4gKFZJUlRVQUwtDQo+IFJVTlRJTUVfaW5pdF9tYW5hZ2VyKS4NCj4gPj4gU28gd2Ug
+Y2FuIGNvbmNsdWRlIGZyb20gdGhlIGFib3ZlIHR3byBmYWN0cyB0aGF0IGl0IGRvZXMgbm90IG1h
+a2UNCj4gbXVjaA0KPiA+PiBzZW5zZSB0byBoYXZlIG11bHRpcGxlIHByb3ZpZGVycyBvZiBpbml0
+IHV0aWxpdGllcyB3aGlsZSB3ZSBvbmx5DQo+IGFsbG93DQo+ID4+IG9uZSBQSUQgMSBwcm92aWRl
+ciBvbiBpbWFnZS4NCj4gPj4NCj4gPj4gQWZ0ZXIgYWxsLCB3ZSBhcmUgdXNpbmcgdXBkYXRlLSph
+bHRlcm5hdGl2ZXMqLCB0aGluZ3MgdGhhdCB0aGlzDQo+ID4+IG1lY2hhbmlzbSBtYW5hZ2VzIGFy
+ZSBzdXBwb3NlZCB0byBnZW5lcmFsbHkgc2VydmUgYXMgYWx0ZXJuYXRpdmVzIHRvDQo+ID4+IGVh
+Y2ggb3RoZXIuDQo+ID4+DQo+ID4+IEJlc3QgUmVnYXJkcywNCj4gPj4gQ2hlbiBRaQ0KPiA+DQo+
+ID4gRm9yIHdoYXQgaXQgaXMgd29ydGgsIHdlIGhhdmUgYSBwYWNrYWdlIHRoYXQgaW5zdGFsbHMg
+d3JhcHBlcnMgZm9yDQo+IGluaXQgYW5kDQo+ID4gcmVib290LCB3aGljaCBpcyBub3cgY2F1c2lu
+ZyBpbWFnZSBjcmVhdGlvbiB0byBmYWlsIGR1ZSB0byB0aGUgY2hhbmdlDQo+IHRvDQo+ID4gc3lz
+dGVtZCBzaW5jZSBib3RoIHBhY2thZ2VzIG5vdyB0cnkgdG8gaW5zdGFsbCBpbml0IGFuZCByZWJv
+b3QuIEkgY2FuDQo+IG9mDQo+ID4gY291cnNlIGFkZCBhIHN5c3RlbWRfJS5iYmFwcGVuZCB0byBy
+ZW1vdmUgaW5pdCBhbmQgcmVib290LCBidXQgdGhhdA0KPiBtZWFucw0KPiA+IHRoZSBzeXN0ZW1k
+IHBhY2thZ2UgaXMgYnJva2VuIHVubGVzcyB0aGUgcGFja2FnZSB3aXRoIHRoZSB3cmFwcGVycyBp
+cw0KPiA+IGFsd2F5cyBpbnN0YWxsZWQuDQo+IA0KPiBDdXJpb3VzIHRvIHdoeSB5b3UgbmVlZCBz
+dWNoIHdyYXBwZXJzLCBidXQgd2Fzbid0IGl0IGEgcHJvYmxlbSBiZWZvcmUNCg0KV2VsbCwgdG8g
+YmUgaG9uZXN0LCBJIGRpZCBub3Qga25vdyB3ZSBoYWQgdGhvc2Ugd3JhcHBlcnMgdW50aWwgdGhl
+IGltYWdlIA0KY3JlYXRpb24gYnJva2UgZHVlIHRvIHRoZSBjaGFuZ2UgdG8gdGhlIHN5c3RlbWQg
+cmVjaXBlLiBJIGFtIG5vdCByZXNwb25zaWJsZSANCmZvciBvdXIgdXNlIG9mIHN5c3RlbWQsIHNv
+IEkgaGF2ZSBubyBpZGVhIHdoeSB3ZSBoYXZlIHRob3NlIHdyYXBwZXJzLi4uDQoNCj4gZXZlbiB3
+aGVuIHdlIGhhZCB1cGRhdGUtYWx0ZXJuYXRpdmVzIGZvciBzdWNoIHV0aWxpdGllcyAoZS5nLg0K
+PiB1cGRhdGUtYWx0ZXJuYXRpdmVzIGZhaWxpbmcgdG8gbGluayBpbml0L3JlYm9vdCBiZWNhdXNl
+IG9mIHlvdXINCj4gd3JhcHBlcnMgd2hlbiBjcmVhdGluZyB0aGUgcm9vdGZzKT8NCg0KSSBoYXZl
+IG5vdCBsb29rZWQgaW50byBpdCwgYnV0IGl0IHNlZW1zIHRoZSBpbnN0YWxsYXRpb24gb2YgdGhl
+IHdyYXBwZXJzIA0Kc2lsZW50bHkgb3ZlcndyaXRlcyB0aGUgbGlua3MgY3JlYXRlZCBieSB1cGRh
+dGUtYWx0ZXJuYXRpdmVzLg0KDQo+IENoZWVycywNCj4gLS0NCj4gUmljYXJkbyBTYWx2ZXRpIGRl
+IEFyYXVqbw0KDQovL1BldGVyDQoNCg==
 
