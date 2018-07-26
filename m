@@ -1,18 +1,58 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EEDF972EA1;
-	Thu, 26 Jul 2018 11:34:13 +0000 (UTC)
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EA14A78ADC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 12:30:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 416C018585;
+	Thu, 26 Jul 2018 14:30:23 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id ykkYo_7bwAIr; Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 8F8E6182CF;
+	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7650B1A08A;
+	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 693061A088;
+	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by thoth.se.axis.com (Postfix) with ESMTP id 5E1303028;
+	Thu, 26 Jul 2018 14:30:21 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 26 Jul 2018 14:30:21 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1365.000; Thu, 26 Jul 2018 14:30:21 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: ChenQi <Qi.Chen@windriver.com>, Ricardo Salveti <rsalveti@rsalveti.net>
+Thread-Topic: [OE-core] [PATCH 1/2] systemd: upgrade to 239
+Thread-Index: AQHUHXIp1Bo6awZYuUKdWGWDOwqN/KSge6UAgABxFICAAI5GgA==
+Date: Thu, 26 Jul 2018 12:30:21 +0000
+Message-ID: <90a08929e5fe482b9cde1599fa2585a2@XBOX02.axis.com>
+References: <cover.1531792805.git.Qi.Chen@windriver.com>
+	<29d24bb7dc5de1ae18398b5754b675fdf9b9fdf3.1531792805.git.Qi.Chen@windriver.com>
+	<CAHYQr0pwkuE6B1CcN2TLhJ=YyXDHQH0v-SV7ejxL+05ifnmbMQ@mail.gmail.com>
+	<105601ae-614a-5d9b-3822-598b009f8859@windriver.com>
+In-Reply-To: <105601ae-614a-5d9b-3822-598b009f8859@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 26 Jul 2018 11:34:15 -0000
-Message-ID: <20180726113415.13842.62631@do.openembedded.org>
-References: <20180726110958.612-1-Martin.Jansa@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180726110958.612-1-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZS5iYmNsYXNzOiBhcHBlbmQgdG8gRklMRVJQUk9WSURFU18qL0ZJTEVSREVQRU5EU18qIHZhcmlhYmxlcyBpbnN0ZWFkIG9mIHNldHRpbmcgdGhlbQ==?=
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] systemd: upgrade to 239
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +65,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 11:34:14 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2018 12:30:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of ChenQi
+> Sent: den 26 juli 2018 07:51
+> To: Ricardo Salveti <rsalveti@rsalveti.net>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/2] systemd: upgrade to 239
+>=20
+> On 07/26/2018 07:05 AM, Ricardo Salveti wrote:
+> > On Mon, Jul 16, 2018 at 11:05 PM, Chen Qi <Qi.Chen@windriver.com> wrote=
+:
+> >> Upgrade systemd to 239.
 
-Series: package.bbclass: append to FILERPROVIDES_*/FILERDEPENDS_* variables instead of setting them
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13218/
-State : failure
+[cut]
 
-== Summary ==
+> >> 3. update-alternatives changes
+> >>    The utilities like shutdown, poweroff, etc. are now created as syml=
+inks
+> >>    at do_install. So there's no need to use update-alternatives mechan=
+ism
+> >>    anymore to create the symlinks now. In addtion, I don't think we> n=
+ow
+> >>    support multiple init systems at one running system, so there's rea=
+lly
+> >>    no need to use update-alternatives mechanism here.
+> >
+> > I noticed that reboot stopped working locally as I had busybox
+> > installed together with systemd, and the busybox version ended up
+> > being used as it was provided via update-alternatives.
+> >
+> > Looking for possible similar broken links, I found that
+> > update-alternatives ended up pointing reboot, halt and poweroff to the
+> > busybox binary instead of systemctl. Should we revert the changes and
+> > bring back update-alternatives for them?
+> >
+> > Thanks,
+>=20
+> I think the correct direction to fix this problem is to make busybox
+> only provide init utilities (reboot, halt, etc) when init manager is
+> set to busybox.
+>=20
+> We current have in busybox recipe's SRC_URI:
+>             ${@["",
+> "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') =3D=3D
+> 'busybox')]} \
+>=20
+> I think the init utilities should be moved to init.cfg.
+>=20
+> Please check my logic to see if you can agree with it.
+> We have two facts here.
+> 1. Init utilities (reboot, halt, etc.) are tightly bond to the specific
+> implementation of PID 1.
+> 2. We only allow one PID 1 in our image. (VIRTUAL-RUNTIME_init_manager).
+> So we can conclude from the above two facts that it does not make much
+> sense to have multiple providers of init utilities while we only allow
+> one PID 1 provider on image.
+>=20
+> After all, we are using update-*alternatives*, things that this
+> mechanism manages are supposed to generally serve as alternatives to
+> each other.
+>=20
+> Best Regards,
+> Chen Qi
 
+For what it is worth, we have a package that installs wrappers for init and=
+=20
+reboot, which is now causing image creation to fail due to the change to=20
+systemd since both packages now try to install init and reboot. I can of=20
+course add a systemd_%.bbappend to remove init and reboot, but that means=20
+the systemd package is broken unless the package with the wrappers is =20
+always installed.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            package.bbclass: append to FILERPROVIDES_*/FILERDEPENDS_* variables instead of setting them
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 91 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+//Peter
 
 
