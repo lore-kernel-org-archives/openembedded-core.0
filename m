@@ -1,52 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E0709745FA
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 95BDF78C40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 20:01:09 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id b5-v6so1843362qkg.6
+	Thu, 26 Jul 2018 20:03:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 25BE21858C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 13:01:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JXgC6JOF4tzL5Cw0P8bOSIkyE0f9nVyoMzCXQqrHXg4=;
-	b=OOarDDSVVSyIZ2/jytuu+Sv2SfVyX4QCuKGAZlPNkq1P7ABDAfCX19qJiRlvjfKVNx
-	YzJjmOyfzSNLGbqZ9sTDqzHeqyFBK3nQueS7PEFyzg9RDWnXpBetHGs1j6uI8q1Lx9oC
-	YA/1PizCyt8z//YY9jbbs9T32z867bhbIXgGrSGjfI6TroVgEJ73vXhdx5Vp3g4bwzSb
-	X5y4lxUT6gw8EeZTU9LAJ5qPnuU60Q2ZqpvhRu3/ubZjJ/yIcYG3GtBkVqEnNHcKOZU1
-	G564qJVGy0ZYCxAB/+CAZg8awtquFTvNA5fy+MQNrxoKGSZHxZB9p40/MvAPeBg8RTSh
-	LRWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JXgC6JOF4tzL5Cw0P8bOSIkyE0f9nVyoMzCXQqrHXg4=;
-	b=tf27VrhBzXMiO8qE9/Z13Iu55O4D7wvxyCb/H7h7e0eiBA61HAk9Ue01CKJnVPRotA
-	wn4s/DmG83l8PSzVs0bXhPxgQYI2r1EEdq6VZO9t90gpwPoFljLMsOrBrS1qk9N540Ic
-	U6jXfNWwE0JR6ZzHpb3zF9BzbAxdthJ1+RElOCkqs75JTwx9MkBX1S/KkBwiB/lKmPvv
-	7ntoTGO6rDAbe6fZ/bUqqnP0zIMo7T8YtkMzoObWEA11WKTNO3e+8vV+7trL9wzkWCt5
-	M+QP4koDz4ZHu3y1VLqBaEWlX6ny+7mrjFzPyff5anAbLvADSlfZsxci0lyPVou3tJOx
-	vVgQ==
-X-Gm-Message-State: AOUpUlHbo5iKG7OA8zjQ4Y+Cf4porUMDxbV8WBj4k862kn9tkkWWWOSh
-	13gLu+FFiN1rbznSF5VfRNppMUDB/6CIRWYmoRU=
-X-Google-Smtp-Source: AAOMgpdVAytkqKFSUyQjdryytqSMDrY276uj6PqAWnphMFGiC8C2xZVV20fX5EVVyJ2gSLYBRs/xaXKxP2Jvi4b9mhs=
-X-Received: by 2002:a37:a24f:: with SMTP id
-	l76-v6mr3048475qke.406.1532635270522; 
-	Thu, 26 Jul 2018 13:01:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180721162715.12611-1-raj.khem@gmail.com>
-	<20180721162715.12611-3-raj.khem@gmail.com>
-	<CAJTo0LbU0UhP6OzHJwJQBcFXw+y3+9f+1BxFiQX3FCbotxOtFQ@mail.gmail.com>
-	<CAMKF1soP0u3xLKb=tjxNrojvQQ2PFx3O6N-aS_W4huuzJBMiFQ@mail.gmail.com>
-	<CAJTo0LYt4MHCf1eUj3xB_B9E6TUZ2FP1kWH7N4gWZEzdzjEinw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYt4MHCf1eUj3xB_B9E6TUZ2FP1kWH7N4gWZEzdzjEinw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jul 2018 13:00:44 -0700
-Message-ID: <CAMKF1squc96h1BXF6_bKnp6fT2MdB0tkB0+F9mcRgGYPY5fJeg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] libsdl2: Find wayland-protocol files in proper location during cross compile
+	Thu, 26 Jul 2018 22:03:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id GjlUSWxl3sxi
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 651AC18572
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4AE481A088
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3F0E81A084
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 345802041
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:17 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id w6QK34n4032669
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 22:03:04 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id w6QK34H0032668
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2018 22:03:04 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2018 22:02:57 +0200
+Message-Id: <20180726200258.32625-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/2] meson: Split validate-cpu.patch in three
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +60,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 20:01:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Jul 2018 20:03:19 -0000
 
-On Wed, Jul 25, 2018 at 1:23 PM Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 25 July 2018 at 21:18, Khem Raj <raj.khem@gmail.com> wrote:
-> > while I agree its due to a different behavior from pkgconf, the
-> > solution is not relying on pkgconfig features
-> > in itself is an improvement IMO unless you say its regressing builds
-> > when not using pkgconfig
->
-> This is a behavioural change between the two and personally I don't
-> consider this a bug in pkgconfig, so pkgconf should do the same.
->
-> Also it turns out that you can override variable lookups with
-> environment variables in pkgconfig (see
-> https://git.dereferenced.org/pkgconf/pkgconf/issues/2) so when pkgconf
-> does this we can override the lookups without needing any patches.
->
+This makes it more suitable to work with, e.g., devtool. It also
+prepares for the update to 0.47.0 when the first patch will no longer be
+needed (as it is a backport).
 
-I would tend to agree. I think it might be ok to defer these fixes for now
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-devtools/meson/meson.inc              |  4 +-
+ ...u.patch => 0001-Validate-cpu_family-3753.patch} | 80 ++++++++++------------
+ .../0002-Make-CPU-family-warnings-fatal.patch      | 36 ++++++++++
+ ...r-to-our-wiki-instead-of-Meson-bug-system.patch | 40 +++++++++++
+ 4 files changed, 115 insertions(+), 45 deletions(-)
+ rename meta/recipes-devtools/meson/meson/{validate-cpu.patch => 0001-Validate-cpu_family-3753.patch} (55%)
+ create mode 100644 meta/recipes-devtools/meson/meson/0002-Make-CPU-family-warnings-fatal.patch
+ create mode 100644 meta/recipes-devtools/meson/meson/0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch
 
-> Ross
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index b278d33b72..5484a8585b 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -11,7 +11,9 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0003-native_bindir.patch \
+            file://0004-Prettifying-some-output-with-pathlib.patch \
+            file://0005-Set-the-meson-command-to-use-when-we-know-what-it-is.patch \
+-           file://validate-cpu.patch \
++           file://0001-Validate-cpu_family-3753.patch \
++           file://0002-Make-CPU-family-warnings-fatal.patch \
++           file://0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch \
+            "
+ 
+ SRC_URI[md5sum] = "1698f6526574839de5dcdc45e3f7d582"
+diff --git a/meta/recipes-devtools/meson/meson/validate-cpu.patch b/meta/recipes-devtools/meson/meson/0001-Validate-cpu_family-3753.patch
+similarity index 55%
+rename from meta/recipes-devtools/meson/meson/validate-cpu.patch
+rename to meta/recipes-devtools/meson/meson/0001-Validate-cpu_family-3753.patch
+index e7dad00d47..6b0d0ca588 100644
+--- a/meta/recipes-devtools/meson/meson/validate-cpu.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Validate-cpu_family-3753.patch
+@@ -1,13 +1,7 @@
+-Validate the passed CPU family (US: backport) and turn the upstream warning to
+-an error (US: inappropriate).
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 456f7ea48503731d50a2b7287a0f198b73b4fe61 Mon Sep 17 00:00:00 2001
++From 12fe95b1943eb832a54ba09274fa02c60d04f6b0 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross@burtonini.com>
+ Date: Wed, 20 Jun 2018 13:45:44 +0100
+-Subject: [PATCH 1/2] Validate cpu_family (#3753)
++Subject: [PATCH 1/3] Validate cpu_family (#3753)
+ 
+ * environment: validate cpu_family in cross file
+ 
+@@ -25,12 +19,16 @@ $ python3
+ import platform; platform.machine()
+ 
+ Partial fix for #3751
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
+ ---
+  mesonbuild/environment.py | 24 ++++++++++++++++++++++++
+- 1 file changed, 24 insertions(+)
++ run_unittests.py          | 18 ++++++++++++++++++
++ 2 files changed, 42 insertions(+)
+ 
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 6920b8d6..091d92dc 100644
++index d02a837..678d009 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+ @@ -72,6 +72,22 @@ from .compilers import (
+@@ -78,41 +76,35 @@ index 6920b8d6..091d92dc 100644
+                  if self.ok_type(res):
+                      self.config[s][entry] = res
+                  elif isinstance(res, list):
+--- 
+-2.11.0
+-
+-
+-From 202e0199d3ffd2637f4dbee08f8351520f7dde3b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Tue, 3 Jul 2018 13:59:09 +0100
+-Subject: [PATCH 2/2] Make CPU family warnings fatal
+-
+----
+- mesonbuild/environment.py | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 091d92dc..67177c1f 100644
+---- a/mesonbuild/environment.py
+-+++ b/mesonbuild/environment.py
+-@@ -228,7 +228,7 @@ def detect_cpu_family(compilers):
+-     # Add fixes here as bugs are reported.
+- 
+-     if trial not in known_cpu_families:
+--        mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+-+        raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % trial)
++diff --git a/run_unittests.py b/run_unittests.py
++index 3c215db..7185008 100755
++--- a/run_unittests.py
+++++ b/run_unittests.py
++@@ -2065,6 +2065,24 @@ recommended as it can lead to undefined behaviour on some platforms''')
++         self.wipe()
+  
+-     return trial
+- 
+-@@ -1043,7 +1043,7 @@ class CrossBuildInfo:
+-                     raise EnvironmentException('Malformed value in cross file variable %s.' % entry)
+  
+-                 if entry == 'cpu_family' and res not in known_cpu_families:
+--                    mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % value)
+-+                    raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % value)
+- 
+-                 if self.ok_type(res):
+-                     self.config[s][entry] = res
+++    @unittest.skipIf(not os.path.isdir('docs'), 'Doc dir not found, presumably because this is a tarball release.')
+++    def test_cpu_families_documented(self):
+++        with open("docs/markdown/Reference-tables.md") as f:
+++            md = f.read()
+++        self.assertIsNotNone(md)
+++
+++        sections = list(re.finditer(r"^## (.+)$", md, re.MULTILINE))
+++        for s1, s2 in zip(sections[::2], sections[1::2]):
+++            if s1.group(1) == "CPU families":
+++                # Extract the content for this section
+++                content = md[s1.end():s2.start()]
+++                # Find the list entries
+++                arches = [m.group(1) for m in re.finditer(r"^\| (\w+) +\|", content, re.MULTILINE)]
+++                # Drop the header
+++                arches = set(arches[1:])
+++                self.assertEqual(arches, set(mesonbuild.environment.known_cpu_families))
+++
+++
++ class FailureTests(BasePlatformTests):
++     '''
++     Tests that test failure conditions. Build files here should be dynamically
+ -- 
+-2.11.0
++2.12.0
+ 
+diff --git a/meta/recipes-devtools/meson/meson/0002-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0002-Make-CPU-family-warnings-fatal.patch
+new file mode 100644
+index 0000000000..3b377351a2
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0002-Make-CPU-family-warnings-fatal.patch
+@@ -0,0 +1,36 @@
++From 9681c5bdea6a67abf014d94a392ef42eea7df0cd Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 3 Jul 2018 13:59:09 +0100
++Subject: [PATCH 2/3] Make CPU family warnings fatal
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ mesonbuild/environment.py | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index 678d009..8b32892 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -228,7 +228,7 @@ def detect_cpu_family(compilers):
++     # Add fixes here as bugs are reported.
++ 
++     if trial not in known_cpu_families:
++-        mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+++        raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
++ 
++     return trial
++ 
++@@ -1043,7 +1043,7 @@ class CrossBuildInfo:
++                     raise EnvironmentException('Malformed value in cross file variable %s.' % entry)
++ 
++                 if entry == 'cpu_family' and res not in known_cpu_families:
++-                    mlog.warning('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % value)
+++                    raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
++ 
++                 if self.ok_type(res):
++                     self.config[s][entry] = res
++-- 
++2.12.0
++
+diff --git a/meta/recipes-devtools/meson/meson/0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch b/meta/recipes-devtools/meson/meson/0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch
+new file mode 100644
+index 0000000000..8f4603e767
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0003-Send-user-to-our-wiki-instead-of-Meson-bug-system.patch
+@@ -0,0 +1,40 @@
++From 62f4702a1d5076d0c225f899fe65cd3badfdd022 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 6 Jul 2018 15:51:15 +0100
++Subject: [PATCH 3/3] Send user to our wiki instead of Meson bug system
++
++If a CPU family isn't recognised the first step should be to verify the
++mapping. Send the user to a wiki page explaining what to do, instead of
++directly to the Meson bug tracker.
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ mesonbuild/environment.py | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index 8b32892..a0580a2 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -228,7 +228,7 @@ def detect_cpu_family(compilers):
++     # Add fixes here as bugs are reported.
++ 
++     if trial not in known_cpu_families:
++-        raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+++        raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % trial)
++ 
++     return trial
++ 
++@@ -1043,7 +1043,7 @@ class CrossBuildInfo:
++                     raise EnvironmentException('Malformed value in cross file variable %s.' % entry)
++ 
++                 if entry == 'cpu_family' and res not in known_cpu_families:
++-                    raise EnvironmentException('Unknown CPU family %s, please report this at https://github.com/mesonbuild/meson/issues/new' % trial)
+++                    raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % value)
++ 
++                 if self.ok_type(res):
++                     self.config[s][entry] = res
++-- 
++2.12.0
++
+-- 
+2.12.0
+
 
