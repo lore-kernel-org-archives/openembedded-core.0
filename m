@@ -1,103 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EAE5678C32
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 66E3E78C33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 15:26:28 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id d189-v6so3640397oib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 08:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=ty3Fc4EXrYkvwpu8XBmCg255UHswy82C2mvhWQV/N2I=;
-	b=WpuaeAKFepVWrULNQVF3zZNhjNw7URU59GBuM7w5smUP82wvrjZQjd6tbiS8LoebDK
-	QQDRn+1rsZULuAi1KlPdcAX70vsor3jZCUuhJz687206LfQT+wa77dHklN0Oadqlfqmd
-	v+sdcQN1W7n2PVCmYM2z4p3sy1Tj5C2PbvlOrYuyIDvU6c9UwMYrz+0BMbReh+coFA02
-	36dOfPCRcKCSBLmaxY6yKl7sgdgCDO8ekb4rqdCYDiuEmn8jgrtKKitA+o2we2Qa6sl/
-	dzDpZzFK+NX5U6bSbO4imdkGKnXLS5CzvTboUEfiTE0np5bVt/RvKqdgtG86JwTQleMZ
-	wFhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=ty3Fc4EXrYkvwpu8XBmCg255UHswy82C2mvhWQV/N2I=;
-	b=VnQzwNLfn0RYSOp11zikYI5ABRHBtIu1j9BN/tIH2ScKP1XlWKXdwrzfK96GkFtBbk
-	5s/3Ig1KD400Gnhq7huuVFAREYiotDaGM7dyYXLZrn/KY+UBpD2MEVY19uiDH7dAiEnQ
-	jIDiLENXT8e/Shmh5RUXpiPAAXAjl79CqzBxitAO148M9P+wuj8sRguDT+Bi0Ac1wmre
-	CLysYq6jEqWFwgVKa6or1104W+pWeBbm23f6qHhMrZ8f1z4q7DWY6EshSvJbHzbhcSRD
-	dY7a0fP7W4VK1owCuf6MfXJSA649AENIhTZN8Gd9zC4cZgiCdrSlbg7MSpgr0Wnj1z4E
-	h8BQ==
-X-Gm-Message-State: AOUpUlEvy7kAGKnoJxgaM1X6Phbhh+oncPePlQI10NrR3UEVMBLgtsWo
-	9rjvUnRZtb+qMQ8sFNN3C7/T8p4j
-X-Google-Smtp-Source: AAOMgpd7njT3zZnaEMhbi4LntOBVSbn124B2Tc6Qp871Tp8jEz7xFeJGQWXRMVhKcGtzLYpKs4STQg==
-X-Received: by 2002:aca:5841:: with SMTP id
-	m62-v6mr2595330oib.346.1532618789545; 
-	Thu, 26 Jul 2018 08:26:29 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:9011:e8d9:eeb5:4862?
-	([2601:202:4180:c33:9011:e8d9:eeb5:4862])
-	by smtp.gmail.com with ESMTPSA id
-	m62-v6sm2260401oik.30.2018.07.26.08.26.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Jul 2018 08:26:29 -0700 (PDT)
-To: Joshua Watt <jpewhacker@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20180725181158.13285-1-JPEWhacker@gmail.com>
-	<20180726150409.26104-1-JPEWhacker@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <6aece375-859a-b762-dbde-8cef9b72805c@gmail.com>
-Date: Thu, 26 Jul 2018 08:26:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180726150409.26104-1-JPEWhacker@gmail.com>
-Subject: Re: [sumo][PATCH v3] u-boot: Fix build race condition
+	Thu, 26 Jul 2018 16:11:20 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6QGBGYg019132
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 26 Jul 2018 17:11:17 +0100
+Message-ID: <f8ab4ac1813c531937fae65654513f8a21ab24b4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jonathan Haigh <Jonathan.Haigh@arm.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jul 2018 17:11:16 +0100
+In-Reply-To: <DB5PR08MB0888B7FFDFD5AA67F818105E93520@DB5PR08MB0888.eurprd08.prod.outlook.com>
+References: <DB5PR08MB0888CF3B2340E729DD3B946193520@DB5PR08MB0888.eurprd08.prod.outlook.com>
+	<DB5PR08MB0888B7FFDFD5AA67F818105E93520@DB5PR08MB0888.eurprd08.prod.outlook.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Cc: Jeremy Johnson <Jeremy.Johnson@arm.com>
+Subject: Re: INCOMPATIBLE_LICENSE mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,98 +35,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 15:26:29 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 26 Jul 2018 16:11:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
+On Thu, 2018-07-19 at 15:08 +0000, Jonathan Haigh wrote:
+> I have some questions, comments and suggestions about the
+> INCOMPATIBLE_LICENSE mechanism:
+> 
+> 1. If I specify licenseX in INCOMPATIBLE_LICENSE then I get an error
+> when building a recipe with a package (packageA) that just
+> RRECOMMENDS a package (packageB) with licenceX, even if I add
+> packageB to BAD_RECOMMENDATIONS_pn-packageA. Am I correct in thinking
+> that this behaviour is unintentional?
 
+RRECOMMENDS are a runtime setting and something that the package
+manager cares about. From bitbake's perspective, a RRECOMMEND and an
+RDEPEND are the same thing.
 
-On 07/26/2018 08:04 AM, Joshua Watt wrote:
-> Backports 2f61b13d6acba787b00598d519c85222e993e4ca (included in the
-> 2018.07 release) which fixes a race condition when building.
+This is done mainly for build determinism, we can't just sometimes
+decide to build a recommendation but sometimes not (for example if its
+build failed).
+
+So the behaviour is intentional at one level but obviously the
+implications for INCOMPATIBLE_LICENSE are problematic.
+
+> 2. When checking whether a license expression is compatible with
+> INCOMPATIBLE_LICENSE, the code takes into account "or" operands in
+> the license expression, such that if licenseX is in
+> INCOMPATIBLE_LICENSE but licenseY isn't, and a package's license
+> expression is "licenseX | licenseY" then the license will be deemed
+> okay even though licenseX is incompatible. I don't think this
+> consideration of "or" operands is valid. Consider the case where:
+> packageA has license expression "LGPLv3 | GPLv2;
+> packageB has license expression "MIT";
+> packageB dynamically links with packageA;
+> INCOMPATIBLE_LICENSE = "LGPL-3.0".
+> PackageB mustn't be using packageA under the terms of the GPLv2
+> because the resulting combination would have to be GPLv2, not MIT, to
+> comply with the terms of the GPLv2. PackageB must therefore be using
+> packageA under the terms of the LGPLv3, but LGPL-3.0 is in
+> INCOMPATIBLE_LICENSE, so the combination should be rejected.
+
+The code there is simplistic and tries to spot "obvious" problems. As
+you point out, its not entirely accurate. I'd very much like to see it
+improved.
+
+> Actually keeping track of how licenses of packages and their
+> dependents interact might be too much work, too messy, or require too
+> much legal knowledge, so I suggest this special treatment of "or"
+> operands in license expressions is removed.
+
+If you remove it, I'm not sure the situation improves much. I think
+originally the idea was to be able to dial in a license policy such
+that it would flag whichever combinations were problematic and
+configured as incompatible.
+
+Perhaps a better idea would be a new check in insane.bbclass which
+checks the things a package is depending upon and considers and warns
+about known problematic licensing. The list of licenses it was using
+could then be influences by INCOMPATIBLE_LICENSE and you would get the
+result you're looking for, admittedly at build time rather than parse
+time but its better than nothing.
+
+>  Another approach might be to allow packages explicitly declare the
+> licenses under which they are using their rdependencies. That
+> wouldn't work nicely with the implicit RDEPENDS addition mechanism
+> though.
+> 
+> 3. If I understand correctly, INCOMPATIBLE_LICENSE doesn't let me
+> have different license policies for packages that go into different
+> images. It would be useful to be able to specify INCOMPATIBLE_LICENSE
+> in an image recipe to prevent just that image containing
+> packages/recipes with incompatible licenses. This would be useful
+> e.g. to have a GPLv3-free production image but allow GPLv3 packages
+> in a debug image.
+
+INCOMPATIBLE_LICENSE is a "hammer" approach which removes many recipes
+from the view of the system entirely. That was the way some legal
+departments wanted it to work.
+
+> 4. From the code in license.bbclass, it looks like when writing the
+> rootfs and image manifest files, the intended behaviour is to modify
+> the license expressions of packages/recipes by removing incompatible
+> "or" branches (which seems a little odd, especially given #2).
+> However, this is not the actual behaviour of the code when run with
+> Python3. From write_license_files() in license.bbclass:
+> 
+>     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+>     bad_licenses = map(lambda l: canonical_license(d, l),
+> bad_licenses)
+>     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+> 
+> expand_wildcard_licenses() expects a list, but in Python3 map()
+> returns some sort of iterator, which causes
+> expand_wildcard_licenses() to return an empty list. This can be fixed
+> by wrapping the call to map() in a call to list(). I'll send a patch
+> for this.
+
+Please!
+
+> I have a bbclass that adds license checking at the rootfs/image stage
+> and doesn't take into account the "or" operands in license
+> expressions, but I think it would be better to change/extend the
+> functionality of the INCOMPATIBLE_LICENSE mechanism. Do the oe-core
+> maintainers here agree with the following approach?
 >
-> [YOCTO #12705]
+> Don't fail a build if a package just RRECOMMENDs another package with
+> an incompatible license, only fail if the package is actually built.
 
-Thanks. I will pull in shorly
+This is potentially more problematic than you realise.
 
-- armin
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  ...efi_loader-avoid-make-race-condition.patch | 51 +++++++++++++++++++
->  .../u-boot/u-boot-common_2018.01.inc          |  1 +
->  2 files changed, 52 insertions(+)
->  create mode 100644 meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
->
-> diff --git a/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-> new file mode 100644
-> index 0000000000..da7e27c64c
-> --- /dev/null
-> +++ b/meta/recipes-bsp/u-boot/files/0001-efi_loader-avoid-make-race-condition.patch
-> @@ -0,0 +1,51 @@
-> +From 5c2e24a9ed54dfee77d1844a080e998b4affe916 Mon Sep 17 00:00:00 2001
-> +From: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> +Date: Sat, 2 Jun 2018 19:00:41 +0200
-> +Subject: [PATCH] efi_loader: avoid make race condition
-> +
-> +When U-Boot is built with 'make -j' there is not guarantee that targets in
-> +directory arch/ are built before targets in directory lib/. The current
-> +build instruction for EFI binaries in lib/ rely on dependencies in arch/.
-> +If $(EFI_CRT0) or $(EFI_RELOC) is not yet built before trying to build
-> +%.efi an error
-> +    *** No rule to make target '%.efi'
-> +occurs.
-> +
-> +With the patch separate copies of $(EFI_CRT0) and $(EFI_RELOC) named
-> +efi_crt0.o and efi_reloc.o are built in lib/efi_loader and
-> +lib/efi_selftest.
-> +
-> +Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> +Signed-off-by: Alexander Graf <agraf@suse.de>
-> +
-> +Upstream-Status: Backport from 2018.07
-> +
-> +Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> +---
-> + scripts/Makefile.lib | 10 ++++++++--
-> + 1 file changed, 8 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> +index 8f19b2db56..f2f398c935 100644
-> +--- a/scripts/Makefile.lib
-> ++++ b/scripts/Makefile.lib
-> +@@ -404,8 +404,14 @@ cmd_efi_ld = $(LD) -nostdlib -znocombreloc -T $(EFI_LDS_PATH) -shared \
-> + 
-> + EFI_LDS_PATH = $(srctree)/arch/$(ARCH)/lib/$(EFI_LDS)
-> + 
-> +-$(obj)/%_efi.so: $(obj)/%.o arch/$(ARCH)/lib/$(EFI_CRT0) \
-> +-		arch/$(ARCH)/lib/$(EFI_RELOC)
-> ++$(obj)/efi_crt0.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_CRT0:.o=.S)
-> ++	$(call if_changed_dep,as_o_S)
-> ++
-> ++$(obj)/efi_reloc.o: $(srctree)/arch/$(ARCH)/lib/$(EFI_RELOC:.o=.c) $(recordmcount_source) FORCE
-> ++	$(call cmd,force_checksrc)
-> ++	$(call if_changed_rule,cc_o_c)
-> ++
-> ++$(obj)/%_efi.so: $(obj)/%.o $(obj)/efi_crt0.o $(obj)/efi_reloc.o
-> + 	$(call cmd,efi_ld)
-> + 
-> + # ACPI
-> +-- 
-> +2.17.1
-> +
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-> index d2073ea0c7..11b82b7e26 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2018.01.inc
-> @@ -11,6 +11,7 @@ SRCREV = "f3dd87e0b98999a78e500e8c6d2b063ebadf535a"
->  
->  SRC_URI = "git://git.denx.de/u-boot.git \
->      file://MPC8315ERDB-enable-DHCP.patch \
-> +    file://0001-efi_loader-avoid-make-race-condition.patch \
->  "
->  
->  S = "${WORKDIR}/git"
+> Don't take "or" operands into account when checking for incompatible
+> licenses.
 
+I don't agree with this, I think we need to improve the code to handle
+this better though.
+
+> Add functionality to allow INCOMPATIBLE_LICENSE to just apply to
+> packages/recipes that go into a particular image.
+
+That is using it for something quite different from its original deisgn
+intent.
+
+> Don't modify package/recipe license expressions in the manifest
+> files.
+
+This is done because that file may be used as a basis to provide
+something to a legal department and if you're not meant to be shipping
+GPLv3, listing it in the manifest would cause more confusion. I can see
+this from both sides...
+
+> If so, I'd like to contribute patches to do this. I'm not at all
+> familiar with how the RRECOMMENDS mechanism works though, so some
+> guidance on that part would be useful.
+
+See above, I've tried to explain the challenge there!
+
+I would much rather see the existing mechanisms improved than adding
+extra classes or new ones but there are reasons for some of why it
+works the way it does.
+
+Cheers,
+
+Richard
 
