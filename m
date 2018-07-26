@@ -1,49 +1,22 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E551978C29
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 105D778C30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 14:39:35 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id y207-v6so3339679oie.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 07:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=iDwFbm3Ae6jvky8+Z0XqmVOdYBXo9lhHFsJIJ9G1htw=;
-	b=T3pT8lVir9XpNrfB5gQXLzpveZj+Fl64R68MqkoO+uEcWsgAHworMxf6au9aw+9Vd0
-	I6A0T9oQFbG7MM9teLJZqBOGqKWo3Y4AXenHvZlq3G4O4BYZwygKCSc0U6js1Pmm7vN1
-	5PwUiU8ir8dvF8cURTS81jQAKnjIlFgaSvbnA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=iDwFbm3Ae6jvky8+Z0XqmVOdYBXo9lhHFsJIJ9G1htw=;
-	b=Q6bLBLzGTBkQZ1tYfTlfrlPn62fSIsi0kgTsNDsWNFVoirXa4YGKI2m1uozfRQWRhN
-	AtoikUxwuP2fIdPl7ZeOrqLy+VXkphuvgRV9jEGVwPBGFVX1qczMePJnmZhPDLaSMLyk
-	WtFwqft76/K+DJqBqB/EWYHxJLHRW5jNpAw7ZvlTZuKpFUbYPetrztxiBvRE74wRGQlj
-	QMEGYZwwt/SBxW36kGLYVgXNFuI4td3/y2PDTcFewYItrf9ShmTVPkWSRpozoyW6mBSz
-	Cs7hI15s/CUviq+LrF/Q8vwRlskGIruIKFf5Ivh0VDKiBs4v9EVTWWXWgk2OWuYasEUD
-	g6Ag==
-X-Gm-Message-State: AOUpUlGVv+Dtt8UHJtMogf2vvu8T8vcx2l464e8ZLjxOhRHfmjWJbmMB
-	M3JA5ANj34IAkXj97+gqby1XjCGic+A=
-X-Google-Smtp-Source: AAOMgpe6TGVnLIKpJga2Rz2QbVWr1lyjeK8oLnDqqJEWZPv3dbMJvsECUdyShTHWtCOrsaANwNxcgw==
-X-Received: by 2002:aca:f401:: with SMTP id
-	s1-v6mr2388582oih.269.1532615976455; 
-	Thu, 26 Jul 2018 07:39:36 -0700 (PDT)
-Received: from aura.cortijodelrio.net
-	(CableLink-187-161-193-121.PCs.InterCable.net. [187.161.193.121])
-	by smtp.googlemail.com with ESMTPSA id
-	l204-v6sm850193oia.45.2018.07.26.07.39.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Jul 2018 07:39:35 -0700 (PDT)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2018 09:39:26 -0500
-Message-Id: <1532615966-27414-1-git-send-email-daniel.diaz@linaro.org>
+	Thu, 26 Jul 2018 14:40:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6QEe62q001635
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 26 Jul 2018 07:40:06 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.399.0; Thu, 26 Jul 2018 07:40:05 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Thu, 26 Jul 2018 22:50:21 +0800
+Message-ID: <1532616621-20871-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [sumo][PATCH] glibc: Avoid multilibbing on wordsize.h
+Subject: [PATCH] distutils/distutils3: do not try to fetch code during do_configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +29,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:39:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Jul 2018 14:40:07 -0000
+Content-Type: text/plain
 
-Once another header #includes <bits/wordsize.h>, there is a
-potential recursion going on because the
-multilib_header_wrapper.h #includes <bits/wordsize.h> again!
+For distutils3, any setup.py invoking will cause setup_requires
+argument to trigger a code fetching. Since the following commit
+applied in oe-core, code fetching occurs during do_confugire
+before the do_compile.
+...
+b805cef distutils: clean the build tree in do_configure
+...
 
-This should not happen because an __arm__ (32-bits) or an
-__aarch64__ (64-bits) environment guarantees that we will
-be getting the correct definition, but when building against
-a different target (like BPF), recursion is what happens.
+Refer what do_compile did, add var-NO_FETCH_BUILD to do_configure.
 
-This can be seen, for instance, when building eBPF programs
-from the kernel with `clang -target bpf', such as the ones
-located in linux/tools/testing/selftests/bpf/.
+Sync with distutils3, add do_configure to distutils also.
 
-(From OE-Core rev: a74c77d6168101e88c3a3bce7130f4f52cfab95d)
+[YOCTO #12084]
 
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/classes/distutils.bbclass  | 9 ++++++++-
+ meta/classes/distutils3.bbclass | 1 +
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 728bc53..35f5231 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -137,8 +137,7 @@ do_install_append_armeb () {
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 3cf1d6b..e7d48ab 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -9,6 +9,13 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
+     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
+     --install-data=${datadir}"
+ 
++distutils_do_configure() {
++        if [ "${CLEANBROKEN}" != "1" ] ; then
++                NO_FETCH_BUILD=1 \
++                ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py clean ${DISTUTILS_BUILD_ARGS}
++        fi
++}
++
+ distutils_do_compile() {
+          NO_FETCH_BUILD=1 \
+          STAGING_INCDIR=${STAGING_INCDIR} \
+@@ -80,6 +87,6 @@ distutils_do_install() {
+ 	fi
  }
  
- do_install_armmultilib () {
--
--	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
-+	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
- 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
- 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
+-EXPORT_FUNCTIONS do_compile do_install
++EXPORT_FUNCTIONS do_configure do_compile do_install
  
+ export LDSHARED="${CCLD} -shared"
+diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
+index d01d9d7..1d0c54a 100644
+--- a/meta/classes/distutils3.bbclass
++++ b/meta/classes/distutils3.bbclass
+@@ -12,6 +12,7 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
+ 
+ distutils3_do_configure() {
+ 	if [ "${CLEANBROKEN}" != "1" ] ; then
++		NO_FETCH_BUILD=1 \
+ 		${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py clean ${DISTUTILS_BUILD_ARGS}
+ 	fi
+ }
 -- 
 2.7.4
 
