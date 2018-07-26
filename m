@@ -1,27 +1,54 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 683CB78BF9
+	by mail.openembedded.org (Postfix) with ESMTP id 8276278C0C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 14:04:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6QE4owm003169
+	Thu, 26 Jul 2018 14:13:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6QEDqn7003219
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 Jul 2018 07:04:50 -0700 (PDT)
-Received: from server.local (128.224.20.10) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 26 Jul 2018 07:04:49 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
-	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
-Date: Thu, 26 Jul 2018 10:04:49 -0400
+	Thu, 26 Jul 2018 07:13:53 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Thu, 26 Jul 2018 07:13:52 -0700
+To: <richard.purdie@linuxfoundation.org>, Kang Kai <Kai.Kang@windriver.com>
+References: <20180725164107.8891-1-kai.kang@windriver.com>
+	<30c2f9cc5e10db824fb7df312bee88e17814221c.camel@linuxfoundation.org>
+	<0ca7463e-1966-0956-f21d-d23058a7a4ff@windriver.com>
+	<de82bfbc618d5bd3414f0c6942779bab2a866524.camel@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <984dc045-d084-a2ba-5ae8-991f866738b2@windriver.com>
+Date: Thu, 26 Jul 2018 09:13:51 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
 	Gecko/20100101 Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
+In-Reply-To: <de82bfbc618d5bd3414f0c6942779bab2a866524.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
+Subject: Re: [RFC PATCH 0/2] Install rdependent of allarch package with same multilib variant of image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,157 +61,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:04:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 26 Jul 2018 14:13:53 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2018-07-10 6:21 AM, Richard Purdie wrote:
-> On Mon, 2018-07-09 at 11:53 -0400, Bruce Ashfield wrote:
->> The existing kernel-devsrc package starts with a full copy of the
->> kernel
->> source and then starts to strip out elements that are not required.
+On 7/26/18 4:07 AM, richard.purdie@linuxfoundation.org wrote:
+> On Thu, 2018-07-26 at 14:53 +0800, Kang Kai wrote:
+>> On 2018年07月26日 06:47, richard.purdie@linuxfoundation.org wrote:
+>>> There is a bigger problem though since the allarch recipe signature
+>>> filtering doesn't change what bitbake will actually build, only how
+>>> its
+>>> represented in sstate and the circumstances under which it would
+>>> rebuild it. If ca-certificates DEPENDS on openssl, it will build
+>>> openssl whether you're targeting core-image-sato or lib32-core-
+>>> image-
+>>> sato. This potentially means you can end up in a situation where it
+>>> wouldn't build lib32-openssl if nothing else in lib32-core-image-
+>>> sato
+>>> depended upon it more directly.
 >>
->> This results in extra time (I/O) and extra space being taken up in
->> the
->> final package. The main purpose of the kernel-devsrc package has been
->> to
->> build modules against the running kernel, not to include a full copy
->> of
->> the source code for re-building the kernel. The end result was a
->> 600M kernel-devsrc package.
+>> That's why extend rdepends of allarch package with all multilib
+>> variant. 
+>> In bitbake inner environment, make ca-certificates depends on
+>> openssl, lib32-openssl and even libn32-openssl for qemumips64. It may
+>> cost a little more build time(I didn't test yet), but the dependency
+>> relationship is fixed and make sure that all multilib version
+>> of openssl exist in 'oe-core-repo' which is used for do_rootfs.
 >>
->> This restructuring of the package uses an approach similar to other
->> distros, where the kernel-devsrc package is for building against the
->> running kernel and uses a curated set of copied infrastructure,
->> versus
->> a mass copy of the entire kernel.
->>
->> The differences in this approach versus other is largely due to the
->> architecture support and the split build/source directory of the
->> kernel.
->>
->> The result is a kernel-devsrc package of about 10M, which is capable
->> of running "make scripts" and compiling kernel modules against the
->> running kernel.
->>
->> Along with the changes to the copying of the infrascture, we also
->> have the following changes:
->>
->>   - a better/more explicit listing of dependencies for on-target
->>     builds of "make scripts" or "make modules_prepare"
->>
->>   - The kernel source is installed into /lib/modules/<version>/build
->>     and a symlink created from /usr/src/kernel to the new location.
->>     This aligns with the standard location for module support
->>     code
->>
->>   - There is also a symlink from /lib/modules/<version>/source ->
->> build
->>     to reserve a spot for a new package that is simply the kernel
->>     source. That package is not part of this update.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>
->> v2: drop DEPENDS on perf. We no longer need to depend on perf since
->> the source
->>      is copied before modification.
+>> When build ca-certificates, both openssl and lib32-openssl will be 
+>> built. And when write package of ca-certificates, remove openssl and
+>> lib32-openssl from RDEPENDS and keep noarch-openssl. 
+>> And make both openssl and lib32-openssl provides noarch-openssl. Then
+>> some tweak according image multilib type could be done at then end
+>> of do_rootfs.
 > 
-> It probably won't surprise you to know there were some issues with this
-> patch, sadly.
+> Requiring that all variants of openssl build in order to build ca-
+> certificates will have huge build time impact as it will need to build
+> both multilib toolchains.
 > 
-> The main recurring issue (on all arches and poky+poky-lsb) is failure
-> of the kernelmodule.KernelModuleTest.test_kernel_module test. The exact
-> failure varies by arch, for x86-64:
+> At that point we'd probably be better either building allarch recipes
+> twice (which I don't like), or, banning non-allarch dependencies from
+> allarch recipes. If a recipe needs a non-allarch dependency we'd make
+> it non-allarch. We may just have to accept the latter...
 
-FYI. I have fixed all of these errors, and will submit a v2 shortly.
-See a few more comments below.
+allarch requiring (runtime) dependencies on non-allarch might just have to be
+banned.  I hadn't considered that -- but it would resolve most of the problems
+that are being worked on.
 
-> 
-> https://autobuilder.yocto.io/builders/nightly-x86-64/builds/1154/steps/Running%20Sanity%20Tests/logs/stdio
-> 
-> |   CHK     include/generated/utsrelease.h
-> |   DESCEND  objtool
-> | /lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.build:37: /lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include: No such file or directory
-> | make[4]: *** No rule to make target '/lib/modules/4.14.48-yocto-standard/build/tools/build/Build.include'.  Stop.
-> | make[3]: *** [Makefile:43: /lib/modules/4.14.48-yocto-standard/build/tools/objtool/fixdep-in.o] Error 2
-> | make[2]: *** [/lib/modules/4.14.48-yocto-standard/build/tools/build/Makefile.include:4: fixdep] Error 2
-> | make[1]: *** [Makefile:62: objtool] Error 2
-> | make: *** [Makefile:1647: tools/objtool] Error 2
-> 
-> For mips:
-> 
-> https://autobuilder.yocto.io/builders/nightly-mips/builds/1115
-> 
-> |   HOSTCC  scripts/sortextable
-> | make[1]: *** No rule to make target 'arch/mips/boot/tools/relocs_32.c', needed by 'arch/mips/boot/tools/relocs_32.o'.  Stop.
-> | make: *** [arch/mips/Makefile:16: archscripts] Error 2
-> 
+If we can produce the allarch package -once- w/o rdepends on anything then they
+should still be fine.. since the dependency would be:
 
-I still can't build lttng-modules for mips, but I have fixed the missing
-file and ensured that I can make scripts/prepare on the qemu targets.
+arch1 |
+      | -> allarch
+arch2 |
 
-> (same for mips64)
-> 
-> For arm:
-> 
-> https://autobuilder.yocto.io/builders/nightly-arm/builds/1187/
-> 
-> |   HOSTCC  scripts/sortextable
-> | make[1]: *** No rule to make target 'arch/arm/tools/syscall.tbl', needed by 'arch/arm/include/generated/uapi/asm/unistd-common.h'.  Stop.
-> | make: *** [arch/arm/Makefile:319: archheaders] Error 2
-> 
-> For arm64:
-> 
-> https://autobuilder.yocto.io/builders/nightly-arm64/builds/1101/steps/Running%20Sanity%20Tests/logs/stdio
-> 
-> |   CHK     include/generated/uapi/linux/version.h
-> |   CHK     include/generated/utsrelease.h
-> | make[1]: *** No rule to make target 'arch/arm64/kernel/vdso/vdso.lds', needed by 'arch/arm64/kernel/vdso/vdso.so.dbg'.  Stop.
-> | make: *** [arch/arm64/Makefile:160: vdso_prepare] Error 2
->   
-> 
-> There was also a failure in building the build-appliance image:
-> 
-> https://autobuilder.yocto.io/builders/build-appliance/builds/1110
-> 
-> and also a failure in one of the multilib builds, probably from
-> different dependencies pulled in by kernel-devsrc:
-> 
-> https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/steps/BuildImages_4/logs/stdio
-> 
-> Error: Transaction check error:
->    file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
->    file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586 conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
-> 
+Avoiding conflicts and preserving the approach we want.
 
-And that leaves this error.
+--Mark
 
-I've not been able to reproduce it, and I've been looking at the
-elfutils RDEPENDS that is part of kernel devsrc, since that is what
-pulls in libtool as a DEPENDS.
-
-I'm not seeing any difference in the way that it is pulled in, versus
-the other uses.
-
-In particular, perf also has elfutils as a REDEPENDS, but yet it builds
-in the same configuration. Can you spot the difference in how it is
-used ?
-
-elfutils is potentially required at tools build time, hence why it is
-a RDEPENDS in devsrc, but a DEPENDS in the main linux-yocto recipes. If
-there's another way to express this, let me know and I can switch to
-that.
-
-And finally, I did build the old reproducing configuration for multlib
-that you mentioned before .. can you point me at this config, so I can
-try again ?
-
-Bruce
-
-> I'll retest with this patch removed just so we can unblock the other patches.
-> 
 > Cheers,
 > 
 > Richard
