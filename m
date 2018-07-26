@@ -1,22 +1,52 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4762578AD9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B5286086F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 08:32:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6Q8W036027811
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 Jul 2018 01:32:00 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.399.0; Thu, 26 Jul 2018 01:31:59 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 26 Jul 2018 16:42:14 +0800
-Message-ID: <1532594534-24320-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] automake: fix race in parallel builds
+	Thu, 26 Jul 2018 09:07:12 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id o18-v6so1228138wmc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 02:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=doTR1R8isKJ1peuL6wkxIPk6hqGRzU3TZNE3W6riXh8=;
+	b=FYlgeK1u4Hlj44EZKvgOLqAPYpFflFgkDL5m4r3xYR+lbat7liefT8uCwN4D7zL+9S
+	9UkIggePjcY89u/HDzo05D8djdcwhuVNGbT+nuCLRWaUt8hR2rTLXF+cSxi3LIMu/ziu
+	0abGxwoe09MCdAz1jCWUg84NLfnVYHDu/2RYg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=doTR1R8isKJ1peuL6wkxIPk6hqGRzU3TZNE3W6riXh8=;
+	b=a1MJa1Ap4Y7PHU5KAu+ZWuB0yIsg7nzU81Q0xzIrN56n1p2PPyMawr8usZEFbVlrrL
+	vAHhzZeOl8j9G6kca1LRI/6JrAvqRiYB24zllGNN0WDlrQs2AXPksGSiYkXDtqoKdVgA
+	oijmtWLWvRnZp4fjS0giBXHxKghPMNWLCnG0QcvqPu3l7427kP6zkmOrW/GnG4sBl3Pn
+	AYiZQnACQ307ThORLKeTPPNgnTLKZmjjSxjNatpNEbdUzvYXf3AA5io+v5B4DrpgmdkA
+	JTM26wKw5jSnYzTkX1ty1NF7O9uw9FpE5ku1T8S5uTUMJ1RjqLN/JBZS1RQwu76kYwKJ
+	KYrg==
+X-Gm-Message-State: AOUpUlHmurdZ7vetcCv/19iKAYGPSkC3Yfxiip4KNSSPGZJ0LU9JVC3n
+	x/pNX6dyG2Oqz4wxjVke8RvNXg==
+X-Google-Smtp-Source: AAOMgpdHMDnRvHiYAb35gtBifdMdvMn/MgG3RZIm9uXjQX6okjs+4e6xyE9ajyBQn3xOw34p3XvLyw==
+X-Received: by 2002:a1c:1182:: with SMTP id 124-v6mr986866wmr.75.1532596032934;
+	Thu, 26 Jul 2018 02:07:12 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	j3-v6sm1277411wrt.70.2018.07.26.02.07.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 26 Jul 2018 02:07:11 -0700 (PDT)
+Message-ID: <de82bfbc618d5bd3414f0c6942779bab2a866524.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Kang Kai <Kai.Kang@windriver.com>, mark.hatle@windriver.com
+Date: Thu, 26 Jul 2018 10:07:10 +0100
+In-Reply-To: <0ca7463e-1966-0956-f21d-d23058a7a4ff@windriver.com>
+References: <20180725164107.8891-1-kai.kang@windriver.com>
+	<30c2f9cc5e10db824fb7df312bee88e17814221c.camel@linuxfoundation.org>
+	<0ca7463e-1966-0956-f21d-d23058a7a4ff@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 0/2] Install rdependent of allarch package with same multilib variant of image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,112 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 08:32:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Jul 2018 09:07:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-While native building, there is a parallel failure
-[snip]
-|: && mkdir -p doc && ./pre-inst-env /usr/bin/env perl
-../automake-1.16.1/doc/help2man --output=doc/aclocal-1.16.1
-aclocal-1.16
-|help2man: can't get `--help' info from aclocal-1.16
-|Try `--no-discard-stderr' if option outputs to stderr
-Makefile:3693: recipe for target 'doc/aclocal-1.16.1' failed
-[snip]
+On Thu, 2018-07-26 at 14:53 +0800, Kang Kai wrote:
+> On 2018年07月26日 06:47, richard.purdie@linuxfoundation.org wrote:
+> > There is a bigger problem though since the allarch recipe signature
+> > filtering doesn't change what bitbake will actually build, only how
+> > its
+> > represented in sstate and the circumstances under which it would
+> > rebuild it. If ca-certificates DEPENDS on openssl, it will build
+> > openssl whether you're targeting core-image-sato or lib32-core-
+> > image-
+> > sato. This potentially means you can end up in a situation where it
+> > wouldn't build lib32-openssl if nothing else in lib32-core-image-
+> > sato
+> > depended upon it more directly.
+> 
+> That's why extend rdepends of allarch package with all multilib
+> variant. 
+> In bitbake inner environment, make ca-certificates depends on
+> openssl, lib32-openssl and even libn32-openssl for qemumips64. It may
+> cost a little more build time(I didn't test yet), but the dependency
+> relationship is fixed and make sure that all multilib version
+> of openssl exist in 'oe-core-repo' which is used for do_rootfs.
+> 
+> When build ca-certificates, both openssl and lib32-openssl will be 
+> built. And when write package of ca-certificates, remove openssl and
+> lib32-openssl from RDEPENDS and keep noarch-openssl. 
+> And make both openssl and lib32-openssl provides noarch-openssl. Then
+> some tweak according image multilib type could be done at then end
+> of do_rootfs.
 
-Correct Makefile rule to fix the issue
+Requiring that all variants of openssl build in order to build ca-
+certificates will have huge build time impact as it will need to build
+both multilib toolchains.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../0001-build-fix-race-in-parallel-builds.patch   | 65 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.16.1.bb  |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/automake/automake/0001-build-fix-race-in-parallel-builds.patch
+At that point we'd probably be better either building allarch recipes
+twice (which I don't like), or, banning non-allarch dependencies from
+allarch recipes. If a recipe needs a non-allarch dependency we'd make
+it non-allarch. We may just have to accept the latter...
 
-diff --git a/meta/recipes-devtools/automake/automake/0001-build-fix-race-in-parallel-builds.patch b/meta/recipes-devtools/automake/automake/0001-build-fix-race-in-parallel-builds.patch
-new file mode 100644
-index 0000000..591fce1
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/0001-build-fix-race-in-parallel-builds.patch
-@@ -0,0 +1,65 @@
-+From 592eb55b248a765abfc796fccb68baa3d53745ac Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Thu, 26 Jul 2018 00:58:12 -0700
-+Subject: [PATCH] build: fix race in parallel builds
-+
-+The automake-$(APIVERSION) is a hardlink of automake, if it is
-+created later than update_mans executing, there is a failure
-+[snip]
-+|: && mkdir -p doc && ./pre-inst-env /usr/bin/env perl
-+../automake-1.16.1/doc/help2man --output=doc/aclocal-1.16.1
-+aclocal-1.16
-+|help2man: can't get `--help' info from aclocal-1.16
-+|Try `--no-discard-stderr' if option outputs to stderr
-+Makefile:3693: recipe for target 'doc/aclocal-1.16.1' failed
-+[snip]
-+
-+The automake_script is required by update_mans and update_mans
-+invokes automake-$(APIVERSION) rather than automake to generate
-+doc, so we should assign `automake-$(APIVERSION)' to automake_script.
-+
-+The same reason to tweak aclocal_script.
-+
-+* bin/local.mk: correct automake_script/aclocal_script
-+
-+Upstream-Status: Submitted [automake-patches@gnu.org]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ Makefile.in  | 4 ++--
-+ bin/local.mk | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index c3e934c..7cddb8d 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -691,8 +691,8 @@ bin_SCRIPTS = bin/automake bin/aclocal
-+ # Used by maintainer checks and such.
-+ automake_in = $(srcdir)/bin/automake.in
-+ aclocal_in = $(srcdir)/bin/aclocal.in
-+-automake_script = bin/automake
-+-aclocal_script = bin/aclocal
-++automake_script = bin/automake-$(APIVERSION)
-++aclocal_script  = bin/aclocal-$(APIVERSION)
-+ AUTOMAKESOURCES = $(automake_in) $(aclocal_in)
-+ info_TEXINFOS = doc/automake.texi doc/automake-history.texi
-+ doc_automake_TEXINFOS = doc/fdl.texi
-+diff --git a/bin/local.mk b/bin/local.mk
-+index 97b38db..058ca99 100644
-+--- a/bin/local.mk
-++++ b/bin/local.mk
-+@@ -31,8 +31,8 @@ CLEANFILES += \
-+ # Used by maintainer checks and such.
-+ automake_in = $(srcdir)/%D%/automake.in
-+ aclocal_in  = $(srcdir)/%D%/aclocal.in
-+-automake_script = %D%/automake
-+-aclocal_script  = %D%/aclocal
-++automake_script = %D%/automake-$(APIVERSION)
-++aclocal_script  = %D%/aclocal-$(APIVERSION)
-+ 
-+ AUTOMAKESOURCES = $(automake_in) $(aclocal_in)
-+ TAGS_FILES += $(AUTOMAKESOURCES)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/automake/automake_1.16.1.bb b/meta/recipes-devtools/automake/automake_1.16.1.bb
-index c64ee44..d82eed3 100644
---- a/meta/recipes-devtools/automake/automake_1.16.1.bb
-+++ b/meta/recipes-devtools/automake/automake_1.16.1.bb
-@@ -25,6 +25,7 @@ SRC_URI += "file://python-libdir.patch \
-             file://new_rt_path_for_test-driver.patch \
-             file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
-             file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
-+            file://0001-build-fix-race-in-parallel-builds.patch \
-             "
- 
- SRC_URI[md5sum] = "83cc2463a4080efd46a72ba2c9f6b8f5"
--- 
-2.7.4
+Cheers,
+
+Richard
 
 
