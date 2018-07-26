@@ -1,54 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8276278C0C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 53BC578C0C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 14:13:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6QEDqn7003219
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 Jul 2018 07:13:53 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Thu, 26 Jul 2018 07:13:52 -0700
-To: <richard.purdie@linuxfoundation.org>, Kang Kai <Kai.Kang@windriver.com>
-References: <20180725164107.8891-1-kai.kang@windriver.com>
-	<30c2f9cc5e10db824fb7df312bee88e17814221c.camel@linuxfoundation.org>
-	<0ca7463e-1966-0956-f21d-d23058a7a4ff@windriver.com>
-	<de82bfbc618d5bd3414f0c6942779bab2a866524.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	xsBNBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAHNJU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT7CwHcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrs7ATQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABwsBfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <984dc045-d084-a2ba-5ae8-991f866738b2@windriver.com>
-Date: Thu, 26 Jul 2018 09:13:51 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.9.1
+	Thu, 26 Jul 2018 14:15:25 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id q12-v6so1664049qtp.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2018 07:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ZLqXM6xMb5P12sOvm0XoV4uKQPMyRNZC7ZOCdNtno/I=;
+	b=mPsj7C1qSLojxCSbXs57wgKzcELTX1W/NsgA93B15wF+LyQt6hawRzI3HQkl5qV4G/
+	RCJLiLCH3l6o1/GE8J0iv7IWFqckGVIoRxDHvRCnNg4jpjcbPU9f0GR29qopBr2fAF5I
+	GEZuyAvyeAchD9ItxdiBXhZKsiiAYP8r5EorEcGy0y2Ro6PAfdIr6QfOpgbqJ+2iAQN8
+	/yOFrAKscwqcQWcjBj2ewEwzR+rkykqelf4fenNZD4tugQMCCodgE2H5uQ/UBSb/wZ4E
+	nFWgWqlpHA27yVWMn5HTxXX4vHUAkrGyZryk8tmzsFdrehvzNtBiPvuMUG280w0JGujK
+	5YZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZLqXM6xMb5P12sOvm0XoV4uKQPMyRNZC7ZOCdNtno/I=;
+	b=M88j3m2/SAxrPSAywtsYTXK/+mNcKRZABh5bY7g+ZFt0dWmreobzqcxnjdueNxwjBW
+	qaDBE5bKXIZj+sUCYlfdwNM1E/r4iBY96X2f8klOTjKL+enikjvL1xipJYyzncdeFlG7
+	CNFpUA+89SMbouS73C/IIT86e7ufnfmGxfmYCcK43RvbBIQcrSgwy8d49Ok/nBS3v57c
+	fiCO4YTCpv+05/2R+86pIMPo+J+cGvSEOFYIW4i0PnZBGSz3E7zubM1Gcb8axEugkych
+	FNBTMmPdT0+HfeugYFA9kT+GzNbqY+/TJiqWPnREIObn5tMQgNVHRo2c5fFZF743T1YS
+	ETeQ==
+X-Gm-Message-State: AOUpUlF4LCu/hCz3hxCRNJzglEYFqlurzbHUtSDD3CQXIwP5iRU4/TT0
+	aEUX2w5i4Qw+ge8jQ9Jd0Vf0x+q0xIK1rDRJyqI=
+X-Google-Smtp-Source: AAOMgpe6CvCa10rJZk3jx1WMzW2n/oQmrEcH5bs4QiUkWmgre13iku/9rkVCni1Let2R4xfN/dSPIieEQaI44n5vMTg=
+X-Received: by 2002:ac8:3209:: with SMTP id
+	x9-v6mr2060363qta.128.1532614525877; 
+	Thu, 26 Jul 2018 07:15:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <de82bfbc618d5bd3414f0c6942779bab2a866524.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 0/2] Install rdependent of allarch package with same multilib variant of image
+References: <1532562394-27081-1-git-send-email-christopher.w.clark@gmail.com>
+	<4dc8f36e3667d46e4df740f35c4a47349b25541f.camel@linuxfoundation.org>
+In-Reply-To: <4dc8f36e3667d46e4df740f35c4a47349b25541f.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 26 Jul 2018 07:14:59 -0700
+Message-ID: <CAMKF1srU3arodZ57ZG22qWZ1haYvJ3OVL=1JHoTn7WNArDmT_A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] binutils : enable x86_64-pep for producing EFI binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,68 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:13:53 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Jul 2018 14:15:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/26/18 4:07 AM, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2018-07-26 at 14:53 +0800, Kang Kai wrote:
->> On 2018年07月26日 06:47, richard.purdie@linuxfoundation.org wrote:
->>> There is a bigger problem though since the allarch recipe signature
->>> filtering doesn't change what bitbake will actually build, only how
->>> its
->>> represented in sstate and the circumstances under which it would
->>> rebuild it. If ca-certificates DEPENDS on openssl, it will build
->>> openssl whether you're targeting core-image-sato or lib32-core-
->>> image-
->>> sato. This potentially means you can end up in a situation where it
->>> wouldn't build lib32-openssl if nothing else in lib32-core-image-
->>> sato
->>> depended upon it more directly.
->>
->> That's why extend rdepends of allarch package with all multilib
->> variant. 
->> In bitbake inner environment, make ca-certificates depends on
->> openssl, lib32-openssl and even libn32-openssl for qemumips64. It may
->> cost a little more build time(I didn't test yet), but the dependency
->> relationship is fixed and make sure that all multilib version
->> of openssl exist in 'oe-core-repo' which is used for do_rootfs.
->>
->> When build ca-certificates, both openssl and lib32-openssl will be 
->> built. And when write package of ca-certificates, remove openssl and
->> lib32-openssl from RDEPENDS and keep noarch-openssl. 
->> And make both openssl and lib32-openssl provides noarch-openssl. Then
->> some tweak according image multilib type could be done at then end
->> of do_rootfs.
-> 
-> Requiring that all variants of openssl build in order to build ca-
-> certificates will have huge build time impact as it will need to build
-> both multilib toolchains.
-> 
-> At that point we'd probably be better either building allarch recipes
-> twice (which I don't like), or, banning non-allarch dependencies from
-> allarch recipes. If a recipe needs a non-allarch dependency we'd make
-> it non-allarch. We may just have to accept the latter...
+On Thu, Jul 26, 2018 at 5:48 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2018-07-25 at 16:46 -0700, Christopher Clark wrote:
+> > From: Christopher Clark <christopher.clark6@baesystems.com>
+> >
+> > On EFI architectures (arm/x86/x86_64/aarch64) add the x86_64-pep
+> > emulation support to the linker to enable production of Portable
+> > Executables for EFI binaries.
+> >
+> > Enables building the EFI variant of the Xen hypervisor.
+> >
+> > Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+> > ---
+> >  meta/recipes-devtools/binutils/binutils.inc | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-devtools/binutils/binutils.inc
+> > b/meta/recipes-devtools/binutils/binutils.inc
+> > index 37813dd..b3efbad 100644
+> > --- a/meta/recipes-devtools/binutils/binutils.inc
+> > +++ b/meta/recipes-devtools/binutils/binutils.inc
+> > @@ -69,12 +69,19 @@ python do_package_prepend() {
+> >
+> >  B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+> >
+> > +def enable_efi_targets(d):
+> > +    translated_arch = d.getVar('TRANSLATED_TARGET_ARCH')
+> > +    if translated_arch in ["x86-64", "i586", "i686", "arm",
+> > "aarch64"]:
+> > +        return "--enable-targets=x86_64-pep"
+> > +    return ""
 
-allarch requiring (runtime) dependencies on non-allarch might just have to be
-banned.  I hadn't considered that -- but it would resolve most of the problems
-that are being worked on.
+may be we can just use  overrides instead of function
 
-If we can produce the allarch package -once- w/o rdepends on anything then they
-should still be fine.. since the dependency would be:
+>
+> Just to double check, is "x86_64-pep" the right value even on arm?
+>
 
-arch1 |
-      | -> allarch
-arch2 |
-
-Avoiding conflicts and preserving the approach we want.
-
---Mark
+right, It should be PE emulation for the given arch I believe
 
 > Cheers,
-> 
+>
 > Richard
-> 
-
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
