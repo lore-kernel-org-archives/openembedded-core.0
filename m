@@ -1,53 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D6AD778C59
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk0-f65.google.com (mail-vk0-f65.google.com
+	[209.85.213.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3695678C80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 23:01:10 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id h15-v6so3231504wrs.7
+	Thu, 26 Jul 2018 23:19:51 +0000 (UTC)
+Received: by mail-vk0-f65.google.com with SMTP id o82-v6so1624565vko.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 16:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Q9x2j5h00tIxOYpax3r0mxin0zXOEoHtXVPcOjOUKQo=;
-	b=uV6qaE7m+m25Pr4KWlQb2LJ6QIGdLeuebg1TM+zOF+/KMsHczz7y2GWPtEh2m9BzGD
-	54SUR4AMecwhvzl0xgp0c0akizFyPB1bD4Zlbq0zNPomr3DX+t618EJRaO/I0iGV8YeT
-	KNY5kuMXOMouZ0BBTZkfBOX5F7Axdvrh+ocEDebvxfwxkBezWlKOpfg6qhEDjgCEQ8fu
-	I26808I3unUQHMvNFji+6633xc+pVEN3Ek6AmJTtHOtORKjpxObknPKme1tK+25NSu3g
-	s8fuE0t5MNGWFiQ/44ydyAXolL92ttOjG/dpGYeOvRA3IB7tQC1JnZN28JP03ZltBOQb
-	qv9Q==
+	Thu, 26 Jul 2018 16:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=wZ4DfaEx+qn0GduuUQJvJ3OrdesGC1DZVFESimCHh5k=;
+	b=swp4vYgpQkIhZiNjUmb7RUukaaa8KPXaqJ5ai9bzShd5WxY778Vox8D9FVzg0s5Jnm
+	ytLtM4WWFPcElCGcrdDUT3kHWJYbKlWQdgSBQoX6+JavCzUPT/gMF9gpvF01y8BNEyga
+	QpLI135VoOc5WJNuWFuWzU5oYKV9PL6zYa7EJIgXRTBM/F814sTw09mUDanui2wEBKpm
+	acoF6771aBhl2blNcAN+Tb/CJT23HR1T4p2oLSylzP6UFaD+I8iRnGUNUWlf5+VQ6Z/8
+	SBcHrMtICC8wLlti3/mNVmfSuzV3YVVXWYzjvpP+82ikd+VS/jIkdwUKlwlc0ESJT/Eg
+	SVgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=Q9x2j5h00tIxOYpax3r0mxin0zXOEoHtXVPcOjOUKQo=;
-	b=P3isDeGJoyKZjrmFTFMUI6soJybPR5Qsg51N+O1K6PICtmqD+1iiozIk02TvUD9+JV
-	FxCAimLUG4ghKbhSropm6h61ydgTRutx+QRZhCa8LbvR4fG6trM2rJgnMRoXaMDBIiNM
-	SNGw4srF5q8KraYDwAfeV1y3dXFQKaYjo1yLKVVY12FrG7hzSbCvGWRIHGUowVCTPjwk
-	H5sVrO/0mOFjqC4sp687Ge5WIqgzvJVvM7tiCNcCBVD/DvuJB/FxxrRG/XMej++uv50J
-	4TSqr81fr/48XN68IyFipBtfjhChc3LrhrkesHKZxgBBwgBfrUZrFke8LHma1Ul1ZT+4
-	vRMA==
-X-Gm-Message-State: AOUpUlFe54qxJqkoDG5oXJ6Iuet2XFJ/tef9SEHhjyFEmmPNM3gtupNU
-	U3ZdMjfI4jk9cHD8wHf0+v546PZvJ6k=
-X-Google-Smtp-Source: AAOMgpcgIhvCXsYDXF/i+1pSFAHSGEqEkxSoNJBlExcoLyF9ciCNoI0KeOwjppbrqWEEdbWIykbCHQ==
-X-Received: by 2002:adf:ad38:: with SMTP id
-	p53-v6mr3022186wrc.10.1532646071038; 
-	Thu, 26 Jul 2018 16:01:11 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h7-v6sm1948532wmb.48.2018.07.26.16.01.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Jul 2018 16:01:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 00:01:00 +0100
-Message-Id: <20180726230100.6629-5-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180726230100.6629-1-ross.burton@intel.com>
-References: <20180726230100.6629-1-ross.burton@intel.com>
-Subject: [PATCH 5/5] unzip: fix symlink problem
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=wZ4DfaEx+qn0GduuUQJvJ3OrdesGC1DZVFESimCHh5k=;
+	b=TrWr5VvO0kHWDFRq+PZZoIwfgcQ3BH9Stp2qgSpwVbYALrDV8Ri9MRb+VGmr2VmlM3
+	dZkf2PsnPljkFUhlMV9C78SKWxIRbD7ezPTj0CYFT1jLIx2skrIc48L1aKXlmjeJOgl2
+	0rkj1qOoH+qNYs/OFxN3sm6V6Bu92KCt1gOv+4/Eytfg62ieVOv6fdgztI+WhkKoypvG
+	FmFF2djhFmGI+ZNZVAiWGGcuaQUX41YXiYiD9SSg8xWfbI+wyycYwF3DXiUM4+pZLQKb
+	QFVDan/gklnruvVZmwMxQrsexjrHgPne5BGJr3JbqOEenQbF9wh1H30jmvjVmGN4e/5N
+	trXQ==
+X-Gm-Message-State: AOUpUlF4MsfmAPtbaC6ix78hlT+9jXFFQYcCRFBkVBsip7cgmIb/sqZl
+	nDOY7L1e689vU+OonL5UDZUNcw+NwbHrnXRJcYI=
+X-Google-Smtp-Source: AAOMgpc8fQ0SVu2m0mYfKKI3RqcbK7HKGmnJ709lsbhmytpRFlXeE9X7LCn+7MyQRjtcckf2hvGB5bVlq2xnR55EsuM=
+X-Received: by 2002:a1f:5fc5:: with SMTP id
+	t188-v6mr2514212vkb.86.1532647191913; 
+	Thu, 26 Jul 2018 16:19:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Thu, 26 Jul 2018 16:19:51 -0700 (PDT)
+In-Reply-To: <87sh46c4fd.fsf@adiPC.i-did-not-set--mail-host-address--so-tickle-me>
+References: <20180726135835.17632-1-adrian.ratiu@ni.com>
+	<CA+chaQfGatvA-7UQSvrBZXG58QNLf0M0UcNbSNp+9JJ==GuQ2g@mail.gmail.com>
+	<CA+chaQfwS7VFTYwR+LfiSV1xGfmdSVY8fuNJ0+Kkdfi3g8nbMw@mail.gmail.com>
+	<87sh46c4fd.fsf@adiPC.i-did-not-set--mail-host-address--so-tickle-me>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 26 Jul 2018 16:19:51 -0700
+Message-ID: <CAJ86T=VZwcyX58h5yH0FLrNENGL=jP06vcw+_r7sYx-38tFRow@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux.inc: add fallocate only for class-target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,60 +60,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 23:01:11 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 23:19:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/unzip/unzip/symlink.patch | 26 +++++++++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb        |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/symlink.patch
+On Thu, Jul 26, 2018 at 10:06 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> Thank you Martin! The different behaviours between combinations of
+> appends and overrides has always been confusing to me.
 
-diff --git a/meta/recipes-extended/unzip/unzip/symlink.patch b/meta/recipes-extended/unzip/unzip/symlink.patch
-new file mode 100644
-index 00000000000..a38f6f16123
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/symlink.patch
-@@ -0,0 +1,26 @@
-+Unzip doesn't handle large zip files well and crashes:
-+
-+"This only happens if you have more then 16k entries and when one of
-+the 16k entry infos is reused it happend to be previously used for
-+a symlink entry."
-+
-+This patch is taken from Fedora (https://bugzilla.redhat.com/show_bug.cgi?id=972427)
-+
-+Upstream-Status: Pending (upstream is dead)
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+--- unzip60/process.c.sav	2013-06-09 12:08:57.070392264 +0200
-++++ unzip60/process.c	2013-06-09 12:10:08.641696988 +0200
-+@@ -1751,6 +1751,12 @@
-+         = (G.crec.general_purpose_bit_flag & (1 << 11)) == (1 << 11);
-+ #endif
-+ 
-++#ifdef SYMLINKS
-++    /* Initialize the symlink flag, may be set by the platform-specific
-++       mapattr function.  */
-++    G.pInfo->symlink = 0;
-++#endif 
-++
-+     return PK_COOL;
-+ 
-+ } /* end function process_cdir_file_hdr() */
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 105d048f55b..dbf4112a4c6 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://fix-security-format.patch \
- 	file://18-cve-2014-9913-unzip-buffer-overflow.patch \
- 	file://19-cve-2016-9844-zipinfo-buffer-overflow.patch \
-+	file://symlink.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
--- 
-2.11.0
+You're not alone. The behaviour of += with an over-ride is a trap
+which catches most users at some point.
 
+> On Thu, 26 Jul 2018, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> I went ahead and sent v2 with the fix as I had it locally already anyway.
+>>
+>> To illustrate what was wrong with using the override, see following output
+>> from bitbake -e:
+>>
+>> env.util-linux.append+override:ALTERNATIVE_util-linux="dmesg kill more
+>> mkswap blockdev pivot_root switch_root hexdump last lastb logger mesg
+>> renice wall unshare setsid chrt flock utmpdump eject nologin taskset
+>> fallocate"
+>> env.util-linux.before:ALTERNATIVE_util-linux="dmesg kill more mkswap
+>> blockdev pivot_root switch_root hexdump last lastb logger mesg renice wall
+>> fallocate unshare setsid chrt flock utmpdump eject nologin taskset"
+>> env.util-linux.override:ALTERNATIVE_util-linux=" fallocate"
+>>
+>> # $ALTERNATIVE_util-linux [2 operations]
+>> #   rename from ALTERNATIVE_${PN} data.py:116 [expandKeys]
+>> #     "dmesg kill more mkswap blockdev pivot_root switch_root hexdump last
+>> lastb logger mesg renice wall unshare setsid chrt flock utmpdump eject
+>> nologin taskset"
+>> #   override[class-target]:rename from ALTERNATIVE_${PN}_class-target
+>> data_smart.py:641 [renameVar]
+>> #     " fallocate"
+>> # pre-expansion value:
+>> #   " fallocate"
+>> ALTERNATIVE_util-linux=" fallocate"
+>>
+>> # $ALTERNATIVE_util-linux_class-target
+>> #   rename from ALTERNATIVE_${PN}_class-target data_smart.py:641 [renameVar]
+>> #     " fallocate"
+>> ALTERNATIVE_util-linux_class-target=" fallocate"
+>>
+>> # $ALTERNATIVE [19 operations]
+>> #   set /OE/build/oe-core/openembedded-core/meta/conf/documentation.conf:63
+>> #     [doc] "Lists commands in a package that need an alternative binary
+>> naming scheme."
+>> #   override[util-linux-hwclock]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:245
+>> #     "hwclock"
+>> #   override[util-linux-fdisk]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:248
+>> #     "fdisk"
+>> #   override[util-linux-fstrim]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:251
+>> #     "fstrim"
+>> #   override[util-linux-agetty]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:254
+>> #     "getty"
+>> #   override[util-linux-mount]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:258
+>> #     "mount"
+>> #   override[util-linux-umount]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:261
+>> #     "umount"
+>> #   override[util-linux-readprofile]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:264
+>> #     "readprofile"
+>> #   override[util-linux-losetup]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:267
+>> #     "losetup"
+>> #   override[util-linux-swaponoff]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:270
+>> #     "swapoff swapon"
+>> #   override[util-linux-fsck]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:274
+>> #     "fsck"
+>> #   override[util-linux-blkid]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:277
+>> #     "blkid"
+>> #   override[util-linux-rfkill]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:280
+>> #     "rfkill"
+>> #   override[util-linux-getopt]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:283
+>> #     "getopt"
+>> #   override[util-linux-sulogin]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:286
+>> #     "sulogin"
+>> #   override[util-linux-mountpoint]:set
+>> /OE/build/oe-core/openembedded-core/meta/recipes-core/util-linux/util-linux.inc:289
+>> #     "mountpoint"
+>> #   override[util-linux]:rename from ALTERNATIVE_${PN} data.py:116
+>> [expandKeys]
+>> #     "dmesg kill more mkswap blockdev pivot_root switch_root hexdump last
+>> lastb logger mesg renice wall unshare setsid chrt flock utmpdump eject
+>> nologin taskset"
+>> #   override[util-linux_class-target]:rename from
+>> ALTERNATIVE_${PN}_class-target data_smart.py:641 [renameVar]
+>> #     " fallocate"
+>> #   override[util-linux-doc]:rename from ALTERNATIVE_${PN}-doc data.py:116
+>> [expandKeys]
+>> #     "mountpoint.1 last.1 lastb.1 mesg.1 wall.1 nologin.8 sulogin.8
+>> utmpdump.1 rfkill.8 kill.1 libblkid.3 blkid.8 findfs.8 fsck.8 uuid.3
+>> eject.1 logger.1"
+>> # pre-expansion value:
+>> #   "None"
+>>
+>> On Thu, Jul 26, 2018 at 4:00 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+>>
+>>> This probably doesn't do what you're expecting it to do, use
+>>> ALTERNATIVE_${PN}_append_class-target = " fallocate"
+>>>
+>>> You can check with bitbake -e to see what's the difference between these 2.
+>>>
+>>> On Thu, Jul 26, 2018 at 3:56 PM Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>>> wrote:
+>>>
+>>>> Because the util-linux_2.32.bb recipe explicitely disables fallocate
+>>>> for nativesdk triggering build warnings:
+>>>>
+>>>> WARNING: nativesdk-util-linux-2.32-r0 do_package: util-linux:
+>>>> alternative target (sdk/usr/bin/fallocate or
+>>>> sdk/usr/bin/fallocate.util-linux)
+>>>> does not exist, skipping...
+>>>> WARNING: nativesdk-util-linux-2.32-r0 do_package: util-linux: NOT adding
+>>>> alternative provide sdk/usr/bin/fallocate:
+>>>> sdk/usr/bin/fallocate.util-linux
+>>>> does not exist
+>>>> WARNING: nativesdk-util-linux-2.32-r0 do_package: util-linux: alt_link ==
+>>>> alt_target: sdk/usr/bin/fallocate == sdk/usr/bin/fallocate
+>>>>
+>>>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>>>> ---
+>>>>  meta/recipes-core/util-linux/util-linux.inc | 3 ++-
+>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/util-linux/util-linux.inc
+>>>> b/meta/recipes-core/util-linux/util-linux.inc
+>>>> index ed5c618750..504f3c5b61 100644
+>>>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>>>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>>>> @@ -206,8 +206,9 @@ do_install_append_class-native () {
+>>>>  ALTERNATIVE_PRIORITY = "80"
+>>>>
+>>>>  ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root
+>>>> switch_root"
+>>>> -ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall
+>>>> fallocate unshare"
+>>>> +ALTERNATIVE_${PN} += "hexdump last lastb logger mesg renice wall unshare"
+>>>>  ALTERNATIVE_${PN} += "setsid chrt flock utmpdump eject nologin taskset"
+>>>> +ALTERNATIVE_${PN}_class-target += "fallocate"
+>>>>
+>>>>  ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+>>>>  ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+>>>> --
+>>>> 2.18.0
+>>>>
+>>>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
