@@ -1,48 +1,57 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B3A78AC7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CA1D78994
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 11:10:02 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j5-v6so1297562wrr.8
+	Thu, 26 Jul 2018 11:11:57 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id e7-v6so1302271wrs.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2018 04:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7s3g08xoUKqXsl1Q6bYZJAlCjLpYvomYdEiSoP0TJgU=;
-	b=oA8n36l4d+3DRj5whAjqOx2E72Nlt7Xp5u9wvn1mclofPadxhoYBNr56hJDVgcUmDE
-	C7ylCSdlkV3k9h8u3nUPcDAB9YAoxdGqffK9FIp0+xlA3EMWKBrt8AYLbvpCEp3JdVnD
-	hmSv1TiwThO8AOWREwOapNjuytI5EM1tegmrpN9xrcTd1wG40Y9cCFJnkcuFd/SyV2X9
-	aHE/HYl5NiP/cluKL4m4gtqfoMdH8jY7X0pF+5jJSTHgXh9qBlny+VjJi3U0yBEJiaE6
-	8e8dXQZRIakpIzsTurzhB5m0ZkDyFtjD2ESe7a8+c38h8ob/qJ9RmMAfusll3Lh1SBGj
-	dQDQ==
+	Thu, 26 Jul 2018 04:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=vlCP47u9hI4UPcaQ6F1YsD82bEkM7fYTbSWfN/G6jSE=;
+	b=UAlzpfCXapE8VttTv2BW4bOmPfeRVzTvf0b13JZ/AAhZpHXbm5F9WqtFE+rWl0Do8z
+	7m3GxZKFytFTJYYnU9jjmNGqfg6x381HDEAsiJt7KVpqBaQwQ7Lv5/dXBD3ltxVJhLPm
+	RaMax39Z/fWwbGGZTEBuQIjb0v1CmHKPIRA7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7s3g08xoUKqXsl1Q6bYZJAlCjLpYvomYdEiSoP0TJgU=;
-	b=MGXKW8OihoODnonkIGx9g2W1jEv5RyQPeS2TWyzSyCaDQwp6f12w6DlYOl6w8/Riei
-	PWsWcPOjYykzyMHc1s0NcuO60NqL1Agm1ylP8f0t0zOyKbOLKMcd3yRBo/hvq5Caaugy
-	gwXUFt8QVt+Y83qh+/za1RlyZcLCgWaeRE1e11TtcnXxZrS6NkUQSFzf+w6IKK+gYnzo
-	3DfsFubA6USDBpnvBm6q2vgjDjEwI+kvnNvNjR8Zmrl8TeoI5XtTmIVYBSe8W/mp2fD0
-	NidPRDLmT03mwvgqByHYVLwEfl2r8wq4WrY/WQD9noAMQdz7tPKWPJ/dLmKGwTsE3z3X
-	0Cyg==
-X-Gm-Message-State: AOUpUlER44ECPxGegttv4ellBBSNtoAYSDHETgXwEwi390s5fjTDL8Y7
-	Es5ZuXio5V23zzyQACQK2Dz7p0kE
-X-Google-Smtp-Source: AAOMgpfQ1irjQZD0X+xMb+FmysR/QzU8h2K03KHhfcq0Ge3DnLCJrnN1RAk+594WkuvUeeKH8yNmmg==
-X-Received: by 2002:adf:9086:: with SMTP id
-	i6-v6mr1181255wri.271.1532603403518; 
-	Thu, 26 Jul 2018 04:10:03 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	t6-v6sm1904701wmf.8.2018.07.26.04.10.02
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=vlCP47u9hI4UPcaQ6F1YsD82bEkM7fYTbSWfN/G6jSE=;
+	b=Kr+wAy6K4FRwP9e5yfAz/GLwVZxZIXD4W9rfdxly3z3/AILOuo9ULkvqOR0043o6Ps
+	dqysdp87DtshzF/TkT0Ei3Zv941FM3KjdRaNdkB02jB3Ah+o8PrGDfArThycaZMAJ6FK
+	chkuycL7gePKHAuVrowCnXZ2t/QSJve9Ws7cwNA6qUIDyezwv3ZIovumH0bNOqNUdBRC
+	Cd450xuRPCZN/BICQgSWgHEFyqUlipsHDNYp+Z9Tkcn8obPogK5+s/b3cQIXnheS1dP+
+	DUWjixPqOkOIun77iPtFpEC787prDOx8V16EPYa3djEucfkRcQBNo44h3oZbNmuRP6Lg
+	DwxQ==
+X-Gm-Message-State: AOUpUlEVLJcVcnskdqIXYWdWijhhSU+OWumk79E200AtghC6mu3pWEYN
+	P4MAHprQomv5Kb7cdrv+BoFTqRZVMj6ObA==
+X-Google-Smtp-Source: AAOMgpdCSU8sV3teGlsTkF1k+f6z/OPm9+QXhs3btkahZfAQ8XnwSIpQo3DgIUnNLuq/5Cm0GXHL4Q==
+X-Received: by 2002:adf:f210:: with SMTP id
+	p16-v6mr1262091wro.184.1532603518087; 
+	Thu, 26 Jul 2018 04:11:58 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y14-v6sm2421612wrq.45.2018.07.26.04.11.56
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 26 Jul 2018 04:10:02 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2018 11:09:58 +0000
-Message-Id: <20180726110958.612-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] package.bbclass: append to FILERPROVIDES_*/FILERDEPENDS_* variables instead of setting them
+	Thu, 26 Jul 2018 04:11:57 -0700 (PDT)
+Message-ID: <56d1a5ca98936388dccf918519b87558ea1b6228.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: ChenQi <Qi.Chen@windriver.com>, Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2018 12:11:56 +0100
+In-Reply-To: <1b2cb46a-2bea-eed0-c9df-254ffb3c1f99@windriver.com>
+References: <20180716163325.13847-1-richard.purdie@linuxfoundation.org>
+	<a8f34da6-a6e8-4419-1258-87262cf6b772@windriver.com>
+	<bc64ac66-d4cb-acb3-5e8e-9bf15ce86317@windriver.com>
+	<1e41274ab544bfa905bf98a75d6729c492bec19b.camel@linuxfoundation.org>
+	<edd66fb0-d295-dbbf-97ca-5a11ac509ded@windriver.com>
+	<1b2cb46a-2bea-eed0-c9df-254ffb3c1f99@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/6] oeqa: Add selftest parallelisation support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +64,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 11:10:03 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 11:11:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* this allows to work around some of the issues with file-rdeps
-* e.g. in my case I have /usr/lib/libmali.so.0.1 which according to rpmdeps
-  provides only following libmali*
-  libmali.so(LIBMALI_1.0)
-  libmali.so.0.1
-  but many users of this link with libmali.so directly and according to
-  rpmdeps require libmali.so which causes file-rdeps for a lot of
-  recipes
-* I was using simple work around to just set:
-  RPROVIDES_${PN} = "libmali.so libGLESv2.so libEGL.so"
-  but that doesn't work well with multilib, because the value gets
-  expanded with MLPREFIX and
-  RPROVIDES_${PN} = "lib32-libmali.so lib32-libGLESv2.so lib32-libEGL.so"
-  doesn't help at all.
+On Thu, 2018-07-26 at 17:37 +0800, ChenQi wrote:
+> On 07/26/2018 05:18 PM, Robert Yang wrote:
+> > 
+> > 
+> > On 07/26/2018 05:10 PM, richard.purdie@linuxfoundation.org wrote:
+> > > On Thu, 2018-07-26 at 14:00 +0800, Robert Yang wrote:
+> > > > 
+> > > > On 07/26/2018 11:03 AM, Robert Yang wrote:
+> > > > > Hi RP,
+> > > > > 
+> > > > > On 07/17/2018 12:33 AM, Richard Purdie wrote:
+> > > > > > This allows oe-selftest to take a -j option which specifies
+> > > > > > how
+> > > > > > much test
+> > > > > > parallelisation to use. Currently this is "module" based
+> > > > > > with
+> > > > > > each module
+> > > > > > being split and run in a separate build directory. Further
+> > > > > > splitting could
+> > > > > > be done but this seems a good compromise between test setup
+> > > > > > and
+> > > > > > parallelism.
+> > > > > > 
+> > > > > > You need python-testtools and python-subunit installed to
+> > > > > > use
+> > > > > > this but only
+> > > > > > when the -j option is specified.
+> > > > > 
+> > > > > Should we add python-testtools-native and python-subunit-
+> > > > > native,
+> > > > > please ?
+> > > > > 
+> > > > > And add them to TESTIMAGEDEPENDS ?
+> > > > 
+> > > > After talked with Qi, this won't work since we use host's
+> > > > python3. So
+> > > > we need install them on host, or use buildtools-tarball.
+> > > 
+> > > Correct, this is why the modules are only loaded if you use the
+> > > -j
+> > > option, so the dependency is only needed if you use bitbake -j.
+> > > That at
+> > >   least minimises the cross-section of users affected.
+> > 
+> > There might be a bug since we don't use -j in our build farm, but
+> > I 
+> > see the no
+> > testtools module error, I will do more investigations on it.
+> > 
+> 
+> In testsdk.bbclass, we have:
+> processes = d.getVar("TESTIMAGE_NUMBER_THREADS") or 
+> d.getVar("BB_NUMBER_THREADS")
+> ....
+>          if processes:
+>              result = tc.runTests(processes=int(processes))
+>          else:
+>              result = tc.runTests()
+> 
+> processes will not be None even if we don't set 
+> TESTIMAGE_NUMBER_THREADS. I think this is not expected.
 
-[YOCTO #9217] Many unsolveable QA warnings from build-deps and file-rdeps
+Ah, yes, that was not intentional. We should perhaps put a:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/package.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+try: 
+    import testools, subunit
+except ImportError: 
+    xxx
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index be76b30f31..0e6c3be210 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1557,12 +1557,12 @@ python package_do_filedeps() {
-         for file in provides:
-             provides_files[pkg].append(file)
-             key = "FILERPROVIDES_" + file + "_" + pkg
--            d.setVar(key, " ".join(provides[file]))
-+            d.appendVar(key, " " + " ".join(provides[file]))
- 
-         for file in requires:
-             requires_files[pkg].append(file)
-             key = "FILERDEPENDS_" + file + "_" + pkg
--            d.setVar(key, " ".join(requires[file]))
-+            d.appendVar(key, " " + " ".join(requires[file]))
- 
-     for pkg in requires_files:
-         d.setVar("FILERDEPENDSFLIST_" + pkg, " ".join(requires_files[pkg]))
--- 
-2.17.1
+in there...
+
+Cheers,
+
+Richard
+
 
 
