@@ -1,29 +1,18 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BEE978CAA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 08:59:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6R8xacJ022458
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Jul 2018 01:59:36 -0700 (PDT)
-Received: from [128.224.162.161] (128.224.162.161) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 27 Jul 2018 01:59:36 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1532682009.git.liezhi.yang@windriver.com>
-	<fbdc16a21bd8b04c9eff1eda6701fa723b07b9ed.1532682009.git.liezhi.yang@windriver.com>
-	<CAMKF1spUhjxjO6F_xVW+AZWPZ+co_f2XKgeSU03Ge3y9fk5_3g@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <b419f6df-d931-5461-c96d-4dd87f8b4c95@windriver.com>
-Date: Fri, 27 Jul 2018 16:58:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ABB178CAA;
+	Fri, 27 Jul 2018 09:05:20 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spUhjxjO6F_xVW+AZWPZ+co_f2XKgeSU03Ge3y9fk5_3g@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] python3-pbr: add it for python3-testtools
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 27 Jul 2018 09:05:21 -0000
+Message-ID: <20180727090521.13843.1630@do.openembedded.org>
+References: <cover.1532682009.git.liezhi.yang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1532682009.git.liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVpbGR0b29scy10YXJiYWxsOiBhZGQgcHl0aG9uMy10ZXN0dG9vbHMgYW5kIHB5dGhvbjMtc3VidW5pdA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,68 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 08:59:36 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 27 Jul 2018 09:05:20 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
+== Series Details ==
+
+Series: buildtools-tarball: add python3-testtools and python3-subunit
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13245/
+State : failure
+
+== Summary ==
 
 
-On 07/27/2018 04:57 PM, Khem Raj wrote:
-> please remove it from meta-python once its in core
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Yes, I will, and also remove others from meta-openstack.
 
-// Robert
 
-> On Fri, Jul 27, 2018 at 1:51 AM Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> - The python3-testtools RDEPENDS on it.
->> - It is from meta-python, I extended it to nativesdk.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/recipes-devtools/python/python-pbr.inc       | 14 ++++++++++++++
->>   meta/recipes-devtools/python/python3-pbr_3.1.1.bb |  2 ++
->>   2 files changed, 16 insertions(+)
->>   create mode 100644 meta/recipes-devtools/python/python-pbr.inc
->>   create mode 100644 meta/recipes-devtools/python/python3-pbr_3.1.1.bb
->>
->> diff --git a/meta/recipes-devtools/python/python-pbr.inc b/meta/recipes-devtools/python/python-pbr.inc
->> new file mode 100644
->> index 0000000..74f67fb
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python-pbr.inc
->> @@ -0,0 +1,14 @@
->> +DESCRIPTION = "Python Build Reasonableness: PBR is a library that injects some useful and sensible default behaviors into your setuptools run"
->> +HOMEPAGE = "https://pypi.python.org/pypi/pbr"
->> +SECTION = "devel/python"
->> +LICENSE = "Apache-2.0"
->> +LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
->> +
->> +SRC_URI[md5sum] = "4e82c2e07af544c56a5b71c801525b00"
->> +SRC_URI[sha256sum] = "05f61c71aaefc02d8e37c0a3eeb9815ff526ea28b3b76324769e6158d7f95be1"
->> +
->> +inherit pypi
->> +
->> +RDEPENDS_${PN} += "${PYTHON_PN}-pip"
->> +
->> +BBCLASSEXTEND = "native nativesdk"
->> diff --git a/meta/recipes-devtools/python/python3-pbr_3.1.1.bb b/meta/recipes-devtools/python/python3-pbr_3.1.1.bb
->> new file mode 100644
->> index 0000000..97e7361
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python3-pbr_3.1.1.bb
->> @@ -0,0 +1,2 @@
->> +inherit setuptools3
->> +require python-pbr.inc
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+* Issue             SUMMARY is missing in newly added recipe [test_summary_presence] 
+  Suggested fix    Specify the variable SUMMARY in python3-extras
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
