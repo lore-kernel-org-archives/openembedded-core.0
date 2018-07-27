@@ -1,23 +1,49 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0138C78D26
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A8171BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 14:00:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6RE0Wsw026478
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Jul 2018 07:00:33 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Fri, 27 Jul 2018 07:00:31 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Fri, 27 Jul 2018 22:10:47 +0800
-Message-ID: <1532700647-3563-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] valgrind: fix compile ptest failure on mips32
+	Fri, 27 Jul 2018 15:32:51 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id t25-v6so5882369wmi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2018 08:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=QCp+kK700XxPsqj3HMNn+CuFjXAmcwtWSaYKjLYy4ys=;
+	b=1ZNop917tEID5qjMNpxAaSzBVW5fxxaFieC7FU4b/Vnxbo87Lv8zFupJ9tOXlJSKLw
+	qQK3JGg8Pwp7nkxStdk0BfP4/ay9HmLBaII4Azq1UFkFXXxCzRxehKz/MAuMZUQqHITf
+	mlMBR+jxI56PpWbFtpxwMbcEnIeE1e6gynLh8dQoHpfRZ875ZfBlbArlFUJ+wiWeact1
+	RG9tOlMuozX58BDVuVNg5Bw3Nj5WeKvn3Sfqi+K3CuN7w4Ptk0FVY5bB1x4RFE70PGGc
+	UjHlh1rR6CyG2LKx+IcpVVdTfMTAJLSCDhWDT0SIzt115hyNiWjpKSZlid56X8X9eSDO
+	lcpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QCp+kK700XxPsqj3HMNn+CuFjXAmcwtWSaYKjLYy4ys=;
+	b=l3X6z1vf2T9MW/GqJn2ytX//USrzyOWj30XwD5+gJF7XaXy6fUNggrvsPedcWUJtl4
+	D3SUWKL8D/LWfEfOf96c0/Fr2hpEAyyk3hyAB8J6AoSiGq8eeYw6sPqsNV8PbBHwWwrt
+	DNERIfyVQ0Ip6PEqkby3KDe7VtVqx3pCxRzczoNAOc98X4N+RJ32+03+xLQyaLIZcnJI
+	YOAiqeZMbNuqtH06S5sQqOUYVE3M5kMtHfIGXqK7PkxuKSO6ZdRjhVe8pG0pbdK94MZQ
+	63/uB0FybV09PM3sy4uayM3HR9ahF951rQ7ZLl7Zoibi9D1QlS89gkgFzXIzXcVajitk
+	U4dw==
+X-Gm-Message-State: AOUpUlGOl740LojKH+uRhEdlFAdNj/ImJ/VTYqFjW8tnyH269XjwfpzV
+	JhKEVex2PDRJBI6RYsnU4jWG6WCRoTc=
+X-Google-Smtp-Source: AAOMgpecZ6oaWBLflahWeS/hxIwkvq8EANlyNK4qOKwDwmknczmXr305x+kWsKE3raElg7+RdneQTg==
+X-Received: by 2002:a1c:7ed8:: with SMTP id
+	z207-v6mr4689670wmc.139.1532705572246; 
+	Fri, 27 Jul 2018 08:32:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z62-v6sm3804916wmc.10.2018.07.27.08.32.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Jul 2018 08:32:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jul 2018 16:32:33 +0100
+Message-Id: <20180727153248.22838-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 01/16] oeqa/sdk: add test that CMake works
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,187 +56,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 14:00:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Jul 2018 15:32:52 -0000
 
-- Pass mips32's CFLAGS to tests
+Add a new SDK testcase that builds assimp, a project that uses cmake.
 
-- Fix broken inline asm in tests on mips32-linux
-
-- Build mips n32 successfully, support it.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...-fix-opcode-not-supported-on-mips32-linux.patch | 82 ++++++++++++++++++++++
- ...roken-inline-asm-in-tests-on-mips32-linux.patch | 47 +++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.13.0.bb  |  3 +-
- 3 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-fix-opcode-not-supported-on-mips32-linux.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch
+ meta/lib/oeqa/sdk/cases/assimp.py | 65 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 meta/lib/oeqa/sdk/cases/assimp.py
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-fix-opcode-not-supported-on-mips32-linux.patch b/meta/recipes-devtools/valgrind/valgrind/0001-fix-opcode-not-supported-on-mips32-linux.patch
+diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
 new file mode 100644
-index 0000000..39b624d
+index 00000000000..8f5b0eb63a2
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-fix-opcode-not-supported-on-mips32-linux.patch
-@@ -0,0 +1,82 @@
-+From fb5362f205b37c5060fcd764a7ed393abe4f2f3d Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 27 Jul 2018 17:39:37 +0800
-+Subject: [PATCH 1/2] fix opcode not supported on mips32-linux
++++ b/meta/lib/oeqa/sdk/cases/assimp.py
+@@ -0,0 +1,65 @@
++import os, subprocess, unittest
++import bb
++from oeqa.sdk.case import OESDKTestCase
++from oeqa.sdk.utils.sdkbuildproject import SDKBuildProject
 +
-+While build tests(`make check') on mips32-linux, there are
-+serial failures such as:
-+[snip]
-+| mips-wrsmllib32-linux-gcc  -meb -mabi=32 -mhard-float -c
-+-o atomic_incs-atomic_incs.o `test -f 'atomic_incs.c' || echo
-+'../../../valgrind-3.13.0/memcheck/tests/'`atomic_incs.c
-+| /tmp/ccqrmINN.s: Assembler messages:
-+| /tmp/ccqrmINN.s:247: Error: opcode not supported on this
-+processor: mips1 (mips1) `ll $t3,0($t1)'
-+| /tmp/ccqrmINN.s:249: Error: opcode not supported on this
-+processor: mips1 (mips1) `sc $t3,0($t1)'
-+[snip]
++from oeqa.utils.subprocesstweak import errors_have_output
++errors_have_output()
 +
-+Since the following commit applied, it defines CLFAGS for mips32,
-+but missed to pass them to tests which caused the above failure
-+...
-+3e344c57f Merge in a port for mips32-linux
-+...
++class BuildAssimp(OESDKTestCase):
++    """
++    Test case to build a project using cmake.
++    """
 +
-+Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=396905]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ helgrind/tests/Makefile.am    | 5 +++++
-+ memcheck/tests/Makefile.am    | 5 +++++
-+ none/tests/mips32/Makefile.am | 4 ++++
-+ 3 files changed, 14 insertions(+)
++    td_vars = ['DATETIME', 'TARGET_OS', 'TARGET_ARCH']
 +
-+diff --git a/helgrind/tests/Makefile.am b/helgrind/tests/Makefile.am
-+index ad1af191a..6209d35a7 100644
-+--- a/helgrind/tests/Makefile.am
-++++ b/helgrind/tests/Makefile.am
-+@@ -214,6 +214,11 @@ check_PROGRAMS += annotate_rwlock
-+ endif
-+ 
-+ AM_CFLAGS   += $(AM_FLAG_M3264_PRI)
-++
-++if VGCONF_PLATFORMS_INCLUDE_MIPS32_LINUX
-++AM_CFLAGS   += $(AM_CFLAGS_MIPS32_LINUX)
-++endif
-++
-+ AM_CXXFLAGS += $(AM_FLAG_M3264_PRI)
-+ 
-+ LDADD = -lpthread
-+diff --git a/memcheck/tests/Makefile.am b/memcheck/tests/Makefile.am
-+index 84e49405f..aff861a32 100644
-+--- a/memcheck/tests/Makefile.am
-++++ b/memcheck/tests/Makefile.am
-+@@ -443,6 +443,11 @@ check_PROGRAMS += reach_thread_register
-+ endif
-+ 
-+ AM_CFLAGS   += $(AM_FLAG_M3264_PRI)
-++
-++if VGCONF_PLATFORMS_INCLUDE_MIPS32_LINUX
-++AM_CFLAGS   += $(AM_CFLAGS_MIPS32_LINUX)
-++endif
-++
-+ AM_CXXFLAGS += $(AM_FLAG_M3264_PRI)
-+ 
-+ if VGCONF_PLATFORMS_INCLUDE_ARM_LINUX
-+diff --git a/none/tests/mips32/Makefile.am b/none/tests/mips32/Makefile.am
-+index d11591d45..602cd26f6 100644
-+--- a/none/tests/mips32/Makefile.am
-++++ b/none/tests/mips32/Makefile.am
-+@@ -99,6 +99,10 @@ check_PROGRAMS = \
-+ 	round_fpu64 \
-+ 	fpu_branches
-+ 
-++if VGCONF_PLATFORMS_INCLUDE_MIPS32_LINUX
-++AM_CFLAGS   += $(AM_CFLAGS_MIPS32_LINUX)
-++endif
-++
-+ AM_CFLAGS    += @FLAG_M32@
-+ AM_CXXFLAGS  += @FLAG_M32@
-+ AM_CCASFLAGS += @FLAG_M32@
-+-- 
-+2.17.1
++    @classmethod
++    def setUpClass(self):
++        if not (self.tc.hasHostPackage("nativesdk-cmake") or
++                self.tc.hasHostPackage("cmake-native")):
++            raise unittest.SkipTest("Needs cmake")
 +
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch b/meta/recipes-devtools/valgrind/valgrind/0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch
-new file mode 100644
-index 0000000..6df295f
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch
-@@ -0,0 +1,47 @@
-+From 63ce36396348e7c4c021cffa652d2e3d20f7963a Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 27 Jul 2018 17:51:54 +0800
-+Subject: [PATCH 2/2] fix broken inline asm in tests on mips32-linux
++    def fetch(self, workdir, dl_dir, url, archive=None):
++        if not archive:
++            from urllib.parse import urlparse
++            archive = os.path.basename(urlparse(url).path)
 +
-+While build tests(`make check') with gcc 8.1.0 on mips32-linux,
-+there is a failure
-+[snip]
-+|mips-wrsmllib32-linux-gcc  -meb -mabi=32 -mhard-float -march=mips32
-+-c -o tc08_hbl2-tc08_hbl2.o `test -f 'tc08_hbl2.c' || echo '../../../
-+valgrind-3.13.0/helgrind/tests/'`tc08_hbl2.c
-+|/tmp/cc37aJxQ.s: Assembler messages:
-+|/tmp/cc37aJxQ.s:275: Error: symbol `L1xyzzy1main' is already defined
-+|Makefile:1323: recipe for target 'tc08_hbl2-tc08_hbl2.o' failed
-+[snip]
++        if dl_dir:
++            tarball = os.path.join(dl_dir, archive)
++            if os.path.exists(tarball):
++                return tarball
 +
-+Remove the duplicated L1xyzzy1main, and use local symbol to replace.
-+http://tigcc.ticalc.org/doc/gnuasm.html#SEC46
++        tarball = os.path.join(workdir, archive)
++        subprocess.check_output(["wget", "-O", tarball, url])
++        return tarball
 +
-+Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=396906]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ helgrind/tests/tc08_hbl2.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++    def test_assimp(self):
++        import tempfile
++        import oe.qa, oe.elf
 +
-+diff --git a/helgrind/tests/tc08_hbl2.c b/helgrind/tests/tc08_hbl2.c
-+index 2a757a008..f660d82dd 100644
-+--- a/helgrind/tests/tc08_hbl2.c
-++++ b/helgrind/tests/tc08_hbl2.c
-+@@ -121,12 +121,12 @@
-+ #elif defined(PLAT_mips32_linux) || defined(PLAT_mips64_linux)
-+ #  define INC(_lval,_lqual)                         \
-+      __asm__ __volatile__ (                         \
-+-      "L1xyzzy1" _lqual":\n"                        \
-++      "1:\n"                                        \
-+       "        move  $t0, %0\n"                     \
-+       "        ll    $t1, 0($t0)\n"                 \
-+       "        addiu $t1, $t1, 1\n"                 \
-+       "        sc    $t1, 0($t0)\n"                 \
-+-      "        beqz  $t1, L1xyzzy1" _lqual          \
-++      "        beqz  $t1, 1b\n"                     \
-+       : /*out*/ : /*in*/ "r"(&(_lval))              \
-+       : /*trash*/ "t0", "t1", "memory"              \
-+         )
-+-- 
-+2.17.1
++        with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
++            dl_dir = self.td.get('DL_DIR', None)
++            tarball = self.fetch(testdir, dl_dir, "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
++            subprocess.check_output(["tar", "xf", tarball, "-C", testdir])
 +
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-index d3af35e..39ec6f5 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-@@ -37,6 +37,8 @@ SRC_URI = "ftp://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://link-gz-tests.patch \
-            file://ppc-headers.patch \
-            file://mask-CPUID-support-in-HWCAP-on-aarch64.patch \
-+           file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
-+           file://0002-fix-broken-inline-asm-in-tests-on-mips32-linux.patch \
-            "
- SRC_URI[md5sum] = "817dd08f1e8a66336b9ff206400a5369"
- SRC_URI[sha256sum] = "d76680ef03f00cd5e970bbdcd4e57fb1f6df7d2e2c071635ef2be74790190c3b"
-@@ -54,7 +56,6 @@ COMPATIBLE_HOST_linux-gnux32 = 'null'
- COMPATIBLE_HOST_linux-muslx32 = 'null'
- 
- # Disable for some MIPS variants
--COMPATIBLE_HOST_mipsarchn32 = 'null'
- COMPATIBLE_HOST_mipsarchr6 = 'null'
- 
- inherit autotools ptest multilib_header
++            sourcedir = os.path.join(testdir, "assimp-4.1.0") 
++            builddir = os.path.join(testdir, "build")
++            installdir = os.path.join(testdir, "install")
++            bb.utils.mkdirhier(builddir)
++
++            self._run("cd %s && cmake %s " % (builddir, sourcedir))
++            self._run("cmake --build %s -- -j" % builddir)
++            self._run("cmake --build %s --target install -- DESTDIR=%s" % (builddir, installdir))
++
++            elf = oe.qa.ELFFile(os.path.join(installdir, "usr", "local", "lib", "libassimp.so.4.1.0"))
++            elf.open()
++
++            (machine, osabi, abiversion, littleendian, bits) = \
++                oe.elf.machine_dict(None)[self.td['TARGET_OS']][self.td['TARGET_ARCH']]
++            self.assertEqual(machine, elf.machine())
++            self.assertEqual(bits, elf.abiSize())
++            self.assertEqual(littleendian, elf.isLittleEndian())
++
++    @classmethod
++    def tearDownClass(self):
++        self.project.clean()
 -- 
-2.7.4
+2.11.0
 
 
