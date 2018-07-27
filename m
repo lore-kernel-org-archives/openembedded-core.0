@@ -1,49 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CFEC278CCC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 643F578CB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 10:24:31 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id z74-v6so2914094qkb.10
+	Fri, 27 Jul 2018 11:05:38 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id n84-v6so8356212oib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 03:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=K6nEczFkgEqynux29aH9nrjrs5EihPL4BLkiY/89Fq4=;
-	b=b5Ps6h92cM1mjpfApw7oY0ES8V5oKJhXQVfLGDcoYgXHeAq4JelDheDXJG7pGjDrnz
-	BOzDO0MLN2RV37Jw9vvgGsRXwjO9BiFQkWDQr/giJX9ORJHr5tHf52HIQ/RAAtg4S5wA
-	m1RDUKWh94FAbHFifQ+GBoeMxreyVYkR7Try73T6KwCVEw6r2MRt30XmmFHFOOarHH0N
-	/YUqSo5IPSWcfGdaeJe/oGonpif0hVqoSbPMdyVwJ2NqjfakO4XHtfMsZ63m5tOG2mKs
-	WvMOhYNA3WUKqlyHNsjwTVDwBaX+wnqp6LCl2kyCxusu4sUOy8Ciik8Zh2Ol+btiO/tW
-	UZVg==
+	Fri, 27 Jul 2018 04:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PpIPWiwM56jSKt3Agv/QCk/ZCCBWmwXXOKcujuRe1Gk=;
+	b=fNlfD1FZ4lmLuqbngqqmyc4/TelJXj1py+w0N5JR6BEOUnKWgObxq9TnHOzr0ga6iU
+	cpleBdo/a6/ldRChB0eyDQfvSHfNcd1cvwcfaK767YMHaaOXwarbAqdtgL5b6CdlBNFx
+	PGVVTAhntVXcr62vjXi8S5cGrJZb8GSrVapkXqLZUFnvqukFqLNFMvHFRNIYMNG/Mz7I
+	XhPK1VdpWADreoabDjfIevLVK7WcWM+Uzp+cdKNqDJA5fIi9LNvkOanBo4O0SWOVoKad
+	bCCE43WEgo6v5JD9aGWmKtg4oOa5V7dDFlcRm5VugovFD2p/bM3GX4SRYbs98EHfHi0L
+	wY5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=K6nEczFkgEqynux29aH9nrjrs5EihPL4BLkiY/89Fq4=;
-	b=kAcPefZQgTS0z3Qump6L9j5NaxgJxEWg09pTc6R6Pi+QM4TcCWD4m3kpfIClPsdN3B
-	wsaszNM/XHlcNHcbxA+CNSLwZIeZDVjtzyX0dXjzvdnt+xMCnJJ1eYzo1Hws73xQU4lH
-	pytr+ZOaHSaVhHMF6/77X2jrWvcV+tYiYM+62p0rchYoz+pyiyzreuShyLsf7WIZqJ46
-	+2vlOb9eh8hpdbYsW6ZhlsZHBOY5p8Kch4JTFHOdTJTxFPttiKte/ltiqxm78XSDJin9
-	uWcXx6vo4m75ofeI+cb1PBeRqNhkTRVHEDozWDKC/6LwNcNfgNWpRuFulnlIMyTbUas1
-	j0Ww==
-X-Gm-Message-State: AOUpUlEGANy1L3O4yK5Kk/63U9jhpVWU4kwOmhmWqHfwRg7v8QGGkhc2
-	oI+4yj0uIS45S4cEbP6hshZYnI2rcnBL8urbGys=
-X-Google-Smtp-Source: AAOMgpc5zXGq4PdtcAoJaIS8EvVH8niVvrt3wljzwHIuUhnFs/znq+eyhJcmzuqKgy5UHzzDTmvt1Jm4/UjPJr0Y6Y0=
-X-Received: by 2002:a37:a24f:: with SMTP id
-	l76-v6mr4999406qke.406.1532687072581; 
-	Fri, 27 Jul 2018 03:24:32 -0700 (PDT)
+	bh=PpIPWiwM56jSKt3Agv/QCk/ZCCBWmwXXOKcujuRe1Gk=;
+	b=TeMYGovteON/wkdfI/N/r+NOAm76IRPAr9qy6YMF7MhHrg6FixOYLTEx47zpGehPVV
+	918mT3LShpUq6NyIJc+zLSb5q9JE9kEY2TinzgIfKa9HwvPCbDgnr3NfsIDinUXxF6l6
+	Ul4+ILvSKfihSjA/vxT+56V3Vj5S7JdqHp3OMklBEeLl6bGNfnHW2QM1TeavvXJJmkG7
+	FtuGf5tWBi7WHwwOmAFGIx2uyipOki5wFO1e/phQwlf5+y/rbY+0JdwWZNlIcGBUTgnR
+	9VcA14V7ifS9A95s39f2qnJSUL6d8856u6Ed3E9NEmJnhiBeTFTG6uW5bI8gZ4UtC1ps
+	c8bg==
+X-Gm-Message-State: AOUpUlFnsH7S6dsDJoX0YO8gUzize8Hd4Gt1zJlls7P+la2zXY+WP4yH
+	/CDv5IiVxbGbAR42PETpRpzZsZOt0GXTuULqu+32TA==
+X-Google-Smtp-Source: AAOMgpclJGsW/dTsvgGK0OmIBtzya1w4zyiU0jQnpvUEOdTdydq/8aPoarsMAXG1VAnr3L5RTDlKRD1iMUHtADHeFzE=
+X-Received: by 2002:aca:5dc5:: with SMTP id
+	r188-v6mr6210563oib.320.1532689539246; 
+	Fri, 27 Jul 2018 04:05:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20180723115124.27548-1-ross.burton@intel.com>
-	<20180723115124.27548-2-ross.burton@intel.com>
-In-Reply-To: <20180723115124.27548-2-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Jul 2018 03:24:06 -0700
-Message-ID: <CAMKF1srcpA0wowvnELw4JSsePBF8V7YtkBkwLMOCyFojenL09w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] gnutls: rationalise libunistring arguments
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Fri, 27 Jul 2018 04:05:18
+	-0700 (PDT)
+In-Reply-To: <CAJ86T=VQ_Qk0TOhHRiZ0SThgZ8-HZOTz6L5JXD4K2ut+7tbWFA@mail.gmail.com>
+References: <20180726135835.17632-1-adrian.ratiu@ni.com>
+	<CAJTo0LajamOMF5TsuMZo+sBRLr=AqWYJUJPnifZUME=rKrO48g@mail.gmail.com>
+	<CAJ86T=VQ_Qk0TOhHRiZ0SThgZ8-HZOTz6L5JXD4K2ut+7tbWFA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 27 Jul 2018 12:05:18 +0100
+Message-ID: <CAJTo0LbkAc9NgGyE2HCvFLt6ggcO-iMpYp-XMDB9oy=RAV7TEQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux.inc: add fallocate only for class-target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,50 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 10:24:32 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 11:05:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 23, 2018 at 4:51 AM Ross Burton <ross.burton@intel.com> wrote:
+On 27 July 2018 at 00:58, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Thu, Jul 26, 2018 at 4:34 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 26 July 2018 at 14:58, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+>>> Because the util-linux_2.32.bb recipe explicitely disables fallocate
+>>> for nativesdk triggering build warnings:
+>>
+>> Does anyone know why util-linux disables fallocate for nativesdk and
+>> native builds?
 >
-> No need to pass --without-libunistring-prefix, and it looks a lot like we're
-> trying to disable it.
+> Seems to date back to this commit:
 >
+>   http://git.openembedded.org/openembedded-core/commit/?id=17f3c548caf4adec37c3bbb139aa6b3900419794
+>
+>   +# fallocate is glibc 2.10, fallocate64 is glibc 2.11
+>   +# we need to disable it for older versions
+>   +EXTRA_OECONF += "ac_cv_func_fallocate=no"
+>   +EXTRA_OECONF_virtclass-native += "--disable-fallocate
+> --disable-use-tty-group"
 
-This sneaked in and I did not notice it in the series, but its going
-to cause regression
-on build machines who installed libunistring on host. Its also because
-gnuts is using
-non standard AC macro called AC_LIB_HAVE_LINKFLAGS to detect this
-library and it seems to be confusing cross builds.
+Well done, it was late and I got bored following the git-blame log.  :)
 
-This commit is essentially reverting
-http://git.openembedded.org/openembedded-core/commit/?id=ee0b0da237c1661f43e27e26e0ab24b7d8ed174f
-
-which was added to fix the above case. This should be reverted.
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-support/gnutls/gnutls.inc | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-> index 98ec8d9667b..b62a137e595 100644
-> --- a/meta/recipes-support/gnutls/gnutls.inc
-> +++ b/meta/recipes-support/gnutls/gnutls.inc
-> @@ -41,7 +41,6 @@ EXTRA_OECONF = " \
->      --enable-local-libopts \
->      --enable-openssl-compatibility \
->      --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
-> -    --without-libunistring-prefix \
->  "
->
->  LDFLAGS_append_libc-musl = " -largp"
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Sounds like historical reasons to me, does anyone object to dropping this?
+Ross
 
