@@ -1,52 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 003E771BE5
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7A778D30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 15:32:54 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id t25-v6so5882545wmi.3
+	Fri, 27 Jul 2018 15:32:56 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id c13-v6so5459549wrt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 08:32:56 -0700 (PDT)
+	Fri, 27 Jul 2018 08:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=GbUguiEzvNWpomjcuxn2PgEISHGTSC81rUYPlqq/SiA=;
-	b=vqLZebXRZYnenPGPHnlfcL6zyMpmGntayyqVJVU+l6PNdHCKX+PQUTV42em5cyP4Th
-	nZIcul3ewXtxjG/YGm0npEfkIC05u3LVtjrRYTm+sDVA7npXBslMC4DY1cdIxfYIzBGn
-	c/ftmoR+PQoj8LKG4uVZULWrFzTCyAzCSSlRH+3YqqQbJqGZEW29BwdbPfElczzrRBj4
-	KZf9XkFxWCs3KoEXUqmAyguIkhBdjudwLv26feX4VUlD7/N/9ugRwezpDtgjm+NC9vRt
-	8mWTyUVZZFY4clZLnvbCzBg5IwHQ9yXVNcoZBOJn1qqmwx9+xnLfrU7Vdd5ifodEbDla
-	JX8w==
+	bh=HQEi36EIQuLlIhRO25KRyY0L6ha9fDFAvvN9Xi2YS/o=;
+	b=FURyzmVF44Fb88ZuWu8qjV0zXihaPvI+7T9v2E1lrr1slE7WpiGU1aAR58lOAIZZNx
+	Dp0dgwODgv+0s4k8x2LaD5pnwKCYT54a3cEFDDnu2hS66HynVQl6teCWgJIDcV4S59Rd
+	oatyt8RDgXmKuB24tdoh6+aE9vdMaxjY/qVRVSUSpeWql1VqjDyECfKOK4QjitpQZQg2
+	HX7c9NqmgsGRzVZ3qD3HpMULYS299sJ2rUO3zdI1MOZZSksn51opyxcfcQPosumZtsxx
+	6PMWlGywq4hGc6VC93NFinRKd4WHn48EyHwvmAeaiugtjM+XirOTrKfpdN9FwcKPmMcP
+	nNpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=GbUguiEzvNWpomjcuxn2PgEISHGTSC81rUYPlqq/SiA=;
-	b=oZlPzAazQa2AtwFABzIvFcVUllB4sfUl1QLEToKx5ToCr7lzqtoFus1AZTRjJSeWmu
-	xx/G8PTPKkifiiJ17XQgrOKB6F7ZKVESv0zENx87j+/EaMIBMtewFosvfAEJ6DPbNPaY
-	sn8hag/Fn2yXRZEPp5HUoFYkHNGvSNanA+c2xMFyd1SA8xwUcdy/pCdxEmi6PwYZudDB
-	jeaAKUUDcY0VQwrSlpimrwSxKQ3HvnfGlVYHa1qIe1W9+lzVUfWqmc5i5Tr65NSIFqDz
-	7Zhx+kNfBUrV34Meg5YtT4i5KfSUaWo8Dn17Iu0jWpSIp9yBjDVfQ34/YkD2nO1G+8Yo
-	V5ng==
-X-Gm-Message-State: AOUpUlH81Vq1Tagcj3TXZSz6aUgtOMsqrXjD/YqM/bQMIRviDHFreuDM
-	IHnVwyqVtwLmp3INprxYekWSIJOmJlw=
-X-Google-Smtp-Source: AAOMgpdS7kfSFeSCtAGAA5ZvOlClWttRFnXWyIevyuxC3bAQGBKX0uPnFKn08XJGGjRDd7rF0+B0fQ==
-X-Received: by 2002:a1c:168a:: with SMTP id
-	132-v6mr5038518wmw.13.1532705575445; 
-	Fri, 27 Jul 2018 08:32:55 -0700 (PDT)
+	bh=HQEi36EIQuLlIhRO25KRyY0L6ha9fDFAvvN9Xi2YS/o=;
+	b=DTjexj/YlXJM+6Xh3NYZFsYcw7FoFAo34rQ8TFiiyBR50GUy4z3Oo/0TuSr/fTRZTW
+	aXZHerEnjV6ykw+HQWlZenMbQ5hj0xZ92XI7VZQRtdGOMcdCezMH3/Id4+P7eg/fMBE4
+	Ul4GjwsVR0kc84dzbAN8W1D1UB1eIIrIeyICzCaw1LnezQ3X1nx+wmDAHTvkaJY6ALol
+	aCuBt0Lr2DWPO7WxE9D253R1yF8eM9Qry5ncVcF8MCSMXHJRUhp+Je46Au7/e95zm193
+	Jct7sFgX9t9/wvYV3s/z038faYiCCY3Q4lft40cN5JX0wxB7iIW6dnsw+JzaHpWOE1Ag
+	THLw==
+X-Gm-Message-State: AOUpUlEdsaaaY5+Mht85gAihWXSwch2PpUD6y/o5Y/wCt1+YWUCVGXg6
+	4+dr41beoJuPeJTsxfb2g0RPCQwKdUc=
+X-Google-Smtp-Source: AAOMgpfExHF3UKHWCKmyN0iu7uViiJussdhZXLYAb1eg8HRDUZAe3rsqB5Lwo6lfWmZsynP1iVjC+A==
+X-Received: by 2002:adf:ab14:: with SMTP id
+	q20-v6mr5050146wrc.239.1532705576838; 
+	Fri, 27 Jul 2018 08:32:56 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z62-v6sm3804916wmc.10.2018.07.27.08.32.54
+	z62-v6sm3804916wmc.10.2018.07.27.08.32.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Jul 2018 08:32:54 -0700 (PDT)
+	Fri, 27 Jul 2018 08:32:56 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 16:32:36 +0100
-Message-Id: <20180727153248.22838-4-ross.burton@intel.com>
+Date: Fri, 27 Jul 2018 16:32:37 +0100
+Message-Id: <20180727153248.22838-5-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180727153248.22838-1-ross.burton@intel.com>
 References: <20180727153248.22838-1-ross.burton@intel.com>
-Subject: [PATCH 04/16] curl: enable libidn
+Subject: [PATCH 05/16] ovmf: remove ossp-util from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 15:32:55 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 15:32:56 -0000
 
-Now that oe-core has libidn2 we can enable it by default in target curl builds.
+This was added back in the meta-luv days[1] presumably under the impression that
+it needs ossp-uuid but in reality we rename ossp-uuid's library and uuid.h comes
+from util-linux.
+
+[1] https://github.com/intel/luv-yocto/commit/e08817342b9ea7381944e6c10c555d1c5c62aa6e
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/curl/curl_7.61.0.bb | 2 +-
+ meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
-index cc983fd4a6d..76f55094a41 100644
---- a/meta/recipes-support/curl/curl_7.61.0.bb
-+++ b/meta/recipes-support/curl/curl_7.61.0.bb
-@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index e57fa097274..d2ecb619d99 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -43,7 +43,7 @@ PARALLEL_MAKE = ""
  
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy threaded-resolver verbose zlib"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls libidn proxy threaded-resolver verbose zlib"
- PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver verbose zlib"
- PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl threaded-resolver verbose zlib"
+ S = "${WORKDIR}/git"
+ 
+-DEPENDS_class-native="util-linux-native iasl-native ossp-uuid-native qemu-native"
++DEPENDS_class-native="util-linux-native iasl-native qemu-native"
+ 
+ DEPENDS_class-target="ovmf-native"
  
 -- 
 2.11.0
