@@ -1,52 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 80EE878D51
+Return-Path: <kergoth@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F86B78D53
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 15:33:09 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id s12-v6so5682407wmc.0
+	Fri, 27 Jul 2018 16:02:04 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id l10-v6so9939512oii.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 08:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2cI+pPoMEGkrxGzj5e1mBQ7wNJA2iGMkvIKF+6EuBZ8=;
-	b=m4WcjoYsccAN5GCfGfVz+2Z/jErqpDb+Q3lDYOM4qaJ3r5q7ylxEY5OQ0VnFY8aYb6
-	0L7F+6vGMGFm9Fi+3CmTxxWPfkJ2GPCoz1Yr9gQdtohjC8uf9zFzaS3PlrL8dbhn/fzw
-	JP8580O5iidJVZVtSaqv96+CjTOZh1mH+LbLpAVIv3ugvogAO+8K8W7W8oawgFnkObod
-	OrjUDdRaYgSEZNg59ktWEv6sFXsRLLQkb51AAGCZmjFMGNz9LTRUK9J+o8Wcim6gS/b9
-	4Qk617Rk4ol8yiePhLVaMKuH+f3gQ898gIhkFgF5QFY2iSj0An0vIB1Cq00JGyB4typN
-	H04g==
+	Fri, 27 Jul 2018 09:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ISqnVvKVv0KZGtBFK85yi6mGcuThf7mkcKt/6ojpuCM=;
+	b=MuNVXmXpit9FZ3jSqNdJmMdRyki94D92K22whg12upeO46lk9hJPmVYifsw703jf6U
+	nfszbmSJ9RkAEoi6o/QM3Cas1QXqyuLBh65GpBc1nF7GucXXQg6cVL6FWm3YvXPGYLQQ
+	GD+lI+GzPep1LF+3GKUpoOZYjlI9a1fu0P4ToZXviKA/FWCI1NzdcUeVOcoVdeo1OOtZ
+	DNZVzLyRjrFyMX60fNNfF2I83Ecrg1UEVkyu23Dk3JZZkaibRrXnOXk2Fa5MORgpFHac
+	DTsRHC/klEcSt6HEbAHuIo/QDjIGRPoFBIrwt0T4tSAU3vwu7UJL6D/oSSO+Lqx4WtxS
+	7Sug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=2cI+pPoMEGkrxGzj5e1mBQ7wNJA2iGMkvIKF+6EuBZ8=;
-	b=XdexeQDDvBX5K0GJlTOELEd3OiyzHJHMoX6mhQoJv+Lc/MQ1P4ODYpZrPxYxyBT1cb
-	z/fSWolVkvhnwNosOq588sciPu77mtCJm3OENmEwABRzQnQX7XpiE2JTSTJ3Di9AaWFc
-	3KZhaB8Hq26AKz/7T2CryRF2pn+L7D5eN+I32fhXcDec9LQJYF6u5Ih1kGKya/J9wPSi
-	BYU/3OJNm6Ku3d3tRupGza/3GsVziTjzoNqaKm+bc3hmnjQ0sjOuNHX1++8UwqCJ3btm
-	B68b6BCQ0ki2l4SUW6GAgg7HTtmG6evdImMrZpqNr4qqMI/yiA15kIzHtVFvdomrSGh7
-	pU3Q==
-X-Gm-Message-State: AOUpUlGj0r9jJJWUHqINP1pWnlQRjTx8wBtwNlU34nvmfBfIAYIHC9xY
-	c8oVHnXLf8DWvTYCWFcaxC3MZw6v7/Q=
-X-Google-Smtp-Source: AAOMgpd4IglJjme1z/vZyyO8yTnvbFx4QRCw+uNvBEhqAX8LmhIpLcrURC5WC1PL39/86K76rmC9bQ==
-X-Received: by 2002:a1c:3e8f:: with SMTP id
-	l137-v6mr4655673wma.132.1532705589919; 
-	Fri, 27 Jul 2018 08:33:09 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z62-v6sm3804916wmc.10.2018.07.27.08.33.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Jul 2018 08:33:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 16:32:48 +0100
-Message-Id: <20180727153248.22838-16-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180727153248.22838-1-ross.burton@intel.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ISqnVvKVv0KZGtBFK85yi6mGcuThf7mkcKt/6ojpuCM=;
+	b=tIhDKBBaw0tzjrb8NgJ6GxcNkICdEkJsSNfVSPHOS9bw7/rjCHSG6bgm1yEEtYwVY8
+	XV1vfeoHx7iX74r3jQPXm62mwz7rqLr91dohVfjQiYF0QxIfUwUbID+oLMV6+XhPkZLe
+	a06+xm5Nq/5PXv0hl8NjOKh/mvzZBTLieu2Udhes28SFbTzHxJa7lquib/DgTqbTQ8Tj
+	sH2exjMn8Hl1dEZqd0PLWWQ9EwhRMl+3JHNQnPOmzvJaxXqberN9XJA9qODngkv0Ub2e
+	kxC5o51LMj9sr2J3sS4czEyKO3lCxnAuAck2TcRecJktYnegAu2NoAozls9Ve+kh8U+a
+	riEA==
+X-Gm-Message-State: AOUpUlECElXSQF9cl1gqDJVSatDfhfHBZm1V+iMP0tbyYOo2zIecs9Uk
+	4EjGplAndBdQzASesHaUeWOM6f8z8ImGd9F3DZE=
+X-Google-Smtp-Source: AAOMgpdbFKBjkci1aihWzGzZrHtRZSC0MJW4TJ8JsddwWHEDKne7nrGwHB7w+ukWramKuOCJy1RNPM8WGFa4399lxDo=
+X-Received: by 2002:aca:ad86:: with SMTP id
+	w128-v6mr7639911oie.112.1532707317427; 
+	Fri, 27 Jul 2018 09:01:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <20180727153248.22838-1-ross.burton@intel.com>
-Subject: [PATCH 16/16] pax-utils: remove
+	<20180727153248.22838-16-ross.burton@intel.com>
+In-Reply-To: <20180727153248.22838-16-ross.burton@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 27 Jul 2018 09:01:43 -0700
+Message-ID: <CABcZANmAyxmcS3rb-MJOR50CJD6qOFZBoN78ap=r_Wwap_Zf7A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/16] pax-utils: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,60 +56,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 15:33:09 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 16:02:04 -0000
+Content-Type: multipart/alternative; boundary="0000000000003333f70571fd3bf2"
 
-This was packaged originally to perform QA tests on binaries (text relocations
-and RPATHs), but we perform those tests at build-time now.
+--0000000000003333f70571fd3bf2
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb | 36 ----------------------
- 1 file changed, 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+Should this be moved to meta-oe rather than just removed?
 
-diff --git a/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb b/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
-deleted file mode 100644
-index 9635a5e7082..00000000000
---- a/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
-+++ /dev/null
-@@ -1,36 +0,0 @@
--SUMMARY = "Security-focused ELF files checking tool"
--DESCRIPTION = "This is a small set of various PaX aware and related \
--utilities for ELF binaries. It can check ELF binary files and running \
--processes for issues that might be relevant when using ELF binaries \
--along with PaX, such as non-PIC code or executable stack and heap."
--HOMEPAGE = "http://www.gentoo.org/proj/en/hardened/pax-utils.xml"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
--
--SRC_URI = "https://dev.gentoo.org/~vapier/dist/pax-utils-${PV}.tar.xz"
--SRC_URI[md5sum] = "a580468318f0ff42edf4a8cd314cc942"
--SRC_URI[sha256sum] = "7f4a7f8db6b4743adde7582fa48992ad01776796fcde030683732f56221337d9"
--
--RDEPENDS_${PN} += "bash"
--
--export GNULIB_OVERRIDES_WINT_T = "0"
--
--do_configure_prepend() {
--    touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog ${S}/README
--}
--
--do_install() {
--    oe_runmake PREFIX=${D}${prefix} DESTDIR=${D} install
--}
--
--BBCLASSEXTEND = "native"
--
--inherit autotools pkgconfig
--
--PACKAGECONFIG ??= ""
--
--PACKAGECONFIG[libcap] = "--with-caps, --without-caps, libcap"
--PACKAGECONFIG[libseccomp] = "--with-seccomp, --without-seccomp, libseccomp"
--PACKAGECONFIG[pyelftools] = "--with-python, --without-python,, pyelftools"
--
--EXTRA_OECONF += "--enable-largefile"
+On Fri, Jul 27, 2018 at 8:34 AM Ross Burton <ross.burton@intel.com> wrote:
+
+> This was packaged originally to perform QA tests on binaries (text
+> relocations
+> and RPATHs), but we perform those tests at build-time now.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb | 36
+> ----------------------
+>  1 file changed, 36 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+>
+> diff --git a/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+> b/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+> deleted file mode 100644
+> index 9635a5e7082..00000000000
+> --- a/meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -SUMMARY = "Security-focused ELF files checking tool"
+> -DESCRIPTION = "This is a small set of various PaX aware and related \
+> -utilities for ELF binaries. It can check ELF binary files and running \
+> -processes for issues that might be relevant when using ELF binaries \
+> -along with PaX, such as non-PIC code or executable stack and heap."
+> -HOMEPAGE = "http://www.gentoo.org/proj/en/hardened/pax-utils.xml"
+> -LICENSE = "GPLv2+"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+> -
+> -SRC_URI = "https://dev.gentoo.org/~vapier/dist/pax-utils-${PV}.tar.xz"
+> -SRC_URI[md5sum] = "a580468318f0ff42edf4a8cd314cc942"
+> -SRC_URI[sha256sum] =
+> "7f4a7f8db6b4743adde7582fa48992ad01776796fcde030683732f56221337d9"
+> -
+> -RDEPENDS_${PN} += "bash"
+> -
+> -export GNULIB_OVERRIDES_WINT_T = "0"
+> -
+> -do_configure_prepend() {
+> -    touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog ${S}/README
+> -}
+> -
+> -do_install() {
+> -    oe_runmake PREFIX=${D}${prefix} DESTDIR=${D} install
+> -}
+> -
+> -BBCLASSEXTEND = "native"
+> -
+> -inherit autotools pkgconfig
+> -
+> -PACKAGECONFIG ??= ""
+> -
+> -PACKAGECONFIG[libcap] = "--with-caps, --without-caps, libcap"
+> -PACKAGECONFIG[libseccomp] = "--with-seccomp, --without-seccomp,
+> libseccomp"
+> -PACKAGECONFIG[pyelftools] = "--with-python, --without-python,, pyelftools"
+> -
+> -EXTRA_OECONF += "--enable-largefile"
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 -- 
-2.11.0
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
+--0000000000003333f70571fd3bf2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Should this be moved to meta-oe rather than just removed?<=
+br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr">On Fri, Jul 27, 20=
+18 at 8:34 AM Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross=
+.burton@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Th=
+is was packaged originally to perform QA tests on binaries (text relocation=
+s<br>
+and RPATHs), but we perform those tests at build-time now.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
+get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/pax-utils/<a href=3D"http://pax-utils_1.2.2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">pax-utils_1.2.2.bb</a> | 36 ---------=
+-------------<br>
+=C2=A01 file changed, 36 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/pax-utils/<a href=3D"http://=
+pax-utils_1.2.2.bb" rel=3D"noreferrer" target=3D"_blank">pax-utils_1.2.2.bb=
+</a><br>
+<br>
+diff --git a/meta/recipes-devtools/pax-utils/<a href=3D"http://pax-utils_1.=
+2.2.bb" rel=3D"noreferrer" target=3D"_blank">pax-utils_1.2.2.bb</a> b/meta/=
+recipes-devtools/pax-utils/<a href=3D"http://pax-utils_1.2.2.bb" rel=3D"nor=
+eferrer" target=3D"_blank">pax-utils_1.2.2.bb</a><br>
+deleted file mode 100644<br>
+index 9635a5e7082..00000000000<br>
+--- a/meta/recipes-devtools/pax-utils/<a href=3D"http://pax-utils_1.2.2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">pax-utils_1.2.2.bb</a><br>
++++ /dev/null<br>
+@@ -1,36 +0,0 @@<br>
+-SUMMARY =3D &quot;Security-focused ELF files checking tool&quot;<br>
+-DESCRIPTION =3D &quot;This is a small set of various PaX aware and related=
+ \<br>
+-utilities for ELF binaries. It can check ELF binary files and running \<br=
+>
+-processes for issues that might be relevant when using ELF binaries \<br>
+-along with PaX, such as non-PIC code or executable stack and heap.&quot;<b=
+r>
+-HOMEPAGE =3D &quot;<a href=3D"http://www.gentoo.org/proj/en/hardened/pax-u=
+tils.xml" rel=3D"noreferrer" target=3D"_blank">http://www.gentoo.org/proj/e=
+n/hardened/pax-utils.xml</a>&quot;<br>
+-LICENSE =3D &quot;GPLv2+&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Deb723b61539feef013de476e68=
+b5c50a&quot;<br>
+-<br>
+-SRC_URI =3D &quot;<a href=3D"https://dev.gentoo.org/~vapier/dist/pax-utils=
+-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://dev.gentoo.=
+org/~vapier/dist/pax-utils-${PV}.tar.xz</a>&quot;<br>
+-SRC_URI[md5sum] =3D &quot;a580468318f0ff42edf4a8cd314cc942&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;7f4a7f8db6b4743adde7582fa48992ad01776796fcde0=
+30683732f56221337d9&quot;<br>
+-<br>
+-RDEPENDS_${PN} +=3D &quot;bash&quot;<br>
+-<br>
+-export GNULIB_OVERRIDES_WINT_T =3D &quot;0&quot;<br>
+-<br>
+-do_configure_prepend() {<br>
+-=C2=A0 =C2=A0 touch ${S}/NEWS ${S}/AUTHORS ${S}/ChangeLog ${S}/README<br>
+-}<br>
+-<br>
+-do_install() {<br>
+-=C2=A0 =C2=A0 oe_runmake PREFIX=3D${D}${prefix} DESTDIR=3D${D} install<br>
+-}<br>
+-<br>
+-BBCLASSEXTEND =3D &quot;native&quot;<br>
+-<br>
+-inherit autotools pkgconfig<br>
+-<br>
+-PACKAGECONFIG ??=3D &quot;&quot;<br>
+-<br>
+-PACKAGECONFIG[libcap] =3D &quot;--with-caps, --without-caps, libcap&quot;<=
+br>
+-PACKAGECONFIG[libseccomp] =3D &quot;--with-seccomp, --without-seccomp, lib=
+seccomp&quot;<br>
+-PACKAGECONFIG[pyelftools] =3D &quot;--with-python, --without-python,, pyel=
+ftools&quot;<br>
+-<br>
+-EXTRA_OECONF +=3D &quot;--enable-largefile&quot;<br>
+-- <br>
+2.11.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engineer, Mentor Graph=
+ics</div></div></div></div>
+
+--0000000000003333f70571fd3bf2--
