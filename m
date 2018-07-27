@@ -1,51 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB8478C11
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3131C78D3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 15:33:05 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id n11-v6so5889534wmc.2
+	Fri, 27 Jul 2018 15:33:06 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id c14-v6so5657660wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 08:33:06 -0700 (PDT)
+	Fri, 27 Jul 2018 08:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=svavSVK3U/F1iBylg/rFXJIt8XcTdEXRDvt3JjaLVVw=;
-	b=YOWLedGOaEzqiZgBV5G7RIFRGRSAGB3SxDtjW4uAunZjQA/1dGsvevhywv44VFo/Pw
-	smd6xgE27gmfPgn6LAAjJpaDGD2okUq9/oskkeos9+t21YDckEF6JYMOSzY1DVs8KNw9
-	hj+R7N0dK7UIaRXnRl+C/Qoy86AeVKDG6MCifCJWyt3XlT6VyqeRhhQd6v6uSsLEobxO
-	d3A3PBXqNPqcpDJjpso1dM0WqYuVqD4DpE3NnrwR/AdFr5pXgtol5T6W7KZGl5nu19DJ
-	pJ5VcxHHAyxXT43a2G/lb85roVTyT0SQ2e6uvaIy89P5q5t6PJ9Z4PKH06m+A9+YXYvW
-	JxJw==
+	bh=RGzWvASYBkmXh05SNxrI+OLMACCrC7cK7ozDvfO2T2M=;
+	b=waeYqvWwi2ah2Jda8g+cOOSeczcXea41VVX2nubyVCyGyYOW5WchQH214A3Qm6CwkL
+	+3LkfEJcVHaktuUl5dqYAZZ9NUEqf+k/wWvN4/vIRz4WcJgkqyo5J9t7CGXpUjcBmAX2
+	dhWnAsskBKyuSq7xUDCW/tf1TzcvsuQT5gZL4sK3GPQgdN1ambSjyJ0Qi93l8UR9+C1f
+	2xLy7G0LZ02GvicSlfvtGcI0WBxKH7/5ZEIoN5qwm5XFrJak0weTsW533slprbnrhxvZ
+	Z1dVeZYkxBu+GXWAWWC0+Ts7CzIWDkGwowRHhPr+yL9vFqUDfhJBkljhKMAa/ZQPS+9R
+	LQWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=svavSVK3U/F1iBylg/rFXJIt8XcTdEXRDvt3JjaLVVw=;
-	b=WFFaShd8fJ3N/DnH4ZynVH6y8IJcnWAhZXsc10R1IJg+gF0F+cc+h+NdGmOIvnJBNE
-	xTkiGiX6akDzrzNZbKLl5pFhUd041nFzYc04jnhvSvcG7xVCCfs7sfIueiN7rQlxFGN7
-	XPDRuCe0Uh83kmoYlTDGI/8jGuC0SMaMSOzD9D+2DzgEqzBJPWQkYtnjhQclsiOtfPf3
-	XCuZXCn11I4UzLyp3r7/XXK02C3jaUVexIQxVSHQJ0ded7g1BKbbSVgVxBoQrJWjVMQF
-	Yku1THW3hxZhwnTlfpoIXzvMf9ZfWqyThY0Xtpy9IYPEkjiP0vjTqGEsgwgzwRhegImN
-	yxew==
-X-Gm-Message-State: AOUpUlHJrQN70MUSV4BizR/3WfoNbJlquKHCGzxNYlBrYJSDnoNM2DTk
-	54Qng/rn4p+8v4CE5h/DIT3oe2Aewr8=
-X-Google-Smtp-Source: AAOMgpdAQeJI+VdPf3g6P3Kc5aC6GQSnqEsAAP/JorEZFq3aK9UeKmr/KLtQMHCo6U0vQsmihzRNlA==
-X-Received: by 2002:a1c:b45:: with SMTP id 66-v6mr4588649wml.45.1532705585503; 
-	Fri, 27 Jul 2018 08:33:05 -0700 (PDT)
+	bh=RGzWvASYBkmXh05SNxrI+OLMACCrC7cK7ozDvfO2T2M=;
+	b=Q/RS4uHsajZNU1s8fMHT+7onnYm9O8324KfPVAdxfAniuAMa20N5+VC2E4QPDh/zu5
+	Xnmp+vfX1u3oH/lVCgean4zg8dIVFxSB3/e4GoaHSpMC00vj7sJilbT1MkoFwcNgfC7r
+	dnfr7nQjhxezsBeR6xrQUO9DCWLofDRWW2sLSNyartsRMG6L553KT1aBns75CNtUqIOG
+	DifiLp1/pJvxXADBJ9XSExUDF7fIwfRzDgTuqaLdtqiQ5r9Cfc3Z5oEHqSzRPj0UE5VN
+	z0UZU9haaywn/DqEkjgxYa0OQymPv46s26814dSVajOpUoWyckTV0GKzoU5YTR91+gQC
+	es3A==
+X-Gm-Message-State: AOUpUlE2BTE97Kxt9EgirCZus5QoSJiXtqetU01J9IwzzbTbSnYKPwdG
+	unpsuKss89T91MbzXVO+llKk/yfgpxk=
+X-Google-Smtp-Source: AAOMgpf55FfH6uyseG4wR27AFr9rSotkjbZNXO+TpBm7DIrfJFDIAhSUpn6F+D0iaoPEhks3av0GzA==
+X-Received: by 2002:a1c:7c0c:: with SMTP id
+	x12-v6mr4689614wmc.58.1532705586608; 
+	Fri, 27 Jul 2018 08:33:06 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z62-v6sm3804916wmc.10.2018.07.27.08.33.04
+	z62-v6sm3804916wmc.10.2018.07.27.08.33.05
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Jul 2018 08:33:04 -0700 (PDT)
+	Fri, 27 Jul 2018 08:33:05 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 16:32:44 +0100
-Message-Id: <20180727153248.22838-12-ross.burton@intel.com>
+Date: Fri, 27 Jul 2018 16:32:45 +0100
+Message-Id: <20180727153248.22838-13-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20180727153248.22838-1-ross.burton@intel.com>
 References: <20180727153248.22838-1-ross.burton@intel.com>
-Subject: [PATCH 12/16] libusb-compat: remove
+Subject: [PATCH 13/16] gccmakedep: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,128 +59,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 15:33:05 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 15:33:06 -0000
 
-Nothing in oe-core or meta-oe links to this now, so the recipe can finally be
-removed.
+Nothing uses this in oe-core or meta-oe, so drop it.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/distro_alias.inc          |  1 -
- meta/conf/distro/include/maintainers.inc           |  1 -
- .../0001-usb.h-Include-sys-types.h.patch           | 30 ----------------
- meta/recipes-support/libusb/libusb-compat_0.1.5.bb | 42 ----------------------
- 4 files changed, 74 deletions(-)
- delete mode 100644 meta/recipes-support/libusb/libusb-compat/0001-usb.h-Include-sys-types.h.patch
- delete mode 100644 meta/recipes-support/libusb/libusb-compat_0.1.5.bb
+ meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb | 21 ---------------------
+ 1 file changed, 21 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 1498e124413..793a1c2f09a 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -190,7 +190,6 @@ DISTRO_PN_ALIAS_pn-libtelepathy = "Debian=libtelepathy2 Ubuntu=libtelepathy2"
- DISTRO_PN_ALIAS_pn-libtimedate-perl = "Debian=libtimedate-perl Ubuntu=libtimedate-perl"
- DISTRO_PN_ALIAS_pn-liburcu = "Fedora=userspace-rcu Ubuntu=liburcu0"
- DISTRO_PN_ALIAS_pn-libusb1 = "Debian=libusb-1.0-0 Fedora=libusb1"
--DISTRO_PN_ALIAS_pn-libusb-compat = "OSPDT"
- DISTRO_PN_ALIAS_pn-libx11 = "Debian=libx11-6 Fedora=libX11 Ubuntu=libx11-6 OpenSuSE=xorg-x11-libX11"
- DISTRO_PN_ALIAS_pn-libxcalibrate = "OSPDT upstream=http://cgit.freedesktop.org/xorg/lib/libXCalibrate/"
- DISTRO_PN_ALIAS_pn-libxfont2 = "Fedora=libXfont2 Clear=libXfont2"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 6e7efd12752..f80627c6710 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -364,7 +364,6 @@ RECIPE_MAINTAINER_pn-libunistring = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libunwind = "Bruce Ashfield <bruce.ashfield@windriver.com>"
- RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-libusb-compat = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libusb1 = "Maxin B. John <maxin.john@intel.com>"
- RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-support/libusb/libusb-compat/0001-usb.h-Include-sys-types.h.patch b/meta/recipes-support/libusb/libusb-compat/0001-usb.h-Include-sys-types.h.patch
+diff --git a/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb b/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
 deleted file mode 100644
-index b88440dec93..00000000000
---- a/meta/recipes-support/libusb/libusb-compat/0001-usb.h-Include-sys-types.h.patch
+index be3a667449d..00000000000
+--- a/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
 +++ /dev/null
-@@ -1,30 +0,0 @@
--From 340f911f9e3f4ff6b01682c5341c959060782af2 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 2 Apr 2015 19:18:45 -0700
--Subject: [PATCH] usb.h: Include sys/types.h
+@@ -1,21 +0,0 @@
+-SUMMARY = "Program to create dependencies in makefiles"
 -
--We need the definitions for things like u_intX_t
+-DESCRIPTION = "The gccmakedep program calls 'gcc -M' to output makefile \
+-rules describing the dependencies of each sourcefile, so that make knows \
+-which object files must be recompiled when a dependency has changed."
 -
--Upstream-Status: Pending
+-require xorg-util-common.inc
+-LIC_FILES_CHKSUM = "file://Makefile.am;endline=20;md5=23c277396d690413245ebb89b18c5d4d"
+-DESCRIPTION = "create dependencies in makefiles using 'gcc -M'"
+-DEPENDS = "util-macros"
+-RDEPENDS_${PN} = "gcc"
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- libusb/usb.h | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/libusb/usb.h b/libusb/usb.h
--index 84e730f..caffae2 100644
----- a/libusb/usb.h
--+++ b/libusb/usb.h
--@@ -31,6 +31,8 @@
-- 
-- #include <dirent.h>
-- 
--+#include <sys/types.h>
--+
-- /*
--  * USB spec information
--  *
---- 
--2.1.4
--
-diff --git a/meta/recipes-support/libusb/libusb-compat_0.1.5.bb b/meta/recipes-support/libusb/libusb-compat_0.1.5.bb
-deleted file mode 100644
-index 1ddbe238fc0..00000000000
---- a/meta/recipes-support/libusb/libusb-compat_0.1.5.bb
-+++ /dev/null
-@@ -1,42 +0,0 @@
--SUMMARY = "libusb-0.1 compatibility layer for libusb1"
--DESCRIPTION = "libusb-0.1 compatible layer for libusb1, a drop-in replacement \
--that aims to look, feel and behave exactly like libusb-0.1"
--HOMEPAGE = "http://www.libusb.org/"
--BUGTRACKER = "http://www.libusb.org/report"
--SECTION = "libs"
--
--LICENSE = "LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f2ac5f3ac4835e8f91324a26a590a423"
--DEPENDS = "libusb1"
--
--# Few packages are known not to work with libusb-compat (e.g. libmtp-1.0.0),
--# so here libusb-0.1 is removed completely instead of adding virtual/libusb0.
--# Besides, libusb-0.1 uses a per 1ms polling that hurts a lot to power
--# consumption.
--PROVIDES = "libusb virtual/libusb0"
--BBCLASSEXTEND = "native nativesdk"
--
+-PR = "r3"
 -PE = "1"
 -
--SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-compat-${PV}.tar.bz2 \
--           file://0001-usb.h-Include-sys-types.h.patch \
--          "
--
--SRC_URI[md5sum] = "2780b6a758a1e2c2943bdbf7faf740e4"
--SRC_URI[sha256sum] = "404ef4b6b324be79ac1bfb3d839eac860fbc929e6acb1ef88793a6ea328bc55a"
--
--UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libusb/files/libusb-compat-0.1/"
--UPSTREAM_CHECK_REGEX = "/libusb-compat-(?P<pver>(\d+[\.\-_]*)+)/$"
--
--BINCONFIG = "${bindir}/libusb-config"
--
--inherit autotools pkgconfig binconfig-disabled lib_package
--
--EXTRA_OECONF = "--libdir=${base_libdir}"
+-SRC_URI[md5sum] = "127ddb6131eb4a56fdf6644a63ade788"
+-SRC_URI[sha256sum] = "f9e2e7a590e27f84b6708ab7a81e546399b949bf652fb9b95193e0e543e6a548"
 -
 -do_install_append() {
--	install -d ${D}${libdir}
--	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
--		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
--	fi
+-	sed -i "s,--sysroot=${STAGING_DIR_TARGET},," ${D}${bindir}/gccmakedep
 -}
 -- 
 2.11.0
