@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0567778D5D;
-	Fri, 27 Jul 2018 16:02:59 +0000 (UTC)
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C8D578CA2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2018 16:07:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6RG7K9l018737
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2018 09:07:21 -0700 (PDT)
+Received: from [172.25.44.2] (172.25.44.2) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
+	Fri, 27 Jul 2018 09:07:20 -0700
+To: <openembedded-core@lists.openembedded.org>, "Hongzhi, Song"
+	<Hongzhi.Song@windriver.com>
+References: <20180726064724.23933-1-hongzhi.song@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <8233098f-35d2-7b12-ac1e-b467d8935cef@windriver.com>
+Date: Fri, 27 Jul 2018 12:07:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 27 Jul 2018 16:03:00 -0000
-Message-ID: <20180727160300.13843.18777@do.openembedded.org>
-References: <20180727153248.22838-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20180727153248.22838-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9lcWEvc2RrOiBhZGQgdGVzdCB0aGF0IENNYWtlIC4uLiIgYW5kIDE1IG1vcmU=?=
+In-Reply-To: <20180726064724.23933-1-hongzhi.song@windriver.com>
+X-Originating-IP: [172.25.44.2]
+Subject: Re: [meta-oe][PATCH v3 0/1] snappy: add a new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 16:02:59 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 27 Jul 2018 16:07:20 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 07/26/2018 02:47 AM, Hongzhi.Song wrote:
+> v3:
+>      modify license BSD-3
+> 
+> Hongzhi.Song (1):
+>    snappy: add a new recipe
+> 
+>   meta-oe/recipes-extended/snappy/snappy_1.1.7.bb | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
+>   create mode 100644 meta-oe/recipes-extended/snappy/snappy_1.1.7.bb
+> 
 
-Series: "oeqa/sdk: add test that CMake ..." and 15 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/13257/
-State : failure
+Wrong list, meta-oe goes to:
+   openembedded-devel@lists.openembedded.org
+Hongzhi has already sent v4 to the right list.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             LIC_FILES_CHKSUM changed on target usbutils but there is no "License-Update" tag in commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Include "License-Update: <description>" into the commit message with a brief description
-  Current checksum file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263
-  New checksum     file://lsusb.c;endline=1;md5=7d4861d978ff5ba7cb2b319ed1d4afe3                     file://lsusb.py.in;beginline=2;endline=2;md5=194d6a0226bf90f4f683e8968878b6cd
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-- 
+# Randy MacLeod
+# Wind River Linux
 
