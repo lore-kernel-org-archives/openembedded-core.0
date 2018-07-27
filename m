@@ -1,47 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 50FC678C57
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C04FE78CEE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 23:28:08 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id e6-v6so4051316pgv.2
+	Fri, 27 Jul 2018 23:28:20 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id x17-v6so2223525pfh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 16:28:09 -0700 (PDT)
+	Fri, 27 Jul 2018 16:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=m7OTL7D/YW357Py2eUwGxpEh/w50CBVyn4ISNtr1ENU=;
-	b=qwfTgML1GNbfV3DpFKd0XIiw14rlH/iAA7RCPx0jo+BUqmUxTuExtPPgixbq6hVovg
-	E5Qpzu/M+KW/CEFvZpD2BWXr9AEdlKJ2h5hyq2OTorY75QEnr5NDrmPhNGFZubj2VC38
-	od43HQVyHYnZcLOKOOOJwWiAE9dpg4lk22IMhLinVD2I8teqG27UsB2WPE5ExVQC7+hM
-	Mklnx3Hs46WKRcipkvjQXZyHVmffUFsI2Uz8Ql+TC0AESvsvMUCpV2hAuKVllSd7wEhW
-	hcz2Zu26KcN6TYjbcU7+XFkLNiuUE4cwTz7RGQu83dZaOcgQsUc3LzbqrWOIqp5Fz20T
-	3nkQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=A11H0U3D4k3qw8kKxlybV61XY6OpgC9KcnzfyRDeGrg=;
+	b=QD3hB1FTTW4RvBtdtITAouxqo0bg5Gxp7+V5wZHm9LcET9WAfuplCJ3GN/lkHxohb6
+	61efqwiLXeNW21BaEPAHSKZEmfMM10xQ9zov+2S7hEjsJ4be4s6e/oPyzNcGITCHMtgH
+	mrfIjeaDOYlVp0dMHeDq0K8lel/oIoVa2unzm3BrwmnGC50dVSVmcf3DVa4FND26OKZu
+	EZJLPR7jzqUsLeJ/zMoucD6qSfOm1AoNOd4egIAEpenKdTwKgN0kEYcs5xUM/w0rDwo1
+	71exqtqBMTdeUxO+A60mezSyT3lgPKNGyJZi8TCiETy8CyyhW0F4JhURa7M/kzMnk1sx
+	Wc5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=m7OTL7D/YW357Py2eUwGxpEh/w50CBVyn4ISNtr1ENU=;
-	b=kULw0zpnaoV3rzdPnfMCZAc3iQO2mHss3evKhrLI5rTYtF5g2f3/HamoLlODBZ0mkm
-	rjoIoWDv1M5Yqn93p5HZUP3SSUXaV6cWlq7sNY2Wj5R/vRjOJK9D+tsV3UO6IMqoA3RC
-	kURA9i7EU9VVq0ioUviIpROyZTfmYTYg0qmGnCJ7tENXVKNysi9XRUeK8Z3kOlpqLB3s
-	XFJxoUPrGPpnVxOC0drk4qOaj2JlZ3dlCDBipoiXbWpS+aqkr55dx0p3bS6SZneaatx8
-	TEcV3Ly4uNLlDn680gAeLwEdwTJLjY+rcJYcwwDAPXrMfDQ6qMlGwHghFNJNQqWINZN+
-	mOqA==
-X-Gm-Message-State: AOUpUlHGdnyVI+2zzCsxvTwYTKzRXXJ9uoh9LjQ2qIU1pKy1llaHwgwh
-	PivzuVFBIVPNkRpQR+SflFHVVqos
-X-Google-Smtp-Source: AAOMgpdWW6Oeqg4AmBgaLq3b3UWy7PYgc+YRrL3YHw93llhDZqBKl+YUzIxbLcVkaDnHhXYxnzPdCA==
-X-Received: by 2002:a62:3241:: with SMTP id y62-v6mr8591295pfy.4.1532734088869;
-	Fri, 27 Jul 2018 16:28:08 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=A11H0U3D4k3qw8kKxlybV61XY6OpgC9KcnzfyRDeGrg=;
+	b=a6qZr81/keutiBVCxl2gK/CbrUEoKykCHCnEB0bzDZiAAMcf+U61N+ktBkAfM49Kfv
+	D8WTebAqA6dD2GGGR+EBjib6wsaxeaN4EqRskvBVU0GCxE0fPgLpp95cknfslwcnlyX0
+	S3YilK73AN48xa97HYIsRDsxB07KxEZgJBwUUeK0bQCD9jF59AxlBJwfEFqaW0EfZt5F
+	KgH8tDx0A7tyX5XQqMDwd2dI58kVY4pceyNS4RHQB6BivX4dHqihk4ovz06tiDvNCx6V
+	7ZeJ7py7Ktri+vGC8lCRN10+GTRcR7CL6pk2jUqGqYqIyl+XLECsrZi7M776Z5vVyioR
+	8ZvA==
+X-Gm-Message-State: AOUpUlFroRJYX0JUFKAlybzjX1nYGRLVd3dRQE0rEls3u0c3eY+aU5w2
+	SLOYxBqbpFdxK1nGpEvC3dRy42W/
+X-Google-Smtp-Source: AAOMgpe+ZzhxSeiVWzMrXCKz3tKU/rJjDb5NF74wZGr1tcy4B3/FhFrT9mBS7w984MolwHVNVihHqw==
+X-Received: by 2002:a62:42d7:: with SMTP id
+	h84-v6mr8535515pfd.146.1532734101725; 
+	Fri, 27 Jul 2018 16:28:21 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	x4-v6sm7086923pfm.119.2018.07.27.16.28.07
+	x4-v6sm7086923pfm.119.2018.07.27.16.28.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Jul 2018 16:28:08 -0700 (PDT)
+	Fri, 27 Jul 2018 16:28:21 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 16:27:57 -0700
-Message-Id: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+Date: Fri, 27 Jul 2018 16:27:58 -0700
+Message-Id: <1532734081-24485-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/5] openssl_1.0: drop obsolete ca.patch
+In-Reply-To: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+References: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 2/5] openssl_1.0: drop obsolete exporting of AS, EX_LIBS and DIRS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +58,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 23:28:08 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 23:28:20 -0000
 
-This patch adds a second line to the -help output of the CA.pl script
-(which lists almost the same command line options as the line above
-it but in a slightly different order). Although it's tagged as a
-Debian backport, there's no patch like it in recent Debian patch sets
-for openssl 1.0.2.
+Previously (when EXTRA_OEMAKE contained -e) exporting these variables
+over-rode default values in the top-level openssl Makefile. However,
+since -e was removed from EXTRA_OEMAKE as part of:
+
+  http://git.openembedded.org/openembedded-core/commit/?id=537a404cfbb811fcb526cdb5f2e059257de6ef13
+
+exporting these variables does nothing. The comment from that commit
+that only AR is affected by removing -e wasn't correct, but the
+effects of letting the openssl Makefile also control AS, EX_LIBS and
+DIRS seem to be either benign or beneficial.
+
+Since without -e make ignores DIRS from the environment and always
+runs for all subdirs (including "test"), adding "test" to DIRS and
+calling "make depend" again from do_compile_ptest() can be dropped.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../openssl/openssl-1.0.2o/debian/ca.patch         | 22 ----------------------
- .../recipes-connectivity/openssl/openssl_1.0.2o.bb |  1 -
- 2 files changed, 23 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+ meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
-deleted file mode 100644
-index fb745e4..0000000
---- a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Backport [debian]
--
--Index: openssl-0.9.8m/apps/CA.pl.in
--===================================================================
----- openssl-0.9.8m.orig/apps/CA.pl.in	2006-04-28 00:28:51.000000000 +0000
--+++ openssl-0.9.8m/apps/CA.pl.in	2010-02-27 00:36:51.000000000 +0000
--@@ -65,6 +65,7 @@
-- foreach (@ARGV) {
-- 	if ( /^(-\?|-h|-help)$/ ) {
-- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-signcert|-verify\n";
--+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
-- 	    exit 0;
-- 	} elsif (/^-newcert$/) {
-- 	    # create a certificate
--@@ -165,6 +166,7 @@
-- 	} else {
-- 	    print STDERR "Unknown arg $_\n";
-- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-verify\n";
--+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
-- 	    exit 1;
-- 	}
-- }
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-index 9e5e7ec..ee1c1f7 100644
+index ee1c1f7..c2d9264 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-@@ -23,7 +23,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://engines-install-in-libdir-ssl.patch \
-            file://debian1.0.2/block_diginotar.patch \
-            file://debian1.0.2/block_digicert_malaysia.patch \
--           file://debian/ca.patch \
-            file://debian/c_rehash-compat.patch \
-            file://debian/debian-targets.patch \
-            file://debian/man-dir.patch \
+@@ -72,9 +72,6 @@ PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryp
+ # vulnerability
+ EXTRA_OECONF = "no-ssl3"
+ 
+-export DIRS = "crypto ssl apps engines"
+-export AS = "${CC} -c"
+-export EX_LIBS = "-lgcc -ldl"
+ export OE_LDFLAGS = "${LDFLAGS}"
+ 
+ # openssl fails with ccache: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12810
+@@ -222,9 +219,6 @@ do_compile_class-target () {
+ }
+ 
+ do_compile_ptest () {
+-	# build dependencies for test directory too
+-	export DIRS="$DIRS test"
+-	oe_runmake depend
+ 	oe_runmake buildtest
+ }
+ 
 -- 
 1.9.1
 
