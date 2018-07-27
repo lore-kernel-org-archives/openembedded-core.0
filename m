@@ -1,48 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E591778CF0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A51460079
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 21:05:09 +0000 (UTC)
-Received: by mail-ua0-f194.google.com with SMTP id w7-v6so4222873uan.9
+	Fri, 27 Jul 2018 21:26:55 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id q12-v6so6519943qtp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 14:05:11 -0700 (PDT)
+	Fri, 27 Jul 2018 14:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Fucvsr+wqJOGbsxejpmGIrDDFcKoVRF0T93URtWjrUU=;
-	b=UTT+6t6hIE1Ph0y5r9RflHyy2RTQQHlYv4x2hUp1Hl3Rlr9Fmse4/jFiuDjWCZnDCI
-	Rq2LaDhYbgnce7DrNKzAegkgtSNtLJX9UOUPnxYu61X+HmE5u8/JW17fuwZgUbb8ykyJ
-	CS5/F5s7ISnO5SeVrKK0SDfvE8e4QHD4sD5xj3wfif3V2G3DpoHxLMBRT/O5dsPVHwhE
-	yn7glxxXNMbRzaB/EjhQSRqQGzCg3pmd4REPCFqkaMi75Lyg7XweGaO6xzchVTQ+4uYt
-	A3vGvrD+gw9kauXkk8KtqD41mF5ClNnn3DCPHmYv2MgAu/ncCeCUH/4xaLYEQ+ODfnt+
-	OMDQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=M+yln117zgzeBfLCf6eqpFFF2pdaQXbxoVyy8zsF6dw=;
+	b=QxlFRw1DI5/qq3CcqsyGRgvL5nzDN5FA7P8J+26kYu/2uqgVM0rcO7+xt8QgqXMOH4
+	nxlYeNHqETdyguz9k0R/8xZVRg2WTvmAZ0UYdj6aTsivoKqRZdbEXaiVsuAZXcN1mUrJ
+	P4PZTp83103WN0FT9EgFDKIJpqdjuKA338HT51eLXRLaStSPWNoNWyzIxFaR1crNkiG0
+	I6BH+BaovuEdOLsRr36lwgF/ctx/Fvj8xS+1uQx21+sKM6XvyOvDPx5Ro4oDFilQ+Zlg
+	Q5trjtn+ryfVPMwCT3nEUb0fqDegg6ZysSHFfDAVqdqbZtha6T4Bgssf9JeogrKxchyz
+	gqSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Fucvsr+wqJOGbsxejpmGIrDDFcKoVRF0T93URtWjrUU=;
-	b=DXvm7Xcs4rEJJQHw8sfPHmdpbRhrzyOOQOxzuiApRF+QlEjGP58n+tLC30pAT5FPyt
-	NmSLjvpDeoKexeUuSJBvKASAKJoe+U1LwY5sHS1BaZIy52li3iODsuDN2/gY6P0jBjw4
-	upb7fj6H9xKroTHZZLRP88fNi+06rb53AoDWGPFNrNz/JWWX/fysrIAnIm/nt1Bioy0b
-	JfV7u++FMOx06ZokYVMsioAI79L+XDekCge44Hv0vAodTLFFt60WV1HRsF88YnTYpe8c
-	XRsTBiPNse1qVbk8sSzUuz1JEsTKqUxIaMbOYlp4qAh7rbQxzdYp/zZKDf6kongOhZwS
-	7ofg==
-X-Gm-Message-State: AOUpUlGZs8Wxt91ddRWxPS238PH5uxYFBY44Xq2E9UWUceFlR62JfjrG
-	aM2ic6yvQ4M/omgOywSkYhkDGUhFY7W9c6aiGFQ=
-X-Google-Smtp-Source: AAOMgpdfTFhFmI6nYLOD8DnXRTakjyJmruyeYcNqLBsYW9/CZxjAbF5PgK5rcytizx3vKC+szO6fadolo9EwA+u62E0=
-X-Received: by 2002:ab0:5c9:: with SMTP id e67-v6mr5732493uae.66.1532725510856;
-	Fri, 27 Jul 2018 14:05:10 -0700 (PDT)
+	bh=M+yln117zgzeBfLCf6eqpFFF2pdaQXbxoVyy8zsF6dw=;
+	b=BF2qlA039yXqgUvx4EnLbIKzx3fPlnsaFqJYTolhKxHzYZF30mF8vxAx1eHNS7MsPK
+	a7ap+EGLIVmZ1sfwNGwwPWPRirYR+b83yoLPkO+Vwk7F4QbhiECeAbQe+b3uDBXYnPzn
+	NI5VM10w4kbQKOeY48R1ToScautBpgvC0/MDKqLneVLOQ+Mmxty1DLeEJwsHcN4L0Bjf
+	14yQyWCf6lZQOSjUdIntPXV7nQqc7JWpRgKkUDrjNMrb8JgZqg6ffF9Psp4Tvy401SrU
+	yGxfJCdPVBNPSCDvH87C36Aa7LAPPUM8jrscrzkbsIjX2zZL7mwWI9Ukb/UWtJtbeqjB
+	MdWQ==
+X-Gm-Message-State: AOUpUlFrfHrX4WqIjsdocOXEdNxjNPE4Y9mL56Lx1hFZIcDLgELq/BIX
+	1JAyRhWjdPTdsKdSoDjkoaxF1m4zLreHCKsonqw=
+X-Google-Smtp-Source: AAOMgpdJMo5rwbLbRRY2V66IhZaNRFph4JyVTkciQ/Fjc1jaGGAw1s0bv2F7X5pzBUvV7tpFDuJuxeVaQmhG4b0NJ5w=
+X-Received: by 2002:a0c:d2f3:: with SMTP id
+	x48-v6mr7325728qvh.214.1532726816597; 
+	Fri, 27 Jul 2018 14:26:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
-	Fri, 27 Jul 2018 14:05:10 -0700 (PDT)
-In-Reply-To: <084d0ef1bd4047859ed68d8e90d3321d@XBOX02.axis.com>
 References: <20180723190928.27368-1-raj.khem@gmail.com>
 	<f8b662f7-28e8-9692-5cd7-36faadc6e45a@windriver.com>
 	<CAMKF1spfo0rTE31BiCuYPZuR2GQ=U4i9LBGkQ_r3HQdZf4udsQ@mail.gmail.com>
 	<084d0ef1bd4047859ed68d8e90d3321d@XBOX02.axis.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 27 Jul 2018 14:05:10 -0700
-Message-ID: <CAJ86T=Uiik+_s3f+qp1PK6tT3_fts9An8h4CyUfvywfGvj=vqw@mail.gmail.com>
+In-Reply-To: <084d0ef1bd4047859ed68d8e90d3321d@XBOX02.axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 27 Jul 2018 14:26:30 -0700
+Message-ID: <CAMKF1srwY--+D5fyj-TF-PYjbkvBTTjCPv=mVtZMim6vYHy8pg@mail.gmail.com>
 To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -59,38 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 21:05:10 -0000
+X-List-Received-Date: Fri, 27 Jul 2018 21:26:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 27, 2018 at 1:49 PM, Peter Kjellerstedt
+On Fri, Jul 27, 2018 at 1:49 PM Peter Kjellerstedt
 <peter.kjellerstedt@axis.com> wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
->> Sent: den 24 juli 2018 16:12
->> To: ChenQi <Qi.Chen@windriver.com>
->> Cc: Patches and discussions about the oe-core layer <openembedded-
->> core@lists.openembedded.org>
->> Subject: Re: [OE-core] [PATCH] defaultsetup.conf: Enable security
->> flags+pie by default
->>
->> On Tue, Jul 24, 2018 at 12:30 AM ChenQi <Qi.Chen@windriver.com> wrote:
->> >
->> > Hi Khem,
->> >
->> > The comments in security-flags.inc also needs to be modified to
->> remove
->> > 'poky-lsb' info.
->> >
->> > I'd suggest we still put it into distro conf file (poky.conf) instead
->> of
->> > defaultsetup.conf, because defaultsetup.conf is included by
->> > bitbake.conf. I think things in defaultsetup.conf should be necessary
->> > default values to build things out. I don't think security flags is
->> > necessary to build things out.
->>
->> this is the default setup, even non-poky users will get consistent
->> experience.
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
+> > Sent: den 24 juli 2018 16:12
+> > To: ChenQi <Qi.Chen@windriver.com>
+> > Cc: Patches and discussions about the oe-core layer <openembedded-
+> > core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] defaultsetup.conf: Enable security
+> > flags+pie by default
+> >
+> > On Tue, Jul 24, 2018 at 12:30 AM ChenQi <Qi.Chen@windriver.com> wrote:
+> > >
+> > > Hi Khem,
+> > >
+> > > The comments in security-flags.inc also needs to be modified to
+> > remove
+> > > 'poky-lsb' info.
+> > >
+> > > I'd suggest we still put it into distro conf file (poky.conf) instead
+> > of
+> > > defaultsetup.conf, because defaultsetup.conf is included by
+> > > bitbake.conf. I think things in defaultsetup.conf should be necessary
+> > > default values to build things out. I don't think security flags is
+> > > necessary to build things out.
+> >
+> > this is the default setup, even non-poky users will get consistent
+> > experience.
 >
 > I have to agree with Chen here. I think requiring security_flags.inc from
 > defaultsetup.conf is the wrong thing to do. We use security_flags.inc in
@@ -98,31 +98,29 @@ On Fri, Jul 27, 2018 at 1:49 PM, Peter Kjellerstedt
 > should be a distro decision, not something that is enforced by the use
 > of bitbake.
 
-The current approach taken by security_flags.inc is basically to
-enable every possible option related to security. Some of these
-options cause trouble and but some are trouble free... and
-unfortunately up to now we've lumped them all in together.
+Thats fine, I can move this to poky distro settings, using it by
+default would have
+been in sync for all since reference distro is using it would be
+easier for others when
+submitting patches, as a phase 2 I was also thinking of defaulting to
+hardeing in the toolchain itself
+and remove this file completely that would have made it much better,
+then folks who dont want hardeing could just disable
+it in toolchain. but I am fine to leave it a distro decision for now.
 
-If we enable security related flags by default it would be better to
-do so step by step - starting with the smallest and least risky change
-and (for now) leaving the rest for distros who want/need them.
-
-ie I agree that enabling the current security_flags.inc by default
-isn't the right approach.
-
-
->> > Also, I got a question when I just looked at this file.
->> > Do you think we should adjust CFLAGS and LDFALGS in security_flags.inc
->> > instead of the current TARGET_CC_ARCH and TARGET_LDFLAGS?
->>
->> in many cases packages do not honor CFLAGS/LDFLAGS say during configure
->>
->> > We are naming
->> > variables to SECURITY_CFLAGS and SECURITY_LDFLAGS, it seems that they
->> > belong to CFLAGS and LDFLAGS naturally. But I'm not sure about it.
->> >
->> yes they do, but this makes it easy to override the setting for
->> packages where these options are needed to be overridden or modified.
+>
+> > > Also, I got a question when I just looked at this file.
+> > > Do you think we should adjust CFLAGS and LDFALGS in security_flags.inc
+> > > instead of the current TARGET_CC_ARCH and TARGET_LDFLAGS?
+> >
+> > in many cases packages do not honor CFLAGS/LDFLAGS say during configure
+> >
+> > > We are naming
+> > > variables to SECURITY_CFLAGS and SECURITY_LDFLAGS, it seems that they
+> > > belong to CFLAGS and LDFLAGS naturally. But I'm not sure about it.
+> > >
+> > yes they do, but this makes it easy to override the setting for
+> > packages where these options are needed to be overridden or modified.
 >
 > Actually, with the changes introduced in Pyro, SECURITY_CFLAGS became a
 > mess. Before Pyro, you either set SECURITY_CFLAGS to
@@ -148,40 +146,35 @@ isn't the right approach.
 > -fpie. Unfortunately one would still have to set SECURITY_CFLAGS to
 > "${SECURITY_NOPIE_CFLAGS}" to disable everything.
 >
->> > Best Regards,
->> > Chen Qi
->> >
->> >
->> > On 07/24/2018 03:09 AM, Khem Raj wrote:
->> > > This has been an opt-in for so long, some distributions e.g.
->> > > poky-lsb uses it by default however, since most of linux
->> > > distros have started to default to these settings for security
->> > > enhancements, time has come for OE to make it default too
->> > >
->> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> > > ---
->> > >   meta/conf/distro/defaultsetup.conf | 1 +
->> > >   1 file changed, 1 insertion(+)
->> > >
->> > > diff --git a/meta/conf/distro/defaultsetup.conf
->> b/meta/conf/distro/defaultsetup.conf
->> > > index ca2f9178d2..352e279596 100644
->> > > --- a/meta/conf/distro/defaultsetup.conf
->> > > +++ b/meta/conf/distro/defaultsetup.conf
->> > > @@ -1,6 +1,7 @@
->> > >   include conf/distro/include/default-providers.inc
->> > >   include conf/distro/include/default-versions.inc
->> > >   include conf/distro/include/default-distrovars.inc
->> > > +require conf/distro/include/security_flags.inc
->> > >   include conf/distro/include/world-broken.inc
->> > >
->> > >   TCMODE ?= "default"
+> > > Best Regards,
+> > > Chen Qi
+> > >
+> > >
+> > > On 07/24/2018 03:09 AM, Khem Raj wrote:
+> > > > This has been an opt-in for so long, some distributions e.g.
+> > > > poky-lsb uses it by default however, since most of linux
+> > > > distros have started to default to these settings for security
+> > > > enhancements, time has come for OE to make it default too
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >   meta/conf/distro/defaultsetup.conf | 1 +
+> > > >   1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/meta/conf/distro/defaultsetup.conf
+> > b/meta/conf/distro/defaultsetup.conf
+> > > > index ca2f9178d2..352e279596 100644
+> > > > --- a/meta/conf/distro/defaultsetup.conf
+> > > > +++ b/meta/conf/distro/defaultsetup.conf
+> > > > @@ -1,6 +1,7 @@
+> > > >   include conf/distro/include/default-providers.inc
+> > > >   include conf/distro/include/default-versions.inc
+> > > >   include conf/distro/include/default-distrovars.inc
+> > > > +require conf/distro/include/security_flags.inc
+> > > >   include conf/distro/include/world-broken.inc
+> > > >
+> > > >   TCMODE ?= "default"
 >
 > //Peter
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
