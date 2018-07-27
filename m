@@ -1,51 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A51460079
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 50FC678C57
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 21:26:55 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id q12-v6so6519943qtp.6
+	Fri, 27 Jul 2018 23:28:08 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id e6-v6so4051316pgv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 14:26:57 -0700 (PDT)
+	Fri, 27 Jul 2018 16:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=M+yln117zgzeBfLCf6eqpFFF2pdaQXbxoVyy8zsF6dw=;
-	b=QxlFRw1DI5/qq3CcqsyGRgvL5nzDN5FA7P8J+26kYu/2uqgVM0rcO7+xt8QgqXMOH4
-	nxlYeNHqETdyguz9k0R/8xZVRg2WTvmAZ0UYdj6aTsivoKqRZdbEXaiVsuAZXcN1mUrJ
-	P4PZTp83103WN0FT9EgFDKIJpqdjuKA338HT51eLXRLaStSPWNoNWyzIxFaR1crNkiG0
-	I6BH+BaovuEdOLsRr36lwgF/ctx/Fvj8xS+1uQx21+sKM6XvyOvDPx5Ro4oDFilQ+Zlg
-	Q5trjtn+ryfVPMwCT3nEUb0fqDegg6ZysSHFfDAVqdqbZtha6T4Bgssf9JeogrKxchyz
-	gqSA==
+	h=from:to:cc:subject:date:message-id;
+	bh=m7OTL7D/YW357Py2eUwGxpEh/w50CBVyn4ISNtr1ENU=;
+	b=qwfTgML1GNbfV3DpFKd0XIiw14rlH/iAA7RCPx0jo+BUqmUxTuExtPPgixbq6hVovg
+	E5Qpzu/M+KW/CEFvZpD2BWXr9AEdlKJ2h5hyq2OTorY75QEnr5NDrmPhNGFZubj2VC38
+	od43HQVyHYnZcLOKOOOJwWiAE9dpg4lk22IMhLinVD2I8teqG27UsB2WPE5ExVQC7+hM
+	Mklnx3Hs46WKRcipkvjQXZyHVmffUFsI2Uz8Ql+TC0AESvsvMUCpV2hAuKVllSd7wEhW
+	hcz2Zu26KcN6TYjbcU7+XFkLNiuUE4cwTz7RGQu83dZaOcgQsUc3LzbqrWOIqp5Fz20T
+	3nkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=M+yln117zgzeBfLCf6eqpFFF2pdaQXbxoVyy8zsF6dw=;
-	b=BF2qlA039yXqgUvx4EnLbIKzx3fPlnsaFqJYTolhKxHzYZF30mF8vxAx1eHNS7MsPK
-	a7ap+EGLIVmZ1sfwNGwwPWPRirYR+b83yoLPkO+Vwk7F4QbhiECeAbQe+b3uDBXYnPzn
-	NI5VM10w4kbQKOeY48R1ToScautBpgvC0/MDKqLneVLOQ+Mmxty1DLeEJwsHcN4L0Bjf
-	14yQyWCf6lZQOSjUdIntPXV7nQqc7JWpRgKkUDrjNMrb8JgZqg6ffF9Psp4Tvy401SrU
-	yGxfJCdPVBNPSCDvH87C36Aa7LAPPUM8jrscrzkbsIjX2zZL7mwWI9Ukb/UWtJtbeqjB
-	MdWQ==
-X-Gm-Message-State: AOUpUlFrfHrX4WqIjsdocOXEdNxjNPE4Y9mL56Lx1hFZIcDLgELq/BIX
-	1JAyRhWjdPTdsKdSoDjkoaxF1m4zLreHCKsonqw=
-X-Google-Smtp-Source: AAOMgpdJMo5rwbLbRRY2V66IhZaNRFph4JyVTkciQ/Fjc1jaGGAw1s0bv2F7X5pzBUvV7tpFDuJuxeVaQmhG4b0NJ5w=
-X-Received: by 2002:a0c:d2f3:: with SMTP id
-	x48-v6mr7325728qvh.214.1532726816597; 
-	Fri, 27 Jul 2018 14:26:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180723190928.27368-1-raj.khem@gmail.com>
-	<f8b662f7-28e8-9692-5cd7-36faadc6e45a@windriver.com>
-	<CAMKF1spfo0rTE31BiCuYPZuR2GQ=U4i9LBGkQ_r3HQdZf4udsQ@mail.gmail.com>
-	<084d0ef1bd4047859ed68d8e90d3321d@XBOX02.axis.com>
-In-Reply-To: <084d0ef1bd4047859ed68d8e90d3321d@XBOX02.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Jul 2018 14:26:30 -0700
-Message-ID: <CAMKF1srwY--+D5fyj-TF-PYjbkvBTTjCPv=mVtZMim6vYHy8pg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] defaultsetup.conf: Enable security flags+pie by default
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=m7OTL7D/YW357Py2eUwGxpEh/w50CBVyn4ISNtr1ENU=;
+	b=kULw0zpnaoV3rzdPnfMCZAc3iQO2mHss3evKhrLI5rTYtF5g2f3/HamoLlODBZ0mkm
+	rjoIoWDv1M5Yqn93p5HZUP3SSUXaV6cWlq7sNY2Wj5R/vRjOJK9D+tsV3UO6IMqoA3RC
+	kURA9i7EU9VVq0ioUviIpROyZTfmYTYg0qmGnCJ7tENXVKNysi9XRUeK8Z3kOlpqLB3s
+	XFJxoUPrGPpnVxOC0drk4qOaj2JlZ3dlCDBipoiXbWpS+aqkr55dx0p3bS6SZneaatx8
+	TEcV3Ly4uNLlDn680gAeLwEdwTJLjY+rcJYcwwDAPXrMfDQ6qMlGwHghFNJNQqWINZN+
+	mOqA==
+X-Gm-Message-State: AOUpUlHGdnyVI+2zzCsxvTwYTKzRXXJ9uoh9LjQ2qIU1pKy1llaHwgwh
+	PivzuVFBIVPNkRpQR+SflFHVVqos
+X-Google-Smtp-Source: AAOMgpdWW6Oeqg4AmBgaLq3b3UWy7PYgc+YRrL3YHw93llhDZqBKl+YUzIxbLcVkaDnHhXYxnzPdCA==
+X-Received: by 2002:a62:3241:: with SMTP id y62-v6mr8591295pfy.4.1532734088869;
+	Fri, 27 Jul 2018 16:28:08 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	x4-v6sm7086923pfm.119.2018.07.27.16.28.07
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 27 Jul 2018 16:28:08 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jul 2018 16:27:57 -0700
+Message-Id: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/5] openssl_1.0: drop obsolete ca.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,123 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 21:26:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 27 Jul 2018 23:28:08 -0000
 
-On Fri, Jul 27, 2018 at 1:49 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> > Sent: den 24 juli 2018 16:12
-> > To: ChenQi <Qi.Chen@windriver.com>
-> > Cc: Patches and discussions about the oe-core layer <openembedded-
-> > core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [PATCH] defaultsetup.conf: Enable security
-> > flags+pie by default
-> >
-> > On Tue, Jul 24, 2018 at 12:30 AM ChenQi <Qi.Chen@windriver.com> wrote:
-> > >
-> > > Hi Khem,
-> > >
-> > > The comments in security-flags.inc also needs to be modified to
-> > remove
-> > > 'poky-lsb' info.
-> > >
-> > > I'd suggest we still put it into distro conf file (poky.conf) instead
-> > of
-> > > defaultsetup.conf, because defaultsetup.conf is included by
-> > > bitbake.conf. I think things in defaultsetup.conf should be necessary
-> > > default values to build things out. I don't think security flags is
-> > > necessary to build things out.
-> >
-> > this is the default setup, even non-poky users will get consistent
-> > experience.
->
-> I have to agree with Chen here. I think requiring security_flags.inc from
-> defaultsetup.conf is the wrong thing to do. We use security_flags.inc in
-> our setup, and I know how much trouble it has brought. To me, using it
-> should be a distro decision, not something that is enforced by the use
-> of bitbake.
+This patch adds a second line to the -help output of the CA.pl script
+(which lists almost the same command line options as the line above
+it but in a slightly different order). Although it's tagged as a
+Debian backport, there's no patch like it in recent Debian patch sets
+for openssl 1.0.2.
 
-Thats fine, I can move this to poky distro settings, using it by
-default would have
-been in sync for all since reference distro is using it would be
-easier for others when
-submitting patches, as a phase 2 I was also thinking of defaulting to
-hardeing in the toolchain itself
-and remove this file completely that would have made it much better,
-then folks who dont want hardeing could just disable
-it in toolchain. but I am fine to leave it a distro decision for now.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../openssl/openssl-1.0.2o/debian/ca.patch         | 22 ----------------------
+ .../recipes-connectivity/openssl/openssl_1.0.2o.bb |  1 -
+ 2 files changed, 23 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
 
->
-> > > Also, I got a question when I just looked at this file.
-> > > Do you think we should adjust CFLAGS and LDFALGS in security_flags.inc
-> > > instead of the current TARGET_CC_ARCH and TARGET_LDFLAGS?
-> >
-> > in many cases packages do not honor CFLAGS/LDFLAGS say during configure
-> >
-> > > We are naming
-> > > variables to SECURITY_CFLAGS and SECURITY_LDFLAGS, it seems that they
-> > > belong to CFLAGS and LDFLAGS naturally. But I'm not sure about it.
-> > >
-> > yes they do, but this makes it easy to override the setting for
-> > packages where these options are needed to be overridden or modified.
->
-> Actually, with the changes introduced in Pyro, SECURITY_CFLAGS became a
-> mess. Before Pyro, you either set SECURITY_CFLAGS to
-> "${SECURITY_NO_PIE_CFLAGS}" (to disable the use of -fpie), or you set it
-> to the empty string (to disable all security options). With Pyro and later,
-> you instead have to set SECURITY_CFLAGS to "${SECURITY_NO_PIE_CFLAGS}
-> ${SECURITY_NOPIE_CFLAGS}" to make sure -fpie is disabled, or set it to
-> "${SECURITY_NOPIE_CFLAGS}" to disable everything. Alternatively you can
-> set SECURITY_PIE_CFLAGS to "${SECURITY_NOPIE_CFLAGS}" to only disable
-> -fpie.
->
-> I have considered to suggest changing the definition of
-> SECURITY_NOPIE_CFLAGS to:
->
-> SECURITY_NOPIE_CFLAGS ?= "${@'-no-pie -fno-PIE' if '${GCCPIE}' else ''}"
->
-> and then change SECURITY_NO_PIE_CFLAGS to:
->
-> SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-strong ${SECURITY_NOPIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->
-> That would better have matched the situation before Pyro, in that one yet
-> again would set SECURITY_CFLAGS to "${SECURITY_NO_PIE_CFLAGS}" to disable
-> -fpie. Unfortunately one would still have to set SECURITY_CFLAGS to
-> "${SECURITY_NOPIE_CFLAGS}" to disable everything.
->
-> > > Best Regards,
-> > > Chen Qi
-> > >
-> > >
-> > > On 07/24/2018 03:09 AM, Khem Raj wrote:
-> > > > This has been an opt-in for so long, some distributions e.g.
-> > > > poky-lsb uses it by default however, since most of linux
-> > > > distros have started to default to these settings for security
-> > > > enhancements, time has come for OE to make it default too
-> > > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >   meta/conf/distro/defaultsetup.conf | 1 +
-> > > >   1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/meta/conf/distro/defaultsetup.conf
-> > b/meta/conf/distro/defaultsetup.conf
-> > > > index ca2f9178d2..352e279596 100644
-> > > > --- a/meta/conf/distro/defaultsetup.conf
-> > > > +++ b/meta/conf/distro/defaultsetup.conf
-> > > > @@ -1,6 +1,7 @@
-> > > >   include conf/distro/include/default-providers.inc
-> > > >   include conf/distro/include/default-versions.inc
-> > > >   include conf/distro/include/default-distrovars.inc
-> > > > +require conf/distro/include/security_flags.inc
-> > > >   include conf/distro/include/world-broken.inc
-> > > >
-> > > >   TCMODE ?= "default"
->
-> //Peter
->
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+deleted file mode 100644
+index fb745e4..0000000
+--- a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Backport [debian]
+-
+-Index: openssl-0.9.8m/apps/CA.pl.in
+-===================================================================
+---- openssl-0.9.8m.orig/apps/CA.pl.in	2006-04-28 00:28:51.000000000 +0000
+-+++ openssl-0.9.8m/apps/CA.pl.in	2010-02-27 00:36:51.000000000 +0000
+-@@ -65,6 +65,7 @@
+- foreach (@ARGV) {
+- 	if ( /^(-\?|-h|-help)$/ ) {
+- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-signcert|-verify\n";
+-+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+- 	    exit 0;
+- 	} elsif (/^-newcert$/) {
+- 	    # create a certificate
+-@@ -165,6 +166,7 @@
+- 	} else {
+- 	    print STDERR "Unknown arg $_\n";
+- 	    print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-verify\n";
+-+	    print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+- 	    exit 1;
+- 	}
+- }
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+index 9e5e7ec..ee1c1f7 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+@@ -23,7 +23,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://engines-install-in-libdir-ssl.patch \
+            file://debian1.0.2/block_diginotar.patch \
+            file://debian1.0.2/block_digicert_malaysia.patch \
+-           file://debian/ca.patch \
+            file://debian/c_rehash-compat.patch \
+            file://debian/debian-targets.patch \
+            file://debian/man-dir.patch \
+-- 
+1.9.1
+
 
