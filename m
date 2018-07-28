@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
-	[209.85.218.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1838E74B83
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CAB4878998
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jul 2018 13:15:56 +0000 (UTC)
-Received: by mail-oi0-f68.google.com with SMTP id 13-v6so13869139ois.1
+	Sat, 28 Jul 2018 17:33:49 +0000 (UTC)
+Received: by mail-oi0-f52.google.com with SMTP id k81-v6so14535678oib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jul 2018 06:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Sat, 28 Jul 2018 10:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6fBXW+4pFpT3LHPeMI0FNAo2DWSGtci2PBG26lsKTlg=;
-	b=ofXp1FEZEWtSznvWOvJmsq4YCY9YSbaNkYhfKS696WTmWSDKWz2FnifmhabiWUKZe9
-	P3mMjCGf2V/oPjiRGFPaxlvaUZADCeEv9kTzm0UwW2jPqG5tnPdpoi8buuPaKn/nbV8E
-	X7n0YrFP7qFEYlfg0Oxs65bba0KS9egYQ5H8HY2XZb8nTTv4Nq7iPXV/yPazcADjcgUJ
-	La4+ZLY4CComFYPGr5PLpltYldBSjf5QAMRhWs/4DXV2HHWZRES59C5qrTmoNKXnx3PL
-	QSZu3RP+K+pwmccmfrudiSeL/mIFXwME+5f/fWkUruQRETDteMaJAzQqFKhWxLOofuuA
-	JQNA==
+	:cc; bh=OO45QE+Ym07S4syZv8Oaqm+FKEYu9+h35dmbMlUsl4o=;
+	b=Z9YhQKW5Vskd444+lJU+T444ymWkBE0CSqaPC4ghqBuxnnjjo6Oqig9FMjaY0Wn86U
+	4vwqdlAemzdz8Ab0I3kKf7j0U5l+DR1Dz05mTxLY65X+H8ZgEsIzlKYLl3uT2URt4oFm
+	LeE9RGQxlD3Oxl9rAvIPuTsnV68wn2/vb2y4PlJL2vYLS3y4+uylg31FLvuEsxyVTIdT
+	tFxh7spI3qQnNVO5WNEKg+GtCT22SnmLnbinBsEg4b2XgQoyJroi+gVCRJgU9EcIWHDc
+	mUqQMr4AqoIqe40ZMxVyhFlnIaIWq2ZIR+5hFe6j5SP79l2wpmiOLpkTISPoZcEm4JJS
+	cFTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=6fBXW+4pFpT3LHPeMI0FNAo2DWSGtci2PBG26lsKTlg=;
-	b=haCF5JFu6/amdnYgpM6v00LI4nZQVE4sNxbbti0SMkpJGEFV3sPUQ4eYZa85wG+Fn3
-	Jxj15wxEkCAHpOXtvXOVirhXRMFGIT7+qkrwkPIFTKL1W1JG6DHjY0wM5SNdCkGH487R
-	ouG4QC/1dVymmp/y96KhPWv6aipO00QR1XwYvflWwNnQW0tJtrm4EpNQ4cPx/2mCdF9T
-	1HaZo75+vRx/s5AOOSXwg+r6pN3dnSj/nraQ3IIyeMNkBZ1K2x24Df6semOJUTUmmfKF
-	TqgMti93rbw5u+gkFSXQCuL2FOLZvxCExOh4goeZ0PzW99RhQZvllX+eyxsNVaJcetU+
-	bGRA==
-X-Gm-Message-State: AOUpUlFNz+l5inmiwoYS852VdtNueoOxIk/z/xuknhVVm5BWO2BkOcIG
-	CpIOyLQlzN1aMuaXNEF4JO60mtqp1ws6qWP3o5btOg==
-X-Google-Smtp-Source: AAOMgpe9h85PQ9lADTE2dguApMn+3XAKdX9CrIBkj+hqiioWumKVL47usVtcoLnUf0R/HDkR7jtZBw8GHflAaR/gnIg=
-X-Received: by 2002:aca:efd7:: with SMTP id
-	n206-v6mr11555560oih.70.1532783757977; 
-	Sat, 28 Jul 2018 06:15:57 -0700 (PDT)
+	bh=OO45QE+Ym07S4syZv8Oaqm+FKEYu9+h35dmbMlUsl4o=;
+	b=uiSpHl28PVIQDqLvMUgvSvGhBjJZqrsjAY4mhppuKkFrbS0G1+SG+NuzsK87iY0Cea
+	pQQ3tYDJjKyu0tlTKTzMs88mXnBqozFvWaWlPHhSwpuzOhLvXtg9TDZBD/GffrjLhbj+
+	c99KKpWDo1zk5o09g61xJ8fd1+2ZqG8jSu6PkVAl3EhxnA296ebuUNsVe/ymjzV/oSrQ
+	tMrdS3Wu50wAOjtbE4W5c9sxqnMesoyBjahLrno4MuwKoLyB6eauBAsklQmofDJPAYOY
+	XUVbd+9MVRCpuUzptgatj26Ox2EdTqe5JbVB5GaPyebxwiXHFFbiHvicxPmepH4EvY7+
+	i82w==
+X-Gm-Message-State: AOUpUlF0TGyZ8DrKxcjUn2WOCE0jKNdvR5hHDr5+xOM3/wVkvyUJCapF
+	UHjHxZ2sLvGZ+8UVIqJ6ykbL590ZX3XCvlK+hYA=
+X-Google-Smtp-Source: AAOMgpcwnsIGi5cIWoEHbewL6f2ArqpKHh26LEJXdQwB7zmhCUflE2FGMBU+/hvK1vid5BcCXILNsNYT9phSAKsnAhI=
+X-Received: by 2002:aca:3d4:: with SMTP id
+	203-v6mr10524330oid.321.1532799230562; 
+	Sat, 28 Jul 2018 10:33:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Sat, 28 Jul 2018 06:15:37
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Sat, 28 Jul 2018 10:33:50
 	-0700 (PDT)
-In-Reply-To: <1532649082-32531-1-git-send-email-christopher.w.clark@gmail.com>
-References: <1532649082-32531-1-git-send-email-christopher.w.clark@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 28 Jul 2018 14:15:37 +0100
-Message-ID: <CAJTo0LaSchdmbebhtcrLf-neM-1HE=jC_xswmg306qYLwTFFXw@mail.gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
+In-Reply-To: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+References: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 28 Jul 2018 19:33:50 +0200
+Message-ID: <CANNYZj-i+TTnMA8NG8+YQZ-PTFdBE2V16HXrpLxGFwp5Sqzy8g@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] binutils : enable x86_64-pep for producing EFI binaries on x86/x86-64
+Subject: Re: [PATCH 1/5] openssl_1.0: drop obsolete ca.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +56,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jul 2018 13:15:57 -0000
+X-List-Received-Date: Sat, 28 Jul 2018 17:33:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 27 July 2018 at 00:51, Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
-> +ENABLE_EXTRA_TARGETS ?= "--enable-targets=${ARCH_EFI_EMULATION}"
+Andre, do take a look at 1.1 as well. As soon as the final openssl
+1.1.1 is released (and I get the powerful build box my new employer
+promised), I'll send a patchset that makes 1.1 the default - I'm not
+sure you should put all this effort into a soon obsolete version.
 
-This has an interesting implication in that it's not building support
-for all targets now, specifically buildhistory-diff shows that large
-chunks are no longer being built:
+Alex
 
---rw-r--r-- root       root            15269
-./usr/src/debug/binutils/2.31-r0/git/elfcpp/mips.h
---rw-r--r-- root       root             9539
-./usr/src/debug/binutils/2.31-r0/git/elfcpp/powerpc.h
---rw-r--r-- root       root             5994
-./usr/src/debug/binutils/2.31-r0/git/elfcpp/s390.h
---rw-r--r-- root       root             8243
-./usr/src/debug/binutils/2.31-r0/git/elfcpp/sparc.h
---rw-r--r-- root       root             5654
-./usr/src/debug/binutils/2.31-r0/git/elfcpp/tilegx.h
---rw-r--r-- root       root           329045
-./usr/src/debug/binutils/2.31-r0/git/gold/powerpc.cc
---rw-r--r-- root       root           136896
-./usr/src/debug/binutils/2.31-r0/git/gold/sparc.cc
-etc
-
-(that's a diff, so the leading - is a removal marker)
-
-So binutils on x86 only support x86, but binutils for ARM supports all
-architectures.  Inconsistency doesn't seem right. Can we *add*
-x86_64-pep to the target list? Or can we make all binutils just build
-their native formats?
-
-Ross
+2018-07-28 1:27 GMT+02:00 Andre McCurdy <armccurdy@gmail.com>:
+> This patch adds a second line to the -help output of the CA.pl script
+> (which lists almost the same command line options as the line above
+> it but in a slightly different order). Although it's tagged as a
+> Debian backport, there's no patch like it in recent Debian patch sets
+> for openssl 1.0.2.
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  .../openssl/openssl-1.0.2o/debian/ca.patch         | 22 ----------------------
+>  .../recipes-connectivity/openssl/openssl_1.0.2o.bb |  1 -
+>  2 files changed, 23 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+> deleted file mode 100644
+> index fb745e4..0000000
+> --- a/meta/recipes-connectivity/openssl/openssl-1.0.2o/debian/ca.patch
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -Upstream-Status: Backport [debian]
+> -
+> -Index: openssl-0.9.8m/apps/CA.pl.in
+> -===================================================================
+> ---- openssl-0.9.8m.orig/apps/CA.pl.in  2006-04-28 00:28:51.000000000 +0000
+> -+++ openssl-0.9.8m/apps/CA.pl.in       2010-02-27 00:36:51.000000000 +0000
+> -@@ -65,6 +65,7 @@
+> - foreach (@ARGV) {
+> -       if ( /^(-\?|-h|-help)$/ ) {
+> -           print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-signcert|-verify\n";
+> -+          print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+> -           exit 0;
+> -       } elsif (/^-newcert$/) {
+> -           # create a certificate
+> -@@ -165,6 +166,7 @@
+> -       } else {
+> -           print STDERR "Unknown arg $_\n";
+> -           print STDERR "usage: CA -newcert|-newreq|-newreq-nodes|-newca|-sign|-verify\n";
+> -+          print STDERR "usage: CA -signcert certfile keyfile|-newcert|-newreq|-newca|-sign|-verify\n";
+> -           exit 1;
+> -       }
+> - }
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+> index 9e5e7ec..ee1c1f7 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
+> @@ -23,7 +23,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+>             file://engines-install-in-libdir-ssl.patch \
+>             file://debian1.0.2/block_diginotar.patch \
+>             file://debian1.0.2/block_digicert_malaysia.patch \
+> -           file://debian/ca.patch \
+>             file://debian/c_rehash-compat.patch \
+>             file://debian/debian-targets.patch \
+>             file://debian/man-dir.patch \
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
