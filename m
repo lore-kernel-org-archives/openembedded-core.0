@@ -1,51 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl0-f68.google.com (mail-pl0-f68.google.com
-	[209.85.160.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D808378CFC
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DCDB6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 23:28:26 +0000 (UTC)
-Received: by mail-pl0-f68.google.com with SMTP id b1-v6so2929404pls.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2018 16:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=PxnpXAUvsWF+vjrg6+j2a96PdFpcLNurMgwgq3P235E=;
-	b=MvjId/bxlWOJkkBn4v0Atke3QTfagyIJdlSleDuF5wpbZz0KwAQHCjjznhmcbeK2ek
-	qpz+heg5VBkjnJcoieYocxX5bApJ18W1Jz/fj82fysBawcVEG9EcmOR37jw3MG+GWNmJ
-	EN6E+5pOMZdw6tIq1cdrCAUWkUysKDEJNH3S0gCTmG/IxRgrKSNqdmWemxnFAKSs3A0A
-	vb6QIumbNS80fnb8cXsV0qkP/+VBOxTkwf4v8hoSoY20oOlKzluWTtn0dbaz/O9strUV
-	r04GSKpYGzn/s5nGccpvf63901vRNhlzhZT1gjc0/k3SlnNpooHfvkuZF3OZ79nSdHvk
-	iQYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=PxnpXAUvsWF+vjrg6+j2a96PdFpcLNurMgwgq3P235E=;
-	b=gNGq5FQXbaWdR5EAmTpdK40vhAlzJ+bdLiHkB+Ur6sCIsHO3mi9GawbNAx++PiRb+e
-	L/GEoxcqgxutCA5pt5AqGLvsrrbw5b479KtO4PpsNpyDHyU421UyF1c+k05RSNsvapz0
-	lBNlm/V0ubO17gMprYYaLru7A5Q0Eh+8gRIv5DJy2hy2nsaFuATQFUs+MctgXEGaf5XD
-	/GG+WB+nE99b823x4uun4HJa+hCSDp0sFK8HZ/pfQ7wsZAKFUz1SXF1cnzpz/fGiBpRP
-	sCiBudZCeaNUFt3yC2l0T8+vbY86sbUw+Hk9g5aYJmW4Y1h2FMrOfOHCFeHgYMPUM3nj
-	+zNA==
-X-Gm-Message-State: AOUpUlHvqUtgXQo8gKxS79UojjVXHaKt7B/mv6F8ufjK8/WffDL6lRfM
-	ciCypw0Ia1jZRMIINAdJPh3aLEtb
-X-Google-Smtp-Source: AAOMgpcsHgxqTPKCTsLz8bZ/MZVlZCMlb+RErHwOpR43TRuOqzLRUarJ6ltL4nKp1i/gqXEJMnLSPQ==
-X-Received: by 2002:a17:902:8215:: with SMTP id
-	x21-v6mr7672722pln.175.1532734107940; 
-	Fri, 27 Jul 2018 16:28:27 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	x4-v6sm7086923pfm.119.2018.07.27.16.28.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Jul 2018 16:28:27 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Sat, 28 Jul 2018 08:49:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2018 01:49:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,413,1526367600"; d="scan'208";a="76263270"
+Received: from kaovince-mobl1.gar.corp.intel.com (HELO
+	anmitta2-MOBL1.png.intel.com) ([10.255.166.184])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jul 2018 01:49:53 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Jul 2018 16:28:01 -0700
-Message-Id: <1532734081-24485-5-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
-References: <1532734081-24485-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 5/5] openssl_1.0: squash whitespace in CC_INFO
+Date: Sat, 28 Jul 2018 16:49:49 +0800
+Message-Id: <20180728084950.13242-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [rocko][PATCH 1/2] make-mod-scripts/kernel-devsrc: Fix objtool issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2018 23:28:27 -0000
+X-List-Received-Date: Sat, 28 Jul 2018 08:49:54 -0000
 
-Squash whitespace in CC_INFO to avoid recipe whitespace changes to
-CFLAG affecting the final openssl binaries (the value of CC_INFO gets
-embedded in libcrypto, via buildinf.h).
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Kernels which use tools/objtool can now fail when building external modules
+due to objtool being missing, the generated files can also cause problems
+for kernel-devsrc.
+
+Ensure objtool is generated in make-mod-scripts by also calling
+"make prepare".
+
+For devsrc, delete the generated binaries since they'd be native
+binaries and unsuitable for the target.
+
+The oeqa kernel module tests also need to have the additional "make prepare"
+step added.
+
+(From OE-Core rev: 52fd2993784b4218f5df4f343e7da45d964df305)
+
+Fixes [YOCTO #12860]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[Tweaked to add "make prepare" to module-base.bbclass instead of
+make-mod-scripts.bb]
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/module-base.bbclass            | 2 +-
+ meta/lib/oeqa/runtime/cases/kernelmodule.py | 2 +-
+ meta/recipes-kernel/linux/kernel-devsrc.bb  | 7 +++++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-index 527be72..f33ca97 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
-@@ -211,7 +211,7 @@ do_compile () {
- do_compile_class-target () {
- 	sed -i 's/\((OPENSSL=\)".*"/\1"openssl"/' Makefile
- 	oe_runmake depend
--	cc_sanitized=`echo "${CC} ${CFLAG}" | sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' -e 's|${DEBUG_PREFIX_MAP}||g'`
-+	cc_sanitized=$(echo "${CC} ${CFLAG}" | sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' -e 's|${DEBUG_PREFIX_MAP}||g' -e 's/[ \t]\+/ /g')
- 	oe_runmake CC_INFO="$cc_sanitized"
+diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+index 6fe77c01b7..64729770c7 100644
+--- a/meta/classes/module-base.bbclass
++++ b/meta/classes/module-base.bbclass
+@@ -23,5 +23,5 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ do_make_scripts() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
+ 	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
+-	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts
++	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
  }
+diff --git a/meta/lib/oeqa/runtime/cases/kernelmodule.py b/meta/lib/oeqa/runtime/cases/kernelmodule.py
+index 11ad7b7f01..de1a5aa445 100644
+--- a/meta/lib/oeqa/runtime/cases/kernelmodule.py
++++ b/meta/lib/oeqa/runtime/cases/kernelmodule.py
+@@ -28,7 +28,7 @@ class KernelModuleTest(OERuntimeTestCase):
+     @OETestDepends(['gcc.GccCompileTest.test_gcc_compile'])
+     def test_kernel_module(self):
+         cmds = [
+-            'cd /usr/src/kernel && make scripts',
++            'cd /usr/src/kernel && make scripts prepare',
+             'cd /tmp && make',
+             'cd /tmp && insmod hellomod.ko',
+             'lsmod | grep hellomod',
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index c1b5b7786d..8bbfa23e4b 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -69,6 +69,13 @@ do_install() {
+                 cp ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+         fi
  
++        # Remove fixdep/objtool as they won't be target binaries
++        for i in fixdep objtool; do
++                if [ -e $kerneldir/tools/objtool/$i ]; then
++                        rm -rf $kerneldir/tools/objtool/$i
++                fi
++        done
++
+         chown -R root:root ${D}
+ }
+ # Ensure we don't race against "make scripts" during cpio
 -- 
-1.9.1
+2.17.1
 
 
