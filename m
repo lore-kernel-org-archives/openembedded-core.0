@@ -1,50 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD6378DD5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 12:58:31 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id v8-v6so21007016oie.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 05:58:32 -0700 (PDT)
+Return-Path: <adam.yh.lee@gmail.com>
+Received: from mail-yw0-f171.google.com (mail-yw0-f171.google.com
+	[209.85.161.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 134B578D72;
+	Mon, 30 Jul 2018 14:10:42 +0000 (UTC)
+Received: by mail-yw0-f171.google.com with SMTP id c135-v6so4396291ywa.0;
+	Mon, 30 Jul 2018 07:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=J3pjam+WcnPPx0S5PbmVA1YHFg48TX501/Q2T+0koo8=;
-	b=Q7LPIWDs29wKvZV/UT7Fu91S42mwwn1RFchWvPTO9Bk/FfDepo9OdkUAh6ff+uFi71
-	H01BsND67hwScoCX0YJhkYBhCrfKj7MjWQC3tR+yZIXzldmrW/+m/VXG7cQLfOiE418e
-	cudd6ozMjj35FF8hcwOiGySy/S4xDEunie8dVJLtnXT5aN0vuEyc03CRjeFyiPW3jr/D
-	F/kLyS5Goz4XNAM67m8rjksl2ESAyy4T0t7l/RImkwe9pg+e87ohVgDEfPS7vAt0S1kg
-	ubV2EIMBc3Y3ASAScpIwjPUktnmsnlk0UU8e356I9TQQXnMZhcgdT1fVYTod8p+s1bSb
-	MoWA==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=8LpxwTBRv8Kxd6+j91srYhpM+h3cOKozWlvKYuvawwU=;
+	b=VeizvjQT+DcWW6tvDwX/NPv4uIVV4r0XoiLqaJgfNWDoSE6L8KmlGrftOaZN1yO5Px
+	RsNahuyOsdl/e635Rn10oq6yT+oK8oy3z7HclbixT2M16ih+lRSJC3xUVV8nYVkxpJ0x
+	kYI7mERG4Oo9yp6zK9Yv7cClDqTAYgkffcfMYDniEVJlUvpewPRtTH7fHq/tbbogB2oj
+	GtoZX1OpPGN5vAVUx7uFKNWMBsgwov/xViRqMCduW2Tcu6Gc5jtWG63wk8fagJSuEMNo
+	abFzwjHSG9nzbkAp4FVasQ5UfPBlvEIoIFVOc5zUvt6t6qPjW0SsjDTVsnE1PeE7o8vc
+	rYKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=J3pjam+WcnPPx0S5PbmVA1YHFg48TX501/Q2T+0koo8=;
-	b=LaMh6v+ejRB4zCtZGDJnOuqspkYd3LbjmnXpr3v06DGKRSfn2iYqVxIBCwQU4wzqB3
-	cRVyA/z7U/XjZ74zK51Qj1B6sAciISR2vhNuhUeJ4M3r28ULpixSGCbR4yYPDljJFzFD
-	2pVbylz1sbr+rT34nbgykFAhd9UTdKMpDkvVn/3lPnkGjXatLRyRtVR0TkqXECw/2E7H
-	e1PBwqWxZk7DhD+lCZkA4Q4LAl6xIr5HpS+l+1nkk8pUMr88j3IbDNuKonB+qn8ePZ9Q
-	6xn9ejaQuTfGTxgBajzGcQzAAa9dDktvNzgsoGvNu9yW4gyZUpp1uef3giJHHS1osa6z
-	7CTw==
-X-Gm-Message-State: AOUpUlFVd4laaO6nQ+qSuKaZy8Q39ncqhzQrKKUnP2Do9U6FxbXLG8AS
-	dN0U7aBCut4mA1kem0tuAgGKrtIkrEpuCSaMC3c=
-X-Google-Smtp-Source: AAOMgpffxKjGXXj75eqXDLrfapIVBHxE4f9ahNX8V0IOajx+N82Wg/fNTbT7Flhq8HkJNSi14IO6ByPjD43mUguzAgI=
-X-Received: by 2002:aca:560d:: with SMTP id
-	k13-v6mr16874531oib.190.1532955512334; 
-	Mon, 30 Jul 2018 05:58:32 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=8LpxwTBRv8Kxd6+j91srYhpM+h3cOKozWlvKYuvawwU=;
+	b=twKZ+GS+uuJBM8sXGzoGRGep8LD/ZGxwpLoMewORqoVjv7sZ1MAOwmkpNW6bkMBT8H
+	uVEoYuc73UO0wLmimRemFTQW/jhd7+HLpAddE/P4+XePdKYdYwEVBYt+U41SaUsCimsM
+	TsN+VJNVf6DwYE+/Ha4UMwHFrDKVQGwPGCsdMFZH4E0BAigr3aG+cPMW/pl7MZ7zD8yX
+	+dzAp8srCfpiH1+AkRUKlDFURQTWjfC1ZdBbUDgGuBOVbbWW8xh0LGQzVhyWreAd0fVR
+	hSArKkD4NyrSdfdOTJTRDnfgCEGfCJgCFhzW50KmHWOZ0jq6O1RMGfdeiSVQMrDoA8rc
+	8Exw==
+X-Gm-Message-State: AOUpUlFdBckRbRdCMA3a1sZjDLA84exdggr6XvX3ezLhF/hwnjPiSfWH
+	Pt2ZLKonSKhRPtb8HLpNo8H+Vmvc6Lx6aDwmxR4=
+X-Google-Smtp-Source: AAOMgpeGZYT7jRDYU3sjx24ZJrdyNZqz0MeGEqzqRgO4rRR6xBrtQdHvmBjUArI4xdf74ua8IEHA5AbXwrpAHWF+lK8=
+X-Received: by 2002:a81:a692:: with SMTP id
+	d140-v6mr8740327ywh.50.1532959843650; 
+	Mon, 30 Jul 2018 07:10:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 05:58:31
-	-0700 (PDT)
-In-Reply-To: <cf6a8d01-cdc3-c160-c586-e1a7b5bcf8b8@windriver.com>
-References: <cf6a8d01-cdc3-c160-c586-e1a7b5bcf8b8@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 30 Jul 2018 14:58:31 +0200
-Message-ID: <CANNYZj9pA1yfOhLfHtNcbn199=wG7xie3PRSyWajijS+A2ZMKQ@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Why do we use sysklogd as the default syslog?
+From: Adam Lee <adam.yh.lee@gmail.com>
+Date: Mon, 30 Jul 2018 10:10:32 -0400
+Message-ID: <CAFeBWL4qPSzB=o8BicxhpW-xwi4BQhBFQPuajx5A0GA=X=znYg@mail.gmail.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Subject: devtool add recipe with no srctree / fetchuri?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 12:58:31 -0000
+X-List-Received-Date: Mon, 30 Jul 2018 14:10:43 -0000
+Content-Type: multipart/alternative; boundary="000000000000ef94580572380677"
+
+--000000000000ef94580572380677
 Content-Type: text/plain; charset="UTF-8"
 
-2018-07-30 8:48 GMT+02:00 ChenQi <Qi.Chen@windriver.com>:
-> I just noticed that we are using sysklogd as the default syslog.
-> meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb:VIRTUAL-RUNTIME_syslog
-> ?= "sysklogd"
->
-> sysklogd has stopped development for about 4 years, and as far as I can see,
-> nobody is maintaining it.
-> Is there some specific reason why we want to keep it as the default syslog
-> for our reference images? small size?
+Is it possible to run 'devtool add [recipe-name]' without 'srctree' or
+'fetchuri'?
+I just want to add a simple recipe with a few files to be installed on the
+target file system.
+I can directly add a file in my meta-layer, but devtool is probably the
+more correct approach.
 
+Adam
 
-You are welcome to improve this. Quite often the answer to such
-questions is 'because no one is aware of the situation'.
+--000000000000ef94580572380677
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+<div dir=3D"ltr">Is it possible to run &#39;devtool add [recipe-name]&#39; =
+without &#39;srctree&#39; or &#39;fetchuri&#39;?<div>I just want to add a s=
+imple recipe with a few files to be installed on the target file system.</d=
+iv><div>I can directly add a file in my meta-layer, but devtool is probably=
+ the more correct approach.</div><div><br></div><div>Adam</div></div>
 
+--000000000000ef94580572380677--
