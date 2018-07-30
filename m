@@ -1,49 +1,47 @@
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D661074553
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 02A9678D6A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 07:55:33 +0000 (UTC)
-Received: by mail-io0-f195.google.com with SMTP id l7-v6so9115465ioj.1
+	Mon, 30 Jul 2018 09:17:23 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id y2-v6so12316612wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 00:55:35 -0700 (PDT)
+	Mon, 30 Jul 2018 02:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=RJno7+Sm51D3HsVB2oYJ0k4yhWzZ6/bckOoPYqr8r9g=;
-	b=avP/lU+R16E+p1wQceHsqKb/bYFteFt6bzDZlgQWjA6Ms86t9j/Syj7TEsdOm/ugLh
-	SbUzV2pAdxp9bnXEXieWINGB+eu4RqLOYI1nRYgC4lrnALxJJEYfuzUp4xFgjWMI1QwH
-	e9fh2ucCxlYoy7HIkHHdVr1edVButf8sjyhOIP7lctilVpLogccQ3ZWS9FsZWyMc/JvD
-	BV95kL/nCWn31Zb6CA+b4zvclKnTGu89RWqecqggR5dIfN3/3RznjfqhIz3bv+R7ABqB
-	a2WF4DqjLQY+f46rOhjd6NpEpBmZgCfbct+nPOpvtJC21HcKYLTQfJuKVhXTQqHx8WrV
-	ptdA==
+	bh=c2Tw1hkGg1DSH1/UjxI66SpzWQ1wuvw5x9k9yhzEgQE=;
+	b=LUKAd/nNMVnKmrLPKJl/rTxOlc+QQnonWYxUPmux3/DVGZb8obFp5YZcvm/HuRFSc0
+	Y+72DX1Rtn/8DZiDWmmiNyMat+Aew3Y8jtkv+lwMnbtwQ64kP1zjMuvW+nPxBaFhdjwK
+	8i4g+2URESSGyxYN8mZAYLPRHhH0cBprKSMbavt2bvlSOMcXPOLu35YHChnJ+JVwgE55
+	B7rgaHlZ8GtpAi8YHAoUemMxkC8zCpO9PVzQJoLuO4HNIIDJqlmBAk6tob2rQcz/u9rJ
+	5r3pxxsgby3KDB9QtUkA7pplRdr63pJkHQkAQ+SHf2wn796lH5O1t0Vdj0NufvVz3yZw
+	3n3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RJno7+Sm51D3HsVB2oYJ0k4yhWzZ6/bckOoPYqr8r9g=;
-	b=V/OBMUZtyf5v8Jytcbvfy7RD956G06LA979dATDWj01VPdwQTTaXUE+mjyR3TkgEC8
-	1O/OIpZR2oyuQXoxnE6eipoXeXtA4M7EhXTo2uVobw2aitqq/5WGW8q3AZLeaAL+ArYA
-	YjJQHeCdVYIWqUhBi6seUzVlA9kZ7LS89YjOkSK12JXDkPpAdFClTMVMHhUvQ2FbyM1c
-	Bg51ijnFgcvl+3Zdnc8Dg/DsVRYBVNKLVt/tw0dq3TuvGwui1WY6pwG1WEZx5xPUoBTx
-	6QX/YYu/uoKBKFczWOsMzMXXdv8SvQT5NvMEDtvkMGRQslgFaHxpyZBX4nhoEfSIfiFE
-	r/Tg==
-X-Gm-Message-State: AOUpUlFtDUiYRKZFovahYDi2cyYKRyubvkL/lZ9n4lf4+9TxMB4JFRw5
-	tdz7+y2TfAfUxqeJJ8hzzEBTTXpod2c=
-X-Google-Smtp-Source: AAOMgpcSE1eZsx7oXmIcoF2johV2Ae4zJM1EjS8GFwji4RQcAYUmAMBYnD19JXn0zNePJmBlzRksCw==
-X-Received: by 2002:a6b:19c4:: with SMTP id
-	187-v6mr12931811ioz.244.1532937334545; 
-	Mon, 30 Jul 2018 00:55:34 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	a79-v6sm6512117itc.33.2018.07.30.00.55.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 30 Jul 2018 00:55:33 -0700 (PDT)
-From: Christopher Clark <christopher.w.clark@gmail.com>
+	bh=c2Tw1hkGg1DSH1/UjxI66SpzWQ1wuvw5x9k9yhzEgQE=;
+	b=ay2I4lRG0pQp9H2fPS/PTH003KYxhL3L2/faj65wZsbjNHJrAC5aVSa5uSdHrYx/OG
+	UiewzWMKvdXiiQxaWpIcr4Rny3RWbj5eMIgXI1E2IGMe7M5IiyP1WenyGoE3c9sSOlIq
+	7M4jF62FEid6NMmqDa44YGAjEtIvPrHJ1yA6U0l9pwW3ePb1WEVQpT7zzzf+4aEWRlWM
+	JsiQiMfNbQe8tsBfAl0EYlff2iVBk+ZQbE2wiKKgWzInAFmMHMCxIIgdBmkfInRH2SnO
+	nxu5/BzgCVvaxgBYuNvKoRejsdCQ+x0+QVG08DRImMZRsqOS8ZbeouXlFcc1GC6XfWmv
+	tsNA==
+X-Gm-Message-State: AOUpUlHrQhRVAsx/uAS5fVEhGDJXKKvp+DskWa3zCSVgI3vxXxG7wXUe
+	1nzP1dGKG709apXZDE/zIkKXKDrp
+X-Google-Smtp-Source: AAOMgpdNSSNkigc2XEBwN4deHa8eajHAq7tJvjvuX86yUhbkLtiNlD2aDTFeenm7+M8pJ/bbvQkJPQ==
+X-Received: by 2002:a1c:b157:: with SMTP id
+	a84-v6mr13829195wmf.18.1532942244379; 
+	Mon, 30 Jul 2018 02:17:24 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	z3-v6sm15001543wru.27.2018.07.30.02.17.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 30 Jul 2018 02:17:23 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2018 00:55:21 -0700
-Message-Id: <1532937321-4077-1-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v6] binutils : enable x86_64-pep for producing EFI binaries on x86-64
+Date: Mon, 30 Jul 2018 09:17:23 +0000
+Message-Id: <20180730091725.857-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH][sumo 1/3] linux-firmware: add ${PN}-cypress-license handling from meta-raspberrypi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,100 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 07:55:34 -0000
+X-List-Received-Date: Mon, 30 Jul 2018 09:17:24 -0000
 
-Add x86_64-pep emulation support to the set enabled for x86_64 targets
-to enable the linker to produce Portable Executables for EFI binaries.
+* this will break meta-raspberrypi once more, by including
+  ${PN}-cypress-license package twice in PACKAGES
+  I've sent fix here:
+  https://github.com/agherzan/meta-raspberrypi/pull/295
 
-Enables building the x86-64 EFI variant of the Xen hypervisor for
-the OpenXT Project.
-
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-Changes in v6: added required "Upstream-Status" field to patch header.
+ .../linux-firmware/linux-firmware_git.bb             | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Changes in v5: Apply a patch to extend the set of emulations for x86-64,
-instead of supplying the "enable-targets" flag via the recipe.
-
-Reasoning: this looks like the least invasive way to add the needed emulation
-only when required. It will add the extra support to any builds that have
-x86-64 target enabled and not modify others.
-
-binutils uses autoconf and the AC_ARG_ENABLE macro for handling the
-"--enable-targets" option to the generated configure script. It doesn't allow
-for repeating the parameter with additional arguments to extend the list:
-it's a one-shot flag. That seems to be standard practice for autoconf.
-
-binutils source contains config files that map from the target identifiers
-to lists of emulations to enable. This patch extends some of those lists.
-
-Tested with x86-64 build to produce Xen EFI.
-
- meta/recipes-devtools/binutils/binutils-2.31.inc   |  1 +
- .../0016-add-i386pep-emulation-for-x86_64.patch    | 41 ++++++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0016-add-i386pep-emulation-for-x86_64.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
-index ec9e9c3..02d5bca 100644
---- a/meta/recipes-devtools/binutils/binutils-2.31.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
-@@ -35,6 +35,7 @@ SRC_URI = "\
-      file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
-      file://0014-Detect-64-bit-MIPS-targets.patch \
-      file://0015-sync-with-OE-libtool-changes.patch \
-+     file://0016-add-i386pep-emulation-for-x86_64.patch \
- "
- S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index dff34e3e3a..898c87dcd1 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -14,6 +14,7 @@ LICENSE = "\
+     & Firmware-cavium \
+     & Firmware-chelsio_firmware \
+     & Firmware-cw1200 \
++    & Firmware-cypress \
+     & Firmware-dib0700 \
+     & Firmware-e100 \
+     & Firmware-ene_firmware \
+@@ -74,6 +75,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
+     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
+     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
++    file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
+     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+     file://LICENCE.e100;md5=ec0f84136766df159a3ae6d02acdf5a8 \
+     file://LICENCE.ene_firmware;md5=ed67f0f62f8f798130c296720b7d3921 \
+@@ -135,6 +137,7 @@ NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
+ NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
+ NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
+ NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
++NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
+ NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
+ NO_GENERIC_LICENSE[Firmware-e100] = "LICENCE.e100"
+ NO_GENERIC_LICENSE[Firmware-ene_firmware] = "LICENCE.ene_firmware"
+@@ -233,6 +236,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+              ${PN}-rtl8168 \
++             ${PN}-cypress-license \
+              ${PN}-broadcom-license \
+              ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 \
+              ${PN}-bcm43362 ${PN}-bcm4339 ${PN}-bcm43430 ${PN}-bcm4354 \
+@@ -556,6 +560,14 @@ RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm43430 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
  
-diff --git a/meta/recipes-devtools/binutils/binutils/0016-add-i386pep-emulation-for-x86_64.patch b/meta/recipes-devtools/binutils/binutils/0016-add-i386pep-emulation-for-x86_64.patch
-new file mode 100644
-index 0000000..9f20784
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0016-add-i386pep-emulation-for-x86_64.patch
-@@ -0,0 +1,41 @@
-+binutils : enable x86_64-pep for producing EFI binaries on x86-64
++# For broadcom cypress
 +
-+Add x86_64-pep emulation support to the set enabled for x86_64 targets
-+to enable the linker to produce Portable Executables for EFI binaries.
++LICENSE_${PN}-cypress-license = "Firmware-cypress"
 +
-+Enables building the x86-64 EFI variant of the Xen hypervisor for
-+the OpenXT Project.
++FILES_${PN}-cypress-license = "\
++  ${nonarch_base_libdir}/firmware/LICENCE.cypress \
++"
 +
-+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
-+
-+Upstream-Status: Inappropriate [OE configuration specific]
-+---
-+diff --git a/bfd/config.bfd b/bfd/config.bfd
-+index c882421..dc705b6 100644
-+--- a/bfd/config.bfd
-++++ b/bfd/config.bfd
-+@@ -688,7 +688,7 @@ case "${targ}" in
-+     ;;
-+   x86_64-*-linux-*)
-+     targ_defvec=x86_64_elf64_vec
-+-    targ_selvecs="i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec"
-++    targ_selvecs="i386_elf32_vec iamcu_elf32_vec x86_64_elf32_vec i386_pei_vec x86_64_pei_vec l1om_elf64_vec k1om_elf64_vec x86_64_pe_vec x86_64_pe_be_vec i386_pe_vec"
-+     want64=true
-+     ;;
-+   x86_64-*-nacl*)
-+diff --git a/ld/configure.tgt b/ld/configure.tgt
-+index a1db7ad..65a984a 100644
-+--- a/ld/configure.tgt
-++++ b/ld/configure.tgt
-+@@ -253,8 +253,9 @@ x86_64-*-linux-gnux32)	targ_emul=elf32_x86_64
-+ 			tdir_elf_iamcu=`echo ${targ_alias} | sed -e 's/x86_64/i386/' -e 's/-linux-gnux32/-linux-gnu/'`
-+ 			tdir_elf_i386=`echo ${targ_alias} | sed -e 's/x86_64/i386/' -e 's/-linux-gnux32/-linux-gnu/'` ;;
-+ x86_64-*-linux-*)	targ_emul=elf_x86_64
-+-			targ_extra_emuls="elf32_x86_64 elf_i386 elf_iamcu elf_l1om elf_k1om"
-+-			targ_extra_libpath="elf_i386 elf32_x86_64 elf_l1om elf_k1om"
-++			targ_extra_emuls="elf32_x86_64 elf_i386 elf_iamcu elf_l1om elf_k1om i386pe i386pep"
-++			targ_extra_libpath="elf_i386 elf32_x86_64 elf_l1om elf_k1om i386pep"
-++			targ_extra_ofiles="deffilep.o pep-dll.o pe-dll.o"
-+ 			tdir_elf_i386=`echo ${targ_alias} | sed -e 's/x86_64/i386/'` ;;
-+ i[3-7]86-*-redox*)	targ_emul=elf_i386
-+ 			targ_extra_emuls=elf_x86_64 ;;
+ # For Broadcom bnx2-mips
+ #
+ # which is a separate case to the other Broadcom firmwares since its
 -- 
-2.7.4
+2.17.1
 
 
