@@ -1,46 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3574F788F2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BE424788F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 23:04:10 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r24-v6so9507650wmh.0
+	Mon, 30 Jul 2018 23:05:59 +0000 (UTC)
+Received: by mail-oi0-f66.google.com with SMTP id i12-v6so24481180oik.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 16:04:11 -0700 (PDT)
+	Mon, 30 Jul 2018 16:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=S9hSvXo/sAFTcFs2BI3Qy4hKhfi3Gv2FOW30rclJEUg=;
-	b=dI8MrXeuL+Znq8ODt8bS/9lKgRA5qu3cMidiwSILMZ3QsP1uRwPt6/Q/h/hJk2/XD+
-	/7j53CpWe1s0E1NgZaRTaCTeBapoTcvsb5eO52L0XRS8QTyp+V1D1QHzgut6agl0wtz1
-	ZPbCXda53V/DULZOHLWuDgJZcckoF4c6BMEtQ=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7pIgpLactwNpEGlC7YFRv4c/iSoNnDZIQ42AgysAKik=;
+	b=LxXLICHx3R2yIP7Py/x+9e8uZ0f5FEQvtuk1vglOIMN5jk2KBqvPBKfGpOg5+Aa6YX
+	G/EvRDElTmGzhEcTNCNOW80ojDhG2H7hxVIPyqt7f67Rknv0rtHlckjUctfJb9dhg1DW
+	6g8n5AepdX/cx0jcN9g1ywIGk5ijwMXqpSBWzR1ldspteZTf6Z2mbC+qf52FnzX7Pda3
+	wnMasJdWZ9sbdYptuOPLMMQJfdDh687tiKP7+WjCVVMcmJsszRpsaYZHlw4AdcQqFYbw
+	1libxnOUMXBwyrV/Sz69V9Dyq+gfEfG0/CVyyUQ46IyPv32bHtIxXHfbvysGYOrriPb6
+	Qe2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=S9hSvXo/sAFTcFs2BI3Qy4hKhfi3Gv2FOW30rclJEUg=;
-	b=DxCUwEcVH+EgSjCIDIiOcXvWykkI9YvrHhjhX28zugWRvu5CH82MLuJHCD3zs5Wty4
-	q4ExYAEGZWEvM6Yw44BgF01Job3kEK/UEpudhXBqpEKPM1mA+0phQLyfRdEd+1kEJ1R4
-	OOfOKrJno6PXNtPL+Bw3oQ0LiPsTZsoywMno3lWJfEF+yVKOZ4o4bJLgJ4GYXiTk4LKU
-	BVpGyGWxOoGPQsuyX2vWYHNh9P+lWQUnnarB8OjqhijjchxpkAJScF9FQp5CsWbWaDYS
-	At9fR4NELtcWRhMKAsLhoNPCk+QXXxs0vyB4NJ3rG7GioKaW0tLYqntW/MyByw+wkFBK
-	2Mgg==
-X-Gm-Message-State: AOUpUlHF7+r+oNsr+4XIJ00cXihld4P4GqGRw0wLY5NNyvmhvCQKEmt7
-	lAeP8irdwmjsqZma3D7cObRqXQAHdQqBRw==
-X-Google-Smtp-Source: AAOMgpe/Es5FiLWrMWB9UEAxsiydkxhCJIN/8hTsA4OC/lfbWRBJ6VET94cDB8+UXl9R3FjJfoejpg==
-X-Received: by 2002:a1c:aa0c:: with SMTP id
-	t12-v6mr652823wme.109.1532991850602; 
-	Mon, 30 Jul 2018 16:04:10 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a11-v6sm14361974wrr.81.2018.07.30.16.04.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jul 2018 16:04:09 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 00:04:08 +0100
-Message-Id: <20180730230408.19387-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] package.bbclass: Fix hardlink preservation issue
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7pIgpLactwNpEGlC7YFRv4c/iSoNnDZIQ42AgysAKik=;
+	b=CmXILGsep27MPDL9du/h7QROtknFbySfOR9aAv4gdAYWzfiQbIARAjRIBjzzJ7zTZW
+	m+CP6jANAKrOfIy/RDbiuuJjnl19Ypt0uhvwkScOSDnstM7MAGlhOTyXD0Romt+Ntrxt
+	TVu/KXvj0QIAohhBhDDyUGvsPg+irPEdE9Qds0Bfo2y9bayy1oDdwZJKQq+4J2l7Geff
+	N1keSVwOdc4fz/ZITdN57iTN+23wJjrUbotJbpntMPIy3owMQD5xvW8tkbecLxCHHR+D
+	sk8j/Hgi6DrNh7Mn+E6nh/VQKv5VmXvll7s5CJusL/JVUtzdBiRPXtX9BP30YJSb3mSo
+	ahzw==
+X-Gm-Message-State: AOUpUlENJ8qu4ewR30QRd9ScpP4LEmxYfdrWwsIal9H/HWxTHoNDQCpo
+	hPllfW4LrG2QBHxLbOUVh/dUmTrOuX87aIgPDfhgJRsXOXk=
+X-Google-Smtp-Source: AAOMgpevrbfzyIchJHqIKedMxE579MyhR+cPk8EvhreG2Adh6zcnK7+CegHgn31mJz+UXuR5Dj30Vs+j37UuMAbjdEE=
+X-Received: by 2002:aca:efd7:: with SMTP id
+	n206-v6mr21742462oih.70.1532991960725; 
+	Mon, 30 Jul 2018 16:06:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 16:05:40
+	-0700 (PDT)
+In-Reply-To: <8caafb085ff549a7979806bd748f51d290546a49.camel@linuxfoundation.org>
+References: <1532917949-207205-1-git-send-email-changqing.li@windriver.com>
+	<8caafb085ff549a7979806bd748f51d290546a49.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 31 Jul 2018 00:05:40 +0100
+Message-ID: <CAJTo0LazYUU0zBRM1KtA3do3xMXWYDHwBd5axbd-gOSroQygPw@mail.gmail.com>
+To: openembedded-core-bounces@lists.openembedded.org
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] curl: support multilib installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +58,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 23:04:10 -0000
+X-List-Received-Date: Mon, 30 Jul 2018 23:05:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Recent changes broke the preservation of hardlinks during processing due to a missing index.
-Fix this, reducing the size of the git recipe packages in particular (it contains many hardlinks).
+On 30 July 2018 at 23:29,
+<openembedded-core-bounces@lists.openembedded.org> wrote:
+> That said, is it not possible to just patch curl-config to use pkg-
+> config instead and remove the differences between the two multilib
+> cases, thereby solving this problem in a better way?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/package.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Prior art of this in Fedora:
+https://src.fedoraproject.org/rpms/curl/blob/master/f/0101-curl-7.32.0-multilib.patch
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 80233a8f5e8..8459d39b27e 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1021,7 +1021,7 @@ python split_and_strip_files () {
-                 #  c) Track any hardlinks between files so that we can reconstruct matching debug file hardlinks
- 
-                 # Use a reference of device ID and inode number to identify files
--                file_reference = checkelf[file]
-+                file_reference = checkelf[file][1]
-                 if file_reference in inodes:
-                     os.unlink(file)
-                     os.link(inodes[file_reference][0], file)
--- 
-2.17.1
-
+Ross
 
