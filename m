@@ -1,50 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A4ACC78D68
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8827A71B2E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 22:25:33 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id h15-v6so14486951wrs.7
+	Mon, 30 Jul 2018 22:26:49 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j5-v6so14513613wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 15:25:35 -0700 (PDT)
+	Mon, 30 Jul 2018 15:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=RE4i4dTyOLMAg4OGnLCzKs6FGnHDt+5pcHNPfP26GSQ=;
-	b=b6m0sUNMwTC9MqHg9EOt7toH+iexf/ZipqBIq0nskPKoNmtufY2kKQuZoFoFGha51b
-	Yai6x+VRiTfGBE6v9Ft06jSCDGw4ASxJU7ZhUAMMjG+QHRg2vPcRcbGn5BY+aNRy9R6k
-	MRGl6zenK6C6+cdPpOI2pFemuMMvnfSDLEm6g=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=y9b/RCp+JqHEEOck89zk16PdTrHSYbiwTZmCiP1bZeY=;
+	b=PokV/RSnU5yX1KLB+f1qiaYmbDh9bZPuS8++DpRxHR3aoZD4f89l+k1FSMrkTGHN6G
+	/BZWOHSC3b3MXXSSvAqOUaGmMDwOXSIWfyJgNoUboKN5S8sGgyxrdCQMYDFjhbZQpd/R
+	9605LLHZbFGooDzZT6/1i93ZR84560Jt3bD7I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=RE4i4dTyOLMAg4OGnLCzKs6FGnHDt+5pcHNPfP26GSQ=;
-	b=DQa3GhGouFtfedEUTc3xyouqYQ0bIItZJQaXzEa8jGeYDYM0n/ZRH72vNoHKeaQweJ
-	t8FoMGurWHUAwbeojMMBezQC8rDLw0G2GouzXDHPV7xkQMaKEeLbzfISaEZ9FvF7gNL7
-	msRrjHfkU12yUVkDzKuNYKrRkK7JYApBLPvqhhCql7LiZZga2hsBnWb+xByqsxSIkUas
-	VUL99O9I62NeE057mQ/dPOuKE7wtupJ60K/VZrDAlBIXGZpANxKwz+zXF4B9FhNH4lw5
-	d9e3080OrcFtdlZhFDa6xgtloQdqVZF2vb2dpDfmIJ45Ud9hPvJmBBnT4wfYT0iF8Ma6
-	GOag==
-X-Gm-Message-State: AOUpUlGVXy/kz5non4QR6aQUtfHt2jCx6HQrKNiSWrW6HhLf29YYAJro
-	LWF1vmuXWE2F2Mq4SVi7+0r3kjJLIEENPQ==
-X-Google-Smtp-Source: AAOMgpcNvXekxsQH7QW2WteE3nJVXuthx2WTr/hOLhVerfJXPK/OoK58fayV+Jc78nEwQd13e6U5Xg==
-X-Received: by 2002:adf:df07:: with SMTP id
-	y7-v6mr18071187wrl.117.1532989533959; 
-	Mon, 30 Jul 2018 15:25:33 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=y9b/RCp+JqHEEOck89zk16PdTrHSYbiwTZmCiP1bZeY=;
+	b=ThFKO5iwxIGJCVmnTODNfi5EPFBB/Y9rG0x6MY38wB9XzvmujeevHNMR9yF8QA0L3O
+	MFU53QWBrGY139QM5Vrs8o6TC8033MdUQEAoFzrTObiohlZFmzjB4GOh+H3TtP+uu7yh
+	ax+cHrPEV4/fqNCsF/Gp0lOkZ7WvcSpX37QeCwa70HEXoFMbujjX4lRbra/AOTU2zuOf
+	Nv2kYeFVkF6vkvdJm70GS3gvLPDKHVcS8MstHdUFSRdXUS2otb4n1qG2cNOF1YaWe92k
+	o/ATJjhrCXDVka4c7boQsn1dt9heQYXp1IPiVc4KpMO7ZbuFGTEjv02N7DMh2DeAqHLk
+	+dyg==
+X-Gm-Message-State: AOUpUlHRO9LMBjA3UQJaPzAPiU2IMhoooUDtgISEm6vmQkJ+nIA9O9rg
+	UFwb33iHiceQAFbYJcS6Q/JzefGnBPs5cw==
+X-Google-Smtp-Source: AAOMgpfqRQGyHt3tNkbrqUiyUayQ0L5lO4BhS8uEn+Btdj/J3oVRMwUx+QVJuTDgIw3y7uE4jzZN2w==
+X-Received: by 2002:adf:d24a:: with SMTP id
+	o10-v6mr16774318wri.229.1532989610312; 
+	Mon, 30 Jul 2018 15:26:50 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z7-v6sm11258415wrh.85.2018.07.30.15.25.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jul 2018 15:25:33 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2018 23:25:29 +0100
-Message-Id: <20180730222529.17655-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20180730222529.17655-1-richard.purdie@linuxfoundation.org>
-References: <20180730222529.17655-1-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 2/2] libtool: Fix problem with libtoolize in multilib installations
+	k3-v6sm579919wme.44.2018.07.30.15.26.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 30 Jul 2018 15:26:49 -0700 (PDT)
+Message-ID: <b0cb192801eb2e85702f319ad0a0cf33bbd2c239.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 30 Jul 2018 23:26:48 +0100
+In-Reply-To: <1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
+References: <1531151586-30557-1-git-send-email-bruce.ashfield@windriver.com>
+	<8e3f9ec13333061ecb0125e153df668abe8da1b9.camel@linuxfoundation.org>
+	<1cc72609-d849-f8a3-6524-1f7d9ad214c3@windriver.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-devsrc: restructure for out of tree (and on target) module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +61,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 22:25:34 -0000
+X-List-Received-Date: Mon, 30 Jul 2018 22:26:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Without this patch /usr/bin/libtoolize is different for each multilib
-since their host-triplets are different, despite there being no difference in
-the functionality of libtoolize itself.
+On Thu, 2018-07-26 at 10:04 -0400, Bruce Ashfield wrote:
+> > https://autobuilder.yocto.io/builders/nightly-multilib/builds/1139/
+> > steps/BuildImages_4/logs/stdio
+> > 
+> > Error: Transaction check error:
+> >    file /usr/bin/libtool from install of libtool-2.4.6-r0.0.i586
+> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
+> >    file /usr/bin/libtoolize from install of libtool-2.4.6-r0.0.i586 
+> > conflicts with file from package lib64-libtool-2.4.6-r0.0.x86_64
+> > 
+> 
+> And that leaves this error.
+> 
+> I've not been able to reproduce it, and I've been looking at the
+> elfutils RDEPENDS that is part of kernel devsrc, since that is what
+> pulls in libtool as a DEPENDS.
 
-This change just patches out the problematic line since its just a comment for the user
-in help text. Ugly but solves the problem. This fixes issues where libtool and
-libXX-libtool couldn't be installed into the same system.
+I've just sent out two patches which together should fix this one, they
+did locally at least...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../libtool/libtool/multilib.patch            | 23 +++++++++++++++++++
- .../recipes-devtools/libtool/libtool_2.4.6.bb |  2 ++
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/multilib.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/libtool/libtool/multilib.patch b/meta/recipes-devtools/libtool/libtool/multilib.patch
-new file mode 100644
-index 00000000000..c4794113efe
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/multilib.patch
-@@ -0,0 +1,23 @@
-+Without this patch /usr/bin/libtoolize is different for each multilib
-+since their host-triplets are different, despite there being no difference in
-+the functionality of libtoolize itself.
-+
-+Ugly, but just patch this out. This fixes issues where libtool and
-+libXX-libtool couldn't be installed into the same system.
-+
-+Upstream-Status: Inapproriate
-+RP 2018/7/30
-+
-+Index: libtool-2.4.6/libtoolize.in
-+===================================================================
-+--- libtool-2.4.6.orig/libtoolize.in
-++++ libtool-2.4.6/libtoolize.in
-+@@ -113,7 +113,7 @@ You must 'cd' to the top directory of yo
-+ When reporting a bug, please describe a test case to reproduce it and
-+ include the following information:
-+ 
-+-       host-triplet:   @host_triplet@
-++       host-triplet    <redacted>
-+        version:        $progname (GNU @PACKAGE@) @VERSION@
-+        automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
-+        autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
-diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-index b8a52408853..f5fdd00e5ee 100644
---- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-@@ -1,5 +1,7 @@
- require libtool-${PV}.inc
- 
-+SRC_URI += "file://multilib.patch"
-+
- RDEPENDS_${PN} += "bash"
- 
- #
--- 
-2.17.1
-
+Richard
 
