@@ -1,45 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E94DC71B2E
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A4ACC78D68
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 22:25:30 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id s9-v6so949289wmh.3
+	Mon, 30 Jul 2018 22:25:33 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h15-v6so14486951wrs.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 15:25:32 -0700 (PDT)
+	Mon, 30 Jul 2018 15:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=OmQV9L2ITLM9pOw3eby6LldiBaHsBGLdQBcQFgJ4JZ4=;
-	b=OzucIp3LWEq/pFTZlWD2xfaWAlrxe6/OB/OinmbvGwrZG8GbCgc9+1AUXtBjMEbKgv
-	Df+bPj5lxTaccVQJLX1ArJKKOcvWZwz9w2FUyh+JKQcGQtIu8/yah7lxdq02iU2H0dLA
-	pCARdgNnBNMs3DgJeFiUl5LeLgKkhUHoC0ZA0=
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=RE4i4dTyOLMAg4OGnLCzKs6FGnHDt+5pcHNPfP26GSQ=;
+	b=b6m0sUNMwTC9MqHg9EOt7toH+iexf/ZipqBIq0nskPKoNmtufY2kKQuZoFoFGha51b
+	Yai6x+VRiTfGBE6v9Ft06jSCDGw4ASxJU7ZhUAMMjG+QHRg2vPcRcbGn5BY+aNRy9R6k
+	MRGl6zenK6C6+cdPpOI2pFemuMMvnfSDLEm6g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=OmQV9L2ITLM9pOw3eby6LldiBaHsBGLdQBcQFgJ4JZ4=;
-	b=YbdY1m53QrOVnCvxVVOauU14+AtXjsWL44Wuv4y+EX5PWTVCbwYC7dpBuQtC4t05Y0
-	IOSQN+++iaUknesp5gKQ7PZ/Ptuxyw4EScTh+NvJ9SgFIp0tqM0yq+aDjEnvUscOgOD9
-	cESeNP+35rM5XnmWRlowgat+uL7zP9QF6A9HZBFY3tisL+15FSrxKcYK74LkfsKeSlwr
-	F5kEye63b0rc3/y4W4+LfiKJPXRjlgC0QI7HXejguxu7rnYBZTCiWbOo1ZSanPlkR/40
-	H+Lxixijszo4HgNaWsb8Q5wjXGOe0EpS6X4bngqOtB+AyXfIC1c5xuNSXWPz3ntrNMhN
-	NCkA==
-X-Gm-Message-State: AOUpUlHEzFIdOU+4IqSIzZT4EPO5sH8Mgbs6hdFGUv5v7qVANTDlzBAH
-	MIcYDtVdn/mzJpwwnG/QnWT3CVQ/ewDqJQ==
-X-Google-Smtp-Source: AAOMgpeYLW1X8Q15RQfZ2OdrtJMPqY6AxdkKbLY/BAIlj+fqwVH7+Bo3Bmfo3Y0co9ZtxFXEbJEOew==
-X-Received: by 2002:a1c:910f:: with SMTP id t15-v6mr655168wmd.51.1532989531201;
-	Mon, 30 Jul 2018 15:25:31 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=RE4i4dTyOLMAg4OGnLCzKs6FGnHDt+5pcHNPfP26GSQ=;
+	b=DQa3GhGouFtfedEUTc3xyouqYQ0bIItZJQaXzEa8jGeYDYM0n/ZRH72vNoHKeaQweJ
+	t8FoMGurWHUAwbeojMMBezQC8rDLw0G2GouzXDHPV7xkQMaKEeLbzfISaEZ9FvF7gNL7
+	msRrjHfkU12yUVkDzKuNYKrRkK7JYApBLPvqhhCql7LiZZga2hsBnWb+xByqsxSIkUas
+	VUL99O9I62NeE057mQ/dPOuKE7wtupJ60K/VZrDAlBIXGZpANxKwz+zXF4B9FhNH4lw5
+	d9e3080OrcFtdlZhFDa6xgtloQdqVZF2vb2dpDfmIJ45Ud9hPvJmBBnT4wfYT0iF8Ma6
+	GOag==
+X-Gm-Message-State: AOUpUlGVXy/kz5non4QR6aQUtfHt2jCx6HQrKNiSWrW6HhLf29YYAJro
+	LWF1vmuXWE2F2Mq4SVi7+0r3kjJLIEENPQ==
+X-Google-Smtp-Source: AAOMgpcNvXekxsQH7QW2WteE3nJVXuthx2WTr/hOLhVerfJXPK/OoK58fayV+Jc78nEwQd13e6U5Xg==
+X-Received: by 2002:adf:df07:: with SMTP id
+	y7-v6mr18071187wrl.117.1532989533959; 
+	Mon, 30 Jul 2018 15:25:33 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z7-v6sm11258415wrh.85.2018.07.30.15.25.29
+	z7-v6sm11258415wrh.85.2018.07.30.15.25.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jul 2018 15:25:30 -0700 (PDT)
+	Mon, 30 Jul 2018 15:25:33 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2018 23:25:28 +0100
-Message-Id: <20180730222529.17655-1-richard.purdie@linuxfoundation.org>
+Date: Mon, 30 Jul 2018 23:25:29 +0100
+Message-Id: <20180730222529.17655-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] multilib_script: Add support for multilib scripts
+In-Reply-To: <20180730222529.17655-1-richard.purdie@linuxfoundation.org>
+References: <20180730222529.17655-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] libtool: Fix problem with libtoolize in multilib installations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,81 +57,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 22:25:31 -0000
+X-List-Received-Date: Mon, 30 Jul 2018 22:25:34 -0000
 
-Whilst the package managers handle multilib ELF binaries well, they don't
-handle scripts in the *bindir directories well. This adds support for
-marking these up so that they can be handled using update-alternatives.
+Without this patch /usr/bin/libtoolize is different for each multilib
+since their host-triplets are different, despite there being no difference in
+the functionality of libtoolize itself.
 
-Its done this way so that non-multilib systems don't see any changes and
-there is standardisation amongst the multilibs on how the alternatives are
-named and prioritiesd. The priotitisation code needs to be added but this
-change means there is somewhere to add it.
-
-Recipe needs to set MULTILIB_SCRIPTS in the form <pkgname>:<scriptname>, e.g.
-MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/file1 ${PN}:${base_bindir}/file2"
-to indicate which script files to process from which packages.
-
-libtool is used a as a reference to stop the libtool scripts conflicting
-in a multilib case and allows the kernel-devsrc change to be merged.
+This change just patches out the problematic line since its just a comment for the user
+in help text. Ugly but solves the problem. This fixes issues where libtool and
+libXX-libtool couldn't be installed into the same system.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/multilib_script.bbclass          | 32 +++++++++++++++++++
- .../recipes-devtools/libtool/libtool_2.4.6.bb |  4 +++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/classes/multilib_script.bbclass
+ .../libtool/libtool/multilib.patch            | 23 +++++++++++++++++++
+ .../recipes-devtools/libtool/libtool_2.4.6.bb |  2 ++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtool/libtool/multilib.patch
 
-diff --git a/meta/classes/multilib_script.bbclass b/meta/classes/multilib_script.bbclass
+diff --git a/meta/recipes-devtools/libtool/libtool/multilib.patch b/meta/recipes-devtools/libtool/libtool/multilib.patch
 new file mode 100644
-index 00000000000..a5a552b7163
+index 00000000000..c4794113efe
 --- /dev/null
-+++ b/meta/classes/multilib_script.bbclass
-@@ -0,0 +1,32 @@
-+#
-+# Recipe needs to set MULTILIB_SCRIPTS in the form <pkgname>:<scriptname>, e.g.
-+# MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/file1 ${PN}:${base_bindir}/file2"
-+# to indicate which script files to process from which packages.
-+#
++++ b/meta/recipes-devtools/libtool/libtool/multilib.patch
+@@ -0,0 +1,23 @@
++Without this patch /usr/bin/libtoolize is different for each multilib
++since their host-triplets are different, despite there being no difference in
++the functionality of libtoolize itself.
 +
-+inherit update-alternatives
++Ugly, but just patch this out. This fixes issues where libtool and
++libXX-libtool couldn't be installed into the same system.
 +
-+MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
++Upstream-Status: Inapproriate
++RP 2018/7/30
 +
-+PACKAGE_PREPROCESS_FUNCS += "multilibscript_rename"
-+
-+multilibscript_rename() {
-+	:
-+}
-+
-+python () {
-+    # Do nothing if multilib isn't being used
-+    if not d.getVar("MULTILIB_VARIANTS"):
-+       return
-+    # Do nothing for native/cross
-+    if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
-+       return
-+
-+    for entry in (d.getVar("MULTILIB_SCRIPTS", False) or "").split():
-+       pkg, script = entry.split(":")
-+       scriptname = os.path.basename(script)
-+       d.setVar("ALTERNATIVE_" + pkg, scriptname)
-+       d.setVarFlag("ALTERNATIVE_LINK_NAME", scriptname, script)
-+       d.setVarFlag("ALTERNATIVE_TARGET", scriptname, script + "-${MULTILIB_SUFFIX}")
-+       d.appendVar("multilibscript_rename",  "\n	mv ${PKGD}" + script + " ${PKGD}" + script + "-${MULTILIB_SUFFIX}")
-+}
++Index: libtool-2.4.6/libtoolize.in
++===================================================================
++--- libtool-2.4.6.orig/libtoolize.in
+++++ libtool-2.4.6/libtoolize.in
++@@ -113,7 +113,7 @@ You must 'cd' to the top directory of yo
++ When reporting a bug, please describe a test case to reproduce it and
++ include the following information:
++ 
++-       host-triplet:   @host_triplet@
+++       host-triplet    <redacted>
++        version:        $progname (GNU @PACKAGE@) @VERSION@
++        automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
++        autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
 diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-index b02620b4b41..b8a52408853 100644
+index b8a52408853..f5fdd00e5ee 100644
 --- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
 +++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-@@ -26,3 +26,7 @@ do_install_append () {
-             -e "s@${HOSTTOOLS_DIR}/@@g" \
-             -i ${D}${bindir}/libtool
- }
+@@ -1,5 +1,7 @@
+ require libtool-${PV}.inc
+ 
++SRC_URI += "file://multilib.patch"
 +
-+inherit multilib_script
-+
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/libtool"
+ RDEPENDS_${PN} += "bash"
+ 
+ #
 -- 
 2.17.1
 
