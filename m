@@ -1,18 +1,18 @@
-Return-Path: <martin@geanix.com>
-Received: from mail.hundeboll.net (mail.hundeboll.net [88.198.92.70])
-	by mail.openembedded.org (Postfix) with ESMTP id C82897473A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 21:59:11 +0000 (UTC)
-Received: from xps.local (unknown [85.184.147.232])
-	by mail.hundeboll.net (Postfix) with ESMTPSA id DAF961C09C8;
-	Mon, 30 Jul 2018 23:59:11 +0200 (CEST)
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2018 23:59:06 +0200
-Message-Id: <20180730215906.30079-1-martin@geanix.com>
-X-Mailer: git-send-email 2.18.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B035B78C36;
+	Mon, 30 Jul 2018 22:06:39 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH][sumo] python2: Fix build with gcc8
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>
+Date: Mon, 30 Jul 2018 22:06:41 -0000
+Message-ID: <20180730220641.13841.52301@do.openembedded.org>
+References: <20180730215906.30079-1-martin@geanix.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20180730215906.30079-1-martin@geanix.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMjogRml4IGJ1aWxkIHdpdGggZ2NjOA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,101 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 21:59:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Jul 2018 22:06:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ross Burton <ross.burton@intel.com>
+== Series Details ==
 
-(From OE-Core rev: 910f68c9c8dc26e12d28ef29e956af63d100f121)
+Series: python2: Fix build with gcc8
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/13307/
+State : failure
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
+  Suggested fix    Include where fix-gc-alignment.patch was submitted
+  Current          Upstream-Status: Submitted
+  Standard format  Upstream-Status: Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../python/python-native_2.7.14.bb            |  1 +
- .../python/python/fix-gc-alignment.patch      | 43 +++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.14.bb |  1 +
- 3 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/fix-gc-alignment.patch
-
-diff --git a/meta/recipes-devtools/python/python-native_2.7.14.bb b/meta/recipes-devtools/python/python-native_2.7.14.bb
-index 7c491fa3e0..b822583c53 100644
---- a/meta/recipes-devtools/python/python-native_2.7.14.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.14.bb
-@@ -16,6 +16,7 @@ SRC_URI += "\
-             file://builddir.patch \
-             file://parallel-makeinst-create-bindir.patch \
-             file://revert_use_of_sysconfigdata.patch \
-+            file://fix-gc-alignment.patch \
-            "
- 
- S = "${WORKDIR}/Python-${PV}"
-diff --git a/meta/recipes-devtools/python/python/fix-gc-alignment.patch b/meta/recipes-devtools/python/python/fix-gc-alignment.patch
-new file mode 100644
-index 0000000000..b63cd08747
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/fix-gc-alignment.patch
-@@ -0,0 +1,43 @@
-+Upstream-Status: Submitted
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+Fix for over-aligned GC info
-+Patch by Florian Weimer
-+
-+See: https://bugzilla.redhat.com/show_bug.cgi?id=1540316
-+Upstream discussion: https://mail.python.org/pipermail/python-dev/2018-January/152000.html
-+
-+diff --git a/Include/objimpl.h b/Include/objimpl.h
-+index 55e83eced6..aa906144dc 100644
-+--- a/Include/objimpl.h
-++++ b/Include/objimpl.h
-+@@ -248,6 +248,18 @@ PyAPI_FUNC(PyVarObject *) _PyObject_GC_Resize(PyVarObject *, Py_ssize_t);
-+ /* for source compatibility with 2.2 */
-+ #define _PyObject_GC_Del PyObject_GC_Del
-+ 
-++/* Former over-aligned definition of PyGC_Head, used to compute the
-++   size of the padding for the new version below. */
-++union _gc_head;
-++union _gc_head_old {
-++    struct {
-++        union _gc_head *gc_next;
-++        union _gc_head *gc_prev;
-++        Py_ssize_t gc_refs;
-++    } gc;
-++    long double dummy;
-++};
-++
-+ /* GC information is stored BEFORE the object structure. */
-+ typedef union _gc_head {
-+     struct {
-+@@ -255,7 +267,8 @@ typedef union _gc_head {
-+         union _gc_head *gc_prev;
-+         Py_ssize_t gc_refs;
-+     } gc;
-+-    long double dummy;  /* force worst-case alignment */
-++    double dummy;  /* force worst-case alignment */
-++    char dummy_padding[sizeof(union _gc_head_old)];
-+ } PyGC_Head;
-+ 
-+ extern PyGC_Head *_PyGC_generation0;
-+ 
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/python/python_2.7.14.bb b/meta/recipes-devtools/python/python_2.7.14.bb
-index 3044c3d363..b923b9237b 100644
---- a/meta/recipes-devtools/python/python_2.7.14.bb
-+++ b/meta/recipes-devtools/python/python_2.7.14.bb
-@@ -30,6 +30,7 @@ SRC_URI += "\
-   file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
-   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
-+  file://fix-gc-alignment.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-2.18.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
