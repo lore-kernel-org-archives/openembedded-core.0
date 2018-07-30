@@ -1,43 +1,50 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A1578DD6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 472BE78CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 15:13:57 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Jul 2018 08:13:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,422,1526367600"; d="scan'208,217";a="77202937"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2018 08:13:52 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
-	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 30 Jul 2018 08:13:50 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.66]) by
-	FMSMSX153.amr.corp.intel.com ([169.254.9.131]) with mapi id
-	14.03.0319.002; Mon, 30 Jul 2018 08:13:49 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Unassigned Bugs - Help Needed
-Thread-Index: AdQXlGn2RYGWCO8aQne3TGYivsbGuQ==
-Date: Mon, 30 Jul 2018 15:13:48 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC73688A8@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.108]
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWM1NTVhNjktYmU4ZS00NzkzLTkyMDgtZGVlNGE1OTA2YTZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaUlWbjdERDJ5eExEVTQ0dWhmcVE5RVV6NVQrT1dlMmtFek5FSTNwUjZ2TE5cL05hT2ZBdXpzZk1EV2tlUzRkNGQifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
+	Mon, 30 Jul 2018 15:55:23 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id n21-v6so22170610oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jul 2018 08:55:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7JuyjvTAxgT3FFyg+Zb2TjCOCFXm24hYtkqv0d7HBzw=;
+	b=rq6F0korRQziIuLkbKlaZAS9xeero/wWOOSV3X05fW2aYNoawcvVcOVIpERcsTxYaT
+	0rnWBcElTTeHtmcTN7wg5XWnf2Q4r8QsIU6SWF30wyroD8I07BC4orolUi/yWlb+rKqS
+	wg4HSyDmQ1A/uGpW0SQNlWPYtG2qI5kg2fteQBjwUxQG8D50MdMlIKARFWffzuEY7LeQ
+	Zz4SP8b/+zH4hbwjrAxpFoNJuAGK0R3Y0/9Vah5wxLmou7/ms/bpi7ahALHk1MtlZ7Eu
+	mECov9VHnxWn3rASPBvy+8vP1W3aD9Vq0dCAGQSTXav3D0/ZnOH7XItkPU5pCAeBoxJ7
+	oYMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7JuyjvTAxgT3FFyg+Zb2TjCOCFXm24hYtkqv0d7HBzw=;
+	b=EeAHKuFQKzC4v0B9Tfu2rwJMVNUOaWxLFbWkKtGJzwWJ9HdFT2dPLdS3/vZ/arwiz3
+	x9YrqzB8uKZsYS7CjUx65H96tbIvu9Ib4DVJ9u3fHtHmNJtPgjNgOIbjhUOYXsW9mar2
+	VHFvxatp1RNy+LCqfswx6C7ajfafZ5wJedooyJ4qGcTTzyGAe9gE+EPhU8fTj4Koa7pG
+	mHpCcY4VQlsT3U3kGR8xfMzD/gIFQ2sGg7QoweWLUBXdF4iABw8UoiolgJo9SEU83N16
+	Fi9jJ1qb6in7YEFoLetLAiYejbjgnfS4DJPcYZv9ki6AUoal6qeOJ9Z4Pm8QMCbJq2zU
+	2HCA==
+X-Gm-Message-State: AOUpUlH1U2xBeFRQevKn+iV/DRFqHkm6E+oeFebh81xvdwlDOC7upbhy
+	byYXJ36W911C/xoVBz1i9eETANJ5gtrFCWZAi7/q9Q==
+X-Google-Smtp-Source: AAOMgpeUX9pMNCcq34JBnsZ8nkpipJ2Y6kSzB1dmI8FUTHKER1HcqWUC6thQwm2M/MMt1tH4TSJQ5f1FZAaTmVm72DM=
+X-Received: by 2002:aca:f409:: with SMTP id
+	s9-v6mr19567312oih.102.1532966125094; 
+	Mon, 30 Jul 2018 08:55:25 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Yocto Project Unassigned Bugs - Help Needed
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Mon, 30 Jul 2018 08:55:04
+	-0700 (PDT)
+In-Reply-To: <1532963040-31606-1-git-send-email-akuster808@gmail.com>
+References: <1532963040-31606-1-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 30 Jul 2018 16:55:04 +0100
+Message-ID: <CAJTo0LZNTBvCSg7E+b0oUMHW=7tB0NZMPtLM-Khnc4PXxSZf5g@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] parselogs: Add bluetoothd error to list of mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,214 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 15:13:57 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC73688A8fmsmsx111amrcor_"
+X-List-Received-Date: Mon, 30 Jul 2018 15:55:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC73688A8fmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Wouldn't it be better to fix bluez?  It's crashing....
 
-All,
+Ross
 
-
-
-The triage team meets weekly and does its best to handle the bugs reported =
-into the bugzilla. The number of people attending that meeting has fallen, =
-as have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage team) a=
-re therefore going to start reporting out the currently 323 unassigned bugs=
-.
-
-
-
-We're hoping people may be able to spare some time now and again to help ou=
-t with these.
-
-
-
-Bugs are split into two types, "true bugs" where things don't work as they =
-should and "enhancements" which are features we'd want to add to the system=
-.
-
-
-
-There are also roughly three different "priority" classes right now, "2.6",=
- "2.99" and "Future", the more pressing/urgent issues being in "2.6".
-
-
-
-Please review this link and if a bug is something you would be able to help=
- with either take ownership of the bug, or send me (Stephen.k.jolley@intel.=
-com) an e-mail with the bug number you would like and I will assign it to y=
-ou (please make sure you have a bugzilla account).
-
-
-
-The list is at: https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bu=
-gs
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*    Cell:                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC73688A8fmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On 30 July 2018 at 16:04, Armin Kuster <akuster808@gmail.com> wrote:
+> do_page_fault(): sending SIGSEGV to bluetoothd for invalid read access from 0000000000000030
+> [   21.402249] epc = 000000852c3a0438 in libc-2.27.so[852c310000+19b000]
+> [   21.402505] ra  = 000000852c3ae0cc in libc-2.27.so[852c310000+19b000]
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:2 11 5 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoPlainText">All,<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The triage team meets weekly and does its best to=
- handle the bugs reported into the bugzilla. The number of people attending=
- that meeting has fallen, as have the number of people available to help fi=
-x bugs. One of the things we hear
- users report is they don't know how to help. We (the triage team) are ther=
-efore going to start reporting out the currently 323 unassigned bugs.<o:p><=
-/o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">We're hoping people may be able to spare some tim=
-e now and again to help out with these.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Bugs are split into two types, &quot;true bugs&qu=
-ot; where things don't work as they should and &quot;enhancements&quot; whi=
-ch are features we'd want to add to the system.<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">There are also roughly three different &quot;prio=
-rity&quot; classes right now, &quot;2.6&quot;, &quot;2.99&quot; and &quot;F=
-uture&quot;, the more pressing/urgent issues being in &quot;2.6&quot;.<o:p>=
-</o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">Please review this link and if a bug is something=
- you would be able to help with either take ownership of the bug, or send m=
-e (Stephen.k.jolley@intel.com) an e-mail with the bug number you would like=
- and I will assign it to you (please
- make sure you have a bugzilla account).<o:p></o:p></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoPlainText">The list is at: <a href=3D"https://wiki.yoctoproj=
-ect.org/wiki/Bug_Triage#Unassigned_Bugs">
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_Bugs</a><o:p></o:p=
-></p>
-<p class=3D"MsoPlainText"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> This causes the xorg testcase to fail.
+>
+> [Yocto #12845]
+>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/parselogs.py | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+> index f0bcd16..e902299 100644
+> --- a/meta/lib/oeqa/runtime/cases/parselogs.py
+> +++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+> @@ -90,10 +90,12 @@ ignore_errors = {
+>          'Failed to load module "glx"',
+>          'pci 0000:00:00.0: [Firmware Bug]: reg 0x..: invalid BAR (can\'t size)',
+>          'cacheinfo: Failed to find cpu0 device node',
+> +        'do_page_fault(): sending SIGSEGV to bluetoothd for invalid read access',
+>          ] + common_errors,
+>      'qemumips64' : [
+>          'pci 0000:00:00.0: [Firmware Bug]: reg 0x..: invalid BAR (can\'t size)',
+>          'cacheinfo: Failed to find cpu0 device node',
+> +        'do_page_fault(): sending SIGSEGV to bluetoothd for invalid read access',
+>           ] + common_errors,
+>      'qemuppc' : [
+>          'PCI 0000:00 Cannot reserve Legacy IO [io  0x0000-0x0fff]',
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC73688A8fmsmsx111amrcor_--
