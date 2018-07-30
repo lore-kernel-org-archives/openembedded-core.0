@@ -1,25 +1,53 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E9EB78D80
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 84E13744F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 09:38:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6U9cCBY022930
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 02:38:12 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Mon, 30 Jul 2018 02:38:12 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Jul 2018 17:41:57 +0800
-Message-ID: <3d50059e869d9d288a64995954c116c039f8fa2f.1532943666.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1532943666.git.Qi.Chen@windriver.com>
-References: <cover.1532943666.git.Qi.Chen@windriver.com>
+	Mon, 30 Jul 2018 11:12:43 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w6UBCgue004379
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Mon, 30 Jul 2018 13:12:42 +0200
+Received: from [192.168.253.100] ([163.242.57.90])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id w6UBCfDl026940;
+	Mon, 30 Jul 2018 13:12:42 +0200
+References: <20180709125657.13192-1-andrej.valek@siemens.com>
+	<20180717091035.26461-1-andrej.valek@siemens.com>
+To: richard.purdie@linuxfoundation.org
+From: Andrej Valek <andrej.valek@siemens.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
+	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
+	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
+	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
+	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
+	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
+	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
+	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
+	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
+	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
+	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
+	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
+	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
+	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
+	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
+	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
+	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
+	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
+	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
+	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
+	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
+	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
+	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
+	emYHzsJ3+vLapH+kAEI=
+Message-ID: <045626dc-6e83-6f0d-1b97-ff8181cb40d8@siemens.com>
+Date: Mon, 30 Jul 2018 13:12:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] busybox: move init related configs to init.cfg
+In-Reply-To: <20180717091035.26461-1-andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6 0/3] Openssl 1.1 upgrading
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 09:38:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 Jul 2018 11:12:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Move init related configs to init.cfg.
+Hi Richard,
 
-These config items do not make much sense unless busybox is selected
-as the init manager. They should belong to init.cfg.
+What is the current status of this upgrade? I have made same additional
+syncing with master. So the question is, if there are some additional
+issues... .
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
- meta/recipes-core/busybox/busybox/init.cfg  |  7 ++++++-
- 2 files changed, 12 insertions(+), 7 deletions(-)
+Cheers,
+Andrej
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index fbb5fd8..59d93c7 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -468,21 +468,21 @@ CONFIG_FEATURE_XARGS_SUPPORT_REPL_STR=y
- # CONFIG_BOOTCHARTD is not set
- # CONFIG_FEATURE_BOOTCHARTD_BLOATED_HEADER is not set
- # CONFIG_FEATURE_BOOTCHARTD_CONFIG_FILE is not set
--CONFIG_HALT=y
--CONFIG_POWEROFF=y
--CONFIG_REBOOT=y
-+# CONFIG_HALT is not set
-+# CONFIG_POWEROFF is not set
-+# CONFIG_REBOOT is not set
- # CONFIG_FEATURE_CALL_TELINIT is not set
--CONFIG_TELINIT_PATH=""
-+# CONFIG_TELINIT_PATH is not set
- # CONFIG_INIT is not set
- # CONFIG_LINUXRC is not set
- # CONFIG_FEATURE_USE_INITTAB is not set
- # CONFIG_FEATURE_KILL_REMOVED is not set
--CONFIG_FEATURE_KILL_DELAY=0
-+# CONFIG_FEATURE_KILL_DELAY is not set
- # CONFIG_FEATURE_INIT_SCTTY is not set
- # CONFIG_FEATURE_INIT_SYSLOG is not set
- # CONFIG_FEATURE_INIT_QUIET is not set
- # CONFIG_FEATURE_INIT_COREDUMPS is not set
--CONFIG_INIT_TERMINAL_TYPE=""
-+# CONFIG_INIT_TERMINAL_TYPE is not set
- # CONFIG_FEATURE_INIT_MODIFY_CMDLINE is not set
- 
- #
-diff --git a/meta/recipes-core/busybox/busybox/init.cfg b/meta/recipes-core/busybox/busybox/init.cfg
-index 006d4c6..3c1fdd4 100644
---- a/meta/recipes-core/busybox/busybox/init.cfg
-+++ b/meta/recipes-core/busybox/busybox/init.cfg
-@@ -1,3 +1,8 @@
- CONFIG_INIT=y
- CONFIG_FEATURE_USE_INITTAB=y
--
-+CONFIG_HALT=y
-+CONFIG_POWEROFF=y
-+CONFIG_REBOOT=y
-+CONFIG_FEATURE_KILL_DELAY=0
-+CONFIG_TELINIT_PATH=""
-+CONFIG_INIT_TERMINAL_TYPE=""
--- 
-1.9.1
-
+On 07/17/18 11:10, Andrej Valek wrote:
+> Changes:
+> 
+> [v4]
+>  - just resend series
+> 
+> [v5]
+>  - sync dofile.pl patch with mainline
+> 
+> [v6]
+>  - sync changes with current master
+> 
+> Andrej Valek (3):
+>   openssl-1.1: fix c_rehash perl errors
+>   openssl-1.1: rework packaging
+>   openssl-1.1: /etc/ssl location compatibility
+> 
+>  ...-dofile.pl-only-quote-stuff-that-actually.patch | 29 ++++++++++++++++++++++
+>  .../recipes-connectivity/openssl/openssl_1.1.0h.bb | 27 ++++++++++++++++++--
+>  2 files changed, 54 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-Revert-util-dofile.pl-only-quote-stuff-that-actually.patch
+> 
 
