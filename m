@@ -1,101 +1,68 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E4678D97
+Return-Path: <anoo@linux.ibm.com>
+X-Greylist: delayed 7167 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 30 Jul 2018 17:18:58 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+	[148.163.158.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C12B578D39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 16:38:01 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id x5-v6so7548544pgp.7
+	Mon, 30 Jul 2018 17:18:58 +0000 (UTC)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.22/8.16.0.22) with SMTP id
+	w6UFDvhA110967 for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jul 2018 11:19:32 -0400
+Received: from e15.ny.us.ibm.com (e15.ny.us.ibm.com [129.33.205.205])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2kj49dau7k-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 09:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=TPvBnX47is+q9/+e4XWNb/6NOvFvLVK3LxJHNExJ4es=;
-	b=N0/BJTBqSaVgBiiUGVt98ADSj5GGGfQoewYDY1GHqYtSJ+F+QECmnZcUdAPNUfZIHs
-	TRkupiEPJlSR4tmHKnawxqAaNZCg9fbjiR8xV6N/HNFp5z6sukSmPxwNZNOTQqTGh1Mr
-	MrUmCRFs25S2x4C4RzXr2ECitwZYSmLFq1Z3CLKkq9SO9oQK78QSmlnyJN/O/TbcnuuQ
-	fd15ZZbSxhncZ+/DBmHRfMQ6Ojyk1CWXGj52Io+EzWTclgK2OSj68svu1zYQXr4VJ1mf
-	h4Yr6iQAP3KX3eQOZWw6R0wiVdy3BlX6GcwNN1uq25mYEUu9oiXHz8fPrx3dpBdAXA3L
-	gAsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=TPvBnX47is+q9/+e4XWNb/6NOvFvLVK3LxJHNExJ4es=;
-	b=aDRMvGWN6acw8XlTJYXC1d17g4rol46DFLfqw5MHENSHaTbTvqJBsPTtVgokgNxqGu
-	32cfNi379BP/WPXAdeESMPn1rkCLXjWCfhdFJn1yGlE+UXgUKdBjqbkBekEKuSgV71Ux
-	M90ZYVvXSmwgZ28BaUN7278O6x7LB/EMR+rXWnRKsPhYEP4LEfkjQJ0EM71LzJy9dts8
-	bXAY7byfCJZVg1pt9kpsc/dTYoezGsgX9QUMJpg1UKKGS2+kMzn3dLrTTtC5Y+sjPx0B
-	VEXD2mY57+FVNVJuysL8E5OPqtow9l8CCRdGYBRT0r9bNEZtgHFEMGJiiUhjInLU84e8
-	AFZA==
-X-Gm-Message-State: AOUpUlGs4433oAiTWG3+ItDr+21Gsa8FKGQrEoKmw6vsIL2JWHIRahUD
-	j8UslsjzAYzZKxL0fR3ari2dVRd2
-X-Google-Smtp-Source: AAOMgpex9XUFIEGaq0BgU99NvhUyqQTt8HjxliXS3uanw9FplxaSbgsjD/iM1bUB+zrc/xuzxpAseA==
-X-Received: by 2002:a62:411a:: with SMTP id
-	o26-v6mr8577430pfa.111.1532968682594; 
-	Mon, 30 Jul 2018 09:38:02 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:f98c:c6a6:efae:e2fe?
-	([2601:202:4180:c33:f98c:c6a6:efae:e2fe])
-	by smtp.gmail.com with ESMTPSA id
-	s16-v6sm16383003pfm.114.2018.07.30.09.38.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jul 2018 09:38:02 -0700 (PDT)
-To: Joel Stanley <joel@jms.id.au>, openembedded-core@lists.openembedded.org
-References: <20180730051029.5530-1-joel@jms.id.au>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <682febae-f873-d42b-3fd3-fced5f8a82b8@gmail.com>
-Date: Mon, 30 Jul 2018 09:38:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <20180730051029.5530-1-joel@jms.id.au>
-Subject: Re: [PATCH v2 0/2] GCC 7.3 fixes
+	Mon, 30 Jul 2018 11:19:32 -0400
+Received: from localhost
+	by e15.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <openembedded-core@lists.openembedded.org> from
+	<anoo@linux.ibm.com>; Mon, 30 Jul 2018 11:19:31 -0400
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+	by e15.ny.us.ibm.com (146.89.104.202) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 30 Jul 2018 11:19:29 -0400
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+	[9.57.199.111])
+	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	w6UFJTkU10682772
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=FAIL); Mon, 30 Jul 2018 15:19:29 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5991AAC05E;
+	Mon, 30 Jul 2018 11:20:08 -0400 (EDT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1FE7FAC05B;
+	Mon, 30 Jul 2018 11:20:08 -0400 (EDT)
+Received: from habcap11p1.aus.stglabs.ibm.com (unknown [9.41.164.53])
+	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+	Mon, 30 Jul 2018 11:20:08 -0400 (EDT)
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Jul 2018 10:19:16 -0500
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 18073015-0068-0000-0000-000003200E7E
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00009457; HX=3.00000241; KW=3.00000007;
+	PH=3.00000004; SC=3.00000266; SDB=6.01068117; UDB=6.00549049;
+	IPR=6.00846212; 
+	MB=3.00022407; MTD=3.00000008; XFM=3.00000015; UTC=2018-07-30 15:19:30
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 18073015-0069-0000-0000-000045360795
+Message-Id: <1532963956-25899-1-git-send-email-anoo@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-07-30_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1806210000 definitions=main-1807300167
+Subject: [PATCH] mtd-utils: Revert "Return correct error number in ubi_get_vol_in"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,36 +75,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2018 16:38:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 30 Jul 2018 17:18:59 -0000
 
+Add mtd-utils upstream patch that fixes a regression on the
+mtd-utils tools such as ubinfo.
 
+Details of the issue which affects mtd-utils 2.0.1 and 2.0.2:
+http://lists.infradead.org/pipermail/linux-mtd/2018-June/081562.html
 
-On 07/29/2018 10:10 PM, Joel Stanley wrote:
-> v2: Add Upstream-Status tags
-For sumo too ?
+Upstream patch:
+http://git.infradead.org/mtd-utils.git/commit/0f833ac73ad631248826386e2918d8571ecf0347
 
-- armin
->
-> This series has a pair of patches that we have been using in OpenBMC's
-> Yocto tree for a few weeks. The build fix is required to compile from
-> our ppc64le build machines.
->
-> The std::pair fix reduces memory requirements from many gigabytes down
-> to something reasonable.
->
-> Joel Stanley (2):
->   gcc-7.3: Fix build on ppc64le hosts
->   gcc-7.3: Backport fixes for std::pair high memory usage
->
->  meta/recipes-devtools/gcc/gcc-7.3.inc         |  2 +
->  ...c64le-build-Partial-backport-r256656.patch | 36 ++++++++++++
->  ...-PR-c-80290-memory-hog-with-std-pair.patch | 57 +++++++++++++++++++
->  3 files changed, 95 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0001-Fix-ppc64le-build-Partial-backport-r256656.patch
->  create mode 100644 meta/recipes-devtools/gcc/gcc-7.3/0001-PR-c-80290-memory-hog-with-std-pair.patch
->
+Signed-off-by: Adriana Kobylak <anoo@linux.ibm.com>
+---
+ ...rn-correct-error-number-in-ubi_get_vol_in.patch | 91 ++++++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  1 +
+ 2 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
+new file mode 100644
+index 0000000..aaed353
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
+@@ -0,0 +1,91 @@
++From 0f833ac73ad631248826386e2918d8571ecf0347 Mon Sep 17 00:00:00 2001
++From: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++Date: Sat, 9 Jun 2018 16:45:22 +0200
++Subject: [PATCH] Revert "Return correct error number in ubi_get_vol_info1"
++
++This reverts commit dede98ffb706676309488d7cc660f569548d5930.
++
++The original commit tried to fix a descrepancy between the implementation
++and the documentation by making the implementation comply.
++
++When making the change, it was overlooked, that ubinfo and ubirename were
++written against the implementation instead of the behaviour specified by
++the documentation. So were further internal functions like
++ubi_get_vol_info1_nm which further breaks ubirmvol.
++
++A report with an outline of a resulting problem can be read on
++the mailing list:
++
++http://lists.infradead.org/pipermail/linux-mtd/2018-June/081562.html
++
++From the report:
++
++steps to reproduce: have mtd-utils 2.0.1 or 2.0.2
++
++0. make a bunch of ubi volumes in sequential order
++
++ubimkvol /dev/ubi0 -s 64KiB -N test1
++ubimkvol /dev/ubi0 -s 64KiB -N test2
++ubimkvol /dev/ubi0 -s 64KiB -N test3
++ubimkvol /dev/ubi0 -s 64KiB -N test4
++..
++
++1. delete the test1 volume, making a hole in the volume table
++
++ubirmvol /dev/ubi0 -N test1
++
++2. try an affected tool (i.e. "ubirmvol /dev/ubi0 -N test4" )
++
++ |root at mr24:/# ubirmvol /dev/ubi0 -N test4
++ |ubirmvol: error!: cannot find UBI volume "test4"
++ |         error 19 (No such device)
++
++or "ubinfo -a"
++
++ | root at mr24:/# ubinfo -a
++ | UBI version:                    1
++ | Count of UBI devices:           1
++ | UBI control device major/minor: 10:59
++ | Present UBI devices:            ubi0
++ |
++ | ubi0
++ | Volumes count:                           11
++ | Logical eraseblock size:                 15872 bytes, 15.5 KiB
++ | Total amount of logical eraseblocks:     1952 (30982144 bytes, 29.5 MiB)
++ | Amount of available logical eraseblocks: 75 (1190400 bytes, 1.1 MiB)
++ | Maximum count of volumes                 92
++ | Count of bad physical eraseblocks:       0
++ | Count of reserved physical eraseblocks:  40
++ | Current maximum erase counter value:     984
++ | Minimum input/output unit size:          512 bytes
++ | Character device major/minor:            251:0
++ | ubinfo: error!: libubi failed to probe volume 5 on ubi0
++ |        error 19 (No such device)
++ | Present volumes:                         0, 1, 2, 3, 4root at mr24:/#
++
++Reported-by: Christian Lamparter <chunkeey@gmail.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++---
++ lib/libubi.c | 5 +----
++ 1 file changed, 1 insertion(+), 4 deletions(-)
++
++diff --git a/lib/libubi.c b/lib/libubi.c
++index b50e68a..978b433 100644
++--- a/lib/libubi.c
+++++ b/lib/libubi.c
++@@ -1240,11 +1240,8 @@ int ubi_get_vol_info1(libubi_t desc, int dev_num, int vol_id,
++ 	info->dev_num = dev_num;
++ 	info->vol_id = vol_id;
++ 
++-	if (vol_get_major(lib, dev_num, vol_id, &info->major, &info->minor)) {
++-		if (errno == ENOENT)
++-			errno = ENODEV;
+++	if (vol_get_major(lib, dev_num, vol_id, &info->major, &info->minor))
++ 		return -1;
++-	}
++ 
++ 	ret = vol_read_data(lib->vol_type, dev_num, vol_id, buf, 50);
++ 	if (ret < 0)
++-- 
++2.14.4
++
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 97a3e0c..f53c6c1 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -15,6 +15,7 @@ PV = "2.0.2+${SRCPV}"
+ SRCREV = "bc63d36e39f389c8c17f6a8e9db47f2acc884659"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
++           file://0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch \
+ "
+ 
+ S = "${WORKDIR}/git/"
+-- 
+1.8.3.1
 
 
