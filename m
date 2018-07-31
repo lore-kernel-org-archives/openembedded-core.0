@@ -1,53 +1,28 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id A6B0D78DC1
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5279A78DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 10:24:27 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w6VAOQAH012330
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 31 Jul 2018 12:24:27 +0200
-Received: from [192.168.253.100] ([163.242.57.90])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id w6VAOQdC013428;
-	Tue, 31 Jul 2018 12:24:26 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1533000487-12738-1-git-send-email-armccurdy@gmail.com>
-	<b9a00beb06723da9bdd5f32923057d31ccbc0941.camel@linuxfoundation.org>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	xsBNBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAHNJ0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPsLAfgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO587ATQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABwsBlBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <b5b31110-b182-fc03-e648-bd5d90f025ef@siemens.com>
-Date: Tue, 31 Jul 2018 12:24:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <b9a00beb06723da9bdd5f32923057d31ccbc0941.camel@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl_1.0: drop unnecessary dependency on makedepend-native
+	Tue, 31 Jul 2018 10:52:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2018 03:52:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.51,427,1526367600"; d="scan'208";a="244775047"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 31 Jul 2018 03:52:19 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 4B4C75801C1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 03:52:19 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jul 2018 13:53:30 +0300
+Message-Id: <1533034411-26881-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] vulkan: upgrade to version 1.1.73.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +35,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 10:24:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 31 Jul 2018 10:52:23 -0000
 
-This program is required for "oe_runmake depend" command. It runs
-command in MAKEDEPPROG variable, which is set to makedepend. Makedepend
-consists from makedepend-native package.
+Refresh the patch:
+        demos-Don-t-build-tri-or-cube.patch
 
-Cheers,
-Andrej
+License-Update: Updates in copyright information.
 
-On 07/31/18 12:08, Richard Purdie wrote:
-> On Mon, 2018-07-30 at 18:28 -0700, Andre McCurdy wrote:
->> The openssl Configure script will only select standalone makedepend
->> (vs running "$CC -M") when building with gcc < 3.x or with an Apple
->> Xcode version which predates the switch to clang (in approx 2010?).
->> Neither of these cases are possible when building under OE, therefore
->> the dependency on makedepend-native can be dropped (ie align the
->> openssl 1.0 recipe with the 1.1 recipe, which has dropped the
->> makedepend-native dependency already).
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-connectivity/openssl/openssl_1.0.2o.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->> b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->> index f5d3274..78c8552 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2o.bb
->> @@ -8,7 +8,7 @@ SECTION = "libs/network"
->>  LICENSE = "openssl"
->>  LIC_FILES_CHKSUM =
->> "file://LICENSE;md5=f475368924827d06d4b416111c8bdb77"
->>  
->> -DEPENDS = "makedepend-native hostperl-runtime-native"
->> +DEPENDS = "hostperl-runtime-native"
->>  DEPENDS_append_class-target = " openssl-native"
->>  
->>  PROVIDES += "openssl10"
-> 
-> This was added quite 'recently' in:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=50c23e6c26a64b0c04e99abacb61ec00d1abace9
-> 
-> I've cc'd Andrej in case he can tell us why that was needed?
-> 
-> Cheers,
-> 
-> Richard
-> 
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../vulkan/demos-Don-t-build-tri-or-cube.patch     | 110 ++++++++++++---------
+ .../{vulkan_1.0.65.2.bb => vulkan_1.1.73.0.bb}     |   7 +-
+ 2 files changed, 69 insertions(+), 48 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan_1.0.65.2.bb => vulkan_1.1.73.0.bb} (88%)
+
+diff --git a/meta/recipes-graphics/vulkan/vulkan/demos-Don-t-build-tri-or-cube.patch b/meta/recipes-graphics/vulkan/vulkan/demos-Don-t-build-tri-or-cube.patch
+index bcf84a5..b0b9fc4 100644
+--- a/meta/recipes-graphics/vulkan/vulkan/demos-Don-t-build-tri-or-cube.patch
++++ b/meta/recipes-graphics/vulkan/vulkan/demos-Don-t-build-tri-or-cube.patch
+@@ -1,21 +1,30 @@
+-commit f63cbe944107b5cd8f150ceaaec43b26099d5688
++From 9b13be109bc66f4d4a1ad53ce5c92c7c495e41d7 Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@intel.com>
++Date: Tue, 24 Jul 2018 17:40:52 +0300
++Subject: [PATCH] commit f63cbe944107b5cd8f150ceaaec43b26099d5688
++
+ Author: Adam Jackson <ajax@redhat.com>
+ Date:   Tue Feb 16 10:05:25 2016 -0500
+ 
+-    demos: Don't build tri or cube
+-    
+-    There are more interesting demos, all we really want here is vulkaninfo.
+-    This helps because we don't need to pre-build glslang/llvm/lunarglass
+-    just to get the loader and layers.
++demos: Don't build tri or cube
++
++There are more interesting demos, all we really want here is vulkaninfo.
++This helps because we don't need to pre-build glslang/llvm/lunarglass
++just to get the loader and layers.
+ 
+ Upstream-Status: Inappropriate [configuration]
++
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
++---
++ demos/CMakeLists.txt | 88 ----------------------------------------------------
++ 1 file changed, 88 deletions(-)
+ 
+-Index: git/demos/CMakeLists.txt
+-===================================================================
+---- git.orig/demos/CMakeLists.txt
+-+++ git/demos/CMakeLists.txt
+-@@ -63,46 +63,6 @@ elseif(UNIX)
++diff --git a/demos/CMakeLists.txt b/demos/CMakeLists.txt
++index 4f32679..26e4cdf 100644
++--- a/demos/CMakeLists.txt
+++++ b/demos/CMakeLists.txt
++@@ -93,42 +93,6 @@ elseif(UNIX)
+  else()
+  endif()
+  
+@@ -37,38 +46,40 @@ Index: git/demos/CMakeLists.txt
+ -        endif()
+ -    endforeach()
+ -
+--    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/demos/cube-vert.spv
+--       COMMAND ${GLSLANG_VALIDATOR} -s -V -o ${CMAKE_BINARY_DIR}/demos/cube-vert.spv ${PROJECT_SOURCE_DIR}/demos/cube.vert
+--       DEPENDS cube.vert ${GLSLANG_VALIDATOR}
+--       )
+--    add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/demos/cube-frag.spv
+--       COMMAND ${GLSLANG_VALIDATOR} -s -V -o ${CMAKE_BINARY_DIR}/demos/cube-frag.spv ${PROJECT_SOURCE_DIR}/demos/cube.frag
+--       DEPENDS cube.frag ${GLSLANG_VALIDATOR}
+--       )
+ -   file(COPY cube.vcxproj.user DESTINATION ${CMAKE_BINARY_DIR}/demos)
+ -   file(COPY vulkaninfo.vcxproj.user DESTINATION ${CMAKE_BINARY_DIR}/demos)
+--else()
+--    if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR})
+--        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/demos/cube-vert.spv
+--            COMMAND ${GLSLANG_VALIDATOR} -s -V -o cube-vert.spv ${PROJECT_SOURCE_DIR}/demos/cube.vert
+--            DEPENDS cube.vert ${GLSLANG_VALIDATOR}
+--            )
+--        add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/demos/cube-frag.spv
+--            COMMAND ${GLSLANG_VALIDATOR} -s -V -o cube-frag.spv ${PROJECT_SOURCE_DIR}/demos/cube.frag
+--            DEPENDS cube.frag ${GLSLANG_VALIDATOR}
+--            )
+--    endif()         
+ -endif()
++-
++-add_custom_command(
++-    COMMENT "Compiling cube demo vertex shader"
++-    OUTPUT cube.vert.inc
++-    COMMAND ${GLSLANG_VALIDATOR} -V -x -o ${CMAKE_CURRENT_BINARY_DIR}/cube.vert.inc ${PROJECT_SOURCE_DIR}/demos/cube.vert
++-    MAIN_DEPENDENCY ${PROJECT_SOURCE_DIR}/demos/cube.vert
++-    DEPENDS ${PROJECT_SOURCE_DIR}/demos/cube.vert ${GLSLANG_VALIDATOR}
++-)
++-add_custom_command(
++-    COMMENT "Compiling cube demo fragment shader"
++-    OUTPUT cube.frag.inc
++-    COMMAND ${GLSLANG_VALIDATOR} -V -x -o ${CMAKE_CURRENT_BINARY_DIR}/cube.frag.inc ${PROJECT_SOURCE_DIR}/demos/cube.frag
++-    MAIN_DEPENDENCY ${PROJECT_SOURCE_DIR}/demos/cube.frag
++-    DEPENDS ${PROJECT_SOURCE_DIR}/demos/cube.frag ${GLSLANG_VALIDATOR}
++-)
+  
+- if(WIN32)
+-     include_directories (
+-@@ -116,43 +76,6 @@ endif()
+- add_executable(${API_LOWERCASE}info vulkaninfo.c)
+- target_link_libraries(${API_LOWERCASE}info ${LIBRARIES})
++ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+  
+--if(NOT WIN32)
++@@ -172,55 +136,3 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
++         install(TARGETS ${API_LOWERCASE}info DESTINATION ${CMAKE_INSTALL_BINDIR})
++     endif()
++ endif()
++-
++-######################################################################################
++-# cube
++-
++-if(APPLE)
++-    include(macOS/cube/cube.cmake)
++-elseif(NOT WIN32)
+ -    if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR})
+--        add_executable(cube cube.c ${CMAKE_BINARY_DIR}/demos/cube-vert.spv ${CMAKE_BINARY_DIR}/demos/cube-frag.spv)
++-        add_executable(cube cube.c ${PROJECT_SOURCE_DIR}/demos/cube.vert ${PROJECT_SOURCE_DIR}/demos/cube.frag cube.vert.inc cube.frag.inc)
+ -        target_link_libraries(cube ${LIBRARIES})
+ -    endif()
+ -else()
+@@ -78,13 +89,18 @@ Index: git/demos/CMakeLists.txt
+ -        set (LIB_DIR "Win32")
+ -    endif()
+ -
+--    add_executable(cube WIN32 cube.c ${CMAKE_BINARY_DIR}/demos/cube-vert.spv ${CMAKE_BINARY_DIR}/demos/cube-frag.spv)
++-    add_executable(cube WIN32 cube.c ${PROJECT_SOURCE_DIR}/demos/cube.vert ${PROJECT_SOURCE_DIR}/demos/cube.frag cube.vert.inc cube.frag.inc)
+ -    target_link_libraries(cube ${LIBRARIES})
+ -endif()
+ -
+--if(NOT WIN32)
++-######################################################################################
++-# cubepp
++-
++-if(APPLE)
++-    include(macOS/cubepp/cubepp.cmake)
++-elseif(NOT WIN32)
+ -    if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR})
+--        add_executable(cubepp cube.cpp ${CMAKE_BINARY_DIR}/demos/cube-vert.spv ${CMAKE_BINARY_DIR}/demos/cube-frag.spv)
++-        add_executable(cubepp cube.cpp ${PROJECT_SOURCE_DIR}/demos/cube.vert ${PROJECT_SOURCE_DIR}/demos/cube.frag cube.vert.inc cube.frag.inc)
+ -        target_link_libraries(cubepp ${LIBRARIES})
+ -    endif()
+ -else()
+@@ -94,15 +110,19 @@ Index: git/demos/CMakeLists.txt
+ -        set (LIB_DIR "Win32")
+ -    endif()
+ -
+--    add_executable(cubepp WIN32 cube.cpp ${CMAKE_BINARY_DIR}/demos/cube-vert.spv ${CMAKE_BINARY_DIR}/demos/cube-frag.spv)
++-    add_executable(cubepp WIN32 cube.cpp ${PROJECT_SOURCE_DIR}/demos/cube.vert ${PROJECT_SOURCE_DIR}/demos/cube.frag cube.vert.inc cube.frag.inc)
+ -    target_link_libraries(cubepp ${LIBRARIES})
+ -endif()
+ -
++-######################################################################################
++-# smoke
++-
+ -if ((${CMAKE_SYSTEM_PROCESSOR} STREQUAL ${CMAKE_HOST_SYSTEM_PROCESSOR}))
+--    if  ((DEMOS_WSI_SELECTION STREQUAL "XCB") OR (DEMOS_WSI_SELECTION STREQUAL "WAYLAND") OR WIN32 OR (CMAKE_SYSTEM_NAME STREQUAL "Android"))
++-    if ((DEMOS_WSI_SELECTION STREQUAL "XCB") OR (DEMOS_WSI_SELECTION STREQUAL "WAYLAND") OR WIN32 OR
++-        (CMAKE_SYSTEM_NAME STREQUAL "Android") OR (CMAKE_SYSTEM_NAME STREQUAL "Darwin"))
+ -        add_subdirectory(smoke)
+ -    endif()
+ -endif()
+- 
+- if(UNIX)
+-     if(INSTALL_LVL_FILES)
++-- 
++2.4.0
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan_1.0.65.2.bb b/meta/recipes-graphics/vulkan/vulkan_1.1.73.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/vulkan/vulkan_1.0.65.2.bb
+rename to meta/recipes-graphics/vulkan/vulkan_1.1.73.0.bb
+index 1c8a895..5496f53 100644
+--- a/meta/recipes-graphics/vulkan/vulkan_1.0.65.2.bb
++++ b/meta/recipes-graphics/vulkan/vulkan_1.1.73.0.bb
+@@ -9,11 +9,11 @@ SECTION = "libs"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=99c647ca3d4f6a4b9d8628f757aad156 \
+-                    file://loader/loader.c;endline=25;md5=a87cd5442291c23d1fce4eece4cfde9d"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-LoaderAndValidationLayers.git;branch=sdk-1.0.65 \
++                    file://loader/loader.c;endline=25;md5=151b392f46568aaedb4ad22b246237ec"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-LoaderAndValidationLayers.git;branch=sdk-1.1.73 \
+            file://demos-Don-t-build-tri-or-cube.patch \
+            "
+-SRCREV = "73486a1a169d862d5210e2ad520d95319a2383fa"
++SRCREV = "5998d6f444a85e6381b7a089ebf3f9e86482a31d"
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
+@@ -34,3 +34,4 @@ PACKAGECONFIG[x11] = "-DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_XCB_SUPPORT=ON -DD
+ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SUPPORT=OFF, wayland"
+ 
+ RRECOMMENDS_${PN} = "mesa-vulkan-drivers"
++INSANE_SKIP_${PN}-dev += "dev-elf"
+-- 
+2.4.0
+
 
