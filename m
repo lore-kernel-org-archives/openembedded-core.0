@@ -1,56 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C567E78DC1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B32B65CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 11:15:48 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id h14-v6so16219373wrw.13
+	Tue, 31 Jul 2018 11:17:31 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id s198-v6so27183472oih.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 04:15:50 -0700 (PDT)
+	Tue, 31 Jul 2018 04:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=XoVlxhDMlBicdhKu04EkNTVRoTLXMhB1tzhfpaZSYkk=;
-	b=K3/1pqV+OjwkU4g13PqLP6Bf+MpkpKOB+UlILRji4qPMdXplJJoIg0SKvb3fKLHgZI
-	j+Gd2Ao8SQlGZRciphcvrPudnjk0yWUc1XJrxFDxInNofaUZmiQTiA5VA9lujxMgClJ+
-	stw5Q0IX7StFh3tYjWMqG+ZxCF7UVNQBwQTn4=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5z4FOG78jmeSVGDOW88z7WsnYXJfVJp8BR3VBstyKJs=;
+	b=MEaEAwqK8299DW0yvZtLvpQ2S3kvORg2M/6lYp1aJSpQ8J387tfivEdNGWct3v0lr2
+	8MjiWimDCg8swqp0lCSrakMDRoKVOfHEpzpooKjC5pGNZ9uK0LfN1nGAwPXR7m2txRnJ
+	1Wq0Iwf24zg8cewpcvImrcfg2jz8CUzIW3R58iVi0QPxZI2WkdbfAukAWd7B1l/0poLW
+	gfKDtHuUYY8URx82YyOcbiGx3uxk6Y9Xo8NJbR4ibg2LpYls1w3mjxGGM20z9wlrnE8u
+	0bui9Yv7u7MAo2YPUu5b4ijwG6iPS6RVMbKoEHmlBb+YXnVJrhN0QhVXa95G4lkwl7wO
+	4X9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=XoVlxhDMlBicdhKu04EkNTVRoTLXMhB1tzhfpaZSYkk=;
-	b=Yvcw9q4RgHx+NtobB2UWypfaiK0qCdma22TtrdgpAjxMHDpGkyU435eFgK1KGDk4Uf
-	6CpbPfarenwApn8uAGUlQhP1deytsFgJ+bqoCnkmHq9FdyJsRNCffj4wu0RbPo1sJL4h
-	8Mx9uLbpZkN/UzzWKRE1sz0HWeq0ZZ6dcUYgXiBebclk982JWoEELR2z0WGUOEEtFm/4
-	FCboN9b0F3lHhZuLQ75EaHl+srA9Tvo1IFv4091SRd0x29IdRDYVB8cRvQ4JYxELfZE4
-	eXi5jvj5tNd5UIOB+4xFX8iaHPqkekamj49xcopidTaV+CAWG4absKJf+czaGkeKcFFm
-	rAQA==
-X-Gm-Message-State: AOUpUlFAfDzMLLlHYqXPRjBGqrtqjShsAD6AATWBwkwVhxc4ZePZaqRX
-	oYA9/iRnIZ0lqaFEv7k+VR5g+w==
-X-Google-Smtp-Source: AAOMgpe9uxKtBnzF5pIYzJWWvgmHsWaKSCMztkRire4G1X4KYCBV0gG5almJRfYO4NK6ZxMPCe5M9Q==
-X-Received: by 2002:adf:8796:: with SMTP id
-	b22-v6mr21255564wrb.92.1533035749426; 
-	Tue, 31 Jul 2018 04:15:49 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u185-v6sm2614374wmg.25.2018.07.31.04.15.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 31 Jul 2018 04:15:48 -0700 (PDT)
-Message-ID: <619fe34cca9bc682823913d12cc88486f8458d72.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jul 2018 12:15:47 +0100
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF738709F509@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1529783581-46179-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<1529783581-46179-9-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<575b002da9b0b86490a3eada07f254428549965e.camel@linuxfoundation.org>
-	<33D4DBCAC5F2D74E96B07F6E7632BF738709F509@G08CNEXMBPEKD01.g08.fujitsu.local>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Subject: Re: [PATCH 8/8] [PATCH v2] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5z4FOG78jmeSVGDOW88z7WsnYXJfVJp8BR3VBstyKJs=;
+	b=XIYlYMFzm1EqFs40iN2ZeEOmUvoSuK3xY0sk3pnfW52tFPttQV+ijKie5eNt4JSY0Z
+	o4/qopkBf1065DAJYPlhm1H+YrN9VS5cPOJx9KdS/Qe66ax3aOS+PRh1CwWLrFWFkWTc
+	TmiiXgRUxDpBnxH8d4vdeNRY4CFIRnn45koR4FWcz9nLLXjGoiJnpxrsYuGR+bb5QhKL
+	vXMfYnqVRTZ53RIbYW94CwLw9nmoT/vZVL6mdake+foZtQMfpVKxejrMQeeIgv/4dKXc
+	qmaqX+0jqAO9XJA8Zfa4rg0t3r7kS4qOJCmVakOIz4SKtYxMCjwjN6p9n3g1H7zBG2j6
+	/dVg==
+X-Gm-Message-State: AOUpUlHtDIsRl+oYDoUmSysO/o3IvSIf5qIBz9sGa/CseOkv6RS3Onu1
+	IYoLm9Sp+U2wtyI1jI7B8qJpXWNdHGf1EWFeeozIxizD
+X-Google-Smtp-Source: AAOMgpfBUzB8AKA7RdAU/PQh5Hfq8NWR9YdRjDKgwhjf9iX4hVxeBT/ztjdUJ+RVpU5Z+3GMgE7sBXTNC+tYDV3kXoo=
+X-Received: by 2002:aca:4c8e:: with SMTP id
+	z136-v6mr23429611oia.170.1533035852278; 
+	Tue, 31 Jul 2018 04:17:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 04:17:11
+	-0700 (PDT)
+In-Reply-To: <1533034411-26881-2-git-send-email-maxin.john@intel.com>
+References: <1533034411-26881-1-git-send-email-maxin.john@intel.com>
+	<1533034411-26881-2-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 31 Jul 2018 12:17:11 +0100
+Message-ID: <CAJTo0LZ7OLpo=Sm_Kobr5D730O1wTSmyQsqN=_CSrxCcqkunSQ@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] vulkan-demos: upgrade to latest commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,46 +58,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 11:15:49 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 11:17:31 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2018-07-31 at 02:18 +0000, Zheng, Ruoqin wrote:
-> Hi Richard
-> 
->       eSDK is actually a better technique for developers.  But it’s
-> only suitable for those people who has experience on Yocto Project.
+On 31 July 2018 at 11:53, Maxin B. John <maxin.john@intel.com> wrote:
+> Update subcomponents gli and glm based on the new structure of
+> repository.
 
-Remember that the eSDK can function just like the SDK. You can use more
-of its tools but you don't have to.
+If they're submodules then the gitsm: fetcher should get those for you.
 
->       In the other hand, using dnf-nativesdk in meta-toolchain to
-> customize rootfs is easier fot those people who are familiar with
-> dnf(I think most linux user known it).
-
-Why not add some dnf like wrappers around the eSDK though? We have
-tools like devtool and recipetool but there is a lot of potential to
-add a simpler interface to enable these "customise rootfs" type of
-workflows.
-
->       For example, developers finish the OSS build work and provide
-> the toolchain and packages to users. In this case, users do not need
-> to know any knowledge about yocto build system but just how to use
-> dnf to install a rootfs.
-> 
->       So it can reduce the workload of end-users who need to
-> customize rootfs for their embedded device. At lease, they don’t need
-> to maintain a yocto build server.
-
-The eSDK behaves very much like the SDK and then you have access to
-whichever tools the eSDK is providing, all the way up to the full build
-system but only if you need that.
-
-I still think there is the option of providing some simpler tooling to
-the eSDK which would work for the kinds of users you're talking about.
-
-Cheers,
-
-Richard
-
+Ross
 
