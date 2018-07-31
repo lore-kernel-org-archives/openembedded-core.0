@@ -1,30 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C284278D82
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8629774745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 11:01:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jul 2018 04:01:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.51,427,1526367600"; d="scan'208";a="79285538"
-Received: from unknown (HELO localhost.localdomain) ([10.103.239.194])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2018 04:01:10 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 12:01:09 +0100
-Message-ID: <3567631.rW7LACzLfS@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <c8b63914e60f12cb57f569199f82390cbd069931.camel@linuxfoundation.org>
-References: <DB5PR08MB0888CF3B2340E729DD3B946193520@DB5PR08MB0888.eurprd08.prod.outlook.com>
-	<d7450c2b26f644358476ea6ec27717b6@XBOX02.axis.com>
-	<c8b63914e60f12cb57f569199f82390cbd069931.camel@linuxfoundation.org>
+	Tue, 31 Jul 2018 11:06:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6VB6ZHs011569
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 31 Jul 2018 04:06:35 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.399.0;
+	Tue, 31 Jul 2018 04:06:34 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <raj.khem@gmail.com>
+Date: Tue, 31 Jul 2018 04:06:34 -0700
+Message-ID: <20180731110634.29361-1-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Cc: Jeremy Johnson <Jeremy.Johnson@arm.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: INCOMPATIBLE_LICENSE mechanism
+Subject: [PATCH] poky-lsb: security_flags.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 11:01:10 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 31 Jul 2018 11:06:34 -0000
+Content-Type: text/plain
 
-On Thursday, 26 July 2018 5:14:05 PM BST Richard Purdie wrote:
-> On Thu, 2018-07-26 at 13:16 +0000, Peter Kjellerstedt wrote:
-> > This is related to a similar problem we are seeing with the use of
-> > =E2=80=9Cor=E2=80=9D for licenses. We use the archiver.bbclass to expor=
-t all open
-> > source code we use. However, for recipes that specify multiple
-> > licenses using =E2=80=9Cor=E2=80=9D, we would like to specify the one u=
-nder which we
-> > are using the code. E.g., if the LICENSE is =E2=80=9CGPL-2.0 | Propriet=
-ary=E2=80=9D,
-> > we would like to treat the code as =E2=80=9CProprietary=E2=80=9D, but w=
-hen it comes
-> > to the archiver.bbclass, even if we have told it to ignore packages
-> > with Proprietary licenses, it will include the package due to the
-> > alternative GPL-2.0 license.
-> > =20
-> > The idea we have is to allow to specify a USED_LICENSE (e.g., in a
-> > bbappend or a separate configuration file), which should take the
-> > actually used license. This should be verified to be one of the
-> > allowed licenses specified in LICENSE (in case LICENSE changes and no
-> > longer allows the chosen license), and after that, LICENSE should be
-> > treated as if this was the value it had been given. This does,
-> > however,  not take into account the use of the same package in
-> > multiple images with different licensing requirements (we only build
-> > one image so that is not a problem for us).
->=20
-> Just thinking out loud you could have something like a=20
->=20
-> gplv3-license-incompatible.inc:
->=20
-> LICENSE_pn-<some-recipe> =3D "MIT"
-> LICENSE_pn-<some--other-recipe> =3D "GPLv2"
-> INCOMPATIBLE_LICENSE =3D "GPLv3"
+To fix the following error, we append '-O' to the defination of _FORTIFY_SOURCE
 
-That was my first thought, but the issue is that you won't get any warning =
-in=20
-future if the LICENSE value within the recipe changes to no longer provide =
-the=20
-option you've selected.=20
+recipe-sysroot/usr/include/features.h:381:4: error: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Werror=cpp]
+ #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
+     ^~~~~~~
 
-Cheers,
-Paul
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ meta/conf/distro/include/security_flags.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-=2D-=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 6245e89ada..1c32fd3165 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -10,7 +10,7 @@ GCCPIE ?= "--enable-default-pie"
+ 
+ # _FORTIFY_SOURCE requires -O1 or higher, so disable in debug builds as they use
+ # -O0 which then results in a compiler warning.
+-lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
++lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2 -O',d)}"
+ 
+ # Error on use of format strings that represent possible security problems
+ SECURITY_STRINGFORMAT ?= "-Wformat -Wformat-security -Werror=format-security"
+-- 
+2.11.0
 
 
