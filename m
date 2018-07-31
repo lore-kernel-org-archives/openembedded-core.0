@@ -1,53 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 172D178CC6
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 090D578CC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 17:05:44 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id e7-v6so17418949wrs.9
+	Tue, 31 Jul 2018 17:19:24 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id v26-v6so13698650iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 10:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=LhaTToqYRmbxO3WRdABDSc8TV5N0DH86MNMTd4oFZjU=;
-	b=RhvbFIhIknMCKNfMSFzUBObnnpwohbtkwes1MhptAscMVy9w+pMmJjfFs7qH+aaFqk
-	F49bdrQUqkFMoPINpMXSVqIF7wOh+jh7hHNTHThwMLdYXdCM1PH+mtdGHedllnm72Dl6
-	Q7zIWtbyl9k1wl5rgMw8DcJEImTgXnorSWmAwTmKwMZJ4rXBuGssFhYFvROEVBlFSnbQ
-	0LiG2HHRwj8rLT8y+tEw78Q+vv5Si6rhBFODZvMLRy+3yUjBFL4CHAiHlgle8RCxe2Rs
-	EjRaTV/n3UnB1fS0N+XAYGdZqcYnXlWT5SRBqFIg7/Bu1naR4U9nsuiU2afD4xQoOBBd
-	xGUg==
+	Tue, 31 Jul 2018 10:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=hI+LfOvKfGBkXjuUYPKM9OaXBRage2qL2bH+fWD3nZ4=;
+	b=eJbjbDyZXgxrel6Olfuax0RLQWZmD4Igh+4pf9DLWD14hFapJ7zoHFND+KnkJ1dH7+
+	GoPBrulB+GgMETPitUAN0M4wFww2CcftUmeMcR4gE6ivJJHC6q4a9mWBrHRmaEu3Sqdr
+	JPz4dcCYMV1t7Dz99HHCxfyzCplHDdPfsXtBtr9JxGVAPE3pOwBiENDyR2LHlfwuvmnl
+	f8ehkzHyJWUSSyeIOYZ/Jo6X8nmvRsipvoz9DGsIWtyrfXmlNN7yJGGkLIfozDlaArQ6
+	j0/DWlhfR9xvGsbCYmvbEN7qry4i0n5qlCnisroRfBmXDiq3SDhkfgt3Rn2zlY++5sGw
+	t2lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=LhaTToqYRmbxO3WRdABDSc8TV5N0DH86MNMTd4oFZjU=;
-	b=TyUw5CkGEZxEKVGXkfrdBYnEuqR7GJKtwRUY0Rwr/t4/KLeflm3Ry5itighefgjpvB
-	rUivii1Ix9fUrsHVGErQmxOIhCWFFNP/ysqHVMky6p15cti3iUlt7H2km4SpAl6vlZ02
-	gBkj88BGn4ae69s3lFLjMkR4VgyNQXYbfp+jQTcyHKDCMD2kMGFAdd7lc/hn0VzlgOEO
-	0qKKCh4KWEaOPoMW0Ypg4zu22NQxLBCcnCNr5sm4p8X86NpX3VHL8SDb4w/4W9LrVJg2
-	AJqVIeIjToBPEonbkHLw/SDfUwOa+5rwfZZtn1BGWETnnaof/tMtiInleVp9kE4ynGt8
-	GKWg==
-X-Gm-Message-State: AOUpUlEmme32WVjn36n0yeo+o3XCuMinqevdo/4kdJt40ScdUKwj4TxN
-	Bo9WCk8IxfIM/3CETlR9i8vsqvea22Q=
-X-Google-Smtp-Source: AAOMgpeQAW8etJGOiqi30xwFRXiIsxgbpVXYkHl6N3kjPyIDH4lguCWBMkLJeOoYNpV2yfTL/1e15g==
-X-Received: by 2002:adf:84e5:: with SMTP id
-	92-v6mr21739055wrg.56.1533056745358; 
-	Tue, 31 Jul 2018 10:05:45 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b8-v6sm13920419wrw.22.2018.07.31.10.05.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 31 Jul 2018 10:05:44 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 18:05:41 +0100
-Message-Id: <20180731170541.13620-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20180731170541.13620-1-ross.burton@intel.com>
-References: <20180731170541.13620-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] python[3]native: allow use of both native Python 2 and 3
+	bh=hI+LfOvKfGBkXjuUYPKM9OaXBRage2qL2bH+fWD3nZ4=;
+	b=OI2HTzL05yFJIU9jczkTALx7bngUAQkbzmz0HiYCoVnkCawqDL5TXmwUgG9vM2JE2r
+	oPXGSloL8zdBeJr/pe5amMW9NCpahS6NYAvJutL+8Rs5WfW0hocoxRXc2PT+KCe9V5Wv
+	ISpx3/3pp5C14WpioDd5WFZeTP5QeaCG97xtJzyAtOAcBXOgwegShWMb1Ae7g8OTfNr1
+	94jjCvyXB8QLnvgaS6QkO5hWknbTY1plMTHFr1JnjvvBG/NbqMBHBtebMajHwK3IkmPk
+	evFdKP1AvCHJ/+YiguDNY5zi3MrdLTqiU0r7UwKs/tUuVvPDQrvVY/LfdqFIC2cVdGDC
+	qbJw==
+X-Gm-Message-State: AOUpUlG426EWEC+rhFdksQfM+XEmWNHJj3hZe89z0eWZxskrnIQ0X/4S
+	ggCPrHCCUCOlkqADXIM7Vp65vU7J
+X-Google-Smtp-Source: AAOMgpdMjejoO8KCSsNqH4uuBWUQmGxCctQTwTyQokzn87gWKW1Y+yiHjFf15b/xWxKA86qEx4na2g==
+X-Received: by 2002:a6b:de05:: with SMTP id v5-v6mr542805iog.121.1533057565903;
+	Tue, 31 Jul 2018 10:19:25 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	p70-v6sm1913705itb.3.2018.07.31.10.19.24
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 31 Jul 2018 10:19:25 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Jul 2018 12:19:13 -0500
+Message-Id: <20180731171913.5202-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20180719163102.15234-1-JPEWhacker@gmail.com>
+References: <20180719163102.15234-1-JPEWhacker@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] u-boot: Fix pylibfdt generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,57 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 17:05:45 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 17:19:25 -0000
 
-Instead of both classes using ${PYTHON_PN} (which is set by python-dir and
-python3-dir), hardcode the right values so that it is possible to inherit both
-pythonnative and python3native at the same time.
+u-boot attempts to build a Python library called pylibfdt. By default,
+u-boot would attempt to use the build host's Python interpreter, which
+causes numerous problems, not least of which is that it fails if the
+host doesn't have the Python development package installed (complaining
+about not being able to find Python.h)
 
-If both are inherited then both native Pythons are available, but the last to be
-inherited will be the one to set PYTHON.
+Rectify this situation by including the proper build time dependencies
+for pylibfdt and passing the proper arguments to make.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+[YOCTO #12867]
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/python3native.bbclass | 6 +++---
- meta/classes/pythonnative.bbclass  | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-index 89665efee8b..da12a714703 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -1,8 +1,8 @@
- inherit python3-dir
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c2bcf998402..95c2f4db14d 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -7,8 +7,11 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
--PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
--EXTRANATIVEPATH += "${PYTHON_PN}-native"
--DEPENDS_append = " ${PYTHON_PN}-native "
-+PYTHON="${STAGING_BINDIR_NATIVE}/python3-native/python3"
-+EXTRANATIVEPATH += "python3-native"
-+DEPENDS_append = " python3-native "
+ inherit uboot-config uboot-extlinux-config uboot-sign deploy
  
- # python-config and other scripts are using distutils modules
- # which we patch to access these variables
-diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
-index 4cc8b2769c2..ae6600cd155 100644
---- a/meta/classes/pythonnative.bbclass
-+++ b/meta/classes/pythonnative.bbclass
-@@ -1,11 +1,11 @@
++DEPENDS += "swig-native python-native"
++
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
+ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
++EXTRA_OEMAKE += 'PYTHON=nativepython STAGING_INCDIR=${STAGING_INCDIR_NATIVE} STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
  
- inherit python-dir
- 
--PYTHON="${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}"
-+PYTHON="${STAGING_BINDIR_NATIVE}/python-native/python"
- # PYTHON_EXECUTABLE is used by cmake
- PYTHON_EXECUTABLE="${PYTHON}"
--EXTRANATIVEPATH += "${PYTHON_PN}-native"
--DEPENDS_append = " ${PYTHON_PN}-native "
-+EXTRANATIVEPATH += "python-native"
-+DEPENDS_append = " python-native "
- 
- # python-config and other scripts are using distutils modules
- # which we patch to access these variables
+ PACKAGECONFIG ??= "openssl"
+ # u-boot will compile its own tools during the build, with specific
 -- 
-2.11.0
+2.17.1
 
 
