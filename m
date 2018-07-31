@@ -1,25 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DC9E6004D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id BC85F74589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 15:22:13 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w6VFMAYt011634
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 31 Jul 2018 16:22:11 +0100
-Message-ID: <86a14d593b662d9d9f10248343e515d16afdb8b3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Maxin B. John" <maxin.john@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 16:22:10 +0100
-In-Reply-To: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
-References: <1533046545-18047-1-git-send-email-maxin.john@intel.com>
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.4 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] machine: remove kernel-modules from RRECOMMENDS
+	Tue, 31 Jul 2018 15:46:41 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id v8-v6so28811236oie.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2018 08:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=io0W02+eviw3DQQmMsXpF/eYQEwScA/XIP9WIusSHbA=;
+	b=g84GuXn9XA2oDqE4ChDPKau6Bc+cXiZeyvP0yOnGMhoEomuwndzLz5LAK3qJ4/o12b
+	eW9OlHv1fWkgPZHsrkijwOJ1x2lqZ4gOQh6rDbHidBfBxrqL3EK0k8SGGCo44Jml92JP
+	pJT59zQBYXT2JEGLg0fv7UCPxeA/H8c9o/D3IWPg+CuZWC4eY5zzpnXxCTavvVEYE/IH
+	4Dq93x+0KRF5nzzH9iTCBIEh7N8+n4yX/YWoN5b8IxpjrCaGzchjYcfdxOiJ9fOMAIFF
+	TxsLr317ar07cfq+ek7mCDyRejavUjz69jtRdYQbZqgA0vLkesvKNOA5sAhqqkHkOWLu
+	0Xng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=io0W02+eviw3DQQmMsXpF/eYQEwScA/XIP9WIusSHbA=;
+	b=n395cGcGV5mdJi0N4GSl63KuH27vImg1u98NOO22WJQjLoyHQ9e3Nks3NGq7T4hI8P
+	Ycl+cBYECU3AVduv6UBi8H6MjgOFAzJmMq9LE7G9LnLbQZ6ms3vT2HCGC3aa8JidNRQt
+	6OQQRA69GnpDmMQzO/5pEX+I4qp1Dz6qlLBVtK126cZ7N2/nxmL7coWbusO9kim5xzl+
+	RTSSVuhlZ3cHN12eZvAHoyU5dOskUF3sEesaDmKIPMlrjWrAL1DWlSCmZ4oLYncispZS
+	0bNM3CFps7sEiE3kiRxYLPWy8FPCaQ/3szOSlJRDORxteyxeT4h2/EmTwGMDMZ+v243P
+	o1nw==
+X-Gm-Message-State: AOUpUlGBfi5C5BcdqGs0Kv6H0P9IWXpF9CfeIfyeYcAT3iBRnEhKKVEK
+	jr1ff4aw1Q1UzOAUX7Q5nd4CbChd5g/9XLNb27A=
+X-Google-Smtp-Source: AAOMgpcYfZho/seWGr1KicsZrerpwO7lYMShu9d/fgthcvaV9qWOSi9JoLBT2sxbZxDuKM9llH7dXD6AHsfx+mb7z3I=
+X-Received: by 2002:aca:4782:: with SMTP id
+	u124-v6mr24122929oia.45.1533052002607; 
+	Tue, 31 Jul 2018 08:46:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a4a:90c5:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 08:46:41
+	-0700 (PDT)
+In-Reply-To: <619fe34cca9bc682823913d12cc88486f8458d72.camel@linuxfoundation.org>
+References: <1529783581-46179-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<1529783581-46179-9-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<575b002da9b0b86490a3eada07f254428549965e.camel@linuxfoundation.org>
+	<33D4DBCAC5F2D74E96B07F6E7632BF738709F509@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<619fe34cca9bc682823913d12cc88486f8458d72.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 31 Jul 2018 17:46:41 +0200
+Message-ID: <CANNYZj9aNrxLyUvntPE7=kkMtrR-0GgHxvZvyu_+Ze+zH3vHGQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] [PATCH v2] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +61,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 15:22:14 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 15:46:41 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2018-07-31 at 17:15 +0300, Maxin B. John wrote:
-> qemumips,qemumips64 and x86 based machines include kernel-modules by
-> default. Remove the kernel modules from RRECOMMENDS to make it
-> consistent
-> across the machines.
-> 
-> Tested using core-image-sato on qemumips, qemumips64, qemux86 and
-> qemux86-64
-> 
-> [YOCTO #12383]
-> 
-> Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> ---
->  meta/conf/machine/include/x86-base.inc | 2 --
->  meta/conf/machine/qemumips.conf        | 2 --
->  meta/conf/machine/qemumips64.conf      | 2 --
->  3 files changed, 6 deletions(-)
+2018-07-31 13:15 GMT+02:00  <richard.purdie@linuxfoundation.org>:
+> Why not add some dnf like wrappers around the eSDK though? We have
+> tools like devtool and recipetool but there is a lot of potential to
+> add a simpler interface to enable these "customise rootfs" type of
+> workflows.
 
-Looks good, do we need to add this to genericx86 or anything in meta-
-intel given its changing x86-base.inc?
+For what it's worth, I'm just now looking into an integration process
+of one of automotive tier1s. They use a similar, custom developed ipk
+tooling to add pre-built binaries to a pre-generated rootfs. So yes,
+I'd also rather have a standard, common solution for this.
 
-Cheers,
-
-Richard
+Alex
 
