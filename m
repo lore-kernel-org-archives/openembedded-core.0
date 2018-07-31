@@ -1,27 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3308578D7C
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 56C5B78AF9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 01:57:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6V1vFGr025471
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 30 Jul 2018 18:57:15 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.399.0;
-	Mon, 30 Jul 2018 18:57:14 -0700
-To: =?UTF-8?Q?Daniel_D=c3=adaz?= <daniel.diaz@linaro.org>,
+	Tue, 31 Jul 2018 02:18:00 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42842386"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2018 10:18:00 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id D6F364B69E1E;
+	Tue, 31 Jul 2018 10:17:57 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0399.000; Tue, 31 Jul 2018 10:18:02 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1532543734-17529-1-git-send-email-daniel.diaz@linaro.org>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <e6cdc11a-c949-df7b-0b41-806fdcc74689@windriver.com>
-Date: Tue, 31 Jul 2018 10:01:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Thread-Topic: [OE-core] [PATCH 8/8] [PATCH v2] meta-toolchain: Added
+	dnf-nativesdk into cross-development toolchain.
+Thread-Index: AQHUDFTNbdIMBF9XE0udcx99WGYdtaSozYhA
+Date: Tue, 31 Jul 2018 02:18:01 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF738709F509@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1529783581-46179-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<1529783581-46179-9-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<575b002da9b0b86490a3eada07f254428549965e.camel@linuxfoundation.org>
+In-Reply-To: <575b002da9b0b86490a3eada07f254428549965e.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-In-Reply-To: <1532543734-17529-1-git-send-email-daniel.diaz@linaro.org>
-X-Originating-IP: [128.224.162.218]
-Subject: Re: [PATCH] glibc: Avoid multilibbing on wordsize.h
+X-yoursite-MailScanner-ID: D6F364B69E1E.AA88B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH 8/8] [PATCH v2] meta-toolchain: Added dnf-nativesdk into cross-development toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +47,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 01:57:15 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 31 Jul 2018 02:18:03 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This patch causes a regression in multilib SDK for qemuarm64.
-
-Error: Transaction check error:
-   file /usr/include/bits/wordsize.h conflicts between attempted installs of lib32-libc6-dev-2.27-r0.armv7vet2hf_vfp and libc6-dev-2.27-r0.aarch64
-
-Please consider sending a follow-up patch to fix this regression.
-
-Best Regards,
-Chen Qi
-
-On 07/26/2018 02:35 AM, Daniel Díaz wrote:
-> Once another header #includes <bits/wordsize.h>, there is a
-> potential recursion going on because the
-> multilib_header_wrapper.h #includes <bits/wordsize.h> again!
->
-> This should not happen because an __arm__ (32-bits) or an
-> __aarch64__ (64-bits) environment guarantees that we will
-> be getting the correct definition, but when building against
-> a different target (like BPF), recursion is what happens.
->
-> This can be seen, for instance, when building eBPF programs
-> from the kernel with `clang -target bpf', such as the ones
-> located in linux/tools/testing/selftests/bpf/.
->
-> Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
-> Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
-> ---
->   meta/recipes-core/glibc/glibc-package.inc | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-> index ae3f2f6..a4f61f8 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -136,8 +136,7 @@ do_install_append_armeb () {
->   }
->   
->   do_install_armmultilib () {
-> -
-> -	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
-> +	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
->   	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
->   	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
->   
-
-
+SGkgUmljaGFyZA0KDQogICAgICBlU0RLIGlzIGFjdHVhbGx5IGEgYmV0dGVy
+IHRlY2huaXF1ZSBmb3IgZGV2ZWxvcGVycy4gIEJ1dCBpdOKAmXMgb25seSBz
+dWl0YWJsZSBmb3IgdGhvc2UgcGVvcGxlIHdobyBoYXMgZXhwZXJpZW5jZSBv
+biBZb2N0byBQcm9qZWN0Lg0KDQogICAgICBJbiB0aGUgb3RoZXIgaGFuZCwg
+dXNpbmcgZG5mLW5hdGl2ZXNkayBpbiBtZXRhLXRvb2xjaGFpbiB0byBjdXN0
+b21pemUgcm9vdGZzIGlzIGVhc2llciBmb3QgdGhvc2UgcGVvcGxlIHdobyBh
+cmUgZmFtaWxpYXIgd2l0aCBkbmYoSSB0aGluayBtb3N0IGxpbnV4IHVzZXIg
+a25vd24gaXQpLg0KDQogICAgICBGb3IgZXhhbXBsZSwgZGV2ZWxvcGVycyBm
+aW5pc2ggdGhlIE9TUyBidWlsZCB3b3JrIGFuZCBwcm92aWRlIHRoZSB0b29s
+Y2hhaW4gYW5kIHBhY2thZ2VzIHRvIHVzZXJzLiBJbiB0aGlzIGNhc2UsIHVz
+ZXJzIGRvIG5vdCBuZWVkIHRvIGtub3cgYW55IGtub3dsZWRnZSBhYm91dCB5
+b2N0byBidWlsZCBzeXN0ZW0gYnV0IGp1c3QgaG93IHRvIHVzZSBkbmYgdG8g
+aW5zdGFsbCBhIHJvb3Rmcy4NCg0KICAgICAgU28gaXQgY2FuIHJlZHVjZSB0
+aGUgd29ya2xvYWQgb2YgZW5kLXVzZXJzIHdobyBuZWVkIHRvIGN1c3RvbWl6
+ZSByb290ZnMgZm9yIHRoZWlyIGVtYmVkZGVkIGRldmljZS4gQXQgbGVhc2Us
+IHRoZXkgZG9u4oCZdCBuZWVkIHRvIG1haW50YWluIGEgeW9jdG8gYnVpbGQg
+c2VydmVyLg0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0
+c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERS
+LjogTm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAg
+IE5hbmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RA
+Y24uZnVqaXN0dS5jb20NCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
+LQ0KRnJvbTogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRp
+ZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IE1vbmRheSwgSnVuZSAy
+NSwgMjAxOCAzOjE5IFBNDQpUbzogWmhlbmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKm
+IDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+OyBvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFtQQVRDSCA4LzhdIFtQQVRDSCB2Ml0gbWV0YS10b29sY2hhaW46
+IEFkZGVkIGRuZi1uYXRpdmVzZGsgaW50byBjcm9zcy1kZXZlbG9wbWVudCB0
+b29sY2hhaW4uDQoNCk9uIFN1biwgMjAxOC0wNi0yNCBhdCAwMzo1MyArMDgw
+MCwgWmhlbmcgUnVvcWluIHdyb3RlOg0KPiBBZGQgZG5mLW5hdGl2ZXNkayBh
+bmQgaXQncyBydW50aW1lIGRlcGVuZGVuY2UgdG8gbWFrZSBkbmYgd29yayBv
+biANCj4gY3Jvc3MtZGV2ZWxvcG1lbnQgZW52aXJvbm1lbnQuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBaaGVuZyBSdW9xaW4gPHpoZW5ncnEuZm5zdEBjbi5m
+dWppdHN1LmNvbT4NCg0KSSBkb24ndCBtaW5kIGFkZGluZyBlbm91Z2ggb2Yg
+dGhlIGNoYW5nZXMgc28gdGhhdCBkbmYtbmF0aXZlc2RrIGlzIGJ1aWxkYWJs
+ZSBzbyBzb21lIG9mIHlvdXIgb3RoZXIgcGF0Y2hlcyBjYW4gYmUgbWVyZ2Vk
+Lg0KDQpJIGRvIG5vdCB3YW50IHRvIGFkZCBkbmYtbmF0aXZlc2RrIHRvIG1l
+dGEtdG9vbGNoYWluIGJ5IGRlZmF1bHQgaG93ZXZlciBhcyB0aGVyZSBhcmUg
+bWFueSBwZW9wbGUgd2hvIGRvbid0IG5lZWQgdGhpcyB0aGVyZS4gSSdkIHN1
+Z2dlc3QgdGhpcyBpcyBhIGN1c3RvbWlzYXRpb24geW91J2xsIG5lZWQgdG8g
+bWFpbnRhaW4geW91cnNlbHZlcy4NCg0KSSBhcHByZWNpYXRlIHdoeSB5b3Ug
+d2FudCB0byBkbyB0aGlzLCBJIGFsc28gYmVsaWV2ZSB3ZSBoYXZlIGEgYmV0
+dGVyIHRlY2huaXF1ZSBpbiB0aGUgZm9ybSBvZiB0aGUgZVNESywgd2hlcmUg
+d2UgY2FuIHVzZSB0aGUgc2FtZSB0b29scyBhbmQgdGhlIHNhbWUgY29kZWJh
+c2UgdG8gYnVpbGQgZm9yIGV4YW1wbGUgYSByb290ZnMuDQoNClRoZSBlU0RL
+IHVzZSBjYXNlIChhIGxvY2tlZCBzc3RhdGUgY2FjaGUpIGlzIGRlc2lnbmVk
+IHNvIHRoYXQgYSB1c2VyIGRvZXNuJ3QgbmVlZCB0byB3b3JyeSBhYm91dCBh
+IHdob2xlIGJ1aWxkLCBvciBidWlsZGluZyBmcm9tIHNjcmF0Y2guDQpUaGV5
+IGNhbiB1c2UgdGhlIHNhbWUgdG9vbHMgZXZlcnlvbmUgZWxzZSB1c2VzIGFu
+ZCB0aGUgc2FtZSB3b3JrZmxvdyBhbmQgY29kZSB0byBidWxsZCBhIHJvb3Rm
+cyBvciBhIHJlY2lwZSBvciBhbnkgd29ya2Zsb3cuIFRoaXMgbWFrZXMgaXQg
+bXVjaCBtb3JlIHBvd2VyZnVsIGFuZCBhYmxlIHRvIGZ1bGZpbCBtYW55IGRp
+ZmZlcmVudCB1c2UgY2FzZXMgY29tcGFyZWQgdG8gbWV0YS10b29sY2hhaW4u
+IEluIHRoZSBsb25nIHJ1biBJJ2QgdGhlcmVmb3JlIHByZWZlciB3ZSBwcm9t
+b3RlIHRoaXMgYW5kIHVzZSB0aGUgZVNESyBhcyBJIHRoaW5rIGl0IHdpbGwg
+YmVjb21lIG91ciBwcmVmZXJyZWQgd2F5IG9mIGhhbmRsaW5nIHByb2JsZW1z
+IGxpa2UgdGhpcy4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg0KCgo=
 
