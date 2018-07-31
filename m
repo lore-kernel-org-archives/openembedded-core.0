@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 550AF749F3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B2B95749F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 07:09:45 +0000 (UTC)
+	Tue, 31 Jul 2018 07:09:46 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w6V79kQY024273
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w6V79l3s007357
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 00:09:46 -0700 (PDT)
+	Tue, 31 Jul 2018 00:09:47 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.399.0; Tue, 31 Jul 2018 00:09:45 -0700
+	14.3.399.0; Tue, 31 Jul 2018 00:09:47 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jul 2018 15:13:40 +0800
-Message-ID: <f837e687a80b28aa9b9f770b68bce2e74623cf58.1533021154.git.Qi.Chen@windriver.com>
+Date: Tue, 31 Jul 2018 15:13:41 +0800
+Message-ID: <6c036b812497b1243150487a80a3af31fe2cefe6.1533021154.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1533021154.git.Qi.Chen@windriver.com>
 References: <cover.1533021154.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] oe_syslog.py: fix settings in OEHasPackage decorator
+Subject: [PATCH 2/4] parselogs.py: ignore network interface name changing failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 07:09:45 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 07:09:46 -0000
 Content-Type: text/plain
 
-1. For test_syslog_running, we should not restrict it to run for
-   only busybox-syslog and sysklogd. So extend it to all syslog
-   providers in oe-core and meta-openembedded.
+The following error from systemd-udevd is not harmful. It's just
+because our qemu targets are using eth0.
 
-2. For test_syslog_startup_config, fix to make it depend on the
-   existence of busybox-syslog. The previous condition "!sysklogd
-   && busybox" is incorrect, because busybox may be compiled without
-   syslog support, and sysklogd and busybox-syslog conflict with
-   each other.
+  Error changing net interface name 'eth0' to 'enp0s3': Device or resource busy
+
+Note that systemd is using a different network interface naming scheme
+from traditional ethX naming scheme. To make this error message go away,
+we could symlink /etc/udev/rules.d/80-net-setup-link.rules to /dev/null
+to recover traditional naming scheme. But I'm not sure if this will
+cause regression in user experience for systemd users of OE.
+
+So just ignore this error message so that parselogs.py test case does not
+fail.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 005b697..935f10f 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -8,7 +8,7 @@ class SyslogTest(OERuntimeTestCase):
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index f0bcd16..017b550 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -51,7 +51,8 @@ common_errors = [
+     "Cannot set xattr user.Librepo.DownloadInProgress",
+     "Failed to read /var/lib/nfs/statd/state: Success",
+     "error retry time-out =",
+-    "logind: cannot setup systemd-logind helper (-61), using legacy fallback"
++    "logind: cannot setup systemd-logind helper (-61), using legacy fallback",
++    "Error changing net interface name 'eth0' to "
+     ]
  
-     @OETestID(201)
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(["busybox-syslog", "sysklogd"])
-+    @OEHasPackage(["busybox-syslog", "sysklogd", "rsyslog", "syslog-ng"])
-     def test_syslog_running(self):
-         cmd = '%s  | grep -i [s]yslogd' % self.tc.target_cmds['ps']
-         status, output = self.target.run(cmd)
-@@ -45,7 +45,7 @@ class SyslogTestConfig(OERuntimeTestCase):
- 
-     @OETestID(202)
-     @OETestDepends(['oe_syslog.SyslogTestConfig.test_syslog_logger'])
--    @OEHasPackage(["!sysklogd", "busybox"])
-+    @OEHasPackage(["busybox-syslog"])
-     @skipIfDataVar('VIRTUAL-RUNTIME_init_manager', 'systemd',
-                    'Not appropiate for systemd image')
-     def test_syslog_startup_config(self):
+ video_related = [
 -- 
 1.9.1
 
