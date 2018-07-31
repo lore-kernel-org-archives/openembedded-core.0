@@ -1,51 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
-	[209.85.218.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B32B65CF3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 75BED78DC9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 11:17:31 +0000 (UTC)
-Received: by mail-oi0-f67.google.com with SMTP id s198-v6so27183472oih.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 04:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5z4FOG78jmeSVGDOW88z7WsnYXJfVJp8BR3VBstyKJs=;
-	b=MEaEAwqK8299DW0yvZtLvpQ2S3kvORg2M/6lYp1aJSpQ8J387tfivEdNGWct3v0lr2
-	8MjiWimDCg8swqp0lCSrakMDRoKVOfHEpzpooKjC5pGNZ9uK0LfN1nGAwPXR7m2txRnJ
-	1Wq0Iwf24zg8cewpcvImrcfg2jz8CUzIW3R58iVi0QPxZI2WkdbfAukAWd7B1l/0poLW
-	gfKDtHuUYY8URx82YyOcbiGx3uxk6Y9Xo8NJbR4ibg2LpYls1w3mjxGGM20z9wlrnE8u
-	0bui9Yv7u7MAo2YPUu5b4ijwG6iPS6RVMbKoEHmlBb+YXnVJrhN0QhVXa95G4lkwl7wO
-	4X9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5z4FOG78jmeSVGDOW88z7WsnYXJfVJp8BR3VBstyKJs=;
-	b=XIYlYMFzm1EqFs40iN2ZeEOmUvoSuK3xY0sk3pnfW52tFPttQV+ijKie5eNt4JSY0Z
-	o4/qopkBf1065DAJYPlhm1H+YrN9VS5cPOJx9KdS/Qe66ax3aOS+PRh1CwWLrFWFkWTc
-	TmiiXgRUxDpBnxH8d4vdeNRY4CFIRnn45koR4FWcz9nLLXjGoiJnpxrsYuGR+bb5QhKL
-	vXMfYnqVRTZ53RIbYW94CwLw9nmoT/vZVL6mdake+foZtQMfpVKxejrMQeeIgv/4dKXc
-	qmaqX+0jqAO9XJA8Zfa4rg0t3r7kS4qOJCmVakOIz4SKtYxMCjwjN6p9n3g1H7zBG2j6
-	/dVg==
-X-Gm-Message-State: AOUpUlHtDIsRl+oYDoUmSysO/o3IvSIf5qIBz9sGa/CseOkv6RS3Onu1
-	IYoLm9Sp+U2wtyI1jI7B8qJpXWNdHGf1EWFeeozIxizD
-X-Google-Smtp-Source: AAOMgpfBUzB8AKA7RdAU/PQh5Hfq8NWR9YdRjDKgwhjf9iX4hVxeBT/ztjdUJ+RVpU5Z+3GMgE7sBXTNC+tYDV3kXoo=
-X-Received: by 2002:aca:4c8e:: with SMTP id
-	z136-v6mr23429611oia.170.1533035852278; 
-	Tue, 31 Jul 2018 04:17:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ac9:6845:0:0:0:0:0 with HTTP; Tue, 31 Jul 2018 04:17:11
-	-0700 (PDT)
-In-Reply-To: <1533034411-26881-2-git-send-email-maxin.john@intel.com>
-References: <1533034411-26881-1-git-send-email-maxin.john@intel.com>
-	<1533034411-26881-2-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 31 Jul 2018 12:17:11 +0100
-Message-ID: <CAJTo0LZ7OLpo=Sm_Kobr5D730O1wTSmyQsqN=_CSrxCcqkunSQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] vulkan-demos: upgrade to latest commit
+	Tue, 31 Jul 2018 11:59:45 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	w6VBxh0X029120
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 31 Jul 2018 12:59:44 +0100
+Message-ID: <db5cccef2f1ef458bb19d54fc03c7ce50de6ebeb.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>, Khem Raj
+	<raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jul 2018 12:59:43 +0100
+In-Reply-To: <2d0aedb8-fdb0-ad21-bdcc-e82f352570c3@xilinx.com>
+References: <1532534751-5871-1-git-send-email-alejandr@xilinx.com>
+	<72c0ba68-7fa5-2e3a-a554-e79bff93a00b@gmail.com>
+	<2d0aedb8-fdb0-ad21-bdcc-e82f352570c3@xilinx.com>
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.4 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] multiconfig: Enable multiconfig dependencies on oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,14 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 11:17:31 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 11:59:45 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 31 July 2018 at 11:53, Maxin B. John <maxin.john@intel.com> wrote:
-> Update subcomponents gli and glm based on the new structure of
-> repository.
+On Mon, 2018-07-30 at 15:05 -0700, Alejandro Enedino Hernandez
+Samaniego wrote:
+> On 07/26/2018 08:36 PM, Khem Raj wrote:
+> > 
+> > On 7/25/18 9:05 AM, Alejandro Enedino Hernandez Samaniego wrote:
+> > > This patch enables multiconfig dependencies (mcdepends) to be
+> > > used on
+> > > recipes using the following format:
+> > > 
+> > > task[mcdepends] = "multiconfig:FROM-MC:TO-MC:PN:task-to-depend-
+> > > on"
+> > > 
+> > > For the sake of simplicity consider the following example:
+> > > 
+> > > Assuming we have set up multiconfig builds, one for qemux86 and
+> > > one for
+> > > qemuarm, named x86 and arm respectively.
+> > > 
+> > > Adding the following line to an image recipe (core-image-sato):
+> > > do_image[mcdepends] = "multiconfig:x86:arm:core-image-
+> > > minimal:do_rootfs"
+> > > 
+> > 
+> > Do we really need to add multiconfig to keyword namespace ? can we
+> > deduce this from "arch1:arch2:..."
+> 
+> Bitbake already uses this and I believed adopting it would make it 
+> easier for the user to understand its usage.
+>
+> For example, since the multiconfig names are also provided during
+> setup, if you assume that someone set up the build and a different
+> user is going through the recipe, arch1:arch2 wouldn't mean a lot for
+> that user because they may not map 1:1 to MACHINE names.
 
-If they're submodules then the gitsm: fetcher should get those for you.
+It is consistent with the rest of the system. I'm still torn on whether
+we should shorten "multiconfig:" to "mc:" but we need to be consistent.
 
-Ross
+> > secondy, this need to be well documented, with examples for users
+> 
+> I agree we could add more documentation to it, where do you think it 
+> should go?
+
+I'm going to queue the patches for testing in -next, they look good to
+me just reading the patches.
+
+Could you start to work with Scott (cc'd) to get this new dependency
+type listed in the bitbake manual and anywhere else it needs to be
+documented?
+
+Its great to see this finally working!
+
+Cheers,
+
+Richard
+
 
