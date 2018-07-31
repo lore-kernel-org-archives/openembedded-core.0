@@ -1,45 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E507478D7C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua0-f177.google.com (mail-ua0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 029E6606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2018 00:01:16 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id h20-v6so1157348wmb.4
+	Tue, 31 Jul 2018 01:06:41 +0000 (UTC)
+Received: by mail-ua0-f177.google.com with SMTP id y10-v6so9160655uao.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2018 17:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id;
-	bh=C63+zTD9m0jDPOH0yUzAaxq5bCTMyfOkZAhgjfkJoGA=;
-	b=M+ng+AI7urllgu/fD+t9ZfXo8jMmiDy2ns3HSBj1SLmbyHeONvzMImBVfNe3+KTMmU
-	ZnkTnZLsbtFXTX/QFFpPSflt2dFBo1cutxIhumKGsyG4vKK7FeJvHo8DVPJQxLVgXVMH
-	SPavPll4P920NsEXiXAXLpnh9oQCltSroa8jU=
+	Mon, 30 Jul 2018 18:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7mlCmt9z6nJ0IgfIdT3Z45FttDyhUsCaq0yRUwDTMJU=;
+	b=otIuhOE09xyR+rjkqIyXcIzf87R5Crs06vXV/GmSYfaHWZHggp8mfVFJ7jVIqC459E
+	9N5c5RikAV8hdVvUrkkK8p0XDzisKsThWkjd2rN1c0FsjgYTbEUsvFwEAQE9oAaodK7h
+	uC0FvyDEc+vx6p6YvtYFoKxSHt0wW1s+bJea2wZjEop8xoHdiOIk4uJOY4F/pgujMREL
+	Hey4nMCfW6Y7q0JbpIgYSmeHm/NAbO4AO2R02o/Cl9u9BiKPrvP3+tMj6OXhbDkdKa17
+	MARx1gQGcX2ihtpxNcUFHOSs8O2+RzPXklV0im03VKHQ3DN5mDikCA+9kQPDPl0uEY2Z
+	vCGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=C63+zTD9m0jDPOH0yUzAaxq5bCTMyfOkZAhgjfkJoGA=;
-	b=Cbj/nkNT1q31u2vAJCEdxeuOM8efznElHXKF3euhPSIlMc+j/q/VjL5yKX5JRcMt8V
-	LZ04q4AecZa9yL3NPUdsa7k3g44TxeiHvgshgTJBVPnDq0NByW4Uf50PtubBOYTqaVTm
-	80wMFatRtxIs2b+/RCD4cYIkoHIULpovz0Hq3jEu/kUH0mBTDQXCXdegCCZ7iovRKpbJ
-	RyHdm+LY+jdPdScgM2bcePMHOkNaaaAjdfDrXtDLLJohHNnJO7NrzxdT17fTmpFncVi3
-	QSRjYnUTbR3BtLZdchJiR4dJnPn103PeK7OHjyzq1pfujUAXDRzLy2xmRKNRhVRTbNTF
-	BVVw==
-X-Gm-Message-State: AOUpUlH3LIYyZuueJZMrXZTMKor2pHFybU2KbIS7B4psd1klgtHza9Zc
-	t3AIT+BE0UIRuVwGioVpNkRGKqZC9+ZmYA==
-X-Google-Smtp-Source: AAOMgpcpnxm0TQWCaBRJnnpfEbiTeZbq0oIn/lc/JVemI46puoU06YZveC4E/O/DzBSEr+OhEybHNg==
-X-Received: by 2002:a1c:1203:: with SMTP id 3-v6mr825428wms.46.1532995277064; 
-	Mon, 30 Jul 2018 17:01:17 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b202-v6sm934937wme.22.2018.07.30.17.01.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Jul 2018 17:01:15 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2018 01:01:15 +0100
-Message-Id: <20180731000115.21019-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] oeqa/selftest: Add package hardlink test
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7mlCmt9z6nJ0IgfIdT3Z45FttDyhUsCaq0yRUwDTMJU=;
+	b=VRCJ6iCb07aXScDWKbHnWaYnpJB89X3ZeRodulDWPtpB19Si+kjlrA9YTah0xnADy7
+	oJlpXl8kKLqBzKomx5/NgF/3ZtmthP6tFjU8mVhby6eVFjUdJpmUarbh58oOTTe0i+JD
+	NeoBJPeH2WbEgHMKcuIvNMPALjdCQ8q7O5lxVFJ8cvz7acAJJE+MeUkIka+b7tDQu1H2
+	xLCx9GzrTtz1lnIPJHW/wxSAyIq5ax0xiiMuUZzQDnFvsVZVpyxrarz0mxK5A3xHy4v4
+	9+HdRu5Hn1bckloUIy2rO6lWAN9CF3WHrFcb5fsMjoJkwzftKf7yUPimsoPoqIr46Er/
+	WBeQ==
+X-Gm-Message-State: AOUpUlGqY76B8lOQQ58Cpydrjz+NwizU/+AQCCFEozI9iVuvDwapRs+6
+	0Gc6L3rxmtaXK8nmHTalQ3X6uGgg75PxCSnFmzA=
+X-Google-Smtp-Source: AAOMgpfbuk1W2MF7qp0uxsHdWn2nI+o13A1b1Ghxyg7/dZe0JrmAk/qq8XiC11JcFYQ11aAu8EGwrCC8j9wMQjFvCGI=
+X-Received: by 2002:ab0:1544:: with SMTP id
+	p4-v6mr13972760uae.81.1532999202756; 
+	Mon, 30 Jul 2018 18:06:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:2a5:0:0:0:0:0 with HTTP;
+	Mon, 30 Jul 2018 18:06:42 -0700 (PDT)
+In-Reply-To: <44b28ecdf9da3f1edab59861a7b32c4e11d0eead.camel@linuxfoundation.org>
+References: <CAJ86T=WuVBc-WEE4+fKSd_qeTKJmd1VTmRGvB03KXqTZvB031Q@mail.gmail.com>
+	<44b28ecdf9da3f1edab59861a7b32c4e11d0eead.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 30 Jul 2018 18:06:42 -0700
+Message-ID: <CAJ86T=WuS3DBEYkLqrKACKdWQT9CZw6=_LLQj1KWFh3TzFjEcQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Is a dependency on hostperl-runtime-native actually useful?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,87 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2018 00:01:17 -0000
+X-List-Received-Date: Tue, 31 Jul 2018 01:06:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-We keep breaking the preservation of hardlinks during the packaging process.
-Add a selftest which tests this to try and prevent this breaking again.
+On Mon, Jul 30, 2018 at 3:23 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2018-07-30 at 14:44 -0700, Andre McCurdy wrote:
+>> Currently the openssl 1.0 recipe defines a dependency on
+>> hostperl-runtime-native and the openssl 1.1 recipe does not. Both run
+>> "perl ./Configure ..." as part of do_configure().
+>>
+>> Since hostperl-runtime-native is included in ASSUME_PROVIDED, is it
+>> really useful for the openssl 1.0 recipe to list it in DEPENDS?
+>>
+>> ie is the openssl 1.0 recipe being unnecessarily complex or is the
+>> openssl 1.1 recipe being too simplistic?
+>
+> It is useful for things to list their dependencies and we did have an
+> effort to actually list things out so we know ASSUME_PROVIDED is
+> correct. This means we can spot areas we might be able to trim back
+> dependencies (amongst other reasons).
+>
+> With the introduction of HOSTTOOLS, its perhaps less needed than it was
+> but in principle it is still useful to know which things need a given
+> item, particularly where its more unusual. I'd still be interested in
+> trying to cut back HOSTTOOLS a bit more.
+>
+> The 1.1 recipe was pretty heavily cut back, probably too much so based
+> on some of the patches we've been getting...
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../selftest-hardlink/selftest-hardlink.bb    | 19 +++++++++++++++++++
- .../selftest-hardlink/hello.c                 |  5 +++++
- meta/lib/oeqa/selftest/cases/package.py       | 15 ++++++++++++++-
- 3 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
- create mode 100644 meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
-
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-new file mode 100644
-index 00000000000..8a0e6336aa8
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink.bb
-@@ -0,0 +1,19 @@
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+LICENSE = "MIT"
-+
-+SRC_URI = "file://hello.c"
-+
-+S = "${WORKDIR}"
-+
-+do_compile () {
-+	${CC} hello.c -o hello ${CFLAGS} ${LDFLAGS}
-+}
-+
-+do_install () {
-+	install -d ${D}${bindir}
-+	install -m 755 hello ${D}${bindir}/hello
-+	ln ${D}${bindir}/hello ${D}${bindir}/hello2
-+	ln ${D}${bindir}/hello ${D}${bindir}/hello3
-+	ln ${D}${bindir}/hello ${D}${bindir}/hello4
-+}
-diff --git a/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
-new file mode 100644
-index 00000000000..5c45dc60bd2
---- /dev/null
-+++ b/meta-selftest/recipes-test/selftest-hardlink/selftest-hardlink/hello.c
-@@ -0,0 +1,5 @@
-+#include <stdio.h>
-+
-+int main() {
-+	printf("Hello World!\n");
-+}
-\ No newline at end of file
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index ef6eabef665..1e171b5ebef 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -1,6 +1,7 @@
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator.oeid import OETestID
--from oeqa.utils.commands import bitbake, get_bb_vars
-+from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var
-+import stat
- import subprocess, os
- import oe.path
- 
-@@ -84,3 +85,15 @@ class VersionOrdering(OESelftestTestCase):
-             status = subprocess.call(command, env=env)
-             self.assertIn(status, (99, 100, 101))
-             self.assertEqual(status - 100, sort, "%s %s (%d) failed" % (ver1, ver2, sort))
-+
-+class PackageTests(OESelftestTestCase):
-+    # Verify that a recipe which sets up hardlink files has those preserved into split packages
-+    def test_preserve_hardlinks(self):
-+        result = bitbake("selftest-hardlink")
-+
-+        dest = get_bb_var('PKGDEST', 'selftest-hardlink')
-+        bindir = get_bb_var('bindir', 'selftest-hardlink')
-+
-+        # Recipe creates 4 hardlinked files, there is a copy in package/ and a copy in packages-split/
-+        # so expect 8 in total.
-+        self.assertEqual(os.stat(dest + "/selftest-hardlink" + bindir + "/hello").st_nlink, 8)
--- 
-2.17.1
-
+Thanks. Is there an obvious reason why both recipes shouldn't be using
+perl-native rather than hostperl-runtime-native? Building with
+perl-native seems to work fine.
 
